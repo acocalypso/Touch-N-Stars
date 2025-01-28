@@ -171,11 +171,10 @@ function formatTimestamp(timestamp) {
 });*/
 // Computed property for the filtered first log entry
 const firstLog = computed(() => {
-  return logStore.LogsInfo.logs.filter(
-    (entry) => !entry.message.includes('EDS_ERR_INVALID_PARAMETER')
-  ).slice(0, 1);
+  return logStore.LogsInfo.logs
+    .filter((entry) => !entry.message.includes('EDS_ERR_INVALID_PARAMETER'))
+    .slice(0, 1);
 });
-
 
 // Watch when logs are loaded
 onMounted(() => {

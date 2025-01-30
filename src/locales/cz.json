@@ -77,8 +77,8 @@
       "connectAllError": "Chyba při připojování všech zařízení",
       "disconnectAllError": "Chyba při odpojování všech zařízení",
       "filter": {
-        "connect": "Připojení filtračního kola",
-        "disconnect": "Odpojení filtračního kola",
+        "connect": "Připojit filtrační kolo",
+        "disconnect": "Odpojit filtrační kolo",
         "error": "Chyba při ovládání filtračního kola:"
       },
       "mount": {
@@ -215,7 +215,7 @@
         "lunar": "Lunární",
         "solar": "Solární",
         "king": "King",
-        "stop": "zastavit",
+        "stop": "Zastavit",
         "errors": {
           "park": "Chyba při parkování montáže",
           "unpark": "Chyba při odparkování montáže",
@@ -225,12 +225,12 @@
       },
       "info": {
         "notConnected": "Připojte montáž",
-        "parked": "Parkování",
-        "unparked": "Odparkování",
+        "parked": "Parkováno",
+        "unparked": "Odparkováno",
         "trackingActive": "Sledování je aktivní",
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
-        "notSlewing": "nepřejíždí"
+        "notSlewing": "Nepřejíždí"
       }
     },
     "guider": {
@@ -369,7 +369,7 @@
       "notConnected": "připojte rotátor",
       "currentPosition": "Současná pozice:",
       "moving": "Vpohybu",
-      "stopped": "zastavil"
+      "stopped": "Zastavil"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",
@@ -395,7 +395,7 @@
       "pressure": "Tlak"
     },
     "switch": {
-      "gauges": "Měřidla",
+      "gauges": "Měřící přístroje",
       "switch": "Přepínač"
     }
   }

@@ -98,12 +98,12 @@
     <transition name="fade">
       <div
         v-if="showResetConfirmation"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4"
         @click.self="showResetConfirmation = false"
         @keydown.esc="showResetConfirmation = false"
       >
         <transition name="scale">
-          <div v-if="showResetConfirmation" class="bg-gray-800 rounded-lg p-6 max-w-md w-full">
+          <div v-if="showResetConfirmation" class="bg-gray-800 rounded-lg p-6 max-w-md w-full mt-4">
             <h3 class="text-xl font-semibold mb-4">
               {{ $t('components.sequence.resetConfirmationTitle') }}
             </h3>
@@ -125,8 +125,8 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import apiService from '../../services/apiService';
-import { apiStore } from '../../store/store';
+import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
 const store = apiStore();
 const showResetConfirmation = ref(false);

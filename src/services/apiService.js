@@ -201,13 +201,33 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain) {
+  async startCapture(duration, gain, solve = false) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/capture`, {
         params: {
           duration: duration,
           gain: gain,
+          solve: solve,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error starting capture:', error);
+      throw error;
+    }
+  },
+
+  async getPlatesovle(duration, gain) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/capture`, {
+        params: {
+          duration: duration,
+          gain: gain,
+          solve: true,
+          omitImage: true,
+          waitForResult: true,
         },
       });
       return response.data;
@@ -480,6 +500,24 @@ const apiService = {
       return response.data;
     } catch (error) {
       console.error('Error controlling mount:', error);
+      throw error;
+    }
+  },
+
+  async framingRotate(rotation) {
+    try {
+      const { BASE_URL } = getUrls();
+      await axios.get(`${BASE_URL}/framing/set-rotation`, {
+        params: { rotation },
+      });
+      const response = await axios.get(`${BASE_URL}/framing/slew`, {
+        params: {
+          slew_option: 'Rotate',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error controlling slewAndCenterAndRotate:', error);
       throw error;
     }
   },

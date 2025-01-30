@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
+import { useFramingStore } from './framingStore';
 import { ref } from 'vue';
 
 export const useCameraStore = defineStore('cameraStore', () => {
-  // Reaktive Variablen
+  const framingStore = useFramingStore();
   const exposureTime = ref(2);
   const remainingExposureTime = ref(0);
   const progress = ref(0);
-  const imageData = ref(null); // Hier liegt später das Base64-Bild
+  const imageData = ref(null);
   const loading = ref(false);
   const isExposure = ref(false);
   const isLoadingImage = ref(false);
@@ -19,6 +20,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const coolingTime = ref(10);
   const warmingTime = ref(10);
   const buttonCoolerOn = ref(false);
+  const plateSolveError = ref(false);
   let exposureCountdownTimer = null;
 
   /**
@@ -57,7 +59,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   /**
    * Startet die Aufnahme + Countdown + Bildabruf
    */
-  async function capturePhoto(apiService, exposureTime, gain) {
+  async function capturePhoto(apiService, exposureTime, gain, solve = false) {
     if (exposureTime <= 0) {
       exposureTime = 2; // Default-Wert
       return;
@@ -72,7 +74,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     try {
       // Starte Aufnahme via API
-      const capturePromise = apiService.startCapture(exposureTime, gain);
+      const capturePromise = apiService.startCapture(exposureTime, gain, solve);
 
       // Countdown laufen lassen
       await startExposureCountdown(exposureTime);
@@ -143,6 +145,39 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
+  async function getCameraRotation(apiService, exposureTime = 2, gain) {
+    loading.value = true;
+    isLoadingImage.value = true;
+    progress.value = 0;
+    plateSolveError.value = false;
+
+    try {
+      // Starte Aufnahme via API
+      let result; // Deklaration der Variable result
+      let plateSolveResult = null;
+      let plateSolveStatusCode = 0;
+      isLoadingImage.value = true;
+      result = await apiService.getPlatesovle(exposureTime, gain);
+      console.log('result: ', result);
+
+      plateSolveResult = result?.Response?.PlateSolveResult;
+      plateSolveStatusCode = result?.StatusCode;
+      if (plateSolveStatusCode != 200) {
+        plateSolveError.value = true;
+        console.log('plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
+      }
+      if (plateSolveResult) {
+        framingStore.rotationAngle = plateSolveResult.PositionAngle;
+        console.log('Camera position angle: ', framingStore.rotationAngle);
+      }
+    } catch (error) {
+      console.error('Fehler bei der Aufnahme:', error.message);
+    } finally {
+      loading.value = false;
+      isLoadingImage.value = false;
+    }
+  }
+
   return {
     // State
     exposureTime,
@@ -161,9 +196,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
     coolingTime,
     warmingTime,
     buttonCoolerOn,
+    plateSolveError,
 
     // Actions
     capturePhoto,
+    getCameraRotation,
     abortExposure,
   };
 });

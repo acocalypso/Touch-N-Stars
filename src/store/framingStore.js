@@ -15,6 +15,8 @@ export const useFramingStore = defineStore('FramingStore', {
     camWidth: 0,
     camHeight: 0,
     containerSize: 500,
+    rotationAngle: 0,
+    showFramingModal: false,
   }),
   actions: {},
 });

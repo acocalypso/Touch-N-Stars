@@ -67,12 +67,15 @@
       },
       "openFraminingModal": "Im Framing-Assistant öffnen",
       "fovSettings": {
-        "fov": "Field of View",
-        "focalLengthM": "Brennweite (mm)",
-        "pixelSizeM": "Kamerapixelgröße (µm)",
-        "sensorHeightPx": "Kamerasensor Höhe (px)",
-        "sensorWidthPx": "Kamerasensor Breite (px)"
-      }
+        "rotationAngle":  "Kameradrehung",
+        "fov": "Field of View"
+      },
+      "getImageRotation": {
+        "startCapture": "Drehung der Kamera bestimmen",
+        "SolveRun": "Platesolve",
+        "SolveError": "Fehler beim Platesolve"
+      },
+      "moveRotator": "Camera rotieren"
     },
     "connectEquipment": {
       "camera": {
@@ -345,14 +348,15 @@
     },
     "loading": "Laden...",
     "slewAndCenter": {
-      "title": "Schwenken und Zentrieren",
+      "title": "Schwenken und zentrieren",
       "LastSelectedImageSource_wrong": "Bitte offline Himmelskarte als Bildquelle in NINA / Framing auswählen",
       "ra": "RA:",
       "dec": "Dec:",
       "ra_placeholder": "RA 03:47:28.2",
       "dec_placeholder": "Dec +24:06:19",
       "slew": "Schwenken",
-      "slew_and_center": "Schwenken und Zentrieren",
+      "slew_and_center": "Schwenken und zentrieren",
+      "rotate": "Rotieren",
       "errors": {
         "invalidRAFormat": "Ungültiges RA-Format. Bitte verwenden Sie HH:MM:SS.",
         "invalidDECFormat": "Ungültiges DEC-Format. Bitte verwenden Sie ±DD:MM:SS.",

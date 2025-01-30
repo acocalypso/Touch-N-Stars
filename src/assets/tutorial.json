@@ -9,7 +9,8 @@
         "fr": "Navigation",
         "it": "Navigazione",
         "cz": "Navigace",
-        "cn": "导航"
+        "cn": "导航",
+        "pt": "Navegação"
       },
       "content": {
         "en": "Tap any icon to access its features. On mobile devices, swipe left or right to see more navigation options",
@@ -17,7 +18,8 @@
         "fr": "Appuyez sur n'importe quelle icône pour accéder à ses fonctionnalités. Sur les appareils mobiles, faites glisser vers la gauche ou la droite pour voir plus d'options de navigation",
         "it": "Tocca qualsiasi icona per accedere alle sue funzionalità. Sui dispositivi mobili, scorri a sinistra o a destra per vedere più opzioni di navigazione",
         "cz": "Klepnutím na libovolnou ikonu získáte přístup k jejím funkcím. Na mobilních zařízeních zobrazíte další možnosti navigace posunutím doleva nebo doprava",
-        "cn": "点击任何图标以访问其功能。在移动设备上，向左或向右滑动以查看更多导航选项"
+        "cn": "点击任何图标以访问其功能。在移动设备上，向左或向右滑动以查看更多导航选项",
+        "pt": "Toque em qualquer ícone para acessar seus recursos. Em dispositivos móveis, deslize para a esquerda ou direita para ver mais opções de navegação"
       }
     },
     {
@@ -29,7 +31,8 @@
         "fr": "Équipement",
         "it": "Attrezzatura",
         "cz": "Zařízení",
-        "cn": "设备"
+        "cn": "设备",
+        "pt": "Equipamento"
       },
       "content": {
         "en": "Connect and control your gear - mount, camera, focuser and more",
@@ -37,7 +40,8 @@
         "fr": "Connectez et contrôlez votre équipement - monture, caméra, mise au point et autres accessoires",
         "it": "Collega e controlla la tua attrezzatura - montatura, fotocamera, messa a fuoco e altro",
         "cz": "Připojte a ovládejte své zařízení - montáž, kameru, ostření a další zařízení",
-        "cn": "连接和控制您的设备 - 赤道仪、相机、电调等"
+        "cn": "连接和控制您的设备 - 赤道仪、相机、电调等",
+        "pt": "Conecte e controle seus equipamentos – montagem, câmera, focalizaor e mais"
       }
     },
     {
@@ -49,7 +53,8 @@
         "fr": "Paramètres",
         "it": "Impostazioni",
         "cz": "Nastavení",
-        "cn": "设置"
+        "cn": "设置",
+        "pt": "Configurações"
       },
       "content": {
         "en": "Set up your connections, language and other preferences",
@@ -57,7 +62,8 @@
         "fr": "Configurez vos connexions, langue et autres préférences",
         "it": "Configura le tue connessioni, lingua e altre preferenze",
         "cz": "Nastavte svá připojení, jazyk a další preference",
-        "cn": "设置您的连接、语言和其他偏好"
+        "cn": "设置您的连接、语言和其他偏好",
+        "pt": "Configure suas conexões, idioma e outras preferências"
       }
     },
     {
@@ -69,7 +75,8 @@
         "fr": "Caméra",
         "it": "Fotocamera",
         "cz": "Kamera",
-        "cn": "相机"
+        "cn": "相机",
+        "pt": "Câmera"
       },
       "content": {
         "en": "Control your camera settings and check imaging status",
@@ -77,7 +84,8 @@
         "fr": "Contrôlez les paramètres de votre caméra et vérifiez l'état de l'acquisition",
         "it": "Controlla le impostazioni della fotocamera e verifica lo stato dell'acquisizione",
         "cz": "Ovládejte nastavení kamery a kontrolujte stav snímání",
-        "cn": "控制您的相机设置并检查成像状态"
+        "cn": "控制您的相机设置并检查成像状态",
+        "pt": "Controle as configurações da sua câmera e verifique o status da captura"
       }
     },
     {
@@ -89,7 +97,8 @@
         "fr": "Autofocus",
         "it": "Autofocus",
         "cz": "AutoOstření",
-        "cn": "自动对焦"
+        "cn": "自动对焦",
+        "pt": "Autofoco"
       },
       "content": {
         "en": "Keep your images sharp with autofocus tools",
@@ -97,7 +106,8 @@
         "fr": "Gardez vos images nettes avec les outils d'autofocus",
         "it": "Mantieni le tue immagini nitide con gli strumenti di autofocus",
         "cz": "Udržujte své snímky ostré pomocí nástrojů pro autoOstření",
-        "cn": "使用自动对焦工具保持图像清晰"
+        "cn": "使用自动对焦工具保持图像清晰",
+        "pt": "Mantenha suas imagens nítidas com ferramentas de autofoco"
       }
     },
     {
@@ -109,7 +119,8 @@
         "fr": "Monture",
         "it": "Montatura",
         "cz": "Montáž",
-        "cn": "赤道仪"
+        "cn": "赤道仪",
+        "pt": "Montagem"
       },
       "content": {
         "en": "Control tracking, parking and movement of your mount",
@@ -117,7 +128,8 @@
         "fr": "Contrôlez le suivi, le parcage et le mouvement de votre monture",
         "it": "Controlla l'inseguimento, il parcheggio e il movimento della tua montatura",
         "cz": "Ovládejte navádění, parkování a pohyb vaší montáže",
-        "cn": "控制赤道仪的跟踪、停车和移动"
+        "cn": "控制赤道仪的跟踪、停车和移动",
+        "pt": "Controle o rastreamento, estacionamento e movimento da sua montagem"
       }
     },
     {
@@ -129,7 +141,8 @@
         "fr": "Dôme",
         "it": "Cupola",
         "cz": "Kopule",
-        "cn": "穹顶"
+        "cn": "穹顶",
+        "pt": "Domo"
       },
       "content": {
         "en": "Control dome rotation and shutter",
@@ -137,7 +150,8 @@
         "fr": "Contrôlez la rotation du dôme et l'obturateur",
         "it": "Controlla la rotazione della cupola e l'otturatore",
         "cz": "Ovládejte otáčení kopule a štěrbiny",
-        "cn": "控制穹顶旋转和开关"
+        "cn": "控制穹顶旋转和开关",
+        "pt": "Controle a rotação e o obturador do domo"
       }
     },
     {
@@ -149,7 +163,8 @@
         "fr": "Panneau à Flats",
         "it": "Pannello per Flat",
         "cz": "Flat Panel",
-        "cn": "平场板"
+        "cn": "平场板",
+        "pt": "Painel flat"
       },
       "content": {
         "en": "Control your flatpanel settings",
@@ -157,7 +172,8 @@
         "fr": "Contrôlez les paramètres de votre panneau à Flats",
         "it": "Controlla le impostazioni del tuo pannello per Flat",
         "cz": "Ovládejte nastavení svého flat panelu",
-        "cn": "控制您的平场板设置"
+        "cn": "控制您的平场板设置",
+        "pt": "Controle as configurações do seu painel de flat."
       }
     },
     {
@@ -169,7 +185,8 @@
         "fr": "Guidage",
         "it": "Guida",
         "cz": "Navádění",
-        "cn": "导星"
+        "cn": "导星",
+        "pt": "Guiagem"
       },
       "content": {
         "en": "Monitor and control guiding for precise tracking",
@@ -177,7 +194,8 @@
         "fr": "Surveillez et contrôlez le guidage pour un suivi précis",
         "it": "Monitora e controlla la guida per un inseguimento preciso",
         "cz": "Monitorování a kontrola navádění pro přesné sledování",
-        "cn": "监控和控制导星以实现精确跟踪"
+        "cn": "监控和控制导星以实现精确跟踪",
+        "pt": "Monitore e controle a guiagem para um rastreamento preciso"
       }
     },
     {
@@ -189,7 +207,8 @@
         "fr": "Séquence",
         "it": "Sequenza",
         "cz": "Sekvence",
-        "cn": "序列"
+        "cn": "序列",
+        "pt": "Sequência"
       },
       "content": {
         "en": "Set up and control your imaging sequences",
@@ -197,7 +216,8 @@
         "fr": "Configurez et contrôlez vos séquences d'acquisition",
         "it": "Configura e controlla le tue sequenze di acquisizione",
         "cz": "Nastavení a ovládání snímacích sekvencí",
-        "cn": "设置和控制您的成像序列"
+        "cn": "设置和控制您的成像序列",
+        "pt": "Configure e controle suas sequências de captura"
       }
     },
     {
@@ -209,7 +229,8 @@
         "fr": "Surveillance",
         "it": "Monitoraggio",
         "cz": "Monitorování",
-        "cn": "监控"
+        "cn": "监控",
+        "pt": "Monitoramento"
       },
       "content": {
         "en": "Check your ongoing sequence",
@@ -217,7 +238,8 @@
         "fr": "Vérifiez votre séquence en cours",
         "it": "Controlla la tua sequenza in corso",
         "cz": "Zkontrolujte probíhající sekvenci",
-        "cn": "检查正在进行的序列"
+        "cn": "检查正在进行的序列",
+        "pt": "Verifique sua sequência em andamento"
       }
     }
   ]

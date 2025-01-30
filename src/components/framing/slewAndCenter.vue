@@ -42,8 +42,13 @@
             {{ $t('components.slewAndCenter.slew_and_center') }}
           </button>
         </div>
+        <div v-if="store.rotatorInfo.Connected && false" class="mt-2">
+          <button @click="camerRotate" class="default-button-cyan">
+            {{ $t('components.slewAndCenter.rotate') }}
+          </button>
+        </div>
         <div class="w-full">
-          <setSequenceTarget class="mt-2" />
+          <setSequenceTarget class="mt-3" />
         </div>
       </div>
     </div>
@@ -156,6 +161,16 @@ async function slewAndCenter() {
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
   try {
     await apiService.slewAndCenter(RAangle.value, DECangle.value, true);
+  } catch (error) {
+    console.error(t('components.slewAndCenter.errors.apiUnreachable'), error);
+  }
+  emit('update:RAangleString', localRAangleString.value);
+  emit('update:DECangleString', localDECangleString.value);
+}
+
+async function camerRotate() {
+  try {
+    await apiService.framingRotate(framingStore.rotationAngle);
   } catch (error) {
     console.error(t('components.slewAndCenter.errors.apiUnreachable'), error);
   }

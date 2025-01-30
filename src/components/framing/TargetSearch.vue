@@ -58,10 +58,10 @@
           <TargetPic class="border border-gray-500 rounded-md" />
         </div>
       </div>
-      <div v-if="false" class="mb-2 mt-1">
+      <div v-if="true" class="mb-2 mt-1">
         <button
-          v-if="framingStore.selectedItem"
-          @click="showFramingModal = true"
+          v-if="framingStore.selectedItem && false"
+          @click="framingStore.showFramingModal = true"
           class="default-button-cyan"
         >
           {{ $t('components.framing.openFraminingModal') }}
@@ -76,15 +76,15 @@
     </div>
     <!-- Framing Modal -->
     <div
-      v-if="showFramingModal"
+      v-if="framingStore.showFramingModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
     >
       <div
-        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[90vh] pr-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
       >
         <FramingAssistangModal />
         <button
-          @click="showFramingModal = false"
+          @click="framingStore.showFramingModal = false"
           class="fixed sm:absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
         >
           <svg
@@ -113,11 +113,10 @@ import slewAndCenter from '@/components/framing/slewAndCenter.vue';
 import TargetPic from '@/components/framing/TargetPic.vue';
 import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
 import { useFramingStore } from '@/store/framingStore';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
 
 const framingStore = useFramingStore();
-const showFramingModal = ref(false);
 async function fetchTargetSearch() {
   if (framingStore.searchQuery.trim() === '') {
     framingStore.targetSearchResult = [];

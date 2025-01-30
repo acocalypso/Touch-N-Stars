@@ -16,7 +16,7 @@ export default {
       default: 'localhost',
     },
     port: {
-      type: [String, Number], // Corrected prop type definition
+      type: [String, Number],
       default: 6001,
     },
     path: {
@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       rfb: null,
-      status: 'disconnected', // Possible states: disconnected, connecting, connected, error
+      status: 'disconnected',
       errorMessage: null,
     };
   },
@@ -65,70 +65,169 @@ export default {
   },
   methods: {
     initializeNoVnc() {
+      console.debug('[noVNC] Initializing with URL:', this.websocketUrl);
       this.status = 'connecting';
       this.errorMessage = null;
 
       try {
         this.rfb = new RFB(this.$refs.screen, this.websocketUrl, {
-          credentials: {
-            password: this.password,
+          credentials: { password: this.password },
+          wsProtocols: ['binary', 'base64'],
+          wsOptions: {
+            origin: window.location.origin,
+            headers: { 'X-Client-Type': 'noVNC' },
+            onopen: () => console.debug('[WebSocket] Connection opened'),
+            onclose: (e) => console.debug('[WebSocket] Connection closed', e),
+            onerror: (e) => console.debug('[WebSocket] Error occurred', e),
+            onmessage: (e) => console.debug('[WebSocket] Message received', e),
           },
+          fragment: 65535,
+        });
+
+        console.debug('[RFB] Instance created with settings:', {
+          scaleViewport: this.rfb.scaleViewport,
+          viewOnly: this.rfb.viewOnly,
+          protocol: this.rfb.protocol,
+          encodings: this.rfb.encodings,
         });
 
         this.setupEventHandlers();
         this.rfb.scaleViewport = true;
         this.rfb.viewOnly = this.viewOnly;
       } catch (error) {
+        console.error('[noVNC] Initialization error:', error);
         this.handleError(error);
       }
     },
 
     setupEventHandlers() {
-      this.rfb.addEventListener('connect', this.handleConnect);
-      this.rfb.addEventListener('disconnect', this.handleDisconnect);
-      this.rfb.addEventListener('credentialsrequired', this.handleCredentialsRequired);
-      this.rfb.addEventListener('securityfailure', this.handleSecurityFailure);
+      const events = [
+        'connect',
+        'disconnect',
+        'credentialsrequired',
+        'securityfailure',
+        'error',
+        'clipboard',
+        'bell',
+        'desktopname',
+        'capabilities',
+      ];
+
+      events.forEach((event) => {
+        this.rfb.addEventListener(event, (e) => {
+          console.debug(`[RFB Event] ${event}`, e.detail);
+          switch (event) {
+            case 'connect':
+              this.handleConnect(e);
+              break;
+            case 'disconnect':
+              this.handleDisconnect(e);
+              break;
+            case 'credentialsrequired':
+              this.handleCredentialsRequired(e);
+              break;
+            case 'securityfailure':
+              this.handleSecurityFailure(e);
+              break;
+            case 'error':
+              this.handleRfbError(e);
+              break;
+            case 'capabilities':
+              this.handleCapabilities(e);
+              break;
+            default:
+              this[`handle${event.charAt(0).toUpperCase() + event.slice(1)}`]?.(e);
+          }
+        });
+      });
     },
 
-    handleConnect() {
+    handleRfbError(event) {
+      console.error('[RFB Error]', event.detail);
+      this.handleError(new Error(`RFB Error: ${event.detail.message}`));
+    },
+
+    handleConnect(event) {
+      console.debug('[RFB] Connected successfully', {
+        desktopName: this.rfb.desktopName,
+        display: this.rfb._display,
+        capabilities: this.rfb.capabilities,
+      });
       this.status = 'connected';
       this.$emit('connected');
+      console.log('event: %s', event);
     },
 
     handleDisconnect(event) {
+      console.warn('[RFB] Disconnected:', event.detail);
       this.status = 'disconnected';
       this.$emit('disconnected', event.detail);
+
       if (event.detail.clean) {
         this.errorMessage = null;
       } else {
+        const errorInfo = {
+          code: event.detail.code,
+          reason: event.detail.reason,
+          wasClean: event.detail.clean,
+        };
+        console.error('[RFB] Unexpected disconnect:', errorInfo);
         this.errorMessage = event.detail.message || 'Unexpected disconnect';
       }
     },
 
-    handleCredentialsRequired() {
+    handleCredentialsRequired(event) {
+      console.debug('[RFB] Credentials required:', event.detail);
       if (this.password) {
+        console.debug('[RFB] Sending credentials');
         this.rfb.sendCredentials({
+          username: '',
           password: this.password,
         });
       } else {
+        console.error('[RFB] No password provided');
         this.handleError(new Error('Server requires password'));
       }
     },
 
     handleSecurityFailure(event) {
+      const failureDetails = {
+        status: event.detail.status,
+        message: event.detail.message,
+        securityType: event.detail.securityType,
+      };
+      console.error('[RFB] Security failure:', failureDetails);
       this.handleError(new Error(`Security failure: ${event.detail.status}`));
     },
 
+    handleCapabilities(event) {
+      console.debug('[RFB] Server capabilities:', event.detail);
+    },
+
     handleError(error) {
+      console.error('[noVNC] Global error handler:', error);
       this.status = 'error';
       this.errorMessage = error.message;
       this.$emit('error', error);
-      console.error('noVNC error:', error);
+
+      if (this.rfb) {
+        console.error('[RFB] Current state:', {
+          connected: this.rfb.connected,
+          desktopName: this.rfb.desktopName,
+          protocol: this.rfb.protocol,
+        });
+      }
     },
 
     disconnect() {
       if (this.rfb) {
-        this.rfb.disconnect();
+        console.debug('[noVNC] Disconnecting...');
+        try {
+          this.rfb.disconnect();
+          console.debug('[noVNC] Disconnected cleanly');
+        } catch (disconnectError) {
+          console.error('[noVNC] Disconnection error:', disconnectError);
+        }
         this.rfb = null;
       }
     },

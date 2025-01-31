@@ -15,7 +15,7 @@ const availableLanguages = [
   { code: 'it', name: 'Italiano' },
   { code: 'cz', name: 'čeština' },
   { code: 'cn', name: '中文' },
-  { code: 'pt', name: 'Português' }
+  { code: 'pt', name: 'Português' },
 ];
 
 const messages = {
@@ -25,7 +25,7 @@ const messages = {
   it,
   cz,
   cn,
-  pt
+  pt,
 };
 
 // Create i18n instance

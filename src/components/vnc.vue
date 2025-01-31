@@ -45,7 +45,9 @@ export default {
   },
   computed: {
     websocketUrl() {
-      return `${this.encrypt ? 'wss' : 'ws'}://${this.host}:${this.port}${this.path}`;
+      const url = `${this.encrypt ? 'wss' : 'ws'}://${this.host}:${this.port}${this.path}`;
+      console.debug('[WebSocket] Constructed URL:', url);
+      return url;
     },
     statusText() {
       if (this.status === 'error') return `Error: ${this.errorMessage}`;
@@ -74,8 +76,11 @@ export default {
           credentials: { password: this.password },
           wsProtocols: ['binary', 'base64'],
           wsOptions: {
-            origin: window.location.origin,
-            headers: { 'X-Client-Type': 'noVNC' },
+            origin: 'http://127.0.0.1:8080', // Match your dev server origin
+            headers: { 
+              'X-Client-Type': 'noVNC',
+              'X-Forwarded-For': '127.0.0.1' 
+            },
             onopen: () => console.debug('[WebSocket] Connection opened'),
             onclose: (e) => console.debug('[WebSocket] Connection closed', e),
             onerror: (e) => console.debug('[WebSocket] Error occurred', e),

@@ -15,6 +15,8 @@
       <p>Deklination: {{ selectedObjectDec }}</p>
     </div>
   </div>
+  <div class="mb-15">
+  </div>
 </template>
 <script setup>
 import { onMounted, ref } from 'vue';

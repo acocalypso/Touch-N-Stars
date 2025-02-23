@@ -240,12 +240,8 @@
             </svg>
           </router-link>
         </div>
-        <div >
-          <router-link
-            to="/stellarium"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+        <div>
+          <router-link to="/stellarium" class="nav-button" active-class="active-nav-button">
             <ListBulletIcon
               class="icon"
               :class="store.sequenceRunning ? 'text-green-500' : 'text-white'"

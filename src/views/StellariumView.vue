@@ -1,15 +1,7 @@
 <template>
   <div class="stellarium-container">
-
     <!-- Canvas, in das Stellarium rendert -->
-    <canvas
-      ref="stelCanvas"
-      class="stellarium-canvas"
-      style="border: 1px solid #ccc;"
-    ></canvas>
-
-
-
+    <canvas ref="stelCanvas" class="stellarium-canvas" style="border: 1px solid #ccc"></canvas>
   </div>
 </template>
 
@@ -35,7 +27,7 @@ onMounted(() => {
       console.error('StelWebEngine globales Objekt nicht gefunden!');
       return;
     }
-    
+
     // Schritt 2) Engine starten
     window.StelWebEngine({
       wasmFile: '/stellarium/stellarium-web-engine.wasm',
@@ -49,15 +41,15 @@ onMounted(() => {
         stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
         stel.core.time_speed = 1;
 
-        console.log("Aktuelle Beobachterposition:");
-        console.log("Breitengrad:", stel.core.observer.latitude);
-        console.log("Längengrad:", stel.core.observer.longitude);
-        console.log("Höhe:", stel.core.observer.elevation); 
+        console.log('Aktuelle Beobachterposition:');
+        console.log('Breitengrad:', stel.core.observer.latitude);
+        console.log('Längengrad:', stel.core.observer.longitude);
+        console.log('Höhe:', stel.core.observer.elevation);
 
         function setTime(hour, minute) {
           const now = new Date();
           // Setze die gewünschte Uhrzeit (lokale Zeit)
-          now.setHours(hour, minute, 0, 0); 
+          now.setHours(hour, minute, 0, 0);
           const utcTime = new Date(now.getTime());
           // Konvertiere UTC-Zeit in Modified Julian Date (MJD)
           const mjd = utcToMJD(utcTime);
@@ -68,7 +60,6 @@ onMounted(() => {
           stel.core.observer.utc = mjd;
         }
         //setTime(18,30);
-      
 
         // Schritt 3) Datenquellen (Kataloge) hinzufügen
         const core = stel.core;
@@ -84,7 +75,6 @@ onMounted(() => {
           key: 'guereins',
         });
 
-                
         // Beispiel: Sternbilder-Linien & Labels
         core.constellations.lines_visible = true;
         core.constellations.labels_visible = true;
@@ -104,36 +94,22 @@ onMounted(() => {
               return;
             }
             if (stel.core.selection) {
-          console.log(" Objekt-Bezeichnungen:", stel.core.selection.designations());  // const obj = this.$stel.core.selection
-          const info = stel.core.selection;
-          console.log("Objekt-Informationen:", info);
-          const pvo = info.getInfo('pvo', stel.observer); // Heliozentrische Position
-          const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
-          const ra  = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
-          const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
-          console.log("auswahl RA (Radian):", ra);
-          console.log("auswahl Dec (Radian):", dec);  
-          console.log("auswahl RA (deg):", rad2deg(ra) );
-          console.log("auswahl dec (deg):", rad2deg(dec) );
-          console.log("auswahl RA (hms):", degreesToHMS( rad2deg(ra)) );
-          console.log("auswahl dec (dms):", degreesToDMS( rad2deg(dec)) );
-          
+              console.log(' Objekt-Bezeichnungen:', stel.core.selection.designations()); // const obj = this.$stel.core.selection
+              const info = stel.core.selection;
+              console.log('Objekt-Informationen:', info);
+              const pvo = info.getInfo('pvo', stel.observer); // Heliozentrische Position
+              const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
+              const ra = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
+              const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
+              console.log('auswahl RA (Radian):', ra);
+              console.log('auswahl Dec (Radian):', dec);
+              console.log('auswahl RA (deg):', rad2deg(ra));
+              console.log('auswahl dec (deg):', rad2deg(dec));
+              console.log('auswahl RA (hms):', degreesToHMS(rad2deg(ra)));
+              console.log('auswahl dec (dms):', degreesToDMS(rad2deg(dec)));
 
-          const radec = info.getInfo('radec');
-        
-        }
-        
-        const merkur = stel.getObj("NAME Mercury");  // Merkur holen
-        console.log("Merkur:", merkur);
-        const pvo = merkur.getInfo('pvo', stel.observer); // Heliozentrische Position
-        const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
-
-        const ra  = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
-        const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
-
-        console.log("Merkur RA (Radian):", ra);
-        console.log("Merkur Dec (Radian):", dec);
-
+              const radec = info.getInfo('radec');
+            }
           }
         });
       },
@@ -152,6 +128,4 @@ onMounted(() => {
   width: 100%;
   height: 600px;
 }
-
-
 </style>

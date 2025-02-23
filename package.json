@@ -1,6 +1,6 @@
 {
   "name": "nina-webapp",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,7 +10,9 @@
     "tauri": "tauri",
     "format": "prettier --write \"src/**/*.{js,vue}\"",
     "ionic:build": "npm run build",
-    "ionic:serve": "npm run serve"
+    "ionic:serve": "npm run serve",
+    "locale:entry": "node scripts/add-locale-entry.js",
+    "locale:entry:all": "node scripts/add-locale-entry-all.js"
   },
   "dependencies": {
     "@capacitor/android": "7.0.1",
@@ -60,6 +62,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.32.0",
     "eslint-webpack-plugin": "^4.2.0",
+    "lodash": "^4.17.21",
     "prettier": "^3.4.2",
     "raw-loader": "^4.0.2"
   }

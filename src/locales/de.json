@@ -221,7 +221,10 @@
           "showGuiderAfGraph": "Autofokus-Diagramm anzeigen"
         }
       },
-      "running": "WIRD AUSGEFÜHRT"
+      "running": "WIRD AUSGEFÜHRT",
+      "imageHistory": "Image History",
+      "duration": "Duration",
+      "temperatureShort": "Temp"
     },
     "mount": {
       "title": "Montierung",
@@ -431,7 +434,7 @@
       "max_brightness": "Max Helligkeit",
       "histogram_mean_target": "Histogrammdurchschnitsziel ",
       "mean_tolerance": "Duchschnittstoleranz",
-      "completed_recordings" : "Completed recordings:",
+      "completed_recordings": "Completed recordings:",
       "start_auto_exposure": "Start",
       "start_auto_brightness": "Start",
       "start_sky_flat": "Start",

@@ -221,7 +221,10 @@
           "showGuiderAfGraph": "Mostrar gráfico do autofoco"
         }
       },
-      "running": "EM EXECUÇÃO"
+      "running": "EM EXECUÇÃO",
+      "imageHistory": "Image History",
+      "duration": "Duration",
+      "temperatureShort": "Temp"
     },
     "mount": {
       "title": "Montagem",
@@ -355,7 +358,14 @@
       "down": "Baixo",
       "up": "Cima",
       "not_available": "Indisponível",
-      "running": "EM EXECUÇÃO"
+      "running": "EM EXECUÇÃO",
+      "capture_running": "Exposição em execução",
+      "last_messages": "Últimas mensagens",
+      "plate_solve_error": "PLATESOLVE ERRO",
+      "plate_solve_ok": "PLATES SOLVE SUCESSO",
+      "plate_solve_start": "PLATES SOLVE START",
+      "slewing_first_position": "Slewing to First Position",
+      "slewing_next_position": "Slewing para a próxima posição"
     },
     "logs": {
       "loading": "Carregando dados...",
@@ -430,6 +440,26 @@
     "switch": {
       "gauges": "Medições",
       "switch": "Interruptor"
+    },
+    "flatassistant": {
+      "auto_brightness": "Brilho automático",
+      "auto_exposure": "Exposição automática",
+      "brightness": "Brilho",
+      "completed_recordings": "Gravações concluídas:",
+      "count": "Contar",
+      "exposure_time": "Período de exposição",
+      "histogram_mean_target": "Alvo médio do histograma",
+      "max_brightness": "Brilho máximo",
+      "max_exposure_time": "Tempo máximo de exposição",
+      "mean_tolerance": "Tolerância média",
+      "min_brightness": "Min brilho",
+      "min_exposure_time": "Tempo de exposição min",
+      "skyflat": "Skyflat",
+      "start_auto_brightness": "Inicie o Autobrightness",
+      "start_auto_exposure": "Inicie a exposição automática",
+      "start_sky_flat": "Comece o céu",
+      "stop": "Parar",
+      "title": "Assistente plano"
     }
   }
 }

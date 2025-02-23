@@ -221,7 +221,10 @@
           "showGuiderAfGraph": "显示自动对焦图表"
         }
       },
-      "running": "运行中"
+      "running": "运行中",
+      "imageHistory": "Image History",
+      "duration": "Duration",
+      "temperatureShort": "Temp"
     },
     "mount": {
       "title": "赤道仪",
@@ -355,7 +358,14 @@
       "down": "下",
       "up": "上",
       "not_available": "不可用",
-      "running": "运行中"
+      "running": "运行中",
+      "capture_running": "Exposure running",
+      "last_messages": "Last messages",
+      "plate_solve_error": "Platesolve error",
+      "plate_solve_ok": "Platesolve successful",
+      "plate_solve_start": "Platesolve start",
+      "slewing_first_position": "Slewing to first position",
+      "slewing_next_position": "Slewing to next position"
     },
     "logs": {
       "loading": "加载数据中...",
@@ -430,6 +440,26 @@
     "switch": {
       "gauges": "仪表",
       "switch": "开关"
+    },
+    "flatassistant": {
+      "auto_brightness": "Auto brightness",
+      "auto_exposure": "Auto exposure",
+      "brightness": "Brightness",
+      "completed_recordings": "Completed recordings:",
+      "count": "Count",
+      "exposure_time": "Exposure time",
+      "histogram_mean_target": "Histogram mean target",
+      "max_brightness": "Max brightness",
+      "max_exposure_time": "Max exposure time",
+      "mean_tolerance": "Mean tolerance",
+      "min_brightness": "Min brightness",
+      "min_exposure_time": "Min exposure time",
+      "skyflat": "Skyflat",
+      "start_auto_brightness": "Start autobrightness",
+      "start_auto_exposure": "Start auto exposure",
+      "start_sky_flat": "Start sky flat",
+      "stop": "Stop",
+      "title": "Flat assistant"
     }
   }
 }

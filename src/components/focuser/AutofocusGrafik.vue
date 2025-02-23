@@ -97,7 +97,9 @@ async function fetchLastAf() {
     };
 
     // Timestamp aus API speichern
-    timestamp.value = apiData.Timestamp;
+    const dateObject = new Date(apiData.Timestamp);
+    const dateTimeText = `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString()}`;
+    timestamp.value = dateTimeText;
 
     // Fittings aus API extrahieren
     const fittings = apiData.Fittings || {};

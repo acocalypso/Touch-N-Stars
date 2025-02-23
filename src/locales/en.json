@@ -221,7 +221,10 @@
           "showGuiderAfGraph": "Show autofocus-chart"
         }
       },
-      "running": "RUNNING"
+      "running": "RUNNING",
+      "imageHistory": "Image History",
+      "duration": "Duration",
+      "temperatureShort": "Temp"
     },
     "mount": {
       "title": "Mount",
@@ -431,7 +434,7 @@
       "max_brightness": "Max brightness",
       "histogram_mean_target": "Histogram mean target",
       "mean_tolerance": "Mean tolerance",
-      "completed_recordings" : "Completed recordings:",
+      "completed_recordings": "Completed recordings:",
       "start_auto_exposure": "Start auto exposure",
       "start_auto_brightness": "Start autobrightness",
       "start_sky_flat": "Start sky flat",

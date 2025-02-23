@@ -8,91 +8,31 @@
         ></div>
       </div>
     </div>
-    <div
-      v-else-if="settingsStore.monitorViewSetting.showImage"
-      ref="imageContainer"
-      class="image-container overflow-hidden touch-auto bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700"
-    >
-      <img
-        v-if="imageData"
-        ref="image"
-        @click="openModal"
-        :src="imageData"
-        alt="Aufgenommenes Bild"
-        class="block w-full h-auto"
-      />
-    </div>
-
-    <div
-      v-if="!isLoadingImg && settingsStore.monitorViewSetting.showImageStats"
-      class="flex flex-col w-full min-w-60 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-4 text-sm space-y-2"
-    >
-      <div v-if="formattedDate" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.date') }}: </span>
-        <span>{{ formattedDate }}</span>
-      </div>
-
-      <div v-if="isValidNumber(ExposureTime)" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.exposureTime') }}:</span>
-        <span>{{ ExposureTime.toFixed(2) }} s</span>
-      </div>
-
-      <div v-if="isValidNumber(HFR)" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.hfr') }}:</span>
-        <span>{{ HFR.toFixed(2) }}</span>
-      </div>
-
-      <div v-if="Stars" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.stars') }}:</span>
-        <span>{{ Stars }}</span>
-      </div>
-
-      <div v-if="isValidNumber(Mean)" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.mean') }}:</span>
-        <span>{{ Mean.toFixed(2) }}</span>
-      </div>
-
-      <div v-if="isValidNumber(Median)" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.median') }}:</span>
-        <span>{{ Median.toFixed(2) }}</span>
-      </div>
-
-      <div v-if="isValidNumber(StDev)" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.stDev') }}:</span>
-        <span>{{ StDev.toFixed(2) }}</span>
-      </div>
-
-      <div v-if="RmsText" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.rmsText') }}:</span>
-        <span>{{ RmsText }}</span>
-      </div>
-
-      <div v-if="isValidNumber(Temperature)" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.temperature') }}:</span>
-        <span>{{ Temperature }} °C</span>
-      </div>
-
-      <div v-if="Filter" class="flex justify-between border-b border-gray-700">
-        <span class="font-bold">{{ $t('components.sequence.filter') }}:</span>
-        <span>{{ Filter }}</span>
-      </div>
-    </div>
-
-    <ImageModal
-      :showModal="showModal"
-      :imageData="imageDataModal"
-      :isLoading="isLoadingModal"
-      @close="closeModal"
+    <SequenceImage
+      v-else-if="settingsStore.monitorViewSetting.showImage && imageData"
+      :image="imageData"
+      :showStats="settingsStore.monitorViewSetting.showImageStats"
+      :stats="{
+        Date: dateValue,
+        ExposureTime,
+        HFR,
+        Mean,
+        Median,
+        StDev,
+        RmsText,
+        Temperature,
+        Filter,
+      }"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
-import ImageModal from '@/components/helpers/imageModal.vue';
+import SequenceImage from '@/components/sequence/SequenceImage.vue';
 
 let isLoadingImg = ref(true);
 let isLoadingModal = ref(false);
@@ -114,35 +54,6 @@ const dateValue = ref(null);
 const showModal = ref(false);
 const lastImgIndex = ref(null);
 
-const isValidNumber = (value) => {
-  return typeof value === 'number' && !isNaN(value);
-};
-
-// Computed Property für das Formatieren des Datums
-const formattedDate = computed(() => {
-  if (!dateValue.value) return '';
-
-  const dateObj = new Date(dateValue.value);
-  const day = String(dateObj.getDate()).padStart(2, '0');
-  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const year = dateObj.getFullYear();
-  const hours = String(dateObj.getHours()).padStart(2, '0');
-  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
-  const seconds = String(dateObj.getSeconds()).padStart(2, '0');
-
-  return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
-});
-
-// Modal öffnen / schließen
-function openModal() {
-  showModal.value = true;
-  getlastModalImage(lastImgIndex.value, 90, true, 0.8);
-  isLoadingModal.value = true;
-}
-function closeModal() {
-  showModal.value = false;
-}
-
 async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -152,11 +63,11 @@ async function getlastImage(index, quality, resize, scale) {
     const result = await apiService.getSequenceImage(index, quality, resize, scale);
     console.log(result);
     if (result.StatusCode != 200) {
+      isLoadingImg.value = false;
       console.error('Unknown error: Check NINIA Log for more information');
       return;
     }
     const image = result?.Response;
-    //console.log('Image Data: ', image);
     if (image) {
       imageData.value = `data:image/jpeg;base64,${image}`;
       setSelectedDataset(index);
@@ -218,7 +129,7 @@ watch(
       console.log('Watch imageHistoryInfo');
       console.log('latestIndex: ', latestIndex);
 
-      await wait(3000); // Es kann sein, dass das Bild noch nicht verfügbar ist
+      await wait(3000); // Wait 3 seconds. The image may not be available yet.
 
       getlastImage(latestIndex, settingsStore.camera.imageQuality, true, 0.5);
       if (showModal.value) {

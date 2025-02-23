@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plugin null exception error
 - Small UI fixes in the "Sequence Monitoring" page.
 - Added a new script to add a new entry to all locale files. Very handy when creating a new entry to avoid going to all the files individually.
+- TPPA fix display error
 
 ## [1.0.2.0] - 2025-02-21
 ### Added

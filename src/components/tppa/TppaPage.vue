@@ -35,11 +35,19 @@
               </p>
               <p>{{ showAltitudeError }}</p>
               <div v-if="showAltitudeError">
-                <div v-if="altitudeCorDirectionTop" class="flex flex-row space-x-2">
+                <div v-if="altitudeCorDirectionTop && !isSouthernHemisphere" class="flex flex-row space-x-2">
                   <ArrowUpIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.up') }}</p>
                 </div>
-                <div v-else class="flex flex-row space-x-2">
+                <div v-if="!altitudeCorDirectionTop && !isSouthernHemisphere" class="flex flex-row space-x-2">
+                  <ArrowDownIcon class="size-6 text-blue-500" />
+                  <p>{{ $t('components.tppa.down') }}</p>
+                </div>
+                <div v-if="!altitudeCorDirectionTop && isSouthernHemisphere" class="flex flex-row space-x-2">
+                  <ArrowUpIcon class="size-6 text-blue-500" />
+                  <p>{{ $t('components.tppa.up') }}</p>
+                </div>
+                <div v-if="altitudeCorDirectionTop && isSouthernHemisphere" class="flex flex-row space-x-2">
                   <ArrowDownIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.down') }}</p>
                 </div>
@@ -51,12 +59,20 @@
               </p>
               <p>{{ showAzimuthError }}</p>
               <div v-if="showAzimuthError">
-                <div v-if="azimuthCorDirectionLeft" class="flex flex-row space-x-2">
+                <div v-if="azimuthCorDirectionLeft && !isSouthernHemisphere" class="flex flex-row space-x-2">
                   <ArrowLeftIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.west') }}</p>
                 </div>
-                <div v-else class="flex flex-row space-x-2">
+                <div v-if="!azimuthCorDirectionLeft && !isSouthernHemisphere"  class="flex flex-row space-x-2">
                   <ArrowRightIcon class="size-6 text-blue-500" />
+                  <p>{{ $t('components.tppa.east') }}</p>
+                </div>
+                <div v-if="!azimuthCorDirectionLeft && isSouthernHemisphere" class="flex flex-row space-x-2">
+                  <ArrowRightIcon class="size-6 text-blue-500" />
+                  <p>{{ $t('components.tppa.west') }}</p>
+                </div>
+                <div v-if="azimuthCorDirectionLeft && isSouthernHemisphere"  class="flex flex-row space-x-2">
+                  <ArrowLeftIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.east') }}</p>
                 </div>
               </div>
@@ -161,6 +177,7 @@ const showAltitudeError = ref('');
 const showTotalError = ref('');
 const azimuthCorDirectionLeft = ref(false);
 const altitudeCorDirectionTop = ref(false);
+const isSouthernHemisphere = ref(false);
 
 // Tolerance in arc minutes
 const tolerance = 1;
@@ -229,6 +246,7 @@ function formatMessage(message) {
   if (typeof message.Error === 'string' && message.Error !== '') {
     return message.Error;
   }
+
   if (message.Response) {
     if (typeof message.Response === 'string') {
       if (message.Response === 'started procedure') {
@@ -240,6 +258,7 @@ function formatMessage(message) {
     } else if (typeof message.Response === 'object') {
       startStop.value = false;
       const { AzimuthError, AltitudeError, TotalError } = message.Response;
+      
       if (AzimuthError !== undefined && AltitudeError !== undefined && TotalError !== undefined) {
         const azimuthErrorDMS = decimalToDMS(AzimuthError);
         const altitudeErrorDMS = decimalToDMS(AltitudeError);
@@ -251,6 +270,9 @@ function formatMessage(message) {
 
         azimuthCorDirectionLeft.value = AzimuthError > 0 ? true : false;
         altitudeCorDirectionTop.value = AltitudeError < 0 ? true : false;
+        // Prüfe, ob sich der Nutzer auf der Südhalbkugel befindet
+        isSouthernHemisphere.value = store.profileInfo.AstrometrySettings.Latitude < 0;
+
       } else {
         return t('components.tppa.error_values_missing');
       }
@@ -261,6 +283,7 @@ function formatMessage(message) {
     return JSON.stringify(message, null, 2);
   }
 }
+
 
 async function startAlignment() {
   await unparkMount();

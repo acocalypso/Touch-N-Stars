@@ -106,10 +106,25 @@ onMounted(() => {
             if (stel.core.selection) {
           console.log(" Objekt-Bezeichnungen:", stel.core.selection.designations());  // const obj = this.$stel.core.selection
           const info = stel.core.selection;
+          console.log("Objekt-Informationen:", info);
+          const pvo = info.getInfo('pvo', stel.observer); // Heliozentrische Position
+          const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
+          const ra  = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
+          const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
+          console.log("auswahl RA (Radian):", ra);
+          console.log("auswahl Dec (Radian):", dec);  
+          console.log("auswahl RA (deg):", rad2deg(ra) );
+          console.log("auswahl dec (deg):", rad2deg(dec) );
+          console.log("auswahl RA (hms):", degreesToHMS( rad2deg(ra)) );
+          console.log("auswahl dec (dms):", degreesToDMS( rad2deg(dec)) );
+          
+
           const radec = info.getInfo('radec');
         
         }
+        
         const merkur = stel.getObj("NAME Mercury");  // Merkur holen
+        console.log("Merkur:", merkur);
         const pvo = merkur.getInfo('pvo', stel.observer); // Heliozentrische Position
         const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
 

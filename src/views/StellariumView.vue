@@ -1,6 +1,5 @@
 <template>
   <div class="stellarium-container">
-    <h1>Stellarium: Beispiel</h1>
 
     <!-- Canvas, in das Stellarium rendert -->
     <canvas
@@ -9,30 +8,17 @@
       style="border: 1px solid #ccc;"
     ></canvas>
 
-    <!-- Infobox zum ausgewählten Objekt -->
-    <div v-if="selectedObject" class="object-info">
-      <h2>Ausgewähltes Objekt</h2>
-      <p>
-        <strong>Name:</strong>
-        {{ selectedObject.main_designation }}
-      </p>
-      <p>
-        <strong>Helligkeit (Mag):</strong>
-        <!-- Falls vmag vorhanden ist, auf zwei Nachkommastellen runden -->
-        {{ selectedObject.vmag ? selectedObject.vmag.toFixed(2) : 'unbekannt' }}
-      </p>
-      <p>
-        <strong>Typ:</strong>
-        {{ selectedObject.type || 'unbekannt' }}
-      </p>
-      <!-- Weitere Felder kannst du ergänzen -->
-    </div>
+
+
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
+import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 // Canvas-Referenz für Stellarium
 const stelCanvas = ref(null);
 
@@ -56,41 +42,33 @@ onMounted(() => {
       canvas: stelCanvas.value,
       onReady(stel) {
         console.log('Stellarium ist bereit!', stel);
-        function setLocalTime() {
+
+        // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
+        stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
+        stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
+        stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
+        stel.core.time_speed = 1;
+
+        console.log("Aktuelle Beobachterposition:");
+        console.log("Breitengrad:", stel.core.observer.latitude);
+        console.log("Längengrad:", stel.core.observer.longitude);
+        console.log("Höhe:", stel.core.observer.elevation); 
+
+        function setTime(hour, minute) {
           const now = new Date();
-          const utcNow = now.getTime() / 86400000 + 40587;
-          stel.core.observer.utc = utcNow;
-          console.log(`Lokale Zeit gesetzt: ${now.toLocaleString()} (MJD: ${utcNow})`);
-        }
-        //setLocalTime();
-        function setLateNight() {
-          const now = new Date();
-          
           // Setze die gewünschte Uhrzeit (lokale Zeit)
-          now.setHours(23, 30, 0, 0); // 23:30 Uhr (lokal)
-
-          // Berechne die Zeitzonenverschiebung in Minuten und wandle sie in Millisekunden um
-          const timezoneOffset = now.getTimezoneOffset() * 60000; // Minuten → Millisekunden
-          console.log('timezoneOffset', timezoneOffset);
-          // Korrigiere die Zeit auf UTC
-          const utcTime = new Date(now.getTime() - timezoneOffset);
-
+          now.setHours(hour, minute, 0, 0); 
+          const utcTime = new Date(now.getTime());
           // Konvertiere UTC-Zeit in Modified Julian Date (MJD)
-          const mjd = utcTime.getTime() / 86400000 + 40587;
-
+          const mjd = utcToMJD(utcTime);
+          console.log('MJD:', mjd);
+          console.log('UTC:', mjdToUTC(mjd));
           // Setze die Stellarium-Zeit auf die richtige UTC-Zeit
           console.log('UTC:', stel.core.observer.utc);
           stel.core.observer.utc = mjd;
-
-
-          console.log("Lokale Zeit gesetzt auf:", now.toLocaleString());
-          console.log("Korrigierte UTC-Zeit:", utcTime.toISOString());
-          console.log("Stellarium Zeit (MJD):", mjd);
         }
-        setLateNight();
-        
-        console.log(" Stellarium UTC-MJD:", stel.core.observer.utc);
-
+        //setTime(18,30);
+      
 
         // Schritt 3) Datenquellen (Kataloge) hinzufügen
         const core = stel.core;
@@ -105,19 +83,6 @@ onMounted(() => {
           url: baseUrl + 'landscapes/guereins',
           key: 'guereins',
         });
-
-                // Optional: Beobachter-Standort setzen
-        // z.B. Tacherting:
-        stel.core.observer.latitude = 48.078611;
-        stel.core.observer.longitude = 12.570556;
-        stel.core.observer.elevation = 473;
-        stel.core.time_speed = 1;
-
-        console.log("Aktuelle Beobachterposition:");
-        console.log("Breitengrad:", stel.core.observer.latitude);
-        console.log("Längengrad:", stel.core.observer.longitude);
-        console.log("Höhe:", stel.core.observer.elevation);
-
 
                 
         // Beispiel: Sternbilder-Linien & Labels
@@ -142,18 +107,23 @@ onMounted(() => {
           console.log(" Objekt-Bezeichnungen:", stel.core.selection.designations());  // const obj = this.$stel.core.selection
           const info = stel.core.selection;
           const radec = info.getInfo('radec');
-          console.log('radec: ', radec);
-        } else {
-          console.log(" Kein Objekt ausgewählt!");
+        
         }
+        const merkur = stel.getObj("NAME Mercury");  // Merkur holen
+        const pvo = merkur.getInfo('pvo', stel.observer); // Heliozentrische Position
+        const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
+
+        const ra  = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
+        const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
+
+        console.log("Merkur RA (Radian):", ra);
+        console.log("Merkur Dec (Radian):", dec);
 
           }
         });
       },
     });
   };
-
-  // Skript in den Head einfügen
   document.head.appendChild(script);
 });
 </script>
@@ -161,7 +131,6 @@ onMounted(() => {
 <style scoped>
 .stellarium-container {
   margin: 1rem;
-  /* Für Demo-Zwecke, kann man anpassen */
 }
 
 .stellarium-canvas {
@@ -169,12 +138,5 @@ onMounted(() => {
   height: 600px;
 }
 
-/* Infobox für das ausgewählte Objekt */
-.object-info {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #222;
-  color: #eee;
-  border-radius: 6px;
-}
+
 </style>

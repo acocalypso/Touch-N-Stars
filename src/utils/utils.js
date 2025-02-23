@@ -34,6 +34,15 @@ export function degreesToDMS(deg) {
 
   return `${sign}${dStr}:${mStr}:${sStr}`;
 }
+
 export function rad2deg(rad) {
   return rad * (180 / Math.PI);
+}
+
+export function utcToMJD(utcDate) {
+  return utcDate.getTime() / 86400000 + 40587;
+}
+
+export function mjdToUTC(mjd) {
+  return new Date((mjd - 40587) * 86400000);
 }

@@ -1,10 +1,21 @@
 <template>
   <div class="stellarium-container">
-    <!-- Canvas, in das Stellarium rendert -->
+    <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas" style="border: 1px solid #ccc"></canvas>
+
+    <!-- Anzeige des ausgewählten Objekts -->
+    <div v-if="selectedObject" class="selected-object">
+      <h3>Ausgewähltes Objekt:</h3>
+      <ul>
+        <li v-for="(name, index) in selectedObject" :key="index">
+          {{ name }}
+        </li>
+      </ul>
+      <p>Rektaszension: {{ selectedObjectRa }}</p>
+      <p>Deklination: {{ selectedObjectDec }}</p>
+    </div>
   </div>
 </template>
-
 <script setup>
 import { onMounted, ref } from 'vue';
 import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
@@ -16,6 +27,8 @@ const stelCanvas = ref(null);
 
 // Reaktive Variable für das aktuell ausgewählte Objekt
 const selectedObject = ref(null);
+const selectedObjectRa = ref(null);
+const selectedObjectDec = ref(null);
 
 onMounted(() => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
@@ -94,13 +107,17 @@ onMounted(() => {
               return;
             }
             if (stel.core.selection) {
-              console.log(' Objekt-Bezeichnungen:', stel.core.selection.designations()); // const obj = this.$stel.core.selection
+              const selectedDesignations  =  stel.core.selection.designations();
+              selectedObject.value =  selectedDesignations;
+              console.log(' Objekt-Bezeichnungen:', selectedDesignations); 
               const info = stel.core.selection;
               console.log('Objekt-Informationen:', info);
               const pvo = info.getInfo('pvo', stel.observer); // Heliozentrische Position
               const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]); // Umrechnung ins CIRS-System
               const ra = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
               const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
+              selectedObjectRa.value = degreesToHMS(rad2deg(ra));
+              selectedObjectDec.value = degreesToDMS(rad2deg(dec));
               console.log('auswahl RA (Radian):', ra);
               console.log('auswahl Dec (Radian):', dec);
               console.log('auswahl RA (deg):', rad2deg(ra));

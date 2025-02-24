@@ -13,6 +13,7 @@
       </ul>
       <p>Rektaszension: {{ selectedObjectRa }}</p>
       <p>Deklination: {{ selectedObjectDec }}</p>
+      <button @click="setFramingCoordinates" class=" p-3 bg-gray-600"> go to Framing </button>
     </div>
   </div>
 </template>
@@ -21,12 +22,18 @@
 import { onMounted, ref } from 'vue';
 import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
+import { useFramingStore } from '@/store/framingStore'; 
+import { useRouter } from 'vue-router';
 
 const store = apiStore();
+const framingStore = useFramingStore();
+const router = useRouter();
 const stelCanvas = ref(null);
 const selectedObject = ref(null);
 const selectedObjectRa = ref(null);
 const selectedObjectDec = ref(null);
+const selectedObjectRaDeg = ref(null);
+const selectedObjectDecDeg = ref(null);
 
 onMounted(() => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
@@ -71,6 +78,7 @@ onMounted(() => {
           stel.core.observer.utc = mjd;
         }
         setTime(19,30);
+
 
         // Schritt 3) Datenquellen (Kataloge) hinzufügen
         const core = stel.core;
@@ -122,6 +130,8 @@ onMounted(() => {
               const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
               selectedObjectRa.value = degreesToHMS(rad2deg(ra));
               selectedObjectDec.value = degreesToDMS(rad2deg(dec));
+              selectedObjectRaDeg.value = rad2deg(ra);
+              selectedObjectDecDeg.value = rad2deg(dec);
               console.log('auswahl RA (Radian):', ra);
               console.log('auswahl Dec (Radian):', dec);
               console.log('auswahl RA (deg):', rad2deg(ra));
@@ -138,6 +148,17 @@ onMounted(() => {
   };
   document.head.appendChild(script);
 });
+function setFramingCoordinates() {
+          framingStore.RAangleString = selectedObjectRa.value;
+          framingStore.DECangleString = selectedObjectDec.value;
+          framingStore.RAangle = selectedObjectRaDeg.value;
+          framingStore.DECangle = selectedObjectDecDeg.value;
+          framingStore.selectedItem = selectedObject.value;
+          console.log('Set Framing Coordinates');
+          store.mount.currentTab = 'showSlew';
+          console.log(' store.mount.currentTab', store.mount.currentTab);
+          router.push('/mount');
+        }
 </script>
 
 <style scoped>

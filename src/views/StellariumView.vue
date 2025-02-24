@@ -1,10 +1,10 @@
 <template>
   <div class="stellarium-container">
     <!-- Canvas für Stellarium -->
-    <canvas ref="stelCanvas" class="stellarium-canvas" style="border: 1px solid #ccc"></canvas>
+    <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
-    <!-- Anzeige des ausgewählten Objekts -->
-    <div v-if="selectedObject" class="selected-object">
+    <!-- Overlay für das ausgewählte Objekt -->
+    <div v-if="selectedObject" class="selected-object-overlay">
       <h3>Ausgewähltes Objekt:</h3>
       <ul>
         <li v-for="(name, index) in selectedObject" :key="index">
@@ -15,9 +15,8 @@
       <p>Deklination: {{ selectedObjectDec }}</p>
     </div>
   </div>
-  <div class="mb-15">
-  </div>
 </template>
+
 <script setup>
 import { onMounted, ref } from 'vue';
 import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
@@ -109,9 +108,9 @@ onMounted(() => {
               return;
             }
             if (stel.core.selection) {
-              const selectedDesignations  =  stel.core.selection.designations();
-              selectedObject.value =  selectedDesignations;
-              console.log(' Objekt-Bezeichnungen:', selectedDesignations); 
+              const selectedDesignations = stel.core.selection.designations();
+              selectedObject.value = selectedDesignations;
+              console.log(' Objekt-Bezeichnungen:', selectedDesignations);
               const info = stel.core.selection;
               console.log('Objekt-Informationen:', info);
               const pvo = info.getInfo('pvo', stel.observer); // Heliozentrische Position
@@ -140,11 +139,30 @@ onMounted(() => {
 
 <style scoped>
 .stellarium-container {
-  margin: 1rem;
+  position: fixed; /* Fixed to cover the whole viewport */
+  top: 10;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0; /* Ensures it stays behind other content */
 }
 
 .stellarium-canvas {
   width: 100%;
-  height: 600px;
+  height: 100%;
+}
+
+.selected-object-overlay {
+  position: fixed; /* Fixiert es auf dem Bildschirm */
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 250px;
+  z-index: 100;
 }
 </style>

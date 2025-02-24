@@ -23,10 +23,7 @@ import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
-// Canvas-Referenz für Stellarium
 const stelCanvas = ref(null);
-
-// Reaktive Variable für das aktuell ausgewählte Objekt
 const selectedObject = ref(null);
 const selectedObjectRa = ref(null);
 const selectedObjectDec = ref(null);
@@ -34,7 +31,7 @@ const selectedObjectDec = ref(null);
 onMounted(() => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
-  script.src = '/stellarium/stellarium-web-engine.js'; // Pfad anpassen falls nötig
+  script.src = '/stellarium/stellarium-web-engine.js'; 
 
   script.onload = () => {
     if (!window.StelWebEngine) {
@@ -53,7 +50,7 @@ onMounted(() => {
         stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
         stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
         stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-        stel.core.time_speed = 1;
+        
 
         console.log('Aktuelle Beobachterposition:');
         console.log('Breitengrad:', stel.core.observer.latitude);
@@ -73,21 +70,27 @@ onMounted(() => {
           console.log('UTC:', stel.core.observer.utc);
           stel.core.observer.utc = mjd;
         }
-        //setTime(18,30);
+        setTime(19,30);
 
         // Schritt 3) Datenquellen (Kataloge) hinzufügen
         const core = stel.core;
         const baseUrl = '/stellarium-data/';
         console.log(' Füge Datenquellen hinzu...');
 
-        core.stars.addDataSource({ url: baseUrl + 'stars' });
-        core.dsos.addDataSource({ url: baseUrl + 'dso' });
-        core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
-        //Planeten & Monde hinzufügen
-        core.landscapes.addDataSource({
-          url: baseUrl + 'landscapes/guereins',
-          key: 'guereins',
-        });
+        core.stars.addDataSource({ url: baseUrl + 'stars' })
+          core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' })
+          core.dsos.addDataSource({ url: baseUrl + 'dso' })
+          core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' })
+          core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' })
+          core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' })
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' })
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' })
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' })
+          core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' })
+          core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat' })
+
+
+        stel.core.time_speed = 1; // Zeitgeschwindigkeit auf 1 setzen
 
         // Beispiel: Sternbilder-Linien & Labels
         core.constellations.lines_visible = true;

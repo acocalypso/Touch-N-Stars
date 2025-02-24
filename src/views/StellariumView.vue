@@ -95,7 +95,7 @@ onMounted(() => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' })
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' })
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' })
-          core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat' })
+          //core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat' })
 
 
         stel.core.time_speed = 1; // Zeitgeschwindigkeit auf 1 setzen
@@ -107,6 +107,33 @@ onMounted(() => {
         // Atmosphäre & Landschaft anschalten
         core.atmosphere.visible = true;
         core.landscapes.visible = true;
+
+/*        var mars = stel.getObj("NAME Mars");
+        if (mars) {
+          console.log("Mars gefunden:", mars);
+          stel.pointAndLock(mars, 2.0); 
+        } else {
+          console.log("Mars nicht gefunden.");
+        } */
+
+        function searchObject(query) {
+            if (!query) return null; // Falls kein Suchbegriff eingegeben wurde
+
+            console.log(` Suche nach: ${query}`);
+
+            // 1️Direkt mit getObj() suchen (schnellste Methode)
+            var obj = stel.getObj(query) || stel.getObj("NAME " + query);
+            if (obj) {
+              console.log(" Objekt direkt gefunden:", obj);
+              return obj;
+            }
+          }
+
+          var obj = searchObject("Venus"); // Suche nach Deep-Sky-Objekt oder Planeten
+        if (obj) {
+          stel.pointAndLock(obj, 2.0);
+        }
+
 
         // Schritt 4) Selektion beobachten
         stel.change((obj, attr) => {
@@ -139,7 +166,6 @@ onMounted(() => {
               console.log('auswahl RA (hms):', degreesToHMS(rad2deg(ra)));
               console.log('auswahl dec (dms):', degreesToDMS(rad2deg(dec)));
 
-              const radec = info.getInfo('radec');
             }
           }
         });

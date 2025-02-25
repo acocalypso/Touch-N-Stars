@@ -86,7 +86,7 @@ onMounted(() => {
           console.log('UTC:', stel.core.observer.utc);
           stel.core.observer.utc = mjd;
         }
-        setTime(19, 30);
+        //setTime(19, 30); //Zume testen
 
         // Schritt 3) Datenquellen (Kataloge) hinzufügen
         const core = stel.core;
@@ -183,6 +183,7 @@ function setFramingCoordinates() {
   store.mount.currentTab = 'showSlew';
   console.log(' store.mount.currentTab', store.mount.currentTab);
   router.push('/mount');
+
 }
 
 function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
@@ -202,7 +203,7 @@ function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
   const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
   // Schritt 3: Kamera bewegen
   stel.lookAt(observedVec, duration_sec);
-  // Optional zoomen
+  //Zoomen
   stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
 }
 

@@ -3,6 +3,11 @@
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
+    <!-- Overlay für das Suchfeld -->
+    <div class="search-overlay">
+      <steallriumSearch />
+    </div>
+
     <!-- Overlay für das ausgewählte Objekt -->
     <div v-if="selectedObject" class="selected-object-overlay">
       <h3>Ausgewähltes Objekt:</h3>
@@ -19,14 +24,17 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
+import { useStellariumStore } from '@/store/stellariumStore';
 import { useRouter } from 'vue-router';
+import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
+const stellariumStore = useStellariumStore();
 const router = useRouter();
 const stelCanvas = ref(null);
 const selectedObject = ref(null);
@@ -34,6 +42,7 @@ const selectedObjectRa = ref(null);
 const selectedObjectDec = ref(null);
 const selectedObjectRaDeg = ref(null);
 const selectedObjectDecDeg = ref(null);
+const stelInstance = ref(null);
 
 onMounted(() => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
@@ -52,6 +61,7 @@ onMounted(() => {
       canvas: stelCanvas.value,
       onReady(stel) {
         console.log('Stellarium ist bereit!', stel);
+        stelInstance.value = stel;
 
         // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
         stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
@@ -83,7 +93,7 @@ onMounted(() => {
         const baseUrl = '/stellarium-data/';
 
         core.stars.addDataSource({ url: baseUrl + 'stars' });
-        core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
+        //core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
         core.dsos.addDataSource({ url: baseUrl + 'dso' });
         core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
         core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
@@ -91,11 +101,8 @@ onMounted(() => {
         core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
         core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
         core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
-        core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
-        core.satellites.addDataSource({
-          url: baseUrl + 'tle_satellite.jsonl.gz',
-          key: 'jsonl/sat',
-        });
+        //core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
+        // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat',});
 
         // Zeitgeschwindigkeit auf 1 setzen
         stel.core.time_speed = 1;
@@ -116,28 +123,6 @@ onMounted(() => {
           console.log("Mars nicht gefunden.");
         } */
 
-        // Stellarium zu einer RA/DEC Position bewegen
-        function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
-          stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround um die Standordberechnungen zu erzwingen. Ich habe noch keine andere Möglichkeit gefunden.
-
-          const ra_rad = ra_deg * stel.D2R;
-          const dec_rad = dec_deg * stel.D2R;
-
-          // Schritt 1: ICRF-Koordinaten als 3D-Vektor erzeugen
-          const icrfVec = stel.s2c(ra_rad, dec_rad);
-          // Schritt 2: ICRF-Vektor ins OBSERVED-System umrechnen
-          const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-          // Schritt 3: Kamera bewegen
-          stel.lookAt(observedVec, duration_sec);
-          // Optional zoomen
-          stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
-        }
-
-        // Beispielaufruf:
-        //RA: 10.683333333333334 DEC:  41.26861111111111 Andromeda
-        //56.75 DEC:  24.116666666666667 M45
-        //moveToRaDec(56.75, 24.116666666666667);
-
         function searchObject(query) {
           if (!query) return null;
 
@@ -148,7 +133,6 @@ onMounted(() => {
             return obj;
           }
         }
-
 
         // Schritt 4) Selektion beobachten
         stel.change((obj, attr) => {
@@ -188,6 +172,7 @@ onMounted(() => {
   };
   document.head.appendChild(script);
 });
+
 function setFramingCoordinates() {
   framingStore.RAangleString = selectedObjectRa.value;
   framingStore.DECangleString = selectedObjectDec.value;
@@ -199,16 +184,45 @@ function setFramingCoordinates() {
   console.log(' store.mount.currentTab', store.mount.currentTab);
   router.push('/mount');
 }
+
+function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
+  if (!stelInstance.value) {
+    console.error('Stellarium instance is not ready yet.');
+    return;
+  }
+  const stel = stelInstance.value;
+  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround um die Standordberechnungen zu erzwingen. Ich habe noch keine andere Möglichkeit gefunden.
+
+  const ra_rad = ra_deg * stel.D2R;
+  const dec_rad = dec_deg * stel.D2R;
+
+  // Schritt 1: ICRF-Koordinaten als 3D-Vektor erzeugen
+  const icrfVec = stel.s2c(ra_rad, dec_rad);
+  // Schritt 2: ICRF-Vektor ins OBSERVED-System umrechnen
+  const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
+  // Schritt 3: Kamera bewegen
+  stel.lookAt(observedVec, duration_sec);
+  // Optional zoomen
+  stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
+}
+
+watch(
+  () => stellariumStore.search.DECangle,
+  (newValue) => {
+    console.log('selectedObject:', newValue);
+    moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle);
+  }
+);
 </script>
 
 <style scoped>
 .stellarium-container {
-  position: fixed; 
+  position: fixed;
   top: 10;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0; 
+  z-index: 0;
 }
 
 .stellarium-canvas {
@@ -217,7 +231,7 @@ function setFramingCoordinates() {
 }
 
 .selected-object-overlay {
-  position: fixed; 
+  position: fixed;
   top: 140px;
   left: 50%;
   transform: translateX(-50%);
@@ -228,5 +242,17 @@ function setFramingCoordinates() {
   text-align: center;
   min-width: 250px;
   z-index: 100;
+}
+.search-overlay {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  border-radius: 8px;
+  color: white;
+  min-width: 300px;
 }
 </style>

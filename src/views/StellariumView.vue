@@ -73,6 +73,7 @@ onMounted(() => {
         console.log('Längengrad:', stel.core.observer.longitude);
         console.log('Höhe:', stel.core.observer.elevation);
 
+        // eslint-disable-next-line
         function setTime(hour, minute) {
           const now = new Date();
           // Setze die gewünschte Uhrzeit (lokale Zeit)
@@ -122,7 +123,7 @@ onMounted(() => {
         } else {
           console.log("Mars nicht gefunden.");
         } */
-
+        // eslint-disable-next-line
         function searchObject(query) {
           if (!query) return null;
 
@@ -136,8 +137,8 @@ onMounted(() => {
         if (framingStore.RAangle && framingStore.DECangle) {
           moveToRaDec(framingStore.RAangle, framingStore.DECangle, 1, 50);
         } else if (stellariumStore.search.RAangle && stellariumStore.search.DECangle) {
-          moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle ,1, 50);
-        } 
+          moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle, 1, 50);
+        }
         // Schritt 4) Selektion beobachten
         stel.change((obj, attr) => {
           if (attr === 'selection') {
@@ -187,7 +188,6 @@ function setFramingCoordinates() {
   store.mount.currentTab = 'showSlew';
   console.log(' store.mount.currentTab', store.mount.currentTab);
   router.push('/mount');
-
 }
 
 function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {

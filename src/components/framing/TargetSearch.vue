@@ -1,8 +1,11 @@
 <template>
   <div class="container flex items-center justify-center">
     <div class="container max-w-md">
-      <h5 class="text-xl font-bold mb-4">{{ $t('components.framing.search.title') }}</h5>
+      <h5 class="text-xl font-bold mb-4">
+        {{ $t('components.framing.search.title') }}
+      </h5>
 
+      <!-- Search Input -->
       <div class="text-black mx-auto">
         <input
           type="text"
@@ -11,7 +14,7 @@
           class="w-full p-2 border border-gray-300 rounded"
           :placeholder="$t('components.framing.search.placeholder')"
         />
-        <!-- Überprüfe, ob targetSearchResult ein Array ist und Elemente hat -->
+        <!-- Search Results -->
         <ul
           v-if="
             Array.isArray(framingStore.targetSearchResult) &&
@@ -31,11 +34,12 @@
           </li>
         </ul>
       </div>
+
       <!-- Star Selection Dropdown -->
       <div class="mb-4 mt-4">
-        <label for="visibleStars" class="block text-white font-bold text-xl mb-4">{{
-          $t('components.slewAndCenter.visibleStars')
-        }}</label>
+        <label for="visibleStars" class="block text-white font-bold text-xl mb-4">
+          {{ $t('components.slewAndCenter.visibleStars') }}
+        </label>
         <select
           id="visibleStars"
           v-model="selectedStar"
@@ -48,24 +52,27 @@
           </option>
         </select>
       </div>
+
+      <!-- Additional Control -->
       <div class="flex min-w-36 items-center border border-gray-500 p-1 mt-2 rounded-lg">
-        <label for="DewHeater" class="text-sm mb-1 text-gray-400"
-          >{{ $t('components.framing.useNinaCache') }}
+        <label for="DewHeater" class="text-sm mb-1 text-gray-400">
+          {{ $t('components.framing.useNinaCache') }}
         </label>
         <div class="flex ml-auto items-center space-x-2">
           <controlUseNinaCache class="p-2" />
         </div>
       </div>
 
-      <!-- Ausgewählter Eintrag -->
+      <!-- Selected Item Details -->
       <div
         v-if="framingStore.selectedItem"
         class="grid grid-cols-2 mt-4 p-4 border border-gray-700 rounded shadow"
       >
-        <div flex flex-col justify-between>
+        <div class="flex flex-col justify-between">
           <div class="text-xs">
             <p v-if="framingStore.selectedItem['Common names']">
-              <strong>Name:</strong> {{ framingStore.selectedItem['Common names'] }}
+              <strong>Name:</strong>
+              {{ framingStore.selectedItem['Common names'] }}
             </p>
             <p>{{ framingStore.selectedItem.Name }}</p>
             <p v-if="framingStore.selectedItem.M">
@@ -77,22 +84,39 @@
           <TargetPic class="border border-gray-500 rounded-md" />
         </div>
       </div>
-      <div v-if="true" class="mb-2 mt-1">
-        <button
-          v-if="framingStore.selectedItem && true"
-          @click="framingStore.showFramingModal = true"
-          class="default-button-cyan"
-        >
+
+      <!-- Open Framing Modal Button -->
+      <div v-if="framingStore.selectedItem" class="mb-2 mt-1">
+        <button @click="framingStore.showFramingModal = true" class="default-button-cyan">
           {{ $t('components.framing.openFraminingModal') }}
         </button>
       </div>
+
+      <!-- Toggle Switch for Coordinate Mode -->
+      <div class="flex items-center mb-4">
+        <span class="mr-2 font-bold text-white">
+          {{ useAltAz ? 'ALT: AZ:' : 'RA: DEC:' }}
+        </span>
+        <input type="checkbox" v-model="useAltAz" @change="updateRaDec" />
+      </div>
+
+      <!-- Slew and Center Component -->
+      <!--
+           The slewAndCenter component is passed:
+           - the RAangleString and DECangleString via v-model
+           - a "mode" prop so it can change its input labels,
+           - and it emits a "slew" event when the user requests a slew.
+      -->
       <div>
         <slewAndCenter
           v-model:RAangleString="framingStore.RAangleString"
           v-model:DECangleString="framingStore.DECangleString"
+          :mode="useAltAz ? 'altaz' : 'radec'"
+          @slew="slew"
         />
       </div>
     </div>
+
     <!-- Framing Modal -->
     <div
       v-if="framingStore.showFramingModal"
@@ -128,14 +152,14 @@
 </template>
 
 <script setup>
+import { ref, onMounted, computed } from 'vue';
+import Papa from 'papaparse';
 import apiService from '@/services/apiService';
 import slewAndCenter from '@/components/framing/slewAndCenter.vue';
 import TargetPic from '@/components/framing/TargetPic.vue';
 import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
-import { useFramingStore } from '@/store/framingStore';
-import { ref, onMounted, computed } from 'vue';
 import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
-import Papa from 'papaparse';
+import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const framingStore = useFramingStore();
@@ -144,22 +168,18 @@ const stars = ref([]);
 const selectedStar = ref(null);
 const currentSiderealTime = ref(0);
 
-// Computed property to filter visible stars and calculate Alt/Az
+// Toggle for coordinate display mode: false = RA/DEC, true = ALT/AZ.
+const useAltAz = ref(false);
+
+// Computed property to filter visible stars and calculate Alt/Az.
 const visibleStars = computed(() => {
   return stars.value
     .map((star) => {
       const altAz = calculateAltAz(star.raDeg, star.decDeg);
-      return {
-        ...star,
-        altAz,
-      };
+      return { ...star, altAz };
     })
     .filter((star) => star.altAz.alt > 0)
-    .sort((a, b) => {
-      const altA = parseFloat(a.altAz.alt);
-      const altB = parseFloat(b.altAz.alt);
-      return altB - altA; // Sort by altitude in descending order
-    });
+    .sort((a, b) => parseFloat(b.altAz.alt) - parseFloat(a.altAz.alt));
 });
 
 async function fetchTargetSearch() {
@@ -169,14 +189,9 @@ async function fetchTargetSearch() {
   }
   try {
     const data = await apiService.searchNGC(framingStore.searchQuery, 10);
-    if (Array.isArray(data)) {
-      framingStore.targetSearchResult = data;
-    } else {
-      console.warn("Die API hat kein Array zurückgegeben, 'targetSearchResult' wird geleert.");
-      framingStore.targetSearchResult = [];
-    }
+    framingStore.targetSearchResult = Array.isArray(data) ? data : [];
   } catch (error) {
-    console.error('Fehler beim Laden der Vorschläge:', error);
+    console.error('Error fetching search suggestions:', error);
     framingStore.targetSearchResult = [];
   }
 }
@@ -199,11 +214,9 @@ function degreesToHMS(deg) {
   const m = Math.floor(totalMinutes);
   const remainingMinutes = totalMinutes - m;
   const s = remainingMinutes * 60;
-
   const hStr = String(h).padStart(2, '0');
   const mStr = String(m).padStart(2, '0');
   const sStr = s.toFixed(1).padStart(4, '0');
-
   return `${hStr}:${mStr}:${sStr}`;
 }
 
@@ -216,11 +229,9 @@ function degreesToDMS(deg) {
   const m = Math.floor(totalMinutes);
   const remainingMinutes = totalMinutes - m;
   const s = remainingMinutes * 60;
-
   const dStr = String(d).padStart(2, '0');
   const mStr = String(m).padStart(2, '0');
   const sStr = s.toFixed(1).padStart(4, '0');
-
   return `${sign}${dStr}:${mStr}:${sStr}`;
 }
 
@@ -231,7 +242,6 @@ onMounted(async () => {
   await loadStarData();
   updateSiderealTime();
   setInterval(updateSiderealTime, 1000);
-
   const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 200);
   const roundedDimension = Math.floor(smallerDimension / 100) * 100;
   framingStore.containerSize = roundedDimension;
@@ -241,7 +251,6 @@ async function loadStarData() {
   try {
     const response = await fetch('/stars.csv');
     const csvData = await response.text();
-
     Papa.parse(csvData, {
       header: true,
       skipEmptyLines: true,
@@ -252,10 +261,10 @@ async function loadStarData() {
           return {
             name: star.name,
             magnitude: parseFloat(star.magnitude),
-            ra: star.ra, // Keep original RA format
-            dec: star.dec, // Keep original Dec format
-            raDeg: raDeg,
-            decDeg: decDeg,
+            ra: star.ra,
+            dec: star.dec,
+            raDeg,
+            decDeg,
           };
         });
       },
@@ -288,7 +297,34 @@ function convertDECtoDegrees(dec) {
   );
 }
 
-// New function to calculate Altitude and Azimuth
+// When a star is selected, update the displayed values.
+// In ALT/AZ mode the values are converted using calculateAltAz.
+async function updateRaDec() {
+  if (selectedStar.value) {
+    if (useAltAz.value) {
+      const altAz = calculateAltAz(selectedStar.value.raDeg, selectedStar.value.decDeg);
+      framingStore.RAangleString = altAz.alt.toFixed(1) + '°';
+      framingStore.DECangleString = altAz.az.toFixed(1) + '°';
+    } else {
+      framingStore.RAangleString = degreesToHMS(selectedStar.value.raDeg);
+      framingStore.DECangleString = degreesToDMS(selectedStar.value.decDeg);
+    }
+    framingStore.RAangle = selectedStar.value.raDeg;
+    framingStore.DECangle = selectedStar.value.decDeg;
+    framingStore.selectedItem = {
+      Name: selectedStar.value.name,
+      RA: selectedStar.value.raDeg,
+      Dec: selectedStar.value.decDeg,
+    };
+    try {
+      await apiService.setFramingImageSource('SKYATLAS');
+      await apiService.setFramingCoordinates(selectedStar.value.raDeg, selectedStar.value.decDeg);
+    } catch (error) {
+      console.error('Error updating sky atlas:', error);
+    }
+  }
+}
+
 function calculateAltAz(raDeg, decDeg) {
   const latRad = (settingsStore.coordinates.latitude * Math.PI) / 180;
   const decRad = (decDeg * Math.PI) / 180;
@@ -298,12 +334,10 @@ function calculateAltAz(raDeg, decDeg) {
   const LMST = (GMST + settingsStore.coordinates.longitude / 15) % 24;
   const hourAngle = LMST * 15 - raDeg;
   const haRad = (hourAngle * Math.PI) / 180;
-
   const altRad = Math.asin(
     Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad)
   );
   const alt = (altRad * 180) / Math.PI;
-
   const azRad = Math.atan2(
     -Math.cos(decRad) * Math.cos(latRad) * Math.sin(haRad),
     Math.sin(decRad) * Math.cos(latRad) - Math.cos(decRad) * Math.sin(latRad) * Math.cos(haRad)
@@ -313,7 +347,6 @@ function calculateAltAz(raDeg, decDeg) {
     az += 360;
   }
   const direction = getDirection(az);
-
   return { alt: alt, az: az, direction: direction };
 }
 
@@ -344,32 +377,85 @@ function updateSiderealTime() {
   currentSiderealTime.value = (GMST % 24) * 15 + settingsStore.coordinates.longitude / 15;
 }
 
-async function updateRaDec() {
-  if (selectedStar.value) {
-    // Get the formatted values
-    const formattedRA = degreesToHMS(selectedStar.value.raDeg);
-    const formattedDEC = degreesToDMS(selectedStar.value.decDeg);
+// --- Conversion functions for slew input ---
 
-    // Update the store with the formatted values
-    framingStore.RAangleString = formattedRA;
-    framingStore.DECangleString = formattedDEC;
+// Converts an HMS string (e.g. "12:34:56.7") to degrees.
+function hmsToDegrees(hms) {
+  const parts = hms.split(':');
+  if (parts.length !== 3) return 0;
+  const h = parseFloat(parts[0]);
+  const m = parseFloat(parts[1]);
+  const s = parseFloat(parts[2]);
+  return (h + m / 60 + s / 3600) * 15;
+}
 
-    // Update store with the numeric values (this part is already correct)
-    framingStore.RAangle = selectedStar.value.raDeg;
-    framingStore.DECangle = selectedStar.value.decDeg;
-    framingStore.selectedItem = {
-      Name: selectedStar.value.name,
-      RA: selectedStar.value.raDeg,
-      Dec: selectedStar.value.decDeg,
-    };
-    try {
-      await apiService.setFramingImageSource('SKYATLAS');
-      await apiService.setFramingCoordinates(selectedStar.value.raDeg, selectedStar.value.decDeg);
-    } catch (error) {
-      console.error('Error updating sky atlas:', error);
-    }
+// Converts a DMS string (e.g. "+12:34:56.7") to degrees.
+function dmsToDegrees(dms) {
+  const clean = dms.replace('°', '').trim();
+  const sign = clean.startsWith('-') ? -1 : 1;
+  const parts = clean.replace('+', '').split(':');
+  if (parts.length !== 3) return 0;
+  const d = parseFloat(parts[0]);
+  const m = parseFloat(parts[1]);
+  const s = parseFloat(parts[2]);
+  return sign * (Math.abs(d) + m / 60 + s / 3600);
+}
+
+// Converts Alt/Az values to RA/DEC.
+// Uses the observer’s latitude and the local sidereal time.
+function calculateRaDecFromAltAz(alt_deg, az_deg) {
+  const lat_rad = (settingsStore.coordinates.latitude * Math.PI) / 180;
+  const alt_rad = (alt_deg * Math.PI) / 180;
+  const az_rad = (az_deg * Math.PI) / 180;
+  const sinDec =
+    Math.sin(lat_rad) * Math.sin(alt_rad) +
+    Math.cos(lat_rad) * Math.cos(alt_rad) * Math.cos(az_rad);
+  const dec_rad = Math.asin(sinDec);
+  const HA_rad = Math.atan2(
+    Math.sin(az_rad) * Math.cos(alt_rad),
+    Math.cos(lat_rad) * Math.sin(alt_rad) - Math.sin(lat_rad) * Math.cos(alt_rad) * Math.cos(az_rad)
+  );
+  const now = new Date();
+  const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
+  const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
+  const LMST = (GMST + settingsStore.coordinates.longitude / 15) % 24; // in hours
+  const LST_deg = LMST * 15;
+  const LST_rad = (LST_deg * Math.PI) / 180;
+  let RA_rad = LST_rad - HA_rad;
+  RA_rad = ((RA_rad % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+  const RA_deg = (RA_rad * 180) / Math.PI;
+  const DEC_deg = (dec_rad * 180) / Math.PI;
+  return { RA_deg, DEC_deg };
+}
+
+// --- Slew function ---
+// This function is triggered (via the "slew" event) when the user requests a slew.
+// It checks the mode: if in ALT/AZ mode, it converts the displayed alt/az values
+// to RA/DEC. Otherwise, it parses the HMS/DMS input values.
+// Then it calls the API with the RA/DEC coordinates.
+async function slew() {
+  let RA_deg, DEC_deg;
+  if (useAltAz.value) {
+    // In ALT/AZ mode, assume the RAangleString shows the altitude and the DECangleString shows the azimuth.
+    const alt_str = framingStore.RAangleString.replace(/[^\d.-]/g, '');
+    const az_str = framingStore.DECangleString.replace(/[^\d.-]/g, '');
+    const alt = parseFloat(alt_str);
+    const az = parseFloat(az_str);
+    const res = calculateRaDecFromAltAz(alt, az);
+    RA_deg = res.RA_deg;
+    DEC_deg = res.DEC_deg;
+  } else {
+    RA_deg = hmsToDegrees(framingStore.RAangleString);
+    DEC_deg = dmsToDegrees(framingStore.DECangleString);
+  }
+  try {
+    await apiService.setFramingCoordinates(RA_deg, DEC_deg);
+  } catch (error) {
+    console.error('Error during slew:', error);
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Add any custom styles for your component here */
+</style>

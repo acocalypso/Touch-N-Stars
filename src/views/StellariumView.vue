@@ -86,7 +86,7 @@ onMounted(() => {
         console.log(' Füge Datenquellen hinzu...');
 
         core.stars.addDataSource({ url: baseUrl + 'stars' })
-          core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' })
+          //core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' })
           core.dsos.addDataSource({ url: baseUrl + 'dso' })
           core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' })
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' })
@@ -94,7 +94,7 @@ onMounted(() => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' })
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' })
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' })
-          core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' })
+          //core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' })
           //core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat' })
 
 
@@ -115,6 +115,34 @@ onMounted(() => {
         } else {
           console.log("Mars nicht gefunden.");
         } */
+
+      // Stellarium zu einer RA/DEC Position bewegen
+      function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
+
+        stel.getObj("NAME Mars").getInfo('pvo', stel.observer); //Workaround um die Standordberechnungen zu erzwingen. Ich habe noch keine andere Möglichkeit gefunden.
+
+        const ra_rad = ra_deg * stel.D2R;
+        const dec_rad = dec_deg * stel.D2R;
+
+        // Schritt 1: ICRF-Koordinaten als 3D-Vektor erzeugen
+        const icrfVec = stel.s2c(ra_rad, dec_rad);
+
+        // Schritt 2: ICRF-Vektor ins OBSERVED-System umrechnen
+        const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
+
+        // Schritt 3: Kamera bewegen
+        stel.lookAt(observedVec, duration_sec);
+
+        // Optional zoomen
+        stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
+
+      }
+
+      // Beispielaufruf:
+      //RA: 10.683333333333334 DEC:  41.26861111111111
+      //56.75 DEC:  24.116666666666667
+      moveToRaDec(56.75, 24.116666666666667);
+
 
         function searchObject(query) {
             if (!query) return null; 

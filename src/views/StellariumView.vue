@@ -13,7 +13,7 @@
       </ul>
       <p>Rektaszension: {{ selectedObjectRa }}</p>
       <p>Deklination: {{ selectedObjectDec }}</p>
-      <button @click="setFramingCoordinates" class=" p-3 bg-gray-600"> go to Framing </button>
+      <button @click="setFramingCoordinates" class="p-3 bg-gray-600">go to Framing</button>
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@
 import { onMounted, ref } from 'vue';
 import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
-import { useFramingStore } from '@/store/framingStore'; 
+import { useFramingStore } from '@/store/framingStore';
 import { useRouter } from 'vue-router';
 
 const store = apiStore();
@@ -38,7 +38,7 @@ const selectedObjectDecDeg = ref(null);
 onMounted(() => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
-  script.src = '/stellarium/stellarium-web-engine.js'; 
+  script.src = '/stellarium/stellarium-web-engine.js';
 
   script.onload = () => {
     if (!window.StelWebEngine) {
@@ -57,7 +57,6 @@ onMounted(() => {
         stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
         stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
         stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-        
 
         console.log('Aktuelle Beobachterposition:');
         console.log('Breitengrad:', stel.core.observer.latitude);
@@ -77,30 +76,31 @@ onMounted(() => {
           console.log('UTC:', stel.core.observer.utc);
           stel.core.observer.utc = mjd;
         }
-        setTime(19,30);
-
+        setTime(19, 30);
 
         // Schritt 3) Datenquellen (Kataloge) hinzufügen
         const core = stel.core;
         const baseUrl = '/stellarium-data/';
-        console.log(' Füge Datenquellen hinzu...');
 
-        core.stars.addDataSource({ url: baseUrl + 'stars' })
-          //core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' })
-          core.dsos.addDataSource({ url: baseUrl + 'dso' })
-          core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' })
-          core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' })
-          core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' })
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' })
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' })
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' })
-          //core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' })
-          //core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat' })
+        core.stars.addDataSource({ url: baseUrl + 'stars' });
+        core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
+        core.dsos.addDataSource({ url: baseUrl + 'dso' });
+        core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
+        core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
+        core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
+        core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
+        core.satellites.addDataSource({
+          url: baseUrl + 'tle_satellite.jsonl.gz',
+          key: 'jsonl/sat',
+        });
 
+        // Zeitgeschwindigkeit auf 1 setzen
+        stel.core.time_speed = 1;
 
-        stel.core.time_speed = 1; // Zeitgeschwindigkeit auf 1 setzen
-
-        // Beispiel: Sternbilder-Linien & Labels
+        //Sternbilder-Linien & Labels
         core.constellations.lines_visible = true;
         core.constellations.labels_visible = true;
 
@@ -108,7 +108,7 @@ onMounted(() => {
         core.atmosphere.visible = true;
         core.landscapes.visible = true;
 
-/*        var mars = stel.getObj("NAME Mars");
+        /*        var mars = stel.getObj("NAME Mars");
         if (mars) {
           console.log("Mars gefunden:", mars);
           stel.pointAndLock(mars, 2.0); 
@@ -116,48 +116,38 @@ onMounted(() => {
           console.log("Mars nicht gefunden.");
         } */
 
-      // Stellarium zu einer RA/DEC Position bewegen
-      function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
+        // Stellarium zu einer RA/DEC Position bewegen
+        function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
+          stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround um die Standordberechnungen zu erzwingen. Ich habe noch keine andere Möglichkeit gefunden.
 
-        stel.getObj("NAME Mars").getInfo('pvo', stel.observer); //Workaround um die Standordberechnungen zu erzwingen. Ich habe noch keine andere Möglichkeit gefunden.
+          const ra_rad = ra_deg * stel.D2R;
+          const dec_rad = dec_deg * stel.D2R;
 
-        const ra_rad = ra_deg * stel.D2R;
-        const dec_rad = dec_deg * stel.D2R;
+          // Schritt 1: ICRF-Koordinaten als 3D-Vektor erzeugen
+          const icrfVec = stel.s2c(ra_rad, dec_rad);
+          // Schritt 2: ICRF-Vektor ins OBSERVED-System umrechnen
+          const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
+          // Schritt 3: Kamera bewegen
+          stel.lookAt(observedVec, duration_sec);
+          // Optional zoomen
+          stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
+        }
 
-        // Schritt 1: ICRF-Koordinaten als 3D-Vektor erzeugen
-        const icrfVec = stel.s2c(ra_rad, dec_rad);
-
-        // Schritt 2: ICRF-Vektor ins OBSERVED-System umrechnen
-        const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-
-        // Schritt 3: Kamera bewegen
-        stel.lookAt(observedVec, duration_sec);
-
-        // Optional zoomen
-        stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
-
-      }
-
-      // Beispielaufruf:
-      //RA: 10.683333333333334 DEC:  41.26861111111111
-      //56.75 DEC:  24.116666666666667
-      moveToRaDec(56.75, 24.116666666666667);
-
+        // Beispielaufruf:
+        //RA: 10.683333333333334 DEC:  41.26861111111111 Andromeda
+        //56.75 DEC:  24.116666666666667 M45
+        //moveToRaDec(56.75, 24.116666666666667);
 
         function searchObject(query) {
-            if (!query) return null; 
+          if (!query) return null;
 
-            console.log(` Suche nach: ${query}`);
-            var obj = stel.getObj(query) || stel.getObj("NAME " + query);
-            if (obj) {
-              console.log(" Objekt direkt gefunden:", obj);
-              return obj;
-            }
+          console.log(` Suche nach: ${query}`);
+          var obj = stel.getObj(query) || stel.getObj('NAME ' + query);
+          if (obj) {
+            console.log(' Objekt direkt gefunden:', obj);
+            return obj;
           }
-         /* var obj = searchObject("Venus"); // Suche nach Deep-Sky-Objekt oder Planeten
-            if (obj) {
-              stel.pointAndLock(obj, 2.0);
-          } */ 
+        }
 
 
         // Schritt 4) Selektion beobachten
@@ -190,7 +180,6 @@ onMounted(() => {
               console.log('auswahl dec (deg):', rad2deg(dec));
               console.log('auswahl RA (hms):', degreesToHMS(rad2deg(ra)));
               console.log('auswahl dec (dms):', degreesToDMS(rad2deg(dec)));
-
             }
           }
         });
@@ -200,26 +189,26 @@ onMounted(() => {
   document.head.appendChild(script);
 });
 function setFramingCoordinates() {
-          framingStore.RAangleString = selectedObjectRa.value;
-          framingStore.DECangleString = selectedObjectDec.value;
-          framingStore.RAangle = selectedObjectRaDeg.value;
-          framingStore.DECangle = selectedObjectDecDeg.value;
-          framingStore.selectedItem = selectedObject.value;
-          console.log('Set Framing Coordinates');
-          store.mount.currentTab = 'showSlew';
-          console.log(' store.mount.currentTab', store.mount.currentTab);
-          router.push('/mount');
-        }
+  framingStore.RAangleString = selectedObjectRa.value;
+  framingStore.DECangleString = selectedObjectDec.value;
+  framingStore.RAangle = selectedObjectRaDeg.value;
+  framingStore.DECangle = selectedObjectDecDeg.value;
+  framingStore.selectedItem = selectedObject.value;
+  console.log('Set Framing Coordinates');
+  store.mount.currentTab = 'showSlew';
+  console.log(' store.mount.currentTab', store.mount.currentTab);
+  router.push('/mount');
+}
 </script>
 
 <style scoped>
 .stellarium-container {
-  position: fixed; /* Fixed to cover the whole viewport */
+  position: fixed; 
   top: 10;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0; /* Ensures it stays behind other content */
+  z-index: 0; 
 }
 
 .stellarium-canvas {
@@ -228,7 +217,7 @@ function setFramingCoordinates() {
 }
 
 .selected-object-overlay {
-  position: fixed; /* Fixiert es auf dem Bildschirm */
+  position: fixed; 
   top: 140px;
   left: 50%;
   transform: translateX(-50%);

@@ -117,22 +117,19 @@ onMounted(() => {
         } */
 
         function searchObject(query) {
-            if (!query) return null; // Falls kein Suchbegriff eingegeben wurde
+            if (!query) return null; 
 
             console.log(` Suche nach: ${query}`);
-
-            // 1️Direkt mit getObj() suchen (schnellste Methode)
             var obj = stel.getObj(query) || stel.getObj("NAME " + query);
             if (obj) {
               console.log(" Objekt direkt gefunden:", obj);
               return obj;
             }
           }
-
-          var obj = searchObject("Venus"); // Suche nach Deep-Sky-Objekt oder Planeten
-        if (obj) {
-          stel.pointAndLock(obj, 2.0);
-        }
+         /* var obj = searchObject("Venus"); // Suche nach Deep-Sky-Objekt oder Planeten
+            if (obj) {
+              stel.pointAndLock(obj, 2.0);
+          } */ 
 
 
         // Schritt 4) Selektion beobachten

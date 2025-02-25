@@ -47,7 +47,7 @@ function formatTimeSpan(timeSpan) {
      */
     return '24h 00m 00s';
   }
-  const duration =  moment.duration(timeSpan, 'hours');
+  const duration = moment.duration(timeSpan, 'hours');
   return moment.utc(duration.asMilliseconds()).format('HH[h] mm[m] ss[s]');
 }
 

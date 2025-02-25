@@ -1,5 +1,6 @@
 <script setup>
 import { defineProps } from 'vue';
+import moment from 'moment';
 
 defineProps({
   items: {
@@ -36,6 +37,18 @@ function removeSuffix(name) {
 function formatDuration(duration) {
   const [h, m, s] = duration.split('.')[0].split(':');
   return `${h}h ${m}m ${s}s`;
+}
+
+function formatTimeSpan(timeSpan) {
+  if (timeSpan === 24) {
+    /**
+     * When the time to flip is 24h (tracking stopped), moment.duration returns
+     * 00h00m00s due to the 24h-format. For this scenario, we'll set the date manually.
+     */
+    return '24h 00m 00s';
+  }
+  const duration =  moment.duration(timeSpan, 'hours');
+  return moment.utc(duration.asMilliseconds()).format('HH[h] mm[m] ss[s]');
 }
 
 function formatDateTime(isoString) {
@@ -188,6 +201,9 @@ function hasRunningChildren(item) {
                 <span class="text-gray-200 break-all">
                   <template v-if="key === 'TargetTime'">
                     {{ formatDateTime(value) }}
+                  </template>
+                  <template v-else-if="key === 'TimeToFlip'">
+                    {{ formatTimeSpan(value) }}
                   </template>
                   <template v-else-if="key === 'Coordinates'">
                     <div>

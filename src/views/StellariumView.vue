@@ -93,7 +93,7 @@ onMounted(() => {
         const baseUrl = '/stellarium-data/';
 
         core.stars.addDataSource({ url: baseUrl + 'stars' });
-        //core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
+        core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
         core.dsos.addDataSource({ url: baseUrl + 'dso' });
         core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
         core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
@@ -133,7 +133,11 @@ onMounted(() => {
             return obj;
           }
         }
-
+        if (framingStore.RAangle && framingStore.DECangle) {
+          moveToRaDec(framingStore.RAangle, framingStore.DECangle, 1, 50);
+        } else if (stellariumStore.search.RAangle && stellariumStore.search.DECangle) {
+          moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle ,1, 50);
+        } 
         // Schritt 4) Selektion beobachten
         stel.change((obj, attr) => {
           if (attr === 'selection') {
@@ -208,10 +212,11 @@ function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
 }
 
 watch(
-  () => stellariumStore.search.DECangle,
+  () => stellariumStore.search.DECangleString,
   (newValue) => {
     console.log('selectedObject:', newValue);
     moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle);
+    stellariumStore.search.DECangleString = '';
   }
 );
 </script>

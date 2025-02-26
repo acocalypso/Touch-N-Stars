@@ -124,9 +124,9 @@
           </div>
         </div>
 
-        <!-- Step 4: Instance Configuration -->
+        <!-- Step 4: Instance Configuration (Android only) -->
         <div
-          v-else-if="currentStep === 4"
+          v-else-if="currentStep === 4 && Capacitor.getPlatform() === 'android'"
           key="instance"
           class="bg-gray-800 p-8 rounded-lg shadow-lg"
         >
@@ -200,13 +200,14 @@ import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Geolocation } from '@capacitor/geolocation';
+import { Capacitor } from '@capacitor/core';
 
 const { locale, t } = useI18n();
 const router = useRouter();
 const settingsStore = useSettingsStore();
 
 const currentStep = ref(1);
-const totalSteps = computed(() => 5);
+const totalSteps = computed(() => (Capacitor.getPlatform() === 'android' ? 5 : 4));
 const isVisible = ref(true);
 
 function beforeEnter() {

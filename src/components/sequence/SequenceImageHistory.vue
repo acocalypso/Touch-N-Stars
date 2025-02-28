@@ -29,7 +29,7 @@ const store = apiStore();
 const settingsStore = useSettingsStore();
 const isLoadingImages = ref(false);
 
-const minQuality = settingsStore.camera.imageQuality <= 40 ? settingsStore.camera.imageQuality : 40
+const minQuality = settingsStore.camera.imageQuality <= 40 ? settingsStore.camera.imageQuality : 40;
 const minScale = 0.3;
 
 function addImageToHistory(imageIndex, imageData, stats) {

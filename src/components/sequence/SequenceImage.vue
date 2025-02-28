@@ -68,7 +68,7 @@
 
   <ImageModal
     :showModal="showModal"
-    :imageData="image"
+    :imageData="fullResImage"
     :isLoading="isLoadingModal"
     @close="closeModal"
   />
@@ -77,8 +77,17 @@
 <script setup>
 import { ref, defineProps } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
+import { getImageByIndex } from '@/utils/sequence';
+import { useSettingsStore } from '@/store/settingsStore';
+import apiService from '@/services/apiService';
 
-defineProps({
+const settingsStore = useSettingsStore();
+
+const props = defineProps({
+  index: {
+    type: Number,
+    required: true,
+  },
   image: {
     type: String,
     required: true,
@@ -96,9 +105,18 @@ defineProps({
 
 const isLoadingModal = ref(false);
 const showModal = ref(false);
+const fullResImage = ref(props.image);
 
 function openModal() {
+  isLoadingModal.value = true;
   showModal.value = true;
+
+  getImageByIndex(apiService, props.index, settingsStore.camera.imageQuality, 0.5)
+  .then((image) => {
+    fullResImage.value = `data:image/jpeg;base64,${image}`;
+  }).finally(() => {
+    isLoadingModal.value = false;
+  });
 }
 
 function closeModal() {

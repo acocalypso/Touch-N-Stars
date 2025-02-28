@@ -111,7 +111,7 @@
       </div>
 
       <!-- Capture Controls and Image Display -->
-      <div class="flex flex-col lg:flex-row gap-1 mx-5">
+      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
         <!-- Left Panel - Controls -->
         <div class="flex flex-col lg:w-1/6 space-y-3 min-h-[100px] lg:min-h-0">
           <!-- Loop Checkbox -->

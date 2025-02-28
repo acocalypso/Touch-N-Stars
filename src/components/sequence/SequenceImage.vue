@@ -112,11 +112,12 @@ function openModal() {
   showModal.value = true;
 
   getImageByIndex(apiService, props.index, settingsStore.camera.imageQuality, 0.5)
-  .then((image) => {
-    fullResImage.value = `data:image/jpeg;base64,${image}`;
-  }).finally(() => {
-    isLoadingModal.value = false;
-  });
+    .then((image) => {
+      fullResImage.value = `data:image/jpeg;base64,${image}`;
+    })
+    .finally(() => {
+      isLoadingModal.value = false;
+    });
 }
 
 function closeModal() {

@@ -1,7 +1,8 @@
 <template>
-  <div class="grid grid-cols-1 gap-2">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 lg:gap-5">
     <div v-for="image in imageHistory" v-bind:key="image.data" class="relative">
       <SequenceImage
+        :index="image.index"
         :image="image.data"
         :stats="image.stats"
         :showStats="settingsStore.monitorViewSetting.showImageStats"
@@ -21,31 +22,15 @@ import SequenceImage from '@/components/sequence/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
+import { getImageByIndex } from '@/utils/sequence';
 
 const imageHistory = ref([]);
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const isLoadingImages = ref(false);
 
-async function getImageByIndex(index) {
-  try {
-    const result = await apiService.getSequenceImage(
-      index,
-      settingsStore.camera.imageQuality,
-      true,
-      0.5
-    );
-    if (result.StatusCode != 200) {
-      console.error('Unknown error: Check NINA Logs for more information');
-      return;
-    }
-    const image = result?.Response;
-    return image;
-  } catch (error) {
-    console.error(`An error happened while getting image with index ${index}`, error.message);
-    return;
-  }
-}
+const minQuality = settingsStore.camera.imageQuality <= 40 ? settingsStore.camera.imageQuality : 40;
+const minScale = 0.3;
 
 function addImageToHistory(imageIndex, imageData, stats) {
   imageHistory.value.push({
@@ -71,7 +56,8 @@ watch(
         await wait(3000); // Wait 3 seconds. The image may not be available yet.
         isLoadingImages.value = true;
         const stats = newVal[latestIndex];
-        const image = await getImageByIndex(latestIndex);
+
+        const image = await getImageByIndex(apiService, latestIndex, minQuality, minScale);
         addImageToHistory(latestIndex, image, stats);
         isLoadingImages.value = false;
       }
@@ -84,7 +70,7 @@ onMounted(async () => {
   isLoadingImages.value = true;
 
   for (const imageIndex in store.imageHistoryInfo) {
-    const image = await getImageByIndex(imageIndex);
+    const image = await getImageByIndex(apiService, imageIndex, minQuality, minScale);
     const stats = store.imageHistoryInfo[imageIndex];
     addImageToHistory(imageIndex, image, stats);
   }

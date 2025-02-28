@@ -10,6 +10,7 @@
     </div>
     <SequenceImage
       v-else-if="settingsStore.monitorViewSetting.showImage && imageData"
+      :index="lastImgIndex"
       :image="imageData"
       :showStats="settingsStore.monitorViewSetting.showImageStats"
       :stats="{
@@ -35,12 +36,10 @@ import apiService from '@/services/apiService';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 
 let isLoadingImg = ref(true);
-let isLoadingModal = ref(false);
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const imageData = ref(null);
-const imageDataModal = ref(null);
 const Filter = ref(null);
 const HFR = ref(null);
 const Mean = ref(null);
@@ -51,7 +50,6 @@ const Stars = ref(null);
 const Temperature = ref(null);
 const ExposureTime = ref(null);
 const dateValue = ref(null);
-const showModal = ref(false);
 const lastImgIndex = ref(null);
 
 async function wait(ms) {
@@ -74,29 +72,6 @@ async function getlastImage(index, quality, resize, scale) {
       lastImgIndex.value = index;
       isLoadingImg.value = false;
       console.log('isLoadingImg: ', isLoadingImg.value, 'lastImgIndex', lastImgIndex.value);
-    }
-  } catch (error) {
-    console.error('Fehler beim Abrufen des Bildes:', error.message);
-  }
-}
-
-async function getlastModalImage(index, quality, resize, scale) {
-  console.log(
-    'getlastModalImage: Index ',
-    index,
-    'Quality: ',
-    quality,
-    'Resize: ',
-    resize,
-    'Scale: ',
-    scale
-  );
-  try {
-    const resultModal = await apiService.getSequenceImage(index, quality, false, scale);
-    const imageModal = resultModal?.Response;
-    if (imageModal) {
-      imageDataModal.value = `data:image/jpeg;base64,${imageModal}`;
-      isLoadingModal.value = false;
     }
   } catch (error) {
     console.error('Fehler beim Abrufen des Bildes:', error.message);
@@ -132,9 +107,6 @@ watch(
       await wait(3000); // Wait 3 seconds. The image may not be available yet.
 
       getlastImage(latestIndex, settingsStore.camera.imageQuality, true, 0.5);
-      if (showModal.value) {
-        getlastModalImage(latestIndex, 90, true, 0.8);
-      }
     }
   },
   { immediate: false }

@@ -96,11 +96,43 @@ onMounted(() => {
             // Setze die Stellarium-Zeit
             stel.core.observer.utc = mjd;
           }
+          setTime(21, 0);
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
           const core = stel.core;
+          console.log('Stellarium core:', core);
           const baseUrl = '/stellarium-data/';
 
+          if (core.dsos && typeof core.dsos.addDataSource === 'function') {
+            try {
+              core.dsos.addDataSource({ url: baseUrl + 'dso', key: 'dso' });
+              console.log('✅ DSO Datenquelle wurde hinzugefügt:', baseUrl + 'dso');
+            } catch (err) {
+              console.error('❌ Fehler beim Hinzufügen der DSO Datenquelle:', err);
+            }
+          } else {
+            console.error('❌ core.dsos oder addDataSource() ist nicht verfügbar!');
+          }
+
+          if (core) {
+            core.stars.addDataSource({ url: baseUrl + 'stars' });
+          } else {
+            console.error('core.dsos ist nicht definiert!');
+          }
+
+          setTimeout(() => {
+            if (core) {
+              core.landscapes.addDataSource({
+                url: baseUrl + 'landscapes/guereins',
+                key: 'guereins',
+              });
+            } else {
+              console.error('core oder core.dsos ist nicht verfügbar.');
+            }
+          }, 2000);
+
+          /*
+          //core.dsos.addDataSource({ url: baseUrl + 'dso' }).catch(console.error);
           core.stars.addDataSource({ url: baseUrl + 'stars' });
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
@@ -112,7 +144,7 @@ onMounted(() => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           // core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat',});
-
+          */
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
 

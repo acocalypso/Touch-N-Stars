@@ -10,6 +10,7 @@
     </div>
     <SequenceImage
       v-else-if="settingsStore.monitorViewSetting.showImage && imageData"
+      :index="lastImgIndex"
       :image="imageData"
       :showStats="settingsStore.monitorViewSetting.showImageStats"
       :stats="{
@@ -51,7 +52,6 @@ const Stars = ref(null);
 const Temperature = ref(null);
 const ExposureTime = ref(null);
 const dateValue = ref(null);
-const showModal = ref(false);
 const lastImgIndex = ref(null);
 
 async function wait(ms) {
@@ -132,9 +132,6 @@ watch(
       await wait(3000); // Wait 3 seconds. The image may not be available yet.
 
       getlastImage(latestIndex, settingsStore.camera.imageQuality, true, 0.5);
-      if (showModal.value) {
-        getlastModalImage(latestIndex, 90, true, 0.8);
-      }
     }
   },
   { immediate: false }

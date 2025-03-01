@@ -13,7 +13,7 @@
 
     <!-- Overlay für das Suchfeld -->
     <div v-if="isSearchVisible" class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80">
-      <steallriumSearch />
+      <steallriumSearch ref="searchComponent" />
     </div>
 
     <!-- Overlay für das ausgewählte Objekt -->
@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, nextTick } from 'vue';
 import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -58,11 +58,19 @@ const selectedObjectDecDeg = ref(null);
 const stelInstance = ref(null);
 const wasmPath = '/stellarium/stellarium-web-engine.wasm';
 const isSearchVisible = ref(false);
+const searchComponent = ref(null);
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
 function toggleSearch() {
   isSearchVisible.value = !isSearchVisible.value;
+
+  if (isSearchVisible.value) {
+    nextTick(() => {
+      searchComponent.value?.focusSearchInput();
+    });
+  }
 }
+
 
 // Framing-Koordinaten
 function setFramingCoordinates() {
@@ -79,11 +87,13 @@ function setFramingCoordinates() {
 
 // Hilfsmethode, um zu RA/Dec zu schwenken
 function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
-  if (!stelInstance.value) {
+  if (!stellariumStore.stel) {
     console.error('Stellarium instance is not ready yet.');
     return;
   }
-  const stel = stelInstance.value;
+  const stel = stellariumStore.stel;
+
+
   stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround damit die Daten richtig berechnet werden
 
   const ra_rad = ra_deg * stel.D2R;
@@ -129,7 +139,7 @@ onMounted(async () => {
         canvas: stelCanvas.value,
         onReady(stel) {
           console.log('Stellarium ist bereit!', stel);
-          stelInstance.value = stel;
+          stellariumStore.stel = stel;
 
           // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;

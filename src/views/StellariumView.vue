@@ -4,20 +4,23 @@
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
     <!-- Button für das Suchfeld (Lupe) -->
-    <button 
-      @click="toggleSearch" 
-      class="absolute bottom-5 left-2 p-2  rounded-full shadow-md"
-    >
+    <button @click="toggleSearch" class="absolute bottom-5 left-2 p-2 rounded-full shadow-md">
       <MagnifyingGlassCircleIcon class="w-12 h-12 text-white" />
     </button>
 
     <!-- Overlay für das Suchfeld -->
-    <div v-if="isSearchVisible" class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80">
+    <div
+      v-if="isSearchVisible"
+      class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+    >
       <steallriumSearch ref="searchComponent" />
     </div>
 
     <!-- Overlay für das ausgewählte Objekt -->
-    <div v-if="selectedObject" class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]">
+    <div
+      v-if="selectedObject"
+      class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
+    >
       <h3 class="text-lg font-semibold">Ausgewähltes Objekt:</h3>
       <ul class="mt-2">
         <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
@@ -26,7 +29,10 @@
       </ul>
       <p class="mt-2 text-sm">Rektaszension: {{ selectedObjectRa }}</p>
       <p class="text-sm">Deklination: {{ selectedObjectDec }}</p>
-      <button @click="setFramingCoordinates" class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md">
+      <button
+        @click="setFramingCoordinates"
+        class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
+      >
         Go to Framing
       </button>
     </div>
@@ -42,7 +48,7 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
-import {MagnifyingGlassCircleIcon} from '@heroicons/vue/24/outline';
+import { MagnifyingGlassCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -55,7 +61,6 @@ const selectedObjectRa = ref(null);
 const selectedObjectDec = ref(null);
 const selectedObjectRaDeg = ref(null);
 const selectedObjectDecDeg = ref(null);
-const stelInstance = ref(null);
 const wasmPath = '/stellarium/stellarium-web-engine.wasm';
 const isSearchVisible = ref(false);
 const searchComponent = ref(null);
@@ -70,7 +75,6 @@ function toggleSearch() {
     });
   }
 }
-
 
 // Framing-Koordinaten
 function setFramingCoordinates() {
@@ -92,7 +96,6 @@ function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
     return;
   }
   const stel = stellariumStore.stel;
-
 
   stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround damit die Daten richtig berechnet werden
 
@@ -242,7 +245,6 @@ onMounted(async () => {
   };
   document.head.appendChild(script);
 });
-
 </script>
 
 <style scoped>
@@ -259,5 +261,4 @@ onMounted(async () => {
   width: 100%;
   height: 100%;
 }
-
 </style>

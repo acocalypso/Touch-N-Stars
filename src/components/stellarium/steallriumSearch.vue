@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onMounted, defineExpose } from 'vue';
+import { ref, nextTick, defineExpose } from 'vue';
 import apiService from '@/services/apiService';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
@@ -54,7 +54,7 @@ const celestialBodies = [
   { Name: 'Saturn', Type: 'Planet' },
   { Name: 'Uranus', Type: 'Planet' },
   { Name: 'Neptune', Type: 'Planet' },
-  { Name: 'Pluto', Type: 'Planet' }
+  { Name: 'Pluto', Type: 'Planet' },
 ];
 
 async function fetchTargetSearch() {
@@ -67,7 +67,7 @@ async function fetchTargetSearch() {
     let results = Array.isArray(data) ? data : [];
 
     // Planeten zur Liste hinzufügen, falls sie dem Suchbegriff entsprechen
-    const celestialBodiesResults = celestialBodies.filter(body =>
+    const celestialBodiesResults = celestialBodies.filter((body) =>
       body.Name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
 
@@ -107,5 +107,4 @@ async function focusSearchInput() {
 
 // Expose function for parent component
 defineExpose({ focusSearchInput });
-
 </script>

@@ -242,7 +242,7 @@
         </div>
         <div>
           <router-link to="/stellarium" class="nav-button" active-class="active-nav-button">
-            <ListBulletIcon
+            <SparklesIcon
               class="icon"
               :class="store.sequenceRunning ? 'text-green-500' : 'text-white'"
             />
@@ -272,6 +272,7 @@ import {
   Cog6ToothIcon,
   LightBulbIcon,
   AdjustmentsVerticalIcon,
+  SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';

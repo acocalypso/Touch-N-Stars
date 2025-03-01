@@ -3,22 +3,32 @@
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
+    <!-- Button für das Suchfeld (Lupe) -->
+    <button 
+      @click="toggleSearch" 
+      class="absolute bottom-5 left-2 p-2  rounded-full shadow-md"
+    >
+      <MagnifyingGlassCircleIcon class="w-12 h-12 text-white" />
+    </button>
+
     <!-- Overlay für das Suchfeld -->
-    <div class="search-overlay">
+    <div v-if="isSearchVisible" class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80">
       <steallriumSearch />
     </div>
 
     <!-- Overlay für das ausgewählte Objekt -->
-    <div v-if="selectedObject" class="selected-object-overlay">
-      <h3>Ausgewähltes Objekt:</h3>
-      <ul>
-        <li v-for="(name, index) in selectedObject" :key="index">
+    <div v-if="selectedObject" class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]">
+      <h3 class="text-lg font-semibold">Ausgewähltes Objekt:</h3>
+      <ul class="mt-2">
+        <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
           {{ name }}
         </li>
       </ul>
-      <p>Rektaszension: {{ selectedObjectRa }}</p>
-      <p>Deklination: {{ selectedObjectDec }}</p>
-      <button @click="setFramingCoordinates" class="p-3 bg-gray-600">go to Framing</button>
+      <p class="mt-2 text-sm">Rektaszension: {{ selectedObjectRa }}</p>
+      <p class="text-sm">Deklination: {{ selectedObjectDec }}</p>
+      <button @click="setFramingCoordinates" class="mt-3 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg">
+        Go to Framing
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +42,7 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
+import {MagnifyingGlassCircleIcon} from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -45,9 +56,54 @@ const selectedObjectDec = ref(null);
 const selectedObjectRaDeg = ref(null);
 const selectedObjectDecDeg = ref(null);
 const stelInstance = ref(null);
-
 const wasmPath = '/stellarium/stellarium-web-engine.wasm';
+const isSearchVisible = ref(false);
 
+// Funktion zum Ein-/Ausblenden des Suchfeldes
+function toggleSearch() {
+  isSearchVisible.value = !isSearchVisible.value;
+}
+
+// Framing-Koordinaten
+function setFramingCoordinates() {
+  framingStore.RAangleString = selectedObjectRa.value;
+  framingStore.DECangleString = selectedObjectDec.value;
+  framingStore.RAangle = selectedObjectRaDeg.value;
+  framingStore.DECangle = selectedObjectDecDeg.value;
+  framingStore.selectedItem = selectedObject.value;
+  console.log('Set Framing Coordinates');
+  store.mount.currentTab = 'showSlew';
+  console.log('store.mount.currentTab', store.mount.currentTab);
+  router.push('/mount');
+}
+
+// Hilfsmethode, um zu RA/Dec zu schwenken
+function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
+  if (!stelInstance.value) {
+    console.error('Stellarium instance is not ready yet.');
+    return;
+  }
+  const stel = stelInstance.value;
+  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround damit die Daten richtig berechnet werden
+
+  const ra_rad = ra_deg * stel.D2R;
+  const dec_rad = dec_deg * stel.D2R;
+
+  const icrfVec = stel.s2c(ra_rad, dec_rad);
+  const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
+
+  stel.lookAt(observedVec, duration_sec);
+  stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
+}
+
+watch(
+  () => stellariumStore.search.DECangleString,
+  (newValue) => {
+    console.log('selectedObject:', newValue);
+    moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle);
+    stellariumStore.search.DECangleString = '';
+  }
+);
 onMounted(async () => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
@@ -98,19 +154,19 @@ onMounted(async () => {
             // Setze die Stellarium-Zeit
             stel.core.observer.utc = mjd;
           }
-          setTime(21, 0);
+          //setTime(21, 0);
+          // Zeitgeschwindigkeit auf 1 setzen
+          stel.core.time_speed = 1;
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
+          //IP und Port vom Plugin ermitteln
           const protocol = settingsStore.backendProtocol || 'http';
           const host = settingsStore.connection.ip || window.location.hostname;
           const port = settingsStore.connection.port || 5000;
-
           const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
-
           const core = stel.core;
-          console.log('Stellarium core:', core);
-          //const baseUrl = 'http://192.168.2.129:5000/stellarium-data/';
 
+          //Daten hinzufügen
           core.stars.addDataSource({ url: baseUrl + 'stars' });
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
@@ -122,9 +178,6 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           // core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat',});
-
-          // Zeitgeschwindigkeit auf 1 setzen
-          stel.core.time_speed = 1;
 
           // Sternbilder-Linien & Labels
           core.constellations.lines_visible = true;
@@ -145,6 +198,7 @@ onMounted(async () => {
                 return;
               }
               if (stel.core.selection) {
+                isSearchVisible.value = false;
                 const selectedDesignations = stel.core.selection.designations();
                 selectedObject.value = selectedDesignations;
                 console.log('Objekt-Bezeichnungen:', selectedDesignations);
@@ -179,47 +233,6 @@ onMounted(async () => {
   document.head.appendChild(script);
 });
 
-// Deine Methode zum Setzen der Framing-Koordinaten
-function setFramingCoordinates() {
-  framingStore.RAangleString = selectedObjectRa.value;
-  framingStore.DECangleString = selectedObjectDec.value;
-  framingStore.RAangle = selectedObjectRaDeg.value;
-  framingStore.DECangle = selectedObjectDecDeg.value;
-  framingStore.selectedItem = selectedObject.value;
-  console.log('Set Framing Coordinates');
-  store.mount.currentTab = 'showSlew';
-  console.log('store.mount.currentTab', store.mount.currentTab);
-  router.push('/mount');
-}
-
-// Hilfsmethode, um zu RA/Dec zu schwenken
-function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
-  if (!stelInstance.value) {
-    console.error('Stellarium instance is not ready yet.');
-    return;
-  }
-  const stel = stelInstance.value;
-  stel.getObj('NAME Mars').getInfo('pvo', stel.observer);
-
-  const ra_rad = ra_deg * stel.D2R;
-  const dec_rad = dec_deg * stel.D2R;
-
-  const icrfVec = stel.s2c(ra_rad, dec_rad);
-  const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-
-  stel.lookAt(observedVec, duration_sec);
-  stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
-}
-
-// Watcher für Store-Änderungen (z. B. Suchen)
-watch(
-  () => stellariumStore.search.DECangleString,
-  (newValue) => {
-    console.log('selectedObject:', newValue);
-    moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle);
-    stellariumStore.search.DECangleString = '';
-  }
-);
 </script>
 
 <style scoped>
@@ -228,7 +241,7 @@ watch(
   top: 10;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 87vh;
   z-index: 0;
 }
 
@@ -237,30 +250,4 @@ watch(
   height: 100%;
 }
 
-.selected-object-overlay {
-  position: fixed;
-  top: 140px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
-  min-width: 250px;
-  z-index: 100;
-}
-
-.search-overlay {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 10px;
-  border-radius: 8px;
-  color: white;
-  min-width: 300px;
-}
 </style>

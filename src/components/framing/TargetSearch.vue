@@ -92,14 +92,6 @@
         </button>
       </div>
 
-      <!-- Toggle Switch for Coordinate Mode -->
-      <div class="flex items-center mb-4">
-        <span class="mr-2 font-bold text-white">
-          {{ useAltAz ? 'ALT: AZ:' : 'RA: DEC:' }}
-        </span>
-        <input type="checkbox" v-model="useAltAz" @change="updateRaDec" />
-      </div>
-
       <!-- Slew and Center Component -->
       <!--
            The slewAndCenter component is passed:
@@ -111,7 +103,6 @@
         <slewAndCenter
           v-model:RAangleString="framingStore.RAangleString"
           v-model:DECangleString="framingStore.DECangleString"
-          :mode="useAltAz ? 'altaz' : 'radec'"
           @slew="slew"
         />
       </div>
@@ -167,9 +158,6 @@ const settingsStore = useSettingsStore();
 const stars = ref([]);
 const selectedStar = ref(null);
 const currentSiderealTime = ref(0);
-
-// Toggle for coordinate display mode: false = RA/DEC, true = ALT/AZ.
-const useAltAz = ref(false);
 
 // Computed property to filter visible stars and calculate Alt/Az.
 const visibleStars = computed(() => {
@@ -301,14 +289,8 @@ function convertDECtoDegrees(dec) {
 // In ALT/AZ mode the values are converted using calculateAltAz.
 async function updateRaDec() {
   if (selectedStar.value) {
-    if (useAltAz.value) {
-      const altAz = calculateAltAz(selectedStar.value.raDeg, selectedStar.value.decDeg);
-      framingStore.RAangleString = altAz.alt.toFixed(1) + '°';
-      framingStore.DECangleString = altAz.az.toFixed(1) + '°';
-    } else {
-      framingStore.RAangleString = degreesToHMS(selectedStar.value.raDeg);
-      framingStore.DECangleString = degreesToDMS(selectedStar.value.decDeg);
-    }
+    framingStore.RAangleString = degreesToHMS(selectedStar.value.raDeg);
+    framingStore.DECangleString = degreesToDMS(selectedStar.value.decDeg);
     framingStore.RAangle = selectedStar.value.raDeg;
     framingStore.DECangle = selectedStar.value.decDeg;
     framingStore.selectedItem = {
@@ -401,53 +383,10 @@ function dmsToDegrees(dms) {
   return sign * (Math.abs(d) + m / 60 + s / 3600);
 }
 
-// Converts Alt/Az values to RA/DEC.
-// Uses the observer’s latitude and the local sidereal time.
-function calculateRaDecFromAltAz(alt_deg, az_deg) {
-  const lat_rad = (settingsStore.coordinates.latitude * Math.PI) / 180;
-  const alt_rad = (alt_deg * Math.PI) / 180;
-  const az_rad = (az_deg * Math.PI) / 180;
-  const sinDec =
-    Math.sin(lat_rad) * Math.sin(alt_rad) +
-    Math.cos(lat_rad) * Math.cos(alt_rad) * Math.cos(az_rad);
-  const dec_rad = Math.asin(sinDec);
-  const HA_rad = Math.atan2(
-    Math.sin(az_rad) * Math.cos(alt_rad),
-    Math.cos(lat_rad) * Math.sin(alt_rad) - Math.sin(lat_rad) * Math.cos(alt_rad) * Math.cos(az_rad)
-  );
-  const now = new Date();
-  const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
-  const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  const LMST = (GMST + settingsStore.coordinates.longitude / 15) % 24; // in hours
-  const LST_deg = LMST * 15;
-  const LST_rad = (LST_deg * Math.PI) / 180;
-  let RA_rad = LST_rad - HA_rad;
-  RA_rad = ((RA_rad % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-  const RA_deg = (RA_rad * 180) / Math.PI;
-  const DEC_deg = (dec_rad * 180) / Math.PI;
-  return { RA_deg, DEC_deg };
-}
-
-// --- Slew function ---
-// This function is triggered (via the "slew" event) when the user requests a slew.
-// It checks the mode: if in ALT/AZ mode, it converts the displayed alt/az values
-// to RA/DEC. Otherwise, it parses the HMS/DMS input values.
-// Then it calls the API with the RA/DEC coordinates.
 async function slew() {
   let RA_deg, DEC_deg;
-  if (useAltAz.value) {
-    // In ALT/AZ mode, assume the RAangleString shows the altitude and the DECangleString shows the azimuth.
-    const alt_str = framingStore.RAangleString.replace(/[^\d.-]/g, '');
-    const az_str = framingStore.DECangleString.replace(/[^\d.-]/g, '');
-    const alt = parseFloat(alt_str);
-    const az = parseFloat(az_str);
-    const res = calculateRaDecFromAltAz(alt, az);
-    RA_deg = res.RA_deg;
-    DEC_deg = res.DEC_deg;
-  } else {
-    RA_deg = hmsToDegrees(framingStore.RAangleString);
-    DEC_deg = dmsToDegrees(framingStore.DECangleString);
-  }
+  RA_deg = hmsToDegrees(framingStore.RAangleString);
+  DEC_deg = dmsToDegrees(framingStore.DECangleString);
   try {
     await apiService.setFramingCoordinates(RA_deg, DEC_deg);
   } catch (error) {

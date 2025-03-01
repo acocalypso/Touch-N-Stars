@@ -26,7 +26,7 @@
       </ul>
       <p class="mt-2 text-sm">Rektaszension: {{ selectedObjectRa }}</p>
       <p class="text-sm">Deklination: {{ selectedObjectDec }}</p>
-      <button @click="setFramingCoordinates" class="mt-3 px-4 py-2 bg-gray-600 hover:bg-gray-500 rounded-lg">
+      <button @click="setFramingCoordinates" class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md">
         Go to Framing
       </button>
     </div>

@@ -29,12 +29,14 @@ import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const stellariumStore = useStellariumStore();
+const settingsStore = useSettingsStore();
 const router = useRouter();
 const stelCanvas = ref(null);
 const selectedObject = ref(null);
@@ -46,7 +48,7 @@ const stelInstance = ref(null);
 
 const wasmPath = '/stellarium/stellarium-web-engine.wasm';
 
-onMounted(() => {
+onMounted(async () => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
   script.src = '/stellarium/stellarium-web-engine.js';
@@ -99,40 +101,16 @@ onMounted(() => {
           setTime(21, 0);
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
+          const protocol = settingsStore.backendProtocol || 'http';
+          const host = settingsStore.connection.ip || window.location.hostname;
+          const port = settingsStore.connection.port || 5000;
+
+          const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
+
           const core = stel.core;
           console.log('Stellarium core:', core);
-          const baseUrl = '/stellarium-data/';
+          //const baseUrl = 'http://192.168.2.129:5000/stellarium-data/';
 
-          if (core.dsos && typeof core.dsos.addDataSource === 'function') {
-            try {
-              core.dsos.addDataSource({ url: baseUrl + 'dso', key: 'dso' });
-              console.log('✅ DSO Datenquelle wurde hinzugefügt:', baseUrl + 'dso');
-            } catch (err) {
-              console.error('❌ Fehler beim Hinzufügen der DSO Datenquelle:', err);
-            }
-          } else {
-            console.error('❌ core.dsos oder addDataSource() ist nicht verfügbar!');
-          }
-
-          if (core) {
-            core.stars.addDataSource({ url: baseUrl + 'stars' });
-          } else {
-            console.error('core.dsos ist nicht definiert!');
-          }
-
-          setTimeout(() => {
-            if (core) {
-              core.landscapes.addDataSource({
-                url: baseUrl + 'landscapes/guereins',
-                key: 'guereins',
-              });
-            } else {
-              console.error('core oder core.dsos ist nicht verfügbar.');
-            }
-          }, 2000);
-
-          /*
-          //core.dsos.addDataSource({ url: baseUrl + 'dso' }).catch(console.error);
           core.stars.addDataSource({ url: baseUrl + 'stars' });
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
@@ -144,7 +122,7 @@ onMounted(() => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           // core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat',});
-          */
+
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
 

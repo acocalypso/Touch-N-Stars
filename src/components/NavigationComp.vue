@@ -240,11 +240,10 @@
             </svg>
           </router-link>
         </div>
-        <div>
+        <div v-if="store.isBackendReachable">
           <router-link to="/stellarium" class="nav-button" active-class="active-nav-button">
             <SparklesIcon
               class="icon"
-              :class="store.sequenceRunning ? 'text-green-500' : 'text-white'"
             />
           </router-link>
         </div>

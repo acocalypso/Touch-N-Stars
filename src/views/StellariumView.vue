@@ -4,8 +4,8 @@
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
     <!-- Button für das Suchfeld (Lupe) -->
-    <button @click="toggleSearch" class="absolute bottom-5 left-2 p-2 rounded-full shadow-md">
-      <MagnifyingGlassCircleIcon class="w-12 h-12 text-white" />
+    <button @click="toggleSearch" class="absolute top-3  right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md">
+      <MagnifyingGlassIcon class="w-7 h-7 text-white" />
     </button>
 
     <!-- Overlay für das Suchfeld -->
@@ -48,7 +48,7 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
-import { MagnifyingGlassCircleIcon } from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -70,6 +70,7 @@ function toggleSearch() {
   isSearchVisible.value = !isSearchVisible.value;
 
   if (isSearchVisible.value) {
+    selectedObject.value = null;
     nextTick(() => {
       searchComponent.value?.focusSearchInput();
     });
@@ -167,7 +168,7 @@ onMounted(async () => {
             // Setze die Stellarium-Zeit
             stel.core.observer.utc = mjd;
           }
-          //setTime(21, 0);
+          setTime(21, 0);
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
 

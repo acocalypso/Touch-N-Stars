@@ -45,6 +45,9 @@ export const apiStore = defineStore('store', {
     minimumApiVersion: '2.1.7.0',
     currentApiVersion: null,
     isVersionNewerOrEqual: false,
+    mount: {
+      currentTab: 'showMount',
+    },
   }),
 
   actions: {
@@ -136,7 +139,6 @@ export const apiStore = defineStore('store', {
           apiService.flatdeviceAction('info'),
           apiService.domeAction('info'),
           apiService.guiderAction('graph'),
-          //apiService.fetchGuiderChartData(),
           apiService.safetyAction('info'),
           apiService.weatherAction('info'),
           apiService.switchAction('info'),
@@ -286,7 +288,6 @@ export const apiStore = defineStore('store', {
 
       if (guiderResponse.Success) {
         this.guiderInfo = guiderResponse.Response;
-        //console.log(this.guiderInfo);
       } else {
         console.error('Fehler in der Guider-API-Antwort:', guiderResponse.Error);
       }
@@ -306,7 +307,6 @@ export const apiStore = defineStore('store', {
       if (guiderChartResponse.Success) {
         this.processGuiderChartDataApi(guiderChartResponse.Response);
         this.guiderChartInfo = guiderChartResponse.Response;
-        //console.log(this.guiderChartInfo.HistorySize);
       } else {
         console.error('Fehler in der Guider-Chart-API-Antwort:', guiderChartResponse);
       }
@@ -340,8 +340,6 @@ export const apiStore = defineStore('store', {
       this.DECDistanceRaw = data.GuideSteps.map((step) =>
         typeof step.DECDistanceRaw === 'number' ? step.DECDistanceRawDisplay : 0
       );
-      //console.log('ra: ' ,this.RADistanceRaw);
-      //console.log('dec: ' ,this.DECDistanceRaw);
     },
 
     startFetchingInfo() {
@@ -368,7 +366,6 @@ export const apiStore = defineStore('store', {
 
         if (profileInfoResponse && profileInfoResponse.Response) {
           this.profileInfo = profileInfoResponse.Response;
-          //console.log('Profilinformationen abgerufen:', this.profileInfo);
           this.getExistingEquipment(this.profileInfo);
         } else {
           console.error('Fehler in der Profil-API-Antwort:', profileInfoResponse?.Error);
@@ -432,7 +429,6 @@ export const apiStore = defineStore('store', {
           }
         }
       });
-      //console.log(this.existingEquipmentList);
     },
 
     setDefaultCameraSettings() {
@@ -441,16 +437,11 @@ export const apiStore = defineStore('store', {
       cStore.coolingTemp = cameraSettings.Temperature ?? -10;
       cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
       cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
-      // cStore.gain = cameraSettings.Gain ?? 0;
-      // cStore.buttonCoolerOn = this.cameraInfo?.CoolerOn ?? false;
-      // cStore.offset = cameraSettings.Offset ?? 0;
       console.log(
         'Kameraeinstellungen gesetzt:',
         cStore.coolingTemp,
         cStore.coolingTime,
         cStore.warmingTime
-        //  cStore.gain,
-        // cStore.offset
       );
     },
     setDefaultRotatorSettings() {

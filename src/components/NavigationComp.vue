@@ -240,6 +240,13 @@
             </svg>
           </router-link>
         </div>
+        <div v-if="store.isBackendReachable">
+          <router-link to="/stellarium" class="nav-button" active-class="active-nav-button">
+            <SparklesIcon
+              class="icon"
+            />
+          </router-link>
+        </div>
         <button
           @click="store.showSettings = true"
           class="nav-button"
@@ -264,6 +271,7 @@ import {
   Cog6ToothIcon,
   LightBulbIcon,
   AdjustmentsVerticalIcon,
+  SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';

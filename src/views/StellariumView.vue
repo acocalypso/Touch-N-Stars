@@ -168,7 +168,7 @@ onMounted(async () => {
             // Setze die Stellarium-Zeit
             stel.core.observer.utc = mjd;
           }
-          setTime(21, 0);
+          //setTime(21, 0);
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
 

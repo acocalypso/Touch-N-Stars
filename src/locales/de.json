@@ -460,6 +460,14 @@
     "switch": {
       "gauges": "Messwerte",
       "switch": "Schalter"
+    },
+    "stellarium": {
+      "selected_object": {
+        "button_framing": "in Framing übernehmen",
+        "dec": "Dez",
+        "ra": "Ra",
+        "title": "Ausgewähltes Objekt"
+      }
     }
   }
 }

@@ -4,7 +4,10 @@
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
     <!-- Button für das Suchfeld (Lupe) -->
-    <button @click="toggleSearch" class="absolute top-3  right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md">
+    <button
+      @click="toggleSearch"
+      class="absolute top-3 right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+    >
       <MagnifyingGlassIcon class="w-7 h-7 text-white" />
     </button>
 
@@ -21,19 +24,25 @@
       v-if="selectedObject"
       class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
     >
-      <h3 class="text-lg font-semibold">{{ $t('components.stellarium.selected_object.title') }}:</h3>
+      <h3 class="text-lg font-semibold">
+        {{ $t('components.stellarium.selected_object.title') }}:
+      </h3>
       <ul class="mt-2">
         <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
           {{ name }}
         </li>
       </ul>
-      <p class="mt-2 text-sm">{{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa }}</p>
-      <p class="text-sm">{{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}</p>
+      <p class="mt-2 text-sm">
+        {{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa }}
+      </p>
+      <p class="text-sm">
+        {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
+      </p>
       <button
         @click="setFramingCoordinates"
         class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
       >
-      {{ $t('components.stellarium.selected_object.button_framing') }}
+        {{ $t('components.stellarium.selected_object.button_framing') }}
       </button>
     </div>
   </div>

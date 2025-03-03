@@ -33,6 +33,9 @@
       </svg>
     </div>
 
+    <!-- DateTime Control Component -->
+    <stellariumDateTime />
+
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
@@ -167,6 +170,7 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
+import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();

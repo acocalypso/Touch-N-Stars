@@ -460,6 +460,25 @@
       "start_sky_flat": "Démarrer le ciel à plat",
       "stop": "Arrêt",
       "title": "Assistant plat"
+    },
+    "stellarium": {
+      "datetime": {
+        "apply": "Appliquer",
+        "date": "Date",
+        "now": "Maintenant",
+        "speed": "Vitesse",
+        "time": "Temps",
+        "title": "Date"
+      },
+      "mount_position": {
+        "title": "Position de montage"
+      },
+      "selected_object": {
+        "button_framing": "aller au cadrage",
+        "dec": "DÉC",
+        "ra": "Rampe",
+        "title": "Objet sélectionné"
+      }
     }
   }
 }

@@ -460,6 +460,25 @@
       "start_sky_flat": "Comienza el cielo plano",
       "stop": "Detener",
       "title": "Asistente plano"
+    },
+    "stellarium": {
+      "datetime": {
+        "apply": "Aplicar",
+        "date": "Fecha",
+        "now": "Ahora",
+        "speed": "Velocidad",
+        "time": "Tiempo",
+        "title": "Fecha"
+      },
+      "mount_position": {
+        "title": "Posición de montaje"
+      },
+      "selected_object": {
+        "button_framing": "ir a la estructura",
+        "dec": "DIC",
+        "ra": "REAL ACADEMIA DE BELLAS ARTES",
+        "title": "Objeto seleccionado"
+      }
     }
   }
 }

@@ -467,6 +467,17 @@
         "dec": "Dez",
         "ra": "Ra",
         "title": "Ausgewähltes Objekt"
+      },
+      "datetime": {
+        "apply": "Anwenden",
+        "date": "Datum",
+        "now": "Jetzt",
+        "speed": "Geschwindigkeit",
+        "time": "Zeit",
+        "title": "Datum"
+      },
+      "mount_position": {
+        "title": "Position des Reittierens"
       }
     }
   }

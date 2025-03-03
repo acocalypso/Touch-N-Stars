@@ -460,6 +460,25 @@
       "start_sky_flat": "Start sky flat",
       "stop": "Stop",
       "title": "Flat assistant"
+    },
+    "stellarium": {
+      "datetime": {
+        "apply": "Apply",
+        "date": "Date",
+        "now": "Now",
+        "speed": "Speed",
+        "time": "Time",
+        "title": "Date"
+      },
+      "mount_position": {
+        "title": "Mount Position"
+      },
+      "selected_object": {
+        "button_framing": "go to framing",
+        "dec": "DEC",
+        "ra": "RA",
+        "title": "Selected object"
+      }
     }
   }
 }

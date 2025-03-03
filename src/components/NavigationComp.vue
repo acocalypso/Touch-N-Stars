@@ -242,9 +242,7 @@
         </div>
         <div v-if="store.isBackendReachable">
           <router-link to="/stellarium" class="nav-button" active-class="active-nav-button">
-            <SparklesIcon
-              class="icon"
-            />
+            <SparklesIcon class="icon" />
           </router-link>
         </div>
         <button

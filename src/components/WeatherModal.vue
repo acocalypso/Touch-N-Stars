@@ -360,7 +360,7 @@ const windDirection = computed(() => {
 });
 
 const windSpeedUnit = computed(() => {
-  return settingsStore.useImperialUnits ? 'mph' : 'km/h';
+  return settingsStore.useImperialUnits ? 'm/s' : 'm/s';
 });
 
 const cloudCover = computed(() => {

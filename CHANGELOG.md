@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Setup screen / Nina instance setup for Android only
+- Windspeed in weather modal
 
 ## [1.0.2.2] - 2025-02-23
 ### Added

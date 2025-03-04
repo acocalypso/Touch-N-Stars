@@ -61,7 +61,7 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
-import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
@@ -176,19 +176,6 @@ onMounted(async () => {
           console.log('Längengrad:', stel.core.observer.longitude);
           console.log('Höhe:', stel.core.observer.elevation);
 
-          // eslint-disable-next-line
-          function setTime(hour, minute) {
-            const now = new Date();
-            // Setze die gewünschte Uhrzeit (lokale Zeit)
-            now.setHours(hour, minute, 0, 0);
-            const utcTime = new Date(now.getTime());
-            // Konvertiere UTC-Zeit in Modified Julian Date (MJD)
-            const mjd = utcToMJD(utcTime);
-            console.log('MJD:', mjd);
-            console.log('UTC:', mjdToUTC(mjd));
-            // Setze die Stellarium-Zeit
-            stel.core.observer.utc = mjd;
-          }
           //setTime(21, 0);
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
@@ -205,6 +192,7 @@ onMounted(async () => {
           core.stars.addDataSource({ url: baseUrl + 'stars' });
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
+          core.dss.addDataSource({ url: baseUrl + 'surveys/dss' });
           core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
           core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });

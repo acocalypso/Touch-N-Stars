@@ -56,6 +56,9 @@
         {{ $t('components.stellarium.selected_object.button_framing') }}
       </button>
     </div>
+
+    <!-- Credits-->
+    <stellariumCredits />
   </div>
 </template>
 
@@ -71,6 +74,7 @@ import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
 import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();

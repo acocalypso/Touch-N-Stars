@@ -271,7 +271,7 @@ onBeforeUnmount(() => {
   top: 10;
   left: 0;
   width: 100vw;
-  height: 87vh;
+  height: calc(100dvh - 120px);
   z-index: 0;
 }
 

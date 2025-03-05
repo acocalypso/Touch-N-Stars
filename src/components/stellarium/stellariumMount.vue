@@ -50,7 +50,7 @@
     <!-- Mount position overlay -->
     <div
       v-if="showMountInfo"
-      class="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
+      class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
     >
       <h3 class="text-lg font-semibold">{{ $t('components.stellarium.mount_position.title') }}:</h3>
       <p class="mt-2 text-sm">
@@ -64,7 +64,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
-import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 import { useStellariumStore } from '@/store/stellariumStore';
 
 const props = defineProps({
@@ -79,6 +79,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['moveToPosition']);
+const store = apiStore();
 
 const stellariumStore = useStellariumStore();
 const mountPositionInterval = ref(null);
@@ -119,33 +120,28 @@ watch(
   }
 );
 
-onMounted(() => {
-  // Start polling mount position
-  mountPositionInterval.value = setInterval(async () => {
+watch(
+  () => store.mountInfo.RightAscension || store.mountInfo.Declination,
+  () => {
     if (stellariumStore.stel) {
-      try {
-        const response = await apiService.mountAction('info');
-        if (response.Success) {
-          const ra = response.Response.RightAscension;
-          const dec = response.Response.Declination;
+     
+        const ra = store.mountInfo.RightAscension;
+        const dec = store.mountInfo.Declination;
 
-          // Update displayed coordinates
-          mountRa.value = degreesToHMS(ra);
-          mountDec.value = degreesToDMS(dec);
-          mountRaDeg.value = ra;
-          mountDecDeg.value = dec;
+        // Update displayed coordinates
+        mountRa.value = degreesToHMS(ra);
+        mountDec.value = degreesToDMS(dec);
+        mountRaDeg.value = ra;
+        mountDecDeg.value = dec;
 
-          // Move Stellarium view only if auto-sync is enabled
-          if (autoSyncEnabled.value) {
-            emit('moveToPosition', ra, dec, 1, 50);
-          }
+        // Move Stellarium view only if auto-sync is enabled
+        if (autoSyncEnabled.value) {
+          emit('moveToPosition', ra, dec, 1, 50);
         }
-      } catch (error) {
-        console.error('Error fetching mount position:', error);
-      }
+      
     }
-  }, 5000);
-});
+  }
+);
 
 onBeforeUnmount(() => {
   // Clean up intervals and animation frames

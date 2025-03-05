@@ -6,14 +6,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import './assets/tailwind.css';
 import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
-import { Capacitor } from '@capacitor/core';
 
-// Only for capacitorJS and Android 15 waiting for proper styling outside frontend
-import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
-
-if (Capacitor.getPlatform() === 'android') {
-  EdgeToEdge.setBackgroundColor({ color: '#1F2937' });
-}
 // Tooltip directive
 const tooltipDirective = {
   mounted(el, binding) {

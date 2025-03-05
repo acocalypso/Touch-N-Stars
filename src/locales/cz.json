@@ -463,21 +463,21 @@
     },
     "stellarium": {
       "datetime": {
-        "apply": "Apply",
-        "date": "Date",
-        "now": "Now",
-        "speed": "Speed",
-        "time": "Time",
-        "title": "Date"
+        "apply": "Použít",
+        "date": "Datum",
+        "now": "Nyní",
+        "speed": "Rychlost",
+        "time": "Čas",
+        "title": "Datum"
       },
       "mount_position": {
-        "title": "Mount Position"
+        "title": "Pozice Montáže"
       },
       "selected_object": {
-        "button_framing": "go to framing",
+        "button_framing": "přejít na snímkování",
         "dec": "DEC",
         "ra": "RA",
-        "title": "Selected object"
+        "title": "Vybraný objekt"
       }
     }
   }

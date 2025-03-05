@@ -460,6 +460,25 @@
       "start_sky_flat": "Comece o céu",
       "stop": "Parar",
       "title": "Assistente plano"
+    },
+    "stellarium": {
+      "datetime": {
+        "apply": "Aplicar",
+        "date": "Data",
+        "now": "Agora",
+        "speed": "Velocidade",
+        "time": "Tempo",
+        "title": "Data"
+      },
+      "mount_position": {
+        "title": "Posição de montagem"
+      },
+      "selected_object": {
+        "button_framing": "vá para enquadrar",
+        "dec": "DEC",
+        "ra": "Ra",
+        "title": "Objeto selecionado"
+      }
     }
   }
 }

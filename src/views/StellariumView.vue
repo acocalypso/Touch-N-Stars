@@ -3,6 +3,9 @@
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
+    <!-- DateTime Control Component -->
+    <stellariumDateTime />
+
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
@@ -10,6 +13,14 @@
     >
       <MagnifyingGlassIcon class="w-7 h-7 text-white" />
     </button>
+
+    <!-- Mount Position Component -->
+    <stellariumMount
+      ref="mountComponent"
+      :canvasRef="stelCanvas"
+      :isSearchVisible="isSearchVisible"
+      @moveToPosition="moveToRaDec"
+    />
 
     <!-- Overlay für das Suchfeld -->
     <div
@@ -45,19 +56,25 @@
         {{ $t('components.stellarium.selected_object.button_framing') }}
       </button>
     </div>
+
+    <!-- Credits-->
+    <stellariumCredits />
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch, nextTick } from 'vue';
-import { utcToMJD, mjdToUTC, degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
+import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
+import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
+import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -73,6 +90,7 @@ const selectedObjectDecDeg = ref(null);
 const wasmPath = '/stellarium/stellarium-web-engine.wasm';
 const isSearchVisible = ref(false);
 const searchComponent = ref(null);
+const mountComponent = ref(null);
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
 function toggleSearch() {
@@ -99,15 +117,12 @@ function setFramingCoordinates() {
   router.push('/mount');
 }
 
-// Hilfsmethode, um zu RA/Dec zu schwenken
 function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
   if (!stellariumStore.stel) {
     console.error('Stellarium instance is not ready yet.');
     return;
   }
   const stel = stellariumStore.stel;
-
-  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //Workaround damit die Daten richtig berechnet werden
 
   const ra_rad = ra_deg * stel.D2R;
   const dec_rad = dec_deg * stel.D2R;
@@ -127,6 +142,7 @@ watch(
     stellariumStore.search.DECangleString = '';
   }
 );
+
 onMounted(async () => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
@@ -164,19 +180,6 @@ onMounted(async () => {
           console.log('Längengrad:', stel.core.observer.longitude);
           console.log('Höhe:', stel.core.observer.elevation);
 
-          // eslint-disable-next-line
-          function setTime(hour, minute) {
-            const now = new Date();
-            // Setze die gewünschte Uhrzeit (lokale Zeit)
-            now.setHours(hour, minute, 0, 0);
-            const utcTime = new Date(now.getTime());
-            // Konvertiere UTC-Zeit in Modified Julian Date (MJD)
-            const mjd = utcToMJD(utcTime);
-            console.log('MJD:', mjd);
-            console.log('UTC:', mjdToUTC(mjd));
-            // Setze die Stellarium-Zeit
-            stel.core.observer.utc = mjd;
-          }
           //setTime(21, 0);
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
@@ -193,6 +196,7 @@ onMounted(async () => {
           core.stars.addDataSource({ url: baseUrl + 'stars' });
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
+          core.dss.addDataSource({ url: baseUrl + 'surveys/dss' });
           core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
           core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
@@ -254,6 +258,10 @@ onMounted(async () => {
     }
   };
   document.head.appendChild(script);
+});
+
+onBeforeUnmount(() => {
+  // Cleanup handled by child components
 });
 </script>
 

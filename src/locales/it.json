@@ -460,6 +460,25 @@
       "start_sky_flat": "Inizia il cielo piatto",
       "stop": "Fermare",
       "title": "Assistente piatto"
+    },
+    "stellarium": {
+      "datetime": {
+        "apply": "Fare domanda a",
+        "date": "Data",
+        "now": "Ora",
+        "speed": "Velocità",
+        "time": "Tempo",
+        "title": "Data"
+      },
+      "mount_position": {
+        "title": "Posizione di montaggio"
+      },
+      "selected_object": {
+        "button_framing": "Vai a Framing",
+        "dec": "Dec",
+        "ra": "Ra",
+        "title": "Oggetto selezionato"
+      }
     }
   }
 }

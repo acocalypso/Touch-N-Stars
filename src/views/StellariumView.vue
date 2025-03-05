@@ -14,6 +14,8 @@
       <MagnifyingGlassIcon class="w-7 h-7 text-white" />
     </button>
 
+    <MountPosition v-if="stellariumStore.stel" :stel="stellariumStore.stel" />
+
     <!-- Mount Position Component -->
     <stellariumMount
       ref="mountComponent"
@@ -75,6 +77,7 @@ import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
+import MountPosition from '@/components/stellarium/MountPosition.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -123,13 +126,15 @@ function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
     return;
   }
   const stel = stellariumStore.stel;
-
+  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
+  //console.log('RA:', ra_deg, 'DEC:', dec_deg);
   const ra_rad = ra_deg * stel.D2R;
   const dec_rad = dec_deg * stel.D2R;
-
+  //console.log('RA:', ra_rad, 'DEC:', dec_rad);
   const icrfVec = stel.s2c(ra_rad, dec_rad);
+  //console.log('icrfVec:', icrfVec);
   const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-
+  //console.log('observedVec:', observedVec);
   stel.lookAt(observedVec, duration_sec);
   stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
 }
@@ -259,9 +264,21 @@ onMounted(async () => {
   };
   document.head.appendChild(script);
 });
-
 onBeforeUnmount(() => {
-  // Cleanup handled by child components
+  if (stellariumStore.stel) {
+    console.log('Stellarium wird zerstört...');
+
+    // Entferne die Stellarium-Instanz
+    stellariumStore.stel = null;
+
+    // Lösche das Canvas-Element (optional, falls nötig)
+    if (stelCanvas.value) {
+      stelCanvas.value.width = 0;
+      stelCanvas.value.height = 0;
+    }
+
+    console.log('Stellarium erfolgreich beendet.');
+  }
 });
 </script>
 

@@ -121,27 +121,38 @@ watch(
 );
 
 watch(
-  () => store.mountInfo.RightAscension || store.mountInfo.Declination,
-  () => {
+  () => [store.mountInfo.Coordinates.RADegrees, store.mountInfo.Coordinates.Dec],
+  ([newRa, newDec]) => {
     if (stellariumStore.stel) {
-     
-        const ra = store.mountInfo.RightAscension;
-        const dec = store.mountInfo.Declination;
+      const ra = newRa;
+      const dec = newDec;
+      console.log('Mount position:', ra, dec);
+      // Update displayed coordinates
+      mountRa.value = degreesToHMS(ra);
+      mountDec.value = degreesToDMS(dec);
+      mountRaDeg.value = ra;
+      mountDecDeg.value = dec;
 
-        // Update displayed coordinates
-        mountRa.value = degreesToHMS(ra);
-        mountDec.value = degreesToDMS(dec);
-        mountRaDeg.value = ra;
-        mountDecDeg.value = dec;
-
-        // Move Stellarium view only if auto-sync is enabled
-        if (autoSyncEnabled.value) {
-          emit('moveToPosition', ra, dec, 1, 50);
-        }
-      
+      // Move Stellarium view only if auto-sync is enabled
+      if (autoSyncEnabled.value) {
+        emit('moveToPosition', ra, dec, 1, 50);
+      }
     }
   }
 );
+onMounted(() => {
+  const ra = store.mountInfo.Coordinates.RADegrees;
+  const dec = store.mountInfo.Coordinates.Dec;
+
+  // Update displayed coordinates
+  mountRa.value = degreesToHMS(ra);
+  mountDec.value = degreesToDMS(dec);
+  mountRaDeg.value = ra;
+  mountDecDeg.value = dec;
+
+  console.log('Mount position:', ra, dec);
+  console.log('Mount position:', mountRa.value, mountDec.value);
+});
 
 onBeforeUnmount(() => {
   // Clean up intervals and animation frames

@@ -43,3 +43,5 @@ Ein besonderes Dankeschön an **Christian**, den Entwickler der **Advanced API**
 ### 🔍 Weitere Informationen
 - Mehr Details zur Anwendung und zur Nutzung findest du in unserem [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/releases](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki)).
 - Auf unserem  [YouTube-Kanal](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) gibt es Videoanleitungen und weitere Tipps zur Nutzung von Touch'N'Stars
+- [Stellarium Web engine](https://github.com/Stellarium/stellarium-web-engine)
+- [HIPS Bilder Copyright](https://archive.stsci.edu/dss/copyright.html)

@@ -1,32 +1,32 @@
 <template>
   <div>
     <!-- Mount Controls -->
-    <div class="absolute bottom-3 right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full ">
+    <div class="absolute bottom-3 right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
       <button
         @click="syncViewToMount"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md transition-all duration-200"
         :class="{ 'bg-cyan-600 border-white shadow-cyan-400': syncViewClicked }"
         title="Center view on mount position"
       >
-      <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M6 21l6 -5l6 5" />
-              <path d="M12 13v8" />
-              <path
-                d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
-              />
-              <path d="M14 5l3 5.5" />
-            </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 21l6 -5l6 5" />
+          <path d="M12 13v8" />
+          <path
+            d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
+          />
+          <path d="M14 5l3 5.5" />
+        </svg>
       </button>
       <button
         @click="toggleAutoSync"
@@ -171,8 +171,8 @@ watch(
 
       // Move Stellarium view only if auto-sync is enabled
       if (autoSyncEnabled.value) {
-        stellariumStore.stel.core.selection = mountCircle.value
-        stellariumStore.stel.pointAndLock(mountCircle.value)
+        stellariumStore.stel.core.selection = mountCircle.value;
+        stellariumStore.stel.pointAndLock(mountCircle.value);
       }
     }
   }
@@ -185,20 +185,19 @@ onMounted(() => {
   mountRa.value = degreesToHMS(ra);
   mountDec.value = degreesToDMS(dec);
 
- // console.log('Mount position:', ra, dec);
- // console.log('Mount position:', mountRa.value, mountDec.value);
+  // console.log('Mount position:', ra, dec);
+  // console.log('Mount position:', mountRa.value, mountDec.value);
 
   if (!stellariumStore.stel) return;
-  console.log('onMounted ---------------------------------------');
   mountLayer.value = stellariumStore.stel.createLayer({ id: 'mountLayer', z: 7, visible: true });
   mountCircle.value = stellariumStore.stel.createObj('circle', {
     id: 'mountCircle',
     model_data: {},
   });
+
   mountCircle.value.update();
   mountLayer.value.add(mountCircle.value);
   handleMountUpdate(ra, dec);
-
 });
 
 onBeforeUnmount(() => {

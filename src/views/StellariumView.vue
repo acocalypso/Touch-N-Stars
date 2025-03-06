@@ -174,6 +174,7 @@ onMounted(async () => {
         onReady(stel) {
           console.log('Stellarium ist bereit!', stel);
           stellariumStore.stel = stel;
+          console.log('Stellarium-Instanz:', stel.core);
 
           // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;

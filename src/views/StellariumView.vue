@@ -11,14 +11,14 @@
       @click="toggleSearch"
       class="absolute top-3 right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
     >
-      <MagnifyingGlassIcon class="w-7 h-7 text-white" />
+      <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>
 
     <!-- <MountPosition v-if="stellariumStore.stel" :stel="stellariumStore.stel" /> -->
 
     <!-- Mount Position Component -->
     <stellariumMount
-      v-if="stellariumStore.stel"
+      v-if="stellariumStore.stel && store.mountInfo.Connected"
       ref="mountComponent"
       :canvasRef="stelCanvas"
       :isSearchVisible="isSearchVisible"
@@ -78,7 +78,6 @@ import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
-import MountPosition from '@/components/stellarium/MountPosition.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();

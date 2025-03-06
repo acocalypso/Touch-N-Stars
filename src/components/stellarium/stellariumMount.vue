@@ -47,7 +47,7 @@
       </button>
     </div>
 
-    <!-- Mount position overlay -->
+    <!-- Mount position overlay  -->
     <div
       v-if="showMountInfo"
       class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
@@ -57,7 +57,7 @@
         {{ $t('components.stellarium.selected_object.ra') }}: {{ mountRa }}
       </p>
       <p class="text-sm">{{ $t('components.stellarium.selected_object.dec') }}: {{ mountDec }}</p>
-    </div>
+    </div> 
   </div>
 </template>
 
@@ -85,12 +85,14 @@ const stellariumStore = useStellariumStore();
 const mountPositionInterval = ref(null);
 const mountRa = ref('--');
 const mountDec = ref('--');
-const mountRaDeg = ref(null);
-const mountDecDeg = ref(null);
 const autoSyncEnabled = ref(false);
 const showMountInfo = ref(true);
 const syncViewClicked = ref(false);
 const autoSyncClicked = ref(false);
+const raDegree = ref(0);
+const decDegree = ref(0);
+const mountLayer = ref(null);
+const mountCircle = ref(null);
 
 // Toggle auto-sync with mount
 function toggleAutoSync() {
@@ -103,13 +105,44 @@ function toggleAutoSync() {
 
 // Manually sync view to mount position
 function syncViewToMount() {
-  if (mountRaDeg.value !== null && mountDecDeg.value !== null) {
-    emit('moveToPosition', mountRaDeg.value, mountDecDeg.value, 1, 50);
+  if (raDegree.value !== null && decDegree.value !== null) {
+    emit('moveToPosition', raDegree.value, decDegree.value, 1, 50);
     syncViewClicked.value = true;
     setTimeout(() => {
       syncViewClicked.value = false;
     }, 500); // Reset after 500ms
   }
+}
+
+// 5) RA/Dec => 3D-Kugel-Koords
+function vec3_from_sphe(ra_degree, dec_degree, outArray) {
+  const radRA = (ra_degree * Math.PI) / 180;
+  const radDec = (dec_degree * Math.PI) / 180;
+  const cosDec = Math.cos(radDec);
+
+  outArray[0] = Math.cos(radRA) * cosDec;
+  outArray[1] = Math.sin(radRA) * cosDec;
+  outArray[2] = Math.sin(radDec);
+}
+
+// 6) Kreis auf RA/Dec aktualisieren
+function updateCirclePos(raDeg, decDeg) {
+  if (!mountCircle.value) return;
+  const posArr = mountCircle.value.pos;
+
+  vec3_from_sphe(raDeg, decDeg, posArr);
+  mountCircle.value.pos = posArr;
+
+  // Größe/Farbe
+  mountCircle.value.color = [0, 1, 0, 0.25];
+  mountCircle.value.border_color = [1, 1, 1, 1];
+  mountCircle.value.size = [0.03, 0.03];
+}
+
+function handleMountUpdate(raVal, decVal) {
+  raDegree.value = parseFloat(raVal);
+  decDegree.value = parseFloat(decVal);
+  updateCirclePos(raDegree.value, decDegree.value);
 }
 
 // Watch for search visibility changes to control mount info display
@@ -130,12 +163,12 @@ watch(
       // Update displayed coordinates
       mountRa.value = degreesToHMS(ra);
       mountDec.value = degreesToDMS(dec);
-      mountRaDeg.value = ra;
-      mountDecDeg.value = dec;
+      handleMountUpdate(newRa, newDec);
 
       // Move Stellarium view only if auto-sync is enabled
       if (autoSyncEnabled.value) {
-        emit('moveToPosition', ra, dec, 1, 50);
+        stellariumStore.stel.core.selection = mountCircle.value
+        stellariumStore.stel.pointAndLock(mountCircle.value)
       }
     }
   }
@@ -147,11 +180,21 @@ onMounted(() => {
   // Update displayed coordinates
   mountRa.value = degreesToHMS(ra);
   mountDec.value = degreesToDMS(dec);
-  mountRaDeg.value = ra;
-  mountDecDeg.value = dec;
 
-  console.log('Mount position:', ra, dec);
-  console.log('Mount position:', mountRa.value, mountDec.value);
+ // console.log('Mount position:', ra, dec);
+ // console.log('Mount position:', mountRa.value, mountDec.value);
+
+  if (!stellariumStore.stel) return;
+  console.log('onMounted ---------------------------------------');
+  mountLayer.value = stellariumStore.stel.createLayer({ id: 'mountLayer', z: 7, visible: true });
+  mountCircle.value = stellariumStore.stel.createObj('circle', {
+    id: 'mountCircle',
+    model_data: {},
+  });
+  mountCircle.value.update();
+  mountLayer.value.add(mountCircle.value);
+  handleMountUpdate(ra, dec);
+
 });
 
 onBeforeUnmount(() => {
@@ -165,8 +208,6 @@ onBeforeUnmount(() => {
 defineExpose({
   mountRa,
   mountDec,
-  mountRaDeg,
-  mountDecDeg,
   syncViewToMount,
   toggleAutoSync,
   syncViewClicked,

@@ -14,10 +14,11 @@
       <MagnifyingGlassIcon class="w-7 h-7 text-white" />
     </button>
 
-    <MountPosition v-if="stellariumStore.stel" :stel="stellariumStore.stel" />
+    <!-- <MountPosition v-if="stellariumStore.stel" :stel="stellariumStore.stel" /> -->
 
     <!-- Mount Position Component -->
     <stellariumMount
+      v-if="stellariumStore.stel"
       ref="mountComponent"
       :canvasRef="stelCanvas"
       :isSearchVisible="isSearchVisible"

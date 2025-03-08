@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Mount Controls -->
-    <div class="absolute bottom-3 right-3 flex gap-2">
+    <div class="absolute bottom-3 right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
       <button
         @click="syncViewToMount"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md transition-all duration-200"
@@ -9,19 +9,23 @@
         title="Center view on mount position"
       >
         <svg
+          xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
           viewBox="0 0 24 24"
           fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 21l6 -5l6 5" />
+          <path d="M12 13v8" />
           <path
-            d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-            stroke="white"
-            stroke-width="2"
+            d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
           />
-          <path d="M12 8V16" stroke="white" stroke-width="2" />
-          <path d="M8 12H16" stroke="white" stroke-width="2" />
+          <path d="M14 5l3 5.5" />
         </svg>
       </button>
       <button
@@ -47,24 +51,24 @@
       </button>
     </div>
 
-    <!-- Mount position overlay -->
+    <!-- Mount position overlay  
     <div
       v-if="showMountInfo"
-      class="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
+      class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
     >
       <h3 class="text-lg font-semibold">{{ $t('components.stellarium.mount_position.title') }}:</h3>
       <p class="mt-2 text-sm">
         {{ $t('components.stellarium.selected_object.ra') }}: {{ mountRa }}
       </p>
       <p class="text-sm">{{ $t('components.stellarium.selected_object.dec') }}: {{ mountDec }}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
-import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 import { useStellariumStore } from '@/store/stellariumStore';
 
 const props = defineProps({
@@ -79,17 +83,20 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['moveToPosition']);
+const store = apiStore();
 
 const stellariumStore = useStellariumStore();
 const mountPositionInterval = ref(null);
 const mountRa = ref('--');
 const mountDec = ref('--');
-const mountRaDeg = ref(null);
-const mountDecDeg = ref(null);
 const autoSyncEnabled = ref(false);
 const showMountInfo = ref(true);
 const syncViewClicked = ref(false);
 const autoSyncClicked = ref(false);
+const raDegree = ref(0);
+const decDegree = ref(0);
+const mountLayer = ref(null);
+const mountCircle = ref(null);
 
 // Toggle auto-sync with mount
 function toggleAutoSync() {
@@ -102,13 +109,44 @@ function toggleAutoSync() {
 
 // Manually sync view to mount position
 function syncViewToMount() {
-  if (mountRaDeg.value !== null && mountDecDeg.value !== null) {
-    emit('moveToPosition', mountRaDeg.value, mountDecDeg.value, 1, 50);
+  if (raDegree.value !== null && decDegree.value !== null) {
+    emit('moveToPosition', raDegree.value, decDegree.value, 1, 50);
     syncViewClicked.value = true;
     setTimeout(() => {
       syncViewClicked.value = false;
     }, 500); // Reset after 500ms
   }
+}
+
+// 5) RA/Dec => 3D-Kugel-Koords
+function vec3_from_sphe(ra_degree, dec_degree, outArray) {
+  const radRA = (ra_degree * Math.PI) / 180;
+  const radDec = (dec_degree * Math.PI) / 180;
+  const cosDec = Math.cos(radDec);
+
+  outArray[0] = Math.cos(radRA) * cosDec;
+  outArray[1] = Math.sin(radRA) * cosDec;
+  outArray[2] = Math.sin(radDec);
+}
+
+// 6) Kreis auf RA/Dec aktualisieren
+function updateCirclePos(raDeg, decDeg) {
+  if (!mountCircle.value) return;
+  const posArr = mountCircle.value.pos;
+
+  vec3_from_sphe(raDeg, decDeg, posArr);
+  mountCircle.value.pos = posArr;
+
+  // Größe/Farbe
+  mountCircle.value.color = [0, 1, 0, 0.25];
+  mountCircle.value.border_color = [1, 1, 1, 1];
+  mountCircle.value.size = [0.03, 0.03];
+}
+
+function handleMountUpdate(raVal, decVal) {
+  raDegree.value = parseFloat(raVal);
+  decDegree.value = parseFloat(decVal);
+  updateCirclePos(raDegree.value, decDegree.value);
 }
 
 // Watch for search visibility changes to control mount info display
@@ -119,32 +157,47 @@ watch(
   }
 );
 
-onMounted(() => {
-  // Start polling mount position
-  mountPositionInterval.value = setInterval(async () => {
+watch(
+  () => [store.mountInfo.Coordinates.RADegrees, store.mountInfo.Coordinates.Dec],
+  ([newRa, newDec]) => {
     if (stellariumStore.stel) {
-      try {
-        const response = await apiService.mountAction('info');
-        if (response.Success) {
-          const ra = response.Response.RightAscension;
-          const dec = response.Response.Declination;
+      const ra = newRa;
+      const dec = newDec;
+      console.log('Mount position:', ra, dec);
+      // Update displayed coordinates
+      mountRa.value = degreesToHMS(ra);
+      mountDec.value = degreesToDMS(dec);
+      handleMountUpdate(newRa, newDec);
 
-          // Update displayed coordinates
-          mountRa.value = degreesToHMS(ra);
-          mountDec.value = degreesToDMS(dec);
-          mountRaDeg.value = ra;
-          mountDecDeg.value = dec;
-
-          // Move Stellarium view only if auto-sync is enabled
-          if (autoSyncEnabled.value) {
-            emit('moveToPosition', ra, dec, 1, 50);
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching mount position:', error);
+      // Move Stellarium view only if auto-sync is enabled
+      if (autoSyncEnabled.value) {
+        stellariumStore.stel.core.selection = mountCircle.value;
+        stellariumStore.stel.pointAndLock(mountCircle.value);
       }
     }
-  }, 5000);
+  }
+);
+onMounted(() => {
+  const ra = store.mountInfo.Coordinates.RADegrees;
+  const dec = store.mountInfo.Coordinates.Dec;
+
+  // Update displayed coordinates
+  mountRa.value = degreesToHMS(ra);
+  mountDec.value = degreesToDMS(dec);
+
+  // console.log('Mount position:', ra, dec);
+  // console.log('Mount position:', mountRa.value, mountDec.value);
+
+  if (!stellariumStore.stel) return;
+  mountLayer.value = stellariumStore.stel.createLayer({ id: 'mountLayer', z: 7, visible: true });
+  mountCircle.value = stellariumStore.stel.createObj('circle', {
+    id: 'mountCircle',
+    model_data: {},
+  });
+
+  mountCircle.value.update();
+  mountLayer.value.add(mountCircle.value);
+  handleMountUpdate(ra, dec);
 });
 
 onBeforeUnmount(() => {
@@ -158,8 +211,6 @@ onBeforeUnmount(() => {
 defineExpose({
   mountRa,
   mountDec,
-  mountRaDeg,
-  mountDecDeg,
   syncViewToMount,
   toggleAutoSync,
   syncViewClicked,

@@ -90,7 +90,7 @@ const selectedObjectRa = ref(null);
 const selectedObjectDec = ref(null);
 const selectedObjectRaDeg = ref(null);
 const selectedObjectDecDeg = ref(null);
-const wasmPath = '/stellarium/stellarium-web-engine.wasm';
+const wasmPath = '/stellarium-js/stellarium-web-engine.wasm';
 const isSearchVisible = ref(false);
 const searchComponent = ref(null);
 const mountComponent = ref(null);
@@ -151,7 +151,8 @@ watch(
 onMounted(async () => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
-  script.src = '/stellarium/stellarium-web-engine.js';
+  script.src = '/stellarium-js/stellarium-web-engine.js';
+  console.log('Stellarium-Web-Engine-Skript wird geladen...');
 
   script.onload = async () => {
     if (!window.StelWebEngine) {

@@ -40,3 +40,4 @@ A special thank you to **Christian**, the developer of the **Advanced API**, for
 ### 🔍 Further information
 - You can find more details about the application and how to use it in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/releases](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki)).
 - Our [YouTube channel](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) has video instructions and further tips on how to use Touch'N'Stars
+- You want to say thank you? We are happy about a beer 🍻 😀 [paypal.me/TouchNStars](http://paypal.me/TouchNStars)

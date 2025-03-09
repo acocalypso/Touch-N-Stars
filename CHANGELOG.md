@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Object selection in stellarium
 - Framing assistent with stellarium data
 - Date & Time selection in stellarium
-. add Image history
+- Image History
 
 ### Changed
 - update cz

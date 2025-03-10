@@ -197,7 +197,7 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
-         // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
+          // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
 
           // Sternbilder-Linien & Labels
           core.constellations.lines_visible = true;

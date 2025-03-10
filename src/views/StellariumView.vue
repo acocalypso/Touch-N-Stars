@@ -31,7 +31,7 @@
       <steallriumSearch ref="searchComponent" />
     </div>
 
-    <!-- Overlay für das ausgewählte Objekt
+    <!-- Overlay für das ausgewählte Objekt -->
     <SelectedObject
       v-if="selectedObject"
       :selectedObject="selectedObject"

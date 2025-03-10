@@ -24,8 +24,8 @@ const framingStore = useFramingStore();
 const { t } = useI18n();
 
 const props = defineProps({
-  raAngle: String,
-  decAngle: String,
+  raAngle: Number,
+  decAngle: Number,
 });
 
 async function unparkMount() {

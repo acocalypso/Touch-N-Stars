@@ -1,5 +1,3 @@
-import { useI18n } from 'vue-i18n';
-
 export async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -48,11 +46,6 @@ export function dmsToDegrees(dmsString) {
   const sign = dmsString.startsWith('-') ? -1 : 1;
   const stripped = dmsString.replace('-', '');
   const parts = stripped.split(':');
-
-  if (parts.length !== 3) {
-    throw new Error(t('components.slewAndCenter.errors.invalidFormat'));
-  }
-
   const degrees = parseFloat(parts[0]);
   const minutes = parseFloat(parts[1]);
   const seconds = parseFloat(parts[2]);

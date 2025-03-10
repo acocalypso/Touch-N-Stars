@@ -16,9 +16,12 @@ import { defineProps } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
+import { useI18n } from 'vue-i18n';
+import { wait } from '@/utils/utils';
 
 const store = apiStore();
 const framingStore = useFramingStore();
+const { t } = useI18n();
 
 const props = defineProps({
   raAngle: String,
@@ -41,8 +44,6 @@ async function slewAndCenter() {
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
   framingStore.slewAndCenter(props.raAngle, props.decAngle);
 }
-
-
 </script>
 
 <style scoped>

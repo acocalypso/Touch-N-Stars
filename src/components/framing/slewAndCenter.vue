@@ -78,24 +78,24 @@ const props = defineProps({
   RAangleString: String,
   DECangleString: String,
 });
-const emit = defineEmits(['update:RAangleString', 'update:DECangleString']);
 const localRAangleString = ref(props.RAangleString);
 const localDECangleString = ref(props.DECangleString);
 const Info = ref(null);
 
 watch(
   () => framingStore.RAangleString,
-  () => {
+  (newValue) => {
+    localRAangleString.value = newValue;
     updateRA();
   }
 );
 watch(
   () => framingStore.DECangleString,
-  () => {
+  (newValue) => {
+    localDECangleString.value = newValue;
     updateDec();
   }
 );
-
 function validateRA(raString) {
   const raPattern = /^([01]?[0-9]|2[0-3]):([0-5]?[0-9]):(60(\.0+)?|[0-5]?[0-9](\.\d+)?)$/;
   return raPattern.test(raString);

@@ -113,85 +113,118 @@
     <transition name="fade">
       <div
         v-if="showEditModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 overflow-auto"
         @click.self="showEditModal = false"
         @keydown.esc="showEditModal = false"
       >
         <transition name="scale">
-          <div v-if="showEditModal" class="bg-gray-800 rounded-lg p-6 max-w-md w-full mt-4">
+          <div v-if="showEditModal" class="bg-gray-800 rounded-lg p-6 max-w-2xl w-full mt-4 mb-8">
             <h3 class="text-xl font-semibold mb-4">
               {{ $t('components.sequence.editParameters') }}
             </h3>
 
             <!-- Group for plain Take Exposure (if available) -->
-            <div v-if="takeExposure" class="space-y-4 mb-6 border-b pb-4">
+            <div v-if="takeExposures.length > 0" class="space-y-4 mb-6 border-b pb-4">
               <h4 class="text-lg font-semibold mb-2">Take Exposure</h4>
-              <div>
-                <label class="block text-sm font-medium mb-1">
-                  {{ $t('components.sequence.gain') }}
-                </label>
-                <input
-                  v-model.number="takeExposureGain"
-                  type="number"
-                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1">
-                  {{ $t('components.sequence.exposureTime') }}
-                </label>
-                <input
-                  v-model.number="takeExposureExposureTime"
-                  type="number"
-                  step="0.1"
-                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
+              <div
+                v-for="(exposure, index) in takeExposures"
+                :key="'take-' + index"
+                class="border border-gray-700 rounded-lg p-4 mb-4"
+              >
+                <div class="flex justify-between items-center mb-3">
+                  <span class="font-medium text-blue-400">{{
+                    exposure.item.ImageType || 'LIGHT'
+                  }}</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">
+                      {{ $t('components.sequence.gain') }}
+                    </label>
+                    <input
+                      v-model.number="exposure.gain"
+                      type="number"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">
+                      {{ $t('components.sequence.exposureTime') }}
+                    </label>
+                    <input
+                      v-model.number="exposure.exposureTime"
+                      type="number"
+                      step="0.1"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
             <!-- Group for Smart Exposure (if available) -->
-            <div v-if="smartExposure" class="space-y-4 mb-6">
+            <div v-if="smartExposures.length > 0" class="space-y-4 mb-6">
               <h4 class="text-lg font-semibold mb-2">Smart Exposure</h4>
-              <div>
-                <label class="block text-sm font-medium mb-1">
-                  {{ $t('components.sequence.gain') }}
-                </label>
-                <input
-                  v-model.number="smartExposureGain"
-                  type="number"
-                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1">
-                  {{ $t('components.sequence.exposureCount') }}
-                </label>
-                <input
-                  v-model.number="smartExposureExposureCount"
-                  type="number"
-                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1">
-                  {{ $t('components.sequence.exposureTime') }}
-                </label>
-                <input
-                  v-model.number="smartExposureExposureTime"
-                  type="number"
-                  step="0.1"
-                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
-              </div>
-              <div>
-                <label class="block text-sm font-medium mb-1">
-                  {{ $t('components.sequence.ditherAfterExposures') }}
-                </label>
-                <input
-                  v-model.number="smartExposureAfterExposures"
-                  type="number"
-                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                />
+              <div
+                v-for="(exposure, index) in smartExposures"
+                :key="'smart-' + index"
+                class="border border-gray-700 rounded-lg p-4 mb-4"
+              >
+                <div class="flex justify-between items-center mb-3">
+                  <span class="font-medium text-blue-400">{{
+                    exposure.item.ImageType || 'LIGHT'
+                  }}</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium mb-1">
+                      {{ $t('components.sequence.gain') }}
+                    </label>
+                    <input
+                      v-model.number="exposure.gain"
+                      type="number"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">
+                      {{ $t('components.sequence.exposureCount') }}
+                    </label>
+                    <input
+                      v-model.number="exposure.exposureCount"
+                      type="number"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium mb-1">
+                      {{ $t('components.sequence.exposureTime') }}
+                    </label>
+                    <input
+                      v-model.number="exposure.exposureTime"
+                      type="number"
+                      step="0.1"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
+
+                <!-- Only show dither settings for the first LIGHT exposure -->
+                <div
+                  v-if="exposure.item.ImageType === 'LIGHT' && exposure.ditherTrigger"
+                  class="mt-4 pt-3 border-t border-gray-700"
+                >
+                  <div>
+                    <label class="block text-sm font-medium mb-1">
+                      {{ $t('components.sequence.ditherAfterExposures') }}
+                    </label>
+                    <input
+                      v-model.number="exposure.afterExposures"
+                      type="number"
+                      class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -247,219 +280,310 @@ const showResetConfirmation = ref(false);
 const showEditModal = ref(false);
 const isLoading = computed(() => store.sequenceRunning);
 
-// Refs for storing exposure items and their paths.
-const takeExposure = ref(null);
-const smartExposure = ref(null);
-const ditherTrigger = ref(null);
-const takeExposurePath = ref('');
-const smartExposurePath = ref('');
-const ditherTriggerPath = ref('');
-
-// Input field refs.
-const takeExposureGain = ref(-1);
-const takeExposureExposureTime = ref(5);
-const smartExposureGain = ref(-1);
-const smartExposureExposureCount = ref(0);
-const smartExposureExposureTime = ref(5);
-const smartExposureAfterExposures = ref(1);
+// Arrays to store multiple exposure settings
+const takeExposures = ref([]);
+const smartExposures = ref([]);
 
 onMounted(() => {
   findExposureItemsInSequence();
 });
 
 /**
- * Recursively search the sequence tree.
- * If a container's Name is "Smart Exposure_Container", then all nested "Take Exposure"
- * items are marked as Smart Exposures. Also finds Dither triggers.
+ * Track fields that have been modified to only update those
  */
-function findExposureItems(container, path = '', inSmartContainer = false, results = []) {
-  if (container.Name === 'Smart Exposure_Container') {
-    inSmartContainer = true;
+function createExposureObject(
+  item,
+  path,
+  isDitherTrigger = false,
+  triggerItem = null,
+  triggerPath = ''
+) {
+  if (isDitherTrigger) {
+    return {
+      item: triggerItem,
+      path: triggerPath,
+      afterExposures: triggerItem.AfterExposures || 1,
+      originalAfterExposures: triggerItem.AfterExposures || 1,
+      modified: false,
+    };
   }
 
-  // Find Take Exposure items
-  if (container.Name === 'Take Exposure') {
-    const type = inSmartContainer ? 'Smart Exposure' : 'Take Exposure';
-    results.push({ type, path, item: container });
-  }
-
-  // Find Dither after Exposures trigger
-  if (container.Triggers && Array.isArray(container.Triggers)) {
-    container.Triggers.forEach((trigger, index) => {
-      if (trigger.Name === 'Dither after Exposures_Trigger') {
-        const triggerPath = path ? `${path}-Triggers-${index}` : `Triggers-${index}`;
-        results.push({ type: 'Dither Trigger', path: triggerPath, item: trigger });
-      }
-    });
-  }
-
-  // Continue recursive search
-  if (container.Items && Array.isArray(container.Items)) {
-    container.Items.forEach((child, index) => {
-      const newPath = path ? `${path}-Items-${index}` : `${index}`;
-      findExposureItems(child, newPath, inSmartContainer, results);
-    });
-  }
+  return {
+    item: item,
+    path: path,
+    gain: item.Gain !== undefined ? item.Gain : -1,
+    exposureTime: item.ExposureTime !== undefined ? item.ExposureTime : 5,
+    exposureCount: item.ExposureCount !== undefined ? item.ExposureCount : 0,
+    originalGain: item.Gain !== undefined ? item.Gain : -1,
+    originalExposureTime: item.ExposureTime !== undefined ? item.ExposureTime : 5,
+    originalExposureCount: item.ExposureCount !== undefined ? item.ExposureCount : 0,
+    ditherTrigger: null,
+    afterExposures: 1,
+    originalAfterExposures: 1,
+    modified: false,
+  };
 }
 
 /**
- * Traverse the sequenceStateInfo and pick out the first occurrence of
- * a plain Take Exposure, a Smart Exposure, and a Dither trigger.
+ * Recursively search the sequence tree.
+ * Find all "Take Exposure" items and "Smart Exposure Containers" with their associated dither triggers
+ */
+function findExposureItems(
+  container,
+  path = '',
+  inSmartContainer = false,
+  smartContainerPath = '',
+  results = []
+) {
+  // Find Smart Exposure containers
+  if (container.Name === 'Smart Exposure_Container') {
+    inSmartContainer = true;
+    smartContainerPath = path;
+
+    // Look for dither triggers in the smart container
+    let ditherTrigger = null;
+    let ditherTriggerPath = '';
+
+    if (container.Triggers && Array.isArray(container.Triggers)) {
+      container.Triggers.forEach((trigger, index) => {
+        if (trigger.Name === 'Dither after Exposures_Trigger') {
+          ditherTrigger = trigger;
+          ditherTriggerPath = path ? `${path}-Triggers-${index}` : `Triggers-${index}`;
+        }
+      });
+    }
+
+    // Find exposure items within this Smart Container using ImageType detection
+    if (container.Items && Array.isArray(container.Items)) {
+      container.Items.forEach((item, index) => {
+        // Check if item has exposure properties (using ImageType as identifier)
+        if (item.ImageType) {
+          const itemPath = path ? `${path}-Items-${index}` : `Items-${index}`;
+          const exp = createExposureObject(item, itemPath);
+
+          // Associate dither trigger with this exposure if it exists
+          if (ditherTrigger) {
+            exp.ditherTrigger = ditherTrigger;
+            exp.ditherTriggerPath = ditherTriggerPath;
+            exp.afterExposures = ditherTrigger.AfterExposures || 1;
+            exp.originalAfterExposures = ditherTrigger.AfterExposures || 1;
+          }
+
+          results.push({ type: 'Smart Exposure', data: exp });
+        }
+      });
+    }
+  }
+
+  // Find standalone Take Exposure items (not in Smart Container)
+  if (!inSmartContainer && container.Name === 'Take Exposure') {
+    const exp = createExposureObject(container, path);
+    results.push({ type: 'Take Exposure', data: exp });
+  }
+
+  // Continue recursive search through child items
+  if (container.Items && Array.isArray(container.Items)) {
+    container.Items.forEach((child, index) => {
+      const newPath = path ? `${path}-Items-${index}` : `${index}`;
+      findExposureItems(child, newPath, inSmartContainer, smartContainerPath, results);
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Traverse the sequenceStateInfo and find all exposure items
  */
 function findExposureItemsInSequence() {
   if (!store.sequenceStateInfo) return;
-  let items = [];
+
+  takeExposures.value = [];
+  smartExposures.value = [];
+  let results = [];
 
   if (Array.isArray(store.sequenceStateInfo)) {
     store.sequenceStateInfo.forEach((container, index) => {
-      findExposureItems(container, `${index}`, false, items);
+      results = findExposureItems(container, `${index}`, false, '', results);
     });
   } else {
-    findExposureItems(store.sequenceStateInfo, '0', false, items);
+    results = findExposureItems(store.sequenceStateInfo, '0', false, '', results);
   }
 
-  const plainExposure = items.find((exp) => exp.type === 'Take Exposure');
-  const smartExp = items.find((exp) => exp.type === 'Smart Exposure');
-  const ditherTrig = items.find((item) => item.type === 'Dither Trigger');
+  // Process results
+  results.forEach((result) => {
+    if (result.type === 'Take Exposure') {
+      takeExposures.value.push(result.data);
+    } else if (result.type === 'Smart Exposure') {
+      smartExposures.value.push(result.data);
+    }
+  });
 
-  if (plainExposure) {
-    takeExposure.value = plainExposure.item;
-    takeExposurePath.value = plainExposure.path;
-  } else {
-    takeExposure.value = null;
-    takeExposurePath.value = '';
-  }
-
-  if (smartExp) {
-    smartExposure.value = smartExp.item;
-    smartExposurePath.value = smartExp.path;
-  } else {
-    smartExposure.value = null;
-    smartExposurePath.value = '';
-  }
-
-  if (ditherTrig) {
-    ditherTrigger.value = ditherTrig.item;
-    ditherTriggerPath.value = ditherTrig.path;
-    smartExposureAfterExposures.value = ditherTrig.item.AfterExposures || 1;
-  } else {
-    ditherTrigger.value = null;
-    ditherTriggerPath.value = '';
-  }
-
-  console.log('Found Take Exposure path:', takeExposurePath.value);
-  console.log('Found Smart Exposure path:', smartExposurePath.value);
-  console.log('Found Dither Trigger path:', ditherTriggerPath.value);
+  console.log(`Found ${takeExposures.value.length} Take Exposures`);
+  console.log(`Found ${smartExposures.value.length} Smart Exposures`);
 }
 
 function openEditModal() {
   findExposureItemsInSequence();
-  if (takeExposure.value) {
-    takeExposureGain.value = takeExposure.value.Gain !== undefined ? takeExposure.value.Gain : -1;
-    takeExposureExposureTime.value =
-      takeExposure.value.ExposureTime !== undefined ? takeExposure.value.ExposureTime : 5;
-  }
-  if (smartExposure.value) {
-    smartExposureGain.value =
-      smartExposure.value.Gain !== undefined ? smartExposure.value.Gain : -1;
-    smartExposureExposureCount.value =
-      smartExposure.value.ExposureCount !== undefined ? smartExposure.value.ExposureCount : 0;
-    smartExposureExposureTime.value =
-      smartExposure.value.ExposureTime !== undefined ? smartExposure.value.ExposureTime : 5;
-  }
-  if (ditherTrigger.value) {
-    smartExposureAfterExposures.value =
-      ditherTrigger.value.AfterExposures !== undefined ? ditherTrigger.value.AfterExposures : 1;
-  }
-  if (!takeExposure.value && !smartExposure.value) {
+
+  if (takeExposures.value.length === 0 && smartExposures.value.length === 0) {
     console.error('Could not find any exposure settings in sequence data');
     alert('Could not find exposure settings. Please reload the sequence.');
     return;
   }
+
+  // Reset modification flags
+  takeExposures.value.forEach((exposure) => {
+    exposure.modified = false;
+  });
+
+  smartExposures.value.forEach((exposure) => {
+    exposure.modified = false;
+  });
+
   showEditModal.value = true;
 }
 
 async function saveEdits() {
-  if (!takeExposure.value && !smartExposure.value) {
-    console.error('No valid exposure item found');
+  if (takeExposures.value.length === 0 && smartExposures.value.length === 0) {
+    console.error('No valid exposure items found');
     findExposureItemsInSequence();
-    if (!takeExposure.value && !smartExposure.value) {
+    if (takeExposures.value.length === 0 && smartExposures.value.length === 0) {
       alert('Could not find any exposure settings to update. Please reload the sequence.');
       showEditModal.value = false;
       return;
     }
   }
+
   try {
     let success = true;
     const results = {};
+    const updatePromises = [];
 
-    // Update plain Take Exposure (if available)
-    if (takeExposure.value) {
-      let basePath = takeExposurePath.value;
-      if (basePath.startsWith('2')) {
-        basePath = basePath.replace(/^2/, 'Imaging');
-      }
-      const takeUpdates = [
-        { key: 'Gain', value: takeExposureGain.value.toString() },
-        { key: 'ExposureTime', value: takeExposureExposureTime.value.toString() },
-      ];
-      for (const update of takeUpdates) {
-        const path = `${basePath}-${update.key}`;
-        const payload = { path, value: update.value };
-        console.debug(`Requesting update for Take Exposure: ${update.key}`, payload);
-        const response = await apiService.sequenceEdit(payload);
-        results[`TakeExposure-${update.key}`] = response;
-        if (!response.Success) {
-          console.error(`Failed to update Take Exposure ${update.key}:`, response.Error);
-          success = false;
+    // Check for Take Exposure modifications
+    for (const exposure of takeExposures.value) {
+      // Check if gain was modified
+      if (exposure.gain !== exposure.originalGain) {
+        let basePath = exposure.path;
+        if (basePath.startsWith('2')) {
+          basePath = basePath.replace(/^2/, 'Imaging');
         }
-      }
-    }
 
-    // Update Smart Exposure (if available)
-    if (smartExposure.value) {
-      let basePath = smartExposurePath.value;
-      if (basePath.startsWith('2')) {
-        basePath = basePath.replace(/^2/, 'Imaging');
+        const path = `${basePath}-Gain`;
+        const payload = { path, value: exposure.gain.toString() };
+        console.debug(`Requesting update for Take Exposure Gain:`, payload);
+        updatePromises.push(
+          apiService.sequenceEdit(payload).then((response) => {
+            results[`TakeExposure-Gain-${path}`] = response;
+            if (!response.Success) {
+              console.error(`Failed to update Take Exposure Gain:`, response.Error);
+              success = false;
+            }
+          })
+        );
       }
-      const smartUpdates = [
-        { key: 'Gain', value: smartExposureGain.value.toString() },
-        { key: 'ExposureCount', value: smartExposureExposureCount.value.toString() },
-        { key: 'ExposureTime', value: smartExposureExposureTime.value.toString() },
-      ];
-      for (const update of smartUpdates) {
-        const path = `${basePath}-${update.key}`;
-        const payload = { path, value: update.value };
-        console.debug(`Requesting update for Smart Exposure: ${update.key}`, payload);
-        const response = await apiService.sequenceEdit(payload);
-        results[`SmartExposure-${update.key}`] = response;
-        if (!response.Success) {
-          console.error(`Failed to update Smart Exposure ${update.key}:`, response.Error);
-          success = false;
+
+      // Check if exposure time was modified
+      if (exposure.exposureTime !== exposure.originalExposureTime) {
+        let basePath = exposure.path;
+        if (basePath.startsWith('2')) {
+          basePath = basePath.replace(/^2/, 'Imaging');
         }
+
+        const path = `${basePath}-ExposureTime`;
+        const payload = { path, value: exposure.exposureTime.toString() };
+        console.debug(`Requesting update for Take Exposure ExposureTime:`, payload);
+        updatePromises.push(
+          apiService.sequenceEdit(payload).then((response) => {
+            results[`TakeExposure-ExposureTime-${path}`] = response;
+            if (!response.Success) {
+              console.error(`Failed to update Take Exposure ExposureTime:`, response.Error);
+              success = false;
+            }
+          })
+        );
       }
     }
 
-    // Update Dither Trigger AfterExposures (if available)
-    if (ditherTrigger.value) {
-      let basePath = ditherTriggerPath.value;
+    // Check for Smart Exposure modifications
+    for (const exposure of smartExposures.value) {
+      let basePath = exposure.path;
       if (basePath.startsWith('2')) {
         basePath = basePath.replace(/^2/, 'Imaging');
       }
-      const payload = {
-        path: `${basePath}-AfterExposures`,
-        value: smartExposureAfterExposures.value.toString(),
-      };
-      console.debug(`Requesting update for Dither Trigger AfterExposures:`, payload);
-      const response = await apiService.sequenceEdit(payload);
-      results[`DitherTrigger-AfterExposures`] = response;
-      if (!response.Success) {
-        console.error(`Failed to update Dither Trigger AfterExposures:`, response.Error);
-        success = false;
+
+      // Check if gain was modified
+      if (exposure.gain !== exposure.originalGain) {
+        const path = `${basePath}-Gain`;
+        const payload = { path, value: exposure.gain.toString() };
+        console.debug(`Requesting update for Smart Exposure Gain:`, payload);
+        updatePromises.push(
+          apiService.sequenceEdit(payload).then((response) => {
+            results[`SmartExposure-Gain-${path}`] = response;
+            if (!response.Success) {
+              console.error(`Failed to update Smart Exposure Gain:`, response.Error);
+              success = false;
+            }
+          })
+        );
       }
-    } else {
-      console.warn('No Dither Trigger found to update AfterExposures value');
+
+      // Check if exposure count was modified
+      if (exposure.exposureCount !== exposure.originalExposureCount) {
+        const path = `${basePath}-ExposureCount`;
+        const payload = { path, value: exposure.exposureCount.toString() };
+        console.debug(`Requesting update for Smart Exposure ExposureCount:`, payload);
+        updatePromises.push(
+          apiService.sequenceEdit(payload).then((response) => {
+            results[`SmartExposure-ExposureCount-${path}`] = response;
+            if (!response.Success) {
+              console.error(`Failed to update Smart Exposure ExposureCount:`, response.Error);
+              success = false;
+            }
+          })
+        );
+      }
+
+      // Check if exposure time was modified
+      if (exposure.exposureTime !== exposure.originalExposureTime) {
+        const path = `${basePath}-ExposureTime`;
+        const payload = { path, value: exposure.exposureTime.toString() };
+        console.debug(`Requesting update for Smart Exposure ExposureTime:`, payload);
+        updatePromises.push(
+          apiService.sequenceEdit(payload).then((response) => {
+            results[`SmartExposure-ExposureTime-${path}`] = response;
+            if (!response.Success) {
+              console.error(`Failed to update Smart Exposure ExposureTime:`, response.Error);
+              success = false;
+            }
+          })
+        );
+      }
+
+      // Check if dither setting was modified
+      if (exposure.ditherTrigger && exposure.afterExposures !== exposure.originalAfterExposures) {
+        let ditherPath = exposure.ditherTriggerPath;
+        if (ditherPath.startsWith('2')) {
+          ditherPath = ditherPath.replace(/^2/, 'Imaging');
+        }
+
+        const path = `${ditherPath}-AfterExposures`;
+        const payload = { path, value: exposure.afterExposures.toString() };
+        console.debug(`Requesting update for Dither Trigger AfterExposures:`, payload);
+        updatePromises.push(
+          apiService.sequenceEdit(payload).then((response) => {
+            results[`DitherTrigger-AfterExposures-${path}`] = response;
+            if (!response.Success) {
+              console.error(`Failed to update Dither Trigger AfterExposures:`, response.Error);
+              success = false;
+            }
+          })
+        );
+      }
     }
+
+    // Wait for all updates to complete
+    await Promise.all(updatePromises);
 
     if (success) {
       await store.fetchAllInfos();

@@ -127,14 +127,11 @@ function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
   }
   const stel = stellariumStore.stel;
   stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
-  //console.log('RA:', ra_deg, 'DEC:', dec_deg);
   const ra_rad = ra_deg * stel.D2R;
   const dec_rad = dec_deg * stel.D2R;
-  //console.log('RA:', ra_rad, 'DEC:', dec_rad);
   const icrfVec = stel.s2c(ra_rad, dec_rad);
-  //console.log('icrfVec:', icrfVec);
   const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-  //console.log('observedVec:', observedVec);
+  console.log('observedVec:', observedVec);
   stel.lookAt(observedVec, duration_sec);
   stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
 }
@@ -181,13 +178,19 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-
           console.log('Aktuelle Beobachterposition:');
-          console.log('Breitengrad:', stel.core.observer.latitude);
-          console.log('Längengrad:', stel.core.observer.longitude);
+          console.log(
+            'Breitengrad:',
+            stel.core.observer.latitude,
+            store.profileInfo.AstrometrySettings.Latitude
+          );
+          console.log(
+            'Längengrad:',
+            stel.core.observer.longitude,
+            store.profileInfo.AstrometrySettings.Longitude
+          );
           console.log('Höhe:', stel.core.observer.elevation);
 
-          //setTime(21, 0);
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
 
@@ -210,8 +213,11 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
-          // core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
-          // core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat',});
+          core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
+          core.satellites.addDataSource({
+            url: baseUrl + 'tle_satellite.jsonl.gz',
+            key: 'jsonl/sat',
+          });
 
           // Sternbilder-Linien & Labels
           core.constellations.lines_visible = true;

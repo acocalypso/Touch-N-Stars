@@ -15,30 +15,32 @@
     <p class="text-sm">
       {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
     </p>
-    <button
-      @click="setFramingCoordinates"
-      class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
+    <div
+      v-if="store.mountInfo.Connected && !store.sequenceRunning"
+      class="flex flex-col gap-1 text-sm mt-2"
     >
-      {{ $t('components.stellarium.selected_object.button_framing') }}
-    </button>
-    <button
-      @click="setFramingCoordinates"
-      class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
-    >
-      {{ $t('components.stellarium.selected_object.button_slew') }}
-    </button>
-    <button
-      @click="setFramingCoordinates"
-      class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
-    >
-      {{ $t('components.stellarium.selected_object.button_slew_and_center') }}
-    </button>
+      <button
+        @click="setFramingCoordinates"
+        class="default-button-cyan flex items-center justify-center disabled:opacity-50"
+      >
+        {{ $t('components.stellarium.selected_object.button_framing') }}
+      </button>
+      <ButtonSlew :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />
+      <ButtonSlewAndCenter
+        :raAngle="props.selectedObjectRaDeg"
+        :decAngle="props.selectedObjectDecDeg"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { defineProps, defineEmits } from 'vue';
+import { apiStore } from '@/store/store';
+import ButtonSlew from '@/components/mount/buttonSlew.vue';
+import ButtonSlewAndCenter from '@/components/mount/buttonSlewAndCenter.vue';
 
+const store = apiStore();
 const props = defineProps({
   selectedObject: Object,
   selectedObjectRa: String,

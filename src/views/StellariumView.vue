@@ -14,8 +14,6 @@
       <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>
 
-    <!-- <MountPosition v-if="stellariumStore.stel" :stel="stellariumStore.stel" /> -->
-
     <!-- Mount Position Component -->
     <stellariumMount
       v-if="stellariumStore.stel && store.mountInfo.Connected"
@@ -34,31 +32,15 @@
     </div>
 
     <!-- Overlay für das ausgewählte Objekt -->
-    <div
+    <SelectedObject
       v-if="selectedObject"
-      class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
-    >
-      <h3 class="text-lg font-semibold">
-        {{ $t('components.stellarium.selected_object.title') }}:
-      </h3>
-      <ul class="mt-2">
-        <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
-          {{ name }}
-        </li>
-      </ul>
-      <p class="mt-2 text-sm">
-        {{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa }}
-      </p>
-      <p class="text-sm">
-        {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
-      </p>
-      <button
-        @click="setFramingCoordinates"
-        class="mt-3 px-4 py-2 w-full bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
-      >
-        {{ $t('components.stellarium.selected_object.button_framing') }}
-      </button>
-    </div>
+      :selectedObject="selectedObject"
+      :selectedObjectRa="selectedObjectRa"
+      :selectedObjectDec="selectedObjectDec"
+      :selectedObjectRaDeg="selectedObjectRaDeg"
+      :selectedObjectDecDeg="selectedObjectDecDeg"
+      @setFramingCoordinates="setFramingCoordinates"
+    />
 
     <!-- Credits-->
     <stellariumCredits />
@@ -78,6 +60,7 @@ import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
+import SelectedObject from '@/components/stellarium/SelectedObject.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -127,14 +110,11 @@ function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
   }
   const stel = stellariumStore.stel;
   stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
-  //console.log('RA:', ra_deg, 'DEC:', dec_deg);
   const ra_rad = ra_deg * stel.D2R;
   const dec_rad = dec_deg * stel.D2R;
-  //console.log('RA:', ra_rad, 'DEC:', dec_rad);
   const icrfVec = stel.s2c(ra_rad, dec_rad);
-  //console.log('icrfVec:', icrfVec);
   const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-  //console.log('observedVec:', observedVec);
+  console.log('observedVec:', observedVec);
   stel.lookAt(observedVec, duration_sec);
   stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
 }
@@ -181,13 +161,19 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-
           console.log('Aktuelle Beobachterposition:');
-          console.log('Breitengrad:', stel.core.observer.latitude);
-          console.log('Längengrad:', stel.core.observer.longitude);
+          console.log(
+            'Breitengrad:',
+            stel.core.observer.latitude,
+            store.profileInfo.AstrometrySettings.Latitude
+          );
+          console.log(
+            'Längengrad:',
+            stel.core.observer.longitude,
+            store.profileInfo.AstrometrySettings.Longitude
+          );
           console.log('Höhe:', stel.core.observer.elevation);
 
-          //setTime(21, 0);
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
 
@@ -210,8 +196,8 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
-          // core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
-          // core.satellites.addDataSource({ url: baseUrl + 'tle_satellite.jsonl.gz', key: 'jsonl/sat',});
+          core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
+          // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
 
           // Sternbilder-Linien & Labels
           core.constellations.lines_visible = true;

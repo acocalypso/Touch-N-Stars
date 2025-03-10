@@ -1,4 +1,3 @@
-// SelectedObject.vue
 <template>
   <div
     v-if="selectedObject"

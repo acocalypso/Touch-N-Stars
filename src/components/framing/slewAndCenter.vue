@@ -35,31 +35,8 @@
           />
         </div>
         <div class="mt-4 flex gap-2">
-          <button
-            @click="slew"
-            :disabled="
-              framingStore.isSlewing ||
-              framingStore.isSlewingAndCentering ||
-              framingStore.isRotating
-            "
-            class="default-button-cyan flex items-center justify-center disabled:opacity-50"
-          >
-            <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
-            {{ $t('components.slewAndCenter.slew') }}
-          </button>
-
-          <button
-            @click="slewAndCenter"
-            :disabled="
-              framingStore.isSlewing ||
-              framingStore.isSlewingAndCentering ||
-              framingStore.isRotating
-            "
-            class="default-button-cyan flex items-center justify-center disabled:opacity-50"
-          >
-            <span v-if="framingStore.isSlewingAndCentering" class="loader mr-2"></span>
-            {{ $t('components.slewAndCenter.slew_and_center') }}
-          </button>
+          <ButtonSlew :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
+          <ButtonSlewAndCenter :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
         </div>
         <div v-if="store.rotatorInfo.Connected && true" class="mt-2">
           <button
@@ -89,7 +66,10 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
+import { hmsToDegrees, dmsToDegrees } from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
+import ButtonSlew from '@/components/mount/ButtonSlew.vue';
+import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -101,20 +81,18 @@ const props = defineProps({
 const emit = defineEmits(['update:RAangleString', 'update:DECangleString']);
 const localRAangleString = ref(props.RAangleString);
 const localDECangleString = ref(props.DECangleString);
-const RAangle = ref(null);
-const DECangle = ref(null);
 const Info = ref(null);
 
 watch(
   () => framingStore.RAangleString,
-  (newValue) => {
-    localRAangleString.value = newValue;
+  () => {
+    updateRA();
   }
 );
 watch(
   () => framingStore.DECangleString,
-  (newValue) => {
-    localDECangleString.value = newValue;
+  () => {
+    updateDec();
   }
 );
 
@@ -159,64 +137,8 @@ function updateDec() {
   framingStore.DECangle = dmsToDegrees(localDECangleString.value);
 }
 
-async function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function unparkMount() {
-  if (store.mountInfo.AtPark) {
-    try {
-      await apiService.mountAction('unpark');
-      await wait(2000);
-      console.log(t('components.mount.control.unpark'));
-    } catch (error) {
-      console.log(t('components.mount.control.errors.unpark'));
-    }
-  }
-}
-
-async function slew() {
-  await unparkMount(); // Überprüfen und Entparken, falls erforderlich
-  RAangle.value = hmsToDegrees(localRAangleString.value);
-  DECangle.value = dmsToDegrees(localDECangleString.value);
-  framingStore.slew(RAangle.value, DECangle.value);
-}
-
-async function slewAndCenter() {
-  RAangle.value = hmsToDegrees(localRAangleString.value);
-  DECangle.value = dmsToDegrees(localDECangleString.value);
-  await unparkMount(); // Überprüfen und Entparken, falls erforderlich
-  framingStore.slewAndCenter(RAangle.value, DECangle.value);
-  emit('update:RAangleString', localRAangleString.value);
-  emit('update:DECangleString', localDECangleString.value);
-}
-
 async function cameraRotate() {
   framingStore.cameraRotate();
-}
-
-function hmsToDegrees(hmsString) {
-  const parts = hmsString.split(':');
-  const hours = parseInt(parts[0], 10);
-  const minutes = parseInt(parts[1], 10);
-  const seconds = parseFloat(parts[2]);
-  return hours * 15 + minutes * (15 / 60) + seconds * (15 / 3600);
-}
-
-function dmsToDegrees(dmsString) {
-  const sign = dmsString.startsWith('-') ? -1 : 1;
-  const stripped = dmsString.replace('-', '');
-  const parts = stripped.split(':');
-
-  if (parts.length !== 3) {
-    throw new Error(t('components.slewAndCenter.errors.invalidFormat'));
-  }
-
-  const degrees = parseFloat(parts[0]);
-  const minutes = parseFloat(parts[1]);
-  const seconds = parseFloat(parts[2]);
-
-  return sign * (degrees + minutes / 60 + seconds / 3600);
 }
 
 async function fetchInfo() {

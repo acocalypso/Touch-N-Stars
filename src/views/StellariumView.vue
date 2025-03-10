@@ -227,7 +227,6 @@ onMounted(async () => {
                 console.log('Objekt-Bezeichnungen:', selectedDesignations);
                 const info = stel.core.selection;
                 console.log('Objekt-Informationen:', info);
-                
 
                 const pvo = info.getInfo('pvo', stel.observer);
                 const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]);

@@ -1,4 +1,5 @@
-//Wait
+import { useI18n } from 'vue-i18n';
+
 export async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -33,6 +34,30 @@ export function degreesToDMS(deg) {
   const sStr = s.toFixed(1).padStart(4, '0');
 
   return `${sign}${dStr}:${mStr}:${sStr}`;
+}
+
+export function hmsToDegrees(hmsString) {
+  const parts = hmsString.split(':');
+  const hours = parseInt(parts[0], 10);
+  const minutes = parseInt(parts[1], 10);
+  const seconds = parseFloat(parts[2]);
+  return hours * 15 + minutes * (15 / 60) + seconds * (15 / 3600);
+}
+
+export function dmsToDegrees(dmsString) {
+  const sign = dmsString.startsWith('-') ? -1 : 1;
+  const stripped = dmsString.replace('-', '');
+  const parts = stripped.split(':');
+
+  if (parts.length !== 3) {
+    throw new Error(t('components.slewAndCenter.errors.invalidFormat'));
+  }
+
+  const degrees = parseFloat(parts[0]);
+  const minutes = parseFloat(parts[1]);
+  const seconds = parseFloat(parts[2]);
+
+  return sign * (degrees + minutes / 60 + seconds / 3600);
 }
 
 export function rad2deg(rad) {

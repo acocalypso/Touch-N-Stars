@@ -224,7 +224,11 @@
       "running": "EN COURS D'EXÉCUTION",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "editParameters": "Modifier les paramètres",
+      "editSequence": "Modifier la séquence",
+      "exposureCount": "Décompte des expositions",
+      "gain": "Gagner"
     },
     "mount": {
       "title": "Monture",

@@ -224,7 +224,11 @@
       "running": "WIRD AUSGEFÜHRT",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "editParameters": "Parameter bearbeiten",
+      "editSequence": "Sequenz bearbeiten",
+      "exposureCount": "Aufnahmezähler",
+      "gain": "Verstärkung"
     },
     "mount": {
       "title": "Montierung",

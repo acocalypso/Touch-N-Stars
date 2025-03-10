@@ -224,7 +224,11 @@
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
-      "temperatureShort": "Teplota"
+      "temperatureShort": "Teplota",
+      "editParameters": "Edit parameters",
+      "editSequence": "Edit Sequence",
+      "exposureCount": "Exposure Count",
+      "gain": "Gain"
     },
     "mount": {
       "title": "Montáž",

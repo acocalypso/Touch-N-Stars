@@ -224,7 +224,11 @@
       "running": "运行中",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "editParameters": "Edit parameters",
+      "editSequence": "Edit Sequence",
+      "exposureCount": "Exposure Count",
+      "gain": "Gain"
     },
     "mount": {
       "title": "赤道仪",

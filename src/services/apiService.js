@@ -161,6 +161,19 @@ const apiService = {
     }
   },
 
+  async sequenceEdit(payload) {
+    try {
+      const { BASE_URL } = getUrls();
+      const url = `${BASE_URL}/sequence/edit?path=${encodeURIComponent(payload.path)}&value=${encodeURIComponent(payload.value)}`;
+      console.log('SequenceEditURL: %s', url);
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating values:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Mount ---------------------------------------
   mountAction(action) {
     const { BASE_URL } = getUrls();

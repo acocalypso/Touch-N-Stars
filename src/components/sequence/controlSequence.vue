@@ -17,7 +17,6 @@
         </svg>
         {{ $t('components.sequence.sequence_control') }}
       </h3>
-
       <div class="flex flex-col gap-3 sm:flex-row sm:gap-4">
         <button
           :class="[
@@ -50,7 +49,6 @@
               : $t('components.sequence.startSequence')
           }}
         </button>
-
         <button
           class="btn-primary bg-gradient-to-br from-red-600 to-red-500 hover:from-red-700 hover:to-red-600"
           @click="stopSequence"
@@ -70,7 +68,6 @@
           </svg>
           {{ $t('components.sequence.stopSequence') }}
         </button>
-
         <button
           class="btn-primary bg-gradient-to-br from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
           @click="showResetConfirmation = true"
@@ -91,8 +88,115 @@
           </svg>
           {{ $t('components.sequence.resetSequence') }}
         </button>
+        <button
+          class="btn-primary bg-gradient-to-br from-green-600 to-green-500 hover:from-green-700 hover:to-green-600"
+          @click="openEditModal"
+          :disabled="store.sequenceRunning"
+          v-tooltip="'Edit exposure parameters'"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
+            />
+          </svg>
+          {{ $t('components.sequence.editSequence') }}
+        </button>
       </div>
     </div>
+
+    <!-- Edit Parameters Dialog -->
+    <transition name="fade">
+      <div
+        v-if="showEditModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4"
+        @click.self="showEditModal = false"
+        @keydown.esc="showEditModal = false"
+      >
+        <transition name="scale">
+          <div v-if="showEditModal" class="bg-gray-800 rounded-lg p-6 max-w-md w-full mt-4">
+            <h3 class="text-xl font-semibold mb-4">
+              {{ $t('components.sequence.editParameters') }}
+            </h3>
+
+            <!-- Group for Take Exposure (if available) -->
+            <div v-if="takeExposure" class="space-y-4 mb-6 border-b pb-4">
+              <h4 class="text-lg font-semibold mb-2">Take Exposure</h4>
+              <div>
+                <label class="block text-sm font-medium mb-1">
+                  {{ $t('components.sequence.gain') }}
+                </label>
+                <input
+                  v-model.number="takeExposureGain"
+                  type="number"
+                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">
+                  {{ $t('components.sequence.exposureTime') }}
+                </label>
+                <input
+                  v-model.number="takeExposureExposureTime"
+                  type="number"
+                  step="0.1"
+                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <!-- Group for Smart Exposure (if available) -->
+            <div v-if="smartExposure" class="space-y-4 mb-6">
+              <h4 class="text-lg font-semibold mb-2">Smart Exposure</h4>
+              <div>
+                <label class="block text-sm font-medium mb-1">
+                  {{ $t('components.sequence.gain') }}
+                </label>
+                <input
+                  v-model.number="smartExposureGain"
+                  type="number"
+                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">
+                  {{ $t('components.sequence.exposureCount') }}
+                </label>
+                <input
+                  v-model.number="smartExposureExposureCount"
+                  type="number"
+                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">
+                  {{ $t('components.sequence.exposureTime') }}
+                </label>
+                <input
+                  v-model.number="smartExposureExposureTime"
+                  type="number"
+                  step="0.1"
+                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
+            </div>
+
+            <div class="flex justify-end space-x-4">
+              <button class="btn-secondary" @click="showEditModal = false">
+                {{ $t('general.cancel') }}
+              </button>
+              <button class="btn-primary bg-green-600 hover:bg-green-700" @click="saveEdits">
+                {{ $t('components.settings.save') }}
+              </button>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
 
     <!-- Reset Confirmation Dialog -->
     <transition name="fade">
@@ -124,22 +228,188 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
 const showResetConfirmation = ref(false);
+const showEditModal = ref(false);
 const isLoading = computed(() => store.sequenceRunning);
+
+// Define separate refs for each exposure type and their paths
+const takeExposure = ref(null);
+const smartExposure = ref(null);
+const takeExposurePath = ref('');
+const smartExposurePath = ref('');
+
+// Refs for Take Exposure fields (no ExposureCount)
+const takeExposureGain = ref(-1);
+const takeExposureExposureTime = ref(5);
+
+// Refs for Smart Exposure fields (with ExposureCount)
+const smartExposureGain = ref(-1);
+const smartExposureExposureCount = ref(0);
+const smartExposureExposureTime = ref(5);
+
+onMounted(() => {
+  findExposureItemsInSequence();
+});
+
+// Recursively search for both "Take Exposure" and "Smart Exposure" items
+function findExposureItems(container, path = '', results = []) {
+  if (container.Name === 'Take Exposure' || container.Name === 'Smart Exposure') {
+    results.push({
+      type: container.Name,
+      path: path,
+      item: container,
+    });
+    return;
+  }
+  if (container.Items && Array.isArray(container.Items)) {
+    container.Items.forEach((item, index) => {
+      findExposureItems(item, path ? `${path}-Items-${index}` : `${index}`, results);
+    });
+  }
+}
+
+function findExposureItemsInSequence() {
+  if (!store.sequenceInfo || store.sequenceInfo.length === 0) return;
+  const exposureItems = [];
+  store.sequenceInfo.forEach((container, index) => {
+    findExposureItems(container, `${index}`, exposureItems);
+  });
+  if (exposureItems.length > 0) {
+    // Reset previous values
+    takeExposure.value = null;
+    smartExposure.value = null;
+    exposureItems.forEach((exp) => {
+      if (exp.type === 'Take Exposure') {
+        takeExposure.value = exp.item;
+        takeExposurePath.value = exp.path;
+      } else if (exp.type === 'Smart Exposure') {
+        smartExposure.value = exp.item;
+        smartExposurePath.value = exp.path;
+      }
+    });
+    console.log('Found Take Exposure path:', takeExposurePath.value);
+    console.log('Found Smart Exposure path:', smartExposurePath.value);
+    return;
+  }
+  console.error('Could not find any exposure items in sequence structure');
+}
+
+function openEditModal() {
+  // Refresh exposure items from sequence data
+  findExposureItemsInSequence();
+  if (takeExposure.value) {
+    takeExposureGain.value = takeExposure.value.Gain !== undefined ? takeExposure.value.Gain : -1;
+    takeExposureExposureTime.value =
+      takeExposure.value.ExposureTime !== undefined ? takeExposure.value.ExposureTime : 5;
+  }
+  if (smartExposure.value) {
+    smartExposureGain.value =
+      smartExposure.value.Gain !== undefined ? smartExposure.value.Gain : -1;
+    smartExposureExposureCount.value =
+      smartExposure.value.ExposureCount !== undefined ? smartExposure.value.ExposureCount : 0;
+    smartExposureExposureTime.value =
+      smartExposure.value.ExposureTime !== undefined ? smartExposure.value.ExposureTime : 5;
+  }
+  if (!takeExposure.value && !smartExposure.value) {
+    console.error('Could not find any exposure settings in sequence data');
+    alert('Could not find exposure settings. Please reload the sequence.');
+    return;
+  }
+  showEditModal.value = true;
+}
+
+async function saveEdits() {
+  if (!takeExposure.value && !smartExposure.value) {
+    console.error('No valid exposure item found');
+    findExposureItemsInSequence();
+    if (!takeExposure.value && !smartExposure.value) {
+      alert('Could not find any exposure settings to update. Please reload the sequence.');
+      showEditModal.value = false;
+      return;
+    }
+  }
+  try {
+    let success = true;
+    const results = {};
+
+    // Update Take Exposure (if available)
+    if (takeExposure.value) {
+      let basePath = takeExposurePath.value;
+      if (basePath.startsWith('2')) {
+        basePath = basePath.replace(/^2/, 'Imaging');
+      }
+      const takeUpdates = [
+        { key: 'Gain', value: takeExposureGain.value.toString() },
+        { key: 'ExposureTime', value: takeExposureExposureTime.value.toString() },
+      ];
+      for (const update of takeUpdates) {
+        const path = `${basePath}-${update.key}`;
+        const payload = { path, value: update.value };
+        console.debug(`Requesting update for Take Exposure: ${update.key}`, payload);
+        const response = await apiService.sequenceEdit(payload);
+        results[`TakeExposure-${update.key}`] = response;
+        if (!response.Success) {
+          console.error(`Failed to update Take Exposure ${update.key}:`, response.Error);
+          success = false;
+        }
+      }
+    }
+
+    // Update Smart Exposure (if available)
+    if (smartExposure.value) {
+      let basePath = smartExposurePath.value;
+      if (basePath.startsWith('2')) {
+        basePath = basePath.replace(/^2/, 'Imaging');
+      }
+      const smartUpdates = [
+        { key: 'Gain', value: smartExposureGain.value.toString() },
+        { key: 'ExposureCount', value: smartExposureExposureCount.value.toString() },
+        { key: 'ExposureTime', value: smartExposureExposureTime.value.toString() },
+      ];
+      for (const update of smartUpdates) {
+        const path = `${basePath}-${update.key}`;
+        const payload = { path, value: update.value };
+        console.debug(`Requesting update for Smart Exposure: ${update.key}`, payload);
+        const response = await apiService.sequenceEdit(payload);
+        results[`SmartExposure-${update.key}`] = response;
+        if (!response.Success) {
+          console.error(`Failed to update Smart Exposure ${update.key}:`, response.Error);
+          success = false;
+        }
+      }
+    }
+
+    if (success) {
+      await store.fetchAllInfos();
+      showEditModal.value = false;
+    } else {
+      let errorMessage = 'Failed to save some settings:\n';
+      for (const key in results) {
+        if (!results[key].Success) {
+          errorMessage += `- ${key}: ${results[key].Error}\n`;
+        }
+      }
+      alert(errorMessage);
+    }
+  } catch (error) {
+    console.error('Error saving edits:', error);
+    alert('Error saving changes: ' + (error.message || 'Unknown error'));
+  }
+}
 
 async function startSequence() {
   console.log('Starting sequence');
   store.setSequenceRunning(true);
   try {
     const data = await apiService.sequenceAction('start');
-    console.log('Antwort:', data);
+    console.log('Response:', data);
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
     store.setSequenceRunning(false);
   }
 }
@@ -147,16 +417,14 @@ async function startSequence() {
 async function stopSequence() {
   try {
     const data = await apiService.sequenceAction('stop');
-    console.log('Antwort:', data);
-
-    // Only stop if the API confirms success
+    console.log('Response:', data);
     if (data.Success) {
       store.setSequenceRunning(false);
     } else {
       console.error('Failed to stop sequence:', data.Error);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
     store.setSequenceRunning(false);
   }
 }
@@ -166,20 +434,16 @@ async function confirmReset() {
   showResetConfirmation.value = false;
   try {
     const data = await apiService.sequenceAction('reset');
-    console.log('Antwort:', data);
-
-    // Handle reset response similar to other actions
+    console.log('Response:', data);
     if (data.Success) {
-      // Reset successful
+      await store.fetchAllInfos();
       isLoading.value = false;
     } else {
       console.error('Failed to reset sequence:', data.Error);
-      // Allow retry on error
       isLoading.value = false;
     }
   } catch (error) {
-    console.log('Fehler:', error);
-    // Allow retry on error
+    console.log('Error:', error);
     isLoading.value = false;
   }
 }
@@ -190,17 +454,14 @@ async function confirmReset() {
 .fade-leave-active {
   transition: opacity 0.2s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
-
 .scale-enter-active,
 .scale-leave-active {
   transition: all 0.2s ease;
 }
-
 .scale-enter-from,
 .scale-leave-to {
   transform: scale(0.95);

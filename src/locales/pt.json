@@ -224,7 +224,11 @@
       "running": "EM EXECUÇÃO",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "editParameters": "Editar parâmetros",
+      "editSequence": "Editar sequência",
+      "exposureCount": "Contagem de exposição",
+      "gain": "Ganho"
     },
     "mount": {
       "title": "Montagem",

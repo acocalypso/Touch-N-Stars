@@ -9,6 +9,7 @@ export const apiStore = defineStore('store', {
     intervalIdGraph: null,
     profileInfo: [],
     sequenceInfo: [],
+    sequenceStateInfo: [],
     collapsedStates: {},
     cameraInfo: { IsExposing: false },
     mountInfo: [],
@@ -113,6 +114,7 @@ export const apiStore = defineStore('store', {
         const [
           imageHistoryResponse,
           sequenceResponse,
+          sequenceStateResponse,
           cameraResponse,
           mountResponse,
           filterResponse,
@@ -129,6 +131,7 @@ export const apiStore = defineStore('store', {
         ] = await Promise.all([
           apiService.imageHistoryAll(),
           apiService.sequenceAction('json'),
+          apiService.sequenceAction('state'),
           apiService.cameraAction('info'),
           apiService.mountAction('info'),
           apiService.filterAction('info'),
@@ -147,6 +150,7 @@ export const apiStore = defineStore('store', {
         this.handleApiResponses({
           imageHistoryResponse,
           sequenceResponse,
+          sequenceStateResponse,
           cameraResponse,
           mountResponse,
           filterResponse,
@@ -173,6 +177,7 @@ export const apiStore = defineStore('store', {
       this.intervalIdGraph = null;
       this.profileInfo = [];
       this.sequenceInfo = [];
+      this.sequenceStateInfo = [];
       this.collapsedStates = {};
       this.cameraInfo = { IsExposing: false };
       this.mountInfo = [];
@@ -209,6 +214,7 @@ export const apiStore = defineStore('store', {
     handleApiResponses({
       imageHistoryResponse,
       sequenceResponse,
+      sequenceStateResponse,
       cameraResponse,
       mountResponse,
       filterResponse,
@@ -242,6 +248,12 @@ export const apiStore = defineStore('store', {
       } else {
         this.sequenceIsLoaded = false;
         this.sequenceRunning = false;
+      }
+
+      if (sequenceStateResponse.Success) {
+        this.sequenceStateInfo = sequenceStateResponse.Response;
+      } else {
+        console.log('Error in Sequence State: ', sequenceStateResponse.Error);
       }
 
       if (cameraResponse.Success) {

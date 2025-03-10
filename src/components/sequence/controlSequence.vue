@@ -123,7 +123,7 @@
               {{ $t('components.sequence.editParameters') }}
             </h3>
 
-            <!-- Group for Take Exposure (if available) -->
+            <!-- Group for plain Take Exposure (if available) -->
             <div v-if="takeExposure" class="space-y-4 mb-6 border-b pb-4">
               <h4 class="text-lg font-semibold mb-2">Take Exposure</h4>
               <div>
@@ -183,6 +183,16 @@
                   class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
+              <div>
+                <label class="block text-sm font-medium mb-1">
+                  {{ $t('components.sequence.ditherAfterExposures') }}
+                </label>
+                <input
+                  v-model.number="smartExposureAfterExposures"
+                  type="number"
+                  class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                />
+              </div>
             </div>
 
             <div class="flex justify-end space-x-4">
@@ -237,70 +247,112 @@ const showResetConfirmation = ref(false);
 const showEditModal = ref(false);
 const isLoading = computed(() => store.sequenceRunning);
 
-// Define separate refs for each exposure type and their paths
+// Refs for storing exposure items and their paths.
 const takeExposure = ref(null);
 const smartExposure = ref(null);
+const ditherTrigger = ref(null);
 const takeExposurePath = ref('');
 const smartExposurePath = ref('');
+const ditherTriggerPath = ref('');
 
-// Refs for Take Exposure fields (no ExposureCount)
+// Input field refs.
 const takeExposureGain = ref(-1);
 const takeExposureExposureTime = ref(5);
-
-// Refs for Smart Exposure fields (with ExposureCount)
 const smartExposureGain = ref(-1);
 const smartExposureExposureCount = ref(0);
 const smartExposureExposureTime = ref(5);
+const smartExposureAfterExposures = ref(1);
 
 onMounted(() => {
   findExposureItemsInSequence();
 });
 
-// Recursively search for both "Take Exposure" and "Smart Exposure" items
-function findExposureItems(container, path = '', results = []) {
-  if (container.Name === 'Take Exposure' || container.Name === 'Smart Exposure') {
-    results.push({
-      type: container.Name,
-      path: path,
-      item: container,
-    });
-    return;
+/**
+ * Recursively search the sequence tree.
+ * If a container's Name is "Smart Exposure_Container", then all nested "Take Exposure"
+ * items are marked as Smart Exposures. Also finds Dither triggers.
+ */
+function findExposureItems(container, path = '', inSmartContainer = false, results = []) {
+  if (container.Name === 'Smart Exposure_Container') {
+    inSmartContainer = true;
   }
+
+  // Find Take Exposure items
+  if (container.Name === 'Take Exposure') {
+    const type = inSmartContainer ? 'Smart Exposure' : 'Take Exposure';
+    results.push({ type, path, item: container });
+  }
+
+  // Find Dither after Exposures trigger
+  if (container.Triggers && Array.isArray(container.Triggers)) {
+    container.Triggers.forEach((trigger, index) => {
+      if (trigger.Name === 'Dither after Exposures_Trigger') {
+        const triggerPath = path ? `${path}-Triggers-${index}` : `Triggers-${index}`;
+        results.push({ type: 'Dither Trigger', path: triggerPath, item: trigger });
+      }
+    });
+  }
+
+  // Continue recursive search
   if (container.Items && Array.isArray(container.Items)) {
-    container.Items.forEach((item, index) => {
-      findExposureItems(item, path ? `${path}-Items-${index}` : `${index}`, results);
+    container.Items.forEach((child, index) => {
+      const newPath = path ? `${path}-Items-${index}` : `${index}`;
+      findExposureItems(child, newPath, inSmartContainer, results);
     });
   }
 }
 
+/**
+ * Traverse the sequenceStateInfo and pick out the first occurrence of
+ * a plain Take Exposure, a Smart Exposure, and a Dither trigger.
+ */
 function findExposureItemsInSequence() {
-  if (!store.sequenceInfo || store.sequenceInfo.length === 0) return;
-  const exposureItems = [];
-  store.sequenceInfo.forEach((container, index) => {
-    findExposureItems(container, `${index}`, exposureItems);
-  });
-  if (exposureItems.length > 0) {
-    // Reset previous values
-    takeExposure.value = null;
-    smartExposure.value = null;
-    exposureItems.forEach((exp) => {
-      if (exp.type === 'Take Exposure') {
-        takeExposure.value = exp.item;
-        takeExposurePath.value = exp.path;
-      } else if (exp.type === 'Smart Exposure') {
-        smartExposure.value = exp.item;
-        smartExposurePath.value = exp.path;
-      }
+  if (!store.sequenceStateInfo) return;
+  let items = [];
+
+  if (Array.isArray(store.sequenceStateInfo)) {
+    store.sequenceStateInfo.forEach((container, index) => {
+      findExposureItems(container, `${index}`, false, items);
     });
-    console.log('Found Take Exposure path:', takeExposurePath.value);
-    console.log('Found Smart Exposure path:', smartExposurePath.value);
-    return;
+  } else {
+    findExposureItems(store.sequenceStateInfo, '0', false, items);
   }
-  console.error('Could not find any exposure items in sequence structure');
+
+  const plainExposure = items.find((exp) => exp.type === 'Take Exposure');
+  const smartExp = items.find((exp) => exp.type === 'Smart Exposure');
+  const ditherTrig = items.find((item) => item.type === 'Dither Trigger');
+
+  if (plainExposure) {
+    takeExposure.value = plainExposure.item;
+    takeExposurePath.value = plainExposure.path;
+  } else {
+    takeExposure.value = null;
+    takeExposurePath.value = '';
+  }
+
+  if (smartExp) {
+    smartExposure.value = smartExp.item;
+    smartExposurePath.value = smartExp.path;
+  } else {
+    smartExposure.value = null;
+    smartExposurePath.value = '';
+  }
+
+  if (ditherTrig) {
+    ditherTrigger.value = ditherTrig.item;
+    ditherTriggerPath.value = ditherTrig.path;
+    smartExposureAfterExposures.value = ditherTrig.item.AfterExposures || 1;
+  } else {
+    ditherTrigger.value = null;
+    ditherTriggerPath.value = '';
+  }
+
+  console.log('Found Take Exposure path:', takeExposurePath.value);
+  console.log('Found Smart Exposure path:', smartExposurePath.value);
+  console.log('Found Dither Trigger path:', ditherTriggerPath.value);
 }
 
 function openEditModal() {
-  // Refresh exposure items from sequence data
   findExposureItemsInSequence();
   if (takeExposure.value) {
     takeExposureGain.value = takeExposure.value.Gain !== undefined ? takeExposure.value.Gain : -1;
@@ -314,6 +366,10 @@ function openEditModal() {
       smartExposure.value.ExposureCount !== undefined ? smartExposure.value.ExposureCount : 0;
     smartExposureExposureTime.value =
       smartExposure.value.ExposureTime !== undefined ? smartExposure.value.ExposureTime : 5;
+  }
+  if (ditherTrigger.value) {
+    smartExposureAfterExposures.value =
+      ditherTrigger.value.AfterExposures !== undefined ? ditherTrigger.value.AfterExposures : 1;
   }
   if (!takeExposure.value && !smartExposure.value) {
     console.error('Could not find any exposure settings in sequence data');
@@ -337,7 +393,7 @@ async function saveEdits() {
     let success = true;
     const results = {};
 
-    // Update Take Exposure (if available)
+    // Update plain Take Exposure (if available)
     if (takeExposure.value) {
       let basePath = takeExposurePath.value;
       if (basePath.startsWith('2')) {
@@ -382,6 +438,27 @@ async function saveEdits() {
           success = false;
         }
       }
+    }
+
+    // Update Dither Trigger AfterExposures (if available)
+    if (ditherTrigger.value) {
+      let basePath = ditherTriggerPath.value;
+      if (basePath.startsWith('2')) {
+        basePath = basePath.replace(/^2/, 'Imaging');
+      }
+      const payload = {
+        path: `${basePath}-AfterExposures`,
+        value: smartExposureAfterExposures.value.toString(),
+      };
+      console.debug(`Requesting update for Dither Trigger AfterExposures:`, payload);
+      const response = await apiService.sequenceEdit(payload);
+      results[`DitherTrigger-AfterExposures`] = response;
+      if (!response.Success) {
+        console.error(`Failed to update Dither Trigger AfterExposures:`, response.Error);
+        success = false;
+      }
+    } else {
+      console.warn('No Dither Trigger found to update AfterExposures value');
     }
 
     if (success) {

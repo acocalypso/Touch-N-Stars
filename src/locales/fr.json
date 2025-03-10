@@ -228,7 +228,8 @@
       "editParameters": "Modifier les paramètres",
       "editSequence": "Modifier la séquence",
       "exposureCount": "Décompte des expositions",
-      "gain": "Gagner"
+      "gain": "Gagner",
+      "ditherAfterExposures": "Troncer"
     },
     "mount": {
       "title": "Monture",

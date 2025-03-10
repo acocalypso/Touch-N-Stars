@@ -228,7 +228,8 @@
       "editParameters": "Parameter bearbeiten",
       "editSequence": "Sequenz bearbeiten",
       "exposureCount": "Aufnahmezähler",
-      "gain": "Verstärkung"
+      "gain": "Verstärkung",
+      "ditherAfterExposures": "Dither danach"
     },
     "mount": {
       "title": "Montierung",

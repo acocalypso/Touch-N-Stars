@@ -228,7 +228,8 @@
       "exposureCount": "Exposure Count",
       "gain": "Gain",
       "editParameters": "Edit parameters",
-      "editSequence": "Edit Sequence"
+      "editSequence": "Edit Sequence",
+      "ditherAfterExposures": "Dither after # exposures"
     },
     "mount": {
       "title": "Mount",

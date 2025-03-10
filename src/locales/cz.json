@@ -228,7 +228,8 @@
       "editParameters": "Edit parameters",
       "editSequence": "Edit Sequence",
       "exposureCount": "Exposure Count",
-      "gain": "Gain"
+      "gain": "Gain",
+      "ditherAfterExposures": "Dither after"
     },
     "mount": {
       "title": "Montáž",

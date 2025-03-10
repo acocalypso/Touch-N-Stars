@@ -228,7 +228,8 @@
       "editParameters": "Modifica parametri",
       "editSequence": "Modifica sequenza",
       "exposureCount": "Conteggio dell'esposizione",
-      "gain": "Guadagno"
+      "gain": "Guadagno",
+      "ditherAfterExposures": "Dither dopo"
     },
     "mount": {
       "title": "Montatura",

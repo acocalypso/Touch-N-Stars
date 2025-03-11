@@ -51,7 +51,7 @@
       </button>
     </div>
 
-    <!-- Mount position overlay  
+    <!-- Mount position overlay 
     <div
       v-if="showMountInfo"
       class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
@@ -61,7 +61,7 @@
         {{ $t('components.stellarium.selected_object.ra') }}: {{ mountRa }}
       </p>
       <p class="text-sm">{{ $t('components.stellarium.selected_object.dec') }}: {{ mountDec }}</p>
-    </div> -->
+    </div>  -->
   </div>
 </template>
 
@@ -118,29 +118,20 @@ function syncViewToMount() {
   }
 }
 
-// 5) RA/Dec => 3D-Kugel-Koords
-function vec3_from_sphe(ra_degree, dec_degree, outArray) {
-  const radRA = (ra_degree * Math.PI) / 180;
-  const radDec = (dec_degree * Math.PI) / 180;
-  const cosDec = Math.cos(radDec);
-
-  outArray[0] = Math.cos(radRA) * cosDec;
-  outArray[1] = Math.sin(radRA) * cosDec;
-  outArray[2] = Math.sin(radDec);
-}
-
 // 6) Kreis auf RA/Dec aktualisieren
-function updateCirclePos(raDeg, decDeg) {
-  if (!mountCircle.value) return;
-  const posArr = mountCircle.value.pos;
-
-  vec3_from_sphe(raDeg, decDeg, posArr);
-  mountCircle.value.pos = posArr;
-
-  // Größe/Farbe
+function updateCirclePos(ra_deg, dec_deg) {
+  const stel = stellariumStore.stel;
+  const ra_rad = ra_deg * stel.D2R;
+  const dec_rad = dec_deg * stel.D2R;
+  const icrfVec = stel.s2c(ra_rad, dec_rad);
+  const observedVec = stel.convertFrame(stel.observer, 'JNOW', 'MOUNT', icrfVec);
+  mountCircle.value.pos = observedVec;
   mountCircle.value.color = [0, 1, 0, 0.25];
   mountCircle.value.border_color = [1, 1, 1, 1];
   mountCircle.value.size = [0.03, 0.03];
+  mountCircle.value.frame = 'MOUNT';
+  mountCircle.value.label = 'MOUNT';
+  mountCircle.value.update();
 }
 
 function handleMountUpdate(raVal, decVal) {
@@ -163,7 +154,6 @@ watch(
     if (stellariumStore.stel) {
       const ra = newRa;
       const dec = newDec;
-      console.log('Mount position:', ra, dec);
       // Update displayed coordinates
       mountRa.value = degreesToHMS(ra);
       mountDec.value = degreesToDMS(dec);
@@ -184,9 +174,6 @@ onMounted(() => {
   // Update displayed coordinates
   mountRa.value = degreesToHMS(ra);
   mountDec.value = degreesToDMS(dec);
-
-  // console.log('Mount position:', ra, dec);
-  // console.log('Mount position:', mountRa.value, mountDec.value);
 
   if (!stellariumStore.stel) return;
   mountLayer.value = stellariumStore.stel.createLayer({ id: 'mountLayer', z: 7, visible: true });

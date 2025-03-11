@@ -20,7 +20,6 @@
       ref="mountComponent"
       :canvasRef="stelCanvas"
       :isSearchVisible="isSearchVisible"
-      @moveToPosition="moveToRaDec"
     />
 
     <!-- Overlay für das Suchfeld -->
@@ -103,27 +102,11 @@ function setFramingCoordinates() {
   router.push('/mount');
 }
 
-function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
-  if (!stellariumStore.stel) {
-    console.error('Stellarium instance is not ready yet.');
-    return;
-  }
-  const stel = stellariumStore.stel;
-  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
-  const ra_rad = ra_deg * stel.D2R;
-  const dec_rad = dec_deg * stel.D2R;
-  const icrfVec = stel.s2c(ra_rad, dec_rad);
-  const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-  console.log('observedVec:', observedVec);
-  stel.lookAt(observedVec, duration_sec);
-  stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
-}
-
 watch(
   () => stellariumStore.search.DECangleString,
   (newValue) => {
     console.log('selectedObject:', newValue);
-    moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle);
+ 
     stellariumStore.search.DECangleString = '';
   }
 );
@@ -237,13 +220,6 @@ onMounted(async () => {
               }
             }
           });
-
-          // Falls Koordinaten aus dem Store kommen
-          if (framingStore.RAangle && framingStore.DECangle) {
-            moveToRaDec(framingStore.RAangle, framingStore.DECangle, 1, 50);
-          } else if (stellariumStore.search.RAangle && stellariumStore.search.DECangle) {
-            moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle, 1, 50);
-          }
         },
       });
     } catch (err) {

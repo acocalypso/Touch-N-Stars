@@ -49,6 +49,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
@@ -112,6 +113,9 @@ watch(
 );
 
 onMounted(async () => {
+  //NINA vorbereiten
+  await apiService.applicatioTabSwitch('framing');
+  await apiService.setFramingImageSource('SKYATLAS');
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
   script.src = '/stellarium-js/stellarium-web-engine.js';

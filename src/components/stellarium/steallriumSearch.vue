@@ -97,22 +97,60 @@ async function selectTarget(item) {
   stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
   const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
 
-  const targetLayer = stellariumStore.stel.createLayer({ id: 'targetLayer', z: 8, visible: true });
   const targetCircle = stellariumStore.stel.createObj('circle', {
     id: 'targetCircle',
     pos: observedVec,
     color: [0, 0, 0, 0.1], 
     size: [0.05, 0.05], // Größe der Markierung
-  
   });
   targetCircle.pos = observedVec
   targetCircle.update();
-  //targetLayer.add(targetCircle);
   stel.core.selection = targetCircle;
   stel.pointAndLock(targetCircle);
   targetSearchResult.value = []; 
   console.log('Ausgewähltes Objekt:', item);
+  console.log('Objekt:', stellariumStore.stel);
+  
 }
+
+  //testGeo();
+ function testGeo(){
+  console.log('testGeo');
+  const stel = stellariumStore.stel;
+  const layer = stel.createLayer({id: 'testLayerGeojson', z: 7, visible: true})
+  const geojson = stel.createObj('geojson', {
+      data: {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "stroke": "#431f1f",
+              "stroke-width": 4,
+              "stroke-opacity": 1,
+              "fill": "#b4b16e",
+              "fill-opacity": 0.5,
+            },
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                [10, 40],  //  ⬆️  Linke untere Ecke
+                [20, 40],  //  ➡️  Rechte untere Ecke
+                [20, 50],  //  ⬆️  Rechte obere Ecke
+                [10, 50],  //  ⬅️  Linke obere Ecke
+                [10, 40]   //  🔄  Wieder zurück zur ersten Koordinate (geschlossenes Polygon)
+                ]
+              ]
+            },
+          },
+     
+        ]
+      }
+    });
+    layer.add(geojson);
+ }
+
 
 // Funktion zum Fokussieren des Suchfelds, wenn es eingeblendet wird
 async function focusSearchInput() {

@@ -125,7 +125,6 @@ function updateCirclePos(ra_deg, dec_deg) {
   const ra_rad = ra_deg * stel.D2R;
   const dec_rad = dec_deg * stel.D2R;
   const icrfVec = stel.s2c(ra_rad, dec_rad);
-  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
   const observedVec = stel.convertFrame(stel.observer, 'JNOW', 'MOUNT', icrfVec);
   mountCircle.value.pos = observedVec;
   mountCircle.value.color = [0, 1, 0, 0.25];

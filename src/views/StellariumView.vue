@@ -107,7 +107,7 @@ watch(
   () => stellariumStore.search.DECangleString,
   (newValue) => {
     console.log('selectedObject:', newValue);
- 
+
     stellariumStore.search.DECangleString = '';
   }
 );

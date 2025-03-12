@@ -15,14 +15,16 @@
       <connectEquipment
         class="mb-4 space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
       />
+      <selectDevices />
     </div>
   </div>
 </template>
 
 <script setup>
 import profilSelect from '@/components/profil/profilSelect.vue';
-import connectEquipment from '@/components/connectEquipment.vue';
+import connectEquipment from '@/components/equipment/connectEquipment.vue';
 import { apiStore } from '@/store/store';
+import selectDevices from '@/components/equipment/selectDevices.vue';
 
 const store = apiStore();
 </script>

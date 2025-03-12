@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted} from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 
 const stellariumStore = useStellariumStore();
@@ -199,5 +199,4 @@ watch(timeSpeed, (newValue) => {
 onMounted(() => {
   timeSpeed.value = 0; // ini
 });
-
 </script>

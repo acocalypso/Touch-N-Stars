@@ -149,7 +149,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import ConnectionButton from './helpers/ConnectionButton.vue';
+import ConnectionButton from '@/components/helpers/ConnectionButton.vue';
 
 const { t } = useI18n();
 const store = apiStore();

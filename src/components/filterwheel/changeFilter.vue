@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg h-full">
-      <label for="gain" class="text-xs mb-1 text-gray-400"
+      <label for="filter" class="text-xs mb-1 text-gray-400"
         >{{ $t('components.filterwheel.filter') }}
       </label>
 

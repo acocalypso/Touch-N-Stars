@@ -1,146 +1,117 @@
 <template>
-  <div class="flex flex-col gap-4">
-    <!-- Toggle All Connections Button -->
-    <div class="mb-4">
-      <button
-        class="px-4 py-2 rounded transition-colors flex items-center justify-center gap-2 w-full"
-        :class="allConnected ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'"
-        @click="toggleAllConnections"
-        :disabled="isLoading"
+  <!-- Toggle All Connections Button -->
+  <div class="pb-5">
+    <button
+      class="px-4 py-2 rounded transition-colors flex items-center justify-center gap-2 w-full"
+      :class="allConnected ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'"
+      @click="toggleAllConnections"
+      :disabled="isLoading"
+    >
+      <span>{{
+        allConnected
+          ? $t('components.connectEquipment.disconnectAll')
+          : $t('components.connectEquipment.connectAll')
+      }}</span>
+      <svg
+        v-if="isLoading"
+        class="animate-spin h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
       >
-        <span>{{
-          allConnected
-            ? $t('components.connectEquipment.disconnectAll')
-            : $t('components.connectEquipment.connectAll')
-        }}</span>
-        <svg
-          v-if="isLoading"
-          class="animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          ></circle>
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-          ></path>
-        </svg>
-      </button>
-    </div>
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+    </button>
+  </div>
+  <div class="flex flex-col gap-2">
+    <selectDevices
+      apiAction="cameraAction"
+      :deviceName="$t('components.connectEquipment.camera.name')"
+      :default-device-id="store.profileInfo.CameraSettings.Id"
+      :isConnected="store.cameraInfo.Connected"
+    />
 
-    <div class="flex flex-col gap-2">
-      <template v-for="device in store.existingEquipmentList" :key="device.type">
-        <div class="mt-2">
-          <!-- Camera Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'camera'"
-            :isConnected="store.cameraInfo.Connected"
-            :connectText="$t('components.connectEquipment.camera.connect')"
-            :disconnectText="$t('components.connectEquipment.camera.disconnect')"
-            :onToggle="toggleCameraConnection"
-          />
+    <selectDevices
+      apiAction="mountAction"
+      :deviceName="$t('components.connectEquipment.mount.name')"
+      :default-device-id="store.profileInfo.TelescopeSettings.Id"
+      :isConnected="store.mountInfo.Connected"
+    />
 
-          <!-- Filter Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'filter'"
-            :isConnected="store.filterInfo.Connected"
-            :connectText="$t('components.connectEquipment.filter.connect')"
-            :disconnectText="$t('components.connectEquipment.filter.disconnect')"
-            :onToggle="toggleFilterConnection"
-          />
+    <selectDevices
+      apiAction="focusAction"
+      :deviceName="$t('components.connectEquipment.focuser.name')"
+      :default-device-id="store.profileInfo.FocuserSettings.Id"
+      :isConnected="store.focuserInfo.Connected"
+    />
 
-          <!-- Mount Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'mount'"
-            :isConnected="store.mountInfo.Connected"
-            :connectText="$t('components.connectEquipment.mount.connect')"
-            :disconnectText="$t('components.connectEquipment.mount.disconnect')"
-            :onToggle="toggleMountConnection"
-          />
+    <selectDevices
+      apiAction="guiderAction"
+      :deviceName="$t('components.connectEquipment.guider.name')"
+      :default-device-id="store.profileInfo.GuiderSettings.GuiderName"
+      :isConnected="store.guiderInfo.Connected"
+    />
 
-          <!-- Focuser Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'focuser'"
-            :isConnected="store.focuserInfo.Connected"
-            :connectText="$t('components.connectEquipment.focuser.connect')"
-            :disconnectText="$t('components.connectEquipment.focuser.disconnect')"
-            :onToggle="toggleFocuserConnection"
-          />
+    <selectDevices
+      apiAction="filterAction"
+      :deviceName="$t('components.connectEquipment.filter.name')"
+      :default-device-id="store.profileInfo.FilterWheelSettings.Id"
+      :isConnected="store.filterInfo.Connected"
+    />
 
-          <!-- Rotator Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'rotator'"
-            :isConnected="store.rotatorInfo.Connected"
-            :connectText="$t('components.connectEquipment.rotator.connect')"
-            :disconnectText="$t('components.connectEquipment.rotator.disconnect')"
-            :onToggle="toggleRotatorConnection"
-          />
+    <selectDevices
+      apiAction="rotatorAction"
+      :deviceName="$t('components.connectEquipment.rotator.name')"
+      :default-device-id="store.profileInfo.RotatorSettings.Id"
+      :isConnected="store.rotatorInfo.Connected"
+    />
 
-          <!-- Guider Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'guider'"
-            :isConnected="store.guiderInfo.Connected"
-            :connectText="$t('components.connectEquipment.guider.connect')"
-            :disconnectText="$t('components.connectEquipment.guider.disconnect')"
-            :onToggle="toggleGuiderConnection"
-          />
+    <selectDevices
+      apiAction="weatherAction"
+      :deviceName="$t('components.connectEquipment.weather.name')"
+      :default-device-id="store.profileInfo.WeatherDataSettings.Id"
+      :isConnected="store.weatherInfo.Connected"
+    />
 
-          <!-- Safety Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'safety'"
-            :isConnected="store.safetyInfo.Connected"
-            :connectText="$t('components.connectEquipment.safety.connect')"
-            :disconnectText="$t('components.connectEquipment.safety.disconnect')"
-            :onToggle="toggleSafetyConnection"
-          />
+    <selectDevices
+      apiAction="safetyAction"
+      :deviceName="$t('components.connectEquipment.safety.name')"
+      :default-device-id="store.profileInfo.SafetyMonitorSettings.Id"
+      :isConnected="store.safetyInfo.Connected"
+    />
 
-          <!-- Flat Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'flatdevice'"
-            :isConnected="store.flatdeviceInfo.Connected"
-            :connectText="$t('components.connectEquipment.flat.connect')"
-            :disconnectText="$t('components.connectEquipment.flat.disconnect')"
-            :onToggle="toggleFlatConnection"
-          />
+    <selectDevices
+      apiAction="flatdeviceAction"
+      :deviceName="$t('components.connectEquipment.flat.name')"
+      :default-device-id="store.profileInfo.FlatDeviceSettings.Id"
+      :isConnected="store.flatdeviceInfo.Connected"
+    />
 
-          <!-- Dome Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'dome'"
-            :isConnected="store.domeInfo.Connected"
-            :connectText="$t('components.connectEquipment.dome.connect')"
-            :disconnectText="$t('components.connectEquipment.dome.disconnect')"
-            :onToggle="toggleDomeConnection"
-          />
+    <selectDevices
+      apiAction="domeAction"
+      :deviceName="$t('components.connectEquipment.dome.name')"
+      :default-device-id="store.profileInfo.DomeSettings.Id"
+      :isConnected="store.domeInfo.Connected"
+    />
 
-          <!-- Weather Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'weather'"
-            :isConnected="store.weatherInfo.Connected"
-            :connectText="$t('components.connectEquipment.weather.connect')"
-            :disconnectText="$t('components.connectEquipment.weather.disconnect')"
-            :onToggle="toggleWeatherConnection"
-          />
-
-          <!-- Switch Control -->
-          <ConnectionButton
-            v-if="device.apiName === 'switch'"
-            :isConnected="store.switchInfo.Connected"
-            :connectText="$t('components.connectEquipment.switch.connect')"
-            :disconnectText="$t('components.connectEquipment.switch.disconnect')"
-            :onToggle="toggleSwitchConnection"
-          />
-        </div>
-      </template>
-    </div>
+    <selectDevices
+      apiAction="switchAction"
+      :deviceName="$t('components.connectEquipment.switch.name')"
+      :default-device-id="store.profileInfo.SwitchSettings.Id"
+      :isConnected="store.switchInfo.Connected"
+    />
   </div>
 </template>
 
@@ -149,143 +120,11 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import ConnectionButton from '@/components/helpers/ConnectionButton.vue';
+import selectDevices from '@/components/equipment/selectDevices.vue';
 
 const { t } = useI18n();
 const store = apiStore();
 const isLoading = ref(false);
-
-async function toggleCameraConnection() {
-  try {
-    if (store.cameraInfo.Connected) {
-      await apiService.cameraAction('disconnect');
-    } else {
-      await apiService.cameraAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.camera.error'), error.response?.data || error);
-  }
-}
-
-async function toggleMountConnection() {
-  try {
-    if (store.mountInfo.Connected) {
-      await apiService.mountAction('disconnect');
-    } else {
-      await apiService.mountAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.mount.error'), error.response?.data || error);
-  }
-}
-
-async function toggleFilterConnection() {
-  try {
-    if (store.filterInfo.Connected) {
-      await apiService.filterAction('disconnect');
-    } else {
-      await apiService.filterAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.filter.error'), error.response?.data || error);
-  }
-}
-
-async function toggleFocuserConnection() {
-  try {
-    if (store.focuserInfo.Connected) {
-      await apiService.focusAction('disconnect');
-    } else {
-      await apiService.focusAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.focuser.error'), error.response?.data || error);
-  }
-}
-
-async function toggleRotatorConnection() {
-  try {
-    if (store.rotatorInfo.Connected) {
-      await apiService.rotatorAction('disconnect');
-    } else {
-      await apiService.rotatorAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.rotator.error'), error.response?.data || error);
-  }
-}
-
-async function toggleGuiderConnection() {
-  try {
-    if (store.guiderInfo.Connected) {
-      await apiService.guiderAction('disconnect');
-    } else {
-      await apiService.guiderAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.guider.error'), error.response?.data || error);
-  }
-}
-
-async function toggleSafetyConnection() {
-  try {
-    if (store.safetyInfo.Connected) {
-      await apiService.safetyAction('disconnect');
-    } else {
-      await apiService.safetyAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.safety.error'), error.response?.data || error);
-  }
-}
-
-async function toggleFlatConnection() {
-  try {
-    if (store.flatdeviceInfo.Connected) {
-      await apiService.flatdeviceAction('disconnect');
-    } else {
-      await apiService.flatdeviceAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.flat.error'), error.response?.data || error);
-  }
-}
-
-async function toggleDomeConnection() {
-  try {
-    if (store.domeInfo.Connected) {
-      await apiService.domeAction('disconnect');
-    } else {
-      await apiService.domeAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.dome.error'), error.response?.data || error);
-  }
-}
-
-async function toggleWeatherConnection() {
-  try {
-    if (store.weatherInfo.Connected) {
-      await apiService.weatherAction('disconnect');
-    } else {
-      await apiService.weatherAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.weather.error'), error.response?.data || error);
-  }
-}
-
-async function toggleSwitchConnection() {
-  try {
-    if (store.switchInfo.Connected) {
-      await apiService.switchAction('disconnect');
-    } else {
-      await apiService.switchAction('connect');
-    }
-  } catch (error) {
-    console.error(t('components.connectEquipment.switch.error'), error.response?.data || error);
-  }
-}
 
 const allConnected = computed(() => {
   return store.existingEquipmentList.every((device) => {

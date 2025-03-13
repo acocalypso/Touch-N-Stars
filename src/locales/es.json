@@ -133,7 +133,8 @@
       "flat": {
         "connect": "Conectar panel de flat",
         "disconnect": "Desconectar panel de flat",
-        "error": "Error controlando panel de flat:"
+        "error": "Error controlando panel de flat:",
+        "name": "Evidente"
       },
       "dome": {
         "connect": "Conectar cúpula",
@@ -148,7 +149,8 @@
       "weather": {
         "connect": "Connect monitor tiempo",
         "disconnect": "Desconectar monitor tiempo",
-        "error": "Error controlando monitor tiempo"
+        "error": "Error controlando monitor tiempo",
+        "name": "Clima"
       }
     },
     "lastLogs": {

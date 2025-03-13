@@ -133,7 +133,8 @@
       "flat": {
         "connect": "Connecter le panneau à flats",
         "disconnect": "Déconnecter le panneau à flats",
-        "error": "Erreur de contrôle du panneau à flats:"
+        "error": "Erreur de contrôle du panneau à flats:",
+        "name": "Flatdevice"
       },
       "dome": {
         "connect": "Connecter le dôme",
@@ -148,7 +149,8 @@
       "weather": {
         "connect": "Connecter la météo",
         "disconnect": "Déconnecter la météo",
-        "error": "Erreur de contrôle de la météo"
+        "error": "Erreur de contrôle de la météo",
+        "name": "Météo"
       }
     },
     "lastLogs": {

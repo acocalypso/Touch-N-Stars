@@ -133,7 +133,8 @@
       "flat": {
         "connect": "Připojit flat zařizení",
         "disconnect": "Odpojit flat zařizení",
-        "error": "Chyba při ovládání flat zařízení:"
+        "error": "Chyba při ovládání flat zařízení:",
+        "name": "Flatdevice"
       },
       "dome": {
         "connect": "Připojit kopuli",
@@ -148,7 +149,8 @@
       "weather": {
         "connect": "Připojit počasí",
         "disconnect": "Odpojit počasí",
-        "error": "Chyba při ovládání počasí"
+        "error": "Chyba při ovládání počasí",
+        "name": "Weather"
       }
     },
     "lastLogs": {

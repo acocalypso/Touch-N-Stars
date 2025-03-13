@@ -43,6 +43,8 @@
 
     <!-- Credits-->
     <stellariumCredits />
+    <!-- Setting-->
+    <stellariumSettings   />
   </div>
 </template>
 
@@ -61,6 +63,7 @@ import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 import SelectedObject from '@/components/stellarium/SelectedObject.vue';
+import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -148,6 +151,7 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
+
           console.log('Aktuelle Beobachterposition:');
           console.log(
             'Breitengrad:',
@@ -185,14 +189,6 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
-
-          // Sternbilder-Linien & Labels
-          core.constellations.lines_visible = true;
-          core.constellations.labels_visible = true;
-
-          // Atmosphäre & Landschaft anschalten
-          core.atmosphere.visible = true;
-          core.landscapes.visible = true;
 
           // Schritt 4) Selektion beobachten
           stel.change((obj, attr) => {

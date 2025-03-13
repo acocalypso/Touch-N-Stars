@@ -52,6 +52,15 @@ export const useSettingsStore = defineStore('settings', {
       brightness: 50,
       exposureTime: 2,
     },
+    stellarium: {
+      constellationsLinesVisible: 'true',
+      azimuthalLinesVisible: 'false',
+      equatorialLinesVisible: 'false',
+      meridianLinesVisible: 'false',
+      eclipticLinesVisible: 'false',
+      atmosphereVisible: 'false',
+      landscapesVisible: 'true',
+    },
   }),
   actions: {
     setCoordinates(coords) {

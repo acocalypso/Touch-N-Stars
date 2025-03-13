@@ -82,7 +82,6 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['moveToPosition']);
 const store = apiStore();
 
 const stellariumStore = useStellariumStore();

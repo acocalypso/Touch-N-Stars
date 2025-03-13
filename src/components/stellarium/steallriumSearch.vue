@@ -37,7 +37,7 @@
 import { ref, nextTick, defineExpose } from 'vue';
 import apiService from '@/services/apiService';
 import { useStellariumStore } from '@/store/stellariumStore';
-import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { rad2deg } from '@/utils/utils';
 
 const stellariumStore = useStellariumStore();
 const searchQuery = ref('');
@@ -112,7 +112,7 @@ async function selectTarget(item) {
   console.log('Objekt:', stellariumStore.stel);
 }
 
-//testGeo();
+/*testGeo();
 function testGeo() {
   console.log('testGeo');
   const stel = stellariumStore.stel;
@@ -147,7 +147,7 @@ function testGeo() {
     },
   });
   layer.add(geojson);
-}
+} */
 
 // Funktion zum Fokussieren des Suchfelds, wenn es eingeblendet wird
 async function focusSearchInput() {

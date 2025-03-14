@@ -47,7 +47,7 @@ import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
 
-import * as HeroIcons from '@heroicons/vue/24/outline';
+//import * as HeroIcons from '@heroicons/vue/24/outline';
 //console.log(Object.keys(HeroIcons));
 
 //  Props definieren

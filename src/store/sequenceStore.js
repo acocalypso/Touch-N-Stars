@@ -48,10 +48,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
     },
 
     generatePaths(sequenceData, currentPath = '') {
-      sequenceData.forEach((container, index) => {
+      sequenceData.forEach((container) => {
         //Mit Imaging starten
-        const  pathPart = 'Imaging';
-        
+        const pathPart = 'Imaging';
+
         // Pfad zusammensetzen
         const containerPath = currentPath ? `${currentPath}-${pathPart}` : pathPart;
 
@@ -97,7 +97,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         trigger._path = triggerPath;
       });
     },
-    
+
     startFetching() {
       if (!this.intervalId) {
         this.intervalId = setInterval(this.getSequenceInfo, 1000);

@@ -93,7 +93,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeMount, onMounted, ref } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import RecursiveItem from './RecursiveItem.vue';
 

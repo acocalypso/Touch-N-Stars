@@ -152,8 +152,8 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-          
-          console.log('zeit', stel.core.observer.utc)
+
+          console.log('zeit', stel.core.observer.utc);
           //stel.core.observer.tt = 0
           console.log('Aktuelle Beobachterposition:');
           console.log(

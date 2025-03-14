@@ -121,7 +121,7 @@ function syncViewToMount() {
 // 6) Kreis auf RA/Dec aktualisieren
 function updateCirclePos(ra_deg, dec_deg) {
   const stel = stellariumStore.stel;
-  const ra_rad = ra_deg * stel.D2R-0.005;
+  const ra_rad = ra_deg * stel.D2R - 0.005;
   const dec_rad = dec_deg * stel.D2R;
   const icrfVec = stel.s2c(ra_rad, dec_rad);
   const observedVec = stel.convertFrame(stel.observer, 'CIRS', 'MOUNT', icrfVec);

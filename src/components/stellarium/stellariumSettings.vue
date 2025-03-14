@@ -136,9 +136,8 @@
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, onMounted, ref } from 'vue';
+import { watch, ref } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
-import { wait } from '@/utils/utils';
 
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
@@ -155,5 +154,4 @@ watch(
   stellariumStore.updateStellariumCore,
   { deep: true } // Sorgt dafür, dass auch Änderungen an verschachtelten Werten erkannt werden
 );
-
 </script>

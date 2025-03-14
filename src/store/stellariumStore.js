@@ -12,11 +12,11 @@ export const useStellariumStore = defineStore('stellariumStore', {
     },
   }),
   actions: {
-     updateStellariumCore() {
-        const settingsStore = useSettingsStore();
-        if( this.stel) {
+    updateStellariumCore() {
+      const settingsStore = useSettingsStore();
+      if (this.stel) {
         const core = this.stel.core;
-    
+
         core.constellations.lines_visible = settingsStore.stellarium.constellationsLinesVisible;
         core.constellations.labels_visible = settingsStore.stellarium.constellationsLinesVisible;
         core.lines.azimuthal.visible = settingsStore.stellarium.azimuthalLinesVisible;
@@ -27,6 +27,6 @@ export const useStellariumStore = defineStore('stellariumStore', {
         core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
         console.log('Stellarium settings updated:');
       }
-    }
+    },
   },
 });

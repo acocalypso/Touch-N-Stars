@@ -121,10 +121,10 @@ function syncViewToMount() {
 // 6) Kreis auf RA/Dec aktualisieren
 function updateCirclePos(ra_deg, dec_deg) {
   const stel = stellariumStore.stel;
-  const ra_rad = ra_deg * stel.D2R;
+  const ra_rad = ra_deg * stel.D2R-0.005;
   const dec_rad = dec_deg * stel.D2R;
   const icrfVec = stel.s2c(ra_rad, dec_rad);
-  const observedVec = stel.convertFrame(stel.observer, 'JNOW', 'MOUNT', icrfVec);
+  const observedVec = stel.convertFrame(stel.observer, 'CIRS', 'MOUNT', icrfVec);
   mountCircle.value.pos = observedVec;
   mountCircle.value.color = [0, 1, 0, 0.25];
   mountCircle.value.border_color = [1, 1, 1, 1];

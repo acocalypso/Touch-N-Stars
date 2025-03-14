@@ -152,7 +152,9 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-
+          
+          console.log('zeit', stel.core.observer.utc)
+          //stel.core.observer.tt = 0
           console.log('Aktuelle Beobachterposition:');
           console.log(
             'Breitengrad:',
@@ -191,6 +193,8 @@ onMounted(async () => {
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
 
+          stellariumStore.updateStellariumCore();
+
           // Schritt 4) Selektion beobachten
           stel.change((obj, attr) => {
             if (attr === 'selection') {
@@ -211,8 +215,8 @@ onMounted(async () => {
 
                 const raDec = info.getInfo('RADEC');
                 console.log(raDec);
-                const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', raDec);
-                const radecCIRS = stel.c2s(cirs);
+                //const cirs = stel.convertFrame(stel.observer, 'ICRF', 'ICRF', raDec);
+                const radecCIRS = stel.c2s(raDec);
                 console.log('radecCIRS', radecCIRS);
                 const ra = stel.anp(radecCIRS[0]); // RA in Radian
                 const dec = stel.anpm(radecCIRS[1]); // Dec in Radian

@@ -138,29 +138,11 @@ import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { watch, onMounted, ref } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { wait } from '@/utils/utils';
 
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
-
-function updateStellariumCore() {
-  if (stellariumStore.stel) {
-    const core = stellariumStore.stel.core;
-
-    core.constellations.lines_visible = settingsStore.stellarium.constellationsLinesVisible;
-    core.constellations.labels_visible = settingsStore.stellarium.constellationsLinesVisible;
-    core.lines.azimuthal.visible = settingsStore.stellarium.azimuthalLinesVisible;
-    core.lines.equatorial.visible = settingsStore.stellarium.equatorialLinesVisible;
-    core.lines.meridian.visible = settingsStore.stellarium.meridianLinesVisible;
-    core.lines.ecliptic.visible = settingsStore.stellarium.eclipticLinesVisible;
-    core.atmosphere.visible = settingsStore.stellarium.atmosphereVisible;
-    core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
-    console.log(
-      'Stellarium settings updated:',
-      settingsStore.stellarium.constellationsLinesVisible
-    );
-  }
-}
 
 // Toggle date/time control panel
 function toggleControls() {
@@ -170,20 +152,8 @@ function toggleControls() {
 // Reagieren auf Änderungen im settingsStore.stellarium
 watch(
   () => settingsStore.stellarium,
-  updateStellariumCore,
+  stellariumStore.updateStellariumCore,
   { deep: true } // Sorgt dafür, dass auch Änderungen an verschachtelten Werten erkannt werden
 );
-onMounted(() => {
-  //Init
-  if (!settingsStore.stellarium) {
-    settingsStore.constellationsLinesVisible = true;
-    settingsStore.azimuthalLinesVisible = false;
-    settingsStore.equatorialLinesVisible = false;
-    settingsStore.meridianLinesVisible = false;
-    settingsStore.eclipticLinesVisible = false;
-    settingsStore.atmosphereVisible = true;
-    settingsStore.landscapesVisible = true;
-  }
-  updateStellariumCore();
-});
+
 </script>

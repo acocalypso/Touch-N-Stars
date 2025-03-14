@@ -94,7 +94,7 @@ async function selectTarget(item) {
   const ra_rad = item.RA * stel.D2R;
   const dec_rad = item.Dec * stel.D2R;
   const icrfVec = stel.s2c(ra_rad, dec_rad);
-  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
+  //stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
   const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
 
   const targetCircle = stellariumStore.stel.createObj('circle', {
@@ -111,43 +111,6 @@ async function selectTarget(item) {
   console.log('Ausgewähltes Objekt:', item);
   console.log('Objekt:', stellariumStore.stel);
 }
-
-/*testGeo();
-function testGeo() {
-  console.log('testGeo');
-  const stel = stellariumStore.stel;
-  const layer = stel.createLayer({ id: 'testLayerGeojson', z: 7, visible: true });
-  const geojson = stel.createObj('geojson', {
-    data: {
-      type: 'FeatureCollection',
-      features: [
-        {
-          type: 'Feature',
-          properties: {
-            stroke: '#431f1f',
-            'stroke-width': 4,
-            'stroke-opacity': 1,
-            fill: '#b4b16e',
-            'fill-opacity': 0.5,
-          },
-          geometry: {
-            type: 'Polygon',
-            coordinates: [
-              [
-                [10, 40], //  ⬆️  Linke untere Ecke
-                [20, 40], //  ➡️  Rechte untere Ecke
-                [20, 50], //  ⬆️  Rechte obere Ecke
-                [10, 50], //  ⬅️  Linke obere Ecke
-                [10, 40], //  🔄  Wieder zurück zur ersten Koordinate (geschlossenes Polygon)
-              ],
-            ],
-          },
-        },
-      ],
-    },
-  });
-  layer.add(geojson);
-} */
 
 // Funktion zum Fokussieren des Suchfelds, wenn es eingeblendet wird
 async function focusSearchInput() {

@@ -68,8 +68,8 @@ import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { hmsToDegrees, dmsToDegrees } from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
-import ButtonSlew from '@/components/mount/buttonSlew.vue';
-import ButtonSlewAndCenter from '@/components/mount/buttonSlewAndCenter.vue';
+import ButtonSlew from '@/components/mount/ButtonSlew.vue';
+import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 
 const { t } = useI18n();
 const store = apiStore();

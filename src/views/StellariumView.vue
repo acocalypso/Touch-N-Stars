@@ -207,12 +207,17 @@ onMounted(async () => {
                 selectedObject.value = selectedDesignations;
                 console.log('Objekt-Bezeichnungen:', selectedDesignations);
                 const info = stel.core.selection;
-                console.log('Objekt-Informationen:', info);
+                //console.log('Objekt-Informationen:', info);
 
-                const pvo = info.getInfo('pvo', stel.observer);
-                const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]);
-                const ra = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
-                const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
+                const raDec = info.getInfo('RADEC');
+                console.log(raDec);
+                const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', raDec);
+                const radecCIRS = stel.c2s(cirs);
+                console.log('radecCIRS', radecCIRS);
+                const ra = stel.anp(radecCIRS[0]); // RA in Radian
+                const dec = stel.anpm(radecCIRS[1]); // Dec in Radian
+
+                console.log(ra, dec);
 
                 selectedObjectRa.value = degreesToHMS(rad2deg(ra));
                 selectedObjectDec.value = degreesToDMS(rad2deg(dec));

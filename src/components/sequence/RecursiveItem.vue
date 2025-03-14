@@ -41,6 +41,9 @@
             <template v-else-if="key === 'TargetTime'">
               {{ formatDateTime(value) }}
             </template>
+            <template v-else-if="key === 'TimeToMeridianFlip'">
+              {{ formatTimeSpan(value) }}
+            </template>
 
             <template v-else-if="key === 'Coordinates'">
               <div class="grid grid-cols-1 gap-1">
@@ -50,13 +53,11 @@
                 <div>{{ formatDec(value) }}</div>
               </div>
             </template>
-            <!-- NEU: Wenn es sich um "Gain" handelt, ein Input-Feld -->
             <template v-else-if="key === 'Gain' && sequenceStore.sequenceEdit">
               <input
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @input="handleInput($event, item, key)"
                 @change="updateValue(item._path, item[key], 'Gain')"
               />
             </template>
@@ -65,7 +66,6 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @input="handleInput($event, item, key)"
                 @change="updateValue(item._path, item[key], 'ExposureTime')"
               />
             </template>
@@ -74,7 +74,6 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @input="handleInput($event, item, key)"
                 @change="updateValue(item._path, item[key], 'Offset')"
               />
             </template>
@@ -83,7 +82,6 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @input="handleInput($event, item, key)"
                 @change="updateValue(item._path, item[key], 'ExposureCount')"
               />
             </template>
@@ -168,7 +166,6 @@
                       class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
                       type="number"
                       v-model="trigger[key]"
-                      @input="handleInput($event, trigger, key)"
                       @change="updateValue(trigger._path, trigger[key], 'AfterExposures')"
                     />
                   </template>
@@ -227,18 +224,6 @@ function statusColor(status) {
       return 'text-gray-200';
   }
 }
-
-// Standardwerte initialisieren, falls ein Feld gelöscht wird
-const handleInput = (event, item, key) => {
-  let value = event.target.value.trim();
-  //console.log('value' , value);
-  // Falls der Benutzer das Feld leert, auf 0 setzen
-  if (value === '') {
-    item[key] = 0;
-  } else {
-    item[key] = Number(value);
-  }
-};
 
 async function updateValue(path, newValue, typ) {
   console.log(path, typ, newValue);
@@ -307,8 +292,7 @@ function formatDec(coords) {
 
 function getDisplayFields(item) {
   return Object.entries(item).filter(
-    ([key]) =>
-      !excludedKeys.has(key) && item[key] !== undefined && item[key] !== null && item[key] !== ''
+    ([key]) => !excludedKeys.has(key) && item[key] !== undefined && item[key] !== null
   );
 }
 

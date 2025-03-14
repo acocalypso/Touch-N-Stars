@@ -175,14 +175,14 @@ watch(
 );
 onMounted(() => {
   //Init
-  if (!settingsStore.stellarium){
-    constellationsLinesVisible = true;
-      azimuthalLinesVisible= false;
-      equatorialLinesVisible= false;
-      meridianLinesVisible= false;
-      eclipticLinesVisible= false;
-      atmosphereVisible= true;
-      landscapesVisible= true;
+  if (!settingsStore.stellarium) {
+    settingsStore.constellationsLinesVisible = true;
+    settingsStore.azimuthalLinesVisible = false;
+    settingsStore.equatorialLinesVisible = false;
+    settingsStore.meridianLinesVisible = false;
+    settingsStore.eclipticLinesVisible = false;
+    settingsStore.atmosphereVisible = true;
+    settingsStore.landscapesVisible = true;
   }
   updateStellariumCore();
 });

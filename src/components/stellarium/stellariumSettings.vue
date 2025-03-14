@@ -1,17 +1,17 @@
 <template>
-  <div class="absolute bottom-3 right-3">
+  <div class="absolute bottom-3 left-16">
     <button
       @click="toggleControls"
       class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
       :class="{ 'bg-cyan-600': settingsVisible }"
     >
-      <Cog6ToothIcon class="icon" />
+      <Cog6ToothIcon class="w-7 h-7" />
     </button>
   </div>
   <!-- Date/Time Control Panel -->
   <div
     v-if="settingsVisible"
-    class="absolute flex flex-col gap-1 bottom-16 right-3 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-72"
+    class="absolute flex flex-col gap-1 bottom-16 left-3 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-72"
   >
     <div
       class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
@@ -174,6 +174,16 @@ watch(
   { deep: true } // Sorgt dafür, dass auch Änderungen an verschachtelten Werten erkannt werden
 );
 onMounted(() => {
+  //Init
+  if (!settingsStore.stellarium){
+    constellationsLinesVisible = true;
+      azimuthalLinesVisible= false;
+      equatorialLinesVisible= false;
+      meridianLinesVisible= false;
+      eclipticLinesVisible= false;
+      atmosphereVisible= true;
+      landscapesVisible= true;
+  }
   updateStellariumCore();
 });
 </script>

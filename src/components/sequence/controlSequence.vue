@@ -1,8 +1,5 @@
 <template>
-  <div v-if="!store.sequenceIsLoaded" class="text-red-500">
-    <p>{{ $t('components.sequence.noSequenceLoaded') }}</p>
-  </div>
-  <div v-else class="flex items-center justify-center w-full mb-6">
+  <div class="flex items-center justify-center w-full mb-6">
     <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
       <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center gap-2">
         <svg

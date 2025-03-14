@@ -8,14 +8,14 @@
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-3">
           <button
-            @click="sequenceStore.toggleCollapsedState('GlobalTrigger')"
+            @click="store.toggleCollapsedState('GlobalTrigger')"
             class="p-1.5 rounded-lg hover:bg-gray-700 transition-colors"
-            :title="sequenceStore.isCollapsed('GlobalTrigger') ? 'Expand' : 'Collapse'"
+            :title="store.isCollapsed('GlobalTrigger') ? 'Expand' : 'Collapse'"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-gray-400 transition-transform duration-200"
-              :class="{ 'rotate-90': sequenceStore.isCollapsed('GlobalTrigger') }"
+              :class="{ 'rotate-90': store.isCollapsed('GlobalTrigger') }"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -34,7 +34,7 @@
       </div>
 
       <div
-        v-if="!sequenceStore.isCollapsed('GlobalTrigger')"
+        v-if="!store.isCollapsed('GlobalTrigger')"
         class="overflow-hidden transition-all duration-300 ease-in-out"
       >
         <RecursiveItem :items="globalTriggers" class="pl-4 mt-4" />
@@ -43,21 +43,21 @@
 
     <!-- Main Sequence Containers -->
     <div
-      v-for="(container, containerIndex) in sequenceStore.sequenceInfo.slice(1)"
+      v-for="(container, containerIndex) in store.sequenceInfo.slice(1)"
       :key="containerIndex"
       class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg mb-4 p-6 shadow-lg"
     >
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-3">
           <button
-            @click="sequenceStore.toggleCollapsedState(container.Name)"
+            @click="store.toggleCollapsedState(container.Name)"
             class="p-1.5 rounded-lg hover:bg-gray-700 transition-colors"
-            :title="sequenceStore.isCollapsed(container.Name) ? 'Expand' : 'Collapse'"
+            :title="store.isCollapsed(container.Name) ? 'Expand' : 'Collapse'"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5 text-gray-400 transition-transform duration-200"
-              :class="{ 'rotate-90': sequenceStore.isCollapsed(container.Name) }"
+              :class="{ 'rotate-90': store.isCollapsed(container.Name) }"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -80,7 +80,7 @@
       </div>
 
       <div
-        v-if="!sequenceStore.isCollapsed(container.Name)"
+        v-if="!store.isCollapsed(container.Name)"
         class="overflow-hidden transition-all duration-300 ease-in-out"
       >
         <!-- Only show Items if they exist -->
@@ -93,15 +93,15 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeMount, onMounted, ref } from 'vue';
-import { useSequenceStore } from '@/store/sequenceStore';
+import { computed } from 'vue';
+import { apiStore } from '@/store/store';
 import RecursiveItem from './RecursiveItem.vue';
 
-const sequenceStore = useSequenceStore();
+const store = apiStore();
 
 const globalTriggers = computed(() => {
   // Find the first container with GlobalTriggers
-  const containerWithTriggers = sequenceStore.sequenceInfo.find(
+  const containerWithTriggers = store.sequenceInfo.find(
     (container) => container.GlobalTriggers && container.GlobalTriggers.length
   );
   return containerWithTriggers?.GlobalTriggers || [];
@@ -121,17 +121,6 @@ function statusColor(status) {
       return 'bg-gray-600 text-gray-100';
   }
 }
-
-onBeforeMount(async () => {
-  // ggf. sicherstellen, dass sequenceStore.sequenceInfo schon geladen ist;
-  // falls du's asynchron lädst, dann ggf. in einem watch oder Promise-Kette
-
-  await sequenceStore.getSequenceInfo();
-
-  if (sequenceStore.sequenceInfo) {
-    console.log(sequenceStore.sequenceInfo);
-  }
-});
 </script>
 
 <style scoped></style>

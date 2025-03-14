@@ -15,7 +15,7 @@
             <LinkIcon class="icon" />
           </router-link>
         </div>
-        <div v-if="store.cameraInfo.Connected && !store.sequenceRunning">
+        <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link
             to="/camera"
             class="nav-button"
@@ -28,7 +28,7 @@
             />
           </router-link>
         </div>
-        <div v-if="store.focuserInfo.Connected && !store.sequenceRunning">
+        <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link
             to="/autofocus"
             class="nav-button"
@@ -38,7 +38,7 @@
             <EyeIcon class="icon" />
           </router-link>
         </div>
-        <div v-if="store.mountInfo.Connected && !store.sequenceRunning">
+        <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link
             to="/mount"
             class="nav-button"
@@ -74,7 +74,7 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.domeInfo.Connected && !store.sequenceRunning">
+        <div v-if="store.domeInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link
             to="/dome"
             class="nav-button"
@@ -128,7 +128,7 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.flatdeviceInfo.Connected && !store.sequenceRunning">
+        <div v-if="store.flatdeviceInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link to="/flat" class="nav-button" active-class="active-nav-button">
             <LightBulbIcon
               class="icon"
@@ -180,7 +180,7 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.sequenceIsLoaded">
+        <div v-if="sequenceStore.sequenceIsLoaded">
           <router-link
             to="/sequence"
             class="nav-button"
@@ -189,11 +189,11 @@
           >
             <ListBulletIcon
               class="icon"
-              :class="store.sequenceRunning ? 'text-green-500' : 'text-white'"
+              :class="sequenceStore.sequenceRunning ? 'text-green-500' : 'text-white'"
             />
           </router-link>
         </div>
-        <div v-if="store.cameraInfo.Connected && !store.sequenceRunning">
+        <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link to="/flats" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -210,7 +210,8 @@
         </div>
         <div
           v-if="
-            store.sequenceRunning || (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
+            sequenceStore.sequenceRunning ||
+            (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
           "
         >
           <router-link
@@ -272,8 +273,10 @@ import {
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
+import { useSequenceStore } from '@/store/sequenceStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 const store = apiStore();
+const sequenceStore = useSequenceStore();
 </script>
 
 <style scoped>

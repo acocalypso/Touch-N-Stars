@@ -1,11 +1,23 @@
 <template>
-    <div class="absolute top-3 left-3">
-
+  <div class="absolute bottom-3 right-3">
+    <button
+      @click="toggleControls"
+      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+      :class="{ 'bg-cyan-600': settingsVisible }"
+    >
+      <Cog6ToothIcon class="icon" />
+    </button>
+  </div>
+  <!-- Date/Time Control Panel -->
+  <div
+    v-if="settingsVisible"
+    class="absolute flex flex-col gap-1 bottom-16 right-3 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-72"
+  >
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="constellationsLinesVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.constellations_lines_visible') }}
       </label>
       <div>
         <toggleButton
@@ -19,10 +31,10 @@
     </div>
 
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="azimuthalLinesVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.azimuthal_lines_visible') }}
       </label>
       <div>
         <toggleButton
@@ -36,10 +48,10 @@
     </div>
 
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="equatorialLinesVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.equatorial_lines_visible') }}
       </label>
       <div>
         <toggleButton
@@ -53,10 +65,10 @@
     </div>
 
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="meridianLinesVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.meridian_lines_visible') }}
       </label>
       <div>
         <toggleButton
@@ -70,10 +82,10 @@
     </div>
 
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="eclipticLinesVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.ecliptic_lines_visible') }}
       </label>
       <div>
         <toggleButton
@@ -87,16 +99,15 @@
     </div>
 
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="atmosphereVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.atmosphere_visible') }}
       </label>
       <div>
         <toggleButton
           @click="
-            settingsStore.stellarium.atmosphereVisible =
-              !settingsStore.stellarium.atmosphereVisible
+            settingsStore.stellarium.atmosphereVisible = !settingsStore.stellarium.atmosphereVisible
           "
           :status-value="settingsStore.stellarium.atmosphereVisible"
         />
@@ -104,40 +115,33 @@
     </div>
 
     <div
-      class=" max-w-48 flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="landscapesVisible" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
+        {{ $t('components.stellarium.settings.landscapes_visible') }}
       </label>
       <div>
         <toggleButton
           @click="
-            settingsStore.stellarium.landscapesVisible =
-              !settingsStore.stellarium.landscapesVisible
+            settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible
           "
           :status-value="settingsStore.stellarium.landscapesVisible"
         />
       </div>
     </div>
-
-
-</div>
-
-
-
-
-
+  </div>
 </template>
 
 <script setup>
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, onMounted } from 'vue';
-
+import { watch, onMounted, ref } from 'vue';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
+const settingsVisible = ref(false);
 
 function updateStellariumCore() {
   if (stellariumStore.stel) {
@@ -151,10 +155,18 @@ function updateStellariumCore() {
     core.lines.ecliptic.visible = settingsStore.stellarium.eclipticLinesVisible;
     core.atmosphere.visible = settingsStore.stellarium.atmosphereVisible;
     core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
-
-    console.log('Stellarium settings updated:', settingsStore.stellarium.constellationsLinesVisible);
+    console.log(
+      'Stellarium settings updated:',
+      settingsStore.stellarium.constellationsLinesVisible
+    );
   }
 }
+
+// Toggle date/time control panel
+function toggleControls() {
+  settingsVisible.value = !settingsVisible.value;
+}
+
 // Reagieren auf Änderungen im settingsStore.stellarium
 watch(
   () => settingsStore.stellarium,
@@ -164,6 +176,4 @@ watch(
 onMounted(() => {
   updateStellariumCore();
 });
-
-
 </script>

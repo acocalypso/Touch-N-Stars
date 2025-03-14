@@ -6,6 +6,9 @@
     <!-- DateTime Control Component -->
     <stellariumDateTime />
 
+    <!-- Setting-->
+    <stellariumSettings />
+
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
@@ -43,8 +46,6 @@
 
     <!-- Credits-->
     <stellariumCredits />
-    <!-- Setting-->
-    <stellariumSettings   />
   </div>
 </template>
 

@@ -62,54 +62,15 @@
                 <div>{{ formatDec(value) }}</div>
               </div>
             </template>
-            <template v-else-if="key === 'Gain' && sequenceStore.sequenceEdit">
+            <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
               <input
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @change="updateValue($event, item._path, item[key], 'Gain')"
+                @change="updateValue($event, item._path, item[key], key)"
               />
             </template>
-            <template v-else-if="key === 'ExposureTime' && sequenceStore.sequenceEdit">
-              <input
-                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                type="number"
-                v-model="item[key]"
-                @change="updateValue($event, item._path, item[key], 'ExposureTime')"
-              />
-            </template>
-            <template v-else-if="key === 'Offset' && sequenceStore.sequenceEdit">
-              <input
-                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                type="number"
-                v-model="item[key]"
-                @change="updateValue($event, item._path, item[key], 'Offset')"
-              />
-            </template>
-            <template v-else-if="key === 'ExposureCount' && sequenceStore.sequenceEdit">
-              <input
-                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                type="number"
-                v-model="item[key]"
-                @change="updateValue($event, item._path, item[key], 'ExposureCount')"
-              />
-            </template>
-            <template v-else-if="key === 'SampleSize' && sequenceStore.sequenceEdit">
-              <input
-                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                type="number"
-                v-model="item[key]"
-                @change="updateValue($event, item._path, item[key], 'SampleSize')"
-              />
-            </template>
-            <template v-else-if="key === 'Amount' && sequenceStore.sequenceEdit">
-              <input
-                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                type="number"
-                v-model="item[key]"
-                @change="updateValue($event, item._path, item[key], 'Amount')"
-              />
-            </template>
+
             <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
             <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">
               <select
@@ -198,7 +159,7 @@
               <div
                 v-for="[key, value] in getDisplayFields(trigger)"
                 :key="key"
-                class="flex flex-col md:flex-row gap-1"
+                class="flex flex-cupdateKeys.includes(key)ol md:flex-row gap-1"
               >
                 <span class="text-gray-400 shrink-0">{{ key }}:</span>
                 <span class="text-gray-200 break-all">
@@ -216,28 +177,12 @@
                       <div>{{ formatDec(value) }}</div>
                     </div>
                   </template>
-                  <template v-else-if="key === 'AfterExposures' && sequenceStore.sequenceEdit">
+                  <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
                     <input
                       class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
                       type="number"
                       v-model="trigger[key]"
-                      @change="updateValue($event, trigger._path, trigger[key], 'AfterExposures')"
-                    />
-                  </template>
-                  <template v-else-if="key === 'SampleSize' && sequenceStore.sequenceEdit">
-                    <input
-                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
-                      type="number"
-                      v-model="trigger[key]"
-                      @change="updateValue($event, trigger._path, trigger[key], 'SampleSize')"
-                    />
-                  </template>
-                  <template v-else-if="key === 'Amount' && sequenceStore.sequenceEdit">
-                    <input
-                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
-                      type="number"
-                      v-model="trigger[key]"
-                      @change="updateValue($event, trigger._path, trigger[key], 'Amount')"
+                      @change="updateValue($event, trigger._path, trigger[key], key)"
                     />
                   </template>
                   <template v-else>
@@ -285,7 +230,20 @@ const excludedKeys = new Set([
   '_path',
   'Target',
   'Issues',
+  'Inherited',
+  'Coordinates',
 ]);
+
+const updateKeys = [
+  'DistanceArcMinutes',
+  'ExposureTime',
+  'Offset',
+  'ExposureCount',
+  'SampleSize',
+  'Amount',
+  'AfterExposures',
+];
+
 const sequenceStore = useSequenceStore();
 
 function statusColor(status) {

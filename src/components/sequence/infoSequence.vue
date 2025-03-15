@@ -36,7 +36,7 @@
       <div
         v-if="!sequenceStore.isCollapsed('GlobalTrigger')"
         class="overflow-hidden transition-all duration-300 ease-in-out"
-      >
+      > 
         <RecursiveItem :items="globalTriggers" class="pl-4 mt-4" />
       </div>
     </div>
@@ -82,10 +82,10 @@
       <div
         v-if="!sequenceStore.isCollapsed(container.Name)"
         class="overflow-hidden transition-all duration-300 ease-in-out"
-      >
+      > 
         <!-- Only show Items if they exist -->
         <div v-if="container.Items && container.Items.length" class="pl-4 mt-4">
-          <RecursiveItem :items="container.Items" />
+          <RecursiveItem :items="container.Items" :containerIndex="containerIndex" />
         </div>
       </div>
     </div>

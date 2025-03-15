@@ -36,11 +36,11 @@
       </div>
 
       <!-- Dynamic Details Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-4">
+      <div class=" gap-2 text-sm mb-4">
         <div
           v-for="[key, value] in getDisplayFields(item)"
           :key="key"
-          class="flex flex-col md:flex-row gap-1 md:gap-2"
+          class="flex flex-col md:flex-row md:justify-between md:items-center md:space-y-2 mb-2 mb:mb-0"
         >
           <span class="text-gray-400 shrink-0">{{ key }}:</span>
           <span class="text-gray-200 break-all">
@@ -62,7 +62,7 @@
                 <div>{{ formatDec(value) }}</div>
               </div>
             </template>
-            <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
+            <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit ">
               <input
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
@@ -71,6 +71,40 @@
               />
             </template>
 
+            
+              <template
+                v-else-if="item.SelectedProvider"
+                class="flex flex-col md:flex-row gap-1 md:gap-2"
+              >
+              <div>
+              <span class="text-gray-200 break-all">
+                  {{ item.SelectedProvider.Name }}
+                </span>
+              </div>
+              <div>
+                <span class="text-gray-400 shrink-0">Time:</span>
+                <span class="text-gray-200 break-all">
+                  {{ item.Hours }}:{{ item.Minutes }}:{{ item.Seconds }}
+                </span>
+              </div>
+              </template>
+             <!--  Filter kann man noch nicht setzen. Deshalb auf false 20250315 -->
+            <template v-else-if="key === 'Filter' && sequenceStore.sequenceEdit && false">
+              <select
+                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
+                v-model="item[key]"
+                @change="updateFilter($event, item._path, item[key])"
+              >
+              
+              <option
+                v-for="filter in store.filterInfo.AvailableFilters"
+                :key="filter.Id"
+                :value="filter.Name"
+              >
+                {{ filter.Name }}
+              </option>
+              </select>
+            </template>
             <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
             <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">
               <select
@@ -88,11 +122,9 @@
               </select>
             </template>
             <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
-
             <template v-else-if="key === 'Filter'">
               {{ value.Name }}
             </template>
-
             <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
               <select
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
@@ -105,7 +137,6 @@
                 <option value="BIAS">BIAS</option>
               </select>
             </template>
-
             <template v-else-if="typeof value === 'object'">
               <div class="grid grid-cols-1 gap-1">
                 <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
@@ -232,16 +263,27 @@ const excludedKeys = new Set([
   'Issues',
   'Inherited',
   'Coordinates',
+  'Hours',
+  'Minutes',
+  'Seconds',
+  'MinutesOffset',
+  
 ]);
 
 const updateKeys = [
   'DistanceArcMinutes',
   'ExposureTime',
   'Offset',
+  'Gain',
   'ExposureCount',
   'SampleSize',
   'Amount',
   'AfterExposures',
+  'Brightness',
+  'Minutes',
+  'Seconds',
+  'Hours',
+  'MinutesOffset',
 ];
 
 const sequenceStore = useSequenceStore();
@@ -265,6 +307,32 @@ function statusColor(status) {
 
 async function updateValue(event, path, newValue, typ) {
   console.log(path, typ, newValue);
+  const action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent(newValue)}`;
+  console.log('action:', action);
+  const inputElement = event.target; // Greift auf das betroffene Eingabefeld zu
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+      console.log('Antwort:', response);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+async function updateFilter(event, path, newValue) {
+  console.log(path, newValue);
+  const typ = 'Filter-Name';
   const action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent(newValue)}`;
   console.log('action:', action);
   const inputElement = event.target; // Greift auf das betroffene Eingabefeld zu

@@ -18,14 +18,20 @@
           {{ removeSuffix(item.Name) }}
         </h3>
         <span
-          v-if="isTopLevel || item.Status === 'DISABLED'" 
+          v-if="isTopLevel || item.Status === 'DISABLED'"
           :class="statusColor(item.Status)"
           class="font-medium text-xs md:text-sm shrink-0"
         >
           {{ item.Status }}
         </span>
-        <button v-if="sequenceStore.sequenceEdit && containerIndex === 1"  @click="toggleDisable(item._path,  item.Status, 'Status')"> 
-          <PowerIcon class="w-5 h-5" :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"/>  
+        <button
+          v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+          @click="toggleDisable(item._path, item.Status, 'Status')"
+        >
+          <PowerIcon
+            class="w-5 h-5"
+            :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+          />
         </button>
       </div>
 
@@ -36,7 +42,6 @@
           :key="key"
           class="flex flex-col md:flex-row gap-1 md:gap-2"
         >
-
           <span class="text-gray-400 shrink-0">{{ key }}:</span>
           <span class="text-gray-200 break-all">
             <template v-if="key === 'CalculatedWaitDuration'">
@@ -62,7 +67,7 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @change="updateValue(item._path, item[key], 'Gain')"
+                @change="updateValue($event, item._path, item[key], 'Gain')"
               />
             </template>
             <template v-else-if="key === 'ExposureTime' && sequenceStore.sequenceEdit">
@@ -70,7 +75,7 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @change="updateValue(item._path, item[key], 'ExposureTime')"
+                @change="updateValue($event, item._path, item[key], 'ExposureTime')"
               />
             </template>
             <template v-else-if="key === 'Offset' && sequenceStore.sequenceEdit">
@@ -78,7 +83,7 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @change="updateValue(item._path, item[key], 'Offset')"
+                @change="updateValue($event, item._path, item[key], 'Offset')"
               />
             </template>
             <template v-else-if="key === 'ExposureCount' && sequenceStore.sequenceEdit">
@@ -86,24 +91,42 @@
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
                 v-model="item[key]"
-                @change="updateValue(item._path, item[key], 'ExposureCount')"
+                @change="updateValue($event, item._path, item[key], 'ExposureCount')"
               />
             </template>
-            <!--  Binnin kann man noch nicht setzen 20250315
-            <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit">
+            <template v-else-if="key === 'SampleSize' && sequenceStore.sequenceEdit">
+              <input
+                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
+                type="number"
+                v-model="item[key]"
+                @change="updateValue($event, item._path, item[key], 'SampleSize')"
+              />
+            </template>
+            <template v-else-if="key === 'Amount' && sequenceStore.sequenceEdit">
+              <input
+                class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
+                type="number"
+                v-model="item[key]"
+                @change="updateValue($event, item._path, item[key], 'Amount')"
+              />
+            </template>
+            <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
+            <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">
               <select
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 v-model="item[key].Name"
                 @change="updateBinning(item._path, item[key])"
               >
-              <option v-for="mode in store.cameraInfo.BinningModes" :key="mode.Name" :value="mode.Name">
-                {{ mode.X }}x{{ mode.Y }}
-              </option>
+                <option
+                  v-for="mode in store.cameraInfo.BinningModes"
+                  :key="mode.Name"
+                  :value="mode.Name"
+                >
+                  {{ mode.X }}x{{ mode.Y }}
+                </option>
               </select>
-            </template>-->
-            <template v-else-if="key === 'Binning'">
-              {{ value.X }}x{{ value.Y }}
             </template>
+            <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
 
             <template v-else-if="key === 'Filter'">
               {{ value.Name }}
@@ -113,7 +136,7 @@
               <select
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 v-model="item[key]"
-                @change="updateValue(item._path, item[key], 'ImageType')"
+                @change="updateValue($event, item._path, item[key], 'ImageType')"
               >
                 <option value="LIGHT">LIGHT</option>
                 <option value="FLAT">FLAT</option>
@@ -121,7 +144,6 @@
                 <option value="BIAS">BIAS</option>
               </select>
             </template>
-
 
             <template v-else-if="typeof value === 'object'">
               <div class="grid grid-cols-1 gap-1">
@@ -150,7 +172,7 @@
 
       <!-- Nested Items -->
       <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
-        <RecursiveItem :items="item.Items" :isTopLevel="false" :containerIndex="containerIndex"  />
+        <RecursiveItem :items="item.Items" :isTopLevel="false" :containerIndex="containerIndex" />
       </div>
 
       <!-- Triggers Section -->
@@ -199,7 +221,23 @@
                       class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
                       type="number"
                       v-model="trigger[key]"
-                      @change="updateValue(trigger._path, trigger[key], 'AfterExposures')"
+                      @change="updateValue($event, trigger._path, trigger[key], 'AfterExposures')"
+                    />
+                  </template>
+                  <template v-else-if="key === 'SampleSize' && sequenceStore.sequenceEdit">
+                    <input
+                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
+                      type="number"
+                      v-model="trigger[key]"
+                      @change="updateValue($event, trigger._path, trigger[key], 'SampleSize')"
+                    />
+                  </template>
+                  <template v-else-if="key === 'Amount' && sequenceStore.sequenceEdit">
+                    <input
+                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
+                      type="number"
+                      v-model="trigger[key]"
+                      @change="updateValue($event, trigger._path, trigger[key], 'Amount')"
                     />
                   </template>
                   <template v-else>
@@ -219,10 +257,8 @@
 import { defineProps } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
-import { useCameraStore } from '@/store/cameraStore';
 import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
-
 
 defineProps({
   items: {
@@ -239,7 +275,6 @@ defineProps({
   },
 });
 
-const cameraStore = useCameraStore();
 const store = apiStore();
 const excludedKeys = new Set([
   'Name',
@@ -270,14 +305,26 @@ function statusColor(status) {
   }
 }
 
-async function updateValue(path, newValue, typ) {
+async function updateValue(event, path, newValue, typ) {
   console.log(path, typ, newValue);
   const action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent(newValue)}`;
-  console.log('action:' ,action);
+  console.log('action:', action);
+  const inputElement = event.target; // Greift auf das betroffene Eingabefeld zu
   try {
-    const data = await apiService.sequenceAction(action);
-    sequenceStore.getSequenceInfo();
-    console.log('Antwort:', data);
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+      console.log('Antwort:', response);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
   } catch (error) {
     console.log('Fehler:', error);
   }
@@ -286,13 +333,13 @@ async function updateValue(path, newValue, typ) {
 async function toggleDisable(path, newValue, typ) {
   console.log('toggleDisable', path, typ, newValue);
   let action = '';
-  if (newValue === 'DISABLED'){
+  if (newValue === 'DISABLED') {
     action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent('CREATED')}`;
   } else {
     action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent('DISABLED')}`;
   }
 
-  console.log('action:' ,action);
+  console.log('action:', action);
   try {
     const data = await apiService.sequenceAction(action);
     sequenceStore.getSequenceInfo();
@@ -303,25 +350,28 @@ async function toggleDisable(path, newValue, typ) {
 }
 
 async function updateBinning(path, binOb) {
-  console.log('Binning:' ,path, binOb);
-  const actionX = `edit?path=${encodeURIComponent(path + '-Binning-X')}`+ `&value=${encodeURIComponent(binOb.X)}`;
-  const actionY = `edit?path=${encodeURIComponent(path + '-Binning-Y')}`+ `&value=${encodeURIComponent(binOb.Y)}`;
-  const actionName = `edit?path=${encodeURIComponent(path + '-Binning-Name')}`+ `&value=${encodeURIComponent(binOb.Name)}`;
-
+  console.log('Binning:', path, binOb);
+  const actionX =
+    `edit?path=${encodeURIComponent(path + '-Binning-X')}` +
+    `&value=${encodeURIComponent(binOb.X)}`;
+  const actionY =
+    `edit?path=${encodeURIComponent(path + '-Binning-Y')}` +
+    `&value=${encodeURIComponent(binOb.Y)}`;
+  const actionName =
+    `edit?path=${encodeURIComponent(path + '-Binning-Name')}` +
+    `&value=${encodeURIComponent(binOb.Name)}`;
   try {
     let data = await apiService.sequenceAction(actionX);
     console.log('Antwort:', data);
     data = await apiService.sequenceAction(actionY);
     console.log('Antwort:', data);
-   /* data = await apiService.sequenceAction(actionName);
-    console.log('Antwort:', data); */
+    data = await apiService.sequenceAction(actionName);
+    console.log('Antwort:', data);
     sequenceStore.getSequenceInfo();
   } catch (error) {
     console.log('Fehler:', error);
   }
 }
-
-
 
 function removeSuffix(name) {
   if (!name) return ''; // Return an empty string if name is null or undefined
@@ -387,3 +437,11 @@ function hasRunningChildren(item) {
   return item.Items?.some((child) => child.Status === 'RUNNING' || hasRunningChildren(child));
 }
 </script>
+<style>
+.glow-green {
+  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
+}
+.glow-red {
+  box-shadow: 0 0 10px rgb(255, 0, 0); /* Grüner Schein */
+}
+</style>

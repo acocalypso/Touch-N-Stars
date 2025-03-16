@@ -1,8 +1,5 @@
 <template>
-  <button
-    @click="mountPark"
-    :class="['default-button-red', statusClass]"
-  >
+  <button @click="mountPark" :class="['default-button-red', statusClass]">
     {{ $t('components.mount.control.park') }}
   </button>
 </template>
@@ -17,12 +14,12 @@ async function mountPark() {
   try {
     const response = await apiService.mountAction('park');
     console.log('park', response);
-    
+
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';
   } catch (error) {
     console.log('Error park', error);
-    
+
     // Button rot leuchten lassen
     statusClass.value = 'glow-red';
   }

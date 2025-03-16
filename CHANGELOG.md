@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Create a new SequenceImageHistory view that loads all the images from the history using the SequenceImage component.
 - Add this new SequenceImageHistory view as a new tab of the "Sequence Monitoring" page.
 - slew can be canceled
+- set park position
 
 ### Changed
 - Extract the sequence image loading logic into a new SequenceImage component. This component is in charge of displaying the image + stats + opening the modal for the full preview.

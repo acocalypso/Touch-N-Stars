@@ -1,8 +1,5 @@
 <template>
-  <button
-    @click="mountUnpark"
-    :class="['default-button-cyan', statusClass]"
-  >
+  <button @click="mountUnpark" :class="['default-button-cyan', statusClass]">
     {{ $t('components.mount.control.unpark') }}
   </button>
 </template>
@@ -17,12 +14,12 @@ async function mountUnpark() {
   try {
     const response = await apiService.mountAction('unpark');
     console.log('mountUnpark', response);
-    
+
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';
   } catch (error) {
     console.log('Error mountUnpark', error);
-    
+
     // Button rot leuchten lassen
     statusClass.value = 'glow-red';
   }

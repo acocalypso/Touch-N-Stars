@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col xs:flex-row gap-1 xs:gap-2">
-    <ButtonPark/>
-    <ButtonUnpark/>
-    <ButtonHome/>
-    <ButtonSetAsPark/>
+    <ButtonPark />
+    <ButtonUnpark />
+    <ButtonHome />
+    <ButtonSetAsPark />
   </div>
   <div class="flex mt-4 justify-center items-center">
     <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
@@ -59,33 +59,6 @@ import ButtonUnpark from '@/components/mount/ButtonUnpark.vue';
 import ButtonPark from '@/components/mount/ButtonPark.vue';
 
 const { t } = useI18n();
-
-async function parkMount() {
-  try {
-    await apiService.mountAction('park');
-    console.log(t('components.mount.control.park'));
-  } catch (error) {
-    console.log(t('components.mount.control.errors.park'));
-  }
-}
-
-async function unparkMount() {
-  try {
-    await apiService.mountAction('unpark');
-    console.log(t('components.mount.control.unpark'));
-  } catch (error) {
-    console.log(t('components.mount.control.errors.unpark'));
-  }
-}
-
-async function homeMount() {
-  try {
-    await apiService.mountAction('home');
-    console.log(t('components.mount.control.home'));
-  } catch (error) {
-    console.log(t('components.mount.control.errors.home'));
-  }
-}
 
 async function setTrackingMode(mode) {
   //0=Siderial, 1=Lunar, 2=Solar, 3=King, 4=Stopped

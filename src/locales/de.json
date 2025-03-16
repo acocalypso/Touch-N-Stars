@@ -257,7 +257,8 @@
           "unpark": "Fehler beim Ausparken der Montierung",
           "home": "Fehler beim Homing der Montierung",
           "tracking": "Fehler beim Einstellen des Nachführungsmodus"
-        }
+        },
+        "set_as_park": "Parkposition setzten"
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -489,6 +490,15 @@
       },
       "mount_position": {
         "title": "Monitierungsposition"
+      },
+      "settings": {
+        "atmosphere_visible": "Atmosphäre zeigen",
+        "azimuthal_lines_visible": "Azimuthal Gitter ",
+        "constellations_lines_visible": "Sternzeichen",
+        "ecliptic_lines_visible": "Ecliptic Linie",
+        "equatorial_lines_visible": "Äquatoriale Gitter",
+        "landscapes_visible": "Landschaften",
+        "meridian_lines_visible": "Meridian"
       }
     }
   }

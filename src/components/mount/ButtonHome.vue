@@ -1,8 +1,5 @@
 <template>
-  <button
-    @click="mountHome"
-    :class="['default-button-cyan', statusClass]"
-  >
+  <button @click="mountHome" :class="['default-button-cyan', statusClass]">
     {{ $t('components.mount.control.home') }}
   </button>
 </template>
@@ -17,12 +14,12 @@ async function mountHome() {
   try {
     const response = await apiService.mountAction('home');
     console.log('mountHome', response);
-    
+
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';
   } catch (error) {
     console.log('Error mountHome', error);
-    
+
     // Button rot leuchten lassen
     statusClass.value = 'glow-red';
   }

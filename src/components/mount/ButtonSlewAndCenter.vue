@@ -42,8 +42,10 @@ async function unparkMount() {
 
 async function slewAndCenter() {
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
+  console.log('slew');
   await framingStore.slew(props.raAngle, props.decAngle);
-  if (framingStore.slewStop) return;
+  if (framingStore.slewIsStopt) return;
+  console.log('slew');
   await framingStore.slewAndCenter(props.raAngle, props.decAngle);
 }
 </script>

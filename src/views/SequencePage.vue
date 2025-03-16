@@ -31,6 +31,7 @@
 </template>
 
 <script setup>
+import { onBeforeUnmount } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -48,6 +49,10 @@ function toggleEdit() {
     sequenceStore.startFetching();
   }
 }
+onBeforeUnmount(() => {
+  sequenceStore.sequenceEdit = false;
+  sequenceStore.startFetching();
+});
 </script>
 <style scoped>
 .fade-enter-active,

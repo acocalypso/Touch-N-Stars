@@ -75,6 +75,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
         if (container.Triggers) {
           this.generateTriggerPaths(container.Triggers, containerPath);
         }
+        // Falls der Container Conditions hat, rekursiv bearbeiten
+        if (container.Conditions) {
+          this.generateConditionsPaths(container.Conditions, containerPath);
+        }
       });
     },
 
@@ -88,6 +92,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
         if (item.Triggers) {
           this.generateTriggerPaths(item.Triggers, itemPath);
         }
+        if (item.Conditions) {
+          this.generateConditionsPaths(item.Conditions, itemPath);
+        }
       });
     },
 
@@ -98,9 +105,16 @@ export const useSequenceStore = defineStore('sequenceStore', {
       });
     },
 
+    generateConditionsPaths(conditions, parentPath) {
+      conditions.forEach((condition, idx) => {
+        const conditionPath = `${parentPath}-Conditions-${idx}`;
+        condition._path = conditionPath;
+      });
+    },
+
     startFetching() {
       if (!this.intervalId) {
-        this.intervalId = setInterval(this.getSequenceInfo, 1000);
+        this.intervalId = setInterval(this.getSequenceInfo, 2000);
       }
     },
 

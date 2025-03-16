@@ -35,8 +35,76 @@
         </button>
       </div>
 
-      <!-- Dynamic Details Grid -->
-      <div class=" gap-2 text-sm mb-4">
+      <!-- Triggers Conditions -->
+      <div v-if="item.Conditions?.length" class="mt-4">
+        <h4 class="text-sm font-semibold text-gray-300 mb-2">
+          <!--{{ $t('components.sequence.triggers') }}-->
+          Conditions
+        </h4>
+        <div class="space-y-2">
+          <div
+            v-for="(condition, cIndex) in item.Conditions"
+            :key="cIndex"
+            class="bg-gray-700 rounded p-2 md:p-3 border border-gray-600"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-sm font-medium text-gray-200 break-all">
+                {{ removeSuffix(condition.Name) }}
+              </span>
+              <span :class="statusColor(condition.Status)" class="text-xs md:text-sm">
+                {{ condition.Status }}
+              </span>
+            </div>
+            <div class="grid grid-cols-1 gap-2 text-xs md:text-sm">
+              <div
+                v-for="[key, value] in getDisplayFieldsConditions(condition)"
+                :key="key"
+                class="flex flex-cupdateKeys.includes(key)ol md:flex-row gap-1"
+              >
+                <span class="text-gray-400 shrink-0">{{ key }}:</span>
+                <span class="text-gray-200 break-all">
+                  <template v-if="key === 'Coordinates'">
+                    <div>
+                      <div>{{ formatRA(value) }}</div>
+                      <div>{{ formatDec(value) }}</div>
+                    </div>
+                  </template>
+                  <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
+                    <input
+                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
+                      type="number"
+                      v-model="condition[key]"
+                      @change="updateValue($event, condition._path, condition[key], key)"
+                    />
+                  </template>
+                  <template
+                    v-else-if="condition.SelectedProvider"
+                    class="flex flex-col md:flex-row gap-1 md:gap-2"
+                  >
+                    <div>
+                      <span class="text-gray-200 break-all">
+                        {{ condition.SelectedProvider.Name }}
+                      </span>
+                    </div>
+                    <div>
+                      <span class="text-gray-400 shrink-0">Time:</span>
+                      <span class="text-gray-200 break-all">
+                        {{ condition.Hours }}:{{ condition.Minutes }}:{{ condition.Seconds }}
+                      </span>
+                    </div>
+                  </template>
+                  <template v-else>
+                    {{ value }}
+                  </template>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Details Grid / item-->
+      <div class="gap-2 text-sm mb-4">
         <div
           v-for="[key, value] in getDisplayFields(item)"
           :key="key"
@@ -56,13 +124,11 @@
 
             <template v-else-if="key === 'Coordinates'">
               <div class="grid grid-cols-1 gap-1">
-                <div class="font-medium text-blue-300">RA:</div>
                 <div>{{ formatRA(value) }}</div>
-                <div class="font-medium text-blue-300">Dec:</div>
                 <div>{{ formatDec(value) }}</div>
               </div>
             </template>
-            <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit ">
+            <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
               <input
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
@@ -71,13 +137,12 @@
               />
             </template>
 
-            
-              <template
-                v-else-if="item.SelectedProvider"
-                class="flex flex-col md:flex-row gap-1 md:gap-2"
-              >
+            <template
+              v-else-if="item.SelectedProvider"
+              class="flex flex-col md:flex-row gap-1 md:gap-2"
+            >
               <div>
-              <span class="text-gray-200 break-all">
+                <span class="text-gray-200 break-all">
                   {{ item.SelectedProvider.Name }}
                 </span>
               </div>
@@ -87,23 +152,25 @@
                   {{ item.Hours }}:{{ item.Minutes }}:{{ item.Seconds }}
                 </span>
               </div>
-              </template>
-             <!--  Filter kann man noch nicht setzen. Deshalb auf false 20250315 -->
+            </template>
+            <!--  Filter kann man noch nicht setzen. Deshalb auf false 20250315 -->
             <template v-else-if="key === 'Filter' && sequenceStore.sequenceEdit && false">
               <select
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 v-model="item[key]"
                 @change="updateFilter($event, item._path, item[key])"
               >
-              
-              <option
-                v-for="filter in store.filterInfo.AvailableFilters"
-                :key="filter.Id"
-                :value="filter.Name"
-              >
-                {{ filter.Name }}
-              </option>
+                <option
+                  v-for="filter in store.filterInfo.AvailableFilters"
+                  :key="filter.Id"
+                  :value="filter.Name"
+                >
+                  {{ filter.Name }}
+                </option>
               </select>
+            </template>
+            <template v-else-if="key === 'Filter'">
+              {{ value.Name }}
             </template>
             <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
             <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">
@@ -122,9 +189,6 @@
               </select>
             </template>
             <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
-            <template v-else-if="key === 'Filter'">
-              {{ value.Name }}
-            </template>
             <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
               <select
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
@@ -141,9 +205,7 @@
               <div class="grid grid-cols-1 gap-1">
                 <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
                   <template v-if="subKey === 'Coordinates'">
-                    <div class="font-medium text-blue-300">RA:</div>
                     <div>{{ formatRA(subValue) }}</div>
-                    <div class="font-medium text-blue-300">Dec:</div>
                     <div>{{ formatDec(subValue) }}</div>
                   </template>
                   <template v-else>
@@ -202,9 +264,7 @@
                   </template>
                   <template v-else-if="key === 'Coordinates'">
                     <div>
-                      <div class="font-medium text-blue-300">RA:</div>
                       <div>{{ formatRA(value) }}</div>
-                      <div class="font-medium text-blue-300">Dec:</div>
                       <div>{{ formatDec(value) }}</div>
                     </div>
                   </template>
@@ -262,12 +322,29 @@ const excludedKeys = new Set([
   'Target',
   'Issues',
   'Inherited',
-  'Coordinates',
+  //'Coordinates',
   'Hours',
   'Minutes',
   'Seconds',
   'MinutesOffset',
-  
+  'Iterations',
+]);
+
+const excludedKeysConditions = new Set([
+  'Name',
+  'Status',
+  'Conditions',
+  'Triggers',
+  'Items',
+  '_path',
+  'Target',
+  'Issues',
+  'Inherited',
+  //'Coordinates',
+  'Hours',
+  'Minutes',
+  'Seconds',
+  'MinutesOffset',
 ]);
 
 const updateKeys = [
@@ -275,7 +352,6 @@ const updateKeys = [
   'ExposureTime',
   'Offset',
   'Gain',
-  'ExposureCount',
   'SampleSize',
   'Amount',
   'AfterExposures',
@@ -284,6 +360,10 @@ const updateKeys = [
   'Seconds',
   'Hours',
   'MinutesOffset',
+  'Iterations',
+  'Duration',
+  'Temperature',
+  'Mode',
 ];
 
 const sequenceStore = useSequenceStore();
@@ -401,7 +481,7 @@ async function updateBinning(path, binOb) {
 
 function removeSuffix(name) {
   if (!name) return ''; // Return an empty string if name is null or undefined
-  return name.replace(/_Trigger$|_Container$/, '');
+  return name.replace(/_Trigger$|_Container$|_Conditions$|_Condition$/, '');
 }
 
 function formatDuration(durationString) {
@@ -439,23 +519,55 @@ function formatDateTime(isoString) {
 
 function formatRA(coords) {
   const target = coords.Coordinates || coords;
+  if (coords.AltDegrees){
+    return `Altitude: ${coords.AltDegrees ?? 0}d ${coords.AltMinutes ?? 0}m ${coords.AltSeconds ?? 0}s`
+  }
   return (
-    target.RAString || `${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
+    `RA: ${target.RAString} `|| `RA: ${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
   );
 }
 
 function formatDec(coords) {
   const target = coords.Coordinates || coords;
   const sign = target.NegativeDec ? 'S' : 'N';
+  if (coords.AzDegrees){
+    return `Azimuth: ${coords.AzDegrees ?? 0}d ${coords.AzMinutes ?? 0}m ${coords.AzSeconds ?? 0}s`
+  }
   return (
-    target.DecString ||
-    `${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`
+    `DEC: ${target.DecString}` || `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`
   );
+}
+
+function formatCoordinates(coords) {
+  if (!coords) return 'Unbekannte Koordinaten';
+
+  const target = coords.Coordinates || coords;
+
+  if ('RA' in target || 'RAHours' in target) {
+    return {
+      type: 'RA/Dec',
+      RA: target.RAString || `${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`,
+      Dec: target.DecString || `${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${target.NegativeDec ? 'S' : 'N'}`
+    };
+  } else if ('Azimuth' in target && 'Altitude' in target) {
+    return {
+      type: 'Alt/Az',
+      Azimuth: `${target.Azimuth.Degree ?? 0}° ${target.Azimuth.ArcMinutes ?? 0}' ${target.Azimuth.ArcSeconds ?? 0}"`,
+      Altitude: `${target.Altitude.Degree ?? 0}° ${target.Altitude.ArcMinutes ?? 0}' ${target.Altitude.ArcSeconds ?? 0}"`
+    };
+  } else {
+    return 'Unbekannte Koordinaten';
+  }
 }
 
 function getDisplayFields(item) {
   return Object.entries(item).filter(
-    ([key]) => !excludedKeys.has(key) && item[key] !== undefined && item[key] !== null
+    ([key]) => !excludedKeys.has(key) && item[key] !== undefined && item[key]
+  );
+}
+function getDisplayFieldsConditions(item) {
+  return Object.entries(item).filter(
+    ([key]) => !excludedKeysConditions.has(key) && item[key] !== undefined && item[key]
   );
 }
 

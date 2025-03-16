@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - rework Stellarium mount position
 - rework Stellarium selected object
 - rework slew and slewAndCenter function
+- Hide the connection settings if it is not an Androidapp
 
 ## [1.0.3.0] - 2025-03-08
 ### Added

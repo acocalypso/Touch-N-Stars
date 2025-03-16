@@ -78,7 +78,7 @@
         </div>
 
         <!-- Connection Settings -->
-        <div class="bg-gray-700 p-3 rounded-lg">
+        <div class="bg-gray-700 p-3 rounded-lg" v-if="Capacitor.getPlatform() === 'android'">
           <h3 class="text-lg font-medium mb-2 text-gray-300">
             {{ $t('components.settings.connection') }}
           </h3>
@@ -360,6 +360,7 @@ import apiService from '@/services/apiService';
 import TutorialModal from '@/components/TutorialModal.vue';
 import { Geolocation } from '@capacitor/geolocation';
 import { useRouter } from 'vue-router';
+import { Capacitor } from '@capacitor/core';
 
 const router = useRouter();
 const { locale } = useI18n();

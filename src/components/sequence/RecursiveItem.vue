@@ -553,7 +553,7 @@ function hasRunningChildren(item) {
   return item.Items?.some((child) => child.Status === 'RUNNING' || hasRunningChildren(child));
 }
 </script>
-<style>
+<style scoped>
 .glow-green {
   box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
 }

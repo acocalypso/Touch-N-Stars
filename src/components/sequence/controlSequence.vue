@@ -1,8 +1,5 @@
 <template>
-  <div v-if="!store.sequenceIsLoaded" class="text-red-500">
-    <p>{{ $t('components.sequence.noSequenceLoaded') }}</p>
-  </div>
-  <div v-else class="flex items-center justify-center w-full mb-6">
+  <div class="flex items-center justify-center w-full mb-6">
     <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
       <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center gap-2">
         <svg
@@ -22,15 +19,15 @@
         <button
           :class="[
             'btn-primary bg-gradient-to-br from-blue-600 to-blue-500',
-            store.sequenceRunning
+            sequenceStore.sequenceRunning
               ? 'opacity-75 cursor-not-allowed'
               : 'hover:from-blue-700 hover:to-blue-600',
           ]"
           @click="startSequence"
-          :disabled="store.sequenceRunning"
+          :disabled="sequenceStore.sequenceRunning"
           v-tooltip="'Start the imaging sequence'"
         >
-          <span v-if="store.sequenceRunning" class="animate-spin mr-2">&#9696;</span>
+          <span v-if="sequenceStore.sequenceRunning" class="animate-spin mr-2">&#9696;</span>
           <svg
             v-else
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +42,7 @@
             />
           </svg>
           {{
-            store.sequenceRunning
+            sequenceStore.sequenceRunning
               ? $t('components.sequence.running')
               : $t('components.sequence.startSequence')
           }}
@@ -74,7 +71,7 @@
         <button
           class="btn-primary bg-gradient-to-br from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
           @click="showResetConfirmation = true"
-          :disabled="store.sequenceRunning"
+          :disabled="sequenceStore.sequenceRunning"
           v-tooltip="'Reset sequence state'"
         >
           <svg
@@ -126,21 +123,21 @@
 <script setup>
 import { ref, computed } from 'vue';
 import apiService from '@/services/apiService';
-import { apiStore } from '@/store/store';
+import { useSequenceStore } from '@/store/sequenceStore';
 
-const store = apiStore();
+const sequenceStore = useSequenceStore();
 const showResetConfirmation = ref(false);
-const isLoading = computed(() => store.sequenceRunning);
+const isLoading = computed(() => sequenceStore.sequenceRunning);
 
 async function startSequence() {
   console.log('Starting sequence');
-  store.setSequenceRunning(true);
+  sequenceStore.setSequenceRunning(true);
   try {
     const data = await apiService.sequenceAction('start');
     console.log('Antwort:', data);
   } catch (error) {
     console.log('Fehler:', error);
-    store.setSequenceRunning(false);
+    sequenceStore.setSequenceRunning(false);
   }
 }
 
@@ -151,13 +148,13 @@ async function stopSequence() {
 
     // Only stop if the API confirms success
     if (data.Success) {
-      store.setSequenceRunning(false);
+      sequenceStore.setSequenceRunning(false);
     } else {
       console.error('Failed to stop sequence:', data.Error);
     }
   } catch (error) {
     console.log('Fehler:', error);
-    store.setSequenceRunning(false);
+    sequenceStore.setSequenceRunning(false);
   }
 }
 

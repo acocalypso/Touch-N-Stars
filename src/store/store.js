@@ -8,8 +8,6 @@ export const apiStore = defineStore('store', {
     intervalId: null,
     intervalIdGraph: null,
     profileInfo: [],
-    sequenceInfo: [],
-    collapsedStates: {},
     cameraInfo: { IsExposing: false },
     mountInfo: [],
     filterInfo: [],
@@ -36,8 +34,6 @@ export const apiStore = defineStore('store', {
     isLoadingImage: false,
     captureRunning: false,
     rotatorMechanicalPosition: 0,
-    sequenceIsLoaded: false,
-    sequenceRunning: false,
     existingEquipmentList: [],
     coordinates: null,
     currentLanguage: 'en',
@@ -51,20 +47,6 @@ export const apiStore = defineStore('store', {
   }),
 
   actions: {
-    setSequenceRunning(isRunning) {
-      this.sequenceRunning = isRunning;
-    },
-    toggleCollapsedState(containerName) {
-      this.collapsedStates = {
-        ...this.collapsedStates,
-        [containerName]: !this.collapsedStates[containerName],
-      };
-    },
-
-    isCollapsed(containerName) {
-      return !!this.collapsedStates[containerName];
-    },
-
     async getGuiderInfo() {
       try {
         const response = await apiService.guiderAction('info');
@@ -112,7 +94,6 @@ export const apiStore = defineStore('store', {
 
         const [
           imageHistoryResponse,
-          sequenceResponse,
           cameraResponse,
           mountResponse,
           filterResponse,
@@ -128,7 +109,6 @@ export const apiStore = defineStore('store', {
           switchResponse,
         ] = await Promise.all([
           apiService.imageHistoryAll(),
-          apiService.sequenceAction('json'),
           apiService.cameraAction('info'),
           apiService.mountAction('info'),
           apiService.filterAction('info'),
@@ -146,7 +126,6 @@ export const apiStore = defineStore('store', {
 
         this.handleApiResponses({
           imageHistoryResponse,
-          sequenceResponse,
           cameraResponse,
           mountResponse,
           filterResponse,
@@ -172,7 +151,6 @@ export const apiStore = defineStore('store', {
       this.intervalId = null;
       this.intervalIdGraph = null;
       this.profileInfo = [];
-      this.sequenceInfo = [];
       this.collapsedStates = {};
       this.cameraInfo = { IsExposing: false };
       this.mountInfo = [];
@@ -199,8 +177,6 @@ export const apiStore = defineStore('store', {
       this.isLoadingImage = false;
       this.captureRunning = false;
       this.rotatorMechanicalPosition = 0;
-      this.sequenceIsLoaded = false;
-      this.sequenceRunning = false;
       this.existingEquipmentList = [];
       this.coordinates = null;
       this.currentLanguage = 'en';
@@ -208,7 +184,6 @@ export const apiStore = defineStore('store', {
 
     handleApiResponses({
       imageHistoryResponse,
-      sequenceResponse,
       cameraResponse,
       mountResponse,
       filterResponse,
@@ -225,23 +200,6 @@ export const apiStore = defineStore('store', {
     }) {
       if (imageHistoryResponse.Success) {
         this.imageHistoryInfo = imageHistoryResponse.Response;
-      } else {
-        this.sequenceIsLoaded = false;
-        console.error('Fehler in der Sequence-API-Antwort:', sequenceResponse.Error);
-      }
-
-      if (sequenceResponse.Success) {
-        this.sequenceInfo = sequenceResponse.Response;
-        this.sequenceIsLoaded = true;
-        // Check if sequence is running
-        // Check if any sequence is running by searching for RUNNING status
-        const isRunning = sequenceResponse.Response?.some((sequence) =>
-          sequence.Items?.some((item) => item.Status === 'RUNNING')
-        );
-        this.sequenceRunning = isRunning || false;
-      } else {
-        this.sequenceIsLoaded = false;
-        this.sequenceRunning = false;
       }
 
       if (cameraResponse.Success) {

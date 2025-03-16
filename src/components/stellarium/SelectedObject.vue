@@ -37,8 +37,8 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import { apiStore } from '@/store/store';
-import ButtonSlew from '@/components/mount/buttonSlew.vue';
-import ButtonSlewAndCenter from '@/components/mount/buttonSlewAndCenter.vue';
+import ButtonSlew from '@/components/mount/ButtonSlew.vue';
+import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 
 const store = apiStore();
 const props = defineProps({

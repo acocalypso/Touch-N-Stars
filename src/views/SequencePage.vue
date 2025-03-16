@@ -1,10 +1,19 @@
 <template>
-  <div v-if="!store.sequenceIsLoaded" class="pt-2">
+  <div v-if="!sequenceStore.sequenceIsLoaded" class="pt-2">
     <div class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-center">
       <p class="text-red-400 font-medium">{{ $t('components.sequence.noSequenceLoaded') }}</p>
     </div>
   </div>
   <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
+    <div class="fixed bottom-12 right-3 z-30">
+      <button
+        @click="toggleEdit"
+        class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+        :class="{ 'connected-glow': sequenceStore.sequenceEdit }"
+      >
+        <PencilIcon class="icon" />
+      </button>
+    </div>
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->
@@ -21,6 +30,30 @@
   </div>
 </template>
 
+<script setup>
+import { onBeforeUnmount } from 'vue';
+import infoSequence from '@/components/sequence/infoSequence.vue';
+import controlSequence from '@/components/sequence/controlSequence.vue';
+import { useSequenceStore } from '@/store/sequenceStore';
+import { ref } from 'vue';
+import { PencilIcon } from '@heroicons/vue/24/outline';
+
+const currentTab = ref('showSequenz'); // Standardwert
+const sequenceStore = useSequenceStore();
+
+function toggleEdit() {
+  sequenceStore.sequenceEdit = !sequenceStore.sequenceEdit;
+  if (sequenceStore.sequenceEdit) {
+    sequenceStore.stopFetching();
+  } else {
+    sequenceStore.startFetching();
+  }
+}
+onBeforeUnmount(() => {
+  sequenceStore.sequenceEdit = false;
+  sequenceStore.startFetching();
+});
+</script>
 <style scoped>
 .fade-enter-active,
 .fade-leave-active {
@@ -31,15 +64,8 @@
 .fade-leave-to {
   opacity: 0;
 }
+
+.connected-glow {
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
 </style>
-
-<script setup>
-import infoSequence from '@/components/sequence/infoSequence.vue';
-import controlSequence from '@/components/sequence/controlSequence.vue';
-import { apiStore } from '@/store/store';
-import { ref } from 'vue';
-
-const currentTab = ref('showSequenz'); // Standardwert
-const store = apiStore();
-</script>
-<style scoped></style>

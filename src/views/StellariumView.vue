@@ -6,6 +6,9 @@
     <!-- DateTime Control Component -->
     <stellariumDateTime />
 
+    <!-- Setting-->
+    <stellariumSettings />
+
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
@@ -20,7 +23,6 @@
       ref="mountComponent"
       :canvasRef="stelCanvas"
       :isSearchVisible="isSearchVisible"
-      @moveToPosition="moveToRaDec"
     />
 
     <!-- Overlay für das Suchfeld -->
@@ -50,6 +52,7 @@
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
@@ -61,6 +64,7 @@ import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 import SelectedObject from '@/components/stellarium/SelectedObject.vue';
+import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -103,32 +107,19 @@ function setFramingCoordinates() {
   router.push('/mount');
 }
 
-function moveToRaDec(ra_deg, dec_deg, duration_sec = 2.0, zoom_deg = 20) {
-  if (!stellariumStore.stel) {
-    console.error('Stellarium instance is not ready yet.');
-    return;
-  }
-  const stel = stellariumStore.stel;
-  stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
-  const ra_rad = ra_deg * stel.D2R;
-  const dec_rad = dec_deg * stel.D2R;
-  const icrfVec = stel.s2c(ra_rad, dec_rad);
-  const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'OBSERVED', icrfVec);
-  console.log('observedVec:', observedVec);
-  stel.lookAt(observedVec, duration_sec);
-  stel.zoomTo(zoom_deg * stel.D2R, duration_sec);
-}
-
 watch(
   () => stellariumStore.search.DECangleString,
   (newValue) => {
     console.log('selectedObject:', newValue);
-    moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle);
+
     stellariumStore.search.DECangleString = '';
   }
 );
 
 onMounted(async () => {
+  //NINA vorbereiten
+  await apiService.applicatioTabSwitch('framing');
+  await apiService.setFramingImageSource('SKYATLAS');
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
   script.src = '/stellarium-js/stellarium-web-engine.js';
@@ -161,6 +152,9 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
+
+          console.log('zeit', stel.core.observer.utc);
+          //stel.core.observer.tt = 0
           console.log('Aktuelle Beobachterposition:');
           console.log(
             'Breitengrad:',
@@ -199,13 +193,7 @@ onMounted(async () => {
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
 
-          // Sternbilder-Linien & Labels
-          core.constellations.lines_visible = true;
-          core.constellations.labels_visible = true;
-
-          // Atmosphäre & Landschaft anschalten
-          core.atmosphere.visible = true;
-          core.landscapes.visible = true;
+          stellariumStore.updateStellariumCore();
 
           // Schritt 4) Selektion beobachten
           stel.change((obj, attr) => {
@@ -223,12 +211,17 @@ onMounted(async () => {
                 selectedObject.value = selectedDesignations;
                 console.log('Objekt-Bezeichnungen:', selectedDesignations);
                 const info = stel.core.selection;
-                console.log('Objekt-Informationen:', info);
+                //console.log('Objekt-Informationen:', info);
 
-                const pvo = info.getInfo('pvo', stel.observer);
-                const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', pvo[0]);
-                const ra = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
-                const dec = stel.anpm(stel.c2s(cirs)[1]); // Dec in Radian
+                const raDec = info.getInfo('RADEC');
+                console.log(raDec);
+                //const cirs = stel.convertFrame(stel.observer, 'ICRF', 'ICRF', raDec);
+                const radecCIRS = stel.c2s(raDec);
+                console.log('radecCIRS', radecCIRS);
+                const ra = stel.anp(radecCIRS[0]); // RA in Radian
+                const dec = stel.anpm(radecCIRS[1]); // Dec in Radian
+
+                console.log(ra, dec);
 
                 selectedObjectRa.value = degreesToHMS(rad2deg(ra));
                 selectedObjectDec.value = degreesToDMS(rad2deg(dec));
@@ -237,13 +230,6 @@ onMounted(async () => {
               }
             }
           });
-
-          // Falls Koordinaten aus dem Store kommen
-          if (framingStore.RAangle && framingStore.DECangle) {
-            moveToRaDec(framingStore.RAangle, framingStore.DECangle, 1, 50);
-          } else if (stellariumStore.search.RAangle && stellariumStore.search.DECangle) {
-            moveToRaDec(stellariumStore.search.RAangle, stellariumStore.search.DECangle, 1, 50);
-          }
         },
       });
     } catch (err) {

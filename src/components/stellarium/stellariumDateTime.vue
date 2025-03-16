@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 
 const stellariumStore = useStellariumStore();
@@ -173,14 +173,14 @@ function resetToCurrentTime() {
 
 // Format time speed for display
 const displayTimeSpeed = computed(() => {
-  const speed = Math.pow(1, Number(timeSpeed.value));
+  const speed = Math.pow(2, Number(timeSpeed.value));
   if (speed === 1) return '1×';
   return speed > 0 ? `${speed}×` : `1/${Math.abs(1 / speed)}×`;
 });
 
 // Description for time speed
 const timeSpeedDescription = computed(() => {
-  const speed = Math.pow(1, Number(timeSpeed.value));
+  const speed = Math.pow(2, Number(timeSpeed.value));
   if (speed === 0) return 'Paused';
   if (speed === 1) return 'Real-time';
   if (speed > 1) return 'Time lapse';
@@ -191,8 +191,12 @@ const timeSpeedDescription = computed(() => {
 watch(timeSpeed, (newValue) => {
   if (!stellariumStore.stel) return;
 
-  const speed = Math.pow(1, Number(newValue));
+  const speed = Math.pow(2, Number(newValue));
   stellariumStore.stel.core.time_speed = speed;
   console.log('Time speed set to:', speed);
+});
+
+onMounted(() => {
+  timeSpeed.value = 0; // ini
 });
 </script>

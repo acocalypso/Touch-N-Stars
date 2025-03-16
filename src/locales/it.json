@@ -133,7 +133,8 @@
       "flat": {
         "connect": "Collega dispositivo flat",
         "disconnect": "Disconnetti dispositivo flat",
-        "error": "Errore controllo dispositivo flat:"
+        "error": "Errore controllo dispositivo flat:",
+        "name": "Flatdevice"
       },
       "dome": {
         "connect": "Collega cupola",
@@ -148,7 +149,8 @@
       "weather": {
         "connect": "Collega meteo",
         "disconnect": "Disconnetti meteo",
-        "error": "Errore controllo meteo"
+        "error": "Errore controllo meteo",
+        "name": "Tempo atmosferico"
       }
     },
     "lastLogs": {

@@ -133,7 +133,8 @@
       "flat": {
         "connect": "连接平场板",
         "disconnect": "断开平场板",
-        "error": "控制平场板错误："
+        "error": "控制平场板错误：",
+        "name": "Flatdevice"
       },
       "dome": {
         "connect": "连接穹顶",
@@ -148,7 +149,8 @@
       "weather": {
         "connect": "连接天气设备",
         "disconnect": "断开天气设备",
-        "error": "控制天气设备错误"
+        "error": "控制天气设备错误",
+        "name": "Weather"
       }
     },
     "lastLogs": {

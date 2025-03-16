@@ -133,7 +133,8 @@
       "flat": {
         "connect": "Conectar painel de flat",
         "disconnect": "Desconectar painel de flat",
-        "error": "Erro ao controlar o painel de flat:"
+        "error": "Erro ao controlar o painel de flat:",
+        "name": "FlatDevice"
       },
       "dome": {
         "connect": "Conectar domo",
@@ -148,7 +149,8 @@
       "weather": {
         "connect": "Conectar estação meteorológica",
         "disconnect": "Desconectar estação meteorológica",
-        "error": "Erro ao controlar a estação meteorológica"
+        "error": "Erro ao controlar a estação meteorológica",
+        "name": "Clima"
       }
     },
     "lastLogs": {

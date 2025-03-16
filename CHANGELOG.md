@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.3.1] - unreleased
 ### Added
 - slew and Slew and Center added to stellarium
+- settings panel for stellaruim added to activate different views
+- Equipment: Device selection added
+- Sequence editor
+- Slew can now be canceled
 
 ### Fixed
 - fixes an error when the stellarium page is reloaded
@@ -16,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - rework Stellarium mount position
 - rework Stellarium selected object
 - rework slew and slewAndCenter function
+- Equipment connect page reworked
+- Sequence info changed from json to state
+- Hide the connection settings if it is not an Androidapp
 
 ## [1.0.3.0] - 2025-03-08
 ### Added
@@ -38,6 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Create a new SequenceImageHistory view that loads all the images from the history using the SequenceImage component.
 - Add this new SequenceImageHistory view as a new tab of the "Sequence Monitoring" page.
+- slew can be canceled
+- set park position
 
 ### Changed
 - Extract the sequence image loading logic into a new SequenceImage component. This component is in charge of displaying the image + stats + opening the modal for the full preview.

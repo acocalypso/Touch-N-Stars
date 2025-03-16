@@ -103,11 +103,13 @@ import LastMessage from '@/components/LastMessage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
 import LastLogs from '@/components/LastLogs.vue';
 import { useLogStore } from '@/store/logStore';
+import { useSequenceStore } from './store/sequenceStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
@@ -122,9 +124,11 @@ function handleVisibilityChange() {
   if (document.hidden) {
     store.stopFetchingInfo();
     logStore.stopFetchingLog();
+    sequenceStore.stopFetching();
   } else {
     store.startFetchingInfo();
     logStore.startFetchingLog();
+    sequenceStore.startFetching();
   }
 }
 
@@ -134,6 +138,7 @@ onMounted(async () => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
   store.startFetchingInfo();
   logStore.startFetchingLog();
+  sequenceStore.startFetching();
 
   // Initialize language from settings store
   locale.value = settingsStore.getLanguage();
@@ -152,6 +157,7 @@ function closeTutorial() {
 onBeforeUnmount(() => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
+  sequenceStore.stopFetching();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 </script>

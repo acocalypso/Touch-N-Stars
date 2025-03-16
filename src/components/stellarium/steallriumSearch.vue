@@ -37,7 +37,7 @@
 import { ref, nextTick, defineExpose } from 'vue';
 import apiService from '@/services/apiService';
 import { useStellariumStore } from '@/store/stellariumStore';
-import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { rad2deg } from '@/utils/utils';
 
 const stellariumStore = useStellariumStore();
 const searchQuery = ref('');
@@ -90,13 +90,26 @@ async function selectTarget(item) {
     item.RA = rad2deg(ra);
     item.Dec = rad2deg(dec);
   }
+  const stel = stellariumStore.stel;
+  const ra_rad = item.RA * stel.D2R;
+  const dec_rad = item.Dec * stel.D2R;
+  const icrfVec = stel.s2c(ra_rad, dec_rad);
+  //stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
+  const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
 
-  stellariumStore.search.RAangle = item.RA;
-  stellariumStore.search.DECangle = item.Dec;
-  stellariumStore.search.RAangleString = degreesToHMS(item.RA);
-  stellariumStore.search.DECangleString = degreesToDMS(item.Dec);
+  const targetCircle = stellariumStore.stel.createObj('circle', {
+    id: 'targetCircle',
+    pos: observedVec,
+    color: [0, 0, 0, 0.1],
+    size: [0.05, 0.05], // Größe der Markierung
+  });
+  targetCircle.pos = observedVec;
+  targetCircle.update();
+  stel.core.selection = targetCircle;
+  stel.pointAndLock(targetCircle);
   targetSearchResult.value = [];
   console.log('Ausgewähltes Objekt:', item);
+  console.log('Objekt:', stellariumStore.stel);
 }
 
 // Funktion zum Fokussieren des Suchfelds, wenn es eingeblendet wird

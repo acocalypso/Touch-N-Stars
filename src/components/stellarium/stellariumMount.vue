@@ -82,7 +82,6 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['moveToPosition']);
 const store = apiStore();
 
 const stellariumStore = useStellariumStore();
@@ -102,6 +101,7 @@ const mountCircle = ref(null);
 function toggleAutoSync() {
   autoSyncEnabled.value = !autoSyncEnabled.value;
   autoSyncClicked.value = true;
+  stellariumStore.stel.pointAndLock(mountCircle.value);
   setTimeout(() => {
     autoSyncClicked.value = false;
   }, 500); // Reset after 500ms
@@ -110,7 +110,7 @@ function toggleAutoSync() {
 // Manually sync view to mount position
 function syncViewToMount() {
   if (raDegree.value !== null && decDegree.value !== null) {
-    emit('moveToPosition', raDegree.value, decDegree.value, 1, 50);
+    stellariumStore.stel.pointAndLock(mountCircle.value);
     syncViewClicked.value = true;
     setTimeout(() => {
       syncViewClicked.value = false;
@@ -121,10 +121,10 @@ function syncViewToMount() {
 // 6) Kreis auf RA/Dec aktualisieren
 function updateCirclePos(ra_deg, dec_deg) {
   const stel = stellariumStore.stel;
-  const ra_rad = ra_deg * stel.D2R;
+  const ra_rad = ra_deg * stel.D2R - 0.005;
   const dec_rad = dec_deg * stel.D2R;
   const icrfVec = stel.s2c(ra_rad, dec_rad);
-  const observedVec = stel.convertFrame(stel.observer, 'JNOW', 'MOUNT', icrfVec);
+  const observedVec = stel.convertFrame(stel.observer, 'CIRS', 'MOUNT', icrfVec);
   mountCircle.value.pos = observedVec;
   mountCircle.value.color = [0, 1, 0, 0.25];
   mountCircle.value.border_color = [1, 1, 1, 1];
@@ -161,7 +161,6 @@ watch(
 
       // Move Stellarium view only if auto-sync is enabled
       if (autoSyncEnabled.value) {
-        stellariumStore.stel.core.selection = mountCircle.value;
         stellariumStore.stel.pointAndLock(mountCircle.value);
       }
     }

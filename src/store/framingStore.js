@@ -23,9 +23,11 @@ export const useFramingStore = defineStore('FramingStore', {
     isRotating: false,
     width: 200,
     height: 200,
+    slewIsStopt: false,
   }),
   actions: {
     async slew(RAangle, DECangle) {
+      this.slewIsStopt = false;
       console.log('SlewAndCenter', RAangle, DECangle);
       this.isSlewing = true;
       try {
@@ -45,6 +47,18 @@ export const useFramingStore = defineStore('FramingStore', {
         console.error('SlewAndCenter Error', error);
       } finally {
         this.isSlewingAndCentering = false;
+      }
+    },
+    async slewStop() {
+      console.log('slewStop');
+      this.slewIsStopt = true;
+      try {
+        const response = await apiService.slewStop();
+        console.log('slewStop', response);
+      } catch (error) {
+        console.error('SlewAndCenter Error', error);
+      } finally {
+        this.isSlewing = false;
       }
     },
     async cameraRotate() {

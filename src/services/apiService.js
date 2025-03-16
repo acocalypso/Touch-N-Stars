@@ -738,6 +738,16 @@ const apiService = {
       throw error;
     }
   },
+  async slewStop() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/mount/slew/stop`);
+      return response.data;
+    } catch (error) {
+      console.error('Error controlling slewAndCenterAndRotate:', error);
+      throw error;
+    }
+  },
 
   async framingRotate(rotation) {
     try {

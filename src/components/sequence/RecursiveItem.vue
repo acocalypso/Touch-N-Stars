@@ -77,20 +77,19 @@
                       @change="updateValue($event, condition._path, condition[key], key)"
                     />
                   </template>
-                  <template
-                    v-else-if="condition.SelectedProvider"
-                    class="flex flex-col md:flex-row gap-1 md:gap-2"
-                  >
-                    <div>
-                      <span class="text-gray-200 break-all">
-                        {{ condition.SelectedProvider.Name }}
-                      </span>
-                    </div>
-                    <div>
-                      <span class="text-gray-400 shrink-0">Time:</span>
-                      <span class="text-gray-200 break-all">
-                        {{ condition.Hours }}:{{ condition.Minutes }}:{{ condition.Seconds }}
-                      </span>
+                  <template v-else-if="condition.SelectedProvider">
+                    <div class="flex flex-col md:flex-row gap-1 md:gap-2">
+                      <div>
+                        <span class="text-gray-200 break-all">
+                          {{ condition.SelectedProvider.Name }}
+                        </span>
+                      </div>
+                      <div>
+                        <span class="text-gray-400 shrink-0">Time:</span>
+                        <span class="text-gray-200 break-all">
+                          {{ condition.Hours }}:{{ condition.Minutes }}:{{ condition.Seconds }}
+                        </span>
+                      </div>
                     </div>
                   </template>
                   <template v-else>
@@ -137,20 +136,19 @@
               />
             </template>
 
-            <template
-              v-else-if="item.SelectedProvider"
-              class="flex flex-col md:flex-row gap-1 md:gap-2"
-            >
-              <div>
-                <span class="text-gray-200 break-all">
-                  {{ item.SelectedProvider.Name }}
-                </span>
-              </div>
-              <div>
-                <span class="text-gray-400 shrink-0">Time:</span>
-                <span class="text-gray-200 break-all">
-                  {{ item.Hours }}:{{ item.Minutes }}:{{ item.Seconds }}
-                </span>
+            <template v-else-if="item.SelectedProvider">
+              <div class="flex flex-col md:flex-row gap-1 md:gap-2">
+                <div>
+                  <span class="text-gray-200 break-all">
+                    {{ item.SelectedProvider.Name }}
+                  </span>
+                </div>
+                <div>
+                  <span class="text-gray-400 shrink-0">Time:</span>
+                  <span class="text-gray-200 break-all">
+                    {{ item.Hours }}:{{ item.Minutes }}:{{ item.Seconds }}
+                  </span>
+                </div>
               </div>
             </template>
             <!--  Filter kann man noch nicht setzen. Deshalb auf false 20250315 -->
@@ -519,45 +517,25 @@ function formatDateTime(isoString) {
 
 function formatRA(coords) {
   const target = coords.Coordinates || coords;
-  if (coords.AltDegrees){
-    return `Altitude: ${coords.AltDegrees ?? 0}d ${coords.AltMinutes ?? 0}m ${coords.AltSeconds ?? 0}s`
+  if (coords.AltDegrees) {
+    return `Altitude: ${coords.AltDegrees ?? 0}d ${coords.AltMinutes ?? 0}m ${coords.AltSeconds ?? 0}s`;
   }
   return (
-    `RA: ${target.RAString} `|| `RA: ${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
+    `RA: ${target.RAString} ` ||
+    `RA: ${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
   );
 }
 
 function formatDec(coords) {
   const target = coords.Coordinates || coords;
   const sign = target.NegativeDec ? 'S' : 'N';
-  if (coords.AzDegrees){
-    return `Azimuth: ${coords.AzDegrees ?? 0}d ${coords.AzMinutes ?? 0}m ${coords.AzSeconds ?? 0}s`
+  if (coords.AzDegrees) {
+    return `Azimuth: ${coords.AzDegrees ?? 0}d ${coords.AzMinutes ?? 0}m ${coords.AzSeconds ?? 0}s`;
   }
   return (
-    `DEC: ${target.DecString}` || `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`
+    `DEC: ${target.DecString}` ||
+    `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`
   );
-}
-
-function formatCoordinates(coords) {
-  if (!coords) return 'Unbekannte Koordinaten';
-
-  const target = coords.Coordinates || coords;
-
-  if ('RA' in target || 'RAHours' in target) {
-    return {
-      type: 'RA/Dec',
-      RA: target.RAString || `${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`,
-      Dec: target.DecString || `${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${target.NegativeDec ? 'S' : 'N'}`
-    };
-  } else if ('Azimuth' in target && 'Altitude' in target) {
-    return {
-      type: 'Alt/Az',
-      Azimuth: `${target.Azimuth.Degree ?? 0}° ${target.Azimuth.ArcMinutes ?? 0}' ${target.Azimuth.ArcSeconds ?? 0}"`,
-      Altitude: `${target.Altitude.Degree ?? 0}° ${target.Altitude.ArcMinutes ?? 0}' ${target.Altitude.ArcSeconds ?? 0}"`
-    };
-  } else {
-    return 'Unbekannte Koordinaten';
-  }
 }
 
 function getDisplayFields(item) {

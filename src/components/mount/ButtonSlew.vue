@@ -1,14 +1,23 @@
 <template>
-  <button
-    @click="slew"
-    :disabled="
-      framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
-    "
-    class="default-button-cyan flex items-center justify-center disabled:opacity-50"
-  >
-    <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
-    {{ $t('components.slewAndCenter.slew') }}
-  </button>
+  <div class="flex gap-1">
+    <button
+      @click="slew"
+      :disabled="
+        framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
+      "
+      class="default-button-cyan flex items-center justify-center disabled:opacity-50"
+    >
+      <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
+      {{ $t('components.slewAndCenter.slew') }}
+    </button>
+    <button
+      @click="framingStore.slewStop"
+      v-if="store.mountInfo.Slewing"
+      class="bg-red-900 rounded-md flex items-center justify-center w-16"
+    >
+      <StopCircleIcon class="w-8 h-8" />
+    </button>
+  </div>
 </template>
 
 <script setup>
@@ -18,6 +27,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
+import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();

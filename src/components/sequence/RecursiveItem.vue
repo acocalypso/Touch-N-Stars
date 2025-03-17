@@ -540,7 +540,9 @@ function formatDec(coords) {
 }
 
 function getDisplayFields(item) {
-  return Object.entries(item).filter(([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null);
+  return Object.entries(item).filter(
+    ([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null
+  );
 }
 function getDisplayFieldsConditions(item) {
   return Object.entries(item).filter(

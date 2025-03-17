@@ -129,7 +129,7 @@ function handleVisibilityChange() {
     store.startFetchingInfo();
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {
-     sequenceStore.startFetching();
+      sequenceStore.startFetching();
     }
   }
 }
@@ -141,8 +141,8 @@ onMounted(async () => {
   store.startFetchingInfo();
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {
-     sequenceStore.startFetching();
-    }
+    sequenceStore.startFetching();
+  }
 
   // Initialize language from settings store
   locale.value = settingsStore.getLanguage();

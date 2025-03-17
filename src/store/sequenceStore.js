@@ -47,37 +47,47 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
     },
 
-    generatePaths(sequenceData, currentPath = '') {
-      sequenceData.forEach((container) => {
-        //Mit Imaging starten
-        const pathPart = 'Imaging';
+    generatePaths(sequenceData) {
+      sequenceData.forEach((container, index) => {
+        let pathPart = '';
 
-        // Pfad zusammensetzen
-        const containerPath = currentPath ? `${currentPath}-${pathPart}` : pathPart;
+        // Setze pathPart je nach Index
+        if (index === 0) {
+          pathPart = 'Global';
+        } else if (index === 1) {
+          pathPart = 'Start';
+        } else if (index === 2) {
+          pathPart = 'Imaging';
+        } else if (index === 3) {
+          pathPart = 'End';
+        } else {
+          pathPart = `Custom-${index}`;
+        }
 
-        // Dem Container das _path-Feld geben
-        container._path = containerPath;
+        // Setze den _path für das Container-Objekt
+        container._path = pathPart;
 
-        // Falls GlobalTriggers existieren, ebenfalls Pfade generieren
+        // Falls der Container GlobalTriggers hat, ebenfalls Pfade generieren
         if (container.GlobalTriggers) {
           container.GlobalTriggers.forEach((trigger, tIndex) => {
-            const triggerPath = `${containerPath}-GlobalTriggers-${tIndex}`;
+            const triggerPath = `${pathPart}-GlobalTriggers-${tIndex}`;
             trigger._path = triggerPath;
           });
         }
 
         // Falls der Container Items hat, rekursiv bearbeiten
         if (container.Items) {
-          this.generateItemPaths(container.Items, containerPath);
+          this.generateItemPaths(container.Items, pathPart);
         }
 
         // Falls der Container Triggers hat, rekursiv bearbeiten
         if (container.Triggers) {
-          this.generateTriggerPaths(container.Triggers, containerPath);
+          this.generateTriggerPaths(container.Triggers, pathPart);
         }
+
         // Falls der Container Conditions hat, rekursiv bearbeiten
         if (container.Conditions) {
-          this.generateConditionsPaths(container.Conditions, containerPath);
+          this.generateConditionsPaths(container.Conditions, pathPart);
         }
       });
     },

@@ -38,8 +38,7 @@
       <!-- Triggers Conditions -->
       <div v-if="item.Conditions?.length" class="mt-4">
         <h4 class="text-sm font-semibold text-gray-300 mb-2">
-          <!--{{ $t('components.sequence.triggers') }}-->
-          Conditions
+          {{ $t('components.sequence.conditions') }}
         </h4>
         <div class="space-y-2">
           <div
@@ -245,7 +244,18 @@
               <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
                 {{ trigger.Status }}
               </span>
+
+              <button
+                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+                @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
+              >
+                <PowerIcon
+                  class="w-5 h-5"
+                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                />
+              </button>
             </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs md:text-sm">
               <div
                 v-for="[key, value] in getDisplayFields(trigger)"
@@ -326,6 +336,7 @@ const excludedKeys = new Set([
   'MinutesOffset',
   'Iterations',
   'Data',
+  'WindowServiceFactory',
 ]);
 
 const excludedKeysConditions = new Set([
@@ -343,6 +354,7 @@ const excludedKeysConditions = new Set([
   'Seconds',
   'MinutesOffset',
   'Data',
+  'WindowServiceFactory',
 ]);
 
 const updateKeys = [
@@ -363,6 +375,8 @@ const updateKeys = [
   'Temperature',
   'Mode',
   'DeltaT',
+  'Time',
+  'PositionAngle',
 ];
 
 const sequenceStore = useSequenceStore();

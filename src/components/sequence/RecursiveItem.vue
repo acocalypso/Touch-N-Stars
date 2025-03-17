@@ -320,12 +320,12 @@ const excludedKeys = new Set([
   'Target',
   'Issues',
   'Inherited',
-  //'Coordinates',
   'Hours',
   'Minutes',
   'Seconds',
   'MinutesOffset',
   'Iterations',
+  'Data',
 ]);
 
 const excludedKeysConditions = new Set([
@@ -338,11 +338,11 @@ const excludedKeysConditions = new Set([
   'Target',
   'Issues',
   'Inherited',
-  //'Coordinates',
   'Hours',
   'Minutes',
   'Seconds',
   'MinutesOffset',
+  'Data',
 ]);
 
 const updateKeys = [
@@ -362,6 +362,7 @@ const updateKeys = [
   'Duration',
   'Temperature',
   'Mode',
+  'DeltaT',
 ];
 
 const sequenceStore = useSequenceStore();
@@ -539,9 +540,7 @@ function formatDec(coords) {
 }
 
 function getDisplayFields(item) {
-  return Object.entries(item).filter(
-    ([key]) => !excludedKeys.has(key) && item[key] !== undefined && item[key]
-  );
+  return Object.entries(item).filter(([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null);
 }
 function getDisplayFieldsConditions(item) {
   return Object.entries(item).filter(

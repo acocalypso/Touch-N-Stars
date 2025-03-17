@@ -23,7 +23,7 @@
             <XMarkIcon class="w-6 h-6" />
           </button>
         </div>
-        <div v-if="tppaStore.currentMessage" >
+        <div v-if="tppaStore.currentMessage">
           <div class="space-y-4">
             <div class="flex flex-col bg-gray-700 p-2 rounded-xl">
               <!-- AltitudeError -->
@@ -185,8 +185,11 @@
             </div>
           </div>
         </div>
-        <div v-if="tppaStore.isTppaRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
-            <TppaLastStatus/>
+        <div
+          v-if="tppaStore.isTppaRunning"
+          class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md"
+        >
+          <TppaLastStatus />
         </div>
       </div>
     </div>

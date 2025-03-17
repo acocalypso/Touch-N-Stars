@@ -108,7 +108,7 @@
               <p>{{ showTotalError }}</p>
               <!-- Smiley Display -->
               <span v-if="showTotalError">
-                <span v-if="isWithinTolerance">
+                <span v-if="tppaStore.isWithinTolerance">
                   <!-- Happy SVG -->
                   <svg
                     viewBox="0 0 24 24"
@@ -174,6 +174,9 @@
   <div v-if="tppaStore.isTppaRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
     <TppaLastStatus class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
   </div>
+  <div>
+    <ActuellErrorModal />
+  </div>
 </template>
 
 <script setup>
@@ -191,6 +194,7 @@ import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
+import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -209,7 +213,7 @@ const tolerance = 1;
 // Convert arc minutes to degrees
 const toleranceInDegrees = tolerance / 60;
 
-const isWithinTolerance = computed(() => {
+tppaStore.isWithinTolerance = computed(() => {
   if (!showTotalError.value) return false;
 
   // Extract the numerical value from the DMS string
@@ -289,13 +293,19 @@ function formatMessage(message) {
         const totalErrorDMS = decimalToDMS(TotalError);
 
         showAzimuthError.value = azimuthErrorDMS;
+        tppaStore.showAzimuthError = azimuthErrorDMS;
         showAltitudeError.value = altitudeErrorDMS;
+        tppaStore.showAltitudeError = altitudeErrorDMS;
         showTotalError.value = totalErrorDMS;
+        tppaStore.showTotalError = totalErrorDMS;
 
         azimuthCorDirectionLeft.value = AzimuthError > 0 ? true : false;
+        tppaStore.azimuthCorDirectionLeft = AzimuthError > 0 ? true : false;
         altitudeCorDirectionTop.value = AltitudeError < 0 ? true : false;
+        tppaStore.altitudeCorDirectionTop = AltitudeError < 0 ? true : false;
         // Prüfe, ob sich der Nutzer auf der Südhalbkugel befindet
         isSouthernHemisphere.value = store.profileInfo.AstrometrySettings.Latitude < 0;
+        tppaStore.isSouthernHemisphere = store.profileInfo.AstrometrySettings.Latitude < 0;
       } else {
         return t('components.tppa.error_values_missing');
       }

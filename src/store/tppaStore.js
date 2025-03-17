@@ -8,6 +8,13 @@ export const useTppaStore = defineStore('tppaStore', {
     currentMessage: null,
     isRunning: false,
     initialized: false,
+    isSouthernHemisphere: false,
+    showAzimuthError: '',
+    showAltitudeError: '',
+    showTotalError: '',
+    azimuthCorDirectionLeft: false,
+    altitudeCorDirectionTop: false,
+    isWithinTolerance: false,
   }),
 
   actions: {

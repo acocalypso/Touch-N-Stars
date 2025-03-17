@@ -18,23 +18,19 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useLogStore } from '@/store/logStore';
+import { useTppaStore } from '@/store/tppaStore';
 import { useI18n } from 'vue-i18n';
+import { formatTime } from '@/utils/utils';
+import websocketService from '@/services/websocketTppa';
 
 const { t } = useI18n();
 const logStore = useLogStore();
+const tppaStore = useTppaStore();
 let lastProcessedTimestamp = null;
 const lastSolveMessages = ref([]);
-
-// Funktion zum Formatieren der Uhrzeit
-function formatTime(timestamp) {
-  const date = new Date(timestamp);
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
-  return `${hours}:${minutes}:${seconds}`;
-}
+let plateSolveOkTimestamp = null;
 
 // Beobachte Log-Änderungen:
 watch(
@@ -56,6 +52,7 @@ watch(
         message = t('components.tppa.plate_solve_start');
       } else if (entry.message.includes('Platesolve successful:')) {
         //54
+        plateSolveOkTimestamp = new Date(entry.timestamp);
         message = t('components.tppa.plate_solve_ok');
       } else if (entry.message.includes('Platesolve failed')) {
         //56
@@ -69,6 +66,8 @@ watch(
       } else if (entry.message.includes('Starting Exposure')) {
         //737
         message = t('components.tppa.capture_running');
+        tppaStore.isPause = false;
+        plateSolveOkTimestamp = null;
       } else {
         // Nicht relevante Logs überspringen
         continue;
@@ -88,6 +87,24 @@ watch(
   },
   { deep: true }
 );
+onMounted(() => {
+  setInterval(() => {
+    if (plateSolveOkTimestamp) {
+      const now = new Date();
+      if (now - plateSolveOkTimestamp > 2000) {
+        //Beim ersten durchlauf, werden noch keine Werte übertragen, hier muss einmal automtisch resume geschickt werden
+        console.log(tppaStore.showAzimuthError);
+        if (tppaStore.showAzimuthError === '') {
+          websocketService.sendMessage('resume-alignment');
+          console.log('Auto resume');
+        }
+        tppaStore.isPause = true;
+        plateSolveOkTimestamp = null;
+        console.log('Pause');
+      }
+    }
+  }, 1000);
+});
 </script>
 
 <style scoped>

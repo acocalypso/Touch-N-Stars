@@ -1,4 +1,3 @@
-// services/websocketTppa.js
 import { useSettingsStore } from '../store/settingsStore';
 
 const backendProtokol = 'ws';

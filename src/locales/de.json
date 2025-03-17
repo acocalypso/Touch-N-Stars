@@ -235,7 +235,8 @@
       "running": "WIRD AUSGEFÜHRT",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "conditions": "Bedingungen"
     },
     "mount": {
       "title": "Montierung",

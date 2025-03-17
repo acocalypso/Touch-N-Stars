@@ -5,13 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.3.1] - unreleased
+## [1.0.4.0] - unreleased
 ### Added
 - slew and Slew and Center added to stellarium
 - settings panel for stellaruim added to activate different views
 - Equipment: Device selection added
 - Sequence editor
 - Slew can now be canceled
+- TPPA: Modal for bigger font size
 
 ### Fixed
 - fixes an error when the stellarium page is reloaded

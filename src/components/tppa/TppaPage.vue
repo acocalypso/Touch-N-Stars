@@ -11,7 +11,7 @@
         <div v-if="!store.cameraInfo.Connected">
           <p class="text-red-800">{{ $t('components.tppa.camera_mount_required') }}</p>
         </div>
-        <div v-else class="flex space-x-4">
+        <div v-else class="flex space-x-5">
           <button
             class="default-button-cyan disabled:opacity-50"
             @click="startAlignment"
@@ -23,6 +23,7 @@
                 : $t('components.tppa.start_alignment')
             }}
           </button>
+          <ButtonPause v-if="tppaStore.isTppaRunning" />
           <button class="default-button-cyan" @click="stopAlignment">
             {{ $t('components.tppa.stop_alignment') }}
           </button>
@@ -195,6 +196,7 @@ import { useTppaStore } from '@/store/tppaStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
+import ButtonPause from '@/components/tppa/ButtonPause.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -318,6 +320,8 @@ function formatMessage(message) {
 }
 
 async function startAlignment() {
+  tppaStore.isPause = false;
+  tppaStore.showAzimuthError = '';
   await unparkMount();
   websocketService.sendMessage('start-alignment');
 }

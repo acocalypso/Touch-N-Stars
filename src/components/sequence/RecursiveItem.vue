@@ -35,6 +35,74 @@
         </button>
       </div>
 
+            <!-- Triggers Section -->
+            <div v-if="item.Triggers?.length" class="mt-4">
+        <h4 class="text-sm font-semibold text-gray-300 mb-2">
+          {{ $t('components.sequence.triggers') }}
+        </h4>
+        <div class="space-y-2">
+          <div
+            v-for="(trigger, tIndex) in item.Triggers"
+            :key="tIndex"
+            class="bg-gray-700 rounded p-2 md:p-3 border border-gray-600"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-sm font-medium text-gray-200 break-all">
+                {{ removeSuffix(trigger.Name) }}
+              </span>
+              <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
+                {{ trigger.Status }}
+              </span>
+
+              <button
+                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+                @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
+              >
+                <PowerIcon
+                  class="w-5 h-5"
+                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                />
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs md:text-sm">
+              <div
+                v-for="[key, value] in getDisplayFields(trigger)"
+                :key="key"
+                class="flex flex-cupdateKeys.includes(key)ol md:flex-row gap-1"
+              >
+                <span class="text-gray-400 shrink-0">{{ key }}:</span>
+                <span class="text-gray-200 break-all">
+                  <template v-if="key === 'TargetTime'">
+                    {{ formatDateTime(value) }}
+                  </template>
+                  <template v-else-if="key === 'TimeToFlip'">
+                    {{ formatTimeSpan(value) }}
+                  </template>
+                  <template v-else-if="key === 'Coordinates'">
+                    <div>
+                      <div>{{ formatRA(value) }}</div>
+                      <div>{{ formatDec(value) }}</div>
+                    </div>
+                  </template>
+                  <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
+                    <input
+                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
+                      type="number"
+                      v-model="trigger[key]"
+                      @change="updateValue($event, trigger._path, trigger[key], key)"
+                    />
+                  </template>
+                  <template v-else>
+                    {{ value }}
+                  </template>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Triggers Conditions -->
       <div v-if="item.Conditions?.length" class="mt-4">
         <h4 class="text-sm font-semibold text-gray-300 mb-2">
@@ -224,74 +292,6 @@
       <!-- Nested Items -->
       <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
         <RecursiveItem :items="item.Items" :isTopLevel="false" :containerIndex="containerIndex" />
-      </div>
-
-      <!-- Triggers Section -->
-      <div v-if="item.Triggers?.length" class="mt-4">
-        <h4 class="text-sm font-semibold text-gray-300 mb-2">
-          {{ $t('components.sequence.triggers') }}
-        </h4>
-        <div class="space-y-2">
-          <div
-            v-for="(trigger, tIndex) in item.Triggers"
-            :key="tIndex"
-            class="bg-gray-700 rounded p-2 md:p-3 border border-gray-600"
-          >
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-sm font-medium text-gray-200 break-all">
-                {{ removeSuffix(trigger.Name) }}
-              </span>
-              <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
-                {{ trigger.Status }}
-              </span>
-
-              <button
-                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
-                @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
-              >
-                <PowerIcon
-                  class="w-5 h-5"
-                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
-                />
-              </button>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs md:text-sm">
-              <div
-                v-for="[key, value] in getDisplayFields(trigger)"
-                :key="key"
-                class="flex flex-cupdateKeys.includes(key)ol md:flex-row gap-1"
-              >
-                <span class="text-gray-400 shrink-0">{{ key }}:</span>
-                <span class="text-gray-200 break-all">
-                  <template v-if="key === 'TargetTime'">
-                    {{ formatDateTime(value) }}
-                  </template>
-                  <template v-else-if="key === 'TimeToFlip'">
-                    {{ formatTimeSpan(value) }}
-                  </template>
-                  <template v-else-if="key === 'Coordinates'">
-                    <div>
-                      <div>{{ formatRA(value) }}</div>
-                      <div>{{ formatDec(value) }}</div>
-                    </div>
-                  </template>
-                  <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
-                    <input
-                      class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
-                      type="number"
-                      v-model="trigger[key]"
-                      @change="updateValue($event, trigger._path, trigger[key], key)"
-                    />
-                  </template>
-                  <template v-else>
-                    {{ value }}
-                  </template>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

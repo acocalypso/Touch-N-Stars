@@ -15,6 +15,7 @@ export const useTppaStore = defineStore('tppaStore', {
     azimuthCorDirectionLeft: false,
     altitudeCorDirectionTop: false,
     isWithinTolerance: false,
+    isPause: false,
   }),
 
   actions: {

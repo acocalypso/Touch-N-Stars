@@ -36,11 +36,10 @@
                 <p>{{ tppaStore.showAltitudeError }}</p>
                 <div v-if="tppaStore.showAltitudeError">
                   <div
-                    v-if="tppaStore.ltitudeCorDirectionTop && !tppaStore.isSouthernHemisphere"
+                    v-if="tppaStore.altitudeCorDirectionTop && !tppaStore.isSouthernHemisphere"
                     class="flex flex-row space-x-2"
                   >
                     <ArrowUpIcon class="size-16 sm:size-20 md:size-28 xl:size-36 text-blue-500" />
-                    <p>{{ $t('components.tppa.up') }}</p>
                   </div>
                   <div
                     v-if="!tppaStore.altitudeCorDirectionTop && !tppaStore.isSouthernHemisphere"
@@ -81,7 +80,6 @@
                       <ArrowLeftIcon
                         class="size-16 sm:size-20 md:size-28 xl:size-36 text-blue-500"
                       />
-                      <p>{{ $t('components.tppa.west') }}</p>
                     </div>
                     <div
                       v-if="!tppaStore.azimuthCorDirectionLeft && !tppaStore.isSouthernHemisphere"
@@ -185,6 +183,9 @@
             </div>
           </div>
         </div>
+        <div class="flex justify-center pt-2">
+          <ButtonPause />
+        </div>
         <div
           v-if="tppaStore.isTppaRunning"
           class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md"
@@ -207,6 +208,7 @@ import {
   ArrowRightIcon,
 } from '@heroicons/vue/24/outline';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
+import ButtonPause from '@/components/tppa/ButtonPause.vue';
 
 const tppaStore = useTppaStore();
 const isModalOpen = ref(false);

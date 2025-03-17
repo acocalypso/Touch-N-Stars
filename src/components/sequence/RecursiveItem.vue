@@ -35,8 +35,8 @@
         </button>
       </div>
 
-            <!-- Triggers Section -->
-            <div v-if="item.Triggers?.length" class="mt-4">
+      <!-- Triggers Section -->
+      <div v-if="item.Triggers?.length" class="mt-4">
         <h4 class="text-sm font-semibold text-gray-300 mb-2">
           {{ $t('components.sequence.triggers') }}
         </h4>

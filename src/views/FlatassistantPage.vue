@@ -3,7 +3,9 @@
   <div class="text-left mb-2">
     <h1 class="text-xl text-center font-bold">{{ $t('components.flatassistant.title') }}</h1>
   </div>
+  
   <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
+    <ButtonSlew class="p-2" :raAngle="refRa" :decAngle="refDec" />
     <select
       v-model="settingsStore.flats.selectedOption"
       class="p-2 w-full border border-gray-500 rounded-lg bg-gray-800 text-white"
@@ -31,17 +33,24 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { computed } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
 import getStatus from '@/components/flatassistant/getStatus.vue';
 import LastImage from '@/components/flatassistant/LastImage.vue';
+import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
+import { altAzToRaDec } from '@/utils/utils';
 
 const flatsStore = useFlatassistantStore();
 const settingsStore = useSettingsStore();
+const store = apiStore();
+const refRa = ref(0);
+const refDec = ref(0);
 
 const selectedComponent = computed(() => {
   switch (settingsStore.flats.selectedOption) {
@@ -53,4 +62,12 @@ const selectedComponent = computed(() => {
       return AutoExposure;
   }
 });
+
+onMounted( () => {
+  const { ra, dec } = altAzToRaDec(90, 10, store.profileInfo.AstrometrySettings.Latitude, store.profileInfo.AstrometrySettings.Longitude);
+  refRa.value = ra;
+  refDec.value = dec;
+  console.log('askljdf', ra,dec)
+});
+
 </script>

@@ -115,6 +115,12 @@
         <div v-if="tppaStore.showAzimuthError" class="flex items-center justify-center pt-2">
           <ButtonPause class="w-12 h-12" />
         </div>
+        <div
+          v-if="tppaStore.isTppaRunning"
+          class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md"
+        >
+          <TppaLastStatus />
+        </div>
       </div>
     </div>
   </div>
@@ -125,6 +131,7 @@ import { ref, computed } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { useTppaStore } from '@/store/tppaStore';
 import ButtonPause from '@/components/tppa/ButtonPause.vue';
+import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 
 const tppaStore = useTppaStore();
 const isModalOpen = ref(false);

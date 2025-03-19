@@ -117,7 +117,6 @@ export function getLST(longitude) {
   return (GST + longitude) % 360;
 }
 
-
 /**
  * Converts altitude and azimuth coordinates to right ascension (RA) and declination (Dec).
  *

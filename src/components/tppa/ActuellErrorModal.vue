@@ -15,7 +15,7 @@
       @click.self="isModalOpen = false"
     >
       <div
-        class="bg-gray-800 text-white p-4 rounded-lg max-w-4xl max-h-[80vh] overflow-y-auto"
+        class="bg-gray-800 text-white p-4 rounded-lg min-w-[400px] max-w-4xl max-h-[80vh] overflow-y-auto"
         @click.stop
       >
         <div class="flex justify-end items-center">
@@ -23,9 +23,9 @@
             <XMarkIcon class="w-6 h-6" />
           </button>
         </div>
-        <div v-if="tppaStore.currentMessage">
+        <div v-if="tppaStore.currentMessage && tppaStore.showAzimuthError">
           <div class="space-y-4">
-            <div class="flex flex-col bg-gray-700 p-2 rounded-xl">
+            <div class="flex flex-col bg-gray-700 p-2 rounded-xl w-full">
               <!-- AltitudeError -->
               <p class="text-xs text-gray-400">
                 {{ $t('components.tppa.altitude_error') }}
@@ -64,7 +64,7 @@
             </div>
             <div class="flex space-x-4">
               <!-- AzimuthError -->
-              <div class="flex flex-col bg-gray-700 p-2 rounded-xl">
+              <div class="flex flex-col bg-gray-700 p-2 rounded-xl w-full">
                 <p class="text-xs text-gray-400">
                   <strong>{{ $t('components.tppa.azimuth_error') }}</strong>
                 </p>
@@ -98,7 +98,7 @@
                       />
                     </div>
                     <div
-                      v-if="tppaStore.zimuthCorDirectionLeft && tppaStore.isSouthernHemisphere"
+                      v-if="tppaStore.azimuthCorDirectionLeft && tppaStore.isSouthernHemisphere"
                       class="flex flex-row space-x-2"
                     >
                       <ArrowLeftIcon
@@ -111,7 +111,7 @@
             </div>
             <div class="flex space-x-4">
               <!-- TotalError -->
-              <div class="flex flex-col bg-gray-700 p-2 rounded-xl">
+              <div class="flex flex-col bg-gray-700 p-2 rounded-xl w-full">
                 <p class="text-xs text-gray-400">
                   <strong>{{ $t('components.tppa.total_error') }}</strong>
                 </p>
@@ -168,7 +168,7 @@
                         stroke-width="10"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        class="h-6 w-6 text-red-500"
+                        class="size-16 sm:size-20 md:size-28 xl:size-36 text-red-500 ml-5"
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <circle cx="128" cy="128" r="100" stroke="currentColor" />
@@ -183,8 +183,8 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-center pt-2">
-          <ButtonPause />
+        <div v-if="tppaStore.showAzimuthError" class="flex justify-center pt-2">
+          <ButtonPause class="w-28 h-28" />
         </div>
         <div
           v-if="tppaStore.isTppaRunning"

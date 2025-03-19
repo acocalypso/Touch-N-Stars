@@ -23,7 +23,7 @@
                 : $t('components.tppa.start_alignment')
             }}
           </button>
-          <ButtonPause v-if="tppaStore.isTppaRunning" />
+          <ButtonPause class="w-28" v-if="tppaStore.isTppaRunning" />
           <button class="default-button-cyan" @click="stopAlignment">
             {{ $t('components.tppa.stop_alignment') }}
           </button>
@@ -177,6 +177,7 @@
   </div>
   <div>
     <ActuellErrorModal />
+    <ErrorCircle />
   </div>
 </template>
 
@@ -197,6 +198,7 @@ import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
 import ButtonPause from '@/components/tppa/ButtonPause.vue';
+import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -293,6 +295,9 @@ function formatMessage(message) {
         const azimuthErrorDMS = decimalToDMS(AzimuthError);
         const altitudeErrorDMS = decimalToDMS(AltitudeError);
         const totalErrorDMS = decimalToDMS(TotalError);
+        tppaStore.totalErrorDeg = TotalError;
+        tppaStore.AzimuthErrorDeg = AltitudeError;
+        tppaStore.AltitudeErrorDEG = AzimuthError;
 
         showAzimuthError.value = azimuthErrorDMS;
         tppaStore.showAzimuthError = azimuthErrorDMS;
@@ -308,6 +313,9 @@ function formatMessage(message) {
         // Prüfe, ob sich der Nutzer auf der Südhalbkugel befindet
         isSouthernHemisphere.value = store.profileInfo.AstrometrySettings.Latitude < 0;
         tppaStore.isSouthernHemisphere = store.profileInfo.AstrometrySettings.Latitude < 0;
+        if (tppaStore.isSouthernHemisphere) {
+          console.log('isSouthernHemisphere');
+        }
       } else {
         return t('components.tppa.error_values_missing');
       }

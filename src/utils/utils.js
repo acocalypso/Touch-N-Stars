@@ -117,7 +117,17 @@ export function getLST(longitude) {
   return (GST + longitude) % 360;
 }
 
-//Alt/Az to Ra/Dec
+
+/**
+ * Converts altitude and azimuth coordinates to right ascension (RA) and declination (Dec).
+ *
+ * @param {number} altitude - The altitude above the horizon in degrees.
+ * @param {number} azimuth - The azimuth angle in degrees (0° = North, 90° = East).
+ * @param {number} latitude - The observer's geographic latitude in degrees.
+ * @param {number} longitude - The observer's geographic longitude in degrees.
+ * @returns {{ra: number, dec: number}} An object containing the equatorial coordinates: right ascension (RA) and declination (Dec).
+ * @throws {TypeError} If any of the parameters are not finite numbers.
+ */
 export function altAzToRaDec(altitude, azimuth, latitude, longitude) {
   const rad = Math.PI / 180; // Umrechnung Grad → Radiant
   const deg = 180 / Math.PI; // Umrechnung Radiant → Grad

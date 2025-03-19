@@ -51,7 +51,7 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
-import { degreesToHMS, degreesToDMS, rad2deg, altAzToRaDec } from '@/utils/utils';
+import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';

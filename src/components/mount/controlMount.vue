@@ -44,11 +44,11 @@
     <p class="text-xs">{{ $t('components.mount.control.manuellControl') }}</p>
     <div class="flex-grow ml-2 h-[1px] bg-gray-700"></div>
   </div>
-  <div  v-if="!store.mountInfo.TrackingEnabled && !store.mountInfo.Slewing">
+  <div v-if="!store.mountInfo.TrackingEnabled && !store.mountInfo.Slewing">
     <moveAxis />
   </div>
-  <div v-else class="flex gap-4  ">
-    <InformationCircleIcon class="w-10 h-10 text-blue-500"/>
+  <div v-else class="flex gap-4">
+    <InformationCircleIcon class="w-10 h-10 text-blue-500" />
     <p class="pt-5 text-gray-500">{{ $t('components.mount.control.info_manuell_controll') }}</p>
   </div>
 </template>

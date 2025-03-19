@@ -77,8 +77,8 @@ export function formatTime(timestamp) {
 // Julianisches Datum berechnen
 export function getJulianDate() {
   const now = new Date();
-  const year = now.getUTCFullYear();
-  const month = now.getUTCMonth() + 1;
+  let year = now.getUTCFullYear();
+  let month = now.getUTCMonth() + 1;
   const day = now.getUTCDate();
   const hour = now.getUTCHours();
   const minute = now.getUTCMinutes();
@@ -108,7 +108,7 @@ export function getGST() {
   const S = JD - 2451545.0;
   const T = S / 36525.0;
   const GST = 280.46061837 + 360.98564736629 * S + T ** 2 * (0.000387933 - T / 38710000);
-  return (GST % 360 + 360) % 360; // In Grad, normalisiert auf 0-360°
+  return ((GST % 360) + 360) % 360; // In Grad, normalisiert auf 0-360°
 }
 
 // Lokale Sternzeit (LST) berechnen

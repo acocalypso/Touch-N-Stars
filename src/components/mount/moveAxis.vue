@@ -129,7 +129,6 @@ const settingsStore = useSettingsStore();
 let commandInterval = null; // Speichert das Intervall
 
 const sendCommand = (direction) => {
-
   if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
     console.error('WebSocket ist nicht verbunden.');
     return;
@@ -139,7 +138,7 @@ const sendCommand = (direction) => {
   mountStore.lastDirection = direction;
 
   const sendMessage = () => {
-    console.log('sendMessage')
+    console.log('sendMessage');
     const message = {
       direction: direction,
       rate: settingsStore.mount.slewRate,
@@ -188,7 +187,6 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  
   websocketMountControl.setStatusCallback(null);
   websocketMountControl.setMessageCallback(null);
   mountStore.lastDirection = '';
@@ -196,7 +194,7 @@ onBeforeUnmount(() => {
   clearInterval(commandInterval);
   if (websocketMountControl.socket) {
     websocketMountControl.socket.close();
-  } 
+  }
 });
 </script>
 

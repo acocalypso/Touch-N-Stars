@@ -3,9 +3,14 @@
   <div class="text-left mb-2">
     <h1 class="text-xl text-center font-bold">{{ $t('components.flatassistant.title') }}</h1>
   </div>
-  
+
   <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
-    <ButtonSlew class="p-4 w-full" :label="t('components.flatassistant.button_slew_to_cenit')" :raAngle="refRa" :decAngle="refDec" />
+    <ButtonSlew
+      class="p-4 w-full"
+      :label="t('components.flatassistant.button_slew_to_cenit')"
+      :raAngle="refRa"
+      :decAngle="refDec"
+    />
     <select
       v-model="settingsStore.flats.selectedOption"
       class="p-2 w-full border border-gray-500 rounded-lg bg-gray-800 text-white"
@@ -65,11 +70,15 @@ const selectedComponent = computed(() => {
   }
 });
 
-onMounted( () => {
-  const { ra, dec } = altAzToRaDec(90, 10, store.profileInfo.AstrometrySettings.Latitude, store.profileInfo.AstrometrySettings.Longitude);
+onMounted(() => {
+  const { ra, dec } = altAzToRaDec(
+    90,
+    10,
+    store.profileInfo.AstrometrySettings.Latitude,
+    store.profileInfo.AstrometrySettings.Longitude
+  );
   refRa.value = ra;
   refDec.value = dec;
-  console.log('askljdf', ra,dec)
+  console.log('askljdf', ra, dec);
 });
-
 </script>

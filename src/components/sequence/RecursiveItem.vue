@@ -190,9 +190,9 @@
 
             <template v-else-if="key === 'SelectedSwitch'">
               <span class="text-gray-200 break-all">
-              <p>Name: {{ value.Name }}</p>
-              <p>Target Value: {{ value.TargetValue }}</p>
-            </span>
+                <p>Name: {{ value.Name }}</p>
+                <p>Target Value: {{ value.TargetValue }}</p>
+              </span>
             </template>
 
             <template v-else-if="key === 'Coordinates'">

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence editor
 - Slew can now be canceled
 - TPPA: Modal for bigger font size
+- TPPA: Modal for target circel
 - Framing wizard: Button slew to cenit
 
 ### Fixed

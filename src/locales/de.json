@@ -455,7 +455,8 @@
       "stop": "Stop",
       "auto_exposure": "Dynamische Belichtungszeit",
       "auto_brightness": "Dynamische Helligkeit",
-      "skyflat": "Skyflat"
+      "skyflat": "Skyflat",
+      "button_slew_to_cenit": "Zum Zenit schwenken"
     },
     "weatherModal": {
       "weatherInformation": "Wetterinformationen",

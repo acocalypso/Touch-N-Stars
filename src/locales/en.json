@@ -436,7 +436,8 @@
       "stop": "Stop",
       "auto_exposure": "Auto exposure",
       "auto_brightness": "Auto brightness",
-      "skyflat": "Skyflat"
+      "skyflat": "Skyflat",
+      "button_slew_to_cenit": "Slew to cenit"
     },
     "weatherModal": {
       "weatherInformation": "Weather Information",

@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Equipment connect page reworked
 - Sequence info changed from json to state
 - Hide the connection settings if it is not an Androidapp
+- Manual mount control is only available if tracking is not active
 
 ## [1.0.3.0] - 2025-03-08
 ### Added

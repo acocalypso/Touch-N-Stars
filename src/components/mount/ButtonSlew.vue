@@ -8,7 +8,8 @@
       class="default-button-cyan flex items-center justify-center disabled:opacity-50"
     >
       <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
-      {{ $t('components.slewAndCenter.slew') }}
+      <p v-if="label"> {{ label }}</p>
+      <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
     </button>
     <button
       @click="framingStore.slewStop"
@@ -36,6 +37,7 @@ const { t } = useI18n();
 const props = defineProps({
   raAngle: Number,
   decAngle: Number,
+  label: String,
 });
 
 async function unparkMount() {

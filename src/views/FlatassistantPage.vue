@@ -5,7 +5,7 @@
   </div>
   
   <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
-    <ButtonSlew class="p-2" :raAngle="refRa" :decAngle="refDec" />
+    <ButtonSlew class="p-4 w-full" :label="t('components.flatassistant.button_slew_to_cenit')" :raAngle="refRa" :decAngle="refDec" />
     <select
       v-model="settingsStore.flats.selectedOption"
       class="p-2 w-full border border-gray-500 rounded-lg bg-gray-800 text-white"
@@ -45,12 +45,14 @@ import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { altAzToRaDec } from '@/utils/utils';
+import { useI18n } from 'vue-i18n';
 
 const flatsStore = useFlatassistantStore();
 const settingsStore = useSettingsStore();
 const store = apiStore();
 const refRa = ref(0);
 const refDec = ref(0);
+const { t } = useI18n();
 
 const selectedComponent = computed(() => {
   switch (settingsStore.flats.selectedOption) {

@@ -3,7 +3,7 @@
     <div>
       <!-- Navigation -->
       <nav>
-        <div class="z-20">
+        <div class="z-20 fixed top-0 w-full">
           <NavigationComp />
         </div>
       </nav>
@@ -15,7 +15,7 @@
         <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
       </div>
 
-      <div class="container mx-auto p-0.5 transition-all">
+      <div class="container mx-auto p-0.5 transition-all pt-[82px]">
         <router-view />
       </div>
       <!-- Footer -->

@@ -215,7 +215,7 @@ tppaStore.isWithinTolerance = computed(() => {
   if (!tppaStore.showTotalError) return false;
 
   // Extract the numerical value from the DMS string
-  const totalErrorDMS = tppaStore.showTotalError
+  const totalErrorDMS = tppaStore.showTotalError;
   const totalErrorValue = convertDMSToDecimal(totalErrorDMS);
 
   // Check if the numerical value is within the tolerance

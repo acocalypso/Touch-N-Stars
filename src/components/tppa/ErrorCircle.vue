@@ -111,10 +111,13 @@
 
         <div class="text-center text-xl">
           <p>{{ $t('components.tppa.total_error') }} {{ tppaStore.showTotalError }}</p>
-          <p class="text-sm text-gray-400">{{ $t('components.tppa.azimuth_error') }} {{ tppaStore.showAzimuthError }}</p>
-          <p class="text-sm text-gray-400">{{ $t('components.tppa.altitude_error') }} {{ tppaStore.showAltitudeError }}</p>
+          <p class="text-sm text-gray-400">
+            {{ $t('components.tppa.azimuth_error') }} {{ tppaStore.showAzimuthError }}
+          </p>
+          <p class="text-sm text-gray-400">
+            {{ $t('components.tppa.altitude_error') }} {{ tppaStore.showAltitudeError }}
+          </p>
         </div>
-      
 
         <div v-if="tppaStore.showAzimuthError" class="flex items-center justify-center pt-2">
           <ButtonPause class="w-12 h-12" />
@@ -172,5 +175,4 @@ const errorColor = computed(() => {
   if (totalErrorSeconds < 120) return 'yellow'; // Unter 2' (120 Sekunden) Gelb
   return 'red'; // Sonst Rot
 });
-
 </script>

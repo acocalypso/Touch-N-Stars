@@ -9,6 +9,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceIsLoaded: false,
     sequenceRunning: false,
     sequenceEdit: false,
+    sequenceIsEditable: true,
   }),
   actions: {
     setSequenceRunning(isRunning) {
@@ -25,25 +26,53 @@ export const useSequenceStore = defineStore('sequenceStore', {
       return !!this.collapsedStates[containerName];
     },
 
-    async getSequenceInfo() {
+    async getSequenceInfoState() {
       try {
-        const response = await apiService.sequenceAction('state');
-        if (response.Success) {
-          this.sequenceInfo = response.Response;
-          this.generatePaths(this.sequenceInfo);
-          this.sequenceIsLoaded = true;
-          // Check if sequence is running
-          // Check if any sequence is running by searching for RUNNING status
-          const isRunning = response.Response?.some((sequence) =>
-            sequence.Items?.some((item) => item.Status === 'RUNNING')
-          );
-          this.sequenceRunning = isRunning || false;
-        } else {
-          this.sequenceIsLoaded = false;
-          this.sequenceRunning = false;
-        }
+        return await apiService.sequenceAction('state');
       } catch (error) {
-        console.error('Error fetching guider info:', error);
+        console.error('Error fetching sequence info state:', error);
+      }
+    },
+
+    async getSequenceInfoJson() {
+      try {
+        return await apiService.sequenceAction('json');
+      } catch (error) {
+        console.error('Error fetching sequence info json:', error);
+      }
+    },
+
+    async getSequenceInfo() {
+      let response = null;
+
+      if (this.sequenceIsEditable) {
+        console.log('Abfrage state');
+        response = await this.getSequenceInfoState();
+        if (response?.StatusCode === 500) {
+          console.log('nicht editierbar');
+          this.sequenceIsEditable = false;
+          response = await this.getSequenceInfoJson();
+        }
+      } else {
+        console.log('Abfrage json');
+        response = await this.getSequenceInfoJson();
+      }
+
+      if (response?.Success) {
+        this.sequenceInfo = response.Response;
+        if (this.sequenceIsEditable) {
+          this.generatePaths(this.sequenceInfo);
+        }
+        this.sequenceIsLoaded = true;
+
+        // Check if any sequence is running by searching for RUNNING status
+        const isRunning = response.Response?.some((sequence) =>
+          sequence.Items?.some((item) => item.Status === 'RUNNING')
+        );
+        this.sequenceRunning = isRunning || false;
+      } else {
+        this.sequenceIsLoaded = false;
+        this.sequenceRunning = false;
       }
     },
 

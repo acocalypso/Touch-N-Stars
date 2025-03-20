@@ -95,7 +95,8 @@
 <script setup>
 import { computed, onBeforeMount } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
-import RecursiveItem from './RecursiveItem.vue';
+import RecursiveItem from '@/components/sequence/RecursiveItem.vue';
+import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 
 const sequenceStore = useSequenceStore();
 

@@ -46,7 +46,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
       let response = null;
 
       if (this.sequenceIsEditable) {
-        console.log('Abfrage state');
+        //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         if (response?.StatusCode === 500) {
           console.log('nicht editierbar');
@@ -54,7 +54,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
           response = await this.getSequenceInfoJson();
         }
       } else {
-        console.log('Abfrage json');
+        //console.log('Abfrage json');
         response = await this.getSequenceInfoJson();
       }
 

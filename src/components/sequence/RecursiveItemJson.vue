@@ -77,7 +77,7 @@
       <!-- Nested Items -->
       <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
         <RecursiveItemState
-          v-if="!sequenceStore.sequenceIsEditable"
+          v-if="sequenceStore.sequenceIsEditable"
           :items="item.Items"
           :isTopLevel="false"
         />

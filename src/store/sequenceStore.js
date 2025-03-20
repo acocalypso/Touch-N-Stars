@@ -10,6 +10,13 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceRunning: false,
     sequenceEdit: false,
     sequenceIsEditable: true,
+    lastImage: {
+      index: 0,
+      quality: 0,
+      resize: false,
+      scale: 0,
+      image: null,
+    },
   }),
   actions: {
     setSequenceRunning(isRunning) {

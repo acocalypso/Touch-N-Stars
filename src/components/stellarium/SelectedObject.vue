@@ -17,7 +17,7 @@
     </p>
     <div
       v-if="store.mountInfo.Connected && !store.sequenceRunning"
-      class="flex flex-col gap-1 text-sm mt-2"
+      class="flex flex-col gap-2 mt-2"
     >
       <button
         @click="setFramingCoordinates"

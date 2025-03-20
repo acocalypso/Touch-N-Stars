@@ -305,7 +305,7 @@
           :containerIndex="containerIndex"
         />
         <RecursiveItemJson
-          v-if="sequenceStore.sequenceIsEditable"
+          v-if="!sequenceStore.sequenceIsEditable"
           :items="item.Items"
           :isTopLevel="false"
           :containerIndex="containerIndex"

@@ -32,6 +32,7 @@
 import { ref, watch, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useSequenceStore } from '@/store/sequenceStore';
 import apiService from '@/services/apiService';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 
@@ -39,6 +40,7 @@ let isLoadingImg = ref(true);
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
 const imageData = ref(null);
 const Filter = ref(null);
 const HFR = ref(null);
@@ -57,6 +59,26 @@ async function wait(ms) {
 }
 
 async function getlastImage(index, quality, resize, scale) {
+  let image = null;
+  console.log(index, quality, scale);
+  console.log(
+    sequenceStore.lastImage.index,
+    sequenceStore.lastImage.quality,
+    sequenceStore.lastImage.scale
+  );
+  if (
+    sequenceStore.lastImage.image &&
+    index === sequenceStore.lastImage.index &&
+    quality <= sequenceStore.lastImage.quality &&
+    scale <= sequenceStore.lastImage.scale
+  ) {
+    lastImgIndex.value = index;
+    imageData.value = sequenceStore.lastImage.image;
+    isLoadingImg.value = false;
+    setSelectedDataset(index);
+    console.log('aus cache');
+    return;
+  }
   try {
     const result = await apiService.getSequenceImage(index, quality, resize, scale);
     console.log(result);
@@ -65,10 +87,14 @@ async function getlastImage(index, quality, resize, scale) {
       console.error('Unknown error: Check NINIA Log for more information');
       return;
     }
-    const image = result?.Response;
+    image = result?.Response;
     if (image) {
       imageData.value = `data:image/jpeg;base64,${image}`;
       setSelectedDataset(index);
+      sequenceStore.lastImage.scale = scale;
+      sequenceStore.lastImage.quality = quality;
+      sequenceStore.lastImage.index = index;
+      sequenceStore.lastImage.image = imageData.value;
       lastImgIndex.value = index;
       isLoadingImg.value = false;
       console.log('isLoadingImg: ', isLoadingImg.value, 'lastImgIndex', lastImgIndex.value);

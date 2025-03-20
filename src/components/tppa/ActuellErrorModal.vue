@@ -4,6 +4,7 @@
     <button
       @click="isModalOpen = true"
       class="fixed bottom-12 right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      v-if="tppaStore.isTppaRunning"
     >
       <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>

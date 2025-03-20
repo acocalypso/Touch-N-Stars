@@ -4,6 +4,7 @@
     <button
       @click="isModalOpen = true"
       class="fixed bottom-12 right-16 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      v-if="tppaStore.isTppaRunning"
     >
       <svg
         fill="#ffffff"
@@ -109,8 +110,11 @@
         </div>
 
         <div class="text-center text-xl">
-          <p>{{ $t('components.tppa.total_error') }} {{ formattedError }}</p>
+          <p>{{ $t('components.tppa.total_error') }} {{ tppaStore.showTotalError }}</p>
+          <p class="text-sm text-gray-400">{{ $t('components.tppa.azimuth_error') }} {{ tppaStore.showAzimuthError }}</p>
+          <p class="text-sm text-gray-400">{{ $t('components.tppa.altitude_error') }} {{ tppaStore.showAltitudeError }}</p>
         </div>
+      
 
         <div v-if="tppaStore.showAzimuthError" class="flex items-center justify-center pt-2">
           <ButtonPause class="w-12 h-12" />
@@ -169,12 +173,4 @@ const errorColor = computed(() => {
   return 'red'; // Sonst Rot
 });
 
-// Fehler in Grad, Minuten und Sekunden umrechnen
-const formattedError = computed(() => {
-  const totalSeconds = Math.round(tppaStore.totalErrorDeg * 3600);
-  const degrees = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(degrees).padStart(2, '0')}° ${String(minutes).padStart(2, '0')}' ${String(seconds).padStart(2, '0')}''`;
-});
 </script>

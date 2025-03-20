@@ -37,6 +37,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
       try {
         return await apiService.sequenceAction('state');
       } catch (error) {
+        this.sequenceIsEditable = false;
         console.error('Error fetching sequence info state:', error);
       }
     },
@@ -55,7 +56,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (this.sequenceIsEditable) {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
-        if (response?.StatusCode === 500) {
+        //console.log(response);
+        if (response?.StatusCode === 500 || !response?.StatusCode) {
           console.log('nicht editierbar');
           this.sequenceIsEditable = false;
           response = await this.getSequenceInfoJson();

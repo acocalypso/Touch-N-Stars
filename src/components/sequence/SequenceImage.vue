@@ -77,11 +77,11 @@
 <script setup>
 import { ref, defineProps } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
-import { getImageByIndex } from '@/utils/sequence';
 import { useSettingsStore } from '@/store/settingsStore';
-import apiService from '@/services/apiService';
+import { useSequenceStore } from '@/store/sequenceStore';
 
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
 
 const props = defineProps({
   index: {
@@ -111,9 +111,10 @@ function openModal() {
   isLoadingModal.value = true;
   showModal.value = true;
 
-  getImageByIndex(apiService, props.index, settingsStore.camera.imageQuality, 0.5)
+  sequenceStore
+    .getImageByIndex(props.index, settingsStore.camera.imageQuality, 0.5)
     .then((image) => {
-      fullResImage.value = `data:image/jpeg;base64,${image}`;
+      fullResImage.value = image;
     })
     .finally(() => {
       isLoadingModal.value = false;

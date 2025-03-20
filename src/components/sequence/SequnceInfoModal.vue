@@ -3,9 +3,9 @@
     <!-- Modal Trigger -->
     <button
       @click="isModalOpen = true"
-      class="absolute bottom-3 left-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
     >
-      <InformationCircleIcon class="w-7 h-7 text-white" />
+      <PencilIcon class="w-6 h-6 text-white" />
     </button>
 
     <!-- Modal Overlay -->
@@ -37,7 +37,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { PencilIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
 const isModalOpen = ref(false);
 </script>

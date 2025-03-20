@@ -60,12 +60,6 @@ async function wait(ms) {
 
 async function getlastImage(index, quality, resize, scale) {
   let image = null;
-  console.log(index, quality, scale);
-  console.log(
-    sequenceStore.lastImage.index,
-    sequenceStore.lastImage.quality,
-    sequenceStore.lastImage.scale
-  );
   if (
     sequenceStore.lastImage.image &&
     index === sequenceStore.lastImage.index &&

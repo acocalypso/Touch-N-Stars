@@ -15,7 +15,7 @@
         <PencilIcon class="icon" />
       </button>
     </div>
-    <div class="fixed bottom-10 left-0 z-30" v-if="!sequenceStore.sequenceIsEditable">
+    <div class="fixed bottom-12 right-3 z-30" v-if="!sequenceStore.sequenceIsEditable">
       <SequnceInfoModal />
     </div>
     <div class="max-w-6xl mx-auto lg:px-4">

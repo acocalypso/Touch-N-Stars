@@ -160,6 +160,34 @@ export const useSequenceStore = defineStore('sequenceStore', {
       });
     },
 
+    async getImageByIndex(index, quality, scale) {
+      let image = null;
+      if (
+        this.lastImage.image &&
+        index === this.lastImage.index &&
+        quality <= this.lastImage.quality &&
+        scale <= this.lastImage.scale
+      ) {
+        console.log('aus cache');
+        console.log(this.lastImage.image);
+        image = this.lastImage.image;
+        return image;
+      }
+      try {
+        const result = await apiService.getSequenceImage(index, quality, true, scale);
+        if (result.StatusCode != 200) {
+          console.error('Unknown error: Check NINA Logs for more information');
+          return;
+        }
+        const imageData = result?.Response;
+        image = `data:image/jpeg;base64,${imageData}`;
+        return image;
+      } catch (error) {
+        console.error(`An error happened while getting image with index ${index}`, error.message);
+        return;
+      }
+    },
+
     startFetching() {
       if (!this.intervalId) {
         this.intervalId = setInterval(this.getSequenceInfo, 2000);

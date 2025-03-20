@@ -121,6 +121,15 @@
               <span :class="statusColor(condition.Status)" class="text-xs md:text-sm">
                 {{ condition.Status }}
               </span>
+              <button
+                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+                @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
+              >
+                <PowerIcon
+                  class="w-5 h-5"
+                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                />
+              </button>
             </div>
             <div class="grid grid-cols-1 gap-2 text-xs md:text-sm">
               <div

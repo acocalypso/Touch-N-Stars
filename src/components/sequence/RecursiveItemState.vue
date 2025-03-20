@@ -298,7 +298,18 @@
 
       <!-- Nested Items -->
       <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
-        <RecursiveItem :items="item.Items" :isTopLevel="false" :containerIndex="containerIndex" />
+        <RecursiveItemState
+          v-if="sequenceStore.sequenceIsEditable"
+          :items="item.Items"
+          :isTopLevel="false"
+          :containerIndex="containerIndex"
+        />
+        <RecursiveItemJson
+          v-if="sequenceStore.sequenceIsEditable"
+          :items="item.Items"
+          :isTopLevel="false"
+          :containerIndex="containerIndex"
+        />
       </div>
     </div>
   </div>
@@ -310,6 +321,8 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
+import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
+import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 
 defineProps({
   items: {
@@ -327,6 +340,7 @@ defineProps({
 });
 
 const store = apiStore();
+const sequenceStore = useSequenceStore();
 const excludedKeys = new Set([
   'Name',
   'Status',
@@ -388,8 +402,6 @@ const updateKeys = [
   'Time',
   'PositionAngle',
 ];
-
-const sequenceStore = useSequenceStore();
 
 function statusColor(status) {
   switch (status) {

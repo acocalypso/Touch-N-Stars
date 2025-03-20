@@ -76,7 +76,16 @@
 
       <!-- Nested Items -->
       <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
-        <RecursiveItem :items="item.Items" :isTopLevel="false" />
+        <RecursiveItemState
+          v-if="!sequenceStore.sequenceIsEditable"
+          :items="item.Items"
+          :isTopLevel="false"
+        />
+        <RecursiveItemJson
+          v-if="!sequenceStore.sequenceIsEditable"
+          :items="item.Items"
+          :isTopLevel="false"
+        />
       </div>
 
       <!-- Triggers Section -->
@@ -134,6 +143,9 @@
 </template>
 <script setup>
 import { defineProps } from 'vue';
+import { useSequenceStore } from '@/store/sequenceStore';
+import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
+import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 
 defineProps({
   items: {
@@ -146,6 +158,7 @@ defineProps({
   },
 });
 
+const sequenceStore = useSequenceStore();
 const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items']);
 
 function statusColor(status) {

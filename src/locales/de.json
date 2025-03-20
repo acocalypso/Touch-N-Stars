@@ -236,7 +236,11 @@
       "imageHistory": "Image History",
       "duration": "Duration",
       "temperatureShort": "Temp",
-      "conditions": "Bedingungen"
+      "conditions": "Bedingungen",
+      "info": {
+        "header": "Info",
+        "message": "Leider kann deine Sequenz nicht bearbeitet werden. Aktuell werden noch nicht alle Sequenz Plugins unterstützt"
+      }
     },
     "mount": {
       "title": "Montierung",

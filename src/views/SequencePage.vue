@@ -10,9 +10,13 @@
         @click="toggleEdit"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
         :class="{ 'connected-glow': sequenceStore.sequenceEdit }"
+        v-if="sequenceStore.sequenceIsEditable"
       >
         <PencilIcon class="icon" />
       </button>
+    </div>
+    <div class="fixed bottom-10 left-0 z-30" v-if="!sequenceStore.sequenceIsEditable">
+      <SequnceInfoModal />
     </div>
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
@@ -34,6 +38,7 @@
 import { onBeforeUnmount } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
+import SequnceInfoModal from '@/components/sequence/SequnceInfoModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';

@@ -44,8 +44,12 @@
     <p class="text-xs">{{ $t('components.mount.control.manuellControl') }}</p>
     <div class="flex-grow ml-2 h-[1px] bg-gray-700"></div>
   </div>
-  <div>
-    <moveAxis v-if="true" />
+  <div v-if="!store.mountInfo.TrackingEnabled">
+    <moveAxis />
+  </div>
+  <div v-else class="flex gap-4">
+    <InformationCircleIcon class="w-10 h-10 text-blue-500" />
+    <p class="pt-5 text-gray-500">{{ $t('components.mount.control.info_manuell_controll') }}</p>
   </div>
 </template>
 
@@ -57,8 +61,11 @@ import ButtonSetAsPark from '@/components/mount/ButtonSetAsPark.vue';
 import ButtonHome from '@/components/mount/ButtonHome.vue';
 import ButtonUnpark from '@/components/mount/ButtonUnpark.vue';
 import ButtonPark from '@/components/mount/ButtonPark.vue';
+import { apiStore } from '@/store/store';
+import { InformationCircleIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
+const store = apiStore();
 
 async function setTrackingMode(mode) {
   //0=Siderial, 1=Lunar, 2=Solar, 3=King, 4=Stopped

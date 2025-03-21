@@ -242,7 +242,12 @@
           </router-link>
         </div>
         <div v-if="store.isBackendReachable">
-          <router-link to="/stellarium" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/"
+            class="nav-button"
+            :class="{ 'active-nav-button': store.showStellarium }"
+            @click="store.showStellarium = true"
+          >
             <SparklesIcon class="icon" />
           </router-link>
         </div>
@@ -272,11 +277,24 @@ import {
   AdjustmentsVerticalIcon,
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
+import { watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 const store = apiStore();
 const sequenceStore = useSequenceStore();
+const route = useRoute();
+
+watch(
+  () => route.path,
+  (newPath) => {
+    if (newPath !== '/') {
+      store.showStellarium = false;
+    }
+  },
+  { immediate: true } // <- optional, direkt beim ersten Laden prüfen
+);
 </script>
 
 <style scoped>

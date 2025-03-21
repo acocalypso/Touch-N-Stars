@@ -23,7 +23,7 @@
                 : $t('components.tppa.start_alignment')
             }}
           </button>
-          <ButtonPause v-if="tppaStore.isTppaRunning" />
+          <ButtonPause class="w-28" v-if="tppaStore.isTppaRunning" />
           <button class="default-button-cyan" @click="stopAlignment">
             {{ $t('components.tppa.stop_alignment') }}
           </button>
@@ -34,31 +34,31 @@
               <p class="w-52">
                 <strong>{{ $t('components.tppa.altitude_error') }}</strong>
               </p>
-              <p>{{ showAltitudeError }}</p>
-              <div v-if="showAltitudeError">
+              <p>{{ tppaStore.showAltitudeError }}</p>
+              <div v-if="tppaStore.showAltitudeError">
                 <div
-                  v-if="altitudeCorDirectionTop && !isSouthernHemisphere"
+                  v-if="tppaStore.altitudeCorDirectionTop && !tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowUpIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.up') }}</p>
                 </div>
                 <div
-                  v-if="!altitudeCorDirectionTop && !isSouthernHemisphere"
+                  v-if="!tppaStore.altitudeCorDirectionTop && !tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowDownIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.down') }}</p>
                 </div>
                 <div
-                  v-if="!altitudeCorDirectionTop && isSouthernHemisphere"
+                  v-if="!tppaStore.altitudeCorDirectionTop && tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowUpIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.up') }}</p>
                 </div>
                 <div
-                  v-if="altitudeCorDirectionTop && isSouthernHemisphere"
+                  v-if="tppaStore.altitudeCorDirectionTop && tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowDownIcon class="size-6 text-blue-500" />
@@ -70,31 +70,31 @@
               <p class="w-52">
                 <strong>{{ $t('components.tppa.azimuth_error') }}</strong>
               </p>
-              <p>{{ showAzimuthError }}</p>
-              <div v-if="showAzimuthError">
+              <p>{{ tppaStore.showAzimuthError }}</p>
+              <div v-if="tppaStore.showAzimuthError">
                 <div
-                  v-if="azimuthCorDirectionLeft && !isSouthernHemisphere"
+                  v-if="tppaStore.azimuthCorDirectionLeft && !tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowLeftIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.west') }}</p>
                 </div>
                 <div
-                  v-if="!azimuthCorDirectionLeft && !isSouthernHemisphere"
+                  v-if="!tppaStore.azimuthCorDirectionLeft && !tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowRightIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.east') }}</p>
                 </div>
                 <div
-                  v-if="!azimuthCorDirectionLeft && isSouthernHemisphere"
+                  v-if="!tppaStore.azimuthCorDirectionLeft && tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowRightIcon class="size-6 text-blue-500" />
                   <p>{{ $t('components.tppa.west') }}</p>
                 </div>
                 <div
-                  v-if="azimuthCorDirectionLeft && isSouthernHemisphere"
+                  v-if="tppaStore.azimuthCorDirectionLeft && tppaStore.isSouthernHemisphere"
                   class="flex flex-row space-x-2"
                 >
                   <ArrowLeftIcon class="size-6 text-blue-500" />
@@ -106,9 +106,9 @@
               <p class="w-52">
                 <strong>{{ $t('components.tppa.total_error') }}</strong>
               </p>
-              <p>{{ showTotalError }}</p>
+              <p>{{ tppaStore.showTotalError }}</p>
               <!-- Smiley Display -->
-              <span v-if="showTotalError">
+              <span v-if="tppaStore.showTotalError">
                 <span v-if="tppaStore.isWithinTolerance">
                   <!-- Happy SVG -->
                   <svg
@@ -177,6 +177,7 @@
   </div>
   <div>
     <ActuellErrorModal />
+    <ErrorCircle />
   </div>
 </template>
 
@@ -197,17 +198,12 @@ import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
 import ButtonPause from '@/components/tppa/ButtonPause.vue';
+import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
 const startStop = ref(false);
 const isConnected = ref(false);
-const showAzimuthError = ref('');
-const showAltitudeError = ref('');
-const showTotalError = ref('');
-const azimuthCorDirectionLeft = ref(false);
-const altitudeCorDirectionTop = ref(false);
-const isSouthernHemisphere = ref(false);
 
 // Tolerance in arc minutes
 const tolerance = 1;
@@ -216,10 +212,10 @@ const tolerance = 1;
 const toleranceInDegrees = tolerance / 60;
 
 tppaStore.isWithinTolerance = computed(() => {
-  if (!showTotalError.value) return false;
+  if (!tppaStore.showTotalError) return false;
 
   // Extract the numerical value from the DMS string
-  const totalErrorDMS = showTotalError.value;
+  const totalErrorDMS = tppaStore.showTotalError;
   const totalErrorValue = convertDMSToDecimal(totalErrorDMS);
 
   // Check if the numerical value is within the tolerance
@@ -293,21 +289,21 @@ function formatMessage(message) {
         const azimuthErrorDMS = decimalToDMS(AzimuthError);
         const altitudeErrorDMS = decimalToDMS(AltitudeError);
         const totalErrorDMS = decimalToDMS(TotalError);
+        tppaStore.totalErrorDeg = TotalError;
+        tppaStore.AzimuthErrorDeg = AltitudeError;
+        tppaStore.AltitudeErrorDEG = AzimuthError;
 
-        showAzimuthError.value = azimuthErrorDMS;
         tppaStore.showAzimuthError = azimuthErrorDMS;
-        showAltitudeError.value = altitudeErrorDMS;
         tppaStore.showAltitudeError = altitudeErrorDMS;
-        showTotalError.value = totalErrorDMS;
         tppaStore.showTotalError = totalErrorDMS;
 
-        azimuthCorDirectionLeft.value = AzimuthError > 0 ? true : false;
         tppaStore.azimuthCorDirectionLeft = AzimuthError > 0 ? true : false;
-        altitudeCorDirectionTop.value = AltitudeError < 0 ? true : false;
         tppaStore.altitudeCorDirectionTop = AltitudeError < 0 ? true : false;
         // Prüfe, ob sich der Nutzer auf der Südhalbkugel befindet
-        isSouthernHemisphere.value = store.profileInfo.AstrometrySettings.Latitude < 0;
         tppaStore.isSouthernHemisphere = store.profileInfo.AstrometrySettings.Latitude < 0;
+        if (tppaStore.isSouthernHemisphere) {
+          console.log('isSouthernHemisphere');
+        }
       } else {
         return t('components.tppa.error_values_missing');
       }
@@ -321,23 +317,22 @@ function formatMessage(message) {
 
 async function startAlignment() {
   tppaStore.isPause = false;
-  tppaStore.showAzimuthError = '';
+  resetErrors();
   await unparkMount();
   websocketService.sendMessage('start-alignment');
 }
 
 function resetErrors() {
-  showAzimuthError.value = '';
-  showAltitudeError.value = '';
-  showTotalError.value = '';
-  azimuthCorDirectionLeft.value = false;
-  altitudeCorDirectionTop.value = false;
+  tppaStore.showAzimuthError = '';
+  tppaStore.showAltitudeError = '';
+  tppaStore.showTotalError = '';
+  tppaStore.azimuthCorDirectionLeft = false;
+  tppaStore.altitudeCorDirectionTop = false;
 }
 
 function stopAlignment() {
   console.log("Sende 'stop-alignment' an den Server");
   websocketService.sendMessage('stop-alignment');
-  resetErrors();
 }
 
 async function unparkMount() {

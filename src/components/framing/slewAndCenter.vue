@@ -35,8 +35,16 @@
           />
         </div>
         <div class="mt-4 flex gap-2">
-          <ButtonSlew :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
-          <ButtonSlewAndCenter :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
+          <ButtonSlew
+            class="flex-1 w-full"
+            :raAngle="framingStore.RAangle"
+            :decAngle="framingStore.DECangle"
+          />
+          <ButtonSlewAndCenter
+            class="flex-1 w-full"
+            :raAngle="framingStore.RAangle"
+            :decAngle="framingStore.DECangle"
+          />
         </div>
         <div v-if="store.rotatorInfo.Connected && true" class="mt-2">
           <button

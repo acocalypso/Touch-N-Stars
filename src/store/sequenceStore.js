@@ -9,6 +9,14 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceIsLoaded: false,
     sequenceRunning: false,
     sequenceEdit: false,
+    sequenceIsEditable: true,
+    lastImage: {
+      index: 0,
+      quality: 0,
+      resize: false,
+      scale: 0,
+      image: null,
+    },
   }),
   actions: {
     setSequenceRunning(isRunning) {
@@ -25,25 +33,55 @@ export const useSequenceStore = defineStore('sequenceStore', {
       return !!this.collapsedStates[containerName];
     },
 
-    async getSequenceInfo() {
+    async getSequenceInfoState() {
       try {
-        const response = await apiService.sequenceAction('state');
-        if (response.Success) {
-          this.sequenceInfo = response.Response;
-          this.generatePaths(this.sequenceInfo);
-          this.sequenceIsLoaded = true;
-          // Check if sequence is running
-          // Check if any sequence is running by searching for RUNNING status
-          const isRunning = response.Response?.some((sequence) =>
-            sequence.Items?.some((item) => item.Status === 'RUNNING')
-          );
-          this.sequenceRunning = isRunning || false;
-        } else {
-          this.sequenceIsLoaded = false;
-          this.sequenceRunning = false;
-        }
+        return await apiService.sequenceAction('state');
       } catch (error) {
-        console.error('Error fetching guider info:', error);
+        this.sequenceIsEditable = false;
+        console.error('Error fetching sequence info state:', error);
+      }
+    },
+
+    async getSequenceInfoJson() {
+      try {
+        return await apiService.sequenceAction('json');
+      } catch (error) {
+        console.error('Error fetching sequence info json:', error);
+      }
+    },
+
+    async getSequenceInfo() {
+      let response = null;
+
+      if (this.sequenceIsEditable) {
+        //console.log('Abfrage state');
+        response = await this.getSequenceInfoState();
+        //console.log(response);
+        if (response?.StatusCode === 500 || !response?.StatusCode) {
+          console.log('nicht editierbar');
+          this.sequenceIsEditable = false;
+          response = await this.getSequenceInfoJson();
+        }
+      } else {
+        //console.log('Abfrage json');
+        response = await this.getSequenceInfoJson();
+      }
+
+      if (response?.Success) {
+        this.sequenceInfo = response.Response;
+        if (this.sequenceIsEditable) {
+          this.generatePaths(this.sequenceInfo);
+        }
+        this.sequenceIsLoaded = true;
+
+        // Check if any sequence is running by searching for RUNNING status
+        const isRunning = response.Response?.some((sequence) =>
+          sequence.Items?.some((item) => item.Status === 'RUNNING')
+        );
+        this.sequenceRunning = isRunning || false;
+      } else {
+        this.sequenceIsLoaded = false;
+        this.sequenceRunning = false;
       }
     },
 
@@ -120,6 +158,34 @@ export const useSequenceStore = defineStore('sequenceStore', {
         const conditionPath = `${parentPath}-Conditions-${idx}`;
         condition._path = conditionPath;
       });
+    },
+
+    async getImageByIndex(index, quality, scale) {
+      let image = null;
+      if (
+        this.lastImage.image &&
+        index === this.lastImage.index &&
+        quality <= this.lastImage.quality &&
+        scale <= this.lastImage.scale
+      ) {
+        console.log('aus cache');
+        console.log(this.lastImage.image);
+        image = this.lastImage.image;
+        return image;
+      }
+      try {
+        const result = await apiService.getSequenceImage(index, quality, true, scale);
+        if (result.StatusCode != 200) {
+          console.error('Unknown error: Check NINA Logs for more information');
+          return;
+        }
+        const imageData = result?.Response;
+        image = `data:image/jpeg;base64,${imageData}`;
+        return image;
+      } catch (error) {
+        console.error(`An error happened while getting image with index ${index}`, error.message);
+        return;
+      }
     },
 
     startFetching() {

@@ -111,7 +111,6 @@ watch(
   () => stellariumStore.search.DECangleString,
   (newValue) => {
     console.log('selectedObject:', newValue);
-
     stellariumStore.search.DECangleString = '';
   }
 );
@@ -120,6 +119,9 @@ onMounted(async () => {
   //NINA vorbereiten
   await apiService.applicatioTabSwitch('framing');
   await apiService.setFramingImageSource('SKYATLAS');
+  await apiService.setFramingCoordinates(1, 1);
+  await store.fetchProfilInfos();
+
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
   script.src = '/stellarium-js/stellarium-web-engine.js';

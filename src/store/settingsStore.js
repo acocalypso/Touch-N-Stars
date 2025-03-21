@@ -58,7 +58,7 @@ export const useSettingsStore = defineStore('settings', {
       equatorialLinesVisible: false,
       meridianLinesVisible: false,
       eclipticLinesVisible: false,
-      atmosphereVisible: false,
+      atmosphereVisible: true,
       landscapesVisible: true,
     },
   }),

@@ -73,3 +73,84 @@ export function formatTime(timestamp) {
   const seconds = String(date.getSeconds()).padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
 }
+
+// Julianisches Datum berechnen
+export function getJulianDate() {
+  const now = new Date();
+  let year = now.getUTCFullYear();
+  let month = now.getUTCMonth() + 1;
+  const day = now.getUTCDate();
+  const hour = now.getUTCHours();
+  const minute = now.getUTCMinutes();
+  const second = now.getUTCSeconds();
+
+  if (month <= 2) {
+    year -= 1;
+    month += 12;
+  }
+
+  const A = Math.floor(year / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  const JD =
+    Math.floor(365.25 * (year + 4716)) +
+    Math.floor(30.6001 * (month + 1)) +
+    day +
+    B -
+    1524.5 +
+    (hour + minute / 60 + second / 3600) / 24;
+
+  return JD;
+}
+
+// Greenwich-Sternzeit (GST) berechnen
+export function getGST() {
+  const JD = getJulianDate();
+  const S = JD - 2451545.0;
+  const T = S / 36525.0;
+  const GST = 280.46061837 + 360.98564736629 * S + T ** 2 * (0.000387933 - T / 38710000);
+  return ((GST % 360) + 360) % 360; // In Grad, normalisiert auf 0-360°
+}
+
+// Lokale Sternzeit (LST) berechnen
+export function getLST(longitude) {
+  const GST = getGST();
+  return (GST + longitude) % 360;
+}
+
+/**
+ * Converts altitude and azimuth coordinates to right ascension (RA) and declination (Dec).
+ *
+ * @param {number} altitude - The altitude above the horizon in degrees.
+ * @param {number} azimuth - The azimuth angle in degrees (0° = North, 90° = East).
+ * @param {number} latitude - The observer's geographic latitude in degrees.
+ * @param {number} longitude - The observer's geographic longitude in degrees.
+ * @returns {{ra: number, dec: number}} An object containing the equatorial coordinates: right ascension (RA) and declination (Dec).
+ * @throws {TypeError} If any of the parameters are not finite numbers.
+ */
+export function altAzToRaDec(altitude, azimuth, latitude, longitude) {
+  const rad = Math.PI / 180; // Umrechnung Grad → Radiant
+  const deg = 180 / Math.PI; // Umrechnung Radiant → Grad
+
+  // Lokale Sternzeit berechnen
+  const LST = getLST(longitude);
+
+  // Umwandlung in Radianten
+  const h = altitude * rad;
+  const A = azimuth * rad;
+  const phi = latitude * rad;
+
+  // Deklination berechnen
+  const sinDec = Math.sin(h) * Math.sin(phi) + Math.cos(h) * Math.cos(phi) * Math.cos(A);
+  const dec = Math.asin(sinDec) * deg;
+
+  // Stundenwinkel berechnen
+  const y = -Math.sin(A) * Math.cos(h);
+  const x = Math.cos(phi) * Math.sin(h) - Math.sin(phi) * Math.cos(h) * Math.cos(A);
+  const HA = Math.atan2(y, x) * deg;
+
+  // Rektaszension berechnen
+  let ra = (LST - HA) % 360;
+  if (ra < 0) ra += 360; // Normierung auf 0 - 360°
+
+  return { ra, dec };
+}

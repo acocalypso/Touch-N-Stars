@@ -3,7 +3,7 @@
     <div>
       <!-- Navigation -->
       <nav>
-        <div class="z-20">
+        <div class="z-20 fixed top-0 w-full">
           <NavigationComp />
         </div>
       </nav>
@@ -15,7 +15,8 @@
         <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
       </div>
 
-      <div class="container mx-auto p-0.5 transition-all">
+      <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
+        <StellariumView v-show="store.showStellarium" />
         <router-view />
       </div>
       <!-- Footer -->
@@ -102,6 +103,7 @@ import NavigationComp from '@/components/NavigationComp.vue';
 import LastMessage from '@/components/LastMessage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
 import LastLogs from '@/components/LastLogs.vue';
+import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useI18n } from 'vue-i18n';

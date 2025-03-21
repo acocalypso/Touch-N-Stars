@@ -21,9 +21,9 @@ import { ref, watch, onMounted } from 'vue';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
-import apiService from '@/services/apiService';
-import { getImageByIndex } from '@/utils/sequence';
+import { useSequenceStore } from '@/store/sequenceStore';
 
+const sequenceStore = useSequenceStore();
 const imageHistory = ref([]);
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -35,7 +35,7 @@ const minScale = 0.3;
 function addImageToHistory(imageIndex, imageData, stats) {
   imageHistory.value.push({
     stats,
-    data: `data:image/jpeg;base64,${imageData}`,
+    data: imageData,
     index: imageIndex,
   });
 }
@@ -57,7 +57,7 @@ watch(
         isLoadingImages.value = true;
         const stats = newVal[latestIndex];
 
-        const image = await getImageByIndex(apiService, latestIndex, minQuality, minScale);
+        const image = await sequenceStore.getImageByIndex(latestIndex, minQuality, minScale);
         addImageToHistory(latestIndex, image, stats);
         isLoadingImages.value = false;
       }
@@ -70,7 +70,7 @@ onMounted(async () => {
   isLoadingImages.value = true;
 
   for (const imageIndex in store.imageHistoryInfo) {
-    const image = await getImageByIndex(apiService, imageIndex, minQuality, minScale);
+    const image = await sequenceStore.getImageByIndex(imageIndex, minQuality, minScale);
     const stats = store.imageHistoryInfo[imageIndex];
     addImageToHistory(imageIndex, image, stats);
   }

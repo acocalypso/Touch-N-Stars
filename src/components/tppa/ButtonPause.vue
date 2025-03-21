@@ -1,5 +1,5 @@
 <template>
-  <button class="bg-cyan-900 rounded-md flex items-center justify-center w-28" @click="pausResume">
+  <button class="bg-cyan-900 rounded-md flex items-center justify-center" @click="pausResume">
     <PauseIcon v-if="!tppaStore.isPause" />
     <PlayIcon v-if="tppaStore.isPause" />
   </button>

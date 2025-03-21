@@ -133,10 +133,12 @@ const sendCommand = (direction) => {
     console.error('WebSocket ist nicht verbunden.');
     return;
   }
+  console.log('asldkjf');
 
   mountStore.lastDirection = direction;
 
   const sendMessage = () => {
+    console.log('sendMessage');
     const message = {
       direction: direction,
       rate: settingsStore.mount.slewRate,
@@ -181,7 +183,6 @@ onMounted(() => {
       mountStore.wsIsConnected = true;
     }
   });
-
   websocketMountControl.connect();
 });
 

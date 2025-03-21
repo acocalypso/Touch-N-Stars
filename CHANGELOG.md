@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence editor
 - Slew can now be canceled
 - TPPA: Modal for bigger font size
+- TPPA: Modal for target circel
+- Framing wizard: Button slew to cenit
+- Last sequence image cache
 
 ### Fixed
 - fixes an error when the stellarium page is reloaded
@@ -24,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Equipment connect page reworked
 - Sequence info changed from json to state
 - Hide the connection settings if it is not an Androidapp
+- Manual mount control is only available if tracking is not active
+- Last sequence image cache
 
 ## [1.0.3.0] - 2025-03-08
 ### Added

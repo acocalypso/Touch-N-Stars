@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="bg-gray-800 rounded-lg p-3 md:p-4 shadow-lg border-2 transition-all"
+      class="bg-gray-800 rounded-lg p-2 md:p-3 shadow-lg border-2 transition-all"
       :class="{
         'border-blue-500': item.Status === 'RUNNING' && !hasRunningChildren(item),
         'border-gray-700 hover:border-gray-500':
@@ -50,7 +50,11 @@
               <span class="text-sm font-medium text-gray-200 break-all">
                 {{ removeSuffix(trigger.Name) }}
               </span>
-              <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
+              <span
+                v-if="trigger.Status != 'CREATED'"
+                :class="statusColor(trigger.Status)"
+                class="text-xs md:text-sm"
+              >
                 {{ trigger.Status }}
               </span>
 
@@ -60,7 +64,7 @@
               >
                 <PowerIcon
                   class="w-5 h-5"
-                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                  :class="trigger.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
                 />
               </button>
             </div>
@@ -103,7 +107,7 @@
         </div>
       </div>
 
-      <!-- Triggers Conditions -->
+      <!-- Conditions -->
       <div v-if="item.Conditions?.length" class="mt-4">
         <h4 class="text-sm font-semibold text-gray-300 mb-2">
           {{ $t('components.sequence.conditions') }}
@@ -118,9 +122,22 @@
               <span class="text-sm font-medium text-gray-200 break-all">
                 {{ removeSuffix(condition.Name) }}
               </span>
-              <span :class="statusColor(condition.Status)" class="text-xs md:text-sm">
+              <span
+                v-if="condition.Status != 'CREATED'"
+                :class="statusColor(condition.Status)"
+                class="text-xs md:text-sm"
+              >
                 {{ condition.Status }}
               </span>
+              <button
+                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+                @click="toggleDisable(condition._path, condition.Status, 'Status')"
+              >
+                <PowerIcon
+                  class="w-5 h-5"
+                  :class="condition.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                />
+              </button>
             </div>
             <div class="grid grid-cols-1 gap-2 text-xs md:text-sm">
               <div
@@ -169,7 +186,7 @@
         </div>
       </div>
 
-      <!-- Dynamic Details Grid / item-->
+      <!--Item-->
       <div class="gap-2 text-sm mb-4">
         <div
           v-for="[key, value] in getDisplayFields(item)"
@@ -186,6 +203,13 @@
             </template>
             <template v-else-if="key === 'TimeToMeridianFlip'">
               {{ formatTimeSpan(value) }}
+            </template>
+
+            <template v-else-if="key === 'SelectedSwitch'">
+              <span class="text-gray-200 break-all">
+                <p>Name: {{ value.Name }}</p>
+                <p>Target Value: {{ value.TargetValue }}</p>
+              </span>
             </template>
 
             <template v-else-if="key === 'Coordinates'">
@@ -290,8 +314,19 @@
       </div>
 
       <!-- Nested Items -->
-      <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
-        <RecursiveItem :items="item.Items" :isTopLevel="false" :containerIndex="containerIndex" />
+      <div v-if="item.Items?.length" class="ml-1 md:ml-2 space-y-3">
+        <RecursiveItemState
+          v-if="sequenceStore.sequenceIsEditable"
+          :items="item.Items"
+          :isTopLevel="false"
+          :containerIndex="containerIndex"
+        />
+        <RecursiveItemJson
+          v-if="!sequenceStore.sequenceIsEditable"
+          :items="item.Items"
+          :isTopLevel="false"
+          :containerIndex="containerIndex"
+        />
       </div>
     </div>
   </div>
@@ -303,6 +338,8 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
+import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
+import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 
 defineProps({
   items: {
@@ -320,6 +357,7 @@ defineProps({
 });
 
 const store = apiStore();
+const sequenceStore = useSequenceStore();
 const excludedKeys = new Set([
   'Name',
   'Status',
@@ -337,6 +375,9 @@ const excludedKeys = new Set([
   'Iterations',
   'Data',
   'WindowServiceFactory',
+  'SwitchIndex',
+  'WritableSwitches',
+  'HasDsoParent',
 ]);
 
 const excludedKeysConditions = new Set([
@@ -355,6 +396,8 @@ const excludedKeysConditions = new Set([
   'MinutesOffset',
   'Data',
   'WindowServiceFactory',
+  'WritableSwitches',
+  'HasDsoParent',
 ]);
 
 const updateKeys = [
@@ -378,8 +421,6 @@ const updateKeys = [
   'Time',
   'PositionAngle',
 ];
-
-const sequenceStore = useSequenceStore();
 
 function statusColor(status) {
   switch (status) {

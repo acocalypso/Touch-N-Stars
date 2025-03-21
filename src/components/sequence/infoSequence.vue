@@ -146,9 +146,6 @@ function statusColor(status) {
 }
 
 onBeforeMount(async () => {
-  // ggf. sicherstellen, dass sequenceStore.sequenceInfo schon geladen ist;
-  // falls du's asynchron lädst, dann ggf. in einem watch oder Promise-Kette
-
   await sequenceStore.getSequenceInfo();
 
   if (sequenceStore.sequenceInfo) {

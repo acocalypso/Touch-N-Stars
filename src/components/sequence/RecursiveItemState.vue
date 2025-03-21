@@ -60,7 +60,7 @@
               >
                 <PowerIcon
                   class="w-5 h-5"
-                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                  :class="trigger.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
                 />
               </button>
             </div>
@@ -123,11 +123,11 @@
               </span>
               <button
                 v-if="sequenceStore.sequenceEdit && containerIndex === 1"
-                @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
+                @click="toggleDisable(condition._path, condition.Status, 'Status')"
               >
                 <PowerIcon
                   class="w-5 h-5"
-                  :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+                  :class="condition.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
                 />
               </button>
             </div>

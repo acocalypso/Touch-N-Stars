@@ -50,7 +50,7 @@
               <span class="text-sm font-medium text-gray-200 break-all">
                 {{ removeSuffix(trigger.Name) }}
               </span>
-              <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
+              <span v-if="trigger.Status != 'CREATED'" :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
                 {{ trigger.Status }}
               </span>
 
@@ -118,7 +118,7 @@
               <span class="text-sm font-medium text-gray-200 break-all">
                 {{ removeSuffix(condition.Name) }}
               </span>
-              <span :class="statusColor(condition.Status)" class="text-xs md:text-sm">
+              <span v-if="condition.Status != 'CREATED'" :class="statusColor(condition.Status)" class="text-xs md:text-sm">
                 {{ condition.Status }}
               </span>
               <button
@@ -369,6 +369,7 @@ const excludedKeys = new Set([
   'WindowServiceFactory',
   'SwitchIndex',
   'WritableSwitches',
+  'HasDsoParent',
 ]);
 
 const excludedKeysConditions = new Set([
@@ -388,6 +389,7 @@ const excludedKeysConditions = new Set([
   'Data',
   'WindowServiceFactory',
   'WritableSwitches',
+  'HasDsoParent',
 ]);
 
 const updateKeys = [

@@ -3,13 +3,13 @@
     <!-- Global Triggers Container - Only show if we have valid global triggers -->
     <div
       v-if="globalTriggers.length > 0"
-      class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg mb-4 p-6 shadow-lg"
+      class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg mb-4 p-3 shadow-lg"
     >
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-3">
           <button
             @click="sequenceStore.toggleCollapsedState('GlobalTrigger')"
-            class="p-1.5 rounded-lg hover:bg-gray-700 transition-colors"
+            class="p-1 rounded-lg hover:bg-gray-700 transition-colors"
             :title="sequenceStore.isCollapsed('GlobalTrigger') ? 'Expand' : 'Collapse'"
           >
             <svg
@@ -40,12 +40,12 @@
         <RecursiveItemState
           v-if="sequenceStore.sequenceIsEditable"
           :items="globalTriggers"
-          class="pl-4 mt-4"
+          class="pl-1 mt-2"
         />
         <RecursiveItemJson
           v-if="!sequenceStore.sequenceIsEditable"
           :items="globalTriggers"
-          class="pl-4 mt-4"
+          class="pl-1 mt-2"
         />
       </div>
     </div>
@@ -54,13 +54,13 @@
     <div
       v-for="(container, containerIndex) in sequenceStore.sequenceInfo.slice(1)"
       :key="containerIndex"
-      class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg mb-4 p-6 shadow-lg"
+      class="bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg mb-4 p-3 shadow-lg"
     >
       <div class="flex items-center justify-between mb-4">
         <div class="flex items-center space-x-3">
           <button
             @click="sequenceStore.toggleCollapsedState(container.Name)"
-            class="p-1.5 rounded-lg hover:bg-gray-700 transition-colors"
+            class="p-1 rounded-lg hover:bg-gray-700 transition-colors"
             :title="sequenceStore.isCollapsed(container.Name) ? 'Expand' : 'Collapse'"
           >
             <svg
@@ -93,7 +93,7 @@
         class="overflow-hidden transition-all duration-300 ease-in-out"
       >
         <!-- Only show Items if they exist -->
-        <div v-if="container.Items && container.Items.length" class="pl-4 mt-4">
+        <div v-if="container.Items && container.Items.length" class="pl-1 mt-2">
           <RecursiveItemState
             v-if="sequenceStore.sequenceIsEditable"
             :items="container.Items"

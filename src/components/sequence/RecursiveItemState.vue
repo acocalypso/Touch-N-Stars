@@ -3,7 +3,7 @@
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="bg-gray-800 rounded-lg p-3 md:p-4 shadow-lg border-2 transition-all"
+      class="bg-gray-800 rounded-lg p-2 md:p-3 shadow-lg border-2 transition-all"
       :class="{
         'border-blue-500': item.Status === 'RUNNING' && !hasRunningChildren(item),
         'border-gray-700 hover:border-gray-500':
@@ -306,7 +306,7 @@
       </div>
 
       <!-- Nested Items -->
-      <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
+      <div v-if="item.Items?.length" class="ml-1 md:ml-2 space-y-3">
         <RecursiveItemState
           v-if="sequenceStore.sequenceIsEditable"
           :items="item.Items"

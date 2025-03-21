@@ -54,7 +54,7 @@ async function unparkMount() {
 
 async function slew() {
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
-  framingStore.slew(props.raAngle, props.decAngle);
+  await framingStore.slew(props.raAngle, props.decAngle);
 }
 </script>
 

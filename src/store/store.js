@@ -38,7 +38,7 @@ export const apiStore = defineStore('store', {
     coordinates: null,
     currentLanguage: 'en',
     showSettings: false,
-    showStellarium : false,
+    showStellarium: false,
     minimumApiVersion: '2.1.7.0',
     currentApiVersion: null,
     isVersionNewerOrEqual: false,

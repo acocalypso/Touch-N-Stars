@@ -14,7 +14,7 @@
       >
         <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
       </div>
-      
+
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
         <StellariumView v-show="store.showStellarium" />
         <router-view />

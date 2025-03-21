@@ -278,7 +278,7 @@ import {
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import { watch } from 'vue';
-import {  useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';

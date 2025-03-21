@@ -50,7 +50,11 @@
               <span class="text-sm font-medium text-gray-200 break-all">
                 {{ removeSuffix(trigger.Name) }}
               </span>
-              <span v-if="trigger.Status != 'CREATED'" :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
+              <span
+                v-if="trigger.Status != 'CREATED'"
+                :class="statusColor(trigger.Status)"
+                class="text-xs md:text-sm"
+              >
                 {{ trigger.Status }}
               </span>
 
@@ -118,7 +122,11 @@
               <span class="text-sm font-medium text-gray-200 break-all">
                 {{ removeSuffix(condition.Name) }}
               </span>
-              <span v-if="condition.Status != 'CREATED'" :class="statusColor(condition.Status)" class="text-xs md:text-sm">
+              <span
+                v-if="condition.Status != 'CREATED'"
+                :class="statusColor(condition.Status)"
+                class="text-xs md:text-sm"
+              >
                 {{ condition.Status }}
               </span>
               <button

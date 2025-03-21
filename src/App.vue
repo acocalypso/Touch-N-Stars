@@ -16,7 +16,7 @@
       </div>
       
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
-        <StellariumView v-show="false" />
+        <StellariumView v-show="store.showStellarium" />
         <router-view />
       </div>
       <!-- Footer -->

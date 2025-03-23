@@ -14,9 +14,11 @@
         </div>
       </div>
       <div v-else>
-        <div class="flex flex-row justify-center items-center space-x-4 p-2 rounded-lg"
-          :class="statusClassRaDec">
-          <p class=" w-24">{{ $t('components.slewAndCenter.ra') }}</p>
+        <div
+          class="flex flex-row justify-center items-center space-x-4 p-2 rounded-lg"
+          :class="statusClassRaDec"
+        >
+          <p class="w-24">{{ $t('components.slewAndCenter.ra') }}</p>
           <input
             type="text"
             v-model="localRAangleString"
@@ -25,7 +27,7 @@
             class="text-black w-full p-2 border border-gray-300 rounded"
             :placeholder="$t('components.slewAndCenter.ra_placeholder')"
           />
-          <p class=" w-24">{{ $t('components.slewAndCenter.dec') }}</p>
+          <p class="w-24">{{ $t('components.slewAndCenter.dec') }}</p>
           <input
             type="text"
             v-model="localDECangleString"
@@ -35,9 +37,11 @@
             :placeholder="$t('components.slewAndCenter.dec_placeholder')"
           />
         </div>
-        <div class="flex flex-row justify-center items-center space-x-4 mt-1 p-2 rounded-lg"
-        :class="statusClassAzAlt">
-          <p class=" w-24">{{ $t('components.slewAndCenter.az') }}</p>
+        <div
+          class="flex flex-row justify-center items-center space-x-4 p-2 rounded-lg"
+          :class="statusClassAzAlt"
+        >
+          <p class="w-24">{{ $t('components.slewAndCenter.az') }}</p>
           <input
             type="text"
             v-model="localAzAngleString"
@@ -46,7 +50,7 @@
             class="text-black w-full p-2 border border-gray-300 rounded"
             placeholder="12:34:56"
           />
-          <p class=" w-24">{{ $t('components.slewAndCenter.alt') }}</p>
+          <p class="w-24">{{ $t('components.slewAndCenter.alt') }}</p>
           <input
             type="text"
             v-model="localAltAngleString"
@@ -55,7 +59,6 @@
             class="text-black w-full p-2 border border-gray-300 rounded"
             placeholder="12:34:56"
           />
-
         </div>
         <div class="mt-4 flex gap-2">
           <ButtonSlew
@@ -301,5 +304,4 @@ onBeforeUnmount(() => {
 .glow-red {
   box-shadow: 0 0 10px rgb(255, 0, 0); /* Roter Schein */
 }
-
 </style>

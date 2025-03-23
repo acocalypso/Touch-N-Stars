@@ -14,8 +14,11 @@
         </div>
       </div>
       <div v-else>
-        <div class="flex flex-row justify-center items-center space-x-4">
-          <p>{{ $t('components.slewAndCenter.ra') }}</p>
+        <div
+          class="flex flex-row justify-center items-center space-x-4 p-2 rounded-lg"
+          :class="statusClassRaDec"
+        >
+          <p class="w-24">{{ $t('components.slewAndCenter.ra') }}</p>
           <input
             type="text"
             v-model="localRAangleString"
@@ -24,7 +27,7 @@
             class="text-black w-full p-2 border border-gray-300 rounded"
             :placeholder="$t('components.slewAndCenter.ra_placeholder')"
           />
-          <p>{{ $t('components.slewAndCenter.dec') }}</p>
+          <p class="w-24">{{ $t('components.slewAndCenter.dec') }}</p>
           <input
             type="text"
             v-model="localDECangleString"
@@ -32,6 +35,29 @@
             @keyup.enter="handleBlurDEC"
             class="text-black w-full p-2 border border-gray-300 rounded"
             :placeholder="$t('components.slewAndCenter.dec_placeholder')"
+          />
+        </div>
+        <div
+          class="flex flex-row justify-center items-center space-x-4 p-2 rounded-lg"
+          :class="statusClassAzAlt"
+        >
+          <p class="w-24">{{ $t('components.slewAndCenter.az') }}</p>
+          <input
+            type="text"
+            v-model="localAzAngleString"
+            @blur="handleBlurAz"
+            @keyup.enter="handleBlurAz"
+            class="text-black w-full p-2 border border-gray-300 rounded"
+            placeholder="12:34:56"
+          />
+          <p class="w-24">{{ $t('components.slewAndCenter.alt') }}</p>
+          <input
+            type="text"
+            v-model="localAltAngleString"
+            @blur="handleBlurAlt"
+            @keyup.enter="handleBlurAlt"
+            class="text-black w-full p-2 border border-gray-300 rounded"
+            placeholder="12:34:56"
           />
         </div>
         <div class="mt-4 flex gap-2">
@@ -74,7 +100,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
-import { hmsToDegrees, dmsToDegrees } from '@/utils/utils';
+import { hmsToDegrees, dmsToDegrees, altAzToRaDec } from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
@@ -88,7 +114,11 @@ const props = defineProps({
 });
 const localRAangleString = ref(props.RAangleString);
 const localDECangleString = ref(props.DECangleString);
+const localAltAngleString = ref();
+const localAzAngleString = ref();
 const Info = ref(null);
+const statusClassRaDec = ref('');
+const statusClassAzAlt = ref('');
 
 watch(
   () => framingStore.RAangleString,
@@ -114,6 +144,18 @@ function validateDEC(decString) {
   return decPattern.test(decString);
 }
 
+function validateAZ(azString) {
+  const azPattern =
+    /^(?:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-9]{2}|3[0-5][0-9])):([0-5][0-9]):([0-5][0-9](?:\.\d+)?)$/;
+  return azPattern.test(azString);
+}
+
+function validateALT(altString) {
+  const altPattern =
+    /^(\+|-)?(?:90:00:00(?:\.0+)?|([0-8]?[0-9]):([0-5][0-9]):([0-5][0-9](?:\.\d+)?))$/;
+  return altPattern.test(altString);
+}
+
 function handleBlurRA() {
   if (!localRAangleString.value) {
     return; // Nichts tun, wenn der Wert leer ist
@@ -137,12 +179,62 @@ function handleBlurDEC() {
   }
 }
 
+function handleBlurAlt() {
+  if (!localAltAngleString.value) {
+    return; // Nichts tun, wenn der Wert leer ist
+  }
+  if (validateALT(localAltAngleString.value)) {
+    updateAltAz();
+  } else {
+    alert(t('components.slewAndCenter.errors.invalidAltInput'));
+  }
+}
+
+function handleBlurAz() {
+  if (!localAzAngleString.value) {
+    return; // Nichts tun, wenn der Wert leer ist
+  }
+  if (validateAZ(localAzAngleString.value)) {
+    updateAltAz();
+  } else {
+    alert(t('components.slewAndCenter.errors.invalidAzInput'));
+  }
+}
+
 function updateRA() {
   framingStore.RAangle = hmsToDegrees(localRAangleString.value);
+  statusClassRaDec.value = 'glow-green';
+  statusClassAzAlt.value = '';
 }
 
 function updateDec() {
   framingStore.DECangle = dmsToDegrees(localDECangleString.value);
+  statusClassRaDec.value = 'glow-green';
+  statusClassAzAlt.value = '';
+}
+
+function updateAltAz() {
+  if (!localAltAngleString.value || !localAzAngleString.value) {
+    return;
+  }
+  const alt = dmsToDegrees(localAltAngleString.value);
+  const az = dmsToDegrees(localAzAngleString.value);
+
+  const { ra, dec } = altAzToRaDec(
+    alt,
+    az,
+    store.profileInfo.AstrometrySettings.Latitude,
+    store.profileInfo.AstrometrySettings.Longitude
+  );
+
+  framingStore.RAangle = ra;
+  framingStore.DECangle = dec;
+
+  statusClassRaDec.value = '';
+  statusClassAzAlt.value = 'glow-green';
+
+  console.log('→ RA (°):', ra);
+  console.log('→ DEC (°):', dec);
 }
 
 async function cameraRotate() {
@@ -204,5 +296,12 @@ onBeforeUnmount(() => {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.glow-green {
+  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
+}
+.glow-red {
+  box-shadow: 0 0 10px rgb(255, 0, 0); /* Roter Schein */
 }
 </style>

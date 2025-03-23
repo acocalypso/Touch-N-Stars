@@ -411,9 +411,13 @@
         "apiUnreachable": "Framing-API nicht erreichbar",
         "invalidFormat": "Ungültiges Format. Erwartet: ±DD:MM:SS.s",
         "apiResponseError": "Fehler in API-Antwort:",
-        "mountInfoError": "Fehler beim Abrufen der Montierungsinformationen:"
+        "mountInfoError": "Fehler beim Abrufen der Montierungsinformationen:",
+        "invalidAltInput": "Ungültige Alt-Eingabe.",
+        "invalidAzInput": "Ungültige Az-Eingabe."
       },
-      "visibleStars": "Sichtbare Sternsuche"
+      "visibleStars": "Sichtbare Sternsuche",
+      "alt": "Alt:",
+      "az": "Az:"
     },
     "filterwheel": {
       "filter": "Filter:",

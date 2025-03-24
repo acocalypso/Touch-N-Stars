@@ -53,6 +53,22 @@ export function dmsToDegrees(dmsString) {
   return sign * (degrees + minutes / 60 + seconds / 3600);
 }
 
+export function parseAngleInput(input) {
+  input = input.replace(',', '.').trim();
+  if (input.includes(':')) {
+    const parts = input.split(':').map(Number);
+    if (parts.length === 3) {
+      const [deg, min, sec] = parts;
+      return Math.sign(deg) * (Math.abs(deg) + min / 60 + sec / 3600);
+    }
+  }
+  const value = parseFloat(input);
+  if (!isNaN(value)) {
+    return value;
+  }
+  return null;
+}
+
 export function rad2deg(rad) {
   return rad * (180 / Math.PI);
 }

@@ -239,7 +239,7 @@
       "conditions": "Bedingungen",
       "info": {
         "header": "Info",
-        "message": "Leider kann deine Sequenz nicht bearbeitet werden. Aktuell werden noch nicht alle Sequenz Plugins unterstützt"
+        "message": "Leider kann deine Sequenz nicht bearbeitet werden. Aktuell werden noch nicht alle Sequenz Plugins unterstützt. Wenn du uns helfen möchtest, die Unterstützung für weitere Plugins zu verbessern, kannst du uns gerne auf GitHub melden."
       }
     },
     "mount": {

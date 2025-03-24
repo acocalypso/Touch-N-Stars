@@ -177,6 +177,7 @@ function statusColor(status) {
 }
 
 function removeSuffix(name) {
+  if (typeof name !== 'string') return '';
   return name.replace(/_Trigger$|_Container$/, '');
 }
 

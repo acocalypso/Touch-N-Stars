@@ -3,7 +3,10 @@
     <button
       @click="slew"
       :disabled="
-        framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
+        framingStore.isSlewing ||
+        framingStore.isSlewingAndCentering ||
+        framingStore.isRotating ||
+        props.disabled
       "
       class="default-button-cyan flex items-center justify-center disabled:opacity-50"
     >
@@ -11,13 +14,12 @@
       <p v-if="label">{{ label }}</p>
       <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
     </button>
-    <button
-      @click="framingStore.slewStop"
-      v-if="store.mountInfo.Slewing"
+    <div
       class="bg-red-900 rounded-md flex items-center justify-center w-16"
+      v-if="store.mountInfo.Slewing"
     >
-      <StopCircleIcon class="w-8 h-8" />
-    </button>
+      <ButtonSlewStop />
+    </div>
   </div>
 </template>
 
@@ -28,7 +30,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
-import { StopCircleIcon } from '@heroicons/vue/24/outline';
+import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -38,6 +40,7 @@ const props = defineProps({
   raAngle: Number,
   decAngle: Number,
   label: String,
+  disabled: Boolean,
 });
 
 async function unparkMount() {

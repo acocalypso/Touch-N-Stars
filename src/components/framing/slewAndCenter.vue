@@ -48,7 +48,7 @@
             @blur="handleBlurAz"
             @keyup.enter="handleBlurAz"
             class="text-black w-full p-2 border border-gray-300 rounded"
-            placeholder="12:34:56"
+            placeholder="12:34:56 / 123.456"
           />
           <p class="w-24">{{ $t('components.slewAndCenter.alt') }}</p>
           <input
@@ -57,7 +57,7 @@
             @blur="handleBlurAlt"
             @keyup.enter="handleBlurAlt"
             class="text-black w-full p-2 border border-gray-300 rounded"
-            placeholder="12:34:56"
+            placeholder="12:34:56 / 12.456"
           />
         </div>
         <div class="mt-4 flex gap-2">
@@ -100,7 +100,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
-import { hmsToDegrees, dmsToDegrees, altAzToRaDec } from '@/utils/utils';
+import { hmsToDegrees, dmsToDegrees, altAzToRaDec, parseAngleInput } from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
@@ -144,16 +144,14 @@ function validateDEC(decString) {
   return decPattern.test(decString);
 }
 
-function validateAZ(azString) {
-  const azPattern =
-    /^(?:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-9]{2}|3[0-5][0-9])):([0-5][0-9]):([0-5][0-9](?:\.\d+)?)$/;
-  return azPattern.test(azString);
+function validateAZ(input) {
+  const val = parseAngleInput(input);
+  return val !== null && val >= 0 && val < 360;
 }
 
-function validateALT(altString) {
-  const altPattern =
-    /^(\+|-)?(?:90:00:00(?:\.0+)?|([0-8]?[0-9]):([0-5][0-9]):([0-5][0-9](?:\.\d+)?))$/;
-  return altPattern.test(altString);
+function validateALT(input) {
+  const val = parseAngleInput(input);
+  return val !== null && val >= -90 && val <= 90;
 }
 
 function handleBlurRA() {
@@ -217,8 +215,9 @@ function updateAltAz() {
   if (!localAltAngleString.value || !localAzAngleString.value) {
     return;
   }
-  const alt = dmsToDegrees(localAltAngleString.value);
-  const az = dmsToDegrees(localAzAngleString.value);
+
+  const alt = parseAngleInput(localAltAngleString.value);
+  const az = parseAngleInput(localAzAngleString.value);
 
   const { ra, dec } = altAzToRaDec(
     alt,

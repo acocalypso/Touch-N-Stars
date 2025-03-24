@@ -4,9 +4,7 @@
     <li
       v-for="(msg, index) in lastSolveMessages.slice().reverse()"
       :key="index"
-      :style="{
-        color: msg.line === '56' ? 'red' : msg.line === '54' ? 'green' : 'inherit',
-      }"
+      :style="{ color: msg.color }"
     >
       <template v-if="index === 0">
         <span class="spinner"></span>
@@ -47,6 +45,7 @@ watch(
         continue;
       }
       let message;
+      let color = 'inherit';
       if (entry.message.includes('Platesolving with parameters:')) {
         //41
         message = t('components.tppa.plate_solve_start');
@@ -54,9 +53,11 @@ watch(
         //54
         plateSolveOkTimestamp = new Date(entry.timestamp);
         message = t('components.tppa.plate_solve_ok');
+        color = 'green';
       } else if (entry.message.includes('Platesolve failed')) {
         //56
         message = t('components.tppa.plate_solve_error');
+        color = 'red';
       } else if (entry.message.includes('Slewing to initial position')) {
         //417
         message = t('components.tppa.slewing_first_position');
@@ -77,6 +78,7 @@ watch(
         timestamp: entry.timestamp,
         message,
         line: entry.line,
+        color,
       });
 
       if (lastSolveMessages.value.length > 3) {

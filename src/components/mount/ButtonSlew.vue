@@ -3,7 +3,10 @@
     <button
       @click="slew"
       :disabled="
-        framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
+        framingStore.isSlewing ||
+        framingStore.isSlewingAndCentering ||
+        framingStore.isRotating ||
+        props.disabled
       "
       class="default-button-cyan flex items-center justify-center disabled:opacity-50"
     >
@@ -37,6 +40,7 @@ const props = defineProps({
   raAngle: Number,
   decAngle: Number,
   label: String,
+  disabled: Boolean,
 });
 
 async function unparkMount() {

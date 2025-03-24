@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Framing wizard: Button slew to cenit
 - Last sequence image cache
 - SlewAndCenter with AzAlt
+- Infomodal for slew and center
 
 ### Fixed
 - fixes an error when the stellarium page is reloaded

@@ -352,7 +352,7 @@ defineProps({
   },
   containerIndex: {
     type: Number,
-    default: -1, // oder irgendetwas, falls es nicht übergeben wird
+    default: -1, 
   },
 });
 
@@ -443,7 +443,7 @@ async function updateValue(event, path, newValue, typ) {
   console.log(path, typ, newValue);
   const action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent(newValue)}`;
   console.log('action:', action);
-  const inputElement = event.target; // Greift auf das betroffene Eingabefeld zu
+  const inputElement = event.target; 
   try {
     const response = await apiService.sequenceAction(action);
     if (response.StatusCode === 200) {
@@ -469,7 +469,7 @@ async function updateFilter(event, path, newValue) {
   const typ = 'Filter-Name';
   const action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent(newValue)}`;
   console.log('action:', action);
-  const inputElement = event.target; // Greift auf das betroffene Eingabefeld zu
+  const inputElement = event.target; 
   try {
     const response = await apiService.sequenceAction(action);
     if (response.StatusCode === 200) {
@@ -534,7 +534,7 @@ async function updateBinning(path, binOb) {
 }
 
 function removeSuffix(name) {
-  if (!name) return ''; // Return an empty string if name is null or undefined
+  if (!name) return ''; 
   return name.replace(/_Trigger$|_Container$|_Conditions$|_Condition$/, '');
 }
 
@@ -611,9 +611,9 @@ function hasRunningChildren(item) {
 </script>
 <style scoped>
 .glow-green {
-  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
+  box-shadow: 0 0 10px #00ff00; 
 }
 .glow-red {
-  box-shadow: 0 0 10px rgb(255, 0, 0); /* Grüner Schein */
+  box-shadow: 0 0 10px rgb(255, 0, 0); 
 }
 </style>

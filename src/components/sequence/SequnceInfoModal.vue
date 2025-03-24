@@ -30,11 +30,12 @@
             <p class="mb-2">{{ $t('components.sequence.info.message') }}</p>
             <div class="flex items-center gap-2 mt-2">
               <GlobeAltIcon class="w-6 h-6" />
-            <a
-              href="https://github.com/Touch-N-Stars/Touch-N-Stars/issues"
-              target="_blank"
-              class="text-cyan-400 hover:underline"
-              >GitHub</a>
+              <a
+                href="https://github.com/Touch-N-Stars/Touch-N-Stars/issues"
+                target="_blank"
+                class="text-cyan-400 hover:underline"
+                >GitHub</a
+              >
             </div>
           </section>
         </div>
@@ -46,7 +47,7 @@
 <script setup>
 import { ref } from 'vue';
 import { PencilIcon, XMarkIcon } from '@heroicons/vue/24/outline';
-import {GlobeAltIcon} from '@heroicons/vue/24/outline';
+import { GlobeAltIcon } from '@heroicons/vue/24/outline';
 
 const isModalOpen = ref(false);
 </script>

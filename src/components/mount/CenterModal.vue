@@ -132,7 +132,10 @@ watch(
       } else if (entry.message.includes('Platesolve failed')) {
         message = t('components.slewAndCenter.slew_modal.plate_solve_error');
         color = 'red';
-      } else if (entry.message.includes('Cancelling centering after')) {
+      } else if (
+        entry.message.includes('Cancelling centering after') ||
+        entry.message.includes('Instruction failed after')
+      ) {
         message = t('components.slewAndCenter.slew_modal.center_error');
         color = 'red';
         centeringDone.value = true;

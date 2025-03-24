@@ -9,16 +9,19 @@
     <span v-if="framingStore.isSlewingAndCentering" class="loader mr-2"></span>
     {{ $t('components.slewAndCenter.slew_and_center') }}
   </button>
+  <CenterModal ref="centeringModalRef" />
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
+import CenterModal from '@/components/mount/CenterModal.vue';
 
+const centeringModalRef = ref(null);
 const store = apiStore();
 const framingStore = useFramingStore();
 const { t } = useI18n();
@@ -41,6 +44,7 @@ async function unparkMount() {
 }
 
 async function slewAndCenter() {
+  centeringModalRef.value?.openModal();
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
   console.log('slew');
   await framingStore.slew(props.raAngle, props.decAngle);

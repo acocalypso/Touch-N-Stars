@@ -417,7 +417,18 @@
       },
       "visibleStars": "Sichtbare Sternsuche",
       "alt": "Alt:",
-      "az": "Az:"
+      "az": "Az:",
+      "slew_modal": {
+        "is_slewing": "Zum Ziel schwenken",
+        "is_centering": "Ziel zentrieren",
+        "is_platesolving": "Platesolve läuft",
+        "plate_solve_error": "Platesolve-Fehler",
+        "center_error": "Zentrierfehler",
+        "center_successful": "Zentrieren erfolgreich",
+        "center_Repeat": "Zentrieren wiederholen",
+        "exposure_running": "Belichtung läuft",
+        "deviation_target": "Abweichung zum Ziel:"
+      }
     },
     "filterwheel": {
       "filter": "Filter:",

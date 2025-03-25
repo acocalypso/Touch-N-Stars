@@ -1,7 +1,7 @@
 <template>
-  <button class="bg-cyan-900 rounded-md flex items-center justify-center" @click="pausResume">
-    <PauseIcon v-if="!tppaStore.isPause" />
-    <PlayIcon v-if="tppaStore.isPause" />
+  <button class="bg-cyan-900 rounded-md flex items-center justify-center p-1" @click="pausResume">
+    <PauseIcon class="w-full h-full" v-show="!tppaStore.isPause" />
+    <PlayIcon class="w-full h-full" v-show="tppaStore.isPause" />
   </button>
 </template>
 <script setup>

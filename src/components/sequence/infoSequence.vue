@@ -149,7 +149,7 @@ onBeforeMount(async () => {
   await sequenceStore.getSequenceInfo();
 
   if (sequenceStore.sequenceInfo) {
-    console.log(sequenceStore.sequenceInfo);
+    console.log('info', sequenceStore.sequenceInfo);
   }
 });
 </script>

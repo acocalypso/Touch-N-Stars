@@ -25,7 +25,7 @@
           {{ item.Status }}
         </span>
         <button
-          v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+          v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
           @click="toggleDisable(item._path, item.Status, 'Status')"
         >
           <PowerIcon
@@ -59,7 +59,7 @@
               </span>
 
               <button
-                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+                v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
                 @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
               >
                 <PowerIcon
@@ -89,7 +89,9 @@
                       <div>{{ formatDec(value) }}</div>
                     </div>
                   </template>
-                  <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
+                  <template
+                    v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly"
+                  >
                     <input
                       class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
                       type="number"
@@ -130,7 +132,7 @@
                 {{ condition.Status }}
               </span>
               <button
-                v-if="sequenceStore.sequenceEdit && containerIndex === 1"
+                v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
                 @click="toggleDisable(condition._path, condition.Status, 'Status')"
               >
                 <PowerIcon
@@ -153,7 +155,9 @@
                       <div>{{ formatDec(value) }}</div>
                     </div>
                   </template>
-                  <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
+                  <template
+                    v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly"
+                  >
                     <input
                       class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
                       type="number"
@@ -218,7 +222,9 @@
                 <div>{{ formatDec(value) }}</div>
               </div>
             </template>
-            <template v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit">
+            <template
+              v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly"
+            >
               <input
                 class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
                 type="number"
@@ -320,6 +326,7 @@
           :items="item.Items"
           :isTopLevel="false"
           :containerIndex="containerIndex"
+          :readOnly="readOnly || isSmartExposureContainer(item)"
         />
         <RecursiveItemJson
           v-if="!sequenceStore.sequenceIsEditable"
@@ -340,6 +347,16 @@ import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
+import {
+  removeSuffix,
+  formatDuration,
+  formatTimeSpan,
+  formatDateTime,
+  formatRA,
+  formatDec,
+  hasRunningChildren,
+} from '@/utils/sequenceUtils.js';
+import { excludedKeys, excludedKeysConditions, updateKeys } from '@/utils/sequenceConfig.js';
 
 defineProps({
   items: {
@@ -354,73 +371,14 @@ defineProps({
     type: Number,
     default: -1,
   },
+  readOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
-const excludedKeys = new Set([
-  'Name',
-  'Status',
-  'Conditions',
-  'Triggers',
-  'Items',
-  '_path',
-  'Target',
-  'Issues',
-  'Inherited',
-  'Hours',
-  'Minutes',
-  'Seconds',
-  'MinutesOffset',
-  'Iterations',
-  'Data',
-  'WindowServiceFactory',
-  'SwitchIndex',
-  'WritableSwitches',
-  'HasDsoParent',
-]);
-
-const excludedKeysConditions = new Set([
-  'Name',
-  'Status',
-  'Conditions',
-  'Triggers',
-  'Items',
-  '_path',
-  'Target',
-  'Issues',
-  'Inherited',
-  'Hours',
-  'Minutes',
-  'Seconds',
-  'MinutesOffset',
-  'Data',
-  'WindowServiceFactory',
-  'WritableSwitches',
-  'HasDsoParent',
-]);
-
-const updateKeys = [
-  'DistanceArcMinutes',
-  'ExposureTime',
-  'Offset',
-  'Gain',
-  'SampleSize',
-  'Amount',
-  'AfterExposures',
-  'Brightness',
-  'Minutes',
-  'Seconds',
-  'Hours',
-  'MinutesOffset',
-  'Iterations',
-  'Duration',
-  'Temperature',
-  'Mode',
-  'DeltaT',
-  'Time',
-  'PositionAngle',
-];
 
 function statusColor(status) {
   switch (status) {
@@ -437,6 +395,18 @@ function statusColor(status) {
     default:
       return 'text-gray-200';
   }
+}
+
+function getDisplayFields(item) {
+  return Object.entries(item).filter(
+    ([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null
+  );
+}
+
+function getDisplayFieldsConditions(item) {
+  return Object.entries(item).filter(
+    ([key]) => !excludedKeysConditions.has(key) && item[key] !== undefined && item[key]
+  );
 }
 
 async function updateValue(event, path, newValue, typ) {
@@ -533,80 +503,12 @@ async function updateBinning(path, binOb) {
   }
 }
 
-function removeSuffix(name) {
-  if (!name) return '';
-  return name.replace(/_Trigger$|_Container$|_Conditions$|_Condition$/, '');
-}
-
-function formatDuration(durationString) {
-  const [h, m, s] = durationString.split('.')[0].split(':');
-  return `${h}h ${m}m ${s}s`;
-}
-
-function formatTimeSpan(timeSpan) {
-  if (timeSpan === 24) {
-    return '24h 00m 00s';
+function isSmartExposureContainer(item) {
+  if (item?.Name?.includes('Exposure +_Container')) {
+    //console.log('Smart Exposure +_Container gefunden – wird gesperrt!');
+    return true;
   }
-
-  // Calculate duration in milliseconds
-  const durationMs = timeSpan * 60 * 60 * 1000;
-
-  // Get the hours, minutes, and seconds
-  const hours = Math.floor(durationMs / (60 * 60 * 1000));
-  const minutes = Math.floor((durationMs % (60 * 60 * 1000)) / (60 * 1000));
-  const seconds = Math.floor((durationMs % (60 * 1000)) / 1000);
-
-  return `${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
-}
-
-function formatDateTime(isoString) {
-  const date = new Date(isoString);
-  return date.toLocaleString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-}
-
-function formatRA(coords) {
-  const target = coords.Coordinates || coords;
-  if (coords.AltDegrees) {
-    return `Altitude: ${coords.AltDegrees ?? 0}d ${coords.AltMinutes ?? 0}m ${coords.AltSeconds ?? 0}s`;
-  }
-  return (
-    `RA: ${target.RAString} ` ||
-    `RA: ${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
-  );
-}
-
-function formatDec(coords) {
-  const target = coords.Coordinates || coords;
-  const sign = target.NegativeDec ? 'S' : 'N';
-  if (coords.AzDegrees) {
-    return `Azimuth: ${coords.AzDegrees ?? 0}d ${coords.AzMinutes ?? 0}m ${coords.AzSeconds ?? 0}s`;
-  }
-  return (
-    `DEC: ${target.DecString}` ||
-    `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`
-  );
-}
-
-function getDisplayFields(item) {
-  return Object.entries(item).filter(
-    ([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null
-  );
-}
-function getDisplayFieldsConditions(item) {
-  return Object.entries(item).filter(
-    ([key]) => !excludedKeysConditions.has(key) && item[key] !== undefined && item[key]
-  );
-}
-
-function hasRunningChildren(item) {
-  return item.Items?.some((child) => child.Status === 'RUNNING' || hasRunningChildren(child));
+  return false;
 }
 </script>
 <style scoped>

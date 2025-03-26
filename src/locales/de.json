@@ -160,6 +160,10 @@
         "disconnect": "Wetterstation trennen",
         "error": "Fehler bei der Steuerung der Wetterstation",
         "name": "Wetter"
+      },
+      "info": {
+        "message": "Das manuelle Filterrad und der manuelle Rotator können aktuell nur über NINA gesteuert werden.",
+        "title": "Info"
       }
     },
     "lastLogs": {

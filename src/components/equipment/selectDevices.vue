@@ -1,10 +1,6 @@
 <template>
   <div
-    :class="{
-      'border-red-500 error-glow': error, // Fehler: rot + pulsieren
-      'border-green-500 connected-glow': isConnected && !error,
-      'border-gray-500': !error && !isConnected, // Standard: Grau
-    }"
+    :class="borderClass"
     class="flex max-w-md border p-2 rounded-lg h-full gap-2 items-center justify-between transition-all duration-300"
   >
     <label class="w-36" for="deviceSelect">{{ deviceName }}:</label>
@@ -19,6 +15,13 @@
         {{ device.Name }}
       </option>
     </select>
+    <div v-if="infoVisible">
+      <infoModal
+        size="w-8 h-8"
+        :title="$t('components.connectEquipment.info.title')"
+        :message="$t('components.connectEquipment.info.message')"
+      />
+    </div>
     <div class="flex w-20 gap-1">
       <button
         @click="rescanDevices"
@@ -46,9 +49,7 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
-
-//import * as HeroIcons from '@heroicons/vue/24/outline';
-//console.log(Object.keys(HeroIcons));
+import infoModal from '@/components/equipment/infoModal.vue';
 
 //  Props definieren
 const props = defineProps({
@@ -63,6 +64,8 @@ const selectedDevice = ref('');
 const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
+const borderClass = ref('border-gray-500');
+const infoVisible = ref(false);
 
 // Funktion für API-Aufruf mit dynamischem `apiAction`
 async function getDevices() {
@@ -138,9 +141,28 @@ async function toggleConnection() {
       }
     }
   } catch (err) {
-    isToggleCon.value = false;
     error.value = true;
     console.error('Error connect device: ', err);
+  } finally {
+    isToggleCon.value = false;
+    updateBorderClass();
+  }
+}
+
+function updateBorderClass() {
+  infoVisible.value = false;
+  if (error.value) {
+    borderClass.value = 'border-red-500 error-glow';
+  } else if (
+    props.isConnected &&
+    (props.defaultDeviceId === 'Manual Filter Wheel' || props.defaultDeviceId === 'Manual Rotator')
+  ) {
+    borderClass.value = 'border-orange-500 warning-glow';
+    infoVisible.value = true;
+  } else if (props.isConnected) {
+    borderClass.value = 'border-green-500 connected-glow';
+  } else {
+    borderClass.value = 'border-gray-500';
   }
 }
 
@@ -159,6 +181,7 @@ watch(
   (newValues) => {
     console.log(newValues);
     isToggleCon.value = false;
+    updateBorderClass();
   }
 );
 watch(
@@ -166,15 +189,15 @@ watch(
   (newValues) => {
     console.log(newValues);
     selectedDevice.value = getDeviceName(newValues);
+    updateBorderClass();
   }
 );
 
 onMounted(async () => {
   await getDevices();
   selectedDevice.value = props.defaultDeviceId;
-  console.log('Mount', selectedDevice.value);
   selectedDevice.value = getDeviceName(selectedDevice.value);
-  console.log('Mount2', selectedDevice.value);
+  updateBorderClass();
 });
 </script>
 
@@ -195,6 +218,9 @@ onMounted(async () => {
   animation: error-glow 1.5s infinite alternate;
 }
 
+.warning-glow {
+  box-shadow: 0 0 6px rgba(245, 91, 2, 0.925);
+}
 .connected-glow {
   box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
 }

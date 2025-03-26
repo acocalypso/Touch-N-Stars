@@ -50,15 +50,15 @@ import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
 import infoModal from '@/components/equipment/infoModal.vue';
+import { useEquipmentStore } from '@/store/equipmentStore';
 
-//  Props definieren
+const equipmentStore = useEquipmentStore();
 const props = defineProps({
   apiAction: { type: String, required: true },
   defaultDeviceId: { type: String, default: '?' },
   deviceName: { type: String, default: 'Gerät' },
   isConnected: { type: Boolean, required: true },
 });
-
 const devices = ref([]);
 const selectedDevice = ref('');
 const error = ref(false);
@@ -70,6 +70,16 @@ const infoVisible = ref(false);
 // Funktion für API-Aufruf mit dynamischem `apiAction`
 async function getDevices() {
   error.value = false;
+  const apiName = props.apiAction.replace('Action', '');
+  if (
+    Array.isArray(equipmentStore.availableDevices[apiName]) &&
+    equipmentStore.availableDevices[apiName].length > 0
+  ) {
+    devices.value = equipmentStore.availableDevices[apiName];
+    console.log(`[${apiName}] Geräte geladen aus Store`);
+    return;
+  }
+  isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
       throw new Error(`Ungültige API-Methode: ${props.apiAction}`);
@@ -83,6 +93,7 @@ async function getDevices() {
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
+      equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
       console.error('Fehlerhafte API-Antwort:', response);
@@ -90,10 +101,13 @@ async function getDevices() {
   } catch (err) {
     error.value = true;
     console.error('Fehler:', err);
+  } finally {
+    isScanning.value = false;
   }
 }
 
 async function rescanDevices() {
+  const apiName = props.apiAction.replace('Action', '');
   error.value = false;
   console.log('scan');
   isScanning.value = true;
@@ -113,6 +127,7 @@ async function rescanDevices() {
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
+      equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
       console.error('Fehlerhafte API-Antwort:', response);
@@ -179,7 +194,6 @@ function getDeviceId(deviceName) {
 watch(
   () => props.isConnected,
   (newValues) => {
-    console.log(newValues);
     isToggleCon.value = false;
     updateBorderClass();
   }
@@ -187,7 +201,6 @@ watch(
 watch(
   () => props.defaultDeviceId,
   (newValues) => {
-    console.log(newValues);
     selectedDevice.value = getDeviceName(newValues);
     updateBorderClass();
   }

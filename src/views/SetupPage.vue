@@ -35,7 +35,7 @@
           <h1 class="text-3xl font-bold text-white mb-4">{{ t('setup.welcome') }}</h1>
           <p class="text-gray-300 mb-6">{{ t('setup.description') }}</p>
           <button
-            @click="currentStep++"
+            @click="nextStep()"
             class="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3 px-4 rounded-lg transition-all transform hover:scale-105"
           >
             {{ t('common.confirm') }}
@@ -64,7 +64,7 @@
           </select>
           <div class="flex justify-between">
             <button
-              @click="currentStep--"
+              @click="previousStep()"
               class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
             >
               {{ t('common.cancel') }}
@@ -78,55 +78,9 @@
           </div>
         </div>
 
-        <!-- Step 3: GPS Configuration (using Capacitor Geolocation) -->
-        <div v-else-if="currentStep === 3" key="gps" class="bg-gray-800 p-8 rounded-lg shadow-lg">
-          <h2 class="text-2xl font-bold text-white mb-6">{{ t('setup.gpsConfiguration') }}</h2>
-          <div class="space-y-4">
-            <div class="flex items-center gap-2">
-              <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-400 mb-1">Latitude</label>
-                <input
-                  v-model="latitude"
-                  type="text"
-                  class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                />
-              </div>
-              <div class="flex-1">
-                <label class="block text-sm font-medium text-gray-400 mb-1">Longitude</label>
-                <input
-                  v-model="longitude"
-                  type="text"
-                  class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                />
-              </div>
-            </div>
-            <button
-              @click="getCurrentLocation"
-              class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
-            >
-              {{ t('components.settings.coordinates') }}
-            </button>
-            <div v-if="gpsError" class="text-red-400 text-sm">{{ gpsError }}</div>
-          </div>
-          <div class="flex justify-between mt-6">
-            <button
-              @click="currentStep--"
-              class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
-            >
-              {{ t('common.cancel') }}
-            </button>
-            <button
-              @click="saveGPS"
-              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg"
-            >
-              {{ t('common.confirm') }}
-            </button>
-          </div>
-        </div>
-
-        <!-- Step 4: Instance Configuration (Android only) -->
+        <!-- Step 3: Instance Configuration (Android only) -->
         <div
-          v-else-if="currentStep === 4 && Capacitor.getPlatform() === 'android'"
+          v-else-if="currentStep === 3"
           key="instance"
           class="bg-gray-800 p-8 rounded-lg shadow-lg"
         >
@@ -163,18 +117,74 @@
             </div>
             <div class="flex justify-between mt-6">
               <button
-                @click="currentStep--"
+                @click="previousStep()"
                 class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
               >
                 {{ t('common.cancel') }}
               </button>
               <button
                 @click="saveInstance"
-                class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg"
+                :disabled="checkConnection"
+                class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
               >
-                {{ t('common.confirm') }}
+                <span v-if="checkConnection" class="loader w-10"></span>
+                <p>{{ t('common.confirm') }}</p>
               </button>
             </div>
+          </div>
+        </div>
+
+        <!-- Step 4: GPS Configuration (using Capacitor Geolocation) -->
+        <div v-else-if="currentStep === 4" key="gps" class="bg-gray-800 p-8 rounded-lg shadow-lg">
+          <h2 class="text-2xl font-bold text-white mb-6">{{ t('setup.gpsConfiguration') }}</h2>
+          <div class="space-y-4">
+            <div class="flex items-center gap-2">
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-400 mb-1">Latitude</label>
+                <input
+                  v-model="latitude"
+                  type="text"
+                  class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
+                />
+              </div>
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-400 mb-1">Longitude</label>
+                <input
+                  v-model="longitude"
+                  type="text"
+                  class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
+                />
+              </div>
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-gray-400 mb-1">Altitude</label>
+                <input
+                  v-model="altitude"
+                  type="text"
+                  class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
+                />
+              </div>
+            </div>
+            <button
+              @click="getCurrentLocation"
+              class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
+            >
+              {{ t('components.settings.coordinates') }}
+            </button>
+            <div v-if="gpsError" class="text-red-400 text-sm">{{ gpsError }}</div>
+          </div>
+          <div class="flex justify-between mt-6">
+            <button
+              @click="previousStep()"
+              class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              {{ t('common.cancel') }}
+            </button>
+            <button
+              @click="saveGPS"
+              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              {{ t('common.confirm') }}
+            </button>
           </div>
         </div>
 
@@ -194,21 +204,34 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Geolocation } from '@capacitor/geolocation';
 import { Capacitor } from '@capacitor/core';
+import { apiStore } from '@/store/store';
+import apiService from '@/services/apiService';
+import { wait } from '@/utils/utils';
 
 const { locale, t } = useI18n();
 const router = useRouter();
 const settingsStore = useSettingsStore();
-
+const store = apiStore();
 const currentStep = ref(1);
-const totalSteps = computed(() => (Capacitor.getPlatform() === 'android' ? 5 : 4));
+const totalSteps = ref(5);
 const isVisible = ref(true);
+const selectedLanguage = ref(locale.value);
+const latitude = ref('');
+const longitude = ref('');
+const altitude = ref('');
+const gpsError = ref(null);
+const instanceName = ref('');
+const instanceIP = ref('');
+const instancePort = ref('');
+const availableLanguages = getAvailableLanguages();
+const checkConnection = ref(false);
 
 function beforeEnter() {
   isVisible.value = false;
@@ -218,22 +241,29 @@ function afterEnter() {
   isVisible.value = true;
 }
 
-const selectedLanguage = ref(locale.value);
-const latitude = ref('');
-const longitude = ref('');
-const altitude = ref('');
-const gpsError = ref(null);
+async function nextStep() {
+  currentStep.value++;
+  if (currentStep.value === 3 && Capacitor.getPlatform() !== 'android') {
+    store.startFetchingInfo();
+    currentStep.value++;
+    await wait(1000);
+    latitude.value = store.profileInfo.AstrometrySettings.Latitude;
+    longitude.value = store.profileInfo.AstrometrySettings.Longitude;
+    altitude.value = store.profileInfo.AstrometrySettings.Elevation;
+  }
+}
 
-const instanceName = ref('');
-const instanceIP = ref('');
-const instancePort = ref('');
-
-const availableLanguages = getAvailableLanguages();
+function previousStep() {
+  currentStep.value--;
+  if (currentStep.value === 3 && Capacitor.getPlatform() !== 'android') {
+    currentStep.value--;
+  }
+}
 
 function saveLanguage() {
   locale.value = selectedLanguage.value;
   settingsStore.setLanguage(selectedLanguage.value);
-  currentStep.value++;
+  nextStep();
 }
 
 async function getCurrentLocation() {
@@ -262,16 +292,27 @@ async function getCurrentLocation() {
   }
 }
 
-function saveGPS() {
-  settingsStore.setCoordinates({
-    latitude: latitude.value,
-    longitude: longitude.value,
-    altitude: altitude.value,
-  });
-  currentStep.value++;
-}
+async function saveGPS() {
+  const lat = sanitizeCoordinate(latitude.value);
+  const lon = sanitizeCoordinate(longitude.value);
+  const alt = sanitizeCoordinate(altitude.value);
 
-function saveInstance() {
+  latitude.value = lat;
+  longitude.value = lon;
+  altitude.value = alt;
+
+  settingsStore.setCoordinates({
+    latitude: lat,
+    longitude: lon,
+    altitude: alt,
+  });
+
+  console.log('Coordinates saved', lat, lon, alt);
+
+  await saveCoordinates();
+  nextStep();
+}
+async function saveInstance() {
   // Validate instance connection details
   if (!instanceName.value.trim()) {
     alert(t('components.settings.errors.instanceNameRequired'));
@@ -289,19 +330,73 @@ function saveInstance() {
     alert(t('components.settings.errors.invalidPortRange'));
     return;
   }
-
   settingsStore.addInstance({
     name: instanceName.value,
     ip: instanceIP.value,
     port: instancePort.value,
   });
-  currentStep.value++;
+  checkConnection.value = true;
+  try {
+    const response = await apiService.isBackendReachable();
+    console.log('Backend erreichbar?', response);
+    if (!response) {
+      alert(t('components.settings.errors.invalidInstance'));
+      return;
+    }
+    console.log('Backend erreichbar');
+    store.startFetchingInfo();
+    await wait(1000);
+    latitude.value = store.profileInfo.AstrometrySettings.Latitude;
+    longitude.value = store.profileInfo.AstrometrySettings.Longitude;
+    altitude.value = store.profileInfo.AstrometrySettings.Elevation;
+    nextStep();
+  } catch (error) {
+    alert(t('components.settings.errors.invalidInstance'));
+    return;
+  } finally {
+    checkConnection.value = false;
+  }
 }
 
 function completeSetup() {
   settingsStore.completeSetup();
   localStorage.setItem('setupCompleted', 'true');
   router.push('/');
+}
+
+async function saveCoordinates() {
+  if (store.isBackendReachable) {
+    try {
+      await apiService.profileChangeValue('AstrometrySettings-Latitude', latitude.value);
+      await apiService.profileChangeValue('AstrometrySettings-Longitude', longitude.value);
+      await apiService.profileChangeValue('AstrometrySettings-Elevation', altitude.value);
+      await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection', 2);
+
+      if (store.mountInfo.Connected) {
+        await apiService.mountAction('disconnect');
+        await apiService.mountAction('connect');
+      }
+      settingsStore.setCoordinates({
+        latitude: latitude.value,
+        longitude: longitude.value,
+        altitude: altitude.value,
+      });
+      console.log('Coordinates saved');
+    } catch (error) {
+      console.error('Failed to update backend coordinates:', error);
+    }
+  }
+}
+
+function sanitizeCoordinate(input) {
+  if (typeof input === 'string') {
+    const cleaned = input.trim().replace(',', '.');
+    const parsed = parseFloat(cleaned);
+    return isNaN(parsed) ? null : parsed;
+  } else if (typeof input === 'number') {
+    return input;
+  }
+  return null;
 }
 </script>
 
@@ -330,6 +425,25 @@ function completeSetup() {
   }
   .slide-fade-leave-to {
     transform: translateX(-15px);
+  }
+}
+
+.loader {
+  border: 3px solid rgba(255, 255, 255, 0.2); /* heller Hintergrund */
+  border-top: 3px solid #22d3ee; /* cyan-500 */
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 </style>

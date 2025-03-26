@@ -193,7 +193,7 @@ function getDeviceId(deviceName) {
 
 watch(
   () => props.isConnected,
-  (newValues) => {
+  () => {
     isToggleCon.value = false;
     updateBorderClass();
   }

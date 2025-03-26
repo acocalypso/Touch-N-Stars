@@ -140,6 +140,10 @@
       "weather": {
         "error": "Error controlling weather",
         "name": "Weather"
+      },
+      "info": {
+        "title": "Info",
+        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA"
       }
     },
     "lastLogs": {
@@ -399,10 +403,10 @@
       "visibleStars": "Visible Star Search",
       "alt": "Alt:",
       "az": "Az:",
-      "slew_modal":{
-        "is_slewing" : "Slewing to target",
-        "is_centering" : "Center target",
-        "is_platesolving" : "Platesolve running",
+      "slew_modal": {
+        "is_slewing": "Slewing to target",
+        "is_centering": "Center target",
+        "is_platesolving": "Platesolve running",
         "plate_solve_error": "Platesolve error",
         "center_error": "Centering error",
         "center_successful": "Centering successful",

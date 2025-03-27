@@ -38,26 +38,17 @@
     </div>
   </div>
   <div class="flex flex-col md:flex-row py-1 gap-1">
-    <button
-      @click="slew"
-      :disabled="
-        framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
-      "
-      class="default-button-cyan flex items-center justify-center disabled:opacity-50"
-    >
-      <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
-      {{ $t('components.slewAndCenter.slew') }}
-    </button>
-    <button
-      @click="slewAndCenter"
-      :disabled="
-        framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
-      "
-      class="default-button-cyan flex items-center justify-center disabled:opacity-50"
-    >
-      <span v-if="framingStore.isSlewingAndCentering" class="loader mr-2"></span>
-      {{ $t('components.slewAndCenter.slew_and_center') }}
-    </button>
+    <div class="flex-1">
+      <ButtonSlew class="w-full" :raAngle="newRa" :decAngle="newDec" @finished="slewFinished" />
+    </div>
+    <div class="flex-1">
+      <ButtonSlewAndCenter
+        class="w-full"
+        :raAngle="newRa"
+        :decAngle="newDec"
+        @finished="slewAndCenterFinished"
+      />
+    </div>
   </div>
 </template>
 
@@ -70,6 +61,8 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { wait, degreesToHMS, degreesToDMS } from '@/utils/utils.js';
 import apiService from '@/services/apiService';
+import ButtonSlew from '@/components/mount/ButtonSlew.vue';
+import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 
 const cameraStore = useCameraStore();
 const framingStore = useFramingStore();
@@ -144,21 +137,8 @@ async function fetchFramingInfo() {
   }
 }
 
-async function unparkMount() {
-  if (store.mountInfo.AtPark) {
-    try {
-      await apiService.mountAction('unpark');
-      await wait(2000);
-    } catch (error) {
-      console.log('Error Mount unpark');
-    }
-  }
-}
-
-async function slew() {
-  await unparkMount(); // Überprüfen und Entparken, falls erforderlich
-  const slewResult = await framingStore.slew(newRa.value, newDec.value);
-  console.log('slew done', slewResult);
+async function slewFinished() {
+  console.log('Slew finished!');
   await wait(500);
   cameraStore.capturePhoto(
     apiService,
@@ -170,10 +150,8 @@ async function slew() {
   cameraStore.slewModal = false;
 }
 
-async function slewAndCenter() {
-  await unparkMount(); // Überprüfen und Entparken, falls erforderlich
-  const slewResult = await framingStore.slewAndCenter(newRa.value, newDec.value);
-  console.log('slewAndCenter done', slewResult);
+async function slewAndCenterFinished() {
+  console.log('slewAndCenter finished!');
   await wait(500);
   cameraStore.capturePhoto(
     apiService,

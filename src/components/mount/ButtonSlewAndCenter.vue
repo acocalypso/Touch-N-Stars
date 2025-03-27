@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue';
+import { defineProps, ref, defineEmits } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -34,6 +34,7 @@ const props = defineProps({
   decAngle: Number,
   disabled: Boolean,
 });
+const emit = defineEmits(['finished']);
 
 async function unparkMount() {
   if (store.mountInfo.AtPark) {
@@ -53,8 +54,9 @@ async function slewAndCenter() {
   console.log('slew');
   await framingStore.slew(props.raAngle, props.decAngle);
   if (framingStore.slewIsStopt) return;
-  console.log('slew');
+  console.log('slewAndCenter');
   await framingStore.slewAndCenter(props.raAngle, props.decAngle);
+  emit('finished'); // Emit Event nach Erfolg
 }
 </script>
 

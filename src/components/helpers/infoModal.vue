@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-center">
     <button @click="openModal" class="text-blue-500 hover:text-gray-300">
-      <InformationCircleIcon :class="props.size" />
+      <InformationCircleIcon :class="[props.size, props.iconTextColour]" />
     </button>
   </div>
   <div>
@@ -35,6 +35,7 @@ const props = defineProps({
   title: { type: String, default: 'Info' },
   message: { type: String, default: '' },
   size: { type: String, default: 'w-6 h-6' },
+  iconTextColour: { type: String, default: 'text-blue-500' },
 });
 
 const isModalOpen = ref(false);

@@ -21,6 +21,7 @@
     <div class="fixed bottom-12 left-3 z-30 bg-gray-800/50 rounded-full p-1 shadow-xl border border-cyan-500" >
       <infoModal 
         :size="'w-8 h-8'"
+        :icon-text-colour="'text-white'"
         :message="$t('components.sequence.info_general.message')"
       />
     </div>

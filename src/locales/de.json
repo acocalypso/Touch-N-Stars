@@ -245,6 +245,9 @@
       "info": {
         "header": "Info",
         "message": "Leider kann deine Sequenz nicht bearbeitet werden. Aktuell werden noch nicht alle Sequenz Plugins unterstützt. Wenn du uns helfen möchtest, die Unterstützung für weitere Plugins zu verbessern, kannst du uns gerne auf GitHub melden."
+      },
+      "info_general": {
+        "message": "Leider können wir bisher nicht alle Parameter bearbeiten. Wir arbeiten daran, möglichst alle NINA-Funktionen zu unterstützen. Dadurch, dass es so viele Plugins gibt, können wir diese nicht alle integrieren. Wir versuchen aber möglichst viele zu unterstützen. Wenn euch ein Fehler in der Darstellung auffällt, helft uns und meldet es bitte auf GitHub"
       }
     },
     "mount": {

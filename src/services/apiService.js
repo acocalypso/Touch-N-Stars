@@ -110,7 +110,9 @@ const apiService = {
   async getSequenceThumbnail(index) {
     try {
       const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/image/thumbnail/${index}`,{ responseType: 'blob'});
+      const response = await axios.get(`${BASE_URL}/image/thumbnail/${index}`, {
+        responseType: 'blob',
+      });
       console.log(response);
       return response.data;
     } catch (error) {

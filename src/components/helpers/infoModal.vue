@@ -23,15 +23,11 @@
           <p>{{ props.message }}</p>
         </div>
         <div class="flex items-center gap-2 mt-4" v-if="link && linkText">
-              <GlobeAltIcon class="w-6 h-6" />
-              <a
-                :href="link"
-                target="_blank"
-                class="text-cyan-400 hover:underline"
-              >
-                {{ linkText }}
-              </a>
-            </div>
+          <GlobeAltIcon class="w-6 h-6" />
+          <a :href="link" target="_blank" class="text-cyan-400 hover:underline">
+            {{ linkText }}
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -44,8 +40,8 @@ import { XMarkIcon, InformationCircleIcon, GlobeAltIcon } from '@heroicons/vue/2
 const props = defineProps({
   title: { type: String, default: 'Info' },
   message: { type: String, default: '' },
-  link: { type: String, default: ''},
-  linkText: {type: String, default: ''},
+  link: { type: String, default: '' },
+  linkText: { type: String, default: '' },
   size: { type: String, default: 'w-6 h-6' },
   iconTextColour: { type: String, default: 'text-blue-500' },
   icon: {

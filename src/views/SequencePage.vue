@@ -23,6 +23,8 @@
         :size="'w-8 h-8'"
         :icon-text-colour="'text-white'"
         :message="$t('components.sequence.info_general.message')"
+        :link="'https://github.com/Touch-N-Stars/Touch-N-Stars'"
+        :linkText="'GitHub'"
       />
     </div>
     <div class="max-w-6xl mx-auto lg:px-4">

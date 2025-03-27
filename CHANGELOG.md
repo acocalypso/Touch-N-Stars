@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - fixes an error when the stellarium page is reloaded
+- camera cooling status 
 
 ### Changed
 - rework Stellarium mount position
@@ -31,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hide the connection settings if it is not an Androidapp
 - Manual mount control is only available if tracking is not active
 - Last sequence image cache
+- settings wizzard now loads the coordinates of nina
+- imagehistory now loads thumbnails so it is much faster
 
 ## [1.0.3.0] - 2025-03-08
 ### Added

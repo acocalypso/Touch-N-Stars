@@ -76,6 +76,7 @@
 </template>
 
 <script setup>
+import { watch, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
@@ -137,4 +138,16 @@ async function stoppCooling() {
     console.log('Fehler:', error);
   }
 }
+
+watch(
+  () => store.cameraInfo.CoolerOn,
+  (newValue) => {
+    cameraStore.buttonCoolerOn = newValue;
+  },
+  { immediate: true }
+);
+
+onMounted(() => {
+  cameraStore.buttonCoolerOn = store.cameraInfo.CoolerOn;
+});
 </script>

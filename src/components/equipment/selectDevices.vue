@@ -49,7 +49,7 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
-import infoModal from '@/components/equipment/infoModal.vue';
+import infoModal from '@/components/helpers/infoModal.vue';
 import { useEquipmentStore } from '@/store/equipmentStore';
 
 const equipmentStore = useEquipmentStore();

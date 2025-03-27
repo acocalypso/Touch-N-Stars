@@ -32,8 +32,8 @@ import { ref } from 'vue';
 import { XMarkIcon, InformationCircleIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
-  title: { type: String, default: 'title' },
-  message: { type: String, default: 'abc' },
+  title: { type: String, default: 'Info' },
+  message: { type: String, default: '' },
   size: { type: String, default: 'w-6 h-6' },
 });
 

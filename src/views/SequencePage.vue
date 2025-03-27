@@ -18,6 +18,12 @@
     <div class="fixed bottom-12 right-3 z-30" v-if="!sequenceStore.sequenceIsEditable">
       <SequnceInfoModal />
     </div>
+    <div class="fixed bottom-12 left-3 z-30 bg-gray-800/50 rounded-full p-1 shadow-xl border border-cyan-500" >
+      <infoModal 
+        :size="'w-8 h-8'"
+        :message="$t('components.sequence.info_general.message')"
+      />
+    </div>
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->
@@ -37,6 +43,7 @@
 <script setup>
 import { onBeforeUnmount } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
+import infoModal from '@/components/helpers/infoModal.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
 import SequnceInfoModal from '@/components/sequence/SequnceInfoModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';

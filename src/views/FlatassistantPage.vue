@@ -7,7 +7,7 @@
   <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
     <ButtonSlew
       class="p-4 w-full"
-      :label="t('components.flatassistant.button_slew_to_cenit')"
+      :label="t('components.flatassistant.button_slew_to_zenith')"
       :raAngle="refRa"
       :decAngle="refDec"
     />

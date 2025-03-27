@@ -480,7 +480,7 @@
       "auto_exposure": "Dynamische Belichtungszeit",
       "auto_brightness": "Dynamische Helligkeit",
       "skyflat": "Skyflat",
-      "button_slew_to_cenit": "Zum Zenit schwenken"
+      "button_slew_to_zenith": "Zum Zenit schwenken"
     },
     "weatherModal": {
       "weatherInformation": "Wetterinformationen",

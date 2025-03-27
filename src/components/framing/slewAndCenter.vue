@@ -41,15 +41,6 @@
           class="flex flex-row justify-center items-center space-x-4 p-2 rounded-lg"
           :class="statusClassAzAlt"
         >
-          <p class="w-24">{{ $t('components.slewAndCenter.az') }}</p>
-          <input
-            type="text"
-            v-model="localAzAngleString"
-            @blur="handleBlurAz"
-            @keyup.enter="handleBlurAz"
-            class="text-black w-full p-2 border border-gray-300 rounded"
-            placeholder="12:34:56 / 123.456"
-          />
           <p class="w-24">{{ $t('components.slewAndCenter.alt') }}</p>
           <input
             type="text"
@@ -58,6 +49,15 @@
             @keyup.enter="handleBlurAlt"
             class="text-black w-full p-2 border border-gray-300 rounded"
             placeholder="12:34:56 / 12.456"
+          />
+          <p class="w-24">{{ $t('components.slewAndCenter.az') }}</p>
+          <input
+            type="text"
+            v-model="localAzAngleString"
+            @blur="handleBlurAz"
+            @keyup.enter="handleBlurAz"
+            class="text-black w-full p-2 border border-gray-300 rounded"
+            placeholder="12:34:56 / 123.456"
           />
         </div>
         <div class="mt-4 flex gap-2">

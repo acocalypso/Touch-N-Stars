@@ -70,7 +70,7 @@ onMounted(async () => {
   isLoadingImages.value = true;
 
   for (const imageIndex in store.imageHistoryInfo) {
-    const image = await sequenceStore.getImageByIndex(imageIndex, minQuality, minScale);
+    const image = await sequenceStore.getThumbnailByIndex(imageIndex, minQuality, minScale);
     const stats = store.imageHistoryInfo[imageIndex];
     addImageToHistory(imageIndex, image, stats);
   }

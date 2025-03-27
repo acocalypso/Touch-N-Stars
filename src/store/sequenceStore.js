@@ -188,6 +188,17 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
     },
 
+    async getThumbnailByIndex(index) {
+      try {
+        const blob = await apiService.getSequenceThumbnail(index);
+        const imageUrl = URL.createObjectURL(blob);
+        return imageUrl;
+      } catch (error) {
+        console.error(`An error happened while getting image with index ${index}`, error.message);
+        return null;
+      }
+    },
+
     startFetching() {
       if (!this.intervalId) {
         this.intervalId = setInterval(this.getSequenceInfo, 2000);

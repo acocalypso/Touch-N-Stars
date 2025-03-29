@@ -1,4 +1,4 @@
-name: Build and Sign APK
+name: Build and Release APK
 
 on:
   push:
@@ -6,11 +6,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Get package version
+      id: package-version
+      run: |
+        VERSION=$(jq -r .version package.json)
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "TAG=v${VERSION}" >> $GITHUB_ENV
 
     - name: Set up Node.js 22
       uses: actions/setup-node@v4
@@ -42,19 +51,28 @@ jobs:
 
     - name: Set Environment Variables
       run: |
-          echo "KEYSTORE_PASS=${{ secrets.KEYSTORE_PASS }}" >> $GITHUB_ENV
-          echo "KEYSTOREALIAS=${{ secrets.KEYSTOREALIAS }}" >> $GITHUB_ENV
-          echo "KEYSTOREALIAS_PASS=${{ secrets.KEYSTOREALIAS_PASS }}" >> $GITHUB_ENV
+        echo "KEYSTORE_PASS=${{ secrets.KEYSTORE_PASS }}" >> $GITHUB_ENV
+        echo "KEYSTOREALIAS=${{ secrets.KEYSTOREALIAS }}" >> $GITHUB_ENV
+        echo "KEYSTOREALIAS_PASS=${{ secrets.KEYSTOREALIAS_PASS }}" >> $GITHUB_ENV
 
     - name: Build Signed APK
       run: |
         cd android
-        ./gradlew assembleRelease --no-daemon -PKEYSTORE_PASS=${{ secrets.KEYSTORE_PASS }} \
+        ./gradlew assembleRelease --no-daemon \
+          -PKEYSTORE_PASS=${{ secrets.KEYSTORE_PASS }} \
           -PKEYSTOREALIAS=${{ secrets.KEYSTOREALIAS }} \
           -PKEYSTOREALIAS_PASS=${{ secrets.KEYSTOREALIAS_PASS }}
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
+    - name: Rename APK
+      run: |
+        mv android/app/build/outputs/apk/release/app-release.apk \
+          "TouchNStars-${{ steps.package-version.outputs.version }}.apk"
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: app-release
-        path: android/app/build/outputs/apk/release/app-release.apk
+        tag_name: ${{ env.TAG }}
+        name: Android ${{ steps.package-version.outputs.version }}
+        generate_release_notes: true
+        files: |
+          TouchNStars-${{ steps.package-version.outputs.version }}.apk

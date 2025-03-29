@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - error fixed when sequence loads
 
+## Android 1.6.3
+### Added
+- Implemented memory-safe APK updater with progress tracking
+- Enhanced lifecycle handling for robust update management
+- Integrated permission request handling for APK installation
+
+### Fixed
+- Resolved memory leak issues in the update checker
+- Fixed access modifier conflict for `onDestroy()` override in `MainActivity`
+
+### Changed
+- Improved user feedback during APK downloads with a progress dialog
+- Enhanced error handling for partial downloads and network failures
+
 ## [1.0.4.2] - 2025-03-28
 ### Fixed
 - Fixed NINA Update

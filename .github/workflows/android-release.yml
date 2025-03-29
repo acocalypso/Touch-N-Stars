@@ -42,6 +42,7 @@ jobs:
 
     - name: Decode Keystore
       run: |
+        mkdir -p android/app/app
         echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/app/app/release.jks
 
     - name: Build Signed APK

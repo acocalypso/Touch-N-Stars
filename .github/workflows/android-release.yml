@@ -42,9 +42,9 @@ jobs:
 
     - name: Set Environment Variables
       env:
-        KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-        KEYSTOREALIAS: ${{ secrets.KEYSTOREALIAS }}
-        KEYSTOREALIAS_PASS: ${{ secrets.KEYSTOREALIAS_PASS }}
+        storePassword: ${{ secrets.KEYSTORE_PASS }}
+        keyAlias: ${{ secrets.KEYSTOREALIAS }}
+        keyPassword: ${{ secrets.KEYSTOREALIAS_PASS }}
       run: echo "Environment variables set"
 
     - name: Build Signed APK

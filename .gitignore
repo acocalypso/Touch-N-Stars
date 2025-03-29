@@ -4,7 +4,6 @@ node_modules
 /server/dist
 /server/build
 /server/static
-#/src-tauri
 
 
 # local env files

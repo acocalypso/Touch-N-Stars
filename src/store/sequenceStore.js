@@ -50,14 +50,35 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
     },
 
+    countKeysDeep(obj) {
+      let count = 0;
+
+      function recurse(current) {
+        if (typeof current === 'object' && current !== null) {
+          for (const key in current) {
+            if (Object.prototype.hasOwnProperty.call(current, key)) {
+              count++;
+              recurse(current[key]);
+            }
+          }
+        }
+      }
+
+      recurse(obj);
+      return count;
+    },
+
     async getSequenceInfo() {
       let response = null;
 
       if (this.sequenceIsEditable) {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
+        const keysCount = this.countKeysDeep(response);
+        console.log('Länge:', this.countKeysDeep(response)); // Ausgabe: Länge: 2
         //console.log(response);
-        if (response?.StatusCode === 500 || !response?.StatusCode) {
+        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 100000) {
+          // begrenzen auf 100000 keys damit es nicht zu lange dauert
           console.log('nicht editierbar');
           this.sequenceIsEditable = false;
           response = await this.getSequenceInfoJson();
@@ -201,7 +222,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     startFetching() {
       if (!this.intervalId) {
-        this.intervalId = setInterval(this.getSequenceInfo, 2000);
+        this.intervalId = setInterval(this.getSequenceInfo, 10000);
       }
     },
 

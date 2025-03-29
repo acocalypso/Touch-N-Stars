@@ -32,6 +32,10 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
 
+    # NEW PERMISSION FIX STEP
+    - name: Fix gradlew permissions
+      run: chmod +x android/gradlew
+
     - name: Update Gradle to 8.9
       run: |
         cd android

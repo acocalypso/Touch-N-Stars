@@ -22,7 +22,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("release.jks")  // Relative to app module
+            storeFile file("release.jks")
             storePassword System.getenv("KEYSTORE_PASS")
             keyAlias System.getenv("KEYSTOREALIAS")
             keyPassword System.getenv("KEYSTOREALIAS_PASS")

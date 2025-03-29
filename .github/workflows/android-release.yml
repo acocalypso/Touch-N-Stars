@@ -37,17 +37,20 @@ jobs:
 
     - name: Decode Keystore
       run: |
-        mkdir -p android/app/app
-        echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/app/app/release.jks
+        mkdir -p android/app
+        echo "${{ secrets.KEYSTORE }}" | base64 --decode > android/app/release.jks
+
+    - name: Set Environment Variables
+      env:
+        KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+        KEYSTOREALIAS: ${{ secrets.KEYSTOREALIAS }}
+        KEYSTOREALIAS_PASS: ${{ secrets.KEYSTOREALIAS_PASS }}
+      run: echo "Environment variables set"
 
     - name: Build Signed APK
       run: |
         cd android
-        ./gradlew assembleRelease \
-          -Pandroid.injected.signing.store.file=app/release.jks \
-          -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASS }} \
-          -Pandroid.injected.signing.key.alias=${{ secrets.KEYSTOREALIAS }} \
-          -Pandroid.injected.signing.key.password=${{ secrets.KEYSTOREALIAS_PASS }}
+        ./gradlew assembleRelease
 
     - name: Upload APK
       uses: actions/upload-artifact@v4

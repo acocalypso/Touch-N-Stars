@@ -75,11 +75,12 @@ export const useSequenceStore = defineStore('sequenceStore', {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
-        console.log('Länge:', this.countKeysDeep(response)); // Ausgabe: Länge: 2
+
         //console.log(response);
-        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 100000) {
+        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 50000) {
           // begrenzen auf 100000 keys damit es nicht zu lange dauert
           console.log('nicht editierbar');
+          console.log('Länge:', this.countKeysDeep(response), 'StatusCode:', response?.StatusCode);
           this.sequenceIsEditable = false;
           response = await this.getSequenceInfoJson();
         }
@@ -221,6 +222,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
     },
 
     startFetching() {
+      this.stopFetching(); // Stop any existing interval before starting a new one
+      this.getSequenceInfo(); // Fetch immediately
+      // Start the interval to fetch every 10 seconds
       if (!this.intervalId) {
         this.intervalId = setInterval(this.getSequenceInfo, 10000);
       }

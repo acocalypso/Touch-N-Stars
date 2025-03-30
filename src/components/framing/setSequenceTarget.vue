@@ -39,13 +39,13 @@
 <script setup>
 import { computed, ref } from 'vue';
 import apiService from '@/services/apiService';
-import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
+import { useSequenceStore } from '@/store/sequenceStore';
 
 const showModal = ref(false);
 
-const store = apiStore();
 const framingStore = useFramingStore();
+const sequenceStore = useSequenceStore();
 
 const hasTargetSelected = computed(() => !!framingStore.selectedItem);
 
@@ -70,7 +70,7 @@ async function setSequenceTarget() {
 
   console.log('Name:', name, 'RA:', ra, 'Dec:', dec, 'Rotation:', rotation);
 
-  if (!store.sequenceIsLoaded) {
+  if (!sequenceStore.sequenceIsLoaded) {
     console.error('No sequence loaded');
     return;
   }

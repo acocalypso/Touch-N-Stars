@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "205958484591",
+    "project_id": "toch-n-stars",
+    "storage_bucket": "toch-n-stars.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205958484591:android:15032dfb9c216712c6b39a",
+        "android_client_info": {
+          "package_name": "com.TouchNStars.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBIaQW6vwpqnIA3X19qAJGyd_ZrG6LzBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:205958484591:android:29bf9f4e8121c1d5c6b39a",
+        "android_client_info": {
+          "package_name": "com.Touch_N_Stars.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBIaQW6vwpqnIA3X19qAJGyd_ZrG6LzBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

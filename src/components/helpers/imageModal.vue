@@ -35,8 +35,7 @@
       >
       <ArrowDownTrayIcon class="h-5" />
       </button>
-
-
+      
       <div
         ref="imageContainer"
         class="w-full h-full overflow-hidden relative flex items-center justify-center shadow-md shadow-cyan-900"

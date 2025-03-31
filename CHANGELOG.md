@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.4.5] - unreleasd
 ### Changed
 - CaptureButton created and integrated into CameraView 
+- CameraView is no longer locked when a sequence is running. Capturing only is not possible
 
 ## [1.0.4.4] - 2025-03-20
 ### Fixed

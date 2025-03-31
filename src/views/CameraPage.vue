@@ -113,7 +113,7 @@
       <!-- Capture Controls and Image Display -->
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
         <!-- Left Panel - Controls -->
-        <div class="flex flex-col lg:w-1/6 space-y-3 min-h-[100px] lg:min-h-0">
+        <div class="flex flex-col lg:w-2/6 space-y-3 min-h-[100px] lg:min-h-0">
           <!-- Loop Checkbox -->
           <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700/50">
             <input
@@ -129,78 +129,7 @@
 
           <!-- Capture Button -->
           <div class="flex flex-col space-y-2">
-            <button
-              class="btn-primary bg-gradient-to-br from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 transition-all duration-200 shadow-lg hover:shadow-cyan-500/20"
-              @click="
-                cameraStore.capturePhoto(
-                  apiService,
-                  settingsStore.camera.exposureTime,
-                  settingsStore.camera.gain,
-                  settingsStore.camera.useSolve
-                )
-              "
-              :disabled="cameraStore.loading"
-            >
-              <template v-if="cameraStore.loading">
-                <!-- Wenn Belichtung läuft -->
-                <div v-if="cameraStore.isExposure" class="flex items-center">
-                  <svg class="w-6 h-6" viewBox="0 0 36 36">
-                    <path
-                      class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
-                      d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                    />
-                    <path
-                      class="fill-none stroke-current stroke-[2.8]"
-                      :style="{
-                        strokeDasharray: cameraStore.progress + ', 100',
-                        transform: 'rotate(-90deg)',
-                        transformOrigin: 'center',
-                      }"
-                      d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                    />
-                  </svg>
-                  <span class="ml-2 text-white text-sm font-medium">
-                    {{ $t('components.camera.capture_running') }}
-                    {{ cameraStore.remainingExposureTime }}s
-                  </span>
-                </div>
-                <!-- Wenn Bild gerade geladen wird -->
-                <div v-else-if="cameraStore.isLoadingImage" class="flex items-center">
-                  <svg class="w-6 h-6 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-                    <circle
-                      class="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      stroke-width="4"
-                    />
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                  </svg>
-                  <span class="ml-2 text-white text-sm font-medium">
-                    {{ $t('components.camera.image_loading') }}
-                  </span>
-                </div>
-              </template>
-              <template v-else>
-                {{ $t('components.camera.start_capture') }}
-              </template>
-            </button>
-
-            <!-- Cancel Button -->
-            <div class="pt-2">
-              <button
-                v-if="cameraStore.isExposure"
-                @click="cameraStore.abortExposure(apiService)"
-                class="btn-primary w-full bg-gradient-to-br from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 transition-all duration-200 shadow-lg hover:shadow-red-500/20"
-              >
-                {{ $t('components.camera.cancel') }}
-              </button>
-            </div>
+            <CaptureButton />
           </div>
         </div>
 
@@ -295,8 +224,6 @@
 import { ref } from 'vue';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
-import { useSettingsStore } from '@/store/settingsStore';
-import apiService from '@/services/apiService';
 import infoCamera from '@/components/camera/infoCamera.vue';
 import settingsCamera from '@/components/camera/settingsCamera.vue';
 import settingsCameraCooler from '@/components/camera/settingsCameraCooler.vue';
@@ -305,11 +232,11 @@ import controlRotator from '@/components/rotator/controlRotator.vue';
 import infoRotator from '@/components/rotator/infoRotator.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
+import CaptureButton from '@/components/camera/CaptureButton.vue';
 
 // Initialisiere Stores
 const store = apiStore();
 const cameraStore = useCameraStore();
-const settingsStore = useSettingsStore();
 const imageContainer = ref(null);
 const image = ref(null);
 const showModal = ref(false);

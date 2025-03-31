@@ -33,9 +33,9 @@
         @click="downloadImage"
         class="absolute top-4 right-16 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-[100]"
       >
-      <ArrowDownTrayIcon class="h-5" />
+        <ArrowDownTrayIcon class="h-5" />
       </button>
-      
+
       <div
         ref="imageContainer"
         class="w-full h-full overflow-hidden relative flex items-center justify-center shadow-md shadow-cyan-900"
@@ -57,6 +57,9 @@
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
+import { Capacitor } from '@capacitor/core';
 
 const props = defineProps({
   showModal: {

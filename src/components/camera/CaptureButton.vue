@@ -11,7 +11,7 @@
           settingsStore.camera.useSolve
         )
       "
-      :disabled="cameraStore.loading"
+      :disabled="cameraStore.loading || sequenceStore.sequenceRunning"
     >
       <template v-if="cameraStore.loading">
         <!-- Wenn Belichtung läuft -->
@@ -67,9 +67,13 @@
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useSequenceStore } from '@/store/sequenceStore';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
+
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
+
 </script>
 <style scoped>
 .loader {

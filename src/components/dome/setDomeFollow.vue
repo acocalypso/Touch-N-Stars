@@ -15,7 +15,7 @@
   </div>
 </template>
 <script setup>
-//Attention: DriverFollowing is not the feedback of the switch. It can therefore not yet be used. 
+//Attention: DriverFollowing is not the feedback of the switch. It can therefore not yet be used.
 
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
@@ -27,7 +27,7 @@ const { t } = useI18n();
 
 async function toggleDomeFollow() {
   try {
-    if (store.domeInfo.DriverFollowing){
+    if (store.domeInfo.DriverFollowing) {
       await apiService.domeAction('set-follow?enabled=false');
       store.domeInfo.DriverFollowing = false;
       console.log('Dome follow disabled');

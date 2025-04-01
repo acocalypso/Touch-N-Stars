@@ -13,12 +13,12 @@
         step="1"
       />
       <button
-        class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-700 items-center justify-center disabled:opacity-50"
+        class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-800 items-center justify-center disabled:opacity-50"
         @click="slewDome"
         :disabled="store.domeInfo.Slewing"
       >
-        <label for="rotatorMove"> {{ $t('components.dome.control.slew') }}</label>
-        <div 
+        <label> {{ $t('components.dome.control.slew') }}</label>
+        <div
           v-if="store.domeInfo.Slewing"
           class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>

@@ -481,6 +481,9 @@
         "ra": "REAL ACADEMIA DE BELLAS ARTES",
         "title": "Objeto seleccionado"
       }
+    },
+    "profile": {
+      "label": "Perfil:"
     }
   }
 }

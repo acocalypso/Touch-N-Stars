@@ -511,6 +511,9 @@
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes"
       }
+    },
+    "profile": {
+      "label": "Profile:"
     }
   }
 }

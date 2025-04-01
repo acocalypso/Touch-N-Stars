@@ -481,6 +481,9 @@
         "ra": "RA",
         "title": "Selected object"
       }
+    },
+    "profile": {
+      "label": "配置文件:"
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="w-64 flex items-center">
-    <label class="mr-2" for="profileDropdown">Profil: </label>
+    <label class="mr-2" for="profileDropdown">{{ $t('components.profile.label') }} </label>
     <select
       id="profileDropdown"
       class="default-inputfield"

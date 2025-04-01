@@ -481,6 +481,9 @@
         "ra": "Rampe",
         "title": "Objet sélectionné"
       }
+    },
+    "profile": {
+      "label": "Profil:"
     }
   }
 }

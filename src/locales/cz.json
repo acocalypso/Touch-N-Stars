@@ -481,6 +481,9 @@
         "ra": "RA",
         "title": "Vybraný objekt"
       }
+    },
+    "profile": {
+      "label": "Profil:"
     }
   }
 }

@@ -15,11 +15,11 @@
       <button
         class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-800 items-center justify-center disabled:opacity-50"
         @click="slewDome"
-        :disabled="store.domeInfo.Slewing"
+        :disabled="store.domeInfo.Slewing || isSlewing"
       >
         <label> {{ $t('components.dome.control.slew') }}</label>
         <div
-          v-if="store.domeInfo.Slewing"
+          v-if="store.domeInfo.Slewing || isSlewing"
           class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
       </button>
@@ -28,21 +28,40 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
 const azimuth = ref(0);
+const isSlewing = ref(false);
 
 async function slewDome() {
   try {
     await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
+    isSlewing.value = true;
+    if(store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
+      console.log('Slewing to the same azimuth, stopping slew.');
+      isSlewing.value = false;
+    } else {
+      console.log('Slewing to azimuth:', azimuth.value);
+    }
     console.log('Slewing stopped at azimuth:', azimuth.value);
   } catch (error) {
+    isSlewing.value = false;
     console.log('Error stopping slew:', error);
   }
 }
+
+watch(
+  () => store.domeInfo.Azimuth,
+  (newValue) => {
+    if(newValue.toFixed(0) === azimuth.value.toFixed(0)) {
+      console.log('Slewing to the same azimuth, stopping slew.');
+      isSlewing.value = false;
+    }
+  }
+);
 
 onMounted(() => {
   if (store.domeInfo.Azimuth !== undefined && !isNaN(store.domeInfo.Azimuth)) {

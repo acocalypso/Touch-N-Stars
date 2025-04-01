@@ -17,5 +17,5 @@ import ButtonOpenShutter from '@/components/dome/ButtonOpenShutter.vue';
 import ButtonStopShutter from '@/components/dome/ButtonStopShutter.vue';
 import ButtonCloseShutter from '@/components/dome/ButtonCloseShutter.vue';
 import ButtonSlew from '@/components/dome/ButtonSlewDome.vue';
-import ButtonSyncDome from './ButtonSyncDome.vue';
+import ButtonSyncDome from '@/components/dome/ButtonSyncDome.vue';
 </script>

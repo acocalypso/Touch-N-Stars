@@ -29,7 +29,7 @@
       :disabledText="$t('components.dome.park')"
     />
     <StatusBool
-      :isEnabled="!store.domeInfo.ShutterStatus"
+      :isEnabled="store.domeInfo.ShutterStatus !== 'ShutterClosed'"
       :enabledText="$t('components.dome.shutter_open')"
       :disabledText="$t('components.dome.shutter_close')"
     />

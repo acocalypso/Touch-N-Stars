@@ -530,6 +530,9 @@
         "landscapes_visible": "Landschaften",
         "meridian_lines_visible": "Meridian"
       }
+    },
+    "profile": {
+      "label": "Profil:"
     }
   }
 }

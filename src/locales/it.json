@@ -481,6 +481,9 @@
         "ra": "Ra",
         "title": "Oggetto selezionato"
       }
+    },
+    "profile": {
+      "label": "Profilo:"
     }
   }
 }

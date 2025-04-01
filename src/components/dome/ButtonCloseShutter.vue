@@ -1,7 +1,7 @@
 <template>
-    <button @click="closeShutter" class="default-button-cyan">
-      {{ $t('components.dome.control.close') }}
-    </button>
+  <button @click="closeShutter" class="default-button-cyan">
+    {{ $t('components.dome.control.close') }}
+  </button>
 </template>
 
 <script setup>
@@ -18,5 +18,4 @@ async function closeShutter() {
     console.log(t('components.dome.control.errors.close'));
   }
 }
-
 </script>

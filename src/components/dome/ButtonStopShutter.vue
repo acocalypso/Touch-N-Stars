@@ -1,7 +1,7 @@
 <template>
-    <button @click="stopShutter" class="default-button-red">
-      {{ $t('components.dome.control.stop') }}
-    </button>
+  <button @click="stopShutter" class="default-button-red">
+    {{ $t('components.dome.control.stop') }}
+  </button>
 </template>
 
 <script setup>

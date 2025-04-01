@@ -18,7 +18,7 @@
       <div
         class="mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
       >
-        <controlDome class="grid grid-cols-1 landscape:grid-cols-3 gap-1" />
+        <controlDome />
       </div>
     </div>
   </div>

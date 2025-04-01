@@ -92,8 +92,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "连接相机",
-        "disconnect": "断开相机",
         "error": "控制相机错误："
       },
       "connectAll": "全部连接",
@@ -106,49 +104,31 @@
         "error": "控制滤镜轮错误："
       },
       "mount": {
-        "connect": "连接赤道仪",
-        "disconnect": "断开赤道仪",
         "error": "控制赤道仪错误："
       },
       "focuser": {
-        "connect": "连接调焦器",
-        "disconnect": "断开调焦器",
         "error": "控制调焦器错误："
       },
       "rotator": {
-        "connect": "连接旋转器",
-        "disconnect": "断开旋转器",
         "error": "控制旋转器错误："
       },
       "guider": {
-        "connect": "连接导星",
-        "disconnect": "断开导星",
         "error": "控制导星错误："
       },
       "safety": {
-        "connect": "连接安全监控",
-        "disconnect": "断开安全监控",
         "error": "控制安全监控错误"
       },
       "flat": {
-        "connect": "连接平场板",
-        "disconnect": "断开平场板",
         "error": "控制平场板错误：",
         "name": "Flatdevice"
       },
       "dome": {
-        "connect": "连接穹顶",
-        "disconnect": "断开穹顶",
         "error": "控制穹顶错误："
       },
       "switch": {
-        "connect": "连接开关",
-        "disconnect": "断开开关",
         "error": "控制开关错误"
       },
       "weather": {
-        "connect": "连接天气设备",
-        "disconnect": "断开天气设备",
         "error": "控制天气设备错误",
         "name": "Weather"
       }

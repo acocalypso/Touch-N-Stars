@@ -92,8 +92,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "Connecter la camera",
-        "disconnect": "Déconnectez la camera",
         "error": "Erreur de contrôle de la camera:"
       },
       "connectAll": "Connecter Tout",
@@ -106,49 +104,31 @@
         "error": "Erreur de contrôle de la roue à filtre:"
       },
       "mount": {
-        "connect": "Connecter la  monture",
-        "disconnect": "Déconnecter la monture",
         "error": "Erreur de contrôle dela monture:"
       },
       "focuser": {
-        "connect": "Connecter le focuseur",
-        "disconnect": "Déconnecter le focuseur",
         "error": "Erreur de contrôle du focuseur:"
       },
       "rotator": {
-        "connect": "Connecter le rotateur",
-        "disconnect": "Déconnecter le rotateurr",
         "error": "Erreur de contrôle du rotateur:"
       },
       "guider": {
-        "connect": "Connecter le guideur",
-        "disconnect": "Déconnecter guideur",
         "error": "Erreur de contrôle du guideur:"
       },
       "safety": {
-        "connect": "Connecter le monitor de sureté",
-        "disconnect": "Déconnecter le moniteur de sureté",
         "error": "Erreur de contrôle do moniteur de sureté"
       },
       "flat": {
-        "connect": "Connecter le panneau à flats",
-        "disconnect": "Déconnecter le panneau à flats",
         "error": "Erreur de contrôle du panneau à flats:",
         "name": "Flatdevice"
       },
       "dome": {
-        "connect": "Connecter le dôme",
-        "disconnect": "Déconnecter le dôme",
         "error": "Erreur de contrôle du dôme:"
       },
       "switch": {
-        "connect": "Connecter le Commutateurs",
-        "disconnect": "Déconnecter le Commutateurs",
         "error": "Erreur de contrôle du Commutateurs"
       },
       "weather": {
-        "connect": "Connecter la météo",
-        "disconnect": "Déconnecter la météo",
         "error": "Erreur de contrôle de la météo",
         "name": "Météo"
       }

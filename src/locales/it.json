@@ -92,8 +92,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "Collega fotocamera",
-        "disconnect": "Disconnetti fotocamera",
         "error": "Errore controllo fotocamera:"
       },
       "connectAll": "Collega Tutto",
@@ -106,49 +104,31 @@
         "error": "Errore controllo ruota filtri:"
       },
       "mount": {
-        "connect": "Collega montatura",
-        "disconnect": "Disconnetti montatura",
         "error": "Errore controllo montatura:"
       },
       "focuser": {
-        "connect": "Collega messa a fuoco",
-        "disconnect": "Disconnetti messa a fuoco",
         "error": "Errore controllo messa a fuoco:"
       },
       "rotator": {
-        "connect": "Collega rotatore",
-        "disconnect": "Disconnetti rotatore",
         "error": "Errore controllo rotatore:"
       },
       "guider": {
-        "connect": "Collega guida",
-        "disconnect": "Disconnetti guida",
         "error": "Errore controllo guida:"
       },
       "safety": {
-        "connect": "Collega monitor sicurezza",
-        "disconnect": "Disconnetti monitor sicurezza",
         "error": "Errore controllo monitor sicurezza"
       },
       "flat": {
-        "connect": "Collega dispositivo flat",
-        "disconnect": "Disconnetti dispositivo flat",
         "error": "Errore controllo dispositivo flat:",
         "name": "Flatdevice"
       },
       "dome": {
-        "connect": "Collega cupola",
-        "disconnect": "Disconnetti cupola",
         "error": "Errore controllo cupola:"
       },
       "switch": {
-        "connect": "Collega interruttore",
-        "disconnect": "Disconnetti interruttore",
         "error": "Errore controllo interruttore"
       },
       "weather": {
-        "connect": "Collega meteo",
-        "disconnect": "Disconnetti meteo",
         "error": "Errore controllo meteo",
         "name": "Tempo atmosferico"
       }

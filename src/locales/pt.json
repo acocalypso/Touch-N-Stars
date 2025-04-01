@@ -92,8 +92,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "Conectar câmera",
-        "disconnect": "Desconectar câmera",
         "error": "Erro ao controlar a câmera:"
       },
       "connectAll": "Conectar Tudo",
@@ -106,49 +104,31 @@
         "error": "Erro ao controlar roda de filtro:"
       },
       "mount": {
-        "connect": "Conectar montagem",
-        "disconnect": "Desconectar montagem",
         "error": "Erro ao controlar montagem:"
       },
       "focuser": {
-        "connect": "Conectar focalizador",
-        "disconnect": "Desconectar focalizador",
         "error": "Erro ao controlar focalizador:"
       },
       "rotator": {
-        "connect": "Conectar rotor de campo",
-        "disconnect": "Desconectar rotor de campo",
         "error": "Erro ao controlar rotor de campo:"
       },
       "guider": {
-        "connect": "Conectar guiagem",
-        "disconnect": "Desconectar guiagem",
         "error": "Erro ao controlar guiagem:"
       },
       "safety": {
-        "connect": "Conectar monitor de segurança",
-        "disconnect": "Desconectar monitor de segurança",
         "error": "Erro ao controlar o monitor de segurança"
       },
       "flat": {
-        "connect": "Conectar painel de flat",
-        "disconnect": "Desconectar painel de flat",
         "error": "Erro ao controlar o painel de flat:",
         "name": "FlatDevice"
       },
       "dome": {
-        "connect": "Conectar domo",
-        "disconnect": "Desconectar domo",
         "error": "Erro ao controlar domo:"
       },
       "switch": {
-        "connect": "Conectar interruptor",
-        "disconnect": "Desconectar interruptor",
         "error": "Erro ao controlar o interruptor"
       },
       "weather": {
-        "connect": "Conectar estação meteorológica",
-        "disconnect": "Desconectar estação meteorológica",
         "error": "Erro ao controlar a estação meteorológica",
         "name": "Clima"
       }

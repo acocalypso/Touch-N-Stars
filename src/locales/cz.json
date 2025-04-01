@@ -92,8 +92,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "Připojit kameru",
-        "disconnect": "Odpojit kameru",
         "error": "Chyba při ovládání kamery:"
       },
       "connectAll": "Připojit Vše",
@@ -106,49 +104,31 @@
         "error": "Chyba při ovládání filtračního kola:"
       },
       "mount": {
-        "connect": "Připojit montáž",
-        "disconnect": "Odpojit montáž",
         "error": "Chyba při ovládání montáže:"
       },
       "focuser": {
-        "connect": "Připojit zaostření",
-        "disconnect": "Odpojit zaostření",
         "error": "Chyba při ovládání ostření:"
       },
       "rotator": {
-        "connect": "Připojit rotátor",
-        "disconnect": "Odpojit rotátor",
         "error": "Chyba při ovládání rotátoru:"
       },
       "guider": {
-        "connect": "Připojit pointaci",
-        "disconnect": "Odpojit pointaci",
         "error": "Chyba při ovládání pointace:"
       },
       "safety": {
-        "connect": "Připojit bezpečnostní monitor",
-        "disconnect": "Odpojit bezpečnostní monitor",
         "error": "Chyba při ovládání bezpečnostního monitoru"
       },
       "flat": {
-        "connect": "Připojit flat zařizení",
-        "disconnect": "Odpojit flat zařizení",
         "error": "Chyba při ovládání flat zařízení:",
         "name": "Flatdevice"
       },
       "dome": {
-        "connect": "Připojit kopuli",
-        "disconnect": "Odpojit kopuli",
         "error": "Chyba při ovládání kopule:"
       },
       "switch": {
-        "connect": "Připojit přepínač",
-        "disconnect": "Odpojit přepínač",
         "error": "Chyba při ovládání přepínače"
       },
       "weather": {
-        "connect": "Připojit počasí",
-        "disconnect": "Odpojit počasí",
         "error": "Chyba při ovládání počasí",
         "name": "Weather"
       }

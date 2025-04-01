@@ -333,7 +333,9 @@
           "open": "Fehler beim Öffnen des Verschlusses",
           "close": "Fehler beim Schließen des Verschlusses",
           "stop": "Fehler beim Stoppen der Verschlussbewegung"
-        }
+        },
+        "slew": "Schwenken",
+        "slew_label": "Schwenke zu Grad"
       }
     },
     "camera": {

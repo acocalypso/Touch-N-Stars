@@ -27,6 +27,14 @@
       >
         Zoom: {{ zoomLevel.toFixed(2) }}x
       </div>
+      <!-- Download Button -->
+      <button
+        v-if="imageData"
+        @click="downloadImage"
+        class="absolute top-4 right-16 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-[100]"
+      >
+        <ArrowDownTrayIcon class="h-5" />
+      </button>
 
       <div
         ref="imageContainer"
@@ -48,6 +56,10 @@
 <script setup>
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from 'panzoom';
+import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { FilePicker } from '@capawesome/capacitor-file-picker';
+import { Capacitor } from '@capacitor/core';
 
 const props = defineProps({
   showModal: {
@@ -57,6 +69,10 @@ const props = defineProps({
   imageData: {
     type: String,
     default: null,
+  },
+  imageDate: {
+    type: String,
+    default: '0000-00-00',
   },
   isLoading: {
     type: Boolean,
@@ -120,6 +136,62 @@ const destroyPanzoom = () => {
     panzoomInstance = null;
   }
 };
+
+async function downloadImage() {
+  const fileName = `TNS-${props.imageDate}.jpg`;
+
+  if (!props.imageData) return;
+
+  if (Capacitor.getPlatform() === 'android') {
+    try {
+      const dirResult = await FilePicker.pickDirectory();
+      if (!dirResult.path) return;
+
+      const cleanPath = dirResult.path.replace(/content:\/\/.*?\/tree\/primary%3A/, '');
+      const decodedPath = decodeURIComponent(cleanPath).replace(/:/, '/');
+
+      const response = await fetch(props.imageData);
+      const blob = await response.blob();
+      const reader = new FileReader();
+
+      reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1];
+
+        try {
+          await Filesystem.mkdir({
+            path: decodedPath,
+            directory: Directory.ExternalStorage,
+            recursive: true,
+          });
+        } catch (mkdirError) {
+          if (!mkdirError.message.includes('exist')) throw mkdirError;
+        }
+
+        await Filesystem.writeFile({
+          path: `${decodedPath}/${fileName}`,
+          data: base64data,
+          directory: Directory.ExternalStorage,
+          encoding: 'base64',
+        });
+
+        console.log('Bild gespeichert!');
+      };
+
+      reader.readAsDataURL(blob);
+    } catch (err) {
+      console.error('Fehler beim Speichern:', err);
+    }
+  } else {
+    const response = await fetch(props.imageData);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+}
 
 const onImageLoad = () => {
   nextTick(() => {

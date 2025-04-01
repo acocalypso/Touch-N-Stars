@@ -69,6 +69,7 @@
   <ImageModal
     :showModal="showModal"
     :imageData="fullResImage"
+    :imageDate="stats.Date"
     :isLoading="isLoadingModal"
     @close="closeModal"
   />

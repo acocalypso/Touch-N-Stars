@@ -73,7 +73,6 @@ import { StopCircleIcon } from '@heroicons/vue/24/outline';
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
-
 </script>
 <style scoped>
 .loader {

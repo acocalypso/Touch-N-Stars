@@ -41,9 +41,12 @@ async function slewDome() {
   try {
     const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
 
-    if (handleApiError(response, {
-      title: 'Slew Error',
-    })) return;
+    if (
+      handleApiError(response, {
+        title: 'Slew Error',
+      })
+    )
+      return;
 
     isSlewing.value = true;
 

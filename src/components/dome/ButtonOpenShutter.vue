@@ -14,9 +14,12 @@ const { t } = useI18n();
 async function openShutter() {
   try {
     const response = await apiService.domeAction('open');
-    if (handleApiError(response, {
-      title: 'Slew Error',
-    })) return;
+    if (
+      handleApiError(response, {
+        title: 'Slew Error',
+      })
+    )
+      return;
     console.log(t('components.dome.control.open'));
   } catch (error) {
     console.log(t('components.dome.control.errors.open'));

@@ -1,4 +1,4 @@
-import { useToastStore } from "@/store/toastStore";
+import { useToastStore } from '@/store/toastStore';
 
 export function handleApiError(response, options = {}) {
   const {
@@ -20,7 +20,7 @@ export function handleApiError(response, options = {}) {
     }
     return true; // Fehler erkannt
   }
-  return false; 
+  return false;
 }
 
 export async function wait(ms) {

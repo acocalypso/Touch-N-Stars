@@ -21,11 +21,14 @@ const store = apiStore();
 
 async function syncTelescope() {
   try {
-   const response = await apiService.domeAction('sync');
+    const response = await apiService.domeAction('sync');
     console.log('syncing telescope', response);
-    if (handleApiError(response, {
-      title: 'Sync Error',
-    })) return;
+    if (
+      handleApiError(response, {
+        title: 'Sync Error',
+      })
+    )
+      return;
 
     console.log('telescope synced');
   } catch (error) {

@@ -31,36 +31,31 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { useToastStore } from '@/store/toastStore';
+import { handleApiError } from '@/utils/utils';
 
 const store = apiStore();
-const toastStore = useToastStore();
 const azimuth = ref(0);
 const isSlewing = ref(false);
 
 async function slewDome() {
   try {
     const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
-    console.log('Slew response:', response);
-    if (response.StatusCode !== 200) {
-      console.log('Error in slew response:', response);
-      toastStore.showToast({
-        type: 'error',
-        title: 'Slew Error',
-        message: response.Error,
-      });
+
+    if (handleApiError(response, {
+      title: 'Slew Error',
+    })) return;
+
+    isSlewing.value = true;
+
+    if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
+      console.log('Slewing to the same azimuth, stopping slew.');
+      isSlewing.value = false;
     } else {
-      isSlewing.value = true;
-      if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
-        console.log('Slewing to the same azimuth, stopping slew.');
-        isSlewing.value = false;
-      } else {
-        console.log('Slewing to azimuth:', azimuth.value);
-      }
+      console.log('Slewing to azimuth:', azimuth.value);
     }
   } catch (error) {
     isSlewing.value = false;
-    console.log('Error stopping slew:', error);
+    console.error('Error stopping slew:', error);
   }
 }
 

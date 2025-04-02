@@ -1,3 +1,28 @@
+import { useToastStore } from "@/store/toastStore";
+
+export function handleApiError(response, options = {}) {
+  const {
+    title = 'Error',
+    defaultMessage = 'An unknown error has occurred.',
+    silent = false,
+  } = options;
+  const toastStore = useToastStore();
+
+  if (response?.StatusCode !== 200) {
+    console.error('API Error:', response);
+
+    if (!silent) {
+      toastStore.showToast({
+        type: 'error',
+        title,
+        message: response?.Error || defaultMessage,
+      });
+    }
+    return true; // Fehler erkannt
+  }
+  return false; 
+}
+
 export async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

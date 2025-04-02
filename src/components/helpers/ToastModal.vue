@@ -7,7 +7,7 @@
     <div
       :class="[
         'bg-gray-800 text-white p-4 m-8 rounded-lg max-w-xl max-h-[80vh] min-h-36 min-w-64 overflow-y-auto',
-        toastTypeShadow
+        toastTypeShadow,
       ]"
     >
       <div class="flex justify-end items-center">

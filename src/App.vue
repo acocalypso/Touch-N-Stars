@@ -92,7 +92,7 @@
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
-    <ErrorModal  />
+    <ErrorModal />
   </div>
 </template>
 

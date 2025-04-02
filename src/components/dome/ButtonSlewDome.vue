@@ -43,22 +43,21 @@ async function slewDome() {
     const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
     console.log('Slew response:', response);
     if (response.StatusCode !== 200) {
-     console.log('Error in slew response:', response);
-     toastStore.showToast({
+      console.log('Error in slew response:', response);
+      toastStore.showToast({
         type: 'error',
         title: 'Slew Error',
-        message: response.Error
+        message: response.Error,
       });
     } else {
- 
-    isSlewing.value = true;
-    if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
-      console.log('Slewing to the same azimuth, stopping slew.');
-      isSlewing.value = false;
-    } else {
-      console.log('Slewing to azimuth:', azimuth.value);
+      isSlewing.value = true;
+      if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
+        console.log('Slewing to the same azimuth, stopping slew.');
+        isSlewing.value = false;
+      } else {
+        console.log('Slewing to azimuth:', azimuth.value);
+      }
     }
-  }
   } catch (error) {
     isSlewing.value = false;
     console.log('Error stopping slew:', error);
@@ -84,6 +83,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

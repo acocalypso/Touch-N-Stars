@@ -25,11 +25,6 @@ Please answer the following questions for yourself before submitting an issue. *
 
 Please provide a clear and detailed description of the issue you're experiencing.
 
-# Is this a feature request?
-
-- [ ] Yes
-- [ ] No
-
 # Expected Behavior
 
 Please describe what you expected to happen.
@@ -40,7 +35,7 @@ What is actually happening instead?
 
 # Example
 
-Please provide an example of the issue or how the feature would work.
+Please provide an example of the issue.
 
 # Additional Information
 

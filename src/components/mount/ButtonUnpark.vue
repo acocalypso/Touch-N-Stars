@@ -15,7 +15,7 @@ async function mountUnpark() {
   try {
     const response = await apiService.mountAction('unpark');
     console.log('mountUnpark', response);
-    if (handleApiError(response, {title: 'Mount error',}) ) return;
+    if (handleApiError(response, { title: 'Mount error' })) return;
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';
   } catch (error) {

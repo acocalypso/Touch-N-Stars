@@ -44,7 +44,7 @@ class WebSocketService {
       try {
         const message = JSON.parse(event.data);
         console.log('Message:', message);
-        if (handleApiError(message, {title: 'Mount error',}) ) return;
+        if (handleApiError(message, { title: 'Mount error' })) return;
         if (this.messageCallback) {
           this.messageCallback(message);
         }

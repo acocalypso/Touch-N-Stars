@@ -14,7 +14,7 @@ const { t } = useI18n();
 async function closeShutter() {
   try {
     const response = await apiService.domeAction('close');
-    if (handleApiError(response, {title: 'Close Error',}) ) return;
+    if (handleApiError(response, { title: 'Close Error' })) return;
 
     console.log(t('components.dome.control.close'));
   } catch (error) {

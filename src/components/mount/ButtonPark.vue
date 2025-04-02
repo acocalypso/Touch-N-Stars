@@ -15,7 +15,7 @@ async function mountPark() {
   try {
     const response = await apiService.mountAction('park');
     console.log('park', response);
-    if (handleApiError(response, {title: 'Mount error',}) ) return;
+    if (handleApiError(response, { title: 'Mount error' })) return;
 
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';

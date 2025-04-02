@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import { handleApiError } from '@/utils/utils';
 
 export const useFramingStore = defineStore('FramingStore', {
   state: () => ({
@@ -31,7 +32,9 @@ export const useFramingStore = defineStore('FramingStore', {
       console.log('SlewAndCenter', RAangle, DECangle);
       this.isSlewing = true;
       try {
-        await apiService.slewAndCenter(RAangle, DECangle, false);
+        const response = await apiService.slewAndCenter(RAangle, DECangle, false);
+        console.log('SlewAndCenter', response);
+        if (handleApiError(response, {title: 'Mount error',}) ) return;
       } catch (error) {
         console.error('SlewAndCenter Error', error);
       } finally {

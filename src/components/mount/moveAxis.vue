@@ -200,10 +200,10 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .btn {
-  border-radius: 1rem; /* entspricht rounded-2xl */
-  background-color: #334155; /* entspricht bg-slate-700 */
-  padding: 0.5rem; /* entspricht px-2 */
-  box-shadow: 0 2px 15px black; /* entspricht shadow-lg shadow-black */
-  border: 1px solid #0a0a0a; /* entspricht border border-gray-800 */
+  border-radius: 1rem; 
+  background-color: #334155; 
+  padding: 0.5rem; 
+  box-shadow: 0 2px 15px black; 
+  border: 1px solid #0a0a0a; 
 }
 </style>

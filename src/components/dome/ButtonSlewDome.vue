@@ -14,6 +14,7 @@
       />
       <button
         class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-800 items-center justify-center disabled:opacity-50"
+        :class="statusClass"
         @click="slewDome"
         :disabled="store.domeInfo.Slewing || isSlewing"
       >
@@ -35,10 +36,17 @@ import { apiStore } from '@/store/store';
 const store = apiStore();
 const azimuth = ref(0);
 const isSlewing = ref(false);
+const statusClass = ref('');
 
 async function slewDome() {
   try {
-    await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
+    const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
+    console.log('Slew response:', response);
+    if (response.StatusCode !== 200) {
+     console.log('Error in slew response:', response);
+     statusClass.value = 'glow-red';
+    } else {
+ 
     isSlewing.value = true;
     if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
       console.log('Slewing to the same azimuth, stopping slew.');
@@ -46,11 +54,14 @@ async function slewDome() {
     } else {
       console.log('Slewing to azimuth:', azimuth.value);
     }
-    console.log('Slewing stopped at azimuth:', azimuth.value);
+  }
   } catch (error) {
     isSlewing.value = false;
     console.log('Error stopping slew:', error);
   }
+  setTimeout(() => {
+    statusClass.value = '';
+  }, 1000);
 }
 
 watch(
@@ -71,3 +82,12 @@ onMounted(() => {
   }
 });
 </script>
+
+<style scoped>
+.glow-green {
+  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
+}
+.glow-red {
+  box-shadow: 0 0 10px rgb(255, 0, 0); /* Roter Schein */
+}
+</style>

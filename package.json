@@ -8,6 +8,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:eslint": "eslint . --ext .js,.vue",
+    "lint:fix": "eslint . --ext .js,.vue --fix",
     "testbuild": "vue-cli-service build --dest \"%LOCALAPPDATA%\\NINA\\Plugins\\3.0.0\\Touch 'N' Stars\\app\"",
     "format": "prettier --write \"src/**/*.{js,vue}\"",
     "ionic:build": "npm run build",

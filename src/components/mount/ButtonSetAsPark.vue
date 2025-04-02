@@ -15,7 +15,7 @@ async function setAsPark() {
   try {
     const response = await apiService.mountAction('set-park-position');
     console.log('setAsPark', response);
-    if (handleApiError(response, {title: 'Mount error',}) ) return;
+    if (handleApiError(response, { title: 'Mount error' })) return;
 
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';

@@ -49,7 +49,7 @@ async function unparkMount() {
   if (store.mountInfo.AtPark) {
     try {
       const response = await apiService.mountAction('unpark');
-      if (handleApiError(response, {title: 'Mount error',}) ) return;
+      if (handleApiError(response, { title: 'Mount error' })) return;
       await wait(2000);
       console.log(t('components.mount.control.unpark'));
     } catch (error) {

@@ -11,7 +11,6 @@
 </template>
 
 <script setup>
-/* eslint-disable */
 const props = defineProps({
   isEnabled: {
     type: Boolean,

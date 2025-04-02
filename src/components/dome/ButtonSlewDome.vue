@@ -32,8 +32,10 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { useErrorStore } from '@/store/errorStore';
 
 const store = apiStore();
+const errorStore = useErrorStore();
 const azimuth = ref(0);
 const isSlewing = ref(false);
 const statusClass = ref('');
@@ -44,6 +46,9 @@ async function slewDome() {
     console.log('Slew response:', response);
     if (response.StatusCode !== 200) {
      console.log('Error in slew response:', response);
+     errorStore.isError = true;
+      errorStore.errorTitle = 'Slew Error';
+      errorStore.errorMessage = response.Error || 'Unknown error occurred.';
      statusClass.value = 'glow-red';
     } else {
  

@@ -91,6 +91,8 @@
 
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
+    <!-- Error Modal -->
+    <ErrorModal  />
   </div>
 </template>
 
@@ -108,6 +110,7 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
+import ErrorModal from './components/helpers/ErrorModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

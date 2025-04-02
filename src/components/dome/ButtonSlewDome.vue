@@ -38,17 +38,14 @@ const azimuth = ref(0);
 const isSlewing = ref(false);
 
 async function slewDome() {
+  isSlewing.value = true;
   try {
     const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
 
-    if (
-      handleApiError(response, {
-        title: 'Slew Error',
-      })
-    )
+    if (handleApiError(response, { title: 'Slew Error' })) {
+      isSlewing.value = false;
       return;
-
-    isSlewing.value = true;
+    }
 
     if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
       console.log('Slewing to the same azimuth, stopping slew.');
@@ -64,8 +61,8 @@ async function slewDome() {
 
 watch(
   () => store.domeInfo.Azimuth,
-  (newValue) => {
-    if (newValue.toFixed(0) === azimuth.value.toFixed(0)) {
+  () => {
+    if (parseFloat(store.domeInfo.Azimuth).toFixed(0) === parseFloat(azimuth.value).toFixed(0)) {
       console.log('Slewing to the same azimuth, stopping slew.');
       isSlewing.value = false;
     }

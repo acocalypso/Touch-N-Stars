@@ -13,9 +13,6 @@ export default defineConfig([
     '**/Logo/**',
     '**/resources/**',
     '**/scripts/**',
-    'babel.config.js',
-    'eslint.config.js',
-    'postcss.config.js',
   ]),
 
   {
@@ -23,7 +20,7 @@ export default defineConfig([
     languageOptions: {
       parser: vueParser,
       parserOptions: {
-        parser: 'espree', 
+        parser: 'espree',
         ecmaVersion: 'latest',
         sourceType: 'module',
       },

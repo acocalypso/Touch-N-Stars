@@ -14,7 +14,6 @@
       />
       <button
         class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-800 items-center justify-center disabled:opacity-50"
-        :class="statusClass"
         @click="slewDome"
         :disabled="store.domeInfo.Slewing || isSlewing"
       >
@@ -32,13 +31,12 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { useErrorStore } from '@/store/errorStore';
+import { useToastStore } from '@/store/toastStore';
 
 const store = apiStore();
-const errorStore = useErrorStore();
+const toastStore = useToastStore();
 const azimuth = ref(0);
 const isSlewing = ref(false);
-const statusClass = ref('');
 
 async function slewDome() {
   try {
@@ -46,10 +44,11 @@ async function slewDome() {
     console.log('Slew response:', response);
     if (response.StatusCode !== 200) {
      console.log('Error in slew response:', response);
-     errorStore.isError = true;
-      errorStore.errorTitle = 'Slew Error';
-      errorStore.errorMessage = response.Error || 'Unknown error occurred.';
-     statusClass.value = 'glow-red';
+     toastStore.showToast({
+        type: 'error',
+        title: 'Slew Error',
+        message: response.Error
+      });
     } else {
  
     isSlewing.value = true;
@@ -64,9 +63,6 @@ async function slewDome() {
     isSlewing.value = false;
     console.log('Error stopping slew:', error);
   }
-  setTimeout(() => {
-    statusClass.value = '';
-  }, 1000);
 }
 
 watch(
@@ -89,10 +85,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.glow-green {
-  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
-}
-.glow-red {
-  box-shadow: 0 0 10px rgb(255, 0, 0); /* Roter Schein */
-}
+
 </style>

@@ -110,7 +110,7 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
-import ErrorModal from './components/helpers/ErrorModal.vue';
+import ErrorModal from './components/helpers/ToastModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

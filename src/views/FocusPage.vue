@@ -50,7 +50,7 @@
             {{ $t('components.focuser.cancel_autofocus') }}
           </button>
         </div>
-        
+
         <div class="flex items-center space-x-3 mt-4">
           <div class="w-3 h-[1px] bg-gray-700"></div>
           <!-- kurze Linie -->
@@ -84,8 +84,8 @@
             v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph"
             role="status"
             class="flex flex-col items-center mt-4 p-4 min-h-28 bg-gray-800/50 rounded-lg border border-gray-700/50"
-          > 
-          <AfStatus />
+          >
+            <AfStatus />
           </div>
           <div v-else-if="!store.focuserAfInfo.afError">
             <p class="mb-4 text-center">{{ $t('components.focuser.last_autofocus') }}</p>

@@ -1,0 +1,93 @@
+2025-04-03T11:44:14.1311|INFO|AutoFocusEngine.cs|RunAutoFocus|951|Starting AutoFocus with initial position 24937
+2025-04-03T11:44:14.1369|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:44:18.1738|INFO|AutoFocusEnginse.cs|StartBlindFocusPoints|792|Waiting on initial HFR analysis
+2025-04-03T11:44:18.1780|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25937
+2025-04-03T11:44:18.9604|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.560529206002532, HFR MAD: 0.038394365507392836, Detected Stars 202, Region: 0
+2025-04-03T11:44:24.9860|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:44:29.0476|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25687
+2025-04-03T11:44:29.5062|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.5852889128627785, HFR MAD: 0.4853054596781785, Detected Stars 157, Region: 0
+2025-04-03T11:44:32.9404|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:44:37.0078|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25437
+2025-04-03T11:44:37.4565|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.143327958884024, HFR MAD: 0.35402091992180873, Detected Stars 232, Region: 0
+2025-04-03T11:44:40.9823|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:44:45.2338|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25187
+2025-04-03T11:44:45.6864|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 2.5029039250086247, HFR MAD: 0.21319538326160314, Detected Stars 346, Region: 0
+2025-04-03T11:44:48.9418|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:44:52.9872|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|820|Waiting on initial focuser move analyses
+2025-04-03T11:44:53.4336|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.8248019108659606, HFR MAD: 0.0983886742774629, Detected Stars 402, Region: 0
+2025-04-03T11:44:53.4501|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24937
+2025-04-03T11:44:56.9532|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:45:00.9982|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T11:45:01.4473|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.5631015128708878, HFR MAD: 0.03808973343129418, Detected Stars 197, Region: 0
+2025-04-03T11:45:01.4512|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24687
+2025-04-03T11:45:04.9827|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:45:09.1531|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T11:45:09.5972|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.9052746419620028, HFR MAD: 0.09283961543686958, Detected Stars 400, Region: 0
+2025-04-03T11:45:09.6032|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24437
+2025-04-03T11:45:12.9342|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:45:17.0615|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T11:45:17.5179|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 2.521652345361842, HFR MAD: 0.2697874922436956, Detected Stars 346, Region: 0
+2025-04-03T11:45:17.5212|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24187
+2025-04-03T11:45:20.9422|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:45:25.0993|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T11:45:25.5462|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.130944876142689, HFR MAD: 0.3845806503540903, Detected Stars 236, Region: 0
+2025-04-03T11:45:25.5492|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 23937
+2025-04-03T11:45:28.9504|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:45:32.9970|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T11:45:33.4405|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.6448954178337054, HFR MAD: 0.4866349595963877, Detected Stars 147, Region: 0
+2025-04-03T11:45:33.4456|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|846|Enough left trend points (4) with an established minimum (24937) to queue remaining right focus points up to 25937
+2025-04-03T11:45:33.4456|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|919|Waiting on remaining AutoFocus analysis tasks
+2025-04-03T11:45:33.4514|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24975
+2025-04-03T11:45:38.9660|INFO|AutoFocusEngine.cs|ValidateCalculatedFocusPosition|1159|Validating HFR at final focus position 24975
+2025-04-03T11:45:38.9675|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T11:45:43.4655|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.5706243639034438, HFR MAD: 0.03915181784699029, Detected Stars 194, Region: 0
+2025-04-03T11:45:43.4685|INFO|HocusFocusVM.cs|AutoFocusEngine_Completed|472|AutoFocus completed with focuser starting at 24937 and ending at 24975
+2025-04-03T11:45:43.5011|INFO|BackgroundWorker.cs|OnAFFileChanged|91|Found new AF report
+2025-04-03T11:45:43.5017|INFO|FocuserMediator.cs|BroadcastSuccessfulAutoFocusRun|45|Autofocus notification received - Temperature 1.9999999999999927
+2025-04-03T11:45:43.5090|INFO|FilterWheelVM.cs|Disconnect|324|Disconnected Filter Wheel
+2025-04-03T12:50:59.5359|INFO|FramingAssistantVM.cs|LoadImage|1072|Loading image from source SKYATLAS with field of view 2° for coordinates RA: 00:04:00; Dec: 01° 00' 00"; Epoch: J2000
+2025-04-03T12:51:00.0194|INFO|FramingAssistantVM.cs|LoadImage|1072|Loading image from source SKYATLAS with field of view 2° for coordinates RA: 00:04:00; Dec: 01° 00' 00"; Epoch: J2000
+2025-04-03T15:00:15.3139|INFO|AutoFocusEngine.cs|RunAutoFocus|951|Starting AutoFocus with initial position 24975
+2025-04-03T15:00:15.3196|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:00:19.5524|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|792|Waiting on initial HFR analysis
+2025-04-03T15:00:19.5537|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25975
+2025-04-03T15:00:20.1163|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.5560501134387177, HFR MAD: 0.0309490327158517, Detected Stars 201, Region: 0
+2025-04-03T15:00:24.9474|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:00:28.9985|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25725
+2025-04-03T15:00:29.4997|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.6189206142326014, HFR MAD: 0.5018026114342602, Detected Stars 151, Region: 0
+2025-04-03T15:00:32.9520|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:00:36.9824|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25475
+2025-04-03T15:00:37.4575|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.182898173470401, HFR MAD: 0.38325710014273895, Detected Stars 229, Region: 0
+2025-04-03T15:00:40.9519|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:00:45.1810|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 25225
+2025-04-03T15:00:45.6421|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 2.603172310106892, HFR MAD: 0.23165291827075807, Detected Stars 326, Region: 0
+2025-04-03T15:00:48.9348|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:00:53.0164|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|820|Waiting on initial focuser move analyses
+2025-04-03T15:00:53.5037|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.9183728997920584, HFR MAD: 0.11335773618826606, Detected Stars 410, Region: 0
+2025-04-03T15:00:53.5070|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24975
+2025-04-03T15:00:56.9383|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:01:01.0388|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T15:01:01.5078|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.5563529935826446, HFR MAD: 0.03622997291462471, Detected Stars 200, Region: 0
+2025-04-03T15:01:01.5110|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24725
+2025-04-03T15:01:04.9435|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:01:09.1854|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T15:01:09.6644|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.800824551161915, HFR MAD: 0.09607692652135347, Detected Stars 407, Region: 0
+2025-04-03T15:01:09.6719|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24475
+2025-04-03T15:01:12.9435|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:01:17.1849|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T15:01:17.8152|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 2.467257707046543, HFR MAD: 0.22147562593734627, Detected Stars 356, Region: 0
+2025-04-03T15:01:17.8342|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24225
+2025-04-03T15:01:20.9637|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:01:25.2778|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T15:01:25.7655|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.0982844390983204, HFR MAD: 0.3701744196927792, Detected Stars 239, Region: 0
+2025-04-03T15:01:25.7685|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 23975
+2025-04-03T15:01:28.9595|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:01:33.0841|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|893|Waiting on next left movement analysis
+2025-04-03T15:01:33.7084|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 3.540216807831832, HFR MAD: 0.5103279355250407, Detected Stars 159, Region: 0
+2025-04-03T15:01:33.7098|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|846|Enough left trend points (4) with an established minimum (24975) to queue remaining right focus points up to 25975
+2025-04-03T15:01:33.7098|INFO|AutoFocusEngine.cs|StartBlindFocusPoints|919|Waiting on remaining AutoFocus analysis tasks
+2025-04-03T15:01:33.7109|INFO|FocuserVM.cs|MoveFocuserInternal|213|Moving Focuser to position 24938
+2025-04-03T15:01:38.9337|INFO|AutoFocusEngine.cs|ValidateCalculatedFocusPosition|1159|Validating HFR at final focus position 24938
+2025-04-03T15:01:38.9349|INFO|CameraVM.cs|Capture|737|Starting Exposure - Exposure Time: 3s; Filter: ; Gain: 101; Offset -1; Binning: 1x1;
+2025-04-03T15:01:43.4498|INFO|HocusFocusStarDetection.cs|Detect|410|Average HFR: 1.5585781177680478, HFR MAD: 0.03309983002619821, Detected Stars 195, Region: 0
+2025-04-03T15:01:43.4500|INFO|HocusFocusVM.cs|AutoFocusEngine_Completed|472|AutoFocus completed with focuser starting at 24975 and ending at 24938

@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { useLogStore } from '@/store/logStore';
 import { useI18n } from 'vue-i18n';
 import { formatTime } from '@/utils/utils';

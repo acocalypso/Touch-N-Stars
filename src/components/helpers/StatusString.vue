@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   isEnabled: {
     type: Boolean,
     default: true,

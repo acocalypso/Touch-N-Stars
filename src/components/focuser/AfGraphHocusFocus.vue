@@ -8,7 +8,6 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useLogStore } from '@/store/logStore';
-import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -16,7 +15,6 @@ Chart.register(...registerables);
 const chartRef = ref(null);
 let chartInstance = null;
 
-const { t } = useI18n();
 const logStore = useLogStore();
 let lastProcessedTimestamp = null;
 const lastMessages = ref([]);

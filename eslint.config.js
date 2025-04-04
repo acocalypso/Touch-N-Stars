@@ -39,6 +39,15 @@ export default defineConfig([
       'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
+      'no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          args: 'after-used',
+          ignoreRestSiblings: false,
+          caughtErrors: 'none', // <- HIER
+        },
+      ],
     },
   },
 ]);

@@ -106,7 +106,7 @@ import LastSequenceImg from '@/components/sequence/LastSequenceImg.vue';
 import SequenzGraph from '@/components/sequence/SequenzGraph.vue';
 import GuiderGraph from '@/components/guider/GuiderGraph.vue';
 import GuiderStats from '@/components/guider/GuiderStats.vue';
-import AutofocusGrafik from '@/components/focuser/AutofocusGrafik.vue';
+import AutofocusGrafik from '@/components/focuser/AfFnishGraph.vue';
 import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';

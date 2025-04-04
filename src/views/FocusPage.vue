@@ -78,19 +78,21 @@
           <div class="flex-grow h-[1px] bg-gray-700"></div>
           <!-- lange Linie -->
         </div>
-        <AfGraphHocusFocus />
         <div v-show="store.showAfGraph" class="mt-6">
           <!--AfStatus-->
-          <div
-            v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph"
-            role="status"
-            class="flex flex-col items-center mt-4 p-4 min-h-28 bg-gray-800/50 rounded-lg border border-gray-700/50"
-          >
-            <AfStatus />
+          <div v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph">
+            <div>
+              <AfGraphHocusFocus />
+            </div>
+            <div
+              class="flex flex-col items-center mt-4 p-4 min-h-28 bg-gray-800/50 rounded-lg border border-gray-700/50"
+            >
+              <AfStatus />
+            </div>
           </div>
           <div v-else-if="!store.focuserAfInfo.afError">
             <p class="mb-4 text-center">{{ $t('components.focuser.last_autofocus') }}</p>
-            <AutofocusGrafik class="flex-grow h-screen" />
+            <AfFnishGraph class="flex-grow h-screen" />
           </div>
           <div v-else class="text-center text-red-600">
             <p>{{ $t('components.focuser.autofocus_error') }}</p>
@@ -106,7 +108,7 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import infoFocuser from '@/components/focuser/infoFocuser.vue';
-import AutofocusGrafik from '@/components/focuser/AutofocusGrafik.vue';
+import AfFnishGraph from '@/components/focuser/AfFnishGraph.vue';
 import { apiStore } from '@/store/store';
 import AfStatus from '@/components/focuser/AfStatus.vue';
 import AfGraphHocusFocus from '@/components/focuser/AfGraphHocusFocus.vue';

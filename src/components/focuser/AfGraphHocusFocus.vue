@@ -1,18 +1,20 @@
 <template>
-  <div class="text-md text-gray-400 pb-2">{{ $t('components.tppa.last_messages') }}:</div>
-  <ul>
-    <li
-      v-for="(msg, index) in lastMessages.slice().reverse()"
-      :key="index"
-      :style="{ color: msg.color }"
-    >
-      <template v-if="index === 0">
-        <span class="spinner"></span>
-      </template>
-      <template v-else> {{ formatTime(msg.timestamp) }} - </template>
-      {{ msg.message }}
-    </li>
-  </ul>
+<ul>
+  <li
+    v-for="(msg, index) in lastMessages.slice().reverse()"
+    :key="index"
+    :style="{ color: msg.color || '#ccc' }"
+  >
+
+    <template> {{ formatTime(msg.timestamp) }} - </template>
+
+    <div>
+      <span v-if="msg.position !== null">Position: {{ msg.position }}</span>
+      <span v-if="msg.hfr !== null"> | HFR: {{ msg.hfr.toFixed(2) }}</span>
+      <span v-if="msg.hfrMad !== null"> | MAD: {{ msg.hfrMad.toFixed(2) }}</span>
+    </div>
+  </li>
+</ul>
 </template>
 
 <script setup>
@@ -23,8 +25,10 @@ import { formatTime } from '@/utils/utils';
 
 const { t } = useI18n();
 const logStore = useLogStore();
-let lastProcessedTimestamp = new Date();
+let lastProcessedTimestamp = null;
 const lastMessages = ref([]);
+let lastKnownPosition = null; // Hier merken wir uns die letzte gesetzte Position
+let lastPositionTimestamp = null;
 
 // Beobachte Log-Änderungen:
 watch(
@@ -32,44 +36,48 @@ watch(
   (newLogs) => {
     if (!newLogs || newLogs.length === 0) return;
 
-    // Sortiere aufsteigend nach Timestamp:
     const sortedLogs = [...newLogs].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
     for (const entry of sortedLogs) {
-      // Nur neue Einträge
       if (lastProcessedTimestamp && new Date(entry.timestamp) <= new Date(lastProcessedTimestamp)) {
         continue;
       }
-      let message;
-      let color = 'inherit';
 
-      
+      const positionMatch = entry.message.match(/Moving Focuser to position (\d+)/);
+      const hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR MAD: ([\d.]+)/);
 
-      if (entry.message.includes('Moving Focuser to position')) {
-        message = entry.message;
-      } else if (entry.message.includes('Starting Exposure')) { 
-        message = t('components.tppa.capture_running');
-      } else if (entry.message.includes('AutoFocus complete')) { 
-        message = entry.message;
-        color = 'green';
-      } else if (entry.message.includes('AutoFocus did not complete successfully')) { 
-        message = entry.message;
-        color = 'orange';
-      } else {
-        // Nicht relevante Logs überspringen
-        continue;
+      // Focuser wurde bewegt → Position merken
+      if (positionMatch && !lastKnownPosition) {
+        lastKnownPosition = parseInt(positionMatch[1], 10);
+        console.log('lastKnownPosition', lastKnownPosition ,  entry.timestamp)
+        lastPositionTimestamp = new Date(entry.timestamp);
       }
-      // Speichere Einträge (max. 3)
-      lastMessages.value.push({
-        timestamp: entry.timestamp,
-        message,
-        line: entry.line,
-        color,
-      });
 
-      if (lastMessages.value.length > 3) {
+      // HFR erkannt → letzte bekannte Position mit speichern
+      if (hfrMatch && lastPositionTimestamp) {
+        const hfr = parseFloat(hfrMatch[1]);
+        const hfrMad = parseFloat(hfrMatch[2]);
+        const entryTimestamp = new Date(entry.timestamp);
+        const timeDiff= (entryTimestamp - lastPositionTimestamp) / 1000;
+        if (timeDiff > 2){
+        console.log('timeDiff' , timeDiff)
+        console.log('hfr', hfr ,  entry.timestamp)
+        lastMessages.value.push({
+          timestamp: entry.timestamp,
+          position: lastKnownPosition, // letzte bekannte Position anhängen
+          hfr,
+          hfrMad
+        });
+        lastKnownPosition = null;
+        lastPositionTimestamp = null;
+      }
+      }
+
+      // Optional: Liste kürzen
+      if (lastMessages.value.length > 10) {
         lastMessages.value.shift();
       }
+      //console.log(lastMessages.value);
       lastProcessedTimestamp = entry.timestamp;
     }
   },

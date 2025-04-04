@@ -43,16 +43,14 @@ watch(
       let message;
       let color = 'inherit';
 
-      
-
       if (entry.message.includes('Moving Focuser to position')) {
         message = entry.message;
-      } else if (entry.message.includes('Starting Exposure')) { 
+      } else if (entry.message.includes('Starting Exposure')) {
         message = t('components.tppa.capture_running');
-      } else if (entry.message.includes('AutoFocus complete')) { 
+      } else if (entry.message.includes('AutoFocus complete')) {
         message = entry.message;
         color = 'green';
-      } else if (entry.message.includes('AutoFocus did not complete successfully')) { 
+      } else if (entry.message.includes('AutoFocus did not complete successfully')) {
         message = entry.message;
         color = 'orange';
       } else {
@@ -75,9 +73,6 @@ watch(
   },
   { deep: true }
 );
-onMounted(() => {
-
-});
 </script>
 
 <style scoped>

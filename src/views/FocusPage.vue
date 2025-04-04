@@ -82,6 +82,7 @@
           <!--AfStatus-->
           <div v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph">
             <div>
+              <!--   <AfGraphNinaFocus/> -->
               <AfGraphHocusFocus />
             </div>
             <div
@@ -112,6 +113,7 @@ import AfFnishGraph from '@/components/focuser/AfFnishGraph.vue';
 import { apiStore } from '@/store/store';
 import AfStatus from '@/components/focuser/AfStatus.vue';
 import AfGraphHocusFocus from '@/components/focuser/AfGraphHocusFocus.vue';
+import AfGraphNinaFocus from '@/components/focuser/AfGraphNinaFocus.vue';
 
 const store = apiStore();
 const position = ref(0);
@@ -132,6 +134,8 @@ async function moveFocuser() {
 async function startAutofocus() {
   try {
     await apiService.focuserAfAction('start');
+    store.afTimestampLastStart = Date.now(); // Setze den Zeitstempel des letzten Starts
+    store.afCurveData = []; // Leere die Kurvendaten
   } catch (error) {
     console.error('Fehler beim Autofokus', error);
   }

@@ -80,7 +80,6 @@
         </div>
         <AfGraphHocusFocus />
         <div v-show="store.showAfGraph" class="mt-6">
-          
           <!--AfStatus-->
           <div
             v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph"

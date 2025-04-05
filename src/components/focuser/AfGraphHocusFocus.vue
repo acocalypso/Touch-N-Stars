@@ -42,18 +42,7 @@ function updateChart() {
             cubicInterpolationMode: 'default',
             pointRadius: 4,
             pointStyle: 'circle',
-            segment: {
-              borderDash: (ctx) => {
-                const totalPoints = ctx.chart.data.datasets[0].data.length;
-                if (
-                  ctx.p0DataIndex === totalPoints - 2 &&
-                  ctx.p1DataIndex === totalPoints - 1
-                ) {
-                  return [5, 5]; // gestrichelte Linie
-                }
-                return undefined;
-              },
-            },
+ 
           },
         ],
       },
@@ -107,8 +96,10 @@ watch(
       // Neuer Autofokus-Start → Array zurücksetzen
       if (processedTimestampMatch) {
         lastPositionTimestamp = new Date(entry.timestamp);
+        lastKnownPosition = parseInt(processedTimestampMatch[1], 10);
         lastMessages.value = []; 
-        console.log('Neuer Autofokus-Start, lastPositionTimestamp:', lastPositionTimestamp);
+
+        console.log('Neuer Autofokus-Start, lastPositionTimestamp:', lastPositionTimestamp, 'lastKnownPosition' ,lastKnownPosition);
       }
 
       // Focuser wurde bewegt → Position merken
@@ -123,8 +114,8 @@ watch(
         const hfr = parseFloat(hfrMatch[1]);
         const hfrMad = parseFloat(hfrMatch[2]);
         const entryTimestamp = new Date(entry.timestamp);
-        const timeDiff = (entryTimestamp - lastPositionTimestamp) / 1000;
-        if (timeDiff > 2) {
+        const timeDiff = (entryTimestamp - lastPositionTimestamp) ;
+        if (timeDiff > 1000) {
           console.log('timeDiff:', timeDiff);
           console.log('HFR:', hfr, 'Zeitpunkt:', entry.timestamp);
           lastMessages.value.push({
@@ -146,10 +137,8 @@ watch(
 
       lastProcessedTimestamp = entry.timestamp;
     }
-
-    console.log('lastMessages:', lastMessages.value);
     lastMessages.value.sort((a, b) => a.position - b.position);
-    console.log('lastMessagessort:', lastMessages.value);
+   
 
     // Anschließend aktualisieren wir den Chart:
     updateChart();

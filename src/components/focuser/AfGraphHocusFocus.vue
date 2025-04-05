@@ -18,7 +18,7 @@ let chartInstance = null;
 const logStore = useLogStore();
 let lastProcessedTimestamp = null;
 const lastMessages = ref([]);
-let lastKnownPosition = null; // Hier merken wir uns die letzte gesetzte Position
+let lastKnownPosition = null; 
 let lastPositionTimestamp = null;
 
 // Funktion zum Zeichnen/Updaten des Charts
@@ -45,7 +45,10 @@ function updateChart() {
             segment: {
               borderDash: (ctx) => {
                 const totalPoints = ctx.chart.data.datasets[0].data.length;
-                if (ctx.p0DataIndex === totalPoints - 2 && ctx.p1DataIndex === totalPoints - 1) {
+                if (
+                  ctx.p0DataIndex === totalPoints - 2 &&
+                  ctx.p1DataIndex === totalPoints - 1
+                ) {
                   return [5, 5]; // gestrichelte Linie
                 }
                 return undefined;
@@ -85,7 +88,10 @@ watch(
   (newLogs) => {
     if (!newLogs || newLogs.length === 0) return;
 
-    const sortedLogs = [...newLogs].sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    // Logs zuerst nach Timestamp sortieren, damit wir sie chronologisch durchgehen
+    const sortedLogs = [...newLogs].sort(
+      (a, b) => new Date(a.timestamp) - new Date(b.timestamp)
+    );
 
     for (const entry of sortedLogs) {
       if (lastProcessedTimestamp && new Date(entry.timestamp) <= new Date(lastProcessedTimestamp)) {
@@ -98,17 +104,18 @@ watch(
       const positionMatch = entry.message.match(/Moving Focuser to position (\d+)/);
       const hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR MAD: ([\d.]+)/);
 
+      // Neuer Autofokus-Start → Array zurücksetzen
       if (processedTimestampMatch) {
         lastPositionTimestamp = new Date(entry.timestamp);
-        lastMessages.value = []; // Liste zurücksetzen, wenn ein neuer Autofokus gestartet wird
-        console.log('lastPositionTimestamp gesetzt auf:', lastPositionTimestamp);
+        lastMessages.value = []; 
+        console.log('Neuer Autofokus-Start, lastPositionTimestamp:', lastPositionTimestamp);
       }
 
       // Focuser wurde bewegt → Position merken
       if (positionMatch && !lastKnownPosition) {
         lastKnownPosition = parseInt(positionMatch[1], 10);
-        console.log('lastKnownPosition', lastKnownPosition, entry.timestamp);
         lastPositionTimestamp = new Date(entry.timestamp);
+        console.log('lastKnownPosition', lastKnownPosition, entry.timestamp);
       }
 
       // HFR erkannt → letzte bekannte Position mit speichern
@@ -118,14 +125,15 @@ watch(
         const entryTimestamp = new Date(entry.timestamp);
         const timeDiff = (entryTimestamp - lastPositionTimestamp) / 1000;
         if (timeDiff > 2) {
-          console.log('timeDiff', timeDiff);
-          console.log('hfr', hfr, entry.timestamp);
+          console.log('timeDiff:', timeDiff);
+          console.log('HFR:', hfr, 'Zeitpunkt:', entry.timestamp);
           lastMessages.value.push({
             timestamp: entry.timestamp,
-            position: lastKnownPosition, // letzte bekannte Position anhängen
+            position: lastKnownPosition,
             hfr,
             hfrMad,
           });
+          // Reset
           lastKnownPosition = null;
           lastPositionTimestamp = null;
         }
@@ -135,10 +143,16 @@ watch(
       if (lastMessages.value.length > 50) {
         lastMessages.value.shift();
       }
-      //console.log(lastMessages.value);
+
       lastProcessedTimestamp = entry.timestamp;
     }
-    updateChart(); // immer aktualisieren, wenn neue Logs da sind
+
+    console.log('lastMessages:', lastMessages.value);
+    lastMessages.value.sort((a, b) => a.position - b.position);
+    console.log('lastMessagessort:', lastMessages.value);
+
+    // Anschließend aktualisieren wir den Chart:
+    updateChart();
   },
   { deep: true }
 );
@@ -149,11 +163,11 @@ onMounted(() => {
   if (logs && logs.length > 0) {
     const matchingLogs = logs
       .filter((entry) => entry.message.includes('Starting AutoFocus with initial position'))
-      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // nach Datum absteigend
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)); // Datum absteigend
 
     if (matchingLogs.length > 0) {
       lastProcessedTimestamp = new Date(matchingLogs[0].timestamp);
-      console.log('Initial lastPositionTimestamp gesetzt auf:', lastProcessedTimestamp);
+      console.log('Initial lastProcessedTimestamp:', lastProcessedTimestamp);
     }
   }
 });

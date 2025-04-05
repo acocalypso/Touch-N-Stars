@@ -78,6 +78,7 @@
           <div class="flex-grow h-[1px] bg-gray-700"></div>
           <!-- lange Linie -->
         </div>
+        <AfGraphHocusFocus />
         <div v-show="store.showAfGraph" class="mt-6">
           <!--AfStatus-->
           <div v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph">

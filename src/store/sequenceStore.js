@@ -75,6 +75,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
+        console.log('Länge:', keysCount, 'StatusCode:', response?.StatusCode);
 
         //console.log(response);
         if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 2000) {

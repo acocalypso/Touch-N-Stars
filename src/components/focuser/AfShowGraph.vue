@@ -26,10 +26,8 @@ watch(
       if (startMatch) {
         isHocusFocus.value = true;
         console.log('Hocus Focus läuft');
-      } 
+      }
     }
-
-
   },
   { deep: true }
 );

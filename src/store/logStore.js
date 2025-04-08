@@ -6,7 +6,7 @@ export const useLogStore = defineStore('LogStore', {
   state: () => ({
     intervalId: null,
     LogsInfo: {
-      logs: [], 
+      logs: [],
     },
     canSetPos: true,
     foundPos: 0,

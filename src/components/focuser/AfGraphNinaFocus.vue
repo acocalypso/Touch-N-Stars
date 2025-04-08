@@ -44,7 +44,6 @@ function updateChart() {
             cubicInterpolationMode: 'default',
             pointRadius: 4,
             pointStyle: 'circle',
-    
           },
         ],
       },
@@ -88,9 +87,9 @@ watch(
 
       const positionMatch = entry.message.match(/Moving Focuser to position (\d+)/);
       let hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR σ: ([\d.]+)/);
-        if (!hfrMatch) {
-          hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR MAD: ([\d.]+)/);
-        }
+      if (!hfrMatch) {
+        hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR MAD: ([\d.]+)/);
+      }
 
       // Focuser wurde bewegt → Position merken
       if (positionMatch && !lastKnownPosition) {

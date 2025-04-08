@@ -8,8 +8,7 @@
 </template>
 
 <script setup>
-/* eslint-disable */
-const props = defineProps({
+defineProps({
   isEnabled: {
     type: Boolean,
     default: true,

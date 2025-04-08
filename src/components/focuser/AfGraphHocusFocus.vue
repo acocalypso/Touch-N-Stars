@@ -1,6 +1,6 @@
 <template>
   <!-- Chart -->
-  <div>
+  <div class="h-72 w-full">
     <canvas ref="chartRef"></canvas>
   </div>
 </template>
@@ -103,7 +103,7 @@ watch(
 
       if (hfrMatch) {
         if (pendingPositions.length === 0) {
-          console.warn('HFR erkannt, aber keine freie Position verfügbar:', entry.message);
+          console.log('HFR erkannt, aber keine freie Position verfügbar:', entry.message);
           continue;
         }
 

@@ -38,21 +38,13 @@ function updateChart() {
       data: {
         datasets: [
           {
-            label: 'AF-Graph',
+            label: 'AF-Graph_NINA',
             data: hfrData,
             tension: 0.3,
             cubicInterpolationMode: 'default',
             pointRadius: 4,
             pointStyle: 'circle',
-            segment: {
-              borderDash: (ctx) => {
-                const totalPoints = ctx.chart.data.datasets[0].data.length;
-                if (ctx.p0DataIndex === totalPoints - 2 && ctx.p1DataIndex === totalPoints - 1) {
-                  return [5, 5]; // gestrichelte Linie
-                }
-                return undefined;
-              },
-            },
+    
           },
         ],
       },
@@ -95,7 +87,10 @@ watch(
       }
 
       const positionMatch = entry.message.match(/Moving Focuser to position (\d+)/);
-      const hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR σ: ([\d.]+)/);
+      let hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR σ: ([\d.]+)/);
+        if (!hfrMatch) {
+          hfrMatch = entry.message.match(/Average HFR: ([\d.]+), HFR MAD: ([\d.]+)/);
+        }
 
       // Focuser wurde bewegt → Position merken
       if (positionMatch && !lastKnownPosition) {
@@ -123,13 +118,13 @@ watch(
           lastPositionTimestamp = null;
         }
       }
-      console.log('store.focuserAfInfo.autofocus_running', store.focuserAfInfo.autofocus_running);
       // Optional: Liste kürzen
       if (store.afCurveData.length > 50) {
         store.afCurveData.shift();
       }
       lastProcessedTimestamp = entry.timestamp;
     }
+    store.afCurveData.sort((a, b) => a.position - b.position);
     updateChart(); // immer aktualisieren, wenn neue Logs da sind
   },
   { deep: true }

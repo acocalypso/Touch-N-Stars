@@ -6,18 +6,14 @@ export const useLogStore = defineStore('LogStore', {
   state: () => ({
     intervalId: null,
     LogsInfo: {
-      logs: [], // Initialisiere logs als leeres Array
+      logs: [], 
     },
     canSetPos: true,
     foundPos: 0,
     foundPosTime: new Date(),
 
-    // Hier speichern wir kombinierte Objekte, z.B. { pos: 2100, hfr: 1.25 }
     focuserData: [],
-
     startAfTime: '',
-    // Wir merken uns den höchsten Timestamp, den wir schon verarbeitet haben,
-    // damit wir keine doppelten Einträge bekommen.
     lastHfrLogTime: 0,
   }),
 

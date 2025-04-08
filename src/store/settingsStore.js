@@ -91,15 +91,24 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     addInstance(instance) {
-      const newInstance = {
-        id: Date.now().toString(),
-        name: instance.name || 'Instance',
-        ip: instance.ip,
-        port: instance.port,
-      };
-      this.connection.instances.push(newInstance);
-      this.lastCreatedInstanceId = newInstance.id;
-      this.setSelectedInstanceId(newInstance.id);
+      const existingInstance = this.getInstanceByNameIpPort(
+        instance.name || 'Instance',
+        instance.ip,
+        instance.port
+      );
+      if (existingInstance) {
+        this.setSelectedInstanceId(existingInstance.id);
+      } else {
+        const newInstance = {
+          id: Date.now().toString(),
+          name: instance.name || 'Instance',
+          ip: instance.ip,
+          port: instance.port,
+        };
+        this.connection.instances.push(newInstance);
+        this.lastCreatedInstanceId = newInstance.id;
+        this.setSelectedInstanceId(newInstance.id);
+      }
     },
 
     isLastCreatedInstance(id) {
@@ -133,6 +142,12 @@ export const useSettingsStore = defineStore('settings', {
 
     getInstance(id) {
       return this.connection.instances.find((i) => i.id === id);
+    },
+
+    getInstanceByNameIpPort(name, ip, port) {
+      return this.connection.instances.find(
+        (i) => i.name === name && i.ip === ip && i.port === port
+      );
     },
 
     setSelectedInstanceId(id) {

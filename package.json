@@ -1,12 +1,15 @@
 {
-  "name": "nina-webapp",
+  "name": "touch-n-stars",
   "version": "1.6.4",
   "private": true,
+  "type": "module",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "testbuild": "vue-cli-service build --dest \"%LOCALAPPDATA%\\NINA\\Plugins\\3.0.0\\Touch 'N' Stars\\app\"",
+    "lint:eslint": "eslint . --ext .js,.vue",
+    "lint:fix": "eslint . --ext .js,.vue --fix",
+    "testbuild": "npm run lint:eslint && vue-cli-service build --no-lint --dest \"%LOCALAPPDATA%\\NINA\\Plugins\\3.0.0\\Touch 'N' Stars\\app\"",
     "format": "prettier --write \"src/**/*.{js,vue}\"",
     "ionic:build": "npm run build",
     "ionic:serve": "npm run serve",
@@ -33,7 +36,6 @@
     "chart.js": "^4.4.8",
     "core-js": "^3.41.0",
     "date-fns": "4.1.0",
-    "eslint": "^8.57.1",
     "file-saver": "^2.0.5",
     "i18n": "^0.15.1",
     "panzoom": "^9.4.3",
@@ -49,18 +51,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",
-    "@babel/eslint-parser": "^7.26.8",
     "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^10.0.2",
-    "eslint-plugin-prettier": "^5.2.3",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-vue": "^9.33.0",
-    "eslint-webpack-plugin": "^4.2.0",
     "lodash": "^4.17.21",
     "prettier": "^3.5.3",
-    "raw-loader": "^4.0.2"
+    "raw-loader": "^4.0.2",
+    "vue-eslint-parser": "^10.1.1"
   }
 }

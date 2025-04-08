@@ -7,6 +7,7 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
+import { handleApiError } from '@/utils/utils';
 
 const statusClass = ref('');
 
@@ -14,7 +15,7 @@ async function mountUnpark() {
   try {
     const response = await apiService.mountAction('unpark');
     console.log('mountUnpark', response);
-
+    if (handleApiError(response, { title: 'Mount error' })) return;
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';
   } catch (error) {

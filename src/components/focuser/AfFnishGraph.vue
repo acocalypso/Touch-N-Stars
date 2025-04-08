@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col">
     <div>
-      <canvas ref="chartCanvas" class="w-full h-full"></canvas>
+      <canvas ref="chartCanvas" class="w-full h-72 md:h-96 xl:h-[600px]"></canvas>
     </div>
     <div class="text-center mt-4">
       <p>{{ timestamp }}</p>

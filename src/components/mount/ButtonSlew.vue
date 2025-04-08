@@ -31,6 +31,7 @@ import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
 import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
+import { handleApiError } from '@/utils/utils';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -47,7 +48,8 @@ const emit = defineEmits(['finished']);
 async function unparkMount() {
   if (store.mountInfo.AtPark) {
     try {
-      await apiService.mountAction('unpark');
+      const response = await apiService.mountAction('unpark');
+      if (handleApiError(response, { title: 'Mount error' })) return;
       await wait(2000);
       console.log(t('components.mount.control.unpark'));
     } catch (error) {

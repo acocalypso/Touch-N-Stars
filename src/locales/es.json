@@ -92,8 +92,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "Connectar cámera",
-        "disconnect": "Desconnectar cámera",
         "error": "Error controlando cámera:"
       },
       "connectAll": "Connectar TODO",
@@ -106,49 +104,31 @@
         "error": "Error controlando filter wheel:"
       },
       "mount": {
-        "connect": "Conectar montura",
-        "disconnect": "Desconectar montura",
         "error": "Error controlando montura:"
       },
       "focuser": {
-        "connect": "Conectar enfocador",
-        "disconnect": "Desconectar enfocador",
         "error": "Error controlando enfocador:"
       },
       "rotator": {
-        "connect": "Conectar rotador",
-        "disconnect": "Desconectar rotador",
         "error": "Error controlando rotador:"
       },
       "guider": {
-        "connect": "Conectar guiado",
-        "disconnect": "Disconectar guiado",
         "error": "Error controlando guiado:"
       },
       "safety": {
-        "connect": "Conectar monitor seguridad",
-        "disconnect": "Desconectar monitor seguridad",
         "error": "Error controlando monitor seguridad"
       },
       "flat": {
-        "connect": "Conectar panel de flat",
-        "disconnect": "Desconectar panel de flat",
         "error": "Error controlando panel de flat:",
         "name": "Evidente"
       },
       "dome": {
-        "connect": "Conectar cúpula",
-        "disconnect": "Desconectar cúpula",
         "error": "Error controlando cúpula:"
       },
       "switch": {
-        "connect": "Conectar relais",
-        "disconnect": "Desconectar relais",
         "error": "Error controlando relais"
       },
       "weather": {
-        "connect": "Connect monitor tiempo",
-        "disconnect": "Desconectar monitor tiempo",
         "error": "Error controlando monitor tiempo",
         "name": "Clima"
       }

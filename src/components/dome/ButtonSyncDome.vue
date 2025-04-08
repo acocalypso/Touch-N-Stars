@@ -15,12 +15,21 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { handleApiError } from '@/utils/utils';
 
 const store = apiStore();
 
 async function syncTelescope() {
   try {
-    await apiService.domeAction('sync');
+    const response = await apiService.domeAction('sync');
+    console.log('syncing telescope', response);
+    if (
+      handleApiError(response, {
+        title: 'Sync Error',
+      })
+    )
+      return;
+
     console.log('telescope synced');
   } catch (error) {
     console.log('telescope sync error');

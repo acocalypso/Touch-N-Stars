@@ -93,8 +93,6 @@
     },
     "connectEquipment": {
       "camera": {
-        "connect": "Kamera verbinden",
-        "disconnect": "Kamera trennen",
         "error": "Fehler bei der Steuerung der Kamera:",
         "name": "Kamera"
       },
@@ -109,56 +107,38 @@
         "name": "Filterrad"
       },
       "mount": {
-        "connect": "Montierung verbinden",
-        "disconnect": "Montierung trennen",
         "error": "Fehler bei der Steuerung der Montierung:",
         "name": "Montierung"
       },
       "focuser": {
-        "connect": "Fokussierer verbinden",
-        "disconnect": "Fokussierer trennen",
         "error": "Fehler bei der Steuerung des Fokussierers:",
         "name": "Fokusierer"
       },
       "rotator": {
-        "connect": "Rotator verbinden",
-        "disconnect": "Rotator trennen",
         "error": "Fehler bei der Steuerung des Rotators:",
         "name": "Rotator"
       },
       "guider": {
-        "connect": "Guider verbinden",
-        "disconnect": "Guider trennen",
         "error": "Fehler bei der Steuerung des Guiders:",
         "name": "Guider"
       },
       "safety": {
-        "connect": "Sicherheitsmonitor verbinden",
-        "disconnect": "Sicherheitsmonitor trennen",
         "error": "Fehler bei der Steuerung des Sicherheitsmonitors",
         "name": "Sicherheitsmonitor"
       },
       "flat": {
-        "connect": "Flatpanel verbinden",
-        "disconnect": "Flatpanel trennen",
         "error": "Fehler bei der Steuerung des Flatpanels:",
         "name": "FlatDevice"
       },
       "dome": {
-        "connect": "Kuppel verbinden",
-        "disconnect": "Kuppel trennen",
         "error": "Fehler bei der Steuerung der Kuppel:",
         "name": "Kuppel"
       },
       "switch": {
-        "connect": "Switch verbinden",
-        "disconnect": "Switch trennen",
         "error": "Fehler bei der Steuerung des Switches",
         "name": "Schalter"
       },
       "weather": {
-        "connect": "Wetterstation verbinden",
-        "disconnect": "Wetterstation trennen",
         "error": "Fehler bei der Steuerung der Wetterstation",
         "name": "Wetter"
       },
@@ -272,7 +252,8 @@
           "tracking": "Fehler beim Einstellen des Nachführungsmodus"
         },
         "set_as_park": "Parkposition setzten",
-        "info_manuell_controll": "Die manuelle Steuerung steht nur zur Verfügung, wenn die Nachführung nicht aktiv ist."
+        "info_manuell_controll": "Die manuelle Steuerung steht nur zur Verfügung, wenn die Nachführung nicht aktiv ist.",
+        "slew_to_cenit": "Zum Zenit schwenken"
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -335,8 +316,11 @@
           "stop": "Fehler beim Stoppen der Verschlussbewegung"
         },
         "slew": "Schwenken",
-        "slew_label": "Schwenke zu Grad"
-      }
+        "slew_label": "Schwenke zu Grad",
+        "follow": "Dome folgt dem Teleskop",
+        "sync": "Sync mit Teleskop"
+      },
+      "please_connect_dome": "Bitte verbinden Sie die Kuppel"
     },
     "camera": {
       "title": "Kamera",

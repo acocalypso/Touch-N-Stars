@@ -69,23 +69,22 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     checkForSpecialNamesRecursive(items) {
       if (!items || !Array.isArray(items)) return false;
-    
+
       for (const item of items) {
         const name = typeof item?.Name === 'string' ? item.Name : '';
-    
+
         if (name.includes('Target Scheduler') || name.includes('+_Container')) {
           return true;
         }
-    
+
         // rekursiv in verschachtelten Items weitersuchen
         if (item.Items && this.checkForSpecialNamesRecursive(item.Items)) {
           return true;
         }
       }
-    
+
       return false;
     },
-    
 
     async getSequenceInfo() {
       let response = null;
@@ -95,7 +94,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         const foundUnsupportedPlugins = response.Response?.some((response) =>
           this.checkForSpecialNamesRecursive(response.Items)
         );
-        
+
         if (foundUnsupportedPlugins) {
           this.sequenceIsEditable = false;
           console.log('Found unsupported plugins');

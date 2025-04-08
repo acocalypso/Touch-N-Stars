@@ -10,11 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequenceimage: Add download function
 - Dome: Add Slew and Sync
 - Add ToastModal 
+- Focuser: Add autofocus graph 
 
 ### Changed
 - CaptureButton created and integrated into CameraView 
 - CameraView is no longer locked when a sequence is running. Capturing only is not possible
 - Manual Mountcontroll is permanently visible
+- Update Eslint to 9
 
 ### Fixed
 - Avoid duplicate NINA connection entries

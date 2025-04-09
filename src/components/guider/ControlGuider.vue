@@ -20,7 +20,7 @@
         </template>
       </span>
       <svg
-        v-if="isProcessing"
+        v-if="store.guiderInfo.State == 'Guiding'"
         class="animate-spin h-5 w-5 text-white ml-2"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -45,7 +45,7 @@
   <button
     class="btn-primary bg-gradient-to-br w-full from-yellow-600 to-yellow-500 hover:from-yellow-700 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
     :disabled="
-      store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating' || isProcessing
+      store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating' 
     "
     @click="guiderStartWithCal()"
   >
@@ -65,7 +65,7 @@
         </template>
       </span>
       <svg
-        v-if="isProcessing"
+        v-if="store.guiderInfo.State == 'Calibrating'"
         class="animate-spin h-5 w-5 text-white ml-2"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

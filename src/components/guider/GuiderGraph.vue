@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div>
+    <div v-show="isLoading" class="flex items-center justify-center">
+      <span class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin" ></span>
+    </div>
+    <div v-show="!isLoading" >
       <canvas ref="rmsGraph"></canvas>
     </div>
     <div class="note">
@@ -14,7 +17,7 @@ import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import Chart from 'chart.js/auto';
 import { useGuiderStore } from '@/store/guiderStore';
 const guiderStore = useGuiderStore();
-
+const isLoading = ref(true);
 const rmsGraph = ref(null);
 let chart = null; 
 
@@ -105,14 +108,13 @@ const initGraph = () => {
           },
           title: {
             display: true,
-            text: 'Korrekturdauer (ms)',
+            text: 'Duration (ms)',
           },
         },
       },
     },
   });
 };
-
 
 
 // Überwachung der Store-Daten
@@ -137,9 +139,6 @@ watch(
 
     });
 
-
-
-
     chart.data.datasets[0].data = raDist; // RA line
     chart.data.datasets[1].data = decDist; // Dec line
     chart.data.datasets[2].data = raDur; // RA Duration bar
@@ -149,6 +148,7 @@ watch(
     chart.data.labels = steps.map((s) => s.Id.toString()); // für bessere Achsen-Beschriftung (optional)
 
     chart.update();
+    isLoading.value = false;
   },
   { immediate: true }
 );
@@ -158,6 +158,7 @@ onMounted(async() => {
   await guiderStore.fetchGraphInfos(); 
   guiderStore.startFetching(); 
   initGraph();
+ 
 });
 
 onBeforeUnmount(() => {

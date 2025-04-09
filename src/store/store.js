@@ -259,7 +259,6 @@ export const apiStore = defineStore('store', {
       }
     },
 
-
     startFetchingInfo() {
       if (!this.intervalId) {
         this.intervalId = setInterval(this.fetchAllInfos, 2000);

@@ -1,9 +1,7 @@
 <template>
   <button
     class="btn-primary bg-gradient-to-br w-full from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed"
-    :disabled="
-      store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating' || isProcessing
-    "
+    :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
     @click="guiderStartStop('start')"
   >
     <span class="flex items-center justify-center space-x-2">
@@ -44,9 +42,7 @@
   </button>
   <button
     class="btn-primary bg-gradient-to-br w-full from-yellow-600 to-yellow-500 hover:from-yellow-700 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
-    :disabled="
-      store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating' 
-    "
+    :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
     @click="guiderStartWithCal()"
   >
     <span class="flex items-center justify-center space-x-2">

@@ -4,6 +4,7 @@ import apiService from '@/services/apiService';
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
     intervalId: null,
+    firstLoad: true,
     sequenceInfo: [],
     collapsedStates: {},
     sequenceIsLoaded: false,
@@ -52,7 +53,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     countKeysDeep(obj) {
       let count = 0;
-
       function recurse(current) {
         if (typeof current === 'object' && current !== null) {
           for (const key in current) {
@@ -63,13 +63,43 @@ export const useSequenceStore = defineStore('sequenceStore', {
           }
         }
       }
-
       recurse(obj);
       return count;
     },
 
+    checkForSpecialNamesRecursive(items) {
+      if (!items || !Array.isArray(items)) return false;
+
+      for (const item of items) {
+        const name = typeof item?.Name === 'string' ? item.Name : '';
+
+        if (name.includes('Target Scheduler') || name.includes('+_Container')) {
+          return true;
+        }
+
+        // rekursiv in verschachtelten Items weitersuchen
+        if (item.Items && this.checkForSpecialNamesRecursive(item.Items)) {
+          return true;
+        }
+      }
+      return false;
+    },
+
     async getSequenceInfo() {
       let response = null;
+
+      if (this.firstLoad) {
+        response = await this.getSequenceInfoJson();
+        const foundUnsupportedPlugins = response.Response?.some((response) =>
+          this.checkForSpecialNamesRecursive(response.Items)
+        );
+
+        if (foundUnsupportedPlugins) {
+          this.sequenceIsEditable = false;
+          console.log('Found unsupported plugins');
+        }
+        this.firstLoad = false;
+      }
 
       if (this.sequenceIsEditable) {
         //console.log('Abfrage state');

@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - CameraView is no longer locked when a sequence is running. Capturing only is not possible
 - Manual Mountcontroll is permanently visible
 - Update Eslint to 9
+- add durations and dither to Guidegraph
 
 ### Fixed
 - Avoid duplicate NINA connection entries

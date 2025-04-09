@@ -82,7 +82,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
           return true;
         }
       }
-
       return false;
     },
 

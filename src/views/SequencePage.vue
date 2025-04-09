@@ -15,9 +15,6 @@
         <PencilIcon class="icon" />
       </button>
     </div>
-    <div class="fixed bottom-12 right-3 z-30" v-if="!sequenceStore.sequenceIsEditable">
-      <SequnceInfoModal />
-    </div>
     <div
       class="fixed bottom-12 left-3 z-30 bg-gray-800/50 rounded-full p-1 shadow-xl border border-cyan-500"
     >
@@ -50,7 +47,6 @@ import { onBeforeUnmount } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
 import infoModal from '@/components/helpers/infoModal.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
-import SequnceInfoModal from '@/components/sequence/SequnceInfoModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';

@@ -27,11 +27,6 @@ const initGraph = () => {
   const size = guiderStore.chartInfo.HistorySize;
   const ctx = rmsGraph.value.getContext('2d');
 
-  const maxAbs = Math.max(
-    Math.abs(guiderStore.chartInfo.MinDurationY ?? -1000),
-    Math.abs(guiderStore.chartInfo.MaxDurationY ?? 1000)
-  );
-
   chart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -158,10 +153,10 @@ watch(
     });
 
     // Dynamische Skalierung der Y1-Achse (symmetrisch)
-    const newMaxAbs = Math.max(maxDuration, 100); // fallback auf 100 falls alles null
+    const maxAbs = Math.max(maxDuration, 100); // fallback auf 100 falls alles null
 
-    chart.options.scales.y1.suggestedMin = -newMaxAbs;
-    chart.options.scales.y1.suggestedMax = newMaxAbs;
+    chart.options.scales.y1.suggestedMin = -maxAbs;
+    chart.options.scales.y1.suggestedMax = maxAbs;
 
     chart.data.datasets[0].data = raDist;
     chart.data.datasets[1].data = decDist;
@@ -175,7 +170,6 @@ watch(
   },
   { immediate: true }
 );
-
 
 onMounted(async () => {
   await guiderStore.fetchGraphInfos();

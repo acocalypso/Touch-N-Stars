@@ -104,8 +104,6 @@ async function guiderStartStop(befehl) {
   isProcessingStart.value = true;
   try {
     await apiService.guiderAction(befehl);
-    await store.getGuiderInfo();
-    await store.getGuiderChartInfo(); // Refresh chart data
     console.log('Guider Command:', befehl);
   } catch (error) {
     console.error('Fehler:', error.response?.data || error);
@@ -118,8 +116,6 @@ async function guiderStartWithCal() {
   isProcessingStartWithCal.value = true;
   try {
     await apiService.guiderStart(true);
-    await store.getGuiderInfo(); // Single refresh call
-    await store.getGuiderChartInfo();
     console.log('Guider Command: Start with cal');
   } catch (error) {
     console.error('Fehler:', error.response?.data || error);

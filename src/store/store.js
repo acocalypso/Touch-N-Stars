@@ -41,7 +41,7 @@ export const apiStore = defineStore('store', {
     currentLanguage: 'en',
     showSettings: false,
     showStellarium: false,
-    minimumApiVersion: '2.1.7.0',
+    minimumApiVersion: '2.2.1.0',
     currentApiVersion: null,
     isVersionNewerOrEqual: false,
     mount: {

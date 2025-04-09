@@ -91,7 +91,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (chart) {
-    chart.destroy(); // Zerstöre den Chart, um Speicherlecks zu vermeiden
+    chart.destroy(); 
   }
 });
 </script>

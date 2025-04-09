@@ -1,9 +1,11 @@
 <template>
   <div>
     <div v-show="isLoading" class="flex items-center justify-center">
-      <span class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin" ></span>
+      <span
+        class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
+      ></span>
     </div>
-    <div v-show="!isLoading" >
+    <div v-show="!isLoading">
       <canvas ref="rmsGraph"></canvas>
     </div>
     <div class="note">
@@ -19,14 +21,21 @@ import { useGuiderStore } from '@/store/guiderStore';
 const guiderStore = useGuiderStore();
 const isLoading = ref(true);
 const rmsGraph = ref(null);
-let chart = null; 
+let chart = null;
 
 const initGraph = () => {
+  const size = guiderStore.chartInfo.HistorySize;
   const ctx = rmsGraph.value.getContext('2d');
+
+  const maxAbs = Math.max(
+    Math.abs(guiderStore.chartInfo.MinDurationY ?? -1000),
+    Math.abs(guiderStore.chartInfo.MaxDurationY ?? 1000)
+  );
+
   chart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: Array(guiderStore.chartInfo.HistorySize).fill(''),
+      labels: Array(size).fill(''),
       datasets: [
         {
           type: 'line',
@@ -35,8 +44,8 @@ const initGraph = () => {
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           tension: 0.5,
           pointRadius: 0,
-          data: [0],
-          yAxisID: 'y', // linke Achse
+          data: Array(size).fill(null),
+          yAxisID: 'y',
           order: 2,
         },
         {
@@ -46,15 +55,15 @@ const initGraph = () => {
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
           tension: 0.5,
           pointRadius: 0,
-          data: [0],
-          yAxisID: 'y', // linke Achse
+          data: Array(size).fill(null),
+          yAxisID: 'y',
           order: 3,
         },
         {
           type: 'bar',
           label: 'RA Duration',
           backgroundColor: 'rgba(70, 130, 180, 0.4)',
-          data: [0],
+          data: Array(size).fill(null),
           yAxisID: 'y1',
           order: 4,
         },
@@ -62,19 +71,19 @@ const initGraph = () => {
           type: 'bar',
           label: 'Dec Duration',
           backgroundColor: 'rgba(220, 20, 60, 0.4)',
-          data: [0],
+          data: Array(size).fill(null),
           yAxisID: 'y1',
           order: 5,
         },
         {
           type: 'scatter',
           label: 'Dither',
-          data: [null], 
-          yAxisID: 'y', 
+          data: Array(size).fill(null),
+          yAxisID: 'y',
           showLine: false,
           pointRadius: 6,
-          pointStyle: 'triangle', 
-          backgroundColor: 'rgba(255, 165, 0, 1)', // orange Marker
+          pointStyle: 'triangle',
+          backgroundColor: 'rgba(255, 165, 0, 1)',
           order: 1,
         },
       ],
@@ -101,10 +110,8 @@ const initGraph = () => {
         y1: {
           position: 'right',
           stacked: false,
-          suggestedMin: guiderStore.chartInfo.MinDurationY || -1000,
-          suggestedMax: guiderStore.chartInfo.MaxDurationY || 1000,
           grid: {
-            drawOnChartArea: false, 
+            drawOnChartArea: false,
           },
           title: {
             display: true,
@@ -116,36 +123,52 @@ const initGraph = () => {
   });
 };
 
-
 // Überwachung der Store-Daten
 watch(
   () => guiderStore.chartInfo.GuideSteps,
   (steps) => {
     if (!chart) return;
 
-    const raDist = [];
-    const decDist = [];
-    const raDur = [];
-    const decDur = [];
-    const ditherMarkers = steps
-        .filter(step => step.Dither && step.Dither !== "NaN")
-        .map(step => ({ x: step.Id.toString(), y: 0 }));
-    //console.log('steps', steps);
-    steps.forEach((step) => {
-      raDist.push(step.RADistanceRaw ?? 0);
-      decDist.push(step.DECDistanceRaw ?? 0);
-      raDur.push(step.RADuration ?? 0);
-      decDur.push(step.DECDuration ?? 0);
+    const size = guiderStore.chartInfo.HistorySize;
+    const raDist = Array(size).fill(null);
+    const decDist = Array(size).fill(null);
+    const raDur = Array(size).fill(null);
+    const decDur = Array(size).fill(null);
+    const dither = [];
+    const labels = Array(size).fill('');
 
+    let maxDuration = 0;
+
+    steps.slice(-size).forEach((step, i) => {
+      const ra = step.RADuration ?? 0;
+      const dec = step.DECDuration ?? 0;
+
+      raDist[i] = step.RADistanceRaw ?? null;
+      decDist[i] = step.DECDistanceRaw ?? null;
+      raDur[i] = ra;
+      decDur[i] = dec;
+
+      labels[i] = step.Id.toString();
+
+      if (step.Dither && step.Dither !== 'NaN') {
+        dither.push({ x: step.Id.toString(), y: 0 });
+      }
+
+      maxDuration = Math.max(maxDuration, Math.abs(ra), Math.abs(dec));
     });
 
-    chart.data.datasets[0].data = raDist; // RA line
-    chart.data.datasets[1].data = decDist; // Dec line
-    chart.data.datasets[2].data = raDur; // RA Duration bar
-    chart.data.datasets[3].data = decDur; // Dec Duration bar
-    chart.data.datasets[4].data = ditherMarkers; // Dither scatter
+    // Dynamische Skalierung der Y1-Achse (symmetrisch)
+    const newMaxAbs = Math.max(maxDuration, 100); // fallback auf 100 falls alles null
 
-    chart.data.labels = steps.map((s) => s.Id.toString()); // für bessere Achsen-Beschriftung (optional)
+    chart.options.scales.y1.suggestedMin = -newMaxAbs;
+    chart.options.scales.y1.suggestedMax = newMaxAbs;
+
+    chart.data.datasets[0].data = raDist;
+    chart.data.datasets[1].data = decDist;
+    chart.data.datasets[2].data = raDur;
+    chart.data.datasets[3].data = decDur;
+    chart.data.datasets[4].data = dither;
+    chart.data.labels = labels;
 
     chart.update();
     isLoading.value = false;
@@ -154,17 +177,16 @@ watch(
 );
 
 
-onMounted(async() => {
-  await guiderStore.fetchGraphInfos(); 
-  guiderStore.startFetching(); 
+onMounted(async () => {
+  await guiderStore.fetchGraphInfos();
+  guiderStore.startFetching();
   initGraph();
- 
 });
 
 onBeforeUnmount(() => {
-  guiderStore.stopFetching(); 
+  guiderStore.stopFetching();
   if (chart) {
-    chart.destroy(); 
+    chart.destroy();
   }
 });
 </script>

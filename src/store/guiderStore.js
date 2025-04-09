@@ -23,12 +23,10 @@ export const useGuiderStore = defineStore('guiderStore', {
         //Graphdaten vom Backend holen
         const response = await apiService.guiderAction('graph');
         this.chartInfo = response.Response;
-        this.processGuiderChartDataApi(response.Response);
       } catch (error) {
         console.error('Fehler beim Abrufen der Informationen:', error);
       }
     },
-
 
     startFetching() {
       console.log('Start fetching graph data...');

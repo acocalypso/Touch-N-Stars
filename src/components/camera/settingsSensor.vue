@@ -1,4 +1,17 @@
-<template></template>
+<template>
+  <div class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg">
+    <label for="count" class="text-sm mr-3 mb-1 text-gray-400">
+      {{ $t('components.flatassistant.brightness') }}
+    </label>
+    <input
+      @blur="updatePixelSize"
+      id="count"
+      v-model.number="pixelSize"
+      type="number"
+      class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+    />
+  </div>
+</template>
 <script setup>
 import { onMounted, ref } from 'vue';
 import { apiStore } from '@/store/store';
@@ -12,8 +25,40 @@ const chipWidth = ref(0);
 const focalLength = ref(0);
 const statusClassPixelSize = ref('');
 
-function updatePixelSize() {
+async function updatePixelSize() {
+  try {
+    const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
+    if (handleApiError(response, { title: 'Update Error' })) {
+      return;
+    }
+  } catch (error) {
+    isSlewing.value = false;
+    console.error('Error udate settings:', error);
+  }
+
   statusClassPixelSize.value = 'glow-green';
+}
+
+async function slewDome() {
+  isSlewing.value = true;
+  try {
+    const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
+
+    if (handleApiError(response, { title: 'Slew Error' })) {
+      isSlewing.value = false;
+      return;
+    }
+
+    if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
+      console.log('Slewing to the same azimuth, stopping slew.');
+      isSlewing.value = false;
+    } else {
+      console.log('Slewing to azimuth:', azimuth.value);
+    }
+  } catch (error) {
+    isSlewing.value = false;
+    console.error('Error stopping slew:', error);
+  }
 }
 
 onMounted(() => {

@@ -38,7 +38,7 @@ export const apiStore = defineStore('store', {
     currentLanguage: 'en',
     showSettings: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.1.0',
+    minimumApiVersion: '2.2.0.0',
     currentApiVersion: null,
     isVersionNewerOrEqual: false,
     mount: {
@@ -106,7 +106,6 @@ export const apiStore = defineStore('store', {
           apiService.guiderAction('info'),
           apiService.flatdeviceAction('info'),
           apiService.domeAction('info'),
-          apiService.guiderAction('graph'),
           apiService.safetyAction('info'),
           apiService.weatherAction('info'),
           apiService.switchAction('info'),

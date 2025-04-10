@@ -142,7 +142,7 @@ async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
   const deviceId = getDeviceId(selectedDevice.value);
-  console.log('props.apiAction',props.apiAction);
+  console.log('props.apiAction', props.apiAction);
   try {
     if (props.isConnected) {
       console.log('disconnect');

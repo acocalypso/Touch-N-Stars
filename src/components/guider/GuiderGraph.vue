@@ -138,8 +138,8 @@ watch(
       const ra = step.RADuration ?? 0;
       const dec = step.DECDuration ?? 0;
 
-      raDist[i] = step.RADistanceRaw ?? null;
-      decDist[i] = step.DECDistanceRaw ?? null;
+      raDist[i] = step.RADistanceRawDisplay ?? null;
+      decDist[i] = step.DECDistanceRawDisplay ?? null;
       raDur[i] = ra;
       decDur[i] = dec;
 

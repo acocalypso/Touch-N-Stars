@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div v-show="isLoading" class="flex items-center justify-center">
       <span
         class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
@@ -186,8 +186,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-
-
 .note {
   font-size: 0.8em;
   color: #666;

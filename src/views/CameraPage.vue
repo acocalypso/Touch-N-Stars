@@ -59,6 +59,7 @@
           </div>
 
           <div class="space-y-1">
+            <settingsSensor class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
             <settingsCameraCooler
               v-if="store.cameraInfo.CanSetTemperature"
               class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -233,6 +234,7 @@ import infoRotator from '@/components/rotator/infoRotator.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
+import settingsSensor from '@/components/camera/settingsSensor.vue';
 
 // Initialisiere Stores
 const store = apiStore();

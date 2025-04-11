@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div >
     <div v-show="isLoading" class="flex items-center justify-center">
       <span
         class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
       ></span>
     </div>
-    <div v-show="!isLoading">
+    <div v-show="!isLoading" class="w-full min-h-64 max-h-96">
       <canvas ref="rmsGraph"></canvas>
     </div>
     <div class="note">
@@ -186,10 +186,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-canvas {
-  max-width: 100%;
-  height: 200px;
-}
+
 
 .note {
   font-size: 0.8em;

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add ToastModal 
 - Focuser: Add autofocus graph 
 - Camera: Add Chipsettings 
+- Image History sorting by newest / oldest
 
 ### Changed
 - CaptureButton created and integrated into CameraView 

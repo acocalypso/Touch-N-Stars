@@ -53,7 +53,8 @@
         "emptyFields": "Merci de remplir tous les champs",
         "instanceNameRequired": "Le nom de l'instance est requis",
         "invalidIPFormat": "Veuillez fournir IP ou FQDN",
-        "invalidPortRange": "Le port doit être compris entre 1 et 65535"
+        "invalidPortRange": "Le port doit être compris entre 1 et 65535",
+        "invalidInstance": "Une connexion n'a pas pu être établie"
       },
       "showTutorial": "Montrer le tutoriel",
       "system": {
@@ -92,7 +93,8 @@
     },
     "connectEquipment": {
       "camera": {
-        "error": "Erreur de contrôle de la camera:"
+        "error": "Erreur de contrôle de la camera:",
+        "name": "Caméra"
       },
       "connectAll": "Connecter Tout",
       "disconnectAll": "Déconnecter Tout",
@@ -101,36 +103,48 @@
       "filter": {
         "connect": "Connecter la roue à filtre",
         "disconnect": "Déconnecter la roue à filtre",
-        "error": "Erreur de contrôle de la roue à filtre:"
+        "error": "Erreur de contrôle de la roue à filtre:",
+        "name": "Roue filtre"
       },
       "mount": {
-        "error": "Erreur de contrôle dela monture:"
+        "error": "Erreur de contrôle dela monture:",
+        "name": "Monter"
       },
       "focuser": {
-        "error": "Erreur de contrôle du focuseur:"
+        "error": "Erreur de contrôle du focuseur:",
+        "name": "Focalisation"
       },
       "rotator": {
-        "error": "Erreur de contrôle du rotateur:"
+        "error": "Erreur de contrôle du rotateur:",
+        "name": "Rotateur"
       },
       "guider": {
-        "error": "Erreur de contrôle du guideur:"
+        "error": "Erreur de contrôle du guideur:",
+        "name": "Guider"
       },
       "safety": {
-        "error": "Erreur de contrôle do moniteur de sureté"
+        "error": "Erreur de contrôle do moniteur de sureté",
+        "name": "Moniteur de sécurité"
       },
       "flat": {
         "error": "Erreur de contrôle du panneau à flats:",
         "name": "Flatdevice"
       },
       "dome": {
-        "error": "Erreur de contrôle du dôme:"
+        "error": "Erreur de contrôle du dôme:",
+        "name": "Dôme"
       },
       "switch": {
-        "error": "Erreur de contrôle du Commutateurs"
+        "error": "Erreur de contrôle du Commutateurs",
+        "name": "Changer"
       },
       "weather": {
         "error": "Erreur de contrôle de la météo",
         "name": "Météo"
+      },
+      "info": {
+        "message": "La roue filtrante manuelle et le rotateur manuel ne peuvent actuellement être contrôlés que via Nina",
+        "title": "Informations"
       }
     },
     "lastLogs": {
@@ -206,7 +220,20 @@
       "running": "EN COURS D'EXÉCUTION",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "conditions": "Conditions",
+      "info": {
+        "header": "Informations",
+        "message": "Malheureusement, votre séquence ne peut pas être modifiée. \nTous les plugins de séquence ne sont pas actuellement pris en charge. \nSi vous voulez nous aider, faites-nous savoir sur GitHub quels plugins vous utilisez."
+      },
+      "info_general": {
+        "message": "Malheureusement, nous ne sommes pas encore en mesure de traiter tous les paramètres. \nNous travaillons à soutenir autant de fonctions NINA que possible. \nParce qu'il y a tellement de plugins, nous ne pouvons pas tous les intégrer. \nCependant, nous essayons d'en soutenir autant que possible. \nSi vous remarquez une erreur dans l'affichage, veuillez nous aider et le signaler sur github"
+      },
+      "sort": {
+        "newest": "le plus récent premier",
+        "oldest": "le plus ancien premier",
+        "sort": "Trier"
+      }
     },
     "mount": {
       "title": "Monture",
@@ -228,7 +255,10 @@
           "tracking": "Erreur en modifiant le mode de suivi"
         },
         "manuellControl": "Contrôle manuel",
-        "slewRate": "Taux de dalles ° / s"
+        "slewRate": "Taux de dalles ° / s",
+        "info_manuell_controll": "Le contrôle manuel n'est disponible que si le suivi n'est pas actif",
+        "set_as_park": "Se dérouler comme parc",
+        "slew_to_cenit": "Tué à Zenith"
       },
       "info": {
         "notConnected": "Merci de connecter la mount",
@@ -289,8 +319,13 @@
           "open": "Erreur lors de l'ouverture du cimier",
           "close": "Erreur lors de la fermeture du cimier",
           "stop": "Erreur lors de l'arrêt du cimier"
-        }
-      }
+        },
+        "follow": "Dôme Suivez le télescope",
+        "slew": "Tué",
+        "slew_label": "Tuer à des degrés",
+        "sync": "Synchroniser avec le télescope"
+      },
+      "please_connect_dome": "Veuillez connecter le dôme"
     },
     "camera": {
       "title": "Camera",
@@ -374,10 +409,25 @@
         "apiUnreachable": "API de cadrage inaccessible",
         "invalidFormat": "Format invalide. Attendu: ±DD:MM:SS.s",
         "apiResponseError": "Erreur dans la réponse de l'API:",
-        "mountInfoError": "Erreur dans l'acquisition de l'information sur la monture:"
+        "mountInfoError": "Erreur dans l'acquisition de l'information sur la monture:",
+        "invalidAltInput": "Entrée ALT non valide.",
+        "invalidAzInput": "Entrée AZ non valide."
       },
       "rotate": "Tourner",
-      "visibleStars": "Recherche d'étoiles visible"
+      "visibleStars": "Recherche d'étoiles visible",
+      "alt": "Alt:",
+      "az": "AZ:",
+      "slew_modal": {
+        "center_Repeat": "Centrage répété",
+        "center_error": "Erreur de centrage",
+        "center_successful": "Centrer réussi",
+        "deviation_target": "Déviation à la cible:",
+        "exposure_running": "Exposition à l'exécution",
+        "is_centering": "Cible centrale",
+        "is_platesolving": "Plaques de course",
+        "is_slewing": "Aller à la cible",
+        "plate_solve_error": "Erreur de plaques"
+      }
     },
     "filterwheel": {
       "filter": "Filtre:",
@@ -441,7 +491,8 @@
       "start_auto_exposure": "Démarrer l'exposition automatique",
       "start_sky_flat": "Démarrer le ciel à plat",
       "stop": "Arrêt",
-      "title": "Assistant plat"
+      "title": "Assistant plat",
+      "button_slew_to_zenith": "Tué à Zenith"
     },
     "stellarium": {
       "datetime": {
@@ -460,6 +511,15 @@
         "dec": "DÉC",
         "ra": "Rampe",
         "title": "Objet sélectionné"
+      },
+      "settings": {
+        "atmosphere_visible": "Montrer l'atmosphère",
+        "azimuthal_lines_visible": "Montrer les lignes azimutales",
+        "constellations_lines_visible": "Montrer les constellations",
+        "ecliptic_lines_visible": "Montrer l'écliptique",
+        "equatorial_lines_visible": "Afficher les lignes équatoriales",
+        "landscapes_visible": "Montrer des paysages",
+        "meridian_lines_visible": "Montrer le méridien"
       }
     },
     "profile": {

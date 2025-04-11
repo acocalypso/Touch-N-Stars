@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dome: Add Slew and Sync
 - Add ToastModal 
 - Focuser: Add autofocus graph 
+- Image History sorting by Time
 
 ### Changed
 - CaptureButton created and integrated into CameraView 
@@ -20,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Avoid duplicate NINA connection entries
+- Eslint now fixes prettier
 
 ## [1.0.4.4] - 2025-03-20
 ### Fixed

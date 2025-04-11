@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dome: Add Slew and Sync
 - Add ToastModal 
 - Focuser: Add autofocus graph 
+- Camera: Add Chipsettings 
 
 ### Changed
 - CaptureButton created and integrated into CameraView 

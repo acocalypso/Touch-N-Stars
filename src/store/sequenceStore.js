@@ -87,12 +87,15 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     async getSequenceInfo() {
       let response = null;
+      let foundUnsupportedPlugins = false;
 
       if (this.firstLoad) {
         response = await this.getSequenceInfoJson();
-        const foundUnsupportedPlugins = response.Response?.some((response) =>
-          this.checkForSpecialNamesRecursive(response.Items)
-        );
+        if (Array.isArray(response?.Response)) {
+          foundUnsupportedPlugins = response.Response?.some((response) =>
+            this.checkForSpecialNamesRecursive(response.Items)
+          );
+        }
 
         if (foundUnsupportedPlugins) {
           this.sequenceIsEditable = false;

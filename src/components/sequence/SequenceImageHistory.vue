@@ -20,11 +20,11 @@
           class="w-5 h-5 transition-transform duration-200 group-hover:translate-y-0.5"
         />
         <span class="border-b-2 border-transparent group-hover:border-current">
-          $t('components.sequence.sort.sort'):
+          {{ t('components.sequence.sort.sort') }}:
           {{
             sortAscending
-              ? $t('components.sequence.sort.oldest')
-              : $t('components.sequence.sort.newest')
+              ? t('components.sequence.sort.oldest')
+              : t('components.sequence.sort.newest')
           }}
         </span>
       </button>
@@ -48,6 +48,7 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { ref, watch, onMounted, computed } from 'vue';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
@@ -55,6 +56,7 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 
+const { t } = useI18n();
 const sequenceStore = useSequenceStore();
 const imageHistory = ref([]);
 const store = apiStore();

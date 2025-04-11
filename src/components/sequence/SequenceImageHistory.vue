@@ -1,13 +1,31 @@
 <template>
   <div>
-    <div class="mb-4 flex justify-end">
+    <div class="mb-4 flex items-center px-4 sm:px-0">
       <button
         @click="toggleSortOrder"
-        class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+        class="flex items-center gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-all duration-150 ease-in-out focus:outline-none group bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2"
+        role="button"
+        aria-label="Sort images"
       >
-        <span>{{ sortAscending ? 'Oldest First' : 'Newest First' }}</span>
-        <span class="ml-2">
-          <i :class="sortAscending ? 'fas fa-sort-amount-up' : 'fas fa-sort-amount-down'"></i>
+        <div class="flex flex-col items-center text-[0.65rem] leading-3 opacity-50 mr-1">
+          <ChevronUpIcon class="w-3 h-3 mb-0.5" />
+          <ChevronDownIcon class="w-3 h-3" />
+        </div>
+        <ChevronUpIcon
+          v-if="sortAscending"
+          class="w-5 h-5 transition-transform duration-200 group-hover:-translate-y-0.5"
+        />
+        <ChevronDownIcon
+          v-else
+          class="w-5 h-5 transition-transform duration-200 group-hover:translate-y-0.5"
+        />
+        <span class="border-b-2 border-transparent group-hover:border-current">
+          $t('components.sequence.sort.sort'):
+          {{
+            sortAscending
+              ? $t('components.sequence.sort.oldest')
+              : $t('components.sequence.sort.newest')
+          }}
         </span>
       </button>
     </div>
@@ -31,6 +49,7 @@
 
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';

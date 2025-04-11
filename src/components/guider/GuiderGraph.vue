@@ -92,8 +92,8 @@ const initGraph = () => {
       scales: {
         y: {
           position: 'left',
-          suggestedMin: -3,
-          suggestedMax: 3,
+          suggestedMin: -4,
+          suggestedMax: 4,
           grid: {
             color: 'rgba(248, 248, 255, 0.1)',
           },

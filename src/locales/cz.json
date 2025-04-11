@@ -357,7 +357,14 @@
       "cooling_time": "Doba chlazení",
       "binning_mode": "Binning",
       "readout_mode": "Režim Čtení",
-      "set_use_platesolve": "Použít Řešení"
+      "set_use_platesolve": "Použít Řešení",
+      "chip_settings": {
+        "focal_length": "Focal length (mm)",
+        "height": "Height (px)",
+        "pixel_size": "Pixel size (μm)",
+        "title": "Chip settings",
+        "width": "Width (px)"
+      }
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

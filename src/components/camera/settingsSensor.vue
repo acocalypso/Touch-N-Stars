@@ -1,81 +1,89 @@
 <template>
   <div>
     <div class="space-y-1 border border-gray-500 p-1 pb-2 rounded-lg">
-    <label for="Cooler" class="text-xs mb-1 text-gray-400"
-          >{{ $t('components.camera.chip_settings.title') }}
-    </label>
-    
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-    <!-- Pixel Size -->
-    <div class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg">
-      <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-400">
-        {{ $t('components.camera.chip_settings.pixel_size') }}
+      <label for="Cooler" class="text-xs mb-1 text-gray-400"
+        >{{ $t('components.camera.chip_settings.title') }}
       </label>
-      <input
-        @blur="updatePixelSize"
-        @change="updatePixelSize"
-        id="pixel-size"
-        v-model.number="pixelSize"
-        type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-        :class="statusClassPixelSize"
-        step="0.01"
-      />
-    </div>
 
-    <!-- Chip Height -->
-    <div class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg">
-      <label for="chip-high" class="text-sm mr-3 mb-1 text-gray-400">
-        {{ $t('components.camera.chip_settings.height') }}
-      </label>
-      <input
-        @blur="updateChipHigh"
-        @change="updateChipHigh"
-        id="chip-high"
-        v-model.number="chipHigh"
-        type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-        :class="statusClassChipHigh"
-        step="1"
-      />
-    </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <!-- Pixel Size -->
+        <div
+          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+        >
+          <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-400">
+            {{ $t('components.camera.chip_settings.pixel_size') }}
+          </label>
+          <input
+            @blur="updatePixelSize"
+            @change="updatePixelSize"
+            id="pixel-size"
+            v-model.number="pixelSize"
+            type="number"
+            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            :class="statusClassPixelSize"
+            step="0.01"
+          />
+        </div>
 
-    <!-- Chip Width -->
-    <div class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg">
-      <label for="chip-width" class="text-sm mr-3 mb-1 text-gray-400">
-        {{ $t('components.camera.chip_settings.width') }}
-      </label>
-      <input
-        @blur="updateChipWidth"
-        @change="updateChipWidth"
-        id="chip-width"
-        v-model.number="chipWidth"
-        type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-        :class="statusClassChipWidth"
-        step="1"
-      />
-    </div>
+        <!-- Chip Height -->
+        <div
+          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+        >
+          <label for="chip-high" class="text-sm mr-3 mb-1 text-gray-400">
+            {{ $t('components.camera.chip_settings.height') }}
+          </label>
+          <input
+            @blur="updateChipHigh"
+            @change="updateChipHigh"
+            id="chip-high"
+            v-model.number="chipHigh"
+            type="number"
+            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            :class="statusClassChipHigh"
+            step="1"
+          />
+        </div>
+
+        <!-- Chip Width -->
+        <div
+          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+        >
+          <label for="chip-width" class="text-sm mr-3 mb-1 text-gray-400">
+            {{ $t('components.camera.chip_settings.width') }}
+          </label>
+          <input
+            @blur="updateChipWidth"
+            @change="updateChipWidth"
+            id="chip-width"
+            v-model.number="chipWidth"
+            type="number"
+            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            :class="statusClassChipWidth"
+            step="1"
+          />
+        </div>
 
         <!-- Focal Length -->
-        <div class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg">
-      <label for="focal-length" class="text-sm mr-3 mb-1 text-gray-400">
-        {{ $t('components.camera.chip_settings.focal_length') }}
-      </label>
-      <input
-        @blur="updateFocalLength"
-        @change="updateFocalLength"
-        id="focal-length"
-        v-model.number="focalLength"
-        type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-        :class="statusClassFocalLength"
-        step="1"
-      />
+        <div
+          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+        >
+          <label for="focal-length" class="text-sm mr-3 mb-1 text-gray-400">
+            {{ $t('components.camera.chip_settings.focal_length') }}
+          </label>
+          <input
+            @blur="updateFocalLength"
+            @change="updateFocalLength"
+            id="focal-length"
+            v-model.number="focalLength"
+            type="number"
+            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            :class="statusClassFocalLength"
+            step="1"
+          />
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </template>
 
 <script setup>
@@ -111,10 +119,14 @@ async function updateValue(key, value, statusClassRef) {
   }
 }
 
-const updatePixelSize = () => updateValue('CameraSettings-PixelSize', pixelSize.value, statusClassPixelSize);
-const updateFocalLength = () => updateValue('TelescopeSettings-FocalLength', focalLength.value, statusClassFocalLength);
-const updateChipHigh = () => updateValue('FramingAssistantSettings-CameraHeight', chipHigh.value, statusClassChipHigh);
-const updateChipWidth = () => updateValue('FramingAssistantSettings-CameraWidth', chipWidth.value, statusClassChipWidth);
+const updatePixelSize = () =>
+  updateValue('CameraSettings-PixelSize', pixelSize.value, statusClassPixelSize);
+const updateFocalLength = () =>
+  updateValue('TelescopeSettings-FocalLength', focalLength.value, statusClassFocalLength);
+const updateChipHigh = () =>
+  updateValue('FramingAssistantSettings-CameraHeight', chipHigh.value, statusClassChipHigh);
+const updateChipWidth = () =>
+  updateValue('FramingAssistantSettings-CameraWidth', chipWidth.value, statusClassChipWidth);
 
 onMounted(() => {
   const profile = store.profileInfo;

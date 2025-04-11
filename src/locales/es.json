@@ -357,7 +357,14 @@
       "cooling_time": "Tiempo enfriamiento",
       "binning_mode": "Binning",
       "readout_mode": "Modo de lectura",
-      "set_use_platesolve": "Use platesolve"
+      "set_use_platesolve": "Use platesolve",
+      "chip_settings": {
+        "focal_length": "Longitud focal (mm)",
+        "height": "Altura (PX)",
+        "pixel_size": "Tamaño de píxel (μm)",
+        "title": "Configuración de chips",
+        "width": "Ancho (PX)"
+      }
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

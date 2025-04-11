@@ -357,7 +357,14 @@
       "cancel": "Annuler",
       "binning_mode": "Rabattement",
       "readout_mode": "Mode de lecture",
-      "set_use_platesolve": "Utiliser des plaques"
+      "set_use_platesolve": "Utiliser des plaques",
+      "chip_settings": {
+        "focal_length": "Large focale (mm)",
+        "height": "Hauteur (PX)",
+        "pixel_size": "Taille des pixels (μm)",
+        "title": "Paramètres de la puce",
+        "width": "Largeur (PX)"
+      }
     },
     "tppa": {
       "title": "Alignement Polaire Trois Points",

@@ -17,7 +17,6 @@ export const apiStore = defineStore('store', {
     afTimestampLastStart: null,
     afCurveData: [],
     guiderInfo: [],
-    guiderChartInfo: [],
     flatdeviceInfo: [],
     domeInfo: [],
     safetyInfo: {
@@ -26,8 +25,6 @@ export const apiStore = defineStore('store', {
     },
     switchInfo: [],
     weatherInfo: [],
-    RADistanceRaw: [],
-    DECDistanceRaw: [],
     isBackendReachable: false,
     filterName: 'unbekannt',
     filterNr: null,
@@ -41,7 +38,7 @@ export const apiStore = defineStore('store', {
     currentLanguage: 'en',
     showSettings: false,
     showStellarium: false,
-    minimumApiVersion: '2.1.7.0',
+    minimumApiVersion: '2.2.0.0',
     currentApiVersion: null,
     isVersionNewerOrEqual: false,
     mount: {
@@ -58,17 +55,6 @@ export const apiStore = defineStore('store', {
         }
       } catch (error) {
         console.error('Error fetching guider info:', error);
-      }
-    },
-
-    async getGuiderChartInfo() {
-      try {
-        const response = await apiService.guiderAction('graph');
-        if (response.Success) {
-          this.guiderChartInfo = response.Response;
-        }
-      } catch (error) {
-        console.error('Error fetching guider chart info:', error);
       }
     },
 
@@ -106,7 +92,6 @@ export const apiStore = defineStore('store', {
           guiderResponse,
           flatdeviceResponse,
           domeResponse,
-          guiderChartResponse,
           safetyResponse,
           weatherResponse,
           switchResponse,
@@ -121,7 +106,6 @@ export const apiStore = defineStore('store', {
           apiService.guiderAction('info'),
           apiService.flatdeviceAction('info'),
           apiService.domeAction('info'),
-          apiService.guiderAction('graph'),
           apiService.safetyAction('info'),
           apiService.weatherAction('info'),
           apiService.switchAction('info'),
@@ -138,7 +122,6 @@ export const apiStore = defineStore('store', {
           guiderResponse,
           flatdeviceResponse,
           domeResponse,
-          guiderChartResponse,
           safetyResponse,
           weatherResponse,
           switchResponse,
@@ -170,8 +153,6 @@ export const apiStore = defineStore('store', {
       };
       this.switchInfo = [];
       this.weatherInfo = [];
-      this.RADistanceRaw = [];
-      this.DECDistanceRaw = [];
       this.isBackendReachable = false;
       this.filterName = 'unbekannt';
       this.filterNr = null;
@@ -196,7 +177,6 @@ export const apiStore = defineStore('store', {
       guiderResponse,
       flatdeviceResponse,
       domeResponse,
-      guiderChartResponse,
       safetyResponse,
       weatherResponse,
       switchResponse,
@@ -265,13 +245,6 @@ export const apiStore = defineStore('store', {
         console.error('Fehler in der Flat-API-Antwort:', domeResponse.Error);
       }
 
-      if (guiderChartResponse.Success) {
-        this.processGuiderChartDataApi(guiderChartResponse.Response);
-        this.guiderChartInfo = guiderChartResponse.Response;
-      } else {
-        console.error('Fehler in der Guider-Chart-API-Antwort:', guiderChartResponse);
-      }
-
       if (weatherResponse.Success) {
         this.weatherInfo = weatherResponse.Response;
       } else {
@@ -283,24 +256,6 @@ export const apiStore = defineStore('store', {
       } else {
         console.error('Fehler in der Switch-API-Antwort:', switchResponse.Error);
       }
-    },
-
-    processGuiderChartDataApi(data) {
-      // Überprüfen, ob das GuideSteps-Array vorhanden ist
-      if (!Array.isArray(data?.GuideSteps)) {
-        console.warn('Invalid GuideSteps, initializing as an empty array.');
-        this.RADistanceRaw = [];
-        this.DECDistanceRaw = [];
-        return;
-      }
-      // Extrahieren der RADistanceRawDisplay und DECDistanceRawDisplay Werte
-      this.RADistanceRaw = data.GuideSteps.map((step) =>
-        typeof step.RADistanceRaw === 'number' ? step.RADistanceRawDisplay : 0
-      );
-
-      this.DECDistanceRaw = data.GuideSteps.map((step) =>
-        typeof step.DECDistanceRaw === 'number' ? step.DECDistanceRawDisplay : 0
-      );
     },
 
     startFetchingInfo() {

@@ -357,7 +357,14 @@
       "cooling_time": "Doba chlazení",
       "binning_mode": "Binning",
       "readout_mode": "Režim Čtení",
-      "set_use_platesolve": "Použít Řešení"
+      "set_use_platesolve": "Použít Řešení",
+      "chip_settings": {
+        "focal_length": "Focal length (mm)",
+        "height": "Height (px)",
+        "pixel_size": "Pixel size (μm)",
+        "title": "Chip settings",
+        "width": "Width (px)"
+      }
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",
@@ -492,7 +499,7 @@
       "start_sky_flat": "Spustit flat z oblohy",
       "stop": "Zastavit",
       "title": "Asistent flatu",
-      "button_slew_to_zenith": "Slew to zenith"
+      "button_slew_to_zenith": "Přejet na zenit"
     },
     "stellarium": {
       "datetime": {
@@ -513,13 +520,13 @@
         "title": "Vybraný objekt"
       },
       "settings": {
-        "atmosphere_visible": "Show atmosphere",
-        "azimuthal_lines_visible": "Show azimuthal lines",
-        "constellations_lines_visible": "Show Constellations",
-        "ecliptic_lines_visible": "Show ecliptic",
-        "equatorial_lines_visible": "Show equatorial lines",
-        "landscapes_visible": "Show landscapes",
-        "meridian_lines_visible": "Show meridian"
+        "atmosphere_visible": "Zobrazit atmosféru",
+        "azimuthal_lines_visible": "Zobrazit azimutální linie",
+        "constellations_lines_visible": "Zobrazit Souhvězdí",
+        "ecliptic_lines_visible": "Zobrazit ekliptiku",
+        "equatorial_lines_visible": "Zobrazit rovníkové linie",
+        "landscapes_visible": "Ukázat krajinu",
+        "meridian_lines_visible": "Zobrazit poledník"
       }
     },
     "profile": {

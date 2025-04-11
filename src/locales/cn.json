@@ -357,7 +357,14 @@
       "cooling_time": "冷却时间",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
-      "set_use_platesolve": "Use Platesolve"
+      "set_use_platesolve": "Use Platesolve",
+      "chip_settings": {
+        "focal_length": "Focal length (mm)",
+        "height": "Height (px)",
+        "pixel_size": "Pixel size (μm)",
+        "title": "Chip settings",
+        "width": "Width (px)"
+      }
     },
     "tppa": {
       "title": "三点极轴对准",

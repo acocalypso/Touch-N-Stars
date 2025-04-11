@@ -357,7 +357,14 @@
       "cooling_time": "Kühlzeit",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
-      "set_use_platesolve": "Use Platesolve"
+      "set_use_platesolve": "Use Platesolve",
+      "chip_settings": {
+        "focal_length": "Brennweite (mm)",
+        "height": "Höhe (PX)",
+        "pixel_size": "Pixelgröße (μm)",
+        "title": "Chipeinstellungen",
+        "width": "Breite (PX)"
+      }
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

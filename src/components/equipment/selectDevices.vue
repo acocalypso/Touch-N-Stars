@@ -142,10 +142,12 @@ async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
   const deviceId = getDeviceId(selectedDevice.value);
+  console.log('props.apiAction', props.apiAction);
   try {
     if (props.isConnected) {
       console.log('disconnect');
-      await apiService[props.apiAction]('disconnect');
+      const response = await apiService[props.apiAction]('disconnect');
+      console.log('response', response);
     } else {
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
       const response = await apiService[props.apiAction]('connect?to=' + deviceId);
@@ -194,6 +196,7 @@ function getDeviceId(deviceName) {
 watch(
   () => props.isConnected,
   () => {
+    console.log('isConnected', props.deviceName);
     isToggleCon.value = false;
     updateBorderClass();
   }

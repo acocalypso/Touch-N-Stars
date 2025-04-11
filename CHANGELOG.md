@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add ToastModal 
 - Focuser: Add autofocus graph 
 - Camera: Add Chipsettings 
+- Image History sorting by newest / oldest
 
 ### Changed
 - CaptureButton created and integrated into CameraView 
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Avoid duplicate NINA connection entries
+- Eslint now fixes prettier
 
 ## [1.0.4.4] - 2025-03-20
 ### Fixed

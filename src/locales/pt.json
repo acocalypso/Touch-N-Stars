@@ -53,7 +53,8 @@
         "emptyFields": "Por favor, preencha todos os campos",
         "instanceNameRequired": "Nome da instância é obrigatório",
         "invalidIPFormat": "Por favor, forneça o IP ou FQDN",
-        "invalidPortRange": "Porta inválida"
+        "invalidPortRange": "Porta inválida",
+        "invalidInstance": "Uma conexão não pôde ser estabelecida"
       },
       "showTutorial": "Exibir Tutorial",
       "system": {
@@ -92,7 +93,8 @@
     },
     "connectEquipment": {
       "camera": {
-        "error": "Erro ao controlar a câmera:"
+        "error": "Erro ao controlar a câmera:",
+        "name": "Câmera"
       },
       "connectAll": "Conectar Tudo",
       "disconnectAll": "Desconectar Tudo",
@@ -101,36 +103,48 @@
       "filter": {
         "connect": "Conectar roda de filtro",
         "disconnect": "Desconectar roda de filtro",
-        "error": "Erro ao controlar roda de filtro:"
+        "error": "Erro ao controlar roda de filtro:",
+        "name": "Filtro"
       },
       "mount": {
-        "error": "Erro ao controlar montagem:"
+        "error": "Erro ao controlar montagem:",
+        "name": "Montar"
       },
       "focuser": {
-        "error": "Erro ao controlar focalizador:"
+        "error": "Erro ao controlar focalizador:",
+        "name": "Focador"
       },
       "rotator": {
-        "error": "Erro ao controlar rotor de campo:"
+        "error": "Erro ao controlar rotor de campo:",
+        "name": "Rotador"
       },
       "guider": {
-        "error": "Erro ao controlar guiagem:"
+        "error": "Erro ao controlar guiagem:",
+        "name": "Guider"
       },
       "safety": {
-        "error": "Erro ao controlar o monitor de segurança"
+        "error": "Erro ao controlar o monitor de segurança",
+        "name": "Monitor de segurança"
       },
       "flat": {
         "error": "Erro ao controlar o painel de flat:",
         "name": "FlatDevice"
       },
       "dome": {
-        "error": "Erro ao controlar domo:"
+        "error": "Erro ao controlar domo:",
+        "name": "Cúpula"
       },
       "switch": {
-        "error": "Erro ao controlar o interruptor"
+        "error": "Erro ao controlar o interruptor",
+        "name": "Trocar"
       },
       "weather": {
         "error": "Erro ao controlar a estação meteorológica",
         "name": "Clima"
+      },
+      "info": {
+        "message": "A roda de filtro manual e o rotador manual só podem ser controlados via Nina",
+        "title": "Informações"
       }
     },
     "lastLogs": {
@@ -206,7 +220,20 @@
       "running": "EM EXECUÇÃO",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "conditions": "Condições",
+      "info": {
+        "header": "Informações",
+        "message": "Infelizmente, sua sequência não pode ser editada. \nAtualmente, nem todos os plugins de sequência são suportados. \nSe você quiser nos ajudar, informe -nos no Github quais plugins você está usando."
+      },
+      "info_general": {
+        "message": "Infelizmente, ainda não somos capazes de processar todos os parâmetros. \nEstamos trabalhando para apoiar o maior número possível de funções da NINA. \nComo existem muitos plugins, não podemos integrar todos eles. \nNo entanto, estamos tentando apoiar o maior número possível. \nSe você notar um erro na tela, ajude -nos e denuncie -o no GitHub"
+      },
+      "sort": {
+        "newest": "mais recente primeiro",
+        "oldest": "Mais antigo primeiro",
+        "sort": "Organizar"
+      }
     },
     "mount": {
       "title": "Montagem",
@@ -228,7 +255,10 @@
           "tracking": "Erro ao definir o modo de rastreamento"
         },
         "manuellControl": "Controle manual",
-        "slewRate": "Taxa de taxa °/s"
+        "slewRate": "Taxa de taxa °/s",
+        "info_manuell_controll": "O controle manual está disponível apenas se o rastreamento não estiver ativo",
+        "set_as_park": "Situado como parque",
+        "slew_to_cenit": "Malada para o Zenith"
       },
       "info": {
         "notConnected": "Por favor, conecte a montagem",
@@ -289,8 +319,13 @@
           "open": "Erro ao abrir o obturador",
           "close": "Erro ao fechar o obturador",
           "stop": "Erro ao parar o obturador"
-        }
-      }
+        },
+        "follow": "Cúpula siga o telescópio",
+        "slew": "Matar",
+        "slew_label": "Matou em graus",
+        "sync": "Sincronização com telescópio"
+      },
+      "please_connect_dome": "Por favor, conecte a cúpula"
     },
     "camera": {
       "title": "Câmera",
@@ -374,10 +409,25 @@
         "apiUnreachable": "API de enquadramento inacessível",
         "invalidFormat": "IFormato inválido. Esperado: ±DD:MM:SS.s",
         "apiResponseError": "Erro na resposta da API:",
-        "mountInfoError": "Erro ao obter informações da montagem:"
+        "mountInfoError": "Erro ao obter informações da montagem:",
+        "invalidAltInput": "Entrada alt inválida.",
+        "invalidAzInput": "Entrada AZ inválida."
       },
       "rotate": "Girar",
-      "visibleStars": "Pesquisa de estrela visível"
+      "visibleStars": "Pesquisa de estrela visível",
+      "alt": "Alt:",
+      "az": "AZ:",
+      "slew_modal": {
+        "center_Repeat": "Repetição repetida",
+        "center_error": "Erro de centralização",
+        "center_successful": "Centrando bem -sucedido",
+        "deviation_target": "Desvio para o alvo:",
+        "exposure_running": "Exposição em execução",
+        "is_centering": "Alvo central",
+        "is_platesolving": "PLATES SOLVE RANÇO",
+        "is_slewing": "Slewing to Target",
+        "plate_solve_error": "PLATESOLVE ERRO"
+      }
     },
     "filterwheel": {
       "filter": "Filtro:",
@@ -441,7 +491,8 @@
       "start_auto_exposure": "Inicie a exposição automática",
       "start_sky_flat": "Comece o céu",
       "stop": "Parar",
-      "title": "Assistente plano"
+      "title": "Assistente plano",
+      "button_slew_to_zenith": "Malada para o Zenith"
     },
     "stellarium": {
       "datetime": {
@@ -460,6 +511,15 @@
         "dec": "DEC",
         "ra": "Ra",
         "title": "Objeto selecionado"
+      },
+      "settings": {
+        "atmosphere_visible": "Mostrar atmosfera",
+        "azimuthal_lines_visible": "Mostre linhas azimutais",
+        "constellations_lines_visible": "Mostrar constelações",
+        "ecliptic_lines_visible": "Mostre ecliptic",
+        "equatorial_lines_visible": "Mostre linhas equatoriais",
+        "landscapes_visible": "Mostrar paisagens",
+        "meridian_lines_visible": "Mostre Meridian"
       }
     },
     "profile": {

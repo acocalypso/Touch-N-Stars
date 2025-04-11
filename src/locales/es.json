@@ -53,7 +53,8 @@
         "emptyFields": "Rellenar todos los campos Por Favor",
         "instanceNameRequired": "Nombre de la instancia requerido",
         "invalidIPFormat": "Proporcione IP o FQDN",
-        "invalidPortRange": "Puerto no válido"
+        "invalidPortRange": "Puerto no válido",
+        "invalidInstance": "No se pudo establecer una conexión"
       },
       "showTutorial": "Mostrar Tutorial",
       "image": {
@@ -92,7 +93,8 @@
     },
     "connectEquipment": {
       "camera": {
-        "error": "Error controlando cámera:"
+        "error": "Error controlando cámera:",
+        "name": "Cámara"
       },
       "connectAll": "Connectar TODO",
       "disconnectAll": "Desconectar TODO",
@@ -101,36 +103,48 @@
       "filter": {
         "connect": "Conectar rueda filtros",
         "disconnect": "Disconectar rueda filtros",
-        "error": "Error controlando filter wheel:"
+        "error": "Error controlando filter wheel:",
+        "name": "Rueda de filtro"
       },
       "mount": {
-        "error": "Error controlando montura:"
+        "error": "Error controlando montura:",
+        "name": "Montar"
       },
       "focuser": {
-        "error": "Error controlando enfocador:"
+        "error": "Error controlando enfocador:",
+        "name": "Enfocador"
       },
       "rotator": {
-        "error": "Error controlando rotador:"
+        "error": "Error controlando rotador:",
+        "name": "Rotador"
       },
       "guider": {
-        "error": "Error controlando guiado:"
+        "error": "Error controlando guiado:",
+        "name": "Guía"
       },
       "safety": {
-        "error": "Error controlando monitor seguridad"
+        "error": "Error controlando monitor seguridad",
+        "name": "Monitor de seguridad"
       },
       "flat": {
         "error": "Error controlando panel de flat:",
         "name": "Evidente"
       },
       "dome": {
-        "error": "Error controlando cúpula:"
+        "error": "Error controlando cúpula:",
+        "name": "Cúpula"
       },
       "switch": {
-        "error": "Error controlando relais"
+        "error": "Error controlando relais",
+        "name": "Cambiar"
       },
       "weather": {
         "error": "Error controlando monitor tiempo",
         "name": "Clima"
+      },
+      "info": {
+        "message": "La rueda del filtro manual y el rotador manual actualmente solo se pueden controlar a través de Nina",
+        "title": "Información"
       }
     },
     "lastLogs": {
@@ -206,7 +220,20 @@
       "running": "CORRER",
       "imageHistory": "Historial de Imagenes",
       "duration": "Duración",
-      "temperatureShort": "Temp"
+      "temperatureShort": "Temp",
+      "conditions": "Condiciones",
+      "info": {
+        "header": "Información",
+        "message": "Desafortunadamente, su secuencia no se puede editar. \nNo todos los complementos de secuencia son compatibles actualmente. \nSi desea ayudarnos, háganos saber en GitHub qué complementos está utilizando."
+      },
+      "info_general": {
+        "message": "Desafortunadamente, aún no podemos procesar todos los parámetros. \nEstamos trabajando en apoyar tantas funciones de Nina como sea posible. \nDebido a que hay tantos complementos, no podemos integrarlos todos. \nSin embargo, estamos tratando de apoyar tantos como sea posible. \nSi nota un error en la pantalla, ayúdanos e infórmalo en GitHub"
+      },
+      "sort": {
+        "newest": "el primero primero",
+        "oldest": "el más antiguo primero",
+        "sort": "Clasificar"
+      }
     },
     "mount": {
       "title": "Montura",
@@ -228,7 +255,10 @@
           "tracking": "Error configurar modo seguimiento"
         },
         "manuellControl": "Control manual",
-        "slewRate": "Tasa de seca °/s"
+        "slewRate": "Tasa de seca °/s",
+        "info_manuell_controll": "El control manual solo está disponible si el seguimiento no está activo",
+        "set_as_park": "Establecido como parque",
+        "slew_to_cenit": "Ripas a Zenith"
       },
       "info": {
         "notConnected": "Por favor conectar montura",
@@ -289,8 +319,13 @@
           "open": "Error abrir obturador",
           "close": "Error cerrar obturador",
           "stop": "Error parar obturador"
-        }
-      }
+        },
+        "follow": "Domo sigue el telescopio",
+        "slew": "Montón",
+        "slew_label": "Giran a grados",
+        "sync": "Sincronización con telescopio"
+      },
+      "please_connect_dome": "Conecte el domo"
     },
     "camera": {
       "title": "Cámara",
@@ -374,10 +409,25 @@
         "apiUnreachable": "Framing API no alcanzable",
         "invalidFormat": "Formato no valido. Esperado: ±DD:MM:SS.s",
         "apiResponseError": "Error en respuesta API:",
-        "mountInfoError": "Error obteniendo información montura:"
+        "mountInfoError": "Error obteniendo información montura:",
+        "invalidAltInput": "Entrada ALT no válida.",
+        "invalidAzInput": "Entrada AZ no válida."
       },
       "rotate": "Girar",
-      "visibleStars": "Búsqueda de estrellas visible"
+      "visibleStars": "Búsqueda de estrellas visible",
+      "alt": "Alt:",
+      "az": "Arizona:",
+      "slew_modal": {
+        "center_Repeat": "Repetir centrado",
+        "center_error": "Error de centrado",
+        "center_successful": "Centrado exitoso",
+        "deviation_target": "Desviación al objetivo:",
+        "exposure_running": "Exposición Running",
+        "is_centering": "Objetivo central",
+        "is_platesolving": "Platesolve corriendo",
+        "is_slewing": "Gastando para el objetivo",
+        "plate_solve_error": "Error de platesole"
+      }
     },
     "filterwheel": {
       "filter": "Filtro:",
@@ -441,7 +491,8 @@
       "start_auto_exposure": "Iniciar exposición automática",
       "start_sky_flat": "Comienza el cielo plano",
       "stop": "Detener",
-      "title": "Asistente plano"
+      "title": "Asistente plano",
+      "button_slew_to_zenith": "Ripas a Zenith"
     },
     "stellarium": {
       "datetime": {
@@ -460,6 +511,15 @@
         "dec": "DIC",
         "ra": "REAL ACADEMIA DE BELLAS ARTES",
         "title": "Objeto seleccionado"
+      },
+      "settings": {
+        "atmosphere_visible": "Ambiente de exhibición",
+        "azimuthal_lines_visible": "Mostrar líneas azimutales",
+        "constellations_lines_visible": "Mostrar constelaciones",
+        "ecliptic_lines_visible": "Mostrar eclíptico",
+        "equatorial_lines_visible": "Mostrar líneas ecuatoriales",
+        "landscapes_visible": "Exhibir paisajes",
+        "meridian_lines_visible": "Mostrar meridiano"
       }
     },
     "profile": {

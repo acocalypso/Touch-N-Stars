@@ -53,7 +53,8 @@
         "emptyFields": "Vyplňte všechna pole",
         "instanceNameRequired": "Název instance je povinný",
         "invalidIPFormat": "Uveďte prosím IP nebo FQDN",
-        "invalidPortRange": "Port musí být v rozsahu 1 až 65535"
+        "invalidPortRange": "Port musí být v rozsahu 1 až 65535",
+        "invalidInstance": "A connection could not be established"
       },
       "showTutorial": "Ukázat Tutoriál",
       "system": {
@@ -92,7 +93,8 @@
     },
     "connectEquipment": {
       "camera": {
-        "error": "Chyba při ovládání kamery:"
+        "error": "Chyba při ovládání kamery:",
+        "name": "Camera"
       },
       "connectAll": "Připojit Vše",
       "disconnectAll": "Odpojit Vše",
@@ -101,36 +103,48 @@
       "filter": {
         "connect": "Připojit filtrační kolo",
         "disconnect": "Odpojit filtrační kolo",
-        "error": "Chyba při ovládání filtračního kola:"
+        "error": "Chyba při ovládání filtračního kola:",
+        "name": "FIlterwheel"
       },
       "mount": {
-        "error": "Chyba při ovládání montáže:"
+        "error": "Chyba při ovládání montáže:",
+        "name": "Mount"
       },
       "focuser": {
-        "error": "Chyba při ovládání ostření:"
+        "error": "Chyba při ovládání ostření:",
+        "name": "Focuser"
       },
       "rotator": {
-        "error": "Chyba při ovládání rotátoru:"
+        "error": "Chyba při ovládání rotátoru:",
+        "name": "Rotator"
       },
       "guider": {
-        "error": "Chyba při ovládání pointace:"
+        "error": "Chyba při ovládání pointace:",
+        "name": "Guider"
       },
       "safety": {
-        "error": "Chyba při ovládání bezpečnostního monitoru"
+        "error": "Chyba při ovládání bezpečnostního monitoru",
+        "name": "Safety monitor"
       },
       "flat": {
         "error": "Chyba při ovládání flat zařízení:",
         "name": "Flatdevice"
       },
       "dome": {
-        "error": "Chyba při ovládání kopule:"
+        "error": "Chyba při ovládání kopule:",
+        "name": "Dome"
       },
       "switch": {
-        "error": "Chyba při ovládání přepínače"
+        "error": "Chyba při ovládání přepínače",
+        "name": "Switch"
       },
       "weather": {
         "error": "Chyba při ovládání počasí",
         "name": "Weather"
+      },
+      "info": {
+        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA",
+        "title": "Info"
       }
     },
     "lastLogs": {
@@ -206,7 +220,20 @@
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
-      "temperatureShort": "Teplota"
+      "temperatureShort": "Teplota",
+      "conditions": "Conditions",
+      "info": {
+        "header": "Info",
+        "message": "Unfortunately, your sequence cannot be edited. Not all sequence plugins are currently supported. If you want to help us, let us know on GitHub which plugins you are using."
+      },
+      "info_general": {
+        "message": "Unfortunately, we are not yet able to process all parameters. We are working on supporting as many NINA functions as possible. Because there are so many plugins, we cannot integrate them all. However, we are trying to support as many as possible. If you notice an error in the display, please help us and report it on GitHub"
+      },
+      "sort": {
+        "newest": "newest first",
+        "oldest": "oldest first",
+        "sort": "Sort"
+      }
     },
     "mount": {
       "title": "Montáž",
@@ -228,7 +255,10 @@
           "tracking": "Chyba při nastavování režimu sledován"
         },
         "manuellControl": "Ruční Ovládání",
-        "slewRate": "Rychlost pohybu °/s"
+        "slewRate": "Rychlost pohybu °/s",
+        "info_manuell_controll": "Manual control is only available if tracking is not active",
+        "set_as_park": "Set as park",
+        "slew_to_cenit": "Slew to Zenith"
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -289,8 +319,13 @@
           "open": "Chyba při otevření štěrbiny",
           "close": "Chybné při zavření štěrbiny",
           "stop": "Chyba v zastavení štěrbiny"
-        }
-      }
+        },
+        "follow": "Dome follow telescope",
+        "slew": "Slew",
+        "slew_label": "Slew to degrees",
+        "sync": "Sync with telescope"
+      },
+      "please_connect_dome": "Please connect the dome"
     },
     "camera": {
       "title": "Kamera",
@@ -374,10 +409,25 @@
         "apiUnreachable": "Nedostupnost rozhraní API pro snímkování",
         "invalidFormat": "Nesprávný formát. Očekává se: ±DD:MM:SS.s",
         "apiResponseError": "Chyba v odpovědi API:",
-        "mountInfoError": "Chyba při získávání informací o montáži:"
+        "mountInfoError": "Chyba při získávání informací o montáži:",
+        "invalidAltInput": "Invalid alt input.",
+        "invalidAzInput": "Invalid az input."
       },
       "rotate": "Rotace",
-      "visibleStars": "Hledání Viditelných Hvězd"
+      "visibleStars": "Hledání Viditelných Hvězd",
+      "alt": "Alt:",
+      "az": "Az:",
+      "slew_modal": {
+        "center_Repeat": "Repeat centering",
+        "center_error": "Centering error",
+        "center_successful": "Centering successful",
+        "deviation_target": "Deviation to the target:",
+        "exposure_running": "Exposure running",
+        "is_centering": "Center target",
+        "is_platesolving": "Platesolve running",
+        "is_slewing": "Slewing to target",
+        "plate_solve_error": "Platesolve error"
+      }
     },
     "filterwheel": {
       "filter": "Filtr:",
@@ -441,7 +491,8 @@
       "start_auto_exposure": "Spustit auto expozici",
       "start_sky_flat": "Spustit flat z oblohy",
       "stop": "Zastavit",
-      "title": "Asistent flatu"
+      "title": "Asistent flatu",
+      "button_slew_to_zenith": "Slew to zenith"
     },
     "stellarium": {
       "datetime": {
@@ -460,6 +511,15 @@
         "dec": "DEC",
         "ra": "RA",
         "title": "Vybraný objekt"
+      },
+      "settings": {
+        "atmosphere_visible": "Show atmosphere",
+        "azimuthal_lines_visible": "Show azimuthal lines",
+        "constellations_lines_visible": "Show Constellations",
+        "ecliptic_lines_visible": "Show ecliptic",
+        "equatorial_lines_visible": "Show equatorial lines",
+        "landscapes_visible": "Show landscapes",
+        "meridian_lines_visible": "Show meridian"
       }
     },
     "profile": {

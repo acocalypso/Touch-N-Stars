@@ -318,14 +318,23 @@
         "errors": {
           "open": "Erro ao abrir o obturador",
           "close": "Erro ao fechar o obturador",
-          "stop": "Erro ao parar o obturador"
+          "stop": "Erro ao parar o obturador",
+          "home": "Erro em casa",
+          "park": "Parque de erros",
+          "slew": "Erro enlouquece",
+          "stop_slew": "Erro Pare de matar",
+          "sync": "Sincronização de erro"
         },
         "follow": "Cúpula siga o telescópio",
         "slew": "Matar",
         "slew_label": "Matou em graus",
-        "sync": "Sincronização com telescópio"
+        "sync": "Sincronização com telescópio",
+        "home": "Lar",
+        "park": "Parque"
       },
-      "please_connect_dome": "Por favor, conecte a cúpula"
+      "please_connect_dome": "Por favor, conecte a cúpula",
+      "is_sync": "Sincronização",
+      "not_sync": "Não sincroniza"
     },
     "camera": {
       "title": "Câmera",

@@ -16,7 +16,7 @@ async function stopShutter() {
     const response = await apiService.domeAction('stop');
     if (
       handleApiError(response, {
-        title: 'stop error',
+        title: t('components.dome.control.errors.stop'),
       })
     )
       return;

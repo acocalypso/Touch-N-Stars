@@ -318,14 +318,23 @@
         "errors": {
           "open": "Errore apertura otturatore",
           "close": "Errore chiusura otturatore",
-          "stop": "Errore arresto otturatore"
+          "stop": "Errore arresto otturatore",
+          "home": "Errore a casa",
+          "park": "Parco di errori",
+          "slew": "Errore Slew",
+          "stop_slew": "Errore Stop Slew",
+          "sync": "Sincronizzazione dell'errore"
         },
         "follow": "Dome Segui il telescopio",
         "slew": "Slew",
         "slew_label": "Slew a gradi",
-        "sync": "Sincronizzazione con il telescopio"
+        "sync": "Sincronizzazione con il telescopio",
+        "home": "Casa",
+        "park": "Parco"
       },
-      "please_connect_dome": "Si prega di collegare la cupola"
+      "please_connect_dome": "Si prega di collegare la cupola",
+      "is_sync": "Sincronizzazione",
+      "not_sync": "Non sincronizzazione"
     },
     "camera": {
       "title": "Fotocamera",

@@ -318,14 +318,23 @@
         "errors": {
           "open": "打开穹顶时出错",
           "close": "关闭穹顶时出错",
-          "stop": "停止穹顶时出错"
+          "stop": "停止穹顶时出错",
+          "home": "Error home",
+          "park": "Error Park",
+          "slew": "Error slew",
+          "stop_slew": "Error stop slew",
+          "sync": "Error sync"
         },
         "follow": "Dome follow telescope",
         "slew": "Slew",
         "slew_label": "Slew to degrees",
-        "sync": "Sync with telescope"
+        "sync": "Sync with telescope",
+        "home": "Home",
+        "park": "Park"
       },
-      "please_connect_dome": "Please connect the dome"
+      "please_connect_dome": "Please connect the dome",
+      "is_sync": "Sync",
+      "not_sync": "Not sync"
     },
     "camera": {
       "title": "相机",

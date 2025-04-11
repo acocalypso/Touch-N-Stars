@@ -25,7 +25,7 @@ async function syncTelescope() {
     console.log('syncing telescope', response);
     if (
       handleApiError(response, {
-        title: 'Sync Error',
+        title: t('components.dome.control.errors.sync'),
       })
     )
       return;

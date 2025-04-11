@@ -16,7 +16,7 @@ async function openShutter() {
     const response = await apiService.domeAction('open');
     if (
       handleApiError(response, {
-        title: 'Slew Error',
+        title: t('components.dome.control.errors.open'),
       })
     )
       return;

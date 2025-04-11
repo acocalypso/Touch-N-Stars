@@ -318,14 +318,23 @@
         "errors": {
           "open": "Error abrir obturador",
           "close": "Error cerrar obturador",
-          "stop": "Error parar obturador"
+          "stop": "Error parar obturador",
+          "home": "Error en casa",
+          "park": "Parque de errores",
+          "slew": "Error",
+          "stop_slew": "Error detente",
+          "sync": "Sincronización de errores"
         },
         "follow": "Domo sigue el telescopio",
         "slew": "Montón",
         "slew_label": "Giran a grados",
-        "sync": "Sincronización con telescopio"
+        "sync": "Sincronización con telescopio",
+        "home": "Hogar",
+        "park": "Parque"
       },
-      "please_connect_dome": "Conecte el domo"
+      "please_connect_dome": "Conecte el domo",
+      "is_sync": "Sincronización",
+      "not_sync": "No sincronización"
     },
     "camera": {
       "title": "Cámara",

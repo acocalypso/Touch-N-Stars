@@ -6,7 +6,7 @@
     <div class="flex gap-2">
       <input
         id="azimuth"
-        v-model="azimuth"
+        v-model.number="azimuth"
         type="number"
         class="text-black px-4 h-10 w-40 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="1"
@@ -23,6 +23,13 @@
           class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
       </button>
+      <button
+        @click="stopSlew"
+        v-if="store.domeInfo.Slewing || isSlewing"
+        class="bg-red-900 rounded-md flex items-center justify-center w-16"
+      >
+        <StopCircleIcon class="w-8 h-8" />
+      </button>
     </div>
   </div>
 </template>
@@ -32,7 +39,10 @@ import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { handleApiError } from '@/utils/utils';
+import { useI18n } from 'vue-i18n';
+import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
+const { t } = useI18n();
 const store = apiStore();
 const azimuth = ref(0);
 const isSlewing = ref(false);
@@ -40,9 +50,9 @@ const isSlewing = ref(false);
 async function slewDome() {
   isSlewing.value = true;
   try {
-    const response = await apiService.domeAction(`slew?azimuth=${azimuth.value}`);
-
-    if (handleApiError(response, { title: 'Slew Error' })) {
+    const response = await apiService.domeAction(`slew?waitToFinish=true&azimuth=${azimuth.value}`);
+    isSlewing.value = false;
+    if (handleApiError(response, { title: t('components.dome.control.errors.slew') })) {
       isSlewing.value = false;
       return;
     }
@@ -59,15 +69,16 @@ async function slewDome() {
   }
 }
 
-watch(
-  () => store.domeInfo.Azimuth,
-  () => {
-    if (parseFloat(store.domeInfo.Azimuth).toFixed(0) === parseFloat(azimuth.value).toFixed(0)) {
-      console.log('Slewing to the same azimuth, stopping slew.');
-      isSlewing.value = false;
-    }
+async function stopSlew() {
+  try {
+    const response = await apiService.domeAction('stop');
+    if (handleApiError(response, { title: t('components.dome.control.errors.stop_slew') })) return;
+    isSlewing.value = false;
+    console.log('Stopping slew:', response);
+  } catch (error) {
+    console.log(t('components.dome.control.errors.stop_slew'));
   }
-);
+}
 
 onMounted(() => {
   if (store.domeInfo.Azimuth !== undefined && !isNaN(store.domeInfo.Azimuth)) {

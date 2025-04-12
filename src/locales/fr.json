@@ -89,7 +89,8 @@
       },
       "moveRotator": "Caméra de rotation",
       "openFraminingModal": "Ouvert dans un cadrage",
-      "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans Nina ou l'option «Utiliser Nina Cache» doit être désactivée"
+      "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans Nina ou l'option «Utiliser Nina Cache» doit être désactivée",
+      "currentAltitude": "Altitude de courant"
     },
     "connectEquipment": {
       "camera": {

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Camera: Add Chipsettings 
 - Image History sorting by newest / oldest
 - Stellarium Clock & Date view
+- Altitude Chart in TargetSearch
 
 ### Changed
 - CaptureButton created and integrated into CameraView 

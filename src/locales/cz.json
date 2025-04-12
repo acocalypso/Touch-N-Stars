@@ -89,7 +89,8 @@
       },
       "moveRotator": "Otáčení kamery",
       "openFraminingModal": "Spustť ve Snímkování",
-      "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět"
+      "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
+      "currentAltitude": "Current Altitude"
     },
     "connectEquipment": {
       "camera": {

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 landscape:grid-cols-3 gap-1">
+  <div class="flex gap-2">
     <ButtonOpenShutter />
     <ButtonStopShutter />
     <ButtonCloseShutter />
@@ -14,6 +14,9 @@
     <ButtonSyncDome />
   </div>
   <div class="flex gap-2 mt-2">
+    <ButtonFollow />
+  </div>
+  <div class="flex gap-2 mt-2">
     <ButtonSlew />
   </div>
 </template>
@@ -26,4 +29,5 @@ import ButtonSlew from '@/components/dome/ButtonSlewDome.vue';
 import ButtonSyncDome from '@/components/dome/ButtonSyncDome.vue';
 import ButtonHome from '@/components/dome/ButtonHome.vue';
 import ButtonPark from '@/components/dome/ButtonPark.vue';
+import ButtonFollow from '@/components/dome/ButtonFollow.vue';
 </script>

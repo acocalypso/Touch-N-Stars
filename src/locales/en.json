@@ -323,7 +323,8 @@
           "slew": "Error slew ",
           "sync": "Error sync",
           "stop_slew": "Error stop slew",
-          "home": "Error home"
+          "home": "Error home",
+          "follow": "Error follow Telescope"
         },
         "slew": "Slew",
         "slew_label": "Slew to degrees",

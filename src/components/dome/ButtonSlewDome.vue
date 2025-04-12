@@ -13,7 +13,7 @@
         step="1"
       />
       <button
-        class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-800 items-center justify-center disabled:opacity-50"
+        class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-900 items-center justify-center disabled:opacity-50"
         @click="slewDome"
         :disabled="store.domeInfo.Slewing || isSlewing"
       >
@@ -25,8 +25,8 @@
       </button>
       <button
         @click="stopSlew"
-        v-if="store.domeInfo.Slewing || isSlewing"
-        class="bg-red-900 rounded-md flex items-center justify-center w-16"
+        class="bg-red-900 rounded-md flex items-center justify-center w-16 mr-1"
+        :class="statusClass"
       >
         <StopCircleIcon class="w-8 h-8" />
       </button>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { handleApiError } from '@/utils/utils';
@@ -46,17 +46,14 @@ const { t } = useI18n();
 const store = apiStore();
 const azimuth = ref(0);
 const isSlewing = ref(false);
+const statusClass = ref('');
 
 async function slewDome() {
   isSlewing.value = true;
   try {
-    const response = await apiService.domeAction(`slew?waitToFinish=true&azimuth=${azimuth.value}`);
+    await apiService.domeAction(`slew?waitToFinish=true&azimuth=${azimuth.value}`);
     isSlewing.value = false;
-    if (handleApiError(response, { title: t('components.dome.control.errors.slew') })) {
-      isSlewing.value = false;
-      return;
-    }
-
+    statusClass.value = 'glow-green';
     if (store.domeInfo.Azimuth.toFixed(0) === azimuth.value.toFixed(0)) {
       console.log('Slewing to the same azimuth, stopping slew.');
       isSlewing.value = false;
@@ -67,6 +64,9 @@ async function slewDome() {
     isSlewing.value = false;
     console.error('Error stopping slew:', error);
   }
+  setTimeout(() => {
+    statusClass.value = '';
+  }, 1000);
 }
 
 async function stopSlew() {
@@ -74,10 +74,14 @@ async function stopSlew() {
     const response = await apiService.domeAction('stop');
     if (handleApiError(response, { title: t('components.dome.control.errors.stop_slew') })) return;
     isSlewing.value = false;
+    statusClass.value = 'glow-green';
     console.log('Stopping slew:', response);
   } catch (error) {
     console.log(t('components.dome.control.errors.stop_slew'));
   }
+  setTimeout(() => {
+    statusClass.value = '';
+  }, 1000);
 }
 
 onMounted(() => {
@@ -90,3 +94,8 @@ onMounted(() => {
 </script>
 
 <style scoped></style>
+<style scoped>
+.glow-green {
+  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
+}
+</style>

@@ -38,8 +38,11 @@
           class="w-12 h-12"
         />
       </button>
-      <button @click="sendStop" class="btn btn-stop" >
-        <StopCircleIcon class="w-12 h-12 " :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'" />
+      <button @click="sendStop" class="btn btn-stop">
+        <StopCircleIcon
+          class="w-12 h-12"
+          :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'"
+        />
       </button>
       <button
         @mousedown="sendCommand('east')"
@@ -50,7 +53,7 @@
         @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
-         :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
+        :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
@@ -137,7 +140,6 @@ const sendCommand = (direction) => {
     console.error('WebSocket ist nicht verbunden.');
     return;
   }
-  console.log('asldkjf');
 
   mountStore.lastDirection = direction;
 

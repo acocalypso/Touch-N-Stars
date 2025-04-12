@@ -323,7 +323,8 @@
           "park": "Fehler beim parken",
           "slew": "Fehler beim Schwenken",
           "stop_slew": "Fehler beim stoppen",
-          "sync": "Fehler beim synchronisieren"
+          "sync": "Fehler beim synchronisieren",
+          "follow": "Fehler"
         },
         "slew": "Schwenken",
         "slew_label": "Schwenke zu Grad",

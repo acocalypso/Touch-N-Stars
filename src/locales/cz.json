@@ -323,7 +323,8 @@
           "park": "Error Park",
           "slew": "Error slew",
           "stop_slew": "Error stop slew",
-          "sync": "Error sync"
+          "sync": "Error sync",
+          "follow": "Error follow Telescope"
         },
         "follow": "Dome follow telescope",
         "slew": "Slew",

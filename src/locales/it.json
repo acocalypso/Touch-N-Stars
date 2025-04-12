@@ -323,7 +323,8 @@
           "park": "Parco di errori",
           "slew": "Errore Slew",
           "stop_slew": "Errore Stop Slew",
-          "sync": "Sincronizzazione dell'errore"
+          "sync": "Sincronizzazione dell'errore",
+          "follow": "Errore Segui il telescopio"
         },
         "follow": "Dome Segui il telescopio",
         "slew": "Slew",

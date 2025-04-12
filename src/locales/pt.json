@@ -323,7 +323,8 @@
           "park": "Parque de erros",
           "slew": "Erro enlouquece",
           "stop_slew": "Erro Pare de matar",
-          "sync": "Sincronização de erro"
+          "sync": "Sincronização de erro",
+          "follow": "Erro Siga o telescópio"
         },
         "follow": "Cúpula siga o telescópio",
         "slew": "Matar",

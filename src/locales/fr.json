@@ -323,7 +323,8 @@
           "park": "Parc d'erreurs",
           "slew": "Erreur Spel",
           "stop_slew": "Erreur Stop Slew",
-          "sync": "Synchronisation d'erreur"
+          "sync": "Synchronisation d'erreur",
+          "follow": "Erreur Suivez le télescope"
         },
         "follow": "Dôme Suivez le télescope",
         "slew": "Tué",

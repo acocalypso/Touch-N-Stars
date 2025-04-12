@@ -323,7 +323,8 @@
           "park": "Parque de errores",
           "slew": "Error",
           "stop_slew": "Error detente",
-          "sync": "Sincronización de errores"
+          "sync": "Sincronización de errores",
+          "follow": "Error Sigue el telescopio"
         },
         "follow": "Domo sigue el telescopio",
         "slew": "Montón",

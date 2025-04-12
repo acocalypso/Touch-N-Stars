@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Focuser: Add autofocus graph 
 - Camera: Add Chipsettings 
 - Image History sorting by newest / oldest
+- Stellarium Clock & Date view
 
 ### Changed
 - CaptureButton created and integrated into CameraView 

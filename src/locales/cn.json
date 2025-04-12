@@ -233,7 +233,8 @@
         "newest": "newest first",
         "oldest": "oldest first",
         "sort": "Sort"
-      }
+      },
+      "time": "Time"
     },
     "mount": {
       "title": "赤道仪",

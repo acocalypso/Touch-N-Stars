@@ -233,7 +233,8 @@
         "sort": "Sort",
         "oldest": "oldest first",
         "newest": "newest first"
-      }
+      },
+      "time": "Time"
     },
     "mount": {
       "title": "Mount",

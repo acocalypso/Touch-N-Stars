@@ -233,7 +233,8 @@
         "sort": "Sortiere",
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
-      }
+      },
+      "time": "Zeit"
     },
     "mount": {
       "title": "Montierung",

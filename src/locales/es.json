@@ -233,7 +233,8 @@
         "newest": "el primero primero",
         "oldest": "el más antiguo primero",
         "sort": "Clasificar"
-      }
+      },
+      "time": "Tiempo"
     },
     "mount": {
       "title": "Montura",

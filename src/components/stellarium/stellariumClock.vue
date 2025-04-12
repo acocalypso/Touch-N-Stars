@@ -1,8 +1,9 @@
 <template>
   <div
-    class="absolute bottom-3 right-3 bg-black bg-opacity-80 p-2 rounded-lg text-white text-sm font-mono"
+    class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-3 rounded-lg text-white font-mono"
   >
-    {{ formattedDateTime }}
+    <div class="text-2xl text-center">{{ formattedTime }}</div>
+    <div class="text-lg text-center">{{ formattedDate }}</div>
   </div>
 </template>
 
@@ -11,7 +12,8 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 
 const stellariumStore = useStellariumStore();
-const formattedDateTime = ref('');
+const formattedTime = ref('');
+const formattedDate = ref('');
 let animationFrameId = null;
 
 function updateTime() {
@@ -19,7 +21,7 @@ function updateTime() {
 
   const mjd = stellariumStore.stel.core.observer.utc;
   const date = mjdToDate(mjd);
-  formattedDateTime.value = formatDate(date);
+  formatDateTime(date);
 
   // Request next animation frame
   animationFrameId = requestAnimationFrame(updateTime);
@@ -31,17 +33,23 @@ function mjdToDate(mjd) {
   return new Date(mjdBaseDate.getTime() + mjd * daysToMilliseconds);
 }
 
-function formatDate(date) {
-  const options = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
+function formatDateTime(date) {
+  // Time format
+  const timeOptions = {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
   };
-  return date.toLocaleString(undefined, options);
+  formattedTime.value = date.toLocaleString(undefined, timeOptions);
+
+  // Date format
+  const dateOptions = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  };
+  formattedDate.value = date.toLocaleString(undefined, dateOptions);
 }
 
 onMounted(() => {

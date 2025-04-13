@@ -4,20 +4,18 @@
       $t('components.settings.image.black_clipping')
     }}</label>
     <input
-        @change="updateSetting"
-        @blur="updateSetting"
-        :class="statusClass"
-        v-model.number="setValue"
-        type="number"
-        min="-10"
-        max="1"
-        step="0.1"
-        class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
-        placeholder="-2.8"
+      @change="updateSetting"
+      @blur="updateSetting"
+      :class="statusClass"
+      v-model.number="setValue"
+      type="number"
+      min="-10"
+      max="1"
+      step="0.1"
+      class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+      placeholder="-2.8"
     />
   </div>
-
-
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -45,7 +43,6 @@ async function updateSetting() {
     statusClass.value = '';
   }, 1000);
 }
-
 
 onMounted(() => {
   setValue.value = store.profileInfo.ImageSettings.BlackClipping;

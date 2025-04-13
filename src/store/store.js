@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { wait } from '@/utils/utils';
 
 export const apiStore = defineStore('store', {
   state: () => ({

@@ -228,7 +228,6 @@
           <setImgQuality />
           <setImgStrechFactor />
           <setImgBlackClipping />
-          
         </div>
 
         <!-- Tutorial Button -->

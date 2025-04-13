@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
-import { apiStore } from './store';
 
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
@@ -217,9 +216,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
       });
     },
 
-    async getImageByIndex(index, quality, scale, debayer) {
+    async getImageByIndex(index, quality, scale) {
       let image = null;
-      const store = apiStore();
 
       if (
         this.lastImage.image &&
@@ -233,12 +231,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         return image;
       }
       try {
-        const result = await apiService.getSequenceImage(
-          index,
-          quality,
-          true,
-          scale,
-        );
+        const result = await apiService.getSequenceImage(index, quality, true, scale);
         if (result.StatusCode != 200) {
           console.error('Unknown error: Check NINA Logs for more information');
           return;

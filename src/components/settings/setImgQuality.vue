@@ -17,12 +17,8 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue';
-import { apiStore } from '@/store/store';
-import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
+import { ref } from 'vue';
 import { useSettingsStore } from '@/store/settingsStore';
-
 
 const settingsStore = useSettingsStore();
 const statusClass = ref('');

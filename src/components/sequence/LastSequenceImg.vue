@@ -33,7 +33,6 @@ import { ref, watch, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
-import apiService from '@/services/apiService';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 
 let isLoadingImg = ref(true);
@@ -58,8 +57,7 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function getlastImage(index, quality, resize, scale) {
-  let image = null;
+async function getlastImage(index, quality, scale) {
   if (
     sequenceStore.lastImage.image &&
     index === sequenceStore.lastImage.index &&
@@ -74,16 +72,8 @@ async function getlastImage(index, quality, resize, scale) {
     return;
   }
   try {
-    const result = await apiService.getSequenceImage(index, quality, resize, scale);
-    console.log(result);
-    if (result.StatusCode != 200) {
-      isLoadingImg.value = false;
-      console.error('Unknown error: Check NINIA Log for more information');
-      return;
-    }
-    image = result?.Response;
-    if (image) {
-      imageData.value = `data:image/jpeg;base64,${image}`;
+    imageData.value = await sequenceStore.getImageByIndex(index, quality, scale);
+    if (imageData.value) {
       setSelectedDataset(index);
       sequenceStore.lastImage.scale = scale;
       sequenceStore.lastImage.quality = quality;
@@ -126,7 +116,7 @@ watch(
 
       await wait(3000); // Wait 3 seconds. The image may not be available yet.
 
-      getlastImage(latestIndex, settingsStore.camera.imageQuality, true, 0.5);
+      getlastImage(latestIndex, settingsStore.camera.imageQuality, 0.5);
     }
   },
   { immediate: false }
@@ -134,7 +124,7 @@ watch(
 
 onMounted(() => {
   const latestIndex = store.imageHistoryInfo.length - 1;
-  getlastImage(latestIndex, settingsStore.camera.imageQuality, true, 0.5);
+  getlastImage(latestIndex, settingsStore.camera.imageQuality, 0.5);
   console.log('Mounted last LastSequenceImg');
   console.log('latestIndex: ', latestIndex);
   console.log('isLoadingImg: ', isLoadingImg.value);

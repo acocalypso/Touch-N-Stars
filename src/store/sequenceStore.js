@@ -218,6 +218,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     async getImageByIndex(index, quality, scale) {
       let image = null;
+
       if (
         this.lastImage.image &&
         index === this.lastImage.index &&

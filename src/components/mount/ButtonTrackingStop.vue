@@ -1,0 +1,41 @@
+<template>
+  <button
+    @click="setTrackingMode(4)"
+    class="min-w-15 min-h-10 bg-red-800 rounded-md flex items-center justify-center w-full"
+    :class="statusClass"
+  >
+    <StopCircleIcon class="w-8 h-8" />
+  </button>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import apiService from '@/services/apiService';
+import { handleApiError } from '@/utils/utils';
+import { useI18n } from 'vue-i18n';
+import { StopCircleIcon } from '@heroicons/vue/24/outline';
+
+const statusClass = ref('');
+const { t } = useI18n();
+
+async function setTrackingMode(mode) {
+  //0=Siderial, 1=Lunar, 2=Solar, 3=King, 4=Stopped
+  try {
+    const response = await apiService.setTrackingMode(mode);
+    if (handleApiError(response, { title: t('components.mount.control.errors.tracking') })) return;
+    statusClass.value = 'glow-green';
+    console.log(t('components.mount.control.trackingMode') + ' gesetzt');
+  } catch (error) {
+    console.log(t('components.mount.control.errors.tracking'));
+  }
+  setTimeout(() => {
+    statusClass.value = '';
+  }, 1000);
+}
+</script>
+
+<style scoped>
+.glow-green {
+  box-shadow: 0 0 10px #00ff00;
+}
+</style>

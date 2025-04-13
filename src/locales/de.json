@@ -66,7 +66,9 @@
       },
       "image": {
         "title": "Bildeinstellungen",
-        "quality": "Qualität in % "
+        "quality": "Qualität in % ",
+        "black_clipping": "Black Clipping",
+        "strech_factor": "Strech Factor"
       }
     },
     "framing": {
@@ -234,7 +236,8 @@
         "sort": "Sortiere",
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
-      }
+      },
+      "time": "Zeit"
     },
     "mount": {
       "title": "Montierung",
@@ -310,23 +313,33 @@
       "not_at_home": "Nicht in Home-Position",
       "park": "Parken",
       "unpark": "Ausparken",
-      "shutter_close": "Verschluss schließen",
-      "shutter_open": "Verschluss öffnen",
+      "shutter_close": "Dach schließen",
+      "shutter_open": "Dach öffnen",
       "control": {
-        "open": "Verschluss öffnen",
-        "close": "Verschluss schließen",
-        "stop": "Verschlussbewegung stoppen",
+        "open": "Dach öffnen",
+        "close": "Dach schließen",
+        "stop": "stoppen",
         "errors": {
           "open": "Fehler beim Öffnen des Verschlusses",
           "close": "Fehler beim Schließen des Verschlusses",
-          "stop": "Fehler beim Stoppen der Verschlussbewegung"
+          "stop": "Fehler beim Stoppen der Verschlussbewegung",
+          "home": "Fehler beim Heimkehren",
+          "park": "Fehler beim parken",
+          "slew": "Fehler beim Schwenken",
+          "stop_slew": "Fehler beim stoppen",
+          "sync": "Fehler beim synchronisieren",
+          "follow": "Fehler"
         },
         "slew": "Schwenken",
         "slew_label": "Schwenke zu Grad",
         "follow": "Dome folgt dem Teleskop",
-        "sync": "Sync mit Teleskop"
+        "sync": "Sync mit Teleskop",
+        "home": "Heim",
+        "park": "Park"
       },
-      "please_connect_dome": "Bitte verbinden Sie die Kuppel"
+      "please_connect_dome": "Bitte verbinden Sie die Kuppel",
+      "is_sync": "Synchronisation",
+      "not_sync": "Nicht synchronisieren"
     },
     "camera": {
       "title": "Kamera",

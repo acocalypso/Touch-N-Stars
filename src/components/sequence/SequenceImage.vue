@@ -10,7 +10,7 @@
     >
       <div class="grid grid-cols-2 gap-4">
         <div v-if="stats.Date" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.date') }}: </span>
+          <span class="font-bold">{{ $t('components.sequence.time') }}: </span>
           <span>{{ formatDate(stats.Date) }}</span>
         </div>
 

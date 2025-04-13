@@ -6,7 +6,11 @@
     <StatusString
       :isEnabled="store.domeInfo.Azimuth !== undefined && !isNaN(store.domeInfo.Azimuth)"
       :Name="$t('components.dome.azimuth')"
-      :Value="store.domeInfo.Azimuth"
+      :Value="
+        store.domeInfo.Azimuth !== undefined && !isNaN(store.domeInfo.Azimuth)
+          ? store.domeInfo.Azimuth.toFixed(1)
+          : ''
+      "
     />
     <StatusBool
       :isEnabled="store.domeInfo.Slewing"
@@ -14,7 +18,7 @@
       :disabledText="$t('components.dome.slewing_stopped')"
     />
     <StatusBool
-      :isEnabled="store.domeInfo.DriverFollowing"
+      :isEnabled="store.domeInfo.IsFollowing"
       :enabledText="$t('components.dome.following')"
       :disabledText="$t('components.dome.following_stopped')"
     />
@@ -32,6 +36,11 @@
       :isEnabled="store.domeInfo.ShutterStatus !== 'ShutterClosed'"
       :enabledText="$t('components.dome.shutter_open')"
       :disabledText="$t('components.dome.shutter_close')"
+    />
+    <StatusBool
+      :isEnabled="store.domeInfo.IsSynchronized"
+      :enabledText="$t('components.dome.is_sync')"
+      :disabledText="$t('components.dome.not_sync')"
     />
   </div>
 </template>

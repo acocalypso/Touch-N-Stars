@@ -12,6 +12,7 @@
         @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
+        :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
       >
         <ArrowUpCircleIcon
           :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
@@ -30,6 +31,7 @@
         @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
+        :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
       >
         <ArrowLeftCircleIcon
           :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
@@ -37,7 +39,10 @@
         />
       </button>
       <button @click="sendStop" class="btn btn-stop">
-        <StopCircleIcon class="w-12 h-12 text-red-500" />
+        <StopCircleIcon
+          class="w-12 h-12"
+          :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'"
+        />
       </button>
       <button
         @mousedown="sendCommand('east')"
@@ -48,6 +53,7 @@
         @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
+        :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
@@ -66,6 +72,7 @@
         @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
+        :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
       >
         <ArrowDownCircleIcon
           :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
@@ -133,7 +140,6 @@ const sendCommand = (direction) => {
     console.error('WebSocket ist nicht verbunden.');
     return;
   }
-  console.log('asldkjf');
 
   mountStore.lastDirection = direction;
 
@@ -154,7 +160,7 @@ const sendCommand = (direction) => {
 
 const sendStop = () => {
   if (!mountStore.lastDirection) {
-    console.error('Kein vorheriger Befehl zum Stoppen.');
+    console.log('Kein vorheriger Befehl zum Stoppen.');
     return;
   }
 
@@ -205,5 +211,11 @@ onBeforeUnmount(() => {
   padding: 0.5rem;
   box-shadow: 0 2px 15px black;
   border: 1px solid #0a0a0a;
+}
+.glow-green {
+  box-shadow: 0 0 10px #00ff00;
+}
+.glow-red {
+  box-shadow: 0 0 10px rgb(255, 0, 0); /* Roter Schein */
 }
 </style>

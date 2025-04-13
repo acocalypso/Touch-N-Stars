@@ -66,7 +66,9 @@
       },
       "image": {
         "quality": "Qualité en%",
-        "title": "Paramètres d'images"
+        "title": "Paramètres d'images",
+        "black_clipping": "Black Clipping",
+        "strech_factor": "Strech Factor"
       }
     },
     "framing": {
@@ -233,7 +235,8 @@
         "newest": "le plus récent premier",
         "oldest": "le plus ancien premier",
         "sort": "Trier"
-      }
+      },
+      "time": "Temps"
     },
     "mount": {
       "title": "Monture",
@@ -318,14 +321,24 @@
         "errors": {
           "open": "Erreur lors de l'ouverture du cimier",
           "close": "Erreur lors de la fermeture du cimier",
-          "stop": "Erreur lors de l'arrêt du cimier"
+          "stop": "Erreur lors de l'arrêt du cimier",
+          "home": "Erreur à la maison",
+          "park": "Parc d'erreurs",
+          "slew": "Erreur Spel",
+          "stop_slew": "Erreur Stop Slew",
+          "sync": "Synchronisation d'erreur",
+          "follow": "Erreur Suivez le télescope"
         },
         "follow": "Dôme Suivez le télescope",
         "slew": "Tué",
         "slew_label": "Tuer à des degrés",
-        "sync": "Synchroniser avec le télescope"
+        "sync": "Synchroniser avec le télescope",
+        "home": "Maison",
+        "park": "Parc"
       },
-      "please_connect_dome": "Veuillez connecter le dôme"
+      "please_connect_dome": "Veuillez connecter le dôme",
+      "is_sync": "Synchronisation",
+      "not_sync": "Pas synchronisé"
     },
     "camera": {
       "title": "Camera",

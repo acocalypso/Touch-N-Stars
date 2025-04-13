@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Camera: Add Chipsettings 
 - Image History sorting by newest / oldest
 - Stellarium Clock & Date view
+- Settings for stretch factor and black clipping 
 
 ### Changed
 - CaptureButton created and integrated into CameraView 
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Manual Mountcontroll is permanently visible
 - Update Eslint to 9
 - add durations and dither to Guidegraph
+- Sequence image is now displayed as in NINA
 
 ### Fixed
 - Avoid duplicate NINA connection entries

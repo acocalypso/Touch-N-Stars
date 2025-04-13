@@ -1,6 +1,6 @@
 <template>
-  <button @click="closeShutter" class="default-button-cyan w-full" :class="statusClass">
-    {{ $t('components.dome.control.close') }}
+  <button @click="homeDome" class="default-button-cyan" :class="statusClass">
+    {{ $t('components.dome.control.home') }}
   </button>
 </template>
 
@@ -13,14 +13,19 @@ import { ref } from 'vue';
 const { t } = useI18n();
 const statusClass = ref('');
 
-async function closeShutter() {
+async function homeDome() {
   try {
-    const response = await apiService.domeAction('close');
-    if (handleApiError(response, { title: t('components.dome.control.errors.close') })) return;
+    const response = await apiService.domeAction('home');
+    if (
+      handleApiError(response, {
+        title: t('components.dome.control.errors.home'),
+      })
+    )
+      return;
     statusClass.value = 'glow-green';
-    console.log(t('components.dome.control.close'));
+    console.log(t('components.dome.control.home'));
   } catch (error) {
-    console.log(t('components.dome.control.errors.close'));
+    console.log(t('components.dome.control.errors.home'));
   }
   setTimeout(() => {
     statusClass.value = '';

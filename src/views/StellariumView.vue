@@ -46,6 +46,9 @@
 
     <!-- Credits-->
     <stellariumCredits />
+
+    <!-- Clock -->
+    <stellariumClock v-if="stellariumStore.stel" />
   </div>
 </template>
 
@@ -65,6 +68,7 @@ import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 import SelectedObject from '@/components/stellarium/SelectedObject.vue';
 import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
+import stellariumClock from '@/components/stellarium/stellariumClock.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();

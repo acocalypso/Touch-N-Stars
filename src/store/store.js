@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { wait } from '@/utils/utils';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -59,11 +60,12 @@ export const apiStore = defineStore('store', {
     },
 
     async fetchAllInfos() {
+      let tempIsBackendReachable = false;
       try {
         const versionResponse = await apiService.isBackendReachable();
-        this.isBackendReachable = !!versionResponse;
+        tempIsBackendReachable = !!versionResponse;
 
-        if (this.isBackendReachable) {
+        if (tempIsBackendReachable) {
           this.currentApiVersion = versionResponse.Response;
           this.isVersionNewerOrEqual = this.checkVersionNewerOrEqual(
             this.currentApiVersion,
@@ -131,6 +133,7 @@ export const apiStore = defineStore('store', {
         console.error('Fehler beim Abrufen der Informationen:', error);
       }
       await this.fetchProfilInfos();
+      this.isBackendReachable = tempIsBackendReachable;
     },
 
     clearAllStates() {
@@ -273,11 +276,6 @@ export const apiStore = defineStore('store', {
 
     async fetchProfilInfos() {
       try {
-        if (!this.isBackendReachable) {
-          console.warn('Backend ist nicht erreichbar');
-          return;
-        }
-
         const profileInfoResponse = await apiService.profileAction('show?active=true');
 
         if (profileInfoResponse && profileInfoResponse.Response) {

@@ -59,7 +59,9 @@
       "showTutorial": "Mostrar Tutorial",
       "image": {
         "quality": "Calidad en %",
-        "title": "Configuración de imágenes"
+        "title": "Configuración de imágenes",
+        "black_clipping": "Black Clipping",
+        "strech_factor": "Strech Factor"
       },
       "system": {
         "confirmRestart": "¿Estás seguro de que quieres reiniciar el sistema?",

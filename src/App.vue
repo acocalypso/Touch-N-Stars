@@ -143,6 +143,7 @@ const { locale } = useI18n();
 
 onMounted(async () => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
+  await store.fetchAllInfos();
   store.startFetchingInfo();
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {

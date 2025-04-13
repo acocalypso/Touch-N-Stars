@@ -217,23 +217,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
       });
     },
 
-    async getImageByIndex(index, quality, scale, debayer, bayerPattern) {
+    async getImageByIndex(index, quality, scale, debayer) {
       let image = null;
       const store = apiStore();
-      if (store?.cameraInfo?.SensorType === 'Monochrome') {
-        debayer = false;
-        bayerPattern = 'Monochrome';
-        console.log('Monochrome camera detected, debayering disabled');
-      } else {
-        debayer = store?.profileInfo?.ImageSettings.DebayerImage;
-        if (store?.profileInfo?.CameraSettings.BayerPattern === 'Auto') {
-          bayerPattern = store?.cameraInfo?.SensorType || 'RGGB';
-        } else {
-          bayerPattern = store?.profileInfo?.CameraSettings.BayerPattern;
-        }
-      }
-      console.log('BayerPattern:', bayerPattern);
-      console.log('Debayer:', debayer);
 
       if (
         this.lastImage.image &&
@@ -252,8 +238,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
           quality,
           true,
           scale,
-          debayer,
-          bayerPattern
         );
         if (result.StatusCode != 200) {
           console.error('Unknown error: Check NINA Logs for more information');

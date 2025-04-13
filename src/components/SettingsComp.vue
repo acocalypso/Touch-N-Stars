@@ -221,23 +221,14 @@
         </div>
 
         <!-- Image settings -->
-        <div class="bg-gray-700 p-3 rounded-lg">
+        <div v-if="store.isBackendReachable" class="bg-gray-700 p-3 rounded-lg">
           <h3 class="text-lg font-medium mb-2 text-gray-300">
             {{ $t('components.settings.image.title') }}
           </h3>
-          <div>
-            <label class="block text-sm font-medium text-gray-400 mb-1">{{
-              $t('components.settings.image.quality')
-            }}</label>
-            <input
-              v-model="settingsStore.camera.imageQuality"
-              type="number"
-              min="1"
-              max="100"
-              class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
-              placeholder="90"
-            />
-          </div>
+          <setImgQuality />
+          <setImgStrechFactor />
+          <setImgBlackClipping />
+          
         </div>
 
         <!-- Tutorial Button -->
@@ -361,6 +352,9 @@ import TutorialModal from '@/components/TutorialModal.vue';
 import { Geolocation } from '@capacitor/geolocation';
 import { useRouter } from 'vue-router';
 import { Capacitor } from '@capacitor/core';
+import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
+import setImgQuality from '@/components/settings/setImgQuality.vue';
+import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

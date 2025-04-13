@@ -91,7 +91,8 @@
         "startCapture": "Determinar a rotação da câmera"
       },
       "moveRotator": "Gire a câmera",
-      "infoTargetImage": "Se a imagem for exibida apenas em preto, o \"cache de mapa do céu offline\" deve ser configurado em Nina ou a opção \"Use nina cache\" deve ser desativada"
+      "infoTargetImage": "Se a imagem for exibida apenas em preto, o \"cache de mapa do céu offline\" deve ser configurado em Nina ou a opção \"Use nina cache\" deve ser desativada",
+      "currentAltitude": "Altitude atual"
     },
     "connectEquipment": {
       "camera": {

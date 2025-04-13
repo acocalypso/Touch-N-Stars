@@ -91,7 +91,8 @@
       },
       "infoTargetImage": "Si la imagen solo se muestra en negro, el \"caché del mapa del cielo fuera de línea\" debe configurarse en Nina o la opción \"Usar Nina Cache\" debe desactivarse",
       "moveRotator": "Girar la cámara",
-      "openFraminingModal": "Abierto en ampliación asistente"
+      "openFraminingModal": "Abierto en ampliación asistente",
+      "currentAltitude": "Altitud actual"
     },
     "connectEquipment": {
       "camera": {

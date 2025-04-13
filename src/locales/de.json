@@ -91,7 +91,8 @@
         "SolveError": "Fehler beim Platesolve"
       },
       "moveRotator": "Camera rotieren",
-      "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden"
+      "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
+      "currentAltitude": "Aktuelle Höhe"
     },
     "connectEquipment": {
       "camera": {

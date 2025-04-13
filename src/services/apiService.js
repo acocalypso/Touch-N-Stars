@@ -88,7 +88,7 @@ const apiService = {
   },
 
   //-------------------------------------  Image  ---------------------------------------
-  async getSequenceImage(index, quality, resize, scale) {
+  async getSequenceImage(index, quality, resize, scale, debayer, bayerPattern) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/image/${index}`, {
@@ -96,7 +96,9 @@ const apiService = {
           quality: quality,
           resize: resize,
           scale: scale,
-          autoPrepare: true,
+          debayer: debayer,
+          bayerPattern: bayerPattern,
+          //autoPrepare: true,
         },
       });
       console.log(response);

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import { apiStore } from './store';
 
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
@@ -216,8 +217,24 @@ export const useSequenceStore = defineStore('sequenceStore', {
       });
     },
 
-    async getImageByIndex(index, quality, scale) {
+    async getImageByIndex(index, quality, scale, debayer, bayerPattern) {
       let image = null;
+      const store = apiStore();
+      if (store?.cameraInfo?.SensorType === 'Monochrome') {
+        debayer = false;
+        bayerPattern = 'Monochrome';
+        console.log('Monochrome camera detected, debayering disabled');
+      } else {
+        debayer = store?.profileInfo?.ImageSettings.DebayerImage;
+        if (store?.profileInfo?.CameraSettings.BayerPattern === 'Auto') {
+          bayerPattern = store?.cameraInfo?.SensorType || 'RGGB';
+        } else {
+          bayerPattern = store?.profileInfo?.CameraSettings.BayerPattern;
+        }
+      }
+      console.log('BayerPattern:', bayerPattern);
+      console.log('Debayer:', debayer);
+
       if (
         this.lastImage.image &&
         index === this.lastImage.index &&
@@ -230,7 +247,14 @@ export const useSequenceStore = defineStore('sequenceStore', {
         return image;
       }
       try {
-        const result = await apiService.getSequenceImage(index, quality, true, scale);
+        const result = await apiService.getSequenceImage(
+          index,
+          quality,
+          true,
+          scale,
+          debayer,
+          bayerPattern
+        );
         if (result.StatusCode != 200) {
           console.error('Unknown error: Check NINA Logs for more information');
           return;

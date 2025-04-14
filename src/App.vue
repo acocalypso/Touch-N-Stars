@@ -93,6 +93,7 @@
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
     <ToastModal />
+    <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'"/>
   </div>
 </template>
 
@@ -110,7 +111,8 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
-import ToastModal from './components/helpers/ToastModal.vue';
+import ToastModal from '@/components/helpers/ToastModal.vue';
+import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

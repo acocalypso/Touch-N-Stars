@@ -453,7 +453,11 @@
     "filterwheel": {
       "filter": "Filter:",
       "unknown": "Unknown",
-      "nofilteravailable": "No filter available"
+      "nofilteravailable": "No filter available",
+      "manual_filter": {
+        "title": "Filterwheel",
+        "name": "Change to filter:"
+      }
     },
     "rotator": {
       "label": "Rotator",

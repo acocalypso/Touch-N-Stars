@@ -54,7 +54,7 @@
         "instanceNameRequired": "Název instance je povinný",
         "invalidIPFormat": "Uveďte prosím IP nebo FQDN",
         "invalidPortRange": "Port musí být v rozsahu 1 až 65535",
-        "invalidInstance": "A connection could not be established"
+        "invalidInstance": "Připojení se nepodařilo navázat"
       },
       "showTutorial": "Ukázat Tutoriál",
       "system": {
@@ -67,8 +67,8 @@
       "image": {
         "quality": "Kvalita v %",
         "title": "Nastavení snímků",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
+        "black_clipping": "Černý Výstřižek",
+        "strech_factor": "Faktor Strech"
       }
     },
     "framing": {
@@ -92,7 +92,7 @@
       "moveRotator": "Otáčení kamery",
       "openFraminingModal": "Spustť ve Snímkování",
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
-      "currentAltitude": "Current Altitude"
+      "currentAltitude": "Aktuální nad. výška"
     },
     "connectEquipment": {
       "camera": {
@@ -107,46 +107,46 @@
         "connect": "Připojit filtrační kolo",
         "disconnect": "Odpojit filtrační kolo",
         "error": "Chyba při ovládání filtračního kola:",
-        "name": "FIlterwheel"
+        "name": "FiltračníKolo"
       },
       "mount": {
         "error": "Chyba při ovládání montáže:",
-        "name": "Mount"
+        "name": "Montáž"
       },
       "focuser": {
         "error": "Chyba při ovládání ostření:",
-        "name": "Focuser"
+        "name": "Ostření"
       },
       "rotator": {
         "error": "Chyba při ovládání rotátoru:",
-        "name": "Rotator"
+        "name": "Rotátor"
       },
       "guider": {
         "error": "Chyba při ovládání pointace:",
-        "name": "Guider"
+        "name": "Navádění"
       },
       "safety": {
         "error": "Chyba při ovládání bezpečnostního monitoru",
-        "name": "Safety monitor"
+        "name": "Bez. monitor"
       },
       "flat": {
         "error": "Chyba při ovládání flat zařízení:",
-        "name": "Flatdevice"
+        "name": "FlatZařízení"
       },
       "dome": {
         "error": "Chyba při ovládání kopule:",
-        "name": "Dome"
+        "name": "Kopule"
       },
       "switch": {
         "error": "Chyba při ovládání přepínače",
-        "name": "Switch"
+        "name": "Přepínač"
       },
       "weather": {
         "error": "Chyba při ovládání počasí",
-        "name": "Weather"
+        "name": "Počasí"
       },
       "info": {
-        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA",
+        "message": "Ruční filtrační kolo a ruční rotátor lze v současné době ovládat pouze prostřednictvím aplikace NINA.",
         "title": "Info"
       }
     },
@@ -224,20 +224,20 @@
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
       "temperatureShort": "Teplota",
-      "conditions": "Conditions",
+      "conditions": "Podmínky",
       "info": {
         "header": "Info",
-        "message": "Unfortunately, your sequence cannot be edited. Not all sequence plugins are currently supported. If you want to help us, let us know on GitHub which plugins you are using."
+        "message": "Vaši sekvenci bohužel nelze upravit. V současné době nejsou podporovány všechny zásuvné moduly sekvencí. Pokud nám chcete pomoci, dejte nám na GitHub vědět, které pluginy používáte."
       },
       "info_general": {
-        "message": "Unfortunately, we are not yet able to process all parameters. We are working on supporting as many NINA functions as possible. Because there are so many plugins, we cannot integrate them all. However, we are trying to support as many as possible. If you notice an error in the display, please help us and report it on GitHub"
+        "message": "Bohužel zatím nejsme schopni zpracovat všechny parametry. Pracujeme na podpoře co největšího počtu funkcí NINA. Vzhledem k tomu, že existuje velké množství zásuvných modulů, nemůžeme je všechny integrovat. Snažíme se jich však podporovat co nejvíce. Pokud si všimnete chyby v zobrazení, pomozte nám a nahlaste ji na GitHubu."
       },
       "sort": {
-        "newest": "newest first",
-        "oldest": "oldest first",
-        "sort": "Sort"
+        "newest": "nejnovější první",
+        "oldest": "nejstarší první",
+        "sort": "Seřadit"
       },
-      "time": "Time"
+      "time": "Čas"
     },
     "mount": {
       "title": "Montáž",
@@ -260,9 +260,9 @@
         },
         "manuellControl": "Ruční Ovládání",
         "slewRate": "Rychlost pohybu °/s",
-        "info_manuell_controll": "Manual control is only available if tracking is not active",
-        "set_as_park": "Set as park",
-        "slew_to_cenit": "Slew to Zenith"
+        "info_manuell_controll": "Ruční ovládání je k dispozici pouze v případě, že sledování není aktivní.",
+        "set_as_park": "Nastavit jako park",
+        "slew_to_cenit": "Přelet do Zenitu"
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -323,23 +323,23 @@
           "open": "Chyba při otevření štěrbiny",
           "close": "Chybné při zavření štěrbiny",
           "stop": "Chyba v zastavení štěrbiny",
-          "home": "Error home",
-          "park": "Error Park",
-          "slew": "Error slew",
-          "stop_slew": "Error stop slew",
-          "sync": "Error sync",
-          "follow": "Error follow Telescope"
+          "home": "Chyba home",
+          "park": "Chyba Park",
+          "slew": "Chyba přejezd",
+          "stop_slew": "Chyba zastavení přejezdu",
+          "sync": "Chaby synch.",
+          "follow": "Sledování chyb Dalekohled"
         },
-        "follow": "Dome follow telescope",
-        "slew": "Slew",
-        "slew_label": "Slew to degrees",
-        "sync": "Sync with telescope",
+        "follow": "Dalekohled s kopulí",
+        "slew": "Přejezd",
+        "slew_label": "Převod na stupně",
+        "sync": "Synchronizace s dalekohledem",
         "home": "Home",
         "park": "Park"
       },
-      "please_connect_dome": "Please connect the dome",
-      "is_sync": "Sync",
-      "not_sync": "Not sync"
+      "please_connect_dome": "Připojte kopuli",
+      "is_sync": "Synch",
+      "not_sync": "Není synch."
     },
     "camera": {
       "title": "Kamera",
@@ -373,11 +373,11 @@
       "readout_mode": "Režim Čtení",
       "set_use_platesolve": "Použít Řešení",
       "chip_settings": {
-        "focal_length": "Focal length (mm)",
-        "height": "Height (px)",
-        "pixel_size": "Pixel size (μm)",
-        "title": "Chip settings",
-        "width": "Width (px)"
+        "focal_length": "Ohnisková vzdálenost (mm)",
+        "height": "Výška (px)",
+        "pixel_size": "Velikost pixelů (μm)",
+        "title": "Nastavení čipu",
+        "width": "Šířka (px)"
       }
     },
     "tppa": {
@@ -431,23 +431,23 @@
         "invalidFormat": "Nesprávný formát. Očekává se: ±DD:MM:SS.s",
         "apiResponseError": "Chyba v odpovědi API:",
         "mountInfoError": "Chyba při získávání informací o montáži:",
-        "invalidAltInput": "Invalid alt input.",
-        "invalidAzInput": "Invalid az input."
+        "invalidAltInput": "Neplatný vstup alt.",
+        "invalidAzInput": "Neplatný vstup az."
       },
       "rotate": "Rotace",
       "visibleStars": "Hledání Viditelných Hvězd",
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "center_Repeat": "Repeat centering",
-        "center_error": "Centering error",
-        "center_successful": "Centering successful",
-        "deviation_target": "Deviation to the target:",
-        "exposure_running": "Exposure running",
-        "is_centering": "Center target",
-        "is_platesolving": "Platesolve running",
-        "is_slewing": "Slewing to target",
-        "plate_solve_error": "Platesolve error"
+        "center_Repeat": "Opakované centrování",
+        "center_error": "Chyba centrování",
+        "center_successful": "Úspěšné centrování",
+        "deviation_target": "Odchylka od cíle:",
+        "exposure_running": "Expozice běží",
+        "is_centering": "Cíl uprostřed",
+        "is_platesolving": "Astrometrie běží",
+        "is_slewing": "Přejezd na cíl",
+        "plate_solve_error": "Astrometrie chyba"
       }
     },
     "filterwheel": {

@@ -130,13 +130,17 @@
               class="transition-all duration-200"
             />
 
-            <!-- Current position dot -->
-            <circle
-              :cx="50"
-              :cy="altitudeToY(currentAltitude)"
-              r="2"
-              class="fill-cyan-500"
+            <!-- Current position line -->
+            <line
+              x1="50"
+              y1="0"
+              x2="50"
+              y2="100"
+              stroke="rgb(6, 182, 212)"
+              stroke-width="1"
+              stroke-dasharray="2,2"
               vector-effect="non-scaling-stroke"
+              class="opacity-50"
             />
           </svg>
 

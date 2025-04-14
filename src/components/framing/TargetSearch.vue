@@ -102,13 +102,15 @@
 
           <!-- Scale labels -->
           <div
-            class="absolute right-1 h-full flex flex-col justify-between text-[10px] text-gray-400"
+            class="absolute right-1 h-full flex flex-col justify-between text-[10px] text-gray-400 pr-1"
           >
             <span>90°</span>
-            <span>45°</span>
+            <span>60°</span>
+            <span>30°</span>
             <span>0°</span>
-            <span>-45°</span>
-            <span>-90°</span>
+            <span>-30°</span>
+            <span>-60°</span>
+            <span class="translate-y-[-2px]">-90°</span>
           </div>
 
           <!-- Center line (horizon) -->
@@ -130,21 +132,31 @@
               class="transition-all duration-200"
             />
 
-            <!-- Current position dot -->
-            <circle
-              :cx="50"
-              :cy="altitudeToY(currentAltitude)"
-              r="2"
-              class="fill-cyan-500"
+            <!-- Current position line -->
+            <line
+              x1="50"
+              y1="0"
+              x2="50"
+              y2="100"
+              stroke="rgb(6, 182, 212)"
+              stroke-width="1"
+              stroke-dasharray="2,2"
               vector-effect="non-scaling-stroke"
+              class="opacity-50"
             />
           </svg>
 
           <!-- Time markers -->
-          <div class="absolute bottom-0 w-full flex justify-between px-2 text-xs text-gray-400">
-            <span>{{ timeLabels.start }}</span>
-            <span>{{ timeLabels.middle }}</span>
-            <span>{{ timeLabels.end }}</span>
+          <div class="absolute bottom-0 w-full px-2">
+            <div class="flex justify-between text-[10px] text-gray-400 pt-1">
+              <span class="-ml-1">{{ timeLabels.start }}</span>
+              <span>{{ timeLabels.start4 }}</span>
+              <span>{{ timeLabels.start8 }}</span>
+              <span>{{ timeLabels.middle }}</span>
+              <span>{{ timeLabels.end4 }}</span>
+              <span>{{ timeLabels.end8 }}</span>
+              <span class="-mr-1 translate-y-[-3px]">{{ timeLabels.end }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -485,6 +497,10 @@ const timeLabels = computed(() => {
     start: `${(currentHour - 12 + 24) % 24}h`,
     middle: `${currentHour}h`,
     end: `${(currentHour + 12) % 24}h`,
+    start4: `${(currentHour - 8 + 24) % 24}h`,
+    start8: `${(currentHour - 4 + 24) % 24}h`,
+    end4: `${(currentHour + 4) % 24}h`,
+    end8: `${(currentHour + 8) % 24}h`,
   };
 });
 
@@ -529,10 +545,10 @@ const altitudePath = computed(() => {
   if (!framingStore.selectedItem?.RA || !framingStore.selectedItem?.Dec) return '';
 
   const points = altitudePoints.value.map((point, index) => {
-    // Map x from -12 to +12 hours to 0-100 range
-    const x = ((index / (altitudePoints.value.length - 1)) * 100).toFixed(1);
-    // Map altitude from -90 to +90 to 0-100 range, inverting for SVG coordinates
-    const y = (((90 - point.altitude) / 180) * 100).toFixed(1);
+    // Map x from -12 to +12 hours to 5-95 range to leave space for labels
+    const x = (5 + (index / (altitudePoints.value.length - 1)) * 90).toFixed(1);
+    // Map altitude from -90 to +90 to 10-90 range, inverting for SVG coordinates
+    const y = (10 + ((90 - point.altitude) / 180) * 80).toFixed(1);
     return index === 0 ? `M ${x},${y}` : `L ${x},${y}`;
   });
 

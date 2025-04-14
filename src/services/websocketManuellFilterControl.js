@@ -2,7 +2,6 @@
 import { useSettingsStore } from '@/store/settingsStore';
 import { useFilterStore } from '@/store/filterStore';
 
-
 const backendProtokol = 'ws';
 const backendPfad = '/v2/filterwheel';
 
@@ -45,13 +44,13 @@ class WebSocketService {
       try {
         const message = event.data;
         console.log('Message:', message);
-        filterStore.message = message; 
+        filterStore.message = message;
         if (message === 'N/A') {
-          filterStore.filterChange=false;
+          filterStore.filterChange = false;
         } else if (message === 'Change Complete') {
-          filterStore.filterChange=false;
+          filterStore.filterChange = false;
         } else {
-          filterStore.filterChange=true;
+          filterStore.filterChange = true;
           filterStore.filterName = message;
         }
 

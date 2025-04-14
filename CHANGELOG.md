@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stellarium Clock & Date view
 - Altitude Chart in TargetSearch
 - Settings for stretch factor and black clipping 
-
+- Add Manuell Filterwheel controll. You have to set the filter wheel of the API
 
 ### Changed
 - CaptureButton created and integrated into CameraView 

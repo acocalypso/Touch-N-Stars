@@ -146,7 +146,7 @@
         "name": "Clima"
       },
       "info": {
-        "message": "La rueda del filtro manual y el rotador manual actualmente solo se pueden controlar a través de Nina",
+        "message": "La rueda del filtro manual y el rotador manual actualmente solo se pueden controlar a través de NINA. \nUse la \"Networked Filter Wheel\" de la API para la rueda de filtro",
         "title": "Información"
       }
     },
@@ -453,7 +453,11 @@
     "filterwheel": {
       "filter": "Filtro:",
       "unknown": "Desconocido",
-      "nofilteravailable": "No filtro disponible"
+      "nofilteravailable": "No filtro disponible",
+      "manual_filter": {
+        "name": "Change to filter:",
+        "title": "Filterwheel"
+      }
     },
     "rotator": {
       "label": "Rotador",

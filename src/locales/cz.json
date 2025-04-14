@@ -453,7 +453,11 @@
     "filterwheel": {
       "filter": "Filtr:",
       "unknown": "Neznámý",
-      "nofilteravailable": "Žádný filtr není k dispozici"
+      "nofilteravailable": "Žádný filtr není k dispozici",
+      "manual_filter": {
+        "name": "Change to filter:",
+        "title": "Filterwheel"
+      }
     },
     "rotator": {
       "label": "Rotátor",

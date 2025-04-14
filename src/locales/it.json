@@ -145,7 +145,7 @@
         "name": "Tempo atmosferico"
       },
       "info": {
-        "message": "La ruota del filtro manuale e il rotatore manuale possono attualmente essere controllati solo tramite Nina",
+        "message": "La ruota del filtro manuale e il rotatore manuale possono attualmente essere controllati solo tramite Nina. \nUtilizzare la \"Networked Filter Wheel\" dell'API per la ruota del filtro",
         "title": "Informazioni"
       }
     },
@@ -452,7 +452,11 @@
     "filterwheel": {
       "filter": "Filtro:",
       "unknown": "Sconosciuto",
-      "nofilteravailable": "Nessun filtro disponibile"
+      "nofilteravailable": "Nessun filtro disponibile",
+      "manual_filter": {
+        "name": "Change to filter:",
+        "title": "Filterwheel"
+      }
     },
     "rotator": {
       "label": "Rotatore",

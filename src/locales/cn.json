@@ -146,7 +146,7 @@
         "name": "Weather"
       },
       "info": {
-        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA",
+        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA. Use the API's “Networked Filter Wheel” for the filter whee",
         "title": "Info"
       }
     },
@@ -453,7 +453,11 @@
     "filterwheel": {
       "filter": "滤镜：",
       "unknown": "未知",
-      "nofilteravailable": "暂无滤镜可用"
+      "nofilteravailable": "暂无滤镜可用",
+      "manual_filter": {
+        "name": "Change to filter:",
+        "title": "Filterwheel"
+      }
     },
     "rotator": {
       "label": "旋转器",

@@ -86,80 +86,11 @@
       </div>
 
       <!-- Altitude chart -->
-      <div v-if="framingStore.selectedItem" class="mt-4 border-t border-gray-700 pt-4 mb-6">
-        <p class="text-sm font-semibold mb-2">
-          {{ $t('components.framing.currentAltitude') }}: {{ currentAltitude.toFixed(1) }}°
-        </p>
-        <div class="relative h-32 bg-gray-800/50 rounded-lg overflow-hidden">
-          <!-- Grid lines -->
-          <div class="absolute inset-0 flex flex-col justify-between">
-            <div class="h-px w-full bg-gray-700/30"></div>
-            <div class="h-px w-full bg-gray-700/30"></div>
-            <div class="h-px w-full bg-gray-700/30"></div>
-            <div class="h-px w-full bg-gray-700/30"></div>
-            <div class="h-px w-full bg-gray-700/30"></div>
-          </div>
-
-          <!-- Scale labels -->
-          <div
-            class="absolute right-1 h-full flex flex-col justify-between text-[10px] text-gray-400 pr-1"
-          >
-            <span>90°</span>
-            <span>60°</span>
-            <span>30°</span>
-            <span>0°</span>
-            <span>-30°</span>
-            <span>-60°</span>
-            <span class="translate-y-[-2px]">-90°</span>
-          </div>
-
-          <!-- Center line (horizon) -->
-          <div class="absolute top-1/2 w-full h-px bg-gray-600"></div>
-
-          <!-- Altitude line and current position -->
-          <svg
-            class="absolute inset-0 w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            <!-- Line path -->
-            <path
-              :d="altitudePath"
-              fill="none"
-              stroke="rgb(6, 182, 212)"
-              stroke-width="1.5"
-              vector-effect="non-scaling-stroke"
-              class="transition-all duration-200"
-            />
-
-            <!-- Current position line -->
-            <line
-              x1="50"
-              y1="0"
-              x2="50"
-              y2="100"
-              stroke="rgb(6, 182, 212)"
-              stroke-width="1"
-              stroke-dasharray="2,2"
-              vector-effect="non-scaling-stroke"
-              class="opacity-50"
-            />
-          </svg>
-
-          <!-- Time markers -->
-          <div class="absolute bottom-0 w-full px-2">
-            <div class="flex justify-between text-[10px] text-gray-400 pt-1">
-              <span class="-ml-1">{{ timeLabels.start }}</span>
-              <span>{{ timeLabels.start4 }}</span>
-              <span>{{ timeLabels.start8 }}</span>
-              <span>{{ timeLabels.middle }}</span>
-              <span>{{ timeLabels.end4 }}</span>
-              <span>{{ timeLabels.end8 }}</span>
-              <span class="-mr-1 translate-y-[-3px]">{{ timeLabels.end }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <SkyChart
+        v-if="framingStore.selectedItem"
+        :target="{ RA: framingStore.selectedItem.RA, Dec: framingStore.selectedItem.Dec }"
+        :coordinates="settingsStore.coordinates"
+      />
 
       <!-- Open Framing Modal Button -->
       <div v-if="framingStore.selectedItem" class="mb-4">
@@ -168,13 +99,6 @@
         </button>
       </div>
 
-      <!-- Slew and Center Component -->
-      <!--
-           The slewAndCenter component is passed:
-           - the RAangleString and DECangleString via v-model
-           - a "mode" prop so it can change its input labels,
-           - and it emits a "slew" event when the user requests a slew.
-      -->
       <div>
         <slewAndCenter
           v-model:RAangleString="framingStore.RAangleString"
@@ -228,6 +152,7 @@ import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
 import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import SkyChart from '@/components/framing/SkyChart.vue';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
@@ -435,8 +360,6 @@ function updateSiderealTime() {
   currentSiderealTime.value = (GMST % 24) * 15 + settingsStore.coordinates.longitude / 15;
 }
 
-// --- Conversion functions for slew input ---
-
 // Converts an HMS string (e.g. "12:34:56.7") to degrees.
 function hmsToDegrees(hms) {
   const parts = hms.split(':');
@@ -469,99 +392,4 @@ async function slew() {
     console.error('Error during slew:', error);
   }
 }
-
-// Calculate current altitude
-const currentAltitude = computed(() => {
-  if (!framingStore.selectedItem?.RA || !framingStore.selectedItem?.Dec) return 0;
-
-  const latRad = (settingsStore.coordinates.latitude * Math.PI) / 180;
-  const decRad = (framingStore.selectedItem.Dec * Math.PI) / 180;
-  const now = new Date();
-  const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
-  const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  const LMST = (GMST + settingsStore.coordinates.longitude / 15) % 24;
-  const hourAngle = LMST * 15 - framingStore.selectedItem.RA;
-  const haRad = (hourAngle * Math.PI) / 180;
-
-  const altRad = Math.asin(
-    Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad)
-  );
-  return (altRad * 180) / Math.PI;
-});
-
-// Time labels for x-axis
-const timeLabels = computed(() => {
-  const now = new Date();
-  const currentHour = now.getHours();
-  return {
-    start: `${(currentHour - 12 + 24) % 24}h`,
-    middle: `${currentHour}h`,
-    end: `${(currentHour + 12) % 24}h`,
-    start4: `${(currentHour - 8 + 24) % 24}h`,
-    start8: `${(currentHour - 4 + 24) % 24}h`,
-    end4: `${(currentHour + 4) % 24}h`,
-    end8: `${(currentHour + 8) % 24}h`,
-  };
-});
-
-// Calculate altitude points for a full 24-hour period
-const altitudePoints = computed(() => {
-  if (!framingStore.selectedItem?.RA || !framingStore.selectedItem?.Dec) {
-    return new Array(25).fill({ altitude: 0 });
-  }
-
-  const points = [];
-  const now = new Date();
-  const currentHourOfDay = now.getHours();
-  const latRad = (settingsStore.coordinates.latitude * Math.PI) / 180;
-  const decRad = (framingStore.selectedItem.Dec * Math.PI) / 180;
-
-  // Calculate for full 24 hours starting 12 hours before current time
-  for (let i = -12; i <= 12; i++) {
-    const time = new Date(now);
-    time.setHours(currentHourOfDay + i, 0, 0, 0);
-    const JD = time / 86400000 - time.getTimezoneOffset() / 1440 + 2440587.5;
-    const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-    const LMST = (GMST + settingsStore.coordinates.longitude / 15) % 24;
-    const hourAngle = LMST * 15 - framingStore.selectedItem.RA;
-    const haRad = (hourAngle * Math.PI) / 180;
-
-    const altRad = Math.asin(
-      Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad)
-    );
-    const altDeg = (altRad * 180) / Math.PI;
-
-    points.push({
-      altitude: altDeg,
-      isAboveHorizon: altDeg >= 0,
-    });
-  }
-
-  return points;
-});
-
-// Create SVG path for the altitude line
-const altitudePath = computed(() => {
-  if (!framingStore.selectedItem?.RA || !framingStore.selectedItem?.Dec) return '';
-
-  const points = altitudePoints.value.map((point, index) => {
-    // Map x from -12 to +12 hours to 5-95 range to leave space for labels
-    const x = (5 + (index / (altitudePoints.value.length - 1)) * 90).toFixed(1);
-    // Map altitude from -90 to +90 to 10-90 range, inverting for SVG coordinates
-    const y = (10 + ((90 - point.altitude) / 180) * 80).toFixed(1);
-    return index === 0 ? `M ${x},${y}` : `L ${x},${y}`;
-  });
-
-  return points.join(' ');
-});
-
-// Helper function to convert altitude to SVG Y coordinate
-const altitudeToY = (altitude) => {
-  const normalizedAlt = (90 - altitude) / 180; // Convert -90 to 90 range to 0 to 1
-  return `${normalizedAlt * 100}%`;
-};
 </script>
-
-<style scoped>
-/* Add any custom styles for your component here */
-</style>

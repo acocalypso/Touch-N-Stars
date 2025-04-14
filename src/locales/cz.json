@@ -146,7 +146,7 @@
         "name": "Weather"
       },
       "info": {
-        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA",
+        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA. Use the API's “Networked Filter Wheel” for the filter wheel",
         "title": "Info"
       }
     },
@@ -453,7 +453,11 @@
     "filterwheel": {
       "filter": "Filtr:",
       "unknown": "Neznámý",
-      "nofilteravailable": "Žádný filtr není k dispozici"
+      "nofilteravailable": "Žádný filtr není k dispozici",
+      "manual_filter": {
+        "name": "Change to filter:",
+        "title": "Filterwheel"
+      }
     },
     "rotator": {
       "label": "Rotátor",

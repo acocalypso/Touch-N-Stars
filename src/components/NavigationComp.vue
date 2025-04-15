@@ -134,10 +134,10 @@
               class="icon"
               :class="[
                 'icon',
-                store.flatdeviceInfo.CoverState === 'Closed'
-                  ? 'text-red-500'
-                  : store.flatdeviceInfo.LightOn
-                    ? 'text-yellow-300'
+                store.flatdeviceInfo.LightOn // store.flatdeviceInfo.CoverState === 'Closed'
+                  ? 'text-yellow-500'
+                  : store.flatdeviceInfo.CoverState === 'Closed'
+                    ? 'text-red-500'
                     : 'text-white',
               ]"
             />

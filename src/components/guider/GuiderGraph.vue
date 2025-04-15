@@ -90,10 +90,13 @@ const initGraph = () => {
         duration: 0,
       },
       scales: {
+        x: {
+          display: false,
+        },
         y: {
           position: 'left',
-          suggestedMin: -4,
-          suggestedMax: 4,
+          min: guiderStore.chartInfo.MinY,
+          max: guiderStore.chartInfo.MaxY,
           grid: {
             color: 'rgba(248, 248, 255, 0.1)',
           },

@@ -11,6 +11,10 @@ class WebSocketService {
     this.statusCallback = null;
     this.messageCallback = null;
     this.backendUrl = null;
+
+    this.reconnectInterval = 5000; // 5 Sekunden warten vorm Reconnect
+    this.reconnectTimeout = null;
+    this.shouldReconnect = true; // Standard: Verbindung soll sich selbst wieder aufbauen
   }
 
   setStatusCallback(callback) {
@@ -33,9 +37,15 @@ class WebSocketService {
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
-      console.log('WebSocket manuell Filterwheel connected.');
+      console.log('WebSocket Filterwheel verbunden.');
       if (this.statusCallback) {
         this.statusCallback('connected');
+      }
+
+      // Falls vorher ein Reconnect-Timer lief: abbrechen
+      if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        this.reconnectTimeout = null;
       }
     };
 
@@ -43,11 +53,10 @@ class WebSocketService {
       console.log('Nachricht empfangen:', event.data);
       try {
         const message = event.data;
-        console.log('Message:', message);
+        const filterStore = useFilterStore(); // erneute Instanz sichern (falls State neu aufgebaut wurde)
         filterStore.message = message;
-        if (message === 'N/A') {
-          filterStore.filterChange = false;
-        } else if (message === 'Change Complete') {
+
+        if (message === 'N/A' || message === 'Change Complete') {
           filterStore.filterChange = false;
         } else {
           filterStore.filterChange = true;
@@ -73,17 +82,35 @@ class WebSocketService {
     };
 
     this.socket.onclose = () => {
-      console.log('WebSocket geschlossen.');
+      console.log('WebSocket Filterwheel geschlossen.');
       if (this.statusCallback) {
         this.statusCallback('Geschlossen');
+      }
+
+      // Reconnect versuchen
+      if (this.shouldReconnect) {
+        console.log(`Versuche Reconnect in ${this.reconnectInterval / 1000}s...`);
+        this.reconnectTimeout = setTimeout(() => {
+          this.connect();
+        }, this.reconnectInterval);
       }
     };
   }
 
-  // Methode zum Senden von Nachrichten als einfache Strings
+  // Manuelles Trennen & Reconnect stoppen
+  disconnect() {
+    this.shouldReconnect = false;
+    if (this.reconnectTimeout) {
+      clearTimeout(this.reconnectTimeout);
+    }
+    if (this.socket) {
+      this.socket.close();
+    }
+  }
+
+  // Methode zum Senden von Nachrichten
   sendMessage(message) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      // Nachricht direkt als String senden
       this.socket.send(message);
     } else {
       console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
@@ -94,5 +121,5 @@ class WebSocketService {
   }
 }
 
-const websocketService = new WebSocketService();
-export default websocketService;
+const  wsFilter = new WebSocketService();
+export default wsFilter;

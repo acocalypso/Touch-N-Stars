@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
   wsFilter.setStatusCallback(null);
   wsFilter.setMessageCallback(null);
   filterStore.wsIsConnected = false;
-
+  wsFilter.disconnect();
   if (wsFilter.socket) {
     wsFilter.socket.close();
   }

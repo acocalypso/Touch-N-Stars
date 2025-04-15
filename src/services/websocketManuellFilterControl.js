@@ -26,7 +26,6 @@ class WebSocketService {
   }
 
   connect() {
-    const filterStore = useFilterStore();
     const settingsStore = useSettingsStore();
     const backendPort = 1888;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
@@ -36,11 +35,16 @@ class WebSocketService {
 
     this.socket = new WebSocket(this.backendUrl);
 
+
+
     this.socket.onopen = () => {
       console.log('WebSocket Filterwheel verbunden.');
       if (this.statusCallback) {
         this.statusCallback('connected');
       }
+
+      this.sendMessage('get-target-filter');
+      console.log('get-target-filter gesendet');  
 
       // Falls vorher ein Reconnect-Timer lief: abbrechen
       if (this.reconnectTimeout) {

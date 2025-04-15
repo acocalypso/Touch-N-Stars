@@ -43,7 +43,6 @@ onMounted(() => {
     console.log('Status aktualisiert:', status);
     if (status === 'connected') {
       filterStore.wsIsConnected = true;
-      wsFilter.sendMessage('get-target-filter');
       console.log('WebSocket Filter verbunden!');
     }
   });

@@ -1,22 +1,22 @@
 <template>
-  <div class="flex gap-2">
+  <div v-if="store.domeInfo.CanSetShutter" class="flex gap-2">
     <ButtonOpenShutter />
     <ButtonStopShutter />
     <ButtonCloseShutter />
   </div>
-  <div class="flex gap-2 mt-2">
+  <div v-if="store.domeInfo.CanFindHome" class="flex gap-2 mt-2">
     <ButtonHome />
   </div>
-  <div class="flex gap-2 mt-2">
+  <div v-if="store.domeInfo.CanPark" class="flex gap-2 mt-2">
     <ButtonPark />
   </div>
-  <div class="flex gap-2 mt-2">
+  <div v-if="store.domeInfo.CanSyncAzimuth" class="flex gap-2 mt-2">
     <ButtonSyncDome />
   </div>
   <div class="flex gap-2 mt-2">
     <ButtonFollow />
   </div>
-  <div class="flex gap-2 mt-2">
+  <div v-if="store.domeInfo.CanSetAzimuth" class="flex gap-2 mt-2">
     <ButtonSlew />
   </div>
 </template>
@@ -30,4 +30,7 @@ import ButtonSyncDome from '@/components/dome/ButtonSyncDome.vue';
 import ButtonHome from '@/components/dome/ButtonHome.vue';
 import ButtonPark from '@/components/dome/ButtonPark.vue';
 import ButtonFollow from '@/components/dome/ButtonFollow.vue';
+import { apiStore } from '@/store/store';
+
+const store = apiStore()
 </script>

@@ -35,8 +35,6 @@ class WebSocketService {
 
     this.socket = new WebSocket(this.backendUrl);
 
-
-
     this.socket.onopen = () => {
       console.log('WebSocket Filterwheel verbunden.');
       if (this.statusCallback) {
@@ -44,7 +42,7 @@ class WebSocketService {
       }
 
       this.sendMessage('get-target-filter');
-      console.log('get-target-filter gesendet');  
+      console.log('get-target-filter gesendet');
 
       // Falls vorher ein Reconnect-Timer lief: abbrechen
       if (this.reconnectTimeout) {
@@ -125,5 +123,5 @@ class WebSocketService {
   }
 }
 
-const  wsFilter = new WebSocketService();
+const wsFilter = new WebSocketService();
 export default wsFilter;

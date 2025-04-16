@@ -32,5 +32,5 @@ import ButtonPark from '@/components/dome/ButtonPark.vue';
 import ButtonFollow from '@/components/dome/ButtonFollow.vue';
 import { apiStore } from '@/store/store';
 
-const store = apiStore()
+const store = apiStore();
 </script>

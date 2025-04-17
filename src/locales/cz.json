@@ -92,7 +92,7 @@
       "moveRotator": "Otáčení kamery",
       "openFraminingModal": "Spustť ve Snímkování",
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
-      "currentAltitude": "Aktuální nad. výška"
+      "currentAltitude": "Aktuální nadm. výška"
     },
     "connectEquipment": {
       "camera": {
@@ -455,8 +455,8 @@
       "unknown": "Neznámý",
       "nofilteravailable": "Žádný filtr není k dispozici",
       "manual_filter": {
-        "name": "Change to filter:",
-        "title": "Filterwheel"
+        "name": "Změna filtru:",
+        "title": "FiltračníKolo"
       }
     },
     "rotator": {

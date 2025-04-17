@@ -1,9 +1,9 @@
 <template>
   <div
-    class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-3 rounded-lg text-white font-mono"
+    class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-1 rounded-lg text-gray-200 font-mono"
   >
-    <div class="text-2xl text-center">{{ formattedTime }}</div>
-    <div class="text-lg text-center">{{ formattedDate }}</div>
+    <div class="text-lg text-center">{{ formattedTime }}</div>
+    <div class="text-sm text-center">{{ formattedDate }}</div>
   </div>
 </template>
 

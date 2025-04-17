@@ -27,6 +27,8 @@
       <div class="mb-3">
         <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.date') }}</label>
         <input
+          @blur="applyDateTime"
+          @change="applyDateTime"
           type="date"
           v-model="dateValue"
           class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
@@ -36,6 +38,8 @@
       <div class="mb-4">
         <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.time') }}</label>
         <input
+          @blur="applyDateTime"
+          @change="applyDateTime"
           type="time"
           v-model="timeValue"
           class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
@@ -43,13 +47,6 @@
       </div>
 
       <div class="flex gap-3">
-        <button
-          @click="applyDateTime"
-          class="flex-1 px-4 py-2 bg-cyan-600 hover:bg-cyan-700 rounded-lg shadow-md"
-        >
-          {{ $t('components.stellarium.datetime.apply') }}
-        </button>
-
         <button
           @click="resetToCurrentTime"
           class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"

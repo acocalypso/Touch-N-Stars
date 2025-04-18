@@ -29,7 +29,7 @@
     >
       <button
         @click="setFramingCoordinates"
-        class="default-button-cyan flex items-center justify-center disabled:opacity-50"
+        class="default-button-cyan"
       >
         {{ $t('components.stellarium.selected_object.button_framing') }}
       </button>

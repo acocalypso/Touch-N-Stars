@@ -1,7 +1,7 @@
 <template>
   <button
     @click="setTrackingMode(4)"
-    class="min-w-15 min-h-10 bg-red-800 rounded-md flex items-center justify-center w-full"
+    class="default-button-red"
     :class="statusClass"
   >
     <StopCircleIcon class="w-8 h-8" />

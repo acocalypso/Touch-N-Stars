@@ -1,7 +1,7 @@
 <template>
   <button
     @click="stopShutter"
-    class="bg-red-900 rounded-md flex items-center justify-center w-24"
+    class="default-button-red w-24"
     :class="statusClass"
   >
     <StopCircleIcon class="w-8 h-8" />

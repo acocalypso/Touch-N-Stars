@@ -3,7 +3,7 @@
     <button
       @click="showModal = true"
       :disabled="!hasTargetSelected"
-      class="default-button-cyan w-full mb-8 sm:mb-10 md:mb-12 px-4 py-3 text-sm sm:text-base md:text-lg min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
+      class="default-button-cyan"
     >
       {{ $t('components.framing.setSequnceTarget') }}
     </button>

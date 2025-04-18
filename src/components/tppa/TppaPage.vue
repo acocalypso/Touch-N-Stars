@@ -13,7 +13,7 @@
         </div>
         <div v-else class="flex space-x-5">
           <button
-            class="default-button-cyan disabled:opacity-50"
+            class="default-button-cyan"
             @click="startAlignment"
             :disabled="tppaStore.isTppaRunning"
           >

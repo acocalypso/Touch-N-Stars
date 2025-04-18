@@ -8,14 +8,14 @@
         framingStore.isRotating ||
         props.disabled
       "
-      class="default-button-cyan flex items-center justify-center disabled:opacity-50"
+      class="default-button-cyan px-5"
     >
       <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
       <p v-if="label">{{ label }}</p>
       <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
     </button>
     <div
-      class="bg-red-900 rounded-md flex items-center justify-center w-16"
+      class="default-button-red w-16"
       v-if="store.mountInfo.Slewing"
     >
       <ButtonSlewStop />

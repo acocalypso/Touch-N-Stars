@@ -1,7 +1,7 @@
 <template>
   <button
     @click="setTrackingMode(0)"
-    class="min-w-15 min-h-10 bg-cyan-900 rounded-md text-white font-medium transition-colors w-full"
+    class="default-button-cyan"
     :class="statusClass"
   >
     {{ $t('components.mount.control.siderial') }}

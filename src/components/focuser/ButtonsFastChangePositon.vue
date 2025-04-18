@@ -1,7 +1,7 @@
 <template>
   <div class="flex gap-1">
     <button
-      class="default-button-cyan flex justify-center items-center"
+      class="default-button-cyan"
       @click="changeBigMinus"
       :disabled="isMoving"
     >
@@ -12,7 +12,7 @@
       <label v-else><ChevronDoubleLeftIcon class="w-7 h-7" /></label>
     </button>
     <button
-      class="default-button-cyan flex justify-center items-center"
+      class="default-button-cyan"
       @click="changeSmallMinus"
       :disabled="isMoving"
     >
@@ -23,7 +23,7 @@
       <label v-else><ChevronLeftIcon class="w-7 h-7" /></label>
     </button>
     <button
-      class="default-button-cyan flex justify-center items-center"
+      class="default-button-cyan"
       @click="changeBigPlus"
       :disabled="isMoving"
     >
@@ -34,7 +34,7 @@
       <label v-else><ChevronRightIcon class="w-7 h-7" /></label>
     </button>
     <button
-      class="default-button-cyan flex justify-center items-center"
+      class="default-button-cyan"
       @click="changeSmallPlus"
       :disabled="isMoving"
     >

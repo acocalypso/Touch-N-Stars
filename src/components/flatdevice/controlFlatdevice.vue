@@ -34,10 +34,10 @@
       <div
         class="grid grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 w-full border border-gray-500 p-2 rounded-lg"
       >
-        <button @click="closeCover" class="default-button-cyan w-full">
+        <button @click="closeCover" class="default-button-cyan">
           {{ $t('components.flat.cover.close') }}
         </button>
-        <button @click="openCover" class="default-button-cyan w-full">
+        <button @click="openCover" class="default-button-cyan">
           {{ $t('components.flat.cover.open') }}
         </button>
       </div>

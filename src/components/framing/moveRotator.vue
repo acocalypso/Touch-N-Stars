@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="btn-primary bg-gradient-to-br w-full from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 transition-all duration-200 shadow-lg hover:shadow-cyan-500/20 disabled:opacity-50"
-    @click="moveRotator"
-    :disabled="store.rotatorInfo.IsMoving"
-  >
+  <button class="default-button-cyan" @click="moveRotator" :disabled="store.rotatorInfo.IsMoving">
     <label for="rotatorMove">{{ $t('components.framing.moveRotator') }}</label>
     <svg
       v-if="store.rotatorInfo.IsMoving"

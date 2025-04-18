@@ -60,17 +60,16 @@
             placeholder="12:34:56 / 123.456"
           />
         </div>
-        <div class="mt-4 flex gap-2">
-          <ButtonSlew
-            class="flex-1 w-full"
-            :raAngle="framingStore.RAangle"
-            :decAngle="framingStore.DECangle"
-          />
-          <ButtonSlewAndCenter
-            class="flex-1 w-full"
-            :raAngle="framingStore.RAangle"
-            :decAngle="framingStore.DECangle"
-          />
+        <div class="mt-4 flex gap-2 w-full">
+          <div class="flex-1">
+            <ButtonSlew :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
+          </div>
+          <div class="flex-1">
+            <ButtonSlewAndCenter
+              :raAngle="framingStore.RAangle"
+              :decAngle="framingStore.DECangle"
+            />
+          </div>
         </div>
         <div v-if="store.rotatorInfo.Connected && true" class="mt-2">
           <button
@@ -80,7 +79,7 @@
               framingStore.isSlewingAndCentering ||
               framingStore.isRotating
             "
-            class="default-button-cyan flex items-center justify-center disabled:opacity-50"
+            class="default-button-cyan"
           >
             <span v-if="framingStore.isRotating" class="loader mr-2"></span>
             {{ $t('components.slewAndCenter.rotate') }}

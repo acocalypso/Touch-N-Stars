@@ -1,7 +1,7 @@
 <template>
   <button
     @click="syncTelescope"
-    class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-900 items-center justify-center disabled:opacity-50"
+    class="default-button-cyan"
     :class="statusClass"
     :disabled="store.domeInfo.Slewing"
   >

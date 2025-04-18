@@ -23,11 +23,7 @@
           class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
       </button>
-      <button
-        @click="stopSlew"
-        class="default-button-red w-16 mr-1"
-        :class="statusClass"
-      >
+      <button @click="stopSlew" class="default-button-red w-16 mr-1" :class="statusClass">
         <StopCircleIcon class="w-8 h-8" />
       </button>
     </div>

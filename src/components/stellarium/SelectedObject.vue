@@ -27,10 +27,7 @@
       v-if="store.mountInfo.Connected && !store.sequenceRunning"
       class="flex flex-col gap-2 mt-2"
     >
-      <button
-        @click="setFramingCoordinates"
-        class="default-button-cyan"
-      >
+      <button @click="setFramingCoordinates" class="default-button-cyan">
         {{ $t('components.stellarium.selected_object.button_framing') }}
       </button>
       <ButtonSlew :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />

@@ -14,10 +14,7 @@
       <p v-if="label">{{ label }}</p>
       <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
     </button>
-    <div
-      class="default-button-red w-16"
-      v-if="store.mountInfo.Slewing"
-    >
+    <div class="default-button-red w-16" v-if="store.mountInfo.Slewing">
       <ButtonSlewStop />
     </div>
   </div>

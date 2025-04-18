@@ -1,9 +1,5 @@
 <template>
-  <button
-    @click="stopShutter"
-    class="default-button-red w-24"
-    :class="statusClass"
-  >
+  <button @click="stopShutter" class="default-button-red w-24" :class="statusClass">
     <StopCircleIcon class="w-8 h-8" />
   </button>
 </template>

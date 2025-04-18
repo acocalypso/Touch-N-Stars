@@ -1,9 +1,5 @@
 <template>
-  <button
-    @click="setTrackingMode(0)"
-    class="default-button-cyan"
-    :class="statusClass"
-  >
+  <button @click="setTrackingMode(0)" class="default-button-cyan" :class="statusClass">
     {{ $t('components.mount.control.siderial') }}
   </button>
   <!-- aktuell deaktiviert da NINA nur Siderial umsetzt

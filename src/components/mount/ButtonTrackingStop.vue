@@ -1,9 +1,5 @@
 <template>
-  <button
-    @click="setTrackingMode(4)"
-    class="default-button-red"
-    :class="statusClass"
-  >
+  <button @click="setTrackingMode(4)" class="default-button-red" :class="statusClass">
     <StopCircleIcon class="w-8 h-8" />
   </button>
 </template>

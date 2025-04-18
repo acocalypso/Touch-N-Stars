@@ -1,10 +1,6 @@
 <template>
   <div>
-    <button
-      @click="showModal = true"
-      :disabled="!hasTargetSelected"
-      class="default-button-cyan"
-    >
+    <button @click="showModal = true" :disabled="!hasTargetSelected" class="default-button-cyan">
       {{ $t('components.framing.setSequnceTarget') }}
     </button>
 

@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="default-button-cyan"
-    @click="moveRotator"
-    :disabled="store.rotatorInfo.IsMoving"
-  >
+  <button class="default-button-cyan" @click="moveRotator" :disabled="store.rotatorInfo.IsMoving">
     <label for="rotatorMove">{{ $t('components.framing.moveRotator') }}</label>
     <svg
       v-if="store.rotatorInfo.IsMoving"

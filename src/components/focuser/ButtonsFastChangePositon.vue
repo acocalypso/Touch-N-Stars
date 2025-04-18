@@ -1,44 +1,28 @@
 <template>
   <div class="flex gap-1">
-    <button
-      class="default-button-cyan"
-      @click="changeBigMinus"
-      :disabled="isMoving"
-    >
-    <div
+    <button class="default-button-cyan" @click="changeBigMinus" :disabled="isMoving">
+      <div
         v-if="loadingButton === 'changeBigMinus'"
         class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
       <label v-else><ChevronDoubleLeftIcon class="w-7 h-7" /></label>
     </button>
-    <button
-      class="default-button-cyan"
-      @click="changeSmallMinus"
-      :disabled="isMoving"
-    >
-    <div
+    <button class="default-button-cyan" @click="changeSmallMinus" :disabled="isMoving">
+      <div
         v-if="loadingButton === 'changeSmallMinus'"
         class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
       <label v-else><ChevronLeftIcon class="w-7 h-7" /></label>
     </button>
-    <button
-      class="default-button-cyan"
-      @click="changeBigPlus"
-      :disabled="isMoving"
-    >
-    <div
+    <button class="default-button-cyan" @click="changeBigPlus" :disabled="isMoving">
+      <div
         v-if="loadingButton === 'changeBigPlus'"
         class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
       <label v-else><ChevronRightIcon class="w-7 h-7" /></label>
     </button>
-    <button
-      class="default-button-cyan"
-      @click="changeSmallPlus"
-      :disabled="isMoving"
-    >
-    <div
+    <button class="default-button-cyan" @click="changeSmallPlus" :disabled="isMoving">
+      <div
         v-if="loadingButton === 'changeSmallPlus'"
         class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
@@ -71,8 +55,8 @@ async function moveFocuser(newPosiont) {
     console.log('Change focuser positon from', currentPosition, 'to', newPosiont);
     const response = await apiService.moveFocuser(newPosiont);
     if (handleApiError(response, { title: 'Error' })) return;
-        isMoving.value = true;
-            
+    isMoving.value = true;
+
     if (timeoutId.value) clearTimeout(timeoutId.value);
     timeoutId.value = setTimeout(() => {
       console.warn('Timeout reached – resetting loading state');
@@ -87,28 +71,28 @@ async function moveFocuser(newPosiont) {
 async function changeBigMinus() {
   loadingButton.value = 'changeBigMinus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition - (afStepsize * 5);
+  let newPosiont = currentPosition - afStepsize * 5;
   moveFocuser(newPosiont);
 }
 
 async function changeSmallMinus() {
-    loadingButton.value = 'changeSmallMinus';
+  loadingButton.value = 'changeSmallMinus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition - (afStepsize / 2);
+  let newPosiont = currentPosition - afStepsize / 2;
   moveFocuser(newPosiont);
 }
 
 async function changeBigPlus() {
-    loadingButton.value = 'changeBigPlus';
+  loadingButton.value = 'changeBigPlus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition + (afStepsize * 5);
+  let newPosiont = currentPosition + afStepsize * 5;
   moveFocuser(newPosiont);
 }
 
 async function changeSmallPlus() {
-    loadingButton.value = 'changeSmallPlus';
+  loadingButton.value = 'changeSmallPlus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition + (afStepsize / 2);
+  let newPosiont = currentPosition + afStepsize / 2;
   moveFocuser(newPosiont);
 }
 
@@ -116,8 +100,8 @@ watch(
   () => store.focuserInfo.IsMoving,
   (newVal) => {
     isMoving.value = newVal;
-    if (newVal === false){
-        loadingButton.value = null;
+    if (newVal === false) {
+      loadingButton.value = null;
     }
   }
 );

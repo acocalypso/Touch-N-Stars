@@ -62,18 +62,15 @@
         </div>
         <div class="mt-4 flex gap-2 w-full">
           <div class="flex-1">
-          <ButtonSlew
-            :raAngle="framingStore.RAangle"
-            :decAngle="framingStore.DECangle"
-          />
+            <ButtonSlew :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
+          </div>
+          <div class="flex-1">
+            <ButtonSlewAndCenter
+              :raAngle="framingStore.RAangle"
+              :decAngle="framingStore.DECangle"
+            />
+          </div>
         </div>
-        <div class="flex-1">
-          <ButtonSlewAndCenter
-            :raAngle="framingStore.RAangle"
-            :decAngle="framingStore.DECangle"
-          />
-        </div>
-      </div>
         <div v-if="store.rotatorInfo.Connected && true" class="mt-2">
           <button
             @click="cameraRotate"

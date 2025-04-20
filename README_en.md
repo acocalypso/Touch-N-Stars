@@ -1,6 +1,6 @@
 # Touch'N'Stars: WebApp for Mobile Control of NINA
 
-# 🤝 **Help us bring the app to iOS**
+# 🤝 **Community-Powered, Forever Free: Donate to Cover Apple’s Developer Fee**
 
 Our app is Open Source and will remain so - without advertising, without costs.
 In order for it to be available in the Apple App Store, we need an annual developer license of 99 USD, which Apple requires.

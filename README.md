@@ -2,6 +2,18 @@
 
 [English version available here](README_en.md)
 
+# 🤝 **Unterstütze und bei der iOS App**  
+Unsere App ist Open Source und wird es auch bleiben – ohne Werbung, ohne Kosten.
+Damit sie auch im Apple App Store verfügbar wird, benötigen wir eine jährliche Entwicklerlizenz von 99 USD, die Apple verlangt.
+Da wir keinerlei kommerzielle Interessen verfolgen, möchten wir euch, die Community, um Unterstützung bitten.
+Wenn du uns helfen möchtest, die Kosten zu decken, freuen wir uns über jede Spende:
+
+👉 [paypal.me/TouchNStars](http://paypal.me/TouchNStars)
+
+Danke für euren Support! 💜
+
+---
+
 ### 🚀 **Aktueller Status: Beta-Version**  
 Diese WebApp befindet sich in der **Entwicklungsphase** und richtet sich an Astro-Enthusiasten, die ihre Ausrüstung mit der Astrosoftware **NINA** (Nighttime Imaging 'N' Astronomy) bequem per Touchgerät einrichten möchten.  
 
@@ -28,7 +40,6 @@ Die Anwendung soll die Steuerung und Anpassung bereits konfigurierter Profile er
 
 ### 📱 **iOS App**
 - Für iOS-Nutzer haben wir aktuell noch keine App. 
-Die Hürden, die Apple hier aufbaut, sind sehr groß, und ich bin noch unsicher, ob ich so diesen Konzern unterstützen will.
 - Es funktioniert aber auch ohne native App, ganz einfach im Browser auf jedem iOS-Gerät.
 
 ### 🧪 **Was bietet die akutelle Version?**  

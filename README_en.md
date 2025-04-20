@@ -1,5 +1,18 @@
 # Touch'N'Stars: WebApp for Mobile Control of NINA
 
+# 🤝 **Support and with the iOS app**
+
+Our app is Open Source and will remain so - without advertising, without costs.
+In order for it to be available in the Apple App Store, we need an annual developer license of 99 USD, which Apple requires.
+Since we do not pursue any commercial interests, we would like to ask you, the community, for support.
+If you would like to help us cover the costs, we would be happy about any donation:
+
+👉 [paypal.me/TouchNStars](http://paypal.me/TouchNStars)
+
+Thank you for your support! 💜
+
+---
+
 ### 🚀 **Current Status: Beta Version**  
 This web application is in **development phase** and is aimed at astronomy enthusiasts who want to conveniently set up their equipment using the **NINA** (Nighttime Imaging 'N' Astronomy) software via touch devices.  
 

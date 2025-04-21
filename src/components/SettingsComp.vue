@@ -78,11 +78,14 @@
         </div>
 
         <!-- Connection Settings -->
-        <div class="bg-gray-700 p-3 rounded-lg" v-if="['android', 'ios'].includes(Capacitor.getPlatform())">
-  <h3 class="text-lg font-medium mb-2 text-gray-300">
-    {{ $t('components.settings.connection') }}
-  </h3>
-</div>
+        <div
+          class="bg-gray-700 p-3 rounded-lg"
+          v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+        >
+          <h3 class="text-lg font-medium mb-2 text-gray-300">
+            {{ $t('components.settings.connection') }}
+          </h3>
+
           <!-- Instance List -->
           <div class="mb-4">
             <div

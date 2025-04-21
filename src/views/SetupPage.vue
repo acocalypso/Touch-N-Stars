@@ -243,7 +243,7 @@ function afterEnter() {
 
 async function nextStep() {
   currentStep.value++;
-  if (currentStep.value === 3 && Capacitor.getPlatform() !== 'android') {
+  if (currentStep.value === 3 && ['android', 'ios'].includes(Capacitor.getPlatform())) {
     store.startFetchingInfo();
     currentStep.value++;
     await wait(1000);

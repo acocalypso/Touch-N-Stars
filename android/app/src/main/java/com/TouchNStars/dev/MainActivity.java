@@ -8,8 +8,8 @@ import com.getcapacitor.BridgeActivity;
 import android.view.WindowManager;
 
 public class MainActivity extends BridgeActivity {
-    private UpdateChecker updateChecker;
-    private String currentVersion;
+   // private UpdateChecker updateChecker;
+    //private String currentVersion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class MainActivity extends BridgeActivity {
         configureWakeFeatures();
 
         // Initialize update checker
-        initializeUpdateChecker();
+      //  initializeUpdateChecker();
     }
 
     private void configureWakeFeatures() {
@@ -36,7 +36,7 @@ public class MainActivity extends BridgeActivity {
         }
     }
 
-    private void initializeUpdateChecker() {
+   /* private void initializeUpdateChecker() {
         try {
             currentVersion = getPackageManager()
                     .getPackageInfo(getPackageName(), 0)
@@ -48,8 +48,8 @@ public class MainActivity extends BridgeActivity {
             Log.e("MainActivity", "Version info error", e);
         }
     }
-
-    @Override
+*/
+  /*  @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -62,9 +62,9 @@ public class MainActivity extends BridgeActivity {
                 handlePermissionResult(resultCode);
                 break;
         }
-    }
+    }*/
 
-    private void handleInstallResult(int resultCode) {
+   /* private void handleInstallResult(int resultCode) {
         switch (resultCode) {
             case RESULT_OK:
                 Log.i("MainActivity", "Update installed successfully");
@@ -76,22 +76,22 @@ public class MainActivity extends BridgeActivity {
                 Log.e("MainActivity", "Installation failed with code: " + resultCode);
         }
     }
-
-    private void handlePermissionResult(int resultCode) {
+*/
+    /*private void handlePermissionResult(int resultCode) {
         if (resultCode == RESULT_OK && updateChecker != null) {
             // Retry installation after permission granted
             updateChecker.checkForUpdate(currentVersion);
         } else {
             Log.w("MainActivity", "Install permission denied");
         }
-    }
+    }*/
 
     @Override
     public void onDestroy() {
         super.onDestroy(); // <-- Critical for proper lifecycle
 
-        if (updateChecker != null) {
+    /*    if (updateChecker != null) {
             updateChecker.cancelPendingDownloads();
-        }
+        }*/
     }
 }

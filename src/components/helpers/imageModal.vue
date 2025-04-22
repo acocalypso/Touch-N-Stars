@@ -142,7 +142,7 @@ async function downloadImage() {
 
   if (!props.imageData) return;
 
-  if (Capacitor.getPlatform() === 'android') {
+  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
     try {
       const dirResult = await FilePicker.pickDirectory();
       if (!dirResult.path) return;

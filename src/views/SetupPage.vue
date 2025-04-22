@@ -78,9 +78,9 @@
           </div>
         </div>
 
-        <!-- Step 3: Instance Configuration (Android only) -->
+        <!-- Step 3: Instance Configuration (Mobile only) -->
         <div
-          v-else-if="currentStep === 3"
+          v-else-if="currentStep === 3 && ['android', 'ios'].includes(Capacitor.getPlatform())"
           key="instance"
           class="bg-gray-800 p-8 rounded-lg shadow-lg"
         >
@@ -243,9 +243,14 @@ function afterEnter() {
 
 async function nextStep() {
   currentStep.value++;
-  if (currentStep.value === 3 && Capacitor.getPlatform() !== 'android') {
-    store.startFetchingInfo();
+  // Skip instance configuration on web
+  if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value++;
+  }
+
+  // Fetch GPS info after instance setup on mobile
+  if (currentStep.value === 4 && ['android', 'ios'].includes(Capacitor.getPlatform())) {
+    store.startFetchingInfo();
     await wait(1000);
     latitude.value = store.profileInfo.AstrometrySettings.Latitude;
     longitude.value = store.profileInfo.AstrometrySettings.Longitude;
@@ -255,7 +260,8 @@ async function nextStep() {
 
 function previousStep() {
   currentStep.value--;
-  if (currentStep.value === 3 && Capacitor.getPlatform() !== 'android') {
+  // Skip instance configuration when going back on web
+  if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value--;
   }
 }

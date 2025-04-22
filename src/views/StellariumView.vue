@@ -3,12 +3,6 @@
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
-    <!-- DateTime Control Component -->
-    <stellariumDateTime />
-
-    <!-- Setting-->
-    <stellariumSettings />
-
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
@@ -43,10 +37,10 @@
       :selectedObjectDecDeg="selectedObjectDecDeg"
       @setFramingCoordinates="setFramingCoordinates"
     />
-
-    <!-- Credits-->
-    <stellariumCredits />
-
+    <div class="absolute bottom-3 left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
+      <stellariumCredits />
+      <stellariumSettings />
+    </div>
     <!-- Clock -->
     <stellariumClock v-if="stellariumStore.stel" />
   </div>
@@ -62,7 +56,6 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
-import stellariumDateTime from '@/components/stellarium/stellariumDateTime.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';

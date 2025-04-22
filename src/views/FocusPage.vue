@@ -17,36 +17,34 @@
         class="grid grid-cols-2 landscape:grid-cols-3"
       />
       <div v-if="store.focuserInfo.Connected" class="flex flex-col text-left mt-4">
-        <div class="flex space-x-3 items-center">
-          <label for="position" class="w-auto">{{ $t('components.focuser.new_position') }}</label>
-          <input
-            id="position"
-            v-model.number="position"
-            type="number"
-            class="text-black px-4 h-10 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-700"
-            placeholder="1"
-            step="50"
-          />
-          <button
-            class="btn-primary bg-gradient-to-br from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 w-full"
-            @click="moveFocuser"
-          >
-            {{ $t('components.focuser.move') }}
-          </button>
+        <div class="border border-gray-400/50 p-3 rounded-md">
+          <div class="flex space-x-3 items-center">
+            <label for="position" class="w-auto">{{ $t('components.focuser.new_position') }}</label>
+            <input
+              id="position"
+              v-model.number="position"
+              type="number"
+              class="text-black px-4 h-10 w-full border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-700"
+              placeholder="1"
+              step="50"
+            />
+            <button class="default-button-cyan" @click="moveFocuser">
+              {{ $t('components.focuser.move') }}
+            </button>
+          </div>
+          <div class="pt-1">
+            <ButtonsFastChangePositon />
+          </div>
         </div>
         <div class="mt-4">
           <button
             v-if="!store.focuserAfInfo.autofocus_running"
-            class="btn-primary bg-gradient-to-br from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 flex h-10 w-full"
+            class="default-button-cyan"
             @click="startAutofocus"
           >
             {{ $t('components.focuser.start_autofocus') }}
           </button>
-          <button
-            v-else
-            class="flex h-10 w-full rounded-md text-white font-medium transition-colors bg-red-700 items-center justify-center disabled:opacity-50"
-            @click="stoppAutofocus"
-          >
+          <button v-else class="default-button-red" @click="stoppAutofocus">
             {{ $t('components.focuser.cancel_autofocus') }}
           </button>
         </div>
@@ -113,6 +111,7 @@ import AfFnishGraph from '@/components/focuser/AfFnishGraph.vue';
 import { apiStore } from '@/store/store';
 import AfStatus from '@/components/focuser/AfStatus.vue';
 import AfShowGraph from '@/components/focuser/AfShowGraph.vue';
+import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 
 const store = apiStore();
 const position = ref(0);

@@ -13,7 +13,7 @@
         step="1"
       />
       <button
-        class="flex h-10 w-full min-w-28 rounded-md text-white font-medium transition-colors bg-cyan-900 items-center justify-center disabled:opacity-50"
+        class="default-button-cyan"
         @click="slewDome"
         :disabled="store.domeInfo.Slewing || isSlewing"
       >
@@ -23,11 +23,7 @@
           class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
       </button>
-      <button
-        @click="stopSlew"
-        class="bg-red-900 rounded-md flex items-center justify-center w-16 mr-1"
-        :class="statusClass"
-      >
+      <button @click="stopSlew" class="default-button-red w-16 mr-1" :class="statusClass">
         <StopCircleIcon class="w-8 h-8" />
       </button>
     </div>

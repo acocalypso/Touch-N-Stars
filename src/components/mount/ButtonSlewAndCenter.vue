@@ -7,7 +7,7 @@
       framingStore.isRotating ||
       props.disabled
     "
-    class="default-button-cyan flex items-center justify-center disabled:opacity-50"
+    class="default-button-cyan"
   >
     <span v-if="framingStore.isSlewingAndCentering" class="loader mr-2"></span>
     {{ $t('components.slewAndCenter.slew_and_center') }}

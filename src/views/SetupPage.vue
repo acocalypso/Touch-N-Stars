@@ -249,9 +249,10 @@ async function nextStep() {
   }
 
   // Fetch GPS info after instance setup on mobile
-  if (currentStep.value === 4 && ['android', 'ios'].includes(Capacitor.getPlatform())) {
+  if (currentStep.value === 4) {
     store.startFetchingInfo();
     await wait(1000);
+    console.log('_---------------------------');
     latitude.value = store.profileInfo.AstrometrySettings.Latitude;
     longitude.value = store.profileInfo.AstrometrySettings.Longitude;
     altitude.value = store.profileInfo.AstrometrySettings.Elevation;

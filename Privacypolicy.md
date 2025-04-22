@@ -1,3 +1,5 @@
+Privacy Policy for the Android App “Touch-N-Stars”
+
 1. Controller
 
 The party responsible for data processing in connection with this app is:

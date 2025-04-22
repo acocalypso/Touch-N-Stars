@@ -8,9 +8,6 @@
     <div v-show="!isLoading" class="w-full min-h-64 max-h-96">
       <canvas ref="rmsGraph"></canvas>
     </div>
-    <div class="note">
-      {{ $t('components.guider.notes') }}
-    </div>
   </div>
 </template>
 
@@ -188,11 +185,4 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style scoped>
-.note {
-  font-size: 0.8em;
-  color: #666;
-  margin-top: 8px;
-  font-style: italic;
-}
-</style>
+<style scoped></style>

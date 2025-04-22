@@ -14,11 +14,20 @@
 
 @layer components {
   .default-button-cyan {
-    @apply min-w-24 min-h-10 bg-cyan-900 rounded-md text-white font-medium transition-colors w-full;
-  }
-
-  .default-button-cyan:active {
-    @apply bg-cyan-800;
+    @apply 
+      flex
+      items-center
+      justify-center
+      min-w-10 
+      min-h-10 
+      bg-gradient-to-br from-cyan-800 to-cyan-600 
+      hover:from-cyan-700 hover:to-cyan-600 
+      rounded-md 
+      text-white 
+      font-medium 
+      transition-colors 
+      w-full 
+      disabled:opacity-50;
   }
 
   .default-button-orange {
@@ -30,11 +39,20 @@
   }
 
   .default-button-red {
-    @apply min-w-24 min-h-10 bg-red-800 rounded-md text-white font-medium transition-colors w-full;
-  }
-
-  .default-button-red:active {
-    @apply bg-red-700;
+    @apply 
+      flex
+      items-center
+      justify-center
+      min-w-10 
+      min-h-10 
+      bg-gradient-to-br from-red-800 to-red-600 
+      hover:from-red-700 hover:to-red-600 
+      rounded-md 
+      text-white 
+      font-medium 
+      transition-colors 
+      w-full 
+      disabled:opacity-50;
   }
 
   .default-inputfield {

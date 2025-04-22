@@ -2,7 +2,7 @@
   <!-- Capture Button -->
   <div class="flex gap-1">
     <button
-      class="btn-primary w-full bg-gradient-to-br from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 transition-all duration-200 shadow-lg hover:shadow-cyan-500/20 disabled:opacity-50"
+      class="default-button-cyan"
       @click="
         cameraStore.capturePhoto(
           apiService,
@@ -57,7 +57,7 @@
     <button
       v-if="cameraStore.isExposure"
       @click="cameraStore.abortExposure(apiService)"
-      class="flex items-center justify-center w-12 rounded-md bg-red-600 transition-all duration-200 shadow-lg hover:shadow-red-500/20"
+      class="default-button-red"
     >
       <StopCircleIcon class="w-10" />
     </button>

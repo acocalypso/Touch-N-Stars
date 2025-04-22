@@ -47,5 +47,7 @@
 	<string>Sync current coordinates to the mount</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Sync current coordinates to the mount</string>
 </dict>
 </plist>

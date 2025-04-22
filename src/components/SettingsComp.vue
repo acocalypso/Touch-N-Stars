@@ -256,11 +256,6 @@ const longitude = ref('');
 const altitude = ref('');
 const gpsError = ref(null);
 
-// Instance management
-const instances = computed(() => settingsStore.connection.instances);
-const editingInstance = ref(null);
-const selectedInstance = ref(settingsStore.selectedInstanceId);
-
 // Tutorial
 const showTutorialModal = ref(false);
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);

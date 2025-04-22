@@ -22,11 +22,13 @@
         <div
           class="flex mt-5 mb-20 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-2"
         >
-          <div class="min-w-24 pt-4">
-            <GuiderStats />
-          </div>
-          <div class="w-full">
-            <rmsGraph />
+          <div class="flex flex-col w-full">
+            <div class="w-full">
+              <rmsGraph />
+            </div>
+            <div class="min-w-24 pt-4 flex gap-3 ml-7 text-gray-300">
+              <GuiderStats />
+            </div>
           </div>
         </div>
       </div>

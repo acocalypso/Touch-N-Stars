@@ -73,10 +73,14 @@
         </div>
         <div
           v-if="settingsStore.monitorViewSetting.showGuiderGraph && store.guiderInfo.Connected"
-          class="flex w-full min-h-40 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
+          class="flex flex-col w-full min-h-40 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
         >
-          <GuiderStats class="min-w-24 pt-4" />
-          <GuiderGraph class="w-full" />
+          <div class="w-full">
+            <GuiderGraph />
+          </div>
+          <div class="min-w-24 pt-4 flex gap-3 ml-7 text-gray-300">
+            <GuiderStats />
+          </div>
         </div>
         <div
           class="flex flex-col w-full min-h-80 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"

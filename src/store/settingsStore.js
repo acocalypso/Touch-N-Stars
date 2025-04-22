@@ -61,6 +61,29 @@ export const useSettingsStore = defineStore('settings', {
       atmosphereVisible: true,
       landscapesVisible: true,
     },
+    instanceColorClasses : [
+      'bg-gray-800',    
+      'bg-blue-900',     
+      'bg-sky-900',      
+      'bg-indigo-900',   
+      'bg-cyan-900',    
+      'bg-amber-900',   
+      'bg-slate-800',    
+      'bg-zinc-800',     
+      'bg-fuchsia-900',  
+      'bg-emerald-900',  
+      'bg-teal-900',     
+      'bg-gray-900',      
+      'bg-red-900',      
+      'bg-orange-900',   
+      'bg-lime-900',     
+      'bg-neutral-900',  
+      'bg-stone-900',    
+      'bg-green-900',    
+      'bg-purple-900',   
+      'bg-rose-900',     
+    ]
+    
   }),
   actions: {
     setCoordinates(coords) {
@@ -149,6 +172,19 @@ export const useSettingsStore = defineStore('settings', {
         (i) => i.name === name && i.ip === ip && i.port === port
       );
     },
+
+    getInstanceColorByIndex(index) {
+      return this.instanceColorClasses[index % this.instanceColorClasses.length];
+    },
+    
+    getInstanceColorById(id) {
+      const index = this.connection.instances.findIndex(i => i.id === id);
+      return index !== -1
+        ? this.getInstanceColorByIndex(index)
+        : 'bg-gray-700';
+    },
+  
+
 
     setSelectedInstanceId(id) {
       this.selectedInstanceId = id;

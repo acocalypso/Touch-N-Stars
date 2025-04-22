@@ -1,5 +1,8 @@
 <template>
-  <div class="flex top-0 bg-gray-800 shadow-md overflow-hidden justify-center h-20">
+  <div
+    class="flex top-0 shadow-md overflow-hidden justify-center h-20"
+    :class="activeInstanceColor"
+  >
     <div
       class="flex mx-auto items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
       style="scroll-snap-type: x mandatory"
@@ -277,14 +280,21 @@ import {
   AdjustmentsVerticalIcon,
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
-import { watch } from 'vue';
+import { watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 const store = apiStore();
 const sequenceStore = useSequenceStore();
+const settingsStore = useSettingsStore();
 const route = useRoute();
+const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
+
+const activeInstanceColor = computed(() =>
+  settingsStore.getInstanceColorById(selectedInstanceId.value)
+);
 
 watch(
   () => route.path,

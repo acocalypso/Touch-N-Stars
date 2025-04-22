@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Focuser quick to use button
 - IOS App
+- Instanze Color
 
 ### Changed
 - design rework stellarium 

@@ -281,6 +281,17 @@ const apiService = {
     }
   },
 
+  async fetchApplicatioTab() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/application/get-tab`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error application:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Camera ---------------------------------------
   cameraAction(action) {
     const { BASE_URL } = getUrls();

@@ -113,6 +113,8 @@ import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
+import apiService from './services/apiService';
+import { wait } from './utils/utils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -159,6 +161,16 @@ onMounted(async () => {
   if (!settingsStore.tutorial.completed) {
     showTutorial.value = true;
   }
+
+  //NINA preparation
+  //To make Slew and Center work, the framing tab must be opened once
+  const response = await apiService.fetchApplicatioTab();
+  const actualTab = response.Response;
+  await apiService.applicatioTabSwitch('framing');
+  await apiService.setFramingImageSource('SKYATLAS');
+  await apiService.setFramingCoordinates(1, 1);
+  await wait(1000);
+  await apiService.applicatioTabSwitch(actualTab);
 });
 
 function closeTutorial() {

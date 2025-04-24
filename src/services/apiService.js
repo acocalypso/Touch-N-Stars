@@ -37,6 +37,7 @@ const getBaseUrl = () => {
     base: `${protocol}://${host}:${apiPort}/v2/api`,
     api: `${protocol}://${host}:${port}/api/`,
     targetpic: `${protocol}://${host}:${port}/api/targetpic`,
+    pluginServer: `${protocol}://${host}:${port}`,
   };
 };
 
@@ -46,6 +47,7 @@ const getUrls = () => {
     BASE_URL: urls.base,
     API_URL: urls.api,
     TARGETPIC_URL: urls.targetpic,
+    PLUGINSERVER_URL : urls.pluginServer,
   };
 };
 
@@ -57,6 +59,22 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/version`);
       //console.log(response.data);
       return response.data;
+    } catch (error) {
+      console.error('Error reaching backend:', error.message);
+      return false;
+    }
+  },
+
+  async checkPluginServer() {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.get(PLUGINSERVER_URL);
+     // console.log('Plugin antworet mit:', response.status);
+      if(response.status === 200){
+        return true
+      } else {
+        return false
+      }
     } catch (error) {
       console.error('Error reaching backend:', error.message);
       return false;

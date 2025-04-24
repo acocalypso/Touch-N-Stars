@@ -52,7 +52,14 @@ export const apiStore = defineStore('store', {
       let tempIsBackendReachable = false;
       try {
         const versionResponse = await apiService.fetchApiVersion();
+        const isPluginReachable = await apiService.checkPluginServer();
         tempIsBackendReachable = !!versionResponse;
+
+        if (!isPluginReachable) {
+          console.warn('TNS-Plugin not reachable');
+          this.clearAllStates();
+          return;
+        }
 
         if (tempIsBackendReachable) {
           this.currentApiVersion = versionResponse.Response;

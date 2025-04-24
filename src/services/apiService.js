@@ -47,7 +47,7 @@ const getUrls = () => {
     BASE_URL: urls.base,
     API_URL: urls.api,
     TARGETPIC_URL: urls.targetpic,
-    PLUGINSERVER_URL : urls.pluginServer,
+    PLUGINSERVER_URL: urls.pluginServer,
   };
 };
 
@@ -69,11 +69,11 @@ const apiService = {
     try {
       const { PLUGINSERVER_URL } = getUrls();
       const response = await axios.get(PLUGINSERVER_URL);
-     // console.log('Plugin antworet mit:', response.status);
-      if(response.status === 200){
-        return true
+      // console.log('Plugin antworet mit:', response.status);
+      if (response.status === 200) {
+        return true;
       } else {
-        return false
+        return false;
       }
     } catch (error) {
       console.error('Error reaching backend:', error.message);

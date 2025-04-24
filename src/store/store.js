@@ -47,7 +47,6 @@ export const apiStore = defineStore('store', {
   }),
 
   actions: {
-
     async fetchAllInfos() {
       let tempIsBackendReachable = false;
       try {

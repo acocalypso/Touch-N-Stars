@@ -88,8 +88,14 @@
             {{ t('setup.InfoAppsTitel') }}
           </h2>
           <div class="space-y-4">
-            <p class="text-1xl  text-white mb-2">{{ t('setup.check_wki') }}</p>
-            <a  target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline" href="https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki">{{ t('setup.InfoAppsTitel') }}</a>
+            <p class="text-1xl text-white mb-2">{{ t('setup.check_wki') }}</p>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-blue-600 hover:text-blue-800 underline"
+              href="https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki"
+              >{{ t('setup.InfoAppsTitel') }}</a
+            >
             <div class="flex justify-between mt-6">
               <button
                 @click="previousStep()"
@@ -163,8 +169,6 @@
           </div>
         </div>
 
-
-        
         <!-- Step 5: GPS Configuration (using Capacitor Geolocation) -->
         <div v-else-if="currentStep === 5" key="gps" class="bg-gray-800 p-8 rounded-lg shadow-lg">
           <h2 class="text-2xl font-bold text-white mb-6">{{ t('setup.gpsConfiguration') }}</h2>
@@ -195,7 +199,7 @@
                 />
               </div>
             </div>
-            <button 
+            <button
               v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
               @click="getCurrentLocation"
               class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
@@ -276,7 +280,7 @@ function afterEnter() {
 async function nextStep() {
   currentStep.value++;
   // Skip instance configuration on web
- if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
+  if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value++;
   }
 

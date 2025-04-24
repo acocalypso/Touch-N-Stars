@@ -80,7 +80,7 @@
 
         <!-- Step 3: Instance Configuration (Mobile only) -->
         <div
-          v-else-if="currentStep === 3 && ['android', 'ios'].includes(Capacitor.getPlatform())"
+          v-else-if="currentStep === 3"
           key="instance"
           class="bg-gray-800 p-8 rounded-lg shadow-lg"
         >
@@ -229,7 +229,7 @@ const altitude = ref('');
 const gpsError = ref(null);
 const instanceName = ref('');
 const instanceIP = ref('');
-const instancePort = ref('');
+const instancePort = ref(5000);
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
 
@@ -244,7 +244,7 @@ function afterEnter() {
 async function nextStep() {
   currentStep.value++;
   // Skip instance configuration on web
-  if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
+ if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value++;
   }
 
@@ -344,7 +344,7 @@ async function saveInstance() {
   });
   checkConnection.value = true;
   try {
-    const response = await apiService.isBackendReachable();
+    const response = await apiService.fetchApiVersion();
     console.log('Backend erreichbar?', response);
     if (!response) {
       alert(t('components.settings.errors.invalidInstance'));

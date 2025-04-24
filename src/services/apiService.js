@@ -51,7 +51,7 @@ const getUrls = () => {
 
 const apiService = {
   // Backend reachability check
-  async isBackendReachable() {
+  async fetchApiVersion() {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/version`);

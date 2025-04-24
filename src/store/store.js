@@ -47,21 +47,11 @@ export const apiStore = defineStore('store', {
   }),
 
   actions: {
-    async getGuiderInfo() {
-      try {
-        const response = await apiService.guiderAction('info');
-        if (response.Success) {
-          this.guiderInfo = response.Response;
-        }
-      } catch (error) {
-        console.error('Error fetching guider info:', error);
-      }
-    },
 
     async fetchAllInfos() {
       let tempIsBackendReachable = false;
       try {
-        const versionResponse = await apiService.isBackendReachable();
+        const versionResponse = await apiService.fetchApiVersion();
         tempIsBackendReachable = !!versionResponse;
 
         if (tempIsBackendReachable) {
@@ -270,6 +260,17 @@ export const apiStore = defineStore('store', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+      }
+    },
+
+    async getGuiderInfo() {
+      try {
+        const response = await apiService.guiderAction('info');
+        if (response.Success) {
+          this.guiderInfo = response.Response;
+        }
+      } catch (error) {
+        console.error('Error fetching guider info:', error);
       }
     },
 

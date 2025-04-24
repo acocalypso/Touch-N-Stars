@@ -78,7 +78,36 @@
           </div>
         </div>
 
-        <!-- Step 3: Instance Configuration (Mobile only) -->
+        <!-- Step 3: Infos -->
+        <div
+          v-else-if="currentStep === 3"
+          key="infoApps"
+          class="bg-gray-800 p-8 rounded-lg shadow-lg"
+        >
+          <h2 class="text-2xl font-bold text-white mb-6">
+            {{ t('setup.InfoAppsTitel') }}
+          </h2>
+          <div class="space-y-4">
+            <p class="text-1xl  text-white mb-2">{{ t('setup.check_wki') }}</p>
+            <a  target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 underline" href="https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki">{{ t('setup.InfoAppsTitel') }}</a>
+            <div class="flex justify-between mt-6">
+              <button
+                @click="previousStep()"
+                class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                {{ t('common.cancel') }}
+              </button>
+              <button
+                @click="nextStep()"
+                class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
+              >
+                <p>{{ t('common.confirm') }}</p>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Instance Configuration (Mobile only) -->
         <div
           v-else-if="currentStep === 3"
           key="instance"
@@ -134,8 +163,10 @@
           </div>
         </div>
 
-        <!-- Step 4: GPS Configuration (using Capacitor Geolocation) -->
-        <div v-else-if="currentStep === 4" key="gps" class="bg-gray-800 p-8 rounded-lg shadow-lg">
+
+        
+        <!-- Step 5: GPS Configuration (using Capacitor Geolocation) -->
+        <div v-else-if="currentStep === 5" key="gps" class="bg-gray-800 p-8 rounded-lg shadow-lg">
           <h2 class="text-2xl font-bold text-white mb-6">{{ t('setup.gpsConfiguration') }}</h2>
           <div class="space-y-4">
             <div class="flex items-center gap-2">
@@ -164,7 +195,8 @@
                 />
               </div>
             </div>
-            <button
+            <button 
+              v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
               @click="getCurrentLocation"
               class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
             >
@@ -244,12 +276,12 @@ function afterEnter() {
 async function nextStep() {
   currentStep.value++;
   // Skip instance configuration on web
- if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
+ if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value++;
   }
 
   // Fetch GPS info after instance setup on mobile
-  if (currentStep.value === 4) {
+  if (currentStep.value === 5) {
     store.startFetchingInfo();
     await wait(1000);
     console.log('_---------------------------');

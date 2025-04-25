@@ -99,7 +99,7 @@
         v-model="tempInstance.port"
         type="text"
         class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
-        placeholder="5000"
+        placeholder="e.g. 5000"
       />
     </div>
     <div v-if="emptyFieldsError" class="mt-2 text-sm text-red-400">

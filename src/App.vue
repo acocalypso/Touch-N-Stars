@@ -90,7 +90,7 @@
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
-    <ToastModal />
+    <ToastModal v-if="settingsStore.setupCompleted" />
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
   </div>
 </template>

@@ -28,9 +28,7 @@ The application aims to make controlling and adjusting already configured profil
 - The author assumes no liability
   
 ### 🔧 **Installation**
-- The [Plugin](https://github.com/Touch-N-Stars/N.I.N.A-Plugin-for-Touch-N-Stars) must be installed in NINA
-- You may need to allow the application through your Windows firewall.
-- Afterwards, Touch'N'Stars can be accessed via http://"NINA-PC-IP":5000.
+- Please take a look at the instructions in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki#-important-notes)
 
 ### 📱 **Android App**
 - We have created an app for Android users.

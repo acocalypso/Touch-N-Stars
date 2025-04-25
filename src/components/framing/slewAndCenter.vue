@@ -268,8 +268,6 @@ function stopFetchingInfo() {
 
 onMounted(async () => {
   startFetchingInfo();
-  await apiService.applicatioTabSwitch('framing');
-  await apiService.setFramingImageSource('SKYATLAS');
 });
 
 onBeforeUnmount(() => {

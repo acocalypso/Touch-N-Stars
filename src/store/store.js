@@ -128,15 +128,13 @@ export const apiStore = defineStore('store', {
         console.error('Fehler beim Abrufen der Informationen:', error);
       }
       await this.fetchProfilInfos();
-      this.isBackendReachable = tempIsBackendReachable;
+      this.isBackendReachable = true;
     },
 
     clearAllStates() {
-      this.intervalId = null;
-      this.intervalIdGraph = null;
+      this.isBackendReachable = false;
       this.profileInfo = [];
-      this.collapsedStates = {};
-      this.cameraInfo = { IsExposing: false };
+      this.cameraInfo = [];
       this.mountInfo = [];
       this.filterInfo = [];
       this.focuserInfo = [];
@@ -145,23 +143,12 @@ export const apiStore = defineStore('store', {
       this.guiderInfo = [];
       this.flatdeviceInfo = [];
       this.domeInfo = [];
-      this.safetyInfo = {
-        Connected: false,
-        IsSafe: false,
-      };
+      this.safetyInfo = [];
       this.switchInfo = [];
       this.weatherInfo = [];
-      this.isBackendReachable = false;
-      this.filterName = 'unbekannt';
-      this.filterNr = null;
-      this.showAfGraph = true;
-      this.imageData = null;
       this.isLoadingImage = false;
       this.captureRunning = false;
-      this.rotatorMechanicalPosition = 0;
       this.existingEquipmentList = [];
-      this.coordinates = null;
-      this.currentLanguage = 'en';
     },
 
     handleApiResponses({

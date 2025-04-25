@@ -163,15 +163,22 @@ onMounted(async () => {
   }
 
   //NINA preparation
-  //To make Slew and Center work, the framing tab must be opened once
-  const response = await apiService.fetchApplicatioTab();
-  const actualTab = response.Response;
-  await apiService.applicatioTabSwitch('framing');
-  await apiService.setFramingImageSource('SKYATLAS');
-  await apiService.setFramingCoordinates(1, 1);
-  await wait(1000);
-  await apiService.applicatioTabSwitch(actualTab);
+  await preparationNina();
 });
+
+async function preparationNina() {
+  //NINA preparation
+  if (store.isBackendReachable) {
+    //To make Slew and Center work, the framing tab must be opened once
+    const response = await apiService.fetchApplicatioTab();
+    const actualTab = response.Response;
+    await apiService.applicatioTabSwitch('framing');
+    await apiService.setFramingImageSource('SKYATLAS');
+    await apiService.setFramingCoordinates(1, 1);
+    await wait(1000);
+    await apiService.applicatioTabSwitch(actualTab);
+  }
+}
 
 function closeTutorial() {
   showTutorial.value = false;

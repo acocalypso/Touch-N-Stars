@@ -46,7 +46,6 @@ export const apiStore = defineStore('store', {
       currentTab: 'showMount',
     },
     closeErrorModal: false,
-
   }),
 
   actions: {
@@ -154,10 +153,10 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = true;
 
       //when the backend is accessible again close modal
-      if (this.isBackendReachable && !this.closeErrorModal){
+      if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
         console.log('Backend ist reachable');
-        toastStore.newMessage=false;
+        toastStore.newMessage = false;
       }
     },
 

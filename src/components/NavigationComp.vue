@@ -117,8 +117,7 @@
 			c4.512,0,8.17-3.658,8.17-8.17c0-4.512-3.658-8.17-8.17-8.17H35.404v-38.128h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17
 			s8.17-3.658,8.17-8.17v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021v13.617
 			c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17
-			v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17
-			c4.512,0,8.17-3.658,8.17-8.17v-13.617h49.021V283.234z"
+			v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17c4.512,0,8.17-3.658,8.17-8.17v-13.617h49.021V283.234z"
               />
               <path
                 d="M354.043,359.489c-4.512,0-8.17,3.658-8.17,8.17v43.574c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17V367.66 
@@ -244,7 +243,7 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.isBackendReachable">
+        <div v-if="store.isBackendReachable && !isIOS">
           <router-link
             to="/"
             class="nav-button"
@@ -286,11 +285,14 @@ import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
+import { Capacitor } from '@capacitor/core';
+
 const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
 const route = useRoute();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
+const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 
 const activeInstanceColor = computed(() =>
   settingsStore.getInstanceColorById(selectedInstanceId.value)

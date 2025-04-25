@@ -115,7 +115,7 @@
 
         <!-- Step 4: Instance Configuration (Mobile only) -->
         <div
-          v-else-if="currentStep === 3"
+          v-else-if="currentStep === 4"
           key="instance"
           class="bg-gray-800 p-8 rounded-lg shadow-lg"
         >

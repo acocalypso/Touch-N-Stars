@@ -18,7 +18,13 @@
     "title": "Touch'N'Stars",
     "unreachable": "No se encuentra NINA o la versión es demasiada vieja",
     "connecting": "Intentando establecer conexión",
-    "api_version_incompatible": "Versión avanzada-API Corriente incompatible: {actual} requerido: {requerido}"
+    "api_version_incompatible": "Versión avanzada-API Corriente incompatible: {actual} requerido: {requerido}",
+    "connection_error_toast": {
+      "message_api": "El complemento API no está disponible. \nConsulte la configuración en Nina",
+      "message_api_version": "El complemento API es demasiado viejo. \nPor favor realice una actualización",
+      "message_tns": "El complemento TouchNstars no está disponible. \nConsulte la configuración en Nina",
+      "title": "Error de conexión"
+    }
   },
   "setup": {
     "welcome": "Bienvenido a Touch'N'Stars",

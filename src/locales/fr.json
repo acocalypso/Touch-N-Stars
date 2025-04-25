@@ -18,7 +18,13 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA n'est pas accessible",
     "connecting": "Tentative d'établissement de la connexion",
-    "api_version_incompatible": "Version avancée-API Courant incompatible: {current} requis: {required}"
+    "api_version_incompatible": "Version avancée-API Courant incompatible: {current} requis: {required}",
+    "connection_error_toast": {
+      "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
+      "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
+      "message_tns": "Le plugin TouchNstars n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
+      "title": "Erreur de connexion"
+    }
   },
   "setup": {
     "welcome": "Bienvenue dans Touch'N'Stars",

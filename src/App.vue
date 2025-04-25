@@ -120,6 +120,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
+const { t, locale } = useI18n();
 
 useHead({
   title: 'TouchNStars',
@@ -133,7 +134,7 @@ function handleVisibilityChange() {
     logStore.stopFetchingLog();
     sequenceStore.stopFetching();
   } else {
-    store.startFetchingInfo();
+    store.startFetchingInfo(t);
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {
       sequenceStore.startFetching();
@@ -141,12 +142,10 @@ function handleVisibilityChange() {
   }
 }
 
-const { locale } = useI18n();
-
 onMounted(async () => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
-  await store.fetchAllInfos();
-  store.startFetchingInfo();
+  await store.fetchAllInfos(t);
+  store.startFetchingInfo(t);
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();

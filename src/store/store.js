@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useToastStore } from '@/store/toastStore';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -44,11 +45,17 @@ export const apiStore = defineStore('store', {
     mount: {
       currentTab: 'showMount',
     },
+    closeErrorModal: false,
+
   }),
 
   actions: {
-    async fetchAllInfos() {
+    async fetchAllInfos(t) {
+      const toastStore = useToastStore();
       let tempIsBackendReachable = false;
+
+      if (!this.isBackendReachable) this.closeErrorModal = false;
+
       try {
         const versionResponse = await apiService.fetchApiVersion();
         const isPluginReachable = await apiService.checkPluginServer();
@@ -56,6 +63,13 @@ export const apiStore = defineStore('store', {
 
         if (!isPluginReachable) {
           console.warn('TNS-Plugin not reachable');
+
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_tns'),
+          });
+
           this.clearAllStates();
           return;
         }
@@ -69,11 +83,21 @@ export const apiStore = defineStore('store', {
 
           if (!this.isVersionNewerOrEqual) {
             console.warn('API version incompatible');
+            toastStore.showToast({
+              type: 'error',
+              title: t('app.connection_error_toast.title'),
+              message: t('app.connection_error_toast.message_api_version'),
+            });
             this.clearAllStates();
             return;
           }
         } else {
           console.warn('Backend is not reachable');
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_api'),
+          });
           this.clearAllStates();
           return;
         }
@@ -122,13 +146,19 @@ export const apiStore = defineStore('store', {
           safetyResponse,
           weatherResponse,
           switchResponse,
-          //logsResponse,
         });
       } catch (error) {
         console.error('Fehler beim Abrufen der Informationen:', error);
       }
       await this.fetchProfilInfos();
       this.isBackendReachable = true;
+
+      //when the backend is accessible again close modal
+      if (this.isBackendReachable && !this.closeErrorModal){
+        this.closeErrorModal = true;
+        console.log('Backend ist reachable');
+        toastStore.newMessage=false;
+      }
     },
 
     clearAllStates() {
@@ -243,9 +273,9 @@ export const apiStore = defineStore('store', {
       }
     },
 
-    startFetchingInfo() {
+    startFetchingInfo(t) {
       if (!this.intervalId) {
-        this.intervalId = setInterval(this.fetchAllInfos, 2000);
+        this.intervalId = setInterval(() => this.fetchAllInfos(t), 2000);
       }
     },
 

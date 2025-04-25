@@ -18,7 +18,13 @@
     "title": "Touch'N'Stars",
     "unreachable": " NINA 无法访问",
     "connecting": "尝试建立连接",
-    "api_version_incompatible": "高级 API 版本不兼容 当前：{ current } 必需：{ required }"
+    "api_version_incompatible": "高级 API 版本不兼容 当前：{ current } 必需：{ required }",
+    "connection_error_toast": {
+      "message_api": "The API plugin is not available. Please check the settings in NINA",
+      "message_api_version": "The API plugin is too old. Please perform an update",
+      "message_tns": "The TouchNStars plugin is not available. Please check the settings in NINA",
+      "title": "Connection error"
+    }
   },
   "setup": {
     "welcome": "欢迎使用 Touch'N'Stars",

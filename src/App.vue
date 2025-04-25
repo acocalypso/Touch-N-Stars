@@ -57,7 +57,6 @@
         </button>
       </div>
     </div>
-
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"
@@ -88,7 +87,6 @@
         </button>
       </div>
     </div>
-
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->

@@ -16,7 +16,7 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA-API je nedostupné",
+    "unreachable": "NINA je nedostupné",
     "connecting": "Pokus o připojení",
     "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }"
   },

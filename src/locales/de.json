@@ -16,9 +16,15 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA-API ist nicht erreichbar",
+    "unreachable": "NINA ist nicht erreichbar",
     "connecting": "Versuche Verbindung herzustellen",
-    "api_version_incompatible": "Advanced-API-Version Inkompatibel Aktuell: {current} Erforderlich: {required}"
+    "api_version_incompatible": "Advanced-API-Version Inkompatibel Aktuell: {current} Erforderlich: {required}",
+    "connection_error_toast": {
+      "message_api": "Das API-Plugin ist nicht erreichbar. \nBitte überprüfen Sie die Einstellungen in Nina",
+      "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
+      "message_tns": "Das TouchNstars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in Nina",
+      "title": "Verbindungsfehler"
+    }
   },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
@@ -26,7 +32,9 @@
     "selectLanguage": "Wählen Sie Ihre Sprache",
     "gpsConfiguration": "GPS-Konfiguration",
     "completeSetup": "Einrichtung abschließen",
-    "instanceConfiguration": "N.I.N.A Verbindungsdetails"
+    "instanceConfiguration": "N.I.N.A Verbindungsdetails",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitung"
   },
   "components": {
     "tutorial": {

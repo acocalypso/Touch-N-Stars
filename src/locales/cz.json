@@ -16,9 +16,15 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA-API je nedostupné",
+    "unreachable": "NINA je nedostupné",
     "connecting": "Pokus o připojení",
-    "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }"
+    "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }",
+    "connection_error_toast": {
+      "message_api": "The API plugin is not available. Please check the settings in NINA",
+      "message_api_version": "The API plugin is too old. Please perform an update",
+      "message_tns": "The TouchNStars plugin is not available. Please check the settings in NINA",
+      "title": "Connection error"
+    }
   },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
@@ -26,7 +32,9 @@
     "selectLanguage": "Vyberte jazyk",
     "gpsConfiguration": "Konfigurace GPS",
     "completeSetup": "Kompletní Nastavení",
-    "instanceConfiguration": "Podrobnosti o připojení N.I.N.A"
+    "instanceConfiguration": "Podrobnosti o připojení N.I.N.A",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "You can find detailed instructions in our wiki"
   },
   "components": {
     "tutorial": {

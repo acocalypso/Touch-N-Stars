@@ -57,7 +57,6 @@
         </button>
       </div>
     </div>
-
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"
@@ -88,7 +87,6 @@
         </button>
       </div>
     </div>
-
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
@@ -113,6 +111,8 @@ import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
+import apiService from './services/apiService';
+import { wait } from './utils/utils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -120,6 +120,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
+const { t, locale } = useI18n();
 
 useHead({
   title: 'TouchNStars',
@@ -133,7 +134,7 @@ function handleVisibilityChange() {
     logStore.stopFetchingLog();
     sequenceStore.stopFetching();
   } else {
-    store.startFetchingInfo();
+    store.startFetchingInfo(t);
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {
       sequenceStore.startFetching();
@@ -141,12 +142,10 @@ function handleVisibilityChange() {
   }
 }
 
-const { locale } = useI18n();
-
 onMounted(async () => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
-  await store.fetchAllInfos();
-  store.startFetchingInfo();
+  await store.fetchAllInfos(t);
+  store.startFetchingInfo(t);
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
@@ -159,7 +158,24 @@ onMounted(async () => {
   if (!settingsStore.tutorial.completed) {
     showTutorial.value = true;
   }
+
+  //NINA preparation
+  await preparationNina();
 });
+
+async function preparationNina() {
+  //NINA preparation
+  if (store.isBackendReachable) {
+    //To make Slew and Center work, the framing tab must be opened once
+    const response = await apiService.fetchApplicatioTab();
+    const actualTab = response.Response;
+    await apiService.applicatioTabSwitch('framing');
+    await apiService.setFramingImageSource('SKYATLAS');
+    await apiService.setFramingCoordinates(1, 1);
+    await wait(1000);
+    await apiService.applicatioTabSwitch(actualTab);
+  }
+}
 
 function closeTutorial() {
   showTutorial.value = false;

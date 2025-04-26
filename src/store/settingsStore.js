@@ -23,6 +23,7 @@ export const useSettingsStore = defineStore('settings', {
       showImgStatsGraph: true,
       showGuiderGraph: true,
       showGuiderAfGraph: true,
+      displayStatusUnderImage: false,
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {

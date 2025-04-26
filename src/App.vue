@@ -20,7 +20,7 @@
           v-show="store.showStellarium && !isIOS"
           v-if="settingsStore.setupCompleted && !isIOS"
         />
-        <router-view />
+        <router-view :key="orientation" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
@@ -125,14 +125,21 @@ const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const { t, locale } = useI18n();
+const tutorialSteps = computed(() => settingsStore.tutorial.steps);
+const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
+const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+const updateOrientation = () => {
+  const isLandscape = window.innerWidth > window.innerHeight;
+  const newOrientation = isLandscape ? 'landscape' : 'portrait';
+
+  if (newOrientation !== orientation.value) {
+    orientation.value = newOrientation;
+  }
+};
 
 useHead({
   title: 'TouchNStars',
 });
-
-const tutorialSteps = computed(() => settingsStore.tutorial.steps);
-
-const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 
 function handleVisibilityChange() {
   if (document.hidden) {
@@ -149,6 +156,7 @@ function handleVisibilityChange() {
 }
 
 onMounted(async () => {
+  window.addEventListener('resize', updateOrientation);
   document.addEventListener('visibilitychange', handleVisibilityChange);
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
@@ -193,6 +201,7 @@ onBeforeUnmount(() => {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('resize', updateOrientation);
 });
 </script>
 

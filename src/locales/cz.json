@@ -20,10 +20,10 @@
     "connecting": "Pokus o připojení",
     "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }",
     "connection_error_toast": {
-      "message_api": "The API plugin is not available. Please check the settings in NINA",
-      "message_api_version": "The API plugin is too old. Please perform an update",
-      "message_tns": "The TouchNStars plugin is not available. Please check the settings in NINA",
-      "title": "Connection error"
+      "message_api": "Zásuvný modul API není k dispozici. Zkontrolujte nastavení v NINA",
+      "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
+      "message_tns": "Zásuvný modul TouchNStars není k dispozici. Zkontrolujte prosím nastavení v NINA",
+      "title": "Chyba připojení"
     }
   },
   "setup": {
@@ -34,7 +34,7 @@
     "completeSetup": "Kompletní Nastavení",
     "instanceConfiguration": "Podrobnosti o připojení N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "You can find detailed instructions in our wiki"
+    "check_wki": "Podrobné pokyny najdete na naší wiki"
   },
   "components": {
     "tutorial": {

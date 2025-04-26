@@ -16,7 +16,10 @@
       </div>
 
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
-        <StellariumView v-show="store.showStellarium" v-if="settingsStore.setupCompleted" />
+        <StellariumView
+          v-show="store.showStellarium && !isIOS"
+          v-if="settingsStore.setupCompleted && !isIOS"
+        />
         <router-view />
       </div>
       <!-- Footer -->
@@ -100,6 +103,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
+import { Capacitor } from '@capacitor/core';
 import NavigationComp from '@/components/NavigationComp.vue';
 import LastMessage from '@/components/LastMessage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
@@ -127,6 +131,8 @@ useHead({
 });
 
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
+
+const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 
 function handleVisibilityChange() {
   if (document.hidden) {

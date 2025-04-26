@@ -19,10 +19,10 @@
     "unreachable": "NINA is unreachable",
     "connecting": "Attempting to establish connection",
     "connection_error_toast": {
-      "title":"Connection error",
-      "message_api":"The API plugin is not available. Please check the settings in NINA",
-      "message_api_version":"The API plugin is too old. Please perform an update",
-      "message_tns":"The TouchNStars plugin is not available. Please check the settings in NINA"
+      "title": "Connection error",
+      "message_api": "The API plugin is not available. Please check the settings in NINA",
+      "message_api_version": "The API plugin is too old. Please perform an update",
+      "message_tns": "The TouchNStars plugin is not available. Please check the settings in NINA"
     },
     "api_version_incompatible": "Advanced-API version incompatible current: { current } required: { required }"
   },
@@ -225,7 +225,8 @@
           "showImageStats": "Show last image stats",
           "showImgStatsGraph": "Show HFR-Chart",
           "showGuiderGraph": "Show guider-chart",
-          "showGuiderAfGraph": "Show autofocus-chart"
+          "showGuiderAfGraph": "Show autofocus-chart",
+          "display_status_under_image": "Show status below image"
         }
       },
       "running": "RUNNING",

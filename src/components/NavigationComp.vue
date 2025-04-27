@@ -1,13 +1,23 @@
 <template>
-  <div
-    class="flex top-0 shadow-md overflow-hidden justify-center h-20"
-    :class="activeInstanceColor"
-  >
-    <div
-      class="flex mx-auto items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
-      style="scroll-snap-type: x mandatory"
-    >
-      <div class="flex space-x-2 px-2" style="scroll-snap-align: start">
+  <div class="relative">
+    <div class="fixed top-0 left-0 right-0 z-50">
+      <div
+        class="flex items-center justify-between p-4 bg-gray-900 border-b border-gray-700 md:justify-center md:space-x-10"
+        :style="{ borderColor: activeInstanceColor }"
+      >
+        <!-- Plugin navigation items first -->
+        <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
+          <router-link
+            :to="item.path"
+            class="nav-button"
+            active-class="active-nav-button"
+            :title="item.title"
+          >
+            <component :is="item.icon" class="icon" />
+          </router-link>
+        </div>
+
+        <!-- Original navigation items -->
         <div v-if="store.isBackendReachable">
           <router-link
             to="/equipment"
@@ -116,9 +126,7 @@
 			V334.979c0-4.512-3.658-8.17-8.17-8.17H190.638c-4.512,0-8.17,3.658-8.17,8.17V495.66H35.404V299.574h40.851
 			c4.512,0,8.17-3.658,8.17-8.17c0-4.512-3.658-8.17-8.17-8.17H35.404v-38.128h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17
 			s8.17-3.658,8.17-8.17v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021v13.617
-			c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17
-			v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021v13.617c0,4.512,3.658,8.17,8.17,8.17
-			c4.512,0,8.17-3.658,8.17-8.17v-13.617h49.021V283.234z"
+			c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17v-13.617h49.021V283.234z"
               />
               <path
                 d="M354.043,359.489c-4.512,0-8.17,3.658-8.17,8.17v43.574c0,4.512,3.658,8.17,8.17,8.17s8.17-3.658,8.17-8.17V367.66 
@@ -286,9 +294,12 @@ import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
+import { usePluginStore } from '@/store/pluginStore';
+
 const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
+const pluginStore = usePluginStore();
 const route = useRoute();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 
@@ -303,7 +314,7 @@ watch(
       store.showStellarium = false;
     }
   },
-  { immediate: true } // <- optional, direkt beim ersten Laden prüfen
+  { immediate: true }
 );
 </script>
 

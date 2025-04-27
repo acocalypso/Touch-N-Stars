@@ -99,7 +99,8 @@
       },
       "moveRotator": "Ruota la fotocamera",
       "openFraminingModal": "Aperto nell'inquadratura assistente",
-      "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in Nina o l'opzione \"Usa cache Nina\" deve essere disattivata"
+      "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in Nina o l'opzione \"Usa cache Nina\" deve essere disattivata",
+      "currentAltitude": "Altitudine attuale"
     },
     "connectEquipment": {
       "camera": {

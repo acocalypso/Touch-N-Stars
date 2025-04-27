@@ -16,8 +16,11 @@
       </div>
 
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
-        <StellariumView v-show="store.showStellarium" v-if="settingsStore.setupCompleted" />
-        <router-view />
+        <StellariumView
+          v-show="store.showStellarium && !isIOS"
+          v-if="settingsStore.setupCompleted && !isIOS"
+        />
+        <router-view :key="orientation" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
@@ -100,6 +103,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
+import { Capacitor } from '@capacitor/core';
 import NavigationComp from '@/components/NavigationComp.vue';
 import LastMessage from '@/components/LastMessage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
@@ -121,12 +125,21 @@ const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const { t, locale } = useI18n();
+const tutorialSteps = computed(() => settingsStore.tutorial.steps);
+const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
+const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+const updateOrientation = () => {
+  const isLandscape = window.innerWidth > window.innerHeight;
+  const newOrientation = isLandscape ? 'landscape' : 'portrait';
+
+  if (newOrientation !== orientation.value) {
+    orientation.value = newOrientation;
+  }
+};
 
 useHead({
   title: 'TouchNStars',
 });
-
-const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 
 function handleVisibilityChange() {
   if (document.hidden) {
@@ -143,6 +156,7 @@ function handleVisibilityChange() {
 }
 
 onMounted(async () => {
+  window.addEventListener('resize', updateOrientation);
   document.addEventListener('visibilitychange', handleVisibilityChange);
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
@@ -187,6 +201,7 @@ onBeforeUnmount(() => {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('resize', updateOrientation);
 });
 </script>
 

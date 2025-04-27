@@ -4,9 +4,13 @@
     ref="imageContainer"
     class="image-container relative overflow-hidden touch-auto bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700 cursor-pointer"
   >
+    <img ref="image" :src="image" alt="Sequence Image" class="block w-full h-auto" />
     <div
       v-if="showStats"
-      class="flex flex-col absolute w-full min-w-60 bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-4 text-xs sm:text-sm space-y-2 position-absolute bg-black bg-opacity-10"
+      :class="[
+        'flex flex-col w-full min-w-60 bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-4 text-xs sm:text-sm space-y-2 bg-black bg-opacity-10',
+        { absolute: !displayStatusUnderImage },
+      ]"
     >
       <div class="grid grid-cols-2 gap-4">
         <div v-if="stats.Date" class="flex justify-between">
@@ -63,7 +67,6 @@
         </div>
       </div>
     </div>
-    <img ref="image" :src="image" alt="Sequence Image" class="block w-full h-auto" />
   </div>
 
   <ImageModal
@@ -98,6 +101,11 @@ const props = defineProps({
     required: false,
   },
   showStats: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
+  displayStatusUnderImage: {
     type: Boolean,
     required: false,
     default: false,

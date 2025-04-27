@@ -13,6 +13,7 @@
       :index="lastImgIndex"
       :image="imageData"
       :showStats="settingsStore.monitorViewSetting.showImageStats"
+      :displayStatusUnderImage="settingsStore.monitorViewSetting.displayStatusUnderImage"
       :stats="{
         Date: dateValue,
         ExposureTime,

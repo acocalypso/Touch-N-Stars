@@ -441,21 +441,8 @@ function shutdownSystem() {
   confirmAction.value = 'shutdown';
 }
 
-import { CloudIcon } from '@heroicons/vue/24/outline';
-
-function togglePlugin(pluginId, enabled) {
-  pluginStore.togglePlugin(pluginId, enabled);
-
-  if (enabled) {
-    // Add navigation item for the weather station specifically
-    if (pluginId === 'weather-station') {
-      pluginStore.addNavigationItem({
-        pluginId: pluginId,
-        path: '/weather-station',
-        icon: CloudIcon,
-        title: 'Weather Station',
-      });
-    }
-  }
+async function togglePlugin(pluginId, enabled) {
+  // Use the enhanced togglePlugin method which handles initialization
+  await pluginStore.togglePlugin(pluginId, enabled);
 }
 </script>

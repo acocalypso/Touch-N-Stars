@@ -8,10 +8,6 @@ import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 
-// Import plugins individually
-import weatherStationPlugin from './plugins/weather-station';
-const plugins = [weatherStationPlugin];
-
 // Tooltip directive
 const tooltipDirective = {
   mounted(el, binding) {
@@ -35,12 +31,19 @@ if (settingsStore && settingsStore.language) {
 
 app.use(pinia).use(head).use(i18n).use(router);
 
-// Initialize plugins
-const pluginStore = usePluginStore(pinia);
-plugins.forEach((plugin) => {
-  if (plugin && typeof plugin.install === 'function') {
-    plugin.install(app, { router });
-  }
-});
+// Initialize plugin system
+(async () => {
+  const pluginStore = usePluginStore(pinia);
 
-app.mount('#app');
+  // Store references to app and router in plugin store
+  pluginStore.initializeAppAndRouter(app, router);
+
+  // Load and register all available plugins
+  await pluginStore.loadAndRegisterPlugins();
+
+  // Initialize all enabled plugins
+  await pluginStore.initializeEnabledPlugins();
+
+  // Mount the app after plugins are initialized
+  app.mount('#app');
+})();

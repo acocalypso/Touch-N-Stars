@@ -20,10 +20,10 @@
     "connecting": "尝试建立连接",
     "api_version_incompatible": "高级 API 版本不兼容 当前：{ current } 必需：{ required }",
     "connection_error_toast": {
-      "message_api": "The API plugin is not available. Please check the settings in NINA",
-      "message_api_version": "The API plugin is too old. Please perform an update",
-      "message_tns": "The TouchNStars plugin is not available. Please check the settings in NINA",
-      "title": "Connection error"
+      "message_api": "API 插件不可用。请检查 NINA 中的设置",
+      "message_api_version": "API 插件版本过旧。请进行更新",
+      "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
+      "title": "连接错误"
     }
   },
   "setup": {
@@ -33,8 +33,8 @@
     "gpsConfiguration": "GPS 配置",
     "completeSetup": "完成设置",
     "instanceConfiguration": "N.I.N.A 连接详情",
-    "InfoAppsTitel": "Wiki",
-    "check_wki": "You can find detailed instructions in our wiki"
+    "InfoAppsTitel": "维基",
+    "check_wki": "您可以在我们的维基中找到详细说明"
   },
   "components": {
     "tutorial": {
@@ -62,21 +62,21 @@
         "instanceNameRequired": "实例名称必填",
         "invalidIPFormat": "请提供 IP 或 FQDN",
         "invalidPortRange": "无效的端口范围",
-        "invalidInstance": "A connection could not be established"
+        "invalidInstance": "无法建立连接"
       },
       "showTutorial": "显示教程",
       "system": {
-        "description": "Click either icon to restart or shutdown the system",
-        "title": "System Controls",
-        "confirmRestart": "Are you sure you want to restart the system?",
-        "confirmShutdown": "Are you sure you want to shutdown the system?",
-        "confirmation": "Confirmation"
+        "description": "点击任一图标重启或关闭系统",
+        "title": "系统控制",
+        "confirmRestart": "您确定要重启系统吗？",
+        "confirmShutdown": "您确定要关闭系统吗？",
+        "confirmation": "确认"
       },
       "image": {
-        "title": "Images settings",
-        "quality": "Quality in %",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
+        "title": "图像设置",
+        "quality": "质量百分比",
+        "black_clipping": "黑色裁剪",
+        "strech_factor": "拉伸因子"
       }
     },
     "framing": {
@@ -89,23 +89,23 @@
         "placeholder": "输入搜索内容..."
       },
       "fovSettings": {
-        "fov": "Field of View",
-        "rotationAngle": "Camera rotation"
+        "fov": "视场",
+        "rotationAngle": "相机旋转角度"
       },
       "getImageRotation": {
-        "SolveError": "Error solving image",
-        "SolveRun": "Platesolve",
-        "startCapture": "Determine rotation from camera"
+        "SolveError": "解析图像错误",
+        "SolveRun": "开始解析",
+        "startCapture": "从相机确定旋转角度"
       },
-      "moveRotator": "Rotate camera",
-      "openFraminingModal": "Open in framing-assistant",
-      "infoTargetImage": "If the image is only displayed in black, the “Offline Sky Map Cache“ must be set up in NINA or the “use NINA cache” option must be deactivated",
-      "currentAltitude": "Current Altitude"
+      "moveRotator": "旋转相机",
+      "openFraminingModal": "在取景助手中打开",
+      "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
+      "currentAltitude": "当前高度"
     },
     "connectEquipment": {
       "camera": {
         "error": "控制相机错误：",
-        "name": "Camera"
+        "name": "相机"
       },
       "connectAll": "全部连接",
       "disconnectAll": "全部断开",
@@ -115,47 +115,47 @@
         "connect": "连接滤镜轮",
         "disconnect": "断开滤镜轮",
         "error": "控制滤镜轮错误：",
-        "name": "FIlterwheel"
+        "name": "滤镜轮"
       },
       "mount": {
         "error": "控制赤道仪错误：",
-        "name": "Mount"
+        "name": "赤道仪"
       },
       "focuser": {
         "error": "控制调焦器错误：",
-        "name": "Focuser"
+        "name": "调焦器"
       },
       "rotator": {
         "error": "控制旋转器错误：",
-        "name": "Rotator"
+        "name": "旋转器"
       },
       "guider": {
         "error": "控制导星错误：",
-        "name": "Guider"
+        "name": "导星"
       },
       "safety": {
         "error": "控制安全监控错误",
-        "name": "Safety monitor"
+        "name": "安全监控器"
       },
       "flat": {
         "error": "控制平场板错误：",
-        "name": "Flatdevice"
+        "name": "平场设备"
       },
       "dome": {
         "error": "控制穹顶错误：",
-        "name": "Dome"
+        "name": "穹顶"
       },
       "switch": {
         "error": "控制开关错误",
-        "name": "Switch"
+        "name": "开关"
       },
       "weather": {
         "error": "控制天气设备错误",
-        "name": "Weather"
+        "name": "天气设备"
       },
       "info": {
-        "message": "The manual filter wheel and the manual rotator can currently only be controlled via NINA. Use the API's “Networked Filter Wheel” for the filter whee",
-        "title": "Info"
+        "message": "手动滤镜轮和手动旋转器目前只能通过NINA控制。滤镜轮请使用API的\"电动滤镜轮\"",
+        "title": "信息"
       }
     },
     "lastLogs": {
@@ -166,7 +166,7 @@
       "message": "消息",
       "member": "成员",
       "line": "行",
-      "download": "Download"
+      "download": "下载"
     },
     "navigation": {
       "equipment": "设备",
@@ -229,23 +229,23 @@
         }
       },
       "running": "运行中",
-      "imageHistory": "Image History",
-      "duration": "Duration",
-      "temperatureShort": "Temp",
-      "conditions": "Conditions",
+      "imageHistory": "图像历史",
+      "duration": "持续时间",
+      "temperatureShort": "温度",
+      "conditions": "条件",
       "info": {
-        "header": "Info",
-        "message": "Unfortunately, your sequence cannot be edited. Not all sequence plugins are currently supported. If you want to help us, let us know on GitHub which plugins you are using."
+        "header": "信息",
+        "message": "很遗憾，您的序列无法编辑。目前不支持所有序列插件。如果您希望帮助我们，请在GitHub上告知您使用的插件。"
       },
       "info_general": {
-        "message": "Unfortunately, we are not yet able to process all parameters. We are working on supporting as many NINA functions as possible. Because there are so many plugins, we cannot integrate them all. However, we are trying to support as many as possible. If you notice an error in the display, please help us and report it on GitHub"
+        "message": "很遗憾，我们目前无法处理所有参数。我们正在努力支持尽可能多的NINA功能。由于插件众多，我们无法全部集成。但我们正尝试支持尽可能多的功能。如果您发现显示错误，请帮助我们并在GitHub上报告。"
       },
       "sort": {
-        "newest": "newest first",
-        "oldest": "oldest first",
-        "sort": "Sort"
+        "newest": "最新优先",
+        "oldest": "最早优先",
+        "sort": "排序"
       },
-      "time": "Time"
+      "time": "时间"
     },
     "mount": {
       "title": "赤道仪",
@@ -266,11 +266,11 @@
           "home": "归位赤道仪时出错",
           "tracking": "设置跟踪模式时出错"
         },
-        "manuellControl": "Manual control",
-        "slewRate": "Slew rate °/s",
-        "info_manuell_controll": "Manual control is only available if tracking is not active",
-        "set_as_park": "Set as park",
-        "slew_to_cenit": "Slew to Zenith"
+        "manuellControl": "手动控制",
+        "slewRate": "转动速率 °/秒",
+        "info_manuell_controll": "只有在跟踪未激活时才能使用手动控制",
+        "set_as_park": "设为停靠位置",
+        "slew_to_cenit": "转向天顶"
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -289,8 +289,8 @@
       "stop": "停止",
       "rms_error": "RMS 错误",
       "title": "导星",
-      "running": "RUNNING",
-      "notes": "* This graph displays guiding data according to N.I.N.A.'s settings."
+      "running": "运行中",
+      "notes": "* 此图表根据N.I.N.A.的设置显示导星数据。"
     },
     "focuser": {
       "title": "调焦器",
@@ -331,23 +331,23 @@
           "open": "打开穹顶时出错",
           "close": "关闭穹顶时出错",
           "stop": "停止穹顶时出错",
-          "home": "Error home",
-          "park": "Error Park",
-          "slew": "Error slew",
-          "stop_slew": "Error stop slew",
-          "sync": "Error sync",
-          "follow": "Error follow Telescope"
+          "home": "归位错误",
+          "park": "停靠错误",
+          "slew": "转动错误",
+          "stop_slew": "停止转动错误",
+          "sync": "同步错误",
+          "follow": "跟随望远镜错误"
         },
-        "follow": "Dome follow telescope",
-        "slew": "Slew",
-        "slew_label": "Slew to degrees",
-        "sync": "Sync with telescope",
-        "home": "Home",
-        "park": "Park"
+        "follow": "穹顶跟随望远镜",
+        "slew": "转动",
+        "slew_label": "转动到角度",
+        "sync": "与望远镜同步",
+        "home": "归位",
+        "park": "停靠"
       },
-      "please_connect_dome": "Please connect the dome",
-      "is_sync": "Sync",
-      "not_sync": "Not sync"
+      "please_connect_dome": "请连接穹顶",
+      "is_sync": "已同步",
+      "not_sync": "未同步"
     },
     "camera": {
       "title": "相机",
@@ -377,15 +377,15 @@
       "target_temperature": "目标温度",
       "warm_up_time": "预热时间",
       "cooling_time": "冷却时间",
-      "binning_mode": "Binning",
-      "readout_mode": "Readout Mode",
-      "set_use_platesolve": "Use Platesolve",
+      "binning_mode": "像素合并",
+      "readout_mode": "读出模式",
+      "set_use_platesolve": "使用板解析",
       "chip_settings": {
-        "focal_length": "Focal length (mm)",
-        "height": "Height (px)",
-        "pixel_size": "Pixel size (μm)",
-        "title": "Chip settings",
-        "width": "Width (px)"
+        "focal_length": "焦距 (mm)",
+        "height": "高度 (像素)",
+        "pixel_size": "像素尺寸 (μm)",
+        "title": "芯片设置",
+        "width": "宽度 (像素)"
       }
     },
     "tppa": {
@@ -405,13 +405,13 @@
       "up": "上",
       "not_available": "不可用",
       "running": "运行中",
-      "capture_running": "Exposure running",
-      "last_messages": "Last messages",
-      "plate_solve_error": "Platesolve error",
-      "plate_solve_ok": "Platesolve successful",
-      "plate_solve_start": "Platesolve start",
-      "slewing_first_position": "Slewing to first position",
-      "slewing_next_position": "Slewing to next position"
+      "capture_running": "曝光运行中",
+      "last_messages": "最新消息",
+      "plate_solve_error": "板解析错误",
+      "plate_solve_ok": "板解析成功",
+      "plate_solve_start": "开始板解析",
+      "slewing_first_position": "转向第一个位置",
+      "slewing_next_position": "转向下一个位置"
     },
     "logs": {
       "loading": "加载数据中...",
@@ -426,36 +426,35 @@
       "LastSelectedImageSource_wrong": "请在 NINA / Framing 中选择离线星图作为图像源",
       "ra": "赤经：",
       "dec": "赤纬：",
-      "ra_placeholder": "RA 03:47:28.2",
-      "dec_placeholder": "Dec +24:06:19",
+      "ra_placeholder": "赤经 03:47:28.2",
+      "dec_placeholder": "赤纬 +24:06:19",
       "slew": "转动",
       "slew_and_center": "转动与居中",
       "errors": {
-        "invalidRAFormat": "无效的 RA 格式。请使用 HH:MM:SS 格式。",
-        "invalidDECFormat": "无效的 DEC 格式。请使用 ±DD:MM:SS 格式。",
-        "invalidRAInput": "无效的 RA 输入。",
-        "invalidDECInput": "无效的 DEC 输入。",
+        "invalidRAFormat": "无效的赤经格式。请使用 HH:MM:SS 格式。",
+        "invalidDECFormat": "无效的赤纬格式。请使用 ±DD:MM:SS 格式。",
+        "invalidRAInput": "无效的赤经输入。",
+        "invalidDECInput": "无效的赤纬输入。",
         "apiUnreachable": "Framing API 无法访问",
         "invalidFormat": "无效的格式。预期格式：±DD:MM:SS.s",
         "apiResponseError": "API 响应错误：",
         "mountInfoError": "获取赤道仪信息时出错：",
-        "invalidAltInput": "Invalid alt input.",
-        "invalidAzInput": "Invalid az input."
+        "invalidAltInput": "无效的高度输入。",
+        "invalidAzInput": "无效的方位角输入。"
       },
-      "rotate": "Rotate",
-      "visibleStars": "Visible Star Search",
-      "alt": "Alt:",
-      "az": "Az:",
+      "rotate": "旋转",
+      "visibleStars": "可见星搜索",
+      "alt": "高度：",
+      "az": "方位角：",
       "slew_modal": {
-        "center_Repeat": "Repeat centering",
-        "center_error": "Centering error",
-        "center_successful": "Centering successful",
-        "deviation_target": "Deviation to the target:",
-        "exposure_running": "Exposure running",
-        "is_centering": "Center target",
-        "is_platesolving": "Platesolve running",
-        "is_slewing": "Slewing to target",
-        "plate_solve_error": "Platesolve error"
+        "center_Repeat": "重复居中",
+        "center_error": "居中错误",
+        "center_successful": "居中成功",
+        "deviation_target": "与目标偏差：",
+        "exposure_running": "曝光运行中",
+        "is_centering": "居中目标",
+        "is_platesolving": "板解析运行中",
+        "is_slewing": "转向目标"
       }
     },
     "filterwheel": {
@@ -463,8 +462,8 @@
       "unknown": "未知",
       "nofilteravailable": "暂无滤镜可用",
       "manual_filter": {
-        "name": "Change to filter:",
-        "title": "Filterwheel"
+        "name": "更换为滤镜：",
+        "title": "滤镜轮"
       }
     },
     "rotator": {
@@ -486,7 +485,7 @@
         "close": "关闭盖子",
         "open": "打开盖子"
       },
-      "title": "平板面板"
+      "title": "平场面板"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",
@@ -497,62 +496,62 @@
       "wind": "风",
       "humidity": "湿度",
       "pressure": "气压",
-      "dewPoint": "Dewpoint",
-      "rainRate": "Rain rate",
-      "skyQuality": "Sky quality",
-      "skyTemperature": "Sky temperature"
+      "dewPoint": "露点",
+      "rainRate": "降雨率",
+      "skyQuality": "天空质量",
+      "skyTemperature": "天空温度"
     },
     "switch": {
       "gauges": "仪表",
       "switch": "开关"
     },
     "flatassistant": {
-      "auto_brightness": "Auto brightness",
-      "auto_exposure": "Auto exposure",
-      "brightness": "Brightness",
-      "completed_recordings": "Completed recordings:",
-      "count": "Count",
-      "exposure_time": "Exposure time",
-      "histogram_mean_target": "Histogram mean target",
-      "max_brightness": "Max brightness",
-      "max_exposure_time": "Max exposure time",
-      "mean_tolerance": "Mean tolerance",
-      "min_brightness": "Min brightness",
-      "min_exposure_time": "Min exposure time",
-      "skyflat": "Skyflat",
-      "start_auto_brightness": "Start autobrightness",
-      "start_auto_exposure": "Start auto exposure",
-      "start_sky_flat": "Start sky flat",
-      "stop": "Stop",
-      "title": "Flat assistant",
-      "button_slew_to_zenith": "Slew to zenith"
+      "auto_brightness": "自动亮度",
+      "auto_exposure": "自动曝光",
+      "brightness": "亮度",
+      "completed_recordings": "已完成记录：",
+      "count": "数量",
+      "exposure_time": "曝光时间",
+      "histogram_mean_target": "直方图平均目标",
+      "max_brightness": "最大亮度",
+      "max_exposure_time": "最大曝光时间",
+      "mean_tolerance": "平均容差",
+      "min_brightness": "最小亮度",
+      "min_exposure_time": "最小曝光时间",
+      "skyflat": "天空平场",
+      "start_auto_brightness": "开始自动亮度",
+      "start_auto_exposure": "开始自动曝光",
+      "start_sky_flat": "开始天空平场",
+      "stop": "停止",
+      "title": "平场助手",
+      "button_slew_to_zenith": "转向天顶"
     },
     "stellarium": {
       "datetime": {
-        "apply": "Apply",
-        "date": "Date",
-        "now": "Now",
-        "speed": "Speed",
-        "time": "Time",
-        "title": "Date"
+        "apply": "应用",
+        "date": "日期",
+        "now": "现在",
+        "speed": "速度",
+        "time": "时间",
+        "title": "日期"
       },
       "mount_position": {
-        "title": "Mount Position"
+        "title": "赤道仪位置"
       },
       "selected_object": {
-        "button_framing": "go to framing",
-        "dec": "DEC",
-        "ra": "RA",
-        "title": "Selected object"
+        "button_framing": "前往取景",
+        "dec": "赤纬",
+        "ra": "赤经",
+        "title": "已选对象"
       },
       "settings": {
-        "atmosphere_visible": "Show atmosphere",
-        "azimuthal_lines_visible": "Show azimuthal lines",
-        "constellations_lines_visible": "Show Constellations",
-        "ecliptic_lines_visible": "Show ecliptic",
-        "equatorial_lines_visible": "Show equatorial lines",
-        "landscapes_visible": "Show landscapes",
-        "meridian_lines_visible": "Show meridian"
+        "atmosphere_visible": "显示大气层",
+        "azimuthal_lines_visible": "显示方位线",
+        "constellations_lines_visible": "显示星座",
+        "ecliptic_lines_visible": "显示黄道",
+        "equatorial_lines_visible": "显示赤道线",
+        "landscapes_visible": "显示地平线",
+        "meridian_lines_visible": "显示子午线"
       }
     },
     "profile": {

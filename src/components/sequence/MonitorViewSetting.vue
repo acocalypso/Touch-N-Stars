@@ -16,20 +16,34 @@
       </div>
     </div>
 
-    <div
-      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-    >
-      <label for="showImageStats" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showImageStats') }}
-      </label>
-      <div>
-        <toggleButton
-          @click="
-            settingsStore.monitorViewSetting.showImageStats =
-              !settingsStore.monitorViewSetting.showImageStats
-          "
-          :status-value="settingsStore.monitorViewSetting.showImageStats"
-        />
+    <div class="flex flex-col gap-2 border border-gray-500 p-2 rounded-lg">
+      <div class="flex items-center justify-between w-full">
+        <label for="showImageStats" class="text-gray-400">
+          {{ $t('components.sequence.monitor.settings.showImageStats') }}
+        </label>
+        <div>
+          <toggleButton
+            @click="
+              settingsStore.monitorViewSetting.showImageStats =
+                !settingsStore.monitorViewSetting.showImageStats
+            "
+            :status-value="settingsStore.monitorViewSetting.showImageStats"
+          />
+        </div>
+      </div>
+      <div class="flex items-center justify-between w-full">
+        <label for="showImageStats" class="text-gray-400">
+          {{ $t('components.sequence.monitor.settings.display_status_under_image') }}
+        </label>
+        <div>
+          <toggleButton
+            @click="
+              settingsStore.monitorViewSetting.displayStatusUnderImage =
+                !settingsStore.monitorViewSetting.displayStatusUnderImage
+            "
+            :status-value="settingsStore.monitorViewSetting.displayStatusUnderImage"
+          />
+        </div>
       </div>
     </div>
 

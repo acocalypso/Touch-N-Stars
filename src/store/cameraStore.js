@@ -100,7 +100,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
           console.log(result);
           console.log(result.data.type);
-          if (result.data.type != 'application/json') {
+          if (result.data.type.includes('image')) {
             const resImageData = await apiService.getImageData();
             plateSolveResult.value = resImageData?.Response?.PlateSolveResult;
             console.log('Platesovle:', plateSolveResult.value);

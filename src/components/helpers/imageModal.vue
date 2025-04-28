@@ -140,12 +140,12 @@ const destroyPanzoom = () => {
 async function downloadImage() {
   let fileName = `TNS-${props.imageDate}.jpg`;
 
-  if (props.imageDate === '0000-00-00'){
+  if (props.imageDate === '0000-00-00') {
     const now = new Date();
     fileName = `TNS-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}.jpg`;
-  } 
- 
-  console.log('Save ' , fileName);
+  }
+
+  console.log('Save ', fileName);
 
   if (!props.imageData) return;
 
@@ -266,7 +266,6 @@ async function downloadImage() {
     URL.revokeObjectURL(url);
   }
 }
-
 
 const onImageLoad = () => {
   nextTick(() => {

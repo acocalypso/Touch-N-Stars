@@ -138,50 +138,124 @@ const destroyPanzoom = () => {
 };
 
 async function downloadImage() {
-  const fileName = `TNS-${props.imageDate}.jpg`;
+  let fileName = `TNS-${props.imageDate}.jpg`;
+
+  if (props.imageDate === '0000-00-00'){
+    const now = new Date();
+    fileName = `TNS-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}.jpg`;
+  } 
+ 
+  console.log('Save ' , fileName);
 
   if (!props.imageData) return;
 
-  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+  // Handle based on platform
+  if (Capacitor.getPlatform() === 'ios') {
     try {
-      const dirResult = await FilePicker.pickDirectory();
-      if (!dirResult.path) return;
-
-      const cleanPath = dirResult.path.replace(/content:\/\/.*?\/tree\/primary%3A/, '');
-      const decodedPath = decodeURIComponent(cleanPath).replace(/:/, '/');
-
+      // For iOS: Save directly to Documents directory which is accessible via Files app
       const response = await fetch(props.imageData);
       const blob = await response.blob();
-      const reader = new FileReader();
 
-      reader.onloadend = async () => {
-        const base64data = reader.result.split(',')[1];
+      const base64Data = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.readAsDataURL(blob);
+      });
 
-        try {
-          await Filesystem.mkdir({
-            path: decodedPath,
-            directory: Directory.ExternalStorage,
-            recursive: true,
-          });
-        } catch (mkdirError) {
-          if (!mkdirError.message.includes('exist')) throw mkdirError;
-        }
+      const result = await Filesystem.writeFile({
+        path: fileName,
+        data: base64Data,
+        directory: Directory.Documents,
+      });
 
-        await Filesystem.writeFile({
-          path: `${decodedPath}/${fileName}`,
-          data: base64data,
+      console.log('Image saved to iOS Documents folder:', result.uri);
+      alert("Image saved. You can access it from the Files app in the app's Documents folder.");
+    } catch (err) {
+      console.error('Error in iOS download process:', err);
+      alert('Download failed. Please try again.');
+    }
+  } else if (Capacitor.getPlatform() === 'android') {
+    try {
+      // Convert the image to a blob
+      const response = await fetch(props.imageData);
+      const blob = await response.blob();
+
+      // Convert blob to base64
+      const base64Data = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.readAsDataURL(blob);
+      });
+
+      // Try multiple approaches for Android
+      try {
+        // Try saving to Downloads folder first
+        const result = await Filesystem.writeFile({
+          path: `Download/${fileName}`,
+          data: base64Data,
           directory: Directory.ExternalStorage,
-          encoding: 'base64',
         });
 
-        console.log('Bild gespeichert!');
-      };
+        console.log('Image saved to Downloads folder:', result.uri);
+        alert('Image saved to Downloads folder');
+      } catch (downloadError) {
+        console.error('Error saving to Downloads:', downloadError);
 
-      reader.readAsDataURL(blob);
+        // Try saving to Documents directory
+        try {
+          const docResult = await Filesystem.writeFile({
+            path: fileName,
+            data: base64Data,
+            directory: Directory.Documents,
+          });
+
+          console.log('Image saved to Documents:', docResult.uri);
+          alert('Image saved to Documents folder');
+        } catch (docError) {
+          console.error('Error saving to Documents:', docError);
+
+          // Try saving to app's external files directory
+          try {
+            const extResult = await Filesystem.writeFile({
+              path: fileName,
+              data: base64Data,
+              directory: Directory.External,
+            });
+
+            console.log('Image saved to external directory:', extResult.uri);
+            alert('Image saved to external app storage');
+          } catch (extError) {
+            console.error('Error saving to external directory:', extError);
+
+            // Final fallback: Use the browser download approach
+            const downloadUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            setTimeout(() => {
+              URL.revokeObjectURL(downloadUrl);
+            }, 100);
+
+            console.log('Fallback browser download attempted');
+          }
+        }
+      }
     } catch (err) {
-      console.error('Fehler beim Speichern:', err);
+      console.error('Error in Android download process:', err);
+      alert('Download failed. Please try again.');
     }
   } else {
+    // Standard web browser download
     const response = await fetch(props.imageData);
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
@@ -192,6 +266,7 @@ async function downloadImage() {
     URL.revokeObjectURL(url);
   }
 }
+
 
 const onImageLoad = () => {
   nextTick(() => {

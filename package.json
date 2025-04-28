@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "serve": "node scripts/generate-plugin-registry.js && vue-cli-service serve",
-    "build": "node scripts/generate-plugin-registry.js && vue-cli-service build",
+    "serve": "npm run lint:eslint && node scripts/generate-plugin-registry.js && vue-cli-service serve",
+    "build": "npm run lint:eslint && node scripts/generate-plugin-registry.js && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:eslint": "eslint . --ext .js,.vue --fix",
     "lint:fix": "eslint . --ext .js,.vue --fix",

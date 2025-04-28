@@ -232,13 +232,13 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
       try {
         const result = await apiService.getSequenceImage(index, quality, true, scale);
-        if (result.StatusCode != 200) {
+        if (result.status != 200) {
           console.error('Unknown error: Check NINA Logs for more information');
           return;
         }
-        const imageData = result?.Response;
-        image = `data:image/jpeg;base64,${imageData}`;
-        return image;
+        const blob = result.data;
+        const imageUrl = URL.createObjectURL(blob);
+        return imageUrl;
       } catch (error) {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return;

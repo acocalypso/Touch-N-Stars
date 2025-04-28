@@ -127,19 +127,40 @@ const showTutorial = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
-const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
-const updateOrientation = () => {
-  const isLandscape = window.innerWidth > window.innerHeight;
-  const newOrientation = isLandscape ? 'landscape' : 'portrait';
-
-  if (newOrientation !== orientation.value) {
-    orientation.value = newOrientation;
-  }
-};
+const orientation = ref(getCurrentOrientation());
+const routerViewKey = ref(Date.now()); // Startschlüssel einmalig setzen
+let initialWidth = window.innerWidth;
+let initialHeight = window.innerHeight;
 
 useHead({
   title: 'TouchNStars',
 });
+
+function getCurrentOrientation() {
+  return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+}
+
+function updateOrientation() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  // Prüfen, ob Breite und Höhe sich stark ändern
+  if (Math.abs(width - initialWidth) > 100 && Math.abs(height - initialHeight) > 100) {
+    const newOrientation = getCurrentOrientation();
+
+    if (newOrientation !== orientation.value) {
+      orientation.value = newOrientation;
+      routerViewKey.value = Date.now(); // Neuen Key setzen => router-view neu rendern
+      console.log('Orientation changed, re-rendering router-view:', newOrientation);
+    }
+
+    initialWidth = width;
+    initialHeight = height;
+  } else {
+    // Kleine Änderungen ignorieren (Tastatur, kleine Resizes)
+    console.log('Minor resize detected, no re-render.');
+  }
+}
 
 function handleVisibilityChange() {
   if (document.hidden) {

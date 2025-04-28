@@ -27,18 +27,18 @@ const getAllPlugins = () => {
 export const loadAllPluginsMetadata = async () => {
   const plugins = getAllPlugins();
   const metadata = [];
-  
+
   for (const plugin of plugins) {
     try {
       metadata.push({
         ...plugin.metadata,
-        id: plugin.id
+        id: plugin.id,
       });
     } catch (error) {
       console.error(`Failed to load plugin metadata for ${plugin.id}:`, error);
     }
   }
-  
+
   return metadata;
 };
 
@@ -51,7 +51,7 @@ export const getIconComponent = (iconName) => {
   if (!iconName || typeof iconName !== 'string') {
     return null;
   }
-  
+
   return iconComponents[iconName] || null;
 };
 
@@ -62,12 +62,12 @@ export const getIconComponent = (iconName) => {
  */
 export const importPlugin = async (pluginId) => {
   const plugins = getAllPlugins();
-  const plugin = plugins.find(p => p.id === pluginId);
-  
+  const plugin = plugins.find((p) => p.id === pluginId);
+
   if (!plugin) {
     return null;
   }
-  
+
   try {
     return plugin.module;
   } catch (error) {

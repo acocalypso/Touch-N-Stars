@@ -359,9 +359,9 @@ const apiService = {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/capture`, {
-        params: { 
-          getResult: true, 
-          quality: quality, 
+        params: {
+          getResult: true,
+          quality: quality,
           autoPrepare: true,
           stream: true,
         },

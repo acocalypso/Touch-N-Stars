@@ -1,5 +1,5 @@
-import { CloudIcon } from '@heroicons/vue/24/outline';
-import WeatherStationView from './views/WeatherStationView.vue';
+import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline';
+import BathinovAnalyzerView from './views/BathinovAnalyzerView.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
 
@@ -11,20 +11,20 @@ export default {
 
     // Register route
     router.addRoute({
-      path: '/weather-station',
-      component: WeatherStationView,
+      path: '/bathinov-analyzer',
+      component: BathinovAnalyzerView,
       meta: { requiresSetup: true },
     });
 
     // Register plugin metadata
     pluginStore.registerPlugin(metadata);
 
-    // Add navigation item only if plugin is enabled
+    // Add navigation item if the plugin is enabled
     if (metadata.enabled) {
-      // Each plugin is now responsible for providing its own icon
-      pluginStore.addPluginNavigationItem(metadata.id, {
-        path: '/weather-station',
-        icon: CloudIcon, // Icon is directly imported by the plugin
+      pluginStore.addNavigationItem({
+        pluginId: metadata.id,
+        path: '/bathinov-analyzer',
+        icon: AdjustmentsHorizontalIcon,
         title: metadata.name,
       });
     }

@@ -50,10 +50,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (!items) return;
       items.forEach((item) => {
         if (item && item._path && this.collapsedStates[item._path] === undefined) {
-          this.collapsedStates[item._path] = true; 
+          this.collapsedStates[item._path] = true;
         }
         if (item.Items) {
-          this.initializeCollapsedStates(item.Items); 
+          this.initializeCollapsedStates(item.Items);
         }
       });
     },

@@ -111,8 +111,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
         console.log('Länge:', keysCount, 'StatusCode:', response?.StatusCode);
 
         //console.log(response);
-        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 2000) {
-          // begrenzen auf 2000 keys damit es nicht zu lange dauert
+        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 4000) {
+          // begrenzen auf 4000 keys damit es nicht zu lange dauert
           console.log('nicht editierbar');
           console.log('Länge:', this.countKeysDeep(response), 'StatusCode:', response?.StatusCode);
           this.sequenceIsEditable = false;

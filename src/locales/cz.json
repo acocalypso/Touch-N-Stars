@@ -79,8 +79,8 @@
         "strech_factor": "Faktor Strech"
       },
       "plugins": {
-        "description": "Plugin description",
-        "title": "Plugins"
+        "description": "Popis pluginu",
+        "title": "Pluginy"
       }
     },
     "framing": {

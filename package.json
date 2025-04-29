@@ -15,7 +15,8 @@
     "ionic:serve": "npm run serve",
     "locale:entry": "node scripts/add-locale-entry.js",
     "locale:entry:all": "node scripts/add-locale-entry-all.js",
-    "generate-plugins": "node scripts/generate-plugin-registry.js"
+    "generate-plugins": "node scripts/generate-plugin-registry.js",
+    "create-plugin": "node scripts/generate-plugin.js"
   },
   "dependencies": {
     "@capacitor/android": "7.2.0",

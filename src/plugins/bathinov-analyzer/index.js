@@ -1,4 +1,5 @@
-import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline';
+// Import an SVG component instead of HeroIcons
+import BathinovIcon from './components/BathinovIcon.vue';
 import BathinovAnalyzerView from './views/BathinovAnalyzerView.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
@@ -24,7 +25,7 @@ export default {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
         path: '/bathinov-analyzer',
-        icon: AdjustmentsHorizontalIcon,
+        icon: BathinovIcon, // Use the SVG component as the icon
         title: metadata.name,
       });
     }

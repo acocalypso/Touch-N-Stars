@@ -135,6 +135,7 @@ async function startSequence() {
   try {
     const data = await apiService.sequenceAction('start');
     console.log('Antwort:', data);
+    await sequenceStore.getSequenceInfo();
   } catch (error) {
     console.log('Fehler:', error);
     sequenceStore.setSequenceRunning(false);
@@ -148,6 +149,7 @@ async function stopSequence() {
 
     // Only stop if the API confirms success
     if (data.Success) {
+      await sequenceStore.getSequenceInfo();
       sequenceStore.setSequenceRunning(false);
     } else {
       console.error('Failed to stop sequence:', data.Error);
@@ -168,6 +170,7 @@ async function confirmReset() {
     // Handle reset response similar to other actions
     if (data.Success) {
       // Reset successful
+      await sequenceStore.getSequenceInfo();
       isLoading.value = false;
     } else {
       console.error('Failed to reset sequence:', data.Error);

@@ -66,6 +66,27 @@ export default {
 
 ## Creating a New Plugin
 
+### Automatic Plugin Generation
+
+The easiest way to create a new plugin is to use the built-in generator command:
+
+```bash
+npm run create-plugin
+```
+
+This interactive command will:
+1. Ask you for the plugin name, description, and author
+2. Generate the necessary folder structure based on your plugin name
+3. Create a properly formatted `plugin.json` file with your metadata
+4. Generate a default `index.js` file with proper routing and registration
+5. Create a basic view component showing your plugin name and description
+
+After running the command, your plugin will be ready to customize and extend!
+
+### Manual Creation
+
+Alternatively, you can create a plugin manually:
+
 1. Create a new folder in the plugins directory with your plugin name (e.g., `my-plugin`)
 2. Create a `plugin.json` file with your plugin metadata
 3. Create an `index.js` file as the entry point
@@ -86,6 +107,7 @@ This is handled by a build script that:
 ### Available NPM Scripts
 
 - `npm run generate-plugins` - Manually regenerate the plugin registry
+- `npm run create-plugin` - Generate a new plugin scaffold interactively
 - During build and serve commands, the plugin registry is automatically updated
 
 ## Icon Support
@@ -108,7 +130,7 @@ pluginStore.addPluginNavigationItem(metadata.id, {
 ```
 
 ## Example
-See the example weather station plugin in `plugins/weather-station/` for a complete implementation.
+See the example weather station plugin in `plugins/bathinov-analyzer/` for a complete implementation.
 
 ## Guidelines
 - Each plugin should be self-contained

@@ -7,29 +7,114 @@
 const MASK_ANGLE_DEFAULT = 34; // Default mask angle in degrees (typical Bathinov mask)
 const GAUSSIAN_BLUR_SIGMA = 1.5; // Sigma for Gaussian blur in preprocessing
 
+// Add these global variables at the top of the file to track mask angles across analyses
+let detectedMaskAngles = [];
+const MAX_STORED_ANGLES = 10; // Store up to 10 recent mask angle detections
+
+/**
+ * Store a detected mask angle for consensus building
+ * @param {number} angle - The detected mask angle
+ */
+function storeMaskAngle(angle) {
+  // Only store reasonable mask angles (avoid storing clearly wrong values)
+  if (angle >= 10 && angle <= 40) {
+    detectedMaskAngles.push(angle);
+
+    // Keep the list from growing too large
+    if (detectedMaskAngles.length > MAX_STORED_ANGLES) {
+      detectedMaskAngles.shift(); // Remove oldest value
+    }
+
+    console.log(
+      `Stored mask angle: ${angle}°. Current angles: [${detectedMaskAngles.join(', ')}°]`
+    );
+  }
+}
+
+/**
+ * Get the consensus mask angle based on previously detected angles
+ * @returns {number} The consensus mask angle
+ */
+function getConsensusMaskAngle() {
+  // If we don't have enough data yet, return the default
+  if (detectedMaskAngles.length < 2) {
+    return MASK_ANGLE_DEFAULT;
+  }
+
+  // Group angles that are close to each other (within 3 degrees)
+  const angleGroups = [];
+
+  for (const angle of detectedMaskAngles) {
+    // Try to find an existing group this angle fits into
+    let foundGroup = false;
+
+    for (const group of angleGroups) {
+      // Check if this angle is close to the group's average
+      if (Math.abs(group.average - angle) < 3) {
+        group.angles.push(angle);
+        group.sum += angle;
+        group.average = group.sum / group.angles.length;
+        group.count++;
+        foundGroup = true;
+        break;
+      }
+    }
+
+    // If no matching group, create a new one
+    if (!foundGroup) {
+      angleGroups.push({
+        angles: [angle],
+        sum: angle,
+        average: angle,
+        count: 1,
+      });
+    }
+  }
+
+  // Find the group with the most members
+  let largestGroup = null;
+  let maxCount = 0;
+
+  for (const group of angleGroups) {
+    if (group.count > maxCount) {
+      maxCount = group.count;
+      largestGroup = group;
+    }
+  }
+
+  // Return the average angle of the largest group
+  return largestGroup ? Math.round(largestGroup.average) : MASK_ANGLE_DEFAULT;
+}
+
 /**
  * Process an image to find Bathinov diffraction spikes
  * @param {ImageData} imageData - The image data to analyze
  * @returns {Object} Analysis results including spike positions and focus metrics
  */
 export function analyzeBathinovPattern(imageData) {
-  // Create an ImageData object from the image source
-  const { data, width, height } = imageData;
+  try {
+    // Create an ImageData object from the image source
+    const { data, width, height } = imageData;
 
-  // Find the brightest point in the image (likely the center of the star)
-  const center = findBrightestPoint(data, width, height);
+    // Find the brightest point in the image (likely the center of the star)
+    const center = findBrightestPoint(data, width, height);
 
-  // Use our improved detection method to avoid detecting other stars as spikes
-  const spikes = detectDiffractionSpikesImproved(data, width, height, center);
+    // Use our improved detection method to avoid detecting other stars as spikes
+    const spikes = detectDiffractionSpikesImproved(data, width, height, center);
 
-  // Calculate focus metrics
-  const metrics = calculateFocusMetrics(spikes, center);
+    // Calculate focus metrics
+    const metrics = calculateFocusMetrics(spikes, center);
 
-  return {
-    center,
-    spikes,
-    metrics,
-  };
+    return {
+      center,
+      spikes,
+      metrics,
+      consensusMaskAngle: getConsensusMaskAngle(),
+    };
+  } catch (error) {
+    console.error('Error analyzing image region:', error);
+    throw error;
+  }
 }
 
 /**
@@ -414,9 +499,30 @@ function detectDiffractionSpikesImproved(data, width, height, center) {
 function findBathinovPattern(candidates, numAngles) {
   if (candidates.length < 3) return null;
 
-  // Bathinov mask normally produces a pattern with specific angular relationships
-  // Try different mask angles since Bathinov masks can have various designs
-  const possibleMaskAngles = [15, 18, 22, 25, 30, 34, 38];
+  // Get the consensus mask angle from our stored values
+  const consensusAngle = getConsensusMaskAngle();
+
+  // Prioritize angles around the consensus if we have one, otherwise use standard angles
+  let possibleMaskAngles;
+
+  if (detectedMaskAngles.length >= 2) {
+    // We have enough data to use consensus-based approach
+    // Create an array of angles centered around the consensus angle
+    possibleMaskAngles = [
+      consensusAngle - 3,
+      consensusAngle - 1.5,
+      consensusAngle,
+      consensusAngle + 1.5,
+      consensusAngle + 3,
+    ];
+    console.log(
+      `Using consensus-based mask angles around ${consensusAngle}°: [${possibleMaskAngles.join(', ')}°]`
+    );
+  } else {
+    // Not enough data, use standard angles
+    possibleMaskAngles = [15, 18, 22, 25, 30, 34, 38];
+    console.log('Using standard mask angles (no consensus yet)');
+  }
 
   let bestPatternScore = -Infinity;
   let bestPattern = null;
@@ -487,9 +593,16 @@ function findBathinovPattern(candidates, numAngles) {
             Math.max(bestLeftMatch.intensity, bestRightMatch.intensity)) *
             10;
 
+        // Consensus score - higher if this mask angle is close to the consensus
+        const consensusScore = 20 - Math.abs(maskAngle - consensusAngle) * 2;
+
         // Total pattern score with different weights for each factor
         const patternScore =
-          intensityScore * 0.4 + symmetryScore * 0.3 + oppositionScore * 0.2 + balanceScore * 0.1;
+          intensityScore * 0.3 +
+          symmetryScore * 0.2 +
+          oppositionScore * 0.15 +
+          balanceScore * 0.05 +
+          consensusScore * 0.3; // Give significant weight to consensus
 
         if (patternScore > bestPatternScore) {
           bestPatternScore = patternScore;
@@ -503,6 +616,11 @@ function findBathinovPattern(candidates, numAngles) {
         }
       }
     }
+  }
+
+  // After finding the best pattern, store its mask angle for future reference
+  if (bestPattern) {
+    storeMaskAngle(bestPattern.maskAngle);
   }
 
   // Only return the pattern if the score is above a threshold
@@ -791,21 +909,63 @@ function createSpikeLine(center, angleDeg, width, height) {
  * @returns {Object} Focus metrics
  */
 function calculateFocusMetrics(spikes, center) {
-  // In perfect focus, the central spike passes through the center of the star
-  // and the intersection of the side spikes
-
   // Calculate the intersection point of the two side spikes
   const intersection = calculateLineIntersection(spikes[1], spikes[2]);
 
+  // Log the intersection point
+  console.log('Intersection point:', intersection);
+  console.log('Central spike:', spikes[0]);
+
   // Calculate the distance from the central spike to the intersection point
-  const focusErrorPixels = pointToLineDistance(intersection, spikes[0]);
+  const rawFocusErrorPixels = pointToLineDistance(intersection, spikes[0]);
+  console.log('Raw focus error (pixels):', rawFocusErrorPixels);
+
+  // Calculate the center point of the central spike line segment
+  const centralSpikeCenter = {
+    x: (spikes[0].start.x + spikes[0].end.x) / 2,
+    y: (spikes[0].start.y + spikes[0].end.y) / 2,
+  };
+
+  // Calculate an additional focus metric: the distance between intersection and star center
+  const intersectionToStarDistance = distanceBetweenPoints(intersection, center);
+  const centralSpikeCenterToStarDistance = distanceBetweenPoints(centralSpikeCenter, center);
+
+  // Calculate a normalized focus error that represents how far the intersection is from the star center
+  // relative to the central spike's position
+  let focusErrorPixels = Math.max(
+    Math.abs(intersectionToStarDistance - centralSpikeCenterToStarDistance),
+    rawFocusErrorPixels
+  );
+
+  // If the error is below a certain threshold, use a more sensitive calculation
+  if (focusErrorPixels < 0.01) {
+    // Use the deviation of the intersection from the central spike's midpoint
+    const midpointDeviation = distanceBetweenPoints(intersection, centralSpikeCenter);
+    focusErrorPixels = Math.max(midpointDeviation, 0.01); // Ensure a minimum detectable value
+    console.log('Using midpoint deviation for focus error:', midpointDeviation);
+  }
+
+  // For very small focus errors, calculate the error based on the angle difference
+  // between side spikes, compared to the ideal 2x mask angle
+  const leftRightAngleDiff = Math.abs(normalizeDegrees180(spikes[1].angle - spikes[2].angle));
+  const maskAngle = calculateMaskAngle(spikes[1], spikes[2]);
+  const idealAngleDiff = 2 * maskAngle;
+  const angleDeviationError = Math.abs(leftRightAngleDiff - idealAngleDiff) / 10;
+
+  console.log('Angle-based error component:', angleDeviationError);
+
+  // Combine the distance-based and angle-based error components
+  focusErrorPixels = Math.max(focusErrorPixels, angleDeviationError);
 
   // Convert pixels to microns (using a typical pixel scale)
   const pixelScale = 3.8; // microns per pixel, typical for many cameras
   const focusErrorMicrons = Math.abs(focusErrorPixels * pixelScale);
 
   // Determine the mask angle from the spikes
-  const maskAngle = calculateMaskAngle(spikes[1], spikes[2]);
+  storeMaskAngle(maskAngle);
+
+  // Get the consensus mask angle based on previously detected angles
+  const consensusMaskAngle = getConsensusMaskAngle();
 
   // Determine if the focus is good based on the error
   const inFocus = Math.abs(focusErrorPixels) < 1.0;
@@ -814,6 +974,7 @@ function calculateFocusMetrics(spikes, center) {
     focusErrorPixels: parseFloat(focusErrorPixels.toFixed(2)),
     focusErrorMicrons: parseFloat(focusErrorMicrons.toFixed(2)),
     maskAngle: parseFloat(maskAngle.toFixed(1)),
+    consensusMaskAngle: parseFloat(consensusMaskAngle.toFixed(1)),
     inFocus,
   };
 }

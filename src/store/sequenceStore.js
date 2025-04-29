@@ -34,6 +34,30 @@ export const useSequenceStore = defineStore('sequenceStore', {
       return !!this.collapsedStates[containerName];
     },
 
+    setCollapsedState(path, isCollapsed) {
+      this.collapsedStates = {
+        ...this.collapsedStates,
+        [path]: isCollapsed,
+      };
+    },
+    toggleCollapsedState(path) {
+      this.collapsedStates[path] = !this.collapsedStates[path];
+    },
+    isCollapsed(path) {
+      return !!this.collapsedStates[path];
+    },
+    initializeCollapsedStates(items) {
+      if (!items) return;
+      items.forEach((item) => {
+        if (item && item._path && this.collapsedStates[item._path] === undefined) {
+          this.collapsedStates[item._path] = true; 
+        }
+        if (item.Items) {
+          this.initializeCollapsedStates(item.Items); 
+        }
+      });
+    },
+
     async getSequenceInfoState() {
       try {
         return await apiService.sequenceAction('state');

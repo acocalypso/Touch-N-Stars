@@ -5,18 +5,28 @@
       :key="index"
       class="bg-gray-800 rounded-lg p-2 md:p-3 shadow-lg border-2 transition-all"
       :class="{
-        'border-blue-500': item.Status === 'RUNNING' && !hasRunningChildren(item),
-        'border-gray-700 hover:border-gray-500':
-          item.Status !== 'RUNNING' || hasRunningChildren(item),
-      }"
+          'border-blue-500/50': isRunningOrHasRunningChildren(item),
+          'border-gray-700 hover:border-gray-500': !isRunningOrHasRunningChildren(item),
+        }"
     >
-      <!-- Header Section -->
-      <div
-        class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-gray-600"
-      >
+
+      <!-- Collapse Button -->
+      <div class="flex justify-between items-center">
         <h3 class="font-semibold text-gray-200 text-sm md:text-base break-all">
           {{ removeSuffix(item.Name) }}
         </h3>
+        <button @click="sequenceStore.toggleCollapsedState(item._path)" class="text-gray-400 hover:text-gray-200">
+          <span v-if="sequenceStore.isCollapsed(item._path)"> <PlusIcon class=" text-cyan-300 w-5 h-5" /> </span> 
+          <span v-else><MinusIcon class=" text-cyan-300 w-5 h-5" /></span>
+        </button>
+      </div>
+
+      <div v-show="!sequenceStore.isCollapsed(item._path)">
+
+      <!-- Header Section -->
+      <div 
+        class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-gray-600"
+      >
         <span
           v-if="isTopLevel || item.Status === 'DISABLED'"
           :class="statusColor(item.Status)"
@@ -337,9 +347,11 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
+import { watch } from 'vue';
 import { defineProps } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -347,6 +359,7 @@ import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
+import {PlusIcon, MinusIcon} from '@heroicons/vue/24/outline';
 import {
   removeSuffix,
   formatDuration,
@@ -358,7 +371,7 @@ import {
 } from '@/utils/sequenceUtils.js';
 import { excludedKeys, excludedKeysConditions, updateKeys } from '@/utils/sequenceConfig.js';
 
-defineProps({
+const props = defineProps({
   items: {
     type: Array,
     required: true,
@@ -379,6 +392,16 @@ defineProps({
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
+
+function isRunningOrHasRunningChildren(item) {
+  if (item.Status === 'RUNNING') {
+    return true;
+  }
+  if (item.Items && item.Items.length > 0) {
+    return item.Items.some((child) => isRunningOrHasRunningChildren(child));
+  }
+  return false;
+}
 
 function statusColor(status) {
   switch (status) {
@@ -510,6 +533,15 @@ function isSmartExposureContainer(item) {
   }
   return false;
 }
+
+watch(
+  () => props.items,
+  (newItems) => {
+    sequenceStore.initializeCollapsedStates(newItems);
+  },
+  { immediate: true }
+);
+
 </script>
 <style scoped>
 .glow-green {

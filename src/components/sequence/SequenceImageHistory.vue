@@ -114,13 +114,10 @@ watch(
 );
 
 onMounted(async () => {
-  isLoadingImages.value = true;
-
   for (const imageIndex in store.imageHistoryInfo) {
     const image = await sequenceStore.getThumbnailByIndex(imageIndex);
     const stats = store.imageHistoryInfo[imageIndex];
     addImageToHistory(imageIndex, image, stats);
   }
-  isLoadingImages.value = false;
 });
 </script>

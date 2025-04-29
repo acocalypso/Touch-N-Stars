@@ -121,10 +121,12 @@ const apiService = {
           resize: resize,
           scale: scale,
           autoPrepare: true,
+          stream: true,
         },
+        responseType: 'blob',
       });
       console.log(response);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error read Image :', error);
       throw error;
@@ -357,9 +359,15 @@ const apiService = {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/capture`, {
-        params: { getResult: true, quality: quality, autoPrepare: true },
+        params: {
+          getResult: true,
+          quality: quality,
+          autoPrepare: true,
+          stream: true,
+        },
+        responseType: 'blob',
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error retrieving capture result:', error);
       throw error;

@@ -58,6 +58,11 @@ export const excludedKeys = new Set([
   'AfterTargetCompleteContainer',
   'AfterWaitContainer',
   'BeforeTargetContainer',
+  'PriorityTypes',
+  'AddConditionCommand',
+  'SoundTypes',
+  'RemoveConditionCommand',
+  'SoundTypesItems',
 ]);
 
 export const excludedKeysConditions = new Set([
@@ -116,6 +121,9 @@ export const excludedKeysConditions = new Set([
   'AfterTargetCompleteContainer',
   'AfterWaitContainer',
   'BeforeTargetContainer',
+  'PriorityTypes',
+  'SelectedPropertyForCondition',
+  'ValueForCondition',
 ]);
 
 export const updateKeys = [

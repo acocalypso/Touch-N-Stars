@@ -207,7 +207,7 @@ async function preparationNina() {
     await apiService.applicatioTabSwitch('framing');
     await apiService.setFramingImageSource('SKYATLAS');
     await apiService.setFramingCoordinates(1, 1);
-    await wait(1000);
+    await wait(5000); //wait to reduce the system load
     await apiService.applicatioTabSwitch(actualTab);
   }
 }

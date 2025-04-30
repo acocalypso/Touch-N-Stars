@@ -14,7 +14,7 @@
     <!-- Inhalt der Modal -->
     <div v-else class="relative w-full h-full bg-gray-900 z-60 flex items-center justify-center">
       <button
-        class="absolute rounded-full h-7 w-7 shadow-lg shadow-black flex justify-center items-center bg-gray-800 top-4 right-4 text-white hover:text-gray-300 text-2xl font-extrabold z-70"
+        class="absolute rounded-full h-8 w-8 shadow-lg shadow-black flex justify-center items-center bg-gray-800 top-4 right-4 text-white hover:text-gray-300 text-2xl font-extrabold z-70"
         @click="closeModal"
         aria-label="Schließen"
       >
@@ -31,9 +31,9 @@
       <button
         v-if="imageData"
         @click="downloadImage"
-        class="absolute top-4 right-16 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-[100]"
+        class="absolute top-4 right-20 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-[100]"
       >
-        <ArrowDownTrayIcon class="h-5" />
+        <ArrowDownTrayIcon class="h-6" />
       </button>
 
       <div

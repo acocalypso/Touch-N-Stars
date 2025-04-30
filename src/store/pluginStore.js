@@ -6,8 +6,6 @@ export const usePluginStore = defineStore('pluginStore', {
     plugins: [],
     navigationItems: [],
     isInitialized: false,
-    app: null,
-    router: null,
   }),
   actions: {
     registerPlugin(plugin) {
@@ -52,8 +50,8 @@ export const usePluginStore = defineStore('pluginStore', {
 
     // Initialize app and router references (called from main.js)
     initializeAppAndRouter(app, router) {
-      this.app = app;
-      this.router = router;
+      this._app = app;
+      this._router = router;
     },
 
     async loadAndRegisterPlugins() {
@@ -95,7 +93,7 @@ export const usePluginStore = defineStore('pluginStore', {
 
     // Initialize a specific plugin by ID
     async initializePlugin(pluginId) {
-      if (!this.app || !this.router) {
+      if (!this._app || !this._router) {
         console.error('App and router must be initialized before initializing plugins');
         return;
       }
@@ -113,7 +111,7 @@ export const usePluginStore = defineStore('pluginStore', {
         const pluginModule = await importPlugin(plugin.id);
         if (pluginModule && typeof pluginModule.install === 'function') {
           // Install the plugin
-          pluginModule.install(this.app, { router: this.router });
+          pluginModule.install(this._app, { router: this._router });
         }
       } catch (error) {
         console.error(`Error initializing plugin ${pluginId}:`, error);

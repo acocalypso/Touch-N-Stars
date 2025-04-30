@@ -38,7 +38,7 @@
             </p>
           </div>
         </div>
-        <div class="bg-red-900 rounded-md flex items-center justify-center w-full mt-4">
+        <div class="flex items-center justify-center w-full mt-4">
           <ButtonSlewStop class="p-2" @click="isModalOpen = flase" />
         </div>
       </div>

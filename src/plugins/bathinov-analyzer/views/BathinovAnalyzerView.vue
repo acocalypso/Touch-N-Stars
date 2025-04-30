@@ -200,8 +200,12 @@
             <svg
               v-if="hasResults"
               class="absolute top-0 left-0 w-full h-full z-10"
-              :style="{ width: '100%', height: '100%' }"
-              style="pointer-events: none"
+              :style="{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+                pointerEvents: 'none',
+              }"
               ref="svgOverlay"
               :viewBox="`0 0 ${imageWidth} ${imageHeight}`"
               preserveAspectRatio="none"

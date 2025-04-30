@@ -97,11 +97,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
       while (!image && attempts < maxAttempts && !isAbort.value) {
         try {
           const result = await apiService.getCaptureResult(settingsStore.camera.imageQuality);
-          image = result?.Response?.Image;
-          if (image) {
-            plateSolveResult.value = result?.Response?.PlateSolveResult;
+
+          console.log(result);
+          console.log(result.data.type);
+          if (result.data.type.includes('image')) {
+            const resImageData = await apiService.getImageData();
+            plateSolveResult.value = resImageData?.Response?.PlateSolveResult;
             console.log('Platesovle:', plateSolveResult.value);
-            imageData.value = `data:image/jpeg;base64,${image}`;
+            const blob = result.data;
+            imageData.value = URL.createObjectURL(blob);
+            image = result.data;
             break;
           }
         } catch (error) {

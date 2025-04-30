@@ -16,9 +16,15 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA-API non raggiungibile",
+    "unreachable": "NINA non raggiungibile",
     "connecting": "Tentativo di stabilire connessione",
-    "api_version_incompatible": "Versione avanzata-API corrente incompatibile: {current} richiesta: {required}"
+    "api_version_incompatible": "Versione avanzata-API corrente incompatibile: {current} richiesta: {required}",
+    "connection_error_toast": {
+      "message_api": "Il plugin API non è disponibile. \nSi prega di controllare le impostazioni in Nina",
+      "message_api_version": "Il plugin API è troppo vecchio. \nSi prega di eseguire un aggiornamento",
+      "message_tns": "Il plugin TouchNstars non è disponibile. \nSi prega di controllare le impostazioni in Nina",
+      "title": "Errore di connessione"
+    }
   },
   "setup": {
     "welcome": "Benvenuto in Touch'N'Stars",
@@ -26,7 +32,9 @@
     "selectLanguage": "Seleziona la tua lingua",
     "gpsConfiguration": "Configurazione GPS",
     "completeSetup": "Completa Configurazione",
-    "instanceConfiguration": "Dettagli connessione N.I.N.A"
+    "instanceConfiguration": "Dettagli connessione N.I.N.A",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "Puoi trovare istruzioni dettagliate nel nostro wiki"
   },
   "components": {
     "tutorial": {
@@ -69,6 +77,10 @@
         "title": "Impostazioni delle immagini",
         "black_clipping": "Black Clipping",
         "strech_factor": "Strech Factor"
+      },
+      "plugins": {
+        "description": "Descrizione del plugin",
+        "title": "Plugin"
       }
     },
     "framing": {
@@ -91,7 +103,8 @@
       },
       "moveRotator": "Ruota la fotocamera",
       "openFraminingModal": "Aperto nell'inquadratura assistente",
-      "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in Nina o l'opzione \"Usa cache Nina\" deve essere disattivata"
+      "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in Nina o l'opzione \"Usa cache Nina\" deve essere disattivata",
+      "currentAltitude": "Altitudine attuale"
     },
     "connectEquipment": {
       "camera": {

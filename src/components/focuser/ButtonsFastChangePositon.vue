@@ -14,16 +14,16 @@
       ></div>
       <label v-else><ChevronLeftIcon class="w-7 h-7" /></label>
     </button>
-    <button class="default-button-cyan" @click="changeBigPlus" :disabled="isMoving">
+    <button class="default-button-cyan" @click="changeSmallPlus" :disabled="isMoving">
       <div
-        v-if="loadingButton === 'changeBigPlus'"
+        v-if="loadingButton === 'changeSmallPlus'"
         class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
       <label v-else><ChevronRightIcon class="w-7 h-7" /></label>
     </button>
-    <button class="default-button-cyan" @click="changeSmallPlus" :disabled="isMoving">
+    <button class="default-button-cyan" @click="changeBigPlus" :disabled="isMoving">
       <div
-        v-if="loadingButton === 'changeSmallPlus'"
+        v-if="loadingButton === 'changeBigPlus'"
         class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
       <label v-else><ChevronDoubleRightIcon class="w-7 h-7" /></label>

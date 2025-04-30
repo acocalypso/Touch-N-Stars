@@ -34,6 +34,30 @@ export const useSequenceStore = defineStore('sequenceStore', {
       return !!this.collapsedStates[containerName];
     },
 
+    setCollapsedState(path, isCollapsed) {
+      this.collapsedStates = {
+        ...this.collapsedStates,
+        [path]: isCollapsed,
+      };
+    },
+    toggleCollapsedState(path) {
+      this.collapsedStates[path] = !this.collapsedStates[path];
+    },
+    isCollapsed(path) {
+      return !!this.collapsedStates[path];
+    },
+    initializeCollapsedStates(items) {
+      if (!items) return;
+      items.forEach((item) => {
+        if (item && item._path && this.collapsedStates[item._path] === undefined) {
+          this.collapsedStates[item._path] = true;
+        }
+        if (item.Items) {
+          this.initializeCollapsedStates(item.Items);
+        }
+      });
+    },
+
     async getSequenceInfoState() {
       try {
         return await apiService.sequenceAction('state');
@@ -111,8 +135,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
         console.log('Länge:', keysCount, 'StatusCode:', response?.StatusCode);
 
         //console.log(response);
-        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 2000) {
-          // begrenzen auf 2000 keys damit es nicht zu lange dauert
+        if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 4000) {
+          // begrenzen auf 4000 keys damit es nicht zu lange dauert
           console.log('nicht editierbar');
           console.log('Länge:', this.countKeysDeep(response), 'StatusCode:', response?.StatusCode);
           this.sequenceIsEditable = false;
@@ -232,13 +256,13 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
       try {
         const result = await apiService.getSequenceImage(index, quality, true, scale);
-        if (result.StatusCode != 200) {
+        if (result.status != 200) {
           console.error('Unknown error: Check NINA Logs for more information');
           return;
         }
-        const imageData = result?.Response;
-        image = `data:image/jpeg;base64,${imageData}`;
-        return image;
+        const blob = result.data;
+        const imageUrl = URL.createObjectURL(blob);
+        return imageUrl;
       } catch (error) {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return;

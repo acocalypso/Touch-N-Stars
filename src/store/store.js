@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useToastStore } from '@/store/toastStore';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -38,31 +39,39 @@ export const apiStore = defineStore('store', {
     currentLanguage: 'en',
     showSettings: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.0.0',
+    minimumApiVersion: '2.2.2.0',
     currentApiVersion: null,
     isVersionNewerOrEqual: false,
     mount: {
       currentTab: 'showMount',
     },
+    closeErrorModal: false,
   }),
 
   actions: {
-    async getGuiderInfo() {
-      try {
-        const response = await apiService.guiderAction('info');
-        if (response.Success) {
-          this.guiderInfo = response.Response;
-        }
-      } catch (error) {
-        console.error('Error fetching guider info:', error);
-      }
-    },
-
-    async fetchAllInfos() {
+    async fetchAllInfos(t) {
+      const toastStore = useToastStore();
       let tempIsBackendReachable = false;
+
+      if (!this.isBackendReachable) this.closeErrorModal = false;
+
       try {
-        const versionResponse = await apiService.isBackendReachable();
+        const versionResponse = await apiService.fetchApiVersion();
+        const isPluginReachable = await apiService.checkPluginServer();
         tempIsBackendReachable = !!versionResponse;
+
+        if (!isPluginReachable) {
+          console.warn('TNS-Plugin not reachable');
+
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_tns'),
+          });
+
+          this.clearAllStates();
+          return;
+        }
 
         if (tempIsBackendReachable) {
           this.currentApiVersion = versionResponse.Response;
@@ -73,11 +82,21 @@ export const apiStore = defineStore('store', {
 
           if (!this.isVersionNewerOrEqual) {
             console.warn('API version incompatible');
+            toastStore.showToast({
+              type: 'error',
+              title: t('app.connection_error_toast.title'),
+              message: t('app.connection_error_toast.message_api_version'),
+            });
             this.clearAllStates();
             return;
           }
         } else {
           console.warn('Backend is not reachable');
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_api'),
+          });
           this.clearAllStates();
           return;
         }
@@ -126,21 +145,25 @@ export const apiStore = defineStore('store', {
           safetyResponse,
           weatherResponse,
           switchResponse,
-          //logsResponse,
         });
       } catch (error) {
         console.error('Fehler beim Abrufen der Informationen:', error);
       }
       await this.fetchProfilInfos();
-      this.isBackendReachable = tempIsBackendReachable;
+      this.isBackendReachable = true;
+
+      //when the backend is accessible again close modal
+      if (this.isBackendReachable && !this.closeErrorModal) {
+        this.closeErrorModal = true;
+        console.log('Backend ist reachable');
+        toastStore.newMessage = false;
+      }
     },
 
     clearAllStates() {
-      this.intervalId = null;
-      this.intervalIdGraph = null;
+      this.isBackendReachable = false;
       this.profileInfo = [];
-      this.collapsedStates = {};
-      this.cameraInfo = { IsExposing: false };
+      this.cameraInfo = [];
       this.mountInfo = [];
       this.filterInfo = [];
       this.focuserInfo = [];
@@ -149,23 +172,12 @@ export const apiStore = defineStore('store', {
       this.guiderInfo = [];
       this.flatdeviceInfo = [];
       this.domeInfo = [];
-      this.safetyInfo = {
-        Connected: false,
-        IsSafe: false,
-      };
+      this.safetyInfo = [];
       this.switchInfo = [];
       this.weatherInfo = [];
-      this.isBackendReachable = false;
-      this.filterName = 'unbekannt';
-      this.filterNr = null;
-      this.showAfGraph = true;
-      this.imageData = null;
       this.isLoadingImage = false;
       this.captureRunning = false;
-      this.rotatorMechanicalPosition = 0;
       this.existingEquipmentList = [];
-      this.coordinates = null;
-      this.currentLanguage = 'en';
     },
 
     handleApiResponses({
@@ -260,9 +272,9 @@ export const apiStore = defineStore('store', {
       }
     },
 
-    startFetchingInfo() {
+    startFetchingInfo(t) {
       if (!this.intervalId) {
-        this.intervalId = setInterval(this.fetchAllInfos, 2000);
+        this.intervalId = setInterval(() => this.fetchAllInfos(t), 2000);
       }
     },
 
@@ -270,6 +282,17 @@ export const apiStore = defineStore('store', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+      }
+    },
+
+    async getGuiderInfo() {
+      try {
+        const response = await apiService.guiderAction('info');
+        if (response.Success) {
+          this.guiderInfo = response.Response;
+        }
+      } catch (error) {
+        console.error('Error fetching guider info:', error);
       }
     },
 

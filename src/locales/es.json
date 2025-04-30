@@ -16,9 +16,15 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "No se encuentra NINA-API o la versión es demasiada vieja",
+    "unreachable": "No se encuentra NINA o la versión es demasiada vieja",
     "connecting": "Intentando establecer conexión",
-    "api_version_incompatible": "Versión avanzada-API Corriente incompatible: {actual} requerido: {requerido}"
+    "api_version_incompatible": "Versión avanzada-API Corriente incompatible: {actual} requerido: {requerido}",
+    "connection_error_toast": {
+      "message_api": "El complemento API no está disponible. \nConsulte la configuración en Nina",
+      "message_api_version": "El complemento API es demasiado viejo. \nPor favor realice una actualización",
+      "message_tns": "El complemento TouchNstars no está disponible. \nConsulte la configuración en Nina",
+      "title": "Error de conexión"
+    }
   },
   "setup": {
     "welcome": "Bienvenido a Touch'N'Stars",
@@ -26,7 +32,9 @@
     "selectLanguage": "Elige tu idioma",
     "gpsConfiguration": "Configurción GPS",
     "completeSetup": "Configuración Completa",
-    "instanceConfiguration": "Detalles de conexión N.I.N.A"
+    "instanceConfiguration": "Detalles de conexión N.I.N.A",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "Puede encontrar instrucciones detalladas en nuestra wiki"
   },
   "components": {
     "tutorial": {
@@ -69,6 +77,10 @@
         "confirmation": "Confirmación",
         "description": "Haga clic en un icono para reiniciar o cerrar el sistema",
         "title": "Controles del sistema"
+      },
+      "plugins": {
+        "description": "Descripción del complemento",
+        "title": "Complementos"
       }
     },
     "framing": {

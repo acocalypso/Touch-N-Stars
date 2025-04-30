@@ -16,8 +16,11 @@
       </div>
 
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
-        <StellariumView v-show="store.showStellarium" v-if="settingsStore.setupCompleted" />
-        <router-view />
+        <StellariumView
+          v-show="store.showStellarium && !isIOS"
+          v-if="settingsStore.setupCompleted && !isIOS"
+        />
+        <router-view :key="orientation" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
@@ -57,7 +60,6 @@
         </button>
       </div>
     </div>
-
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"
@@ -88,11 +90,10 @@
         </button>
       </div>
     </div>
-
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
-    <ToastModal />
+    <ToastModal v-if="settingsStore.setupCompleted" />
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
   </div>
 </template>
@@ -102,6 +103,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
+import { Capacitor } from '@capacitor/core';
 import NavigationComp from '@/components/NavigationComp.vue';
 import LastMessage from '@/components/LastMessage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
@@ -113,6 +115,8 @@ import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
+import apiService from './services/apiService';
+import { wait } from './utils/utils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -120,12 +124,43 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
+const { t, locale } = useI18n();
+const tutorialSteps = computed(() => settingsStore.tutorial.steps);
+const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
+const orientation = ref(getCurrentOrientation());
+const routerViewKey = ref(Date.now()); // Startschlüssel einmalig setzen
+let initialWidth = window.innerWidth;
+let initialHeight = window.innerHeight;
 
 useHead({
   title: 'TouchNStars',
 });
 
-const tutorialSteps = computed(() => settingsStore.tutorial.steps);
+function getCurrentOrientation() {
+  return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+}
+
+function updateOrientation() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  // Prüfen, ob Breite und Höhe sich stark ändern
+  if (Math.abs(width - initialWidth) > 100 && Math.abs(height - initialHeight) > 100) {
+    const newOrientation = getCurrentOrientation();
+
+    if (newOrientation !== orientation.value) {
+      orientation.value = newOrientation;
+      routerViewKey.value = Date.now(); // Neuen Key setzen => router-view neu rendern
+      console.log('Orientation changed, re-rendering router-view:', newOrientation);
+    }
+
+    initialWidth = width;
+    initialHeight = height;
+  } else {
+    // Kleine Änderungen ignorieren (Tastatur, kleine Resizes)
+    console.log('Minor resize detected, no re-render.');
+  }
+}
 
 function handleVisibilityChange() {
   if (document.hidden) {
@@ -133,7 +168,7 @@ function handleVisibilityChange() {
     logStore.stopFetchingLog();
     sequenceStore.stopFetching();
   } else {
-    store.startFetchingInfo();
+    store.startFetchingInfo(t);
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {
       sequenceStore.startFetching();
@@ -141,12 +176,11 @@ function handleVisibilityChange() {
   }
 }
 
-const { locale } = useI18n();
-
 onMounted(async () => {
+  window.addEventListener('resize', updateOrientation);
   document.addEventListener('visibilitychange', handleVisibilityChange);
-  await store.fetchAllInfos();
-  store.startFetchingInfo();
+  await store.fetchAllInfos(t);
+  store.startFetchingInfo(t);
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
@@ -159,7 +193,24 @@ onMounted(async () => {
   if (!settingsStore.tutorial.completed) {
     showTutorial.value = true;
   }
+
+  //NINA preparation
+  await preparationNina();
 });
+
+async function preparationNina() {
+  //NINA preparation
+  if (store.isBackendReachable) {
+    //To make Slew and Center work, the framing tab must be opened once
+    const response = await apiService.fetchApplicatioTab();
+    const actualTab = response.Response;
+    await apiService.applicatioTabSwitch('framing');
+    await apiService.setFramingImageSource('SKYATLAS');
+    await apiService.setFramingCoordinates(1, 1);
+    await wait(5000); //wait to reduce the system load
+    await apiService.applicatioTabSwitch(actualTab);
+  }
+}
 
 function closeTutorial() {
   showTutorial.value = false;
@@ -171,6 +222,7 @@ onBeforeUnmount(() => {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('resize', updateOrientation);
 });
 </script>
 

@@ -24,13 +24,20 @@ const getBaseUrl = () => {
   initializeStore();
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
-  const port = settingsStore.connection.port || 5000;
+  let port = settingsStore.connection.port || window.location.port || 5000;
   const apiPort = 1888;
+
+  //devport auf 5000 umleiten
+  const isDev = process.env.NODE_ENV === 'development';
+  if (isDev && port == 8080) {
+    port = 5000;
+  }
 
   return {
     base: `${protocol}://${host}:${apiPort}/v2/api`,
     api: `${protocol}://${host}:${port}/api/`,
     targetpic: `${protocol}://${host}:${port}/api/targetpic`,
+    pluginServer: `${protocol}://${host}:${port}`,
   };
 };
 
@@ -40,17 +47,34 @@ const getUrls = () => {
     BASE_URL: urls.base,
     API_URL: urls.api,
     TARGETPIC_URL: urls.targetpic,
+    PLUGINSERVER_URL: urls.pluginServer,
   };
 };
 
 const apiService = {
   // Backend reachability check
-  async isBackendReachable() {
+  async fetchApiVersion() {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/version`);
       //console.log(response.data);
       return response.data;
+    } catch (error) {
+      console.error('Error reaching backend:', error.message);
+      return false;
+    }
+  },
+
+  async checkPluginServer() {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.get(PLUGINSERVER_URL);
+      // console.log('Plugin antworet mit:', response.status);
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error('Error reaching backend:', error.message);
       return false;
@@ -97,10 +121,12 @@ const apiService = {
           resize: resize,
           scale: scale,
           autoPrepare: true,
+          stream: true,
         },
+        responseType: 'blob',
       });
       console.log(response);
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error read Image :', error);
       throw error;
@@ -275,6 +301,17 @@ const apiService = {
     }
   },
 
+  async fetchApplicatioTab() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/application/get-tab`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error application:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Camera ---------------------------------------
   cameraAction(action) {
     const { BASE_URL } = getUrls();
@@ -322,9 +359,15 @@ const apiService = {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/capture`, {
-        params: { getResult: true, quality: quality, autoPrepare: true },
+        params: {
+          getResult: true,
+          quality: quality,
+          autoPrepare: true,
+          stream: true,
+        },
+        responseType: 'blob',
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error retrieving capture result:', error);
       throw error;

@@ -16,9 +16,15 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA-API je nedostupné",
+    "unreachable": "NINA je nedostupné",
     "connecting": "Pokus o připojení",
-    "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }"
+    "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }",
+    "connection_error_toast": {
+      "message_api": "Zásuvný modul API není k dispozici. Zkontrolujte nastavení v NINA",
+      "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
+      "message_tns": "Zásuvný modul TouchNStars není k dispozici. Zkontrolujte prosím nastavení v NINA",
+      "title": "Chyba připojení"
+    }
   },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
@@ -26,7 +32,9 @@
     "selectLanguage": "Vyberte jazyk",
     "gpsConfiguration": "Konfigurace GPS",
     "completeSetup": "Kompletní Nastavení",
-    "instanceConfiguration": "Podrobnosti o připojení N.I.N.A"
+    "instanceConfiguration": "Podrobnosti o připojení N.I.N.A",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "Podrobné pokyny najdete na naší wiki"
   },
   "components": {
     "tutorial": {
@@ -69,6 +77,10 @@
         "title": "Nastavení snímků",
         "black_clipping": "Černý Výstřižek",
         "strech_factor": "Faktor Strech"
+      },
+      "plugins": {
+        "description": "Popis pluginu",
+        "title": "Pluginy"
       }
     },
     "framing": {

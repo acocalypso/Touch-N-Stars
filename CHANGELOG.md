@@ -4,13 +4,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [1.1.0.0] - unreleasd
+## [1.0.6.0] - unreleasd
 ### Added
 - Focuser quick to use button
+- IOS App
+- Instanze Color -> There is a separate color for each instance. The navbar changes color depending on the instance
 
 ### Changed
 - design rework stellarium 
-- button design angepasst
+- button design adjustment
+- rewort guidegraph
+- framing tab change reworked (!!! new api is needed !!! ) -> When starting TNS, the system now also switches back to the active tab of NINA
+
+### Fixed
+- repairs a connection error if the default port is not used
 
 ## [1.0.5.0] - 2025-04-16
 ### Added

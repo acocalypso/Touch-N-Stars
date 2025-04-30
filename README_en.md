@@ -1,5 +1,18 @@
 # Touch'N'Stars: WebApp for Mobile Control of NINA
 
+# 🤝 **Community-Powered, Forever Free: Donate to Cover Apple’s Developer Fee**
+
+Our app is Open Source and will remain so - without advertising, without costs.
+In order for it to be available in the Apple App Store, we need an annual developer license of 99 USD, which Apple requires.
+Since we do not pursue any commercial interests, we would like to ask you, the community, for support.
+If you would like to help us cover the costs, we would be happy about any donation:
+
+👉 [paypal.me/TouchNStars](http://paypal.me/TouchNStars)
+
+Thank you for your support! 💜
+
+---
+
 ### 🚀 **Current Status: Beta Version**  
 This web application is in **development phase** and is aimed at astronomy enthusiasts who want to conveniently set up their equipment using the **NINA** (Nighttime Imaging 'N' Astronomy) software via touch devices.  
 
@@ -15,9 +28,7 @@ The application aims to make controlling and adjusting already configured profil
 - The author assumes no liability
   
 ### 🔧 **Installation**
-- The [Plugin](https://github.com/Touch-N-Stars/N.I.N.A-Plugin-for-Touch-N-Stars) must be installed in NINA
-- You may need to allow the application through your Windows firewall.
-- Afterwards, Touch'N'Stars can be accessed via http://"NINA-PC-IP":5000.
+- Please take a look at the instructions in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki#-important-notes)
 
 ### 📱 **Android App**
 - We have created an app for Android users.

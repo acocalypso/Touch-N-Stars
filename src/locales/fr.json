@@ -16,9 +16,15 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA-API n'est pas accessible",
+    "unreachable": "NINA n'est pas accessible",
     "connecting": "Tentative d'établissement de la connexion",
-    "api_version_incompatible": "Version avancée-API Courant incompatible: {current} requis: {required}"
+    "api_version_incompatible": "Version avancée-API Courant incompatible: {current} requis: {required}",
+    "connection_error_toast": {
+      "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
+      "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
+      "message_tns": "Le plugin TouchNstars n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
+      "title": "Erreur de connexion"
+    }
   },
   "setup": {
     "welcome": "Bienvenue dans Touch'N'Stars",
@@ -26,7 +32,9 @@
     "selectLanguage": "Choisissez la langue",
     "gpsConfiguration": "Configuration des coordonnées GPS",
     "completeSetup": "Paramétrage terminé",
-    "instanceConfiguration": "détails de connexion N.I.N.A."
+    "instanceConfiguration": "détails de connexion N.I.N.A.",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "Vous pouvez trouver des instructions détaillées dans notre wiki"
   },
   "components": {
     "tutorial": {
@@ -69,6 +77,10 @@
         "title": "Paramètres d'images",
         "black_clipping": "Black Clipping",
         "strech_factor": "Strech Factor"
+      },
+      "plugins": {
+        "description": "Description du plugin",
+        "title": "Plugins"
       }
     },
     "framing": {

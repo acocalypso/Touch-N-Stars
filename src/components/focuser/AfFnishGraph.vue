@@ -164,7 +164,6 @@ async function fetchLastAf() {
   }
 }
 
-
 onMounted(() => {
   const ctx = chartCanvas.value.getContext('2d');
   console.log('Grafik laden');
@@ -227,9 +226,8 @@ onMounted(() => {
           display: true,
           position: 'top',
           labels: {
-            color: '#CCCCCC', 
+            color: '#CCCCCC',
           },
-          
         },
         tooltip: {
           mode: 'index',
@@ -247,7 +245,7 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Position',
-            color: '#CCCCCC'
+            color: '#CCCCCC',
           },
           ticks: {
             color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
@@ -257,7 +255,7 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Value',
-            color: '#CCCCCC'
+            color: '#CCCCCC',
           },
           ticks: {
             color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse

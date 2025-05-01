@@ -90,7 +90,6 @@ const initGraph = () => {
           labels: {
             color: '#CCCCCC',
           },
-          
         },
         tooltip: {
           mode: 'index',
@@ -113,7 +112,7 @@ const initGraph = () => {
           },
           title: {
             display: true,
-            color: '#CCCCCC', 
+            color: '#CCCCCC',
             text: 'RA/Dec',
           },
           ticks: {
@@ -128,7 +127,7 @@ const initGraph = () => {
           },
           title: {
             display: true,
-            color: '#CCCCCC', 
+            color: '#CCCCCC',
             text: 'Duration (ms)',
           },
           ticks: {

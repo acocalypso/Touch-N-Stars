@@ -226,6 +226,10 @@ onMounted(() => {
         legend: {
           display: true,
           position: 'top',
+          labels: {
+            color: '#CCCCCC', // <-- richtige Stelle für Legenden-Schriftfarbe
+          },
+          
         },
         tooltip: {
           mode: 'index',

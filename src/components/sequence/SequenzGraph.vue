@@ -80,6 +80,9 @@ function initGraph() {
             display: true,
             text: 'Time',
           },
+          ticks: {
+            color: '#e5e7eb', // <- Zahlen-Beschriftung auf Y-Achse
+          },
         },
         // Linke Y-Achse
         yStars: {
@@ -89,6 +92,10 @@ function initGraph() {
           title: {
             display: true,
             text: 'Stars',
+            color: '#CCCCCC',
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
         // Rechte Y-Achse
@@ -99,6 +106,10 @@ function initGraph() {
           title: {
             display: true,
             text: 'HFR',
+            color: '#CCCCCC',
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
         // Rechte Y-Achse
@@ -109,6 +120,10 @@ function initGraph() {
           title: {
             display: true,
             text: 'Median',
+            color: '#CCCCCC',
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
 
           // Verhindert Überlagerung der Gitterlinien
@@ -120,7 +135,11 @@ function initGraph() {
       plugins: {
         legend: {
           display: true,
+          labels: {
+            color: '#CCCCCC', 
+          },
         },
+        
       },
     },
   });

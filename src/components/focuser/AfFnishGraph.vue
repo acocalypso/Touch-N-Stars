@@ -227,7 +227,7 @@ onMounted(() => {
           display: true,
           position: 'top',
           labels: {
-            color: '#CCCCCC', // <-- richtige Stelle für Legenden-Schriftfarbe
+            color: '#CCCCCC', 
           },
           
         },
@@ -247,12 +247,20 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Position',
+            color: '#CCCCCC'
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
         y: {
           title: {
             display: true,
             text: 'Value',
+            color: '#CCCCCC'
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
       },

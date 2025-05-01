@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
@@ -22,6 +22,7 @@ const chartCanvas = ref(null);
 const timestamp = ref(''); // Timestamp für die Anzeige
 const store = apiStore();
 let chartInstance = null;
+let fetchInterval = null;
 
 // Funktion, um die Größe des Charts beim Fenster-Resize anzupassen
 const resizeChart = () => {
@@ -35,7 +36,7 @@ function parseQuadraticFormula(formula) {
   // Normalisiere die Formel, um "+ -" zu "-"
   const normalizedFormula = formula.replace(/\+\s*-/g, '- ').replace(/-\s*-/g, '+ ');
 
-  console.log('Normalisierte Quadratische Formel:', normalizedFormula); // Debugging
+  //console.log('Normalisierte Quadratische Formel:', normalizedFormula); // Debugging
 
   // Neuer Regex für Exponentialnotation
   const regex =
@@ -52,7 +53,7 @@ function parseQuadraticFormula(formula) {
 
 // Funktion zum Parsen der Hyperbolischen Fitting-Formel
 function parseHyperbolicFormula(formula) {
-  console.log('Hyperbolic Fitting Formel:', formula); // Debugging
+  //console.log('Hyperbolic Fitting Formel:', formula); // Debugging
 
   // Neuer Regex für Exponentialnotation und Hyperbolische Funktion
   const regex =
@@ -75,7 +76,7 @@ async function fetchLastAf() {
     const dateLastAf = new Date(apiData.Timestamp);
     const dateProfilLastUsed = new Date(store.profileInfo.LastUsed);
 
-    console.log(dateLastAf, ' : ', dateProfilLastUsed);
+    //console.log(dateLastAf, ' : ', dateProfilLastUsed);
 
     if (dateLastAf < dateProfilLastUsed) {
       return;
@@ -162,6 +163,7 @@ async function fetchLastAf() {
     console.error('Fehler beim Abrufen der Daten:', error);
   }
 }
+
 
 onMounted(() => {
   const ctx = chartCanvas.value.getContext('2d');
@@ -253,6 +255,11 @@ onMounted(() => {
     },
   });
 
+  // Starte Intervall zum regelmäßigen Nachladen
+  fetchInterval = setInterval(() => {
+    fetchLastAf();
+  }, 15000); // 30 Sekunden
+
   // Daten laden
   fetchLastAf();
 
@@ -266,6 +273,10 @@ onUnmounted(() => {
 
   if (chartInstance) {
     chartInstance.destroy();
+  }
+  // Intervall stoppen
+  if (fetchInterval) {
+    clearInterval(fetchInterval);
   }
 });
 </script>

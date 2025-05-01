@@ -930,32 +930,28 @@ function calculateFocusMetrics(spikes, center) {
   const intersectionToStarDistance = distanceBetweenPoints(intersection, center);
   const centralSpikeCenterToStarDistance = distanceBetweenPoints(centralSpikeCenter, center);
 
-  // Calculate a normalized focus error that represents how far the intersection is from the star center
-  // relative to the central spike's position
-  let focusErrorPixels = Math.max(
-    Math.abs(intersectionToStarDistance - centralSpikeCenterToStarDistance),
-    rawFocusErrorPixels
-  );
+  // Calculate meaningful focus error by combining multiple metrics
+  // The error is the distance of the intersection point from the central spike line
+  // We add a minimum threshold to avoid extremely small values that don't reflect reality
+  let focusErrorPixels = Math.max(rawFocusErrorPixels, 0.05);
 
-  // If the error is below a certain threshold, use a more sensitive calculation
-  if (focusErrorPixels < 0.01) {
-    // Use the deviation of the intersection from the central spike's midpoint
-    const midpointDeviation = distanceBetweenPoints(intersection, centralSpikeCenter);
-    focusErrorPixels = Math.max(midpointDeviation, 0.01); // Ensure a minimum detectable value
-    console.log('Using midpoint deviation for focus error:', midpointDeviation);
-  }
-
-  // For very small focus errors, calculate the error based on the angle difference
-  // between side spikes, compared to the ideal 2x mask angle
+  // Also use the angle-based error to detect angular misalignment
   const leftRightAngleDiff = Math.abs(normalizeDegrees180(spikes[1].angle - spikes[2].angle));
   const maskAngle = calculateMaskAngle(spikes[1], spikes[2]);
   const idealAngleDiff = 2 * maskAngle;
-  const angleDeviationError = Math.abs(leftRightAngleDiff - idealAngleDiff) / 10;
+  const angleDeviationError = Math.abs(leftRightAngleDiff - idealAngleDiff) / 5; // Stronger weight for angular error
 
   console.log('Angle-based error component:', angleDeviationError);
 
-  // Combine the distance-based and angle-based error components
+  // The larger of the two error metrics becomes our focus error value
   focusErrorPixels = Math.max(focusErrorPixels, angleDeviationError);
+
+  // Add an offset to account for manufacturing imperfection in bathinov masks
+  // For perfect focus, we'd expect a small non-zero error
+  if (focusErrorPixels < 0.5) {
+    // For very small errors, we're probably at optimal focus
+    focusErrorPixels = 0.01;
+  }
 
   // Convert pixels to microns (using a typical pixel scale)
   const pixelScale = 3.8; // microns per pixel, typical for many cameras

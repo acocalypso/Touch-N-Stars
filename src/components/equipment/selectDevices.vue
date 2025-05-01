@@ -142,6 +142,7 @@ async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
   const deviceId = getDeviceId(selectedDevice.value);
+  const encodedId = encodeURIComponent(deviceId);
   console.log('props.apiAction', props.apiAction);
   try {
     if (props.isConnected) {
@@ -150,7 +151,7 @@ async function toggleConnection() {
       console.log('response', response);
     } else {
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
-      const response = await apiService[props.apiAction]('connect?to=' + deviceId);
+      const response = await apiService[props.apiAction]('connect?to=' + encodedId);
       console.log('response', response);
 
       if (!response.Success) {

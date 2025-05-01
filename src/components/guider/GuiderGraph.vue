@@ -83,6 +83,20 @@ const initGraph = () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            color: '#CCCCCC',
+          },
+          
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+        },
+      },
       animation: {
         duration: 0,
       },
@@ -99,7 +113,11 @@ const initGraph = () => {
           },
           title: {
             display: true,
-            text: 'RA/Dec (")',
+            color: '#CCCCCC', 
+            text: 'RA/Dec',
+          },
+          ticks: {
+            color: '#e5e7eb', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
         y1: {
@@ -110,7 +128,11 @@ const initGraph = () => {
           },
           title: {
             display: true,
+            color: '#CCCCCC', 
             text: 'Duration (ms)',
+          },
+          ticks: {
+            color: '#e5e7eb', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
       },

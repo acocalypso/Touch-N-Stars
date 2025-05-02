@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useSettingsStore = defineStore('settings', {
+export const useFavTargetStore = defineStore('favTarget', {
   state: () => ({
     favoriteTargets: [], // { name, ra, dec }
   }),
@@ -11,6 +11,7 @@ export const useSettingsStore = defineStore('settings', {
         name: target.name,
         ra: target.ra,
         dec: target.dec,
+        rotation: target.rotation,
       });
     },
     removeFavorite(name) {

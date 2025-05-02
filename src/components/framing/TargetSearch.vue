@@ -92,6 +92,8 @@
         :coordinates="settingsStore.coordinates"
       />
 
+      <FavTargets />
+
       <!-- Open Framing Modal Button -->
       <div v-if="framingStore.selectedItem" class="mb-4">
         <button @click="framingStore.showFramingModal = true" class="default-button-cyan">
@@ -139,6 +141,7 @@
         </button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -153,6 +156,7 @@ import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vu
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
+import FavTargets from '@/components/framing/FavTargets.vue';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();

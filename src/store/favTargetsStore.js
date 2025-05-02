@@ -11,6 +11,8 @@ export const useFavTargetStore = defineStore('favTarget', {
         name: target.name,
         ra: target.ra,
         dec: target.dec,
+        raString: target.raString,
+        decString: target.decString,
         rotation: target.rotation,
       });
     },

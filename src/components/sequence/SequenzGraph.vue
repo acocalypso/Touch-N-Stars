@@ -136,10 +136,9 @@ function initGraph() {
         legend: {
           display: true,
           labels: {
-            color: '#CCCCCC', 
+            color: '#CCCCCC',
           },
         },
-        
       },
     },
   });

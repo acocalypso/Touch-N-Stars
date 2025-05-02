@@ -133,7 +133,7 @@
     </div>
 
     <!-- Plugin Management -->
-    <div class="bg-gray-700 p-3 rounded-lg mt-4">
+    <div v-if="store.isBackendReachable" class="bg-gray-700 p-3 rounded-lg mt-4">
       <div class="text-center mb-2">
         <h3 class="text-gray-300 font-semibold text-lg mb-1">
           {{ $t('components.settings.plugins.title') }}
@@ -303,12 +303,13 @@ const languages = getAvailableLanguages();
 onMounted(() => {
   // Set initial language from store
   locale.value = settingsStore.getLanguage();
-
-  const storedCoords = settingsStore.coordinates;
-  if (storedCoords) {
-    latitude.value = storedCoords.latitude;
-    longitude.value = storedCoords.longitude;
-    altitude.value = storedCoords.altitude || 0;
+  if (store.isBackendReachable) {
+    const storedCoords = settingsStore.coordinates;
+    if (storedCoords) {
+      latitude.value = storedCoords.latitude;
+      longitude.value = storedCoords.longitude;
+      altitude.value = storedCoords.altitude || 0;
+    }
   }
 });
 
@@ -319,18 +320,21 @@ watchEffect(() => {
 // Load coordinates when backend is reachable
 watch(
   () => store.isBackendReachable,
+
   async (newValue) => {
     if (newValue) {
       try {
         await store.fetchProfilInfos();
-        latitude.value = store.profileInfo.AstrometrySettings.Latitude;
-        longitude.value = store.profileInfo.AstrometrySettings.Longitude;
-        altitude.value = store.profileInfo.AstrometrySettings.Elevation;
-        settingsStore.setCoordinates({
-          latitude: latitude.value,
-          longitude: longitude.value,
-          altitude: altitude.value,
-        });
+        if (store.profileInfo?.AstrometrySettings) {
+          latitude.value = store.profileInfo.AstrometrySettings.Latitude ?? '';
+          longitude.value = store.profileInfo.AstrometrySettings.Longitude ?? '';
+          altitude.value = store.profileInfo.AstrometrySettings.Elevation ?? '';
+          settingsStore.setCoordinates({
+            latitude: latitude.value,
+            longitude: longitude.value,
+            altitude: altitude.value,
+          });
+        }
       } catch (error) {
         console.log('Error loading coordinates');
       }

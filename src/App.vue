@@ -18,7 +18,7 @@
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
         <StellariumView
           v-show="store.showStellarium && !isIOS"
-          v-if="settingsStore.setupCompleted && !isIOS"
+          v-if="settingsStore.setupCompleted && !isIOS && store.isBackendReachable"
         />
         <router-view :key="orientation" />
       </div>

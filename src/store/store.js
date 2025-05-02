@@ -46,6 +46,7 @@ export const apiStore = defineStore('store', {
       currentTab: 'showMount',
     },
     closeErrorModal: false,
+    errorMessageShown: false,
   }),
 
   actions: {
@@ -62,12 +63,13 @@ export const apiStore = defineStore('store', {
 
         if (!isPluginReachable) {
           console.warn('TNS-Plugin not reachable');
-
-          toastStore.showToast({
-            type: 'error',
-            title: t('app.connection_error_toast.title'),
-            message: t('app.connection_error_toast.message_tns'),
-          });
+          if (!this.errorMessageShown) {
+            toastStore.showToast({
+              type: 'error',
+              title: t('app.connection_error_toast.title'),
+              message: t('app.connection_error_toast.message_tns'),
+            });
+          }
 
           this.clearAllStates();
           return;
@@ -82,21 +84,25 @@ export const apiStore = defineStore('store', {
 
           if (!this.isVersionNewerOrEqual) {
             console.warn('API version incompatible');
-            toastStore.showToast({
-              type: 'error',
-              title: t('app.connection_error_toast.title'),
-              message: t('app.connection_error_toast.message_api_version'),
-            });
+            if (!this.errorMessageShown) {
+              toastStore.showToast({
+                type: 'error',
+                title: t('app.connection_error_toast.title'),
+                message: t('app.connection_error_toast.message_api_version'),
+              });
+            }
             this.clearAllStates();
             return;
           }
         } else {
           console.warn('Backend is not reachable');
-          toastStore.showToast({
-            type: 'error',
-            title: t('app.connection_error_toast.title'),
-            message: t('app.connection_error_toast.message_api'),
-          });
+          if (!this.errorMessageShown) {
+            toastStore.showToast({
+              type: 'error',
+              title: t('app.connection_error_toast.title'),
+              message: t('app.connection_error_toast.message_api'),
+            });
+          }
           this.clearAllStates();
           return;
         }
@@ -157,11 +163,13 @@ export const apiStore = defineStore('store', {
         this.closeErrorModal = true;
         console.log('Backend ist reachable');
         toastStore.newMessage = false;
+        this.errorMessageShown = false;
       }
     },
 
     clearAllStates() {
       this.isBackendReachable = false;
+      this.errorMessageShown = true;
       this.profileInfo = [];
       this.cameraInfo = [];
       this.mountInfo = [];

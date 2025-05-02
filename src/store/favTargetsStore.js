@@ -26,7 +26,7 @@ export const useFavTargetStore = defineStore('favTarget', {
     enabled: true,
     strategies: [
       {
-        key: 'settings',
+        key: 'favTarget',
         storage: localStorage,
       },
     ],

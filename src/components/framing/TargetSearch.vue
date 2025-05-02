@@ -5,6 +5,8 @@
         {{ $t('components.framing.search.title') }}
       </h5>
 
+      <FavTargets />
+
       <!-- Search Input -->
       <div class="text-black mx-auto">
         <input
@@ -92,8 +94,6 @@
         :coordinates="settingsStore.coordinates"
       />
 
-      <FavTargets />
-
       <!-- Open Framing Modal Button -->
       <div v-if="framingStore.selectedItem" class="mb-4">
         <button @click="framingStore.showFramingModal = true" class="default-button-cyan">
@@ -141,7 +141,6 @@
         </button>
       </div>
     </div>
-
   </div>
 </template>
 

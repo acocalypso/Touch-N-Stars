@@ -1,28 +1,46 @@
 <template>
-  <template>
 
-    <div v-if="false"> 
+    <div v-if="true">
       <h2>Favoriten</h2>
-      <ul v-if=" useFavTargetStore.favoriteTargets.length">
-        <li v-for="target in  useFavTargetStore.favoriteTargets" :key="target.name">
+      <ul v-if="favTargetsStore.favoriteTargets.length">
+        <li v-for="target in favTargetsStore.favoriteTargets" :key="target.name">
           {{ target.name }} – RA: {{ target.ra }}°, DEC: {{ target.dec }}°
+          <button @click="removeTarget(target.name)">🗑️ Löschen</button>
+          <button @click="loadTarget(target)">🎯 Laden</button>
         </li>
       </ul>
       <p v-else>Keine Favoriten gespeichert.</p>
     </div>
     <button @click="saveTarget" class="default-button-cyan">neu speichern</button>
-  </template>
+
 </template>
 <script setup>
-import { computed } from 'vue';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useFramingStore } from '@/store/framingStore';
+import { degreesToDMS, degreesToHMS } from '@/utils/utils';
 
 const framingStore = useFramingStore();
 const favTargetsStore = useFavTargetStore();
 
-async function setSequenceTarget() {
-  console.log('Setting sequence target');
+function loadTarget(target) {
+  console.log('laden');
+  framingStore.RAangle = target.ra;
+  framingStore.DECangle = target.dec;
+  framingStore.RAangleString = degreesToHMS(target.ra);
+  framingStore.DECangleString = degreesToDMS(target.dec);
+  framingStore.rotationAngle = target.rotation ?? 0;
+  framingStore.selectedItem = {
+      Name: target.name,
+      RA:target.ra,
+      Dec:target.dec,}
+}
+
+function removeTarget(name) {
+  favTargetsStore.removeFavorite(name);
+}
+
+async function saveTarget() {
+  console.log('saveTarget');
 
   if (!framingStore.selectedItem) {
     console.error('No target selected');
@@ -35,16 +53,14 @@ async function setSequenceTarget() {
   const rotation = framingStore.rotationAngle;
 
   const newTarget = {
-    name: framingStore.selectedItem.Name,
-    ra: framingStore.RAangle,
-    dec: framingStore.DECangle,
-    rotation: framingStore.rotationAngle,
+    name,
+    ra,
+    dec,
+    rotation,
   };
 
-  const saveTarget = () => {
-    favTargetsStore.addFavorite(newTarget);
-  };
-
+  favTargetsStore.addFavorite(newTarget);
   console.log('Name:', name, 'RA:', ra, 'Dec:', dec, 'Rotation:', rotation);
 }
 </script>
+

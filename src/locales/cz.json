@@ -229,7 +229,8 @@
           "showImageStats": "Zobrazit statistiku posledního snímku",
           "showImgStatsGraph": "Zobrazit HFR-Graf",
           "showGuiderGraph": "Zobrazit graf-pointace",
-          "showGuiderAfGraph": "Zobrazit graf-ostření"
+          "showGuiderAfGraph": "Zobrazit graf-ostření",
+          "display_status_under_image": "Show status below image"
         }
       },
       "running": "BĚŽÍCÍ",

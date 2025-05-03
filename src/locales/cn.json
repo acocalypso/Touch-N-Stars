@@ -229,7 +229,8 @@
           "showImageStats": "显示最后一张图像统计",
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderGraph": "显示导星图表",
-          "showGuiderAfGraph": "显示自动对焦图表"
+          "showGuiderAfGraph": "显示自动对焦图表",
+          "display_status_under_image": "Show status below image"
         }
       },
       "running": "运行中",
@@ -458,7 +459,8 @@
         "exposure_running": "曝光运行中",
         "is_centering": "居中目标",
         "is_platesolving": "板解析运行中",
-        "is_slewing": "转向目标"
+        "is_slewing": "转向目标",
+        "plate_solve_error": "Platesolve error"
       }
     },
     "filterwheel": {

@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.6.0] - unreleasd
 ### Added
 - Focuser quick to use button
-- IOS App
+- Integrated iOS app
 - Instanze Color -> There is a separate color for each instance. The navbar changes color depending on the instance
+- add a plugin system
+- A message is now displayed if the communication does not work
 
 ### Changed
 - design rework stellarium 
@@ -18,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - repairs a connection error if the default port is not used
+- the IP address in the plugin is now displayed correctly
+
 
 ## [1.0.5.0] - 2025-04-16
 ### Added

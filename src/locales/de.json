@@ -229,7 +229,8 @@
           "showImageStats": "Statistiken des letzten Bildes anzeigen",
           "showImgStatsGraph": "HFR-Diagramm anzeigen",
           "showGuiderGraph": "Guider-Diagramm anzeigen",
-          "showGuiderAfGraph": "Autofokus-Diagramm anzeigen"
+          "showGuiderAfGraph": "Autofokus-Diagramm anzeigen",
+          "display_status_under_image": "Status unten anzeigen Bild unter Bild"
         }
       },
       "running": "WIRD AUSGEFÜHRT",

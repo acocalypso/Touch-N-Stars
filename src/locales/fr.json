@@ -229,7 +229,8 @@
           "showImageStats": "Montrer les stats de la dernière image",
           "showImgStatsGraph": "Montrer la courbe du HFR",
           "showGuiderGraph": "Montrer la courbe du Guidage",
-          "showGuiderAfGraph": "Montrer la courbe de l'AutoFocus"
+          "showGuiderAfGraph": "Montrer la courbe de l'AutoFocus",
+          "display_status_under_image": "Afficher le statut ci-dessous Image"
         }
       },
       "running": "EN COURS D'EXÉCUTION",

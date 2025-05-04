@@ -5,7 +5,7 @@
       @click="isModalOpen = true"
       class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
     >
-      <StarIcon class="w-6 h-6 text-white" />
+      <HeartIcon class="w-6 h-6 text-white" />
     </button>
     <div
       v-if="isModalOpen"
@@ -85,7 +85,7 @@ import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import apiService from '@/services/apiService';
-import { TrashIcon, CheckIcon, StarIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { TrashIcon, CheckIcon, HeartIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useToastStore } from '@/store/toastStore';
 import { useI18n } from 'vue-i18n';
 

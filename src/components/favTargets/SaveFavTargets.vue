@@ -1,10 +1,10 @@
 <template>
-  <button @click="saveTarget" class="default-button-cyan"><StarIcon /></button>
+  <button @click="saveTarget" class="default-button-cyan"><HeartIcon /></button>
 </template>
 <script setup>
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useFramingStore } from '@/store/framingStore';
-import { StarIcon } from '@heroicons/vue/24/outline';
+import { HeartIcon } from '@heroicons/vue/24/outline';
 import { useToastStore } from '@/store/toastStore';
 import { useI18n } from 'vue-i18n';
 

@@ -3,12 +3,10 @@
 </template>
 <script setup>
 import { useFavTargetStore } from '@/store/favTargetsStore';
-import { useFramingStore } from '@/store/framingStore';
 import { HeartIcon } from '@heroicons/vue/24/outline';
 import { useToastStore } from '@/store/toastStore';
 import { useI18n } from 'vue-i18n';
 
-const framingStore = useFramingStore();
 const favTargetsStore = useFavTargetStore();
 const toastStore = useToastStore();
 const { t } = useI18n();

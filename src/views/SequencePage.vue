@@ -26,6 +26,7 @@
         :linkText="'GitHub'"
       />
     </div>
+    <FavTargets :show-framning="false" class="fixed bottom-12 right-16 z-20" />
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->
@@ -50,6 +51,7 @@ import controlSequence from '@/components/sequence/controlSequence.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';
+import FavTargets from '@/components/favTargets/FavTargets.vue';
 
 const currentTab = ref('showSequenz'); // Standardwert
 const sequenceStore = useSequenceStore();

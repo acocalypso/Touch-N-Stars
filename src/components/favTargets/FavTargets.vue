@@ -24,14 +24,19 @@
         </div>
         <table
           v-if="favTargetsStore.favoriteTargets.length"
-          class="w-full text-sm text-left border border-gray-600  overflow-hidden"
+          class="w-full text-sm text-left border border-gray-600 overflow-hidden"
         >
           <thead class="bg-gray-700 text-gray-200">
             <tr>
               <th class="px-4 py-2">{{ $t('components.fav_target.table.name') }}</th>
               <th class="px-4 py-2">{{ $t('components.fav_target.table.ra') }}</th>
               <th class="px-4 py-2">{{ $t('components.fav_target.table.dec') }}</th>
-              <th class="px-4 py-2">{{ $t('components.fav_target.table.load') }}</th>
+              <th class="px-4 py-2" v-if="showFramning">
+                {{ $t('components.fav_target.table.load') }}
+              </th>
+              <th class="px-4 py-2" v-if="showSeqTarget">
+                {{ $t('components.fav_target.table.load') }}
+              </th>
               <th class="px-4 py-2">{{ $t('components.fav_target.table.remove') }}</th>
             </tr>
           </thead>
@@ -44,8 +49,16 @@
               <td class="px-4 py-2">{{ target.Name }}</td>
               <td class="px-4 py-2">{{ target.RaString }}</td>
               <td class="px-4 py-2">{{ target.DecString }}</td>
-              <td class="px-4 py-2">
+              <td class="px-4 py-2" v-if="showFramning">
                 <button @click="loadTarget(target)" class="hover:text-green-400">
+                  <CheckIcon
+                    class="w-4 h-4"
+                    :class="selectedTargetId === target.Id ? 'text-green-500' : ''"
+                  />
+                </button>
+              </td>
+              <td class="px-4 py-2" v-if="showSeqTarget">
+                <button @click="setSequenceTarget(target)" class="hover:text-green-400">
                   <CheckIcon
                     class="w-4 h-4"
                     :class="selectedTargetId === target.Id ? 'text-green-500' : ''"
@@ -70,12 +83,30 @@
 import { onMounted, ref } from 'vue';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useFramingStore } from '@/store/framingStore';
+import { useSequenceStore } from '@/store/sequenceStore';
+import apiService from '@/services/apiService';
 import { TrashIcon, CheckIcon, StarIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { useToastStore } from '@/store/toastStore';
+import { useI18n } from 'vue-i18n';
 
 const framingStore = useFramingStore();
 const favTargetsStore = useFavTargetStore();
+const sequenceStore = useSequenceStore();
 const selectedTargetId = ref(null);
 const isModalOpen = ref(false);
+const toastStore = useToastStore();
+const { t } = useI18n();
+
+defineProps({
+  showSeqTarget: {
+    type: Boolean,
+    default: true,
+  },
+  showFramning: {
+    type: Boolean,
+    default: true,
+  },
+});
 
 function loadTarget(target) {
   console.log('laden');
@@ -95,6 +126,39 @@ function loadTarget(target) {
 function removeTarget(id) {
   console.log('Remove', id);
   favTargetsStore.removeFavorite(id);
+}
+
+async function setSequenceTarget(target) {
+  console.log('Setting sequence target');
+
+  const name = target.Name;
+  const ra = target.RAangle;
+  const dec = target.DECangle;
+  const rotation = target.rotationAngle;
+  const index = 0;
+
+  console.log('Name:', name, 'RA:', ra, 'Dec:', dec, 'Rotation:', rotation);
+
+  if (!sequenceStore.sequenceIsLoaded) {
+    console.error('No sequence loaded');
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message: t('components.fav_target.modal_sequence_error.message'),
+    });
+    return;
+  }
+  try {
+    await apiService.sequnceTargetSet(name, ra, dec, rotation, index);
+    console.log('Sequence target updated successfully.');
+    toastStore.showToast({
+      type: 'success',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message: t('components.fav_target.modal_sequence_ok.message'),
+    });
+  } catch (error) {
+    console.error('Error setting sequence target:', error);
+  }
 }
 
 onMounted(() => {

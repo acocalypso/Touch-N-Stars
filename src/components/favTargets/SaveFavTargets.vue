@@ -6,10 +6,12 @@ import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useFramingStore } from '@/store/framingStore';
 import { StarIcon } from '@heroicons/vue/24/outline';
 import { useToastStore } from '@/store/toastStore';
+import { useI18n } from 'vue-i18n';
 
 const framingStore = useFramingStore();
 const favTargetsStore = useFavTargetStore();
 const toastStore = useToastStore();
+const { t } = useI18n();
 
 async function saveTarget() {
   console.log('saveTarget');
@@ -37,8 +39,8 @@ async function saveTarget() {
 
   toastStore.showToast({
     type: 'success',
-    title: 'Save',
-    message: 'Safe to fav',
+    title: t('components.fav_target.modal_save.titel'),
+    message: t('components.fav_target.modal_save.message'),
   });
 
   favTargetsStore.addFavorite(newTarget);

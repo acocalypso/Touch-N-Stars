@@ -562,6 +562,21 @@
     },
     "profile": {
       "label": "Profile:"
+    },
+    "fav_target": {
+      "titel": "Favorites",
+      "table": {
+        "name": "Name",
+        "ra": "RA",
+        "dec": "DEC",
+        "load": "Load",
+        "remove": "Remove"
+      },
+      "no_fav": "No favorites saved",
+      "modal_save": {
+        "titel": "Save",
+        "message": "The target has been saved"
+      }
     }
   }
 }

@@ -16,7 +16,17 @@
             class="w-full p-2 border border-gray-300 rounded"
             :placeholder="$t('components.framing.search.placeholder')"
           />
-          <SaveFavTargets v-if="framingStore.selectedItem" class="w-5 h-5" />
+          <SaveFavTargets 
+            v-if="framingStore.selectedItem" 
+            class="w-5 h-5" 
+            :name="framingStore.selectedItem.Name"
+            :ra="framingStore.RAangle"
+            :dec="framingStore.DECangle"
+            :ra-string="framingStore.RAangleString"
+            :dec-string="framingStore.DECangleString"
+            :rotation="framingStore.rotationAngle"
+          />
+
         </div>
         <!-- Search Results -->
         <ul

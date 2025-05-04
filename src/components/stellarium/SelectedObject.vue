@@ -11,6 +11,12 @@
       <span class="spinner"></span>
     </div>
 
+    <ul class="mt-2">
+  <li v-for="(value, key) in selectedObject" :key="key" class="text-sm">
+    {{ key }}: {{ value }}
+  </li>
+</ul>
+
     <h3 class="text-lg font-semibold">{{ $t('components.stellarium.selected_object.title') }}:</h3>
     <ul class="mt-2">
       <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
@@ -27,9 +33,19 @@
       v-if="store.mountInfo.Connected && !store.sequenceRunning"
       class="flex flex-col gap-2 mt-2"
     >
+    <div class="flex gap-1">
       <button @click="setFramingCoordinates" class="default-button-cyan">
         {{ $t('components.stellarium.selected_object.button_framing') }}
       </button>
+      <SaveFavTargets 
+            class="w-5 h-5" 
+            :name="selectedObject[0]"
+            :ra="selectedObjectRaDeg"
+            :dec="selectedObjectDecDeg"
+            :ra-string="selectedObjectRa"
+            :dec-string="selectedObjectDec"
+          />
+    </div>
       <ButtonSlew :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />
       <ButtonSlewAndCenter
         :raAngle="props.selectedObjectRaDeg"
@@ -44,6 +60,7 @@ import { defineProps, defineEmits, ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
+import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 
 const store = apiStore();
 const props = defineProps({

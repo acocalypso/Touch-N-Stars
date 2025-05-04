@@ -13,20 +13,39 @@ const favTargetsStore = useFavTargetStore();
 const toastStore = useToastStore();
 const { t } = useI18n();
 
+const props = defineProps({
+  name: {
+    type: String,
+    default: 'Unknown',
+  },
+  ra: {
+    type: Number,
+  },
+  dec: {
+    type: Number,
+  },
+  raString: {
+    type: String,
+  },
+  decString: {
+    type: String,
+  },
+  rotation: {
+    type: Number,
+    default: 0,
+  },
+});
+
+
 async function saveTarget() {
   console.log('saveTarget');
 
-  if (!framingStore.selectedItem) {
-    console.error('No target selected');
-    return;
-  }
-
-  const Name = framingStore.selectedItem.Name;
-  const Ra = framingStore.RAangle;
-  const Dec = framingStore.DECangle;
-  const RaString = framingStore.RAangleString;
-  const DecString = framingStore.DECangleString;
-  const Rotation = framingStore.rotationAngle || 0;
+  const Name = props.name;
+  const Ra = props.ra;
+  const Dec = props.dec;
+  const RaString = props.raString;
+  const DecString = props.decString;
+  const Rotation = props.rotation;
 
   const newTarget = {
     Name,

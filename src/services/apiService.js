@@ -81,6 +81,52 @@ const apiService = {
     }
   },
 
+  //------------------------------------- Fav Targets ------------------------------------------
+
+  async getAllFavorites() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}favorites`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+      throw error;
+    }
+  },
+
+  async addFavorite(favorite) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}favorites`, favorite);
+      return response.data;
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+      throw error;
+    }
+  },
+
+  async updateFavorite(id, updatedFavorite) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}favorites/${id}`, updatedFavorite);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating favorite with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async deleteFavorite(id) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.delete(`${API_URL}favorites/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting favorite with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Image History ---------------------------------------
   async imageHistoryAll() {
     try {

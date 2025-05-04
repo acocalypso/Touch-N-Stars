@@ -17,7 +17,7 @@
         </div>
         <div>
           <h2 class="text-xl font-bold text-center text-gray-200 mb-4">{{ toastStore.title }}</h2>
-          <p class="text-gray-200">{{ toastStore.message }}</p>
+          <p class="text-gray-200 text-center">{{ toastStore.message }}</p>
         </div>
         <div class="flex items-center gap-2 mt-4" v-if="toastStore.link && toastStore.linkText">
           <GlobeAltIcon class="w-6 h-6" />
@@ -41,6 +41,8 @@ const toastTypeShadow = computed(() => {
   switch (toastStore.type) {
     case 'info':
       return 'shadow-lg shadow-blue-500/50 ring-1 ring-blue-500/50';
+    case 'success':
+      return 'shadow-lg shadow-green-500/50 ring-1 ring-green-500/50';
     case 'warning':
       return 'shadow-lg shadow-orange-500/50 ring-1 ring-orange-500/50';
     case 'error':

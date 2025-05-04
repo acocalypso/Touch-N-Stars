@@ -5,17 +5,20 @@
         {{ $t('components.framing.search.title') }}
       </h5>
 
-      <FavTargets />
-
+     
+      <FavTargets class=" absolute bottom-12 right-5" />
       <!-- Search Input -->
       <div class="text-black mx-auto">
-        <input
-          type="text"
-          v-model="framingStore.searchQuery"
-          @input="fetchTargetSearch"
-          class="w-full p-2 border border-gray-300 rounded"
-          :placeholder="$t('components.framing.search.placeholder')"
-        />
+        <div class="flex gap-1">
+          <input
+            type="text"
+            v-model="framingStore.searchQuery"
+            @input="fetchTargetSearch"
+            class="w-full p-2 border border-gray-300 rounded"
+            :placeholder="$t('components.framing.search.placeholder')"
+          />
+          <SaveFavTargets v-if="framingStore.selectedItem" class="w-5 h-5" />
+        </div>
         <!-- Search Results -->
         <ul
           v-if="
@@ -155,7 +158,8 @@ import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vu
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
-import FavTargets from '@/components/framing/FavTargets.vue';
+import FavTargets from '@/components/favTargets/FavTargets.vue';
+import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();

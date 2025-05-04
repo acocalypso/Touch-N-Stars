@@ -35,9 +35,7 @@ The application aims to make controlling and adjusting already configured profil
 - The [APK file](https://github.com/Touch-N-Stars/Touch-N-Stars/releases) simply needs to be installed on the smartphone or tablet.
 
 ### 📱 **iOS App**
-- We don't currently have an app for iOS users. 
-The hurdles Apple is putting up here are very high and I'm still unsure whether I want to support this company.
-- But it also works without a native app, simply in the browser on any iOS device.
+- You can find the app in the [App Store](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
 
 ### 🧪 **What does the Version offer?**  
 - **Mobile Operation**: Easily access NINA through your smartphone or tablet.  

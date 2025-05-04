@@ -36,7 +36,6 @@ const props = defineProps({
   },
 });
 
-
 async function saveTarget() {
   console.log('saveTarget');
 

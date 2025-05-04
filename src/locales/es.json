@@ -229,7 +229,8 @@
           "showImageStats": "Mostrar estadísticas última imágen",
           "showImgStatsGraph": "Mostrar gráfica HFR",
           "showGuiderGraph": "Mostrar gráfica guiado",
-          "showGuiderAfGraph": "Mostrar gráfica autoenfoque"
+          "showGuiderAfGraph": "Mostrar gráfica autoenfoque",
+          "display_status_under_image": "Mostrar estado a continuación imagen"
         }
       },
       "running": "CORRER",

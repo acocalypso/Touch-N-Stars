@@ -1,5 +1,7 @@
 # Touch'N'Stars: WebApp für die mobile Steuerung von NINA
 
+[![Im App Store laden](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/de-de?size=250x83)](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
+
 [English version available here](README_en.md)
 
 # 🤝 **Unterstütze und bei der iOS App**  

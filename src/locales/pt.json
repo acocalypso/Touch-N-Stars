@@ -81,6 +81,10 @@
       "plugins": {
         "description": "Descrição do plug -in",
         "title": "Plugins"
+      },
+      "debug": {
+        "activate": "Ativar janela de depuração",
+        "titel": "Configurações de depuração"
       }
     },
     "framing": {

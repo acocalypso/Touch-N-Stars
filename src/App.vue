@@ -94,7 +94,10 @@
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
     <ToastModal v-if="settingsStore.setupCompleted" />
+    <!-- ManuellFilterModal Modal -->
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
+    <!-- Debug Console -->
+    <ConsoleViewer class="fixed top-1/2 left-6" v-if="settingsStore.showDebugConsole" />
   </div>
 </template>
 
@@ -115,6 +118,7 @@ import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
+import ConsoleViewer from './components/helpers/ConsoleViewer.vue';
 import apiService from './services/apiService';
 import { wait } from './utils/utils';
 

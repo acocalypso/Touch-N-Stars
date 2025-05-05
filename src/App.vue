@@ -120,6 +120,7 @@ import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from './components/helpers/ConsoleViewer.vue';
 import apiService from './services/apiService';
+import notificationService from './services/notificationService';
 import { wait } from './utils/utils';
 
 const store = apiStore();
@@ -196,6 +197,11 @@ onMounted(async () => {
   // Show tutorial on first visit
   if (!settingsStore.tutorial.completed) {
     showTutorial.value = true;
+  }
+
+  // Initialize notification service if notifications are enabled
+  if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
+    await notificationService.initialize();
   }
 
   //NINA preparation

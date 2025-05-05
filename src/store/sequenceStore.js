@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import notificationService from '@/services/notificationService';
 
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
@@ -21,6 +22,18 @@ export const useSequenceStore = defineStore('sequenceStore', {
   }),
   actions: {
     setSequenceRunning(isRunning) {
+      // Check if the sequence state has changed
+      if (this.sequenceRunning !== isRunning) {
+        // If the sequence is now running and it wasn't before, it has started
+        if (isRunning && !this.sequenceRunning) {
+          notificationService.sendSequenceNotification('started');
+        }
+        // If the sequence is no longer running and it was before, it has completed
+        else if (!isRunning && this.sequenceRunning) {
+          notificationService.sendSequenceNotification('completed');
+        }
+      }
+
       this.sequenceRunning = isRunning;
     },
     toggleCollapsedState(containerName) {
@@ -148,6 +161,29 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       if (response?.Success) {
+        // Check for errors in sequence items
+        let hasErrors = false;
+        let errorMessage = '';
+
+        if (Array.isArray(response.Response)) {
+          for (const container of response.Response) {
+            if (container.Items) {
+              for (const item of container.Items) {
+                if (item.Status === 'ERROR') {
+                  hasErrors = true;
+                  errorMessage = item.ErrorMessage || 'Unknown error in sequence';
+                  break;
+                }
+              }
+              if (hasErrors) break;
+            }
+          }
+        }
+
+        if (hasErrors) {
+          notificationService.sendSequenceNotification('error', errorMessage);
+        }
+
         this.sequenceInfo = response.Response;
         if (this.sequenceIsEditable) {
           this.generatePaths(this.sequenceInfo);
@@ -158,7 +194,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
         const isRunning = response.Response?.some((sequence) =>
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
-        this.sequenceRunning = isRunning || false;
+
+        // Update sequence running state (this will trigger notification if state changed)
+        this.setSequenceRunning(isRunning || false);
       } else {
         this.sequenceIsLoaded = false;
         this.sequenceRunning = false;
@@ -293,6 +331,18 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+      }
+    },
+
+    // Reset the sequence and send notification
+    async resetSequence() {
+      try {
+        await apiService.sequenceAction('reset');
+        notificationService.sendSequenceNotification('reset');
+        return true;
+      } catch (error) {
+        console.error('Error resetting sequence:', error);
+        return false;
       }
     },
   },

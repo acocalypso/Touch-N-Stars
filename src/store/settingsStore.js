@@ -26,6 +26,12 @@ export const useSettingsStore = defineStore('settings', {
       showGuiderAfGraph: true,
       displayStatusUnderImage: false,
     },
+    notifications: {
+      enabled: localStorage.getItem('notificationsEnabled') === 'true' || false,
+      sequence: {
+        enabled: localStorage.getItem('sequenceNotificationsEnabled') === 'true' || false,
+      },
+    },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
       completed: localStorage.getItem('tutorialCompleted') === 'true',
@@ -219,6 +225,16 @@ export const useSettingsStore = defineStore('settings', {
       this.useImperialUnits = !this.useImperialUnits;
       localStorage.setItem('useImperialUnits', this.useImperialUnits);
     },
+
+    toggleNotifications() {
+      this.notifications.enabled = !this.notifications.enabled;
+      localStorage.setItem('notificationsEnabled', this.notifications.enabled);
+    },
+
+    toggleSequenceNotifications() {
+      this.notifications.sequence.enabled = !this.notifications.sequence.enabled;
+      localStorage.setItem('sequenceNotificationsEnabled', this.notifications.sequence.enabled);
+    },
   },
   persist: {
     enabled: true,
@@ -235,6 +251,7 @@ export const useSettingsStore = defineStore('settings', {
           'lastCreatedInstanceId',
           'monitorViewSetting',
           'tutorial',
+          'notifications',
         ],
       },
     ],

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getActivePinia } from 'pinia';
 
 let settingsStore;
+let store;
 
 const initializeStore = () => {
   if (!settingsStore) {
@@ -10,6 +11,7 @@ const initializeStore = () => {
       throw new Error('Pinia store not initialized');
     }
     settingsStore = pinia._s.get('settings');
+    store = pinia._s.get('store');
 
     // Watch for connection changes
     settingsStore.$onAction(({ name }) => {
@@ -25,7 +27,7 @@ const getBaseUrl = () => {
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 5000;
-  const apiPort = 1888;
+  const apiPort = store.apiPort || 1888;
 
   //devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
@@ -52,6 +54,17 @@ const getUrls = () => {
 };
 
 const apiService = {
+  async fetchApiPort() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}get-api-port`);
+      return response;
+    } catch (error) {
+      console.error('Error reaching backend:', error.message);
+      return false;
+    }
+  },
+
   // Backend reachability check
   async fetchApiVersion() {
     try {
@@ -59,22 +72,6 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/version`);
       //console.log(response.data);
       return response.data;
-    } catch (error) {
-      console.error('Error reaching backend:', error.message);
-      return false;
-    }
-  },
-
-  async checkPluginServer() {
-    try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(PLUGINSERVER_URL);
-      // console.log('Plugin antworet mit:', response.status);
-      if (response.status === 200) {
-        return true;
-      } else {
-        return false;
-      }
     } catch (error) {
       console.error('Error reaching backend:', error.message);
       return false;

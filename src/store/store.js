@@ -6,6 +6,7 @@ import { useToastStore } from '@/store/toastStore';
 
 export const apiStore = defineStore('store', {
   state: () => ({
+    apiPort: null,
     intervalId: null,
     intervalIdGraph: null,
     profileInfo: [],
@@ -52,14 +53,21 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
+      let isPluginReachable = false;
       let tempIsBackendReachable = false;
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
       try {
+        const response = await apiService.fetchApiPort();
+        if (response.status !== 200) {
+          isPluginReachable = false;
+        }
+        this.apiPort = response.data;
         const versionResponse = await apiService.fetchApiVersion();
-        const isPluginReachable = await apiService.checkPluginServer();
         tempIsBackendReachable = !!versionResponse;
+        isPluginReachable = true;
+        //console.log('API Port: ', this.apiPort);
 
         if (!isPluginReachable) {
           console.warn('TNS-Plugin not reachable');

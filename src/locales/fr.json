@@ -81,6 +81,10 @@
       "plugins": {
         "description": "Description du plugin",
         "title": "Plugins"
+      },
+      "debug": {
+        "activate": "Activer la fenêtre de débogage",
+        "titel": "Paramètres de débogage"
       }
     },
     "framing": {

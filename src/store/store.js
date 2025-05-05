@@ -61,19 +61,17 @@ export const apiStore = defineStore('store', {
       try {
         let isPluginReachable = await apiService.checkPluginServer();
 
-        console.log('api Port:', this.apiPort);
-
         if (!this.apiPort) {
           const response = await apiService.fetchApiPort();
           this.apiPort = response.data;
           isPluginReachable = true;
+          console.log('api Port:', this.apiPort);
         }
 
         if (this.apiPort && isPluginReachable) {
           const versionResponse = await apiService.fetchApiVersion();
           tempIsBackendReachable = !!versionResponse;
           this.currentApiVersion = versionResponse.Response;
-          console.log('API Version: ', versionResponse.Response);
         }
 
         if (!isPluginReachable) {

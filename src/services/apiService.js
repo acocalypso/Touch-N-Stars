@@ -68,21 +68,20 @@ const apiService = {
   // Backend reachability check
   async fetchApiVersion(timeout = 5000) {
     const { BASE_URL } = getUrls();
-  
+
     try {
       // timeout wird in Millisekunden übergeben
       const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
-      return data;                                   // Erfolg
+      return data; // Erfolg
     } catch (err) {
       if (err.code === 'ECONNABORTED') {
         console.warn(`fetchApiVersion: Timeout nach ${timeout} ms`);
       } else {
         console.error('Error reaching backend:', err.message);
       }
-      return false;                                  // Fehler‑Rückgabe
+      return false; // Fehler‑Rückgabe
     }
   },
-  
 
   async checkPluginServer() {
     try {

@@ -121,7 +121,7 @@
         </div>
 
         <!-- debug settings -->
-        <div v-if="store.isBackendReachable" class="bg-gray-700 p-3 rounded-lg">
+        <div class="bg-gray-700 p-3 rounded-lg">
           <h3 class="text-lg font-medium mb-2 text-gray-300">
             {{ $t('components.settings.debug.titel') }}
           </h3>

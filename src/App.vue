@@ -99,7 +99,7 @@
     <!-- Debug Console -->
     <ConsoleViewer
       class="fixed top-1/2 left-6"
-      v-if="settingsStore.setupCompleted && settingsStore.showDebugConsole"
+      v-if=" settingsStore.showDebugConsole"
     />
   </div>
 </template>

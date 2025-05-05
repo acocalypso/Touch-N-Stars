@@ -120,6 +120,14 @@
           <setImgBlackClipping />
         </div>
 
+        <!-- debug settings -->
+        <div class="bg-gray-700 p-3 rounded-lg">
+          <h3 class="text-lg font-medium mb-2 text-gray-300">
+            {{ $t('components.settings.debug.titel') }}
+          </h3>
+          <SetDebug />
+        </div>
+
         <!-- Tutorial Button -->
         <div class="bg-gray-700 p-3 rounded-lg">
           <button
@@ -278,8 +286,9 @@ import { Capacitor } from '@capacitor/core';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
 import setImgQuality from '@/components/settings/setImgQuality.vue';
 import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
-import SetInstance from './settings/setInstance.vue';
+import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
+import SetDebug from '@/components/settings/setDebug.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

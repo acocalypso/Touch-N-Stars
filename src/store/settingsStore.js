@@ -5,6 +5,7 @@ export const useSettingsStore = defineStore('settings', {
   state: () => ({
     language: 'en',
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
+    showDebugConsole: false,
     coordinates: {
       latitude: null,
       longitude: null,

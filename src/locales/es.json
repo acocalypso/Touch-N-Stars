@@ -81,6 +81,10 @@
       "plugins": {
         "description": "Descripción del complemento",
         "title": "Complementos"
+      },
+      "debug": {
+        "activate": "Habilitar la ventana de depuración",
+        "titel": "Configuración de depuración"
       }
     },
     "framing": {

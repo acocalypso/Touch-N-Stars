@@ -590,7 +590,8 @@
       },
       "modal_sequence_error": {
         "message": "No sequence loaded"
-      }
+      },
+      "enter_name": "Enter name"
     }
   }
 }

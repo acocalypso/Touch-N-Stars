@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="selectedObject"
-    class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
+    class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[300px]"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
@@ -34,7 +34,7 @@
       class="flex flex-col gap-2 mt-2"
     >
       <div class="flex gap-1">
-        <button @click="setFramingCoordinates" class="default-button-cyan">
+        <button @click="setFramingCoordinates" class="default-button-cyan max-w-56">
           {{ $t('components.stellarium.selected_object.button_framing') }}
         </button>
         <SaveFavTargets

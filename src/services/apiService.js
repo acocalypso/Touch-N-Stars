@@ -27,7 +27,7 @@ const getBaseUrl = () => {
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 5000;
-  const apiPort = store.apiPort || 1888;
+  const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
@@ -66,12 +66,34 @@ const apiService = {
   },
 
   // Backend reachability check
-  async fetchApiVersion() {
+  async fetchApiVersion(timeout = 5000) {
+    const { BASE_URL } = getUrls();
+  
     try {
-      const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/version`);
-      //console.log(response.data);
-      return response.data;
+      // timeout wird in Millisekunden übergeben
+      const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
+      return data;                                   // Erfolg
+    } catch (err) {
+      if (err.code === 'ECONNABORTED') {
+        console.warn(`fetchApiVersion: Timeout nach ${timeout} ms`);
+      } else {
+        console.error('Error reaching backend:', err.message);
+      }
+      return false;                                  // Fehler‑Rückgabe
+    }
+  },
+  
+
+  async checkPluginServer() {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.get(PLUGINSERVER_URL);
+      // console.log('Plugin antworet mit:', response.status);
+      if (response.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error('Error reaching backend:', error.message);
       return false;

@@ -53,21 +53,28 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
-      let isPluginReachable = false;
+
       let tempIsBackendReachable = false;
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
       try {
-        const response = await apiService.fetchApiPort();
-        if (response.status !== 200) {
-          isPluginReachable = false;
+        let isPluginReachable = await apiService.checkPluginServer();
+
+        console.log('api Port:', this.apiPort);
+
+        if (!this.apiPort) {
+          const response = await apiService.fetchApiPort();
+          this.apiPort = response.data;
+          isPluginReachable = true;
         }
-        this.apiPort = response.data;
-        const versionResponse = await apiService.fetchApiVersion();
-        tempIsBackendReachable = !!versionResponse;
-        isPluginReachable = true;
-        //console.log('API Port: ', this.apiPort);
+
+        if (this.apiPort && isPluginReachable) {
+          const versionResponse = await apiService.fetchApiVersion();
+          tempIsBackendReachable = !!versionResponse;
+          this.currentApiVersion = versionResponse.Response;
+          console.log('API Version: ', versionResponse.Response);
+        }
 
         if (!isPluginReachable) {
           console.warn('TNS-Plugin not reachable');
@@ -84,7 +91,6 @@ export const apiStore = defineStore('store', {
         }
 
         if (tempIsBackendReachable) {
-          this.currentApiVersion = versionResponse.Response;
           this.isVersionNewerOrEqual = this.checkVersionNewerOrEqual(
             this.currentApiVersion,
             this.minimumApiVersion
@@ -104,6 +110,7 @@ export const apiStore = defineStore('store', {
           }
         } else {
           console.warn('Backend is not reachable');
+          this.apiPort = null;
           if (!this.errorMessageShown) {
             toastStore.showToast({
               type: 'error',

@@ -169,7 +169,7 @@ onMounted(async () => {
           //IP und Port vom Plugin ermitteln
           const protocol = settingsStore.backendProtocol || 'http';
           const host = settingsStore.connection.ip || window.location.hostname;
-          const port = settingsStore.connection.port || 5000;
+          const port = settingsStore.connection.port || window.location.port;
           const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
           const core = stel.core;
 

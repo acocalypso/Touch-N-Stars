@@ -1,5 +1,7 @@
 # Touch'N'Stars: WebApp for Mobile Control of NINA
 
+[![Download on the App Store](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83)](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
+
 # 🤝 **Community-Powered, Forever Free: Donate to Cover Apple’s Developer Fee**
 
 Our app is Open Source and will remain so - without advertising, without costs.

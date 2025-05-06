@@ -26,7 +26,10 @@
               @click="downloadLogs"
               class="text-white hover:text-cyan-300 text-sm border border-cyan-500 px-4 py-1 rounded"
             >
-              <ArrowDownTrayIcon class="w-5 h-5"  :class="showSuccess ? 'text-green-400' : 'text-white'"/>
+              <ArrowDownTrayIcon
+                class="w-5 h-5"
+                :class="showSuccess ? 'text-green-400' : 'text-white'"
+              />
             </button>
             <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
               <XMarkIcon class="w-6 h-6" />
@@ -52,10 +55,10 @@
 
 <script setup>
 import { ref } from 'vue';
-import { CommandLineIcon, XMarkIcon, ArrowDownTrayIcon} from '@heroicons/vue/24/outline';
+import { CommandLineIcon, XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 
 const isModalOpen = ref(false);
-const logs = ref([]); 
+const logs = ref([]);
 const showSuccess = ref(false);
 
 function safeToString(arg) {
@@ -83,8 +86,8 @@ function getCircularReplacer() {
 
 async function downloadLogs() {
   const logContent = logs.value
-  .map(log => `[${log.type.toUpperCase()}] ${log.message}`)
-  .join('\n');
+    .map((log) => `[${log.type.toUpperCase()}] ${log.message}`)
+    .join('\n');
 
   const fileName = `logs-${new Date().toISOString().slice(0, 10)}.log`;
 

@@ -5,6 +5,8 @@ node_modules
 /server/build
 /server/static
 
+# hrz
+*.hrz
 
 # local env files
 .env.local

@@ -180,7 +180,7 @@ function createChart() {
           tension: 0,
           fill: 'start',
           order: -2,
-          spanGaps: true
+          spanGaps: true,
         },
         {
           label: 'Dämmerung',
@@ -191,7 +191,7 @@ function createChart() {
           tension: 0,
           fill: 'start',
           order: -1,
-          spanGaps: true
+          spanGaps: true,
         },
         {
           type: 'bar',

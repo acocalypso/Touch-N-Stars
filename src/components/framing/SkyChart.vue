@@ -159,6 +159,7 @@ function createChart() {
           backgroundColor: 'rgba(6, 182, 212, 0.2)',
           pointRadius: 0,
           tension: 0.3,
+          order: -10,
         },
         {
           label: 'Horizontprofil',
@@ -168,26 +169,29 @@ function createChart() {
           pointRadius: 0,
           tension: 0,
           fill: 'start',
+          order: 1,
         },
         {
           label: 'Astronomische Nacht',
           data: getDarknessFill(-18), // oder -12 für Dämmerung
-          borderColor: 'rgba(0, 0, 0, 0)', // keine Linie
+          borderColor: 'rgba(100, 0, 0, 0)', // keine Linie
           backgroundColor: 'rgba(0, 0, 0, 0.4)', // transparente Nachtfläche
           pointRadius: 0,
           tension: 0,
           fill: 'start',
           order: -2,
+          spanGaps: true
         },
         {
           label: 'Dämmerung',
           data: getDarknessFill(-12),
           borderColor: 'rgba(0, 0, 0, 0)',
-          backgroundColor: 'rgba(50, 50, 50, 0.2)', // helleres Grau
+          backgroundColor: 'rgba(10, 10, 10, 0.4)', // helleres Grau
           pointRadius: 0,
           tension: 0,
           fill: 'start',
-          order: -3,
+          order: -1,
+          spanGaps: true
         },
         {
           type: 'bar',
@@ -305,10 +309,10 @@ function getDarknessFill(thresholdDeg = -18) {
   return fill;
 }
 
-
 onMounted(async () => {
   await loadCustomHorizont();
   createChart();
+  console.log(getDarknessFill(-12));
 });
 
 watch(altitudeData, createChart);

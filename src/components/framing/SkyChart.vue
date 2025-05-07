@@ -31,7 +31,6 @@ const baseTime = computed(() => {
   return new Date(now.getTime() - 12 * 60 * 60 * 1000); // Startzeit = 12h vor jetzt
 });
 
-
 // UTC-basiertes Julianisches Datum
 function toJulian(date) {
   return date.getTime() / 86400000 + 2440587.5;
@@ -128,7 +127,6 @@ const altitudeData = computed(() => {
   return points;
 });
 
-
 const horizonAltitudes = computed(() => {
   if (!props.target?.RA || !props.target?.Dec || horizonData.value.length === 0) return [];
 
@@ -149,7 +147,6 @@ const horizonAltitudes = computed(() => {
 
   return points;
 });
-
 
 function createChart() {
   if (!canvasRef.value || altitudeData.value.length === 0) return;
@@ -314,8 +311,6 @@ function getDarknessFill(thresholdDeg = -18) {
 
   return fill;
 }
-
-
 
 onMounted(async () => {
   await loadCustomHorizont();

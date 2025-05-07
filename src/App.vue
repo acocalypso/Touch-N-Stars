@@ -16,7 +16,8 @@
       </div>
 
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
-        <StellariumView :key="landscapeSwitch"
+        <StellariumView
+          :key="landscapeSwitch"
           v-show="store.showStellarium && !isIOS"
           v-if="settingsStore.setupCompleted && !isIOS && store.isBackendReachable"
         />
@@ -225,7 +226,7 @@ function closeTutorial() {
 watch(
   () => settingsStore.stellarium.landscapesVisible,
   () => {
-      landscapeSwitch.value = settingsStore.stellarium.landscapesVisible;
+    landscapeSwitch.value = settingsStore.stellarium.landscapesVisible;
   }
 );
 

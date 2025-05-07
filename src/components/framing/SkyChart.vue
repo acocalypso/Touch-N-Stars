@@ -26,6 +26,12 @@ const props = defineProps({
 const canvasRef = ref(null);
 let chartInstance = null;
 
+const baseTime = computed(() => {
+  const now = new Date();
+  return new Date(now.getTime() - 12 * 60 * 60 * 1000); // Startzeit = 12h vor jetzt
+});
+
+
 // UTC-basiertes Julianisches Datum
 function toJulian(date) {
   return date.getTime() / 86400000 + 2440587.5;
@@ -101,11 +107,11 @@ function interpolateHorizon(azimuth) {
 const altitudeData = computed(() => {
   if (!props.target?.RA || !props.target?.Dec) return [];
 
-  const now = new Date();
   const points = [];
+  const steps = 96; // 24h * 4 (alle 15 Minuten)
 
-  for (let i = -12; i <= 12; i++) {
-    const time = new Date(now.getTime() + i * 60 * 60 * 1000);
+  for (let i = 0; i <= steps; i++) {
+    const time = new Date(baseTime.value.getTime() + i * 15 * 60 * 1000);
     const alt = calculateAltitude(
       props.target.RA,
       props.target.Dec,
@@ -114,7 +120,7 @@ const altitudeData = computed(() => {
       time
     );
     points.push({
-      label: `${time.getHours()}h`,
+      label: `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`,
       altitude: alt,
     });
   }
@@ -122,14 +128,15 @@ const altitudeData = computed(() => {
   return points;
 });
 
+
 const horizonAltitudes = computed(() => {
   if (!props.target?.RA || !props.target?.Dec || horizonData.value.length === 0) return [];
 
-  const now = new Date();
   const points = [];
+  const steps = 96;
 
-  for (let i = -12; i <= 12; i++) {
-    const time = new Date(now.getTime() + i * 60 * 60 * 1000);
+  for (let i = 0; i <= steps; i++) {
+    const time = new Date(baseTime.value.getTime() + i * 15 * 60 * 1000);
     const az = calculateAzimuth(
       props.target.RA,
       props.target.Dec,
@@ -142,6 +149,7 @@ const horizonAltitudes = computed(() => {
 
   return points;
 });
+
 
 function createChart() {
   if (!canvasRef.value || altitudeData.value.length === 0) return;
@@ -172,10 +180,10 @@ function createChart() {
           order: 1,
         },
         {
-          label: 'Astronomische Nacht',
-          data: getDarknessFill(-18), // oder -12 für Dämmerung
-          borderColor: 'rgba(100, 0, 0, 0)', // keine Linie
-          backgroundColor: 'rgba(0, 0, 0, 0.4)', // transparente Nachtfläche
+          label: 'Daemmerung',
+          data: getDarknessFill(-12),
+          borderColor: 'rgba(100, 0, 0, 0)',
+          backgroundColor: 'rgba(10, 10, 10, 0.4)', // helleres Grau
           pointRadius: 0,
           tension: 0,
           fill: 'start',
@@ -183,10 +191,10 @@ function createChart() {
           spanGaps: true,
         },
         {
-          label: 'Dämmerung',
-          data: getDarknessFill(-12),
-          borderColor: 'rgba(0, 0, 0, 0)',
-          backgroundColor: 'rgba(10, 10, 10, 0.4)', // helleres Grau
+          label: 'Astronomische Nacht',
+          data: getDarknessFill(-18), // oder -12 für Dämmerung
+          borderColor: 'rgba(100, 0, 0, 0)', // keine Linie
+          backgroundColor: 'rgba(0, 0, 0, 0.4)', // transparente Nachtfläche
           pointRadius: 0,
           tension: 0,
           fill: 'start',
@@ -199,11 +207,11 @@ function createChart() {
             const mid = Math.floor(altitudeData.value.length / 2);
             return i === mid ? 90 : 0;
           }),
-          backgroundColor: 'rgba(6, 182, 212,0.5)',
+          backgroundColor: 'rgba(6, 182, 212,1)',
           borderWidth: 0,
           barPercentage: 0.1,
           categoryPercentage: 1.0,
-          order: 0,
+          order: -9,
         },
       ],
     },
@@ -291,28 +299,29 @@ function calculateSunAltitude(observerLat, observerLon, date) {
 }
 
 function getDarknessFill(thresholdDeg = -18) {
-  const now = new Date();
   const fill = [];
+  const steps = 96;
 
-  for (let i = -12; i <= 12; i++) {
-    const time = new Date(now.getTime() + i * 60 * 60 * 1000);
+  for (let i = 0; i <= steps; i++) {
+    const time = new Date(baseTime.value.getTime() + i * 15 * 60 * 1000);
     const sunAlt = calculateSunAltitude(
       props.coordinates.latitude,
       props.coordinates.longitude,
       time
     );
-
-    // Wenn Sonne unter Schwellwert, zeichne 90, sonst Lücke
     fill.push(sunAlt < thresholdDeg ? 90 : NaN);
   }
 
   return fill;
 }
 
+
+
 onMounted(async () => {
   await loadCustomHorizont();
   createChart();
   console.log(getDarknessFill(-12));
+  console.log(getDarknessFill(-18));
 });
 
 watch(altitudeData, createChart);

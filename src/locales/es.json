@@ -86,6 +86,11 @@
       "debug": {
         "activate": "Habilitar la ventana de depuración",
         "titel": "Configuración de depuración"
+      },
+      "notifications": {
+        "enable": "Habilitar notificaciones",
+        "sequence": "Eventos de secuencia",
+        "title": "Notificaciones"
       }
     },
     "framing": {
@@ -593,6 +598,12 @@
         "sequnce": "Seq. target"
       },
       "titel": "Favoritos"
+    },
+    "notifications": {
+      "modal": {
+        "description": "Otorgue permiso para recibir notificaciones sobre eventos de secuencia.",
+        "title": "Configurar notificaciones"
+      }
     }
   }
 }

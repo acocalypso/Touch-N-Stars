@@ -86,6 +86,11 @@
       "debug": {
         "activate": "Abilita la finestra di debug",
         "titel": "Impostazioni del debug"
+      },
+      "notifications": {
+        "enable": "Abilita le notifiche",
+        "sequence": "Eventi di sequenza",
+        "title": "Notifiche"
       }
     },
     "framing": {
@@ -593,6 +598,12 @@
         "sequnce": "Seq. target"
       },
       "titel": "Preferiti"
+    },
+    "notifications": {
+      "modal": {
+        "description": "Si prega di concedere l'autorizzazione per ricevere notifiche sugli eventi di sequenza.",
+        "title": "Configurare le notifiche"
+      }
     }
   }
 }

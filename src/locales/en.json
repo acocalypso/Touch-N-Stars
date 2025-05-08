@@ -577,7 +577,7 @@
       "modal": {
         "title": "Configure Notifications",
         "description": "Please grant permission to receive notifications about sequence events."
-      },
+      }
     },
     "fav_target": {
       "titel": "Favorites",

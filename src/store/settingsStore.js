@@ -6,6 +6,7 @@ export const useSettingsStore = defineStore('settings', {
     language: 'en',
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
     showDebugConsole: false,
+    showPlugins: false, // Control plugin visibility
     coordinates: {
       latitude: null,
       longitude: null,
@@ -235,6 +236,10 @@ export const useSettingsStore = defineStore('settings', {
       this.notifications.sequence.enabled = !this.notifications.sequence.enabled;
       localStorage.setItem('sequenceNotificationsEnabled', this.notifications.sequence.enabled);
     },
+
+    togglePluginsVisibility() {
+      this.showPlugins = !this.showPlugins;
+    },
   },
   persist: {
     enabled: true,
@@ -252,6 +257,7 @@ export const useSettingsStore = defineStore('settings', {
           'monitorViewSetting',
           'tutorial',
           'notifications',
+          'showPlugins',
         ],
       },
     ],

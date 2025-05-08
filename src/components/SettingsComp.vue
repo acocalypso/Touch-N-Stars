@@ -152,7 +152,10 @@
     </div>
 
     <!-- Plugin Management -->
-    <div v-if="store.isBackendReachable && false" class="bg-gray-700 p-3 rounded-lg mt-4">
+    <div
+      v-if="store.isBackendReachable && settingsStore.showPlugins"
+      class="bg-gray-700 p-3 rounded-lg mt-4"
+    >
       <div class="text-center mb-2">
         <h3 class="text-gray-300 font-semibold text-lg mb-1">
           {{ $t('components.settings.plugins.title') }}

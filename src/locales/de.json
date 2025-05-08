@@ -86,6 +86,11 @@
       "debug": {
         "activate": "Aktiviere Debug-Fenster",
         "titel": "Debug Einstellungen"
+      },
+      "notifications": {
+        "enable": "Benachrichtigungen aktivieren",
+        "sequence": "Sequenzereignisse",
+        "title": "Benachrichtigungen"
       }
     },
     "framing": {
@@ -593,6 +598,12 @@
         "sequnce": "Seq. Ziel"
       },
       "titel": "Favoriten"
+    },
+    "notifications": {
+      "modal": {
+        "description": "Bitte erteilen Sie die Erlaubnis, Benachrichtigungen über Sequenzereignisse zu erhalten.",
+        "title": "Benachrichtigungen konfigurieren"
+      }
     }
   }
 }

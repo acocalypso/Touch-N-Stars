@@ -231,7 +231,8 @@ function createChart() {
 
 async function loadCustomHorizont() {
   try {
-    const response = await fetch('/Horizont.hrz');
+    //const response = await fetch('/Horizont.hrz'); //C:\Users\Astro\Documents\N.I.N.A\Horizont.hrz
+    const response = await fetch('C:/Users/Astro/Documents/N.I.N.A/Horizont.hrz'); 
     if (!response.ok) {
       console.warn('Horizontdatei nicht gefunden:', response.status);
       return;

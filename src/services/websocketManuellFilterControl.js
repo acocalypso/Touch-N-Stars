@@ -1,6 +1,7 @@
 // services/websocketTppa.js
 import { useSettingsStore } from '@/store/settingsStore';
 import { useFilterStore } from '@/store/filterStore';
+import { apiStore } from '@/store/store';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/filterwheel';
@@ -27,7 +28,8 @@ class WebSocketService {
 
   connect() {
     const settingsStore = useSettingsStore();
-    const backendPort = 1888;
+    const store = apiStore();
+    const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 

@@ -17,6 +17,7 @@
 
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
         <StellariumView
+          :key="landscapeSwitch"
           v-show="store.showStellarium && !isIOS"
           v-if="settingsStore.setupCompleted && !isIOS && store.isBackendReachable"
         />
@@ -102,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
@@ -133,6 +134,7 @@ const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 const orientation = ref(getCurrentOrientation());
+const landscapeSwitch = ref(null);
 const routerViewKey = ref(Date.now()); // Startschlüssel einmalig setzen
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
@@ -226,6 +228,13 @@ function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
 }
+
+watch(
+  () => settingsStore.stellarium.landscapesVisible,
+  () => {
+    landscapeSwitch.value = settingsStore.stellarium.landscapesVisible;
+  }
+);
 
 onBeforeUnmount(() => {
   store.stopFetchingInfo();

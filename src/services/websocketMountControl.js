@@ -1,5 +1,6 @@
 // services/websocketTppa.js
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import { handleApiError } from '@/utils/utils';
 
 const backendProtokol = 'ws';
@@ -24,7 +25,8 @@ class WebSocketService {
   connect() {
     // Initialize URL with settings from store when connecting
     const settingsStore = useSettingsStore();
-    const backendPort = 1888;
+    const store = apiStore();
+    const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 

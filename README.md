@@ -4,7 +4,7 @@
 
 [English version available here](README_en.md)
 
-# 🤝 **Unterstütze und bei der iOS App**  
+# 🤝 **Unterstütze uns bei der iOS App**  
 Unsere App ist Open Source und wird es auch bleiben – ohne Werbung, ohne Kosten.
 Damit sie auch im Apple App Store verfügbar wird, benötigen wir eine jährliche Entwicklerlizenz von 99 USD, die Apple verlangt.
 Da wir keinerlei kommerzielle Interessen verfolgen, möchten wir euch, die Community, um Unterstützung bitten.

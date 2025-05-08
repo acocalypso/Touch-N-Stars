@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.7.0] - 2025-05-08
+### Added
+- Favorites memory for targets added
+- debug option/window 
+
+### Changed
+- The API port is now automatically detected
+- Several NINA instances can run on one PC. The port increases by 1 for each instance
+- The skychart shows the nautical and astronomical night
+- It is now possible to display the custom horizon of NINA in the skychart. Please read the Wiki
+- The communication action monitoring from TNS to NINA has been revised
+
 ## [1.0.6.0] - 2025-05-03
 ### Added
 - Focuser quick to use button

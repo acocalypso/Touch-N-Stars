@@ -2,6 +2,7 @@ import axios from 'axios';
 import { getActivePinia } from 'pinia';
 
 let settingsStore;
+let store;
 
 const initializeStore = () => {
   if (!settingsStore) {
@@ -10,6 +11,7 @@ const initializeStore = () => {
       throw new Error('Pinia store not initialized');
     }
     settingsStore = pinia._s.get('settings');
+    store = pinia._s.get('store');
 
     // Watch for connection changes
     settingsStore.$onAction(({ name }) => {
@@ -25,7 +27,7 @@ const getBaseUrl = () => {
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 5000;
-  const apiPort = 1888;
+  const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
@@ -52,24 +54,11 @@ const getUrls = () => {
 };
 
 const apiService = {
-  // Backend reachability check
-  async fetchApiVersion() {
-    try {
-      const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/version`);
-      //console.log(response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error reaching backend:', error.message);
-      return false;
-    }
-  },
-
   async checkPluginServer() {
     try {
       const { PLUGINSERVER_URL } = getUrls();
       const response = await axios.get(PLUGINSERVER_URL);
-      // console.log('Plugin antworet mit:', response.status);
+      //console.log('Plugin antworet mit:', response.status);
       if (response.status === 200) {
         return true;
       } else {
@@ -78,6 +67,91 @@ const apiService = {
     } catch (error) {
       console.error('Error reaching backend:', error.message);
       return false;
+    }
+  },
+
+  async fetchApiPort() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}get-api-port`);
+      return response;
+    } catch (error) {
+      console.error('Error reaching backend:', error.message);
+      return false;
+    }
+  },
+
+  async fetchTnsPluginVersion() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}version`);
+      return response.data;
+    } catch (error) {
+      console.error('Error reaching backend:', error.message);
+      return false;
+    }
+  },
+
+  // Backend reachability check
+  async fetchApiVersion(timeout = 5000) {
+    const { BASE_URL } = getUrls();
+    try {
+      // timeout wird in Millisekunden übergeben
+      const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
+      return data; // Erfolg
+    } catch (err) {
+      if (err.code === 'ECONNABORTED') {
+        console.warn(`fetchApiVersion: Timeout nach ${timeout} ms`);
+      } else {
+        console.error('Error reaching backend:', err.message);
+      }
+      return null;
+    }
+  },
+
+  //------------------------------------- Fav Targets ------------------------------------------
+
+  async getAllFavorites() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}favorites`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+      throw error;
+    }
+  },
+
+  async addFavorite(favorite) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}favorites`, favorite);
+      return response.data;
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+      throw error;
+    }
+  },
+
+  async updateFavorite(id, updatedFavorite) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}favorites/${id}`, updatedFavorite);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating favorite with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async deleteFavorite(id) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.delete(`${API_URL}favorites/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting favorite with ID ${id}:`, error);
+      throw error;
     }
   },
 

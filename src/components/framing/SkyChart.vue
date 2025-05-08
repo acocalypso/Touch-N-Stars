@@ -185,7 +185,6 @@ function createChart() {
           tension: 0,
           fill: 'start',
           order: -2,
-          spanGaps: true,
         },
         {
           label: 'Astronomische Nacht',
@@ -196,7 +195,6 @@ function createChart() {
           tension: 0,
           fill: 'start',
           order: -1,
-          spanGaps: true,
         },
         {
           type: 'bar',

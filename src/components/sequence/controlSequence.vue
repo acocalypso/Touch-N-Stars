@@ -164,16 +164,15 @@ async function confirmReset() {
   isLoading.value = true;
   showResetConfirmation.value = false;
   try {
-    const data = await apiService.sequenceAction('reset');
-    console.log('Antwort:', data);
+    // Use the store's resetSequence method which handles notifications
+    const success = await sequenceStore.resetSequence();
 
-    // Handle reset response similar to other actions
-    if (data.Success) {
+    if (success) {
       // Reset successful
       await sequenceStore.getSequenceInfo();
       isLoading.value = false;
     } else {
-      console.error('Failed to reset sequence:', data.Error);
+      console.error('Failed to reset sequence');
       // Allow retry on error
       isLoading.value = false;
     }

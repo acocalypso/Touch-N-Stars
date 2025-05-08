@@ -23,7 +23,8 @@
       "message_api": "Zásuvný modul API není k dispozici. Zkontrolujte nastavení v NINA",
       "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
       "message_tns": "Zásuvný modul TouchNStars není k dispozici. Zkontrolujte prosím nastavení v NINA",
-      "title": "Chyba připojení"
+      "title": "Chyba připojení",
+      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     }
   },
   "setup": {
@@ -566,6 +567,32 @@
     },
     "profile": {
       "label": "Profil:"
+    },
+    "fav_target": {
+      "enter_name": "Enter name",
+      "modal_save": {
+        "message": "The target has been saved",
+        "titel": "Save"
+      },
+      "modal_sequence": {
+        "titel": "Sequence"
+      },
+      "modal_sequence_error": {
+        "message": "No sequence loaded"
+      },
+      "modal_sequence_ok": {
+        "message": "Target set"
+      },
+      "no_fav": "No favorites saved",
+      "table": {
+        "dec": "DEC",
+        "load": "Load",
+        "name": "Name",
+        "ra": "RA",
+        "remove": "Remove",
+        "sequnce": "Seq. target"
+      },
+      "titel": "Favorites"
     }
   }
 }

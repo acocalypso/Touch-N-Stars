@@ -169,8 +169,9 @@ onMounted(async () => {
           //IP und Port vom Plugin ermitteln
           const protocol = settingsStore.backendProtocol || 'http';
           const host = settingsStore.connection.ip || window.location.hostname;
-          const port = settingsStore.connection.port || 5000;
+          const port = settingsStore.connection.port || window.location.port;
           const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
+          stellariumStore.baseUrl = baseUrl;
           const core = stel.core;
 
           //Daten hinzufügen
@@ -178,7 +179,8 @@ onMounted(async () => {
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
           core.dss.addDataSource({ url: baseUrl + 'surveys/dss' });
-          core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
+          //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
+          //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/gray', key: 'guereins' });
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
           core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });

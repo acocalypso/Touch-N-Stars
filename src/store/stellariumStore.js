@@ -4,6 +4,7 @@ import { useSettingsStore } from './settingsStore';
 export const useStellariumStore = defineStore('stellariumStore', {
   state: () => ({
     stel: null,
+    baseUrl: '',
     search: {
       RAangle: 0,
       DECangle: 0,
@@ -24,7 +25,17 @@ export const useStellariumStore = defineStore('stellariumStore', {
         core.lines.meridian.visible = settingsStore.stellarium.meridianLinesVisible;
         core.lines.ecliptic.visible = settingsStore.stellarium.eclipticLinesVisible;
         core.atmosphere.visible = settingsStore.stellarium.atmosphereVisible;
-        core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
+        // core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
+        if (settingsStore.stellarium.landscapesVisible) {
+          core.landscapes.addDataSource({
+            url: this.baseUrl + 'landscapes/guereins',
+            key: 'guereins',
+          });
+        } else {
+          core.landscapes.addDataSource({ url: this.baseUrl + 'landscapes/gray', key: 'gray' });
+        }
+        core.landscapes.visible = true;
+
         console.log('Stellarium settings updated:');
       }
     },

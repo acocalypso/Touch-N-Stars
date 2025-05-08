@@ -23,7 +23,8 @@
       "message_api": "API 插件不可用。请检查 NINA 中的设置",
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
-      "title": "连接错误"
+      "title": "连接错误",
+      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     }
   },
   "setup": {
@@ -566,6 +567,32 @@
     },
     "profile": {
       "label": "配置文件:"
+    },
+    "fav_target": {
+      "enter_name": "Enter name",
+      "modal_save": {
+        "message": "The target has been saved",
+        "titel": "Save"
+      },
+      "modal_sequence": {
+        "titel": "Sequence"
+      },
+      "modal_sequence_error": {
+        "message": "No sequence loaded"
+      },
+      "modal_sequence_ok": {
+        "message": "Target set"
+      },
+      "no_fav": "No favorites saved",
+      "table": {
+        "dec": "DEC",
+        "load": "Load",
+        "name": "Name",
+        "ra": "RA",
+        "remove": "Remove",
+        "sequnce": "Seq. target"
+      },
+      "titel": "Favorites"
     }
   }
 }

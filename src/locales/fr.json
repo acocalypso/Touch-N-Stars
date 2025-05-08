@@ -23,7 +23,8 @@
       "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
       "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
       "message_tns": "Le plugin TouchNstars n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
-      "title": "Erreur de connexion"
+      "title": "Erreur de connexion",
+      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     }
   },
   "setup": {
@@ -566,6 +567,32 @@
     },
     "profile": {
       "label": "Profil:"
+    },
+    "fav_target": {
+      "enter_name": "Enter name",
+      "modal_save": {
+        "message": "The target has been saved",
+        "titel": "Sauvegarder"
+      },
+      "modal_sequence": {
+        "titel": "Séquence"
+      },
+      "modal_sequence_error": {
+        "message": "Aucune séquence chargée"
+      },
+      "modal_sequence_ok": {
+        "message": "Target set"
+      },
+      "no_fav": "No favorites saved",
+      "table": {
+        "dec": "DEC",
+        "load": "Load",
+        "name": "Nom",
+        "ra": "RA",
+        "remove": "Remove",
+        "sequnce": "Seq. target"
+      },
+      "titel": "Favoris"
     }
   }
 }

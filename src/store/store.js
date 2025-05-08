@@ -6,6 +6,7 @@ import { useToastStore } from '@/store/toastStore';
 
 export const apiStore = defineStore('store', {
   state: () => ({
+    apiPort: null,
     intervalId: null,
     intervalIdGraph: null,
     profileInfo: [],
@@ -40,8 +41,11 @@ export const apiStore = defineStore('store', {
     showSettings: false,
     showStellarium: false,
     minimumApiVersion: '2.2.2.0',
+    minimumTnsPluginVersion: '1.0.7.0',
     currentApiVersion: null,
-    isVersionNewerOrEqual: false,
+    currentTnsPluginVersion: null,
+    isApiVersionNewerOrEqual: false,
+    isTnsPluginVersionNewerOrEqual: false,
     mount: {
       currentTab: 'showMount',
     },
@@ -52,15 +56,12 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
-      let tempIsBackendReachable = false;
+      //console.log('isBackendReachable', this.isBackendReachable);
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
       try {
-        const versionResponse = await apiService.fetchApiVersion();
-        const isPluginReachable = await apiService.checkPluginServer();
-        tempIsBackendReachable = !!versionResponse;
-
+        let isPluginReachable = await apiService.checkPluginServer();
         if (!isPluginReachable) {
           console.warn('TNS-Plugin not reachable');
           if (!this.errorMessageShown) {
@@ -70,20 +71,62 @@ export const apiStore = defineStore('store', {
               message: t('app.connection_error_toast.message_tns'),
             });
           }
-
           this.clearAllStates();
           return;
         }
 
-        if (tempIsBackendReachable) {
-          this.currentApiVersion = versionResponse.Response;
-          this.isVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+        if (this.apiPort) {
+          const responseApoVersion = await apiService.fetchApiVersion();
+          if (!responseApoVersion) {
+            console.warn('API-Plugin not reachable');
+            if (!this.errorMessageShown) {
+              toastStore.showToast({
+                type: 'error',
+                title: t('app.connection_error_toast.title'),
+                message: t('app.connection_error_toast.message_api'),
+              });
+            }
+            this.clearAllStates();
+            return;
+          }
+        }
+
+        if (!this.apiPort) {
+          const response = await apiService.fetchApiPort();
+
+          if (!response) {
+            console.error('Backend nicht erreichbar');
+            this.clearAllStates();
+            return;
+          }
+          this.apiPort = response.data;
+          isPluginReachable = true;
+          console.log('api Port:', this.apiPort);
+        }
+
+        if (this.apiPort && isPluginReachable) {
+          const ApiVersionResponse = await apiService.fetchApiVersion();
+          const TnsVersionResponse = await apiService.fetchTnsPluginVersion();
+          this.currentApiVersion = ApiVersionResponse.Response;
+          this.currentTnsPluginVersion = TnsVersionResponse.version;
+
+          //console.log('API Plugin Version', this.currentApiVersion);
+          //console.log('TNS Plugin Version', this.currentTnsPluginVersion);
+
+          this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
             this.currentApiVersion,
             this.minimumApiVersion
           );
+          this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+            this.currentTnsPluginVersion,
+            this.minimumTnsPluginVersion
+          );
 
-          if (!this.isVersionNewerOrEqual) {
-            console.warn('API version incompatible');
+          //console.log('isApiVersionNewerOrEqual', this.isApiVersionNewerOrEqual);
+          //console.log('isTnsPluginVersionNewerOrEqual', this.isTnsPluginVersionNewerOrEqual);
+
+          if (!this.isApiVersionNewerOrEqual) {
+            console.warn('API version incompatible', this.currentApiVersion);
             if (!this.errorMessageShown) {
               toastStore.showToast({
                 type: 'error',
@@ -94,18 +137,21 @@ export const apiStore = defineStore('store', {
             this.clearAllStates();
             return;
           }
-        } else {
-          console.warn('Backend is not reachable');
-          if (!this.errorMessageShown) {
-            toastStore.showToast({
-              type: 'error',
-              title: t('app.connection_error_toast.title'),
-              message: t('app.connection_error_toast.message_api'),
-            });
+          if (!this.isTnsPluginVersionNewerOrEqual) {
+            console.warn('TNS version incompatible', this.currentTnsPluginVersion);
+            if (!this.errorMessageShown) {
+              toastStore.showToast({
+                type: 'error',
+                title: t('app.connection_error_toast.title'),
+                message: t('app.connection_error_toast.message_tns_version'),
+              });
+            }
+            this.clearAllStates();
+            return;
           }
-          this.clearAllStates();
-          return;
         }
+
+        this.isBackendReachable = true;
 
         const [
           imageHistoryResponse,
@@ -156,8 +202,6 @@ export const apiStore = defineStore('store', {
         console.error('Fehler beim Abrufen der Informationen:', error);
       }
       await this.fetchProfilInfos();
-      this.isBackendReachable = true;
-
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -170,6 +214,7 @@ export const apiStore = defineStore('store', {
     clearAllStates() {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
+      this.apiPort = null;
       this.profileInfo = [];
       this.cameraInfo = [];
       this.mountInfo = [];
@@ -384,6 +429,8 @@ export const apiStore = defineStore('store', {
     },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       const parseVersion = (version) => version.split('.').map(Number);
+
+      //console.log('current', currentVersion, 'minimum', minimumVersion);
 
       const currentParts = parseVersion(currentVersion);
       const minimumParts = parseVersion(minimumVersion);

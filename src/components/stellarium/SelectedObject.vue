@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="selectedObject"
-    class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
+    class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[300px]"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
@@ -10,6 +10,12 @@
     >
       <span class="spinner"></span>
     </div>
+
+    <ul class="mt-2">
+      <li v-for="(value, key) in selectedObject" :key="key" class="text-sm">
+        {{ key }}: {{ value }}
+      </li>
+    </ul>
 
     <h3 class="text-lg font-semibold">{{ $t('components.stellarium.selected_object.title') }}:</h3>
     <ul class="mt-2">
@@ -27,9 +33,19 @@
       v-if="store.mountInfo.Connected && !store.sequenceRunning"
       class="flex flex-col gap-2 mt-2"
     >
-      <button @click="setFramingCoordinates" class="default-button-cyan">
-        {{ $t('components.stellarium.selected_object.button_framing') }}
-      </button>
+      <div class="flex gap-1">
+        <button @click="setFramingCoordinates" class="default-button-cyan max-w-56">
+          {{ $t('components.stellarium.selected_object.button_framing') }}
+        </button>
+        <SaveFavTargets
+          class="w-5 h-5"
+          :name="selectedObject[0]"
+          :ra="selectedObjectRaDeg"
+          :dec="selectedObjectDecDeg"
+          :ra-string="selectedObjectRa"
+          :dec-string="selectedObjectDec"
+        />
+      </div>
       <ButtonSlew :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />
       <ButtonSlewAndCenter
         :raAngle="props.selectedObjectRaDeg"
@@ -44,6 +60,7 @@ import { defineProps, defineEmits, ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
+import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 
 const store = apiStore();
 const props = defineProps({

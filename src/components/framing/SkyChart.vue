@@ -180,7 +180,7 @@ function createChart() {
           label: 'Daemmerung',
           data: getDarknessFill(-12),
           borderColor: 'rgba(100, 0, 0, 0)',
-          backgroundColor: 'rgba(10, 10, 10, 0.4)', // helleres Grau
+          backgroundColor: 'rgba(10, 10, 10, 0.4)', 
           pointRadius: 0,
           tension: 0,
           fill: 'start',
@@ -188,10 +188,9 @@ function createChart() {
         },
         {
           label: 'Astronomische Nacht',
-          data: getDarknessFill(-18), // oder -12 für Dämmerung
-          borderColor: 'rgba(100, 0, 0, 0)', // keine Linie
-          backgroundColor: 'rgba(0, 0, 0, 0.4)', // transparente Nachtfläche
-          pointRadius: 0,
+          data: getDarknessFill(-18), 
+          borderColor: 'rgba(100, 0, 0, 0)', 
+          backgroundColor: 'rgba(0, 0, 0, 0.4)', 
           tension: 0,
           fill: 'start',
           order: -1,
@@ -232,7 +231,8 @@ function createChart() {
 
 async function loadCustomHorizont() {
   try {
-    const response = await fetch('/Horizont.hrz');
+    //const response = await fetch('/Horizont.hrz'); //C:\Users\Astro\Documents\N.I.N.A\Horizont.hrz
+    const response = await fetch('C:/Users/Astro/Documents/N.I.N.A/Horizont.hrz'); 
     if (!response.ok) {
       console.warn('Horizontdatei nicht gefunden:', response.status);
       return;
@@ -248,9 +248,9 @@ async function loadCustomHorizont() {
         const altitude = parseFloat(altitudeStr.replace(',', '.'));
         return { azimuth, altitude };
       })
-      .filter((d) => !isNaN(d.azimuth) && !isNaN(d.altitude)); // Filtert fehlerhafte Zeilen
+      .filter((d) => !isNaN(d.azimuth) && !isNaN(d.altitude)); 
   } catch (error) {
-    console.error('Fehler beim Laden der Horizontdatei:', error);
+    console.error('Error loading the horizon file:', error);
   }
 }
 
@@ -313,8 +313,8 @@ function getDarknessFill(thresholdDeg = -18) {
 onMounted(async () => {
   await loadCustomHorizont();
   createChart();
-  console.log(getDarknessFill(-12));
-  console.log(getDarknessFill(-18));
+  //console.log(getDarknessFill(-12));
+  //console.log(getDarknessFill(-18));
 });
 
 watch(altitudeData, createChart);

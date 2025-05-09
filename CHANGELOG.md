@@ -13,7 +13,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The API port is now automatically detected
 - Several NINA instances can run on one PC. The port increases by 1 for each instance
 - The skychart shows the nautical and astronomical night
-- It is now possible to display the custom horizon of NINA in the skychart. Please read the Wiki
 - The communication action monitoring from TNS to NINA has been revised
 
 ## [1.0.6.0] - 2025-05-03

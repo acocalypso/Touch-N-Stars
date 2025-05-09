@@ -128,6 +128,17 @@
           <SetDebug />
         </div>
 
+        <!-- Notifications settings -->
+        <div
+          class="bg-gray-700 p-3 rounded-lg"
+          v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+        >
+          <h3 class="text-lg font-medium mb-2 text-gray-300">
+            {{ $t('components.settings.notifications.title') }}
+          </h3>
+          <SetNotifications />
+        </div>
+
         <!-- Tutorial Button -->
         <div class="bg-gray-700 p-3 rounded-lg">
           <button
@@ -141,7 +152,10 @@
     </div>
 
     <!-- Plugin Management -->
-    <div v-if="store.isBackendReachable && false" class="bg-gray-700 p-3 rounded-lg mt-4">
+    <div
+      v-if="store.isBackendReachable && settingsStore.showPlugins"
+      class="bg-gray-700 p-3 rounded-lg mt-4"
+    >
       <div class="text-center mb-2">
         <h3 class="text-gray-300 font-semibold text-lg mb-1">
           {{ $t('components.settings.plugins.title') }}
@@ -289,6 +303,7 @@ import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
 import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
+import SetNotifications from '@/components/settings/setNotifications.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

@@ -29,8 +29,12 @@
           <thead class="bg-gray-700 text-gray-200">
             <tr>
               <th class="px-4 py-2">{{ $t('components.fav_target.table.name') }}</th>
-              <th class="px-4 py-2 hidden sm:table-cell">{{ $t('components.fav_target.table.ra') }}</th>
-              <th class="px-4 py-2 hidden sm:table-cell">{{ $t('components.fav_target.table.dec') }}</th>
+              <th class="px-4 py-2 hidden sm:table-cell">
+                {{ $t('components.fav_target.table.ra') }}
+              </th>
+              <th class="px-4 py-2 hidden sm:table-cell">
+                {{ $t('components.fav_target.table.dec') }}
+              </th>
               <th class="px-4 py-2">{{ $t('components.fav_target.table.rotation') }}</th>
               <th class="px-4 py-2" v-if="showFramning">
                 {{ $t('components.fav_target.table.load') }}

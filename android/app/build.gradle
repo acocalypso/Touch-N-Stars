@@ -4,11 +4,11 @@ plugins {
 
 android {
     namespace "com.TouchNStars.dev"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 35  // Android 13
     defaultConfig {
         applicationId "com.TouchNStars.dev"  // Must match package in MainActivity.java
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion 29  // Android 10
+        targetSdkVersion 35  // Android 13
         versionCode 16
         versionName "2.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

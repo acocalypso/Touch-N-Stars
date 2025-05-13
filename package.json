@@ -34,9 +34,9 @@
     "@heroicons/vue": "^2.2.0",
     "@pinkcao/vue-drag-resize-rotate": "^2.0.0",
     "@vueuse/head": "^2.0.0",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "10.4.21",
     "axios": "^1.8.1",
-    "chart.js": "^4.4.8",
+    "chart.js": "4.4.9",
     "core-js": "^3.41.0",
     "date-fns": "4.1.0",
     "file-saver": "^2.0.5",
@@ -53,7 +53,7 @@
     "vue3-moveable": "^0.28.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.9",
+    "@babel/core": "7.27.1",
     "@capacitor/cli": "^7.2.0",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",

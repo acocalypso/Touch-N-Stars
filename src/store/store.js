@@ -40,7 +40,7 @@ export const apiStore = defineStore('store', {
     currentLanguage: 'en',
     showSettings: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.2.0',
+    minimumApiVersion: '2.2.3.0',
     minimumTnsPluginVersion: '1.0.7.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,

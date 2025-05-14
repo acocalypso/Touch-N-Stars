@@ -69,12 +69,13 @@ export const apiStore = defineStore('store', {
               title: t('app.connection_error_toast.title'),
               message: t('app.connection_error_toast.message_tns'),
             });
-          } 
+          }
           this.clearAllStates();
           return;
-        } else {  //Check the plugin version
-            this.currentTnsPluginVersion = tnsVersionResponse.version;
-            this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+        } else {
+          //Check the plugin version
+          this.currentTnsPluginVersion = tnsVersionResponse.version;
+          this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
             this.currentTnsPluginVersion,
             this.minimumTnsPluginVersion
           );
@@ -90,10 +91,11 @@ export const apiStore = defineStore('store', {
             this.clearAllStates();
             return;
           }
-          console.log('Plugin ok');
+          //console.log('Plugin ok');
         }
 
-        if (!this.apiPort) { //fetch API Port
+        if (!this.apiPort) {
+          //fetch API Port
           const response = await apiService.fetchApiPort();
           if (!response) {
             console.error('API nicht erreichbar');
@@ -111,7 +113,7 @@ export const apiStore = defineStore('store', {
           console.log('api Port:', this.apiPort);
         }
 
-        if (this.apiPort) { 
+        if (this.apiPort) {
           const responseApoVersion = await apiService.fetchApiVersion();
           if (!responseApoVersion) {
             console.warn('API-Plugin not reachable');
@@ -147,7 +149,7 @@ export const apiStore = defineStore('store', {
             return;
           }
         }
-        console.log('API OK')
+        //console.log('API OK');
 
         //Wenn alles erreichbar
         this.isBackendReachable = true;

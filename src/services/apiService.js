@@ -3,6 +3,8 @@ import { getActivePinia } from 'pinia';
 
 let settingsStore;
 let store;
+// Globaler Timeout für alle Axios-Anfragen (in Millisekunden)
+axios.defaults.timeout = 2000;
 
 const initializeStore = () => {
   if (!settingsStore) {

@@ -91,7 +91,7 @@ export const apiStore = defineStore('store', {
             this.clearAllStates();
             return;
           }
-          console.log('Plugin ok');
+          //console.log('Plugin ok');
         }
 
         if (!this.apiPort) {
@@ -149,7 +149,7 @@ export const apiStore = defineStore('store', {
             return;
           }
         }
-        console.log('API OK');
+        //console.log('API OK');
 
         //Wenn alles erreichbar
         this.isBackendReachable = true;

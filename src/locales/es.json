@@ -285,7 +285,8 @@
         "slewRate": "Tasa de seca °/s",
         "info_manuell_controll": "El control manual solo está disponible si el seguimiento no está activo",
         "set_as_park": "Establecido como parque",
-        "slew_to_cenit": "Ripas a Zenith"
+        "slew_to_cenit": "Ripas a Zenith",
+        "sync_coordinates_to_mount": "Sync coordinates with mount"
       },
       "info": {
         "notConnected": "Por favor conectar montura",
@@ -595,7 +596,8 @@
         "name": "Nombre",
         "ra": "RA",
         "remove": "Remove",
-        "sequnce": "Seq. target"
+        "sequnce": "Seq. target",
+        "rotation": "Rotation"
       },
       "titel": "Favoritos"
     },

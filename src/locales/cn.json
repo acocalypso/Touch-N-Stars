@@ -285,7 +285,8 @@
         "slewRate": "转动速率 °/秒",
         "info_manuell_controll": "只有在跟踪未激活时才能使用手动控制",
         "set_as_park": "设为停靠位置",
-        "slew_to_cenit": "转向天顶"
+        "slew_to_cenit": "转向天顶",
+        "sync_coordinates_to_mount": "Sync coordinates with mount"
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -595,7 +596,8 @@
         "name": "Name",
         "ra": "RA",
         "remove": "Remove",
-        "sequnce": "Seq. target"
+        "sequnce": "Seq. target",
+        "rotation": "Rotation"
       },
       "titel": "Favorites"
     },

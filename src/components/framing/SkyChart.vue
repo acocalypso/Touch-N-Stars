@@ -242,7 +242,11 @@ async function loadCustomHorizont() {
 
     const { Azimuths, Altitudes } = response.Response;
 
-    if (!Array.isArray(Azimuths) || !Array.isArray(Altitudes) || Azimuths.length !== Altitudes.length) {
+    if (
+      !Array.isArray(Azimuths) ||
+      !Array.isArray(Altitudes) ||
+      Azimuths.length !== Altitudes.length
+    ) {
       console.warn('Ungültige Horizontdatenstruktur:', response.Response);
       return;
     }
@@ -255,7 +259,6 @@ async function loadCustomHorizont() {
     console.error('Fehler beim Laden der Horizontdaten:', error);
   }
 }
-
 
 function calculateSunAltitude(observerLat, observerLon, date) {
   const daysSinceJ2000 = toJulian(date) - 2451545.0;

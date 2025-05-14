@@ -51,7 +51,10 @@
         :raAngle="props.selectedObjectRaDeg"
         :decAngle="props.selectedObjectDecDeg"
       />
-      <ButtomSyncCoordinatesToMount :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />
+      <ButtomSyncCoordinatesToMount
+        :raAngle="props.selectedObjectRaDeg"
+        :decAngle="props.selectedObjectDecDeg"
+      />
     </div>
   </div>
 </template>

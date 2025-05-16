@@ -389,6 +389,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   websocketService.setStatusCallback(null);
   websocketService.setMessageCallback(null);
+  websocketService.disconnect();
 });
 </script>
 

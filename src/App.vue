@@ -25,6 +25,7 @@
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
+        <StatusBar class="fixed bottom-10 w-full" />
         <button @click="showLogsModal = true" class="fixed bottom-0 w-full">
           <LastMessage class="fixed bottom-0 w-full" />
         </button>
@@ -119,7 +120,8 @@ import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
-import ConsoleViewer from './components/helpers/ConsoleViewer.vue';
+import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
+import StatusBar from '@/components/status/StatusBar.vue';
 import apiService from './services/apiService';
 import notificationService from './services/notificationService';
 import { wait } from './utils/utils';

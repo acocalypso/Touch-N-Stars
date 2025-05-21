@@ -34,7 +34,7 @@
       </div>
 
       <div
-        class="space-y-6 overflow-y-auto max-h-[70vh] pr-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        class="space-y-6 overflow-y-auto max-h-[50vh] pr-3 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
       >
         <div
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"

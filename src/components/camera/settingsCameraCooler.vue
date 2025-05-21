@@ -91,38 +91,47 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 const store = apiStore();
 const cameraStore = useCameraStore();
 
-async function setCoolingTime(){
+async function setCoolingTime() {
   try {
     if (cameraStore.coolingTime <= 1) {
       cameraStore.coolingTime = 1;
     }
-    const response = await apiService.profileChangeValue('CameraSettings-CoolingDuration', cameraStore.coolingTime);
-     console.log(response);
-  } catch (error) {
-    console.log('Error:', error);
-  }
-};
-
-async function setWarmingTime(){
-  try {
-    if (cameraStore.warmingTime <= 1) {
-      cameraStore.warmingTime = 1;
-    }
-     const response = await apiService.profileChangeValue('CameraSettings-WarmingDuration', cameraStore.warmingTime);
-      console.log(response);
-  } catch (error) {
-    console.log('Error:', error);
-  }
-};
-
-async function setCoolingTemp(){
-  try {
-   const response = await apiService.profileChangeValue('CameraSettings-Temperature', cameraStore.coolingTemp);
+    const response = await apiService.profileChangeValue(
+      'CameraSettings-CoolingDuration',
+      cameraStore.coolingTime
+    );
     console.log(response);
   } catch (error) {
     console.log('Error:', error);
   }
-};
+}
+
+async function setWarmingTime() {
+  try {
+    if (cameraStore.warmingTime <= 1) {
+      cameraStore.warmingTime = 1;
+    }
+    const response = await apiService.profileChangeValue(
+      'CameraSettings-WarmingDuration',
+      cameraStore.warmingTime
+    );
+    console.log(response);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function setCoolingTemp() {
+  try {
+    const response = await apiService.profileChangeValue(
+      'CameraSettings-Temperature',
+      cameraStore.coolingTemp
+    );
+    console.log(response);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
 
 function toggleDewHeater() {
   if (store.cameraInfo.DewHeaterOn) {
@@ -190,7 +199,6 @@ onMounted(() => {
   cameraStore.buttonCoolerOn = store.cameraInfo.CoolerOn;
   cameraStore.coolingTemp = store.profileInfo.CameraSettings.Temperature;
   cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration;
-  cameraStore.warmingTime =store.profileInfo.CameraSettings.WarmingDuration;
+  cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration;
 });
 </script>
-

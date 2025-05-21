@@ -87,7 +87,6 @@ const store = apiStore();
 const logStore = useLogStore();
 const isLoading = ref(true);
 const showAboutModal = ref(false);
-const showWeatherModal = ref(false);
 const appVersion = ref(version);
 
 function handleAboutClick(event) {

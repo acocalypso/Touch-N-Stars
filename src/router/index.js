@@ -5,7 +5,6 @@ import CameraPage from '@/views/CameraPage.vue';
 import FocusPage from '@/views/FocusPage.vue';
 import MountPage from '@/views/MountPage.vue';
 import GuidingPage from '@/views/GuidingPage.vue';
-import LastLogs from '@/components/LastLogs.vue';
 import SequencePage from '@/views/SequencePage.vue';
 import DomePage from '@/views/DomePage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
@@ -32,7 +31,6 @@ const routes = [
   { path: '/autofocus', component: FocusPage, meta: { requiresSetup: true } },
   { path: '/mount', component: MountPage, meta: { requiresSetup: true } },
   { path: '/guider', component: GuidingPage, meta: { requiresSetup: true } },
-  { path: '/logs', component: LastLogs, meta: { requiresSetup: true } },
   { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
   { path: '/dome', component: DomePage, meta: { requiresSetup: true } },
   { path: '/settings', component: SettingsPage, meta: { requiresSetup: true } },

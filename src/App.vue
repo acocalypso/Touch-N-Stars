@@ -26,9 +26,6 @@
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
         <StatusBar class="fixed bottom-0 w-full" />
-        <!--  <button @click="showLogsModal = true" class="fixed bottom-0 w-full">
-          <LastMessage class="fixed bottom-0 w-full" />  
-        </button> -->
       </div>
     </div>
 

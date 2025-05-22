@@ -24,7 +24,7 @@
       "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
       "message_tns": "Zásuvný modul TouchNStars není k dispozici. Zkontrolujte prosím nastavení v NINA",
       "title": "Chyba připojení",
-      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
+      "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
     }
   },
   "setup": {
@@ -84,13 +84,13 @@
         "title": "Pluginy"
       },
       "debug": {
-        "activate": "Enable debug window",
-        "titel": "Debug settings"
+        "activate": "Povolit okno ladění",
+        "titel": "Nastavení Ladění"
       },
       "notifications": {
-        "enable": "Enable Notifications",
-        "sequence": "Sequence Events",
-        "title": "Notifications"
+        "enable": "Povolení oznámení",
+        "sequence": "Sekvence událostí",
+        "title": "Oznámení"
       }
     },
     "framing": {
@@ -240,7 +240,7 @@
           "showImgStatsGraph": "Zobrazit HFR-Graf",
           "showGuiderGraph": "Zobrazit graf-pointace",
           "showGuiderAfGraph": "Zobrazit graf-ostření",
-          "display_status_under_image": "Show status below image"
+          "display_status_under_image": "Zobrazit stav pod obrázkem"
         }
       },
       "running": "BĚŽÍCÍ",
@@ -574,35 +574,35 @@
       "label": "Profil:"
     },
     "fav_target": {
-      "enter_name": "Enter name",
+      "enter_name": "Zadejte jméno",
       "modal_save": {
-        "message": "The target has been saved",
-        "titel": "Save"
+        "message": "Cíl byl uložen",
+        "titel": "Uložit"
       },
       "modal_sequence": {
-        "titel": "Sequence"
+        "titel": "Sekvence"
       },
       "modal_sequence_error": {
-        "message": "No sequence loaded"
+        "message": "Není načtena žádná sekvence"
       },
       "modal_sequence_ok": {
-        "message": "Target set"
+        "message": "Cílová sada"
       },
-      "no_fav": "No favorites saved",
+      "no_fav": "Žádné oblíbené položky nejsou uloženy",
       "table": {
         "dec": "DEC",
-        "load": "Load",
-        "name": "Name",
+        "load": "Načíst",
+        "name": "Jméno",
         "ra": "RA",
-        "remove": "Remove",
-        "sequnce": "Seq. target"
+        "remove": "Odstranit",
+        "sequnce": "Cíl sekvence"
       },
-      "titel": "Favorites"
+      "titel": "Oblíbené"
     },
     "notifications": {
       "modal": {
-        "description": "Please grant permission to receive notifications about sequence events.",
-        "title": "Configure Notifications"
+        "description": "Povolte přijímání oznámení o událostech sekvence.",
+        "title": "Konfigurace Oznámení"
       }
     }
   }

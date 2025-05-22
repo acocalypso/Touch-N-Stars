@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The communication action monitoring from TNS to NINA has been revised
 
+### Fixed
+- fix connection error with alpaca devices
+
 ## [1.0.7.0] - 2025-05-08
 ### Added
 - Favorites memory for targets added

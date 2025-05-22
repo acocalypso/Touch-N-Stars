@@ -24,7 +24,6 @@ export const useTppaStore = defineStore('tppaStore', {
   actions: {
     setRunning(isRunning) {
       this.isRunning = isRunning;
-      // Persist state to localStorage
       localStorage.setItem('tppaStore', JSON.stringify(this.$state));
     },
     initialize() {

@@ -3,6 +3,7 @@ import { getActivePinia } from 'pinia';
 
 let settingsStore;
 let store;
+const DEFAULT_TIMEOUT = 2000;
 
 const initializeStore = () => {
   if (!settingsStore) {
@@ -54,26 +55,10 @@ const getUrls = () => {
 };
 
 const apiService = {
-  async checkPluginServer() {
-    try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(PLUGINSERVER_URL);
-      //console.log('Plugin antworet mit:', response.status);
-      if (response.status === 200) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (error) {
-      console.error('Error reaching backend:', error.message);
-      return false;
-    }
-  },
-
-  async fetchApiPort() {
+  async fetchApiPort(timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}get-api-port`);
+      const response = await axios.get(`${API_URL}get-api-port`, { timeout });
       return response;
     } catch (error) {
       console.error('Error reaching backend:', error.message);
@@ -81,10 +66,10 @@ const apiService = {
     }
   },
 
-  async fetchTnsPluginVersion() {
+  async fetchTnsPluginVersion(timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}version`);
+      const response = await axios.get(`${API_URL}version`, { timeout });
       return response.data;
     } catch (error) {
       console.error('Error reaching backend:', error.message);
@@ -93,10 +78,9 @@ const apiService = {
   },
 
   // Backend reachability check
-  async fetchApiVersion(timeout = 5000) {
+  async fetchApiVersion(timeout = DEFAULT_TIMEOUT) {
     const { BASE_URL } = getUrls();
     try {
-      // timeout wird in Millisekunden übergeben
       const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
       return data; // Erfolg
     } catch (err) {

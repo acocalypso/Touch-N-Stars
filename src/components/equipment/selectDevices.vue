@@ -11,8 +11,8 @@
       :disabled="isConnected"
     >
       <option disabled>{{ selectedDevice }}</option>
-      <option v-for="device in devices" :key="device.Name" :value="String(device.Name)">
-        {{ device.Name }}
+      <option v-for="device in devices" :key="device.DisplayName" :value="String(device.DisplayName)">
+        {{ device.DisplayName }}
       </option>
     </select>
     <div v-if="infoVisible">
@@ -186,11 +186,11 @@ function updateBorderClass() {
 
 function getDeviceName(deviceId) {
   const device = devices.value.find((d) => String(d.Id) === String(deviceId));
-  return device ? device.Name : '';
+  return device ? device.DisplayName : '';
 }
 
 function getDeviceId(deviceName) {
-  const device = devices.value.find((d) => d.Name === deviceName);
+  const device = devices.value.find((d) => d.DisplayName === deviceName);
   return device ? String(device.Id) : '';
 }
 

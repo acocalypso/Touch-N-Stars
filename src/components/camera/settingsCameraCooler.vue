@@ -9,22 +9,21 @@
           <div
             class="flex flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-         
             <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
               >{{ $t('components.camera.target_temperature') }}:
             </label>
-              <input
-                id="TemperatureSetPoint"
-                v-model="cameraStore.coolingTemp"
-                type="number"
-                class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
-                placeholder="1"
-                step="1"
-                @change="setCoolingTemp"
-                @blur="setCoolingTemp"
-              />
-            </div>
-          
+            <input
+              id="TemperatureSetPoint"
+              v-model="cameraStore.coolingTemp"
+              type="number"
+              class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+              placeholder="1"
+              step="1"
+              @change="setCoolingTemp"
+              @blur="setCoolingTemp"
+            />
+          </div>
+
           <div
             class="flex flex-row items-center sm:flex-col col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >

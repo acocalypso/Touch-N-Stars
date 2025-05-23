@@ -220,21 +220,20 @@
     </div>
   </div>
 
-    <div>
+  <div>
     <button @click="open = true" class="btn">Modal öffnen</button>
 
     <Modal :show="open" @close="open = false">
       <template #header>
-        <h2 class="text-2xl font-semibold">{{  $t('components.camera.settings')  }}</h2>
+        <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
       </template>
 
       <template #body>
         <!-- Beliebiger Inhalt hier -->
-       <SettingsModal/>
+        <SettingsModal />
       </template>
     </Modal>
   </div>
-
 </template>
 
 <script setup>
@@ -260,7 +259,7 @@ const cameraStore = useCameraStore();
 const imageContainer = ref(null);
 const image = ref(null);
 const showModal = ref(false);
-const open = ref(false)
+const open = ref(false);
 
 // Modal öffnen / schließen
 function openModal() {

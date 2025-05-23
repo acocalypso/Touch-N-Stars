@@ -1,9 +1,5 @@
 <template>
   <div class="text-center">
-    <!-- Titel -->
-    <div class="text-left mb-2">
-      <h1 class="text-xl text-center font-bold">{{ $t('components.camera.title') }}</h1>
-    </div>
 
     <!-- Camera Connection Status -->
     <div class="w-full flex justify-center mb-3">
@@ -14,102 +10,11 @@
         >
           <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
         </div>
-
-        <!-- Info & Settings Section -->
-        <div v-show="cameraStore.showInfo" class="space-y-6">
-          <!-- Section Header -->
-          <div class="relative flex items-center py-4">
-            <div class="flex-grow border-t border-gray-700"></div>
-            <span class="flex-shrink mx-4 text-sm font-semibold text-cyan-400">{{
-              $t('components.camera.info')
-            }}</span>
-            <div class="flex-grow border-t border-gray-700"></div>
-          </div>
-          <div class="container flex items-center justify-center space-x-1">
-            <div class="container space-y-1 max-w-md lg:max-w-xl">
-              <div class="w-full p-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
-                <label for="infoCamera" class="text-xs mb-1 text-gray-400">
-                  {{ $t('components.camera.title') }}
-                </label>
-                <infoCamera
-                  v-model="store.cameraInfo.Connected"
-                  :show-all-info="true"
-                  class="grid grid-cols-2 lg:grid-cols-3"
-                />
-              </div>
-              <div
-                v-if="store.rotatorInfo.Connected"
-                class="w-full p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
-              >
-                <label for="infoRotator" class="text-xs mb-1 text-gray-400">
-                  {{ $t('components.rotator.label') }}
-                </label>
-                <infoRotator class="grid grid-cols-2 lg:grid-cols-3" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Settings Section -->
-          <div class="relative flex items-center py-4">
-            <div class="flex-grow border-t border-gray-700"></div>
-            <span class="flex-shrink mx-4 text-sm font-semibold text-cyan-400">{{
-              $t('components.camera.settings')
-            }}</span>
-            <div class="flex-grow border-t border-gray-700"></div>
-          </div>
-
-          <div class="space-y-1">
-            <settingsSensor class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
-            <settingsCameraCooler
-              v-if="store.cameraInfo.CanSetTemperature"
-              class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
-            />
-            <div>
-              <changeFilter
-                v-if="store.filterInfo.Connected"
-                class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
-              />
-            </div>
-            <controlRotator
-              v-if="store.rotatorInfo.Connected"
-              class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
-            />
-            <settingsCamera class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
     <div v-show="store.cameraInfo.Connected" class="pb-14">
-      <!-- Toggle Button for Info/Settings -->
-      <div class="flex items-center space-x-3 mb-4">
-        <div class="w-3 h-[1px] bg-gray-700"></div>
-        <!-- kurze Linie -->
-        <button
-          @click="cameraStore.showInfo = !cameraStore.showInfo"
-          class="w-7 h-7 bg-gray-700 active:bg-cyan-700 hover:bg-cyan-600 rounded-md border border-cyan-500/20 flex items-center justify-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-white transition-transform duration-300"
-            :class="{ '-rotate-90': cameraStore.showInfo }"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-        <p class="text-sm italic">{{ $t('components.camera.info_settings') }}</p>
-        <div class="flex-grow h-[1px] bg-gray-700"></div>
-        <!-- lange Linie -->
-      </div>
 
       <!-- Capture Controls and Image Display -->
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">

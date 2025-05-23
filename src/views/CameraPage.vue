@@ -145,16 +145,9 @@
 import { ref } from 'vue';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
-import infoCamera from '@/components/camera/infoCamera.vue';
-import settingsCamera from '@/components/camera/settingsCamera.vue';
-import settingsCameraCooler from '@/components/camera/settingsCameraCooler.vue';
-import changeFilter from '@/components/filterwheel/changeFilter.vue';
-import controlRotator from '@/components/rotator/controlRotator.vue';
-import infoRotator from '@/components/rotator/infoRotator.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
-import settingsSensor from '@/components/camera/settingsSensor.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
 

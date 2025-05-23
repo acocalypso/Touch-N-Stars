@@ -1,7 +1,7 @@
 <!-- components/Modal.vue -->
 <template>
   <div v-if="show" class="fixed inset-0 z-50 m-4 mt-24 flex items-start justify-center">
-    <div class="p-6 bg-black bg-opacity-70 rounded-lg shadow-lg max-w-2xl w-full relative">
+    <div class="p-6 bg-gradient-to-br from-gray-800 bg-gray-700   rounded-lg shadow-lg max-w-2xl w-full relative">
       <!-- Header -->
       <div class="mb-4 border-b pb-2 flex justify-between items-center">
         <slot name="header">

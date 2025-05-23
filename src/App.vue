@@ -25,7 +25,7 @@
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
-        <StatusBar class="fixed bottom-0 w-full" />
+        <StatusBar class="fixed bottom-0 w-full z-10" />
       </div>
     </div>
 

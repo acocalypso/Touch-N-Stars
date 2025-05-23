@@ -1,6 +1,5 @@
 <template>
   <div class="text-center">
-
     <!-- Camera Connection Status -->
     <div class="w-full flex justify-center mb-3">
       <div class="max-w-xl">
@@ -15,7 +14,6 @@
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
     <div v-show="store.cameraInfo.Connected" class="pb-14">
-
       <!-- Capture Controls and Image Display -->
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
         <!-- Left Panel - Controls -->
@@ -126,7 +124,12 @@
   </div>
 
   <div>
-    <button @click="open = true" class="btn">Modal öffnen</button>
+    <button
+      @click="open = true"
+      class="fixed bottom-12 right-5 w-10 h-10 bg-gray-700 border border-cyan-700 rounded-full p-1"
+    >
+      <Cog6ToothIcon />
+    </button>
 
     <Modal :show="open" @close="open = false">
       <template #header>
@@ -150,6 +153,7 @@ import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 // Initialisiere Stores
 const store = apiStore();

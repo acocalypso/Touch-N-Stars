@@ -1,11 +1,11 @@
 <template>
   <!-- Capture & Cancel Buttons -->
   <div
-    class="fixed bottom-7 left-1/2 -translate-x-1/2 lg:top-1/2 lg:left-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-xl"
+    class="fixed bottom-7 left-1/2 -translate-x-1/2 lg:top-1/2 lg:left-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
   >
     <!-- Capture / Cancel Combined Button -->
     <button
-      class="relative w-16 h-16 rounded-full flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      class="relative w-16 h-16 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       :class="
         cameraStore.isExposure ? 'bg-red-600' : 'bg-gray-600 '
       "
@@ -70,7 +70,7 @@
     <button
       @click="cameraStore.isLooping = !cameraStore.isLooping"
       :class="[
-        'w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center shadow-md transition-colors duration-200',
+        'w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
         cameraStore.isLooping ? 'text-green-400 glow-green' : 'text-gray-300',
       ]"
     >
@@ -90,7 +90,7 @@
         v-model.number="settingsStore.camera.exposureTime"
         type="number"
         min="0"
-        class="w-24 h-10 px-3 rounded-lg bg-gray-200 text-black border border-gray-300 focus:outline-none focus:ring-2 focus:ring-cyan-700 text-sm text-center"
+        class="w-24 h-10 px-3 rounded-lg bg-gray-300 text-black shadow-sm shadow-black border border-cyan-900 focus:outline-none focus:ring-2 focus:ring-cyan-700 text-sm text-center"
         placeholder="Sek."
       />
     </div>
@@ -98,7 +98,7 @@
     <div>
       <button
         @click="openSettings = true"
-        class="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center shadow-md transition-colors duration-200"
+        class="w-16 h-16 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200"
       >
         <Cog6ToothIcon class="w-10 h-10 text-gray-300" />
       </button>

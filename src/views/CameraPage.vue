@@ -17,20 +17,7 @@
       <!-- Capture Controls and Image Display -->
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
         <!-- Left Panel - Controls -->
-        <div class="flex flex-col lg:w-2/6 space-y-3 min-h-[100px] lg:min-h-0">
-          <!-- Loop Checkbox -->
-          <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700/50">
-            <input
-              v-model="cameraStore.isLooping"
-              id="checkDauerschleife"
-              type="checkbox"
-              class="w-5 h-5 text-cyan-500 bg-gray-700 border-gray-600 rounded focus:ring-cyan-500 focus:ring-2"
-            />
-            <label for="checkDauerschleife" class="ms-3 text-sm font-medium text-gray-300">
-              {{ $t('components.camera.loop') }}
-            </label>
-          </div>
-
+        <div class="flex flex-col space-y-3">
           <!-- Capture Button -->
           <div class="flex flex-col space-y-2">
             <CaptureButton />
@@ -38,7 +25,7 @@
         </div>
 
         <!-- Right Panel - Image Display -->
-        <div class="flex w-full lg:w-5/6 relative">
+        <div class="flex w-full relative">
           <div
             ref="imageContainer"
             class="image-container overflow-hidden w-full touch-auto bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 flex-grow"
@@ -122,26 +109,6 @@
       </div>
     </div>
   </div>
-
-  <div>
-    <button
-      @click="open = true"
-      class="fixed bottom-12 right-5 w-10 h-10 bg-gray-700 border border-cyan-700 rounded-full p-1"
-    >
-      <Cog6ToothIcon />
-    </button>
-
-    <Modal :show="open" @close="open = false">
-      <template #header>
-        <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
-      </template>
-
-      <template #body>
-        <!-- Beliebiger Inhalt hier -->
-        <SettingsModal />
-      </template>
-    </Modal>
-  </div>
 </template>
 
 <script setup>
@@ -151,9 +118,6 @@ import { useCameraStore } from '@/store/cameraStore';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
-import Modal from '@/components/helpers/Modal.vue';
-import SettingsModal from '@/components/camera/SettingsModal.vue';
-import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 // Initialisiere Stores
 const store = apiStore();
@@ -161,7 +125,6 @@ const cameraStore = useCameraStore();
 const imageContainer = ref(null);
 const image = ref(null);
 const showModal = ref(false);
-const open = ref(false);
 
 // Modal öffnen / schließen
 function openModal() {

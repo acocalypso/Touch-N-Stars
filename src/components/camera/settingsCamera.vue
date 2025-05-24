@@ -10,7 +10,7 @@
         id="exposure"
         v-model.number="settingsStore.camera.exposureTime"
         type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="sek"
       />
     </div>
@@ -36,7 +36,7 @@
         id="gain"
         v-model.number="settingsStore.camera.gain"
         type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="1"
       />
     </div>
@@ -67,7 +67,7 @@
         @change="setOffset"
         :min="store.cameraInfo.OffsetMin"
         :max="store.cameraInfo.OffsetMax"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="0"
       />
     </div>

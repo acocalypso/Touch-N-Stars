@@ -93,7 +93,7 @@
         v-model.number="settingsStore.camera.exposureTime"
         type="number"
         min="0"
-        class="w-24 h-10 px-3 rounded-lg bg-gray-300 text-black shadow-sm shadow-black border border-cyan-900 focus:outline-none focus:ring-2 focus:ring-cyan-700 text-sm text-center"
+        class="w-24 h-10 px-3 rounded-lg bg-gray-200 text-black shadow-sm shadow-black border border-cyan-900 focus:outline-none focus:ring-2 focus:ring-cyan-700 text-sm text-center"
         placeholder="Sek."
       />
     </div>

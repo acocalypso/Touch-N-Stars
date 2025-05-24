@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="space-y-1 border border-gray-500 p-1 pb-2 rounded-lg">
-      <label for="Cooler" class="text-xs mb-1 text-gray-400"
+      <label for="Cooler" class="text-xs mb-1 text-gray-200"
         >{{ $t('components.camera.chip_settings.title') }}
       </label>
 
@@ -10,7 +10,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.pixel_size') }}
           </label>
           <input
@@ -29,7 +29,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="chip-high" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="chip-high" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.height') }}
           </label>
           <input
@@ -48,7 +48,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="chip-width" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="chip-width" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.width') }}
           </label>
           <input
@@ -67,7 +67,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="focal-length" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="focal-length" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.focal_length') }}
           </label>
           <input

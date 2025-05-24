@@ -2,14 +2,14 @@
   <div class="flex flex-col items-center gap-2">
     <div v-if="store.cameraInfo.CanSetTemperature" class="w-full">
       <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg min-w-36">
-        <label for="Cooler" class="text-xs mb-1 text-gray-400"
+        <label for="Cooler" class="text-xs mb-1 text-gray-200"
           >{{ $t('components.camera.camera_cooling') }}
         </label>
         <div class="flex flex-col sm:flex-row gap-2">
           <div
             class="flex flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
+            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
               >{{ $t('components.camera.target_temperature') }}:
             </label>
             <input
@@ -27,7 +27,7 @@
           <div
             class="flex flex-row items-center sm:flex-col col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
+            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
               >{{ $t('components.camera.cooling_time') }}
             </label>
             <input
@@ -44,7 +44,7 @@
           <div
             class="flex flex-row items-center sm:flex-col col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
+            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
               >{{ $t('components.camera.warm_up_time') }}
             </label>
             <input
@@ -69,7 +69,7 @@
     </div>
     <div v-if="store.cameraInfo.HasDewHeater">
       <div class="flex flex-col min-w-36 border border-gray-500 p-1 pb-2 rounded-lg">
-        <label for="DewHeater" class="text-xs mb-1 text-gray-400"
+        <label for="DewHeater" class="text-xs mb-1 text-gray-200"
           >{{ $t('components.camera.dew_heater') }}
         </label>
         <div class="flex space-x-2 justify-center">

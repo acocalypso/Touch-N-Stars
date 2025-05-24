@@ -3,7 +3,7 @@
     <div
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
     >
-      <label for="exposure" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+      <label for="exposure" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.exposure_time') }}
       </label>
       <input
@@ -18,7 +18,7 @@
     <div
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
     >
-      <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+      <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
@@ -45,7 +45,7 @@
       v-if="store.cameraInfo.CanSetOffset"
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
     >
-      <label for="offset" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+      <label for="offset" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.offset') }}
       </label>
       <select

@@ -14,21 +14,17 @@
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
     <div v-show="store.cameraInfo.Connected" class="pb-14">
-      <!-- Capture Controls and Image Display -->
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
-        <!-- Left Panel - Controls -->
         <div class="flex flex-col space-y-3">
-          <!-- Capture Button -->
           <div class="flex flex-col space-y-2">
             <CaptureButton />
           </div>
         </div>
 
-        <!-- Right Panel - Image Display -->
         <div class="flex w-full relative">
           <div
             ref="imageContainer"
-            class="image-container overflow-hidden w-full touch-auto bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 flex-grow"
+            class="image-container flex justify-center items-center w-full   touch-auto"
           >
             <img
               v-if="cameraStore.imageData"
@@ -36,7 +32,7 @@
               ref="image"
               :src="cameraStore.imageData"
               alt="Captured Image"
-              class="block"
+              class="max-h-[80vh]  bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 overflow-hidden"
             />
             <div v-else class="flex items-center justify-center">
               <img
@@ -45,7 +41,6 @@
                 class="block"
               />
             </div>
-            <!-- SVG Icon oben rechts -->
             <div
               v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
               class="absolute top-2 right-2 z-50"
@@ -78,7 +73,6 @@
       @close="closeModal"
     />
 
-    <!-- slewModal Modal -->
     <div
       v-if="cameraStore.slewModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"

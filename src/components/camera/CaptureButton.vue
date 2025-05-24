@@ -6,9 +6,7 @@
     <!-- Capture / Cancel Combined Button -->
     <button
       class="relative w-16 h-16 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-      :class="
-        cameraStore.isExposure ? 'bg-red-600' : 'bg-gray-600 '
-      "
+      :class="cameraStore.isExposure ? 'bg-red-600' : 'bg-gray-600 '"
       @click="
         cameraStore.isExposure
           ? cameraStore.abortExposure(apiService)
@@ -22,7 +20,7 @@
       :disabled="(cameraStore.loading && !cameraStore.isExposure) || sequenceStore.sequenceRunning"
     >
       <!-- Belichtungsfortschritt -->
-      <template v-if="cameraStore.loading && cameraStore.isExposure">
+      <template v-if=" cameraStore.isExposure">
         <svg class="w-16 h-16 absolute inset-0" viewBox="0 0 36 36">
           <path
             class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
@@ -44,8 +42,12 @@
       </template>
 
       <!-- Icon-Wechsel basierend auf Belichtungsstatus -->
+       <template v-else>
+  <template v-if="cameraStore.loading">
+    <div class="loader"></div>
+  </template>
       <template v-else>
-        <svg viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg">
+        <svg class="w-16 h-16" viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg">
           <g id="color" />
           <g id="line">
             <circle
@@ -64,6 +66,7 @@
             <circle cx="36" cy="36" r="10" fill="#DC2626" stroke="none" />
           </g>
         </svg>
+      </template>
       </template>
     </button>
 

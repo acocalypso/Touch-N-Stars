@@ -1,8 +1,9 @@
 <template>
   <!-- Capture & Cancel Buttons -->
-  <div
-    class="fixed bottom-7 left-1/2 -translate-x-1/2 lg:top-1/2 lg:left-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
-  >
+<div
+  class="fixed bottom-7 right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
+>
+
     <!-- Capture / Cancel Combined Button -->
     <button
       class="relative w-16 h-16 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

@@ -6,7 +6,7 @@
        @click="$emit('close')"
     >
       <div
-        class="p-6 bg-gradient-to-br from-gray-800 bg-gray-700 rounded-lg shadow-lg max-w-2xl w-full relative"
+        class="p-6 bg-gradient-to-br from-gray-950 bg-gray-800 rounded-lg shadow-lg max-w-2xl w-full relative"
          @click.stop
       >
         <!-- Header -->

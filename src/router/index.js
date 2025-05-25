@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import StartPage from '@/views/StartPage.vue';
 import EquipmentPage from '@/views/EquipmentPage.vue';
 import CameraPage from '@/views/CameraPage.vue';
-import FocusPage from '@/views/FocusPage.vue';
 import MountPage from '@/views/MountPage.vue';
 import GuidingPage from '@/views/GuidingPage.vue';
 import SequencePage from '@/views/SequencePage.vue';
@@ -28,7 +27,6 @@ const routes = [
   },
   { path: '/equipment', component: EquipmentPage, meta: { requiresSetup: true } },
   { path: '/camera', component: CameraPage, meta: { requiresSetup: true } },
-  { path: '/autofocus', component: FocusPage, meta: { requiresSetup: true } },
   { path: '/mount', component: MountPage, meta: { requiresSetup: true } },
   { path: '/guider', component: GuidingPage, meta: { requiresSetup: true } },
   { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },

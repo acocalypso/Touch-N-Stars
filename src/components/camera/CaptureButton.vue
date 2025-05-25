@@ -1,9 +1,8 @@
 <template>
   <!-- Capture & Cancel Buttons -->
-<div
-  class="fixed bottom-7 right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
->
-
+  <div
+    class="fixed bottom-7 right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
+  >
     <!-- Capture / Cancel Combined Button -->
     <button
       class="relative w-16 h-16 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -21,7 +20,7 @@
       :disabled="(cameraStore.loading && !cameraStore.isExposure) || sequenceStore.sequenceRunning"
     >
       <!-- Belichtungsfortschritt -->
-      <template v-if=" cameraStore.isExposure">
+      <template v-if="cameraStore.isExposure">
         <svg class="w-16 h-16 absolute inset-0" viewBox="0 0 36 36">
           <path
             class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
@@ -43,31 +42,31 @@
       </template>
 
       <!-- Icon-Wechsel basierend auf Belichtungsstatus -->
-       <template v-else>
-  <template v-if="cameraStore.loading">
-    <div class="loader"></div>
-  </template>
       <template v-else>
-        <svg class="w-16 h-16" viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg">
-          <g id="color" />
-          <g id="line">
-            <circle
-              cx="36"
-              cy="36"
-              r="25"
-              fill="none"
-              stroke="#D1D5DB"
-              stroke-linejoin="round"
-              stroke-miterlimit="10"
-              stroke-width="2"
-            />
-            <circle cx="36" cy="36" r="10" fill="#D1D5DB" stroke="none" />
-          </g>
-          <g id="color-foreground">
-            <circle cx="36" cy="36" r="10" fill="#DC2626" stroke="none" />
-          </g>
-        </svg>
-      </template>
+        <template v-if="cameraStore.loading">
+          <div class="loader"></div>
+        </template>
+        <template v-else>
+          <svg class="w-16 h-16" viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg">
+            <g id="color" />
+            <g id="line">
+              <circle
+                cx="36"
+                cy="36"
+                r="25"
+                fill="none"
+                stroke="#D1D5DB"
+                stroke-linejoin="round"
+                stroke-miterlimit="10"
+                stroke-width="2"
+              />
+              <circle cx="36" cy="36" r="10" fill="#D1D5DB" stroke="none" />
+            </g>
+            <g id="color-foreground">
+              <circle cx="36" cy="36" r="10" fill="#DC2626" stroke="none" />
+            </g>
+          </svg>
+        </template>
       </template>
     </button>
 

@@ -24,7 +24,7 @@
         <div class="flex w-full relative">
           <div
             ref="imageContainer"
-            class="image-container flex justify-center items-center w-full   touch-auto"
+            class="image-container flex justify-center items-center w-full touch-auto"
           >
             <img
               v-if="cameraStore.imageData"
@@ -32,7 +32,7 @@
               ref="image"
               :src="cameraStore.imageData"
               alt="Captured Image"
-              class="max-h-[80vh]  bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 overflow-hidden"
+              class="max-h-[80vh] bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 overflow-hidden"
             />
             <div v-else class="flex items-center justify-center">
               <img

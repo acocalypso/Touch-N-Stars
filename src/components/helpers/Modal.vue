@@ -1,13 +1,13 @@
 <template>
   <teleport to="body">
-    <div 
-      v-if="show" 
+    <div
+      v-if="show"
       class="fixed inset-0 z-50 flex items-center justify-center text-gray-200"
-       @click="$emit('close')"
+      @click="$emit('close')"
     >
       <div
         class="p-6 bg-gradient-to-br from-gray-950 bg-gray-800 rounded-lg shadow-lg max-w-2xl w-full relative"
-         @click.stop
+        @click.stop
       >
         <!-- Header -->
         <div class="mb-4 border-b pb-2 flex justify-between items-center">

@@ -44,14 +44,22 @@
           </router-link>
         </div>
         <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
+          <!-- <router-link
             to="/autofocus"
             class="nav-button"
             active-class="active-nav-button"
             :title="$t('components.navigation.autofocus')"
           >
             <EyeIcon class="icon" />
-          </router-link>
+          </router-link> -->
+           <button
+          @click="store.showFocuser = true"
+          :class="['nav-button' , store.showFocuser && ' glow-green' ]"
+    
+        >
+          <EyeIcon class="icon" />
+        </button>
+
         </div>
         <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link

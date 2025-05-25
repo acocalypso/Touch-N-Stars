@@ -155,7 +155,4 @@ const openSettings = ref(false);
   }
 }
 
-.glow-green {
-  box-shadow: 0 0 10px #00ff00;
-}
 </style>

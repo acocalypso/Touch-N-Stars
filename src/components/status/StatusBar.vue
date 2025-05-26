@@ -32,14 +32,11 @@
       </p>
       <div v-if="store.filterInfo.Connected" class="hidden sm:block">
         <p class="flex items-center">
-      
           <svg
             class="w-5 h-5"
             baseProfile="full"
-
             version="1.1"
             viewBox="0 0 100 100"
-
             xmlns="http://www.w3.org/2000/svg"
             xmlns:ev="http://www.w3.org/2001/xml-events"
             xmlns:xlink="http://www.w3.org/1999/xlink"

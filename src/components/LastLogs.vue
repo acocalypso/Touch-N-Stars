@@ -109,7 +109,8 @@ async function downloadLogs() {
   if (platform === 'android' || platform === 'ios') {
     try {
       const folderName = 'TNS-Logs';
-      const directory = platform === 'android' ? Directory.ExternalStorage : Directory.Documents;
+      // Use Documents directory for both platforms for better compatibility
+      const directory = Directory.Documents;
 
       // Create TNS-Logs directory if it doesn't exist
       try {
@@ -126,9 +127,7 @@ async function downloadLogs() {
         ) {
           console.warn('Error creating directory:', mkdirError);
         }
-      }
-
-      // Write the log file
+      } // Write the log file
       await Filesystem.writeFile({
         path: `${folderName}/${fileName}`,
         data: logContent,
@@ -137,6 +136,22 @@ async function downloadLogs() {
       });
 
       console.log(`Log file saved successfully to ${folderName}/${fileName}`);
+
+      if (platform === 'android') {
+        // For Android, make the file accessible in the media store
+        try {
+          // Get the URI of the saved file
+          const uriResult = await Filesystem.getUri({
+            path: `${folderName}/${fileName}`,
+            directory: directory,
+          });
+
+          console.log(`File URI: ${uriResult.uri}`);
+        } catch (uriError) {
+          console.warn('Error getting file URI:', uriError);
+        }
+      }
+
       showSuccess.value = true;
       setTimeout(() => (showSuccess.value = false), 2000);
     } catch (error) {

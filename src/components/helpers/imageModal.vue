@@ -140,7 +140,7 @@ async function downloadImage() {
   const now = new Date();
   const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
   const folderName = `TNS-Images-${currentDate}`;
-  
+
   let fileName = `TNS-${props.imageDate}.jpg`;
 
   if (props.imageDate === '0000-00-00') {
@@ -156,7 +156,7 @@ async function downloadImage() {
   if (platform === 'android' || platform === 'ios') {
     try {
       const directory = platform === 'android' ? Directory.ExternalStorage : Directory.Documents;
-      
+
       // Convert the image to base64
       const response = await fetch(props.imageData);
       const blob = await response.blob();
@@ -196,7 +196,7 @@ async function downloadImage() {
       });
 
       console.log(`Image saved successfully to ${folderName}/${fileName}`);
-      
+
       if (platform === 'ios') {
         alert(`Image saved to ${folderName} folder. You can access it from the Files app.`);
       } else {
@@ -204,7 +204,7 @@ async function downloadImage() {
       }
     } catch (error) {
       console.error('Error saving image:', error);
-      
+
       // Fallback for mobile platforms
       try {
         const response = await fetch(props.imageData);
@@ -216,11 +216,11 @@ async function downloadImage() {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        
+
         setTimeout(() => {
           URL.revokeObjectURL(downloadUrl);
         }, 100);
-        
+
         alert('Image downloaded using fallback method.');
       } catch (fallbackError) {
         console.error('Fallback download failed:', fallbackError);

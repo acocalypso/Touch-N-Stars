@@ -132,7 +132,6 @@ const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
-const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 const orientation = ref(getCurrentOrientation());
 const landscapeSwitch = ref(null);
 const routerViewKey = ref(Date.now()); // Startschlüssel einmalig setzen

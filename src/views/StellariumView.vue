@@ -23,6 +23,7 @@
     <div
       v-if="isSearchVisible"
       class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+      style="transform: translateX(-50%); z-index: 100"
     >
       <steallriumSearch ref="searchComponent" />
     </div>
@@ -53,6 +54,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { Capacitor } from '@capacitor/core';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
@@ -79,15 +81,43 @@ const searchComponent = ref(null);
 const mountComponent = ref(null);
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
-function toggleSearch() {
-  isSearchVisible.value = !isSearchVisible.value;
-
-  if (isSearchVisible.value) {
-    selectedObject.value = null;
-    nextTick(() => {
-      searchComponent.value?.focusSearchInput();
-    });
+function toggleSearch(event) {
+  // Prevent default behavior if event is provided
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
   }
+
+  // Platform detection for iOS-specific handling using Capacitor
+  const isIOS = Capacitor.getPlatform() === 'ios';
+
+  // For iOS, first clear any existing selection to avoid UI conflicts
+  if (isIOS && selectedObject.value) {
+    selectedObject.value = null;
+  }
+
+  // Use a small delay on iOS to prevent layout issues
+  setTimeout(
+    () => {
+      isSearchVisible.value = !isSearchVisible.value;
+
+      if (isSearchVisible.value) {
+        selectedObject.value = null;
+
+        if (isIOS) {
+          // For iOS, add extra delay to ensure UI is ready
+          setTimeout(() => {
+            searchComponent.value?.focusSearchInput();
+          }, 100);
+        } else {
+          nextTick(() => {
+            searchComponent.value?.focusSearchInput();
+          });
+        }
+      }
+    },
+    isIOS ? 50 : 0
+  );
 }
 
 // Framing-Koordinaten

@@ -71,7 +71,8 @@
         "title": "系统控制",
         "confirmRestart": "您确定要重启系统吗？",
         "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmation": "确认"
+        "confirmation": "确认",
+        "info": "This will shutdown or restart the PC which is hosting the N.I.N.A instance!"
       },
       "image": {
         "title": "图像设置",

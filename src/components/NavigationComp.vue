@@ -263,7 +263,7 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.isBackendReachable && !isIOS">
+        <div v-if="store.isBackendReachable">
           <router-link
             to="/"
             class="nav-button"
@@ -306,7 +306,6 @@ import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 import { usePluginStore } from '@/store/pluginStore';
-import { Capacitor } from '@capacitor/core';
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
@@ -314,7 +313,6 @@ const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
 const route = useRoute();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
-const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 
 const activeInstanceColor = computed(() =>
   settingsStore.getInstanceColorById(selectedInstanceId.value)

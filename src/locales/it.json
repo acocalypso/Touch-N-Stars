@@ -71,7 +71,8 @@
         "title": "Controlli di sistema",
         "confirmRestart": "Sei sicuro di voler riavviare il sistema?",
         "confirmShutdown": "Sei sicuro di voler chiudere il sistema?",
-        "confirmation": "Conferma"
+        "confirmation": "Conferma",
+        "info": "Questo si spegne o riavverrà il PC che ospita l'istanza N.I.N.A!"
       },
       "image": {
         "quality": "Qualità in %",
@@ -597,7 +598,7 @@
         "ra": "RA",
         "remove": "Remove",
         "sequnce": "Seq. target",
-        "rotation": "Rotation"
+        "rotation": "Rotazione"
       },
       "titel": "Preferiti"
     },

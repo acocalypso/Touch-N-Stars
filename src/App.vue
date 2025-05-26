@@ -18,8 +18,8 @@
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
         <StellariumView
           :key="landscapeSwitch"
-          v-show="store.showStellarium && !isIOS"
-          v-if="settingsStore.setupCompleted && !isIOS && store.isBackendReachable"
+          v-show="store.showStellarium"
+          v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />
         <router-view :key="orientation" />
       </div>
@@ -151,7 +151,6 @@ const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
-const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
 const orientation = ref(getCurrentOrientation());
 const landscapeSwitch = ref(null);
 const routerViewKey = ref(Date.now()); // Startschlüssel einmalig setzen

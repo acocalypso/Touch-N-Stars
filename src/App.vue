@@ -60,7 +60,7 @@
       </div>
     </div>
     <!-- Focuser Modal -->
-    <Modal :show="store.showFocuser" @close="store.showFocuser = false">
+    <Modal :show="store.showMount" @close="store.showMount = false">
       <template #header>
         <h2 class="text-2xl font-semibold">{{ $t('components.focuser.title') }}</h2>
       </template>
@@ -68,6 +68,15 @@
       <template #body>
         <!-- Beliebiger Inhalt hier -->
         <FocuserModal />
+      </template>
+    </Modal>
+    <!-- Mount Modal -->
+    <Modal :show="store.showFocuser" @close="store.showFocuser = false">
+      <template #header>
+        <h2 class="text-2xl font-semibold">{{ $t('components.mount.title') }}</h2>
+      </template>
+      <template #body>
+        <MountModal />
       </template>
     </Modal>
     <!-- Logs Modal -->
@@ -132,6 +141,7 @@ import notificationService from './services/notificationService';
 import { wait } from './utils/utils';
 import Modal from './components/helpers/Modal.vue';
 import FocuserModal from './components/focuser/FocuserModal.vue';
+import MountModal from './components/mount/MountModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

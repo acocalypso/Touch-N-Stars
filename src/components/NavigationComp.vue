@@ -51,6 +51,16 @@
             <EyeIcon class="icon" />
           </button>
         </div>
+
+        <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
+          <button
+            @click="store.showMount = true"
+            :class="['nav-button', store.showMount && ' glow-green']"
+          >
+            <EyeIcon class="icon" />
+          </button>
+        </div>
+
         <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link
             to="/mount"

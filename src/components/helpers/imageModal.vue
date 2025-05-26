@@ -152,10 +152,10 @@ async function downloadImage() {
   if (!props.imageData) return;
 
   const platform = Capacitor.getPlatform();
-
   if (platform === 'android' || platform === 'ios') {
     try {
-      const directory = platform === 'android' ? Directory.ExternalStorage : Directory.Documents;
+      // Use Documents directory for both platforms for better compatibility
+      const directory = Directory.Documents;
 
       // Convert the image to base64
       const response = await fetch(props.imageData);
@@ -194,13 +194,25 @@ async function downloadImage() {
         directory: directory,
         encoding: undefined, // Use default encoding for binary data
       });
-
       console.log(`Image saved successfully to ${folderName}/${fileName}`);
 
-      if (platform === 'ios') {
-        alert(`Image saved to ${folderName} folder. You can access it from the Files app.`);
-      } else {
+      if (platform === 'android') {
+        // For Android, make the file accessible in the media store
+        try {
+          // Get the URI of the saved file
+          const uriResult = await Filesystem.getUri({
+            path: `${folderName}/${fileName}`,
+            directory: directory,
+          });
+
+          console.log(`File URI: ${uriResult.uri}`);
+        } catch (uriError) {
+          console.warn('Error getting file URI:', uriError);
+        }
+
         alert(`Image saved to ${folderName} folder in device storage.`);
+      } else if (platform === 'ios') {
+        alert(`Image saved to ${folderName} folder. You can access it from the Files app.`);
       }
     } catch (error) {
       console.error('Error saving image:', error);

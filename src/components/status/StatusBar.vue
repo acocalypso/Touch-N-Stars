@@ -32,20 +32,25 @@
       </p>
       <div v-if="store.filterInfo.Connected" class="hidden sm:block">
         <p class="flex items-center">
+      
           <svg
+            class="w-5 h-5"
+            baseProfile="full"
+
+            version="1.1"
+            viewBox="0 0 100 100"
+
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-5 h-5 icon icon-tabler icons-tabler-outline icon-tabler-filters"
+            xmlns:ev="http://www.w3.org/2001/xml-events"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
           >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M12 8m-5 0a5 5 0 1 0 10 0a5 5 0 1 0 -10 0" />
-            <path d="M8 11a5 5 0 1 0 3.998 1.997" />
-            <path d="M12.002 19.003a5 5 0 1 0 3.998 -8.003" />
+            <defs />
+            <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+            <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+            <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+            <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+            <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+            <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
           </svg>
           {{ store.filterInfo.SelectedFilter.Name }}
         </p>

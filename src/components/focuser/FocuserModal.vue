@@ -1,5 +1,4 @@
 <template>
-
   <div
     v-if="!store.focuserInfo.Connected"
     class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
@@ -47,7 +46,7 @@
           </button>
         </div>
 
-        <div class="flex items-center space-x-3  mt-4">
+        <div class="flex items-center space-x-3 mt-4">
           <div class="w-3 h-[1px] bg-gray-700"></div>
           <!-- kurze Linie -->
           <button
@@ -75,7 +74,7 @@
           <!-- lange Linie -->
         </div>
 
-        <div v-show="store.showAfGraph" class="mt-6  ">
+        <div v-show="store.showAfGraph" class="mt-6">
           <!--AfStatus-->
           <div v-if="store.focuserAfInfo.autofocus_running || !delayShowGraph">
             <div>

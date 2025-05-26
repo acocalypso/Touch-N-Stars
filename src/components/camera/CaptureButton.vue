@@ -154,5 +154,4 @@ const openSettings = ref(false);
     transform: rotate(360deg);
   }
 }
-
 </style>

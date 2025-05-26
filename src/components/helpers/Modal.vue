@@ -20,7 +20,7 @@
         </div>
 
         <!-- Body -->
-        <div class="mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin">
+        <div class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin">
           <slot name="body">
             <p>Standard-Inhalt</p>
           </slot>

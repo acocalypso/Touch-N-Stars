@@ -1,6 +1,6 @@
 <template>
-  <nav
-    class="navbar flex top-0 shadow-md overflow-hidden justify-center h-20"
+  <div
+    class="flex top-0 shadow-md overflow-hidden justify-center h-20"
     :class="activeInstanceColor"
   >
     <div
@@ -44,14 +44,15 @@
           </router-link>
         </div>
         <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
-          <button
-            @click="store.showFocuser = true"
-            :class="['nav-button', store.showFocuser && ' glow-green']"
+          <router-link
+            to="/autofocus"
+            class="nav-button"
+            active-class="active-nav-button"
+            :title="$t('components.navigation.autofocus')"
           >
             <EyeIcon class="icon" />
-          </button>
+          </router-link>
         </div>
-
         <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
           <router-link
             to="/mount"
@@ -274,7 +275,7 @@
         </button>
       </div>
     </div>
-  </nav>
+  </div>
 
   <exposureCountdown />
 </template>

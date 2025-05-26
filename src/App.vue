@@ -59,17 +59,6 @@
         </button>
       </div>
     </div>
-    <!-- Focuser Modal -->
-    <Modal :show="store.showFocuser" @close="store.showFocuser = false">
-      <template #header>
-        <h2 class="text-2xl font-semibold">{{ $t('components.focuser.title') }}</h2>
-      </template>
-
-      <template #body>
-        <!-- Beliebiger Inhalt hier -->
-        <FocuserModal />
-      </template>
-    </Modal>
 
     <!-- Logs Modal -->
     <div
@@ -131,8 +120,6 @@ import StatusBar from '@/components/status/StatusBar.vue';
 import apiService from './services/apiService';
 import notificationService from './services/notificationService';
 import { wait } from './utils/utils';
-import Modal from './components/helpers/Modal.vue';
-import FocuserModal from './components/focuser/FocuserModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

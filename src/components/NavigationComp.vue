@@ -255,7 +255,7 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.isBackendReachable && !isIOS">
+        <div v-if="store.isBackendReachable">
           <router-link
             to="/"
             class="nav-button"

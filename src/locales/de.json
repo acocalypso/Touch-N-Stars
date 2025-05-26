@@ -71,7 +71,8 @@
         "title": "Systemsteuerungen",
         "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?",
         "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmation": "Bestätigung"
+        "confirmation": "Bestätigung",
+        "info": "Dadurch wird der PC heruntergefahren oder neu gestartet, der die N.I.N.A -Instanz hostet!"
       },
       "image": {
         "title": "Bildeinstellungen",
@@ -595,7 +596,8 @@
         "name": "Name",
         "ra": "RA",
         "remove": "Löschen",
-        "sequnce": "Seq. Ziel"
+        "sequnce": "Seq. Ziel",
+        "rotation": "Drehung"
       },
       "titel": "Favoriten"
     },

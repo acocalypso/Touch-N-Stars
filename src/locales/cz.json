@@ -71,7 +71,8 @@
         "title": "Ovládání Systému",
         "confirmRestart": "Určitě chcete systém restartovat?",
         "confirmShutdown": "Jste si jisti, že chcete systém vypnout?",
-        "confirmation": "Potvrzení"
+        "confirmation": "Potvrzení",
+        "info": "This will shutdown or restart the PC which is hosting the N.I.N.A instance!"
       },
       "image": {
         "quality": "Kvalita v %",
@@ -595,7 +596,8 @@
         "name": "Jméno",
         "ra": "RA",
         "remove": "Odstranit",
-        "sequnce": "Cíl sekvence"
+        "sequnce": "Cíl sekvence",
+        "rotation": "Rotation"
       },
       "titel": "Oblíbené"
     },

@@ -71,7 +71,8 @@
         "title": "Commandes de système",
         "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système?",
         "confirmShutdown": "Êtes-vous sûr de vouloir fermer le système?",
-        "confirmation": "Confirmation"
+        "confirmation": "Confirmation",
+        "info": "Cela fera arrêter ou redémarrer le PC qui héberge l'instance N.I.N.A!"
       },
       "image": {
         "quality": "Qualité en%",
@@ -595,7 +596,8 @@
         "name": "Nom",
         "ra": "RA",
         "remove": "Remove",
-        "sequnce": "Seq. target"
+        "sequnce": "Seq. target",
+        "rotation": "Rotation"
       },
       "titel": "Favoris"
     },

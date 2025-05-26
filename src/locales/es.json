@@ -77,7 +77,8 @@
         "confirmShutdown": "¿Estás seguro de que quieres cerrar el sistema?",
         "confirmation": "Confirmación",
         "description": "Haga clic en un icono para reiniciar o cerrar el sistema",
-        "title": "Controles del sistema"
+        "title": "Controles del sistema",
+        "info": "¡Esto cerrará o reiniciará la PC que aloja la instancia de N.I.N.A!"
       },
       "plugins": {
         "description": "Descripción del complemento",
@@ -595,7 +596,8 @@
         "name": "Nombre",
         "ra": "RA",
         "remove": "Remove",
-        "sequnce": "Seq. target"
+        "sequnce": "Seq. target",
+        "rotation": "Rotación"
       },
       "titel": "Favoritos"
     },

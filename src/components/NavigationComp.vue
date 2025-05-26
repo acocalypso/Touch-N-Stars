@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar flex top-0 shadow-md overflow-hidden justify-center h-20 "
+    class="navbar flex top-0 shadow-md overflow-hidden justify-center h-20"
     :class="activeInstanceColor"
   >
     <div

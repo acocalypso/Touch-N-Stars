@@ -1,8 +1,6 @@
 <template>
-
   <div class="container flex items-center justify-center">
     <div class="container max-w-md landscape:max-w-xl">
-
       <div v-if="store.mountInfo.Connected">
         <div
           class="mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg"

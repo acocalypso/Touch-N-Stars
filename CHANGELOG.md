@@ -7,22 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.8.0] - unrelease
 ### Added
 - Stellarium on iOS 
-
-### Changed
-- reworked Logfile & Image download for Android/iOS
-
-### Fixed
-- UI rendering & touch inputs for mobile applications
-
-## [1.0.8.0] - unreleased
-### Added
 - Stellarium: send coordinates to mount
 - SkyChart displays the custom horizon
 
+
 ### Changed
+- reworked Logfile & Image download for Android/iOS
 - The communication action monitoring from TNS to NINA has been revised
 
 ### Fixed
+- UI rendering & touch inputs for mobile applications
 - fix connection error with alpaca devices
 
 ## [1.0.7.0] - 2025-05-08

@@ -18,8 +18,8 @@
       <div v-else class="container mx-auto p-0.5 transition-all pt-[82px]">
         <StellariumView
           :key="landscapeSwitch"
-          v-show="store.showStellarium && !isIOS"
-          v-if="settingsStore.setupCompleted && !isIOS && store.isBackendReachable"
+          v-show="store.showStellarium"
+          v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />
         <router-view :key="orientation" />
       </div>

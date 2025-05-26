@@ -2,6 +2,7 @@
   <div
     v-if="selectedObject"
     class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[300px]"
+    style="transform: translateX(-50%); z-index: 90"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
@@ -61,6 +62,7 @@ import { apiStore } from '@/store/store';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
+import { Capacitor } from '@capacitor/core';
 
 const store = apiStore();
 const props = defineProps({
@@ -75,19 +77,44 @@ const emit = defineEmits(['setFramingCoordinates']);
 const buttonsEnabled = ref(false);
 
 function setFramingCoordinates() {
-  emit('setFramingCoordinates', {
-    raString: props.selectedObjectRa,
-    decString: props.selectedObjectDec,
-    ra: props.selectedObjectRaDeg,
-    dec: props.selectedObjectDecDeg,
-    item: props.selectedObject,
-  });
+  // Temporarily disable buttons to prevent multiple taps (especially on iOS)
+  buttonsEnabled.value = false;
+
+  // Platform detection for iOS-specific handling
+  const isIOS = Capacitor.getPlatform() === 'ios';
+
+  // For iOS, add a small delay to ensure touch events are fully processed
+  setTimeout(
+    () => {
+      emit('setFramingCoordinates', {
+        raString: props.selectedObjectRa,
+        decString: props.selectedObjectDec,
+        ra: props.selectedObjectRaDeg,
+        dec: props.selectedObjectDecDeg,
+        item: props.selectedObject,
+      });
+
+      // Re-enable buttons after a short delay
+      setTimeout(
+        () => {
+          buttonsEnabled.value = true;
+        },
+        isIOS ? 300 : 100
+      );
+    },
+    isIOS ? 50 : 0
+  );
 }
 onMounted(() => {
   buttonsEnabled.value = false;
+  // Platform detection for iOS-specific handling
+  const isIOS = Capacitor.getPlatform() === 'ios';
+  // Use longer delay for iOS devices to ensure UI is fully rendered
+  const delay = isIOS ? 800 : 500;
+
   setTimeout(() => {
     buttonsEnabled.value = true;
-  }, 500);
+  }, delay);
 });
 </script>
 <style scoped>

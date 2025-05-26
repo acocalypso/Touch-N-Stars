@@ -195,6 +195,7 @@
           {{ $t('components.settings.system.title') }}
         </h3>
         <p class="text-gray-400 text-xs">{{ $t('components.settings.system.description') }}</p>
+        <p class="text-gray-400 text-xs">{{ $t('components.settings.system.info') }}</p>
       </div>
       <div class="flex justify-center gap-2">
         <!-- Restart Button -->

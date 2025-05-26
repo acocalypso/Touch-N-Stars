@@ -35,7 +35,8 @@
         "name": "Nome",
         "ra": "RA",
         "remove": "Remove",
-        "sequnce": "Seq. target"
+        "sequnce": "Seq. target",
+        "rotation": "Rotação"
       },
       "titel": "Favoritos"
     },
@@ -459,7 +460,8 @@
         "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
         "confirmation": "Confirmação",
         "description": "Clique em um ícone para reiniciar ou desligar o sistema",
-        "title": "Controles do sistema"
+        "title": "Controles do sistema",
+        "info": "Isso desligará ou reiniciará o PC que está hospedando a instância do N.I.N.A!"
       },
       "title": "Configurações",
       "update": "Atualizar"

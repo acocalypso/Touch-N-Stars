@@ -135,7 +135,8 @@ async function downloadLogs() {
         encoding: 'utf8',
       });
 
-      console.log(`Log file saved successfully to ${folderName}/${fileName}`);      if (platform === 'android') {
+      console.log(`Log file saved successfully to ${folderName}/${fileName}`);
+      if (platform === 'android') {
         // For Android, make the file accessible in the media store
         try {
           // Get the URI of the saved file
@@ -143,17 +144,17 @@ async function downloadLogs() {
             path: `${folderName}/${fileName}`,
             directory: directory,
           });
-          
+
           console.log(`File URI: ${uriResult.uri}`);
         } catch (uriError) {
           console.warn('Error getting file URI:', uriError);
         }
-        
+
         alert(`Log file saved to ${folderName} folder in device storage.`);
       } else if (platform === 'ios') {
         alert(`Log file saved to ${folderName} folder. You can access it from the Files app.`);
       }
-      
+
       showSuccess.value = true;
       setTimeout(() => (showSuccess.value = false), 2000);
     } catch (error) {

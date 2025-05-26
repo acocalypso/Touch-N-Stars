@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [1.0.8.0] - unrelease
+### Added
+- Stellarium on iOS 
+
+### Changed
+- reworked Logfile & Image download for Android/iOS
+
+### Fixed
+- UI rendering & touch inputs for mobile applications
+
 ## [1.0.7.0] - 2025-05-08
 ### Added
 - Favorites memory for targets added

@@ -2,7 +2,7 @@
   <teleport to="body">
     <div
       v-if="show"
-      class="fixed inset-0 z-40 flex items-center justify-center text-gray-200 p-2"
+      class="fixed inset-0 z-40 flex items-center justify-center text-gray-200 p-2  bg-black bg-opacity-30"
       @click="$emit('close')"
     >
       <div

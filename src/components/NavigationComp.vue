@@ -1,6 +1,6 @@
 <template>
-  <div
-    class="flex top-0 shadow-md overflow-hidden justify-center h-20"
+  <nav
+    class="navbar flex top-0 shadow-md overflow-hidden justify-center h-20 "
     :class="activeInstanceColor"
   >
     <div
@@ -273,7 +273,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </nav>
 
   <exposureCountdown />
 </template>

@@ -117,7 +117,8 @@ async function downloadLogs() {
           path: folderName,
           directory: directory,
           recursive: true,
-        });      } catch (mkdirError) {
+        });
+      } catch (mkdirError) {
         // Directory might already exist, ignore error
         if (
           !mkdirError.message.includes('Directory exists') &&

@@ -11,7 +11,11 @@
       :disabled="isConnected"
     >
       <option disabled>{{ selectedDevice }}</option>
-      <option v-for="device in devices" :key="device.DisplayName" :value="String(device.DisplayName)">
+      <option
+        v-for="device in devices"
+        :key="device.DisplayName"
+        :value="String(device.DisplayName)"
+      >
         {{ device.DisplayName }}
       </option>
     </select>

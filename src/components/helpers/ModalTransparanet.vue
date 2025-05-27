@@ -2,7 +2,7 @@
   <teleport to="body">
     <div v-if="show" class="fixed inset-0 z-40 text-gray-200 p-2 pointer-events-none">
       <div
-        class="p-6 bg-gradient-to-br from-gray-950/20 rounded-lg shadow-lg max-w-md w-full relative pointer-events-auto touch-none"
+        class="p-6 bg-gradient-to-br from-gray-950/20 rounded-lg shadow-lg max-w-md min-w-56 relative pointer-events-auto touch-none"
         :style="{ position: 'absolute', ...position }"
         @click.stop
       >

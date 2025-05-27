@@ -147,22 +147,22 @@
         :class="{ 'glow-green': showFilter }"
       >
         <svg
-            class="w-8 h-8"
-            baseProfile="full"
-            version="1.1"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:ev="http://www.w3.org/2001/xml-events"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-          >
-            <defs />
-            <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-            <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-            <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-            <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-          </svg>
+          class="w-8 h-8"
+          baseProfile="full"
+          version="1.1"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:ev="http://www.w3.org/2001/xml-events"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs />
+          <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+          <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+          <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+          <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+        </svg>
       </button>
     </div>
   </div>
@@ -189,7 +189,7 @@
     </template>
   </ModalTransparanet>
 
-    <!-- filterwheel Modal -->
+  <!-- filterwheel Modal -->
   <ModalTransparanet :show="showFilter" @close="showFilter = false">
     <template #header>
       <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
@@ -200,10 +200,7 @@
       </div>
     </template>
   </ModalTransparanet>
-
 </template>
-
-
 
 <script setup>
 import { ref } from 'vue';

@@ -223,7 +223,7 @@ import { apiStore } from '@/store/store';
 import { ref, onMounted } from 'vue';
 import { CameraIcon, EnvelopeIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
-import AboutModal from '../AboutModal.vue';
+import AboutModal from './AboutModal.vue';
 import LogModal from './LogModal.vue';
 import version from '@/version';
 

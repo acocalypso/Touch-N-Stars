@@ -288,7 +288,6 @@ async function nextStep() {
   if (currentStep.value === 5) {
     store.startFetchingInfo();
     await wait(1000);
-    console.log('_---------------------------');
     latitude.value = store.profileInfo.AstrometrySettings.Latitude;
     longitude.value = store.profileInfo.AstrometrySettings.Longitude;
     altitude.value = store.profileInfo.AstrometrySettings.Elevation;
@@ -298,7 +297,7 @@ async function nextStep() {
 function previousStep() {
   currentStep.value--;
   // Skip instance configuration when going back on web
-  if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
+  if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value--;
   }
 }
@@ -380,11 +379,17 @@ async function saveInstance() {
   });
   checkConnection.value = true;
   try {
-    const response = await apiService.fetchTnsPluginVersion();
+    await wait(500);
+    let response = await apiService.fetchTnsPluginVersion();
     console.log('Backend erreichbar?', response);
     if (!response) {
-      alert(t('components.settings.errors.invalidInstance'));
-      return;
+      console.log('second connection attempt');
+      await wait(1000);
+      response = await apiService.fetchTnsPluginVersion();
+      if (!response) {
+        alert(t('components.settings.errors.invalidInstance'));
+        return;
+      }
     }
     console.log('Backend erreichbar');
     store.startFetchingInfo();

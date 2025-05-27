@@ -1,18 +1,25 @@
 # Changelog
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [1.0.8.0] - unrelease
 ### Added
 - Stellarium on iOS 
+- Stellarium: send coordinates to mount
+- SkyChart displays the custom horizon
+- Camera page: Movable modal for mount, focuser and filter
 
 ### Changed
 - reworked Logfile & Image download for Android/iOS
+- The communication action monitoring from TNS to NINA has been revised
+- Camera page: Design reworked 
+- Statusbar: Design reworked 
 
 ### Fixed
 - UI rendering & touch inputs for mobile applications
+- Fix connection error with alpaca devices
 
 ## [1.0.7.0] - 2025-05-08
 ### Added

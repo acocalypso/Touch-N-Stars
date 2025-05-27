@@ -286,7 +286,8 @@
         "slewRate": "Rychlost pohybu °/s",
         "info_manuell_controll": "Ruční ovládání je k dispozici pouze v případě, že sledování není aktivní.",
         "set_as_park": "Nastavit jako park",
-        "slew_to_cenit": "Přelet do Zenitu"
+        "slew_to_cenit": "Přelet do Zenitu",
+        "sync_coordinates_to_mount": "Sync coordinates with mount"
       },
       "info": {
         "notConnected": "Připojte montáž",

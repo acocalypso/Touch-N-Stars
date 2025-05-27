@@ -1,56 +1,61 @@
 <template>
-  <div class="flex flex-col items-center gap-2 max-w-xl">
+  <div class="flex flex-col items-center gap-2">
     <div v-if="store.cameraInfo.CanSetTemperature" class="w-full">
       <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg min-w-36">
-        <label for="Cooler" class="text-xs mb-1 text-gray-400"
+        <label for="Cooler" class="text-xs mb-1 text-gray-200"
           >{{ $t('components.camera.camera_cooling') }}
         </label>
-        <div class="flex flex-col sm:flex-row gap-2">
+        <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div
-            class="flex flex-row items-center sm:flex-col col-span-2 w-full border border-gray-500 p-1 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
+            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
               >{{ $t('components.camera.target_temperature') }}:
             </label>
-            <div class="flex justify-between w-full">
-              <input
-                id="TemperatureSetPoint"
-                v-model="cameraStore.coolingTemp"
-                type="number"
-                class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
-                placeholder="1"
-                step="1"
-              />
-            </div>
+            <input
+              id="TemperatureSetPoint"
+              v-model="cameraStore.coolingTemp"
+              type="number"
+              class="bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+              placeholder="1"
+              step="1"
+              @change="setCoolingTemp"
+              @blur="setCoolingTemp"
+            />
           </div>
+
           <div
-            class="flex flex-row items-center sm:flex-col col-span-2 w-full border border-gray-500 p-1 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
+            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
               >{{ $t('components.camera.cooling_time') }}
             </label>
             <input
               id="TemperatureDurationTime"
               v-model="cameraStore.coolingTime"
               type="number"
-              class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+              class="bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
               placeholder="1"
               step="1"
+              @change="setCoolingTime"
+              @blur="setCoolingTime"
             />
           </div>
           <div
-            class="flex flex-row items-center sm:flex-col col-span-2 w-full border border-gray-500 p-1 rounded-lg"
+            class="flex sm:flex-1 justify-between items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
           >
-            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400"
+            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
               >{{ $t('components.camera.warm_up_time') }}
             </label>
             <input
               id="TemperatureDurationTime"
               v-model="cameraStore.warmingTime"
               type="number"
-              class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+              class="bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
               placeholder="1"
               step="1"
+              @change="setWarmingTime"
+              @blur="setWarmingTime"
             />
           </div>
 
@@ -64,7 +69,7 @@
     </div>
     <div v-if="store.cameraInfo.HasDewHeater">
       <div class="flex flex-col min-w-36 border border-gray-500 p-1 pb-2 rounded-lg">
-        <label for="DewHeater" class="text-xs mb-1 text-gray-400"
+        <label for="DewHeater" class="text-xs mb-1 text-gray-200"
           >{{ $t('components.camera.dew_heater') }}
         </label>
         <div class="flex space-x-2 justify-center">
@@ -84,6 +89,48 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
+
+async function setCoolingTime() {
+  try {
+    if (cameraStore.coolingTime <= 1) {
+      cameraStore.coolingTime = 1;
+    }
+    const response = await apiService.profileChangeValue(
+      'CameraSettings-CoolingDuration',
+      cameraStore.coolingTime
+    );
+    console.log(response);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function setWarmingTime() {
+  try {
+    if (cameraStore.warmingTime <= 1) {
+      cameraStore.warmingTime = 1;
+    }
+    const response = await apiService.profileChangeValue(
+      'CameraSettings-WarmingDuration',
+      cameraStore.warmingTime
+    );
+    console.log(response);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function setCoolingTemp() {
+  try {
+    const response = await apiService.profileChangeValue(
+      'CameraSettings-Temperature',
+      cameraStore.coolingTemp
+    );
+    console.log(response);
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
 
 function toggleDewHeater() {
   if (store.cameraInfo.DewHeaterOn) {
@@ -149,5 +196,8 @@ watch(
 
 onMounted(() => {
   cameraStore.buttonCoolerOn = store.cameraInfo.CoolerOn;
+  cameraStore.coolingTemp = store.profileInfo.CameraSettings.Temperature;
+  cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration;
+  cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration;
 });
 </script>

@@ -286,7 +286,8 @@
         "slewRate": "Taux de dalles ° / s",
         "info_manuell_controll": "Le contrôle manuel n'est disponible que si le suivi n'est pas actif",
         "set_as_park": "Se dérouler comme parc",
-        "slew_to_cenit": "Tué à Zenith"
+        "slew_to_cenit": "Tué à Zenith",
+        "sync_coordinates_to_mount": "Sync coordinates with mount"
       },
       "info": {
         "notConnected": "Merci de connecter la mount",

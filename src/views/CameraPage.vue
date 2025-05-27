@@ -1,10 +1,5 @@
 <template>
   <div class="text-center">
-    <!-- Titel -->
-    <div class="text-left mb-2">
-      <h1 class="text-xl text-center font-bold">{{ $t('components.camera.title') }}</h1>
-    </div>
-
     <!-- Camera Connection Status -->
     <div class="w-full flex justify-center mb-3">
       <div class="max-w-xl">
@@ -14,131 +9,22 @@
         >
           <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
         </div>
-
-        <!-- Info & Settings Section -->
-        <div v-show="cameraStore.showInfo" class="space-y-6">
-          <!-- Section Header -->
-          <div class="relative flex items-center py-4">
-            <div class="flex-grow border-t border-gray-700"></div>
-            <span class="flex-shrink mx-4 text-sm font-semibold text-cyan-400">{{
-              $t('components.camera.info')
-            }}</span>
-            <div class="flex-grow border-t border-gray-700"></div>
-          </div>
-          <div class="container flex items-center justify-center space-x-1">
-            <div class="container space-y-1 max-w-md lg:max-w-xl">
-              <div class="w-full p-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
-                <label for="infoCamera" class="text-xs mb-1 text-gray-400">
-                  {{ $t('components.camera.title') }}
-                </label>
-                <infoCamera
-                  v-model="store.cameraInfo.Connected"
-                  :show-all-info="true"
-                  class="grid grid-cols-2 lg:grid-cols-3"
-                />
-              </div>
-              <div
-                v-if="store.rotatorInfo.Connected"
-                class="w-full p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
-              >
-                <label for="infoRotator" class="text-xs mb-1 text-gray-400">
-                  {{ $t('components.rotator.label') }}
-                </label>
-                <infoRotator class="grid grid-cols-2 lg:grid-cols-3" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Settings Section -->
-          <div class="relative flex items-center py-4">
-            <div class="flex-grow border-t border-gray-700"></div>
-            <span class="flex-shrink mx-4 text-sm font-semibold text-cyan-400">{{
-              $t('components.camera.settings')
-            }}</span>
-            <div class="flex-grow border-t border-gray-700"></div>
-          </div>
-
-          <div class="space-y-1">
-            <settingsSensor class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
-            <settingsCameraCooler
-              v-if="store.cameraInfo.CanSetTemperature"
-              class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
-            />
-            <div>
-              <changeFilter
-                v-if="store.filterInfo.Connected"
-                class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
-              />
-            </div>
-            <controlRotator
-              v-if="store.rotatorInfo.Connected"
-              class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
-            />
-            <settingsCamera class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
-          </div>
-        </div>
       </div>
     </div>
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
     <div v-show="store.cameraInfo.Connected" class="pb-14">
-      <!-- Toggle Button for Info/Settings -->
-      <div class="flex items-center space-x-3 mb-4">
-        <div class="w-3 h-[1px] bg-gray-700"></div>
-        <!-- kurze Linie -->
-        <button
-          @click="cameraStore.showInfo = !cameraStore.showInfo"
-          class="w-7 h-7 bg-gray-700 active:bg-cyan-700 hover:bg-cyan-600 rounded-md border border-cyan-500/20 flex items-center justify-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-white transition-transform duration-300"
-            :class="{ '-rotate-90': cameraStore.showInfo }"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
-        <p class="text-sm italic">{{ $t('components.camera.info_settings') }}</p>
-        <div class="flex-grow h-[1px] bg-gray-700"></div>
-        <!-- lange Linie -->
-      </div>
-
-      <!-- Capture Controls and Image Display -->
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
-        <!-- Left Panel - Controls -->
-        <div class="flex flex-col lg:w-2/6 space-y-3 min-h-[100px] lg:min-h-0">
-          <!-- Loop Checkbox -->
-          <div class="flex items-center p-4 bg-gray-800/50 rounded-lg border border-gray-700/50">
-            <input
-              v-model="cameraStore.isLooping"
-              id="checkDauerschleife"
-              type="checkbox"
-              class="w-5 h-5 text-cyan-500 bg-gray-700 border-gray-600 rounded focus:ring-cyan-500 focus:ring-2"
-            />
-            <label for="checkDauerschleife" class="ms-3 text-sm font-medium text-gray-300">
-              {{ $t('components.camera.loop') }}
-            </label>
-          </div>
-
-          <!-- Capture Button -->
+        <div class="flex flex-col space-y-3">
           <div class="flex flex-col space-y-2">
             <CaptureButton />
           </div>
         </div>
 
-        <!-- Right Panel - Image Display -->
-        <div class="flex w-full lg:w-5/6 relative">
+        <div class="flex w-full relative">
           <div
             ref="imageContainer"
-            class="image-container overflow-hidden w-full touch-auto bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 flex-grow"
+            class="image-container flex justify-center items-center w-full touch-auto"
           >
             <img
               v-if="cameraStore.imageData"
@@ -146,7 +32,7 @@
               ref="image"
               :src="cameraStore.imageData"
               alt="Captured Image"
-              class="block"
+              class="max-h-[80vh] bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 overflow-hidden"
             />
             <div v-else class="flex items-center justify-center">
               <img
@@ -155,7 +41,6 @@
                 class="block"
               />
             </div>
-            <!-- SVG Icon oben rechts -->
             <div
               v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
               class="absolute top-2 right-2 z-50"
@@ -188,7 +73,6 @@
       @close="closeModal"
     />
 
-    <!-- slewModal Modal -->
     <div
       v-if="cameraStore.slewModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
@@ -219,22 +103,118 @@
       </div>
     </div>
   </div>
+
+  <div class="fixed top-24 left-5 flex gap-2 text-gray-300">
+    <div v-if="store.mountInfo.Connected">
+      <button
+        @click="showMount = !showMount"
+        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
+        :class="{ 'glow-green': showMount }"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 text-gray-300"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 21l6 -5l6 5" />
+          <path d="M12 13v8" />
+          <path
+            d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
+          />
+          <path d="M14 5l3 5.5" />
+        </svg>
+      </button>
+    </div>
+    <div v-if="store.focuserInfo.Connected">
+      <button
+        @click="showFocuser = !showFocuser"
+        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
+        :class="{ 'glow-green': showFocuser }"
+      >
+        <EyeIcon class="w-7 h-7" />
+      </button>
+    </div>
+    <div v-if="store.filterInfo.Connected">
+      <button
+        @click="showFilter = !showFilter"
+        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
+        :class="{ 'glow-green': showFilter }"
+      >
+        <svg
+          class="w-8 h-8"
+          baseProfile="full"
+          version="1.1"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:ev="http://www.w3.org/2001/xml-events"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs />
+          <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+          <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+          <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+          <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mount Modal -->
+  <ModalTransparanet :show="showMount" @close="showMount = false">
+    <template #header>
+      <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
+    </template>
+    <template #body>
+      <moveAxis />
+    </template>
+  </ModalTransparanet>
+
+  <!-- Focuser Modal -->
+  <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
+    <template #header>
+      <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
+    </template>
+    <template #body>
+      <div>
+        <MoveFocuser />
+        <ButtonsFastChangePositon class="pt-2" />
+      </div>
+    </template>
+  </ModalTransparanet>
+
+  <!-- filterwheel Modal -->
+  <ModalTransparanet :show="showFilter" @close="showFilter = false">
+    <template #header>
+      <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
+    </template>
+    <template #body>
+      <div>
+        <changeFilter />
+      </div>
+    </template>
+  </ModalTransparanet>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
-import infoCamera from '@/components/camera/infoCamera.vue';
-import settingsCamera from '@/components/camera/settingsCamera.vue';
-import settingsCameraCooler from '@/components/camera/settingsCameraCooler.vue';
-import changeFilter from '@/components/filterwheel/changeFilter.vue';
-import controlRotator from '@/components/rotator/controlRotator.vue';
-import infoRotator from '@/components/rotator/infoRotator.vue';
+import { EyeIcon } from '@heroicons/vue/24/outline';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
-import settingsSensor from '@/components/camera/settingsSensor.vue';
+import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
+import moveAxis from '@/components/mount/moveAxis.vue';
+import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
+import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
+import changeFilter from '@/components/filterwheel/changeFilter.vue';
 
 // Initialisiere Stores
 const store = apiStore();
@@ -242,6 +222,9 @@ const cameraStore = useCameraStore();
 const imageContainer = ref(null);
 const image = ref(null);
 const showModal = ref(false);
+const showMount = ref(false);
+const showFocuser = ref(false);
+const showFilter = ref(false);
 
 // Modal öffnen / schließen
 function openModal() {

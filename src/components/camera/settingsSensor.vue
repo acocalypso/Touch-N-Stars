@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="space-y-1 border border-gray-500 p-1 pb-2 rounded-lg">
-      <label for="Cooler" class="text-xs mb-1 text-gray-400"
+      <label for="Cooler" class="text-xs mb-1 text-gray-200"
         >{{ $t('components.camera.chip_settings.title') }}
       </label>
 
@@ -10,7 +10,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.pixel_size') }}
           </label>
           <input
@@ -19,7 +19,7 @@
             id="pixel-size"
             v-model.number="pixelSize"
             type="number"
-            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
             :class="statusClassPixelSize"
             step="0.01"
           />
@@ -29,7 +29,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="chip-high" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="chip-high" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.height') }}
           </label>
           <input
@@ -38,7 +38,7 @@
             id="chip-high"
             v-model.number="chipHigh"
             type="number"
-            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
             :class="statusClassChipHigh"
             step="1"
           />
@@ -48,7 +48,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="chip-width" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="chip-width" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.width') }}
           </label>
           <input
@@ -57,7 +57,7 @@
             id="chip-width"
             v-model.number="chipWidth"
             type="number"
-            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
             :class="statusClassChipWidth"
             step="1"
           />
@@ -67,7 +67,7 @@
         <div
           class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
         >
-          <label for="focal-length" class="text-sm mr-3 mb-1 text-gray-400">
+          <label for="focal-length" class="text-sm mr-3 mb-1 text-gray-200">
             {{ $t('components.camera.chip_settings.focal_length') }}
           </label>
           <input
@@ -76,7 +76,7 @@
             id="focal-length"
             v-model.number="focalLength"
             type="number"
-            class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
             :class="statusClassFocalLength"
             step="1"
           />

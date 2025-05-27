@@ -2,7 +2,7 @@
   <div
     class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
   >
-    <label for="toggle_light" class="text-gray-400">
+    <label for="toggle_light" class="text-gray-200">
       {{ $t('components.camera.set_use_platesolve') }}
     </label>
     <div>

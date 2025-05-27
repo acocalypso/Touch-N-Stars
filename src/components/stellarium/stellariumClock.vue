@@ -1,6 +1,6 @@
 <template>
   <button
-    class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-8 rounded-full text-gray-200 font-mono"
+    class="absolute bottom-11 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-8 rounded-full text-gray-200 font-mono"
     @click="toggleDateTimeControls"
   >
     <p class="text-center">{{ formattedTime }}</p>

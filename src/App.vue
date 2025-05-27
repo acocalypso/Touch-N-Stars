@@ -25,9 +25,7 @@
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">
-        <button @click="showLogsModal = true" class="fixed bottom-0 w-full">
-          <LastMessage class="fixed bottom-0 w-full" />
-        </button>
+        <StatusBar class="fixed bottom-0 w-full z-10" />
       </div>
     </div>
 
@@ -61,6 +59,7 @@
         </button>
       </div>
     </div>
+
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"
@@ -69,7 +68,6 @@
       <div
         class="bg-gray-900 rounded-lg p-4 sm:p-6 w-full sm:max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0 scrollbar-hide"
       >
-        <LastLogs />
         <button
           @click="showLogsModal = false"
           class="fixed sm:absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
@@ -109,9 +107,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
 import { Capacitor } from '@capacitor/core';
 import NavigationComp from '@/components/NavigationComp.vue';
-import LastMessage from '@/components/LastMessage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
-import LastLogs from '@/components/LastLogs.vue';
 import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
@@ -119,7 +115,8 @@ import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
-import ConsoleViewer from './components/helpers/ConsoleViewer.vue';
+import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
+import StatusBar from '@/components/status/StatusBar.vue';
 import apiService from './services/apiService';
 import notificationService from './services/notificationService';
 import { wait } from './utils/utils';

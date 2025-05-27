@@ -286,7 +286,8 @@
         "slewRate": "Trovatela di Slew °/s",
         "info_manuell_controll": "Il controllo manuale è disponibile solo se il monitoraggio non è attivo",
         "set_as_park": "Impostare come parco",
-        "slew_to_cenit": "Strongitura a Zenith"
+        "slew_to_cenit": "Strongitura a Zenith",
+        "sync_coordinates_to_mount": "Sync coordinates with mount"
       },
       "info": {
         "notConnected": "Collega montatura",

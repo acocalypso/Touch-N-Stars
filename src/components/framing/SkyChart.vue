@@ -7,6 +7,7 @@
 <script setup>
 import { onMounted, ref, watch, computed } from 'vue';
 import { Chart, registerables } from 'chart.js';
+import apiService from '@/services/apiService';
 
 Chart.register(...registerables);
 
@@ -231,26 +232,31 @@ function createChart() {
 
 async function loadCustomHorizont() {
   try {
-    //const response = await fetch('/Horizont.hrz'); //C:\Users\Astro\Documents\N.I.N.A\Horizont.hrz
-    const response = await fetch('/Horizont.hrz');
-    if (!response.ok) {
-      console.warn('Horizontdatei nicht gefunden:', response.status);
+    const response = await apiService.profileAction('horizon');
+    console.log(response);
+
+    if (response.StatusCode !== 200 || !response.Response) {
+      console.warn('Horizontdaten nicht gefunden oder ungültig:', response);
       return;
     }
 
-    const text = await response.text();
-    const lines = text.trim().split('\n');
+    const { Azimuths, Altitudes } = response.Response;
 
-    horizonData.value = lines
-      .map((line) => {
-        const [azimuthStr, altitudeStr] = line.trim().split(/\s+/);
-        const azimuth = parseFloat(azimuthStr.replace(',', '.'));
-        const altitude = parseFloat(altitudeStr.replace(',', '.'));
-        return { azimuth, altitude };
-      })
-      .filter((d) => !isNaN(d.azimuth) && !isNaN(d.altitude));
+    if (
+      !Array.isArray(Azimuths) ||
+      !Array.isArray(Altitudes) ||
+      Azimuths.length !== Altitudes.length
+    ) {
+      console.warn('Ungültige Horizontdatenstruktur:', response.Response);
+      return;
+    }
+
+    horizonData.value = Azimuths.map((azimuth, i) => ({
+      azimuth,
+      altitude: Altitudes[i],
+    }));
   } catch (error) {
-    console.error('Error loading the horizon file:', error);
+    console.error('Fehler beim Laden der Horizontdaten:', error);
   }
 }
 

@@ -38,7 +38,7 @@
       :selectedObjectDecDeg="selectedObjectDecDeg"
       @setFramingCoordinates="setFramingCoordinates"
     />
-    <div class="absolute bottom-3 left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
+    <div class="absolute bottom-10 left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
       <stellariumCredits />
       <stellariumSettings />
     </div>
@@ -288,7 +288,7 @@ onBeforeUnmount(() => {
   top: 10;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 120px);
+  height: calc(100dvh - 80px);
   z-index: 0;
 }
 

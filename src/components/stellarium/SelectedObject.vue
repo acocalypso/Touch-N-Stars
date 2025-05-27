@@ -52,6 +52,10 @@
         :raAngle="props.selectedObjectRaDeg"
         :decAngle="props.selectedObjectDecDeg"
       />
+      <ButtomSyncCoordinatesToMount
+        :raAngle="props.selectedObjectRaDeg"
+        :decAngle="props.selectedObjectDecDeg"
+      />
     </div>
   </div>
 </template>
@@ -62,7 +66,7 @@ import { apiStore } from '@/store/store';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
-import { Capacitor } from '@capacitor/core';
+import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
 
 const store = apiStore();
 const props = defineProps({

@@ -3,14 +3,14 @@
     <div
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
     >
-      <label for="exposure" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+      <label for="exposure" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.exposure_time') }}
       </label>
       <input
         id="exposure"
         v-model.number="settingsStore.camera.exposureTime"
         type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="sek"
       />
     </div>
@@ -18,7 +18,7 @@
     <div
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
     >
-      <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+      <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
@@ -36,7 +36,7 @@
         id="gain"
         v-model.number="settingsStore.camera.gain"
         type="number"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="1"
       />
     </div>
@@ -45,7 +45,7 @@
       v-if="store.cameraInfo.CanSetOffset"
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
     >
-      <label for="offset" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+      <label for="offset" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.offset') }}
       </label>
       <select
@@ -67,7 +67,7 @@
         @change="setOffset"
         :min="store.cameraInfo.OffsetMin"
         :max="store.cameraInfo.OffsetMax"
-        class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
         placeholder="0"
       />
     </div>

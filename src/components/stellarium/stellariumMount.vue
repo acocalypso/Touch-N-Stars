@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Mount Controls -->
-    <div class="absolute bottom-3 right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
+    <div class="absolute bottom-10 right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
       <button
         @click="syncViewToMount"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md transition-all duration-200"

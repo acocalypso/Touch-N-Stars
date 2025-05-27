@@ -44,7 +44,7 @@
         </button>
       </div>
 
-      <div class="space-y-6 overflow-y-auto max-h-[70vh] pr-3 scrollbar-thin">
+      <div class="space-y-6 overflow-y-auto max-h-[50vh] pr-3 scrollbar-thin">
         <!-- Temperature -->
         <div
           v-if="!isNaN(weatherInfo.Temperature)"

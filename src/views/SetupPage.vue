@@ -380,7 +380,7 @@ async function saveInstance() {
   });
   checkConnection.value = true;
   try {
-    const response = await apiService.fetchApiVersion();
+    const response = await apiService.fetchTnsPluginVersion();
     console.log('Backend erreichbar?', response);
     if (!response) {
       alert(t('components.settings.errors.invalidInstance'));

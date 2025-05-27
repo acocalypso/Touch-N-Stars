@@ -81,9 +81,9 @@
       </button>
     </div>
     <div
-      class="flex flex-col w-full border border-gray-300 p-2 mt-1 rounded-xl transition-all duration-200 hover:border-cyan-500 focus-within:border-cyan-500 hover:shadow-lg"
+      class="flex flex-col bg-gray-900/80 w-full border border-gray-300 p-2 mt-1 rounded-xl gap-1"
     >
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full gap-1">
         <div>
           <p class="text-sm min-w-32 font-medium text-gray-500">
             {{ $t('components.mount.control.slewRate') }}
@@ -106,7 +106,7 @@
           v-model="settingsStore.mount.slewRate"
         />
         <input
-          class="text-black px-4 h-10 w-24 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
+          class="text-black px-4 h-10 w-24 bg-gray-200 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
           type="number"
           v-model="settingsStore.mount.slewRate"
           min="0.001"

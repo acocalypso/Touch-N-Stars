@@ -104,55 +104,57 @@
     </div>
   </div>
 
-  <div class=" fixed top-24 left-5 flex gap-2 text-gray-300">
-  <div v-if="store.mountInfo.Connected">
-    <button
-      @click="showMount = true"
-      class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-6 h-6 text-gray-300"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+  <div class="fixed top-24 left-5 flex gap-2 text-gray-300">
+    <div v-if="store.mountInfo.Connected">
+      <button
+        @click="showMount = !showMount"
+        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
+        :class="{ 'glow-green': showMount }"
       >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path d="M6 21l6 -5l6 5" />
-        <path d="M12 13v8" />
-        <path
-          d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
-        />
-        <path d="M14 5l3 5.5" />
-      </svg>
-    </button>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 text-gray-300"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 21l6 -5l6 5" />
+          <path d="M12 13v8" />
+          <path
+            d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
+          />
+          <path d="M14 5l3 5.5" />
+        </svg>
+      </button>
+    </div>
+    <div v-if="store.focuserInfo.Connected">
+      <button
+        @click="showFocuser = !showFocuser"
+        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
+        :class="{ 'glow-green': showFocuser }"
+      >
+        <EyeIcon class="w-7 h-7" />
+      </button>
+    </div>
   </div>
-  <div v-if="store.focuserInfo.Connected">
-    <button
-      @click="showFocuser = true"
-      class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
-    >
-      <EyeIcon class="w-7 h-7" />
-    </button>
-  </div>
-</div>
   <!-- Mount Modal -->
-  <Modal :show="showMount" @close="showMount = false">
+  <ModalTransparanet :show="showMount" @close="showMount = false">
     <template #header>
-      <h2 class="text-2xl font-semibold">{{ $t('components.mount.title') }}</h2>
+      <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
     </template>
     <template #body>
       <moveAxis />
     </template>
-  </Modal>
+  </ModalTransparanet>
 
   <!-- Focuser Modal -->
-  <Modal :show="showFocuser" @close="showFocuser = false">
+  <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
     <template #header>
-      <h2 class="text-2xl font-semibold">{{ $t('components.focuser.title') }}</h2>
+      <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
     </template>
     <template #body>
       <div>
@@ -160,7 +162,7 @@
         <ButtonsFastChangePositon class="pt-2" />
       </div>
     </template>
-  </Modal>
+  </ModalTransparanet>
 </template>
 
 <script setup>
@@ -171,7 +173,7 @@ import { EyeIcon } from '@heroicons/vue/24/outline';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
-import Modal from '@/components/helpers/Modal.vue';
+import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';

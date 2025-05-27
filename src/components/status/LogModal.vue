@@ -10,7 +10,7 @@
     >
       <div class="flex justify-between items-center pb-4">
         <h1>LOG</h1>
-                <button
+        <button
           @click="downloadLogs"
           class="p-2 hover:bg-gray-700 rounded-lg"
           :title="$t('components.lastLogs.download')"
@@ -31,7 +31,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <ArrowDownTrayIcon class="w-6 h-6"/>
+          <ArrowDownTrayIcon class="w-6 h-6" />
         </button>
         <button
           @click="$emit('close')"
@@ -40,11 +40,9 @@
         >
           <XMarkIcon class="w-7 h-7" />
         </button>
-        
       </div>
       <!-- Tabelle anzeigen, wenn Daten verfügbar sind -->
       <div class="w-full max-h-[50vh] overflow-y-auto overflow-x-auto relative scrollbar-thin">
-
         <table
           class="w-full table-fixed border-collapse border border-gray-800 text-gray-300 text-sm"
         >

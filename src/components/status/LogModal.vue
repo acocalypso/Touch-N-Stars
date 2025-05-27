@@ -10,29 +10,19 @@
     >
       <div class="flex justify-between items-center pb-4">
         <h1>LOG</h1>
-        <button
-          @click="$emit('close')"
-          class="hover:bg-gray-700/50 rounded-full transition-all duration-200"
-          aria-label="Close modal"
-        >
-          <XMarkIcon class="w-7 h-7" />
-        </button>
-      </div>
-      <!-- Tabelle anzeigen, wenn Daten verfügbar sind -->
-      <div class="w-full max-h-[50vh] overflow-y-auto overflow-x-auto relative scrollbar-thin">
-        <button
+                <button
           @click="downloadLogs"
-          class="absolute top-0 right-0 p-2 hover:bg-gray-700 rounded-lg"
+          class="p-2 hover:bg-gray-700 rounded-lg"
           :title="$t('components.lastLogs.download')"
         >
           <!-- Success indicator -->
           <div
             v-if="showSuccess"
-            class="absolute -top-1 -right-1 z-10 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center animate-fade-out opacity-0 pointer-events-none"
+            class="absolute z-10 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center animate-fade-out opacity-0 pointer-events-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 text-white"
+              class="h-4 w-4 text-gray-300"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -41,21 +31,20 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-5 w-5 text-gray-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-            />
-          </svg>
+          <ArrowDownTrayIcon class="w-6 h-6"/>
         </button>
+        <button
+          @click="$emit('close')"
+          class="hover:bg-gray-700/50 rounded-full transition-all duration-200"
+          aria-label="Close modal"
+        >
+          <XMarkIcon class="w-7 h-7" />
+        </button>
+        
+      </div>
+      <!-- Tabelle anzeigen, wenn Daten verfügbar sind -->
+      <div class="w-full max-h-[50vh] overflow-y-auto overflow-x-auto relative scrollbar-thin">
+
         <table
           class="w-full table-fixed border-collapse border border-gray-800 text-gray-300 text-sm"
         >
@@ -103,16 +92,15 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import { useLogStore } from '@/store/logStore';
-const showSuccess = ref(false);
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { FilePicker } from '@capawesome/capacitor-file-picker';
 import { Capacitor } from '@capacitor/core';
 import { saveAs } from 'file-saver';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 
 const logStore = useLogStore();
 const emit = defineEmits(['close']);
 const isMounted = ref(false);
+const showSuccess = ref(false);
 
 // Funktion zum Formatieren des Timestamps (optional)
 function formatTimestamp(timestamp) {
@@ -138,40 +126,57 @@ async function downloadLogs() {
     .join('\n');
 
   const fileName = `logs-${new Date().toISOString().slice(0, 10)}.log`;
+  const platform = Capacitor.getPlatform();
 
-  // Platform detection for native Android vs web
-  if (Capacitor.getPlatform() === 'android') {
-    // Let user choose directory
+  if (platform === 'android' || platform === 'ios') {
     try {
-      const dirResult = await FilePicker.pickDirectory();
-      if (!dirResult.path) return;
+      const folderName = 'TNS-Logs';
+      // Use Documents directory for both platforms for better compatibility
+      const directory = Directory.Documents;
 
-      // Extract clean path from URI and ensure directory exists
-      const cleanPath = dirResult.path.replace(/content:\/\/.*?\/tree\/primary%3A/, '');
-      const decodedPath = decodeURIComponent(cleanPath).replace(/:/, '/');
-
+      // Create TNS-Logs directory if it doesn't exist
       try {
         await Filesystem.mkdir({
-          path: decodedPath,
-          directory: Directory.ExternalStorage,
+          path: folderName,
+          directory: directory,
           recursive: true,
         });
       } catch (mkdirError) {
-        if (mkdirError.message !== 'Directory exists') {
-          throw mkdirError;
+        // Directory might already exist, ignore error
+        if (
+          !mkdirError.message.includes('Directory exists') &&
+          !mkdirError.message.includes('already exists')
+        ) {
+          console.warn('Error creating directory:', mkdirError);
         }
-      }
-
+      } // Write the log file
       await Filesystem.writeFile({
-        path: `${decodedPath}/${fileName}`,
+        path: `${folderName}/${fileName}`,
         data: logContent,
-        directory: Directory.ExternalStorage,
+        directory: directory,
         encoding: 'utf8',
-        recursive: true,
-        exists: true,
       });
 
-      console.log('Log file saved successfully');
+      console.log(`Log file saved successfully to ${folderName}/${fileName}`);
+      if (platform === 'android') {
+        // For Android, make the file accessible in the media store
+        try {
+          // Get the URI of the saved file
+          const uriResult = await Filesystem.getUri({
+            path: `${folderName}/${fileName}`,
+            directory: directory,
+          });
+
+          console.log(`File URI: ${uriResult.uri}`);
+        } catch (uriError) {
+          console.warn('Error getting file URI:', uriError);
+        }
+
+        alert(`Log file saved to ${folderName} folder in device storage.`);
+      } else if (platform === 'ios') {
+        alert(`Log file saved to ${folderName} folder. You can access it from the Files app.`);
+      }
+
       showSuccess.value = true;
       setTimeout(() => (showSuccess.value = false), 2000);
     } catch (error) {

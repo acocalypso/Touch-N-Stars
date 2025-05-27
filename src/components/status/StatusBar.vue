@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full bg-gray-800/40 transition-opacity h-8 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden"
+    class="w-full bg-gray-900 transition-opacity h-8 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden"
   >
     <!--Camera-->
     <div v-if="store.cameraInfo.Connected" class="flex items-center gap-1 pl-1">

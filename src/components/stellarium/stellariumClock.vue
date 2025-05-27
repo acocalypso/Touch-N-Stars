@@ -1,20 +1,19 @@
 <template>
   <button
-    class="absolute bottom-11 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-8 rounded-full text-gray-200 font-mono"
+    class="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-4 sm:px-8 rounded-full text-gray-200 font-mono text-sm sm:text-base"
     @click="toggleDateTimeControls"
   >
     <p class="text-center">{{ formattedTime }}</p>
     <p class="text-xs text-center">{{ formattedDate }}</p>
   </button>
-
   <!-- Date/Time Control Panel -->
   <div
     v-if="isDateTimeVisible"
-    class="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-transparent"
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
     @click.self="isDateTimeVisible = false"
   >
     <div
-      class="absolute top-22 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-72"
+      class="bg-black bg-opacity-90 p-4 sm:p-6 rounded-lg shadow-lg text-white w-full max-w-sm sm:max-w-md mx-4"
     >
       <h3 class="text-lg font-semibold mb-3">{{ $t('components.stellarium.datetime.title') }}</h3>
 
@@ -25,7 +24,7 @@
           @change="applyDateTime"
           type="date"
           v-model="dateValue"
-          class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+          class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-3 text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
@@ -36,14 +35,13 @@
           @change="applyDateTime"
           type="time"
           v-model="timeValue"
-          class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white"
+          class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-3 text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-
-      <div class="flex gap-3">
+      <div class="flex gap-3 mb-4">
         <button
           @click="resetToCurrentTime"
-          class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md"
+          class="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md text-sm sm:text-base touch-manipulation"
         >
           {{ $t('components.stellarium.datetime.now') }}
         </button>
@@ -52,10 +50,17 @@
       <div class="mt-4">
         <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.speed') }}</label>
         <div class="flex items-center gap-3">
-          <input type="range" v-model="timeSpeed" min="-10" max="10" step="1" class="flex-1" />
-          <span class="text-sm font-mono w-12 text-right">{{ displayTimeSpeed }}</span>
+          <input
+            type="range"
+            v-model="timeSpeed"
+            min="-10"
+            max="10"
+            step="1"
+            class="flex-1 h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <span class="text-sm font-mono w-16 text-right">{{ displayTimeSpeed }}</span>
         </div>
-        <div class="mt-1 text-xs text-gray-300 text-center">
+        <div class="mt-2 text-xs text-gray-300 text-center">
           {{ timeSpeedDescription }}
         </div>
       </div>
@@ -223,3 +228,66 @@ onBeforeUnmount(() => {
   }
 });
 </script>
+
+<style scoped>
+/* Improve range slider for mobile devices */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-track {
+  background: #374151;
+  height: 12px;
+  border-radius: 6px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #60a5fa;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type='range']::-moz-range-track {
+  background: #374151;
+  height: 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+input[type='range']::-moz-range-thumb {
+  background: #60a5fa;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Improve touch targets for mobile */
+@media (max-width: 640px) {
+  input[type='range']::-webkit-slider-thumb {
+    height: 28px;
+    width: 28px;
+  }
+
+  input[type='range']::-moz-range-thumb {
+    height: 28px;
+    width: 28px;
+  }
+}
+
+/* Ensure proper touch handling */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+</style>

@@ -72,7 +72,7 @@
         "confirmRestart": "Určitě chcete systém restartovat?",
         "confirmShutdown": "Jste si jisti, že chcete systém vypnout?",
         "confirmation": "Potvrzení",
-        "info": "This will shutdown or restart the PC which is hosting the N.I.N.A instance!"
+        "info": "Tím se vypne nebo restartuje počítač, který je hostitelem instalace N.I.N.A!"
       },
       "image": {
         "quality": "Kvalita v %",
@@ -287,7 +287,7 @@
         "info_manuell_controll": "Ruční ovládání je k dispozici pouze v případě, že sledování není aktivní.",
         "set_as_park": "Nastavit jako park",
         "slew_to_cenit": "Přelet do Zenitu",
-        "sync_coordinates_to_mount": "Sync coordinates with mount"
+        "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží"
       },
       "info": {
         "notConnected": "Připojte montáž",

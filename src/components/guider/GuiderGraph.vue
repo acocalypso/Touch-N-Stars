@@ -5,7 +5,7 @@
         class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
       ></span>
     </div>
-    <div v-show="!isLoading" class="w-full min-h-64 max-h-96">
+    <div v-show="!isLoading" class="w-full h-[25vh] min-h-40">
       <canvas ref="rmsGraph"></canvas>
     </div>
   </div>

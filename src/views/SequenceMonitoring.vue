@@ -67,7 +67,7 @@
 
         <div
           v-if="settingsStore.monitorViewSetting.showImgStatsGraph"
-          class="w-full min-h-60 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl"
+          class="w-full border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl"
         >
           <SequenzGraph />
         </div>

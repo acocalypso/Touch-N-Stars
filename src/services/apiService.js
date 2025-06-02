@@ -3,7 +3,7 @@ import { getActivePinia } from 'pinia';
 
 let settingsStore;
 let store;
-const DEFAULT_TIMEOUT = 2000;
+const DEFAULT_TIMEOUT = 5000;
 
 const initializeStore = () => {
   if (!settingsStore) {

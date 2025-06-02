@@ -56,7 +56,7 @@ function initGraph() {
           data: starsData,
           borderColor: 'blue',
           fill: false,
-          yAxisID: 'yStars', 
+          yAxisID: 'yStars',
         },
         {
           label: 'HFR',
@@ -167,10 +167,8 @@ watch(
         chart.update();
       }
     }
-  },
+  }
 );
-
-
 </script>
 
 <style scoped></style>

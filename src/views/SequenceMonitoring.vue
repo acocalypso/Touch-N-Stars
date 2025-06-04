@@ -98,8 +98,6 @@ import SubNav from '@/components/SubNav.vue';
 import SequenceImageHistory from '@/components/sequence/SequenceImageHistory.vue';
 import LastSequenceImg from '@/components/sequence/LastSequenceImg.vue';
 import SequenzGraph from '@/components/sequence/SequenzGraph.vue';
-import GuiderGraph from '@/components/guider/GuiderGraph.vue';
-import GuiderStats from '@/components/guider/GuiderStats.vue';
 import AutofocusGrafik from '@/components/focuser/AfFnishGraph.vue';
 import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';

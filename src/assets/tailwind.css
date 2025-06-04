@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .glow-green {
-  box-shadow: 0 0 10px #00ff00;
+  box-shadow: 0 0 7px #00ff00;
 }
 
 @layer utilities {

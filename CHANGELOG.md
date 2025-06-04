@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.9.0] - 
 ### Added
 - Guidgraph can be displayed everywhere. It can be opened and closed from the status bar
+- Add skychart to sequenz
 
 ### Changed
-- Connection timeout increased to 5 s
+- Connection timeout increased to 5s
 
 ### Fixed
 - Automatic reconnect of the mount websocket connection

@@ -19,6 +19,7 @@
         >
           <ControlGuider />
         </div>
+        <!---
         <div
           class="flex mt-5 mb-20 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-2"
         >
@@ -30,19 +31,39 @@
               <GuiderStats />
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import rmsGraph from '@/components/guider/GuiderGraph.vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
+import { useGuiderStore } from '@/store/guiderStore';
 import ControlGuider from '@/components/guider/ControlGuider.vue';
-import GuiderStats from '@/components/guider/GuiderStats.vue';
 
 const store = apiStore();
+const guiderStore = useGuiderStore();
+const wasGraphVisible = ref(false);
+let showWatcher;
+
+onMounted(() => {
+  wasGraphVisible.value = guiderStore.showGuiderGraph;
+  guiderStore.showGuiderGraph = true;
+
+  showWatcher = watch(
+    () => guiderStore.showGuiderGraph,
+    () => {
+      console.log('showGuiderGraph geändert:', guiderStore.showGuiderGraph);
+      wasGraphVisible.value = guiderStore.showGuiderGraph;
+    }
+  );
+});
+
+onUnmounted(() => {
+  guiderStore.showGuiderGraph = wasGraphVisible.value;
+});
 </script>
 
 <style scoped></style>

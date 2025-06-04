@@ -1,14 +1,34 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full bg-gray-900 transition-opacity h-8 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden"
+    class="w-full bg-slate-800 transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden"
   >
+    <!-- Safety info -->
+    <div v-if="store.safetyInfo.Connected" class="flex">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        :class="`w-5 h-5 ${store.safetyInfo.IsSafe ? 'text-green-600' : 'text-red-600'}`"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path
+          d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3"
+        />
+        <path d="M12 11m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+        <path d="M12 12l0 2.5" />
+      </svg>
+    </div>
     <!--Camera-->
-    <div v-if="store.cameraInfo.Connected" class="flex items-center gap-1 pl-1">
+    <div v-if="store.cameraInfo.Connected" class="flex items-center gap-1">
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
       </div>
-      <p>Gain: {{ Number(store.cameraInfo.Gain).toFixed(0) }}</p>
+      <p class="hidden xs:block">Gain: {{ Number(store.cameraInfo.Gain).toFixed(0) }}</p>
       <p v-if="store.cameraInfo.CoolerOn" class="flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +74,7 @@
       </div>
     </div>
     <!--Mount-->
-    <div v-if="store.mountInfo.Connected" class="pl-2 flex items-center">
+    <Button v-if="store.mountInfo.Connected" class="flex flex-row">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -84,10 +104,14 @@
         v-if="store.mountInfo.Slewing"
         class="w-4 h-4 border-2 border-green-500 border-t-transparent border-solid rounded-full animate-spin"
       ></div>
-    </div>
+    </Button>
     <!--Guider-->
-    <div v-if="store.guiderInfo.Connected" class="flex items-center gap-1 pl-3">
-      <button>
+    <div v-if="store.guiderInfo.Connected" class="flex items-center gap-1">
+      <button
+        class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+        :class="{ 'glow-green': guiderStore.showGuiderGraph }"
+        @click="guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph"
+      >
         <svg
           class="w-5 h-5 icon icon-tabler icons-tabler-outline icon-tabler-viewfinder"
           xmlns="http://www.w3.org/2000/svg"
@@ -107,33 +131,13 @@
           <path d="M21 12l-3 0" />
           <path d="M12 12l0 .01" />
         </svg>
+        <p>{{ store.guiderInfo.RMSError.Total.Arcseconds.toFixed(2) }}</p>
       </button>
-      <p>{{ store.guiderInfo.RMSError.Total.Arcseconds.toFixed(2) }}</p>
-    </div>
-    <!-- Safety info -->
-    <div v-if="store.safetyInfo.Connected" class="flex pl-3">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        :class="`w-5 h-5 ${store.safetyInfo.IsSafe ? 'text-green-600' : 'text-red-600'}`"
-      >
-        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-        <path
-          d="M12 3a12 12 0 0 0 8.5 3a12 12 0 0 1 -8.5 15a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3"
-        />
-        <path d="M12 11m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
-        <path d="M12 12l0 2.5" />
-      </svg>
     </div>
     <!-- Weather info container -->
-    <div
+    <Button
       v-if="store.weatherInfo.Connected"
-      class="flex items-center gap-1 min-w-[90px] cursor-pointer"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
       @click.stop.prevent="handleWeatherClick"
     >
       <svg
@@ -165,11 +169,13 @@
         />
       </svg>
       <span class="text-sm">{{ store.weatherInfo.Temperature.toFixed(1) }}°C</span>
-    </div>
+    </Button>
     <!--Log -->
     <div>
-      <button class="flex w-5 h-5" @click.stop.prevent="handleLogClick">
-        <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+      <button
+        class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+        @click.stop.prevent="handleLogClick"
+      >
         <svg
           class="w-5 h-5"
           viewBox="0 0 512 512"
@@ -190,7 +196,10 @@
       </button>
     </div>
     <!-- About icon -->
-    <div class="hover:text-gray-300" @click.stop.prevent="handleAboutClick">
+    <Button
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      @click.stop.prevent="handleAboutClick"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-5 w-5"
@@ -203,7 +212,7 @@
           clip-rule="evenodd"
         />
       </svg>
-    </div>
+    </Button>
 
     <!-- Weather modal -->
     <WeatherModal
@@ -215,23 +224,36 @@
     <AboutModal v-if="showAboutModal" :version="appVersion" @close="showAboutModal = false" />
     <!-- Log modal -->
     <LogModal v-if="showLogModal" @close="showLogModal = false" />
+    <div
+      class="fixed bottom-9 left-0 w-full bg-gray-800/95 border-t border-cyan-700"
+      v-show="guiderStore.showGuiderGraph"
+    >
+      <GuiderGraph />
+      <div class="flex gap-2 ml-6">
+        <GuiderStats />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { apiStore } from '@/store/store';
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { CameraIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import AboutModal from './AboutModal.vue';
 import LogModal from './LogModal.vue';
 import version from '@/version';
+import GuiderGraph from '../guider/GuiderGraph.vue';
+import GuiderStats from '../guider/GuiderStats.vue';
+import { useGuiderStore } from '@/store/guiderStore';
 
 const store = apiStore();
 const showAboutModal = ref(false);
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
 const appVersion = ref(version);
+const guiderStore = useGuiderStore();
 
 function handleWeatherClick(event) {
   showWeatherModal.value = true;
@@ -248,8 +270,6 @@ function handleLogClick(event) {
   event.stopPropagation();
   event.preventDefault();
 }
-
-onMounted(() => {});
 </script>
 
 <style scoped></style>

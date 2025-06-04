@@ -1,7 +1,10 @@
 <template>
   <!-- Capture & Cancel Buttons -->
   <div
-    class="fixed bottom-7 right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-10 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
+    :class="[
+      'fixed right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-50 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black',
+      guiderStore.showGuiderGraph ? 'bottom-72' : 'bottom-11',
+    ]"
   >
     <!-- Capture / Cancel Combined Button -->
     <button
@@ -126,6 +129,7 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useGuiderStore } from '@/store/guiderStore';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
@@ -134,6 +138,7 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
+const guiderStore = useGuiderStore();
 const openSettings = ref(false);
 </script>
 <style scoped>

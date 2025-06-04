@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Connection timeout increased to 5 s
 
+### Fixed
+- Automatic reconnect of the mount websocket connection
+
 ## [1.0.8.0] - 2025-05-27
 ### Added
 - Stellarium on iOS 

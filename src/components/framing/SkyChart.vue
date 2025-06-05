@@ -213,7 +213,7 @@ function createChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      animation: false, 
+      animation: false,
       scales: {
         y: {
           min: 0,
@@ -234,8 +234,8 @@ function createChart() {
 function updateChart() {
   if (!chartInstance || altitudeData.value.length === 0) return;
 
-  chartInstance.data.labels = altitudeData.value.map(p => p.label);
-  chartInstance.data.datasets[0].data = altitudeData.value.map(p => p.altitude);
+  chartInstance.data.labels = altitudeData.value.map((p) => p.label);
+  chartInstance.data.datasets[0].data = altitudeData.value.map((p) => p.altitude);
   chartInstance.data.datasets[1].data = horizonAltitudes.value;
   chartInstance.data.datasets[2].data = getDarknessFill(-12);
   chartInstance.data.datasets[3].data = getDarknessFill(-18);
@@ -337,7 +337,6 @@ onMounted(async () => {
   await loadCustomHorizont();
   createChart();
 });
-
 
 watch([altitudeData, horizonAltitudes], () => {
   if (chartInstance) {

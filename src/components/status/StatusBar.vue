@@ -223,16 +223,13 @@ import { ref } from 'vue';
 import { CameraIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
-import version from '@/version';
 import GuiderGraph from '../guider/GuiderGraph.vue';
 import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
 
 const store = apiStore();
-const showAboutModal = ref(false);
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
-const appVersion = ref(version);
 const guiderStore = useGuiderStore();
 
 function handleWeatherClick(event) {

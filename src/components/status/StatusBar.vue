@@ -74,7 +74,7 @@
       </div>
     </div>
     <!--Mount-->
-    <Button v-if="store.mountInfo.Connected" class="flex flex-row">
+    <button v-if="store.mountInfo.Connected" class="flex flex-row">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -104,7 +104,7 @@
         v-if="store.mountInfo.Slewing"
         class="w-4 h-4 border-2 border-green-500 border-t-transparent border-solid rounded-full animate-spin"
       ></div>
-    </Button>
+    </button>
     <!--Guider-->
     <div v-if="store.guiderInfo.Connected" class="flex items-center gap-1">
       <button
@@ -135,7 +135,7 @@
       </button>
     </div>
     <!-- Weather info container -->
-    <Button
+    <button
       v-if="store.weatherInfo.Connected"
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
       @click.stop.prevent="handleWeatherClick"
@@ -169,7 +169,7 @@
         />
       </svg>
       <span class="text-sm">{{ store.weatherInfo.Temperature.toFixed(1) }}°C</span>
-    </Button>
+    </button>
     <!--Log -->
     <div>
       <button
@@ -196,7 +196,7 @@
       </button>
     </div>
     <!-- About icon -->
-    <Button
+    <button
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
       @click.stop.prevent="handleAboutClick"
     >
@@ -212,7 +212,7 @@
           clip-rule="evenodd"
         />
       </svg>
-    </Button>
+    </button>
 
     <!-- Weather modal -->
     <WeatherModal

@@ -21,7 +21,7 @@
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />
-        <router-view :key="orientation" />
+        <router-view :key="orientation" class="h-auto" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted">

@@ -13,10 +13,10 @@
     </div>
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
-    <div v-show="store.cameraInfo.Connected" class="pb-14">
+    <div v-show="store.cameraInfo.Connected">
       <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
         <div class="flex flex-col space-y-3">
-          <div class="flex flex-col space-y-2">
+          <div class="flex flex-col space-y-2 z-20">
             <CaptureButton />
           </div>
         </div>

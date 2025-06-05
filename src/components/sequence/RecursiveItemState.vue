@@ -47,12 +47,39 @@
             />
           </button>
         </div>
+        <!-- Target Information Section -->
+        <div v-if="item.Target" class="mt-4 mb-4">
+          <div class="bg-gray-700 rounded-lg p-3 border border-gray-600">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-gray-400">RA:</span>
+                <span class="text-gray-200 ml-2">
+                  {{ formatTargetRA(item.Target.InputCoordinates) }}
+                </span>
+              </div>
+              <div>
+                <span class="text-gray-400">DEC:</span>
+                <span class="text-gray-200 ml-2">
+                  {{ formatTargetDec(item.Target.InputCoordinates) }}
+                </span>
+              </div>
+            </div>
 
+            <!-- SkyChart Display -->
+            <div v-if="hasValidTargetCoordinates(item.Target)" class="mt-3">
+              <SkyChart
+                :target="getTargetForSkyChart(item.Target)"
+                :coordinates="getObserverCoordinates()"
+              />
+            </div>
+          </div>
+        </div>
         <!-- Triggers Section -->
         <div v-if="item.Triggers?.length" class="mt-4">
           <h4 class="text-sm font-semibold text-gray-300 mb-2">
             {{ $t('components.sequence.triggers') }}
           </h4>
+
           <div class="space-y-2">
             <div
               v-for="(trigger, tIndex) in item.Triggers"
@@ -352,58 +379,13 @@
             :containerIndex="containerIndex"
           />
         </div>
-
-        <!-- Target Information Section -->
-        <div v-if="item.Target" class="mt-4 mb-4">
-          <div class="bg-gray-700 rounded-lg p-3 border border-gray-600">
-            <h4 class="text-lg font-semibold text-cyan-300 mb-3">
-              {{ item.Target.TargetName }}
-            </h4>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <span class="text-gray-400">RA:</span>
-                <span class="text-gray-200 ml-2">
-                  {{ formatTargetRA(item.Target.InputCoordinates) }}
-                </span>
-              </div>
-              <div>
-                <span class="text-gray-400">DEC:</span>
-                <span class="text-gray-200 ml-2">
-                  {{ formatTargetDec(item.Target.InputCoordinates) }}
-                </span>
-              </div>
-            </div>
-
-            <!-- SkyChart Toggle Button -->
-            <div v-if="hasValidTargetCoordinates(item.Target)" class="mt-3">
-              <button
-                @click="toggleSkyChart(item._path)"
-                class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition-colors"
-              >
-                {{ showSkyChart.get(item._path) ? 'Hide Sky Chart' : 'Show Sky Chart' }}
-              </button>
-            </div>
-
-            <!-- SkyChart Display -->
-            <div
-              v-if="showSkyChart.get(item._path) && hasValidTargetCoordinates(item.Target)"
-              class="mt-3"
-            >
-              <SkyChart
-                :target="getTargetForSkyChart(item.Target)"
-                :coordinates="getObserverCoordinates()"
-              />
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { watch, ref } from 'vue';
+import { watch } from 'vue';
 import { defineProps } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -446,9 +428,6 @@ const props = defineProps({
 const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
-
-// Reactive state for SkyChart visibility
-const showSkyChart = ref(new Map());
 
 // Functions for target coordinate handling
 function formatTargetRA(inputCoordinates) {
@@ -509,11 +488,6 @@ function getObserverCoordinates() {
     latitude: settingsStore.coordinates?.latitude || 0,
     longitude: settingsStore.coordinates?.longitude || 0,
   };
-}
-
-function toggleSkyChart(itemPath) {
-  const currentState = showSkyChart.value.get(itemPath) || false;
-  showSkyChart.value.set(itemPath, !currentState);
 }
 
 function isRunningOrHasRunningChildren(item) {

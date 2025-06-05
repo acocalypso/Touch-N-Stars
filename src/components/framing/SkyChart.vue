@@ -213,6 +213,7 @@ function createChart() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      animation: false,
       scales: {
         y: {
           min: 0,
@@ -228,6 +229,22 @@ function createChart() {
       plugins: { legend: { display: false } },
     },
   });
+}
+
+function updateChart() {
+  if (!chartInstance || altitudeData.value.length === 0) return;
+
+  chartInstance.data.labels = altitudeData.value.map((p) => p.label);
+  chartInstance.data.datasets[0].data = altitudeData.value.map((p) => p.altitude);
+  chartInstance.data.datasets[1].data = horizonAltitudes.value;
+  chartInstance.data.datasets[2].data = getDarknessFill(-12);
+  chartInstance.data.datasets[3].data = getDarknessFill(-18);
+  chartInstance.data.datasets[4].data = altitudeData.value.map((_, i) => {
+    const mid = Math.floor(altitudeData.value.length / 2);
+    return i === mid ? 90 : 0;
+  });
+
+  chartInstance.update(); // 👈 macht den Job
 }
 
 async function loadCustomHorizont() {
@@ -319,9 +336,13 @@ function getDarknessFill(thresholdDeg = -18) {
 onMounted(async () => {
   await loadCustomHorizont();
   createChart();
-  //console.log(getDarknessFill(-12));
-  //console.log(getDarknessFill(-18));
 });
 
-watch(altitudeData, createChart);
+watch([altitudeData, horizonAltitudes], () => {
+  if (chartInstance) {
+    updateChart();
+  } else {
+    createChart(); // Erstes Mal erstellen
+  }
+});
 </script>

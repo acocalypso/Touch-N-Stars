@@ -1,5 +1,5 @@
 <template>
-  <div class="subnav bg-gray-800 shadow-sm absolute left-0">
+  <div class="subnav bg-gray-800 shadow-sm fixed left-0 z-10">
     <div class="flex mx-auto h-12 items-center justify-center px-4 space-x-4">
       <button
         v-for="item in items"

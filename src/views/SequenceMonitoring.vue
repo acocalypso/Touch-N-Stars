@@ -55,7 +55,7 @@
     v-model:activeItem="currentTab"
   />
 
-  <div class="flex items-center justify-center mx-6 my-16">
+  <div class="flex items-center justify-center mb-6 mt-16">
     <div v-if="currentTab == 'showStats'">
       <div
         v-if="store.imageHistoryInfo && store.imageHistoryInfo.length > 0"
@@ -67,21 +67,11 @@
 
         <div
           v-if="settingsStore.monitorViewSetting.showImgStatsGraph"
-          class="w-full min-h-60 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl"
+          class="w-full border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl"
         >
           <SequenzGraph />
         </div>
-        <div
-          v-if="settingsStore.monitorViewSetting.showGuiderGraph && store.guiderInfo.Connected"
-          class="flex flex-col w-full min-h-40 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
-        >
-          <div class="w-full">
-            <GuiderGraph />
-          </div>
-          <div class="min-w-24 pt-4 flex gap-3 ml-7 text-gray-300">
-            <GuiderStats />
-          </div>
-        </div>
+
         <div
           class="flex flex-col w-full min-h-80 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
           v-if="settingsStore.monitorViewSetting.showGuiderAfGraph && store.focuserInfo.Connected"
@@ -108,8 +98,6 @@ import SubNav from '@/components/SubNav.vue';
 import SequenceImageHistory from '@/components/sequence/SequenceImageHistory.vue';
 import LastSequenceImg from '@/components/sequence/LastSequenceImg.vue';
 import SequenzGraph from '@/components/sequence/SequenzGraph.vue';
-import GuiderGraph from '@/components/guider/GuiderGraph.vue';
-import GuiderStats from '@/components/guider/GuiderStats.vue';
 import AutofocusGrafik from '@/components/focuser/AfFnishGraph.vue';
 import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';

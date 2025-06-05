@@ -195,12 +195,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   websocketMountControl.setStatusCallback(null);
   websocketMountControl.setMessageCallback(null);
+  websocketMountControl.disconnect();
   mountStore.lastDirection = '';
   mountStore.wsIsConnected = false;
-  clearInterval(commandInterval);
-  if (websocketMountControl.socket) {
-    websocketMountControl.socket.close();
-  }
 });
 </script>
 

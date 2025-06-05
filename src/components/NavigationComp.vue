@@ -273,11 +273,16 @@
         >
           <Cog6ToothIcon class="icon" />
         </button>
+        <button @click="showAboutModal = true" class="nav-button" active-class="active-nav-button">
+          <InformationCircleIcon class="icon" />
+        </button>
       </div>
     </div>
   </div>
 
   <exposureCountdown />
+  <!-- About modal -->
+  <AboutModal v-if="showAboutModal" :version="appVersion" @close="showAboutModal = false" />
 </template>
 
 <script setup>
@@ -290,14 +295,17 @@ import {
   LightBulbIcon,
   AdjustmentsVerticalIcon,
   SparklesIcon,
+  InformationCircleIcon,
 } from '@heroicons/vue/24/outline';
-import { watch, computed } from 'vue';
+import { watch, computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 import { usePluginStore } from '@/store/pluginStore';
+import AboutModal from './status/AboutModal.vue';
+import version from '@/version';
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
@@ -305,6 +313,8 @@ const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
 const route = useRoute();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
+const appVersion = ref(version);
+const showAboutModal = ref(false);
 
 const activeInstanceColor = computed(() =>
   settingsStore.getInstanceColorById(selectedInstanceId.value)

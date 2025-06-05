@@ -107,10 +107,6 @@
         </div>
       </div>
     </div>
-    <div class="text-xs text-gray-500 pb-5">
-      <p v-if="!sequenceStore.sequenceIsEditable">V1-json</p>
-      <p v-else>V2-state</p>
-    </div>
   </div>
 </template>
 

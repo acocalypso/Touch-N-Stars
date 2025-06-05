@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="showModal = true" class="default-button-cyan">
-      <HeartIcon class="w-7 h-7"/>
+      <HeartIcon class="w-7 h-7" />
     </button>
 
     <!-- Modal -->

@@ -1,20 +1,22 @@
 <template>
   <div>
-    <canvas class="max-h-48" ref="rmsGraph"></canvas>
+    <canvas class="w-full h-[25vh] min-h-40" ref="hfrGraph"></canvas>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { Chart } from 'chart.js/auto';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
-const rmsGraph = ref(null);
+const hfrGraph = ref(null);
 let chart = null;
 
 onMounted(() => {
-  initGraph();
+  nextTick(() => {
+    initGraph();
+  });
 });
 
 onBeforeUnmount(() => {
@@ -44,7 +46,7 @@ function initGraph() {
   const medinaData = responseData.map((item) => item.Median);
 
   // Chart.js-Instanz erzeugen
-  chart = new Chart(rmsGraph.value, {
+  chart = new Chart(hfrGraph.value, {
     type: 'line',
     data: {
       labels,
@@ -54,7 +56,7 @@ function initGraph() {
           data: starsData,
           borderColor: 'blue',
           fill: false,
-          yAxisID: 'yStars', // <--- Wichtig: ID der linken Y-Achse
+          yAxisID: 'yStars',
         },
         {
           label: 'HFR',
@@ -74,6 +76,7 @@ function initGraph() {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       scales: {
         x: {
           title: {
@@ -164,9 +167,6 @@ watch(
         chart.update();
       }
     }
-  },
-  {
-    immediate: false,
   }
 );
 </script>

@@ -5,7 +5,7 @@
         class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
       ></span>
     </div>
-    <div v-show="!isLoading" class="w-full min-h-64 max-h-96">
+    <div v-show="!isLoading" class="w-full h-[25vh] min-h-40">
       <canvas ref="rmsGraph"></canvas>
     </div>
   </div>
@@ -34,7 +34,7 @@ const initGraph = () => {
           label: 'RA "',
           borderColor: 'rgba(70, 130, 180, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          tension: 0.5,
+          tension: 0,
           pointRadius: 0,
           data: Array(size).fill(null),
           yAxisID: 'y',
@@ -45,7 +45,7 @@ const initGraph = () => {
           label: 'Dec "',
           borderColor: 'rgba(220, 20, 60, 1)',
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          tension: 0.5,
+          tension: 0,
           pointRadius: 0,
           data: Array(size).fill(null),
           yAxisID: 'y',
@@ -92,8 +92,7 @@ const initGraph = () => {
           },
         },
         tooltip: {
-          mode: 'index',
-          intersect: false,
+          enabled: false,
         },
       },
       animation: {

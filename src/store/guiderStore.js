@@ -10,6 +10,7 @@ export const useGuiderStore = defineStore('guiderStore', {
     raDuration: [],
     decDuration: [],
     chartInfo: [],
+    showGuiderGraph: false,
   }),
   actions: {
     async fetchGraphInfos() {

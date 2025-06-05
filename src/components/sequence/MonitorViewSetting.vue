@@ -67,23 +67,6 @@
     <div
       class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
-      <label for="showGuiderGraph" class="text-gray-400">
-        {{ $t('components.sequence.monitor.settings.showGuiderGraph') }}
-      </label>
-      <div>
-        <toggleButton
-          @click="
-            settingsStore.monitorViewSetting.showGuiderGraph =
-              !settingsStore.monitorViewSetting.showGuiderGraph
-          "
-          :status-value="settingsStore.monitorViewSetting.showGuiderGraph"
-        />
-      </div>
-    </div>
-
-    <div
-      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-    >
       <label for="showGuiderAfGraph" class="text-gray-400">
         {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
       </label>

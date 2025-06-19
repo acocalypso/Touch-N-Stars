@@ -5,28 +5,33 @@
         {{ $t('components.tppa.not_available') }}
       </div>
       <div v-else>
-        <h5 class="text-xl text-center font-bold text-white mb-4">
+        <h5 class="text-xl text-center font-bold text-gray-300 mb-4">
           {{ $t('components.tppa.title') }}
         </h5>
         <div v-if="!store.cameraInfo.Connected">
           <p class="text-red-800">{{ $t('components.tppa.camera_mount_required') }}</p>
         </div>
-        <div v-else class="flex space-x-5">
-          <button
-            class="default-button-cyan"
-            @click="startAlignment"
-            :disabled="tppaStore.isTppaRunning"
-          >
-            {{
-              tppaStore.isTppaRunning
-                ? $t('components.tppa.running')
-                : $t('components.tppa.start_alignment')
-            }}
-          </button>
-          <ButtonPause class="w-28" v-if="tppaStore.isTppaRunning" />
-          <button class="default-button-cyan" @click="stopAlignment">
-            {{ $t('components.tppa.stop_alignment') }}
-          </button>
+        <div v-else>
+          <div class="pb-2">
+            <TppaSettings />
+          </div>
+          <div class="flex gap-2">
+            <button
+              class="default-button-cyan"
+              @click="startAlignment"
+              :disabled="tppaStore.isTppaRunning"
+            >
+              {{
+                tppaStore.isTppaRunning
+                  ? $t('components.tppa.running')
+                  : $t('components.tppa.start_alignment')
+              }}
+            </button>
+            <ButtonPause class="w-28" v-if="tppaStore.isTppaRunning" />
+            <button class="default-button-cyan" @click="stopAlignment">
+              {{ $t('components.tppa.stop_alignment') }}
+            </button>
+          </div>
         </div>
         <div v-if="tppaStore.currentMessage" class="mt-10">
           <div class="space-y-4">
@@ -199,6 +204,7 @@ import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
 import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
+import TppaSettings from './TppaSettings.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -319,7 +325,22 @@ async function startAlignment() {
   tppaStore.isPause = false;
   resetErrors();
   await unparkMount();
-  websocketService.sendMessage('start-alignment');
+  //websocketService.sendMessage('start-alignment');
+  if (!tppaStore.settings.StartFromCurrentPosition) {
+    websocketService.sendMessage(
+      JSON.stringify({
+        Action: 'start-alignment',
+        StartFromCurrentPosition: 'false',
+      })
+    );
+  } else {
+    websocketService.sendMessage(
+      JSON.stringify({
+        Action: 'start-alignment',
+        ...tppaStore.settings,
+      })
+    );
+  }
 }
 
 function resetErrors() {
@@ -332,7 +353,12 @@ function resetErrors() {
 
 function stopAlignment() {
   console.log("Sende 'stop-alignment' an den Server");
-  websocketService.sendMessage('stop-alignment');
+  //websocketService.sendMessage('stop-alignment');
+  websocketService.sendMessage(
+    JSON.stringify({
+      Action: 'stop-alignment',
+    })
+  );
 }
 
 async function unparkMount() {

@@ -218,7 +218,7 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       this.apiPort = null;
-      this.profileInfo = [];
+      /* this.profileInfo = [];
       this.cameraInfo = [];
       this.mountInfo = [];
       this.filterInfo = [];
@@ -233,7 +233,7 @@ export const apiStore = defineStore('store', {
       this.weatherInfo = [];
       this.isLoadingImage = false;
       this.captureRunning = false;
-      this.existingEquipmentList = [];
+      this.existingEquipmentList = [];*/
     },
 
     handleApiResponses({

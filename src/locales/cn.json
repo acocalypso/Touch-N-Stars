@@ -428,7 +428,11 @@
       "plate_solve_ok": "板解析成功",
       "plate_solve_start": "开始板解析",
       "slewing_first_position": "转向第一个位置",
-      "slewing_next_position": "转向下一个位置"
+      "slewing_next_position": "转向下一个位置",
+      "settings": {
+        "DirectionEast": "Direction East",
+        "StartFromCurrentPosition": "Start from current position?"
+      }
     },
     "logs": {
       "loading": "加载数据中...",

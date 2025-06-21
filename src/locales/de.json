@@ -428,7 +428,11 @@
       "slewing_first_position": "Schwenkt zur ersten Position",
       "slewing_next_position": "Schwenkt zur nächsten Position",
       "capture_running": "Aufnahme läuft",
-      "last_messages": "Letzte Meldungen"
+      "last_messages": "Letzte Meldungen",
+      "settings": {
+        "DirectionEast": "Richtung Westen",
+        "StartFromCurrentPosition": "Von der aktuellen Position starten?"
+      }
     },
     "logs": {
       "loading": "Daten werden geladen...",

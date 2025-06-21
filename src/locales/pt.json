@@ -562,7 +562,11 @@
       "total_error": "Erro total:",
       "unknown_response_format": "Formato de resposta desconhecida",
       "up": "Acima",
-      "west": "Oeste"
+      "west": "Oeste",
+      "settings": {
+        "DirectionEast": "Direção leste",
+        "StartFromCurrentPosition": "Começar da posição atual?"
+      }
     },
     "tutorial": {
       "next": "Próximo",

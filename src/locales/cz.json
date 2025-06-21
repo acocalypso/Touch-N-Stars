@@ -428,7 +428,11 @@
       "plate_solve_ok": "Řešení úspěšné",
       "plate_solve_start": "Zahájit řešení",
       "slewing_first_position": "Přesun na první polohun",
-      "slewing_next_position": "Přesun na další polohu"
+      "slewing_next_position": "Přesun na další polohu",
+      "settings": {
+        "DirectionEast": "Direction East",
+        "StartFromCurrentPosition": "Start from current position?"
+      }
     },
     "logs": {
       "loading": "Načítání dat...",

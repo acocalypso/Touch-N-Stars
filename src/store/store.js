@@ -68,7 +68,6 @@ export const apiStore = defineStore('store', {
             // console.log(fn, 'Attempt', attempt);
             if (result) break;
           } catch (e) {
-           
             // ignore error, continue retrying
           }
           if (attempt < retries) await new Promise((resolve) => setTimeout(resolve, delay));
@@ -142,11 +141,11 @@ export const apiStore = defineStore('store', {
 
         if (this.apiPort) {
           //const responseApoVersion = await apiService.fetchApiVersion();
-          const responseApoVersion = await tryWithRetry(
+          const responseApiVersion = await tryWithRetry(
             () => apiService.fetchApiVersion(),
             this.connectingAttempts
           );
-          if (!responseApoVersion) {
+          if (!responseApiVersion) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({
@@ -158,7 +157,7 @@ export const apiStore = defineStore('store', {
             this.clearAllStates();
             return;
           }
-        } else {
+            else {
           const apiVersionResponse = await apiService.fetchApiVersion();
           this.currentApiVersion = apiVersionResponse.Response;
 
@@ -179,7 +178,7 @@ export const apiStore = defineStore('store', {
             this.clearAllStates();
             return;
           }
-        }
+        }}
 
         // when everything is accessible
         this.isBackendReachable = true;

@@ -56,6 +56,7 @@
 <script setup>
 import { ref } from 'vue';
 import { CommandLineIcon, XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import { downloadLogs as downloadLogsHelper } from '@/utils/logDownloader';
 
 const isModalOpen = ref(false);
 const logs = ref([]);
@@ -85,54 +86,22 @@ function getCircularReplacer() {
 }
 
 async function downloadLogs() {
-  const logContent = logs.value
-    .map((log) => `[${log.type.toUpperCase()}] ${log.message}`)
-    .join('\n');
+  // Convert console logs to the format expected by the helper
+  const formattedLogs = logs.value.map((log) => ({
+    timestamp: new Date().toISOString(), // Since console logs don't have timestamps, use current time
+    level: log.type.toUpperCase(),
+    message: log.message,
+  }));
 
-  const fileName = `logs-${new Date().toISOString().slice(0, 10)}.log`;
+  // Simple formatter for console logs (no actual timestamp to format)
+  const formatTimestamp = (timestamp) => new Date(timestamp).toLocaleString();
 
-  // Platform detection for native Android vs web
-  if (Capacitor.getPlatform() === 'android') {
-    // Let user choose directory
-    try {
-      const dirResult = await FilePicker.pickDirectory();
-      if (!dirResult.path) return;
+  const success = await downloadLogsHelper(formattedLogs, formatTimestamp, {
+    filePrefix: 'console-logs',
+    folderName: 'TNS-Console-Logs',
+  });
 
-      // Extract clean path from URI and ensure directory exists
-      const cleanPath = dirResult.path.replace(/content:\/\/.*?\/tree\/primary%3A/, '');
-      const decodedPath = decodeURIComponent(cleanPath).replace(/:/, '/');
-
-      try {
-        await Filesystem.mkdir({
-          path: decodedPath,
-          directory: Directory.ExternalStorage,
-          recursive: true,
-        });
-      } catch (mkdirError) {
-        if (mkdirError.message !== 'Directory exists') {
-          throw mkdirError;
-        }
-      }
-
-      await Filesystem.writeFile({
-        path: `${decodedPath}/${fileName}`,
-        data: logContent,
-        directory: Directory.ExternalStorage,
-        encoding: 'utf8',
-        recursive: true,
-        exists: true,
-      });
-
-      console.log('Log file saved successfully');
-      showSuccess.value = true;
-      setTimeout(() => (showSuccess.value = false), 2000);
-    } catch (error) {
-      console.error('Error saving log file:', error);
-    }
-  } else {
-    // Web browser fallback using file-saver
-    const blob = new Blob([logContent], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, fileName);
+  if (success) {
     showSuccess.value = true;
     setTimeout(() => (showSuccess.value = false), 2000);
   }

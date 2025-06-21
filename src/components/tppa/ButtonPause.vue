@@ -13,11 +13,21 @@ const tppaStore = useTppaStore();
 
 async function pausResume() {
   if (tppaStore.isPause) {
-    websocketService.sendMessage('resume-alignment');
+    //websocketService.sendMessage('resume-alignment');
+    websocketService.sendMessage(
+      JSON.stringify({
+        Action: 'resume-alignment',
+      })
+    );
     console.log('Press resume');
     tppaStore.isPause = false;
   } else {
-    websocketService.sendMessage('pause-alignment');
+    //websocketService.sendMessage('pause-alignment');
+    websocketService.sendMessage(
+      JSON.stringify({
+        Action: 'pause-alignment',
+      })
+    );
     tppaStore.isPause = true;
     console.log('Press Pause');
   }

@@ -42,7 +42,7 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.3.0',
+    minimumApiVersion: '2.2.4.0',
     minimumTnsPluginVersion: '1.0.7.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
@@ -53,16 +53,36 @@ export const apiStore = defineStore('store', {
     },
     closeErrorModal: false,
     errorMessageShown: false,
+    connectingAttempts: 2,
   }),
 
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
 
+      const tryWithRetry = async (fn, retries = 1, delay = 2000) => {
+        let result = null;
+        for (let attempt = 0; attempt <= retries; attempt++) {
+          try {
+            result = await fn();
+            // console.log(fn, 'Attempt', attempt);
+            if (result) break;
+          } catch (e) {
+            // ignore error, continue retrying
+          }
+          if (attempt < retries) await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+        return result;
+      };
+
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
       try {
-        const tnsVersionResponse = await apiService.fetchTnsPluginVersion(); //Check if Plugin is reachable
+        //const tnsVersionResponse = await apiService.fetchTnsPluginVersion(); //Check if Plugin is reachable
+        const tnsVersionResponse = await tryWithRetry(
+          () => apiService.fetchTnsPluginVersion(),
+          this.connectingAttempts
+        );
         if (!tnsVersionResponse) {
           console.warn('TNS-Plugin not reachable');
           if (!this.errorMessageShown) {
@@ -98,7 +118,11 @@ export const apiStore = defineStore('store', {
 
         if (!this.apiPort) {
           //fetch API Port
-          const response = await apiService.fetchApiPort();
+          //const response = await apiService.fetchApiPort();
+          const response = await tryWithRetry(
+            () => apiService.fetchApiPort(),
+            this.connectingAttempts
+          );
           if (!response) {
             console.error('API nicht erreichbar');
             if (!this.errorMessageShown) {
@@ -116,8 +140,12 @@ export const apiStore = defineStore('store', {
         }
 
         if (this.apiPort) {
-          const responseApoVersion = await apiService.fetchApiVersion();
-          if (!responseApoVersion) {
+          //const responseApoVersion = await apiService.fetchApiVersion();
+          const responseApiVersion = await tryWithRetry(
+            () => apiService.fetchApiVersion(),
+            this.connectingAttempts
+          );
+          if (!responseApiVersion) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({
@@ -128,32 +156,31 @@ export const apiStore = defineStore('store', {
             }
             this.clearAllStates();
             return;
-          }
-        } else {
-          const apiVersionResponse = await apiService.fetchApiVersion();
-          this.currentApiVersion = apiVersionResponse.Response;
+          } else {
+            const apiVersionResponse = await apiService.fetchApiVersion();
+            this.currentApiVersion = apiVersionResponse.Response;
 
-          this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-            this.currentApiVersion,
-            this.minimumApiVersion
-          );
+            this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+              this.currentApiVersion,
+              this.minimumApiVersion
+            );
 
-          if (!this.isApiVersionNewerOrEqual) {
-            console.warn('API version incompatible', this.currentApiVersion);
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api_version'),
-              });
+            if (!this.isApiVersionNewerOrEqual) {
+              console.warn('API version incompatible', this.currentApiVersion);
+              if (!this.errorMessageShown) {
+                toastStore.showToast({
+                  type: 'error',
+                  title: t('app.connection_error_toast.title'),
+                  message: t('app.connection_error_toast.message_api_version'),
+                });
+              }
+              this.clearAllStates();
+              return;
             }
-            this.clearAllStates();
-            return;
           }
         }
-        //console.log('API OK');
 
-        //Wenn alles erreichbar
+        // when everything is accessible
         this.isBackendReachable = true;
 
         const [
@@ -218,7 +245,7 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       this.apiPort = null;
-      this.profileInfo = [];
+      /* this.profileInfo = [];
       this.cameraInfo = [];
       this.mountInfo = [];
       this.filterInfo = [];
@@ -233,7 +260,7 @@ export const apiStore = defineStore('store', {
       this.weatherInfo = [];
       this.isLoadingImage = false;
       this.captureRunning = false;
-      this.existingEquipmentList = [];
+      this.existingEquipmentList = [];*/
     },
 
     handleApiResponses({

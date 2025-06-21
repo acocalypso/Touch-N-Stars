@@ -428,7 +428,11 @@
       "plate_solve_ok": "Piatti di successo",
       "plate_solve_start": "Platesolve inizia",
       "slewing_first_position": "Slewing in prima posizione",
-      "slewing_next_position": "Slewing alla prossima posizione"
+      "slewing_next_position": "Slewing alla prossima posizione",
+      "settings": {
+        "DirectionEast": "Direzione est",
+        "StartFromCurrentPosition": "Iniziare dalla posizione corrente?"
+      }
     },
     "logs": {
       "loading": "Caricamento dati...",

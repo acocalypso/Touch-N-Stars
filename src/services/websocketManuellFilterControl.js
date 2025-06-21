@@ -29,6 +29,10 @@ class WebSocketService {
   connect() {
     const settingsStore = useSettingsStore();
     const store = apiStore();
+
+    //Nur wenn das Backenderreichbar ist
+    if (!store.isBackendReachable) return;
+
     const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import notificationService from '@/services/notificationService';
+import { apiStore } from './store';
 
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
@@ -125,6 +126,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
     async getSequenceInfo() {
       let response = null;
       let foundUnsupportedPlugins = false;
+      const store = apiStore();
+
+      if (!store.isBackendReachable) return;
 
       if (this.firstLoad) {
         response = await this.getSequenceInfoJson();
@@ -321,9 +325,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
     startFetching() {
       this.stopFetching(); // Stop any existing interval before starting a new one
       this.getSequenceInfo(); // Fetch immediately
-      // Start the interval to fetch every 10 seconds
+      // Start the interval to fetch every 5 seconds
       if (!this.intervalId) {
-        this.intervalId = setInterval(this.getSequenceInfo, 10000);
+        this.intervalId = setInterval(this.getSequenceInfo, 5000);
       }
     },
 

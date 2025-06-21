@@ -428,7 +428,11 @@
       "plate_solve_ok": "Platesove exitoso",
       "plate_solve_start": "INICIAR PLATESOLVE",
       "slewing_first_position": "Desplazando a la primera posición",
-      "slewing_next_position": "Desplazando a la siguiente posición"
+      "slewing_next_position": "Desplazando a la siguiente posición",
+      "settings": {
+        "DirectionEast": "Dirección hacia el este",
+        "StartFromCurrentPosition": "Comenzar desde la posición actual?"
+      }
     },
     "logs": {
       "loading": "Cargando datos...",

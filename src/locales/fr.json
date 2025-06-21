@@ -428,7 +428,11 @@
       "plate_solve_ok": "Plaques à succès",
       "plate_solve_start": "Platelolve Start",
       "slewing_first_position": "Aller à la première position",
-      "slewing_next_position": "Aller à la position suivante"
+      "slewing_next_position": "Aller à la position suivante",
+      "settings": {
+        "DirectionEast": "Direction à l'est",
+        "StartFromCurrentPosition": "Vous commencez à partir de la position actuelle?"
+      }
     },
     "logs": {
       "loading": "Chargement des données...",

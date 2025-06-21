@@ -90,9 +90,7 @@
 <script setup>
 import { computed, ref, onMounted } from 'vue';
 import { useLogStore } from '@/store/logStore';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Capacitor } from '@capacitor/core';
-import { saveAs } from 'file-saver';
+import { downloadLogs as downloadLogsHelper } from '@/utils/logDownloader';
 import { XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 
 const logStore = useLogStore();
@@ -119,71 +117,9 @@ function handleOutsideClick(event) {
 }
 
 async function downloadLogs() {
-  const logContent = filteredLogs.value
-    .map((entry) => `[${formatTimestamp(entry.timestamp)}] ${entry.level}: ${entry.message}`)
-    .join('\n');
+  const success = await downloadLogsHelper(filteredLogs.value, formatTimestamp);
 
-  const fileName = `logs-${new Date().toISOString().slice(0, 10)}.log`;
-  const platform = Capacitor.getPlatform();
-
-  if (platform === 'android' || platform === 'ios') {
-    try {
-      const folderName = 'TNS-Logs';
-      // Use Documents directory for both platforms for better compatibility
-      const directory = Directory.Documents;
-
-      // Create TNS-Logs directory if it doesn't exist
-      try {
-        await Filesystem.mkdir({
-          path: folderName,
-          directory: directory,
-          recursive: true,
-        });
-      } catch (mkdirError) {
-        // Directory might already exist, ignore error
-        if (
-          !mkdirError.message.includes('Directory exists') &&
-          !mkdirError.message.includes('already exists')
-        ) {
-          console.warn('Error creating directory:', mkdirError);
-        }
-      } // Write the log file
-      await Filesystem.writeFile({
-        path: `${folderName}/${fileName}`,
-        data: logContent,
-        directory: directory,
-        encoding: 'utf8',
-      });
-
-      console.log(`Log file saved successfully to ${folderName}/${fileName}`);
-      if (platform === 'android') {
-        // For Android, make the file accessible in the media store
-        try {
-          // Get the URI of the saved file
-          const uriResult = await Filesystem.getUri({
-            path: `${folderName}/${fileName}`,
-            directory: directory,
-          });
-
-          console.log(`File URI: ${uriResult.uri}`);
-        } catch (uriError) {
-          console.warn('Error getting file URI:', uriError);
-        }
-
-        alert(`Log file saved to ${folderName} folder in device storage.`);
-      } else if (platform === 'ios') {
-        alert(`Log file saved to ${folderName} folder. You can access it from the Files app.`);
-      }
-
-      showSuccess.value = true;
-      setTimeout(() => (showSuccess.value = false), 2000);
-    } catch (error) {
-      console.error('Error saving log file:', error);
-    }
-  } else {
-    // Web browser fallback using file-saver
-    const blob = new Blob([logContent], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, fileName);
+  if (success) {
     showSuccess.value = true;
     setTimeout(() => (showSuccess.value = false), 2000);
   }

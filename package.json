@@ -19,7 +19,7 @@
     "create-plugin": "node scripts/generate-plugin.js"
   },
   "dependencies": {
-    "@capacitor/android": "^7.2.0",
+    "@capacitor/android": "7.4.0",
     "@capacitor/app": "7.0.1",
     "@capacitor/core": "^7.2.0",
     "@capacitor/filesystem": "^7.0.1",
@@ -53,7 +53,7 @@
     "vue3-moveable": "^0.28.0"
   },
   "devDependencies": {
-    "@babel/core": "7.27.1",
+    "@babel/core": "7.27.4",
     "@capacitor/cli": "^7.2.0",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",

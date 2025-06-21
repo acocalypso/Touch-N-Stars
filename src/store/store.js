@@ -156,29 +156,29 @@ export const apiStore = defineStore('store', {
             }
             this.clearAllStates();
             return;
-          }
-            else {
-          const apiVersionResponse = await apiService.fetchApiVersion();
-          this.currentApiVersion = apiVersionResponse.Response;
+          } else {
+            const apiVersionResponse = await apiService.fetchApiVersion();
+            this.currentApiVersion = apiVersionResponse.Response;
 
-          this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-            this.currentApiVersion,
-            this.minimumApiVersion
-          );
+            this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+              this.currentApiVersion,
+              this.minimumApiVersion
+            );
 
-          if (!this.isApiVersionNewerOrEqual) {
-            console.warn('API version incompatible', this.currentApiVersion);
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api_version'),
-              });
+            if (!this.isApiVersionNewerOrEqual) {
+              console.warn('API version incompatible', this.currentApiVersion);
+              if (!this.errorMessageShown) {
+                toastStore.showToast({
+                  type: 'error',
+                  title: t('app.connection_error_toast.title'),
+                  message: t('app.connection_error_toast.message_api_version'),
+                });
+              }
+              this.clearAllStates();
+              return;
             }
-            this.clearAllStates();
-            return;
           }
-        }}
+        }
 
         // when everything is accessible
         this.isBackendReachable = true;

@@ -381,7 +381,7 @@ async function saveInstance() {
   try {
     await wait(500);
     let response = await apiService.fetchTnsPluginVersion();
-    console.log('Backend erreichbar?', response);
+    console.log('Backend reachable?', response);
     if (!response) {
       console.log('second connection attempt');
       await wait(1000);
@@ -391,7 +391,7 @@ async function saveInstance() {
         return;
       }
     }
-    console.log('Backend erreichbar');
+    console.log('Backend reachable');
     store.startFetchingInfo();
     await wait(1500);
     latitude.value = store.profileInfo.AstrometrySettings.Latitude;
@@ -399,7 +399,7 @@ async function saveInstance() {
     altitude.value = store.profileInfo.AstrometrySettings.Elevation;
     nextStep();
   } catch (error) {
-    console.warn("Unvollständige Astrometrie-Daten:");
+    console.warn('Incomplete astrometry data');
   } finally {
     checkConnection.value = false;
   }

@@ -393,14 +393,13 @@ async function saveInstance() {
     }
     console.log('Backend erreichbar');
     store.startFetchingInfo();
-    await wait(1000);
+    await wait(1500);
     latitude.value = store.profileInfo.AstrometrySettings.Latitude;
     longitude.value = store.profileInfo.AstrometrySettings.Longitude;
     altitude.value = store.profileInfo.AstrometrySettings.Elevation;
     nextStep();
   } catch (error) {
-    alert(t('components.settings.errors.invalidInstance'));
-    return;
+    console.warn("Unvollständige Astrometrie-Daten:");
   } finally {
     checkConnection.value = false;
   }

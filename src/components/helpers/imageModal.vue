@@ -57,8 +57,7 @@
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Capacitor } from '@capacitor/core';
+import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 
 const props = defineProps({
   showModal: {
@@ -137,119 +136,12 @@ const destroyPanzoom = () => {
 };
 
 async function downloadImage() {
-  const now = new Date();
-  const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-  const folderName = `TNS-Images-${currentDate}`;
-
-  let fileName = `TNS-${props.imageDate}.jpg`;
-
-  if (props.imageDate === '0000-00-00') {
-    fileName = `TNS-${currentDate}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}.jpg`;
-  }
-
-  console.log('Save ', fileName, 'to folder', folderName);
-
   if (!props.imageData) return;
 
-  const platform = Capacitor.getPlatform();
-  if (platform === 'android' || platform === 'ios') {
-    try {
-      // Use Documents directory for both platforms for better compatibility
-      const directory = Directory.Documents;
-
-      // Convert the image to base64
-      const response = await fetch(props.imageData);
-      const blob = await response.blob();
-
-      const base64Data = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result.split(',')[1];
-          resolve(base64);
-        };
-        reader.readAsDataURL(blob);
-      });
-
-      // Create TNS-Images-{date} directory if it doesn't exist
-      try {
-        await Filesystem.mkdir({
-          path: folderName,
-          directory: directory,
-          recursive: true,
-        });
-      } catch (mkdirError) {
-        // Directory might already exist, ignore error
-        if (
-          !mkdirError.message.includes('Directory exists') &&
-          !mkdirError.message.includes('already exists')
-        ) {
-          console.warn('Error creating directory:', mkdirError);
-        }
-      }
-
-      // Write the image file to the date-specific folder
-      await Filesystem.writeFile({
-        path: `${folderName}/${fileName}`,
-        data: base64Data,
-        directory: directory,
-        encoding: undefined, // Use default encoding for binary data
-      });
-      console.log(`Image saved successfully to ${folderName}/${fileName}`);
-
-      if (platform === 'android') {
-        // For Android, make the file accessible in the media store
-        try {
-          // Get the URI of the saved file
-          const uriResult = await Filesystem.getUri({
-            path: `${folderName}/${fileName}`,
-            directory: directory,
-          });
-
-          console.log(`File URI: ${uriResult.uri}`);
-        } catch (uriError) {
-          console.warn('Error getting file URI:', uriError);
-        }
-
-        alert(`Image saved to ${folderName} folder in device storage.`);
-      } else if (platform === 'ios') {
-        alert(`Image saved to ${folderName} folder. You can access it from the Files app.`);
-      }
-    } catch (error) {
-      console.error('Error saving image:', error);
-
-      // Fallback for mobile platforms
-      try {
-        const response = await fetch(props.imageData);
-        const blob = await response.blob();
-        const downloadUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        setTimeout(() => {
-          URL.revokeObjectURL(downloadUrl);
-        }, 100);
-
-        alert('Image downloaded using fallback method.');
-      } catch (fallbackError) {
-        console.error('Fallback download failed:', fallbackError);
-        alert('Download failed. Please try again.');
-      }
-    }
-  } else {
-    // Standard web browser download
-    const response = await fetch(props.imageData);
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  await downloadImageHelper(props.imageData, props.imageDate, {
+    folderPrefix: 'TNS-Images',
+    filePrefix: 'TNS',
+  });
 }
 
 const onImageLoad = () => {

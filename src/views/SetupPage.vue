@@ -399,7 +399,7 @@ async function saveInstance() {
     altitude.value = store.profileInfo.AstrometrySettings.Elevation;
     nextStep();
   } catch (error) {
-    console.warn("Incomplete astrometry data");
+    console.warn('Incomplete astrometry data');
   } finally {
     checkConnection.value = false;
   }

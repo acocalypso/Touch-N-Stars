@@ -15,7 +15,10 @@
         <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
       </div>
 
-      <div v-else class="container mx-auto transition-all pt-[82px]">
+      <div
+        v-else
+        class="container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]"
+      >
         <StellariumView
           :key="landscapeSwitch"
           v-show="store.showStellarium"

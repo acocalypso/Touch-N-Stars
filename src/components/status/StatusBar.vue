@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full bg-slate-800 transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden"
+    class="w-full bg-slate-800 transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden safe-area-bottom"
   >
     <!-- Safety info -->
     <div v-if="store.safetyInfo.Connected" class="flex">
@@ -245,4 +245,44 @@ function handleLogClick(event) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.safe-area-bottom {
+  /* Add safe area padding for iOS devices */
+  padding-bottom: env(safe-area-inset-bottom);
+  /* Ensure minimum height is maintained */
+  min-height: calc(2.25rem + env(safe-area-inset-bottom)); /* 36px (h-9) + safe area */
+
+  /* Ensure content is properly centered when safe area is applied */
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* For devices without safe area support, fallback to normal padding */
+@supports not (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-bottom {
+    padding-bottom: 0.5rem; /* Add some padding for non-iOS devices */
+    min-height: calc(2.25rem + 0.5rem); /* h-9 equivalent + padding */
+  }
+}
+
+/* Specific handling for iOS devices with curved screens */
+@media screen and (max-device-width: 428px) and (-webkit-device-pixel-ratio: 3) {
+  .safe-area-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+    min-height: calc(2.25rem + max(env(safe-area-inset-bottom), 0.75rem));
+  }
+}
+
+/* Ensure buttons and icons are properly spaced */
+.safe-area-bottom button {
+  margin-bottom: 0;
+  z-index: 1;
+}
+
+/* Prevent content from being cut off on curved screens */
+.safe-area-bottom > * {
+  margin-bottom: 0;
+  flex-shrink: 0;
+}
+</style>

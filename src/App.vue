@@ -203,7 +203,7 @@ onMounted(async () => {
   }
 
   //NINA preparation
-  await preparationNina();
+  //await preparationNina();
 });
 
 async function preparationNina() {

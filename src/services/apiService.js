@@ -841,9 +841,9 @@ const apiService = {
       const { BASE_URL } = getUrls();
       await this.setFramingCoordinates(RAangle, DECangle);
       await new Promise((resolve) => setTimeout(resolve, 2000)); // damit NINA genug Zeit hat die Koordinaten zu setzen
-      const response = await axios.get(`${BASE_URL}/framing/slew`, {
+      const response = await axios.get(`${BASE_URL}/equipment/mount/slew/`, {
         params: {
-          slew_option: Center ? 'Center' : '',
+          center: Center ? 'true' : 'false',
           waitForResult: true,
         },
       });

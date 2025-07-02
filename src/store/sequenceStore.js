@@ -13,6 +13,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceRunning: false,
     sequenceEdit: false,
     sequenceIsEditable: true,
+    targetName: '',
     lastImage: {
       index: 0,
       quality: 0,
@@ -189,6 +190,15 @@ export const useSequenceStore = defineStore('sequenceStore', {
         }
 
         this.sequenceInfo = response.Response;
+
+        // TargetName auslesen, wenn vorhanden
+        for (const container of this.sequenceInfo) {
+          if (container?.Items) {
+            this.findAndSetTargetName(container.Items);
+            if (this.targetName) break; // Bei erstem Treffer abbrechen
+          }
+        }
+
         if (this.sequenceIsEditable) {
           this.generatePaths(this.sequenceInfo);
         }
@@ -319,6 +329,19 @@ export const useSequenceStore = defineStore('sequenceStore', {
       } catch (error) {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return null;
+      }
+    },
+
+    findAndSetTargetName(items) {
+      if (!items || !Array.isArray(items)) return;
+      this.targetName = ''; 
+
+      for (const item of items) {
+        if (item?.Target && item.Target?.TargetName) {
+          this.targetName = item.Target.TargetName;
+          //console.log('Target name:', this.targetName);
+          return; 
+        }
       }
     },
 

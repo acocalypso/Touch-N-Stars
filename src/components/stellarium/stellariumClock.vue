@@ -1,6 +1,7 @@
 <template>
   <button
-    class="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-4 sm:px-8 rounded-full text-gray-200 font-mono text-sm sm:text-base"
+    class="fixed left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-4 sm:px-8 rounded-full text-gray-200 font-mono text-sm sm:text-base"
+    style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     @click="toggleDateTimeControls"
   >
     <p class="text-center">{{ formattedTime }}</p>

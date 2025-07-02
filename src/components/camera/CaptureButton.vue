@@ -1,10 +1,12 @@
 <template>
   <!-- Capture & Cancel Buttons -->
   <div
-    :class="[
-      'fixed right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-50 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black',
-      guiderStore.showGuiderGraph ? 'bottom-72' : 'bottom-11',
-    ]"
+    class="fixed right-1/2 translate-x-1/2 lg:top-1/2 lg:right-4 lg:-translate-y-1/2 lg:translate-x-0 lg:bottom-auto flex gap-4 items-center justify-center lg:flex-col z-50 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black"
+    :style="{
+      bottom: guiderStore.showGuiderGraph
+        ? 'calc(18rem + env(safe-area-inset-bottom, 0px))' // bottom-72 = 18rem
+        : 'calc(2.75rem + env(safe-area-inset-bottom, 0px))', // bottom-11 = 2.75rem
+    }"
   >
     <!-- Capture / Cancel Combined Button -->
     <button

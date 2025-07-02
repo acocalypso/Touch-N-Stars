@@ -5,7 +5,7 @@
     </div>
   </div>
   <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
-    <div class="fixed bottom-12 right-3 z-10">
+    <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">
       <button
         @click="toggleEdit"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
@@ -16,7 +16,8 @@
       </button>
     </div>
     <div
-      class="fixed bottom-12 left-3 z-10 bg-gray-800 rounded-full p-1 shadow-xl border border-cyan-500"
+      class="fixed left-3 z-10 bg-gray-800 rounded-full p-1 shadow-xl border border-cyan-500"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <infoModal
         :size="'w-8 h-8'"
@@ -26,7 +27,11 @@
         :linkText="'GitHub'"
       />
     </div>
-    <FavTargets :show-framning="false" class="fixed bottom-12 right-16 z-10" />
+    <FavTargets
+      :show-framning="false"
+      class="fixed right-16 z-10"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    />
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->

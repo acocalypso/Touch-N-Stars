@@ -205,12 +205,14 @@
 
     <!-- Log modal -->
     <LogModal v-if="showLogModal" @close="showLogModal = false" />
+    <!-- Guidegraph -->
     <div
-      class="fixed bottom-9 left-0 w-full bg-gray-800/95 border-t border-cyan-700"
+      class="fixed left-0 w-full bg-gray-800/95 border-t border-cyan-700"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
       v-show="guiderStore.showGuiderGraph"
     >
       <GuiderGraph />
-      <div class="flex gap-2 ml-6">
+      <div class="flex gap-2 ml-6 mb-2">
         <GuiderStats />
       </div>
     </div>

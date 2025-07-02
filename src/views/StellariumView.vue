@@ -38,7 +38,10 @@
       :selectedObjectDecDeg="selectedObjectDecDeg"
       @setFramingCoordinates="setFramingCoordinates"
     />
-    <div class="absolute bottom-10 left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
+    <div
+      class="fixed left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    >
       <stellariumCredits />
       <stellariumSettings />
     </div>

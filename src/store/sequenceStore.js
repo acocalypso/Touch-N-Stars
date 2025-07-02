@@ -334,13 +334,14 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     findAndSetTargetName(items) {
       if (!items || !Array.isArray(items)) return;
-      this.targetName = ''; 
+      this.targetName = '';
 
       for (const item of items) {
-        if (item?.Target && item.Target?.TargetName) {
+        // Wenn das Item läuft und ein Target hat, speichern
+        if (item?.Status === 'RUNNING' && item?.Target?.TargetName) {
           this.targetName = item.Target.TargetName;
-          //console.log('Target name:', this.targetName);
-          return; 
+          console.log('Aktives Target (RUNNING):', this.targetName);
+          return; // ersten aktiven Treffer nehmen
         }
       }
     },

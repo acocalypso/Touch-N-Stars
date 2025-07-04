@@ -311,24 +311,24 @@
       "phd2": {
         "Exposuretime": "Exposuretime",
         "ra": {
-          "aggression": "RA: Agr",
-          "hysteresis": "RA: Hys",
-          "MinMove": "RA: MnMo",
-          "MaxMove": "RA: MxMo",
-          "predictive_weight": "RA: PredWt",
-          "reactive_weight": "RA: ReactWt",
-          "slope_weight": "RA: Sl W",
-          "exp_factor": "RA: XFac"
+          "aggression": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "MinMove": "RA: Min move",
+          "MaxMove": "RA: Max move",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: ReactiveW weight",
+          "slope_weight": "RA: Slope weight",
+          "exp_factor": "RA: Exposure factor"
         },
         "dec": {
-          "aggression": "DEC: Agr",
-          "hysteresis": "DEC: Hys",
-          "MinMove": "DEC: MnMo",
-          "MaxMove": "DEC: MxMo",
-          "predictive_weight": "DEC: PredWt",
-          "reactive_weight": "DEC: ReactWt",
-          "slope_weight": "DEC: Sl W",
-          "exp_factor": "DEC: XFac"
+          "aggression": "DEC: Aggression",
+          "hysteresis": "DEC: Hysteresis",
+          "MinMove": "DEC: Min move",
+          "MaxMove": "DEC: Max move",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: ReactiveW weight",
+          "slope_weight": "DEC: Slope weight",
+          "exp_factor": "DEC: Exposure factor"
         }
       }
     },

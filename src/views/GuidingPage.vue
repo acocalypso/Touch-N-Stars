@@ -20,6 +20,7 @@
           <ControlGuider />
           <SetExposure />
           <SetRaAlgoPara />
+          <SetDecAlgoPara />
         </div>
       </div>
     </div>
@@ -33,6 +34,7 @@ import { useGuiderStore } from '@/store/guiderStore';
 import ControlGuider from '@/components/guider/ControlGuider.vue';
 import SetExposure from '@/components/guider/PHD2/SetExposure.vue';
 import SetRaAlgoPara from '@/components/guider/PHD2/SetRaAlgoPara.vue';
+import SetDecAlgoPara from '@/components/guider/PHD2/SetDecAlgoPara.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();

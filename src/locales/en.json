@@ -314,7 +314,21 @@
           "aggression": "RA: Agr",
           "hysteresis": "RA: Hys",
           "MinMove": "RA: MnMo",
-          "MaxMove": "RA: MaMo"
+          "MaxMove": "RA: MxMo",
+          "predictive_weight": "RA: PredWt",
+          "reactive_weight": "RA: ReactWt",
+          "slope_weight": "RA: Sl W",
+          "exp_factor": "RA: XFac"
+        },
+        "dec": {
+          "aggression": "DEC: Agr",
+          "hysteresis": "DEC: Hys",
+          "MinMove": "DEC: MnMo",
+          "MaxMove": "DEC: MxMo",
+          "predictive_weight": "DEC: PredWt",
+          "reactive_weight": "DEC: ReactWt",
+          "slope_weight": "DEC: Sl W",
+          "exp_factor": "DEC: XFac"
         }
       }
     },

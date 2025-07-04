@@ -159,6 +159,7 @@ const apiService = {
           axis: axis,
         },
       });
+      console.log(response)
       return response.data;
     } catch (error) {
       console.error('Error fetching get-algo-param-names:', error);

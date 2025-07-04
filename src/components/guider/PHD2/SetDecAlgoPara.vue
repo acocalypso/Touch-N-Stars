@@ -72,78 +72,75 @@
   </div>
 
   <div
-  class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
-  v-if="predictiveWeight !== null"
->
-  <label for="predictive-weight" class="text-sm mr-3 mb-1 text-gray-200">
-    {{ $t('components.guider.phd2.dec.predictive_weight') }}
-  </label>
-  <input
-    @input="debouncedUpdatePredictiveWeight"
-    id="predictive-weight"
-    v-model.number="predictiveWeight"
-    type="number"
-    class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-    :class="statusClassPredictiveWeight"
-    step="1"
-  />
-</div>
+    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+    v-if="predictiveWeight !== null"
+  >
+    <label for="predictive-weight" class="text-sm mr-3 mb-1 text-gray-200">
+      {{ $t('components.guider.phd2.dec.predictive_weight') }}
+    </label>
+    <input
+      @input="debouncedUpdatePredictiveWeight"
+      id="predictive-weight"
+      v-model.number="predictiveWeight"
+      type="number"
+      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      :class="statusClassPredictiveWeight"
+      step="1"
+    />
+  </div>
 
   <div
-  class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
-  v-if="reactiveWeight !== null"
->
-  <label for="reactive-weight" class="text-sm mr-3 mb-1 text-gray-200">
-    {{ $t('components.guider.phd2.dec.reactive_weight') }}
-  </label>
-  <input
-    @input="debouncedUpdateReactiveWeight"
-    id="reactive-weight"
-    v-model.number="reactiveWeight"
-    type="number"
-    class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-    :class="statusClassReactiveWeight"
-    step="1"
-  />
-</div>
+    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+    v-if="reactiveWeight !== null"
+  >
+    <label for="reactive-weight" class="text-sm mr-3 mb-1 text-gray-200">
+      {{ $t('components.guider.phd2.dec.reactive_weight') }}
+    </label>
+    <input
+      @input="debouncedUpdateReactiveWeight"
+      id="reactive-weight"
+      v-model.number="reactiveWeight"
+      type="number"
+      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      :class="statusClassReactiveWeight"
+      step="1"
+    />
+  </div>
 
-<div
-  class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
-  v-if="slopeWeight !== null"
->
-  <label for="slope-weight" class="text-sm mr-3 mb-1 text-gray-200">
-    {{ $t('components.guider.phd2.dec.slope_weight') }}
-  </label>
-  <input
-    @input="debouncedUpdateSlopeWeight"
-    id="slope-weight"
-    v-model.number="slopeWeight"
-    type="number"
-    class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-    :class="statusClassSlopeWeight"
-    step="0.01"
-  />
-</div>
-<div
-  class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
-  v-if="expFactor !== null"
->
-  <label for="exp-factor" class="text-sm mr-3 mb-1 text-gray-200">
-    {{ $t('components.guider.phd2.dec.exp_factor') }}
-  </label>
-  <input
-    @input="debouncedUpdateExpFactor"
-    id="exp-factor"
-    v-model.number="expFactor"
-    type="number"
-    class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
-    :class="statusClassExpFactor"
-    step="0.1"
-  />
-</div>
-
-
-
+  <div
+    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+    v-if="slopeWeight !== null"
+  >
+    <label for="slope-weight" class="text-sm mr-3 mb-1 text-gray-200">
+      {{ $t('components.guider.phd2.dec.slope_weight') }}
+    </label>
+    <input
+      @input="debouncedUpdateSlopeWeight"
+      id="slope-weight"
+      v-model.number="slopeWeight"
+      type="number"
+      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      :class="statusClassSlopeWeight"
+      step="0.01"
+    />
+  </div>
+  <div
+    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+    v-if="expFactor !== null"
+  >
+    <label for="exp-factor" class="text-sm mr-3 mb-1 text-gray-200">
+      {{ $t('components.guider.phd2.dec.exp_factor') }}
+    </label>
+    <input
+      @input="debouncedUpdateExpFactor"
+      id="exp-factor"
+      v-model.number="expFactor"
+      type="number"
+      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      :class="statusClassExpFactor"
+      step="0.1"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -327,45 +324,44 @@ async function fetchPrameter() {
     switch (name) {
       case 'minMove':
         minMove.value = value;
-        minMove.value = Math.round( minMove.value * 100) / 100
+        minMove.value = Math.round(minMove.value * 100) / 100;
         break;
       case 'maxMove':
         maxMove.value = value;
-        maxMove.value = Math.round( maxMove.value * 100) / 100
+        maxMove.value = Math.round(maxMove.value * 100) / 100;
         break;
       case 'aggression':
         aggression.value = value * 100;
-        aggression.value = Math.round( aggression.value)
+        aggression.value = Math.round(aggression.value);
         break;
       case 'hysteresis':
         hysteresis.value = value * 100;
-        hysteresis.value = Math.round( hysteresis.value)
+        hysteresis.value = Math.round(hysteresis.value);
         break;
       case 'predictiveWeight':
         predictiveWeight.value = value * 100;
-        predictiveWeight.value = Math.round( predictiveWeight.value)
+        predictiveWeight.value = Math.round(predictiveWeight.value);
         break;
       case 'reactiveWeight':
         reactiveWeight.value = value * 100;
-        reactiveWeight.value = Math.round( reactiveWeight.value)
+        reactiveWeight.value = Math.round(reactiveWeight.value);
         break;
       case 'periodLength':
         periodLength.value = value * 100;
-        periodLength.value = Math.round( periodLength.value)
+        periodLength.value = Math.round(periodLength.value);
         break;
       case 'slopeWeight':
-        slopeWeight.value = value ;
-        slopeWeight.value = Math.round( slopeWeight.value * 100) / 100
+        slopeWeight.value = value;
+        slopeWeight.value = Math.round(slopeWeight.value * 100) / 100;
         break;
       case 'expFactor':
-        expFactor.value = value ;
-        expFactor.value = Math.round( expFactor.value * 100) / 100
+        expFactor.value = value;
+        expFactor.value = Math.round(expFactor.value * 100) / 100;
         break;
       default:
         console.warn('Unbekannter Parameter:', name);
     }
   }
-
 
   console.log('Dec minMove:', minMove.value);
   console.log('Dec maxMove:', maxMove.value);

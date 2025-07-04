@@ -93,6 +93,112 @@ const apiService = {
     }
   },
 
+  //------------------------------------- PHD2 ------------------------------------------
+  //https://github.com/acocalypso/N.I.N.A-Plugin-for-Touch-N-Stars/blob/PHD2/PHD2_API_README.md
+  async connectPHD2() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/connect`, {
+        instance: 1,
+        hostname: 'localhost',
+      });
+      console.log('PHD2 TNS API connect:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error connect PHD2:', error);
+      throw error;
+    }
+  },
+
+  async disconnectPHD2() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/disconnect`, {
+        instance: 2,
+        hostname: 'localhost',
+      });
+      console.log('PHD2 TNS API disconnect:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error disconnect PHD2:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2Exposure() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-exposure`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+      throw error;
+    }
+  },
+
+  async setPHD2Exposure(exposureMs) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/set-exposure`, {
+        exposureMs,
+      });
+      console.log('PHD2 TNS API setPHD2Exposure:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error setPHD2Exposure PHD2:', error);
+      throw error;
+    }
+  },
+
+  //GET /phd2/get-algo-param-names?axis=ra
+  async getPhd2AlgoParaName(axis) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-algo-param-names`, {
+        params: {
+          axis: axis,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching get-algo-param-names:', error);
+      throw error;
+    }
+  },
+
+  //GET /phd2/get-algo-param?axis=ra&name=MinMove
+  async getPhd2AlgoPara(axis, name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-algo-param`, {
+        params: {
+          axis: axis,
+          name: name,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching get-algo-param-names:', error);
+      throw error;
+    }
+  },
+
+  async setPHD2AlgoParam(axis, name, value) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/set-algo-param`, {
+        axis: axis,
+        name: name,
+        value: value,
+      });
+      console.log('PHD2 TNS API setPHD2AlgoParam:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error setPHD2AlgoParam PHD2:', error);
+      throw error;
+    }
+  },
+
   //------------------------------------- Fav Targets ------------------------------------------
 
   async getAllFavorites() {

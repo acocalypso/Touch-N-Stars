@@ -35,6 +35,11 @@
   box-shadow: 0 0 7px #00ff00;
 }
 
+.glow-red {
+  box-shadow: 0 0 7px rgb(255, 0, 0); 
+}
+
+
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;  /* IE and Edge */

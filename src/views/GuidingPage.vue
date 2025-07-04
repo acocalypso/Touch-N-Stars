@@ -18,6 +18,8 @@
           class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
           <ControlGuider />
+          <SetExposure />
+          <SetRaAlgoPara />
         </div>
       </div>
     </div>
@@ -29,6 +31,8 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import ControlGuider from '@/components/guider/ControlGuider.vue';
+import SetExposure from '@/components/guider/PHD2/SetExposure.vue';
+import SetRaAlgoPara from '@/components/guider/PHD2/SetRaAlgoPara.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();

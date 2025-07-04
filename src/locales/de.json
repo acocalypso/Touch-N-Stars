@@ -307,7 +307,10 @@
       "rms_error": "RMS-Fehler",
       "title": "Guider",
       "running": "WIRD AUSGEFÜHRT",
-      "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt."
+      "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt.",
+        "phd2" : {
+          "Exposuretime" : "Belichtungszeit"
+        }
     },
     "focuser": {
       "title": "Fokussierer",

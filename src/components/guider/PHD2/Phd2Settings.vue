@@ -14,6 +14,4 @@
 import SetExposure from '@/components/guider/PHD2/SetExposure.vue';
 import SetRaAlgoPara from '@/components/guider/PHD2/SetRaAlgoPara.vue';
 import SetDecAlgoPara from '@/components/guider/PHD2/SetDecAlgoPara.vue';
-
-
 </script>

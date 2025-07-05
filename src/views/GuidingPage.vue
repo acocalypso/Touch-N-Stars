@@ -37,8 +37,8 @@
                   v-if="store.guiderInfo.DeviceId === 'PHD2_Single'"
                   class="flex flex-col gap-1 mt-2 w-full"
                 >
-                <Phd2Settings />
-              </div>
+                  <Phd2Settings />
+                </div>
               </template>
             </Modal>
           </div>

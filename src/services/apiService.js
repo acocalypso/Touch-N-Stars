@@ -125,6 +125,45 @@ const apiService = {
     }
   },
 
+  async getPhd2Profile() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/profiles`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching profiles:', error);
+      throw error;
+    }
+  },
+
+  async connectPHD2Equipment(profileName) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/connect-equipment`, {
+        profileName,
+      });
+      console.log('PHD2 TNS API connect-equipment:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error connect-equipment PHD2:', error);
+      throw error;
+    }
+  },
+
+    async disconnectPHD2Equipment() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/disconnect-equipment`, {
+      });
+      console.log('PHD2 TNS API disconnect-equipment:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error disconnect-equipment PHD2:', error);
+      throw error;
+    }
+  },
+
+
   async getPhd2Exposure() {
     try {
       const { API_URL } = getUrls();

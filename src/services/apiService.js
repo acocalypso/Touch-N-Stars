@@ -125,6 +125,17 @@ const apiService = {
     }
   },
 
+  async getPhd2AllInfos() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/all-info`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all phd2 info:', error);
+      throw error;
+    }
+  },
+
   async getPhd2Profile() {
     try {
       const { API_URL } = getUrls();
@@ -150,11 +161,10 @@ const apiService = {
     }
   },
 
-    async disconnectPHD2Equipment() {
+  async disconnectPHD2Equipment() {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}phd2/disconnect-equipment`, {
-      });
+      const response = await axios.post(`${API_URL}phd2/disconnect-equipment`, {});
       console.log('PHD2 TNS API disconnect-equipment:', response.data);
       return response.data;
     } catch (error) {
@@ -162,7 +172,6 @@ const apiService = {
       throw error;
     }
   },
-
 
   async getPhd2Exposure() {
     try {

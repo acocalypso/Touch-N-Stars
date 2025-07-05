@@ -6,19 +6,19 @@
     <select
       v-model="selectedProfile"
       class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
-       :class="statusClassConnect"
+      :class="statusClassConnect"
       @change="connectEquipment"
     >
       <option v-for="profile in profiles" :key="profile" :value="profile">
-        {{ profile }} 
+        {{ profile }}
       </option>
     </select>
-      <button
-        @click="disconnectEquipment"
-        class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"
-      >
-            <LinkSlashIcon class="w-full h-7 text-gray-300" />
-      </button>
+    <button
+      @click="disconnectEquipment"
+      class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"
+    >
+      <LinkSlashIcon class="w-full h-7 text-gray-300" />
+    </button>
   </div>
 </template>
 
@@ -29,8 +29,8 @@ import { LinkSlashIcon } from '@heroicons/vue/24/outline';
 
 const profiles = ref([]);
 const selectedProfile = ref('');
-const statusClassConnect =ref();
-const statusClassDisconnect =ref();
+const statusClassConnect = ref();
+const statusClassDisconnect = ref();
 
 async function connectEquipment() {
   try {
@@ -57,7 +57,6 @@ async function disconnectEquipment() {
     }, 1000);
   }
 }
-  
 
 onMounted(async () => {
   const response = await apiService.getPhd2Profile();

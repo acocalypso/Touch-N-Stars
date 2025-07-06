@@ -430,8 +430,8 @@
       "slewing_first_position": "Přesun na první polohun",
       "slewing_next_position": "Přesun na další polohu",
       "settings": {
-        "DirectionEast": "Direction East",
-        "StartFromCurrentPosition": "Start from current position?"
+        "DirectionEast": "Směr Východ",
+        "StartFromCurrentPosition": "Začít ze současné pozice?"
       }
     },
     "logs": {
@@ -602,7 +602,7 @@
         "ra": "RA",
         "remove": "Odstranit",
         "sequnce": "Cíl sekvence",
-        "rotation": "Rotation"
+        "rotation": "Rotace"
       },
       "titel": "Oblíbené"
     },

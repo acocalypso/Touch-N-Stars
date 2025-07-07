@@ -7,28 +7,27 @@
       v-model="selectedProfile"
       class="default-select"
       :class="statusClassConnect"
-      @change="connectEquipment"
-      :disabled="guiderStore.phd2CurrentEquipment.camera?.connected"
+      :disabled="guiderStore.phd2IsConnected"
     >
       <option v-for="profile in profiles" :key="profile" :value="profile">
         {{ profile }}
       </option>
     </select>
     <div class="flex flex-row gap-1 ml-1">
-    <button
-      @click="disconnectEquipment"
-      class="default-button-cyan w-12 "
-      :disabled="guiderStore.phd2CurrentEquipment.camera?.connected"
-    >
-      <LinkIcon class="w-7 h-7 text-gray-300" />
-    </button>
-    <button
-      @click="disconnectEquipment"
-      class="default-button-red w-12"
-      :disabled="!guiderStore.phd2CurrentEquipment.camera?.connected"
-    >
-      <LinkSlashIcon class="w-full h-7 text-gray-300" />
-    </button>
+      <button
+        @click="connectEquipment"
+        class="default-button-cyan w-12"
+        :disabled="guiderStore.phd2IsConnected"
+      >
+        <LinkIcon class="w-7 h-7 text-gray-300" />
+      </button>
+      <button
+        @click="disconnectEquipment"
+        class="default-button-red w-12"
+        :disabled="!guiderStore.phd2IsConnected"
+      >
+        <LinkSlashIcon class="w-full h-7 text-gray-300" />
+      </button>
     </div>
   </div>
 </template>
@@ -72,9 +71,8 @@ async function disconnectEquipment() {
 }
 
 onMounted(async () => {
-  const response = await apiService.getPhd2Profile();
-  console.log('PHD2 profiles', response.Response);
-  profiles.value = response.Response;
-  selectedProfile.value = profiles.value[0];
+  const response = await apiService.getPhd2CurrentProfile();
+  profiles.value = guiderStore.phd2EquipmentProfiles;
+  selectedProfile.value = response.Response.Profile.name;
 });
 </script>

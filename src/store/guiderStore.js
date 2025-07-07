@@ -15,7 +15,8 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2Status: [],
     phd2StarLost: [],
     phd2EquipmentProfiles: [],
-    phd2CurrentEquipment : [],
+    phd2CurrentEquipment: [],
+    phd2IsConnected: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -42,7 +43,7 @@ export const useGuiderStore = defineStore('guiderStore', {
 
         const [response1, response2] = await Promise.all([
           apiService.getPhd2AllInfos(),
-          apiService.getPhd2CurrentEquipment()
+          apiService.getPhd2CurrentEquipment(),
         ]);
 
         this.phd2Status = response1.Response.Status;
@@ -50,8 +51,8 @@ export const useGuiderStore = defineStore('guiderStore', {
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
 
         this.phd2CurrentEquipment = response2.Response.CurrentEquipment;
-        console.log( response2.Response.CurrentEquipment.camera.connected)
-
+        this.phd2IsConnected =
+          this.phd2CurrentEquipment.camera?.connected || this.phd2CurrentEquipment.mount?.connected;
       } catch (error) {
         console.error('Error fetching the information:', error);
       }

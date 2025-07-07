@@ -147,6 +147,17 @@ const apiService = {
     }
   },
 
+  async getPhd2CurrentProfile() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-profile`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching current profile:', error);
+      throw error;
+    }
+  },
+
   async getPhd2CurrentEquipment() {
     try {
       const { API_URL } = getUrls();

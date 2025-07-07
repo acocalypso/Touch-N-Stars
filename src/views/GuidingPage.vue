@@ -18,7 +18,6 @@
           class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
           <ControlGuider />
-          <PHD2Profil />
           <div v-if="store.guiderInfo.DeviceId === 'PHD2_Single'">
             <button
               @click="openSettings = true"
@@ -57,8 +56,6 @@ import ControlGuider from '@/components/guider/ControlGuider.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Modal from '@/components/helpers/Modal.vue';
-
-import PHD2Profil from '@/components/guider/PHD2/PHD2Profil.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();

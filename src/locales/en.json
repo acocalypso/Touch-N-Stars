@@ -329,7 +329,8 @@
           "reactive_weight": "DEC: ReactiveW weight",
           "slope_weight": "DEC: Slope weight",
           "exp_factor": "DEC: Exposure factor"
-        }
+        },
+        "profile": "Profile"
       }
     },
     "focuser": {

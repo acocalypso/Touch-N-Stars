@@ -122,50 +122,25 @@
           <h2 class="text-2xl font-bold text-white mb-6">
             {{ t('setup.instanceConfiguration') }}
           </h2>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-400 mb-1">Instance Name</label>
-              <input
-                v-model="instanceName"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                placeholder="My Instance"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-400 mb-1">IP Address / FQDN</label>
-              <input
-                v-model="instanceIP"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                placeholder="192.168.x.x"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-400 mb-1">Port</label>
-              <input
-                v-model="instancePort"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                placeholder="5000"
-              />
-            </div>
-            <div class="flex justify-between mt-6">
-              <button
-                @click="previousStep()"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
-              >
-                {{ t('common.cancel') }}
-              </button>
-              <button
-                @click="saveInstance"
-                :disabled="checkConnection"
-                class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
-              >
-                <span v-if="checkConnection" class="loader w-10"></span>
-                <p>{{ t('common.confirm') }}</p>
-              </button>
-            </div>
+
+          <!-- Instance Detection Component -->
+          <InstanceDetection v-model="instanceData" />
+
+          <div class="flex justify-between mt-6">
+            <button
+              @click="previousStep()"
+              class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              {{ t('common.cancel') }}
+            </button>
+            <button
+              @click="saveInstance"
+              :disabled="checkConnection"
+              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
+            >
+              <span v-if="checkConnection" class="loader w-10"></span>
+              <p>{{ t('common.confirm') }}</p>
+            </button>
           </div>
         </div>
 
@@ -250,6 +225,7 @@ import { Capacitor } from '@capacitor/core';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import { wait } from '@/utils/utils';
+import InstanceDetection from '@/components/setup/InstanceDetection.vue';
 
 const { locale, t } = useI18n();
 const router = useRouter();
@@ -263,9 +239,11 @@ const latitude = ref('');
 const longitude = ref('');
 const altitude = ref('');
 const gpsError = ref(null);
-const instanceName = ref('');
-const instanceIP = ref('');
-const instancePort = ref(5000);
+const instanceData = ref({
+  name: '',
+  ip: '',
+  port: 5000,
+});
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
 
@@ -356,26 +334,26 @@ async function saveGPS() {
 }
 async function saveInstance() {
   // Validate instance connection details
-  if (!instanceName.value.trim()) {
+  if (!instanceData.value.name.trim()) {
     alert(t('components.settings.errors.instanceNameRequired'));
     return;
   }
 
-  if (!instanceIP.value) {
+  if (!instanceData.value.ip) {
     alert(t('components.settings.errors.invalidIPFormat'));
     return;
   }
 
   // Validate port number
-  const port = parseInt(instancePort.value);
+  const port = parseInt(instanceData.value.port);
   if (isNaN(port) || port < 1 || port > 65535) {
     alert(t('components.settings.errors.invalidPortRange'));
     return;
   }
   settingsStore.addInstance({
-    name: instanceName.value,
-    ip: instanceIP.value,
-    port: instancePort.value,
+    name: instanceData.value.name,
+    ip: instanceData.value.ip,
+    port: instanceData.value.port,
   });
   checkConnection.value = true;
   try {

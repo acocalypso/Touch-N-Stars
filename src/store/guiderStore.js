@@ -13,7 +13,8 @@ export const useGuiderStore = defineStore('guiderStore', {
     showGuiderGraph: false,
 
     phd2Status: [],
-    phd2StarLost: [],
+    phd2StarLostInfo: [],
+    phd2StarLost:false,
     phd2EquipmentProfiles: [],
     phd2CurrentEquipment: [],
     phd2IsConnected: false,
@@ -39,27 +40,48 @@ export const useGuiderStore = defineStore('guiderStore', {
 
     async fetchPhd2Infos() {
       try {
-        const store = apiStore();
-
         const [response1, response2] = await Promise.all([
           apiService.getPhd2AllInfos(),
           apiService.getPhd2CurrentEquipment(),
         ]);
 
         this.phd2Status = response1.Response.Status;
-        this.phd2StarLost = response1.Response.StarLostInfo;
+        this.phd2StarLostInfo = response1.Response.StarLostInfo;
+
+          this.phd2StarLost = this.checkStarLostByFrame(this.phd2StarLostInfo);
+
+          if (this.phd2StarLost) {
+            console.log('Star lost (recent)');
+          }
+
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
 
         this.phd2CurrentEquipment = response2.Response.CurrentEquipment;
         this.phd2IsConnected =
           this.phd2CurrentEquipment.camera?.connected || this.phd2CurrentEquipment.mount?.connected;
+
       } catch (error) {
         console.error('Error fetching the information:', error);
       }
     },
 
+    checkStarLostByFrame(starLostInfo) {
+      if (!starLostInfo || typeof starLostInfo.Frame !== 'number') {
+        this.previousStarLostFrame = null;
+        return false;
+      }
+
+      const currentFrame = starLostInfo.Frame;
+
+      if (this.previousStarLostFrame === null || currentFrame !== this.previousStarLostFrame) {
+        this.previousStarLostFrame = currentFrame;
+        return true;
+      }
+
+      return false;
+    },
+
     startFetching() {
-      const store = apiStore();
       console.log('Start fetching graph data...');
       if (!this.intervalId) {
         this.intervalId = setInterval(this.fetchGraphInfos, 1000);

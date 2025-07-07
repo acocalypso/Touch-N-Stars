@@ -5,28 +5,41 @@
     </label>
     <select
       v-model="selectedProfile"
-      class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+      class="default-select"
       :class="statusClassConnect"
       @change="connectEquipment"
+      :disabled="guiderStore.phd2CurrentEquipment.camera?.connected"
     >
       <option v-for="profile in profiles" :key="profile" :value="profile">
         {{ profile }}
       </option>
     </select>
+    <div class="flex flex-row gap-1 ml-1">
     <button
       @click="disconnectEquipment"
-      class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"
+      class="default-button-cyan w-12 "
+      :disabled="guiderStore.phd2CurrentEquipment.camera?.connected"
+    >
+      <LinkIcon class="w-7 h-7 text-gray-300" />
+    </button>
+    <button
+      @click="disconnectEquipment"
+      class="default-button-red w-12"
+      :disabled="!guiderStore.phd2CurrentEquipment.camera?.connected"
     >
       <LinkSlashIcon class="w-full h-7 text-gray-300" />
     </button>
+    </div>
   </div>
 </template>
 
 <script setup>
 import apiService from '@/services/apiService';
+import { useGuiderStore } from '@/store/guiderStore';
 import { onMounted, ref } from 'vue';
-import { LinkSlashIcon } from '@heroicons/vue/24/outline';
+import { LinkSlashIcon, LinkIcon } from '@heroicons/vue/24/outline';
 
+const guiderStore = useGuiderStore();
 const profiles = ref([]);
 const selectedProfile = ref('');
 const statusClassConnect = ref();

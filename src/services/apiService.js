@@ -147,6 +147,17 @@ const apiService = {
     }
   },
 
+  async getPhd2CurrentEquipment() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-current-equipment`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching CurrentEquipment:', error);
+      throw error;
+    }
+  },
+
   async connectPHD2Equipment(profileName) {
     try {
       const { API_URL } = getUrls();

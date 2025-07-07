@@ -15,6 +15,7 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2Status: [],
     phd2StarLost: [],
     phd2EquipmentProfiles: [],
+    phd2CurrentEquipment : [],
   }),
   actions: {
     async fetchGraphInfos() {
@@ -28,9 +29,9 @@ export const useGuiderStore = defineStore('guiderStore', {
         const response = await apiService.guiderAction('graph');
         this.chartInfo = response.Response;
       } catch (error) {
-        console.error('Fehler beim Abrufen der Informationen:', error);
+        console.error('Error fetching the information:', error);
       }
-      if (store.guiderInfo?.DeviceId === 'PHD2_Single') {
+      if (store.guiderInfo?.DeviceId === 'PHD2_Single' && store.isBackendReachable) {
         this.fetchPhd2Infos();
       }
     },
@@ -39,18 +40,20 @@ export const useGuiderStore = defineStore('guiderStore', {
       try {
         const store = apiStore();
 
-        if (!store.isBackendReachable) {
-          console.warn('Backend ist nicht erreichbar phd2');
-          return;
-        }
-        const response = await apiService.getPhd2AllInfos();
-        //console.log('PHD2 all infos:', response);
-        this.phd2Status = response.Response.Status;
-        this.phd2StarLost = response.Response.StarLostInfo;
-        this.phd2EquipmentProfiles = response.Response.EquipmentProfiles;
-        //console.log(response.Response.StarLostInfo);
+        const [response1, response2] = await Promise.all([
+          apiService.getPhd2AllInfos(),
+          apiService.getPhd2CurrentEquipment()
+        ]);
+
+        this.phd2Status = response1.Response.Status;
+        this.phd2StarLost = response1.Response.StarLostInfo;
+        this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
+
+        this.phd2CurrentEquipment = response2.Response.CurrentEquipment;
+        console.log( response2.Response.CurrentEquipment.camera.connected)
+
       } catch (error) {
-        console.error('Fehler beim Abrufen der Informationen:', error);
+        console.error('Error fetching the information:', error);
       }
     },
 

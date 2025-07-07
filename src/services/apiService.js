@@ -114,7 +114,7 @@ const apiService = {
     try {
       const { API_URL } = getUrls();
       const response = await axios.post(`${API_URL}phd2/disconnect`, {
-        instance: 2,
+        instance: 1,
         hostname: 'localhost',
       });
       console.log('PHD2 TNS API disconnect:', response.data);

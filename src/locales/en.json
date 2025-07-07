@@ -330,7 +330,11 @@
           "slope_weight": "DEC: Slope weight",
           "exp_factor": "DEC: Exposure factor"
         },
-        "profile": "Profile"
+        "profile": "Profile",
+        "error": {
+          "title": "PHD2 Error",
+          "star-lost-message": "Star lost"
+        }
       }
     },
     "focuser": {

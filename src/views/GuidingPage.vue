@@ -18,7 +18,7 @@
           class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
           <ControlGuider />
-          <div v-if="store.guiderInfo.DeviceId === 'PHD2_Single'">
+          <div v-if="guiderStore.phd2Connection?.IsConnected">
             <button
               @click="openSettings = true"
               class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"

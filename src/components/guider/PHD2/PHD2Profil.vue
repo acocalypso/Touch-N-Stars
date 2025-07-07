@@ -17,14 +17,14 @@
       <button
         @click="connectEquipment"
         class="default-button-cyan w-12"
-        :disabled="guiderStore.phd2IsConnected"
+        v-show="!guiderStore.phd2IsConnected"
       >
         <LinkIcon class="w-7 h-7 text-gray-300" />
       </button>
       <button
         @click="disconnectEquipment"
         class="default-button-red w-12"
-        :disabled="!guiderStore.phd2IsConnected"
+        v-show="guiderStore.phd2IsConnected"
       >
         <LinkSlashIcon class="w-full h-7 text-gray-300" />
       </button>

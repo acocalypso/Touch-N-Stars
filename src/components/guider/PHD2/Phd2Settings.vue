@@ -2,7 +2,7 @@
   <div class="p-4 flex flex-col gap-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
     <PHD2Profil />
   </div>
-  <div v-if="guiderStore.phd2IsConnected">
+  <div v-if="guiderStore.phd2IsConnected" class="flex flex-col gap-1">
     <div class="p-4 flex flex-col gap-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
       <SetExposure />
     </div>
@@ -13,6 +13,7 @@
       <SetDecAlgoPara />
     </div>
   </div>
+
 </template>
 
 <script setup>

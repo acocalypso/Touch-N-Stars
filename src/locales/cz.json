@@ -307,7 +307,34 @@
       "rms_error": "RMS Chyba",
       "title": "Navádění",
       "running": "PROBÍHÁ",
-      "notes": "* Tento graf zobrazuje data navádění podle nastavení N.I.N.A."
+      "notes": "* Tento graf zobrazuje data navádění podle nastavení N.I.N.A.",
+      "phd2": {
+        "dec": {
+          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min move",
+          "aggression": "DEC: Aggression",
+          "exp_factor": "DEC: Exposure factor",
+          "hysteresis": "DEC: Hysteresis",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: ReactiveW weight",
+          "slope_weight": "DEC: Slope weight"
+        },
+        "error": {
+          "star-lost-message": "Star lost",
+          "title": "PHD2 Error"
+        },
+        "profile": "Profile",
+        "ra": {
+          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min move",
+          "aggression": "RA: Aggression",
+          "exp_factor": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: ReactiveW weight",
+          "slope_weight": "RA: Slope weight"
+        }
+      }
     },
     "focuser": {
       "title": "Ostření",

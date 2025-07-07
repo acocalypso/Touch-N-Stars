@@ -109,7 +109,10 @@
     <div v-if="store.guiderInfo.Connected" class="flex items-center gap-1">
       <button
         class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-        :class="{ 'glow-green': guiderStore.showGuiderGraph }"
+        :class="{
+          'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
+          'glow-red': guiderStore.phd2StarLost,
+        }"
         @click="guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph"
       >
         <svg

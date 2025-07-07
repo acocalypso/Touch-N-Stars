@@ -15,7 +15,12 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import Chart from 'chart.js/auto';
 import { useGuiderStore } from '@/store/guiderStore';
+import { useI18n } from 'vue-i18n';
+import { useToastStore } from '@/store/toastStore';
+
+const { t } = useI18n();
 const guiderStore = useGuiderStore();
+const toastStore = useToastStore();
 const isLoading = ref(true);
 const rmsGraph = ref(null);
 let chart = null;
@@ -191,9 +196,24 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => guiderStore.phd2StarLost,
+  (newValue, oldValue) => {
+    if (oldValue === undefined) return; // skip first run
+
+    if (newValue === true && oldValue === false) {
+      toastStore.showToast({
+        type: 'error',
+        title: t('components.guider.phd2.error.title'),
+        message: t('components.guider.phd2.error.star-lost-message'),
+      });
+    }
+  }
+);
+
 onMounted(async () => {
-  await guiderStore.fetchGraphInfos();
-  guiderStore.startFetching();
+  await guiderStore.fetchGraphInfos(t);
+  guiderStore.startFetching(t);
   initGraph();
 });
 

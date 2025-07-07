@@ -269,7 +269,33 @@
       "start": "Começar",
       "startWithCal": "Começando com a calibração",
       "stop": "Parar",
-      "title": "Guider"
+      "title": "Guider",
+      "phd2": {
+        "dec": {
+          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min move",
+          "exp_factor": "DEC: Exposure factor",
+          "hysteresis": "DEC: Hysteresis",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: ReactiveW weight",
+          "slope_weight": "DEC: Slope weight"
+        },
+        "error": {
+          "star-lost-message": "Star lost",
+          "title": "PHD2 Error"
+        },
+        "profile": "Perfil",
+        "ra": {
+          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min move",
+          "aggression": "RA: Aggression",
+          "exp_factor": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: ReactiveW weight",
+          "slope_weight": "RA: Slope weight"
+        }
+      }
     },
     "language": {
       "select": "Selecione o idioma"

@@ -307,7 +307,35 @@
       "rms_error": "RMS-Fehler",
       "title": "Guider",
       "running": "WIRD AUSGEFÜHRT",
-      "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt."
+      "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt.",
+      "phd2": {
+        "Exposuretime": "Belichtungszeit",
+        "dec": {
+          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min move",
+          "aggression": "DEC: Aggression",
+          "exp_factor": "DEC: Belichtungsfaktor",
+          "hysteresis": "Dec: Hysterese",
+          "predictive_weight": "DEC: Vorhersage Gewichtung",
+          "reactive_weight": "Dec: Rektions Gewichtung",
+          "slope_weight": "Dez: Trend Gewichtung"
+        },
+        "error": {
+          "star-lost-message": "Stern verloren",
+          "title": "PhD2 Fehler"
+        },
+        "profile": "Profil",
+        "ra": {
+          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min move",
+          "aggression": "RA: Aggression",
+          "exp_factor": "RA: Belichtungsfaktor",
+          "hysteresis": "RA: Hysterese",
+          "predictive_weight": " RA: Vorhersage Gewichtung",
+          "reactive_weight": " RA: Reaktive Gewichtung",
+          "slope_weight": "RA: Trend Gewichtung"
+        }
+      }
     },
     "focuser": {
       "title": "Fokussierer",

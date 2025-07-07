@@ -40,7 +40,8 @@
 
   <button
     type="button"
-    class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed bottom-11 right-4"
+    class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed right-4"
+    style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     @click="showSettingsModal = true"
     aria-label="Open settings"
   >
@@ -61,6 +62,7 @@
         v-if="store.imageHistoryInfo && store.imageHistoryInfo.length > 0"
         class="flex flex-col min-w-[80vw] w-full max-w-4xl justify-center items-center space-y-4"
       >
+        <h2>{{ sequenceStore.targetName }}</h2>
         <div class="mt-5 w-full">
           <LastSequenceImg />
         </div>
@@ -103,11 +105,13 @@ import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { useSequenceStore } from '@/store/sequenceStore';
 
 const currentTab = ref('showStats');
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
 const showSettingsModal = ref(false);
 </script>
 

@@ -2,9 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Safe Area Utilities for iOS devices */
+@layer utilities {
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-area-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-area-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .safe-area-all {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  
+  /* Ensure proper box sizing for safe areas */
+  .safe-area-container {
+    min-height: 100vh;
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+
 .glow-green {
   box-shadow: 0 0 7px #00ff00;
 }
+
+.glow-red {
+  box-shadow: 0 0 7px rgb(255, 0, 0); 
+}
+
 
 @layer utilities {
   .scrollbar-hide {
@@ -27,15 +61,16 @@
       bg-gradient-to-br from-cyan-800 to-cyan-600 
       hover:from-cyan-700 hover:to-cyan-600 
       rounded-md 
-      text-white 
+      text-gray-300 
       font-medium 
       transition-colors 
       w-full 
-      disabled:opacity-50;
+      disabled:opacity-50
+      disabled:cursor-not-allowed;
   }
 
   .default-button-orange {
-    @apply min-w-24 min-h-10 bg-orange-700 rounded-md text-white font-medium transition-colors w-full;
+    @apply min-w-24 min-h-10 bg-orange-700 rounded-md text-gray-300 font-medium transition-colors w-full;
   }
 
   .default-button-orange:active {
@@ -52,15 +87,33 @@
       bg-gradient-to-br from-red-800 to-red-600 
       hover:from-red-700 hover:to-red-600 
       rounded-md 
-      text-white 
+      text-gray-300 
       font-medium 
       transition-colors 
       w-full 
-      disabled:opacity-50;
+      disabled:opacity-50
+      disabled:cursor-not-allowed;
   }
 
   .default-inputfield {
     @apply w-full p-2 border border-gray-300 rounded text-black;
+  }
+
+  .default-select{
+    @apply 
+      ml-auto 
+    text-gray-300 
+      px-3 
+      min-w-10 
+      min-h-10 
+      border border-gray-900 
+      rounded-lg 
+    bg-gray-600
+      focus:outline-none 
+      focus:ring-2 
+    focus:ring-cyan-700
+      disabled:opacity-50
+      disabled:cursor-not-allowed;
   }
 
   .btn-primary {

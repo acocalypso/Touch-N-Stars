@@ -152,11 +152,17 @@ async function toggleConnection() {
     if (props.isConnected) {
       console.log('disconnect');
       const response = await apiService[props.apiAction]('disconnect');
+      if (deviceId == 'PHD2_Single') {
+        await apiService.disconnectPHD2();
+      }
       console.log('response', response);
     } else {
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
       const response = await apiService[props.apiAction]('connect?to=' + encodedId);
       console.log('response', response);
+      if (deviceId == 'PHD2_Single') {
+        await apiService.connectPHD2();
+      }
 
       if (!response.Success) {
         throw new Error(response.Error || 'Unbekannter Verbindungsfehler');

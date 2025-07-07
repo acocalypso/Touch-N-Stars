@@ -5,7 +5,11 @@
         {{ $t('components.framing.search.title') }}
       </h5>
 
-      <FavTargets :showSeqTarget="false" class="fixed bottom-12 right-5 z-20" />
+      <FavTargets
+        :showSeqTarget="false"
+        class="fixed right-5 z-20"
+        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      />
       <!-- Search Input -->
       <div class="text-black mx-auto">
         <div class="flex gap-1">

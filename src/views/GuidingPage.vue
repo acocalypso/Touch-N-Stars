@@ -18,6 +18,30 @@
           class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
           <ControlGuider />
+          <div v-if="guiderStore.phd2Connection?.IsConnected">
+            <button
+              @click="openSettings = true"
+              class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"
+            >
+              <Cog6ToothIcon class="w-full h-7 text-gray-300" />
+            </button>
+
+            <Modal :show="openSettings" @close="openSettings = false">
+              <template #header>
+                <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
+              </template>
+
+              <template #body>
+                <!-- Beliebiger Inhalt hier -->
+                <div
+                  v-if="store.guiderInfo.DeviceId === 'PHD2_Single'"
+                  class="flex flex-col gap-1 mt-2 w-full"
+                >
+                  <Phd2Settings />
+                </div>
+              </template>
+            </Modal>
+          </div>
         </div>
       </div>
     </div>
@@ -29,10 +53,14 @@ import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import ControlGuider from '@/components/guider/ControlGuider.vue';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();
 const wasGraphVisible = ref(false);
+const openSettings = ref(false);
 
 onMounted(() => {
   wasGraphVisible.value = guiderStore.showGuiderGraph;

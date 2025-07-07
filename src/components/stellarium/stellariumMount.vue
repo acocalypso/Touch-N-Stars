@@ -53,18 +53,6 @@
         </svg>
       </button>
     </div>
-
-    <!-- Mount position overlay 
-    <div
-      v-if="showMountInfo"
-      class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
-    >
-      <h3 class="text-lg font-semibold">{{ $t('components.stellarium.mount_position.title') }}:</h3>
-      <p class="mt-2 text-sm">
-        {{ $t('components.stellarium.selected_object.ra') }}: {{ mountRa }}
-      </p>
-      <p class="text-sm">{{ $t('components.stellarium.selected_object.dec') }}: {{ mountDec }}</p>
-    </div>  -->
   </div>
 </template>
 

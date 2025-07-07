@@ -1013,14 +1013,16 @@ const apiService = {
     }
   },
 
-  async slewAndCenter(ra, dec, Center) {
+  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, {
         params: {
           ra: ra,
           dec: dec,
-          center: Center ? 'true' : 'false',
+          center: Center,
+          rotate: rotate,
+          rotationAngle: rotationAngle,
           waitForResult: true,
         },
       });

@@ -61,29 +61,11 @@
           />
         </div>
         <div class="mt-4 flex gap-2 w-full">
-          <div class="flex-1">
-            <ButtonSlew :raAngle="framingStore.RAangle" :decAngle="framingStore.DECangle" />
-          </div>
-          <div class="flex-1">
-            <ButtonSlewAndCenter
-              :raAngle="framingStore.RAangle"
-              :decAngle="framingStore.DECangle"
-            />
-          </div>
-        </div>
-        <div v-if="store.rotatorInfo.Connected && true" class="mt-2">
-          <button
-            @click="cameraRotate"
-            :disabled="
-              framingStore.isSlewing ||
-              framingStore.isSlewingAndCentering ||
-              framingStore.isRotating
-            "
-            class="default-button-cyan"
-          >
-            <span v-if="framingStore.isRotating" class="loader mr-2"></span>
-            {{ $t('components.slewAndCenter.rotate') }}
-          </button>
+          <ButtonSlewCenterRotate
+            class="w-full"
+            :raAngle="framingStore.RAangle"
+            :decAngle="framingStore.DECangle"
+          />
         </div>
         <div class="w-full">
           <setSequenceTarget class="mt-3" />
@@ -103,6 +85,7 @@ import { hmsToDegrees, dmsToDegrees, altAzToRaDec, parseAngleInput } from '@/uti
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
+import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 
 const { t } = useI18n();
 const store = apiStore();

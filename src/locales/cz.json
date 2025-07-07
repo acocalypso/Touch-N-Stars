@@ -310,29 +310,29 @@
       "notes": "* Tento graf zobrazuje data navádění podle nastavení N.I.N.A.",
       "phd2": {
         "dec": {
-          "MaxMove": "DEC: Max move",
-          "MinMove": "DEC: Min move",
-          "aggression": "DEC: Aggression",
-          "exp_factor": "DEC: Exposure factor",
-          "hysteresis": "DEC: Hysteresis",
-          "predictive_weight": "DEC: Predictive weight",
-          "reactive_weight": "DEC: ReactiveW weight",
-          "slope_weight": "DEC: Slope weight"
+          "MaxMove": "DEC: Max pohyb",
+          "MinMove": "DEC: Min pohyb",
+          "aggression": "DEC: Agresivita",
+          "exp_factor": "DEC: Faktor expozice",
+          "hysteresis": "DEC: Hystereze",
+          "predictive_weight": "DEC: Prediktivní váha",
+          "reactive_weight": "DEC: Reaktivní váha W",
+          "slope_weight": "DEC: Váha sklonu"
         },
         "error": {
-          "star-lost-message": "Star lost",
-          "title": "PHD2 Error"
+          "star-lost-message": "Hvězda ztracena",
+          "title": "PHD2 Chyba"
         },
-        "profile": "Profile",
+        "profile": "Profil",
         "ra": {
-          "MaxMove": "RA: Max move",
-          "MinMove": "RA: Min move",
-          "aggression": "RA: Aggression",
-          "exp_factor": "RA: Aggression",
-          "hysteresis": "RA: Hysteresis",
-          "predictive_weight": "RA: Predictive weight",
-          "reactive_weight": "RA: ReactiveW weight",
-          "slope_weight": "RA: Slope weight"
+          "MaxMove": "RA: Max pohyb",
+          "MinMove": "RA: Min pohyb",
+          "aggression": "RA: Agresivita",
+          "exp_factor": "RA: Agresivita",
+          "hysteresis": "RA: Hystereze",
+          "predictive_weight": "RA: Prediktivní váha",
+          "reactive_weight": "RA: Reaktivní váha W",
+          "slope_weight": "RA: Váha sklonu"
         }
       }
     },

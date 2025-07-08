@@ -13,7 +13,6 @@
       <SetDecAlgoPara />
     </div>
   </div>
-
 </template>
 
 <script setup>

@@ -245,22 +245,6 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       this.apiPort = null;
-      /* this.profileInfo = [];
-      this.cameraInfo = [];
-      this.mountInfo = [];
-      this.filterInfo = [];
-      this.focuserInfo = [];
-      this.rotatorInfo = [];
-      this.focuserAfInfo = [];
-      this.guiderInfo = [];
-      this.flatdeviceInfo = [];
-      this.domeInfo = [];
-      this.safetyInfo = [];
-      this.switchInfo = [];
-      this.weatherInfo = [];
-      this.isLoadingImage = false;
-      this.captureRunning = false;
-      this.existingEquipmentList = [];*/
     },
 
     handleApiResponses({

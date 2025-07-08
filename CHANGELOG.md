@@ -5,9 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.10.0] - xxxx-xx-xx
+### Added
+- Display of the current `targetName` if a sequence item with status `RUNNING` exists.
 
 ### Changed
 - the coordinates for framing are no longer set at startup
+
+### Fixed
+- fixed layout error in footer for iOS
 
 ## [1.0.9.0] - 2025-06-24
 ### Added

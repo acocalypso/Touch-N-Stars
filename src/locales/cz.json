@@ -333,7 +333,8 @@
           "predictive_weight": "RA: Prediktivní váha",
           "reactive_weight": "RA: Reaktivní váha W",
           "slope_weight": "RA: Váha sklonu"
-        }
+        },
+        "Exposuretime": "Exposuretime"
       }
     },
     "focuser": {

@@ -204,10 +204,7 @@ onMounted(async () => {
   if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
     await notificationService.initialize();
   }
-
 });
-
-
 
 function closeTutorial() {
   showTutorial.value = false;

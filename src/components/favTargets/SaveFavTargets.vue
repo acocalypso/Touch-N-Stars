@@ -18,7 +18,7 @@
         <input
           v-model="nameInput"
           type="text"
-          class="w-full text-black bg-gray-200 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          class="w-full h-10 default-input"
         />
         <div class="flex justify-end mt-4 space-x-2">
           <button @click="confirmSave" class="default-button-cyan">

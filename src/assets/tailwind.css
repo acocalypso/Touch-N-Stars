@@ -95,18 +95,31 @@
       disabled:cursor-not-allowed;
   }
 
-  .default-inputfield {
-    @apply w-full p-2 border border-gray-300 rounded text-black;
+  .default-input {
+    @apply 
+    text-gray-300 
+      font-bold
+      px-3 
+      min-w-10 
+      min-h-8 
+      border border-cyan-800 
+      rounded-lg 
+    bg-gray-600
+      focus:outline-none 
+      focus:ring-2 
+    focus:ring-cyan-700
+      disabled:opacity-50
+      disabled:cursor-not-allowed;
   }
 
   .default-select{
     @apply 
-      ml-auto 
     text-gray-300 
+      font-bold
       px-3 
       min-w-10 
-      min-h-10 
-      border border-gray-900 
+      min-h-8 
+      border border-cyan-800 
       rounded-lg 
     bg-gray-600
       focus:outline-none 

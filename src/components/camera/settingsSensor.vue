@@ -19,7 +19,7 @@
             id="pixel-size"
             v-model.number="pixelSize"
             type="number"
-            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="default-input ml-auto h-8 w-28"
             :class="statusClassPixelSize"
             step="0.01"
           />
@@ -38,7 +38,7 @@
             id="chip-high"
             v-model.number="chipHigh"
             type="number"
-            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="default-input ml-auto h-8 w-28"
             :class="statusClassChipHigh"
             step="1"
           />
@@ -57,7 +57,7 @@
             id="chip-width"
             v-model.number="chipWidth"
             type="number"
-            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="default-input ml-auto h-8 w-28"
             :class="statusClassChipWidth"
             step="1"
           />
@@ -76,7 +76,7 @@
             id="focal-length"
             v-model.number="focalLength"
             type="number"
-            class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+            class="default-input ml-auto h-8 w-28"
             :class="statusClassFocalLength"
             step="1"
           />

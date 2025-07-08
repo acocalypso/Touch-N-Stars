@@ -8,7 +8,7 @@
       </p>
     </div>
     <input
-      class="text-black px-4 h-10 w-20 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
+      class="default-input h-10 w-20"
       type="number"
       v-model="framingStore.fov"
       min="0"
@@ -31,7 +31,7 @@
       v-model="framingStore.rotationAngle"
     />
     <input
-      class="text-black px-4 h-10 w-20 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
+      class="default-input h-10 w-28"
       type="number"
       v-model="framingStore.rotationAngle"
       min="0"

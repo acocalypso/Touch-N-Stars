@@ -24,7 +24,7 @@
             v-model="localRAangleString"
             @blur="handleBlurRA"
             @keyup.enter="handleBlurRA"
-            class="text-black w-full p-2 border border-gray-300 rounded"
+            class="default-input w-full h-10"
             :placeholder="$t('components.slewAndCenter.ra_placeholder')"
           />
           <p class="w-24">{{ $t('components.slewAndCenter.dec') }}</p>
@@ -33,7 +33,7 @@
             v-model="localDECangleString"
             @blur="handleBlurDEC"
             @keyup.enter="handleBlurDEC"
-            class="text-black w-full p-2 border border-gray-300 rounded"
+            class="default-input w-full h-10"
             :placeholder="$t('components.slewAndCenter.dec_placeholder')"
           />
         </div>
@@ -47,7 +47,7 @@
             v-model="localAltAngleString"
             @blur="handleBlurAlt"
             @keyup.enter="handleBlurAlt"
-            class="text-black w-full p-2 border border-gray-300 rounded"
+            class="default-input w-full h-10"
             placeholder="12:34:56 / 12.456"
           />
           <p class="w-24">{{ $t('components.slewAndCenter.az') }}</p>
@@ -56,7 +56,7 @@
             v-model="localAzAngleString"
             @blur="handleBlurAz"
             @keyup.enter="handleBlurAz"
-            class="text-black w-full p-2 border border-gray-300 rounded"
+            class="default-input w-full h-10"
             placeholder="12:34:56 / 123.456"
           />
         </div>

@@ -3,7 +3,7 @@
     @blur="emitValue"
     v-model.number="localValue"
     type="number"
-    class="text-black px-4 h-10 w-40 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
+    class="default-input h-10 w-40"
     placeholder="1"
     step="1"
     :min="props.min"

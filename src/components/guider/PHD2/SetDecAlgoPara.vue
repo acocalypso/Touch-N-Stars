@@ -11,7 +11,7 @@
       id="pixel-size"
       v-model.number="minMove"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassMinMove"
       step="0.01"
     />
@@ -29,7 +29,7 @@
       id="pixel-size"
       v-model.number="maxMove"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassMaxMove"
       step="0.01"
     />
@@ -47,7 +47,7 @@
       id="pixel-size"
       v-model.number="aggression"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassAggression"
       step="1"
     />
@@ -65,7 +65,7 @@
       id="pixel-size"
       v-model.number="hysteresis"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassHysteresis"
       step="1"
     />
@@ -83,7 +83,7 @@
       id="predictive-weight"
       v-model.number="predictiveWeight"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassPredictiveWeight"
       step="1"
     />
@@ -101,7 +101,7 @@
       id="reactive-weight"
       v-model.number="reactiveWeight"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassReactiveWeight"
       step="1"
     />
@@ -119,7 +119,7 @@
       id="slope-weight"
       v-model.number="slopeWeight"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassSlopeWeight"
       step="0.01"
     />
@@ -136,7 +136,7 @@
       id="exp-factor"
       v-model.number="expFactor"
       type="number"
-      class="ml-auto bg-gray-200 text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       :class="statusClassExpFactor"
       step="0.1"
     />

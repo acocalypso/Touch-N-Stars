@@ -7,7 +7,7 @@
       v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
       id="gain"
       v-model.number="settingsStore.camera.gain"
-      class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+      class="default-select ml-auto h-8 w-28"
     >
       <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
         {{ value }}
@@ -18,7 +18,7 @@
       id="gain"
       v-model.number="settingsStore.camera.gain"
       type="number"
-      class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
       placeholder="1"
     />
   </div>

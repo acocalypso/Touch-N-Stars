@@ -98,7 +98,6 @@
   .default-input {
     @apply 
     text-gray-300 
-      font-bold
       px-3 
       min-w-10 
       min-h-8 
@@ -115,7 +114,6 @@
   .default-select{
     @apply 
     text-gray-300 
-      font-bold
       px-3 
       min-w-10 
       min-h-8 

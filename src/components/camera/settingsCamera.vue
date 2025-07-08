@@ -22,7 +22,7 @@
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
-        v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length> 0"
+        v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
         id="gain"
         v-model.number="settingsStore.camera.gain"
         class="default-select ml-auto h-8 w-28"
@@ -53,7 +53,7 @@
         id="offset"
         v-model.number="settingsStore.camera.offset"
         @change="setOffset"
-         class="default-select ml-auto h-8 w-28"
+        class="default-select ml-auto h-8 w-28"
       >
         <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
           {{ value }}

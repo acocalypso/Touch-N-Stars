@@ -60,7 +60,7 @@
         <select
           id="visibleStars"
           v-model="selectedStar"
-           class="default-select h-10 w-full"
+          class="default-select h-10 w-full"
           @change="updateRaDec"
         >
           <option v-for="star in visibleStars" :key="star.name" :value="star">

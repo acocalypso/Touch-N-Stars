@@ -1,7 +1,9 @@
 <template>
   <div class="container flex items-center justify-center">
     <div class="container max-w-md">
-      <h5 class="text-xl font-bold mb-4">{{ $t('components.framing.search.title') }}</h5>
+      <h5 class="text-xl text-gray-300 font-bold mb-4">
+        {{ $t('components.framing.search.title') }}
+      </h5>
 
       <div class="text-black mx-auto">
         <input
@@ -9,18 +11,18 @@
           v-model="searchQuery"
           ref="searchInput"
           @input="fetchTargetSearch"
-          class="w-full p-2 border border-gray-300 rounded"
+          class="default-input h-10 w-full"
           :placeholder="$t('components.framing.search.placeholder')"
         />
         <!-- Überprüfe, ob targetSearchResult ein Array ist und Elemente hat -->
         <ul
           v-if="Array.isArray(targetSearchResult) && targetSearchResult.length > 0"
-          class="bg-white border border-gray-300 rounded mt-1 z-10"
+          class="default-select mt-1 z-10"
         >
           <li
             v-for="(item, index) in targetSearchResult"
             :key="index"
-            class="p-2 hover:bg-gray-200 cursor-pointer"
+            class="p-2 hover:bg-blue-700 cursor-pointer"
             @click="selectTarget(item)"
           >
             {{ item.Name }}

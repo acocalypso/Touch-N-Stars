@@ -98,7 +98,7 @@
       </div>
       <div class="flex flex-row w-full">
         <input
-          class="w-full mx-2 "
+          class="w-full mx-2"
           type="range"
           min="0.01"
           max="5"
@@ -106,7 +106,7 @@
           v-model="settingsStore.mount.slewRate"
         />
         <input
-         class="default-input w-28 h-10"
+          class="default-input w-28 h-10"
           type="number"
           v-model="settingsStore.mount.slewRate"
           min="0.001"

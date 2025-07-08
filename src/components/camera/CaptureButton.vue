@@ -98,7 +98,7 @@
         v-model.number="settingsStore.camera.exposureTime"
         type="number"
         min="0"
-        class="default-input text-center w-24 h-10 "
+        class="default-input text-center w-24 h-10"
         placeholder="Sek."
       />
     </div>

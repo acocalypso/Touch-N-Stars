@@ -4,12 +4,14 @@ PODS:
   - CapacitorApp (7.0.1):
     - Capacitor
   - CapacitorCordova (7.4.0)
-  - CapacitorFilesystem (7.1.1):
+  - CapacitorFilesystem (7.1.2):
     - Capacitor
     - IONFilesystemLib (~> 1.0)
-  - CapacitorGeolocation (7.1.2):
+  - CapacitorGeolocation (7.1.3):
     - Capacitor
     - IONGeolocationLib (~> 1.0)
+  - CapacitorGetlocalip (0.0.2):
+    - Capacitor
   - CapacitorHaptics (7.0.1):
     - Capacitor
   - CapacitorKeyboard (7.0.1):
@@ -29,6 +31,7 @@ DEPENDENCIES:
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
   - "CapacitorGeolocation (from `../../node_modules/@capacitor/geolocation`)"
+  - CapacitorGetlocalip (from `../../node_modules/capacitor-getlocalip`)
   - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
@@ -51,6 +54,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/filesystem"
   CapacitorGeolocation:
     :path: "../../node_modules/@capacitor/geolocation"
+  CapacitorGetlocalip:
+    :path: "../../node_modules/capacitor-getlocalip"
   CapacitorHaptics:
     :path: "../../node_modules/@capacitor/haptics"
   CapacitorKeyboard:
@@ -66,8 +71,9 @@ SPEC CHECKSUMS:
   Capacitor: 10feab36396883c55373328124a677f118cd4b5f
   CapacitorApp: febecbb9582cb353aed037e18ec765141f880fe9
   CapacitorCordova: 723e017d8a80ab2ede9959fbe37556c35ac860d5
-  CapacitorFilesystem: 39173fe5a0e77851119998d0d8c61c70551a412a
-  CapacitorGeolocation: b005744861676af9abd19a0682f0b1af32cc2c99
+  CapacitorFilesystem: 337eeaf16a9fa5a44d2329df411523fa3a9a6ee9
+  CapacitorGeolocation: 5e8f3f1bbf3bd914edb0a6a121f2dc55f7ea5c4e
+  CapacitorGetlocalip: d0f07ecbff88e31d28e5cc76dd246fc4c134b36d
   CapacitorHaptics: 1f1e17041f435d8ead9ff2a34edd592c6aa6a8d6
   CapacitorKeyboard: 09fd91dcde4f8a37313e7f11bde553ad1ed52036
   CapacitorLocalNotifications: c2212755b33d2513b8bb325096ce3a64d4039ae3
@@ -76,6 +82,6 @@ SPEC CHECKSUMS:
   IONFilesystemLib: ceacae793975039530458eabab0c495c70515a0d
   IONGeolocationLib: 81f33f88d025846946de2cf63b0c7628e7c6bc9d
 
-PODFILE CHECKSUM: 5e14961d0e55128f309724932a4174c124d73c51
+PODFILE CHECKSUM: 9389bcff3f9a437cff5824eae786eb2f6fc31efe
 
 COCOAPODS: 1.16.2

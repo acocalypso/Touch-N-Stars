@@ -28,3 +28,6 @@ project(':capawesome-capacitor-android-edge-to-edge-support').projectDir = new F
 
 include ':capawesome-capacitor-file-picker'
 project(':capawesome-capacitor-file-picker').projectDir = new File('../node_modules/@capawesome/capacitor-file-picker/android')
+
+include ':capacitor-getlocalip'
+project(':capacitor-getlocalip').projectDir = new File('../node_modules/capacitor-getlocalip/android')

@@ -64,6 +64,7 @@
 <script setup>
 import { ref, defineEmits, defineProps, watch } from 'vue';
 import { Capacitor } from '@capacitor/core';
+import { GetLocalIP } from 'capacitor-getlocalip';
 
 const props = defineProps({
   modelValue: {
@@ -179,17 +180,30 @@ async function scanNetworkForNINA() {
 // Get device's current IP address
 async function getCurrentDeviceIP() {
   try {
-    // Method 1: Try WebRTC approach first (works with and without internet)
+    // Method 1: Try native plugin first (most reliable for mobile)
+    if (Capacitor.isNativePlatform()) {
+      try {
+        const result = await GetLocalIP.getLocalIP();
+        if (result && result.ip) {
+          console.log('Got IP via native plugin:', result.ip);
+          return result.ip;
+        }
+      } catch (error) {
+        console.error('Native plugin failed:', error);
+      }
+    }
+
+    // Method 2: Fallback to WebRTC approach (works with and without internet)
     const webrtcIP = await getIPViaWebRTC();
     if (webrtcIP) {
-      console.log('Got IP via WebRTC:', webrtcIP);
+      console.log('Got IP via WebRTC fallback:', webrtcIP);
       return webrtcIP;
     }
 
-    // Method 2: Try to detect IP by creating a dummy connection
+    // Method 3: Try to detect IP by creating a dummy connection
     const dummyIP = await getIPViaDummyConnection();
     if (dummyIP) {
-      console.log('Got IP via dummy connection:', dummyIP);
+      console.log('Got IP via dummy connection fallback:', dummyIP);
       return dummyIP;
     }
 

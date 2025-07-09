@@ -333,8 +333,7 @@ watch(
 
 <style scoped>
 .nav-button {
-  @apply 
-    w-10 h-10 lg:w-12 lg:h-12 
+  @apply w-10 h-10 lg:w-12 lg:h-12 
     border border-slate-600/30 
     bg-slate-800/40 
     text-gray-300 
@@ -373,8 +372,7 @@ watch(
 }
 
 .active-nav-button {
-  @apply 
-    border border-cyan-500/50 
+  @apply border border-cyan-500/50 
     bg-cyan-700/50 
     text-cyan-100
     shadow-md

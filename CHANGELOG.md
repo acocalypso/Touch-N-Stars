@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.10.0] - xxxx-xx-xx
 ### Added
+- PHD2 setting support. You can now set many PHD2 parameters, such as exposure time, aggression, ...
 - Display of the current `targetName` if a sequence item with status `RUNNING` exists.
+- Autoscan for iOS and Andriod. The connection settings can now be determined automatically as long as the default port 5000 is used in the plugin
 
 ### Changed
 - the coordinates for framing are no longer set at startup
+- design adjustments for select and input field
 
 ### Fixed
 - fixed layout error in footer for iOS

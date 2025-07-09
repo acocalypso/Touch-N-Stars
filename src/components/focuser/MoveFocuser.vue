@@ -1,20 +1,18 @@
 <template>
   <div class="container w-full flex items-center justify-center">
-   
-      <div class="flex space-x-3 items-center w-full">
-        <label for="position" class="w-auto">{{ $t('components.focuser.new_position') }} </label>
-        <input
-          id="position"
-          v-model.number="position"
-          type="number"
-          class="default-input w-full h-10"
-          placeholder="1"
-          step="50"
-        />
-        <button class="default-button-cyan" @click="moveFocuser">
-          {{ $t('components.focuser.move') }}
-        </button>
-      
+    <div class="flex space-x-3 items-center w-full">
+      <label for="position" class="w-auto">{{ $t('components.focuser.new_position') }} </label>
+      <input
+        id="position"
+        v-model.number="position"
+        type="number"
+        class="default-input w-full h-10"
+        placeholder="1"
+        step="50"
+      />
+      <button class="default-button-cyan" @click="moveFocuser">
+        {{ $t('components.focuser.move') }}
+      </button>
     </div>
   </div>
 </template>

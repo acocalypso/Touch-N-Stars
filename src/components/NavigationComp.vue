@@ -333,12 +333,26 @@ watch(
 
 <style scoped>
 .nav-button {
-  @apply w-10 h-10 lg:w-12 lg:h-12 border border-cyan-500/20 bg-gray-700 text-white rounded-full hover:bg-gray-600;
+  @apply 
+    w-10 h-10 lg:w-12 lg:h-12 
+    border border-slate-600/30 
+    bg-slate-800/40 
+    text-gray-300 
+    rounded-full 
+    hover:bg-slate-700/60
+    hover:border-slate-500/50
+    hover:text-gray-200
+    backdrop-blur-sm
+    transition-all
+    duration-200
+    ease-out
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-cyan-500/40;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 4px;
-  transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -359,7 +373,12 @@ watch(
 }
 
 .active-nav-button {
-  @apply border border-cyan-300/30 bg-cyan-700 rounded-lg;
+  @apply 
+    border border-cyan-500/50 
+    bg-cyan-700/50 
+    text-cyan-100
+    shadow-md
+    shadow-cyan-500/20;
 }
 
 .icon {

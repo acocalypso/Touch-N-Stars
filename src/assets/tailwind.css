@@ -51,82 +51,181 @@
 }
 
 @layer components {
-  .default-button-cyan {
-    @apply 
-      flex
-      items-center
-      justify-center
-      min-w-10 
-      min-h-10 
-      bg-gradient-to-br from-cyan-800 to-cyan-600 
-      hover:from-cyan-700 hover:to-cyan-600 
-      rounded-md 
-      text-gray-300 
-      font-medium 
-      transition-colors 
-      w-full 
-      disabled:opacity-50
-      disabled:cursor-not-allowed;
-  }
+.default-button-cyan {
+ @apply 
+   flex
+   items-center
+   justify-center
+   min-w-10 
+   min-h-10 
+   bg-gradient-to-br from-cyan-800/80 to-cyan-600/80 
+   hover:from-cyan-700/90 hover:to-cyan-500/90 
+   border border-cyan-700/50
+   hover:border-cyan-500/70
+   rounded-md 
+   text-cyan-100 
+   font-medium 
+   transition-all
+   duration-300
+   ease-out
+   w-full 
+   shadow-lg
+   shadow-cyan-800/20
+   backdrop-blur-sm
+   active:scale-95
+   focus:outline-none 
+   focus:ring-2 
+   focus:ring-cyan-500/50
+   disabled:opacity-50
+   disabled:cursor-not-allowed
+   disabled:hover:from-cyan-800/80
+   disabled:hover:to-cyan-600/80
+   disabled:hover:border-cyan-700/50
+   disabled:shadow-none;
+}
 
-  .default-button-orange {
-    @apply min-w-24 min-h-10 bg-orange-700 rounded-md text-gray-300 font-medium transition-colors w-full;
-  }
 
-  .default-button-orange:active {
-    @apply bg-orange-600;
-  }
+.default-button-red {
+ @apply 
+   flex
+   items-center
+   justify-center
+   min-w-10 
+   min-h-10 
+   bg-gradient-to-br from-red-800/80 to-red-600/80 
+   hover:from-red-700/90 hover:to-red-500/90 
+   border border-red-700/50
+   hover:border-red-500/70
+   rounded-md 
+   text-red-100 
+   font-medium 
+   transition-all
+   duration-300
+   ease-out
+   w-full 
+   shadow-lg
+   shadow-red-800/20
+   backdrop-blur-sm
+   active:scale-95
+   focus:outline-none 
+   focus:ring-2 
+   focus:ring-red-500/50
+   disabled:opacity-50
+   disabled:cursor-not-allowed
+   disabled:hover:from-red-800/80
+   disabled:hover:to-red-600/80
+   disabled:hover:border-red-700/50
+   disabled:shadow-none;
+}
 
-  .default-button-red {
-    @apply 
-      flex
-      items-center
-      justify-center
-      min-w-10 
-      min-h-10 
-      bg-gradient-to-br from-red-800 to-red-600 
-      hover:from-red-700 hover:to-red-600 
-      rounded-md 
-      text-gray-300 
-      font-medium 
-      transition-colors 
-      w-full 
-      disabled:opacity-50
-      disabled:cursor-not-allowed;
-  }
+.default-button-orange {
+ @apply 
+   flex
+   items-center
+   justify-center
+   min-w-10 
+   min-h-10 
+   bg-gradient-to-br from-orange-800/80 to-orange-600/80 
+   hover:from-orange-700/90 hover:to-orange-500/90 
+   border border-orange-700/50
+   hover:border-orange-500/70
+   rounded-md 
+   text-orange-100 
+   font-medium 
+   transition-all
+   duration-300
+   ease-out
+   w-full 
+   shadow-lg
+   shadow-orange-800/20
+   backdrop-blur-sm
+   active:scale-95
+   focus:outline-none 
+   focus:ring-2 
+   focus:ring-orange-500/50
+   disabled:opacity-50
+   disabled:cursor-not-allowed
+   disabled:hover:from-orange-800/80
+   disabled:hover:to-orange-600/80
+   disabled:hover:border-orange-700/50
+   disabled:shadow-none;
+}
 
-  .default-input {
-    @apply 
-    text-gray-300 
-      px-3 
-      min-w-10 
-      min-h-8 
-      border border-cyan-800 
-      rounded-lg 
-    bg-gray-600
-      focus:outline-none 
-      focus:ring-2 
-    focus:ring-cyan-700
-      disabled:opacity-50
-      disabled:cursor-not-allowed;
-  }
+.default-input {
+  @apply
+  text-gray-200 
+    px-3 
+    min-w-10 
+    min-h-8 
+    border border-slate-600/60 
+    rounded-lg 
+    bg-slate-700/40 
+    backdrop-blur-sm
+    shadow-inner
+    transition-all
+    duration-300
+    ease-out
+    placeholder:text-gray-400
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-emerald-500/40
+    focus:border-emerald-500/60
+    focus:bg-slate-700/60
+    hover:border-slate-500/70
+    hover:bg-slate-700/50
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+    disabled:bg-slate-800/30;
+}
 
-  .default-select{
-    @apply 
-    text-gray-300 
-      px-3 
-      min-w-10 
-      min-h-8 
-      border border-cyan-800 
-      rounded-lg 
-    bg-gray-600
-      focus:outline-none 
-      focus:ring-2 
-    focus:ring-cyan-700
-      disabled:opacity-50
-      disabled:cursor-not-allowed;
-  }
+.default-select {
+  @apply 
+  text-gray-200 
+    px-3 
+    min-w-10 
+    min-h-8 
+    border border-slate-600/60 
+    rounded-lg 
+    bg-slate-700/40 
+    backdrop-blur-sm
+    shadow-inner
+    transition-all
+    duration-300
+    ease-out
+    cursor-pointer
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-emerald-500/40
+    focus:border-emerald-500/60
+    focus:bg-slate-700/60
+    hover:border-slate-500/70
+    hover:bg-slate-700/50
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+    disabled:bg-slate-800/30;
+}
 
+/* Dropdown-Optionen Styling */
+.default-select option {
+  @apply 
+    bg-slate-800
+    text-gray-200
+    border-none
+    py-2
+    px-3;
+}
+
+.default-select option:hover {
+  @apply 
+    bg-slate-700
+    text-gray-100;
+}
+
+.default-select option:checked {
+  @apply 
+    bg-emerald-600
+    text-white;
+}
   .btn-primary {
     @apply px-6 py-3 rounded-lg text-white font-medium transition-all duration-200;
     @apply flex items-center justify-center min-w-[160px];

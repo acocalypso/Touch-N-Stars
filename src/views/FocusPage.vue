@@ -18,7 +18,7 @@
       />
       <div v-if="store.focuserInfo.Connected" class="flex flex-col text-left mt-4">
         <div class="border border-gray-400/50 p-3 rounded-md">
-          <MoveFocuser  />
+          <MoveFocuser />
           <div class="pt-2">
             <ButtonsFastChangePositon />
           </div>

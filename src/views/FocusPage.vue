@@ -103,19 +103,7 @@ import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 
 const store = apiStore();
 const position = ref(0);
-const loading = ref(false);
 const delayShowGraph = ref(true);
-
-async function moveFocuser() {
-  try {
-    loading.value = true;
-    await apiService.moveFocuser(position.value);
-  } catch (error) {
-    console.error('Fehler beim Bewegen des Fokussierers:', error);
-  } finally {
-    loading.value = false;
-  }
-}
 
 async function startAutofocus() {
   try {

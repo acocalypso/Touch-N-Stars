@@ -1,22 +1,25 @@
 <template>
   <div class="flex flex-col items-center gap-2">
     <div v-if="store.cameraInfo.CanSetTemperature" class="w-full">
-      <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg min-w-36">
-        <label for="Cooler" class="text-xs mb-1 text-gray-200"
-          >{{ $t('components.camera.camera_cooling') }}
-        </label>
+      <div class="flex flex-col border border-slate-600/40 p-3 pb-3 rounded-lg min-w-36">
+        <div class="flex items-center justify-between mb-2">
+          <label for="Cooler" class="text-gray-200 font-medium">
+            {{ $t('components.camera.camera_cooling') }}
+          </label>
+          <toggleButton @click="toggleCooling" :status-value="cameraStore.buttonCoolerOn" />
+        </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
           >
-            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
+            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.target_temperature') }}:
             </label>
             <input
               id="TemperatureSetPoint"
               v-model="cameraStore.coolingTemp"
               type="number"
-              class="default-input ml-auto h-8 w-28"
+              class="default-input ml-auto sm:ml-0 h-8 w-20 sm:w-full"
               placeholder="1"
               step="1"
               @change="setCoolingTemp"
@@ -25,16 +28,16 @@
           </div>
 
           <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
           >
-            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
+            <label for="CoolingDurationTime" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.cooling_time') }}
             </label>
             <input
-              id="TemperatureDurationTime"
+              id="CoolingDurationTime"
               v-model="cameraStore.coolingTime"
               type="number"
-              class="default-input ml-auto h-8 w-28"
+              class="default-input ml-auto sm:ml-0 h-8 w-20 sm:w-full"
               placeholder="1"
               step="1"
               @change="setCoolingTime"
@@ -42,33 +45,29 @@
             />
           </div>
           <div
-            class="flex sm:flex-1 justify-between items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
           >
-            <label for="TemperatureDurationTime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200"
+            <label for="WarmingDurationTime" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.warm_up_time') }}
             </label>
             <input
-              id="TemperatureDurationTime"
+              id="WarmingDurationTime"
               v-model="cameraStore.warmingTime"
               type="number"
-              class="default-input ml-auto h-8 w-28"
+              class="default-input ml-auto sm:ml-0 h-8 w-20 sm:w-full"
               step="1"
               @change="setWarmingTime"
               @blur="setWarmingTime"
             />
           </div>
-
-          <toggleButton
-            @click="toggleCooling"
-            :status-value="cameraStore.buttonCoolerOn"
-            class="pr-5 pl-5 justify-center"
-          />
         </div>
       </div>
     </div>
     <div v-if="store.cameraInfo.HasDewHeater">
-      <div class="flex flex-col min-w-36 border border-gray-500 p-1 pb-2 rounded-lg">
-        <label for="DewHeater" class="text-xs mb-1 text-gray-200"
+      <div
+        class="flex flex-col min-w-36 border border-slate-600/40 p-3 pb-3 rounded-lg bg-slate-800/40 backdrop-blur-sm"
+      >
+        <label for="DewHeater" class="text-xs mb-2 text-gray-200 font-medium"
           >{{ $t('components.camera.dew_heater') }}
         </label>
         <div class="flex space-x-2 justify-center">

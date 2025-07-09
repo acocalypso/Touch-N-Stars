@@ -120,9 +120,7 @@ import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
-import apiService from './services/apiService';
 import notificationService from './services/notificationService';
-import { wait } from './utils/utils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

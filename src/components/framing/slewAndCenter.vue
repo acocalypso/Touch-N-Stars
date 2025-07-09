@@ -83,8 +83,6 @@ import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { hmsToDegrees, dmsToDegrees, altAzToRaDec, parseAngleInput } from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
-import ButtonSlew from '@/components/mount/ButtonSlew.vue';
-import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 
 const { t } = useI18n();
@@ -216,10 +214,6 @@ function updateAltAz() {
 
   console.log('→ RA (°):', ra);
   console.log('→ DEC (°):', dec);
-}
-
-async function cameraRotate() {
-  framingStore.cameraRotate();
 }
 
 async function fetchInfo() {

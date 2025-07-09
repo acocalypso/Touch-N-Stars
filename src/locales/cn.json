@@ -333,7 +333,8 @@
           "predictive_weight": "RA: Predictive weight",
           "reactive_weight": "RA: ReactiveW weight",
           "slope_weight": "RA: Slope weight"
-        }
+        },
+        "Exposuretime": "Exposuretime"
       }
     },
     "focuser": {

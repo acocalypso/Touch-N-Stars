@@ -17,12 +17,12 @@
             type="text"
             v-model="framingStore.searchQuery"
             @input="fetchTargetSearch"
-            class="w-full p-2 border border-gray-300 rounded"
+            class="default-input h-10 w-full"
             :placeholder="$t('components.framing.search.placeholder')"
           />
           <SaveFavTargets
             v-if="framingStore.selectedItem"
-            class="w-5 h-5"
+            class="w-5 h-5 mr-5"
             :name="framingStore.selectedItem.Name"
             :ra="framingStore.RAangle"
             :dec="framingStore.DECangle"
@@ -37,12 +37,12 @@
             Array.isArray(framingStore.targetSearchResult) &&
             framingStore.targetSearchResult.length > 0
           "
-          class="bg-white border border-gray-300 rounded mt-1 z-10"
+          class="default-select"
         >
           <li
             v-for="(item, index) in framingStore.targetSearchResult"
             :key="index"
-            class="p-2 hover:bg-gray-200 cursor-pointer"
+            class="p-2 hover:bg-blue-800 cursor-pointer"
             @click="selectTarget(item)"
           >
             {{ item.Name }}
@@ -60,7 +60,7 @@
         <select
           id="visibleStars"
           v-model="selectedStar"
-          class="text-black w-full p-2 border border-gray-300 rounded"
+          class="default-select h-10 w-full"
           @change="updateRaDec"
         >
           <option v-for="star in visibleStars" :key="star.name" :value="star">

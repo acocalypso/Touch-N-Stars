@@ -5,7 +5,7 @@
     </label>
     <select
       v-model="selectedProfile"
-      class="default-select"
+      class="default-select h-8 w-28 ml-auto"
       :class="statusClassConnect"
       :disabled="guiderStore.phd2IsConnected"
     >

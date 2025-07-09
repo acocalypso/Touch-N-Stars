@@ -278,7 +278,8 @@
           "hysteresis": "DEC: Hysteresis",
           "predictive_weight": "DEC: Predictive weight",
           "reactive_weight": "DEC: ReactiveW weight",
-          "slope_weight": "DEC: Slope weight"
+          "slope_weight": "DEC: Slope weight",
+          "aggression": "DEC: Agressão"
         },
         "error": {
           "star-lost-message": "Star lost",
@@ -294,7 +295,8 @@
           "predictive_weight": "RA: Predictive weight",
           "reactive_weight": "RA: ReactiveW weight",
           "slope_weight": "RA: Slope weight"
-        }
+        },
+        "Exposuretime": "Período de exposição"
       }
     },
     "language": {

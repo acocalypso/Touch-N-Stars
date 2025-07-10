@@ -1,0 +1,354 @@
+<template>
+  <div
+    ref="imageContainer"
+    class="zoomable-image-container relative overflow-hidden w-full"
+    :class="containerClasses"
+  >
+    <!-- Action Buttons + Zoom Display (responsive position) -->
+    <div v-if="imageData" :class="actionAreaClasses">
+      <!-- Download Button -->
+      <button
+        v-if="showDownload"
+        @click.stop="handleDownload"
+        @touchstart.stop
+        :class="actionButtonClasses"
+        title="Download Image"
+      >
+        <ArrowDownTrayIcon class="w-5 h-5" />
+      </button>
+
+      <!-- Fullscreen Button -->
+      <button
+        v-if="showFullscreen"
+        @click.stop="handleFullscreen"
+        @touchstart.stop
+        :class="actionButtonClasses"
+        title="Open Fullscreen"
+      >
+        <MagnifyingGlassPlusIcon class="w-5 h-5" />
+      </button>
+    </div>
+
+    <!-- Custom Action Slot (bottom right) -->
+    <div v-if="$slots.actions && imageData" class="absolute bottom-2 right-2 z-50">
+      <slot name="actions"></slot>
+    </div>
+
+    <!-- Main Image -->
+    <img
+      v-if="imageData"
+      ref="image"
+      :src="imageData"
+      :alt="altText"
+      class="w-full h-full object-contain cursor-move transition-opacity duration-200"
+      @load="onImageLoad"
+      @error="onImageError"
+    />
+
+    <!-- Placeholder -->
+    <div v-else class="flex items-center justify-center w-full h-full bg-gray-800/20">
+      <slot name="placeholder">
+        <div class="text-gray-400 text-center">
+          <div class="w-16 h-16 mx-auto mb-2 opacity-50">
+            <PhotoIcon class="w-full h-full" />
+          </div>
+          <p class="text-sm">{{ placeholderText }}</p>
+        </div>
+      </slot>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
+import Panzoom from 'panzoom';
+import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
+
+const props = defineProps({
+  // Image data
+  imageData: {
+    type: String,
+    default: null,
+  },
+  altText: {
+    type: String,
+    default: 'Zoomable Image',
+  },
+  placeholderText: {
+    type: String,
+    default: 'No image available',
+  },
+
+  // UI Controls
+  showControls: {
+    type: Boolean,
+    default: true,
+  },
+  showDownload: {
+    type: Boolean,
+    default: true,
+  },
+  showFullscreen: {
+    type: Boolean,
+    default: true,
+  },
+
+  // Zoom settings
+  minZoom: {
+    type: Number,
+    default: 0.1,
+  },
+  maxZoom: {
+    type: Number,
+    default: 40,
+  },
+
+  // Container settings
+  height: {
+    type: String,
+    default: 'auto', // 'auto', '60vh', '400px', etc.
+  },
+});
+
+const emits = defineEmits(['download', 'fullscreen', 'zoom-change', 'image-load', 'image-error']);
+
+// Refs
+const imageContainer = ref(null);
+const image = ref(null);
+
+// Zoom state
+let panzoomInstance = null;
+const zoomLevel = ref(1);
+const originalWidth = ref(1);
+const originalHeight = ref(1);
+
+// Check if in landscape mode
+const isLandscape = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth > window.innerHeight;
+  }
+  return false;
+});
+
+// Computed classes
+const containerClasses = computed(() => ({
+  'min-h-[60vh]': props.height === 'auto',
+}));
+
+const actionButtonClasses = computed(() => [
+  'w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg',
+  'flex items-center justify-center transition-colors backdrop-blur-sm',
+  'pointer-events-auto touch-manipulation active:bg-gray-600 active:scale-95',
+]);
+
+const actionAreaClasses = computed(() => [
+  'absolute z-[60] flex gap-2 items-center',
+  !isLandscape.value
+    ? 'top-24 right-2' // Portrait fullscreen: below navigation
+    : 'top-2 right-2', // Landscape or normal: top right
+]);
+
+// Zoom functions
+const logZoomLevel = () => {
+  if (image.value && panzoomInstance) {
+    try {
+      // Try different API methods depending on panzoom version
+      let currentScale = 1;
+
+      if (typeof panzoomInstance.getTransform === 'function') {
+        const transform = panzoomInstance.getTransform();
+        currentScale = transform.scale;
+      } else if (typeof panzoomInstance.getScale === 'function') {
+        currentScale = panzoomInstance.getScale();
+      } else {
+        // Fallback: calculate from DOM
+        const { width } = image.value.getBoundingClientRect();
+        currentScale = width / originalWidth.value;
+      }
+
+      if (Math.abs(currentScale - zoomLevel.value) > 0.01) {
+        zoomLevel.value = currentScale;
+        emits('zoom-change', currentScale);
+      }
+    } catch (error) {
+      console.warn('Error getting zoom level:', error);
+    }
+  }
+};
+
+const initializePanzoom = () => {
+  if (image.value) {
+    // Store original dimensions
+    originalWidth.value = image.value.naturalWidth;
+    originalHeight.value = image.value.naturalHeight;
+
+    try {
+      // Initialize panzoom with error handling
+      panzoomInstance = Panzoom(image.value, {
+        maxZoom: props.maxZoom,
+        minZoom: props.minZoom,
+        contain: 'inside',
+        smoothScroll: true,
+        zoomDoubleClickSpeed: 1,
+      });
+
+      // Event listeners with error handling
+      try {
+        panzoomInstance.on('zoom', logZoomLevel);
+        panzoomInstance.on('pan', logZoomLevel);
+        panzoomInstance.on('transform', logZoomLevel);
+      } catch (eventError) {
+        console.warn('Some panzoom events not available:', eventError);
+        // Fallback: just try zoom event
+        try {
+          panzoomInstance.on('zoom', logZoomLevel);
+        } catch (e) {
+          console.warn('No zoom events available');
+        }
+      }
+
+      // Initial zoom level
+      logZoomLevel();
+
+      console.log('Panzoom initialized successfully');
+      console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
+    } catch (error) {
+      console.error('Error initializing panzoom:', error);
+    }
+
+    // Touch event handling for mobile - but exclude control areas
+    image.value.addEventListener(
+      'touchmove',
+      (event) => {
+        // Don't prevent if touch is on control buttons
+        if (!event.target.closest('.z-50')) {
+          event.preventDefault();
+        }
+      },
+      { passive: false }
+    );
+  }
+};
+
+const destroyPanzoom = () => {
+  if (panzoomInstance) {
+    panzoomInstance.dispose();
+    panzoomInstance = null;
+  }
+};
+
+// Control functions
+const resetZoom = () => {
+  if (panzoomInstance) {
+    try {
+      // Try different API methods
+      if (typeof panzoomInstance.reset === 'function') {
+        panzoomInstance.reset();
+      } else if (typeof panzoomInstance.moveTo === 'function') {
+        panzoomInstance.moveTo(0, 0);
+        if (typeof panzoomInstance.zoomAbs === 'function') {
+          panzoomInstance.zoomAbs(0, 0, 1);
+        }
+      }
+    } catch (error) {
+      console.warn('Error resetting zoom:', error);
+    }
+  }
+};
+
+// Event handlers
+const onImageLoad = () => {
+  nextTick(() => {
+    destroyPanzoom();
+    initializePanzoom();
+    emits('image-load');
+  });
+};
+
+const onImageError = (event) => {
+  console.error('Image load error:', event);
+  emits('image-error', event);
+};
+
+const handleDownload = () => {
+  emits('download', {
+    imageData: props.imageData,
+    zoomLevel: zoomLevel.value,
+  });
+};
+
+const handleFullscreen = () => {
+  emits('fullscreen', {
+    imageData: props.imageData,
+    zoomLevel: zoomLevel.value,
+  });
+};
+
+// Watchers
+watch(
+  () => props.imageData,
+  (newImageData) => {
+    if (newImageData) {
+      nextTick(() => {
+        onImageLoad();
+      });
+    } else {
+      destroyPanzoom();
+      zoomLevel.value = 1;
+    }
+  }
+);
+
+// Lifecycle
+onMounted(() => {
+  if (props.imageData) {
+    nextTick(() => {
+      onImageLoad();
+    });
+  }
+});
+
+onBeforeUnmount(() => {
+  destroyPanzoom();
+});
+
+// Expose methods for parent component
+defineExpose({
+  resetZoom,
+  getZoomLevel: () => zoomLevel.value,
+});
+</script>
+
+<style scoped>
+.zoomable-image-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dynamic height based on prop */
+.zoomable-image-container {
+  height: v-bind(height);
+}
+
+/* Ensure image fills container */
+.zoomable-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Backdrop blur for better button visibility */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Smooth zoom transitions */
+.zoomable-image-container img {
+  transition: transform 0.1s ease-out;
+}
+
+/* Custom scrollbar for touch devices */
+.zoomable-image-container::-webkit-scrollbar {
+  display: none;
+}
+</style>

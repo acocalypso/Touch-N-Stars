@@ -1,9 +1,7 @@
-// Input field classes
-const inputClasses = computed(() => {
-  let baseClasses = 'default-input text-center h-10';
-  
-  if (isLandscape.value && isTablet.value && !isSmallIPad.value && !isIPadPro.value) {
-    return `${baseClasses} pr-5 w-14<template>
+// Input field classes const inputClasses = computed(() => { let baseClasses = 'default-input
+text-center h-10'; if (isLandscape.value && isTablet.value && !isSmallIPad.value &&
+!isIPadPro.value) { return `${baseClasses} pr-5 w-14
+<template>
   <!-- Capture & Cancel Buttons -->
   <div
     class="fixed flex items-center justify-center z-50 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black transition-all duration-300"
@@ -11,11 +9,7 @@ const inputClasses = computed(() => {
     :style="containerStyle"
   >
     <!-- Close dropdown when clicking outside -->
-    <div
-      v-if="showDropdown"
-      class="dropdown-backdrop"
-      @click="showDropdown = false"
-    ></div>
+    <div v-if="showDropdown" class="dropdown-backdrop" @click="showDropdown = false"></div>
     <!-- Capture / Cancel Combined Button -->
     <button
       class="relative flex-shrink-0 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -60,7 +54,12 @@ const inputClasses = computed(() => {
           <div class="loader"></div>
         </template>
         <template v-else>
-          <svg :class="iconSizeClasses" viewBox="0 0 72 72" id="emoji" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            :class="iconSizeClasses"
+            viewBox="0 0 72 72"
+            id="emoji"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <g id="color" />
             <g id="line">
               <circle
@@ -88,7 +87,7 @@ const inputClasses = computed(() => {
       :class="[
         'flex-shrink-0 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
         cameraStore.isLooping ? 'text-green-400 glow-green' : 'text-gray-300',
-        buttonSizeClasses
+        buttonSizeClasses,
       ]"
     >
       <ArrowPathIcon :class="smallIconSizeClasses" />
@@ -114,18 +113,23 @@ const inputClasses = computed(() => {
           placeholder="Sek."
           @focus="showDropdown = false"
         />
-        
+
         <!-- Dropdown Button -->
         <button
           @click="showDropdown = !showDropdown"
           :class="[
             'absolute right-0 top-0 h-full bg-gray-700 border-l border-gray-600 rounded-r-md hover:bg-gray-600 transition-colors',
-            dropdownButtonClasses
+            dropdownButtonClasses,
           ]"
           type="button"
         >
           <svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
           </svg>
         </button>
 
@@ -134,7 +138,7 @@ const inputClasses = computed(() => {
           v-if="showDropdown"
           :class="[
             'absolute z-50 bg-gray-800 border border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto scrollbar-hide',
-            dropdownClasses
+            dropdownClasses,
           ]"
         >
           <div class="py-1">
@@ -177,7 +181,7 @@ const inputClasses = computed(() => {
         @click="openSettings = true"
         :class="[
           'rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
-          buttonSizeClasses
+          buttonSizeClasses,
         ]"
       >
         <Cog6ToothIcon :class="smallIconSizeClasses" class="text-gray-300" />
@@ -273,9 +277,7 @@ const containerStyle = computed(() => {
     ? 'calc(18rem + env(safe-area-inset-bottom, 0px))' // bottom-72 = 18rem
     : 'calc(2.75rem + env(safe-area-inset-bottom, 0px))'; // bottom-11 = 2.75rem
 
-  return !isLandscape.value 
-    ? { bottom: baseBottom }
-    : {};
+  return !isLandscape.value ? { bottom: baseBottom } : {};
 });
 
 // Responsive button sizes
@@ -304,11 +306,11 @@ const smallIconSizeClasses = computed(() => {
 // Input field classes
 const inputClasses = computed(() => {
   let baseClasses = 'default-input text-center h-10';
-  
+
   if (isLandscape.value) {
     return `${baseClasses} pr-5 w-14 text-xs`; // All landscape devices
   }
-  
+
   return `${baseClasses} pr-8 w-20`; // Portrait mode
 });
 

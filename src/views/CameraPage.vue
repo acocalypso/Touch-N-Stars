@@ -13,46 +13,37 @@
     </div>
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
-    <div v-show="store.cameraInfo.Connected">
-      <div class="flex flex-col lg:flex-row gap-1 lg:gap-4 mx-5">
-        <div class="flex flex-col space-y-3">
-          <div class="flex flex-col space-y-2 z-20">
-            <CaptureButton />
-          </div>
-        </div>
-
-        <div class="flex w-full relative">
-          <div
-            ref="imageContainer"
-            class="image-container flex justify-center items-center w-full touch-auto"
-          >
-            <img
-              v-if="cameraStore.imageData"
-              @click="openModal"
-              ref="image"
-              :src="cameraStore.imageData"
-              alt="Captured Image"
-              class="max-h-[80vh] bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700/50 overflow-hidden"
-            />
-            <div v-else class="flex items-center justify-center">
-              <img
-                src="../assets/Logo_TouchNStars_600x600.png"
-                alt="Captured Image"
-                class="block"
-              />
-            </div>
-            <div
-              v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
-              class="absolute top-2 right-2 z-50"
+    <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
+      <!-- Zoomable Image Component - Full Screen -->
+      <ZoomableImage
+        :imageData="cameraStore.imageData"
+        :showControls="true"
+        :showDownload="true"
+        :showFullscreen="true"
+        height="100vh"
+        altText="Captured Astrophoto"
+        placeholderText="No image captured yet"
+        @download="handleDownload"
+        @fullscreen="openModal"
+        @zoom-change="handleZoomChange"
+        @image-load="handleImageLoad"
+        class="bg-gray-900"
+      >
+        <!-- Custom actions slot for plate solve button -->
+        <template #actions>
+          <div v-if="cameraStore?.plateSolveResult?.Coordinates?.RADegrees" class="flex gap-2">
+            <button
+              @click="cameraStore.slewModal = true"
+              class="w-12 h-12 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+              title="Slew to Target"
             >
               <svg
-                @click="cameraStore.slewModal = true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-10 h-10 text-white cursor-pointer hover:text-cyan-500 transition"
+                class="w-6 h-6"
               >
                 <path
                   stroke-linecap="round"
@@ -60,12 +51,33 @@
                   d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
                 />
               </svg>
-            </div>
+            </button>
           </div>
+        </template>
+
+        <!-- Custom placeholder -->
+        <template #placeholder>
+          <div class="flex flex-col items-center justify-center text-gray-400">
+            <img
+              src="../assets/Logo_TouchNStars_600x600.png"
+              alt="TouchNStars Logo"
+              class="w-32 h-32 opacity-50 mb-4"
+            />
+            <p class="text-lg">Ready to capture</p>
+            <p class="text-sm opacity-75">Press the capture button to take a photo</p>
+          </div>
+        </template>
+      </ZoomableImage>
+
+      <!-- Capture Button Overlay -->
+      <div class="absolute inset-0 pointer-events-none z-[55]">
+        <div class="pointer-events-auto">
+          <CaptureButton />
         </div>
       </div>
     </div>
 
+    <!-- Fullscreen Image Modal -->
     <ImageModal
       :showModal="showModal"
       :imageData="cameraStore.imageData"
@@ -73,6 +85,7 @@
       @close="closeModal"
     />
 
+    <!-- Slew Modal -->
     <div
       v-if="cameraStore.slewModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
@@ -104,16 +117,17 @@
     </div>
   </div>
 
-  <div class="fixed top-24 left-5 flex gap-2 text-gray-300">
+  <!-- Quick Access Buttons -->
+  <div :class="quickButtonsClasses">
     <div v-if="store.mountInfo.Connected">
       <button
         @click="showMount = !showMount"
-        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
-        :class="{ 'glow-green': showMount }"
+        :class="[buttonClasses, { 'glow-green': showMount }]"
+        title="Mount Controls"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 text-gray-300"
+          :class="iconClasses"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -134,26 +148,24 @@
     <div v-if="store.focuserInfo.Connected">
       <button
         @click="showFocuser = !showFocuser"
-        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
-        :class="{ 'glow-green': showFocuser }"
+        :class="[buttonClasses, { 'glow-green': showFocuser }]"
+        title="Focuser Controls"
       >
-        <EyeIcon class="w-7 h-7" />
+        <EyeIcon :class="iconClasses" />
       </button>
     </div>
     <div v-if="store.filterInfo.Connected">
       <button
         @click="showFilter = !showFilter"
-        class="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200"
-        :class="{ 'glow-green': showFilter }"
+        :class="[buttonClasses, { 'glow-green': showFilter }]"
+        title="Filter Wheel"
       >
         <svg
-          class="w-8 h-8"
+          :class="iconClasses"
           baseProfile="full"
           version="1.1"
           viewBox="0 0 100 100"
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:ev="http://www.w3.org/2001/xml-events"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
         >
           <defs />
           <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
@@ -166,7 +178,8 @@
       </button>
     </div>
   </div>
-  <!-- Mount Modal -->
+
+  <!-- Modals -->
   <ModalTransparanet :show="showMount" @close="showMount = false">
     <template #header>
       <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
@@ -176,7 +189,6 @@
     </template>
   </ModalTransparanet>
 
-  <!-- Focuser Modal -->
   <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
     <template #header>
       <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
@@ -189,7 +201,6 @@
     </template>
   </ModalTransparanet>
 
-  <!-- filterwheel Modal -->
   <ModalTransparanet :show="showFilter" @close="showFilter = false">
     <template #header>
       <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
@@ -203,11 +214,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { EyeIcon } from '@heroicons/vue/24/outline';
 import ImageModal from '@/components/helpers/imageModal.vue';
+import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
 import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
@@ -215,24 +227,89 @@ import moveAxis from '@/components/mount/moveAxis.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
+import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 
-// Initialisiere Stores
+// Stores
 const store = apiStore();
 const cameraStore = useCameraStore();
-const imageContainer = ref(null);
-const image = ref(null);
+
+// State
 const showModal = ref(false);
 const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 
-// Modal öffnen / schließen
-function openModal() {
+// Check if in landscape mode
+const isLandscape = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth > window.innerHeight;
+  }
+  return false;
+});
+
+// Responsive computed properties - not needed for fullscreen
+const quickButtonsClasses = computed(() => ({
+  'fixed flex gap-2 text-gray-300 z-[58]': true,
+  'top-24 left-5 flex-row': !isLandscape.value,
+  'top-5 left-24 flex-row': isLandscape.value,
+}));
+
+const buttonClasses = computed(() => ({
+  'rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200': true,
+  'w-12 h-12': !isLandscape.value,
+  'w-10 h-10': isLandscape.value,
+}));
+
+const iconClasses = computed(() => ({
+  'text-gray-300': true,
+  'w-6 h-6': !isLandscape.value,
+  'w-5 h-5': isLandscape.value,
+}));
+
+const imageHeight = computed(() => {
+  return '100vh'; // Always fullscreen
+});
+
+// Event handlers
+const handleDownload = async (data) => {
+  await downloadImageHelper(data.imageData, new Date().toISOString().split('T')[0], {
+    folderPrefix: 'TNS-Images',
+    filePrefix: 'TNS',
+  });
+};
+
+const handleZoomChange = (zoomLevel) => {
+  console.log('Zoom level changed:', zoomLevel);
+};
+
+const handleImageLoad = () => {
+  console.log('Image loaded successfully');
+};
+
+const openModal = () => {
   showModal.value = true;
-}
-function closeModal() {
+};
+
+const closeModal = () => {
   showModal.value = false;
-}
+};
 </script>
 
-<style scoped></style>
+<style scoped>
+.glow-green {
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+  border-color: rgb(34, 197, 94);
+}
+
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+@media (max-height: 600px) and (orientation: landscape) {
+  .quickButtonsClasses {
+    top: 0.25rem !important;
+  }
+}
+</style>

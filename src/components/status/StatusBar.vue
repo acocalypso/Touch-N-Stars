@@ -134,8 +134,10 @@
           <path d="M21 12l-3 0" />
           <path d="M12 12l0 .01" />
         </svg>
-        <p v-if="store.profileInfo?.GuiderSettings?.PHD2GuiderScale === 'ARCSECONDS'">{{ store.guiderInfo.RMSError?.Total.Arcseconds.toFixed(2) }}"</p> 
-        <p v-else> {{ store.guiderInfo.RMSError?.Total.Pixel.toFixed(2) }} </p>
+        <p v-if="store.profileInfo?.GuiderSettings?.PHD2GuiderScale === 'ARCSECONDS'">
+          {{ store.guiderInfo.RMSError?.Total.Arcseconds.toFixed(2) }}"
+        </p>
+        <p v-else>{{ store.guiderInfo.RMSError?.Total.Pixel.toFixed(2) }}</p>
       </button>
     </div>
     <!-- Weather info container -->

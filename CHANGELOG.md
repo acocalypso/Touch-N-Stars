@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - the coordinates for framing are no longer set at startup
 - design adjustments for select and input field
+- Guidegraph show px and rms error
 
 ### Fixed
 - fixed layout error in footer for iOS

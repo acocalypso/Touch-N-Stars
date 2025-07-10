@@ -15,10 +15,7 @@
         <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
       </div>
 
-      <div
-        v-else
-        :class="mainContentClasses"
-      >
+      <div v-else :class="mainContentClasses">
         <StellariumView
           :key="landscapeSwitch"
           v-show="store.showStellarium"
@@ -195,7 +192,8 @@ const navContainerClasses = computed(() => ({
 }));
 
 const mainContentClasses = computed(() => ({
-  'container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]': !isLandscape.value,
+  'container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]':
+    !isLandscape.value,
   'transition-all ml-20 mr-4 py-4 pb-16': isLandscape.value,
 }));
 
@@ -229,7 +227,7 @@ onMounted(async () => {
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
-  
+
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
@@ -315,7 +313,7 @@ onBeforeUnmount(() => {
   .app-landscape .main-content {
     margin-left: 4.5rem !important; /* Für w-18 Navigation (72px) */
   }
-  
+
   .app-landscape .status-bar {
     left: 4.5rem !important;
   }
@@ -331,7 +329,7 @@ onBeforeUnmount(() => {
   .app-landscape .main-content {
     margin-left: calc(5rem + env(safe-area-inset-left));
   }
-  
+
   .app-landscape .status-bar {
     left: calc(5rem + env(safe-area-inset-left));
   }
@@ -342,7 +340,7 @@ onBeforeUnmount(() => {
   .app-landscape .container {
     padding-left: 12rem !important;
   }
-  
+
   .app-landscape .fixed.bottom-0 {
     left: 12rem !important;
   }

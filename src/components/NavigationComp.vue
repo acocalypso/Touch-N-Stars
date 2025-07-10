@@ -3,10 +3,7 @@
     class="navigation-container shadow-md overflow-hidden"
     :class="[activeInstanceColor, orientationClasses]"
   >
-    <div
-      class="nav-content items-center scrollbar-hide"
-      :class="contentClasses"
-    >
+    <div class="nav-content items-center scrollbar-hide" :class="contentClasses">
       <div class="nav-items-wrapper" :class="wrapperClasses">
         <!-- Plugin navigation items first -->
         <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
@@ -487,14 +484,14 @@ watch(
   .nav-landscape {
     width: 4.5rem; /* 72px - zwischen w-16 (64px) und w-20 (80px) */
   }
-  
+
   .nav-landscape .nav-button {
     @apply w-14 h-14;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
   }
-  
+
   .nav-landscape svg {
     width: 1.5rem !important;
     height: 1.5rem !important;
@@ -606,7 +603,7 @@ watch(
     padding-top: env(safe-area-inset-top);
     height: calc(5rem + env(safe-area-inset-top));
   }
-  
+
   .nav-landscape {
     padding-left: env(safe-area-inset-left);
     width: calc(5rem + env(safe-area-inset-left));

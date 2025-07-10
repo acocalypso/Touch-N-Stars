@@ -311,7 +311,9 @@ onBeforeUnmount(() => {
   top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px)); /* Navigation + Smaller Status Bar Gap */
+  height: calc(
+    100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px)
+  ); /* Navigation + Smaller Status Bar Gap */
 }
 
 /* Landscape Mode - Adjusted for left navigation */
@@ -329,7 +331,7 @@ onBeforeUnmount(() => {
     width: calc(100vw - 4.5rem) !important;
     height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)) !important;
   }
-  
+
   /* Adjust controls position for tablet */
   .stellarium-landscape .stellarium-controls {
     left: 0.5rem !important;
@@ -343,7 +345,7 @@ onBeforeUnmount(() => {
     width: calc(100vw - 5rem - env(safe-area-inset-left));
     height: calc(100dvh - 0.5rem - env(safe-area-inset-bottom));
   }
-  
+
   .stellarium-portrait {
     top: env(safe-area-inset-top);
     height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
@@ -353,7 +355,9 @@ onBeforeUnmount(() => {
 /* Mobile Portrait spezifische Anpassungen */
 @media (max-width: 480px) and (orientation: portrait) {
   .stellarium-portrait {
-    height: calc(100dvh - env(safe-area-inset-bottom, 0px)); /* Navigation + Smaller Status Bar Gap */
+    height: calc(
+      100dvh - env(safe-area-inset-bottom, 0px)
+    ); /* Navigation + Smaller Status Bar Gap */
   }
 }
 

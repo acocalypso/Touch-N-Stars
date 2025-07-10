@@ -1,5 +1,5 @@
 <template>
-  <div class="stellarium-container">
+  <div class="stellarium-container" :class="containerClasses">
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
@@ -39,7 +39,7 @@
       @setFramingCoordinates="setFramingCoordinates"
     />
     <div
-      class="fixed left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      class="fixed left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full stellarium-controls"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <stellariumCredits />
@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch, nextTick, computed } from 'vue';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -82,6 +82,20 @@ const wasmPath = '/stellarium-js/stellarium-web-engine.wasm';
 const isSearchVisible = ref(false);
 const searchComponent = ref(null);
 const mountComponent = ref(null);
+
+// Check if in landscape mode
+const isLandscape = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth > window.innerHeight;
+  }
+  return false;
+});
+
+// Container classes for responsive layout
+const containerClasses = computed(() => ({
+  'stellarium-portrait': !isLandscape.value,
+  'stellarium-landscape': isLandscape.value,
+}));
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
 function toggleSearch(event) {
@@ -288,15 +302,68 @@ onBeforeUnmount(() => {
 <style scoped>
 .stellarium-container {
   position: fixed;
-  top: 10;
+  z-index: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Portrait Mode - Original Style */
+.stellarium-portrait {
+  top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 80px);
-  z-index: 0;
+  height: calc(100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px)); /* Navigation + Smaller Status Bar Gap */
+}
+
+/* Landscape Mode - Adjusted for left navigation */
+.stellarium-landscape {
+  top: 0;
+  left: 5rem; /* Account for left navigation */
+  width: calc(100vw - 5rem);
+  height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)); /* Smaller Status Bar Gap */
+}
+
+/* Tablet Landscape Anpassungen */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+  .stellarium-landscape {
+    left: 4.5rem !important;
+    width: calc(100vw - 4.5rem) !important;
+    height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)) !important;
+  }
+  
+  /* Adjust controls position for tablet */
+  .stellarium-landscape .stellarium-controls {
+    left: 0.5rem !important;
+  }
+}
+
+/* Safe Area Support für iOS */
+@supports (padding-left: env(safe-area-inset-left)) {
+  .stellarium-landscape {
+    left: calc(5rem + env(safe-area-inset-left));
+    width: calc(100vw - 5rem - env(safe-area-inset-left));
+    height: calc(100dvh - 0.5rem - env(safe-area-inset-bottom));
+  }
+  
+  .stellarium-portrait {
+    top: env(safe-area-inset-top);
+    height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+}
+
+/* Mobile Portrait spezifische Anpassungen */
+@media (max-width: 480px) and (orientation: portrait) {
+  .stellarium-portrait {
+    height: calc(100dvh - env(safe-area-inset-bottom, 0px)); /* Navigation + Smaller Status Bar Gap */
+  }
 }
 
 .stellarium-canvas {
   width: 100%;
   height: 100%;
+}
+
+/* Controls positioning adjustments for landscape */
+.stellarium-landscape .stellarium-controls {
+  left: 0.5rem;
 }
 </style>

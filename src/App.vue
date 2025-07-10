@@ -150,7 +150,14 @@ function getCurrentOrientation() {
 }
 
 function checkOrientation() {
-  isLandscape.value = window.innerWidth > window.innerHeight;
+  const newIsLandscape = window.innerWidth > window.innerHeight;
+  if (newIsLandscape !== isLandscape.value) {
+    isLandscape.value = newIsLandscape;
+    // Force re-render of StellariumView when orientation changes
+    if (store.showStellarium) {
+      landscapeSwitch.value = Date.now();
+    }
+  }
 }
 
 function updateOrientation() {
@@ -269,7 +276,17 @@ function closeTutorial() {
 watch(
   () => settingsStore.stellarium.landscapesVisible,
   () => {
-    landscapeSwitch.value = settingsStore.stellarium.landscapesVisible;
+    landscapeSwitch.value = Date.now();
+  }
+);
+
+// Watch for Stellarium visibility changes to force re-render
+watch(
+  () => store.showStellarium,
+  (newValue) => {
+    if (newValue) {
+      landscapeSwitch.value = Date.now();
+    }
   }
 );
 

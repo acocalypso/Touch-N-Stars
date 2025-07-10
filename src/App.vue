@@ -1,9 +1,9 @@
 <template>
   <div class="dark min-h-screen bg-gray-900 text-white">
-    <div>
+    <div :class="appLayoutClasses">
       <!-- Navigation -->
       <nav>
-        <div class="z-20 fixed top-0 w-full">
+        <div :class="navContainerClasses">
           <NavigationComp />
         </div>
       </nav>
@@ -17,7 +17,7 @@
 
       <div
         v-else
-        class="container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]"
+        :class="mainContentClasses"
       >
         <StellariumView
           :key="landscapeSwitch"
@@ -27,8 +27,8 @@
         <router-view :key="orientation" />
       </div>
       <!-- Footer -->
-      <div v-if="settingsStore.setupCompleted">
-        <StatusBar class="fixed bottom-0 w-full z-10" />
+      <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
+        <StatusBar />
       </div>
     </div>
 
@@ -134,9 +134,12 @@ const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(getCurrentOrientation());
 const landscapeSwitch = ref(null);
-const routerViewKey = ref(Date.now()); // Startschlüssel einmalig setzen
+const routerViewKey = ref(Date.now());
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
+
+// Orientierung tracking
+const isLandscape = ref(false);
 
 useHead({
   title: 'TouchNStars',
@@ -144,6 +147,10 @@ useHead({
 
 function getCurrentOrientation() {
   return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+}
+
+function checkOrientation() {
+  isLandscape.value = window.innerWidth > window.innerHeight;
 }
 
 function updateOrientation() {
@@ -156,16 +163,44 @@ function updateOrientation() {
 
     if (newOrientation !== orientation.value) {
       orientation.value = newOrientation;
-      routerViewKey.value = Date.now(); // Neuen Key setzen => router-view neu rendern
+      checkOrientation(); // Update isLandscape
+      routerViewKey.value = Date.now();
       console.log('Orientation changed, re-rendering router-view:', newOrientation);
     }
 
     initialWidth = width;
     initialHeight = height;
   } else {
-    // Kleine Änderungen ignorieren (Tastatur, kleine Resizes)
-    console.log('Minor resize detected, no re-render.');
+    // Auch bei kleinen Änderungen Orientierung prüfen (für bessere Responsivität)
+    checkOrientation();
   }
+}
+
+// Computed Classes für responsive Layout
+const appLayoutClasses = computed(() => ({
+  'app-portrait': !isLandscape.value,
+  'app-landscape': isLandscape.value,
+}));
+
+const navContainerClasses = computed(() => ({
+  'z-20 fixed top-0 w-full': !isLandscape.value,
+  'z-20 fixed left-0 top-0 h-full': isLandscape.value,
+}));
+
+const mainContentClasses = computed(() => ({
+  'container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]': !isLandscape.value,
+  'transition-all ml-20 mr-4 py-4 pb-16': isLandscape.value,
+}));
+
+const statusBarClasses = computed(() => ({
+  'fixed bottom-0 w-full z-10': !isLandscape.value,
+  'fixed bottom-0 left-20 right-0 z-10': isLandscape.value,
+}));
+
+function handleOrientationChange() {
+  setTimeout(() => {
+    updateOrientation();
+  }, 100);
 }
 
 function handleVisibilityChange() {
@@ -183,8 +218,11 @@ function handleVisibilityChange() {
 }
 
 onMounted(async () => {
+  checkOrientation(); // Initial orientation check
   window.addEventListener('resize', updateOrientation);
+  window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
+  
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
@@ -241,7 +279,55 @@ onBeforeUnmount(() => {
   sequenceStore.stopFetching();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   window.removeEventListener('resize', updateOrientation);
+  window.removeEventListener('orientationchange', handleOrientationChange);
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+/* App Layout Classes */
+.app-portrait {
+  /* Portrait spezifische Styles falls nötig */
+}
+
+.app-landscape {
+  /* Landscape spezifische Styles falls nötig */
+}
+
+/* Tablet Landscape Anpassungen */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+  .app-landscape .main-content {
+    margin-left: 4.5rem !important; /* Für w-18 Navigation (72px) */
+  }
+  
+  .app-landscape .status-bar {
+    left: 4.5rem !important;
+  }
+}
+
+/* Smooth Transitions */
+.container {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Safe Area Support */
+@supports (padding-left: env(safe-area-inset-left)) {
+  .app-landscape .main-content {
+    margin-left: calc(5rem + env(safe-area-inset-left));
+  }
+  
+  .app-landscape .status-bar {
+    left: calc(5rem + env(safe-area-inset-left));
+  }
+}
+
+/* Responsive Anpassungen für sehr kleine Bildschirme */
+@media (max-width: 480px) {
+  .app-landscape .container {
+    padding-left: 12rem !important;
+  }
+  
+  .app-landscape .fixed.bottom-0 {
+    left: 12rem !important;
+  }
+}
+</style>

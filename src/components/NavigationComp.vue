@@ -1,13 +1,13 @@
 <template>
   <div
-    class="flex top-0 shadow-md overflow-hidden justify-center h-20"
-    :class="activeInstanceColor"
+    class="navigation-container shadow-md overflow-hidden"
+    :class="[activeInstanceColor, orientationClasses]"
   >
     <div
-      class="flex mx-auto items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
-      style="scroll-snap-type: x mandatory"
+      class="nav-content items-center scrollbar-hide"
+      :class="contentClasses"
     >
-      <div class="flex space-x-2 px-2" style="scroll-snap-align: start">
+      <div class="nav-items-wrapper" :class="wrapperClasses">
         <!-- Plugin navigation items first -->
         <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
           <router-link
@@ -148,7 +148,7 @@
               class="icon"
               :class="[
                 'icon',
-                store.flatdeviceInfo.LightOn // store.flatdeviceInfo.CoverState === 'Closed'
+                store.flatdeviceInfo.LightOn
                   ? 'text-yellow-500'
                   : store.flatdeviceInfo.CoverState === 'Closed'
                     ? 'text-red-500'
@@ -297,7 +297,7 @@ import {
   SparklesIcon,
   InformationCircleIcon,
 } from '@heroicons/vue/24/outline';
-import { watch, computed, ref } from 'vue';
+import { watch, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -316,9 +316,51 @@ const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 const appVersion = ref(version);
 const showAboutModal = ref(false);
 
+// Orientierung tracking
+const isLandscape = ref(false);
+
 const activeInstanceColor = computed(() =>
   settingsStore.getInstanceColorById(selectedInstanceId.value)
 );
+
+// Orientierung-spezifische CSS-Klassen
+const orientationClasses = computed(() => ({
+  'nav-portrait': !isLandscape.value,
+  'nav-landscape': isLandscape.value,
+}));
+
+const contentClasses = computed(() => ({
+  'flex mx-auto justify-start overflow-x-auto overflow-y-hidden': !isLandscape.value,
+  'flex flex-col mx-auto justify-start overflow-y-auto overflow-x-hidden': isLandscape.value,
+}));
+
+const wrapperClasses = computed(() => ({
+  'flex space-x-2 px-2': !isLandscape.value,
+  'flex flex-col space-y-2 px-2 py-4': isLandscape.value,
+}));
+
+// Orientierung prüfen
+function checkOrientation() {
+  isLandscape.value = window.innerWidth > window.innerHeight;
+}
+
+function handleOrientationChange() {
+  setTimeout(() => {
+    checkOrientation();
+  }, 100);
+}
+
+// Lifecycle
+onMounted(() => {
+  checkOrientation();
+  window.addEventListener('orientationchange', handleOrientationChange);
+  window.addEventListener('resize', handleOrientationChange);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('orientationchange', handleOrientationChange);
+  window.removeEventListener('resize', handleOrientationChange);
+});
 
 watch(
   () => route.path,
@@ -327,11 +369,62 @@ watch(
       store.showStellarium = false;
     }
   },
-  { immediate: true } // <- optional, direkt beim ersten Laden prüfen
+  { immediate: true }
 );
 </script>
 
 <style scoped>
+/* Base Navigation Container */
+.navigation-container {
+  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out;
+}
+
+/* Portrait Mode - Navigation oben */
+.nav-portrait {
+  @apply fixed top-0 left-0 right-0 w-full h-20;
+}
+
+/* Landscape Mode - Navigation links */
+.nav-landscape {
+  @apply fixed left-0 top-0 bottom-0 h-full w-20 flex-col justify-start;
+  height: 100vh !important;
+}
+
+/* Content Area Anpassungen */
+.nav-content {
+  @apply scrollbar-hide transition-all duration-300 ease-in-out;
+  scroll-snap-type: x mandatory;
+}
+
+/* Portrait Mode Content */
+.nav-portrait .nav-content {
+  @apply flex mx-auto items-center justify-start overflow-x-auto overflow-y-hidden;
+  scroll-snap-type: x mandatory;
+}
+
+/* Landscape Mode Content */
+.nav-landscape .nav-content {
+  @apply flex flex-col mx-auto items-stretch justify-start overflow-y-auto overflow-x-hidden h-full;
+  scroll-snap-type: none;
+}
+
+/* Navigation Items Wrapper */
+.nav-items-wrapper {
+  scroll-snap-align: start;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Portrait Mode Wrapper */
+.nav-portrait .nav-items-wrapper {
+  @apply flex space-x-2 px-2;
+}
+
+/* Landscape Mode Wrapper */
+.nav-landscape .nav-items-wrapper {
+  @apply flex flex-col space-y-2 px-2 py-4 h-full;
+}
+
+/* Navigation Buttons - Base Styles */
 .nav-button {
   @apply w-10 h-10 lg:w-12 lg:h-12 
     border border-slate-600/30 
@@ -355,22 +448,60 @@ watch(
   flex-shrink: 0;
 }
 
+/* Portrait Mode Button Anpassungen */
+.nav-portrait .nav-button {
+  @apply w-10 h-10 lg:w-12 lg:h-12;
+  margin: 4px;
+}
+
+/* Landscape Mode Button Anpassungen */
+.nav-landscape .nav-button {
+  @apply w-16 h-16;
+  margin: 4px 0;
+  border-radius: 16px;
+  min-height: 48px; /* Touch-friendly */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Mobile Portrait Anpassungen */
 @media (max-width: 1023px) {
-  .nav-button {
+  .nav-portrait .nav-button {
     margin: 8px 4px;
     width: 3.5rem;
     height: 3.5rem;
   }
 
-  .top-0 {
+  .nav-portrait {
     z-index: 50;
   }
 
-  .flex {
+  .nav-portrait .nav-content {
     padding: 8px 0;
   }
 }
 
+/* Tablet Landscape Anpassungen */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+  .nav-landscape {
+    width: 4.5rem; /* 72px - zwischen w-16 (64px) und w-20 (80px) */
+  }
+  
+  .nav-landscape .nav-button {
+    @apply w-14 h-14;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .nav-landscape svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
+}
+
+/* Active Button States */
 .active-nav-button {
   @apply border border-cyan-500/50 
     bg-cyan-700/50 
@@ -379,7 +510,106 @@ watch(
     shadow-cyan-500/20;
 }
 
+/* Landscape Mode Active Button */
+.nav-landscape .active-nav-button {
+  @apply border-l-4 border-l-cyan-400 
+    bg-cyan-700/60 
+    text-cyan-100
+    shadow-lg
+    shadow-cyan-500/30;
+  border-radius: 0 16px 16px 0;
+  margin-left: 0;
+  padding-left: 8px;
+}
+
+/* Icon Styles */
 .icon {
-  @apply w-6 h-6;
+  @apply w-6 h-6 transition-all duration-200;
+}
+
+/* Landscape Mode Icon */
+.nav-landscape .icon {
+  @apply w-7 h-7;
+}
+
+/* SVG Icon spezifische Styles für Landscape */
+.nav-landscape svg {
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  flex-shrink: 0;
+}
+
+/* Portrait Mode SVG */
+.nav-portrait svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+  flex-shrink: 0;
+}
+
+/* Hover Effekte */
+.nav-button:hover {
+  transform: scale(1.05);
+}
+
+.nav-landscape .nav-button:hover {
+  transform: translateX(4px) scale(1.05);
+}
+
+/* Smooth Transitions für Orientierungsänderung */
+.navigation-container {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-content,
+.nav-items-wrapper,
+.nav-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Touch-optimierte Größen */
+@media (max-width: 768px) {
+  .nav-button {
+    min-height: 44px; /* Apple's empfohlene Touch-Größe */
+    min-width: 44px;
+  }
+}
+
+/* Scrollbar Styling für Landscape Mode */
+.nav-landscape .nav-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.nav-landscape .nav-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.nav-landscape .nav-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.nav-landscape .nav-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Dark Mode Compatibility */
+@media (prefers-color-scheme: dark) {
+  .navigation-container {
+    @apply bg-gray-900/95;
+  }
+}
+
+/* Safe Area Support für iOS */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .nav-portrait {
+    padding-top: env(safe-area-inset-top);
+    height: calc(5rem + env(safe-area-inset-top));
+  }
+  
+  .nav-landscape {
+    padding-left: env(safe-area-inset-left);
+    width: calc(5rem + env(safe-area-inset-left));
+  }
 }
 </style>

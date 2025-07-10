@@ -369,6 +369,7 @@ export const apiStore = defineStore('store', {
 
         if (profileInfoResponse && profileInfoResponse.Response) {
           this.profileInfo = profileInfoResponse.Response;
+          console.log('södlfjk' ,this.profileInfo.GuiderSettings.PHD2GuiderScale)
           this.getExistingEquipment(this.profileInfo);
         } else {
           console.error('Fehler in der Profil-API-Antwort:', profileInfoResponse?.Error);

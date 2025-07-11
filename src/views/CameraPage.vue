@@ -35,7 +35,7 @@
             <img
               src="../assets/Logo_TouchNStars_600x600.png"
               alt="TouchNStars Logo"
-              class="w-64 h-64 opacity-50 mb-4"
+              class="w-44 h-44 opacity-50 mb-4"
             />
             <p class="text-lg">One touch to the stars</p>
           </div>
@@ -326,7 +326,7 @@ const isLandscape = computed(() => {
 
 // Responsive computed properties
 const quickButtonsClasses = computed(() => ({
-  'fixed flex gap-2 text-gray-300 z-[58]': true,
+  'fixed flex gap-2 text-gray-300 z-10': true,
   'top-24 left-5 flex-row': !isLandscape.value,
   'top-5 left-24 flex-row': isLandscape.value,
 }));

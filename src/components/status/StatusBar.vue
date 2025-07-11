@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full bg-slate-800 transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden safe-area-bottom"
+    class="w-full bg-slate-900 transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden safe-area-bottom"
   >
     <!-- Safety info -->
     <div v-if="store.safetyInfo.Connected" class="flex">

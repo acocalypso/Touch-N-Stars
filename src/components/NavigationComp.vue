@@ -482,7 +482,7 @@ watch(
 /* Tablet Landscape Anpassungen */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .nav-landscape {
-    width: 4.5rem; /* 72px - zwischen w-16 (64px) und w-20 (80px) */
+    width: w-20; /* 72px - zwischen w-16 (64px) und w-20 (80px) */
   }
 
   .nav-landscape .nav-button {

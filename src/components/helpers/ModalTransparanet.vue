@@ -2,6 +2,7 @@
   <teleport to="body">
     <div v-if="show" class="fixed inset-0 z-40 text-gray-200 p-2 pointer-events-none">
       <div
+        ref="modalElement"
         class="p-6 bg-gradient-to-br from-gray-950/20 rounded-lg shadow-lg max-w-md min-w-56 relative pointer-events-auto touch-none"
         :style="{ position: 'absolute', ...position }"
         @click.stop
@@ -19,7 +20,6 @@
             <XMarkIcon />
           </button>
         </div>
-
         <!-- Body -->
         <div class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin">
           <slot name="body">
@@ -32,18 +32,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 
-defineProps({
+const props = defineProps({
   show: Boolean,
 });
 
 const emit = defineEmits(['close']);
 
-const position = ref({ top: '150px', left: '10px' });
-
+const modalElement = ref(null);
+const position = ref({ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' });
 const isDragging = ref(false);
+const hasBeenMoved = ref(false); // Track ob das Modal schon mal bewegt wurde
 let offset = { x: 0, y: 0 };
 
 function getEventCoordinates(e) {
@@ -61,9 +62,22 @@ function getEventCoordinates(e) {
 
 function startDrag(e) {
   isDragging.value = true;
+  hasBeenMoved.value = true; // Markiere als bewegt
   const { x, y } = getEventCoordinates(e);
-  offset.x = x - parseInt(position.value.left);
-  offset.y = y - parseInt(position.value.top);
+  
+  // Berechne die aktuelle Position des Modals
+  const rect = modalElement.value.getBoundingClientRect();
+  const currentX = rect.left;
+  const currentY = rect.top;
+  
+  offset.x = x - currentX;
+  offset.y = y - currentY;
+  
+  // Entferne Transform beim Start des Draggings
+  position.value.transform = 'none';
+  position.value.left = `${currentX}px`;
+  position.value.top = `${currentY}px`;
+  
   window.addEventListener('mousemove', onDrag);
   window.addEventListener('mouseup', stopDrag);
   window.addEventListener('touchmove', onDrag, { passive: false });
@@ -72,10 +86,21 @@ function startDrag(e) {
 
 function onDrag(e) {
   if (!isDragging.value) return;
-  e.preventDefault(); // wichtig für mobile, um Scroll zu blockieren
+  e.preventDefault();
+  
   const { x, y } = getEventCoordinates(e);
-  position.value.left = `${x - offset.x}px`;
-  position.value.top = `${y - offset.y}px`;
+  
+  // Berechne neue Position
+  const newLeft = x - offset.x;
+  const newTop = y - offset.y;
+  
+  // Begrenze die Position auf den Bildschirm
+  const modalRect = modalElement.value.getBoundingClientRect();
+  const maxLeft = window.innerWidth - modalRect.width;
+  const maxTop = window.innerHeight - modalRect.height;
+  
+  position.value.left = `${Math.max(0, Math.min(newLeft, maxLeft))}px`;
+  position.value.top = `${Math.max(0, Math.min(newTop, maxTop))}px`;
 }
 
 function stopDrag() {
@@ -85,6 +110,24 @@ function stopDrag() {
   window.removeEventListener('touchmove', onDrag);
   window.removeEventListener('touchend', stopDrag);
 }
+
+// Zentriere das Modal beim Öffnen
+function centerModal() {
+  position.value = { 
+    top: '50%', 
+    left: '50%', 
+    transform: 'translate(-50%, -50%)' 
+  };
+}
+
+// Überwache das Öffnen des Modals - nur beim ersten Mal zentrieren
+watch(() => props.show, (newValue) => {
+  if (newValue && !hasBeenMoved.value) {
+    nextTick(() => {
+      centerModal();
+    });
+  }
+});
 </script>
 
 <style scoped>
@@ -92,15 +135,12 @@ function stopDrag() {
 .scrollbar-thin {
   scrollbar-width: thin;
 }
-
 .scrollbar-thin::-webkit-scrollbar {
   width: 6px;
 }
-
 .scrollbar-thin::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background-color: #4a5568;
   border-radius: 20px;

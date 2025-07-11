@@ -14,7 +14,7 @@
 
     <!-- Hauptbereich, wenn Kamera verbunden -->
     <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
-      <!-- Zoomable Image Component - Full Screen -->
+      <!-- ZoomableImage Component - Full Screen -->
       <ZoomableImage
         :imageData="cameraStore.imageData"
         :showControls="true"
@@ -24,7 +24,7 @@
         altText="Captured Astrophoto"
         placeholderText="No image captured yet"
         @download="handleDownload"
-        @fullscreen="openModal"
+        @fullscreen="openImageModal"
         @zoom-change="handleZoomChange"
         @image-load="handleImageLoad"
         class="bg-gray-900"
@@ -49,7 +49,6 @@
         <button
           @click="cameraStore.slewModal = true"
           class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
-          
           title="Center Here"
         >
           <svg
@@ -82,7 +81,7 @@
       :showModal="showModal"
       :imageData="cameraStore.imageData"
       :isLoading="false"
-      @close="closeModal"
+      @close="closeImageModal"
     />
 
     <!-- Slew Modal -->
@@ -121,7 +120,7 @@
   <div :class="quickButtonsClasses">
     <div v-if="store.mountInfo.Connected">
       <button
-        @click="showMount = !showMount"
+        @click="openModal('mount')"
         :class="[buttonClasses, { 'glow-green': showMount }]"
         title="Mount Controls"
       >
@@ -147,7 +146,7 @@
     </div>
     <div v-if="store.focuserInfo.Connected">
       <button
-        @click="showFocuser = !showFocuser"
+        @click="openModal('focuser')"
         :class="[buttonClasses, { 'glow-green': showFocuser }]"
         title="Focuser Controls"
       >
@@ -156,7 +155,7 @@
     </div>
     <div v-if="store.filterInfo.Connected">
       <button
-        @click="showFilter = !showFilter"
+        @click="openModal('filter')"
         :class="[buttonClasses, { 'glow-green': showFilter }]"
         title="Filter Wheel"
       >
@@ -179,10 +178,25 @@
     </div>
   </div>
 
-  <!-- Modals -->
+  <!-- Modals mit Drag-Hinweisen - ohne z-index Props -->
   <ModalTransparanet :show="showMount" @close="showMount = false">
     <template #header>
-      <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
+      <div class="flex items-center justify-between w-full">
+        <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
+        <div class="flex items-center gap-2 text-gray-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+          </svg>
+          <span class="text-xs">Drag</span>
+        </div>
+      </div>
     </template>
     <template #body>
       <moveAxis />
@@ -191,7 +205,22 @@
 
   <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
     <template #header>
-      <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
+      <div class="flex items-center justify-between w-full">
+        <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
+        <div class="flex items-center gap-2 text-gray-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+          </svg>
+          <span class="text-xs">Drag</span>
+        </div>
+      </div>
     </template>
     <template #body>
       <div>
@@ -203,7 +232,22 @@
 
   <ModalTransparanet :show="showFilter" @close="showFilter = false">
     <template #header>
-      <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
+      <div class="flex items-center justify-between w-full">
+        <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
+        <div class="flex items-center gap-2 text-gray-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+          </svg>
+          <span class="text-xs">Drag</span>
+        </div>
+      </div>
     </template>
     <template #body>
       <div>
@@ -239,6 +283,27 @@ const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 
+// Modal Management - schließt automatisch andere Modals
+const openModal = (modalType) => {
+  // Schließe alle anderen Modals
+  showMount.value = false;
+  showFocuser.value = false;
+  showFilter.value = false;
+  
+  // Öffne das gewünschte Modal
+  switch(modalType) {
+    case 'mount':
+      showMount.value = true;
+      break;
+    case 'focuser':
+      showFocuser.value = true;
+      break;
+    case 'filter':
+      showFilter.value = true;
+      break;
+  }
+};
+
 // Check if in landscape mode
 const isLandscape = computed(() => {
   if (typeof window !== 'undefined') {
@@ -247,7 +312,7 @@ const isLandscape = computed(() => {
   return false;
 });
 
-// Responsive computed properties - not needed for fullscreen
+// Responsive computed properties
 const quickButtonsClasses = computed(() => ({
   'fixed flex gap-2 text-gray-300 z-[58]': true,
   'top-24 left-5 flex-row': !isLandscape.value,
@@ -269,8 +334,8 @@ const iconClasses = computed(() => ({
 const iconCenterHere = computed(() => [
   'absolute z-10',
   !isLandscape.value
-    ? 'top-24 right-28' // Portrait fullscreen: below navigation
-    : 'top-2 right-28', // Landscape or normal: top right
+    ? 'top-24 right-28'
+    : 'top-2 right-28',
 ]);
 
 // Event handlers
@@ -289,11 +354,11 @@ const handleImageLoad = () => {
   console.log('Image loaded successfully');
 };
 
-const openModal = () => {
+const openImageModal = () => {
   showModal.value = true;
 };
 
-const closeModal = () => {
+const closeImageModal = () => {
   showModal.value = false;
 };
 </script>
@@ -308,6 +373,16 @@ const closeModal = () => {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
+}
+
+/* Drag-Hinweis für Modal Headers */
+:deep(.modal-header) {
+  cursor: move;
+  cursor: grab;
+}
+
+:deep(.modal-header:active) {
+  cursor: grabbing;
 }
 
 @media (max-height: 600px) and (orientation: landscape) {

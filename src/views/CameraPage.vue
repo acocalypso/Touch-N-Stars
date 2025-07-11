@@ -42,9 +42,9 @@
         </template>
       </ZoomableImage>
 
-      <div 
-       v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
-       :class="iconCenterHere"
+      <div
+        v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
+        :class="iconCenterHere"
       >
         <button
           @click="cameraStore.slewModal = true"
@@ -192,7 +192,11 @@
             stroke="currentColor"
             class="w-4 h-4"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+            />
           </svg>
           <span class="text-xs">Drag</span>
         </div>
@@ -216,7 +220,11 @@
             stroke="currentColor"
             class="w-4 h-4"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+            />
           </svg>
           <span class="text-xs">Drag</span>
         </div>
@@ -243,7 +251,11 @@
             stroke="currentColor"
             class="w-4 h-4"
           >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+            />
           </svg>
           <span class="text-xs">Drag</span>
         </div>
@@ -289,9 +301,9 @@ const openModal = (modalType) => {
   showMount.value = false;
   showFocuser.value = false;
   showFilter.value = false;
-  
+
   // Öffne das gewünschte Modal
-  switch(modalType) {
+  switch (modalType) {
     case 'mount':
       showMount.value = true;
       break;
@@ -333,9 +345,7 @@ const iconClasses = computed(() => ({
 
 const iconCenterHere = computed(() => [
   'absolute z-10',
-  !isLandscape.value
-    ? 'top-24 right-28'
-    : 'top-2 right-28',
+  !isLandscape.value ? 'top-24 right-28' : 'top-2 right-28',
 ]);
 
 // Event handlers

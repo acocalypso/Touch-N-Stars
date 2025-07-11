@@ -64,20 +64,20 @@ function startDrag(e) {
   isDragging.value = true;
   hasBeenMoved.value = true; // Markiere als bewegt
   const { x, y } = getEventCoordinates(e);
-  
+
   // Berechne die aktuelle Position des Modals
   const rect = modalElement.value.getBoundingClientRect();
   const currentX = rect.left;
   const currentY = rect.top;
-  
+
   offset.x = x - currentX;
   offset.y = y - currentY;
-  
+
   // Entferne Transform beim Start des Draggings
   position.value.transform = 'none';
   position.value.left = `${currentX}px`;
   position.value.top = `${currentY}px`;
-  
+
   window.addEventListener('mousemove', onDrag);
   window.addEventListener('mouseup', stopDrag);
   window.addEventListener('touchmove', onDrag, { passive: false });
@@ -87,18 +87,18 @@ function startDrag(e) {
 function onDrag(e) {
   if (!isDragging.value) return;
   e.preventDefault();
-  
+
   const { x, y } = getEventCoordinates(e);
-  
+
   // Berechne neue Position
   const newLeft = x - offset.x;
   const newTop = y - offset.y;
-  
+
   // Begrenze die Position auf den Bildschirm
   const modalRect = modalElement.value.getBoundingClientRect();
   const maxLeft = window.innerWidth - modalRect.width;
   const maxTop = window.innerHeight - modalRect.height;
-  
+
   position.value.left = `${Math.max(0, Math.min(newLeft, maxLeft))}px`;
   position.value.top = `${Math.max(0, Math.min(newTop, maxTop))}px`;
 }
@@ -113,21 +113,24 @@ function stopDrag() {
 
 // Zentriere das Modal beim Öffnen
 function centerModal() {
-  position.value = { 
-    top: '50%', 
-    left: '50%', 
-    transform: 'translate(-50%, -50%)' 
+  position.value = {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
   };
 }
 
 // Überwache das Öffnen des Modals - nur beim ersten Mal zentrieren
-watch(() => props.show, (newValue) => {
-  if (newValue && !hasBeenMoved.value) {
-    nextTick(() => {
-      centerModal();
-    });
+watch(
+  () => props.show,
+  (newValue) => {
+    if (newValue && !hasBeenMoved.value) {
+      nextTick(() => {
+        centerModal();
+      });
+    }
   }
-});
+);
 </script>
 
 <style scoped>

@@ -1,6 +1,3 @@
-// Input field classes const inputClasses = computed(() => { let baseClasses = 'default-input
-text-center h-10'; if (isLandscape.value && isTablet.value && !isSmallIPad.value &&
-!isIPadPro.value) { return `${baseClasses} pr-5 w-14
 <template>
   <!-- Capture & Cancel Buttons -->
   <div
@@ -308,7 +305,7 @@ const inputClasses = computed(() => {
   let baseClasses = 'default-input text-center h-10';
 
   if (isLandscape.value) {
-    return `${baseClasses} pr-5 w-14 text-xs`; // All landscape devices
+    return `${baseClasses} pr-5 w-20 text-xs`; // All landscape devices
   }
 
   return `${baseClasses} pr-8 w-20`; // Portrait mode

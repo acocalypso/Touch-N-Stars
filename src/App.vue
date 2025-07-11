@@ -299,14 +299,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* App Layout Classes */
-.app-portrait {
-  /* Portrait spezifische Styles falls nötig */
-}
-
-.app-landscape {
-  /* Landscape spezifische Styles falls nötig */
-}
 
 /* Tablet Landscape Anpassungen */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
@@ -324,14 +316,10 @@ onBeforeUnmount(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Safe Area Support */
-@supports (padding-left: env(safe-area-inset-left)) {
-  .app-landscape .main-content {
-    margin-left: calc(5rem + env(safe-area-inset-left));
-  }
-
-  .app-landscape .status-bar {
-    left: calc(5rem + env(safe-area-inset-left));
+/* Safe Area Support - nur für unten und oben */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .app-portrait .main-content {
+    padding-bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
   }
 }
 

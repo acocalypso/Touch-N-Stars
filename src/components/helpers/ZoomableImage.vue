@@ -237,25 +237,6 @@ const destroyPanzoom = () => {
   }
 };
 
-// Control functions
-const resetZoom = () => {
-  if (panzoomInstance) {
-    try {
-      // Try different API methods
-      if (typeof panzoomInstance.reset === 'function') {
-        panzoomInstance.reset();
-      } else if (typeof panzoomInstance.moveTo === 'function') {
-        panzoomInstance.moveTo(0, 0);
-        if (typeof panzoomInstance.zoomAbs === 'function') {
-          panzoomInstance.zoomAbs(0, 0, 1);
-        }
-      }
-    } catch (error) {
-      console.warn('Error resetting zoom:', error);
-    }
-  }
-};
-
 // Event handlers
 const onImageLoad = () => {
   nextTick(() => {
@@ -272,13 +253,6 @@ const onImageError = (event) => {
 
 const handleDownload = () => {
   emits('download', {
-    imageData: props.imageData,
-    zoomLevel: zoomLevel.value,
-  });
-};
-
-const handleFullscreen = () => {
-  emits('fullscreen', {
     imageData: props.imageData,
     zoomLevel: zoomLevel.value,
   });
@@ -312,11 +286,7 @@ onBeforeUnmount(() => {
   destroyPanzoom();
 });
 
-// Expose methods for parent component
-defineExpose({
-  resetZoom,
-  getZoomLevel: () => zoomLevel.value,
-});
+
 </script>
 
 <style scoped>

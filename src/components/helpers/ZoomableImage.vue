@@ -130,6 +130,13 @@ const isLandscape = computed(() => {
   return false;
 });
 
+const handleFullscreen = () => {
+  emits('fullscreen', {
+    imageData: props.imageData,
+    zoomLevel: zoomLevel.value,
+  });
+};
+
 // Computed classes
 const containerClasses = computed(() => ({
   'min-h-[60vh]': props.height === 'auto',
@@ -285,8 +292,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   destroyPanzoom();
 });
-
-
 </script>
 
 <style scoped>

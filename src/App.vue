@@ -299,7 +299,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-
 /* Tablet Landscape Anpassungen */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .app-landscape .main-content {

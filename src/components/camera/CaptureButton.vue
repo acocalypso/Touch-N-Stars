@@ -305,10 +305,10 @@ const inputClasses = computed(() => {
   let baseClasses = 'default-input text-center h-10';
 
   if (isLandscape.value) {
-    return `${baseClasses} pr-5 w-20 text-xs`; // All landscape devices
+    return `${baseClasses} pr-5 w-20 text-sm`; // All landscape devices
   }
 
-  return `${baseClasses} pr-8 w-20`; // Portrait mode
+  return `${baseClasses} pr-8 w-24`; // Portrait mode
 });
 
 // Dropdown button classes

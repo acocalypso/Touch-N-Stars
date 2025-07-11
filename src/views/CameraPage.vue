@@ -29,45 +29,45 @@
         @image-load="handleImageLoad"
         class="bg-gray-900"
       >
-        <!-- Custom actions slot for plate solve button -->
-        <template #actions>
-          <div v-if="cameraStore?.plateSolveResult?.Coordinates?.RADegrees" class="flex gap-2">
-            <button
-              @click="cameraStore.slewModal = true"
-              class="w-12 h-12 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
-              title="Slew to Target"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
-                />
-              </svg>
-            </button>
-          </div>
-        </template>
-
         <!-- Custom placeholder -->
         <template #placeholder>
           <div class="flex flex-col items-center justify-center text-gray-400">
             <img
               src="../assets/Logo_TouchNStars_600x600.png"
               alt="TouchNStars Logo"
-              class="w-32 h-32 opacity-50 mb-4"
+              class="w-64 h-64 opacity-50 mb-4"
             />
-            <p class="text-lg">Ready to capture</p>
-            <p class="text-sm opacity-75">Press the capture button to take a photo</p>
+            <p class="text-lg">One touch to the stars</p>
           </div>
         </template>
       </ZoomableImage>
+
+      <div 
+       v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
+       :class="iconCenterHere"
+      >
+        <button
+          @click="cameraStore.slewModal = true"
+          class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+          
+          title="Center Here"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
+            />
+          </svg>
+        </button>
+      </div>
 
       <!-- Capture Button Overlay -->
       <div class="absolute inset-0 pointer-events-none z-[55]">
@@ -96,7 +96,7 @@
         <CenterHere />
         <button
           @click="cameraStore.slewModal = false"
-          class="fixed sm:absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
+          class="fixed top-2 right-2 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -266,9 +266,12 @@ const iconClasses = computed(() => ({
   'w-5 h-5': isLandscape.value,
 }));
 
-const imageHeight = computed(() => {
-  return '100vh'; // Always fullscreen
-});
+const iconCenterHere = computed(() => [
+  'absolute z-10',
+  !isLandscape.value
+    ? 'top-24 right-28' // Portrait fullscreen: below navigation
+    : 'top-2 right-28', // Landscape or normal: top right
+]);
 
 // Event handlers
 const handleDownload = async (data) => {

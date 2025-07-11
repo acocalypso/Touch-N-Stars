@@ -597,16 +597,11 @@ watch(
   }
 }
 
-/* Safe Area Support für iOS */
+/* Safe Area Support - nur für oben und unten */
 @supports (padding-top: env(safe-area-inset-top)) {
   .nav-portrait {
     padding-top: env(safe-area-inset-top);
     height: calc(5rem + env(safe-area-inset-top));
-  }
-
-  .nav-landscape {
-    padding-left: env(safe-area-inset-left);
-    width: calc(5rem + env(safe-area-inset-left));
   }
 }
 </style>

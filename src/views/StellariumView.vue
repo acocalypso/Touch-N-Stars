@@ -6,7 +6,8 @@
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
-      class="absolute top-3 right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+      :class="searchButtonClasses"
+      class="absolute p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
     >
       <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>
@@ -22,8 +23,9 @@
     <!-- Overlay für das Suchfeld -->
     <div
       v-if="isSearchVisible"
-      class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
-      style="transform: translateX(-50%); z-index: 100"
+      :class="searchModalClasses"
+      class="absolute bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+      style="z-index: 100"
     >
       <steallriumSearch ref="searchComponent" />
     </div>
@@ -39,7 +41,8 @@
       @setFramingCoordinates="setFramingCoordinates"
     />
     <div
-      class="fixed left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full stellarium-controls"
+      :class="controlsClasses"
+      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full stellarium-controls"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <stellariumCredits />
@@ -95,6 +98,24 @@ const isLandscape = computed(() => {
 const containerClasses = computed(() => ({
   'stellarium-portrait': !isLandscape.value,
   'stellarium-landscape': isLandscape.value,
+}));
+
+// Controls positioning classes
+const controlsClasses = computed(() => ({
+  'left-2': !isLandscape.value, // Portrait: left side
+  'right-2': isLandscape.value, // Landscape: right side (changed from left to right)
+}));
+
+// Search button positioning classes
+const searchButtonClasses = computed(() => ({
+  'top-24 right-3': !isLandscape.value, // Portrait: below navigation
+  'top-3 right-3': isLandscape.value, // Landscape: top right
+}));
+
+// Search modal positioning classes
+const searchModalClasses = computed(() => ({
+  'top-28 left-1/2 transform -translate-x-1/2': !isLandscape.value, // Portrait: below navigation, centered
+  'top-16 right-4': isLandscape.value, // Landscape: lower position, right side
 }));
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
@@ -316,33 +337,41 @@ onBeforeUnmount(() => {
   ); /* Navigation + Smaller Status Bar Gap */
 }
 
-/* Landscape Mode - Adjusted for left navigation */
+/* Landscape Mode - Adjusted for right navigation */
 .stellarium-landscape {
   top: 0;
-  left: 5rem; /* Account for left navigation */
-  width: calc(100vw - 5rem);
+  left: 0; /* Start from left edge (changed from left: 5rem) */
+  width: calc(100vw - 5rem); /* Account for right navigation */
   height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)); /* Smaller Status Bar Gap */
 }
 
 /* Tablet Landscape Anpassungen */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .stellarium-landscape {
-    left: 4.5rem !important;
-    width: calc(100vw - 4.5rem) !important;
+    left: 0 !important; /* Start from left edge */
+    width: calc(100vw - 4.5rem) !important; /* Account for right navigation */
     height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)) !important;
   }
+}
 
-  /* Adjust controls position for tablet */
-  .stellarium-landscape .stellarium-controls {
-    left: 0.5rem !important;
+/* Controls positioning - avoid right navigation */
+@media screen and (orientation: landscape) {
+  .stellarium-controls.right-2 {
+    right: 6rem !important; /* Move away from right navigation */
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+  .stellarium-controls.right-2 {
+    right: 5.5rem !important; /* Adjust for tablet navigation width */
   }
 }
 
 /* Safe Area Support für iOS */
 @supports (padding-left: env(safe-area-inset-left)) {
   .stellarium-landscape {
-    left: calc(5rem + env(safe-area-inset-left));
-    width: calc(100vw - 5rem - env(safe-area-inset-left));
+    left: env(safe-area-inset-left); /* Only left safe area */
+    width: calc(100vw - 5rem - env(safe-area-inset-right)); /* Account for right navigation + right safe area */
     height: calc(100dvh - 0.5rem - env(safe-area-inset-bottom));
   }
 
@@ -364,10 +393,5 @@ onBeforeUnmount(() => {
 .stellarium-canvas {
   width: 100%;
   height: 100%;
-}
-
-/* Controls positioning adjustments for landscape */
-.stellarium-landscape .stellarium-controls {
-  left: 0.5rem;
 }
 </style>

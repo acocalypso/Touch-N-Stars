@@ -1,4 +1,33 @@
-<template>
+<style scoped>
+/* Scrollbar styling for landscape mode */
+@media screen and (orientation: landscape) {
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.5);
+    border-radius: 2px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.7);
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  /* For very short landscape screens */
+  .max-h-\[80vh\] {
+    max-height: 90vh !important;
+  }
+}
+</style><template>
   <div>
     <button
       @click="toggleControls"
@@ -11,12 +40,14 @@
   <!-- Date/Time Control Panel -->
   <div
     v-if="settingsVisible"
-    class="fixed inset-0 z-50 flex items-start justify-center pt-24 bg-transparent"
+    class="fixed inset-0 z-50 flex bg-transparent"
+    :class="containerClasses"
     @click.self="settingsVisible = false"
   >
     <div
       v-if="settingsVisible"
-      class="absolute flex flex-col gap-1 top-22 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-72"
+      :class="modalClasses"
+      class="flex flex-col gap-1 bg-black bg-opacity-90 backdrop-blur-sm p-4 rounded-lg shadow-lg text-white border border-gray-600"
     >
       <div
         class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
@@ -144,7 +175,7 @@
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, ref } from 'vue';
+import { watch, ref, computed } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const stellariumStore = useStellariumStore();
@@ -154,6 +185,30 @@ const settingsVisible = ref(false);
 function toggleControls() {
   settingsVisible.value = !settingsVisible.value;
 }
+
+// Check if in landscape mode
+const isLandscape = computed(() => {
+  if (typeof window !== 'undefined') {
+    return window.innerWidth > window.innerHeight;
+  }
+  return false;
+});
+
+// Container positioning classes
+const containerClasses = computed(() => ({
+  // Portrait mode - centered, top
+  'items-start justify-center pt-24': !isLandscape.value,
+  // Landscape mode - left side, centered vertically
+  'items-center justify-start pl-4': isLandscape.value,
+}));
+
+// Modal positioning classes
+const modalClasses = computed(() => ({
+  // Portrait mode - auto width
+  'w-72': !isLandscape.value,
+  // Landscape mode - responsive width, max height
+  'w-80 max-h-[80vh] overflow-y-auto': isLandscape.value,
+}));
 
 watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });
 </script>

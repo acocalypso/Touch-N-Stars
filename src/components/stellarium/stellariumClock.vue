@@ -21,51 +21,66 @@
     >
       <h3 class="text-lg font-semibold mb-3">{{ $t('components.stellarium.datetime.title') }}</h3>
 
-      <div class="mb-3">
-        <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.date') }}</label>
-        <input
-          @blur="applyDateTime"
-          @change="applyDateTime"
-          type="date"
-          v-model="dateValue"
-          class="w-full bg-slate-800/40 border border-slate-600/30 rounded px-3 py-2 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 backdrop-blur-sm"
-        />
-      </div>
-
-      <div class="mb-3">
-        <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.time') }}</label>
-        <input
-          @blur="applyDateTime"
-          @change="applyDateTime"
-          type="time"
-          v-model="timeValue"
-          class="w-full bg-slate-800/40 border border-slate-600/30 rounded px-3 py-2 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 backdrop-blur-sm"
-        />
-      </div>
-      <div class="flex gap-2 mb-3">
-        <button
-          @click="resetToCurrentTime"
-          class="flex-1 px-3 py-2 bg-slate-800/40 border border-slate-600/30 hover:bg-slate-700/60 hover:border-slate-500/50 rounded-lg shadow-md text-sm touch-manipulation transition-all duration-200 backdrop-blur-sm"
-        >
-          {{ $t('components.stellarium.datetime.now') }}
-        </button>
-      </div>
-
-      <div class="mt-3">
-        <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.speed') }}</label>
-        <div class="flex items-center gap-2">
-          <input
-            type="range"
-            v-model="timeSpeed"
-            min="-10"
-            max="10"
-            step="1"
-            class="flex-1 h-2 bg-slate-800/40 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-cyan-500/40 backdrop-blur-sm"
-          />
-          <span class="text-xs font-mono w-12 text-right">{{ displayTimeSpeed }}</span>
+      <!-- Content Grid - responsive layout -->
+      <div :class="contentGridClasses">
+        <!-- First Row: Date and Speed -->
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.date') }}</label>
+            <input
+              @blur="applyDateTime"
+              @change="applyDateTime"
+              type="date"
+              v-model="dateValue"
+              class="w-full bg-slate-800/40 border border-slate-600/30 rounded px-3 py-2 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 backdrop-blur-sm"
+            />
+          </div>
         </div>
-        <div class="mt-1 text-xs text-gray-300 text-center">
-          {{ timeSpeedDescription }}
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.speed') }}</label>
+            <div class="flex items-center gap-2">
+              <input
+                type="range"
+                v-model="timeSpeed"
+                min="-10"
+                max="10"
+                step="1"
+                class="flex-1 h-2 bg-slate-800/40 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-cyan-500/40 backdrop-blur-sm"
+              />
+              <span class="text-xs font-mono w-12 text-right">{{ displayTimeSpeed }}</span>
+            </div>
+            <div class="mt-1 text-xs text-gray-300 text-center">
+              {{ timeSpeedDescription }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Row: Time and Now Button -->
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.time') }}</label>
+            <input
+              @blur="applyDateTime"
+              @change="applyDateTime"
+              type="time"
+              v-model="timeValue"
+              class="w-full bg-slate-800/40 border border-slate-600/30 rounded px-3 py-2 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 backdrop-blur-sm"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">&nbsp;</label> <!-- Spacer for alignment -->
+            <button
+              @click="resetToCurrentTime"
+              class="w-full px-3 py-2 bg-slate-800/40 border border-slate-600/30 hover:bg-slate-700/60 hover:border-slate-500/50 rounded-lg shadow-md text-sm touch-manipulation transition-all duration-200 backdrop-blur-sm"
+            >
+              {{ $t('components.stellarium.datetime.now') }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -103,13 +118,19 @@ const buttonClasses = computed(() => ({
 // Container positioning classes
 const containerClasses = computed(() => ({
   'items-center justify-center p-4': !isLandscape.value,
-  'items-center justify-start pl-4': isLandscape.value,
+  'items-start justify-start pl-4 pt-16': isLandscape.value, // Higher positioning in landscape
 }));
 
 // Modal sizing classes
 const modalClasses = computed(() => ({
   'w-full max-w-sm sm:max-w-md mx-4': !isLandscape.value,
-  'w-80 max-h-[85vh] overflow-y-auto': isLandscape.value,
+  'w-96 max-h-[85vh] overflow-y-auto': isLandscape.value, // Wider for two columns
+}));
+
+// Content grid layout classes
+const contentGridClasses = computed(() => ({
+  'space-y-3': !isLandscape.value, // Portrait: single column, vertical spacing
+  'grid grid-cols-2 gap-4': isLandscape.value, // Landscape: two columns with gap
 }));
 
 function updateTime() {
@@ -265,17 +286,17 @@ onBeforeUnmount(() => {
   .overflow-y-auto::-webkit-scrollbar {
     width: 4px;
   }
-
+  
   .overflow-y-auto::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 2px;
   }
-
+  
   .overflow-y-auto::-webkit-scrollbar-thumb {
     background: rgba(6, 182, 212, 0.5);
     border-radius: 2px;
   }
-
+  
   .overflow-y-auto::-webkit-scrollbar-thumb:hover {
     background: rgba(6, 182, 212, 0.7);
   }
@@ -330,16 +351,16 @@ input[type='range']::-moz-range-thumb {
   input[type='range']::-webkit-slider-track {
     height: 6px;
   }
-
+  
   input[type='range']::-webkit-slider-thumb {
     height: 16px;
     width: 16px;
   }
-
+  
   input[type='range']::-moz-range-track {
     height: 6px;
   }
-
+  
   input[type='range']::-moz-range-thumb {
     height: 16px;
     width: 16px;

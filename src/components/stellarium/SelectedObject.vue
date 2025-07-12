@@ -3,7 +3,6 @@
     v-if="selectedObject"
     :class="containerClasses"
     class="absolute bg-black bg-opacity-90 backdrop-blur-sm text-gray-300 p-4 rounded-lg shadow-lg border border-gray-600"
-    style="z-index: 100"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
@@ -59,6 +58,9 @@
           :decAngle="props.selectedObjectDecDeg"
         />
       </div>
+      <div class="pb-10">
+
+      </div>
     </div>
   </div>
 </template>
@@ -105,7 +107,7 @@ const contentClasses = computed(() => ({
   // Portrait mode - account for status bar at bottom
   'max-h-[calc(100vh-8rem)]': !isLandscape.value,
   // Landscape mode - account for status bar and navigation
-  'max-h-[calc(100vh-6rem)]': isLandscape.value,
+  'max-h-[calc(100vh-8rem)]': isLandscape.value,
 }));
 
 function setFramingCoordinates() {

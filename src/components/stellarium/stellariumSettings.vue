@@ -50,122 +50,125 @@
       :class="modalClasses"
       class="flex flex-col gap-1 bg-black bg-opacity-90 backdrop-blur-sm p-4 rounded-lg shadow-lg text-white border border-gray-600"
     >
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="constellationsLinesVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.constellations_lines_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.constellationsLinesVisible =
-                !settingsStore.stellarium.constellationsLinesVisible
-            "
-            :status-value="settingsStore.stellarium.constellationsLinesVisible"
-          />
+      <!-- Settings Container with conditional grid layout -->
+      <div :class="settingsContainerClasses">
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="constellationsLinesVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.constellations_lines_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.constellationsLinesVisible =
+                  !settingsStore.stellarium.constellationsLinesVisible
+              "
+              :status-value="settingsStore.stellarium.constellationsLinesVisible"
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="azimuthalLinesVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.azimuthal_lines_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.azimuthalLinesVisible =
-                !settingsStore.stellarium.azimuthalLinesVisible
-            "
-            :status-value="settingsStore.stellarium.azimuthalLinesVisible"
-          />
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="azimuthalLinesVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.azimuthal_lines_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.azimuthalLinesVisible =
+                  !settingsStore.stellarium.azimuthalLinesVisible
+              "
+              :status-value="settingsStore.stellarium.azimuthalLinesVisible"
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="equatorialLinesVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.equatorial_lines_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.equatorialLinesVisible =
-                !settingsStore.stellarium.equatorialLinesVisible
-            "
-            :status-value="settingsStore.stellarium.equatorialLinesVisible"
-          />
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="equatorialLinesVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.equatorial_lines_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.equatorialLinesVisible =
+                  !settingsStore.stellarium.equatorialLinesVisible
+              "
+              :status-value="settingsStore.stellarium.equatorialLinesVisible"
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="meridianLinesVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.meridian_lines_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.meridianLinesVisible =
-                !settingsStore.stellarium.meridianLinesVisible
-            "
-            :status-value="settingsStore.stellarium.meridianLinesVisible"
-          />
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="meridianLinesVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.meridian_lines_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.meridianLinesVisible =
+                  !settingsStore.stellarium.meridianLinesVisible
+              "
+              :status-value="settingsStore.stellarium.meridianLinesVisible"
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="eclipticLinesVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.ecliptic_lines_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.eclipticLinesVisible =
-                !settingsStore.stellarium.eclipticLinesVisible
-            "
-            :status-value="settingsStore.stellarium.eclipticLinesVisible"
-          />
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="eclipticLinesVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.ecliptic_lines_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.eclipticLinesVisible =
+                  !settingsStore.stellarium.eclipticLinesVisible
+              "
+              :status-value="settingsStore.stellarium.eclipticLinesVisible"
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="atmosphereVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.atmosphere_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.atmosphereVisible =
-                !settingsStore.stellarium.atmosphereVisible
-            "
-            :status-value="settingsStore.stellarium.atmosphereVisible"
-          />
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="atmosphereVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.atmosphere_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.atmosphereVisible =
+                  !settingsStore.stellarium.atmosphereVisible
+              "
+              :status-value="settingsStore.stellarium.atmosphereVisible"
+            />
+          </div>
         </div>
-      </div>
 
-      <div
-        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-      >
-        <label for="landscapesVisible" class="text-gray-400">
-          {{ $t('components.stellarium.settings.landscapes_visible') }}
-        </label>
-        <div>
-          <toggleButton
-            @click="
-              settingsStore.stellarium.landscapesVisible =
-                !settingsStore.stellarium.landscapesVisible
-            "
-            :status-value="settingsStore.stellarium.landscapesVisible"
-          />
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="landscapesVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.landscapes_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.landscapesVisible =
+                  !settingsStore.stellarium.landscapesVisible
+              "
+              :status-value="settingsStore.stellarium.landscapesVisible"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -199,8 +202,8 @@ const isLandscape = computed(() => {
 const containerClasses = computed(() => ({
   // Portrait mode - centered, top
   'items-start justify-center pt-24': !isLandscape.value,
-  // Landscape mode - left side, centered vertically
-  'items-center justify-start pl-4': isLandscape.value,
+  // Landscape mode - left side, positioned higher
+  'items-start justify-start pl-4 pt-10': isLandscape.value,
 }));
 
 // Modal positioning classes
@@ -208,7 +211,15 @@ const modalClasses = computed(() => ({
   // Portrait mode - auto width
   'w-72': !isLandscape.value,
   // Landscape mode - responsive width, max height
-  'w-80 max-h-[80vh] overflow-y-auto': isLandscape.value,
+  'w-auto max-h-[80vh] overflow-y-auto': isLandscape.value,
+}));
+
+// Settings container classes for grid layout
+const settingsContainerClasses = computed(() => ({
+  // Portrait mode - single column
+  'flex flex-col gap-1': !isLandscape.value,
+  // Landscape mode - two columns
+  'grid grid-cols-2 gap-2': isLandscape.value,
 }));
 
 watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });

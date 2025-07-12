@@ -149,10 +149,10 @@ const actionButtonClasses = computed(() => [
 ]);
 
 const actionAreaClasses = computed(() => [
-  'absolute z-[60] flex gap-2 items-center',
+  'absolute z-10 flex gap-2 items-center',
   !isLandscape.value
     ? 'top-24 right-2' // Portrait fullscreen: below navigation
-    : 'top-2 right-2', // Landscape or normal: top right
+    : 'top-2 left-2', // Landscape: top left (changed from right to left)
 ]);
 
 // Zoom functions

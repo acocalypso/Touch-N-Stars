@@ -328,7 +328,7 @@ const isLandscape = computed(() => {
 const quickButtonsClasses = computed(() => ({
   'fixed flex gap-2 text-gray-300 z-10': true,
   'top-24 left-5 flex-row': !isLandscape.value,
-  'top-5 left-24 flex-row': isLandscape.value,
+  'top-5 right-24 flex-row': isLandscape.value, // changed from left-24 to right-24
 }));
 
 const buttonClasses = computed(() => ({
@@ -345,7 +345,7 @@ const iconClasses = computed(() => ({
 
 const iconCenterHere = computed(() => [
   'absolute z-10',
-  !isLandscape.value ? 'top-24 right-28' : 'top-2 right-28',
+  !isLandscape.value ? 'top-24 right-28' : 'top-2 left-28', // changed from right-28 to left-28 in landscape
 ]);
 
 // Event handlers

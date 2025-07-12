@@ -256,8 +256,8 @@ const isLandscape = computed(() => {
 const containerClasses = computed(() => ({
   // Portrait mode - bottom center
   'right-1/2 translate-x-1/2 flex-row': !isLandscape.value,
-  // Landscape mode - right side vertical (for ALL landscape)
-  'right-2 top-1/2 -translate-y-1/2 flex-col': isLandscape.value,
+  // Landscape mode - left side vertical (changed from right to left)
+  'left-2 top-1/2 -translate-y-1/2 flex-col': isLandscape.value,
 }));
 
 // Gap classes for different orientations
@@ -322,7 +322,7 @@ const dropdownButtonClasses = computed(() => {
 // Dropdown positioning classes
 const dropdownClasses = computed(() => {
   if (isLandscape.value) {
-    return 'bottom-full mb-2 right-0 w-40'; // Above input in landscape
+    return 'bottom-full mb-2 left-0 w-40'; // Above input in landscape, aligned left (changed from right-0 to left-0)
   }
   return 'bottom-full mb-2 right-0 w-44'; // Above input in portrait (changed from top-full)
 });
@@ -368,8 +368,8 @@ const labelClasses = computed(() => {
 
 @media (max-width: 480px) and (orientation: landscape) {
   /* Very small landscape screens */
-  .right-4 {
-    right: 0.5rem !important;
+  .left-2 {
+    left: 0.5rem !important;
   }
 }
 

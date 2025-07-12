@@ -15,21 +15,23 @@
 
     <!-- Scrollable Content -->
     <div :class="contentClasses" class="overflow-y-auto">
-      <h3 class="text-lg font-semibold">{{ $t('components.stellarium.selected_object.title') }}:</h3>
-      
+      <h3 class="text-lg font-semibold">
+        {{ $t('components.stellarium.selected_object.title') }}:
+      </h3>
+
       <ul class="mt-2">
         <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
           {{ name }}
         </li>
       </ul>
-      
+
       <p class="mt-2 text-sm">
         {{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa }}
       </p>
       <p class="text-sm">
         {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
       </p>
-      
+
       <div
         v-if="store.mountInfo.Connected && !store.sequenceRunning"
         class="flex flex-col gap-2 mt-2"

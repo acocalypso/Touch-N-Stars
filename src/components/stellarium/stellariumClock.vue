@@ -265,17 +265,17 @@ onBeforeUnmount(() => {
   .overflow-y-auto::-webkit-scrollbar {
     width: 4px;
   }
-  
+
   .overflow-y-auto::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 2px;
   }
-  
+
   .overflow-y-auto::-webkit-scrollbar-thumb {
     background: rgba(6, 182, 212, 0.5);
     border-radius: 2px;
   }
-  
+
   .overflow-y-auto::-webkit-scrollbar-thumb:hover {
     background: rgba(6, 182, 212, 0.7);
   }
@@ -330,16 +330,16 @@ input[type='range']::-moz-range-thumb {
   input[type='range']::-webkit-slider-track {
     height: 6px;
   }
-  
+
   input[type='range']::-webkit-slider-thumb {
     height: 16px;
     width: 16px;
   }
-  
+
   input[type='range']::-moz-range-track {
     height: 6px;
   }
-  
+
   input[type='range']::-moz-range-thumb {
     height: 16px;
     width: 16px;

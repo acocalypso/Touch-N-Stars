@@ -371,7 +371,9 @@ onBeforeUnmount(() => {
 @supports (padding-left: env(safe-area-inset-left)) {
   .stellarium-landscape {
     left: env(safe-area-inset-left); /* Only left safe area */
-    width: calc(100vw - 5rem - env(safe-area-inset-right)); /* Account for right navigation + right safe area */
+    width: calc(
+      100vw - 5rem - env(safe-area-inset-right)
+    ); /* Account for right navigation + right safe area */
     height: calc(100dvh - 0.5rem - env(safe-area-inset-bottom));
   }
 

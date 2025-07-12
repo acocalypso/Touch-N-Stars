@@ -20,7 +20,9 @@
         class="bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-y-auto"
         @click.stop
       >
-        <div class="flex justify-between items-center mb-4 sticky top-0 bg-gray-800 pb-2 border-b border-gray-600">
+        <div
+          class="flex justify-between items-center mb-4 sticky top-0 bg-gray-800 pb-2 border-b border-gray-600"
+        >
           <h2 class="text-xl font-bold">Data Credits</h2>
           <button @click="isModalOpen = false" class="text-white hover:text-gray-300 p-1">
             <XMarkIcon class="w-6 h-6" />

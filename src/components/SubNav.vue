@@ -1,5 +1,8 @@
 <template>
-  <div class="subnav shadow-md overflow-hidden fixed z-10" :class="[subnavClasses, backgroundClasses]">
+  <div
+    class="subnav shadow-md overflow-hidden fixed z-10"
+    :class="[subnavClasses, backgroundClasses]"
+  >
     <div class="flex mx-auto h-12 items-center justify-center px-4 space-x-4">
       <button
         v-for="item in items"

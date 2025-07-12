@@ -26,7 +26,9 @@
         <!-- First Row: Date and Speed -->
         <div class="space-y-3">
           <div>
-            <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.date') }}</label>
+            <label class="block text-sm mb-1">{{
+              $t('components.stellarium.datetime.date')
+            }}</label>
             <input
               @blur="applyDateTime"
               @change="applyDateTime"
@@ -39,7 +41,9 @@
 
         <div class="space-y-3">
           <div>
-            <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.speed') }}</label>
+            <label class="block text-sm mb-1">{{
+              $t('components.stellarium.datetime.speed')
+            }}</label>
             <div class="flex items-center gap-2">
               <input
                 type="range"
@@ -60,7 +64,9 @@
         <!-- Second Row: Time and Now Button -->
         <div class="space-y-3">
           <div>
-            <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.time') }}</label>
+            <label class="block text-sm mb-1">{{
+              $t('components.stellarium.datetime.time')
+            }}</label>
             <input
               @blur="applyDateTime"
               @change="applyDateTime"
@@ -73,7 +79,8 @@
 
         <div class="space-y-3">
           <div>
-            <label class="block text-sm mb-1">&nbsp;</label> <!-- Spacer for alignment -->
+            <label class="block text-sm mb-1">&nbsp;</label>
+            <!-- Spacer for alignment -->
             <button
               @click="resetToCurrentTime"
               class="w-full px-3 py-2 bg-slate-800/40 border border-slate-600/30 hover:bg-slate-700/60 hover:border-slate-500/50 rounded-lg shadow-md text-sm touch-manipulation transition-all duration-200 backdrop-blur-sm"
@@ -286,17 +293,17 @@ onBeforeUnmount(() => {
   .overflow-y-auto::-webkit-scrollbar {
     width: 4px;
   }
-  
+
   .overflow-y-auto::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 2px;
   }
-  
+
   .overflow-y-auto::-webkit-scrollbar-thumb {
     background: rgba(6, 182, 212, 0.5);
     border-radius: 2px;
   }
-  
+
   .overflow-y-auto::-webkit-scrollbar-thumb:hover {
     background: rgba(6, 182, 212, 0.7);
   }
@@ -351,16 +358,16 @@ input[type='range']::-moz-range-thumb {
   input[type='range']::-webkit-slider-track {
     height: 6px;
   }
-  
+
   input[type='range']::-webkit-slider-thumb {
     height: 16px;
     width: 16px;
   }
-  
+
   input[type='range']::-moz-range-track {
     height: 6px;
   }
-  
+
   input[type='range']::-moz-range-thumb {
     height: 16px;
     width: 16px;

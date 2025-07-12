@@ -58,9 +58,7 @@
           :decAngle="props.selectedObjectDecDeg"
         />
       </div>
-      <div class="pb-10">
-
-      </div>
+      <div class="pb-10"></div>
     </div>
   </div>
 </template>

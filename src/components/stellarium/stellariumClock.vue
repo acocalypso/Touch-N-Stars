@@ -1,7 +1,7 @@
 <template>
   <button
     :class="buttonClasses"
-    class="fixed bg-black bg-opacity-80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md"
+    class="fixed bg-black bg-opacity-80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md z-10"
     style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     @click="toggleDateTimeControls"
   >
@@ -11,7 +11,7 @@
   <!-- Date/Time Control Panel -->
   <div
     v-if="isDateTimeVisible"
-    class="fixed inset-0 z-50 flex bg-black bg-opacity-50"
+    class="fixed inset-0 z-10 flex bg-black bg-opacity-50"
     :class="containerClasses"
     @click.self="isDateTimeVisible = false"
   >

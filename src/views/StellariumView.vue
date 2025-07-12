@@ -47,9 +47,10 @@
     >
       <stellariumCredits />
       <stellariumSettings />
+
+      <!-- Clock -->
+      <stellariumClock v-if="stellariumStore.stel" />
     </div>
-    <!-- Clock -->
-    <stellariumClock v-if="stellariumStore.stel" />
   </div>
 </template>
 

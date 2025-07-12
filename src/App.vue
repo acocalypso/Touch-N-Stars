@@ -188,18 +188,18 @@ const appLayoutClasses = computed(() => ({
 
 const navContainerClasses = computed(() => ({
   'z-20 fixed top-0 w-full': !isLandscape.value,
-  'z-20 fixed left-0 top-0 h-full': isLandscape.value,
+  'z-20 fixed right-0 top-0 h-full': isLandscape.value,
 }));
 
 const mainContentClasses = computed(() => ({
   'container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]':
     !isLandscape.value,
-  'transition-all ml-20 mr-4 py-4 pb-16': isLandscape.value,
+  'transition-all mr-20 ml-4 py-4 pb-16': isLandscape.value,
 }));
 
 const statusBarClasses = computed(() => ({
   'fixed bottom-0 w-full z-10': !isLandscape.value,
-  'fixed bottom-0 left-20 right-0 z-10': isLandscape.value,
+  'fixed bottom-0 left-0 right-20 z-10': isLandscape.value,
 }));
 
 function handleOrientationChange() {
@@ -302,11 +302,13 @@ onBeforeUnmount(() => {
 /* Tablet Landscape Anpassungen */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .app-landscape .main-content {
-    margin-left: 4.5rem !important; /* Für w-18 Navigation (72px) */
+    margin-right: 4.5rem !important; /* Für w-18 Navigation (72px) */
+    margin-left: 1rem !important;
   }
 
   .app-landscape .status-bar {
-    left: 4.5rem !important;
+    right: 4.5rem !important;
+    left: 0 !important;
   }
 }
 
@@ -325,11 +327,13 @@ onBeforeUnmount(() => {
 /* Responsive Anpassungen für sehr kleine Bildschirme */
 @media (max-width: 480px) {
   .app-landscape .container {
-    padding-left: 12rem !important;
+    padding-right: 12rem !important;
+    padding-left: 1rem !important;
   }
 
   .app-landscape .fixed.bottom-0 {
-    left: 12rem !important;
+    right: 12rem !important;
+    left: 0 !important;
   }
 }
 </style>

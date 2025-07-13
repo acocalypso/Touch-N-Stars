@@ -341,30 +341,15 @@ onBeforeUnmount(() => {
 /* Landscape Mode - Adjusted for left navigation */
 .stellarium-landscape {
   top: 0;
-  left: 6rem; /* Start after left navigation (changed from left: 0) */
-  width: calc(100vw - 6rem); /* Account for left navigation (changed from - 5rem) */
+  left: 8rem; /* Start after left navigation (changed from left: 0) */
+  width: calc(100vw - 8rem); /* Account for left navigation (changed from - 5rem) */
   height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)); /* Smaller Status Bar Gap */
-}
-
-/* Tablet Landscape Anpassungen */
-@media screen and (orientation: landscape) and (max-width: 1024px) {
-  .stellarium-landscape {
-    left: 8rem !important; /* Start after left navigation (changed from left: 0) */
-    width: calc(100vw - 8rem) !important; /* Account for left navigation (changed from - 4.5rem) */
-    height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)) !important;
-  }
 }
 
 /* Controls positioning - position on left side away from left navigation */
 @media screen and (orientation: landscape) {
   .stellarium-controls.left-2 {
-    left: 7rem !important; /* Move away from left navigation (changed from right: 6rem) */
-  }
-}
-
-@media screen and (orientation: landscape) and (max-width: 1024px) {
-  .stellarium-controls.left-2 {
-    left: 9rem !important; /* Adjust for tablet navigation width (changed from right: 5.5rem) */
+    left: 9rem !important; /* Move away from left navigation (changed from right: 6rem) */
   }
 }
 

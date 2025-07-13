@@ -385,7 +385,7 @@ watch(
 .nav-landscape {
   @apply fixed left-0 top-0 bottom-0 h-full w-32 flex-col justify-start;
   height: 100vh !important;
-  padding-left: 3.0rem;
+  padding-left: 3rem;
 }
 
 /* Content Area Anpassungen */
@@ -448,13 +448,13 @@ watch(
 
 /* Portrait Mode Button Anpassungen */
 .nav-portrait .nav-button {
-  @apply w-12 h-12 lg:w-14 lg:h-14 ;
+  @apply w-12 h-12 lg:w-14 lg:h-14;
   margin: 4px;
 }
 
 /* Landscape Mode Button Anpassungen */
 .nav-landscape .nav-button {
-  @apply w-12 h-12 lg:w-14 lg:h-14 ;
+  @apply w-12 h-12 lg:w-14 lg:h-14;
   margin: 4px 0;
   display: flex !important;
   align-items: center !important;

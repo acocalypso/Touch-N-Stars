@@ -25,7 +25,7 @@
     >
       <!-- Belichtungsfortschritt -->
       <template v-if="cameraStore.isExposure">
-        <svg :class="iconSizeClasses" class="absolute inset-0" viewBox="0 0 36 36">
+        <svg :class="['absolute inset-0', progressSizeClasses]" viewBox="0 0 36 36">
           <path
             class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -40,7 +40,7 @@
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
           />
         </svg>
-        <span class="text-white font-semibold text-sm z-10">
+        <span :class="['text-white font-semibold z-10', progressTextClasses]">
           {{ cameraStore.remainingExposureTime }}s
         </span>
       </template>
@@ -48,7 +48,7 @@
       <!-- Icon-Wechsel basierend auf Belichtungsstatus -->
       <template v-else>
         <template v-if="cameraStore.loading">
-          <div class="loader"></div>
+          <div :class="['loader', loaderSizeClasses]"></div>
         </template>
         <template v-else>
           <svg
@@ -257,7 +257,7 @@ const containerClasses = computed(() => ({
   // Portrait mode - bottom center
   'right-1/2 translate-x-1/2 flex-row': !isLandscape.value,
   // Landscape mode - left side vertical (changed from right to left)
-  'left-2 top-1/2 -translate-y-1/2 flex-col': isLandscape.value,
+  'right-2 top-1/2 -translate-y-1/2 flex-col': isLandscape.value,
 }));
 
 // Gap classes for different orientations
@@ -271,8 +271,8 @@ const gapClasses = computed(() => {
 // Container dynamic styles
 const containerStyle = computed(() => {
   const baseBottom = guiderStore.showGuiderGraph
-    ? 'calc(18rem + env(safe-area-inset-bottom, 0px))' // bottom-72 = 18rem
-    : 'calc(2.75rem + env(safe-area-inset-bottom, 0px))'; // bottom-11 = 2.75rem
+    ? 'calc(18rem + env(safe-area-inset-bottom, 0px))'
+    : 'calc(2.75rem + env(safe-area-inset-bottom, 0px))';
 
   return !isLandscape.value ? { bottom: baseBottom } : {};
 });
@@ -280,9 +280,9 @@ const containerStyle = computed(() => {
 // Responsive button sizes
 const buttonSizeClasses = computed(() => {
   if (isLandscape.value) {
-    return 'w-12 h-12'; // All landscape devices
+    return 'w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16';
   }
-  return 'w-16 h-16'; // Portrait mode
+  return 'w-12 h-12 lg:w-16 lg:h-16'; // Portrait mode
 });
 
 // Icon sizes
@@ -291,6 +291,30 @@ const iconSizeClasses = computed(() => {
     return 'w-12 h-12'; // All landscape
   }
   return 'w-16 h-16'; // Portrait
+});
+
+// Progress circle size classes - proportional to button size
+const progressSizeClasses = computed(() => {
+  if (isLandscape.value) {
+    return 'w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16'; // Same as button size
+  }
+  return 'w-12 h-12 lg:w-16 lg:h-16'; // Portrait mode
+});
+
+// Progress text size classes
+const progressTextClasses = computed(() => {
+  if (isLandscape.value) {
+    return 'text-xs md:text-sm lg:text-base'; // Responsive text size
+  }
+  return 'text-sm lg:text-base'; // Portrait mode
+});
+
+// Loader size classes - proportional to button size
+const loaderSizeClasses = computed(() => {
+  if (isLandscape.value) {
+    return 'w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10'; // Responsive to button size
+  }
+  return 'w-8 h-8 lg:w-10 lg:h-10'; // Portrait mode
 });
 
 const smallIconSizeClasses = computed(() => {
@@ -322,7 +346,7 @@ const dropdownButtonClasses = computed(() => {
 // Dropdown positioning classes
 const dropdownClasses = computed(() => {
   if (isLandscape.value) {
-    return 'bottom-full mb-2 left-0 w-40'; // Above input in landscape, aligned left (changed from right-0 to left-0)
+    return 'bottom-full mb-2 right-0 w-40'; // Above input in landscape, aligned left (changed from right-0 to left-0)
   }
   return 'bottom-full mb-2 right-0 w-44'; // Above input in portrait (changed from top-full)
 });
@@ -341,8 +365,6 @@ const labelClasses = computed(() => {
   border: 2px solid #f3f3f3;
   border-top: 2px solid #3498db;
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
   animation: spin 1s linear infinite;
 }
 

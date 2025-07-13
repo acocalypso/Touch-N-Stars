@@ -70,7 +70,7 @@
             {{ gpsError }}
           </div>
           <button
-            @click="saveCoordinates"
+            @click="locationStore.saveCoordinates"
             class="w-full mt-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-md transition-colors"
           >
             {{ $t('components.settings.save') }}
@@ -295,7 +295,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import TutorialModal from '@/components/TutorialModal.vue';
-import { Geolocation } from '@capacitor/geolocation';
+import { latitude, longitude, altitude, gpsError, getCurrentLocation, useLocationStore } from '@/utils/location';
 import { useRouter } from 'vue-router';
 import { Capacitor } from '@capacitor/core';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
@@ -313,10 +313,7 @@ const store = apiStore();
 const pluginStore = usePluginStore();
 
 const currentLanguage = ref(settingsStore.getLanguage());
-const latitude = ref('');
-const longitude = ref('');
-const altitude = ref('');
-const gpsError = ref(null);
+const locationStore = useLocationStore();
 
 // Tutorial
 const showTutorialModal = ref(false);
@@ -350,16 +347,12 @@ watch(
     if (newValue) {
       try {
         await store.fetchProfilInfos();
-        if (store.profileInfo?.AstrometrySettings) {
-          latitude.value = store.profileInfo.AstrometrySettings.Latitude ?? '';
-          longitude.value = store.profileInfo.AstrometrySettings.Longitude ?? '';
-          altitude.value = store.profileInfo.AstrometrySettings.Elevation ?? '';
-          settingsStore.setCoordinates({
-            latitude: latitude.value,
-            longitude: longitude.value,
-            altitude: altitude.value,
-          });
-        }
+        await locationStore.loadFromAstrometrySettings();
+        settingsStore.setCoordinates({
+          latitude: latitude.value,
+          longitude: longitude.value,
+          altitude: altitude.value,
+        });
       } catch (error) {
         console.log('Error loading coordinates');
       }
@@ -370,56 +363,6 @@ watch(
 function changeLanguage(lang) {
   locale.value = lang;
   settingsStore.setLanguage(lang);
-}
-
-async function getCurrentLocation() {
-  try {
-    // Check for location permission
-    const status = await Geolocation.checkPermissions();
-    if (status.location !== 'granted') {
-      const result = await Geolocation.requestPermissions();
-      if (result.location !== 'granted') {
-        gpsError.value = 'Location permission not granted';
-        return;
-      }
-    }
-    // Get current position with high accuracy
-    const pos = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0,
-    });
-    latitude.value = pos.coords.latitude.toFixed(6);
-    longitude.value = pos.coords.longitude.toFixed(6);
-    altitude.value = pos.coords.altitude;
-    gpsError.value = null;
-  } catch (error) {
-    gpsError.value = error.message || 'Failed to get GPS location';
-  }
-}
-
-async function saveCoordinates() {
-  if (store.isBackendReachable) {
-    try {
-      await apiService.profileChangeValue('AstrometrySettings-Latitude', latitude.value);
-      await apiService.profileChangeValue('AstrometrySettings-Longitude', longitude.value);
-      await apiService.profileChangeValue('AstrometrySettings-Elevation', altitude.value);
-      await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection', 2);
-
-      if (store.mountInfo.Connected) {
-        await apiService.mountAction('disconnect');
-        await apiService.mountAction('connect');
-      }
-      settingsStore.setCoordinates({
-        latitude: latitude.value,
-        longitude: longitude.value,
-        altitude: altitude.value,
-      });
-      console.log('Coordinates saved');
-    } catch (error) {
-      console.error('Failed to update backend coordinates:', error);
-    }
-  }
 }
 
 function showTutorial() {

@@ -328,7 +328,7 @@ const isLandscape = computed(() => {
 const quickButtonsClasses = computed(() => ({
   'fixed flex gap-2 text-gray-300 z-10': true,
   'top-24 left-5 flex-row': !isLandscape.value,
-  'top-5 right-24 flex-row': isLandscape.value, // changed from left-24 to right-24
+  'top-5 left-36 flex-row': isLandscape.value, // Updated to left-36 (9rem) für neue Navigation
 }));
 
 const buttonClasses = computed(() => ({
@@ -345,7 +345,7 @@ const iconClasses = computed(() => ({
 
 const iconCenterHere = computed(() => [
   'absolute z-10',
-  !isLandscape.value ? 'top-24 right-28' : 'top-2 left-28', // changed from right-28 to left-28 in landscape
+  !isLandscape.value ? 'top-24 right-28' : 'top-2 right-28', // Kept on right side as it relates to image controls
 ]);
 
 // Event handlers
@@ -393,6 +393,13 @@ const closeImageModal = () => {
 
 :deep(.modal-header:active) {
   cursor: grabbing;
+}
+
+/* Standard Positioning für alle Geräte */
+@media screen and (orientation: landscape) {
+  .quickButtonsClasses {
+    left: 9rem !important; /* Fester Abstand für alle Geräte */
+  }
 }
 
 @media (max-height: 600px) and (orientation: landscape) {

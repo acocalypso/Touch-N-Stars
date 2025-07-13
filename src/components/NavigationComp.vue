@@ -373,7 +373,7 @@ watch(
 <style scoped>
 /* Base Navigation Container */
 .navigation-container {
-  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out;
+  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out bg-gray-900/95;
 }
 
 /* Portrait Mode - Navigation oben */
@@ -381,10 +381,11 @@ watch(
   @apply fixed top-0 left-0 right-0 w-full h-20;
 }
 
-/* Landscape Mode - Navigation rechts */
+/* Landscape Mode - Navigation links */
 .nav-landscape {
-  @apply fixed right-0 top-0 bottom-0 h-full w-20 flex-col justify-start;
+  @apply fixed left-0 top-0 bottom-0 h-full w-32 flex-col justify-start;
   height: 100vh !important;
+  padding-left: 3.0rem;
 }
 
 /* Content Area Anpassungen */
@@ -447,155 +448,16 @@ watch(
 
 /* Portrait Mode Button Anpassungen */
 .nav-portrait .nav-button {
-  @apply w-10 h-10 lg:w-12 lg:h-12;
+  @apply w-12 h-12 lg:w-14 lg:h-14 ;
   margin: 4px;
 }
 
 /* Landscape Mode Button Anpassungen */
 .nav-landscape .nav-button {
-  @apply w-16 h-16;
+  @apply w-12 h-12 lg:w-14 lg:h-14 ;
   margin: 4px 0;
-  min-height: 48px; /* Touch-friendly */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-}
-
-/* Mobile Portrait Anpassungen */
-@media (max-width: 1023px) {
-  .nav-portrait .nav-button {
-    margin: 8px 4px;
-    width: 3.5rem;
-    height: 3.5rem;
-  }
-
-  .nav-portrait {
-    z-index: 50;
-  }
-
-  .nav-portrait .nav-content {
-    padding: 8px 0;
-  }
-}
-
-/* Tablet Landscape Anpassungen */
-@media screen and (orientation: landscape) and (max-width: 1024px) {
-  .nav-landscape {
-    width: w-20; /* 72px - zwischen w-16 (64px) und w-20 (80px) */
-  }
-
-  .nav-landscape .nav-button {
-    @apply w-14 h-14;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .nav-landscape svg {
-    width: 1.5rem !important;
-    height: 1.5rem !important;
-  }
-}
-
-/* Active Button States */
-.active-nav-button {
-  @apply border border-cyan-500/50 
-    bg-cyan-700/50 
-    text-cyan-100
-    shadow-md
-    shadow-cyan-500/20;
-}
-
-/* Landscape Mode Active Button - erhöhte Intensität */
-.nav-landscape .active-nav-button {
-  @apply bg-cyan-700/60 
-    shadow-lg
-    shadow-cyan-500/30;
-}
-
-/* Icon Styles */
-.icon {
-  @apply w-6 h-6 transition-all duration-200;
-}
-
-/* Landscape Mode Icon */
-.nav-landscape .icon {
-  @apply w-7 h-7;
-}
-
-/* SVG Icon spezifische Styles für Landscape */
-.nav-landscape svg {
-  width: 1.75rem !important;
-  height: 1.75rem !important;
-  flex-shrink: 0;
-}
-
-/* Portrait Mode SVG */
-.nav-portrait svg {
-  width: 1.5rem !important;
-  height: 1.5rem !important;
-  flex-shrink: 0;
-}
-
-/* Hover Effekte */
-.nav-button:hover {
-  transform: scale(1.05);
-}
-
-.nav-landscape .nav-button:hover {
-  transform: translateX(-4px) scale(1.05);
-}
-
-/* Smooth Transitions für Orientierungsänderung */
-.navigation-container {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.nav-content,
-.nav-items-wrapper,
-.nav-button {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Touch-optimierte Größen */
-@media (max-width: 768px) {
-  .nav-button {
-    min-height: 44px; /* Apple's empfohlene Touch-Größe */
-    min-width: 44px;
-  }
-}
-
-/* Scrollbar Styling für Landscape Mode */
-.nav-landscape .nav-content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.nav-landscape .nav-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-}
-
-.nav-landscape .nav-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-}
-
-.nav-landscape .nav-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-/* Dark Mode Compatibility */
-@media (prefers-color-scheme: dark) {
-  .navigation-container {
-    @apply bg-gray-900/95;
-  }
-}
-
-/* Safe Area Support - nur für oben und unten */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .nav-portrait {
-    padding-top: env(safe-area-inset-top);
-    height: calc(5rem + env(safe-area-inset-top));
-  }
 }
 </style>

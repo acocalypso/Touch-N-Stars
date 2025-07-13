@@ -97,10 +97,10 @@ const isLandscape = computed(() => {
   return false;
 });
 
-// Controls positioning classes
+// Controls positioning classes - angepasst für rechte Navigation
 const controlsClasses = computed(() => ({
-  'right-3': !isLandscape.value, // Portrait: right side (original)
-  'left-3': isLandscape.value, // Landscape: left side (moved from right)
+  'left-3': !isLandscape.value, // Portrait: left side (moved from right)
+  'right-3': isLandscape.value, // Landscape: right side (moved from left)
 }));
 
 // Toggle auto-sync with mount

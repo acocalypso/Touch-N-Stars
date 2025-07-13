@@ -92,12 +92,12 @@ const isLandscape = computed(() => {
   return false;
 });
 
-// Container positioning classes
+// Container positioning classes - adjusted for left navigation
 const containerClasses = computed(() => ({
   // Portrait mode - centered top
   'top-28 left-1/2 transform -translate-x-1/2 min-w-[300px] max-w-[90vw]': !isLandscape.value,
-  // Landscape mode - left side, higher position is ok
-  'top-4 left-4 w-80 max-w-[calc(100vw-6rem)]': isLandscape.value,
+  // Landscape mode - positioned to avoid left navigation (changed from left-4 to left-28)
+  'top-4 left-28 w-80 max-w-[calc(100vw-8rem)]': isLandscape.value, // Changed from left-4 to left-28 (7rem) to avoid left navigation
 }));
 
 // Content scrolling classes
@@ -200,6 +200,14 @@ onMounted(() => {
   /* Adjust for portrait with status bar */
   .max-h-\[calc\(100vh-8rem\)\] {
     max-height: calc(100vh - 10rem) !important;
+  }
+}
+
+/* Additional media query for left navigation avoidance */
+@media screen and (orientation: landscape) and (max-width: 1024px) {
+  /* Tablet landscape - adjust for wider navigation */
+  .left-28 {
+    left: 9rem !important; /* Account for 8rem navigation + 1rem gap */
   }
 }
 </style>

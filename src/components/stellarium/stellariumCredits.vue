@@ -224,13 +224,13 @@ const isLandscape = computed(() => {
 // Container classes for modal positioning
 const containerClasses = computed(() => ({
   'items-center justify-center p-4': !isLandscape.value,
-  'items-center justify-start pl-4 pr-24': isLandscape.value, // Account for right navigation
+  'items-center justify-end pr-4 pl-24': isLandscape.value, // Account for right navigation
 }));
 
 // Modal sizing classes
 const modalClasses = computed(() => ({
   'max-w-4xl max-h-[80vh]': !isLandscape.value,
-  'max-w-2xl max-h-[90vh] w-full': isLandscape.value,
+  'max-w-xl max-h-[80vh]': isLandscape.value,
 }));
 </script>
 

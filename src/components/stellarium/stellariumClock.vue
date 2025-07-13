@@ -116,16 +116,16 @@ const isLandscape = computed(() => {
   return false;
 });
 
-// Button positioning classes
+// Button positioning classes - adjusted for left navigation
 const buttonClasses = computed(() => ({
   'left-1/2 transform -translate-x-1/2 px-4 sm:px-8 text-sm sm:text-base': !isLandscape.value,
-  'left-1/2 transform -translate-x-1/2 px-3 text-xs': isLandscape.value, // Keep centered in landscape too
+  'left-1/2 transform -translate-x-1/2 px-3 text-xs ml-24': isLandscape.value, // Added ml-24 to move away from left navigation
 }));
 
-// Container positioning classes
+// Container positioning classes - adjusted for left navigation
 const containerClasses = computed(() => ({
   'items-center justify-center p-4': !isLandscape.value,
-  'items-start justify-start pl-4 pt-16': isLandscape.value, // Higher positioning in landscape
+  'items-start justify-start pl-32 pt-16': isLandscape.value, // Changed from pl-4 to pl-32 (8rem) to account for left navigation
 }));
 
 // Modal sizing classes

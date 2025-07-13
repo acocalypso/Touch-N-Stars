@@ -198,12 +198,12 @@ const isLandscape = computed(() => {
   return false;
 });
 
-// Container positioning classes
+// Container positioning classes - angepasst für rechte Navigation
 const containerClasses = computed(() => ({
   // Portrait mode - centered, top
   'items-start justify-center pt-24': !isLandscape.value,
-  // Landscape mode - left side, positioned higher
-  'items-start justify-start pl-4 pt-10': isLandscape.value,
+  // Landscape mode - rechte Seite, höher positioniert
+  'items-start justify-end pr-4 pt-10': isLandscape.value,
 }));
 
 // Modal positioning classes

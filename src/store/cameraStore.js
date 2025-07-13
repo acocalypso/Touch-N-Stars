@@ -33,6 +33,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
   let exposureCountdownTimer = null;
 
+
   // Hilfsfunktion, um kurz zu warten
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -196,6 +197,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     if (!exposureEndTime) {
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
+      isExposure.value = false;
       return;
     }
 
@@ -204,12 +206,13 @@ export const useCameraStore = defineStore('cameraStore', () => {
       console.error('Ungültiges Datumsformat für ExposureEndTime.');
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
+       isExposure.value = false;
       return;
     }
 
     const durationTime = Math.floor((endTime - Date.now()) / 1000);
     console.log('durationTime', durationTime);
-
+    isExposure.value = true;
     countdownRunning.value = true;
     while (countdownRunning.value) {
       const now = Date.now();
@@ -221,12 +224,13 @@ export const useCameraStore = defineStore('cameraStore', () => {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
         exposureProgress.value = 0;
         countdownRunning.value = false;
+        isExposure.value = false;
         remainingTime = 0;
         break;
       }
 
       exposureCountdown.value = remainingTime;
-      //console.log('exposureCountdown', exposureCountdown.value);
+      console.log('exposureCountdown', exposureCountdown.value);
       exposureProgress.value = Math.max(0, Math.min(100, (1 - remainingTime / durationTime) * 100));
       //console.log('exposureProgress Fortschritt %:', exposureProgress.value);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
@@ -256,6 +260,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     readoutMode,
     containerSize,
     slewModal,
+
 
     // Actions
     capturePhoto,

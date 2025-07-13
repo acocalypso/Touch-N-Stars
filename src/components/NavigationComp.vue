@@ -22,7 +22,6 @@
             to="/equipment"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.equipment')"
           >
             <LinkIcon class="icon" />
           </router-link>
@@ -30,14 +29,39 @@
         <div v-if="store.cameraInfo.Connected">
           <router-link
             to="/camera"
-            class="nav-button"
+            class="nav-button camera-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.camera')"
           >
-            <CameraIcon
-              class="icon"
-              :class="store.cameraInfo.IsExposing ? 'text-green-500' : 'text-white'"
-            />
+            <div class="camera-icon-wrapper">
+              <!-- Progress Ring für Belichtungszeit -->
+              <svg 
+                v-if="store.cameraInfo.IsExposing"
+                class="progress-ring" 
+                viewBox="0 0 36 36"
+              >
+                <!-- Background Circle -->
+                <path
+                  class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <!-- Progress Circle -->
+                <path
+                  class="fill-none stroke-green-500 stroke-[2.8]"
+                  :style="{
+                    strokeDasharray: cameraStore.exposureProgress + ', 100',
+                    transform: 'rotate(-90deg)',
+                    transformOrigin: 'center',
+                    transition: cameraStore.exposureProgress > 0 ? 'stroke-dasharray 0.5s linear' : 'none'
+                  }"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              
+              <CameraIcon
+                class="icon camera-icon"
+                :class="store.cameraInfo.IsExposing ? 'text-green-500' : 'text-white'"
+              />
+            </div>
           </router-link>
         </div>
         <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
@@ -45,7 +69,6 @@
             to="/autofocus"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.autofocus')"
           >
             <EyeIcon class="icon" />
           </router-link>
@@ -55,7 +78,6 @@
             to="/mount"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.mount')"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +113,6 @@
             to="/dome"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.dome')"
           >
             <svg
               fill="#FFFFFF"
@@ -140,7 +161,11 @@
           </router-link>
         </div>
         <div v-if="store.flatdeviceInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link to="/flat" class="nav-button" active-class="active-nav-button">
+          <router-link 
+            to="/flat" 
+            class="nav-button" 
+            active-class="active-nav-button"
+          >
             <LightBulbIcon
               class="icon"
               :class="[
@@ -155,7 +180,11 @@
           </router-link>
         </div>
         <div v-if="store.switchInfo.Connected">
-          <router-link to="/switch" class="nav-button" active-class="active-nav-button">
+          <router-link 
+            to="/switch" 
+            class="nav-button" 
+            active-class="active-nav-button"
+          >
             <AdjustmentsVerticalIcon class="icon" />
           </router-link>
         </div>
@@ -164,7 +193,6 @@
             to="/guider"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.guider')"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +224,6 @@
             to="/sequence"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.sequence')"
           >
             <ListBulletIcon
               class="icon"
@@ -205,7 +232,11 @@
           </router-link>
         </div>
         <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link to="/flats" class="nav-button" active-class="active-nav-button">
+          <router-link 
+            to="/flats" 
+            class="nav-button" 
+            active-class="active-nav-button"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -229,7 +260,6 @@
             to="/seq-mon"
             class="nav-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.sequence')"
           >
             <svg
               fill="#FFFFFF"
@@ -265,12 +295,15 @@
         <button
           @click="store.showSettings = true"
           class="nav-button"
-          active-class="active-nav-button"
-          :title="$t('components.navigation.settings')"
+          :class="{ 'active-nav-button': store.showSettings }"
         >
           <Cog6ToothIcon class="icon" />
         </button>
-        <button @click="showAboutModal = true" class="nav-button" active-class="active-nav-button">
+        <button 
+          @click="showAboutModal = true" 
+          class="nav-button" 
+          :class="{ 'active-nav-button': showAboutModal }"
+        >
           <InformationCircleIcon class="icon" />
         </button>
       </div>
@@ -299,6 +332,7 @@ import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useCameraStore } from '@/store/cameraStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import AboutModal from './status/AboutModal.vue';
@@ -308,6 +342,7 @@ const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
+const cameraStore = useCameraStore();
 const route = useRoute();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 const appVersion = ref(version);
@@ -315,6 +350,16 @@ const showAboutModal = ref(false);
 
 // Orientierung tracking
 const isLandscape = ref(false);
+
+// Progress Ring Berechnung für Kamera-Belichtung
+const circumference = 2 * Math.PI * 20; // Radius = 20
+
+const strokeDashoffset = computed(() => {
+  if (!store.exposureCountdown || !store.cameraInfo.ExposureTime) return circumference;
+  
+  const progress = store.exposureCountdown / store.cameraInfo.ExposureTime;
+  return circumference * progress;
+});
 
 const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
@@ -353,6 +398,11 @@ onMounted(() => {
   checkOrientation();
   window.addEventListener('orientationchange', handleOrientationChange);
   window.addEventListener('resize', handleOrientationChange);
+  
+  // Prüfe beim Mount, ob bereits eine Belichtung läuft
+  if (store.cameraInfo.ExposureEndTime && store.cameraInfo.IsExposing) {
+    cameraStore.updateCountdown();
+  }
 });
 
 onBeforeUnmount(() => {
@@ -374,7 +424,7 @@ watch(
 <style scoped>
 /* Base Navigation Container */
 .navigation-container {
-  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out ;
+  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out;
 }
 
 /* Portrait Mode - Navigation oben */
@@ -447,6 +497,76 @@ watch(
   flex-shrink: 0;
 }
 
+/* Active Navigation Button Styles */
+.active-nav-button {
+  @apply bg-cyan-600/80 
+    border-cyan-500/60 
+    text-white 
+    shadow-lg
+    shadow-cyan-500/25;
+}
+
+.active-nav-button:hover {
+  @apply bg-cyan-500/90 
+    border-cyan-400/70 
+    shadow-xl
+    shadow-cyan-500/30;
+}
+
+/* Icon Styles */
+.icon {
+  @apply w-5 h-5 lg:w-6 lg:h-6;
+}
+
+/* Kamera Button Spezial-Styles */
+.camera-button {
+  position: relative;
+}
+
+.camera-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Kamera Button Spezial-Styles */
+.camera-button {
+  position: relative;
+}
+
+.camera-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.camera-icon {
+  position: relative;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.camera-icon {
+  position: relative;
+  z-index: 2;
+}
+
 /* Portrait Mode Button Anpassungen */
 .nav-portrait .nav-button {
   @apply w-12 h-12 lg:w-14 lg:h-14;
@@ -460,5 +580,43 @@ watch(
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+}
+
+/* Landscape Mode - größere Progress Ringe */
+.nav-landscape .progress-ring {
+  width: 56px;
+  height: 56px;
+}
+
+.nav-landscape .progress-ring circle {
+  r: 24;
+}
+
+/* Responsive Icon Sizes */
+.nav-portrait .icon {
+  @apply w-6 h-6 lg:w-7 lg:h-7;
+}
+
+.nav-landscape .icon {
+  @apply w-6 h-6 lg:w-7 lg:h-7;
+}
+
+/* Status Indicator Colors für aktive Buttons beibehalten */
+.active-nav-button .icon.text-green-500 {
+  @apply text-green-400;
+}
+
+.active-nav-button .icon.text-yellow-500 {
+  @apply text-yellow-400;
+}
+
+.active-nav-button .icon.text-red-500 {
+  @apply text-red-400;
+}
+
+/* Smooth transitions für alle Zustände */
+.nav-button,
+.nav-button .icon {
+  @apply transition-all duration-200 ease-out;
 }
 </style>

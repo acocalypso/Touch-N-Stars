@@ -40,7 +40,6 @@
 <script setup>
 import { onBeforeUnmount } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
-import infoModal from '@/components/helpers/infoModal.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';

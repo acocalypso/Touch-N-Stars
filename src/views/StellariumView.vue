@@ -95,7 +95,6 @@ const isLandscape = computed(() => {
   return false;
 });
 
-// Container classes for responsive layout
 const containerClasses = computed(() => ({
   'stellarium-portrait': !isLandscape.value,
   'stellarium-landscape': isLandscape.value,
@@ -103,20 +102,20 @@ const containerClasses = computed(() => ({
 
 // Controls positioning classes
 const controlsClasses = computed(() => ({
-  'left-2': !isLandscape.value, // Portrait: left side
-  'left-2': isLandscape.value, // Landscape: left side (changed from right to left)
+  'left-2': !isLandscape.value,
+  'left-2': isLandscape.value,
 }));
 
 // Search button positioning classes
 const searchButtonClasses = computed(() => ({
-  'top-24 right-3': !isLandscape.value, // Portrait: below navigation
-  'top-3 right-3': isLandscape.value, // Landscape: top right
+  'top-24 right-3': !isLandscape.value,
+  'top-3 right-3': isLandscape.value,
 }));
 
 // Search modal positioning classes
 const searchModalClasses = computed(() => ({
-  'top-28 left-1/2 transform -translate-x-1/2': !isLandscape.value, // Portrait: below navigation, centered
-  'top-16 right-4': isLandscape.value, // Landscape: lower position, right side
+  'top-28 left-1/2 transform -translate-x-1/2': !isLandscape.value,
+  'top-16 right-4': isLandscape.value,
 }));
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
@@ -310,7 +309,6 @@ onBeforeUnmount(() => {
     // Entferne die Stellarium-Instanz
     stellariumStore.stel = null;
 
-    // Lösche das Canvas-Element (optional, falls nötig)
     if (stelCanvas.value) {
       stelCanvas.value.width = 0;
       stelCanvas.value.height = 0;
@@ -328,44 +326,23 @@ onBeforeUnmount(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Portrait Mode - Original Style */
-.stellarium-portrait {
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: calc(
-    100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px)
-  ); /* Navigation + Smaller Status Bar Gap */
-}
-
-/* Landscape Mode - Adjusted for left navigation */
+/* Landscape Mode  */
 .stellarium-landscape {
   top: 0;
-  left: 8rem; /* Start after left navigation (changed from left: 0) */
-  width: calc(100vw - 8rem); /* Account for left navigation (changed from - 5rem) */
-  height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px)); /* Smaller Status Bar Gap */
+  left: 8rem;
+  width: calc(100vw - 8rem);
+  height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
 }
 
-/* Controls positioning - position on left side away from left navigation */
 @media screen and (orientation: landscape) {
   .stellarium-controls.left-2 {
-    left: 9rem !important; /* Move away from left navigation (changed from right: 6rem) */
+    left: 9rem !important;
   }
 }
 
-/* Remove Safe Area Support for left/right - only keep basic positioning */
 .stellarium-portrait {
   top: 0;
-  height: calc(100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px));
-}
-
-/* Mobile Portrait spezifische Anpassungen */
-@media (max-width: 480px) and (orientation: portrait) {
-  .stellarium-portrait {
-    height: calc(
-      100dvh - env(safe-area-inset-bottom, 0px)
-    ); /* Navigation + Smaller Status Bar Gap */
-  }
+  height: calc(100dvh - 1.5rem - env(safe-area-inset-bottom, 0px));
 }
 
 .stellarium-canvas {

@@ -316,9 +316,10 @@ const showAboutModal = ref(false);
 // Orientierung tracking
 const isLandscape = ref(false);
 
-const activeInstanceColor = computed(() =>
-  settingsStore.getInstanceColorById(selectedInstanceId.value)
-);
+const activeInstanceColor = computed(() => {
+  const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
+  return color;
+});
 
 // Orientierung-spezifische CSS-Klassen
 const orientationClasses = computed(() => ({
@@ -373,7 +374,7 @@ watch(
 <style scoped>
 /* Base Navigation Container */
 .navigation-container {
-  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out bg-gray-900/95;
+  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out ;
 }
 
 /* Portrait Mode - Navigation oben */

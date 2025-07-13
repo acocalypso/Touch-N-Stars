@@ -1,7 +1,8 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full bg-slate-900 transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden safe-area-bottom"
+    class="w-full transition-opacity h-9 text-sm px-4 text-gray-400 flex items-center justify-between overflow-hidden safe-area-bottom"
+    :class="[activeInstanceColor]"
   >
     <!-- Safety info -->
     <div v-if="store.safetyInfo.Connected" class="flex">
@@ -227,18 +228,26 @@
 
 <script setup>
 import { apiStore } from '@/store/store';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { CameraIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
 import GuiderGraph from '../guider/GuiderGraph.vue';
 import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
 const guiderStore = useGuiderStore();
+const settingsStore = useSettingsStore();
+const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
+
+const activeInstanceColor = computed(() => {
+  const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
+  return color;
+});
 
 function handleWeatherClick(event) {
   showWeatherModal.value = true;

@@ -187,7 +187,7 @@ export const useSettingsStore = defineStore('settings', {
 
     getInstanceColorById(id) {
       const index = this.connection.instances.findIndex((i) => i.id === id);
-      return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-700';
+      return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-900/95';
     },
 
     setSelectedInstanceId(id) {

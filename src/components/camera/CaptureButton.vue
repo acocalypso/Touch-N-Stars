@@ -41,7 +41,7 @@
           />
         </svg>
         <span :class="['text-white font-semibold z-10', progressTextClasses]">
-          {{ cameraStore.remainingExposureTime }}s
+          {{ cameraStore.exposureCountdown }}s
         </span>
       </template>
 

@@ -33,7 +33,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
   let exposureCountdownTimer = null;
 
-
   // Hilfsfunktion, um kurz zu warten
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -206,7 +205,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       console.error('Ungültiges Datumsformat für ExposureEndTime.');
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
-       isExposure.value = false;
+      isExposure.value = false;
       return;
     }
 
@@ -260,7 +259,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     readoutMode,
     containerSize,
     slewModal,
-
 
     // Actions
     capturePhoto,

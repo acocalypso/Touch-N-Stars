@@ -18,11 +18,7 @@
         </div>
 
         <div v-if="store.isBackendReachable">
-          <router-link
-            to="/equipment"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
             <LinkIcon class="icon" />
           </router-link>
         </div>
@@ -34,11 +30,7 @@
           >
             <div class="camera-icon-wrapper">
               <!-- Progress Ring für Belichtungszeit -->
-              <svg 
-                v-if="store.cameraInfo.IsExposing"
-                class="progress-ring" 
-                viewBox="0 0 36 36"
-              >
+              <svg v-if="store.cameraInfo.IsExposing" class="progress-ring" viewBox="0 0 36 36">
                 <!-- Background Circle -->
                 <path
                   class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
@@ -51,12 +43,13 @@
                     strokeDasharray: cameraStore.exposureProgress + ', 100',
                     transform: 'rotate(-90deg)',
                     transformOrigin: 'center',
-                    transition: cameraStore.exposureProgress > 0 ? 'stroke-dasharray 0.5s linear' : 'none'
+                    transition:
+                      cameraStore.exposureProgress > 0 ? 'stroke-dasharray 0.5s linear' : 'none',
                   }"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
               </svg>
-              
+
               <CameraIcon
                 class="icon camera-icon"
                 :class="store.cameraInfo.IsExposing ? 'text-green-500' : 'text-white'"
@@ -65,20 +58,12 @@
           </router-link>
         </div>
         <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
-            to="/autofocus"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon" />
           </router-link>
         </div>
         <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
-            to="/mount"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -109,11 +94,7 @@
           </router-link>
         </div>
         <div v-if="store.domeInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
-            to="/dome"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
               height="24"
@@ -161,11 +142,7 @@
           </router-link>
         </div>
         <div v-if="store.flatdeviceInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link 
-            to="/flat" 
-            class="nav-button" 
-            active-class="active-nav-button"
-          >
+          <router-link to="/flat" class="nav-button" active-class="active-nav-button">
             <LightBulbIcon
               class="icon"
               :class="[
@@ -180,20 +157,12 @@
           </router-link>
         </div>
         <div v-if="store.switchInfo.Connected">
-          <router-link 
-            to="/switch" 
-            class="nav-button" 
-            active-class="active-nav-button"
-          >
+          <router-link to="/switch" class="nav-button" active-class="active-nav-button">
             <AdjustmentsVerticalIcon class="icon" />
           </router-link>
         </div>
         <div v-if="store.guiderInfo.Connected">
-          <router-link
-            to="/guider"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/guider" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -220,11 +189,7 @@
           </router-link>
         </div>
         <div v-if="sequenceStore.sequenceIsLoaded">
-          <router-link
-            to="/sequence"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/sequence" class="nav-button" active-class="active-nav-button">
             <ListBulletIcon
               class="icon"
               :class="sequenceStore.sequenceRunning ? 'text-green-500' : 'text-white'"
@@ -232,11 +197,7 @@
           </router-link>
         </div>
         <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link 
-            to="/flats" 
-            class="nav-button" 
-            active-class="active-nav-button"
-          >
+          <router-link to="/flats" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -256,11 +217,7 @@
             (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
           "
         >
-          <router-link
-            to="/seq-mon"
-            class="nav-button"
-            active-class="active-nav-button"
-          >
+          <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
               height="400px"
@@ -299,9 +256,9 @@
         >
           <Cog6ToothIcon class="icon" />
         </button>
-        <button 
-          @click="showAboutModal = true" 
-          class="nav-button" 
+        <button
+          @click="showAboutModal = true"
+          class="nav-button"
           :class="{ 'active-nav-button': showAboutModal }"
         >
           <InformationCircleIcon class="icon" />
@@ -351,16 +308,6 @@ const showAboutModal = ref(false);
 // Orientierung tracking
 const isLandscape = ref(false);
 
-// Progress Ring Berechnung für Kamera-Belichtung
-const circumference = 2 * Math.PI * 20; // Radius = 20
-
-const strokeDashoffset = computed(() => {
-  if (!store.exposureCountdown || !store.cameraInfo.ExposureTime) return circumference;
-  
-  const progress = store.exposureCountdown / store.cameraInfo.ExposureTime;
-  return circumference * progress;
-});
-
 const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
   return color;
@@ -398,7 +345,7 @@ onMounted(() => {
   checkOrientation();
   window.addEventListener('orientationchange', handleOrientationChange);
   window.addEventListener('resize', handleOrientationChange);
-  
+
   // Prüfe beim Mount, ob bereits eine Belichtung läuft
   if (store.cameraInfo.ExposureEndTime && store.cameraInfo.IsExposing) {
     cameraStore.updateCountdown();

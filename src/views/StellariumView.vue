@@ -371,9 +371,7 @@ onBeforeUnmount(() => {
 /* Remove Safe Area Support for left/right - only keep basic positioning */
 .stellarium-portrait {
   top: 0;
-  height: calc(
-    100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px)
-  );
+  height: calc(100dvh - 82px - 1.5rem - env(safe-area-inset-bottom, 0px));
 }
 
 /* Mobile Portrait spezifische Anpassungen */

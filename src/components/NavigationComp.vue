@@ -188,16 +188,30 @@
             </svg>
           </router-link>
         </div>
+        <!-- Fixed Sequence Button with better touch handling -->
         <div v-if="sequenceStore.sequenceIsLoaded">
-          <router-link to="/sequence" class="nav-button" active-class="active-nav-button">
+          <router-link 
+            to="/sequence" 
+            class="nav-button touch-target" 
+            active-class="active-nav-button"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
+          >
             <ListBulletIcon
               class="icon"
               :class="sequenceStore.sequenceRunning ? 'text-green-500' : 'text-white'"
             />
           </router-link>
         </div>
+        <!-- Fixed Flats Button with better touch handling -->
         <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link to="/flats" class="nav-button" active-class="active-nav-button">
+          <router-link 
+            to="/flats" 
+            class="nav-button touch-target" 
+            active-class="active-nav-button"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -249,16 +263,22 @@
             <SparklesIcon class="icon" />
           </router-link>
         </div>
+        <!-- Fixed Settings Button with better touch handling -->
         <button
           @click="store.showSettings = true"
-          class="nav-button"
+          @touchstart.passive="handleTouchStart"
+          @touchend.passive="handleTouchEnd"
+          class="nav-button touch-target"
           :class="{ 'active-nav-button': store.showSettings }"
         >
           <Cog6ToothIcon class="icon" />
         </button>
+        <!-- Fixed About Button with better touch handling -->
         <button
           @click="showAboutModal = true"
-          class="nav-button"
+          @touchstart.passive="handleTouchStart"
+          @touchend.passive="handleTouchEnd"
+          class="nav-button touch-target"
           :class="{ 'active-nav-button': showAboutModal }"
         >
           <InformationCircleIcon class="icon" />
@@ -308,6 +328,9 @@ const showAboutModal = ref(false);
 // Orientierung tracking
 const isLandscape = ref(false);
 
+// Touch feedback states
+const touchedButton = ref(null);
+
 const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
   return color;
@@ -328,6 +351,21 @@ const wrapperClasses = computed(() => ({
   'flex space-x-2 px-2': !isLandscape.value,
   'flex flex-col space-y-2 px-2 py-4': isLandscape.value,
 }));
+
+// Touch event handlers for better iPhone compatibility
+function handleTouchStart(event) {
+  touchedButton.value = event.currentTarget;
+  event.currentTarget.classList.add('touch-active');
+}
+
+function handleTouchEnd(event) {
+  setTimeout(() => {
+    if (touchedButton.value) {
+      touchedButton.value.classList.remove('touch-active');
+      touchedButton.value = null;
+    }
+  }, 150);
+}
 
 // Orientierung prüfen
 function checkOrientation() {
@@ -420,7 +458,7 @@ watch(
   @apply flex flex-col space-y-2 px-2 py-4 h-full;
 }
 
-/* Navigation Buttons - Base Styles */
+/* Navigation Buttons - Base Styles with improved touch handling */
 .nav-button {
   @apply w-10 h-10 lg:w-12 lg:h-12 
     border border-slate-600/30 
@@ -442,6 +480,45 @@ watch(
   justify-content: center;
   margin: 4px;
   flex-shrink: 0;
+  /* iOS touch improvements */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Minimum touch target size for iOS */
+  min-width: 44px;
+  min-height: 44px;
+  /* Prevent iOS scroll momentum interference */
+  touch-action: manipulation;
+}
+
+/* Enhanced touch target class for problematic buttons */
+.touch-target {
+  /* Ensure adequate touch target size */
+  min-width: 48px !important;
+  min-height: 48px !important;
+  /* Add invisible padding for better touch detection */
+  position: relative;
+}
+
+.touch-target::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  /* Invisible but touchable area */
+  background: transparent;
+  border-radius: inherit;
+}
+
+/* Touch feedback states */
+.nav-button.touch-active {
+  @apply bg-slate-600/80 
+    border-slate-400/70 
+    transform scale-95;
+  transition: all 0.1s ease-out;
 }
 
 /* Active Navigation Button Styles */
@@ -463,23 +540,11 @@ watch(
 /* Icon Styles */
 .icon {
   @apply w-5 h-5 lg:w-6 lg:h-6;
+  /* Prevent icon from interfering with touch events */
+  pointer-events: none;
 }
 
-/* Kamera Button Spezial-Styles */
-.camera-button {
-  position: relative;
-}
-
-.camera-icon-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-/* Kamera Button Spezial-Styles */
+/* Camera Button Special Styles */
 .camera-button {
   position: relative;
 }
@@ -501,32 +566,37 @@ watch(
   width: 100%;
   height: 100%;
   transition: all 0.3s ease;
+  /* Prevent interference with touch events */
+  pointer-events: none;
 }
 
 .camera-icon {
   position: relative;
   z-index: 10;
   transition: all 0.2s ease;
+  /* Prevent interference with touch events */
+  pointer-events: none;
 }
 
-.camera-icon {
-  position: relative;
-  z-index: 2;
-}
-
-/* Portrait Mode Button Anpassungen */
+/* Portrait Mode Button Adjustments */
 .nav-portrait .nav-button {
   @apply w-12 h-12 lg:w-14 lg:h-14;
   margin: 4px;
+  /* Ensure minimum touch target on mobile */
+  min-width: 48px;
+  min-height: 48px;
 }
 
-/* Landscape Mode Button Anpassungen */
+/* Landscape Mode Button Adjustments */
 .nav-landscape .nav-button {
   @apply w-12 h-12 lg:w-14 lg:h-14;
   margin: 4px 0;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  /* Ensure minimum touch target on mobile */
+  min-width: 48px;
+  min-height: 48px;
 }
 
 /* Landscape Mode - größere Progress Ringe */
@@ -548,7 +618,7 @@ watch(
   @apply w-6 h-6 lg:w-7 lg:h-7;
 }
 
-/* Status Indicator Colors für aktive Buttons beibehalten */
+/* Status Indicator Colors for active buttons */
 .active-nav-button .icon.text-green-500 {
   @apply text-green-400;
 }
@@ -561,9 +631,137 @@ watch(
   @apply text-red-400;
 }
 
-/* Smooth transitions für alle Zustände */
+/* Smooth transitions for all states */
 .nav-button,
 .nav-button .icon {
   @apply transition-all duration-200 ease-out;
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .nav-button {
+    /* Prevent iOS button styling */
+    -webkit-appearance: none;
+    border-radius: 50%;
+    /* Ensure buttons are properly positioned */
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Fix for iOS Safari button tap delays */
+  .nav-button,
+  .touch-target {
+    cursor: pointer;
+  }
+  
+  /* Prevent iOS zoom on double tap */
+  .navigation-container {
+    touch-action: manipulation;
+  }
+}
+
+/* Fix for buttons that might be covered by other elements */
+.nav-button {
+  isolation: isolate;
+  z-index: 10;
+}
+
+/* Ensure buttons are properly clickable on all devices */
+.nav-button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Additional spacing for touch targets in landscape mode */
+.nav-landscape .touch-target {
+  margin: 6px 0;
+}
+
+/* Ensure SVG icons don't interfere with touch events */
+.nav-button svg {
+  pointer-events: none;
+  display: block;
+}
+
+/* Fix for potential z-index issues */
+.nav-items-wrapper > div {
+  position: relative;
+  z-index: 1;
+}
+
+/* Additional mobile-specific improvements */
+@media (max-width: 768px) {
+  .nav-button {
+    min-width: 50px;
+    min-height: 50px;
+  }
+  
+  .touch-target {
+    min-width: 52px !important;
+    min-height: 52px !important;
+  }
+}
+
+/* Prevent button bounce effect on iOS */
+.nav-button:active {
+  transform: none;
+}
+
+.touch-target:active {
+  transform: scale(0.95);
+}
+
+/* Ensure proper button spacing in portrait mode */
+.nav-portrait .nav-button {
+  margin: 2px 4px;
+}
+
+/* Improve landscape mode spacing */
+.nav-landscape .nav-button {
+  margin: 6px auto;
+  width: 50px;
+  height: 50px;
+}
+
+/* Fix for camera button progress ring in landscape */
+.nav-landscape .camera-button .progress-ring {
+  width: 50px;
+  height: 50px;
+}
+
+/* Ensure all buttons are properly aligned */
+.nav-button, 
+.touch-target {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box;
+}
+
+/* Fix potential overflow issues */
+.navigation-container {
+  overflow: visible;
+}
+
+.nav-content {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.nav-landscape .nav-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Additional fixes for button interaction */
+.nav-button:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Prevent text selection in navigation */
+.navigation-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
 }
 </style>

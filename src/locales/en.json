@@ -92,7 +92,8 @@
         "title": "Notifications",
         "enable": "Enable Notifications",
         "sequence": "Sequence Events"
-      }
+      },
+      "infoSetLocationSync": "To transfer the coordinates to the mount, the 'Sync to Telescope' setting must be enabled in NINA."
     },
     "framing": {
       "confirmSetTargetTitle": "Confirm Target Selection",
@@ -289,7 +290,8 @@
           "tracking": "Error setting tracking mode"
         },
         "slew_to_cenit": "Slew to Zenith",
-        "info_manuell_controll": "Manual control is only available if tracking is not active"
+        "info_manuell_controll": "Manual control is only available if tracking is not active",
+        "setLocationSyncToMount": "Set \"Sync to telescope\""
       },
       "info": {
         "notConnected": "Please connect mount",

@@ -70,11 +70,18 @@
             {{ gpsError }}
           </div>
           <button
+            v-if="
+              store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
+            "
             @click="locationStore.saveCoordinates"
-            class="w-full mt-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-md transition-colors"
+            class="default-button-cyan mt-1"
           >
             {{ $t('components.settings.save') }}
           </button>
+          <div v-else>
+            <p class=" text-red-500 text-sm mt-2">{{ $t('components.settings.infoSetLocationSync') }}</p>
+            <ButtonSetLocationSyncToMount class="mt-1" />
+          </div>
         </div>
 
         <!-- Connection Settings -->
@@ -312,6 +319,7 @@ import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
 import SetNotifications from '@/components/settings/setNotifications.vue';
+import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

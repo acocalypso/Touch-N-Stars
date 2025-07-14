@@ -182,6 +182,10 @@
             </button>
             <div v-if="gpsError" class="text-red-400 text-sm">{{ gpsError }}</div>
           </div>
+          <div v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection !== 'TOTELESCOPE'">
+            <p class="text-red-500 text-sm mt-2">{{ $t('components.settings.infoSetLocationSync') }}</p>
+            <ButtonSetLocationSyncToMount class="mt-1" />
+          </div>
           <div class="flex justify-between mt-6">
             <button
               @click="previousStep()"
@@ -232,6 +236,7 @@ import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import { wait } from '@/utils/utils';
 import InstanceDetection from '@/components/setup/InstanceDetection.vue';
+import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 
 const { locale, t } = useI18n();
 const router = useRouter();

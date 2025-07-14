@@ -75,12 +75,12 @@ export function useLocationStore() {
           await apiService.profileChangeValue('AstrometrySettings-Latitude', latitude.value);
           await apiService.profileChangeValue('AstrometrySettings-Longitude', longitude.value);
           await apiService.profileChangeValue('AstrometrySettings-Elevation', altitude.value);
-          await apiService.profileChangeValue(
+          /*await apiService.profileChangeValue(
             'TelescopeSettings-TelescopeLocationSyncDirection',
             2
-          );
+          );*/
 
-          if (store.mountInfo.Connected) {
+          if (store.mountInfo.Connected && store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE') {
             await apiService.mountAction('disconnect');
             await apiService.mountAction('connect');
           }

@@ -92,7 +92,8 @@
         "enable": "Benachrichtigungen aktivieren",
         "sequence": "Sequenzereignisse",
         "title": "Benachrichtigungen"
-      }
+      },
+      "infoSetLocationSync": "Damit die Koordinaten korrekt an die Montierung übertragen werden, muss in NINA die Option ‚Location sync‘ auf ‚Sync to Telescope‘ gesetzt sein. Dadurch sendet TNS die Standortdaten direkt an die Montierung."
     },
     "framing": {
       "confirmSetTargetTitle": "Zielauswahl bestätigen",

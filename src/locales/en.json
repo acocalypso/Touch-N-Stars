@@ -93,7 +93,7 @@
         "enable": "Enable Notifications",
         "sequence": "Sequence Events"
       },
-      "infoSetLocationSync": "To transfer the coordinates to the mount, the 'Sync to Telescope' setting must be enabled in NINA."
+      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
     },
     "framing": {
       "confirmSetTargetTitle": "Confirm Target Selection",

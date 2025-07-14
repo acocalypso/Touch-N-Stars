@@ -79,7 +79,9 @@
             {{ $t('components.settings.save') }}
           </button>
           <div v-else>
-            <p class=" text-red-500 text-sm mt-2">{{ $t('components.settings.infoSetLocationSync') }}</p>
+            <p class="text-red-500 text-sm mt-2">
+              {{ $t('components.settings.infoSetLocationSync') }}
+            </p>
             <ButtonSetLocationSyncToMount class="mt-1" />
           </div>
         </div>

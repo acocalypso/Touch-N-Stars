@@ -81,13 +81,13 @@ const infoVisible = ref(false);
 // Funktion für API-Aufruf mit dynamischem `apiAction`
 async function getDevices() {
   error.value = false;
-  
+
   // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
     console.error('apiAction ist nicht definiert');
     return;
   }
-  
+
   const apiName = props.apiAction.replace('Action', '');
   if (
     Array.isArray(equipmentStore.availableDevices[apiName]) &&
@@ -130,7 +130,7 @@ async function rescanDevices() {
     console.error('apiAction ist nicht definiert');
     return;
   }
-  
+
   const apiName = props.apiAction.replace('Action', '');
   error.value = false;
   console.log('scan');
@@ -162,15 +162,14 @@ async function rescanDevices() {
   }
 }
 
-
 async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
-  
+
   const deviceId = getDeviceId(selectedDevice.value);
   const encodedId = encodeURIComponent(deviceId);
   console.log('props.apiAction', props.apiAction);
-  
+
   try {
     if (props.isConnected) {
       console.log('disconnect');
@@ -184,11 +183,14 @@ async function toggleConnection() {
       if (props.apiAction === 'mountAction') {
         const canChange = await checkMountConnectionPermission(t);
         if (canChange) {
-          console.log('Change TelescopeLocationSyncDirection')
-          await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection',2);
+          console.log('Change TelescopeLocationSyncDirection');
+          await apiService.profileChangeValue(
+            'TelescopeSettings-TelescopeLocationSyncDirection',
+            2
+          );
         }
       }
-      
+
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
       const response = await apiService[props.apiAction]('connect?to=' + encodedId);
       console.log('response', response);

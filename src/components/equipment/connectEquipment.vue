@@ -207,10 +207,13 @@ async function toggleAllConnections() {
             break;
           case 'mount':
             const canChange = await checkMountConnectionPermission(t);
-              if (canChange) {
-                console.log('Change TelescopeLocationSyncDirection')
-                await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection',2);
-              }
+            if (canChange) {
+              console.log('Change TelescopeLocationSyncDirection');
+              await apiService.profileChangeValue(
+                'TelescopeSettings-TelescopeLocationSyncDirection',
+                2
+              );
+            }
             await apiService.mountAction('connect');
             break;
           case 'filter':

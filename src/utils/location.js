@@ -80,7 +80,10 @@ export function useLocationStore() {
             2
           );*/
 
-          if (store.mountInfo.Connected && store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE') {
+          if (
+            store.mountInfo.Connected &&
+            store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
+          ) {
             await apiService.mountAction('disconnect');
             await apiService.mountAction('connect');
           }

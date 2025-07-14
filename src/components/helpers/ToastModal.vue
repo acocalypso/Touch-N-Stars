@@ -19,7 +19,7 @@
           <h2 class="text-xl font-bold text-center text-gray-200 mb-4">{{ toastStore.title }}</h2>
           <p class="text-gray-200 text-center">{{ toastStore.message }}</p>
         </div>
-        
+
         <!-- Bestehender Link-Bereich -->
         <div class="flex items-center gap-2 mt-4" v-if="toastStore.link && toastStore.linkText">
           <GlobeAltIcon class="w-6 h-6" />

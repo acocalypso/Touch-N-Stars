@@ -26,7 +26,12 @@ export const useToastStore = defineStore('toastStore', {
     },
 
     // Neue Confirmation-Methode
-    showConfirmation(confirmationTitle, confirmationMessage, confirmButtonText = 'Bestätigen', cancelButtonText = 'Abbrechen') {
+    showConfirmation(
+      confirmationTitle,
+      confirmationMessage,
+      confirmButtonText = 'Bestätigen',
+      cancelButtonText = 'Abbrechen'
+    ) {
       return new Promise((resolve) => {
         this.title = confirmationTitle;
         this.message = confirmationMessage;
@@ -63,6 +68,6 @@ export const useToastStore = defineStore('toastStore', {
       } else {
         this.newMessage = false;
       }
-    }
+    },
   },
 });

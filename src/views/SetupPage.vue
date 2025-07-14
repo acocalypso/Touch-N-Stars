@@ -182,8 +182,14 @@
             </button>
             <div v-if="gpsError" class="text-red-400 text-sm">{{ gpsError }}</div>
           </div>
-          <div v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection !== 'TOTELESCOPE'">
-            <p class="text-red-500 text-sm mt-2">{{ $t('components.settings.infoSetLocationSync') }}</p>
+          <div
+            v-if="
+              store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection !== 'TOTELESCOPE'
+            "
+          >
+            <p class="text-red-500 text-sm mt-2">
+              {{ $t('components.settings.infoSetLocationSync') }}
+            </p>
             <ButtonSetLocationSyncToMount class="mt-1" />
           </div>
           <div class="flex justify-between mt-6">

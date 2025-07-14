@@ -73,6 +73,7 @@ export const useSettingsStore = defineStore('settings', {
       landscapesVisible: true,
     },
     instanceColorClasses: [
+      'bg-gray-900/95',
       'bg-gray-800',
       'bg-blue-900',
       'bg-sky-900',

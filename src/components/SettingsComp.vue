@@ -71,9 +71,7 @@
         {{ gpsError }}
       </div>
       <button
-        v-if="
-          store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
-        "
+        v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'"
         @click="locationStore.saveCoordinates"
         class="default-button-cyan mt-3"
       >
@@ -108,12 +106,7 @@
         @change="changeLanguage($event.target.value)"
         class="default-input w-full py-2"
       >
-        <option
-          v-for="lang in languages"
-          :key="lang.code"
-          :value="lang.code"
-          class="bg-gray-700"
-        >
+        <option v-for="lang in languages" :key="lang.code" :value="lang.code" class="bg-gray-700">
           {{ lang.name }}
         </option>
       </select>
@@ -153,10 +146,7 @@
     <!-- Tutorial Button -->
     <div class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">Tutorial</h3>
-      <button
-        @click="showTutorial"
-        class="default-button-gray w-full"
-      >
+      <button @click="showTutorial" class="default-button-gray w-full">
         {{ $t('components.settings.showTutorial') }}
       </button>
     </div>
@@ -170,11 +160,21 @@
         {{ $t('components.settings.plugins.title') }}
       </h3>
       <p class="text-gray-400 text-sm mb-4">{{ $t('components.settings.plugins.description') }}</p>
-      
+
       <!-- Empty State -->
       <div v-if="pluginStore.plugins.length === 0" class="text-center py-8">
-        <svg class="mx-auto h-12 w-12 text-gray-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        <svg
+          class="mx-auto h-12 w-12 text-gray-500 mb-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+          />
         </svg>
         <p class="text-gray-400 text-sm">No plugins available</p>
       </div>
@@ -196,9 +196,9 @@
               @click="togglePlugin(plugin.id, !plugin.enabled)"
               :class="[
                 'px-3 py-1 rounded-md text-sm font-medium transition-colors',
-                plugin.enabled 
-                  ? 'bg-green-600 hover:bg-green-500 text-white' 
-                  : 'bg-gray-600 hover:bg-gray-500 text-white'
+                plugin.enabled
+                  ? 'bg-green-600 hover:bg-green-500 text-white'
+                  : 'bg-gray-600 hover:bg-gray-500 text-white',
               ]"
             >
               {{ plugin.enabled ? 'Enabled' : 'Disabled' }}
@@ -215,7 +215,7 @@
       </h3>
       <p class="text-gray-400 text-sm mb-2">{{ $t('components.settings.system.description') }}</p>
       <p class="text-gray-400 text-sm mb-4">{{ $t('components.settings.system.info') }}</p>
-      
+
       <div class="flex justify-center gap-3">
         <!-- Restart Button -->
         <button
@@ -291,16 +291,10 @@
         }}
       </p>
       <div class="flex justify-end gap-3">
-        <button
-          @click="cancelConfirmation"
-          class="default-button-gray"
-        >
+        <button @click="cancelConfirmation" class="default-button-gray">
           {{ $t('common.cancel') }}
         </button>
-        <button
-          @click="confirmActionHandler"
-          class="default-button-cyan"
-        >
+        <button @click="confirmActionHandler" class="default-button-cyan">
           {{ $t('common.confirm') }}
         </button>
       </div>

@@ -42,7 +42,7 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.4.0',
+    minimumApiVersion: '2.2.5.0',
     minimumTnsPluginVersion: '1.0.7.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
@@ -369,6 +369,7 @@ export const apiStore = defineStore('store', {
 
         if (profileInfoResponse && profileInfoResponse.Response) {
           this.profileInfo = profileInfoResponse.Response;
+          console.log('södlfjk' ,this.profileInfo.GuiderSettings.PHD2GuiderScale)
           this.getExistingEquipment(this.profileInfo);
         } else {
           console.error('Fehler in der Profil-API-Antwort:', profileInfoResponse?.Error);

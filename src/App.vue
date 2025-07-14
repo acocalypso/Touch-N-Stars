@@ -117,9 +117,7 @@ import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
-import apiService from './services/apiService';
 import notificationService from './services/notificationService';
-import { wait } from './utils/utils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -247,24 +245,7 @@ onMounted(async () => {
   if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
     await notificationService.initialize();
   }
-
-  //NINA preparation
-  await preparationNina();
 });
-
-async function preparationNina() {
-  //NINA preparation
-  if (store.isBackendReachable) {
-    //To make Slew and Center work, the framing tab must be opened once
-    const response = await apiService.fetchApplicatioTab();
-    const actualTab = response.Response;
-    await apiService.applicatioTabSwitch('framing');
-    await apiService.setFramingImageSource('SKYATLAS');
-    //await apiService.setFramingCoordinates(1, 1);
-    await wait(5000); //wait to reduce the system load
-    await apiService.applicatioTabSwitch(actualTab);
-  }
-}
 
 function closeTutorial() {
   showTutorial.value = false;

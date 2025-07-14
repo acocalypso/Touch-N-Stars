@@ -175,7 +175,6 @@
               </div>
             </div>
             <button
-              v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
               @click="getCurrentLocation"
               class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
             >
@@ -220,7 +219,14 @@ import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
-import { Geolocation } from '@capacitor/geolocation';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
@@ -235,10 +241,7 @@ const currentStep = ref(1);
 const totalSteps = ref(5);
 const isVisible = ref(true);
 const selectedLanguage = ref(locale.value);
-const latitude = ref('');
-const longitude = ref('');
-const altitude = ref('');
-const gpsError = ref(null);
+const locationStore = useLocationStore();
 const instanceData = ref({
   name: '',
   ip: '',
@@ -266,9 +269,7 @@ async function nextStep() {
   if (currentStep.value === 5) {
     store.startFetchingInfo();
     await wait(1000);
-    latitude.value = store.profileInfo.AstrometrySettings.Latitude;
-    longitude.value = store.profileInfo.AstrometrySettings.Longitude;
-    altitude.value = store.profileInfo.AstrometrySettings.Elevation;
+    await locationStore.loadFromAstrometrySettings();
   }
 }
 
@@ -286,52 +287,11 @@ function saveLanguage() {
   nextStep();
 }
 
-async function getCurrentLocation() {
-  try {
-    // Check for location permission
-    const status = await Geolocation.checkPermissions();
-    if (status.location !== 'granted') {
-      const result = await Geolocation.requestPermissions();
-      if (result.location !== 'granted') {
-        gpsError.value = 'Location permission not granted';
-        return;
-      }
-    }
-    // Get current position with high accuracy
-    const pos = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0,
-    });
-    latitude.value = pos.coords.latitude.toFixed(6);
-    longitude.value = pos.coords.longitude.toFixed(6);
-    altitude.value = pos.coords.altitude;
-    gpsError.value = null;
-  } catch (error) {
-    gpsError.value = error.message || 'Failed to get GPS location';
-  }
-}
-
 async function saveGPS() {
-  const lat = sanitizeCoordinate(latitude.value);
-  const lon = sanitizeCoordinate(longitude.value);
-  const alt = sanitizeCoordinate(altitude.value);
-
-  latitude.value = lat;
-  longitude.value = lon;
-  altitude.value = alt;
-
-  settingsStore.setCoordinates({
-    latitude: lat,
-    longitude: lon,
-    altitude: alt,
-  });
-
-  console.log('Coordinates saved', lat, lon, alt);
-
-  await saveCoordinates();
+  await locationStore.saveCoordinates();
   nextStep();
 }
+
 async function saveInstance() {
   // Validate instance connection details
   if (!instanceData.value.name.trim()) {
@@ -372,9 +332,7 @@ async function saveInstance() {
     console.log('Backend reachable');
     store.startFetchingInfo();
     await wait(1500);
-    latitude.value = store.profileInfo.AstrometrySettings.Latitude;
-    longitude.value = store.profileInfo.AstrometrySettings.Longitude;
-    altitude.value = store.profileInfo.AstrometrySettings.Elevation;
+    await locationStore.loadFromAstrometrySettings();
     nextStep();
   } catch (error) {
     console.warn('Incomplete astrometry data');
@@ -387,41 +345,6 @@ function completeSetup() {
   settingsStore.completeSetup();
   localStorage.setItem('setupCompleted', 'true');
   router.push('/');
-}
-
-async function saveCoordinates() {
-  if (store.isBackendReachable) {
-    try {
-      await apiService.profileChangeValue('AstrometrySettings-Latitude', latitude.value);
-      await apiService.profileChangeValue('AstrometrySettings-Longitude', longitude.value);
-      await apiService.profileChangeValue('AstrometrySettings-Elevation', altitude.value);
-      await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection', 2);
-
-      if (store.mountInfo.Connected) {
-        await apiService.mountAction('disconnect');
-        await apiService.mountAction('connect');
-      }
-      settingsStore.setCoordinates({
-        latitude: latitude.value,
-        longitude: longitude.value,
-        altitude: altitude.value,
-      });
-      console.log('Coordinates saved');
-    } catch (error) {
-      console.error('Failed to update backend coordinates:', error);
-    }
-  }
-}
-
-function sanitizeCoordinate(input) {
-  if (typeof input === 'string') {
-    const cleaned = input.trim().replace(',', '.');
-    const parsed = parseFloat(cleaned);
-    return isNaN(parsed) ? null : parsed;
-  } else if (typeof input === 'number') {
-    return input;
-  }
-  return null;
 }
 </script>
 

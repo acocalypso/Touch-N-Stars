@@ -1013,17 +1013,20 @@ const apiService = {
     }
   },
 
-  async slewAndCenter(RAangle, DECangle, Center) {
+  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle) {
     try {
       const { BASE_URL } = getUrls();
-      await this.setFramingCoordinates(RAangle, DECangle);
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // damit NINA genug Zeit hat die Koordinaten zu setzen
-      const response = await axios.get(`${BASE_URL}/framing/slew`, {
+      const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, {
         params: {
-          slew_option: Center ? 'Center' : '',
+          ra: ra,
+          dec: dec,
+          center: Center,
+          rotate: rotate,
+          rotationAngle: rotationAngle,
           waitForResult: true,
         },
       });
+      console.log('Slew response: ', response);
       return response.data;
     } catch (error) {
       console.error('Error controlling slewAndCenterAndRotate:', error);

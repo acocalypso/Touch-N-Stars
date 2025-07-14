@@ -298,6 +298,9 @@
         "trackingDisabled": "Nachführung deaktiviert",
         "slewing": "Montierung schwenkt",
         "notSlewing": "Schwenken nicht aktiv"
+      },
+      "location_sync": {
+        "confirmationMessage": "Wenn die Option ‚Location Sync‘ in NINA auf ‚Prompt‘ gesetzt ist, kann es sein, dass vor dem Übertragen der Koordinaten an das Teleskop ein Bestätigungsfenster erscheint. Um dies zu vermeiden und TNS die automatische Übergabe der Koordinaten zu ermöglichen, empfehlen wir, die Einstellung auf ‚Sync to Telescope‘ zu ändern."
       }
     },
     "guider": {

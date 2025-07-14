@@ -11,7 +11,7 @@
         ]"
       >
         <div class="flex justify-end items-center">
-          <button @click="toastStore.newMessage = false" class="text-white hover:text-gray-300">
+          <button @click="toastStore.closeToast()" class="text-white hover:text-gray-300">
             <XMarkIcon class="w-6 h-6" />
           </button>
         </div>
@@ -19,11 +19,29 @@
           <h2 class="text-xl font-bold text-center text-gray-200 mb-4">{{ toastStore.title }}</h2>
           <p class="text-gray-200 text-center">{{ toastStore.message }}</p>
         </div>
+        
+        <!-- Bestehender Link-Bereich -->
         <div class="flex items-center gap-2 mt-4" v-if="toastStore.link && toastStore.linkText">
           <GlobeAltIcon class="w-6 h-6" />
           <a :href="toastStore.link" target="_blank" class="text-cyan-400 hover:underline">
             {{ toastStore.linkText }}
           </a>
+        </div>
+
+        <!-- Neue Bestätigungsbuttons -->
+        <div v-if="toastStore.isConfirmation" class="flex justify-center gap-4 mt-6">
+          <button
+            @click="toastStore.cancelAction()"
+            class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            {{ toastStore.cancelText }}
+          </button>
+          <button
+            @click="toastStore.confirmAction()"
+            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {{ toastStore.confirmText }}
+          </button>
         </div>
       </div>
     </div>

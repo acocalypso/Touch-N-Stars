@@ -190,9 +190,9 @@
         </div>
         <!-- Fixed Sequence Button with better touch handling -->
         <div v-if="sequenceStore.sequenceIsLoaded">
-          <router-link 
-            to="/sequence" 
-            class="nav-button touch-target" 
+          <router-link
+            to="/sequence"
+            class="nav-button touch-target"
             active-class="active-nav-button"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
@@ -205,9 +205,9 @@
         </div>
         <!-- Fixed Flats Button with better touch handling -->
         <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link 
-            to="/flats" 
-            class="nav-button touch-target" 
+          <router-link
+            to="/flats"
+            class="nav-button touch-target"
             active-class="active-nav-button"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
@@ -358,7 +358,7 @@ function handleTouchStart(event) {
   event.currentTarget.classList.add('touch-active');
 }
 
-function handleTouchEnd(event) {
+function handleTouchEnd() {
   setTimeout(() => {
     if (touchedButton.value) {
       touchedButton.value.classList.remove('touch-active');
@@ -647,13 +647,13 @@ watch(
     position: relative;
     z-index: 1;
   }
-  
+
   /* Fix for iOS Safari button tap delays */
   .nav-button,
   .touch-target {
     cursor: pointer;
   }
-  
+
   /* Prevent iOS zoom on double tap */
   .navigation-container {
     touch-action: manipulation;
@@ -694,7 +694,7 @@ watch(
     min-width: 50px;
     min-height: 50px;
   }
-  
+
   .touch-target {
     min-width: 52px !important;
     min-height: 52px !important;
@@ -729,7 +729,7 @@ watch(
 }
 
 /* Ensure all buttons are properly aligned */
-.nav-button, 
+.nav-button,
 .touch-target {
   display: flex !important;
   align-items: center !important;

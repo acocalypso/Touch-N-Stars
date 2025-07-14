@@ -11,13 +11,16 @@ let locationSyncResolver = null;
 export function checkLocationSyncDirection() {
   const store = apiStore();
   const syncDirection = store.profileInfo?.TelescopeSettings?.TelescopeLocationSyncDirection;
-  console.log('checkLocationSyncDirection' , syncDirection);
+  console.log('checkLocationSyncDirection', syncDirection);
   return syncDirection === 'PROMPT';
 }
 
 // Setzt die neue Sync-Richtung
 export async function setLocationSyncDirection(direction) {
-      await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection', direction); 
+  await apiService.profileChangeValue(
+    'TelescopeSettings-TelescopeLocationSyncDirection',
+    direction
+  );
 }
 
 // Zeigt das Modal an und wartet auf Benutzerantwort

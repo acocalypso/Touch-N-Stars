@@ -206,11 +206,11 @@ async function toggleAllConnections() {
             await apiService.cameraAction('connect');
             break;
           case 'mount':
-             const canConnect = await checkMountConnectionPermission(t);
-                if (!canConnect) {
-                  // Benutzer hat abgebrochen
-                  return;
-                }
+            const canConnect = await checkMountConnectionPermission(t);
+            if (!canConnect) {
+              // Benutzer hat abgebrochen
+              return;
+            }
             await apiService.mountAction('connect');
             break;
           case 'filter':

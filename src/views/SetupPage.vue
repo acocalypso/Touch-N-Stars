@@ -219,7 +219,14 @@ import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
-import { latitude, longitude, altitude, gpsError, getCurrentLocation, useLocationStore } from '@/utils/location';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';

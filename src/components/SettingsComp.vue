@@ -295,7 +295,14 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import TutorialModal from '@/components/TutorialModal.vue';
-import { latitude, longitude, altitude, gpsError, getCurrentLocation, useLocationStore } from '@/utils/location';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '@/utils/location';
 import { useRouter } from 'vue-router';
 import { Capacitor } from '@capacitor/core';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';

@@ -229,7 +229,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       }
 
       exposureCountdown.value = remainingTime;
-      console.log('exposureCountdown', exposureCountdown.value);
+      //console.log('exposureCountdown', exposureCountdown.value);
       exposureProgress.value = Math.max(0, Math.min(100, (1 - remainingTime / durationTime) * 100));
       //console.log('exposureProgress Fortschritt %:', exposureProgress.value);
       await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten

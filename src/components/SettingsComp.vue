@@ -88,7 +88,7 @@
     <!-- Connection Settings -->
     <div
       class="bg-gray-800 rounded-lg p-4"
-      v-if="['android', 'ios'].includes(Capacitor.getPlatform()) || true"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
     >
       <h3 class="text-lg font-semibold text-white mb-4">
         {{ $t('components.settings.connection') }}

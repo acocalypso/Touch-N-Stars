@@ -58,7 +58,7 @@ import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outlin
 import infoModal from '@/components/helpers/infoModal.vue';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
-import { checkMountConnectionPermission } from '@/utils/checkMountSettings';
+import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const equipmentStore = useEquipmentStore();
 const { t } = useI18n();
@@ -181,16 +181,12 @@ async function toggleConnection() {
     } else {
       // Prüfung vor dem Verbinden der Montierung
       if (props.apiAction === 'mountAction') {
-        const canChange = await checkMountConnectionPermission(t);
-        if (canChange) {
-          console.log('Change TelescopeLocationSyncDirection');
-          await apiService.profileChangeValue(
-            'TelescopeSettings-TelescopeLocationSyncDirection',
-            2
-          );
+        const canConnect = await checkMountConnectionPermission(t);
+        if (!canConnect) {
+          // Benutzer hat abgebrochen
+          return;
         }
       }
-
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
       const response = await apiService[props.apiAction]('connect?to=' + encodedId);
       console.log('response', response);

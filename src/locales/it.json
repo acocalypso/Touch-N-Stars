@@ -92,7 +92,8 @@
         "enable": "Abilita le notifiche",
         "sequence": "Eventi di sequenza",
         "title": "Notifiche"
-      }
+      },
+      "infoSetLocationSync": "Per garantire che le coordinate vengano trasferite correttamente sul monte, impostare l'opzione \"Sync\" in Nina in \"Sincronizzazione del telescopio\". \nCiò consente a TNS di inviare i dati di posizione direttamente sul supporto."
     },
     "framing": {
       "confirmSetTargetTitle": "Conferma Selezione Target",
@@ -115,7 +116,9 @@
       "moveRotator": "Ruota la fotocamera",
       "openFraminingModal": "Aperto nell'inquadratura assistente",
       "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in Nina o l'opzione \"Usa cache Nina\" deve essere disattivata",
-      "currentAltitude": "Altitudine attuale"
+      "currentAltitude": "Altitudine attuale",
+      "useCenter": "Center",
+      "useRotate": "Ruotare"
     },
     "connectEquipment": {
       "camera": {
@@ -287,7 +290,8 @@
         "info_manuell_controll": "Il controllo manuale è disponibile solo se il monitoraggio non è attivo",
         "set_as_park": "Impostare come parco",
         "slew_to_cenit": "Strongitura a Zenith",
-        "sync_coordinates_to_mount": "Sync coordinates with mount"
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
+        "setLocationSyncToMount": "Imposta \"Sincronizzazione sul telescopio\""
       },
       "info": {
         "notConnected": "Collega montatura",
@@ -297,6 +301,19 @@
         "trackingDisabled": "Tracking disabilitato",
         "slewing": "Montatura in movimento",
         "notSlewing": "Montatura ferma"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "Nessuna sincronizzazione"
+        },
+        "toApplication": {
+          "label": "Sincronizzazione all'applicazione"
+        },
+        "toTelescope": {
+          "label": "Sincronizzazione al telescopio"
+        },
+        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
+        "title": "Impostazioni di sincronizzazione della posizione"
       }
     },
     "guider": {

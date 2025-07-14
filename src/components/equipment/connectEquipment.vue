@@ -121,7 +121,7 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import selectDevices from '@/components/equipment/selectDevices.vue';
-import { checkMountConnectionPermission } from '@/utils/checkMountSettings';
+import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -206,14 +206,11 @@ async function toggleAllConnections() {
             await apiService.cameraAction('connect');
             break;
           case 'mount':
-            const canChange = await checkMountConnectionPermission(t);
-            if (canChange) {
-              console.log('Change TelescopeLocationSyncDirection');
-              await apiService.profileChangeValue(
-                'TelescopeSettings-TelescopeLocationSyncDirection',
-                2
-              );
-            }
+             const canConnect = await checkMountConnectionPermission(t);
+                if (!canConnect) {
+                  // Benutzer hat abgebrochen
+                  return;
+                }
             await apiService.mountAction('connect');
             break;
           case 'filter':

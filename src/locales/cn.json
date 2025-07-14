@@ -92,7 +92,8 @@
         "enable": "Enable Notifications",
         "sequence": "Sequence Events",
         "title": "Notifications"
-      }
+      },
+      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
     },
     "framing": {
       "confirmSetTargetTitle": "确认目标选择",
@@ -115,7 +116,9 @@
       "moveRotator": "旋转相机",
       "openFraminingModal": "在取景助手中打开",
       "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
-      "currentAltitude": "当前高度"
+      "currentAltitude": "当前高度",
+      "useCenter": "Center",
+      "useRotate": "Rotate"
     },
     "connectEquipment": {
       "camera": {
@@ -287,7 +290,8 @@
         "info_manuell_controll": "只有在跟踪未激活时才能使用手动控制",
         "set_as_park": "设为停靠位置",
         "slew_to_cenit": "转向天顶",
-        "sync_coordinates_to_mount": "Sync coordinates with mount"
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
+        "setLocationSyncToMount": "Set \"Sync to telescope\""
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -297,6 +301,19 @@
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
         "notSlewing": "赤道仪未转动"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "No sync"
+        },
+        "toApplication": {
+          "label": "Sync to application"
+        },
+        "toTelescope": {
+          "label": "Sync to telescope"
+        },
+        "confirmationMessage": "If 'Location Sync' in NINA is set to 'Prompt', a confirmation window may appear before coordinates are sent to the telescope. To avoid this and allow TNS to automatically set the coordinates, we recommend changing the setting to 'Sync to Telescope'",
+        "title": "Location sync settings"
       }
     },
     "guider": {

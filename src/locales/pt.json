@@ -259,7 +259,9 @@
         "title": "Procurar"
       },
       "setSequnceTarget": "definido para sequenciar o alvo",
-      "useNinaCache": "Use Nina Cache para a imagem de destino"
+      "useNinaCache": "Use Nina Cache para a imagem de destino",
+      "useCenter": "Center",
+      "useRotate": "Girar"
     },
     "guider": {
       "notConnected": "Por favor, conecte Guider",
@@ -339,7 +341,8 @@
         "stop": "Parar",
         "trackingMode": "Modo de rastreamento",
         "unpark": "Desmark",
-        "sync_coordinates_to_mount": "Sync coordinates with mount"
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
+        "setLocationSyncToMount": "Defina \"Sincronizar para telescópio\""
       },
       "info": {
         "notConnected": "Por favor, conecte a montagem",
@@ -351,7 +354,20 @@
         "unparked": "Sem março"
       },
       "slew": "Matar",
-      "title": "Montar"
+      "title": "Montar",
+      "location_sync": {
+        "noSync": {
+          "label": "Sem sincronização"
+        },
+        "toApplication": {
+          "label": "Sincronização ao aplicativo"
+        },
+        "toTelescope": {
+          "label": "Sincronização ao telescópio"
+        },
+        "confirmationMessage": "Se 'Sync Sync' na NINA estiver definido como 'Prompt', uma janela de confirmação poderá aparecer antes que as coordenadas sejam enviadas ao telescópio. \nPara evitar isso e permitir que o TNS defina automaticamente as coordenadas, recomendamos alterar a configuração para 'sincronizar para telescópio'",
+        "title": "Configurações de sincronização de localização"
+      }
     },
     "navigation": {
       "autofocus": "Foco automático",
@@ -493,7 +509,8 @@
         "info": "Isso desligará ou reiniciará o PC que está hospedando a instância do N.I.N.A!"
       },
       "title": "Configurações",
-      "update": "Atualizar"
+      "update": "Atualizar",
+      "infoSetLocationSync": "Para garantir que as coordenadas sejam transferidas corretamente para a montagem, defina a opção 'Sincronização de localização' em Nina como 'sincroniza para telescópio'. \nIsso permite que o TNS envie os dados do local diretamente para a montagem."
     },
     "slewAndCenter": {
       "LastSelectedImageSource_wrong": "Selecione o mapa do céu offline como fonte de imagem em Nina / enquadramento",

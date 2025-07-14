@@ -92,7 +92,8 @@
         "enable": "Povolení oznámení",
         "sequence": "Sekvence událostí",
         "title": "Oznámení"
-      }
+      },
+      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
     },
     "framing": {
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
@@ -115,7 +116,9 @@
       "moveRotator": "Otáčení kamery",
       "openFraminingModal": "Spustť ve Snímkování",
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
-      "currentAltitude": "Aktuální nadm. výška"
+      "currentAltitude": "Aktuální nadm. výška",
+      "useCenter": "Center",
+      "useRotate": "Rotate"
     },
     "connectEquipment": {
       "camera": {
@@ -287,7 +290,8 @@
         "info_manuell_controll": "Ruční ovládání je k dispozici pouze v případě, že sledování není aktivní.",
         "set_as_park": "Nastavit jako park",
         "slew_to_cenit": "Přelet do Zenitu",
-        "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží"
+        "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží",
+        "setLocationSyncToMount": "Set \"Sync to telescope\""
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -297,6 +301,19 @@
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
         "notSlewing": "Nepřejíždí"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "No sync"
+        },
+        "toApplication": {
+          "label": "Sync to application"
+        },
+        "toTelescope": {
+          "label": "Sync to telescope"
+        },
+        "confirmationMessage": "If 'Location Sync' in NINA is set to 'Prompt', a confirmation window may appear before coordinates are sent to the telescope. To avoid this and allow TNS to automatically set the coordinates, we recommend changing the setting to 'Sync to Telescope'",
+        "title": "Location sync settings"
       }
     },
     "guider": {

@@ -92,7 +92,8 @@
         "enable": "Habilitar notificaciones",
         "sequence": "Eventos de secuencia",
         "title": "Notificaciones"
-      }
+      },
+      "infoSetLocationSync": "Para garantizar que las coordenadas se transfieran correctamente al soporte, establezca la opción 'Sync' de ubicación en Nina para 'sincronizar al telescopio'. \nEsto permite que TNS envíe los datos de ubicación directamente al montaje."
     },
     "framing": {
       "confirmSetTargetTitle": "Confirmar Selección Objetivo",
@@ -115,7 +116,9 @@
       "infoTargetImage": "Si la imagen solo se muestra en negro, el \"caché del mapa del cielo fuera de línea\" debe configurarse en Nina o la opción \"Usar Nina Cache\" debe desactivarse",
       "moveRotator": "Rotar la cámara",
       "openFraminingModal": "Abrir en asistente de encuadre",
-      "currentAltitude": "Altitud actual"
+      "currentAltitude": "Altitud actual",
+      "useCenter": "Center",
+      "useRotate": "Girar"
     },
     "connectEquipment": {
       "camera": {
@@ -287,7 +290,8 @@
         "info_manuell_controll": "El control manual solo está disponible si el seguimiento no está activo",
         "set_as_park": "Establecido como aparcado",
         "slew_to_cenit": "Desplazar al Zenith",
-        "sync_coordinates_to_mount": "Sinronizar coordenadas a la montura"
+        "sync_coordinates_to_mount": "Sinronizar coordenadas a la montura",
+        "setLocationSyncToMount": "Establecer \"Sync to Telescope\""
       },
       "info": {
         "notConnected": "Por favor conectar montura",
@@ -297,6 +301,19 @@
         "trackingDisabled": "Seguimiento deshabilitado",
         "slewing": "Montura desplazándose",
         "notSlewing": "No desplazándose"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "Sin sincronización"
+        },
+        "toApplication": {
+          "label": "Sincronizar a la aplicación"
+        },
+        "toTelescope": {
+          "label": "Sincronizar al telescopio"
+        },
+        "confirmationMessage": "Si la 'Sync de ubicación' en Nina se establece en 'Aviso', puede aparecer una ventana de confirmación antes de que se envíen coordenadas al telescopio. \nPara evitar esto y permitir que TNS establezca automáticamente las coordenadas, recomendamos cambiar la configuración a 'sincronizar al telescopio'",
+        "title": "Configuración de sincronización de ubicación"
       }
     },
     "guider": {

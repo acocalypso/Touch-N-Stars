@@ -9,10 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHD2 setting support. You can now set many PHD2 parameters, such as exposure time, aggression, ...
 - Display of the current `targetName` if a sequence item with status `RUNNING` exists.
 - Autoscan for iOS and Andriod. The connection settings can now be determined automatically as long as the default port 5000 is used in the plugin
+- In landscape, the navbar is now displayed on the left so there is more space
+- Warning if the Locatoin Sync in NINA does not match TNS and the possibility to change this
+- A window to set the camera's exposure time more quickly
 
 ### Changed
-- the coordinates for framing are no longer set at startup
-- design adjustments for select and input field
+- the coordinates for framing are no longer set at startup. This means that it is no longer necessary to switch to the framing tab in NINA
+- design adjustments 
 - Guidegraph show px and rms error
 
 ### Fixed

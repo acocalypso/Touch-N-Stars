@@ -215,7 +215,7 @@
     <LogModal v-if="showLogModal" @close="showLogModal = false" />
     <!-- Guidegraph -->
     <div
-      class=" bg-gray-800/95 border-t border-cyan-700"
+      class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
       v-show="guiderStore.showGuiderGraph"
@@ -269,7 +269,6 @@ function updateOrientation() {
 const guiderGraphClasses = computed(() => ({
   'fixed left-0 w-full': !isLandscape.value,
   'fixed left-32 w-full': isLandscape.value,
-
 }));
 
 function handleWeatherClick(event) {

@@ -21,7 +21,7 @@
           <div v-if="guiderStore.phd2Connection?.IsConnected">
             <button
               @click="openSettings = true"
-              class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"
+              class="default-button-gray"
             >
               <Cog6ToothIcon class="w-full h-7 text-gray-300" />
             </button>

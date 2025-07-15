@@ -96,7 +96,7 @@
     <!-- ManuellFilterModal Modal -->
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
     <!-- Debug Console -->
-    <ConsoleViewer class="fixed top-1/2 left-6" v-if="settingsStore.showDebugConsole" />
+    <ConsoleViewer class="fixed top-32 right-6" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
   </div>

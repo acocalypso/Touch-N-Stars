@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn-primary bg-gradient-to-br w-full from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed"
+    class="default-button-cyan"
     :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
     @click="guiderStartStop('start')"
   >
@@ -41,7 +41,7 @@
     </span>
   </button>
   <button
-    class="btn-primary bg-gradient-to-br w-full from-yellow-600 to-yellow-500 hover:from-yellow-700 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
+    class="default-button-blue"
     :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
     @click="guiderStartWithCal()"
   >
@@ -84,7 +84,7 @@
     </span>
   </button>
   <button
-    class="btn-primary bg-gradient-to-br w-full from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+    class="default-button-red"
     :disabled="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
     @click="guiderStartStop('stop')"
   >

@@ -276,15 +276,15 @@ import { useSettingsStore } from '@/store/settingsStore';
 
 const settingsStore = useSettingsStore();
 const emit = defineEmits(['close']);
-const count = ref(0)
+const count = ref(0);
 
-function startBad(){
-  count.value ++;
-  if (count.value === 3){
+function startBad() {
+  count.value++;
+  if (count.value === 3) {
     alert('Augenschmerz Markierer aktiviert.');
     settingsStore.showSpecial = true;
   }
-  if (count.value === 4){
+  if (count.value === 4) {
     alert('vorbei der spaß ');
     settingsStore.showSpecial = false;
   }

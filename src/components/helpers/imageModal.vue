@@ -35,7 +35,11 @@
       >
         <ArrowDownTrayIcon class="h-6" />
       </button>
-      <BadButton v-if="settingsStore.showSpecial" class="absolute top-4 right-40 h-6 z-[100]" :index="index" />
+      <BadButton
+        v-if="settingsStore.showSpecial"
+        class="absolute top-4 right-40 h-6 z-[100]"
+        :index="index"
+      />
 
       <div
         ref="imageContainer"

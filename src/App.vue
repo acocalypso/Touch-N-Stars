@@ -199,8 +199,8 @@ const mainContentClasses = computed(() => ({
 }));
 
 const statusBarClasses = computed(() => ({
-  'fixed bottom-0 w-full z-10': !isLandscape.value,
-  'fixed bottom-0 left-32 right-0 z-10': isLandscape.value,
+  'fixed bottom-0 w-full z-20': !isLandscape.value,
+  'fixed bottom-0 left-32 right-0 z-20': isLandscape.value,
 }));
 
 function handleOrientationChange() {

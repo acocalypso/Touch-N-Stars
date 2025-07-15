@@ -184,7 +184,7 @@
           </div>
           <div
             v-if="
-              store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection !== 'TOTELESCOPE'
+              store?.profileInfo?.TelescopeSettings?.TelescopeLocationSyncDirection !== 'TOTELESCOPE'
             "
           >
             <p class="text-red-500 text-sm mt-2">
@@ -279,7 +279,13 @@ async function nextStep() {
   // Fetch GPS info after instance setup on mobile
   if (currentStep.value === 5) {
     store.startFetchingInfo();
-    await wait(1000);
+    store.setupCheckConnectionDone = true;
+    await wait(500);
+    if (!store.isBackendReachable){
+      console.log('Backend not reachable');
+      previousStep();
+      return
+    }
     await locationStore.loadFromAstrometrySettings();
   }
 }

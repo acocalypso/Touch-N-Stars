@@ -54,6 +54,7 @@ export const apiStore = defineStore('store', {
     closeErrorModal: false,
     errorMessageShown: false,
     connectingAttempts: 2,
+    setupCheckConnectionDone : false,
   }),
 
   actions: {

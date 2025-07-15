@@ -92,7 +92,7 @@
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
-    <ToastModal v-if="settingsStore.setupCompleted" />
+    <ToastModal v-if="settingsStore.setupCompleted || store.setupCheckConnectionDone" />
     <!-- ManuellFilterModal Modal -->
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
     <!-- Debug Console -->

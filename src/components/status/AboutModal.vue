@@ -115,7 +115,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span>GitHub Repository</span>
+            <span @click="startBad">GitHub Repository</span>
           </h3>
           <a
             href="https://github.com/Touch-N-Stars/Touch-N-Stars"
@@ -272,8 +272,23 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useSettingsStore } from '@/store/settingsStore';
 
+const settingsStore = useSettingsStore();
 const emit = defineEmits(['close']);
+const count = ref(0)
+
+function startBad(){
+  count.value ++;
+  if (count.value === 3){
+    alert('Augenschmerz Markierer aktiviert.');
+    settingsStore.showSpecial = true;
+  }
+  if (count.value === 4){
+    alert('vorbei der spaß ');
+    settingsStore.showSpecial = false;
+  }
+}
 
 function handleOutsideClick(event) {
   emit('close');

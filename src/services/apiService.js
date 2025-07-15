@@ -401,6 +401,11 @@ const apiService = {
     }
   },
 
+  async imageAction(index, action) {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/image/${index}/${action}`);
+  },
+
   //-------------------------------------  sequence ---------------------------------------
   sequenceAction(action) {
     const { BASE_URL } = getUrls();

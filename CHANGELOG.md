@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - the coordinates for framing are no longer set at startup. This means that it is no longer necessary to switch to the framing tab in NINA
 - design adjustments 
 - Guidegraph show px and rms error
+- Raise the API minimum version to API 2.2.5.0 !
 
 ### Fixed
 - fixed layout error in footer for iOS

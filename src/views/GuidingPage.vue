@@ -19,10 +19,7 @@
         >
           <ControlGuider />
           <div v-if="guiderStore.phd2Connection?.IsConnected">
-            <button
-              @click="openSettings = true"
-              class="default-button-gray"
-            >
+            <button @click="openSettings = true" class="default-button-gray">
               <Cog6ToothIcon class="w-full h-7 text-gray-300" />
             </button>
 

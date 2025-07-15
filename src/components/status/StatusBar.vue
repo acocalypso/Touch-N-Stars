@@ -215,7 +215,8 @@
     <LogModal v-if="showLogModal" @close="showLogModal = false" />
     <!-- Guidegraph -->
     <div
-      class="fixed left-0 w-full bg-gray-800/95 border-t border-cyan-700"
+      class=" bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
       v-show="guiderStore.showGuiderGraph"
     >
@@ -229,7 +230,7 @@
 
 <script setup>
 import { apiStore } from '@/store/store';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { CameraIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
@@ -251,6 +252,25 @@ const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
   return color;
 });
+
+// Check if in landscape mode
+const isLandscape = ref(window.innerWidth > window.innerHeight);
+
+onMounted(() => {
+  window.addEventListener('resize', updateOrientation);
+});
+onUnmounted(() => {
+  window.removeEventListener('resize', updateOrientation);
+});
+
+function updateOrientation() {
+  isLandscape.value = window.innerWidth > window.innerHeight;
+}
+const guiderGraphClasses = computed(() => ({
+  'fixed left-0 w-full': !isLandscape.value,
+  'fixed left-32 w-full': isLandscape.value,
+
+}));
 
 function handleWeatherClick(event) {
   showWeatherModal.value = true;

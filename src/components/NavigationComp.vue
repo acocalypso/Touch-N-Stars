@@ -365,6 +365,15 @@ const contentClasses = computed(() => ({
   'flex flex-col mx-auto justify-start overflow-y-auto overflow-x-hidden': isLandscape.value,
 }));
 
+const graphContainerClasses = computed(() => ({
+  // Portrait mode - full width, smaller height
+  'w-full h-[25vh] min-h-40': !isLandscape.value,
+  
+  // Landscape mode - account for navbar width (128px = w-32), higher for better display
+  'w-full h-[40vh] min-h-60 ml-32': isLandscape.value,
+}));
+
+
 const wrapperClasses = computed(() => ({
   'flex space-x-2 px-2': !isLandscape.value,
   'flex flex-col space-y-2 px-2 py-4': isLandscape.value,

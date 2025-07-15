@@ -96,7 +96,7 @@ const props = defineProps({
   // Zoom settings
   minZoom: {
     type: Number,
-    default: 0.1,
+    default: 0.8,
   },
   maxZoom: {
     type: Number,

@@ -12,12 +12,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - In landscape, the navbar is now displayed on the left so there is more space
 - Warning if the Locatoin Sync in NINA does not match TNS and the possibility to change this
 - A window to set the camera's exposure time more quickly
+- GuiderStatus component showing current guider state with visual indicators and multilingual support
 
 ### Changed
 - the coordinates for framing are no longer set at startup. This means that it is no longer necessary to switch to the framing tab in NINA
 - design adjustments 
 - Guidegraph show px and rms error
 - Raise the API minimum version to API 2.2.5.0 !
+- Toast notification system: Non-critical toasts now appear as non-blocking notifications in top-right corner, while confirmations and critical messages remain as blocking overlays
+- Guider control buttons are now always clickable with visual feedback for inactive states
 
 ### Fixed
 - fixed layout error in footer for iOS

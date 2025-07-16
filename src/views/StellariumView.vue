@@ -97,7 +97,7 @@ const containerClasses = computed(() => ({
 
 // Controls positioning classes
 const controlsClasses = computed(() => ({
-   'left-2': !isLandscape.value,
+  'left-2': !isLandscape.value,
   'left-2': isLandscape.value,
 }));
 

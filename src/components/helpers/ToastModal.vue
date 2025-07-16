@@ -1,7 +1,8 @@
 <template>
+  <!-- Confirmation/Critical Toasts (blocking) -->
   <transition name="fade">
     <div
-      v-if="toastStore.newMessage"
+      v-if="toastStore.newMessage && (toastStore.isConfirmation || toastStore.type === 'critical')"
       class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
     >
       <div
@@ -46,6 +47,42 @@
       </div>
     </div>
   </transition>
+
+  <!-- Non-blocking Toast Notifications -->
+  <div class="fixed top-4 right-4 z-40 space-y-3 max-w-sm pointer-events-none">
+    <transition-group name="toast-slide">
+      <div
+        v-if="toastStore.newMessage && !toastStore.isConfirmation && toastStore.type !== 'critical'"
+        key="toast"
+        :class="[
+          'bg-gray-800 text-white p-4 rounded-lg shadow-lg pointer-events-auto',
+          toastTypeShadow,
+          toastTypeClasses
+        ]"
+      >
+        <div class="flex justify-between items-start">
+          <div class="flex-1">
+            <h3 class="font-bold text-sm mb-1">{{ toastStore.title }}</h3>
+            <p class="text-sm text-gray-200">{{ toastStore.message }}</p>
+            
+            <!-- Link für Toast -->
+            <div class="flex items-center gap-2 mt-2" v-if="toastStore.link && toastStore.linkText">
+              <GlobeAltIcon class="w-4 h-4" />
+              <a :href="toastStore.link" target="_blank" class="text-cyan-400 hover:underline text-sm">
+                {{ toastStore.linkText }}
+              </a>
+            </div>
+          </div>
+          <button 
+            @click="toastStore.closeToast()" 
+            class="text-gray-400 hover:text-white ml-2 flex-shrink-0"
+          >
+            <XMarkIcon class="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </transition-group>
+  </div>
 </template>
 
 <script setup>
@@ -69,6 +106,21 @@ const toastTypeShadow = computed(() => {
       return '';
   }
 });
+
+const toastTypeClasses = computed(() => {
+  switch (toastStore.type) {
+    case 'info':
+      return 'border-l-4 border-blue-500';
+    case 'success':
+      return 'border-l-4 border-green-500';
+    case 'warning':
+      return 'border-l-4 border-orange-500';
+    case 'error':
+      return 'border-l-4 border-red-500';
+    default:
+      return 'border-l-4 border-cyan-500';
+  }
+});
 </script>
 
 <style scoped>
@@ -78,6 +130,21 @@ const toastTypeShadow = computed(() => {
 }
 .fade-enter-from,
 .fade-leave-to {
+  opacity: 0;
+}
+
+.toast-slide-enter-active {
+  transition: all 0.3s ease-out;
+}
+.toast-slide-leave-active {
+  transition: all 0.3s ease-in;
+}
+.toast-slide-enter-from {
+  transform: translateX(100%);
+  opacity: 0;
+}
+.toast-slide-leave-to {
+  transform: translateX(100%);
   opacity: 0;
 }
 </style>

@@ -325,6 +325,15 @@
       "title": "Guida",
       "running": "CORSA",
       "notes": "* Questo grafico visualizza i dati guida in base alle impostazioni di N.I.N.A.",
+      "statusLabel": "Stato",
+      "status": {
+        "looping": "Ciclo",
+        "lostLock": "Stella persa",
+        "guiding": "Guida",
+        "stopped": "Fermato",
+        "calibrating": "Calibrazione",
+        "unknown": "Sconosciuto"
+      },
       "phd2": {
         "dec": {
           "MaxMove": "DEC: Max move",

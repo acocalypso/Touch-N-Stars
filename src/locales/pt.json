@@ -266,6 +266,15 @@
     "guider": {
       "notConnected": "Por favor, conecte Guider",
       "notes": "* Este gráfico exibe dados orientadores de acordo com as configurações da N.I.N.A.",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Repetição",
+        "lostLock": "Estrela perdida",
+        "guiding": "Guiamento",
+        "stopped": "Parado",
+        "calibrating": "Calibrando",
+        "unknown": "Desconhecido"
+      },
       "rms_error": "Erro rms",
       "running": "CORRENDO",
       "start": "Começar",

@@ -1,7 +1,6 @@
 <template>
   <button
     class="default-button-cyan"
-    :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
     @click="guiderStartStop('start')"
   >
     <span class="flex items-center justify-center space-x-2">
@@ -42,7 +41,6 @@
   </button>
   <button
     class="default-button-blue"
-    :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
     @click="guiderStartWithCal()"
   >
     <span class="flex items-center justify-center space-x-2">
@@ -85,7 +83,6 @@
   </button>
   <button
     class="default-button-red"
-    :disabled="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
     @click="guiderStartStop('stop')"
   >
     {{ $t('components.guider.stop') }}

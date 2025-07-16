@@ -325,6 +325,15 @@
       "title": "导星",
       "running": "运行中",
       "notes": "* 此图表根据N.I.N.A.的设置显示导星数据。",
+      "statusLabel": "状态",
+      "status": {
+        "looping": "循环",
+        "lostLock": "丢失锁定",
+        "guiding": "导星中",
+        "stopped": "已停止",
+        "calibrating": "校准中",
+        "unknown": "未知"
+      },
       "phd2": {
         "dec": {
           "MaxMove": "DEC: Max move",

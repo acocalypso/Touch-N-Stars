@@ -325,6 +325,15 @@
       "title": "Guider",
       "running": "RUNNING",
       "notes": "* This graph displays guiding data according to N.I.N.A.'s settings.",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Looping",
+        "lostLock": "Lost Lock",
+        "guiding": "Guiding",
+        "stopped": "Stopped",
+        "calibrating": "Calibrating",
+        "unknown": "Unknown"
+      },
       "phd2": {
         "Exposuretime": "Exposuretime",
         "ra": {

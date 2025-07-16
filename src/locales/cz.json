@@ -325,6 +325,15 @@
       "title": "Navádění",
       "running": "PROBÍHÁ",
       "notes": "* Tento graf zobrazuje data navádění podle nastavení N.I.N.A.",
+      "statusLabel": "Stav",
+      "status": {
+        "looping": "Smyčka",
+        "lostLock": "Ztracená hvězda",
+        "guiding": "Vedení",
+        "stopped": "Zastaveno",
+        "calibrating": "Kalibrace",
+        "unknown": "Neznámé"
+      },
       "phd2": {
         "dec": {
           "MaxMove": "DEC: Max pohyb",

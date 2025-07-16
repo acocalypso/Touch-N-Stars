@@ -325,6 +325,15 @@
       "title": "Guider",
       "running": "WIRD AUSGEFÜHRT",
       "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt.",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Durchlauf",
+        "lostLock": "Stern verloren",
+        "guiding": "Guiding",
+        "stopped": "Gestoppt",
+        "calibrating": "Kalibrierung",
+        "unknown": "Unbekannt"
+      },
       "phd2": {
         "Exposuretime": "Belichtungszeit",
         "dec": {

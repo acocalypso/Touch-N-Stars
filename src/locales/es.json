@@ -324,6 +324,15 @@
       "rms_error": "Error RMS",
       "title": "Guiado",
       "notes": "* Este gráfico muestra datos de guía de acuerdo con la configuración de N.I.N.A.",
+      "statusLabel": "Estado",
+      "status": {
+        "looping": "Bucle",
+        "lostLock": "Estrella perdida",
+        "guiding": "Guiado",
+        "stopped": "Detenido",
+        "calibrating": "Calibrando",
+        "unknown": "Desconocido"
+      },
       "running": "GUIANDO",
       "phd2": {
         "dec": {

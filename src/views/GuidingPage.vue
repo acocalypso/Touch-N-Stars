@@ -40,6 +40,11 @@
             </Modal>
           </div>
         </div>
+        
+        <!-- Status Component -->
+        <div class="mt-4">
+          <GuiderStatus />
+        </div>
       </div>
     </div>
   </div>
@@ -53,6 +58,7 @@ import ControlGuider from '@/components/guider/ControlGuider.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import GuiderStatus from '@/components/guider/GuiderStatus.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();

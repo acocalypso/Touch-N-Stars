@@ -325,6 +325,15 @@
       "title": "Guideur",
       "running": "EN COURS D'EXÉCUTION",
       "notes": "* Ce graphique affiche des données guidant selon les paramètres de N.I.N.A.",
+      "statusLabel": "Statut",
+      "status": {
+        "looping": "Boucle",
+        "lostLock": "Étoile perdue",
+        "guiding": "Guidage",
+        "stopped": "Arrêté",
+        "calibrating": "Calibrage",
+        "unknown": "Inconnu"
+      },
       "phd2": {
         "dec": {
           "MaxMove": "DEC: Max move",

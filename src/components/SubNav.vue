@@ -19,6 +19,7 @@
 </template>
 <script setup>
 import { defineProps, defineEmits, computed } from 'vue';
+import { useOrientation } from '@/composables/useOrientation';
 defineProps({
   items: {
     type: Array,
@@ -33,13 +34,7 @@ const emit = defineEmits(['update:activeItem']);
 function selectItem(value) {
   emit('update:activeItem', value);
 }
-// Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 // Responsive positioning classes - basierend auf tatsächlicher Navbar-Breite
 const subnavClasses = computed(() => ({
   // Portrait mode - below main navigation (left: 0, top: after nav)

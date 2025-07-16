@@ -209,6 +209,7 @@ import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { useOrientation } from '@/composables/useOrientation';
 
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
@@ -245,12 +246,7 @@ const formatTime = (seconds) => {
 };
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Container positioning classes
 const containerClasses = computed(() => ({

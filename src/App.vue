@@ -121,6 +121,7 @@ import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
 import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
+import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -130,31 +131,23 @@ const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
-const orientation = ref(getCurrentOrientation());
+const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
 const landscapeSwitch = ref(null);
 const routerViewKey = ref(Date.now());
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 
 // Orientierung tracking
-const isLandscape = ref(false);
+const { isLandscape } = useOrientation();
 
 useHead({
   title: 'TouchNStars',
 });
 
-function getCurrentOrientation() {
-  return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
-}
-
-function checkOrientation() {
-  const newIsLandscape = window.innerWidth > window.innerHeight;
-  if (newIsLandscape !== isLandscape.value) {
-    isLandscape.value = newIsLandscape;
-    // Force re-render of StellariumView when orientation changes
-    if (store.showStellarium) {
-      landscapeSwitch.value = Date.now();
-    }
+function checkOrientationChange() {
+  // Force re-render of StellariumView when orientation changes
+  if (store.showStellarium) {
+    landscapeSwitch.value = Date.now();
   }
 }
 
@@ -164,11 +157,11 @@ function updateOrientation() {
 
   // Prüfen, ob Breite und Höhe sich stark ändern
   if (Math.abs(width - initialWidth) > 100 && Math.abs(height - initialHeight) > 100) {
-    const newOrientation = getCurrentOrientation();
+    const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
 
     if (newOrientation !== orientation.value) {
       orientation.value = newOrientation;
-      checkOrientation(); // Update isLandscape
+      checkOrientationChange(); // Force re-render of StellariumView
       routerViewKey.value = Date.now();
       console.log('Orientation changed, re-rendering router-view:', newOrientation);
     }
@@ -177,7 +170,7 @@ function updateOrientation() {
     initialHeight = height;
   } else {
     // Auch bei kleinen Änderungen Orientierung prüfen (für bessere Responsivität)
-    checkOrientation();
+    checkOrientationChange();
   }
 }
 
@@ -224,7 +217,6 @@ function handleVisibilityChange() {
 }
 
 onMounted(async () => {
-  checkOrientation(); // Initial orientation check
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);

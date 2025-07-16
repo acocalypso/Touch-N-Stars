@@ -181,6 +181,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { watch, ref, computed } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { useOrientation } from '@/composables/useOrientation';
 
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
@@ -191,12 +192,7 @@ function toggleControls() {
 }
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Container positioning classes - angepasst für rechte Navigation
 const containerClasses = computed(() => ({

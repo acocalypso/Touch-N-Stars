@@ -62,6 +62,7 @@ import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useStellariumStore } from '@/store/stellariumStore';
+import { useOrientation } from '@/composables/useOrientation';
 
 const props = defineProps({
   canvasRef: {
@@ -90,12 +91,7 @@ const mountLayer = ref(null);
 const mountCircle = ref(null);
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Controls positioning classes - angepasst für rechte Navigation
 const controlsClasses = computed(() => ({

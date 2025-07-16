@@ -63,6 +63,7 @@
 import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
+import { useOrientation } from '@/composables/useOrientation';
 
 const props = defineProps({
   // Image data
@@ -123,12 +124,7 @@ const originalWidth = ref(1);
 const originalHeight = ref(1);
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 const handleFullscreen = () => {
   emits('fullscreen', {

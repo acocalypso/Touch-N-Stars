@@ -71,6 +71,7 @@ import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
+import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const props = defineProps({
@@ -85,12 +86,7 @@ const emit = defineEmits(['setFramingCoordinates']);
 const buttonsEnabled = ref(false);
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Container positioning classes - adjusted for left navigation
 const containerClasses = computed(() => ({

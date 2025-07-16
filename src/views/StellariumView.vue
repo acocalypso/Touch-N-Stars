@@ -56,6 +56,7 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref, watch, nextTick, computed } from 'vue';
+import { useOrientation } from '@/composables/useOrientation';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -87,13 +88,7 @@ const isSearchVisible = ref(false);
 const searchComponent = ref(null);
 const mountComponent = ref(null);
 
-// Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 const containerClasses = computed(() => ({
   'stellarium-portrait': !isLandscape.value,
@@ -102,14 +97,14 @@ const containerClasses = computed(() => ({
 
 // Controls positioning classes
 const controlsClasses = computed(() => ({
-  'left-2': !isLandscape.value,
+   'left-2': !isLandscape.value,
   'left-2': isLandscape.value,
 }));
 
 // Search button positioning classes
 const searchButtonClasses = computed(() => ({
   'top-24 right-3': !isLandscape.value,
-  'top-3 right-3': isLandscape.value,
+  'top-3 right-6': isLandscape.value,
 }));
 
 // Search modal positioning classes
@@ -342,6 +337,8 @@ onBeforeUnmount(() => {
 
 .stellarium-portrait {
   top: 0;
+  left: 0;
+  width: 100vw;
   height: calc(100dvh - 1.5rem - env(safe-area-inset-bottom, 0px));
 }
 

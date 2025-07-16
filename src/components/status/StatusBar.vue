@@ -239,6 +239,7 @@ import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
+import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
@@ -254,18 +255,7 @@ const activeInstanceColor = computed(() => {
 });
 
 // Check if in landscape mode
-const isLandscape = ref(window.innerWidth > window.innerHeight);
-
-onMounted(() => {
-  window.addEventListener('resize', updateOrientation);
-});
-onUnmounted(() => {
-  window.removeEventListener('resize', updateOrientation);
-});
-
-function updateOrientation() {
-  isLandscape.value = window.innerWidth > window.innerHeight;
-}
+const { isLandscape } = useOrientation();
 const guiderGraphClasses = computed(() => ({
   'fixed left-0 w-full': !isLandscape.value,
   'fixed left-32 w-full': isLandscape.value,

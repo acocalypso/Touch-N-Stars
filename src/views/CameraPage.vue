@@ -271,6 +271,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { EyeIcon } from '@heroicons/vue/24/outline';
@@ -316,13 +317,7 @@ const openModal = (modalType) => {
   }
 };
 
-// Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Responsive computed properties
 const quickButtonsClasses = computed(() => ({

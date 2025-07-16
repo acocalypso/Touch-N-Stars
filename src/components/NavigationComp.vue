@@ -329,6 +329,7 @@ import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import AboutModal from './status/AboutModal.vue';
 import version from '@/version';
+import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
@@ -341,7 +342,7 @@ const appVersion = ref(version);
 const showAboutModal = ref(false);
 
 // Orientierung tracking
-const isLandscape = ref(false);
+const { isLandscape } = useOrientation();
 
 // Touch feedback states
 const touchedButton = ref(null);
@@ -398,14 +399,8 @@ function forceIconVisibility() {
   });
 }
 
-// Orientierung prüfen
-function checkOrientation() {
-  isLandscape.value = window.innerWidth > window.innerHeight;
-}
-
 function handleOrientationChange() {
   setTimeout(() => {
-    checkOrientation();
     // Force icon visibility after orientation change
     forceIconVisibility();
   }, 100);
@@ -413,7 +408,6 @@ function handleOrientationChange() {
 
 // Lifecycle
 onMounted(() => {
-  checkOrientation();
   window.addEventListener('orientationchange', handleOrientationChange);
   window.addEventListener('resize', handleOrientationChange);
 

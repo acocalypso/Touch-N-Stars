@@ -98,6 +98,7 @@
 import { ref, onMounted, computed, watch, onBeforeUnmount } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { mjdToUTC, utcToMJD } from '@/utils/utils.js';
+import { useOrientation } from '@/composables/useOrientation';
 
 const stellariumStore = useStellariumStore();
 const formattedTime = ref('');
@@ -109,12 +110,7 @@ const timeSpeed = ref(1);
 let animationFrameId = null;
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Button positioning classes - adjusted for left navigation
 const buttonClasses = computed(() => ({

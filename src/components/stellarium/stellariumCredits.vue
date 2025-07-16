@@ -210,16 +210,12 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { useOrientation } from '@/composables/useOrientation';
 
 const isModalOpen = ref(false);
 
 // Check if in landscape mode
-const isLandscape = computed(() => {
-  if (typeof window !== 'undefined') {
-    return window.innerWidth > window.innerHeight;
-  }
-  return false;
-});
+const { isLandscape } = useOrientation();
 
 // Container classes for modal positioning
 const containerClasses = computed(() => ({

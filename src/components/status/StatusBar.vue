@@ -29,7 +29,7 @@
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
       </div>
-      <p v-show="cameraStore.exposureCountdown">{{ cameraStore.exposureCountdown }} s</p>
+       <!--<p v-show="cameraStore.exposureCountdown">{{ cameraStore.exposureCountdown }} s</p>-->
       <p class="hidden xs:block">Gain: {{ Number(store.cameraInfo.Gain).toFixed(0) }}</p>
       <p v-if="store.cameraInfo.CoolerOn" class="flex items-center">
         <svg

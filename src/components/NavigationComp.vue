@@ -480,7 +480,7 @@ watch(
 /* Landscape Mode - Navigation links */
 .nav-landscape {
   @apply fixed left-0 top-0 bottom-0 h-full w-32 flex-col justify-start;
-  height: calc(100vh - env(safe-area-inset-bottom, 0px) - 2rem) !important;
+  height: 100vh !important;
   padding-left: 3rem;
 }
 

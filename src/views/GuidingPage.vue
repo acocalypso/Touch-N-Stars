@@ -40,7 +40,7 @@
             </Modal>
           </div>
         </div>
-        
+
         <!-- Status Component -->
         <div class="mt-4">
           <GuiderStatus />

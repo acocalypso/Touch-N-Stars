@@ -23,40 +23,46 @@ const { t: $t } = useI18n();
 const statusText = computed(() => {
   const state = store.guiderInfo?.State;
   if (!state) return $t('components.guider.status.unknown');
-  
+
   switch (state) {
-    case 'Looping': return $t('components.guider.status.looping');
-    case 'LostLock': return $t('components.guider.status.lostLock');
-    case 'Guiding': return $t('components.guider.status.guiding');
-    case 'Stopped': return $t('components.guider.status.stopped');
-    case 'Calibrating': return $t('components.guider.status.calibrating');
-    default: return state;
+    case 'Looping':
+      return $t('components.guider.status.looping');
+    case 'LostLock':
+      return $t('components.guider.status.lostLock');
+    case 'Guiding':
+      return $t('components.guider.status.guiding');
+    case 'Stopped':
+      return $t('components.guider.status.stopped');
+    case 'Calibrating':
+      return $t('components.guider.status.calibrating');
+    default:
+      return state;
   }
 });
 
 const statusClasses = computed(() => {
   const state = store.guiderInfo?.State;
-  
+
   return {
     'status-guiding': state === 'Guiding',
     'status-calibrating': state === 'Calibrating',
     'status-looping': state === 'Looping',
     'status-error': state === 'LostLock',
     'status-stopped': state === 'Stopped',
-    'status-unknown': !state
+    'status-unknown': !state,
   };
 });
 
 const statusTextClasses = computed(() => {
   const state = store.guiderInfo?.State;
-  
+
   return {
     'text-green-400': state === 'Guiding',
     'text-blue-400': state === 'Calibrating',
     'text-yellow-400': state === 'Looping',
     'text-red-400': state === 'LostLock',
     'text-gray-400': state === 'Stopped',
-    'text-gray-500': !state
+    'text-gray-500': !state,
   };
 });
 </script>

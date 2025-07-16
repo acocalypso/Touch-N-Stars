@@ -1,8 +1,5 @@
 <template>
-  <button
-    class="default-button-cyan"
-    @click="guiderStartStop('start')"
-  >
+  <button class="default-button-cyan" @click="guiderStartStop('start')">
     <span class="flex items-center justify-center space-x-2">
       <span class="relative flex items-center">
         <template v-if="!isProcessingStart">{{ $t('components.guider.start') }}</template>
@@ -39,10 +36,7 @@
       </svg>
     </span>
   </button>
-  <button
-    class="default-button-blue"
-    @click="guiderStartWithCal()"
-  >
+  <button class="default-button-blue" @click="guiderStartWithCal()">
     <span class="flex items-center justify-center space-x-2">
       <span class="relative flex items-center">
         <template v-if="!isProcessingStartWithCal">{{
@@ -81,10 +75,7 @@
       </svg>
     </span>
   </button>
-  <button
-    class="default-button-red"
-    @click="guiderStartStop('stop')"
-  >
+  <button class="default-button-red" @click="guiderStartStop('stop')">
     {{ $t('components.guider.stop') }}
   </button>
 </template>

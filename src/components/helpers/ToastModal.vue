@@ -57,24 +57,28 @@
         :class="[
           'bg-gray-800 text-white p-4 rounded-lg shadow-lg pointer-events-auto',
           toastTypeShadow,
-          toastTypeClasses
+          toastTypeClasses,
         ]"
       >
         <div class="flex justify-between items-start">
           <div class="flex-1">
             <h3 class="font-bold text-sm mb-1">{{ toastStore.title }}</h3>
             <p class="text-sm text-gray-200">{{ toastStore.message }}</p>
-            
+
             <!-- Link für Toast -->
             <div class="flex items-center gap-2 mt-2" v-if="toastStore.link && toastStore.linkText">
               <GlobeAltIcon class="w-4 h-4" />
-              <a :href="toastStore.link" target="_blank" class="text-cyan-400 hover:underline text-sm">
+              <a
+                :href="toastStore.link"
+                target="_blank"
+                class="text-cyan-400 hover:underline text-sm"
+              >
                 {{ toastStore.linkText }}
               </a>
             </div>
           </div>
-          <button 
-            @click="toastStore.closeToast()" 
+          <button
+            @click="toastStore.closeToast()"
             class="text-gray-400 hover:text-white ml-2 flex-shrink-0"
           >
             <XMarkIcon class="w-4 h-4" />

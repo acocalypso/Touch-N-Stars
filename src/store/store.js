@@ -474,12 +474,11 @@ export const apiStore = defineStore('store', {
       this.pageReturnTime = Date.now();
       console.log('Page returned from background at:', new Date().toISOString());
 
-      // Reset after 30 seconds (increased from 10)
       setTimeout(() => {
         this.pageReturnedFromBackground = false;
         this.pageReturnTime = null;
         console.log('Page background suppression ended');
-      }, 30000);
+      }, 10000);
     },
 
     isPageRecentlyReturnedFromBackground() {
@@ -488,14 +487,7 @@ export const apiStore = defineStore('store', {
       }
 
       const timeDiff = Date.now() - this.pageReturnTime;
-      const isRecent = timeDiff < 30000; // 30 seconds (increased from 10)
-
-      if (isRecent) {
-        console.log(
-          'Page recently returned from background, suppressing notifications. Time diff:',
-          timeDiff
-        );
-      }
+      const isRecent = timeDiff < 10000;
 
       return isRecent;
     },

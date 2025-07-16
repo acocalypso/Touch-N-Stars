@@ -107,7 +107,7 @@ export const useGuiderStore = defineStore('guiderStore', {
         this.previousStarLostFrame = currentFrame;
         this.isStarLostInitialized = true;
         this.lastStarLostCheck = now;
-        console.log('Page recently returned, resetting star lost tracking');
+        //console.log('Page recently returned, resetting star lost tracking');
         return false;
       }
 

@@ -93,20 +93,42 @@ export const useGuiderStore = defineStore('guiderStore', {
       if (!starLostInfo || typeof starLostInfo.Frame !== 'number') {
         this.previousStarLostFrame = null;
         this.isStarLostInitialized = false;
+        this.lastStarLostCheck = null;
         return false;
       }
 
       const currentFrame = starLostInfo.Frame;
+      const now = Date.now();
+
+      // Check if we're recently returned from background
+      const mainStore = apiStore();
+      if (mainStore.isPageRecentlyReturnedFromBackground()) {
+        // Reset initialization to avoid false positives
+        this.previousStarLostFrame = currentFrame;
+        this.isStarLostInitialized = true;
+        this.lastStarLostCheck = now;
+        console.log('Page recently returned, resetting star lost tracking');
+        return false;
+      }
 
       if (!this.isStarLostInitialized) {
         // First call: store the frame but don't trigger star lost
         this.previousStarLostFrame = currentFrame;
         this.isStarLostInitialized = true;
+        this.lastStarLostCheck = now;
+        console.log('Star lost initialized with frame:', currentFrame);
+        return false;
+      }
+
+      // Don't check too frequently after initialization
+      if (this.lastStarLostCheck && now - this.lastStarLostCheck < 5000) {
         return false;
       }
 
       if (currentFrame !== this.previousStarLostFrame) {
+        console.log('Star lost frame changed:', this.previousStarLostFrame, '->', currentFrame);
         this.previousStarLostFrame = currentFrame;
+        this.lastStarLostCheck = now;
         return true;
       }
 

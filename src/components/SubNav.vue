@@ -1,9 +1,9 @@
 <template>
   <div
-    class="subnav shadow-md overflow-hidden fixed z-10"
+    class="subnav shadow-md fixed z-10"
     :class="[subnavClasses, backgroundClasses]"
   >
-    <div class="flex mx-auto h-12 items-center justify-center px-4 space-x-4">
+    <div class="flex mx-auto h-12 items-center justify-center px-6 space-x-4">
       <button
         v-for="item in items"
         :key="item.name"
@@ -40,7 +40,7 @@ const subnavClasses = computed(() => ({
   // Portrait mode - below main navigation (left: 0, top: after nav)
   'left-0 top-20 w-full': !isLandscape.value,
   // Landscape mode - top of screen, starting after navbar (w-32 = 8rem = 128px)
-  'left-32 top-0': isLandscape.value,
+  'left-32 top-0 w-[calc(100vw-8rem)]': isLandscape.value,
 }));
 // Background classes for consistent styling
 const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
@@ -65,8 +65,9 @@ const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
     focus:outline-none
     focus:ring-2
     focus:ring-cyan-500/40
-    px-4 py-2 text-sm
-    min-w-fit;
+    px-2 py-2 text-xs
+    flex-1
+    max-w-52;
 }
 .active-subnav-button {
   @apply border border-cyan-500/50

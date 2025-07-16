@@ -480,7 +480,7 @@ watch(
 /* Landscape Mode - Navigation links */
 .nav-landscape {
   @apply fixed left-0 top-0 bottom-0 h-full w-32 flex-col justify-start;
-  height: 100vh !important;
+  height: calc(100vh - env(safe-area-inset-bottom, 0px) - 2rem) !important;
   padding-left: 3rem;
 }
 
@@ -515,7 +515,7 @@ watch(
 
 /* Landscape Mode Wrapper */
 .nav-landscape .nav-items-wrapper {
-  @apply flex flex-col space-y-2 px-2 py-4 h-full;
+  @apply flex flex-col space-y-2 px-2 pt-4 pb-2 h-full;
 }
 
 /* Navigation Buttons - Base Styles with improved rendering */

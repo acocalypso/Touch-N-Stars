@@ -59,6 +59,16 @@ export const useGuiderStore = defineStore('guiderStore', {
         this.phd2StarLost = this.checkStarLostByFrame(this.phd2StarLostInfo);
         if (this.phd2StarLost) {
           console.log('Star lost');
+          console.log(this.phd2StarLostInfo);
+
+          // Prüfe, ob die Seite kürzlich aus dem Hintergrund zurückgekehrt ist
+          const mainStore = apiStore();
+          if (!mainStore.isPageRecentlyReturnedFromBackground()) {
+            // Hier könnte die Toast-Benachrichtigung angezeigt werden
+            console.log('Show star lost toast');
+          } else {
+            console.log('Page recently returned from background, skipping star lost toast');
+          }
         }
 
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;

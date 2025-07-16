@@ -55,6 +55,8 @@ export const apiStore = defineStore('store', {
     errorMessageShown: false,
     connectingAttempts: 2,
     setupCheckConnectionDone: false,
+    pageReturnedFromBackground: false,
+    pageReturnTime: null,
   }),
 
   actions: {
@@ -465,6 +467,26 @@ export const apiStore = defineStore('store', {
       }
       this.isVersionNewerOrEqual = true;
       return true;
+    },
+
+    setPageReturnedFromBackground() {
+      this.pageReturnedFromBackground = true;
+      this.pageReturnTime = Date.now();
+
+      // Reset after 10 seconds
+      setTimeout(() => {
+        this.pageReturnedFromBackground = false;
+        this.pageReturnTime = null;
+      }, 10000);
+    },
+
+    isPageRecentlyReturnedFromBackground() {
+      if (!this.pageReturnedFromBackground || !this.pageReturnTime) {
+        return false;
+      }
+
+      const timeDiff = Date.now() - this.pageReturnTime;
+      return timeDiff < 10000; // 10 seconds
     },
   },
 });

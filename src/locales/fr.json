@@ -317,12 +317,12 @@
       }
     },
     "guider": {
-      "notConnected": "Merci de connecter le guideur",
+      "notConnected": "Veuillez connecter le système de guidage",
       "start": "Démarrer",
-      "startWithCal": "Lancer la calibration",
-      "stop": "Stop",
+      "startWithCal": "Démarrer avec calibration",
+      "stop": "Arrêter",
       "rms_error": "Erreur RMS",
-      "title": "Guideur",
+      "title": "Système de guidage",
       "running": "EN COURS D'EXÉCUTION",
       "notes": "* Ce graphique affiche des données guidant selon les paramètres de N.I.N.A.",
       "statusLabel": "Statut",

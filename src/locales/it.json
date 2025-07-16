@@ -317,13 +317,13 @@
       }
     },
     "guider": {
-      "notConnected": "Collega guida",
+      "notConnected": "Collegare il sistema di guida",
       "start": "Avvia",
       "startWithCal": "Avvia con calibrazione",
       "stop": "Ferma",
       "rms_error": "Errore RMS",
       "title": "Guida",
-      "running": "CORSA",
+      "running": "IN ESECUZIONE",
       "notes": "* Questo grafico visualizza i dati guida in base alle impostazioni di N.I.N.A.",
       "statusLabel": "Stato",
       "status": {

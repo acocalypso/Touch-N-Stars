@@ -326,11 +326,11 @@
       "notes": "* Este gráfico muestra datos de guía de acuerdo con la configuración de N.I.N.A.",
       "statusLabel": "Estado",
       "status": {
-        "looping": "Bucle",
+        "looping": "Captura",
         "lostLock": "Estrella perdida",
         "guiding": "Guiado",
         "stopped": "Detenido",
-        "calibrating": "Calibrando",
+        "calibrating": "Calibración",
         "unknown": "Desconocido"
       },
       "running": "GUIANDO",

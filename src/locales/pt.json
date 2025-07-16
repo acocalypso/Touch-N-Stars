@@ -264,21 +264,21 @@
       "useRotate": "Girar"
     },
     "guider": {
-      "notConnected": "Por favor, conecte Guider",
+      "notConnected": "Por favor, conecte o sistema de guiamento",
       "notes": "* Este gráfico exibe dados orientadores de acordo com as configurações da N.I.N.A.",
       "statusLabel": "Status",
       "status": {
-        "looping": "Repetição",
+        "looping": "Captura",
         "lostLock": "Estrela perdida",
         "guiding": "Guiamento",
         "stopped": "Parado",
-        "calibrating": "Calibrando",
+        "calibrating": "Calibração",
         "unknown": "Desconhecido"
       },
-      "rms_error": "Erro rms",
-      "running": "CORRENDO",
-      "start": "Começar",
-      "startWithCal": "Começando com a calibração",
+      "rms_error": "Erro RMS",
+      "running": "EM EXECUÇÃO",
+      "start": "Iniciar",
+      "startWithCal": "Iniciar com calibração",
       "stop": "Parar",
       "title": "Guider",
       "phd2": {

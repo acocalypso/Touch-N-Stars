@@ -208,6 +208,9 @@ function handleVisibilityChange() {
     logStore.stopFetchingLog();
     sequenceStore.stopFetching();
   } else {
+    // Setze Flag für kürzlich zurückgekehrte Seite
+    store.setPageReturnedFromBackground();
+
     store.startFetchingInfo(t);
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {

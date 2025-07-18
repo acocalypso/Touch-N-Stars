@@ -182,6 +182,17 @@
             </button>
             <div v-if="gpsError" class="text-red-400 text-sm">{{ gpsError }}</div>
           </div>
+          <div
+            v-if="
+              store?.profileInfo?.TelescopeSettings?.TelescopeLocationSyncDirection !==
+              'TOTELESCOPE'
+            "
+          >
+            <p class="text-red-500 text-sm mt-2">
+              {{ $t('components.settings.infoSetLocationSync') }}
+            </p>
+            <ButtonSetLocationSyncToMount class="mt-1" />
+          </div>
           <div class="flex justify-between mt-6">
             <button
               @click="previousStep()"
@@ -219,12 +230,20 @@ import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
-import { latitude, longitude, altitude, gpsError, getCurrentLocation, useLocationStore } from '@/utils/location';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import { wait } from '@/utils/utils';
 import InstanceDetection from '@/components/setup/InstanceDetection.vue';
+import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 
 const { locale, t } = useI18n();
 const router = useRouter();
@@ -261,7 +280,13 @@ async function nextStep() {
   // Fetch GPS info after instance setup on mobile
   if (currentStep.value === 5) {
     store.startFetchingInfo();
-    await wait(1000);
+    store.setupCheckConnectionDone = true;
+    await wait(500);
+    if (!store.isBackendReachable) {
+      console.log('Backend not reachable');
+      previousStep();
+      return;
+    }
     await locationStore.loadFromAstrometrySettings();
   }
 }

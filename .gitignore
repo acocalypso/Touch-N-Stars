@@ -4,6 +4,7 @@ node_modules
 /server/dist
 /server/build
 /server/static
+.claude
 
 # hrz
 *.hrz

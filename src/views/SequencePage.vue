@@ -15,18 +15,7 @@
         <PencilIcon class="icon" />
       </button>
     </div>
-    <div
-      class="fixed left-3 z-10 bg-gray-800 rounded-full p-1 shadow-xl border border-cyan-500"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
-    >
-      <infoModal
-        :size="'w-8 h-8'"
-        :icon-text-colour="'text-white'"
-        :message="$t('components.sequence.info_general.message')"
-        :link="'https://github.com/Touch-N-Stars/Touch-N-Stars'"
-        :linkText="'GitHub'"
-      />
-    </div>
+
     <FavTargets
       :show-framning="false"
       class="fixed right-16 z-10"
@@ -51,7 +40,6 @@
 <script setup>
 import { onBeforeUnmount } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
-import infoModal from '@/components/helpers/infoModal.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';

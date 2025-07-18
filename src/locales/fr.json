@@ -92,7 +92,8 @@
         "enable": "Activer les notifications",
         "sequence": "Événements de séquence",
         "title": "Notifications"
-      }
+      },
+      "infoSetLocationSync": "Pour vous assurer que les coordonnées sont correctement transférées sur le support, définissez l'option «Location Sync» dans Nina à «Synchronisation du télescope». \nCela permet à TNS d'envoyer les données de localisation directement au support."
     },
     "framing": {
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
@@ -115,7 +116,9 @@
       "moveRotator": "Caméra de rotation",
       "openFraminingModal": "Ouvert dans un cadrage",
       "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans Nina ou l'option «Utiliser Nina Cache» doit être désactivée",
-      "currentAltitude": "Altitude de courant"
+      "currentAltitude": "Altitude de courant",
+      "useCenter": "Center",
+      "useRotate": "Tourner"
     },
     "connectEquipment": {
       "camera": {
@@ -287,7 +290,8 @@
         "info_manuell_controll": "Le contrôle manuel n'est disponible que si le suivi n'est pas actif",
         "set_as_park": "Se dérouler comme parc",
         "slew_to_cenit": "Tué à Zenith",
-        "sync_coordinates_to_mount": "Sync coordinates with mount"
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
+        "setLocationSyncToMount": "Définir \"Sync au télescope\""
       },
       "info": {
         "notConnected": "Merci de connecter la mount",
@@ -297,17 +301,39 @@
         "trackingDisabled": "Le suivi est désactivé",
         "slewing": "Le suivi est actif",
         "notSlewing": "Pas de suivi"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "Pas de synchronisation"
+        },
+        "toApplication": {
+          "label": "Synchronisation avec l'application"
+        },
+        "toTelescope": {
+          "label": "Synchronisation avec le télescope"
+        },
+        "confirmationMessage": "Si «Location Sync» dans Nina est défini sur «Invite», une fenêtre de confirmation peut apparaître avant que les coordonnées ne soient envoyées au télescope. \nPour éviter cela et permettre à TNS de définir automatiquement les coordonnées, nous vous recommandons de modifier le paramètre en «Synchronisation en télescope»",
+        "title": "Paramètres de synchronisation de l'emplacement"
       }
     },
     "guider": {
-      "notConnected": "Merci de connecter le guideur",
+      "notConnected": "Veuillez connecter le système de guidage",
       "start": "Démarrer",
-      "startWithCal": "Lancer la calibration",
-      "stop": "Stop",
+      "startWithCal": "Démarrer avec calibration",
+      "stop": "Arrêter",
       "rms_error": "Erreur RMS",
-      "title": "Guideur",
+      "title": "Système de guidage",
       "running": "EN COURS D'EXÉCUTION",
       "notes": "* Ce graphique affiche des données guidant selon les paramètres de N.I.N.A.",
+      "statusLabel": "Statut",
+      "status": {
+        "looping": "Boucle",
+        "lostLock": "Étoile perdue",
+        "guiding": "Guidage",
+        "stopped": "Arrêté",
+        "calibrating": "Calibrage",
+        "unknown": "Inconnu"
+      },
       "phd2": {
         "dec": {
           "MaxMove": "DEC: Max move",

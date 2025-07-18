@@ -7,6 +7,7 @@ export const useSettingsStore = defineStore('settings', {
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
     showDebugConsole: false,
     showPlugins: false, // Control plugin visibility
+    showSpecial: false,
     coordinates: {
       latitude: null,
       longitude: null,
@@ -45,6 +46,8 @@ export const useSettingsStore = defineStore('settings', {
       slewRate: 2,
       reversePrimaryAxis: false,
       reverseSecondaryAxis: false,
+      useCenter: false,
+      useRotate: false,
     },
     camera: {
       exposureTime: 2,
@@ -71,6 +74,7 @@ export const useSettingsStore = defineStore('settings', {
       landscapesVisible: true,
     },
     instanceColorClasses: [
+      'bg-gray-900/95',
       'bg-gray-800',
       'bg-blue-900',
       'bg-sky-900',
@@ -187,7 +191,7 @@ export const useSettingsStore = defineStore('settings', {
 
     getInstanceColorById(id) {
       const index = this.connection.instances.findIndex((i) => i.id === id);
-      return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-700';
+      return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-900/95';
     },
 
     setSelectedInstanceId(id) {

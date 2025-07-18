@@ -42,7 +42,7 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.4.0',
+    minimumApiVersion: '2.2.5.0',
     minimumTnsPluginVersion: '1.0.7.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
@@ -54,6 +54,9 @@ export const apiStore = defineStore('store', {
     closeErrorModal: false,
     errorMessageShown: false,
     connectingAttempts: 2,
+    setupCheckConnectionDone: false,
+    pageReturnedFromBackground: false,
+    pageReturnTime: null,
   }),
 
   actions: {
@@ -464,6 +467,29 @@ export const apiStore = defineStore('store', {
       }
       this.isVersionNewerOrEqual = true;
       return true;
+    },
+
+    setPageReturnedFromBackground() {
+      this.pageReturnedFromBackground = true;
+      this.pageReturnTime = Date.now();
+      console.log('Page returned from background at:', new Date().toISOString());
+
+      setTimeout(() => {
+        this.pageReturnedFromBackground = false;
+        this.pageReturnTime = null;
+        console.log('Page background suppression ended');
+      }, 10000);
+    },
+
+    isPageRecentlyReturnedFromBackground() {
+      if (!this.pageReturnedFromBackground || !this.pageReturnTime) {
+        return false;
+      }
+
+      const timeDiff = Date.now() - this.pageReturnTime;
+      const isRecent = timeDiff < 10000;
+
+      return isRecent;
     },
   },
 });

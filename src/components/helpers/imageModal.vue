@@ -35,6 +35,11 @@
       >
         <ArrowDownTrayIcon class="h-6" />
       </button>
+      <BadButton
+        v-if="settingsStore.showSpecial"
+        class="absolute top-4 right-40 h-6 z-[100]"
+        :index="index"
+      />
 
       <div
         ref="imageContainer"
@@ -58,6 +63,10 @@ import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import BadButton from './BadButton.vue';
+import { useSettingsStore } from '@/store/settingsStore';
+
+const settingsStore = useSettingsStore();
 
 const props = defineProps({
   showModal: {
@@ -75,6 +84,10 @@ const props = defineProps({
   isLoading: {
     type: Boolean,
     default: true,
+  },
+  index: {
+    type: Number,
+    default: 0,
   },
 });
 

@@ -1,8 +1,9 @@
 <template>
   <div>
-    <!-- Mount Controls -->
+    <!-- Mount Controls - moved to left side -->
     <div
-      class="fixed right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      :class="controlsClasses"
+      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <button
@@ -57,10 +58,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useStellariumStore } from '@/store/stellariumStore';
+import { useOrientation } from '@/composables/useOrientation';
 
 const props = defineProps({
   canvasRef: {
@@ -87,6 +89,15 @@ const raDegree = ref(0);
 const decDegree = ref(0);
 const mountLayer = ref(null);
 const mountCircle = ref(null);
+
+// Check if in landscape mode
+const { isLandscape } = useOrientation();
+
+// Controls positioning classes - angepasst für rechte Navigation
+const controlsClasses = computed(() => ({
+  'right-2': !isLandscape.value,
+  'right-3': isLandscape.value,
+}));
 
 // Toggle auto-sync with mount
 function toggleAutoSync() {

@@ -92,7 +92,8 @@
         "enable": "Benachrichtigungen aktivieren",
         "sequence": "Sequenzereignisse",
         "title": "Benachrichtigungen"
-      }
+      },
+      "infoSetLocationSync": "Damit die Koordinaten korrekt an die Montierung übertragen werden, muss in NINA die Option ‚Location sync‘ auf ‚Sync to Telescope‘ gesetzt sein. Dadurch sendet TNS die Standortdaten direkt an die Montierung."
     },
     "framing": {
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
@@ -115,7 +116,9 @@
       },
       "moveRotator": "Camera rotieren",
       "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
-      "currentAltitude": "Aktuelle Höhe"
+      "currentAltitude": "Aktuelle Höhe",
+      "useCenter": "Center",
+      "useRotate": "Rotieren"
     },
     "connectEquipment": {
       "camera": {
@@ -287,7 +290,8 @@
         "set_as_park": "Parkposition setzten",
         "info_manuell_controll": "Die manuelle Steuerung steht nur zur Verfügung, wenn die Nachführung nicht aktiv ist.",
         "slew_to_cenit": "Zum Zenit schwenken",
-        "sync_coordinates_to_mount": "Koordinaten zur Montierung senden"
+        "sync_coordinates_to_mount": "Koordinaten zur Montierung senden",
+        "setLocationSyncToMount": "Setze \"Sync to telescope\""
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -297,6 +301,19 @@
         "trackingDisabled": "Nachführung deaktiviert",
         "slewing": "Montierung schwenkt",
         "notSlewing": "Schwenken nicht aktiv"
+      },
+      "location_sync": {
+        "confirmationMessage": "Wenn die Option ‚Location Sync‘ in NINA auf ‚Prompt‘ gesetzt ist, kann es sein, dass vor dem Übertragen der Koordinaten an das Teleskop ein Bestätigungsfenster erscheint. Um dies zu vermeiden und TNS die automatische Übergabe der Koordinaten zu ermöglichen, empfehlen wir, die Einstellung auf ‚Sync to Telescope‘ zu ändern.",
+        "noSync": {
+          "label": "Keine Synchronisierung"
+        },
+        "toApplication": {
+          "label": "Synchronisation mit NINA"
+        },
+        "toTelescope": {
+          "label": "Synchronisation mit dem Teleskop"
+        },
+        "title": "Standortsynchronisierungseinstellungen"
       }
     },
     "guider": {
@@ -308,6 +325,15 @@
       "title": "Guider",
       "running": "WIRD AUSGEFÜHRT",
       "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt.",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Durchlauf",
+        "lostLock": "Stern verloren",
+        "guiding": "Guiding",
+        "stopped": "Gestoppt",
+        "calibrating": "Kalibrierung",
+        "unknown": "Unbekannt"
+      },
       "phd2": {
         "Exposuretime": "Belichtungszeit",
         "dec": {

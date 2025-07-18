@@ -1,6 +1,7 @@
 <template>
   <button
-    class="fixed left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-2 px-4 sm:px-8 rounded-full text-gray-200 font-mono text-sm sm:text-base"
+    :class="buttonClasses"
+    class="fixed bg-black bg-opacity-80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md z-10"
     style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     @click="toggleDateTimeControls"
   >
@@ -10,59 +11,83 @@
   <!-- Date/Time Control Panel -->
   <div
     v-if="isDateTimeVisible"
-    class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+    class="fixed inset-0 z-10 flex bg-black bg-opacity-50"
+    :class="containerClasses"
     @click.self="isDateTimeVisible = false"
   >
     <div
-      class="bg-black bg-opacity-90 p-4 sm:p-6 rounded-lg shadow-lg text-white w-full max-w-sm sm:max-w-md mx-4"
+      :class="modalClasses"
+      class="bg-black bg-opacity-90 backdrop-blur-sm p-4 rounded-lg shadow-lg text-gray-300 border border-gray-600"
     >
       <h3 class="text-lg font-semibold mb-3">{{ $t('components.stellarium.datetime.title') }}</h3>
 
-      <div class="mb-3">
-        <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.date') }}</label>
-        <input
-          @blur="applyDateTime"
-          @change="applyDateTime"
-          type="date"
-          v-model="dateValue"
-          class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-3 text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div class="mb-4">
-        <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.time') }}</label>
-        <input
-          @blur="applyDateTime"
-          @change="applyDateTime"
-          type="time"
-          v-model="timeValue"
-          class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-3 text-white text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-      <div class="flex gap-3 mb-4">
-        <button
-          @click="resetToCurrentTime"
-          class="flex-1 px-4 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg shadow-md text-sm sm:text-base touch-manipulation"
-        >
-          {{ $t('components.stellarium.datetime.now') }}
-        </button>
-      </div>
-
-      <div class="mt-4">
-        <label class="block text-sm mb-1">{{ $t('components.stellarium.datetime.speed') }}</label>
-        <div class="flex items-center gap-3">
-          <input
-            type="range"
-            v-model="timeSpeed"
-            min="-10"
-            max="10"
-            step="1"
-            class="flex-1 h-3 bg-gray-700 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <span class="text-sm font-mono w-16 text-right">{{ displayTimeSpeed }}</span>
+      <!-- Content Grid - responsive layout -->
+      <div :class="contentGridClasses">
+        <!-- First Row: Date and Speed -->
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">{{
+              $t('components.stellarium.datetime.date')
+            }}</label>
+            <input
+              @blur="applyDateTime"
+              @change="applyDateTime"
+              type="date"
+              v-model="dateValue"
+              class="w-full bg-slate-800/40 border border-slate-600/30 rounded px-3 py-2 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 backdrop-blur-sm"
+            />
+          </div>
         </div>
-        <div class="mt-2 text-xs text-gray-300 text-center">
-          {{ timeSpeedDescription }}
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">{{
+              $t('components.stellarium.datetime.speed')
+            }}</label>
+            <div class="flex items-center gap-2">
+              <input
+                type="range"
+                v-model="timeSpeed"
+                min="-10"
+                max="10"
+                step="1"
+                class="flex-1 h-2 bg-slate-800/40 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-cyan-500/40 backdrop-blur-sm"
+              />
+              <span class="text-xs font-mono w-12 text-right">{{ displayTimeSpeed }}</span>
+            </div>
+            <div class="mt-1 text-xs text-gray-300 text-center">
+              {{ timeSpeedDescription }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Row: Time and Now Button -->
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">{{
+              $t('components.stellarium.datetime.time')
+            }}</label>
+            <input
+              @blur="applyDateTime"
+              @change="applyDateTime"
+              type="time"
+              v-model="timeValue"
+              class="w-full bg-slate-800/40 border border-slate-600/30 rounded px-3 py-2 text-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 backdrop-blur-sm"
+            />
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm mb-1">&nbsp;</label>
+            <!-- Spacer for alignment -->
+            <button
+              @click="resetToCurrentTime"
+              class="w-full px-3 py-2 bg-slate-800/40 border border-slate-600/30 hover:bg-slate-700/60 hover:border-slate-500/50 rounded-lg shadow-md text-sm touch-manipulation transition-all duration-200 backdrop-blur-sm"
+            >
+              {{ $t('components.stellarium.datetime.now') }}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -73,6 +98,7 @@
 import { ref, onMounted, computed, watch, onBeforeUnmount } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { mjdToUTC, utcToMJD } from '@/utils/utils.js';
+import { useOrientation } from '@/composables/useOrientation';
 
 const stellariumStore = useStellariumStore();
 const formattedTime = ref('');
@@ -82,6 +108,33 @@ const dateValue = ref(formatDateForInput(new Date()));
 const timeValue = ref(formatTimeForInput(new Date()));
 const timeSpeed = ref(1);
 let animationFrameId = null;
+
+// Check if in landscape mode
+const { isLandscape } = useOrientation();
+
+// Button positioning classes - adjusted for left navigation
+const buttonClasses = computed(() => ({
+  'left-1/2 transform -translate-x-1/2 px-4 sm:px-8 text-sm sm:text-base': !isLandscape.value,
+  'left-1/2 transform -translate-x-1/2 px-3 text-xs ml-24': isLandscape.value, // Added ml-24 to move away from left navigation
+}));
+
+// Container positioning classes - adjusted for left navigation
+const containerClasses = computed(() => ({
+  'items-center justify-center p-4': !isLandscape.value,
+  'items-start justify-start pl-32 pt-16': isLandscape.value, // Changed from pl-4 to pl-32 (8rem) to account for left navigation
+}));
+
+// Modal sizing classes
+const modalClasses = computed(() => ({
+  'w-full max-w-sm sm:max-w-md mx-4': !isLandscape.value,
+  'w-96 max-h-[85vh] overflow-y-auto': isLandscape.value, // Wider for two columns
+}));
+
+// Content grid layout classes
+const contentGridClasses = computed(() => ({
+  'space-y-3': !isLandscape.value, // Portrait: single column, vertical spacing
+  'grid grid-cols-2 gap-4': isLandscape.value, // Landscape: two columns with gap
+}));
 
 function updateTime() {
   if (!stellariumStore.stel) return;
@@ -231,6 +284,27 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* Scrollbar styling for landscape mode */
+@media screen and (orientation: landscape) {
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.5);
+    border-radius: 2px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.7);
+  }
+}
+
 /* Improve range slider for mobile devices */
 input[type='range'] {
   -webkit-appearance: none;
@@ -240,17 +314,18 @@ input[type='range'] {
 }
 
 input[type='range']::-webkit-slider-track {
-  background: #374151;
-  height: 12px;
-  border-radius: 6px;
+  background: #1e293b;
+  height: 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(71, 85, 105, 0.3);
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  background: #60a5fa;
-  height: 24px;
-  width: 24px;
+  background: #06b6d4;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid white;
@@ -258,32 +333,40 @@ input[type='range']::-webkit-slider-thumb {
 }
 
 input[type='range']::-moz-range-track {
-  background: #374151;
-  height: 12px;
-  border-radius: 6px;
-  border: none;
+  background: #1e293b;
+  height: 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(71, 85, 105, 0.3);
 }
 
 input[type='range']::-moz-range-thumb {
-  background: #60a5fa;
-  height: 24px;
-  width: 24px;
+  background: #06b6d4;
+  height: 20px;
+  width: 20px;
   border-radius: 50%;
   cursor: pointer;
   border: 2px solid white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Improve touch targets for mobile */
-@media (max-width: 640px) {
+/* Compact design for landscape */
+@media screen and (orientation: landscape) {
+  input[type='range']::-webkit-slider-track {
+    height: 6px;
+  }
+
   input[type='range']::-webkit-slider-thumb {
-    height: 28px;
-    width: 28px;
+    height: 16px;
+    width: 16px;
+  }
+
+  input[type='range']::-moz-range-track {
+    height: 6px;
   }
 
   input[type='range']::-moz-range-thumb {
-    height: 28px;
-    width: 28px;
+    height: 16px;
+    width: 16px;
   }
 }
 

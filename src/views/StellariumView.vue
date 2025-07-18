@@ -1,12 +1,13 @@
 <template>
-  <div class="stellarium-container">
+  <div class="stellarium-container" :class="containerClasses">
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
-      class="absolute top-3 right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+      :class="searchButtonClasses"
+      class="absolute p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
     >
       <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>
@@ -22,8 +23,9 @@
     <!-- Overlay für das Suchfeld -->
     <div
       v-if="isSearchVisible"
-      class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
-      style="transform: translateX(-50%); z-index: 100"
+      :class="searchModalClasses"
+      class="absolute bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+      style="z-index: 100"
     >
       <steallriumSearch ref="searchComponent" />
     </div>
@@ -39,19 +41,22 @@
       @setFramingCoordinates="setFramingCoordinates"
     />
     <div
-      class="fixed left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      :class="controlsClasses"
+      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full stellarium-controls"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <stellariumCredits />
       <stellariumSettings />
+
+      <!-- Clock -->
+      <stellariumClock v-if="stellariumStore.stel" />
     </div>
-    <!-- Clock -->
-    <stellariumClock v-if="stellariumStore.stel" />
   </div>
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch, nextTick, computed } from 'vue';
+import { useOrientation } from '@/composables/useOrientation';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -82,6 +87,31 @@ const wasmPath = '/stellarium-js/stellarium-web-engine.wasm';
 const isSearchVisible = ref(false);
 const searchComponent = ref(null);
 const mountComponent = ref(null);
+
+const { isLandscape } = useOrientation();
+
+const containerClasses = computed(() => ({
+  'stellarium-portrait': !isLandscape.value,
+  'stellarium-landscape': isLandscape.value,
+}));
+
+// Controls positioning classes
+const controlsClasses = computed(() => ({
+  'left-2': !isLandscape.value,
+  'left-2': isLandscape.value,
+}));
+
+// Search button positioning classes
+const searchButtonClasses = computed(() => ({
+  'top-24 right-3': !isLandscape.value,
+  'top-3 right-6': isLandscape.value,
+}));
+
+// Search modal positioning classes
+const searchModalClasses = computed(() => ({
+  'top-28 left-1/2 transform -translate-x-1/2': !isLandscape.value,
+  'top-16 right-4': isLandscape.value,
+}));
 
 // Funktion zum Ein-/Ausblenden des Suchfeldes
 function toggleSearch(event) {
@@ -274,7 +304,6 @@ onBeforeUnmount(() => {
     // Entferne die Stellarium-Instanz
     stellariumStore.stel = null;
 
-    // Lösche das Canvas-Element (optional, falls nötig)
     if (stelCanvas.value) {
       stelCanvas.value.width = 0;
       stelCanvas.value.height = 0;
@@ -288,11 +317,29 @@ onBeforeUnmount(() => {
 <style scoped>
 .stellarium-container {
   position: fixed;
-  top: 10;
+  z-index: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Landscape Mode  */
+.stellarium-landscape {
+  top: 0;
+  left: 8rem;
+  width: calc(100vw - 8rem);
+  height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
+}
+
+@media screen and (orientation: landscape) {
+  .stellarium-controls.left-2 {
+    left: 9rem !important;
+  }
+}
+
+.stellarium-portrait {
+  top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 80px);
-  z-index: 0;
+  height: calc(100dvh - 1.5rem - env(safe-area-inset-bottom, 0px));
 }
 
 .stellarium-canvas {

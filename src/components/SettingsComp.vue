@@ -1,208 +1,49 @@
 <template>
-  <div class="p-4 max-w-md mx-auto">
-    <div class="bg-gray-800 p-4 rounded-lg">
+  <div class="p-4 max-w-xl mx-auto space-y-6">
+    <!-- Main Settings Header -->
+    <div class="bg-gray-800 rounded-lg p-4">
       <h2 class="text-xl font-semibold mb-4 text-white">
         {{ $t('components.settings.title') }}
       </h2>
-
-      <div class="space-y-4">
-        <!-- GPS Coordinates -->
-        <div v-if="store.isBackendReachable" class="bg-gray-700 p-3 rounded-lg">
-          <h3 class="text-lg font-medium mb-2 text-gray-300">
-            {{ $t('components.settings.coordinates') }}
-          </h3>
-          <div class="flex items-center gap-2">
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-400 mb-1">Latitude</label>
-              <input
-                v-model="latitude"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
-                placeholder="Latitude"
-              />
-            </div>
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-400 mb-1">Longitude</label>
-              <input
-                v-model="longitude"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
-                placeholder="Longitude"
-              />
-            </div>
-            <div class="flex-1">
-              <label class="block text-sm font-medium text-gray-400 mb-1">Altitude</label>
-              <input
-                v-model="altitude"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
-                placeholder="Altitude"
-              />
-            </div>
-            <button
-              @click="getCurrentLocation"
-              class="mt-6 p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors"
-              title="Get current location"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-gray-300"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-            </button>
-          </div>
-          <div v-if="gpsError" class="mt-2 text-sm text-red-400">
-            {{ gpsError }}
-          </div>
-          <button
-            @click="locationStore.saveCoordinates"
-            class="w-full mt-2 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-md transition-colors"
-          >
-            {{ $t('components.settings.save') }}
-          </button>
-        </div>
-
-        <!-- Connection Settings -->
-        <div
-          class="bg-gray-700 p-3 rounded-lg"
-          v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
-        >
-          <h3 class="text-lg font-medium mb-2 text-gray-300">
-            {{ $t('components.settings.connection') }}
-          </h3>
-
-          <SetInstance />
-        </div>
-
-        <!-- Language Selection -->
-        <div class="bg-gray-700 p-3 rounded-lg">
-          <h3 class="text-lg font-medium mb-2 text-gray-300">
-            {{ $t('components.settings.language') }}
-          </h3>
-          <select
-            v-model="currentLanguage"
-            @change="changeLanguage($event.target.value)"
-            class="w-full px-4 py-2 bg-gray-600 text-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
-          >
-            <option
-              v-for="lang in languages"
-              :key="lang.code"
-              :value="lang.code"
-              class="bg-gray-700"
-            >
-              {{ lang.name }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Image settings -->
-        <div v-if="store.isBackendReachable" class="bg-gray-700 p-3 rounded-lg">
-          <h3 class="text-lg font-medium mb-2 text-gray-300">
-            {{ $t('components.settings.image.title') }}
-          </h3>
-          <setImgQuality />
-          <setImgStrechFactor />
-          <setImgBlackClipping />
-        </div>
-
-        <!-- debug settings -->
-        <div class="bg-gray-700 p-3 rounded-lg">
-          <h3 class="text-lg font-medium mb-2 text-gray-300">
-            {{ $t('components.settings.debug.titel') }}
-          </h3>
-          <SetDebug />
-        </div>
-
-        <!-- Notifications settings -->
-        <div
-          class="bg-gray-700 p-3 rounded-lg"
-          v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
-        >
-          <h3 class="text-lg font-medium mb-2 text-gray-300">
-            {{ $t('components.settings.notifications.title') }}
-          </h3>
-          <SetNotifications />
-        </div>
-
-        <!-- Tutorial Button -->
-        <div class="bg-gray-700 p-3 rounded-lg">
-          <button
-            @click="showTutorial"
-            class="w-full px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md transition-colors"
-          >
-            {{ $t('components.settings.showTutorial') }}
-          </button>
-        </div>
-      </div>
     </div>
 
-    <!-- Plugin Management -->
-    <div
-      v-if="store.isBackendReachable && settingsStore.showPlugins"
-      class="bg-gray-700 p-3 rounded-lg mt-4"
-    >
-      <div class="text-center mb-2">
-        <h3 class="text-gray-300 font-semibold text-lg mb-1">
-          {{ $t('components.settings.plugins.title') }}
-        </h3>
-        <p class="text-gray-400 text-sm">{{ $t('components.settings.plugins.description') }}</p>
-      </div>
-      <div class="space-y-3">
-        <div
-          v-for="plugin in pluginStore.plugins"
-          :key="plugin.id"
-          class="flex items-center justify-between p-3 bg-gray-800 rounded-lg"
-        >
-          <div>
-            <h4 class="text-white font-medium">{{ plugin.name }}</h4>
-            <p class="text-sm text-gray-400">{{ plugin.description }}</p>
-          </div>
-          <div class="flex items-center space-x-2">
-            <span class="text-xs text-gray-500">v{{ plugin.version }}</span>
-            <button
-              @click="togglePlugin(plugin.id, !plugin.enabled)"
-              class="px-3 py-1 rounded-md text-sm"
-              :class="
-                plugin.enabled ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-600 hover:bg-gray-700'
-              "
-            >
-              {{ plugin.enabled ? 'Enabled' : 'Disabled' }}
-            </button>
-          </div>
+    <!-- GPS Coordinates -->
+    <div v-if="store.isBackendReachable" class="bg-gray-800 rounded-lg p-4">
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.coordinates') }}
+      </h3>
+      <div class="flex items-center gap-2">
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Latitude</label>
+          <input
+            v-model="latitude"
+            type="text"
+            class="default-input w-full py-2"
+            placeholder="Latitude"
+          />
         </div>
-      </div>
-    </div>
-
-    <!-- System Controls -->
-    <div class="bg-gray-700 p-3 rounded-lg mt-4">
-      <div class="text-center mb-2">
-        <h3 class="text-gray-300 font-semibold text-sm mb-1">
-          {{ $t('components.settings.system.title') }}
-        </h3>
-        <p class="text-gray-400 text-xs">{{ $t('components.settings.system.description') }}</p>
-        <p class="text-gray-400 text-xs">{{ $t('components.settings.system.info') }}</p>
-      </div>
-      <div class="flex justify-center gap-2">
-        <!-- Restart Button -->
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Longitude</label>
+          <input
+            v-model="longitude"
+            type="text"
+            class="default-input w-full py-2"
+            placeholder="Longitude"
+          />
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-medium text-gray-300 mb-2">Altitude</label>
+          <input
+            v-model="altitude"
+            type="text"
+            class="default-input w-full py-2"
+            placeholder="Altitude"
+          />
+        </div>
         <button
-          @click="restartSystem"
-          class="p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors"
-          title="Restart System"
+          @click="getCurrentLocation"
+          class="mt-6 p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors"
+          title="Get current location"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -215,20 +56,199 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </button>
+      </div>
+      <div v-if="gpsError" class="mt-2 text-sm text-red-400">
+        {{ gpsError }}
+      </div>
+      <button
+        v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'"
+        @click="locationStore.saveCoordinates"
+        class="default-button-cyan mt-3"
+      >
+        {{ $t('components.settings.save') }}
+      </button>
+      <div v-else>
+        <p class="text-red-500 text-sm mt-2">
+          {{ $t('components.settings.infoSetLocationSync') }}
+        </p>
+        <ButtonSetLocationSyncToMount class="mt-3" />
+      </div>
+    </div>
+
+    <!-- Connection Settings -->
+    <div
+      class="bg-gray-800 rounded-lg p-4"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+    >
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.connection') }}
+      </h3>
+      <SetInstance />
+    </div>
+
+    <!-- Language Selection -->
+    <div class="bg-gray-800 rounded-lg p-4">
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.language') }}
+      </h3>
+      <select
+        v-model="currentLanguage"
+        @change="changeLanguage($event.target.value)"
+        class="default-input w-full py-2"
+      >
+        <option v-for="lang in languages" :key="lang.code" :value="lang.code" class="bg-gray-700">
+          {{ lang.name }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Image settings -->
+    <div v-if="store.isBackendReachable" class="bg-gray-800 rounded-lg p-4">
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.image.title') }}
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <setImgQuality />
+        <setImgStrechFactor />
+        <setImgBlackClipping />
+      </div>
+    </div>
+
+    <!-- Debug settings -->
+    <div class="bg-gray-800 rounded-lg p-4">
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.debug.titel') }}
+      </h3>
+      <SetDebug />
+    </div>
+
+    <!-- Notifications settings -->
+    <div
+      class="bg-gray-800 rounded-lg p-4"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+    >
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.notifications.title') }}
+      </h3>
+      <SetNotifications />
+    </div>
+
+    <!-- Tutorial Button -->
+    <div class="bg-gray-800 rounded-lg p-4">
+      <h3 class="text-lg font-semibold text-white mb-4">Tutorial</h3>
+      <button @click="showTutorial" class="default-button-gray w-full">
+        {{ $t('components.settings.showTutorial') }}
+      </button>
+    </div>
+
+    <!-- Plugin Management -->
+    <div
+      v-if="store.isBackendReachable && settingsStore.showPlugins"
+      class="bg-gray-800 rounded-lg p-4"
+    >
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.plugins.title') }}
+      </h3>
+      <p class="text-gray-400 text-sm mb-4">{{ $t('components.settings.plugins.description') }}</p>
+
+      <!-- Empty State -->
+      <div v-if="pluginStore.plugins.length === 0" class="text-center py-8">
+        <svg
+          class="mx-auto h-12 w-12 text-gray-500 mb-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+          />
+        </svg>
+        <p class="text-gray-400 text-sm">No plugins available</p>
+      </div>
+
+      <!-- Plugin List -->
+      <div v-else class="space-y-3">
+        <div
+          v-for="plugin in pluginStore.plugins"
+          :key="plugin.id"
+          class="flex items-center justify-between p-3 bg-gray-700 rounded-lg border border-gray-600"
+        >
+          <div class="flex-1 min-w-0">
+            <h4 class="text-white font-medium">{{ plugin.name }}</h4>
+            <p class="text-sm text-gray-400">{{ plugin.description }}</p>
+          </div>
+          <div class="flex items-center gap-3 ml-4">
+            <span class="text-xs text-gray-500">v{{ plugin.version }}</span>
+            <button
+              @click="togglePlugin(plugin.id, !plugin.enabled)"
+              :class="[
+                'px-3 py-1 rounded-md text-sm font-medium transition-colors',
+                plugin.enabled
+                  ? 'bg-green-600 hover:bg-green-500 text-white'
+                  : 'bg-gray-600 hover:bg-gray-500 text-white',
+              ]"
+            >
+              {{ plugin.enabled ? 'Enabled' : 'Disabled' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Controls -->
+    <div class="bg-gray-800 rounded-lg p-4">
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.system.title') }}
+      </h3>
+      <p class="text-gray-400 text-sm mb-2">{{ $t('components.settings.system.description') }}</p>
+      <p class="text-gray-400 text-sm mb-4">{{ $t('components.settings.system.info') }}</p>
+
+      <div class="flex justify-center gap-3">
+        <!-- Restart Button -->
+        <button
+          @click="restartSystem"
+          class="default-button-red gap-2 max-w-40"
+          title="Restart System"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
               d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
             />
           </svg>
+          Restart
         </button>
 
         <!-- Shutdown Button -->
         <button
           @click="shutdownSystem"
-          class="p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors"
+          class="default-button-red gap-2 max-w-40"
           title="Shutdown System"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-gray-300"
+            class="h-5 w-5"
             viewBox="0 0 325.214 325.214"
             fill="currentColor"
           >
@@ -245,6 +265,7 @@
           C142.579,112.514,147.064,117,152.579,117z"
             />
           </svg>
+          Shutdown
         </button>
       </div>
     </div>
@@ -258,7 +279,7 @@
     v-if="confirmAction"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
   >
-    <div class="bg-gray-800 p-6 rounded-lg max-w-sm w-full">
+    <div class="bg-gray-800 rounded-lg p-6 max-w-sm w-full border border-gray-700">
       <h3 class="text-lg font-semibold text-white mb-4">
         {{ $t('components.settings.system.confirmation') }}
       </h3>
@@ -269,17 +290,11 @@
             : $t('components.settings.system.confirmRestart')
         }}
       </p>
-      <div class="flex justify-end space-x-4">
-        <button
-          @click="cancelConfirmation"
-          class="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md"
-        >
+      <div class="flex justify-end gap-3">
+        <button @click="cancelConfirmation" class="default-button-gray">
           {{ $t('common.cancel') }}
         </button>
-        <button
-          @click="confirmActionHandler"
-          class="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-md"
-        >
+        <button @click="confirmActionHandler" class="default-button-cyan">
           {{ $t('common.confirm') }}
         </button>
       </div>
@@ -295,7 +310,14 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import TutorialModal from '@/components/TutorialModal.vue';
-import { latitude, longitude, altitude, gpsError, getCurrentLocation, useLocationStore } from '@/utils/location';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '@/utils/location';
 import { useRouter } from 'vue-router';
 import { Capacitor } from '@capacitor/core';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
@@ -305,6 +327,7 @@ import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
 import SetNotifications from '@/components/settings/setNotifications.vue';
+import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

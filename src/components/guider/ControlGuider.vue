@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="btn-primary bg-gradient-to-br w-full from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed"
-    :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
-    @click="guiderStartStop('start')"
-  >
+  <button class="default-button-cyan" @click="guiderStartStop('start')">
     <span class="flex items-center justify-center space-x-2">
       <span class="relative flex items-center">
         <template v-if="!isProcessingStart">{{ $t('components.guider.start') }}</template>
@@ -40,11 +36,7 @@
       </svg>
     </span>
   </button>
-  <button
-    class="btn-primary bg-gradient-to-br w-full from-yellow-600 to-yellow-500 hover:from-yellow-700 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed"
-    :disabled="store.guiderInfo.State == 'Guiding' || store.guiderInfo.State == 'Calibrating'"
-    @click="guiderStartWithCal()"
-  >
+  <button class="default-button-blue" @click="guiderStartWithCal()">
     <span class="flex items-center justify-center space-x-2">
       <span class="relative flex items-center">
         <template v-if="!isProcessingStartWithCal">{{
@@ -83,11 +75,7 @@
       </svg>
     </span>
   </button>
-  <button
-    class="btn-primary bg-gradient-to-br w-full from-red-600 to-red-500 hover:from-red-700 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-    :disabled="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
-    @click="guiderStartStop('stop')"
-  >
+  <button class="default-button-red" @click="guiderStartStop('stop')">
     {{ $t('components.guider.stop') }}
   </button>
 </template>

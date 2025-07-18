@@ -19,10 +19,7 @@
         >
           <ControlGuider />
           <div v-if="guiderStore.phd2Connection?.IsConnected">
-            <button
-              @click="openSettings = true"
-              class="btn-primary bg-gradient-to-br w-full h-full from-gray-600 to-gray-500 hover:from-gray-700 hover:to-gray-600"
-            >
+            <button @click="openSettings = true" class="default-button-gray">
               <Cog6ToothIcon class="w-full h-7 text-gray-300" />
             </button>
 
@@ -43,6 +40,11 @@
             </Modal>
           </div>
         </div>
+
+        <!-- Status Component -->
+        <div class="mt-4">
+          <GuiderStatus />
+        </div>
       </div>
     </div>
   </div>
@@ -56,6 +58,7 @@ import ControlGuider from '@/components/guider/ControlGuider.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import GuiderStatus from '@/components/guider/GuiderStatus.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();

@@ -52,10 +52,11 @@
       </div>
     </div>
   </div>
+  <CenterModal ref="centeringModalRef" />
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -65,11 +66,13 @@ import { wait } from '@/utils/utils';
 import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
 import { handleApiError } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import CenterModal from '@/components/mount/CenterModal.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
+const centeringModalRef = ref(null);
 
 const props = defineProps({
   raAngle: Number,
@@ -96,6 +99,10 @@ async function slew() {
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
   const center = settingsStore.mount.useCenter;
   const rotate = settingsStore.mount.useRotate && store.rotatorInfo.Connected;
+
+  if (center){
+    centeringModalRef.value?.openModal();
+  }
 
   await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
   emit('finished'); // Emit Event nach Erfolg

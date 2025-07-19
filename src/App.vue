@@ -17,7 +17,6 @@
 
       <div v-else :class="mainContentClasses">
         <StellariumView
-         
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />

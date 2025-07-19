@@ -60,7 +60,7 @@
             placeholder="12:34:56 / 123.456"
           />
         </div>
-        <div class="mt-4 flex gap-2 w-full">
+        <div class="w-full">
           <ButtonSlewCenterRotate
             class="w-full"
             :raAngle="framingStore.RAangle"

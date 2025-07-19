@@ -17,7 +17,6 @@
 
       <div v-else :class="mainContentClasses">
         <StellariumView
-          :key="landscapeSwitch"
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />

@@ -102,6 +102,12 @@ async function slew() {
 
   if (center){
     centeringModalRef.value?.openModal();
+    console.log('First: Slew to the target')
+    await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
+    console.log('First debug: Slew to the target' , framingStore.slewIsStopt)
+    if (framingStore.slewIsStopt) return;
+    console.log('Second: center the target')
+    await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
   }
 
   await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);

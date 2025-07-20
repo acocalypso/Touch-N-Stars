@@ -193,7 +193,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   //Countdown für Statusanzeige mit Server-Zeit-Synchronisation
   async function updateCountdown() {
     const exposureEndTime = store.cameraInfo.ExposureEndTime;
-    const exposureStartTime = store.cameraInfo.ExposureStartTime;
 
     if (!exposureEndTime) {
       exposureCountdown.value = 0;
@@ -204,7 +203,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     // Ensure time sync before starting countdown
     await timeSync.ensureSync();
 
-   
     const endTime = new Date(exposureEndTime).getTime();
     if (isNaN(endTime)) {
       console.error('Ungültiges Datumsformat für ExposureEndTime.');
@@ -216,10 +214,10 @@ export const useCameraStore = defineStore('cameraStore', () => {
     // Reset progress to 0 at start
     exposureProgress.value = 0;
     countdownRunning.value = true;
-    
+
     // Store initial countdown value to calculate total duration
     let initialCountdown = null;
-    
+
     while (countdownRunning.value) {
       // Use server-synchronized time for accurate countdown
       const remainingTime = timeSync.calculateCountdown(exposureEndTime);
@@ -252,7 +250,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       if (remainingTime % 30 === 0) {
         timeSync.ensureSync();
       }
-      
+
       await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
     }
   }

@@ -197,7 +197,7 @@
         </div>
 
         <!-- Fixed Sequence Button -->
-        <div v-if="sequenceStore.sequenceIsLoaded">
+        <div>
           <router-link
             to="/sequence"
             class="nav-button touch-target"

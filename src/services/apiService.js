@@ -425,7 +425,7 @@ const apiService = {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.post(`${BASE_URL}/sequence/load`, {
-        sequnecJson
+        sequnecJson,
       });
       console.log('seqence loaded :', response.data);
       return response.data;
@@ -434,7 +434,6 @@ const apiService = {
       throw error;
     }
   },
-
 
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0
   async sequnceTargetSet(name, ra, dec, rotation, index) {

@@ -1,15 +1,19 @@
 <template>
-  <div class="flex items-center justify-center w-full mb-6">
-    <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700">
+  <div class="w-full mb-6 z-10">
+    <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 w-full">
       <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 text-blue-400"
+          fill="none"
           viewBox="0 0 24 24"
-          fill="currentColor"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="h-6 w-6 text-blue-400"
         >
           <path
-            d="M12 2a1 1 0 011 1v3a1 1 0 11-2 0V3a1 1 0 011-1zm0 15a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm10-5a1 1 0 01-1 1h-3a1 1 0 110-2h3a1 1 0 011 1zM7 12a1 1 0 01-1 1H3a1 1 0 110-2h3a1 1 0 011 1zm12.071 7.071a1 1 0 01-1.414 0l-2.121-2.121a1 1 0 011.414-1.414l2.121 2.121a1 1 0 010 1.414zM8.464 8.464a1 1 0 01-1.414 0L4.93 6.344a1 1 0 011.414-1.414L8.464 7.05a1 1 0 010 1.414zM4.93 19.071a1 1 0 01-1.414-1.414l2.121-2.121a1 1 0 011.414 1.414l-2.121 2.121a1 1 0 01-1.414 0zM15.536 8.464a1 1 0 01-1.414-1.414l2.121-2.121a1 1 0 011.414 1.414l-2.121 2.121a1 1 0 01-1.414 0z"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
           />
         </svg>
         {{ $t('components.sequence.sequence_control') }}
@@ -18,7 +22,7 @@
       <div class="flex flex-col gap-3 sm:flex-row sm:gap-4">
         <button
           :class="[
-            'btn-primary bg-gradient-to-br from-blue-600 to-blue-500',
+            'default-button-blue',
             sequenceStore.sequenceRunning
               ? 'opacity-75 cursor-not-allowed'
               : 'hover:from-blue-700 hover:to-blue-600',
@@ -49,7 +53,7 @@
         </button>
 
         <button
-          class="btn-primary bg-gradient-to-br from-red-600 to-red-500 hover:from-red-700 hover:to-red-600"
+          class="default-button-red"
           @click="stopSequence"
           v-tooltip="'Stop the current sequence'"
         >
@@ -69,7 +73,7 @@
         </button>
 
         <button
-          class="btn-primary bg-gradient-to-br from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
+          class="default-button-orange"
           @click="showResetConfirmation = true"
           :disabled="sequenceStore.sequenceRunning"
           v-tooltip="'Reset sequence state'"
@@ -95,7 +99,7 @@
     <transition name="fade">
       <div
         v-if="showResetConfirmation"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50"
         @click.self="showResetConfirmation = false"
         @keydown.esc="showResetConfirmation = false"
       >

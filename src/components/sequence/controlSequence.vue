@@ -1,6 +1,8 @@
 <template>
   <div class="w-full mb-6 z-10">
-    <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 w-full">
+    <div
+      class="bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-gray-700 w-full"
+    >
       <h3 class="text-lg font-semibold text-gray-100 mb-4 flex items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"

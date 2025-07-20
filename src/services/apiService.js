@@ -27,12 +27,12 @@ const getBaseUrl = () => {
   initializeStore();
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
-  let port = settingsStore.connection.port || window.location.port || 5000;
+  let port = settingsStore.connection.port || window.location.port || 80;
   const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
-  if (isDev && port == 8080) {
+  if (isDev && port === 8080) {
     port = 5000;
   }
 

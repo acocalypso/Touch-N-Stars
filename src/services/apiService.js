@@ -32,7 +32,7 @@ const getBaseUrl = () => {
 
   //devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
-  if (isDev && port === 8080) {
+  if (isDev && port == 8080) {
     port = 5000;
   }
 
@@ -91,6 +91,12 @@ const apiService = {
       }
       return null;
     }
+  },
+
+  //------------------------------------------- time -------------------------------------------------
+  async fetchNinaTime() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/time`);
   },
 
   //------------------------------------- PHD2 ------------------------------------------

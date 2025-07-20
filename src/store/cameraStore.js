@@ -3,6 +3,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from './settingsStore';
 import { ref } from 'vue';
+import { timeSync } from '@/utils/timeSync';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -189,9 +190,10 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
-  //Countdown für Statusanzeige
+  //Countdown für Statusanzeige mit Server-Zeit-Synchronisation
   async function updateCountdown() {
     const exposureEndTime = store.cameraInfo.ExposureEndTime;
+    const exposureStartTime = store.cameraInfo.ExposureStartTime;
 
     if (!exposureEndTime) {
       exposureCountdown.value = 0;
@@ -199,6 +201,10 @@ export const useCameraStore = defineStore('cameraStore', () => {
       return;
     }
 
+    // Ensure time sync before starting countdown
+    await timeSync.ensureSync();
+
+   
     const endTime = new Date(exposureEndTime).getTime();
     if (isNaN(endTime)) {
       console.error('Ungültiges Datumsformat für ExposureEndTime.');
@@ -207,13 +213,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
       return;
     }
 
-    const durationTime = Math.floor((endTime - Date.now()) / 1000);
-    console.log('durationTime', durationTime);
-
+    // Reset progress to 0 at start
+    exposureProgress.value = 0;
     countdownRunning.value = true;
+    
+    // Store initial countdown value to calculate total duration
+    let initialCountdown = null;
+    
     while (countdownRunning.value) {
-      const now = Date.now();
-      let remainingTime = Math.floor((endTime - now) / 1000);
+      // Use server-synchronized time for accurate countdown
+      const remainingTime = timeSync.calculateCountdown(exposureEndTime);
 
       if (remainingTime <= 0 || !store.cameraInfo.IsExposing) {
         exposureProgress.value = 100;
@@ -221,14 +230,29 @@ export const useCameraStore = defineStore('cameraStore', () => {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
         exposureProgress.value = 0;
         countdownRunning.value = false;
-        remainingTime = 0;
         break;
       }
 
       exposureCountdown.value = remainingTime;
-      //console.log('exposureCountdown', exposureCountdown.value);
-      exposureProgress.value = Math.max(0, Math.min(100, (1 - remainingTime / durationTime) * 100));
-      //console.log('exposureProgress Fortschritt %:', exposureProgress.value);
+
+      // Set initial countdown on first iteration
+      if (initialCountdown === null) {
+        initialCountdown = remainingTime;
+      }
+
+      // Calculate progress based on countdown: 0% when countdown = initial, 100% when countdown = 0
+      if (initialCountdown > 0) {
+        const elapsedTime = initialCountdown - remainingTime;
+        exposureProgress.value = Math.max(0, Math.min(100, (elapsedTime / initialCountdown) * 100));
+      } else {
+        exposureProgress.value = 0;
+      }
+
+      // Re-sync periodically during long exposures
+      if (remainingTime % 30 === 0) {
+        timeSync.ensureSync();
+      }
+      
       await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
     }
   }

@@ -425,6 +425,17 @@ onMounted(() => {
   }
 });
 
+// Watcher für Belichtungsstart
+watch(
+  () => store.cameraInfo.IsExposing,
+  (isExposing, wasExposing) => {
+    if (isExposing && !wasExposing && store.cameraInfo.ExposureEndTime) {
+      // Belichtung hat gerade gestartet
+      cameraStore.updateCountdown();
+    }
+  }
+);
+
 onBeforeUnmount(() => {
   window.removeEventListener('orientationchange', handleOrientationChange);
   window.removeEventListener('resize', handleOrientationChange);

@@ -292,7 +292,7 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
     const folderName = `${folderPrefix}-${currentDate}`;
 
     const timeString = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-    
+
     if (imageDate === '0000-00-00') {
       fileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;
     } else {
@@ -520,7 +520,7 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         const now = new Date();
         const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
         const timeString = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
-        
+
         let fallbackFileName;
         if (imageDate === '0000-00-00') {
           fallbackFileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;

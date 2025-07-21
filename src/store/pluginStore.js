@@ -63,7 +63,7 @@ export const usePluginStore = defineStore('pluginStore', {
 
         // Store current user settings before updating
         const userSettings = new Map();
-        this.plugins.forEach(plugin => {
+        this.plugins.forEach((plugin) => {
           userSettings.set(plugin.id, { enabled: plugin.enabled });
         });
 
@@ -72,15 +72,17 @@ export const usePluginStore = defineStore('pluginStore', {
 
         // Register metadata for all discovered plugins
         console.log('Loading plugins metadata:', pluginsMetadata);
-        pluginsMetadata.forEach((metadata) => {
+        pluginsMetadata.forEach((metadata, index) => {
           // Check if user had previous settings for this plugin
           const userSetting = userSettings.get(metadata.id);
-          const newPlugin = { 
+          const newPlugin = {
             ...metadata,
             // Use user setting if available, otherwise default to false for first load
-            enabled: userSetting !== undefined ? userSetting.enabled : false
+            enabled: userSetting !== undefined ? userSetting.enabled : false,
+            // Generate plugin path based on index
+            pluginPath: `/plugin${index + 1}`,
           };
-          
+
           this.plugins.push(newPlugin);
           console.log('Added plugin:', newPlugin);
         });

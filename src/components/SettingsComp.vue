@@ -192,17 +192,10 @@
           </div>
           <div class="flex items-center gap-3 ml-4">
             <span class="text-xs text-gray-500">v{{ plugin.version }}</span>
-            <button
-              @click="togglePlugin(plugin.id, !plugin.enabled)"
-              :class="[
-                'px-3 py-1 rounded-md text-sm font-medium transition-colors',
-                plugin.enabled
-                  ? 'bg-green-600 hover:bg-green-500 text-white'
-                  : 'bg-gray-600 hover:bg-gray-500 text-white',
-              ]"
-            >
-              {{ plugin.enabled ? 'Enabled' : 'Disabled' }}
-            </button>
+            <ToggleButton
+              :statusValue="plugin.enabled"
+              @update:statusValue="(value) => togglePlugin(plugin.id, value)"
+            />
           </div>
         </div>
       </div>
@@ -328,6 +321,7 @@ import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
 import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
+import ToggleButton from '@/components/helpers/toggleButton.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

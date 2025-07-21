@@ -81,8 +81,9 @@ export const usePluginStore = defineStore('pluginStore', {
           if (metadata.enabled || (userSetting !== undefined && userSetting.enabled)) {
             const newPlugin = {
               ...metadata,
-              // Always default to false for new plugins, only use user setting if it exists
-              enabled: userSetting !== undefined ? userSetting.enabled : false,
+              // Use user setting if available, otherwise use defaultEnabled from metadata
+              enabled:
+                userSetting !== undefined ? userSetting.enabled : metadata.defaultEnabled || false,
               // Generate plugin path based on actual plugins added
               pluginPath: `/plugin${pluginIndex}`,
             };

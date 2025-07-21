@@ -361,11 +361,9 @@ onMounted(async () => {
   console.log('Settings mounted - plugins:', pluginStore.plugins);
   console.log('Settings mounted - isInitialized:', pluginStore.isInitialized);
 
-  // Ensure plugins are loaded
-  if (!pluginStore.isInitialized) {
-    await pluginStore.loadAndRegisterPlugins();
-    console.log('After manual load - plugins:', pluginStore.plugins);
-  }
+  // Ensure plugins are loaded (force reload to catch metadata changes)
+  await pluginStore.loadAndRegisterPlugins(true);
+  console.log('After manual load - plugins:', pluginStore.plugins);
 });
 
 watchEffect(() => {

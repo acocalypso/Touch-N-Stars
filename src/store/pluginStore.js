@@ -54,8 +54,8 @@ export const usePluginStore = defineStore('pluginStore', {
       this._router = router;
     },
 
-    async loadAndRegisterPlugins() {
-      if (this.isInitialized) return;
+    async loadAndRegisterPlugins(forceReload = false) {
+      if (this.isInitialized && !forceReload) return;
 
       try {
         // Load all plugins metadata first
@@ -72,19 +72,27 @@ export const usePluginStore = defineStore('pluginStore', {
 
         // Register metadata for all discovered plugins
         console.log('Loading plugins metadata:', pluginsMetadata);
-        pluginsMetadata.forEach((metadata, index) => {
-          // Check if user had previous settings for this plugin
+        let pluginIndex = 1;
+        pluginsMetadata.forEach((metadata) => {
+          // Skip plugins that are disabled in metadata (unless user has enabled them)
           const userSetting = userSettings.get(metadata.id);
-          const newPlugin = {
-            ...metadata,
-            // Use user setting if available, otherwise default to false for first load
-            enabled: userSetting !== undefined ? userSetting.enabled : false,
-            // Generate plugin path based on index
-            pluginPath: `/plugin${index + 1}`,
-          };
+          
+          // Only add plugin if it's enabled in metadata OR user has previously enabled it
+          if (metadata.enabled || (userSetting !== undefined && userSetting.enabled)) {
+            const newPlugin = {
+              ...metadata,
+              // Always default to false for new plugins, only use user setting if it exists
+              enabled: userSetting !== undefined ? userSetting.enabled : false,
+              // Generate plugin path based on actual plugins added
+              pluginPath: `/plugin${pluginIndex}`,
+            };
 
-          this.plugins.push(newPlugin);
-          console.log('Added plugin:', newPlugin);
+            this.plugins.push(newPlugin);
+            console.log('Added plugin:', newPlugin);
+            pluginIndex++;
+          } else {
+            console.log('Skipped disabled plugin:', metadata.id);
+          }
         });
 
         console.log('Final plugins array:', this.plugins);

@@ -76,7 +76,7 @@ export const usePluginStore = defineStore('pluginStore', {
         pluginsMetadata.forEach((metadata) => {
           // Skip plugins that are disabled in metadata (unless user has enabled them)
           const userSetting = userSettings.get(metadata.id);
-          
+
           // Only add plugin if it's enabled in metadata OR user has previously enabled it
           if (metadata.enabled || (userSetting !== undefined && userSetting.enabled)) {
             const newPlugin = {

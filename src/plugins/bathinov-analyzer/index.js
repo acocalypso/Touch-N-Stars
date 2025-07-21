@@ -17,11 +17,11 @@ export default {
       meta: { requiresSetup: true },
     });
 
-    // Register plugin metadata
-    pluginStore.registerPlugin(metadata);
-
-    // Add navigation item if the plugin is enabled
-    if (metadata.enabled) {
+    // Get current plugin state from store
+    const currentPlugin = pluginStore.plugins.find(p => p.id === metadata.id);
+    
+    // Add navigation item if the plugin is enabled in the store
+    if (currentPlugin && currentPlugin.enabled) {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
         path: '/bathinov-analyzer',

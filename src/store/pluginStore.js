@@ -61,21 +61,31 @@ export const usePluginStore = defineStore('pluginStore', {
         // Load all plugins metadata first
         const pluginsMetadata = await loadAllPluginsMetadata();
 
-        // Register metadata for all discovered plugins
-        pluginsMetadata.forEach((metadata) => {
-          // Check if we already have this plugin registered
-          const existingPlugin = this.plugins.find((p) => p.id === metadata.id);
-
-          if (existingPlugin) {
-            // Update existing plugin with new metadata but preserve enabled status
-            const wasEnabled = existingPlugin.enabled;
-            Object.assign(existingPlugin, metadata);
-            existingPlugin.enabled = wasEnabled;
-          } else {
-            // Add new plugin
-            this.plugins.push(metadata);
-          }
+        // Store current user settings before updating
+        const userSettings = new Map();
+        this.plugins.forEach(plugin => {
+          userSettings.set(plugin.id, { enabled: plugin.enabled });
         });
+
+        // Clear plugins array and reload with fresh metadata
+        this.plugins = [];
+
+        // Register metadata for all discovered plugins
+        console.log('Loading plugins metadata:', pluginsMetadata);
+        pluginsMetadata.forEach((metadata) => {
+          // Check if user had previous settings for this plugin
+          const userSetting = userSettings.get(metadata.id);
+          const newPlugin = { 
+            ...metadata,
+            // Use user setting if available, otherwise default to false for first load
+            enabled: userSetting !== undefined ? userSetting.enabled : false
+          };
+          
+          this.plugins.push(newPlugin);
+          console.log('Added plugin:', newPlugin);
+        });
+
+        console.log('Final plugins array:', this.plugins);
 
         this.isInitialized = true;
       } catch (error) {
@@ -135,7 +145,7 @@ export const usePluginStore = defineStore('pluginStore', {
       {
         key: 'plugin-store',
         storage: localStorage,
-        paths: ['plugins'],
+        paths: ['plugins', 'isInitialized'],
       },
     ],
   },

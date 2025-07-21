@@ -345,7 +345,7 @@ const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const languages = getAvailableLanguages();
 
 // Load stored settings on mount
-onMounted(() => {
+onMounted(async () => {
   // Set initial language from store
   locale.value = settingsStore.getLanguage();
   if (store.isBackendReachable) {
@@ -355,6 +355,16 @@ onMounted(() => {
       longitude.value = storedCoords.longitude;
       altitude.value = storedCoords.altitude || 0;
     }
+  }
+
+  // Debug plugin loading
+  console.log('Settings mounted - plugins:', pluginStore.plugins);
+  console.log('Settings mounted - isInitialized:', pluginStore.isInitialized);
+
+  // Ensure plugins are loaded
+  if (!pluginStore.isInitialized) {
+    await pluginStore.loadAndRegisterPlugins();
+    console.log('After manual load - plugins:', pluginStore.plugins);
   }
 });
 

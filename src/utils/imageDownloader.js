@@ -291,10 +291,12 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
     const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     const folderName = `${folderPrefix}-${currentDate}`;
 
-    fileName = `${filePrefix}-${imageDate}.jpg`;
-
+    const timeString = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+    
     if (imageDate === '0000-00-00') {
-      fileName = `${filePrefix}-${currentDate}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}.jpg`;
+      fileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;
+    } else {
+      fileName = `${filePrefix}-${imageDate}_${timeString}.jpg`;
     }
     const platform = Capacitor.getPlatform();
 
@@ -517,10 +519,13 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         // Ensure fileName is defined for fallback
         const now = new Date();
         const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-        let fallbackFileName = `${filePrefix}-${imageDate}.jpg`;
-
+        const timeString = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+        
+        let fallbackFileName;
         if (imageDate === '0000-00-00') {
-          fallbackFileName = `${filePrefix}-${currentDate}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}.jpg`;
+          fallbackFileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;
+        } else {
+          fallbackFileName = `${filePrefix}-${imageDate}_${timeString}.jpg`;
         }
 
         // For blob URLs, we need a different approach

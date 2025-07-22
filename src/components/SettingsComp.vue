@@ -153,7 +153,7 @@
 
     <!-- Plugin Management -->
     <div
-      v-if="store.isBackendReachable && settingsStore.showPlugins"
+      v-if="store.isBackendReachable "
       class="bg-gray-800 rounded-lg p-4"
     >
       <h3 class="text-lg font-semibold text-white mb-4">

@@ -6,7 +6,6 @@ export const useSettingsStore = defineStore('settings', {
     language: 'en',
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
     showDebugConsole: false,
-    showPlugins: true, // Control plugin visibility
     showSpecial: false,
     coordinates: {
       latitude: null,

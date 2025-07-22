@@ -231,7 +231,7 @@
     </template>
     <template #body>
       <div>
-        <MoveFocuser  class="w-full" />
+        <MoveFocuser class="w-full" />
         <ButtonsFastChangePositon class="pt-2" />
       </div>
     </template>

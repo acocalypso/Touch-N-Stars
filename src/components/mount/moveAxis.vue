@@ -1,6 +1,8 @@
 <template>
   <div v-if="mountStore.wsIsConnected">
-    <div class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid">
+    <div
+      class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid"
+    >
       <!-- Obere Reihe (Nord) -->
       <div></div>
       <button
@@ -243,12 +245,12 @@ onBeforeUnmount(() => {
     gap: 0.5rem;
     padding: 0.5rem;
   }
-  
+
   .move-axis-icon {
     width: 2.25rem; /* w-9 */
     height: 2.25rem; /* h-9 */
   }
-  
+
   .btn {
     padding: 0.375rem;
   }

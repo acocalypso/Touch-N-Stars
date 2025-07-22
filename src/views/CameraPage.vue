@@ -232,7 +232,7 @@
     </template>
     <template #body>
       <div>
-        <MoveFocuser />
+        <MoveFocuser  class="w-full" />
         <ButtonsFastChangePositon class="pt-2" />
       </div>
     </template>

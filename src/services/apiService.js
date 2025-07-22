@@ -427,12 +427,10 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/sequence/${action}`);
   },
 
-  async sequenceLoadJson(sequnecJson) {
+  async sequenceLoadJson(sequenceName) {
     try {
       const { BASE_URL } = getUrls();
-      const response = await axios.post(`${BASE_URL}/sequence/load`, {
-        sequnecJson,
-      });
+      const response = await axios.post(`${BASE_URL}/sequence/load`, sequenceName);
       console.log('seqence loaded :', response.data);
       return response.data;
     } catch (error) {

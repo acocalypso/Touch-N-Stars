@@ -178,7 +178,6 @@
     </div>
   </div>
 
-  <!-- Modals mit Drag-Hinweisen - ohne z-index Props -->
   <ModalTransparanet :show="showMount" @close="showMount = false">
     <template #header>
       <div class="flex items-center justify-between w-full">
@@ -232,7 +231,7 @@
     </template>
     <template #body>
       <div>
-        <MoveFocuser class="w-full" />
+        <MoveFocuser  class="w-full" />
         <ButtonsFastChangePositon class="pt-2" />
       </div>
     </template>

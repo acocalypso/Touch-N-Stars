@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.10.0] - xxxx-xx-xx
+## [1.1.0.0] - 2025-07-25
 ### Added
 - PHD2 setting support. You can now set many PHD2 parameters, such as exposure time, aggression, ...
 - Display of the current `targetName` if a sequence item with status `RUNNING` exists.
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Warning if the Locatoin Sync in NINA does not match TNS and the possibility to change this
 - A window to set the camera's exposure time more quickly
 - GuiderStatus component showing current guider state with visual indicators and multilingual support
+- Added sequence load to load sequences into the advanced sequence. Load a sequence from the default sequence folder 
 
 ### Changed
 - the coordinates for framing are no longer set at startup. This means that it is no longer necessary to switch to the framing tab in NINA

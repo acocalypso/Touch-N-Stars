@@ -21,7 +21,9 @@
           </button>
         </div>
         <!-- Body -->
-        <div class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin">
+        <div
+          class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin modal-content"
+        >
           <slot name="body">
             <p>Standard-Inhalt</p>
           </slot>
@@ -147,5 +149,19 @@ watch(
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background-color: #4a5568;
   border-radius: 20px;
+}
+
+/* Modal Content Höhe im Landscape-Modus */
+@media screen and (orientation: landscape) {
+  .modal-content {
+    max-height: 90vh;
+  }
+}
+
+/* Für sehr kleine Bildschirme */
+@media screen and (max-height: 600px) {
+  .modal-content {
+    max-height: 95vh;
+  }
 }
 </style>

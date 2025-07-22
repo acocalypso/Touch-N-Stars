@@ -373,5 +373,16 @@ export const useSequenceStore = defineStore('sequenceStore', {
         return false;
       }
     },
+
+    async fetchAvailableSequences() {
+      try {
+        const response = await apiService.sequenceAction('list-available');
+        console.log('Available sequences:', response.Response);
+        return response;
+      } catch (error) {
+        console.error('Error fetching available sequences:', error);
+        throw error;
+      }
+    },
   },
 });

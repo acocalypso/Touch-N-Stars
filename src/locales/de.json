@@ -213,6 +213,15 @@
       "resetSequence": "Sequenz zurücksetzen",
       "resetConfirmationTitle": "Zurücksetzen bestätigen",
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "load_sequence": "Sequenz laden",
+      "refresh_sequences": "Sequenzen aktualisieren",
+      "select_sequence": "Sequenz auswählen",
+      "choose_sequence": "Sequenz wählen...",
+      "no_sequences_found": "Keine Sequenzen gefunden",
+      "sequences_loaded": "Sequenzen geladen",
+      "error_loading_sequences": "Fehler beim Laden der Sequenzen",
+      "sequence_loaded_successfully": "Sequenz '{name}' erfolgreich geladen",
+      "error_loading_sequence": "Fehler beim Laden der Sequenz: {error}",
       "exposures": "Belichtungen",
       "exposureTime": "Belichtungszeit",
       "filter": "Filter",
@@ -264,7 +273,8 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit"
+      "time": "Zeit",
+      "select_sequence": "Select sequence"
     },
     "mount": {
       "title": "Montierung",

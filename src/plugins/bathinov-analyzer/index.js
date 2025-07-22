@@ -10,21 +10,22 @@ export default {
     const pluginStore = usePluginStore();
     const router = options.router;
 
-    // Register route
+    // Get current plugin state from store
+    const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
+    const pluginPath = currentPlugin ? currentPlugin.pluginPath : '/plugin1';
+
+    // Register route with generic plugin path
     router.addRoute({
-      path: '/bathinov-analyzer',
+      path: pluginPath,
       component: BathinovAnalyzerView,
       meta: { requiresSetup: true },
     });
 
-    // Register plugin metadata
-    pluginStore.registerPlugin(metadata);
-
-    // Add navigation item if the plugin is enabled
-    if (metadata.enabled) {
+    // Add navigation item if the plugin is enabled in the store
+    if (currentPlugin && currentPlugin.enabled) {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
-        path: '/bathinov-analyzer',
+        path: pluginPath,
         icon: BathinovIcon, // Use the SVG component as the icon
         title: metadata.name,
       });

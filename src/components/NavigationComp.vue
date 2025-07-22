@@ -5,18 +5,6 @@
   >
     <div class="nav-content items-center scrollbar-hide" :class="contentClasses">
       <div class="nav-items-wrapper" :class="wrapperClasses">
-        <!-- Plugin navigation items first -->
-        <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
-          <router-link
-            :to="item.path"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="item.title"
-          >
-            <component :is="item.icon" class="icon force-visible" />
-          </router-link>
-        </div>
-
         <div v-if="store.isBackendReachable">
           <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
             <LinkIcon class="icon force-visible" />
@@ -197,7 +185,7 @@
         </div>
 
         <!-- Fixed Sequence Button -->
-        <div v-if="sequenceStore.sequenceIsLoaded">
+        <div>
           <router-link
             to="/sequence"
             class="nav-button touch-target"
@@ -276,8 +264,19 @@
             <SparklesIcon class="icon force-visible" />
           </router-link>
         </div>
+        <!-- Plugin navigation items first -->
+        <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
+          <router-link
+            :to="item.path"
+            class="nav-button"
+            active-class="active-nav-button"
+            :title="item.title"
+          >
+            <component :is="item.icon" class="icon force-visible" />
+          </router-link>
+        </div>
 
-        <!-- Fixed Settings Button -->
+        <!--  Settings Button -->
         <button
           @click="store.showSettings = true"
           @touchstart.passive="handleTouchStart"
@@ -288,7 +287,7 @@
           <Cog6ToothIcon class="icon force-visible" />
         </button>
 
-        <!-- Fixed About Button -->
+        <!--  About Button -->
         <button
           @click="showAboutModal = true"
           @touchstart.passive="handleTouchStart"
@@ -424,6 +423,17 @@ onMounted(() => {
     cameraStore.updateCountdown();
   }
 });
+
+// Watcher für Belichtungsstart
+watch(
+  () => store.cameraInfo.IsExposing,
+  (isExposing, wasExposing) => {
+    if (isExposing && !wasExposing && store.cameraInfo.ExposureEndTime) {
+      // Belichtung hat gerade gestartet
+      cameraStore.updateCountdown();
+    }
+  }
+);
 
 onBeforeUnmount(() => {
   window.removeEventListener('orientationchange', handleOrientationChange);

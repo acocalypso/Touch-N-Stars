@@ -152,10 +152,7 @@
     </div>
 
     <!-- Plugin Management -->
-    <div
-      v-if="store.isBackendReachable && settingsStore.showPlugins"
-      class="bg-gray-800 rounded-lg p-4"
-    >
+    <div v-if="store.isBackendReachable && false" class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">
         {{ $t('components.settings.plugins.title') }}
       </h3>
@@ -192,17 +189,10 @@
           </div>
           <div class="flex items-center gap-3 ml-4">
             <span class="text-xs text-gray-500">v{{ plugin.version }}</span>
-            <button
-              @click="togglePlugin(plugin.id, !plugin.enabled)"
-              :class="[
-                'px-3 py-1 rounded-md text-sm font-medium transition-colors',
-                plugin.enabled
-                  ? 'bg-green-600 hover:bg-green-500 text-white'
-                  : 'bg-gray-600 hover:bg-gray-500 text-white',
-              ]"
-            >
-              {{ plugin.enabled ? 'Enabled' : 'Disabled' }}
-            </button>
+            <ToggleButton
+              :statusValue="plugin.enabled"
+              @update:statusValue="(value) => togglePlugin(plugin.id, value)"
+            />
           </div>
         </div>
       </div>
@@ -328,6 +318,7 @@ import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
 import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
+import ToggleButton from '@/components/helpers/toggleButton.vue';
 
 const router = useRouter();
 const { locale } = useI18n();
@@ -345,7 +336,7 @@ const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const languages = getAvailableLanguages();
 
 // Load stored settings on mount
-onMounted(() => {
+onMounted(async () => {
   // Set initial language from store
   locale.value = settingsStore.getLanguage();
   if (store.isBackendReachable) {
@@ -356,6 +347,14 @@ onMounted(() => {
       altitude.value = storedCoords.altitude || 0;
     }
   }
+
+  // Debug plugin loading
+  console.log('Settings mounted - plugins:', pluginStore.plugins);
+  console.log('Settings mounted - isInitialized:', pluginStore.isInitialized);
+
+  // Ensure plugins are loaded (force reload to catch metadata changes)
+  await pluginStore.loadAndRegisterPlugins(true);
+  console.log('After manual load - plugins:', pluginStore.plugins);
 });
 
 watchEffect(() => {

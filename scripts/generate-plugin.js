@@ -60,7 +60,8 @@ rl.question('Plugin name: ', (name) => {
         description,
         version: '1.0.0',
         author,
-        enabled: false
+        defaultEnabled: false, //initial value for the first load
+        enabled: true //Plugin is completely hidden
       };
       
       createFile(
@@ -156,9 +157,17 @@ export default {
       console.log(`Plugin "${name}" created successfully!`);
       console.log(`Location: src/plugins/${id}/`);
       console.log('');
-      console.log('====================================');
+      console.log('Regenerating plugin registry...');
       
-      rl.close();
+      // Import and run the plugin registry generator
+      import('./generate-plugin-registry.js').then(() => {
+        console.log('Plugin registry updated!');
+        console.log('====================================');
+        rl.close();
+      }).catch((error) => {
+        console.error('Error updating plugin registry:', error);
+        rl.close();
+      });
     });
   });
 });

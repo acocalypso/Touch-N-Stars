@@ -54,28 +54,49 @@ export const usePluginStore = defineStore('pluginStore', {
       this._router = router;
     },
 
-    async loadAndRegisterPlugins() {
-      if (this.isInitialized) return;
+    async loadAndRegisterPlugins(forceReload = false) {
+      if (this.isInitialized && !forceReload) return;
 
       try {
         // Load all plugins metadata first
         const pluginsMetadata = await loadAllPluginsMetadata();
 
-        // Register metadata for all discovered plugins
-        pluginsMetadata.forEach((metadata) => {
-          // Check if we already have this plugin registered
-          const existingPlugin = this.plugins.find((p) => p.id === metadata.id);
+        // Store current user settings before updating
+        const userSettings = new Map();
+        this.plugins.forEach((plugin) => {
+          userSettings.set(plugin.id, { enabled: plugin.enabled });
+        });
 
-          if (existingPlugin) {
-            // Update existing plugin with new metadata but preserve enabled status
-            const wasEnabled = existingPlugin.enabled;
-            Object.assign(existingPlugin, metadata);
-            existingPlugin.enabled = wasEnabled;
+        // Clear plugins array and reload with fresh metadata
+        this.plugins = [];
+
+        // Register metadata for all discovered plugins
+        console.log('Loading plugins metadata:', pluginsMetadata);
+        let pluginIndex = 1;
+        pluginsMetadata.forEach((metadata) => {
+          // Skip plugins that are disabled in metadata (unless user has enabled them)
+          const userSetting = userSettings.get(metadata.id);
+
+          // Only add plugin if it's enabled in metadata OR user has previously enabled it
+          if (metadata.enabled || (userSetting !== undefined && userSetting.enabled)) {
+            const newPlugin = {
+              ...metadata,
+              // Use user setting if available, otherwise use defaultEnabled from metadata
+              enabled:
+                userSetting !== undefined ? userSetting.enabled : metadata.defaultEnabled || false,
+              // Generate plugin path based on actual plugins added
+              pluginPath: `/plugin${pluginIndex}`,
+            };
+
+            this.plugins.push(newPlugin);
+            console.log('Added plugin:', newPlugin);
+            pluginIndex++;
           } else {
-            // Add new plugin
-            this.plugins.push(metadata);
+            console.log('Skipped disabled plugin:', metadata.id);
           }
         });
+
+        console.log('Final plugins array:', this.plugins);
 
         this.isInitialized = true;
       } catch (error) {
@@ -135,7 +156,7 @@ export const usePluginStore = defineStore('pluginStore', {
       {
         key: 'plugin-store',
         storage: localStorage,
-        paths: ['plugins'],
+        paths: ['plugins', 'isInitialized'],
       },
     ],
   },

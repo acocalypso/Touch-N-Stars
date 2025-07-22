@@ -27,7 +27,7 @@ const getBaseUrl = () => {
   initializeStore();
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
-  let port = settingsStore.connection.port || window.location.port || 5000;
+  let port = settingsStore.connection.port || window.location.port || 80;
   const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
@@ -91,6 +91,12 @@ const apiService = {
       }
       return null;
     }
+  },
+
+  //------------------------------------------- time -------------------------------------------------
+  async fetchNinaTime() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/time`);
   },
 
   //------------------------------------- PHD2 ------------------------------------------
@@ -419,6 +425,18 @@ const apiService = {
       );
     }
     return this._simpleGetRequest(`${BASE_URL}/sequence/${action}`);
+  },
+
+  async sequenceLoadJson(sequenceName) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.post(`${BASE_URL}/sequence/load`, sequenceName);
+      console.log('seqence loaded :', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error seqence json load:', error);
+      throw error;
+    }
   },
 
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0

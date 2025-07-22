@@ -53,9 +53,11 @@ import { useLogStore } from '@/store/logStore';
 import { useI18n } from 'vue-i18n';
 import { formatTime } from '@/utils/utils';
 import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
+import { apiStore } from '@/store/store';
 
 const { t } = useI18n();
 const logStore = useLogStore();
+const store = apiStore();
 const isModalOpen = ref(false);
 let lastProcessedTimestamp = new Date();
 const lastCenterMessages = ref([]);
@@ -162,7 +164,24 @@ watch(
             threshold: match[11],
           };
           centeringSeparation.value = centeringData;
+          console.log('Centering distance ' , centeringData.distance)
           message = t('components.slewAndCenter.slew_modal.center_Repeat');
+
+          const distanceMatch = centeringData.distance.match(/(\d+)°\s*(\d+)'\s*(\d+)"/);
+          if (distanceMatch) {
+            const degrees = parseInt(distanceMatch[1]);
+            const arcminutes = parseInt(distanceMatch[2]);
+            const arcseconds = parseInt(distanceMatch[3]);
+            const totalArcseconds = degrees * 3600 + arcminutes * 60 + arcseconds;
+            
+            console.log('distance arcseconds:', totalArcseconds);
+            
+            if (totalArcseconds < store.profileInfo.PlateSolveSettings.Threshold * 60) {
+              message = t('components.slewAndCenter.slew_modal.center_successful');
+              color = 'green';
+              centeringDone.value = true;
+            }
+          }
         }
       } else if (entry.message.includes('Starting Exposure')) {
         message = t('components.slewAndCenter.slew_modal.exposure_running');

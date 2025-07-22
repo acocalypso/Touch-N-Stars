@@ -164,7 +164,7 @@ watch(
             threshold: match[11],
           };
           centeringSeparation.value = centeringData;
-          console.log('Centering distance ' , centeringData.distance)
+          console.log('Centering distance ', centeringData.distance);
           message = t('components.slewAndCenter.slew_modal.center_Repeat');
 
           const distanceMatch = centeringData.distance.match(/(\d+)°\s*(\d+)'\s*(\d+)"/);
@@ -173,9 +173,9 @@ watch(
             const arcminutes = parseInt(distanceMatch[2]);
             const arcseconds = parseInt(distanceMatch[3]);
             const totalArcseconds = degrees * 3600 + arcminutes * 60 + arcseconds;
-            
+
             console.log('distance arcseconds:', totalArcseconds);
-            
+
             if (totalArcseconds < store.profileInfo.PlateSolveSettings.Threshold * 60) {
               message = t('components.slewAndCenter.slew_modal.center_successful');
               color = 'green';

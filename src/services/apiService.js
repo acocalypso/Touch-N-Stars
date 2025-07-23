@@ -289,6 +289,17 @@ const apiService = {
     }
   },
 
+  async getPhd2LockPosition() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-lock-position`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching PHD2 lock position:', error);
+      throw error;
+    }
+  },
+
   //------------------------------------- Fav Targets ------------------------------------------
 
   async getAllFavorites() {

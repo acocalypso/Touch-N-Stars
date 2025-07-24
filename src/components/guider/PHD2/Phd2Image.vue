@@ -1,67 +1,44 @@
 <template>
-  <!-- Modal Overlay -->
-  <div
-    v-if="show && imageUrl"
-    class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center"
-    style="z-index: 1000"
-    @click="$emit('close')"
+  <div 
+    v-if="show && imageUrl" 
+    class="absolute inset-0 w-full h-full"
+    style="z-index: 1"
   >
-    <!-- Modal Content -->
-    <div class="relative max-w-4xl max-h-[90vh] w-full h-full flex items-center justify-center p-4">
-      <!-- Close Button -->
-      <button
-        @click="$emit('close')"
-        class="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 transition-colors"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
-      </button>
+    <img
+      ref="imageElement"
+      :src="imageUrl"
+      class="w-full h-full object-contain object-top"
+      alt="PHD2 Live Image"
+      @load="onImageLoad"
+    />
 
-      <!-- PHD2 Image Container -->
-      <div v-if="imageUrl" class="relative max-w-full max-h-full" @click.stop>
-        <img
-          ref="imageElement"
-          :src="imageUrl"
-          class="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-          alt="PHD2 Live Image"
-          @load="onImageLoad"
-        />
+    <!-- Lock Position Overlay -->
+    <div
+      v-if="lockPosition && imageElement && imageDimensions.width > 0"
+      class="absolute inset-0 pointer-events-none"
+      :style="overlayStyle"
+    >
+      <div class="absolute border-2 border-green-500" :style="lockRectangleStyle"></div>
+    </div>
 
-        <!-- Lock Position Overlay -->
-        <div
-          v-if="lockPosition && imageElement && imageDimensions.width > 0"
-          class="absolute inset-0 pointer-events-none"
-          :style="overlayStyle"
-        >
-          <div class="absolute border-2 border-green-500" :style="lockRectangleStyle"></div>
-        </div>
-
-        <!-- Guiding Cross Overlay - Centered on Lock Position -->
-        <div
-          v-if="showGuidingCross && lockPosition && imageElement && imageDimensions.width > 0"
-          class="absolute inset-0 pointer-events-none"
-          :style="overlayStyle"
-        >
-          <!-- Vertical line -->
-          <div
-            class="absolute opacity-70"
-            :style="guidingCrossVerticalStyle"
-            :class="isCalibrating ? 'border-l-2 border-dashed border-green-500' : 'bg-green-500'"
-          ></div>
-          <!-- Horizontal line -->
-          <div
-            class="absolute opacity-70"
-            :style="guidingCrossHorizontalStyle"
-            :class="isCalibrating ? 'border-t-2 border-dashed border-green-500' : 'bg-green-500'"
-          ></div>
-        </div>
-      </div>
+    <!-- Guiding Cross Overlay -->
+    <div
+      v-if="showGuidingCross && lockPosition && imageElement && imageDimensions.width > 0"
+      class="absolute inset-0 pointer-events-none"
+      :style="overlayStyle"
+    >
+      <!-- Vertical line -->
+      <div
+        class="absolute opacity-70"
+        :style="guidingCrossVerticalStyle"
+        :class="isCalibrating ? 'border-l-2 border-dashed border-green-500' : 'bg-green-500'"
+      ></div>
+      <!-- Horizontal line -->
+      <div
+        class="absolute opacity-70"
+        :style="guidingCrossHorizontalStyle"
+        :class="isCalibrating ? 'border-t-2 border-dashed border-green-500' : 'bg-green-500'"
+      ></div>
     </div>
   </div>
 </template>
@@ -114,25 +91,47 @@ const onImageLoad = () => {
   }
 };
 
-// Computed styles for lock position overlay
+// Computed styles for lock position overlay (for object-contain object-top)
 const overlayStyle = computed(() => {
-  if (!imageElement.value) return {};
+  if (!imageElement.value || !imageDimensions.value.width) return {};
 
   const rect = imageElement.value.getBoundingClientRect();
+  const imageAspect = imageDimensions.value.width / imageDimensions.value.height;
+  const containerAspect = rect.width / rect.height;
+
+  let renderedWidth, renderedHeight, offsetX, offsetY;
+
+  if (containerAspect > imageAspect) {
+    // Container is wider than image - image is limited by height
+    renderedHeight = rect.height;
+    renderedWidth = renderedHeight * imageAspect;
+    offsetX = (rect.width - renderedWidth) / 2; // Horizontal centering
+    offsetY = 0; // object-top: aligned to top
+  } else {
+    // Container is taller than image - image is limited by width
+    renderedWidth = rect.width;
+    renderedHeight = renderedWidth / imageAspect;
+    offsetX = 0; // Full width
+    offsetY = 0; // object-top: aligned to top (no centering)
+  }
+
   return {
-    width: `${rect.width}px`,
-    height: `${rect.height}px`,
-    top: '0',
-    left: '0',
+    width: `${renderedWidth}px`,
+    height: `${renderedHeight}px`,
+    top: `${offsetY}px`,
+    left: `${offsetX}px`,
   };
 });
 
 const lockRectangleStyle = computed(() => {
   if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
 
-  const rect = imageElement.value.getBoundingClientRect();
-  const scaleX = rect.width / imageDimensions.value.width;
-  const scaleY = rect.height / imageDimensions.value.height;
+  const overlay = overlayStyle.value;
+  const renderedWidth = parseFloat(overlay.width);
+  const renderedHeight = parseFloat(overlay.height);
+  
+  const scaleX = renderedWidth / imageDimensions.value.width;
+  const scaleY = renderedHeight / imageDimensions.value.height;
 
   // Lock position rectangle (typically 15x15 pixels around lock position)
   const rectSize = 30; // 30x30 pixel rectangle
@@ -153,31 +152,35 @@ const lockRectangleStyle = computed(() => {
 const guidingCrossVerticalStyle = computed(() => {
   if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
 
-  const rect = imageElement.value.getBoundingClientRect();
-  const scaleX = rect.width / imageDimensions.value.width;
-
+  const overlay = overlayStyle.value;
+  const renderedWidth = parseFloat(overlay.width);
+  const renderedHeight = parseFloat(overlay.height);
+  
+  const scaleX = renderedWidth / imageDimensions.value.width;
   const centerX = lockPosition.value.X * scaleX;
 
   return {
     left: `${centerX - 1}px`,
     top: '0px',
     width: '2px',
-    height: `${rect.height}px`,
+    height: `${renderedHeight}px`,
   };
 });
 
 const guidingCrossHorizontalStyle = computed(() => {
   if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
 
-  const rect = imageElement.value.getBoundingClientRect();
-  const scaleY = rect.height / imageDimensions.value.height;
-
+  const overlay = overlayStyle.value;
+  const renderedWidth = parseFloat(overlay.width);
+  const renderedHeight = parseFloat(overlay.height);
+  
+  const scaleY = renderedHeight / imageDimensions.value.height;
   const centerY = lockPosition.value.Y * scaleY;
 
   return {
     left: '0px',
     top: `${centerY - 1}px`,
-    width: `${rect.width}px`,
+    width: `${renderedWidth}px`,
     height: '2px',
   };
 });

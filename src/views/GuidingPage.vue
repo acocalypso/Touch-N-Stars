@@ -1,106 +1,246 @@
 <template>
-  <div class="container flex items-center justify-center relative">
-    <!-- PHD2 Modal Image -->
-    <Phd2Image
-      v-if="guiderStore.phd2Connection?.IsConnected"
-      :show="showPhd2Image"
-      @close="showPhd2Image = false"
-    />
+  <div class="overflow-hidden" :style="containerStyle">
+    <!-- PHD2 Image Background -->
+    <div v-if="guiderStore.phd2Connection?.IsConnected" class="absolute inset-0 w-full h-full">
+      <Phd2Image :show="true" class="opacity-70" />
+    </div>
 
-    <div class="container max-w-3xl relative" style="z-index: 10">
-      <h5 class="text-xl text-center font-bold text-white mb-4">
-        {{ $t('components.guider.title') }}
-      </h5>
+    <!-- Overlay Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full p-4">
       <div
         v-if="!store.guiderInfo.Connected"
-        class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+        class="p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm"
       >
         <p class="text-red-400 font-medium text-center">
           {{ $t('components.guider.notConnected') }}
         </p>
       </div>
-      <div v-else>
-        <!-- Wenn verbunden dann hier der Inhalt -->
-        <div
-          class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
-        >
-          <ControlGuider />
-          <div v-if="guiderStore.phd2Connection?.IsConnected" class="flex gap-2">
-            <button
-              @click="showPhd2Image = !showPhd2Image"
-              class="default-button-gray"
-              :title="showPhd2Image ? 'Hide PHD2 Image' : 'Show PHD2 Image'"
-            >
-              <svg
-                class="w-7 h-7 text-gray-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <rect x="3" y="6" width="18" height="12" rx="2" ry="2" stroke-width="2"></rect>
-                <!-- Vertical line of cross (off-center, thinner) -->
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1"
-                  d="M10 8v8"
-                ></path>
-                <!-- Horizontal line of cross (off-center, thinner) -->
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="1"
-                  d="M6 11h12"
-                ></path>
-              </svg>
-            </button>
-            <button @click="openSettings = true" class="default-button-gray">
-              <Cog6ToothIcon class="w-full h-7 text-gray-300" />
-            </button>
 
-            <Modal :show="openSettings" @close="openSettings = false">
-              <template #header>
-                <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
+      <div v-else class="flex flex-col items-center space-y-4">
+        <!-- Control Buttons -->
+        <div class="flex gap-3">
+          <!-- Start/Stop Button -->
+          <button
+            @click="toggleGuiding"
+            :class="guidingButtonClass"
+            :disabled="isProcessing || store.guiderInfo.State === 'Calibrating'"
+            class="px-8 py-4 rounded-lg font-semibold transition-all duration-200 backdrop-blur-sm shadow-lg min-w-[140px]"
+          >
+            <span class="flex items-center justify-center space-x-2">
+              <template v-if="store.guiderInfo.State === 'Guiding'">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <rect x="6" y="4" width="4" height="16" rx="1" />
+                  <rect x="14" y="4" width="4" height="16" rx="1" />
+                </svg>
+                <span>{{ $t('components.guider.stop') }}</span>
               </template>
-
-              <template #body>
-                <!-- Beliebiger Inhalt hier -->
-                <div
-                  v-if="store.guiderInfo.DeviceId === 'PHD2_Single'"
-                  class="flex flex-col gap-1 mt-2 w-full"
+              <template v-else-if="store.guiderInfo.State === 'Calibrating'">
+                <svg
+                  class="animate-spin w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <Phd2Settings />
-                </div>
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" />
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                <span>{{ $t('components.guider.status.calibrating') }}</span>
               </template>
-            </Modal>
-          </div>
+              <template v-else-if="isProcessing">
+                <svg
+                  class="animate-spin w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" />
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                <span>{{ $t('components.guider.running') }}</span>
+              </template>
+              <template v-else>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
+                <span>{{ $t('components.guider.start') }}</span>
+              </template>
+            </span>
+          </button>
+
+          <!-- Settings Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected"
+            @click="openSettings = true"
+            class="px-6 py-4 bg-gray-700/80 hover:bg-gray-600/80 text-gray-300 rounded-lg backdrop-blur-sm shadow-lg transition-all duration-200"
+          >
+            <Cog6ToothIcon class="w-6 h-6" />
+          </button>
         </div>
 
-        <!-- Status Component -->
-        <div class="mt-4">
-          <GuiderStatus />
+        <!-- Status Display -->
+        <div class="px-4 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
+          <div class="flex items-center gap-3">
+            <div class="status-indicator" :class="statusClasses">
+              <div class="status-dot"></div>
+            </div>
+            <span class="text-sm font-medium" :class="statusTextClasses">
+              {{ statusText }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Settings Modal -->
+    <Modal :show="openSettings" @close="openSettings = false">
+      <template #header>
+        <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
+      </template>
+      <template #body>
+        <div
+          v-if="store.guiderInfo.DeviceId === 'PHD2_Single'"
+          class="flex flex-col gap-1 mt-2 w-full"
+        >
+          <Phd2Settings />
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
-import ControlGuider from '@/components/guider/ControlGuider.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Phd2Image from '@/components/guider/PHD2/Phd2Image.vue';
 import Modal from '@/components/helpers/Modal.vue';
-import GuiderStatus from '@/components/guider/GuiderStatus.vue';
+import apiService from '@/services/apiService';
+import { useI18n } from 'vue-i18n';
+import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();
+const { isLandscape } = useOrientation();
+const { t: $t } = useI18n();
 const wasGraphVisible = ref(false);
 const openSettings = ref(false);
-const showPhd2Image = ref(false);
+const isProcessing = ref(false);
+
+const containerStyle = computed(() => {
+  if (isLandscape.value) {
+    // Landscape: Full viewport minus sidebar, go to bottom
+    return {
+      position: 'fixed',
+      top: '0',
+      left: '8rem', // Start after 128px sidebar
+      right: '0',
+      bottom: '0', // Go all the way to bottom
+      width: 'auto',
+      height: 'auto',
+    };
+  } else {
+    // Portrait: Full viewport minus navbar and status bar
+    return {
+      position: 'fixed',
+      top: '82px', // Start after navbar
+      left: '0',
+      right: '0',
+      bottom: 'calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem)', // Stop before status bar
+      width: 'auto',
+      height: 'auto',
+    };
+  }
+});
+
+// Status computed properties
+const statusText = computed(() => {
+  const state = store.guiderInfo?.State;
+  if (!state) return $t('components.guider.status.unknown');
+
+  switch (state) {
+    case 'Looping':
+      return $t('components.guider.status.looping');
+    case 'LostLock':
+      return $t('components.guider.status.lostLock');
+    case 'Guiding':
+      return $t('components.guider.status.guiding');
+    case 'Stopped':
+      return $t('components.guider.status.stopped');
+    case 'Calibrating':
+      return $t('components.guider.status.calibrating');
+    default:
+      return state;
+  }
+});
+
+const statusClasses = computed(() => {
+  const state = store.guiderInfo?.State;
+  return {
+    'status-guiding': state === 'Guiding',
+    'status-calibrating': state === 'Calibrating',
+    'status-looping': state === 'Looping',
+    'status-error': state === 'LostLock',
+    'status-stopped': state === 'Stopped',
+    'status-unknown': !state,
+  };
+});
+
+const statusTextClasses = computed(() => {
+  const state = store.guiderInfo?.State;
+  return {
+    'text-green-400': state === 'Guiding',
+    'text-blue-400': state === 'Calibrating',
+    'text-yellow-400': state === 'Looping',
+    'text-red-400': state === 'LostLock',
+    'text-gray-400': state === 'Stopped',
+    'text-gray-500': !state,
+  };
+});
+
+const guidingButtonClass = computed(() => {
+  const state = store.guiderInfo?.State;
+  const base = 'border-2 ';
+
+  if (state === 'Guiding') {
+    return base + 'bg-red-600/80 hover:bg-red-500/80 border-red-500 text-white';
+  } else if (state === 'Calibrating' || isProcessing.value) {
+    return base + 'bg-blue-600/60 border-blue-500 text-blue-200 cursor-not-allowed';
+  } else {
+    return base + 'bg-green-600/80 hover:bg-green-500/80 border-green-500 text-white';
+  }
+});
+
+// Toggle guiding function
+async function toggleGuiding() {
+  if (isProcessing.value) return;
+
+  isProcessing.value = true;
+  try {
+    const state = store.guiderInfo?.State;
+
+    if (state === 'Guiding') {
+      await apiService.guiderAction('stop');
+      console.log('Guider stopped');
+    } else {
+      await apiService.guiderAction('start');
+      console.log('Guider started');
+    }
+  } catch (error) {
+    console.error('Fehler beim Guiding Toggle:', error.response?.data || error);
+  } finally {
+    isProcessing.value = false;
+  }
+}
 
 onMounted(() => {
   wasGraphVisible.value = guiderStore.showGuiderGraph;
@@ -120,4 +260,38 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.status-indicator {
+  @apply relative w-4 h-4 rounded-full flex items-center justify-center;
+}
+
+.status-dot {
+  @apply w-3 h-3 rounded-full animate-pulse;
+}
+
+.status-guiding .status-dot {
+  @apply bg-green-500 shadow-lg shadow-green-500/50;
+}
+
+.status-calibrating .status-dot {
+  @apply bg-blue-500 shadow-lg shadow-blue-500/50;
+}
+
+.status-looping .status-dot {
+  @apply bg-yellow-500 shadow-lg shadow-yellow-500/50;
+}
+
+.status-error .status-dot {
+  @apply bg-red-500 shadow-lg shadow-red-500/50;
+}
+
+.status-stopped .status-dot {
+  @apply bg-gray-500 shadow-lg shadow-gray-500/50;
+  animation: none;
+}
+
+.status-unknown .status-dot {
+  @apply bg-gray-600 shadow-lg shadow-gray-600/50;
+  animation: none;
+}
+</style>

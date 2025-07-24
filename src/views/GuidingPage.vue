@@ -1,51 +1,33 @@
 <template>
   <div class="overflow-hidden" :style="containerStyle">
-    <!-- Control Buttons at Top -->
-    <div class="relative z-30 p-4" :class="buttonContainerClass">
-      <div
-        v-if="!store.guiderInfo.Connected"
-        class="p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm"
-      >
-        <p class="text-red-400 font-medium text-center">
-          {{ $t('components.guider.notConnected') }}
-        </p>
-      </div>
+    <!-- PHD2 Mode: New layout with image background -->
+    <template v-if="store.guiderInfo.DeviceId === 'PHD2_Single'">
+      <!-- Control Buttons at Top -->
+      <div class="relative z-30 p-4" :class="buttonContainerClass">
+        <div
+          v-if="!store.guiderInfo.Connected"
+          class="p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm"
+        >
+          <p class="text-red-400 font-medium text-center">
+            {{ $t('components.guider.notConnected') }}
+          </p>
+        </div>
 
-      <div v-else :class="buttonsClass">
+        <div v-else :class="buttonsClass">
           <!-- Start/Stop Button -->
           <button
             @click="toggleGuiding"
             :class="guidingButtonClass"
-            :disabled="isProcessing || store.guiderInfo.State === 'Calibrating'"
-            class="px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 backdrop-blur-sm shadow-lg min-w-[100px]"
+            :disabled="isProcessing"
+            class="px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
-            <span class="flex items-center justify-center space-x-1">
-              <template v-if="store.guiderInfo.State === 'Guiding'">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <rect x="6" y="4" width="4" height="16" rx="1" />
-                  <rect x="14" y="4" width="4" height="16" rx="1" />
-                </svg>
-                <span>{{ $t('components.guider.stop') }}</span>
-              </template>
-              <template v-else-if="store.guiderInfo.State === 'Calibrating'">
-                <svg
-                  class="animate-spin w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke-width="4" />
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                <span>Cal</span>
+            <span class="flex items-center justify-center">
+              <template v-if="store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'">
+                <StopIcon class="w-5 h-5" />
               </template>
               <template v-else-if="isProcessing">
                 <svg
-                  class="animate-spin w-4 h-4"
+                  class="animate-spin w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -54,16 +36,14 @@
                   <path
                     class="opacity-75"
                     fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                <span>...</span>
               </template>
               <template v-else>
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <polygon points="5,3 19,12 5,21" />
                 </svg>
-                <span>{{ $t('components.guider.start') }}</span>
               </template>
             </span>
           </button>
@@ -72,7 +52,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openSettings = true"
-            class="px-3 py-2 bg-gray-700/80 hover:bg-gray-600/80 text-gray-300 rounded-lg backdrop-blur-sm shadow-lg transition-all duration-200"
+            class="default-button-gray flex items-center justify-center"
           >
             <Cog6ToothIcon class="w-5 h-5" />
           </button>
@@ -92,9 +72,38 @@
     </div>
 
     <!-- PHD2 Image Background -->
-    <div v-if="guiderStore.phd2Connection?.IsConnected" class="absolute inset-0 w-full h-full" :style="imageStyle">
-      <Phd2Image :show="true" class="opacity-70" />
-    </div>
+      <div v-if="guiderStore.phd2Connection?.IsConnected" class="absolute inset-0 w-full h-full" :style="imageStyle">
+        <Phd2Image :show="true" class="opacity-70" />
+      </div>
+    </template>
+
+    <!-- Non-PHD2 Mode: Original layout -->
+    <template v-else>
+      <div class="container max-w-3xl mx-auto p-4">
+        <h5 class="text-xl text-center font-bold text-white mb-4">
+          {{ $t('components.guider.title') }}
+        </h5>
+        <div
+          v-if="!store.guiderInfo.Connected"
+          class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+        >
+          <p class="text-red-400 font-medium text-center">
+            {{ $t('components.guider.notConnected') }}
+          </p>
+        </div>
+        <div v-else>
+          <!-- Original control buttons layout -->
+          <div class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5">
+            <ControlGuider />
+          </div>
+
+          <!-- Status Component -->
+          <div class="mt-4">
+            <GuiderStatus />
+          </div>
+        </div>
+      </div>
+    </template>
 
     <!-- Settings Modal -->
     <Modal :show="openSettings" @close="openSettings = false">
@@ -117,16 +126,20 @@
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
-import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { useSettingsStore } from '@/store/settingsStore';
+import { Cog6ToothIcon, StopIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Phd2Image from '@/components/guider/PHD2/Phd2Image.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import ControlGuider from '@/components/guider/ControlGuider.vue';
+import GuiderStatus from '@/components/guider/GuiderStatus.vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();
+const settingsStore = useSettingsStore();
 const { isLandscape } = useOrientation();
 const { t: $t } = useI18n();
 const wasGraphVisible = ref(false);
@@ -238,14 +251,14 @@ const statusTextClasses = computed(() => {
 
 const guidingButtonClass = computed(() => {
   const state = store.guiderInfo?.State;
-  const base = 'border-2 ';
 
-  if (state === 'Guiding') {
-    return base + 'bg-red-600/80 hover:bg-red-500/80 border-red-500 text-white';
-  } else if (state === 'Calibrating' || isProcessing.value) {
-    return base + 'bg-blue-600/60 border-blue-500 text-blue-200 cursor-not-allowed';
+  // Show red for both Guiding and Calibrating states
+  if (state === 'Guiding' || state === 'Calibrating') {
+    return 'default-button-red';
+  } else if (isProcessing.value && state !== 'Calibrating') {
+    return 'default-button-blue';
   } else {
-    return base + 'bg-green-600/80 hover:bg-green-500/80 border-green-500 text-white';
+    return 'default-button-cyan';
   }
 });
 
@@ -257,12 +270,12 @@ async function toggleGuiding() {
   try {
     const state = store.guiderInfo?.State;
 
-    if (state === 'Guiding') {
+    if (state === 'Guiding' || state === 'Calibrating') {
       await apiService.guiderAction('stop');
       console.log('Guider stopped');
     } else {
-      await apiService.guiderAction('start');
-      console.log('Guider started');
+      await apiService.guiderStart(settingsStore.guider.phd2ForceCalibration);
+      console.log('Guider started', settingsStore.guider.phd2ForceCalibration ? 'with forced calibration' : 'without forced calibration');
     }
   } catch (error) {
     console.error('Fehler beim Guiding Toggle:', error.response?.data || error);

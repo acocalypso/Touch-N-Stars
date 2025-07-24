@@ -359,6 +359,7 @@
           "title": "PHD2 Error"
         },
         "profile": "Profilo",
+        "forceCalibration": "Forza calibrazione",
         "ra": {
           "MaxMove": "RA: Max move",
           "MinMove": "RA: Min move",

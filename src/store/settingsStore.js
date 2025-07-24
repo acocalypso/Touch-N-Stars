@@ -72,6 +72,9 @@ export const useSettingsStore = defineStore('settings', {
       atmosphereVisible: true,
       landscapesVisible: true,
     },
+    guider: {
+      phd2ForceCalibration: localStorage.getItem('phd2ForceCalibration') === 'true',
+    },
     instanceColorClasses: [
       'bg-gray-900/95',
       'bg-gray-800',
@@ -243,6 +246,11 @@ export const useSettingsStore = defineStore('settings', {
     togglePluginsVisibility() {
       this.showPlugins = !this.showPlugins;
     },
+
+    setPhd2ForceCalibration(value) {
+      this.guider.phd2ForceCalibration = value;
+      localStorage.setItem('phd2ForceCalibration', value);
+    },
   },
   persist: {
     enabled: true,
@@ -261,6 +269,7 @@ export const useSettingsStore = defineStore('settings', {
           'tutorial',
           'notifications',
           'showPlugins',
+          'guider',
         ],
       },
     ],

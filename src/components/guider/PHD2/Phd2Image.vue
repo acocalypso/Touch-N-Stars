@@ -100,7 +100,7 @@ const loadLockPosition = async () => {
       lockPosition.value = response.Response.LockPosition;
     }
   } catch (error) {
-    console.error('PHD2 Image: Failed to load lock position:', error);
+    console.log('PHD2 Image: Failed to load lock position:', error);
     lockPosition.value = null;
   }
 };

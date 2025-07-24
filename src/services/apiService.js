@@ -295,8 +295,7 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/get-lock-position`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching PHD2 lock position:', error);
-      throw error;
+      return { Success: false, Response: null };
     }
   },
 

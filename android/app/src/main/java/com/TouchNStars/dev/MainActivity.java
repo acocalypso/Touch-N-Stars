@@ -21,8 +21,8 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void configureWakeFeatures() {
-        // Keep screen on when the app is visible
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // Allow screen to turn off normally
+        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
         // For Android 10+ lock screen behavior
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O_MR1) {

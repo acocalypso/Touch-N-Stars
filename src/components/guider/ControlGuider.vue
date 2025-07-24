@@ -1,21 +1,24 @@
 <template>
-  <button class="default-button-cyan" @click="guiderStartStop('start')">
+  <button 
+    class="default-button-cyan" 
+    @click="guiderStartStop('start')"
+    :disabled="isProcessingStart || store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'"
+  >
     <span class="flex items-center justify-center space-x-2">
-      <span class="relative flex items-center">
-        <template v-if="!isProcessingStart">{{ $t('components.guider.start') }}</template>
+      <span class="flex items-center">
+        <template v-if="store.guiderInfo.State === 'Guiding'">
+          <span>{{ $t('components.guider.status.guiding') }}</span>
+        </template>
+        <template v-else-if="isProcessingStart">
+          <span>{{ $t('components.guider.running') }}</span>
+        </template>
         <template v-else>
-          <span class="mr-2">{{ $t('components.guider.running') }}</span>
-          <span class="absolute -right-5 flex h-3 w-3">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-200 opacity-75"
-            ></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-400"></span>
-          </span>
+          <span>{{ $t('components.guider.start') }}</span>
         </template>
       </span>
       <svg
-        v-if="store.guiderInfo.State == 'Guiding'"
-        class="animate-spin h-5 w-5 text-white ml-2"
+        v-if="store.guiderInfo.State === 'Guiding'"
+        class="animate-spin h-5 w-5 text-green-400 ml-2"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -36,25 +39,26 @@
       </svg>
     </span>
   </button>
-  <button class="default-button-blue" @click="guiderStartWithCal()">
+  <button 
+    class="default-button-blue" 
+    @click="guiderStartWithCal()"
+    :disabled="isProcessingStartWithCal || store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'"
+  >
     <span class="flex items-center justify-center space-x-2">
-      <span class="relative flex items-center">
-        <template v-if="!isProcessingStartWithCal">{{
-          $t('components.guider.startWithCal')
-        }}</template>
+      <span class="flex items-center">
+        <template v-if="store.guiderInfo.State === 'Calibrating'">
+          <span>{{ $t('components.guider.status.calibrating') }}</span>
+        </template>
+        <template v-else-if="isProcessingStartWithCal">
+          <span>{{ $t('components.guider.running') }}</span>
+        </template>
         <template v-else>
-          <span class="mr-2">{{ $t('components.guider.running') }}</span>
-          <span class="absolute -right-5 flex h-3 w-3">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-200 opacity-75"
-            ></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-400"></span>
-          </span>
+          <span>{{ $t('components.guider.startWithCal') }}</span>
         </template>
       </span>
       <svg
-        v-if="store.guiderInfo.State == 'Calibrating'"
-        class="animate-spin h-5 w-5 text-white ml-2"
+        v-if="store.guiderInfo.State === 'Calibrating'"
+        class="animate-spin h-5 w-5 text-blue-400 ml-2"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -75,7 +79,10 @@
       </svg>
     </span>
   </button>
-  <button class="default-button-red" @click="guiderStartStop('stop')">
+  <button 
+    class="default-button-red" 
+    @click="guiderStartStop('stop')"
+  >
     {{ $t('components.guider.stop') }}
   </button>
 </template>

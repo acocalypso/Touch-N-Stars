@@ -31,12 +31,27 @@
               class="default-button-gray"
               :title="showPhd2Image ? 'Hide PHD2 Image' : 'Show PHD2 Image'"
             >
-              <svg class="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                class="w-7 h-7 text-gray-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <rect x="3" y="6" width="18" height="12" rx="2" ry="2" stroke-width="2"></rect>
                 <!-- Vertical line of cross (off-center, thinner) -->
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M10 8v8"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                  d="M10 8v8"
+                ></path>
                 <!-- Horizontal line of cross (off-center, thinner) -->
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 11h12"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                  d="M6 11h12"
+                ></path>
               </svg>
             </button>
             <button @click="openSettings = true" class="default-button-gray">

@@ -152,33 +152,33 @@ const lockRectangleStyle = computed(() => {
 // Computed styles for guiding cross centered on lock position
 const guidingCrossVerticalStyle = computed(() => {
   if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
-  
+
   const rect = imageElement.value.getBoundingClientRect();
   const scaleX = rect.width / imageDimensions.value.width;
-  
+
   const centerX = lockPosition.value.X * scaleX;
-  
+
   return {
     left: `${centerX - 1}px`,
     top: '0px',
     width: '2px',
-    height: `${rect.height}px`
+    height: `${rect.height}px`,
   };
 });
 
 const guidingCrossHorizontalStyle = computed(() => {
   if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
-  
+
   const rect = imageElement.value.getBoundingClientRect();
   const scaleY = rect.height / imageDimensions.value.height;
-  
+
   const centerY = lockPosition.value.Y * scaleY;
-  
+
   return {
     left: '0px',
     top: `${centerY - 1}px`,
     width: `${rect.width}px`,
-    height: '2px'
+    height: '2px',
   };
 });
 

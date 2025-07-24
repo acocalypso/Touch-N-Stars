@@ -295,6 +295,13 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/get-lock-position`);
       return response.data;
     } catch (error) {
+      if (error.response && error.response.status === 500) {
+        console.error('Error fetching PHD2 lock position:', error);
+      } else if (error.response && error.response.status === 400) {
+        console.log('Bad request for PHD2 lock position:', error);
+      } else {
+        console.error('Error fetching PHD2 lock position:', error);
+      }
       return { Success: false, Response: null };
     }
   },

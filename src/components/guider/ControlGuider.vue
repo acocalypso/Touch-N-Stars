@@ -1,8 +1,12 @@
 <template>
-  <button 
-    class="default-button-cyan" 
+  <button
+    class="default-button-cyan"
     @click="guiderStartStop('start')"
-    :disabled="isProcessingStart || store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'"
+    :disabled="
+      isProcessingStart ||
+      store.guiderInfo.State === 'Guiding' ||
+      store.guiderInfo.State === 'Calibrating'
+    "
   >
     <span class="flex items-center justify-center space-x-2">
       <span class="flex items-center">
@@ -39,10 +43,14 @@
       </svg>
     </span>
   </button>
-  <button 
-    class="default-button-blue" 
+  <button
+    class="default-button-blue"
     @click="guiderStartWithCal()"
-    :disabled="isProcessingStartWithCal || store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'"
+    :disabled="
+      isProcessingStartWithCal ||
+      store.guiderInfo.State === 'Guiding' ||
+      store.guiderInfo.State === 'Calibrating'
+    "
   >
     <span class="flex items-center justify-center space-x-2">
       <span class="flex items-center">
@@ -79,10 +87,7 @@
       </svg>
     </span>
   </button>
-  <button 
-    class="default-button-red" 
-    @click="guiderStartStop('stop')"
-  >
+  <button class="default-button-red" @click="guiderStartStop('stop')">
     {{ $t('components.guider.stop') }}
   </button>
 </template>

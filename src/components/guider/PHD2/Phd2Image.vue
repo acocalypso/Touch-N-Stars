@@ -78,7 +78,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+defineEmits(['close']);
 
 const store = apiStore();
 const imageUrl = ref(null);

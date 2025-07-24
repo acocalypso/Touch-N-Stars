@@ -22,7 +22,11 @@
             class="px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
             <span class="flex items-center justify-center">
-              <template v-if="store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'">
+              <template
+                v-if="
+                  store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'
+                "
+              >
                 <StopIcon class="w-5 h-5" />
               </template>
               <template v-else-if="isProcessing">
@@ -52,27 +56,31 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openSettings = true"
-            class="default-button-gray flex items-center justify-center"
+            class="default-button-gray flex items-center justify-center px-3 py-3"
           >
             <Cog6ToothIcon class="w-5 h-5" />
           </button>
 
-        <!-- Status Display -->
-        <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
-          <div class="flex items-center gap-2">
-            <div class="status-indicator" :class="statusClasses">
-              <div class="status-dot"></div>
+          <!-- Status Display -->
+          <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
+            <div class="flex items-center gap-2">
+              <div class="status-indicator" :class="statusClasses">
+                <div class="status-dot"></div>
+              </div>
+              <span class="text-xs font-medium" :class="statusTextClasses">
+                {{ statusText }}
+              </span>
             </div>
-            <span class="text-xs font-medium" :class="statusTextClasses">
-              {{ statusText }}
-            </span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- PHD2 Image Background -->
-      <div v-if="guiderStore.phd2Connection?.IsConnected" class="absolute inset-0 w-full h-full" :style="imageStyle">
+      <!-- PHD2 Image Background -->
+      <div
+        v-if="guiderStore.phd2Connection?.IsConnected"
+        class="absolute inset-0 w-full h-full"
+        :style="imageStyle"
+      >
         <Phd2Image :show="true" class="opacity-70" />
       </div>
     </template>
@@ -93,7 +101,9 @@
         </div>
         <div v-else>
           <!-- Original control buttons layout -->
-          <div class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5">
+          <div
+            class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
+          >
             <ControlGuider />
           </div>
 
@@ -275,7 +285,12 @@ async function toggleGuiding() {
       console.log('Guider stopped');
     } else {
       await apiService.guiderStart(settingsStore.guider.phd2ForceCalibration);
-      console.log('Guider started', settingsStore.guider.phd2ForceCalibration ? 'with forced calibration' : 'without forced calibration');
+      console.log(
+        'Guider started',
+        settingsStore.guider.phd2ForceCalibration
+          ? 'with forced calibration'
+          : 'without forced calibration'
+      );
     }
   } catch (error) {
     console.error('Fehler beim Guiding Toggle:', error.response?.data || error);

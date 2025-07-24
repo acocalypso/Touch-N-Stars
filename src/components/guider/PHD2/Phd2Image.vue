@@ -1,9 +1,5 @@
 <template>
-  <div 
-    v-if="show && imageUrl" 
-    class="absolute inset-0 w-full h-full"
-    style="z-index: 1"
-  >
+  <div v-if="show && imageUrl" class="absolute inset-0 w-full h-full" style="z-index: 1">
     <img
       ref="imageElement"
       :src="imageUrl"
@@ -71,6 +67,12 @@ const isCalibrating = computed(() => store.guiderInfo?.State === 'Calibrating');
 const showGuidingCross = computed(() => isGuiding.value || isCalibrating.value);
 
 const loadLockPosition = async () => {
+  // Only fetch lock position when not stopped or lost lock
+  const currentState = store.guiderInfo?.State;
+  if (currentState === 'Stopped' || currentState === 'LostLock') {
+    return;
+  }
+
   try {
     const response = await apiService.getPhd2LockPosition();
     if (response?.Success && response?.Response?.LockPosition) {
@@ -129,7 +131,7 @@ const lockRectangleStyle = computed(() => {
   const overlay = overlayStyle.value;
   const renderedWidth = parseFloat(overlay.width);
   const renderedHeight = parseFloat(overlay.height);
-  
+
   const scaleX = renderedWidth / imageDimensions.value.width;
   const scaleY = renderedHeight / imageDimensions.value.height;
 
@@ -155,7 +157,7 @@ const guidingCrossVerticalStyle = computed(() => {
   const overlay = overlayStyle.value;
   const renderedWidth = parseFloat(overlay.width);
   const renderedHeight = parseFloat(overlay.height);
-  
+
   const scaleX = renderedWidth / imageDimensions.value.width;
   const centerX = lockPosition.value.X * scaleX;
 
@@ -173,7 +175,7 @@ const guidingCrossHorizontalStyle = computed(() => {
   const overlay = overlayStyle.value;
   const renderedWidth = parseFloat(overlay.width);
   const renderedHeight = parseFloat(overlay.height);
-  
+
   const scaleY = renderedHeight / imageDimensions.value.height;
   const centerY = lockPosition.value.Y * scaleY;
 

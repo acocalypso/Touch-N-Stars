@@ -1,12 +1,7 @@
 <template>
   <div class="overflow-hidden" :style="containerStyle">
-    <!-- PHD2 Image Background -->
-    <div v-if="guiderStore.phd2Connection?.IsConnected" class="absolute inset-0 w-full h-full">
-      <Phd2Image :show="true" class="opacity-70" />
-    </div>
-
-    <!-- Overlay Content -->
-    <div class="relative z-10 flex flex-col items-center justify-center h-full p-4">
+    <!-- Control Buttons at Top -->
+    <div class="relative z-30 p-4" :class="buttonContainerClass">
       <div
         v-if="!store.guiderInfo.Connected"
         class="p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm"
@@ -16,19 +11,17 @@
         </p>
       </div>
 
-      <div v-else class="flex flex-col items-center space-y-4">
-        <!-- Control Buttons -->
-        <div class="flex gap-3">
+      <div v-else :class="buttonsClass">
           <!-- Start/Stop Button -->
           <button
             @click="toggleGuiding"
             :class="guidingButtonClass"
             :disabled="isProcessing || store.guiderInfo.State === 'Calibrating'"
-            class="px-8 py-4 rounded-lg font-semibold transition-all duration-200 backdrop-blur-sm shadow-lg min-w-[140px]"
+            class="px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 backdrop-blur-sm shadow-lg min-w-[100px]"
           >
-            <span class="flex items-center justify-center space-x-2">
+            <span class="flex items-center justify-center space-x-1">
               <template v-if="store.guiderInfo.State === 'Guiding'">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <rect x="6" y="4" width="4" height="16" rx="1" />
                   <rect x="14" y="4" width="4" height="16" rx="1" />
                 </svg>
@@ -36,7 +29,7 @@
               </template>
               <template v-else-if="store.guiderInfo.State === 'Calibrating'">
                 <svg
-                  class="animate-spin w-5 h-5"
+                  class="animate-spin w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -48,11 +41,11 @@
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                <span>{{ $t('components.guider.status.calibrating') }}</span>
+                <span>Cal</span>
               </template>
               <template v-else-if="isProcessing">
                 <svg
-                  class="animate-spin w-5 h-5"
+                  class="animate-spin w-4 h-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -64,10 +57,10 @@
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   />
                 </svg>
-                <span>{{ $t('components.guider.running') }}</span>
+                <span>...</span>
               </template>
               <template v-else>
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                   <polygon points="5,3 19,12 5,21" />
                 </svg>
                 <span>{{ $t('components.guider.start') }}</span>
@@ -79,24 +72,28 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openSettings = true"
-            class="px-6 py-4 bg-gray-700/80 hover:bg-gray-600/80 text-gray-300 rounded-lg backdrop-blur-sm shadow-lg transition-all duration-200"
+            class="px-3 py-2 bg-gray-700/80 hover:bg-gray-600/80 text-gray-300 rounded-lg backdrop-blur-sm shadow-lg transition-all duration-200"
           >
-            <Cog6ToothIcon class="w-6 h-6" />
+            <Cog6ToothIcon class="w-5 h-5" />
           </button>
-        </div>
 
         <!-- Status Display -->
-        <div class="px-4 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
-          <div class="flex items-center gap-3">
+        <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
+          <div class="flex items-center gap-2">
             <div class="status-indicator" :class="statusClasses">
               <div class="status-dot"></div>
             </div>
-            <span class="text-sm font-medium" :class="statusTextClasses">
+            <span class="text-xs font-medium" :class="statusTextClasses">
               {{ statusText }}
             </span>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- PHD2 Image Background -->
+    <div v-if="guiderStore.phd2Connection?.IsConnected" class="absolute inset-0 w-full h-full" :style="imageStyle">
+      <Phd2Image :show="true" class="opacity-70" />
     </div>
 
     <!-- Settings Modal -->
@@ -158,6 +155,38 @@ const containerStyle = computed(() => {
       bottom: 'calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem)', // Stop before status bar
       width: 'auto',
       height: 'auto',
+    };
+  }
+});
+
+const buttonContainerClass = computed(() => {
+  if (isLandscape.value) {
+    return 'flex justify-end items-start'; // Right alignment in landscape
+  } else {
+    return 'flex justify-center items-center'; // Center in portrait
+  }
+});
+
+const buttonsClass = computed(() => {
+  if (isLandscape.value) {
+    return 'flex flex-col gap-3'; // Vertical layout in landscape
+  } else {
+    return 'flex items-center justify-center gap-3'; // Horizontal layout in portrait
+  }
+});
+
+const imageStyle = computed(() => {
+  if (isLandscape.value) {
+    // Landscape: Image starts from top, buttons overlay on top-right
+    return {
+      top: '0',
+      height: '100%',
+    };
+  } else {
+    // Portrait: Image starts below buttons
+    return {
+      top: '80px',
+      height: 'calc(100% - 80px)',
     };
   }
 });

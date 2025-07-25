@@ -21,25 +21,25 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void configureWakeFeatures() {
-        // Keep screen on when the app is visible
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        // Allow screen to turn off normally
+        // getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         
-        // For Android 10+ lock screen behavior
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O_MR1) {
-            setShowWhenLocked(true);
-            setTurnScreenOn(true);
-            
-            // For Android 10+, request to disable power button instant lock
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-                keyguardManager.requestDismissKeyguard(this, null);
-            }
-        } else {
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-            );
-        }
+        // Remove lock screen bypass - require normal unlock
+        // if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O_MR1) {
+        //     setShowWhenLocked(true);
+        //     setTurnScreenOn(true);
+        //     
+        //     // For Android 10+, request to disable power button instant lock
+        //     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+        //         KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        //         keyguardManager.requestDismissKeyguard(this, null);
+        //     }
+        // } else {
+        //     getWindow().addFlags(
+        //             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+        //             WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        //     );
+        // }
         
         // Request battery optimization exemption for long astronomy sessions
         requestBatteryOptimizationExemption();

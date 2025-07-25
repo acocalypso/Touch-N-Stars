@@ -19,6 +19,7 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2EquipmentProfiles: [],
     phd2CurrentEquipment: [],
     phd2IsConnected: false,
+    phd2StarInfo: null,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -72,6 +73,9 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
 
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
+
+        // StarInfo aus all-info Response extrahieren
+        this.phd2StarInfo = response1.Response.StarImage?.StarInfo || null;
 
         this.phd2CurrentEquipment = response2.Response.CurrentEquipment;
         this.phd2IsConnected =

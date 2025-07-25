@@ -361,6 +361,7 @@
           "title": "PhD2 Fehler"
         },
         "profile": "Profil",
+        "forceCalibration": "Kalibrierung erzwingen",
         "ra": {
           "MaxMove": "RA: Max move",
           "MinMove": "RA: Min move",

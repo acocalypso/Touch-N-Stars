@@ -276,6 +276,49 @@ const apiService = {
     }
   },
 
+  async getPhd2CurrentImage() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/current-image`, {
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching PHD2 current image:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2StarImage() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/star-image`, {
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching PHD2 star image:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2LockPosition() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-lock-position`);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 500) {
+        console.error('Error fetching PHD2 lock position:', error);
+      } else if (error.response && error.response.status === 400) {
+        console.log('Bad request for PHD2 lock position:', error);
+      } else {
+        console.error('Error fetching PHD2 lock position:', error);
+      }
+      return { Success: false, Response: null };
+    }
+  },
+
   //------------------------------------- Fav Targets ------------------------------------------
 
   async getAllFavorites() {

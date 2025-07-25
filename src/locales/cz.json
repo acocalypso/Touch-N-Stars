@@ -359,6 +359,7 @@
           "title": "PHD2 Chyba"
         },
         "profile": "Profil",
+        "forceCalibration": "Vynutit kalibraci",
         "ra": {
           "MaxMove": "RA: Max pohyb",
           "MinMove": "RA: Min pohyb",

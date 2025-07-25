@@ -289,6 +289,19 @@ const apiService = {
     }
   },
 
+  async getPhd2StarImage() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/star-image`, {
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching PHD2 star image:', error);
+      throw error;
+    }
+  },
+
   async getPhd2LockPosition() {
     try {
       const { API_URL } = getUrls();

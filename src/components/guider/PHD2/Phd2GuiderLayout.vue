@@ -50,6 +50,20 @@
           </span>
         </button>
 
+        <!-- Image Toggle Button -->
+        <button
+          v-if="guiderStore.phd2Connection?.IsConnected"
+          @click="showStarImage = !showStarImage"
+          :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
+          class="flex items-center justify-center px-3 py-3"
+          :title="showStarImage ? 'Show Full Image' : 'Show Star Image'"
+        >
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path v-if="!showStarImage" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            <path v-else d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+          </svg>
+        </button>
+
         <!-- Settings Button -->
         <button
           v-if="guiderStore.phd2Connection?.IsConnected"
@@ -79,7 +93,28 @@
       class="absolute inset-0 w-full h-full"
       :style="imageStyle"
     >
-      <Phd2Image :show="true" class="opacity-70" />
+      <Phd2Image v-if="!showStarImage" :show="true" class="opacity-70" />
+      <div v-else class="relative w-full h-full">
+        <!-- Flex Container für Star Image und Profile nebeneinander -->
+        <div class="absolute inset-0 flex items-center justify-center gap-4 p-4">
+          <!-- Star Image Container -->
+          <div class="flex-1 max-w-[45%] h-full flex items-center justify-center">
+            <div :style="starImageContainerStyle" class="relative bg-black/30 rounded border border-gray-600">
+              <Phd2Guidstar :show="true" class="opacity-90" />
+            </div>
+          </div>
+          
+          <!-- Star Profile Container -->
+          <div class="flex-1 max-w-[45%] h-full flex items-center justify-center">
+            <div :style="starProfileContainerStyle">
+              <Phd2StarProfile 
+                :containerWidth="containerSize.width" 
+                :containerHeight="containerSize.height" 
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Settings Modal -->
@@ -104,6 +139,8 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { Cog6ToothIcon, StopIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Phd2Image from '@/components/guider/PHD2/Phd2Image.vue';
+import Phd2Guidstar from '@/components/guider/PHD2/Phd2Guidstar.vue';
+import Phd2StarProfile from '@/components/guider/PHD2/Phd2StarProfile.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
@@ -116,6 +153,7 @@ const { isLandscape } = useOrientation();
 const { t: $t } = useI18n();
 const openSettings = ref(false);
 const isProcessing = ref(false);
+const showStarImage = ref(false);
 
 const containerStyle = computed(() => {
   if (isLandscape.value) {
@@ -174,6 +212,29 @@ const imageStyle = computed(() => {
     };
   }
 });
+
+// Responsive Größen für Star Image und Profile
+const containerSize = computed(() => {
+  if (isLandscape.value) {
+    // Landscape: Mehr Platz verfügbar
+    const size = Math.min(300, window.innerHeight * 0.4);
+    return { width: size, height: size };
+  } else {
+    // Portrait: Weniger Platz verfügbar
+    const size = Math.min(250, window.innerWidth * 0.4);
+    return { width: size, height: size };
+  }
+});
+
+const starImageContainerStyle = computed(() => ({
+  width: `${containerSize.value.width}px`,
+  height: `${containerSize.value.height}px`,
+}));
+
+const starProfileContainerStyle = computed(() => ({
+  width: `${containerSize.value.width}px`,
+  height: `${containerSize.value.height}px`,
+}));
 
 // Status computed properties
 const statusText = computed(() => {

@@ -95,22 +95,23 @@
     >
       <Phd2Image v-if="!showStarImage" :show="true" class="opacity-70" />
       <div v-else class="relative w-full h-full">
-        <!-- Flex Container für Star Image und Profile nebeneinander -->
-        <div class="absolute inset-0 flex items-center justify-center gap-4 p-4">
-          <!-- Star Image Container -->
-          <div class="flex-1 max-w-[45%] h-full flex items-center justify-center">
-            <div :style="starImageContainerStyle" class="relative bg-black/30 rounded border border-gray-600">
-              <Phd2Guidstar :show="true" class="opacity-90" />
-            </div>
-          </div>
-          
-          <!-- Star Profile Container -->
-          <div class="flex-1 max-w-[45%] h-full flex items-center justify-center">
-            <div :style="starProfileContainerStyle">
-              <Phd2StarProfile 
-                :containerWidth="containerSize.width" 
-                :containerHeight="containerSize.height" 
-              />
+        <!-- Container für Star Image und Profile im oberen Drittel -->
+        <div class="absolute inset-0 flex justify-center" :style="starMainContainerStyle">
+          <!-- Gemeinsamer Rahmen um beide Fenster -->
+          <div class="bg-black/60 border border-gray-400 rounded-lg shadow-2xl backdrop-blur-sm" :style="starFrameStyle">
+            <div class="flex p-2 gap-2">
+              <!-- Star Image Container -->
+              <div :style="starImageContainerStyle" class="relative bg-black/80 rounded border border-gray-600">
+                <Phd2Guidstar :show="true" class="opacity-95" />
+              </div>
+              
+              <!-- Star Profile Container -->
+              <div :style="starProfileContainerStyle" class="relative bg-black/80 rounded border border-gray-600 overflow-hidden">
+                <Phd2StarProfile 
+                  :containerWidth="containerSize.width" 
+                  :containerHeight="containerSize.height" 
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -213,17 +214,54 @@ const imageStyle = computed(() => {
   }
 });
 
-// Responsive Größen für Star Image und Profile
-const containerSize = computed(() => {
+// Verfügbarer Platz berechnen (berücksichtigt Navbar und möglichen Graph)
+const availableSpace = computed(() => {
   if (isLandscape.value) {
-    // Landscape: Mehr Platz verfügbar
-    const size = Math.min(300, window.innerHeight * 0.4);
-    return { width: size, height: size };
+    // Landscape: Sidebar links (128px), Platz für Buttons oben (80px)
+    const availableWidth = window.innerWidth - 128 - 40; // 40px für Padding
+    const availableHeight = window.innerHeight - 120; // 120px für Buttons + möglichen Graph
+    return { width: availableWidth, height: availableHeight };
   } else {
-    // Portrait: Weniger Platz verfügbar
-    const size = Math.min(250, window.innerWidth * 0.4);
-    return { width: size, height: size };
+    // Portrait: Navbar oben (82px), Status unten (36px + safe area), Platz für Buttons (80px)
+    const availableWidth = window.innerWidth - 40; // 40px für Padding
+    const availableHeight = window.innerHeight - 82 - 36 - 120; // Navbar + Status + Buttons + Graph
+    return { width: availableWidth, height: availableHeight };
   }
+});
+
+// Optimale Container-Größe basierend auf verfügbarem Platz
+const containerSize = computed(() => {
+  const { width: availWidth, height: availHeight } = availableSpace.value;
+  
+  if (isLandscape.value) {
+    // Landscape: Nebeneinander, jeder Container bekommt ~40% der verfügbaren Breite
+    const maxWidth = Math.floor(availWidth * 0.35);
+    const maxHeight = Math.floor(availHeight * 0.6);
+    const size = Math.min(maxWidth, maxHeight, 200); // Max 200px
+    return { width: Math.max(size, 150), height: Math.max(size, 150) }; // Min 150px
+  } else {
+    // Portrait: Nebeneinander aber kompakter
+    const maxWidth = Math.floor(availWidth * 0.35);
+    const maxHeight = Math.floor(availHeight * 0.5);
+    const size = Math.min(maxWidth, maxHeight, 170); // Max 170px
+    return { width: Math.max(size, 120), height: Math.max(size, 120) }; // Min 120px
+  }
+});
+
+// Layout-Styles für oberes Drittel mit gemeinsamen Rahmen
+const starMainContainerStyle = computed(() => ({
+  alignItems: 'flex-start',
+  paddingTop: isLandscape.value ? '20px' : '15px',
+}));
+
+const starFrameStyle = computed(() => {
+  const totalWidth = (containerSize.value.width * 2) + 8 + 16; // 2 Container + 8px Gap + 16px Padding
+  const totalHeight = containerSize.value.height + 16; // Container Höhe + 16px Padding
+  
+  return {
+    width: `${totalWidth}px`,
+    height: `${totalHeight}px`,
+  };
 });
 
 const starImageContainerStyle = computed(() => ({

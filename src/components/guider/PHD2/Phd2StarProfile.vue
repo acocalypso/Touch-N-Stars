@@ -1,38 +1,40 @@
 <template>
-  <div class="bg-black/70 backdrop-blur-sm rounded-lg p-3 text-white border border-gray-600">
+  <div class="w-full h-full flex flex-col text-white text-xs overflow-hidden">
     <!-- Header mit Star-Werten -->
-    <div class="mb-3">
-      <h3 class="text-sm font-semibold text-center mb-2">Star Profile</h3>
-      <div class="flex justify-between text-xs">
+    <div class="px-2 pt-1 pb-1 flex-shrink-0">
+      <h3 class="font-semibold text-center mb-1">Star Profile</h3>
+      <div class="flex justify-between">
         <span>SNR: <span :class="snrClass">{{ snrValue }}</span></span>
         <span>HFD: <span :class="hfdClass">{{ hfdValue }}</span></span>
       </div>
     </div>
     
     <!-- Star Profile Graph -->
-    <div class="relative">
-      <canvas 
-        ref="profileCanvas" 
-        :width="canvasWidth" 
-        :height="canvasHeight"
-        class="border border-gray-500 bg-black rounded"
-      ></canvas>
-      
-      <!-- Crosshair overlay -->
-      <div class="absolute inset-0 pointer-events-none">
-        <div 
-          class="absolute bg-green-400 opacity-50"
-          :style="crosshairVerticalStyle"
-        ></div>
-        <div 
-          class="absolute bg-green-400 opacity-50"
-          :style="crosshairHorizontalStyle"
-        ></div>
+    <div class="flex-1 flex items-center justify-center px-2">
+      <div class="relative">
+        <canvas 
+          ref="profileCanvas" 
+          :width="canvasWidth" 
+          :height="canvasHeight"
+          class="border border-gray-500 bg-black rounded"
+        ></canvas>
+        
+        <!-- Crosshair overlay -->
+        <div class="absolute inset-0 pointer-events-none">
+          <div 
+            class="absolute bg-green-400 opacity-50"
+            :style="crosshairVerticalStyle"
+          ></div>
+          <div 
+            class="absolute bg-green-400 opacity-50"
+            :style="crosshairHorizontalStyle"
+          ></div>
+        </div>
       </div>
     </div>
     
     <!-- Footer -->
-    <div class="text-xs text-gray-400 text-center mt-2">
+    <div class="px-2 pb-1 flex-shrink-0 text-gray-400 text-center">
       Mass: {{ massValue }}
     </div>
   </div>
@@ -66,9 +68,13 @@ const props = defineProps({
 
 // Canvas-Größe an Container anpassen
 const updateCanvasSize = () => {
-  // 80% der Container-Größe für Canvas verwenden (Platz für Padding)
-  canvasWidth.value = Math.max(150, props.containerWidth * 0.8);
-  canvasHeight.value = Math.max(120, props.containerHeight * 0.6);
+  // Exakte Berechnung für verfügbaren Platz
+  const availableWidth = props.containerWidth - 16; // 16px für seitliches Padding
+  const availableHeight = props.containerHeight - 50; // 50px für Header + Footer
+  
+  // Canvas soll genau in den verfügbaren Platz passen
+  canvasWidth.value = Math.max(100, availableWidth);
+  canvasHeight.value = Math.max(60, availableHeight);
 };
 
 const snrValue = computed(() => {

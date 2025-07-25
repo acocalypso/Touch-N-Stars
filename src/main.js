@@ -7,6 +7,7 @@ import './assets/tailwind.css';
 import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
+import { timeSync } from '@/utils/timeSync';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -46,4 +47,13 @@ app.use(pinia).use(head).use(i18n).use(router);
 
   // Mount the app after plugins are initialized
   app.mount('#app');
+
+  // Initialize time synchronization after app is mounted and stores are ready
+  setTimeout(async () => {
+    try {
+      await timeSync.initialize();
+    } catch (error) {
+      console.warn('Time sync initialization failed, will retry later:', error);
+    }
+  }, 1000);
 })();

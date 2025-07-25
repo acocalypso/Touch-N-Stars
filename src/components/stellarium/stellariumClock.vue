@@ -16,19 +16,37 @@
     @click.self="isDateTimeVisible = false"
   >
     <div
-      :class="modalClasses"
-      class="bg-black bg-opacity-90 backdrop-blur-sm p-4 rounded-lg shadow-lg text-gray-300 border border-gray-600"
+      :class="[
+        modalClasses,
+        {
+          'p-4': !isLandscape.value,
+          'p-3': isLandscape.value,
+        },
+      ]"
+      class="bg-black bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg text-gray-300 border border-gray-600"
     >
-      <h3 class="text-lg font-semibold mb-3">{{ $t('components.stellarium.datetime.title') }}</h3>
+      <h3
+        :class="{
+          'text-lg font-semibold mb-3': !isLandscape.value,
+          'text-base font-semibold mb-2': isLandscape.value,
+        }"
+      >
+        {{ $t('components.stellarium.datetime.title') }}
+      </h3>
 
       <!-- Content Grid - responsive layout -->
       <div :class="contentGridClasses">
         <!-- First Row: Date and Speed -->
-        <div class="space-y-3">
+        <div :class="{ 'space-y-3': !isLandscape.value, 'space-y-2': isLandscape.value }">
           <div>
-            <label class="block text-sm mb-1">{{
-              $t('components.stellarium.datetime.date')
-            }}</label>
+            <label
+              :class="{
+                'block text-sm mb-1': !isLandscape.value,
+                'block text-xs mb-1': isLandscape.value,
+              }"
+            >
+              {{ $t('components.stellarium.datetime.date') }}
+            </label>
             <input
               @blur="applyDateTime"
               @change="applyDateTime"
@@ -39,34 +57,56 @@
           </div>
         </div>
 
-        <div class="space-y-3">
+        <div :class="{ 'space-y-3': !isLandscape.value, 'space-y-2': isLandscape.value }">
           <div>
-            <label class="block text-sm mb-1">{{
-              $t('components.stellarium.datetime.speed')
-            }}</label>
-            <div class="flex items-center gap-2">
-              <input
-                type="range"
-                v-model="timeSpeed"
-                min="-10"
-                max="10"
-                step="1"
-                class="flex-1 h-2 bg-slate-800/40 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-cyan-500/40 backdrop-blur-sm"
-              />
-              <span class="text-xs font-mono w-12 text-right">{{ displayTimeSpeed }}</span>
+            <div class="flex items-center justify-between mb-1">
+              <label
+                :class="{
+                  'text-sm': !isLandscape.value,
+                  'text-xs': isLandscape.value,
+                }"
+              >
+                {{ $t('components.stellarium.datetime.speed') }}
+              </label>
+              <span
+                :class="{
+                  'text-sm font-mono': !isLandscape.value,
+                  'text-xs font-mono': isLandscape.value,
+                }"
+              >
+                {{ displayTimeSpeed }}
+              </span>
             </div>
-            <div class="mt-1 text-xs text-gray-300 text-center">
+            <input
+              type="range"
+              v-model="timeSpeed"
+              min="-10"
+              max="10"
+              step="1"
+              class="w-full h-2 bg-slate-800/40 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-cyan-500/40 backdrop-blur-sm"
+            />
+            <div
+              :class="{
+                'mt-1 text-xs text-gray-300 text-center': !isLandscape.value,
+                'mt-0.5 text-xs text-gray-300 text-center': isLandscape.value,
+              }"
+            >
               {{ timeSpeedDescription }}
             </div>
           </div>
         </div>
 
         <!-- Second Row: Time and Now Button -->
-        <div class="space-y-3">
+        <div :class="{ 'space-y-3': !isLandscape.value, 'space-y-2': isLandscape.value }">
           <div>
-            <label class="block text-sm mb-1">{{
-              $t('components.stellarium.datetime.time')
-            }}</label>
+            <label
+              :class="{
+                'block text-sm mb-1': !isLandscape.value,
+                'block text-xs mb-1': isLandscape.value,
+              }"
+            >
+              {{ $t('components.stellarium.datetime.time') }}
+            </label>
             <input
               @blur="applyDateTime"
               @change="applyDateTime"
@@ -77,13 +117,22 @@
           </div>
         </div>
 
-        <div class="space-y-3">
+        <div :class="{ 'space-y-3': !isLandscape.value, 'space-y-2': isLandscape.value }">
           <div>
-            <label class="block text-sm mb-1">&nbsp;</label>
+            <label
+              :class="{
+                'block text-sm mb-1': !isLandscape.value,
+                'block text-xs mb-1': isLandscape.value,
+              }"
+            >
+              &nbsp;
+            </label>
             <!-- Spacer for alignment -->
             <button
               @click="resetToCurrentTime"
-              class="w-full px-3 py-2 bg-slate-800/40 border border-slate-600/30 hover:bg-slate-700/60 hover:border-slate-500/50 rounded-lg shadow-md text-sm touch-manipulation transition-all duration-200 backdrop-blur-sm"
+              :class="{
+                'w-full px-3 py-2 bg-slate-800/40 border border-slate-600/30 hover:bg-slate-700/60 hover:border-slate-500/50 rounded-lg shadow-md text-sm touch-manipulation transition-all duration-200 backdrop-blur-sm': true,
+              }"
             >
               {{ $t('components.stellarium.datetime.now') }}
             </button>
@@ -121,19 +170,21 @@ const buttonClasses = computed(() => ({
 // Container positioning classes - adjusted for left navigation
 const containerClasses = computed(() => ({
   'items-center justify-center p-4': !isLandscape.value,
-  'items-start justify-start pl-32 pt-16': isLandscape.value, // Changed from pl-4 to pl-32 (8rem) to account for left navigation
+  'items-center justify-center pl-32 pr-4': isLandscape.value, // Center the modal better in landscape
 }));
 
 // Modal sizing classes
 const modalClasses = computed(() => ({
   'w-full max-w-sm sm:max-w-md mx-4': !isLandscape.value,
-  'w-96 max-h-[85vh] overflow-y-auto': isLandscape.value, // Wider for two columns
+  'w-[420px] max-w-[90vw]': isLandscape.value, // Optimized width, remove max-height to prevent scrolling
 }));
 
 // Content grid layout classes
 const contentGridClasses = computed(() => ({
   'space-y-3': !isLandscape.value, // Portrait: single column, vertical spacing
-  'grid grid-cols-2 gap-4': isLandscape.value, // Landscape: two columns with gap
+  'grid grid-cols-2': isLandscape.value, // Landscape: two columns
+  'gap-3': isLandscape.value && window.innerHeight > 600, // Normal gap for larger screens
+  'gap-2': isLandscape.value && window.innerHeight <= 600, // Smaller gap for smaller screens
 }));
 
 function updateTime() {
@@ -302,6 +353,29 @@ onBeforeUnmount(() => {
 
   .overflow-y-auto::-webkit-scrollbar-thumb:hover {
     background: rgba(6, 182, 212, 0.7);
+  }
+}
+
+/* Landscape mode optimizations */
+@media screen and (orientation: landscape) {
+  /* Make inputs more compact in landscape */
+  input[type='date'],
+  input[type='time'] {
+    padding: 0.375rem 0.75rem !important; /* Reduced padding */
+    font-size: 0.75rem !important; /* Smaller font */
+  }
+
+  /* Make buttons more compact */
+  button {
+    padding: 0.375rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Reduce grid gap further on small screens */
+  @media (max-height: 600px) {
+    .grid-cols-2 {
+      gap: 0.5rem !important;
+    }
   }
 }
 

@@ -44,6 +44,8 @@ export class TimeSync {
       }
     } catch (error) {
       console.error('Time sync failed:', error);
+      // If sync fails, we can still operate with client time
+      // Just log the error and continue
     }
     return false;
   }
@@ -63,7 +65,11 @@ export class TimeSync {
   async ensureSync() {
     const timeSinceLastSync = Date.now() - this.lastSyncTime;
     if (timeSinceLastSync > this.syncInterval) {
-      await this.syncWithServer();
+      try {
+        await this.syncWithServer();
+      } catch (error) {
+        console.warn('Auto-sync failed, continuing with client time:', error);
+      }
     }
   }
 
@@ -95,10 +101,22 @@ export class TimeSync {
     if (totalDuration <= 0) return 100;
     return Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
   }
+
+  /**
+   * Initialize time sync when the app is ready
+   * Should be called after Pinia stores are initialized
+   * @returns {Promise<void>}
+   */
+  async initialize() {
+    try {
+      await this.syncWithServer();
+    } catch (error) {
+      console.warn('Initial time sync failed, will retry automatically:', error);
+      // Even if initial sync fails, the timeSync can still work with client time
+      // and will attempt to sync again when ensureSync() is called
+    }
+  }
 }
 
 // Create a singleton instance
 export const timeSync = new TimeSync();
-
-// Auto-sync on module load
-timeSync.syncWithServer();

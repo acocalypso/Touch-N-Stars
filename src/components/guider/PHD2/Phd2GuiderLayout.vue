@@ -250,22 +250,6 @@ const imageStyle = computed(() => {
   }
 });
 
-// Verfügbarer Platz berechnen (berücksichtigt Navbar und möglichen Graph)
-const availableSpace = computed(() => {
-  if (isLandscape.value) {
-    // Landscape: Sidebar links (128px), Platz für Buttons oben (80px)
-    const availableWidth = window.innerWidth - 128 - 40; // 40px für Padding
-    const availableHeight = window.innerHeight - 120; // 120px für Buttons + möglichen Graph
-    return { width: availableWidth, height: availableHeight };
-  } else {
-    // Portrait: Navbar oben (82px), Status unten (36px + safe area), Platz für Buttons (80px)
-    const availableWidth = window.innerWidth - 40; // 40px für Padding
-    const availableHeight = window.innerHeight - 82 - 36 - 120; // Navbar + Status + Buttons + Graph
-    return { width: availableWidth, height: availableHeight };
-  }
-});
-
-
 // Responsive Größen für Star Components (unabhängig von Bildschirmgröße)
 const responsiveStarSize = computed(() => {
   // Beide Orientierungen: Horizontal nebeneinander oben

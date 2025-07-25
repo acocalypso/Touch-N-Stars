@@ -73,7 +73,7 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
 
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
-        
+
         // StarInfo aus all-info Response extrahieren
         this.phd2StarInfo = response1.Response.StarImage?.StarInfo || null;
 

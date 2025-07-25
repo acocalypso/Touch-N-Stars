@@ -59,8 +59,14 @@
           :title="showStarImage ? 'Hide Star Components' : 'Show Star Components'"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-            <path v-if="!showStarImage" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            <path v-else d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+            <path
+              v-if="!showStarImage"
+              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            />
+            <path
+              v-else
+              d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
+            />
           </svg>
         </button>
 
@@ -95,40 +101,52 @@
     >
       <!-- PHD2 Hintergrundbild immer sichtbar -->
       <Phd2Image :show="true" class="opacity-70" />
-      
+
       <!-- Star Components overlay (über Button ein-/ausblendbar) -->
       <div v-if="showStarImage" class="absolute inset-0">
         <div v-if="isLandscape" class="absolute inset-0">
           <!-- Star Components oben mittig -->
           <div class="p-4 flex gap-4 justify-center relative z-10" :style="landscapeContainerStyle">
             <!-- Star Image links -->
-            <div :style="responsiveStarImageStyle" class="relative bg-black/80 rounded border border-gray-600">
+            <div
+              :style="responsiveStarImageStyle"
+              class="relative bg-black/80 rounded border border-gray-600"
+            >
               <Phd2Guidstar :show="true" class="opacity-95" />
             </div>
-            
+
             <!-- Star Profile rechts -->
-            <div :style="responsiveStarProfileStyle" class="relative bg-black/80 rounded border border-gray-600 overflow-hidden">
-              <Phd2StarProfile 
-                :containerWidth="responsiveStarSize.width" 
-                :containerHeight="responsiveStarSize.height" 
+            <div
+              :style="responsiveStarProfileStyle"
+              class="relative bg-black/80 rounded border border-gray-600 overflow-hidden"
+            >
+              <Phd2StarProfile
+                :containerWidth="responsiveStarSize.width"
+                :containerHeight="responsiveStarSize.height"
               />
             </div>
           </div>
         </div>
-        
+
         <div v-else class="absolute inset-0">
           <!-- Star Components oben -->
           <div class="p-4 flex gap-4 justify-center relative z-10" :style="portraitContainerStyle">
             <!-- Star Image links -->
-            <div :style="responsiveStarImageStyle" class="relative bg-black/80 rounded border border-gray-600">
+            <div
+              :style="responsiveStarImageStyle"
+              class="relative bg-black/80 rounded border border-gray-600"
+            >
               <Phd2Guidstar :show="true" class="opacity-95" />
             </div>
-            
+
             <!-- Star Profile rechts -->
-            <div :style="responsiveStarProfileStyle" class="relative bg-black/80 rounded border border-gray-600 overflow-hidden">
-              <Phd2StarProfile 
-                :containerWidth="responsiveStarSize.width" 
-                :containerHeight="responsiveStarSize.height" 
+            <div
+              :style="responsiveStarProfileStyle"
+              class="relative bg-black/80 rounded border border-gray-600 overflow-hidden"
+            >
+              <Phd2StarProfile
+                :containerWidth="responsiveStarSize.width"
+                :containerHeight="responsiveStarSize.height"
               />
             </div>
           </div>
@@ -247,50 +265,6 @@ const availableSpace = computed(() => {
   }
 });
 
-// Optimale Container-Größe basierend auf verfügbarem Platz
-const containerSize = computed(() => {
-  const { width: availWidth, height: availHeight } = availableSpace.value;
-  
-  if (isLandscape.value) {
-    // Landscape: Nebeneinander, jeder Container bekommt ~40% der verfügbaren Breite
-    const maxWidth = Math.floor(availWidth * 0.35);
-    const maxHeight = Math.floor(availHeight * 0.6);
-    const size = Math.min(maxWidth, maxHeight, 200); // Max 200px
-    return { width: Math.max(size, 150), height: Math.max(size, 150) }; // Min 150px
-  } else {
-    // Portrait: Nebeneinander aber kompakter
-    const maxWidth = Math.floor(availWidth * 0.35);
-    const maxHeight = Math.floor(availHeight * 0.5);
-    const size = Math.min(maxWidth, maxHeight, 170); // Max 170px
-    return { width: Math.max(size, 120), height: Math.max(size, 120) }; // Min 120px
-  }
-});
-
-// Layout-Styles für oberes Drittel mit gemeinsamen Rahmen
-const starMainContainerStyle = computed(() => ({
-  alignItems: 'flex-start',
-  paddingTop: isLandscape.value ? '20px' : '15px',
-}));
-
-const starFrameStyle = computed(() => {
-  const totalWidth = (containerSize.value.width * 2) + 8 + 16; // 2 Container + 8px Gap + 16px Padding
-  const totalHeight = containerSize.value.height + 16; // Container Höhe + 16px Padding
-  
-  return {
-    width: `${totalWidth}px`,
-    height: `${totalHeight}px`,
-  };
-});
-
-const starImageContainerStyle = computed(() => ({
-  width: `${containerSize.value.width}px`,
-  height: `${containerSize.value.height}px`,
-}));
-
-const starProfileContainerStyle = computed(() => ({
-  width: `${containerSize.value.width}px`,
-  height: `${containerSize.value.height}px`,
-}));
 
 // Responsive Größen für Star Components (unabhängig von Bildschirmgröße)
 const responsiveStarSize = computed(() => {

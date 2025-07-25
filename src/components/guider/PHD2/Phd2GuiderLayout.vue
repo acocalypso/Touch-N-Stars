@@ -50,17 +50,17 @@
           </span>
         </button>
 
-        <!-- Image Toggle Button -->
+        <!-- Star Components Toggle Button -->
         <button
           v-if="guiderStore.phd2Connection?.IsConnected"
           @click="showStarImage = !showStarImage"
           :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
           class="flex items-center justify-center px-3 py-3"
-          :title="showStarImage ? 'Show Full Image' : 'Show Star Image'"
+          :title="showStarImage ? 'Hide Star Components' : 'Show Star Components'"
         >
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
             <path v-if="!showStarImage" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            <path v-else d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+            <path v-else d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
           </svg>
         </button>
 
@@ -93,25 +93,43 @@
       class="absolute inset-0 w-full h-full"
       :style="imageStyle"
     >
-      <Phd2Image v-if="!showStarImage" :show="true" class="opacity-70" />
-      <div v-else class="relative w-full h-full">
-        <!-- Container für Star Image und Profile im oberen Drittel -->
-        <div class="absolute inset-0 flex justify-center" :style="starMainContainerStyle">
-          <!-- Gemeinsamer Rahmen um beide Fenster -->
-          <div class="bg-black/60 border border-gray-400 rounded-lg shadow-2xl backdrop-blur-sm" :style="starFrameStyle">
-            <div class="flex p-2 gap-2">
-              <!-- Star Image Container -->
-              <div :style="starImageContainerStyle" class="relative bg-black/80 rounded border border-gray-600">
-                <Phd2Guidstar :show="true" class="opacity-95" />
-              </div>
-              
-              <!-- Star Profile Container -->
-              <div :style="starProfileContainerStyle" class="relative bg-black/80 rounded border border-gray-600 overflow-hidden">
-                <Phd2StarProfile 
-                  :containerWidth="containerSize.width" 
-                  :containerHeight="containerSize.height" 
-                />
-              </div>
+      <!-- PHD2 Hintergrundbild immer sichtbar -->
+      <Phd2Image :show="true" class="opacity-70" />
+      
+      <!-- Star Components overlay (über Button ein-/ausblendbar) -->
+      <div v-if="showStarImage" class="absolute inset-0">
+        <div v-if="isLandscape" class="absolute inset-0">
+          <!-- Star Components oben mittig -->
+          <div class="p-4 flex gap-4 justify-center relative z-10" :style="landscapeContainerStyle">
+            <!-- Star Image links -->
+            <div :style="responsiveStarImageStyle" class="relative bg-black/80 rounded border border-gray-600">
+              <Phd2Guidstar :show="true" class="opacity-95" />
+            </div>
+            
+            <!-- Star Profile rechts -->
+            <div :style="responsiveStarProfileStyle" class="relative bg-black/80 rounded border border-gray-600 overflow-hidden">
+              <Phd2StarProfile 
+                :containerWidth="responsiveStarSize.width" 
+                :containerHeight="responsiveStarSize.height" 
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div v-else class="absolute inset-0">
+          <!-- Star Components oben -->
+          <div class="p-4 flex gap-4 justify-center relative z-10" :style="portraitContainerStyle">
+            <!-- Star Image links -->
+            <div :style="responsiveStarImageStyle" class="relative bg-black/80 rounded border border-gray-600">
+              <Phd2Guidstar :show="true" class="opacity-95" />
+            </div>
+            
+            <!-- Star Profile rechts -->
+            <div :style="responsiveStarProfileStyle" class="relative bg-black/80 rounded border border-gray-600 overflow-hidden">
+              <Phd2StarProfile 
+                :containerWidth="responsiveStarSize.width" 
+                :containerHeight="responsiveStarSize.height" 
+              />
             </div>
           </div>
         </div>
@@ -272,6 +290,30 @@ const starImageContainerStyle = computed(() => ({
 const starProfileContainerStyle = computed(() => ({
   width: `${containerSize.value.width}px`,
   height: `${containerSize.value.height}px`,
+}));
+
+// Responsive Größen für Star Components (unabhängig von Bildschirmgröße)
+const responsiveStarSize = computed(() => {
+  // Beide Orientierungen: Horizontal nebeneinander oben
+  return { width: 200, height: 150 };
+});
+
+const responsiveStarImageStyle = computed(() => ({
+  width: `${responsiveStarSize.value.width}px`,
+  height: `${responsiveStarSize.value.height}px`,
+}));
+
+const responsiveStarProfileStyle = computed(() => ({
+  width: `${responsiveStarSize.value.width}px`,
+  height: `${responsiveStarSize.value.height}px`,
+}));
+
+const portraitContainerStyle = computed(() => ({
+  height: `${responsiveStarSize.value.height + 16}px`, // Höhe + Padding
+}));
+
+const landscapeContainerStyle = computed(() => ({
+  height: `${responsiveStarSize.value.height + 16}px`, // Höhe + Padding
 }));
 
 // Status computed properties

@@ -33,7 +33,7 @@ const routes = [
   { path: '/guider', component: GuidingPage, meta: { requiresSetup: true } },
   { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
   { path: '/dome', component: DomePage, meta: { requiresSetup: true } },
-  { path: '/settings', component: SettingsPage, meta: { requiresSetup: false } },
+  { path: '/settings', component: SettingsPage, meta: { requiresSetup: true } },
   { path: '/flat', component: FlatdevicePage, meta: { requiresSetup: true } },
   { path: '/seq-mon', component: SequenceMonitoring, meta: { requiresSetup: true } },
   { path: '/switch', component: SwitchPage, meta: { requiresSetup: true } },

@@ -28,7 +28,6 @@
       </div>
     </div>
 
-
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"

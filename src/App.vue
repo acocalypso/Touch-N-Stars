@@ -9,7 +9,9 @@
       </nav>
       <!-- Main content -->
       <div
-        v-if="!store.isBackendReachable && $route.path !== '/settings'"
+        v-if="
+          !store.isBackendReachable && settingsStore.setupCompleted && $route.path !== '/settings'
+        "
         class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
       >
         <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>

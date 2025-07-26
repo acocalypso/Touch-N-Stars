@@ -276,16 +276,18 @@
           </router-link>
         </div>
 
-        <!--  Settings Button -->
-        <button
-          @click="store.showSettings = true"
-          @touchstart.passive="handleTouchStart"
-          @touchend.passive="handleTouchEnd"
-          class="nav-button touch-target"
-          :class="{ 'active-nav-button': store.showSettings }"
-        >
-          <Cog6ToothIcon class="icon force-visible" />
-        </button>
+        <!--  Settings Link -->
+        <div>
+          <router-link
+            to="/settings"
+            class="nav-button touch-target"
+            active-class="active-nav-button"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
+          >
+            <Cog6ToothIcon class="icon force-visible" />
+          </router-link>
+        </div>
 
         <!--  About Button -->
         <button

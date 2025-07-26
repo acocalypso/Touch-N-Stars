@@ -69,6 +69,16 @@
           </svg>
         </button>
 
+        <!-- Calibration Assistant Button -->
+        <button
+          v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
+          @click="openCalibrationAssistant = true"
+          class="default-button-gray flex items-center justify-center px-3 py-3 text-xs font-bold"
+          :title="$t('components.guider.calibrationAssistant.title')"
+        >
+          CAL
+        </button>
+
         <!-- Settings Button -->
         <button
           v-if="guiderStore.phd2Connection?.IsConnected"
@@ -164,6 +174,12 @@
         </div>
       </template>
     </Modal>
+
+    <!-- Calibration Assistant Modal -->
+    <CalibrationAssistantModal
+      :show="openCalibrationAssistant"
+      @close="openCalibrationAssistant = false"
+    />
   </div>
 </template>
 
@@ -178,6 +194,7 @@ import Phd2Image from '@/components/guider/PHD2/Phd2Image.vue';
 import Phd2Guidstar from '@/components/guider/PHD2/Phd2Guidstar.vue';
 import Phd2StarProfile from '@/components/guider/PHD2/Phd2StarProfile.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import CalibrationAssistantModal from '@/components/guider/PHD2/CalibrationAssistantModal.vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
@@ -188,6 +205,7 @@ const settingsStore = useSettingsStore();
 const { isLandscape } = useOrientation();
 const { t: $t } = useI18n();
 const openSettings = ref(false);
+const openCalibrationAssistant = ref(false);
 const isProcessing = ref(false);
 const showStarImage = ref(false);
 

@@ -212,7 +212,7 @@ function handleVisibilityChange() {
 
     // Force UI refresh beim Resume
     routerViewKey.value = Date.now();
-    
+
     store.startFetchingInfo(t);
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {

@@ -20,7 +20,7 @@
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />
-        <router-view :key="orientation" />
+        <router-view :key="routerViewKey" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
@@ -210,6 +210,9 @@ function handleVisibilityChange() {
     // Setze Flag für kürzlich zurückgekehrte Seite
     store.setPageReturnedFromBackground();
 
+    // Force UI refresh beim Resume
+    routerViewKey.value = Date.now();
+    
     store.startFetchingInfo(t);
     logStore.startFetchingLog();
     if (!sequenceStore.sequenceEdit) {

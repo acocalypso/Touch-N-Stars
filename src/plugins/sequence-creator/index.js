@@ -1,6 +1,6 @@
 // Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
-import { h } from 'vue';
+import { h, markRaw } from 'vue';
 import DefaultPluginView from './views/DefaultPluginView.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
@@ -27,7 +27,7 @@ export default {
         pluginId: metadata.id,
         path: '/sequence-creator',
         // Sequence/workflow icon
-        icon: {
+        icon: markRaw({
           render() {
             return h(
               'svg',
@@ -47,7 +47,7 @@ export default {
               ]
             );
           },
-        },
+        }),
         title: metadata.name,
       });
     }

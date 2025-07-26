@@ -16,7 +16,6 @@
         <button
           @click="toggleGuiding"
           :class="guidingButtonClass"
-          :disabled="isProcessing"
           class="px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
         >
           <span class="flex items-center justify-center">
@@ -325,8 +324,6 @@ const guidingButtonClass = computed(() => {
   // Show red for both Guiding and Calibrating states
   if (state === 'Guiding' || state === 'Calibrating') {
     return 'default-button-red';
-  } else if (isProcessing.value && state !== 'Calibrating') {
-    return 'default-button-blue';
   } else {
     return 'default-button-cyan';
   }
@@ -334,8 +331,6 @@ const guidingButtonClass = computed(() => {
 
 // Toggle guiding function
 async function toggleGuiding() {
-  if (isProcessing.value) return;
-
   isProcessing.value = true;
   try {
     const state = store.guiderInfo?.State;

@@ -16,7 +16,6 @@
         <button
           @click="toggleGuiding"
           :class="guidingButtonClass"
-          :disabled="isProcessing"
           class="px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
         >
           <span class="flex items-center justify-center">
@@ -68,6 +67,16 @@
               d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
             />
           </svg>
+        </button>
+
+        <!-- Calibration Assistant Button -->
+        <button
+          v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
+          @click="openCalibrationAssistant = true"
+          class="default-button-gray flex items-center justify-center px-3 py-3 text-xs font-bold"
+          :title="$t('components.guider.calibrationAssistant.title')"
+        >
+          CAL
         </button>
 
         <!-- Settings Button -->
@@ -165,6 +174,12 @@
         </div>
       </template>
     </Modal>
+
+    <!-- Calibration Assistant Modal -->
+    <CalibrationAssistantModal
+      :show="openCalibrationAssistant"
+      @close="openCalibrationAssistant = false"
+    />
   </div>
 </template>
 
@@ -179,6 +194,7 @@ import Phd2Image from '@/components/guider/PHD2/Phd2Image.vue';
 import Phd2Guidstar from '@/components/guider/PHD2/Phd2Guidstar.vue';
 import Phd2StarProfile from '@/components/guider/PHD2/Phd2StarProfile.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import CalibrationAssistantModal from '@/components/guider/PHD2/CalibrationAssistantModal.vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
@@ -189,6 +205,7 @@ const settingsStore = useSettingsStore();
 const { isLandscape } = useOrientation();
 const { t: $t } = useI18n();
 const openSettings = ref(false);
+const openCalibrationAssistant = ref(false);
 const isProcessing = ref(false);
 const showStarImage = ref(false);
 
@@ -325,8 +342,6 @@ const guidingButtonClass = computed(() => {
   // Show red for both Guiding and Calibrating states
   if (state === 'Guiding' || state === 'Calibrating') {
     return 'default-button-red';
-  } else if (isProcessing.value && state !== 'Calibrating') {
-    return 'default-button-blue';
   } else {
     return 'default-button-cyan';
   }
@@ -334,8 +349,6 @@ const guidingButtonClass = computed(() => {
 
 // Toggle guiding function
 async function toggleGuiding() {
-  if (isProcessing.value) return;
-
   isProcessing.value = true;
   try {
     const state = store.guiderInfo?.State;

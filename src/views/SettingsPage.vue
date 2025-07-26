@@ -10,5 +10,4 @@
 
 <script setup>
 import SettingsComp from '@/components/SettingsComp.vue';
-
 </script>

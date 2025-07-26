@@ -64,14 +64,14 @@
         <button
           @click.stop="$emit('toggle-enabled', action.id)"
           :class="[
-            'p-1.5 rounded transition-colors',
+            'p-2 sm:p-1.5 rounded transition-colors min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center',
             action.enabled
               ? 'text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900'
               : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
           ]"
           :title="action.enabled ? 'Disable action' : 'Enable action'"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               v-if="action.enabled"
               stroke-linecap="round"
@@ -92,10 +92,10 @@
         <!-- Duplicate -->
         <button
           @click.stop="$emit('duplicate', action.id)"
-          class="p-1.5 rounded text-blue-600 hover:bg-blue-100 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors"
+          class="p-2 sm:p-1.5 rounded text-blue-600 hover:bg-blue-100 dark:text-blue-400 dark:hover:bg-blue-900 transition-colors min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center"
           title="Duplicate action"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -108,10 +108,10 @@
         <!-- Remove -->
         <button
           @click.stop="$emit('remove', action.id)"
-          class="p-1.5 rounded text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900 transition-colors"
+          class="p-2 sm:p-1.5 rounded text-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:bg-red-900 transition-colors min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center"
           title="Remove action"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -141,7 +141,7 @@
             :value="param.value"
             @input="updateParameter(key, $event.target.value)"
             type="text"
-            class="w-full px-2 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 sm:px-2 sm:py-1 text-sm sm:text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 min-h-[44px] sm:min-h-0"
           />
 
           <!-- Number Input -->
@@ -153,7 +153,7 @@
             :min="param.min"
             :max="param.max"
             :step="param.step || 1"
-            class="w-full px-2 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 sm:px-2 sm:py-1 text-sm sm:text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 min-h-[44px] sm:min-h-0"
           />
 
           <!-- Select Input -->
@@ -161,7 +161,7 @@
             v-else-if="param.type === 'select'"
             :value="param.value"
             @change="updateParameter(key, $event.target.value)"
-            class="w-full px-2 py-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 sm:px-2 sm:py-1 text-sm sm:text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 min-h-[44px] sm:min-h-0"
           >
             <option v-for="option in param.options" :key="option" :value="option">
               {{ option }}
@@ -171,15 +171,15 @@
           <!-- Boolean Input -->
           <label
             v-else-if="param.type === 'boolean'"
-            class="flex items-center space-x-2 cursor-pointer"
+            class="flex items-center space-x-3 cursor-pointer py-2"
           >
             <input
               :checked="param.value"
               @change="updateParameter(key, $event.target.checked)"
               type="checkbox"
-              class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+              class="w-5 h-5 sm:w-4 sm:h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
             />
-            <span class="text-xs text-gray-600 dark:text-gray-400">{{
+            <span class="text-sm sm:text-xs text-gray-600 dark:text-gray-400">{{
               param.label || 'Enabled'
             }}</span>
           </label>

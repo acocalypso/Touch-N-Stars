@@ -28,9 +28,21 @@
             {{ item.Name }}
             <span v-if="item['Common names']"> ({{ item['Common names'] }})</span>
             <span v-if="item['M']"> (M {{ item['M'] }})</span>
-            <span v-if="item.Type === 'Comet'" class="text-green-400"> (Komet)</span>
-            <span v-if="item.Type === 'Planet'" class="text-blue-400"> (Planet)</span>
-            <span v-if="item.Type === 'StellariumObject'" class="text-yellow-400"> (Objekt)</span>
+            <span v-if="item.Type === 'Comet'" class="text-green-400">
+              ({{ $t('components.framing.search.objectTypes.Comet') }})</span
+            >
+            <span v-if="item.Type === 'Planet'" class="text-blue-400">
+              ({{ $t('components.framing.search.objectTypes.Planet') }})</span
+            >
+            <span v-if="item.Type === 'StellariumObject'" class="text-yellow-400">
+              ({{ $t('components.framing.search.objectTypes.StellariumObject') }})</span
+            >
+            <span v-if="item.Type === 'Star'" class="text-orange-400">
+              ({{ $t('components.framing.search.objectTypes.Star') }})</span
+            >
+            <span v-if="item.Type === 'Moon'" class="text-gray-400">
+              ({{ $t('components.framing.search.objectTypes.Moon') }})</span
+            >
           </li>
         </ul>
       </div>
@@ -166,77 +178,16 @@ async function fetchTargetSearch() {
           }
         }
 
-        // Fallback: Bekannte Kometen hinzufügen wenn Stellarium-Suche fehlschlägt
-        if (stellariumResults.length === 0) {
-          console.log('No stellarium results, trying fallback comet list...');
-          
-          // Liste bekannter Kometen für Fallback
-          const knownComets = [
-            { name: 'C/2023 A3 (Tsuchinshan-ATLAS)', aliases: ['a3', 'tsuchinshan', 'atlas', '2023 a3', 'c/2023 a3'] },
-            { name: 'C/2021 A1 (Leonard)', aliases: ['leonard', '2021 a1', 'c/2021 a1'] },
-            { name: '1P/Halley', aliases: ['halley', '1p/halley', 'p/halley'] },
-            { name: 'C/2023 P1 (Nishimura)', aliases: ['nishimura', '2023 p1', 'c/2023 p1'] },
-            { name: 'C/2024 G3 (ATLAS)', aliases: ['2024 g3', 'c/2024 g3'] },
-            { name: 'C/2024 S1 (ATLAS)', aliases: ['2024 s1', 'c/2024 s1'] },
-            { name: '109P/Swift-Tuttle', aliases: ['swift-tuttle', '109p', 'swift tuttle'] },
-            { name: '55P/Tempel-Tuttle', aliases: ['tempel-tuttle', '55p', 'tempel tuttle'] },
-            { name: '81P/Wild', aliases: ['wild', '81p'] },
-          ];
-          
-          const searchLower = searchQuery.value.toLowerCase().trim();
-          
-          for (const comet of knownComets) {
-            // Prüfe ob der Suchbegriff im Namen oder in den Aliassen enthalten ist
-            const nameMatch = comet.name.toLowerCase().includes(searchLower);
-            const aliasMatch = comet.aliases.some(alias => 
-              alias.includes(searchLower) || searchLower.includes(alias)
-            );
-            
-            if (nameMatch || aliasMatch) {
-              console.log('Found fallback comet:', comet.name);
-              
-              // Versuche das Objekt in Stellarium zu finden
-              try {
-                let obj = null;
-                const searchVariants = [comet.name, `NAME ${comet.name}`];
-                
-                for (const variant of searchVariants) {
-                  try {
-                    obj = stellariumStore.stel.getObj(variant);
-                    if (obj) break;
-                  } catch (e) {
-                    // Weiter versuchen
-                  }
-                }
-                
-                stellariumResults.push({
-                  Name: comet.name,
-                  Type: 'Comet',
-                  StellariumObj: obj, // Kann null sein, wird dann als Koordinaten-Objekt behandelt
-                });
-              } catch (error) {
-                console.log('Could not find stellarium object for:', comet.name);
-                // Füge trotzdem hinzu, auch ohne Stellarium-Objekt
-                stellariumResults.push({
-                  Name: comet.name,
-                  Type: 'Comet',
-                  StellariumObj: null,
-                });
-              }
-            }
-          }
-        }
-        
         // Versuche auch direkte Suche mit Stellarium's Suchfunktion
         try {
           const comets = stellariumStore.stel.core.comets;
           console.log('Comets module available:', !!comets);
-          
+
           if (comets && comets.listObjs) {
             try {
               const cometList = comets.listObjs(stellariumStore.stel.core.observer, 20, () => true);
               console.log('Found comets with listObjs:', cometList.length);
-              
+
               for (const comet of cometList) {
                 if (comet.designations) {
                   const designations = comet.designations();
@@ -245,7 +196,7 @@ async function fetchTargetSearch() {
                     if (name.toLowerCase().includes(searchQuery.value.toLowerCase())) {
                       console.log('Found matching comet via listObjs:', name);
                       // Prüfe ob schon vorhanden
-                      const exists = stellariumResults.some(r => r.Name === name);
+                      const exists = stellariumResults.some((r) => r.Name === name);
                       if (!exists) {
                         stellariumResults.push({
                           Name: name,
@@ -323,9 +274,11 @@ async function selectTarget(item) {
       // Handle Comets without StellariumObj (fallback mode)
       if (item.Type === 'Comet' && !item.StellariumObj) {
         console.log('Fallback Comet (no stellarium object):', item.Name);
-        
+
         // Zeige eine Meldung, dass der Komet nicht gefunden wurde
-        alert(`Der Komet "${item.Name}" wurde in der aktuellen Stellarium-Datenbank nicht gefunden. Möglicherweise ist er nicht sichtbar oder die Daten sind nicht geladen.`);
+        alert(
+          `Der Komet "${item.Name}" wurde in der aktuellen Stellarium-Datenbank nicht gefunden. Möglicherweise ist er nicht sichtbar oder die Daten sind nicht geladen.`
+        );
         return;
       }
 

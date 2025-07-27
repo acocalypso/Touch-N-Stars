@@ -38,6 +38,19 @@
     "check_wki": "You can find detailed instructions in our wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Search",
+        "placeholder": "Enter search term...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Comet",
+          "StellariumObject": "Object",
+          "Star": "Star",
+          "Moon": "Moon"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Previous",
       "next": "Next",
@@ -102,7 +115,14 @@
       "setSequnceTarget": "set to sequence target",
       "search": {
         "title": "Search",
-        "placeholder": "Enter a search term..."
+        "placeholder": "Enter a search term...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Comet",
+          "StellariumObject": "Object",
+          "Star": "Star",
+          "Moon": "Moon"
+        }
       },
       "openFraminingModal": "Open in framing-assistant",
       "fovSettings": {

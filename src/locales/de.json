@@ -102,7 +102,14 @@
       "setSequnceTarget": "als Sequenzziel festlegen",
       "search": {
         "title": "Suche",
-        "placeholder": "Suchbegriff eingeben..."
+        "placeholder": "Suchbegriff eingeben...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Komet",
+          "StellariumObject": "Objekt",
+          "Star": "Stern",
+          "Moon": "Mond"
+        }
       },
       "openFraminingModal": "Im Framing-Assistant öffnen",
       "fovSettings": {

@@ -38,6 +38,19 @@
     "check_wki": "Vous pouvez trouver des instructions détaillées dans notre wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Recherche",
+        "placeholder": "Entrez le terme de recherche...",
+        "objectTypes": {
+          "Planet": "Planète",
+          "Comet": "Comète",
+          "StellariumObject": "Objet",
+          "Star": "Étoile",
+          "Moon": "Lune"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Précédent",
       "next": "Suivant",
@@ -102,7 +115,14 @@
       "setSequnceTarget": "Sélectionner cette cible pour la sequence",
       "search": {
         "title": "Chercher",
-        "placeholder": "Entrer un élément de recherche..."
+        "placeholder": "Entrer un élément de recherche...",
+        "objectTypes": {
+          "Planet": "Planète",
+          "Comet": "Comète",
+          "StellariumObject": "Objet",
+          "Star": "Étoile",
+          "Moon": "Lune"
+        }
       },
       "fovSettings": {
         "fov": "Champ de vision",

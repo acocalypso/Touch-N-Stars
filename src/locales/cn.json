@@ -38,6 +38,19 @@
     "check_wki": "您可以在我们的维基中找到详细说明"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "搜索",
+        "placeholder": "输入搜索关键词...",
+        "objectTypes": {
+          "Planet": "行星",
+          "Comet": "彗星",
+          "StellariumObject": "天体",
+          "Star": "恒星",
+          "Moon": "月亮"
+        }
+      }
+    },
     "tutorial": {
       "previous": "上一步",
       "next": "下一步",

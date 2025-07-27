@@ -51,6 +51,19 @@
         }
       }
     },
+    "framing": {
+      "search": {
+        "title": "Hledání",
+        "placeholder": "Zadejte vyhledávací termín...",
+        "objectTypes": {
+          "Planet": "Planeta",
+          "Comet": "Kometa",
+          "StellariumObject": "Objekt",
+          "Star": "Hvězda",
+          "Moon": "Měsíc"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Předchozí",
       "next": "Další",

@@ -38,6 +38,19 @@
     "check_wki": "In unserem Wiki finden Sie detaillierte Anleitung"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Suche",
+        "placeholder": "Suchbegriff eingeben...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Komet",
+          "StellariumObject": "Objekt",
+          "Star": "Stern",
+          "Moon": "Mond"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Zurück",
       "next": "Weiter",

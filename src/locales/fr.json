@@ -51,6 +51,19 @@
         }
       }
     },
+    "framing": {
+      "search": {
+        "title": "Recherche",
+        "placeholder": "Entrez le terme de recherche...",
+        "objectTypes": {
+          "Planet": "Planète",
+          "Comet": "Comète",
+          "StellariumObject": "Objet",
+          "Star": "Étoile",
+          "Moon": "Lune"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Précédent",
       "next": "Suivant",

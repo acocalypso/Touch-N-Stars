@@ -256,13 +256,13 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/saturn', key: 'saturn' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/uranus', key: 'uranus' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/neptune', key: 'neptune' });
-          
+
           // Jupiter-Monde
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/io', key: 'io' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/europa', key: 'europa' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/ganymede', key: 'ganymede' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/callisto', key: 'callisto' });
-          
+
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });

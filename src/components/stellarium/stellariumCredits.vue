@@ -168,7 +168,8 @@
           <section>
             <h3 class="font-semibold text-lg mb-2">Planets & Moons Textures</h3>
             <p class="text-sm mb-2">
-              High-resolution planet textures from Stellarium Labs under Creative Commons Attribution 4.0 International (CC BY 4.0)
+              High-resolution planet textures from Stellarium Labs under Creative Commons
+              Attribution 4.0 International (CC BY 4.0)
               <a
                 href="https://data.stellarium.org/surveys/"
                 target="_blank"

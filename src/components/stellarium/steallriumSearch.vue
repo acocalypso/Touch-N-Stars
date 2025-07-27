@@ -104,7 +104,6 @@ async function fetchTargetSearch() {
       );
     }
 
-
     // Stellarium-Suche für Kometen und andere Objekte
     const stellariumResults = [];
     if (stellariumStore.stel) {

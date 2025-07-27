@@ -179,10 +179,7 @@
           </label>
           <div>
             <toggleButton
-              @click="
-                settingsStore.stellarium.dsosVisible =
-                  !settingsStore.stellarium.dsosVisible
-              "
+              @click="settingsStore.stellarium.dsosVisible = !settingsStore.stellarium.dsosVisible"
               :status-value="settingsStore.stellarium.dsosVisible"
             />
           </div>

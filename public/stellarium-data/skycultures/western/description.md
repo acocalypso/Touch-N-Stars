@@ -1,12 +1,8 @@
 # Western
 
-## Introduction
-
 The Western sky culture is used internationally by modern astronomers, and is
 the official scheme of The International Astronomical Union. It has historical
 roots in Ancient Greek astronomy, with influences from Islamic astronomy.
-
-## Description
 
 The Western sky culture divides the celestial sphere into 88 areas of various
 sizes called _constellations_, each with precise boundary, issued by the
@@ -36,9 +32,6 @@ In the beginning of the 20th century, the IAU (International Astronomical
 Union) aimed for a large clean-up: in 1922, it officially accepted the list of
 88 constellation names. In 1928 it also defined precise constellation
 boundaries [#1] still in use today.
-
-
-## Extras
 
 In the 2nd century CE, Ptolemy in Alexandria published a multi-volume book
 which summarised the knowledge of the time, rooted in a tradition of
@@ -92,8 +85,6 @@ way of drawing artwork within them, several sub-cultures of painting figures
 and drawing simplified stickfigures were developed during the 20th and 21st
 century. We provide some of them as further sky cultures.
 
-### Constellations
-
 These constellations are based mainly on the Ptolemaic tradition which had been
 used in all three Abrahamitic religions and, thus, was common in the Near East,
 in Europe and its colonies on all continents. However, between the ancient
@@ -121,8 +112,6 @@ Stellarium by default displays the precise RA-DEC-boundaries and a set of
 artwork constellations on the basis of Ptolemaic figures but following our
 contemporary taste of art.
 
-### Proper names of stars
-
 Ptolemy's star catalogue had the layout of a table listing the description of
 the star's position in the constellation's figure, the ecliptical coordinates,
 and the magnitude e.g.: "The star at the tip of the tail of Ursa Minor", "Gem 0
@@ -147,8 +136,7 @@ a reminescence to his lonely position) or newly adopted star names from
 Polynesian, Hawaiian, or Aboriginal cultures for names of stars with
 exoplanets.
 
-## References
-
+References:
  - [#1]: Delporte, Eugene: Delimitation scientifique des constellations (tables et cartes), Cambridge, 1930
  - [#2]: facsimile: Uranometria von Johannes Bayer, Kunstschätzeverlag, Gerchsheim, 2010
  - [#3]: facsimile: Die große Flamsteed Edition - Himmelskartographie nach John Flamsteed von 1776 bis 1805, Albireo Verlag, Köln, 2017
@@ -161,14 +149,6 @@ exoplanets.
  - [#10]: Star Catalogue. [Article on Wikipedia](http://en.wikipedia.org/wiki/Star_catalogue)
  - [#11]: Constellation image library of the U.S. Naval Observatory and the Space Telescope Science Institute. Johannes Hevelius Engravings. [Link](http://hubblesource.stsci.edu/sources/illustrations/constellations/)
 
-## Authors
+Authors: Stellarium's team. Illustrations by Johan Meuris.
 
-Stellarium's team.
-
-Illustrations by Johan Meuris.
-
-## License
-
-Text and data: CC BY-SA
-
-Illustrations: Free Art License
+License: Text and data: CC BY-SA. Illustrations: Free Art License

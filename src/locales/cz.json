@@ -93,7 +93,7 @@
         "sequence": "Sekvence událostí",
         "title": "Oznámení"
       },
-      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
+      "infoSetLocationSync": "Aby bylo zajištěno správné přenesení souřadnic do montáže, nastavte v programu NINA možnost „Synchronizace polohy“ na „Synchronizovat s dalekohledem“. To umožní programu TNS odeslat údaje o poloze přímo do montáže."
     },
     "framing": {
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
@@ -300,7 +300,7 @@
         "set_as_park": "Nastavit jako park",
         "slew_to_cenit": "Přelet do Zenitu",
         "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží",
-        "setLocationSyncToMount": "Set \"Sync to telescope\""
+        "setLocationSyncToMount": "Nastavit "Synchronizovat s dalekohledem""
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -313,16 +313,16 @@
       },
       "location_sync": {
         "noSync": {
-          "label": "No sync"
+          "label": "Nesynchronivat"
         },
         "toApplication": {
-          "label": "Sync to application"
+          "label": "Synchronizovat s aplikací"
         },
         "toTelescope": {
-          "label": "Sync to telescope"
+          "label": "Synchronizace s dalekohledem"
         },
-        "confirmationMessage": "If 'Location Sync' in NINA is set to 'Prompt', a confirmation window may appear before coordinates are sent to the telescope. To avoid this and allow TNS to automatically set the coordinates, we recommend changing the setting to 'Sync to Telescope'",
-        "title": "Location sync settings"
+        "confirmationMessage": "Pokud je v aplikaci NINA nastavena možnost „Synchronizace polohy“ na „Vyžádat potvrzení“, může se před odesláním souřadnic do dalekohledu zobrazit potvrzovací okno. Abyste tomu zabránili a umožnili aplikaci TNS automaticky nastavit souřadnice, doporučujeme změnit nastavení na „Synchronizovat s dalekohledem“.",
+        "title": "Předvolby synchronizace polohy"
       }
     },
     "guider": {

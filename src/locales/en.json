@@ -676,7 +676,8 @@
         "meridian_lines_visible": "Show meridian",
         "ecliptic_lines_visible": "Show ecliptic",
         "atmosphere_visible": "Show atmosphere",
-        "landscapes_visible": "Show landscapes"
+        "landscapes_visible": "Show landscapes",
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)"
       }
     },
     "profile": {

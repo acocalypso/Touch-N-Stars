@@ -166,9 +166,19 @@
           </section>
 
           <section>
-            <h3 class="font-semibold text-lg mb-2">Planets Image</h3>
+            <h3 class="font-semibold text-lg mb-2">Planets & Moons Textures</h3>
+            <p class="text-sm mb-2">
+              High-resolution planet textures from Stellarium Labs under Creative Commons Attribution 4.0 International (CC BY 4.0)
+              <a
+                href="https://data.stellarium.org/surveys/"
+                target="_blank"
+                class="text-cyan-400 hover:underline"
+              >
+                https://data.stellarium.org/surveys/
+              </a>
+            </p>
             <p class="text-sm">
-              All images from NASA & JPL under public domain license
+              Original data from NASA & JPL under public domain license
               <a
                 href="http://www.jpl.nasa.gov/images/policy/index.cfm"
                 target="_blank"
@@ -176,6 +186,9 @@
               >
                 http://www.jpl.nasa.gov/images/policy/index.cfm
               </a>
+            </p>
+            <p class="text-sm text-gray-400 mt-1">
+              Texture processing by Oleg Pluton (Helleformer)
             </p>
           </section>
 

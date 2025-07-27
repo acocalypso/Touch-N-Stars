@@ -246,8 +246,23 @@ onMounted(async () => {
           //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/gray', key: 'guereins' });
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
           core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
+          // Planeten mit offiziellen HiPS-Texturen
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mercury', key: 'mercury' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/venus', key: 'venus' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mars', key: 'mars' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/jupiter', key: 'jupiter' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/saturn', key: 'saturn' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/uranus', key: 'uranus' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/neptune', key: 'neptune' });
+          
+          // Jupiter-Monde
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/io', key: 'io' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/europa', key: 'europa' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/ganymede', key: 'ganymede' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/callisto', key: 'callisto' });
+          
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });

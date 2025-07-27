@@ -83,7 +83,7 @@ async function fetchTargetSearch() {
               celestialBodiesResults.push({
                 Name: body.Name,
                 Type: body.Type,
-                StellariumObj: obj
+                StellariumObj: obj,
               });
             } else {
               // Fallback für Planeten ohne Stellarium-Objekt
@@ -97,10 +97,13 @@ async function fetchTargetSearch() {
       }
     } else {
       // Fallback wenn Stellarium nicht verfügbar
-      celestialBodiesResults.push(...celestialBodies.filter((body) =>
-        body.Name.toLowerCase().includes(searchQuery.value.toLowerCase())
-      ));
+      celestialBodiesResults.push(
+        ...celestialBodies.filter((body) =>
+          body.Name.toLowerCase().includes(searchQuery.value.toLowerCase())
+        )
+      );
     }
+
 
     // Stellarium-Suche für Kometen und andere Objekte
     const stellariumResults = [];
@@ -132,7 +135,7 @@ async function fetchTargetSearch() {
         for (const searchTerm of searchTerms) {
           try {
             const obj = stellariumStore.stel.getObj(`NAME ${searchTerm}`);
-            
+
             if (obj && obj.designations && obj.designations().length > 0) {
               const designations = obj.designations();
               const objName = designations[0].replace(/^NAME /, '');
@@ -187,13 +190,13 @@ async function fetchTargetSearch() {
 
     // Duplikate entfernen - Priorität: celestialBodies > stellariumResults
     const allResults = [...results, ...celestialBodiesResults];
-    
+
     // Nur Stellarium-Ergebnisse hinzufügen, die nicht bereits als Planeten gefunden wurden
-    const planetNames = celestialBodiesResults.map(item => item.Name.toLowerCase());
-    const uniqueStellarium = stellariumResults.filter(item => 
-      !planetNames.includes(item.Name.toLowerCase())
+    const planetNames = celestialBodiesResults.map((item) => item.Name.toLowerCase());
+    const uniqueStellarium = stellariumResults.filter(
+      (item) => !planetNames.includes(item.Name.toLowerCase())
     );
-    
+
     targetSearchResult.value = [...allResults, ...uniqueStellarium];
   } catch (error) {
     console.log('Fehler beim Laden der Vorschläge:', error);

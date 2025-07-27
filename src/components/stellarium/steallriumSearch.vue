@@ -185,7 +185,16 @@ async function fetchTargetSearch() {
       }
     }
 
-    targetSearchResult.value = [...results, ...celestialBodiesResults, ...stellariumResults];
+    // Duplikate entfernen - Priorität: celestialBodies > stellariumResults
+    const allResults = [...results, ...celestialBodiesResults];
+    
+    // Nur Stellarium-Ergebnisse hinzufügen, die nicht bereits als Planeten gefunden wurden
+    const planetNames = celestialBodiesResults.map(item => item.Name.toLowerCase());
+    const uniqueStellarium = stellariumResults.filter(item => 
+      !planetNames.includes(item.Name.toLowerCase())
+    );
+    
+    targetSearchResult.value = [...allResults, ...uniqueStellarium];
   } catch (error) {
     console.log('Fehler beim Laden der Vorschläge:', error);
     targetSearchResult.value = [];
@@ -213,7 +222,7 @@ async function selectTarget(item) {
       const stel = stellariumStore.stel;
       let observedVec;
 
-      // Handle Stellarium objects (Comets and other objects found in Stellarium)
+      // Handle Stellarium objects (Comets, Planets and other objects found in Stellarium)
       if (item.StellariumObj) {
         console.log('Stellarium Object:', item.Name);
         // Direktes Auswählen des Stellarium-Objekts
@@ -223,9 +232,9 @@ async function selectTarget(item) {
         return;
       }
 
-      // Handle Planets and other objects with Type
-      if (item.Type) {
-        console.log('Planet' + item.Name);
+      // Handle legacy Planets without StellariumObj (fallback)
+      if (item.Type && (item.Type === 'Planet' || item.Type === 'Star' || item.Type === 'Moon')) {
+        console.log('Legacy Planet/Object:', item.Name);
 
         const planetInfo = stel.getObj(`NAME ${item.Name}`).getInfo('pvo', stel.observer);
         const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', planetInfo[0]);

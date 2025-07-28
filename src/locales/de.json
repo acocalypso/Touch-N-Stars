@@ -112,7 +112,7 @@
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
-      "setSequenceTarget": "als Sequenzziel festlegen",
+      "setSequnceTarget": "als Sequenzziel festlegen",
       "search": {
         "title": "Suche",
         "placeholder": "Suchbegriff eingeben...",
@@ -124,7 +124,7 @@
           "Moon": "Mond"
         }
       },
-      "openFramingModal": "Im Framing-Assistant öffnen",
+      "openFraminingModal": "Im Framing-Assistant öffnen",
       "fovSettings": {
         "rotationAngle": "Kameradrehung",
         "fov": "Field of View"
@@ -138,7 +138,7 @@
       "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
       "currentAltitude": "Aktuelle Höhe",
       "useCenter": "Center",
-      "useRotation": "Rotieren"
+      "useRotate": "Rotieren"
     },
     "connectEquipment": {
       "camera": {
@@ -192,7 +192,7 @@
         "name": "Wetter"
       },
       "info": {
-        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \nVerwenden Sie das „Networked Filter Wheel" der API für das Filterrad",
+        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \\nVerwenden Sie das \"Networked Filter Wheel\" der API für das Filterrad",
         "title": "Info"
       }
     },
@@ -694,7 +694,8 @@
         "equatorial_lines_visible": "Äquatoriale Gitter",
         "landscapes_visible": "Landschaften",
         "dsos_visible": "Deep-Sky Objekte (Messier, NGC)",
-        "meridian_lines_visible": "Meridian"
+        "meridian_lines_visible": "Meridian",
+        "camera_fov_visible": "Kamera Field of View"
       }
     },
     "profile": {
@@ -722,7 +723,7 @@
         "name": "Name",
         "ra": "RA",
         "remove": "Löschen",
-        "sequence": "Seq. Ziel",
+        "sequnce": "Seq. Ziel",
         "rotation": "Drehung"
       },
       "titel": "Favoriten"

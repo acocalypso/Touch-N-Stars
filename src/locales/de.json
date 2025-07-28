@@ -18,11 +18,11 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA ist nicht erreichbar",
     "connecting": "Versuche Verbindung herzustellen",
-    "api_version_incompatible": "Advanced-API-Version Inkompatibel Aktuell: {current} Erforderlich: {required}",
+    "api_version_incompatible": "Advanced-API-Version inkompatibel Aktuell: {current} Erforderlich: {required}",
     "connection_error_toast": {
       "message_api": "Das API-Plugin ist nicht erreichbar. \nBitte überprüfen Sie die Einstellungen in Nina",
       "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
-      "message_tns": "Das TouchNstars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in Nina",
+      "message_tns": "Das Touch'N'Stars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in N.I.N.A",
       "title": "Verbindungsfehler",
       "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
     }
@@ -35,7 +35,7 @@
     "completeSetup": "Einrichtung abschließen",
     "instanceConfiguration": "N.I.N.A Verbindungsdetails",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitung"
+    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitungen"
   },
   "components": {
     "framing": {
@@ -91,7 +91,7 @@
         "title": "Bildeinstellungen",
         "quality": "Qualität in % ",
         "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
+        "strech_factor": "Stretch Factor"
       },
       "plugins": {
         "description": "Plugin Beschreibung",
@@ -112,7 +112,7 @@
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
-      "setSequnceTarget": "als Sequenzziel festlegen",
+      "setSequenceTarget": "als Sequenzziel festlegen",
       "search": {
         "title": "Suche",
         "placeholder": "Suchbegriff eingeben...",
@@ -124,7 +124,7 @@
           "Moon": "Mond"
         }
       },
-      "openFraminingModal": "Im Framing-Assistant öffnen",
+      "openFramingModal": "Im Framing-Assistant öffnen",
       "fovSettings": {
         "rotationAngle": "Kameradrehung",
         "fov": "Field of View"
@@ -138,7 +138,7 @@
       "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
       "currentAltitude": "Aktuelle Höhe",
       "useCenter": "Center",
-      "useRotate": "Rotieren"
+      "useRotation": "Rotieren"
     },
     "connectEquipment": {
       "camera": {
@@ -192,7 +192,7 @@
         "name": "Wetter"
       },
       "info": {
-        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über Nina gesteuert werden. \nVerwenden Sie das „Networked Filter Wheel“ der API für das Filterrad",
+        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \nVerwenden Sie das „Networked Filter Wheel" der API für das Filterrad",
         "title": "Info"
       }
     },
@@ -273,7 +273,7 @@
           "showImgStatsGraph": "HFR-Diagramm anzeigen",
           "showGuiderGraph": "Guider-Diagramm anzeigen",
           "showGuiderAfGraph": "Autofokus-Diagramm anzeigen",
-          "display_status_under_image": "Status unten anzeigen Bild unter Bild"
+          "display_status_under_image": "Status unter Bild anzeigen"
         }
       },
       "running": "WIRD AUSGEFÜHRT",
@@ -294,7 +294,7 @@
         "newest": "neueste zuerst"
       },
       "time": "Zeit",
-      "select_sequence": "Select sequence"
+      "select_sequence": "Sequenz auswählen"
     },
     "mount": {
       "title": "Montierung",
@@ -317,7 +317,7 @@
           "home": "Fehler beim Homing der Montierung",
           "tracking": "Fehler beim Einstellen des Nachführungsmodus"
         },
-        "set_as_park": "Parkposition setzten",
+        "set_as_park": "Parkposition setzen",
         "info_manuell_controll": "Die manuelle Steuerung steht nur zur Verfügung, wenn die Nachführung nicht aktiv ist.",
         "slew_to_cenit": "Zum Zenit schwenken",
         "sync_coordinates_to_mount": "Koordinaten zur Montierung senden",
@@ -408,8 +408,8 @@
           "exp_factor": "DEC: Belichtungsfaktor",
           "hysteresis": "Dec: Hysterese",
           "predictive_weight": "DEC: Vorhersage Gewichtung",
-          "reactive_weight": "Dec: Rektions Gewichtung",
-          "slope_weight": "Dez: Trend Gewichtung"
+          "reactive_weight": "DEC: Reaktive Gewichtung",
+          "slope_weight": "DEC: Trend Gewichtung"
         },
         "error": {
           "star-lost-message": "Stern verloren",
@@ -550,7 +550,7 @@
       "capture_running": "Aufnahme läuft",
       "last_messages": "Letzte Meldungen",
       "settings": {
-        "DirectionEast": "Richtung Westen",
+        "DirectionEast": "Richtung Osten",
         "StartFromCurrentPosition": "Von der aktuellen Position starten?"
       }
     },
@@ -638,8 +638,8 @@
       "brightness": "Helligkeit",
       "min_brightness": "Min Helligkeit",
       "max_brightness": "Max Helligkeit",
-      "histogram_mean_target": "Histogrammdurchschnitsziel ",
-      "mean_tolerance": "Duchschnittstoleranz",
+      "histogram_mean_target": "Histogramm-Durchschnittsziel",
+      "mean_tolerance": "Durchschnittstoleranz",
       "completed_recordings": "Completed recordings:",
       "start_auto_exposure": "Start",
       "start_auto_brightness": "Start",
@@ -684,7 +684,7 @@
         "title": "Datum"
       },
       "mount_position": {
-        "title": "Monitierungsposition"
+        "title": "Montierungsposition"
       },
       "settings": {
         "atmosphere_visible": "Atmosphäre zeigen",
@@ -722,7 +722,7 @@
         "name": "Name",
         "ra": "RA",
         "remove": "Löschen",
-        "sequnce": "Seq. Ziel",
+        "sequence": "Seq. Ziel",
         "rotation": "Drehung"
       },
       "titel": "Favoriten"

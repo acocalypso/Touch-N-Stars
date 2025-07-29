@@ -52,6 +52,12 @@
             <p v-if="lastUpdated" class="text-gray-400 text-sm mt-1">
               Last updated: {{ lastUpdated }}
             </p>
+            <p class="text-gray-400 text-xs mt-1">
+              WebSocket: 
+              <span :class="wsStatus === 'connected' ? 'text-green-400' : 'text-red-400'">
+                {{ wsStatus === 'connected' ? 'Connected' : 'Disconnected' }}
+              </span>
+            </p>
           </div>
         </div>
 
@@ -150,6 +156,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
+import websocketLivestackService from '@/services/apiSocket.js';
 
 const availableImages = ref([]);
 const currentImageUrl = ref(null);
@@ -157,9 +164,10 @@ const selectedFilter = ref(null);
 const currentTarget = ref(null);
 const isLoading = ref(false);
 const isStarting = ref(false);
-const autoRefresh = ref(false);
+const autoRefresh = ref(true);
 const lastUpdated = ref(null);
 const errorMessage = ref(null);
+const wsStatus = ref('disconnected');
 let refreshInterval = null;
 
 const startLivestack = async () => {
@@ -281,16 +289,63 @@ const handleImageError = (event) => {
   errorMessage.value = 'Failed to load livestack image';
 };
 
+// WebSocket handlers
+const handleWebSocketStatus = (status) => {
+  wsStatus.value = status;
+  console.log('Livestack WebSocket status:', status);
+};
+
+const handleWebSocketMessage = (message) => {
+  console.log('Received livestack WebSocket message:', message);
+  
+  // Handle STACK-UPDATED events only if auto refresh is enabled
+  if (message.Type === 'Socket' && message.Success && message.Response && autoRefresh.value) {
+    const { Target, Filter, Event } = message.Response;
+    
+    if (Event === 'STACK-UPDATED') {
+      console.log(`Stack updated for ${Target} with filter ${Filter} (Auto Refresh ON)`);
+      
+      // If this is the currently selected target and filter, reload the image
+      if (currentTarget.value === Target && selectedFilter.value === Filter) {
+        console.log('Reloading current image due to stack update');
+        loadImage(Target, Filter);
+      }
+      
+      // Also update the available images list
+      checkImageAvailability();
+    }
+  } else if (message.Type === 'Socket' && message.Success && message.Response && !autoRefresh.value) {
+    const { Event } = message.Response;
+    if (Event === 'STACK-UPDATED') {
+      console.log('Stack updated but Auto Refresh is OFF - ignoring');
+    }
+  }
+};
+
 onMounted(() => {
+  // Setup WebSocket callbacks
+  websocketLivestackService.setStatusCallback(handleWebSocketStatus);
+  websocketLivestackService.setMessageCallback(handleWebSocketMessage);
+  
+  // Connect to WebSocket
+  websocketLivestackService.connect();
+  
+  // Initial check for available images
   checkImageAvailability();
 });
 
 onUnmounted(() => {
+  // Clean up auto refresh interval
   if (refreshInterval) {
     clearInterval(refreshInterval);
   }
+  
+  // Clean up image URL
   if (currentImageUrl.value) {
     URL.revokeObjectURL(currentImageUrl.value);
   }
+  
+  // Disconnect WebSocket
+  websocketLivestackService.disconnect();
 });
 </script>

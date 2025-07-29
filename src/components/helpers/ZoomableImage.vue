@@ -41,12 +41,27 @@
       :src="imageData"
       :alt="altText"
       class="w-full h-full object-contain cursor-move transition-opacity duration-200"
+      :class="{ 'opacity-50': loading }"
       @load="onImageLoad"
       @error="onImageError"
     />
 
+    <!-- Loading Spinner Overlay -->
+    <div
+      v-if="loading && imageData"
+      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40"
+    >
+      <div class="flex flex-col items-center text-white">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-2"></div>
+        <p class="text-sm">Loading new image...</p>
+      </div>
+    </div>
+
     <!-- Placeholder -->
-    <div v-else class="flex items-center justify-center w-full h-full bg-gray-800/20">
+    <div
+      v-else-if="!imageData"
+      class="flex items-center justify-center w-full h-full bg-gray-800/20"
+    >
       <slot name="placeholder">
         <div class="text-gray-400 text-center">
           <div class="w-16 h-16 mx-auto mb-2 opacity-50">
@@ -78,6 +93,12 @@ const props = defineProps({
   placeholderText: {
     type: String,
     default: 'No image available',
+  },
+
+  // Loading state
+  loading: {
+    type: Boolean,
+    default: false,
   },
 
   // UI Controls

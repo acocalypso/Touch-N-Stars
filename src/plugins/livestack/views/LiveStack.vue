@@ -39,7 +39,11 @@
             <p class="text-white">
               Status:
               <span :class="availableImages.length > 0 ? 'text-green-400' : 'text-red-400'">
-                {{ availableImages.length > 0 ? `${availableImages.length} Images Available` : 'No Images Available' }}
+                {{
+                  availableImages.length > 0
+                    ? `${availableImages.length} Images Available`
+                    : 'No Images Available'
+                }}
               </span>
             </p>
             <p v-if="currentTarget" class="text-gray-400 text-sm mt-1">
@@ -52,14 +56,21 @@
         </div>
 
         <!-- Filter Selection -->
-        <div v-if="availableImages.length > 0" class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5">
+        <div
+          v-if="availableImages.length > 0"
+          class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
+        >
           <h6 class="text-lg font-semibold text-white mb-3 text-center">Available Filters</h6>
           <div class="flex flex-wrap justify-center gap-2">
             <button
               v-for="image in availableImages"
               :key="image.Filter"
               @click="selectFilter(image.Filter)"
-              :class="selectedFilter === image.Filter ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'"
+              :class="
+                selectedFilter === image.Filter
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : 'bg-gray-600 hover:bg-gray-700'
+              "
               class="px-3 py-2 text-white rounded-lg transition-colors text-sm"
             >
               {{ image.Filter }}
@@ -74,6 +85,7 @@
           <div v-if="currentImageUrl" class="relative">
             <ZoomableImage
               :imageData="currentImageUrl"
+              :loading="isLoading"
               :showControls="true"
               :showDownload="false"
               :showFullscreen="false"
@@ -86,20 +98,34 @@
               class="rounded-lg overflow-hidden"
             />
             <!-- Filter Label Overlay -->
-            <div v-if="selectedFilter" class="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm z-10">
+            <div
+              v-if="selectedFilter"
+              class="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm z-10"
+            >
               {{ selectedFilter }}
             </div>
           </div>
-          
+
           <div v-else-if="isLoading" class="flex justify-center items-center h-96">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
           </div>
-          
+
           <div v-else class="flex justify-center items-center h-96">
             <div class="text-center text-gray-400">
               <div class="w-16 h-16 mx-auto mb-4 opacity-50">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-full h-full"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                  />
                 </svg>
               </div>
               <p>No image available</p>
@@ -190,11 +216,14 @@ const loadImage = async (target, filter) => {
   errorMessage.value = null;
 
   try {
+    const newImageUrl = await apiService.getLivestackImage(target, filter);
+
+    // Only update the image URL after successful load
     if (currentImageUrl.value) {
       URL.revokeObjectURL(currentImageUrl.value);
     }
 
-    currentImageUrl.value = await apiService.getLivestackImage(target, filter);
+    currentImageUrl.value = newImageUrl;
     lastUpdated.value = new Date().toLocaleTimeString();
   } catch (error) {
     console.error('Error loading image:', error);
@@ -207,7 +236,11 @@ const loadImage = async (target, filter) => {
 const refreshImages = async () => {
   await checkImageAvailability();
 
-  if (currentTarget.value && selectedFilter.value && availableImages.value.some(img => img.Filter === selectedFilter.value)) {
+  if (
+    currentTarget.value &&
+    selectedFilter.value &&
+    availableImages.value.some((img) => img.Filter === selectedFilter.value)
+  ) {
     await loadImage(currentTarget.value, selectedFilter.value);
   } else if (availableImages.value.length > 0) {
     selectedFilter.value = availableImages.value[0].Filter;

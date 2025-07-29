@@ -27,10 +27,9 @@ export default {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
         path: pluginPath,
-        // Replace with your custom icon component when available
+        // Livestack icon - three stacked images in heroicons style
         icon: markRaw({
           render() {
-            // Default simple icon - a square
             return h(
               'svg',
               {
@@ -41,12 +40,47 @@ export default {
                 stroke: 'currentColor',
               },
               [
+                // Back image
                 h('rect', {
-                  x: 3,
-                  y: 3,
-                  width: 18,
-                  height: 18,
+                  x: 8,
+                  y: 8,
+                  width: 12,
+                  height: 9,
                   rx: 2,
+                  'stroke-linecap': 'round',
+                  'stroke-linejoin': 'round',
+                }),
+                // Middle image  
+                h('rect', {
+                  x: 6,
+                  y: 6,
+                  width: 12,
+                  height: 9,
+                  rx: 2,
+                  'stroke-linecap': 'round',
+                  'stroke-linejoin': 'round',
+                }),
+                // Front image with background to hide overlapped lines
+                h('rect', {
+                  x: 4,
+                  y: 4,
+                  width: 12,
+                  height: 9,
+                  rx: 2,
+                  fill: 'var(--color-gray-800, #1f2937)',
+                  'stroke-linecap': 'round',
+                  'stroke-linejoin': 'round',
+                }),
+                // Front image stroke
+                h('rect', {
+                  x: 4,
+                  y: 4,
+                  width: 12,
+                  height: 9,
+                  rx: 2,
+                  fill: 'none',
+                  'stroke-linecap': 'round',
+                  'stroke-linejoin': 'round',
                 }),
               ]
             );

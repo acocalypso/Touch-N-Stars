@@ -701,6 +701,40 @@
         "description": "Otorgue permiso para recibir notificaciones sobre eventos de secuencia.",
         "title": "Configurar notificaciones"
       }
+    },
+    "settings": {
+      "title": "Configuración",
+      "coordinates": "Coordenadas GPS",
+      "save": "Guardar",
+      "infoSetLocationSync": "Por favor, configure primero la sincronización de ubicación en la montura",
+      "connection": "Configuración de conexión",
+      "language": "Idioma",
+      "image": {
+        "title": "Configuración de imagen",
+        "quality": "Calidad de imagen",
+        "strech_factor": "Factor de estiramiento",
+        "black_clipping": "Recorte negro"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activar modo debug"
+      },
+      "notifications": {
+        "title": "Notificaciones"
+      },
+      "showTutorial": "Mostrar tutorial",
+      "plugins": {
+        "title": "Gestión de plugins",
+        "description": "Gestionar plugins instalados"
+      },
+      "system": {
+        "title": "Controles del sistema",
+        "description": "Controlar reinicio y apagado del sistema",
+        "info": "Estas acciones afectarán todo el sistema",
+        "confirmation": "Confirmar acción",
+        "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
+        "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
+      }
     }
   }
 }

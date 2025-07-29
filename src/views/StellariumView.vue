@@ -161,10 +161,10 @@ function setFramingCoordinates() {
   framingStore.DECangle = selectedObjectDecDeg.value;
   //framingStore.selectedItem = selectedObject.value;
   framingStore.selectedItem = {
-      Name: "",
-      RA: selectedObjectRaDeg.value,
-      Dec: selectedObjectDecDeg.value,
-    };
+    Name: '',
+    RA: selectedObjectRaDeg.value,
+    Dec: selectedObjectDecDeg.value,
+  };
 
   console.log('Set Framing Coordinates');
   store.mount.currentTab = 'showSlew';

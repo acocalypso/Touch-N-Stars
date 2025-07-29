@@ -736,6 +736,40 @@
         "message": "No sequence loaded"
       },
       "enter_name": "Enter name"
+    },
+    "settings": {
+      "title": "Settings",
+      "coordinates": "GPS Coordinates",
+      "save": "Save",
+      "infoSetLocationSync": "Please set location sync to mount first",
+      "connection": "Connection Settings",
+      "language": "Language",
+      "image": {
+        "title": "Image Settings",
+        "quality": "Image Quality",
+        "strech_factor": "Stretch Factor",
+        "black_clipping": "Black Clipping"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activate Debug Mode"
+      },
+      "notifications": {
+        "title": "Notifications"
+      },
+      "showTutorial": "Show Tutorial",
+      "plugins": {
+        "title": "Plugin Management",
+        "description": "Manage installed plugins"
+      },
+      "system": {
+        "title": "System Controls",
+        "description": "Control system restart and shutdown",
+        "info": "These actions will affect the entire system",
+        "confirmation": "Confirm Action",
+        "confirmShutdown": "Are you sure you want to shutdown the system?",
+        "confirmRestart": "Are you sure you want to restart the system?"
+      }
     }
   }
 }

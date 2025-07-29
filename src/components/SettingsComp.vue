@@ -120,7 +120,7 @@
     <!-- Debug settings -->
     <div class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">
-        {{ $t('components.settings.debug.titel') }}
+        {{ $t('components.settings.debug.title') }}
       </h3>
       <SetDebug />
     </div>

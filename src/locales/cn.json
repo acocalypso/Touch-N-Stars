@@ -701,6 +701,40 @@
         "description": "请授予权限以接收关于序列事件的通知。",
         "title": "配置通知"
       }
+    },
+    "settings": {
+      "title": "设置",
+      "coordinates": "GPS坐标",
+      "save": "保存",
+      "infoSetLocationSync": "请先设置位置同步到赤道仪",
+      "connection": "连接设置",
+      "language": "语言",
+      "image": {
+        "title": "图像设置",
+        "quality": "图像质量",
+        "strech_factor": "拉伸因子",
+        "black_clipping": "黑点剪切"
+      },
+      "debug": {
+        "title": "调试",
+        "activate": "激活调试模式"
+      },
+      "notifications": {
+        "title": "通知"
+      },
+      "showTutorial": "显示教程",
+      "plugins": {
+        "title": "插件管理",
+        "description": "管理已安装的插件"
+      },
+      "system": {
+        "title": "系统控制",
+        "description": "控制系统重启和关机",
+        "info": "这些操作将影响整个系统",
+        "confirmation": "确认操作",
+        "confirmShutdown": "您确定要关闭系统吗？",
+        "confirmRestart": "您确定要重启系统吗？"
+      }
     }
   }
 }

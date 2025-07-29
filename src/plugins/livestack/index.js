@@ -11,21 +11,22 @@ export default {
     const pluginStore = usePluginStore();
     const router = options.router;
 
-    // Register route
+    // Get current plugin state from store
+    const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
+    const pluginPath = currentPlugin ? currentPlugin.pluginPath : '/plugin2';
+
+    // Register route with generic plugin path
     router.addRoute({
-      path: '/livestack',
+      path: pluginPath,
       component: DefaultPluginView,
       meta: { requiresSetup: true },
     });
 
-    // Register plugin metadata
-    pluginStore.registerPlugin(metadata);
-
-    // Add navigation item if the plugin is enabled
-    if (metadata.enabled) {
+    // Add navigation item if the plugin is enabled in the store
+    if (currentPlugin && currentPlugin.enabled) {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
-        path: '/livestack',
+        path: pluginPath,
         // Replace with your custom icon component when available
         icon: markRaw({
           render() {

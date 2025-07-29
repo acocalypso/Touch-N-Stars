@@ -91,10 +91,11 @@
           <div v-if="currentImageUrl" class="relative">
             <ZoomableImage
               :imageData="currentImageUrl"
-              :loading="isLoading"
+              :loading="false"
               :showControls="true"
               :showDownload="false"
               :showFullscreen="false"
+              :initialZoom="currentZoomLevel"
               height="60vh"
               :altText="`Livestack Image - ${livestackStore.selectedFilter}`"
               placeholderText="Loading livestack image..."
@@ -169,6 +170,7 @@ const autoRefresh = ref(true);
 const lastUpdated = ref(null);
 const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
+const currentZoomLevel = ref(1);
 let refreshInterval = null;
 
 const startLivestack = async () => {

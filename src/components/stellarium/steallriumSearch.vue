@@ -120,33 +120,6 @@ async function fetchTargetSearch() {
     const stellariumResults = [];
     if (stellariumStore.stel) {
       try {
-        console.log('Searching for:', searchQuery.value);
-
-        console.log('Search terms:', searchTerms);
-
-        for (const searchTerm of searchTerms) {
-          try {
-            const obj = stellariumStore.stel.getObj(searchTerm);
-            console.log(`Searching for "${searchTerm}":`, obj);
-
-            if (obj && obj.designations && obj.designations().length > 0) {
-              const designations = obj.designations();
-              const objName = designations[0].replace(/^NAME /, '');
-              console.log('Found object:', objName, designations);
-
-              // Prüfe ob das Objekt dem Suchbegriff entspricht
-              if (objName.toLowerCase().includes(searchQuery.value.toLowerCase())) {
-                stellariumResults.push({
-                  Name: objName,
-                  Type: objName.match(/^[CPD]\//) ? 'Comet' : 'StellariumObject',
-                  StellariumObj: obj,
-                });
-              }
-            }
-          } catch (objError) {
-            console.log(`No object found for "${searchTerm}"`);
-          }
-        }
 
         // Versuche auch direkte Suche mit Stellarium's Suchfunktion
         try {
@@ -155,14 +128,17 @@ async function fetchTargetSearch() {
 
           if (comets && comets.listObjs) {
             try {
-              const cometList = comets.listObjs(stellariumStore.stel.core.observer, 20, () => true);
+              const cometList = comets.listObjs(stellariumStore.stel.core.observer, 100, () => true);
               console.log('Found comets with listObjs:', cometList.length);
 
               for (const comet of cometList) {
                 if (comet.designations) {
                   const designations = comet.designations();
                   for (const designation of designations) {
+
                     const name = designation.replace(/^NAME /, '');
+                    console.log('Checking comet name:', name, 'against search:', searchQuery.value);
+
                     if (name.toLowerCase().includes(searchQuery.value.toLowerCase())) {
                       console.log('Found matching comet via listObjs:', name);
                       // Prüfe ob schon vorhanden

@@ -24,7 +24,7 @@
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
       "title": "连接错误",
-      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
+      "message_tns_version": "Touch N Stars插件版本过于陈旧。请进行更新！"
     }
   },
   "setup": {
@@ -98,7 +98,7 @@
         "confirmRestart": "您确定要重启系统吗？",
         "confirmShutdown": "您确定要关闭系统吗？",
         "confirmation": "确认",
-        "info": "This will shutdown or restart the PC which is hosting the N.I.N.A instance!"
+        "info": "这将关闭或重启正在运行N.I.N.A的电脑！"
       },
       "image": {
         "title": "图像设置",
@@ -107,19 +107,19 @@
         "strech_factor": "拉伸因子"
       },
       "plugins": {
-        "description": "Plugin description",
-        "title": "Plugins"
+        "description": "插件描述",
+        "title": "插件"
       },
       "debug": {
-        "activate": "Enable debug window",
-        "titel": "Debug settings"
+        "activate": "运行调试窗口",
+        "titel": "调试设置"
       },
       "notifications": {
-        "enable": "Enable Notifications",
-        "sequence": "Sequence Events",
-        "title": "Notifications"
+        "enable": "启用通知",
+        "sequence": "序列事件",
+        "title": "通知"
       },
-      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
+      "infoSetLocationSync": "为确保坐标能正确传输至赤道仪，请将NINA中的“位置同步”选项设置为“与望远镜同步”。这样，TNS就能直接将位置数据发送至赤道仪。"
     },
     "framing": {
       "confirmSetTargetTitle": "确认目标选择",
@@ -279,7 +279,7 @@
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderGraph": "显示导星图表",
           "showGuiderAfGraph": "显示自动对焦图表",
-          "display_status_under_image": "Show status below image"
+          "display_status_under_image": "在图片下方显示状态"
         }
       },
       "running": "运行中",
@@ -325,8 +325,8 @@
         "info_manuell_controll": "只有在跟踪未激活时才能使用手动控制",
         "set_as_park": "设为停靠位置",
         "slew_to_cenit": "转向天顶",
-        "sync_coordinates_to_mount": "Sync coordinates with mount",
-        "setLocationSyncToMount": "Set \"Sync to telescope\""
+        "sync_coordinates_to_mount": "与赤道仪同步坐标",
+        "setLocationSyncToMount": "设置 \"Sync to telescope\""
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -339,16 +339,16 @@
       },
       "location_sync": {
         "noSync": {
-          "label": "No sync"
+          "label": "未同步"
         },
         "toApplication": {
-          "label": "Sync to application"
+          "label": "与应用同步"
         },
         "toTelescope": {
-          "label": "Sync to telescope"
+          "label": "与望远镜同步"
         },
-        "confirmationMessage": "If 'Location Sync' in NINA is set to 'Prompt', a confirmation window may appear before coordinates are sent to the telescope. To avoid this and allow TNS to automatically set the coordinates, we recommend changing the setting to 'Sync to Telescope'",
-        "title": "Location sync settings"
+        "confirmationMessage": "如果NINA中的“位置同步”设置为“提示”，在坐标发送到望远镜之前可能会出现确认窗口。为了避免这种情况并允许TNS自动设置坐标，我们建议将设置更改为“与望远镜同步”",
+        "title": "位置同步设置"
       }
     },
     "guider": {
@@ -371,32 +371,32 @@
       },
       "phd2": {
         "dec": {
-          "MaxMove": "DEC: Max move",
-          "MinMove": "DEC: Min move",
-          "aggression": "DEC: Aggression",
-          "exp_factor": "DEC: Exposure factor",
-          "hysteresis": "DEC: Hysteresis",
-          "predictive_weight": "DEC: Predictive weight",
-          "reactive_weight": "DEC: ReactiveW weight",
-          "slope_weight": "DEC: Slope weight"
+          "MaxMove": "DEC: 最大移动量",
+          "MinMove": "DEC: 最小移动量",
+          "aggression": "DEC: 修正积极性",
+          "exp_factor": "DEC: 曝光因子",
+          "hysteresis": "DEC: 回差补偿",
+          "predictive_weight": "DEC: 预测权重",
+          "reactive_weight": "DEC: 反应权重",
+          "slope_weight": "DEC: 斜率权重"
         },
         "error": {
-          "star-lost-message": "Star lost",
-          "title": "PHD2 Error"
+          "star-lost-message": "星点丢失",
+          "title": "PHD2 错误"
         },
-        "profile": "Profile",
+        "profile": "设备配置",
         "forceCalibration": "强制校准",
         "ra": {
-          "MaxMove": "RA: Max move",
-          "MinMove": "RA: Min move",
-          "aggression": "RA: Aggression",
-          "exp_factor": "RA: Aggression",
-          "hysteresis": "RA: Hysteresis",
-          "predictive_weight": "RA: Predictive weight",
-          "reactive_weight": "RA: ReactiveW weight",
-          "slope_weight": "RA: Slope weight"
+          "MaxMove": "RA: 最大移动量",
+          "MinMove": "RA: 最小移动量",
+          "aggression": "RA: 修正积极性",
+          "exp_factor": "RA: 修正积极性",
+          "hysteresis": "RA: 回差补偿",
+          "predictive_weight": "RA: 预测权重",
+          "reactive_weight": "RA: 反应权重",
+          "slope_weight": "RA: 斜率权重"
         },
-        "Exposuretime": "Exposuretime"
+        "Exposuretime": "曝光时间"
       }
     },
     "focuser": {
@@ -520,8 +520,8 @@
       "slewing_first_position": "转向第一个位置",
       "slewing_next_position": "转向下一个位置",
       "settings": {
-        "DirectionEast": "Direction East",
-        "StartFromCurrentPosition": "Start from current position?"
+        "DirectionEast": "指向东方",
+        "StartFromCurrentPosition": "从现在的位置开始？"
       }
     },
     "logs": {
@@ -566,7 +566,7 @@
         "is_centering": "居中目标",
         "is_platesolving": "板解析运行中",
         "is_slewing": "转向目标",
-        "plate_solve_error": "Platesolve error"
+        "plate_solve_error": "板解析错误"
       }
     },
     "filterwheel": {
@@ -670,36 +670,36 @@
       "label": "配置文件:"
     },
     "fav_target": {
-      "enter_name": "Enter name",
+      "enter_name": "输入名称",
       "modal_save": {
-        "message": "The target has been saved",
-        "titel": "Save"
+        "message": "目标已保存",
+        "titel": "保存"
       },
       "modal_sequence": {
-        "titel": "Sequence"
+        "titel": "序列"
       },
       "modal_sequence_error": {
-        "message": "No sequence loaded"
+        "message": "未加载序列"
       },
       "modal_sequence_ok": {
-        "message": "Target set"
+        "message": "已设置目标"
       },
-      "no_fav": "No favorites saved",
+      "no_fav": "没有已保存的收藏",
       "table": {
-        "dec": "DEC",
-        "load": "Load",
-        "name": "Name",
-        "ra": "RA",
-        "remove": "Remove",
-        "sequnce": "Seq. target",
-        "rotation": "Rotation"
+        "dec": "赤纬",
+        "load": "加载",
+        "name": "名称",
+        "ra": "赤经",
+        "remove": "移除",
+        "sequnce": "序列目标",
+        "rotation": "旋转角度"
       },
-      "titel": "Favorites"
+      "titel": "收藏夹"
     },
     "notifications": {
       "modal": {
-        "description": "Please grant permission to receive notifications about sequence events.",
-        "title": "Configure Notifications"
+        "description": "请授予权限以接收关于序列事件的通知。",
+        "title": "配置通知"
       }
     }
   }

@@ -50,7 +50,7 @@ export default {
                   'stroke-linecap': 'round',
                   'stroke-linejoin': 'round',
                 }),
-                // Middle image  
+                // Middle image
                 h('rect', {
                   x: 6,
                   y: 6,

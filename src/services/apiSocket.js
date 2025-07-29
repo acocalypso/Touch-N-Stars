@@ -78,7 +78,9 @@ class WebSocketLivestackService {
       }
 
       if (this.shouldReconnect) {
-        console.log(`Versuche Livestack WebSocket Reconnect in ${this.reconnectInterval / 1000}s...`);
+        console.log(
+          `Versuche Livestack WebSocket Reconnect in ${this.reconnectInterval / 1000}s...`
+        );
         this.reconnectTimeout = setTimeout(() => {
           this.connect();
         }, this.reconnectInterval);
@@ -100,7 +102,9 @@ class WebSocketLivestackService {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(message);
     } else {
-      console.error('Livestack WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
+      console.error(
+        'Livestack WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.'
+      );
       if (this.statusCallback) {
         this.statusCallback('Fehler: WebSocket nicht verbunden');
       }

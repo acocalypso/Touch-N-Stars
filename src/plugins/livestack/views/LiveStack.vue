@@ -53,7 +53,7 @@
               Last updated: {{ lastUpdated }}
             </p>
             <p class="text-gray-400 text-xs mt-1">
-              WebSocket: 
+              WebSocket:
               <span :class="wsStatus === 'connected' ? 'text-green-400' : 'text-red-400'">
                 {{ wsStatus === 'connected' ? 'Connected' : 'Disconnected' }}
               </span>
@@ -73,7 +73,7 @@
               :key="image.Filter"
               @click="selectFilter(image.Filter)"
               :class="
-                selectedFilter === image.Filter
+                livestackStore.selectedFilter === image.Filter
                   ? 'bg-blue-600 hover:bg-blue-700'
                   : 'bg-gray-600 hover:bg-gray-700'
               "
@@ -96,7 +96,7 @@
               :showDownload="false"
               :showFullscreen="false"
               height="60vh"
-              :altText="`Livestack Image - ${selectedFilter}`"
+              :altText="`Livestack Image - ${livestackStore.selectedFilter}`"
               placeholderText="Loading livestack image..."
               @zoom-change="handleZoomChange"
               @image-load="handleImageLoad"
@@ -105,10 +105,10 @@
             />
             <!-- Filter Label Overlay -->
             <div
-              v-if="selectedFilter"
+              v-if="livestackStore.selectedFilter"
               class="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm z-10"
             >
-              {{ selectedFilter }}
+              {{ livestackStore.selectedFilter }}
             </div>
           </div>
 
@@ -157,10 +157,11 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketLivestackService from '@/services/apiSocket.js';
+import { useLivestackStore } from '../store/livestackStore';
 
+const livestackStore = useLivestackStore();
 const availableImages = ref([]);
 const currentImageUrl = ref(null);
-const selectedFilter = ref(null);
 const currentTarget = ref(null);
 const isLoading = ref(false);
 const isStarting = ref(false);
@@ -178,9 +179,6 @@ const startLivestack = async () => {
     const result = await apiService.livestackStart();
     if (result.Success) {
       console.log('Livestack started successfully');
-      setTimeout(() => {
-        checkImageAvailability();
-      }, 2000);
     } else {
       errorMessage.value = result.Error || 'Failed to start livestack';
     }
@@ -199,9 +197,10 @@ const checkImageAvailability = async () => {
       availableImages.value = result.Response;
       if (availableImages.value.length > 0) {
         currentTarget.value = availableImages.value[0].Target;
-        if (!selectedFilter.value) {
-          selectedFilter.value = availableImages.value[0].Filter;
+        if (!livestackStore.selectedFilter) {
+          livestackStore.selectedFilter = availableImages.value[0].Filter;
         }
+        loadImage(currentTarget.value, livestackStore.selectedFilter);
       }
     } else {
       availableImages.value = [];
@@ -213,7 +212,7 @@ const checkImageAvailability = async () => {
 };
 
 const selectFilter = async (filter) => {
-  selectedFilter.value = filter;
+  livestackStore.selectedFilter = filter;
   if (currentTarget.value) {
     await loadImage(currentTarget.value, filter);
   }
@@ -246,14 +245,14 @@ const refreshImages = async () => {
 
   if (
     currentTarget.value &&
-    selectedFilter.value &&
-    availableImages.value.some((img) => img.Filter === selectedFilter.value)
+    livestackStore.selectedFilter &&
+    availableImages.value.some((img) => img.Filter === livestackStore.selectedFilter)
   ) {
-    await loadImage(currentTarget.value, selectedFilter.value);
+    await loadImage(currentTarget.value, livestackStore.selectedFilter);
   } else if (availableImages.value.length > 0) {
-    selectedFilter.value = availableImages.value[0].Filter;
+    livestackStore.selectedFilter = availableImages.value[0].Filter;
     currentTarget.value = availableImages.value[0].Target;
-    await loadImage(currentTarget.value, selectedFilter.value);
+    await loadImage(currentTarget.value, livestackStore.selectedFilter);
   } else {
     errorMessage.value = 'No images available from livestack';
   }
@@ -297,24 +296,29 @@ const handleWebSocketStatus = (status) => {
 
 const handleWebSocketMessage = (message) => {
   console.log('Received livestack WebSocket message:', message);
-  
+
   // Handle STACK-UPDATED events only if auto refresh is enabled
   if (message.Type === 'Socket' && message.Success && message.Response && autoRefresh.value) {
     const { Target, Filter, Event } = message.Response;
-    
+
     if (Event === 'STACK-UPDATED') {
       console.log(`Stack updated for ${Target} with filter ${Filter} (Auto Refresh ON)`);
-      
+
       // If this is the currently selected target and filter, reload the image
-      if (currentTarget.value === Target && selectedFilter.value === Filter) {
+      if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {
         console.log('Reloading current image due to stack update');
         loadImage(Target, Filter);
       }
-      
+
       // Also update the available images list
       checkImageAvailability();
     }
-  } else if (message.Type === 'Socket' && message.Success && message.Response && !autoRefresh.value) {
+  } else if (
+    message.Type === 'Socket' &&
+    message.Success &&
+    message.Response &&
+    !autoRefresh.value
+  ) {
     const { Event } = message.Response;
     if (Event === 'STACK-UPDATED') {
       console.log('Stack updated but Auto Refresh is OFF - ignoring');
@@ -326,10 +330,10 @@ onMounted(() => {
   // Setup WebSocket callbacks
   websocketLivestackService.setStatusCallback(handleWebSocketStatus);
   websocketLivestackService.setMessageCallback(handleWebSocketMessage);
-  
+
   // Connect to WebSocket
   websocketLivestackService.connect();
-  
+
   // Initial check for available images
   checkImageAvailability();
 });
@@ -339,12 +343,12 @@ onUnmounted(() => {
   if (refreshInterval) {
     clearInterval(refreshInterval);
   }
-  
+
   // Clean up image URL
   if (currentImageUrl.value) {
     URL.revokeObjectURL(currentImageUrl.value);
   }
-  
+
   // Disconnect WebSocket
   websocketLivestackService.disconnect();
 });

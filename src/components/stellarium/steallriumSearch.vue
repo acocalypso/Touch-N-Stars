@@ -122,36 +122,6 @@ async function fetchTargetSearch() {
       try {
         console.log('Searching for:', searchQuery.value);
 
-        // Erweiterte Kometen-Suche mit verschiedenen Formaten
-        const searchTerms = [
-          searchQuery.value,
-          `C/${searchQuery.value}`,
-          `P/${searchQuery.value}`,
-          `D/${searchQuery.value}`,
-          searchQuery.value.toUpperCase(),
-        ];
-
-        // Spezifische Kometen-Namen für direkte Suche
-        if (searchQuery.value.toLowerCase() === 'a3') {
-          searchTerms.push(`C/2023 A3`, `C/2023 A3 (Tsuchinshan-ATLAS)`, `Tsuchinshan-ATLAS`);
-        }
-        if (searchQuery.value.toLowerCase() === 'nishimura') {
-          searchTerms.push(`C/2023 P1`, `C/2023 P1 (Nishimura)`);
-        }
-        if (searchQuery.value.toLowerCase() === 'leonard') {
-          searchTerms.push(`C/2021 A1`, `C/2021 A1 (Leonard)`);
-        }
-        if (searchQuery.value.toLowerCase() === 'halley') {
-          searchTerms.push(`1P/Halley`, `P/Halley`);
-        }
-        // Allgemeine Kometen-Suche
-        if (searchQuery.value.includes('2023') || searchQuery.value.includes('C/2023')) {
-          searchTerms.push(`C/2023 A1`, `C/2023 A2`, `C/2023 A3`, `C/2023 P1`, `C/2023 H2`);
-        }
-        if (searchQuery.value.includes('2024') || searchQuery.value.includes('C/2024')) {
-          searchTerms.push(`C/2024 G3`, `C/2024 S1`);
-        }
-
         console.log('Search terms:', searchTerms);
 
         for (const searchTerm of searchTerms) {

@@ -1203,6 +1203,44 @@ const apiService = {
     }
   },
 
+  //-------------------------------------  Livestack ---------------------------------------
+  async livestackStart() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/start`);
+      return response.data;
+    } catch (error) {
+      console.error('Error starting livestack:', error);
+      throw error;
+    }
+  },
+
+  async livestackImageAvailable() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/image/available`);
+      return response.data;
+    } catch (error) {
+      console.error('Error checking livestack image availability:', error);
+      throw error;
+    }
+  },
+
+  async getLivestackImage(target, filter) {
+    try {
+      const { BASE_URL } = getUrls();
+      const encodedTarget = encodeURIComponent(target);
+      const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}`, {
+        params: { stream: true },
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching livestack image:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

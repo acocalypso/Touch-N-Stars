@@ -701,6 +701,40 @@
         "description": "Si prega di concedere l'autorizzazione per ricevere notifiche sugli eventi di sequenza.",
         "title": "Configurare le notifiche"
       }
+    },
+    "settings": {
+      "title": "Impostazioni",
+      "coordinates": "Coordinate GPS",
+      "save": "Salva",
+      "infoSetLocationSync": "Si prega di impostare prima la sincronizzazione della posizione sulla montatura",
+      "connection": "Impostazioni di connessione",
+      "language": "Lingua",
+      "image": {
+        "title": "Impostazioni immagine",
+        "quality": "Qualità immagine",
+        "strech_factor": "Fattore di stiramento",
+        "black_clipping": "Ritaglio nero"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Attiva modalità debug"
+      },
+      "notifications": {
+        "title": "Notifiche"
+      },
+      "showTutorial": "Mostra tutorial",
+      "plugins": {
+        "title": "Gestione plugin",
+        "description": "Gestisci plugin installati"
+      },
+      "system": {
+        "title": "Controlli sistema",
+        "description": "Controlla riavvio e spegnimento del sistema",
+        "info": "Queste azioni influenzeranno l'intero sistema",
+        "confirmation": "Conferma azione",
+        "confirmShutdown": "Sei sicuro di voler spegnere il sistema?",
+        "confirmRestart": "Sei sicuro di voler riavviare il sistema?"
+      }
     }
   }
 }

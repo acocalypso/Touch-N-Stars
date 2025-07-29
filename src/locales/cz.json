@@ -701,6 +701,40 @@
         "description": "Povolte přijímání oznámení o událostech sekvence.",
         "title": "Konfigurace Oznámení"
       }
+    },
+    "settings": {
+      "title": "Nastavení",
+      "coordinates": "GPS souřadnice",
+      "save": "Uložit",
+      "infoSetLocationSync": "Nejprve nastavte synchronizaci polohy na montáž",
+      "connection": "Nastavení připojení",
+      "language": "Jazyk",
+      "image": {
+        "title": "Nastavení obrázku",
+        "quality": "Kvalita obrázku",
+        "strech_factor": "Faktor roztažení",
+        "black_clipping": "Černé ořezávání"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Aktivovat debug režim"
+      },
+      "notifications": {
+        "title": "Oznámení"
+      },
+      "showTutorial": "Zobrazit tutoriál",
+      "plugins": {
+        "title": "Správa pluginů",
+        "description": "Spravovat nainstalované pluginy"
+      },
+      "system": {
+        "title": "Systémové ovládání",
+        "description": "Ovládání restartování a vypnutí systému",
+        "info": "Tyto akce ovlivní celý systém",
+        "confirmation": "Potvrdit akci",
+        "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
+        "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
+      }
     }
   }
 }

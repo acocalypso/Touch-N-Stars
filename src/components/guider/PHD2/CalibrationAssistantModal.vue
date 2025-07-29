@@ -6,9 +6,9 @@
       </h2>
     </template>
     <template #body>
-      <div class="flex flex-col gap-6 min-w-[500px]">
+      <div class="flex flex-col gap-4 sm:gap-6 w-full min-w-0 max-w-full sm:min-w-[500px]">
         <!-- Info Section -->
-        <div class="p-4 bg-blue-500/20 border border-blue-500/30 rounded-lg">
+        <div class="p-3 sm:p-4 bg-blue-500/20 border border-blue-500/30 rounded-lg">
           <p class="text-blue-300 text-sm">
             {{ $t('components.guider.calibrationAssistant.info') }}
           </p>
@@ -59,14 +59,14 @@
                 <button
                   @click="setDirection('west')"
                   :class="direction === 'west' ? 'default-button-cyan' : 'default-button-gray'"
-                  class="flex-1 px-2 py-1 text-xs"
+                  class="flex-1 px-2 py-1 text-xs sm:text-sm"
                 >
                   {{ $t('components.guider.calibrationAssistant.west') }}
                 </button>
                 <button
                   @click="setDirection('east')"
                   :class="direction === 'east' ? 'default-button-cyan' : 'default-button-gray'"
-                  class="flex-1 px-2 py-1 text-xs"
+                  class="flex-1 px-2 py-1 text-xs sm:text-sm"
                 >
                   {{ $t('components.guider.calibrationAssistant.east') }}
                 </button>
@@ -76,7 +76,7 @@
         </div>
 
         <!-- Status -->
-        <div v-if="displayStatus" class="p-3 rounded-lg" :class="statusClass">
+        <div v-if="displayStatus" class="p-2 sm:p-3 rounded-lg" :class="statusClass">
           <div class="flex items-center gap-2">
             <div v-if="isSlewing" class="spinner"></div>
             <span class="text-sm">{{ displayStatus }}</span>
@@ -84,7 +84,7 @@
         </div>
 
         <!-- Calibration Result -->
-        <div v-if="calibrationResult" class="p-4 rounded-lg" :class="calibrationResultClass">
+        <div v-if="calibrationResult" class="p-3 sm:p-4 rounded-lg" :class="calibrationResultClass">
           <h3 class="font-medium mb-2">
             {{ $t('components.guider.calibrationAssistant.calibrationResult') }}
           </h3>
@@ -100,12 +100,12 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex gap-3">
+        <div class="flex flex-col sm:flex-row gap-3">
           <!-- Slew Button -->
           <button
             @click="slewToOptimalPosition"
             :disabled="!canSlew || isSlewing || isCalibrating"
-            class="default-button-cyan px-4 py-3 flex items-center justify-center gap-2 flex-1"
+            class="default-button-cyan px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 flex-1"
           >
             <svg v-if="!isSlewing" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -125,7 +125,7 @@
                 ? 'default-button-red'
                 : 'default-button-green'
             "
-            class="px-4 py-3 flex items-center justify-center gap-2 flex-1"
+            class="px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 flex-1"
           >
             <StopIcon v-if="store.guiderInfo?.State === 'Calibrating'" class="w-5 h-5" />
             <svg v-else class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -170,6 +170,7 @@ const status = ref('');
 const isSlewing = ref(false);
 const isCalibrating = ref(false);
 const calibrationResult = ref(null);
+const calibrationStarted = ref(false);
 
 // PHD2-style position settings
 const decOffset = ref(0); // Start neutral, let altitude calculation handle it
@@ -205,8 +206,6 @@ const displayStatus = computed(() => {
       return t('components.guider.calibrationAssistant.calibrationComplete');
     case 'Stopped':
       return status.value || t('components.guider.calibrationAssistant.positionCalculated');
-    case 'LostLock':
-      return t('components.guider.calibrationAssistant.calibrationFailed');
     default:
       return status.value;
   }
@@ -218,7 +217,6 @@ const statusClass = computed(() => {
   if (isSlewing.value) return 'bg-blue-500/20 border border-blue-500/30';
   if (guiderState === 'Calibrating') return 'bg-yellow-500/20 border border-yellow-500/30';
   if (guiderState === 'Guiding') return 'bg-green-500/20 border border-green-500/30';
-  if (guiderState === 'LostLock') return 'bg-red-500/20 border border-red-500/30';
   return 'bg-gray-500/20 border border-gray-500/30';
 });
 
@@ -335,6 +333,7 @@ async function slewToOptimalPosition() {
 async function startCalibration() {
   if (!store.guiderInfo?.Connected) return;
 
+  calibrationStarted.value = true;
   status.value = t('components.guider.calibrationAssistant.calibrating');
   calibrationResult.value = null;
 
@@ -376,8 +375,8 @@ function watchCalibrationProgress() {
             quality: 'good',
             explanation: t('components.guider.calibrationAssistant.goodCalibration'),
           };
-        } else {
-          // Calibration failed or stopped
+        } else if (calibrationStarted.value) {
+          // Calibration failed or stopped - but only show this if we actually started a calibration
           status.value = t('components.guider.calibrationAssistant.calibrationFailed');
 
           calibrationResult.value = {
@@ -386,6 +385,8 @@ function watchCalibrationProgress() {
           };
         }
 
+        // Reset the calibration started flag
+        calibrationStarted.value = false;
         unwatch();
       }
     }

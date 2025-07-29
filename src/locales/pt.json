@@ -13,6 +13,19 @@
     "unreachable": "Nina é inacessível"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Pesquisa",
+        "placeholder": "Digite o termo de pesquisa...",
+        "objectTypes": {
+          "Planet": "Planeta",
+          "Comet": "Cometa",
+          "StellariumObject": "Objeto",
+          "Star": "Estrela",
+          "Moon": "Lua"
+        }
+      }
+    },
     "fav_target": {
       "enter_name": "Enter name",
       "modal_save": {

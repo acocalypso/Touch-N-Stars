@@ -38,6 +38,32 @@
     "check_wki": "Podrobné pokyny najdete na naší wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Hledání",
+        "placeholder": "Zadejte vyhledávací termín...",
+        "objectTypes": {
+          "Planet": "Planeta",
+          "Comet": "Kometa",
+          "StellariumObject": "Objekt",
+          "Star": "Hvězda",
+          "Moon": "Měsíc"
+        }
+      }
+    },
+    "framing": {
+      "search": {
+        "title": "Hledání",
+        "placeholder": "Zadejte vyhledávací termín...",
+        "objectTypes": {
+          "Planet": "Planeta",
+          "Comet": "Kometa",
+          "StellariumObject": "Objekt",
+          "Star": "Hvězda",
+          "Moon": "Měsíc"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Předchozí",
       "next": "Další",
@@ -300,7 +326,7 @@
         "set_as_park": "Nastavit jako park",
         "slew_to_cenit": "Přelet do Zenitu",
         "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží",
-        "setLocationSyncToMount": "Nastavit "Synchronizovat s dalekohledem""
+        "setLocationSyncToMount": "Nastavit 'Synchronizovat s dalekohledem'"
       },
       "info": {
         "notConnected": "Připojte montáž",

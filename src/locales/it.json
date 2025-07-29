@@ -38,6 +38,32 @@
     "check_wki": "Puoi trovare istruzioni dettagliate nel nostro wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Ricerca",
+        "placeholder": "Inserisci termine di ricerca...",
+        "objectTypes": {
+          "Planet": "Pianeta",
+          "Comet": "Cometa",
+          "StellariumObject": "Oggetto",
+          "Star": "Stella",
+          "Moon": "Luna"
+        }
+      }
+    },
+    "framing": {
+      "search": {
+        "title": "Ricerca",
+        "placeholder": "Inserisci termine di ricerca...",
+        "objectTypes": {
+          "Planet": "Pianeta",
+          "Comet": "Cometa",
+          "StellariumObject": "Oggetto",
+          "Star": "Stella",
+          "Moon": "Luna"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Precedente",
       "next": "Successivo",

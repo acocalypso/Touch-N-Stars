@@ -107,7 +107,43 @@
         "sequence": "Sequence Events"
       },
       "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
-    },
+    }
+  },
+  "plugins": {
+    "webcam": {
+      "title": "Webcam Settings",
+      "snapshotUrl": "Snapshot URL",
+      "snapshotUrlDescription": "A snapshot URL is a direct link to a single image from your webcam/IP camera. This URL should directly return a JPEG/PNG image, not an HTML page or stream.",
+      "snapshotUrlExamples": "Examples:",
+      "refreshInterval": "Refresh Interval",
+      "displayOptions": "Display Options",
+      "showControls": "Show Controls",
+      "autoRefresh": "Auto Refresh",
+      "status": "Status",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "error": "Error",
+      "lastUpdate": "Last Update",
+      "refresh": "Refresh",
+      "startAuto": "Start Auto",
+      "stopAuto": "Stop Auto",
+      "settings": "Settings",
+      "reset": "Reset",
+      "close": "Close",
+      "resetConfirm": "Are you sure you want to reset all webcam settings?",
+      "liveView": "Live View",
+      "welcome": "Welcome to the webcam plugin!",
+      "description": "Used to display an image from a webcam",
+      "noImageAvailable": "No image available",
+      "configureUrl": "Configure snapshot URL and fetch image",
+      "loadingImage": "Loading image...",
+      "errors": {
+        "noUrl": "No snapshot URL configured",
+        "failedToLoad": "Failed to load webcam image"
+      }
+    }
+  },
+  "components": {
     "framing": {
       "confirmSetTargetTitle": "Confirm Target Selection",
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",

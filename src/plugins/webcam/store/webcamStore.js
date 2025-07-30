@@ -5,16 +5,16 @@ export const useWebcamStore = defineStore('webcamStore', {
     // Webcam connection settings
     snapshotUrl: '',
     refreshInterval: 1000, // in milliseconds
-    
+
     // Display settings
     showControls: true,
     autoRefresh: false,
-    
+
     // Image settings
     imageQuality: 'medium', // low, medium, high
     imageWidth: 640,
     imageHeight: 480,
-    
+
     // Status
     isConnected: false,
     lastUpdate: null,
@@ -30,7 +30,7 @@ export const useWebcamStore = defineStore('webcamStore', {
     isValid: (state) => {
       return state.snapshotUrl && state.snapshotUrl.trim() !== '';
     },
-    
+
     refreshIntervalSeconds: (state) => {
       return Math.round(state.refreshInterval / 1000);
     },
@@ -86,7 +86,7 @@ export const useWebcamStore = defineStore('webcamStore', {
       const timestamp = new Date().getTime();
       const separator = this.snapshotUrl.includes('?') ? '&' : '?';
       const newImageUrl = `${this.snapshotUrl}${separator}t=${timestamp}`;
-      
+
       if (this.currentImageUrl) {
         // Preload next image for seamless transition
         this.nextImageUrl = newImageUrl;
@@ -114,7 +114,7 @@ export const useWebcamStore = defineStore('webcamStore', {
     onNextImageLoad() {
       // Seamless transition: swap images
       this.isTransitioning = true;
-      
+
       setTimeout(() => {
         this.currentImageUrl = this.nextImageUrl;
         this.nextImageUrl = null;
@@ -133,7 +133,7 @@ export const useWebcamStore = defineStore('webcamStore', {
 
     startAutoRefresh() {
       this.stopAutoRefresh(); // Clear any existing timer first
-      
+
       if (this.autoRefresh && this.refreshInterval > 0) {
         this.refreshSnapshot();
         this.autoRefreshTimer = setInterval(() => {
@@ -177,7 +177,7 @@ export const useWebcamStore = defineStore('webcamStore', {
         imageWidth: this.imageWidth,
         imageHeight: this.imageHeight,
       };
-      
+
       try {
         localStorage.setItem('webcam-plugin-settings', JSON.stringify(settings));
       } catch (error) {
@@ -202,7 +202,7 @@ export const useWebcamStore = defineStore('webcamStore', {
       this.isLoading = false;
       this.isTransitioning = false;
       this.autoRefreshTimer = null;
-      
+
       localStorage.removeItem('webcam-plugin-settings');
     },
 

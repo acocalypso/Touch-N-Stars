@@ -27,6 +27,40 @@
       "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
     }
   },
+  "plugins": {
+    "webcam": {
+      "title": "Webcam-Einstellungen",
+      "snapshotUrl": "Snapshot-URL",
+      "snapshotUrlDescription": "Eine Snapshot-URL ist ein direkter Link zu einem einzelnen Bild von Ihrer Webcam/IP-Kamera. Diese URL sollte direkt ein JPEG/PNG-Bild zurückgeben, nicht eine HTML-Seite oder einen Stream.",
+      "snapshotUrlExamples": "Beispiele:",
+      "refreshInterval": "Aktualisierungsintervall",
+      "displayOptions": "Anzeigeoptionen",
+      "showControls": "Steuerelemente anzeigen",
+      "autoRefresh": "Automatische Aktualisierung",
+      "status": "Status",
+      "connected": "Verbunden",
+      "disconnected": "Getrennt",
+      "error": "Fehler",
+      "lastUpdate": "Letzte Aktualisierung",
+      "refresh": "Aktualisieren",
+      "startAuto": "Auto starten",
+      "stopAuto": "Auto stoppen",
+      "settings": "Einstellungen",
+      "reset": "Zurücksetzen",
+      "close": "Schließen",
+      "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam-Einstellungen zurücksetzen möchten?",
+      "liveView": "Live-Ansicht",
+      "welcome": "Willkommen beim Webcam-Plugin!",
+      "description": "Zur Anzeige eines Bildes von einer Webcam",
+      "noImageAvailable": "Kein Bild verfügbar",
+      "configureUrl": "Snapshot-URL konfigurieren und Bild abrufen",
+      "loadingImage": "Lade Bild...",
+      "errors": {
+        "noUrl": "Keine Snapshot-URL konfiguriert",
+        "failedToLoad": "Fehler beim Laden des Webcam-Bildes"
+      }
+    }
+  },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
     "description": "Lass uns mit einer kurzen Einrichtung beginnen",

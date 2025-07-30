@@ -39,96 +39,20 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Hledání",
-        "placeholder": "Zadejte vyhledávací termín...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Kometa",
-          "StellariumObject": "Objekt",
-          "Star": "Hvězda",
-          "Moon": "Měsíc"
-        }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "Hledání",
-        "placeholder": "Zadejte vyhledávací termín...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Kometa",
-          "StellariumObject": "Objekt",
-          "Star": "Hvězda",
-          "Moon": "Měsíc"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Předchozí",
-      "next": "Další",
-      "skip": "Přeskočit Tutoriál"
-    },
-    "settings": {
-      "title": "Nastavení",
-      "language": "Jazyk",
-      "coordinates": "Souřadnice GPS",
-      "connection": "Podrobnosti o připojení k N.I.N.A",
-      "save": "Uložit",
-      "add": "Přidat",
-      "update": "Aktualizace",
-      "instance": {
-        "name": "Název Relace",
-        "ip": "IP Addresa",
-        "port": "Port",
-        "edit": "Upravit Relace",
-        "delete": "Smazat Relace"
-      },
-      "errors": {
-        "emptyFields": "Vyplňte všechna pole",
-        "instanceNameRequired": "Název instance je povinný",
-        "invalidIPFormat": "Uveďte prosím IP nebo FQDN",
-        "invalidPortRange": "Port musí být v rozsahu 1 až 65535",
-        "invalidInstance": "Připojení se nepodařilo navázat"
-      },
-      "showTutorial": "Ukázat Tutoriál",
-      "system": {
-        "description": "Klikněte na libovolnou ikonu pro restart nebo vypnutí systému",
-        "title": "Ovládání Systému",
-        "confirmRestart": "Určitě chcete systém restartovat?",
-        "confirmShutdown": "Jste si jisti, že chcete systém vypnout?",
-        "confirmation": "Potvrzení",
-        "info": "Tím se vypne nebo restartuje počítač, který je hostitelem instalace N.I.N.A!"
-      },
-      "image": {
-        "quality": "Kvalita v %",
-        "title": "Nastavení snímků",
-        "black_clipping": "Černý Výstřižek",
-        "strech_factor": "Faktor Strech"
-      },
-      "plugins": {
-        "description": "Popis pluginu",
-        "title": "Pluginy"
-      },
-      "debug": {
-        "activate": "Povolit okno ladění",
-        "titel": "Nastavení Ladění"
-      },
-      "notifications": {
-        "enable": "Povolení oznámení",
-        "sequence": "Sekvence událostí",
-        "title": "Oznámení"
-      },
-      "infoSetLocationSync": "Aby bylo zajištěno správné přenesení souřadnic do montáže, nastavte v programu NINA možnost „Synchronizace polohy“ na „Synchronizovat s dalekohledem“. To umožní programu TNS odeslat údaje o poloze přímo do montáže."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",
       "setSequnceTarget": "nastavit tento cíl jako součást sekvence",
       "search": {
         "title": "Hledat",
-        "placeholder": "Zadejte hledaný výraz..."
+        "placeholder": "Zadejte hledaný výraz...",
+        "objectTypes": {
+          "Comet": "comet",
+          "Moon": "moon",
+          "Planet": "planet",
+          "Star": "star",
+          "StellariumObject": "object"
+        }
       },
       "fovSettings": {
         "rotationAngle": "Natočení kamery",
@@ -145,6 +69,45 @@
       "currentAltitude": "Aktuální nadm. výška",
       "useCenter": "Center",
       "useRotate": "Rotate"
+    },
+    "tutorial": {
+      "previous": "Předchozí",
+      "next": "Další",
+      "skip": "Přeskočit Tutoriál"
+    },
+    "settings": {
+      "title": "Nastavení",
+      "coordinates": "GPS souřadnice",
+      "save": "Uložit",
+      "infoSetLocationSync": "Nejprve nastavte synchronizaci polohy na montáž",
+      "connection": "Nastavení připojení",
+      "language": "Jazyk",
+      "image": {
+        "title": "Nastavení obrázku",
+        "quality": "Kvalita obrázku",
+        "strech_factor": "Faktor roztažení",
+        "black_clipping": "Černé ořezávání"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Aktivovat debug režim"
+      },
+      "notifications": {
+        "title": "Oznámení"
+      },
+      "showTutorial": "Zobrazit tutoriál",
+      "plugins": {
+        "title": "Správa pluginů",
+        "description": "Spravovat nainstalované pluginy"
+      },
+      "system": {
+        "title": "Systémové ovládání",
+        "description": "Ovládání restartování a vypnutí systému",
+        "info": "Tyto akce ovlivní celý systém",
+        "confirmation": "Potvrdit akci",
+        "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
+        "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -397,6 +360,39 @@
           "slope_weight": "RA: Váha sklonu"
         },
         "Exposuretime": "Exposuretime"
+      },
+      "calibrationAssistant": {
+        "calculatedPosition": "Calculated position",
+        "calibrating": "Calibration is running ...",
+        "calibrationComplete": "Calibration completed",
+        "calibrationError": "Calibration error",
+        "calibrationFailed": "Calibration failed",
+        "calibrationResult": "Calibration result",
+        "calibrationStopped": "Calibration stopped",
+        "current": "Current",
+        "currentPosition": "Current position",
+        "direction": "Direction",
+        "east": "East",
+        "info": "The calibration assistant helps you to bring the assembly into an optimal position for calibration and carry out precise calibration.",
+        "meridianOffset": "Meridian offset",
+        "goodCalibration": "Excellent calibration reached",
+        "close": "Close",
+        "poorCalibration": "Calibration could be improved. \nTry a new position or check the equipment.",
+        "decOffset": "Declination offset",
+        "positionCalculated": "Optimal position calculated",
+        "positionSettings": "Position settings",
+        "quality": "Quality",
+        "recalculate": "Reorganize",
+        "slewComplete": "Swivel completed",
+        "slewError": "Winging errors",
+        "slewToPosition": "Wave down to the position",
+        "slewing": "Schwenke to the target position ...",
+        "startCalibration": "Start calibration",
+        "stopCalibration": "Stop calibration",
+        "target": "Goal",
+        "title": "Calibration assistant",
+        "targetPosition": "Target position",
+        "west": "West"
       }
     },
     "focuser": {
@@ -663,7 +659,9 @@
         "ecliptic_lines_visible": "Zobrazit ekliptiku",
         "equatorial_lines_visible": "Zobrazit rovníkové linie",
         "landscapes_visible": "Ukázat krajinu",
-        "meridian_lines_visible": "Zobrazit poledník"
+        "meridian_lines_visible": "Zobrazit poledník",
+        "camera_fov_visible": "Camera Field of View",
+        "dsos_visible": "Deep-Sky Objects (Messier, NGC)"
       }
     },
     "profile": {
@@ -700,40 +698,6 @@
       "modal": {
         "description": "Povolte přijímání oznámení o událostech sekvence.",
         "title": "Konfigurace Oznámení"
-      }
-    },
-    "settings": {
-      "title": "Nastavení",
-      "coordinates": "GPS souřadnice",
-      "save": "Uložit",
-      "infoSetLocationSync": "Nejprve nastavte synchronizaci polohy na montáž",
-      "connection": "Nastavení připojení",
-      "language": "Jazyk",
-      "image": {
-        "title": "Nastavení obrázku",
-        "quality": "Kvalita obrázku",
-        "strech_factor": "Faktor roztažení",
-        "black_clipping": "Černé ořezávání"
-      },
-      "debug": {
-        "title": "Debug",
-        "activate": "Aktivovat debug režim"
-      },
-      "notifications": {
-        "title": "Oznámení"
-      },
-      "showTutorial": "Zobrazit tutoriál",
-      "plugins": {
-        "title": "Správa pluginů",
-        "description": "Spravovat nainstalované pluginy"
-      },
-      "system": {
-        "title": "Systémové ovládání",
-        "description": "Ovládání restartování a vypnutí systému",
-        "info": "Tyto akce ovlivní celý systém",
-        "confirmation": "Potvrdit akci",
-        "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
-        "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
       }
     }
   }

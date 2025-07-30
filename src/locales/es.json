@@ -39,96 +39,20 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Búsqueda",
-        "placeholder": "Ingrese término de búsqueda...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Cometa",
-          "StellariumObject": "Objeto",
-          "Star": "Estrella",
-          "Moon": "Luna"
-        }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "Búsqueda",
-        "placeholder": "Ingrese término de búsqueda...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Cometa",
-          "StellariumObject": "Objeto",
-          "Star": "Estrella",
-          "Moon": "Luna"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Anterior",
-      "next": "Siguiente",
-      "skip": "Saltar Tutorial"
-    },
-    "settings": {
-      "title": "Parámetros",
-      "language": "Idioma",
-      "coordinates": "Coordinadas GPS",
-      "connection": "Detalles conexión N.I.N.A",
-      "save": "Guardar",
-      "add": "Añadir",
-      "update": "Actualizar",
-      "instance": {
-        "name": "Nombre Instancia",
-        "ip": "Dirección IP",
-        "port": "Puerto",
-        "edit": "Editar Instancia",
-        "delete": "Borrar Instancia"
-      },
-      "errors": {
-        "emptyFields": "Rellena todos los campos por favor",
-        "instanceNameRequired": "Nombre de la instancia requerido",
-        "invalidIPFormat": "Proporciona IP o FQDN",
-        "invalidPortRange": "Puerto no válido",
-        "invalidInstance": "No se pudo establecer la conexión"
-      },
-      "showTutorial": "Mostrar Tutorial",
-      "image": {
-        "quality": "Calidad en %",
-        "title": "Configuración de imágenes",
-        "black_clipping": "Recorte de negros",
-        "strech_factor": "Factor de estirado"
-      },
-      "system": {
-        "confirmRestart": "¿Estás seguro de que quieres reiniciar el sistema?",
-        "confirmShutdown": "¿Estás seguro de que quieres cerrar el sistema?",
-        "confirmation": "Confirmación",
-        "description": "Haga clic en un icono para reiniciar o cerrar el sistema",
-        "title": "Controles del sistema",
-        "info": "¡Esto cerrará o reiniciará la PC que aloja la instancia de N.I.N.A!"
-      },
-      "plugins": {
-        "description": "Descripción del plugin",
-        "title": "Plugins"
-      },
-      "debug": {
-        "activate": "Habilitar la ventana de depuración",
-        "titel": "Configuración de depuración"
-      },
-      "notifications": {
-        "enable": "Habilitar notificaciones",
-        "sequence": "Eventos de secuencia",
-        "title": "Notificaciones"
-      },
-      "infoSetLocationSync": "Para garantizar que las coordenadas se transfieran correctamente al soporte, establezca la opción 'Sync' de ubicación en Nina para 'sincronizar al telescopio'. \nEsto permite que TNS envíe los datos de ubicación directamente al montaje."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Confirmar Selección Objetivo",
       "confirmSetTargetMessage": "¿Estás seguro cambiar este objetivo en el sequenciador?",
       "useNinaCache": "Utilizar cache de NINA para imágen objetivo",
       "setSequnceTarget": "establecido como objetivo de la secuencia",
       "search": {
         "title": "Buscar",
-        "placeholder": "Introducir término de búsqueda..."
+        "placeholder": "Introducir término de búsqueda...",
+        "objectTypes": {
+          "Comet": "cometa",
+          "Moon": "luna",
+          "Planet": "planeta",
+          "Star": "estrella",
+          "StellariumObject": "objeto"
+        }
       },
       "fovSettings": {
         "fov": "Campo de visión",
@@ -145,6 +69,45 @@
       "currentAltitude": "Altitud actual",
       "useCenter": "Center",
       "useRotate": "Girar"
+    },
+    "tutorial": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "skip": "Saltar Tutorial"
+    },
+    "settings": {
+      "title": "Configuración",
+      "coordinates": "Coordenadas GPS",
+      "save": "Guardar",
+      "infoSetLocationSync": "Por favor, configure primero la sincronización de ubicación en la montura",
+      "connection": "Configuración de conexión",
+      "language": "Idioma",
+      "image": {
+        "title": "Configuración de imagen",
+        "quality": "Calidad de imagen",
+        "strech_factor": "Factor de estiramiento",
+        "black_clipping": "Recorte negro"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activar modo debug"
+      },
+      "notifications": {
+        "title": "Notificaciones"
+      },
+      "showTutorial": "Mostrar tutorial",
+      "plugins": {
+        "title": "Gestión de plugins",
+        "description": "Gestionar plugins instalados"
+      },
+      "system": {
+        "title": "Controles del sistema",
+        "description": "Controlar reinicio y apagado del sistema",
+        "info": "Estas acciones afectarán todo el sistema",
+        "confirmation": "Confirmar acción",
+        "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
+        "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -397,6 +360,39 @@
           "slope_weight": "RA: Slope weight"
         },
         "Exposuretime": "Tiempo de exposición"
+      },
+      "calibrationAssistant": {
+        "calculatedPosition": "Posición calculada",
+        "calibrating": "La calibración se está ejecutando ...",
+        "calibrationComplete": "Calibración completada",
+        "calibrationError": "Error de calibración",
+        "calibrationFailed": "Calibración falló",
+        "calibrationResult": "Resultado de calibración",
+        "calibrationStopped": "La calibración se detuvo",
+        "current": "Actual",
+        "currentPosition": "Posición actual",
+        "direction": "Dirección",
+        "east": "Este",
+        "info": "El asistente de calibración lo ayuda a llevar el ensamblaje a una posición óptima para la calibración y llevar a cabo una calibración precisa.",
+        "meridianOffset": "Compensación meridiana",
+        "goodCalibration": "Excelente calibración alcanzada",
+        "close": "Cerca",
+        "poorCalibration": "La calibración podría mejorarse. Pruebe una nueva posición o revise el equipo.",
+        "decOffset": "Compensación de declinación",
+        "positionCalculated": "Posición óptima calculada",
+        "positionSettings": "Configuración de posición",
+        "quality": "Calidad",
+        "recalculate": "Reorganizar",
+        "slewComplete": "Giro completado",
+        "slewError": "Errores de ala",
+        "slewToPosition": "Agárrate a la posición",
+        "slewing": "Schwenke a la posición objetivo ...",
+        "startCalibration": "Iniciar calibración",
+        "stopCalibration": "Detener la calibración",
+        "target": "Meta",
+        "title": "Asistente de calibración",
+        "targetPosition": "Posición objetivo",
+        "west": "Oeste"
       }
     },
     "focuser": {
@@ -663,7 +659,9 @@
         "ecliptic_lines_visible": "Mostrar eclíptica",
         "equatorial_lines_visible": "Mostrar líneas ecuatoriales",
         "landscapes_visible": "Mostrar horizonte",
-        "meridian_lines_visible": "Mostrar meridiano"
+        "meridian_lines_visible": "Mostrar meridiano",
+        "camera_fov_visible": "Campo de visión de la cámara",
+        "dsos_visible": "Objetos de cielo profundo (Messier, NGC)"
       }
     },
     "profile": {
@@ -700,40 +698,6 @@
       "modal": {
         "description": "Otorgue permiso para recibir notificaciones sobre eventos de secuencia.",
         "title": "Configurar notificaciones"
-      }
-    },
-    "settings": {
-      "title": "Configuración",
-      "coordinates": "Coordenadas GPS",
-      "save": "Guardar",
-      "infoSetLocationSync": "Por favor, configure primero la sincronización de ubicación en la montura",
-      "connection": "Configuración de conexión",
-      "language": "Idioma",
-      "image": {
-        "title": "Configuración de imagen",
-        "quality": "Calidad de imagen",
-        "strech_factor": "Factor de estiramiento",
-        "black_clipping": "Recorte negro"
-      },
-      "debug": {
-        "title": "Debug",
-        "activate": "Activar modo debug"
-      },
-      "notifications": {
-        "title": "Notificaciones"
-      },
-      "showTutorial": "Mostrar tutorial",
-      "plugins": {
-        "title": "Gestión de plugins",
-        "description": "Gestionar plugins instalados"
-      },
-      "system": {
-        "title": "Controles del sistema",
-        "description": "Controlar reinicio y apagado del sistema",
-        "info": "Estas acciones afectarán todo el sistema",
-        "confirmation": "Confirmar acción",
-        "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
-        "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
       }
     }
   }

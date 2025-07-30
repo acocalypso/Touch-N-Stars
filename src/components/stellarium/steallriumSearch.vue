@@ -120,7 +120,6 @@ async function fetchTargetSearch() {
     const stellariumResults = [];
     if (stellariumStore.stel) {
       try {
-
         // Versuche auch direkte Suche mit Stellarium's Suchfunktion
         try {
           const comets = stellariumStore.stel.core.comets;
@@ -128,14 +127,17 @@ async function fetchTargetSearch() {
 
           if (comets && comets.listObjs) {
             try {
-              const cometList = comets.listObjs(stellariumStore.stel.core.observer, 100, () => true);
+              const cometList = comets.listObjs(
+                stellariumStore.stel.core.observer,
+                100,
+                () => true
+              );
               console.log('Found comets with listObjs:', cometList.length);
 
               for (const comet of cometList) {
                 if (comet.designations) {
                   const designations = comet.designations();
                   for (const designation of designations) {
-
                     const name = designation.replace(/^NAME /, '');
                     console.log('Checking comet name:', name, 'against search:', searchQuery.value);
 

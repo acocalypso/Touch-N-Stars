@@ -73,7 +73,7 @@ rl.question('Plugin name: ', (name) => {
       const indexJs = `// Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
 import { h, markRaw } from 'vue';
-import DefaultPluginView from './views/DefaultPluginView.vue';
+import DefaultPluginView from './views/${id}.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
 
@@ -152,7 +152,7 @@ export default {
 // Add your component logic here
 </script>`;
 
-      createFile(path.join(viewsDir, 'DefaultPluginView.vue'), defaultViewVue);
+      createFile(path.join(viewsDir, `${id}.vue`), defaultViewVue);
       
       console.log('====================================');
       console.log(`Plugin "${name}" created successfully!`);

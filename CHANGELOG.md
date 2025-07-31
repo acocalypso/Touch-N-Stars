@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - The settings modal is now a separate page.
+- Stellaruim search improved
+
+### Fixed
+- Framing: The skychart is now also displayed when the coordinates come from Stellarium.
 
 ## [1.1.0.0] - 2025-07-25
 ### Added

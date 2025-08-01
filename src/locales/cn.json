@@ -47,11 +47,11 @@
         "title": "搜索",
         "placeholder": "输入搜索内容...",
         "objectTypes": {
-          "Comet": "comet",
-          "Moon": "moon",
-          "Planet": "planet",
-          "Star": "star",
-          "StellariumObject": "object"
+          "Comet": "Comet",
+          "Moon": "Moon",
+          "Planet": "Planet",
+          "Star": "Star",
+          "StellariumObject": "Object"
         }
       },
       "fovSettings": {
@@ -364,36 +364,36 @@
         "Exposuretime": "曝光时间"
       },
       "calibrationAssistant": {
-        "calculatedPosition": "Calculated position",
-        "calibrating": "Calibration is running ...",
+        "calculatedPosition": "Calculated Position",
+        "calibrating": "Calibration in progress...",
         "calibrationComplete": "Calibration completed",
-        "calibrationError": "Calibration error",
+        "calibrationError": "Error during calibration",
         "calibrationFailed": "Calibration failed",
-        "calibrationResult": "Calibration result",
+        "calibrationResult": "Calibration Result",
         "calibrationStopped": "Calibration stopped",
+        "close": "Close",
         "current": "Current",
-        "currentPosition": "Current position",
+        "currentPosition": "Current Position",
+        "decOffset": "Dec Offset",
         "direction": "Direction",
         "east": "East",
-        "info": "The calibration assistant helps you to bring the assembly into an optimal position for calibration and carry out precise calibration.",
-        "meridianOffset": "Meridian offset",
-        "goodCalibration": "Excellent calibration reached",
-        "close": "Close",
-        "poorCalibration": "Calibration could be improved. \nTry a new position or check the equipment.",
-        "decOffset": "Declination offset",
+        "goodCalibration": "Excellent calibration achieved",
+        "info": "The Calibration Assistant helps you position the mount optimally for calibration and perform an accurate calibration.",
+        "meridianOffset": "Meridian Offset",
+        "poorCalibration": "Calibration could be improved. Try a different position or check your equipment.",
         "positionCalculated": "Optimal position calculated",
-        "positionSettings": "Position settings",
+        "positionSettings": "Position Settings",
         "quality": "Quality",
-        "recalculate": "Reorganize",
-        "slewComplete": "Swivel completed",
-        "slewError": "Winging errors",
-        "slewToPosition": "Wave down to the position",
-        "slewing": "Schwenke to the target position ...",
-        "startCalibration": "Start calibration",
-        "stopCalibration": "Stop calibration",
-        "target": "Goal",
-        "title": "Calibration assistant",
-        "targetPosition": "Target position",
+        "recalculate": "Recalculate",
+        "slewComplete": "Slew completed",
+        "slewError": "Error during slew",
+        "slewToPosition": "Slew to Position",
+        "slewing": "Slewing to target position...",
+        "startCalibration": "Start Calibration",
+        "stopCalibration": "Stop Calibration",
+        "target": "Target",
+        "targetPosition": "Target Position",
+        "title": "Calibration Assistant",
         "west": "West"
       }
     },
@@ -663,7 +663,7 @@
         "landscapes_visible": "显示地平线",
         "meridian_lines_visible": "显示子午线",
         "camera_fov_visible": "Camera Field of View",
-        "dsos_visible": "Deep-Sky Objects (Messier, NGC)"
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)"
       }
     },
     "profile": {
@@ -673,10 +673,12 @@
       "enter_name": "输入名称",
       "modal_save": {
         "message": "目标已保存",
-        "titel": "保存"
+        "titel": "保存",
+        "title": "Save"
       },
       "modal_sequence": {
-        "titel": "序列"
+        "titel": "序列",
+        "title": "Sequence"
       },
       "modal_sequence_error": {
         "message": "未加载序列"
@@ -694,12 +696,142 @@
         "sequnce": "序列目标",
         "rotation": "旋转角度"
       },
-      "titel": "收藏夹"
+      "titel": "收藏夹",
+      "title": "Favorites"
     },
     "notifications": {
       "modal": {
         "description": "请授予权限以接收关于序列事件的通知。",
         "title": "配置通知"
+      }
+    }
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Click to add actions to containers",
+        "endActions": "🏁 End Actions",
+        "startActions": "🚀 Start Actions",
+        "targetActions": "🎯 Target Actions",
+        "title": "Action Library"
+      },
+      "actions": {
+        "actionId": "Action ID",
+        "actionParameters": "Action Parameters",
+        "category": "Category",
+        "changesSaveAutomatically": "Changes save automatically",
+        "closeEditor": "Close Editor",
+        "disableAction": "Disable Action",
+        "disabled": "Disabled",
+        "duplicateAction": "Duplicate Action",
+        "editParameters": "Edit Parameters",
+        "enableAction": "Enable Action",
+        "enabled": "Enabled",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Move Down",
+        "moveUp": "Move Up",
+        "no": "No",
+        "noConfigurableParameters": "This action has no configurable parameters.",
+        "notSet": "Not set",
+        "parameters": "Parameters",
+        "removeAction": "Remove Action",
+        "yes": "Yes"
+      },
+      "confirmations": {
+        "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",
+        "removeAction": "Remove \"{actionName}\" action?",
+        "sendSequenceFailed": "Failed to send sequence to N.I.N.A",
+        "unknownError": "Unknown error occurred"
+      },
+      "containers": {
+        "addAction": "Add Action",
+        "addActionsToContainer": "Add actions to this container",
+        "endSequence": {
+          "description": "Actions executed at the end of the session",
+          "emptyDescription": "Add actions to safely shut down your equipment",
+          "emptyTitle": "No End Actions",
+          "title": "End Sequence"
+        },
+        "noActions": "No Actions",
+        "startSequence": {
+          "description": "Actions executed at the beginning of the session",
+          "emptyDescription": "Add actions to prepare your equipment for imaging",
+          "emptyTitle": "No Start Actions",
+          "title": "Start Sequence"
+        },
+        "targetSequence": {
+          "description": "Main imaging sequence for your target",
+          "emptyDescription": "Add imaging actions for your target",
+          "emptyTitle": "No Target Actions",
+          "title": "Target Sequence"
+        }
+      },
+      "exportModal": {
+        "buttons": {
+          "copied": "Copied!",
+          "copyToClipboard": "Copy to Clipboard",
+          "downloadJSON": "Download JSON File",
+          "failed": "Failed",
+          "sendToNina": "Send to N.I.N.A",
+          "sending": "Sending...",
+          "sent": "Sent!"
+        },
+        "howToUse": {
+          "step1": "Download or copy the JSON file, or",
+          "step2": "Send directly to N.I.N.A (requires connection), or",
+          "step3": "Import manually into N.I.N.A via Sequence → Load Sequence",
+          "step4": "Adjust any equipment-specific settings as needed",
+          "title": "How to use:"
+        },
+        "jsonPreview": {
+          "categories": "Categories",
+          "copied": "Copied!",
+          "copyJson": "Copy JSON",
+          "downloadJson": "Download JSON",
+          "enabled": "Enabled",
+          "estimatedDuration": "Est. Duration",
+          "filenamePrompt": "Enter filename...",
+          "previewDescription": "Preview and download your sequence as a JSON file",
+          "sequenceJsonExport": "Sequence JSON Export",
+          "title": "JSON Preview",
+          "totalActions": "Total Actions"
+        },
+        "messages": {
+          "errorTitle": "Error:",
+          "successMessage": "Sequence has been loaded into N.I.N.A successfully!",
+          "successTitle": "Success:"
+        },
+        "subtitle": "Your sequence is ready to be exported as N.I.N.A compatible JSON",
+        "title": "Export N.I.N.A Sequence"
+      },
+      "subtitle": "Create professional astrophotography sequences",
+      "title": "N.I.N.A Sequence Creator",
+      "toolbar": {
+        "clearSequence": "Clear Sequence",
+        "exportSequence": "Export Sequence",
+        "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence",
+        "loadBasicSequence": "Load Basic Sequence",
+        "redo": "Redo",
+        "undo": "Undo",
+        "validSequence": "Sequence is valid and can be exported"
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Enable Meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Comet",
+          "DSO": "Deep-Sky Object",
+          "Moon": "Moon",
+          "Planet": "Planet",
+          "Star": "Star",
+          "StellariumObject": "Stellarium Object"
+        },
+        "placeholder": "Enter object name (e.g. M31, NGC 1234, Mars)...",
+        "searchDescription": "Search for deep-sky objects, planets or stars and automatically adopt the coordinates",
+        "searchLabel": "Search Target"
       }
     }
   }

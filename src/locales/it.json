@@ -47,11 +47,11 @@
         "title": "Cerca",
         "placeholder": "Inserisci un termine di ricerca...",
         "objectTypes": {
-          "Comet": "cometa",
-          "Moon": "luna",
-          "Planet": "pianeta",
-          "Star": "stella",
-          "StellariumObject": "oggetto"
+          "Comet": "Cometa",
+          "Moon": "Luna",
+          "Planet": "Pianeta",
+          "Star": "Stella",
+          "StellariumObject": "Oggetto"
         }
       },
       "fovSettings": {
@@ -69,6 +69,45 @@
       "currentAltitude": "Altitudine attuale",
       "useCenter": "Center",
       "useRotate": "Ruotare"
+    },
+    "tutorial": {
+      "previous": "Precedente",
+      "next": "Successivo",
+      "skip": "Salta Tutorial"
+    },
+    "settings": {
+      "title": "Impostazioni",
+      "coordinates": "Coordinate GPS",
+      "save": "Salva",
+      "infoSetLocationSync": "Si prega di impostare prima la sincronizzazione della posizione sulla montatura",
+      "connection": "Impostazioni di connessione",
+      "language": "Lingua",
+      "image": {
+        "title": "Impostazioni immagine",
+        "quality": "Qualità immagine",
+        "strech_factor": "Fattore di stiramento",
+        "black_clipping": "Ritaglio nero"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Attiva modalità debug"
+      },
+      "notifications": {
+        "title": "Notifiche"
+      },
+      "showTutorial": "Mostra tutorial",
+      "plugins": {
+        "title": "Gestione plugin",
+        "description": "Gestisci plugin installati"
+      },
+      "system": {
+        "title": "Controlli sistema",
+        "description": "Controlla riavvio e spegnimento del sistema",
+        "info": "Queste azioni influenzeranno l'intero sistema",
+        "confirmation": "Conferma azione",
+        "confirmShutdown": "Sei sicuro di voler spegnere il sistema?",
+        "confirmRestart": "Sei sicuro di voler riavviare il sistema?"
+      }
     },
     "tutorial": {
       "previous": "Precedente",
@@ -365,35 +404,35 @@
       },
       "calibrationAssistant": {
         "calculatedPosition": "Posizione calcolata",
-        "calibrating": "La calibrazione è in esecuzione ...",
+        "calibrating": "Calibrazione in corso ...",
         "calibrationComplete": "Calibrazione completata",
-        "calibrationError": "Errore di calibrazione",
+        "calibrationError": "Errore durante la calibrazione",
         "calibrationFailed": "La calibrazione non è riuscita",
         "calibrationResult": "Risultato di calibrazione",
         "calibrationStopped": "La calibrazione si è fermata",
+        "close": "Vicino",
         "current": "Attuale",
         "currentPosition": "Posizione attuale",
+        "decOffset": "DEC Offset",
         "direction": "Direzione",
         "east": "Est",
-        "info": "L'assistente di calibrazione ti aiuta a portare il gruppo in una posizione ottimale per la calibrazione e effettuare una calibrazione precisa.",
+        "goodCalibration": "Ottima calibrazione raggiunta",
+        "info": "L'assistente di calibrazione ti aiuta a posizionare il supporto in modo ottimale per la calibrazione ed eseguire una calibrazione accurata.",
         "meridianOffset": "Offset meridiano",
-        "goodCalibration": "Eccellente calibrazione raggiunta",
-        "close": "Vicino",
-        "poorCalibration": "La calibrazione potrebbe essere migliorata. Prova una nuova posizione o controlla l'attrezzatura.",
-        "decOffset": "Offset di declinazione",
+        "poorCalibration": "La calibrazione potrebbe essere migliorata. \nProva una posizione diversa o controlla l'attrezzatura.",
         "positionCalculated": "Posizione ottimale calcolata",
         "positionSettings": "Impostazioni di posizione",
         "quality": "Qualità",
-        "recalculate": "Riorganizzare",
-        "slewComplete": "Girevole completato",
-        "slewError": "Errori di ala",
-        "slewToPosition": "Agitare alla posizione",
-        "slewing": "Schwenke alla posizione target ...",
+        "recalculate": "Ricalcolare",
+        "slewComplete": "Slew completato",
+        "slewError": "Errore durante Slew",
+        "slewToPosition": "Slew to Position",
+        "slewing": "Slewing alla posizione target ...",
         "startCalibration": "Inizia la calibrazione",
         "stopCalibration": "Smettere di calibrazione",
-        "target": "Obiettivo",
-        "title": "Assistente di calibrazione",
+        "target": "Bersaglio",
         "targetPosition": "Posizione target",
+        "title": "Assistente di calibrazione",
         "west": "Ovest"
       }
     },
@@ -663,7 +702,7 @@
         "landscapes_visible": "Paesaggi di spettacolo",
         "meridian_lines_visible": "Mostra il meridiano",
         "camera_fov_visible": "Campo visivo della fotocamera",
-        "dsos_visible": "Oggetti a cielo profondo (Messier, NGC)"
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)"
       }
     },
     "profile": {
@@ -673,10 +712,12 @@
       "enter_name": "Enter name",
       "modal_save": {
         "message": "The target has been saved",
-        "titel": "Salva"
+        "titel": "Salva",
+        "title": "Salva"
       },
       "modal_sequence": {
-        "titel": "Sequenza"
+        "titel": "Sequenza",
+        "title": "Sequenza"
       },
       "modal_sequence_error": {
         "message": "Nessuna sequenza caricata"
@@ -694,12 +735,142 @@
         "sequnce": "Seq. target",
         "rotation": "Rotazione"
       },
-      "titel": "Preferiti"
+      "titel": "Preferiti",
+      "title": "Preferiti"
     },
     "notifications": {
       "modal": {
         "description": "Si prega di concedere l'autorizzazione per ricevere notifiche sugli eventi di sequenza.",
         "title": "Configurare le notifiche"
+      }
+    }
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Fare clic per aggiungere azioni ai contenitori",
+        "endActions": "🏁 Azioni di fine",
+        "startActions": "🚀 Avvia le azioni",
+        "targetActions": "🎯 Azioni target",
+        "title": "Biblioteca di azioni"
+      },
+      "actions": {
+        "actionId": "ID Azione",
+        "actionParameters": "Parametri di azione",
+        "category": "Categoria",
+        "changesSaveAutomatically": "Le modifiche salvano automaticamente",
+        "closeEditor": "Editore vicino",
+        "disableAction": "Disabilita l'azione",
+        "disabled": "Disabile",
+        "duplicateAction": "Azione duplicata",
+        "editParameters": "Modifica parametri",
+        "enableAction": "Abilitare l'azione",
+        "enabled": "Abilitato",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Muoviti verso il basso",
+        "moveUp": "Salire",
+        "no": "NO",
+        "noConfigurableParameters": "Questa azione non ha parametri configurabili.",
+        "notSet": "Non impostato",
+        "parameters": "Parametri",
+        "removeAction": "Rimuovere l'azione",
+        "yes": "SÌ"
+      },
+      "confirmations": {
+        "clearSequence": "Sei sicuro di voler cancellare l'intera sequenza? \nQuesta azione non può essere annullata.",
+        "removeAction": "Rimuovi l'azione \"{ActionName}\"?",
+        "sendSequenceFailed": "Impossibile inviare sequenza a N.I.N.A",
+        "unknownError": "Si è verificato un errore sconosciuto"
+      },
+      "containers": {
+        "addAction": "Aggiungi azione",
+        "addActionsToContainer": "Aggiungi azioni a questo contenitore",
+        "endSequence": {
+          "description": "Azioni eseguite alla fine della sessione",
+          "emptyDescription": "Aggiungi azioni per chiudere in sicurezza l'attrezzatura",
+          "emptyTitle": "Nessuna azione finale",
+          "title": "Sequenza di fine"
+        },
+        "noActions": "Nessuna azione",
+        "startSequence": {
+          "description": "Azioni eseguite all'inizio della sessione",
+          "emptyDescription": "Aggiungi azioni per preparare l'attrezzatura per l'imaging",
+          "emptyTitle": "Nessuna azione di inizio",
+          "title": "Avvia sequenza"
+        },
+        "targetSequence": {
+          "description": "Sequenza di imaging principale per il tuo obiettivo",
+          "emptyDescription": "Aggiungi azioni di imaging per il tuo obiettivo",
+          "emptyTitle": "Nessuna azione target",
+          "title": "Sequenza target"
+        }
+      },
+      "exportModal": {
+        "buttons": {
+          "copied": "Copiato!",
+          "copyToClipboard": "Copia negli appunti",
+          "downloadJSON": "Scarica il file JSON",
+          "failed": "Fallito",
+          "sendToNina": "Invia a N.I.N.A",
+          "sending": "Invio ...",
+          "sent": "Inviato!"
+        },
+        "howToUse": {
+          "step1": "Scarica o copia il file JSON, o",
+          "step2": "Invia direttamente a N.I.N.A (richiede connessione) o",
+          "step3": "Importa manualmente in N.I.N.A tramite sequenza → Sequenza di carico",
+          "step4": "Regolare le impostazioni specifiche per l'apparecchiatura secondo necessità",
+          "title": "Come usare:"
+        },
+        "jsonPreview": {
+          "categories": "Categorie",
+          "copied": "Copiato!",
+          "copyJson": "Copia JSON",
+          "downloadJson": "Scarica JSON",
+          "enabled": "Abilitato",
+          "estimatedDuration": "Est. \nDurata",
+          "filenamePrompt": "Immettere il nome file ...",
+          "previewDescription": "Anteprima e scarica la tua sequenza come file JSON",
+          "sequenceJsonExport": "Sequenza JSON Export",
+          "title": "Anteprima JSON",
+          "totalActions": "Azioni totali"
+        },
+        "messages": {
+          "errorTitle": "Errore:",
+          "successMessage": "La sequenza è stata caricata in N.I.N.A con successo!",
+          "successTitle": "Successo:"
+        },
+        "subtitle": "La tua sequenza è pronta per essere esportata come JSON compatibile N.I.N.A",
+        "title": "Export N.I.N.A Sequenza"
+      },
+      "subtitle": "Crea sequenze di astrofotografia professionale",
+      "title": "N.I.N.A Creatore della sequenza",
+      "toolbar": {
+        "clearSequence": "Sequenza chiara",
+        "exportSequence": "Sequenza di esportazione",
+        "invalidSequence": "Aggiungi le impostazioni target e l'esposizione intelligente per creare una sequenza valida",
+        "loadBasicSequence": "Carica la sequenza di base",
+        "redo": "Rifare",
+        "undo": "Disfare",
+        "validSequence": "La sequenza è valida e può essere esportata"
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Abilita Meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "DSO": "Oggetto profondo",
+          "Moon": "Luna",
+          "Planet": "Pianeta",
+          "Star": "Stella",
+          "StellariumObject": "Oggetto stellare"
+        },
+        "placeholder": "Immettere il nome dell'oggetto (ad es. M31, NGC 1234, Marte) ...",
+        "searchDescription": "Cerca oggetti, pianeti o stelle profondi e adotta automaticamente le coordinate",
+        "searchLabel": "Target di ricerca"
       }
     }
   }

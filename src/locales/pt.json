@@ -47,176 +47,6 @@
         "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
       }
     },
-    "fav_target": {
-      "titel": "Favorito",
-      "modal_save": {
-        "titel": "Salvar",
-        "message": "O objetivo foi salvo"
-      },
-      "modal_sequence": {
-        "titel": "Sequência"
-      },
-      "enter_name": "Insira nomes",
-      "modal_sequence_error": {
-        "message": "Nenhuma sequência carregada"
-      },
-      "modal_sequence_ok": {
-        "message": "Direcionado"
-      },
-      "no_fav": "Nenhum favorito salvo",
-      "table": {
-        "dec": "DEC",
-        "load": "Carregar",
-        "name": "nome",
-        "ra": "Ra",
-        "remove": "Excluir",
-        "rotation": "rotação",
-        "sequnce": "Seq. Meta"
-      }
-    },
-    "framing": {
-      "search": {
-        "objectTypes": {
-          "Comet": "cometa",
-          "Moon": "lua",
-          "Planet": "planeta",
-          "Star": "estrela",
-          "StellariumObject": "objeto"
-        },
-        "placeholder": "Digite termo de pesquisa ...",
-        "title": "Procurar"
-      },
-      "confirmSetTargetMessage": "Você realmente gostaria de definir essa meta como uma meta de sequência?",
-      "confirmSetTargetTitle": "Confirme a seleção do alvo",
-      "currentAltitude": "Altura atual",
-      "fovSettings": {
-        "fov": "Campo de visão",
-        "rotationAngle": "Câmera"
-      },
-      "getImageRotation": {
-        "SolveError": "Erro no platesolve",
-        "SolveRun": "Platesolve",
-        "startCapture": "Determinar a rotação da câmera"
-      },
-      "infoTargetImage": "Se a imagem for exibida apenas em preto, o 'cache offline do mapa do céu' deve ser configurado em Nina ou a opção 'nina cache' deve ser desativada",
-      "moveRotator": "Gire a câmera",
-      "openFraminingModal": "Aberto no assistente de enquadramento",
-      "setSequnceTarget": "Defina como uma meta de sequência",
-      "useCenter": "centro",
-      "useNinaCache": "Use Nina Cache para a imagem de destino",
-      "useRotate": "Girar"
-    },
-    "guider": {
-      "calibrationAssistant": {
-        "calculatedPosition": "Posição calculada",
-        "calibrating": "A calibração está funcionando ...",
-        "calibrationComplete": "Calibração concluída",
-        "calibrationError": "Erro de calibração",
-        "calibrationFailed": "A calibração falhou",
-        "calibrationResult": "Resultado da calibração",
-        "calibrationStopped": "A calibração parou",
-        "current": "Atual",
-        "currentPosition": "Posição atual",
-        "direction": "Direção",
-        "east": "Leste",
-        "info": "O assistente de calibração ajuda você a trazer a montagem para uma posição ideal para calibração e realizar calibração precisa.",
-        "meridianOffset": "Meridian Offset",
-        "goodCalibration": "Excelente calibração alcançada",
-        "close": "Fechar",
-        "poorCalibration": "A calibração pode ser melhorada. Experimente uma nova posição ou verifique o equipamento.",
-        "decOffset": "Deslocamento da declinação",
-        "positionCalculated": "Posição ideal calculada",
-        "positionSettings": "Configurações de posição",
-        "quality": "Qualidade",
-        "recalculate": "Reorganizar",
-        "slewComplete": "Giratório concluído",
-        "slewError": "Erros de ala",
-        "slewToPosition": "Acena para a posição",
-        "slewing": "Schwenke para a posição alvo ...",
-        "startCalibration": "Inicie a calibração",
-        "stopCalibration": "Pare de calibração",
-        "target": "Meta",
-        "title": "Assistente de calibração",
-        "targetPosition": "Posição alvo",
-        "west": "Oeste"
-      },
-      "notConnected": "Por favor, conecte os orientadores",
-      "notes": "* Neste gráfico, os dados do guider são exibidos de acordo com as configurações do N.I.N.A.",
-      "phd2": {
-        "Exposuretime": "Período de exposição",
-        "dec": {
-          "MaxMove": "DEC: MAX MOVE",
-          "MinMove": "DEC: MIN MOVIMENTO",
-          "aggression": "DEC: Agressão",
-          "exp_factor": "DEC: Fator de exposição",
-          "hysteresis": "DEC: Histrese",
-          "predictive_weight": "DEC: Peso preditivo",
-          "reactive_weight": "DEC: Peso reativo",
-          "slope_weight": "DEC: Peso de inclinação"
-        },
-        "error": {
-          "star-lost-message": "Estrela perdida",
-          "title": "Erro de phd2"
-        },
-        "forceCalibration": "Forçando a calibração",
-        "profile": "perfil",
-        "ra": {
-          "MaxMove": "RA: Move máximo",
-          "MinMove": "RA: Min Move",
-          "aggression": "RA: Agressão",
-          "exp_factor": "RA: fator de exposição",
-          "hysteresis": "RA: Histrese",
-          "predictive_weight": "RA: Peso preditivo",
-          "reactive_weight": "RA: Peso reativo",
-          "slope_weight": "RA: Peso de inclinação"
-        }
-      },
-      "rms_error": "Erro rms",
-      "running": "É executado",
-      "start": "Começar",
-      "startWithCal": "Comece com calibração",
-      "status": {
-        "calibrating": "calibração",
-        "guiding": "Guia",
-        "looping": "Correr",
-        "lostLock": "Estrela perdida",
-        "stopped": "Parou",
-        "unknown": "Desconhecido"
-      },
-      "statusLabel": "status",
-      "stop": "parar",
-      "title": "Guider"
-    },
-    "stellarium": {
-      "settings": {
-        "camera_fov_visible": "Campo de visão da câmera",
-        "dsos_visible": "Objetos de céu profundo (Messier, NGC)",
-        "atmosphere_visible": "Mostrar atmosfera",
-        "azimuthal_lines_visible": "Grade azimutal",
-        "constellations_lines_visible": "Signo do zodíaco",
-        "ecliptic_lines_visible": "Linha eclíptica",
-        "equatorial_lines_visible": "Grade equatorial",
-        "landscapes_visible": "Paisagens",
-        "meridian_lines_visible": "meridiano"
-      },
-      "datetime": {
-        "apply": "Aplicar",
-        "date": "Data",
-        "now": "Agora",
-        "speed": "velocidade",
-        "time": "Tempo",
-        "title": "Data"
-      },
-      "mount_position": {
-        "title": "Posição de montagem"
-      },
-      "selected_object": {
-        "button_framing": "em enquadrar",
-        "dec": "DEC",
-        "ra": "Ra",
-        "title": "Objeto selecionado"
-      }
-    },
     "camera": {
       "binning_mode": "Binning",
       "camera_cooling": "Resfriamento da câmera",
@@ -354,6 +184,36 @@
     "equipment": {
       "control": "Controle do dispositivo"
     },
+    "fav_target": {
+      "enter_name": "Insira o nome",
+      "modal_save": {
+        "message": "O alvo foi salvo",
+        "titel": "Salvar",
+        "title": "Salvar"
+      },
+      "modal_sequence": {
+        "titel": "Sequência",
+        "title": "Sequência"
+      },
+      "modal_sequence_error": {
+        "message": "Nenhuma sequência carregada"
+      },
+      "modal_sequence_ok": {
+        "message": "Conjunto de destino"
+      },
+      "no_fav": "Nenhum favorito salvo",
+      "table": {
+        "dec": "DEC",
+        "load": "Carregar",
+        "name": "Nome",
+        "ra": "Ra",
+        "remove": "Remover",
+        "rotation": "Rotação",
+        "sequnce": "Seq. \nalvo"
+      },
+      "titel": "Favoritos",
+      "title": "Favoritos"
+    },
     "filterwheel": {
       "filter": "Filtro:",
       "manual_filter": {
@@ -448,15 +308,15 @@
         "manuellControl": "Operação manual",
         "park": "Parque",
         "setLocationSyncToMount": "Defina \"Sincronizar para telescópio\"",
-        "set_as_park": "Defina uma posição de estacionamento",
+        "set_as_park": "Situado como parque",
         "siderial": "Sideral",
-        "slewRate": "Taxa de movimento °/s",
-        "slew_to_cenit": "Zênite",
+        "slewRate": "Taxa de taxa °/s",
+        "slew_to_cenit": "Malada para o Zenith",
         "solar": "Solar",
-        "stop": "parar",
-        "sync_coordinates_to_mount": "Envie coordenadas para montagem",
-        "trackingMode": "Modo de suplemento",
-        "unpark": "Estacione"
+        "stop": "Parar",
+        "sync_coordinates_to_mount": "Sincronizar coordenadas com o Monte",
+        "trackingMode": "Modo de rastreamento",
+        "unpark": "Desmark"
       },
       "info": {
         "notConnected": "Por favor, conecte a montagem",
@@ -468,7 +328,7 @@
         "unparked": "Estacionado"
       },
       "location_sync": {
-        "confirmationMessage": "Se a opção 'Sync Location' for 'prompt' na NINA, pode ser que uma janela de confirmação apareça antes que as coordenadas sejam transferidas para o telescópio. Para evitar isso e permitir que o TNS a entrega automática das coordenadas, recomendamos alterar o ajuste para 'sincronizar ao telescópio'.",
+        "confirmationMessage": "Se 'Sync Sync' na NINA estiver definido como 'Prompt', uma janela de confirmação poderá aparecer antes que as coordenadas sejam enviadas ao telescópio. \nPara evitar isso e permitir que o TNS defina automaticamente as coordenadas, recomendamos alterar a configuração para 'sincronizar para telescópio'",
         "noSync": {
           "label": "Sem sincronização"
         },
@@ -622,6 +482,36 @@
       "title": "Giratório e centro",
       "visibleStars": "Pesquisa de estrela visível"
     },
+    "stellarium": {
+      "datetime": {
+        "apply": "Aplicar",
+        "date": "Data",
+        "now": "Agora",
+        "speed": "Velocidade",
+        "time": "Tempo",
+        "title": "Data"
+      },
+      "mount_position": {
+        "title": "Posição de montagem"
+      },
+      "selected_object": {
+        "button_framing": "vá para enquadrar",
+        "dec": "DEC",
+        "ra": "Ra",
+        "title": "Objeto selecionado"
+      },
+      "settings": {
+        "atmosphere_visible": "Mostrar atmosfera",
+        "azimuthal_lines_visible": "Mostre linhas azimutais",
+        "camera_fov_visible": "Campo de visão da câmera",
+        "constellations_lines_visible": "Mostrar constelações",
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)",
+        "ecliptic_lines_visible": "Mostre ecliptic",
+        "equatorial_lines_visible": "Mostre linhas equatoriais",
+        "landscapes_visible": "Mostrar paisagens",
+        "meridian_lines_visible": "Mostre Meridian"
+      }
+    },
     "switch": {
       "gauges": "Valores medidos",
       "switch": "Trocar"
@@ -702,5 +592,134 @@
     "instanceConfiguration": "N.I.N.A Detalhes da conexão",
     "selectLanguage": "Selecione seu idioma",
     "welcome": "Bem -vindo ao Touch'n'stars"
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Clique para adicionar ações aos contêineres",
+        "endActions": "🏁 Ações finais",
+        "startActions": "🚀 Iniciar ações",
+        "targetActions": "🎯 Ações direcionadas",
+        "title": "Biblioteca de Ação"
+      },
+      "actions": {
+        "actionId": "ID da ação",
+        "actionParameters": "Parâmetros de ação",
+        "category": "Categoria",
+        "changesSaveAutomatically": "As mudanças salvam automaticamente",
+        "closeEditor": "Editor Fechar",
+        "disableAction": "Desativar a ação",
+        "disabled": "Desabilitado",
+        "duplicateAction": "Ação duplicada",
+        "editParameters": "Editar parâmetros",
+        "enableAction": "Ativar ação",
+        "enabled": "Habilitado",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Mover para baixo",
+        "moveUp": "Suba",
+        "no": "Não",
+        "noConfigurableParameters": "Esta ação não possui parâmetros configuráveis.",
+        "notSet": "Não definido",
+        "parameters": "Parâmetros",
+        "removeAction": "Remover ação",
+        "yes": "Sim"
+      },
+      "confirmations": {
+        "clearSequence": "Tem certeza de que deseja limpar toda a sequência? \nEsta ação não pode ser desfeita.",
+        "removeAction": "Remover ação \"{actionName}\"?",
+        "sendSequenceFailed": "Falha ao enviar sequência para N.I.N.A",
+        "unknownError": "Ocorreu um erro desconhecido"
+      },
+      "containers": {
+        "addAction": "Adicione ação",
+        "addActionsToContainer": "Adicione ações a este contêiner",
+        "endSequence": {
+          "description": "Ações executadas no final da sessão",
+          "emptyDescription": "Adicione ações para desligar com segurança seu equipamento",
+          "emptyTitle": "Sem ações finais",
+          "title": "Sequência final"
+        },
+        "noActions": "Nenhuma ação",
+        "startSequence": {
+          "description": "Ações executadas no início da sessão",
+          "emptyDescription": "Adicione ações para preparar seu equipamento para imagem",
+          "emptyTitle": "Sem ações de início",
+          "title": "Start Sequence"
+        },
+        "targetSequence": {
+          "description": "Sequência de imagens principal para o seu alvo",
+          "emptyDescription": "Adicione ações de imagem para o seu alvo",
+          "emptyTitle": "Sem ações -alvo",
+          "title": "Sequência alvo"
+        }
+      },
+      "exportModal": {
+        "buttons": {
+          "copied": "Copiado!",
+          "copyToClipboard": "Cópia para a área de transferência",
+          "downloadJSON": "Baixe o arquivo json",
+          "failed": "Fracassado",
+          "sendToNina": "Enviar para N.I.N.A",
+          "sending": "Enviando ...",
+          "sent": "Enviado!"
+        },
+        "howToUse": {
+          "step1": "Baixe ou copie o arquivo JSON, ou",
+          "step2": "Envie diretamente para N.I.N.A (requer conexão) ou",
+          "step3": "Importar manualmente para N.I.N.A via sequência → sequência de carga",
+          "step4": "Ajuste quaisquer configurações específicas do equipamento, conforme necessário",
+          "title": "Como usar:"
+        },
+        "jsonPreview": {
+          "categories": "Categorias",
+          "copied": "Copiado!",
+          "copyJson": "Copie JSON",
+          "downloadJson": "Baixe JSON",
+          "enabled": "Habilitado",
+          "estimatedDuration": "Husa. \nDuração",
+          "filenamePrompt": "Digite o nome do arquivo ...",
+          "previewDescription": "Visualize e baixe sua sequência como um arquivo json",
+          "sequenceJsonExport": "Exportação de sequência JSON",
+          "title": "Visualização JSON",
+          "totalActions": "Ações totais"
+        },
+        "messages": {
+          "errorTitle": "Erro:",
+          "successMessage": "A sequência foi carregada no N.I.N.A com sucesso!",
+          "successTitle": "Sucesso:"
+        },
+        "subtitle": "Sua sequência está pronta para ser exportada como N.I.N. Um json compatível",
+        "title": "Exportar N.I.N.A Sequência"
+      },
+      "subtitle": "Crie sequências profissionais de astrofotografia",
+      "title": "N.I.N.A Criador de sequência",
+      "toolbar": {
+        "clearSequence": "Sequência clara",
+        "exportSequence": "Sequência de exportação",
+        "invalidSequence": "Adicione as configurações de destino e a exposição inteligente para criar uma sequência válida",
+        "loadBasicSequence": "Carregue a sequência básica",
+        "redo": "Refazer",
+        "undo": "Desfazer",
+        "validSequence": "A sequência é válida e pode ser exportada"
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Ativar meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "DSO": "Objeto de céu profundo",
+          "Moon": "Lua",
+          "Planet": "Planeta",
+          "Star": "Estrela",
+          "StellariumObject": "Objeto estelário"
+        },
+        "placeholder": "Digite o nome do objeto (por exemplo, M31, NGC 1234, Marte) ...",
+        "searchDescription": "Procure objetos, planetas ou estrelas de céu profundo e adote automaticamente as coordenadas",
+        "searchLabel": "Alvo de pesquisa"
+      }
+    }
   }
 }

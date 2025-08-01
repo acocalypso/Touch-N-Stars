@@ -47,11 +47,11 @@
         "title": "Buscar",
         "placeholder": "Introducir término de búsqueda...",
         "objectTypes": {
-          "Comet": "cometa",
-          "Moon": "luna",
-          "Planet": "planeta",
-          "Star": "estrella",
-          "StellariumObject": "objeto"
+          "Comet": "Cometa",
+          "Moon": "Luna",
+          "Planet": "Planeta",
+          "Star": "Estrella",
+          "StellariumObject": "Objeto"
         }
       },
       "fovSettings": {
@@ -365,36 +365,36 @@
       },
       "calibrationAssistant": {
         "calculatedPosition": "Posición calculada",
-        "calibrating": "La calibración se está ejecutando ...",
+        "calibrating": "Calibración en progreso ...",
         "calibrationComplete": "Calibración completada",
-        "calibrationError": "Error de calibración",
+        "calibrationError": "Error durante la calibración",
         "calibrationFailed": "Calibración falló",
         "calibrationResult": "Resultado de calibración",
         "calibrationStopped": "La calibración se detuvo",
+        "close": "Cerca",
         "current": "Actual",
         "currentPosition": "Posición actual",
+        "decOffset": "DEC OFFSET",
         "direction": "Dirección",
         "east": "Este",
-        "info": "El asistente de calibración lo ayuda a llevar el ensamblaje a una posición óptima para la calibración y llevar a cabo una calibración precisa.",
+        "goodCalibration": "Excelente calibración lograda",
         "meridianOffset": "Compensación meridiana",
-        "goodCalibration": "Excelente calibración alcanzada",
-        "close": "Cerca",
-        "poorCalibration": "La calibración podría mejorarse. Pruebe una nueva posición o revise el equipo.",
-        "decOffset": "Compensación de declinación",
+        "poorCalibration": "La calibración podría mejorarse. \nPruebe una posición diferente o revise su equipo.",
         "positionCalculated": "Posición óptima calculada",
         "positionSettings": "Configuración de posición",
         "quality": "Calidad",
-        "recalculate": "Reorganizar",
-        "slewComplete": "Giro completado",
-        "slewError": "Errores de ala",
-        "slewToPosition": "Agárrate a la posición",
-        "slewing": "Schwenke a la posición objetivo ...",
+        "recalculate": "Recalcular",
+        "slewComplete": "Rugir completado",
+        "slewError": "Error durante el juego",
+        "slewToPosition": "Gira a la posición",
+        "slewing": "Matar a la posición objetivo ...",
         "startCalibration": "Iniciar calibración",
         "stopCalibration": "Detener la calibración",
-        "target": "Meta",
-        "title": "Asistente de calibración",
+        "target": "Objetivo",
         "targetPosition": "Posición objetivo",
-        "west": "Oeste"
+        "title": "Asistente de calibración",
+        "west": "Oeste",
+        "info": "El asistente de calibración lo ayuda a colocar el montaje de manera óptima para la calibración y realizar una calibración precisa."
       }
     },
     "focuser": {
@@ -673,10 +673,12 @@
       "enter_name": "Introducir nombre",
       "modal_save": {
         "message": "El objeto ha sido guardado",
-        "titel": "Guardar"
+        "titel": "Guardar",
+        "title": "Ahorrar"
       },
       "modal_sequence": {
-        "titel": "Secuencia"
+        "titel": "Secuencia",
+        "title": "Secuencia"
       },
       "modal_sequence_error": {
         "message": "Sin secuencia cargada"
@@ -694,12 +696,142 @@
         "sequnce": "Objeto seq",
         "rotation": "Rotación"
       },
-      "titel": "Favoritos"
+      "titel": "Favoritos",
+      "title": "Favoritos"
     },
     "notifications": {
       "modal": {
         "description": "Otorgue permiso para recibir notificaciones sobre eventos de secuencia.",
         "title": "Configurar notificaciones"
+      }
+    }
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Haga clic para agregar acciones a contenedores",
+        "endActions": "🏁 Acciones finales",
+        "startActions": "🚀 Iniciar acciones",
+        "targetActions": "🎯 Acciones objetivo",
+        "title": "Biblioteca de acción"
+      },
+      "actions": {
+        "actionId": "ID de acción",
+        "actionParameters": "Parámetros de acción",
+        "category": "Categoría",
+        "changesSaveAutomatically": "Cambios Guardar automáticamente",
+        "closeEditor": "Editor cercano",
+        "disableAction": "Desactivar acción",
+        "disabled": "Desactivado",
+        "duplicateAction": "Acción duplicada",
+        "editParameters": "Editar parámetros",
+        "enableAction": "Habilitar acción",
+        "enabled": "Activado",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Moverse hacia abajo",
+        "moveUp": "Subir",
+        "no": "No",
+        "parameters": "Parámetros",
+        "removeAction": "Eliminar la acción",
+        "yes": "Sí",
+        "noConfigurableParameters": "Esta acción no tiene parámetros configurables.",
+        "notSet": "No establecido"
+      },
+      "confirmations": {
+        "clearSequence": "¿Estás seguro de que quieres borrar toda la secuencia? \nEsta acción no se puede deshacer.",
+        "removeAction": "Eliminar la acción \"{ActionName}\"?",
+        "sendSequenceFailed": "No se pudo enviar una secuencia a N.I.N.A",
+        "unknownError": "Ocurrió un error desconocido"
+      },
+      "containers": {
+        "addAction": "Agregar acción",
+        "addActionsToContainer": "Agregar acciones a este contenedor",
+        "endSequence": {
+          "description": "Acciones ejecutadas al final de la sesión",
+          "emptyDescription": "Agregue acciones para cerrar su equipo de forma segura",
+          "emptyTitle": "Sin acciones finales",
+          "title": "Secuencia final"
+        },
+        "noActions": "Sin acciones",
+        "startSequence": {
+          "description": "Acciones ejecutadas al comienzo de la sesión",
+          "emptyDescription": "Agregue acciones para preparar su equipo para obtener imágenes",
+          "emptyTitle": "Sin acciones de inicio",
+          "title": "Secuencia de inicio"
+        },
+        "targetSequence": {
+          "description": "Secuencia principal de imágenes para su objetivo",
+          "emptyDescription": "Agregue acciones de imágenes para su objetivo",
+          "emptyTitle": "No hay acciones objetivo",
+          "title": "Secuencia objetivo"
+        }
+      },
+      "exportModal": {
+        "buttons": {
+          "copied": "¡Copiado!",
+          "copyToClipboard": "Copiar al portapapeles",
+          "downloadJSON": "Descargar el archivo JSON",
+          "failed": "Fallido",
+          "sendToNina": "Enviar a N.I.N.A",
+          "sending": "Envío...",
+          "sent": "¡Enviado!"
+        },
+        "howToUse": {
+          "step1": "Descargar o copiar el archivo json, o",
+          "step2": "Enviar directamente a N.I.N.A (requiere conexión), o",
+          "step3": "Importar manualmente en N.I.N.A a través de secuencia → secuencia de carga",
+          "step4": "Ajuste cualquier configuración específica del equipo según sea necesario",
+          "title": "Cómo usar:"
+        },
+        "jsonPreview": {
+          "categories": "Categorías",
+          "copied": "¡Copiado!",
+          "copyJson": "Copiar JSON",
+          "downloadJson": "Descargar json",
+          "enabled": "Activado",
+          "estimatedDuration": "Est. \nDuración",
+          "filenamePrompt": "Ingrese el nombre de archivo ...",
+          "previewDescription": "Vista previa y descargue su secuencia como un archivo JSON",
+          "sequenceJsonExport": "Secuencia JSON Export",
+          "title": "Vista previa de JSON",
+          "totalActions": "Total de acciones"
+        },
+        "messages": {
+          "errorTitle": "Error:",
+          "successMessage": "¡La secuencia se ha cargado en N.I.N.A con éxito!",
+          "successTitle": "Éxito:"
+        },
+        "subtitle": "Su secuencia está lista para exportarse como N.I.N.A JSON compatible",
+        "title": "Exportar N.I.N.A secuencia"
+      },
+      "subtitle": "Crear secuencias profesionales de astrofotografía",
+      "toolbar": {
+        "redo": "Rehacer",
+        "undo": "Deshacer",
+        "validSequence": "La secuencia es válida y se puede exportar",
+        "clearSequence": "Secuencia clara",
+        "exportSequence": "Secuencia de exportación",
+        "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
+        "loadBasicSequence": "Cargar secuencia básica"
+      },
+      "title": "N.I.N.A CREATOR DE SECUENCIA",
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Habilitar meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "DSO": "Objeto de cielo profundo",
+          "Moon": "Luna",
+          "Planet": "Planeta",
+          "Star": "Estrella",
+          "StellariumObject": "Objeto estelarium"
+        },
+        "placeholder": "Ingrese el nombre del objeto (por ejemplo, M31, NGC 1234, Marte) ...",
+        "searchDescription": "Buscar objetos de cielo profundo, planetas o estrellas y adoptar automáticamente las coordenadas",
+        "searchLabel": "Objetivo de búsqueda"
       }
     }
   }

@@ -237,7 +237,7 @@ export const useSequenceStore = defineStore('sequence', () => {
   const historyIndex = ref(-1);
   const selectedAction = ref(null);
   const isModified = ref(false);
-  
+
   // Global sequence settings
   const enableMeridianFlip = ref(true);
 
@@ -789,20 +789,21 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter, NINA.Sequencer',
-            Filter: (action.parameters.filter?.value && action.parameters.filter.value !== 'None')
-              ? {
-                  Name: action.parameters.filter.value,
-                  Position: -1,
-                  AutoFocusOffset: null,
-                  FlatWizardFilterSettings: {
-                    HistogramMeanTarget: 0.5,
-                    HistogramTolerance: 0.1,
-                    MaxFlatExposureTime: 30.0,
-                    MinFlatExposureTime: 0.01,
-                    StepSize: 0.1,
-                  },
-                }
-              : null,
+            Filter:
+              action.parameters.filter?.value && action.parameters.filter.value !== 'None'
+                ? {
+                    Name: action.parameters.filter.value,
+                    Position: -1,
+                    AutoFocusOffset: null,
+                    FlatWizardFilterSettings: {
+                      HistogramMeanTarget: 0.5,
+                      HistogramTolerance: 0.1,
+                      MaxFlatExposureTime: 30.0,
+                      MinFlatExposureTime: 0.01,
+                      StepSize: 0.1,
+                    },
+                  }
+                : null,
             Parent: null,
             ErrorBehavior: 0,
             Attempts: 1,
@@ -841,18 +842,21 @@ export const useSequenceStore = defineStore('sequence', () => {
               $id: generateId(),
               $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
               Strategy: {
-                $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+                $type:
+                  'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
               },
               Name: null,
               Conditions: {
                 $id: generateId(),
-                $type: 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                $type:
+                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
                 $values: [],
               },
               IsExpanded: true,
               Items: {
                 $id: generateId(),
-                $type: 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                $type:
+                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
                 $values: [
                   {
                     $id: generateId(),
@@ -865,7 +869,8 @@ export const useSequenceStore = defineStore('sequence', () => {
               },
               Triggers: {
                 $id: generateId(),
-                $type: 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                $type:
+                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
                 $values: [],
               },
               Parent: null,
@@ -908,7 +913,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     // Handle slew-to-target specially based on slewMode parameter
     if (action.type === 'slew-to-target') {
       const slewMode = action.parameters.slewMode?.value || 'Slew and Center';
-      
+
       switch (slewMode) {
         case 'Slew Only':
           ninaType = 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer';
@@ -958,7 +963,9 @@ export const useSequenceStore = defineStore('sequence', () => {
           break;
       }
     } else {
-      ninaType = ninaTypeMap[action.type] || 'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer';
+      ninaType =
+        ninaTypeMap[action.type] ||
+        'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer';
     }
 
     const ninaItem = {
@@ -971,10 +978,10 @@ export const useSequenceStore = defineStore('sequence', () => {
     switch (action.type) {
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
-        ninaItem.Duration = (action.parameters.duration?.value || 0);
+        ninaItem.Duration = action.parameters.duration?.value || 0;
         break;
       case 'warm-camera':
-        ninaItem.Duration = (action.parameters.duration?.value || 0);
+        ninaItem.Duration = action.parameters.duration?.value || 0;
         break;
       case 'slew-to-target':
         // Properties already set above based on slewMode

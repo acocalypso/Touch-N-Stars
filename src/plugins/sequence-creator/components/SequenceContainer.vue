@@ -30,7 +30,10 @@
       <!-- Empty State -->
       <div v-if="actions.length === 0" class="p-8 text-center">
         <div class="mb-3 flex justify-center">
-          <component :is="getIconComponent(getEmptyIcon(containerType))" class="w-12 h-12 text-gray-400" />
+          <component
+            :is="getIconComponent(getEmptyIcon(containerType))"
+            class="w-12 h-12 text-gray-400"
+          />
         </div>
         <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
           {{ getEmptyTitle(containerType) }}
@@ -69,7 +72,7 @@
           @move-up="handleMoveUp"
           @move-down="handleMoveDown"
         />
-        
+
         <!-- Add Action Button -->
         <div class="mt-4 text-center">
           <button
@@ -103,7 +106,10 @@
           @click="handleAddAction(action)"
           class="flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer"
         >
-          <component :is="getIconComponent(action.icon)" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
+          <component
+            :is="getIconComponent(action.icon)"
+            class="w-5 h-5 text-gray-600 dark:text-gray-400"
+          />
           <div class="flex-1">
             <div class="text-sm font-medium text-gray-900 dark:text-white">
               {{ action.name }}
@@ -135,7 +141,7 @@ import {
   StopIcon,
   FireIcon,
   HomeIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
 } from '@heroicons/vue/24/outline';
 import TelescopeIcon from './TelescopeIcon.vue';
 import GuiderIcon from './GuiderIcon.vue';
@@ -177,24 +183,24 @@ function getEmptyIcon(containerType) {
 
 function getIconComponent(iconName) {
   const iconMap = {
-    'rocket': RocketLaunchIcon,
-    'flag': FlagIcon,
-    'crosshairs': CursorArrowRaysIcon,
-    'document': DocumentIcon,
-    'LinkIcon': LinkIcon,
-    'CameraIcon': CameraIcon,
-    'EyeIcon': EyeIcon,
-    'telescope': TelescopeIcon,
-    'guider': GuiderIcon,
-    'play': PlayIcon,
-    'stop': StopIcon,
-    'fire': FireIcon,
-    'home': HomeIcon,
+    rocket: RocketLaunchIcon,
+    flag: FlagIcon,
+    crosshairs: CursorArrowRaysIcon,
+    document: DocumentIcon,
+    LinkIcon: LinkIcon,
+    CameraIcon: CameraIcon,
+    EyeIcon: EyeIcon,
+    telescope: TelescopeIcon,
+    guider: GuiderIcon,
+    play: PlayIcon,
+    stop: StopIcon,
+    fire: FireIcon,
+    home: HomeIcon,
     'cursor-arrow-rays': CursorArrowRaysIcon,
-    'snowflake': SnowflakeIcon,
+    snowflake: SnowflakeIcon,
     'magnifying-glass': MagnifyingGlassIcon,
   };
-  
+
   return iconMap[iconName] || DocumentIcon; // Default fallback
 }
 

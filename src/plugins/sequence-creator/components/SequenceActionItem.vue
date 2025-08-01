@@ -338,7 +338,7 @@ import {
   FireIcon,
   HomeIcon,
   CursorArrowRaysIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
 } from '@heroicons/vue/24/outline';
 import TelescopeIcon from './TelescopeIcon.vue';
 import GuiderIcon from './GuiderIcon.vue';
@@ -390,7 +390,7 @@ function updateParameter(key, value) {
 function getKeyParameters(parameters) {
   // Show ALL parameters that have values
   const allParams = {};
-  
+
   for (const key of Object.keys(parameters)) {
     if (parameters[key] && parameters[key].value !== undefined && parameters[key].value !== '') {
       allParams[key] = parameters[key];
@@ -435,7 +435,7 @@ function handleToggleEnabled() {
 
 function handleTargetSelected(targetData) {
   console.log('Target selected:', targetData);
-  
+
   // Update target settings parameters with the selected target data
   if (targetData.name) {
     updateParameter('targetName', targetData.name);
@@ -453,21 +453,21 @@ function handleTargetSelected(targetData) {
 
 function getIconComponent(iconName) {
   const iconMap = {
-    'LinkIcon': LinkIcon,
-    'CameraIcon': CameraIcon,
-    'EyeIcon': EyeIcon,
-    'telescope': TelescopeIcon,
-    'guider': GuiderIcon,
-    'snowflake': SnowflakeIcon,
-    'play': PlayIcon,
-    'stop': StopIcon,
-    'fire': FireIcon,
-    'home': HomeIcon,
+    LinkIcon: LinkIcon,
+    CameraIcon: CameraIcon,
+    EyeIcon: EyeIcon,
+    telescope: TelescopeIcon,
+    guider: GuiderIcon,
+    snowflake: SnowflakeIcon,
+    play: PlayIcon,
+    stop: StopIcon,
+    fire: FireIcon,
+    home: HomeIcon,
     'cursor-arrow-rays': CursorArrowRaysIcon,
-    'crosshairs': CursorArrowRaysIcon, // Using same icon for crosshairs
+    crosshairs: CursorArrowRaysIcon, // Using same icon for crosshairs
     'magnifying-glass': MagnifyingGlassIcon,
   };
-  
+
   return iconMap[iconName] || LinkIcon; // Default fallback
 }
 </script>

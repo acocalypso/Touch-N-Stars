@@ -30,12 +30,12 @@ const actionTemplates = {
         },
         duration: {
           type: 'number',
-          default: 0,
+          default: 10,
           min: 0,
-          max: 3600,
+          max: 60,
           step: 1,
-          label: 'Duration (seconds)',
-          tooltip: 'Time to wait for cooling (0 = no wait)',
+          label: 'Cooling Duration (minutes)',
+          tooltip: 'Time to actively cool the camera (0 = cool until temperature reached)',
         },
       },
       color: 'bg-cyan-500',
@@ -285,12 +285,12 @@ const actionTemplates = {
       parameters: {
         duration: {
           type: 'number',
-          default: 0,
+          default: 10,
           min: 0,
-          max: 3600,
+          max: 60,
           step: 1,
-          label: 'Duration (seconds)',
-          tooltip: 'Time to wait for warming (0 = no wait)',
+          label: 'Warming Duration (minutes)',
+          tooltip: 'Time to actively warm up the camera (0 = warm to ambient temperature)',
         },
       },
       color: 'bg-orange-500',
@@ -642,6 +642,52 @@ export const useSequenceStore = defineStore('sequence', () => {
   function createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId) {
     const targetImagingId = generateId();
 
+    // Find target settings action to extract coordinates
+    const targetSettingsAction = actions.find((action) => action.type === 'target-settings');
+
+    // Parse RA and Dec coordinates from target-settings
+    let raHours = 0,
+      raMinutes = 0,
+      raSeconds = 0.0;
+    let negativeDecFlag = false,
+      decDegrees = 0,
+      decMinutes = 0,
+      decSeconds = 0.0;
+    let targetName = 'Basic Sequence Target';
+    let positionAngle = 0.0;
+
+    if (targetSettingsAction && targetSettingsAction.parameters) {
+      // Extract target name
+      if (targetSettingsAction.parameters.targetName?.value) {
+        targetName = targetSettingsAction.parameters.targetName.value;
+      }
+
+      // Extract position angle
+      if (targetSettingsAction.parameters.positionAngle?.value !== undefined) {
+        positionAngle = targetSettingsAction.parameters.positionAngle.value;
+      }
+
+      // Parse RA (HH:MM:SS format)
+      if (targetSettingsAction.parameters.ra?.value) {
+        const raString = targetSettingsAction.parameters.ra.value.toString();
+        const raParts = raString.split(':');
+        if (raParts.length >= 1) raHours = parseInt(raParts[0]) || 0;
+        if (raParts.length >= 2) raMinutes = parseInt(raParts[1]) || 0;
+        if (raParts.length >= 3) raSeconds = parseFloat(raParts[2]) || 0.0;
+      }
+
+      // Parse Dec (±DD:MM:SS format)
+      if (targetSettingsAction.parameters.dec?.value) {
+        const decString = targetSettingsAction.parameters.dec.value.toString();
+        negativeDecFlag = decString.startsWith('-');
+        const cleanDecString = decString.replace(/^[+-]/, '');
+        const decParts = cleanDecString.split(':');
+        if (decParts.length >= 1) decDegrees = parseInt(decParts[0]) || 0;
+        if (decParts.length >= 2) decMinutes = parseInt(decParts[1]) || 0;
+        if (decParts.length >= 3) decSeconds = parseFloat(decParts[2]) || 0.0;
+      }
+    }
+
     const dsoContainer = {
       $id: dsoContainerId,
       $type: 'NINA.Sequencer.Container.DeepSkyObjectContainer, NINA.Sequencer',
@@ -649,18 +695,18 @@ export const useSequenceStore = defineStore('sequence', () => {
         $id: generateId(),
         $type: 'NINA.Astrometry.InputTarget, NINA.Astrometry',
         Expanded: true,
-        TargetName: '',
-        PositionAngle: 0.0,
+        TargetName: targetName,
+        PositionAngle: positionAngle,
         InputCoordinates: {
           $id: generateId(),
           $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
-          RAHours: 0,
-          RAMinutes: 0,
-          RASeconds: 0.0,
-          NegativeDec: false,
-          DecDegrees: 0,
-          DecMinutes: 0,
-          DecSeconds: 0.0,
+          RAHours: raHours,
+          RAMinutes: raMinutes,
+          RASeconds: raSeconds,
+          NegativeDec: negativeDecFlag,
+          DecDegrees: decDegrees,
+          DecMinutes: decMinutes,
+          DecSeconds: decSeconds,
         },
       },
       ExposureInfoListExpanded: false,
@@ -673,7 +719,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       Strategy: {
         $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
       },
-      Name: 'Basic Sequence Target',
+      Name: targetName,
       Conditions: {
         $id: generateId(),
         $type:
@@ -947,10 +993,10 @@ export const useSequenceStore = defineStore('sequence', () => {
     switch (action.type) {
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
-        ninaItem.Duration = action.parameters.duration?.value || 0.0;
+        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
         break;
       case 'warm-camera':
-        ninaItem.Duration = action.parameters.duration?.value || 0.0;
+        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
         break;
       case 'center-target':
         ninaItem.Inherited = true;

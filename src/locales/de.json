@@ -813,6 +813,19 @@
           "step3": "Manuell in N.I.N.A importieren über Sequenz → Sequenz Laden",
           "step4": "Geräte-spezifische Einstellungen nach Bedarf anpassen"
         }
+      },
+      "targetSearch": {
+        "searchLabel": "Ziel Suchen",
+        "searchDescription": "Suchen Sie nach Deep-Sky-Objekten, Planeten oder Sternen und übernehmen Sie automatisch die Koordinaten",
+        "placeholder": "Objektname eingeben (z.B. M31, NGC 1234, Mars)...",
+        "objectTypes": {
+          "DSO": "Deep-Sky-Objekt",
+          "Planet": "Planet",
+          "Star": "Stern",
+          "Moon": "Mond",
+          "Comet": "Komet",
+          "StellariumObject": "Stellarium-Objekt"
+        }
       }
     }
   }

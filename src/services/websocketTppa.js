@@ -1,4 +1,5 @@
 import { useSettingsStore } from '../store/settingsStore';
+import { apiStore } from '@/store/store';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/tppa';
@@ -9,6 +10,8 @@ class WebSocketService {
     this.statusCallback = null;
     this.messageCallback = null;
     this.backendUrl = null;
+    this.reconnectDelay = 2000; // 2 Sekunden
+    this.shouldReconnect = true;
   }
 
   setStatusCallback(callback) {
@@ -20,9 +23,9 @@ class WebSocketService {
   }
 
   connect() {
-    // Initialize URL with settings from store when connecting
     const settingsStore = useSettingsStore();
-    const backendPort = 1888;
+    const store = apiStore();
+    const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
@@ -65,13 +68,23 @@ class WebSocketService {
       if (this.statusCallback) {
         this.statusCallback('Geschlossen');
       }
+
+      if (this.shouldReconnect && store.isBackendReachable) {
+        console.log(`Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`);
+        setTimeout(() => this.connect(), this.reconnectDelay);
+      }
     };
   }
 
-  // Methode zum Senden von Nachrichten als einfache Strings
+  disconnect() {
+    this.shouldReconnect = false;
+    if (this.socket) {
+      this.socket.close();
+    }
+  }
+
   sendMessage(message) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      // Nachricht direkt als String senden
       this.socket.send(message);
     } else {
       console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');

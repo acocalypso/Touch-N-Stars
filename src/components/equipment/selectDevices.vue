@@ -6,13 +6,17 @@
     <label class="w-36" for="deviceSelect">{{ deviceName }}:</label>
     <select
       id="deviceSelect"
-      class="w-full text-black px-3 h-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+      class="w-full default-select"
       v-model="selectedDevice"
       :disabled="isConnected"
     >
       <option disabled>{{ selectedDevice }}</option>
-      <option v-for="device in devices" :key="device.Name" :value="String(device.Name)">
-        {{ device.Name }}
+      <option
+        v-for="device in devices"
+        :key="device.DisplayName"
+        :value="String(device.DisplayName)"
+      >
+        {{ device.DisplayName }}
       </option>
     </select>
     <div v-if="infoVisible">
@@ -42,6 +46,8 @@
         <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
       </button>
     </div>
+
+    <!-- Modal entfernt - verwendet jetzt toastModal -->
   </div>
 </template>
 
@@ -51,14 +57,19 @@ import apiService from '@/services/apiService';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
 import infoModal from '@/components/helpers/infoModal.vue';
 import { useEquipmentStore } from '@/store/equipmentStore';
+import { useI18n } from 'vue-i18n';
+import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const equipmentStore = useEquipmentStore();
+const { t } = useI18n();
+
 const props = defineProps({
   apiAction: { type: String, required: true },
   defaultDeviceId: { type: String, default: '?' },
   deviceName: { type: String, default: 'Gerät' },
   isConnected: { type: Boolean, required: true },
 });
+
 const devices = ref([]);
 const selectedDevice = ref('');
 const error = ref(false);
@@ -70,6 +81,13 @@ const infoVisible = ref(false);
 // Funktion für API-Aufruf mit dynamischem `apiAction`
 async function getDevices() {
   error.value = false;
+
+  // Prüfung ob apiAction definiert ist
+  if (!props.apiAction) {
+    console.error('apiAction ist nicht definiert');
+    return;
+  }
+
   const apiName = props.apiAction.replace('Action', '');
   if (
     Array.isArray(equipmentStore.availableDevices[apiName]) &&
@@ -107,6 +125,12 @@ async function getDevices() {
 }
 
 async function rescanDevices() {
+  // Prüfung ob apiAction definiert ist
+  if (!props.apiAction) {
+    console.error('apiAction ist nicht definiert');
+    return;
+  }
+
   const apiName = props.apiAction.replace('Action', '');
   error.value = false;
   console.log('scan');
@@ -141,17 +165,34 @@ async function rescanDevices() {
 async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
+
   const deviceId = getDeviceId(selectedDevice.value);
+  const encodedId = encodeURIComponent(deviceId);
   console.log('props.apiAction', props.apiAction);
+
   try {
     if (props.isConnected) {
       console.log('disconnect');
       const response = await apiService[props.apiAction]('disconnect');
+      if (deviceId == 'PHD2_Single') {
+        await apiService.disconnectPHD2();
+      }
       console.log('response', response);
     } else {
+      // Prüfung vor dem Verbinden der Montierung
+      if (props.apiAction === 'mountAction') {
+        const canConnect = await checkMountConnectionPermission(t);
+        if (!canConnect) {
+          // Benutzer hat abgebrochen
+          return;
+        }
+      }
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
-      const response = await apiService[props.apiAction]('connect?to=' + deviceId);
+      const response = await apiService[props.apiAction]('connect?to=' + encodedId);
       console.log('response', response);
+      if (deviceId == 'PHD2_Single') {
+        await apiService.connectPHD2();
+      }
 
       if (!response.Success) {
         throw new Error(response.Error || 'Unbekannter Verbindungsfehler');
@@ -185,11 +226,11 @@ function updateBorderClass() {
 
 function getDeviceName(deviceId) {
   const device = devices.value.find((d) => String(d.Id) === String(deviceId));
-  return device ? device.Name : '';
+  return device ? device.DisplayName : '';
 }
 
 function getDeviceId(deviceName) {
-  const device = devices.value.find((d) => d.Name === deviceName);
+  const device = devices.value.find((d) => d.DisplayName === deviceName);
   return device ? String(device.Id) : '';
 }
 

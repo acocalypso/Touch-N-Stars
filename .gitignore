@@ -4,7 +4,10 @@ node_modules
 /server/dist
 /server/build
 /server/static
+.claude
 
+# hrz
+*.hrz
 
 # local env files
 .env.local

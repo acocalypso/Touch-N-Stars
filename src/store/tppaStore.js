@@ -19,12 +19,15 @@ export const useTppaStore = defineStore('tppaStore', {
     altitudeCorDirectionTop: false,
     isWithinTolerance: false,
     isPause: false,
+    settings: {
+      StartFromCurrentPosition: false,
+      EastDirection: false,
+    },
   }),
 
   actions: {
     setRunning(isRunning) {
       this.isRunning = isRunning;
-      // Persist state to localStorage
       localStorage.setItem('tppaStore', JSON.stringify(this.$state));
     },
     initialize() {

@@ -1,12 +1,13 @@
 <template>
-  <div class="stellarium-container">
+  <div class="stellarium-container" :class="containerClasses">
     <!-- Canvas für Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
     <!-- Button für das Suchfeld (Lupe) -->
     <button
       @click="toggleSearch"
-      class="absolute top-3 right-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+      :class="searchButtonClasses"
+      class="absolute p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
     >
       <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>
@@ -22,7 +23,9 @@
     <!-- Overlay für das Suchfeld -->
     <div
       v-if="isSearchVisible"
-      class="absolute top-10 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+      :class="searchModalClasses"
+      class="absolute bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+      style="z-index: 100"
     >
       <steallriumSearch ref="searchComponent" />
     </div>
@@ -37,22 +40,29 @@
       :selectedObjectDecDeg="selectedObjectDecDeg"
       @setFramingCoordinates="setFramingCoordinates"
     />
-    <div class="absolute bottom-3 left-2 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
+    <div
+      :class="controlsClasses"
+      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full stellarium-controls"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    >
       <stellariumCredits />
       <stellariumSettings />
+
+      <!-- Clock -->
+      <stellariumClock v-if="stellariumStore.stel" />
     </div>
-    <!-- Clock -->
-    <stellariumClock v-if="stellariumStore.stel" />
   </div>
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref, watch, nextTick } from 'vue';
+import { onMounted, onBeforeUnmount, ref, watch, nextTick, computed } from 'vue';
+import { useOrientation } from '@/composables/useOrientation';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { Capacitor } from '@capacitor/core';
 import { useRouter } from 'vue-router';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
@@ -78,16 +88,69 @@ const isSearchVisible = ref(false);
 const searchComponent = ref(null);
 const mountComponent = ref(null);
 
-// Funktion zum Ein-/Ausblenden des Suchfeldes
-function toggleSearch() {
-  isSearchVisible.value = !isSearchVisible.value;
+const { isLandscape } = useOrientation();
 
-  if (isSearchVisible.value) {
-    selectedObject.value = null;
-    nextTick(() => {
-      searchComponent.value?.focusSearchInput();
-    });
+const containerClasses = computed(() => ({
+  'stellarium-portrait': !isLandscape.value,
+  'stellarium-landscape': isLandscape.value,
+}));
+
+// Controls positioning classes
+const controlsClasses = computed(() => ({
+  'left-2': !isLandscape.value,
+  'left-2': isLandscape.value,
+}));
+
+// Search button positioning classes
+const searchButtonClasses = computed(() => ({
+  'top-24 right-3': !isLandscape.value,
+  'top-3 right-6': isLandscape.value,
+}));
+
+// Search modal positioning classes
+const searchModalClasses = computed(() => ({
+  'top-28 left-1/2 transform -translate-x-1/2': !isLandscape.value,
+  'top-16 right-4': isLandscape.value,
+}));
+
+// Funktion zum Ein-/Ausblenden des Suchfeldes
+function toggleSearch(event) {
+  // Prevent default behavior if event is provided
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
   }
+
+  // Platform detection for iOS-specific handling using Capacitor
+  const isIOS = Capacitor.getPlatform() === 'ios';
+
+  // For iOS, first clear any existing selection to avoid UI conflicts
+  if (isIOS && selectedObject.value) {
+    selectedObject.value = null;
+  }
+
+  // Use a small delay on iOS to prevent layout issues
+  setTimeout(
+    () => {
+      isSearchVisible.value = !isSearchVisible.value;
+
+      if (isSearchVisible.value) {
+        selectedObject.value = null;
+
+        if (isIOS) {
+          // For iOS, add extra delay to ensure UI is ready
+          setTimeout(() => {
+            searchComponent.value?.focusSearchInput();
+          }, 100);
+        } else {
+          nextTick(() => {
+            searchComponent.value?.focusSearchInput();
+          });
+        }
+      }
+    },
+    isIOS ? 50 : 0
+  );
 }
 
 // Framing-Koordinaten
@@ -96,7 +159,13 @@ function setFramingCoordinates() {
   framingStore.DECangleString = selectedObjectDec.value;
   framingStore.RAangle = selectedObjectRaDeg.value;
   framingStore.DECangle = selectedObjectDecDeg.value;
-  framingStore.selectedItem = selectedObject.value;
+  //framingStore.selectedItem = selectedObject.value;
+  framingStore.selectedItem = {
+    Name: '',
+    RA: selectedObjectRaDeg.value,
+    Dec: selectedObjectDecDeg.value,
+  };
+
   console.log('Set Framing Coordinates');
   store.mount.currentTab = 'showSlew';
   console.log('store.mount.currentTab', store.mount.currentTab);
@@ -139,9 +208,8 @@ onMounted(async () => {
 
         canvas: stelCanvas.value,
         onReady(stel) {
-          console.log('Stellarium ist bereit!', stel);
+          console.log('Stellarium ist bereit!');
           stellariumStore.stel = stel;
-          console.log('Stellarium-Instanz:', stel.core);
 
           // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
@@ -170,8 +238,9 @@ onMounted(async () => {
           //IP und Port vom Plugin ermitteln
           const protocol = settingsStore.backendProtocol || 'http';
           const host = settingsStore.connection.ip || window.location.hostname;
-          const port = settingsStore.connection.port || 5000;
+          const port = settingsStore.connection.port || window.location.port;
           const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
+          stellariumStore.baseUrl = baseUrl;
           const core = stel.core;
 
           //Daten hinzufügen
@@ -179,11 +248,27 @@ onMounted(async () => {
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
           core.dss.addDataSource({ url: baseUrl + 'surveys/dss' });
-          core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
+          //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
+          //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/gray', key: 'guereins' });
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
           core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
+          // Planeten mit offiziellen HiPS-Texturen
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mercury', key: 'mercury' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/venus', key: 'venus' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mars', key: 'mars' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/jupiter', key: 'jupiter' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/saturn', key: 'saturn' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/uranus', key: 'uranus' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/neptune', key: 'neptune' });
+
+          // Jupiter-Monde
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/io', key: 'io' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/europa', key: 'europa' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/ganymede', key: 'ganymede' });
+          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/callisto', key: 'callisto' });
+
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
           core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
           // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
@@ -240,7 +325,6 @@ onBeforeUnmount(() => {
     // Entferne die Stellarium-Instanz
     stellariumStore.stel = null;
 
-    // Lösche das Canvas-Element (optional, falls nötig)
     if (stelCanvas.value) {
       stelCanvas.value.width = 0;
       stelCanvas.value.height = 0;
@@ -254,11 +338,29 @@ onBeforeUnmount(() => {
 <style scoped>
 .stellarium-container {
   position: fixed;
-  top: 10;
+  z-index: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Landscape Mode  */
+.stellarium-landscape {
+  top: 0;
+  left: 8rem;
+  width: calc(100vw - 8rem);
+  height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
+}
+
+@media screen and (orientation: landscape) {
+  .stellarium-controls.left-2 {
+    left: 9rem !important;
+  }
+}
+
+.stellarium-portrait {
+  top: 0;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 120px);
-  z-index: 0;
+  height: calc(100dvh - 1.5rem - env(safe-area-inset-bottom, 0px));
 }
 
 .stellarium-canvas {

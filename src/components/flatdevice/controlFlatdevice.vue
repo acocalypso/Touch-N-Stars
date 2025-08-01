@@ -24,7 +24,7 @@
         id="SetBrightness"
         v-model="flatStore.brightness"
         type="number"
-        class="w-24 text-black px-3 h-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="default-input h-10 w-24"
         placeholder="1"
         step="1"
         @blur="SetBrightness"

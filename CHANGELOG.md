@@ -1,14 +1,87 @@
 # Changelog
-
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [1.0.6.0] - unreleasd
+
+## [1.1.1.0] - 2025-07-25
+### Added
+- PHD2 Image
+- PHD2 Starimige with starprofiel graph
+- PHD2 callibration assitant
+
+### Changed
+- The settings modal is now a separate page.
+
+## [1.1.0.0] - 2025-07-25
+### Added
+- PHD2 setting support. You can now set many PHD2 parameters, such as exposure time, aggression, ...
+- Display of the current `targetName` if a sequence item with status `RUNNING` exists.
+- Autoscan for iOS and Andriod. The connection settings can now be determined automatically as long as the default port 5000 is used in the plugin
+- In landscape, the navbar is now displayed on the left so there is more space
+- Warning if the Locatoin Sync in NINA does not match TNS and the possibility to change this
+- A window to set the camera's exposure time more quickly
+- GuiderStatus component showing current guider state with visual indicators and multilingual support
+- Added sequence load to load sequences into the advanced sequence. Load a sequence from the default sequence folder 
+
+### Changed
+- the coordinates for framing are no longer set at startup. This means that it is no longer necessary to switch to the framing tab in NINA
+- design adjustments 
+- Guidegraph show px and rms error
+- Raise the API minimum version to API 2.2.5.0 !
+- Toast notification system: Non-critical toasts now appear as non-blocking notifications in top-right corner, while confirmations and critical messages remain as blocking overlays
+- Guider control buttons are now always clickable with visual feedback for inactive states
+
+### Fixed
+- fixed layout error in footer for iOS
+
+## [1.0.9.0] - 2025-06-24
+### Added
+- Guidgraph can be displayed everywhere. It can be opened and closed from the status bar
+- Add skychart to sequenz
+- TPPA Start from current position
+
+### Changed
+- Connection timeout increased to 2s and three attempts 
+
+### Fixed
+- Automatic reconnect of the mount websocket connection
+
+## [1.0.8.0] - 2025-05-27
+### Added
+- Stellarium on iOS 
+- Stellarium: send coordinates to mount
+- SkyChart displays the custom horizon
+- Camera page: Movable modal for mount, focuser and filter
+
+### Changed
+- reworked Logfile & Image download for Android/iOS
+- The communication action monitoring from TNS to NINA has been revised
+- Camera page: Design reworked 
+- Statusbar: Design reworked 
+
+### Fixed
+- UI rendering & touch inputs for mobile applications
+- Fix connection error with alpaca devices
+
+## [1.0.7.0] - 2025-05-08
+### Added
+- Favorites memory for targets added
+- debug option/window 
+
+### Changed
+- The API port is now automatically detected
+- Several NINA instances can run on one PC. The port increases by 1 for each instance
+- The skychart shows the nautical and astronomical night
+- The communication action monitoring from TNS to NINA has been revised
+
+## [1.0.6.0] - 2025-05-03
 ### Added
 - Focuser quick to use button
-- IOS App
+- Integrated iOS app
 - Instanze Color -> There is a separate color for each instance. The navbar changes color depending on the instance
+- add a plugin system
+- A message is now displayed if the communication does not work
 
 ### Changed
 - design rework stellarium 
@@ -18,6 +91,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - repairs a connection error if the default port is not used
+- the IP address in the plugin is now displayed correctly
+
 
 ## [1.0.5.0] - 2025-04-16
 ### Added

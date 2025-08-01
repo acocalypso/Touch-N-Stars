@@ -35,6 +35,11 @@
       >
         <ArrowDownTrayIcon class="h-6" />
       </button>
+      <BadButton
+        v-if="settingsStore.showSpecial"
+        class="absolute top-4 right-40 h-6 z-[100]"
+        :index="index"
+      />
 
       <div
         ref="imageContainer"
@@ -57,8 +62,11 @@
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Capacitor } from '@capacitor/core';
+import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import BadButton from './BadButton.vue';
+import { useSettingsStore } from '@/store/settingsStore';
+
+const settingsStore = useSettingsStore();
 
 const props = defineProps({
   showModal: {
@@ -76,6 +84,10 @@ const props = defineProps({
   isLoading: {
     type: Boolean,
     default: true,
+  },
+  index: {
+    type: Number,
+    default: 0,
   },
 });
 
@@ -137,133 +149,12 @@ const destroyPanzoom = () => {
 };
 
 async function downloadImage() {
-  let fileName = `TNS-${props.imageDate}.jpg`;
-
-  if (props.imageDate === '0000-00-00') {
-    const now = new Date();
-    fileName = `TNS-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}.jpg`;
-  }
-
-  console.log('Save ', fileName);
-
   if (!props.imageData) return;
 
-  // Handle based on platform
-  if (Capacitor.getPlatform() === 'ios') {
-    try {
-      // For iOS: Save directly to Documents directory which is accessible via Files app
-      const response = await fetch(props.imageData);
-      const blob = await response.blob();
-
-      const base64Data = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result.split(',')[1];
-          resolve(base64);
-        };
-        reader.readAsDataURL(blob);
-      });
-
-      const result = await Filesystem.writeFile({
-        path: fileName,
-        data: base64Data,
-        directory: Directory.Documents,
-      });
-
-      console.log('Image saved to iOS Documents folder:', result.uri);
-      alert("Image saved. You can access it from the Files app in the app's Documents folder.");
-    } catch (err) {
-      console.error('Error in iOS download process:', err);
-      alert('Download failed. Please try again.');
-    }
-  } else if (Capacitor.getPlatform() === 'android') {
-    try {
-      // Convert the image to a blob
-      const response = await fetch(props.imageData);
-      const blob = await response.blob();
-
-      // Convert blob to base64
-      const base64Data = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const base64 = reader.result.split(',')[1];
-          resolve(base64);
-        };
-        reader.readAsDataURL(blob);
-      });
-
-      // Try multiple approaches for Android
-      try {
-        // Try saving to Downloads folder first
-        const result = await Filesystem.writeFile({
-          path: `Download/${fileName}`,
-          data: base64Data,
-          directory: Directory.ExternalStorage,
-        });
-
-        console.log('Image saved to Downloads folder:', result.uri);
-        alert('Image saved to Downloads folder');
-      } catch (downloadError) {
-        console.error('Error saving to Downloads:', downloadError);
-
-        // Try saving to Documents directory
-        try {
-          const docResult = await Filesystem.writeFile({
-            path: fileName,
-            data: base64Data,
-            directory: Directory.Documents,
-          });
-
-          console.log('Image saved to Documents:', docResult.uri);
-          alert('Image saved to Documents folder');
-        } catch (docError) {
-          console.error('Error saving to Documents:', docError);
-
-          // Try saving to app's external files directory
-          try {
-            const extResult = await Filesystem.writeFile({
-              path: fileName,
-              data: base64Data,
-              directory: Directory.External,
-            });
-
-            console.log('Image saved to external directory:', extResult.uri);
-            alert('Image saved to external app storage');
-          } catch (extError) {
-            console.error('Error saving to external directory:', extError);
-
-            // Final fallback: Use the browser download approach
-            const downloadUrl = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = downloadUrl;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-
-            setTimeout(() => {
-              URL.revokeObjectURL(downloadUrl);
-            }, 100);
-
-            console.log('Fallback browser download attempted');
-          }
-        }
-      }
-    } catch (err) {
-      console.error('Error in Android download process:', err);
-      alert('Download failed. Please try again.');
-    }
-  } else {
-    // Standard web browser download
-    const response = await fetch(props.imageData);
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.click();
-    URL.revokeObjectURL(url);
-  }
+  await downloadImageHelper(props.imageData, props.imageDate, {
+    folderPrefix: 'TNS-Images',
+    filePrefix: 'TNS',
+  });
 }
 
 const onImageLoad = () => {

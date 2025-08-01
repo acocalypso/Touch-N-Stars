@@ -1,6 +1,8 @@
 <template>
   <div v-if="mountStore.wsIsConnected">
-    <div class="grid grid-cols-3 gap-4 p-4 place-items-center w-64 mx-auto">
+    <div
+      class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid"
+    >
       <!-- Obere Reihe (Nord) -->
       <div></div>
       <button
@@ -16,7 +18,7 @@
       >
         <ArrowUpCircleIcon
           :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
-          class="w-12 h-12"
+          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
       <div></div>
@@ -35,12 +37,12 @@
       >
         <ArrowLeftCircleIcon
           :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
-          class="w-12 h-12"
+          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
       <button @click="sendStop" class="btn btn-stop">
         <StopCircleIcon
-          class="w-12 h-12"
+          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
           :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'"
         />
       </button>
@@ -57,7 +59,7 @@
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
-          class="w-12 h-12"
+          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
 
@@ -76,29 +78,49 @@
       >
         <ArrowDownCircleIcon
           :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
-          class="w-12 h-12"
+          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
     </div>
     <div
-      class="flex flex-col w-full border border-gray-300 p-2 mt-1 rounded-xl transition-all duration-200 hover:border-cyan-500 focus-within:border-cyan-500 hover:shadow-lg"
+      class="flex flex-col bg-gray-900/80 w-full border border-gray-300 p-1 sm:p-2 mt-1 rounded-xl gap-1"
     >
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full gap-1">
         <div>
-          <p class="text-sm min-w-32 font-medium text-gray-500">
+          <p class="text-xs sm:text-sm min-w-24 sm:min-w-32 font-medium text-gray-500">
             {{ $t('components.mount.control.slewRate') }}
           </p>
         </div>
-        <div class="flex flex-row w-full justify-center gap-2">
-          <button class="btn min-w-12" @click="settingsStore.mount.slewRate = 0.017">4x</button>
-          <button class="btn min-w-12" @click="settingsStore.mount.slewRate = 0.067">16x</button>
-          <button class="btn min-w-12" @click="settingsStore.mount.slewRate = 0.133">32x</button>
-          <button class="btn min-w-12" @click="settingsStore.mount.slewRate = 0.267">62x</button>
+        <div class="flex flex-row w-full justify-center gap-1 sm:gap-2">
+          <button
+            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            @click="settingsStore.mount.slewRate = 0.017"
+          >
+            4x
+          </button>
+          <button
+            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            @click="settingsStore.mount.slewRate = 0.067"
+          >
+            16x
+          </button>
+          <button
+            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            @click="settingsStore.mount.slewRate = 0.133"
+          >
+            32x
+          </button>
+          <button
+            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            @click="settingsStore.mount.slewRate = 0.267"
+          >
+            62x
+          </button>
         </div>
       </div>
-      <div class="flex flex-row w-full">
+      <div class="flex flex-row w-full items-center">
         <input
-          class="w-full mx-2"
+          class="w-full mx-1 sm:mx-2"
           type="range"
           min="0.01"
           max="5"
@@ -106,7 +128,7 @@
           v-model="settingsStore.mount.slewRate"
         />
         <input
-          class="text-black px-4 h-10 w-24 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200"
+          class="default-input w-16 sm:w-20 h-6 sm:h-8 text-xs sm:text-sm"
           type="number"
           v-model="settingsStore.mount.slewRate"
           min="0.001"
@@ -195,12 +217,9 @@ onMounted(() => {
 onBeforeUnmount(() => {
   websocketMountControl.setStatusCallback(null);
   websocketMountControl.setMessageCallback(null);
+  websocketMountControl.disconnect();
   mountStore.lastDirection = '';
   mountStore.wsIsConnected = false;
-  clearInterval(commandInterval);
-  if (websocketMountControl.socket) {
-    websocketMountControl.socket.close();
-  }
 });
 </script>
 
@@ -208,9 +227,33 @@ onBeforeUnmount(() => {
 .btn {
   border-radius: 1rem;
   background-color: #334155;
-  padding: 0.5rem;
+  padding: 0.25rem;
   box-shadow: 0 2px 15px black;
   border: 1px solid #0a0a0a;
+}
+
+@media (min-width: 640px) {
+  .btn {
+    padding: 0.5rem;
+  }
+}
+
+/* Landscape-Modus Anpassungen für kleine Bildschirme */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  .move-axis-grid {
+    width: 12rem; /* w-48 */
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .move-axis-icon {
+    width: 2.25rem; /* w-9 */
+    height: 2.25rem; /* h-9 */
+  }
+
+  .btn {
+    padding: 0.375rem;
+  }
 }
 .glow-green {
   box-shadow: 0 0 10px #00ff00;

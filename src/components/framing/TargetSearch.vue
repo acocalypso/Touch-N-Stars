@@ -5,27 +5,44 @@
         {{ $t('components.framing.search.title') }}
       </h5>
 
+      <FavTargets
+        :showSeqTarget="false"
+        class="fixed right-5 z-20"
+        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      />
       <!-- Search Input -->
       <div class="text-black mx-auto">
-        <input
-          type="text"
-          v-model="framingStore.searchQuery"
-          @input="fetchTargetSearch"
-          class="w-full p-2 border border-gray-300 rounded"
-          :placeholder="$t('components.framing.search.placeholder')"
-        />
+        <div class="flex gap-1">
+          <input
+            type="text"
+            v-model="framingStore.searchQuery"
+            @input="fetchTargetSearch"
+            class="default-input h-10 w-full"
+            :placeholder="$t('components.framing.search.placeholder')"
+          />
+          <SaveFavTargets
+            v-if="framingStore.selectedItem"
+            class="w-5 h-5 mr-5"
+            :name="framingStore.selectedItem.Name"
+            :ra="framingStore.RAangle"
+            :dec="framingStore.DECangle"
+            :ra-string="framingStore.RAangleString"
+            :dec-string="framingStore.DECangleString"
+            :rotation="framingStore.rotationAngle"
+          />
+        </div>
         <!-- Search Results -->
         <ul
           v-if="
             Array.isArray(framingStore.targetSearchResult) &&
             framingStore.targetSearchResult.length > 0
           "
-          class="bg-white border border-gray-300 rounded mt-1 z-10"
+          class="default-select"
         >
           <li
             v-for="(item, index) in framingStore.targetSearchResult"
             :key="index"
-            class="p-2 hover:bg-gray-200 cursor-pointer"
+            class="p-2 hover:bg-blue-800 cursor-pointer"
             @click="selectTarget(item)"
           >
             {{ item.Name }}
@@ -43,7 +60,7 @@
         <select
           id="visibleStars"
           v-model="selectedStar"
-          class="text-black w-full p-2 border border-gray-300 rounded"
+          class="default-select h-10 w-full"
           @change="updateRaDec"
         >
           <option v-for="star in visibleStars" :key="star.name" :value="star">
@@ -153,6 +170,8 @@ import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vu
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
+import FavTargets from '@/components/favTargets/FavTargets.vue';
+import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();

@@ -40,7 +40,8 @@
 
   <button
     type="button"
-    class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed bottom-11 right-4"
+    class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed right-4"
+    style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     @click="showSettingsModal = true"
     aria-label="Open settings"
   >
@@ -55,33 +56,24 @@
     v-model:activeItem="currentTab"
   />
 
-  <div class="flex items-center justify-center mx-6 my-16">
+  <div class="flex items-center justify-center mb-6 mt-16">
     <div v-if="currentTab == 'showStats'">
       <div
         v-if="store.imageHistoryInfo && store.imageHistoryInfo.length > 0"
         class="flex flex-col min-w-[80vw] w-full max-w-4xl justify-center items-center space-y-4"
       >
+        <h2>{{ sequenceStore.targetName }}</h2>
         <div class="mt-5 w-full">
           <LastSequenceImg />
         </div>
 
         <div
           v-if="settingsStore.monitorViewSetting.showImgStatsGraph"
-          class="w-full min-h-60 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl"
+          class="w-full border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl"
         >
           <SequenzGraph />
         </div>
-        <div
-          v-if="settingsStore.monitorViewSetting.showGuiderGraph && store.guiderInfo.Connected"
-          class="flex flex-col w-full min-h-40 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
-        >
-          <div class="w-full">
-            <GuiderGraph />
-          </div>
-          <div class="min-w-24 pt-4 flex gap-3 ml-7 text-gray-300">
-            <GuiderStats />
-          </div>
-        </div>
+
         <div
           class="flex flex-col w-full min-h-80 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
           v-if="settingsStore.monitorViewSetting.showGuiderAfGraph && store.focuserInfo.Connected"
@@ -108,18 +100,18 @@ import SubNav from '@/components/SubNav.vue';
 import SequenceImageHistory from '@/components/sequence/SequenceImageHistory.vue';
 import LastSequenceImg from '@/components/sequence/LastSequenceImg.vue';
 import SequenzGraph from '@/components/sequence/SequenzGraph.vue';
-import GuiderGraph from '@/components/guider/GuiderGraph.vue';
-import GuiderStats from '@/components/guider/GuiderStats.vue';
 import AutofocusGrafik from '@/components/focuser/AfFnishGraph.vue';
 import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { useSequenceStore } from '@/store/sequenceStore';
 
 const currentTab = ref('showStats');
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
 const showSettingsModal = ref(false);
 </script>
 

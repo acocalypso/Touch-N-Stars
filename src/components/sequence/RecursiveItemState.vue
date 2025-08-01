@@ -47,12 +47,39 @@
             />
           </button>
         </div>
+        <!-- Target Information Section -->
+        <div v-if="item.Target" class="mt-4 mb-4">
+          <div class="bg-gray-700 rounded-lg p-3 border border-gray-600">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-gray-400">RA:</span>
+                <span class="text-gray-200 ml-2">
+                  {{ formatTargetRA(item.Target.InputCoordinates) }}
+                </span>
+              </div>
+              <div>
+                <span class="text-gray-400">DEC:</span>
+                <span class="text-gray-200 ml-2">
+                  {{ formatTargetDec(item.Target.InputCoordinates) }}
+                </span>
+              </div>
+            </div>
 
+            <!-- SkyChart Display -->
+            <div v-if="hasValidTargetCoordinates(item.Target)" class="mt-3">
+              <SkyChart
+                :target="getTargetForSkyChart(item.Target)"
+                :coordinates="getObserverCoordinates()"
+              />
+            </div>
+          </div>
+        </div>
         <!-- Triggers Section -->
         <div v-if="item.Triggers?.length" class="mt-4">
           <h4 class="text-sm font-semibold text-gray-300 mb-2">
             {{ $t('components.sequence.triggers') }}
           </h4>
+
           <div class="space-y-2">
             <div
               v-for="(trigger, tIndex) in item.Triggers"
@@ -362,11 +389,13 @@ import { watch } from 'vue';
 import { defineProps } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 import { PlusIcon, MinusIcon } from '@heroicons/vue/24/outline';
+import SkyChart from '@/components/framing/SkyChart.vue';
 import {
   removeSuffix,
   formatDuration,
@@ -398,6 +427,68 @@ const props = defineProps({
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
+const settingsStore = useSettingsStore();
+
+// Functions for target coordinate handling
+function formatTargetRA(inputCoordinates) {
+  if (!inputCoordinates) return 'N/A';
+  const hours = inputCoordinates.RAHours || 0;
+  const minutes = inputCoordinates.RAMinutes || 0;
+  const seconds = inputCoordinates.RASeconds || 0;
+  return `${hours.toString().padStart(2, '0')}h ${minutes.toString().padStart(2, '0')}m ${seconds.toFixed(1)}s`;
+}
+
+function formatTargetDec(inputCoordinates) {
+  if (!inputCoordinates) return 'N/A';
+  const degrees = inputCoordinates.DecDegrees || 0;
+  const minutes = inputCoordinates.DecMinutes || 0;
+  const seconds = inputCoordinates.DecSeconds || 0;
+  const sign = inputCoordinates.NegativeDec ? '-' : '+';
+  return `${sign}${degrees.toString().padStart(2, '0')}° ${minutes.toString().padStart(2, '0')}' ${seconds.toFixed(1)}"`;
+}
+
+function hasValidTargetCoordinates(target) {
+  if (!target || !target.InputCoordinates) return false;
+  const coords = target.InputCoordinates;
+  return (
+    coords.RAHours !== undefined &&
+    coords.RAMinutes !== undefined &&
+    coords.RASeconds !== undefined &&
+    coords.DecDegrees !== undefined &&
+    coords.DecMinutes !== undefined &&
+    coords.DecSeconds !== undefined
+  );
+}
+
+function getTargetForSkyChart(target) {
+  if (!target || !target.InputCoordinates) return null;
+
+  const coords = target.InputCoordinates;
+  const hours = coords.RAHours || 0;
+  const minutes = coords.RAMinutes || 0;
+  const seconds = coords.RASeconds || 0;
+  const raDegrees = (hours + minutes / 60 + seconds / 3600) * 15; // Convert to degrees
+
+  const degrees = Math.abs(coords.DecDegrees || 0);
+  const decMinutes = coords.DecMinutes || 0;
+  const decSeconds = coords.DecSeconds || 0;
+  let decDegrees = degrees + decMinutes / 60 + decSeconds / 3600;
+
+  if (coords.NegativeDec) {
+    decDegrees = -decDegrees;
+  }
+  return {
+    RA: raDegrees,
+    Dec: decDegrees,
+  };
+}
+
+function getObserverCoordinates() {
+  return {
+    latitude: settingsStore.coordinates?.latitude || 0,
+    longitude: settingsStore.coordinates?.longitude || 0,
+  };
+}
 
 function isRunningOrHasRunningChildren(item) {
   if (item.Status === 'RUNNING') {

@@ -74,6 +74,7 @@
     :imageData="fullResImage"
     :imageDate="stats.Date"
     :isLoading="isLoadingModal"
+    :index="index"
     @close="closeModal"
   />
 </template>

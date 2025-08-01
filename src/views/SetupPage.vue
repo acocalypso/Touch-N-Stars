@@ -122,50 +122,25 @@
           <h2 class="text-2xl font-bold text-white mb-6">
             {{ t('setup.instanceConfiguration') }}
           </h2>
-          <div class="space-y-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-400 mb-1">Instance Name</label>
-              <input
-                v-model="instanceName"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                placeholder="My Instance"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-400 mb-1">IP Address / FQDN</label>
-              <input
-                v-model="instanceIP"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                placeholder="192.168.x.x"
-              />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-400 mb-1">Port</label>
-              <input
-                v-model="instancePort"
-                type="text"
-                class="w-full px-3 py-2 bg-gray-700 text-gray-300 rounded-md"
-                placeholder="5000"
-              />
-            </div>
-            <div class="flex justify-between mt-6">
-              <button
-                @click="previousStep()"
-                class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
-              >
-                {{ t('common.cancel') }}
-              </button>
-              <button
-                @click="saveInstance"
-                :disabled="checkConnection"
-                class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
-              >
-                <span v-if="checkConnection" class="loader w-10"></span>
-                <p>{{ t('common.confirm') }}</p>
-              </button>
-            </div>
+
+          <!-- Instance Detection Component -->
+          <InstanceDetection v-model="instanceData" />
+
+          <div class="flex justify-between mt-6">
+            <button
+              @click="previousStep()"
+              class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              {{ t('common.cancel') }}
+            </button>
+            <button
+              @click="saveInstance"
+              :disabled="checkConnection"
+              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
+            >
+              <span v-if="checkConnection" class="loader w-10"></span>
+              <p>{{ t('common.confirm') }}</p>
+            </button>
           </div>
         </div>
 
@@ -200,13 +175,23 @@
               </div>
             </div>
             <button
-              v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
               @click="getCurrentLocation"
               class="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-md"
             >
               {{ t('components.settings.coordinates') }}
             </button>
             <div v-if="gpsError" class="text-red-400 text-sm">{{ gpsError }}</div>
+          </div>
+          <div
+            v-if="
+              store?.profileInfo?.TelescopeSettings?.TelescopeLocationSyncDirection !==
+              'TOTELESCOPE'
+            "
+          >
+            <p class="text-red-500 text-sm mt-2">
+              {{ $t('components.settings.infoSetLocationSync') }}
+            </p>
+            <ButtonSetLocationSyncToMount class="mt-1" />
           </div>
           <div class="flex justify-between mt-6">
             <button
@@ -245,11 +230,20 @@ import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
-import { Geolocation } from '@capacitor/geolocation';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import { wait } from '@/utils/utils';
+import InstanceDetection from '@/components/setup/InstanceDetection.vue';
+import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 
 const { locale, t } = useI18n();
 const router = useRouter();
@@ -259,13 +253,12 @@ const currentStep = ref(1);
 const totalSteps = ref(5);
 const isVisible = ref(true);
 const selectedLanguage = ref(locale.value);
-const latitude = ref('');
-const longitude = ref('');
-const altitude = ref('');
-const gpsError = ref(null);
-const instanceName = ref('');
-const instanceIP = ref('');
-const instancePort = ref(5000);
+const locationStore = useLocationStore();
+const instanceData = ref({
+  name: '',
+  ip: '',
+  port: 5000,
+});
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
 
@@ -287,18 +280,21 @@ async function nextStep() {
   // Fetch GPS info after instance setup on mobile
   if (currentStep.value === 5) {
     store.startFetchingInfo();
-    await wait(1000);
-    console.log('_---------------------------');
-    latitude.value = store.profileInfo.AstrometrySettings.Latitude;
-    longitude.value = store.profileInfo.AstrometrySettings.Longitude;
-    altitude.value = store.profileInfo.AstrometrySettings.Elevation;
+    store.setupCheckConnectionDone = true;
+    await wait(500);
+    if (!store.isBackendReachable) {
+      console.log('Backend not reachable');
+      previousStep();
+      return;
+    }
+    await locationStore.loadFromAstrometrySettings();
   }
 }
 
 function previousStep() {
   currentStep.value--;
   // Skip instance configuration when going back on web
-  if (currentStep.value === 3 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
+  if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value--;
   }
 }
@@ -309,93 +305,55 @@ function saveLanguage() {
   nextStep();
 }
 
-async function getCurrentLocation() {
-  try {
-    // Check for location permission
-    const status = await Geolocation.checkPermissions();
-    if (status.location !== 'granted') {
-      const result = await Geolocation.requestPermissions();
-      if (result.location !== 'granted') {
-        gpsError.value = 'Location permission not granted';
-        return;
-      }
-    }
-    // Get current position with high accuracy
-    const pos = await Geolocation.getCurrentPosition({
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0,
-    });
-    latitude.value = pos.coords.latitude.toFixed(6);
-    longitude.value = pos.coords.longitude.toFixed(6);
-    altitude.value = pos.coords.altitude;
-    gpsError.value = null;
-  } catch (error) {
-    gpsError.value = error.message || 'Failed to get GPS location';
-  }
-}
-
 async function saveGPS() {
-  const lat = sanitizeCoordinate(latitude.value);
-  const lon = sanitizeCoordinate(longitude.value);
-  const alt = sanitizeCoordinate(altitude.value);
-
-  latitude.value = lat;
-  longitude.value = lon;
-  altitude.value = alt;
-
-  settingsStore.setCoordinates({
-    latitude: lat,
-    longitude: lon,
-    altitude: alt,
-  });
-
-  console.log('Coordinates saved', lat, lon, alt);
-
-  await saveCoordinates();
+  await locationStore.saveCoordinates();
   nextStep();
 }
+
 async function saveInstance() {
   // Validate instance connection details
-  if (!instanceName.value.trim()) {
+  if (!instanceData.value.name.trim()) {
     alert(t('components.settings.errors.instanceNameRequired'));
     return;
   }
 
-  if (!instanceIP.value) {
+  if (!instanceData.value.ip) {
     alert(t('components.settings.errors.invalidIPFormat'));
     return;
   }
 
   // Validate port number
-  const port = parseInt(instancePort.value);
+  const port = parseInt(instanceData.value.port);
   if (isNaN(port) || port < 1 || port > 65535) {
     alert(t('components.settings.errors.invalidPortRange'));
     return;
   }
   settingsStore.addInstance({
-    name: instanceName.value,
-    ip: instanceIP.value,
-    port: instancePort.value,
+    name: instanceData.value.name,
+    ip: instanceData.value.ip,
+    port: instanceData.value.port,
   });
   checkConnection.value = true;
   try {
-    const response = await apiService.fetchApiVersion();
-    console.log('Backend erreichbar?', response);
+    await wait(500);
+    let response = await apiService.fetchTnsPluginVersion();
+    console.log('Backend reachable?', response);
     if (!response) {
-      alert(t('components.settings.errors.invalidInstance'));
-      return;
+      console.log('second connection attempt');
+      await wait(1000);
+      response = await apiService.fetchTnsPluginVersion();
+      if (!response) {
+        alert(t('components.settings.errors.invalidInstance'));
+        return;
+      }
     }
-    console.log('Backend erreichbar');
+    console.log('Backend reachable');
     store.startFetchingInfo();
-    await wait(1000);
-    latitude.value = store.profileInfo.AstrometrySettings.Latitude;
-    longitude.value = store.profileInfo.AstrometrySettings.Longitude;
-    altitude.value = store.profileInfo.AstrometrySettings.Elevation;
+    await wait(1500);
+    await locationStore.loadFromAstrometrySettings();
     nextStep();
   } catch (error) {
-    alert(t('components.settings.errors.invalidInstance'));
-    return;
+    console.warn('Incomplete astrometry data');
   } finally {
     checkConnection.value = false;
   }
@@ -405,41 +363,6 @@ function completeSetup() {
   settingsStore.completeSetup();
   localStorage.setItem('setupCompleted', 'true');
   router.push('/');
-}
-
-async function saveCoordinates() {
-  if (store.isBackendReachable) {
-    try {
-      await apiService.profileChangeValue('AstrometrySettings-Latitude', latitude.value);
-      await apiService.profileChangeValue('AstrometrySettings-Longitude', longitude.value);
-      await apiService.profileChangeValue('AstrometrySettings-Elevation', altitude.value);
-      await apiService.profileChangeValue('TelescopeSettings-TelescopeLocationSyncDirection', 2);
-
-      if (store.mountInfo.Connected) {
-        await apiService.mountAction('disconnect');
-        await apiService.mountAction('connect');
-      }
-      settingsStore.setCoordinates({
-        latitude: latitude.value,
-        longitude: longitude.value,
-        altitude: altitude.value,
-      });
-      console.log('Coordinates saved');
-    } catch (error) {
-      console.error('Failed to update backend coordinates:', error);
-    }
-  }
-}
-
-function sanitizeCoordinate(input) {
-  if (typeof input === 'string') {
-    const cleaned = input.trim().replace(',', '.');
-    const parsed = parseFloat(cleaned);
-    return isNaN(parsed) ? null : parsed;
-  } else if (typeof input === 'number') {
-    return input;
-  }
-  return null;
 }
 </script>
 

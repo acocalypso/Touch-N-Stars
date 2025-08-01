@@ -18,12 +18,13 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA ist nicht erreichbar",
     "connecting": "Versuche Verbindung herzustellen",
-    "api_version_incompatible": "Advanced-API-Version Inkompatibel Aktuell: {current} Erforderlich: {required}",
+    "api_version_incompatible": "Advanced-API-Version inkompatibel Aktuell: {current} Erforderlich: {required}",
     "connection_error_toast": {
       "message_api": "Das API-Plugin ist nicht erreichbar. \nBitte überprüfen Sie die Einstellungen in Nina",
       "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
-      "message_tns": "Das TouchNstars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in Nina",
-      "title": "Verbindungsfehler"
+      "message_tns": "Das Touch'N'Stars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in N.I.N.A",
+      "title": "Verbindungsfehler",
+      "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
     }
   },
   "setup": {
@@ -34,9 +35,22 @@
     "completeSetup": "Einrichtung abschließen",
     "instanceConfiguration": "N.I.N.A Verbindungsdetails",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitung"
+    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitungen"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Suche",
+        "placeholder": "Suchbegriff eingeben...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Komet",
+          "StellariumObject": "Objekt",
+          "Star": "Stern",
+          "Moon": "Mond"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Zurück",
       "next": "Weiter",
@@ -70,18 +84,29 @@
         "title": "Systemsteuerungen",
         "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?",
         "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmation": "Bestätigung"
+        "confirmation": "Bestätigung",
+        "info": "Dadurch wird der PC heruntergefahren oder neu gestartet, der die N.I.N.A -Instanz hostet!"
       },
       "image": {
         "title": "Bildeinstellungen",
         "quality": "Qualität in % ",
         "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
+        "strech_factor": "Stretch Factor"
       },
       "plugins": {
         "description": "Plugin Beschreibung",
         "title": "Plugins"
-      }
+      },
+      "debug": {
+        "activate": "Aktiviere Debug-Fenster",
+        "titel": "Debug Einstellungen"
+      },
+      "notifications": {
+        "enable": "Benachrichtigungen aktivieren",
+        "sequence": "Sequenzereignisse",
+        "title": "Benachrichtigungen"
+      },
+      "infoSetLocationSync": "Damit die Koordinaten korrekt an die Montierung übertragen werden, muss in NINA die Option ‚Location sync‘ auf ‚Sync to Telescope‘ gesetzt sein. Dadurch sendet TNS die Standortdaten direkt an die Montierung."
     },
     "framing": {
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
@@ -90,7 +115,14 @@
       "setSequnceTarget": "als Sequenzziel festlegen",
       "search": {
         "title": "Suche",
-        "placeholder": "Suchbegriff eingeben..."
+        "placeholder": "Suchbegriff eingeben...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Komet",
+          "StellariumObject": "Objekt",
+          "Star": "Stern",
+          "Moon": "Mond"
+        }
       },
       "openFraminingModal": "Im Framing-Assistant öffnen",
       "fovSettings": {
@@ -104,7 +136,9 @@
       },
       "moveRotator": "Camera rotieren",
       "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
-      "currentAltitude": "Aktuelle Höhe"
+      "currentAltitude": "Aktuelle Höhe",
+      "useCenter": "Center",
+      "useRotate": "Rotieren"
     },
     "connectEquipment": {
       "camera": {
@@ -158,7 +192,7 @@
         "name": "Wetter"
       },
       "info": {
-        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über Nina gesteuert werden. \nVerwenden Sie das „Networked Filter Wheel“ der API für das Filterrad",
+        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \\nVerwenden Sie das \"Networked Filter Wheel\" der API für das Filterrad",
         "title": "Info"
       }
     },
@@ -199,6 +233,15 @@
       "resetSequence": "Sequenz zurücksetzen",
       "resetConfirmationTitle": "Zurücksetzen bestätigen",
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "load_sequence": "Sequenz laden",
+      "refresh_sequences": "Sequenzen aktualisieren",
+      "select_sequence": "Sequenz auswählen",
+      "choose_sequence": "Sequenz wählen...",
+      "no_sequences_found": "Keine Sequenzen gefunden",
+      "sequences_loaded": "Sequenzen geladen",
+      "error_loading_sequences": "Fehler beim Laden der Sequenzen",
+      "sequence_loaded_successfully": "Sequenz '{name}' erfolgreich geladen",
+      "error_loading_sequence": "Fehler beim Laden der Sequenz: {error}",
       "exposures": "Belichtungen",
       "exposureTime": "Belichtungszeit",
       "filter": "Filter",
@@ -229,7 +272,8 @@
           "showImageStats": "Statistiken des letzten Bildes anzeigen",
           "showImgStatsGraph": "HFR-Diagramm anzeigen",
           "showGuiderGraph": "Guider-Diagramm anzeigen",
-          "showGuiderAfGraph": "Autofokus-Diagramm anzeigen"
+          "showGuiderAfGraph": "Autofokus-Diagramm anzeigen",
+          "display_status_under_image": "Status unter Bild anzeigen"
         }
       },
       "running": "WIRD AUSGEFÜHRT",
@@ -249,7 +293,8 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit"
+      "time": "Zeit",
+      "select_sequence": "Sequenz auswählen"
     },
     "mount": {
       "title": "Montierung",
@@ -272,9 +317,11 @@
           "home": "Fehler beim Homing der Montierung",
           "tracking": "Fehler beim Einstellen des Nachführungsmodus"
         },
-        "set_as_park": "Parkposition setzten",
+        "set_as_park": "Parkposition setzen",
         "info_manuell_controll": "Die manuelle Steuerung steht nur zur Verfügung, wenn die Nachführung nicht aktiv ist.",
-        "slew_to_cenit": "Zum Zenit schwenken"
+        "slew_to_cenit": "Zum Zenit schwenken",
+        "sync_coordinates_to_mount": "Koordinaten zur Montierung senden",
+        "setLocationSyncToMount": "Setze \"Sync to telescope\""
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -284,6 +331,19 @@
         "trackingDisabled": "Nachführung deaktiviert",
         "slewing": "Montierung schwenkt",
         "notSlewing": "Schwenken nicht aktiv"
+      },
+      "location_sync": {
+        "confirmationMessage": "Wenn die Option ‚Location Sync‘ in NINA auf ‚Prompt‘ gesetzt ist, kann es sein, dass vor dem Übertragen der Koordinaten an das Teleskop ein Bestätigungsfenster erscheint. Um dies zu vermeiden und TNS die automatische Übergabe der Koordinaten zu ermöglichen, empfehlen wir, die Einstellung auf ‚Sync to Telescope‘ zu ändern.",
+        "noSync": {
+          "label": "Keine Synchronisierung"
+        },
+        "toApplication": {
+          "label": "Synchronisation mit NINA"
+        },
+        "toTelescope": {
+          "label": "Synchronisation mit dem Teleskop"
+        },
+        "title": "Standortsynchronisierungseinstellungen"
       }
     },
     "guider": {
@@ -294,7 +354,80 @@
       "rms_error": "RMS-Fehler",
       "title": "Guider",
       "running": "WIRD AUSGEFÜHRT",
-      "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt."
+      "notes": "* In diesem Diagramm werden Guiderdaten gemäß den Einstellungen von N.I.N.A. angezeigt.",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Durchlauf",
+        "lostLock": "Stern verloren",
+        "guiding": "Guiding",
+        "stopped": "Gestoppt",
+        "calibrating": "Kalibrierung",
+        "unknown": "Unbekannt"
+      },
+      "calibrationAssistant": {
+        "title": "Kalibrierassistent",
+        "info": "Der Kalibrierassistent hilft Ihnen dabei, die Montierung in eine optimale Position für die Kalibrierung zu bringen und eine präzise Kalibrierung durchzuführen.",
+        "positionSettings": "Positionseinstellungen",
+        "decOffset": "Deklinations-Offset",
+        "meridianOffset": "Meridian-Offset",
+        "direction": "Richtung",
+        "west": "West",
+        "east": "Ost",
+        "calculatedPosition": "Berechnete Position",
+        "current": "Aktuell",
+        "target": "Ziel",
+        "currentPosition": "Aktuelle Position",
+        "targetPosition": "Zielposition",
+        "slewToPosition": "Zur Position schwenken",
+        "startCalibration": "Kalibrierung starten",
+        "stopCalibration": "Kalibrierung stoppen",
+        "recalculate": "Neu berechnen",
+        "close": "Schließen",
+        "positionCalculated": "Optimale Position berechnet",
+        "slewing": "Schwenke zur Zielposition...",
+        "slewComplete": "Schwenken abgeschlossen",
+        "slewError": "Fehler beim Schwenken",
+        "calibrating": "Kalibrierung läuft...",
+        "calibrationComplete": "Kalibrierung abgeschlossen",
+        "calibrationFailed": "Kalibrierung fehlgeschlagen",
+        "calibrationStopped": "Kalibrierung gestoppt",
+        "calibrationError": "Fehler bei der Kalibrierung",
+        "calibrationResult": "Kalibrierungsergebnis",
+        "quality": "Qualität",
+        "goodCalibration": "Ausgezeichnete Kalibrierung erreicht",
+        "poorCalibration": "Kalibrierung könnte verbessert werden. Versuchen Sie eine neue Position oder überprüfen Sie die Ausrüstung.",
+        "calibrating": "Kalibrierung läuft...",
+        "slewing": "Schwenke zur Zielposition..."
+      },
+      "phd2": {
+        "Exposuretime": "Belichtungszeit",
+        "dec": {
+          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min move",
+          "aggression": "DEC: Aggression",
+          "exp_factor": "DEC: Belichtungsfaktor",
+          "hysteresis": "Dec: Hysterese",
+          "predictive_weight": "DEC: Vorhersage Gewichtung",
+          "reactive_weight": "DEC: Reaktive Gewichtung",
+          "slope_weight": "DEC: Trend Gewichtung"
+        },
+        "error": {
+          "star-lost-message": "Stern verloren",
+          "title": "PhD2 Fehler"
+        },
+        "profile": "Profil",
+        "forceCalibration": "Kalibrierung erzwingen",
+        "ra": {
+          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min move",
+          "aggression": "RA: Aggression",
+          "exp_factor": "RA: Belichtungsfaktor",
+          "hysteresis": "RA: Hysterese",
+          "predictive_weight": " RA: Vorhersage Gewichtung",
+          "reactive_weight": " RA: Reaktive Gewichtung",
+          "slope_weight": "RA: Trend Gewichtung"
+        }
+      }
     },
     "focuser": {
       "title": "Fokussierer",
@@ -415,7 +548,11 @@
       "slewing_first_position": "Schwenkt zur ersten Position",
       "slewing_next_position": "Schwenkt zur nächsten Position",
       "capture_running": "Aufnahme läuft",
-      "last_messages": "Letzte Meldungen"
+      "last_messages": "Letzte Meldungen",
+      "settings": {
+        "DirectionEast": "Richtung Osten",
+        "StartFromCurrentPosition": "Von der aktuellen Position starten?"
+      }
     },
     "logs": {
       "loading": "Daten werden geladen...",
@@ -501,8 +638,8 @@
       "brightness": "Helligkeit",
       "min_brightness": "Min Helligkeit",
       "max_brightness": "Max Helligkeit",
-      "histogram_mean_target": "Histogrammdurchschnitsziel ",
-      "mean_tolerance": "Duchschnittstoleranz",
+      "histogram_mean_target": "Histogramm-Durchschnittsziel",
+      "mean_tolerance": "Durchschnittstoleranz",
       "completed_recordings": "Completed recordings:",
       "start_auto_exposure": "Start",
       "start_auto_brightness": "Start",
@@ -547,7 +684,7 @@
         "title": "Datum"
       },
       "mount_position": {
-        "title": "Monitierungsposition"
+        "title": "Montierungsposition"
       },
       "settings": {
         "atmosphere_visible": "Atmosphäre zeigen",
@@ -556,11 +693,80 @@
         "ecliptic_lines_visible": "Ecliptic Linie",
         "equatorial_lines_visible": "Äquatoriale Gitter",
         "landscapes_visible": "Landschaften",
-        "meridian_lines_visible": "Meridian"
+        "dsos_visible": "Deep-Sky Objekte (Messier, NGC)",
+        "meridian_lines_visible": "Meridian",
+        "camera_fov_visible": "Kamera Field of View"
       }
     },
     "profile": {
       "label": "Profil:"
+    },
+    "fav_target": {
+      "enter_name": "Namen eingeben",
+      "modal_save": {
+        "message": "Das Ziel wurde gespeichert",
+        "titel": "Speichern"
+      },
+      "modal_sequence": {
+        "titel": "Sequenz"
+      },
+      "modal_sequence_error": {
+        "message": "Keine Sequenz geladen"
+      },
+      "modal_sequence_ok": {
+        "message": "Ziel übernommen"
+      },
+      "no_fav": "Keine Favoriten gespeichert",
+      "table": {
+        "dec": "DEC",
+        "load": "Laden",
+        "name": "Name",
+        "ra": "RA",
+        "remove": "Löschen",
+        "sequnce": "Seq. Ziel",
+        "rotation": "Drehung"
+      },
+      "titel": "Favoriten"
+    },
+    "notifications": {
+      "modal": {
+        "description": "Bitte erteilen Sie die Erlaubnis, Benachrichtigungen über Sequenzereignisse zu erhalten.",
+        "title": "Benachrichtigungen konfigurieren"
+      }
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "coordinates": "GPS-Koordinaten",
+      "save": "Speichern",
+      "infoSetLocationSync": "Bitte setzen Sie zuerst die Standortsynchronisation auf Mount",
+      "connection": "Verbindungseinstellungen",
+      "language": "Sprache",
+      "image": {
+        "title": "Bildeinstellungen",
+        "quality": "Bildqualität",
+        "strech_factor": "Streckfaktor",
+        "black_clipping": "Schwarzclipping"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Debug-Modus aktivieren"
+      },
+      "notifications": {
+        "title": "Benachrichtigungen"
+      },
+      "showTutorial": "Tutorial anzeigen",
+      "plugins": {
+        "title": "Plugin-Verwaltung",
+        "description": "Installierte Plugins verwalten"
+      },
+      "system": {
+        "title": "Systemsteuerung",
+        "description": "System-Neustart und -Herunterfahren steuern",
+        "info": "Diese Aktionen betreffen das gesamte System",
+        "confirmation": "Aktion bestätigen",
+        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
+        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
+      }
     }
   }
 }

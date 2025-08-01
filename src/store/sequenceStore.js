@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import notificationService from '@/services/notificationService';
+import { apiStore } from './store';
 
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
@@ -11,6 +13,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceRunning: false,
     sequenceEdit: false,
     sequenceIsEditable: true,
+    targetName: '',
     lastImage: {
       index: 0,
       quality: 0,
@@ -21,6 +24,18 @@ export const useSequenceStore = defineStore('sequenceStore', {
   }),
   actions: {
     setSequenceRunning(isRunning) {
+      // Check if the sequence state has changed
+      if (this.sequenceRunning !== isRunning) {
+        // If the sequence is now running and it wasn't before, it has started
+        if (isRunning && !this.sequenceRunning) {
+          notificationService.sendSequenceNotification('started');
+        }
+        // If the sequence is no longer running and it was before, it has completed
+        else if (!isRunning && this.sequenceRunning) {
+          notificationService.sendSequenceNotification('completed');
+        }
+      }
+
       this.sequenceRunning = isRunning;
     },
     toggleCollapsedState(containerName) {
@@ -112,6 +127,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
     async getSequenceInfo() {
       let response = null;
       let foundUnsupportedPlugins = false;
+      const store = apiStore();
+
+      if (!store.isBackendReachable) return;
 
       if (this.firstLoad) {
         response = await this.getSequenceInfoJson();
@@ -148,7 +166,39 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       if (response?.Success) {
+        // Check for errors in sequence items
+        let hasErrors = false;
+        let errorMessage = '';
+
+        if (Array.isArray(response.Response)) {
+          for (const container of response.Response) {
+            if (container.Items) {
+              for (const item of container.Items) {
+                if (item.Status === 'ERROR') {
+                  hasErrors = true;
+                  errorMessage = item.ErrorMessage || 'Unknown error in sequence';
+                  break;
+                }
+              }
+              if (hasErrors) break;
+            }
+          }
+        }
+
+        if (hasErrors) {
+          notificationService.sendSequenceNotification('error', errorMessage);
+        }
+
         this.sequenceInfo = response.Response;
+
+        // TargetName auslesen, wenn vorhanden
+        for (const container of this.sequenceInfo) {
+          if (container?.Items) {
+            this.findAndSetTargetName(container.Items);
+            if (this.targetName) break; // Bei erstem Treffer abbrechen
+          }
+        }
+
         if (this.sequenceIsEditable) {
           this.generatePaths(this.sequenceInfo);
         }
@@ -158,7 +208,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
         const isRunning = response.Response?.some((sequence) =>
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
-        this.sequenceRunning = isRunning || false;
+
+        // Update sequence running state (this will trigger notification if state changed)
+        this.setSequenceRunning(isRunning || false);
       } else {
         this.sequenceIsLoaded = false;
         this.sequenceRunning = false;
@@ -280,12 +332,26 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
     },
 
+    findAndSetTargetName(items) {
+      if (!items || !Array.isArray(items)) return;
+      this.targetName = '';
+
+      for (const item of items) {
+        // Wenn das Item läuft und ein Target hat, speichern
+        if (item?.Status === 'RUNNING' && item?.Target?.TargetName) {
+          this.targetName = item.Target.TargetName;
+          console.log('Aktives Target (RUNNING):', this.targetName);
+          return; // ersten aktiven Treffer nehmen
+        }
+      }
+    },
+
     startFetching() {
       this.stopFetching(); // Stop any existing interval before starting a new one
       this.getSequenceInfo(); // Fetch immediately
-      // Start the interval to fetch every 10 seconds
+      // Start the interval to fetch every 5 seconds
       if (!this.intervalId) {
-        this.intervalId = setInterval(this.getSequenceInfo, 10000);
+        this.intervalId = setInterval(this.getSequenceInfo, 5000);
       }
     },
 
@@ -293,6 +359,29 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+      }
+    },
+
+    // Reset the sequence and send notification
+    async resetSequence() {
+      try {
+        await apiService.sequenceAction('reset');
+        notificationService.sendSequenceNotification('reset');
+        return true;
+      } catch (error) {
+        console.error('Error resetting sequence:', error);
+        return false;
+      }
+    },
+
+    async fetchAvailableSequences() {
+      try {
+        const response = await apiService.sequenceAction('list-available');
+        console.log('Available sequences:', response.Response);
+        return response;
+      } catch (error) {
+        console.error('Error fetching available sequences:', error);
+        throw error;
       }
     },
   },

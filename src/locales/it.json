@@ -23,7 +23,8 @@
       "message_api": "Il plugin API non è disponibile. \nSi prega di controllare le impostazioni in Nina",
       "message_api_version": "Il plugin API è troppo vecchio. \nSi prega di eseguire un aggiornamento",
       "message_tns": "Il plugin TouchNstars non è disponibile. \nSi prega di controllare le impostazioni in Nina",
-      "title": "Errore di connessione"
+      "title": "Errore di connessione",
+      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     }
   },
   "setup": {
@@ -37,6 +38,32 @@
     "check_wki": "Puoi trovare istruzioni dettagliate nel nostro wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Ricerca",
+        "placeholder": "Inserisci termine di ricerca...",
+        "objectTypes": {
+          "Planet": "Pianeta",
+          "Comet": "Cometa",
+          "StellariumObject": "Oggetto",
+          "Star": "Stella",
+          "Moon": "Luna"
+        }
+      }
+    },
+    "framing": {
+      "search": {
+        "title": "Ricerca",
+        "placeholder": "Inserisci termine di ricerca...",
+        "objectTypes": {
+          "Planet": "Pianeta",
+          "Comet": "Cometa",
+          "StellariumObject": "Oggetto",
+          "Star": "Stella",
+          "Moon": "Luna"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Precedente",
       "next": "Successivo",
@@ -70,7 +97,8 @@
         "title": "Controlli di sistema",
         "confirmRestart": "Sei sicuro di voler riavviare il sistema?",
         "confirmShutdown": "Sei sicuro di voler chiudere il sistema?",
-        "confirmation": "Conferma"
+        "confirmation": "Conferma",
+        "info": "Questo si spegne o riavverrà il PC che ospita l'istanza N.I.N.A!"
       },
       "image": {
         "quality": "Qualità in %",
@@ -81,7 +109,17 @@
       "plugins": {
         "description": "Descrizione del plugin",
         "title": "Plugin"
-      }
+      },
+      "debug": {
+        "activate": "Abilita la finestra di debug",
+        "titel": "Impostazioni del debug"
+      },
+      "notifications": {
+        "enable": "Abilita le notifiche",
+        "sequence": "Eventi di sequenza",
+        "title": "Notifiche"
+      },
+      "infoSetLocationSync": "Per garantire che le coordinate vengano trasferite correttamente sul monte, impostare l'opzione \"Sync\" in Nina in \"Sincronizzazione del telescopio\". \nCiò consente a TNS di inviare i dati di posizione direttamente sul supporto."
     },
     "framing": {
       "confirmSetTargetTitle": "Conferma Selezione Target",
@@ -104,7 +142,9 @@
       "moveRotator": "Ruota la fotocamera",
       "openFraminingModal": "Aperto nell'inquadratura assistente",
       "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in Nina o l'opzione \"Usa cache Nina\" deve essere disattivata",
-      "currentAltitude": "Altitudine attuale"
+      "currentAltitude": "Altitudine attuale",
+      "useCenter": "Center",
+      "useRotate": "Ruotare"
     },
     "connectEquipment": {
       "camera": {
@@ -199,6 +239,15 @@
       "resetSequence": "Resetta sequenza",
       "resetConfirmationTitle": "Conferma Reset",
       "resetConfirmationMessage": "Sei sicuro di voler resettare la sequenza? Questa azione non può essere annullata.",
+      "load_sequence": "Carica Sequenza",
+      "refresh_sequences": "Aggiorna Sequenze",
+      "select_sequence": "Seleziona Sequenza",
+      "choose_sequence": "Scegli sequenza...",
+      "no_sequences_found": "Nessuna sequenza trovata",
+      "sequences_loaded": "Sequenze caricate",
+      "error_loading_sequences": "Errore nel caricamento delle sequenze",
+      "sequence_loaded_successfully": "Sequenza '{name}' caricata con successo",
+      "error_loading_sequence": "Errore nel caricamento della sequenza: {error}",
       "exposures": "Esposizioni",
       "exposureTime": "Tempo esposizione",
       "filter": "Filtro",
@@ -229,7 +278,8 @@
           "showImageStats": "Mostra statistiche ultima immagine",
           "showImgStatsGraph": "Mostra grafico HFR",
           "showGuiderGraph": "Mostra grafico guida",
-          "showGuiderAfGraph": "Mostra grafico autofocus"
+          "showGuiderAfGraph": "Mostra grafico autofocus",
+          "display_status_under_image": "Mostra lo stato sotto l'immagine"
         }
       },
       "running": "IN CORSO",
@@ -274,7 +324,9 @@
         "slewRate": "Trovatela di Slew °/s",
         "info_manuell_controll": "Il controllo manuale è disponibile solo se il monitoraggio non è attivo",
         "set_as_park": "Impostare come parco",
-        "slew_to_cenit": "Strongitura a Zenith"
+        "slew_to_cenit": "Strongitura a Zenith",
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
+        "setLocationSyncToMount": "Imposta \"Sincronizzazione sul telescopio\""
       },
       "info": {
         "notConnected": "Collega montatura",
@@ -284,17 +336,68 @@
         "trackingDisabled": "Tracking disabilitato",
         "slewing": "Montatura in movimento",
         "notSlewing": "Montatura ferma"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "Nessuna sincronizzazione"
+        },
+        "toApplication": {
+          "label": "Sincronizzazione all'applicazione"
+        },
+        "toTelescope": {
+          "label": "Sincronizzazione al telescopio"
+        },
+        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
+        "title": "Impostazioni di sincronizzazione della posizione"
       }
     },
     "guider": {
-      "notConnected": "Collega guida",
+      "notConnected": "Collegare il sistema di guida",
       "start": "Avvia",
       "startWithCal": "Avvia con calibrazione",
       "stop": "Ferma",
       "rms_error": "Errore RMS",
       "title": "Guida",
-      "running": "CORSA",
-      "notes": "* Questo grafico visualizza i dati guida in base alle impostazioni di N.I.N.A."
+      "running": "IN ESECUZIONE",
+      "notes": "* Questo grafico visualizza i dati guida in base alle impostazioni di N.I.N.A.",
+      "statusLabel": "Stato",
+      "status": {
+        "looping": "Ciclo",
+        "lostLock": "Stella persa",
+        "guiding": "Guida",
+        "stopped": "Fermato",
+        "calibrating": "Calibrazione",
+        "unknown": "Sconosciuto"
+      },
+      "phd2": {
+        "dec": {
+          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min move",
+          "aggression": "DEC: AggressionDEC: Aggression",
+          "exp_factor": "DEC: Exposure factor",
+          "hysteresis": "DEC: Hysteresis",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: ReactiveW weight",
+          "slope_weight": "DEC: Slope weight"
+        },
+        "error": {
+          "star-lost-message": "Star lost",
+          "title": "PHD2 Error"
+        },
+        "profile": "Profilo",
+        "forceCalibration": "Forza calibrazione",
+        "ra": {
+          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min move",
+          "aggression": "RA: Aggression",
+          "exp_factor": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: ReactiveW weight",
+          "slope_weight": "RA: Slope weight"
+        },
+        "Exposuretime": "Tempo di esposizione"
+      }
     },
     "focuser": {
       "title": "Messa a Fuoco",
@@ -415,7 +518,11 @@
       "plate_solve_ok": "Piatti di successo",
       "plate_solve_start": "Platesolve inizia",
       "slewing_first_position": "Slewing in prima posizione",
-      "slewing_next_position": "Slewing alla prossima posizione"
+      "slewing_next_position": "Slewing alla prossima posizione",
+      "settings": {
+        "DirectionEast": "Direzione est",
+        "StartFromCurrentPosition": "Iniziare dalla posizione corrente?"
+      }
     },
     "logs": {
       "loading": "Caricamento dati...",
@@ -561,6 +668,73 @@
     },
     "profile": {
       "label": "Profilo:"
+    },
+    "fav_target": {
+      "enter_name": "Enter name",
+      "modal_save": {
+        "message": "The target has been saved",
+        "titel": "Salva"
+      },
+      "modal_sequence": {
+        "titel": "Sequenza"
+      },
+      "modal_sequence_error": {
+        "message": "Nessuna sequenza caricata"
+      },
+      "modal_sequence_ok": {
+        "message": "Target set"
+      },
+      "no_fav": "No favorites saved",
+      "table": {
+        "dec": "DEC",
+        "load": "Load",
+        "name": "Nome",
+        "ra": "RA",
+        "remove": "Remove",
+        "sequnce": "Seq. target",
+        "rotation": "Rotazione"
+      },
+      "titel": "Preferiti"
+    },
+    "notifications": {
+      "modal": {
+        "description": "Si prega di concedere l'autorizzazione per ricevere notifiche sugli eventi di sequenza.",
+        "title": "Configurare le notifiche"
+      }
+    },
+    "settings": {
+      "title": "Impostazioni",
+      "coordinates": "Coordinate GPS",
+      "save": "Salva",
+      "infoSetLocationSync": "Si prega di impostare prima la sincronizzazione della posizione sulla montatura",
+      "connection": "Impostazioni di connessione",
+      "language": "Lingua",
+      "image": {
+        "title": "Impostazioni immagine",
+        "quality": "Qualità immagine",
+        "strech_factor": "Fattore di stiramento",
+        "black_clipping": "Ritaglio nero"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Attiva modalità debug"
+      },
+      "notifications": {
+        "title": "Notifiche"
+      },
+      "showTutorial": "Mostra tutorial",
+      "plugins": {
+        "title": "Gestione plugin",
+        "description": "Gestisci plugin installati"
+      },
+      "system": {
+        "title": "Controlli sistema",
+        "description": "Controlla riavvio e spegnimento del sistema",
+        "info": "Queste azioni influenzeranno l'intero sistema",
+        "confirmation": "Conferma azione",
+        "confirmShutdown": "Sei sicuro di voler spegnere il sistema?",
+        "confirmRestart": "Sei sicuro di voler riavviare il sistema?"
+      }
     }
   }
 }

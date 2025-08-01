@@ -2,6 +2,8 @@ import axios from 'axios';
 import { getActivePinia } from 'pinia';
 
 let settingsStore;
+let store;
+const DEFAULT_TIMEOUT = 10000;
 
 const initializeStore = () => {
   if (!settingsStore) {
@@ -10,6 +12,7 @@ const initializeStore = () => {
       throw new Error('Pinia store not initialized');
     }
     settingsStore = pinia._s.get('settings');
+    store = pinia._s.get('store');
 
     // Watch for connection changes
     settingsStore.$onAction(({ name }) => {
@@ -24,8 +27,8 @@ const getBaseUrl = () => {
   initializeStore();
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
-  let port = settingsStore.connection.port || window.location.port || 5000;
-  const apiPort = 1888;
+  let port = settingsStore.connection.port || window.location.port || 80;
+  const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
@@ -52,12 +55,21 @@ const getUrls = () => {
 };
 
 const apiService = {
-  // Backend reachability check
-  async fetchApiVersion() {
+  async fetchApiPort(timeout = DEFAULT_TIMEOUT) {
     try {
-      const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/version`);
-      //console.log(response.data);
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}get-api-port`, { timeout });
+      return response;
+    } catch (error) {
+      console.error('Error reaching backend:', error.message);
+      return false;
+    }
+  },
+
+  async fetchTnsPluginVersion(timeout = DEFAULT_TIMEOUT) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}version`, { timeout });
       return response.data;
     } catch (error) {
       console.error('Error reaching backend:', error.message);
@@ -65,19 +77,291 @@ const apiService = {
     }
   },
 
-  async checkPluginServer() {
+  // Backend reachability check
+  async fetchApiVersion(timeout = DEFAULT_TIMEOUT) {
+    const { BASE_URL } = getUrls();
     try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(PLUGINSERVER_URL);
-      // console.log('Plugin antworet mit:', response.status);
-      if (response.status === 200) {
-        return true;
+      const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
+      return data; // Erfolg
+    } catch (err) {
+      if (err.code === 'ECONNABORTED') {
+        console.warn(`fetchApiVersion: Timeout nach ${timeout} ms`);
       } else {
-        return false;
+        console.error('Error reaching backend:', err.message);
       }
+      return null;
+    }
+  },
+
+  //------------------------------------------- time -------------------------------------------------
+  async fetchNinaTime() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/time`);
+  },
+
+  //------------------------------------- PHD2 ------------------------------------------
+  //https://github.com/acocalypso/N.I.N.A-Plugin-for-Touch-N-Stars/blob/PHD2/PHD2_API_README.md
+  async connectPHD2() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/connect`, {
+        instance: 1,
+        hostname: 'localhost',
+      });
+      console.log('PHD2 TNS API connect:', response.data);
+      return response.data;
     } catch (error) {
-      console.error('Error reaching backend:', error.message);
-      return false;
+      console.error('Error connect PHD2:', error);
+      throw error;
+    }
+  },
+
+  async disconnectPHD2() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/disconnect`, {
+        instance: 1,
+        hostname: 'localhost',
+      });
+      console.log('PHD2 TNS API disconnect:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error disconnect PHD2:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2AllInfos() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/all-info`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching all phd2 info:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2Profile() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/profiles`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching profiles:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2CurrentProfile() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-profile`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching current profile:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2CurrentEquipment() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-current-equipment`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching CurrentEquipment:', error);
+      throw error;
+    }
+  },
+
+  async connectPHD2Equipment(profileName) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/connect-equipment`, {
+        profileName,
+      });
+      console.log('PHD2 TNS API connect-equipment:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error connect-equipment PHD2:', error);
+      throw error;
+    }
+  },
+
+  async disconnectPHD2Equipment() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/disconnect-equipment`, {});
+      console.log('PHD2 TNS API disconnect-equipment:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error disconnect-equipment PHD2:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2Exposure() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-exposure`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+      throw error;
+    }
+  },
+
+  async setPHD2Exposure(exposureMs) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/set-exposure`, {
+        exposureMs,
+      });
+      console.log('PHD2 TNS API setPHD2Exposure:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error setPHD2Exposure PHD2:', error);
+      throw error;
+    }
+  },
+
+  //GET /phd2/get-algo-param-names?axis=ra
+  async getPhd2AlgoParaName(axis) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-algo-param-names`, {
+        params: {
+          axis: axis,
+        },
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching get-algo-param-names:', error);
+      throw error;
+    }
+  },
+
+  //GET /phd2/get-algo-param?axis=ra&name=MinMove
+  async getPhd2AlgoPara(axis, name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-algo-param`, {
+        params: {
+          axis: axis,
+          name: name,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching get-algo-param-names:', error);
+      throw error;
+    }
+  },
+
+  async setPHD2AlgoParam(axis, name, value) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/set-algo-param`, {
+        axis: axis,
+        name: name,
+        value: value,
+      });
+      console.log('PHD2 TNS API setPHD2AlgoParam:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error setPHD2AlgoParam PHD2:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2CurrentImage() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/current-image`, {
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching PHD2 current image:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2StarImage() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/star-image`, {
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching PHD2 star image:', error);
+      throw error;
+    }
+  },
+
+  async getPhd2LockPosition() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/get-lock-position`);
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 500) {
+        console.error('Error fetching PHD2 lock position:', error);
+      } else if (error.response && error.response.status === 400) {
+        console.log('Bad request for PHD2 lock position:', error);
+      } else {
+        console.error('Error fetching PHD2 lock position:', error);
+      }
+      return { Success: false, Response: null };
+    }
+  },
+
+  //------------------------------------- Fav Targets ------------------------------------------
+
+  async getAllFavorites() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}favorites`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+      throw error;
+    }
+  },
+
+  async addFavorite(favorite) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}favorites`, favorite);
+      return response.data;
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+      throw error;
+    }
+  },
+
+  async updateFavorite(id, updatedFavorite) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}favorites/${id}`, updatedFavorite);
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating favorite with ID ${id}:`, error);
+      throw error;
+    }
+  },
+
+  async deleteFavorite(id) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.delete(`${API_URL}favorites/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting favorite with ID ${id}:`, error);
+      throw error;
     }
   },
 
@@ -166,6 +450,11 @@ const apiService = {
     }
   },
 
+  async imageAction(index, action) {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/image/${index}/${action}`);
+  },
+
   //-------------------------------------  sequence ---------------------------------------
   sequenceAction(action) {
     const { BASE_URL } = getUrls();
@@ -179,6 +468,18 @@ const apiService = {
       );
     }
     return this._simpleGetRequest(`${BASE_URL}/sequence/${action}`);
+  },
+
+  async sequenceLoadJson(sequenceName) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.post(`${BASE_URL}/sequence/load`, sequenceName);
+      console.log('seqence loaded :', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error seqence json load:', error);
+      throw error;
+    }
   },
 
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0
@@ -778,17 +1079,20 @@ const apiService = {
     }
   },
 
-  async slewAndCenter(RAangle, DECangle, Center) {
+  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle) {
     try {
       const { BASE_URL } = getUrls();
-      await this.setFramingCoordinates(RAangle, DECangle);
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // damit NINA genug Zeit hat die Koordinaten zu setzen
-      const response = await axios.get(`${BASE_URL}/framing/slew`, {
+      const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, {
         params: {
-          slew_option: Center ? 'Center' : '',
+          ra: ra,
+          dec: dec,
+          center: Center,
+          rotate: rotate,
+          rotationAngle: rotationAngle,
           waitForResult: true,
         },
       });
+      console.log('Slew response: ', response);
       return response.data;
     } catch (error) {
       console.error('Error controlling slewAndCenterAndRotate:', error);

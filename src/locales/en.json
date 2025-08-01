@@ -22,7 +22,8 @@
       "title": "Connection error",
       "message_api": "The API plugin is not available. Please check the settings in NINA",
       "message_api_version": "The API plugin is too old. Please perform an update",
-      "message_tns": "The TouchNStars plugin is not available. Please check the settings in NINA"
+      "message_tns": "The Touch'N'Stars plugin is not available. Please check the settings in NINA",
+      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     },
     "api_version_incompatible": "Advanced-API version incompatible current: { current } required: { required }"
   },
@@ -37,6 +38,19 @@
     "check_wki": "You can find detailed instructions in our wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Search",
+        "placeholder": "Enter search term...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Comet",
+          "StellariumObject": "Object",
+          "Star": "Star",
+          "Moon": "Moon"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Previous",
       "next": "Next",
@@ -70,18 +84,29 @@
         "description": "Click an icon to restart or shutdown the system",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
         "confirmRestart": "Are you sure you want to restart the system?",
-        "confirmation": "Confirmation"
+        "confirmation": "Confirmation",
+        "info": "This will shutdown or restart the PC which is hosting the N.I.N.A instance!"
       },
       "image": {
-        "title": "Images settings",
+        "title": "Image settings",
         "quality": "Quality in % ",
         "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
+        "strech_factor": "Stretch Factor"
       },
       "plugins": {
         "title": "Plugins",
         "description": "Plugin description"
-      }
+      },
+      "debug": {
+        "title": "Debug settings",
+        "activate": "Enable debug window"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "enable": "Enable Notifications",
+        "sequence": "Sequence Events"
+      },
+      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
     },
     "framing": {
       "confirmSetTargetTitle": "Confirm Target Selection",
@@ -90,7 +115,14 @@
       "setSequnceTarget": "set to sequence target",
       "search": {
         "title": "Search",
-        "placeholder": "Enter a search term..."
+        "placeholder": "Enter a search term...",
+        "objectTypes": {
+          "Planet": "Planet",
+          "Comet": "Comet",
+          "StellariumObject": "Object",
+          "Star": "Star",
+          "Moon": "Moon"
+        }
       },
       "openFraminingModal": "Open in framing-assistant",
       "fovSettings": {
@@ -104,7 +136,9 @@
       },
       "moveRotator": "Rotate camera",
       "infoTargetImage": "If the image is only displayed in black, the “Offline Sky Map Cache“ must be set up in NINA or the “use NINA cache” option must be deactivated",
-      "currentAltitude": "Current Altitude"
+      "currentAltitude": "Current Altitude",
+      "useCenter": "Center",
+      "useRotate": "Rotate"
     },
     "connectEquipment": {
       "camera": {
@@ -119,7 +153,7 @@
         "connect": "Connect filter wheel",
         "disconnect": "Disconnect filter wheel",
         "error": "Error controlling filter wheel:",
-        "name": "FIlterwheel"
+        "name": "Filterwheel"
       },
       "mount": {
         "error": "Error controlling mount:",
@@ -199,6 +233,15 @@
       "resetSequence": "Reset sequence",
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
+      "load_sequence": "Load Sequence",
+      "refresh_sequences": "Refresh Sequences",
+      "select_sequence": "Select Sequence",
+      "choose_sequence": "Choose sequence...",
+      "no_sequences_found": "No sequences found",
+      "sequences_loaded": "Sequences loaded",
+      "error_loading_sequences": "Error loading sequences",
+      "sequence_loaded_successfully": "Sequence '{name}' loaded successfully",
+      "error_loading_sequence": "Error loading sequence: {error}",
       "exposures": "Exposures",
       "exposureTime": "Exposure time",
       "filter": "Filter",
@@ -250,11 +293,28 @@
         "oldest": "oldest first",
         "newest": "newest first"
       },
-      "time": "Time"
+      "time": "Time",
+      "load_sequence": "Load sequence from directory",
+      "no_sequences_found": "No sequence found",
+      "choose_sequence": "Choose a sequence",
+      "error_loading_sequence": "Error loading sequence"
     },
     "mount": {
       "title": "Mount",
       "slew": "Slew",
+      "location_sync": {
+        "title": "Location sync settings",
+        "confirmationMessage": "If 'Location Sync' in NINA is set to 'Prompt', a confirmation window may appear before coordinates are sent to the telescope. To avoid this and allow TNS to automatically set the coordinates, we recommend changing the setting to 'Sync to Telescope'",
+        "toTelescope": {
+          "label": "Sync to telescope"
+        },
+        "toApplication": {
+          "label": "Sync to application"
+        },
+        "noSync": {
+          "label": "No sync"
+        }
+      },
       "control": {
         "park": "Park",
         "unpark": "Unpark",
@@ -263,11 +323,12 @@
         "trackingMode": "Tracking Mode",
         "manuellControl": "Manual control",
         "slewRate": "Slew rate °/s",
-        "siderial": "Siderial",
+        "siderial": "Sidereal",
         "lunar": "Lunar",
         "solar": "Solar",
         "king": "King",
         "stop": "Stop",
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
         "errors": {
           "park": "Error parking mount",
           "unpark": "Error unparking mount",
@@ -275,7 +336,8 @@
           "tracking": "Error setting tracking mode"
         },
         "slew_to_cenit": "Slew to Zenith",
-        "info_manuell_controll": "Manual control is only available if tracking is not active"
+        "setLocationSyncToMount": "Set \"Sync to telescope\"",
+        "info_manuell_controll": "Manual control is only available if tracking is not active."
       },
       "info": {
         "notConnected": "Please connect mount",
@@ -295,7 +357,80 @@
       "rms_error": "RMS Error",
       "title": "Guider",
       "running": "RUNNING",
-      "notes": "* This graph displays guiding data according to N.I.N.A.'s settings."
+      "notes": "* This graph displays guiding data according to N.I.N.A.'s settings.",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Looping",
+        "lostLock": "Lost Lock",
+        "guiding": "Guiding",
+        "stopped": "Stopped",
+        "calibrating": "Calibrating",
+        "unknown": "Unknown"
+      },
+      "calibrationAssistant": {
+        "title": "Calibration Assistant",
+        "info": "The Calibration Assistant helps you position the mount optimally for calibration and perform an accurate calibration.",
+        "positionSettings": "Position Settings",
+        "decOffset": "Dec Offset",
+        "meridianOffset": "Meridian Offset",
+        "direction": "Direction",
+        "west": "West",
+        "east": "East",
+        "calculatedPosition": "Calculated Position",
+        "current": "Current",
+        "target": "Target",
+        "currentPosition": "Current Position",
+        "targetPosition": "Target Position",
+        "slewToPosition": "Slew to Position",
+        "startCalibration": "Start Calibration",
+        "stopCalibration": "Stop Calibration",
+        "recalculate": "Recalculate",
+        "close": "Close",
+        "positionCalculated": "Optimal position calculated",
+        "slewing": "Slewing to target position...",
+        "slewComplete": "Slew completed",
+        "slewError": "Error during slew",
+        "calibrating": "Calibration in progress...",
+        "calibrationComplete": "Calibration completed",
+        "calibrationFailed": "Calibration failed",
+        "calibrationStopped": "Calibration stopped",
+        "calibrationError": "Error during calibration",
+        "calibrationResult": "Calibration Result",
+        "quality": "Quality",
+        "goodCalibration": "Excellent calibration achieved",
+        "poorCalibration": "Calibration could be improved. Try a different position or check your equipment.",
+        "calibrating": "Calibration in progress...",
+        "slewing": "Slewing to target position..."
+      },
+      "phd2": {
+        "Exposuretime": "Exposuretime",
+        "ra": {
+          "aggression": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "MinMove": "RA: Min move",
+          "MaxMove": "RA: Max move",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: Reactive weight",
+          "slope_weight": "RA: Slope weight",
+          "exp_factor": "RA: Exposure factor"
+        },
+        "dec": {
+          "aggression": "DEC: Aggression",
+          "hysteresis": "DEC: Hysteresis",
+          "MinMove": "DEC: Min move",
+          "MaxMove": "DEC: Max move",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: Reactive weight",
+          "slope_weight": "DEC: Slope weight",
+          "exp_factor": "DEC: Exposure factor"
+        },
+        "profile": "Profile",
+        "forceCalibration": "Force Calibration",
+        "error": {
+          "title": "PHD2 Error",
+          "star-lost-message": "Star lost"
+        }
+      }
     },
     "focuser": {
       "title": "Focuser",
@@ -416,7 +551,11 @@
       "slewing_first_position": "Slewing to first position",
       "slewing_next_position": "Slewing to next position",
       "capture_running": "Exposure running",
-      "last_messages": "Last messages"
+      "last_messages": "Last messages",
+      "settings": {
+        "StartFromCurrentPosition": "Start from current position?",
+        "DirectionEast": "Direction East"
+      }
     },
     "logs": {
       "loading": "Loading data...",
@@ -459,8 +598,8 @@
         "center_error": "Centering error",
         "center_successful": "Centering successful",
         "center_Repeat": "Repeat centering",
-        "exposure_running": " Exposure running",
-        "deviation_target": " Deviation to the target:"
+        "exposure_running": "Exposure running",
+        "deviation_target": "Deviation to the target:"
       }
     },
     "filterwheel": {
@@ -557,11 +696,80 @@
         "meridian_lines_visible": "Show meridian",
         "ecliptic_lines_visible": "Show ecliptic",
         "atmosphere_visible": "Show atmosphere",
-        "landscapes_visible": "Show landscapes"
+        "landscapes_visible": "Show landscapes",
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)",
+        "camera_fov_visible": "Camera Field of View"
       }
     },
     "profile": {
       "label": "Profile:"
+    },
+    "notifications": {
+      "modal": {
+        "title": "Configure Notifications",
+        "description": "Please grant permission to receive notifications about sequence events."
+      }
+    },
+    "fav_target": {
+      "title": "Favorites",
+      "table": {
+        "name": "Name",
+        "ra": "RA",
+        "dec": "DEC",
+        "load": "Load",
+        "remove": "Remove",
+        "sequnce": "Seq. target",
+        "rotation": "Rotation"
+      },
+      "no_fav": "No favorites saved",
+      "modal_save": {
+        "title": "Save",
+        "message": "The target has been saved"
+      },
+      "modal_sequence": {
+        "title": "Sequence"
+      },
+      "modal_sequence_ok": {
+        "message": "Target set"
+      },
+      "modal_sequence_error": {
+        "message": "No sequence loaded"
+      },
+      "enter_name": "Enter name"
+    },
+    "settings": {
+      "title": "Settings",
+      "coordinates": "GPS Coordinates",
+      "save": "Save",
+      "infoSetLocationSync": "Please set location sync to mount first",
+      "connection": "Connection Settings",
+      "language": "Language",
+      "image": {
+        "title": "Image Settings",
+        "quality": "Image Quality",
+        "strech_factor": "Stretch Factor",
+        "black_clipping": "Black Clipping"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activate Debug Mode"
+      },
+      "notifications": {
+        "title": "Notifications"
+      },
+      "showTutorial": "Show Tutorial",
+      "plugins": {
+        "title": "Plugin Management",
+        "description": "Manage installed plugins"
+      },
+      "system": {
+        "title": "System Controls",
+        "description": "Control system restart and shutdown",
+        "info": "These actions will affect the entire system",
+        "confirmation": "Confirm Action",
+        "confirmShutdown": "Are you sure you want to shutdown the system?",
+        "confirmRestart": "Are you sure you want to restart the system?"
+      }
     }
   }
 }

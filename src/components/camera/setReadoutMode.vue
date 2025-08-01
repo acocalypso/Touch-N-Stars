@@ -2,14 +2,14 @@
   <div
     class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
   >
-    <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-400">
+    <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
       {{ $t('components.camera.readout_mode') }}
     </label>
     <select
       @change="setReadoutMode"
       id="setReadoutMode"
       v-model="cameraStore.readoutMode"
-      class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+      class="default-select ml-auto h-8 w-28"
     >
       <option v-for="(mode, index) in store.cameraInfo.ReadoutModes" :key="index" :value="index">
         {{ mode }}

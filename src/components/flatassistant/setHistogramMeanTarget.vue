@@ -7,7 +7,7 @@
       id="count"
       v-model.number="histogramMeanPercentage"
       type="number"
-      class="ml-auto text-black px-3 h-8 w-28 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+      class="default-input ml-auto h-8 w-28"
     />
   </div>
 </template>

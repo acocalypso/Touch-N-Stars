@@ -1,7 +1,11 @@
 <template>
   <div>
-    <!-- Mount Controls -->
-    <div class="absolute bottom-3 right-3 flex gap-2 bg-black bg-opacity-90 p-2 rounded-full">
+    <!-- Mount Controls - moved to left side -->
+    <div
+      :class="controlsClasses"
+      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    >
       <button
         @click="syncViewToMount"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md transition-all duration-200"
@@ -50,26 +54,15 @@
         </svg>
       </button>
     </div>
-
-    <!-- Mount position overlay 
-    <div
-      v-if="showMountInfo"
-      class="absolute bottom-16 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white p-4 rounded-lg shadow-lg min-w-[250px]"
-    >
-      <h3 class="text-lg font-semibold">{{ $t('components.stellarium.mount_position.title') }}:</h3>
-      <p class="mt-2 text-sm">
-        {{ $t('components.stellarium.selected_object.ra') }}: {{ mountRa }}
-      </p>
-      <p class="text-sm">{{ $t('components.stellarium.selected_object.dec') }}: {{ mountDec }}</p>
-    </div>  -->
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { apiStore } from '@/store/store';
 import { useStellariumStore } from '@/store/stellariumStore';
+import { useOrientation } from '@/composables/useOrientation';
 
 const props = defineProps({
   canvasRef: {
@@ -96,6 +89,15 @@ const raDegree = ref(0);
 const decDegree = ref(0);
 const mountLayer = ref(null);
 const mountCircle = ref(null);
+
+// Check if in landscape mode
+const { isLandscape } = useOrientation();
+
+// Controls positioning classes - angepasst für rechte Navigation
+const controlsClasses = computed(() => ({
+  'right-2': !isLandscape.value,
+  'right-3': isLandscape.value,
+}));
 
 // Toggle auto-sync with mount
 function toggleAutoSync() {

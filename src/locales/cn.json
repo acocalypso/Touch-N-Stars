@@ -23,7 +23,8 @@
       "message_api": "API 插件不可用。请检查 NINA 中的设置",
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
-      "title": "连接错误"
+      "title": "连接错误",
+      "message_tns_version": "Touch N Stars插件版本过于陈旧。请进行更新！"
     }
   },
   "setup": {
@@ -37,6 +38,32 @@
     "check_wki": "您可以在我们的维基中找到详细说明"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "搜索",
+        "placeholder": "输入搜索关键词...",
+        "objectTypes": {
+          "Planet": "行星",
+          "Comet": "彗星",
+          "StellariumObject": "天体",
+          "Star": "恒星",
+          "Moon": "月亮"
+        }
+      }
+    },
+    "framing": {
+      "search": {
+        "title": "搜索",
+        "placeholder": "输入搜索关键词...",
+        "objectTypes": {
+          "Planet": "行星",
+          "Comet": "彗星",
+          "StellariumObject": "天体",
+          "Star": "恒星",
+          "Moon": "月亮"
+        }
+      }
+    },
     "tutorial": {
       "previous": "上一步",
       "next": "下一步",
@@ -70,7 +97,8 @@
         "title": "系统控制",
         "confirmRestart": "您确定要重启系统吗？",
         "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmation": "确认"
+        "confirmation": "确认",
+        "info": "这将关闭或重启正在运行N.I.N.A的电脑！"
       },
       "image": {
         "title": "图像设置",
@@ -79,9 +107,19 @@
         "strech_factor": "拉伸因子"
       },
       "plugins": {
-        "description": "Plugin description",
-        "title": "Plugins"
-      }
+        "description": "插件描述",
+        "title": "插件"
+      },
+      "debug": {
+        "activate": "运行调试窗口",
+        "titel": "调试设置"
+      },
+      "notifications": {
+        "enable": "启用通知",
+        "sequence": "序列事件",
+        "title": "通知"
+      },
+      "infoSetLocationSync": "为确保坐标能正确传输至赤道仪，请将NINA中的“位置同步”选项设置为“与望远镜同步”。这样，TNS就能直接将位置数据发送至赤道仪。"
     },
     "framing": {
       "confirmSetTargetTitle": "确认目标选择",
@@ -104,7 +142,9 @@
       "moveRotator": "旋转相机",
       "openFraminingModal": "在取景助手中打开",
       "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
-      "currentAltitude": "当前高度"
+      "currentAltitude": "当前高度",
+      "useCenter": "Center",
+      "useRotate": "Rotate"
     },
     "connectEquipment": {
       "camera": {
@@ -199,6 +239,15 @@
       "resetSequence": "重置序列",
       "resetConfirmationTitle": "确认重置",
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
+      "load_sequence": "加载序列",
+      "refresh_sequences": "刷新序列",
+      "select_sequence": "选择序列",
+      "choose_sequence": "选择序列...",
+      "no_sequences_found": "未找到序列",
+      "sequences_loaded": "序列已加载",
+      "error_loading_sequences": "加载序列时出错",
+      "sequence_loaded_successfully": "序列 '{name}' 加载成功",
+      "error_loading_sequence": "加载序列时出错: {error}",
       "exposures": "曝光",
       "exposureTime": "曝光时间",
       "filter": "滤镜",
@@ -229,7 +278,8 @@
           "showImageStats": "显示最后一张图像统计",
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderGraph": "显示导星图表",
-          "showGuiderAfGraph": "显示自动对焦图表"
+          "showGuiderAfGraph": "显示自动对焦图表",
+          "display_status_under_image": "在图片下方显示状态"
         }
       },
       "running": "运行中",
@@ -274,7 +324,9 @@
         "slewRate": "转动速率 °/秒",
         "info_manuell_controll": "只有在跟踪未激活时才能使用手动控制",
         "set_as_park": "设为停靠位置",
-        "slew_to_cenit": "转向天顶"
+        "slew_to_cenit": "转向天顶",
+        "sync_coordinates_to_mount": "与赤道仪同步坐标",
+        "setLocationSyncToMount": "设置 \"Sync to telescope\""
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -284,17 +336,68 @@
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
         "notSlewing": "赤道仪未转动"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "未同步"
+        },
+        "toApplication": {
+          "label": "与应用同步"
+        },
+        "toTelescope": {
+          "label": "与望远镜同步"
+        },
+        "confirmationMessage": "如果NINA中的“位置同步”设置为“提示”，在坐标发送到望远镜之前可能会出现确认窗口。为了避免这种情况并允许TNS自动设置坐标，我们建议将设置更改为“与望远镜同步”",
+        "title": "位置同步设置"
       }
     },
     "guider": {
-      "notConnected": "请连接导星",
+      "notConnected": "请连接导星系统",
       "start": "开始",
-      "startWithCal": "开始校准",
+      "startWithCal": "开始并校准",
       "stop": "停止",
-      "rms_error": "RMS 错误",
-      "title": "导星",
+      "rms_error": "RMS 误差",
+      "title": "导星系统",
       "running": "运行中",
-      "notes": "* 此图表根据N.I.N.A.的设置显示导星数据。"
+      "notes": "* 此图表根据N.I.N.A.的设置显示导星数据。",
+      "statusLabel": "状态",
+      "status": {
+        "looping": "拍摄中",
+        "lostLock": "丢失导星",
+        "guiding": "导星中",
+        "stopped": "已停止",
+        "calibrating": "校准中",
+        "unknown": "未知"
+      },
+      "phd2": {
+        "dec": {
+          "MaxMove": "DEC: 最大移动量",
+          "MinMove": "DEC: 最小移动量",
+          "aggression": "DEC: 修正积极性",
+          "exp_factor": "DEC: 曝光因子",
+          "hysteresis": "DEC: 回差补偿",
+          "predictive_weight": "DEC: 预测权重",
+          "reactive_weight": "DEC: 反应权重",
+          "slope_weight": "DEC: 斜率权重"
+        },
+        "error": {
+          "star-lost-message": "星点丢失",
+          "title": "PHD2 错误"
+        },
+        "profile": "设备配置",
+        "forceCalibration": "强制校准",
+        "ra": {
+          "MaxMove": "RA: 最大移动量",
+          "MinMove": "RA: 最小移动量",
+          "aggression": "RA: 修正积极性",
+          "exp_factor": "RA: 修正积极性",
+          "hysteresis": "RA: 回差补偿",
+          "predictive_weight": "RA: 预测权重",
+          "reactive_weight": "RA: 反应权重",
+          "slope_weight": "RA: 斜率权重"
+        },
+        "Exposuretime": "曝光时间"
+      }
     },
     "focuser": {
       "title": "调焦器",
@@ -415,7 +518,11 @@
       "plate_solve_ok": "板解析成功",
       "plate_solve_start": "开始板解析",
       "slewing_first_position": "转向第一个位置",
-      "slewing_next_position": "转向下一个位置"
+      "slewing_next_position": "转向下一个位置",
+      "settings": {
+        "DirectionEast": "指向东方",
+        "StartFromCurrentPosition": "从现在的位置开始？"
+      }
     },
     "logs": {
       "loading": "加载数据中...",
@@ -458,7 +565,8 @@
         "exposure_running": "曝光运行中",
         "is_centering": "居中目标",
         "is_platesolving": "板解析运行中",
-        "is_slewing": "转向目标"
+        "is_slewing": "转向目标",
+        "plate_solve_error": "板解析错误"
       }
     },
     "filterwheel": {
@@ -560,6 +668,73 @@
     },
     "profile": {
       "label": "配置文件:"
+    },
+    "fav_target": {
+      "enter_name": "输入名称",
+      "modal_save": {
+        "message": "目标已保存",
+        "titel": "保存"
+      },
+      "modal_sequence": {
+        "titel": "序列"
+      },
+      "modal_sequence_error": {
+        "message": "未加载序列"
+      },
+      "modal_sequence_ok": {
+        "message": "已设置目标"
+      },
+      "no_fav": "没有已保存的收藏",
+      "table": {
+        "dec": "赤纬",
+        "load": "加载",
+        "name": "名称",
+        "ra": "赤经",
+        "remove": "移除",
+        "sequnce": "序列目标",
+        "rotation": "旋转角度"
+      },
+      "titel": "收藏夹"
+    },
+    "notifications": {
+      "modal": {
+        "description": "请授予权限以接收关于序列事件的通知。",
+        "title": "配置通知"
+      }
+    },
+    "settings": {
+      "title": "设置",
+      "coordinates": "GPS坐标",
+      "save": "保存",
+      "infoSetLocationSync": "请先设置位置同步到赤道仪",
+      "connection": "连接设置",
+      "language": "语言",
+      "image": {
+        "title": "图像设置",
+        "quality": "图像质量",
+        "strech_factor": "拉伸因子",
+        "black_clipping": "黑点剪切"
+      },
+      "debug": {
+        "title": "调试",
+        "activate": "激活调试模式"
+      },
+      "notifications": {
+        "title": "通知"
+      },
+      "showTutorial": "显示教程",
+      "plugins": {
+        "title": "插件管理",
+        "description": "管理已安装的插件"
+      },
+      "system": {
+        "title": "系统控制",
+        "description": "控制系统重启和关机",
+        "info": "这些操作将影响整个系统",
+        "confirmation": "确认操作",
+        "confirmShutdown": "您确定要关闭系统吗？",
+        "confirmRestart": "您确定要重启系统吗？"
+      }
     }
   }
 }

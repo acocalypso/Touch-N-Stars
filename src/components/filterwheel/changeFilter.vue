@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg h-full">
+    <div class="flex flex-col bg-gray-900/90 border border-gray-500 p-1 pb-2 rounded-lg h-full">
       <label for="filter" class="text-xs mb-1 text-gray-400"
         >{{ $t('components.filterwheel.filter') }}
       </label>
@@ -9,7 +9,7 @@
         id="filter"
         v-model.number="store.filterNr"
         @change="changeFilter"
-        class="text-black px-3 h-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700"
+        class="default-select h-10"
       >
         <!-- Option für 'Unbekannt' hinzufügen -->
         <option :value="null" disabled>{{ $t('components.filterwheel.unknown') }}</option>

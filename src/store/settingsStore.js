@@ -5,6 +5,8 @@ export const useSettingsStore = defineStore('settings', {
   state: () => ({
     language: 'en',
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
+    showDebugConsole: false,
+    showSpecial: false,
     coordinates: {
       latitude: null,
       longitude: null,
@@ -25,6 +27,12 @@ export const useSettingsStore = defineStore('settings', {
       showGuiderAfGraph: true,
       displayStatusUnderImage: false,
     },
+    notifications: {
+      enabled: localStorage.getItem('notificationsEnabled') === 'true' || false,
+      sequence: {
+        enabled: localStorage.getItem('sequenceNotificationsEnabled') === 'true' || false,
+      },
+    },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
       completed: localStorage.getItem('tutorialCompleted') === 'true',
@@ -37,6 +45,8 @@ export const useSettingsStore = defineStore('settings', {
       slewRate: 2,
       reversePrimaryAxis: false,
       reverseSecondaryAxis: false,
+      useCenter: false,
+      useRotate: false,
     },
     camera: {
       exposureTime: 2,
@@ -61,8 +71,13 @@ export const useSettingsStore = defineStore('settings', {
       eclipticLinesVisible: false,
       atmosphereVisible: true,
       landscapesVisible: true,
+      dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
+    },
+    guider: {
+      phd2ForceCalibration: localStorage.getItem('phd2ForceCalibration') === 'true',
     },
     instanceColorClasses: [
+      'bg-gray-900/95',
       'bg-gray-800',
       'bg-blue-900',
       'bg-sky-900',
@@ -179,7 +194,7 @@ export const useSettingsStore = defineStore('settings', {
 
     getInstanceColorById(id) {
       const index = this.connection.instances.findIndex((i) => i.id === id);
-      return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-700';
+      return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-900/95';
     },
 
     setSelectedInstanceId(id) {
@@ -218,6 +233,25 @@ export const useSettingsStore = defineStore('settings', {
       this.useImperialUnits = !this.useImperialUnits;
       localStorage.setItem('useImperialUnits', this.useImperialUnits);
     },
+
+    toggleNotifications() {
+      this.notifications.enabled = !this.notifications.enabled;
+      localStorage.setItem('notificationsEnabled', this.notifications.enabled);
+    },
+
+    toggleSequenceNotifications() {
+      this.notifications.sequence.enabled = !this.notifications.sequence.enabled;
+      localStorage.setItem('sequenceNotificationsEnabled', this.notifications.sequence.enabled);
+    },
+
+    togglePluginsVisibility() {
+      this.showPlugins = !this.showPlugins;
+    },
+
+    setPhd2ForceCalibration(value) {
+      this.guider.phd2ForceCalibration = value;
+      localStorage.setItem('phd2ForceCalibration', value);
+    },
   },
   persist: {
     enabled: true,
@@ -234,6 +268,9 @@ export const useSettingsStore = defineStore('settings', {
           'lastCreatedInstanceId',
           'monitorViewSetting',
           'tutorial',
+          'notifications',
+          'showPlugins',
+          'guider',
         ],
       },
     ],

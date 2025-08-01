@@ -11,25 +11,29 @@
     <!-- Modal Overlay -->
     <div
       v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex"
+      :class="containerClasses"
       @click.self="isModalOpen = false"
     >
       <div
-        class="bg-gray-800 text-white p-6 rounded-lg max-w-4xl max-h-[80vh] overflow-y-auto"
+        :class="modalClasses"
+        class="bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-y-auto"
         @click.stop
       >
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold">Data Credits</h2>
-          <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
+        <div
+          class="flex justify-between items-center mb-4 sticky top-0 bg-gray-800 pb-2 border-b border-gray-600"
+        >
+          <h2 class="text-xl font-bold">Data Credits</h2>
+          <button @click="isModalOpen = false" class="text-white hover:text-gray-300 p-1">
             <XMarkIcon class="w-6 h-6" />
           </button>
         </div>
 
-        <div class="space-y-6">
+        <div class="space-y-4">
           <section>
-            <h3 class="font-semibold text-xl mb-2">Stars</h3>
-            <p class="mb-2">Combination of the following catalogues:</p>
-            <ul class="list-disc pl-5 space-y-2">
+            <h3 class="font-semibold text-lg mb-2">Stars</h3>
+            <p class="mb-2 text-sm">Combination of the following catalogues:</p>
+            <ul class="list-disc pl-5 space-y-1 text-sm">
               <li>
                 <strong>Gaia DR2:</strong> This work has made use of data from the European Space
                 Agency (ESA) mission Gaia
@@ -85,9 +89,9 @@
           </section>
 
           <section>
-            <h3 class="font-semibold text-xl mb-2">Deep Sky Objects</h3>
-            <p class="mb-2">Combination of the following catalogues:</p>
-            <ul class="list-disc pl-5 space-y-2">
+            <h3 class="font-semibold text-lg mb-2">Deep Sky Objects</h3>
+            <p class="mb-2 text-sm">Combination of the following catalogues:</p>
+            <ul class="list-disc pl-5 space-y-1 text-sm">
               <li>
                 <strong>HyperLeda database:</strong> Makarov et al. 2014, A&A, 570, A13
                 <a
@@ -121,9 +125,9 @@
           </section>
 
           <section>
-            <h3 class="font-semibold text-xl mb-2">Background Image</h3>
-            <p class="mb-2">Digitized Sky Survey:</p>
-            <ul class="list-disc pl-5 space-y-2">
+            <h3 class="font-semibold text-lg mb-2">Background Image</h3>
+            <p class="mb-2 text-sm">Digitized Sky Survey:</p>
+            <ul class="list-disc pl-5 space-y-1 text-sm">
               <li>
                 STScI/NASA
                 <a
@@ -153,7 +157,7 @@
                 red component).
               </li>
             </ul>
-            <p class="mt-2">
+            <p class="mt-2 text-sm">
               The Digitized Sky Surveys were produced at the Space Telescope Science Institute under
               U.S. Government grant NAG W-2166. The images of these surveys are based on
               photographic data obtained using the Oschin Schmidt Telescope on Palomar Mountain and
@@ -162,9 +166,20 @@
           </section>
 
           <section>
-            <h3 class="font-semibold text-xl mb-2">Planets Image</h3>
-            <p>
-              All images from NASA & JPL under public domain license
+            <h3 class="font-semibold text-lg mb-2">Planets & Moons Textures</h3>
+            <p class="text-sm mb-2">
+              High-resolution planet textures from Stellarium Labs under Creative Commons
+              Attribution 4.0 International (CC BY 4.0)
+              <a
+                href="https://data.stellarium.org/surveys/"
+                target="_blank"
+                class="text-cyan-400 hover:underline"
+              >
+                https://data.stellarium.org/surveys/
+              </a>
+            </p>
+            <p class="text-sm">
+              Original data from NASA & JPL under public domain license
               <a
                 href="http://www.jpl.nasa.gov/images/policy/index.cfm"
                 target="_blank"
@@ -173,11 +188,14 @@
                 http://www.jpl.nasa.gov/images/policy/index.cfm
               </a>
             </p>
+            <p class="text-sm text-gray-400 mt-1">
+              Texture processing by Oleg Pluton (Helleformer)
+            </p>
           </section>
 
           <section>
-            <h3 class="font-semibold text-xl mb-2">Minor Planets</h3>
-            <p>
+            <h3 class="font-semibold text-lg mb-2">Minor Planets</h3>
+            <p class="text-sm">
               All data comes from the IAU Minor Planet Center
               <a
                 href="https://www.minorplanetcenter.net/data"
@@ -191,8 +209,8 @@
           </section>
 
           <section>
-            <h3 class="font-semibold text-xl mb-2">Others</h3>
-            <ul class="list-disc pl-5">
+            <h3 class="font-semibold text-lg mb-2">Others</h3>
+            <ul class="list-disc pl-5 text-sm">
               <li>Landscape images by Fabien Chereau</li>
               <li>Constellation lines by Fabien Chereau</li>
             </ul>
@@ -204,8 +222,45 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import { useOrientation } from '@/composables/useOrientation';
 
 const isModalOpen = ref(false);
+
+// Check if in landscape mode
+const { isLandscape } = useOrientation();
+
+// Container classes for modal positioning
+const containerClasses = computed(() => ({
+  'items-center justify-center p-4': !isLandscape.value,
+  'items-center justify-end pr-4 pl-24': isLandscape.value, // Account for right navigation
+}));
+
+// Modal sizing classes
+const modalClasses = computed(() => ({
+  'max-w-4xl max-h-[80vh]': !isLandscape.value,
+  'max-w-xl max-h-[80vh]': isLandscape.value,
+}));
 </script>
+
+<style scoped>
+/* Custom scrollbar styling */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.7);
+}
+</style>

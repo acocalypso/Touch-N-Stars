@@ -3,7 +3,8 @@
     <!-- Modal Trigger -->
     <button
       @click="isModalOpen = true"
-      class="fixed bottom-12 right-16 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      class="fixed left-16 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
       v-if="tppaStore.isTppaRunning"
     >
       <svg

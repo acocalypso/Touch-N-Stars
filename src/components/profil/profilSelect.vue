@@ -1,9 +1,9 @@
 <template>
-  <div class="w-64 flex items-center">
+  <div class="w-full flex items-center">
     <label class="mr-2" for="profileDropdown">{{ $t('components.profile.label') }} </label>
     <select
       id="profileDropdown"
-      class="default-inputfield"
+      class="default-select w-full ml-auto"
       v-model="selectedProfileId"
       @change="updateProfile"
     >

@@ -1,65 +1,60 @@
 <template>
   <div
-    class="flex top-0 shadow-md overflow-hidden justify-center h-20"
-    :class="activeInstanceColor"
+    class="navigation-container shadow-md overflow-hidden"
+    :class="[activeInstanceColor, orientationClasses]"
   >
-    <div
-      class="flex mx-auto items-center justify-start overflow-x-auto overflow-y-hidden scrollbar-hide"
-      style="scroll-snap-type: x mandatory"
-    >
-      <div class="flex space-x-2 px-2" style="scroll-snap-align: start">
-        <!-- Plugin navigation items first -->
-        <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
-          <router-link
-            :to="item.path"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="item.title"
-          >
-            <component :is="item.icon" class="icon" />
+    <div class="nav-content items-center scrollbar-hide" :class="contentClasses">
+      <div class="nav-items-wrapper" :class="wrapperClasses">
+        <div v-if="store.isBackendReachable">
+          <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
+            <LinkIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.isBackendReachable">
-          <router-link
-            to="/equipment"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="$t('components.navigation.equipment')"
-          >
-            <LinkIcon class="icon" />
-          </router-link>
-        </div>
         <div v-if="store.cameraInfo.Connected">
           <router-link
             to="/camera"
-            class="nav-button"
+            class="nav-button camera-button"
             active-class="active-nav-button"
-            :title="$t('components.navigation.camera')"
           >
-            <CameraIcon
-              class="icon"
-              :class="store.cameraInfo.IsExposing ? 'text-green-500' : 'text-white'"
-            />
+            <div class="camera-icon-wrapper">
+              <!-- Progress Ring für Belichtungszeit -->
+              <svg v-if="store.cameraInfo.IsExposing" class="progress-ring" viewBox="0 0 36 36">
+                <!-- Background Circle -->
+                <path
+                  class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <!-- Progress Circle -->
+                <path
+                  class="fill-none stroke-green-500 stroke-[2.8]"
+                  :style="{
+                    strokeDasharray: cameraStore.exposureProgress + ', 100',
+                    transform: 'rotate(-90deg)',
+                    transformOrigin: 'center',
+                    transition:
+                      cameraStore.exposureProgress > 0 ? 'stroke-dasharray 0.5s linear' : 'none',
+                  }"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+
+              <CameraIcon
+                class="icon camera-icon force-visible"
+                :class="store.cameraInfo.IsExposing ? 'text-green-500' : 'text-white'"
+              />
+            </div>
           </router-link>
         </div>
+
         <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
-            to="/autofocus"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="$t('components.navigation.autofocus')"
-          >
-            <EyeIcon class="icon" />
+          <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
+            <EyeIcon class="icon force-visible" />
           </router-link>
         </div>
+
         <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
-            to="/mount"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="$t('components.navigation.mount')"
-          >
+          <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -71,7 +66,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               :class="[
-                'icon',
+                'icon force-visible',
                 store.mountInfo.AtPark
                   ? 'text-red-500'
                   : !store.mountInfo.TrackingEnabled
@@ -89,13 +84,9 @@
             </svg>
           </router-link>
         </div>
+
         <div v-if="store.domeInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link
-            to="/dome"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="$t('components.navigation.dome')"
-          >
+          <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
               height="24"
@@ -106,11 +97,12 @@
               xmlns:xlink="http://www.w3.org/1999/xlink"
               viewBox="0 0 512 512"
               xml:space="preserve"
+              class="icon force-visible"
             >
               <path
                 d="M256,114.383c-22.526,0-40.851,18.325-40.851,40.851s18.325,40.851,40.851,40.851s40.851-18.325,40.851-40.851
             S278.526,114.383,256,114.383z M256,179.745c-13.516,0-24.511-10.995-24.511-24.511c0-13.516,10.995-24.511,24.511-24.511
-            s24.511,10.995,24.511,24.511C280.511,168.75,269.516,179.745,256,179.745z"
+            s24.511,10.995,24.511,24.511C280.511,168.75,269.516,179.745,256.179.745z"
               />
               <path
                 d="M495.66,283.234h-2.723v-38.128h2.723c4.512,0,8.17-3.658,8.17-8.17c0-4.512-3.658-8.17-8.17-8.17h-2.878
@@ -142,13 +134,13 @@
             </svg>
           </router-link>
         </div>
+
         <div v-if="store.flatdeviceInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link to="/flat" class="nav-button" active-class="active-nav-button">
+          <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
             <LightBulbIcon
-              class="icon"
+              class="icon force-visible"
               :class="[
-                'icon',
-                store.flatdeviceInfo.LightOn // store.flatdeviceInfo.CoverState === 'Closed'
+                store.flatdeviceInfo.LightOn
                   ? 'text-yellow-500'
                   : store.flatdeviceInfo.CoverState === 'Closed'
                     ? 'text-red-500'
@@ -157,18 +149,15 @@
             />
           </router-link>
         </div>
+
         <div v-if="store.switchInfo.Connected">
           <router-link to="/switch" class="nav-button" active-class="active-nav-button">
-            <AdjustmentsVerticalIcon class="icon" />
+            <AdjustmentsVerticalIcon class="icon force-visible" />
           </router-link>
         </div>
+
         <div v-if="store.guiderInfo.Connected">
-          <router-link
-            to="/guider"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="$t('components.navigation.guider')"
-          >
+          <router-link to="/guider" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -180,7 +169,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               :class="[
-                'icon icon-tabler icons-tabler-outline icon-tabler-viewfinder',
+                'icon force-visible icon-tabler icons-tabler-outline icon-tabler-viewfinder',
                 store.guiderInfo.State == 'Guiding' ? 'text-green-500' : 'text-white',
               ]"
             >
@@ -194,46 +183,54 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="sequenceStore.sequenceIsLoaded">
+
+        <!-- Fixed Sequence Button -->
+        <div>
           <router-link
             to="/sequence"
-            class="nav-button"
+            class="nav-button touch-target"
             active-class="active-nav-button"
-            :title="$t('components.navigation.sequence')"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
           >
             <ListBulletIcon
-              class="icon"
+              class="icon force-visible"
               :class="sequenceStore.sequenceRunning ? 'text-green-500' : 'text-white'"
             />
           </router-link>
         </div>
+
+        <!-- Fixed Flats Button -->
         <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
-          <router-link to="/flats" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/flats"
+            class="nav-button touch-target"
+            active-class="active-nav-button"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
               viewBox="0 0 24 24"
               fill="#FFFFFF"
+              class="icon force-visible"
             >
               <path
-                d="m5,5.5v-2c0-1.93,1.57-3.5,3.5-3.5h2c.276,0,.5.224.5.5s-.224.5-.5.5h-2c-1.379,0-2.5,1.121-2.5,2.5v2c0,.276-.224.5-.5.5s-.5-.224-.5-.5Zm18.5,7.5c-.276,0-.5.224-.5.5v2c0,1.379-1.121,2.5-2.5,2.5h-2c-.276,0-.5.224-.5.5s.224.5.5.5h2c1.93,0,3.5-1.57,3.5-3.5v-2c0-.276-.224-.5-.5-.5ZM20.5,0h-2c-.276,0-.5.224-.5.5s.224.5.5.5h2c1.379,0,2.5,1.121,2.5,2.5v2c0,.276.224.5.5.5s.5-.224.5-.5v-2c0-1.93-1.57-3.5-3.5-3.5Zm-2.949,13.567l-2.199-.225-1.026,2.03c-.227.453-.691.733-1.19.733-.058,0-.115-.004-.173-.011-.562-.073-1.017-.494-1.134-1.048l-.379-1.79L.854,23.854c-.098.098-.226.146-.354.146s-.256-.049-.354-.146c-.195-.195-.195-.512,0-.707l10.579-10.579-1.739-.345c-.26-.05-.497-.177-.686-.365-.202-.202-.336-.47-.377-.754-.081-.56.202-1.111.704-1.373l2.034-1.066-.227-2.209c-.046-.565.263-1.096.769-1.33.505-.232,1.109-.125,1.503.267l1.522,1.523,2.067-.981c.508-.232,1.111-.124,1.504.268.394.392.502.994.27,1.499l-.983,2.072,1.522,1.521c.396.396.502,1.003.266,1.508-.235.506-.774.806-1.324.766Zm.351-1.567l-1.771-1.77c-.149-.149-.188-.377-.099-.567l1.132-2.386c.056-.121.028-.271-.069-.368-.099-.099-.249-.126-.376-.068l-2.38,1.129c-.191.091-.418.05-.567-.099l-1.771-1.771c-.063-.063-.15-.098-.237-.098-.048,0-.096.011-.14.031-.127.059-.204.191-.193.331l.261,2.534c.021.203-.084.398-.265.493l-2.335,1.225c-.127.066-.198.205-.178.345.01.073.043.139.094.189.047.047.106.079.171.091l2.668.529c.197.039.352.191.393.387l.567,2.684c.029.139.144.244.284.263.142.02.277-.053.341-.18l1.183-2.339c.094-.185.292-.297.497-.271l2.533.259c.147.003.266-.066.323-.192.061-.128.033-.28-.066-.38Z"
+                d="m5,5.5v-2c0-1.93,1.57-3.5,3.5-3.5h2c.276,0,.5.224.5.5s-.224.5-.5.5h-2c-1.379,0-2.5,1.121-2.5,2.5v2c0,.276-.224.5-.5.5s-.5-.224-.5-.5Zm18.5,7.5c-.276,0-.5.224-.5.5v2c0,1.379-1.121,2.5-2.5,2.5h-2c-.276,0-.5.224-.5.5s.224.5.5.5h2c1.93,0,3.5-1.57,3.5-3.5v-2c0-.276-.224-.5-.5-.5ZM20.5,0h-2c-.276,0-.5.224-.5.5s.224.5.5.5h2c1.379,0,2.5,1.121,2.5,2.5v2c0,.276.224.5.5.5s.5-.224.5-.5v-2c0-1.93-1.57-3.5-3.5-3.5Zm-2.949,13.567l-2.199-.225-1.026,2.03c-.227.453-.691.733-1.19.733-.058,0-.115-.004-.173-.011-.562-.073-1.017-.494-1.134-1.048l-.379-1.79L.854,23.854c-.098.098-.226.146-.354.146s-.256-.049-.354-.146c-.195-.195-.195-.512,0-.707l10.579-10.579-1.739-.345c-.26-.05-.497-.177-.686-.365-.202-.202-.336-.47-.377-.754-.081-.56.202-1.111.704-1.373l2.034-1.066-.227-2.209c-.046-.565.263-1.096.769-1.33.505-.232,1.109-.125,1.503.267l1.522,1.523,2.067-.981c.508-.232,1.111-.124,1.504.268.394.392.502.994.27,1.499l-.983,2.072,1.522,1.521c.396.396.502,1.003.266,1.508-.235.506-.774.806-1.324.766Z"
               />
             </svg>
           </router-link>
         </div>
+
         <div
           v-if="
             sequenceStore.sequenceRunning ||
             (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
           "
         >
-          <router-link
-            to="/seq-mon"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="$t('components.navigation.sequence')"
-          >
+          <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
               height="400px"
@@ -243,6 +240,7 @@
               viewBox="-100 0 639.479 439.479"
               xmlns:xlink="http://www.w3.org/1999/xlink"
               enable-background="new 0 0 439.479 439.479"
+              class="icon force-visible"
             >
               <g>
                 <path
@@ -255,29 +253,59 @@
             </svg>
           </router-link>
         </div>
-        <div v-if="store.isBackendReachable && !isIOS">
+
+        <div v-if="store.isBackendReachable">
           <router-link
             to="/"
             class="nav-button"
             :class="{ 'active-nav-button': store.showStellarium }"
             @click="store.showStellarium = true"
           >
-            <SparklesIcon class="icon" />
+            <SparklesIcon class="icon force-visible" />
           </router-link>
         </div>
+        <!-- Plugin navigation items first -->
+        <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
+          <router-link
+            :to="item.path"
+            class="nav-button"
+            active-class="active-nav-button"
+            :title="item.title"
+          >
+            <component :is="item.icon" class="icon force-visible" />
+          </router-link>
+        </div>
+
+        <!--  Settings Link -->
+        <div>
+          <router-link
+            to="/settings"
+            class="nav-button touch-target"
+            active-class="active-nav-button"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
+          >
+            <Cog6ToothIcon class="icon force-visible" />
+          </router-link>
+        </div>
+
+        <!--  About Button -->
         <button
-          @click="store.showSettings = true"
-          class="nav-button"
-          active-class="active-nav-button"
-          :title="$t('components.navigation.settings')"
+          @click="showAboutModal = true"
+          @touchstart.passive="handleTouchStart"
+          @touchend.passive="handleTouchEnd"
+          class="nav-button touch-target"
+          :class="{ 'active-nav-button': showAboutModal }"
         >
-          <Cog6ToothIcon class="icon" />
+          <InformationCircleIcon class="icon force-visible" />
         </button>
       </div>
     </div>
   </div>
 
   <exposureCountdown />
+  <!-- About modal -->
+  <AboutModal v-if="showAboutModal" :version="appVersion" @close="showAboutModal = false" />
 </template>
 
 <script setup>
@@ -290,27 +318,129 @@ import {
   LightBulbIcon,
   AdjustmentsVerticalIcon,
   SparklesIcon,
+  InformationCircleIcon,
 } from '@heroicons/vue/24/outline';
-import { watch, computed } from 'vue';
+import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useCameraStore } from '@/store/cameraStore';
 import exposureCountdown from '@/components/helpers/ExposureCountdown.vue';
 import { usePluginStore } from '@/store/pluginStore';
-import { Capacitor } from '@capacitor/core';
+import AboutModal from './status/AboutModal.vue';
+import version from '@/version';
+import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
+const cameraStore = useCameraStore();
 const route = useRoute();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
-const isIOS = computed(() => Capacitor.getPlatform() === 'ios');
+const appVersion = ref(version);
+const showAboutModal = ref(false);
 
-const activeInstanceColor = computed(() =>
-  settingsStore.getInstanceColorById(selectedInstanceId.value)
+// Orientierung tracking
+const { isLandscape } = useOrientation();
+
+// Touch feedback states
+const touchedButton = ref(null);
+
+// Force icons visibility after mount
+const iconsLoaded = ref(false);
+
+const activeInstanceColor = computed(() => {
+  const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
+  return color;
+});
+
+// Orientierung-spezifische CSS-Klassen
+const orientationClasses = computed(() => ({
+  'nav-portrait': !isLandscape.value,
+  'nav-landscape': isLandscape.value,
+}));
+
+const contentClasses = computed(() => ({
+  'flex mx-auto justify-start overflow-x-auto overflow-y-hidden': !isLandscape.value,
+  'flex flex-col mx-auto justify-start overflow-y-auto overflow-x-hidden': isLandscape.value,
+}));
+
+const wrapperClasses = computed(() => ({
+  'flex space-x-2 px-2': !isLandscape.value,
+  'flex flex-col space-y-2 px-2 py-4': isLandscape.value,
+}));
+
+// Touch event handlers for better compatibility
+function handleTouchStart(event) {
+  touchedButton.value = event.currentTarget;
+  event.currentTarget.classList.add('touch-active');
+}
+
+function handleTouchEnd() {
+  setTimeout(() => {
+    if (touchedButton.value) {
+      touchedButton.value.classList.remove('touch-active');
+      touchedButton.value = null;
+    }
+  }, 150);
+}
+
+// Force icon visibility
+function forceIconVisibility() {
+  nextTick(() => {
+    const icons = document.querySelectorAll('.icon');
+    icons.forEach((icon) => {
+      icon.style.opacity = '1';
+      icon.style.visibility = 'visible';
+      icon.style.display = 'block';
+    });
+    iconsLoaded.value = true;
+  });
+}
+
+function handleOrientationChange() {
+  setTimeout(() => {
+    // Force icon visibility after orientation change
+    forceIconVisibility();
+  }, 100);
+}
+
+// Lifecycle
+onMounted(() => {
+  window.addEventListener('orientationchange', handleOrientationChange);
+  window.addEventListener('resize', handleOrientationChange);
+
+  // Force icon visibility on mount
+  forceIconVisibility();
+
+  // Additional force after a short delay for Android
+  setTimeout(() => {
+    forceIconVisibility();
+  }, 500);
+
+  // Prüfe beim Mount, ob bereits eine Belichtung läuft
+  if (store.cameraInfo.ExposureEndTime && store.cameraInfo.IsExposing) {
+    cameraStore.updateCountdown();
+  }
+});
+
+// Watcher für Belichtungsstart
+watch(
+  () => store.cameraInfo.IsExposing,
+  (isExposing, wasExposing) => {
+    if (isExposing && !wasExposing && store.cameraInfo.ExposureEndTime) {
+      // Belichtung hat gerade gestartet
+      cameraStore.updateCountdown();
+    }
+  }
 );
+
+onBeforeUnmount(() => {
+  window.removeEventListener('orientationchange', handleOrientationChange);
+  window.removeEventListener('resize', handleOrientationChange);
+});
 
 watch(
   () => route.path,
@@ -318,43 +448,449 @@ watch(
     if (newPath !== '/') {
       store.showStellarium = false;
     }
+    // Force icon visibility after route change
+    nextTick(() => {
+      forceIconVisibility();
+    });
   },
-  { immediate: true } // <- optional, direkt beim ersten Laden prüfen
+  { immediate: true }
+);
+
+// Watch for store changes that might affect icon visibility
+watch(
+  [
+    () => store.isBackendReachable,
+    () => store.cameraInfo.Connected,
+    () => store.focuserInfo.Connected,
+    () => store.mountInfo.Connected,
+    () => store.domeInfo.Connected,
+    () => store.flatdeviceInfo.Connected,
+    () => store.switchInfo.Connected,
+    () => store.guiderInfo.Connected,
+    () => sequenceStore.sequenceIsLoaded,
+  ],
+  () => {
+    nextTick(() => {
+      forceIconVisibility();
+    });
+  },
+  { deep: true }
 );
 </script>
 
 <style scoped>
+/* Base Navigation Container */
+.navigation-container {
+  @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out;
+}
+
+/* Portrait Mode - Navigation oben */
+.nav-portrait {
+  @apply fixed top-0 left-0 right-0 w-full h-20;
+}
+
+/* Landscape Mode - Navigation links */
+.nav-landscape {
+  @apply fixed left-0 top-0 bottom-0 h-full w-32 flex-col justify-start;
+  height: 100vh !important;
+  padding-left: 3rem;
+}
+
+/* Content Area Anpassungen */
+.nav-content {
+  @apply scrollbar-hide transition-all duration-300 ease-in-out;
+  scroll-snap-type: x mandatory;
+}
+
+/* Portrait Mode Content */
+.nav-portrait .nav-content {
+  @apply flex mx-auto items-center justify-start overflow-x-auto overflow-y-hidden;
+  scroll-snap-type: x mandatory;
+}
+
+/* Landscape Mode Content */
+.nav-landscape .nav-content {
+  @apply flex flex-col mx-auto items-stretch justify-start overflow-y-auto overflow-x-hidden h-full;
+  scroll-snap-type: none;
+}
+
+/* Navigation Items Wrapper */
+.nav-items-wrapper {
+  scroll-snap-align: start;
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Portrait Mode Wrapper */
+.nav-portrait .nav-items-wrapper {
+  @apply flex space-x-2 px-2;
+}
+
+/* Landscape Mode Wrapper */
+.nav-landscape .nav-items-wrapper {
+  @apply flex flex-col space-y-2 px-2 pt-4 pb-2 h-full;
+}
+
+/* Navigation Buttons - Base Styles with improved rendering */
 .nav-button {
-  @apply w-10 h-10 lg:w-12 lg:h-12 border border-cyan-500/20 bg-gray-700 text-white rounded-full hover:bg-gray-600;
+  @apply w-10 h-10 lg:w-12 lg:h-12 
+    border border-slate-600/30 
+    bg-slate-800/40 
+    text-gray-300 
+    rounded-full 
+    hover:bg-slate-700/60
+    hover:border-slate-500/50
+    hover:text-gray-200
+    backdrop-blur-sm
+    transition-all
+    duration-200
+    ease-out
+    focus:outline-none 
+    focus:ring-2 
+    focus:ring-cyan-500/40;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 4px;
-  transition: all 0.2s ease;
   flex-shrink: 0;
+  /* iOS touch improvements */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Minimum touch target size */
+  min-width: 44px;
+  min-height: 44px;
+  /* Prevent scroll momentum interference */
+  touch-action: manipulation;
+  /* Force hardware acceleration for better rendering */
+  transform: translateZ(0);
+  will-change: transform;
 }
 
-@media (max-width: 1023px) {
-  .nav-button {
-    margin: 8px 4px;
-    width: 3.5rem;
-    height: 3.5rem;
-  }
-
-  .top-0 {
-    z-index: 50;
-  }
-
-  .flex {
-    padding: 8px 0;
-  }
+/* Enhanced touch target class for problematic buttons */
+.touch-target {
+  /* Ensure adequate touch target size */
+  min-width: 48px !important;
+  min-height: 48px !important;
+  /* Add invisible padding for better touch detection */
+  position: relative;
 }
 
+.touch-target::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  /* Invisible but touchable area */
+  background: transparent;
+  border-radius: inherit;
+}
+
+/* Touch feedback states */
+.nav-button.touch-active {
+  @apply bg-slate-600/80 
+    border-slate-400/70 
+    transform scale-95;
+  transition: all 0.1s ease-out;
+}
+
+/* Active Navigation Button Styles */
 .active-nav-button {
-  @apply border border-cyan-300/30 bg-cyan-700 rounded-lg;
+  @apply bg-cyan-600/80 
+    border-cyan-500/60 
+    text-white 
+    shadow-lg
+    shadow-cyan-500/25;
 }
 
+.active-nav-button:hover {
+  @apply bg-cyan-500/90 
+    border-cyan-400/70 
+    shadow-xl
+    shadow-cyan-500/30;
+}
+
+/* Icon Styles - FORCE VISIBILITY */
 .icon {
-  @apply w-6 h-6;
+  @apply w-5 h-5 lg:w-6 lg:h-6;
+  /* Force icon visibility */
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  /* Prevent icon from interfering with touch events */
+  pointer-events: none;
+  /* Force hardware acceleration */
+  transform: translateZ(0);
+  will-change: opacity;
+}
+
+/* Force visible class for Android compatibility */
+.force-visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  /* Prevent any transitions that might hide icons initially */
+  transition: none !important;
+}
+
+/* Camera Button Special Styles */
+.camera-button {
+  position: relative;
+}
+
+.camera-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.progress-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+  /* Prevent interference with touch events */
+  pointer-events: none;
+}
+
+.camera-icon {
+  position: relative;
+  z-index: 10;
+  transition: all 0.2s ease;
+  /* Prevent interference with touch events */
+  pointer-events: none;
+}
+
+/* Portrait Mode Button Adjustments */
+.nav-portrait .nav-button {
+  @apply w-12 h-12 lg:w-14 lg:h-14;
+  margin: 4px;
+  /* Ensure minimum touch target on mobile */
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Landscape Mode Button Adjustments */
+.nav-landscape .nav-button {
+  @apply w-12 h-12 lg:w-14 lg:h-14;
+  margin: 4px 0;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  /* Ensure minimum touch target on mobile */
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* Landscape Mode - größere Progress Ringe */
+.nav-landscape .progress-ring {
+  width: 56px;
+  height: 56px;
+}
+
+.nav-landscape .progress-ring circle {
+  r: 24;
+}
+
+/* Responsive Icon Sizes */
+.nav-portrait .icon {
+  @apply w-6 h-6 lg:w-7 lg:h-7;
+}
+
+.nav-landscape .icon {
+  @apply w-6 h-6 lg:w-7 lg:h-7;
+}
+
+/* Status Indicator Colors for active buttons */
+.active-nav-button .icon.text-green-500 {
+  @apply text-green-400;
+}
+
+.active-nav-button .icon.text-yellow-500 {
+  @apply text-yellow-400;
+}
+
+.active-nav-button .icon.text-red-500 {
+  @apply text-red-400;
+}
+
+/* Smooth transitions for all states */
+.nav-button,
+.nav-button .icon {
+  @apply transition-all duration-200 ease-out;
+}
+
+/* Android specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .nav-button {
+    /* Force repaint on Android */
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  .icon {
+    /* Ensure icons are rendered immediately */
+    opacity: 1 !important;
+    will-change: opacity, transform;
+  }
+}
+
+/* Webkit specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .nav-button {
+    /* Prevent iOS button styling */
+    -webkit-appearance: none;
+    border-radius: 50%;
+    /* Ensure buttons are properly positioned */
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Fix for iOS Safari button tap delays */
+  .nav-button,
+  .touch-target {
+    cursor: pointer;
+  }
+
+  /* Prevent iOS zoom on double tap */
+  .navigation-container {
+    touch-action: manipulation;
+  }
+}
+
+/* Fix for buttons that might be covered by other elements */
+.nav-button {
+  isolation: isolate;
+  z-index: 10;
+}
+
+/* Ensure buttons are properly clickable on all devices */
+.nav-button:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Additional spacing for touch targets in landscape mode */
+.nav-landscape .touch-target {
+  margin: 6px 0;
+}
+
+/* Ensure SVG icons don't interfere with touch events */
+.nav-button svg {
+  pointer-events: none;
+  display: block;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Fix for potential z-index issues */
+.nav-items-wrapper > div {
+  position: relative;
+  z-index: 1;
+}
+
+/* Additional mobile-specific improvements */
+@media (max-width: 768px) {
+  .nav-button {
+    min-width: 50px;
+    min-height: 50px;
+  }
+
+  .touch-target {
+    min-width: 52px !important;
+    min-height: 52px !important;
+  }
+
+  /* Force icon visibility on mobile */
+  .icon {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* Prevent button bounce effect */
+.nav-button:active {
+  transform: none;
+}
+
+.touch-target:active {
+  transform: scale(0.95);
+}
+
+/* Ensure proper button spacing in portrait mode */
+.nav-portrait .nav-button {
+  margin: 2px 4px;
+}
+
+/* Improve landscape mode spacing */
+.nav-landscape .nav-button {
+  margin: 6px auto;
+  width: 50px;
+  height: 50px;
+}
+
+/* Fix for camera button progress ring in landscape */
+.nav-landscape .camera-button .progress-ring {
+  width: 50px;
+  height: 50px;
+}
+
+/* Ensure all buttons are properly aligned */
+.nav-button,
+.touch-target {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box;
+}
+
+/* Fix potential overflow issues */
+.navigation-container {
+  overflow: visible;
+}
+
+.nav-content {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.nav-landscape .nav-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Additional fixes for button interaction */
+.nav-button:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Prevent text selection in navigation */
+.navigation-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+/* Force immediate icon rendering */
+.icon,
+.force-visible {
+  animation: forceVisible 0.1s ease-out;
+}
+
+@keyframes forceVisible {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>

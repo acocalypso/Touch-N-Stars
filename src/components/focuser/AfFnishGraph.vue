@@ -22,6 +22,7 @@ const chartCanvas = ref(null);
 const timestamp = ref(''); // Timestamp für die Anzeige
 const store = apiStore();
 let chartInstance = null;
+let fetchInterval = null;
 
 // Funktion, um die Größe des Charts beim Fenster-Resize anzupassen
 const resizeChart = () => {
@@ -35,7 +36,7 @@ function parseQuadraticFormula(formula) {
   // Normalisiere die Formel, um "+ -" zu "-"
   const normalizedFormula = formula.replace(/\+\s*-/g, '- ').replace(/-\s*-/g, '+ ');
 
-  console.log('Normalisierte Quadratische Formel:', normalizedFormula); // Debugging
+  //console.log('Normalisierte Quadratische Formel:', normalizedFormula); // Debugging
 
   // Neuer Regex für Exponentialnotation
   const regex =
@@ -52,7 +53,7 @@ function parseQuadraticFormula(formula) {
 
 // Funktion zum Parsen der Hyperbolischen Fitting-Formel
 function parseHyperbolicFormula(formula) {
-  console.log('Hyperbolic Fitting Formel:', formula); // Debugging
+  //console.log('Hyperbolic Fitting Formel:', formula); // Debugging
 
   // Neuer Regex für Exponentialnotation und Hyperbolische Funktion
   const regex =
@@ -75,7 +76,7 @@ async function fetchLastAf() {
     const dateLastAf = new Date(apiData.Timestamp);
     const dateProfilLastUsed = new Date(store.profileInfo.LastUsed);
 
-    console.log(dateLastAf, ' : ', dateProfilLastUsed);
+    //console.log(dateLastAf, ' : ', dateProfilLastUsed);
 
     if (dateLastAf < dateProfilLastUsed) {
       return;
@@ -224,6 +225,9 @@ onMounted(() => {
         legend: {
           display: true,
           position: 'top',
+          labels: {
+            color: '#CCCCCC',
+          },
         },
         tooltip: {
           mode: 'index',
@@ -241,17 +245,30 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Position',
+            color: '#CCCCCC',
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
         y: {
           title: {
             display: true,
             text: 'Value',
+            color: '#CCCCCC',
+          },
+          ticks: {
+            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
       },
     },
   });
+
+  // Starte Intervall zum regelmäßigen Nachladen
+  fetchInterval = setInterval(() => {
+    fetchLastAf();
+  }, 15000); // 30 Sekunden
 
   // Daten laden
   fetchLastAf();
@@ -266,6 +283,10 @@ onUnmounted(() => {
 
   if (chartInstance) {
     chartInstance.destroy();
+  }
+  // Intervall stoppen
+  if (fetchInterval) {
+    clearInterval(fetchInterval);
   }
 });
 </script>

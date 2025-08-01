@@ -23,7 +23,8 @@
       "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
       "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
       "message_tns": "Le plugin TouchNstars n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
-      "title": "Erreur de connexion"
+      "title": "Erreur de connexion",
+      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     }
   },
   "setup": {
@@ -37,6 +38,32 @@
     "check_wki": "Vous pouvez trouver des instructions détaillées dans notre wiki"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Recherche",
+        "placeholder": "Entrez le terme de recherche...",
+        "objectTypes": {
+          "Planet": "Planète",
+          "Comet": "Comète",
+          "StellariumObject": "Objet",
+          "Star": "Étoile",
+          "Moon": "Lune"
+        }
+      }
+    },
+    "framing": {
+      "search": {
+        "title": "Recherche",
+        "placeholder": "Entrez le terme de recherche...",
+        "objectTypes": {
+          "Planet": "Planète",
+          "Comet": "Comète",
+          "StellariumObject": "Objet",
+          "Star": "Étoile",
+          "Moon": "Lune"
+        }
+      }
+    },
     "tutorial": {
       "previous": "Précédent",
       "next": "Suivant",
@@ -70,7 +97,8 @@
         "title": "Commandes de système",
         "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système?",
         "confirmShutdown": "Êtes-vous sûr de vouloir fermer le système?",
-        "confirmation": "Confirmation"
+        "confirmation": "Confirmation",
+        "info": "Cela fera arrêter ou redémarrer le PC qui héberge l'instance N.I.N.A!"
       },
       "image": {
         "quality": "Qualité en%",
@@ -81,7 +109,17 @@
       "plugins": {
         "description": "Description du plugin",
         "title": "Plugins"
-      }
+      },
+      "debug": {
+        "activate": "Activer la fenêtre de débogage",
+        "titel": "Paramètres de débogage"
+      },
+      "notifications": {
+        "enable": "Activer les notifications",
+        "sequence": "Événements de séquence",
+        "title": "Notifications"
+      },
+      "infoSetLocationSync": "Pour vous assurer que les coordonnées sont correctement transférées sur le support, définissez l'option «Location Sync» dans Nina à «Synchronisation du télescope». \nCela permet à TNS d'envoyer les données de localisation directement au support."
     },
     "framing": {
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
@@ -90,7 +128,14 @@
       "setSequnceTarget": "Sélectionner cette cible pour la sequence",
       "search": {
         "title": "Chercher",
-        "placeholder": "Entrer un élément de recherche..."
+        "placeholder": "Entrer un élément de recherche...",
+        "objectTypes": {
+          "Planet": "Planète",
+          "Comet": "Comète",
+          "StellariumObject": "Objet",
+          "Star": "Étoile",
+          "Moon": "Lune"
+        }
       },
       "fovSettings": {
         "fov": "Champ de vision",
@@ -104,7 +149,9 @@
       "moveRotator": "Caméra de rotation",
       "openFraminingModal": "Ouvert dans un cadrage",
       "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans Nina ou l'option «Utiliser Nina Cache» doit être désactivée",
-      "currentAltitude": "Altitude de courant"
+      "currentAltitude": "Altitude de courant",
+      "useCenter": "Center",
+      "useRotate": "Tourner"
     },
     "connectEquipment": {
       "camera": {
@@ -199,6 +246,15 @@
       "resetSequence": "Relancer la sequence",
       "resetConfirmationTitle": "Confirmer la Relance",
       "resetConfirmationMessage": "Etes-vous sur de vouloir relancer la séquence? Cette action ne peut être annulée.",
+      "load_sequence": "Charger la Séquence",
+      "refresh_sequences": "Actualiser les Séquences",
+      "select_sequence": "Sélectionner la Séquence",
+      "choose_sequence": "Choisir une séquence...",
+      "no_sequences_found": "Aucune séquence trouvée",
+      "sequences_loaded": "Séquences chargées",
+      "error_loading_sequences": "Erreur lors du chargement des séquences",
+      "sequence_loaded_successfully": "Séquence '{name}' chargée avec succès",
+      "error_loading_sequence": "Erreur lors du chargement de la séquence: {error}",
       "exposures": "Expositions",
       "exposureTime": "Durée d'expositione",
       "filter": "Filtre",
@@ -229,7 +285,8 @@
           "showImageStats": "Montrer les stats de la dernière image",
           "showImgStatsGraph": "Montrer la courbe du HFR",
           "showGuiderGraph": "Montrer la courbe du Guidage",
-          "showGuiderAfGraph": "Montrer la courbe de l'AutoFocus"
+          "showGuiderAfGraph": "Montrer la courbe de l'AutoFocus",
+          "display_status_under_image": "Afficher le statut ci-dessous Image"
         }
       },
       "running": "EN COURS D'EXÉCUTION",
@@ -274,7 +331,9 @@
         "slewRate": "Taux de dalles ° / s",
         "info_manuell_controll": "Le contrôle manuel n'est disponible que si le suivi n'est pas actif",
         "set_as_park": "Se dérouler comme parc",
-        "slew_to_cenit": "Tué à Zenith"
+        "slew_to_cenit": "Tué à Zenith",
+        "sync_coordinates_to_mount": "Sync coordinates with mount",
+        "setLocationSyncToMount": "Définir \"Sync au télescope\""
       },
       "info": {
         "notConnected": "Merci de connecter la mount",
@@ -284,17 +343,68 @@
         "trackingDisabled": "Le suivi est désactivé",
         "slewing": "Le suivi est actif",
         "notSlewing": "Pas de suivi"
+      },
+      "location_sync": {
+        "noSync": {
+          "label": "Pas de synchronisation"
+        },
+        "toApplication": {
+          "label": "Synchronisation avec l'application"
+        },
+        "toTelescope": {
+          "label": "Synchronisation avec le télescope"
+        },
+        "confirmationMessage": "Si «Location Sync» dans Nina est défini sur «Invite», une fenêtre de confirmation peut apparaître avant que les coordonnées ne soient envoyées au télescope. \nPour éviter cela et permettre à TNS de définir automatiquement les coordonnées, nous vous recommandons de modifier le paramètre en «Synchronisation en télescope»",
+        "title": "Paramètres de synchronisation de l'emplacement"
       }
     },
     "guider": {
-      "notConnected": "Merci de connecter le guideur",
+      "notConnected": "Veuillez connecter le système de guidage",
       "start": "Démarrer",
-      "startWithCal": "Lancer la calibration",
-      "stop": "Stop",
+      "startWithCal": "Démarrer avec calibration",
+      "stop": "Arrêter",
       "rms_error": "Erreur RMS",
-      "title": "Guideur",
+      "title": "Système de guidage",
       "running": "EN COURS D'EXÉCUTION",
-      "notes": "* Ce graphique affiche des données guidant selon les paramètres de N.I.N.A."
+      "notes": "* Ce graphique affiche des données guidant selon les paramètres de N.I.N.A.",
+      "statusLabel": "Statut",
+      "status": {
+        "looping": "Boucle",
+        "lostLock": "Étoile perdue",
+        "guiding": "Guidage",
+        "stopped": "Arrêté",
+        "calibrating": "Calibrage",
+        "unknown": "Inconnu"
+      },
+      "phd2": {
+        "dec": {
+          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min move",
+          "aggression": "DEC: Aggression",
+          "exp_factor": "DEC: Exposure factor",
+          "hysteresis": "DEC: Hysteresis",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: ReactiveW weight",
+          "slope_weight": "DEC: Slope weight"
+        },
+        "error": {
+          "star-lost-message": "Star lost",
+          "title": "PHD2 Error"
+        },
+        "profile": "Profil",
+        "forceCalibration": "Forcer la calibration",
+        "ra": {
+          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min move",
+          "aggression": "RA: Aggression",
+          "exp_factor": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: ReactiveW weight",
+          "slope_weight": "RA: Slope weight"
+        },
+        "Exposuretime": "Délai d'exposition"
+      }
     },
     "focuser": {
       "title": "Focuseur",
@@ -415,7 +525,11 @@
       "plate_solve_ok": "Plaques à succès",
       "plate_solve_start": "Platelolve Start",
       "slewing_first_position": "Aller à la première position",
-      "slewing_next_position": "Aller à la position suivante"
+      "slewing_next_position": "Aller à la position suivante",
+      "settings": {
+        "DirectionEast": "Direction à l'est",
+        "StartFromCurrentPosition": "Vous commencez à partir de la position actuelle?"
+      }
     },
     "logs": {
       "loading": "Chargement des données...",
@@ -561,6 +675,73 @@
     },
     "profile": {
       "label": "Profil:"
+    },
+    "fav_target": {
+      "enter_name": "Enter name",
+      "modal_save": {
+        "message": "The target has been saved",
+        "titel": "Sauvegarder"
+      },
+      "modal_sequence": {
+        "titel": "Séquence"
+      },
+      "modal_sequence_error": {
+        "message": "Aucune séquence chargée"
+      },
+      "modal_sequence_ok": {
+        "message": "Target set"
+      },
+      "no_fav": "No favorites saved",
+      "table": {
+        "dec": "DEC",
+        "load": "Load",
+        "name": "Nom",
+        "ra": "RA",
+        "remove": "Remove",
+        "sequnce": "Seq. target",
+        "rotation": "Rotation"
+      },
+      "titel": "Favoris"
+    },
+    "notifications": {
+      "modal": {
+        "description": "Veuillez accorder l'autorisation de recevoir des notifications sur les événements de séquence.",
+        "title": "Configurer les notifications"
+      }
+    },
+    "settings": {
+      "title": "Paramètres",
+      "coordinates": "Coordonnées GPS",
+      "save": "Enregistrer",
+      "infoSetLocationSync": "Veuillez d'abord définir la synchronisation de localisation sur la monture",
+      "connection": "Paramètres de connexion",
+      "language": "Langue",
+      "image": {
+        "title": "Paramètres d'image",
+        "quality": "Qualité d'image",
+        "strech_factor": "Facteur d'étirement",
+        "black_clipping": "Écrêtage noir"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activer le mode debug"
+      },
+      "notifications": {
+        "title": "Notifications"
+      },
+      "showTutorial": "Afficher le tutoriel",
+      "plugins": {
+        "title": "Gestion des plugins",
+        "description": "Gérer les plugins installés"
+      },
+      "system": {
+        "title": "Contrôles système",
+        "description": "Contrôler le redémarrage et l'arrêt du système",
+        "info": "Ces actions affecteront l'ensemble du système",
+        "confirmation": "Confirmer l'action",
+        "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
+        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
+      }
     }
   }
 }

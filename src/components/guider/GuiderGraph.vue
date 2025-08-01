@@ -5,7 +5,7 @@
         class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
       ></span>
     </div>
-    <div v-show="!isLoading" class="w-full min-h-64 max-h-96">
+    <div v-show="!isLoading" class="w-full h-[25vh] min-h-40">
       <canvas ref="rmsGraph"></canvas>
     </div>
   </div>
@@ -15,7 +15,12 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import Chart from 'chart.js/auto';
 import { useGuiderStore } from '@/store/guiderStore';
+import { useI18n } from 'vue-i18n';
+import { useToastStore } from '@/store/toastStore';
+
+const { t } = useI18n();
 const guiderStore = useGuiderStore();
+const toastStore = useToastStore();
 const isLoading = ref(true);
 const rmsGraph = ref(null);
 let chart = null;
@@ -34,7 +39,7 @@ const initGraph = () => {
           label: 'RA "',
           borderColor: 'rgba(70, 130, 180, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          tension: 0.5,
+          tension: 0,
           pointRadius: 0,
           data: Array(size).fill(null),
           yAxisID: 'y',
@@ -45,7 +50,7 @@ const initGraph = () => {
           label: 'Dec "',
           borderColor: 'rgba(220, 20, 60, 1)',
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          tension: 0.5,
+          tension: 0,
           pointRadius: 0,
           data: Array(size).fill(null),
           yAxisID: 'y',
@@ -83,6 +88,18 @@ const initGraph = () => {
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+          labels: {
+            color: '#CCCCCC',
+          },
+        },
+        tooltip: {
+          enabled: false,
+        },
+      },
       animation: {
         duration: 0,
       },
@@ -99,7 +116,11 @@ const initGraph = () => {
           },
           title: {
             display: true,
-            text: 'RA/Dec (")',
+            color: '#CCCCCC',
+            text: 'RA/Dec',
+          },
+          ticks: {
+            color: '#e5e7eb', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
         y1: {
@@ -110,7 +131,11 @@ const initGraph = () => {
           },
           title: {
             display: true,
+            color: '#CCCCCC',
             text: 'Duration (ms)',
+          },
+          ticks: {
+            color: '#e5e7eb', // <- Zahlen-Beschriftung auf Y-Achse
           },
         },
       },
@@ -171,9 +196,24 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => guiderStore.phd2StarLost,
+  (newValue, oldValue) => {
+    if (oldValue === undefined) return; // skip first run
+
+    if (newValue === true && oldValue === false) {
+      toastStore.showToast({
+        type: 'error',
+        title: t('components.guider.phd2.error.title'),
+        message: t('components.guider.phd2.error.star-lost-message'),
+      });
+    }
+  }
+);
+
 onMounted(async () => {
-  await guiderStore.fetchGraphInfos();
-  guiderStore.startFetching();
+  await guiderStore.fetchGraphInfos(t);
+  guiderStore.startFetching(t);
   initGraph();
 });
 

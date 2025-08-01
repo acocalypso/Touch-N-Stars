@@ -30,12 +30,12 @@ const actionTemplates = {
         },
         duration: {
           type: 'number',
-          default: 0,
+          default: 10,
           min: 0,
-          max: 3600,
+          max: 60,
           step: 1,
-          label: 'Duration (seconds)',
-          tooltip: 'Time to wait for cooling (0 = no wait)',
+          label: 'Cooling Duration (minutes)',
+          tooltip: 'Time to actively cool the camera (0 = cool until temperature reached)',
         },
       },
       color: 'bg-cyan-500',
@@ -285,12 +285,12 @@ const actionTemplates = {
       parameters: {
         duration: {
           type: 'number',
-          default: 0,
+          default: 10,
           min: 0,
-          max: 3600,
+          max: 60,
           step: 1,
-          label: 'Duration (seconds)',
-          tooltip: 'Time to wait for warming (0 = no wait)',
+          label: 'Warming Duration (minutes)',
+          tooltip: 'Time to actively warm up the camera (0 = warm to ambient temperature)',
         },
       },
       color: 'bg-orange-500',
@@ -993,10 +993,10 @@ export const useSequenceStore = defineStore('sequence', () => {
     switch (action.type) {
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
-        ninaItem.Duration = action.parameters.duration?.value || 0.0;
+        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
         break;
       case 'warm-camera':
-        ninaItem.Duration = action.parameters.duration?.value || 0.0;
+        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
         break;
       case 'center-target':
         ninaItem.Inherited = true;

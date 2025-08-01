@@ -39,76 +39,6 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Suche",
-        "placeholder": "Suchbegriff eingeben...",
-        "objectTypes": {
-          "Planet": "Planet",
-          "Comet": "Komet",
-          "StellariumObject": "Objekt",
-          "Star": "Stern",
-          "Moon": "Mond"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Zurück",
-      "next": "Weiter",
-      "skip": "Tutorial überspringen"
-    },
-    "settings": {
-      "title": "Einstellungen",
-      "language": "Sprache",
-      "coordinates": "GPS-Koordinaten",
-      "connection": "N.I.N.A Verbindungsdetails",
-      "save": "Speichern",
-      "add": "Hinzufügen",
-      "update": "Aktualisieren",
-      "instance": {
-        "name": "Instanzname",
-        "ip": "IP-Adresse",
-        "port": "Port",
-        "edit": "Instanz bearbeiten",
-        "delete": "Instanz löschen"
-      },
-      "errors": {
-        "emptyFields": "Bitte füllen Sie alle Felder aus",
-        "instanceNameRequired": "Instanzname ist erforderlich",
-        "invalidIPFormat": "Bitte geben Sie IP oder FQDN an",
-        "invalidPortRange": "Port muss zwischen 1 und 65535 liegen",
-        "invalidInstance": "Es konnte keine Verbindung hergestellt werden"
-      },
-      "showTutorial": "Tutorial anzeigen",
-      "system": {
-        "description": "Klicken Sie auf ein Symbol, um das System neu zu starten oder herunterzufahren",
-        "title": "Systemsteuerungen",
-        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?",
-        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmation": "Bestätigung",
-        "info": "Dadurch wird der PC heruntergefahren oder neu gestartet, der die N.I.N.A -Instanz hostet!"
-      },
-      "image": {
-        "title": "Bildeinstellungen",
-        "quality": "Qualität in % ",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Stretch Factor"
-      },
-      "plugins": {
-        "description": "Plugin Beschreibung",
-        "title": "Plugins"
-      },
-      "debug": {
-        "activate": "Aktiviere Debug-Fenster",
-        "titel": "Debug Einstellungen"
-      },
-      "notifications": {
-        "enable": "Benachrichtigungen aktivieren",
-        "sequence": "Sequenzereignisse",
-        "title": "Benachrichtigungen"
-      },
-      "infoSetLocationSync": "Damit die Koordinaten korrekt an die Montierung übertragen werden, muss in NINA die Option ‚Location sync‘ auf ‚Sync to Telescope‘ gesetzt sein. Dadurch sendet TNS die Standortdaten direkt an die Montierung."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
@@ -139,6 +69,45 @@
       "currentAltitude": "Aktuelle Höhe",
       "useCenter": "Center",
       "useRotate": "Rotieren"
+    },
+    "tutorial": {
+      "previous": "Zurück",
+      "next": "Weiter",
+      "skip": "Tutorial überspringen"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "coordinates": "GPS-Koordinaten",
+      "save": "Speichern",
+      "infoSetLocationSync": "Bitte setzen Sie zuerst die Standortsynchronisation auf Mount",
+      "connection": "Verbindungseinstellungen",
+      "language": "Sprache",
+      "image": {
+        "title": "Bildeinstellungen",
+        "quality": "Bildqualität",
+        "strech_factor": "Streckfaktor",
+        "black_clipping": "Schwarzclipping"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Debug-Modus aktivieren"
+      },
+      "notifications": {
+        "title": "Benachrichtigungen"
+      },
+      "showTutorial": "Tutorial anzeigen",
+      "plugins": {
+        "title": "Plugin-Verwaltung",
+        "description": "Installierte Plugins verwalten"
+      },
+      "system": {
+        "title": "Systemsteuerung",
+        "description": "System-Neustart und -Herunterfahren steuern",
+        "info": "Diese Aktionen betreffen das gesamte System",
+        "confirmation": "Aktion bestätigen",
+        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
+        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -293,8 +262,7 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit",
-      "select_sequence": "Sequenz auswählen"
+      "time": "Zeit"
     },
     "mount": {
       "title": "Montierung",
@@ -395,9 +363,7 @@
         "calibrationResult": "Kalibrierungsergebnis",
         "quality": "Qualität",
         "goodCalibration": "Ausgezeichnete Kalibrierung erreicht",
-        "poorCalibration": "Kalibrierung könnte verbessert werden. Versuchen Sie eine neue Position oder überprüfen Sie die Ausrüstung.",
-        "calibrating": "Kalibrierung läuft...",
-        "slewing": "Schwenke zur Zielposition..."
+        "poorCalibration": "Kalibrierung könnte verbessert werden. Versuchen Sie eine neue Position oder überprüfen Sie die Ausrüstung."
       },
       "phd2": {
         "Exposuretime": "Belichtungszeit",
@@ -705,10 +671,12 @@
       "enter_name": "Namen eingeben",
       "modal_save": {
         "message": "Das Ziel wurde gespeichert",
-        "titel": "Speichern"
+        "titel": "Speichern",
+        "title": "Speichern"
       },
       "modal_sequence": {
-        "titel": "Sequenz"
+        "titel": "Sequenz",
+        "title": "Sequenz"
       },
       "modal_sequence_error": {
         "message": "Keine Sequenz geladen"
@@ -726,46 +694,125 @@
         "sequnce": "Seq. Ziel",
         "rotation": "Drehung"
       },
-      "titel": "Favoriten"
+      "titel": "Favoriten",
+      "title": "Favoriten"
     },
     "notifications": {
       "modal": {
         "description": "Bitte erteilen Sie die Erlaubnis, Benachrichtigungen über Sequenzereignisse zu erhalten.",
         "title": "Benachrichtigungen konfigurieren"
       }
-    },
-    "settings": {
-      "title": "Einstellungen",
-      "coordinates": "GPS-Koordinaten",
-      "save": "Speichern",
-      "infoSetLocationSync": "Bitte setzen Sie zuerst die Standortsynchronisation auf Mount",
-      "connection": "Verbindungseinstellungen",
-      "language": "Sprache",
-      "image": {
-        "title": "Bildeinstellungen",
-        "quality": "Bildqualität",
-        "strech_factor": "Streckfaktor",
-        "black_clipping": "Schwarzclipping"
+    }
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "title": "N.I.N.A Sequenz-Editor",
+      "subtitle": "Erstelle professionelle Astrofotografie-Sequenzen",
+      "toolbar": {
+        "undo": "Rückgängig",
+        "redo": "Wiederholen",
+        "loadBasicSequence": "Basis-Sequenz Laden",
+        "clearSequence": "Sequenz Löschen",
+        "exportSequence": "Sequenz Exportieren",
+        "validSequence": "Sequenz ist gültig und kann exportiert werden",
+        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
       },
-      "debug": {
-        "title": "Debug",
-        "activate": "Debug-Modus aktivieren"
+      "confirmations": {
+        "clearSequence": "Sind Sie sicher, dass Sie die gesamte Sequenz löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "removeAction": "Aktion \"{actionName}\" entfernen?",
+        "unknownError": "Unbekannter Fehler aufgetreten",
+        "sendSequenceFailed": "Fehler beim Senden der Sequenz an N.I.N.A"
       },
-      "notifications": {
-        "title": "Benachrichtigungen"
+      "containers": {
+        "startSequence": {
+          "title": "Start-Sequenz",
+          "description": "Aktionen, die zu Beginn der Sitzung ausgeführt werden",
+          "emptyTitle": "Keine Start-Aktionen",
+          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung für die Aufnahme vorzubereiten"
+        },
+        "targetSequence": {
+          "title": "Ziel-Sequenz",
+          "description": "Haupt-Bildsequenz für Ihr Zielobjekt",
+          "emptyTitle": "Keine Ziel-Aktionen",
+          "emptyDescription": "Fügen Sie Bildaktionen für Ihr Ziel hinzu"
+        },
+        "endSequence": {
+          "title": "End-Sequenz",
+          "description": "Aktionen, die am Ende der Sitzung ausgeführt werden",
+          "emptyTitle": "Keine End-Aktionen",
+          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung sicher herunterzufahren"
+        },
+        "noActions": "Keine Aktionen",
+        "addActionsToContainer": "Aktionen zu diesem Container hinzufügen",
+        "addAction": "Aktion Hinzufügen"
       },
-      "showTutorial": "Tutorial anzeigen",
-      "plugins": {
-        "title": "Plugin-Verwaltung",
-        "description": "Installierte Plugins verwalten"
+      "actions": {
+        "disabled": "Deaktiviert",
+        "enabled": "Aktiviert",
+        "closeEditor": "Editor Schließen",
+        "editParameters": "Parameter Bearbeiten",
+        "moveUp": "Nach Oben",
+        "moveDown": "Nach Unten",
+        "disableAction": "Aktion Deaktivieren",
+        "enableAction": "Aktion Aktivieren",
+        "duplicateAction": "Aktion Duplizieren",
+        "removeAction": "Aktion Entfernen",
+        "actionParameters": "Aktions-Parameter",
+        "changesSaveAutomatically": "Änderungen werden automatisch gespeichert",
+        "min": "Min:",
+        "max": "Max:",
+        "yes": "Ja",
+        "no": "Nein",
+        "notSet": "Nicht gesetzt",
+        "noConfigurableParameters": "Diese Aktion hat keine konfigurierbaren Parameter.",
+        "actionId": "Aktions-ID",
+        "category": "Kategorie",
+        "parameters": "Parameter"
       },
-      "system": {
-        "title": "Systemsteuerung",
-        "description": "System-Neustart und -Herunterfahren steuern",
-        "info": "Diese Aktionen betreffen das gesamte System",
-        "confirmation": "Aktion bestätigen",
-        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
+      "actionLibrary": {
+        "title": "Aktions-Bibliothek",
+        "description": "Klicken Sie, um Aktionen zu Containern hinzuzufügen",
+        "startActions": "🚀 Start-Aktionen",
+        "targetActions": "🎯 Ziel-Aktionen",
+        "endActions": "🏁 End-Aktionen"
+      },
+      "exportModal": {
+        "title": "N.I.N.A Sequenz Exportieren",
+        "subtitle": "Ihre Sequenz ist bereit für den Export als N.I.N.A-kompatible JSON",
+        "buttons": {
+          "downloadJSON": "JSON-Datei Herunterladen",
+          "copyToClipboard": "In Zwischenablage Kopieren",
+          "copied": "Kopiert!",
+          "sendToNina": "An N.I.N.A Senden",
+          "sending": "Wird gesendet...",
+          "sent": "Gesendet!",
+          "failed": "Fehlgeschlagen"
+        },
+        "messages": {
+          "successTitle": "Erfolg:",
+          "successMessage": "Sequenz wurde erfolgreich in N.I.N.A geladen!",
+          "errorTitle": "Fehler:"
+        },
+        "jsonPreview": {
+          "title": "JSON-Vorschau",
+          "sequenceJsonExport": "Sequenz JSON Export",
+          "previewDescription": "Vorschau und Download Ihrer Sequenz als JSON-Datei",
+          "totalActions": "Gesamtaktionen",
+          "enabled": "Aktiviert",
+          "categories": "Kategorien",
+          "estimatedDuration": "Geschätzte Dauer",
+          "filenamePrompt": "Dateiname eingeben...",
+          "copyJson": "JSON Kopieren",
+          "copied": "Kopiert!",
+          "downloadJson": "JSON Herunterladen"
+        },
+        "howToUse": {
+          "title": "Verwendung:",
+          "step1": "JSON-Datei herunterladen oder kopieren, oder",
+          "step2": "Direkt an N.I.N.A senden (erfordert Verbindung), oder",
+          "step3": "Manuell in N.I.N.A importieren über Sequenz → Sequenz Laden",
+          "step4": "Geräte-spezifische Einstellungen nach Bedarf anpassen"
+        }
       }
     }
   }

@@ -13,45 +13,39 @@
     "unreachable": "Nina é inacessível"
   },
   "components": {
-    "framing": {
-      "search": {
-        "title": "Pesquisa",
-        "placeholder": "Digite o termo de pesquisa...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Cometa",
-          "StellariumObject": "Objeto",
-          "Star": "Estrela",
-          "Moon": "Lua"
-        }
+    "settings": {
+      "title": "Configurações",
+      "coordinates": "Coordenadas GPS",
+      "save": "Salvar",
+      "infoSetLocationSync": "Por favor, defina primeiro a sincronização de localização na montagem",
+      "connection": "Configurações de conexão",
+      "language": "Idioma",
+      "image": {
+        "title": "Configurações de imagem",
+        "quality": "Qualidade da imagem",
+        "strech_factor": "Fator de estiramento",
+        "black_clipping": "Corte negro"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Ativar modo debug"
+      },
+      "notifications": {
+        "title": "Notificações"
+      },
+      "showTutorial": "Mostrar tutorial",
+      "plugins": {
+        "title": "Gerenciamento de plugins",
+        "description": "Gerenciar plugins instalados"
+      },
+      "system": {
+        "title": "Controles do sistema",
+        "description": "Controlar reinicialização e desligamento do sistema",
+        "info": "Essas ações afetarão todo o sistema",
+        "confirmation": "Confirmar ação",
+        "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
+        "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
       }
-    },
-    "fav_target": {
-      "enter_name": "Enter name",
-      "modal_save": {
-        "message": "The target has been saved",
-        "titel": "Salvar"
-      },
-      "modal_sequence": {
-        "titel": "Sequência"
-      },
-      "modal_sequence_error": {
-        "message": "Nenhuma sequência carregada"
-      },
-      "modal_sequence_ok": {
-        "message": "Target set"
-      },
-      "no_fav": "No favorites saved",
-      "table": {
-        "dec": "DEC",
-        "load": "Load",
-        "name": "Nome",
-        "ra": "RA",
-        "remove": "Remove",
-        "sequnce": "Seq. target",
-        "rotation": "Rotação"
-      },
-      "titel": "Favoritos"
     },
     "camera": {
       "binning_mode": "Binning",
@@ -190,6 +184,36 @@
     "equipment": {
       "control": "Controle de equipamentos"
     },
+    "fav_target": {
+      "enter_name": "Insira o nome",
+      "modal_save": {
+        "message": "O alvo foi salvo",
+        "titel": "Salvar",
+        "title": "Salvar"
+      },
+      "modal_sequence": {
+        "titel": "Sequência",
+        "title": "Sequência"
+      },
+      "modal_sequence_error": {
+        "message": "Nenhuma sequência carregada"
+      },
+      "modal_sequence_ok": {
+        "message": "Conjunto de destino"
+      },
+      "no_fav": "Nenhum favorito salvo",
+      "table": {
+        "dec": "DEC",
+        "load": "Carregar",
+        "name": "Nome",
+        "ra": "Ra",
+        "remove": "Remover",
+        "rotation": "Rotação",
+        "sequnce": "Seq. \nalvo"
+      },
+      "titel": "Favoritos",
+      "title": "Favoritos"
+    },
     "filterwheel": {
       "filter": "Filtro:",
       "manual_filter": {
@@ -268,61 +292,101 @@
       "moveRotator": "Gire a câmera",
       "openFraminingModal": "Aberto em enquadramento-Assistente",
       "search": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "Moon": "Lua",
+          "Planet": "Planeta",
+          "Star": "Estrela",
+          "StellariumObject": "Objeto"
+        },
         "placeholder": "Digite um termo de pesquisa ...",
         "title": "Procurar"
       },
       "setSequnceTarget": "definido para sequenciar o alvo",
+      "useCenter": "Centro",
       "useNinaCache": "Use Nina Cache para a imagem de destino",
-      "useCenter": "Center",
       "useRotate": "Girar"
     },
     "guider": {
-      "notConnected": "Por favor, conecte o sistema de guiamento",
-      "notes": "* Este gráfico exibe dados orientadores de acordo com as configurações da N.I.N.A.",
-      "statusLabel": "Status",
-      "status": {
-        "looping": "Captura",
-        "lostLock": "Estrela perdida",
-        "guiding": "Guiamento",
-        "stopped": "Parado",
-        "calibrating": "Calibração",
-        "unknown": "Desconhecido"
+      "calibrationAssistant": {
+        "calculatedPosition": "Posição calculada",
+        "calibrating": "Calibração em andamento ...",
+        "calibrationComplete": "Calibração concluída",
+        "calibrationError": "Erro durante a calibração",
+        "calibrationFailed": "A calibração falhou",
+        "calibrationResult": "Resultado da calibração",
+        "calibrationStopped": "A calibração parou",
+        "close": "Fechar",
+        "current": "Atual",
+        "currentPosition": "Posição atual",
+        "decOffset": "Dec Offset",
+        "direction": "Direção",
+        "east": "Leste",
+        "goodCalibration": "Excelente calibração alcançada",
+        "info": "O Assistente de Calibração ajuda a posicionar a montagem ideal para calibração e a executar uma calibração precisa.",
+        "meridianOffset": "Meridian Offset",
+        "poorCalibration": "A calibração pode ser melhorada. \nExperimente uma posição diferente ou verifique seu equipamento.",
+        "positionCalculated": "Posição ideal calculada",
+        "positionSettings": "Configurações de posição",
+        "quality": "Qualidade",
+        "recalculate": "Recalcular",
+        "slewComplete": "Slew concluído",
+        "slewError": "Erro durante o SLUW",
+        "slewToPosition": "Matar para posicionar",
+        "slewing": "Slewing para alvo a posição ...",
+        "startCalibration": "Inicie a calibração",
+        "stopCalibration": "Pare de calibração",
+        "target": "Alvo",
+        "targetPosition": "Posição alvo",
+        "title": "Assistente de calibração",
+        "west": "Oeste"
       },
-      "rms_error": "Erro RMS",
-      "running": "EM EXECUÇÃO",
-      "start": "Iniciar",
-      "startWithCal": "Iniciar com calibração",
-      "stop": "Parar",
-      "title": "Guider",
+      "notConnected": "Por favor, conecte Guider",
+      "notes": "* Este gráfico exibe dados orientadores de acordo com as configurações da N.I.N.A.",
       "phd2": {
+        "Exposuretime": "Período de exposição",
         "dec": {
-          "MaxMove": "DEC: Max move",
-          "MinMove": "DEC: Min move",
-          "exp_factor": "DEC: Exposure factor",
-          "hysteresis": "DEC: Hysteresis",
-          "predictive_weight": "DEC: Predictive weight",
-          "reactive_weight": "DEC: ReactiveW weight",
-          "slope_weight": "DEC: Slope weight",
-          "aggression": "DEC: Agressão"
+          "MaxMove": "DEC: MAX MOVE",
+          "MinMove": "DEC: MIN MOVIMENTO",
+          "aggression": "DEC: Agressão",
+          "exp_factor": "DEC: Fator de exposição",
+          "hysteresis": "DEC: Histrese",
+          "predictive_weight": "DEC: Peso preditivo",
+          "reactive_weight": "DEC: Peso reativo",
+          "slope_weight": "DEC: Peso da inclinação"
         },
         "error": {
-          "star-lost-message": "Star lost",
-          "title": "PHD2 Error"
+          "star-lost-message": "Estrela perdida",
+          "title": "Erro de phd2"
         },
+        "forceCalibration": "Calibração de força",
         "profile": "Perfil",
-        "forceCalibration": "Forçar calibração",
         "ra": {
-          "MaxMove": "RA: Max move",
-          "MinMove": "RA: Min move",
-          "aggression": "RA: Aggression",
-          "exp_factor": "RA: Aggression",
-          "hysteresis": "RA: Hysteresis",
-          "predictive_weight": "RA: Predictive weight",
-          "reactive_weight": "RA: ReactiveW weight",
-          "slope_weight": "RA: Slope weight"
-        },
-        "Exposuretime": "Período de exposição"
-      }
+          "MaxMove": "RA: Move máximo",
+          "MinMove": "RA: Min Move",
+          "aggression": "RA: Agressão",
+          "exp_factor": "RA: fator de exposição",
+          "hysteresis": "RA: Histrese",
+          "predictive_weight": "RA: Peso preditivo",
+          "reactive_weight": "RA: Peso reativo",
+          "slope_weight": "RA: Peso da inclinação"
+        }
+      },
+      "rms_error": "Erro rms",
+      "running": "CORRENDO",
+      "start": "Começar",
+      "startWithCal": "Começando com a calibração",
+      "status": {
+        "calibrating": "Calibrando",
+        "guiding": "Guia",
+        "looping": "Looping",
+        "lostLock": "Trava perdida",
+        "stopped": "Parou",
+        "unknown": "Desconhecido"
+      },
+      "statusLabel": "Status",
+      "stop": "Parar",
+      "title": "Guider"
     },
     "language": {
       "select": "Selecione o idioma"
@@ -351,21 +415,21 @@
           "unpark": "Erro de montagem em desigualdade"
         },
         "home": "Lar",
-        "info_manuell_controll": "O controle manual está disponível apenas se o rastreamento não estiver ativo",
+        "info_manuell_controll": "O controle manual está disponível apenas se o rastreamento não estiver ativo.",
         "king": "Rei",
         "lunar": "Lunar",
         "manuellControl": "Controle manual",
         "park": "Parque",
+        "setLocationSyncToMount": "Defina \"Sincronizar para telescópio\"",
         "set_as_park": "Situado como parque",
-        "siderial": "Sideial",
+        "siderial": "Sideral",
         "slewRate": "Taxa de taxa °/s",
         "slew_to_cenit": "Malada para o Zenith",
         "solar": "Solar",
         "stop": "Parar",
+        "sync_coordinates_to_mount": "Sincronizar coordenadas com o Monte",
         "trackingMode": "Modo de rastreamento",
-        "unpark": "Desmark",
-        "sync_coordinates_to_mount": "Sync coordinates with mount",
-        "setLocationSyncToMount": "Defina \"Sincronizar para telescópio\""
+        "unpark": "Desmark"
       },
       "info": {
         "notConnected": "Por favor, conecte a montagem",
@@ -376,21 +440,21 @@
         "trackingDisabled": "Rastreamento desativado",
         "unparked": "Sem março"
       },
-      "slew": "Matar",
-      "title": "Montar",
       "location_sync": {
+        "confirmationMessage": "Se 'Sync Sync' na NINA estiver definido como 'Prompt', uma janela de confirmação poderá aparecer antes que as coordenadas sejam enviadas ao telescópio. \nPara evitar isso e permitir que o TNS defina automaticamente as coordenadas, recomendamos alterar a configuração para 'sincronizar para telescópio'",
         "noSync": {
           "label": "Sem sincronização"
         },
+        "title": "Configurações de sincronização de localização",
         "toApplication": {
           "label": "Sincronização ao aplicativo"
         },
         "toTelescope": {
           "label": "Sincronização ao telescópio"
-        },
-        "confirmationMessage": "Se 'Sync Sync' na NINA estiver definido como 'Prompt', uma janela de confirmação poderá aparecer antes que as coordenadas sejam enviadas ao telescópio. \nPara evitar isso e permitir que o TNS defina automaticamente as coordenadas, recomendamos alterar a configuração para 'sincronizar para telescópio'",
-        "title": "Configurações de sincronização de localização"
-      }
+        }
+      },
+      "slew": "Matar",
+      "title": "Montar"
     },
     "navigation": {
       "autofocus": "Foco automático",
@@ -421,6 +485,7 @@
       "stopped": "Parou"
     },
     "sequence": {
+      "choose_sequence": "Escolha uma sequência",
       "conditions": "Condições",
       "date": "Data",
       "deltaHFR": "Deltahfr",
@@ -432,6 +497,8 @@
       },
       "ditherEvery": "Dither todo",
       "duration": "Duração",
+      "error_loading_sequence": "Erro a sequência de carregamento",
+      "error_loading_sequences": "Erro de carregamento de sequências",
       "exposureTime": "Período de exposição",
       "exposures": "Exposições",
       "filter": "Filtro",
@@ -444,6 +511,7 @@
       "info_general": {
         "message": "Infelizmente, ainda não somos capazes de processar todos os parâmetros. \nEstamos trabalhando para apoiar o maior número possível de funções da NINA. \nComo existem muitos plugins, não podemos integrar todos eles. \nNo entanto, estamos tentando apoiar o maior número possível. \nSe você notar um erro na tela, ajude -nos e denuncie -o no GitHub"
       },
+      "load_sequence": "Sequência de carga do diretório",
       "mean": "Significar",
       "median": "Mediana",
       "monitor": {
@@ -459,22 +527,18 @@
       },
       "noSequenceData": "Sem dados disponíveis ainda",
       "noSequenceLoaded": "Nenhuma sequência carregada",
-      "resetConfirmationMessage": "Tem certeza de que deseja redefinir a sequência? \nEsta ação não pode ser desfeita.",
-      "load_sequence": "Carregar Sequência",
-      "refresh_sequences": "Atualizar Sequências",
-      "select_sequence": "Selecionar Sequência",
-      "choose_sequence": "Escolher sequência...",
       "no_sequences_found": "Nenhuma sequência encontrada",
-      "sequences_loaded": "Sequências carregadas",
-      "error_loading_sequences": "Erro ao carregar sequências",
-      "sequence_loaded_successfully": "Sequência '{name}' carregada com sucesso",
-      "error_loading_sequence": "Erro ao carregar sequência: {error}",
+      "refresh_sequences": "Sequências de atualização",
+      "resetConfirmationMessage": "Tem certeza de que deseja redefinir a sequência? \nEsta ação não pode ser desfeita.",
       "resetConfirmationTitle": "Confirme a redefinição",
       "resetSequence": "Redefinir sequência",
       "rmsText": "Rms",
       "running": "CORRENDO",
       "sampleSize": "Tamanho da amostra",
+      "select_sequence": "Selecione sequência",
       "sequence_control": "Controles de sequência",
+      "sequence_loaded_successfully": "Sequência '{nome}' carregado com sucesso",
+      "sequences_loaded": "Sequências carregadas",
       "sort": {
         "newest": "mais recente primeiro",
         "oldest": "Mais antigo primeiro",
@@ -491,58 +555,6 @@
       "title": "Sequência",
       "triggers": "Gatilhos",
       "type": "Tipo"
-    },
-    "settings": {
-      "add": "Adicionar",
-      "connection": "N.I.N.A Detalhes da conexão",
-      "coordinates": "Coordenadas de GPS",
-      "debug": {
-        "activate": "Ativar janela de depuração",
-        "titel": "Configurações de depuração"
-      },
-      "errors": {
-        "emptyFields": "Por favor, preencha todos os campos",
-        "instanceNameRequired": "Nome da instância necessário",
-        "invalidIPFormat": "Forneça IP ou FQDN",
-        "invalidInstance": "Uma conexão não pôde ser estabelecida",
-        "invalidPortRange": "Porta inválida"
-      },
-      "image": {
-        "black_clipping": "Recorte preto",
-        "quality": "Qualidade em %",
-        "strech_factor": "Fator de Strech",
-        "title": "Configurações de imagens"
-      },
-      "instance": {
-        "delete": "Excluir instância",
-        "edit": "Editar instância",
-        "ip": "Endereço IP",
-        "name": "Nome da instância",
-        "port": "Porta"
-      },
-      "language": "Linguagem",
-      "notifications": {
-        "enable": "Ativar notificações",
-        "sequence": "Eventos de sequência",
-        "title": "Notificações"
-      },
-      "plugins": {
-        "description": "Descrição do plug -in",
-        "title": "Plugins"
-      },
-      "save": "Salvar",
-      "showTutorial": "Mostrar tutorial",
-      "system": {
-        "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?",
-        "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
-        "confirmation": "Confirmação",
-        "description": "Clique em um ícone para reiniciar ou desligar o sistema",
-        "title": "Controles do sistema",
-        "info": "Isso desligará ou reiniciará o PC que está hospedando a instância do N.I.N.A!"
-      },
-      "title": "Configurações",
-      "update": "Atualizar",
-      "infoSetLocationSync": "Para garantir que as coordenadas sejam transferidas corretamente para a montagem, defina a opção 'Sincronização de localização' em Nina como 'sincroniza para telescópio'. \nIsso permite que o TNS envie os dados do local diretamente para a montagem."
     },
     "slewAndCenter": {
       "LastSelectedImageSource_wrong": "Selecione o mapa do céu offline como fonte de imagem em Nina / enquadramento",
@@ -602,7 +614,9 @@
       "settings": {
         "atmosphere_visible": "Mostrar atmosfera",
         "azimuthal_lines_visible": "Mostre linhas azimutais",
+        "camera_fov_visible": "Campo de visão da câmera",
         "constellations_lines_visible": "Mostrar constelações",
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)",
         "ecliptic_lines_visible": "Mostre ecliptic",
         "equatorial_lines_visible": "Mostre linhas equatoriais",
         "landscapes_visible": "Mostrar paisagens",
@@ -631,6 +645,10 @@
       "plate_solve_ok": "PLATES SOLVE SUCESSO",
       "plate_solve_start": "PLATES SOLVE START",
       "running": "CORRENDO",
+      "settings": {
+        "DirectionEast": "Direção leste",
+        "StartFromCurrentPosition": "Começar da posição atual?"
+      },
       "slewing_first_position": "Slewing to First Position",
       "slewing_next_position": "Slewing para a próxima posição",
       "start_alignment": "Iniciar o alinhamento",
@@ -639,11 +657,7 @@
       "total_error": "Erro total:",
       "unknown_response_format": "Formato de resposta desconhecida",
       "up": "Acima",
-      "west": "Oeste",
-      "settings": {
-        "DirectionEast": "Direção leste",
-        "StartFromCurrentPosition": "Começar da posição atual?"
-      }
+      "west": "Oeste"
     },
     "tutorial": {
       "next": "Próximo",
@@ -690,39 +704,115 @@
     "selectLanguage": "Selecione seu idioma",
     "welcome": "Bem -vindo ao Touch'n'stars"
   },
-  "components": {
-    "settings": {
-      "title": "Configurações",
-      "coordinates": "Coordenadas GPS",
-      "save": "Salvar",
-      "infoSetLocationSync": "Por favor, defina primeiro a sincronização de localização na montagem",
-      "connection": "Configurações de conexão",
-      "language": "Idioma",
-      "image": {
-        "title": "Configurações de imagem",
-        "quality": "Qualidade da imagem",
-        "strech_factor": "Fator de estiramento",
-        "black_clipping": "Corte negro"
+  "plugins": {
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Clique para adicionar ações aos contêineres",
+        "endActions": "🏁 Ações finais",
+        "startActions": "🚀 Iniciar ações",
+        "targetActions": "🎯 Ações direcionadas",
+        "title": "Biblioteca de Ação"
       },
-      "debug": {
-        "title": "Debug",
-        "activate": "Ativar modo debug"
+      "actions": {
+        "actionId": "ID da ação",
+        "actionParameters": "Parâmetros de ação",
+        "category": "Categoria",
+        "changesSaveAutomatically": "As mudanças salvam automaticamente",
+        "closeEditor": "Editor Fechar",
+        "disableAction": "Desativar a ação",
+        "disabled": "Desabilitado",
+        "duplicateAction": "Ação duplicada",
+        "editParameters": "Editar parâmetros",
+        "enableAction": "Ativar ação",
+        "enabled": "Habilitado",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Mover para baixo",
+        "moveUp": "Suba",
+        "no": "Não",
+        "noConfigurableParameters": "Esta ação não possui parâmetros configuráveis.",
+        "notSet": "Não definido",
+        "parameters": "Parâmetros",
+        "removeAction": "Remover ação",
+        "yes": "Sim"
       },
-      "notifications": {
-        "title": "Notificações"
+      "confirmations": {
+        "clearSequence": "Tem certeza de que deseja limpar toda a sequência? \nEsta ação não pode ser desfeita.",
+        "removeAction": "Remover ação \"{actionName}\"?",
+        "sendSequenceFailed": "Falha ao enviar sequência para N.I.N.A",
+        "unknownError": "Ocorreu um erro desconhecido"
       },
-      "showTutorial": "Mostrar tutorial",
-      "plugins": {
-        "title": "Gerenciamento de plugins",
-        "description": "Gerenciar plugins instalados"
+      "containers": {
+        "addAction": "Adicione ação",
+        "addActionsToContainer": "Adicione ações a este contêiner",
+        "endSequence": {
+          "description": "Ações executadas no final da sessão",
+          "emptyDescription": "Adicione ações para desligar com segurança seu equipamento",
+          "emptyTitle": "Sem ações finais",
+          "title": "Sequência final"
+        },
+        "noActions": "Nenhuma ação",
+        "startSequence": {
+          "description": "Ações executadas no início da sessão",
+          "emptyDescription": "Adicione ações para preparar seu equipamento para imagem",
+          "emptyTitle": "Sem ações de início",
+          "title": "Start Sequence"
+        },
+        "targetSequence": {
+          "description": "Sequência de imagens principal para o seu alvo",
+          "emptyDescription": "Adicione ações de imagem para o seu alvo",
+          "emptyTitle": "Sem ações -alvo",
+          "title": "Sequência alvo"
+        }
       },
-      "system": {
-        "title": "Controles do sistema",
-        "description": "Controlar reinicialização e desligamento do sistema",
-        "info": "Essas ações afetarão todo o sistema",
-        "confirmation": "Confirmar ação",
-        "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
-        "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
+      "exportModal": {
+        "buttons": {
+          "copied": "Copiado!",
+          "copyToClipboard": "Cópia para a área de transferência",
+          "downloadJSON": "Baixe o arquivo json",
+          "failed": "Fracassado",
+          "sendToNina": "Enviar para N.I.N.A",
+          "sending": "Enviando ...",
+          "sent": "Enviado!"
+        },
+        "howToUse": {
+          "step1": "Baixe ou copie o arquivo JSON, ou",
+          "step2": "Envie diretamente para N.I.N.A (requer conexão) ou",
+          "step3": "Importar manualmente para N.I.N.A via sequência → sequência de carga",
+          "step4": "Ajuste quaisquer configurações específicas do equipamento, conforme necessário",
+          "title": "Como usar:"
+        },
+        "jsonPreview": {
+          "categories": "Categorias",
+          "copied": "Copiado!",
+          "copyJson": "Copie JSON",
+          "downloadJson": "Baixe JSON",
+          "enabled": "Habilitado",
+          "estimatedDuration": "Husa. \nDuração",
+          "filenamePrompt": "Digite o nome do arquivo ...",
+          "previewDescription": "Visualize e baixe sua sequência como um arquivo json",
+          "sequenceJsonExport": "Exportação de sequência JSON",
+          "title": "Visualização JSON",
+          "totalActions": "Ações totais"
+        },
+        "messages": {
+          "errorTitle": "Erro:",
+          "successMessage": "A sequência foi carregada no N.I.N.A com sucesso!",
+          "successTitle": "Sucesso:"
+        },
+        "subtitle": "Sua sequência está pronta para ser exportada como N.I.N. Um json compatível",
+        "title": "Exportar N.I.N.A Sequência"
+      },
+      "subtitle": "Crie sequências profissionais de astrofotografia",
+      "title": "N.I.N.A Criador de sequência",
+      "toolbar": {
+        "clearSequence": "Sequência clara",
+        "exportSequence": "Sequência de exportação",
+        "invalidSequence": "Adicione as configurações de destino e a exposição inteligente para criar uma sequência válida",
+        "loadBasicSequence": "Carregue a sequência básica",
+        "redo": "Refazer",
+        "undo": "Desfazer",
+        "validSequence": "A sequência é válida e pode ser exportada"
       }
     }
   }

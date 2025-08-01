@@ -24,7 +24,7 @@
           <button
             @click="showAddMenu = !showAddMenu"
             class="p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
-            title="Add Action"
+            :title="t('plugins.sequenceCreator.containers.addAction')"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -98,8 +98,11 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceActionItem from './SequenceActionItem.vue';
+
+const { t } = useI18n();
 
 const props = defineProps({
   title: String,
@@ -135,20 +138,22 @@ function getEmptyIcon(containerType) {
 
 function getEmptyTitle(containerType) {
   const titles = {
-    start: 'No Start Actions',
-    target: 'No Target Actions',
-    end: 'No End Actions',
+    start: t('plugins.sequenceCreator.containers.startSequence.emptyTitle'),
+    target: t('plugins.sequenceCreator.containers.targetSequence.emptyTitle'),
+    end: t('plugins.sequenceCreator.containers.endSequence.emptyTitle'),
   };
-  return titles[containerType] || 'No Actions';
+  return titles[containerType] || t('plugins.sequenceCreator.containers.noActions');
 }
 
 function getEmptyDescription(containerType) {
   const descriptions = {
-    start: 'Add actions to prepare your equipment for imaging',
-    target: 'Add target setup, focusing, guiding, and imaging actions',
-    end: 'Add actions to safely shut down your equipment',
+    start: t('plugins.sequenceCreator.containers.startSequence.emptyDescription'),
+    target: t('plugins.sequenceCreator.containers.targetSequence.emptyDescription'),
+    end: t('plugins.sequenceCreator.containers.endSequence.emptyDescription'),
   };
-  return descriptions[containerType] || 'Add actions to this container';
+  return (
+    descriptions[containerType] || t('plugins.sequenceCreator.containers.addActionsToContainer')
+  );
 }
 
 function getAvailableActions(containerType) {

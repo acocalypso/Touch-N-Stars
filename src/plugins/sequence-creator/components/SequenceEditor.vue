@@ -6,9 +6,11 @@
     >
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">N.I.N.A Sequence Creator</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            {{ t('plugins.sequenceCreator.title') }}
+          </h1>
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Create professional astrophotography sequences
+            {{ t('plugins.sequenceCreator.subtitle') }}
           </p>
         </div>
 
@@ -18,7 +20,7 @@
             @click="store.undo()"
             :disabled="!store.canUndo"
             class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Undo"
+            :title="t('plugins.sequenceCreator.toolbar.undo')"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -34,7 +36,7 @@
             @click="store.redo()"
             :disabled="!store.canRedo"
             class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            title="Redo"
+            :title="t('plugins.sequenceCreator.toolbar.redo')"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -51,7 +53,7 @@
             @click="store.loadBasicSequence()"
             class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
           >
-            Load Basic
+            {{ t('plugins.sequenceCreator.toolbar.loadBasicSequence') }}
           </button>
 
           <!-- Clear All -->
@@ -59,7 +61,7 @@
             @click="handleClearSequence"
             class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
           >
-            Clear All
+            {{ t('plugins.sequenceCreator.toolbar.clearSequence') }}
           </button>
 
           <!-- Export -->
@@ -68,7 +70,7 @@
             :disabled="!store.sequenceIsValid"
             class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Export
+            {{ t('plugins.sequenceCreator.toolbar.exportSequence') }}
           </button>
         </div>
       </div>
@@ -99,9 +101,9 @@
                     d="M5 13l4 4L19 7"
                   />
                 </svg>
-                <span class="text-green-800 dark:text-green-200 font-medium"
-                  >Sequence is valid and can be exported</span
-                >
+                <span class="text-green-800 dark:text-green-200 font-medium">
+                  {{ t('plugins.sequenceCreator.toolbar.validSequence') }}
+                </span>
               </div>
               <div
                 v-else
@@ -120,16 +122,16 @@
                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"
                   />
                 </svg>
-                <span class="text-yellow-800 dark:text-yellow-200"
-                  >Add Target Settings and Smart Exposure to create a valid sequence</span
-                >
+                <span class="text-yellow-800 dark:text-yellow-200">
+                  {{ t('plugins.sequenceCreator.toolbar.invalidSequence') }}
+                </span>
               </div>
             </div>
 
             <!-- Start Container -->
             <SequenceContainer
-              title="Start Sequence"
-              description="Actions executed at the beginning of the session"
+              :title="t('plugins.sequenceCreator.containers.startSequence.title')"
+              :description="t('plugins.sequenceCreator.containers.startSequence.description')"
               :actions="store.startSequence"
               container-type="start"
               icon="🚀"
@@ -142,8 +144,8 @@
 
             <!-- Target Container -->
             <SequenceContainer
-              title="Target Sequence"
-              description="Target setup, centering, focusing, guiding, and imaging"
+              :title="t('plugins.sequenceCreator.containers.targetSequence.title')"
+              :description="t('plugins.sequenceCreator.containers.targetSequence.description')"
               :actions="store.targetSequence"
               container-type="target"
               icon="🎯"
@@ -156,8 +158,8 @@
 
             <!-- End Container -->
             <SequenceContainer
-              title="End Sequence"
-              description="Actions executed at the end of the session"
+              :title="t('plugins.sequenceCreator.containers.endSequence.title')"
+              :description="t('plugins.sequenceCreator.containers.endSequence.description')"
               :actions="store.endSequence"
               container-type="end"
               icon="🏁"
@@ -179,10 +181,12 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceContainer from './SequenceContainer.vue';
 import ExportModal from './ExportModal.vue';
 
+const { t } = useI18n();
 const store = useSequenceStore();
 
 const showExportModal = ref(false);
@@ -204,9 +208,7 @@ function handleMoveAction(oldIndex, newIndex, containerType) {
 }
 
 function handleClearSequence() {
-  if (
-    confirm('Are you sure you want to clear the entire sequence? This action cannot be undone.')
-  ) {
+  if (confirm(t('plugins.sequenceCreator.confirmations.clearSequence'))) {
     store.clearSequence();
   }
 }

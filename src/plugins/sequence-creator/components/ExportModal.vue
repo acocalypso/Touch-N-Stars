@@ -9,10 +9,10 @@
       >
         <div>
           <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
-            Export N.I.N.A Sequence
+            {{ t('plugins.sequenceCreator.exportModal.title') }}
           </h2>
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Your sequence is ready to be exported as N.I.N.A compatible JSON
+            {{ t('plugins.sequenceCreator.exportModal.subtitle') }}
           </p>
         </div>
         <button
@@ -47,7 +47,7 @@
                   d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                 />
               </svg>
-              Download JSON File
+              {{ t('plugins.sequenceCreator.exportModal.buttons.downloadJSON') }}
             </button>
 
             <button
@@ -62,7 +62,11 @@
                   d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                 />
               </svg>
-              {{ copied ? 'Copied!' : 'Copy to Clipboard' }}
+              {{
+                copied
+                  ? t('plugins.sequenceCreator.exportModal.buttons.copied')
+                  : t('plugins.sequenceCreator.exportModal.buttons.copyToClipboard')
+              }}
             </button>
 
             <button
@@ -131,12 +135,12 @@
               </svg>
               {{
                 isSending
-                  ? 'Sending...'
+                  ? t('plugins.sequenceCreator.exportModal.buttons.sending')
                   : sendSuccess
-                    ? 'Sent!'
+                    ? t('plugins.sequenceCreator.exportModal.buttons.sent')
                     : sendError
-                      ? 'Failed'
-                      : 'Send to N.I.N.A'
+                      ? t('plugins.sequenceCreator.exportModal.buttons.failed')
+                      : t('plugins.sequenceCreator.exportModal.buttons.sendToNina')
               }}
             </button>
           </div>
@@ -147,7 +151,8 @@
             class="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
           >
             <p class="text-sm text-red-800 dark:text-red-200">
-              <strong>Error:</strong> {{ sendErrorMessage }}
+              <strong>{{ t('plugins.sequenceCreator.exportModal.messages.errorTitle') }}</strong>
+              {{ sendErrorMessage }}
             </p>
           </div>
 
@@ -156,20 +161,23 @@
             class="mt-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg"
           >
             <p class="text-sm text-green-800 dark:text-green-200">
-              <strong>Success:</strong> Sequence has been loaded into N.I.N.A successfully!
+              <strong>{{ t('plugins.sequenceCreator.exportModal.messages.successTitle') }}</strong>
+              {{ t('plugins.sequenceCreator.exportModal.messages.successMessage') }}
             </p>
           </div>
         </div>
 
         <!-- JSON Preview -->
         <div class="flex-1 overflow-hidden p-6">
-          <div class="h-full">
-            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">JSON Preview</h3>
+          <div class="h-full flex flex-col">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3 flex-shrink-0">
+              {{ t('plugins.sequenceCreator.exportModal.jsonPreview.title') }}
+            </h3>
             <div
-              class="h-full bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden"
+              class="flex-1 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 overflow-auto"
             >
               <pre
-                class="h-full overflow-auto p-4 text-sm font-mono text-gray-800 dark:text-gray-200 whitespace-pre-wrap"
+                class="p-4 text-sm font-mono text-gray-800 dark:text-gray-200 whitespace-pre-wrap"
                 >{{ formattedJSON }}</pre
               >
             </div>
@@ -182,11 +190,13 @@
         class="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg"
       >
         <div class="text-sm text-gray-600 dark:text-gray-400">
-          <p><strong>How to use:</strong></p>
-          <p>1. Download or copy the JSON file, or</p>
-          <p>2. Send directly to N.I.N.A (requires connection), or</p>
-          <p>3. Import manually into N.I.N.A via Sequence → Load Sequence</p>
-          <p>4. Adjust any equipment-specific settings as needed</p>
+          <p>
+            <strong>{{ t('plugins.sequenceCreator.exportModal.howToUse.title') }}</strong>
+          </p>
+          <p>1. {{ t('plugins.sequenceCreator.exportModal.howToUse.step1') }}</p>
+          <p>2. {{ t('plugins.sequenceCreator.exportModal.howToUse.step2') }}</p>
+          <p>3. {{ t('plugins.sequenceCreator.exportModal.howToUse.step3') }}</p>
+          <p>4. {{ t('plugins.sequenceCreator.exportModal.howToUse.step4') }}</p>
         </div>
       </div>
     </div>
@@ -195,9 +205,11 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import apiService from '@/services/apiService.js';
 
+const { t } = useI18n();
 const store = useSequenceStore();
 const copied = ref(false);
 const isSending = ref(false);

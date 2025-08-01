@@ -32,7 +32,7 @@
                 v-if="!action.enabled"
                 class="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded"
               >
-                Disabled
+                {{ t('plugins.sequenceCreator.actions.disabled') }}
               </span>
             </div>
             <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">
@@ -66,7 +66,11 @@
                 ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
                 : 'text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400',
             ]"
-            :title="isEditing ? 'Close Editor' : 'Edit Parameters'"
+            :title="
+              isEditing
+                ? t('plugins.sequenceCreator.actions.closeEditor')
+                : t('plugins.sequenceCreator.actions.editParameters')
+            "
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -91,7 +95,7 @@
             v-if="index > 0"
             @click="$emit('move-up', index)"
             class="p-2 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors"
-            title="Move Up"
+            :title="t('plugins.sequenceCreator.actions.moveUp')"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -108,7 +112,7 @@
             v-if="canMoveDown"
             @click="$emit('move-down', index)"
             class="p-2 text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors"
-            title="Move Down"
+            :title="t('plugins.sequenceCreator.actions.moveDown')"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -129,7 +133,11 @@
                 ? 'text-green-600 dark:text-green-400'
                 : 'text-gray-400 dark:text-gray-500',
             ]"
-            :title="action.enabled ? 'Disable Action' : 'Enable Action'"
+            :title="
+              action.enabled
+                ? t('plugins.sequenceCreator.actions.disableAction')
+                : t('plugins.sequenceCreator.actions.enableAction')
+            "
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -153,7 +161,7 @@
           <button
             @click="handleDuplicate"
             class="p-2 text-gray-500 hover:text-yellow-600 dark:text-gray-400 dark:hover:text-yellow-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors"
-            title="Duplicate Action"
+            :title="t('plugins.sequenceCreator.actions.duplicateAction')"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -169,7 +177,7 @@
           <button
             @click="handleRemove"
             class="p-2 text-gray-500 hover:text-red-600 dark:text-gray-400 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors"
-            title="Remove Action"
+            :title="t('plugins.sequenceCreator.actions.removeAction')"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -191,8 +199,12 @@
     >
       <div class="p-4 space-y-4">
         <div class="flex items-center justify-between mb-4">
-          <h5 class="text-sm font-semibold text-gray-900 dark:text-white">Action Parameters</h5>
-          <div class="text-xs text-gray-500 dark:text-gray-400">Changes save automatically</div>
+          <h5 class="text-sm font-semibold text-gray-900 dark:text-white">
+            {{ t('plugins.sequenceCreator.actions.actionParameters') }}
+          </h5>
+          <div class="text-xs text-gray-500 dark:text-gray-400">
+            {{ t('plugins.sequenceCreator.actions.changesSaveAutomatically') }}
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -256,7 +268,11 @@
                 :for="`param-${action.id}-${key}`"
                 class="ml-2 text-sm text-gray-700 dark:text-gray-300"
               >
-                {{ param.value ? 'Enabled' : 'Disabled' }}
+                {{
+                  param.value
+                    ? t('plugins.sequenceCreator.actions.enabled')
+                    : t('plugins.sequenceCreator.actions.disabled')
+                }}
               </label>
             </div>
 
@@ -265,9 +281,13 @@
               v-if="param.type === 'number' && (param.min !== undefined || param.max !== undefined)"
               class="text-xs text-gray-500 dark:text-gray-400"
             >
-              <span v-if="param.min !== undefined">Min: {{ param.min }}</span>
+              <span v-if="param.min !== undefined">
+                {{ t('plugins.sequenceCreator.actions.min') }} {{ param.min }}
+              </span>
               <span v-if="param.min !== undefined && param.max !== undefined"> • </span>
-              <span v-if="param.max !== undefined">Max: {{ param.max }}</span>
+              <span v-if="param.max !== undefined">
+                {{ t('plugins.sequenceCreator.actions.max') }} {{ param.max }}
+              </span>
             </div>
           </div>
         </div>
@@ -278,8 +298,10 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
 
+const { t } = useI18n();
 const store = useSequenceStore();
 
 const props = defineProps({
@@ -347,19 +369,25 @@ function getKeyParameters(parameters) {
 
 function formatParameterValue(param) {
   if (param.type === 'boolean') {
-    return param.value ? 'Yes' : 'No';
+    return param.value
+      ? t('plugins.sequenceCreator.actions.yes')
+      : t('plugins.sequenceCreator.actions.no');
   }
   if (param.type === 'number') {
     return param.value?.toString() || '0';
   }
   if (param.type === 'select') {
-    return param.value || 'Not set';
+    return param.value || t('plugins.sequenceCreator.actions.notSet');
   }
-  return param.value || 'Not set';
+  return param.value || t('plugins.sequenceCreator.actions.notSet');
 }
 
 function handleRemove() {
-  if (confirm(`Remove "${props.action.name}" action?`)) {
+  if (
+    confirm(
+      t('plugins.sequenceCreator.confirmations.removeAction', { actionName: props.action.name })
+    )
+  ) {
     emit('remove', props.action.id);
   }
 }

@@ -8,7 +8,9 @@
       <!-- Header -->
       <div class="p-6 border-b border-gray-200 dark:border-gray-700">
         <div class="flex items-center justify-between">
-          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Sequence JSON Export</h2>
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">
+            {{ t('plugins.sequenceCreator.exportModal.jsonPreview.sequenceJsonExport') }}
+          </h2>
           <button
             @click="$emit('close')"
             class="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
@@ -24,7 +26,7 @@
           </button>
         </div>
         <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
-          Preview and download your sequence as a JSON file
+          {{ t('plugins.sequenceCreator.exportModal.jsonPreview.previewDescription') }}
         </p>
       </div>
 
@@ -33,26 +35,32 @@
         <!-- Stats -->
         <div class="mb-4 grid grid-cols-2 md:grid-cols-4 gap-4">
           <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-            <div class="text-xs text-blue-600 dark:text-blue-400 font-medium">Total Actions</div>
+            <div class="text-xs text-blue-600 dark:text-blue-400 font-medium">
+              {{ t('plugins.sequenceCreator.exportModal.jsonPreview.totalActions') }}
+            </div>
             <div class="text-lg font-semibold text-blue-900 dark:text-blue-100">
               {{ sequenceStats.totalActions }}
             </div>
           </div>
           <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-            <div class="text-xs text-green-600 dark:text-green-400 font-medium">Enabled</div>
+            <div class="text-xs text-green-600 dark:text-green-400 font-medium">
+              {{ t('plugins.sequenceCreator.exportModal.jsonPreview.enabled') }}
+            </div>
             <div class="text-lg font-semibold text-green-900 dark:text-green-100">
               {{ sequenceStats.enabledActions }}
             </div>
           </div>
           <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-            <div class="text-xs text-purple-600 dark:text-purple-400 font-medium">Categories</div>
+            <div class="text-xs text-purple-600 dark:text-purple-400 font-medium">
+              {{ t('plugins.sequenceCreator.exportModal.jsonPreview.categories') }}
+            </div>
             <div class="text-lg font-semibold text-purple-900 dark:text-purple-100">
               {{ sequenceStats.categories }}
             </div>
           </div>
           <div class="bg-orange-50 dark:bg-orange-900/20 p-3 rounded-lg">
             <div class="text-xs text-orange-600 dark:text-orange-400 font-medium">
-              Est. Duration
+              {{ t('plugins.sequenceCreator.exportModal.jsonPreview.estimatedDuration') }}
             </div>
             <div class="text-lg font-semibold text-orange-900 dark:text-orange-100">
               {{ sequenceStats.estimatedDuration }}
@@ -79,7 +87,7 @@
               <input
                 v-model="customFilename"
                 type="text"
-                placeholder="Enter filename..."
+                :placeholder="t('plugins.sequenceCreator.exportModal.jsonPreview.filenamePrompt')"
                 class="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
               <span class="text-sm text-gray-600 dark:text-gray-400">.json</span>
@@ -91,13 +99,17 @@
               @click="copyToClipboard"
               class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-2 focus:ring-blue-500 transition-colors"
             >
-              {{ copyStatus === 'copied' ? 'Copied!' : 'Copy JSON' }}
+              {{
+                copyStatus === 'copied'
+                  ? t('plugins.sequenceCreator.exportModal.jsonPreview.copied')
+                  : t('plugins.sequenceCreator.exportModal.jsonPreview.copyJson')
+              }}
             </button>
             <button
               @click="downloadSequence"
               class="px-6 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md focus:ring-2 focus:ring-blue-500 transition-colors"
             >
-              Download JSON
+              {{ t('plugins.sequenceCreator.exportModal.jsonPreview.downloadJson') }}
             </button>
           </div>
         </div>
@@ -108,6 +120,9 @@
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 // Props
 const props = defineProps({

@@ -27,7 +27,7 @@
           <div
             v-if="!action.enabled"
             class="w-2 h-2 bg-red-500 rounded-full"
-            title="Disabled"
+            :title="t('plugins.sequenceCreator.actions.disabled')"
           ></div>
         </div>
 
@@ -69,7 +69,11 @@
               ? 'text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900'
               : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
           ]"
-          :title="action.enabled ? 'Disable action' : 'Enable action'"
+          :title="
+            action.enabled
+              ? t('plugins.sequenceCreator.actions.disableAction')
+              : t('plugins.sequenceCreator.actions.enableAction')
+          "
         >
           <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -128,7 +132,9 @@
       v-if="isSelected && hasParameters"
       class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700"
     >
-      <h4 class="text-xs font-medium text-gray-700 dark:text-gray-300 mb-3">Parameters</h4>
+      <h4 class="text-xs font-medium text-gray-700 dark:text-gray-300 mb-3">
+        {{ t('plugins.sequenceCreator.actions.parameters') }}
+      </h4>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div v-for="(param, key) in action.parameters" :key="key" class="space-y-1">
           <label class="text-xs text-gray-600 dark:text-gray-400 block">
@@ -190,6 +196,9 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 import { computed } from 'vue';
 
 // Props

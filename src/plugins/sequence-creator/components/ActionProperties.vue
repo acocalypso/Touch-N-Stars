@@ -37,7 +37,9 @@
     <div class="flex-1 overflow-y-auto p-4">
       <div v-if="!hasParameters" class="text-center py-8">
         <div class="text-gray-400 dark:text-gray-500 text-4xl mb-4">⚙️</div>
-        <p class="text-gray-600 dark:text-gray-400">This action has no configurable parameters.</p>
+        <p class="text-gray-600 dark:text-gray-400">
+          {{ t('plugins.sequenceCreator.actions.noConfigurableParameters') }}
+        </p>
       </div>
 
       <div v-else class="space-y-6">
@@ -70,8 +72,12 @@
               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 dark:placeholder-gray-500"
             />
             <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-              <span v-if="param.min !== undefined">Min: {{ param.min }}</span>
-              <span v-if="param.max !== undefined">Max: {{ param.max }}</span>
+              <span v-if="param.min !== undefined"
+                >{{ t('plugins.sequenceCreator.actions.min') }} {{ param.min }}</span
+              >
+              <span v-if="param.max !== undefined"
+                >{{ t('plugins.sequenceCreator.actions.max') }} {{ param.max }}</span
+              >
             </div>
           </div>
 
@@ -100,7 +106,7 @@
               :for="`param-${key}`"
               class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
             >
-              {{ param.label || 'Enabled' }}
+              {{ param.label || t('plugins.sequenceCreator.actions.enabled') }}
             </label>
           </div>
 
@@ -134,8 +140,11 @@
     <div class="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
       <div class="text-xs text-gray-500 dark:text-gray-400">
         <div class="flex items-center justify-between">
-          <span>Action ID: {{ action.id.split('-')[0] }}</span>
-          <span>Category: {{ action.category }}</span>
+          <span
+            >{{ t('plugins.sequenceCreator.actions.actionId') }}:
+            {{ action.id.split('-')[0] }}</span
+          >
+          <span>{{ t('plugins.sequenceCreator.actions.category') }}: {{ action.category }}</span>
         </div>
       </div>
     </div>
@@ -144,6 +153,9 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 // Props
 const props = defineProps({

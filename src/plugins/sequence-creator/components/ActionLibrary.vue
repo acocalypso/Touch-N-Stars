@@ -2,9 +2,11 @@
   <div class="action-library h-full flex flex-col">
     <!-- Header -->
     <div class="p-4 border-b border-gray-200 dark:border-gray-700">
-      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Action Library</h2>
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">
+        {{ t('plugins.sequenceCreator.actionLibrary.title') }}
+      </h2>
       <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-        Click to add actions to containers
+        {{ t('plugins.sequenceCreator.actionLibrary.description') }}
       </p>
     </div>
 
@@ -15,7 +17,7 @@
         <h3
           class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
         >
-          🚀 Start Actions
+          {{ t('plugins.sequenceCreator.actionLibrary.startActions') }}
         </h3>
         <div class="space-y-2">
           <ActionLibraryItem
@@ -33,7 +35,7 @@
         <h3
           class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
         >
-          🎯 Target Actions
+          {{ t('plugins.sequenceCreator.actionLibrary.targetActions') }}
         </h3>
         <div class="space-y-2">
           <ActionLibraryItem
@@ -51,7 +53,7 @@
         <h3
           class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2"
         >
-          🏁 End Actions
+          {{ t('plugins.sequenceCreator.actionLibrary.endActions') }}
         </h3>
         <div class="space-y-2">
           <ActionLibraryItem
@@ -68,9 +70,11 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
 import ActionLibraryItem from './ActionLibraryItem.vue';
 
+const { t } = useI18n();
 const store = useSequenceStore();
 
 const emit = defineEmits(['add-action']);

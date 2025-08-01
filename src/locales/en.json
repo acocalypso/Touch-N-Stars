@@ -688,10 +688,12 @@
       "no_fav": "No favorites saved",
       "modal_save": {
         "message": "The target has been saved",
-        "titel": "Save"
+        "titel": "Save",
+        "title": "Save"
       },
       "modal_sequence": {
-        "titel": "Sequence"
+        "titel": "Sequence",
+        "title": "Sequence"
       },
       "modal_sequence_ok": {
         "message": "Target set"
@@ -700,7 +702,8 @@
         "message": "No sequence loaded"
       },
       "enter_name": "Enter name",
-      "titel": "Favourites"
+      "titel": "Favourites",
+      "title": "Favourites"
     }
   },
   "plugins": {

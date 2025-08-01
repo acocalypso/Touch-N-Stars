@@ -566,6 +566,119 @@
       "temperature": "temperatura",
       "weatherInformation": "Informações sobre o tempo",
       "wind": "vento"
+    },
+    "framing": {
+      "confirmSetTargetMessage": "Tem certeza de que deseja definir esse alvo como o alvo de sequência?",
+      "confirmSetTargetTitle": "Confirme a seleção do alvo",
+      "currentAltitude": "Altitude atual",
+      "fovSettings": {
+        "fov": "Campo de visão",
+        "rotationAngle": "Rotação da câmera"
+      },
+      "getImageRotation": {
+        "SolveError": "Imagem de resolução de erros",
+        "SolveRun": "Platesolve",
+        "startCapture": "Determinar a rotação da câmera"
+      },
+      "infoTargetImage": "Se a imagem for exibida apenas em preto, o \"cache de mapa do céu offline\" deve ser configurado em Nina ou a opção \"Use nina cache\" deve ser desativada",
+      "moveRotator": "Gire a câmera",
+      "openFraminingModal": "Aberto em enquadramento-Assistente",
+      "search": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "Moon": "Lua",
+          "Planet": "Planeta",
+          "Star": "Estrela",
+          "StellariumObject": "Objeto"
+        },
+        "placeholder": "Digite um termo de pesquisa ...",
+        "title": "Procurar"
+      },
+      "setSequnceTarget": "definido para sequenciar o alvo",
+      "useCenter": "Centro",
+      "useNinaCache": "Use Nina Cache para a imagem de destino",
+      "useRotate": "Girar"
+    },
+    "guider": {
+      "calibrationAssistant": {
+        "calculatedPosition": "Posição calculada",
+        "calibrating": "Calibração em andamento ...",
+        "calibrationComplete": "Calibração concluída",
+        "calibrationError": "Erro durante a calibração",
+        "calibrationFailed": "A calibração falhou",
+        "calibrationResult": "Resultado da calibração",
+        "calibrationStopped": "A calibração parou",
+        "close": "Fechar",
+        "current": "Atual",
+        "currentPosition": "Posição atual",
+        "decOffset": "Dec Offset",
+        "direction": "Direção",
+        "east": "Leste",
+        "goodCalibration": "Excelente calibração alcançada",
+        "info": "O Assistente de Calibração ajuda a posicionar a montagem ideal para calibração e a executar uma calibração precisa.",
+        "meridianOffset": "Meridian Offset",
+        "poorCalibration": "A calibração pode ser melhorada. \nExperimente uma posição diferente ou verifique seu equipamento.",
+        "positionCalculated": "Posição ideal calculada",
+        "positionSettings": "Configurações de posição",
+        "quality": "Qualidade",
+        "recalculate": "Recalcular",
+        "slewComplete": "Slew concluído",
+        "slewError": "Erro durante o SLUW",
+        "slewToPosition": "Matar para posicionar",
+        "slewing": "Slewing para alvo a posição ...",
+        "startCalibration": "Inicie a calibração",
+        "stopCalibration": "Pare de calibração",
+        "target": "Alvo",
+        "targetPosition": "Posição alvo",
+        "title": "Assistente de calibração",
+        "west": "Oeste"
+      },
+      "notConnected": "Por favor, conecte Guider",
+      "notes": "* Este gráfico exibe dados orientadores de acordo com as configurações da N.I.N.A.",
+      "phd2": {
+        "Exposuretime": "Período de exposição",
+        "dec": {
+          "MaxMove": "DEC: MAX MOVE",
+          "MinMove": "DEC: MIN MOVIMENTO",
+          "aggression": "DEC: Agressão",
+          "exp_factor": "DEC: Fator de exposição",
+          "hysteresis": "DEC: Histrese",
+          "predictive_weight": "DEC: Peso preditivo",
+          "reactive_weight": "DEC: Peso reativo",
+          "slope_weight": "DEC: Peso da inclinação"
+        },
+        "error": {
+          "star-lost-message": "Estrela perdida",
+          "title": "Erro de phd2"
+        },
+        "forceCalibration": "Calibração de força",
+        "profile": "Perfil",
+        "ra": {
+          "MaxMove": "RA: Move máximo",
+          "MinMove": "RA: Min Move",
+          "aggression": "RA: Agressão",
+          "exp_factor": "RA: fator de exposição",
+          "hysteresis": "RA: Histrese",
+          "predictive_weight": "RA: Peso preditivo",
+          "reactive_weight": "RA: Peso reativo",
+          "slope_weight": "RA: Peso da inclinação"
+        }
+      },
+      "rms_error": "Erro rms",
+      "running": "CORRENDO",
+      "start": "Começar",
+      "startWithCal": "Começando com a calibração",
+      "status": {
+        "calibrating": "Calibrando",
+        "guiding": "Guia",
+        "looping": "Looping",
+        "lostLock": "Trava perdida",
+        "stopped": "Parou",
+        "unknown": "Desconhecido"
+      },
+      "statusLabel": "Status",
+      "stop": "Parar",
+      "title": "Guider"
     }
   },
   "common": {

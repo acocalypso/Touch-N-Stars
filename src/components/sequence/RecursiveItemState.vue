@@ -1,67 +1,72 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-2">
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="bg-gray-800 rounded-lg p-2 md:p-3 shadow-lg border-2 transition-all"
+      class="bg-slate-800/90 backdrop-blur-sm rounded-lg border transition-all duration-200 hover:shadow-lg"
       :class="{
-        'border-blue-500/50': isRunningOrHasRunningChildren(item),
-        'border-gray-700 hover:border-gray-500': !isRunningOrHasRunningChildren(item),
+        'border-blue-400 shadow-blue-400/20 shadow-md': isRunningOrHasRunningChildren(item),
+        'border-slate-600/50 hover:border-slate-500/70': !isRunningOrHasRunningChildren(item),
       }"
     >
-      <!-- Collapse Button -->
-      <div class="flex justify-between items-center">
-        <h3 class="font-semibold text-gray-200 text-sm md:text-base break-all">
-          {{ removeSuffix(item.Name) }}
-        </h3>
-        <button
-          @click="sequenceStore.toggleCollapsedState(item._path)"
-          class="text-gray-400 hover:text-gray-200"
-        >
-          <span v-if="sequenceStore.isCollapsed(item._path)">
-            <PlusIcon class="text-cyan-300 w-5 h-5" />
-          </span>
-          <span v-else><MinusIcon class="text-cyan-300 w-5 h-5" /></span>
-        </button>
-      </div>
-
-      <div v-show="!sequenceStore.isCollapsed(item._path)">
-        <!-- Header Section -->
-        <div
-          class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-gray-600"
-        >
+      <!-- Header with Collapse Button -->
+      <div class="flex justify-between items-center p-2 sm:p-3 border-b border-slate-700/50">
+        <div class="flex items-center gap-3">
+          <button
+            @click="sequenceStore.toggleCollapsedState(item._path)"
+            class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+            :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
+          >
+            <ChevronRightIcon
+              class="w-4 h-4 text-slate-400 transition-transform duration-200"
+              :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
+            />
+          </button>
+          <h3 class="font-medium text-slate-100 text-sm md:text-base truncate">
+            {{ removeSuffix(item.Name) }}
+          </h3>
+        </div>
+        <div class="flex items-center gap-2">
           <span
             v-if="isTopLevel || item.Status === 'DISABLED'"
             :class="statusColor(item.Status)"
-            class="font-medium text-xs md:text-sm shrink-0"
+            class="px-2 py-1 rounded-full text-xs font-medium"
           >
             {{ item.Status }}
           </span>
           <button
             v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
             @click="toggleDisable(item._path, item.Status, 'Status')"
+            class="p-1 rounded-md hover:bg-slate-700/50 transition-colors"
           >
             <PowerIcon
-              class="w-5 h-5"
-              :class="item.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
+              class="w-4 h-4"
+              :class="item.Status === 'DISABLED' ? 'text-red-400' : 'text-green-400'"
             />
           </button>
         </div>
+      </div>
+
+      <div v-show="!sequenceStore.isCollapsed(item._path)" class="p-2 sm:p-3 pt-0">
         <!-- Target Information Section -->
-        <div v-if="item.Target" class="mt-4 mb-4">
-          <div class="bg-gray-700 rounded-lg p-3 border border-gray-600">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <span class="text-gray-400">RA:</span>
-                <span class="text-gray-200 ml-2">
+        <div v-if="item.Target" class="mb-3">
+          <div class="bg-slate-700/30 rounded-md p-2 sm:p-3 border border-slate-600/30">
+            <div class="flex items-center gap-2 mb-2">
+              <div class="w-2 h-2 bg-amber-400 rounded-full"></div>
+              <span class="text-sm font-medium text-slate-200">Target Coordinates</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-slate-400 text-xs font-medium w-8">RA:</span>
+                <code class="text-slate-200 bg-slate-800/50 px-2 py-1 rounded text-xs">
                   {{ formatTargetRA(item.Target.InputCoordinates) }}
-                </span>
+                </code>
               </div>
-              <div>
-                <span class="text-gray-400">DEC:</span>
-                <span class="text-gray-200 ml-2">
+              <div class="flex items-center gap-2">
+                <span class="text-slate-400 text-xs font-medium w-8">DEC:</span>
+                <code class="text-slate-200 bg-slate-800/50 px-2 py-1 rounded text-xs">
                   {{ formatTargetDec(item.Target.InputCoordinates) }}
-                </span>
+                </code>
               </div>
             </div>
 
@@ -75,48 +80,58 @@
           </div>
         </div>
         <!-- Triggers Section -->
-        <div v-if="item.Triggers?.length" class="mt-4">
-          <h4 class="text-sm font-semibold text-gray-300 mb-2">
-            {{ $t('components.sequence.triggers') }}
-          </h4>
+        <div v-if="item.Triggers?.length" class="mb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+            <h4 class="text-sm font-medium text-slate-200">
+              {{ $t('components.sequence.triggers') }}
+            </h4>
+          </div>
 
-          <div class="space-y-2">
+          <div class="space-y-1">
             <div
               v-for="(trigger, tIndex) in item.Triggers"
               :key="tIndex"
-              class="bg-gray-700 rounded p-2 md:p-3 border border-gray-600"
+              class="bg-slate-700/20 rounded-md p-2 border border-slate-600/20 hover:bg-slate-700/30 transition-colors"
             >
-              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <span class="text-sm font-medium text-gray-200 break-all">
-                  {{ removeSuffix(trigger.Name) }}
-                </span>
-                <span
-                  v-if="trigger.Status != 'CREATED'"
-                  :class="statusColor(trigger.Status)"
-                  class="text-xs md:text-sm"
-                >
-                  {{ trigger.Status }}
-                </span>
-
-                <button
-                  v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
-                  @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
-                >
-                  <PowerIcon
-                    class="w-5 h-5"
-                    :class="trigger.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
-                  />
-                </button>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-1.5 h-1.5 bg-green-400/60 rounded-full flex-shrink-0"></div>
+                  <span class="text-sm font-medium text-slate-200 truncate">
+                    {{ removeSuffix(trigger.Name) }}
+                  </span>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span
+                    v-if="trigger.Status != 'CREATED'"
+                    :class="statusColor(trigger.Status)"
+                    class="px-2 py-0.5 rounded-full text-xs font-medium"
+                  >
+                    {{ trigger.Status }}
+                  </span>
+                  <button
+                    v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+                    @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
+                    class="p-1 rounded hover:bg-slate-600/50 transition-colors"
+                  >
+                    <PowerIcon
+                      class="w-3.5 h-3.5"
+                      :class="trigger.Status === 'DISABLED' ? 'text-red-400' : 'text-green-400'"
+                    />
+                  </button>
+                </div>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs md:text-sm">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
                 <div
                   v-for="[key, value] in getDisplayFields(trigger)"
                   :key="key"
-                  class="flex flex-cupdateKeys.includes(key)ol md:flex-row gap-1"
+                  class="flex flex-col sm:flex-row gap-1"
                 >
-                  <span class="text-gray-400 shrink-0">{{ key }}:</span>
-                  <span class="text-gray-200 break-all">
+                  <span class="text-slate-400 text-xs font-medium w-20 flex-shrink-0"
+                    >{{ key }}:</span
+                  >
+                  <span class="text-slate-200 break-all min-w-0">
                     <template v-if="key === 'TargetTime'">
                       {{ formatDateTime(value) }}
                     </template>
@@ -135,7 +150,7 @@
                       "
                     >
                       <input
-                        class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-xs focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         type="number"
                         v-model="trigger[key]"
                         @change="updateValue($event, trigger._path, trigger[key], key)"
@@ -152,45 +167,56 @@
         </div>
 
         <!-- Conditions -->
-        <div v-if="item.Conditions?.length" class="mt-4">
-          <h4 class="text-sm font-semibold text-gray-300 mb-2">
-            {{ $t('components.sequence.conditions') }}
-          </h4>
-          <div class="space-y-2">
+        <div v-if="item.Conditions?.length" class="mb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+            <h4 class="text-sm font-medium text-slate-200">
+              {{ $t('components.sequence.conditions') }}
+            </h4>
+          </div>
+          <div class="space-y-1">
             <div
               v-for="(condition, cIndex) in item.Conditions"
               :key="cIndex"
-              class="bg-gray-700 rounded p-2 md:p-3 border border-gray-600"
+              class="bg-slate-700/20 rounded-md p-2 border border-slate-600/20 hover:bg-slate-700/30 transition-colors"
             >
-              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <span class="text-sm font-medium text-gray-200 break-all">
-                  {{ removeSuffix(condition.Name) }}
-                </span>
-                <span
-                  v-if="condition.Status != 'CREATED'"
-                  :class="statusColor(condition.Status)"
-                  class="text-xs md:text-sm"
-                >
-                  {{ condition.Status }}
-                </span>
-                <button
-                  v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
-                  @click="toggleDisable(condition._path, condition.Status, 'Status')"
-                >
-                  <PowerIcon
-                    class="w-5 h-5"
-                    :class="condition.Status === 'DISABLED' ? 'text-red-500' : 'text-green-500'"
-                  />
-                </button>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <div class="w-1.5 h-1.5 bg-orange-400/60 rounded-full flex-shrink-0"></div>
+                  <span class="text-sm font-medium text-slate-200 truncate">
+                    {{ removeSuffix(condition.Name) }}
+                  </span>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0">
+                  <span
+                    v-if="condition.Status != 'CREATED'"
+                    :class="statusColor(condition.Status)"
+                    class="px-2 py-0.5 rounded-full text-xs font-medium"
+                  >
+                    {{ condition.Status }}
+                  </span>
+                  <button
+                    v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+                    @click="toggleDisable(condition._path, condition.Status, 'Status')"
+                    class="p-1 rounded hover:bg-slate-600/50 transition-colors"
+                  >
+                    <PowerIcon
+                      class="w-3.5 h-3.5"
+                      :class="condition.Status === 'DISABLED' ? 'text-red-400' : 'text-green-400'"
+                    />
+                  </button>
+                </div>
               </div>
-              <div class="grid grid-cols-1 gap-2 text-xs md:text-sm">
+              <div class="grid grid-cols-1 gap-2 text-xs">
                 <div
                   v-for="[key, value] in getDisplayFieldsConditions(condition)"
                   :key="key"
-                  class="flex flex-cupdateKeys.includes(key)ol md:flex-row gap-1"
+                  class="flex flex-col sm:flex-row gap-1"
                 >
-                  <span class="text-gray-400 shrink-0">{{ key }}:</span>
-                  <span class="text-gray-200 break-all">
+                  <span class="text-slate-400 text-xs font-medium w-20 flex-shrink-0"
+                    >{{ key }}:</span
+                  >
+                  <span class="text-slate-200 break-all min-w-0">
                     <template v-if="key === 'Coordinates'">
                       <div>
                         <div>{{ formatRA(value) }}</div>
@@ -203,7 +229,7 @@
                       "
                     >
                       <input
-                        class="w-full bg-gray-500 border-gray-400 rounded p-1 min-w-16 text-gray-200"
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-xs focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         type="number"
                         v-model="condition[key]"
                         @change="updateValue($event, condition._path, condition[key], key)"
@@ -234,137 +260,147 @@
           </div>
         </div>
 
-        <!--Item-->
-        <div class="gap-2 text-sm mb-4">
-          <div
-            v-for="[key, value] in getDisplayFields(item)"
-            :key="key"
-            class="flex flex-col md:flex-row md:justify-between md:items-center md:space-y-2 mb-2 mb:mb-0"
-          >
-            <span class="text-gray-400 shrink-0">{{ key }}:</span>
-            <span class="text-gray-200 break-all">
-              <template v-if="key === 'CalculatedWaitDuration'">
-                {{ formatDuration(value) }}
-              </template>
-              <template v-else-if="key === 'TargetTime'">
-                {{ formatDateTime(value) }}
-              </template>
-              <template v-else-if="key === 'TimeToMeridianFlip'">
-                {{ formatTimeSpan(value) }}
-              </template>
+        <!--Item Properties-->
+        <div v-if="getDisplayFields(item).length" class="mb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+            <h4 class="text-sm font-medium text-slate-200">Properties</h4>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+            <div
+              v-for="[key, value] in getDisplayFields(item)"
+              :key="key"
+              class="flex flex-col gap-1 p-2 bg-slate-700/10 rounded border border-slate-600/20"
+            >
+              <span class="text-slate-400 text-xs font-medium">{{ key }}:</span>
+              <span class="text-slate-200 break-all min-w-0">
+                <template v-if="key === 'CalculatedWaitDuration'">
+                  {{ formatDuration(value) }}
+                </template>
+                <template v-else-if="key === 'TargetTime'">
+                  {{ formatDateTime(value) }}
+                </template>
+                <template v-else-if="key === 'TimeToMeridianFlip'">
+                  {{ formatTimeSpan(value) }}
+                </template>
 
-              <template v-else-if="key === 'SelectedSwitch'">
-                <span class="text-gray-200 break-all">
-                  <p>Name: {{ value.Name }}</p>
-                  <p>Target Value: {{ value.TargetValue }}</p>
-                </span>
-              </template>
+                <template v-else-if="key === 'SelectedSwitch'">
+                  <span class="text-gray-200 break-all">
+                    <p>Name: {{ value.Name }}</p>
+                    <p>Target Value: {{ value.TargetValue }}</p>
+                  </span>
+                </template>
 
-              <template v-else-if="key === 'Coordinates'">
-                <div class="grid grid-cols-1 gap-1">
-                  <div>{{ formatRA(value) }}</div>
-                  <div>{{ formatDec(value) }}</div>
-                </div>
-              </template>
-              <template
-                v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly"
-              >
-                <input
-                  class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                  type="number"
-                  v-model="item[key]"
-                  @change="updateValue($event, item._path, item[key], key)"
-                />
-              </template>
-
-              <template v-else-if="item.SelectedProvider">
-                <div class="flex flex-col md:flex-row gap-1 md:gap-2">
-                  <div>
-                    <span class="text-gray-200 break-all">
-                      {{ item.SelectedProvider.Name }}
-                    </span>
+                <template v-else-if="key === 'Coordinates'">
+                  <div class="grid grid-cols-1 gap-1">
+                    <div>{{ formatRA(value) }}</div>
+                    <div>{{ formatDec(value) }}</div>
                   </div>
-                  <div>
-                    <span class="text-gray-400 shrink-0">Time:</span>
-                    <span class="text-gray-200 break-all">
-                      {{ item.Hours }}:{{ item.Minutes }}:{{ item.Seconds }}
-                    </span>
+                </template>
+                <template
+                  v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly"
+                >
+                  <input
+                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-xs focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                    type="number"
+                    v-model="item[key]"
+                    @change="updateValue($event, item._path, item[key], key)"
+                  />
+                </template>
+
+                <template v-else-if="item.SelectedProvider">
+                  <div class="flex flex-col md:flex-row gap-1 md:gap-2">
+                    <div>
+                      <span class="text-gray-200 break-all">
+                        {{ item.SelectedProvider.Name }}
+                      </span>
+                    </div>
+                    <div>
+                      <span class="text-gray-400 shrink-0">Time:</span>
+                      <span class="text-gray-200 break-all">
+                        {{ item.Hours }}:{{ item.Minutes }}:{{ item.Seconds }}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </template>
-              <!--  Filter kann man noch nicht setzen. Deshalb auf false 20250315 -->
-              <template v-else-if="key === 'Filter' && sequenceStore.sequenceEdit && false">
-                <select
-                  class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                  v-model="item[key]"
-                  @change="updateFilter($event, item._path, item[key])"
-                >
-                  <option
-                    v-for="filter in store.filterInfo.AvailableFilters"
-                    :key="filter.Id"
-                    :value="filter.Name"
+                </template>
+                <!--  Filter kann man noch nicht setzen. Deshalb auf false 20250315 -->
+                <template v-else-if="key === 'Filter' && sequenceStore.sequenceEdit && false">
+                  <select
+                    class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
+                    v-model="item[key]"
+                    @change="updateFilter($event, item._path, item[key])"
                   >
-                    {{ filter.Name }}
-                  </option>
-                </select>
-              </template>
-              <template v-else-if="key === 'Filter'">
-                {{ value.Name }}
-              </template>
-              <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
-              <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">
-                <select
-                  class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                  v-model="item[key].Name"
-                  @change="updateBinning(item._path, item[key])"
-                >
-                  <option
-                    v-for="mode in store.cameraInfo.BinningModes"
-                    :key="mode.Name"
-                    :value="mode.Name"
+                    <option
+                      v-for="filter in store.filterInfo.AvailableFilters"
+                      :key="filter.Id"
+                      :value="filter.Name"
+                    >
+                      {{ filter.Name }}
+                    </option>
+                  </select>
+                </template>
+                <template v-else-if="key === 'Filter'">
+                  {{ value.Name }}
+                </template>
+                <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
+                <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">
+                  <select
+                    class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
+                    v-model="item[key].Name"
+                    @change="updateBinning(item._path, item[key])"
                   >
-                    {{ mode.X }}x{{ mode.Y }}
-                  </option>
-                </select>
-              </template>
-              <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
-              <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
-                <select
-                  class="w-full bg-gray-700 border-gray-600 rounded p-1 text-gray-200"
-                  v-model="item[key]"
-                  @change="updateValue($event, item._path, item[key], 'ImageType')"
-                >
-                  <option value="LIGHT">LIGHT</option>
-                  <option value="FLAT">FLAT</option>
-                  <option value="DARK">DARK</option>
-                  <option value="BIAS">BIAS</option>
-                </select>
-              </template>
-              <template v-else-if="typeof value === 'object'">
-                <div class="grid grid-cols-1 gap-1">
-                  <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
-                    <template v-if="subKey === 'Coordinates'">
-                      <div>{{ formatRA(subValue) }}</div>
-                      <div>{{ formatDec(subValue) }}</div>
+                    <option
+                      v-for="mode in store.cameraInfo.BinningModes"
+                      :key="mode.Name"
+                      :value="mode.Name"
+                    >
+                      {{ mode.X }}x{{ mode.Y }}
+                    </option>
+                  </select>
+                </template>
+                <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
+                <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
+                  <select
+                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-xs focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                    v-model="item[key]"
+                    @change="updateValue($event, item._path, item[key], 'ImageType')"
+                  >
+                    <option value="LIGHT">LIGHT</option>
+                    <option value="FLAT">FLAT</option>
+                    <option value="DARK">DARK</option>
+                    <option value="BIAS">BIAS</option>
+                  </select>
+                </template>
+                <template v-else-if="typeof value === 'object'">
+                  <div class="grid grid-cols-1 gap-1">
+                    <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
+                      <template v-if="subKey === 'Coordinates'">
+                        <div>{{ formatRA(subValue) }}</div>
+                        <div>{{ formatDec(subValue) }}</div>
+                      </template>
+                      <template v-else>
+                        <div>
+                          <span class="text-gray-400">{{ subKey }}:</span>
+                          <span class="ml-1">{{ subValue }}</span>
+                        </div>
+                      </template>
                     </template>
-                    <template v-else>
-                      <div>
-                        <span class="text-gray-400">{{ subKey }}:</span>
-                        <span class="ml-1">{{ subValue }}</span>
-                      </div>
-                    </template>
-                  </template>
-                </div>
-              </template>
-              <template v-else>
-                {{ value }}
-              </template>
-            </span>
+                  </div>
+                </template>
+                <template v-else>
+                  {{ value }}
+                </template>
+              </span>
+            </div>
           </div>
         </div>
 
         <!-- Nested Items -->
-        <div v-if="item.Items?.length" class="ml-1 md:ml-2 space-y-3">
+        <div v-if="item.Items?.length" class="mt-3 space-y-2">
+          <div class="flex items-center gap-2 mb-2 px-2 py-1 bg-slate-700/10 rounded text-xs">
+            <div class="w-1.5 h-1.5 bg-slate-400/60 rounded-full"></div>
+            <span class="text-slate-400 font-medium">Sub-Items</span>
+          </div>
           <RecursiveItemState
             v-if="sequenceStore.sequenceIsEditable"
             :items="item.Items"
@@ -394,7 +430,7 @@ import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
-import { PlusIcon, MinusIcon } from '@heroicons/vue/24/outline';
+import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import {
   removeSuffix,
@@ -503,17 +539,17 @@ function isRunningOrHasRunningChildren(item) {
 function statusColor(status) {
   switch (status) {
     case 'FINISHED':
-      return 'text-green-600';
+      return 'bg-green-500/20 text-green-300 border border-green-500/30';
     case 'RUNNING':
-      return 'text-blue-600';
+      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
     case 'CREATED':
-      return 'text-yellow-500';
+      return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30';
     case 'SKIPPED':
-      return 'text-gray-400';
+      return 'bg-slate-500/20 text-slate-300 border border-slate-500/30';
     case 'DISABLED':
-      return 'text-red-600';
+      return 'bg-red-500/20 text-red-300 border border-red-500/30';
     default:
-      return 'text-gray-200';
+      return 'bg-slate-600/20 text-slate-300 border border-slate-600/30';
   }
 }
 
@@ -641,9 +677,43 @@ watch(
 </script>
 <style scoped>
 .glow-green {
-  box-shadow: 0 0 10px #00ff00;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+  border-color: rgb(34, 197, 94) !important;
 }
 .glow-red {
-  box-shadow: 0 0 10px rgb(255, 0, 0);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+  border-color: rgb(239, 68, 68) !important;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus states */
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Scrollbar styling for nested items */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(51, 65, 85, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(100, 116, 139, 0.5);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(100, 116, 139, 0.7);
 }
 </style>

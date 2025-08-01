@@ -1,138 +1,163 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-2">
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="bg-gray-800 rounded-lg p-3 md:p-4 shadow-lg border-2 transition-all"
+      class="bg-slate-800/90 backdrop-blur-sm rounded-lg border transition-all duration-200 hover:shadow-lg"
       :class="{
-        'border-blue-500': item.Status === 'RUNNING' && !hasRunningChildren(item),
-        'border-gray-700 hover:border-gray-500':
+        'border-blue-400 shadow-blue-400/20 shadow-md':
+          item.Status === 'RUNNING' && !hasRunningChildren(item),
+        'border-slate-600/50 hover:border-slate-500/70':
           item.Status !== 'RUNNING' || hasRunningChildren(item),
       }"
     >
       <!-- Header Section -->
-      <div
-        class="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-gray-600"
-      >
-        <h3 class="font-semibold text-gray-200 text-sm md:text-base break-all">
-          {{ removeSuffix(item.Name) }}
-        </h3>
+      <div class="flex items-center justify-between p-2 sm:p-3 border-b border-slate-700/50">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="w-1.5 h-1.5 bg-slate-400 rounded-full flex-shrink-0"></div>
+          <h3 class="font-medium text-slate-100 text-sm md:text-base truncate">
+            {{ removeSuffix(item.Name) }}
+          </h3>
+        </div>
         <span
           v-if="isTopLevel"
           :class="statusColor(item.Status)"
-          class="font-medium text-xs md:text-sm shrink-0"
+          class="px-2 py-1 rounded-full text-xs font-medium flex-shrink-0"
         >
           {{ item.Status }}
         </span>
       </div>
 
       <!-- Dynamic Details Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm mb-4">
-        <div
-          v-for="[key, value] in getDisplayFields(item)"
-          :key="key"
-          class="flex flex-col md:flex-row gap-1 md:gap-2"
-        >
-          <span class="text-gray-400 shrink-0">{{ key }}:</span>
-          <span class="text-gray-200 break-all">
-            <template v-if="key === 'CalculatedWaitDuration'">
-              {{ formatDuration(value) }}
-            </template>
-            <template v-else-if="key === 'TargetTime'">
-              {{ formatDateTime(value) }}
-            </template>
-            <template v-else-if="key === 'Coordinates'">
-              <div class="grid grid-cols-1 gap-1">
-                <div class="font-medium text-blue-300">RA:</div>
-                <div>{{ formatRA(value) }}</div>
-                <div class="font-medium text-blue-300">Dec:</div>
-                <div>{{ formatDec(value) }}</div>
-              </div>
-            </template>
-            <template v-else-if="typeof value === 'object'">
-              <div class="grid grid-cols-1 gap-1">
-                <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
-                  <template v-if="subKey === 'Coordinates'">
-                    <div class="font-medium text-blue-300">RA:</div>
-                    <div>{{ formatRA(subValue) }}</div>
-                    <div class="font-medium text-blue-300">Dec:</div>
-                    <div>{{ formatDec(subValue) }}</div>
-                  </template>
-                  <template v-else>
-                    <div>
-                      <span class="text-gray-400">{{ subKey }}:</span>
-                      <span class="ml-1">{{ subValue }}</span>
-                    </div>
-                  </template>
+      <div class="p-2 sm:p-3 pt-0">
+        <div v-if="getDisplayFields(item).length" class="mb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
+            <h4 class="text-sm font-medium text-slate-200">Properties</h4>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <div
+              v-for="[key, value] in getDisplayFields(item)"
+              :key="key"
+              class="flex flex-col gap-1 p-2 bg-slate-700/10 rounded border border-slate-600/20 text-xs"
+            >
+              <span class="text-slate-400 font-medium">{{ key }}:</span>
+              <span class="text-slate-200 break-all min-w-0">
+                <template v-if="key === 'CalculatedWaitDuration'">
+                  {{ formatDuration(value) }}
                 </template>
-              </div>
-            </template>
-            <template v-else>
-              {{ value }}
-            </template>
-          </span>
-        </div>
-      </div>
-
-      <!-- Nested Items -->
-      <div v-if="item.Items?.length" class="ml-2 md:ml-4 space-y-3">
-        <RecursiveItemState
-          v-if="sequenceStore.sequenceIsEditable"
-          :items="item.Items"
-          :isTopLevel="false"
-        />
-        <RecursiveItemJson
-          v-if="!sequenceStore.sequenceIsEditable"
-          :items="item.Items"
-          :isTopLevel="false"
-        />
-      </div>
-
-      <!-- Triggers Section -->
-      <div v-if="item.Triggers?.length" class="mt-4">
-        <h4 class="text-sm font-semibold text-gray-300 mb-2">
-          {{ $t('components.sequence.triggers') }}
-        </h4>
-        <div class="space-y-2">
-          <div
-            v-for="(trigger, tIndex) in item.Triggers"
-            :key="tIndex"
-            class="bg-gray-700 rounded p-2 md:p-3 border border-gray-600"
-          >
-            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
-              <span class="text-sm font-medium text-gray-200 break-all">
-                {{ removeSuffix(trigger.Name) }}
-              </span>
-              <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
-                {{ trigger.Status }}
+                <template v-else-if="key === 'TargetTime'">
+                  {{ formatDateTime(value) }}
+                </template>
+                <template v-else-if="key === 'Coordinates'">
+                  <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                      <span class="text-blue-300 text-xs font-medium">RA:</span>
+                      <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-xs">{{
+                        formatRA(value)
+                      }}</code>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-blue-300 text-xs font-medium">Dec:</span>
+                      <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-xs">{{
+                        formatDec(value)
+                      }}</code>
+                    </div>
+                  </div>
+                </template>
+                <template v-else-if="typeof value === 'object'">
+                  <div class="grid grid-cols-1 gap-1">
+                    <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
+                      <template v-if="subKey === 'Coordinates'">
+                        <div class="font-medium text-blue-300">RA:</div>
+                        <div>{{ formatRA(subValue) }}</div>
+                        <div class="font-medium text-blue-300">Dec:</div>
+                        <div>{{ formatDec(subValue) }}</div>
+                      </template>
+                      <template v-else>
+                        <div>
+                          <span class="text-gray-400">{{ subKey }}:</span>
+                          <span class="ml-1">{{ subValue }}</span>
+                        </div>
+                      </template>
+                    </template>
+                  </div>
+                </template>
+                <template v-else>
+                  {{ value }}
+                </template>
               </span>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs md:text-sm">
-              <div
-                v-for="[key, value] in getDisplayFields(trigger)"
-                :key="key"
-                class="flex flex-col md:flex-row gap-1"
-              >
-                <span class="text-gray-400 shrink-0">{{ key }}:</span>
-                <span class="text-gray-200 break-all">
-                  <template v-if="key === 'TargetTime'">
-                    {{ formatDateTime(value) }}
-                  </template>
-                  <template v-else-if="key === 'TimeToFlip'">
-                    {{ formatTimeSpan(value) }}
-                  </template>
-                  <template v-else-if="key === 'Coordinates'">
-                    <div>
-                      <div class="font-medium text-blue-300">RA:</div>
-                      <div>{{ formatRA(value) }}</div>
-                      <div class="font-medium text-blue-300">Dec:</div>
-                      <div>{{ formatDec(value) }}</div>
-                    </div>
-                  </template>
-                  <template v-else>
-                    {{ value }}
-                  </template>
+          </div>
+        </div>
+
+        <!-- Nested Items -->
+        <div v-if="item.Items?.length" class="mt-3 space-y-2">
+          <div class="flex items-center gap-2 mb-2 px-2 py-1 bg-slate-700/10 rounded text-xs">
+            <div class="w-1.5 h-1.5 bg-slate-400/60 rounded-full"></div>
+            <span class="text-slate-400 font-medium">Sub-Items</span>
+          </div>
+          <RecursiveItemState
+            v-if="sequenceStore.sequenceIsEditable"
+            :items="item.Items"
+            :isTopLevel="false"
+          />
+          <RecursiveItemJson
+            v-if="!sequenceStore.sequenceIsEditable"
+            :items="item.Items"
+            :isTopLevel="false"
+          />
+        </div>
+
+        <!-- Triggers Section -->
+        <div v-if="item.Triggers?.length" class="mb-3">
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+            <h4 class="text-sm font-medium text-slate-200">
+              {{ $t('components.sequence.triggers') }}
+            </h4>
+          </div>
+          <div class="space-y-1">
+            <div
+              v-for="(trigger, tIndex) in item.Triggers"
+              :key="tIndex"
+              class="bg-slate-700/20 rounded-md p-2 border border-slate-600/20"
+            >
+              <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+                <span class="text-sm font-medium text-gray-200 break-all">
+                  {{ removeSuffix(trigger.Name) }}
                 </span>
+                <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
+                  {{ trigger.Status }}
+                </span>
+              </div>
+              <div class="grid grid-cols-1 gap-2 text-xs">
+                <div
+                  v-for="[key, value] in getDisplayFields(trigger)"
+                  :key="key"
+                  class="flex flex-col md:flex-row gap-1"
+                >
+                  <span class="text-gray-400 shrink-0">{{ key }}:</span>
+                  <span class="text-gray-200 break-all">
+                    <template v-if="key === 'TargetTime'">
+                      {{ formatDateTime(value) }}
+                    </template>
+                    <template v-else-if="key === 'TimeToFlip'">
+                      {{ formatTimeSpan(value) }}
+                    </template>
+                    <template v-else-if="key === 'Coordinates'">
+                      <div>
+                        <div class="font-medium text-blue-300">RA:</div>
+                        <div>{{ formatRA(value) }}</div>
+                        <div class="font-medium text-blue-300">Dec:</div>
+                        <div>{{ formatDec(value) }}</div>
+                      </div>
+                    </template>
+                    <template v-else>
+                      {{ value }}
+                    </template>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -141,6 +166,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { defineProps } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -164,15 +190,15 @@ const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items
 function statusColor(status) {
   switch (status) {
     case 'FINISHED':
-      return 'text-green-600';
+      return 'bg-green-500/20 text-green-300 border border-green-500/30';
     case 'RUNNING':
-      return 'text-blue-600';
+      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
     case 'CREATED':
-      return 'text-yellow-500';
+      return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30';
     case 'SKIPPED':
-      return 'text-gray-400';
+      return 'bg-slate-500/20 text-slate-300 border border-slate-500/30';
     default:
-      return 'text-gray-200';
+      return 'bg-slate-600/20 text-slate-300 border border-slate-600/30';
   }
 }
 

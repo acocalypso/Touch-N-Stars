@@ -813,7 +813,24 @@
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
         "loadBasicSequence": "Cargar secuencia básica"
       },
-      "title": "N.I.N.A CREATOR DE SECUENCIA"
+      "title": "N.I.N.A CREATOR DE SECUENCIA",
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Habilitar meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "DSO": "Objeto de cielo profundo",
+          "Moon": "Luna",
+          "Planet": "Planeta",
+          "Star": "Estrella",
+          "StellariumObject": "Objeto estelarium"
+        },
+        "placeholder": "Ingrese el nombre del objeto (por ejemplo, M31, NGC 1234, Marte) ...",
+        "searchDescription": "Buscar objetos de cielo profundo, planetas o estrellas y adoptar automáticamente las coordenadas",
+        "searchLabel": "Objetivo de búsqueda"
+      }
     }
   }
 }

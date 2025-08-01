@@ -87,7 +87,6 @@
 <script setup>
 import { ref, nextTick } from 'vue';
 import apiService from '@/services/apiService';
-import { rad2deg } from '@/utils/utils';
 
 const emit = defineEmits(['target-selected']);
 

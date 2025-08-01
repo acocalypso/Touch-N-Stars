@@ -20,7 +20,7 @@
               action.color,
             ]"
           >
-            <span class="text-lg">{{ action.icon }}</span>
+            <component :is="getIconComponent(action.icon)" class="w-5 h-5" />
           </div>
 
           <div class="flex-1 min-w-0">
@@ -263,9 +263,23 @@
               @change="updateParameter(key, $event.target.value)"
               class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
             >
-              <option v-for="option in param.options" :key="option" :value="option">
-                {{ option }}
-              </option>
+              <!-- Dynamic filter options if this is a filter parameter -->
+              <template v-if="key === 'filter' && api.filterInfo?.AvailableFilters">
+                <option value="None">None</option>
+                <option
+                  v-for="filter in api.filterInfo.AvailableFilters"
+                  :key="filter.Name"
+                  :value="filter.Name"
+                >
+                  {{ filter.Name }}
+                </option>
+              </template>
+              <!-- Default static options for non-filter parameters -->
+              <template v-else>
+                <option v-for="option in param.options" :key="option" :value="option">
+                  {{ option }}
+                </option>
+              </template>
             </select>
 
             <!-- Boolean Input -->
@@ -313,10 +327,26 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
+import { apiStore } from '@/store/store';
 import TargetSearch from './TargetSearch.vue';
+import {
+  LinkIcon,
+  CameraIcon,
+  EyeIcon,
+  PlayIcon,
+  StopIcon,
+  FireIcon,
+  HomeIcon,
+  CursorArrowRaysIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/vue/24/outline';
+import TelescopeIcon from './TelescopeIcon.vue';
+import GuiderIcon from './GuiderIcon.vue';
+import SnowflakeIcon from './SnowflakeIcon.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
+const api = apiStore();
 
 const props = defineProps({
   action: {
@@ -358,27 +388,16 @@ function updateParameter(key, value) {
 }
 
 function getKeyParameters(parameters) {
-  // Show only the most important parameters in summary
-  const keyParams = {};
-  const importantKeys = ['exposureTime', 'gain', 'count', 'temperature', 'targetName', 'ra', 'dec'];
+  // Show ALL parameters that have values
+  const allParams = {};
 
-  for (const key of importantKeys) {
-    if (parameters[key] && parameters[key].value !== undefined) {
-      keyParams[key] = parameters[key];
+  for (const key of Object.keys(parameters)) {
+    if (parameters[key] && parameters[key].value !== undefined && parameters[key].value !== '') {
+      allParams[key] = parameters[key];
     }
   }
 
-  // If no important parameters, show first 3
-  if (Object.keys(keyParams).length === 0) {
-    const allKeys = Object.keys(parameters).slice(0, 3);
-    for (const key of allKeys) {
-      if (parameters[key] && parameters[key].value !== undefined) {
-        keyParams[key] = parameters[key];
-      }
-    }
-  }
-
-  return keyParams;
+  return allParams;
 }
 
 function formatParameterValue(param) {
@@ -416,7 +435,7 @@ function handleToggleEnabled() {
 
 function handleTargetSelected(targetData) {
   console.log('Target selected:', targetData);
-  
+
   // Update target settings parameters with the selected target data
   if (targetData.name) {
     updateParameter('targetName', targetData.name);
@@ -430,6 +449,26 @@ function handleTargetSelected(targetData) {
   if (targetData.positionAngle !== undefined) {
     updateParameter('positionAngle', targetData.positionAngle);
   }
+}
+
+function getIconComponent(iconName) {
+  const iconMap = {
+    LinkIcon: LinkIcon,
+    CameraIcon: CameraIcon,
+    EyeIcon: EyeIcon,
+    telescope: TelescopeIcon,
+    guider: GuiderIcon,
+    snowflake: SnowflakeIcon,
+    play: PlayIcon,
+    stop: StopIcon,
+    fire: FireIcon,
+    home: HomeIcon,
+    'cursor-arrow-rays': CursorArrowRaysIcon,
+    crosshairs: CursorArrowRaysIcon, // Using same icon for crosshairs
+    'magnifying-glass': MagnifyingGlassIcon,
+  };
+
+  return iconMap[iconName] || LinkIcon; // Default fallback
 }
 </script>
 

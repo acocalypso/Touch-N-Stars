@@ -8,7 +8,7 @@ const actionTemplates = {
     {
       id: 'unpark-scope',
       name: 'Unpark Telescope',
-      icon: '🔭',
+      icon: 'telescope',
       description: 'Unpark the telescope mount',
       parameters: {},
       color: 'bg-blue-500',
@@ -16,7 +16,7 @@ const actionTemplates = {
     {
       id: 'cool-camera',
       name: 'Cool Camera',
-      icon: '❄️',
+      icon: 'snowflake',
       description: 'Cool the camera to specified temperature',
       parameters: {
         temperature: {
@@ -45,7 +45,7 @@ const actionTemplates = {
     {
       id: 'target-settings',
       name: 'Target Settings',
-      icon: '🎯',
+      icon: 'crosshairs',
       description: 'Define target coordinates and settings',
       parameters: {
         targetName: {
@@ -79,26 +79,17 @@ const actionTemplates = {
       color: 'bg-purple-500',
     },
     {
-      id: 'center-target',
-      name: 'Center Target (Plate Solve)',
-      icon: '🎯',
-      description: 'Slew and center on target using plate solving',
+      id: 'slew-to-target',
+      name: 'Slew to Target',
+      icon: 'cursor-arrow-rays',
+      description: 'Navigate to target with different options',
       parameters: {
-        tolerance: {
-          type: 'number',
-          default: 30,
-          min: 1,
-          max: 300,
-          label: 'Tolerance (arcsec)',
-          tooltip: 'Maximum allowed deviation from target',
-        },
-        attempts: {
-          type: 'number',
-          default: 3,
-          min: 1,
-          max: 10,
-          label: 'Max Attempts',
-          tooltip: 'Maximum centering attempts',
+        slewMode: {
+          type: 'select',
+          options: ['Slew Only', 'Slew and Center', 'Slew, Center and Rotate'],
+          default: 'Slew and Center',
+          label: 'Slew Mode',
+          tooltip: 'Choose how to navigate to the target',
         },
       },
       color: 'bg-indigo-500',
@@ -106,39 +97,15 @@ const actionTemplates = {
     {
       id: 'run-autofocus',
       name: 'Run Autofocus',
-      icon: '🔍',
+      icon: 'EyeIcon',
       description: 'Perform automatic focusing routine',
-      parameters: {
-        method: {
-          type: 'select',
-          options: ['HFR', 'Contrast', 'FWHM'],
-          default: 'HFR',
-          label: 'Focus Method',
-          tooltip: 'Algorithm used for focusing',
-        },
-        samples: {
-          type: 'number',
-          default: 7,
-          min: 3,
-          max: 15,
-          label: 'Sample Points',
-          tooltip: 'Number of focus positions to sample',
-        },
-        initialStep: {
-          type: 'number',
-          default: 100,
-          min: 10,
-          max: 1000,
-          label: 'Initial Step Size',
-          tooltip: 'Initial focuser step size',
-        },
-      },
+      parameters: {},
       color: 'bg-yellow-500',
     },
     {
       id: 'start-guiding',
       name: 'Start Guiding',
-      icon: '🎮',
+      icon: 'guider',
       description: 'Start autoguiding system',
       parameters: {
         forceCalibration: {
@@ -147,35 +114,18 @@ const actionTemplates = {
           label: 'Force Calibration',
           tooltip: 'Force new guider calibration',
         },
-        settleTime: {
-          type: 'number',
-          default: 10,
-          min: 1,
-          max: 300,
-          label: 'Settle Time (s)',
-          tooltip: 'Time to wait for guiding to settle',
-        },
-        settlePixels: {
-          type: 'number',
-          default: 1.5,
-          min: 0.1,
-          max: 10,
-          step: 0.1,
-          label: 'Settle Threshold (px)',
-          tooltip: 'Maximum pixel deviation for settled guiding',
-        },
       },
       color: 'bg-red-500',
     },
     {
       id: 'smart-exposure',
       name: 'Smart Exposure (Imaging)',
-      icon: '📸',
+      icon: 'CameraIcon',
       description: 'Intelligent exposure sequence with dithering and triggers',
       parameters: {
         exposureTime: {
           type: 'number',
-          default: 300,
+          default: 120,
           min: 0.1,
           max: 3600,
           step: 0.1,
@@ -184,7 +134,7 @@ const actionTemplates = {
         },
         gain: {
           type: 'number',
-          default: 88,
+          default: 100,
           min: 0,
           max: 500,
           label: 'Gain',
@@ -192,7 +142,7 @@ const actionTemplates = {
         },
         offset: {
           type: 'number',
-          default: 10,
+          default: -1,
           min: -100,
           max: 100,
           label: 'Offset',
@@ -207,8 +157,8 @@ const actionTemplates = {
         },
         filter: {
           type: 'select',
-          options: ['L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
-          default: 'L',
+          options: ['None', 'L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
+          default: 'None',
           label: 'Filter',
           tooltip: 'Filter wheel selection',
         },
@@ -221,7 +171,7 @@ const actionTemplates = {
         },
         count: {
           type: 'number',
-          default: 20,
+          default: 100,
           min: 1,
           max: 1000,
           label: 'Image Count',
@@ -229,48 +179,11 @@ const actionTemplates = {
         },
         ditherAfter: {
           type: 'number',
-          default: 3,
+          default: 4,
           min: 1,
           max: 20,
           label: 'Dither After N Exposures',
           tooltip: 'Dither frequency',
-        },
-        ditherAmount: {
-          type: 'number',
-          default: 3,
-          min: 1,
-          max: 20,
-          label: 'Dither Amount (px)',
-          tooltip: 'Dithering distance in pixels',
-        },
-        meridianFlipEnabled: {
-          type: 'boolean',
-          default: true,
-          label: 'Enable Meridian Flip',
-          tooltip: 'Allow automatic meridian flip',
-        },
-        autofocusAfterHFR: {
-          type: 'boolean',
-          default: true,
-          label: 'Autofocus on HFR Increase',
-          tooltip: 'Run autofocus if HFR increases significantly',
-        },
-        hfrIncrease: {
-          type: 'number',
-          default: 1.5,
-          min: 1.1,
-          max: 3.0,
-          step: 0.1,
-          label: 'HFR Increase Factor',
-          tooltip: 'HFR increase threshold for autofocus trigger',
-        },
-        hfrSampleSize: {
-          type: 'number',
-          default: 10,
-          min: 3,
-          max: 50,
-          label: 'HFR Sample Size',
-          tooltip: 'Number of images to analyze for HFR trend',
         },
       },
       color: 'bg-green-500',
@@ -278,9 +191,17 @@ const actionTemplates = {
   ],
   end: [
     {
+      id: 'stop-guiding',
+      name: 'Stop Guiding',
+      icon: 'guider',
+      description: 'Stop autoguiding system',
+      parameters: {},
+      color: 'bg-red-600',
+    },
+    {
       id: 'warm-camera',
       name: 'Warm Camera',
-      icon: '🌡️',
+      icon: 'fire',
       description: 'Warm up the camera',
       parameters: {
         duration: {
@@ -298,7 +219,7 @@ const actionTemplates = {
     {
       id: 'park-scope',
       name: 'Park Telescope',
-      icon: '🏠',
+      icon: 'telescope',
       description: 'Park the telescope mount',
       parameters: {},
       color: 'bg-blue-500',
@@ -316,6 +237,9 @@ export const useSequenceStore = defineStore('sequence', () => {
   const historyIndex = ref(-1);
   const selectedAction = ref(null);
   const isModified = ref(false);
+
+  // Global sequence settings
+  const enableMeridianFlip = ref(true);
 
   // Computed
   const canUndo = computed(() => historyIndex.value > 0);
@@ -380,6 +304,45 @@ export const useSequenceStore = defineStore('sequence', () => {
     // Add End Area Container (with nested structure like basic.json)
     const endContainer = createBasicEndContainer(endSequence.value, generateId);
     sequence.Items.$values.push(endContainer);
+
+    // Add Meridian Flip Trigger at root level if enabled (matching seqKomp.json structure)
+    if (enableMeridianFlip.value) {
+      sequence.Triggers.$values.push({
+        $id: generateId(),
+        $type: 'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger, NINA.Sequencer',
+        Parent: { $ref: '1' },
+        TriggerRunner: {
+          $id: generateId(),
+          $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+          Strategy: {
+            $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+          },
+          Name: null,
+          Conditions: {
+            $id: generateId(),
+            $type:
+              'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+            $values: [],
+          },
+          IsExpanded: true,
+          Items: {
+            $id: generateId(),
+            $type:
+              'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+            $values: [],
+          },
+          Triggers: {
+            $id: generateId(),
+            $type:
+              'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+            $values: [],
+          },
+          Parent: null,
+          ErrorBehavior: 0,
+          Attempts: 1,
+        },
+      });
+    }
 
     return JSON.stringify(sequence, null, 2);
   });
@@ -780,93 +743,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           $id: generateId(),
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-          $values: [
-            // Meridian Flip Trigger
-            {
-              $id: generateId(),
-              $type: 'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger, NINA.Sequencer',
-              Parent: { $ref: targetImagingId },
-              TriggerRunner: {
-                $id: generateId(),
-                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-                Strategy: {
-                  $type:
-                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-                },
-                Name: null,
-                Conditions: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                IsExpanded: true,
-                Items: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                Triggers: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                Parent: null,
-                ErrorBehavior: 0,
-                Attempts: 1,
-              },
-            },
-            // Autofocus Trigger
-            {
-              $id: generateId(),
-              $type:
-                'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterHFRIncreaseTrigger, NINA.Sequencer',
-              Amount: 5.0,
-              SampleSize: 10,
-              Parent: { $ref: targetImagingId },
-              TriggerRunner: {
-                $id: generateId(),
-                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-                Strategy: {
-                  $type:
-                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-                },
-                Name: null,
-                Conditions: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                IsExpanded: true,
-                Items: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                  $values: [
-                    {
-                      $id: generateId(),
-                      $type: 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
-                      Parent: null,
-                      ErrorBehavior: 0,
-                      Attempts: 1,
-                    },
-                  ],
-                },
-                Triggers: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                Parent: null,
-                ErrorBehavior: 0,
-                Attempts: 1,
-              },
-            },
-          ],
+          $values: [],
         },
         Parent: { $ref: dsoContainerId },
         ErrorBehavior: 0,
@@ -898,7 +775,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             $id: generateId(),
             $type: 'NINA.Sequencer.Conditions.LoopCondition, NINA.Sequencer',
             CompletedIterations: 0,
-            Iterations: action.parameters.count?.value || 20,
+            Iterations: action.parameters.count?.value || 100,
             Parent: null,
           },
         ],
@@ -912,20 +789,21 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter, NINA.Sequencer',
-            Filter: action.parameters.filter?.value
-              ? {
-                  Name: action.parameters.filter.value,
-                  Position: -1,
-                  AutoFocusOffset: null,
-                  FlatWizardFilterSettings: {
-                    HistogramMeanTarget: 0.5,
-                    HistogramTolerance: 0.1,
-                    MaxFlatExposureTime: 30.0,
-                    MinFlatExposureTime: 0.01,
-                    StepSize: 0.1,
-                  },
-                }
-              : null,
+            Filter:
+              action.parameters.filter?.value && action.parameters.filter.value !== 'None'
+                ? {
+                    Name: action.parameters.filter.value,
+                    Position: -1,
+                    AutoFocusOffset: null,
+                    FlatWizardFilterSettings: {
+                      HistogramMeanTarget: 0.5,
+                      HistogramTolerance: 0.1,
+                      MaxFlatExposureTime: 30.0,
+                      MinFlatExposureTime: 0.01,
+                      StepSize: 0.1,
+                    },
+                  }
+                : null,
             Parent: null,
             ErrorBehavior: 0,
             Attempts: 1,
@@ -933,14 +811,14 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.Imaging.TakeExposure, NINA.Sequencer',
-            ExposureTime: action.parameters.exposureTime?.value || 300.0,
-            Gain: action.parameters.gain?.value || 88,
-            Offset: action.parameters.offset?.value || 10,
+            ExposureTime: action.parameters.exposureTime?.value || 120.0,
+            Gain: action.parameters.gain?.value || 100,
+            Offset: action.parameters.offset?.value || -1,
             Binning: {
               $id: generateId(),
               $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
-              X: 1,
-              Y: 1,
+              X: parseInt((action.parameters.binning?.value || '1x1').split('x')[0]) || 1,
+              Y: parseInt((action.parameters.binning?.value || '1x1').split('x')[1]) || 1,
             },
             ImageType: action.parameters.imageType?.value || 'LIGHT',
             ExposureCount: 0,
@@ -954,7 +832,53 @@ export const useSequenceStore = defineStore('sequence', () => {
         $id: generateId(),
         $type:
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-        $values: [],
+        $values: [
+          {
+            $id: generateId(),
+            $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
+            AfterExposures: action.parameters.ditherAfter?.value || 4,
+            Parent: null,
+            TriggerRunner: {
+              $id: generateId(),
+              $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+              Strategy: {
+                $type:
+                  'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+              },
+              Name: null,
+              Conditions: {
+                $id: generateId(),
+                $type:
+                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                $values: [],
+              },
+              IsExpanded: true,
+              Items: {
+                $id: generateId(),
+                $type:
+                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                $values: [
+                  {
+                    $id: generateId(),
+                    $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
+                    Parent: null,
+                    ErrorBehavior: 0,
+                    Attempts: 1,
+                  },
+                ],
+              },
+              Triggers: {
+                $id: generateId(),
+                $type:
+                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                $values: [],
+              },
+              Parent: null,
+              ErrorBehavior: 0,
+              Attempts: 1,
+            },
+          },
+        ],
       },
       Parent: null,
     };
@@ -971,49 +895,105 @@ export const useSequenceStore = defineStore('sequence', () => {
       Attempts: 1,
     };
 
-    // Map action types to N.I.N.A types
+    // Map action types to N.I.N.A types - slew-to-target will be handled specially
     const ninaTypeMap = {
       'unpark-scope': 'NINA.Sequencer.SequenceItem.Telescope.UnparkScope, NINA.Sequencer',
       'park-scope': 'NINA.Sequencer.SequenceItem.Telescope.ParkScope, NINA.Sequencer',
       'cool-camera': 'NINA.Sequencer.SequenceItem.Camera.CoolCamera, NINA.Sequencer',
       'warm-camera': 'NINA.Sequencer.SequenceItem.Camera.WarmCamera, NINA.Sequencer',
-      'center-target': 'NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer',
       'run-autofocus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
       'start-guiding': 'NINA.Sequencer.SequenceItem.Guider.StartGuiding, NINA.Sequencer',
+      'stop-guiding': 'NINA.Sequencer.SequenceItem.Guider.StopGuiding, NINA.Sequencer',
     };
+
+    // Determine the N.I.N.A type and properties
+    let ninaType;
+    let additionalProperties = {};
+
+    // Handle slew-to-target specially based on slewMode parameter
+    if (action.type === 'slew-to-target') {
+      const slewMode = action.parameters.slewMode?.value || 'Slew and Center';
+
+      switch (slewMode) {
+        case 'Slew Only':
+          ninaType = 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer';
+          additionalProperties.Inherited = true;
+          additionalProperties.Coordinates = {
+            $id: generateId(),
+            $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+            RAHours: 0,
+            RAMinutes: 0,
+            RASeconds: 0.0,
+            NegativeDec: false,
+            DecDegrees: 0,
+            DecMinutes: 0,
+            DecSeconds: 0.0,
+          };
+          break;
+        case 'Slew and Center':
+          ninaType = 'NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer';
+          additionalProperties.Inherited = true;
+          additionalProperties.Coordinates = {
+            $id: generateId(),
+            $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+            RAHours: 0,
+            RAMinutes: 0,
+            RASeconds: 0.0,
+            NegativeDec: false,
+            DecDegrees: 0,
+            DecMinutes: 0,
+            DecSeconds: 0.0,
+          };
+          break;
+        case 'Slew, Center and Rotate':
+          ninaType = 'NINA.Sequencer.SequenceItem.Platesolving.CenterAndRotate, NINA.Sequencer';
+          additionalProperties.PositionAngle = 0.0;
+          additionalProperties.Inherited = true;
+          additionalProperties.Coordinates = {
+            $id: generateId(),
+            $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+            RAHours: 0,
+            RAMinutes: 0,
+            RASeconds: 0.0,
+            NegativeDec: false,
+            DecDegrees: 0,
+            DecMinutes: 0,
+            DecSeconds: 0.0,
+          };
+          break;
+      }
+    } else {
+      ninaType =
+        ninaTypeMap[action.type] ||
+        'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer';
+    }
 
     const ninaItem = {
       ...baseItem,
-      $type:
-        ninaTypeMap[action.type] ||
-        'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer',
+      $type: ninaType,
+      ...additionalProperties,
     };
 
     // Add specific properties based on action type
     switch (action.type) {
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
-        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
+        ninaItem.Duration = action.parameters.duration?.value || 0;
         break;
       case 'warm-camera':
-        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
+        ninaItem.Duration = action.parameters.duration?.value || 0;
         break;
-      case 'center-target':
-        ninaItem.Inherited = true;
-        ninaItem.Coordinates = {
-          $id: generateId(),
-          $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
-          RAHours: 0,
-          RAMinutes: 0,
-          RASeconds: 0.0,
-          NegativeDec: false,
-          DecDegrees: 0,
-          DecMinutes: 0,
-          DecSeconds: 0.0,
-        };
+      case 'slew-to-target':
+        // Properties already set above based on slewMode
+        break;
+      case 'run-autofocus':
+        // Run autofocus has no additional parameters
         break;
       case 'start-guiding':
         ninaItem.ForceCalibration = action.parameters.forceCalibration?.value || false;
+        break;
+      case 'stop-guiding':
+        // Stop guiding has no additional parameters
         break;
     }
 
@@ -1235,9 +1215,9 @@ export const useSequenceStore = defineStore('sequence', () => {
         'target'
       );
     }
-    if (actionTemplates.target.find((t) => t.id === 'center-target')) {
+    if (actionTemplates.target.find((t) => t.id === 'slew-to-target')) {
       addAction(
-        actionTemplates.target.find((t) => t.id === 'center-target'),
+        actionTemplates.target.find((t) => t.id === 'slew-to-target'),
         'target'
       );
     }
@@ -1336,6 +1316,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     selectedAction,
     isModified,
     actionTemplates,
+    enableMeridianFlip,
 
     // Computed
     canUndo,

@@ -813,6 +813,23 @@
         "redo": "Refazer",
         "undo": "Desfazer",
         "validSequence": "A sequência é válida e pode ser exportada"
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Ativar meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Cometa",
+          "DSO": "Objeto de céu profundo",
+          "Moon": "Lua",
+          "Planet": "Planeta",
+          "Star": "Estrela",
+          "StellariumObject": "Objeto estelário"
+        },
+        "placeholder": "Digite o nome do objeto (por exemplo, M31, NGC 1234, Marte) ...",
+        "searchDescription": "Procure objetos, planetas ou estrelas de céu profundo e adote automaticamente as coordenadas",
+        "searchLabel": "Alvo de pesquisa"
       }
     }
   }

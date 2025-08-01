@@ -128,13 +128,39 @@
               </div>
             </div>
 
+            <!-- Sequence Settings -->
+            <div class="mb-6">
+              <div
+                class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4"
+              >
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">
+                  {{ t('plugins.sequenceCreator.settings.title') }}
+                </h3>
+                <div class="flex items-center">
+                  <input
+                    id="meridian-flip-enabled"
+                    type="checkbox"
+                    v-model="store.enableMeridianFlip"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label
+                    for="meridian-flip-enabled"
+                    class="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                  >
+                    {{ t('plugins.sequenceCreator.settings.enableMeridianFlip') }}
+                  </label>
+                </div>
+  
+              </div>
+            </div>
+
             <!-- Start Container -->
             <SequenceContainer
               :title="t('plugins.sequenceCreator.containers.startSequence.title')"
               :description="t('plugins.sequenceCreator.containers.startSequence.description')"
               :actions="store.startSequence"
               container-type="start"
-              icon="🚀"
+              icon="rocket"
               color="blue"
               @add-action="handleAddAction"
               @remove-action="handleRemoveAction"
@@ -148,7 +174,7 @@
               :description="t('plugins.sequenceCreator.containers.targetSequence.description')"
               :actions="store.targetSequence"
               container-type="target"
-              icon="🎯"
+              icon="crosshairs"
               color="green"
               @add-action="handleAddAction"
               @remove-action="handleRemoveAction"
@@ -162,7 +188,7 @@
               :description="t('plugins.sequenceCreator.containers.endSequence.description')"
               :actions="store.endSequence"
               container-type="end"
-              icon="🏁"
+              icon="flag"
               color="red"
               @add-action="handleAddAction"
               @remove-action="handleRemoveAction"

@@ -219,6 +219,8 @@
       "deltaHFR": "DeltaHFR",
       "sampleSize": "Dimensione campione",
       "triggers": "Trigger",
+      "expandAll": "Espandi tutto",
+      "collapseAll": "Comprimi tutto",
       "details": {
         "of": "di",
         "gain": "Guadagno",

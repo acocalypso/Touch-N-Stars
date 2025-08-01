@@ -264,6 +264,8 @@
       "stDev": "St. Abw.",
       "rmsText": "RMS",
       "sequence_control": "Sequenzsteuerung",
+      "expandAll": "Alle erweitern",
+      "collapseAll": "Alle zuklappen",
       "temperature": "Temperatur",
       "monitor": {
         "settings": {

@@ -21,20 +21,6 @@
           >
             {{ actions.length }} action{{ actions.length !== 1 ? 's' : '' }}
           </span>
-          <button
-            @click="showAddMenu = !showAddMenu"
-            class="p-2 hover:bg-white/10 rounded-lg transition-colors text-white"
-            :title="t('plugins.sequenceCreator.containers.addAction')"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-          </button>
         </div>
       </div>
     </div>
@@ -50,6 +36,21 @@
         <p class="text-gray-600 dark:text-gray-400 mb-4">
           {{ getEmptyDescription(containerType) }}
         </p>
+        <button
+          @click="showAddMenu = !showAddMenu"
+          class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
+          :title="t('plugins.sequenceCreator.containers.addAction')"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+          {{ t('plugins.sequenceCreator.containers.addAction') }}
+        </button>
       </div>
 
       <!-- Actions List -->
@@ -66,6 +67,25 @@
           @move-up="handleMoveUp"
           @move-down="handleMoveDown"
         />
+        
+        <!-- Add Action Button -->
+        <div class="mt-4 text-center">
+          <button
+            @click="showAddMenu = !showAddMenu"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm rounded-lg transition-colors"
+            :title="t('plugins.sequenceCreator.containers.addAction')"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              />
+            </svg>
+            {{ t('plugins.sequenceCreator.containers.addAction') }}
+          </button>
+        </div>
       </div>
     </div>
 

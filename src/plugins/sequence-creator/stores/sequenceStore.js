@@ -79,11 +79,19 @@ const actionTemplates = {
       color: 'bg-purple-500',
     },
     {
-      id: 'center-target',
-      name: 'Center Target (Plate Solve)',
+      id: 'slew-to-target',
+      name: 'Slew to Target',
       icon: '🎯',
-      description: 'Center on target using plate solving',
-      parameters: {},
+      description: 'Navigate to target with different options',
+      parameters: {
+        slewMode: {
+          type: 'select',
+          options: ['Slew Only', 'Slew and Center', 'Slew, Center and Rotate'],
+          default: 'Slew and Center',
+          label: 'Slew Mode',
+          tooltip: 'Choose how to navigate to the target',
+        },
+      },
       color: 'bg-indigo-500',
     },
     {
@@ -882,47 +890,94 @@ export const useSequenceStore = defineStore('sequence', () => {
       Attempts: 1,
     };
 
-    // Map action types to N.I.N.A types
+    // Map action types to N.I.N.A types - slew-to-target will be handled specially
     const ninaTypeMap = {
       'unpark-scope': 'NINA.Sequencer.SequenceItem.Telescope.UnparkScope, NINA.Sequencer',
       'park-scope': 'NINA.Sequencer.SequenceItem.Telescope.ParkScope, NINA.Sequencer',
       'cool-camera': 'NINA.Sequencer.SequenceItem.Camera.CoolCamera, NINA.Sequencer',
       'warm-camera': 'NINA.Sequencer.SequenceItem.Camera.WarmCamera, NINA.Sequencer',
-      'center-target': 'NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer',
       'run-autofocus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
       'start-guiding': 'NINA.Sequencer.SequenceItem.Guider.StartGuiding, NINA.Sequencer',
       'stop-guiding': 'NINA.Sequencer.SequenceItem.Guider.StopGuiding, NINA.Sequencer',
     };
 
+    // Determine the N.I.N.A type and properties
+    let ninaType;
+    let additionalProperties = {};
+
+    // Handle slew-to-target specially based on slewMode parameter
+    if (action.type === 'slew-to-target') {
+      const slewMode = action.parameters.slewMode?.value || 'Slew and Center';
+      
+      switch (slewMode) {
+        case 'Slew Only':
+          ninaType = 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer';
+          additionalProperties.Inherited = true;
+          additionalProperties.Coordinates = {
+            $id: generateId(),
+            $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+            RAHours: 0,
+            RAMinutes: 0,
+            RASeconds: 0.0,
+            NegativeDec: false,
+            DecDegrees: 0,
+            DecMinutes: 0,
+            DecSeconds: 0.0,
+          };
+          break;
+        case 'Slew and Center':
+          ninaType = 'NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer';
+          additionalProperties.Inherited = true;
+          additionalProperties.Coordinates = {
+            $id: generateId(),
+            $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+            RAHours: 0,
+            RAMinutes: 0,
+            RASeconds: 0.0,
+            NegativeDec: false,
+            DecDegrees: 0,
+            DecMinutes: 0,
+            DecSeconds: 0.0,
+          };
+          break;
+        case 'Slew, Center and Rotate':
+          ninaType = 'NINA.Sequencer.SequenceItem.Platesolving.CenterAndRotate, NINA.Sequencer';
+          additionalProperties.PositionAngle = 0.0;
+          additionalProperties.Inherited = true;
+          additionalProperties.Coordinates = {
+            $id: generateId(),
+            $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+            RAHours: 0,
+            RAMinutes: 0,
+            RASeconds: 0.0,
+            NegativeDec: false,
+            DecDegrees: 0,
+            DecMinutes: 0,
+            DecSeconds: 0.0,
+          };
+          break;
+      }
+    } else {
+      ninaType = ninaTypeMap[action.type] || 'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer';
+    }
+
     const ninaItem = {
       ...baseItem,
-      $type:
-        ninaTypeMap[action.type] ||
-        'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer',
+      $type: ninaType,
+      ...additionalProperties,
     };
 
     // Add specific properties based on action type
     switch (action.type) {
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
-        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
+        ninaItem.Duration = (action.parameters.duration?.value || 0);
         break;
       case 'warm-camera':
-        ninaItem.Duration = (action.parameters.duration?.value || 0); // Convert minutes to seconds
+        ninaItem.Duration = (action.parameters.duration?.value || 0);
         break;
-      case 'center-target':
-        ninaItem.Inherited = true;
-        ninaItem.Coordinates = {
-          $id: generateId(),
-          $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
-          RAHours: 0,
-          RAMinutes: 0,
-          RASeconds: 0.0,
-          NegativeDec: false,
-          DecDegrees: 0,
-          DecMinutes: 0,
-          DecSeconds: 0.0,
-        };
+      case 'slew-to-target':
+        // Properties already set above based on slewMode
         break;
       case 'run-autofocus':
         // Run autofocus has no additional parameters
@@ -1153,9 +1208,9 @@ export const useSequenceStore = defineStore('sequence', () => {
         'target'
       );
     }
-    if (actionTemplates.target.find((t) => t.id === 'center-target')) {
+    if (actionTemplates.target.find((t) => t.id === 'slew-to-target')) {
       addAction(
-        actionTemplates.target.find((t) => t.id === 'center-target'),
+        actionTemplates.target.find((t) => t.id === 'slew-to-target'),
         'target'
       );
     }

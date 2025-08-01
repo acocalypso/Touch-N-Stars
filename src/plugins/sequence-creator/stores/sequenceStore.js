@@ -82,25 +82,8 @@ const actionTemplates = {
       id: 'center-target',
       name: 'Center Target (Plate Solve)',
       icon: '🎯',
-      description: 'Slew and center on target using plate solving',
-      parameters: {
-        tolerance: {
-          type: 'number',
-          default: 30,
-          min: 1,
-          max: 300,
-          label: 'Tolerance (arcsec)',
-          tooltip: 'Maximum allowed deviation from target',
-        },
-        attempts: {
-          type: 'number',
-          default: 3,
-          min: 1,
-          max: 10,
-          label: 'Max Attempts',
-          tooltip: 'Maximum centering attempts',
-        },
-      },
+      description: 'Center on target using plate solving',
+      parameters: {},
       color: 'bg-indigo-500',
     },
     {
@@ -108,31 +91,7 @@ const actionTemplates = {
       name: 'Run Autofocus',
       icon: '🔍',
       description: 'Perform automatic focusing routine',
-      parameters: {
-        method: {
-          type: 'select',
-          options: ['HFR', 'Contrast', 'FWHM'],
-          default: 'HFR',
-          label: 'Focus Method',
-          tooltip: 'Algorithm used for focusing',
-        },
-        samples: {
-          type: 'number',
-          default: 7,
-          min: 3,
-          max: 15,
-          label: 'Sample Points',
-          tooltip: 'Number of focus positions to sample',
-        },
-        initialStep: {
-          type: 'number',
-          default: 100,
-          min: 10,
-          max: 1000,
-          label: 'Initial Step Size',
-          tooltip: 'Initial focuser step size',
-        },
-      },
+      parameters: {},
       color: 'bg-yellow-500',
     },
     {
@@ -147,23 +106,6 @@ const actionTemplates = {
           label: 'Force Calibration',
           tooltip: 'Force new guider calibration',
         },
-        settleTime: {
-          type: 'number',
-          default: 10,
-          min: 1,
-          max: 300,
-          label: 'Settle Time (s)',
-          tooltip: 'Time to wait for guiding to settle',
-        },
-        settlePixels: {
-          type: 'number',
-          default: 1.5,
-          min: 0.1,
-          max: 10,
-          step: 0.1,
-          label: 'Settle Threshold (px)',
-          tooltip: 'Maximum pixel deviation for settled guiding',
-        },
       },
       color: 'bg-red-500',
     },
@@ -175,7 +117,7 @@ const actionTemplates = {
       parameters: {
         exposureTime: {
           type: 'number',
-          default: 300,
+          default: 120,
           min: 0.1,
           max: 3600,
           step: 0.1,
@@ -184,7 +126,7 @@ const actionTemplates = {
         },
         gain: {
           type: 'number',
-          default: 88,
+          default: 100,
           min: 0,
           max: 500,
           label: 'Gain',
@@ -192,7 +134,7 @@ const actionTemplates = {
         },
         offset: {
           type: 'number',
-          default: 10,
+          default: -1,
           min: -100,
           max: 100,
           label: 'Offset',
@@ -207,8 +149,8 @@ const actionTemplates = {
         },
         filter: {
           type: 'select',
-          options: ['L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
-          default: 'L',
+          options: ['None', 'L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
+          default: 'None',
           label: 'Filter',
           tooltip: 'Filter wheel selection',
         },
@@ -221,7 +163,7 @@ const actionTemplates = {
         },
         count: {
           type: 'number',
-          default: 20,
+          default: 100,
           min: 1,
           max: 1000,
           label: 'Image Count',
@@ -229,54 +171,25 @@ const actionTemplates = {
         },
         ditherAfter: {
           type: 'number',
-          default: 3,
+          default: 4,
           min: 1,
           max: 20,
           label: 'Dither After N Exposures',
           tooltip: 'Dither frequency',
-        },
-        ditherAmount: {
-          type: 'number',
-          default: 3,
-          min: 1,
-          max: 20,
-          label: 'Dither Amount (px)',
-          tooltip: 'Dithering distance in pixels',
-        },
-        meridianFlipEnabled: {
-          type: 'boolean',
-          default: true,
-          label: 'Enable Meridian Flip',
-          tooltip: 'Allow automatic meridian flip',
-        },
-        autofocusAfterHFR: {
-          type: 'boolean',
-          default: true,
-          label: 'Autofocus on HFR Increase',
-          tooltip: 'Run autofocus if HFR increases significantly',
-        },
-        hfrIncrease: {
-          type: 'number',
-          default: 1.5,
-          min: 1.1,
-          max: 3.0,
-          step: 0.1,
-          label: 'HFR Increase Factor',
-          tooltip: 'HFR increase threshold for autofocus trigger',
-        },
-        hfrSampleSize: {
-          type: 'number',
-          default: 10,
-          min: 3,
-          max: 50,
-          label: 'HFR Sample Size',
-          tooltip: 'Number of images to analyze for HFR trend',
         },
       },
       color: 'bg-green-500',
     },
   ],
   end: [
+    {
+      id: 'stop-guiding',
+      name: 'Stop Guiding',
+      icon: '⏹️',
+      description: 'Stop autoguiding system',
+      parameters: {},
+      color: 'bg-red-600',
+    },
     {
       id: 'warm-camera',
       name: 'Warm Camera',
@@ -898,7 +811,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             $id: generateId(),
             $type: 'NINA.Sequencer.Conditions.LoopCondition, NINA.Sequencer',
             CompletedIterations: 0,
-            Iterations: action.parameters.count?.value || 20,
+            Iterations: action.parameters.count?.value || 100,
             Parent: null,
           },
         ],
@@ -912,7 +825,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter, NINA.Sequencer',
-            Filter: action.parameters.filter?.value
+            Filter: (action.parameters.filter?.value && action.parameters.filter.value !== 'None')
               ? {
                   Name: action.parameters.filter.value,
                   Position: -1,
@@ -933,14 +846,14 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.Imaging.TakeExposure, NINA.Sequencer',
-            ExposureTime: action.parameters.exposureTime?.value || 300.0,
-            Gain: action.parameters.gain?.value || 88,
-            Offset: action.parameters.offset?.value || 10,
+            ExposureTime: action.parameters.exposureTime?.value || 120.0,
+            Gain: action.parameters.gain?.value || 100,
+            Offset: action.parameters.offset?.value || -1,
             Binning: {
               $id: generateId(),
               $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
-              X: 1,
-              Y: 1,
+              X: parseInt((action.parameters.binning?.value || '1x1').split('x')[0]) || 1,
+              Y: parseInt((action.parameters.binning?.value || '1x1').split('x')[1]) || 1,
             },
             ImageType: action.parameters.imageType?.value || 'LIGHT',
             ExposureCount: 0,
@@ -954,7 +867,49 @@ export const useSequenceStore = defineStore('sequence', () => {
         $id: generateId(),
         $type:
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-        $values: [],
+        $values: [
+          {
+            $id: generateId(),
+            $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
+            AfterExposures: action.parameters.ditherAfter?.value || 4,
+            Parent: null,
+            TriggerRunner: {
+              $id: generateId(),
+              $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+              Strategy: {
+                $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+              },
+              Name: null,
+              Conditions: {
+                $id: generateId(),
+                $type: 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                $values: [],
+              },
+              IsExpanded: true,
+              Items: {
+                $id: generateId(),
+                $type: 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                $values: [
+                  {
+                    $id: generateId(),
+                    $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
+                    Parent: null,
+                    ErrorBehavior: 0,
+                    Attempts: 1,
+                  },
+                ],
+              },
+              Triggers: {
+                $id: generateId(),
+                $type: 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                $values: [],
+              },
+              Parent: null,
+              ErrorBehavior: 0,
+              Attempts: 1,
+            },
+          },
+        ],
       },
       Parent: null,
     };
@@ -980,6 +935,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       'center-target': 'NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer',
       'run-autofocus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
       'start-guiding': 'NINA.Sequencer.SequenceItem.Guider.StartGuiding, NINA.Sequencer',
+      'stop-guiding': 'NINA.Sequencer.SequenceItem.Guider.StopGuiding, NINA.Sequencer',
     };
 
     const ninaItem = {
@@ -1012,8 +968,14 @@ export const useSequenceStore = defineStore('sequence', () => {
           DecSeconds: 0.0,
         };
         break;
+      case 'run-autofocus':
+        // Run autofocus has no additional parameters
+        break;
       case 'start-guiding':
         ninaItem.ForceCalibration = action.parameters.forceCalibration?.value || false;
+        break;
+      case 'stop-guiding':
+        // Stop guiding has no additional parameters
         break;
     }
 

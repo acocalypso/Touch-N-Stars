@@ -263,9 +263,23 @@
               @change="updateParameter(key, $event.target.value)"
               class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
             >
-              <option v-for="option in param.options" :key="option" :value="option">
-                {{ option }}
-              </option>
+              <!-- Dynamic filter options if this is a filter parameter -->
+              <template v-if="key === 'filter' && api.filterInfo?.AvailableFilters">
+                <option value="None">None</option>
+                <option
+                  v-for="filter in api.filterInfo.AvailableFilters"
+                  :key="filter.Name"
+                  :value="filter.Name"
+                >
+                  {{ filter.Name }}
+                </option>
+              </template>
+              <!-- Default static options for non-filter parameters -->
+              <template v-else>
+                <option v-for="option in param.options" :key="option" :value="option">
+                  {{ option }}
+                </option>
+              </template>
             </select>
 
             <!-- Boolean Input -->
@@ -313,10 +327,12 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
+import { apiStore } from '@/store/store';
 import TargetSearch from './TargetSearch.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
+const api = apiStore();
 
 const props = defineProps({
   action: {

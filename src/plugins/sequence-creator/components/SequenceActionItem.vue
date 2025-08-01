@@ -374,27 +374,16 @@ function updateParameter(key, value) {
 }
 
 function getKeyParameters(parameters) {
-  // Show only the most important parameters in summary
-  const keyParams = {};
-  const importantKeys = ['exposureTime', 'gain', 'count', 'temperature', 'targetName', 'ra', 'dec'];
-
-  for (const key of importantKeys) {
-    if (parameters[key] && parameters[key].value !== undefined) {
-      keyParams[key] = parameters[key];
+  // Show ALL parameters that have values
+  const allParams = {};
+  
+  for (const key of Object.keys(parameters)) {
+    if (parameters[key] && parameters[key].value !== undefined && parameters[key].value !== '') {
+      allParams[key] = parameters[key];
     }
   }
 
-  // If no important parameters, show first 3
-  if (Object.keys(keyParams).length === 0) {
-    const allKeys = Object.keys(parameters).slice(0, 3);
-    for (const key of allKeys) {
-      if (parameters[key] && parameters[key].value !== undefined) {
-        keyParams[key] = parameters[key];
-      }
-    }
-  }
-
-  return keyParams;
+  return allParams;
 }
 
 function formatParameterValue(param) {

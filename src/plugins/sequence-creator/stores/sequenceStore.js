@@ -2,216 +2,312 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 
-// Action templates based on N.I.N.A sequence structure
-const actionTemplates = [
-  // Telescope Actions
-  {
-    id: 'unpark-scope',
-    name: 'Unpark Telescope',
-    category: 'Telescope',
-    icon: '🔭',
-    description: 'Unpark the telescope mount',
-    parameters: {},
-    color: 'bg-blue-500',
-  },
-  {
-    id: 'park-scope',
-    name: 'Park Telescope',
-    category: 'Telescope',
-    icon: '🔭',
-    description: 'Park the telescope mount',
-    parameters: {},
-    color: 'bg-blue-500',
-  },
-  {
-    id: 'set-tracking',
-    name: 'Set Tracking',
-    category: 'Telescope',
-    icon: '🎯',
-    description: 'Enable or disable telescope tracking',
-    parameters: {
-      trackingMode: {
-        type: 'select',
-        options: ['Sidereal', 'Lunar', 'Solar', 'Off'],
-        default: 'Sidereal',
+// Action templates organized by container type
+const actionTemplates = {
+  start: [
+    {
+      id: 'unpark-scope',
+      name: 'Unpark Telescope',
+      icon: '🔭',
+      description: 'Unpark the telescope mount',
+      parameters: {},
+      color: 'bg-blue-500',
+    },
+    {
+      id: 'cool-camera',
+      name: 'Cool Camera',
+      icon: '❄️',
+      description: 'Cool the camera to specified temperature',
+      parameters: {
+        temperature: {
+          type: 'number',
+          default: -10,
+          min: -50,
+          max: 30,
+          step: 1,
+          label: 'Temperature (°C)',
+          tooltip: 'Target temperature for camera cooling',
+        },
+        duration: {
+          type: 'number',
+          default: 0,
+          min: 0,
+          max: 3600,
+          step: 1,
+          label: 'Duration (seconds)',
+          tooltip: 'Time to wait for cooling (0 = no wait)',
+        },
       },
+      color: 'bg-cyan-500',
     },
-    color: 'bg-blue-500',
-  },
-  {
-    id: 'slew-to-target',
-    name: 'Slew to Target',
-    category: 'Telescope',
-    icon: '🎯',
-    description: 'Slew telescope to specified coordinates',
-    parameters: {
-      targetName: { type: 'text', default: 'M31' },
-      ra: { type: 'text', default: '00:42:44' },
-      dec: { type: 'text', default: '+41:16:07' },
-    },
-    color: 'bg-blue-500',
-  },
-
-  // Imaging Actions
-  {
-    id: 'take-exposure',
-    name: 'Take Exposure',
-    category: 'Imaging',
-    icon: '📸',
-    description: 'Capture a single exposure',
-    parameters: {
-      exposureTime: { type: 'number', default: 300, min: 0.1, max: 3600, step: 0.1 },
-      gain: { type: 'number', default: 88, min: 0, max: 200 },
-      offset: { type: 'number', default: 10, min: -50, max: 100 },
-      binning: { type: 'select', options: ['1x1', '2x2', '3x3', '4x4'], default: '1x1' },
-      imageType: { type: 'select', options: ['LIGHT', 'DARK', 'FLAT', 'BIAS'], default: 'LIGHT' },
-      count: { type: 'number', default: 1, min: 1, max: 1000 },
-    },
-    color: 'bg-green-500',
-  },
-  {
-    id: 'smart-exposure',
-    name: 'Smart Exposure',
-    category: 'Imaging',
-    icon: '🤖',
-    description: 'Intelligent exposure sequence with conditions',
-    parameters: {
-      exposureTime: { type: 'number', default: 300, min: 0.1, max: 3600, step: 0.1 },
-      gain: { type: 'number', default: 88, min: 0, max: 200 },
-      count: { type: 'number', default: 10, min: 1, max: 1000 },
-      loops: { type: 'number', default: 2, min: 1, max: 100 },
-    },
-    color: 'bg-green-500',
-  },
-
-  // Filter Actions
-  {
-    id: 'switch-filter',
-    name: 'Switch Filter',
-    category: 'Filter',
-    icon: '🌈',
-    description: 'Change the active filter',
-    parameters: {
-      filter: {
-        type: 'select',
-        options: ['L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
-        default: 'L',
+  ],
+  target: [
+    {
+      id: 'target-settings',
+      name: 'Target Settings',
+      icon: '🎯',
+      description: 'Define target coordinates and settings',
+      parameters: {
+        targetName: {
+          type: 'text',
+          default: 'M31 - Andromeda Galaxy',
+          label: 'Target Name',
+          tooltip: 'Name of the celestial object',
+        },
+        ra: {
+          type: 'text',
+          default: '00:42:44',
+          label: 'Right Ascension',
+          tooltip: 'RA in HH:MM:SS format',
+        },
+        dec: {
+          type: 'text',
+          default: '+41:16:07',
+          label: 'Declination',
+          tooltip: 'Dec in DD:MM:SS format',
+        },
+        positionAngle: {
+          type: 'number',
+          default: 0,
+          min: -180,
+          max: 180,
+          step: 0.1,
+          label: 'Position Angle (°)',
+          tooltip: 'Camera rotation angle',
+        },
       },
+      color: 'bg-purple-500',
     },
-    color: 'bg-purple-500',
-  },
-
-  // Focus Actions
-  {
-    id: 'auto-focus',
-    name: 'Auto Focus',
-    category: 'Focus',
-    icon: '🔍',
-    description: 'Perform automatic focusing routine',
-    parameters: {
-      method: { type: 'select', options: ['HFR', 'Contrast', 'FWHM'], default: 'HFR' },
-      samples: { type: 'number', default: 7, min: 3, max: 15 },
-    },
-    color: 'bg-yellow-500',
-  },
-
-  // Guiding Actions
-  {
-    id: 'start-guiding',
-    name: 'Start Guiding',
-    category: 'Guiding',
-    icon: '🎮',
-    description: 'Start autoguiding',
-    parameters: {
-      settleTime: { type: 'number', default: 10, min: 1, max: 300 },
-      settlePixels: { type: 'number', default: 1.5, min: 0.1, max: 10, step: 0.1 },
-    },
-    color: 'bg-red-500',
-  },
-  {
-    id: 'stop-guiding',
-    name: 'Stop Guiding',
-    category: 'Guiding',
-    icon: '⏹️',
-    description: 'Stop autoguiding',
-    parameters: {},
-    color: 'bg-red-500',
-  },
-  {
-    id: 'dither',
-    name: 'Dither',
-    category: 'Guiding',
-    icon: '🎲',
-    description: 'Dither the guiding position',
-    parameters: {
-      amount: { type: 'number', default: 3, min: 1, max: 20 },
-      settleTime: { type: 'number', default: 10, min: 1, max: 300 },
-    },
-    color: 'bg-red-500',
-  },
-
-  // Plate Solving Actions
-  {
-    id: 'plate-solve',
-    name: 'Plate Solve',
-    category: 'Plate Solving',
-    icon: '🗺️',
-    description: 'Solve plate to determine exact position',
-    parameters: {
-      syncAfter: { type: 'boolean', default: true },
-      timeout: { type: 'number', default: 60, min: 10, max: 300 },
-    },
-    color: 'bg-indigo-500',
-  },
-
-  // Utility Actions
-  {
-    id: 'annotation',
-    name: 'Annotation',
-    category: 'Utility',
-    icon: '📝',
-    description: 'Add a text note to the sequence',
-    parameters: {
-      text: { type: 'text', default: 'Note' },
-    },
-    color: 'bg-gray-500',
-  },
-  {
-    id: 'wait',
-    name: 'Wait',
-    category: 'Utility',
-    icon: '⏱️',
-    description: 'Wait for specified duration',
-    parameters: {
-      duration: { type: 'number', default: 30, min: 1, max: 3600 },
-    },
-    color: 'bg-gray-500',
-  },
-  {
-    id: 'conditional',
-    name: 'Conditional',
-    category: 'Utility',
-    icon: '❓',
-    description: 'Execute actions based on conditions',
-    parameters: {
-      condition: {
-        type: 'select',
-        options: ['Time', 'Altitude', 'Temperature', 'Custom'],
-        default: 'Time',
+    {
+      id: 'center-target',
+      name: 'Center Target (Plate Solve)',
+      icon: '🎯',
+      description: 'Slew and center on target using plate solving',
+      parameters: {
+        tolerance: {
+          type: 'number',
+          default: 30,
+          min: 1,
+          max: 300,
+          label: 'Tolerance (arcsec)',
+          tooltip: 'Maximum allowed deviation from target',
+        },
+        attempts: {
+          type: 'number',
+          default: 3,
+          min: 1,
+          max: 10,
+          label: 'Max Attempts',
+          tooltip: 'Maximum centering attempts',
+        },
       },
-      value: { type: 'text', default: '' },
+      color: 'bg-indigo-500',
     },
-    color: 'bg-gray-500',
-  },
-];
+    {
+      id: 'run-autofocus',
+      name: 'Run Autofocus',
+      icon: '🔍',
+      description: 'Perform automatic focusing routine',
+      parameters: {
+        method: {
+          type: 'select',
+          options: ['HFR', 'Contrast', 'FWHM'],
+          default: 'HFR',
+          label: 'Focus Method',
+          tooltip: 'Algorithm used for focusing',
+        },
+        samples: {
+          type: 'number',
+          default: 7,
+          min: 3,
+          max: 15,
+          label: 'Sample Points',
+          tooltip: 'Number of focus positions to sample',
+        },
+        initialStep: {
+          type: 'number',
+          default: 100,
+          min: 10,
+          max: 1000,
+          label: 'Initial Step Size',
+          tooltip: 'Initial focuser step size',
+        },
+      },
+      color: 'bg-yellow-500',
+    },
+    {
+      id: 'start-guiding',
+      name: 'Start Guiding',
+      icon: '🎮',
+      description: 'Start autoguiding system',
+      parameters: {
+        forceCalibration: {
+          type: 'boolean',
+          default: false,
+          label: 'Force Calibration',
+          tooltip: 'Force new guider calibration',
+        },
+        settleTime: {
+          type: 'number',
+          default: 10,
+          min: 1,
+          max: 300,
+          label: 'Settle Time (s)',
+          tooltip: 'Time to wait for guiding to settle',
+        },
+        settlePixels: {
+          type: 'number',
+          default: 1.5,
+          min: 0.1,
+          max: 10,
+          step: 0.1,
+          label: 'Settle Threshold (px)',
+          tooltip: 'Maximum pixel deviation for settled guiding',
+        },
+      },
+      color: 'bg-red-500',
+    },
+    {
+      id: 'smart-exposure',
+      name: 'Smart Exposure (Imaging)',
+      icon: '📸',
+      description: 'Intelligent exposure sequence with dithering and triggers',
+      parameters: {
+        exposureTime: {
+          type: 'number',
+          default: 300,
+          min: 0.1,
+          max: 3600,
+          step: 0.1,
+          label: 'Exposure Time (s)',
+          tooltip: 'Duration of each exposure',
+        },
+        gain: {
+          type: 'number',
+          default: 88,
+          min: 0,
+          max: 500,
+          label: 'Gain',
+          tooltip: 'Camera gain setting',
+        },
+        offset: {
+          type: 'number',
+          default: 10,
+          min: -100,
+          max: 100,
+          label: 'Offset',
+          tooltip: 'Camera offset setting',
+        },
+        binning: {
+          type: 'select',
+          options: ['1x1', '2x2', '3x3', '4x4'],
+          default: '1x1',
+          label: 'Binning',
+          tooltip: 'Pixel binning mode',
+        },
+        filter: {
+          type: 'select',
+          options: ['L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
+          default: 'L',
+          label: 'Filter',
+          tooltip: 'Filter wheel selection',
+        },
+        count: {
+          type: 'number',
+          default: 20,
+          min: 1,
+          max: 1000,
+          label: 'Image Count',
+          tooltip: 'Number of exposures to take',
+        },
+        ditherAfter: {
+          type: 'number',
+          default: 3,
+          min: 1,
+          max: 20,
+          label: 'Dither After N Exposures',
+          tooltip: 'Dither frequency',
+        },
+        ditherAmount: {
+          type: 'number',
+          default: 3,
+          min: 1,
+          max: 20,
+          label: 'Dither Amount (px)',
+          tooltip: 'Dithering distance in pixels',
+        },
+        meridianFlipEnabled: {
+          type: 'boolean',
+          default: true,
+          label: 'Enable Meridian Flip',
+          tooltip: 'Allow automatic meridian flip',
+        },
+        autofocusAfterHFR: {
+          type: 'boolean',
+          default: true,
+          label: 'Autofocus on HFR Increase',
+          tooltip: 'Run autofocus if HFR increases significantly',
+        },
+        hfrIncrease: {
+          type: 'number',
+          default: 1.5,
+          min: 1.1,
+          max: 3.0,
+          step: 0.1,
+          label: 'HFR Increase Factor',
+          tooltip: 'HFR increase threshold for autofocus trigger',
+        },
+        hfrSampleSize: {
+          type: 'number',
+          default: 10,
+          min: 3,
+          max: 50,
+          label: 'HFR Sample Size',
+          tooltip: 'Number of images to analyze for HFR trend',
+        },
+      },
+      color: 'bg-green-500',
+    },
+  ],
+  end: [
+    {
+      id: 'warm-camera',
+      name: 'Warm Camera',
+      icon: '🌡️',
+      description: 'Warm up the camera',
+      parameters: {
+        duration: {
+          type: 'number',
+          default: 0,
+          min: 0,
+          max: 3600,
+          step: 1,
+          label: 'Duration (seconds)',
+          tooltip: 'Time to wait for warming (0 = no wait)',
+        },
+      },
+      color: 'bg-orange-500',
+    },
+    {
+      id: 'park-scope',
+      name: 'Park Telescope',
+      icon: '🏠',
+      description: 'Park the telescope mount',
+      parameters: {},
+      color: 'bg-blue-500',
+    },
+  ],
+};
 
 export const useSequenceStore = defineStore('sequence', () => {
-  // State
-  const sequence = ref([]);
+  // State - three separate containers
+  const startSequence = ref([]);
+  const targetSequence = ref([]);
+  const endSequence = ref([]);
+
   const history = ref([]);
   const historyIndex = ref(-1);
   const selectedAction = ref(null);
-  const draggedAction = ref(null);
   const isModified = ref(false);
 
   // Computed
@@ -219,36 +315,44 @@ export const useSequenceStore = defineStore('sequence', () => {
   const canRedo = computed(() => historyIndex.value < history.value.length - 1);
 
   const sequenceIsValid = computed(() => {
-    return (
-      sequence.value.length > 0 &&
-      sequence.value.every((action) => action.name && action.id && action.type)
+    // At minimum, we need target settings and smart exposure in target container
+    const hasTargetSettings = targetSequence.value.some(
+      (action) => action.type === 'target-settings'
     );
+    const hasSmartExposure = targetSequence.value.some(
+      (action) => action.type === 'smart-exposure'
+    );
+    return hasTargetSettings && hasSmartExposure;
   });
 
-  const sequenceJSON = computed(() => {
-    // Generate N.I.N.A compatible JSON structure
-    const ninaSequence = {
-      $id: '1',
+  const ninaSequenceJSON = computed(() => {
+    let idCounter = 1;
+
+    const generateId = () => String(idCounter++);
+
+    // Create N.I.N.A sequence structure exactly matching basic.json format
+    const sequence = {
+      $id: generateId(),
       $type: 'NINA.Sequencer.Container.SequenceRootContainer, NINA.Sequencer',
       Strategy: {
         $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
       },
-      Name: 'Touch-N-Stars Custom Sequence',
+      Name: 'Sequenz',
       Conditions: {
-        $id: '2',
+        $id: generateId(),
         $type:
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
         $values: [],
       },
       IsExpanded: true,
       Items: {
-        $id: '3',
+        $id: generateId(),
         $type:
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-        $values: sequence.value.map((action, index) => convertActionToNina(action, index + 4)),
+        $values: [],
       },
       Triggers: {
-        $id: String(sequence.value.length + 4),
+        $id: generateId(),
         $type:
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
         $values: [],
@@ -258,35 +362,571 @@ export const useSequenceStore = defineStore('sequence', () => {
       Attempts: 1,
     };
 
-    return JSON.stringify(ninaSequence, null, 2);
+    // Add Start Area Container (with nested structure like basic.json)
+    const startContainer = createBasicStartContainer(startSequence.value, generateId);
+    sequence.Items.$values.push(startContainer);
+
+    // Add Target Area Container (with proper DeepSkyObjectContainer structure)
+    const targetContainer = createBasicTargetContainer(targetSequence.value, generateId);
+    sequence.Items.$values.push(targetContainer);
+
+    // Add End Area Container (with nested structure like basic.json)
+    const endContainer = createBasicEndContainer(endSequence.value, generateId);
+    sequence.Items.$values.push(endContainer);
+
+    return JSON.stringify(sequence, null, 2);
   });
 
-  // Helper function to convert our actions to N.I.N.A format
-  function convertActionToNina(action, id) {
-    const baseItem = {
-      $id: String(id),
-      Parent: null,
+  // Helper function to create basic start container (matches basic.json structure)
+  function createBasicStartContainer(actions, generateId) {
+    const startId = generateId();
+    const basicSequenceStartId = generateId();
+    const equipmentCheckId = generateId();
+
+    return {
+      $id: startId,
+      $type: 'NINA.Sequencer.Container.StartAreaContainer, NINA.Sequencer',
+      Strategy: {
+        $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+      },
+      Name: 'Start',
+      Conditions: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      IsExpanded: true,
+      Items: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+        $values: [
+          {
+            $id: basicSequenceStartId,
+            $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+            Strategy: {
+              $type:
+                'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+            },
+            Name: 'BASIC SEQUENCE START',
+            Conditions: {
+              $id: generateId(),
+              $type:
+                'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+              $values: [],
+            },
+            IsExpanded: true,
+            Items: {
+              $id: generateId(),
+              $type:
+                'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+              $values: [
+                {
+                  $id: generateId(),
+                  $type: 'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer',
+                  Text: 'VERSION: 1',
+                  Parent: { $ref: basicSequenceStartId },
+                  ErrorBehavior: 0,
+                  Attempts: 1,
+                },
+                {
+                  $id: equipmentCheckId,
+                  $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+                  Strategy: {
+                    $type:
+                      'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+                  },
+                  Name: 'EQUIPMENT_CHECK',
+                  Conditions: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                    $values: [],
+                  },
+                  IsExpanded: true,
+                  Items: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                    $values: actions.map((action) =>
+                      convertActionToNina(action, generateId, equipmentCheckId)
+                    ),
+                  },
+                  Triggers: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                    $values: [],
+                  },
+                  Parent: { $ref: basicSequenceStartId },
+                  ErrorBehavior: 0,
+                  Attempts: 1,
+                },
+              ],
+            },
+            Triggers: {
+              $id: generateId(),
+              $type:
+                'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+              $values: [],
+            },
+            Parent: { $ref: startId },
+            ErrorBehavior: 0,
+            Attempts: 1,
+          },
+        ],
+      },
+      Triggers: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      Parent: { $ref: '1' },
+      ErrorBehavior: 0,
+      Attempts: 1,
+    };
+  }
+
+  // Helper function to create basic target container (matches basic.json structure)
+  function createBasicTargetContainer(actions, generateId) {
+    const targetAreaId = generateId();
+    const dsoContainerId = generateId();
+
+    return {
+      $id: targetAreaId,
+      $type: 'NINA.Sequencer.Container.TargetAreaContainer, NINA.Sequencer',
+      Strategy: {
+        $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+      },
+      Name: 'Targets',
+      Conditions: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      IsExpanded: true,
+      Items: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+        $values: [
+          createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, targetAreaId),
+        ],
+      },
+      Triggers: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      Parent: { $ref: '1' },
+      ErrorBehavior: 0,
+      Attempts: 1,
+    };
+  }
+
+  // Helper function to create basic end container (matches basic.json structure)
+  function createBasicEndContainer(actions, generateId) {
+    const endId = generateId();
+    const basicSequenceEndId = generateId();
+    const endInstructionsId = generateId();
+
+    return {
+      $id: endId,
+      $type: 'NINA.Sequencer.Container.EndAreaContainer, NINA.Sequencer',
+      Strategy: {
+        $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+      },
+      Name: 'End',
+      Conditions: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      IsExpanded: true,
+      Items: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+        $values: [
+          {
+            $id: basicSequenceEndId,
+            $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+            Strategy: {
+              $type:
+                'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+            },
+            Name: 'BASIC SEQUENCE END',
+            Conditions: {
+              $id: generateId(),
+              $type:
+                'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+              $values: [],
+            },
+            IsExpanded: true,
+            Items: {
+              $id: generateId(),
+              $type:
+                'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+              $values: [
+                {
+                  $id: endInstructionsId,
+                  $type: 'NINA.Sequencer.Container.ParallelContainer, NINA.Sequencer',
+                  Strategy: {
+                    $type:
+                      'NINA.Sequencer.Container.ExecutionStrategy.ParallelStrategy, NINA.Sequencer',
+                  },
+                  Name: 'END_INSTRUCTIONS',
+                  Conditions: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                    $values: [],
+                  },
+                  IsExpanded: true,
+                  Items: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                    $values: actions.map((action) =>
+                      convertActionToNina(action, generateId, endInstructionsId)
+                    ),
+                  },
+                  Triggers: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                    $values: [],
+                  },
+                  Parent: { $ref: basicSequenceEndId },
+                  ErrorBehavior: 0,
+                  Attempts: 1,
+                },
+              ],
+            },
+            Triggers: {
+              $id: generateId(),
+              $type:
+                'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+              $values: [],
+            },
+            Parent: { $ref: endId },
+            ErrorBehavior: 0,
+            Attempts: 1,
+          },
+        ],
+      },
+      Triggers: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      Parent: { $ref: '1' },
+      ErrorBehavior: 0,
+      Attempts: 1,
+    };
+  }
+
+  function createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId) {
+    const targetImagingId = generateId();
+
+    const dsoContainer = {
+      $id: dsoContainerId,
+      $type: 'NINA.Sequencer.Container.DeepSkyObjectContainer, NINA.Sequencer',
+      Target: {
+        $id: generateId(),
+        $type: 'NINA.Astrometry.InputTarget, NINA.Astrometry',
+        Expanded: true,
+        TargetName: '',
+        PositionAngle: 0.0,
+        InputCoordinates: {
+          $id: generateId(),
+          $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+          RAHours: 0,
+          RAMinutes: 0,
+          RASeconds: 0.0,
+          NegativeDec: false,
+          DecDegrees: 0,
+          DecMinutes: 0,
+          DecSeconds: 0.0,
+        },
+      },
+      ExposureInfoListExpanded: false,
+      ExposureInfoList: {
+        $id: generateId(),
+        $type:
+          'NINA.Core.Utility.AsyncObservableCollection`1[[NINA.Sequencer.Utility.ExposureInfo, NINA.Sequencer]], NINA.Core',
+        $values: [],
+      },
+      Strategy: {
+        $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+      },
+      Name: 'Basic Sequence Target',
+      Conditions: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      IsExpanded: true,
+      Items: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      Triggers: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      Parent: { $ref: parentId },
       ErrorBehavior: 0,
       Attempts: 1,
     };
 
-    // Map our action types to N.I.N.A types
+    // Add actions to DSO container (excluding target-settings and smart-exposure)
+    const regularActions = actions.filter(
+      (action) => action.type !== 'target-settings' && action.type !== 'smart-exposure'
+    );
+
+    regularActions.forEach((action) => {
+      dsoContainer.Items.$values.push(convertActionToNina(action, generateId, dsoContainerId));
+    });
+
+    // Add Target Imaging Instructions container with Smart Exposure
+    const smartExposureAction = actions.find((action) => action.type === 'smart-exposure');
+    if (smartExposureAction) {
+      const targetImagingContainer = {
+        $id: targetImagingId,
+        $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+        Strategy: {
+          $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+        },
+        Name: 'Target Imaging Instructions',
+        Conditions: {
+          $id: generateId(),
+          $type:
+            'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+          $values: [],
+        },
+        IsExpanded: true,
+        Items: {
+          $id: generateId(),
+          $type:
+            'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+          $values: [createBasicSmartExposureContainer(smartExposureAction, generateId)],
+        },
+        Triggers: {
+          $id: generateId(),
+          $type:
+            'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+          $values: [
+            // Meridian Flip Trigger
+            {
+              $id: generateId(),
+              $type: 'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger, NINA.Sequencer',
+              Parent: { $ref: targetImagingId },
+              TriggerRunner: {
+                $id: generateId(),
+                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+                Strategy: {
+                  $type:
+                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+                },
+                Name: null,
+                Conditions: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                IsExpanded: true,
+                Items: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                Triggers: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                Parent: null,
+                ErrorBehavior: 0,
+                Attempts: 1,
+              },
+            },
+            // Autofocus Trigger
+            {
+              $id: generateId(),
+              $type:
+                'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterHFRIncreaseTrigger, NINA.Sequencer',
+              Amount: 5.0,
+              SampleSize: 10,
+              Parent: { $ref: targetImagingId },
+              TriggerRunner: {
+                $id: generateId(),
+                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+                Strategy: {
+                  $type:
+                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+                },
+                Name: null,
+                Conditions: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                IsExpanded: true,
+                Items: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                  $values: [
+                    {
+                      $id: generateId(),
+                      $type: 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
+                      Parent: null,
+                      ErrorBehavior: 0,
+                      Attempts: 1,
+                    },
+                  ],
+                },
+                Triggers: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                Parent: null,
+                ErrorBehavior: 0,
+                Attempts: 1,
+              },
+            },
+          ],
+        },
+        Parent: { $ref: dsoContainerId },
+        ErrorBehavior: 0,
+        Attempts: 1,
+      };
+
+      dsoContainer.Items.$values.push(targetImagingContainer);
+    }
+
+    return dsoContainer;
+  }
+
+  function createBasicSmartExposureContainer(action, generateId) {
+    const smartExposure = {
+      $id: generateId(),
+      $type: 'NINA.Sequencer.SequenceItem.Imaging.SmartExposure, NINA.Sequencer',
+      ErrorBehavior: 0,
+      Attempts: 1,
+      Strategy: {
+        $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+      },
+      Name: 'Smart Exposure',
+      Conditions: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+        $values: [
+          {
+            $id: generateId(),
+            $type: 'NINA.Sequencer.Conditions.LoopCondition, NINA.Sequencer',
+            CompletedIterations: 0,
+            Iterations: action.parameters.count?.value || 20,
+            Parent: null,
+          },
+        ],
+      },
+      IsExpanded: false,
+      Items: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+        $values: [
+          {
+            $id: generateId(),
+            $type: 'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter, NINA.Sequencer',
+            Filter: action.parameters.filter?.value
+              ? {
+                  Name: action.parameters.filter.value,
+                  Position: -1,
+                  AutoFocusOffset: null,
+                  FlatWizardFilterSettings: {
+                    HistogramMeanTarget: 0.5,
+                    HistogramTolerance: 0.1,
+                    MaxFlatExposureTime: 30.0,
+                    MinFlatExposureTime: 0.01,
+                    StepSize: 0.1,
+                  },
+                }
+              : null,
+            Parent: null,
+            ErrorBehavior: 0,
+            Attempts: 1,
+          },
+          {
+            $id: generateId(),
+            $type: 'NINA.Sequencer.SequenceItem.Imaging.TakeExposure, NINA.Sequencer',
+            ExposureTime: action.parameters.exposureTime?.value || 300.0,
+            Gain: action.parameters.gain?.value || 88,
+            Offset: action.parameters.offset?.value || 10,
+            Binning: {
+              $id: generateId(),
+              $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
+              X: 1,
+              Y: 1,
+            },
+            ImageType: 'LIGHT',
+            ExposureCount: 0,
+            Parent: null,
+            ErrorBehavior: 0,
+            Attempts: 1,
+          },
+        ],
+      },
+      Triggers: {
+        $id: generateId(),
+        $type:
+          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+        $values: [],
+      },
+      Parent: null,
+    };
+
+    return smartExposure;
+  }
+
+  // Helper function to convert actions to N.I.N.A format
+  function convertActionToNina(action, generateId, parentId = null) {
+    const baseItem = {
+      $id: generateId(),
+      Parent: parentId ? { $ref: parentId } : null,
+      ErrorBehavior: 0,
+      Attempts: 1,
+    };
+
+    // Map action types to N.I.N.A types
     const ninaTypeMap = {
       'unpark-scope': 'NINA.Sequencer.SequenceItem.Telescope.UnparkScope, NINA.Sequencer',
       'park-scope': 'NINA.Sequencer.SequenceItem.Telescope.ParkScope, NINA.Sequencer',
-      'set-tracking': 'NINA.Sequencer.SequenceItem.Telescope.SetTracking, NINA.Sequencer',
-      'slew-to-target': 'NINA.Sequencer.SequenceItem.Telescope.SlewToCoordinates, NINA.Sequencer',
-      'take-exposure': 'NINA.Sequencer.SequenceItem.Imaging.TakeExposure, NINA.Sequencer',
-      'smart-exposure': 'NINA.Sequencer.SequenceItem.Imaging.SmartExposure, NINA.Sequencer',
-      'switch-filter': 'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter, NINA.Sequencer',
-      'auto-focus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
+      'cool-camera': 'NINA.Sequencer.SequenceItem.Camera.CoolCamera, NINA.Sequencer',
+      'warm-camera': 'NINA.Sequencer.SequenceItem.Camera.WarmCamera, NINA.Sequencer',
+      'center-target': 'NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer',
+      'run-autofocus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
       'start-guiding': 'NINA.Sequencer.SequenceItem.Guider.StartGuiding, NINA.Sequencer',
-      'stop-guiding': 'NINA.Sequencer.SequenceItem.Guider.StopGuiding, NINA.Sequencer',
-      dither: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
-      'plate-solve': 'NINA.Sequencer.SequenceItem.PlateSolving.SolveAndSync, NINA.Sequencer',
-      annotation: 'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer',
-      wait: 'NINA.Sequencer.SequenceItem.Utility.WaitForTime, NINA.Sequencer',
-      conditional: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
     };
 
     const ninaItem = {
@@ -298,52 +938,45 @@ export const useSequenceStore = defineStore('sequence', () => {
 
     // Add specific properties based on action type
     switch (action.type) {
-      case 'set-tracking':
-        ninaItem.TrackingMode = action.parameters.trackingMode?.value === 'Sidereal' ? 0 : 1;
+      case 'cool-camera':
+        ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
+        ninaItem.Duration = action.parameters.duration?.value || 0.0;
         break;
-      case 'take-exposure':
-        ninaItem.ExposureTime = action.parameters.exposureTime?.value || 300;
-        ninaItem.Gain = action.parameters.gain?.value || 88;
-        ninaItem.Offset = action.parameters.offset?.value || 10;
-        ninaItem.Binning = {
-          $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
-          X: 1,
-          Y: 1,
+      case 'warm-camera':
+        ninaItem.Duration = action.parameters.duration?.value || 0.0;
+        break;
+      case 'center-target':
+        ninaItem.Inherited = true;
+        ninaItem.Coordinates = {
+          $id: generateId(),
+          $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+          RAHours: 0,
+          RAMinutes: 0,
+          RASeconds: 0.0,
+          NegativeDec: false,
+          DecDegrees: 0,
+          DecMinutes: 0,
+          DecSeconds: 0.0,
         };
-        ninaItem.ImageType = action.parameters.imageType?.value || 'LIGHT';
-        ninaItem.ExposureCount = action.parameters.count?.value || 1;
         break;
-      case 'switch-filter':
-        ninaItem.Filter = action.parameters.filter?.value || null;
-        break;
-      case 'annotation':
-        ninaItem.Text = action.parameters.text?.value || 'Note';
-        break;
-      case 'wait':
-        ninaItem.Time = action.parameters.duration?.value || 30;
+      case 'start-guiding':
+        ninaItem.ForceCalibration = action.parameters.forceCalibration?.value || false;
         break;
     }
 
     return ninaItem;
   }
 
-  const actionsByCategory = computed(() => {
-    const categories = {};
-    actionTemplates.forEach((template) => {
-      if (!categories[template.category]) {
-        categories[template.category] = [];
-      }
-      categories[template.category].push(template);
-    });
-    return categories;
-  });
-
   // Actions
   function addToHistory() {
     // Remove any history after current index
     history.value = history.value.slice(0, historyIndex.value + 1);
     // Add current state
-    history.value.push(JSON.parse(JSON.stringify(sequence.value)));
+    history.value.push({
+      start: JSON.parse(JSON.stringify(startSequence.value)),
+      target: JSON.parse(JSON.stringify(targetSequence.value)),
+      end: JSON.parse(JSON.stringify(endSequence.value)),
+    });
     historyIndex.value = history.value.length - 1;
     // Limit history size
     if (history.value.length > 50) {
@@ -353,12 +986,16 @@ export const useSequenceStore = defineStore('sequence', () => {
     isModified.value = true;
   }
 
-  function addAction(template, index = null) {
+  function addAction(template, containerType, index = null) {
+    if (!actionTemplates[containerType]) {
+      console.error(`Invalid container type: ${containerType}`);
+      return null;
+    }
+
     const action = {
       id: uuidv4(),
       type: template.id,
       name: template.name,
-      category: template.category,
       icon: template.icon,
       description: template.description,
       parameters: JSON.parse(JSON.stringify(template.parameters)),
@@ -374,70 +1011,145 @@ export const useSequenceStore = defineStore('sequence', () => {
       }
     });
 
+    // Add to appropriate container
+    let targetContainer;
+    switch (containerType) {
+      case 'start':
+        targetContainer = startSequence;
+        break;
+      case 'target':
+        targetContainer = targetSequence;
+        break;
+      case 'end':
+        targetContainer = endSequence;
+        break;
+      default:
+        console.error(`Unknown container type: ${containerType}`);
+        return null;
+    }
+
     if (index !== null) {
-      sequence.value.splice(index, 0, action);
+      targetContainer.value.splice(index, 0, action);
     } else {
-      sequence.value.push(action);
+      targetContainer.value.push(action);
     }
 
     addToHistory();
     return action;
   }
 
-  function removeAction(actionId) {
-    const index = sequence.value.findIndex((action) => action.id === actionId);
+  function removeAction(actionId, containerType) {
+    let targetContainer;
+    switch (containerType) {
+      case 'start':
+        targetContainer = startSequence;
+        break;
+      case 'target':
+        targetContainer = targetSequence;
+        break;
+      case 'end':
+        targetContainer = endSequence;
+        break;
+      default:
+        return;
+    }
+
+    const index = targetContainer.value.findIndex((action) => action.id === actionId);
     if (index !== -1) {
-      sequence.value.splice(index, 1);
+      targetContainer.value.splice(index, 1);
       addToHistory();
     }
   }
 
-  function moveAction(oldIndex, newIndex) {
-    const action = sequence.value[oldIndex];
-    sequence.value.splice(oldIndex, 1);
-    sequence.value.splice(newIndex, 0, action);
+  function moveAction(oldIndex, newIndex, containerType) {
+    let targetContainer;
+    switch (containerType) {
+      case 'start':
+        targetContainer = startSequence;
+        break;
+      case 'target':
+        targetContainer = targetSequence;
+        break;
+      case 'end':
+        targetContainer = endSequence;
+        break;
+      default:
+        return;
+    }
+
+    const action = targetContainer.value[oldIndex];
+    targetContainer.value.splice(oldIndex, 1);
+    targetContainer.value.splice(newIndex, 0, action);
     addToHistory();
   }
 
-  function duplicateAction(actionId) {
-    const index = sequence.value.findIndex((action) => action.id === actionId);
+  function duplicateAction(actionId, containerType) {
+    let targetContainer;
+    switch (containerType) {
+      case 'start':
+        targetContainer = startSequence;
+        break;
+      case 'target':
+        targetContainer = targetSequence;
+        break;
+      case 'end':
+        targetContainer = endSequence;
+        break;
+      default:
+        return;
+    }
+
+    const index = targetContainer.value.findIndex((action) => action.id === actionId);
     if (index !== -1) {
-      const original = sequence.value[index];
+      const original = targetContainer.value[index];
       const duplicate = {
         ...JSON.parse(JSON.stringify(original)),
         id: uuidv4(),
         name: `${original.name} (Copy)`,
       };
-      sequence.value.splice(index + 1, 0, duplicate);
+      targetContainer.value.splice(index + 1, 0, duplicate);
       addToHistory();
     }
   }
 
   function updateActionParameter(actionId, parameterKey, value) {
-    const action = sequence.value.find((action) => action.id === actionId);
-    if (action && action.parameters[parameterKey]) {
-      action.parameters[parameterKey].value = value;
-      isModified.value = true;
+    // Search all containers for the action
+    const containers = [startSequence.value, targetSequence.value, endSequence.value];
+    for (const container of containers) {
+      const action = container.find((action) => action.id === actionId);
+      if (action && action.parameters[parameterKey]) {
+        action.parameters[parameterKey].value = value;
+        isModified.value = true;
+        return;
+      }
     }
   }
 
   function toggleActionEnabled(actionId) {
-    const action = sequence.value.find((action) => action.id === actionId);
-    if (action) {
-      action.enabled = !action.enabled;
-      isModified.value = true;
+    const containers = [startSequence.value, targetSequence.value, endSequence.value];
+    for (const container of containers) {
+      const action = container.find((action) => action.id === actionId);
+      if (action) {
+        action.enabled = !action.enabled;
+        isModified.value = true;
+        return;
+      }
     }
   }
 
   function clearSequence() {
-    sequence.value = [];
+    startSequence.value = [];
+    targetSequence.value = [];
+    endSequence.value = [];
     addToHistory();
   }
 
   function loadSequence(sequenceData) {
     try {
       const parsed = typeof sequenceData === 'string' ? JSON.parse(sequenceData) : sequenceData;
-      sequence.value = parsed.actions || [];
+      startSequence.value = parsed.start || [];
+      targetSequence.value = parsed.target || [];
+      endSequence.value = parsed.end || [];
       addToHistory();
       isModified.value = false;
     } catch (error) {
@@ -445,30 +1157,117 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
   }
 
+  function loadBasicSequence() {
+    // Load a basic sequence with recommended actions
+    clearSequence();
+
+    // Add basic start actions
+    if (actionTemplates.start.find((t) => t.id === 'unpark-scope')) {
+      addAction(
+        actionTemplates.start.find((t) => t.id === 'unpark-scope'),
+        'start'
+      );
+    }
+    if (actionTemplates.start.find((t) => t.id === 'cool-camera')) {
+      addAction(
+        actionTemplates.start.find((t) => t.id === 'cool-camera'),
+        'start'
+      );
+    }
+
+    // Add basic target actions
+    if (actionTemplates.target.find((t) => t.id === 'target-settings')) {
+      addAction(
+        actionTemplates.target.find((t) => t.id === 'target-settings'),
+        'target'
+      );
+    }
+    if (actionTemplates.target.find((t) => t.id === 'center-target')) {
+      addAction(
+        actionTemplates.target.find((t) => t.id === 'center-target'),
+        'target'
+      );
+    }
+    if (actionTemplates.target.find((t) => t.id === 'run-autofocus')) {
+      addAction(
+        actionTemplates.target.find((t) => t.id === 'run-autofocus'),
+        'target'
+      );
+    }
+    if (actionTemplates.target.find((t) => t.id === 'start-guiding')) {
+      addAction(
+        actionTemplates.target.find((t) => t.id === 'start-guiding'),
+        'target'
+      );
+    }
+    if (actionTemplates.target.find((t) => t.id === 'smart-exposure')) {
+      addAction(
+        actionTemplates.target.find((t) => t.id === 'smart-exposure'),
+        'target'
+      );
+    }
+
+    // Add basic end actions
+    if (actionTemplates.end.find((t) => t.id === 'warm-camera')) {
+      addAction(
+        actionTemplates.end.find((t) => t.id === 'warm-camera'),
+        'end'
+      );
+    }
+    if (actionTemplates.end.find((t) => t.id === 'park-scope')) {
+      addAction(
+        actionTemplates.end.find((t) => t.id === 'park-scope'),
+        'end'
+      );
+    }
+
+    isModified.value = false;
+  }
+
   function undo() {
     if (canUndo.value) {
       historyIndex.value--;
-      sequence.value = JSON.parse(JSON.stringify(history.value[historyIndex.value]));
+      const state = history.value[historyIndex.value];
+      startSequence.value = JSON.parse(JSON.stringify(state.start));
+      targetSequence.value = JSON.parse(JSON.stringify(state.target));
+      endSequence.value = JSON.parse(JSON.stringify(state.end));
     }
   }
 
   function redo() {
     if (canRedo.value) {
       historyIndex.value++;
-      sequence.value = JSON.parse(JSON.stringify(history.value[historyIndex.value]));
+      const state = history.value[historyIndex.value];
+      startSequence.value = JSON.parse(JSON.stringify(state.start));
+      targetSequence.value = JSON.parse(JSON.stringify(state.target));
+      endSequence.value = JSON.parse(JSON.stringify(state.end));
     }
   }
 
-  function getActionTemplate(type) {
-    return actionTemplates.find((template) => template.id === type);
+  function getActionTemplate(type, containerType) {
+    if (!actionTemplates[containerType]) return null;
+    return actionTemplates[containerType].find((template) => template.id === type);
   }
 
   function selectAction(action) {
     selectedAction.value = action;
   }
 
-  function setDraggedAction(action) {
-    draggedAction.value = action;
+  function exportSequenceJSON() {
+    return ninaSequenceJSON.value;
+  }
+
+  function exportSequenceData() {
+    return {
+      start: startSequence.value,
+      target: targetSequence.value,
+      end: endSequence.value,
+      metadata: {
+        created: new Date().toISOString(),
+        version: '1.0',
+        generator: 'Touch-N-Stars Sequence Creator',
+      },
+    };
   }
 
   // Initialize with empty history
@@ -478,9 +1277,10 @@ export const useSequenceStore = defineStore('sequence', () => {
 
   return {
     // State
-    sequence,
+    startSequence,
+    targetSequence,
+    endSequence,
     selectedAction,
-    draggedAction,
     isModified,
     actionTemplates,
 
@@ -488,8 +1288,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     canUndo,
     canRedo,
     sequenceIsValid,
-    sequenceJSON,
-    actionsByCategory,
+    ninaSequenceJSON,
 
     // Actions
     addAction,
@@ -500,10 +1299,12 @@ export const useSequenceStore = defineStore('sequence', () => {
     toggleActionEnabled,
     clearSequence,
     loadSequence,
+    loadBasicSequence,
     undo,
     redo,
     getActionTemplate,
     selectAction,
-    setDraggedAction,
+    exportSequenceJSON,
+    exportSequenceData,
   };
 });

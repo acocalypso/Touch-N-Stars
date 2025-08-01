@@ -39,96 +39,20 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "搜索",
-        "placeholder": "输入搜索关键词...",
-        "objectTypes": {
-          "Planet": "行星",
-          "Comet": "彗星",
-          "StellariumObject": "天体",
-          "Star": "恒星",
-          "Moon": "月亮"
-        }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "搜索",
-        "placeholder": "输入搜索关键词...",
-        "objectTypes": {
-          "Planet": "行星",
-          "Comet": "彗星",
-          "StellariumObject": "天体",
-          "Star": "恒星",
-          "Moon": "月亮"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "上一步",
-      "next": "下一步",
-      "skip": "跳过教程"
-    },
-    "settings": {
-      "title": "设置",
-      "language": "语言",
-      "coordinates": "GPS 坐标",
-      "connection": "N.I.N.A 连接详情",
-      "save": "保存",
-      "add": "添加",
-      "update": "更新",
-      "instance": {
-        "name": "实例名称",
-        "ip": "IP 地址",
-        "port": "端口",
-        "edit": "编辑实例",
-        "delete": "删除实例"
-      },
-      "errors": {
-        "emptyFields": "请填完所有字段",
-        "instanceNameRequired": "实例名称必填",
-        "invalidIPFormat": "请提供 IP 或 FQDN",
-        "invalidPortRange": "无效的端口范围",
-        "invalidInstance": "无法建立连接"
-      },
-      "showTutorial": "显示教程",
-      "system": {
-        "description": "点击任一图标重启或关闭系统",
-        "title": "系统控制",
-        "confirmRestart": "您确定要重启系统吗？",
-        "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmation": "确认",
-        "info": "这将关闭或重启正在运行N.I.N.A的电脑！"
-      },
-      "image": {
-        "title": "图像设置",
-        "quality": "质量百分比",
-        "black_clipping": "黑色裁剪",
-        "strech_factor": "拉伸因子"
-      },
-      "plugins": {
-        "description": "插件描述",
-        "title": "插件"
-      },
-      "debug": {
-        "activate": "运行调试窗口",
-        "titel": "调试设置"
-      },
-      "notifications": {
-        "enable": "启用通知",
-        "sequence": "序列事件",
-        "title": "通知"
-      },
-      "infoSetLocationSync": "为确保坐标能正确传输至赤道仪，请将NINA中的“位置同步”选项设置为“与望远镜同步”。这样，TNS就能直接将位置数据发送至赤道仪。"
-    },
-    "framing": {
       "confirmSetTargetTitle": "确认目标选择",
       "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
       "useNinaCache": "使用 NINA 缓存作为目标图像",
       "setSequnceTarget": "设置为序列目标",
       "search": {
         "title": "搜索",
-        "placeholder": "输入搜索内容..."
+        "placeholder": "输入搜索内容...",
+        "objectTypes": {
+          "Comet": "comet",
+          "Moon": "moon",
+          "Planet": "planet",
+          "Star": "star",
+          "StellariumObject": "object"
+        }
       },
       "fovSettings": {
         "fov": "视场",
@@ -145,6 +69,45 @@
       "currentAltitude": "当前高度",
       "useCenter": "Center",
       "useRotate": "Rotate"
+    },
+    "tutorial": {
+      "previous": "上一步",
+      "next": "下一步",
+      "skip": "跳过教程"
+    },
+    "settings": {
+      "title": "设置",
+      "coordinates": "GPS坐标",
+      "save": "保存",
+      "infoSetLocationSync": "请先设置位置同步到赤道仪",
+      "connection": "连接设置",
+      "language": "语言",
+      "image": {
+        "title": "图像设置",
+        "quality": "图像质量",
+        "strech_factor": "拉伸因子",
+        "black_clipping": "黑点剪切"
+      },
+      "debug": {
+        "title": "调试",
+        "activate": "激活调试模式"
+      },
+      "notifications": {
+        "title": "通知"
+      },
+      "showTutorial": "显示教程",
+      "plugins": {
+        "title": "插件管理",
+        "description": "管理已安装的插件"
+      },
+      "system": {
+        "title": "系统控制",
+        "description": "控制系统重启和关机",
+        "info": "这些操作将影响整个系统",
+        "confirmation": "确认操作",
+        "confirmShutdown": "您确定要关闭系统吗？",
+        "confirmRestart": "您确定要重启系统吗？"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -397,6 +360,39 @@
           "slope_weight": "RA: 斜率权重"
         },
         "Exposuretime": "曝光时间"
+      },
+      "calibrationAssistant": {
+        "calculatedPosition": "Calculated position",
+        "calibrating": "Calibration is running ...",
+        "calibrationComplete": "Calibration completed",
+        "calibrationError": "Calibration error",
+        "calibrationFailed": "Calibration failed",
+        "calibrationResult": "Calibration result",
+        "calibrationStopped": "Calibration stopped",
+        "current": "Current",
+        "currentPosition": "Current position",
+        "direction": "Direction",
+        "east": "East",
+        "info": "The calibration assistant helps you to bring the assembly into an optimal position for calibration and carry out precise calibration.",
+        "meridianOffset": "Meridian offset",
+        "goodCalibration": "Excellent calibration reached",
+        "close": "Close",
+        "poorCalibration": "Calibration could be improved. \nTry a new position or check the equipment.",
+        "decOffset": "Declination offset",
+        "positionCalculated": "Optimal position calculated",
+        "positionSettings": "Position settings",
+        "quality": "Quality",
+        "recalculate": "Reorganize",
+        "slewComplete": "Swivel completed",
+        "slewError": "Winging errors",
+        "slewToPosition": "Wave down to the position",
+        "slewing": "Schwenke to the target position ...",
+        "startCalibration": "Start calibration",
+        "stopCalibration": "Stop calibration",
+        "target": "Goal",
+        "title": "Calibration assistant",
+        "targetPosition": "Target position",
+        "west": "West"
       }
     },
     "focuser": {
@@ -663,7 +659,9 @@
         "ecliptic_lines_visible": "显示黄道",
         "equatorial_lines_visible": "显示赤道线",
         "landscapes_visible": "显示地平线",
-        "meridian_lines_visible": "显示子午线"
+        "meridian_lines_visible": "显示子午线",
+        "camera_fov_visible": "Camera Field of View",
+        "dsos_visible": "Deep-Sky Objects (Messier, NGC)"
       }
     },
     "profile": {
@@ -700,40 +698,6 @@
       "modal": {
         "description": "请授予权限以接收关于序列事件的通知。",
         "title": "配置通知"
-      }
-    },
-    "settings": {
-      "title": "设置",
-      "coordinates": "GPS坐标",
-      "save": "保存",
-      "infoSetLocationSync": "请先设置位置同步到赤道仪",
-      "connection": "连接设置",
-      "language": "语言",
-      "image": {
-        "title": "图像设置",
-        "quality": "图像质量",
-        "strech_factor": "拉伸因子",
-        "black_clipping": "黑点剪切"
-      },
-      "debug": {
-        "title": "调试",
-        "activate": "激活调试模式"
-      },
-      "notifications": {
-        "title": "通知"
-      },
-      "showTutorial": "显示教程",
-      "plugins": {
-        "title": "插件管理",
-        "description": "管理已安装的插件"
-      },
-      "system": {
-        "title": "系统控制",
-        "description": "控制系统重启和关机",
-        "info": "这些操作将影响整个系统",
-        "confirmation": "确认操作",
-        "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmRestart": "您确定要重启系统吗？"
       }
     }
   }

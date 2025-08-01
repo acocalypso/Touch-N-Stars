@@ -39,89 +39,6 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Recherche",
-        "placeholder": "Entrez le terme de recherche...",
-        "objectTypes": {
-          "Planet": "Planète",
-          "Comet": "Comète",
-          "StellariumObject": "Objet",
-          "Star": "Étoile",
-          "Moon": "Lune"
-        }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "Recherche",
-        "placeholder": "Entrez le terme de recherche...",
-        "objectTypes": {
-          "Planet": "Planète",
-          "Comet": "Comète",
-          "StellariumObject": "Objet",
-          "Star": "Étoile",
-          "Moon": "Lune"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Précédent",
-      "next": "Suivant",
-      "skip": "Sauter le tutoriel"
-    },
-    "settings": {
-      "title": "Paramétrage",
-      "language": "Langue",
-      "coordinates": "Coordonnées GPS",
-      "connection": "Paramètres de connexion N.I.N.A.",
-      "save": "Enregistrer",
-      "add": "Ajouter",
-      "update": "Mettre à jour",
-      "instance": {
-        "name": "Nom de l'instance",
-        "ip": "Adresse IP",
-        "port": "Port",
-        "edit": "Modifier l'instance",
-        "delete": "Effacer instance"
-      },
-      "errors": {
-        "emptyFields": "Merci de remplir tous les champs",
-        "instanceNameRequired": "Le nom de l'instance est requis",
-        "invalidIPFormat": "Veuillez fournir IP ou FQDN",
-        "invalidPortRange": "Le port doit être compris entre 1 et 65535",
-        "invalidInstance": "Une connexion n'a pas pu être établie"
-      },
-      "showTutorial": "Montrer le tutoriel",
-      "system": {
-        "description": "Cliquez sur l'icône pour redémarrer ou arrêter le système",
-        "title": "Commandes de système",
-        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système?",
-        "confirmShutdown": "Êtes-vous sûr de vouloir fermer le système?",
-        "confirmation": "Confirmation",
-        "info": "Cela fera arrêter ou redémarrer le PC qui héberge l'instance N.I.N.A!"
-      },
-      "image": {
-        "quality": "Qualité en%",
-        "title": "Paramètres d'images",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
-      },
-      "plugins": {
-        "description": "Description du plugin",
-        "title": "Plugins"
-      },
-      "debug": {
-        "activate": "Activer la fenêtre de débogage",
-        "titel": "Paramètres de débogage"
-      },
-      "notifications": {
-        "enable": "Activer les notifications",
-        "sequence": "Événements de séquence",
-        "title": "Notifications"
-      },
-      "infoSetLocationSync": "Pour vous assurer que les coordonnées sont correctement transférées sur le support, définissez l'option «Location Sync» dans Nina à «Synchronisation du télescope». \nCela permet à TNS d'envoyer les données de localisation directement au support."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
       "confirmSetTargetMessage": "Etes-vous sur de choisir cette nouvelle cible?",
       "useNinaCache": "Utiliser le cache NINA cache pour cette image de la cible",
@@ -152,6 +69,45 @@
       "currentAltitude": "Altitude de courant",
       "useCenter": "Center",
       "useRotate": "Tourner"
+    },
+    "tutorial": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "skip": "Sauter le tutoriel"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "coordinates": "Coordonnées GPS",
+      "save": "Enregistrer",
+      "infoSetLocationSync": "Veuillez d'abord définir la synchronisation de localisation sur la monture",
+      "connection": "Paramètres de connexion",
+      "language": "Langue",
+      "image": {
+        "title": "Paramètres d'image",
+        "quality": "Qualité d'image",
+        "strech_factor": "Facteur d'étirement",
+        "black_clipping": "Écrêtage noir"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activer le mode debug"
+      },
+      "notifications": {
+        "title": "Notifications"
+      },
+      "showTutorial": "Afficher le tutoriel",
+      "plugins": {
+        "title": "Gestion des plugins",
+        "description": "Gérer les plugins installés"
+      },
+      "system": {
+        "title": "Contrôles système",
+        "description": "Contrôler le redémarrage et l'arrêt du système",
+        "info": "Ces actions affecteront l'ensemble du système",
+        "confirmation": "Confirmer l'action",
+        "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
+        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -404,6 +360,39 @@
           "slope_weight": "RA: Slope weight"
         },
         "Exposuretime": "Délai d'exposition"
+      },
+      "calibrationAssistant": {
+        "calculatedPosition": "Position calculée",
+        "calibrating": "L'étalonnage est en cours d'exécution ...",
+        "calibrationComplete": "Étalonnage terminé",
+        "calibrationError": "Erreur d'étalonnage",
+        "calibrationFailed": "L'étalonnage a échoué",
+        "calibrationResult": "Résultat d'étalonnage",
+        "calibrationStopped": "L'étalonnage s'est arrêté",
+        "current": "Actuel",
+        "currentPosition": "Position actuelle",
+        "direction": "Direction",
+        "east": "Est",
+        "info": "L'assistant d'étalonnage vous aide à mettre l'assemblage dans une position optimale pour l'étalonnage et à effectuer un étalonnage précis.",
+        "meridianOffset": "Décalage du méridien",
+        "goodCalibration": "Excellent étalonnage atteint",
+        "close": "Fermer",
+        "poorCalibration": "L'étalonnage pourrait être amélioré. Essayez un nouveau poste ou vérifiez l'équipement.",
+        "decOffset": "Déclin de la déclinaison",
+        "positionCalculated": "Position optimale calculée",
+        "positionSettings": "Paramètres de position",
+        "quality": "Qualité",
+        "recalculate": "Réorganiser",
+        "slewComplete": "Pivotant terminé",
+        "slewError": "Erreurs ailées",
+        "slewToPosition": "Faire un signe vers la position",
+        "slewing": "Schwenke à la position cible ...",
+        "startCalibration": "Commencer à calibrer",
+        "stopCalibration": "Étalonnage",
+        "target": "But",
+        "title": "Assistant d'étalonnage",
+        "targetPosition": "Position cible",
+        "west": "Ouest"
       }
     },
     "focuser": {
@@ -670,7 +659,9 @@
         "ecliptic_lines_visible": "Montrer l'écliptique",
         "equatorial_lines_visible": "Afficher les lignes équatoriales",
         "landscapes_visible": "Montrer des paysages",
-        "meridian_lines_visible": "Montrer le méridien"
+        "meridian_lines_visible": "Montrer le méridien",
+        "camera_fov_visible": "Champ de vue de la caméra",
+        "dsos_visible": "Objets de ciel profond (Messier, NGC)"
       }
     },
     "profile": {
@@ -707,40 +698,6 @@
       "modal": {
         "description": "Veuillez accorder l'autorisation de recevoir des notifications sur les événements de séquence.",
         "title": "Configurer les notifications"
-      }
-    },
-    "settings": {
-      "title": "Paramètres",
-      "coordinates": "Coordonnées GPS",
-      "save": "Enregistrer",
-      "infoSetLocationSync": "Veuillez d'abord définir la synchronisation de localisation sur la monture",
-      "connection": "Paramètres de connexion",
-      "language": "Langue",
-      "image": {
-        "title": "Paramètres d'image",
-        "quality": "Qualité d'image",
-        "strech_factor": "Facteur d'étirement",
-        "black_clipping": "Écrêtage noir"
-      },
-      "debug": {
-        "title": "Debug",
-        "activate": "Activer le mode debug"
-      },
-      "notifications": {
-        "title": "Notifications"
-      },
-      "showTutorial": "Afficher le tutoriel",
-      "plugins": {
-        "title": "Gestion des plugins",
-        "description": "Gérer les plugins installés"
-      },
-      "system": {
-        "title": "Contrôles système",
-        "description": "Contrôler le redémarrage et l'arrêt du système",
-        "info": "Ces actions affecteront l'ensemble du système",
-        "confirmation": "Confirmer l'action",
-        "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
-        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
       }
     }
   }

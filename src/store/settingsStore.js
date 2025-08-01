@@ -71,6 +71,7 @@ export const useSettingsStore = defineStore('settings', {
       eclipticLinesVisible: false,
       atmosphereVisible: true,
       landscapesVisible: true,
+      dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
     },
     guider: {
       phd2ForceCalibration: localStorage.getItem('phd2ForceCalibration') === 'true',

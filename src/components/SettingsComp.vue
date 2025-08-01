@@ -1,12 +1,5 @@
 <template>
   <div class="p-4 max-w-xl mx-auto space-y-6">
-    <!-- Main Settings Header -->
-    <div class="bg-gray-800 rounded-lg p-4">
-      <h2 class="text-xl font-semibold mb-4 text-white">
-        {{ $t('components.settings.title') }}
-      </h2>
-    </div>
-
     <!-- GPS Coordinates -->
     <div v-if="store.isBackendReachable" class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">
@@ -127,7 +120,7 @@
     <!-- Debug settings -->
     <div class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">
-        {{ $t('components.settings.debug.titel') }}
+        {{ $t('components.settings.debug.title') }}
       </h3>
       <SetDebug />
     </div>

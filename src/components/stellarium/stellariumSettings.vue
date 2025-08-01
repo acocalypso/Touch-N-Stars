@@ -170,6 +170,20 @@
             />
           </div>
         </div>
+
+        <div
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="dsosVisible" class="text-gray-400">
+            {{ $t('components.stellarium.settings.dsos_visible') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="settingsStore.stellarium.dsosVisible = !settingsStore.stellarium.dsosVisible"
+              :status-value="settingsStore.stellarium.dsosVisible"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>

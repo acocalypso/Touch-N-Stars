@@ -25,6 +25,7 @@ export const useStellariumStore = defineStore('stellariumStore', {
         core.lines.meridian.visible = settingsStore.stellarium.meridianLinesVisible;
         core.lines.ecliptic.visible = settingsStore.stellarium.eclipticLinesVisible;
         core.atmosphere.visible = settingsStore.stellarium.atmosphereVisible;
+        core.dsos.visible = settingsStore.stellarium.dsosVisible; // Deep Sky Objects (Messier, NGC, etc.)
         // core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
         if (settingsStore.stellarium.landscapesVisible) {
           core.landscapes.addDataSource({

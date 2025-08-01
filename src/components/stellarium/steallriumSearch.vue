@@ -28,6 +28,21 @@
             {{ item.Name }}
             <span v-if="item['Common names']"> ({{ item['Common names'] }})</span>
             <span v-if="item['M']"> (M {{ item['M'] }})</span>
+            <span v-if="item.Type === 'Comet'" class="text-green-400">
+              ({{ $t('components.framing.search.objectTypes.Comet') }})</span
+            >
+            <span v-if="item.Type === 'Planet'" class="text-blue-400">
+              ({{ $t('components.framing.search.objectTypes.Planet') }})</span
+            >
+            <span v-if="item.Type === 'StellariumObject'" class="text-yellow-400">
+              ({{ $t('components.framing.search.objectTypes.StellariumObject') }})</span
+            >
+            <span v-if="item.Type === 'Star'" class="text-orange-400">
+              ({{ $t('components.framing.search.objectTypes.Star') }})</span
+            >
+            <span v-if="item.Type === 'Moon'" class="text-gray-400">
+              ({{ $t('components.framing.search.objectTypes.Moon') }})</span
+            >
           </li>
         </ul>
       </div>
@@ -69,12 +84,104 @@ async function fetchTargetSearch() {
     const data = await apiService.searchNGC(searchQuery.value, 10);
     let results = Array.isArray(data) ? data : [];
 
-    // Planeten zur Liste hinzufügen, falls sie dem Suchbegriff entsprechen
-    const celestialBodiesResults = celestialBodies.filter((body) =>
-      body.Name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    // Planeten mit Stellarium-Objekten suchen
+    const celestialBodiesResults = [];
+    if (stellariumStore.stel) {
+      for (const body of celestialBodies) {
+        if (body.Name.toLowerCase().includes(searchQuery.value.toLowerCase())) {
+          try {
+            const obj = stellariumStore.stel.getObj(`NAME ${body.Name}`);
+            if (obj && obj.designations && obj.designations().length > 0) {
+              celestialBodiesResults.push({
+                Name: body.Name,
+                Type: body.Type,
+                StellariumObj: obj,
+              });
+            } else {
+              // Fallback für Planeten ohne Stellarium-Objekt
+              celestialBodiesResults.push(body);
+            }
+          } catch (error) {
+            // Fallback für Planeten ohne Stellarium-Objekt
+            celestialBodiesResults.push(body);
+          }
+        }
+      }
+    } else {
+      // Fallback wenn Stellarium nicht verfügbar
+      celestialBodiesResults.push(
+        ...celestialBodies.filter((body) =>
+          body.Name.toLowerCase().includes(searchQuery.value.toLowerCase())
+        )
+      );
+    }
+
+    // Stellarium-Suche für Kometen und andere Objekte
+    const stellariumResults = [];
+    if (stellariumStore.stel) {
+      try {
+        // Versuche auch direkte Suche mit Stellarium's Suchfunktion
+        try {
+          const comets = stellariumStore.stel.core.comets;
+          console.log('Comets module available:', !!comets);
+
+          if (comets && comets.listObjs) {
+            try {
+              const cometList = comets.listObjs(
+                stellariumStore.stel.core.observer,
+                100,
+                () => true
+              );
+              console.log('Found comets with listObjs:', cometList.length);
+
+              for (const comet of cometList) {
+                if (comet.designations) {
+                  const designations = comet.designations();
+                  for (const designation of designations) {
+                    const name = designation.replace(/^NAME /, '');
+                    console.log('Checking comet name:', name, 'against search:', searchQuery.value);
+
+                    if (name.toLowerCase().includes(searchQuery.value.toLowerCase())) {
+                      console.log('Found matching comet via listObjs:', name);
+                      // Prüfe ob schon vorhanden
+                      const exists = stellariumResults.some((r) => r.Name === name);
+                      if (!exists) {
+                        stellariumResults.push({
+                          Name: name,
+                          Type: 'Comet',
+                          StellariumObj: comet,
+                        });
+                      }
+                      break;
+                    }
+                  }
+                }
+                if (stellariumResults.length >= 10) break;
+              }
+            } catch (listError) {
+              console.log('listObjs error:', listError);
+            }
+          }
+        } catch (searchError) {
+          console.log('Comet search error:', searchError);
+        }
+
+        console.log('Final stellarium results:', stellariumResults);
+      } catch (stellariumError) {
+        console.log('Stellarium search error:', stellariumError);
+      }
+    }
+
+    // Duplikate entfernen - Priorität: celestialBodies > stellariumResults
+    const allResults = [...results, ...celestialBodiesResults];
+
+    // Nur Stellarium-Ergebnisse hinzufügen, die nicht bereits als Planeten gefunden wurden
+    const planetNames = celestialBodiesResults.map((item) => item.Name.toLowerCase());
+    const uniqueStellarium = stellariumResults.filter(
+      (item) => !planetNames.includes(item.Name.toLowerCase())
     );
 
-    targetSearchResult.value = [...results, ...celestialBodiesResults];
+    targetSearchResult.value = [...allResults, ...uniqueStellarium];
   } catch (error) {
     console.log('Fehler beim Laden der Vorschläge:', error);
     targetSearchResult.value = [];
@@ -99,10 +206,34 @@ async function selectTarget(item) {
   // Wrap the complex operations in setTimeout to prevent iOS UI thread blocking
   setTimeout(async () => {
     try {
-      if (item.Type) {
-        console.log('Planet' + item.Name);
+      const stel = stellariumStore.stel;
+      let observedVec;
 
-        const stel = stellariumStore.stel;
+      // Handle Stellarium objects (Comets, Planets and other objects found in Stellarium)
+      if (item.StellariumObj) {
+        console.log('Stellarium Object:', item.Name);
+        // Direktes Auswählen des Stellarium-Objekts
+        stel.core.selection = item.StellariumObj;
+        stel.pointAndLock(item.StellariumObj);
+        console.log('Ausgewähltes Stellarium-Objekt:', item);
+        return;
+      }
+
+      // Handle Comets without StellariumObj (fallback mode)
+      if (item.Type === 'Comet' && !item.StellariumObj) {
+        console.log('Fallback Comet (no stellarium object):', item.Name);
+
+        // Zeige eine Meldung, dass der Komet nicht gefunden wurde
+        alert(
+          `Der Komet "${item.Name}" wurde in der aktuellen Stellarium-Datenbank nicht gefunden. Möglicherweise ist er nicht sichtbar oder die Daten sind nicht geladen.`
+        );
+        return;
+      }
+
+      // Handle legacy Planets without StellariumObj (fallback)
+      if (item.Type && (item.Type === 'Planet' || item.Type === 'Star' || item.Type === 'Moon')) {
+        console.log('Legacy Planet/Object:', item.Name);
+
         const planetInfo = stel.getObj(`NAME ${item.Name}`).getInfo('pvo', stel.observer);
         const cirs = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', planetInfo[0]);
         const ra = stel.anp(stel.c2s(cirs)[0]); // RA in Radian
@@ -111,12 +242,12 @@ async function selectTarget(item) {
         item.Dec = rad2deg(dec);
       }
 
-      const stel = stellariumStore.stel;
+      // Handle coordinate-based objects (NGC, etc.)
       const ra_rad = item.RA * stel.D2R;
       const dec_rad = item.Dec * stel.D2R;
       const icrfVec = stel.s2c(ra_rad, dec_rad);
       //stel.getObj('NAME Mars').getInfo('pvo', stel.observer); //!!!Workaround damit die Daten richtig berechnet werden NICHT LÖSCHEN
-      const observedVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
+      observedVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
 
       // For iOS, we'll use a two-phase approach to update the UI
       if (isIOS) {

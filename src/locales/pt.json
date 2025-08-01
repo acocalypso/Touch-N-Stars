@@ -13,6 +13,19 @@
     "unreachable": "Nina é inacessível"
   },
   "components": {
+    "framing": {
+      "search": {
+        "title": "Pesquisa",
+        "placeholder": "Digite o termo de pesquisa...",
+        "objectTypes": {
+          "Planet": "Planeta",
+          "Comet": "Cometa",
+          "StellariumObject": "Objeto",
+          "Star": "Estrela",
+          "Moon": "Lua"
+        }
+      }
+    },
     "fav_target": {
       "enter_name": "Enter name",
       "modal_save": {
@@ -676,5 +689,41 @@
     "instanceConfiguration": "N.I.N.A Detalhes da conexão",
     "selectLanguage": "Selecione seu idioma",
     "welcome": "Bem -vindo ao Touch'n'stars"
+  },
+  "components": {
+    "settings": {
+      "title": "Configurações",
+      "coordinates": "Coordenadas GPS",
+      "save": "Salvar",
+      "infoSetLocationSync": "Por favor, defina primeiro a sincronização de localização na montagem",
+      "connection": "Configurações de conexão",
+      "language": "Idioma",
+      "image": {
+        "title": "Configurações de imagem",
+        "quality": "Qualidade da imagem",
+        "strech_factor": "Fator de estiramento",
+        "black_clipping": "Corte negro"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Ativar modo debug"
+      },
+      "notifications": {
+        "title": "Notificações"
+      },
+      "showTutorial": "Mostrar tutorial",
+      "plugins": {
+        "title": "Gerenciamento de plugins",
+        "description": "Gerenciar plugins instalados"
+      },
+      "system": {
+        "title": "Controles do sistema",
+        "description": "Controlar reinicialização e desligamento do sistema",
+        "info": "Essas ações afetarão todo o sistema",
+        "confirmation": "Confirmar ação",
+        "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
+        "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
+      }
+    }
   }
 }

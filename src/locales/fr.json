@@ -219,6 +219,8 @@
       "deltaHFR": "Variation de HFR",
       "sampleSize": "Taille de l'échantillon",
       "triggers": "Déclencheurs",
+      "expandAll": "Tout développer",
+      "collapseAll": "Tout réduire",
       "details": {
         "of": "de",
         "gain": "Gain",

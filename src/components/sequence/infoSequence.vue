@@ -7,14 +7,14 @@
           @click="expandAll"
           class="px-2 py-1 text-xs text-gray-400 hover:text-gray-300 hover:bg-gray-800/30 rounded transition-colors"
         >
-          Alle erweitern
+          {{ $t('components.sequence.expandAll') }}
         </button>
         <div class="w-px h-3 bg-gray-700"></div>
         <button
           @click="collapseAll"
           class="px-2 py-1 text-xs text-gray-400 hover:text-gray-300 hover:bg-gray-800/30 rounded transition-colors"
         >
-          Alle zuklappen
+          {{ $t('components.sequence.collapseAll') }}
         </button>
       </div>
     </div>

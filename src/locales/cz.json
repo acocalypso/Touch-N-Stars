@@ -219,6 +219,8 @@
       "deltaHFR": "DeltaHFR",
       "sampleSize": "Velikost vzorku",
       "triggers": "Spouštěče:",
+      "expandAll": "Rozbalit vše",
+      "collapseAll": "Sbalit vše",
       "details": {
         "of": "of",
         "gain": "Gain",

@@ -581,6 +581,8 @@
       "time": "Tempo",
       "title": "Sequência",
       "triggers": "Acionar",
+      "expandAll": "Expandir tudo",
+      "collapseAll": "Recolher tudo",
       "type": "tipo"
     },
     "slewAndCenter": {

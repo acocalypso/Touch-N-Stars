@@ -14,6 +14,7 @@
       <div class="flex justify-between items-center p-2 sm:p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">
           <button
+            v-if="hasContent(item)"
             @click="sequenceStore.toggleCollapsedState(item._path)"
             class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
             :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
@@ -23,6 +24,7 @@
               :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
             />
           </button>
+          <div v-else class="w-6 flex-shrink-0"></div>
           <h3 class="font-medium text-gray-100 text-sm md:text-base truncate">
             {{ removeSuffix(item.Name) }}
           </h3>
@@ -48,7 +50,7 @@
         </div>
       </div>
 
-      <div v-show="!sequenceStore.isCollapsed(item._path)" class="p-2 sm:p-3 pt-0">
+      <div v-show="hasContent(item) && !sequenceStore.isCollapsed(item._path)" class="p-2 sm:p-3 pt-0">
         <!-- Target Information Section -->
         <div v-if="item.Target" class="mb-3">
           <div class="bg-gray-800/60 rounded-md p-2 sm:p-3 border border-amber-500/20">
@@ -475,6 +477,17 @@ function formatKey(key) {
     .replace(/([A-Z])/g, ' $1') // Add space before uppercase letters
     .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
     .trim(); // Remove leading/trailing spaces
+}
+
+function hasContent(item) {
+  // Check if item has any collapsible content
+  return !!(
+    item.Target ||
+    (item.Triggers && item.Triggers.length > 0) ||
+    (item.Conditions && item.Conditions.length > 0) ||
+    (item.Items && item.Items.length > 0) ||
+    getDisplayFields(item).length > 0
+  );
 }
 
 // Functions for target coordinate handling

@@ -219,6 +219,8 @@
       "deltaHFR": "DeltaHFR",
       "sampleSize": "样本大小",
       "triggers": "触发器",
+      "expandAll": "展开全部",
+      "collapseAll": "折叠全部",
       "details": {
         "of": "的",
         "gain": "增益",

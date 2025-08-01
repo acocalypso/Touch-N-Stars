@@ -207,6 +207,19 @@
           </div>
         </div>
 
+        <!-- Special handling for target-settings action -->
+        <div v-if="action.type === 'target-settings'" class="mb-6">
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              {{ $t('plugins.sequenceCreator.targetSearch.searchLabel') }}
+            </label>
+            <TargetSearch @target-selected="handleTargetSelected" />
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              {{ $t('plugins.sequenceCreator.targetSearch.searchDescription') }}
+            </p>
+          </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div v-for="(param, key) in action.parameters" :key="key" class="space-y-2">
             <label
@@ -300,6 +313,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
+import TargetSearch from './TargetSearch.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
@@ -398,6 +412,24 @@ function handleDuplicate() {
 
 function handleToggleEnabled() {
   emit('toggle-enabled', props.action.id);
+}
+
+function handleTargetSelected(targetData) {
+  console.log('Target selected:', targetData);
+  
+  // Update target settings parameters with the selected target data
+  if (targetData.name) {
+    updateParameter('targetName', targetData.name);
+  }
+  if (targetData.ra) {
+    updateParameter('ra', targetData.ra);
+  }
+  if (targetData.dec) {
+    updateParameter('dec', targetData.dec);
+  }
+  if (targetData.positionAngle !== undefined) {
+    updateParameter('positionAngle', targetData.positionAngle);
+  }
 }
 </script>
 

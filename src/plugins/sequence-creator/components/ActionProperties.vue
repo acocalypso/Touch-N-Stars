@@ -43,6 +43,20 @@
       </div>
 
       <div v-else class="space-y-6">
+        <!-- Special handling for target-settings action -->
+        <div v-if="action.type === 'target-settings'" class="space-y-6">
+          <!-- Target Search -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {{ t('plugins.sequenceCreator.targetSearch.searchLabel') }}
+            </label>
+            <TargetSearch @target-selected="handleTargetSelected" />
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              {{ t('plugins.sequenceCreator.targetSearch.searchDescription') }}
+            </p>
+          </div>
+        </div>
+
         <div v-for="(param, key) in action.parameters" :key="key">
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             {{ formatParameterName(key) }}
@@ -154,6 +168,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import TargetSearch from './TargetSearch.vue';
 
 const { t } = useI18n();
 
@@ -183,6 +198,24 @@ function formatParameterName(key) {
 
 function updateParameter(key, value) {
   emit('update-parameter', props.action.id, key, value);
+}
+
+function handleTargetSelected(targetData) {
+  console.log('Target selected:', targetData);
+
+  // Update target settings parameters with the selected target data
+  if (targetData.name) {
+    updateParameter('targetName', targetData.name);
+  }
+  if (targetData.ra) {
+    updateParameter('ra', targetData.ra);
+  }
+  if (targetData.dec) {
+    updateParameter('dec', targetData.dec);
+  }
+  if (targetData.positionAngle !== undefined) {
+    updateParameter('positionAngle', targetData.positionAngle);
+  }
 }
 </script>
 

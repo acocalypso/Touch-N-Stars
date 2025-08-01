@@ -82,6 +82,29 @@
         <!-- Sequence Builder -->
         <div class="p-4">
           <div class="max-w-4xl mx-auto space-y-6">
+            <!-- Sequence Settings -->
+            <div class="mb-6">
+              <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">
+                  {{ t('plugins.sequenceCreator.settings.title') }}
+                </h3>
+                <div class="flex items-center">
+                  <input
+                    id="meridian-flip-enabled"
+                    type="checkbox"
+                    v-model="store.enableMeridianFlip"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                  <label for="meridian-flip-enabled" class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                    {{ t('plugins.sequenceCreator.settings.enableMeridianFlip') }}
+                  </label>
+                </div>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {{ t('plugins.sequenceCreator.settings.meridianFlipDescription') }}
+                </p>
+              </div>
+            </div>
+
             <!-- Sequence Validation Status -->
             <div class="mb-6">
               <div

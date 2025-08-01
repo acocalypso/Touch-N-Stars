@@ -229,6 +229,9 @@ export const useSequenceStore = defineStore('sequence', () => {
   const historyIndex = ref(-1);
   const selectedAction = ref(null);
   const isModified = ref(false);
+  
+  // Global sequence settings
+  const enableMeridianFlip = ref(true);
 
   // Computed
   const canUndo = computed(() => historyIndex.value > 0);
@@ -293,6 +296,45 @@ export const useSequenceStore = defineStore('sequence', () => {
     // Add End Area Container (with nested structure like basic.json)
     const endContainer = createBasicEndContainer(endSequence.value, generateId);
     sequence.Items.$values.push(endContainer);
+
+    // Add Meridian Flip Trigger at root level if enabled (matching seqKomp.json structure)
+    if (enableMeridianFlip.value) {
+      sequence.Triggers.$values.push({
+        $id: generateId(),
+        $type: 'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger, NINA.Sequencer',
+        Parent: { $ref: '1' },
+        TriggerRunner: {
+          $id: generateId(),
+          $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+          Strategy: {
+            $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+          },
+          Name: null,
+          Conditions: {
+            $id: generateId(),
+            $type:
+              'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+            $values: [],
+          },
+          IsExpanded: true,
+          Items: {
+            $id: generateId(),
+            $type:
+              'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+            $values: [],
+          },
+          Triggers: {
+            $id: generateId(),
+            $type:
+              'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+            $values: [],
+          },
+          Parent: null,
+          ErrorBehavior: 0,
+          Attempts: 1,
+        },
+      });
+    }
 
     return JSON.stringify(sequence, null, 2);
   });
@@ -693,93 +735,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           $id: generateId(),
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-          $values: [
-            // Meridian Flip Trigger
-            {
-              $id: generateId(),
-              $type: 'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger, NINA.Sequencer',
-              Parent: { $ref: targetImagingId },
-              TriggerRunner: {
-                $id: generateId(),
-                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-                Strategy: {
-                  $type:
-                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-                },
-                Name: null,
-                Conditions: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                IsExpanded: true,
-                Items: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                Triggers: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                Parent: null,
-                ErrorBehavior: 0,
-                Attempts: 1,
-              },
-            },
-            // Autofocus Trigger
-            {
-              $id: generateId(),
-              $type:
-                'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterHFRIncreaseTrigger, NINA.Sequencer',
-              Amount: 5.0,
-              SampleSize: 10,
-              Parent: { $ref: targetImagingId },
-              TriggerRunner: {
-                $id: generateId(),
-                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-                Strategy: {
-                  $type:
-                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-                },
-                Name: null,
-                Conditions: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                IsExpanded: true,
-                Items: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                  $values: [
-                    {
-                      $id: generateId(),
-                      $type: 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
-                      Parent: null,
-                      ErrorBehavior: 0,
-                      Attempts: 1,
-                    },
-                  ],
-                },
-                Triggers: {
-                  $id: generateId(),
-                  $type:
-                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                  $values: [],
-                },
-                Parent: null,
-                ErrorBehavior: 0,
-                Attempts: 1,
-              },
-            },
-          ],
+          $values: [],
         },
         Parent: { $ref: dsoContainerId },
         ErrorBehavior: 0,
@@ -1298,6 +1254,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     selectedAction,
     isModified,
     actionTemplates,
+    enableMeridianFlip,
 
     // Computed
     canUndo,

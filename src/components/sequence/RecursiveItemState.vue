@@ -50,7 +50,10 @@
         </div>
       </div>
 
-      <div v-show="hasContent(item) && !sequenceStore.isCollapsed(item._path)" class="p-2 sm:p-3 pt-0">
+      <div
+        v-show="hasContent(item) && !sequenceStore.isCollapsed(item._path)"
+        class="p-2 sm:p-3 pt-0"
+      >
         <!-- Target Information Section -->
         <div v-if="item.Target" class="mb-3">
           <div class="bg-gray-800/60 rounded-md p-2 sm:p-3 border border-amber-500/20">

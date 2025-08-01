@@ -826,6 +826,10 @@
           "Comet": "Komet",
           "StellariumObject": "Stellarium-Objekt"
         }
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Aktivieren Sie Meridianflip"
       }
     }
   }

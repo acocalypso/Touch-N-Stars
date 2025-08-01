@@ -150,9 +150,7 @@
                     {{ t('plugins.sequenceCreator.settings.enableMeridianFlip') }}
                   </label>
                 </div>
-                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {{ t('plugins.sequenceCreator.settings.meridianFlipDescription') }}
-                </p>
+  
               </div>
             </div>
 

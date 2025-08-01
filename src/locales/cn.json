@@ -813,6 +813,23 @@
         "redo": "Redo",
         "undo": "Undo",
         "validSequence": "Sequence is valid and can be exported"
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Enable Meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Comet",
+          "DSO": "Deep-Sky Object",
+          "Moon": "Moon",
+          "Planet": "Planet",
+          "Star": "Star",
+          "StellariumObject": "Stellarium Object"
+        },
+        "placeholder": "Enter object name (e.g. M31, NGC 1234, Mars)...",
+        "searchDescription": "Search for deep-sky objects, planets or stars and automatically adopt the coordinates",
+        "searchLabel": "Search Target"
       }
     }
   }

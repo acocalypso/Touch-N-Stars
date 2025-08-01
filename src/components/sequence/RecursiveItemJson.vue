@@ -35,14 +35,16 @@
             <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
             <h4 class="text-sm font-medium text-slate-200">Properties</h4>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div
               v-for="[key, value] in getDisplayFields(item)"
               :key="key"
-              class="flex flex-col gap-1 p-2 bg-slate-700/10 rounded text-xs"
+              class="flex flex-col sm:flex-row gap-2 p-3 bg-gray-800/30 rounded text-xs border border-gray-700/20"
             >
-              <span class="text-slate-400 font-medium">{{ key }}:</span>
-              <span class="text-slate-200 break-all min-w-0">
+              <span class="text-gray-400 font-medium w-28 flex-shrink-0"
+                >{{ formatKey(key) }}:</span
+              >
+              <span class="text-gray-200 break-all min-w-0">
                 <template v-if="key === 'CalculatedWaitDuration'">
                   {{ formatDuration(value) }}
                 </template>
@@ -182,6 +184,15 @@ defineProps({
 
 const sequenceStore = useSequenceStore();
 const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items']);
+
+// Helper functions
+function formatKey(key) {
+  // Convert CamelCase to readable text
+  return key
+    .replace(/([A-Z])/g, ' $1') // Add space before uppercase letters
+    .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+    .trim(); // Remove leading/trailing spaces
+}
 
 function statusColor(status) {
   switch (status) {

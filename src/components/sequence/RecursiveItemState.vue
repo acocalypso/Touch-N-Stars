@@ -56,9 +56,9 @@
               <div class="w-2 h-2 bg-amber-400 rounded-full shadow-amber-400/50 shadow-sm"></div>
               <span class="text-sm font-medium text-amber-200">Target Coordinates</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div class="flex items-center gap-2">
-                <span class="text-amber-300 text-xs font-medium w-8">RA:</span>
+                <span class="text-amber-300 text-xs font-medium w-12 flex-shrink-0">RA:</span>
                 <code
                   class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-xs border border-amber-500/20"
                 >
@@ -66,7 +66,7 @@
                 </code>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-amber-300 text-xs font-medium w-8">DEC:</span>
+                <span class="text-amber-300 text-xs font-medium w-12 flex-shrink-0">DEC:</span>
                 <code
                   class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-xs border border-amber-500/20"
                 >
@@ -127,16 +127,16 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
                 <div
                   v-for="[key, value] in getDisplayFields(trigger)"
                   :key="key"
                   class="flex flex-col sm:flex-row gap-1"
                 >
-                  <span class="text-slate-400 text-xs font-medium w-20 flex-shrink-0"
-                    >{{ key }}:</span
+                  <span class="text-gray-400 text-xs font-medium w-28 flex-shrink-0"
+                    >{{ formatKey(key) }}:</span
                   >
-                  <span class="text-slate-200 break-all min-w-0">
+                  <span class="text-gray-200 break-all min-w-0">
                     <template v-if="key === 'TargetTime'">
                       {{ formatDateTime(value) }}
                     </template>
@@ -212,16 +212,16 @@
                   </button>
                 </div>
               </div>
-              <div class="grid grid-cols-1 gap-2 text-xs">
+              <div class="grid grid-cols-1 gap-3 text-xs">
                 <div
                   v-for="[key, value] in getDisplayFieldsConditions(condition)"
                   :key="key"
                   class="flex flex-col sm:flex-row gap-1"
                 >
-                  <span class="text-slate-400 text-xs font-medium w-20 flex-shrink-0"
-                    >{{ key }}:</span
+                  <span class="text-gray-400 text-xs font-medium w-28 flex-shrink-0"
+                    >{{ formatKey(key) }}:</span
                   >
-                  <span class="text-slate-200 break-all min-w-0">
+                  <span class="text-gray-200 break-all min-w-0">
                     <template v-if="key === 'Coordinates'">
                       <div>
                         <div>{{ formatRA(value) }}</div>
@@ -271,13 +271,15 @@
             <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
             <h4 class="text-sm font-medium text-cyan-200">Properties</h4>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
             <div
               v-for="[key, value] in getDisplayFields(item)"
               :key="key"
-              class="flex flex-col gap-1 p-2 bg-gray-800/30 rounded border border-gray-700/20"
+              class="flex flex-col sm:flex-row gap-2 p-3 bg-gray-800/30 rounded border border-gray-700/20"
             >
-              <span class="text-slate-400 text-xs font-medium">{{ key }}:</span>
+              <span class="text-gray-400 text-xs font-medium w-28 flex-shrink-0"
+                >{{ formatKey(key) }}:</span
+              >
               <span class="text-slate-200 break-all min-w-0">
                 <template v-if="key === 'CalculatedWaitDuration'">
                   {{ formatDuration(value) }}
@@ -465,6 +467,15 @@ const props = defineProps({
 const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
+
+// Helper functions
+function formatKey(key) {
+  // Convert CamelCase to readable text
+  return key
+    .replace(/([A-Z])/g, ' $1') // Add space before uppercase letters
+    .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+    .trim(); // Remove leading/trailing spaces
+}
 
 // Functions for target coordinate handling
 function formatTargetRA(inputCoordinates) {

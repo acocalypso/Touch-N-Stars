@@ -3,16 +3,16 @@
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="bg-slate-800/90 backdrop-blur-sm rounded-lg border transition-all duration-200 hover:shadow-lg"
+      class="bg-gray-900/80 backdrop-blur-sm rounded-lg transition-all duration-200 hover:bg-gray-900/90 border border-gray-800/50"
       :class="{
-        'border-blue-400 shadow-blue-400/20 shadow-md':
+        'bg-blue-950/50 ring-1 ring-cyan-400/60 border-cyan-500/30':
           item.Status === 'RUNNING' && !hasRunningChildren(item),
-        'border-slate-600/50 hover:border-slate-500/70':
+        'hover:bg-gray-900/90 border-gray-700/50':
           item.Status !== 'RUNNING' || hasRunningChildren(item),
       }"
     >
       <!-- Header Section -->
-      <div class="flex items-center justify-between p-2 sm:p-3 border-b border-slate-700/50">
+      <div class="flex items-center justify-between p-2 sm:p-3 border-b border-slate-700/30">
         <div class="flex items-center gap-2 min-w-0">
           <div class="w-1.5 h-1.5 bg-slate-400 rounded-full flex-shrink-0"></div>
           <h3 class="font-medium text-slate-100 text-sm md:text-base truncate">
@@ -39,7 +39,7 @@
             <div
               v-for="[key, value] in getDisplayFields(item)"
               :key="key"
-              class="flex flex-col gap-1 p-2 bg-slate-700/10 rounded border border-slate-600/20 text-xs"
+              class="flex flex-col gap-1 p-2 bg-slate-700/10 rounded text-xs"
             >
               <span class="text-slate-400 font-medium">{{ key }}:</span>
               <span class="text-slate-200 break-all min-w-0">
@@ -93,10 +93,6 @@
 
         <!-- Nested Items -->
         <div v-if="item.Items?.length" class="mt-3 space-y-2">
-          <div class="flex items-center gap-2 mb-2 px-2 py-1 bg-slate-700/10 rounded text-xs">
-            <div class="w-1.5 h-1.5 bg-slate-400/60 rounded-full"></div>
-            <span class="text-slate-400 font-medium">Sub-Items</span>
-          </div>
           <RecursiveItemState
             v-if="sequenceStore.sequenceIsEditable"
             :items="item.Items"
@@ -121,7 +117,7 @@
             <div
               v-for="(trigger, tIndex) in item.Triggers"
               :key="tIndex"
-              class="bg-slate-700/20 rounded-md p-2 border border-slate-600/20"
+              class="bg-slate-700/10 rounded-md p-2 hover:bg-slate-700/20 transition-colors"
             >
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <span class="text-sm font-medium text-gray-200 break-all">
@@ -190,15 +186,15 @@ const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items
 function statusColor(status) {
   switch (status) {
     case 'FINISHED':
-      return 'bg-green-500/20 text-green-300 border border-green-500/30';
+      return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50 shadow-emerald-400/20 shadow-sm';
     case 'RUNNING':
-      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+      return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50 shadow-cyan-400/20 shadow-sm';
     case 'CREATED':
-      return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30';
+      return 'bg-amber-500/30 text-amber-200 border border-amber-400/50 shadow-amber-400/20 shadow-sm';
     case 'SKIPPED':
-      return 'bg-slate-500/20 text-slate-300 border border-slate-500/30';
+      return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
     default:
-      return 'bg-slate-600/20 text-slate-300 border border-slate-600/30';
+      return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
   }
 }
 

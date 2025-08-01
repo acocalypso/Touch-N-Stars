@@ -1,26 +1,18 @@
 <template>
   <div class="space-y-4">
-    <!-- Global Actions Bar -->
-    <div
-      class="mb-4 flex flex-wrap items-center justify-between gap-2 p-3 bg-slate-800/30 rounded-lg border border-slate-700/50"
-    >
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-medium text-slate-200">Sequence View</span>
-        <div class="w-1 h-4 bg-slate-600"></div>
-        <span class="text-xs text-slate-400"
-          >Container</span
-        >
-      </div>
-      <div class="flex items-center gap-2">
+    <!-- Subtle Actions Bar -->
+    <div class="mb-3 flex justify-end">
+      <div class="flex items-center gap-1">
         <button
           @click="expandAll"
-          class="px-3 py-1.5 text-xs font-medium text-slate-300 bg-slate-700/50 hover:bg-slate-700 rounded-md transition-colors"
+          class="px-2 py-1 text-xs text-gray-400 hover:text-gray-300 hover:bg-gray-800/30 rounded transition-colors"
         >
           Alle erweitern
         </button>
+        <div class="w-px h-3 bg-gray-700"></div>
         <button
           @click="collapseAll"
-          class="px-3 py-1.5 text-xs font-medium text-slate-300 bg-slate-700/50 hover:bg-slate-700 rounded-md transition-colors"
+          class="px-2 py-1 text-xs text-gray-400 hover:text-gray-300 hover:bg-gray-800/30 rounded transition-colors"
         >
           Alle zuklappen
         </button>
@@ -30,9 +22,9 @@
     <!-- Global Triggers Container - Only show if we have valid global triggers -->
     <div
       v-if="globalTriggers.length > 0"
-      class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg"
+      class="bg-gray-900/70 backdrop-blur-sm rounded-lg mb-3 border border-gray-800/60"
     >
-      <div class="flex items-center justify-between p-3 border-b border-slate-700/50">
+      <div class="flex items-center justify-between p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">
           <button
             @click="sequenceStore.toggleCollapsedState('GlobalTrigger')"
@@ -45,8 +37,8 @@
             />
           </button>
           <div class="flex items-center gap-2">
-            <div class="w-2 h-2 bg-purple-400 rounded-full"></div>
-            <h2 class="font-medium text-lg text-slate-100">Global Trigger</h2>
+            <div class="w-2 h-2 bg-purple-400 rounded-full shadow-purple-400/50 shadow-sm"></div>
+            <h2 class="font-medium text-lg text-purple-200">Global Trigger</h2>
           </div>
         </div>
         <span
@@ -71,7 +63,7 @@
       :key="containerIndex"
       class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg transition-all duration-200 hover:shadow-xl"
     >
-      <div class="flex items-center justify-between p-3 border-b border-slate-700/50">
+      <div class="flex items-center justify-between p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">
           <button
             @click="sequenceStore.toggleCollapsedState(container.Name)"
@@ -85,7 +77,7 @@
           </button>
           <div class="flex items-center gap-2">
             <div class="w-2 h-2 rounded-full" :class="getContainerColor(containerIndex)"></div>
-            <h2 class="font-medium text-lg text-slate-100">{{ container.Name }}</h2>
+            <h2 class="font-medium text-lg text-gray-100">{{ container.Name }}</h2>
           </div>
         </div>
         <span
@@ -148,15 +140,15 @@ const globalTriggers = computed(() => {
 function statusColor(status) {
   switch (status) {
     case 'FINISHED':
-      return 'bg-green-500/20 text-green-300 border border-green-500/30';
+      return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50 shadow-emerald-400/20 shadow-sm';
     case 'RUNNING':
-      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+      return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50 shadow-cyan-400/20 shadow-sm';
     case 'CREATED':
-      return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30';
+      return 'bg-amber-500/30 text-amber-200 border border-amber-400/50 shadow-amber-400/20 shadow-sm';
     case 'SKIPPED':
-      return 'bg-slate-500/20 text-slate-300 border border-slate-500/30';
+      return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
     default:
-      return 'bg-slate-600/20 text-slate-300 border border-slate-600/30';
+      return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
   }
 }
 

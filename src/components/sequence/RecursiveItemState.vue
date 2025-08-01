@@ -3,14 +3,15 @@
     <div
       v-for="(item, index) in items"
       :key="index"
-      class="bg-slate-800/90 backdrop-blur-sm rounded-lg border transition-all duration-200 hover:shadow-lg"
+      class="bg-gray-900/80 backdrop-blur-sm rounded-lg transition-all duration-200 hover:bg-gray-900/90 border border-gray-800/50"
       :class="{
-        'border-blue-400 shadow-blue-400/20 shadow-md': isRunningOrHasRunningChildren(item),
-        'border-slate-600/50 hover:border-slate-500/70': !isRunningOrHasRunningChildren(item),
+        'bg-blue-950/50 ring-1 ring-cyan-400/60 border-cyan-500/30':
+          isRunningOrHasRunningChildren(item),
+        'hover:bg-gray-900/90 border-gray-700/50': !isRunningOrHasRunningChildren(item),
       }"
     >
       <!-- Header with Collapse Button -->
-      <div class="flex justify-between items-center p-2 sm:p-3 border-b border-slate-700/50">
+      <div class="flex justify-between items-center p-2 sm:p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">
           <button
             @click="sequenceStore.toggleCollapsedState(item._path)"
@@ -18,11 +19,11 @@
             :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
           >
             <ChevronRightIcon
-              class="w-4 h-4 text-slate-400 transition-transform duration-200"
+              class="w-4 h-4 text-gray-400 transition-transform duration-200"
               :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
             />
           </button>
-          <h3 class="font-medium text-slate-100 text-sm md:text-base truncate">
+          <h3 class="font-medium text-gray-100 text-sm md:text-base truncate">
             {{ removeSuffix(item.Name) }}
           </h3>
         </div>
@@ -41,7 +42,7 @@
           >
             <PowerIcon
               class="w-4 h-4"
-              :class="item.Status === 'DISABLED' ? 'text-red-400' : 'text-green-400'"
+              :class="item.Status === 'DISABLED' ? 'text-red-400' : 'text-emerald-400'"
             />
           </button>
         </div>
@@ -50,21 +51,25 @@
       <div v-show="!sequenceStore.isCollapsed(item._path)" class="p-2 sm:p-3 pt-0">
         <!-- Target Information Section -->
         <div v-if="item.Target" class="mb-3">
-          <div class="bg-slate-700/30 rounded-md p-2 sm:p-3 border border-slate-600/30">
+          <div class="bg-gray-800/60 rounded-md p-2 sm:p-3 border border-amber-500/20">
             <div class="flex items-center gap-2 mb-2">
-              <div class="w-2 h-2 bg-amber-400 rounded-full"></div>
-              <span class="text-sm font-medium text-slate-200">Target Coordinates</span>
+              <div class="w-2 h-2 bg-amber-400 rounded-full shadow-amber-400/50 shadow-sm"></div>
+              <span class="text-sm font-medium text-amber-200">Target Coordinates</span>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
               <div class="flex items-center gap-2">
-                <span class="text-slate-400 text-xs font-medium w-8">RA:</span>
-                <code class="text-slate-200 bg-slate-800/50 px-2 py-1 rounded text-xs">
+                <span class="text-amber-300 text-xs font-medium w-8">RA:</span>
+                <code
+                  class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-xs border border-amber-500/20"
+                >
                   {{ formatTargetRA(item.Target.InputCoordinates) }}
                 </code>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-slate-400 text-xs font-medium w-8">DEC:</span>
-                <code class="text-slate-200 bg-slate-800/50 px-2 py-1 rounded text-xs">
+                <span class="text-amber-300 text-xs font-medium w-8">DEC:</span>
+                <code
+                  class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-xs border border-amber-500/20"
+                >
                   {{ formatTargetDec(item.Target.InputCoordinates) }}
                 </code>
               </div>
@@ -82,8 +87,8 @@
         <!-- Triggers Section -->
         <div v-if="item.Triggers?.length" class="mb-3">
           <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">
+            <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
+            <h4 class="text-sm font-medium text-emerald-200">
               {{ $t('components.sequence.triggers') }}
             </h4>
           </div>
@@ -92,7 +97,7 @@
             <div
               v-for="(trigger, tIndex) in item.Triggers"
               :key="tIndex"
-              class="bg-slate-700/20 rounded-md p-2 border border-slate-600/20 hover:bg-slate-700/30 transition-colors"
+              class="bg-gray-800/40 rounded-md p-2 hover:bg-gray-800/60 transition-colors border border-gray-700/30"
             >
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2 min-w-0">
@@ -169,8 +174,8 @@
         <!-- Conditions -->
         <div v-if="item.Conditions?.length" class="mb-3">
           <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">
+            <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
+            <h4 class="text-sm font-medium text-orange-200">
               {{ $t('components.sequence.conditions') }}
             </h4>
           </div>
@@ -178,7 +183,7 @@
             <div
               v-for="(condition, cIndex) in item.Conditions"
               :key="cIndex"
-              class="bg-slate-700/20 rounded-md p-2 border border-slate-600/20 hover:bg-slate-700/30 transition-colors"
+              class="bg-gray-800/40 rounded-md p-2 hover:bg-gray-800/60 transition-colors border border-gray-700/30"
             >
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2 min-w-0">
@@ -263,14 +268,14 @@
         <!--Item Properties-->
         <div v-if="getDisplayFields(item).length" class="mb-3">
           <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">Properties</h4>
+            <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
+            <h4 class="text-sm font-medium text-cyan-200">Properties</h4>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
             <div
               v-for="[key, value] in getDisplayFields(item)"
               :key="key"
-              class="flex flex-col gap-1 p-2 bg-slate-700/10 rounded border border-slate-600/20"
+              class="flex flex-col gap-1 p-2 bg-gray-800/30 rounded border border-gray-700/20"
             >
               <span class="text-slate-400 text-xs font-medium">{{ key }}:</span>
               <span class="text-slate-200 break-all min-w-0">
@@ -397,10 +402,6 @@
 
         <!-- Nested Items -->
         <div v-if="item.Items?.length" class="mt-3 space-y-2">
-          <div class="flex items-center gap-2 mb-2 px-2 py-1 bg-slate-700/10 rounded text-xs">
-            <div class="w-1.5 h-1.5 bg-slate-400/60 rounded-full"></div>
-            <span class="text-slate-400 font-medium">Sub-Items</span>
-          </div>
           <RecursiveItemState
             v-if="sequenceStore.sequenceIsEditable"
             :items="item.Items"
@@ -539,17 +540,17 @@ function isRunningOrHasRunningChildren(item) {
 function statusColor(status) {
   switch (status) {
     case 'FINISHED':
-      return 'bg-green-500/20 text-green-300 border border-green-500/30';
+      return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50 shadow-emerald-400/20 shadow-sm';
     case 'RUNNING':
-      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+      return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50 shadow-cyan-400/20 shadow-sm';
     case 'CREATED':
-      return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30';
+      return 'bg-amber-500/30 text-amber-200 border border-amber-400/50 shadow-amber-400/20 shadow-sm';
     case 'SKIPPED':
-      return 'bg-slate-500/20 text-slate-300 border border-slate-500/30';
+      return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
     case 'DISABLED':
-      return 'bg-red-500/20 text-red-300 border border-red-500/30';
+      return 'bg-red-500/30 text-red-300 border border-red-400/50';
     default:
-      return 'bg-slate-600/20 text-slate-300 border border-slate-600/30';
+      return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
   }
 }
 

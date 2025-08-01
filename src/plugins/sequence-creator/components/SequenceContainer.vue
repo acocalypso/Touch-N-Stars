@@ -4,7 +4,7 @@
     <div :class="['container-header p-4 rounded-t-lg border-l-4', getContainerClasses(color)]">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <span class="text-2xl">{{ icon }}</span>
+          <component :is="getIconComponent(icon)" class="w-6 h-6" />
           <div>
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
               {{ title }}
@@ -29,7 +29,9 @@
     <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-b-lg">
       <!-- Empty State -->
       <div v-if="actions.length === 0" class="p-8 text-center">
-        <div class="text-4xl mb-3">{{ getEmptyIcon(containerType) }}</div>
+        <div class="mb-3 flex justify-center">
+          <component :is="getIconComponent(getEmptyIcon(containerType))" class="w-12 h-12 text-gray-400" />
+        </div>
         <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
           {{ getEmptyTitle(containerType) }}
         </h4>
@@ -101,7 +103,7 @@
           @click="handleAddAction(action)"
           class="flex items-center gap-3 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded cursor-pointer"
         >
-          <span class="text-lg">{{ action.icon }}</span>
+          <component :is="getIconComponent(action.icon)" class="w-5 h-5 text-gray-600 dark:text-gray-400" />
           <div class="flex-1">
             <div class="text-sm font-medium text-gray-900 dark:text-white">
               {{ action.name }}
@@ -121,6 +123,23 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceActionItem from './SequenceActionItem.vue';
+import {
+  RocketLaunchIcon,
+  FlagIcon,
+  CursorArrowRaysIcon,
+  DocumentIcon,
+  LinkIcon,
+  CameraIcon,
+  EyeIcon,
+  PlayIcon,
+  StopIcon,
+  FireIcon,
+  HomeIcon,
+  MagnifyingGlassIcon
+} from '@heroicons/vue/24/outline';
+import TelescopeIcon from './TelescopeIcon.vue';
+import GuiderIcon from './GuiderIcon.vue';
+import SnowflakeIcon from './SnowflakeIcon.vue';
 
 const { t } = useI18n();
 
@@ -149,11 +168,34 @@ function getContainerClasses(color) {
 
 function getEmptyIcon(containerType) {
   const icons = {
-    start: '🚀',
-    target: '🎯',
-    end: '🏁',
+    start: 'rocket',
+    target: 'crosshairs',
+    end: 'flag',
   };
-  return icons[containerType] || '📝';
+  return icons[containerType] || 'document';
+}
+
+function getIconComponent(iconName) {
+  const iconMap = {
+    'rocket': RocketLaunchIcon,
+    'flag': FlagIcon,
+    'crosshairs': CursorArrowRaysIcon,
+    'document': DocumentIcon,
+    'LinkIcon': LinkIcon,
+    'CameraIcon': CameraIcon,
+    'EyeIcon': EyeIcon,
+    'telescope': TelescopeIcon,
+    'guider': GuiderIcon,
+    'play': PlayIcon,
+    'stop': StopIcon,
+    'fire': FireIcon,
+    'home': HomeIcon,
+    'cursor-arrow-rays': CursorArrowRaysIcon,
+    'snowflake': SnowflakeIcon,
+    'magnifying-glass': MagnifyingGlassIcon,
+  };
+  
+  return iconMap[iconName] || DocumentIcon; // Default fallback
 }
 
 function getEmptyTitle(containerType) {

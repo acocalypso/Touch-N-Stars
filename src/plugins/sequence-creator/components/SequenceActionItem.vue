@@ -20,7 +20,7 @@
               action.color,
             ]"
           >
-            <span class="text-lg">{{ action.icon }}</span>
+            <component :is="getIconComponent(action.icon)" class="w-5 h-5" />
           </div>
 
           <div class="flex-1 min-w-0">
@@ -329,6 +329,20 @@ import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
 import { apiStore } from '@/store/store';
 import TargetSearch from './TargetSearch.vue';
+import {
+  LinkIcon,
+  CameraIcon,
+  EyeIcon,
+  PlayIcon,
+  StopIcon,
+  FireIcon,
+  HomeIcon,
+  CursorArrowRaysIcon,
+  MagnifyingGlassIcon
+} from '@heroicons/vue/24/outline';
+import TelescopeIcon from './TelescopeIcon.vue';
+import GuiderIcon from './GuiderIcon.vue';
+import SnowflakeIcon from './SnowflakeIcon.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
@@ -435,6 +449,26 @@ function handleTargetSelected(targetData) {
   if (targetData.positionAngle !== undefined) {
     updateParameter('positionAngle', targetData.positionAngle);
   }
+}
+
+function getIconComponent(iconName) {
+  const iconMap = {
+    'LinkIcon': LinkIcon,
+    'CameraIcon': CameraIcon,
+    'EyeIcon': EyeIcon,
+    'telescope': TelescopeIcon,
+    'guider': GuiderIcon,
+    'snowflake': SnowflakeIcon,
+    'play': PlayIcon,
+    'stop': StopIcon,
+    'fire': FireIcon,
+    'home': HomeIcon,
+    'cursor-arrow-rays': CursorArrowRaysIcon,
+    'crosshairs': CursorArrowRaysIcon, // Using same icon for crosshairs
+    'magnifying-glass': MagnifyingGlassIcon,
+  };
+  
+  return iconMap[iconName] || LinkIcon; // Default fallback
 }
 </script>
 

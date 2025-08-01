@@ -8,7 +8,7 @@ const actionTemplates = {
     {
       id: 'unpark-scope',
       name: 'Unpark Telescope',
-      icon: '🔭',
+      icon: 'telescope',
       description: 'Unpark the telescope mount',
       parameters: {},
       color: 'bg-blue-500',
@@ -16,7 +16,7 @@ const actionTemplates = {
     {
       id: 'cool-camera',
       name: 'Cool Camera',
-      icon: '❄️',
+      icon: 'snowflake',
       description: 'Cool the camera to specified temperature',
       parameters: {
         temperature: {
@@ -45,7 +45,7 @@ const actionTemplates = {
     {
       id: 'target-settings',
       name: 'Target Settings',
-      icon: '🎯',
+      icon: 'crosshairs',
       description: 'Define target coordinates and settings',
       parameters: {
         targetName: {
@@ -81,7 +81,7 @@ const actionTemplates = {
     {
       id: 'slew-to-target',
       name: 'Slew to Target',
-      icon: '🎯',
+      icon: 'cursor-arrow-rays',
       description: 'Navigate to target with different options',
       parameters: {
         slewMode: {
@@ -97,7 +97,7 @@ const actionTemplates = {
     {
       id: 'run-autofocus',
       name: 'Run Autofocus',
-      icon: '🔍',
+      icon: 'EyeIcon',
       description: 'Perform automatic focusing routine',
       parameters: {},
       color: 'bg-yellow-500',
@@ -105,7 +105,7 @@ const actionTemplates = {
     {
       id: 'start-guiding',
       name: 'Start Guiding',
-      icon: '🎮',
+      icon: 'guider',
       description: 'Start autoguiding system',
       parameters: {
         forceCalibration: {
@@ -120,7 +120,7 @@ const actionTemplates = {
     {
       id: 'smart-exposure',
       name: 'Smart Exposure (Imaging)',
-      icon: '📸',
+      icon: 'CameraIcon',
       description: 'Intelligent exposure sequence with dithering and triggers',
       parameters: {
         exposureTime: {
@@ -193,7 +193,7 @@ const actionTemplates = {
     {
       id: 'stop-guiding',
       name: 'Stop Guiding',
-      icon: '⏹️',
+      icon: 'guider',
       description: 'Stop autoguiding system',
       parameters: {},
       color: 'bg-red-600',
@@ -201,7 +201,7 @@ const actionTemplates = {
     {
       id: 'warm-camera',
       name: 'Warm Camera',
-      icon: '🌡️',
+      icon: 'fire',
       description: 'Warm up the camera',
       parameters: {
         duration: {
@@ -219,7 +219,7 @@ const actionTemplates = {
     {
       id: 'park-scope',
       name: 'Park Telescope',
-      icon: '🏠',
+      icon: 'telescope',
       description: 'Park the telescope mount',
       parameters: {},
       color: 'bg-blue-500',

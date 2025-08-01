@@ -22,7 +22,7 @@
     <!-- Global Triggers Container - Only show if we have valid global triggers -->
     <div
       v-if="globalTriggers.length > 0"
-      class="bg-gray-900/70 backdrop-blur-sm rounded-lg mb-3 border border-gray-800/60"
+      class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg transition-all duration-200 hover:shadow-xl"
     >
       <div class="flex items-center justify-between p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">

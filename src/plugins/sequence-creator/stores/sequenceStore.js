@@ -212,6 +212,13 @@ const actionTemplates = {
           label: 'Filter',
           tooltip: 'Filter wheel selection',
         },
+        imageType: {
+          type: 'select',
+          options: ['LIGHT', 'DARK', 'FLAT', 'BIAS', 'SNAPSHOT'],
+          default: 'LIGHT',
+          label: 'Image Type',
+          tooltip: 'Type of exposure to capture',
+        },
         count: {
           type: 'number',
           default: 20,
@@ -889,7 +896,7 @@ export const useSequenceStore = defineStore('sequence', () => {
               X: 1,
               Y: 1,
             },
-            ImageType: 'LIGHT',
+            ImageType: action.parameters.imageType?.value || 'LIGHT',
             ExposureCount: 0,
             Parent: null,
             ErrorBehavior: 0,

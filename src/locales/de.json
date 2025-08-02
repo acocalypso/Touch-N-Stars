@@ -714,7 +714,8 @@
         "undo": "Rückgängig",
         "redo": "Wiederholen",
         "loadBasicSequence": "Basis-Sequenz Laden",
-        "clearSequence": "Sequenz Löschen",
+        "clearSequence": "Sequenz leeren",
+        "saveAsDefault": "Als Standard speichern",
         "exportSequence": "Sequenz Exportieren",
         "validSequence": "Sequenz ist gültig und kann exportiert werden",
         "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"

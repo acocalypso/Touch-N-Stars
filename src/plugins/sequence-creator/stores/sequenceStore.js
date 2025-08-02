@@ -1410,7 +1410,13 @@ export const useSequenceStore = defineStore('sequence', () => {
   }
 
   function loadBasicSequence() {
-    // Load a basic sequence with recommended actions
+    // Try to load saved default sequence first
+    const loaded = loadDefaultSequence();
+    if (loaded) {
+      return; // Successfully loaded saved default
+    }
+
+    // No saved default exists, load the basic default sequence
     clearSequence();
 
     // Add basic start actions
@@ -1474,6 +1480,38 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
 
     isModified.value = false;
+  }
+
+  function saveAsDefaultSequence() {
+    // Save current sequence to localStorage as default
+    const defaultSequence = {
+      start: JSON.parse(JSON.stringify(startSequence.value)),
+      target: JSON.parse(JSON.stringify(targetSequence.value)),
+      end: JSON.parse(JSON.stringify(endSequence.value))
+    };
+    
+    localStorage.setItem('sequence-creator-default', JSON.stringify(defaultSequence));
+    
+    // Show success feedback (you could emit an event or use a toast notification)
+    console.log('Sequence saved as default');
+  }
+
+  function loadDefaultSequence() {
+    // Load default sequence from localStorage
+    try {
+      const saved = localStorage.getItem('sequence-creator-default');
+      if (saved) {
+        const defaultSequence = JSON.parse(saved);
+        startSequence.value = defaultSequence.start || [];
+        targetSequence.value = defaultSequence.target || [];
+        endSequence.value = defaultSequence.end || [];
+        isModified.value = false;
+        return true;
+      }
+    } catch (error) {
+      console.error('Error loading default sequence:', error);
+    }
+    return false;
   }
 
   function undo() {
@@ -1552,6 +1590,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     clearSequence,
     loadSequence,
     loadBasicSequence,
+    saveAsDefaultSequence,
     undo,
     redo,
     getActionTemplate,

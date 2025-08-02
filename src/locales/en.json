@@ -715,6 +715,7 @@
         "redo": "Redo",
         "loadBasicSequence": "Load Basic Sequence",
         "clearSequence": "Clear Sequence",
+        "saveAsDefault": "Save as Default",
         "exportSequence": "Export Sequence",
         "validSequence": "Sequence is valid and can be exported",
         "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence"

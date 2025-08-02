@@ -51,15 +51,24 @@
           <!-- Load Basic Sequence -->
           <button
             @click="store.loadBasicSequence()"
-            class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
+            class="default-button-cyan text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.loadBasicSequence') }}
+          </button>
+
+          <!-- Save as Default -->
+          <button
+            @click="handleSaveAsDefault"
+            :disabled="!store.sequenceIsValid"
+            class="default-button-blue text-sm"
+          >
+            {{ t('plugins.sequenceCreator.toolbar.saveAsDefault') }}
           </button>
 
           <!-- Clear All -->
           <button
             @click="handleClearSequence"
-            class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+            class="default-button-red text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.clearSequence') }}
           </button>
@@ -68,7 +77,7 @@
           <button
             @click="showExportModal = true"
             :disabled="!store.sequenceIsValid"
-            class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="default-button-green text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.exportSequence') }}
           </button>
@@ -215,13 +224,13 @@
           <div class="flex justify-center gap-4">
             <button
               @click="cancelClear"
-              class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+              class="default-button-gray text-sm"
             >
               {{ t('general.cancel') }}
             </button>
             <button
               @click="confirmClear"
-              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+              class="default-button-red text-sm"
             >
               {{ t('general.confirm') }}
             </button>
@@ -273,6 +282,10 @@ function confirmClear() {
 
 function cancelClear() {
   showClearModal.value = false;
+}
+
+function handleSaveAsDefault() {
+  store.saveAsDefaultSequence();
 }
 </script>
 

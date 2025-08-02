@@ -303,13 +303,13 @@
         <div class="flex justify-center gap-4">
           <button
             @click="cancelRemove"
-            class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+            class="default-button-gray text-sm"
           >
             {{ t('general.cancel') }}
           </button>
           <button
             @click="confirmRemove"
-            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+            class="default-button-red text-sm"
           >
             {{ t('general.confirm') }}
           </button>

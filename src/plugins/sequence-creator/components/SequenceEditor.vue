@@ -150,7 +150,6 @@
                     {{ t('plugins.sequenceCreator.settings.enableMeridianFlip') }}
                   </label>
                 </div>
-  
               </div>
             </div>
 

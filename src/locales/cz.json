@@ -109,7 +109,8 @@
         "confirmation": "Potvrdit akci",
         "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
         "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
-      }
+      },
+      "add": "add"
     },
     "connectEquipment": {
       "camera": {

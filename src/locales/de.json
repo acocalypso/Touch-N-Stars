@@ -109,7 +109,8 @@
         "confirmation": "Aktion bestätigen",
         "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
         "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
-      }
+      },
+      "add": "hinzufügen"
     },
     "connectEquipment": {
       "camera": {

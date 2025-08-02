@@ -109,7 +109,8 @@
         "confirmation": "Confirmer l'action",
         "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
         "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
-      }
+      },
+      "add": "ajouter"
     },
     "connectEquipment": {
       "camera": {

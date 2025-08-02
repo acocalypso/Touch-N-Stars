@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import { apiStore } from '@/store/store';
 
 // Action templates organized by container type
 const actionTemplates = {
@@ -157,7 +158,7 @@ const actionTemplates = {
         },
         filter: {
           type: 'select',
-          options: ['None', 'L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
+          options: [], // Will be populated dynamically from filterInfo
           default: 'None',
           label: 'Filter',
           tooltip: 'Filter wheel selection',
@@ -180,10 +181,10 @@ const actionTemplates = {
         ditherAfter: {
           type: 'number',
           default: 4,
-          min: 1,
+          min: 0,
           max: 20,
           label: 'Dither After N Exposures',
-          tooltip: 'Dither frequency',
+          tooltip: 'Dither frequency (0 = no dithering)',
         },
       },
       color: 'bg-green-500',
@@ -400,7 +401,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             },
             filter: {
               type: 'select',
-              options: ['None', 'L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
+              options: [], // Will be populated dynamically from filterInfo
               default: 'None',
               label: t('plugins.sequenceCreator.actions.smartExposure.filterLabel'),
               tooltip: t('plugins.sequenceCreator.actions.smartExposure.filterTooltip'),
@@ -423,7 +424,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             ditherAfter: {
               type: 'number',
               default: 4,
-              min: 1,
+              min: 0,
               max: 20,
               label: t('plugins.sequenceCreator.actions.smartExposure.ditherAfterLabel'),
               tooltip: t('plugins.sequenceCreator.actions.smartExposure.ditherAfterTooltip'),
@@ -476,7 +477,7 @@ export const useSequenceStore = defineStore('sequence', () => {
   const canRedo = computed(() => historyIndex.value < history.value.length - 1);
 
   const sequenceIsValid = computed(() => {
-    // At minimum, we need target settings and smart exposure in target container
+    // At minimum, we need target settings and at least one smart exposure in target container
     const hasTargetSettings = targetSequence.value.some(
       (action) => action.type === 'target-settings'
     );
@@ -946,9 +947,9 @@ export const useSequenceStore = defineStore('sequence', () => {
       dsoContainer.Items.$values.push(convertActionToNina(action, generateId, dsoContainerId));
     });
 
-    // Add Target Imaging Instructions container with Smart Exposure
-    const smartExposureAction = actions.find((action) => action.type === 'smart-exposure');
-    if (smartExposureAction) {
+    // Add Target Imaging Instructions container with ALL Smart Exposure actions
+    const smartExposureActions = actions.filter((action) => action.type === 'smart-exposure');
+    if (smartExposureActions.length > 0) {
       const targetImagingContainer = {
         $id: targetImagingId,
         $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
@@ -967,7 +968,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           $id: generateId(),
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-          $values: [createBasicSmartExposureContainer(smartExposureAction, generateId)],
+          $values: smartExposureActions.map(action => createBasicSmartExposureContainer(action, generateId)),
         },
         Triggers: {
           $id: generateId(),
@@ -984,6 +985,26 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
 
     return dsoContainer;
+  }
+
+  // Helper function to get filter info from available filters
+  function getFilterInfo(filterName) {
+    const api = apiStore();
+    
+    if (filterName === 'None' || !filterName) {
+      return null;
+    }
+    
+    // Find filter in available filters by name
+    const availableFilters = api.filterInfo?.AvailableFilters || [];
+    const filterInfo = availableFilters.find(filter => filter.Name === filterName);
+    
+    if (!filterInfo) {
+      console.warn(`Filter "${filterName}" not found in available filters`);
+      return null;
+    }
+    
+    return filterInfo;
   }
 
   function createBasicSmartExposureContainer(action, generateId) {
@@ -1019,21 +1040,51 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter, NINA.Sequencer',
-            Filter:
-              action.parameters.filter?.value && action.parameters.filter.value !== 'None'
-                ? {
-                    Name: action.parameters.filter.value,
-                    Position: -1,
-                    AutoFocusOffset: null,
-                    FlatWizardFilterSettings: {
-                      HistogramMeanTarget: 0.5,
-                      HistogramTolerance: 0.1,
-                      MaxFlatExposureTime: 30.0,
-                      MinFlatExposureTime: 0.01,
-                      StepSize: 0.1,
-                    },
+            Filter: (() => {
+              const filterName = action.parameters.filter?.value;
+              const filterInfo = getFilterInfo(filterName);
+              
+              if (!filterInfo) {
+                return null;
+              }
+              
+              return {
+                $id: generateId(),
+                $type: 'NINA.Core.Model.Equipment.FilterInfo, NINA.Core',
+                _name: filterInfo.Name,
+                _focusOffset: filterInfo.FocusOffset || 0,
+                _position: filterInfo.Position,
+                _autoFocusExposureTime: filterInfo.AutoFocusExposureTime || -1.0,
+                _autoFocusFilter: filterInfo.AutoFocusFilter || false,
+                FlatWizardFilterSettings: {
+                  $id: generateId(),
+                  $type: 'NINA.Core.Model.Equipment.FlatWizardFilterSettings, NINA.Core',
+                  FlatWizardMode: filterInfo.FlatWizardFilterSettings?.FlatWizardMode || 0,
+                  HistogramMeanTarget: filterInfo.FlatWizardFilterSettings?.HistogramMeanTarget || 0.5,
+                  HistogramTolerance: filterInfo.FlatWizardFilterSettings?.HistogramTolerance || 0.1,
+                  MaxFlatExposureTime: filterInfo.FlatWizardFilterSettings?.MaxFlatExposureTime || 30.0,
+                  MinFlatExposureTime: filterInfo.FlatWizardFilterSettings?.MinFlatExposureTime || 0.01,
+                  MaxAbsoluteFlatDeviceBrightness: filterInfo.FlatWizardFilterSettings?.MaxAbsoluteFlatDeviceBrightness || 100,
+                  MinAbsoluteFlatDeviceBrightness: filterInfo.FlatWizardFilterSettings?.MinAbsoluteFlatDeviceBrightness || 0,
+                  Gain: filterInfo.FlatWizardFilterSettings?.Gain || -1,
+                  Offset: filterInfo.FlatWizardFilterSettings?.Offset || -1,
+                  Binning: {
+                    $id: generateId(),
+                    $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
+                    X: filterInfo.FlatWizardFilterSettings?.Binning?.X || 1,
+                    Y: filterInfo.FlatWizardFilterSettings?.Binning?.Y || 1
                   }
-                : null,
+                },
+                _autoFocusBinning: {
+                  $id: generateId(),
+                  $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
+                  X: filterInfo.AutoFocusBinning?.X || 1,
+                  Y: filterInfo.AutoFocusBinning?.Y || 1
+                },
+                _autoFocusGain: filterInfo.AutoFocusGain || -1,
+                _autoFocusOffset: filterInfo.AutoFocusOffset || -1
+              };
+            })(),
             Parent: null,
             ErrorBehavior: 0,
             Attempts: 1,
@@ -1062,53 +1113,63 @@ export const useSequenceStore = defineStore('sequence', () => {
         $id: generateId(),
         $type:
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-        $values: [
-          {
-            $id: generateId(),
-            $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
-            AfterExposures: action.parameters.ditherAfter?.value || 4,
-            Parent: null,
-            TriggerRunner: {
-              $id: generateId(),
-              $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-              Strategy: {
-                $type:
-                  'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-              },
-              Name: null,
-              Conditions: {
+        $values: (() => {
+          const ditherAfter = action.parameters.ditherAfter?.value ?? 0;
+          
+          // Only create dither trigger if ditherAfter > 0
+          if (ditherAfter > 0) {
+            return [
+              {
                 $id: generateId(),
-                $type:
-                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                $values: [],
-              },
-              IsExpanded: true,
-              Items: {
-                $id: generateId(),
-                $type:
-                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                $values: [
-                  {
-                    $id: generateId(),
-                    $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
-                    Parent: null,
-                    ErrorBehavior: 0,
-                    Attempts: 1,
+                $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
+                AfterExposures: ditherAfter,
+                Parent: null,
+                TriggerRunner: {
+                  $id: generateId(),
+                  $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+                  Strategy: {
+                    $type:
+                      'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
                   },
-                ],
+                  Name: null,
+                  Conditions: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                    $values: [],
+                  },
+                  IsExpanded: true,
+                  Items: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                    $values: [
+                      {
+                        $id: generateId(),
+                        $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
+                        Parent: null,
+                        ErrorBehavior: 0,
+                        Attempts: 1,
+                      },
+                    ],
+                  },
+                  Triggers: {
+                    $id: generateId(),
+                    $type:
+                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                    $values: [],
+                  },
+                  Parent: null,
+                  ErrorBehavior: 0,
+                  Attempts: 1,
+                },
               },
-              Triggers: {
-                $id: generateId(),
-                $type:
-                  'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                $values: [],
-              },
-              Parent: null,
-              ErrorBehavior: 0,
-              Attempts: 1,
-            },
-          },
-        ],
+            ];
+          } else {
+            // No dithering when value is 0
+            return [];
+          }
+        })(),
       },
       Parent: null,
     };

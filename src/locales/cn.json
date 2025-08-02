@@ -93,7 +93,9 @@
         "activate": "激活调试模式"
       },
       "notifications": {
-        "title": "通知"
+        "title": "通知",
+        "enable": "Activate",
+        "sequence": "sequence"
       },
       "showTutorial": "显示教程",
       "plugins": {
@@ -107,7 +109,8 @@
         "confirmation": "确认操作",
         "confirmShutdown": "您确定要关闭系统吗？",
         "confirmRestart": "您确定要重启系统吗？"
-      }
+      },
+      "add": "add"
     },
     "connectEquipment": {
       "camera": {

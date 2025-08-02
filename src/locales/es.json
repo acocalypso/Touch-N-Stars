@@ -93,7 +93,9 @@
         "activate": "Activar modo debug"
       },
       "notifications": {
-        "title": "Notificaciones"
+        "title": "Notificaciones",
+        "enable": "Activar",
+        "sequence": "secuencia"
       },
       "showTutorial": "Mostrar tutorial",
       "plugins": {
@@ -107,7 +109,8 @@
         "confirmation": "Confirmar acción",
         "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
         "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
-      }
+      },
+      "add": "agregar"
     },
     "connectEquipment": {
       "camera": {

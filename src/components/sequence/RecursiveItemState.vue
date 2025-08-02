@@ -33,7 +33,7 @@
           <span
             v-if="isTopLevel || item.Status === 'DISABLED'"
             :class="statusColor(item.Status)"
-            class="px-2 py-1 rounded-full text-sm  font-medium"
+            class="px-2 py-1 rounded-full text-sm font-medium"
           >
             {{ item.Status }}
           </span>
@@ -63,17 +63,17 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div class="flex items-center gap-2">
-                <span class="text-amber-300 text-sm  font-medium w-12 flex-shrink-0">RA:</span>
+                <span class="text-amber-300 text-sm font-medium w-12 flex-shrink-0">RA:</span>
                 <code
-                  class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-sm  border border-amber-500/20"
+                  class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-sm border border-amber-500/20"
                 >
                   {{ formatTargetRA(item.Target.InputCoordinates) }}
                 </code>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-amber-300 text-sm  font-medium w-12 flex-shrink-0">DEC:</span>
+                <span class="text-amber-300 text-sm font-medium w-12 flex-shrink-0">DEC:</span>
                 <code
-                  class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-sm  border border-amber-500/20"
+                  class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-sm border border-amber-500/20"
                 >
                   {{ formatTargetDec(item.Target.InputCoordinates) }}
                 </code>
@@ -115,7 +115,7 @@
                   <span
                     v-if="trigger.Status != 'CREATED'"
                     :class="statusColor(trigger.Status)"
-                    class="px-2 py-0.5 rounded-full text-sm  font-medium"
+                    class="px-2 py-0.5 rounded-full text-sm font-medium"
                   >
                     {{ trigger.Status }}
                   </span>
@@ -138,7 +138,7 @@
                   :key="key"
                   class="flex flex-col sm:flex-row gap-6"
                 >
-                  <span class="text-gray-400 text-sm  font-medium w-28 flex-shrink-0"
+                  <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                     >{{ formatKey(key) }}:</span
                   >
                   <span class="text-gray-200 break-all min-w-0">
@@ -160,7 +160,7 @@
                       "
                     >
                       <input
-                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm  focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         type="number"
                         v-model="trigger[key]"
                         @change="updateValue($event, trigger._path, trigger[key], key)"
@@ -201,7 +201,7 @@
                   <span
                     v-if="condition.Status != 'CREATED'"
                     :class="statusColor(condition.Status)"
-                    class="px-2 py-0.5 rounded-full text-sm  font-medium"
+                    class="px-2 py-0.5 rounded-full text-sm font-medium"
                   >
                     {{ condition.Status }}
                   </span>
@@ -223,7 +223,7 @@
                   :key="key"
                   class="flex flex-col sm:flex-row gap-6"
                 >
-                  <span class="text-gray-400 text-sm  font-medium w-28 flex-shrink-0"
+                  <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                     >{{ formatKey(key) }}:</span
                   >
                   <span class="text-gray-200 break-all min-w-0">
@@ -239,7 +239,7 @@
                       "
                     >
                       <input
-                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm  focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         type="number"
                         v-model="condition[key]"
                         @change="updateValue($event, condition._path, condition[key], key)"
@@ -252,7 +252,10 @@
                             {{ condition.SelectedProvider.Name }}
                           </span>
                         </div>
-                        <div v-if="sequenceStore.sequenceEdit && !readOnly" class="flex items-center gap-2">
+                        <div
+                          v-if="sequenceStore.sequenceEdit && !readOnly"
+                          class="flex items-center gap-2"
+                        >
                           <span class="text-gray-400 shrink-0">Time:</span>
                           <div class="flex gap-1">
                             <input
@@ -261,7 +264,9 @@
                               min="0"
                               max="23"
                               v-model="condition.Hours"
-                              @change="updateValue($event, condition._path, condition.Hours, 'Hours')"
+                              @change="
+                                updateValue($event, condition._path, condition.Hours, 'Hours')
+                              "
                             />
                             <span class="text-gray-400">:</span>
                             <input
@@ -270,7 +275,9 @@
                               min="0"
                               max="59"
                               v-model="condition.Minutes"
-                              @change="updateValue($event, condition._path, condition.Minutes, 'Minutes')"
+                              @change="
+                                updateValue($event, condition._path, condition.Minutes, 'Minutes')
+                              "
                             />
                             <span class="text-gray-400">:</span>
                             <input
@@ -279,7 +286,9 @@
                               min="0"
                               max="59"
                               v-model="condition.Seconds"
-                              @change="updateValue($event, condition._path, condition.Seconds, 'Seconds')"
+                              @change="
+                                updateValue($event, condition._path, condition.Seconds, 'Seconds')
+                              "
                             />
                           </div>
                         </div>
@@ -313,7 +322,7 @@
               :key="key"
               class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
             >
-              <span class="text-gray-400 text-sm  font-medium w-28 flex-shrink-0"
+              <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                 >{{ formatKey(key) }}:</span
               >
               <span class="text-slate-200 break-all min-w-0">
@@ -344,7 +353,7 @@
                   v-else-if="updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly"
                 >
                   <input
-                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm  focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                     type="number"
                     v-model="item[key]"
                     @change="updateValue($event, item._path, item[key], key)"
@@ -358,7 +367,10 @@
                         {{ item.SelectedProvider.Name }}
                       </span>
                     </div>
-                    <div v-if="sequenceStore.sequenceEdit && !readOnly" class="flex items-center gap-2">
+                    <div
+                      v-if="sequenceStore.sequenceEdit && !readOnly"
+                      class="flex items-center gap-2"
+                    >
                       <span class="text-gray-400 shrink-0">Time:</span>
                       <div class="flex gap-1">
                         <input
@@ -435,7 +447,7 @@
                 <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
                 <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
                   <select
-                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm  focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                     v-model="item[key]"
                     @change="updateValue($event, item._path, item[key], 'ImageType')"
                   >

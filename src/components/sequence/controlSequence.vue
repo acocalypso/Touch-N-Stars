@@ -1,19 +1,20 @@
 <template>
-  <div 
-    :class="[
-      'fixed flex gap-2 z-10',
-      isLandscape ? 'left-36' : 'left-3'
-    ]"
+  <div
+    :class="['fixed flex gap-2 z-10', isLandscape ? 'left-36' : 'left-3']"
     style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
   >
     <button
       :class="[
         'default-button-blue h-14 w-14',
-        { 'opacity-75 cursor-not-allowed': sequenceStore.sequenceRunning }
+        { 'opacity-75 cursor-not-allowed': sequenceStore.sequenceRunning },
       ]"
       @click="startSequence"
       :disabled="sequenceStore.sequenceRunning"
-      v-tooltip="sequenceStore.sequenceRunning ? $t('components.sequence.running') : $t('components.sequence.startSequence')"
+      v-tooltip="
+        sequenceStore.sequenceRunning
+          ? $t('components.sequence.running')
+          : $t('components.sequence.startSequence')
+      "
     >
       <span v-if="sequenceStore.sequenceRunning" class="animate-spin text-lg">&#9696;</span>
       <svg

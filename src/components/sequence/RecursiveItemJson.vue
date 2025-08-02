@@ -22,7 +22,7 @@
         <span
           v-if="isTopLevel"
           :class="statusColor(item.Status)"
-          class="px-2 py-1 rounded-full text-sm  font-medium flex-shrink-0"
+          class="px-2 py-1 rounded-full text-sm font-medium flex-shrink-0"
         >
           {{ item.Status }}
         </span>
@@ -39,7 +39,7 @@
             <div
               v-for="[key, value] in getDisplayFields(item)"
               :key="key"
-              class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded text-sm  border border-gray-700/20"
+              class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded text-sm border border-gray-700/20"
             >
               <span class="text-gray-400 font-medium w-28 flex-shrink-0"
                 >{{ formatKey(key) }}:</span
@@ -54,13 +54,13 @@
                 <template v-else-if="key === 'Coordinates'">
                   <div class="space-y-1">
                     <div class="flex items-center gap-2">
-                      <span class="text-blue-300 text-sm  font-medium">RA:</span>
+                      <span class="text-blue-300 text-sm font-medium">RA:</span>
                       <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-sm">{{
                         formatRA(value)
                       }}</code>
                     </div>
                     <div class="flex items-center gap-2">
-                      <span class="text-blue-300 text-sm  font-medium">Dec:</span>
+                      <span class="text-blue-300 text-sm font-medium">Dec:</span>
                       <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-sm">{{
                         formatDec(value)
                       }}</code>
@@ -125,7 +125,7 @@
                 <span class="text-sm font-medium text-gray-200 break-all">
                   {{ removeSuffix(trigger.Name) }}
                 </span>
-                <span :class="statusColor(trigger.Status)" class="text-sm  md:text-sm">
+                <span :class="statusColor(trigger.Status)" class="text-sm md:text-sm">
                   {{ trigger.Status }}
                 </span>
               </div>

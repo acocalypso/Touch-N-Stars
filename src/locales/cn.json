@@ -93,7 +93,9 @@
         "activate": "激活调试模式"
       },
       "notifications": {
-        "title": "通知"
+        "title": "通知",
+        "enable": "Activate",
+        "sequence": "sequence"
       },
       "showTutorial": "显示教程",
       "plugins": {

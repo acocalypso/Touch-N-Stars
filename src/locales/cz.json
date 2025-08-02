@@ -93,7 +93,9 @@
         "activate": "Aktivovat debug režim"
       },
       "notifications": {
-        "title": "Oznámení"
+        "title": "Oznámení",
+        "enable": "Activate",
+        "sequence": "sequence"
       },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {

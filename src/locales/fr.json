@@ -93,7 +93,9 @@
         "activate": "Activer le mode debug"
       },
       "notifications": {
-        "title": "Notifications"
+        "title": "Notifications",
+        "enable": "Activer",
+        "sequence": "séquence"
       },
       "showTutorial": "Afficher le tutoriel",
       "plugins": {

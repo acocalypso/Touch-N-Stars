@@ -19,11 +19,16 @@ import { apiStore } from '@/store/store';
 const router = useRouter();
 const store = apiStore();
 
+// Check if this is the first visit by checking sessionStorage
+const isFirstVisit = !sessionStorage.getItem('hasVisited');
+
 // Watch for when backend is reachable and redirect to equipment page
 watch(
   () => store.isBackendReachable,
   (isReachable) => {
-    if (isReachable) {
+    if (isReachable && isFirstVisit) {
+      // Mark as visited
+      sessionStorage.setItem('hasVisited', 'true');
       // Small delay to show the loading completed state briefly
       setTimeout(() => {
         router.push('/equipment');
@@ -34,7 +39,9 @@ watch(
 
 onMounted(() => {
   // If backend is already reachable when component mounts, redirect immediately
-  if (store.isBackendReachable) {
+  // Only redirect if this is the first visit
+  if (store.isBackendReachable && isFirstVisit) {
+    sessionStorage.setItem('hasVisited', 'true');
     setTimeout(() => {
       router.push('/equipment');
     }, 1000);

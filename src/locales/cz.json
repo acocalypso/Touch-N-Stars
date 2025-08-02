@@ -47,11 +47,11 @@
         "title": "Hledat",
         "placeholder": "Zadejte hledaný výraz...",
         "objectTypes": {
-          "Comet": "Comet",
-          "Moon": "Moon",
-          "Planet": "Planet",
-          "Star": "Star",
-          "StellariumObject": "Object"
+          "Comet": "Kometa",
+          "Moon": "Mesíc",
+          "Planet": "Planeta",
+          "Star": "Hvězda",
+          "StellariumObject": "Objekt"
         }
       },
       "fovSettings": {
@@ -112,7 +112,7 @@
     "connectEquipment": {
       "camera": {
         "error": "Chyba při ovládání kamery:",
-        "name": "Camera"
+        "name": "Kamera"
       },
       "connectAll": "Připojit Vše",
       "disconnectAll": "Odpojit Vše",
@@ -361,40 +361,40 @@
           "reactive_weight": "RA: Reaktivní váha W",
           "slope_weight": "RA: Váha sklonu"
         },
-        "Exposuretime": "Exposuretime"
+        "Exposuretime": "Expozice"
       },
       "calibrationAssistant": {
-        "calculatedPosition": "Calculated Position",
-        "calibrating": "Calibration in progress...",
-        "calibrationComplete": "Calibration completed",
-        "calibrationError": "Error during calibration",
-        "calibrationFailed": "Calibration failed",
-        "calibrationResult": "Calibration Result",
-        "calibrationStopped": "Calibration stopped",
-        "close": "Close",
-        "current": "Current",
-        "currentPosition": "Current Position",
+        "calculatedPosition": "Vypočítaná Pozice",
+        "calibrating": "Probíhá kalibrace...",
+        "calibrationComplete": "Kalibrace dokončena",
+        "calibrationError": "Chyba během kalibrace",
+        "calibrationFailed": "Kalibrace selhala",
+        "calibrationResult": "Výsledek kalibrace",
+        "calibrationStopped": "Kalibrace zastavena",
+        "close": "Zavřít",
+        "current": "Současný",
+        "currentPosition": "Aktuální pozice",
         "decOffset": "Dec Offset",
-        "direction": "Direction",
-        "east": "East",
-        "goodCalibration": "Excellent calibration achieved",
-        "info": "The Calibration Assistant helps you position the mount optimally for calibration and perform an accurate calibration.",
-        "meridianOffset": "Meridian Offset",
-        "poorCalibration": "Calibration could be improved. Try a different position or check your equipment.",
-        "positionCalculated": "Optimal position calculated",
-        "positionSettings": "Position Settings",
-        "quality": "Quality",
-        "recalculate": "Recalculate",
-        "slewComplete": "Slew completed",
-        "slewError": "Error during slew",
-        "slewToPosition": "Slew to Position",
-        "slewing": "Slewing to target position...",
-        "startCalibration": "Start Calibration",
-        "stopCalibration": "Stop Calibration",
-        "target": "Target",
-        "targetPosition": "Target Position",
-        "title": "Calibration Assistant",
-        "west": "West"
+        "direction": "Směr",
+        "east": "Váchod",
+        "goodCalibration": "Dosaženo vynikající kalibrace",
+        "info": "Asistent kalibrace vám pomůže optimálně nastavit polohu montáže pro kalibraci a provést přesnou kalibraci.",
+        "meridianOffset": "Posun poledníku",
+        "poorCalibration": "Kalibraci lze vylepšit. Zkuste jinou polohu nebo zkontrolujte své zařízení.",
+        "positionCalculated": "Vypočítaná optimální poloha",
+        "positionSettings": "Nastavení Polohy",
+        "quality": "Kvalita",
+        "recalculate": "Přepočítat",
+        "slewComplete": "Přejezd dokončen",
+        "slewError": "Chyba během přejezdu",
+        "slewToPosition": "Pžejezd na Pozici",
+        "slewing": "Přejíží do cílové polohy...",
+        "startCalibration": "Spustit Kalibraci",
+        "stopCalibration": "Zastavit Kalibraci",
+        "target": "Cíl",
+        "targetPosition": "Cílová Pozice",
+        "title": "Asistent Kalibrace",
+        "west": "Západ"
       }
     },
     "focuser": {
@@ -662,7 +662,7 @@
         "equatorial_lines_visible": "Zobrazit rovníkové linie",
         "landscapes_visible": "Ukázat krajinu",
         "meridian_lines_visible": "Zobrazit poledník",
-        "camera_fov_visible": "Camera Field of View",
+        "camera_fov_visible": "Zorné Pole Kamery",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)"
       }
     },
@@ -697,7 +697,7 @@
         "rotation": "Rotace"
       },
       "titel": "Oblíbené",
-      "title": "Favorites"
+      "title": "Oblíbené"
     },
     "notifications": {
       "modal": {
@@ -709,129 +709,129 @@
   "plugins": {
     "sequenceCreator": {
       "actionLibrary": {
-        "description": "Click to add actions to containers",
-        "endActions": "🏁 End Actions",
-        "startActions": "🚀 Start Actions",
-        "targetActions": "🎯 Target Actions",
-        "title": "Action Library"
+        "description": "Kliknutím přidáte akce do kontejnerů",
+        "endActions": "🏁 Ukončit Akce",
+        "startActions": "🚀 Spustit Akce",
+        "targetActions": "🎯 Cílové Akce",
+        "title": "Knihovna Akcí"
       },
       "actions": {
-        "actionId": "Action ID",
-        "actionParameters": "Action Parameters",
-        "category": "Category",
-        "changesSaveAutomatically": "Changes save automatically",
-        "closeEditor": "Close Editor",
-        "disableAction": "Disable Action",
-        "disabled": "Disabled",
-        "duplicateAction": "Duplicate Action",
-        "editParameters": "Edit Parameters",
-        "enableAction": "Enable Action",
-        "enabled": "Enabled",
+        "actionId": "ID Akce",
+        "actionParameters": "Parametry Akce",
+        "category": "Kategorie",
+        "changesSaveAutomatically": "Změny se ukládají automaticky",
+        "closeEditor": "Zavřít Editor",
+        "disableAction": "Zakázat Akci",
+        "disabled": "Vypnuto",
+        "duplicateAction": "Duplikovat Akci",
+        "editParameters": "Upravit Parametry",
+        "enableAction": "Povolit Akci",
+        "enabled": "Zapnuto",
         "max": "Max:",
         "min": "Min:",
-        "moveDown": "Move Down",
-        "moveUp": "Move Up",
+        "moveDown": "Pohyb Dolů",
+        "moveUp": "Pohyb Nahoru",
         "no": "No",
-        "noConfigurableParameters": "This action has no configurable parameters.",
-        "notSet": "Not set",
-        "parameters": "Parameters",
-        "removeAction": "Remove Action",
+        "noConfigurableParameters": "Tato akce nemá žádné konfigurovatelné parametry.",
+        "notSet": "Není nastaveno",
+        "parameters": "Parametery",
+        "removeAction": "Odebrat Akci",
         "yes": "Yes"
       },
       "confirmations": {
-        "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",
-        "removeAction": "Remove \"{actionName}\" action?",
-        "sendSequenceFailed": "Failed to send sequence to N.I.N.A",
-        "unknownError": "Unknown error occurred"
+        "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
+        "removeAction": "Odstranit akci „{actionName}",
+        "sendSequenceFailed": "Nepodařilo se odeslat sekvenci do N.I.N.A.",
+        "unknownError": "Došlo k neznámé chybě"
       },
       "containers": {
-        "addAction": "Add Action",
-        "addActionsToContainer": "Add actions to this container",
+        "addAction": "Přidat Akci",
+        "addActionsToContainer": "Přidat akce do tohoto kontejneru",
         "endSequence": {
-          "description": "Actions executed at the end of the session",
-          "emptyDescription": "Add actions to safely shut down your equipment",
-          "emptyTitle": "No End Actions",
-          "title": "End Sequence"
+          "description": "Akce provedené na konci relace",
+          "emptyDescription": "Přidejte akce pro bezpečné vypnutí zařízení",
+          "emptyTitle": "Žádné Akce Na konci",
+          "title": "Konec Sekvence"
         },
-        "noActions": "No Actions",
+        "noActions": "Žádné Akce",
         "startSequence": {
-          "description": "Actions executed at the beginning of the session",
-          "emptyDescription": "Add actions to prepare your equipment for imaging",
-          "emptyTitle": "No Start Actions",
-          "title": "Start Sequence"
+          "description": "Akce provedené na začátku relace",
+          "emptyDescription": "Přidejte akce pro přípravu zařízení pro snímání obrazu",
+          "emptyTitle": "Žádné Akce při Spuštění",
+          "title": "Spustit Sekvenci"
         },
         "targetSequence": {
-          "description": "Main imaging sequence for your target",
-          "emptyDescription": "Add imaging actions for your target",
-          "emptyTitle": "No Target Actions",
-          "title": "Target Sequence"
+          "description": "Hlavní zobrazovací sekvence pro váš cíl",
+          "emptyDescription": "Přidejte zobrazovací akce pro svůj cíl",
+          "emptyTitle": "Žádné Cílové Akce",
+          "title": "Cílová Sekvence"
         }
       },
       "exportModal": {
         "buttons": {
-          "copied": "Copied!",
-          "copyToClipboard": "Copy to Clipboard",
-          "downloadJSON": "Download JSON File",
-          "failed": "Failed",
-          "sendToNina": "Send to N.I.N.A",
-          "sending": "Sending...",
-          "sent": "Sent!"
+          "copied": "Zkopírováno!",
+          "copyToClipboard": "Kopírovat do Schránky",
+          "downloadJSON": "Stáhnout soubor JSON",
+          "failed": "Selhalo",
+          "sendToNina": "Odeslat dO N.I.N.A",
+          "sending": "Odesílání...",
+          "sent": "Odesláno!"
         },
         "howToUse": {
-          "step1": "Download or copy the JSON file, or",
-          "step2": "Send directly to N.I.N.A (requires connection), or",
-          "step3": "Import manually into N.I.N.A via Sequence → Load Sequence",
-          "step4": "Adjust any equipment-specific settings as needed",
-          "title": "How to use:"
+          "step1": "Stáhněte nebo zkopírujte soubor JSON, nebo",
+          "step2": "Odeslat přímo do N.I.N.A (vyžaduje připojení) nebo",
+          "step3": "Ruční import do N.I.N.A přes Sekvence → Načíst sekvenci",
+          "step4": "Upravte podle potřeby všechna nastavení specifická pro dané zařízení.",
+          "title": "Návod k použití:"
         },
         "jsonPreview": {
-          "categories": "Categories",
-          "copied": "Copied!",
-          "copyJson": "Copy JSON",
-          "downloadJson": "Download JSON",
-          "enabled": "Enabled",
-          "estimatedDuration": "Est. Duration",
-          "filenamePrompt": "Enter filename...",
-          "previewDescription": "Preview and download your sequence as a JSON file",
-          "sequenceJsonExport": "Sequence JSON Export",
-          "title": "JSON Preview",
-          "totalActions": "Total Actions"
+          "categories": "Kategorie",
+          "copied": "Kopírováno!",
+          "copyJson": "Kopírovat JSON",
+          "downloadJson": "Stáhnout JSON",
+          "enabled": "Zapnuto",
+          "estimatedDuration": "Přibližná délka trvání",
+          "filenamePrompt": "Zadejte název souboru...",
+          "previewDescription": "Náhled a stažení sekvence jako souboru JSON",
+          "sequenceJsonExport": "SExport sekvence JSON",
+          "title": "Náhled JSON",
+          "totalActions": "Celkem Akcí"
         },
         "messages": {
-          "errorTitle": "Error:",
-          "successMessage": "Sequence has been loaded into N.I.N.A successfully!",
-          "successTitle": "Success:"
+          "errorTitle": "Chyba:",
+          "successMessage": "Sekvence byla úspěšně načtena do N.I.N.A!",
+          "successTitle": "Úspěch:"
         },
-        "subtitle": "Your sequence is ready to be exported as N.I.N.A compatible JSON",
-        "title": "Export N.I.N.A Sequence"
+        "subtitle": "Vaše sekvence je připravena k exportu jako JSON kompatibilní s N.I.N.A.",
+        "title": "Exportovat sekvenci N.I.N.A."
       },
-      "subtitle": "Create professional astrophotography sequences",
-      "title": "N.I.N.A Sequence Creator",
+      "subtitle": "CVytvářejte profesionální astrofotografické sekvence",
+      "title": "N.I.N.A Tvůrce sekvencí",
       "toolbar": {
-        "clearSequence": "Clear Sequence",
-        "exportSequence": "Export Sequence",
-        "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence",
-        "loadBasicSequence": "Load Basic Sequence",
-        "redo": "Redo",
-        "undo": "Undo",
-        "validSequence": "Sequence is valid and can be exported"
+        "clearSequence": "Vymazat Sekvenci",
+        "exportSequence": "Export Sekvence",
+        "invalidSequence": "Přidejte nastavení cíle a inteligentní expozici, abyste vytvořili platnou sekvenci.",
+        "loadBasicSequence": "Načíst Základní Sekvenci",
+        "redo": "Znovu",
+        "undo": "Zpět",
+        "validSequence": "Sekvence je platná a lze ji exportovat."
       },
       "settings": {
-        "title": "Meridianflip",
-        "enableMeridianFlip": "Enable Meridianflip"
+        "title": "Překlopení Poledníku",
+        "enableMeridianFlip": "Zapnuto  Překlopení Poledníku"
       },
       "targetSearch": {
         "objectTypes": {
-          "Comet": "Comet",
+          "Comet": "Kometa",
           "DSO": "Deep-Sky Object",
-          "Moon": "Moon",
-          "Planet": "Planet",
-          "Star": "Star",
+          "Moon": "Měsíc",
+          "Planet": "Planety",
+          "Star": "Hvězda",
           "StellariumObject": "Stellarium Object"
         },
-        "placeholder": "Enter object name (e.g. M31, NGC 1234, Mars)...",
-        "searchDescription": "Search for deep-sky objects, planets or stars and automatically adopt the coordinates",
-        "searchLabel": "Search Target"
+        "placeholder": "Zadejte název objektu (např. M31, NGC 1234, Mars)...",
+        "searchDescription": "Vyhledávejte objekty hlubokého vesmíru, planety nebo hvězdy a automaticky přejímejte souřadnice.",
+        "searchLabel": "Hledat Cíl"
       }
     }
   }

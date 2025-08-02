@@ -53,12 +53,7 @@
     <!-- Hero Icons (from HeroIcon.vue) -->
     <!-- Play -->
     <template v-else-if="name === 'play'">
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M8 5v14l11-7z"
-      />
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5v14l11-7z" />
     </template>
 
     <!-- Camera -->
@@ -154,11 +149,20 @@
     <!-- List with Pencil (Sequence Creator) -->
     <template v-else-if="name === 'list-with-pencil'">
       <!-- List background -->
-      <rect x="3" y="5" width="14" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+      <rect
+        x="3"
+        y="5"
+        width="14"
+        height="16"
+        rx="2"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      />
       <!-- List items -->
-      <line x1="6" y1="9" x2="14" y2="9" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="6" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1.5"/>
-      <line x1="6" y1="15" x2="10" y2="15" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="6" y1="9" x2="14" y2="9" stroke="currentColor" stroke-width="1.5" />
+      <line x1="6" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="1.5" />
+      <line x1="6" y1="15" x2="10" y2="15" stroke="currentColor" stroke-width="1.5" />
       <!-- Pencil -->
       <path
         stroke-linecap="round"
@@ -169,7 +173,7 @@
         stroke="currentColor"
       />
       <!-- Pencil tip -->
-      <circle cx="16" cy="6" r="1" fill="currentColor"/>
+      <circle cx="16" cy="6" r="1" fill="currentColor" />
     </template>
 
     <!-- Default fallback -->

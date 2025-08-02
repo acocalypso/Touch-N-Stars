@@ -241,6 +241,236 @@ export const useSequenceStore = defineStore('sequence', () => {
   // Global sequence settings
   const enableMeridianFlip = ref(true);
 
+  // Localized templates storage
+  const localizedActionTemplates = ref(null);
+
+  // Function to initialize localized templates
+  function initializeLocalizedTemplates(t) {
+    localizedActionTemplates.value = {
+      start: [
+        {
+          id: 'unpark-scope',
+          name: t('plugins.sequenceCreator.actions.unparkTelescope.name'),
+          icon: 'telescope',
+          description: t('plugins.sequenceCreator.actions.unparkTelescope.description'),
+          parameters: {},
+          color: 'bg-blue-500',
+        },
+        {
+          id: 'cool-camera',
+          name: t('plugins.sequenceCreator.actions.coolCamera.name'),
+          icon: 'snowflake',
+          description: t('plugins.sequenceCreator.actions.coolCamera.description'),
+          parameters: {
+            temperature: {
+              type: 'number',
+              default: -10,
+              min: -50,
+              max: 30,
+              step: 1,
+              label: t('plugins.sequenceCreator.actions.coolCamera.temperatureLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.coolCamera.temperatureTooltip'),
+            },
+            duration: {
+              type: 'number',
+              default: 10,
+              min: 0,
+              max: 60,
+              step: 1,
+              label: t('plugins.sequenceCreator.actions.coolCamera.durationLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.coolCamera.durationTooltip'),
+            },
+          },
+          color: 'bg-cyan-500',
+        },
+      ],
+      target: [
+        {
+          id: 'target-settings',
+          name: t('plugins.sequenceCreator.actions.targetSettings.name'),
+          icon: 'crosshairs',
+          description: t('plugins.sequenceCreator.actions.targetSettings.description'),
+          parameters: {
+            targetName: {
+              type: 'text',
+              default: 'M31 - Andromeda Galaxy',
+              label: t('plugins.sequenceCreator.actions.targetSettings.targetNameLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.targetSettings.targetNameTooltip'),
+            },
+            ra: {
+              type: 'text',
+              default: '00:42:44',
+              label: t('plugins.sequenceCreator.actions.targetSettings.raLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.targetSettings.raTooltip'),
+            },
+            dec: {
+              type: 'text',
+              default: '+41:16:07',
+              label: t('plugins.sequenceCreator.actions.targetSettings.decLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.targetSettings.decTooltip'),
+            },
+            positionAngle: {
+              type: 'number',
+              default: 0,
+              min: -180,
+              max: 180,
+              step: 0.1,
+              label: t('plugins.sequenceCreator.actions.targetSettings.positionAngleLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.targetSettings.positionAngleTooltip'),
+            },
+          },
+          color: 'bg-purple-500',
+        },
+        {
+          id: 'slew-to-target',
+          name: t('plugins.sequenceCreator.actions.slewToTarget.name'),
+          icon: 'cursor-arrow-rays',
+          description: t('plugins.sequenceCreator.actions.slewToTarget.description'),
+          parameters: {
+            slewMode: {
+              type: 'select',
+              options: ['Slew Only', 'Slew and Center', 'Slew, Center and Rotate'],
+              default: 'Slew and Center',
+              label: t('plugins.sequenceCreator.actions.slewToTarget.slewModeLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.slewToTarget.slewModeTooltip'),
+            },
+          },
+          color: 'bg-indigo-500',
+        },
+        {
+          id: 'run-autofocus',
+          name: t('plugins.sequenceCreator.actions.runAutofocus.name'),
+          icon: 'EyeIcon',
+          description: t('plugins.sequenceCreator.actions.runAutofocus.description'),
+          parameters: {},
+          color: 'bg-yellow-500',
+        },
+        {
+          id: 'start-guiding',
+          name: t('plugins.sequenceCreator.actions.startGuiding.name'),
+          icon: 'guider',
+          description: t('plugins.sequenceCreator.actions.startGuiding.description'),
+          parameters: {
+            forceCalibration: {
+              type: 'boolean',
+              default: false,
+              label: t('plugins.sequenceCreator.actions.startGuiding.forceCalibrationLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.startGuiding.forceCalibrationTooltip'),
+            },
+          },
+          color: 'bg-red-500',
+        },
+        {
+          id: 'smart-exposure',
+          name: t('plugins.sequenceCreator.actions.smartExposure.name'),
+          icon: 'CameraIcon',
+          description: t('plugins.sequenceCreator.actions.smartExposure.description'),
+          parameters: {
+            exposureTime: {
+              type: 'number',
+              default: 120,
+              min: 0.1,
+              max: 3600,
+              step: 0.1,
+              label: t('plugins.sequenceCreator.actions.smartExposure.exposureTimeLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.exposureTimeTooltip'),
+            },
+            gain: {
+              type: 'number',
+              default: 100,
+              min: 0,
+              max: 500,
+              label: t('plugins.sequenceCreator.actions.smartExposure.gainLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.gainTooltip'),
+            },
+            offset: {
+              type: 'number',
+              default: -1,
+              min: -100,
+              max: 100,
+              label: t('plugins.sequenceCreator.actions.smartExposure.offsetLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.offsetTooltip'),
+            },
+            binning: {
+              type: 'select',
+              options: ['1x1', '2x2', '3x3', '4x4'],
+              default: '1x1',
+              label: t('plugins.sequenceCreator.actions.smartExposure.binningLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.binningTooltip'),
+            },
+            filter: {
+              type: 'select',
+              options: ['None', 'L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII', 'Clear'],
+              default: 'None',
+              label: t('plugins.sequenceCreator.actions.smartExposure.filterLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.filterTooltip'),
+            },
+            imageType: {
+              type: 'select',
+              options: ['LIGHT', 'DARK', 'FLAT', 'BIAS', 'SNAPSHOT'],
+              default: 'LIGHT',
+              label: t('plugins.sequenceCreator.actions.smartExposure.imageTypeLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.imageTypeTooltip'),
+            },
+            count: {
+              type: 'number',
+              default: 100,
+              min: 1,
+              max: 1000,
+              label: t('plugins.sequenceCreator.actions.smartExposure.countLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.countTooltip'),
+            },
+            ditherAfter: {
+              type: 'number',
+              default: 4,
+              min: 1,
+              max: 20,
+              label: t('plugins.sequenceCreator.actions.smartExposure.ditherAfterLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.smartExposure.ditherAfterTooltip'),
+            },
+          },
+          color: 'bg-green-500',
+        },
+      ],
+      end: [
+        {
+          id: 'stop-guiding',
+          name: t('plugins.sequenceCreator.actions.stopGuiding.name'),
+          icon: 'guider',
+          description: t('plugins.sequenceCreator.actions.stopGuiding.description'),
+          parameters: {},
+          color: 'bg-red-600',
+        },
+        {
+          id: 'warm-camera',
+          name: t('plugins.sequenceCreator.actions.warmCamera.name'),
+          icon: 'fire',
+          description: t('plugins.sequenceCreator.actions.warmCamera.description'),
+          parameters: {
+            duration: {
+              type: 'number',
+              default: 10,
+              min: 0,
+              max: 60,
+              step: 1,
+              label: t('plugins.sequenceCreator.actions.warmCamera.durationLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.warmCamera.durationTooltip'),
+            },
+          },
+          color: 'bg-orange-500',
+        },
+        {
+          id: 'park-scope',
+          name: t('plugins.sequenceCreator.actions.parkTelescope.name'),
+          icon: 'telescope',
+          description: t('plugins.sequenceCreator.actions.parkTelescope.description'),
+          parameters: {},
+          color: 'bg-blue-500',
+        },
+      ],
+    };
+  }
+
   // Computed
   const canUndo = computed(() => historyIndex.value > 0);
   const canRedo = computed(() => historyIndex.value < history.value.length - 1);
@@ -1315,7 +1545,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     endSequence,
     selectedAction,
     isModified,
-    actionTemplates,
+    actionTemplates: computed(() => localizedActionTemplates.value || actionTemplates),
     enableMeridianFlip,
 
     // Computed
@@ -1340,5 +1570,6 @@ export const useSequenceStore = defineStore('sequence', () => {
     selectAction,
     exportSequenceJSON,
     exportSequenceData,
+    initializeLocalizedTemplates,
   };
 });

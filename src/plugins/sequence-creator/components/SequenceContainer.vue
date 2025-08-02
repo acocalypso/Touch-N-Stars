@@ -127,7 +127,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceActionItem from './SequenceActionItem.vue';
@@ -158,6 +158,11 @@ const emit = defineEmits(['add-action', 'remove-action', 'duplicate-action', 'mo
 const store = useSequenceStore();
 const showAddMenu = ref(false);
 
+// Initialize localized templates when component is mounted
+onMounted(() => {
+  store.initializeLocalizedTemplates(t);
+});
+
 function getContainerClasses(color) {
   const classes = {
     blue: 'bg-blue-600 border-blue-600',
@@ -178,8 +183,22 @@ function getEmptyIcon(containerType) {
 
 function getIconComponent(iconName) {
   // For sequence-specific icons, use SequenceIcons component
-  const sequenceIcons = ['telescope', 'guider', 'snowflake', 'play', 'camera', 'stop', 'fire', 'home', 'cursor-arrow-rays', 'crosshairs', 'magnifying-glass', 'rocket', 'flag'];
-  
+  const sequenceIcons = [
+    'telescope',
+    'guider',
+    'snowflake',
+    'play',
+    'camera',
+    'stop',
+    'fire',
+    'home',
+    'cursor-arrow-rays',
+    'crosshairs',
+    'magnifying-glass',
+    'rocket',
+    'flag',
+  ];
+
   if (sequenceIcons.includes(iconName)) {
     return SequenceIcons;
   }

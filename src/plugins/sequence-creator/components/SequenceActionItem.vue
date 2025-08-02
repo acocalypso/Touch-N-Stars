@@ -20,11 +20,7 @@
               action.color,
             ]"
           >
-            <component 
-              :is="getIconComponent(action.icon)" 
-              :name="action.icon"
-              class="w-5 h-5" 
-            />
+            <component :is="getIconComponent(action.icon)" :name="action.icon" class="w-5 h-5" />
           </div>
 
           <div class="flex-1 min-w-0">
@@ -333,11 +329,7 @@ import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
 import { apiStore } from '@/store/store';
 import TargetSearch from './TargetSearch.vue';
-import {
-  LinkIcon,
-  CameraIcon,
-  EyeIcon,
-} from '@heroicons/vue/24/outline';
+import { LinkIcon, CameraIcon, EyeIcon } from '@heroicons/vue/24/outline';
 import SequenceIcons from './SequenceIcons.vue';
 
 const { t } = useI18n();
@@ -449,8 +441,22 @@ function handleTargetSelected(targetData) {
 
 function getIconComponent(iconName) {
   // For sequence-specific icons, use SequenceIcons component
-  const sequenceIcons = ['telescope', 'guider', 'snowflake', 'play', 'camera', 'stop', 'fire', 'home', 'cursor-arrow-rays', 'crosshairs', 'magnifying-glass', 'rocket', 'flag'];
-  
+  const sequenceIcons = [
+    'telescope',
+    'guider',
+    'snowflake',
+    'play',
+    'camera',
+    'stop',
+    'fire',
+    'home',
+    'cursor-arrow-rays',
+    'crosshairs',
+    'magnifying-glass',
+    'rocket',
+    'flag',
+  ];
+
   if (sequenceIcons.includes(iconName)) {
     return SequenceIcons;
   }

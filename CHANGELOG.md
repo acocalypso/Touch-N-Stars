@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The settings modal is now a separate page.
 - Stellaruim search improved
 - The sequence page design has been revised.
+- The iocns of the navbar are no longer dependent on the status of the sequence. 
 
 ### Fixed
 - Framing: The skychart and the Name is now also displayed when the coordinates come from Stellarium.

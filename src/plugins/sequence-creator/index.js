@@ -7,35 +7,50 @@ import metadata from './plugin.json';
 export default {
   metadata,
   install(app, options) {
-    const pluginStore = usePluginStore();
-    const router = options.router;
+    try {
+      const pluginStore = usePluginStore();
+      const router = options.router;
 
-    // Register route
-    router.addRoute({
-      path: '/sequence-creator',
-      component: DefaultPluginView,
-      meta: { requiresSetup: true },
-    });
+      // Ensure router is available
+      if (!router) {
+        console.error('Router not available for plugin installation');
+        return;
+      }
 
-    // Register plugin metadata
-    pluginStore.registerPlugin(metadata);
+      // Get current plugin state from store
+      const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
+      
+      // Use a unique fallback path for this plugin if not found in store
+      const pluginPath = currentPlugin && currentPlugin.pluginPath 
+        ? currentPlugin.pluginPath 
+        : '/sequence-creator';
 
-    // Add navigation item if the plugin is enabled
-    if (metadata.enabled) {
-      pluginStore.addNavigationItem({
-        pluginId: metadata.id,
-        path: '/sequence-creator',
-        // Sequence creator icon using SequenceIcons component
-        icon: markRaw({
-          render() {
-            return h(SequenceIcons, {
-              name: 'list-with-pencil',
-              className: 'w-6 h-6',
-            });
-          },
-        }),
-        title: metadata.name,
+      // Register route with generic plugin path
+      router.addRoute({
+        path: pluginPath,
+        component: DefaultPluginView,
+        meta: { requiresSetup: true },
       });
+
+      // Add navigation item if the plugin is enabled in the store
+      if (currentPlugin && currentPlugin.enabled) {
+        pluginStore.addNavigationItem({
+          pluginId: metadata.id,
+          path: pluginPath,
+          // Sequence creator icon using SequenceIcons component
+          icon: markRaw({
+            render() {
+              return h(SequenceIcons, {
+                name: 'list-with-pencil',
+                className: 'w-6 h-6',
+              });
+            },
+          }),
+          title: metadata.name,
+        });
+      }
+    } catch (error) {
+      console.error('Error installing sequence-creator plugin:', error);
     }
   },
 };

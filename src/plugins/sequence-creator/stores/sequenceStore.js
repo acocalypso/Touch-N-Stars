@@ -1388,17 +1388,6 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
   }
 
-  function toggleActionEnabled(actionId) {
-    const containers = [startSequence.value, targetSequence.value, endSequence.value];
-    for (const container of containers) {
-      const action = container.find((action) => action.id === actionId);
-      if (action) {
-        action.enabled = !action.enabled;
-        isModified.value = true;
-        return;
-      }
-    }
-  }
 
   function clearSequence() {
     startSequence.value = [];
@@ -1560,7 +1549,6 @@ export const useSequenceStore = defineStore('sequence', () => {
     moveAction,
     duplicateAction,
     updateActionParameter,
-    toggleActionEnabled,
     clearSequence,
     loadSequence,
     loadBasicSequence,

@@ -124,38 +124,6 @@
             </svg>
           </button>
 
-          <!-- Enable/Disable -->
-          <button
-            @click="handleToggleEnabled"
-            :class="[
-              'p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors',
-              action.enabled
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-gray-400 dark:text-gray-500',
-            ]"
-            :title="
-              action.enabled
-                ? t('plugins.sequenceCreator.actions.disableAction')
-                : t('plugins.sequenceCreator.actions.enableAction')
-            "
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-                v-if="action.enabled"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-                v-else
-              />
-            </svg>
-          </button>
 
           <!-- Duplicate -->
           <button
@@ -355,7 +323,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['edit', 'remove', 'duplicate', 'move-up', 'move-down', 'toggle-enabled']);
+const emit = defineEmits(['edit', 'remove', 'duplicate', 'move-up', 'move-down']);
 
 const isEditing = ref(false);
 
@@ -417,9 +385,6 @@ function handleDuplicate() {
   emit('duplicate', props.action.id);
 }
 
-function handleToggleEnabled() {
-  emit('toggle-enabled', props.action.id);
-}
 
 function handleTargetSelected(targetData) {
   console.log('Target selected:', targetData);

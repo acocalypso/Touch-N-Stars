@@ -72,7 +72,7 @@ rl.question('Plugin name: ', (name) => {
       // Create index.js
       const indexJs = `// Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
-import { h } from 'vue';
+import { h, markRaw } from 'vue';
 import DefaultPluginView from './views/DefaultPluginView.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
@@ -83,23 +83,24 @@ export default {
     const pluginStore = usePluginStore();
     const router = options.router;
 
-    // Register route
+    // Get current plugin state from store
+    const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
+    const pluginPath = currentPlugin ? currentPlugin.pluginPath : '/plugin1';
+
+    // Register route with generic plugin path
     router.addRoute({
-      path: '/${id}',
+      path: pluginPath,
       component: DefaultPluginView,
       meta: { requiresSetup: true },
     });
 
-    // Register plugin metadata
-    pluginStore.registerPlugin(metadata);
-
-    // Add navigation item if the plugin is enabled
-    if (metadata.enabled) {
+    // Add navigation item if the plugin is enabled in the store
+    if (currentPlugin && currentPlugin.enabled) {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
-        path: '/${id}',
+        path: pluginPath,
         // Replace with your custom icon component when available
-        icon: {
+        icon: markRaw({
           render() {
             // Default simple icon - a square
             return h('svg', {
@@ -118,7 +119,7 @@ export default {
               })
             ]);
           }
-        },
+        }),
         title: metadata.name,
       });
     }

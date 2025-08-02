@@ -219,6 +219,8 @@
       "deltaHFR": "DeltaHFR",
       "sampleSize": "Sample size",
       "triggers": "Triggers",
+      "expandAll": "Expand All",
+      "collapseAll": "Collapse All",
       "details": {
         "of": "of",
         "gain": "Gain",
@@ -674,7 +676,6 @@
       }
     },
     "fav_target": {
-      "title": "Favorites",
       "table": {
         "name": "Name",
         "ra": "RA",
@@ -686,13 +687,13 @@
       },
       "no_fav": "No favorites saved",
       "modal_save": {
-        "title": "Save",
         "message": "The target has been saved",
-        "titel": "Save"
+        "titel": "Save",
+        "title": "Save"
       },
       "modal_sequence": {
-        "title": "Sequence",
-        "titel": "Sequence"
+        "titel": "Sequence",
+        "title": "Sequence"
       },
       "modal_sequence_ok": {
         "message": "Target set"
@@ -701,7 +702,8 @@
         "message": "No sequence loaded"
       },
       "enter_name": "Enter name",
-      "titel": "Favourites"
+      "titel": "Favourites",
+      "title": "Favourites"
     }
   },
   "plugins": {

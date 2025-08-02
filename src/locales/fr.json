@@ -365,35 +365,35 @@
       },
       "calibrationAssistant": {
         "calculatedPosition": "Position calculée",
-        "calibrating": "L'étalonnage est en cours d'exécution ...",
+        "calibrating": "Étalonnage en cours ...",
         "calibrationComplete": "Étalonnage terminé",
-        "calibrationError": "Erreur d'étalonnage",
+        "calibrationError": "Erreur pendant l'étalonnage",
         "calibrationFailed": "L'étalonnage a échoué",
         "calibrationResult": "Résultat d'étalonnage",
         "calibrationStopped": "L'étalonnage s'est arrêté",
+        "close": "Fermer",
         "current": "Actuel",
         "currentPosition": "Position actuelle",
+        "decOffset": "Décalage de décor",
         "direction": "Direction",
         "east": "Est",
-        "info": "L'assistant d'étalonnage vous aide à mettre l'assemblage dans une position optimale pour l'étalonnage et à effectuer un étalonnage précis.",
+        "goodCalibration": "Excellent étalonnage réalisé",
+        "info": "L'assistant d'étalonnage vous aide à positionner la monture de manière optimale pour l'étalonnage et à effectuer un étalonnage précis.",
         "meridianOffset": "Décalage du méridien",
-        "goodCalibration": "Excellent étalonnage atteint",
-        "close": "Fermer",
-        "poorCalibration": "L'étalonnage pourrait être amélioré. Essayez un nouveau poste ou vérifiez l'équipement.",
-        "decOffset": "Déclin de la déclinaison",
+        "poorCalibration": "L'étalonnage pourrait être amélioré. \nEssayez une position différente ou vérifiez votre équipement.",
         "positionCalculated": "Position optimale calculée",
         "positionSettings": "Paramètres de position",
         "quality": "Qualité",
-        "recalculate": "Réorganiser",
-        "slewComplete": "Pivotant terminé",
-        "slewError": "Erreurs ailées",
-        "slewToPosition": "Faire un signe vers la position",
-        "slewing": "Schwenke à la position cible ...",
+        "recalculate": "Recalculer",
+        "slewComplete": "Slew terminé",
+        "slewError": "Erreur pendant le Slew",
+        "slewToPosition": "Tué pour positionner",
+        "slewing": "Aller à la position ciblée ...",
         "startCalibration": "Commencer à calibrer",
         "stopCalibration": "Étalonnage",
-        "target": "But",
-        "title": "Assistant d'étalonnage",
+        "target": "Cible",
         "targetPosition": "Position cible",
+        "title": "Assistant d'étalonnage",
         "west": "Ouest"
       }
     },
@@ -663,7 +663,7 @@
         "landscapes_visible": "Montrer des paysages",
         "meridian_lines_visible": "Montrer le méridien",
         "camera_fov_visible": "Champ de vue de la caméra",
-        "dsos_visible": "Objets de ciel profond (Messier, NGC)"
+        "dsos_visible": "Objets du ciel profond (Messier, NGC)"
       }
     },
     "profile": {
@@ -673,10 +673,12 @@
       "enter_name": "Enter name",
       "modal_save": {
         "message": "The target has been saved",
-        "titel": "Sauvegarder"
+        "titel": "Sauvegarder",
+        "title": "Sauvegarder"
       },
       "modal_sequence": {
-        "titel": "Séquence"
+        "titel": "Séquence",
+        "title": "Séquence"
       },
       "modal_sequence_error": {
         "message": "Aucune séquence chargée"
@@ -694,12 +696,142 @@
         "sequnce": "Seq. target",
         "rotation": "Rotation"
       },
-      "titel": "Favoris"
+      "titel": "Favoris",
+      "title": "Favoris"
     },
     "notifications": {
       "modal": {
         "description": "Veuillez accorder l'autorisation de recevoir des notifications sur les événements de séquence.",
         "title": "Configurer les notifications"
+      }
+    }
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Cliquez pour ajouter des actions aux conteneurs",
+        "endActions": "🏁 Actions finales",
+        "startActions": "🚀 Démarrer les actions",
+        "targetActions": "🎯 Actions cibles",
+        "title": "Bibliothèque d'action"
+      },
+      "actions": {
+        "actionId": "ID d'action",
+        "actionParameters": "Paramètres d'action",
+        "category": "Catégorie",
+        "changesSaveAutomatically": "Modifications Enregistrer automatiquement",
+        "closeEditor": "Éditeur proche",
+        "disableAction": "Désactiver l'action",
+        "disabled": "Désactivé",
+        "duplicateAction": "Action en double",
+        "editParameters": "Modifier les paramètres",
+        "enableAction": "Permettre l'action",
+        "enabled": "Activé",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Descendre",
+        "moveUp": "Monter",
+        "no": "Non",
+        "noConfigurableParameters": "Cette action n'a pas de paramètres configurables.",
+        "notSet": "Pas réglé",
+        "parameters": "Paramètres",
+        "removeAction": "Supprimer l'action",
+        "yes": "Oui"
+      },
+      "confirmations": {
+        "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? \nCette action ne peut pas être annulée.",
+        "removeAction": "Supprimer \"{actionName}\" Action?",
+        "sendSequenceFailed": "Échec de la séquence à N.I.N.A",
+        "unknownError": "Une erreur inconnue s'est produite"
+      },
+      "containers": {
+        "addActionsToContainer": "Ajouter des actions à ce conteneur",
+        "endSequence": {
+          "description": "Actions exécutées à la fin de la session",
+          "emptyDescription": "Ajouter des actions pour arrêter en toute sécurité votre équipement",
+          "emptyTitle": "Pas d'actions finales",
+          "title": "Séquence finale"
+        },
+        "noActions": "Aucune action",
+        "startSequence": {
+          "description": "Actions exécutées au début de la session",
+          "emptyDescription": "Ajouter des actions pour préparer votre équipement à l'imagerie",
+          "emptyTitle": "Pas d'actions de démarrage",
+          "title": "Séquence de démarrage"
+        },
+        "targetSequence": {
+          "description": "Séquence d'imagerie principale pour votre cible",
+          "emptyDescription": "Ajoutez des actions d'imagerie pour votre cible",
+          "emptyTitle": "Aucune actions cibles",
+          "title": "Séquence cible"
+        },
+        "addAction": "Ajouter une action"
+      },
+      "exportModal": {
+        "buttons": {
+          "copied": "Copié!",
+          "copyToClipboard": "Copier dans le presse-papiers",
+          "downloadJSON": "Télécharger le fichier JSON",
+          "failed": "Échoué",
+          "sendToNina": "Envoyer à N.I.N.A",
+          "sending": "Envoi...",
+          "sent": "Envoyé!"
+        },
+        "howToUse": {
+          "step1": "Télécharger ou copier le fichier JSON, ou",
+          "step2": "Envoyer directement à N.I.N.A (nécessite une connexion), ou",
+          "step3": "Importez manuellement dans N.I.N.A via la séquence → Séquence de chargement",
+          "step4": "Ajustez tous les paramètres spécifiques à l'équipement au besoin",
+          "title": "Comment utiliser:"
+        },
+        "jsonPreview": {
+          "categories": "Catégories",
+          "copied": "Copié!",
+          "copyJson": "Copier JSON",
+          "downloadJson": "Télécharger JSON",
+          "enabled": "Activé",
+          "estimatedDuration": "HNE. \nDurée",
+          "filenamePrompt": "Entrez le nom de fichier ...",
+          "previewDescription": "Aperçu et télécharger votre séquence en tant que fichier JSON",
+          "sequenceJsonExport": "Séquence JSON Exportation",
+          "title": "Aperçu JSON",
+          "totalActions": "Actions totales"
+        },
+        "messages": {
+          "errorTitle": "Erreur:",
+          "successMessage": "La séquence a été chargée dans N.I.N.A avec succès!",
+          "successTitle": "Succès:"
+        },
+        "subtitle": "Votre séquence est prête à être exportée comme n.i.n.a JSON compatible",
+        "title": "Séquence d'exportation N.I.N.A"
+      },
+      "subtitle": "Créer des séquences d'astrophotographie professionnelles",
+      "title": "N.I.N.A Créateur de séquence",
+      "toolbar": {
+        "clearSequence": "Séquence claire",
+        "exportSequence": "Séquence d'exportation",
+        "invalidSequence": "Ajouter des paramètres cibles et une exposition intelligente pour créer une séquence valide",
+        "loadBasicSequence": "Chargez la séquence de base",
+        "redo": "Refaire",
+        "undo": "Défaire",
+        "validSequence": "La séquence est valide et peut être exportée"
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Activer Meridianflip"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Comète",
+          "DSO": "Objet de ciel profond",
+          "Moon": "Lune",
+          "Planet": "Planète",
+          "Star": "Étoile",
+          "StellariumObject": "Objet stellaire"
+        },
+        "placeholder": "Entrez le nom de l'objet (par exemple M31, NGC 1234, Mars) ...",
+        "searchDescription": "Recherchez des objets, des planètes ou des étoiles du ciel profond et adoptez automatiquement les coordonnées",
+        "searchLabel": "Objectif de recherche"
       }
     }
   }

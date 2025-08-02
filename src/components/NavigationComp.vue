@@ -47,13 +47,13 @@
           </router-link>
         </div>
 
-        <div v-if="store.focuserInfo.Connected ">
+        <div v-if="store.focuserInfo.Connected">
           <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.mountInfo.Connected ">
+        <div v-if="store.mountInfo.Connected">
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"

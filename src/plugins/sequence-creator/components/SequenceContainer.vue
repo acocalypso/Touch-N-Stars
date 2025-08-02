@@ -4,7 +4,7 @@
     <div :class="['container-header p-4 rounded-t-lg border-l-4', getContainerClasses(color)]">
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <component :is="getIconComponent(icon)" class="w-6 h-6" />
+          <component :is="getIconComponent(icon)" :name="icon" class="w-6 h-6" />
           <div>
             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
               {{ title }}
@@ -32,6 +32,7 @@
         <div class="mb-3 flex justify-center">
           <component
             :is="getIconComponent(getEmptyIcon(containerType))"
+            :name="getEmptyIcon(containerType)"
             class="w-12 h-12 text-gray-400"
           />
         </div>
@@ -108,6 +109,7 @@
         >
           <component
             :is="getIconComponent(action.icon)"
+            :name="action.icon"
             class="w-5 h-5 text-gray-600 dark:text-gray-400"
           />
           <div class="flex-1">
@@ -137,15 +139,8 @@ import {
   LinkIcon,
   CameraIcon,
   EyeIcon,
-  PlayIcon,
-  StopIcon,
-  FireIcon,
-  HomeIcon,
-  MagnifyingGlassIcon,
 } from '@heroicons/vue/24/outline';
-import TelescopeIcon from './TelescopeIcon.vue';
-import GuiderIcon from './GuiderIcon.vue';
-import SnowflakeIcon from './SnowflakeIcon.vue';
+import SequenceIcons from './SequenceIcons.vue';
 
 const { t } = useI18n();
 
@@ -182,6 +177,14 @@ function getEmptyIcon(containerType) {
 }
 
 function getIconComponent(iconName) {
+  // For sequence-specific icons, use SequenceIcons component
+  const sequenceIcons = ['telescope', 'guider', 'snowflake', 'play', 'camera', 'stop', 'fire', 'home', 'cursor-arrow-rays', 'crosshairs', 'magnifying-glass', 'rocket', 'flag'];
+  
+  if (sequenceIcons.includes(iconName)) {
+    return SequenceIcons;
+  }
+
+  // For other heroicons, keep using the imported components
   const iconMap = {
     rocket: RocketLaunchIcon,
     flag: FlagIcon,
@@ -190,15 +193,6 @@ function getIconComponent(iconName) {
     LinkIcon: LinkIcon,
     CameraIcon: CameraIcon,
     EyeIcon: EyeIcon,
-    telescope: TelescopeIcon,
-    guider: GuiderIcon,
-    play: PlayIcon,
-    stop: StopIcon,
-    fire: FireIcon,
-    home: HomeIcon,
-    'cursor-arrow-rays': CursorArrowRaysIcon,
-    snowflake: SnowflakeIcon,
-    'magnifying-glass': MagnifyingGlassIcon,
   };
 
   return iconMap[iconName] || DocumentIcon; // Default fallback

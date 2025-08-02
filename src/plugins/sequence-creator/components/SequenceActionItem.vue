@@ -20,7 +20,11 @@
               action.color,
             ]"
           >
-            <component :is="getIconComponent(action.icon)" class="w-5 h-5" />
+            <component 
+              :is="getIconComponent(action.icon)" 
+              :name="action.icon"
+              class="w-5 h-5" 
+            />
           </div>
 
           <div class="flex-1 min-w-0">
@@ -333,16 +337,8 @@ import {
   LinkIcon,
   CameraIcon,
   EyeIcon,
-  PlayIcon,
-  StopIcon,
-  FireIcon,
-  HomeIcon,
-  CursorArrowRaysIcon,
-  MagnifyingGlassIcon,
 } from '@heroicons/vue/24/outline';
-import TelescopeIcon from './TelescopeIcon.vue';
-import GuiderIcon from './GuiderIcon.vue';
-import SnowflakeIcon from './SnowflakeIcon.vue';
+import SequenceIcons from './SequenceIcons.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
@@ -452,20 +448,18 @@ function handleTargetSelected(targetData) {
 }
 
 function getIconComponent(iconName) {
+  // For sequence-specific icons, use SequenceIcons component
+  const sequenceIcons = ['telescope', 'guider', 'snowflake', 'play', 'camera', 'stop', 'fire', 'home', 'cursor-arrow-rays', 'crosshairs', 'magnifying-glass', 'rocket', 'flag'];
+  
+  if (sequenceIcons.includes(iconName)) {
+    return SequenceIcons;
+  }
+
+  // For other heroicons, keep using the imported components
   const iconMap = {
     LinkIcon: LinkIcon,
     CameraIcon: CameraIcon,
     EyeIcon: EyeIcon,
-    telescope: TelescopeIcon,
-    guider: GuiderIcon,
-    snowflake: SnowflakeIcon,
-    play: PlayIcon,
-    stop: StopIcon,
-    fire: FireIcon,
-    home: HomeIcon,
-    'cursor-arrow-rays': CursorArrowRaysIcon,
-    crosshairs: CursorArrowRaysIcon, // Using same icon for crosshairs
-    'magnifying-glass': MagnifyingGlassIcon,
   };
 
   return iconMap[iconName] || LinkIcon; // Default fallback

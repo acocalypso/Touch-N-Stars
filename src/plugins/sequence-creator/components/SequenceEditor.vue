@@ -201,6 +201,34 @@
 
     <!-- Export Modal -->
     <ExportModal v-if="showExportModal" @close="showExportModal = false" />
+
+    <!-- Clear Sequence Confirmation Modal -->
+    <Modal :show="showClearModal" @close="cancelClear">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">{{ t('plugins.sequenceCreator.confirmations.title') }}</h2>
+      </template>
+      <template #body>
+        <div class="text-center">
+          <p class="text-gray-300 mb-6">
+            {{ t('plugins.sequenceCreator.confirmations.clearSequence') }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <button
+              @click="cancelClear"
+              class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+            >
+              {{ t('general.cancel') }}
+            </button>
+            <button
+              @click="confirmClear"
+              class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+            >
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -210,11 +238,13 @@ import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceContainer from './SequenceContainer.vue';
 import ExportModal from './ExportModal.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
 
 const showExportModal = ref(false);
+const showClearModal = ref(false);
 
 function handleAddAction(template, containerType, index = null) {
   store.addAction(template, containerType, index);
@@ -233,9 +263,16 @@ function handleMoveAction(oldIndex, newIndex, containerType) {
 }
 
 function handleClearSequence() {
-  if (confirm(t('plugins.sequenceCreator.confirmations.clearSequence'))) {
-    store.clearSequence();
-  }
+  showClearModal.value = true;
+}
+
+function confirmClear() {
+  store.clearSequence();
+  showClearModal.value = false;
+}
+
+function cancelClear() {
+  showClearModal.value = false;
 }
 </script>
 

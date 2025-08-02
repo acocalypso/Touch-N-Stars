@@ -720,6 +720,7 @@
         "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence"
       },
       "confirmations": {
+        "title": "Confirmation",
         "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",
         "removeAction": "Remove \"{actionName}\" action?",
         "unknownError": "Unknown error occurred",

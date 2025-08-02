@@ -289,6 +289,34 @@
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <Modal :show="showDeleteModal" @close="cancelRemove">
+    <template #header>
+      <h2 class="text-xl font-bold text-white">{{ t('plugins.sequenceCreator.confirmations.title') }}</h2>
+    </template>
+    <template #body>
+      <div class="text-center">
+        <p class="text-gray-300 mb-6">
+          {{ t('plugins.sequenceCreator.confirmations.removeAction', { actionName: action.name }) }}
+        </p>
+        <div class="flex justify-center gap-4">
+          <button
+            @click="cancelRemove"
+            class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
+          >
+            {{ t('general.cancel') }}
+          </button>
+          <button
+            @click="confirmRemove"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+          >
+            {{ t('general.confirm') }}
+          </button>
+        </div>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -299,10 +327,12 @@ import { apiStore } from '@/store/store';
 import TargetSearch from './TargetSearch.vue';
 import { LinkIcon, CameraIcon, EyeIcon } from '@heroicons/vue/24/outline';
 import SequenceIcons from './SequenceIcons.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
 const api = apiStore();
+const showDeleteModal = ref(false);
 
 const props = defineProps({
   action: {
@@ -372,13 +402,16 @@ function formatParameterValue(param) {
 }
 
 function handleRemove() {
-  if (
-    confirm(
-      t('plugins.sequenceCreator.confirmations.removeAction', { actionName: props.action.name })
-    )
-  ) {
-    emit('remove', props.action.id);
-  }
+  showDeleteModal.value = true;
+}
+
+function confirmRemove() {
+  emit('remove', props.action.id);
+  showDeleteModal.value = false;
+}
+
+function cancelRemove() {
+  showDeleteModal.value = false;
 }
 
 function handleDuplicate() {

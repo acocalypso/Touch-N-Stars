@@ -54,6 +54,8 @@ const settingsStore = useSettingsStore();
 const isLoading = ref(true);
 const targetPic = ref(null);
 const scaleDegPerPixel = ref(0.004); // Grad pro Pixel
+const cameraFovX = ref(0); // Echter Kamera-FOV in Grad (fest)
+const cameraFovY = ref(0); // Echter Kamera-FOV in Grad (fest)
 const baseRA = framingStore.RAangle;
 const baseDec = framingStore.DECangle;
 const x = ref(0);
@@ -65,17 +67,43 @@ const moveableRef = ref(null);
 onMounted(async () => {
   await fetchFramingInfo();
 
+  // Einmalig echten Kamera-FOV berechnen (basierend auf Hardware)
+  calculateRealCameraFov();
+
   // Container-Größe berechnen
   const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 200);
   const roundedDimension = Math.floor(smallerDimension / 100) * 100;
   framingStore.containerSize = roundedDimension;
-  setMinTargetFov();
+  
+  // Sinnvollen Start-FOV nur beim allerersten Laden berechnen
+  if (!framingStore.initialFovSet) {
+    // Nur beim ersten Öffnen des Framing Assistants
+    ensureReasonableStartFov();
+    framingStore.initialFovSet = true;
+  }
+  
+  // Container anpassen falls nötig (OHNE FOV zu ändern)
+  adjustContainerIfNeeded();
+  
+  // Kamera-Box Größe basierend auf User-FOV berechnen
+  updateCameraBoxSize();
+  
   // Bild abrufen
   await getTargetPic();
 
-  // Element in die Mitte setzen
-  x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-  y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+  // Kamera-Position wiederherstellen oder in die Mitte setzen
+  if (framingStore.cameraX > 0 || framingStore.cameraY > 0) {
+    // Position aus Store wiederherstellen
+    x.value = framingStore.cameraX;
+    y.value = framingStore.cameraY;
+    // Sicherstellen, dass Position noch gültig ist
+    x.value = Math.max(0, Math.min(x.value, framingStore.containerSize - framingStore.camWidth));
+    y.value = Math.max(0, Math.min(y.value, framingStore.containerSize - framingStore.camHeight));
+  } else {
+    // Beim ersten Mal in die Mitte setzen
+    x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+    y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+  }
 
   await nextTick();
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -90,6 +118,7 @@ watch(
   }
 );
 
+
 let debounceTimeout;
 function debounceRotateRange() {
   clearTimeout(debounceTimeout);
@@ -102,45 +131,83 @@ function rotateByRange() {
   moveableRef.value.request('rotatable', { rotate: normalizedAngle }, true);
 }
 
-// Methode, um Kamera-FOV und das verschiebbare Rechteck zu berechnen
-function calcCameraFov(fov) {
+// Einmalig den echten Kamera-FOV berechnen (basierend auf Hardware)
+function calculateRealCameraFov() {
   const sensorWidthPx = framingStore.framingInfo.CameraWidth;
   const sensorHeightPx = framingStore.framingInfo.CameraHeight;
   const pixelSizeM = framingStore.framingInfo.CameraPixelSize / 1_000_000;
   const focalLengthM = framingStore.framingInfo.FocalLength / 1000;
 
-  scaleDegPerPixel.value = fov / framingStore.containerSize;
-
   // Sensor-Größe
   const sensorWidthM = sensorWidthPx * pixelSizeM;
   const sensorHeightM = sensorHeightPx * pixelSizeM;
 
-  // FOV in Grad
-  const fovX = 2 * rad2deg(Math.atan(sensorWidthM / 2 / focalLengthM));
-  const fovY = 2 * rad2deg(Math.atan(sensorHeightM / 2 / focalLengthM));
+  // Echter Kamera-FOV in Grad (fest, ändert sich nie)
+  cameraFovX.value = 2 * rad2deg(Math.atan(sensorWidthM / 2 / focalLengthM));
+  cameraFovY.value = 2 * rad2deg(Math.atan(sensorHeightM / 2 / focalLengthM));
+  
+  console.log(`Echter Kamera-FOV: ${cameraFovX.value.toFixed(2)}° x ${cameraFovY.value.toFixed(2)}°`);
+}
 
-  // FOV in Pixel
-  const fovPxX = fovX / scaleDegPerPixel.value;
-  const fovPxY = fovY / scaleDegPerPixel.value;
+// Kamera-Box Größe basierend auf User-gewähltem Hintergrund-FOV berechnen
+function updateCameraBoxSize() {
+  // Skalierung basierend auf User-gewähltem Hintergrund-FOV
+  scaleDegPerPixel.value = framingStore.fov / framingStore.containerSize;
+
+  // Kamera-Box in Pixeln (basierend auf echtem Kamera-FOV)
+  const fovPxX = cameraFovX.value / scaleDegPerPixel.value;
+  const fovPxY = cameraFovY.value / scaleDegPerPixel.value;
 
   framingStore.camWidth = fovPxX;
   framingStore.camHeight = fovPxY;
+  
+  console.log(`Kamera-Box: ${fovPxX.toFixed(1)}px x ${fovPxY.toFixed(1)}px bei FOV ${framingStore.fov}°`);
 }
 
-function setMinTargetFov() {
-  let fov = framingStore.fov;
-  calcCameraFov(fov);
-  console.log('setMinTargetFov ', fov);
-  while (framingStore.camWidth + 200 > framingStore.containerSize) {
-    fov += 1;
-    calcCameraFov(fov);
-    console.log('fov hochgesetzt:', framingStore.fov);
-    if (fov > 50) {
-      console.warn('Fov zu hoch, Abbruch!');
-      break;
+// Sinnvollen Start-FOV sicherstellen damit Kamera sichtbar ist
+function ensureReasonableStartFov() {
+  // Erst mal grob testen mit aktuellem FOV
+  updateCameraBoxSize();
+  
+  // Wenn Kamera-Box mehr als 70% des Containers ausfüllt, FOV vergrößern
+  const maxCamSize = Math.max(framingStore.camWidth, framingStore.camHeight);
+  const maxAllowedSize = framingStore.containerSize * 0.7; // 70% des Containers
+  
+  // Nur anpassen wenn FOV wirklich zu klein ist UND kleiner als ein vernünftiger Mindestwert
+  if (maxCamSize > maxAllowedSize && framingStore.fov < 5) {
+    // Berechne benötigten FOV für sinnvolle Kamera-Größe (50% des Containers)
+    const targetCamSize = framingStore.containerSize * 0.5;
+    const scaleFactor = maxCamSize / targetCamSize;
+    const requiredFov = framingStore.fov * scaleFactor;
+    
+    const newFov = Math.max(requiredFov, framingStore.fov * 1.5, 5); // Mindestens 5° oder 1.5x aktueller FOV
+    
+    console.log(`Einmalige FOV-Anpassung: ${framingStore.fov}° → ${newFov.toFixed(2)}° für bessere Sichtbarkeit`);
+    framingStore.fov = Math.round(newFov * 10) / 10; // Auf 0.1 runden
+  }
+}
+
+// Container anpassen falls Kamera-Box nicht passt (OHNE User-FOV zu ändern)
+function adjustContainerIfNeeded() {
+  // Zuerst mit aktuellem FOV testen
+  updateCameraBoxSize();
+  
+  const minContainerSize = Math.max(framingStore.camWidth, framingStore.camHeight) + 100;
+  
+  if (framingStore.containerSize < minContainerSize) {
+    // Container vergrößern statt FOV zu ändern
+    const newSize = Math.ceil(minContainerSize / 100) * 100; // Auf 100er runden
+    const maxSize = Math.min(window.innerWidth, window.innerHeight - 200);
+    
+    if (newSize <= maxSize) {
+      framingStore.containerSize = newSize;
+      console.log(`Container vergrößert auf ${newSize}px für Kamera-FOV ${cameraFovX.value.toFixed(2)}°`);
+    } else {
+      // Warnung ausgeben aber FOV NICHT mehr automatisch ändern
+      console.warn(`Kamera-FOV ${cameraFovX.value.toFixed(2)}° ist sehr groß für verfügbaren Bildschirmplatz. Container: ${framingStore.containerSize}px, benötigt: ${minContainerSize}px`);
+      // User kann bewusst kleine FOV-Werte wählen, auch wenn die Kamera groß wird
     }
   }
-  framingStore.fov = fov; // Aktualisiere `framingStore.fov`
 }
 
 // Drag-Event von Moveable
@@ -156,6 +223,10 @@ function onDrag(e) {
   if (y.value > framingStore.containerSize - framingStore.camHeight)
     y.value = framingStore.containerSize - framingStore.camHeight;
 
+  // Position im Store speichern für Reload-Persistenz
+  framingStore.cameraX = x.value;
+  framingStore.cameraY = y.value;
+
   calculateRaDec();
 }
 
@@ -168,7 +239,7 @@ async function getTargetPic() {
     const fov = framingStore.fov;
     const useCache = settingsStore.framing.useNinaCache;
 
-    calcCameraFov(framingStore.fov);
+    updateCameraBoxSize();
 
     if (targetPic.value) {
       URL.revokeObjectURL(targetPic.value);

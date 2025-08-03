@@ -19,6 +19,9 @@ export const useFramingStore = defineStore('FramingStore', {
     containerSize: 500,
     rotationAngle: 0,
     showFramingModal: false,
+    cameraX: 0, // Kamera-Position X (relativ zum Container)
+    cameraY: 0, // Kamera-Position Y (relativ zum Container)
+    initialFovSet: false, // Flag um zu verhindern, dass FOV mehrfach angepasst wird
     isSlewing: false,
     isSlewingAndCentering: false,
     isRotating: false,

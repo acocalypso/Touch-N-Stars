@@ -35,27 +35,36 @@ const currentComponent = computed(() => {
   return showFraming.value ? AsyncFramingTest : null;
 });
 
-function reloadFraming() {
-  if (framingStore.fov < 1 || framingStore.fov > 50) {
+// FOV-Validierung und intelligenter Reload
+function validateAndReload() {
+  if (framingStore.fov < 0.1) {
+    console.warn('FOV zu klein, wird auf 0.1 gesetzt');
+    framingStore.fov = 0.1;
     return;
   }
-  // Key ändern, um die Komponente neu zu laden
+  if (framingStore.fov > 180) {
+    console.warn('FOV zu groß, wird auf 180 gesetzt');
+    framingStore.fov = 180;
+    return;
+  }
+  
+  // Komponente neu laden für blauen Rahmen/Overlays
   componentKey.value++;
 }
 
 let debounceTimeout;
-
-function debounceLoadImage() {
+function debouncedReload() {
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
-    reloadFraming();
-  }, 500); // Wartezeit in Millisekunden
+    validateAndReload();
+  }, 400); // Etwas schneller als vorher
 }
 
+// FOV-Änderungen mit debounced Reload
 watch(
   () => framingStore.fov,
   () => {
-    debounceLoadImage();
+    debouncedReload();
   }
 );
 </script>

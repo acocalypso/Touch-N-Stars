@@ -27,11 +27,11 @@
           <div class="flex space-x-1">
             <button 
               @click="adjustFov(-0.5)"
-              class="w-6 h-6 bg-gray-600 hover:bg-gray-500 rounded text-white text-xs font-bold transition-colors"
+              class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
             >-</button>
             <button 
               @click="adjustFov(0.5)"
-              class="w-6 h-6 bg-gray-600 hover:bg-gray-500 rounded text-white text-xs font-bold transition-colors"
+              class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
             >+</button>
           </div>
         </div>
@@ -70,11 +70,11 @@
           <div class="flex space-x-1">
             <button 
               @click="adjustRotation(-5)"
-              class="w-6 h-6 bg-gray-600 hover:bg-gray-500 rounded text-white text-xs font-bold transition-colors"
+              class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
             >-</button>
             <button 
               @click="adjustRotation(5)"
-              class="w-6 h-6 bg-gray-600 hover:bg-gray-500 rounded text-white text-xs font-bold transition-colors"
+              class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
             >+</button>
           </div>
         </div>
@@ -93,23 +93,11 @@
     <div class="col-span-2">
       <getImageRotation />
     </div>
-
-    <!-- Schließen Button -->
-    <div class="col-span-2">
-      <button
-        class="flex items-center justify-center w-full h-10 bg-cyan-900/20 hover:bg-cyan-900/30 border border-green-500/50 hover:border-green-400 rounded-lg text-green-400 font-medium transition-all duration-200"
-        @click="framingStore.showFramingModal = false"
-      >
-        <CheckCircleIcon class="w-5 h-5 mr-2" />
-        <span class="text-sm">{{ $t('common.done') || 'Fertig' }}</span>
-      </button>
-    </div>
   </div>
 </template>
 <script setup>
 import { useFramingStore } from '@/store/framingStore';
 import getImageRotation from '@/components/framing/getImageRotation.vue';
-import { CheckCircleIcon } from '@heroicons/vue/24/outline';
 
 const framingStore = useFramingStore();
 

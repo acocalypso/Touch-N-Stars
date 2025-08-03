@@ -129,31 +129,14 @@
     <div
       v-if="framingStore.showFramingModal"
       class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      @click.self="framingStore.showFramingModal = false"
     >
       <div
         class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
         :style="{ minWidth: `${framingStore.containerSize}px` }"
+        @click.stop
       >
         <FramingAssistangModal />
-        <button
-          @click="framingStore.showFramingModal = false"
-          class="fixed sm:absolute top-2 right-2 sm:top-4 sm:right-4 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
       </div>
     </div>
   </div>

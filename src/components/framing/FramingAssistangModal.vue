@@ -1,5 +1,13 @@
 <template>
-  <div class="flex flex-col items-center justify-center">
+  <div class="flex flex-col items-center justify-center relative">
+    <!-- X Button zum Schließen (oben rechts am Modal) -->
+    <button
+      @click="framingStore.showFramingModal = false"
+      class="absolute top-2 right-2 z-50 w-8 h-8 bg-gray-800/90 hover:bg-gray-700 border border-gray-600 hover:border-red-500 rounded-full text-gray-400 hover:text-red-400 transition-all duration-200 flex items-center justify-center shadow-lg"
+    >
+      <XMarkIcon class="w-5 h-5" />
+    </button>
+    
     <!-- Framing-Komponente ohne Key (bleibt persistent) -->
     <Suspense>
       <template #default>
@@ -24,6 +32,7 @@
 import { ref, computed, defineAsyncComponent, watch } from 'vue';
 import { useFramingStore } from '@/store/framingStore';
 import fovParameter from '@/components/framing/fovParameter.vue';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 const framingStore = useFramingStore();
 const showFraming = ref(true);

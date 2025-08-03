@@ -67,8 +67,8 @@
       "openFraminingModal": "Spustť ve Snímkování",
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
       "currentAltitude": "Aktuální nadm. výška",
-      "useCenter": "Center",
-      "useRotate": "Rotate"
+      "useCenter": "Střed",
+      "useRotate": "Rotace"
     },
     "tutorial": {
       "previous": "Předchozí",
@@ -95,7 +95,7 @@
       "notifications": {
         "title": "Oznámení",
         "enable": "Activate",
-        "sequence": "sequence"
+        "sequence": "sekvence"
       },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
@@ -110,7 +110,7 @@
         "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
         "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
       },
-      "add": "add"
+      "add": "přidat"
     },
     "connectEquipment": {
       "camera": {
@@ -429,8 +429,8 @@
       "not_at_home": "není na místě",
       "park": "parkovat",
       "unpark": "odparkovat",
-      "shutter_close": "šterbina zavřená",
-      "shutter_open": "šterbina otevřená",
+      "shutter_close": "štěrbina zavřená",
+      "shutter_open": "štěrbina otevřená",
       "control": {
         "open": "Otevřít štěrbinu",
         "close": "Zavřít štěrbinu",
@@ -443,8 +443,8 @@
           "park": "Chyba Park",
           "slew": "Chyba přejezd",
           "stop_slew": "Chyba zastavení přejezdu",
-          "sync": "Chaby synch.",
-          "follow": "Sledování chyb Dalekohled"
+          "sync": "Chyba synch.",
+          "follow": "Sledování chyb Dalekohledu"
         },
         "follow": "Dalekohled s kopulí",
         "slew": "Přejezd",
@@ -465,7 +465,7 @@
       "capture_running": "Snímání probíhá",
       "image_loading": "Načítání snímku...",
       "start_capture": "Spustit snímání",
-      "cancel": "Rušit",
+      "cancel": "Zrušit",
       "exposure_time": "Čas expozice:",
       "gain_iso": "Gain / ISO:",
       "name": "Jméno kamery",
@@ -646,7 +646,7 @@
         "now": "Nyní",
         "speed": "Rychlost",
         "time": "Čas",
-        "title": "Datum"
+        "title": "Název"
       },
       "mount_position": {
         "title": "Pozice Montáže"

@@ -118,6 +118,62 @@ watch(
   }
 );
 
+// FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
+watch(
+  () => framingStore.fov,
+  async (newFov, oldFov) => {
+    if (cameraFovX.value > 0 && newFov !== oldFov) {
+      // Alte Kamera-Position relativ zum Container merken
+      const oldCenterX = x.value + framingStore.camWidth / 2;
+      const oldCenterY = y.value + framingStore.camHeight / 2;
+      const relativeCenterX = oldCenterX / framingStore.containerSize;
+      const relativeCenterY = oldCenterY / framingStore.containerSize;
+      
+      // Kamera-Box-Größe neu berechnen
+      updateCameraBoxSize();
+      
+      // Kamera-Position basierend auf relativer Position neu berechnen
+      const newCenterX = relativeCenterX * framingStore.containerSize;
+      const newCenterY = relativeCenterY * framingStore.containerSize;
+      x.value = newCenterX - framingStore.camWidth / 2;
+      y.value = newCenterY - framingStore.camHeight / 2;
+      
+      // Position innerhalb Container halten
+      x.value = Math.max(0, Math.min(x.value, framingStore.containerSize - framingStore.camWidth));
+      y.value = Math.max(0, Math.min(y.value, framingStore.containerSize - framingStore.camHeight));
+      
+      // Position im Store speichern
+      framingStore.cameraX = x.value;
+      framingStore.cameraY = y.value;
+      
+      // Nur Hintergrundbild neu laden (mit Debounce)
+      debouncedImageReload();
+      
+      // Moveable manuell aktualisieren damit der blaue Rahmen neu gerendert wird
+      updateMoveable();
+    }
+  }
+);
+
+let imageReloadTimeout;
+function debouncedImageReload() {
+  clearTimeout(imageReloadTimeout);
+  imageReloadTimeout = setTimeout(async () => {
+    console.log('Lade nur Hintergrundbild neu für FOV:', framingStore.fov);
+    await getTargetPic();
+  }, 300);
+}
+
+// Moveable-Komponente manuell aktualisieren
+function updateMoveable() {
+  if (moveableRef.value) {
+    // Kurz warten bis DOM-Updates abgeschlossen sind
+    nextTick(() => {
+      moveableRef.value.updateRect();
+    });
+  }
+}
+
 
 let debounceTimeout;
 function debounceRotateRange() {

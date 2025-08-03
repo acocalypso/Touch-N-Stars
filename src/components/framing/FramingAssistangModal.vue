@@ -7,7 +7,7 @@
     >
       <XMarkIcon class="w-5 h-5" />
     </button>
-    
+
     <!-- Framing-Komponente ohne Key (bleibt persistent) -->
     <Suspense>
       <template #default>
@@ -18,7 +18,7 @@
         <div>Lade Komponente...</div>
       </template>
     </Suspense>
-    
+
     <!-- Kontrollen bleiben immer sichtbar -->
     <div
       class="flex-col w-full space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"

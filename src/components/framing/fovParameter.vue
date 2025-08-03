@@ -1,7 +1,6 @@
 <template>
   <!-- Kompakte Grid-Layout für mobile Geräte -->
   <div class="grid grid-cols-2 gap-3 w-full">
-    
     <!-- FOV Bereich -->
     <div class="col-span-2 sm:col-span-1">
       <div class="flex flex-col space-y-2 p-3 border border-gray-600 rounded-lg bg-gray-800/50">
@@ -25,14 +24,18 @@
             @focus="$event.target.select()"
           />
           <div class="flex space-x-1">
-            <button 
+            <button
               @click="adjustFov(-0.5)"
               class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-            >-</button>
-            <button 
+            >
+              -
+            </button>
+            <button
               @click="adjustFov(0.5)"
               class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-            >+</button>
+            >
+              +
+            </button>
           </div>
         </div>
         <!-- Kompakter FOV Range-Slider (häufig genutzte Werte 0.1-20°) -->
@@ -68,14 +71,18 @@
             @focus="$event.target.select()"
           />
           <div class="flex space-x-1">
-            <button 
+            <button
               @click="adjustRotation(-5)"
               class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-            >-</button>
-            <button 
+            >
+              -
+            </button>
+            <button
               @click="adjustRotation(5)"
               class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-            >+</button>
+            >
+              +
+            </button>
           </div>
         </div>
         <!-- Kompakter Range-Slider -->

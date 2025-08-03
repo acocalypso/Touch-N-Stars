@@ -91,19 +91,17 @@ onMounted(async () => {
   // Bild abrufen
   await getTargetPic();
 
-  // Kamera-Position wiederherstellen oder in die Mitte setzen
-  if (framingStore.cameraX > 0 || framingStore.cameraY > 0) {
-    // Position aus Store wiederherstellen
-    x.value = framingStore.cameraX;
-    y.value = framingStore.cameraY;
-    // Sicherstellen, dass Position noch gültig ist
-    x.value = Math.max(0, Math.min(x.value, framingStore.containerSize - framingStore.camWidth));
-    y.value = Math.max(0, Math.min(y.value, framingStore.containerSize - framingStore.camHeight));
-  } else {
-    // Beim ersten Mal in die Mitte setzen
-    x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-    y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
-  }
+  // Kamera immer in die Mitte setzen, da das Bild bereits mit den richtigen Koordinaten geladen wird
+  x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+  y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+  
+  // Position im Store speichern
+  framingStore.cameraX = x.value;
+  framingStore.cameraY = y.value;
+  framingStore.cameraRelativeX = 0.5;
+  framingStore.cameraRelativeY = 0.5;
+  
+  console.log('Kamera in Mitte positioniert - Bild wurde mit aktuellen RA/DEC-Koordinaten geladen');
 
   await nextTick();
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -142,9 +140,14 @@ watch(
       x.value = Math.max(0, Math.min(x.value, framingStore.containerSize - framingStore.camWidth));
       y.value = Math.max(0, Math.min(y.value, framingStore.containerSize - framingStore.camHeight));
       
-      // Position im Store speichern
+      // Position im Store speichern (absolut und relativ)
       framingStore.cameraX = x.value;
       framingStore.cameraY = y.value;
+      
+      const centerX = x.value + framingStore.camWidth / 2;
+      const centerY = y.value + framingStore.camHeight / 2;
+      framingStore.cameraRelativeX = centerX / framingStore.containerSize;
+      framingStore.cameraRelativeY = centerY / framingStore.containerSize;
       
       // Nur Hintergrundbild neu laden (mit Debounce)
       debouncedImageReload();
@@ -282,6 +285,12 @@ function onDrag(e) {
   // Position im Store speichern für Reload-Persistenz
   framingStore.cameraX = x.value;
   framingStore.cameraY = y.value;
+  
+  // Relative Position berechnen und speichern (für bessere Wiederherstellung)
+  const centerX = x.value + framingStore.camWidth / 2;
+  const centerY = y.value + framingStore.camHeight / 2;
+  framingStore.cameraRelativeX = centerX / framingStore.containerSize;
+  framingStore.cameraRelativeY = centerY / framingStore.containerSize;
 
   calculateRaDec();
 }

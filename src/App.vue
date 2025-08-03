@@ -69,6 +69,12 @@
     <ConsoleViewer class="fixed top-32 right-6" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
+    
+    <!-- Global Loading overlay for redirect -->
+    <div v-if="store.isRedirecting" class="fixed inset-0 flex flex-col justify-center items-center z-[9999]">
+      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-800"></div>
+      <p class="mt-4 text-blue-50 font-mono text-lg">Loading...</p>
+    </div>
   </div>
 </template>
 

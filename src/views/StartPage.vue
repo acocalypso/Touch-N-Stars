@@ -29,8 +29,10 @@ watch(
     if (isReachable && isFirstVisit) {
       // Mark as visited
       sessionStorage.setItem('hasVisited', 'true');
-      // Small delay to show the loading completed state briefly
+      // Show loading overlay and delay before redirect
+      store.isRedirecting = true;
       setTimeout(() => {
+        store.isRedirecting = false;
         router.push('/equipment');
       }, 500);
     }
@@ -42,9 +44,11 @@ onMounted(() => {
   // Only redirect if this is the first visit
   if (store.isBackendReachable && isFirstVisit) {
     sessionStorage.setItem('hasVisited', 'true');
+    store.isRedirecting = true;
     setTimeout(() => {
+      store.isRedirecting = false;
       router.push('/equipment');
-    }, 1000);
+    }, 500);
   }
 });
 </script>

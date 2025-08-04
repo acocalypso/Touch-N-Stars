@@ -107,7 +107,6 @@ async function slew() {
     if (framingStore.slewIsStopt) return;
     console.log('Second: center the target');
     await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
-    
   }
 
   if (rotate && store.rotatorInfo.Connected) {

@@ -714,12 +714,14 @@
         "undo": "Rückgängig",
         "redo": "Wiederholen",
         "loadBasicSequence": "Basis-Sequenz Laden",
-        "clearSequence": "Sequenz Löschen",
+        "clearSequence": "Sequenz leeren",
+        "saveAsDefault": "Als Standard speichern",
         "exportSequence": "Sequenz Exportieren",
         "validSequence": "Sequenz ist gültig und kann exportiert werden",
         "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
       },
       "confirmations": {
+        "title": "Bestätigung",
         "clearSequence": "Sind Sie sicher, dass Sie die gesamte Sequenz löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
         "removeAction": "Aktion \"{actionName}\" entfernen?",
         "unknownError": "Unbekannter Fehler aufgetreten",
@@ -769,7 +771,81 @@
         "noConfigurableParameters": "Diese Aktion hat keine konfigurierbaren Parameter.",
         "actionId": "Aktions-ID",
         "category": "Kategorie",
-        "parameters": "Parameter"
+        "parameters": "Parameter",
+        "unparkTelescope": {
+          "name": "Teleskop entparken",
+          "description": "Das Teleskop-Mount entparken"
+        },
+        "coolCamera": {
+          "name": "Kamera kühlen",
+          "description": "Kamera auf gewünschte Temperatur kühlen",
+          "temperatureLabel": "Temperatur (°C)",
+          "temperatureTooltip": "Zieltemperatur für die Kamerakühlung",
+          "durationLabel": "Kühldauer (Minuten)",
+          "durationTooltip": "Zeit für aktive Kühlung (0 = kühlen bis Temperatur erreicht)"
+        },
+        "targetSettings": {
+          "name": "Zieleinstellungen",
+          "description": "Zielkoordinaten und Einstellungen definieren",
+          "targetNameLabel": "Zielname",
+          "targetNameTooltip": "Name des Himmelsobjekts",
+          "raLabel": "Rektaszension",
+          "raTooltip": "RA im HH:MM:SS Format",
+          "decLabel": "Deklination",
+          "decTooltip": "Dec im DD:MM:SS Format",
+          "positionAngleLabel": "Positionswinkel (°)",
+          "positionAngleTooltip": "Kamera-Rotationswinkel"
+        },
+        "slewToTarget": {
+          "name": "Zum Ziel schwenken",
+          "description": "Zum Ziel navigieren mit verschiedenen Optionen",
+          "slewModeLabel": "Schwenkmodus",
+          "slewModeTooltip": "Wählen Sie, wie zum Ziel navigiert werden soll"
+        },
+        "runAutofocus": {
+          "name": "Autofokus starten",
+          "description": "Automatische Fokussierroutine durchführen"
+        },
+        "startGuiding": {
+          "name": "Guiding starten",
+          "description": "Autoguiding-System starten",
+          "forceCalibrationLabel": "Kalibrierung erzwingen",
+          "forceCalibrationTooltip": "Neue Guider-Kalibrierung erzwingen"
+        },
+        "smartExposure": {
+          "name": "Smart Exposure (Bildaufnahme)",
+          "description": "Intelligente Belichtungssequenz mit Dithering und Triggern",
+          "exposureTimeLabel": "Belichtungszeit (s)",
+          "exposureTimeTooltip": "Dauer jeder Belichtung",
+          "gainLabel": "Gain",
+          "gainTooltip": "Kamera-Gain-Einstellung",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Kamera-Offset-Einstellung",
+          "binningLabel": "Binning",
+          "binningTooltip": "Pixel-Binning-Modus",
+          "filterLabel": "Filter",
+          "filterTooltip": "Filterrad-Auswahl",
+          "imageTypeLabel": "Bildtyp",
+          "imageTypeTooltip": "Art der aufzunehmenden Belichtung",
+          "countLabel": "Anzahl Bilder",
+          "countTooltip": "Anzahl der aufzunehmenden Belichtungen",
+          "ditherAfterLabel": "Dithering nach N Belichtungen",
+          "ditherAfterTooltip": "Dithering-Häufigkeit"
+        },
+        "stopGuiding": {
+          "name": "Guiding stoppen",
+          "description": "Autoguiding-System stoppen"
+        },
+        "warmCamera": {
+          "name": "Kamera aufwärmen",
+          "description": "Kamera aufwärmen",
+          "durationLabel": "Aufwärmdauer (Minuten)",
+          "durationTooltip": "Zeit zum aktiven Aufwärmen der Kamera (0 = auf Umgebungstemperatur aufwärmen)"
+        },
+        "parkTelescope": {
+          "name": "Teleskop parken",
+          "description": "Das Teleskop-Mount parken"
+        }
       },
       "actionLibrary": {
         "title": "Aktions-Bibliothek",

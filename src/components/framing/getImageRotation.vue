@@ -2,7 +2,7 @@
   <!-- Capture Button -->
   <div class="flex flex-col space-y-2">
     <button
-      class="btn-primary bg-gradient-to-br from-cyan-600 to-cyan-500 hover:from-cyan-700 hover:to-cyan-600 transition-all duration-200 shadow-lg hover:shadow-cyan-500/20"
+      class="default-button-cyan w-full disabled:opacity-50 disabled:cursor-not-allowed"
       @click="cameraStore.getCameraRotation(apiService, exposureTime, gain)"
       :disabled="cameraStore.loading"
     >

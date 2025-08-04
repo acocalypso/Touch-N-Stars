@@ -31,7 +31,9 @@
         "activate": "Ativar modo debug"
       },
       "notifications": {
-        "title": "Notificações"
+        "title": "Notificações",
+        "enable": "Ativar",
+        "sequence": "Sequência"
       },
       "showTutorial": "Mostrar tutorial",
       "plugins": {
@@ -45,7 +47,8 @@
         "confirmation": "Confirmar ação",
         "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
         "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
-      }
+      },
+      "add": "adicionar"
     },
     "camera": {
       "binning_mode": "Binning",

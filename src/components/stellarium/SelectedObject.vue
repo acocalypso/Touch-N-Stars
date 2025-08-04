@@ -115,6 +115,7 @@ function setFramingCoordinates() {
   setTimeout(
     () => {
       emit('setFramingCoordinates', {
+        name: props.selectedObject[0],
         raString: props.selectedObjectRa,
         decString: props.selectedObjectDec,
         ra: props.selectedObjectRaDeg,

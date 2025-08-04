@@ -57,6 +57,7 @@ export const apiStore = defineStore('store', {
     setupCheckConnectionDone: false,
     pageReturnedFromBackground: false,
     pageReturnTime: null,
+    isRedirecting: false,
   }),
 
   actions: {

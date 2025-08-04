@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import StartPage from '@/views/StartPage.vue';
 import EquipmentPage from '@/views/EquipmentPage.vue';
 import CameraPage from '@/views/CameraPage.vue';
 import MountPage from '@/views/MountPage.vue';
@@ -18,7 +17,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 const routes = [
   {
     path: '/',
-    component: StartPage,
+    component: EquipmentPage,
     meta: { requiresSetup: true },
   },
   {

@@ -47,13 +47,13 @@
           </router-link>
         </div>
 
-        <div v-if="store.focuserInfo.Connected && !sequenceStore.sequenceRunning">
+        <div v-if="store.focuserInfo.Connected">
           <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.mountInfo.Connected && !sequenceStore.sequenceRunning">
+        <div v-if="store.mountInfo.Connected">
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +85,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.domeInfo.Connected && !sequenceStore.sequenceRunning">
+        <div v-if="store.domeInfo.Connected">
           <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
@@ -135,7 +135,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.flatdeviceInfo.Connected && !sequenceStore.sequenceRunning">
+        <div v-if="store.flatdeviceInfo.Connected">
           <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
             <LightBulbIcon
               class="icon force-visible"
@@ -201,7 +201,7 @@
         </div>
 
         <!-- Fixed Flats Button -->
-        <div v-if="store.cameraInfo.Connected && !sequenceStore.sequenceRunning">
+        <div v-if="store.cameraInfo.Connected">
           <router-link
             to="/flats"
             class="nav-button touch-target"

@@ -7,8 +7,35 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'StartPage',
-};
+<script setup>
+import { onMounted, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { apiStore } from '@/store/store';
+
+const router = useRouter();
+const store = apiStore();
+
+// Check if this is the first visit by checking sessionStorage
+const isFirstVisit = !sessionStorage.getItem('hasVisited');
+
+// Watch for when backend is reachable and redirect to equipment page
+watch(
+  () => store.isBackendReachable,
+  (isReachable) => {
+    if (isReachable && isFirstVisit) {
+      // Mark as visited and redirect immediately without loading overlay
+      sessionStorage.setItem('hasVisited', 'true');
+      router.push('/equipment');
+    }
+  }
+);
+
+onMounted(() => {
+  // If backend is already reachable when component mounts, redirect immediately
+  // Only redirect if this is the first visit
+  if (store.isBackendReachable && isFirstVisit) {
+    sessionStorage.setItem('hasVisited', 'true');
+    router.push('/equipment');
+  }
+});
 </script>

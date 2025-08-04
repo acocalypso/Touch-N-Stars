@@ -22,7 +22,7 @@
         <span
           v-if="isTopLevel"
           :class="statusColor(item.Status)"
-          class="px-2 py-1 rounded-full text-xs font-medium flex-shrink-0"
+          class="px-2 py-1 rounded-full text-sm font-medium flex-shrink-0"
         >
           {{ item.Status }}
         </span>
@@ -39,7 +39,7 @@
             <div
               v-for="[key, value] in getDisplayFields(item)"
               :key="key"
-              class="flex flex-col sm:flex-row gap-2 p-3 bg-gray-800/30 rounded text-xs border border-gray-700/20"
+              class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded text-sm border border-gray-700/20"
             >
               <span class="text-gray-400 font-medium w-28 flex-shrink-0"
                 >{{ formatKey(key) }}:</span
@@ -54,14 +54,14 @@
                 <template v-else-if="key === 'Coordinates'">
                   <div class="space-y-1">
                     <div class="flex items-center gap-2">
-                      <span class="text-blue-300 text-xs font-medium">RA:</span>
-                      <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-xs">{{
+                      <span class="text-blue-300 text-sm font-medium">RA:</span>
+                      <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-sm">{{
                         formatRA(value)
                       }}</code>
                     </div>
                     <div class="flex items-center gap-2">
-                      <span class="text-blue-300 text-xs font-medium">Dec:</span>
-                      <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-xs">{{
+                      <span class="text-blue-300 text-sm font-medium">Dec:</span>
+                      <code class="text-slate-200 bg-slate-800/50 px-1 py-0.5 rounded text-sm">{{
                         formatDec(value)
                       }}</code>
                     </div>
@@ -125,15 +125,15 @@
                 <span class="text-sm font-medium text-gray-200 break-all">
                   {{ removeSuffix(trigger.Name) }}
                 </span>
-                <span :class="statusColor(trigger.Status)" class="text-xs md:text-sm">
+                <span :class="statusColor(trigger.Status)" class="text-sm md:text-sm">
                   {{ trigger.Status }}
                 </span>
               </div>
-              <div class="grid grid-cols-1 gap-2 text-xs">
+              <div class="grid grid-cols-1 gap-2 text-sm">
                 <div
                   v-for="[key, value] in getDisplayFields(trigger)"
                   :key="key"
-                  class="flex flex-col md:flex-row gap-1"
+                  class="flex flex-col md:flex-row gap-6"
                 >
                   <span class="text-gray-400 shrink-0">{{ key }}:</span>
                   <span class="text-gray-200 break-all">

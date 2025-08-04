@@ -739,13 +739,88 @@
         "removeAction": "Eliminar la acción",
         "yes": "Sí",
         "noConfigurableParameters": "Esta acción no tiene parámetros configurables.",
-        "notSet": "No establecido"
+        "notSet": "No establecido",
+        "coolCamera": {
+          "description": "Enfriar la cámara a la temperatura especificada",
+          "durationLabel": "Duración de enfriamiento (minutos)",
+          "durationTooltip": "Tiempo para enfriar activamente la cámara (0 = enfriar hasta que la temperatura alcance)",
+          "name": "Cámara genial",
+          "temperatureLabel": "Temperatura (° C)",
+          "temperatureTooltip": "Temperatura objetivo para enfriamiento de la cámara"
+        },
+        "parkTelescope": {
+          "description": "Estacionar el monte del telescopio",
+          "name": "Telescopio de parque"
+        },
+        "runAutofocus": {
+          "description": "Realizar rutina de enfoque automático",
+          "name": "Ejecutar el enfoque automático"
+        },
+        "slewToTarget": {
+          "description": "Navegue a Target con diferentes opciones",
+          "name": "Girar al objetivo",
+          "slewModeLabel": "Modo de matriz",
+          "slewModeTooltip": "Elija cómo navegar al objetivo"
+        },
+        "smartExposure": {
+          "binningLabel": "Binning",
+          "binningTooltip": "Modo de binning de píxeles",
+          "countLabel": "Recuento de imágenes",
+          "countTooltip": "Número de exposiciones a tomar",
+          "description": "Secuencia de exposición inteligente con ditotación y desencadenantes",
+          "ditherAfterLabel": "Dither después de n exposiciones",
+          "ditherAfterTooltip": "Frecuencia",
+          "exposureTimeLabel": "Tiempo (s) de exposición",
+          "exposureTimeTooltip": "Duración de cada exposición",
+          "filterLabel": "Filtrar",
+          "filterTooltip": "Selección de ruedas de filtro",
+          "gainLabel": "Ganar",
+          "gainTooltip": "Configuración de ganancia de la cámara",
+          "imageTypeLabel": "Tipo de imagen",
+          "imageTypeTooltip": "Tipo de exposición a la captura",
+          "name": "Exposición inteligente (imágenes)",
+          "offsetLabel": "Compensar",
+          "offsetTooltip": "Configuración de compensación de la cámara"
+        },
+        "startGuiding": {
+          "description": "Iniciar el sistema de autogueo",
+          "forceCalibrationLabel": "Calibración de fuerza",
+          "forceCalibrationTooltip": "Force la nueva calibración guía",
+          "name": "Empezar a guiar"
+        },
+        "stopGuiding": {
+          "description": "Detener el sistema de autogueo",
+          "name": "Dejar de guiar"
+        },
+        "targetSettings": {
+          "decLabel": "Declinación",
+          "decTooltip": "Dec en DD: MM: Formato SS",
+          "description": "Definir coordenadas y configuraciones objetivo",
+          "name": "Configuración de objetivo",
+          "positionAngleLabel": "Ángulo de posición (°)",
+          "positionAngleTooltip": "Ángulo de rotación de la cámara",
+          "raLabel": "Ascensión correcta",
+          "raTooltip": "RA en HH: MM: Formato SS",
+          "targetNameLabel": "Nombre objetivo",
+          "targetNameTooltip": "Nombre del objeto celestial"
+        },
+        "unparkTelescope": {
+          "description": "No estén en el montaje del telescopio",
+          "name": "Telescopio no"
+        },
+        "warmCamera": {
+          "description": "Calentar la cámara",
+          "durationLabel": "Duración del calentamiento (minutos)",
+          "durationTooltip": "Tiempo para calentar activamente la cámara (0 = temperatura cálida a ambiente)",
+          "name": "Cámara caliente"
+        }
       },
       "confirmations": {
         "clearSequence": "¿Estás seguro de que quieres borrar toda la secuencia? \nEsta acción no se puede deshacer.",
         "removeAction": "Eliminar la acción \"{ActionName}\"?",
         "sendSequenceFailed": "No se pudo enviar una secuencia a N.I.N.A",
-        "unknownError": "Ocurrió un error desconocido"
+        "unknownError": "Ocurrió un error desconocido",
+        "title": "Confirmación"
       },
       "containers": {
         "addAction": "Agregar acción",
@@ -816,7 +891,8 @@
         "clearSequence": "Secuencia clara",
         "exportSequence": "Secuencia de exportación",
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
-        "loadBasicSequence": "Cargar secuencia básica"
+        "loadBasicSequence": "Cargar secuencia básica",
+        "saveAsDefault": "Guardar como predeterminado"
       },
       "title": "N.I.N.A CREATOR DE SECUENCIA",
       "settings": {

@@ -739,13 +739,88 @@
         "notSet": "Není nastaveno",
         "parameters": "Parametery",
         "removeAction": "Odebrat Akci",
-        "yes": "Yes"
+        "yes": "Yes",
+        "coolCamera": {
+          "description": "Cool the camera to specified temperature",
+          "durationLabel": "Cooling Duration (minutes)",
+          "durationTooltip": "Time to actively cool the camera (0 = cool until temperature reached)",
+          "name": "Cool Camera",
+          "temperatureLabel": "Temperature (°C)",
+          "temperatureTooltip": "Target temperature for camera cooling"
+        },
+        "parkTelescope": {
+          "description": "Park the telescope mount",
+          "name": "Park Telescope"
+        },
+        "runAutofocus": {
+          "description": "Perform automatic focusing routine",
+          "name": "Run Autofocus"
+        },
+        "slewToTarget": {
+          "description": "Navigate to target with different options",
+          "name": "Slew to Target",
+          "slewModeLabel": "Slew Mode",
+          "slewModeTooltip": "Choose how to navigate to the target"
+        },
+        "smartExposure": {
+          "binningLabel": "Binning",
+          "binningTooltip": "Pixel binning mode",
+          "countLabel": "Image Count",
+          "countTooltip": "Number of exposures to take",
+          "description": "Intelligent exposure sequence with dithering and triggers",
+          "ditherAfterLabel": "Dither After N Exposures",
+          "ditherAfterTooltip": "Dither frequency",
+          "exposureTimeLabel": "Exposure Time (s)",
+          "exposureTimeTooltip": "Duration of each exposure",
+          "filterLabel": "Filter",
+          "filterTooltip": "Filter wheel selection",
+          "gainLabel": "Gain",
+          "gainTooltip": "Camera gain setting",
+          "imageTypeLabel": "Image Type",
+          "imageTypeTooltip": "Type of exposure to capture",
+          "name": "Smart Exposure (Imaging)",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Camera offset setting"
+        },
+        "startGuiding": {
+          "description": "Start autoguiding system",
+          "forceCalibrationLabel": "Force Calibration",
+          "forceCalibrationTooltip": "Force new guider calibration",
+          "name": "Start Guiding"
+        },
+        "stopGuiding": {
+          "description": "Stop autoguiding system",
+          "name": "Stop Guiding"
+        },
+        "targetSettings": {
+          "decLabel": "Declination",
+          "decTooltip": "Dec in DD:MM:SS format",
+          "description": "Define target coordinates and settings",
+          "name": "Target Settings",
+          "positionAngleLabel": "Position Angle (°)",
+          "positionAngleTooltip": "Camera rotation angle",
+          "raLabel": "Right Ascension",
+          "raTooltip": "RA in HH:MM:SS format",
+          "targetNameLabel": "Target Name",
+          "targetNameTooltip": "Name of the celestial object"
+        },
+        "unparkTelescope": {
+          "description": "Unpark the telescope mount",
+          "name": "Unpark Telescope"
+        },
+        "warmCamera": {
+          "description": "Warm up the camera",
+          "durationLabel": "Warming Duration (minutes)",
+          "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)",
+          "name": "Warm Camera"
+        }
       },
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
         "removeAction": "Odstranit akci „{actionName}",
         "sendSequenceFailed": "Nepodařilo se odeslat sekvenci do N.I.N.A.",
-        "unknownError": "Došlo k neznámé chybě"
+        "unknownError": "Došlo k neznámé chybě",
+        "title": "Confirmation"
       },
       "containers": {
         "addAction": "Přidat Akci",
@@ -817,7 +892,8 @@
         "loadBasicSequence": "Načíst Základní Sekvenci",
         "redo": "Znovu",
         "undo": "Zpět",
-        "validSequence": "Sekvence je platná a lze ji exportovat."
+        "validSequence": "Sekvence je platná a lze ji exportovat.",
+        "saveAsDefault": "Save as Default"
       },
       "settings": {
         "title": "Překlopení Poledníku",

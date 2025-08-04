@@ -124,7 +124,6 @@
             </svg>
           </button>
 
-
           <!-- Duplicate -->
           <button
             @click="handleDuplicate"
@@ -293,7 +292,9 @@
   <!-- Delete Confirmation Modal -->
   <Modal :show="showDeleteModal" @close="cancelRemove">
     <template #header>
-      <h2 class="text-xl font-bold text-white">{{ t('plugins.sequenceCreator.confirmations.title') }}</h2>
+      <h2 class="text-xl font-bold text-white">
+        {{ t('plugins.sequenceCreator.confirmations.title') }}
+      </h2>
     </template>
     <template #body>
       <div class="text-center">
@@ -301,16 +302,10 @@
           {{ t('plugins.sequenceCreator.confirmations.removeAction', { actionName: action.name }) }}
         </p>
         <div class="flex justify-center gap-4">
-          <button
-            @click="cancelRemove"
-            class="default-button-gray text-sm"
-          >
+          <button @click="cancelRemove" class="default-button-gray text-sm">
             {{ t('general.cancel') }}
           </button>
-          <button
-            @click="confirmRemove"
-            class="default-button-red text-sm"
-          >
+          <button @click="confirmRemove" class="default-button-red text-sm">
             {{ t('general.confirm') }}
           </button>
         </div>
@@ -417,7 +412,6 @@ function cancelRemove() {
 function handleDuplicate() {
   emit('duplicate', props.action.id);
 }
-
 
 function handleTargetSelected(targetData) {
   console.log('Target selected:', targetData);

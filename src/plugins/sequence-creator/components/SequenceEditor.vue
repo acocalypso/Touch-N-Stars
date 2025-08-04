@@ -49,10 +49,7 @@
           </button>
 
           <!-- Load Basic Sequence -->
-          <button
-            @click="store.loadBasicSequence()"
-            class="default-button-cyan text-sm"
-          >
+          <button @click="store.loadBasicSequence()" class="default-button-cyan text-sm">
             {{ t('plugins.sequenceCreator.toolbar.loadBasicSequence') }}
           </button>
 
@@ -66,10 +63,7 @@
           </button>
 
           <!-- Clear All -->
-          <button
-            @click="handleClearSequence"
-            class="default-button-red text-sm"
-          >
+          <button @click="handleClearSequence" class="default-button-red text-sm">
             {{ t('plugins.sequenceCreator.toolbar.clearSequence') }}
           </button>
 
@@ -214,7 +208,9 @@
     <!-- Clear Sequence Confirmation Modal -->
     <Modal :show="showClearModal" @close="cancelClear">
       <template #header>
-        <h2 class="text-xl font-bold text-white">{{ t('plugins.sequenceCreator.confirmations.title') }}</h2>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.confirmations.title') }}
+        </h2>
       </template>
       <template #body>
         <div class="text-center">
@@ -222,16 +218,10 @@
             {{ t('plugins.sequenceCreator.confirmations.clearSequence') }}
           </p>
           <div class="flex justify-center gap-4">
-            <button
-              @click="cancelClear"
-              class="default-button-gray text-sm"
-            >
+            <button @click="cancelClear" class="default-button-gray text-sm">
               {{ t('general.cancel') }}
             </button>
-            <button
-              @click="confirmClear"
-              class="default-button-red text-sm"
-            >
+            <button @click="confirmClear" class="default-button-red text-sm">
               {{ t('general.confirm') }}
             </button>
           </div>

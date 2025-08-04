@@ -739,13 +739,88 @@
         "notSet": "Pas réglé",
         "parameters": "Paramètres",
         "removeAction": "Supprimer l'action",
-        "yes": "Oui"
+        "yes": "Oui",
+        "coolCamera": {
+          "description": "Refroidir la caméra à la température spécifiée",
+          "durationLabel": "Durée de refroidissement (minutes)",
+          "durationTooltip": "Temps pour refroidir activement la caméra (0 = refroidir jusqu'à la température atteinte)",
+          "name": "Appareil photo cool",
+          "temperatureLabel": "Température (° C)",
+          "temperatureTooltip": "Température cible pour le refroidissement de la caméra"
+        },
+        "parkTelescope": {
+          "description": "Garer le support de télescope",
+          "name": "Télescope de parc"
+        },
+        "runAutofocus": {
+          "description": "Effectuer une routine de mise au point automatique",
+          "name": "Exécuter la mise au point automatique"
+        },
+        "slewToTarget": {
+          "description": "Accédez à Target avec différentes options",
+          "name": "Tuew pour cibler",
+          "slewModeLabel": "Mode de balayage",
+          "slewModeTooltip": "Choisissez comment naviguer vers la cible"
+        },
+        "smartExposure": {
+          "binningLabel": "Rabattement",
+          "binningTooltip": "Mode de binning Pixel",
+          "countLabel": "Nombre d'images",
+          "countTooltip": "Nombre d'expositions à prendre",
+          "description": "Séquence d'exposition intelligente avec tramage et déclencheurs",
+          "ditherAfterLabel": "Diship après n expositions",
+          "ditherAfterTooltip": "Fréquence",
+          "exposureTimeLabel": "Temps d'exposition (s)",
+          "exposureTimeTooltip": "Durée de chaque exposition",
+          "filterLabel": "Filtre",
+          "filterTooltip": "Sélection des roues filtrantes",
+          "gainLabel": "Gagner",
+          "gainTooltip": "Réglage du gain de la caméra",
+          "imageTypeLabel": "Type d'image",
+          "imageTypeTooltip": "Type d'exposition à la capture",
+          "name": "Exposition intelligente (imagerie)",
+          "offsetLabel": "Compenser",
+          "offsetTooltip": "Paramètre de décalage de la caméra"
+        },
+        "startGuiding": {
+          "description": "Démarrer le système d'autoguisement",
+          "forceCalibrationLabel": "Étalonnage de force",
+          "forceCalibrationTooltip": "Forcer l'étalonnage du nouveau guide",
+          "name": "Commencer à guider"
+        },
+        "stopGuiding": {
+          "description": "Système d'arrêt de l'autoguisement",
+          "name": "Arrêtez de guider"
+        },
+        "targetSettings": {
+          "decLabel": "Déclinaison",
+          "decTooltip": "Dec dans DD: MM: Format SS",
+          "description": "Définir les coordonnées et les paramètres cibles",
+          "name": "Paramètres cibles",
+          "positionAngleLabel": "Angle de position (°)",
+          "positionAngleTooltip": "Angle de rotation de la caméra",
+          "raLabel": "Ascension droite",
+          "raTooltip": "RA dans HH: MM: Format SS",
+          "targetNameLabel": "Nom cible",
+          "targetNameTooltip": "Nom de l'objet céleste"
+        },
+        "unparkTelescope": {
+          "description": "Décournez le support du télescope",
+          "name": "Télescope unis"
+        },
+        "warmCamera": {
+          "description": "Réchauffez la caméra",
+          "durationLabel": "Durée du réchauffement (minutes)",
+          "durationTooltip": "Temps pour réchauffer activement la caméra (0 = température chaude à ambiante)",
+          "name": "Caméra chaude"
+        }
       },
       "confirmations": {
         "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? \nCette action ne peut pas être annulée.",
         "removeAction": "Supprimer \"{actionName}\" Action?",
         "sendSequenceFailed": "Échec de la séquence à N.I.N.A",
-        "unknownError": "Une erreur inconnue s'est produite"
+        "unknownError": "Une erreur inconnue s'est produite",
+        "title": "Confirmation"
       },
       "containers": {
         "addActionsToContainer": "Ajouter des actions à ce conteneur",
@@ -817,7 +892,8 @@
         "loadBasicSequence": "Chargez la séquence de base",
         "redo": "Refaire",
         "undo": "Défaire",
-        "validSequence": "La séquence est valide et peut être exportée"
+        "validSequence": "La séquence est valide et peut être exportée",
+        "saveAsDefault": "Enregistrer par défaut"
       },
       "settings": {
         "title": "Meridianflip",

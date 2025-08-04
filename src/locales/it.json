@@ -820,7 +820,8 @@
         "removeAction": "Rimuovi l'azione \"{ActionName}\"?",
         "sendSequenceFailed": "Impossibile inviare sequenza a N.I.N.A",
         "unknownError": "Si è verificato un errore sconosciuto",
-        "title": "Conferma"
+        "title": "Conferma",
+        "saveAsDefault": "Sei sicuro di voler salvare la sequenza corrente come predefinita? \nCiò sovrascriverà la sequenza predefinita precedente."
       },
       "containers": {
         "addAction": "Aggiungi azione",
@@ -893,7 +894,8 @@
         "redo": "Rifare",
         "undo": "Disfare",
         "validSequence": "La sequenza è valida e può essere esportata",
-        "saveAsDefault": "Salva come predefinito"
+        "saveAsDefault": "Salva come predefinito",
+        "saveAsDefaultSuccess": "Salvato come sequenza predefinita!"
       },
       "settings": {
         "title": "Meridianflip",

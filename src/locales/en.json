@@ -719,6 +719,7 @@
         "loadBasicSequence": "Load Basic Sequence",
         "clearSequence": "Clear Sequence",
         "saveAsDefault": "Save as Default",
+        "saveAsDefaultSuccess": "Saved as default sequence!",
         "exportSequence": "Export Sequence",
         "validSequence": "Sequence is valid and can be exported",
         "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence"
@@ -726,6 +727,7 @@
       "confirmations": {
         "title": "Confirmation",
         "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",
+        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence.",
         "removeAction": "Remove \"{actionName}\" action?",
         "unknownError": "Unknown error occurred",
         "sendSequenceFailed": "Failed to send sequence to N.I.N.A"

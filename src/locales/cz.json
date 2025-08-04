@@ -820,7 +820,8 @@
         "removeAction": "Odstranit akci „{actionName}",
         "sendSequenceFailed": "Nepodařilo se odeslat sekvenci do N.I.N.A.",
         "unknownError": "Došlo k neznámé chybě",
-        "title": "Confirmation"
+        "title": "Confirmation",
+        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence."
       },
       "containers": {
         "addAction": "Přidat Akci",
@@ -893,7 +894,8 @@
         "redo": "Znovu",
         "undo": "Zpět",
         "validSequence": "Sekvence je platná a lze ji exportovat.",
-        "saveAsDefault": "Save as Default"
+        "saveAsDefault": "Save as Default",
+        "saveAsDefaultSuccess": "Saved as default sequence!"
       },
       "settings": {
         "title": "Překlopení Poledníku",

@@ -820,7 +820,8 @@
         "removeAction": "Remover ação \"{actionName}\"?",
         "sendSequenceFailed": "Falha ao enviar sequência para N.I.N.A",
         "unknownError": "Ocorreu um erro desconhecido",
-        "title": "Confirmação"
+        "title": "Confirmação",
+        "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? \nIsso substituirá a sequência padrão anterior."
       },
       "containers": {
         "addAction": "Adicione ação",
@@ -893,7 +894,8 @@
         "redo": "Refazer",
         "undo": "Desfazer",
         "validSequence": "A sequência é válida e pode ser exportada",
-        "saveAsDefault": "Salve como padrão"
+        "saveAsDefault": "Salve como padrão",
+        "saveAsDefaultSuccess": "Salvo como sequência padrão!"
       },
       "settings": {
         "title": "Meridianflip",

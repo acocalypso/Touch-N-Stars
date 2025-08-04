@@ -820,7 +820,8 @@
         "removeAction": "Eliminar la acción \"{ActionName}\"?",
         "sendSequenceFailed": "No se pudo enviar una secuencia a N.I.N.A",
         "unknownError": "Ocurrió un error desconocido",
-        "title": "Confirmación"
+        "title": "Confirmación",
+        "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior."
       },
       "containers": {
         "addAction": "Agregar acción",
@@ -892,7 +893,8 @@
         "exportSequence": "Secuencia de exportación",
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
         "loadBasicSequence": "Cargar secuencia básica",
-        "saveAsDefault": "Guardar como predeterminado"
+        "saveAsDefault": "Guardar como predeterminado",
+        "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!"
       },
       "title": "N.I.N.A CREATOR DE SECUENCIA",
       "settings": {

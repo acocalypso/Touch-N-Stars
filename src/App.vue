@@ -22,11 +22,13 @@
         </div>
       </Transition>
 
-      <div 
+      <div
         v-if="
-          !((showSplashScreen || !store.isBackendReachable) &&
+          !(
+            (showSplashScreen || !store.isBackendReachable) &&
             settingsStore.setupCompleted &&
-            $route.path !== '/settings')
+            $route.path !== '/settings'
+          )
         "
         :class="mainContentClasses"
       >

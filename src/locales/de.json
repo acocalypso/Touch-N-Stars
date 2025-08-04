@@ -719,6 +719,7 @@
         "loadBasicSequence": "Basis-Sequenz Laden",
         "clearSequence": "Sequenz leeren",
         "saveAsDefault": "Als Standard speichern",
+        "saveAsDefaultSuccess": "Als Standard-Sequenz gespeichert!",
         "exportSequence": "Sequenz Exportieren",
         "validSequence": "Sequenz ist gültig und kann exportiert werden",
         "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
@@ -726,6 +727,7 @@
       "confirmations": {
         "title": "Bestätigung",
         "clearSequence": "Sind Sie sicher, dass Sie die gesamte Sequenz löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
         "removeAction": "Aktion \"{actionName}\" entfernen?",
         "unknownError": "Unbekannter Fehler aufgetreten",
         "sendSequenceFailed": "Fehler beim Senden der Sequenz an N.I.N.A"

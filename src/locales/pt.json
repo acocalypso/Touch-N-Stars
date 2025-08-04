@@ -739,13 +739,89 @@
         "notSet": "Não definido",
         "parameters": "Parâmetros",
         "removeAction": "Remover ação",
-        "yes": "Sim"
+        "yes": "Sim",
+        "coolCamera": {
+          "description": "Esfriar a câmera para a temperatura especificada",
+          "durationLabel": "Duração de resfriamento (minutos)",
+          "durationTooltip": "Hora de esfriar ativamente a câmera (0 = esfriar até a temperatura alcançada)",
+          "name": "Câmera legal",
+          "temperatureLabel": "Temperatura (° C)",
+          "temperatureTooltip": "Temperatura alvo para resfriamento da câmera"
+        },
+        "parkTelescope": {
+          "description": "Estacione a montagem do telescópio",
+          "name": "Telescópio do parque"
+        },
+        "runAutofocus": {
+          "description": "Execute a rotina de foco automático",
+          "name": "Execute o foco automático"
+        },
+        "slewToTarget": {
+          "description": "Navegue para segmentar com diferentes opções",
+          "name": "Matou para segmentar",
+          "slewModeLabel": "Slew Mode",
+          "slewModeTooltip": "Escolha como navegar para o alvo"
+        },
+        "smartExposure": {
+          "binningLabel": "Binning",
+          "binningTooltip": "Modo de binning de pixel",
+          "countLabel": "Contagem de imagens",
+          "countTooltip": "Número de exposições a tomar",
+          "description": "Sequência de exposição inteligente com derivação e gatilhos",
+          "ditherAfterLabel": "Derrotar depois de n exposições",
+          "ditherAfterTooltip": "Frequência de Dither",
+          "exposureTimeLabel": "Tempo (s) de exposição (s)",
+          "exposureTimeTooltip": "Duração de cada exposição",
+          "filterLabel": "Filtro",
+          "filterTooltip": "Seleção de roda de filtro",
+          "gainLabel": "Ganho",
+          "gainTooltip": "Configuração de ganho de câmera",
+          "imageTypeLabel": "Tipo de imagem",
+          "imageTypeTooltip": "Tipo de exposição à captura",
+          "name": "Exposição inteligente (imagem)",
+          "offsetLabel": "Desvio",
+          "offsetTooltip": "Configuração do deslocamento da câmera"
+        },
+        "startGuiding": {
+          "description": "Inicie o sistema de autoguidores",
+          "forceCalibrationLabel": "Calibração de força",
+          "forceCalibrationTooltip": "Forçar a calibração do novo guia",
+          "name": "Comece a orientar"
+        },
+        "stopGuiding": {
+          "description": "Pare o sistema de autoguidores",
+          "name": "Pare de guiar"
+        },
+        "targetSettings": {
+          "decLabel": "Declinação",
+          "decTooltip": "DEC em DD: MM: Formato SS",
+          "description": "Defina coordenadas e configurações de destino",
+          "name": "Configurações de destino",
+          "positionAngleLabel": "Ângulo de posição (°)",
+          "positionAngleTooltip": "Ângulo de rotação da câmera",
+          "raLabel": "Ascensão direita",
+          "raTooltip": "RA em HH: MM: formato SS",
+          "targetNameLabel": "Nome do alvo",
+          "targetNameTooltip": "Nome do objeto celestial"
+        },
+        "unparkTelescope": {
+          "description": "Desmarque o suporte do telescópio",
+          "name": "Telescópio UMPK"
+        },
+        "warmCamera": {
+          "description": "Aqueça a câmera",
+          "durationLabel": "Duração do aquecimento (minutos)",
+          "durationTooltip": "Hora de aquecer ativamente a câmera (0 = quente à temperatura ambiente)",
+          "name": "Câmera quente"
+        }
       },
       "confirmations": {
         "clearSequence": "Tem certeza de que deseja limpar toda a sequência? \nEsta ação não pode ser desfeita.",
         "removeAction": "Remover ação \"{actionName}\"?",
         "sendSequenceFailed": "Falha ao enviar sequência para N.I.N.A",
-        "unknownError": "Ocorreu um erro desconhecido"
+        "unknownError": "Ocorreu um erro desconhecido",
+        "title": "Confirmação",
+        "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? \nIsso substituirá a sequência padrão anterior."
       },
       "containers": {
         "addAction": "Adicione ação",
@@ -817,7 +893,9 @@
         "loadBasicSequence": "Carregue a sequência básica",
         "redo": "Refazer",
         "undo": "Desfazer",
-        "validSequence": "A sequência é válida e pode ser exportada"
+        "validSequence": "A sequência é válida e pode ser exportada",
+        "saveAsDefault": "Salve como padrão",
+        "saveAsDefaultSuccess": "Salvo como sequência padrão!"
       },
       "settings": {
         "title": "Meridianflip",

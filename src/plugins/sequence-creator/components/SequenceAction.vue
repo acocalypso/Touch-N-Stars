@@ -60,7 +60,6 @@
 
       <!-- Action Buttons -->
       <div class="flex items-center space-x-1 ml-3">
-
         <!-- Duplicate -->
         <button
           @click.stop="$emit('duplicate', action.id)"

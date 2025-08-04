@@ -19,11 +19,10 @@ export default {
 
       // Get current plugin state from store
       const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
-      
+
       // Use a unique fallback path for this plugin if not found in store
-      const pluginPath = currentPlugin && currentPlugin.pluginPath 
-        ? currentPlugin.pluginPath 
-        : '/bathinov-analyzer';
+      const pluginPath =
+        currentPlugin && currentPlugin.pluginPath ? currentPlugin.pluginPath : '/bathinov-analyzer';
 
       // Register route with generic plugin path
       router.addRoute({

@@ -968,7 +968,9 @@ export const useSequenceStore = defineStore('sequence', () => {
           $id: generateId(),
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-          $values: smartExposureActions.map(action => createBasicSmartExposureContainer(action, generateId)),
+          $values: smartExposureActions.map((action) =>
+            createBasicSmartExposureContainer(action, generateId)
+          ),
         },
         Triggers: {
           $id: generateId(),
@@ -990,20 +992,20 @@ export const useSequenceStore = defineStore('sequence', () => {
   // Helper function to get filter info from available filters
   function getFilterInfo(filterName) {
     const api = apiStore();
-    
+
     if (filterName === 'None' || !filterName) {
       return null;
     }
-    
+
     // Find filter in available filters by name
     const availableFilters = api.filterInfo?.AvailableFilters || [];
-    const filterInfo = availableFilters.find(filter => filter.Name === filterName);
-    
+    const filterInfo = availableFilters.find((filter) => filter.Name === filterName);
+
     if (!filterInfo) {
       console.warn(`Filter "${filterName}" not found in available filters`);
       return null;
     }
-    
+
     return filterInfo;
   }
 
@@ -1043,11 +1045,11 @@ export const useSequenceStore = defineStore('sequence', () => {
             Filter: (() => {
               const filterName = action.parameters.filter?.value;
               const filterInfo = getFilterInfo(filterName);
-              
+
               if (!filterInfo) {
                 return null;
               }
-              
+
               return {
                 $id: generateId(),
                 $type: 'NINA.Core.Model.Equipment.FilterInfo, NINA.Core',
@@ -1060,29 +1062,35 @@ export const useSequenceStore = defineStore('sequence', () => {
                   $id: generateId(),
                   $type: 'NINA.Core.Model.Equipment.FlatWizardFilterSettings, NINA.Core',
                   FlatWizardMode: filterInfo.FlatWizardFilterSettings?.FlatWizardMode || 0,
-                  HistogramMeanTarget: filterInfo.FlatWizardFilterSettings?.HistogramMeanTarget || 0.5,
-                  HistogramTolerance: filterInfo.FlatWizardFilterSettings?.HistogramTolerance || 0.1,
-                  MaxFlatExposureTime: filterInfo.FlatWizardFilterSettings?.MaxFlatExposureTime || 30.0,
-                  MinFlatExposureTime: filterInfo.FlatWizardFilterSettings?.MinFlatExposureTime || 0.01,
-                  MaxAbsoluteFlatDeviceBrightness: filterInfo.FlatWizardFilterSettings?.MaxAbsoluteFlatDeviceBrightness || 100,
-                  MinAbsoluteFlatDeviceBrightness: filterInfo.FlatWizardFilterSettings?.MinAbsoluteFlatDeviceBrightness || 0,
+                  HistogramMeanTarget:
+                    filterInfo.FlatWizardFilterSettings?.HistogramMeanTarget || 0.5,
+                  HistogramTolerance:
+                    filterInfo.FlatWizardFilterSettings?.HistogramTolerance || 0.1,
+                  MaxFlatExposureTime:
+                    filterInfo.FlatWizardFilterSettings?.MaxFlatExposureTime || 30.0,
+                  MinFlatExposureTime:
+                    filterInfo.FlatWizardFilterSettings?.MinFlatExposureTime || 0.01,
+                  MaxAbsoluteFlatDeviceBrightness:
+                    filterInfo.FlatWizardFilterSettings?.MaxAbsoluteFlatDeviceBrightness || 100,
+                  MinAbsoluteFlatDeviceBrightness:
+                    filterInfo.FlatWizardFilterSettings?.MinAbsoluteFlatDeviceBrightness || 0,
                   Gain: filterInfo.FlatWizardFilterSettings?.Gain || -1,
                   Offset: filterInfo.FlatWizardFilterSettings?.Offset || -1,
                   Binning: {
                     $id: generateId(),
                     $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
                     X: filterInfo.FlatWizardFilterSettings?.Binning?.X || 1,
-                    Y: filterInfo.FlatWizardFilterSettings?.Binning?.Y || 1
-                  }
+                    Y: filterInfo.FlatWizardFilterSettings?.Binning?.Y || 1,
+                  },
                 },
                 _autoFocusBinning: {
                   $id: generateId(),
                   $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
                   X: filterInfo.AutoFocusBinning?.X || 1,
-                  Y: filterInfo.AutoFocusBinning?.Y || 1
+                  Y: filterInfo.AutoFocusBinning?.Y || 1,
                 },
                 _autoFocusGain: filterInfo.AutoFocusGain || -1,
-                _autoFocusOffset: filterInfo.AutoFocusOffset || -1
+                _autoFocusOffset: filterInfo.AutoFocusOffset || -1,
               };
             })(),
             Parent: null,
@@ -1115,7 +1123,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
         $values: (() => {
           const ditherAfter = action.parameters.ditherAfter?.value ?? 0;
-          
+
           // Only create dither trigger if ditherAfter > 0
           if (ditherAfter > 0) {
             return [
@@ -1449,7 +1457,6 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
   }
 
-
   function clearSequence() {
     startSequence.value = [];
     targetSequence.value = [];
@@ -1548,11 +1555,11 @@ export const useSequenceStore = defineStore('sequence', () => {
     const defaultSequence = {
       start: JSON.parse(JSON.stringify(startSequence.value)),
       target: JSON.parse(JSON.stringify(targetSequence.value)),
-      end: JSON.parse(JSON.stringify(endSequence.value))
+      end: JSON.parse(JSON.stringify(endSequence.value)),
     };
-    
+
     localStorage.setItem('sequence-creator-default', JSON.stringify(defaultSequence));
-    
+
     // Show success feedback (you could emit an event or use a toast notification)
     console.log('Sequence saved as default');
   }

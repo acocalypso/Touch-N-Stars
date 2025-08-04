@@ -156,7 +156,7 @@ const actionTemplates = {
         },
         filter: {
           type: 'select',
-          options: [], 
+          options: [],
           default: 'None',
           label: 'Filter',
           tooltip: 'Filter wheel selection',

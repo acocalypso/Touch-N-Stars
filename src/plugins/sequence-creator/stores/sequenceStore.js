@@ -624,14 +624,6 @@ export const useSequenceStore = defineStore('sequence', () => {
                 'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
               $values: [
                 {
-                  $id: generateId(),
-                  $type: 'NINA.Sequencer.SequenceItem.Utility.Annotation, NINA.Sequencer',
-                  Text: 'VERSION: 1',
-                  Parent: { $ref: basicSequenceStartId },
-                  ErrorBehavior: 0,
-                  Attempts: 1,
-                },
-                {
                   $id: equipmentCheckId,
                   $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
                   Strategy: {

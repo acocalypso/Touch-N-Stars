@@ -65,77 +65,77 @@
     <selectDevices
       apiAction="cameraAction"
       :deviceName="$t('components.connectEquipment.camera.name')"
-      :default-device-id="store.profileInfo.CameraSettings.Id"
+      :default-device-id="store.profileInfo?.CameraSettings?.Id"
       :isConnected="store.cameraInfo.Connected"
     />
 
     <selectDevices
       apiAction="mountAction"
       :deviceName="$t('components.connectEquipment.mount.name')"
-      :default-device-id="store.profileInfo.TelescopeSettings.Id"
+      :default-device-id="store.profileInfo?.TelescopeSettings?.Id"
       :isConnected="store.mountInfo.Connected"
     />
 
     <selectDevices
       apiAction="focusAction"
       :deviceName="$t('components.connectEquipment.focuser.name')"
-      :default-device-id="store.profileInfo.FocuserSettings.Id"
+      :default-device-id="store.profileInfo?.FocuserSettings?.Id"
       :isConnected="store.focuserInfo.Connected"
     />
 
     <selectDevices
       apiAction="guiderAction"
       :deviceName="$t('components.connectEquipment.guider.name')"
-      :default-device-id="store.profileInfo.GuiderSettings.GuiderName"
+      :default-device-id="store.profileInfo?.GuiderSettings?.GuiderName"
       :isConnected="store.guiderInfo.Connected"
     />
 
     <selectDevices
       apiAction="filterAction"
       :deviceName="$t('components.connectEquipment.filter.name')"
-      :default-device-id="store.profileInfo.FilterWheelSettings.Id"
+      :default-device-id="store.profileInfo?.FilterWheelSettings?.Id"
       :isConnected="store.filterInfo.Connected"
     />
 
     <selectDevices
       apiAction="rotatorAction"
       :deviceName="$t('components.connectEquipment.rotator.name')"
-      :default-device-id="store.profileInfo.RotatorSettings.Id"
+      :default-device-id="store.profileInfo?.RotatorSettings?.Id"
       :isConnected="store.rotatorInfo.Connected"
     />
 
     <selectDevices
       apiAction="weatherAction"
       :deviceName="$t('components.connectEquipment.weather.name')"
-      :default-device-id="store.profileInfo.WeatherDataSettings.Id"
+      :default-device-id="store.profileInfo?.WeatherDataSettings?.Id"
       :isConnected="store.weatherInfo.Connected"
     />
 
     <selectDevices
       apiAction="safetyAction"
       :deviceName="$t('components.connectEquipment.safety.name')"
-      :default-device-id="store.profileInfo.SafetyMonitorSettings.Id"
+      :default-device-id="store.profileInfo?.SafetyMonitorSettings?.Id"
       :isConnected="store.safetyInfo.Connected"
     />
 
     <selectDevices
       apiAction="flatdeviceAction"
       :deviceName="$t('components.connectEquipment.flat.name')"
-      :default-device-id="store.profileInfo.FlatDeviceSettings.Id"
+      :default-device-id="store.profileInfo?.FlatDeviceSettings?.Id"
       :isConnected="store.flatdeviceInfo.Connected"
     />
 
     <selectDevices
       apiAction="domeAction"
       :deviceName="$t('components.connectEquipment.dome.name')"
-      :default-device-id="store.profileInfo.DomeSettings.Id"
+      :default-device-id="store.profileInfo?.DomeSettings?.Id"
       :isConnected="store.domeInfo.Connected"
     />
 
     <selectDevices
       apiAction="switchAction"
       :deviceName="$t('components.connectEquipment.switch.name')"
-      :default-device-id="store.profileInfo.SwitchSettings.Id"
+      :default-device-id="store.profileInfo?.SwitchSettings?.Id"
       :isConnected="store.switchInfo.Connected"
     />
   </div>

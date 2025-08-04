@@ -33,7 +33,8 @@
       "notifications": {
         "title": "Notificações",
         "enable": "Ativar",
-        "sequence": "Sequência"
+        "sequence": "Sequência",
+        "phd2": "PhD2"
       },
       "showTutorial": "Mostrar tutorial",
       "plugins": {
@@ -822,7 +823,8 @@
         "sendSequenceFailed": "Falha ao enviar sequência para N.I.N.A",
         "unknownError": "Ocorreu um erro desconhecido",
         "title": "Confirmação",
-        "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? \nIsso substituirá a sequência padrão anterior."
+        "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? \nIsso substituirá a sequência padrão anterior.",
+        "loadBasicSequence": "Tem certeza de que deseja carregar a sequência básica? Isso substituirá a sequência atual."
       },
       "containers": {
         "addAction": "Adicione ação",

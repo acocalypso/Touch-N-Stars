@@ -95,7 +95,8 @@
       "notifications": {
         "title": "通知",
         "enable": "Activate",
-        "sequence": "sequence"
+        "sequence": "sequence",
+        "phd2": "PHD2"
       },
       "showTutorial": "显示教程",
       "plugins": {
@@ -822,7 +823,8 @@
         "sendSequenceFailed": "Failed to send sequence to N.I.N.A",
         "unknownError": "Unknown error occurred",
         "title": "Confirmation",
-        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence."
+        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence.",
+        "loadBasicSequence": "您确定要加载基本序列吗？这将覆盖当前序列。"
       },
       "containers": {
         "addAction": "Add Action",

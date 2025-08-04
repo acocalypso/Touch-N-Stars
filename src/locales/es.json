@@ -823,7 +823,8 @@
         "sendSequenceFailed": "No se pudo enviar una secuencia a N.I.N.A",
         "unknownError": "Ocurrió un error desconocido",
         "title": "Confirmación",
-        "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior."
+        "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior.",
+        "loadBasicSequence": "¿Estás seguro de que quieres cargar la secuencia básica? Esto sobrescribirá la secuencia actual."
       },
       "containers": {
         "addAction": "Agregar acción",

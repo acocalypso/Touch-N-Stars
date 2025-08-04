@@ -11,24 +11,48 @@
       <Transition name="splash">
         <div
           v-if="
-            (showSplashScreen || !store.isBackendReachable) &&
-            settingsStore.setupCompleted &&
-            $route.path !== '/settings'
+            showSplashScreen ||
+            (!store.isBackendReachable && $route.path !== '/settings')
           "
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900"
         >
-          <h1 class="text-5xl pt-6 text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
+          <!-- Minimaler Status-Text -->
+          <p 
+            v-if="!store.isBackendReachable && connectionCheckCompleted"
+            class="mb-4 text-red-400 text-sm animate-pulse"
+          >
+            Trying to establish connection...
+          </p>
+
+          <!-- Settings Button -->
+          <button
+            v-if="!store.isBackendReachable && connectionCheckCompleted"
+            @click="showSettingsModal = true"
+            class="mb-6 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {{ $t('components.settings.title') }}
+          </button>
+
+          <h1 class="text-5xl text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
           <img class="mt-5" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />
+
+          <!-- Debug Info -->
+          <div v-if="settingsStore.showDebugConsole" class="mt-4 text-xs text-gray-400">
+            <p>showSplashScreen: {{ showSplashScreen }}</p>
+            <p>isBackendReachable: {{ store.isBackendReachable }}</p>
+            <p>connectionCheckCompleted: {{ connectionCheckCompleted }}</p>
+            <p>route.path: {{ $route.path }}</p>
+          </div>
         </div>
       </Transition>
 
       <div
         v-if="
-          !(
-            (showSplashScreen || !store.isBackendReachable) &&
-            settingsStore.setupCompleted &&
-            $route.path !== '/settings'
-          )
+          !(showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings'))
         "
         :class="mainContentClasses"
       >
@@ -83,11 +107,48 @@
     <ConsoleViewer class="fixed top-32 right-6" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
+    
+    <!-- Settings Modal -->
+    <div
+      v-if="showSettingsModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"
+      >
+        <div class="sticky top-0 bg-gray-900 p-4 border-b border-gray-700 flex justify-between items-center">
+          <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
+          <button
+            @click="showSettingsModal = false"
+            class="p-2 text-gray-400 hover:text-white bg-gray-800 rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <SettingsComp />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
@@ -102,10 +163,12 @@ import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
+import SettingsComp from '@/components/SettingsComp.vue';
 import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 
+const router = useRouter();
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
@@ -113,6 +176,8 @@ const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
+const showSettingsModal = ref(false);
+const connectionCheckCompleted = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
@@ -212,6 +277,9 @@ onMounted(async () => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
 
   await store.fetchAllInfos(t);
+  // Nach dem ersten Verbindungsversuch ist die Prüfung abgeschlossen
+  connectionCheckCompleted.value = true;
+  
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {
@@ -247,6 +315,12 @@ watch(
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
+}
+
+async function retryConnection() {
+  connectionCheckCompleted.value = false;
+  await store.fetchAllInfos(t);
+  connectionCheckCompleted.value = true;
 }
 
 watch(

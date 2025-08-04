@@ -722,6 +722,12 @@
         "saveAsDefault": "Als Standard speichern",
         "saveAsDefaultSuccess": "Als Standard-Sequenz gespeichert!",
         "exportSequence": "Sequenz Exportieren",
+        "sendToNina": "An N.I.N.A Senden",
+        "sending": "Wird gesendet...",
+        "sent": "Gesendet!",
+        "failed": "Fehlgeschlagen",
+        "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
+        "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
         "validSequence": "Sequenz ist gültig und kann exportiert werden",
         "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
       },

@@ -5,9 +5,7 @@
   },
   "general": {
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen",
-    "hide": "Verstecken",
-    "show": "Zeigen"
+    "confirm": "Bestätigen"
   },
   "pages": {
     "equipment": {
@@ -18,7 +16,6 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA ist nicht erreichbar",
     "connecting": "Versuche Verbindung herzustellen",
-    "api_version_incompatible": "Advanced-API-Version inkompatibel Aktuell: {current} Erforderlich: {required}",
     "connection_error_toast": {
       "message_api": "Das API-Plugin ist nicht erreichbar. \nBitte überprüfen Sie die Einstellungen in Nina",
       "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
@@ -111,7 +108,15 @@
         "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
         "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
       },
-      "add": "hinzufügen"
+      "add": "hinzufügen",
+      "update": "Aktualisieren",
+      "errors": {
+        "instanceNameRequired": "Instanzname ist erforderlich",
+        "invalidIPFormat": "Ungültiges IP-Format",
+        "invalidPortRange": "Ungültiger Port-Bereich",
+        "invalidInstance": "Ungültige Instanz",
+        "emptyFields": "Leere Felder"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -190,12 +195,6 @@
       "settings": "Einstellungen",
       "vnc": "VNC"
     },
-    "language": {
-      "select": "Sprache auswählen"
-    },
-    "equipment": {
-      "control": "Gerätesteuerung"
-    },
     "sequence": {
       "title": "Sequenz",
       "stats": "Statistiken",
@@ -236,7 +235,6 @@
       "median": "Median",
       "stDev": "St. Abw.",
       "rmsText": "RMS",
-      "sequence_control": "Sequenzsteuerung",
       "expandAll": "Alle erweitern",
       "collapseAll": "Alle zuklappen",
       "temperature": "Temperatur",
@@ -526,13 +524,6 @@
         "StartFromCurrentPosition": "Von der aktuellen Position starten?"
       }
     },
-    "logs": {
-      "loading": "Daten werden geladen...",
-      "error": "Fehler beim Laden der Daten:"
-    },
-    "test": {
-      "title": "Test"
-    },
     "loading": "Laden...",
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",
@@ -675,14 +666,8 @@
     },
     "fav_target": {
       "enter_name": "Namen eingeben",
-      "modal_save": {
-        "message": "Das Ziel wurde gespeichert",
-        "titel": "Speichern",
-        "title": "Speichern"
-      },
       "modal_sequence": {
-        "titel": "Sequenz",
-        "title": "Sequenz"
+        "titel": "Sequenz"
       },
       "modal_sequence_error": {
         "message": "Keine Sequenz geladen"
@@ -700,8 +685,7 @@
         "sequnce": "Seq. Ziel",
         "rotation": "Drehung"
       },
-      "titel": "Favoriten",
-      "title": "Favoriten"
+      "titel": "Favoriten"
     },
     "notifications": {
       "modal": {

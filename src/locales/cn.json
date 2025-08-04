@@ -5,9 +5,7 @@
   },
   "general": {
     "cancel": "取消",
-    "confirm": "确认",
-    "hide": "隐藏",
-    "show": "显示"
+    "confirm": "确认"
   },
   "pages": {
     "equipment": {
@@ -18,7 +16,6 @@
     "title": "Touch'N'Stars",
     "unreachable": " NINA 无法访问",
     "connecting": "尝试建立连接",
-    "api_version_incompatible": "高级 API 版本不兼容 当前：{ current } 必需：{ required }",
     "connection_error_toast": {
       "message_api": "API 插件不可用。请检查 NINA 中的设置",
       "message_api_version": "API 插件版本过旧。请进行更新",
@@ -111,7 +108,15 @@
         "confirmShutdown": "您确定要关闭系统吗？",
         "confirmRestart": "您确定要重启系统吗？"
       },
-      "add": "add"
+      "add": "add",
+      "update": "TODO: translate [Update]",
+      "errors": {
+        "instanceNameRequired": "TODO: translate [Instance name is required]",
+        "invalidIPFormat": "TODO: translate [Invalid IP format]",
+        "invalidPortRange": "TODO: translate [Invalid port range]",
+        "invalidInstance": "TODO: translate [Invalid instance]",
+        "emptyFields": "TODO: translate [Empty fields]"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -190,12 +195,8 @@
       "settings": "设置",
       "vnc": "VNC"
     },
-    "language": {
-      "select": "选择语言"
-    },
-    "equipment": {
-      "control": "设备控制"
-    },
+    "language": {},
+    "equipment": {},
     "sequence": {
       "title": "序列",
       "stats": "统计",
@@ -238,7 +239,6 @@
       "median": "中位数",
       "stDev": "标准差",
       "rmsText": "RMS",
-      "sequence_control": "序列控制",
       "temperature": "温度",
       "monitor": {
         "settings": {
@@ -526,13 +526,8 @@
         "StartFromCurrentPosition": "从现在的位置开始？"
       }
     },
-    "logs": {
-      "loading": "加载数据中...",
-      "error": "加载数据时出错："
-    },
-    "test": {
-      "title": "测试"
-    },
+    "logs": {},
+    "test": {},
     "loading": "加载中...",
     "slewAndCenter": {
       "title": "转动与居中",
@@ -675,14 +670,9 @@
     },
     "fav_target": {
       "enter_name": "输入名称",
-      "modal_save": {
-        "message": "目标已保存",
-        "titel": "保存",
-        "title": "Save"
-      },
+      "modal_save": {},
       "modal_sequence": {
-        "titel": "序列",
-        "title": "Sequence"
+        "titel": "序列"
       },
       "modal_sequence_error": {
         "message": "未加载序列"
@@ -700,8 +690,7 @@
         "sequnce": "序列目标",
         "rotation": "旋转角度"
       },
-      "titel": "收藏夹",
-      "title": "Favorites"
+      "titel": "收藏夹"
     },
     "notifications": {
       "modal": {

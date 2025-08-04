@@ -7,7 +7,6 @@
       "message_tns": "O plug -in Touchnstars não está disponível. \nPor favor, verifique as configurações em Nina",
       "title": "Erro de conexão"
     },
-    "api_version_incompatible": "Versão da API avançada incompatível. Atual: {current} Requerida: {required}",
     "connecting": "Tentando estabelecer conexão",
     "title": "Touch'n'stars",
     "unreachable": "Nina é inacessível"
@@ -49,7 +48,15 @@
         "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
         "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
       },
-      "add": "adicionar"
+      "add": "adicionar",
+      "update": "TODO: translate [Update]",
+      "errors": {
+        "instanceNameRequired": "TODO: translate [Instance name is required]",
+        "invalidIPFormat": "TODO: translate [Invalid IP format]",
+        "invalidPortRange": "TODO: translate [Invalid port range]",
+        "invalidInstance": "TODO: translate [Invalid instance]",
+        "emptyFields": "TODO: translate [Empty fields]"
+      }
     },
     "camera": {
       "binning_mode": "Binning",
@@ -185,19 +192,12 @@
       "title": "cúpula",
       "unpark": "Estacione"
     },
-    "equipment": {
-      "control": "Controle do dispositivo"
-    },
+    "equipment": {},
     "fav_target": {
       "enter_name": "Insira o nome",
-      "modal_save": {
-        "message": "O alvo foi salvo",
-        "titel": "Salvar",
-        "title": "Salvar"
-      },
+      "modal_save": {},
       "modal_sequence": {
-        "titel": "Sequência",
-        "title": "Sequência"
+        "titel": "Sequência"
       },
       "modal_sequence_error": {
         "message": "Nenhuma sequência carregada"
@@ -215,8 +215,7 @@
         "rotation": "Rotação",
         "sequnce": "Seq. \nalvo"
       },
-      "titel": "Favoritos",
-      "title": "Favoritos"
+      "titel": "Favoritos"
     },
     "filterwheel": {
       "filter": "Filtro:",
@@ -279,9 +278,7 @@
       "temperature": "Temperatura:",
       "title": "Focador"
     },
-    "language": {
-      "select": "Selecione o idioma"
-    },
+    "language": {},
     "lastLogs": {
       "download": "Download",
       "error": "Erro ao carregar os dados:",
@@ -293,10 +290,7 @@
       "timestamp": "Templo"
     },
     "loading": "Carregar...",
-    "logs": {
-      "error": "Erro ao carregar os dados:",
-      "loading": "Os dados são carregados ..."
-    },
+    "logs": {},
     "mount": {
       "control": {
         "errors": {
@@ -427,7 +421,6 @@
       "running": "É executado",
       "sampleSize": "Tamanho da amostra",
       "select_sequence": "Selecione sequência",
-      "sequence_control": "Controle de sequência",
       "sequence_loaded_successfully": "Sequência '{nome}' carregado com sucesso",
       "sequences_loaded": "Sequências carregadas",
       "sort": {
@@ -520,9 +513,7 @@
       "gauges": "Valores medidos",
       "switch": "Trocar"
     },
-    "test": {
-      "title": "teste"
-    },
+    "test": {},
     "tppa": {
       "altitude_error": "Höhe Erro:",
       "azimuth_error": "Erro de azimut:",
@@ -691,9 +682,7 @@
   },
   "general": {
     "cancel": "Cancelar",
-    "confirm": "Confirmar",
-    "hide": "Esconder",
-    "show": "Mostrar"
+    "confirm": "Confirmar"
   },
   "pages": {
     "equipment": {

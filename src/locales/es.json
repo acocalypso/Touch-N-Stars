@@ -5,9 +5,7 @@
   },
   "general": {
     "cancel": "Cancelar",
-    "confirm": "Confirmar",
-    "hide": "Ocultar",
-    "show": "Mostrar"
+    "confirm": "Confirmar"
   },
   "pages": {
     "equipment": {
@@ -18,7 +16,6 @@
     "title": "Touch'N'Stars",
     "unreachable": "No se encuentra NINA o la versión es demasiada antigua",
     "connecting": "Intentando establecer conexión",
-    "api_version_incompatible": "La versión Advanced-API actual es incompatible: {actual} requerido: {requerido}",
     "connection_error_toast": {
       "message_api": "El complemento API no está disponible. \nConsulte la configuración en Nina",
       "message_api_version": "El complemento API es demasiado viejo. \nPor favor realice una actualización",
@@ -111,7 +108,15 @@
         "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
         "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
       },
-      "add": "agregar"
+      "add": "agregar",
+      "update": "TODO: translate [Update]",
+      "errors": {
+        "instanceNameRequired": "TODO: translate [Instance name is required]",
+        "invalidIPFormat": "TODO: translate [Invalid IP format]",
+        "invalidPortRange": "TODO: translate [Invalid port range]",
+        "invalidInstance": "TODO: translate [Invalid instance]",
+        "emptyFields": "TODO: translate [Empty fields]"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -190,12 +195,8 @@
       "settings": "Ajustes",
       "vnc": "VNC"
     },
-    "language": {
-      "select": "Elegir idioma"
-    },
-    "equipment": {
-      "control": "Control de equipo"
-    },
+    "language": {},
+    "equipment": {},
     "sequence": {
       "title": "Sequencia",
       "stats": "Estadísticas",
@@ -238,7 +239,6 @@
       "median": "Median",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
-      "sequence_control": "Controles Sequencia",
       "temperature": "Temperatura",
       "monitor": {
         "settings": {
@@ -526,13 +526,8 @@
         "StartFromCurrentPosition": "Comenzar desde la posición actual?"
       }
     },
-    "logs": {
-      "loading": "Cargando datos...",
-      "error": "Error cargando datos:"
-    },
-    "test": {
-      "title": "Prueba"
-    },
+    "logs": {},
+    "test": {},
     "loading": "Cargando...",
     "slewAndCenter": {
       "title": "Desplazar y Centrar",
@@ -675,14 +670,9 @@
     },
     "fav_target": {
       "enter_name": "Introducir nombre",
-      "modal_save": {
-        "message": "El objeto ha sido guardado",
-        "titel": "Guardar",
-        "title": "Ahorrar"
-      },
+      "modal_save": {},
       "modal_sequence": {
-        "titel": "Secuencia",
-        "title": "Secuencia"
+        "titel": "Secuencia"
       },
       "modal_sequence_error": {
         "message": "Sin secuencia cargada"
@@ -700,8 +690,7 @@
         "sequnce": "Objeto seq",
         "rotation": "Rotación"
       },
-      "titel": "Favoritos",
-      "title": "Favoritos"
+      "titel": "Favoritos"
     },
     "notifications": {
       "modal": {

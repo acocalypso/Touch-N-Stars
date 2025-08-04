@@ -813,7 +813,8 @@
           "durationLabel": "Warming Duration (minutes)",
           "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)",
           "name": "Warm Camera"
-        }
+        },
+        "clickToRename": "Click to rename"
       },
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",

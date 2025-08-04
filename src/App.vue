@@ -15,7 +15,7 @@
             settingsStore.setupCompleted &&
             $route.path !== '/settings'
           "
-          class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-900"
+          class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900"
         >
           <h1 class="text-5xl pt-6 text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
           <img class="mt-5" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />

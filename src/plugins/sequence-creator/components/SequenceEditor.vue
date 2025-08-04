@@ -51,15 +51,24 @@
           <!-- Load Basic Sequence -->
           <button
             @click="store.loadBasicSequence()"
-            class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
+            class="default-button-cyan text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.loadBasicSequence') }}
+          </button>
+
+          <!-- Save as Default -->
+          <button
+            @click="handleSaveAsDefault"
+            :disabled="!store.sequenceIsValid"
+            class="default-button-blue text-sm"
+          >
+            {{ t('plugins.sequenceCreator.toolbar.saveAsDefault') }}
           </button>
 
           <!-- Clear All -->
           <button
             @click="handleClearSequence"
-            class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+            class="default-button-red text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.clearSequence') }}
           </button>
@@ -68,7 +77,7 @@
           <button
             @click="showExportModal = true"
             :disabled="!store.sequenceIsValid"
-            class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="default-button-green text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.exportSequence') }}
           </button>
@@ -201,6 +210,34 @@
 
     <!-- Export Modal -->
     <ExportModal v-if="showExportModal" @close="showExportModal = false" />
+
+    <!-- Clear Sequence Confirmation Modal -->
+    <Modal :show="showClearModal" @close="cancelClear">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">{{ t('plugins.sequenceCreator.confirmations.title') }}</h2>
+      </template>
+      <template #body>
+        <div class="text-center">
+          <p class="text-gray-300 mb-6">
+            {{ t('plugins.sequenceCreator.confirmations.clearSequence') }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <button
+              @click="cancelClear"
+              class="default-button-gray text-sm"
+            >
+              {{ t('general.cancel') }}
+            </button>
+            <button
+              @click="confirmClear"
+              class="default-button-red text-sm"
+            >
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -210,11 +247,13 @@ import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceContainer from './SequenceContainer.vue';
 import ExportModal from './ExportModal.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
 
 const showExportModal = ref(false);
+const showClearModal = ref(false);
 
 function handleAddAction(template, containerType, index = null) {
   store.addAction(template, containerType, index);
@@ -233,9 +272,20 @@ function handleMoveAction(oldIndex, newIndex, containerType) {
 }
 
 function handleClearSequence() {
-  if (confirm(t('plugins.sequenceCreator.confirmations.clearSequence'))) {
-    store.clearSequence();
-  }
+  showClearModal.value = true;
+}
+
+function confirmClear() {
+  store.clearSequence();
+  showClearModal.value = false;
+}
+
+function cancelClear() {
+  showClearModal.value = false;
+}
+
+function handleSaveAsDefault() {
+  store.saveAsDefaultSequence();
 }
 </script>
 

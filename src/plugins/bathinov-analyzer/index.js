@@ -7,28 +7,42 @@ import metadata from './plugin.json';
 export default {
   metadata,
   install(app, options) {
-    const pluginStore = usePluginStore();
-    const router = options.router;
+    try {
+      const pluginStore = usePluginStore();
+      const router = options.router;
 
-    // Get current plugin state from store
-    const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
-    const pluginPath = currentPlugin ? currentPlugin.pluginPath : '/plugin1';
+      // Ensure router is available
+      if (!router) {
+        console.error('Router not available for plugin installation');
+        return;
+      }
 
-    // Register route with generic plugin path
-    router.addRoute({
-      path: pluginPath,
-      component: BathinovAnalyzerView,
-      meta: { requiresSetup: true },
-    });
+      // Get current plugin state from store
+      const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
+      
+      // Use a unique fallback path for this plugin if not found in store
+      const pluginPath = currentPlugin && currentPlugin.pluginPath 
+        ? currentPlugin.pluginPath 
+        : '/bathinov-analyzer';
 
-    // Add navigation item if the plugin is enabled in the store
-    if (currentPlugin && currentPlugin.enabled) {
-      pluginStore.addNavigationItem({
-        pluginId: metadata.id,
+      // Register route with generic plugin path
+      router.addRoute({
         path: pluginPath,
-        icon: BathinovIcon, // Use the SVG component as the icon
-        title: metadata.name,
+        component: BathinovAnalyzerView,
+        meta: { requiresSetup: true },
       });
+
+      // Add navigation item if the plugin is enabled in the store
+      if (currentPlugin && currentPlugin.enabled) {
+        pluginStore.addNavigationItem({
+          pluginId: metadata.id,
+          path: pluginPath,
+          icon: BathinovIcon, // Use the SVG component as the icon
+          title: metadata.name,
+        });
+      }
+    } catch (error) {
+      console.error('Error installing bathinov-analyzer plugin:', error);
     }
   },
 };

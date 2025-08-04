@@ -95,7 +95,8 @@
       "notifications": {
         "title": "Benachrichtigungen",
         "enable": "Aktivieren",
-        "sequence": "Sequenz"
+        "sequence": "Sequenz",
+        "phd2": "PHD2"
       },
       "showTutorial": "Tutorial anzeigen",
       "plugins": {

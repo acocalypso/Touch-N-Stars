@@ -32,6 +32,9 @@ export const useSettingsStore = defineStore('settings', {
       sequence: {
         enabled: localStorage.getItem('sequenceNotificationsEnabled') === 'true' || false,
       },
+      phd2: {
+        enabled: localStorage.getItem('phd2NotificationsEnabled') === 'true' || false,
+      },
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -242,6 +245,11 @@ export const useSettingsStore = defineStore('settings', {
     toggleSequenceNotifications() {
       this.notifications.sequence.enabled = !this.notifications.sequence.enabled;
       localStorage.setItem('sequenceNotificationsEnabled', this.notifications.sequence.enabled);
+    },
+
+    togglePhd2Notifications() {
+      this.notifications.phd2.enabled = !this.notifications.phd2.enabled;
+      localStorage.setItem('phd2NotificationsEnabled', this.notifications.phd2.enabled);
     },
 
     togglePluginsVisibility() {

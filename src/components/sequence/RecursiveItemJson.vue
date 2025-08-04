@@ -248,14 +248,32 @@ function formatDateTime(isoString) {
 }
 
 function formatRA(coords) {
+  if (!coords) return 'undefined';
   const target = coords.Coordinates || coords;
+  if (
+    !target ||
+    (target.RAHours === undefined &&
+      target.RAMinutes === undefined &&
+      target.RASeconds === undefined)
+  ) {
+    return 'undefined';
+  }
   return (
     target.RAString || `${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
   );
 }
 
 function formatDec(coords) {
+  if (!coords) return 'undefined';
   const target = coords.Coordinates || coords;
+  if (
+    !target ||
+    (target.DecDegrees === undefined &&
+      target.DecMinutes === undefined &&
+      target.DecSeconds === undefined)
+  ) {
+    return 'undefined';
+  }
   const sign = target.NegativeDec ? 'S' : 'N';
   return (
     target.DecString ||

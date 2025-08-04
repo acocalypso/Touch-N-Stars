@@ -111,7 +111,15 @@
         "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
         "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
       },
-      "add": "hinzufügen"
+      "add": "hinzufügen",
+      "update": "Aktualisieren",
+      "errors": {
+        "instanceNameRequired": "Instanzname ist erforderlich",
+        "invalidIPFormat": "Ungültiges IP-Format",
+        "invalidPortRange": "Ungültiger Port-Bereich",
+        "invalidInstance": "Ungültige Instanz",
+        "emptyFields": "Leere Felder"
+      }
     },
     "connectEquipment": {
       "camera": {

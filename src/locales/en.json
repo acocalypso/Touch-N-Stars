@@ -111,6 +111,14 @@
         "confirmation": "Confirm Action",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
         "confirmRestart": "Are you sure you want to restart the system?"
+      },
+      "update": "Update",
+      "errors": {
+        "instanceNameRequired": "Instance name is required",
+        "invalidIPFormat": "Invalid IP format",
+        "invalidPortRange": "Invalid port range",
+        "invalidInstance": "Invalid instance",
+        "emptyFields": "Empty fields"
       }
     },
     "connectEquipment": {

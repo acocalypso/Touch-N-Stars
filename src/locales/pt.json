@@ -813,7 +813,8 @@
           "durationLabel": "Duração do aquecimento (minutos)",
           "durationTooltip": "Hora de aquecer ativamente a câmera (0 = quente à temperatura ambiente)",
           "name": "Câmera quente"
-        }
+        },
+        "clickToRename": "Clique para renomear"
       },
       "confirmations": {
         "clearSequence": "Tem certeza de que deseja limpar toda a sequência? \nEsta ação não pode ser desfeita.",

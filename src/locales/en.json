@@ -767,6 +767,7 @@
         "enableAction": "Enable Action",
         "duplicateAction": "Duplicate Action",
         "removeAction": "Remove Action",
+        "clickToRename": "Click to rename",
         "actionParameters": "Action Parameters",
         "changesSaveAutomatically": "Changes save automatically",
         "min": "Min:",

@@ -814,7 +814,8 @@
           "durationLabel": "Durée du réchauffement (minutes)",
           "durationTooltip": "Temps pour réchauffer activement la caméra (0 = température chaude à ambiante)",
           "name": "Caméra chaude"
-        }
+        },
+        "clickToRename": "Cliquez pour renommer"
       },
       "confirmations": {
         "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? \nCette action ne peut pas être annulée.",

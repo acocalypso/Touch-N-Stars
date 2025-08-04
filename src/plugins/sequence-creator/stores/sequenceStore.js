@@ -531,7 +531,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     // Add Target Area Containers - one for each target
     if (targetSequence.value.length > 0) {
       const targetContainers = createBasicTargetContainers(targetSequence.value, generateId);
-      targetContainers.forEach(container => {
+      targetContainers.forEach((container) => {
         sequence.Items.$values.push(container);
       });
     }
@@ -691,7 +691,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     // Group actions by target-settings - each target-settings starts a new target
     const targetGroups = [];
     let currentGroup = [];
-    
+
     actions.forEach((action) => {
       if (action.type === 'target-settings' && currentGroup.length > 0) {
         // Start new group
@@ -701,19 +701,16 @@ export const useSequenceStore = defineStore('sequence', () => {
         currentGroup.push(action);
       }
     });
-    
+
     // Add the last group
     if (currentGroup.length > 0) {
       targetGroups.push(currentGroup);
     }
 
     // Create separate TargetAreaContainer for each target group
-    return targetGroups.map((groupActions, index) => {
+    return targetGroups.map((groupActions) => {
       const targetAreaId = generateId();
-      const dsoContainerId = generateId();
-      const targetSettings = groupActions.find(action => action.type === 'target-settings');
-      const targetName = targetSettings?.parameters?.targetName?.value || `Target ${index + 1}`;
-      
+
       return {
         $id: targetAreaId,
         $type: 'NINA.Sequencer.Container.TargetAreaContainer, NINA.Sequencer',
@@ -732,9 +729,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           $id: generateId(),
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-          $values: [
-            createTargetSequenceContainer(groupActions, generateId, targetAreaId),
-          ],
+          $values: [createTargetSequenceContainer(groupActions, generateId, targetAreaId)],
         },
         Triggers: {
           $id: generateId(),
@@ -856,7 +851,7 @@ export const useSequenceStore = defineStore('sequence', () => {
   // Helper function to create target sequence container for a specific target
   function createTargetSequenceContainer(actions, generateId, parentId) {
     const dsoContainerId = generateId();
-    
+
     // Find target-settings action to extract coordinates
     const targetSettingsAction = actions.find((action) => action.type === 'target-settings');
 
@@ -906,17 +901,23 @@ export const useSequenceStore = defineStore('sequence', () => {
     return createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId, {
       targetName,
       raHours,
-      raMinutes, 
+      raMinutes,
       raSeconds,
       negativeDecFlag,
       decDegrees,
       decMinutes,
       decSeconds,
-      positionAngle
+      positionAngle,
     });
   }
 
-  function createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId, targetData = null) {
+  function createBasicDeepSkyObjectContainer(
+    actions,
+    generateId,
+    dsoContainerId,
+    parentId,
+    targetData = null
+  ) {
     const targetImagingId = generateId();
 
     // Use provided targetData or fallback to parsing from actions
@@ -1027,7 +1028,9 @@ export const useSequenceStore = defineStore('sequence', () => {
     };
 
     // Process actions for this specific target (EXCLUDE target-settings as it's already used for coordinates)
-    const regularActions = actions.filter((action) => action.type !== 'smart-exposure' && action.type !== 'target-settings');
+    const regularActions = actions.filter(
+      (action) => action.type !== 'smart-exposure' && action.type !== 'target-settings'
+    );
     const smartExposureActions = actions.filter((action) => action.type === 'smart-exposure');
 
     // Add all regular actions (slew-to-target, run-autofocus, etc. but NOT target-settings)
@@ -1301,13 +1304,27 @@ export const useSequenceStore = defineStore('sequence', () => {
       additionalProperties.Coordinates = {
         $id: generateId(),
         $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
-        RAHours: action.parameters.ra?.value ? parseInt(action.parameters.ra.value.split(':')[0]) || 0 : 0,
-        RAMinutes: action.parameters.ra?.value ? parseInt(action.parameters.ra.value.split(':')[1]) || 0 : 0,
-        RASeconds: action.parameters.ra?.value ? parseFloat(action.parameters.ra.value.split(':')[2]) || 0.0 : 0.0,
-        NegativeDec: action.parameters.dec?.value ? action.parameters.dec.value.startsWith('-') : false,
-        DecDegrees: action.parameters.dec?.value ? parseInt(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[0]) || 0 : 0,
-        DecMinutes: action.parameters.dec?.value ? parseInt(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[1]) || 0 : 0,
-        DecSeconds: action.parameters.dec?.value ? parseFloat(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[2]) || 0.0 : 0.0,
+        RAHours: action.parameters.ra?.value
+          ? parseInt(action.parameters.ra.value.split(':')[0]) || 0
+          : 0,
+        RAMinutes: action.parameters.ra?.value
+          ? parseInt(action.parameters.ra.value.split(':')[1]) || 0
+          : 0,
+        RASeconds: action.parameters.ra?.value
+          ? parseFloat(action.parameters.ra.value.split(':')[2]) || 0.0
+          : 0.0,
+        NegativeDec: action.parameters.dec?.value
+          ? action.parameters.dec.value.startsWith('-')
+          : false,
+        DecDegrees: action.parameters.dec?.value
+          ? parseInt(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[0]) || 0
+          : 0,
+        DecMinutes: action.parameters.dec?.value
+          ? parseInt(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[1]) || 0
+          : 0,
+        DecSeconds: action.parameters.dec?.value
+          ? parseFloat(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[2]) || 0.0
+          : 0.0,
       };
     }
     // Handle slew-to-target specially based on slewMode parameter

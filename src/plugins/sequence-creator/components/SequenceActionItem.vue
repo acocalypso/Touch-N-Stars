@@ -35,7 +35,7 @@
                   class="text-sm font-medium bg-transparent border-b border-blue-500 focus:outline-none text-gray-900 dark:text-white w-full"
                 />
               </div>
-              <h4 
+              <h4
                 v-else
                 @click="startNameEdit"
                 class="text-sm font-medium text-gray-900 dark:text-white truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"

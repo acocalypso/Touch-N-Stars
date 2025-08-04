@@ -528,9 +528,13 @@ export const useSequenceStore = defineStore('sequence', () => {
     const startContainer = createBasicStartContainer(startSequence.value, generateId);
     sequence.Items.$values.push(startContainer);
 
-    // Add Target Area Container (with proper DeepSkyObjectContainer structure)
-    const targetContainer = createBasicTargetContainer(targetSequence.value, generateId);
-    sequence.Items.$values.push(targetContainer);
+    // Add Target Area Containers - one for each target
+    if (targetSequence.value.length > 0) {
+      const targetContainers = createBasicTargetContainers(targetSequence.value, generateId);
+      targetContainers.forEach(container => {
+        sequence.Items.$values.push(container);
+      });
+    }
 
     // Add End Area Container (with nested structure like basic.json)
     const endContainer = createBasicEndContainer(endSequence.value, generateId);
@@ -682,43 +686,67 @@ export const useSequenceStore = defineStore('sequence', () => {
     };
   }
 
-  // Helper function to create basic target container (matches basic.json structure)
-  function createBasicTargetContainer(actions, generateId) {
-    const targetAreaId = generateId();
-    const dsoContainerId = generateId();
+  // Helper function to create basic target containers - one TargetAreaContainer per target
+  function createBasicTargetContainers(actions, generateId) {
+    // Group actions by target-settings - each target-settings starts a new target
+    const targetGroups = [];
+    let currentGroup = [];
+    
+    actions.forEach((action) => {
+      if (action.type === 'target-settings' && currentGroup.length > 0) {
+        // Start new group
+        targetGroups.push(currentGroup);
+        currentGroup = [action];
+      } else {
+        currentGroup.push(action);
+      }
+    });
+    
+    // Add the last group
+    if (currentGroup.length > 0) {
+      targetGroups.push(currentGroup);
+    }
 
-    return {
-      $id: targetAreaId,
-      $type: 'NINA.Sequencer.Container.TargetAreaContainer, NINA.Sequencer',
-      Strategy: {
-        $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-      },
-      Name: 'Targets',
-      Conditions: {
-        $id: generateId(),
-        $type:
-          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-        $values: [],
-      },
-      IsExpanded: true,
-      Items: {
-        $id: generateId(),
-        $type:
-          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-        $values: [
-          createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, targetAreaId),
-        ],
-      },
-      Triggers: {
-        $id: generateId(),
-        $type:
-          'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-        $values: [],
-      },
-      Parent: { $ref: '1' },
-      ErrorBehavior: 0,
-      Attempts: 1,
-    };
+    // Create separate TargetAreaContainer for each target group
+    return targetGroups.map((groupActions, index) => {
+      const targetAreaId = generateId();
+      const dsoContainerId = generateId();
+      const targetSettings = groupActions.find(action => action.type === 'target-settings');
+      const targetName = targetSettings?.parameters?.targetName?.value || `Target ${index + 1}`;
+      
+      return {
+        $id: targetAreaId,
+        $type: 'NINA.Sequencer.Container.TargetAreaContainer, NINA.Sequencer',
+        Strategy: {
+          $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
+        },
+        Name: 'Targets',
+        Conditions: {
+          $id: generateId(),
+          $type:
+            'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+          $values: [],
+        },
+        IsExpanded: true,
+        Items: {
+          $id: generateId(),
+          $type:
+            'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+          $values: [
+            createTargetSequenceContainer(groupActions, generateId, targetAreaId),
+          ],
+        },
+        Triggers: {
+          $id: generateId(),
+          $type:
+            'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+          $values: [],
+        },
+        Parent: { $ref: '1' },
+        ErrorBehavior: 0,
+        Attempts: 1,
+      };
+    });
   }
 
   // Helper function to create basic end container (matches basic.json structure)
@@ -825,10 +853,11 @@ export const useSequenceStore = defineStore('sequence', () => {
     };
   }
 
-  function createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId) {
-    const targetImagingId = generateId();
-
-    // Find target settings action to extract coordinates
+  // Helper function to create target sequence container for a specific target
+  function createTargetSequenceContainer(actions, generateId, parentId) {
+    const dsoContainerId = generateId();
+    
+    // Find target-settings action to extract coordinates
     const targetSettingsAction = actions.find((action) => action.type === 'target-settings');
 
     // Parse RA and Dec coordinates from target-settings
@@ -839,7 +868,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       decDegrees = 0,
       decMinutes = 0,
       decSeconds = 0.0;
-    let targetName = 'Basic Sequence Target';
+    let targetName = 'Target';
     let positionAngle = 0.0;
 
     if (targetSettingsAction && targetSettingsAction.parameters) {
@@ -871,6 +900,73 @@ export const useSequenceStore = defineStore('sequence', () => {
         if (decParts.length >= 1) decDegrees = parseInt(decParts[0]) || 0;
         if (decParts.length >= 2) decMinutes = parseInt(decParts[1]) || 0;
         if (decParts.length >= 3) decSeconds = parseFloat(decParts[2]) || 0.0;
+      }
+    }
+
+    return createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId, {
+      targetName,
+      raHours,
+      raMinutes, 
+      raSeconds,
+      negativeDecFlag,
+      decDegrees,
+      decMinutes,
+      decSeconds,
+      positionAngle
+    });
+  }
+
+  function createBasicDeepSkyObjectContainer(actions, generateId, dsoContainerId, parentId, targetData = null) {
+    const targetImagingId = generateId();
+
+    // Use provided targetData or fallback to parsing from actions
+    let raHours = 0,
+      raMinutes = 0,
+      raSeconds = 0.0;
+    let negativeDecFlag = false,
+      decDegrees = 0,
+      decMinutes = 0,
+      decSeconds = 0.0;
+    let targetName = 'Target';
+    let positionAngle = 0.0;
+
+    if (targetData) {
+      // Use provided target data
+      targetName = targetData.targetName;
+      raHours = targetData.raHours;
+      raMinutes = targetData.raMinutes;
+      raSeconds = targetData.raSeconds;
+      negativeDecFlag = targetData.negativeDecFlag;
+      decDegrees = targetData.decDegrees;
+      decMinutes = targetData.decMinutes;
+      decSeconds = targetData.decSeconds;
+      positionAngle = targetData.positionAngle;
+    } else {
+      // Fallback to parsing from actions (legacy support)
+      const targetSettingsAction = actions.find((action) => action.type === 'target-settings');
+      if (targetSettingsAction && targetSettingsAction.parameters) {
+        if (targetSettingsAction.parameters.targetName?.value) {
+          targetName = targetSettingsAction.parameters.targetName.value;
+        }
+        if (targetSettingsAction.parameters.positionAngle?.value !== undefined) {
+          positionAngle = targetSettingsAction.parameters.positionAngle.value;
+        }
+        if (targetSettingsAction.parameters.ra?.value) {
+          const raString = targetSettingsAction.parameters.ra.value.toString();
+          const raParts = raString.split(':');
+          if (raParts.length >= 1) raHours = parseInt(raParts[0]) || 0;
+          if (raParts.length >= 2) raMinutes = parseInt(raParts[1]) || 0;
+          if (raParts.length >= 3) raSeconds = parseFloat(raParts[2]) || 0.0;
+        }
+        if (targetSettingsAction.parameters.dec?.value) {
+          const decString = targetSettingsAction.parameters.dec.value.toString();
+          negativeDecFlag = decString.startsWith('-');
+          const cleanDecString = decString.replace(/^[+-]/, '');
+          const decParts = cleanDecString.split(':');
+          if (decParts.length >= 1) decDegrees = parseInt(decParts[0]) || 0;
+          if (decParts.length >= 2) decMinutes = parseInt(decParts[1]) || 0;
+          if (decParts.length >= 3) decSeconds = parseFloat(decParts[2]) || 0.0;
+        }
       }
     }
 
@@ -930,17 +1026,14 @@ export const useSequenceStore = defineStore('sequence', () => {
       Attempts: 1,
     };
 
-    // Add actions to DSO container (excluding target-settings and smart-exposure)
-    const regularActions = actions.filter(
-      (action) => action.type !== 'target-settings' && action.type !== 'smart-exposure'
-    );
+    // Process actions for this specific target (EXCLUDE target-settings as it's already used for coordinates)
+    const regularActions = actions.filter((action) => action.type !== 'smart-exposure' && action.type !== 'target-settings');
+    const smartExposureActions = actions.filter((action) => action.type === 'smart-exposure');
 
+    // Add all regular actions (slew-to-target, run-autofocus, etc. but NOT target-settings)
     regularActions.forEach((action) => {
       dsoContainer.Items.$values.push(convertActionToNina(action, generateId, dsoContainerId));
     });
-
-    // Add Target Imaging Instructions container with ALL Smart Exposure actions
-    const smartExposureActions = actions.filter((action) => action.type === 'smart-exposure');
     if (smartExposureActions.length > 0) {
       const targetImagingContainer = {
         $id: targetImagingId,
@@ -948,7 +1041,7 @@ export const useSequenceStore = defineStore('sequence', () => {
         Strategy: {
           $type: 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
         },
-        Name: 'Target Imaging Instructions',
+        Name: 'Target imaging instructions',
         Conditions: {
           $id: generateId(),
           $type:
@@ -961,7 +1054,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
           $values: smartExposureActions.map((action) =>
-            createBasicSmartExposureContainer(action, generateId)
+            createBasicSmartExposureContainer(action, generateId, targetImagingId)
           ),
         },
         Triggers: {
@@ -1186,7 +1279,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       Attempts: 1,
     };
 
-    // Map action types to N.I.N.A types - slew-to-target will be handled specially
+    // Map action types to N.I.N.A types - slew-to-target and target-settings will be handled specially
     const ninaTypeMap = {
       'unpark-scope': 'NINA.Sequencer.SequenceItem.Telescope.UnparkScope, NINA.Sequencer',
       'park-scope': 'NINA.Sequencer.SequenceItem.Telescope.ParkScope, NINA.Sequencer',
@@ -1201,8 +1294,24 @@ export const useSequenceStore = defineStore('sequence', () => {
     let ninaType;
     let additionalProperties = {};
 
+    // Handle target-settings - convert to SlewScopeToRaDec
+    if (action.type === 'target-settings') {
+      ninaType = 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer';
+      additionalProperties.Inherited = true;
+      additionalProperties.Coordinates = {
+        $id: generateId(),
+        $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
+        RAHours: action.parameters.ra?.value ? parseInt(action.parameters.ra.value.split(':')[0]) || 0 : 0,
+        RAMinutes: action.parameters.ra?.value ? parseInt(action.parameters.ra.value.split(':')[1]) || 0 : 0,
+        RASeconds: action.parameters.ra?.value ? parseFloat(action.parameters.ra.value.split(':')[2]) || 0.0 : 0.0,
+        NegativeDec: action.parameters.dec?.value ? action.parameters.dec.value.startsWith('-') : false,
+        DecDegrees: action.parameters.dec?.value ? parseInt(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[0]) || 0 : 0,
+        DecMinutes: action.parameters.dec?.value ? parseInt(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[1]) || 0 : 0,
+        DecSeconds: action.parameters.dec?.value ? parseFloat(action.parameters.dec.value.replace(/^[+-]/, '').split(':')[2]) || 0.0 : 0.0,
+      };
+    }
     // Handle slew-to-target specially based on slewMode parameter
-    if (action.type === 'slew-to-target') {
+    else if (action.type === 'slew-to-target') {
       const slewMode = action.parameters.slewMode?.value || 'Slew and Center';
 
       switch (slewMode) {
@@ -1267,6 +1376,9 @@ export const useSequenceStore = defineStore('sequence', () => {
 
     // Add specific properties based on action type
     switch (action.type) {
+      case 'target-settings':
+        // Properties already set above
+        break;
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
         ninaItem.Duration = action.parameters.duration?.value || 0;

@@ -49,18 +49,21 @@
           </button>
 
           <!-- Load Basic Sequence -->
-          <button
-            @click="store.loadBasicSequence()"
-            class="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
-          >
+          <button @click="store.loadBasicSequence()" class="default-button-cyan text-sm">
             {{ t('plugins.sequenceCreator.toolbar.loadBasicSequence') }}
           </button>
 
-          <!-- Clear All -->
+          <!-- Save as Default -->
           <button
-            @click="handleClearSequence"
-            class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg transition-colors"
+            @click="handleSaveAsDefault"
+            :disabled="!store.sequenceIsValid"
+            class="default-button-blue text-sm"
           >
+            {{ t('plugins.sequenceCreator.toolbar.saveAsDefault') }}
+          </button>
+
+          <!-- Clear All -->
+          <button @click="handleClearSequence" class="default-button-red text-sm">
             {{ t('plugins.sequenceCreator.toolbar.clearSequence') }}
           </button>
 
@@ -68,7 +71,7 @@
           <button
             @click="showExportModal = true"
             :disabled="!store.sequenceIsValid"
-            class="px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="default-button-green text-sm"
           >
             {{ t('plugins.sequenceCreator.toolbar.exportSequence') }}
           </button>
@@ -201,6 +204,72 @@
 
     <!-- Export Modal -->
     <ExportModal v-if="showExportModal" @close="showExportModal = false" />
+
+    <!-- Clear Sequence Confirmation Modal -->
+    <Modal :show="showClearModal" @close="cancelClear">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.confirmations.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="text-center">
+          <p class="text-gray-300 mb-6">
+            {{ t('plugins.sequenceCreator.confirmations.clearSequence') }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <button @click="cancelClear" class="default-button-gray text-sm">
+              {{ t('general.cancel') }}
+            </button>
+            <button @click="confirmClear" class="default-button-red text-sm">
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Save as Default Confirmation Modal -->
+    <Modal :show="showSaveAsDefaultModal" @close="cancelSaveAsDefault">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.confirmations.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="text-center">
+          <p class="text-gray-300 mb-6">
+            {{ t('plugins.sequenceCreator.confirmations.saveAsDefault') }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <button @click="cancelSaveAsDefault" class="default-button-gray text-sm">
+              {{ t('general.cancel') }}
+            </button>
+            <button @click="confirmSaveAsDefault" class="default-button-blue text-sm">
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Success Toast -->
+    <div
+      v-if="saveAsDefaultSuccess"
+      class="fixed top-4 right-4 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-out"
+    >
+      <div class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 13l4 4L19 7"
+          />
+        </svg>
+        {{ t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess') }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -210,11 +279,15 @@ import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceContainer from './SequenceContainer.vue';
 import ExportModal from './ExportModal.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
 
 const showExportModal = ref(false);
+const showClearModal = ref(false);
+const showSaveAsDefaultModal = ref(false);
+const saveAsDefaultSuccess = ref(false);
 
 function handleAddAction(template, containerType, index = null) {
   store.addAction(template, containerType, index);
@@ -233,14 +306,64 @@ function handleMoveAction(oldIndex, newIndex, containerType) {
 }
 
 function handleClearSequence() {
-  if (confirm(t('plugins.sequenceCreator.confirmations.clearSequence'))) {
-    store.clearSequence();
-  }
+  showClearModal.value = true;
+}
+
+function confirmClear() {
+  store.clearSequence();
+  showClearModal.value = false;
+}
+
+function cancelClear() {
+  showClearModal.value = false;
+}
+
+function handleSaveAsDefault() {
+  showSaveAsDefaultModal.value = true;
+}
+
+function confirmSaveAsDefault() {
+  store.saveAsDefaultSequence();
+  showSaveAsDefaultModal.value = false;
+
+  // Show success feedback
+  saveAsDefaultSuccess.value = true;
+
+  // Hide success message after 3 seconds
+  setTimeout(() => {
+    saveAsDefaultSuccess.value = false;
+  }, 3000);
+}
+
+function cancelSaveAsDefault() {
+  showSaveAsDefaultModal.value = false;
 }
 </script>
 
 <style scoped>
 .sequence-editor {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.animate-fade-in-out {
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 4px);
+  }
+
+  10%,
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
 }
 </style>

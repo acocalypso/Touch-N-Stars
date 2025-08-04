@@ -52,7 +52,7 @@
 
             <button
               @click="copyToClipboard"
-              class="px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center justify-center gap-2 transition-colors"
+              class="default-button-green text-sm flex items-center justify-center gap-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path

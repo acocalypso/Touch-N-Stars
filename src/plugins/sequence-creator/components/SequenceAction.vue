@@ -60,39 +60,6 @@
 
       <!-- Action Buttons -->
       <div class="flex items-center space-x-1 ml-3">
-        <!-- Toggle Enabled -->
-        <button
-          @click.stop="$emit('toggle-enabled', action.id)"
-          :class="[
-            'p-2 sm:p-1.5 rounded transition-colors min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 flex items-center justify-center',
-            action.enabled
-              ? 'text-green-600 hover:bg-green-100 dark:text-green-400 dark:hover:bg-green-900'
-              : 'text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700',
-          ]"
-          :title="
-            action.enabled
-              ? t('plugins.sequenceCreator.actions.disableAction')
-              : t('plugins.sequenceCreator.actions.enableAction')
-          "
-        >
-          <svg class="w-5 h-5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              v-if="action.enabled"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-            <path
-              v-else
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </button>
-
         <!-- Duplicate -->
         <button
           @click.stop="$emit('duplicate', action.id)"
@@ -218,7 +185,7 @@ const props = defineProps({
 });
 
 // Emits
-const emit = defineEmits(['select', 'remove', 'duplicate', 'toggle-enabled', 'update-parameter']);
+const emit = defineEmits(['select', 'remove', 'duplicate', 'update-parameter']);
 
 // Computed
 const hasParameters = computed(() => {

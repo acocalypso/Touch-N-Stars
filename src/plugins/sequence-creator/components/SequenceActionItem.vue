@@ -20,7 +20,7 @@
               action.color,
             ]"
           >
-            <component :is="getIconComponent(action.icon)" class="w-5 h-5" />
+            <component :is="getIconComponent(action.icon)" :name="action.icon" class="w-5 h-5" />
           </div>
 
           <div class="flex-1 min-w-0">
@@ -120,39 +120,6 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
-
-          <!-- Enable/Disable -->
-          <button
-            @click="handleToggleEnabled"
-            :class="[
-              'p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded transition-colors',
-              action.enabled
-                ? 'text-green-600 dark:text-green-400'
-                : 'text-gray-400 dark:text-gray-500',
-            ]"
-            :title="
-              action.enabled
-                ? t('plugins.sequenceCreator.actions.disableAction')
-                : t('plugins.sequenceCreator.actions.enableAction')
-            "
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-                v-if="action.enabled"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-                v-else
               />
             </svg>
           </button>
@@ -321,6 +288,30 @@
       </div>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+  <Modal :show="showDeleteModal" @close="cancelRemove">
+    <template #header>
+      <h2 class="text-xl font-bold text-white">
+        {{ t('plugins.sequenceCreator.confirmations.title') }}
+      </h2>
+    </template>
+    <template #body>
+      <div class="text-center">
+        <p class="text-gray-300 mb-6">
+          {{ t('plugins.sequenceCreator.confirmations.removeAction', { actionName: action.name }) }}
+        </p>
+        <div class="flex justify-center gap-4">
+          <button @click="cancelRemove" class="default-button-gray text-sm">
+            {{ t('general.cancel') }}
+          </button>
+          <button @click="confirmRemove" class="default-button-red text-sm">
+            {{ t('general.confirm') }}
+          </button>
+        </div>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -329,24 +320,14 @@ import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore';
 import { apiStore } from '@/store/store';
 import TargetSearch from './TargetSearch.vue';
-import {
-  LinkIcon,
-  CameraIcon,
-  EyeIcon,
-  PlayIcon,
-  StopIcon,
-  FireIcon,
-  HomeIcon,
-  CursorArrowRaysIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/vue/24/outline';
-import TelescopeIcon from './TelescopeIcon.vue';
-import GuiderIcon from './GuiderIcon.vue';
-import SnowflakeIcon from './SnowflakeIcon.vue';
+import { LinkIcon, CameraIcon, EyeIcon } from '@heroicons/vue/24/outline';
+import SequenceIcons from './SequenceIcons.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = useSequenceStore();
 const api = apiStore();
+const showDeleteModal = ref(false);
 
 const props = defineProps({
   action: {
@@ -367,7 +348,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['edit', 'remove', 'duplicate', 'move-up', 'move-down', 'toggle-enabled']);
+const emit = defineEmits(['edit', 'remove', 'duplicate', 'move-up', 'move-down']);
 
 const isEditing = ref(false);
 
@@ -416,21 +397,20 @@ function formatParameterValue(param) {
 }
 
 function handleRemove() {
-  if (
-    confirm(
-      t('plugins.sequenceCreator.confirmations.removeAction', { actionName: props.action.name })
-    )
-  ) {
-    emit('remove', props.action.id);
-  }
+  showDeleteModal.value = true;
+}
+
+function confirmRemove() {
+  emit('remove', props.action.id);
+  showDeleteModal.value = false;
+}
+
+function cancelRemove() {
+  showDeleteModal.value = false;
 }
 
 function handleDuplicate() {
   emit('duplicate', props.action.id);
-}
-
-function handleToggleEnabled() {
-  emit('toggle-enabled', props.action.id);
 }
 
 function handleTargetSelected(targetData) {
@@ -452,20 +432,32 @@ function handleTargetSelected(targetData) {
 }
 
 function getIconComponent(iconName) {
+  // For sequence-specific icons, use SequenceIcons component
+  const sequenceIcons = [
+    'telescope',
+    'guider',
+    'snowflake',
+    'play',
+    'camera',
+    'stop',
+    'fire',
+    'home',
+    'cursor-arrow-rays',
+    'crosshairs',
+    'magnifying-glass',
+    'rocket',
+    'flag',
+  ];
+
+  if (sequenceIcons.includes(iconName)) {
+    return SequenceIcons;
+  }
+
+  // For other heroicons, keep using the imported components
   const iconMap = {
     LinkIcon: LinkIcon,
     CameraIcon: CameraIcon,
     EyeIcon: EyeIcon,
-    telescope: TelescopeIcon,
-    guider: GuiderIcon,
-    snowflake: SnowflakeIcon,
-    play: PlayIcon,
-    stop: StopIcon,
-    fire: FireIcon,
-    home: HomeIcon,
-    'cursor-arrow-rays': CursorArrowRaysIcon,
-    crosshairs: CursorArrowRaysIcon, // Using same icon for crosshairs
-    'magnifying-glass': MagnifyingGlassIcon,
   };
 
   return iconMap[iconName] || LinkIcon; // Default fallback

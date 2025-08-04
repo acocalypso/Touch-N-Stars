@@ -571,73 +571,73 @@
       "wind": "vento"
     },
     "framing": {
-      "confirmSetTargetMessage": "Você realmente gostaria de definir essa meta como uma meta de sequência?",
+      "confirmSetTargetMessage": "Tem certeza de que deseja definir esse alvo como o alvo de sequência?",
       "confirmSetTargetTitle": "Confirme a seleção do alvo",
-      "currentAltitude": "Altura atual",
+      "currentAltitude": "Altitude atual",
       "fovSettings": {
         "fov": "Campo de visão",
-        "rotationAngle": "Câmera"
+        "rotationAngle": "Rotação da câmera"
       },
       "getImageRotation": {
-        "SolveError": "Erro no platesolve",
+        "SolveError": "Imagem de resolução de erros",
         "SolveRun": "Platesolve",
         "startCapture": "Determinar a rotação da câmera"
       },
-      "infoTargetImage": "Se a imagem for exibida apenas em preto, o 'cache offline do mapa do céu' deve ser configurado em Nina ou a opção 'nina cache' deve ser desativada",
+      "infoTargetImage": "Se a imagem for exibida apenas em preto, o \"cache de mapa do céu offline\" deve ser configurado em Nina ou a opção \"Use nina cache\" deve ser desativada",
       "moveRotator": "Gire a câmera",
-      "openFraminingModal": "Aberto no assistente de enquadramento",
+      "openFraminingModal": "Aberto em enquadramento-Assistente",
       "search": {
         "objectTypes": {
-          "Comet": "cometa",
-          "Moon": "lua",
-          "Planet": "planeta",
-          "Star": "estrela",
-          "StellariumObject": "objeto"
+          "Comet": "Cometa",
+          "Moon": "Lua",
+          "Planet": "Planeta",
+          "Star": "Estrela",
+          "StellariumObject": "Objeto"
         },
-        "placeholder": "Digite termo de pesquisa ...",
+        "placeholder": "Digite um termo de pesquisa ...",
         "title": "Procurar"
       },
-      "setSequnceTarget": "Defina como uma meta de sequência",
-      "useCenter": "centro",
+      "setSequnceTarget": "definido para sequenciar o alvo",
+      "useCenter": "Centro",
       "useNinaCache": "Use Nina Cache para a imagem de destino",
       "useRotate": "Girar"
     },
     "guider": {
       "calibrationAssistant": {
         "calculatedPosition": "Posição calculada",
-        "calibrating": "A calibração está funcionando ...",
+        "calibrating": "Calibração em andamento ...",
         "calibrationComplete": "Calibração concluída",
-        "calibrationError": "Erro de calibração",
+        "calibrationError": "Erro durante a calibração",
         "calibrationFailed": "A calibração falhou",
         "calibrationResult": "Resultado da calibração",
         "calibrationStopped": "A calibração parou",
         "close": "Fechar",
         "current": "Atual",
         "currentPosition": "Posição atual",
-        "decOffset": "Deslocamento da declinação",
+        "decOffset": "Dec Offset",
         "direction": "Direção",
         "east": "Leste",
         "goodCalibration": "Excelente calibração alcançada",
-        "info": "O assistente de calibração ajuda você a trazer a montagem para uma posição ideal para calibração e realizar calibração precisa.",
+        "info": "O Assistente de Calibração ajuda a posicionar a montagem ideal para calibração e a executar uma calibração precisa.",
         "meridianOffset": "Meridian Offset",
-        "poorCalibration": "A calibração pode ser melhorada. Experimente uma nova posição ou verifique o equipamento.",
+        "poorCalibration": "A calibração pode ser melhorada. \nExperimente uma posição diferente ou verifique seu equipamento.",
         "positionCalculated": "Posição ideal calculada",
         "positionSettings": "Configurações de posição",
         "quality": "Qualidade",
-        "recalculate": "Reorganizar",
-        "slewComplete": "Giratório concluído",
-        "slewError": "Erros de ala",
-        "slewToPosition": "Acena para a posição",
-        "slewing": "Schwenke para a posição alvo ...",
+        "recalculate": "Recalcular",
+        "slewComplete": "Slew concluído",
+        "slewError": "Erro durante o SLUW",
+        "slewToPosition": "Matar para posicionar",
+        "slewing": "Slewing para alvo a posição ...",
         "startCalibration": "Inicie a calibração",
         "stopCalibration": "Pare de calibração",
-        "target": "Meta",
+        "target": "Alvo",
         "targetPosition": "Posição alvo",
         "title": "Assistente de calibração",
         "west": "Oeste"
       },
-      "notConnected": "Por favor, conecte os orientadores",
-      "notes": "* Neste diagrama, os dados da GuIer de acordo com as configurações de N.I.N.A. exibido.",
+      "notConnected": "Por favor, conecte Guider",
+      "notes": "* Este gráfico exibe dados orientadores de acordo com as configurações da N.I.N.A.",
       "phd2": {
         "Exposuretime": "Período de exposição",
         "dec": {
@@ -646,41 +646,41 @@
           "aggression": "DEC: Agressão",
           "exp_factor": "DEC: Fator de exposição",
           "hysteresis": "DEC: Histrese",
-          "predictive_weight": "DEC: PERECIMENTO DE PREFIÇÃO",
-          "reactive_weight": "DEC: ponderação reativa",
-          "slope_weight": "DEC: Peso da tendência"
+          "predictive_weight": "DEC: Peso preditivo",
+          "reactive_weight": "DEC: Peso reativo",
+          "slope_weight": "DEC: Peso da inclinação"
         },
         "error": {
           "star-lost-message": "Estrela perdida",
           "title": "Erro de phd2"
         },
-        "forceCalibration": "Forçando a calibração",
-        "profile": "perfil",
+        "forceCalibration": "Calibração de força",
+        "profile": "Perfil",
         "ra": {
           "MaxMove": "RA: Move máximo",
           "MinMove": "RA: Min Move",
           "aggression": "RA: Agressão",
           "exp_factor": "RA: fator de exposição",
           "hysteresis": "RA: Histrese",
-          "predictive_weight": "RA: ponderação de previsão",
-          "reactive_weight": "RA: ponderação reativa",
-          "slope_weight": "RA: Peso da tendência"
+          "predictive_weight": "RA: Peso preditivo",
+          "reactive_weight": "RA: Peso reativo",
+          "slope_weight": "RA: Peso da inclinação"
         }
       },
       "rms_error": "Erro rms",
-      "running": "É executado",
+      "running": "CORRENDO",
       "start": "Começar",
-      "startWithCal": "Comece com calibração",
+      "startWithCal": "Começando com a calibração",
       "status": {
-        "calibrating": "calibração",
+        "calibrating": "Calibrando",
         "guiding": "Guia",
-        "looping": "Correr",
-        "lostLock": "Estrela perdida",
+        "looping": "Looping",
+        "lostLock": "Trava perdida",
         "stopped": "Parou",
         "unknown": "Desconhecido"
       },
-      "statusLabel": "status",
-      "stop": "parar",
+      "statusLabel": "Status",
+      "stop": "Parar",
       "title": "Guider"
     }
   },
@@ -739,13 +739,89 @@
         "notSet": "Não definido",
         "parameters": "Parâmetros",
         "removeAction": "Remover ação",
-        "yes": "Sim"
+        "yes": "Sim",
+        "coolCamera": {
+          "description": "Esfriar a câmera para a temperatura especificada",
+          "durationLabel": "Duração de resfriamento (minutos)",
+          "durationTooltip": "Hora de esfriar ativamente a câmera (0 = esfriar até a temperatura alcançada)",
+          "name": "Câmera legal",
+          "temperatureLabel": "Temperatura (° C)",
+          "temperatureTooltip": "Temperatura alvo para resfriamento da câmera"
+        },
+        "parkTelescope": {
+          "description": "Estacione a montagem do telescópio",
+          "name": "Telescópio do parque"
+        },
+        "runAutofocus": {
+          "description": "Execute a rotina de foco automático",
+          "name": "Execute o foco automático"
+        },
+        "slewToTarget": {
+          "description": "Navegue para segmentar com diferentes opções",
+          "name": "Matou para segmentar",
+          "slewModeLabel": "Slew Mode",
+          "slewModeTooltip": "Escolha como navegar para o alvo"
+        },
+        "smartExposure": {
+          "binningLabel": "Binning",
+          "binningTooltip": "Modo de binning de pixel",
+          "countLabel": "Contagem de imagens",
+          "countTooltip": "Número de exposições a tomar",
+          "description": "Sequência de exposição inteligente com derivação e gatilhos",
+          "ditherAfterLabel": "Derrotar depois de n exposições",
+          "ditherAfterTooltip": "Frequência de Dither",
+          "exposureTimeLabel": "Tempo (s) de exposição (s)",
+          "exposureTimeTooltip": "Duração de cada exposição",
+          "filterLabel": "Filtro",
+          "filterTooltip": "Seleção de roda de filtro",
+          "gainLabel": "Ganho",
+          "gainTooltip": "Configuração de ganho de câmera",
+          "imageTypeLabel": "Tipo de imagem",
+          "imageTypeTooltip": "Tipo de exposição à captura",
+          "name": "Exposição inteligente (imagem)",
+          "offsetLabel": "Desvio",
+          "offsetTooltip": "Configuração do deslocamento da câmera"
+        },
+        "startGuiding": {
+          "description": "Inicie o sistema de autoguidores",
+          "forceCalibrationLabel": "Calibração de força",
+          "forceCalibrationTooltip": "Forçar a calibração do novo guia",
+          "name": "Comece a orientar"
+        },
+        "stopGuiding": {
+          "description": "Pare o sistema de autoguidores",
+          "name": "Pare de guiar"
+        },
+        "targetSettings": {
+          "decLabel": "Declinação",
+          "decTooltip": "DEC em DD: MM: Formato SS",
+          "description": "Defina coordenadas e configurações de destino",
+          "name": "Configurações de destino",
+          "positionAngleLabel": "Ângulo de posição (°)",
+          "positionAngleTooltip": "Ângulo de rotação da câmera",
+          "raLabel": "Ascensão direita",
+          "raTooltip": "RA em HH: MM: formato SS",
+          "targetNameLabel": "Nome do alvo",
+          "targetNameTooltip": "Nome do objeto celestial"
+        },
+        "unparkTelescope": {
+          "description": "Desmarque o suporte do telescópio",
+          "name": "Telescópio UMPK"
+        },
+        "warmCamera": {
+          "description": "Aqueça a câmera",
+          "durationLabel": "Duração do aquecimento (minutos)",
+          "durationTooltip": "Hora de aquecer ativamente a câmera (0 = quente à temperatura ambiente)",
+          "name": "Câmera quente"
+        }
       },
       "confirmations": {
         "clearSequence": "Tem certeza de que deseja limpar toda a sequência? \nEsta ação não pode ser desfeita.",
         "removeAction": "Remover ação \"{actionName}\"?",
         "sendSequenceFailed": "Falha ao enviar sequência para N.I.N.A",
-        "unknownError": "Ocorreu um erro desconhecido"
+        "unknownError": "Ocorreu um erro desconhecido",
+        "title": "Confirmação",
+        "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? \nIsso substituirá a sequência padrão anterior."
       },
       "containers": {
         "addAction": "Adicione ação",
@@ -817,7 +893,9 @@
         "loadBasicSequence": "Carregue a sequência básica",
         "redo": "Refazer",
         "undo": "Desfazer",
-        "validSequence": "A sequência é válida e pode ser exportada"
+        "validSequence": "A sequência é válida e pode ser exportada",
+        "saveAsDefault": "Salve como padrão",
+        "saveAsDefaultSuccess": "Salvo como sequência padrão!"
       },
       "settings": {
         "title": "Meridianflip",

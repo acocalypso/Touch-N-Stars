@@ -739,13 +739,89 @@
         "notSet": "Non impostato",
         "parameters": "Parametri",
         "removeAction": "Rimuovere l'azione",
-        "yes": "SÌ"
+        "yes": "SÌ",
+        "coolCamera": {
+          "description": "Raffreddare la fotocamera a temperatura specificata",
+          "durationLabel": "Durata del raffreddamento (minuti)",
+          "durationTooltip": "È ora di raffreddare attivamente la telecamera (0 = raffreddare fino al raggiungimento della temperatura)",
+          "name": "Fantastica fotocamera",
+          "temperatureLabel": "Temperatura (° C)",
+          "temperatureTooltip": "Temperatura target per il raffreddamento della fotocamera"
+        },
+        "parkTelescope": {
+          "description": "Parcheggia il supporto per il telescopio",
+          "name": "Park Telescope"
+        },
+        "runAutofocus": {
+          "description": "Eseguire la routine di messa a fuoco automatico",
+          "name": "Eseguire l'autofocus"
+        },
+        "slewToTarget": {
+          "description": "Passare al target con diverse opzioni",
+          "name": "Slew to Target",
+          "slewModeLabel": "Modalità Slew",
+          "slewModeTooltip": "Scegli come navigare al bersaglio"
+        },
+        "smartExposure": {
+          "binningLabel": "Binning",
+          "binningTooltip": "Modalità binning pixel",
+          "countLabel": "Conteggio delle immagini",
+          "countTooltip": "Numero di esposizioni da prendere",
+          "description": "Sequenza di esposizione intelligente con Dithering e Trigger",
+          "ditherAfterLabel": "Ditherd dopo n esposizioni",
+          "ditherAfterTooltip": "Frequenza di dither",
+          "exposureTimeLabel": "Tempo di esposizione (i)",
+          "exposureTimeTooltip": "Durata di ogni esposizione",
+          "filterLabel": "Filtro",
+          "filterTooltip": "Selezione delle ruote del filtro",
+          "gainLabel": "Guadagno",
+          "gainTooltip": "Impostazione della fotocamera",
+          "imageTypeLabel": "Tipo di immagine",
+          "imageTypeTooltip": "Tipo di esposizione alla cattura",
+          "name": "Esposizione intelligente (imaging)",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Impostazione offset della fotocamera"
+        },
+        "startGuiding": {
+          "description": "Avviare il sistema di autoguiding",
+          "forceCalibrationLabel": "Calibrazione della forza",
+          "forceCalibrationTooltip": "Forzare la calibrazione di Nuova Guider",
+          "name": "Inizia a guidare"
+        },
+        "stopGuiding": {
+          "description": "Stop System Autoguiding",
+          "name": "Smettila di guidare"
+        },
+        "targetSettings": {
+          "decLabel": "Declinazione",
+          "decTooltip": "DEC in DD: MM: formato SS",
+          "description": "Definire le coordinate e le impostazioni del bersaglio",
+          "name": "Impostazioni target",
+          "positionAngleLabel": "Angolo di posizione (°)",
+          "positionAngleTooltip": "Angolo di rotazione della telecamera",
+          "raLabel": "Ascensione giusta",
+          "raTooltip": "RA in HH: MM: formato SS",
+          "targetNameLabel": "Nome target",
+          "targetNameTooltip": "Nome dell'oggetto celeste"
+        },
+        "unparkTelescope": {
+          "description": "Scollegare il supporto per il telescopio",
+          "name": "Unpark Telescope"
+        },
+        "warmCamera": {
+          "description": "Riscalda la fotocamera",
+          "durationLabel": "Durata del riscaldamento (minuti)",
+          "durationTooltip": "Tempo di riscaldare attivamente la fotocamera (0 = calda alla temperatura ambiente)",
+          "name": "Telecamera calda"
+        }
       },
       "confirmations": {
         "clearSequence": "Sei sicuro di voler cancellare l'intera sequenza? \nQuesta azione non può essere annullata.",
         "removeAction": "Rimuovi l'azione \"{ActionName}\"?",
         "sendSequenceFailed": "Impossibile inviare sequenza a N.I.N.A",
-        "unknownError": "Si è verificato un errore sconosciuto"
+        "unknownError": "Si è verificato un errore sconosciuto",
+        "title": "Conferma",
+        "saveAsDefault": "Sei sicuro di voler salvare la sequenza corrente come predefinita? \nCiò sovrascriverà la sequenza predefinita precedente."
       },
       "containers": {
         "addAction": "Aggiungi azione",
@@ -817,7 +893,9 @@
         "loadBasicSequence": "Carica la sequenza di base",
         "redo": "Rifare",
         "undo": "Disfare",
-        "validSequence": "La sequenza è valida e può essere esportata"
+        "validSequence": "La sequenza è valida e può essere esportata",
+        "saveAsDefault": "Salva come predefinito",
+        "saveAsDefaultSuccess": "Salvato come sequenza predefinita!"
       },
       "settings": {
         "title": "Meridianflip",

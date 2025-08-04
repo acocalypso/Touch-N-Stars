@@ -7,22 +7,34 @@
           <NavigationComp />
         </div>
       </nav>
-      <!-- Main content -->
-      <div
-        v-if="
-          !store.isBackendReachable && settingsStore.setupCompleted && $route.path !== '/settings'
-        "
-        class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
-      >
-        <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
-      </div>
+      <!-- Logo Splash Screen -->
+      <Transition name="splash">
+        <div
+          v-if="
+            (showSplashScreen || !store.isBackendReachable) &&
+            settingsStore.setupCompleted &&
+            $route.path !== '/settings'
+          "
+          class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-900"
+        >
+          <h1 class="text-5xl pt-6 text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
+          <img class="mt-5" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />
+        </div>
+      </Transition>
 
-      <div v-else :class="mainContentClasses">
+      <div 
+        v-if="
+          !((showSplashScreen || !store.isBackendReachable) &&
+            settingsStore.setupCompleted &&
+            $route.path !== '/settings')
+        "
+        :class="mainContentClasses"
+      >
         <StellariumView
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />
-        <router-view :key="routerViewKey" />
+        <router-view v-show="!store.showStellarium" :key="routerViewKey" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
@@ -69,12 +81,6 @@
     <ConsoleViewer class="fixed top-32 right-6" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
-    
-    <!-- Global Loading overlay for redirect -->
-    <div v-if="store.isRedirecting" class="fixed inset-0 flex flex-col justify-center items-center z-[9999]">
-      <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-800"></div>
-      <p class="mt-4 text-blue-50 font-mono text-lg">Loading...</p>
-    </div>
   </div>
 </template>
 
@@ -104,6 +110,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
+const showSplashScreen = ref(true);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
@@ -223,6 +230,18 @@ onMounted(async () => {
   }
 });
 
+// Watch for backend connection and add delay before hiding splash screen
+watch(
+  () => store.isBackendReachable,
+  (isReachable) => {
+    if (isReachable && showSplashScreen.value) {
+      setTimeout(() => {
+        showSplashScreen.value = false;
+      }, 1000); // 1 second delay
+    }
+  }
+);
+
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
@@ -292,5 +311,19 @@ onBeforeUnmount(() => {
     left: 12rem !important;
     right: 0 !important;
   }
+}
+
+/* Splash Screen Transition */
+.splash-enter-active {
+  transition: opacity 0.3s ease-in;
+}
+
+.splash-leave-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.splash-enter-from,
+.splash-leave-to {
+  opacity: 0;
 }
 </style>

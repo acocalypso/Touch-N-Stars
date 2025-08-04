@@ -5,9 +5,7 @@
   },
   "general": {
     "cancel": "Zrušit",
-    "confirm": "Potvrdit",
-    "hide": "Skrýt",
-    "show": "Zobrazit"
+    "confirm": "Potvrdit"
   },
   "pages": {
     "equipment": {
@@ -18,7 +16,6 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA je nedostupné",
     "connecting": "Pokus o připojení",
-    "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }",
     "connection_error_toast": {
       "message_api": "Zásuvný modul API není k dispozici. Zkontrolujte nastavení v NINA",
       "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
@@ -111,7 +108,15 @@
         "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
         "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
       },
-      "add": "přidat"
+      "add": "přidat",
+      "update": "TODO: translate [Update]",
+      "errors": {
+        "instanceNameRequired": "TODO: translate [Instance name is required]",
+        "invalidIPFormat": "TODO: translate [Invalid IP format]",
+        "invalidPortRange": "TODO: translate [Invalid port range]",
+        "invalidInstance": "TODO: translate [Invalid instance]",
+        "emptyFields": "TODO: translate [Empty fields]"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -190,12 +195,8 @@
       "settings": "Nastavení",
       "vnc": "VNC"
     },
-    "language": {
-      "select": "Výběr jazyka"
-    },
-    "equipment": {
-      "control": "Kontrola Zařízení"
-    },
+    "language": {},
+    "equipment": {},
     "sequence": {
       "title": "Sekvence",
       "stats": "Statistiky",
@@ -238,7 +239,6 @@
       "median": "Střední",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
-      "sequence_control": "Ovládání Sekvence",
       "temperature": "Teplota",
       "monitor": {
         "settings": {
@@ -526,13 +526,8 @@
         "StartFromCurrentPosition": "Začít ze současné pozice?"
       }
     },
-    "logs": {
-      "loading": "Načítání dat...",
-      "error": "Chyba při načítání dat:"
-    },
-    "test": {
-      "title": "Test"
-    },
+    "logs": {},
+    "test": {},
     "loading": "Načítání...",
     "slewAndCenter": {
       "title": "Přejet a Vycentrovat",
@@ -675,14 +670,9 @@
     },
     "fav_target": {
       "enter_name": "Zadejte jméno",
-      "modal_save": {
-        "message": "Cíl byl uložen",
-        "titel": "Uložit",
-        "title": "Save"
-      },
+      "modal_save": {},
       "modal_sequence": {
-        "titel": "Sekvence",
-        "title": "Sequence"
+        "titel": "Sekvence"
       },
       "modal_sequence_error": {
         "message": "Není načtena žádná sekvence"
@@ -700,8 +690,7 @@
         "sequnce": "Cíl sekvence",
         "rotation": "Rotace"
       },
-      "titel": "Oblíbené",
-      "title": "Oblíbené"
+      "titel": "Oblíbené"
     },
     "notifications": {
       "modal": {

@@ -5,9 +5,7 @@
   },
   "general": {
     "cancel": "Annuler",
-    "confirm": "Confirmer",
-    "hide": "Cacher",
-    "show": "Montrer"
+    "confirm": "Confirmer"
   },
   "pages": {
     "equipment": {
@@ -18,7 +16,6 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA n'est pas accessible",
     "connecting": "Tentative d'établissement de la connexion",
-    "api_version_incompatible": "Version avancée-API Courant incompatible: {current} requis: {required}",
     "connection_error_toast": {
       "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
       "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
@@ -111,7 +108,15 @@
         "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
         "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
       },
-      "add": "ajouter"
+      "add": "ajouter",
+      "update": "TODO: translate [Update]",
+      "errors": {
+        "instanceNameRequired": "TODO: translate [Instance name is required]",
+        "invalidIPFormat": "TODO: translate [Invalid IP format]",
+        "invalidPortRange": "TODO: translate [Invalid port range]",
+        "invalidInstance": "TODO: translate [Invalid instance]",
+        "emptyFields": "TODO: translate [Empty fields]"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -190,12 +195,8 @@
       "settings": "Paramètres",
       "vnc": "VNC"
     },
-    "language": {
-      "select": "Choisir la langue"
-    },
-    "equipment": {
-      "control": "Contrôle des Equipements"
-    },
+    "language": {},
+    "equipment": {},
     "sequence": {
       "title": "Sequence",
       "stats": "Stats",
@@ -238,7 +239,6 @@
       "median": "Médiane",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
-      "sequence_control": "Contrôles de Sequence",
       "temperature": "Temperature",
       "monitor": {
         "settings": {
@@ -526,13 +526,8 @@
         "StartFromCurrentPosition": "Vous commencez à partir de la position actuelle?"
       }
     },
-    "logs": {
-      "loading": "Chargement des données...",
-      "error": "Erreur lors du chargement des données:"
-    },
-    "test": {
-      "title": "Test"
-    },
+    "logs": {},
+    "test": {},
     "loading": "Chargement...",
     "slewAndCenter": {
       "title": "Déplacer et Centrer",
@@ -675,14 +670,9 @@
     },
     "fav_target": {
       "enter_name": "Enter name",
-      "modal_save": {
-        "message": "The target has been saved",
-        "titel": "Sauvegarder",
-        "title": "Sauvegarder"
-      },
+      "modal_save": {},
       "modal_sequence": {
-        "titel": "Séquence",
-        "title": "Séquence"
+        "titel": "Séquence"
       },
       "modal_sequence_error": {
         "message": "Aucune séquence chargée"
@@ -700,8 +690,7 @@
         "sequnce": "Seq. target",
         "rotation": "Rotation"
       },
-      "titel": "Favoris",
-      "title": "Favoris"
+      "titel": "Favoris"
     },
     "notifications": {
       "modal": {

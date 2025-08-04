@@ -95,7 +95,8 @@
       "notifications": {
         "title": "Notifiche",
         "enable": "Attivare",
-        "sequence": "sequenza"
+        "sequence": "sequenza",
+        "phd2": "PhD2"
       },
       "showTutorial": "Mostra tutorial",
       "plugins": {
@@ -822,7 +823,8 @@
         "sendSequenceFailed": "Impossibile inviare sequenza a N.I.N.A",
         "unknownError": "Si è verificato un errore sconosciuto",
         "title": "Conferma",
-        "saveAsDefault": "Sei sicuro di voler salvare la sequenza corrente come predefinita? \nCiò sovrascriverà la sequenza predefinita precedente."
+        "saveAsDefault": "Sei sicuro di voler salvare la sequenza corrente come predefinita? \nCiò sovrascriverà la sequenza predefinita precedente.",
+        "loadBasicSequence": "Sei sicuro di voler caricare la sequenza di base? Questo sovrascriverà la sequenza corrente."
       },
       "containers": {
         "addAction": "Aggiungi azione",

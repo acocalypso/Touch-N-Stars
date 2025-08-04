@@ -95,7 +95,8 @@
       "notifications": {
         "title": "Oznámení",
         "enable": "Activate",
-        "sequence": "sekvence"
+        "sequence": "sekvence",
+        "phd2": "PHD2"
       },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
@@ -822,7 +823,8 @@
         "sendSequenceFailed": "Nepodařilo se odeslat sekvenci do N.I.N.A.",
         "unknownError": "Došlo k neznámé chybě",
         "title": "Confirmation",
-        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence."
+        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence.",
+        "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence."
       },
       "containers": {
         "addAction": "Přidat Akci",

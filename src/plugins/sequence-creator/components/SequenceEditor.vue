@@ -49,7 +49,7 @@
           </button>
 
           <!-- Load Basic Sequence -->
-          <button @click="store.loadBasicSequence()" class="default-button-cyan p-2 lg:px-3 lg:py-2 flex items-center gap-1" :title="t('plugins.sequenceCreator.toolbar.loadBasicSequence')">
+          <button @click="handleLoadBasicSequence" class="default-button-cyan p-2 lg:px-3 lg:py-2 flex items-center gap-1" :title="t('plugins.sequenceCreator.toolbar.loadBasicSequence')">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5l-2-2H5a2 2 0 00-2 2z"/>
             </svg>
@@ -267,6 +267,30 @@
       </template>
     </Modal>
 
+    <!-- Load Basic Sequence Confirmation Modal -->
+    <Modal :show="showLoadBasicModal" @close="cancelLoadBasic">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.confirmations.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="text-center">
+          <p class="text-gray-300 mb-6">
+            {{ t('plugins.sequenceCreator.confirmations.loadBasicSequence') }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <button @click="cancelLoadBasic" class="default-button-gray text-sm">
+              {{ t('general.cancel') }}
+            </button>
+            <button @click="confirmLoadBasic" class="default-button-cyan text-sm">
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
     <!-- Success Toast -->
     <div
       v-if="saveAsDefaultSuccess"
@@ -288,7 +312,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceContainer from './SequenceContainer.vue';
@@ -301,6 +325,7 @@ const store = useSequenceStore();
 const showExportModal = ref(false);
 const showClearModal = ref(false);
 const showSaveAsDefaultModal = ref(false);
+const showLoadBasicModal = ref(false);
 const saveAsDefaultSuccess = ref(false);
 
 function handleAddAction(template, containerType, index = null) {
@@ -352,6 +377,30 @@ function confirmSaveAsDefault() {
 function cancelSaveAsDefault() {
   showSaveAsDefaultModal.value = false;
 }
+
+function handleLoadBasicSequence() {
+  showLoadBasicModal.value = true;
+}
+
+function confirmLoadBasic() {
+  store.loadBasicSequence();
+  showLoadBasicModal.value = false;
+}
+
+function cancelLoadBasic() {
+  showLoadBasicModal.value = false;
+}
+
+// Check if sequences are empty on mount and load basic sequence
+onMounted(() => {
+  const isEmpty = store.startSequence.length === 0 && 
+                  store.targetSequence.length === 0 && 
+                  store.endSequence.length === 0;
+  
+  if (isEmpty) {
+    store.loadBasicSequence();
+  }
+});
 </script>
 
 <style scoped>

@@ -823,7 +823,8 @@
         "sendSequenceFailed": "Échec de la séquence à N.I.N.A",
         "unknownError": "Une erreur inconnue s'est produite",
         "title": "Confirmation",
-        "saveAsDefault": "Êtes-vous sûr de vouloir enregistrer la séquence actuelle par défaut? \nCela écrasera la séquence par défaut précédente."
+        "saveAsDefault": "Êtes-vous sûr de vouloir enregistrer la séquence actuelle par défaut? \nCela écrasera la séquence par défaut précédente.",
+        "loadBasicSequence": "Êtes-vous sûr de vouloir charger la séquence de base? Cela écrasera la séquence actuelle."
       },
       "containers": {
         "addActionsToContainer": "Ajouter des actions à ce conteneur",

@@ -136,8 +136,6 @@ const actionTemplates = {
         gain: {
           type: 'number',
           default: 100,
-          min: 0,
-          max: 500,
           label: 'Gain',
           tooltip: 'Camera gain setting',
         },
@@ -158,7 +156,7 @@ const actionTemplates = {
         },
         filter: {
           type: 'select',
-          options: [], // Will be populated dynamically from filterInfo
+          options: [], 
           default: 'None',
           label: 'Filter',
           tooltip: 'Filter wheel selection',
@@ -188,6 +186,14 @@ const actionTemplates = {
         },
       },
       color: 'bg-green-500',
+    },
+    {
+      id: 'stop-guiding',
+      name: 'Stop Guiding',
+      icon: 'guider',
+      description: 'Stop autoguiding system',
+      parameters: {},
+      color: 'bg-red-600',
     },
   ],
   end: [
@@ -431,6 +437,14 @@ export const useSequenceStore = defineStore('sequence', () => {
             },
           },
           color: 'bg-green-500',
+        },
+        {
+          id: 'stop-guiding',
+          name: t('plugins.sequenceCreator.actions.stopGuiding.name'),
+          icon: 'guider',
+          description: t('plugins.sequenceCreator.actions.stopGuiding.description'),
+          parameters: {},
+          color: 'bg-red-600',
         },
       ],
       end: [

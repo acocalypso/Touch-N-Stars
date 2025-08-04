@@ -25,7 +25,22 @@
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center gap-2">
-              <h4 class="text-sm font-medium text-gray-900 dark:text-white truncate">
+              <div v-if="isEditingName" class="flex-1">
+                <input
+                  ref="nameInput"
+                  v-model="editingName"
+                  @blur="finishNameEdit"
+                  @keyup.enter="finishNameEdit"
+                  @keyup.escape="cancelNameEdit"
+                  class="text-sm font-medium bg-transparent border-b border-blue-500 focus:outline-none text-gray-900 dark:text-white w-full"
+                />
+              </div>
+              <h4 
+                v-else
+                @click="startNameEdit"
+                class="text-sm font-medium text-gray-900 dark:text-white truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                :title="t('plugins.sequenceCreator.actions.clickToRename')"
+              >
                 {{ action.name }}
               </h4>
               <span
@@ -351,6 +366,9 @@ const props = defineProps({
 const emit = defineEmits(['edit', 'remove', 'duplicate', 'move-up', 'move-down']);
 
 const isEditing = ref(false);
+const isEditingName = ref(false);
+const editingName = ref('');
+const nameInput = ref(null);
 
 const hasParameters = computed(() => {
   return Object.keys(props.action.parameters || {}).length > 0;
@@ -429,6 +447,31 @@ function handleTargetSelected(targetData) {
   if (targetData.positionAngle !== undefined) {
     updateParameter('positionAngle', targetData.positionAngle);
   }
+}
+
+function startNameEdit() {
+  isEditingName.value = true;
+  editingName.value = props.action.name;
+  // Focus the input on next tick
+  setTimeout(() => {
+    if (nameInput.value) {
+      nameInput.value.focus();
+      nameInput.value.select();
+    }
+  }, 50);
+}
+
+function finishNameEdit() {
+  if (editingName.value.trim() && editingName.value !== props.action.name) {
+    store.updateActionName(props.action.id, editingName.value.trim());
+  }
+  isEditingName.value = false;
+  editingName.value = '';
+}
+
+function cancelNameEdit() {
+  isEditingName.value = false;
+  editingName.value = '';
 }
 
 function getIconComponent(iconName) {

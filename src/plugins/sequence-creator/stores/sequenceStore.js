@@ -1457,6 +1457,20 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
   }
 
+  function updateActionName(actionId, newName) {
+    // Search all containers for the action
+    const containers = [startSequence.value, targetSequence.value, endSequence.value];
+    for (const container of containers) {
+      const action = container.find((action) => action.id === actionId);
+      if (action) {
+        action.name = newName;
+        isModified.value = true;
+        addToHistory();
+        return;
+      }
+    }
+  }
+
   function clearSequence() {
     startSequence.value = [];
     targetSequence.value = [];
@@ -1655,6 +1669,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     moveAction,
     duplicateAction,
     updateActionParameter,
+    updateActionName,
     clearSequence,
     loadSequence,
     loadBasicSequence,

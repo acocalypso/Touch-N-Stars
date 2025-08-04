@@ -766,6 +766,7 @@
         "enableAction": "Aktion Aktivieren",
         "duplicateAction": "Aktion Duplizieren",
         "removeAction": "Aktion Entfernen",
+        "clickToRename": "Klicken zum Umbenennen",
         "actionParameters": "Aktions-Parameter",
         "changesSaveAutomatically": "Änderungen werden automatisch gespeichert",
         "min": "Min:",

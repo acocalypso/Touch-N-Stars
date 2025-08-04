@@ -897,7 +897,13 @@
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
         "loadBasicSequence": "Cargar secuencia básica",
         "saveAsDefault": "Guardar como predeterminado",
-        "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!"
+        "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!",
+        "failed": "Fallido",
+        "sendErrorTitle": "Error al enviar a N.I.N.A",
+        "sendSuccessMessage": "Secuencia enviada con éxito a N.I.N.A!",
+        "sendToNina": "Enviar a N.I.N.A",
+        "sending": "Envío...",
+        "sent": "¡Enviado!"
       },
       "title": "N.I.N.A CREATOR DE SECUENCIA",
       "settings": {

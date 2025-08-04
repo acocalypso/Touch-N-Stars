@@ -14,8 +14,7 @@
             </p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-        </div>
+        <div class="flex items-center gap-2"></div>
       </div>
     </div>
 
@@ -95,7 +94,7 @@
       ref="dropdownMenu"
       :class="[
         'absolute w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 right-0',
-        dropdownPosition.vertical === 'top' ? 'bottom-0 mb-2' : 'top-full mt-2'
+        dropdownPosition.vertical === 'top' ? 'bottom-0 mb-2' : 'top-full mt-2',
       ]"
     >
       <div class="p-2">
@@ -158,7 +157,7 @@ const showAddMenu = ref(false);
 const dropdownMenu = ref(null);
 const containerRef = ref(null);
 const dropdownPosition = reactive({
-  vertical: 'bottom'
+  vertical: 'bottom',
 });
 
 // Initialize localized templates when component is mounted
@@ -246,29 +245,25 @@ function getAvailableActions(containerType) {
 
 async function calculateDropdownPosition() {
   await nextTick();
-  
+
   if (!dropdownMenu.value) return;
-  
+
   const container = dropdownMenu.value.closest('.sequence-container');
   if (!container) return;
-  
+
   const containerRect = container.getBoundingClientRect();
   const viewportHeight = window.innerHeight;
-  
-  // Estimate dropdown height (approximately 300px for typical content)
-  const dropdownHeight = 300;
-  
+
   // Calculate vertical position - only flip if there's really not enough space
   const spaceBelow = viewportHeight - containerRect.bottom;
   const spaceAbove = containerRect.top;
-  
+
   // Only show above if there's less than 200px below AND more than 350px above
   if (spaceBelow < 200 && spaceAbove > 350) {
     dropdownPosition.vertical = 'top';
   } else {
     dropdownPosition.vertical = 'bottom';
   }
-  
 }
 
 async function toggleAddMenu() {
@@ -309,12 +304,12 @@ function handleMoveDown(index) {
 
 function handleClickOutside(event) {
   if (!showAddMenu.value) return;
-  
+
   // Check if click is inside the dropdown menu
   if (dropdownMenu.value && dropdownMenu.value.contains(event.target)) {
     return;
   }
-  
+
   // Check if click is inside our container (including buttons)
   if (containerRef.value && containerRef.value.contains(event.target)) {
     // If it's inside the container but not in the dropdown, check if it's a button click
@@ -324,7 +319,7 @@ function handleClickOutside(event) {
       return;
     }
   }
-  
+
   // Close menu for clicks outside the container or non-button clicks inside
   showAddMenu.value = false;
 }

@@ -898,7 +898,13 @@
         "undo": "Desfazer",
         "validSequence": "A sequência é válida e pode ser exportada",
         "saveAsDefault": "Salve como padrão",
-        "saveAsDefaultSuccess": "Salvo como sequência padrão!"
+        "saveAsDefaultSuccess": "Salvo como sequência padrão!",
+        "failed": "Fracassado",
+        "sendErrorTitle": "Erro enviando para N.I.N.A",
+        "sendSuccessMessage": "Sequência enviada com sucesso para N.I.N.A!",
+        "sendToNina": "Enviar para N.I.N.A",
+        "sending": "Enviando ...",
+        "sent": "Enviado!"
       },
       "settings": {
         "title": "Meridianflip",

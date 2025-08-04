@@ -125,7 +125,7 @@
                   ? 'bg-green-600 hover:bg-green-700 text-white'
                   : sendToNinaError
                     ? 'bg-red-600 hover:bg-red-700 text-white'
-                    : 'default-button-green'
+                    : 'default-button-green',
             ]"
             :title="t('plugins.sequenceCreator.toolbar.sendToNina')"
           >
@@ -171,11 +171,11 @@
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-            <svg 
-              v-else 
-              class="w-5 h-5 flex-shrink-0" 
-              fill="none" 
-              stroke="currentColor" 
+            <svg
+              v-else
+              class="w-5 h-5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
               <path
@@ -328,7 +328,12 @@
       class="fixed top-4 right-4 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-out max-w-md"
     >
       <div class="flex items-start gap-2">
-        <svg class="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          class="w-4 h-4 mt-0.5 flex-shrink-0"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"

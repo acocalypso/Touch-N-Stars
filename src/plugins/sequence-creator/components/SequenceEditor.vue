@@ -49,11 +49,22 @@
           </button>
 
           <!-- Load Basic Sequence -->
-          <button @click="handleLoadBasicSequence" class="default-button-cyan p-2 lg:px-3 lg:py-2 flex items-center gap-1" :title="t('plugins.sequenceCreator.toolbar.loadBasicSequence')">
+          <button
+            @click="handleLoadBasicSequence"
+            class="default-button-cyan p-2 lg:px-3 lg:py-2 flex items-center gap-1"
+            :title="t('plugins.sequenceCreator.toolbar.loadBasicSequence')"
+          >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5l-2-2H5a2 2 0 00-2 2z"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-5l-2-2H5a2 2 0 00-2 2z"
+              />
             </svg>
-            <span class="hidden lg:inline text-sm">{{ t('plugins.sequenceCreator.toolbar.loadBasicSequence') }}</span>
+            <span class="hidden lg:inline text-sm">{{
+              t('plugins.sequenceCreator.toolbar.loadBasicSequence')
+            }}</span>
           </button>
 
           <!-- Save as Default -->
@@ -64,17 +75,32 @@
             :title="t('plugins.sequenceCreator.toolbar.saveAsDefault')"
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3M19 19H5V5H16.17L19 7.83V19M12 12C13.66 12 15 13.34 15 15C15 16.66 13.66 18 12 18C10.34 18 9 16.66 9 15C9 13.34 10.34 12 12 12M6 6H15V10H6V6Z"/>
+              <path
+                d="M17 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V7L17 3M19 19H5V5H16.17L19 7.83V19M12 12C13.66 12 15 13.34 15 15C15 16.66 13.66 18 12 18C10.34 18 9 16.66 9 15C9 13.34 10.34 12 12 12M6 6H15V10H6V6Z"
+              />
             </svg>
-            <span class="hidden lg:inline text-sm">{{ t('plugins.sequenceCreator.toolbar.saveAsDefault') }}</span>
+            <span class="hidden lg:inline text-sm">{{
+              t('plugins.sequenceCreator.toolbar.saveAsDefault')
+            }}</span>
           </button>
 
           <!-- Clear All -->
-          <button @click="handleClearSequence" class="default-button-red p-2 lg:px-3 lg:py-2 flex items-center gap-1" :title="t('plugins.sequenceCreator.toolbar.clearSequence')">
+          <button
+            @click="handleClearSequence"
+            class="default-button-red p-2 lg:px-3 lg:py-2 flex items-center gap-1"
+            :title="t('plugins.sequenceCreator.toolbar.clearSequence')"
+          >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
             </svg>
-            <span class="hidden lg:inline text-sm">{{ t('plugins.sequenceCreator.toolbar.clearSequence') }}</span>
+            <span class="hidden lg:inline text-sm">{{
+              t('plugins.sequenceCreator.toolbar.clearSequence')
+            }}</span>
           </button>
 
           <!-- Export -->
@@ -85,9 +111,16 @@
             :title="t('plugins.sequenceCreator.toolbar.exportSequence')"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
             </svg>
-            <span class="hidden lg:inline text-sm">{{ t('plugins.sequenceCreator.toolbar.exportSequence') }}</span>
+            <span class="hidden lg:inline text-sm">{{
+              t('plugins.sequenceCreator.toolbar.exportSequence')
+            }}</span>
           </button>
         </div>
       </div>
@@ -393,10 +426,11 @@ function cancelLoadBasic() {
 
 // Check if sequences are empty on mount and load basic sequence
 onMounted(() => {
-  const isEmpty = store.startSequence.length === 0 && 
-                  store.targetSequence.length === 0 && 
-                  store.endSequence.length === 0;
-  
+  const isEmpty =
+    store.startSequence.length === 0 &&
+    store.targetSequence.length === 0 &&
+    store.endSequence.length === 0;
+
   if (isEmpty) {
     store.loadBasicSequence();
   }

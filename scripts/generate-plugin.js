@@ -85,7 +85,30 @@ export default {
 
     // Get current plugin state from store
     const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
-    const pluginPath = currentPlugin ? currentPlugin.pluginPath : '/plugin1';
+    
+    // Generate sequential plugin path if not already assigned
+    let pluginPath;
+    if (currentPlugin && currentPlugin.pluginPath) {
+      pluginPath = currentPlugin.pluginPath;
+    } else {
+      // Find the next available plugin number
+      const existingPaths = pluginStore.plugins
+        .map(p => p.pluginPath)
+        .filter(path => path && path.match(/^\/plugin\d+$/))
+        .map(path => parseInt(path.replace('/plugin', '')))
+        .sort((a, b) => a - b);
+      
+      let nextNumber = 1;
+      for (const num of existingPaths) {
+        if (num === nextNumber) {
+          nextNumber++;
+        } else {
+          break;
+        }
+      }
+      
+      pluginPath = \`/plugin\${nextNumber}\`;
+    }
 
     // Register route with generic plugin path
     router.addRoute({

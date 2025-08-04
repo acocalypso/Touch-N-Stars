@@ -19,7 +19,7 @@ export default {
 
       // Get current plugin state from store
       const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
-      
+
       // Generate sequential plugin path if not already assigned
       let pluginPath;
       if (currentPlugin && currentPlugin.pluginPath) {
@@ -27,11 +27,11 @@ export default {
       } else {
         // Find the next available plugin number
         const existingPaths = pluginStore.plugins
-          .map(p => p.pluginPath)
-          .filter(path => path && path.match(/^\/plugin\d+$/))
-          .map(path => parseInt(path.replace('/plugin', '')))
+          .map((p) => p.pluginPath)
+          .filter((path) => path && path.match(/^\/plugin\d+$/))
+          .map((path) => parseInt(path.replace('/plugin', '')))
           .sort((a, b) => a - b);
-        
+
         let nextNumber = 1;
         for (const num of existingPaths) {
           if (num === nextNumber) {
@@ -40,7 +40,7 @@ export default {
             break;
           }
         }
-        
+
         pluginPath = `/plugin${nextNumber}`;
       }
 

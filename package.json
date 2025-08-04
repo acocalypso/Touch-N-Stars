@@ -22,7 +22,7 @@
     "@capacitor/android": "7.4.2",
     "@capacitor/app": "7.0.1",
     "@capacitor/core": "7.4.2",
-    "@capacitor/filesystem": "7.1.2",
+    "@capacitor/filesystem": "7.1.4",
     "@capacitor/geolocation": "7.1.4",
     "@capacitor/haptics": "7.0.1",
     "@capacitor/ios": "7.4.2",
@@ -66,9 +66,9 @@
     "eslint": "9.31.0",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.3",
-    "eslint-plugin-vue": "10.3.0",
+    "eslint-plugin-vue": "10.4.0",
     "lodash": "^4.17.21",
-    "prettier": "^3.5.3",
+    "prettier": "3.6.2",
     "raw-loader": "^4.0.2",
     "vue-eslint-parser": "10.2.0"
   }

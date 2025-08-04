@@ -1,5 +1,5 @@
 <template>
-  <div class="sequence-container mb-6">
+  <div ref="containerRef" class="sequence-container mb-6">
     <!-- Container Header -->
     <div :class="['container-header p-4 rounded-t-lg border-l-4', getContainerClasses(color)]">
       <div class="flex items-center justify-between">
@@ -14,14 +14,7 @@
             </p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <span
-            v-if="actions.length > 0"
-            class="px-2 py-1 text-xs bg-white/20 text-white rounded-full"
-          >
-            {{ actions.length }} action{{ actions.length !== 1 ? 's' : '' }}
-          </span>
-        </div>
+        <div class="flex items-center gap-2"></div>
       </div>
     </div>
 
@@ -43,7 +36,7 @@
           {{ getEmptyDescription(containerType) }}
         </p>
         <button
-          @click="showAddMenu = !showAddMenu"
+          @click="toggleAddMenu"
           class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-lg transition-colors"
           :title="t('plugins.sequenceCreator.containers.addAction')"
         >
@@ -77,7 +70,7 @@
         <!-- Add Action Button -->
         <div class="mt-4 text-center">
           <button
-            @click="showAddMenu = !showAddMenu"
+            @click="toggleAddMenu"
             class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm rounded-lg transition-colors"
             :title="t('plugins.sequenceCreator.containers.addAction')"
           >
@@ -98,7 +91,11 @@
     <!-- Add Action Menu -->
     <div
       v-if="showAddMenu"
-      class="absolute top-full right-0 mt-2 w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50"
+      ref="dropdownMenu"
+      :class="[
+        'absolute w-64 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 right-0',
+        dropdownPosition.vertical === 'top' ? 'bottom-0 mb-2' : 'top-full mt-2',
+      ]"
     >
       <div class="p-2">
         <div
@@ -127,7 +124,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, reactive, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import SequenceActionItem from './SequenceActionItem.vue';
@@ -157,6 +154,11 @@ const emit = defineEmits(['add-action', 'remove-action', 'duplicate-action', 'mo
 
 const store = useSequenceStore();
 const showAddMenu = ref(false);
+const dropdownMenu = ref(null);
+const containerRef = ref(null);
+const dropdownPosition = reactive({
+  vertical: 'bottom',
+});
 
 // Initialize localized templates when component is mounted
 onMounted(() => {
@@ -241,6 +243,36 @@ function getAvailableActions(containerType) {
   return store.actionTemplates[containerType] || [];
 }
 
+async function calculateDropdownPosition() {
+  await nextTick();
+
+  if (!dropdownMenu.value) return;
+
+  const container = dropdownMenu.value.closest('.sequence-container');
+  if (!container) return;
+
+  const containerRect = container.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+
+  // Calculate vertical position - only flip if there's really not enough space
+  const spaceBelow = viewportHeight - containerRect.bottom;
+  const spaceAbove = containerRect.top;
+
+  // Only show above if there's less than 200px below AND more than 350px above
+  if (spaceBelow < 200 && spaceAbove > 350) {
+    dropdownPosition.vertical = 'top';
+  } else {
+    dropdownPosition.vertical = 'bottom';
+  }
+}
+
+async function toggleAddMenu() {
+  showAddMenu.value = !showAddMenu.value;
+  if (showAddMenu.value) {
+    await calculateDropdownPosition();
+  }
+}
+
 function handleAddAction(action) {
   emit('add-action', action, props.containerType);
   showAddMenu.value = false;
@@ -271,9 +303,25 @@ function handleMoveDown(index) {
 }
 
 function handleClickOutside(event) {
-  if (!event.target.closest('.sequence-container')) {
-    showAddMenu.value = false;
+  if (!showAddMenu.value) return;
+
+  // Check if click is inside the dropdown menu
+  if (dropdownMenu.value && dropdownMenu.value.contains(event.target)) {
+    return;
   }
+
+  // Check if click is inside our container (including buttons)
+  if (containerRef.value && containerRef.value.contains(event.target)) {
+    // If it's inside the container but not in the dropdown, check if it's a button click
+    const clickedButton = event.target.closest('button');
+    if (clickedButton) {
+      // Let button clicks be handled by their own handlers
+      return;
+    }
+  }
+
+  // Close menu for clicks outside the container or non-button clicks inside
+  showAddMenu.value = false;
 }
 
 onMounted(() => {

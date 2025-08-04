@@ -11,66 +11,9 @@
   >
     <!-- Main Action Header -->
     <div class="p-4">
-      <div class="flex items-center justify-between">
-        <!-- Action Info -->
-        <div class="flex items-center gap-3 flex-1 min-w-0">
-          <div
-            :class="[
-              'flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-white',
-              action.color,
-            ]"
-          >
-            <component :is="getIconComponent(action.icon)" :name="action.icon" class="w-5 h-5" />
-          </div>
-
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-2">
-              <div v-if="isEditingName" class="flex-1">
-                <input
-                  ref="nameInput"
-                  v-model="editingName"
-                  @blur="finishNameEdit"
-                  @keyup.enter="finishNameEdit"
-                  @keyup.escape="cancelNameEdit"
-                  class="text-sm font-medium bg-transparent border-b border-blue-500 focus:outline-none text-gray-900 dark:text-white w-full"
-                />
-              </div>
-              <h4
-                v-else
-                @click="startNameEdit"
-                class="text-sm font-medium text-gray-900 dark:text-white truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-                :title="t('plugins.sequenceCreator.actions.clickToRename')"
-              >
-                {{ action.name }}
-              </h4>
-              <span
-                v-if="!action.enabled"
-                class="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded"
-              >
-                {{ t('plugins.sequenceCreator.actions.disabled') }}
-              </span>
-            </div>
-            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">
-              {{ action.description }}
-            </p>
-
-            <!-- Parameter Summary (when not editing) -->
-            <div v-if="hasParameters && !isEditing" class="mt-2">
-              <div class="flex flex-wrap gap-2">
-                <span
-                  v-for="(param, key) in getKeyParameters(action.parameters)"
-                  :key="key"
-                  class="inline-flex items-center px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded"
-                >
-                  {{ param.label || key }}: {{ formatParameterValue(param) }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Action Controls -->
-        <div class="flex items-center gap-1 flex-shrink-0 ml-3">
+      <div class="relative">
+        <!-- Action Controls - Positioned at top right -->
+        <div class="absolute -top-6 right-0 flex items-center gap-1 flex-shrink-0">
           <!-- Edit Toggle Button -->
           <button
             v-if="hasParameters"
@@ -170,6 +113,63 @@
               />
             </svg>
           </button>
+        </div>
+
+        <!-- Action Info - Below buttons -->
+        <div class="flex items-center gap-3 mt-4">
+          <div
+            :class="[
+              'flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-white',
+              action.color,
+            ]"
+          >
+            <component :is="getIconComponent(action.icon)" :name="action.icon" class="w-5 h-5" />
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <div v-if="isEditingName" class="flex-1">
+                <input
+                  ref="nameInput"
+                  v-model="editingName"
+                  @blur="finishNameEdit"
+                  @keyup.enter="finishNameEdit"
+                  @keyup.escape="cancelNameEdit"
+                  class="text-sm font-medium bg-transparent border-b border-blue-500 focus:outline-none text-gray-900 dark:text-white w-full"
+                />
+              </div>
+              <h4
+                v-else
+                @click="startNameEdit"
+                class="text-sm font-medium text-gray-900 dark:text-white truncate cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                :title="t('plugins.sequenceCreator.actions.clickToRename')"
+              >
+                {{ action.name }}
+              </h4>
+              <span
+                v-if="!action.enabled"
+                class="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 rounded"
+              >
+                {{ t('plugins.sequenceCreator.actions.disabled') }}
+              </span>
+            </div>
+            <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 truncate">
+              {{ action.description }}
+            </p>
+
+            <!-- Parameter Summary (when not editing) -->
+            <div v-if="hasParameters && !isEditing" class="mt-2">
+              <div class="flex flex-wrap gap-2">
+                <span
+                  v-for="(param, key) in getKeyParameters(action.parameters)"
+                  :key="key"
+                  class="inline-flex items-center px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded"
+                >
+                  {{ param.label || key }}: {{ formatParameterValue(param) }}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

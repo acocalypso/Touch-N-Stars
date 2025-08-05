@@ -31,7 +31,12 @@
           >
             {{ $t('components.focuser.start_autofocus') }}
           </button>
-          <button v-else class="default-button-red" @click="stoppAutofocus">
+          <button
+            v-else
+            class="default-button-red"
+            @click="stoppAutofocus"
+            :disabled="sequenceStore.sequenceRunning"
+          >
             {{ $t('components.focuser.cancel_autofocus') }}
           </button>
         </div>
@@ -93,6 +98,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
+import { useSequenceStore } from '@/store/sequenceStore';
 import infoFocuser from '@/components/focuser/infoFocuser.vue';
 import AfFnishGraph from '@/components/focuser/AfFnishGraph.vue';
 import { apiStore } from '@/store/store';
@@ -102,6 +108,7 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 
 const store = apiStore();
+const sequenceStore = useSequenceStore();
 const position = ref(0);
 const delayShowGraph = ref(true);
 

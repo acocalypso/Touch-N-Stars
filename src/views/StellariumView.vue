@@ -154,16 +154,15 @@ function toggleSearch(event) {
 }
 
 // Framing-Koordinaten
-function setFramingCoordinates() {
-  framingStore.RAangleString = selectedObjectRa.value;
-  framingStore.DECangleString = selectedObjectDec.value;
-  framingStore.RAangle = selectedObjectRaDeg.value;
-  framingStore.DECangle = selectedObjectDecDeg.value;
-  //framingStore.selectedItem = selectedObject.value;
+function setFramingCoordinates(data) {
+  framingStore.RAangleString = data?.raString || selectedObjectRa.value;
+  framingStore.DECangleString = data?.decString || selectedObjectDec.value;
+  framingStore.RAangle = data?.ra || selectedObjectRaDeg.value;
+  framingStore.DECangle = data?.dec || selectedObjectDecDeg.value;
   framingStore.selectedItem = {
-    Name: '',
-    RA: selectedObjectRaDeg.value,
-    Dec: selectedObjectDecDeg.value,
+    Name: data?.name || selectedObject.value?.[0] || '',
+    RA: data?.ra || selectedObjectRaDeg.value,
+    Dec: data?.dec || selectedObjectDecDeg.value,
   };
 
   console.log('Set Framing Coordinates');

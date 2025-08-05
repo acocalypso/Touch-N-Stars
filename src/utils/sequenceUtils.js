@@ -37,26 +37,42 @@ export function formatDateTime(isoString) {
 }
 
 export function formatRA(coords) {
+  if (!coords) return 'RA: undefined';
   const target = coords.Coordinates || coords;
-  if (coords.AltDegrees) {
+  if (coords.AltDegrees !== undefined) {
     return `Altitude: ${coords.AltDegrees ?? 0}d ${coords.AltMinutes ?? 0}m ${coords.AltSeconds ?? 0}s`;
   }
-  return (
-    `RA: ${target.RAString} ` ||
-    `RA: ${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`
-  );
+  if (
+    !target ||
+    (target.RAHours === undefined &&
+      target.RAMinutes === undefined &&
+      target.RASeconds === undefined)
+  ) {
+    return 'RA: undefined';
+  }
+  return target.RAString
+    ? `RA: ${target.RAString}`
+    : `RA: ${target.RAHours ?? 0}h ${target.RAMinutes ?? 0}m ${target.RASeconds ?? 0}s`;
 }
 
 export function formatDec(coords) {
+  if (!coords) return 'DEC: undefined';
   const target = coords.Coordinates || coords;
-  const sign = target.NegativeDec ? 'S' : 'N';
-  if (coords.AzDegrees) {
+  if (coords.AzDegrees !== undefined) {
     return `Azimuth: ${coords.AzDegrees ?? 0}d ${coords.AzMinutes ?? 0}m ${coords.AzSeconds ?? 0}s`;
   }
-  return (
-    `DEC: ${target.DecString}` ||
-    `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`
-  );
+  if (
+    !target ||
+    (target.DecDegrees === undefined &&
+      target.DecMinutes === undefined &&
+      target.DecSeconds === undefined)
+  ) {
+    return 'DEC: undefined';
+  }
+  const sign = target.NegativeDec ? 'S' : 'N';
+  return target.DecString
+    ? `DEC: ${target.DecString}`
+    : `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`;
 }
 
 export function hasRunningChildren(item) {

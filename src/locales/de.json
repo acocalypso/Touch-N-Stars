@@ -5,9 +5,7 @@
   },
   "general": {
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen",
-    "hide": "Verstecken",
-    "show": "Zeigen"
+    "confirm": "Bestätigen"
   },
   "pages": {
     "equipment": {
@@ -18,7 +16,6 @@
     "title": "Touch'N'Stars",
     "unreachable": "NINA ist nicht erreichbar",
     "connecting": "Versuche Verbindung herzustellen",
-    "api_version_incompatible": "Advanced-API-Version inkompatibel Aktuell: {current} Erforderlich: {required}",
     "connection_error_toast": {
       "message_api": "Das API-Plugin ist nicht erreichbar. \nBitte überprüfen Sie die Einstellungen in Nina",
       "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
@@ -73,76 +70,6 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Suche",
-        "placeholder": "Suchbegriff eingeben...",
-        "objectTypes": {
-          "Planet": "Planet",
-          "Comet": "Komet",
-          "StellariumObject": "Objekt",
-          "Star": "Stern",
-          "Moon": "Mond"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Zurück",
-      "next": "Weiter",
-      "skip": "Tutorial überspringen"
-    },
-    "settings": {
-      "title": "Einstellungen",
-      "language": "Sprache",
-      "coordinates": "GPS-Koordinaten",
-      "connection": "N.I.N.A Verbindungsdetails",
-      "save": "Speichern",
-      "add": "Hinzufügen",
-      "update": "Aktualisieren",
-      "instance": {
-        "name": "Instanzname",
-        "ip": "IP-Adresse",
-        "port": "Port",
-        "edit": "Instanz bearbeiten",
-        "delete": "Instanz löschen"
-      },
-      "errors": {
-        "emptyFields": "Bitte füllen Sie alle Felder aus",
-        "instanceNameRequired": "Instanzname ist erforderlich",
-        "invalidIPFormat": "Bitte geben Sie IP oder FQDN an",
-        "invalidPortRange": "Port muss zwischen 1 und 65535 liegen",
-        "invalidInstance": "Es konnte keine Verbindung hergestellt werden"
-      },
-      "showTutorial": "Tutorial anzeigen",
-      "system": {
-        "description": "Klicken Sie auf ein Symbol, um das System neu zu starten oder herunterzufahren",
-        "title": "Systemsteuerungen",
-        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?",
-        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmation": "Bestätigung",
-        "info": "Dadurch wird der PC heruntergefahren oder neu gestartet, der die N.I.N.A -Instanz hostet!"
-      },
-      "image": {
-        "title": "Bildeinstellungen",
-        "quality": "Qualität in % ",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Stretch Factor"
-      },
-      "plugins": {
-        "description": "Plugin Beschreibung",
-        "title": "Plugins"
-      },
-      "debug": {
-        "activate": "Aktiviere Debug-Fenster",
-        "titel": "Debug Einstellungen"
-      },
-      "notifications": {
-        "enable": "Benachrichtigungen aktivieren",
-        "sequence": "Sequenzereignisse",
-        "title": "Benachrichtigungen"
-      },
-      "infoSetLocationSync": "Damit die Koordinaten korrekt an die Montierung übertragen werden, muss in NINA die Option ‚Location sync‘ auf ‚Sync to Telescope‘ gesetzt sein. Dadurch sendet TNS die Standortdaten direkt an die Montierung."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
@@ -173,6 +100,57 @@
       "currentAltitude": "Aktuelle Höhe",
       "useCenter": "Center",
       "useRotate": "Rotieren"
+    },
+    "tutorial": {
+      "previous": "Zurück",
+      "next": "Weiter",
+      "skip": "Tutorial überspringen"
+    },
+    "settings": {
+      "title": "Einstellungen",
+      "coordinates": "GPS-Koordinaten",
+      "save": "Speichern",
+      "infoSetLocationSync": "Bitte setzen Sie zuerst die Standortsynchronisation auf Mount",
+      "connection": "Verbindungseinstellungen",
+      "language": "Sprache",
+      "image": {
+        "title": "Bildeinstellungen",
+        "quality": "Bildqualität",
+        "strech_factor": "Streckfaktor",
+        "black_clipping": "Schwarzclipping"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Debug-Modus aktivieren"
+      },
+      "notifications": {
+        "title": "Benachrichtigungen",
+        "enable": "Aktivieren",
+        "sequence": "Sequenz",
+        "phd2": "PHD2"
+      },
+      "showTutorial": "Tutorial anzeigen",
+      "plugins": {
+        "title": "Plugin-Verwaltung",
+        "description": "Installierte Plugins verwalten"
+      },
+      "system": {
+        "title": "Systemsteuerung",
+        "description": "System-Neustart und -Herunterfahren steuern",
+        "info": "Diese Aktionen betreffen das gesamte System",
+        "confirmation": "Aktion bestätigen",
+        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
+        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
+      },
+      "add": "hinzufügen",
+      "update": "Aktualisieren",
+      "errors": {
+        "instanceNameRequired": "Instanzname ist erforderlich",
+        "invalidIPFormat": "Ungültiges IP-Format",
+        "invalidPortRange": "Ungültiger Port-Bereich",
+        "invalidInstance": "Ungültige Instanz",
+        "emptyFields": "Leere Felder"
+      }
     },
     "connectEquipment": {
       "camera": {
@@ -251,12 +229,6 @@
       "settings": "Einstellungen",
       "vnc": "VNC"
     },
-    "language": {
-      "select": "Sprache auswählen"
-    },
-    "equipment": {
-      "control": "Gerätesteuerung"
-    },
     "sequence": {
       "title": "Sequenz",
       "stats": "Statistiken",
@@ -297,7 +269,8 @@
       "median": "Median",
       "stDev": "St. Abw.",
       "rmsText": "RMS",
-      "sequence_control": "Sequenzsteuerung",
+      "expandAll": "Alle erweitern",
+      "collapseAll": "Alle zuklappen",
       "temperature": "Temperatur",
       "monitor": {
         "settings": {
@@ -327,8 +300,7 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit",
-      "select_sequence": "Sequenz auswählen"
+      "time": "Zeit"
     },
     "mount": {
       "title": "Montierung",
@@ -429,9 +401,7 @@
         "calibrationResult": "Kalibrierungsergebnis",
         "quality": "Qualität",
         "goodCalibration": "Ausgezeichnete Kalibrierung erreicht",
-        "poorCalibration": "Kalibrierung könnte verbessert werden. Versuchen Sie eine neue Position oder überprüfen Sie die Ausrüstung.",
-        "calibrating": "Kalibrierung läuft...",
-        "slewing": "Schwenke zur Zielposition..."
+        "poorCalibration": "Kalibrierung könnte verbessert werden. Versuchen Sie eine neue Position oder überprüfen Sie die Ausrüstung."
       },
       "phd2": {
         "Exposuretime": "Belichtungszeit",
@@ -588,13 +558,6 @@
         "StartFromCurrentPosition": "Von der aktuellen Position starten?"
       }
     },
-    "logs": {
-      "loading": "Daten werden geladen...",
-      "error": "Fehler beim Laden der Daten:"
-    },
-    "test": {
-      "title": "Test"
-    },
     "loading": "Laden...",
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",
@@ -737,10 +700,6 @@
     },
     "fav_target": {
       "enter_name": "Namen eingeben",
-      "modal_save": {
-        "message": "Das Ziel wurde gespeichert",
-        "titel": "Speichern"
-      },
       "modal_sequence": {
         "titel": "Sequenz"
       },
@@ -767,39 +726,220 @@
         "description": "Bitte erteilen Sie die Erlaubnis, Benachrichtigungen über Sequenzereignisse zu erhalten.",
         "title": "Benachrichtigungen konfigurieren"
       }
-    },
-    "settings": {
-      "title": "Einstellungen",
-      "coordinates": "GPS-Koordinaten",
-      "save": "Speichern",
-      "infoSetLocationSync": "Bitte setzen Sie zuerst die Standortsynchronisation auf Mount",
-      "connection": "Verbindungseinstellungen",
-      "language": "Sprache",
-      "image": {
-        "title": "Bildeinstellungen",
-        "quality": "Bildqualität",
-        "strech_factor": "Streckfaktor",
-        "black_clipping": "Schwarzclipping"
+    }
+  },
+  "plugins": {
+    "sequenceCreator": {
+      "title": "N.I.N.A Sequenz-Editor",
+      "subtitle": "Erstelle professionelle Astrofotografie-Sequenzen",
+      "toolbar": {
+        "undo": "Rückgängig",
+        "redo": "Wiederholen",
+        "loadBasicSequence": "Basis-Sequenz Laden",
+        "clearSequence": "Sequenz leeren",
+        "saveAsDefault": "Als Standard speichern",
+        "saveAsDefaultSuccess": "Als Standard-Sequenz gespeichert!",
+        "exportSequence": "Sequenz Exportieren",
+        "sendToNina": "An N.I.N.A Senden",
+        "sending": "Wird gesendet...",
+        "sent": "Gesendet!",
+        "failed": "Fehlgeschlagen",
+        "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
+        "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
+        "validSequence": "Sequenz ist gültig und kann exportiert werden",
+        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
       },
-      "debug": {
-        "title": "Debug",
-        "activate": "Debug-Modus aktivieren"
+      "confirmations": {
+        "title": "Bestätigung",
+        "clearSequence": "Sind Sie sicher, dass Sie die gesamte Sequenz löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
+        "loadBasicSequence": "Sind Sie sicher, dass Sie die Basis-Sequenz laden möchten? Dies überschreibt die aktuelle Sequenz.",
+        "removeAction": "Aktion \"{actionName}\" entfernen?",
+        "unknownError": "Unbekannter Fehler aufgetreten",
+        "sendSequenceFailed": "Fehler beim Senden der Sequenz an N.I.N.A"
       },
-      "notifications": {
-        "title": "Benachrichtigungen"
+      "containers": {
+        "startSequence": {
+          "title": "Start-Sequenz",
+          "description": "Aktionen, die zu Beginn der Sitzung ausgeführt werden",
+          "emptyTitle": "Keine Start-Aktionen",
+          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung für die Aufnahme vorzubereiten"
+        },
+        "targetSequence": {
+          "title": "Ziel-Sequenz",
+          "description": "Haupt-Bildsequenz für Ihr Zielobjekt",
+          "emptyTitle": "Keine Ziel-Aktionen",
+          "emptyDescription": "Fügen Sie Bildaktionen für Ihr Ziel hinzu"
+        },
+        "endSequence": {
+          "title": "End-Sequenz",
+          "description": "Aktionen, die am Ende der Sitzung ausgeführt werden",
+          "emptyTitle": "Keine End-Aktionen",
+          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung sicher herunterzufahren"
+        },
+        "noActions": "Keine Aktionen",
+        "addActionsToContainer": "Aktionen zu diesem Container hinzufügen",
+        "addAction": "Aktion Hinzufügen"
       },
-      "showTutorial": "Tutorial anzeigen",
-      "plugins": {
-        "title": "Plugin-Verwaltung",
-        "description": "Installierte Plugins verwalten"
+      "actions": {
+        "disabled": "Deaktiviert",
+        "enabled": "Aktiviert",
+        "closeEditor": "Editor Schließen",
+        "editParameters": "Parameter Bearbeiten",
+        "moveUp": "Nach Oben",
+        "moveDown": "Nach Unten",
+        "disableAction": "Aktion Deaktivieren",
+        "enableAction": "Aktion Aktivieren",
+        "duplicateAction": "Aktion Duplizieren",
+        "removeAction": "Aktion Entfernen",
+        "clickToRename": "Klicken zum Umbenennen",
+        "actionParameters": "Aktions-Parameter",
+        "changesSaveAutomatically": "Änderungen werden automatisch gespeichert",
+        "min": "Min:",
+        "max": "Max:",
+        "yes": "Ja",
+        "no": "Nein",
+        "notSet": "Nicht gesetzt",
+        "noConfigurableParameters": "Diese Aktion hat keine konfigurierbaren Parameter.",
+        "actionId": "Aktions-ID",
+        "category": "Kategorie",
+        "parameters": "Parameter",
+        "unparkTelescope": {
+          "name": "Teleskop entparken",
+          "description": "Das Teleskop-Mount entparken"
+        },
+        "coolCamera": {
+          "name": "Kamera kühlen",
+          "description": "Kamera auf gewünschte Temperatur kühlen",
+          "temperatureLabel": "Temperatur (°C)",
+          "temperatureTooltip": "Zieltemperatur für die Kamerakühlung",
+          "durationLabel": "Kühldauer (Minuten)",
+          "durationTooltip": "Zeit für aktive Kühlung (0 = kühlen bis Temperatur erreicht)"
+        },
+        "targetSettings": {
+          "name": "Zieleinstellungen",
+          "description": "Zielkoordinaten und Einstellungen definieren",
+          "targetNameLabel": "Zielname",
+          "targetNameTooltip": "Name des Himmelsobjekts",
+          "raLabel": "Rektaszension",
+          "raTooltip": "RA im HH:MM:SS Format",
+          "decLabel": "Deklination",
+          "decTooltip": "Dec im DD:MM:SS Format",
+          "positionAngleLabel": "Positionswinkel (°)",
+          "positionAngleTooltip": "Kamera-Rotationswinkel"
+        },
+        "slewToTarget": {
+          "name": "Zum Ziel schwenken",
+          "description": "Zum Ziel navigieren mit verschiedenen Optionen",
+          "slewModeLabel": "Schwenkmodus",
+          "slewModeTooltip": "Wählen Sie, wie zum Ziel navigiert werden soll"
+        },
+        "runAutofocus": {
+          "name": "Autofokus starten",
+          "description": "Automatische Fokussierroutine durchführen"
+        },
+        "startGuiding": {
+          "name": "Guiding starten",
+          "description": "Autoguiding-System starten",
+          "forceCalibrationLabel": "Kalibrierung erzwingen",
+          "forceCalibrationTooltip": "Neue Guider-Kalibrierung erzwingen"
+        },
+        "smartExposure": {
+          "name": "Smart Exposure (Bildaufnahme)",
+          "description": "Intelligente Belichtungssequenz mit Dithering und Triggern",
+          "exposureTimeLabel": "Belichtungszeit (s)",
+          "exposureTimeTooltip": "Dauer jeder Belichtung",
+          "gainLabel": "Gain",
+          "gainTooltip": "Kamera-Gain-Einstellung",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Kamera-Offset-Einstellung",
+          "binningLabel": "Binning",
+          "binningTooltip": "Pixel-Binning-Modus",
+          "filterLabel": "Filter",
+          "filterTooltip": "Filterrad-Auswahl",
+          "imageTypeLabel": "Bildtyp",
+          "imageTypeTooltip": "Art der aufzunehmenden Belichtung",
+          "countLabel": "Anzahl Bilder",
+          "countTooltip": "Anzahl der aufzunehmenden Belichtungen",
+          "ditherAfterLabel": "Dithering nach N Belichtungen",
+          "ditherAfterTooltip": "Dithering-Häufigkeit"
+        },
+        "stopGuiding": {
+          "name": "Guiding stoppen",
+          "description": "Autoguiding-System stoppen"
+        },
+        "warmCamera": {
+          "name": "Kamera aufwärmen",
+          "description": "Kamera aufwärmen",
+          "durationLabel": "Aufwärmdauer (Minuten)",
+          "durationTooltip": "Zeit zum aktiven Aufwärmen der Kamera (0 = auf Umgebungstemperatur aufwärmen)"
+        },
+        "parkTelescope": {
+          "name": "Teleskop parken",
+          "description": "Das Teleskop-Mount parken"
+        }
       },
-      "system": {
-        "title": "Systemsteuerung",
-        "description": "System-Neustart und -Herunterfahren steuern",
-        "info": "Diese Aktionen betreffen das gesamte System",
-        "confirmation": "Aktion bestätigen",
-        "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
+      "actionLibrary": {
+        "title": "Aktions-Bibliothek",
+        "description": "Klicken Sie, um Aktionen zu Containern hinzuzufügen",
+        "startActions": "🚀 Start-Aktionen",
+        "targetActions": "🎯 Ziel-Aktionen",
+        "endActions": "🏁 End-Aktionen"
+      },
+      "exportModal": {
+        "title": "N.I.N.A Sequenz Exportieren",
+        "subtitle": "Ihre Sequenz ist bereit für den Export als N.I.N.A-kompatible JSON",
+        "buttons": {
+          "downloadJSON": "JSON-Datei Herunterladen",
+          "copyToClipboard": "In Zwischenablage Kopieren",
+          "copied": "Kopiert!",
+          "sendToNina": "An N.I.N.A Senden",
+          "sending": "Wird gesendet...",
+          "sent": "Gesendet!",
+          "failed": "Fehlgeschlagen"
+        },
+        "messages": {
+          "successTitle": "Erfolg:",
+          "successMessage": "Sequenz wurde erfolgreich in N.I.N.A geladen!",
+          "errorTitle": "Fehler:"
+        },
+        "jsonPreview": {
+          "title": "JSON-Vorschau",
+          "sequenceJsonExport": "Sequenz JSON Export",
+          "previewDescription": "Vorschau und Download Ihrer Sequenz als JSON-Datei",
+          "totalActions": "Gesamtaktionen",
+          "enabled": "Aktiviert",
+          "categories": "Kategorien",
+          "estimatedDuration": "Geschätzte Dauer",
+          "filenamePrompt": "Dateiname eingeben...",
+          "copyJson": "JSON Kopieren",
+          "copied": "Kopiert!",
+          "downloadJson": "JSON Herunterladen"
+        },
+        "howToUse": {
+          "title": "Verwendung:",
+          "step1": "JSON-Datei herunterladen oder kopieren, oder",
+          "step2": "Direkt an N.I.N.A senden (erfordert Verbindung), oder",
+          "step3": "Manuell in N.I.N.A importieren über Sequenz → Sequenz Laden",
+          "step4": "Geräte-spezifische Einstellungen nach Bedarf anpassen"
+        }
+      },
+      "targetSearch": {
+        "searchLabel": "Ziel Suchen",
+        "searchDescription": "Suchen Sie nach Deep-Sky-Objekten, Planeten oder Sternen und übernehmen Sie automatisch die Koordinaten",
+        "placeholder": "Objektname eingeben (z.B. M31, NGC 1234, Mars)...",
+        "objectTypes": {
+          "DSO": "Deep-Sky-Objekt",
+          "Planet": "Planet",
+          "Star": "Stern",
+          "Moon": "Mond",
+          "Comet": "Komet",
+          "StellariumObject": "Stellarium-Objekt"
+        }
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Aktivieren Sie Meridianflip"
       }
     }
   }

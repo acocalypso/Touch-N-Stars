@@ -100,17 +100,18 @@ async function slew() {
   const center = settingsStore.mount.useCenter;
   const rotate = settingsStore.mount.useRotate && store.rotatorInfo.Connected;
 
-  if (center) {
+  if (center || rotate) {
     centeringModalRef.value?.openModal();
     console.log('First: Slew to the target');
     await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
-    console.log('First debug: Slew to the target', framingStore.slewIsStopt);
     if (framingStore.slewIsStopt) return;
     console.log('Second: center the target');
     await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
+  } else {
+    console.log('Slew without centering or rotating');
+    await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
   }
 
-  await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
   emit('finished'); // Emit Event nach Erfolg
 }
 </script>

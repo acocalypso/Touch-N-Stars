@@ -9,9 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHD2 Image
 - PHD2 Starimige with starprofiel graph
 - PHD2 callibration assitant
+- When you start the app for the first time, you will be automatically redirected to the equipment page.
 
 ### Changed
 - The settings modal is now a separate page.
+- Stellaruim search improved
+- The sequence page design has been revised.
+- The iocns of the navbar are no longer dependent on the status of the sequence. 
+- Framing assistant revised
+
+### Fixed
+- Framing: The skychart and the Name is now also displayed when the coordinates come from Stellarium.
 
 ## [1.1.0.0] - 2025-07-25
 ### Added

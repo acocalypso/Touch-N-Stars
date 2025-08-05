@@ -1,6 +1,6 @@
-// Import an SVG component instead of HeroIcons
-import BathinovIcon from './components/BathinovIcon.vue';
-import BathinovAnalyzerView from './views/BathinovAnalyzerView.vue';
+import { h, markRaw } from 'vue';
+import DefaultPluginView from './views/DefaultPluginView.vue';
+import SequenceIcons from './components/SequenceIcons.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
 
@@ -47,7 +47,7 @@ export default {
       // Register route with generic plugin path
       router.addRoute({
         path: pluginPath,
-        component: BathinovAnalyzerView,
+        component: DefaultPluginView,
         meta: { requiresSetup: true },
       });
 
@@ -56,12 +56,20 @@ export default {
         pluginStore.addNavigationItem({
           pluginId: metadata.id,
           path: pluginPath,
-          icon: BathinovIcon, // Use the SVG component as the icon
+          // Sequence creator icon using SequenceIcons component
+          icon: markRaw({
+            render() {
+              return h(SequenceIcons, {
+                name: 'list-with-pencil',
+                className: 'w-6 h-6',
+              });
+            },
+          }),
           title: metadata.name,
         });
       }
     } catch (error) {
-      console.error('Error installing bathinov-analyzer plugin:', error);
+      console.error('Error installing sequence-creator plugin:', error);
     }
   },
 };

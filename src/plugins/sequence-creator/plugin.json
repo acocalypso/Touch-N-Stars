@@ -1,0 +1,9 @@
+{
+  "id": "sequence-creator",
+  "name": "Sequence Creator",
+  "description": "Modern sequence editor for astrophotography automation, inspired by N.I.N.A sequences",
+  "version": "1.0.0",
+  "author": "Aco",
+  "defaultEnabled": true,
+  "enabled": true
+}

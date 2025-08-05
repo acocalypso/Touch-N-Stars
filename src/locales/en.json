@@ -716,8 +716,6 @@
       "close": "Close",
       "resetConfirm": "Are you sure you want to reset all webcam settings?",
       "liveView": "Live View",
-      "welcome": "Welcome to the Webcam Plugin!",
-      "description": "Display an image from a webcam",
       "noImageAvailable": "No image available",
       "configureUrl": "Configure snapshot URL and fetch image",
       "loadingImage": "Loading image...",

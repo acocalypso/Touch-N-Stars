@@ -47,8 +47,6 @@
       "close": "Schließen",
       "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam-Einstellungen zurücksetzen möchten?",
       "liveView": "Live-Ansicht",
-      "welcome": "Willkommen beim Webcam-Plugin!",
-      "description": "Zur Anzeige eines Bildes von einer Webcam",
       "noImageAvailable": "Kein Bild verfügbar",
       "configureUrl": "Snapshot-URL konfigurieren und Bild abrufen",
       "loadingImage": "Lade Bild...",

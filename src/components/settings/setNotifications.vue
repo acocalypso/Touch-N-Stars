@@ -84,7 +84,10 @@ function handlePermissionResult(granted) {
     // Send a test notification to confirm it's working
     notificationService.sendNotification(
       'Notifications Enabled',
-      'You will now receive notifications for sequence events'
+      'You will now receive notifications for sequence events',
+      Math.floor(Math.random() * 10000),
+      'sequence-events',
+      'default'
     );
   }
 }

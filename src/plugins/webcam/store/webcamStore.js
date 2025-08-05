@@ -44,7 +44,7 @@ export const useWebcamStore = defineStore('webcamStore', {
     updateRefreshInterval(interval) {
       this.refreshInterval = Math.max(500, interval); // minimum 500ms
       this.saveToLocalStorage();
-      
+
       // Restart auto refresh with new interval if it's currently active
       if (this.autoRefresh) {
         this.startAutoRefresh();

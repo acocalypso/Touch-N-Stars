@@ -113,16 +113,10 @@
 
       <!-- Footer -->
       <div class="flex justify-end gap-2 p-4 border-t border-gray-700">
-        <button
-          @click="resetSettings"
-          class="default-button-red"
-        >
+        <button @click="resetSettings" class="default-button-red">
           {{ t('plugins.webcam.reset') }}
         </button>
-        <button
-          @click="closeModal"
-          class="default-button-blue"
-        >
+        <button @click="closeModal" class="default-button-blue">
           {{ t('plugins.webcam.close') }}
         </button>
       </div>
@@ -135,7 +129,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useWebcamStore } from '../store/webcamStore.js';
 
-const props = defineProps({
+defineProps({
   isOpen: {
     type: Boolean,
     required: true,

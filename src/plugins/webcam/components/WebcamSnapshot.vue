@@ -66,19 +66,25 @@
 
     <!-- Controls -->
     <div class="mt-4 flex gap-2">
-
       <button
         @click="toggleAutoRefresh"
         :disabled="!webcamStore.isValid"
         class="w-12 h-12"
         :class="webcamStore.autoRefresh ? 'default-button-red' : 'default-button-green'"
-        :title="webcamStore.autoRefresh ? t('plugins.webcam.stopAuto') : t('plugins.webcam.startAuto')"
+        :title="
+          webcamStore.autoRefresh ? t('plugins.webcam.stopAuto') : t('plugins.webcam.startAuto')
+        "
       >
-        <svg v-if="!webcamStore.autoRefresh" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M8 5v14l11-7z"/>
+        <svg
+          v-if="!webcamStore.autoRefresh"
+          class="w-5 h-5"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path d="M8 5v14l11-7z" />
         </svg>
         <svg v-else class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
         </svg>
       </button>
 
@@ -118,10 +124,6 @@ import WebcamSettingsModal from './WebcamSettingsModal.vue';
 const { t } = useI18n();
 const webcamStore = useWebcamStore();
 const showSettingsModal = ref(false);
-
-const refreshImage = () => {
-  webcamStore.refreshSnapshot();
-};
 
 const openSettings = () => {
   showSettingsModal.value = true;

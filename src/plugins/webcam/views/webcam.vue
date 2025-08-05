@@ -4,7 +4,6 @@
       <h5 class="text-2xl text-center font-bold text-white mb-4">Webcam</h5>
 
       <div class="flex flex-col space-y-4">
-
         <!-- Webcam Snapshot Display -->
         <div
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"

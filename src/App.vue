@@ -52,7 +52,6 @@
 
           <h1 class="text-5xl text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
           <img class="mt-5" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />
-
         </div>
       </Transition>
 

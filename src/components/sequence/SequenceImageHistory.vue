@@ -117,7 +117,7 @@ onMounted(async () => {
   for (const imageIndex in store.imageHistoryInfo) {
     const image = await sequenceStore.getThumbnailByIndex(imageIndex);
     const stats = store.imageHistoryInfo[imageIndex];
-    addImageToHistory(imageIndex, image, stats);
+    addImageToHistory(Number(imageIndex), image, stats);
   }
 });
 </script>

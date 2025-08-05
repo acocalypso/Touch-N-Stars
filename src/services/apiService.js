@@ -441,9 +441,11 @@ const apiService = {
           scale: scale,
           autoPrepare: true,
           imageType: imageType,
+          stream: true,
         },
+        responseType: 'blob',
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error('Error read Image :', error);
       throw error;

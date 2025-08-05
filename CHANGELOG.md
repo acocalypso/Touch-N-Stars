@@ -4,11 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1.0] - 2025-07-25
+## [1.1.1.0] - 2025-08-05
 ### Added
-- PHD2 Image
+- PHD2 image similar to PHD2 with guide star marker
 - PHD2 Starimige with starprofiel graph
 - PHD2 callibration assitant
+- Plugin: Sequence Creator for simple sequences added
+- Plugin: Webcam viewer
 - When you start the app for the first time, you will be automatically redirected to the equipment page.
 
 ### Changed

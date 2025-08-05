@@ -53,13 +53,6 @@
           <h1 class="text-5xl text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
           <img class="mt-5" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />
 
-          <!-- Debug Info -->
-          <div v-if="settingsStore.showDebugConsole" class="mt-4 text-xs text-gray-400">
-            <p>showSplashScreen: {{ showSplashScreen }}</p>
-            <p>isBackendReachable: {{ store.isBackendReachable }}</p>
-            <p>connectionCheckCompleted: {{ connectionCheckCompleted }}</p>
-            <p>route.path: {{ $route.path }}</p>
-          </div>
         </div>
       </Transition>
 

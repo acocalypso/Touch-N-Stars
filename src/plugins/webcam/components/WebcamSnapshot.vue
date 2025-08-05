@@ -65,50 +65,29 @@
     </div>
 
     <!-- Controls -->
-    <div v-if="webcamStore.showControls" class="mt-4 flex flex-wrap gap-2">
-      <button
-        v-if="!webcamStore.autoRefresh"
-        @click="refreshImage"
-        :disabled="webcamStore.isLoading || !webcamStore.isValid"
-        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center gap-2"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-          ></path>
-        </svg>
-        {{ t('plugins.webcam.refresh') }}
-      </button>
+    <div class="mt-4 flex gap-2">
 
       <button
         @click="toggleAutoRefresh"
         :disabled="!webcamStore.isValid"
-        class="px-4 py-2 rounded-md flex items-center gap-2"
-        :class="
-          webcamStore.autoRefresh
-            ? 'bg-green-600 text-white hover:bg-green-700'
-            : 'bg-gray-600 text-white hover:bg-gray-700'
-        "
+        class="w-12 h-12"
+        :class="webcamStore.autoRefresh ? 'default-button-red' : 'default-button-green'"
+        :title="webcamStore.autoRefresh ? t('plugins.webcam.stopAuto') : t('plugins.webcam.startAuto')"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h1m4 0h1"
-          ></path>
+        <svg v-if="!webcamStore.autoRefresh" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
         </svg>
-        {{ webcamStore.autoRefresh ? t('plugins.webcam.stopAuto') : t('plugins.webcam.startAuto') }}
+        <svg v-else class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+        </svg>
       </button>
 
       <button
         @click="openSettings"
-        class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 flex items-center gap-2"
+        class="w-12 h-12 default-button-gray"
+        :title="t('plugins.webcam.settings')"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -122,7 +101,6 @@
             d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
           ></path>
         </svg>
-        {{ t('plugins.webcam.settings') }}
       </button>
     </div>
 

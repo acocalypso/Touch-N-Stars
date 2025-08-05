@@ -7,7 +7,6 @@ export const useWebcamStore = defineStore('webcamStore', {
     refreshInterval: 1000, // in milliseconds
 
     // Display settings
-    showControls: true,
     autoRefresh: false,
 
     // Image settings
@@ -45,12 +44,14 @@ export const useWebcamStore = defineStore('webcamStore', {
     updateRefreshInterval(interval) {
       this.refreshInterval = Math.max(500, interval); // minimum 500ms
       this.saveToLocalStorage();
+      
+      // Restart auto refresh with new interval if it's currently active
+      if (this.autoRefresh) {
+        this.startAutoRefresh();
+      }
     },
 
     updateDisplaySettings(settings) {
-      if (settings.showControls !== undefined) {
-        this.showControls = settings.showControls;
-      }
       if (settings.autoRefresh !== undefined) {
         this.autoRefresh = settings.autoRefresh;
       }
@@ -127,7 +128,10 @@ export const useWebcamStore = defineStore('webcamStore', {
     onNextImageError(error) {
       this.nextImageUrl = null;
       this.isLoading = false;
-      this.setConnectionStatus(false, 'Failed to load next webcam image');
+      // Keep connection status as connected if we have a current image
+      if (!this.currentImageUrl) {
+        this.setConnectionStatus(false, 'Failed to load next webcam image');
+      }
       console.error('Next webcam image load error:', error);
     },
 
@@ -156,7 +160,6 @@ export const useWebcamStore = defineStore('webcamStore', {
           const settings = JSON.parse(saved);
           this.snapshotUrl = settings.snapshotUrl || '';
           this.refreshInterval = settings.refreshInterval || 1000;
-          this.showControls = settings.showControls !== undefined ? settings.showControls : true;
           this.autoRefresh = settings.autoRefresh !== undefined ? settings.autoRefresh : false;
           this.imageQuality = settings.imageQuality || 'medium';
           this.imageWidth = settings.imageWidth || 640;
@@ -171,7 +174,6 @@ export const useWebcamStore = defineStore('webcamStore', {
       const settings = {
         snapshotUrl: this.snapshotUrl,
         refreshInterval: this.refreshInterval,
-        showControls: this.showControls,
         autoRefresh: this.autoRefresh,
         imageQuality: this.imageQuality,
         imageWidth: this.imageWidth,
@@ -189,7 +191,6 @@ export const useWebcamStore = defineStore('webcamStore', {
       this.stopAutoRefresh();
       this.snapshotUrl = '';
       this.refreshInterval = 1000;
-      this.showControls = true;
       this.autoRefresh = false;
       this.imageQuality = 'medium';
       this.imageWidth = 640;

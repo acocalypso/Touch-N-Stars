@@ -83,16 +83,6 @@
 
           <label class="flex items-center">
             <input
-              v-model="webcamStore.showControls"
-              type="checkbox"
-              class="mr-2 rounded"
-              @change="webcamStore.updateDisplaySettings({ showControls: $event.target.checked })"
-            />
-            <span class="text-gray-300">{{ t('plugins.webcam.showControls') }}</span>
-          </label>
-
-          <label class="flex items-center">
-            <input
               v-model="webcamStore.autoRefresh"
               type="checkbox"
               class="mr-2 rounded"
@@ -125,13 +115,13 @@
       <div class="flex justify-end gap-2 p-4 border-t border-gray-700">
         <button
           @click="resetSettings"
-          class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+          class="default-button-red"
         >
           {{ t('plugins.webcam.reset') }}
         </button>
         <button
           @click="closeModal"
-          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          class="default-button-blue"
         >
           {{ t('plugins.webcam.close') }}
         </button>

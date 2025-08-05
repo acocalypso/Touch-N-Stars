@@ -35,7 +35,7 @@
         <LastImage />
       </div>
     </div>
-    
+
     <div class="p-10"></div>
   </div>
 </template>

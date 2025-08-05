@@ -24,6 +24,250 @@
       "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
     }
   },
+  "plugins": {
+    "sequenceCreator": {
+      "title": "N.I.N.A Sequenz-Editor",
+      "subtitle": "Erstelle professionelle Astrofotografie-Sequenzen",
+      "toolbar": {
+        "undo": "Rückgängig",
+        "redo": "Wiederholen",
+        "loadBasicSequence": "Basis-Sequenz Laden",
+        "clearSequence": "Sequenz leeren",
+        "saveAsDefault": "Als Standard speichern",
+        "saveAsDefaultSuccess": "Als Standard-Sequenz gespeichert!",
+        "exportSequence": "Sequenz Exportieren",
+        "sendToNina": "An N.I.N.A Senden",
+        "sending": "Wird gesendet...",
+        "sent": "Gesendet!",
+        "failed": "Fehlgeschlagen",
+        "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
+        "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
+        "validSequence": "Sequenz ist gültig und kann exportiert werden",
+        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
+      },
+      "confirmations": {
+        "title": "Bestätigung",
+        "clearSequence": "Sind Sie sicher, dass Sie die gesamte Sequenz löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
+        "loadBasicSequence": "Sind Sie sicher, dass Sie die Basis-Sequenz laden möchten? Dies überschreibt die aktuelle Sequenz.",
+        "removeAction": "Aktion \"{actionName}\" entfernen?",
+        "unknownError": "Unbekannter Fehler aufgetreten",
+        "sendSequenceFailed": "Fehler beim Senden der Sequenz an N.I.N.A"
+      },
+      "containers": {
+        "startSequence": {
+          "title": "Start-Sequenz",
+          "description": "Aktionen, die zu Beginn der Sitzung ausgeführt werden",
+          "emptyTitle": "Keine Start-Aktionen",
+          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung für die Aufnahme vorzubereiten"
+        },
+        "targetSequence": {
+          "title": "Ziel-Sequenz",
+          "description": "Haupt-Bildsequenz für Ihr Zielobjekt",
+          "emptyTitle": "Keine Ziel-Aktionen",
+          "emptyDescription": "Fügen Sie Bildaktionen für Ihr Ziel hinzu"
+        },
+        "endSequence": {
+          "title": "End-Sequenz",
+          "description": "Aktionen, die am Ende der Sitzung ausgeführt werden",
+          "emptyTitle": "Keine End-Aktionen",
+          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung sicher herunterzufahren"
+        },
+        "noActions": "Keine Aktionen",
+        "addActionsToContainer": "Aktionen zu diesem Container hinzufügen",
+        "addAction": "Aktion Hinzufügen"
+      },
+      "actions": {
+        "disabled": "Deaktiviert",
+        "enabled": "Aktiviert",
+        "closeEditor": "Editor Schließen",
+        "editParameters": "Parameter Bearbeiten",
+        "moveUp": "Nach Oben",
+        "moveDown": "Nach Unten",
+        "disableAction": "Aktion Deaktivieren",
+        "enableAction": "Aktion Aktivieren",
+        "duplicateAction": "Aktion Duplizieren",
+        "removeAction": "Aktion Entfernen",
+        "clickToRename": "Klicken zum Umbenennen",
+        "actionParameters": "Aktions-Parameter",
+        "changesSaveAutomatically": "Änderungen werden automatisch gespeichert",
+        "min": "Min:",
+        "max": "Max:",
+        "yes": "Ja",
+        "no": "Nein",
+        "notSet": "Nicht gesetzt",
+        "noConfigurableParameters": "Diese Aktion hat keine konfigurierbaren Parameter.",
+        "actionId": "Aktions-ID",
+        "category": "Kategorie",
+        "parameters": "Parameter",
+        "unparkTelescope": {
+          "name": "Teleskop entparken",
+          "description": "Das Teleskop-Mount entparken"
+        },
+        "coolCamera": {
+          "name": "Kamera kühlen",
+          "description": "Kamera auf gewünschte Temperatur kühlen",
+          "temperatureLabel": "Temperatur (°C)",
+          "temperatureTooltip": "Zieltemperatur für die Kamerakühlung",
+          "durationLabel": "Kühldauer (Minuten)",
+          "durationTooltip": "Zeit für aktive Kühlung (0 = kühlen bis Temperatur erreicht)"
+        },
+        "targetSettings": {
+          "name": "Zieleinstellungen",
+          "description": "Zielkoordinaten und Einstellungen definieren",
+          "targetNameLabel": "Zielname",
+          "targetNameTooltip": "Name des Himmelsobjekts",
+          "raLabel": "Rektaszension",
+          "raTooltip": "RA im HH:MM:SS Format",
+          "decLabel": "Deklination",
+          "decTooltip": "Dec im DD:MM:SS Format",
+          "positionAngleLabel": "Positionswinkel (°)",
+          "positionAngleTooltip": "Kamera-Rotationswinkel"
+        },
+        "slewToTarget": {
+          "name": "Zum Ziel schwenken",
+          "description": "Zum Ziel navigieren mit verschiedenen Optionen",
+          "slewModeLabel": "Schwenkmodus",
+          "slewModeTooltip": "Wählen Sie, wie zum Ziel navigiert werden soll"
+        },
+        "runAutofocus": {
+          "name": "Autofokus starten",
+          "description": "Automatische Fokussierroutine durchführen"
+        },
+        "startGuiding": {
+          "name": "Guiding starten",
+          "description": "Autoguiding-System starten",
+          "forceCalibrationLabel": "Kalibrierung erzwingen",
+          "forceCalibrationTooltip": "Neue Guider-Kalibrierung erzwingen"
+        },
+        "smartExposure": {
+          "name": "Smart Exposure (Bildaufnahme)",
+          "description": "Intelligente Belichtungssequenz mit Dithering und Triggern",
+          "exposureTimeLabel": "Belichtungszeit (s)",
+          "exposureTimeTooltip": "Dauer jeder Belichtung",
+          "gainLabel": "Gain",
+          "gainTooltip": "Kamera-Gain-Einstellung",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Kamera-Offset-Einstellung",
+          "binningLabel": "Binning",
+          "binningTooltip": "Pixel-Binning-Modus",
+          "filterLabel": "Filter",
+          "filterTooltip": "Filterrad-Auswahl",
+          "imageTypeLabel": "Bildtyp",
+          "imageTypeTooltip": "Art der aufzunehmenden Belichtung",
+          "countLabel": "Anzahl Bilder",
+          "countTooltip": "Anzahl der aufzunehmenden Belichtungen",
+          "ditherAfterLabel": "Dithering nach N Belichtungen",
+          "ditherAfterTooltip": "Dithering-Häufigkeit"
+        },
+        "stopGuiding": {
+          "name": "Guiding stoppen",
+          "description": "Autoguiding-System stoppen"
+        },
+        "warmCamera": {
+          "name": "Kamera aufwärmen",
+          "description": "Kamera aufwärmen",
+          "durationLabel": "Aufwärmdauer (Minuten)",
+          "durationTooltip": "Zeit zum aktiven Aufwärmen der Kamera (0 = auf Umgebungstemperatur aufwärmen)"
+        },
+        "parkTelescope": {
+          "name": "Teleskop parken",
+          "description": "Das Teleskop-Mount parken"
+        }
+      },
+      "actionLibrary": {
+        "title": "Aktions-Bibliothek",
+        "description": "Klicken Sie, um Aktionen zu Containern hinzuzufügen",
+        "startActions": "🚀 Start-Aktionen",
+        "targetActions": "🎯 Ziel-Aktionen",
+        "endActions": "🏁 End-Aktionen"
+      },
+      "exportModal": {
+        "title": "N.I.N.A Sequenz Exportieren",
+        "subtitle": "Ihre Sequenz ist bereit für den Export als N.I.N.A-kompatible JSON",
+        "buttons": {
+          "downloadJSON": "JSON-Datei Herunterladen",
+          "copyToClipboard": "In Zwischenablage Kopieren",
+          "copied": "Kopiert!",
+          "sendToNina": "An N.I.N.A Senden",
+          "sending": "Wird gesendet...",
+          "sent": "Gesendet!",
+          "failed": "Fehlgeschlagen"
+        },
+        "messages": {
+          "successTitle": "Erfolg:",
+          "successMessage": "Sequenz wurde erfolgreich in N.I.N.A geladen!",
+          "errorTitle": "Fehler:"
+        },
+        "jsonPreview": {
+          "title": "JSON-Vorschau",
+          "sequenceJsonExport": "Sequenz JSON Export",
+          "previewDescription": "Vorschau und Download Ihrer Sequenz als JSON-Datei",
+          "totalActions": "Gesamtaktionen",
+          "enabled": "Aktiviert",
+          "categories": "Kategorien",
+          "estimatedDuration": "Geschätzte Dauer",
+          "filenamePrompt": "Dateiname eingeben...",
+          "copyJson": "JSON Kopieren",
+          "copied": "Kopiert!",
+          "downloadJson": "JSON Herunterladen"
+        },
+        "howToUse": {
+          "title": "Verwendung:",
+          "step1": "JSON-Datei herunterladen oder kopieren, oder",
+          "step2": "Direkt an N.I.N.A senden (erfordert Verbindung), oder",
+          "step3": "Manuell in N.I.N.A importieren über Sequenz → Sequenz Laden",
+          "step4": "Geräte-spezifische Einstellungen nach Bedarf anpassen"
+        }
+      },
+      "targetSearch": {
+        "searchLabel": "Ziel Suchen",
+        "searchDescription": "Suchen Sie nach Deep-Sky-Objekten, Planeten oder Sternen und übernehmen Sie automatisch die Koordinaten",
+        "placeholder": "Objektname eingeben (z.B. M31, NGC 1234, Mars)...",
+        "objectTypes": {
+          "DSO": "Deep-Sky-Objekt",
+          "Planet": "Planet",
+          "Star": "Stern",
+          "Moon": "Mond",
+          "Comet": "Komet",
+          "StellariumObject": "Stellarium-Objekt"
+        }
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Aktivieren Sie Meridianflip"
+      }
+    },
+    "webcam": {
+      "close": "Schließen",
+      "configureUrl": "Konfigurieren Sie die Snapshot -URL und abrufen Bild",
+      "connected": "Verbunden",
+      "disconnected": "Getrennt",
+      "displayOptions": "Anzeigenoptionen",
+      "error": "Fehler",
+      "lastUpdate": "Letztes Update",
+      "liveView": "Live View",
+      "loadingImage": "Bild laden ...",
+      "noImageAvailable": "Kein Bild verfügbar",
+      "refresh": "Aktualisieren",
+      "refreshInterval": "Aktualisierungsintervall",
+      "reset": "Zurücksetzen",
+      "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam -Einstellungen zurücksetzen möchten?",
+      "snapshotUrlDescription": "Eine Snapshot -URL ist ein direkter Link zu einem einzelnen Bild von Ihrer Webcam/IP -Kamera. \nDiese URL sollte ein JPEG/PNG -Bild direkt zurückgeben, nicht eine HTML -Seite oder ein Stream.",
+      "snapshotUrl": "Snapshot -URL",
+      "settings": "Einstellungen",
+      "snapshotUrlExamples": "Beispiele:",
+      "startAuto": "Automatisch starten",
+      "status": "Status",
+      "stopAuto": "STOPT AUTO",
+      "title": "Webcam -Einstellungen",
+      "autoRefresh": "Automatische Aktualisierung",
+      "errors": {
+        "noUrl": "Keine Snapshot -URL konfiguriert",
+        "failedToLoad": "Das Webcam -Bild lädt nicht"
+      }
+    }
+  },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
     "description": "Lass uns mit einer kurzen Einrichtung beginnen",
@@ -691,221 +935,6 @@
       "modal": {
         "description": "Bitte erteilen Sie die Erlaubnis, Benachrichtigungen über Sequenzereignisse zu erhalten.",
         "title": "Benachrichtigungen konfigurieren"
-      }
-    }
-  },
-  "plugins": {
-    "sequenceCreator": {
-      "title": "N.I.N.A Sequenz-Editor",
-      "subtitle": "Erstelle professionelle Astrofotografie-Sequenzen",
-      "toolbar": {
-        "undo": "Rückgängig",
-        "redo": "Wiederholen",
-        "loadBasicSequence": "Basis-Sequenz Laden",
-        "clearSequence": "Sequenz leeren",
-        "saveAsDefault": "Als Standard speichern",
-        "saveAsDefaultSuccess": "Als Standard-Sequenz gespeichert!",
-        "exportSequence": "Sequenz Exportieren",
-        "sendToNina": "An N.I.N.A Senden",
-        "sending": "Wird gesendet...",
-        "sent": "Gesendet!",
-        "failed": "Fehlgeschlagen",
-        "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
-        "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
-        "validSequence": "Sequenz ist gültig und kann exportiert werden",
-        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
-      },
-      "confirmations": {
-        "title": "Bestätigung",
-        "clearSequence": "Sind Sie sicher, dass Sie die gesamte Sequenz löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
-        "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
-        "loadBasicSequence": "Sind Sie sicher, dass Sie die Basis-Sequenz laden möchten? Dies überschreibt die aktuelle Sequenz.",
-        "removeAction": "Aktion \"{actionName}\" entfernen?",
-        "unknownError": "Unbekannter Fehler aufgetreten",
-        "sendSequenceFailed": "Fehler beim Senden der Sequenz an N.I.N.A"
-      },
-      "containers": {
-        "startSequence": {
-          "title": "Start-Sequenz",
-          "description": "Aktionen, die zu Beginn der Sitzung ausgeführt werden",
-          "emptyTitle": "Keine Start-Aktionen",
-          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung für die Aufnahme vorzubereiten"
-        },
-        "targetSequence": {
-          "title": "Ziel-Sequenz",
-          "description": "Haupt-Bildsequenz für Ihr Zielobjekt",
-          "emptyTitle": "Keine Ziel-Aktionen",
-          "emptyDescription": "Fügen Sie Bildaktionen für Ihr Ziel hinzu"
-        },
-        "endSequence": {
-          "title": "End-Sequenz",
-          "description": "Aktionen, die am Ende der Sitzung ausgeführt werden",
-          "emptyTitle": "Keine End-Aktionen",
-          "emptyDescription": "Fügen Sie Aktionen hinzu, um Ihre Ausrüstung sicher herunterzufahren"
-        },
-        "noActions": "Keine Aktionen",
-        "addActionsToContainer": "Aktionen zu diesem Container hinzufügen",
-        "addAction": "Aktion Hinzufügen"
-      },
-      "actions": {
-        "disabled": "Deaktiviert",
-        "enabled": "Aktiviert",
-        "closeEditor": "Editor Schließen",
-        "editParameters": "Parameter Bearbeiten",
-        "moveUp": "Nach Oben",
-        "moveDown": "Nach Unten",
-        "disableAction": "Aktion Deaktivieren",
-        "enableAction": "Aktion Aktivieren",
-        "duplicateAction": "Aktion Duplizieren",
-        "removeAction": "Aktion Entfernen",
-        "clickToRename": "Klicken zum Umbenennen",
-        "actionParameters": "Aktions-Parameter",
-        "changesSaveAutomatically": "Änderungen werden automatisch gespeichert",
-        "min": "Min:",
-        "max": "Max:",
-        "yes": "Ja",
-        "no": "Nein",
-        "notSet": "Nicht gesetzt",
-        "noConfigurableParameters": "Diese Aktion hat keine konfigurierbaren Parameter.",
-        "actionId": "Aktions-ID",
-        "category": "Kategorie",
-        "parameters": "Parameter",
-        "unparkTelescope": {
-          "name": "Teleskop entparken",
-          "description": "Das Teleskop-Mount entparken"
-        },
-        "coolCamera": {
-          "name": "Kamera kühlen",
-          "description": "Kamera auf gewünschte Temperatur kühlen",
-          "temperatureLabel": "Temperatur (°C)",
-          "temperatureTooltip": "Zieltemperatur für die Kamerakühlung",
-          "durationLabel": "Kühldauer (Minuten)",
-          "durationTooltip": "Zeit für aktive Kühlung (0 = kühlen bis Temperatur erreicht)"
-        },
-        "targetSettings": {
-          "name": "Zieleinstellungen",
-          "description": "Zielkoordinaten und Einstellungen definieren",
-          "targetNameLabel": "Zielname",
-          "targetNameTooltip": "Name des Himmelsobjekts",
-          "raLabel": "Rektaszension",
-          "raTooltip": "RA im HH:MM:SS Format",
-          "decLabel": "Deklination",
-          "decTooltip": "Dec im DD:MM:SS Format",
-          "positionAngleLabel": "Positionswinkel (°)",
-          "positionAngleTooltip": "Kamera-Rotationswinkel"
-        },
-        "slewToTarget": {
-          "name": "Zum Ziel schwenken",
-          "description": "Zum Ziel navigieren mit verschiedenen Optionen",
-          "slewModeLabel": "Schwenkmodus",
-          "slewModeTooltip": "Wählen Sie, wie zum Ziel navigiert werden soll"
-        },
-        "runAutofocus": {
-          "name": "Autofokus starten",
-          "description": "Automatische Fokussierroutine durchführen"
-        },
-        "startGuiding": {
-          "name": "Guiding starten",
-          "description": "Autoguiding-System starten",
-          "forceCalibrationLabel": "Kalibrierung erzwingen",
-          "forceCalibrationTooltip": "Neue Guider-Kalibrierung erzwingen"
-        },
-        "smartExposure": {
-          "name": "Smart Exposure (Bildaufnahme)",
-          "description": "Intelligente Belichtungssequenz mit Dithering und Triggern",
-          "exposureTimeLabel": "Belichtungszeit (s)",
-          "exposureTimeTooltip": "Dauer jeder Belichtung",
-          "gainLabel": "Gain",
-          "gainTooltip": "Kamera-Gain-Einstellung",
-          "offsetLabel": "Offset",
-          "offsetTooltip": "Kamera-Offset-Einstellung",
-          "binningLabel": "Binning",
-          "binningTooltip": "Pixel-Binning-Modus",
-          "filterLabel": "Filter",
-          "filterTooltip": "Filterrad-Auswahl",
-          "imageTypeLabel": "Bildtyp",
-          "imageTypeTooltip": "Art der aufzunehmenden Belichtung",
-          "countLabel": "Anzahl Bilder",
-          "countTooltip": "Anzahl der aufzunehmenden Belichtungen",
-          "ditherAfterLabel": "Dithering nach N Belichtungen",
-          "ditherAfterTooltip": "Dithering-Häufigkeit"
-        },
-        "stopGuiding": {
-          "name": "Guiding stoppen",
-          "description": "Autoguiding-System stoppen"
-        },
-        "warmCamera": {
-          "name": "Kamera aufwärmen",
-          "description": "Kamera aufwärmen",
-          "durationLabel": "Aufwärmdauer (Minuten)",
-          "durationTooltip": "Zeit zum aktiven Aufwärmen der Kamera (0 = auf Umgebungstemperatur aufwärmen)"
-        },
-        "parkTelescope": {
-          "name": "Teleskop parken",
-          "description": "Das Teleskop-Mount parken"
-        }
-      },
-      "actionLibrary": {
-        "title": "Aktions-Bibliothek",
-        "description": "Klicken Sie, um Aktionen zu Containern hinzuzufügen",
-        "startActions": "🚀 Start-Aktionen",
-        "targetActions": "🎯 Ziel-Aktionen",
-        "endActions": "🏁 End-Aktionen"
-      },
-      "exportModal": {
-        "title": "N.I.N.A Sequenz Exportieren",
-        "subtitle": "Ihre Sequenz ist bereit für den Export als N.I.N.A-kompatible JSON",
-        "buttons": {
-          "downloadJSON": "JSON-Datei Herunterladen",
-          "copyToClipboard": "In Zwischenablage Kopieren",
-          "copied": "Kopiert!",
-          "sendToNina": "An N.I.N.A Senden",
-          "sending": "Wird gesendet...",
-          "sent": "Gesendet!",
-          "failed": "Fehlgeschlagen"
-        },
-        "messages": {
-          "successTitle": "Erfolg:",
-          "successMessage": "Sequenz wurde erfolgreich in N.I.N.A geladen!",
-          "errorTitle": "Fehler:"
-        },
-        "jsonPreview": {
-          "title": "JSON-Vorschau",
-          "sequenceJsonExport": "Sequenz JSON Export",
-          "previewDescription": "Vorschau und Download Ihrer Sequenz als JSON-Datei",
-          "totalActions": "Gesamtaktionen",
-          "enabled": "Aktiviert",
-          "categories": "Kategorien",
-          "estimatedDuration": "Geschätzte Dauer",
-          "filenamePrompt": "Dateiname eingeben...",
-          "copyJson": "JSON Kopieren",
-          "copied": "Kopiert!",
-          "downloadJson": "JSON Herunterladen"
-        },
-        "howToUse": {
-          "title": "Verwendung:",
-          "step1": "JSON-Datei herunterladen oder kopieren, oder",
-          "step2": "Direkt an N.I.N.A senden (erfordert Verbindung), oder",
-          "step3": "Manuell in N.I.N.A importieren über Sequenz → Sequenz Laden",
-          "step4": "Geräte-spezifische Einstellungen nach Bedarf anpassen"
-        }
-      },
-      "targetSearch": {
-        "searchLabel": "Ziel Suchen",
-        "searchDescription": "Suchen Sie nach Deep-Sky-Objekten, Planeten oder Sternen und übernehmen Sie automatisch die Koordinaten",
-        "placeholder": "Objektname eingeben (z.B. M31, NGC 1234, Mars)...",
-        "objectTypes": {
-          "DSO": "Deep-Sky-Objekt",
-          "Planet": "Planet",
-          "Star": "Stern",
-          "Moon": "Mond",
-          "Comet": "Komet",
-          "StellariumObject": "Stellarium-Objekt"
-        }
-      },
-      "settings": {
-        "title": "Meridianflip",
-        "enableMeridianFlip": "Aktivieren Sie Meridianflip"
       }
     }
   }

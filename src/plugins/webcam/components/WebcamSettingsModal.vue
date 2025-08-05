@@ -1,0 +1,174 @@
+<template>
+  <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black bg-opacity-50" @click="closeModal"></div>
+
+    <!-- Modal -->
+    <div
+      class="relative bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg shadow-lg w-full max-w-md mx-4 border border-gray-700"
+    >
+      <!-- Header -->
+      <div class="flex items-center justify-between p-4 border-b border-gray-700">
+        <h3 class="text-lg font-semibold text-white">{{ t('plugins.webcam.title') }}</h3>
+        <button @click="closeModal" class="text-gray-400 hover:text-white">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-4 space-y-4">
+        <!-- Snapshot URL -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">{{
+            t('plugins.webcam.snapshotUrl')
+          }}</label>
+          <input
+            v-model="webcamStore.snapshotUrl"
+            type="url"
+            placeholder="http://example.com/webcam/snapshot.jpg"
+            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            @input="webcamStore.updateSnapshotUrl($event.target.value)"
+          />
+          <p class="text-xs text-gray-400 mt-1">
+            {{ t('plugins.webcam.snapshotUrlDescription') }}
+          </p>
+          <p class="text-xs text-gray-400 mt-1">
+            <strong>{{ t('plugins.webcam.snapshotUrlExamples') }}</strong
+            ><br />
+            • IP-Kamera:
+            <code class="bg-gray-600 px-1 rounded">http://192.168.1.100/snapshot.jpg</code><br />
+            • ONVIF-Kamera:
+            <code class="bg-gray-600 px-1 rounded"
+              >http://192.168.1.100/onvif-http/snapshot?Profile_1</code
+            ><br />
+            • Axis-Kamera:
+            <code class="bg-gray-600 px-1 rounded"
+              >http://192.168.1.100/axis-cgi/jpg/image.cgi</code
+            >
+          </p>
+        </div>
+
+        <!-- Refresh Interval -->
+        <div>
+          <label class="block text-sm font-medium text-gray-300 mb-2">
+            {{ t('plugins.webcam.refreshInterval') }} ({{ webcamStore.refreshIntervalSeconds }}s)
+          </label>
+          <input
+            :value="webcamStore.refreshInterval"
+            type="range"
+            min="500"
+            max="10000"
+            step="500"
+            class="w-full"
+            @input="webcamStore.updateRefreshInterval(parseInt($event.target.value))"
+          />
+          <div class="flex justify-between text-xs text-gray-400 mt-1">
+            <span>0.5s</span>
+            <span>10s</span>
+          </div>
+        </div>
+
+        <!-- Display Options -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-medium text-gray-300">
+            {{ t('plugins.webcam.displayOptions') }}
+          </h4>
+
+          <label class="flex items-center">
+            <input
+              v-model="webcamStore.autoRefresh"
+              type="checkbox"
+              class="mr-2 rounded"
+              @change="webcamStore.updateDisplaySettings({ autoRefresh: $event.target.checked })"
+            />
+            <span class="text-gray-300">{{ t('plugins.webcam.autoRefresh') }}</span>
+          </label>
+        </div>
+
+        <!-- Connection Status -->
+        <div class="p-3 rounded-md" :class="statusClass">
+          <p class="text-sm font-medium">
+            {{ t('plugins.webcam.status') }}:
+            {{
+              webcamStore.isConnected
+                ? t('plugins.webcam.connected')
+                : t('plugins.webcam.disconnected')
+            }}
+          </p>
+          <p v-if="webcamStore.errorMessage" class="text-sm mt-1">
+            {{ t('plugins.webcam.error') }}: {{ webcamStore.errorMessage }}
+          </p>
+          <p v-if="webcamStore.lastUpdate" class="text-sm mt-1">
+            {{ t('plugins.webcam.lastUpdate') }}: {{ formatTime(webcamStore.lastUpdate) }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-end gap-2 p-4 border-t border-gray-700">
+        <button
+          @click="resetSettings"
+          class="default-button-red"
+        >
+          {{ t('plugins.webcam.reset') }}
+        </button>
+        <button
+          @click="closeModal"
+          class="default-button-blue"
+        >
+          {{ t('plugins.webcam.close') }}
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useWebcamStore } from '../store/webcamStore.js';
+
+const props = defineProps({
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['close']);
+
+const { t } = useI18n();
+const webcamStore = useWebcamStore();
+
+const statusClass = computed(() => {
+  if (webcamStore.isConnected) {
+    return 'bg-green-900 border border-green-700';
+  } else if (webcamStore.errorMessage) {
+    return 'bg-red-900 border border-red-700';
+  } else {
+    return 'bg-gray-700 border border-gray-600';
+  }
+});
+
+const formatTime = (timeString) => {
+  if (!timeString) return '';
+  return new Date(timeString).toLocaleTimeString();
+};
+
+const closeModal = () => {
+  emit('close');
+};
+
+const resetSettings = () => {
+  if (confirm(t('plugins.webcam.resetConfirm'))) {
+    webcamStore.resetSettings();
+  }
+};
+</script>

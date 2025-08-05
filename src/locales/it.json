@@ -912,6 +912,35 @@
         "searchDescription": "Cerca oggetti, pianeti o stelle profondi e adotta automaticamente le coordinate",
         "searchLabel": "Target di ricerca"
       }
+    },
+    "webcam": {
+      "close": "Vicino",
+      "configureUrl": "Configurare l'URL dell'istantanea e l'immagine di recupero",
+      "connected": "Collegato",
+      "disconnected": "Disconnesso",
+      "displayOptions": "Opzioni di visualizzazione",
+      "error": "Errore",
+      "lastUpdate": "Ultimo aggiornamento",
+      "liveView": "Vista dal vivo",
+      "loadingImage": "Caricamento dell'immagine ...",
+      "noImageAvailable": "Nessuna immagine disponibile",
+      "refresh": "Rinfrescare",
+      "refreshInterval": "Aggiorna intervallo",
+      "reset": "Reset",
+      "resetConfirm": "Sei sicuro di voler ripristinare tutte le impostazioni della webcam?",
+      "snapshotUrlDescription": "Un URL snapshot è un collegamento diretto a una singola immagine dalla tua fotocamera Webcam/IP. \nQuesto URL dovrebbe restituire direttamente un'immagine JPEG/PNG, non una pagina HTML o un flusso.",
+      "settings": "Impostazioni",
+      "snapshotUrl": "Snapshot URL",
+      "snapshotUrlExamples": "Esempi:",
+      "startAuto": "Avvia l'auto",
+      "status": "Stato",
+      "stopAuto": "Stop Auto",
+      "title": "Impostazioni WebCam",
+      "autoRefresh": "Aggiornamento automatico",
+      "errors": {
+        "noUrl": "Nessun URL dell'istantanea configurato",
+        "failedToLoad": "Impossibile caricare l'immagine della webcam"
+      }
     }
   }
 }

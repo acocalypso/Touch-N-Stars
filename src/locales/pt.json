@@ -912,6 +912,35 @@
         "searchDescription": "Procure objetos, planetas ou estrelas de céu profundo e adote automaticamente as coordenadas",
         "searchLabel": "Alvo de pesquisa"
       }
+    },
+    "webcam": {
+      "close": "Fechar",
+      "configureUrl": "Configurar URL do instantâneo e buscar imagem",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "displayOptions": "Opções de exibição",
+      "error": "Erro",
+      "lastUpdate": "Última atualização",
+      "liveView": "Vista ao vivo",
+      "loadingImage": "Carregando imagem ...",
+      "noImageAvailable": "Nenhuma imagem disponível",
+      "refresh": "Atualizar",
+      "refreshInterval": "Intervalo de atualização",
+      "reset": "Reiniciar",
+      "resetConfirm": "Tem certeza de que deseja redefinir todas as configurações da webcam?",
+      "snapshotUrlDescription": "Um URL instantâneo é um link direto para uma única imagem da sua câmera webcam/IP. \nEste URL deve retornar diretamente uma imagem JPEG/PNG, não uma página ou fluxo HTML.",
+      "settings": "Configurações",
+      "snapshotUrl": "URL instantâneo",
+      "snapshotUrlExamples": "Exemplos:",
+      "startAuto": "Inicie o automóvel",
+      "status": "Status",
+      "stopAuto": "Pare o automóvel",
+      "title": "Configurações da webcam",
+      "autoRefresh": "Atualização automática",
+      "errors": {
+        "noUrl": "Nenhum URL instantâneo configurado",
+        "failedToLoad": "Falha ao carregar a imagem da webcam"
+      }
     }
   }
 }

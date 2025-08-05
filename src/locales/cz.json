@@ -912,6 +912,35 @@
         "searchDescription": "Vyhledávejte objekty hlubokého vesmíru, planety nebo hvězdy a automaticky přejímejte souřadnice.",
         "searchLabel": "Hledat Cíl"
       }
+    },
+    "webcam": {
+      "close": "Close",
+      "configureUrl": "Configure snapshot URL and fetch image",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "displayOptions": "Display Options",
+      "error": "Error",
+      "lastUpdate": "Last Update",
+      "liveView": "Live View",
+      "loadingImage": "Loading image...",
+      "noImageAvailable": "No image available",
+      "refresh": "Refresh",
+      "refreshInterval": "Refresh Interval",
+      "reset": "Reset",
+      "resetConfirm": "Are you sure you want to reset all webcam settings?",
+      "snapshotUrlDescription": "A snapshot URL is a direct link to a single image from your webcam/IP camera. This URL should return a JPEG/PNG image directly, not an HTML page or stream.",
+      "snapshotUrl": "Snapshot URL",
+      "settings": "Settings",
+      "snapshotUrlExamples": "Examples:",
+      "startAuto": "Start Auto",
+      "status": "Status",
+      "stopAuto": "Stop Auto",
+      "title": "Webcam Settings",
+      "autoRefresh": "Auto Refresh",
+      "errors": {
+        "noUrl": "No snapshot URL configured",
+        "failedToLoad": "Failed to load webcam image"
+      }
     }
   }
 }

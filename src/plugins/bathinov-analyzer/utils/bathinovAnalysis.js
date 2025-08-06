@@ -1,93 +1,13 @@
 /**
- * Bathinov Mask Focus Analysis Utility
- * Based on principles from Zandvliet's thesis and BahtiFocus implementation
+ * Improved Bathinov Mask Focus Analysis Utility
+ * Simplified and more accurate spike detection algorithm
  */
 
 // Image analysis constants
 const MASK_ANGLE_DEFAULT = 34; // Default mask angle in degrees (typical Bathinov mask)
-const GAUSSIAN_BLUR_SIGMA = 1.5; // Sigma for Gaussian blur in preprocessing
-
-// Add these global variables at the top of the file to track mask angles across analyses
-let detectedMaskAngles = [];
-const MAX_STORED_ANGLES = 10; // Store up to 10 recent mask angle detections
 
 /**
- * Store a detected mask angle for consensus building
- * @param {number} angle - The detected mask angle
- */
-function storeMaskAngle(angle) {
-  // Only store reasonable mask angles (avoid storing clearly wrong values)
-  if (angle >= 10 && angle <= 40) {
-    detectedMaskAngles.push(angle);
-
-    // Keep the list from growing too large
-    if (detectedMaskAngles.length > MAX_STORED_ANGLES) {
-      detectedMaskAngles.shift(); // Remove oldest value
-    }
-
-    console.log(
-      `Stored mask angle: ${angle}°. Current angles: [${detectedMaskAngles.join(', ')}°]`
-    );
-  }
-}
-
-/**
- * Get the consensus mask angle based on previously detected angles
- * @returns {number} The consensus mask angle
- */
-function getConsensusMaskAngle() {
-  // If we don't have enough data yet, return the default
-  if (detectedMaskAngles.length < 2) {
-    return MASK_ANGLE_DEFAULT;
-  }
-
-  // Group angles that are close to each other (within 3 degrees)
-  const angleGroups = [];
-
-  for (const angle of detectedMaskAngles) {
-    // Try to find an existing group this angle fits into
-    let foundGroup = false;
-
-    for (const group of angleGroups) {
-      // Check if this angle is close to the group's average
-      if (Math.abs(group.average - angle) < 3) {
-        group.angles.push(angle);
-        group.sum += angle;
-        group.average = group.sum / group.angles.length;
-        group.count++;
-        foundGroup = true;
-        break;
-      }
-    }
-
-    // If no matching group, create a new one
-    if (!foundGroup) {
-      angleGroups.push({
-        angles: [angle],
-        sum: angle,
-        average: angle,
-        count: 1,
-      });
-    }
-  }
-
-  // Find the group with the most members
-  let largestGroup = null;
-  let maxCount = 0;
-
-  for (const group of angleGroups) {
-    if (group.count > maxCount) {
-      maxCount = group.count;
-      largestGroup = group;
-    }
-  }
-
-  // Return the average angle of the largest group
-  return largestGroup ? Math.round(largestGroup.average) : MASK_ANGLE_DEFAULT;
-}
-
-/**
- * Process an image to find Bathinov diffraction spikes
+ * Process an image to find Bathinov diffraction spikes with improved accuracy
  * @param {ImageData} imageData - The image data to analyze
  * @returns {Object} Analysis results including spike positions and focus metrics
  */
@@ -96,145 +16,28 @@ export function analyzeBathinovPattern(imageData) {
     // Create an ImageData object from the image source
     const { data, width, height } = imageData;
 
+    console.log('Starting improved Bathinov analysis...');
+
     // Find the brightest point in the image (likely the center of the star)
     const center = findBrightestPoint(data, width, height);
+    console.log('Star center found at:', center);
 
-    // Use our improved detection method to avoid detecting other stars as spikes
+    // Use improved detection method
     const spikes = detectDiffractionSpikesImproved(data, width, height, center);
+    console.log('Detected spikes:', spikes.length);
 
     // Calculate focus metrics
-    const metrics = calculateFocusMetrics(spikes, center);
+    const metrics = calculateFocusMetrics(spikes);
 
     return {
       center,
       spikes,
       metrics,
-      consensusMaskAngle: getConsensusMaskAngle(),
     };
   } catch (error) {
     console.error('Error analyzing image region:', error);
     throw error;
   }
-}
-
-/**
- * Preprocess the image to enhance diffraction spikes
- * @param {Uint8ClampedArray} data - Image data array
- * @param {number} width - Image width
- * @param {number} height - Image height
- * @returns {Uint8ClampedArray} Processed image data
- */
-function preprocessImage(data, width, height) {
-  // Create a grayscale version of the image
-  const grayscale = convertToGrayscale(data, width, height);
-
-  // Apply Gaussian blur to reduce noise (simplified implementation)
-  const blurred = applyGaussianBlur(grayscale, width, height, GAUSSIAN_BLUR_SIGMA);
-
-  // Apply threshold to isolate bright areas
-  const thresholded = applyThreshold(blurred, width, height, 128);
-
-  // Return the processed data
-  return thresholded;
-}
-
-/**
- * Convert RGB image data to grayscale
- * @param {Uint8ClampedArray} data - Image data array
- * @param {number} width - Image width
- * @param {number} height - Image height
- * @returns {Uint8ClampedArray} Grayscale image data
- */
-function convertToGrayscale(data, width, height) {
-  const grayscale = new Uint8ClampedArray(width * height);
-
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      const idx = (y * width + x) * 4;
-      // Weighted grayscale conversion (human eye is more sensitive to green)
-      grayscale[y * width + x] = Math.round(
-        0.299 * data[idx] + 0.587 * data[idx + 1] + 0.114 * data[idx + 2]
-      );
-    }
-  }
-
-  return grayscale;
-}
-
-/**
- * Apply Gaussian blur to reduce noise
- * @param {Uint8ClampedArray} data - Grayscale image data
- * @param {number} width - Image width
- * @param {number} height - Image height
- * @param {number} sigma - Blur sigma
- * @returns {Uint8ClampedArray} Blurred image data
- */
-function applyGaussianBlur(data, width, height, sigma) {
-  // Create a copy of the data to work with
-  const output = new Uint8ClampedArray(data.length);
-
-  // Calculate Gaussian kernel
-  const kernelSize = Math.max(3, Math.ceil(sigma * 3) * 2 + 1);
-  const halfSize = Math.floor(kernelSize / 2);
-  const kernel = new Array(kernelSize);
-
-  // Calculate kernel values
-  let sum = 0;
-  for (let i = 0; i < kernelSize; i++) {
-    const x = i - halfSize;
-    kernel[i] = Math.exp(-(x * x) / (2 * sigma * sigma));
-    sum += kernel[i];
-  }
-
-  // Normalize kernel values
-  for (let i = 0; i < kernelSize; i++) {
-    kernel[i] /= sum;
-  }
-
-  // Apply horizontal pass (separable convolution)
-  const temp = new Uint8ClampedArray(data.length);
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      let sum = 0;
-      for (let k = -halfSize; k <= halfSize; k++) {
-        const xOffset = Math.min(Math.max(0, x + k), width - 1);
-        sum += data[y * width + xOffset] * kernel[k + halfSize];
-      }
-      temp[y * width + x] = sum;
-    }
-  }
-
-  // Apply vertical pass
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      let sum = 0;
-      for (let k = -halfSize; k <= halfSize; k++) {
-        const yOffset = Math.min(Math.max(0, y + k), height - 1);
-        sum += temp[yOffset * width + x] * kernel[k + halfSize];
-      }
-      output[y * width + x] = sum;
-    }
-  }
-
-  return output;
-}
-
-/**
- * Apply threshold to isolate bright areas
- * @param {Uint8ClampedArray} data - Grayscale image data
- * @param {number} width - Image width
- * @param {number} height - Image height
- * @param {number} threshold - Threshold value (0-255)
- * @returns {Uint8ClampedArray} Thresholded image data
- */
-function applyThreshold(data, width, height, threshold) {
-  const result = new Uint8ClampedArray(width * height);
-
-  for (let i = 0; i < data.length; i++) {
-    result[i] = data[i] > threshold ? 255 : 0;
-  }
-
-  return result;
 }
 
 /**
@@ -254,8 +57,8 @@ function findBrightestPoint(data, width, height) {
     for (let j = 0; j < width; j++) {
       const idx = (i * width + j) * 4;
 
-      // Calculate brightness (average of RGB)
-      const brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
+      // Calculate brightness (weighted average for astronomical images)
+      const brightness = data[idx] * 0.299 + data[idx + 1] * 0.587 + data[idx + 2] * 0.114;
 
       if (brightness > maxBrightness) {
         maxBrightness = brightness;
@@ -269,7 +72,7 @@ function findBrightestPoint(data, width, height) {
 }
 
 /**
- * Detect diffraction spikes in the image using improved detection algorithm
+ * Detect diffraction spikes in the image using direct brightness analysis
  * @param {Uint8ClampedArray} data - Image data array
  * @param {number} width - Image width
  * @param {number} height - Image height
@@ -277,700 +80,428 @@ function findBrightestPoint(data, width, height) {
  * @returns {Array} Array of three spikes, each with start and end points
  */
 function detectDiffractionSpikesImproved(data, width, height, center) {
-  // Define search parameters with increased sensitivity
-  const searchRadius = Math.min(width, height) * 0.5; // Search up to 50% of the image size
-  const numAngles = 1800; // Higher precision - 0.2 degree steps
-  const anglePrecision = 360 / numAngles;
+  console.log(`Analyzing center: x=${center.x}, y=${center.y}`);
 
-  console.log(`Center point: x=${center.x}, y=${center.y}, brightness=${center.brightness}`);
+  // Sample intensity along radial lines from center
+  const intensityProfile = analyzeRadialIntensity(data, width, height, center);
 
-  // Initialize intensity arrays for each angle
+  // Find the peaks in the intensity profile that represent spikes
+  const spikeCandidates = findIntensityPeaks(intensityProfile);
+
+  console.log(`Found ${spikeCandidates.length} spike candidates`);
+  console.log(
+    'Top candidates:',
+    spikeCandidates.slice(0, 5).map((c) => `${c.angle}° (${c.strength.toFixed(1)})`)
+  );
+
+  // Select the best 3 spikes that form a Bathinov pattern
+  const selectedSpikes = selectBestSpikes(spikeCandidates, center, width, height);
+  console.log(
+    'Selected spikes angles:',
+    selectedSpikes.map((s) => `${s.angle}°`)
+  );
+
+  return selectedSpikes;
+}
+
+/**
+ * Analyze radial intensity from the center point
+ * @param {Uint8ClampedArray} data - Image data array
+ * @param {number} width - Image width
+ * @param {number} height - Image height
+ * @param {Object} center - Star center
+ * @returns {Array} Intensity values for each angle
+ */
+function analyzeRadialIntensity(data, width, height, center) {
+  const numAngles = 360; // 1 degree steps
+  const maxRadius = Math.min(width, height) * 0.4;
   const intensities = new Array(numAngles).fill(0);
 
-  // Calculate average brightness in the outer area to determine background level
-  let backgroundSum = 0;
-  let backgroundCount = 0;
-  const outerRadius = searchRadius * 0.8;
-  const innerRadius = searchRadius * 0.3;
+  for (let angleDeg = 0; angleDeg < numAngles; angleDeg++) {
+    const angleRad = (angleDeg * Math.PI) / 180;
+    const cos_a = Math.cos(angleRad);
+    const sin_a = Math.sin(angleRad);
 
-  // Sample points in the outer area to estimate background level
-  for (let angle = 0; angle < 360; angle += 10) {
-    const angleRad = (angle * Math.PI) / 180;
-    for (let r = outerRadius; r < searchRadius; r += 5) {
-      const x = Math.round(center.x + r * Math.cos(angleRad));
-      const y = Math.round(center.y + r * Math.sin(angleRad));
-
-      if (x >= 0 && x < width && y >= 0 && y < height) {
-        const idx = (y * width + x) * 4;
-        const brightness = (data[idx] + data[idx + 1] + data[idx + 2]) / 3;
-        backgroundSum += brightness;
-        backgroundCount++;
-      }
-    }
-  }
-
-  const backgroundColor = backgroundCount > 0 ? backgroundSum / backgroundCount : 0;
-
-  // For each angle, sum up the brightness along a line from the center
-  for (let angleIndex = 0; angleIndex < numAngles; angleIndex++) {
-    const angle = angleIndex * anglePrecision;
-    const angleRad = (angle * Math.PI) / 180;
-
-    // Sample points along this angle
     let totalIntensity = 0;
+    let maxIntensity = 0;
     let sampleCount = 0;
-    let continuousHighValues = 0;
-    let isPotentialStar = false;
 
-    // More samples for better accuracy
-    const numSamples = 300;
-    const stepSize = searchRadius / numSamples;
+    // Sample along this radial line
+    for (let r = 15; r < maxRadius; r += 3) {
+      const x = Math.round(center.x + r * cos_a);
+      const y = Math.round(center.y + r * sin_a);
 
-    // Start closer to center but avoid the brightest core
-    for (let r = 10; r < searchRadius; r += stepSize) {
-      const x = Math.round(center.x + r * Math.cos(angleRad));
-      const y = Math.round(center.y + r * Math.sin(angleRad));
-
-      // Check if point is within image bounds
       if (x >= 0 && x < width && y >= 0 && y < height) {
         const idx = (y * width + x) * 4;
+        const brightness = data[idx] * 0.299 + data[idx + 1] * 0.587 + data[idx + 2] * 0.114;
 
-        // Calculate brightness
-        const red = data[idx];
-        const green = data[idx + 1];
-        const blue = data[idx + 2];
-        const brightness = red * 0.3 + green * 0.6 + blue * 0.1;
-
-        // Check for star-like profile (sharp brightness peak)
-        if (brightness > center.brightness * 0.6) {
-          continuousHighValues++;
-
-          // If we have multiple continuously high values and we're away from center,
-          // this might be another star rather than a diffraction spike
-          if (continuousHighValues > 10 && r > innerRadius) {
-            isPotentialStar = true;
-            break;
-          }
-        } else {
-          continuousHighValues = 0;
-        }
-
-        // Calculate weight based on distance from center
-        // Diffraction spikes have a characteristic falloff pattern
-        let weight;
-        if (r < innerRadius) {
-          // Core region: linear increase
-          weight = Math.min(1.0, r / innerRadius);
-        } else {
-          // Outer region: exponential decay
-          weight = Math.exp(-0.5 * ((r - innerRadius) / (searchRadius - innerRadius)));
-        }
-
-        // Apply weighting that emphasizes characteristic diffraction patterns
-        const adjustedBrightness = (brightness - backgroundColor) * weight;
-
-        if (adjustedBrightness > 0) {
-          totalIntensity += adjustedBrightness;
-          sampleCount++;
-        }
+        totalIntensity += brightness;
+        maxIntensity = Math.max(maxIntensity, brightness);
+        sampleCount++;
       }
     }
 
-    // Don't consider angles that hit another star
-    if (isPotentialStar) {
-      intensities[angleIndex] = 0;
-    } else {
-      // Store average intensity for this angle
-      intensities[angleIndex] = sampleCount > 0 ? totalIntensity / sampleCount : 0;
+    // Use combination of average and max intensity
+    if (sampleCount > 0) {
+      const avgIntensity = totalIntensity / sampleCount;
+      intensities[angleDeg] = avgIntensity * 0.3 + maxIntensity * 0.7;
     }
   }
 
-  // Smooth the intensity profile with better noise reduction
-  const smoothedIntensities = smoothArray(intensities, 9);
+  return intensities;
+}
 
-  // Apply advanced contrast enhancement to make peaks more prominent
-  const enhancedIntensities = enhanceContrast(smoothedIntensities);
+/**
+ * Find peaks in the intensity profile that represent diffraction spikes
+ * @param {Array} intensities - Intensity values for each angle
+ * @returns {Array} Spike candidates with angle and strength
+ */
+function findIntensityPeaks(intensities) {
+  const peaks = [];
+  const maxIntensity = Math.max(...intensities);
+  const avgIntensity = intensities.reduce((sum, val) => sum + val, 0) / intensities.length;
 
-  // Find local maxima in intensity pattern - these are our diffraction spikes
-  const spikeCandidates = [];
+  // More dynamic threshold - higher for out-of-focus images with strong spikes
+  const dynamicThreshold = Math.max(maxIntensity * 0.3, avgIntensity * 2);
 
-  // Adaptive threshold based on analysis of intensity distribution
-  const intensitySorted = [...enhancedIntensities].sort((a, b) => b - a);
-  const topPercentile = intensitySorted[Math.floor(intensitySorted.length * 0.02)]; // Top 2%
-  const minPeakIntensity = topPercentile * 0.45; // Lower threshold to catch more candidates
+  console.log(
+    `Intensity stats - Max: ${maxIntensity.toFixed(1)}, Avg: ${avgIntensity.toFixed(1)}, Threshold: ${dynamicThreshold.toFixed(1)}`
+  );
 
-  console.log(`Min peak intensity threshold: ${minPeakIntensity}`);
+  // Smooth the data first
+  const smoothed = smoothIntensityProfile(intensities);
 
-  // Minimum angular separation between detected spikes (in degrees)
-  const minSeparationDegrees = 10; // Increased to avoid detecting nearby features as separate spikes
-  const minSeparation = minSeparationDegrees / anglePrecision;
+  // Find local maxima with stricter requirements
+  for (let i = 10; i < smoothed.length - 10; i++) {
+    const current = smoothed[i];
 
-  // Find all local maxima with a more sensitive peak detection
-  for (let i = 0; i < numAngles; i++) {
-    const window = 9; // Wider window for more reliable peak detection
+    if (current < dynamicThreshold) continue;
+
+    // Check if this is a prominent local maximum
     let isPeak = true;
+    let prominenceScore = 0;
 
-    // Only consider points above threshold
-    if (enhancedIntensities[i] <= minPeakIntensity) continue;
-
-    // Check if this is a local maximum within the window
-    for (let j = -window; j <= window; j++) {
-      if (j === 0) continue; // Skip self
-
-      const idx = (i + j + numAngles) % numAngles;
-      if (enhancedIntensities[idx] > enhancedIntensities[i]) {
+    // Check larger neighborhood for more robust peak detection
+    for (let j = -10; j <= 10; j++) {
+      if (j === 0) continue;
+      const neighborIdx = (i + j + smoothed.length) % smoothed.length;
+      if (smoothed[neighborIdx] > current) {
         isPeak = false;
         break;
       }
+      // Calculate prominence
+      prominenceScore += Math.max(0, current - smoothed[neighborIdx]);
     }
 
-    if (isPeak) {
-      // Check if it's sufficiently separated from existing peaks
-      let tooClose = false;
-      for (const candidate of spikeCandidates) {
-        const separation = Math.min(
-          Math.abs(i - candidate.angleIndex),
-          numAngles - Math.abs(i - candidate.angleIndex)
-        );
-        if (separation < minSeparation) {
-          tooClose = true;
-          // If this peak is stronger than the existing one, replace it
-          if (enhancedIntensities[i] > enhancedIntensities[candidate.angleIndex]) {
-            candidate.angleIndex = i;
-            candidate.angle = i * anglePrecision;
-            candidate.intensity = enhancedIntensities[i];
-          }
-          break;
-        }
-      }
+    // Require minimum prominence to avoid noise
+    const minProminence = maxIntensity * 0.1;
 
-      if (!tooClose) {
-        spikeCandidates.push({
-          angleIndex: i,
-          angle: i * anglePrecision,
-          intensity: enhancedIntensities[i],
-        });
-      }
+    if (isPeak && prominenceScore > minProminence) {
+      peaks.push({
+        angle: i,
+        strength: current,
+        prominence: prominenceScore,
+        normalizedAngle: i % 180, // Normalize to 0-179 since spikes are bidirectional
+      });
     }
   }
 
-  console.log(`Found ${spikeCandidates.length} spike candidates`);
+  console.log(`Found ${peaks.length} raw peaks before grouping`);
 
-  // Sort by intensity (brightest first)
-  spikeCandidates.sort((a, b) => b.intensity - a.intensity);
+  // Group similar angles and keep strongest
+  const groupedPeaks = groupSimilarAngles(peaks);
 
-  // Log the top candidates
-  spikeCandidates.slice(0, Math.min(8, spikeCandidates.length)).forEach((candidate, i) => {
-    console.log(
-      `Candidate ${i + 1}: angle=${candidate.angle.toFixed(1)}°, intensity=${candidate.intensity.toFixed(1)}`
-    );
-  });
+  console.log(`After grouping: ${groupedPeaks.length} peaks`);
 
-  // Look for the classic bathinov pattern with opposing spikes
-  // This helps distinguish actual diffraction patterns from nearby stars
-  let bestPattern = findBathinovPattern(spikeCandidates, numAngles);
-
-  // If we found a valid pattern, use it
-  let selectedSpikes;
-  if (bestPattern) {
-    console.log(
-      `Selected pattern: maskAngle=${bestPattern.maskAngle}°, central=${bestPattern.central.angle.toFixed(1)}°, left=${bestPattern.left.angle.toFixed(1)}°, right=${bestPattern.right.angle.toFixed(1)}°`
-    );
-
-    selectedSpikes = [bestPattern.central, bestPattern.left, bestPattern.right];
-  } else {
-    console.log('No specific Bathinov pattern found, falling back to general selection');
-    // Fall back to standard selection method with constraints for Bathinov pattern
-    selectedSpikes = selectBathinovSpikes(spikeCandidates, MASK_ANGLE_DEFAULT);
-  }
-
-  // Create line objects for each spike
-  const spikes = selectedSpikes.map((peak) => createSpikeLine(center, peak.angle, width, height));
-
-  return spikes;
+  return groupedPeaks.sort((a, b) => b.strength - a.strength);
 }
 
 /**
- * Find the most likely Bathinov diffraction pattern among spike candidates
- * @param {Array} candidates - Array of spike candidates
- * @param {number} numAngles - Total number of angles in the scan
- * @returns {Object|null} The best pattern found or null if no valid pattern
+ * Smooth the intensity profile to reduce noise
+ * @param {Array} intensities - Raw intensity values
+ * @returns {Array} Smoothed intensities
  */
-function findBathinovPattern(candidates, numAngles) {
-  if (candidates.length < 3) return null;
-
-  // Get the consensus mask angle from our stored values
-  const consensusAngle = getConsensusMaskAngle();
-
-  // Prioritize angles around the consensus if we have one, otherwise use standard angles
-  let possibleMaskAngles;
-
-  if (detectedMaskAngles.length >= 2) {
-    // We have enough data to use consensus-based approach
-    // Create an array of angles centered around the consensus angle
-    possibleMaskAngles = [
-      consensusAngle - 3,
-      consensusAngle - 1.5,
-      consensusAngle,
-      consensusAngle + 1.5,
-      consensusAngle + 3,
-    ];
-    console.log(
-      `Using consensus-based mask angles around ${consensusAngle}°: [${possibleMaskAngles.join(', ')}°]`
-    );
-  } else {
-    // Not enough data, use standard angles
-    possibleMaskAngles = [15, 18, 22, 25, 30, 34, 38];
-    console.log('Using standard mask angles (no consensus yet)');
-  }
-
-  let bestPatternScore = -Infinity;
-  let bestPattern = null;
-
-  // Consider only the strongest candidates (up to top 10)
-  const topCandidates = candidates.slice(0, Math.min(10, candidates.length));
-
-  // For each possible combination of three spikes from top candidates
-  for (let i = 0; i < topCandidates.length; i++) {
-    const potentialCentral = topCandidates[i];
-
-    // Try each possible mask angle
-    for (const maskAngle of possibleMaskAngles) {
-      // For a Bathinov pattern, we should find spikes at approximately central ± maskAngle
-      const expectedLeftAngle = normalizeDegrees360(
-        (potentialCentral.angle - maskAngle + 360) % 360
-      );
-      const expectedRightAngle = normalizeDegrees360((potentialCentral.angle + maskAngle) % 360);
-
-      // Find the best match for left and right spikes
-      let bestLeftMatch = null;
-      let bestRightMatch = null;
-      let bestLeftDiff = 15; // Maximum allowed angular difference
-      let bestRightDiff = 15;
-
-      for (let j = 0; j < candidates.length; j++) {
-        if (j === i) continue; // Skip the central spike
-
-        const candidate = candidates[j];
-        const candidateAngle = candidate.angle;
-
-        // Check if this is a potential left spike
-        const leftDiff = Math.abs(normalizeDegrees180(candidateAngle - expectedLeftAngle));
-        if (leftDiff < bestLeftDiff) {
-          bestLeftDiff = leftDiff;
-          bestLeftMatch = candidate;
-        }
-
-        // Check if this is a potential right spike
-        const rightDiff = Math.abs(normalizeDegrees180(candidateAngle - expectedRightAngle));
-        if (rightDiff < bestRightDiff) {
-          bestRightDiff = rightDiff;
-          bestRightMatch = candidate;
-        }
-      }
-
-      // If we found matches for both side spikes
-      if (bestLeftMatch && bestRightMatch && bestLeftMatch !== bestRightMatch) {
-        // Calculate pattern score based on several factors
-        const intensityScore =
-          potentialCentral.intensity * 3 +
-          bestLeftMatch.intensity * 2 +
-          bestRightMatch.intensity * 2;
-
-        // Angle symmetry (how well they match the expected pattern)
-        const symmetryScore = 20 - (bestLeftDiff + bestRightDiff);
-
-        // Angular opposition score (side spikes should be on opposite sides)
-        const oppositionAngle = Math.abs(
-          normalizeDegrees180(bestLeftMatch.angle - bestRightMatch.angle)
-        );
-        const oppositionScore = 20 - Math.abs(oppositionAngle - 2 * maskAngle);
-
-        // Intensity balance (side spikes should have similar intensities)
-        const balanceScore =
-          10 -
-          (Math.abs(bestLeftMatch.intensity - bestRightMatch.intensity) /
-            Math.max(bestLeftMatch.intensity, bestRightMatch.intensity)) *
-            10;
-
-        // Consensus score - higher if this mask angle is close to the consensus
-        const consensusScore = 20 - Math.abs(maskAngle - consensusAngle) * 2;
-
-        // Total pattern score with different weights for each factor
-        const patternScore =
-          intensityScore * 0.3 +
-          symmetryScore * 0.2 +
-          oppositionScore * 0.15 +
-          balanceScore * 0.05 +
-          consensusScore * 0.3; // Give significant weight to consensus
-
-        if (patternScore > bestPatternScore) {
-          bestPatternScore = patternScore;
-          bestPattern = {
-            central: potentialCentral,
-            left: bestLeftMatch,
-            right: bestRightMatch,
-            maskAngle: maskAngle,
-            score: patternScore,
-          };
-        }
-      }
-    }
-  }
-
-  // After finding the best pattern, store its mask angle for future reference
-  if (bestPattern) {
-    storeMaskAngle(bestPattern.maskAngle);
-  }
-
-  // Only return the pattern if the score is above a threshold
-  return bestPatternScore > 30 ? bestPattern : null;
-}
-
-/**
- * Apply a sliding window average to smooth an array
- * @param {Array} array - The array to smooth
- * @param {number} windowSize - The size of the sliding window
- * @returns {Array} Smoothed array
- */
-function smoothArray(array, windowSize) {
-  const result = new Array(array.length);
+function smoothIntensityProfile(intensities) {
+  const smoothed = new Array(intensities.length);
+  const windowSize = 7;
   const halfWindow = Math.floor(windowSize / 2);
 
-  for (let i = 0; i < array.length; i++) {
+  for (let i = 0; i < intensities.length; i++) {
     let sum = 0;
     let count = 0;
 
     for (let j = -halfWindow; j <= halfWindow; j++) {
-      const idx = (i + j + array.length) % array.length; // Wrap around for circular data
-      sum += array[idx];
+      const idx = (i + j + intensities.length) % intensities.length;
+      sum += intensities[idx];
       count++;
     }
 
-    result[i] = sum / count;
+    smoothed[i] = sum / count;
   }
 
-  return result;
+  return smoothed;
 }
 
 /**
- * Apply contrast enhancement to an array of values
- * @param {Array} array - Array of values to enhance
- * @returns {Array} Enhanced array
+ * Group similar angles and keep the strongest peak in each group
+ * @param {Array} peaks - Raw peaks
+ * @returns {Array} Grouped peaks
  */
-function enhanceContrast(array) {
-  // Find min and max values
-  const min = Math.min(...array);
-  const max = Math.max(...array);
-  const range = max - min;
+function groupSimilarAngles(peaks) {
+  const grouped = [];
+  const angleThreshold = 10; // degrees
 
-  // Apply contrast stretching
-  return array.map((value) => {
-    const normalized = (value - min) / range; // 0 to 1
-    // Apply a power function for more aggressive enhancement
-    return Math.pow(normalized, 0.5) * range + min;
-  });
+  for (const peak of peaks) {
+    let addedToGroup = false;
+
+    for (const group of grouped) {
+      let angleDiff = Math.abs(peak.normalizedAngle - group.normalizedAngle);
+      angleDiff = Math.min(angleDiff, 180 - angleDiff); // Handle wraparound
+
+      if (angleDiff < angleThreshold) {
+        // Add to existing group, keep strongest
+        if (peak.strength > group.strength) {
+          group.angle = peak.angle;
+          group.strength = peak.strength;
+          group.normalizedAngle = peak.normalizedAngle;
+        }
+        addedToGroup = true;
+        break;
+      }
+    }
+
+    if (!addedToGroup) {
+      grouped.push({ ...peak });
+    }
+  }
+
+  return grouped;
 }
 
 /**
- * Select the best three spikes that match the Bathinov mask pattern
- * @param {Array} candidates - Array of spike candidates
- * @param {number} expectedAngle - Expected angle between side spikes
- * @returns {Array} Three selected spikes in order [central, left, right]
+ * Select the best 3 spikes that form a Bathinov pattern
+ * @param {Array} candidates - Spike candidates
+ * @param {Object} center - Star center
+ * @param {number} width - Image width
+ * @param {number} height - Image height
+ * @returns {Array} Three selected spikes
  */
-function selectBathinovSpikes(candidates, expectedAngle) {
-  // If we have fewer than 3 candidates, we can't form a complete pattern
+function selectBestSpikes(candidates, center, width, height) {
   if (candidates.length < 3) {
-    return supplementMissingSpikes(candidates, expectedAngle);
+    console.log('Not enough candidates, creating fallback pattern');
+    return createFallbackPattern(center, width, height);
   }
 
-  // Take top candidates for consideration (if available)
-  const topCandidates = candidates.slice(0, Math.min(8, candidates.length));
+  // Filter candidates by minimum strength to avoid weak detections
+  const strongCandidates = candidates.filter((c) => c.strength > 50);
 
-  // Try all possible combinations of 3 spikes to find the best match
-  let bestMatch = null;
-  let bestScore = Infinity;
+  if (strongCandidates.length < 3) {
+    console.log('Not enough strong candidates, using all available');
+    // Still try to work with what we have, but mark them as weak
+    const result = convertToSpikeLines(candidates.slice(0, 3), center, width, height);
+    // Mark these as low-strength detections
+    result.forEach((spike) => {
+      spike.strength = Math.min(spike.strength, 30);
+    });
+    return result;
+  }
+
+  // Try to find a good triplet from strong candidates
+  let bestTriplet = null;
+  let bestScore = -1;
+
+  // Look at top strong candidates
+  const topCandidates = strongCandidates.slice(0, Math.min(8, strongCandidates.length));
 
   for (let i = 0; i < topCandidates.length; i++) {
     for (let j = i + 1; j < topCandidates.length; j++) {
       for (let k = j + 1; k < topCandidates.length; k++) {
-        // Get angles of the three spikes
-        const angles = [topCandidates[i].angle, topCandidates[j].angle, topCandidates[k].angle];
+        const triplet = [topCandidates[i], topCandidates[j], topCandidates[k]];
+        const score = scoreTriplet(triplet);
 
-        // Calculate angle differences between pairs
-        const diffs = [
-          Math.abs(normalizeDegrees180(angles[0] - angles[1])),
-          Math.abs(normalizeDegrees180(angles[0] - angles[2])),
-          Math.abs(normalizeDegrees180(angles[1] - angles[2])),
-        ];
-
-        // Sort differences to get min, mid, max
-        diffs.sort((a, b) => a - b);
-
-        // In a perfect Bathinov pattern:
-        // 1. The smallest angular difference should be close to expectedAngle
-        // 2. The middle angular difference should also be close to expectedAngle
-        // 3. The largest angular difference should be close to 2 * expectedAngle
-
-        const scoreSmall = Math.abs(diffs[0] - expectedAngle);
-        const scoreMid = Math.abs(diffs[1] - expectedAngle);
-        const scoreLarge = Math.abs(diffs[2] - 2 * expectedAngle);
-
-        // Weight by intensity too - brighter spikes are more likely to be real
-        const intensityFactor =
-          1.0 /
-          ((topCandidates[i].intensity + topCandidates[j].intensity + topCandidates[k].intensity) /
-            3);
-
-        const totalScore = (scoreSmall + scoreMid + scoreLarge) * intensityFactor;
-
-        if (totalScore < bestScore) {
-          bestScore = totalScore;
-          bestMatch = [i, j, k];
+        if (score > bestScore) {
+          bestScore = score;
+          bestTriplet = triplet;
         }
       }
     }
   }
 
-  if (bestMatch) {
-    const [i, j, k] = bestMatch;
-    const spike1 = topCandidates[i];
-    const spike2 = topCandidates[j];
-    const spike3 = topCandidates[k];
-
-    // Determine which is the central spike (the one with the angle
-    // approximately in the middle of the other two)
-    const angle1 = spike1.angle;
-    const angle2 = spike2.angle;
-    const angle3 = spike3.angle;
-
-    // Calculate normalized angle differences
-    const diff12 = Math.abs(normalizeDegrees180(angle1 - angle2));
-    const diff13 = Math.abs(normalizeDegrees180(angle1 - angle3));
-    const diff23 = Math.abs(normalizeDegrees180(angle2 - angle3));
-
-    let central, left, right;
-
-    if (diff12 > diff13 && diff12 > diff23) {
-      // diff12 is largest, so spike3 is the central spike
-      central = spike3;
-      // Determine which is left and right based on angle
-      if (normalizeDegrees(angle1 - angle3) < 180) {
-        left = spike1;
-        right = spike2;
-      } else {
-        left = spike2;
-        right = spike1;
-      }
-    } else if (diff13 > diff12 && diff13 > diff23) {
-      // diff13 is largest, so spike2 is the central spike
-      central = spike2;
-      if (normalizeDegrees(angle1 - angle2) < 180) {
-        left = spike1;
-        right = spike3;
-      } else {
-        left = spike3;
-        right = spike1;
-      }
-    } else {
-      // diff23 is largest, so spike1 is the central spike
-      central = spike1;
-      if (normalizeDegrees(angle2 - angle1) < 180) {
-        left = spike2;
-        right = spike3;
-      } else {
-        left = spike3;
-        right = spike2;
-      }
-    }
-
-    // Final sanity check: ensure the selected spikes form a valid Bathinov pattern
-    // The angle between left and right spikes should be close to 2 * expectedAngle
-    const leftRightDiff = Math.abs(normalizeDegrees180(left.angle - right.angle));
-    if (Math.abs(leftRightDiff - 2 * expectedAngle) > 15) {
-      // Invalid pattern, fall back to default
-      console.log('Selected pattern failed validation, falling back to default');
-      return supplementMissingSpikes([central], expectedAngle);
-    }
-
-    return [central, left, right];
+  if (bestTriplet && bestScore > 0.3) {
+    console.log(`Selected strong triplet with score: ${bestScore}`);
+    return convertToSpikeLines(bestTriplet, center, width, height);
   }
 
-  // Fallback if no good match is found
-  return supplementMissingSpikes(candidates, expectedAngle);
+  // Use top 3 strong candidates if no good triplet found
+  console.log('Using top 3 strong candidates');
+  return convertToSpikeLines(strongCandidates.slice(0, 3), center, width, height);
 }
 
 /**
- * Fill in missing spikes if we don't have enough candidates
- * @param {Array} candidates - Array of spike candidates
- * @param {number} expectedAngle - Expected angle between side spikes
- * @returns {Array} Three spikes in order [central, left, right]
+ * Score a triplet of spikes for Bathinov pattern quality
+ * @param {Array} triplet - Three spike candidates
+ * @returns {number} Quality score (0-1)
  */
-function supplementMissingSpikes(candidates, expectedAngle) {
-  // Make a copy of the candidates
-  const spikes = [...candidates];
+function scoreTriplet(triplet) {
+  const angles = triplet.map((s) => s.normalizedAngle).sort((a, b) => a - b);
+  const strengths = triplet.map((s) => s.strength);
 
-  // If we have at least one spike, use it as the central spike
-  if (spikes.length >= 1) {
-    const central = spikes[0];
-    const leftAngle = normalizeDegrees(central.angle - expectedAngle);
-    const rightAngle = normalizeDegrees(central.angle + expectedAngle);
+  // Calculate angle separations
+  const sep1 = Math.abs(angles[1] - angles[0]);
+  const sep2 = Math.abs(angles[2] - angles[1]);
+  const totalSep = Math.abs(angles[2] - angles[0]);
 
-    // Create synthetic spikes with reduced intensity
-    const left = { angle: leftAngle, intensity: central.intensity * 0.7 };
-    const right = { angle: rightAngle, intensity: central.intensity * 0.7 };
+  // For Bathinov mask, expect roughly 30-40 degree separations
+  const idealSep = 35;
+  const idealTotal = 70;
 
-    return [central, left, right];
-  }
+  let angleScore = 0;
+  angleScore += Math.max(0, 1 - Math.abs(sep1 - idealSep) / 20);
+  angleScore += Math.max(0, 1 - Math.abs(sep2 - idealSep) / 20);
+  angleScore += Math.max(0, 1 - Math.abs(totalSep - idealTotal) / 30);
+  angleScore /= 3;
 
-  // If we have no spikes at all, create a default pattern
-  const defaultAngle = 45; // Arbitrary default angle
+  // Strength score
+  const avgStrength = strengths.reduce((sum, s) => sum + s, 0) / 3;
+  const maxStrength = Math.max(...strengths);
+  const strengthScore = Math.min(1, avgStrength / maxStrength);
 
-  return [
-    { angle: defaultAngle, intensity: 200 },
-    { angle: defaultAngle - expectedAngle, intensity: 150 },
-    { angle: defaultAngle + expectedAngle, intensity: 150 },
+  return angleScore * 0.7 + strengthScore * 0.3;
+}
+
+/**
+ * Convert spike candidates to line format
+ * @param {Array} spikes - Spike candidates
+ * @param {Object} center - Star center
+ * @param {number} width - Image width
+ * @param {number} height - Image height
+ * @returns {Array} Spike lines
+ */
+function convertToSpikeLines(spikes, center, width, height) {
+  const maxDim = Math.max(width, height);
+  const halfLength = maxDim * 0.6;
+
+  return spikes.map((spike, index) => {
+    const angleRad = (spike.angle * Math.PI) / 180;
+    const cos_a = Math.cos(angleRad);
+    const sin_a = Math.sin(angleRad);
+
+    return {
+      start: {
+        x: center.x - halfLength * cos_a,
+        y: center.y - halfLength * sin_a,
+      },
+      end: {
+        x: center.x + halfLength * cos_a,
+        y: center.y + halfLength * sin_a,
+      },
+      angle: spike.angle,
+      strength: spike.strength || 1000 - index * 100,
+    };
+  });
+}
+
+/**
+ * Create a fallback pattern when detection fails
+ * @param {Object} center - Star center
+ * @param {number} width - Image width
+ * @param {number} height - Image height
+ * @returns {Array} Fallback spike pattern
+ */
+function createFallbackPattern(center, width, height) {
+  const maxDim = Math.max(width, height);
+  const halfLength = maxDim * 0.6;
+
+  // Create typical Bathinov pattern: vertical + two diagonals
+  const patterns = [
+    { angle: 90, strength: 1000 }, // Vertical
+    { angle: 135, strength: 900 }, // Diagonal 1
+    { angle: 45, strength: 900 }, // Diagonal 2
   ];
-}
 
-/**
- * Create a region of interest around a center point
- * @param {Uint8ClampedArray} data - Image data
- * @param {number} width - Image width
- * @param {number} height - Image height
- * @param {Object} center - Center point {x, y}
- * @param {number} radius - Radius of ROI
- * @returns {Object} Region of interest data
- */
-function createRegionOfInterest(data, width, height, center, radius) {
-  // Calculate ROI boundaries
-  const x0 = Math.max(0, center.x - radius);
-  const y0 = Math.max(0, center.y - radius);
-  const x1 = Math.min(width - 1, center.x + radius);
-  const y1 = Math.min(height - 1, center.y + radius);
-  const roiWidth = x1 - x0 + 1;
-  const roiHeight = y1 - y0 + 1;
+  return patterns.map((pattern) => {
+    const angleRad = (pattern.angle * Math.PI) / 180;
+    const cos_a = Math.cos(angleRad);
+    const sin_a = Math.sin(angleRad);
 
-  // Extract ROI data
-  const roiData = new Uint8ClampedArray(roiWidth * roiHeight);
-
-  for (let y = y0; y <= y1; y++) {
-    for (let x = x0; x <= x1; x++) {
-      const srcIdx = y * width + x;
-      const dstIdx = (y - y0) * roiWidth + (x - x0);
-      roiData[dstIdx] = data[srcIdx];
-    }
-  }
-
-  return {
-    data: roiData,
-    width: roiWidth,
-    height: roiHeight,
-    x0,
-    y0,
-  };
-}
-
-/**
- * Create a spike line from center with a given angle
- * @param {Object} center - Center point {x, y}
- * @param {number} angleDeg - Line angle in degrees
- * @param {number} width - Image width
- * @param {number} height - Image height
- * @returns {Object} Line object with start and end points
- */
-function createSpikeLine(center, angleDeg, width, height) {
-  // Calculate the line length to ensure it crosses the entire image
-  const maxDimension = Math.sqrt(width * width + height * height);
-  const halfLength = maxDimension / 2;
-
-  const angleRad = (angleDeg * Math.PI) / 180;
-  const dx = Math.cos(angleRad) * halfLength;
-  const dy = Math.sin(angleRad) * halfLength;
-
-  // Create line that extends beyond image boundaries
-  return {
-    start: {
-      x: center.x - dx,
-      y: center.y - dy,
-    },
-    end: {
-      x: center.x + dx,
-      y: center.y + dy,
-    },
-    angle: angleDeg,
-  };
+    return {
+      start: {
+        x: center.x - halfLength * cos_a,
+        y: center.y - halfLength * sin_a,
+      },
+      end: {
+        x: center.x + halfLength * cos_a,
+        y: center.y + halfLength * sin_a,
+      },
+      angle: pattern.angle,
+      strength: pattern.strength,
+    };
+  });
 }
 
 /**
  * Calculate focus metrics based on the diffraction spikes
  * @param {Array} spikes - Array of detected spikes
- * @param {Object} center - The center point {x, y}
  * @returns {Object} Focus metrics
  */
-function calculateFocusMetrics(spikes, center) {
+function calculateFocusMetrics(spikes) {
+  if (spikes.length < 3) {
+    return {
+      focusErrorPixels: 999,
+      focusErrorMicrons: 999 * 3.8,
+      maskAngle: MASK_ANGLE_DEFAULT,
+      inFocus: false,
+    };
+  }
+
+  // Check if these are the fallback spikes (indicates detection failure)
+  const isFallbackPattern = spikes.every((spike, index) => {
+    const expectedAngles = [90, 135, 45];
+    return Math.abs(spike.angle - expectedAngles[index]) < 5;
+  });
+
+  if (isFallbackPattern) {
+    console.log('Fallback pattern detected - marking as out of focus');
+    return {
+      focusErrorPixels: 999,
+      focusErrorMicrons: 999 * 3.8,
+      maskAngle: MASK_ANGLE_DEFAULT,
+      inFocus: false,
+    };
+  }
+
   // Calculate the intersection point of the two side spikes
   const intersection = calculateLineIntersection(spikes[1], spikes[2]);
 
-  // Log the intersection point
   console.log('Intersection point:', intersection);
   console.log('Central spike:', spikes[0]);
 
   // Calculate the distance from the central spike to the intersection point
-  const rawFocusErrorPixels = pointToLineDistance(intersection, spikes[0]);
-  console.log('Raw focus error (pixels):', rawFocusErrorPixels);
+  const focusErrorPixels = pointToLineDistance(intersection, spikes[0]);
+  console.log('Focus error (pixels):', focusErrorPixels);
 
-  // Calculate the center point of the central spike line segment
-  const centralSpikeCenter = {
-    x: (spikes[0].start.x + spikes[0].end.x) / 2,
-    y: (spikes[0].start.y + spikes[0].end.y) / 2,
-  };
-
-  // Calculate an additional focus metric: the distance between intersection and star center
-  const intersectionToStarDistance = distanceBetweenPoints(intersection, center);
-  const centralSpikeCenterToStarDistance = distanceBetweenPoints(centralSpikeCenter, center);
-
-  // Calculate meaningful focus error by combining multiple metrics
-  // The error is the distance of the intersection point from the central spike line
-  // We add a minimum threshold to avoid extremely small values that don't reflect reality
-  let focusErrorPixels = Math.max(rawFocusErrorPixels, 0.05);
-
-  // Also use the angle-based error to detect angular misalignment
-  const leftRightAngleDiff = Math.abs(normalizeDegrees180(spikes[1].angle - spikes[2].angle));
+  // Calculate the mask angle from the spikes
   const maskAngle = calculateMaskAngle(spikes[1], spikes[2]);
-  const idealAngleDiff = 2 * maskAngle;
-  const angleDeviationError = Math.abs(leftRightAngleDiff - idealAngleDiff) / 5; // Stronger weight for angular error
-
-  console.log('Angle-based error component:', angleDeviationError);
-
-  // The larger of the two error metrics becomes our focus error value
-  focusErrorPixels = Math.max(focusErrorPixels, angleDeviationError);
-
-  // Add an offset to account for manufacturing imperfection in bathinov masks
-  // For perfect focus, we'd expect a small non-zero error
-  if (focusErrorPixels < 0.5) {
-    // For very small errors, we're probably at optimal focus
-    focusErrorPixels = 0.01;
-  }
 
   // Convert pixels to microns (using a typical pixel scale)
-  const pixelScale = 3.8; // microns per pixel, typical for many cameras
+  const pixelScale = 3.8; // microns per pixel
   const focusErrorMicrons = Math.abs(focusErrorPixels * pixelScale);
 
-  // Determine the mask angle from the spikes
-  storeMaskAngle(maskAngle);
+  // More stringent focus determination - in focus only if error is very small
+  // Also check if spikes have sufficient strength to be real detections
+  const avgSpikeStrength = spikes.reduce((sum, spike) => sum + (spike.strength || 0), 0) / 3;
+  const hasGoodDetection = avgSpikeStrength > 50; // Minimum strength threshold
+  const inFocus = hasGoodDetection && Math.abs(focusErrorPixels) < 0.5; // Much stricter threshold
 
-  // Get the consensus mask angle based on previously detected angles
-  const consensusMaskAngle = getConsensusMaskAngle();
-
-  // Determine if the focus is good based on the error
-  const inFocus = Math.abs(focusErrorPixels) < 1.0;
+  console.log('Average spike strength:', avgSpikeStrength);
+  console.log('Has good detection:', hasGoodDetection);
+  console.log('Focus error pixels:', focusErrorPixels);
+  console.log('In focus:', inFocus);
 
   return {
-    focusErrorPixels: parseFloat(focusErrorPixels.toFixed(2)),
-    focusErrorMicrons: parseFloat(focusErrorMicrons.toFixed(2)),
+    focusErrorPixels: Math.max(0.01, parseFloat(focusErrorPixels.toFixed(2))),
+    focusErrorMicrons: Math.max(0.01, parseFloat(focusErrorMicrons.toFixed(2))),
     maskAngle: parseFloat(maskAngle.toFixed(1)),
-    consensusMaskAngle: parseFloat(consensusMaskAngle.toFixed(1)),
     inFocus,
   };
 }
@@ -1044,36 +575,7 @@ function calculateMaskAngle(spike1, spike2) {
 }
 
 /**
- * Normalize an angle to the range [0, 360)
- * @param {number} angle - Angle in degrees
- * @returns {number} Normalized angle in degrees
- */
-function normalizeDegrees(angle) {
-  return ((angle % 360) + 360) % 360;
-}
-
-/**
- * Normalize an angle to the range [0, 360)
- * This is an alias of normalizeDegrees for clarity in the code
- * @param {number} angle - Angle in degrees
- * @returns {number} Normalized angle in degrees
- */
-function normalizeDegrees360(angle) {
-  return ((angle % 360) + 360) % 360;
-}
-
-/**
- * Normalize an angle to the range [-180, 180)
- * @param {number} angle - Angle in degrees
- * @returns {number} Normalized angle in degrees
- */
-function normalizeDegrees180(angle) {
-  angle = ((angle % 360) + 360) % 360;
-  return angle > 180 ? angle - 360 : angle;
-}
-
-/**
- * Load and process an image from a URL
+ * Load and process an image from a URL with improved analysis
  * @param {string} imageUrl - URL of the image to analyze
  * @returns {Promise<Object>} Analysis results
  */
@@ -1116,6 +618,85 @@ export async function analyzeImageFromUrl(imageUrl) {
 }
 
 /**
+ * Analyze a selected region of an image with improved algorithm
+ * @param {string} imageUrl - Image URL
+ * @param {Object} region - Selected region {x, y, width, height}
+ * @returns {Promise<Object>} Analysis results
+ */
+export async function analyzeImageRegion(imageUrl, region) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'Anonymous';
+
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = region.width;
+        canvas.height = region.height;
+
+        // Draw the selected region
+        ctx.drawImage(
+          img,
+          region.x,
+          region.y,
+          region.width,
+          region.height,
+          0,
+          0,
+          region.width,
+          region.height
+        );
+
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        // Run improved analysis
+        const analysisResults = analyzeBathinovPattern(imageData);
+
+        // Adjust coordinates to full image space
+        if (analysisResults.center) {
+          analysisResults.center.x += region.x;
+          analysisResults.center.y += region.y;
+        }
+
+        if (analysisResults.spikes) {
+          analysisResults.spikes = analysisResults.spikes.map((spike) => ({
+            start: {
+              x: spike.start.x + region.x,
+              y: spike.start.y + region.y,
+            },
+            end: {
+              x: spike.end.x + region.x,
+              y: spike.end.y + region.y,
+            },
+            angle: spike.angle,
+            strength: spike.strength,
+          }));
+        }
+
+        resolve({
+          results: analysisResults,
+          dimensions: {
+            width: img.width,
+            height: img.height,
+          },
+          region,
+        });
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    img.onerror = () => {
+      reject(new Error('Failed to load image'));
+    };
+
+    img.src = imageUrl;
+  });
+}
+
+/**
  * Generate visualization data for the UI to display
  * @param {Object} analysisResults - The analysis results
  * @returns {Object} Visualization data
@@ -1132,14 +713,4 @@ export function generateVisualizationData(analysisResults) {
     metrics,
     intersection,
   };
-}
-
-/**
- * Distance between two points
- * @param {Object} p1 - First point {x, y}
- * @param {Object} p2 - Second point {x, y}
- * @returns {number} Distance
- */
-function distanceBetweenPoints(p1, p2) {
-  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
 }

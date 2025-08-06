@@ -4,6 +4,6 @@
   "description": "Analyze telescope focus using Bathinov mask diffraction patterns",
   "version": "1.0.0",
   "author": "Christian Wöhrle",
-  "enabled": false,
+  "enabled": true,
   "defaultEnabled": false
 }

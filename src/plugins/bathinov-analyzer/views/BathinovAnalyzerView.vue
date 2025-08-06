@@ -8,48 +8,119 @@
         <div
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
-          <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+          <div class="flex flex-col space-y-4">
             <!-- Image Source Selection -->
             <div class="flex-1">
               <label class="block text-gray-300 font-medium mb-2">Image Source</label>
               <div class="flex space-x-2">
                 <button
                   @click="captureNewImage"
-                  class="flex-1 bg-cyan-800 hover:bg-cyan-700 text-white py-2 px-4 rounded-md transition-colors"
+                  class="bg-cyan-800 hover:bg-cyan-700 text-white py-2 px-4 rounded-md transition-colors"
                   :disabled="isProcessing || selectionMode"
                 >
                   {{ isCapturing ? 'Capturing...' : 'Capture Image' }}
                 </button>
                 <button
+                  @click="triggerFileUpload"
+                  class="bg-green-800 hover:bg-green-700 text-white py-2 px-4 rounded-md transition-colors"
+                  :disabled="isProcessing || selectionMode"
+                >
+                  Upload Image
+                </button>
+                <button
                   @click="loadTestImage"
-                  class="flex-1 bg-violet-800 hover:bg-violet-700 text-white py-2 px-4 rounded-md transition-colors"
+                  class="bg-violet-800 hover:bg-violet-700 text-white py-2 px-4 rounded-md transition-colors"
                   :disabled="isProcessing || selectionMode"
                 >
                   Load Test Image
                 </button>
               </div>
-              <div class="mt-2">
-                <label for="image-url" class="block text-gray-300 text-sm mb-1"
-                  >Or enter image URL:</label
-                >
-                <div class="flex space-x-2">
+              <!-- Hidden file input -->
+              <input
+                ref="fileInput"
+                type="file"
+                accept="image/*"
+                @change="handleFileUpload"
+                class="hidden"
+              />
+            </div>
+
+            <!-- Focus Error Threshold Configuration -->
+            <div class="flex-1">
+              <label class="block text-gray-300 font-medium mb-2"
+                >Focus Error Threshold (pixels)</label
+              >
+              <div class="flex items-center space-x-4">
+                <div class="flex-1">
                   <input
-                    id="image-url"
-                    v-model="imageUrl"
-                    type="text"
-                    placeholder="https://example.com/image.jpg"
-                    class="flex-1 bg-gray-700 text-white rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                    :disabled="selectionMode"
+                    v-model.number="focusThreshold"
+                    type="range"
+                    min="0.5"
+                    max="5.0"
+                    step="0.1"
+                    class="w-full"
                   />
-                  <button
-                    @click="loadImageFromUrl"
-                    class="bg-cyan-800 hover:bg-cyan-700 text-white py-2 px-4 rounded-md transition-colors"
-                    :disabled="!imageUrl || isProcessing || selectionMode"
-                  >
-                    Load
-                  </button>
                 </div>
+                <div class="text-gray-300 text-sm min-w-16">{{ focusThreshold.toFixed(1) }}px</div>
               </div>
+              <div class="text-xs text-gray-400 mt-1">
+                Focus errors below this threshold will be considered "In Focus"
+              </div>
+            </div>
+
+            <!-- Auto Analysis Toggle -->
+            <div class="flex-1">
+              <label class="block text-gray-300 font-medium mb-2">Analysis Mode</label>
+              <div class="flex items-center space-x-4">
+                <label class="flex items-center space-x-2">
+                  <input
+                    v-model="autoAnalysis"
+                    type="checkbox"
+                    class="form-checkbox h-4 w-4 text-cyan-600"
+                  />
+                  <span class="text-gray-300 text-sm">Auto-analyze on selection</span>
+                </label>
+              </div>
+              <div class="text-xs text-gray-400 mt-1">
+                When enabled, analysis starts immediately after selecting a region
+              </div>
+            </div>
+          </div>
+
+          <!-- Analysis Quality Settings -->
+          <div class="mt-4 p-3 bg-gray-700 rounded-lg">
+            <label class="block text-gray-300 font-medium mb-2">Analysis Quality</label>
+            <div class="flex space-x-4">
+              <label class="flex items-center space-x-2">
+                <input
+                  v-model="analysisQuality"
+                  type="radio"
+                  value="fast"
+                  class="form-radio h-4 w-4 text-cyan-600"
+                />
+                <span class="text-gray-300 text-sm">Fast</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                <input
+                  v-model="analysisQuality"
+                  type="radio"
+                  value="balanced"
+                  class="form-radio h-4 w-4 text-cyan-600"
+                />
+                <span class="text-gray-300 text-sm">Balanced</span>
+              </label>
+              <label class="flex items-center space-x-2">
+                <input
+                  v-model="analysisQuality"
+                  type="radio"
+                  value="precise"
+                  class="form-radio h-4 w-4 text-cyan-600"
+                />
+                <span class="text-gray-300 text-sm">Precise</span>
+              </label>
+            </div>
+            <div class="text-xs text-gray-400 mt-1">
+              Higher quality = more accurate but slower analysis
             </div>
           </div>
         </div>
@@ -107,12 +178,21 @@
         >
           <div class="flex items-center justify-between mb-3">
             <h3 class="text-xl text-white font-semibold">Focus Analysis Results</h3>
-            <button
-              @click="resetAnalysis"
-              class="bg-cyan-800 hover:bg-cyan-700 text-white py-1 px-3 rounded-md"
-            >
-              New Analysis
-            </button>
+            <div class="flex space-x-2">
+              <button
+                @click="saveResults"
+                class="bg-green-800 hover:bg-green-700 text-white py-1 px-3 rounded-md"
+                title="Save analysis results to file"
+              >
+                Save Results
+              </button>
+              <button
+                @click="resetAnalysis"
+                class="bg-cyan-800 hover:bg-cyan-700 text-white py-1 px-3 rounded-md"
+              >
+                New Analysis
+              </button>
+            </div>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div
@@ -125,6 +205,9 @@
               <div class="text-sm text-gray-400">
                 {{ results.metrics.focusErrorMicrons.toFixed(2) }} µm
               </div>
+              <div v-if="results.metrics.confidence" class="text-xs text-gray-500 mt-1">
+                Confidence: {{ results.metrics.confidence }}%
+              </div>
             </div>
             <div
               class="bg-gray-800 p-3 rounded-lg flex flex-col items-center justify-center text-center"
@@ -132,6 +215,9 @@
               <div class="text-lg text-gray-300">Status</div>
               <div class="text-2xl font-bold" :class="getFocusStatusClass()">
                 {{ getFocusStatusText() }}
+              </div>
+              <div class="text-sm text-gray-400 mt-1">
+                Threshold: {{ focusThreshold.toFixed(1) }}px
               </div>
             </div>
             <div
@@ -141,6 +227,7 @@
               <div class="text-3xl font-bold text-white">
                 {{ results.metrics.maskAngle.toFixed(1) }}°
               </div>
+              <div class="text-sm text-gray-400">Quality: {{ analysisQuality }}</div>
             </div>
           </div>
         </div>
@@ -274,13 +361,13 @@ import { useToastStore } from '@/store/toastStore';
 import testImageUrl from '../test/Bhatinov.jpg';
 
 // State variables
-const imageUrl = ref('');
 const displayImageSrc = ref('');
 const imageLoaded = ref(false);
 const isProcessing = ref(false);
 const isCapturing = ref(false);
 const results = ref(null);
 const displayImage = ref(null);
+const fileInput = ref(null);
 const imageContainer = ref(null);
 const svgOverlay = ref(null);
 const imageWidth = ref(0);
@@ -288,6 +375,9 @@ const imageHeight = ref(0);
 const cameraStore = useCameraStore();
 const toastStore = useToastStore();
 const intersectionPoint = ref(null);
+const focusThreshold = ref(1.5); // User-configurable focus threshold
+const autoAnalysis = ref(false); // Auto-analyze on selection
+const analysisQuality = ref('balanced'); // Analysis quality setting
 
 // Selection mode state
 const selectionMode = ref(false);
@@ -407,6 +497,13 @@ function endDrag() {
   // Mark selection as complete
   selectionComplete.value = true;
   selectionMode.value = false;
+
+  // Auto-analyze if enabled
+  if (autoAnalysis.value) {
+    setTimeout(() => {
+      analyzeSelection();
+    }, 100); // Small delay to ensure UI updates
+  }
 }
 
 // Touch event handlers for mobile support
@@ -452,7 +549,7 @@ function updateTouchDrag(event) {
   selectionBox.value.height = Math.abs(height);
 }
 
-function endTouchDrag(event) {
+function endTouchDrag() {
   endDrag();
 }
 
@@ -484,6 +581,71 @@ function resetAnalysis() {
   selectionBox.value.visible = false;
 }
 
+// Save analysis results to file
+function saveResults() {
+  if (!results.value) {
+    toastStore.showToast({
+      type: 'error',
+      title: 'No Results',
+      message: 'No analysis results to save.',
+    });
+    return;
+  }
+
+  try {
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `bathinov-analysis-${timestamp}.json`;
+
+    const exportData = {
+      timestamp: new Date().toISOString(),
+      analysisSettings: {
+        focusThreshold: focusThreshold.value,
+        analysisQuality: analysisQuality.value,
+        autoAnalysis: autoAnalysis.value,
+      },
+      results: {
+        center: results.value.center,
+        spikes: results.value.spikes,
+        metrics: results.value.metrics,
+        intersection: intersectionPoint.value,
+      },
+      selectionRegion: selectionRegion.value,
+      imageInfo: {
+        width: imageWidth.value,
+        height: imageHeight.value,
+        source: displayImageSrc.value.startsWith('blob:') ? 'uploaded-file' : displayImageSrc.value,
+      },
+    };
+
+    const dataStr = JSON.stringify(exportData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
+    // Create download link
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up URL
+    URL.revokeObjectURL(link.href);
+
+    toastStore.showToast({
+      type: 'success',
+      title: 'Results Saved',
+      message: `Analysis results saved as ${filename}`,
+    });
+  } catch (error) {
+    console.error('Error saving results:', error);
+    toastStore.showToast({
+      type: 'error',
+      title: 'Save Failed',
+      message: `Failed to save results: ${error.message}`,
+    });
+  }
+}
+
 function calculateSelectionRegion() {
   const img = displayImage.value;
   if (!img) return;
@@ -511,7 +673,7 @@ async function analyzeSelection() {
   try {
     isProcessing.value = true;
 
-    // Create a fallback implementation of the analyzeImageRegion function in case the import fails
+    // Create a fallback implementation with quality settings
     let analysisFunction = async (url, region) => {
       // First load the full image
       const img = new Image();
@@ -545,8 +707,12 @@ async function analyzeSelection() {
       // Now analyze this region
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
+      // Apply quality settings to the analysis
+      const analysisConfig = getAnalysisConfig();
+      console.log('Using analysis config:', analysisConfig);
+
       // Use the imported analyzeBathinovPattern function
-      const results = analyzeBathinovPattern(imageData);
+      const results = analyzeBathinovPattern(imageData, analysisConfig);
 
       // Adjust coordinates to be relative to the original image
       if (results && results.spikes) {
@@ -607,10 +773,14 @@ async function analyzeSelection() {
     await nextTick();
     updateOverlayDimensions();
 
+    // Show success message with focus status
+    const focusStatus = getFocusStatusText();
+    const errorPixels = results.value?.metrics?.focusErrorPixels || 0;
+
     toastStore.showToast({
-      type: 'success',
+      type: errorPixels < focusThreshold.value ? 'success' : 'warning',
       title: 'Analysis Complete',
-      message: 'Bathinov mask pattern analyzed successfully!',
+      message: `Focus Status: ${focusStatus} (${errorPixels.toFixed(2)}px error)`,
     });
 
     selectionComplete.value = false;
@@ -626,42 +796,27 @@ async function analyzeSelection() {
   }
 }
 
-// Functions
-async function loadImageFromUrl() {
-  if (!imageUrl.value) return;
+// Get analysis configuration based on quality setting
+function getAnalysisConfig() {
+  const configs = {
+    fast: {
+      numAngles: 360, // 1 degree steps
+      numSamples: 50,
+      smoothingWindow: 5,
+    },
+    balanced: {
+      numAngles: 720, // 0.5 degree steps
+      numSamples: 100,
+      smoothingWindow: 7,
+    },
+    precise: {
+      numAngles: 1440, // 0.25 degree steps
+      numSamples: 200,
+      smoothingWindow: 9,
+    },
+  };
 
-  try {
-    isProcessing.value = true;
-    displayImageSrc.value = imageUrl.value;
-    imageLoaded.value = true;
-
-    // Wait for the image to fully load
-    await new Promise((resolve) => {
-      if (displayImage.value && displayImage.value.complete) {
-        resolve();
-      } else {
-        setTimeout(resolve, 500);
-      }
-    });
-
-    // Enable selection mode
-    selectionMode.value = true;
-    selectionComplete.value = false;
-    results.value = null;
-    intersectionPoint.value = null;
-
-    // Update overlay dimensions
-    updateOverlayDimensions();
-  } catch (error) {
-    console.error('Error loading image:', error);
-    toastStore.showToast({
-      type: 'error',
-      title: 'Loading Failed',
-      message: `Failed to load image: ${error.message}`,
-    });
-  } finally {
-    isProcessing.value = false;
-  }
+  return configs[analysisQuality.value] || configs.balanced;
 }
 
 async function loadTestImage() {
@@ -757,6 +912,74 @@ async function captureNewImage() {
   }
 }
 
+// File upload functions
+function triggerFileUpload() {
+  if (fileInput.value) {
+    fileInput.value.click();
+  }
+}
+
+async function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    isProcessing.value = true;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      throw new Error('Please select a valid image file');
+    }
+
+    // Check file size (limit to 10MB)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      throw new Error('Image file size must be less than 10MB');
+    }
+
+    // Create object URL for the uploaded file
+    const imageUrl = URL.createObjectURL(file);
+    displayImageSrc.value = imageUrl;
+    imageLoaded.value = true;
+
+    // Wait for the image to fully load
+    await new Promise((resolve) => {
+      if (displayImage.value && displayImage.value.complete) {
+        resolve();
+      } else {
+        setTimeout(resolve, 500);
+      }
+    });
+
+    // Enable selection mode
+    selectionMode.value = true;
+    selectionComplete.value = false;
+    results.value = null;
+    intersectionPoint.value = null;
+
+    // Update overlay dimensions
+    updateOverlayDimensions();
+
+    toastStore.showToast({
+      type: 'success',
+      title: 'Upload Complete',
+      message: 'Image uploaded successfully! Please select a star to analyze.',
+    });
+
+    // Clear the file input so the same file can be uploaded again
+    event.target.value = '';
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    toastStore.showToast({
+      type: 'error',
+      title: 'Upload Failed',
+      message: `Failed to upload image: ${error.message}`,
+    });
+  } finally {
+    isProcessing.value = false;
+  }
+}
+
 function onImageLoad() {
   // Image has loaded, adjust SVG overlay dimensions
   console.log('Image loaded, updating overlay dimensions');
@@ -830,8 +1053,8 @@ function getFocusErrorClass() {
   if (!results.value) return 'text-white';
 
   const error = Math.abs(results.value.metrics.focusErrorPixels);
-  if (error < 1.0) return 'text-green-500';
-  if (error < 2.0) return 'text-yellow-500';
+  if (error < focusThreshold.value) return 'text-green-500';
+  if (error < focusThreshold.value * 2) return 'text-yellow-500';
   return 'text-red-500';
 }
 
@@ -839,8 +1062,8 @@ function getFocusStatusClass() {
   if (!results.value) return 'text-white';
 
   const error = Math.abs(results.value.metrics.focusErrorPixels);
-  if (error < 1.0) return 'text-green-500';
-  if (error < 2.0) return 'text-yellow-500';
+  if (error < focusThreshold.value) return 'text-green-500';
+  if (error < focusThreshold.value * 2) return 'text-yellow-500';
   return 'text-red-500';
 }
 
@@ -848,8 +1071,8 @@ function getFocusStatusText() {
   if (!results.value) return 'Unknown';
 
   const error = Math.abs(results.value.metrics.focusErrorPixels);
-  if (error < 1.0) return 'In Focus';
-  if (error < 2.0) return 'Slight Defocus';
+  if (error < focusThreshold.value) return 'In Focus';
+  if (error < focusThreshold.value * 2) return 'Slight Defocus';
   return 'Out of Focus';
 }
 

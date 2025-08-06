@@ -4,6 +4,6 @@
   "description": "Modern sequence editor for astrophotography automation, inspired by N.I.N.A sequences",
   "version": "1.0.0",
   "author": "Aco",
-  "defaultEnabled": true,
+  "defaultEnabled": false,
   "enabled": true
 }

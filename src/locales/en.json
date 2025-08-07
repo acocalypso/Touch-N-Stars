@@ -622,7 +622,8 @@
         "required": "API key required",
         "errors": {
           "saveFailed": "API key could not be saved.",
-          "deleteFailed": "API key could not be deleted."
+          "deleteFailed": "API key could not be deleted.",
+          "validationFailed": "API key validation failed"
         }
       }
     },

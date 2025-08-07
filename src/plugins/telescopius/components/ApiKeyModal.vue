@@ -89,6 +89,7 @@ import { useI18n } from 'vue-i18n'
 import Modal from '@/components/helpers/Modal.vue'
 import { useTelescopisStore } from '../store/telescopiusStore'
 import { handleApiError } from '@/utils/utils'
+import telescopiusApiService from '../services/telescopiusApiService'
 
 const { t: $t } = useI18n()
 
@@ -118,6 +119,18 @@ async function saveApiKey() {
   
   isLoading.value = true
   try {
+    // Validate the API key first
+    const validation = await telescopiusApiService.validateApiKey(localApiKey.value.trim())
+    
+    if (!validation.valid) {
+      handleApiError(null, {
+        title: 'API Key Validation Failed',
+        defaultMessage: validation.message
+      })
+      return
+    }
+    
+    // If validation passes, save the API key
     await telescopiusStore.saveApiKey(localApiKey.value.trim())
     localApiKey.value = ''
     emit('close')

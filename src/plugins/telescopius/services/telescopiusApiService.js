@@ -23,8 +23,7 @@ class TelescopiusApiService {
     }
     
     return {
-      'Authorization': `Key ${store.apiKey}`,
-      'Content-Type': 'application/json'
+      'Authorization': `Key ${store.apiKey}`
     };
   }
 
@@ -154,6 +153,57 @@ class TelescopiusApiService {
       ephemeris: ephemerisType,
       ...params
     });
+  }
+
+  // Validate API Key
+  async validateApiKey(apiKey) {
+    try {
+      const response = await axios.get(`${TELESCOPIUS_BASE_URL}/quote-of-the-day`, {
+        headers: {
+          'Authorization': `Key ${apiKey}`
+        },
+        timeout: 10000
+      });
+      
+      return {
+        valid: true,
+        message: 'API Key is valid',
+        data: response.data
+      };
+    } catch (error) {
+      console.error('Telescopius API validation error:', error);
+      
+      let message = 'API Key validation failed';
+      
+      if (error.response) {
+        const status = error.response.status;
+        switch (status) {
+          case 401:
+            message = 'Invalid API Key';
+            break;
+          case 429:
+            message = 'API Key valid but rate limit exceeded';
+            return { valid: true, message, rateLimited: true };
+          case 400:
+            message = 'Bad request - check API Key format';
+            break;
+          default:
+            message = `API Error (${status}): ${error.response.data?.message || error.response.statusText}`;
+        }
+      } else if (error.code === 'ERR_NETWORK') {
+        message = 'Network error - could not reach Telescopius API (possibly CORS)';
+      } else if (error.request) {
+        message = 'Network error - could not reach Telescopius API';
+      } else {
+        message = error.message;
+      }
+      
+      return {
+        valid: false,
+        message,
+        error: error.response?.status || error.code || 'NETWORK_ERROR'
+      };
+    }
   }
 }
 

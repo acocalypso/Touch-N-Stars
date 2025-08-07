@@ -711,7 +711,11 @@
           "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)",
           "name": "Warm Camera"
         },
-        "clickToRename": "Click to rename"
+        "clickToRename": "Click to rename",
+        "findHome": {
+          "description": "Move telescope to home position",
+          "name": "Find Home"
+        }
       },
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",

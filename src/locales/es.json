@@ -711,7 +711,11 @@
           "durationTooltip": "Tiempo para calentar activamente la cámara (0 = temperatura cálida a ambiente)",
           "name": "Cámara caliente"
         },
-        "clickToRename": "Haga clic para cambiar el nombre"
+        "clickToRename": "Haga clic para cambiar el nombre",
+        "findHome": {
+          "description": "Mover el telescopio a la posición de inicio",
+          "name": "Encontrar hogar"
+        }
       },
       "confirmations": {
         "clearSequence": "¿Estás seguro de que quieres borrar toda la secuencia? \nEsta acción no se puede deshacer.",

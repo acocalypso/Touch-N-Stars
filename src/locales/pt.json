@@ -711,7 +711,11 @@
           "durationTooltip": "Hora de aquecer ativamente a câmera (0 = quente à temperatura ambiente)",
           "name": "Câmera quente"
         },
-        "clickToRename": "Clique para renomear"
+        "clickToRename": "Clique para renomear",
+        "findHome": {
+          "description": "Mover o telescópio para a posição inicial",
+          "name": "Encontre em casa"
+        }
       },
       "confirmations": {
         "clearSequence": "Tem certeza de que deseja limpar toda a sequência? \nEsta ação não pode ser desfeita.",

@@ -76,8 +76,8 @@
           <!-- Number Input -->
           <div v-else-if="param.type === 'number'" class="space-y-2">
             <input
-              :value="param.value || param.default"
-              @input="updateParameter(key, parseFloat($event.target.value) || 0)"
+              :value="param.value !== undefined ? param.value : param.default"
+              @input="handleNumberInput(key, $event.target.value, param)"
               type="number"
               :min="param.min"
               :max="param.max"
@@ -198,6 +198,39 @@ function formatParameterName(key) {
 
 function updateParameter(key, value) {
   emit('update-parameter', props.action.id, key, value);
+}
+
+function handleNumberInput(key, value, param) {
+  // Handle empty string or just minus sign for negative numbers
+  if (value === '' || value === '-') {
+    // For parameters that allow negative values, keep the value as is to allow typing
+    if (param.allowNegative) {
+      emit('update-parameter', props.action.id, key, value);
+      return;
+    }
+  }
+
+  // Parse the number
+  const numValue = parseFloat(value);
+
+  // Check if it's a valid number
+  if (isNaN(numValue)) {
+    // If it's not a valid number, revert to default or current value
+    const fallbackValue = param.value !== undefined ? param.value : param.default;
+    emit('update-parameter', props.action.id, key, fallbackValue);
+    return;
+  }
+
+  // Apply min/max constraints if specified
+  let constrainedValue = numValue;
+  if (param.min !== undefined && numValue < param.min) {
+    constrainedValue = param.min;
+  }
+  if (param.max !== undefined && numValue > param.max) {
+    constrainedValue = param.max;
+  }
+
+  emit('update-parameter', props.action.id, key, constrainedValue);
 }
 
 function handleTargetSelected(targetData) {

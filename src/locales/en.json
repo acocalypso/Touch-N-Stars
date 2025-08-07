@@ -769,6 +769,10 @@
           "durationLabel": "Warming Duration (minutes)",
           "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)"
         },
+        "findHome": {
+          "name": "Find Home",
+          "description": "Move telescope to home position"
+        },
         "parkTelescope": {
           "name": "Park Telescope",
           "description": "Park the telescope mount"

@@ -50,8 +50,14 @@
             {{ $t('components.settings.title') }}
           </button>
 
-          <h1 class="text-3xl sm:text-4xl md:text-5xl text-yellow-50 font-mono font-bold mb-4">{{ $t('app.title') }}</h1>
-          <img class="w-72 h-72" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />
+          <h1 class="text-3xl sm:text-4xl md:text-5xl text-yellow-50 font-mono font-bold mb-4">
+            {{ $t('app.title') }}
+          </h1>
+          <img
+            class="w-72 h-72"
+            src="@/assets/Logo_TouchNStars_600x600.png"
+            alt="TouchNStars Logo"
+          />
         </div>
       </Transition>
 

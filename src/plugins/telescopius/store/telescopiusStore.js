@@ -15,8 +15,10 @@ export const useTelescopisStore = defineStore('telescopius', {
     async loadApiKey() {
       try {
         const response = await apiService.getSetting('telescopius_api_key');
-        if (response && response.Value) {
-          this.apiKey = response.Value;
+        console.log('Loaded telescopius API key:', response);
+        if (response && response.Response && response.Response.Value) {
+          this.apiKey = response.Response.Value;
+          console.log('Telescopius API key loaded successfully:', this.apiKey);
         }
         this.isLoaded = true;
       } catch (error) {

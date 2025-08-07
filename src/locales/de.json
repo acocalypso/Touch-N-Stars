@@ -38,6 +38,7 @@
         "delete": "Löschen",
         "cancel": "Abbrechen",
         "configure": "API Key konfigurieren",
+        "required": "API Key erforderlich",
         "errors": {
           "saveFailed": "API Key konnte nicht gespeichert werden.",
           "deleteFailed": "API Key konnte nicht gelöscht werden."

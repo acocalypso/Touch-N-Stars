@@ -279,9 +279,15 @@ onMounted(async () => {
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
 
+  // Timeout für connectionCheckCompleted nach 3 Sekunden
+  const connectionTimeout = setTimeout(() => {
+    connectionCheckCompleted.value = true;
+  }, 3000);
+
   await store.fetchAllInfos(t);
   // Nach dem ersten Verbindungsversuch ist die Prüfung abgeschlossen
   connectionCheckCompleted.value = true;
+  clearTimeout(connectionTimeout);
 
   store.startFetchingInfo(t);
   logStore.startFetchingLog();

@@ -95,7 +95,8 @@
       "showTutorial": "Mostrar tutorial",
       "plugins": {
         "title": "Gestión de plugins",
-        "description": "Gestionar plugins instalados"
+        "description": "Gestionar plugins instalados",
+        "author": "Autor"
       },
       "system": {
         "title": "Controles del sistema",

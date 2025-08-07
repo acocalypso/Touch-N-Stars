@@ -95,7 +95,8 @@
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
         "title": "Správa pluginů",
-        "description": "Spravovat nainstalované pluginy"
+        "description": "Spravovat nainstalované pluginy",
+        "author": "Author"
       },
       "system": {
         "title": "Systémové ovládání",

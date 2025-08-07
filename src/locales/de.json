@@ -333,7 +333,8 @@
       "showTutorial": "Tutorial anzeigen",
       "plugins": {
         "title": "Plugin-Verwaltung",
-        "description": "Installierte Plugins verwalten"
+        "description": "Installierte Plugins verwalten",
+        "author": "Autor"
       },
       "system": {
         "title": "Systemsteuerung",

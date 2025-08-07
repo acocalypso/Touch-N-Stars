@@ -96,7 +96,8 @@
       "showTutorial": "Show Tutorial",
       "plugins": {
         "title": "Plugin Management",
-        "description": "Manage installed plugins"
+        "description": "Manage installed plugins",
+        "author": "Author"
       },
       "system": {
         "title": "System Controls",

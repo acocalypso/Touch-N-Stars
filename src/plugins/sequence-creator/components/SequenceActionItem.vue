@@ -228,12 +228,28 @@
             <input
               v-else-if="param.type === 'number'"
               :id="`param-${action.id}-${key}`"
-              v-model.number="param.value"
-              @input="updateParameter(key, Number($event.target.value))"
-              type="number"
-              :min="param.min"
-              :max="param.max"
-              :step="param.step || 1"
+              :value="param.value"
+              @input="handleNumberInput(action, key, $event.target.value)"
+              :type="
+                param.allowNegative || (param.min !== undefined && param.min < 0)
+                  ? 'text'
+                  : 'number'
+              "
+              :min="
+                param.allowNegative || (param.min !== undefined && param.min < 0)
+                  ? undefined
+                  : param.min
+              "
+              :max="
+                param.allowNegative || (param.min !== undefined && param.min < 0)
+                  ? undefined
+                  : param.max
+              "
+              :step="
+                param.allowNegative || (param.min !== undefined && param.min < 0)
+                  ? undefined
+                  : param.step || 1
+              "
               class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent"
             />
 
@@ -384,6 +400,54 @@ function toggleEdit() {
 
 function updateParameter(key, value) {
   store.updateActionParameter(props.action.id, key, value);
+}
+
+function handleNumberInput(action, key, value) {
+  const param = action.parameters[key];
+
+  // Allow empty string and minus sign for all number inputs
+  if (value === '' || value === '-') {
+    updateParameter(key, value);
+    return;
+  }
+
+  // For text inputs (negative number fields), handle partial negative numbers like "-1", "-12", etc.
+  const isNegativeField = param.allowNegative || (param.min !== undefined && param.min < 0);
+  if (isNegativeField && value.startsWith('-') && value.length > 1) {
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      // Valid negative number being typed
+      updateParameter(key, value);
+      return;
+    }
+  }
+
+  // Parse the number for validation
+  const numValue = parseFloat(value);
+
+  // Check if it's a valid number
+  if (isNaN(numValue)) {
+    // For text inputs, keep the invalid input to allow continued typing
+    if (isNegativeField) {
+      updateParameter(key, value);
+      return;
+    }
+    // For number inputs, revert to fallback
+    const fallbackValue = param.value !== undefined ? param.value : param.default;
+    updateParameter(key, fallbackValue);
+    return;
+  }
+
+  // Apply min/max constraints if specified
+  let constrainedValue = numValue;
+  if (param.min !== undefined && numValue < param.min) {
+    constrainedValue = param.min;
+  }
+  if (param.max !== undefined && numValue > param.max) {
+    constrainedValue = param.max;
+  }
+
+  updateParameter(key, constrainedValue);
 }
 
 function getKeyParameters(parameters) {

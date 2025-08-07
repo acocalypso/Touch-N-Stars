@@ -121,11 +121,25 @@
           <input
             v-else-if="param.type === 'number'"
             :value="param.value"
-            @input="updateParameter(key, parseFloat($event.target.value) || 0)"
-            type="number"
-            :min="param.min"
-            :max="param.max"
-            :step="param.step || 1"
+            @input="handleNumberInput(key, $event.target.value, param)"
+            :type="
+              param.allowNegative || (param.min !== undefined && param.min < 0) ? 'text' : 'number'
+            "
+            :min="
+              param.allowNegative || (param.min !== undefined && param.min < 0)
+                ? undefined
+                : param.min
+            "
+            :max="
+              param.allowNegative || (param.min !== undefined && param.min < 0)
+                ? undefined
+                : param.max
+            "
+            :step="
+              param.allowNegative || (param.min !== undefined && param.min < 0)
+                ? undefined
+                : param.step || 1
+            "
             class="w-full px-3 py-2 sm:px-2 sm:py-1 text-sm sm:text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-1 focus:ring-blue-500 focus:border-blue-500 min-h-[44px] sm:min-h-0"
           />
 
@@ -222,6 +236,52 @@ function formatParameterName(key) {
 
 function updateParameter(key, value) {
   emit('update-parameter', props.action.id, key, value);
+}
+
+function handleNumberInput(key, value, param) {
+  // Allow empty string and minus sign for all number inputs
+  if (value === '' || value === '-') {
+    emit('update-parameter', props.action.id, key, value);
+    return;
+  }
+
+  // For text inputs (negative number fields), handle partial negative numbers like "-1", "-12", etc.
+  const isNegativeField = param.allowNegative || (param.min !== undefined && param.min < 0);
+  if (isNegativeField && value.startsWith('-') && value.length > 1) {
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      // Valid negative number being typed
+      emit('update-parameter', props.action.id, key, value);
+      return;
+    }
+  }
+
+  // Parse the number for validation
+  const numValue = parseFloat(value);
+
+  // Check if it's a valid number
+  if (isNaN(numValue)) {
+    // For text inputs, keep the invalid input to allow continued typing
+    if (isNegativeField) {
+      emit('update-parameter', props.action.id, key, value);
+      return;
+    }
+    // For number inputs, revert to fallback
+    const fallbackValue = param.value !== undefined ? param.value : param.default;
+    emit('update-parameter', props.action.id, key, fallbackValue);
+    return;
+  }
+
+  // Apply min/max constraints if specified
+  let constrainedValue = numValue;
+  if (param.min !== undefined && numValue < param.min) {
+    constrainedValue = param.min;
+  }
+  if (param.max !== undefined && numValue > param.max) {
+    constrainedValue = param.max;
+  }
+
+  emit('update-parameter', props.action.id, key, constrainedValue);
 }
 
 // Remove the old getCurrentInstance function since we don't need it

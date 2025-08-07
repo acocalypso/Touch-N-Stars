@@ -197,9 +197,8 @@ function enhanceLocalContrast(grayscale, width, height) {
   // Process each pixel
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      // Calculate local statistics (mean and standard deviation)
+      // Calculate local statistics (mean)
       let sum = 0;
-      let sumSquared = 0;
       let count = 0;
 
       // Sample the local neighborhood
@@ -211,15 +210,12 @@ function enhanceLocalContrast(grayscale, width, height) {
           if (nx >= 0 && nx < width && ny >= 0 && ny < height) {
             const value = grayscale[ny * width + nx];
             sum += value;
-            sumSquared += value * value;
             count++;
           }
         }
       }
 
       const mean = sum / count;
-      const variance = sumSquared / count - mean * mean;
-      const stdDev = Math.sqrt(variance);
 
       // Get the current pixel value
       const currentValue = grayscale[y * width + x];
@@ -820,7 +816,7 @@ function calculatePointLineDistance(point, line) {
  * @returns {Object} Visualization data for rendering
  */
 export function generateVisualizationData(analysisResult, error = 0) {
-  const { centerPoint, diffraction, imageWidth, imageHeight } = analysisResult;
+  const { centerPoint, diffraction } = analysisResult;
 
   // For visualization, we'll create three spikes that extend a fixed distance from the center
   // Create the three sets of lines for visualization

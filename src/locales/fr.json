@@ -95,7 +95,8 @@
       "showTutorial": "Afficher le tutoriel",
       "plugins": {
         "title": "Gestion des plugins",
-        "description": "Gérer les plugins installés"
+        "description": "Gérer les plugins installés",
+        "author": "Auteur"
       },
       "system": {
         "title": "Contrôles système",
@@ -711,7 +712,11 @@
           "durationTooltip": "Temps pour réchauffer activement la caméra (0 = température chaude à ambiante)",
           "name": "Caméra chaude"
         },
-        "clickToRename": "Cliquez pour renommer"
+        "clickToRename": "Cliquez pour renommer",
+        "findHome": {
+          "description": "Déplacer le télescope vers la position de la maison",
+          "name": "Trouver la maison"
+        }
       },
       "confirmations": {
         "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? \nCette action ne peut pas être annulée.",

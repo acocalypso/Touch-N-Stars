@@ -179,6 +179,9 @@
           <div class="flex-1 min-w-0">
             <h4 class="text-white font-medium">{{ plugin.name }}</h4>
             <p class="text-sm text-gray-400">{{ plugin.description }}</p>
+            <p v-if="plugin.author" class="text-xs text-gray-500 mt-1">
+              {{ $t('components.settings.plugins.author') }}: {{ plugin.author }}
+            </p>
           </div>
           <div class="flex items-center gap-3 ml-4">
             <span class="text-xs text-gray-500">v{{ plugin.version }}</span>

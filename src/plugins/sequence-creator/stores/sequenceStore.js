@@ -25,7 +25,8 @@ const actionTemplates = {
           default: -10,
           min: -50,
           max: 30,
-          step: 1,
+          step: 0.1,
+          allowNegative: true,
           label: 'Temperature (°C)',
           tooltip: 'Target temperature for camera cooling',
         },
@@ -224,6 +225,14 @@ const actionTemplates = {
       color: 'bg-orange-500',
     },
     {
+      id: 'find-home',
+      name: 'Find Home',
+      icon: 'home',
+      description: 'Move telescope to home position',
+      parameters: {},
+      color: 'bg-blue-600',
+    },
+    {
       id: 'park-scope',
       name: 'Park Telescope',
       icon: 'telescope',
@@ -274,7 +283,8 @@ export const useSequenceStore = defineStore('sequence', () => {
               default: -10,
               min: -50,
               max: 30,
-              step: 1,
+              step: 0.1,
+              allowNegative: true,
               label: t('plugins.sequenceCreator.actions.coolCamera.temperatureLabel'),
               tooltip: t('plugins.sequenceCreator.actions.coolCamera.temperatureTooltip'),
             },
@@ -473,6 +483,14 @@ export const useSequenceStore = defineStore('sequence', () => {
             },
           },
           color: 'bg-orange-500',
+        },
+        {
+          id: 'find-home',
+          name: t('plugins.sequenceCreator.actions.findHome.name'),
+          icon: 'home',
+          description: t('plugins.sequenceCreator.actions.findHome.description'),
+          parameters: {},
+          color: 'bg-blue-600',
         },
         {
           id: 'park-scope',
@@ -1300,6 +1318,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     const ninaTypeMap = {
       'unpark-scope': 'NINA.Sequencer.SequenceItem.Telescope.UnparkScope, NINA.Sequencer',
       'park-scope': 'NINA.Sequencer.SequenceItem.Telescope.ParkScope, NINA.Sequencer',
+      'find-home': 'NINA.Sequencer.SequenceItem.Telescope.FindHome, NINA.Sequencer',
       'cool-camera': 'NINA.Sequencer.SequenceItem.Camera.CoolCamera, NINA.Sequencer',
       'warm-camera': 'NINA.Sequencer.SequenceItem.Camera.WarmCamera, NINA.Sequencer',
       'run-autofocus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
@@ -1422,6 +1441,9 @@ export const useSequenceStore = defineStore('sequence', () => {
         break;
       case 'run-autofocus':
         // Run autofocus has no additional parameters
+        break;
+      case 'find-home':
+        // Find home has no additional parameters
         break;
       case 'start-guiding':
         ninaItem.ForceCalibration = action.parameters.forceCalibration?.value || false;
@@ -1686,6 +1708,12 @@ export const useSequenceStore = defineStore('sequence', () => {
     if (actionTemplates.end.find((t) => t.id === 'warm-camera')) {
       addAction(
         actionTemplates.end.find((t) => t.id === 'warm-camera'),
+        'end'
+      );
+    }
+    if (actionTemplates.end.find((t) => t.id === 'find-home')) {
+      addAction(
+        actionTemplates.end.find((t) => t.id === 'find-home'),
         'end'
       );
     }

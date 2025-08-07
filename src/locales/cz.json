@@ -95,7 +95,8 @@
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
         "title": "Správa pluginů",
-        "description": "Spravovat nainstalované pluginy"
+        "description": "Spravovat nainstalované pluginy",
+        "author": "Author"
       },
       "system": {
         "title": "Systémové ovládání",
@@ -106,13 +107,13 @@
         "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
       },
       "add": "přidat",
-      "update": "TODO: translate [Update]",
+      "update": "TODO: přeložit [Aktualizace]",
       "errors": {
-        "instanceNameRequired": "TODO: translate [Instance name is required]",
-        "invalidIPFormat": "TODO: translate [Invalid IP format]",
-        "invalidPortRange": "TODO: translate [Invalid port range]",
-        "invalidInstance": "TODO: translate [Invalid instance]",
-        "emptyFields": "TODO: translate [Empty fields]"
+        "instanceNameRequired": "TODO: přeložit [Je vyžadován název instance]",
+        "invalidIPFormat": "TODO: přeložit [Neplatný formát IP adresy]",
+        "invalidPortRange": "TODO: přeložit [Neplatný rozsah portů]",
+        "invalidInstance": "TODO: přeložit [Neplatná instance]",
+        "emptyFields": "TODO: přeložit [Prázdná pole]"
       }
     },
     "connectEquipment": {
@@ -638,80 +639,84 @@
         "removeAction": "Odebrat Akci",
         "yes": "Yes",
         "coolCamera": {
-          "description": "Cool the camera to specified temperature",
-          "durationLabel": "Cooling Duration (minutes)",
-          "durationTooltip": "Time to actively cool the camera (0 = cool until temperature reached)",
-          "name": "Cool Camera",
-          "temperatureLabel": "Temperature (°C)",
-          "temperatureTooltip": "Target temperature for camera cooling"
+          "description": "Ochlazení kamery na stanovenou teplotu",
+          "durationLabel": "Doba chlazení (minuty)",
+          "durationTooltip": "Čas pro aktivní chlazení kamery (0 = chlazení až do dosažení teploty)",
+          "name": "Kamera Vychlazena",
+          "temperatureLabel": "Teplota (°C)",
+          "temperatureTooltip": "Cílová teplota pro chlazení kameryg"
         },
         "parkTelescope": {
-          "description": "Park the telescope mount",
-          "name": "Park Telescope"
+          "description": "Parkování montáže dalekohledu",
+          "name": "Park Dalekohledu"
         },
         "runAutofocus": {
-          "description": "Perform automatic focusing routine",
-          "name": "Run Autofocus"
+          "description": "Provést automatické zaostření",
+          "name": "Spustit AutoOstření"
         },
         "slewToTarget": {
-          "description": "Navigate to target with different options",
-          "name": "Slew to Target",
-          "slewModeLabel": "Slew Mode",
-          "slewModeTooltip": "Choose how to navigate to the target"
+          "description": "Přejít na cíl s různými možnostmi",
+          "name": "Přejet na Cíl",
+          "slewModeLabel": "Režim Přejíždění",
+          "slewModeTooltip": "Vyberte způsob navigace k cíli"
         },
         "smartExposure": {
           "binningLabel": "Binning",
-          "binningTooltip": "Pixel binning mode",
-          "countLabel": "Image Count",
-          "countTooltip": "Number of exposures to take",
-          "description": "Intelligent exposure sequence with dithering and triggers",
-          "ditherAfterLabel": "Dither After N Exposures",
-          "ditherAfterTooltip": "Dither frequency",
-          "exposureTimeLabel": "Exposure Time (s)",
-          "exposureTimeTooltip": "Duration of each exposure",
-          "filterLabel": "Filter",
-          "filterTooltip": "Filter wheel selection",
+          "binningTooltip": "Režim binning pixelů",
+          "countLabel": "Počet snímků",
+          "countTooltip": "Počet expozic",
+          "description": "Inteligentní expoziční sekvence s ditheringem a spouštěči",
+          "ditherAfterLabel": "Dither po N expozicíchs",
+          "ditherAfterTooltip": "Frekvence ditheringu",
+          "exposureTimeLabel": "Expoziční doba (s)",
+          "exposureTimeTooltip": "Délka trvání každé expozice",
+          "filterLabel": "Filtr",
+          "filterTooltip": "Výběr filtrového kola",
           "gainLabel": "Gain",
-          "gainTooltip": "Camera gain setting",
-          "imageTypeLabel": "Image Type",
-          "imageTypeTooltip": "Type of exposure to capture",
-          "name": "Smart Exposure (Imaging)",
+          "gainTooltip": "Nastavení gain kamery",
+          "imageTypeLabel": "Typ snímku",
+          "imageTypeTooltip": "Typ expozice pro snímání",
+          "name": "Inteligentní expozice (Zobrazování)",
           "offsetLabel": "Offset",
-          "offsetTooltip": "Camera offset setting"
+          "offsetTooltip": "Nastavení offset kamery"
         },
         "startGuiding": {
-          "description": "Start autoguiding system",
-          "forceCalibrationLabel": "Force Calibration",
-          "forceCalibrationTooltip": "Force new guider calibration",
-          "name": "Start Guiding"
+          "description": "Spustit automatické navádění",
+          "forceCalibrationLabel": "Síla Kalibrace",
+          "forceCalibrationTooltip": "Vynutit novou kalibraci navádění",
+          "name": "Spustit Navádění"
         },
         "stopGuiding": {
-          "description": "Stop autoguiding system",
-          "name": "Stop Guiding"
+          "description": "Zastavit Autonavádění",
+          "name": "Zastavit Navádění"
         },
         "targetSettings": {
-          "decLabel": "Declination",
-          "decTooltip": "Dec in DD:MM:SS format",
-          "description": "Define target coordinates and settings",
-          "name": "Target Settings",
-          "positionAngleLabel": "Position Angle (°)",
-          "positionAngleTooltip": "Camera rotation angle",
-          "raLabel": "Right Ascension",
-          "raTooltip": "RA in HH:MM:SS format",
-          "targetNameLabel": "Target Name",
-          "targetNameTooltip": "Name of the celestial object"
+          "decLabel": "Deklinace",
+          "decTooltip": "Dec in DD:MM:SS formát",
+          "description": "Definice souřadnic cíle a nastavení",
+          "name": "Nastavení Cíle",
+          "positionAngleLabel": "Úhel Polohy (°)",
+          "positionAngleTooltip": "Úhel natočení kamery",
+          "raLabel": "Rektascenze",
+          "raTooltip": "RA in HH:MM:SS formát",
+          "targetNameLabel": "Název Cíle",
+          "targetNameTooltip": "Název nebeského tělesa"
         },
         "unparkTelescope": {
           "description": "Unpark the telescope mount",
           "name": "Unpark Telescope"
         },
         "warmCamera": {
-          "description": "Warm up the camera",
-          "durationLabel": "Warming Duration (minutes)",
-          "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)",
-          "name": "Warm Camera"
+          "description": "Zahřát kameru",
+          "durationLabel": "Čas zahřívání (minuty)",
+          "durationTooltip": "Čas na aktivní zahřátí kamery (0 = zahřátí na okolní teplotu)",
+          "name": "Zahřátá Kamera"
         },
-        "clickToRename": "Click to rename"
+        "clickToRename": "Kliknutím přejmenujte",
+        "findHome": {
+          "description": "Nastavte dalekohled do výchozí polohy.",
+          "name": "Find Home"
+        }
       },
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
@@ -781,7 +786,7 @@
         "subtitle": "Vaše sekvence je připravena k exportu jako JSON kompatibilní s N.I.N.A.",
         "title": "Exportovat sekvenci N.I.N.A."
       },
-      "subtitle": "CVytvářejte profesionální astrofotografické sekvence",
+      "subtitle": "Vytvářejte profesionální astrofotografické sekvence",
       "title": "N.I.N.A Tvůrce sekvencí",
       "toolbar": {
         "clearSequence": "Vymazat Sekvenci",
@@ -790,14 +795,14 @@
         "redo": "Znovu",
         "undo": "Zpět",
         "validSequence": "Sekvence je platná a lze ji exportovat.",
-        "saveAsDefault": "Save as Default",
-        "saveAsDefaultSuccess": "Saved as default sequence!",
-        "failed": "Failed",
-        "sendErrorTitle": "Error sending to N.I.N.A",
-        "sendSuccessMessage": "Sequence successfully sent to N.I.N.A!",
-        "sendToNina": "Send to N.I.N.A",
-        "sending": "Sending...",
-        "sent": "Sent!"
+        "saveAsDefault": "Uložit jako výchozí",
+        "saveAsDefaultSuccess": "Uloženo jako výchozí sekvence!",
+        "failed": "Selhalo",
+        "sendErrorTitle": "Chyba při odesílání do",
+        "sendSuccessMessage": "Sekvence úspěšně odeslána do N.I.N.A!",
+        "sendToNina": "Odeslat N.I.N.A",
+        "sending": "Odesílání...",
+        "sent": "Odesláno!"
       },
       "settings": {
         "title": "Překlopení Poledníku",
@@ -817,28 +822,28 @@
       }
     },
     "webcam": {
-      "close": "Close",
-      "configureUrl": "Configure snapshot URL and fetch image",
-      "connected": "Connected",
-      "disconnected": "Disconnected",
-      "displayOptions": "Display Options",
-      "error": "Error",
-      "lastUpdate": "Last Update",
-      "liveView": "Live View",
-      "loadingImage": "Loading image...",
-      "noImageAvailable": "No image available",
-      "refreshInterval": "Refresh Interval",
+      "close": "Zavřít",
+      "configureUrl": "Konfigurace URL snímku a načtení obrázku",
+      "connected": "Připojeno",
+      "disconnected": "Odpojeno",
+      "displayOptions": "Možnosti zobrazení",
+      "error": "Chyba",
+      "lastUpdate": "Poslední aktualizace",
+      "liveView": "Živý Náhled",
+      "loadingImage": "Načítání snímku...",
+      "noImageAvailable": "Žádný snímek k dispozici",
+      "refreshInterval": "Obnovit Intervall",
       "reset": "Reset",
-      "resetConfirm": "Are you sure you want to reset all webcam settings?",
-      "snapshotUrlDescription": "A snapshot URL is a direct link to a single image from your webcam/IP camera. This URL should return a JPEG/PNG image directly, not an HTML page or stream.",
+      "resetConfirm": "Opravdu chcete resetovat všechna nastavení webové kamery?",
+      "snapshotUrlDescription": "URL snímku je přímý odkaz na jeden obrázek z vaší webové kamery/IP kamery. Tato URL by měla vrátit přímo obrázek ve formátu JPEG/PNG, nikoli HTML stránku nebo stream.",
       "snapshotUrl": "Snapshot URL",
-      "settings": "Settings",
-      "snapshotUrlExamples": "Examples:",
-      "startAuto": "Start Auto",
-      "status": "Status",
-      "stopAuto": "Stop Auto",
-      "title": "Webcam Settings",
-      "autoRefresh": "Auto Refresh",
+      "settings": "Nastavení",
+      "snapshotUrlExamples": "Příklady:",
+      "startAuto": "Auto Start",
+      "status": "Stav",
+      "stopAuto": "Auto Stop",
+      "title": "Nastavení Webkamerys",
+      "autoRefresh": "Auto Obnovení Refresh",
       "errors": {}
     }
   }

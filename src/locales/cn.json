@@ -95,7 +95,8 @@
       "showTutorial": "显示教程",
       "plugins": {
         "title": "插件管理",
-        "description": "管理已安装的插件"
+        "description": "管理已安装的插件",
+        "author": "Author"
       },
       "system": {
         "title": "系统控制",
@@ -711,7 +712,11 @@
           "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)",
           "name": "Warm Camera"
         },
-        "clickToRename": "Click to rename"
+        "clickToRename": "Click to rename",
+        "findHome": {
+          "description": "Move telescope to home position",
+          "name": "Find Home"
+        }
       },
       "confirmations": {
         "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",

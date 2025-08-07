@@ -95,7 +95,8 @@
       "showTutorial": "Mostra tutorial",
       "plugins": {
         "title": "Gestione plugin",
-        "description": "Gestisci plugin installati"
+        "description": "Gestisci plugin installati",
+        "author": "Autore"
       },
       "system": {
         "title": "Controlli sistema",
@@ -711,7 +712,11 @@
           "durationTooltip": "Tempo di riscaldare attivamente la fotocamera (0 = calda alla temperatura ambiente)",
           "name": "Telecamera calda"
         },
-        "clickToRename": "Fai clic per rinominare"
+        "clickToRename": "Fai clic per rinominare",
+        "findHome": {
+          "description": "Sposta il telescopio in posizione domestica",
+          "name": "Trova a casa"
+        }
       },
       "confirmations": {
         "clearSequence": "Sei sicuro di voler cancellare l'intera sequenza? \nQuesta azione non può essere annullata.",

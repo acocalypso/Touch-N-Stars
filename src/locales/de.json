@@ -186,6 +186,10 @@
           "durationLabel": "Aufwärmdauer (Minuten)",
           "durationTooltip": "Zeit zum aktiven Aufwärmen der Kamera (0 = auf Umgebungstemperatur aufwärmen)"
         },
+        "findHome": {
+          "name": "Home-Position finden",
+          "description": "Teleskop zur Home-Position bewegen"
+        },
         "parkTelescope": {
           "name": "Teleskop parken",
           "description": "Das Teleskop-Mount parken"
@@ -352,7 +356,8 @@
       "showTutorial": "Tutorial anzeigen",
       "plugins": {
         "title": "Plugin-Verwaltung",
-        "description": "Installierte Plugins verwalten"
+        "description": "Installierte Plugins verwalten",
+        "author": "Autor"
       },
       "system": {
         "title": "Systemsteuerung",

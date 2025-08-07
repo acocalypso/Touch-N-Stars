@@ -2,8 +2,8 @@
   "id": "sequence-creator",
   "name": "Sequence Creator",
   "description": "Modern sequence editor for astrophotography automation, inspired by N.I.N.A sequences",
-  "version": "1.0.0",
-  "author": "Aco",
-  "defaultEnabled": true,
+  "version": "1.1.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
   "enabled": true
 }

@@ -11,12 +11,12 @@
       <Transition name="splash">
         <div
           v-if="showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')"
-          class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900"
+          class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
           <!-- Minimaler Status-Text -->
           <p
             v-if="!store.isBackendReachable && connectionCheckCompleted"
-            class="mb-4 text-red-400 text-sm animate-pulse"
+            class="absolute top-5 left-1/2 transform -translate-x-1/2 text-red-400 text-sm sm:text-base font-medium animate-pulse bg-gray-800 px-4 py-2 rounded-lg border border-red-500/30"
           >
             Trying to establish connection...
           </p>
@@ -25,11 +25,11 @@
           <button
             v-if="!store.isBackendReachable && connectionCheckCompleted"
             @click="showSettingsModal = true"
-            class="mb-6 px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 px-4 py-2 sm:px-6 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
+              class="h-4 w-4 sm:h-5 sm:w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -50,8 +50,14 @@
             {{ $t('components.settings.title') }}
           </button>
 
-          <h1 class="text-5xl text-yellow-50 font-mono font-bold">{{ $t('app.title') }}</h1>
-          <img class="mt-5" src="@/assets/Logo_TouchNStars_600x600.png" alt="TouchNStars Logo" />
+          <h1 class="text-3xl sm:text-4xl md:text-5xl text-yellow-50 font-mono font-bold mb-4">
+            {{ $t('app.title') }}
+          </h1>
+          <img
+            class="w-72 h-72"
+            src="@/assets/Logo_TouchNStars_600x600.png"
+            alt="TouchNStars Logo"
+          />
         </div>
       </Transition>
 

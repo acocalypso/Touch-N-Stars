@@ -1205,6 +1205,62 @@ const apiService = {
     }
   },
 
+  //-------------------------------------  Settings ---------------------------------------
+  async getAllSettings() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}settings`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching settings:', error);
+      throw error;
+    }
+  },
+
+  async getSetting(key) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}settings/${key}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching setting '${key}':`, error);
+      throw error;
+    }
+  },
+
+  async createSetting(setting) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}settings`, setting);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating setting:', error);
+      throw error;
+    }
+  },
+
+  async updateSetting(key, value) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}settings/${key}`, { Value: value });
+      return response.data;
+    } catch (error) {
+      console.error(`Error updating setting '${key}':`, error);
+      throw error;
+    }
+  },
+
+  async deleteSetting(key) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.delete(`${API_URL}settings/${key}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Error deleting setting '${key}':`, error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

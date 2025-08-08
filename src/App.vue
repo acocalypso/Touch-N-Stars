@@ -10,7 +10,10 @@
       <!-- Logo Splash Screen -->
       <Transition name="splash">
         <div
-          v-if="(showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) && $route.path !== '/setup'"
+          v-if="
+            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
+            $route.path !== '/setup'
+          "
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
           <!-- Minimaler Status-Text -->
@@ -62,7 +65,12 @@
       </Transition>
 
       <div
-        v-if="!((showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) && $route.path !== '/setup')"
+        v-if="
+          !(
+            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
+            $route.path !== '/setup'
+          )
+        "
         :class="mainContentClasses"
       >
         <StellariumView

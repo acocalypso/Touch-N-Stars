@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <!-- For files in external storage -->
+    <!-- For app-specific external files -->
     <external-files-path name="external_files" path="." />
-    <!-- For files in cache directory -->
+    
+    <!-- For documents directory -->
+    <files-path name="files" path="." />
+    
+    <!-- For cache directory -->
     <cache-path name="cache" path="." />
-    <!-- For files in external cache -->
+    
+    <!-- For external cache -->
     <external-cache-path name="external_cache" path="." />
+    
+    <!-- For Pictures directory (Android 10+) -->
+    <external-media-path name="external_media" path="Pictures" />
+    
+    <!-- For legacy external storage access -->
+    <external-path name="external" path="." />
+    
     <!-- Allow root storage for legacy access -->
     <root-path name="root" path="." />
 </paths>

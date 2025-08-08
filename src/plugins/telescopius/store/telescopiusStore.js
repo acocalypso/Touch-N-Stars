@@ -31,7 +31,7 @@ export const useTelescopisStore = defineStore('telescopius', {
       try {
         await apiService.createSetting({
           Key: 'telescopius_api_key',
-          Value: apiKey
+          Value: apiKey,
         });
         this.apiKey = apiKey;
       } catch (error) {
@@ -56,6 +56,6 @@ export const useTelescopisStore = defineStore('telescopius', {
 
     clearApiKey() {
       this.apiKey = '';
-    }
-  }
+    },
+  },
 });

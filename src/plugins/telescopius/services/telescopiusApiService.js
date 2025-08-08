@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useTelescopisStore } from '../store/telescopiusStore';
 
 const TELESCOPIUS_BASE_URL = 'https://api.telescopius.com/v1.0';
@@ -21,20 +20,35 @@ class TelescopiusApiService {
     if (!store.hasApiKey) {
       throw new Error('Telescopius API Key is required');
     }
-    
+
     return {
-      'Authorization': `Key ${store.apiKey}`
+      'Accept': '*/*',
+      'Authorization': `Key ${store.apiKey}`,
     };
   }
 
   async makeRequest(endpoint, params = {}) {
     try {
-      const response = await axios.get(`${TELESCOPIUS_BASE_URL}${endpoint}`, {
-        headers: this.getHeaders(),
-        params,
-        timeout: DEFAULT_TIMEOUT
+      const url = new URL(`${TELESCOPIUS_BASE_URL}${endpoint}`);
+      
+      // Parameter als Query-String hinzufügen
+      Object.keys(params).forEach(key => {
+        if (params[key] !== undefined && params[key] !== null) {
+          url.searchParams.append(key, params[key]);
+        }
       });
-      return response.data;
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: this.getHeaders(),
+        mode: 'cors'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      return await response.json();
     } catch (error) {
       console.error(`Telescopius API Error (${endpoint}):`, error);
       throw this.handleApiError(error);
@@ -42,22 +56,18 @@ class TelescopiusApiService {
   }
 
   handleApiError(error) {
-    if (error.response) {
-      const status = error.response.status;
-      const message = error.response.data?.message || error.response.statusText;
-      
-      switch (status) {
-        case 400:
-          throw new Error(`Bad Request: ${message}`);
-        case 401:
-          throw new Error('Unauthorized: Check your API key');
-        case 429:
-          throw new Error('Too Many Requests: Rate limit exceeded');
-        default:
-          throw new Error(`API Error (${status}): ${message}`);
-      }
-    } else if (error.request) {
-      throw new Error('Network error: Could not reach Telescopius API');
+    // Fetch-Errors haben eine andere Struktur als Axios-Errors
+    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+      throw new Error('Network error: Could not reach Telescopius API (CORS issue?)');
+    } else if (error.message.includes('HTTP 400')) {
+      throw new Error('Bad Request: Check your request parameters');
+    } else if (error.message.includes('HTTP 401')) {
+      throw new Error('Unauthorized: Check your API key');
+    } else if (error.message.includes('HTTP 429')) {
+      throw new Error('Too Many Requests: Rate limit exceeded');
+    } else if (error.message.includes('HTTP')) {
+      // Andere HTTP-Errors von unserem fetch-Code
+      throw new Error(error.message);
     } else {
       throw new Error(`Request error: ${error.message}`);
     }
@@ -76,9 +86,9 @@ class TelescopiusApiService {
       page: 1,
       order: 'mag',
       order_asc: true,
-      ...searchParams
+      ...searchParams,
     };
-    
+
     return this.makeRequest('/targets/search', params);
   }
 
@@ -86,9 +96,9 @@ class TelescopiusApiService {
   async getTargetHighlights(params = {}) {
     const defaultParams = {
       types: 'DEEP_SKY_OBJECT',
-      ...params
+      ...params,
     };
-    
+
     return this.makeRequest('/targets/highlights', defaultParams);
   }
 
@@ -112,14 +122,14 @@ class TelescopiusApiService {
       center_ra: ra,
       center_dec: dec,
       dist_max: radius,
-      ...params
+      ...params,
     });
   }
 
   async searchByConstellation(constellation, params = {}) {
     return this.searchTargets({
       con: constellation,
-      ...params
+      ...params,
     });
   }
 
@@ -127,21 +137,21 @@ class TelescopiusApiService {
     return this.searchTargets({
       mag_min: minMag,
       mag_max: maxMag,
-      ...params
+      ...params,
     });
   }
 
   async searchVisibleNow(lat, lon, timezone = 'UTC', params = {}) {
     const now = new Date();
     const datetime = now.toISOString().slice(0, 19).replace('T', ' ');
-    
+
     return this.searchTargets({
       lat,
       lon,
       timezone,
       datetime,
       min_alt: 20, // Minimum 20° altitude
-      ...params
+      ...params,
     });
   }
 
@@ -151,33 +161,26 @@ class TelescopiusApiService {
       name: targetName,
       name_exact: true,
       ephemeris: ephemerisType,
-      ...params
+      ...params,
     });
   }
 
-  // Validate API Key
+  // Validate API Key - jetzt auch mit Fetch
   async validateApiKey(apiKey) {
     try {
-      const response = await axios.get(`${TELESCOPIUS_BASE_URL}/quote-of-the-day`, {
+      const response = await fetch(`${TELESCOPIUS_BASE_URL}/quote-of-the-day`, {
+        method: 'GET',
         headers: {
+          'Accept': '*/*',
           'Authorization': `Key ${apiKey}`
         },
-        timeout: 10000
+        mode: 'cors'
       });
-      
-      return {
-        valid: true,
-        message: 'API Key is valid',
-        data: response.data
-      };
-    } catch (error) {
-      console.error('Telescopius API validation error:', error);
-      
-      let message = 'API Key validation failed';
-      
-      if (error.response) {
-        const status = error.response.status;
-        switch (status) {
+
+      if (!response.ok) {
+        let message = 'API Key validation failed';
+        
+        switch (response.status) {
           case 401:
             message = 'Invalid API Key';
             break;
@@ -188,20 +191,39 @@ class TelescopiusApiService {
             message = 'Bad request - check API Key format';
             break;
           default:
-            message = `API Error (${status}): ${error.response.data?.message || error.response.statusText}`;
+            message = `API Error (${response.status}): ${response.statusText}`;
         }
-      } else if (error.code === 'ERR_NETWORK') {
+
+        return {
+          valid: false,
+          message,
+          error: response.status
+        };
+      }
+
+      const data = await response.json();
+
+      return {
+        valid: true,
+        message: 'API Key is valid',
+        data: data
+      };
+
+    } catch (error) {
+      console.error('Telescopius API validation error:', error);
+
+      let message = 'API Key validation failed';
+
+      if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
         message = 'Network error - could not reach Telescopius API (possibly CORS)';
-      } else if (error.request) {
-        message = 'Network error - could not reach Telescopius API';
       } else {
         message = error.message;
       }
-      
+
       return {
         valid: false,
         message,
-        error: error.response?.status || error.code || 'NETWORK_ERROR'
+        error: 'NETWORK_ERROR'
       };
     }
   }

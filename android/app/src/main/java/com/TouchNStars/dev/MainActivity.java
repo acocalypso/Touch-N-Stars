@@ -17,6 +17,10 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // Register custom plugins
+        registerPlugin(MediaStoreImageSaver.class);
+        
         configureWakeFeatures();
     }
 

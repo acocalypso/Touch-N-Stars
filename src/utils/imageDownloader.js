@@ -1,5 +1,9 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
+import { registerPlugin } from '@capacitor/core';
+
+// Initialize MediaStore plugin for Android
+const MediaStoreImageSaver = registerPlugin('MediaStoreImageSaver');
 
 // We'll create our own notification manager instance for images
 // by importing the styles and classes from logDownloader
@@ -341,6 +345,33 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
       // Process the image data (handles different formats)
       console.log('[ImageDownloader] Processing image data for mobile download...');
       const { base64 } = await processImageData(imageData);
+
+      // For Android, try MediaStore integration first (user-accessible storage)
+      if (platform === 'android') {
+        try {
+          console.log('[ImageDownloader] Attempting MediaStore save...');
+          const result = await MediaStoreImageSaver.saveImageToGallery({
+            base64Data: base64,
+            filename: fileName,
+            folderName: folderName,
+          });
+
+          console.log('[ImageDownloader] MediaStore save successful:', result);
+
+          notificationManager.showSuccess(
+            `Image saved to gallery`,
+            `File: ${fileName} • Access via Gallery app`
+          );
+
+          return true;
+        } catch (mediaStoreError) {
+          console.log(
+            '[ImageDownloader] MediaStore save failed, falling back to Filesystem API:',
+            mediaStoreError
+          );
+          // Continue with original filesystem approach
+        }
+      }
 
       // Create folder directory if it doesn't exist
       try {

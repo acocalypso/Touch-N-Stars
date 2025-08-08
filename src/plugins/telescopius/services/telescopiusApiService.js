@@ -22,17 +22,17 @@ class TelescopiusApiService {
     }
 
     return {
-      'Accept': '*/*',
-      'Authorization': `Key ${store.apiKey}`,
+      Accept: '*/*',
+      Authorization: `Key ${store.apiKey}`,
     };
   }
 
   async makeRequest(endpoint, params = {}) {
     try {
       const url = new URL(`${TELESCOPIUS_BASE_URL}${endpoint}`);
-      
+
       // Parameter als Query-String hinzufügen
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         if (params[key] !== undefined && params[key] !== null) {
           url.searchParams.append(key, params[key]);
         }
@@ -41,7 +41,7 @@ class TelescopiusApiService {
       const response = await fetch(url.toString(), {
         method: 'GET',
         headers: this.getHeaders(),
-        mode: 'cors'
+        mode: 'cors',
       });
 
       if (!response.ok) {
@@ -171,15 +171,15 @@ class TelescopiusApiService {
       const response = await fetch(`${TELESCOPIUS_BASE_URL}/quote-of-the-day`, {
         method: 'GET',
         headers: {
-          'Accept': '*/*',
-          'Authorization': `Key ${apiKey}`
+          Accept: '*/*',
+          Authorization: `Key ${apiKey}`,
         },
-        mode: 'cors'
+        mode: 'cors',
       });
 
       if (!response.ok) {
         let message = 'API Key validation failed';
-        
+
         switch (response.status) {
           case 401:
             message = 'Invalid API Key';
@@ -197,7 +197,7 @@ class TelescopiusApiService {
         return {
           valid: false,
           message,
-          error: response.status
+          error: response.status,
         };
       }
 
@@ -206,9 +206,8 @@ class TelescopiusApiService {
       return {
         valid: true,
         message: 'API Key is valid',
-        data: data
+        data: data,
       };
-
     } catch (error) {
       console.error('Telescopius API validation error:', error);
 
@@ -223,7 +222,7 @@ class TelescopiusApiService {
       return {
         valid: false,
         message,
-        error: 'NETWORK_ERROR'
+        error: 'NETWORK_ERROR',
       };
     }
   }

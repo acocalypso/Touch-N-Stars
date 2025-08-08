@@ -1,5 +1,6 @@
 import { useTelescopisStore } from '../store/telescopiusStore';
 
+const PROXY_BASE_URL = 'http://localhost:5000/api/proxy/telescopius';
 const TELESCOPIUS_BASE_URL = 'https://api.telescopius.com/v1.0';
 const DEFAULT_TIMEOUT = 10000;
 
@@ -22,26 +23,29 @@ class TelescopiusApiService {
     }
 
     return {
-      'Accept': '*/*',
-      'Authorization': `Key ${store.apiKey}`,
+      Accept: '*/*',
+      Authorization: `Key ${store.apiKey}`,
     };
   }
 
   async makeRequest(endpoint, params = {}) {
     try {
-      const url = new URL(`${TELESCOPIUS_BASE_URL}${endpoint}`);
-      
+      // Originale Telescopius URL für den Proxy
+      const originalUrl = new URL(`${TELESCOPIUS_BASE_URL}${endpoint}`);
+
       // Parameter als Query-String hinzufügen
-      Object.keys(params).forEach(key => {
+      Object.keys(params).forEach((key) => {
         if (params[key] !== undefined && params[key] !== null) {
-          url.searchParams.append(key, params[key]);
+          originalUrl.searchParams.append(key, params[key]);
         }
       });
 
-      const response = await fetch(url.toString(), {
+      // Proxy URL erstellen
+      const proxyUrl = `${PROXY_BASE_URL}?url=${encodeURIComponent(originalUrl.toString())}`;
+
+      const response = await fetch(proxyUrl, {
         method: 'GET',
         headers: this.getHeaders(),
-        mode: 'cors'
       });
 
       if (!response.ok) {
@@ -165,21 +169,23 @@ class TelescopiusApiService {
     });
   }
 
-  // Validate API Key - jetzt auch mit Fetch
+  // Validate API Key - über Proxy
   async validateApiKey(apiKey) {
     try {
-      const response = await fetch(`${TELESCOPIUS_BASE_URL}/quote-of-the-day`, {
+      const originalUrl = `${TELESCOPIUS_BASE_URL}/quote-of-the-day`;
+      const proxyUrl = `${PROXY_BASE_URL}?url=${encodeURIComponent(originalUrl)}`;
+
+      const response = await fetch(proxyUrl, {
         method: 'GET',
         headers: {
-          'Accept': '*/*',
-          'Authorization': `Key ${apiKey}`
+          Accept: '*/*',
+          Authorization: `Key ${apiKey}`,
         },
-        mode: 'cors'
       });
 
       if (!response.ok) {
         let message = 'API Key validation failed';
-        
+
         switch (response.status) {
           case 401:
             message = 'Invalid API Key';
@@ -197,7 +203,7 @@ class TelescopiusApiService {
         return {
           valid: false,
           message,
-          error: response.status
+          error: response.status,
         };
       }
 
@@ -206,9 +212,8 @@ class TelescopiusApiService {
       return {
         valid: true,
         message: 'API Key is valid',
-        data: data
+        data: data,
       };
-
     } catch (error) {
       console.error('Telescopius API validation error:', error);
 
@@ -223,7 +228,7 @@ class TelescopiusApiService {
       return {
         valid: false,
         message,
-        error: 'NETWORK_ERROR'
+        error: 'NETWORK_ERROR',
       };
     }
   }

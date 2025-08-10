@@ -2,14 +2,19 @@
   <div class="border border-gray-500 p-1 mt-2 rounded-lg">
     <div class="flex gap-1">
       <button
-        @click="slew"
+        @click="store.mountInfo.Slewing ? stopSlew() : slew()"
         :disabled="
-          framingStore.isSlewing ||
-          framingStore.isSlewingAndCentering ||
-          framingStore.isRotating ||
-          props.disabled
+          !store.mountInfo.Slewing && (
+            framingStore.isSlewing ||
+            framingStore.isSlewingAndCentering ||
+            framingStore.isRotating ||
+            props.disabled
+          )
         "
-        class="default-button-cyan px-5 flex-1 w-full"
+        :class="[
+          'px-5 flex-1 w-full',
+          store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan'
+        ]"
       >
         <span
           v-if="
@@ -17,7 +22,8 @@
           "
           class="loader mr-2"
         ></span>
-        <p v-if="label">{{ label }}</p>
+        <StopCircleIcon v-if="store.mountInfo.Slewing" class="w-6 h-6" />
+        <p v-else-if="label">{{ label }}</p>
         <p v-else-if="settingsStore.mount.useCenter && settingsStore.mount.useRotate && store.rotatorInfo.Connected">
           {{ $t('components.slewAndCenter.slew_and_center') }} & {{ $t('components.framing.useRotate') }}
         </p>
@@ -40,9 +46,6 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       </button>
-      <div class="default-button-red" v-if="store.mountInfo.Slewing">
-        <ButtonSlewStop />
-      </div>
     </div>
   </div>
   
@@ -101,6 +104,7 @@ import { handleApiError } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import CenterModal from '@/components/mount/CenterModal.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -116,6 +120,16 @@ const props = defineProps({
   disabled: Boolean,
 });
 const emit = defineEmits(['finished']);
+
+async function stopSlew() {
+  try {
+    const response = await apiService.mountAction('abort');
+    if (handleApiError(response, { title: 'Mount error' })) return;
+    console.log('Slew stopped');
+  } catch (error) {
+    console.error('Error stopping slew:', error);
+  }
+}
 
 async function unparkMount() {
   if (store.mountInfo.AtPark) {

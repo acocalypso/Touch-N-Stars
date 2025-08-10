@@ -18,6 +18,9 @@
           class="loader mr-2"
         ></span>
         <p v-if="label">{{ label }}</p>
+        <p v-else-if="settingsStore.mount.useCenter && settingsStore.mount.useRotate && store.rotatorInfo.Connected">
+          {{ $t('components.slewAndCenter.slew_and_center') }} & {{ $t('components.framing.useRotate') }}
+        </p>
         <p v-else-if="settingsStore.mount.useCenter">{{ $t('components.slewAndCenter.slew_and_center') }}</p>
         <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
       </button>
@@ -46,33 +49,37 @@
   <!-- Settings Modal -->
   <Modal :show="showSettingsModal" @close="showSettingsModal = false">
     <template #header>
-      <h2 class="text-xl font-bold">Slew Einstellungen</h2>
+      <h2 class="text-xl font-bold"> {{ $t('components.settings.title') }} </h2>
     </template>
     <template #body>
       <div class="space-y-4">
         <div class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30">
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
             <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
           </div>
-          <toggleButton
-            @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
-            :status-value="settingsStore.mount.useCenter"
-          />
+          <div class="ml-6">
+            <toggleButton
+              @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
+              :status-value="settingsStore.mount.useCenter"
+            />
+          </div>
         </div>
         
         <div
           v-if="store.rotatorInfo.Connected"
           class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
         >
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-purple-400"></div>
             <span class="text-sm font-medium">{{ $t('components.framing.useRotate') }}</span>
           </div>
-          <toggleButton
-            @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
-            :status-value="settingsStore.mount.useRotate"
-          />
+          <div class="ml-6">
+            <toggleButton
+              @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
+              :status-value="settingsStore.mount.useRotate"
+            />
+          </div>
         </div>
       </div>
     </template>

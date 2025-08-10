@@ -96,23 +96,27 @@ async function unparkMount() {
 }
 
 async function slew() {
-  await unparkMount(); // Überprüfen und Entparken, falls erforderlich
-  const center = settingsStore.mount.useCenter;
-  const rotate = settingsStore.mount.useRotate && store.rotatorInfo.Connected;
+  try {
+    await unparkMount(); // Überprüfen und Entparken, falls erforderlich
+    const center = settingsStore.mount.useCenter;
+    const rotate = settingsStore.mount.useRotate && store.rotatorInfo.Connected;
 
-  if (center || rotate) {
-    centeringModalRef.value?.openModal();
-    console.log('First: Slew to the target');
-    await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
-    if (framingStore.slewIsStopt) return;
-    console.log('Second: center the target');
-    await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
-  } else {
-    console.log('Slew without centering or rotating');
-    await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
+    if (center || rotate) {
+      centeringModalRef.value?.openModal();
+      console.log('First: Slew to the target');
+      await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
+      if (framingStore.slewIsStopt) return;
+      console.log('Second: center the target');
+      await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
+    } else {
+      console.log('Slew without centering or rotating');
+      await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
+    }
+
+    emit('finished'); // Emit Event nach Erfolg
+  } catch (error) {
+    console.error('Slew error:', error);
   }
-
-  emit('finished'); // Emit Event nach Erfolg
 }
 </script>
 

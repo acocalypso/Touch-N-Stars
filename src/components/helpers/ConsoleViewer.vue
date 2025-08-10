@@ -142,22 +142,22 @@ if (!window.__consoleViewerPatched) {
 
   // Patch WebSocket to catch connection errors
   const OriginalWebSocket = window.WebSocket;
-  window.WebSocket = function(url, protocols) {
+  window.WebSocket = function (url, protocols) {
     const ws = new OriginalWebSocket(url, protocols);
-    
-    ws.addEventListener('error', (event) => {
+
+    ws.addEventListener('error', () => {
       logs.value.push({
         type: 'error',
         message: `WebSocket error: ${url} - Connection failed`,
       });
     });
-    
+
     return ws;
   };
 
   // Patch fetch to catch network errors
   const originalFetch = window.fetch;
-  window.fetch = function(...args) {
+  window.fetch = function (...args) {
     return originalFetch.apply(this, args).catch((error) => {
       logs.value.push({
         type: 'error',
@@ -169,23 +169,23 @@ if (!window.__consoleViewerPatched) {
 
   // Patch XMLHttpRequest to catch network errors
   const OriginalXMLHttpRequest = window.XMLHttpRequest;
-  window.XMLHttpRequest = function() {
+  window.XMLHttpRequest = function () {
     const xhr = new OriginalXMLHttpRequest();
     const originalOpen = xhr.open;
     let url = '';
-    
-    xhr.open = function(method, reqUrl, ...rest) {
+
+    xhr.open = function (method, reqUrl, ...rest) {
       url = reqUrl;
       return originalOpen.apply(this, [method, reqUrl, ...rest]);
     };
-    
+
     xhr.addEventListener('error', () => {
       logs.value.push({
         type: 'error',
         message: `XMLHttpRequest error: ${url} - Network request failed`,
       });
     });
-    
+
     return xhr;
   };
 }

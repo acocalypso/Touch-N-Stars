@@ -42,8 +42,8 @@
             </div>
           </div>
 
-          <!-- API Key Settings -->
-          <div class="flex justify-center mt-6">
+          <!-- Actions -->
+          <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
             <button
               @click="showApiKeyModal = true"
               class="default-button-blue flex items-center gap-2"
@@ -70,6 +70,90 @@
               </svg>
               {{ $t('plugins.telescopius.apiKey.configure') }}
             </button>
+
+            <button
+              v-if="telescopiusStore.hasApiKey"
+              @click="fetchQuoteOfTheDay"
+              :disabled="isLoadingQuote"
+              class="default-button-green flex items-center gap-2"
+            >
+              <svg
+                v-if="isLoadingQuote"
+                class="w-5 h-5 animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                ></path>
+              </svg>
+              Quote of the Day
+            </button>
+          </div>
+        </div>
+
+        <!-- Quote of the Day Display -->
+        <div
+          v-if="quoteData"
+          class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-6"
+        >
+          <h6 class="text-lg font-semibold text-white mb-4 text-center">Quote of the Day</h6>
+          <div class="bg-gray-800/50 rounded-lg p-4 border border-gray-600">
+            <blockquote class="text-gray-200 text-center italic mb-3">
+              "{{
+                quoteData.quote ||
+                quoteData.text ||
+                quoteData.content ||
+                'Quote text not available'
+              }}"
+            </blockquote>
+            <div class="text-gray-400 text-center text-sm">
+              <span v-if="quoteData.author">— {{ quoteData.author }}</span>
+              <span v-if="quoteData.date" class="block mt-1">{{ formatDate(quoteData.date) }}</span>
+            </div>
+
+            <!-- Debug info (remove later) -->
+            <div class="mt-4 p-2 bg-gray-900 rounded text-xs text-gray-400">
+              <details>
+                <summary>Debug Info</summary>
+                <pre>{{ JSON.stringify(quoteData, null, 2) }}</pre>
+              </details>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Display -->
+        <div
+          v-if="quoteError"
+          class="border border-red-700 rounded-lg bg-gradient-to-br from-red-900/30 to-red-800/30 shadow-lg p-4"
+        >
+          <div class="flex items-center text-red-400 text-sm">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {{ quoteError }}
           </div>
         </div>
       </div>
@@ -84,9 +168,40 @@
 import { ref, onMounted } from 'vue';
 import ApiKeyModal from '../components/ApiKeyModal.vue';
 import { useTelescopisStore } from '../store/telescopiusStore';
+import telescopiusApiService from '../services/telescopiusApiService';
 
 const showApiKeyModal = ref(false);
 const telescopiusStore = useTelescopisStore();
+const isLoadingQuote = ref(false);
+const quoteData = ref(null);
+const quoteError = ref(null);
+
+const fetchQuoteOfTheDay = async () => {
+  if (!telescopiusStore.hasApiKey) {
+    quoteError.value = 'API Key required';
+    return;
+  }
+
+  isLoadingQuote.value = true;
+  quoteError.value = null;
+
+  try {
+    const response = await telescopiusApiService.getQuoteOfTheDay();
+    console.log('Quote API Response:', response);
+    quoteData.value = response;
+  } catch (error) {
+    console.error('Failed to fetch quote:', error);
+    quoteError.value = error.message || 'Failed to fetch quote of the day';
+    quoteData.value = null;
+  } finally {
+    isLoadingQuote.value = false;
+  }
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+  return new Date(dateString).toLocaleDateString();
+};
 
 onMounted(async () => {
   if (!telescopiusStore.isLoaded) {

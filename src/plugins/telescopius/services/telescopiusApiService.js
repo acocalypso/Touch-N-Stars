@@ -1,8 +1,36 @@
 import { useTelescopisStore } from '../store/telescopiusStore';
+import { getActivePinia } from 'pinia';
 
-const PROXY_BASE_URL = 'http://localhost:5000/api/proxy/telescopius';
 const TELESCOPIUS_BASE_URL = 'https://api.telescopius.com/v1.0';
 const DEFAULT_TIMEOUT = 10000;
+
+let settingsStore;
+let store;
+
+const initializeStore = () => {
+  if (!settingsStore) {
+    const pinia = getActivePinia();
+    if (!pinia) {
+      throw new Error('Pinia store not initialized');
+    }
+    settingsStore = pinia._s.get('settings');
+    store = pinia._s.get('store');
+  }
+};
+
+const getProxyBaseUrl = () => {
+  initializeStore();
+  const protocol = settingsStore.backendProtocol || 'http';
+  const host = settingsStore.connection.ip || window.location.hostname;
+  let port = settingsStore.connection.port || window.location.port || 80;
+
+  const isDev = process.env.NODE_ENV === 'development';
+  if (isDev && port == 8080) {
+    port = 5000;
+  }
+
+  return `${protocol}://${host}:${port}/api/proxy/telescopius`;
+};
 
 class TelescopiusApiService {
   constructor() {
@@ -41,7 +69,7 @@ class TelescopiusApiService {
       });
 
       // Proxy URL erstellen
-      const proxyUrl = `${PROXY_BASE_URL}?url=${encodeURIComponent(originalUrl.toString())}`;
+      const proxyUrl = `${getProxyBaseUrl()}?url=${encodeURIComponent(originalUrl.toString())}`;
 
       const response = await fetch(proxyUrl, {
         method: 'GET',
@@ -173,7 +201,7 @@ class TelescopiusApiService {
   async validateApiKey(apiKey) {
     try {
       const originalUrl = `${TELESCOPIUS_BASE_URL}/quote-of-the-day`;
-      const proxyUrl = `${PROXY_BASE_URL}?url=${encodeURIComponent(originalUrl)}`;
+      const proxyUrl = `${getProxyBaseUrl()}?url=${encodeURIComponent(originalUrl)}`;
 
       const response = await fetch(proxyUrl, {
         method: 'GET',

@@ -100,6 +100,7 @@ async function slew() {
     await unparkMount(); // Überprüfen und Entparken, falls erforderlich
     const center = settingsStore.mount.useCenter;
     const rotate = settingsStore.mount.useRotate && store.rotatorInfo.Connected;
+    let numberOfAttemptsTemp = 0;
 
     if (center || rotate) {
       centeringModalRef.value?.openModal();
@@ -107,7 +108,20 @@ async function slew() {
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
       if (framingStore.slewIsStopt) return;
       console.log('Second: center the target');
+      // Temporarily set NumberOfAttempts to 1 if it is greater than 1 
+      if (store.profileInfo.PlateSolveSettings.NumberOfAttempts > 1) {
+        numberOfAttemptsTemp = store.profileInfo.PlateSolveSettings.NumberOfAttempts;
+        console.log('change NumberOfAttempts to 1 from ', numberOfAttemptsTemp);
+        await apiService.profileChangeValue('PlateSolveSettings-NumberOfAttempts', 1);
+      }
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
+      if (numberOfAttemptsTemp > 1) {
+        console.log('change NumberOfAttempts to ', numberOfAttemptsTemp);
+        await apiService.profileChangeValue(
+          'PlateSolveSettings-NumberOfAttempts',
+          numberOfAttemptsTemp
+        );
+      }
     } else {
       console.log('Slew without centering or rotating');
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);

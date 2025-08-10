@@ -9,7 +9,7 @@
           framingStore.isRotating ||
           props.disabled
         "
-        class="default-button-cyan px-5"
+        class="default-button-cyan px-5 flex-1 w-full"
       >
         <span
           v-if="
@@ -18,40 +18,66 @@
           class="loader mr-2"
         ></span>
         <p v-if="label">{{ label }}</p>
+        <p v-else-if="settingsStore.mount.useCenter">{{ $t('components.slewAndCenter.slew_and_center') }}</p>
         <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
+      </button>
+      <button
+        @click="showSettingsModal = true"
+        :disabled="
+          framingStore.isSlewing ||
+          framingStore.isSlewingAndCentering ||
+          framingStore.isRotating ||
+          props.disabled
+        "
+        class="default-button-gray px-3 w-12 h-12"
+        title="Settings"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
       </button>
       <div class="default-button-red" v-if="store.mountInfo.Slewing">
         <ButtonSlewStop />
       </div>
     </div>
-    <div class="flex flex-row gap-2 justify-between">
-      <div
-        class="flex min-w-36 w-full justify-between items-center border border-gray-500 p-1 mt-2 rounded-lg"
-      >
-        <label for="DewHeater" class="text-sm mb-1 text-gray-400">
-          {{ $t('components.framing.useCenter') }}
-        </label>
-        <toggleButton
-          @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
-          :status-value="settingsStore.mount.useCenter"
-          class="pr-5 pl-5 justify-center"
-        />
-      </div>
-      <div
-        v-if="store.rotatorInfo.Connected"
-        class="flex min-w-36 w-full justify-between items-center border border-gray-500 p-1 mt-2 rounded-lg"
-      >
-        <label for="DewHeater" class="text-sm mb-1 text-gray-400">
-          {{ $t('components.framing.useRotate') }}
-        </label>
-        <toggleButton
-          @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
-          :status-value="settingsStore.mount.useRotate"
-          class="pr-5 pl-5 justify-center"
-        />
-      </div>
-    </div>
   </div>
+  
+  <!-- Settings Modal -->
+  <Modal :show="showSettingsModal" @close="showSettingsModal = false">
+    <template #header>
+      <h2 class="text-xl font-bold">Slew Einstellungen</h2>
+    </template>
+    <template #body>
+      <div class="space-y-4">
+        <div class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+            <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
+          </div>
+          <toggleButton
+            @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
+            :status-value="settingsStore.mount.useCenter"
+          />
+        </div>
+        
+        <div
+          v-if="store.rotatorInfo.Connected"
+          class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
+        >
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+            <span class="text-sm font-medium">{{ $t('components.framing.useRotate') }}</span>
+          </div>
+          <toggleButton
+            @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
+            :status-value="settingsStore.mount.useRotate"
+          />
+        </div>
+      </div>
+    </template>
+  </Modal>
+  
   <CenterModal ref="centeringModalRef" />
 </template>
 
@@ -67,12 +93,14 @@ import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
 import { handleApiError } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import CenterModal from '@/components/mount/CenterModal.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
 const centeringModalRef = ref(null);
+const showSettingsModal = ref(false);
 
 const props = defineProps({
   raAngle: Number,

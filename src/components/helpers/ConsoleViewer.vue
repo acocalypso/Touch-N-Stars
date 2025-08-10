@@ -3,7 +3,7 @@
     <!-- Trigger -->
     <button
       @click="isModalOpen = true"
-      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-50"
     >
       <CommandLineIcon class="w-6 h-6 text-white" />
     </button>
@@ -139,5 +139,54 @@ if (!window.__consoleViewerPatched) {
       });
     };
   });
+
+  // Patch WebSocket to catch connection errors
+  const OriginalWebSocket = window.WebSocket;
+  window.WebSocket = function (url, protocols) {
+    const ws = new OriginalWebSocket(url, protocols);
+
+    ws.addEventListener('error', () => {
+      logs.value.push({
+        type: 'error',
+        message: `WebSocket error: ${url} - Connection failed`,
+      });
+    });
+
+    return ws;
+  };
+
+  // Patch fetch to catch network errors
+  const originalFetch = window.fetch;
+  window.fetch = function (...args) {
+    return originalFetch.apply(this, args).catch((error) => {
+      logs.value.push({
+        type: 'error',
+        message: `Fetch error: ${args[0]} - ${error.message}`,
+      });
+      throw error;
+    });
+  };
+
+  // Patch XMLHttpRequest to catch network errors
+  const OriginalXMLHttpRequest = window.XMLHttpRequest;
+  window.XMLHttpRequest = function () {
+    const xhr = new OriginalXMLHttpRequest();
+    const originalOpen = xhr.open;
+    let url = '';
+
+    xhr.open = function (method, reqUrl, ...rest) {
+      url = reqUrl;
+      return originalOpen.apply(this, [method, reqUrl, ...rest]);
+    };
+
+    xhr.addEventListener('error', () => {
+      logs.value.push({
+        type: 'error',
+        message: `XMLHttpRequest error: ${url} - Network request failed`,
+      });
+    });
+
+    return xhr;
+  };
 }
 </script>

@@ -1,7 +1,7 @@
 PODS:
   - Capacitor (7.4.2):
     - CapacitorCordova
-  - CapacitorApp (7.0.1):
+  - CapacitorApp (7.0.2):
     - Capacitor
   - CapacitorCordova (7.4.2)
   - CapacitorFilesystem (7.1.4):
@@ -12,13 +12,13 @@ PODS:
     - IONGeolocationLib (~> 1.0)
   - CapacitorGetlocalip (0.0.2):
     - Capacitor
-  - CapacitorHaptics (7.0.1):
+  - CapacitorHaptics (7.0.2):
     - Capacitor
-  - CapacitorKeyboard (7.0.1):
+  - CapacitorKeyboard (7.0.2):
     - Capacitor
-  - CapacitorLocalNotifications (7.0.1):
+  - CapacitorLocalNotifications (7.0.2):
     - Capacitor
-  - CapacitorStatusBar (7.0.1):
+  - CapacitorStatusBar (7.0.2):
     - Capacitor
   - CapawesomeCapacitorFilePicker (7.2.0):
     - Capacitor
@@ -69,15 +69,15 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Capacitor: 9d9e481b79ffaeacaf7a85d6a11adec32bd33b59
-  CapacitorApp: febecbb9582cb353aed037e18ec765141f880fe9
+  CapacitorApp: 1f6922c9c5c8b1c538d7fbe92ebe44a81b34bed3
   CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
   CapacitorFilesystem: f9bd850c41e048180e5dc0cbb90f2033ede9d2cc
   CapacitorGeolocation: 32a1f849c38c72b5071de36a28ebc548ef3bb611
   CapacitorGetlocalip: d0f07ecbff88e31d28e5cc76dd246fc4c134b36d
-  CapacitorHaptics: 1f1e17041f435d8ead9ff2a34edd592c6aa6a8d6
-  CapacitorKeyboard: 09fd91dcde4f8a37313e7f11bde553ad1ed52036
-  CapacitorLocalNotifications: c2212755b33d2513b8bb325096ce3a64d4039ae3
-  CapacitorStatusBar: 6e7af040d8fc4dd655999819625cae9c2d74c36f
+  CapacitorHaptics: b3fb2869e72c4466e18ce9ccbeb60a3d8723b3d4
+  CapacitorKeyboard: a86aa9e4741b6444a802df26440a92ae041b34a6
+  CapacitorLocalNotifications: 665188ae8accd40806129073896fb2b39322d858
+  CapacitorStatusBar: e04d05e121d5a5979c29eb4249186a4e4a84cacb
   CapawesomeCapacitorFilePicker: 0f4a913a00e39dd77213449f0d917e92f35a5ca9
   IONFilesystemLib: 89258b8e3e85465da93127d25d7ce37f977e8a6f
   IONGeolocationLib: 81f33f88d025846946de2cf63b0c7628e7c6bc9d

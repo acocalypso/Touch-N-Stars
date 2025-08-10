@@ -4,16 +4,15 @@
       <button
         @click="store.mountInfo.Slewing ? stopSlew() : slew()"
         :disabled="
-          !store.mountInfo.Slewing && (
-            framingStore.isSlewing ||
+          !store.mountInfo.Slewing &&
+          (framingStore.isSlewing ||
             framingStore.isSlewingAndCentering ||
             framingStore.isRotating ||
-            props.disabled
-          )
+            props.disabled)
         "
         :class="[
           'px-5 flex-1 w-full',
-          store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan'
+          store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
         ]"
       >
         <span
@@ -24,10 +23,19 @@
         ></span>
         <StopCircleIcon v-if="store.mountInfo.Slewing" class="w-6 h-6" />
         <p v-else-if="label">{{ label }}</p>
-        <p v-else-if="settingsStore.mount.useCenter && settingsStore.mount.useRotate && store.rotatorInfo.Connected">
-          {{ $t('components.slewAndCenter.slew_and_center') }} & {{ $t('components.framing.useRotate') }}
+        <p
+          v-else-if="
+            settingsStore.mount.useCenter &&
+            settingsStore.mount.useRotate &&
+            store.rotatorInfo.Connected
+          "
+        >
+          {{ $t('components.slewAndCenter.slew_and_center') }} &
+          {{ $t('components.framing.useRotate') }}
         </p>
-        <p v-else-if="settingsStore.mount.useCenter">{{ $t('components.slewAndCenter.slew_and_center') }}</p>
+        <p v-else-if="settingsStore.mount.useCenter">
+          {{ $t('components.slewAndCenter.slew_and_center') }}
+        </p>
         <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
       </button>
       <button
@@ -42,21 +50,33 @@
         title="Settings"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+          />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+          />
         </svg>
       </button>
     </div>
   </div>
-  
+
   <!-- Settings Modal -->
-  <Modal :show="showSettingsModal" @close="showSettingsModal = false">
+  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-[60]'">
     <template #header>
-      <h2 class="text-xl font-bold"> {{ $t('components.settings.title') }} </h2>
+      <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
     </template>
     <template #body>
       <div class="space-y-4">
-        <div class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30">
+        <div
+          class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
+        >
           <div class="flex items-center gap-3">
             <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
             <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
@@ -68,7 +88,7 @@
             />
           </div>
         </div>
-        
+
         <div
           v-if="store.rotatorInfo.Connected"
           class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
@@ -87,7 +107,7 @@
       </div>
     </template>
   </Modal>
-  
+
   <CenterModal ref="centeringModalRef" />
 </template>
 
@@ -99,7 +119,6 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
-import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
 import { handleApiError } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import CenterModal from '@/components/mount/CenterModal.vue';
@@ -157,7 +176,7 @@ async function slew() {
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
       if (framingStore.slewIsStopt) return;
       console.log('Second: center the target');
-      // Temporarily set NumberOfAttempts to 1 if it is greater than 1 
+      // Temporarily set NumberOfAttempts to 1 if it is greater than 1
       if (store.profileInfo.PlateSolveSettings.NumberOfAttempts > 1) {
         numberOfAttemptsTemp = store.profileInfo.PlateSolveSettings.NumberOfAttempts;
         console.log('change NumberOfAttempts to 1 from ', numberOfAttemptsTemp);

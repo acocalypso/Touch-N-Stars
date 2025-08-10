@@ -48,7 +48,11 @@
             :dec-string="selectedObjectDec"
           />
         </div>
-        <ButtonSlewCenterRotate class="w-full" :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />
+        <ButtonSlewCenterRotate
+          class="w-full"
+          :raAngle="props.selectedObjectRaDeg"
+          :decAngle="props.selectedObjectDecDeg"
+        />
 
         <ButtomSyncCoordinatesToMount
           :raAngle="props.selectedObjectRaDeg"

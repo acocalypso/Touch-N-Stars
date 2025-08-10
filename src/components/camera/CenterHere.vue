@@ -58,7 +58,6 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { wait, degreesToHMS, degreesToDMS } from '@/utils/utils.js';
 import apiService from '@/services/apiService';
-import ButtonSlew from '@/components/mount/ButtonSlew.vue';
 import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 
 const cameraStore = useCameraStore();
@@ -132,19 +131,6 @@ async function fetchFramingInfo() {
   } catch (error) {
     console.error('Fehler beim Abrufen des FramingInfo:', error);
   }
-}
-
-async function slewFinished() {
-  console.log('Slew finished!');
-  await wait(500);
-  cameraStore.capturePhoto(
-    apiService,
-    settingsStore.camera.exposureTime,
-    settingsStore.camera.gain,
-    settingsStore.camera.useSolve
-  );
-  cameraStore.imageData = '';
-  cameraStore.slewModal = false;
 }
 
 async function slewAndCenterFinished() {

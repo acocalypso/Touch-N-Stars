@@ -9,6 +9,7 @@ import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
 import axios from 'axios';
+import { useToastStore } from '@/store/toastStore';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -30,7 +31,16 @@ axios.interceptors.response.use(
     
     // Check for non-200 HTTP status codes
     if (response.status !== 200) {
-      console.error(`HTTP ${response.status}: ${method} ${url} - ${response.statusText}`);
+      const message = `HTTP ${response.status}: ${method} ${url} - ${response.statusText}`;
+      console.error(message);
+      
+      // Show toast for HTTP errors
+      const toastStore = useToastStore();
+      toastStore.showToast({
+        type: 'error',
+        title: `HTTP ${response.status}`,
+        message: `${method} request failed: ${response.statusText}`,
+      });
     }
     
     // Check for API-specific error responses (Success: false, Error field, or StatusCode >= 400)
@@ -44,6 +54,14 @@ axios.interceptors.response.use(
       const errorMsg = data.Error || data.Response || 'API call failed';
       
       console.error(`API Error ${statusCode}: ${method} ${url} - ${errorMsg}`);
+      
+      // Show toast for API errors
+      const toastStore = useToastStore();
+      toastStore.showToast({
+        type: 'error',
+        title: `API Error ${statusCode}`,
+        message: errorMsg,
+      });
     }
     
     return response;
@@ -62,7 +80,27 @@ axios.interceptors.response.use(
     
     console.error(message);
     
-    return Promise.reject(error);
+    // Show toast for network errors
+    const toastStore = useToastStore();
+    toastStore.showToast({
+      type: 'error',
+      title: status ? `HTTP ${status}` : 'Network Error',
+      message: status ? `${method} request failed` : `Connection failed: ${error.message}`,
+    });
+    
+    // Return a mock error response instead of rejecting
+    // This prevents the calling code from crashing
+    return {
+      data: {
+        Response: '',
+        Error: message,
+        StatusCode: status || 500,
+        Success: false,
+        Type: 'API'
+      },
+      status: status || 500,
+      config: error.config
+    };
   }
 );
 

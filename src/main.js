@@ -24,7 +24,7 @@ const tooltipDirective = {
         return;
       }
     }
-    
+
     // Handle regular DOM elements
     if (!el || typeof el.setAttribute !== 'function') {
       return; // Silently ignore invalid elements
@@ -41,13 +41,13 @@ const tooltipDirective = {
         return;
       }
     }
-    
+
     // Handle regular DOM elements
     if (!el || typeof el.setAttribute !== 'function') {
       return;
     }
     el.setAttribute('title', binding.value);
-  }
+  },
 };
 
 const pinia = createPinia();
@@ -70,13 +70,13 @@ function createStructuredLog(level, category, data) {
     message: data.message,
     duration: data.duration,
     userAgent: navigator.userAgent.split(' ').pop(), // Simplified UA
-    ...data.extra
+    ...data.extra,
   };
-  
+
   // Rate limiting: prevent spam of identical messages
   const cacheKey = `${level}:${category}:${data.method}:${data.url}:${data.status}:${data.message}`;
   const now = Date.now();
-  
+
   if (errorCache.has(cacheKey)) {
     const lastLogged = errorCache.get(cacheKey);
     // Skip if same message was logged within last 5 seconds
@@ -84,10 +84,10 @@ function createStructuredLog(level, category, data) {
       return logEntry; // Return entry but don't log
     }
   }
-  
+
   // Update cache and log
   errorCache.set(cacheKey, now);
-  
+
   // Clean up old entries (older than 30 seconds)
   setTimeout(() => {
     for (const [key, timestamp] of errorCache.entries()) {
@@ -96,10 +96,10 @@ function createStructuredLog(level, category, data) {
       }
     }
   }, 30000);
-  
+
   // Log both structured and human-readable
   console.log(JSON.stringify(logEntry));
-  
+
   return logEntry;
 }
 
@@ -114,28 +114,29 @@ axios.interceptors.response.use(
   (response) => {
     const url = response.config?.url || 'unknown';
     const method = response.config?.method?.toUpperCase() || 'REQUEST';
-    const duration = response.config?.metadata?.startTime ? 
-      Math.round(performance.now() - response.config.metadata.startTime) : null;
-    
+    const duration = response.config?.metadata?.startTime
+      ? Math.round(performance.now() - response.config.metadata.startTime)
+      : null;
+
     // Check for non-200 HTTP status codes
     if (response.status !== 200) {
       const message = `${method} request failed: ${response.statusText}`;
-      
+
       createStructuredLog('ERROR', 'HTTP', {
         method,
         url,
         status: response.status,
         message,
         duration,
-        extra: { statusText: response.statusText }
+        extra: { statusText: response.statusText },
       });
-      
+
       // Show toast for HTTP errors (with rate limiting)
       const toastStore = useToastStore();
       const toastKey = `HTTP_${response.status}_${url}`;
       const now = Date.now();
-      
-      if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+
+      if (!toastCache.has(toastKey) || now - toastCache.get(toastKey) > 5000) {
         toastCache.set(toastKey, now);
         toastStore.showToast({
           type: 'error',
@@ -144,45 +145,43 @@ axios.interceptors.response.use(
         });
       }
     }
-    
+
     // Check for API-specific error responses (Success: false or StatusCode >= 400)
     const data = response.data;
-    if (data && (
-      data.Success === false || 
-      (data.StatusCode && data.StatusCode >= 400)
-    )) {
+    if (data && (data.Success === false || (data.StatusCode && data.StatusCode >= 400))) {
       const statusCode = data.StatusCode || response.status;
       // For HTTP 200 with Success: false, show Response text instead of Error text
-      const errorMsg = response.status === 200 ? 
-        (data.Response || data.Error || 'API call completed') : 
-        (data.Error || data.Response || 'API call failed');
-      
-      // For HTTP 200 with Success: false, treat as info (API state messages)  
+      const errorMsg =
+        response.status === 200
+          ? data.Response || data.Error || 'API call completed'
+          : data.Error || data.Response || 'API call failed';
+
+      // For HTTP 200 with Success: false, treat as info (API state messages)
       // Only log as ERROR if HTTP status indicates failure
       const isRealError = response.status >= 400;
       const logLevel = isRealError ? 'ERROR' : 'INFO';
-      
+
       createStructuredLog(logLevel, 'API', {
         method,
         url,
         status: statusCode,
         message: errorMsg,
         duration,
-        extra: { 
+        extra: {
           httpStatus: response.status,
           apiSuccess: data.Success,
-          apiType: data.Type
-        }
+          apiType: data.Type,
+        },
       });
-      
+
       // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
       // Skip toasts only for HTTP 200 + StatusCode 200 (successful responses)
       if (response.status >= 400 || statusCode >= 400) {
         const toastStore = useToastStore();
         const toastKey = `API_${statusCode}_${url}_${errorMsg}`;
         const now = Date.now();
-        
-        if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+
+        if (!toastCache.has(toastKey) || now - toastCache.get(toastKey) > 5000) {
           toastCache.set(toastKey, now);
           toastStore.showToast({
             type: isRealError ? 'error' : 'info',
@@ -199,48 +198,49 @@ axios.interceptors.response.use(
         status: response.status,
         message: `Slow request detected`,
         duration,
-        extra: { threshold: 5000 }
+        extra: { threshold: 5000 },
       });
     }
-    
+
     return response;
   },
   (error) => {
     const status = error.response?.status;
     const url = error.config?.url || 'unknown';
     const method = error.config?.method?.toUpperCase() || 'REQUEST';
-    const duration = error.config?.metadata?.startTime ? 
-      Math.round(performance.now() - error.config.metadata.startTime) : null;
-    
+    const duration = error.config?.metadata?.startTime
+      ? Math.round(performance.now() - error.config.metadata.startTime)
+      : null;
+
     let message;
     let category = 'NETWORK';
-    
+
     if (status) {
       message = `${method} request failed`;
       category = 'HTTP';
     } else {
       message = `Connection failed: ${error.message}`;
     }
-    
+
     createStructuredLog('ERROR', category, {
       method,
       url,
       status: status || 0,
       message,
       duration,
-      extra: { 
+      extra: {
         errorCode: error.code,
         errorMessage: error.message,
-        timeout: error.config?.timeout
-      }
+        timeout: error.config?.timeout,
+      },
     });
-    
+
     // Show toast for network errors (with rate limiting)
     const toastStore = useToastStore();
     const toastKey = `NETWORK_${status || 'ERROR'}_${url}`;
     const now = Date.now();
-    
-    if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+
+    if (!toastCache.has(toastKey) || now - toastCache.get(toastKey) > 5000) {
       toastCache.set(toastKey, now);
       toastStore.showToast({
         type: 'error',
@@ -248,7 +248,7 @@ axios.interceptors.response.use(
         message: status ? `${method} request failed` : `Connection failed: ${error.message}`,
       });
     }
-    
+
     // Return a mock error response instead of rejecting
     // This prevents the calling code from crashing
     return {
@@ -257,10 +257,10 @@ axios.interceptors.response.use(
         Error: message,
         StatusCode: status || 500,
         Success: false,
-        Type: 'API'
+        Type: 'API',
       },
       status: status || 500,
-      config: error.config
+      config: error.config,
     };
   }
 );
@@ -272,7 +272,10 @@ app.directive('tooltip', tooltipDirective);
 const originalWarn = console.warn;
 console.warn = (...args) => {
   const message = args[0];
-  if (typeof message === 'string' && message.includes('Runtime directive used on component with non-element root node')) {
+  if (
+    typeof message === 'string' &&
+    message.includes('Runtime directive used on component with non-element root node')
+  ) {
     // Suppress this specific warning as it appears to be a false positive
     return;
   }

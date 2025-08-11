@@ -14,7 +14,7 @@ const statusClass = ref('');
 
 async function parkDome() {
   try {
-    const response = await apiService.domeAction('park');
+    await apiService.domeAction('park');
     statusClass.value = 'glow-green';
     console.log(t('components.dome.control.park'));
   } catch (error) {

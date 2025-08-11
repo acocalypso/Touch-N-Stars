@@ -14,7 +14,7 @@ const statusClass = ref('');
 
 async function openShutter() {
   try {
-    const response = await apiService.domeAction('open');
+    await apiService.domeAction('open');
     statusClass.value = 'glow-green';
     console.log(t('components.dome.control.open'));
   } catch (error) {

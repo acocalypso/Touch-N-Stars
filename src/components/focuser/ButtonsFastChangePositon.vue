@@ -52,7 +52,7 @@ async function moveFocuser(newPosiont) {
   newPosiont = Math.max(0, newPosiont);
   try {
     console.log('Change focuser positon from', currentPosition, 'to', newPosiont);
-    const response = await apiService.moveFocuser(newPosiont);
+    await apiService.moveFocuser(newPosiont);
     isMoving.value = true;
 
     if (timeoutId.value) clearTimeout(timeoutId.value);

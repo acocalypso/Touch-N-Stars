@@ -14,7 +14,7 @@ const statusClass = ref('');
 
 async function homeDome() {
   try {
-    const response = await apiService.domeAction('home');
+    await apiService.domeAction('home');
     statusClass.value = 'glow-green';
     console.log(t('components.dome.control.home'));
   } catch (error) {

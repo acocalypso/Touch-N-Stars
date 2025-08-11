@@ -15,7 +15,7 @@ const statusClass = ref('');
 
 async function stopShutter() {
   try {
-    const response = await apiService.domeAction('stop');
+    await apiService.domeAction('stop');
     statusClass.value = 'glow-green';
     console.log(t('components.dome.control.stop'));
   } catch (error) {

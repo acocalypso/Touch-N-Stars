@@ -25,9 +25,11 @@
           </button>
         </div>
       </template>
-      
+
       <template #body>
-        <div class="space-y-1 text-sm font-mono bg-gray-900 rounded p-4 border border-gray-700 max-h-[60vh] overflow-y-auto scrollbar-thin">
+        <div
+          class="space-y-1 text-sm font-mono bg-gray-900 rounded p-4 border border-gray-700 max-h-[60vh] overflow-y-auto scrollbar-thin"
+        >
           <div
             v-for="(log, index) in logs"
             :key="index"

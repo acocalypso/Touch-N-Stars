@@ -57,11 +57,12 @@ axios.interceptors.response.use(
       
       console.error(`API Error ${statusCode}: ${method} ${url} - ${errorMsg}`);
       
-      // Show toast for API errors
+      // Show toast with appropriate type
       const toastStore = useToastStore();
+      const isHttp200 = response.status === 200;
       toastStore.showToast({
-        type: 'error',
-        title: `API Error ${statusCode}`,
+        type: isHttp200 ? 'info' : 'error',
+        title: isHttp200 ? 'Info' : `API Error ${statusCode}`,
         message: errorMsg,
       });
     }

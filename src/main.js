@@ -54,7 +54,11 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 const head = createHead();
 
-// Structured logging function
+// Rate limiting cache for duplicate messages
+const errorCache = new Map();
+const toastCache = new Map();
+
+// Structured logging function with rate limiting
 function createStructuredLog(level, category, data) {
   const logEntry = {
     timestamp: new Date().toISOString(),
@@ -68,6 +72,30 @@ function createStructuredLog(level, category, data) {
     userAgent: navigator.userAgent.split(' ').pop(), // Simplified UA
     ...data.extra
   };
+  
+  // Rate limiting: prevent spam of identical messages
+  const cacheKey = `${level}:${category}:${data.method}:${data.url}:${data.status}:${data.message}`;
+  const now = Date.now();
+  
+  if (errorCache.has(cacheKey)) {
+    const lastLogged = errorCache.get(cacheKey);
+    // Skip if same message was logged within last 5 seconds
+    if (now - lastLogged < 5000) {
+      return logEntry; // Return entry but don't log
+    }
+  }
+  
+  // Update cache and log
+  errorCache.set(cacheKey, now);
+  
+  // Clean up old entries (older than 30 seconds)
+  setTimeout(() => {
+    for (const [key, timestamp] of errorCache.entries()) {
+      if (now - timestamp > 30000) {
+        errorCache.delete(key);
+      }
+    }
+  }, 30000);
   
   // Log both structured and human-readable
   console.log(JSON.stringify(logEntry));
@@ -102,13 +130,19 @@ axios.interceptors.response.use(
         extra: { statusText: response.statusText }
       });
       
-      // Show toast for HTTP errors
+      // Show toast for HTTP errors (with rate limiting)
       const toastStore = useToastStore();
-      toastStore.showToast({
-        type: 'error',
-        title: `HTTP ${response.status}`,
-        message,
-      });
+      const toastKey = `HTTP_${response.status}_${url}`;
+      const now = Date.now();
+      
+      if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+        toastCache.set(toastKey, now);
+        toastStore.showToast({
+          type: 'error',
+          title: `HTTP ${response.status}`,
+          message,
+        });
+      }
     }
     
     // Check for API-specific error responses (Success: false or StatusCode >= 400)
@@ -123,7 +157,10 @@ axios.interceptors.response.use(
         (data.Response || data.Error || 'API call completed') : 
         (data.Error || data.Response || 'API call failed');
       
-      const logLevel = response.status === 200 ? 'INFO' : 'ERROR';
+      // Determine if this is an actual error or just info
+      const isRealError = data.Success === false || statusCode >= 400;
+      const logLevel = isRealError ? 'ERROR' : 'INFO';
+      
       createStructuredLog(logLevel, 'API', {
         method,
         url,
@@ -137,14 +174,19 @@ axios.interceptors.response.use(
         }
       });
       
-      // Show toast with appropriate type
+      // Show toast with appropriate type (with rate limiting)
       const toastStore = useToastStore();
-      const isHttp200 = response.status === 200;
-      toastStore.showToast({
-        type: isHttp200 ? 'info' : 'error',
-        title: isHttp200 ? 'Info' : `API Error ${statusCode}`,
-        message: errorMsg,
-      });
+      const toastKey = `API_${statusCode}_${url}_${errorMsg}`;
+      const now = Date.now();
+      
+      if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+        toastCache.set(toastKey, now);
+        toastStore.showToast({
+          type: isRealError ? 'error' : 'info',
+          title: isRealError ? `API Error ${statusCode}` : 'Info',
+          message: errorMsg,
+        });
+      }
     } else if (response.status === 200 && duration > 5000) {
       // Log slow requests (over 5 seconds)
       createStructuredLog('WARN', 'PERFORMANCE', {
@@ -189,13 +231,19 @@ axios.interceptors.response.use(
       }
     });
     
-    // Show toast for network errors
+    // Show toast for network errors (with rate limiting)
     const toastStore = useToastStore();
-    toastStore.showToast({
-      type: 'error',
-      title: status ? `HTTP ${status}` : 'Network Error',
-      message: status ? `${method} request failed` : `Connection failed: ${error.message}`,
-    });
+    const toastKey = `NETWORK_${status || 'ERROR'}_${url}`;
+    const now = Date.now();
+    
+    if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+      toastCache.set(toastKey, now);
+      toastStore.showToast({
+        type: 'error',
+        title: status ? `HTTP ${status}` : 'Network Error',
+        message: status ? `${method} request failed` : `Connection failed: ${error.message}`,
+      });
+    }
     
     // Return a mock error response instead of rejecting
     // This prevents the calling code from crashing
@@ -216,7 +264,7 @@ axios.interceptors.response.use(
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
 
-// Suppress specific Vue warning about runtime directives
+// Suppress specific Vue warning about runtime directives in browser console
 const originalWarn = console.warn;
 console.warn = (...args) => {
   const message = args[0];

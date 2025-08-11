@@ -62,6 +62,9 @@ const isModalOpen = ref(false);
 const logs = ref([]);
 const showSuccess = ref(false);
 
+// Rate limiting cache for duplicate console messages
+const consoleCache = new Map();
+
 function safeToString(arg) {
   try {
     if (typeof arg === 'object') {
@@ -133,9 +136,41 @@ if (!window.__consoleViewerPatched) {
 
     console[type] = (...args) => {
       originalConsole[type](...args);
+      
+      const message = args.map(safeToString).join(' ');
+      
+      // Filter out specific Vue warnings that are false positives
+      if (message.includes('Runtime directive used on component with non-element root node')) {
+        return; // Don't add this message to logs
+      }
+      
+      // Rate limiting for duplicate console messages
+      const cacheKey = `${type}:${message}`;
+      const now = Date.now();
+      
+      if (consoleCache.has(cacheKey)) {
+        const lastLogged = consoleCache.get(cacheKey);
+        // Skip if same message was logged within last 3 seconds
+        if (now - lastLogged < 3000) {
+          return;
+        }
+      }
+      
+      // Update cache
+      consoleCache.set(cacheKey, now);
+      
+      // Clean up old entries (older than 15 seconds)
+      setTimeout(() => {
+        for (const [key, timestamp] of consoleCache.entries()) {
+          if (now - timestamp > 15000) {
+            consoleCache.delete(key);
+          }
+        }
+      }, 15000);
+      
       logs.value.push({
         type,
-        message: args.map(safeToString).join(' '),
+        message,
       });
     };
   });

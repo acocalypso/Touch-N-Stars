@@ -61,7 +61,6 @@ const apiService = {
       const response = await axios.get(`${API_URL}get-api-port`, { timeout });
       return response;
     } catch (error) {
-      console.error('Error reaching backend:', error.message);
       return false;
     }
   },
@@ -72,7 +71,6 @@ const apiService = {
       const response = await axios.get(`${API_URL}version`, { timeout });
       return response.data;
     } catch (error) {
-      console.error('Error reaching backend:', error.message);
       return false;
     }
   },
@@ -87,7 +85,7 @@ const apiService = {
       if (err.code === 'ECONNABORTED') {
         console.warn(`fetchApiVersion: Timeout nach ${timeout} ms`);
       } else {
-        console.error('Error reaching backend:', err.message);
+        // console.error('Error reaching backend:', err.message);
       }
       return null;
     }
@@ -111,7 +109,6 @@ const apiService = {
       console.log('PHD2 TNS API connect:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error connect PHD2:', error);
       throw error;
     }
   },
@@ -126,7 +123,6 @@ const apiService = {
       console.log('PHD2 TNS API disconnect:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error disconnect PHD2:', error);
       throw error;
     }
   },
@@ -137,7 +133,6 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/all-info`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching all phd2 info:', error);
       throw error;
     }
   },
@@ -148,7 +143,6 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/profiles`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching profiles:', error);
       throw error;
     }
   },
@@ -159,7 +153,6 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/get-profile`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching current profile:', error);
       throw error;
     }
   },
@@ -170,7 +163,7 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/get-current-equipment`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching CurrentEquipment:', error);
+      // console.error('Error fetching CurrentEquipment:', error);
       throw error;
     }
   },
@@ -184,7 +177,7 @@ const apiService = {
       console.log('PHD2 TNS API connect-equipment:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error connect-equipment PHD2:', error);
+      // console.error('Error connect-equipment PHD2:', error);
       throw error;
     }
   },
@@ -196,7 +189,7 @@ const apiService = {
       console.log('PHD2 TNS API disconnect-equipment:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error disconnect-equipment PHD2:', error);
+      // console.error('Error disconnect-equipment PHD2:', error);
       throw error;
     }
   },
@@ -207,7 +200,7 @@ const apiService = {
       const response = await axios.get(`${API_URL}phd2/get-exposure`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching favorites:', error);
+      // console.error('Error fetching favorites:', error);
       throw error;
     }
   },
@@ -221,7 +214,7 @@ const apiService = {
       console.log('PHD2 TNS API setPHD2Exposure:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error setPHD2Exposure PHD2:', error);
+      // console.error('Error setPHD2Exposure PHD2:', error);
       throw error;
     }
   },
@@ -238,7 +231,7 @@ const apiService = {
       console.log(response);
       return response.data;
     } catch (error) {
-      console.error('Error fetching get-algo-param-names:', error);
+      // console.error('Error fetching get-algo-param-names:', error);
       throw error;
     }
   },
@@ -255,7 +248,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error fetching get-algo-param-names:', error);
+      // console.error('Error fetching get-algo-param-names:', error);
       throw error;
     }
   },
@@ -271,7 +264,7 @@ const apiService = {
       console.log('PHD2 TNS API setPHD2AlgoParam:', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error setPHD2AlgoParam PHD2:', error);
+      // console.error('Error setPHD2AlgoParam PHD2:', error);
       throw error;
     }
   },
@@ -284,7 +277,7 @@ const apiService = {
       });
       return URL.createObjectURL(response.data);
     } catch (error) {
-      console.error('Error fetching PHD2 current image:', error);
+      // console.error('Error fetching PHD2 current image:', error);
       throw error;
     }
   },
@@ -297,7 +290,7 @@ const apiService = {
       });
       return URL.createObjectURL(response.data);
     } catch (error) {
-      console.error('Error fetching PHD2 star image:', error);
+      // console.error('Error fetching PHD2 star image:', error);
       throw error;
     }
   },
@@ -309,11 +302,11 @@ const apiService = {
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 500) {
-        console.error('Error fetching PHD2 lock position:', error);
+        // console.error('Error fetching PHD2 lock position:', error);
       } else if (error.response && error.response.status === 400) {
-        console.log('Bad request for PHD2 lock position:', error);
+        // console.log('Bad request for PHD2 lock position:', error);
       } else {
-        console.error('Error fetching PHD2 lock position:', error);
+        // console.error('Error fetching PHD2 lock position:', error);
       }
       return { Success: false, Response: null };
     }
@@ -327,7 +320,7 @@ const apiService = {
       const response = await axios.get(`${API_URL}favorites`);
       return response.data;
     } catch (error) {
-      console.error('Error fetching favorites:', error);
+      // console.error('Error fetching favorites:', error);
       throw error;
     }
   },
@@ -338,7 +331,7 @@ const apiService = {
       const response = await axios.post(`${API_URL}favorites`, favorite);
       return response.data;
     } catch (error) {
-      console.error('Error adding favorite:', error);
+      // console.error('Error adding favorite:', error);
       throw error;
     }
   },
@@ -349,7 +342,7 @@ const apiService = {
       const response = await axios.put(`${API_URL}favorites/${id}`, updatedFavorite);
       return response.data;
     } catch (error) {
-      console.error(`Error updating favorite with ID ${id}:`, error);
+      // console.error(`Error updating favorite with ID ${id}:`, error);
       throw error;
     }
   },
@@ -360,7 +353,7 @@ const apiService = {
       const response = await axios.delete(`${API_URL}favorites/${id}`);
       return response.data;
     } catch (error) {
-      console.error(`Error deleting favorite with ID ${id}:`, error);
+      // console.error(`Error deleting favorite with ID ${id}:`, error);
       throw error;
     }
   },
@@ -374,7 +367,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error read Image History:', error);
+      // console.error('Error read Image History:', error);
       throw error;
     }
   },
@@ -390,7 +383,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error read Image History:', error);
+      // console.error('Error read Image History:', error);
       throw error;
     }
   },
@@ -412,7 +405,7 @@ const apiService = {
       console.log(response);
       return response;
     } catch (error) {
-      console.error('Error read Image :', error);
+      // console.error('Error read Image :', error);
       throw error;
     }
   },
@@ -426,7 +419,7 @@ const apiService = {
       console.log(response);
       return response.data;
     } catch (error) {
-      console.error('Error read Thumbnail :', error);
+      // console.error('Error read Thumbnail :', error);
       throw error;
     }
   },
@@ -447,7 +440,7 @@ const apiService = {
       });
       return response;
     } catch (error) {
-      console.error('Error read Image :', error);
+      // console.error('Error read Image :', error);
       throw error;
     }
   },
@@ -479,7 +472,7 @@ const apiService = {
       console.log('seqence loaded :', response.data);
       return response.data;
     } catch (error) {
-      console.error('Error seqence json load:', error);
+      // console.error('Error seqence json load:', error);
       throw error;
     }
   },
@@ -499,7 +492,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error read Image :', error);
+      // console.error('Error read Image :', error);
       throw error;
     }
   },
@@ -518,7 +511,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error setTrackingMode:', error);
+      // console.error('Error setTrackingMode:', error);
       throw error;
     }
   },
@@ -534,7 +527,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error moveAxis:', error);
+      // console.error('Error moveAxis:', error);
       throw error;
     }
   },
@@ -547,7 +540,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error moveAxisStop:', error);
+      // console.error('Error moveAxisStop:', error);
       throw error;
     }
   },
@@ -571,7 +564,7 @@ const apiService = {
       //console.log(response.data);
       return response.data;
     } catch (error) {
-      console.error('Error switch profil:', error);
+      // console.error('Error switch profil:', error);
       throw error;
     }
   },
@@ -585,7 +578,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error switch profil:', error);
+      // console.error('Error switch profil:', error);
       throw error;
     }
   },
@@ -599,7 +592,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error open application:', error);
+      // console.error('Error open application:', error);
       throw error;
     }
   },
@@ -610,7 +603,7 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/application/get-tab`, {});
       return response.data;
     } catch (error) {
-      console.error('Error application:', error);
+      // console.error('Error application:', error);
       throw error;
     }
   },
@@ -634,7 +627,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error starting capture:', error);
+      // console.error('Error starting capture:', error);
       throw error;
     }
   },
@@ -653,7 +646,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error starting capture:', error);
+      // console.error('Error starting capture:', error);
       throw error;
     }
   },
@@ -672,7 +665,7 @@ const apiService = {
       });
       return response;
     } catch (error) {
-      console.error('Error retrieving capture result:', error);
+      // console.error('Error retrieving capture result:', error);
       throw error;
     }
   },
@@ -688,7 +681,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving capture result:', error);
+      // console.error('Error retrieving capture result:', error);
       throw error;
     }
   },
@@ -704,7 +697,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving capture result:', error);
+      // console.error('Error retrieving capture result:', error);
       throw error;
     }
   },
@@ -717,7 +710,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving capture result:', error);
+      // console.error('Error retrieving capture result:', error);
       throw error;
     }
   },
@@ -733,7 +726,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving capture result:', error);
+      // console.error('Error retrieving capture result:', error);
       throw error;
     }
   },
@@ -746,7 +739,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving capture result:', error);
+      // console.error('Error retrieving capture result:', error);
       throw error;
     }
   },
@@ -759,7 +752,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving result:', error);
+      // console.error('Error retrieving result:', error);
       throw error;
     }
   },
@@ -772,7 +765,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving result:', error);
+      // console.error('Error retrieving result:', error);
       throw error;
     }
   },
@@ -791,7 +784,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error changing filter:', error);
+      // console.error('Error changing filter:', error);
       throw error;
     }
   },
@@ -810,7 +803,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error moving Rotator:', error);
+      // console.error('Error moving Rotator:', error);
       throw error;
     }
   },
@@ -823,7 +816,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error moving mechanical Rotator:', error);
+      // console.error('Error moving mechanical Rotator:', error);
       throw error;
     }
   },
@@ -843,7 +836,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error set-light:', error);
+      // console.error('Error set-light:', error);
       throw error;
     }
   },
@@ -856,7 +849,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error set-cover:', error);
+      // console.error('Error set-cover:', error);
       throw error;
     }
   },
@@ -869,7 +862,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error set brightness:', error);
+      // console.error('Error set brightness:', error);
       throw error;
     }
   },
@@ -911,7 +904,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error auto-exposure:', error);
+      // console.error('Error auto-exposure:', error);
       throw error;
     }
   },
@@ -947,7 +940,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error auto-brightness:', error);
+      // console.error('Error auto-brightness:', error);
       throw error;
     }
   },
@@ -981,7 +974,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error skyflats:', error);
+      // console.error('Error skyflats:', error);
       throw error;
     }
   },
@@ -1016,7 +1009,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error moving focuser:', error);
+      // console.error('Error moving focuser:', error);
       throw error;
     }
   },
@@ -1038,7 +1031,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error setSwitch:', error);
+      // console.error('Error setSwitch:', error);
       throw error;
     }
   },
@@ -1063,7 +1056,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error controlling setFramingImageSource:', error);
+      // console.error('Error controlling setFramingImageSource:', error);
       throw error;
     }
   },
@@ -1076,7 +1069,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error setting framing coordinates:', error);
+      // console.error('Error setting framing coordinates:', error);
       throw error;
     }
   },
@@ -1097,7 +1090,7 @@ const apiService = {
       console.log('Slew response: ', response);
       return response.data;
     } catch (error) {
-      console.error('Error controlling slewAndCenterAndRotate:', error);
+      // console.error('Error controlling slewAndCenterAndRotate:', error);
       throw error;
     }
   },
@@ -1107,7 +1100,7 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/equipment/mount/slew/stop`);
       return response.data;
     } catch (error) {
-      console.error('Error controlling slewAndCenterAndRotate:', error);
+      // console.error('Error controlling slewAndCenterAndRotate:', error);
       throw error;
     }
   },
@@ -1129,7 +1122,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error controlling slewAndCenterAndRotate:', error);
+      // console.error('Error controlling slewAndCenterAndRotate:', error);
       throw error;
     }
   },
@@ -1155,7 +1148,7 @@ const apiService = {
       });
       return URL.createObjectURL(response.data);
     } catch (error) {
-      console.error('Error retrieving target picture:', error);
+      // console.error('Error retrieving target picture:', error);
       throw error;
     }
   },
@@ -1180,7 +1173,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving logs result:', error);
+      // console.error('Error retrieving logs result:', error);
       throw error;
     }
   },
@@ -1200,7 +1193,7 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      console.error('Error retrieving logs result:', error);
+      // console.error('Error retrieving logs result:', error);
       throw error;
     }
   },
@@ -1222,7 +1215,7 @@ const apiService = {
       .get(url)
       .then((response) => response.data)
       .catch((error) => {
-        console.error(`Error in GET request to ${url}:`, error);
+        // console.error(`Error in GET request to ${url}:`, error);
         throw error;
       });
   },
@@ -1232,7 +1225,7 @@ const apiService = {
       .get(url, { params })
       .then((response) => response.data)
       .catch((error) => {
-        console.error(`Error in GET request to ${url} with params:`, error);
+        // console.error(`Error in GET request to ${url} with params:`, error);
         throw error;
       });
   },

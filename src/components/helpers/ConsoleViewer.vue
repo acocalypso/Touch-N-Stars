@@ -155,38 +155,5 @@ if (!window.__consoleViewerPatched) {
     return ws;
   };
 
-  // Patch fetch to catch network errors
-  const originalFetch = window.fetch;
-  window.fetch = function (...args) {
-    return originalFetch.apply(this, args).catch((error) => {
-      logs.value.push({
-        type: 'error',
-        message: `Fetch error: ${args[0]} - ${error.message}`,
-      });
-      throw error;
-    });
-  };
-
-  // Patch XMLHttpRequest to catch network errors
-  const OriginalXMLHttpRequest = window.XMLHttpRequest;
-  window.XMLHttpRequest = function () {
-    const xhr = new OriginalXMLHttpRequest();
-    const originalOpen = xhr.open;
-    let url = '';
-
-    xhr.open = function (method, reqUrl, ...rest) {
-      url = reqUrl;
-      return originalOpen.apply(this, [method, reqUrl, ...rest]);
-    };
-
-    xhr.addEventListener('error', () => {
-      logs.value.push({
-        type: 'error',
-        message: `XMLHttpRequest error: ${url} - Network request failed`,
-      });
-    });
-
-    return xhr;
-  };
 }
 </script>

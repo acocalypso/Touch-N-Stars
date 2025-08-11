@@ -8,6 +8,7 @@ import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
+import axios from 'axios';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -20,6 +21,27 @@ const tooltipDirective = {
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 const head = createHead();
+
+// Global axios interceptor for error handling
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error.response?.status;
+    const url = error.config?.url || 'unknown';
+    const method = error.config?.method?.toUpperCase() || 'REQUEST';
+    
+    let message;
+    if (status) {
+      message = `HTTP ${status}: ${method} ${url} - ${error.message}`;
+    } else {
+      message = `Network error: ${method} ${url} - ${error.message}`;
+    }
+    
+    console.error(message);
+    
+    return Promise.reject(error);
+  }
+);
 
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);

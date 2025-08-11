@@ -24,7 +24,30 @@ const head = createHead();
 
 // Global axios interceptor for error handling
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    const url = response.config?.url || 'unknown';
+    const method = response.config?.method?.toUpperCase() || 'REQUEST';
+    
+    // Check for non-200 HTTP status codes
+    if (response.status !== 200) {
+      console.error(`HTTP ${response.status}: ${method} ${url} - ${response.statusText}`);
+    }
+    
+    // Check for API-specific error responses (Success: false, Error field, or StatusCode >= 400)
+    const data = response.data;
+    if (data && (
+      data.Success === false || 
+      data.Error || 
+      (data.StatusCode && data.StatusCode >= 400)
+    )) {
+      const statusCode = data.StatusCode || response.status;
+      const errorMsg = data.Error || data.Response || 'API call failed';
+      
+      console.error(`API Error ${statusCode}: ${method} ${url} - ${errorMsg}`);
+    }
+    
+    return response;
+  },
   (error) => {
     const status = error.response?.status;
     const url = error.config?.url || 'unknown';

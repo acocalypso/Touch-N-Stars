@@ -175,18 +175,21 @@ axios.interceptors.response.use(
         }
       });
       
-      // Show toast for errors and API status codes
-      const toastStore = useToastStore();
-      const toastKey = `API_${statusCode}_${url}_${errorMsg}`;
-      const now = Date.now();
-      
-      if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
-        toastCache.set(toastKey, now);
-        toastStore.showToast({
-          type: isRealError ? 'error' : 'info',
-          title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,
-          message: errorMsg,
-        });
+      // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
+      // Skip toasts only for HTTP 200 + StatusCode 200 (successful responses)
+      if (response.status >= 400 || statusCode >= 400) {
+        const toastStore = useToastStore();
+        const toastKey = `API_${statusCode}_${url}_${errorMsg}`;
+        const now = Date.now();
+        
+        if (!toastCache.has(toastKey) || (now - toastCache.get(toastKey)) > 5000) {
+          toastCache.set(toastKey, now);
+          toastStore.showToast({
+            type: isRealError ? 'error' : 'info',
+            title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,
+            message: errorMsg,
+          });
+        }
       }
     } else if (response.status === 200 && duration > 5000) {
       // Log slow requests (over 5 seconds)

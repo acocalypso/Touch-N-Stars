@@ -7,7 +7,6 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
-import { handleApiError } from '@/utils/utils';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 
@@ -17,12 +16,6 @@ const statusClass = ref('');
 async function stopShutter() {
   try {
     const response = await apiService.domeAction('stop');
-    if (
-      handleApiError(response, {
-        title: t('components.dome.control.errors.stop'),
-      })
-    )
-      return;
     statusClass.value = 'glow-green';
     console.log(t('components.dome.control.stop'));
   } catch (error) {

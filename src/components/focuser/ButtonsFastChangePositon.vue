@@ -33,7 +33,6 @@
 <script setup>
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
 import { ref, watch } from 'vue';
 import {
   ChevronRightIcon,
@@ -54,7 +53,6 @@ async function moveFocuser(newPosiont) {
   try {
     console.log('Change focuser positon from', currentPosition, 'to', newPosiont);
     const response = await apiService.moveFocuser(newPosiont);
-    if (handleApiError(response, { title: 'Error' })) return;
     isMoving.value = true;
 
     if (timeoutId.value) clearTimeout(timeoutId.value);

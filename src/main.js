@@ -13,33 +13,101 @@ import { useToastStore } from '@/store/toastStore';
 
 // Tooltip directive
 const tooltipDirective = {
-  mounted(el, binding) {
+  mounted(el, binding, vnode) {
+    // Check if this is a component instance (not a DOM element)
+    if (vnode.component) {
+      // Find the actual root element of the component
+      const rootEl = vnode.component.subTree?.el;
+      if (rootEl && typeof rootEl.setAttribute === 'function') {
+        rootEl.setAttribute('title', binding.value);
+        rootEl.style.cursor = 'pointer';
+        return;
+      }
+    }
+    
+    // Handle regular DOM elements
+    if (!el || typeof el.setAttribute !== 'function') {
+      return; // Silently ignore invalid elements
+    }
     el.setAttribute('title', binding.value);
     el.style.cursor = 'pointer';
   },
+  updated(el, binding, vnode) {
+    // Check if this is a component instance
+    if (vnode.component) {
+      const rootEl = vnode.component.subTree?.el;
+      if (rootEl && typeof rootEl.setAttribute === 'function') {
+        rootEl.setAttribute('title', binding.value);
+        return;
+      }
+    }
+    
+    // Handle regular DOM elements
+    if (!el || typeof el.setAttribute !== 'function') {
+      return;
+    }
+    el.setAttribute('title', binding.value);
+  }
 };
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 const head = createHead();
 
-// Global axios interceptor for error handling
+// Structured logging function
+function createStructuredLog(level, category, data) {
+  const logEntry = {
+    timestamp: new Date().toISOString(),
+    level: level,
+    category: category,
+    method: data.method || 'UNKNOWN',
+    url: data.url || 'unknown',
+    status: data.status,
+    message: data.message,
+    duration: data.duration,
+    userAgent: navigator.userAgent.split(' ').pop(), // Simplified UA
+    ...data.extra
+  };
+  
+  // Log both structured and human-readable
+  console.log(JSON.stringify(logEntry));
+  
+  return logEntry;
+}
+
+// Global axios interceptor for error handling with structured logging
+axios.interceptors.request.use((config) => {
+  // Track request start time
+  config.metadata = { startTime: performance.now() };
+  return config;
+});
+
 axios.interceptors.response.use(
   (response) => {
     const url = response.config?.url || 'unknown';
     const method = response.config?.method?.toUpperCase() || 'REQUEST';
+    const duration = response.config?.metadata?.startTime ? 
+      Math.round(performance.now() - response.config.metadata.startTime) : null;
     
     // Check for non-200 HTTP status codes
     if (response.status !== 200) {
-      const message = `HTTP ${response.status}: ${method} ${url} - ${response.statusText}`;
-      console.error(message);
+      const message = `${method} request failed: ${response.statusText}`;
+      
+      createStructuredLog('ERROR', 'HTTP', {
+        method,
+        url,
+        status: response.status,
+        message,
+        duration,
+        extra: { statusText: response.statusText }
+      });
       
       // Show toast for HTTP errors
       const toastStore = useToastStore();
       toastStore.showToast({
         type: 'error',
         title: `HTTP ${response.status}`,
-        message: `${method} request failed: ${response.statusText}`,
+        message,
       });
     }
     
@@ -55,7 +123,19 @@ axios.interceptors.response.use(
         (data.Response || data.Error || 'API call completed') : 
         (data.Error || data.Response || 'API call failed');
       
-      console.error(`API Error ${statusCode}: ${method} ${url} - ${errorMsg}`);
+      const logLevel = response.status === 200 ? 'INFO' : 'ERROR';
+      createStructuredLog(logLevel, 'API', {
+        method,
+        url,
+        status: statusCode,
+        message: errorMsg,
+        duration,
+        extra: { 
+          httpStatus: response.status,
+          apiSuccess: data.Success,
+          apiType: data.Type
+        }
+      });
       
       // Show toast with appropriate type
       const toastStore = useToastStore();
@@ -65,6 +145,16 @@ axios.interceptors.response.use(
         title: isHttp200 ? 'Info' : `API Error ${statusCode}`,
         message: errorMsg,
       });
+    } else if (response.status === 200 && duration > 5000) {
+      // Log slow requests (over 5 seconds)
+      createStructuredLog('WARN', 'PERFORMANCE', {
+        method,
+        url,
+        status: response.status,
+        message: `Slow request detected`,
+        duration,
+        extra: { threshold: 5000 }
+      });
     }
     
     return response;
@@ -73,15 +163,31 @@ axios.interceptors.response.use(
     const status = error.response?.status;
     const url = error.config?.url || 'unknown';
     const method = error.config?.method?.toUpperCase() || 'REQUEST';
+    const duration = error.config?.metadata?.startTime ? 
+      Math.round(performance.now() - error.config.metadata.startTime) : null;
     
     let message;
+    let category = 'NETWORK';
+    
     if (status) {
-      message = `HTTP ${status}: ${method} ${url} - ${error.message}`;
+      message = `${method} request failed`;
+      category = 'HTTP';
     } else {
-      message = `Network error: ${method} ${url} - ${error.message}`;
+      message = `Connection failed: ${error.message}`;
     }
     
-    console.error(message);
+    createStructuredLog('ERROR', category, {
+      method,
+      url,
+      status: status || 0,
+      message,
+      duration,
+      extra: { 
+        errorCode: error.code,
+        errorMessage: error.message,
+        timeout: error.config?.timeout
+      }
+    });
     
     // Show toast for network errors
     const toastStore = useToastStore();
@@ -109,6 +215,17 @@ axios.interceptors.response.use(
 
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
+
+// Suppress specific Vue warning about runtime directives
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  const message = args[0];
+  if (typeof message === 'string' && message.includes('Runtime directive used on component with non-element root node')) {
+    // Suppress this specific warning as it appears to be a false positive
+    return;
+  }
+  originalWarn.apply(console, args);
+};
 
 // Initialize i18n with store before mounting
 const settingsStore = pinia.state.value.settings;

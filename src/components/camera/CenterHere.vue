@@ -39,10 +39,7 @@
   </div>
   <div class="flex flex-col md:flex-row py-1 gap-1">
     <div class="flex-1">
-      <ButtonSlew class="w-full" :raAngle="newRa" :decAngle="newDec" @finished="slewFinished" />
-    </div>
-    <div class="flex-1">
-      <ButtonSlewAndCenter
+      <ButtonSlewCenterRotate
         class="w-full"
         :raAngle="newRa"
         :decAngle="newDec"
@@ -61,8 +58,7 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { wait, degreesToHMS, degreesToDMS } from '@/utils/utils.js';
 import apiService from '@/services/apiService';
-import ButtonSlew from '@/components/mount/ButtonSlew.vue';
-import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
+import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 
 const cameraStore = useCameraStore();
 const framingStore = useFramingStore();
@@ -135,19 +131,6 @@ async function fetchFramingInfo() {
   } catch (error) {
     console.error('Fehler beim Abrufen des FramingInfo:', error);
   }
-}
-
-async function slewFinished() {
-  console.log('Slew finished!');
-  await wait(500);
-  cameraStore.capturePhoto(
-    apiService,
-    settingsStore.camera.exposureTime,
-    settingsStore.camera.gain,
-    settingsStore.camera.useSolve
-  );
-  cameraStore.imageData = '';
-  cameraStore.slewModal = false;
 }
 
 async function slewAndCenterFinished() {

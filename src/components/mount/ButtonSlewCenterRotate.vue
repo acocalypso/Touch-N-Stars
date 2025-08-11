@@ -119,7 +119,6 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
-import { handleApiError } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import CenterModal from '@/components/mount/CenterModal.vue';
 import Modal from '@/components/helpers/Modal.vue';
@@ -143,7 +142,7 @@ const emit = defineEmits(['finished']);
 async function stopSlew() {
   try {
     const response = await apiService.mountAction('abort');
-    if (handleApiError(response, { title: 'Mount error' })) return;
+    if (!response.Success) return;
     console.log('Slew stopped');
   } catch (error) {
     console.error('Error stopping slew:', error);
@@ -154,7 +153,7 @@ async function unparkMount() {
   if (store.mountInfo.AtPark) {
     try {
       const response = await apiService.mountAction('unpark');
-      if (handleApiError(response, { title: 'Mount error' })) return;
+      if (!response.Success) return;
       await wait(2000);
       console.log(t('components.mount.control.unpark'));
     } catch (error) {

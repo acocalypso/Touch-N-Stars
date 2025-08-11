@@ -157,8 +157,9 @@ axios.interceptors.response.use(
         (data.Response || data.Error || 'API call completed') : 
         (data.Error || data.Response || 'API call failed');
       
-      // Determine if this is an actual error or just info
-      const isRealError = data.Success === false || statusCode >= 400;
+      // For HTTP 200 with Success: false, treat as info (API state messages)
+      // Only log as ERROR if it's actually a failure (StatusCode >= 400)
+      const isRealError = statusCode >= 400;
       const logLevel = isRealError ? 'ERROR' : 'INFO';
       
       createStructuredLog(logLevel, 'API', {

@@ -157,9 +157,9 @@ axios.interceptors.response.use(
         (data.Response || data.Error || 'API call completed') : 
         (data.Error || data.Response || 'API call failed');
       
-      // For HTTP 200 with Success: false, treat as info (API state messages)
-      // Only log as ERROR if it's actually a failure (StatusCode >= 400)
-      const isRealError = statusCode >= 400;
+      // For HTTP 200 with Success: false, treat as info (API state messages)  
+      // Only log as ERROR if HTTP status indicates failure
+      const isRealError = response.status >= 400;
       const logLevel = isRealError ? 'ERROR' : 'INFO';
       
       createStructuredLog(logLevel, 'API', {
@@ -175,7 +175,7 @@ axios.interceptors.response.use(
         }
       });
       
-      // Show toast with appropriate type (with rate limiting)
+      // Show toast for errors and API status codes
       const toastStore = useToastStore();
       const toastKey = `API_${statusCode}_${url}_${errorMsg}`;
       const now = Date.now();
@@ -184,7 +184,7 @@ axios.interceptors.response.use(
         toastCache.set(toastKey, now);
         toastStore.showToast({
           type: isRealError ? 'error' : 'info',
-          title: isRealError ? `API Error ${statusCode}` : 'Info',
+          title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,
           message: errorMsg,
         });
       }

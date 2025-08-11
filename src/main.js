@@ -43,15 +43,17 @@ axios.interceptors.response.use(
       });
     }
     
-    // Check for API-specific error responses (Success: false, Error field, or StatusCode >= 400)
+    // Check for API-specific error responses (Success: false or StatusCode >= 400)
     const data = response.data;
     if (data && (
       data.Success === false || 
-      data.Error || 
       (data.StatusCode && data.StatusCode >= 400)
     )) {
       const statusCode = data.StatusCode || response.status;
-      const errorMsg = data.Error || data.Response || 'API call failed';
+      // For HTTP 200 with Success: false, show Response text instead of Error text
+      const errorMsg = response.status === 200 ? 
+        (data.Response || data.Error || 'API call completed') : 
+        (data.Error || data.Response || 'API call failed');
       
       console.error(`API Error ${statusCode}: ${method} ${url} - ${errorMsg}`);
       

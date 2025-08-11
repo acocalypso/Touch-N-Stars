@@ -8,37 +8,26 @@
       <CommandLineIcon class="w-6 h-6 text-white" />
     </button>
 
-    <!-- Modal -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-      @click.self="isModalOpen = false"
-    >
-      <div
-        class="bg-gray-800 text-white p-6 rounded-lg max-w-4xl max-h-[80vh] w-full overflow-y-auto"
-        @click.stop
-      >
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold">Debug</h2>
-          <div class="flex items-center space-x-2">
-            <button
-              @click="downloadLogs"
-              class="text-white hover:text-cyan-300 text-sm border border-cyan-500 px-4 py-1 rounded"
-            >
-              <ArrowDownTrayIcon
-                class="w-5 h-5"
-                :class="showSuccess ? 'text-green-400' : 'text-white'"
-              />
-            </button>
-            <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
-              <XMarkIcon class="w-6 h-6" />
-            </button>
-          </div>
+    <!-- Modal using shared Modal component -->
+    <Modal :show="isModalOpen" @close="isModalOpen = false" z-index="z-50">
+      <template #header>
+        <div class="flex justify-between items-center w-full">
+          <h2 class="text-2xl font-bold">Debug Console</h2>
+          <button
+            @click="downloadLogs"
+            class="text-white hover:text-cyan-300 text-sm border border-cyan-500 px-4 py-2 rounded flex items-center gap-2"
+          >
+            <ArrowDownTrayIcon
+              class="w-5 h-5"
+              :class="showSuccess ? 'text-green-400' : 'text-white'"
+            />
+            <span>Download</span>
+          </button>
         </div>
-
-        <!-- Logs -->
-        <div class="space-y-1 text-sm font-mono bg-gray-900 rounded p-4 border border-gray-700">
+      </template>
+      
+      <template #body>
+        <div class="space-y-1 text-sm font-mono bg-gray-900 rounded p-4 border border-gray-700 max-h-[60vh] overflow-y-auto scrollbar-thin">
           <div
             v-for="(log, index) in logs"
             :key="index"
@@ -47,15 +36,19 @@
           >
             [{{ log.type.toUpperCase() }}] {{ log.message }}
           </div>
+          <div v-if="logs.length === 0" class="text-gray-400 text-center py-4">
+            No console logs yet...
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { CommandLineIcon, XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import { CommandLineIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import Modal from './Modal.vue';
 import { downloadLogs as downloadLogsHelper } from '@/utils/logDownloader';
 
 const isModalOpen = ref(false);

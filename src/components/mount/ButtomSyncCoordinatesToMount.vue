@@ -26,7 +26,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import apiService from '@/services/apiService';
-import { wait, handleApiError } from '@/utils/utils';
+import { wait } from '@/utils/utils';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -46,7 +46,7 @@ async function setTrackingMode() {
     try {
       const response = await apiService.setTrackingMode(0);
       await wait(1000);
-      if (handleApiError(response, { title: 'Mount error' })) return;
+      if (!response.Success) return;
     } catch (error) {
       console.log(t('components.mount.control.errors.unpark'));
     }

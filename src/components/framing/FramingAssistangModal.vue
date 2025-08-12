@@ -51,11 +51,11 @@ watch(
   () => framingStore.fov,
   (newFov) => {
     if (newFov < 0.1) {
-      console.warn('FOV zu klein, wird auf 0.1 gesetzt');
+      console.warn('FOV too small, setting to 0.1');
       framingStore.fov = 0.1;
     }
     if (newFov > 180) {
-      console.warn('FOV zu groß, wird auf 180 gesetzt');
+      console.warn('FOV too large, setting to 180');
       framingStore.fov = 180;
     }
   }

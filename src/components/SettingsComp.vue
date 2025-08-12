@@ -114,15 +114,12 @@
         <setImgQuality />
         <setImgStrechFactor />
         <setImgBlackClipping />
-       
       </div>
       <div class="flex flex-col mt-4 gap-2">
-       <setImgDebayern />
-       <setImgDebayernHfr />
-       <setImgUnlinkedStrech />
-       
+        <setImgDebayern />
+        <setImgDebayernHfr />
+        <setImgUnlinkedStrech />
       </div>
-
     </div>
 
     <!-- Debug settings -->

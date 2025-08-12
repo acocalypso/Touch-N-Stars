@@ -1,11 +1,7 @@
 <template>
-
-
-    <div
-    class="flex items-center justify-between w-full "
-  >
+  <div class="flex items-center justify-between w-full">
     <label for="toggle_light" class="text-gray-200">
-      {{$t('components.settings.image.DebayeredHFR')}}
+      {{ $t('components.settings.image.DebayeredHFR') }}
     </label>
     <div>
       <toggleButton
@@ -15,8 +11,6 @@
       />
     </div>
   </div>
-
-
 </template>
 <script setup>
 import { apiStore } from '@/store/store';

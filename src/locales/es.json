@@ -204,7 +204,7 @@
       },
       "running": "EJECUTANDOSE",
       "imageHistory": "Historial de imágenes",
-      "duration": "Duración"
+      "duration": "Duración",
       "temperatureShort": "Temp",
       "conditions": "Condiciones",
       "info": {

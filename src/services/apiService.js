@@ -285,7 +285,7 @@ const apiService = {
   async getPhd2StarImage() {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}phd2/star-image`, {
+      const response = await axios.get(`${API_URL}phd2/star-image?size=25`, {
         responseType: 'blob',
       });
       return URL.createObjectURL(response.data);

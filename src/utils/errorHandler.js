@@ -44,6 +44,7 @@ export function setupErrorHandler() {
           title: `HTTP ${response.status}`,
           message,
           cacheKey: `HTTP_${response.status}_${url}`,
+          autoClose: true,
         });
       }
 
@@ -83,6 +84,7 @@ export function setupErrorHandler() {
             title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,
             message: errorMsg,
             cacheKey: `API_${statusCode}_${url}_${errorMsg}`,
+            autoClose: true,
           });
         }
       } else if (response.status === 200 && duration > 5000) {

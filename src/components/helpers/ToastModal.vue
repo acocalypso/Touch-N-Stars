@@ -90,11 +90,42 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, watch, onBeforeUnmount } from 'vue';
 import { useToastStore } from '@/store/toastStore';
 import { XMarkIcon, GlobeAltIcon } from '@heroicons/vue/24/outline';
 
 const toastStore = useToastStore();
+
+// Auto-close Timer
+let autoCloseTimer = null;
+
+// Watch für neue Toast-Nachrichten
+watch(
+  () => toastStore.newMessage,
+  (newValue) => {
+    if (newValue && !toastStore.isConfirmation && toastStore.type !== 'critical' && toastStore.autoClose) {
+      // Timer für normale Toast-Nachrichten (nicht für Confirmations oder Critical)
+      if (autoCloseTimer) {
+        clearTimeout(autoCloseTimer);
+      }
+      autoCloseTimer = setTimeout(() => {
+        toastStore.closeToast();
+      }, toastStore.autoCloseDelay);
+    } else if (!newValue && autoCloseTimer) {
+      // Timer löschen wenn Toast manuell geschlossen wird
+      clearTimeout(autoCloseTimer);
+      autoCloseTimer = null;
+    }
+  },
+  { immediate: true }
+);
+
+// Cleanup bei Component-Destroy
+onBeforeUnmount(() => {
+  if (autoCloseTimer) {
+    clearTimeout(autoCloseTimer);
+  }
+});
 
 const toastTypeShadow = computed(() => {
   switch (toastStore.type) {

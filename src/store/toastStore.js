@@ -8,6 +8,8 @@ export const useToastStore = defineStore('toastStore', {
     link: '',
     linkText: '',
     type: 'info',
+    autoClose: true,
+    autoCloseDelay: 5000,
     // Neue Confirmation-Properties
     isConfirmation: false,
     confirmationResolver: null,
@@ -15,13 +17,15 @@ export const useToastStore = defineStore('toastStore', {
     cancelText: 'Abbrechen',
   }),
   actions: {
-    showToast({ type = 'info', title = '', message = '', link = '', linkText = '' }) {
+    showToast({ type = 'info', title = '', message = '', link = '', linkText = '', autoClose = true, autoCloseDelay = 5000 }) {
       this.newMessage = true;
       this.type = type;
       this.title = title;
       this.message = message;
       this.link = link;
       this.linkText = linkText;
+      this.autoClose = autoClose;
+      this.autoCloseDelay = autoCloseDelay;
       this.isConfirmation = false;
     },
 

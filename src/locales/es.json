@@ -15,9 +15,9 @@
   "app": {
     "title": "Touch'N'Stars",
     "connection_error_toast": {
-      "message_api": "El complemento API no está disponible. \nConsulte la configuración en Nina",
-      "message_api_version": "El complemento API es demasiado viejo. \nPor favor realice una actualización",
-      "message_tns": "El complemento TouchNstars no está disponible. \nConsulte la configuración en Nina",
+      "message_api": "El complemento API no está disponible. \nConsulte la configuración en N.I.N.A",
+      "message_api_version": "El complemento API es demasiado antiguo. \nPor favor realice una actualización",
+      "message_tns": "El complemento TouchNstars no está disponible. \nConsulte la configuración en N.I.N.A",
       "title": "Error de conexión",
       "message_tns_version": "El complemento Touch N Stars plugin es demasiado antiguo. Por favor actualiza el complemento"
     }
@@ -36,7 +36,7 @@
     "framing": {
       "confirmSetTargetTitle": "Confirmar Selección Objetivo",
       "confirmSetTargetMessage": "¿Estás seguro cambiar este objetivo en el sequenciador?",
-      "useNinaCache": "Utilizar cache de NINA para imágen objetivo",
+      "useNinaCache": "Utilizar cache de N.I.N.A para imagen objetivo",
       "setSequnceTarget": "establecido como objetivo de la secuencia",
       "search": {
         "title": "Buscar",
@@ -61,13 +61,13 @@
       "infoTargetImage": "Si la imagen solo se muestra en negro, el \"caché del mapa del cielo fuera de línea\" debe configurarse en Nina o la opción \"Usar Nina Cache\" debe desactivarse",
       "moveRotator": "Rotar la cámara",
       "openFraminingModal": "Abrir en asistente de encuadre",
-      "useCenter": "Center",
+      "useCenter": "Centrar",
       "useRotate": "Girar"
     },
     "tutorial": {
       "previous": "Anterior",
       "next": "Siguiente",
-      "skip": "Saltar Tutorial"
+      "skip": "Saltar tutorial"
     },
     "settings": {
       "title": "Configuración",
@@ -101,7 +101,7 @@
       "system": {
         "title": "Controles del sistema",
         "description": "Controlar reinicio y apagado del sistema",
-        "info": "Estas acciones afectarán todo el sistema",
+        "info": "Estas acciones afectarán a todo el sistema",
         "confirmation": "Confirmar acción",
         "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
         "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
@@ -120,15 +120,15 @@
       "camera": {
         "name": "Cámara"
       },
-      "connectAll": "Connectar TODO",
-      "disconnectAll": "Desconectar TODO",
+      "connectAll": "Connectar todo",
+      "disconnectAll": "Desconectar todo",
       "connectAllError": "Error conectando todos los dispositivos",
       "disconnectAllError": "Error desconectando todos los dispositivos",
       "filter": {
         "name": "Rueda de filtro"
       },
       "mount": {
-        "name": "Montar"
+        "name": "Montura"
       },
       "focuser": {
         "name": "Enfocador"
@@ -171,7 +171,7 @@
     "sequence": {
       "stats": "Estadísticas",
       "noSequenceLoaded": "No hay sequencia cargada",
-      "noSequenceData": "no datos disponibles",
+      "noSequenceData": "No hay datos disponibles",
       "startSequence": "Iniciar sequencia",
       "stopSequence": "Parar sequencia",
       "resetSequence": "Reiniciar sequencia",
@@ -189,22 +189,22 @@
       "details": {},
       "hfr": "HFR",
       "mean": "Promedio",
-      "median": "Median",
-      "stDev": "St. Dev.",
+      "median": "Mediana",
+      "stDev": "Desv. Est.",
       "rmsText": "RMS",
       "monitor": {
         "settings": {
           "title": "Ver parámetros",
           "showImage": "Mostrar última imágen",
-          "showImageStats": "Mostrar estadísticas última imágen",
+          "showImageStats": "Mostrar estadísticas de la última imágen",
           "showImgStatsGraph": "Mostrar gráfica HFR",
           "showGuiderAfGraph": "Mostrar gráfica autoenfoque",
-          "display_status_under_image": "Mostrar estado a debajo de la imagen"
+          "display_status_under_image": "Mostrar estado debajo de la imagen"
         }
       },
       "running": "EJECUTANDOSE",
-      "imageHistory": "Historial de Imagenes",
-      "duration": "Duración",
+      "imageHistory": "Historial de imágenes",
+      "duration": "Duración"
       "temperatureShort": "Temp",
       "conditions": "Condiciones",
       "info": {
@@ -257,7 +257,7 @@
         "toTelescope": {
           "label": "Sincronizar al telescopio"
         },
-        "confirmationMessage": "Si la 'Sync de ubicación' en Nina se establece en 'Aviso', puede aparecer una ventana de confirmación antes de que se envíen coordenadas al telescopio. \nPara evitar esto y permitir que TNS establezca automáticamente las coordenadas, recomendamos cambiar la configuración a 'sincronizar al telescopio'",
+        "confirmationMessage": "Si la 'Sincronización de ubicación' en Nina se establece en 'Aviso', puede aparecer una ventana de confirmación antes de que se envíen coordenadas al telescopio. \nPara evitar esto y permitir que TNS establezca automáticamente las coordenadas, recomendamos cambiar la configuración a 'sincronizar al telescopio'",
         "title": "Configuración de sincronización de ubicación"
       }
     },
@@ -280,30 +280,30 @@
       "running": "GUIANDO",
       "phd2": {
         "dec": {
-          "MaxMove": "DEC: Max move",
-          "MinMove": "DEC: Min move",
-          "aggression": "DEC: Aggression",
-          "exp_factor": "DEC: Exposure factor",
-          "hysteresis": "DEC: Hysteresis",
-          "predictive_weight": "DEC: Predictive weight",
-          "reactive_weight": "DEC: ReactiveW weight",
-          "slope_weight": "DEC: Slope weight"
+          "MaxMove": "DEC: Mov máx",
+          "MinMove": "DEC: Mov min",
+          "aggression": "DEC: Agresividad",
+          "exp_factor": "DEC: Factor de exposición",
+          "hysteresis": "DEC: Histéresis",
+          "predictive_weight": "DEC: Peso predictivo",
+          "reactive_weight": "DEC: Peso reactivo",
+          "slope_weight": "DEC: Peso de inclinación"
         },
         "error": {
-          "star-lost-message": "Star lost",
-          "title": "PHD2 Error"
+          "star-lost-message": "Estrella perdida",
+          "title": "Error de PHD2"
         },
         "profile": "Perfil",
         "forceCalibration": "Forzar calibración",
         "ra": {
-          "MaxMove": "RA: Max move",
-          "MinMove": "RA: Min move",
-          "aggression": "RA: Aggression",
-          "exp_factor": "RA: Aggression",
-          "hysteresis": "RA: Hysteresis",
-          "predictive_weight": "RA: Predictive weight",
-          "reactive_weight": "RA: ReactiveW weight",
-          "slope_weight": "RA: Slope weight"
+          "MaxMove": "RA: Mov máx",
+          "MinMove": "RA: Mov mín",
+          "aggression": "RA: Agresividad",
+          "exp_factor": "RA: Factor de exposición",
+          "hysteresis": "RA: Histéresis",
+          "predictive_weight": "RA: Peso predictivo",
+          "reactive_weight": "RA: Peso reactivo",
+          "slope_weight": "RA: Peso de inclinación"
         },
         "Exposuretime": "Tiempo de exposición"
       },
@@ -311,7 +311,7 @@
         "calibrating": "Calibración en progreso ...",
         "calibrationComplete": "Calibración completada",
         "calibrationError": "Error durante la calibración",
-        "calibrationFailed": "Calibración falló",
+        "calibrationFailed": "Calibración fallida",
         "calibrationResult": "Resultado de calibración",
         "calibrationStopped": "La calibración se detuvo",
         "decOffset": "DEC OFFSET",
@@ -323,15 +323,15 @@
         "positionCalculated": "Posición óptima calculada",
         "positionSettings": "Configuración de posición",
         "quality": "Calidad",
-        "slewComplete": "Rugir completado",
-        "slewError": "Error durante el juego",
-        "slewToPosition": "Gira a la posición",
-        "slewing": "Matar a la posición objetivo ...",
+        "slewComplete": "Desplacamiento completado",
+        "slewError": "Error durante el desplazameinto",
+        "slewToPosition": "Desplazarse a la posición",
+        "slewing": "Desplazando a la posición objetivo ...",
         "startCalibration": "Iniciar calibración",
         "stopCalibration": "Detener la calibración",
         "title": "Asistente de calibración",
         "west": "Oeste",
-        "info": "El asistente de calibración lo ayuda a colocar el montaje de manera óptima para la calibración y realizar una calibración precisa."
+        "info": "El asistente de calibración lo ayuda desplazar la montura de manera óptima para la calibración y realizar una calibración precisa."
       }
     },
     "focuser": {
@@ -416,7 +416,7 @@
         "focal_length": "Longitud focal (mm)",
         "height": "Alto (PX)",
         "pixel_size": "Tamaño de píxel (μm)",
-        "title": "Configuración de chips",
+        "title": "Configuración del sensor",
         "width": "Ancho (PX)"
       }
     },
@@ -445,7 +445,7 @@
       "slewing_next_position": "Desplazando a la siguiente posición",
       "settings": {
         "DirectionEast": "Dirección hacia el este",
-        "StartFromCurrentPosition": "Comenzar desde la posición actual?"
+        "StartFromCurrentPosition": "¿Comenzar desde la posición actual?"
       }
     },
     "logs": {},
@@ -545,7 +545,7 @@
       "skyflat": "Skyflat",
       "start_auto_brightness": "Iniciar autobrillo",
       "start_auto_exposure": "Iniciar exposición automática",
-      "start_sky_flat": "Comienza lso skyflats",
+      "start_sky_flat": "Comienza los skyflats",
       "stop": "Detener",
       "title": "Asistente de flats",
       "button_slew_to_zenith": "Desplazar al Zenith"
@@ -709,18 +709,18 @@
         "warmCamera": {
           "description": "Calentar la cámara",
           "durationLabel": "Duración del calentamiento (minutos)",
-          "durationTooltip": "Tiempo para calentar activamente la cámara (0 = temperatura cálida a ambiente)",
-          "name": "Cámara caliente"
+          "durationTooltip": "Tiempo para calentar activamente la cámara (0 = calentar hasta que se alcanza la temperatura)",
+          "name": "Calentar cámara"
         },
         "clickToRename": "Haga clic para cambiar el nombre",
         "findHome": {
-          "description": "Mover el telescopio a la posición de inicio",
-          "name": "Encontrar hogar"
+          "description": "Mover el telescopio a la posición Home",
+          "name": "Encontrar Home"
         }
       },
       "confirmations": {
         "clearSequence": "¿Estás seguro de que quieres borrar toda la secuencia? \nEsta acción no se puede deshacer.",
-        "removeAction": "Eliminar la acción \"{ActionName}\"?",
+        "removeAction": "¿Eliminar la acción \"{ActionName}\"?",
         "title": "Confirmación",
         "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior.",
         "loadBasicSequence": "¿Estás seguro de que quieres cargar la secuencia básica? Esto sobrescribirá la secuencia actual."

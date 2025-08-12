@@ -17,7 +17,15 @@ export const useToastStore = defineStore('toastStore', {
     cancelText: 'Abbrechen',
   }),
   actions: {
-    showToast({ type = 'info', title = '', message = '', link = '', linkText = '', autoClose = true, autoCloseDelay = 5000 }) {
+    showToast({
+      type = 'info',
+      title = '',
+      message = '',
+      link = '',
+      linkText = '',
+      autoClose = true,
+      autoCloseDelay = 5000,
+    }) {
       this.newMessage = true;
       this.type = type;
       this.title = title;

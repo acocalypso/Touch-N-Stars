@@ -103,7 +103,12 @@ let autoCloseTimer = null;
 watch(
   () => toastStore.newMessage,
   (newValue) => {
-    if (newValue && !toastStore.isConfirmation && toastStore.type !== 'critical' && toastStore.autoClose) {
+    if (
+      newValue &&
+      !toastStore.isConfirmation &&
+      toastStore.type !== 'critical' &&
+      toastStore.autoClose
+    ) {
       // Timer für normale Toast-Nachrichten (nicht für Confirmations oder Critical)
       if (autoCloseTimer) {
         clearTimeout(autoCloseTimer);

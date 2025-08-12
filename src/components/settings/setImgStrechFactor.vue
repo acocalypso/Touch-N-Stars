@@ -21,7 +21,6 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
 
 const store = apiStore();
 const strechFactor = ref(0);
@@ -31,7 +30,7 @@ async function updateSetting() {
   let value = String(strechFactor.value).replace(',', '.');
   try {
     const response = await apiService.profileChangeValue('ImageSettings-AutoStretchFactor', value);
-    if (handleApiError(response, { title: 'Error save setting' })) return;
+    if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {
     console.log('Error save setting');

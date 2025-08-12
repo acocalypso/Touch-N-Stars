@@ -16,7 +16,6 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { handleApiError } from '@/utils/utils';
 import { ref } from 'vue';
 
 const store = apiStore();
@@ -26,12 +25,6 @@ async function syncTelescope() {
   try {
     const response = await apiService.domeAction('sync');
     console.log('syncing telescope', response);
-    if (
-      handleApiError(response, {
-        title: t('components.dome.control.errors.sync'),
-      })
-    )
-      return;
     statusClass.value = 'glow-green';
     console.log('telescope synced');
   } catch (error) {

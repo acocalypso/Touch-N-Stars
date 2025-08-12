@@ -95,7 +95,7 @@ onMounted(async () => {
 
   // Beobachtet die Bildgröße
   resizeObserver = new ResizeObserver(() => {
-    console.log('Bildgröße hat sich geändert!');
+    console.log('Image size changed!');
     onWindowResize();
   });
 

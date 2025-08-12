@@ -130,13 +130,15 @@ export function setupErrorHandler() {
         },
       });
 
-      // Show toast for network errors (with rate limiting)
+      // Show toast for network and http errors (with rate limiting)
+      /*
       showToast({
         type: 'error',
         title: status ? `HTTP ${status}` : 'Network Error',
         message: status ? `${method} request failed` : `Connection failed: ${error.message}`,
         cacheKey: `NETWORK_${status || 'ERROR'}_${url}`,
       });
+      */
 
       // Return a mock error response instead of rejecting
       // This prevents the calling code from crashing

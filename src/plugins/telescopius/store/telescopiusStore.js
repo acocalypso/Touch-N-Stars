@@ -5,10 +5,14 @@ export const useTelescopisStore = defineStore('telescopius', {
   state: () => ({
     apiKey: '',
     isLoaded: false,
+    targetLists: [],
+    isLoadingLists: false,
+    listsError: null,
   }),
 
   getters: {
     hasApiKey: (state) => state.apiKey && state.apiKey.length > 0,
+    hasTargetLists: (state) => state.targetLists.length > 0,
   },
 
   actions: {
@@ -56,6 +60,23 @@ export const useTelescopisStore = defineStore('telescopius', {
 
     clearApiKey() {
       this.apiKey = '';
+    },
+
+    setLoadingLists(isLoading) {
+      this.isLoadingLists = isLoading;
+    },
+
+    setTargetLists(lists) {
+      this.targetLists = lists || [];
+    },
+
+    setListsError(error) {
+      this.listsError = error;
+    },
+
+    clearTargetLists() {
+      this.targetLists = [];
+      this.listsError = null;
     },
   },
 });

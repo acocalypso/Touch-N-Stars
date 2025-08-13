@@ -24,10 +24,6 @@ const getProxyBaseUrl = () => {
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 80;
 
-  const isDev = process.env.NODE_ENV === 'development';
-  if (isDev && port == 8080) {
-    port = 5000;
-  }
 
   return `${protocol}://${host}:${port}/api/proxy/telescopius`;
 };
@@ -135,8 +131,8 @@ class TelescopiusApiService {
   }
 
   // User Lists
-  async getUserLists() {
-    return this.makeRequest('/targets/lists');
+  async getUserLists(params = {}) {
+    return this.makeRequest('/targets/lists', params);
   }
 
   async getTargetList(listId, params = {}) {

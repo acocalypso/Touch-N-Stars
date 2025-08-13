@@ -107,6 +107,43 @@
               </svg>
               Quote of the Day
             </button>
+
+            <button
+              v-if="telescopiusStore.hasApiKey"
+              @click="loadTargetLists"
+              :disabled="telescopiusStore.isLoadingLists"
+              class="default-button-purple flex items-center gap-2"
+            >
+              <svg
+                v-if="telescopiusStore.isLoadingLists"
+                class="w-5 h-5 animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                ></path>
+              </svg>
+              Load Target Lists
+            </button>
           </div>
         </div>
 
@@ -156,6 +193,103 @@
             {{ quoteError }}
           </div>
         </div>
+
+        <!-- Target Lists Display -->
+        <div
+          v-if="telescopiusStore.hasTargetLists"
+          class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-6"
+        >
+          <h6 class="text-lg font-semibold text-white mb-4 text-center">My Target Lists</h6>
+          <div class="space-y-4">
+            <div
+              v-for="list in telescopiusStore.targetLists"
+              :key="list.id"
+              class="bg-gray-800/50 rounded-lg p-4 border border-gray-600"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex-1">
+                  <h7 class="text-white font-medium">{{ list.name || 'Unnamed List' }}</h7>
+                  <p class="text-gray-400 text-sm mt-1">{{ list.username }} • ID: {{ list.id }}</p>
+                </div>
+                <div class="text-right">
+                  <button
+                    @click="toggleListDetails(list.id)"
+                    :class="expandedLists.includes(list.id) ? 'text-yellow-400' : 'text-blue-400'"
+                    class="hover:text-blue-300 text-sm underline"
+                  >
+                    {{ expandedLists.includes(list.id) ? 'Hide Objects' : 'Show Objects' }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Objects List -->
+              <div v-if="expandedLists.includes(list.id) && list.objects" class="mt-4 space-y-3">
+                <div
+                  v-for="(obj, index) in list.objects"
+                  :key="index"
+                  class="bg-gray-900/30 rounded-lg p-3 border border-gray-700"
+                >
+                  <div class="flex items-start justify-between">
+                    <div class="flex-1">
+                      <h8 class="text-white font-medium text-sm">{{ obj.name }}</h8>
+                      <div class="text-gray-400 text-xs mt-1 space-y-1">
+                        <div>RA: {{ formatRA(obj.coordinates.ra) }}</div>
+                        <div>Dec: {{ formatDec(obj.coordinates.dec) }}</div>
+                        <div v-if="obj.size_deg">Size: {{ obj.size_deg.toFixed(2) }}°</div>
+                        <div v-if="obj.notes" class="text-gray-500">{{ obj.notes }}</div>
+                      </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div
+                      v-if="store.mountInfo.Connected && !store.sequenceRunning"
+                      class="flex flex-col gap-1 ml-4"
+                    >
+                      <button
+                        @click="setFramingForTarget(obj)"
+                        class="default-button-cyan text-xs px-2 py-1 min-w-0"
+                        title="Add to Framing"
+                      >
+                        Frame
+                      </button>
+                      <ButtonSlewCenterRotate
+                        :raAngle="obj.coordinates.ra"
+                        :decAngle="obj.coordinates.dec"
+                        class="text-xs"
+                        size="small"
+                      />
+                      <SaveFavTargets
+                        class="w-4 h-4 self-center"
+                        :name="obj.name"
+                        :ra="obj.coordinates.ra"
+                        :dec="obj.coordinates.dec"
+                        :ra-string="formatRA(obj.coordinates.ra)"
+                        :dec-string="formatDec(obj.coordinates.dec)"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Target Lists Error Display -->
+        <div
+          v-if="telescopiusStore.listsError"
+          class="border border-red-700 rounded-lg bg-gradient-to-br from-red-900/30 to-red-800/30 shadow-lg p-4"
+        >
+          <div class="flex items-center text-red-400 text-sm">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            {{ telescopiusStore.listsError }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -169,12 +303,19 @@ import { ref, onMounted } from 'vue';
 import ApiKeyModal from '../components/ApiKeyModal.vue';
 import { useTelescopisStore } from '../store/telescopiusStore';
 import telescopiusApiService from '../services/telescopiusApiService';
+import { apiStore } from '@/store/store';
+import { degreesToHMS, degreesToDMS } from '@/utils/utils';
+import { latitude, longitude } from '@/utils/location';
+import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
+import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 
 const showApiKeyModal = ref(false);
 const telescopiusStore = useTelescopisStore();
+const store = apiStore();
 const isLoadingQuote = ref(false);
 const quoteData = ref(null);
 const quoteError = ref(null);
+const expandedLists = ref([]);
 
 const fetchQuoteOfTheDay = async () => {
   if (!telescopiusStore.hasApiKey) {
@@ -196,6 +337,95 @@ const fetchQuoteOfTheDay = async () => {
   } finally {
     isLoadingQuote.value = false;
   }
+};
+
+const loadTargetLists = async () => {
+  if (!telescopiusStore.hasApiKey) {
+    telescopiusStore.setListsError('API Key required');
+    return;
+  }
+
+  telescopiusStore.setLoadingLists(true);
+  telescopiusStore.setListsError(null);
+
+  try {
+    const params = {};
+    if (latitude.value && longitude.value) {
+      params.lat = parseFloat(latitude.value);
+      params.lon = parseFloat(longitude.value);
+    }
+
+    const response = await telescopiusApiService.getUserLists(params);
+    console.log('Target lists API Response:', response);
+    telescopiusStore.setTargetLists(response);
+  } catch (error) {
+    console.error('Failed to load target lists:', error);
+    telescopiusStore.setListsError(error.message || 'Failed to load target lists');
+    telescopiusStore.setTargetLists([]);
+  } finally {
+    telescopiusStore.setLoadingLists(false);
+  }
+};
+
+const toggleListDetails = async (listId) => {
+  if (expandedLists.value.includes(listId)) {
+    expandedLists.value = expandedLists.value.filter((id) => id !== listId);
+    return;
+  }
+
+  const list = telescopiusStore.targetLists.find((l) => l.id === listId);
+  if (!list.objects) {
+    console.log('Loading details for list:', listId);
+    try {
+      const params = {};
+      if (latitude.value && longitude.value) {
+        params.lat = parseFloat(latitude.value);
+        params.lon = parseFloat(longitude.value);
+      }
+
+      const response = await telescopiusApiService.getTargetList(listId, params);
+      console.log('List details:', response);
+
+      const listIndex = telescopiusStore.targetLists.findIndex((l) => l.id === listId);
+      if (listIndex !== -1) {
+        telescopiusStore.targetLists[listIndex] = {
+          ...telescopiusStore.targetLists[listIndex],
+          ...response,
+        };
+      }
+    } catch (error) {
+      console.error('Failed to fetch list details:', error);
+      alert(`Error loading list details: ${error.message}`);
+      return;
+    }
+  }
+
+  expandedLists.value.push(listId);
+};
+
+const formatRA = (raDegrees) => {
+  return degreesToHMS(raDegrees);
+};
+
+const formatDec = (decDegrees) => {
+  return degreesToDMS(decDegrees);
+};
+
+const setFramingForTarget = (target) => {
+  const framingData = {
+    name: target.name,
+    raString: formatRA(target.coordinates.ra),
+    decString: formatDec(target.coordinates.dec),
+    ra: target.coordinates.ra,
+    dec: target.coordinates.dec,
+    item: [target.name],
+  };
+
+  console.log('Setting framing for target:', framingData);
+
+  // Emit the framing event - assuming parent component handles this
+  // This follows the same pattern as SelectedObject.vue
+  store.setFramingCoordinates && store.setFramingCoordinates(framingData);
 };
 
 const formatDate = (dateString) => {

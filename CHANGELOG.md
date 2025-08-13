@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Errorhandliung und debugmode rework
 - Slew and center breaks off after one attempt at plate solving.
 
+### Fixed
+- Favorites: fix save rotation
+
 ## [1.1.1.1] - 2025-08-07
 ### Added
 - Sequence creator: Find home option

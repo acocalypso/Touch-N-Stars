@@ -2,7 +2,10 @@
   <teleport to="body">
     <div
       v-if="show"
-      class="fixed inset-0 z-40 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30"
+      :class="[
+        'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30',
+        zIndexClass,
+      ]"
       @click="$emit('close')"
     >
       <div
@@ -30,10 +33,19 @@
   </teleport>
 </template>
 <script setup>
+import { computed } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
-defineProps({
+
+const props = defineProps({
   show: Boolean,
+  zIndex: {
+    type: String,
+    default: 'z-40',
+  },
 });
+
+const zIndexClass = computed(() => props.zIndex);
+
 defineEmits(['close']);
 </script>
 

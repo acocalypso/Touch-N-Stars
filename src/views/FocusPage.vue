@@ -136,7 +136,7 @@ onMounted(() => {
 watch(
   () => store.focuserAfInfo.autofocus_running,
   (newVal, oldVal) => {
-    console.log('Autofokus Running geändert:', oldVal, '->', newVal);
+    console.log('Autofocus Running changed:', oldVal, '->', newVal);
     if (!newVal) {
       delayShowGraph.value = false;
       setTimeout(() => {

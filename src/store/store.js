@@ -94,6 +94,7 @@ export const apiStore = defineStore('store', {
               type: 'error',
               title: t('app.connection_error_toast.title'),
               message: t('app.connection_error_toast.message_tns'),
+              autoClose: false,
             });
           }
           this.clearAllStates();
@@ -112,6 +113,7 @@ export const apiStore = defineStore('store', {
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_tns_version'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
@@ -134,6 +136,7 @@ export const apiStore = defineStore('store', {
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
@@ -156,6 +159,7 @@ export const apiStore = defineStore('store', {
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
@@ -176,6 +180,7 @@ export const apiStore = defineStore('store', {
                   type: 'error',
                   title: t('app.connection_error_toast.title'),
                   message: t('app.connection_error_toast.message_api_version'),
+                  autoClose: false,
                 });
               }
               this.clearAllStates();

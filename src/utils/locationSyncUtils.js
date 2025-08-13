@@ -55,5 +55,5 @@ export async function checkMountConnectionPermission() {
   if (checkLocationSyncDirection()) {
     return await showLocationSyncConfirmation();
   }
-  return true; // Bereits korrekt eingestellt
+  return true;
 }

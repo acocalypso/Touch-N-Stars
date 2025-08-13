@@ -108,11 +108,11 @@ async function setOffset() {
   console.log(settingsStore.camera.offset);
   if (store.cameraInfo.OffsetMin > settingsStore.camera.offset) {
     settingsStore.camera.offset = store.cameraInfo.OffsetMin;
-    console.log('Offset zu klein min: ', store.cameraInfo.OffsetMin);
+    console.log('Offset too small, min:', store.cameraInfo.OffsetMin);
   }
   if (store.cameraInfo.OffsetMax < settingsStore.camera.offset) {
     settingsStore.camera.offset = store.cameraInfo.OffsetMax;
-    console.log('Offset zu groß, Max: ', store.cameraInfo.OffsetMax);
+    console.log('Offset too large, max:', store.cameraInfo.OffsetMax);
   }
   try {
     const data = await apiService.profileChangeValue(

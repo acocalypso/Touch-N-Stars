@@ -162,7 +162,7 @@ let imageReloadTimeout;
 function debouncedImageReload() {
   clearTimeout(imageReloadTimeout);
   imageReloadTimeout = setTimeout(async () => {
-    console.log('Lade nur Hintergrundbild neu für FOV:', framingStore.fov);
+    console.log('Reloading background image only for FOV:', framingStore.fov);
     await getTargetPic();
   }, 300);
 }

@@ -98,12 +98,12 @@ watch(
       if (moveMatch) {
         const position = parseInt(moveMatch[1], 10);
         pendingPositions.push({ position, timestamp: entry.timestamp });
-        console.log('Position vorgemerkt:', position);
+        console.log('Position scheduled:', position);
       }
 
       if (hfrMatch) {
         if (pendingPositions.length === 0) {
-          console.log('HFR erkannt, aber keine freie Position verfügbar:', entry.message);
+          console.log('HFR detected, but no free position available:', entry.message);
           continue;
         }
 

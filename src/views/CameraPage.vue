@@ -295,23 +295,35 @@ const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 
-// Modal Management - schließt automatisch andere Modals
+// Modal Management - togglet das Modal oder schließt andere
 const openModal = (modalType) => {
-  // Schließe alle anderen Modals
-  showMount.value = false;
-  showFocuser.value = false;
-  showFilter.value = false;
-
-  // Öffne das gewünschte Modal
   switch (modalType) {
     case 'mount':
-      showMount.value = true;
+      if (showMount.value) {
+        showMount.value = false;
+      } else {
+        showFocuser.value = false;
+        showFilter.value = false;
+        showMount.value = true;
+      }
       break;
     case 'focuser':
-      showFocuser.value = true;
+      if (showFocuser.value) {
+        showFocuser.value = false;
+      } else {
+        showMount.value = false;
+        showFilter.value = false;
+        showFocuser.value = true;
+      }
       break;
     case 'filter':
-      showFilter.value = true;
+      if (showFilter.value) {
+        showFilter.value = false;
+      } else {
+        showMount.value = false;
+        showFocuser.value = false;
+        showFilter.value = true;
+      }
       break;
   }
 };

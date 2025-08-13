@@ -56,7 +56,7 @@ onMounted(() => {
   watch(
     () => guiderStore.showGuiderGraph,
     () => {
-      console.log('showGuiderGraph geändert:', guiderStore.showGuiderGraph);
+      console.log('showGuiderGraph changed:', guiderStore.showGuiderGraph);
       wasGraphVisible.value = guiderStore.showGuiderGraph;
     }
   );

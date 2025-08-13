@@ -148,6 +148,7 @@ watch(
   () => guiderStore.chartInfo.GuideSteps,
   (steps) => {
     if (!chart) return;
+    if (!steps || !Array.isArray(steps)) return; // Guard gegen undefined/null
 
     const size = guiderStore.chartInfo.HistorySize;
     const raDist = Array(size).fill(null);

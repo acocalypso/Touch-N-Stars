@@ -94,13 +94,13 @@ async function getDevices() {
     equipmentStore.availableDevices[apiName].length > 0
   ) {
     devices.value = equipmentStore.availableDevices[apiName];
-    console.log(`[${apiName}] Geräte geladen aus Store`);
+    console.log(`[${apiName}] Devices loaded from store`);
     return;
   }
   isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
-      throw new Error(`Ungültige API-Methode: ${props.apiAction}`);
+      throw new Error(`Invalid API method: ${props.apiAction}`);
     }
     const response = await apiService[props.apiAction]('list-devices');
     if (response.Error) {
@@ -137,7 +137,7 @@ async function rescanDevices() {
   isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
-      throw new Error(`Ungültige API-Methode: ${props.apiAction}`);
+      throw new Error(`Invalid API method: ${props.apiAction}`);
     }
     const response = await apiService[props.apiAction]('rescan');
     console.log(response);

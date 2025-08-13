@@ -10,7 +10,10 @@
       <!-- Logo Splash Screen -->
       <Transition name="splash">
         <div
-          v-if="showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')"
+          v-if="
+            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
+            $route.path !== '/setup'
+          "
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
           <!-- Minimaler Status-Text -->
@@ -62,7 +65,12 @@
       </Transition>
 
       <div
-        v-if="!(showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings'))"
+        v-if="
+          !(
+            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
+            $route.path !== '/setup'
+          )
+        "
         :class="mainContentClasses"
       >
         <StellariumView
@@ -113,7 +121,7 @@
     <!-- ManuellFilterModal Modal -->
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
     <!-- Debug Console -->
-    <ConsoleViewer class="fixed top-32 right-6" v-if="settingsStore.showDebugConsole" />
+    <ConsoleViewer class="fixed top-32 right-6 z-[60]" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
 

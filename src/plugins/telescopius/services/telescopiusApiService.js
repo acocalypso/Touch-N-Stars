@@ -24,7 +24,6 @@ const getProxyBaseUrl = () => {
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 80;
 
-
   return `${protocol}://${host}:${port}/api/proxy/telescopius`;
 };
 
@@ -67,18 +66,27 @@ class TelescopiusApiService {
       // Proxy URL erstellen
       const proxyUrl = `${getProxyBaseUrl()}?url=${encodeURIComponent(originalUrl.toString())}`;
 
+      console.log(`[TelescopiusAPI] makeRequest(${endpoint})`);
+      console.log(`[TelescopiusAPI] Original URL: ${originalUrl.toString()}`);
+      console.log(`[TelescopiusAPI] Proxy URL: ${proxyUrl}`);
+      console.log(`[TelescopiusAPI] Parameters:`, params);
+
       const response = await fetch(proxyUrl, {
         method: 'GET',
         headers: this.getHeaders(),
       });
 
+      console.log(`[TelescopiusAPI] Response status: ${response.status} ${response.statusText}`);
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      return await response.json();
+      const jsonData = await response.json();
+      console.log(`[TelescopiusAPI] Response data:`, jsonData);
+      return jsonData;
     } catch (error) {
-      console.error(`Telescopius API Error (${endpoint}):`, error);
+      console.error(`[TelescopiusAPI] Error (${endpoint}):`, error);
       throw this.handleApiError(error);
     }
   }
@@ -131,11 +139,20 @@ class TelescopiusApiService {
   }
 
   // User Lists
-  async getUserLists(params = {}) {
-    return this.makeRequest('/targets/lists', params);
+  async getUserLists() {
+    console.log('[TelescopiusAPI] getUserLists() - Loading user target lists');
+    return this.makeRequest('/targets/lists');
   }
 
   async getTargetList(listId, params = {}) {
+    console.log(
+      `[TelescopiusAPI] getTargetList(${listId}) - Loading list details with params:`,
+      params
+    );
+    const hasLocation = params.lat && params.lon;
+    console.log(
+      `[TelescopiusAPI] Location data ${hasLocation ? 'available' : 'missing'}: lat=${params.lat}, lon=${params.lon}`
+    );
     return this.makeRequest(`/targets/lists/${listId}`, params);
   }
 

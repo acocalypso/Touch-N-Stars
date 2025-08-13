@@ -144,6 +144,44 @@
               </svg>
               Load Target Lists
             </button>
+
+            <button
+              v-if="telescopiusStore.hasApiKey && telescopiusStore.hasTargetLists"
+              @click="refreshTargetLists"
+              :disabled="telescopiusStore.isLoadingLists"
+              class="default-button-blue flex items-center gap-2"
+              title="Refresh from API and update cache"
+            >
+              <svg
+                v-if="telescopiusStore.isLoadingLists"
+                class="w-5 h-5 animate-spin"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                ></path>
+              </svg>
+              Refresh
+            </button>
           </div>
         </div>
 
@@ -253,7 +291,7 @@
                         Frame
                       </button>
                       <ButtonSlewCenterRotate
-                        :raAngle="obj.coordinates.ra"
+                        :raAngle="obj.coordinates.ra * 15"
                         :decAngle="obj.coordinates.dec"
                         class="text-xs"
                         size="small"
@@ -261,7 +299,7 @@
                       <SaveFavTargets
                         class="w-4 h-4 self-center"
                         :name="obj.name"
-                        :ra="obj.coordinates.ra"
+                        :ra="obj.coordinates.ra * 15"
                         :dec="obj.coordinates.dec"
                         :ra-string="formatRA(obj.coordinates.ra)"
                         :dec-string="formatDec(obj.coordinates.dec)"
@@ -305,13 +343,14 @@ import { useTelescopisStore } from '../store/telescopiusStore';
 import telescopiusApiService from '../services/telescopiusApiService';
 import { apiStore } from '@/store/store';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
-import { latitude, longitude } from '@/utils/location';
+import { latitude, longitude, useLocationStore } from '@/utils/location';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 
 const showApiKeyModal = ref(false);
 const telescopiusStore = useTelescopisStore();
 const store = apiStore();
+const locationStore = useLocationStore();
 const isLoadingQuote = ref(false);
 const quoteData = ref(null);
 const quoteError = ref(null);
@@ -340,7 +379,10 @@ const fetchQuoteOfTheDay = async () => {
 };
 
 const loadTargetLists = async () => {
+  console.log('[Telescopius] loadTargetLists() - Starting to load user target lists');
+
   if (!telescopiusStore.hasApiKey) {
+    console.log('[Telescopius] No API key configured');
     telescopiusStore.setListsError('API Key required');
     return;
   }
@@ -349,61 +391,98 @@ const loadTargetLists = async () => {
   telescopiusStore.setListsError(null);
 
   try {
+    // First try to load from cache
+    console.log('[Telescopius] Checking cache for target lists...');
+    const cacheLoaded = await telescopiusStore.loadTargetListsFromCache();
+
+    if (cacheLoaded) {
+      console.log('[Telescopius] Target lists loaded from cache');
+      telescopiusStore.setLoadingLists(false);
+      return;
+    }
+
+    // Cache miss or expired, fetch from API
+    console.log('[Telescopius] Cache miss, fetching from API...');
+    const response = await telescopiusApiService.getUserLists();
+    console.log('[Telescopius] getUserLists() response:', response);
+    console.log('[Telescopius] Found', response?.length || 0, 'target lists');
+
+    if (!response || response.length === 0) {
+      telescopiusStore.setTargetLists([]);
+      telescopiusStore.setLoadingLists(false);
+      return;
+    }
+
+    // Load all target list details in parallel
+    console.log('[Telescopius] Loading details for all lists...');
     const params = {};
     if (latitude.value && longitude.value) {
       params.lat = parseFloat(latitude.value);
       params.lon = parseFloat(longitude.value);
+      console.log('[Telescopius] Using location parameters for all lists:', params);
     }
 
-    const response = await telescopiusApiService.getUserLists(params);
-    console.log('Target lists API Response:', response);
-    telescopiusStore.setTargetLists(response);
+    const detailPromises = response.map(async (list) => {
+      try {
+        console.log(`[Telescopius] Loading details for list ${list.id}...`);
+        const details = await telescopiusApiService.getTargetList(list.id, params);
+        return { ...list, ...details };
+      } catch (error) {
+        console.error(`[Telescopius] Failed to load details for list ${list.id}:`, error);
+        return list; // Return original list without details on error
+      }
+    });
+
+    const listsWithDetails = await Promise.all(detailPromises);
+    console.log('[Telescopius] All target lists with details loaded:', listsWithDetails);
+
+    telescopiusStore.setTargetLists(listsWithDetails);
+
+    // Save to cache
+    await telescopiusStore.saveTargetListsToCache();
+    console.log('[Telescopius] Target lists cached for future use');
   } catch (error) {
-    console.error('Failed to load target lists:', error);
+    console.error('[Telescopius] Failed to load target lists:', error);
     telescopiusStore.setListsError(error.message || 'Failed to load target lists');
     telescopiusStore.setTargetLists([]);
   } finally {
     telescopiusStore.setLoadingLists(false);
+    console.log('[Telescopius] loadTargetLists() completed');
   }
 };
 
-const toggleListDetails = async (listId) => {
+const refreshTargetLists = async () => {
+  console.log('[Telescopius] refreshTargetLists() - Force refresh from API');
+
+  // Clear cache first
+  await telescopiusStore.clearTargetListsCache();
+
+  // Clear current lists
+  telescopiusStore.clearTargetLists();
+
+  // Load fresh data from API
+  await loadTargetLists();
+};
+
+const toggleListDetails = (listId) => {
+  console.log(`[Telescopius] toggleListDetails(${listId}) - Toggle list details`);
+
   if (expandedLists.value.includes(listId)) {
+    console.log(`[Telescopius] Collapsing list ${listId}`);
     expandedLists.value = expandedLists.value.filter((id) => id !== listId);
     return;
   }
 
   const list = telescopiusStore.targetLists.find((l) => l.id === listId);
-  if (!list.objects) {
-    console.log('Loading details for list:', listId);
-    try {
-      const params = {};
-      if (latitude.value && longitude.value) {
-        params.lat = parseFloat(latitude.value);
-        params.lon = parseFloat(longitude.value);
-      }
-
-      const response = await telescopiusApiService.getTargetList(listId, params);
-      console.log('List details:', response);
-
-      const listIndex = telescopiusStore.targetLists.findIndex((l) => l.id === listId);
-      if (listIndex !== -1) {
-        telescopiusStore.targetLists[listIndex] = {
-          ...telescopiusStore.targetLists[listIndex],
-          ...response,
-        };
-      }
-    } catch (error) {
-      console.error('Failed to fetch list details:', error);
-      alert(`Error loading list details: ${error.message}`);
-      return;
-    }
-  }
+  console.log(`[Telescopius] Found list with ${list?.objects?.length || 0} objects`);
 
   expandedLists.value.push(listId);
+  console.log(`[Telescopius] Expanded lists:`, expandedLists.value);
 };
 
-const formatRA = (raDegrees) => {
+const formatRA = (raHours) => {
+  // Telescopius API returns RA in hours, so convert to degrees first
+  const raDegrees = raHours * 15;
   return degreesToHMS(raDegrees);
 };
 
@@ -416,7 +495,7 @@ const setFramingForTarget = (target) => {
     name: target.name,
     raString: formatRA(target.coordinates.ra),
     decString: formatDec(target.coordinates.dec),
-    ra: target.coordinates.ra,
+    ra: target.coordinates.ra * 15, // Convert hours to degrees for framing
     dec: target.coordinates.dec,
     item: [target.name],
   };
@@ -436,6 +515,15 @@ const formatDate = (dateString) => {
 onMounted(async () => {
   if (!telescopiusStore.isLoaded) {
     await telescopiusStore.loadApiKey();
+  }
+
+  // Try to load location from profile if not set
+  if (!latitude.value && !longitude.value) {
+    console.log('[Telescopius] No location data found, trying to load from profile');
+    await locationStore.loadFromAstrometrySettings();
+    console.log(
+      `[Telescopius] After loading from profile: lat=${latitude.value}, lon=${longitude.value}`
+    );
   }
 });
 </script>

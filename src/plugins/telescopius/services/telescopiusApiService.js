@@ -128,16 +128,6 @@ class TelescopiusApiService {
     return this.makeRequest('/targets/search', params);
   }
 
-  // Target Highlights
-  async getTargetHighlights(params = {}) {
-    const defaultParams = {
-      types: 'DEEP_SKY_OBJECT',
-      ...params,
-    };
-
-    return this.makeRequest('/targets/highlights', defaultParams);
-  }
-
   // User Lists
   async getUserLists() {
     console.log('[TelescopiusAPI] getUserLists() - Loading user target lists');

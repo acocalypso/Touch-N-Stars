@@ -94,7 +94,7 @@
                 <path
                   class="opacity-75"
                   fill="currentColor"
-                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
               <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +112,7 @@
               v-if="telescopiusStore.hasApiKey"
               @click="loadTargetLists"
               :disabled="telescopiusStore.isLoadingLists"
-              class="default-button-purple flex items-center gap-2"
+              class="default-button-blue flex items-center gap-2"
             >
               <svg
                 v-if="telescopiusStore.isLoadingLists"
@@ -131,7 +131,7 @@
                 <path
                   class="opacity-75"
                   fill="currentColor"
-                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  d="m4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
               <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,7 +149,7 @@
               v-if="telescopiusStore.hasApiKey && telescopiusStore.hasTargetLists"
               @click="refreshTargetLists"
               :disabled="telescopiusStore.isLoadingLists"
-              class="default-button-blue flex items-center gap-2"
+              class="default-button-orange flex items-center gap-2"
               title="Refresh from API and update cache"
             >
               <svg
@@ -169,7 +169,7 @@
                 <path
                   class="opacity-75"
                   fill="currentColor"
-                  d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  d="m4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
               <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -246,16 +246,44 @@
             >
               <div class="flex items-center justify-between mb-3">
                 <div class="flex-1">
-                  <h7 class="text-white font-medium">{{ list.name || 'Unnamed List' }}</h7>
+                  <div class="text-white font-medium">{{ list.name || 'Unnamed List' }}</div>
                   <p class="text-gray-400 text-sm mt-1">{{ list.username }} • ID: {{ list.id }}</p>
                 </div>
                 <div class="text-right">
                   <button
                     @click="toggleListDetails(list.id)"
                     :class="expandedLists.includes(list.id) ? 'text-yellow-400' : 'text-blue-400'"
-                    class="hover:text-blue-300 text-sm underline"
+                    class="hover:text-blue-300 p-1 rounded transition-colors"
+                    :title="expandedLists.includes(list.id) ? 'Hide Objects' : 'Show Objects'"
                   >
-                    {{ expandedLists.includes(list.id) ? 'Hide Objects' : 'Show Objects' }}
+                    <svg
+                      v-if="expandedLists.includes(list.id)"
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 15l7-7 7 7"
+                      ></path>
+                    </svg>
+                    <svg
+                      v-else
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </svg>
                   </button>
                 </div>
               </div>
@@ -265,11 +293,12 @@
                 <div
                   v-for="(obj, index) in list.objects"
                   :key="index"
-                  class="bg-gray-900/30 rounded-lg p-3 border border-gray-700"
+                  class="bg-gray-900/30 rounded-lg p-3 border border-gray-700 hover:border-gray-500 cursor-pointer transition-colors"
+                  @click="openTargetModal(obj)"
                 >
                   <div class="flex items-start justify-between">
                     <div class="flex-1">
-                      <h8 class="text-white font-medium text-sm">{{ obj.name }}</h8>
+                      <div class="text-white font-medium text-sm">{{ obj.name }}</div>
                       <div class="text-gray-400 text-xs mt-1 space-y-1">
                         <div>RA: {{ formatRA(obj.coordinates.ra) }}</div>
                         <div>Dec: {{ formatDec(obj.coordinates.dec) }}</div>
@@ -278,32 +307,16 @@
                       </div>
                     </div>
 
-                    <!-- Action Buttons -->
-                    <div
-                      v-if="store.mountInfo.Connected && !store.sequenceRunning"
-                      class="flex flex-col gap-1 ml-4"
-                    >
-                      <button
-                        @click="setFramingForTarget(obj)"
-                        class="default-button-cyan text-xs px-2 py-1 min-w-0"
-                        title="Add to Framing"
-                      >
-                        Frame
-                      </button>
-                      <ButtonSlewCenterRotate
-                        :raAngle="obj.coordinates.ra * 15"
-                        :decAngle="obj.coordinates.dec"
-                        class="text-xs"
-                        size="small"
-                      />
-                      <SaveFavTargets
-                        class="w-4 h-4 self-center"
-                        :name="obj.name"
-                        :ra="obj.coordinates.ra * 15"
-                        :dec="obj.coordinates.dec"
-                        :ra-string="formatRA(obj.coordinates.ra)"
-                        :dec-string="formatDec(obj.coordinates.dec)"
-                      />
+                    <!-- Click indicator -->
+                    <div class="flex items-center justify-center text-gray-400">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M9 5l7 7-7 7"
+                        ></path>
+                      </svg>
                     </div>
                   </div>
                 </div>
@@ -333,6 +346,100 @@
 
     <!-- API Key Modal -->
     <ApiKeyModal :show="showApiKeyModal" @close="showApiKeyModal = false" />
+
+    <!-- Target Modal -->
+    <Modal :show="showTargetModal" @close="closeTargetModal">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ selectedTarget?.name || 'Target' }}
+        </h2>
+      </template>
+
+      <template #body>
+        <div class="w-full max-w-md mx-auto">
+          <!-- Target Information -->
+          <div v-if="selectedTarget" class="mb-6 text-center">
+            <div
+              v-if="selectedTarget.notes"
+              class="bg-gray-800/50 rounded-lg p-3 border border-gray-600 mb-4"
+            >
+              <div class="text-sm text-gray-300">{{ selectedTarget.notes }}</div>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div
+            v-if="selectedTarget && store.mountInfo.Connected && !store.sequenceRunning"
+            class="space-y-3"
+          >
+            <!-- Go To Framing -->
+            <button
+              @click="setFramingForTarget(selectedTarget)"
+              class="w-full default-button-cyan flex items-center justify-center gap-3"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              Go To Framing
+            </button>
+
+            <!-- Slew -->
+            <ButtonSlewCenterRotate
+              :raAngle="selectedTarget.coordinates.ra * 15"
+              :decAngle="selectedTarget.coordinates.dec"
+              class="w-full"
+            />
+          </div>
+
+          <!-- Mount not connected message -->
+          <div
+            v-else-if="selectedTarget && !store.mountInfo.Connected"
+            class="text-center text-gray-400"
+          >
+            <svg
+              class="w-12 h-12 mx-auto mb-4 opacity-50"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p>Mount not connected</p>
+          </div>
+
+          <!-- Sequence running message -->
+          <div
+            v-else-if="selectedTarget && store.sequenceRunning"
+            class="text-center text-gray-400"
+          >
+            <svg
+              class="w-12 h-12 mx-auto mb-4 opacity-50"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p>Sequence is running</p>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -345,16 +452,22 @@ import { apiStore } from '@/store/store';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { latitude, longitude, useLocationStore } from '@/utils/location';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
-import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
+import Modal from '@/components/helpers/Modal.vue';
+import { useRouter } from 'vue-router';
+import { useFramingStore } from '@/store/framingStore';
 
 const showApiKeyModal = ref(false);
 const telescopiusStore = useTelescopisStore();
 const store = apiStore();
 const locationStore = useLocationStore();
+const router = useRouter();
+const framingStore = useFramingStore();
 const isLoadingQuote = ref(false);
 const quoteData = ref(null);
 const quoteError = ref(null);
 const expandedLists = ref([]);
+const showTargetModal = ref(false);
+const selectedTarget = ref(null);
 
 const fetchQuoteOfTheDay = async () => {
   if (!telescopiusStore.hasApiKey) {
@@ -490,21 +603,67 @@ const formatDec = (decDegrees) => {
   return degreesToDMS(decDegrees);
 };
 
+const openTargetModal = (target) => {
+  console.log('[Telescopius] Opening modal for target:', target.name);
+  selectedTarget.value = target;
+  showTargetModal.value = true;
+};
+
+const closeTargetModal = () => {
+  console.log('[Telescopius] Closing target modal');
+  showTargetModal.value = false;
+  selectedTarget.value = null;
+};
+
 const setFramingForTarget = (target) => {
-  const framingData = {
-    name: target.name,
-    raString: formatRA(target.coordinates.ra),
-    decString: formatDec(target.coordinates.dec),
-    ra: target.coordinates.ra * 15, // Convert hours to degrees for framing
-    dec: target.coordinates.dec,
-    item: [target.name],
+  console.log('[Telescopius] Setting framing for target:', target.name);
+
+  try {
+    const raDegrees = target.coordinates.ra * 15; // Convert hours to degrees
+    const decDegrees = target.coordinates.dec;
+
+    console.log(
+      `[Telescopius] Setting framing coordinates: RA: ${raDegrees}°, Dec: ${decDegrees}°`
+    );
+
+    // Create framing data object for the existing setFramingCoordinates function
+    const framingData = {
+      name: target.name,
+      raString: formatRA(target.coordinates.ra), // HMS format
+      decString: formatDec(target.coordinates.dec), // DMS format
+      ra: raDegrees, // Degrees
+      dec: decDegrees, // Degrees
+    };
+
+    console.log('[Telescopius] Framing data:', framingData);
+
+    // Use the existing setFramingCoordinates function
+    setFramingCoordinates(framingData);
+
+    // Close modal
+    closeTargetModal();
+  } catch (error) {
+    console.error('[Telescopius] Failed to set framing:', error);
+    alert(`Failed to go to framing: ${error.message}`);
+  }
+};
+
+// Use the existing setFramingCoordinates function from the parent context
+const setFramingCoordinates = (data) => {
+  framingStore.RAangleString = data?.raString;
+  framingStore.DECangleString = data?.decString;
+  framingStore.RAangle = data?.ra;
+  framingStore.DECangle = data?.dec;
+  framingStore.selectedItem = {
+    Name: data?.name || '',
+    RA: data?.ra,
+    Dec: data?.dec,
   };
 
-  console.log('Setting framing for target:', framingData);
-
-  // Emit the framing event - assuming parent component handles this
-  // This follows the same pattern as SelectedObject.vue
-  store.setFramingCoordinates && store.setFramingCoordinates(framingData);
+  console.log('[Telescopius] Set Framing Coordinates');
+  store.mount.currentTab = 'showSlew';
+  console.log('[Telescopius] store.mount.currentTab', store.mount.currentTab);
+  router.push('/mount');
 };
 
 const formatDate = (dateString) => {
@@ -525,5 +684,25 @@ onMounted(async () => {
       `[Telescopius] After loading from profile: lat=${latitude.value}, lon=${longitude.value}`
     );
   }
+
+  // Auto-load cached target lists on page load
+  if (telescopiusStore.hasApiKey) {
+    console.log('[Telescopius] Page loaded with API key, checking for cached target lists...');
+    const cacheLoaded = await telescopiusStore.loadTargetListsFromCache();
+    if (cacheLoaded) {
+      console.log('[Telescopius] Target lists auto-loaded from cache on page load');
+    } else {
+      console.log('[Telescopius] No valid cache found on page load');
+    }
+  }
 });
 </script>
+
+<style scoped>
+/* Remove border from slew button component */
+:deep(.no-border > div:first-child) {
+  border: none !important;
+  padding: 0 !important;
+  margin-top: 0 !important;
+}
+</style>

@@ -52,8 +52,7 @@ const nameInput = ref(props.name);
 
 function confirmSave() {
   if (!nameInput.value.trim()) return;
-  console.log('rotation', props.rotation);
-
+  console.log('Saving favorite target rotation:', props.rotation);
   const newTarget = {
     Name: nameInput.value.trim(),
     Ra: props.ra,

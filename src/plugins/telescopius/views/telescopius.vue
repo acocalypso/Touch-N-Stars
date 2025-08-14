@@ -71,7 +71,6 @@
               {{ $t('plugins.telescopius.apiKey.configure') }}
             </button>
 
-
             <button
               v-if="telescopiusStore.hasApiKey"
               @click="loadTargetLists"
@@ -148,7 +147,6 @@
             </button>
           </div>
         </div>
-
 
         <!-- Target Lists Display -->
         <div
@@ -384,7 +382,6 @@ const expandedLists = ref([]);
 const showTargetModal = ref(false);
 const selectedTarget = ref(null);
 
-
 const loadTargetLists = async () => {
   console.log('[Telescopius] loadTargetLists() - Starting to load user target lists');
 
@@ -559,7 +556,6 @@ const setFramingCoordinates = (data) => {
   console.log('[Telescopius] store.mount.currentTab', store.mount.currentTab);
   router.push('/mount');
 };
-
 
 onMounted(async () => {
   if (!telescopiusStore.isLoaded) {

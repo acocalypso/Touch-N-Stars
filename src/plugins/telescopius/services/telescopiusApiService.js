@@ -2,10 +2,8 @@ import { useTelescopisStore } from '../store/telescopiusStore';
 import { getActivePinia } from 'pinia';
 
 const TELESCOPIUS_BASE_URL = 'https://api.telescopius.com/v1.0';
-const DEFAULT_TIMEOUT = 10000;
 
 let settingsStore;
-let store;
 
 const initializeStore = () => {
   if (!settingsStore) {

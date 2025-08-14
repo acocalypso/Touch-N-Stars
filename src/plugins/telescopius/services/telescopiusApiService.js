@@ -4,6 +4,7 @@ import { getActivePinia } from 'pinia';
 const TELESCOPIUS_BASE_URL = 'https://api.telescopius.com/v1.0';
 
 let settingsStore;
+let store;
 
 const initializeStore = () => {
   if (!settingsStore) {

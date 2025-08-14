@@ -107,7 +107,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Modal from '@/components/helpers/Modal.vue';
 import { useTelescopisStore } from '../store/telescopiusStore';
-import { handleApiError } from '@/utils/utils';
+import { useToastStore } from '@/store/toastStore';
 import telescopiusApiService from '../services/telescopiusApiService';
 
 const { t: $t } = useI18n();
@@ -122,6 +122,7 @@ defineProps({
 });
 
 const telescopiusStore = useTelescopisStore();
+const toastStore = useToastStore();
 const localApiKey = ref('');
 const isLoading = ref(false);
 
@@ -142,9 +143,10 @@ async function saveApiKey() {
     const validation = await telescopiusApiService.validateApiKey(localApiKey.value.trim());
 
     if (!validation.valid) {
-      handleApiError(null, {
+      toastStore.addToast({
         title: 'API Key Validation Failed',
-        defaultMessage: validation.message,
+        message: validation.message,
+        type: 'error',
       });
       return;
     }
@@ -154,9 +156,10 @@ async function saveApiKey() {
     localApiKey.value = '';
     emit('close');
   } catch (error) {
-    handleApiError(error.response?.data, {
+    toastStore.addToast({
       title: 'Fehler beim Speichern',
-      defaultMessage: $t('plugins.telescopius.apiKey.errors.saveFailed'),
+      message: $t('plugins.telescopius.apiKey.errors.saveFailed'),
+      type: 'error',
     });
   } finally {
     isLoading.value = false;
@@ -170,9 +173,10 @@ async function deleteApiKey() {
     localApiKey.value = '';
     emit('close');
   } catch (error) {
-    handleApiError(error.response?.data, {
+    toastStore.addToast({
       title: 'Fehler beim Löschen',
-      defaultMessage: $t('plugins.telescopius.apiKey.errors.deleteFailed'),
+      message: $t('plugins.telescopius.apiKey.errors.deleteFailed'),
+      type: 'error',
     });
   } finally {
     isLoading.value = false;

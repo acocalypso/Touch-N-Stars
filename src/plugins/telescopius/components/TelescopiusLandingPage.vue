@@ -1,9 +1,11 @@
 <template>
   <div class="landing-page">
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold text-white mb-4">🔭 Telescopius Plugin</h1>
+      <h1 class="text-4xl font-bold text-white mb-4">
+        🔭 {{ $t('plugins.telescopius.landing.title') }}
+      </h1>
       <p class="text-xl text-gray-300 mb-6">
-        Bringe deine Zielobjekte von Telescopius.com direkt in Touch'N'Stars
+        {{ $t('plugins.telescopius.landing.subtitle') }}
       </p>
     </div>
 
@@ -11,49 +13,55 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <div class="info-card">
         <div class="card-icon">🎯</div>
-        <h3 class="text-xl font-bold text-white mb-3">Was ist das Plugin?</h3>
+        <h3 class="text-xl font-bold text-white mb-3">
+          {{ $t('plugins.telescopius.landing.whatIsPlugin.title') }}
+        </h3>
         <p class="text-gray-300 text-sm mb-4">
-          Lade deine gespeicherten Zielobjekte von Telescopius.com direkt in Touch'N'Stars und nutze
-          sie für Navigation und Framing.
+          {{ $t('plugins.telescopius.landing.whatIsPlugin.description') }}
         </p>
         <ul class="text-gray-400 text-sm space-y-1">
-          <li>• Lade Ziellisten von Telescopius.com</li>
-          <li>• Navigiere direkt zu Objekten</li>
-          <li>• Nutze Framing-Assistent</li>
-          <li>• Offline-Cache für schnellen Zugriff</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsPlugin.features.loadLists') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsPlugin.features.navigate') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsPlugin.features.framingAssistant') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsPlugin.features.offlineCache') }}</li>
         </ul>
       </div>
 
       <div class="info-card">
         <div class="card-icon">🌐</div>
-        <h3 class="text-xl font-bold text-white mb-3">Was ist Telescopius?</h3>
+        <h3 class="text-xl font-bold text-white mb-3">
+          {{ $t('plugins.telescopius.landing.whatIsTelecopius.title') }}
+        </h3>
         <p class="text-gray-300 text-sm mb-4">
-          Telescopius ist eine umfassende Astronomie-Plattform für die Entdeckung und Planung von
-          Himmelsbeobachtungen.
+          {{ $t('plugins.telescopius.landing.whatIsTelecopius.description') }}
         </p>
         <ul class="text-gray-400 text-sm space-y-1 mb-4">
-          <li>• Umfangreiche Objektdatenbank</li>
-          <li>• Personalisierte Ziellisten</li>
-          <li>• Beobachtungsplanung</li>
-          <li>• Community und Sharing</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsTelecopius.features.database') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsTelecopius.features.lists') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsTelecopius.features.planning') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.whatIsTelecopius.features.community') }}</li>
         </ul>
         <a href="https://telescopius.com" target="_blank" class="btn-link">
-          Telescopius.com besuchen →
+          {{ $t('plugins.telescopius.landing.whatIsTelecopius.visitWebsite') }} →
         </a>
       </div>
 
       <div class="info-card">
         <div class="card-icon">⚡</div>
-        <h3 class="text-xl font-bold text-white mb-3">Hauptfunktionen</h3>
+        <h3 class="text-xl font-bold text-white mb-3">
+          {{ $t('plugins.telescopius.landing.mainFeatures.title') }}
+        </h3>
         <p class="text-gray-300 text-sm mb-4">
-          Nahtlose Integration zwischen Telescopius und Touch'N'Stars:
+          {{ $t('plugins.telescopius.landing.mainFeatures.description') }}
         </p>
         <ul class="text-gray-400 text-sm space-y-1">
-          <li>• <strong>Automatischer Import:</strong> Alle Ziellisten auf einmal</li>
-          <li>• <strong>Intelligenter Cache:</strong> Schneller Offline-Zugriff</li>
-          <li>• <strong>Direkte Navigation:</strong> Slew mit einem Klick</li>
-          <li>• <strong>Framing Integration:</strong> Nutzt bestehende Tools</li>
-          <li>• <strong>Standortbasiert:</strong> Berücksichtigt deinen Standort</li>
+          <li>• {{ $t('plugins.telescopius.landing.mainFeatures.features.autoImport') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.mainFeatures.features.smartCache') }}</li>
+          <li>• {{ $t('plugins.telescopius.landing.mainFeatures.features.directNavigation') }}</li>
+          <li>
+            • {{ $t('plugins.telescopius.landing.mainFeatures.features.framingIntegration') }}
+          </li>
+          <li>• {{ $t('plugins.telescopius.landing.mainFeatures.features.locationBased') }}</li>
         </ul>
       </div>
     </div>
@@ -61,9 +69,11 @@
     <!-- API Setup Section -->
     <div class="api-setup-section">
       <div class="text-center mb-6">
-        <h2 class="text-2xl font-bold text-white mb-2">🔑 API-Schlüssel einrichten</h2>
+        <h2 class="text-2xl font-bold text-white mb-2">
+          🔑 {{ $t('plugins.telescopius.landing.apiSetup.title') }}
+        </h2>
         <p class="text-gray-300">
-          Folge diesen einfachen Schritten, um das Plugin zu konfigurieren:
+          {{ $t('plugins.telescopius.landing.apiSetup.description') }}
         </p>
       </div>
 
@@ -71,12 +81,14 @@
         <div class="setup-step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h4 class="text-white font-semibold mb-2">Telescopius Account erstellen</h4>
+            <h4 class="text-white font-semibold mb-2">
+              {{ $t('plugins.telescopius.landing.apiSetup.step1.title') }}
+            </h4>
             <p class="text-gray-300 text-sm mb-3">
-              Falls du noch keinen Account hast, registriere dich kostenlos:
+              {{ $t('plugins.telescopius.landing.apiSetup.step1.description') }}
             </p>
             <a href="https://telescopius.com/register" target="_blank" class="btn-external">
-              Kostenlos registrieren
+              {{ $t('plugins.telescopius.landing.apiSetup.step1.button') }}
             </a>
           </div>
         </div>
@@ -84,12 +96,14 @@
         <div class="setup-step">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h4 class="text-white font-semibold mb-2">API-Schlüssel anfordern</h4>
+            <h4 class="text-white font-semibold mb-2">
+              {{ $t('plugins.telescopius.landing.apiSetup.step2.title') }}
+            </h4>
             <p class="text-gray-300 text-sm mb-3">
-              Melde dich an und gehe zur API-Seite für deinen persönlichen Schlüssel:
+              {{ $t('plugins.telescopius.landing.apiSetup.step2.description') }}
             </p>
             <a href="https://telescopius.com/api" target="_blank" class="btn-external">
-              API-Schlüssel anfordern
+              {{ $t('plugins.telescopius.landing.apiSetup.step2.button') }}
             </a>
           </div>
         </div>
@@ -97,9 +111,11 @@
         <div class="setup-step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h4 class="text-white font-semibold mb-2">API-Schlüssel eingeben</h4>
+            <h4 class="text-white font-semibold mb-2">
+              {{ $t('plugins.telescopius.landing.apiSetup.step3.title') }}
+            </h4>
             <p class="text-gray-300 text-sm mb-3">
-              Klicke unten auf "API Key konfigurieren" und gib deinen Schlüssel ein:
+              {{ $t('plugins.telescopius.landing.apiSetup.step3.description') }}
             </p>
             <button
               @click="$emit('openApiKeyModal')"
@@ -119,7 +135,7 @@
                   d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                 ></path>
               </svg>
-              API Key konfigurieren
+              {{ $t('plugins.telescopius.landing.apiSetup.step3.button') }}
             </button>
           </div>
         </div>
@@ -137,10 +153,11 @@
             </svg>
           </div>
           <div>
-            <p class="text-yellow-400 font-semibold text-sm">Sicherheit</p>
+            <p class="text-yellow-400 font-semibold text-sm">
+              {{ $t('plugins.telescopius.landing.apiSetup.security.title') }}
+            </p>
             <p class="text-gray-300 text-sm">
-              Dein API-Schlüssel wird nur lokal auf deinem Gerät gespeichert und nie an andere
-              weitergegeben. Du kannst ihn jederzeit wieder löschen.
+              {{ $t('plugins.telescopius.landing.apiSetup.security.description') }}
             </p>
           </div>
         </div>

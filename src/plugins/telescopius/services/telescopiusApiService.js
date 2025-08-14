@@ -109,11 +109,6 @@ class TelescopiusApiService {
     }
   }
 
-  // Quote of the Day
-  async getQuoteOfTheDay() {
-    return this.makeRequest('/quote-of-the-day');
-  }
-
   // Target Search
   async searchTargets(searchParams = {}) {
     const params = {

@@ -610,6 +610,7 @@
   "plugins": {
     "telescopius": {
       "title": "Telescopius",
+      "initializing": "Initializing...",
       "welcome": "Welcome to the Telescopius plugin!",
       "description": "Enables data retrieval from telescopius.com",
       "landing": {
@@ -675,7 +676,7 @@
         "title": "Telescopius API Key",
         "description": "To use Telescopius, you need an API key. You can get one for free on the Telescopius website:",
         "linkText": "→ Request Telescopius API Key",
-        "securityNote": "The API key is stored encrypted on the server and used only for Telescopius requests.",
+        "securityNote": "The API key is stored on the server and used only for Telescopius requests.",
         "placeholder": "Enter your Telescopius API key...",
         "configured": "API key is already configured",
         "save": "Save",
@@ -687,7 +688,8 @@
           "saveFailed": "API key could not be saved.",
           "deleteFailed": "API key could not be deleted.",
           "validationFailed": "API key validation failed"
-        }
+        },
+        "loadFromTelescopius": "refresh"
       }
     },
     "webcam": {

@@ -1,9 +1,29 @@
 <template>
   <div class="container py-16 flex items-center justify-center">
     <div class="container max-w-4xl">
+      <!-- Loading Spinner during initialization -->
+      <div v-if="isInitializing" class="flex flex-col items-center justify-center py-20">
+        <svg class="w-12 h-12 animate-spin text-blue-500 mb-4" fill="none" viewBox="0 0 24 24">
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+          ></path>
+        </svg>
+        <p class="text-gray-400 text-center">{{ $t('plugins.telescopius.initializing') }}</p>
+      </div>
+
       <!-- Landing Page - zeige wenn kein API Key gesetzt ist -->
       <TelescopiusLandingPage
-        v-if="!telescopiusStore.hasApiKey"
+        v-else-if="!telescopiusStore.hasApiKey"
         @openApiKeyModal="showApiKeyModal = true"
       />
 
@@ -17,25 +37,20 @@
           <div
             class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
           >
-            <p class="text-white text-center">{{ $t('plugins.telescopius.welcome') }}</p>
-            <p class="text-gray-400 text-center mt-2">
-              {{ $t('plugins.telescopius.description') }}
-            </p>
-
             <!-- API Key Status -->
-            <div
-              v-if="telescopiusStore.hasApiKey"
-              class="mt-4 p-3 bg-green-900/30 border border-green-600 rounded-lg"
-            >
-              <div class="flex items-center justify-center text-green-400 text-sm">
-                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <div v-if="telescopiusStore.hasApiKey" class="flex items-center justify-center mb-2">
+              <div
+                class="inline-flex items-center px-2 py-1 bg-green-900/30 border border-green-600 rounded text-green-400 text-xs"
+              >
+                <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
-                    fill-rule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                    clip-rule="evenodd"
-                  />
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                  ></path>
                 </svg>
-                {{ $t('plugins.telescopius.apiKey.configured') }}
+                API
               </div>
             </div>
 
@@ -83,43 +98,6 @@
 
               <button
                 v-if="telescopiusStore.hasApiKey"
-                @click="loadTargetLists"
-                :disabled="telescopiusStore.isLoadingLists"
-                class="default-button-blue flex items-center gap-2"
-              >
-                <svg
-                  v-if="telescopiusStore.isLoadingLists"
-                  class="w-5 h-5 animate-spin"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="m4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M4 6h16M4 12h16M4 18h7"
-                  ></path>
-                </svg>
-                Load Target Lists
-              </button>
-
-              <button
-                v-if="telescopiusStore.hasApiKey && telescopiusStore.hasTargetLists"
                 @click="refreshTargetLists"
                 :disabled="telescopiusStore.isLoadingLists"
                 class="default-button-orange flex items-center gap-2"
@@ -142,7 +120,7 @@
                   <path
                     class="opacity-75"
                     fill="currentColor"
-                    d="m4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 714 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
                 <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,7 +131,7 @@
                     d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                   ></path>
                 </svg>
-                Refresh
+                {{ $t('plugins.telescopius.apiKey.loadFromTelescopius') }}
               </button>
             </div>
           </div>
@@ -387,6 +365,7 @@ import { useRouter } from 'vue-router';
 import { useFramingStore } from '@/store/framingStore';
 
 const showApiKeyModal = ref(false);
+const isInitializing = ref(true);
 const telescopiusStore = useTelescopisStore();
 const store = apiStore();
 const locationStore = useLocationStore();
@@ -572,28 +551,32 @@ const setFramingCoordinates = (data) => {
 };
 
 onMounted(async () => {
-  if (!telescopiusStore.isLoaded) {
-    await telescopiusStore.loadApiKey();
-  }
-
-  // Try to load location from profile if not set
-  if (!latitude.value && !longitude.value) {
-    console.log('[Telescopius] No location data found, trying to load from profile');
-    await locationStore.loadFromAstrometrySettings();
-    console.log(
-      `[Telescopius] After loading from profile: lat=${latitude.value}, lon=${longitude.value}`
-    );
-  }
-
-  // Auto-load cached target lists on page load
-  if (telescopiusStore.hasApiKey) {
-    console.log('[Telescopius] Page loaded with API key, checking for cached target lists...');
-    const cacheLoaded = await telescopiusStore.loadTargetListsFromCache();
-    if (cacheLoaded) {
-      console.log('[Telescopius] Target lists auto-loaded from cache on page load');
-    } else {
-      console.log('[Telescopius] No valid cache found on page load');
+  try {
+    if (!telescopiusStore.isLoaded) {
+      await telescopiusStore.loadApiKey();
     }
+
+    // Try to load location from profile if not set
+    if (!latitude.value && !longitude.value) {
+      console.log('[Telescopius] No location data found, trying to load from profile');
+      await locationStore.loadFromAstrometrySettings();
+      console.log(
+        `[Telescopius] After loading from profile: lat=${latitude.value}, lon=${longitude.value}`
+      );
+    }
+
+    // Auto-load cached target lists on page load
+    if (telescopiusStore.hasApiKey) {
+      console.log('[Telescopius] Page loaded with API key, checking for cached target lists...');
+      const cacheLoaded = await telescopiusStore.loadTargetListsFromCache();
+      if (cacheLoaded) {
+        console.log('[Telescopius] Target lists auto-loaded from cache on page load');
+      } else {
+        console.log('[Telescopius] No valid cache found on page load');
+      }
+    }
+  } finally {
+    isInitializing.value = false;
   }
 });
 </script>

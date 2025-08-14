@@ -12,7 +12,6 @@ const initializeStore = () => {
       throw new Error('Pinia store not initialized');
     }
     settingsStore = pinia._s.get('settings');
-    store = pinia._s.get('store');
   }
 };
 

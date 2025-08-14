@@ -4,7 +4,6 @@ import { getActivePinia } from 'pinia';
 const TELESCOPIUS_BASE_URL = 'https://api.telescopius.com/v1.0';
 
 let settingsStore;
-let store;
 
 const initializeStore = () => {
   if (!settingsStore) {
@@ -138,60 +137,6 @@ class TelescopiusApiService {
       `[TelescopiusAPI] Location data ${hasLocation ? 'available' : 'missing'}: lat=${params.lat}, lon=${params.lon}`
     );
     return this.makeRequest(`/targets/lists/${listId}`, params);
-  }
-
-  // Solar System Times
-  async getSolarSystemTimes(params = {}) {
-    return this.makeRequest('/solar-system/times', params);
-  }
-
-  // Advanced Target Search with common parameters
-  async searchNearbyTargets(ra, dec, radius = 5, params = {}) {
-    return this.searchTargets({
-      center_ra: ra,
-      center_dec: dec,
-      dist_max: radius,
-      ...params,
-    });
-  }
-
-  async searchByConstellation(constellation, params = {}) {
-    return this.searchTargets({
-      con: constellation,
-      ...params,
-    });
-  }
-
-  async searchByMagnitude(minMag, maxMag, params = {}) {
-    return this.searchTargets({
-      mag_min: minMag,
-      mag_max: maxMag,
-      ...params,
-    });
-  }
-
-  async searchVisibleNow(lat, lon, timezone = 'UTC', params = {}) {
-    const now = new Date();
-    const datetime = now.toISOString().slice(0, 19).replace('T', ' ');
-
-    return this.searchTargets({
-      lat,
-      lon,
-      timezone,
-      datetime,
-      min_alt: 20, // Minimum 20° altitude
-      ...params,
-    });
-  }
-
-  // Get target details with ephemeris
-  async getTargetEphemeris(targetName, ephemerisType = 'daily', params = {}) {
-    return this.searchTargets({
-      name: targetName,
-      name_exact: true,
-      ephemeris: ephemerisType,
-      ...params,
-    });
   }
 
   // Validate API Key - über Proxy

@@ -715,14 +715,14 @@
         "clickToRename": "Kliknutím přejmenujte",
         "findHome": {
           "description": "Nastavte dalekohled do výchozí polohy.",
-          "name": "Find Home"
+          "name": "Najít Home"
         }
       },
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
         "removeAction": "Odstranit akci „{actionName}",
-        "title": "Confirmation",
-        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence.",
+        "title": "Potvrzení",
+        "saveAsDefault": "Opravdu chcete uložit aktuální sekvenci jako výchozí? Tím se přepíše předchozí výchozí sekvence.",
         "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence."
       },
       "containers": {
@@ -774,7 +774,7 @@
           "estimatedDuration": "Přibližná délka trvání",
           "filenamePrompt": "Zadejte název souboru...",
           "previewDescription": "Náhled a stažení sekvence jako souboru JSON",
-          "sequenceJsonExport": "SExport sekvence JSON",
+          "sequenceJsonExport": "Export sekvence JSON",
           "title": "Náhled JSON",
           "totalActions": "Celkem Akcí"
         },
@@ -836,7 +836,7 @@
       "reset": "Reset",
       "resetConfirm": "Opravdu chcete resetovat všechna nastavení webové kamery?",
       "snapshotUrlDescription": "URL snímku je přímý odkaz na jeden obrázek z vaší webové kamery/IP kamery. Tato URL by měla vrátit přímo obrázek ve formátu JPEG/PNG, nikoli HTML stránku nebo stream.",
-      "snapshotUrl": "Snapshot URL",
+      "snapshotUrl": "Snímek URL",
       "settings": "Nastavení",
       "snapshotUrlExamples": "Příklady:",
       "startAuto": "Auto Start",

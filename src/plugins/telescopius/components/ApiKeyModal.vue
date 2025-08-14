@@ -143,7 +143,7 @@ async function saveApiKey() {
     const validation = await telescopiusApiService.validateApiKey(localApiKey.value.trim());
 
     if (!validation.valid) {
-      toastStore.addToast({
+      toastStore.showToast({
         title: 'API Key Validation Failed',
         message: validation.message,
         type: 'error',
@@ -156,7 +156,7 @@ async function saveApiKey() {
     localApiKey.value = '';
     emit('close');
   } catch (error) {
-    toastStore.addToast({
+    toastStore.showToast({
       title: 'Fehler beim Speichern',
       message: $t('plugins.telescopius.apiKey.errors.saveFailed'),
       type: 'error',
@@ -173,7 +173,7 @@ async function deleteApiKey() {
     localApiKey.value = '';
     emit('close');
   } catch (error) {
-    toastStore.addToast({
+    toastStore.showToast({
       title: 'Fehler beim Löschen',
       message: $t('plugins.telescopius.apiKey.errors.deleteFailed'),
       type: 'error',

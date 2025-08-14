@@ -22,11 +22,16 @@ export const useTelescopisStore = defineStore('telescopius', {
         console.log('Loaded telescopius API key:', response);
         if (response && response.Response && response.Response.Value) {
           this.apiKey = response.Response.Value;
-          console.log('Telescopius API key loaded successfully:', this.apiKey);
+          console.log('Telescopius API key loaded successfully');
         }
         this.isLoaded = true;
       } catch (error) {
-        console.log('No telescopius API key found in settings');
+        // 404 is expected when no API key has been saved yet
+        if (error.response?.status === 404 || error.status === 404) {
+          console.log('No telescopius API key found in settings (404 - expected for first time)');
+        } else {
+          console.log('Error loading telescopius API key:', error);
+        }
         this.isLoaded = true;
       }
     },

@@ -1213,7 +1213,11 @@ const apiService = {
   async getSetting(key) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}settings/${key}`);
+      const response = await axios.get(`${API_URL}settings/${key}`, {
+        headers: {
+          'X-Suppress-Toast-404': 'true', // Tell error handler to suppress 404 toasts for settings
+        },
+      });
       return response.data;
     } catch (error) {
       console.error(`Error fetching setting '${key}':`, error);

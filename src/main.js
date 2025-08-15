@@ -8,12 +8,44 @@ import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
+import { setupErrorHandler } from '@/utils/errorHandler';
 
 // Tooltip directive
 const tooltipDirective = {
-  mounted(el, binding) {
+  mounted(el, binding, vnode) {
+    // Check if this is a component instance (not a DOM element)
+    if (vnode.component) {
+      // Find the actual root element of the component
+      const rootEl = vnode.component.subTree?.el;
+      if (rootEl && typeof rootEl.setAttribute === 'function') {
+        rootEl.setAttribute('title', binding.value);
+        rootEl.style.cursor = 'pointer';
+        return;
+      }
+    }
+
+    // Handle regular DOM elements
+    if (!el || typeof el.setAttribute !== 'function') {
+      return; // Silently ignore invalid elements
+    }
     el.setAttribute('title', binding.value);
     el.style.cursor = 'pointer';
+  },
+  updated(el, binding, vnode) {
+    // Check if this is a component instance
+    if (vnode.component) {
+      const rootEl = vnode.component.subTree?.el;
+      if (rootEl && typeof rootEl.setAttribute === 'function') {
+        rootEl.setAttribute('title', binding.value);
+        return;
+      }
+    }
+
+    // Handle regular DOM elements
+    if (!el || typeof el.setAttribute !== 'function') {
+      return;
+    }
+    el.setAttribute('title', binding.value);
   },
 };
 
@@ -21,8 +53,25 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 const head = createHead();
 
+// Setup global error handling
+setupErrorHandler();
+
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
+
+// Suppress specific Vue warning about runtime directives in browser console
+const originalWarn = console.warn;
+console.warn = (...args) => {
+  const message = args[0];
+  if (
+    typeof message === 'string' &&
+    message.includes('Runtime directive used on component with non-element root node')
+  ) {
+    // Suppress this specific warning as it appears to be a false positive
+    return;
+  }
+  originalWarn.apply(console, args);
+};
 
 // Initialize i18n with store before mounting
 const settingsStore = pinia.state.value.settings;

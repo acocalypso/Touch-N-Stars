@@ -25,78 +25,83 @@
           </p>
         </div>
 
-        <!-- API Key Input -->
-        <div class="space-y-3">
-          <label for="apiKey" class="block text-sm font-medium text-gray-300"> API Key </label>
-          <input
-            id="apiKey"
-            v-model="localApiKey"
-            type="password"
-            :placeholder="$t('plugins.telescopius.apiKey.placeholder')"
-            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            @keyup.enter="saveApiKey"
-          />
-        </div>
-
-        <!-- Status -->
-        <div v-if="hasCurrentApiKey" class="flex items-center text-green-400 text-sm">
-          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-              clip-rule="evenodd"
+        <!-- API Key Form -->
+        <form @submit.prevent="saveApiKey">
+          <!-- API Key Input -->
+          <div class="space-y-3">
+            <label for="apiKey" class="block text-sm font-medium text-gray-300"> API Key </label>
+            <input
+              id="apiKey"
+              v-model="localApiKey"
+              type="password"
+              autocomplete="new-password"
+              :placeholder="$t('plugins.telescopius.apiKey.placeholder')"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
-          </svg>
-          {{ $t('plugins.telescopius.apiKey.configured') }}
-        </div>
+          </div>
 
-        <!-- Buttons -->
-        <div class="flex flex-col sm:flex-row gap-3 pt-4">
-          <button
-            @click="saveApiKey"
-            :disabled="!localApiKey.trim() || isLoading"
-            class="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors flex items-center justify-center"
-          >
-            <svg
-              v-if="isLoading"
-              class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              ></circle>
+          <!-- Status -->
+          <div v-if="hasCurrentApiKey" class="flex items-center text-green-400 text-sm">
+            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
               <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
+                fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clip-rule="evenodd"
+              />
             </svg>
-            {{ $t('plugins.telescopius.apiKey.save') }}
-          </button>
+            {{ $t('plugins.telescopius.apiKey.configured') }}
+          </div>
 
-          <button
-            v-if="hasCurrentApiKey"
-            @click="deleteApiKey"
-            :disabled="isLoading"
-            class="px-4 py-3 bg-red-600 hover:bg-red-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
-          >
-            {{ $t('plugins.telescopius.apiKey.delete') }}
-          </button>
+          <!-- Buttons -->
+          <div class="flex flex-col sm:flex-row gap-3 pt-4">
+            <button
+              type="submit"
+              :disabled="!localApiKey.trim() || isLoading"
+              class="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors flex items-center justify-center"
+            >
+              <svg
+                v-if="isLoading"
+                class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              {{ $t('plugins.telescopius.apiKey.save') }}
+            </button>
 
-          <button
-            @click="$emit('close')"
-            class="px-4 py-3 bg-gray-600 hover:bg-gray-500 text-white font-medium rounded-lg transition-colors"
-          >
-            {{ $t('plugins.telescopius.apiKey.cancel') }}
-          </button>
-        </div>
+            <button
+              v-if="hasCurrentApiKey"
+              type="button"
+              @click="deleteApiKey"
+              :disabled="isLoading"
+              class="px-4 py-3 bg-red-600 hover:bg-red-500 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+            >
+              {{ $t('plugins.telescopius.apiKey.delete') }}
+            </button>
+
+            <button
+              type="button"
+              @click="$emit('close')"
+              class="px-4 py-3 bg-gray-600 hover:bg-gray-500 text-white font-medium rounded-lg transition-colors"
+            >
+              {{ $t('plugins.telescopius.apiKey.cancel') }}
+            </button>
+          </div>
+        </form>
       </div>
     </template>
   </Modal>
@@ -107,7 +112,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Modal from '@/components/helpers/Modal.vue';
 import { useTelescopisStore } from '../store/telescopiusStore';
-import { handleApiError } from '@/utils/utils';
+import { useToastStore } from '@/store/toastStore';
 import telescopiusApiService from '../services/telescopiusApiService';
 
 const { t: $t } = useI18n();
@@ -122,6 +127,7 @@ defineProps({
 });
 
 const telescopiusStore = useTelescopisStore();
+const toastStore = useToastStore();
 const localApiKey = ref('');
 const isLoading = ref(false);
 
@@ -142,9 +148,10 @@ async function saveApiKey() {
     const validation = await telescopiusApiService.validateApiKey(localApiKey.value.trim());
 
     if (!validation.valid) {
-      handleApiError(null, {
+      toastStore.showToast({
         title: 'API Key Validation Failed',
-        defaultMessage: validation.message,
+        message: validation.message,
+        type: 'error',
       });
       return;
     }
@@ -154,9 +161,10 @@ async function saveApiKey() {
     localApiKey.value = '';
     emit('close');
   } catch (error) {
-    handleApiError(error.response?.data, {
+    toastStore.showToast({
       title: 'Fehler beim Speichern',
-      defaultMessage: $t('plugins.telescopius.apiKey.errors.saveFailed'),
+      message: $t('plugins.telescopius.apiKey.errors.saveFailed'),
+      type: 'error',
     });
   } finally {
     isLoading.value = false;
@@ -170,9 +178,10 @@ async function deleteApiKey() {
     localApiKey.value = '';
     emit('close');
   } catch (error) {
-    handleApiError(error.response?.data, {
+    toastStore.showToast({
       title: 'Fehler beim Löschen',
-      defaultMessage: $t('plugins.telescopius.apiKey.errors.deleteFailed'),
+      message: $t('plugins.telescopius.apiKey.errors.deleteFailed'),
+      type: 'error',
     });
   } finally {
     isLoading.value = false;

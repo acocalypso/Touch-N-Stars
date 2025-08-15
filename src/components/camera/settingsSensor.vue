@@ -90,7 +90,6 @@
 import { onMounted, ref } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
 
 const store = apiStore();
 
@@ -108,7 +107,6 @@ async function updateValue(key, value, statusClassRef) {
   try {
     const response = await apiService.profileChangeValue(key, value);
     console.log(`Response [${key}]:`, response);
-    if (handleApiError(response, { title: 'Update Error' })) return;
     statusClassRef.value = 'glow-green';
   } catch (error) {
     console.error(`Error updating ${key}:`, error);

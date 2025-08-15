@@ -5,10 +5,14 @@ export const useTelescopisStore = defineStore('telescopius', {
   state: () => ({
     apiKey: '',
     isLoaded: false,
+    targetLists: [],
+    isLoadingLists: false,
+    listsError: null,
   }),
 
   getters: {
     hasApiKey: (state) => state.apiKey && state.apiKey.length > 0,
+    hasTargetLists: (state) => state.targetLists.length > 0,
   },
 
   actions: {
@@ -18,11 +22,16 @@ export const useTelescopisStore = defineStore('telescopius', {
         console.log('Loaded telescopius API key:', response);
         if (response && response.Response && response.Response.Value) {
           this.apiKey = response.Response.Value;
-          console.log('Telescopius API key loaded successfully:', this.apiKey);
+          console.log('Telescopius API key loaded successfully');
         }
         this.isLoaded = true;
       } catch (error) {
-        console.log('No telescopius API key found in settings');
+        // 404 is expected when no API key has been saved yet
+        if (error.response?.status === 404 || error.status === 404) {
+          console.log('No telescopius API key found in settings (404 - expected for first time)');
+        } else {
+          console.log('Error loading telescopius API key:', error);
+        }
         this.isLoaded = true;
       }
     },
@@ -56,6 +65,83 @@ export const useTelescopisStore = defineStore('telescopius', {
 
     clearApiKey() {
       this.apiKey = '';
+    },
+
+    setLoadingLists(isLoading) {
+      this.isLoadingLists = isLoading;
+    },
+
+    setTargetLists(lists) {
+      this.targetLists = lists || [];
+    },
+
+    setListsError(error) {
+      this.listsError = error;
+    },
+
+    clearTargetLists() {
+      this.targetLists = [];
+      this.listsError = null;
+    },
+
+    async loadTargetListsFromCache() {
+      try {
+        const response = await apiService.getSetting('telescopius_target_lists_cache');
+        if (response && response.Response && response.Response.Value) {
+          const cacheData = JSON.parse(response.Response.Value);
+          console.log('[TelescopiusStore] Loaded target lists from cache:', cacheData);
+
+          // Check if cache is still valid (e.g., less than 24 hours old)
+          const cacheAge = Date.now() - cacheData.timestamp;
+          const maxAge = 24 * 60 * 60 * 1000; // 24 hours
+
+          if (cacheAge < maxAge) {
+            this.targetLists = cacheData.lists || [];
+            return true; // Cache loaded successfully
+          } else {
+            console.log('[TelescopiusStore] Cache expired, will fetch fresh data');
+            return false; // Cache expired
+          }
+        }
+      } catch (error) {
+        console.log('[TelescopiusStore] No cached target lists found or error loading cache');
+      }
+      return false; // No cache found
+    },
+
+    async saveTargetListsToCache() {
+      try {
+        const cacheData = {
+          timestamp: Date.now(),
+          lists: this.targetLists,
+        };
+
+        console.log('[TelescopiusStore] Saving target lists to cache:', cacheData);
+
+        await apiService.createSetting({
+          Key: 'telescopius_target_lists_cache',
+          Value: JSON.stringify(cacheData),
+        });
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          // Setting exists, update it
+          await apiService.updateSetting(
+            'telescopius_target_lists_cache',
+            JSON.stringify(cacheData)
+          );
+        } else {
+          console.error('[TelescopiusStore] Error saving target lists cache:', error);
+        }
+      }
+    },
+
+    async clearTargetListsCache() {
+      try {
+        await apiService.deleteSetting('telescopius_target_lists_cache');
+        console.log('[TelescopiusStore] Target lists cache cleared');
+      } catch (error) {
+        console.error('[TelescopiusStore] Error clearing target lists cache:', error);
+      }
     },
   },
 });

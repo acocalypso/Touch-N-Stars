@@ -1,6 +1,5 @@
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
-import { handleApiError } from '@/utils/utils';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/mount';
@@ -52,7 +51,7 @@ class WebSocketService {
       try {
         const message = JSON.parse(event.data);
         console.log('Message:', message);
-        if (handleApiError(message, { title: 'Mount error' })) return;
+        if (!message.Success) return;
         if (this.messageCallback) {
           this.messageCallback(message);
         }

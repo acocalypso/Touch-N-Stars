@@ -205,7 +205,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     const endTime = new Date(exposureEndTime).getTime();
     if (isNaN(endTime)) {
-      console.error('Ungültiges Datumsformat für ExposureEndTime.');
+      console.error('Invalid date format for ExposureEndTime.');
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
       return;

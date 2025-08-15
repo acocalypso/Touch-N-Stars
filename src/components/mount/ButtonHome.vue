@@ -7,7 +7,6 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
 
 const statusClass = ref('');
 
@@ -15,7 +14,7 @@ async function mountHome() {
   try {
     const response = await apiService.mountAction('home');
     console.log('mountHome', response);
-    if (handleApiError(response, { title: 'Mount error' })) return;
+    if (!response.Success) return;
 
     statusClass.value = 'glow-green';
   } catch (error) {

@@ -60,7 +60,6 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '@/store/sequenceStore';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
 import { ArrowDownTrayIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
@@ -97,12 +96,7 @@ const fetchSequences = async (showGlow = true) => {
   try {
     const response = await apiService.sequenceAction('list-available');
 
-    if (
-      handleApiError(response, {
-        title: 'Sequence Error',
-        defaultMessage: 'Failed to fetch available sequences',
-      })
-    ) {
+    if (!response.Success) {
       availableSequences.value = [];
       return;
     }
@@ -143,12 +137,7 @@ const loadSequence = async () => {
       `load?sequenceName=${encodeURIComponent(selectedSequence.value)}`
     );
 
-    if (
-      handleApiError(response, {
-        title: 'Sequence Load Error',
-        defaultMessage: `Failed to load sequence: ${selectedSequence.value}`,
-      })
-    ) {
+    if (!response.Success) {
       return;
     }
 

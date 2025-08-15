@@ -25,13 +25,73 @@
   "plugins": {
     "telescopius": {
       "title": "Telescopius",
+      "initializing": "Initialisierung...",
       "welcome": "Willkommen beim Telescopius Plugin!",
       "description": "Ermöglicht Datenabruf von telescopius.com",
+      "landing": {
+        "title": "Telescopius Plugin",
+        "subtitle": "Bringe deine Zielobjekte von Telescopius.com direkt in Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "Was ist das Plugin?",
+          "description": "Lade deine gespeicherten Zielobjekte von Telescopius.com direkt in Touch'N'Stars und nutze sie für Navigation und Framing.",
+          "features": {
+            "loadLists": "Lade Ziellisten von Telescopius.com",
+            "navigate": "Navigiere direkt zu Objekten",
+            "framingAssistant": "Nutze Framing-Assistent",
+            "offlineCache": "Offline-Cache für schnellen Zugriff"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "Was ist Telescopius?",
+          "description": "Telescopius ist eine umfassende Astronomie-Plattform für die Entdeckung und Planung von Himmelsbeobachtungen.",
+          "features": {
+            "database": "Umfangreiche Objektdatenbank",
+            "lists": "Personalisierte Ziellisten",
+            "planning": "Beobachtungsplanung",
+            "community": "Community und Sharing"
+          },
+          "visitWebsite": "Telescopius.com besuchen"
+        },
+        "mainFeatures": {
+          "title": "Hauptfunktionen",
+          "description": "Nahtlose Integration zwischen Telescopius und Touch'N'Stars:",
+          "features": {
+            "autoImport": "Automatischer Import: Alle Ziellisten auf einmal",
+            "smartCache": "Intelligenter Cache: Schneller Offline-Zugriff",
+            "directNavigation": "Direkte Navigation: Slew mit einem Klick",
+            "framingIntegration": "Framing Integration: Nutzt bestehende Tools",
+            "locationBased": "Standortbasiert: Berücksichtigt deinen Standort"
+          }
+        },
+        "apiSetup": {
+          "title": "API-Schlüssel einrichten",
+          "description": "Folge diesen einfachen Schritten, um das Plugin zu konfigurieren:",
+          "step1": {
+            "title": "Telescopius Account erstellen",
+            "description": "Falls du noch keinen Account hast, registriere dich kostenlos:",
+            "button": "Kostenlos registrieren"
+          },
+          "step2": {
+            "title": "API-Schlüssel anfordern",
+            "description": "Melde dich an und gehe zur API-Seite für deinen persönlichen Schlüssel:",
+            "button": "API-Schlüssel anfordern"
+          },
+          "step3": {
+            "title": "API-Schlüssel eingeben",
+            "description": "Klicke unten auf \"API Key konfigurieren\" und gib deinen Schlüssel ein:",
+            "button": "API Key konfigurieren"
+          },
+          "security": {
+            "title": "Sicherheit",
+            "description": "Dein API-Schlüssel wird nur lokal auf deinem Gerät gespeichert und nie an andere weitergegeben. Du kannst ihn jederzeit wieder löschen."
+          }
+        }
+      },
       "apiKey": {
         "title": "Telescopius API Key",
         "description": "Um Telescopius zu nutzen, benötigen Sie einen API Key. Diesen erhalten Sie kostenlos auf der Telescopius Website:",
         "linkText": "→ Telescopius API Key anfordern",
-        "securityNote": "Der API Key wird verschlüsselt auf dem Server gespeichert und nur für Telescopius Anfragen verwendet.",
+        "securityNote": "Der API Key wird auf dem Server gespeichert und nur für Telescopius Anfragen verwendet.",
         "placeholder": "Geben Sie Ihren Telescopius API Key ein...",
         "configured": "API Key ist bereits konfiguriert",
         "save": "Speichern",

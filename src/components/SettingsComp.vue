@@ -115,6 +115,11 @@
         <setImgStrechFactor />
         <setImgBlackClipping />
       </div>
+      <div class="flex flex-col mt-4 gap-2">
+        <setImgDebayern />
+        <setImgDebayernHfr />
+        <setImgUnlinkedStrech />
+      </div>
     </div>
 
     <!-- Debug settings -->
@@ -309,6 +314,9 @@ import { Capacitor } from '@capacitor/core';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
 import setImgQuality from '@/components/settings/setImgQuality.vue';
 import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
+import setImgDebayern from './settings/setImgDebayern.vue';
+import setImgDebayernHfr from './settings/setImgDebayernHfr.vue';
+import setImgUnlinkedStrech from './settings/setImgUnlinkedStrech.vue';
 import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';

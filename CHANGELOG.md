@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Favorites: fix save rotation
+- Andriod: Fix image download from Sequence page
 
 ## [1.1.1.1] - 2025-08-07
 ### Added

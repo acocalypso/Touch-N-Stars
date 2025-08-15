@@ -300,7 +300,9 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
     if (imageDate === '0000-00-00') {
       fileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;
     } else {
-      fileName = `${filePrefix}-${imageDate}_${timeString}.jpg`;
+      // Clean imageDate by removing invalid characters for Android filesystem
+      const cleanImageDate = imageDate.replace(/[T:+]/g, '-').replace(/\.\d+/g, '');
+      fileName = `${filePrefix}-${cleanImageDate}_${timeString}.jpg`;
     }
     const platform = Capacitor.getPlatform();
 
@@ -487,8 +489,8 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
               console.log(`Image saved successfully using ${strategy.name}: ${fileName}`);
 
               notificationManager.showSuccess(
-                `Image saved to device storage`,
-                `File: ${fileName} • Location: ${strategy.name}`
+                `Image saved successfully using ${strategy.name}`,
+                `File: ${fileName}`
               );
 
               success = true;

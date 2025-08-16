@@ -3,9 +3,9 @@
     <!-- Modal Trigger -->
     <button
       @click="isModalOpen = true"
-      class="fixed left-16 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-30"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
-      v-if="tppaStore.isTppaRunning"
+      v-if="tppaStore.isRunning"
     >
       <svg
         fill="#ffffff"

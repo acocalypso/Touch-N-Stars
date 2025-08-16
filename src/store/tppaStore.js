@@ -42,5 +42,4 @@ export const useTppaStore = defineStore('tppaStore', {
       }
     },
   },
-
 });

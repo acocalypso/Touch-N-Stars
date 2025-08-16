@@ -3,9 +3,9 @@
     <!-- Modal Trigger -->
     <button
       @click="isModalOpen = true"
-      class="fixed left-3 p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      class=" p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
-      v-if="tppaStore.isTppaRunning"
+      v-if="tppaStore.isRunning"
     >
       <MagnifyingGlassIcon class="w-6 h-6 text-white" />
     </button>
@@ -189,7 +189,7 @@
           <ButtonPause class="w-28 h-28" />
         </div>
         <div
-          v-if="tppaStore.isTppaRunning"
+          v-if="tppaStore.isRunning"
           class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md"
         >
           <TppaLastStatus />

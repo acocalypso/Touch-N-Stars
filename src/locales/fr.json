@@ -447,7 +447,6 @@
       "slewing_first_position": "Pointage vers la première position",
       "slewing_next_position": "Pointage vers la position suivante",
       "settings": {
-        "DirectionEst": "Direction Est",
         "StartFromCurrentPosition": "Démarrer depuis la position actuelle ?",
         "ManualMode": "Mode manuel",
         "camera_settings": "Paramètres caméra",
@@ -455,7 +454,8 @@
         "exposure_time": "Temps d'exposition (s)",
         "gain": "Gain",
         "nina_default": "Défaut NINA",
-        "title": "Paramètres TPPA"
+        "title": "Paramètres TPPA",
+        "DirectionEast": "Direction à l'est"
       },
       "error_modal": {
         "title": "Erreurs TPPA"

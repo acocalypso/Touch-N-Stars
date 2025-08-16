@@ -30,9 +30,13 @@
 
     <!-- Camera Settings -->
     <div class="border-t border-gray-600 pt-2 mt-2">
-      <h4 class="text-gray-200 text-sm mb-1">{{ $t('components.tppa.settings.camera_settings') }}</h4>
-      <p class="text-gray-400 text-xs mb-3">{{ $t('components.tppa.settings.camera_settings_hint') }}</p>
-      
+      <h4 class="text-gray-200 text-sm mb-1">
+        {{ $t('components.tppa.settings.camera_settings') }}
+      </h4>
+      <p class="text-gray-400 text-xs mb-3">
+        {{ $t('components.tppa.settings.camera_settings_hint') }}
+      </p>
+
       <!-- Exposure Time -->
       <div class="flex flex-row items-center justify-between w-full mb-2">
         <label class="text-gray-300">{{ $t('components.tppa.settings.exposure_time') }}:</label>

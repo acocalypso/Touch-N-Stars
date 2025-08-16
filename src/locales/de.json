@@ -318,7 +318,10 @@
         "title": "Bildeinstellungen",
         "quality": "Bildqualität",
         "strech_factor": "Streckfaktor",
-        "black_clipping": "Schwarzclipping"
+        "black_clipping": "Schwarzclipping",
+        "DebayeredHFR": "Entbaus Hfr",
+        "UnlinkedStretch": "Unverbinkter Strecher",
+        "debayern": "Debayer -Bild"
       },
       "debug": {
         "title": "Debug",

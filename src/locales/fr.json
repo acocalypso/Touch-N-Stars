@@ -80,7 +80,10 @@
         "title": "Paramètres d'image",
         "quality": "Qualité d'image",
         "strech_factor": "Facteur d'étirement",
-        "black_clipping": "Écrêtage noir"
+        "black_clipping": "Écrêtage noir",
+        "DebayeredHFR": "Détaillé HFR",
+        "UnlinkedStretch": "Strech non lié",
+        "debayern": "Image de débayeur"
       },
       "debug": {
         "title": "Debug",
@@ -436,16 +439,26 @@
       "up": "Haut",
       "not_available": "Non disponible",
       "running": "EN COURS D'EXÉCUTION",
-      "capture_running": "Exposition à l'exécution",
-      "last_messages": "Dernier messages",
-      "plate_solve_error": "Erreur de plaques",
-      "plate_solve_ok": "Plaques à succès",
-      "plate_solve_start": "Platelolve Start",
-      "slewing_first_position": "Aller à la première position",
-      "slewing_next_position": "Aller à la position suivante",
+      "capture_running": "Exposition en cours",
+      "last_messages": "Derniers messages",
+      "plate_solve_error": "Erreur de résolution astrométrique",
+      "plate_solve_ok": "Résolution astrométrique réussie",
+      "plate_solve_start": "Début de résolution astrométrique",
+      "slewing_first_position": "Pointage vers la première position",
+      "slewing_next_position": "Pointage vers la position suivante",
       "settings": {
-        "DirectionEast": "Direction à l'est",
-        "StartFromCurrentPosition": "Vous commencez à partir de la position actuelle?"
+        "DirectionEst": "Direction Est",
+        "StartFromCurrentPosition": "Démarrer depuis la position actuelle ?",
+        "ManualMode": "Mode manuel",
+        "camera_settings": "Paramètres caméra",
+        "camera_settings_hint": "Laisser vide pour les paramètres par défaut de NINA",
+        "exposure_time": "Temps d'exposition (s)",
+        "gain": "Gain",
+        "nina_default": "Défaut NINA",
+        "title": "Paramètres TPPA"
+      },
+      "error_modal": {
+        "title": "Erreurs TPPA"
       }
     },
     "logs": {},

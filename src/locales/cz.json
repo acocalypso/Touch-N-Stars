@@ -80,7 +80,10 @@
         "title": "Nastavení obrázku",
         "quality": "Kvalita obrázku",
         "strech_factor": "Faktor roztažení",
-        "black_clipping": "Černé ořezávání"
+        "black_clipping": "Černé ořezávání",
+        "DebayeredHFR": "Debayered HFR",
+        "UnlinkedStretch": "Unlinked Strech",
+        "debayern": "Debayer Image"
       },
       "debug": {
         "title": "Debug",
@@ -445,7 +448,17 @@
       "slewing_next_position": "Přesun na další polohu",
       "settings": {
         "DirectionEast": "Směr Východ",
-        "StartFromCurrentPosition": "Začít ze současné pozice?"
+        "StartFromCurrentPosition": "Začít ze současné pozice?",
+        "ManualMode": "Manual Mode",
+        "camera_settings": "Camera Settings",
+        "camera_settings_hint": "Leave empty for NINA defaults",
+        "exposure_time": "Exposure Time (s)",
+        "gain": "Gain",
+        "nina_default": "NINA Default",
+        "title": "TPPA Settings"
+      },
+      "error_modal": {
+        "title": "TPPA Errors"
       }
     },
     "logs": {},

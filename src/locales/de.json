@@ -89,7 +89,7 @@
       },
       "apiKey": {
         "title": "Telescopius API Key",
-        "description": "Um Telescopius zu nutzen, benötigen Sie einen API Key. Diesen erhalten Sie kostenlos auf der Telescopius Website:",
+        "description": "Um Telescopius zu nutzen, benötigen Sie einen API Key. Diesen erhalten Sie auf der Telescopius Website:",
         "linkText": "→ Telescopius API Key anfordern",
         "securityNote": "Der API Key wird auf dem Server gespeichert und nur für Telescopius Anfragen verwendet.",
         "placeholder": "Geben Sie Ihren Telescopius API Key ein...",

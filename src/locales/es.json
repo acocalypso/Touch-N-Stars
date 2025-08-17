@@ -689,7 +689,7 @@
       },
       "apiKey": {
         "title": "Clave API de Telescopius",
-        "description": "Para usar Telescopius, necesitas una clave API. Puedes obtener una gratis en el sitio web de Telescopius:",
+        "description": "Para usar Telescopius, necesitas una clave API. Puedes obtener una en el sitio web de Telescopius:",
         "linkText": "→ Solicitar Clave API de Telescopius",
         "securityNote": "La clave API se almacena en el servidor y solo se utiliza para solicitudes de Telescopius.",
         "placeholder": "Ingresa tu clave API de Telescopius...",

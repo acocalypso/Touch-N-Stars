@@ -401,7 +401,10 @@
         "title": "Bildeinstellungen",
         "quality": "Bildqualität",
         "strech_factor": "Streckfaktor",
-        "black_clipping": "Schwarzclipping"
+        "black_clipping": "Schwarzclipping",
+        "DebayeredHFR": "Entbaus Hfr",
+        "UnlinkedStretch": "Unverbinkter Strecher",
+        "debayern": "Debayer -Bild"
       },
       "debug": {
         "title": "Debug",
@@ -763,8 +766,18 @@
       "capture_running": "Aufnahme läuft",
       "last_messages": "Letzte Meldungen",
       "settings": {
+        "title": "TPPA Einstellungen",
         "DirectionEast": "Richtung Osten",
-        "StartFromCurrentPosition": "Von der aktuellen Position starten?"
+        "StartFromCurrentPosition": "Von der aktuellen Position starten?",
+        "ManualMode": "Manueller Modus",
+        "camera_settings": "Kamera-Einstellungen",
+        "camera_settings_hint": "Leer lassen für NINA Standardwerte",
+        "exposure_time": "Belichtungszeit (s)",
+        "gain": "Verstärkung",
+        "nina_default": "NINA Standard"
+      },
+      "error_modal": {
+        "title": "TPPA Fehler"
       }
     },
     "slewAndCenter": {

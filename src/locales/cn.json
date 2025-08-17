@@ -80,7 +80,10 @@
         "title": "图像设置",
         "quality": "图像质量",
         "strech_factor": "拉伸因子",
-        "black_clipping": "黑点剪切"
+        "black_clipping": "黑点剪切",
+        "DebayeredHFR": "Debayered HFR",
+        "UnlinkedStretch": "Unlinked Strech",
+        "debayern": "Debayer Image"
       },
       "debug": {
         "title": "调试",
@@ -445,7 +448,17 @@
       "slewing_next_position": "转向下一个位置",
       "settings": {
         "DirectionEast": "指向东方",
-        "StartFromCurrentPosition": "从现在的位置开始？"
+        "StartFromCurrentPosition": "从现在的位置开始？",
+        "ManualMode": "Manual Mode",
+        "camera_settings": "Camera Settings",
+        "camera_settings_hint": "Leave empty for NINA defaults",
+        "exposure_time": "Exposure Time (s)",
+        "gain": "Gain",
+        "nina_default": "NINA Default",
+        "title": "TPPA Settings"
+      },
+      "error_modal": {
+        "title": "TPPA Errors"
       }
     },
     "logs": {},

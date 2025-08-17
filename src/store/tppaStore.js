@@ -22,6 +22,8 @@ export const useTppaStore = defineStore('tppaStore', {
     settings: {
       StartFromCurrentPosition: false,
       EastDirection: false,
+      ExposureTime: null,
+      Gain: null,
     },
   }),
 
@@ -39,9 +41,5 @@ export const useTppaStore = defineStore('tppaStore', {
         this.initialized = true;
       }
     },
-  },
-
-  getters: {
-    isTppaRunning: (state) => state.isRunning,
   },
 });

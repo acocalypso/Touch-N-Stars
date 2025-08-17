@@ -27,6 +27,43 @@
         />
       </div>
     </div>
+
+    <!-- Camera Settings -->
+    <div class="border-t border-gray-600 pt-2 mt-2">
+      <h4 class="text-gray-200 text-sm mb-1">
+        {{ $t('components.tppa.settings.camera_settings') }}
+      </h4>
+      <p class="text-gray-400 text-xs mb-3">
+        {{ $t('components.tppa.settings.camera_settings_hint') }}
+      </p>
+
+      <!-- Exposure Time -->
+      <div class="flex flex-row items-center justify-between w-full mb-2">
+        <label class="text-gray-300">{{ $t('components.tppa.settings.exposure_time') }}:</label>
+        <input
+          :value="tppaStore.settings.ExposureTime || ''"
+          @input="updateExposureTime"
+          type="number"
+          min="0"
+          step="0.1"
+          :placeholder="$t('components.tppa.settings.nina_default')"
+          class="bg-gray-700 text-white px-2 py-1 rounded border border-gray-600 w-24 placeholder-gray-500"
+        />
+      </div>
+
+      <!-- Gain -->
+      <div class="flex flex-row items-center justify-between w-full">
+        <label class="text-gray-300">{{ $t('components.tppa.settings.gain') }}:</label>
+        <input
+          :value="tppaStore.settings.Gain || ''"
+          @input="updateGain"
+          type="number"
+          min="0"
+          :placeholder="$t('components.tppa.settings.nina_default')"
+          class="bg-gray-700 text-white px-2 py-1 rounded border border-gray-600 w-24 placeholder-gray-500"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,5 +91,15 @@ function toggleDirection() {
     tppaStore.settings.EastDirection = true;
     console.log('EastDirection on');
   }
+}
+
+function updateExposureTime(event) {
+  const value = event.target.value;
+  tppaStore.settings.ExposureTime = value === '' ? null : parseFloat(value);
+}
+
+function updateGain(event) {
+  const value = event.target.value;
+  tppaStore.settings.Gain = value === '' ? null : parseInt(value);
 }
 </script>

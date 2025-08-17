@@ -12,22 +12,30 @@
           <p class="text-red-800">{{ $t('components.tppa.camera_mount_required') }}</p>
         </div>
         <div v-else>
-          <div class="pb-2">
-            <TppaSettings />
+          <div class="pb-2 flex justify-center gap-2">
+            <button
+              v-if="!tppaStore.isRunning"
+              @click="showSettings = true"
+              class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md hover:bg-cyan-600 transition-colors"
+            >
+              <Cog6ToothIcon class="w-6 h-6" />
+            </button>
+            <ActuellErrorModal />
+            <ErrorCircle />
           </div>
           <div class="flex gap-2">
             <button
               class="default-button-cyan"
               @click="startAlignment"
-              :disabled="tppaStore.isTppaRunning"
+              :disabled="tppaStore.isRunning"
             >
               {{
-                tppaStore.isTppaRunning
+                tppaStore.isRunning
                   ? $t('components.tppa.running')
                   : $t('components.tppa.start_alignment')
               }}
             </button>
-            <ButtonPause class="w-28" v-if="tppaStore.isTppaRunning" />
+            <ButtonPause class="w-28" v-if="tppaStore.isRunning" />
             <button class="default-button-cyan" @click="stopAlignment">
               {{ $t('components.tppa.stop_alignment') }}
             </button>
@@ -177,13 +185,20 @@
       </div>
     </div>
   </div>
-  <div v-if="tppaStore.isTppaRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
-    <TppaLastStatus class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
+  <div v-if="tppaStore.isRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
+    <TppaLastStatus />
   </div>
-  <div>
-    <ActuellErrorModal />
-    <ErrorCircle />
-  </div>
+  <div></div>
+
+  <!-- Settings Modal -->
+  <Modal :show="showSettings" @close="showSettings = false">
+    <template #header>
+      <h2 class="text-xl font-bold">{{ $t('components.tppa.settings.title') }}</h2>
+    </template>
+    <template #body>
+      <TppaSettings />
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -205,11 +220,14 @@ import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
 import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
+import Modal from '../helpers/Modal.vue';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
 const startStop = ref(false);
 const isConnected = ref(false);
+const showSettings = ref(false);
 
 // Tolerance in arc minutes
 const tolerance = 1;
@@ -325,22 +343,32 @@ async function startAlignment() {
   tppaStore.isPause = false;
   resetErrors();
   await unparkMount();
-  //websocketService.sendMessage('start-alignment');
+
+  const message = {
+    Action: 'start-alignment',
+  };
+
   if (!tppaStore.settings.StartFromCurrentPosition) {
-    websocketService.sendMessage(
-      JSON.stringify({
-        Action: 'start-alignment',
-        StartFromCurrentPosition: 'false',
-      })
-    );
+    message.StartFromCurrentPosition = 'false';
   } else {
-    websocketService.sendMessage(
-      JSON.stringify({
-        Action: 'start-alignment',
-        ...tppaStore.settings,
-      })
-    );
+    message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
+    message.EastDirection = tppaStore.settings.EastDirection;
   }
+
+  if (tppaStore.settings.ExposureTime !== null) {
+    message.ExposureTime = tppaStore.settings.ExposureTime;
+  }
+
+  if (tppaStore.settings.Gain !== null) {
+    message.Gain = tppaStore.settings.Gain;
+  }
+
+  console.log('Sending TPPA start message:', message);
+  websocketService.sendMessage(JSON.stringify(message));
+
+  // Set running state immediately
+  tppaStore.setRunning(true);
+  startStop.value = true;
 }
 
 function resetErrors() {

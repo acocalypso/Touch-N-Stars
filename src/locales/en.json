@@ -700,6 +700,11 @@
           "validationFailed": "API key validation failed"
         },
         "loadFromTelescopius": "refresh"
+      },
+      "targetLists": {
+        "noListsTitle": "No Target Lists Saved",
+        "noListsDescription": "No target lists have been found in your Telescopius account yet.",
+        "noListsHint": "Create target lists on telescopius.com and then reload them here."
       }
     },
     "webcam": {

@@ -96,6 +96,12 @@ class TelescopiusApiService {
       throw new Error('Bad Request: Check your request parameters');
     } else if (error.message.includes('HTTP 401')) {
       throw new Error('Unauthorized: Check your API key');
+    } else if (error.message.includes('HTTP 404')) {
+      // Create a special error type for 404 so it can be handled differently
+      const notFoundError = new Error('Not Found: No data available');
+      notFoundError.status = 404;
+      notFoundError.isNotFound = true;
+      throw notFoundError;
     } else if (error.message.includes('HTTP 429')) {
       throw new Error('Too Many Requests: Rate limit exceeded');
     } else if (error.message.includes('HTTP')) {

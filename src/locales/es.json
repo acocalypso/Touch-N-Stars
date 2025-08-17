@@ -703,7 +703,13 @@
           "saveFailed": "No se pudo guardar la clave API.",
           "deleteFailed": "No se pudo eliminar la clave API.",
           "validationFailed": "Falló la validación de la clave API"
-        }
+        },
+        "loadFromTelescopius": "actualizar"
+      },
+      "targetLists": {
+        "noListsTitle": "No hay listas de objetivos guardadas",
+        "noListsDescription": "Aún no se han encontrado listas de objetivos en tu cuenta de Telescopius.",
+        "noListsHint": "Crea listas de objetivos en telescopius.com y luego recárgalas aquí."
       }
     },
     "sequenceCreator": {

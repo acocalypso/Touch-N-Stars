@@ -50,26 +50,46 @@ export default {
       pluginStore.addNavigationItem({
         pluginId: metadata.id,
         path: pluginPath,
-        // Replace with your custom icon component when available
+        // Telescopius "T" logo icon
         icon: markRaw({
           render() {
-            // Default simple icon - a square
+            // Stylized "T" letter for Telescopius
             return h(
               'svg',
               {
                 xmlns: 'http://www.w3.org/2000/svg',
-                fill: 'none',
+                fill: 'currentColor',
                 viewBox: '0 0 24 24',
-                'stroke-width': '1.5',
-                stroke: 'currentColor',
+                width: '24',
+                height: '24',
               },
               [
-                h('rect', {
-                  x: 3,
-                  y: 3,
-                  width: 18,
-                  height: 18,
-                  rx: 2,
+                // Main "T" shape
+                h('path', {
+                  d: 'M4 4h16v3H14v13h-4V7H4V4z',
+                  fill: 'currentColor',
+                }),
+                // Small decorative stars around the T
+                h('circle', {
+                  cx: '19',
+                  cy: '8',
+                  r: '1',
+                  fill: 'currentColor',
+                  opacity: '0.7',
+                }),
+                h('circle', {
+                  cx: '5',
+                  cy: '12',
+                  r: '0.8',
+                  fill: 'currentColor',
+                  opacity: '0.7',
+                }),
+                h('circle', {
+                  cx: '18',
+                  cy: '18',
+                  r: '0.6',
+                  fill: 'currentColor',
+                  opacity: '0.7',
                 }),
               ]
             );

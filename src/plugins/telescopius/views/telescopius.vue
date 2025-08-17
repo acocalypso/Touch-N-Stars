@@ -141,7 +141,25 @@
             v-if="telescopiusStore.hasTargetLists"
             class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-6"
           >
-            <h6 class="text-lg font-semibold text-white mb-4 text-center">My Target Lists</h6>
+            <h6 class="text-lg font-semibold text-white mb-3 text-center">My Target Lists</h6>
+            
+            <!-- Link to edit lists on Telescopius -->
+            <div class="text-center mb-4">
+              <a 
+                href="https://telescopius.com/observing-lists" 
+                target="_blank" 
+                class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                {{ $t('plugins.telescopius.targetLists.editOnTelescopius') }}
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>
+              </a>
+            </div>
+            
             <div class="space-y-4">
               <div
                 v-for="list in telescopiusStore.targetLists"
@@ -288,7 +306,12 @@
     </div>
 
     <!-- API Key Modal -->
-    <ApiKeyModal :show="showApiKeyModal" @close="showApiKeyModal = false" />
+    <ApiKeyModal
+      :show="showApiKeyModal"
+      @close="handleApiKeyModalClose"
+      @apiKeySaved="handleApiKeySaved"
+      @apiKeyDeleted="handleApiKeyDeleted"
+    />
 
     <!-- Target Modal -->
     <Modal :show="showTargetModal" @close="closeTargetModal">
@@ -388,6 +411,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ApiKeyModal from '../components/ApiKeyModal.vue';
 import TelescopiusLandingPage from '../components/TelescopiusLandingPage.vue';
 import { useTelescopisStore } from '../store/telescopiusStore';
@@ -400,6 +424,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import { useRouter } from 'vue-router';
 import { useFramingStore } from '@/store/framingStore';
 
+const { t: $t } = useI18n();
 const showApiKeyModal = ref(false);
 const isInitializing = ref(true);
 const telescopiusStore = useTelescopisStore();
@@ -411,8 +436,11 @@ const expandedLists = ref([]);
 const showTargetModal = ref(false);
 const selectedTarget = ref(null);
 
-const loadTargetLists = async () => {
-  console.log('[Telescopius] loadTargetLists() - Starting to load user target lists');
+const loadTargetLists = async (forceRefresh = false) => {
+  console.log(
+    '[Telescopius] loadTargetLists() - Starting to load user target lists',
+    forceRefresh ? '(force refresh)' : ''
+  );
 
   if (!telescopiusStore.hasApiKey) {
     console.log('[Telescopius] No API key configured');
@@ -424,14 +452,16 @@ const loadTargetLists = async () => {
   telescopiusStore.setListsError(null);
 
   try {
-    // First try to load from cache
-    console.log('[Telescopius] Checking cache for target lists...');
-    const cacheLoaded = await telescopiusStore.loadTargetListsFromCache();
+    // First try to load from cache (unless force refresh)
+    if (!forceRefresh) {
+      console.log('[Telescopius] Checking cache for target lists...');
+      const cacheLoaded = await telescopiusStore.loadTargetListsFromCache();
 
-    if (cacheLoaded) {
-      console.log('[Telescopius] Target lists loaded from cache');
-      telescopiusStore.setLoadingLists(false);
-      return;
+      if (cacheLoaded) {
+        console.log('[Telescopius] Target lists loaded from cache');
+        telescopiusStore.setLoadingLists(false);
+        return;
+      }
     }
 
     // Cache miss or expired, fetch from API
@@ -485,9 +515,18 @@ const loadTargetLists = async () => {
       telescopiusStore.setTargetLists([]);
       telescopiusStore.setListsError(null); // Don't show error for empty lists
     } else {
-      // Show error for actual API issues
+      // Show error for actual API issues, but keep existing data if available
+      console.log(
+        '[Telescopius] API error occurred, preserving existing target lists if available'
+      );
       telescopiusStore.setListsError(error.message || 'Failed to load target lists');
-      telescopiusStore.setTargetLists([]);
+
+      // Only clear lists if this was a force refresh or if no lists are currently loaded
+      if (forceRefresh || !telescopiusStore.hasTargetLists) {
+        telescopiusStore.setTargetLists([]);
+      } else {
+        console.log('[Telescopius] Keeping existing target lists due to API error');
+      }
     }
   } finally {
     telescopiusStore.setLoadingLists(false);
@@ -498,14 +537,89 @@ const loadTargetLists = async () => {
 const refreshTargetLists = async () => {
   console.log('[Telescopius] refreshTargetLists() - Force refresh from API');
 
-  // Clear cache first
-  await telescopiusStore.clearTargetListsCache();
+  if (!telescopiusStore.hasApiKey) {
+    console.log('[Telescopius] No API key configured');
+    telescopiusStore.setListsError('API Key required');
+    return;
+  }
 
-  // Clear current lists
-  telescopiusStore.clearTargetLists();
+  // Store current lists as backup
+  const currentLists = [...telescopiusStore.targetLists];
 
-  // Load fresh data from API
+  telescopiusStore.setLoadingLists(true);
+  telescopiusStore.setListsError(null);
+
+  try {
+    // Clear cache for fresh data
+    await telescopiusStore.clearTargetListsCache();
+
+    // Fetch fresh data from API
+    console.log('[Telescopius] Fetching fresh data from API...');
+    const response = await telescopiusApiService.getUserLists();
+    console.log('[Telescopius] getUserLists() response:', response);
+    console.log('[Telescopius] Found', response?.length || 0, 'target lists');
+
+    if (!response || response.length === 0) {
+      // Clear lists only if API call succeeds but returns empty
+      telescopiusStore.setTargetLists([]);
+      telescopiusStore.setLoadingLists(false);
+      return;
+    }
+
+    // Load all target list details in parallel
+    console.log('[Telescopius] Loading details for all lists...');
+    const params = {};
+    if (latitude.value && longitude.value) {
+      params.lat = parseFloat(latitude.value);
+      params.lon = parseFloat(longitude.value);
+      console.log('[Telescopius] Using location parameters for all lists:', params);
+    }
+
+    const detailPromises = response.map(async (list) => {
+      try {
+        console.log(`[Telescopius] Loading details for list ${list.id}...`);
+        const details = await telescopiusApiService.getTargetList(list.id, params);
+        return { ...list, ...details };
+      } catch (error) {
+        console.error(`[Telescopius] Failed to load details for list ${list.id}:`, error);
+        return list; // Return original list without details on error
+      }
+    });
+
+    const listsWithDetails = await Promise.all(detailPromises);
+    console.log('[Telescopius] All target lists with details loaded:', listsWithDetails);
+
+    // Success: Update lists and cache
+    telescopiusStore.setTargetLists(listsWithDetails);
+    await telescopiusStore.saveTargetListsToCache();
+    console.log('[Telescopius] Target lists refreshed and cached successfully');
+  } catch (error) {
+    console.error('[Telescopius] Failed to refresh target lists:', error);
+
+    // For manual refresh: ALWAYS restore previous lists and show error
+    // Even for 404 errors, because we can't distinguish between "no lists" vs "API unreachable"
+    console.log('[Telescopius] Refresh failed, restoring previous target lists');
+    telescopiusStore.setTargetLists(currentLists);
+    telescopiusStore.setListsError($t('plugins.telescopius.targetLists.refreshFailed'));
+  } finally {
+    telescopiusStore.setLoadingLists(false);
+    console.log('[Telescopius] refreshTargetLists() completed');
+  }
+};
+
+const handleApiKeyModalClose = () => {
+  console.log('[Telescopius] API Key modal closed');
+  showApiKeyModal.value = false;
+};
+
+const handleApiKeySaved = async () => {
+  console.log('[Telescopius] API Key saved successfully, loading target lists automatically');
   await loadTargetLists();
+};
+
+const handleApiKeyDeleted = () => {
+  console.log('[Telescopius] API Key deleted, clearing target lists');
+  telescopiusStore.clearTargetLists();
 };
 
 const toggleListDetails = (listId) => {

@@ -117,7 +117,7 @@ import telescopiusApiService from '../services/telescopiusApiService';
 
 const { t: $t } = useI18n();
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'apiKeySaved', 'apiKeyDeleted']);
 
 defineProps({
   show: {
@@ -159,6 +159,7 @@ async function saveApiKey() {
     // If validation passes, save the API key
     await telescopiusStore.saveApiKey(localApiKey.value.trim());
     localApiKey.value = '';
+    emit('apiKeySaved');
     emit('close');
   } catch (error) {
     toastStore.showToast({
@@ -176,6 +177,7 @@ async function deleteApiKey() {
   try {
     await telescopiusStore.deleteApiKey();
     localApiKey.value = '';
+    emit('apiKeyDeleted');
     emit('close');
   } catch (error) {
     toastStore.showToast({

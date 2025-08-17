@@ -704,7 +704,9 @@
       "targetLists": {
         "noListsTitle": "No Target Lists Saved",
         "noListsDescription": "No target lists have been found in your Telescopius account yet.",
-        "noListsHint": "Create target lists on telescopius.com and then reload them here."
+        "noListsHint": "Create target lists on telescopius.com and then reload them here.",
+        "refreshFailed": "Update not possible. Telescopius.com not reachable",
+        "editOnTelescopius": "Edit lists on Telescopius"
       }
     },
     "webcam": {

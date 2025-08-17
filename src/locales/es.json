@@ -709,7 +709,9 @@
       "targetLists": {
         "noListsTitle": "No hay listas de objetivos guardadas",
         "noListsDescription": "Aún no se han encontrado listas de objetivos en tu cuenta de Telescopius.",
-        "noListsHint": "Crea listas de objetivos en telescopius.com y luego recárgalas aquí."
+        "noListsHint": "Crea listas de objetivos en telescopius.com y luego recárgalas aquí.",
+        "refreshFailed": "Actualización no posible. Telescopius.com no disponible",
+        "editOnTelescopius": "Editar listas en Telescopius"
       }
     },
     "sequenceCreator": {

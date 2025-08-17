@@ -109,7 +109,9 @@
       "targetLists": {
         "noListsTitle": "Keine Target Lists gespeichert",
         "noListsDescription": "Es wurden noch keine Target Lists in Ihrem Telescopius-Account gefunden.",
-        "noListsHint": "Erstellen Sie Target Lists auf telescopius.com und laden Sie sie dann hier neu."
+        "noListsHint": "Erstellen Sie Target Lists auf telescopius.com und laden Sie sie dann hier neu.",
+        "refreshFailed": "Update nicht möglich. Telescopius.com nicht erreichbar",
+        "editOnTelescopius": "Listen auf Telescopius bearbeiten"
       }
     },
     "sequenceCreator": {

@@ -845,6 +845,21 @@
       "title": "Configuración de la webcam",
       "autoRefresh": "Actualizar automáticamente",
       "errors": {}
+    },
+    "logfileCollector": {
+      "actions": {
+        "collectUpload": "Recolectar",
+        "uploading": "Subiendo ..."
+      },
+      "descriptionLabel": "Descripción (opcional)",
+      "descriptionPlaceholder": "Describe el problema para investigar ...",
+      "intro": "Recopile los últimos registros de TNS (incluida la depuración) y cárguelos al punto final configurado.",
+      "result": {
+        "failed": "Carga falló",
+        "failedWithStatus": "Cargar fallido ({status})",
+        "success": "Subir exitoso"
+      },
+      "title": "Coleccionista de archivos de registro"
     }
   }
 }

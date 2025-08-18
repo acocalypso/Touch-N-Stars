@@ -54,36 +54,14 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { CommandLineIcon, XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadLogs as downloadLogsHelper } from '@/utils/logDownloader';
+import { ensureConsolePatched, consoleLogs } from '@/utils/consoleCapture';
 
 const isModalOpen = ref(false);
 const logs = ref([]);
 const showSuccess = ref(false);
-
-function safeToString(arg) {
-  try {
-    if (typeof arg === 'object') {
-      return JSON.stringify(arg, getCircularReplacer(), 2);
-    } else {
-      return String(arg);
-    }
-  } catch (e) {
-    return '[Unserialisierbares Objekt]';
-  }
-}
-
-function getCircularReplacer() {
-  const seen = new WeakSet();
-  return (key, value) => {
-    if (typeof value === 'object' && value !== null) {
-      if (seen.has(value)) return '[Zirkulär]';
-      seen.add(value);
-    }
-    return value;
-  };
-}
 
 async function downloadLogs() {
   // Convert console logs to the format expected by the helper
@@ -123,21 +101,9 @@ function getClassForType(type) {
   }
 }
 
-if (!window.__consoleViewerPatched) {
-  window.__consoleViewerPatched = true;
-  const types = ['log', 'warn', 'error', 'info', 'debug'];
-  const originalConsole = {};
-
-  types.forEach((type) => {
-    originalConsole[type] = console[type];
-
-    console[type] = (...args) => {
-      originalConsole[type](...args);
-      logs.value.push({
-        type,
-        message: args.map(safeToString).join(' '),
-      });
-    };
-  });
-}
+onMounted(() => {
+  // Ensure global console is patched and bind to shared logs
+  ensureConsolePatched();
+  logs.value = consoleLogs.value;
+});
 </script>

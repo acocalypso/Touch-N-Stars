@@ -845,6 +845,21 @@
       "title": "Nastavení Webkamerys",
       "autoRefresh": "Auto Obnovení Refresh",
       "errors": {}
+    },
+    "logfileCollector": {
+      "actions": {
+        "collectUpload": "Collect",
+        "uploading": "Uploading…"
+      },
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Describe the problem to investigate...",
+      "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",
+      "result": {
+        "failed": "Upload failed",
+        "failedWithStatus": "Upload failed ({status})",
+        "success": "Upload successful"
+      },
+      "title": "Logfile Collector"
     }
   }
 }

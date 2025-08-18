@@ -8,6 +8,7 @@ import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
+import { ensureConsolePatched } from '@/utils/consoleCapture';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -23,6 +24,13 @@ const head = createHead();
 
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
+
+// Start capturing console logs as early as possible
+try {
+  ensureConsolePatched();
+} catch (e) {
+  /* noop */
+}
 
 // Initialize i18n with store before mounting
 const settingsStore = pinia.state.value.settings;

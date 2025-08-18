@@ -845,6 +845,21 @@
       "title": "Configurações da webcam",
       "autoRefresh": "Atualização automática",
       "errors": {}
+    },
+    "logfileCollector": {
+      "actions": {
+        "collectUpload": "Coletar",
+        "uploading": "Upload…"
+      },
+      "descriptionLabel": "Descrição (opcional)",
+      "descriptionPlaceholder": "Descreva o problema para investigar ...",
+      "intro": "Colete mais recentes logs do TNS (incluindo depuração) e envie -os para o terminal configurado.",
+      "result": {
+        "failed": "Falha no upload",
+        "failedWithStatus": "Falha no upload ({status})",
+        "success": "Carregue bem -sucedido"
+      },
+      "title": "Coletor de logfile"
     }
   }
 }

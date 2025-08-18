@@ -15,7 +15,7 @@ defineProps({
 
 async function markBad(index) {
   try {
-    const response = await apiService.imageAction(index, 'prefix?prefix=bad_');
+    const response = await apiService.imageAction(index, 'prefix?prefix=BAD_');
     console.log('Mark Bad', index, response);
   } catch (error) {
     console.log('Error while setting the switch');

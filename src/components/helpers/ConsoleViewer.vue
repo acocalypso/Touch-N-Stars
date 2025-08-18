@@ -3,42 +3,33 @@
     <!-- Trigger -->
     <button
       @click="isModalOpen = true"
-      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-50"
     >
       <CommandLineIcon class="w-6 h-6 text-white" />
     </button>
 
-    <!-- Modal -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-      @click.self="isModalOpen = false"
-    >
-      <div
-        class="bg-gray-800 text-white p-6 rounded-lg max-w-4xl max-h-[80vh] w-full overflow-y-auto"
-        @click.stop
-      >
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold">Debug</h2>
-          <div class="flex items-center space-x-2">
-            <button
-              @click="downloadLogs"
-              class="text-white hover:text-cyan-300 text-sm border border-cyan-500 px-4 py-1 rounded"
-            >
-              <ArrowDownTrayIcon
-                class="w-5 h-5"
-                :class="showSuccess ? 'text-green-400' : 'text-white'"
-              />
-            </button>
-            <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
-              <XMarkIcon class="w-6 h-6" />
-            </button>
-          </div>
+    <!-- Modal using shared Modal component -->
+    <Modal :show="isModalOpen" @close="isModalOpen = false" z-index="z-50">
+      <template #header>
+        <div class="flex justify-between items-center w-full">
+          <h2 class="text-2xl font-bold">Debug Console</h2>
+          <button
+            @click="downloadLogs"
+            class="text-white hover:text-cyan-300 text-sm border border-cyan-500 px-4 py-2 rounded flex items-center gap-2"
+          >
+            <ArrowDownTrayIcon
+              class="w-5 h-5"
+              :class="showSuccess ? 'text-green-400' : 'text-white'"
+            />
+            <span>Download</span>
+          </button>
         </div>
+      </template>
 
-        <!-- Logs -->
-        <div class="space-y-1 text-sm font-mono bg-gray-900 rounded p-4 border border-gray-700">
+      <template #body>
+        <div
+          class="space-y-1 text-sm font-mono bg-gray-900 rounded p-4 border border-gray-700 max-h-[60vh] overflow-y-auto scrollbar-thin"
+        >
           <div
             v-for="(log, index) in logs"
             :key="index"
@@ -47,21 +38,50 @@
           >
             [{{ log.type.toUpperCase() }}] {{ log.message }}
           </div>
+          <div v-if="logs.length === 0" class="text-gray-400 text-center py-4">
+            No console logs yet...
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { CommandLineIcon, XMarkIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import { ref } from 'vue';
+import { CommandLineIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import Modal from './Modal.vue';
 import { downloadLogs as downloadLogsHelper } from '@/utils/logDownloader';
-import { ensureConsolePatched, consoleLogs } from '@/utils/consoleCapture';
 
 const isModalOpen = ref(false);
 const logs = ref([]);
 const showSuccess = ref(false);
+
+// Rate limiting cache for duplicate console messages
+const consoleCache = new Map();
+
+function safeToString(arg) {
+  try {
+    if (typeof arg === 'object') {
+      return JSON.stringify(arg, getCircularReplacer(), 2);
+    } else {
+      return String(arg);
+    }
+  } catch (e) {
+    return '[Unserialisierbares Objekt]';
+  }
+}
+
+function getCircularReplacer() {
+  const seen = new WeakSet();
+  return (key, value) => {
+    if (typeof value === 'object' && value !== null) {
+      if (seen.has(value)) return '[Zirkulär]';
+      seen.add(value);
+    }
+    return value;
+  };
+}
 
 async function downloadLogs() {
   // Convert console logs to the format expected by the helper
@@ -101,9 +121,68 @@ function getClassForType(type) {
   }
 }
 
-onMounted(() => {
-  // Ensure global console is patched and bind to shared logs
-  ensureConsolePatched();
-  logs.value = consoleLogs.value;
-});
+if (!window.__consoleViewerPatched) {
+  window.__consoleViewerPatched = true;
+  const types = ['log', 'warn', 'error', 'info', 'debug'];
+  const originalConsole = {};
+
+  types.forEach((type) => {
+    originalConsole[type] = console[type];
+
+    console[type] = (...args) => {
+      originalConsole[type](...args);
+
+      const message = args.map(safeToString).join(' ');
+
+      // Filter out specific Vue warnings that are false positives
+      if (message.includes('Runtime directive used on component with non-element root node')) {
+        return; // Don't add this message to logs
+      }
+
+      // Rate limiting for duplicate console messages
+      const cacheKey = `${type}:${message}`;
+      const now = Date.now();
+
+      if (consoleCache.has(cacheKey)) {
+        const lastLogged = consoleCache.get(cacheKey);
+        // Skip if same message was logged within last 3 seconds
+        if (now - lastLogged < 3000) {
+          return;
+        }
+      }
+
+      // Update cache
+      consoleCache.set(cacheKey, now);
+
+      // Clean up old entries (older than 15 seconds)
+      setTimeout(() => {
+        for (const [key, timestamp] of consoleCache.entries()) {
+          if (now - timestamp > 15000) {
+            consoleCache.delete(key);
+          }
+        }
+      }, 15000);
+
+      logs.value.push({
+        type,
+        message,
+      });
+    };
+  });
+
+  // Patch WebSocket to catch connection errors
+  const OriginalWebSocket = window.WebSocket;
+  window.WebSocket = function (url, protocols) {
+    const ws = new OriginalWebSocket(url, protocols);
+
+    ws.addEventListener('error', () => {
+      logs.value.push({
+        type: 'error',
+        message: `WebSocket error: ${url} - Connection failed`,
+      });
+    });
+
+    return ws;
+  };
+}
 </script>

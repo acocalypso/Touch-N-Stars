@@ -25,7 +25,7 @@ watch(
       const startMatch = entry.message.match(/Starting AutoFocus with initial position (\d+)/);
       if (startMatch) {
         isHocusFocus.value = true;
-        console.log('Hocus Focus läuft');
+        console.log('Hocus Focus running');
       }
     }
   },

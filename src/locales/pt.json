@@ -21,7 +21,10 @@
         "title": "Configurações de imagem",
         "quality": "Qualidade da imagem",
         "strech_factor": "Fator de estiramento",
-        "black_clipping": "Corte negro"
+        "black_clipping": "Corte negro",
+        "DebayeredHFR": "Debayered Hfr",
+        "UnlinkedStretch": "Strech desvinculado",
+        "debayern": "Imagem DeBayer"
       },
       "debug": {
         "title": "Debug",
@@ -450,7 +453,14 @@
       "running": "É executado",
       "settings": {
         "DirectionEast": "Em direção ao leste",
-        "StartFromCurrentPosition": "Começar a partir da posição atual?"
+        "StartFromCurrentPosition": "Começar a partir da posição atual?",
+        "ManualMode": "Modo manual",
+        "camera_settings": "Configurações da câmera",
+        "camera_settings_hint": "Deixe vazio para os padrões de Nina",
+        "exposure_time": "Tempo (s) de exposição (s)",
+        "gain": "Ganho",
+        "nina_default": "Nina Padrão",
+        "title": "Configurações de TPPA"
       },
       "slewing_first_position": "Balanços para a primeira posição",
       "slewing_next_position": "Balanços para a próxima posição",
@@ -460,7 +470,10 @@
       "total_error": "Erro total:",
       "unknown_response_format": "Formato de resposta desconhecida",
       "up": "Acima",
-      "west": "Oeste"
+      "west": "Oeste",
+      "error_modal": {
+        "title": "Erros de tppa"
+      }
     },
     "tutorial": {
       "next": "Avançar",

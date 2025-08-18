@@ -253,7 +253,7 @@ async function loadCustomHorizont() {
     console.log(response);
 
     if (response.StatusCode !== 200 || !response.Response) {
-      console.warn('Horizontdaten nicht gefunden oder ungültig:', response);
+      console.warn('Horizon data not found or invalid:', response);
       return;
     }
 
@@ -264,7 +264,7 @@ async function loadCustomHorizont() {
       !Array.isArray(Altitudes) ||
       Azimuths.length !== Altitudes.length
     ) {
-      console.warn('Ungültige Horizontdatenstruktur:', response.Response);
+      console.warn('Invalid horizon data structure:', response.Response);
       return;
     }
 

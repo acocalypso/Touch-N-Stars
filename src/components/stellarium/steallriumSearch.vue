@@ -183,7 +183,7 @@ async function fetchTargetSearch() {
 
     targetSearchResult.value = [...allResults, ...uniqueStellarium];
   } catch (error) {
-    console.log('Fehler beim Laden der Vorschläge:', error);
+    console.log('Error loading suggestions:', error);
     targetSearchResult.value = [];
   }
 }
@@ -215,7 +215,7 @@ async function selectTarget(item) {
         // Direktes Auswählen des Stellarium-Objekts
         stel.core.selection = item.StellariumObj;
         stel.pointAndLock(item.StellariumObj);
-        console.log('Ausgewähltes Stellarium-Objekt:', item);
+        console.log('Selected Stellarium object:', item);
         return;
       }
 
@@ -266,7 +266,7 @@ async function selectTarget(item) {
             targetCircle.update();
             stel.core.selection = targetCircle;
             stel.pointAndLock(targetCircle);
-            console.log('Ausgewähltes Objekt:', item);
+            console.log('Selected object:', item);
           } catch (error) {
             console.error('Error in phase 2 selection:', error);
           }
@@ -284,7 +284,7 @@ async function selectTarget(item) {
         targetCircle.update();
         stel.core.selection = targetCircle;
         stel.pointAndLock(targetCircle);
-        console.log('Ausgewähltes Objekt:', item);
+        console.log('Selected object:', item);
       }
     } catch (error) {
       console.error('Error selecting target:', error);

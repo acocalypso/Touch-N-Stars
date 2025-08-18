@@ -80,7 +80,10 @@
         "title": "Impostazioni immagine",
         "quality": "Qualità immagine",
         "strech_factor": "Fattore di stiramento",
-        "black_clipping": "Ritaglio nero"
+        "black_clipping": "Ritaglio nero",
+        "DebayeredHFR": "Hfr debayered",
+        "UnlinkedStretch": "Strech non incazzato",
+        "debayern": "Immagine debayer"
       },
       "debug": {
         "title": "Debug",
@@ -445,7 +448,17 @@
       "slewing_next_position": "Slewing alla prossima posizione",
       "settings": {
         "DirectionEast": "Direzione est",
-        "StartFromCurrentPosition": "Iniziare dalla posizione corrente?"
+        "StartFromCurrentPosition": "Iniziare dalla posizione corrente?",
+        "ManualMode": "Modalità manuale",
+        "camera_settings": "Impostazioni della fotocamera",
+        "camera_settings_hint": "Lascia vuoto per le impostazioni predefinite di Nina",
+        "exposure_time": "Tempo di esposizione (i)",
+        "gain": "Guadagno",
+        "nina_default": "NINA Default",
+        "title": "Impostazioni TPPA"
+      },
+      "error_modal": {
+        "title": "Errori TPPA"
       }
     },
     "logs": {},

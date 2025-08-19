@@ -38,14 +38,16 @@ export function setupErrorHandler() {
           extra: { statusText: response.statusText },
         });
 
-        // Show toast for HTTP errors (with rate limiting)
-        showToast({
-          type: 'error',
-          title: `HTTP ${response.status}`,
-          message,
-          cacheKey: `HTTP_${response.status}_${url}`,
-          autoClose: true,
-        });
+        // Show toast for HTTP errors (with rate limiting) but suppress 404s
+        if (response.status !== 404) {
+          showToast({
+            type: 'error',
+            title: `HTTP ${response.status}`,
+            message,
+            cacheKey: `HTTP_${response.status}_${url}`,
+            autoClose: true,
+          });
+        }
       }
 
       // Check for API-specific error responses (Success: false or StatusCode >= 400)
@@ -77,8 +79,8 @@ export function setupErrorHandler() {
         });
 
         // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
-        // Skip toasts only for HTTP 200 + StatusCode 200 (successful responses)
-        if (response.status >= 400 || statusCode >= 400) {
+        // Skip toasts for HTTP 200 + StatusCode 200 (successful responses) and all 404s
+        if ((response.status >= 400 || statusCode >= 400) && statusCode !== 404) {
           showToast({
             type: isRealError ? 'error' : 'info',
             title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,

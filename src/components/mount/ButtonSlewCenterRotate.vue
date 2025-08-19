@@ -1,6 +1,6 @@
 <template>
-  <div class="border border-gray-500 p-1 mt-2 rounded-lg">
-    <div class="flex gap-1">
+  <div class="">
+    <div class="flex gap-0 border border-gray-600 rounded-lg overflow-hidden">
       <button
         @click="store.mountInfo.Slewing ? stopSlew() : slew()"
         :disabled="
@@ -11,7 +11,7 @@
             props.disabled)
         "
         :class="[
-          'px-5 flex-1 w-full',
+          'px-5 flex-1 w-full rounded-none',
           store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
         ]"
       >
@@ -46,7 +46,7 @@
           framingStore.isRotating ||
           props.disabled
         "
-        class="default-button-gray px-3 w-12 h-12"
+        class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors duration-200 px-3 w-12 h-12 rounded-none border-l border-gray-500"
         title="Settings"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

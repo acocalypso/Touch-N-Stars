@@ -1,0 +1,9 @@
+{
+  "id": "telescopius",
+  "name": "telescopius",
+  "description": "enables data retrieval from telescopius.com",
+  "version": "1.0.0",
+  "author": "Johannes Maier",
+  "defaultEnabled": false,
+  "enabled": true
+}

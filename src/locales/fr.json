@@ -861,6 +861,22 @@
       "autoRefresh": "Rafraîchissement automatique",
       "errors": {}
     },
+
+    "logfileCollector": {
+      "actions": {
+        "collectUpload": "Collecter",
+        "uploading": "Téléchargement…"
+      },
+      "descriptionLabel": "Description (facultative)",
+      "descriptionPlaceholder": "Décrivez le problème pour enquêter ...",
+      "intro": "Collectez les derniers journaux TNS (y compris le débogage) et téléchargez-les sur le point de terminaison configuré.",
+      "result": {
+        "failed": "Le téléchargement a échoué",
+        "failedWithStatus": "Téléchargement échoué ({statut})",
+        "success": "Télécharger réussi"
+      },
+      "title": "Collectionneur de fichiers"
+    },
     "telescopius": {
       "apiKey": {
         "cancel": "Annuler",

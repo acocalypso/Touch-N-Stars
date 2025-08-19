@@ -9,6 +9,7 @@ import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler } from '@/utils/errorHandler';
+import { ensureConsolePatched } from '@/utils/consoleCapture';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -59,19 +60,12 @@ setupErrorHandler();
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
 
-// Suppress specific Vue warning about runtime directives in browser console
-const originalWarn = console.warn;
-console.warn = (...args) => {
-  const message = args[0];
-  if (
-    typeof message === 'string' &&
-    message.includes('Runtime directive used on component with non-element root node')
-  ) {
-    // Suppress this specific warning as it appears to be a false positive
-    return;
-  }
-  originalWarn.apply(console, args);
-};
+// Start capturing console logs as early as possible
+try {
+  ensureConsolePatched();
+} catch (e) {
+  /* noop */
+}
 
 // Initialize i18n with store before mounting
 const settingsStore = pinia.state.value.settings;

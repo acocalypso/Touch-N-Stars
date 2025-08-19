@@ -861,6 +861,21 @@
       "autoRefresh": "Aggiornamento automatico",
       "errors": {}
     },
+    "logfileCollector": {
+      "actions": {
+        "collectUpload": "Raccogliere",
+        "uploading": "Caricamento ..."
+      },
+      "descriptionLabel": "Descrizione (opzionale)",
+      "descriptionPlaceholder": "Descrivi il problema per indagare ...",
+      "intro": "Raccogli gli ultimi registri TNS (incluso il debug) e caricali sull'endpoint configurato.",
+      "result": {
+        "failed": "Caricamento non riuscito",
+        "failedWithStatus": "Caricamento non riuscito ({status})",
+        "success": "Carica successo"
+      },
+      "title": "Collezionista Logfile"
+    },
     "telescopius": {
       "apiKey": {
         "cancel": "Cancellare",

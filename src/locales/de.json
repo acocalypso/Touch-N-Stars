@@ -23,6 +23,20 @@
     }
   },
   "plugins": {
+    "logfileCollector": {
+      "title": "Logfile-Sammler",
+      "intro": "Sammle die neuesten TNS-Logs (inkl. Debug) und lade sie an den konfigurierten Endpunkt hoch.",
+      "descriptionLabel": "Beschreibung (optional)",
+      "descriptionPlaceholder": "Beschreibe das Problem zur Analyse...",
+      "actions": {
+        "collectUpload": "Sammeln & Hochladen",
+        "uploading": "Lade hoch…"
+      },
+      "result": {
+        "success": "Upload erfolgreich",
+        "failed": "Upload fehlgeschlagen",
+        "failedWithStatus": "Upload fehlgeschlagen ({status})"
+      },
     "telescopius": {
       "title": "Telescopius",
       "initializing": "Initialisierung...",

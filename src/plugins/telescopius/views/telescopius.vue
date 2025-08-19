@@ -33,11 +33,21 @@
           {{ $t('plugins.telescopius.title') }}
         </h5>
 
+        <!-- Info Text about offline functionality -->
+        <div class="text-center mb-6">
+          <p class="text-gray-300 text-sm">
+            {{ $t('plugins.telescopius.offlineInfo') }}
+          </p>
+        </div>
+
         <div class="flex flex-col space-y-4">
           <div
             class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
           >
-            <div v-if="!telescopiusStore.hasApiKey" class="mt-4 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg">
+            <div
+              v-if="!telescopiusStore.hasApiKey"
+              class="mt-4 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg"
+            >
               <div class="flex items-center justify-center text-yellow-400 text-sm">
                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path
@@ -125,24 +135,42 @@
             class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-6"
           >
             <h6 class="text-lg font-semibold text-white mb-3 text-center">My Target Lists</h6>
-            
+
+            <!-- Cache timestamp display -->
+            <div v-if="telescopiusStore.cacheTimestamp" class="text-center mb-3">
+              <p class="text-gray-400 text-sm">
+                {{ $t('plugins.telescopius.targetLists.dataFrom') }}:
+                {{ formatCacheDate(telescopiusStore.cacheTimestamp) }}
+              </p>
+            </div>
+
             <!-- Link to edit lists on Telescopius -->
             <div class="text-center mb-4">
-              <a 
-                href="https://telescopius.com/observing-lists" 
-                target="_blank" 
+              <a
+                href="https://telescopius.com/observing-lists"
+                target="_blank"
                 class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
               >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  ></path>
                 </svg>
                 {{ $t('plugins.telescopius.targetLists.editOnTelescopius') }}
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  ></path>
                 </svg>
               </a>
             </div>
-            
+
             <div class="space-y-4">
               <div
                 v-for="list in telescopiusStore.targetLists"
@@ -297,8 +325,8 @@
     />
 
     <!-- Target Modal -->
-    <TargetModal 
-      :show="showTargetModal" 
+    <TargetModal
+      :show="showTargetModal"
       :target="selectedTarget"
       @close="closeTargetModal"
       @goToFraming="setFramingForTarget"
@@ -332,8 +360,17 @@ const expandedLists = ref([]);
 const showTargetModal = ref(false);
 const selectedTarget = ref(null);
 
+const formatCacheDate = (timestamp) => {
+  if (!timestamp) return '';
+  const date = new Date(timestamp);
+  return date.toLocaleString();
+};
+
 const loadTargetLists = async (forceRefresh = false) => {
-  console.log('[Telescopius] loadTargetLists() - Starting to load user target lists', forceRefresh ? '(force refresh)' : '');
+  console.log(
+    '[Telescopius] loadTargetLists() - Starting to load user target lists',
+    forceRefresh ? '(force refresh)' : ''
+  );
 
   if (!telescopiusStore.hasApiKey) {
     console.log('[Telescopius] No API key configured');
@@ -402,22 +439,25 @@ const loadTargetLists = async (forceRefresh = false) => {
 
     // Handle 404 errors specifically (no target lists found)
     if (error.isNotFound || error.status === 404) {
-      console.log(
-        '[Telescopius] No target lists found (404) - this is normal for users without lists'
-      );
-      telescopiusStore.setTargetLists([]);
-      telescopiusStore.setListsError(null); // Don't show error for empty lists
+      console.log('[Telescopius] No target lists found (404) - keeping existing offline lists');
+
+      // Always keep existing lists - never clear them
+      if (telescopiusStore.hasTargetLists) {
+        console.log('[Telescopius] Keeping existing target lists despite 404');
+        telescopiusStore.setListsError($t('plugins.telescopius.targetLists.connectionError'));
+      } else {
+        // Only show "no lists" error if there are truly no lists at all
+        telescopiusStore.setListsError(null);
+      }
     } else {
       // Show error for actual API issues, but keep existing data if available
-      console.log('[Telescopius] API error occurred, preserving existing target lists if available');
-      telescopiusStore.setListsError(error.message || 'Failed to load target lists');
-      
-      // Only clear lists if this was a force refresh or if no lists are currently loaded
-      if (forceRefresh || !telescopiusStore.hasTargetLists) {
-        telescopiusStore.setTargetLists([]);
-      } else {
-        console.log('[Telescopius] Keeping existing target lists due to API error');
-      }
+      console.log(
+        '[Telescopius] API error occurred, preserving existing target lists if available'
+      );
+      telescopiusStore.setListsError($t('plugins.telescopius.targetLists.connectionError'));
+
+      // Keep existing lists - don't clear them on connection errors
+      console.log('[Telescopius] Keeping existing target lists due to API error');
     }
   } finally {
     telescopiusStore.setLoadingLists(false);
@@ -427,14 +467,6 @@ const loadTargetLists = async (forceRefresh = false) => {
 
 const refreshTargetLists = async () => {
   console.log('[Telescopius] refreshTargetLists() - Force refresh from API');
-
-  // Clear cache first for force refresh
-  await telescopiusStore.clearTargetListsCache();
-
-  // Clear current lists for force refresh
-  telescopiusStore.clearTargetLists();
-
-  // Load fresh data from API with force refresh flag
   await loadTargetLists(true);
 };
 

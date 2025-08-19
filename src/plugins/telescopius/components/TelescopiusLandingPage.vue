@@ -87,7 +87,11 @@
             <p class="text-gray-300 text-sm mb-3">
               {{ $t('plugins.telescopius.landing.apiSetup.step1.description') }}
             </p>
-            <a href="https://telescopius.com/register" target="_blank" class="btn-external">
+            <a
+              href="https://telescopius.com/users/register"
+              target="_blank"
+              class="default-button-blue inline-flex items-center gap-2"
+            >
               {{ $t('plugins.telescopius.landing.apiSetup.step1.button') }}
             </a>
           </div>
@@ -102,7 +106,11 @@
             <p class="text-gray-300 text-sm mb-3">
               {{ $t('plugins.telescopius.landing.apiSetup.step2.description') }}
             </p>
-            <a href="https://telescopius.com/api" target="_blank" class="btn-external">
+            <a
+              href="https://telescopius.com/api"
+              target="_blank"
+              class="default-button-blue inline-flex items-center gap-2"
+            >
               {{ $t('plugins.telescopius.landing.apiSetup.step2.button') }}
             </a>
           </div>
@@ -116,6 +124,48 @@
             </h4>
             <p class="text-gray-300 text-sm mb-3">
               {{ $t('plugins.telescopius.landing.apiSetup.step3.description') }}
+            </p>
+            <ul class="text-gray-400 text-sm space-y-1 mb-3">
+              <li>
+                •
+                <strong>{{ $t('plugins.telescopius.landing.apiSetup.step3.config.name') }}:</strong>
+                {{ $t('plugins.telescopius.landing.apiSetup.step3.config.nameValue') }}
+              </li>
+              <li>
+                •
+                <strong
+                  >{{
+                    $t('plugins.telescopius.landing.apiSetup.step3.config.description')
+                  }}:</strong
+                >
+                {{ $t('plugins.telescopius.landing.apiSetup.step3.config.descriptionValue') }}
+              </li>
+              <li>
+                •
+                <strong
+                  >{{ $t('plugins.telescopius.landing.apiSetup.step3.config.accessType') }}:</strong
+                >
+                {{ $t('plugins.telescopius.landing.apiSetup.step3.config.accessTypeValue') }}
+              </li>
+              <li>
+                •
+                <strong
+                  >{{ $t('plugins.telescopius.landing.apiSetup.step3.config.ipLimit') }}:</strong
+                >
+                {{ $t('plugins.telescopius.landing.apiSetup.step3.config.ipLimitValue') }}
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="setup-step">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <h4 class="text-white font-semibold mb-2">
+              {{ $t('plugins.telescopius.landing.apiSetup.step4.title') }}
+            </h4>
+            <p class="text-gray-300 text-sm mb-3">
+              {{ $t('plugins.telescopius.landing.apiSetup.step4.description') }}
             </p>
             <button
               @click="$emit('openApiKeyModal')"
@@ -135,7 +185,7 @@
                   d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                 ></path>
               </svg>
-              {{ $t('plugins.telescopius.landing.apiSetup.step3.button') }}
+              {{ $t('plugins.telescopius.landing.apiSetup.step4.button') }}
             </button>
           </div>
         </div>
@@ -194,10 +244,6 @@ defineEmits(['openApiKeyModal']);
 
 .btn-link {
   @apply text-blue-400 hover:text-blue-300 text-sm font-medium underline transition-colors;
-}
-
-.btn-external {
-  @apply inline-block px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium rounded-lg transition-colors;
 }
 
 .api-setup-section {

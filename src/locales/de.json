@@ -30,6 +30,7 @@
       "description": "Ermöglicht Datenabruf von telescopius.com",
       "landing": {
         "title": "Telescopius Plugin",
+      "offlineInfo": "Lädt persönliche Target Lists von telescopius.com und speichert sie lokal für Offline-Verfügbarkeit.",
         "subtitle": "Bringe deine Zielobjekte von Telescopius.com direkt in Touch'N'Stars",
         "whatIsPlugin": {
           "title": "Was ist das Plugin?",
@@ -73,10 +74,24 @@
           },
           "step2": {
             "title": "API-Schlüssel anfordern",
-            "description": "Melde dich an und gehe zur API-Seite für deinen persönlichen Schlüssel:",
+            "description": "Melde dich an und gehe zu Settings → API für deinen persönlichen Schlüssel:",
             "button": "API-Schlüssel anfordern"
           },
           "step3": {
+            "title": "API-Schlüssel konfigurieren",
+            "description": "Beim Erstellen des API-Schlüssels verwende diese Einstellungen:",
+            "config": {
+              "name": "Name",
+              "nameValue": "Beliebiger Name (z.B. Touch N Stars)",
+              "description": "Beschreibung",
+              "descriptionValue": "Beliebige Beschreibung (z.B. API für TNS)",
+              "accessType": "Access Type",
+              "accessTypeValue": "Server auswählen",
+              "ipLimit": "Limit access to these IP addresses",
+              "ipLimitValue": "Leer lassen"
+            }
+          },
+          "step4": {
             "title": "API-Schlüssel eingeben",
             "description": "Klicke unten auf \"API Key konfigurieren\" und gib deinen Schlüssel ein:",
             "button": "API Key konfigurieren"
@@ -111,7 +126,9 @@
         "noListsDescription": "Es wurden noch keine Target Lists in Ihrem Telescopius-Account gefunden.",
         "noListsHint": "Erstellen Sie Target Lists auf telescopius.com und laden Sie sie dann hier neu.",
         "refreshFailed": "Update nicht möglich. Telescopius.com nicht erreichbar",
-        "editOnTelescopius": "Listen auf Telescopius bearbeiten"
+        "editOnTelescopius": "Listen auf Telescopius bearbeiten",
+        "dataFrom": "Daten vom",
+        "connectionError": "Verbindung zu Telescopius fehlgeschlagen. Der NINA PC benötigt eine Internetverbindung und mindestens eine Target List muss in Telescopius existieren."
       }
     },
     "sequenceCreator": {

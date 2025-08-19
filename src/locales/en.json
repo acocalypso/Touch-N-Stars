@@ -625,6 +625,7 @@
       "description": "Enables data retrieval from telescopius.com",
       "landing": {
         "title": "Telescopius Plugin",
+      "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
         "subtitle": "Bring your target objects from Telescopius.com directly into Touch'N'Stars",
         "whatIsPlugin": {
           "title": "What is this plugin?",
@@ -668,10 +669,24 @@
           },
           "step2": {
             "title": "Request API Key",
-            "description": "Sign in and go to the API page for your personal key:",
+            "description": "Sign in and go to Settings → API for your personal key:",
             "button": "Request API key"
           },
           "step3": {
+            "title": "Configure API Key",
+            "description": "When creating the API key, use these settings:",
+            "config": {
+              "name": "Name",
+              "nameValue": "Any name (e.g. Touch N Stars)",
+              "description": "Description",
+              "descriptionValue": "Any description (e.g. API for TNS)",
+              "accessType": "Access Type",
+              "accessTypeValue": "Select Server",
+              "ipLimit": "Limit access to these IP addresses",
+              "ipLimitValue": "Leave empty"
+            }
+          },
+          "step4": {
             "title": "Enter API Key",
             "description": "Click \"Configure API Key\" below and enter your key:",
             "button": "Configure API Key"
@@ -706,7 +721,9 @@
         "noListsDescription": "No target lists have been found in your Telescopius account yet.",
         "noListsHint": "Create target lists on telescopius.com and then reload them here.",
         "refreshFailed": "Update not possible. Telescopius.com not reachable",
-        "editOnTelescopius": "Edit lists on Telescopius"
+        "editOnTelescopius": "Edit lists on Telescopius",
+        "dataFrom": "Data from",
+        "connectionError": "Connection to Telescopius failed. The NINA PC needs an internet connection and at least one target list must exist in Telescopius."
       }
     },
     "webcam": {

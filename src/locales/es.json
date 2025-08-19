@@ -625,6 +625,7 @@
   "plugins": {
     "telescopius": {
       "title": "Telescopius",
+      "offlineInfo": "Carga listas de objetivos personales de telescopius.com y las almacena localmente para disponibilidad offline.",
       "initializing": "Inicializando...",
       "welcome": "¡Bienvenido al complemento Telescopius!",
       "description": "Permite la recuperación de datos desde telescopius.com",
@@ -673,10 +674,24 @@
           },
           "step2": {
             "title": "Solicitar Clave API",
-            "description": "Inicia sesión y ve a la página API para tu clave personal:",
+            "description": "Inicia sesión y ve a Settings → API para tu clave personal:",
             "button": "Solicitar clave API"
           },
           "step3": {
+            "title": "Configurar Clave API",
+            "description": "Al crear la clave API, usa estas configuraciones:",
+            "config": {
+              "name": "Nombre",
+              "nameValue": "Cualquier nombre (ej. Touch N Stars)",
+              "description": "Descripción",
+              "descriptionValue": "Cualquier descripción (ej. API para TNS)",
+              "accessType": "Tipo de Acceso",
+              "accessTypeValue": "Seleccionar Server",
+              "ipLimit": "Limitar acceso a estas direcciones IP",
+              "ipLimitValue": "Dejar vacío"
+            }
+          },
+          "step4": {
             "title": "Ingresar Clave API",
             "description": "Haz clic en \"Configurar Clave API\" abajo e ingresa tu clave:",
             "button": "Configurar Clave API"
@@ -711,7 +726,9 @@
         "noListsDescription": "Aún no se han encontrado listas de objetivos en tu cuenta de Telescopius.",
         "noListsHint": "Crea listas de objetivos en telescopius.com y luego recárgalas aquí.",
         "refreshFailed": "Actualización no posible. Telescopius.com no disponible",
-        "editOnTelescopius": "Editar listas en Telescopius"
+        "editOnTelescopius": "Editar listas en Telescopius",
+        "dataFrom": "Datos del",
+        "connectionError": "Conexión a Telescopius falló. El PC de NINA necesita conexión a internet y al menos una lista de objetivos debe existir en Telescopius."
       }
     },
     "sequenceCreator": {

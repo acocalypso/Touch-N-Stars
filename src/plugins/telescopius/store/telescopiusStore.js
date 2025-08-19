@@ -8,6 +8,7 @@ export const useTelescopisStore = defineStore('telescopius', {
     targetLists: [],
     isLoadingLists: false,
     listsError: null,
+    cacheTimestamp: null,
   }),
 
   getters: {
@@ -82,6 +83,7 @@ export const useTelescopisStore = defineStore('telescopius', {
     clearTargetLists() {
       this.targetLists = [];
       this.listsError = null;
+      this.cacheTimestamp = null;
     },
 
     async loadTargetListsFromCache() {
@@ -91,17 +93,10 @@ export const useTelescopisStore = defineStore('telescopius', {
           const cacheData = JSON.parse(response.Response.Value);
           console.log('[TelescopiusStore] Loaded target lists from cache:', cacheData);
 
-          // Check if cache is still valid (e.g., less than 24 hours old)
-          const cacheAge = Date.now() - cacheData.timestamp;
-          const maxAge = 24 * 60 * 60 * 1000; // 24 hours
-
-          if (cacheAge < maxAge) {
-            this.targetLists = cacheData.lists || [];
-            return true; // Cache loaded successfully
-          } else {
-            console.log('[TelescopiusStore] Cache expired, will fetch fresh data');
-            return false; // Cache expired
-          }
+          // Load cached data regardless of age
+          this.targetLists = cacheData.lists || [];
+          this.cacheTimestamp = cacheData.timestamp;
+          return true; // Cache loaded successfully
         }
       } catch (error) {
         console.log('[TelescopiusStore] No cached target lists found or error loading cache');
@@ -122,6 +117,7 @@ export const useTelescopisStore = defineStore('telescopius', {
           Key: 'telescopius_target_lists_cache',
           Value: JSON.stringify(cacheData),
         });
+        this.cacheTimestamp = cacheData.timestamp;
       } catch (error) {
         if (error.response && error.response.status === 409) {
           // Setting exists, update it
@@ -129,6 +125,7 @@ export const useTelescopisStore = defineStore('telescopius', {
             'telescopius_target_lists_cache',
             JSON.stringify(cacheData)
           );
+          this.cacheTimestamp = cacheData.timestamp;
         } else {
           console.error('[TelescopiusStore] Error saving target lists cache:', error);
         }

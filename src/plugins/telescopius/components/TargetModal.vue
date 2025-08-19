@@ -19,10 +19,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div
-          v-if="target && store.mountInfo.Connected && !store.sequenceRunning"
-          class="space-y-3"
-        >
+        <div v-if="target && store.mountInfo.Connected && !store.sequenceRunning" class="space-y-3">
           <!-- Set Sequence Target -->
           <SetSequenceTarget />
 
@@ -51,10 +48,7 @@
         </div>
 
         <!-- Mount not connected message -->
-        <div
-          v-else-if="target && !store.mountInfo.Connected"
-          class="text-center text-gray-400"
-        >
+        <div v-else-if="target && !store.mountInfo.Connected" class="text-center text-gray-400">
           <svg
             class="w-12 h-12 mx-auto mb-4 opacity-50"
             fill="none"
@@ -72,10 +66,7 @@
         </div>
 
         <!-- Sequence running message -->
-        <div
-          v-else-if="target && store.sequenceRunning"
-          class="text-center text-gray-400"
-        >
+        <div v-else-if="target && store.sequenceRunning" class="text-center text-gray-400">
           <svg
             class="w-12 h-12 mx-auto mb-4 opacity-50"
             fill="none"
@@ -94,11 +85,10 @@
       </div>
     </template>
   </Modal>
-
 </template>
 
 <script setup>
-import { onMounted, watch } from 'vue';
+import { watch } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import SetSequenceTarget from '@/components/framing/setSequenceTarget.vue';
@@ -123,20 +113,24 @@ const store = apiStore();
 const framingStore = useFramingStore();
 
 // Update framing store when target changes so SetSequenceTarget component works
-watch(() => props.target, (newTarget) => {
-  if (newTarget) {
-    // Set the target in framing store for SetSequenceTarget component
-    framingStore.RAangleString = degreesToHMS(newTarget.coordinates.ra * 15);
-    framingStore.DECangleString = degreesToDMS(newTarget.coordinates.dec);
-    framingStore.RAangle = newTarget.coordinates.ra * 15;
-    framingStore.DECangle = newTarget.coordinates.dec;
-    framingStore.selectedItem = {
-      Name: newTarget.name || '',
-      RA: newTarget.coordinates.ra * 15,
-      Dec: newTarget.coordinates.dec,
-    };
-  }
-}, { immediate: true });
+watch(
+  () => props.target,
+  (newTarget) => {
+    if (newTarget) {
+      // Set the target in framing store for SetSequenceTarget component
+      framingStore.RAangleString = degreesToHMS(newTarget.coordinates.ra * 15);
+      framingStore.DECangleString = degreesToDMS(newTarget.coordinates.dec);
+      framingStore.RAangle = newTarget.coordinates.ra * 15;
+      framingStore.DECangle = newTarget.coordinates.dec;
+      framingStore.selectedItem = {
+        Name: newTarget.name || '',
+        RA: newTarget.coordinates.ra * 15,
+        Dec: newTarget.coordinates.dec,
+      };
+    }
+  },
+  { immediate: true }
+);
 
 const handleGoToFraming = () => {
   if (props.target) {

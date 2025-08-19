@@ -46,8 +46,6 @@
             class="w-full"
           />
         </div>
-
-
       </div>
     </template>
   </Modal>
@@ -58,7 +56,6 @@ import { watch } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import SetSequenceTarget from '@/components/framing/setSequenceTarget.vue';
-import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 
@@ -75,7 +72,6 @@ const props = defineProps({
   },
 });
 
-const store = apiStore();
 const framingStore = useFramingStore();
 
 // Update framing store when target changes so SetSequenceTarget component works

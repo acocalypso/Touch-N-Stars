@@ -188,9 +188,7 @@
   <div v-if="tppaStore.isRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
     <TppaLastStatus />
   </div>
-  <div>
-  
-  </div>
+  <div></div>
 
   <!-- Settings Modal -->
   <Modal :show="showSettings" @close="showSettings = false">
@@ -201,7 +199,6 @@
       <TppaSettings />
     </template>
   </Modal>
-
 </template>
 
 <script setup>
@@ -224,14 +221,13 @@ import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
-import { Cog6ToothIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
 const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);
-const showErrorModal = ref(false);
 
 // Tolerance in arc minutes
 const tolerance = 1;
@@ -347,29 +343,29 @@ async function startAlignment() {
   tppaStore.isPause = false;
   resetErrors();
   await unparkMount();
-  
+
   const message = {
-    Action: 'start-alignment'
+    Action: 'start-alignment',
   };
-  
+
   if (!tppaStore.settings.StartFromCurrentPosition) {
     message.StartFromCurrentPosition = 'false';
   } else {
     message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
     message.EastDirection = tppaStore.settings.EastDirection;
   }
-  
+
   if (tppaStore.settings.ExposureTime !== null) {
     message.ExposureTime = tppaStore.settings.ExposureTime;
   }
-  
+
   if (tppaStore.settings.Gain !== null) {
     message.Gain = tppaStore.settings.Gain;
   }
-  
+
   console.log('Sending TPPA start message:', message);
   websocketService.sendMessage(JSON.stringify(message));
-  
+
   // Set running state immediately
   tppaStore.setRunning(true);
   startStop.value = true;

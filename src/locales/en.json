@@ -623,9 +623,9 @@
       "initializing": "Initializing...",
       "welcome": "Welcome to the Telescopius plugin!",
       "description": "Enables data retrieval from telescopius.com",
+      "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
       "landing": {
         "title": "Telescopius Plugin",
-      "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
         "subtitle": "Bring your target objects from Telescopius.com directly into Touch'N'Stars",
         "whatIsPlugin": {
           "title": "What is this plugin?",

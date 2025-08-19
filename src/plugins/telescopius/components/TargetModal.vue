@@ -19,7 +19,7 @@
         </div>
 
         <!-- Action Buttons -->
-        <div v-if="target && store.mountInfo.Connected && !store.sequenceRunning" class="space-y-3">
+        <div class="space-y-3">
           <!-- Set Sequence Target -->
           <SetSequenceTarget />
 
@@ -47,41 +47,7 @@
           />
         </div>
 
-        <!-- Mount not connected message -->
-        <div v-else-if="target && !store.mountInfo.Connected" class="text-center text-gray-400">
-          <svg
-            class="w-12 h-12 mx-auto mb-4 opacity-50"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <p>Mount not connected</p>
-        </div>
 
-        <!-- Sequence running message -->
-        <div v-else-if="target && store.sequenceRunning" class="text-center text-gray-400">
-          <svg
-            class="w-12 h-12 mx-auto mb-4 opacity-50"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <p>Sequence is running</p>
-        </div>
       </div>
     </template>
   </Modal>

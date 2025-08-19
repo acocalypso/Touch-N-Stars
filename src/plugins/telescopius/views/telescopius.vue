@@ -441,7 +441,6 @@ const loadTargetLists = async (forceRefresh = false) => {
     if (error.isNotFound || error.status === 404) {
       console.log('[Telescopius] No target lists found (404) - keeping existing offline lists');
 
-      // Always keep existing lists - never clear them
       if (telescopiusStore.hasTargetLists) {
         console.log('[Telescopius] Keeping existing target lists despite 404');
         telescopiusStore.setListsError($t('plugins.telescopius.targetLists.connectionError'));
@@ -534,7 +533,6 @@ const setFramingForTarget = (target) => {
       `[Telescopius] Setting framing coordinates: RA: ${raDegrees}°, Dec: ${decDegrees}°`
     );
 
-    // Create framing data object for the existing setFramingCoordinates function
     const framingData = {
       name: target.name,
       raString: formatRA(target.coordinates.ra), // HMS format
@@ -545,7 +543,6 @@ const setFramingForTarget = (target) => {
 
     console.log('[Telescopius] Framing data:', framingData);
 
-    // Use the existing setFramingCoordinates function
     setFramingCoordinates(framingData);
 
     // Close modal
@@ -556,7 +553,7 @@ const setFramingForTarget = (target) => {
   }
 };
 
-// Use the existing setFramingCoordinates function from the parent context
+
 const setFramingCoordinates = (data) => {
   framingStore.RAangleString = data?.raString;
   framingStore.DECangleString = data?.decString;

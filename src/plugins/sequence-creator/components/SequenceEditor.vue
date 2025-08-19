@@ -121,11 +121,7 @@
               'p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem] transition-colors',
               isSendingToNina
                 ? 'bg-gray-400 cursor-not-allowed text-white'
-                : sendToNinaSuccess
-                  ? 'bg-green-600 hover:bg-green-700 text-white'
-                  : sendToNinaError
-                    ? 'bg-red-600 hover:bg-red-700 text-white'
-                    : 'default-button-green',
+                : 'default-button-green',
             ]"
             :title="t('plugins.sequenceCreator.toolbar.sendToNina')"
           >
@@ -141,34 +137,6 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-              />
-            </svg>
-            <svg
-              v-else-if="sendToNinaSuccess"
-              class="w-5 h-5 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <svg
-              v-else-if="sendToNinaError"
-              class="w-5 h-5 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
             <svg
@@ -188,11 +156,7 @@
             <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
               isSendingToNina
                 ? t('plugins.sequenceCreator.toolbar.sending')
-                : sendToNinaSuccess
-                  ? t('plugins.sequenceCreator.toolbar.sent')
-                  : sendToNinaError
-                    ? t('plugins.sequenceCreator.toolbar.failed')
-                    : t('plugins.sequenceCreator.toolbar.sendToNina')
+                : t('plugins.sequenceCreator.toolbar.sendToNina')
             }}</span>
           </button>
         </div>
@@ -322,48 +286,6 @@
       </div>
     </div>
 
-    <!-- Status Messages for Send to Nina -->
-    <div
-      v-if="sendToNinaError"
-      class="fixed top-4 right-4 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-out max-w-md"
-    >
-      <div class="flex items-start gap-2">
-        <svg
-          class="w-4 h-4 mt-0.5 flex-shrink-0"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-        <div>
-          <div class="font-medium">{{ t('plugins.sequenceCreator.toolbar.sendErrorTitle') }}</div>
-          <div class="text-sm">{{ sendToNinaErrorMessage }}</div>
-        </div>
-      </div>
-    </div>
-
-    <div
-      v-if="sendToNinaSuccess"
-      class="fixed top-4 right-4 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-out"
-    >
-      <div class="flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-        {{ t('plugins.sequenceCreator.toolbar.sendSuccessMessage') }}
-      </div>
-    </div>
 
     <!-- Clear Sequence Confirmation Modal -->
     <Modal :show="showClearModal" @close="cancelClear">
@@ -437,23 +359,6 @@
       </template>
     </Modal>
 
-    <!-- Success Toast -->
-    <div
-      v-if="saveAsDefaultSuccess"
-      class="fixed top-4 right-4 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-out"
-    >
-      <div class="flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-        {{ t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess') }}
-      </div>
-    </div>
   </div>
 </template>
 
@@ -461,23 +366,21 @@
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
+import { useToastStore } from '@/store/toastStore.js';
 import SequenceContainer from './SequenceContainer.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService.js';
 
 const { t } = useI18n();
 const store = useSequenceStore();
+const toastStore = useToastStore();
 
 const showClearModal = ref(false);
 const showSaveAsDefaultModal = ref(false);
 const showLoadBasicModal = ref(false);
-const saveAsDefaultSuccess = ref(false);
 
 // Send to Nina states
 const isSendingToNina = ref(false);
-const sendToNinaSuccess = ref(false);
-const sendToNinaError = ref(false);
-const sendToNinaErrorMessage = ref('');
 
 function handleAddAction(template, containerType, index = null) {
   store.addAction(template, containerType, index);
@@ -516,13 +419,14 @@ function confirmSaveAsDefault() {
   store.saveAsDefaultSequence();
   showSaveAsDefaultModal.value = false;
 
-  // Show success feedback
-  saveAsDefaultSuccess.value = true;
-
-  // Hide success message after 3 seconds
-  setTimeout(() => {
-    saveAsDefaultSuccess.value = false;
-  }, 3000);
+  // Show success toast
+  toastStore.showToast({
+    type: 'success',
+    title: t('plugins.sequenceCreator.toolbar.saveAsDefault'),
+    message: t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess'),
+    autoClose: true,
+    autoCloseDelay: 3000
+  });
 }
 
 function cancelSaveAsDefault() {
@@ -543,10 +447,6 @@ function cancelLoadBasic() {
 }
 
 async function sendToNina() {
-  // Reset states
-  sendToNinaSuccess.value = false;
-  sendToNinaError.value = false;
-  sendToNinaErrorMessage.value = '';
   isSendingToNina.value = true;
 
   try {
@@ -554,25 +454,37 @@ async function sendToNina() {
     const response = await apiService.sequenceLoadJson(store.ninaSequenceJSON);
 
     if (response && response.Success !== false) {
-      sendToNinaSuccess.value = true;
+      // Show success toast
+      toastStore.showToast({
+        type: 'success',
+        title: t('plugins.sequenceCreator.toolbar.sent'),
+        message: t('plugins.sequenceCreator.toolbar.sendSuccessMessage'),
+        autoClose: true,
+        autoCloseDelay: 1000
+      });
       console.log('Sequence successfully sent to N.I.N.A:', response);
     } else {
-      sendToNinaError.value = true;
-      sendToNinaErrorMessage.value = response?.Response || 'Unknown error occurred';
+      // Show error toast
+      toastStore.showToast({
+        type: 'error',
+        title: t('plugins.sequenceCreator.toolbar.sendErrorTitle'),
+        message: response?.Response || 'Unknown error occurred',
+        autoClose: true,
+        autoCloseDelay: 5000
+      });
     }
   } catch (error) {
-    sendToNinaError.value = true;
-    sendToNinaErrorMessage.value = error.message || 'Failed to send sequence to N.I.N.A';
+    // Show error toast
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.sequenceCreator.toolbar.sendErrorTitle'),
+      message: error.message || 'Failed to send sequence to N.I.N.A',
+      autoClose: true,
+      autoCloseDelay: 5000
+    });
     console.error('Error sending sequence to N.I.N.A:', error);
   } finally {
     isSendingToNina.value = false;
-
-    // Auto-reset success/error state after 5 seconds
-    setTimeout(() => {
-      sendToNinaSuccess.value = false;
-      sendToNinaError.value = false;
-      sendToNinaErrorMessage.value = '';
-    }, 5000);
   }
 }
 

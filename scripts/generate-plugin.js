@@ -94,7 +94,7 @@ export default {
       // Find the next available plugin number
       const existingPaths = pluginStore.plugins
         .map(p => p.pluginPath)
-        .filter(path => path && path.match(/^\/plugin\d+$/))
+        .filter(path => path && path.match(/^\\/plugin\\d+$/))
         .map(path => parseInt(path.replace('/plugin', '')))
         .sort((a, b) => a - b);
       

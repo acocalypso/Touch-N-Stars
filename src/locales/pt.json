@@ -550,7 +550,9 @@
         "startCalibration": "Inicie a calibração",
         "stopCalibration": "Pare de calibração",
         "title": "Assistente de calibração",
-        "west": "Oeste"
+        "west": "Oeste",
+        "slewStopped": "Slew parou",
+        "stopSlew": "Pare de matar"
       },
       "notConnected": "Por favor, conecte Guider",
       "phd2": {
@@ -873,6 +875,120 @@
         "success": "Carregue bem -sucedido"
       },
       "title": "Coletor de logfile"
+    },
+    "telescopius": {
+      "apiKey": {
+        "cancel": "Cancelar",
+        "configure": "Configure a chave da API",
+        "configured": "A chave da API já está configurada",
+        "delete": "Excluir",
+        "description": "Para usar o Telescopius, você precisa de uma chave da API. \nVocê pode adquirir um no site Telescopius:",
+        "errors": {
+          "deleteFailed": "A chave da API não pôde ser excluída.",
+          "saveFailed": "A chave da API não pôde ser salva.",
+          "validationFailed": "A validação da chave da API falhou"
+        },
+        "linkText": "→ Solicitar a tecla API Telescopius",
+        "loadFromTelescopius": "Atualizar",
+        "placeholder": "Digite sua chave da API Telescopius ...",
+        "required": "Chave da API necessária",
+        "save": "Salvar",
+        "securityNote": "A tecla API é armazenada no servidor e usada apenas para solicitações Telescopius.",
+        "title": "Telescopius API Key"
+      },
+      "description": "Ativa a recuperação de dados do Telescopius.com",
+      "initializing": "Inicializando ...",
+      "landing": {
+        "apiSetup": {
+          "description": "Siga estas etapas simples para configurar o plug -in:",
+          "security": {
+            "description": "Sua chave de API é armazenada apenas localmente no seu dispositivo e nunca compartilhada com outras pessoas. \nVocê pode excluí -lo a qualquer momento.",
+            "title": "Segurança"
+          },
+          "step1": {
+            "button": "Registre -se gratuitamente",
+            "description": "Se você ainda não tem uma conta, registre -se gratuitamente:",
+            "title": "Crie conta Telescopius"
+          },
+          "step2": {
+            "button": "Solicite a chave da API",
+            "description": "Faça login e vá para Configurações → API para sua chave pessoal:",
+            "title": "Solicite a chave da API"
+          },
+          "step3": {
+            "config": {
+              "accessType": "Tipo de acesso",
+              "accessTypeValue": "Selecione servidor",
+              "description": "Descrição",
+              "descriptionValue": "Qualquer descrição (por exemplo, API para TNS)",
+              "ipLimit": "Limite o acesso a esses endereços IP",
+              "ipLimitValue": "Deixe vazio",
+              "name": "Nome",
+              "nameValue": "Qualquer nome (por exemplo, Touch n Stars)"
+            },
+            "description": "Ao criar a chave da API, use estas configurações:",
+            "title": "Configure a chave da API"
+          },
+          "step4": {
+            "button": "Configure a chave da API",
+            "description": "Clique em \"Configurar a chave da API\" abaixo e digite sua chave:",
+            "title": "Digite a chave da API"
+          },
+          "title": "Chave da API Configure"
+        },
+        "mainFeatures": {
+          "description": "Integração perfeita entre Telescopius e Touch'n'stars:",
+          "features": {
+            "autoImport": "Importação automática: todas as listas de destino de uma vez",
+            "directNavigation": "Navegação direta: matou com um clique",
+            "framingIntegration": "Integração de enquadramento: usa ferramentas existentes",
+            "locationBased": "Local baseado: considera sua localização",
+            "smartCache": "Cache inteligente: acesso offline rápido"
+          },
+          "title": "Principais características"
+        },
+        "subtitle": "Traga seus objetos -alvo do Telescopius.com diretamente para o Touch'n'Stars",
+        "title": "Plugin Telescopius",
+        "whatIsPlugin": {
+          "description": "Load your saved target objects from Telescopius.com directly into Touch'N'Stars and use them for navigation and framing.",
+          "features": {
+            "framingAssistant": "Use Assistente de Frames",
+            "loadLists": "Carregar listas de destino de Telescopius.com",
+            "navigate": "Navegue diretamente para objetos",
+            "offlineCache": "Cache offline para acesso rápido"
+          },
+          "title": "O que é este plugin?"
+        },
+        "whatIsTelecopius": {
+          "description": "Telescopius é uma plataforma de astronomia abrangente para descobrir e planejar observações astronômicas.",
+          "features": {
+            "community": "Comunidade e compartilhamento",
+            "database": "Banco de dados de objetos extensos",
+            "lists": "Listas de destino personalizadas",
+            "planning": "Planejamento de observação"
+          },
+          "title": "O que é Telescopius?",
+          "visitWebsite": "Visite Telescopius.com"
+        }
+      },
+      "offlineInfo": "Carrega listas de metas pessoais do Telescopius.com e as armazena localmente para disponibilidade offline.",
+      "outdated": {
+        "current": "Versão atual",
+        "message": "O plug -in Touchnstars em Nina está desatualizado e precisa ser atualizado.",
+        "required": "Versão necessária",
+        "title": "Plug -in desatualizado"
+      },
+      "targetLists": {
+        "connectionError": "A conexão com Telescopius falhou. \nO Nina PC precisa de uma conexão com a Internet e pelo menos uma lista de destino deve existir no Telescopius.",
+        "dataFrom": "Dados de",
+        "editOnTelescopius": "Listas de edição em Telescopius",
+        "noListsDescription": "Ainda não foram encontradas listas de destino em sua conta Telescopius.",
+        "noListsHint": "Crie listas de destino no Telescopius.com e depois recarregue -as aqui.",
+        "noListsTitle": "Nenhuma lista de destino salva",
+        "refreshFailed": "Atualização não é possível. \nTelescopius.com não é acessível"
+      },
+      "title": "Telescopius",
+      "welcome": "Bem -vindo ao plugin Telescopius!"
     }
   }
 }

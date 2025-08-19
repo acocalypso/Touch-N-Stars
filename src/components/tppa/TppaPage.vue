@@ -221,14 +221,13 @@ import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
-import { Cog6ToothIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
 const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);
-const showErrorModal = ref(false);
 
 // Tolerance in arc minutes
 const tolerance = 1;

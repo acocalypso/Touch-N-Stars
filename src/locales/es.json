@@ -328,6 +328,8 @@
         "quality": "Calidad",
         "slewComplete": "Desplacamiento completado",
         "slewError": "Error durante el desplazameinto",
+        "stopSlew": "Detener desplazamiento",
+        "slewStopped": "Desplazamiento detenido",
         "slewToPosition": "Desplazarse a la posición",
         "slewing": "Desplazando a la posición objetivo ...",
         "startCalibration": "Iniciar calibración",
@@ -623,6 +625,120 @@
     }
   },
   "plugins": {
+    "telescopius": {
+      "title": "Telescopius",
+      "offlineInfo": "Carga listas de objetivos personales de telescopius.com y las almacena localmente para disponibilidad offline.",
+      "outdated": {
+        "title": "Plugin Desactualizado",
+        "message": "El plugin TouchNStars en NINA está desactualizado y necesita ser actualizado.",
+        "required": "Versión requerida",
+        "current": "Versión actual"
+      },
+      "initializing": "Inicializando...",
+      "welcome": "¡Bienvenido al complemento Telescopius!",
+      "description": "Permite la recuperación de datos desde telescopius.com",
+      "landing": {
+        "title": "Complemento Telescopius",
+        "subtitle": "Trae tus objetos objetivo de Telescopius.com directamente a Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "¿Qué es este complemento?",
+          "description": "Carga tus objetos objetivo guardados desde Telescopius.com directamente en Touch'N'Stars y úsalos para navegación y encuadre.",
+          "features": {
+            "loadLists": "Cargar listas de objetivos desde Telescopius.com",
+            "navigate": "Navegar directamente a objetos",
+            "framingAssistant": "Usar asistente de encuadre",
+            "offlineCache": "Caché sin conexión para acceso rápido"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "¿Qué es Telescopius?",
+          "description": "Telescopius es una plataforma integral de astronomía para descubrir y planificar observaciones astronómicas.",
+          "features": {
+            "database": "Amplia base de datos de objetos",
+            "lists": "Listas de objetivos personalizadas",
+            "planning": "Planificación de observaciones",
+            "community": "Comunidad y compartir"
+          },
+          "visitWebsite": "Visitar Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "Características Principales",
+          "description": "Integración perfecta entre Telescopius y Touch'N'Stars:",
+          "features": {
+            "autoImport": "Importación Automática: Todas las listas de objetivos de una vez",
+            "smartCache": "Caché Inteligente: Acceso rápido sin conexión",
+            "directNavigation": "Navegación Directa: Apuntar con un clic",
+            "framingIntegration": "Integración de Encuadre: Usa herramientas existentes",
+            "locationBased": "Basado en Ubicación: Considera tu ubicación"
+          }
+        },
+        "apiSetup": {
+          "title": "Configurar Clave API",
+          "description": "Sigue estos sencillos pasos para configurar el complemento:",
+          "step1": {
+            "title": "Crear Cuenta Telescopius",
+            "description": "Si aún no tienes una cuenta, regístrate gratis:",
+            "button": "Registrarse gratis"
+          },
+          "step2": {
+            "title": "Solicitar Clave API",
+            "description": "Inicia sesión y ve a Settings → API para tu clave personal:",
+            "button": "Solicitar clave API"
+          },
+          "step3": {
+            "title": "Configurar Clave API",
+            "description": "Al crear la clave API, usa estas configuraciones:",
+            "config": {
+              "name": "Nombre",
+              "nameValue": "Cualquier nombre (ej. Touch N Stars)",
+              "description": "Descripción",
+              "descriptionValue": "Cualquier descripción (ej. API para TNS)",
+              "accessType": "Tipo de Acceso",
+              "accessTypeValue": "Seleccionar Server",
+              "ipLimit": "Limitar acceso a estas direcciones IP",
+              "ipLimitValue": "Dejar vacío"
+            }
+          },
+          "step4": {
+            "title": "Ingresar Clave API",
+            "description": "Haz clic en \"Configurar Clave API\" abajo e ingresa tu clave:",
+            "button": "Configurar Clave API"
+          },
+          "security": {
+            "title": "Seguridad",
+            "description": "Tu clave API se almacena solo localmente en tu dispositivo y nunca se comparte con otros. Puedes eliminarla en cualquier momento."
+          }
+        }
+      },
+      "apiKey": {
+        "title": "Clave API de Telescopius",
+        "description": "Para usar Telescopius, necesitas una clave API. Puedes obtener una en el sitio web de Telescopius:",
+        "linkText": "→ Solicitar Clave API de Telescopius",
+        "securityNote": "La clave API se almacena en el servidor y solo se utiliza para solicitudes de Telescopius.",
+        "placeholder": "Ingresa tu clave API de Telescopius...",
+        "configured": "La clave API ya está configurada",
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "cancel": "Cancelar",
+        "configure": "Configurar Clave API",
+        "required": "Clave API requerida",
+        "errors": {
+          "saveFailed": "No se pudo guardar la clave API.",
+          "deleteFailed": "No se pudo eliminar la clave API.",
+          "validationFailed": "Falló la validación de la clave API"
+        },
+        "loadFromTelescopius": "actualizar"
+      },
+      "targetLists": {
+        "noListsTitle": "No hay listas de objetivos guardadas",
+        "noListsDescription": "Aún no se han encontrado listas de objetivos en tu cuenta de Telescopius.",
+        "noListsHint": "Crea listas de objetivos en telescopius.com y luego recárgalas aquí.",
+        "refreshFailed": "Actualización no posible. Telescopius.com no disponible",
+        "editOnTelescopius": "Editar listas en Telescopius",
+        "dataFrom": "Datos del",
+        "connectionError": "Conexión a Telescopius falló. El PC de NINA necesita conexión a internet y al menos una lista de objetivos debe existir en Telescopius."
+      }
+    },
     "sequenceCreator": {
       "actionLibrary": {
         "description": "Haga clic para agregar acciones a contenedores",

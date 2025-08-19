@@ -334,7 +334,9 @@
         "startCalibration": "Start Calibration",
         "stopCalibration": "Stop Calibration",
         "title": "Calibration Assistant",
-        "west": "West"
+        "west": "West",
+        "slewStopped": "Slew stopped",
+        "stopSlew": "Stop Slew"
       }
     },
     "focuser": {
@@ -872,7 +874,122 @@
         "failedWithStatus": "Upload failed ({status})",
         "success": "Upload successful"
       },
-      "title": "Logfile Collector"
+      "title": "Logfile Collector",
+    },
+
+     "telescopius": {
+      "apiKey": {
+        "cancel": "Cancel",
+        "configure": "Configure API Key",
+        "configured": "API key is already configured",
+        "delete": "Delete",
+        "description": "To use Telescopius, you need an API key. You can get one on the Telescopius website:",
+        "errors": {
+          "deleteFailed": "API key could not be deleted.",
+          "saveFailed": "API key could not be saved.",
+          "validationFailed": "API key validation failed"
+        },
+        "linkText": "→ Request Telescopius API Key",
+        "loadFromTelescopius": "refresh",
+        "placeholder": "Enter your Telescopius API key...",
+        "required": "API key required",
+        "save": "Save",
+        "securityNote": "The API key is stored on the server and used only for Telescopius requests.",
+        "title": "Telescopius API Key"
+      },
+      "description": "Enables data retrieval from telescopius.com",
+      "initializing": "Initializing...",
+      "landing": {
+        "apiSetup": {
+          "description": "Follow these simple steps to configure the plugin:",
+          "security": {
+            "description": "Your API key is stored only locally on your device and never shared with others. You can delete it at any time.",
+            "title": "Security"
+          },
+          "step1": {
+            "button": "Register for free",
+            "description": "If you don't have an account yet, register for free:",
+            "title": "Create Telescopius Account"
+          },
+          "step2": {
+            "button": "Request API key",
+            "description": "Sign in and go to Settings → API for your personal key:",
+            "title": "Request API Key"
+          },
+          "step3": {
+            "config": {
+              "accessType": "Access Type",
+              "accessTypeValue": "Select Server",
+              "description": "Description",
+              "descriptionValue": "Any description (e.g. API for TNS)",
+              "ipLimit": "Limit access to these IP addresses",
+              "ipLimitValue": "Leave empty",
+              "name": "Name",
+              "nameValue": "Any name (e.g. Touch N Stars)"
+            },
+            "description": "When creating the API key, use these settings:",
+            "title": "Configure API Key"
+          },
+          "step4": {
+            "button": "Configure API Key",
+            "description": "Click \"Configure API Key\" below and enter your key:",
+            "title": "Enter API Key"
+          },
+          "title": "Set up API Key"
+        },
+        "mainFeatures": {
+          "description": "Seamless integration between Telescopius and Touch'N'Stars:",
+          "features": {
+            "autoImport": "Automatic Import: All target lists at once",
+            "directNavigation": "Direct Navigation: Slew with one click",
+            "framingIntegration": "Framing Integration: Uses existing tools",
+            "locationBased": "Location-based: Considers your location",
+            "smartCache": "Smart Cache: Fast offline access"
+          },
+          "title": "Main Features"
+        },
+        "subtitle": "Bring your target objects from Telescopius.com directly into Touch'N'Stars",
+        "title": "Telescopius Plugin",
+        "whatIsPlugin": {
+          "description": "Load your saved target objects from Telescopius.com directly into Touch'N'Stars and use them for navigation and framing.",
+          "features": {
+            "framingAssistant": "Use framing assistant",
+            "loadLists": "Load target lists from Telescopius.com",
+            "navigate": "Navigate directly to objects",
+            "offlineCache": "Offline cache for fast access"
+          },
+          "title": "What is this plugin?"
+        },
+        "whatIsTelecopius": {
+          "description": "Telescopius is a comprehensive astronomy platform for discovering and planning astronomical observations.",
+          "features": {
+            "community": "Community and sharing",
+            "database": "Extensive object database",
+            "lists": "Personalized target lists",
+            "planning": "Observation planning"
+          },
+          "title": "What is Telescopius?",
+          "visitWebsite": "Visit Telescopius.com"
+        }
+      },
+      "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
+      "outdated": {
+        "current": "Current version",
+        "message": "The TouchNStars plugin in NINA is outdated and needs to be updated.",
+        "required": "Required version",
+        "title": "Plugin Outdated"
+      },
+      "targetLists": {
+        "connectionError": "Connection to Telescopius failed. The NINA PC needs an internet connection and at least one target list must exist in Telescopius.",
+        "dataFrom": "Data from",
+        "editOnTelescopius": "Edit lists on Telescopius",
+        "noListsDescription": "No target lists have been found in your Telescopius account yet.",
+        "noListsHint": "Create target lists on telescopius.com and then reload them here.",
+        "noListsTitle": "No Target Lists Saved",
+        "refreshFailed": "Update not possible. Telescopius.com not reachable"
+      },
+      "title": "Telescopius",
+      "welcome": "Welcome to the Telescopius plugin!"
     }
   }
 }

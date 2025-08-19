@@ -334,7 +334,9 @@
         "startCalibration": "Inizia la calibrazione",
         "stopCalibration": "Smettere di calibrazione",
         "title": "Assistente di calibrazione",
-        "west": "Ovest"
+        "west": "Ovest",
+        "slewStopped": "Slew si è fermato",
+        "stopSlew": "Stop Slew"
       }
     },
     "focuser": {
@@ -873,6 +875,120 @@
         "success": "Carica successo"
       },
       "title": "Collezionista Logfile"
+    },
+    "telescopius": {
+      "apiKey": {
+        "cancel": "Cancellare",
+        "configure": "Configurare la chiave API",
+        "configured": "La chiave API è già configurata",
+        "delete": "Eliminare",
+        "description": "Per utilizzare Telescopius, hai bisogno di una chiave API. \nPuoi prenderne uno sul sito web di Telescopius:",
+        "errors": {
+          "deleteFailed": "La chiave API non poteva essere eliminata.",
+          "saveFailed": "La chiave API non poteva essere salvata.",
+          "validationFailed": "Convalida della chiave API non riuscita"
+        },
+        "linkText": "→ Richiedi la chiave API Telescopius",
+        "loadFromTelescopius": "rinfrescare",
+        "placeholder": "Inserisci la chiave API Telescopius ...",
+        "required": "Chiave API richiesta",
+        "save": "Salva",
+        "securityNote": "La chiave API è memorizzata sul server e utilizzata solo per le richieste di telescopius.",
+        "title": "Chiave API Telescopius"
+      },
+      "description": "Abilita il recupero dei dati da telescopius.com",
+      "initializing": "Inizializzazione ...",
+      "landing": {
+        "apiSetup": {
+          "description": "Segui questi semplici passaggi per configurare il plugin:",
+          "security": {
+            "description": "La tua chiave API viene archiviata solo localmente sul tuo dispositivo e non ha mai condiviso con gli altri. \nPuoi eliminarlo in qualsiasi momento.",
+            "title": "Sicurezza"
+          },
+          "step1": {
+            "button": "Registrati gratuitamente",
+            "description": "Se non hai ancora un account, registrati gratuitamente:",
+            "title": "Crea account Telescopius"
+          },
+          "step2": {
+            "button": "Richiedere chiave API",
+            "description": "Accedi e vai su Impostazioni → API per la tua chiave personale:",
+            "title": "Richiedere chiave API"
+          },
+          "step3": {
+            "config": {
+              "accessType": "Tipo di accesso",
+              "accessTypeValue": "Seleziona il server",
+              "description": "Descrizione",
+              "descriptionValue": "Qualsiasi descrizione (ad es. API per TNS)",
+              "ipLimit": "Limitare l'accesso a questi indirizzi IP",
+              "ipLimitValue": "Lasciare vuoto",
+              "name": "Nome",
+              "nameValue": "Qualsiasi nome (ad es. Touch N Stars)"
+            },
+            "description": "Quando si crea la chiave API, utilizzare queste impostazioni:",
+            "title": "Configurare la chiave API"
+          },
+          "step4": {
+            "button": "Configurare la chiave API",
+            "description": "Fai clic su \"Configura chiave API\" di seguito e inserisci la chiave:",
+            "title": "Immettere la chiave API"
+          },
+          "title": "Impostare la chiave API"
+        },
+        "mainFeatures": {
+          "description": "Integrazione senza soluzione di continuità tra Telescopius e Touch'n'stars:",
+          "features": {
+            "autoImport": "Importazione automatica: tutti gli elenchi di destinazione contemporaneamente",
+            "directNavigation": "Navigazione diretta: Slew con un clic",
+            "framingIntegration": "Integrazione di inquadratura: utilizza strumenti esistenti",
+            "locationBased": "Basato sulla posizione: considera la tua posizione",
+            "smartCache": "Cache intelligente: accesso offline veloce"
+          },
+          "title": "Caratteristiche principali"
+        },
+        "subtitle": "Porta i tuoi oggetti target da telescopius.com direttamente in touch'n'stars",
+        "title": "Plug -in Telescopius",
+        "whatIsPlugin": {
+          "description": "Carica i tuoi oggetti target salvati da Telescopius.com direttamente in touch'n'stars e usali per la navigazione e l'inquadratura.",
+          "features": {
+            "framingAssistant": "Usa l'assistente di inquadratura",
+            "loadLists": "Carica elenchi di destinazione da telescopius.com",
+            "navigate": "Navigare direttamente agli oggetti",
+            "offlineCache": "Cache offline per un accesso rapido"
+          },
+          "title": "Cos'è questo plugin?"
+        },
+        "whatIsTelecopius": {
+          "description": "Telescopius è una piattaforma di astronomia completa per scoprire e pianificare osservazioni astronomiche.",
+          "features": {
+            "community": "Comunità e condivisione",
+            "database": "Database di oggetti esteso",
+            "lists": "Elenchi target personalizzati",
+            "planning": "Pianificazione dell'osservazione"
+          },
+          "title": "Cos'è il telescopio?",
+          "visitWebsite": "Visita Telescopius.com"
+        }
+      },
+      "offlineInfo": "Carica elenchi di destinazione personali da Telescopius.com e li archivia localmente per la disponibilità offline.",
+      "outdated": {
+        "current": "Versione corrente",
+        "message": "Il plugin Touchnstars in Nina è obsoleto e deve essere aggiornato.",
+        "required": "Versione richiesta",
+        "title": "Plugin obsoleto"
+      },
+      "targetLists": {
+        "connectionError": "Connessione a telescopius non riuscita. \nIl PC Nina ha bisogno di una connessione Internet e almeno un elenco di destinazione deve esistere in Telescopius.",
+        "dataFrom": "Dati da",
+        "editOnTelescopius": "Modifica elenchi su Telescopius",
+        "noListsDescription": "Non sono stati ancora trovati elenchi target nel tuo account Telescopius.",
+        "noListsHint": "Crea elenchi di destinazione su telescopius.com e poi ricaricali qui.",
+        "noListsTitle": "Nessun elenco target salvato",
+        "refreshFailed": "Aggiornamento non possibile. \nTelescopius.com non raggiungibile"
+      },
+      "title": "Telescopio",
+      "welcome": "Benvenuti nel plugin Telescopius!"
     }
   }
 }

@@ -334,7 +334,9 @@
         "startCalibration": "Commencer à calibrer",
         "stopCalibration": "Étalonnage",
         "title": "Assistant d'étalonnage",
-        "west": "Ouest"
+        "west": "Ouest",
+        "slewStopped": "Slew s'est arrêté",
+        "stopSlew": "Arrêter"
       }
     },
     "focuser": {
@@ -859,6 +861,7 @@
       "autoRefresh": "Rafraîchissement automatique",
       "errors": {}
     },
+
     "logfileCollector": {
       "actions": {
         "collectUpload": "Collecter",
@@ -873,6 +876,120 @@
         "success": "Télécharger réussi"
       },
       "title": "Collectionneur de fichiers"
+    },
+    "telescopius": {
+      "apiKey": {
+        "cancel": "Annuler",
+        "configure": "Configurer la clé de l'API",
+        "configured": "La clé API est déjà configurée",
+        "delete": "Supprimer",
+        "description": "Pour utiliser les télescopes, vous avez besoin d'une clé API. \nVous pouvez en obtenir un sur le site Web des télescopes:",
+        "errors": {
+          "deleteFailed": "La clé de l'API n'a pas pu être supprimée.",
+          "saveFailed": "La clé de l'API n'a pas pu être sauvée.",
+          "validationFailed": "La validation de la clé de l'API a échoué"
+        },
+        "linkText": "→ Demander la clé de l'API télescopius",
+        "loadFromTelescopius": "rafraîchir",
+        "placeholder": "Entrez la clé de votre télescope API ...",
+        "required": "Clé API requis",
+        "save": "Sauvegarder",
+        "securityNote": "La touche API est stockée sur le serveur et utilisée uniquement pour les demandes de télescopes.",
+        "title": "Télescope API Clé"
+      },
+      "description": "Permet la recherche de données sur Telescopius.com",
+      "initializing": "Initialisation ...",
+      "landing": {
+        "apiSetup": {
+          "description": "Suivez ces étapes simples pour configurer le plugin:",
+          "security": {
+            "description": "Votre clé API est stockée uniquement localement sur votre appareil et jamais partagée avec les autres. \nVous pouvez le supprimer à tout moment.",
+            "title": "Sécurité"
+          },
+          "step1": {
+            "button": "Inscrivez-vous gratuitement",
+            "description": "Si vous n'avez pas encore de compte, inscrivez-vous gratuitement:",
+            "title": "Créer un compte télescope"
+          },
+          "step2": {
+            "button": "Demander la clé de l'API",
+            "description": "Connectez-vous et accédez aux paramètres → API pour votre clé personnelle:",
+            "title": "Demander la clé de l'API"
+          },
+          "step3": {
+            "config": {
+              "accessType": "Type d'accès",
+              "accessTypeValue": "Sélectionner le serveur",
+              "description": "Description",
+              "descriptionValue": "Toute description (par exemple API pour TNS)",
+              "ipLimit": "Limiter l'accès à ces adresses IP",
+              "ipLimitValue": "Laisser vide",
+              "name": "Nom",
+              "nameValue": "Tout nom (par exemple, touchez les étoiles)"
+            },
+            "description": "Lors de la création de la touche API, utilisez ces paramètres:",
+            "title": "Configurer la clé de l'API"
+          },
+          "step4": {
+            "button": "Configurer la clé de l'API",
+            "description": "Cliquez sur \"Configurer la clé de l'API\" ci-dessous et entrez votre clé:",
+            "title": "Entrez la clé de l'API"
+          },
+          "title": "Configurer la clé de l'API"
+        },
+        "mainFeatures": {
+          "description": "Intégration transparente entre télescopes et touch'n'stars:",
+          "features": {
+            "autoImport": "Importation automatique: toutes les listes cibles à la fois",
+            "directNavigation": "Navigation directe: tuez en un clic",
+            "framingIntegration": "Intégration de cadrage: utilise des outils existants",
+            "locationBased": "Basé sur la localisation: considère votre emplacement",
+            "smartCache": "Cache intelligente: accès rapide hors ligne"
+          },
+          "title": "Caractéristiques principales"
+        },
+        "subtitle": "Apportez directement vos objets cibles de Telescopius.com dans Touch'n'Stars",
+        "title": "Plugin de télescopes",
+        "whatIsPlugin": {
+          "description": "Chargez vos objets cibles enregistrés de telescopius.com directement dans Touch'n'Stars et utilisez-les pour la navigation et le cadrage.",
+          "features": {
+            "framingAssistant": "Utiliser l'assistant de cadrage",
+            "loadLists": "Chargez des listes cibles de telescopius.com",
+            "navigate": "Naviguer directement vers les objets",
+            "offlineCache": "Cache hors ligne pour un accès rapide"
+          },
+          "title": "Qu'est-ce que ce plugin?"
+        },
+        "whatIsTelecopius": {
+          "description": "Telescopius est une plate-forme d'astronomie complète pour découvrir et planifier des observations astronomiques.",
+          "features": {
+            "community": "Communauté et partage",
+            "database": "Base de données d'objets étendue",
+            "lists": "Listes cibles personnalisées",
+            "planning": "Planification d'observation"
+          },
+          "title": "Qu'est-ce que les télescopes?",
+          "visitWebsite": "Visitez Telescopius.com"
+        }
+      },
+      "offlineInfo": "Charge les listes cibles personnelles de telescopius.com et les stocke localement pour la disponibilité hors ligne.",
+      "outdated": {
+        "current": "Version actuelle",
+        "message": "Le plugin Touchnstars à Nina est obsolète et doit être mis à jour.",
+        "required": "Version requise",
+        "title": "Plugin obsolète"
+      },
+      "targetLists": {
+        "connectionError": "La connexion avec les télescopes a échoué. \nLe PC Nina a besoin d'une connexion Internet et au moins une liste cible doit exister dans les télescopes.",
+        "dataFrom": "Données de",
+        "editOnTelescopius": "Modifier les listes sur les télescopes",
+        "noListsDescription": "Aucune liste cible n'a encore été trouvée dans votre compte de télescopes.",
+        "noListsHint": "Créez des listes cibles sur telescopius.com, puis rechargez-les ici.",
+        "noListsTitle": "Aucune liste cible enregistrée",
+        "refreshFailed": "Mise à jour non possible. \nTelescopius.com pas accessible"
+      },
+      "title": "Télescope",
+      "welcome": "Bienvenue sur le plugin Telescopius!"
     }
   }
 }

@@ -359,23 +359,6 @@
       </template>
     </Modal>
 
-    <!-- Success Toast -->
-    <div
-      v-if="saveAsDefaultSuccess"
-      class="fixed top-4 right-4 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-200 px-4 py-3 rounded-lg shadow-lg z-50 animate-fade-in-out"
-    >
-      <div class="flex items-center gap-2">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-        {{ t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess') }}
-      </div>
-    </div>
   </div>
 </template>
 
@@ -395,7 +378,6 @@ const toastStore = useToastStore();
 const showClearModal = ref(false);
 const showSaveAsDefaultModal = ref(false);
 const showLoadBasicModal = ref(false);
-const saveAsDefaultSuccess = ref(false);
 
 // Send to Nina states
 const isSendingToNina = ref(false);
@@ -437,13 +419,14 @@ function confirmSaveAsDefault() {
   store.saveAsDefaultSequence();
   showSaveAsDefaultModal.value = false;
 
-  // Show success feedback
-  saveAsDefaultSuccess.value = true;
-
-  // Hide success message after 3 seconds
-  setTimeout(() => {
-    saveAsDefaultSuccess.value = false;
-  }, 3000);
+  // Show success toast
+  toastStore.showToast({
+    type: 'success',
+    title: t('plugins.sequenceCreator.toolbar.saveAsDefault'),
+    message: t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess'),
+    autoClose: true,
+    autoCloseDelay: 3000
+  });
 }
 
 function cancelSaveAsDefault() {

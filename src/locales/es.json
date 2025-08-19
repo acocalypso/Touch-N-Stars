@@ -328,6 +328,8 @@
         "quality": "Calidad",
         "slewComplete": "Desplacamiento completado",
         "slewError": "Error durante el desplazameinto",
+        "stopSlew": "Detener desplazamiento",
+        "slewStopped": "Desplazamiento detenido",
         "slewToPosition": "Desplazarse a la posición",
         "slewing": "Desplazando a la posición objetivo ...",
         "startCalibration": "Iniciar calibración",

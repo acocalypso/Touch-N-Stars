@@ -295,6 +295,8 @@
         "slewing": "Slewing to target position...",
         "slewComplete": "Slew completed",
         "slewError": "Error during slew",
+        "stopSlew": "Stop Slew",
+        "slewStopped": "Slew stopped",
         "calibrating": "Calibration in progress...",
         "calibrationComplete": "Calibration completed",
         "calibrationFailed": "Calibration failed",

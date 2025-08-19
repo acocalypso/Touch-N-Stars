@@ -647,6 +647,8 @@
         "slewing": "Schwenke zur Zielposition...",
         "slewComplete": "Schwenken abgeschlossen",
         "slewError": "Fehler beim Schwenken",
+        "stopSlew": "Schwenken stoppen",
+        "slewStopped": "Schwenken gestoppt",
         "calibrating": "Kalibrierung läuft...",
         "calibrationComplete": "Kalibrierung abgeschlossen",
         "calibrationFailed": "Kalibrierung fehlgeschlagen",

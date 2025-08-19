@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Imagesettings: add debayer and unlinked sterch options 
 - TPPA: Settings for GAIN and Exposuretime
+- Telescopius Plugin: Personal target lists from telescopius can now be loaded. Please note: An API key from telescopius is required.
 
 ### Changed
 - Errorhandliung und debugmode rework

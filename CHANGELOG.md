@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.2.0] - 2025-xx-xx
 ### Added
 - Imagesettings: add debayer and unlinked sterch options 
+- TPPA: Settings for GAIN and Exposuretime
 
 ### Changed
 - Errorhandliung und debugmode rework
@@ -15,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Favorites: fix save rotation
 - Andriod: Fix image download from Sequence page
+- TPPA: Buttonposition from ErrorModal 
 
 ## [1.1.1.1] - 2025-08-07
 ### Added

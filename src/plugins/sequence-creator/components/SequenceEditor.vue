@@ -286,7 +286,6 @@
       </div>
     </div>
 
-
     <!-- Clear Sequence Confirmation Modal -->
     <Modal :show="showClearModal" @close="cancelClear">
       <template #header>
@@ -358,7 +357,6 @@
         </div>
       </template>
     </Modal>
-
   </div>
 </template>
 
@@ -425,7 +423,7 @@ function confirmSaveAsDefault() {
     title: t('plugins.sequenceCreator.toolbar.saveAsDefault'),
     message: t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess'),
     autoClose: true,
-    autoCloseDelay: 3000
+    autoCloseDelay: 3000,
   });
 }
 
@@ -460,7 +458,7 @@ async function sendToNina() {
         title: t('plugins.sequenceCreator.toolbar.sent'),
         message: t('plugins.sequenceCreator.toolbar.sendSuccessMessage'),
         autoClose: true,
-        autoCloseDelay: 1000
+        autoCloseDelay: 1000,
       });
       console.log('Sequence successfully sent to N.I.N.A:', response);
     } else {
@@ -470,7 +468,7 @@ async function sendToNina() {
         title: t('plugins.sequenceCreator.toolbar.sendErrorTitle'),
         message: response?.Response || 'Unknown error occurred',
         autoClose: true,
-        autoCloseDelay: 5000
+        autoCloseDelay: 5000,
       });
     }
   } catch (error) {
@@ -480,7 +478,7 @@ async function sendToNina() {
       title: t('plugins.sequenceCreator.toolbar.sendErrorTitle'),
       message: error.message || 'Failed to send sequence to N.I.N.A',
       autoClose: true,
-      autoCloseDelay: 5000
+      autoCloseDelay: 5000,
     });
     console.error('Error sending sequence to N.I.N.A:', error);
   } finally {

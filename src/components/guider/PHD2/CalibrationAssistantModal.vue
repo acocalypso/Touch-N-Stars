@@ -104,13 +104,10 @@
           <!-- Slew/Stop Button -->
           <button
             @click="store.mountInfo.Slewing ? stopSlew() : slewToOptimalPosition()"
-            :disabled="
-              !store.mountInfo.Slewing &&
-              (!canSlew || isSlewing || isCalibrating)
-            "
+            :disabled="!store.mountInfo.Slewing && (!canSlew || isSlewing || isCalibrating)"
             :class="[
               'px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 flex-1',
-              store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan'
+              store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
             ]"
           >
             <StopIcon v-if="store.mountInfo.Slewing" class="w-5 h-5" />

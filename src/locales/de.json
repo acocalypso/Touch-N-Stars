@@ -36,7 +36,8 @@
         "success": "Upload erfolgreich",
         "failed": "Upload fehlgeschlagen",
         "failedWithStatus": "Upload fehlgeschlagen ({status})"
-      },
+      }
+    },
     "telescopius": {
       "title": "Telescopius",
       "initializing": "Initialisierung...",

@@ -874,7 +874,7 @@
         "failedWithStatus": "Upload failed ({status})",
         "success": "Upload successful"
       },
-      "title": "Logfile Collector",
+      "title": "Logfile Collector"
     },
     "telescopius": {
       "apiKey": {

@@ -624,6 +624,12 @@
       "welcome": "Welcome to the Telescopius plugin!",
       "description": "Enables data retrieval from telescopius.com",
       "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
+      "outdated": {
+        "title": "Plugin Outdated",
+        "message": "The TouchNStars plugin in NINA is outdated and needs to be updated.",
+        "required": "Required version",
+        "current": "Current version"
+      },
       "landing": {
         "title": "Telescopius Plugin",
         "subtitle": "Bring your target objects from Telescopius.com directly into Touch'N'Stars",

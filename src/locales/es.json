@@ -626,6 +626,12 @@
     "telescopius": {
       "title": "Telescopius",
       "offlineInfo": "Carga listas de objetivos personales de telescopius.com y las almacena localmente para disponibilidad offline.",
+      "outdated": {
+        "title": "Plugin Desactualizado",
+        "message": "El plugin TouchNStars en NINA está desactualizado y necesita ser actualizado.",
+        "required": "Versión requerida",
+        "current": "Versión actual"
+      },
       "initializing": "Inicializando...",
       "welcome": "¡Bienvenido al complemento Telescopius!",
       "description": "Permite la recuperación de datos desde telescopius.com",

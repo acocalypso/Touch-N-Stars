@@ -21,6 +21,19 @@
         <p class="text-gray-400 text-center">{{ $t('plugins.telescopius.initializing') }}</p>
       </div>
 
+      <!-- Outdated Plugin Version Message -->
+      <div v-else-if="isPluginOutdated" class="flex flex-col items-center justify-center py-20">
+        <div class="border border-red-700 rounded-lg bg-gradient-to-br from-red-900/30 to-red-800/30 shadow-lg p-8 max-w-md mx-auto text-center">
+          <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+          <h3 class="text-xl font-bold text-red-400 mb-4">{{ $t('plugins.telescopius.outdated.title') }}</h3>
+          <p class="text-gray-300 mb-4">{{ $t('plugins.telescopius.outdated.message') }}</p>
+          <p class="text-sm text-gray-400">{{ $t('plugins.telescopius.outdated.required') }}: v1.1.2.0</p>
+          <p class="text-sm text-gray-400">{{ $t('plugins.telescopius.outdated.current') }}: {{ store.currentTnsPluginVersion }}</p>
+        </div>
+      </div>
+
       <!-- Landing Page - zeige wenn kein API Key gesetzt ist -->
       <TelescopiusLandingPage
         v-else-if="!telescopiusStore.hasApiKey"
@@ -351,6 +364,7 @@ import { useFramingStore } from '@/store/framingStore';
 const { t: $t } = useI18n();
 const showApiKeyModal = ref(false);
 const isInitializing = ref(true);
+const isPluginOutdated = ref(false);
 const telescopiusStore = useTelescopisStore();
 const store = apiStore();
 const locationStore = useLocationStore();
@@ -574,6 +588,7 @@ const setFramingCoordinates = (data) => {
 onMounted(async () => {
   if (store.checkVersionNewerOrEqual( '1.1.2.0', store.currentTnsPluginVersion)) {
     console.log('[Telescopius] Plugin version is to old ',store.currentTnsPluginVersion);
+    isPluginOutdated.value = true;
     isInitializing.value = false;
     return;
   }

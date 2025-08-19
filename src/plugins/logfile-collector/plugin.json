@@ -7,7 +7,7 @@
   "defaultEnabled": false,
   "enabled": true,
   "config": {
-    "uploadUrl": "http://localhost:8080/ingest/logs",
+    "uploadUrl": "https://beta.touch-n-stars.eu/ingest/logs",
     "authToken": "f4c9a7d2e18b3f607911ad5e82bc9487"
   }
 }

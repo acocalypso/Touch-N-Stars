@@ -572,6 +572,11 @@ const setFramingCoordinates = (data) => {
 };
 
 onMounted(async () => {
+  if (store.checkVersionNewerOrEqual( '1.1.2.0', store.currentTnsPluginVersion)) {
+    console.log('[Telescopius] Plugin version is to old ',store.currentTnsPluginVersion);
+    isInitializing.value = false;
+    return;
+  }
   try {
     if (!telescopiusStore.isLoaded) {
       await telescopiusStore.loadApiKey();

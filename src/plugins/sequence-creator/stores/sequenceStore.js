@@ -1129,9 +1129,10 @@ export const useSequenceStore = defineStore('sequence', () => {
     return filterInfo;
   }
 
-  function createBasicSmartExposureContainer(action, generateId) {
+  function createBasicSmartExposureContainer(action, generateId, parentId) {
+    const smartExposureId = generateId();
     const smartExposure = {
-      $id: generateId(),
+      $id: smartExposureId,
       $type: 'NINA.Sequencer.SequenceItem.Imaging.SmartExposure, NINA.Sequencer',
       ErrorBehavior: 0,
       Attempts: 1,
@@ -1149,7 +1150,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             $type: 'NINA.Sequencer.Conditions.LoopCondition, NINA.Sequencer',
             CompletedIterations: 0,
             Iterations: action.parameters.count?.value || 100,
-            Parent: null,
+            Parent: { $ref: smartExposureId },
           },
         ],
       },
@@ -1213,7 +1214,7 @@ export const useSequenceStore = defineStore('sequence', () => {
                 _autoFocusOffset: filterInfo.AutoFocusOffset || -1,
               };
             })(),
-            Parent: null,
+            Parent: { $ref: smartExposureId },
             ErrorBehavior: 0,
             Attempts: 1,
           },
@@ -1231,7 +1232,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             },
             ImageType: action.parameters.imageType?.value || 'LIGHT',
             ExposureCount: 0,
-            Parent: null,
+            Parent: { $ref: smartExposureId },
             ErrorBehavior: 0,
             Attempts: 1,
           },
@@ -1246,14 +1247,15 @@ export const useSequenceStore = defineStore('sequence', () => {
 
           // Only create dither trigger if ditherAfter > 0
           if (ditherAfter > 0) {
+            const triggerRunnerId = generateId();
             return [
               {
                 $id: generateId(),
                 $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
                 AfterExposures: ditherAfter,
-                Parent: null,
+                Parent: { $ref: smartExposureId },
                 TriggerRunner: {
-                  $id: generateId(),
+                  $id: triggerRunnerId,
                   $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
                   Strategy: {
                     $type:
@@ -1275,7 +1277,7 @@ export const useSequenceStore = defineStore('sequence', () => {
                       {
                         $id: generateId(),
                         $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
-                        Parent: null,
+                        Parent: { $ref: triggerRunnerId },
                         ErrorBehavior: 0,
                         Attempts: 1,
                       },
@@ -1299,7 +1301,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           }
         })(),
       },
-      Parent: null,
+      Parent: { $ref: parentId },
     };
 
     return smartExposure;

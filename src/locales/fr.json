@@ -861,11 +861,13 @@
       "autoRefresh": "Rafraîchissement automatique",
       "errors": {}
     },
-
     "logfileCollector": {
       "actions": {
         "collectUpload": "Collecter",
-        "uploading": "Téléchargement…"
+        "uploading": "Téléchargement…",
+        "clearAll": "Effacer tout",
+        "copyToken": "Copie",
+        "remove": "Retirer"
       },
       "descriptionLabel": "Description (facultative)",
       "descriptionPlaceholder": "Décrivez le problème pour enquêter ...",
@@ -873,9 +875,21 @@
       "result": {
         "failed": "Le téléchargement a échoué",
         "failedWithStatus": "Téléchargement échoué ({statut})",
-        "success": "Télécharger réussi"
+        "success": "Télécharger réussi",
+        "allSubmissionsCleared": "Toutes les soumissions ont été effacées",
+        "submissionRemoved": "Soumission supprimée",
+        "tokenCopied": "Jeton copié dans le presse-papiers",
+        "tokenCopyFailed": "Échec de la copie du jeton"
       },
-      "title": "Collectionneur de fichiers"
+      "title": "Collectionneur de fichiers",
+      "confirmClearAll": "Êtes-vous sûr de vouloir effacer tous les histoires de soumission?",
+      "lastToken": "Jeton généré",
+      "submissionFields": {
+        "date": "Date",
+        "filename": "Nom de fichier",
+        "token": "Jeton"
+      },
+      "submissionHistory": "Historique de soumission"
     },
     "telescopius": {
       "apiKey": {

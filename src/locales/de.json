@@ -28,14 +28,29 @@
       "intro": "Sammle die neuesten TNS-Logs (inkl. Debug) und lade sie an den konfigurierten Endpunkt hoch.",
       "descriptionLabel": "Beschreibung (optional)",
       "descriptionPlaceholder": "Beschreibe das Problem zur Analyse...",
+      "lastToken": "Generierter Token",
+      "submissionHistory": "Übertragungsverlauf",
+      "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",
       "actions": {
         "collectUpload": "Sammeln & Hochladen",
-        "uploading": "Lade hoch…"
+        "uploading": "Lade hoch…",
+        "copyToken": "Kopieren",
+        "remove": "Entfernen",
+        "clearAll": "Alle löschen"
+      },
+      "submissionFields": {
+        "date": "Datum",
+        "filename": "Dateiname",
+        "token": "Token"
       },
       "result": {
         "success": "Upload erfolgreich",
         "failed": "Upload fehlgeschlagen",
-        "failedWithStatus": "Upload fehlgeschlagen ({status})"
+        "failedWithStatus": "Upload fehlgeschlagen ({status})",
+        "tokenCopied": "Token in Zwischenablage kopiert",
+        "tokenCopyFailed": "Token konnte nicht kopiert werden",
+        "submissionRemoved": "Übertragung entfernt",
+        "allSubmissionsCleared": "Alle Übertragungen gelöscht"
       }
     },
     "telescopius": {

@@ -978,7 +978,10 @@
     "logfileCollector": {
       "actions": {
         "collectUpload": "Recolectar",
-        "uploading": "Subiendo ..."
+        "uploading": "Subiendo ...",
+        "clearAll": "Despejar todo",
+        "copyToken": "Copiar",
+        "remove": "Eliminar"
       },
       "descriptionLabel": "Descripción (opcional)",
       "descriptionPlaceholder": "Describe el problema para investigar ...",
@@ -986,9 +989,21 @@
       "result": {
         "failed": "Carga falló",
         "failedWithStatus": "Cargar fallido ({status})",
-        "success": "Subir exitoso"
+        "success": "Subir exitoso",
+        "allSubmissionsCleared": "Todas las presentaciones se aclararon",
+        "submissionRemoved": "Envío eliminado",
+        "tokenCopied": "Token copiado al portapapeles",
+        "tokenCopyFailed": "No se pudo copiar token"
       },
-      "title": "Coleccionista de archivos de registro"
+      "title": "Coleccionista de archivos de registro",
+      "confirmClearAll": "¿Estás seguro de que quieres borrar todo el historial de sumisión?",
+      "lastToken": "Token generado",
+      "submissionFields": {
+        "date": "Fecha",
+        "filename": "Nombre del archivo",
+        "token": "Simbólico"
+      },
+      "submissionHistory": "Historial de sumisión"
     }
   }
 }

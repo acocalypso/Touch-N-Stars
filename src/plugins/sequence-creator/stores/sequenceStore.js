@@ -1129,9 +1129,10 @@ export const useSequenceStore = defineStore('sequence', () => {
     return filterInfo;
   }
 
-  function createBasicSmartExposureContainer(action, generateId) {
+  function createBasicSmartExposureContainer(action, generateId, parentId) {
+    const smartExposureId = generateId();
     const smartExposure = {
-      $id: generateId(),
+      $id: smartExposureId,
       $type: 'NINA.Sequencer.SequenceItem.Imaging.SmartExposure, NINA.Sequencer',
       ErrorBehavior: 0,
       Attempts: 1,
@@ -1149,7 +1150,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             $type: 'NINA.Sequencer.Conditions.LoopCondition, NINA.Sequencer',
             CompletedIterations: 0,
             Iterations: action.parameters.count?.value || 100,
-            Parent: null,
+            Parent: { $ref: smartExposureId },
           },
         ],
       },
@@ -1213,7 +1214,7 @@ export const useSequenceStore = defineStore('sequence', () => {
                 _autoFocusOffset: filterInfo.AutoFocusOffset || -1,
               };
             })(),
-            Parent: null,
+            Parent: { $ref: smartExposureId },
             ErrorBehavior: 0,
             Attempts: 1,
           },
@@ -1231,7 +1232,7 @@ export const useSequenceStore = defineStore('sequence', () => {
             },
             ImageType: action.parameters.imageType?.value || 'LIGHT',
             ExposureCount: 0,
-            Parent: null,
+            Parent: { $ref: smartExposureId },
             ErrorBehavior: 0,
             Attempts: 1,
           },
@@ -1244,62 +1245,58 @@ export const useSequenceStore = defineStore('sequence', () => {
         $values: (() => {
           const ditherAfter = action.parameters.ditherAfter?.value ?? 0;
 
-          // Only create dither trigger if ditherAfter > 0
-          if (ditherAfter > 0) {
-            return [
-              {
-                $id: generateId(),
-                $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
-                AfterExposures: ditherAfter,
-                Parent: null,
-                TriggerRunner: {
-                  $id: generateId(),
-                  $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-                  Strategy: {
-                    $type:
-                      'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-                  },
-                  Name: null,
-                  Conditions: {
-                    $id: generateId(),
-                    $type:
-                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                    $values: [],
-                  },
-                  IsExpanded: true,
-                  Items: {
-                    $id: generateId(),
-                    $type:
-                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                    $values: [
-                      {
-                        $id: generateId(),
-                        $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
-                        Parent: null,
-                        ErrorBehavior: 0,
-                        Attempts: 1,
-                      },
-                    ],
-                  },
-                  Triggers: {
-                    $id: generateId(),
-                    $type:
-                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                    $values: [],
-                  },
-                  Parent: null,
-                  ErrorBehavior: 0,
-                  Attempts: 1,
+          // Always create dither trigger, but set AfterExposures to 0 for no dithering
+          const triggerRunnerId = generateId();
+          return [
+            {
+              $id: generateId(),
+              $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
+              AfterExposures: ditherAfter,
+              Parent: { $ref: smartExposureId },
+              TriggerRunner: {
+                $id: triggerRunnerId,
+                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+                Strategy: {
+                  $type:
+                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
                 },
+                Name: null,
+                Conditions: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                IsExpanded: true,
+                Items: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                  $values: [
+                    {
+                      $id: generateId(),
+                      $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
+                      Parent: { $ref: triggerRunnerId },
+                      ErrorBehavior: 0,
+                      Attempts: 1,
+                    },
+                  ],
+                },
+                Triggers: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                Parent: null,
+                ErrorBehavior: 0,
+                Attempts: 1,
               },
-            ];
-          } else {
-            // No dithering when value is 0
-            return [];
-          }
+            },
+          ];
         })(),
       },
-      Parent: null,
+      Parent: { $ref: parentId },
     };
 
     return smartExposure;

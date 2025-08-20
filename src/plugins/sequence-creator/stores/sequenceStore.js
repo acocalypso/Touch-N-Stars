@@ -1245,60 +1245,55 @@ export const useSequenceStore = defineStore('sequence', () => {
         $values: (() => {
           const ditherAfter = action.parameters.ditherAfter?.value ?? 0;
 
-          // Only create dither trigger if ditherAfter > 0
-          if (ditherAfter > 0) {
-            const triggerRunnerId = generateId();
-            return [
-              {
-                $id: generateId(),
-                $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
-                AfterExposures: ditherAfter,
-                Parent: { $ref: smartExposureId },
-                TriggerRunner: {
-                  $id: triggerRunnerId,
-                  $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
-                  Strategy: {
-                    $type:
-                      'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
-                  },
-                  Name: null,
-                  Conditions: {
-                    $id: generateId(),
-                    $type:
-                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
-                    $values: [],
-                  },
-                  IsExpanded: true,
-                  Items: {
-                    $id: generateId(),
-                    $type:
-                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-                    $values: [
-                      {
-                        $id: generateId(),
-                        $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
-                        Parent: { $ref: triggerRunnerId },
-                        ErrorBehavior: 0,
-                        Attempts: 1,
-                      },
-                    ],
-                  },
-                  Triggers: {
-                    $id: generateId(),
-                    $type:
-                      'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
-                    $values: [],
-                  },
-                  Parent: null,
-                  ErrorBehavior: 0,
-                  Attempts: 1,
+          // Always create dither trigger, but set AfterExposures to 0 for no dithering
+          const triggerRunnerId = generateId();
+          return [
+            {
+              $id: generateId(),
+              $type: 'NINA.Sequencer.Trigger.Guider.DitherAfterExposures, NINA.Sequencer',
+              AfterExposures: ditherAfter,
+              Parent: { $ref: smartExposureId },
+              TriggerRunner: {
+                $id: triggerRunnerId,
+                $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
+                Strategy: {
+                  $type:
+                    'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
                 },
+                Name: null,
+                Conditions: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Conditions.ISequenceCondition, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                IsExpanded: true,
+                Items: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
+                  $values: [
+                    {
+                      $id: generateId(),
+                      $type: 'NINA.Sequencer.SequenceItem.Guider.Dither, NINA.Sequencer',
+                      Parent: { $ref: triggerRunnerId },
+                      ErrorBehavior: 0,
+                      Attempts: 1,
+                    },
+                  ],
+                },
+                Triggers: {
+                  $id: generateId(),
+                  $type:
+                    'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.Trigger.ISequenceTrigger, NINA.Sequencer]], System.ObjectModel',
+                  $values: [],
+                },
+                Parent: null,
+                ErrorBehavior: 0,
+                Attempts: 1,
               },
-            ];
-          } else {
-            // No dithering when value is 0
-            return [];
-          }
+            },
+          ];
         })(),
       },
       Parent: { $ref: parentId },

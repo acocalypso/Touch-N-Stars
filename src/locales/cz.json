@@ -864,7 +864,10 @@
     "logfileCollector": {
       "actions": {
         "collectUpload": "Collect",
-        "uploading": "Uploading…"
+        "uploading": "Uploading…",
+        "clearAll": "Clear All",
+        "copyToken": "Copy",
+        "remove": "Remove"
       },
       "descriptionLabel": "Description (optional)",
       "descriptionPlaceholder": "Describe the problem to investigate...",
@@ -872,9 +875,21 @@
       "result": {
         "failed": "Upload failed",
         "failedWithStatus": "Upload failed ({status})",
-        "success": "Upload successful"
+        "success": "Upload successful",
+        "allSubmissionsCleared": "All submissions cleared",
+        "submissionRemoved": "Submission removed",
+        "tokenCopied": "Token copied to clipboard",
+        "tokenCopyFailed": "Failed to copy token"
       },
-      "title": "Logfile Collector"
+      "title": "Logfile Collector",
+      "confirmClearAll": "Are you sure you want to clear all submission history?",
+      "lastToken": "Generated Token",
+      "submissionFields": {
+        "date": "Date",
+        "filename": "Filename",
+        "token": "Token"
+      },
+      "submissionHistory": "Submission History"
     },
     "telescopius": {
       "apiKey": {

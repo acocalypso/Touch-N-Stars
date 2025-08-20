@@ -2,7 +2,7 @@
   "id": "logfile-collector",
   "name": "logfile-collector",
   "description": "Collect logfiles and sent them to the Touch 'N' Stars Team",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Christian Wöhrle",
   "defaultEnabled": false,
   "enabled": true,

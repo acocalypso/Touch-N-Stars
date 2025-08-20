@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Image settings: add debayer and unlinked stretch options 
 - TPPA: Settings for GAIN and Exposuretime
 - Telescopius Plugin: Personal target lists from Telescopius can now be loaded. Please note: An API key from Telescopius is required.
+- Logcollector Plugin added - Submit your logs to the Touch N Stars team in case troubleshooting is required.
 
 ### Changed
 - Error handling and debug mode rework

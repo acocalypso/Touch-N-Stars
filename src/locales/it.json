@@ -864,7 +864,10 @@
     "logfileCollector": {
       "actions": {
         "collectUpload": "Raccogliere",
-        "uploading": "Caricamento ..."
+        "uploading": "Caricamento ...",
+        "clearAll": "Cancella tutto",
+        "copyToken": "Copia",
+        "remove": "Rimuovere"
       },
       "descriptionLabel": "Descrizione (opzionale)",
       "descriptionPlaceholder": "Descrivi il problema per indagare ...",
@@ -872,9 +875,21 @@
       "result": {
         "failed": "Caricamento non riuscito",
         "failedWithStatus": "Caricamento non riuscito ({status})",
-        "success": "Carica successo"
+        "success": "Carica successo",
+        "allSubmissionsCleared": "Tutte le comunicazioni sono state cancellate",
+        "submissionRemoved": "Presentazione rimossa",
+        "tokenCopied": "Token copiato negli appunti",
+        "tokenCopyFailed": "Impossibile copiare il token"
       },
-      "title": "Collezionista Logfile"
+      "title": "Collezionista Logfile",
+      "confirmClearAll": "Sei sicuro di voler cancellare tutta la storia di invio?",
+      "lastToken": "Token generato",
+      "submissionFields": {
+        "date": "Data",
+        "filename": "Nome file",
+        "token": "Gettone"
+      },
+      "submissionHistory": "Storia di presentazione"
     },
     "telescopius": {
       "apiKey": {

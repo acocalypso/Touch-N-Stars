@@ -1,9 +1,56 @@
 <template>
   <div class="sequence-editor h-full flex flex-col bg-gray-50 dark:bg-gray-900">
-    <!-- Header -->
-    <div
-      class="flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
-    >
+    <!-- Loading Spinner during initialization -->
+    <div v-if="isInitializing" class="flex flex-col items-center justify-center py-20">
+      <svg class="w-12 h-12 animate-spin text-blue-500 mb-4" fill="none" viewBox="0 0 24 24">
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      <p class="text-gray-400 text-center">{{ t('plugins.common.initializing') }}</p>
+    </div>
+
+    <!-- Outdated Plugin Version Message -->
+    <div v-else-if="isPluginOutdated" class="flex flex-col items-center justify-center py-20">
+      <div
+        class="border border-red-700 rounded-lg bg-gradient-to-br from-red-900/30 to-red-800/30 shadow-lg p-8 max-w-md mx-auto text-center"
+      >
+        <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <h3 class="text-xl font-bold text-red-400 mb-4">
+          {{ t('plugins.common.outdated.title') }}
+        </h3>
+        <p class="text-gray-300 mb-4">{{ t('plugins.common.outdated.message') }}</p>
+        <p class="text-sm text-gray-400">
+          {{ t('plugins.common.outdated.required') }}: v1.1.3.0
+        </p>
+        <p class="text-sm text-gray-400">
+          {{ t('plugins.common.outdated.current') }}: {{ mainStore.currentTnsPluginVersion }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div v-else class="h-full flex flex-col">
+      <!-- Header -->
+      <div
+        class="flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
+      >
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
@@ -285,6 +332,7 @@
         </div>
       </div>
     </div>
+    </div>
 
     <!-- Clear Sequence Confirmation Modal -->
     <Modal :show="showClearModal" @close="cancelClear">
@@ -365,6 +413,7 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import { useToastStore } from '@/store/toastStore.js';
+import { apiStore } from '@/store/store.js';
 import SequenceContainer from './SequenceContainer.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService.js';
@@ -372,10 +421,15 @@ import apiService from '@/services/apiService.js';
 const { t } = useI18n();
 const store = useSequenceStore();
 const toastStore = useToastStore();
+const mainStore = apiStore();
 
 const showClearModal = ref(false);
 const showSaveAsDefaultModal = ref(false);
 const showLoadBasicModal = ref(false);
+
+// Version checking states
+const isInitializing = ref(true);
+const isPluginOutdated = ref(false);
 
 // Send to Nina states
 const isSendingToNina = ref(false);
@@ -497,8 +551,20 @@ async function sendToNina() {
   }
 }
 
-// Check if sequences are empty on mount and load basic sequence
+// Check version and initialize sequence
 onMounted(async () => {
+  // Check TNS plugin version first
+  if (!mainStore.checkVersionNewerOrEqual(mainStore.currentTnsPluginVersion, '1.1.2.0')) {
+    console.log('[SequenceCreator] Plugin version is too old', mainStore.currentTnsPluginVersion);
+    isPluginOutdated.value = true;
+    isInitializing.value = false;
+    return;
+  }
+
+  // Initialize the localized templates
+  store.initializeLocalizedTemplates(t);
+
+  // Check if sequences are empty and load basic sequence
   const isEmpty =
     store.startSequence.length === 0 &&
     store.targetSequence.length === 0 &&
@@ -507,6 +573,8 @@ onMounted(async () => {
   if (isEmpty) {
     await store.loadBasicSequence();
   }
+
+  isInitializing.value = false;
 });
 </script>
 

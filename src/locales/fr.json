@@ -629,6 +629,15 @@
     }
   },
   "plugins": {
+    "common": {
+      "initializing": "Initialisation...",
+      "outdated": {
+        "title": "Plugin Obsolète",
+        "message": "Le plugin TouchNStars dans NINA est obsolète et doit être mis à jour.",
+        "required": "Version Requise",
+        "current": "Version Actuelle"
+      }
+    },
     "sequenceCreator": {
       "actionLibrary": {
         "description": "Cliquez pour ajouter des actions aux conteneurs",

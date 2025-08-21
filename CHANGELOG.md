@@ -6,19 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.2.0] - 2025-08-20
 ### Added
-- Imagesettings: add debayer and unlinked sterch options 
+- Image settings: add debayer and unlinked stretch options 
 - TPPA: Settings for GAIN and Exposuretime
-- Telescopius Plugin: Personal target lists from telescopius can now be loaded. Please note: An API key from telescopius is required.
+- Telescopius Plugin: Personal target lists from Telescopius can now be loaded. Please note: An API key from Telescopius is required.
 - Logcollector Plugin added - Submit your logs to the Touch N Stars team in case troubleshooting is required.
 
 ### Changed
-- Errorhandliung und debugmode rework
+- Error handling and debug mode rework
 - Slew and center breaks off after one attempt at plate solving.
 
 ### Fixed
 - Favorites: fix save rotation
-- Andriod: Fix image download from Sequence page
-- TPPA: Buttonposition from ErrorModal 
+- Android: Fix image download from Sequence page
+- TPPA: Button position from ErrorModal 
 - Plugin: Sequence Creator fix Meridian Flip
 
 ## [1.1.1.1] - 2025-08-07

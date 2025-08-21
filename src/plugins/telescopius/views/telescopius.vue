@@ -18,7 +18,7 @@
             d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
         </svg>
-        <p class="text-gray-400 text-center">{{ $t('plugins.telescopius.initializing') }}</p>
+        <p class="text-gray-400 text-center">{{ $t('plugins.common.initializing') }}</p>
       </div>
 
       <!-- Outdated Plugin Version Message -->
@@ -34,14 +34,14 @@
             />
           </svg>
           <h3 class="text-xl font-bold text-red-400 mb-4">
-            {{ $t('plugins.telescopius.outdated.title') }}
+            {{ $t('plugins.common.outdated.title') }}
           </h3>
-          <p class="text-gray-300 mb-4">{{ $t('plugins.telescopius.outdated.message') }}</p>
+          <p class="text-gray-300 mb-4">{{ $t('plugins.common.outdated.message') }}</p>
           <p class="text-sm text-gray-400">
-            {{ $t('plugins.telescopius.outdated.required') }}: v1.1.2.0
+            {{ $t('plugins.common.outdated.required') }}: v1.1.2.0
           </p>
           <p class="text-sm text-gray-400">
-            {{ $t('plugins.telescopius.outdated.current') }}: {{ store.currentTnsPluginVersion }}
+            {{ $t('plugins.common.outdated.current') }}: {{ store.currentTnsPluginVersion }}
           </p>
         </div>
       </div>

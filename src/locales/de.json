@@ -23,6 +23,15 @@
     }
   },
   "plugins": {
+    "common": {
+      "initializing": "Initialisierung...",
+      "outdated": {
+        "title": "Plugin veraltet",
+        "message": "Das TouchNStars Plugin in NINA ist veraltet und muss aktualisiert werden.",
+        "required": "Erforderliche Version",
+        "current": "Aktuelle Version"
+      }
+    },
     "logfileCollector": {
       "title": "Logfile-Sammler",
       "intro": "Sammle die neuesten TNS-Logs (inkl. Debug) und lade sie an den konfigurierten Endpunkt hoch.",
@@ -55,16 +64,9 @@
     },
     "telescopius": {
       "title": "Telescopius",
-      "initializing": "Initialisierung...",
       "welcome": "Willkommen beim Telescopius Plugin!",
       "description": "Ermöglicht Datenabruf von telescopius.com",
       "offlineInfo": "Lädt persönliche Target Lists von telescopius.com und speichert sie lokal für Offline-Verfügbarkeit.",
-      "outdated": {
-        "title": "Plugin veraltet",
-        "message": "Das TouchNStars Plugin in NINA ist veraltet und muss aktualisiert werden.",
-        "required": "Erforderliche Version",
-        "current": "Aktuelle Version"
-      },
       "landing": {
         "title": "Telescopius Plugin",
         "subtitle": "Bringe deine Zielobjekte von Telescopius.com direkt in Touch'N'Stars",

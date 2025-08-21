@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import { apiStore } from '@/store/store';
+import apiService from '@/services/apiService';
 
 // Action templates organized by container type
 const actionTemplates = {
@@ -823,10 +824,10 @@ export const useSequenceStore = defineStore('sequence', () => {
               $values: [
                 {
                   $id: endInstructionsId,
-                  $type: 'NINA.Sequencer.Container.ParallelContainer, NINA.Sequencer',
+                  $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
                   Strategy: {
                     $type:
-                      'NINA.Sequencer.Container.ExecutionStrategy.ParallelStrategy, NINA.Sequencer',
+                      'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
                   },
                   Name: 'END_INSTRUCTIONS',
                   Conditions: {
@@ -1645,9 +1646,9 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
   }
 
-  function loadBasicSequence() {
+  async function loadBasicSequence() {
     // Try to load saved default sequence first
-    const loaded = loadDefaultSequence();
+    const loaded = await loadDefaultSequence();
     if (loaded) {
       return; // Successfully loaded saved default
     }
@@ -1722,36 +1723,47 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
 
     isModified.value = false;
-  }
 
-  function saveAsDefaultSequence() {
-    // Save current sequence to localStorage as default
-    const defaultSequence = {
-      start: JSON.parse(JSON.stringify(startSequence.value)),
-      target: JSON.parse(JSON.stringify(targetSequence.value)),
-      end: JSON.parse(JSON.stringify(endSequence.value)),
-    };
-
-    localStorage.setItem('sequence-creator-default', JSON.stringify(defaultSequence));
-
-    // Show success feedback (you could emit an event or use a toast notification)
-    console.log('Sequence saved as default');
-  }
-
-  function loadDefaultSequence() {
-    // Load default sequence from localStorage
+    // Save this basic sequence as the initial default in backend
     try {
-      const saved = localStorage.getItem('sequence-creator-default');
-      if (saved) {
-        const defaultSequence = JSON.parse(saved);
+      await saveAsDefaultSequence();
+      console.log('Basic sequence saved as initial default in backend');
+    } catch (error) {
+      console.error('Error saving initial basic sequence to backend:', error);
+    }
+  }
+
+  async function saveAsDefaultSequence() {
+    try {
+      // Save current sequence to backend as default
+      const defaultSequence = {
+        start: JSON.parse(JSON.stringify(startSequence.value)),
+        target: JSON.parse(JSON.stringify(targetSequence.value)),
+        end: JSON.parse(JSON.stringify(endSequence.value)),
+      };
+
+      await apiService.saveDefaultSequence(defaultSequence);
+      console.log('Sequence saved as default to backend');
+    } catch (error) {
+      console.error('Error saving default sequence to backend:', error);
+      throw error;
+    }
+  }
+
+  async function loadDefaultSequence() {
+    // Load default sequence from backend
+    try {
+      const defaultSequence = await apiService.getDefaultSequence();
+      if (defaultSequence) {
         startSequence.value = defaultSequence.start || [];
         targetSequence.value = defaultSequence.target || [];
         endSequence.value = defaultSequence.end || [];
         isModified.value = false;
+        console.log('Default sequence loaded from backend');
         return true;
       }
     } catch (error) {
-      console.error('Error loading default sequence:', error);
+      console.error('Error loading default sequence from backend:', error);
     }
     return false;
   }

@@ -1258,6 +1258,46 @@ const apiService = {
     }
   },
 
+  //-------------------------------------  Sequence Creator ------------------------------
+  async getDefaultSequence() {
+    try {
+      const response = await this.getSetting('sequence_creator_default');
+      if (response && response.Response && response.Response.Value) {
+        return JSON.parse(response.Response.Value);
+      }
+      return null;
+    } catch (error) {
+      if (error.response?.status === 404 || error.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  },
+
+  async saveDefaultSequence(sequenceData) {
+    try {
+      await this.createSetting({
+        Key: 'sequence_creator_default',
+        Value: JSON.stringify(sequenceData),
+      });
+    } catch (error) {
+      if (error.response && error.response.status === 409) {
+        await this.updateSetting('sequence_creator_default', JSON.stringify(sequenceData));
+      } else {
+        throw error;
+      }
+    }
+  },
+
+  async deleteDefaultSequence() {
+    try {
+      await this.deleteSetting('sequence_creator_default');
+    } catch (error) {
+      console.error('Error deleting default sequence:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

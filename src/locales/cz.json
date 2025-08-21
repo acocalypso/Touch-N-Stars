@@ -625,6 +625,15 @@
     }
   },
   "plugins": {
+    "common": {
+      "initializing": "Inicializace...",
+      "outdated": {
+        "title": "Plugin Zastaralý",
+        "message": "Plugin TouchNStars v NINA je zastaralý a musí být aktualizován.",
+        "required": "Požadovaná Verze",
+        "current": "Aktuální Verze"
+      }
+    },
     "sequenceCreator": {
       "actionLibrary": {
         "description": "Kliknutím přidáte akce do kontejnerů",

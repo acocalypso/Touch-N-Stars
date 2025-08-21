@@ -625,6 +625,15 @@
     "welcome": "Bem -vindo ao Touch'n'stars"
   },
   "plugins": {
+    "common": {
+      "initializing": "Inicializando...",
+      "outdated": {
+        "title": "Plugin Desatualizado",
+        "message": "O plugin TouchNStars no NINA está desatualizado e precisa ser atualizado.",
+        "required": "Versão Obrigatória",
+        "current": "Versão Atual"
+      }
+    },
     "sequenceCreator": {
       "actionLibrary": {
         "description": "Clique para adicionar ações aos contêineres",

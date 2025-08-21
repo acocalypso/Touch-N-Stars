@@ -117,6 +117,10 @@
         "invalidPortRange": "TODO: přeložit [Neplatný rozsah portů]",
         "invalidInstance": "TODO: přeložit [Neplatná instance]",
         "emptyFields": "TODO: přeložit [Prázdná pole]"
+      },
+      "keepAwake": {
+        "description": "Prevent the device from dimming or locking while the app is open.",
+        "title": "Keep Screen Awake"
       }
     },
     "connectEquipment": {

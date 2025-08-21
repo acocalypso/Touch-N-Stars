@@ -117,6 +117,10 @@
         "invalidPortRange": "TODO: translate [Invalid port range]",
         "invalidInstance": "TODO: translate [Invalid instance]",
         "emptyFields": "TODO: translate [Empty fields]"
+      },
+      "keepAwake": {
+        "description": "Empêchez l'appareil de gradir ou de verrouiller pendant que l'application est ouverte.",
+        "title": "Gardez l'écran éveillé"
       }
     },
     "connectEquipment": {

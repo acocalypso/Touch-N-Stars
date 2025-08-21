@@ -141,6 +141,25 @@
       <SetNotifications />
     </div>
 
+    <!-- Keep Screen Awake (mobile only) -->
+    <div
+      class="bg-gray-800 rounded-lg p-4"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform()) && keepAwakeSupported"
+    >
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.keepAwake.title') }}
+      </h3>
+      <div class="flex items-center justify-between">
+        <p class="text-gray-300 text-sm mr-4">
+          {{ $t('components.settings.keepAwake.description') }}
+        </p>
+        <ToggleButton
+          :statusValue="settingsStore.keepAwakeEnabled"
+          @update:statusValue="onToggleKeepAwake"
+        />
+      </div>
+    </div>
+
     <!-- Tutorial Button -->
     <div class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">Tutorial</h3>
@@ -311,6 +330,7 @@ import {
 } from '@/utils/location';
 import { useRouter } from 'vue-router';
 import { Capacitor } from '@capacitor/core';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
 import setImgQuality from '@/components/settings/setImgQuality.vue';
 import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
@@ -338,6 +358,7 @@ const showTutorialModal = ref(false);
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 
 const languages = getAvailableLanguages();
+const keepAwakeSupported = ref(false);
 
 // Load stored settings on mount
 onMounted(async () => {
@@ -359,6 +380,18 @@ onMounted(async () => {
   // Ensure plugins are loaded (force reload to catch metadata changes)
   await pluginStore.loadAndRegisterPlugins(true);
   console.log('After manual load - plugins:', pluginStore.plugins);
+
+  // Check keep-awake support and apply current setting
+  try {
+    const res = await KeepAwake.isSupported();
+    keepAwakeSupported.value = !!res?.isSupported;
+  } catch (e) {
+    keepAwakeSupported.value = false;
+  }
+
+  if (keepAwakeSupported.value) {
+    await applyKeepAwake(settingsStore.keepAwakeEnabled);
+  }
 });
 
 watchEffect(() => {
@@ -443,4 +476,32 @@ async function togglePlugin(pluginId, enabled) {
   // Use the enhanced togglePlugin method which handles initialization
   await pluginStore.togglePlugin(pluginId, enabled);
 }
+
+async function applyKeepAwake(enabled) {
+  try {
+    if (enabled) {
+      await KeepAwake.keepAwake();
+    } else {
+      await KeepAwake.allowSleep();
+    }
+  } catch (e) {
+    console.warn('KeepAwake error', e);
+  }
+}
+
+async function onToggleKeepAwake(value) {
+  settingsStore.setKeepAwakeEnabled(value);
+  if (keepAwakeSupported.value) {
+    await applyKeepAwake(value);
+  }
+}
+
+watch(
+  () => settingsStore.keepAwakeEnabled,
+  async (val, oldVal) => {
+    if (val !== oldVal && keepAwakeSupported.value) {
+      await applyKeepAwake(val);
+    }
+  }
+);
 </script>

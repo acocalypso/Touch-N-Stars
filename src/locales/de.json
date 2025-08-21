@@ -479,6 +479,10 @@
         "sequence": "Sequenz",
         "phd2": "PHD2"
       },
+      "keepAwake": {
+        "title": "Bildschirm aktiv halten",
+        "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist."
+      },
       "showTutorial": "Tutorial anzeigen",
       "plugins": {
         "title": "Plugin-Verwaltung",

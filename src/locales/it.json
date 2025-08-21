@@ -117,6 +117,10 @@
         "invalidPortRange": "TODO: translate [Invalid port range]",
         "invalidInstance": "TODO: translate [Invalid instance]",
         "emptyFields": "TODO: translate [Empty fields]"
+      },
+      "keepAwake": {
+        "description": "Impedire al dispositivo di oscurarsi o di bloccare mentre l'app è aperta.",
+        "title": "Mantieni lo schermo sveglio"
       }
     },
     "connectEquipment": {

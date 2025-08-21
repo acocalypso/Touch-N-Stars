@@ -413,18 +413,29 @@ function handleSaveAsDefault() {
   showSaveAsDefaultModal.value = true;
 }
 
-function confirmSaveAsDefault() {
-  store.saveAsDefaultSequence();
-  showSaveAsDefaultModal.value = false;
+async function confirmSaveAsDefault() {
+  try {
+    await store.saveAsDefaultSequence();
+    showSaveAsDefaultModal.value = false;
 
-  // Show success toast
-  toastStore.showToast({
-    type: 'success',
-    title: t('plugins.sequenceCreator.toolbar.saveAsDefault'),
-    message: t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess'),
-    autoClose: true,
-    autoCloseDelay: 3000,
-  });
+    // Show success toast
+    toastStore.showToast({
+      type: 'success',
+      title: t('plugins.sequenceCreator.toolbar.saveAsDefault'),
+      message: t('plugins.sequenceCreator.toolbar.saveAsDefaultSuccess'),
+      autoClose: true,
+      autoCloseDelay: 3000,
+    });
+  } catch (error) {
+    // Show error toast
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.sequenceCreator.toolbar.saveAsDefault'),
+      message: 'Error saving sequence to backend',
+      autoClose: true,
+      autoCloseDelay: 5000,
+    });
+  }
 }
 
 function cancelSaveAsDefault() {
@@ -435,8 +446,8 @@ function handleLoadBasicSequence() {
   showLoadBasicModal.value = true;
 }
 
-function confirmLoadBasic() {
-  store.loadBasicSequence();
+async function confirmLoadBasic() {
+  await store.loadBasicSequence();
   showLoadBasicModal.value = false;
 }
 
@@ -487,14 +498,14 @@ async function sendToNina() {
 }
 
 // Check if sequences are empty on mount and load basic sequence
-onMounted(() => {
+onMounted(async () => {
   const isEmpty =
     store.startSequence.length === 0 &&
     store.targetSequence.length === 0 &&
     store.endSequence.length === 0;
 
   if (isEmpty) {
-    store.loadBasicSequence();
+    await store.loadBasicSequence();
   }
 });
 </script>

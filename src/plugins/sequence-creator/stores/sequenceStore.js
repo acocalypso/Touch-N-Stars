@@ -823,10 +823,10 @@ export const useSequenceStore = defineStore('sequence', () => {
               $values: [
                 {
                   $id: endInstructionsId,
-                  $type: 'NINA.Sequencer.Container.ParallelContainer, NINA.Sequencer',
+                  $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
                   Strategy: {
                     $type:
-                      'NINA.Sequencer.Container.ExecutionStrategy.ParallelStrategy, NINA.Sequencer',
+                      'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrategy, NINA.Sequencer',
                   },
                   Name: 'END_INSTRUCTIONS',
                   Conditions: {

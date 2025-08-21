@@ -1723,7 +1723,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     }
 
     isModified.value = false;
-    
+
     // Save this basic sequence as the initial default in backend
     try {
       await saveAsDefaultSequence();

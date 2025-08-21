@@ -14,22 +14,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
-    
-    <!-- Modern storage permissions for Android 11+ (API 30+) -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" 
-        tools:ignore="ScopedStorage" />
-    
-    <!-- Media permissions for Android 13+ (API 33+) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    
+
     <!-- Other permissions -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     
-    <!-- Modern Android permissions for file access -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" 
-                     tools:ignore="ScopedStorage" />
 
     <application
         android:allowBackup="true"

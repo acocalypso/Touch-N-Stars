@@ -102,6 +102,8 @@ export const useSettingsStore = defineStore('settings', {
       'bg-purple-900',
       'bg-rose-900',
     ],
+    // Device/screen behavior
+    keepAwakeEnabled: false,
   }),
   actions: {
     setCoordinates(coords) {
@@ -260,6 +262,10 @@ export const useSettingsStore = defineStore('settings', {
       this.guider.phd2ForceCalibration = value;
       localStorage.setItem('phd2ForceCalibration', value);
     },
+
+    setKeepAwakeEnabled(value) {
+      this.keepAwakeEnabled = value;
+    },
   },
   persist: {
     enabled: true,
@@ -279,6 +285,7 @@ export const useSettingsStore = defineStore('settings', {
           'notifications',
           'showPlugins',
           'guider',
+          'keepAwakeEnabled',
         ],
       },
     ],

@@ -426,7 +426,7 @@
                   </select>
                 </template>
                 <template v-else-if="key === 'Filter'">
-                  {{ value.Name }}
+                  {{ value._name || value.Name || value }}
                 </template>
                 <!--  Binning kann man noch nicht setzen. Deshalb auf false 20250315 -->
                 <template v-else-if="key === 'Binning' && sequenceStore.sequenceEdit && false">

@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
+import websocketChannelService from '@/services/websocketChannelSocket';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -191,6 +192,11 @@ export const apiStore = defineStore('store', {
 
         // when everything is accessible
         this.isBackendReachable = true;
+        
+        // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
+        if (!websocketChannelService.isWebSocketConnected()) {
+          websocketChannelService.connect();
+        }
 
         const [
           imageHistoryResponse,
@@ -254,6 +260,11 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       this.apiPort = null;
+      
+      // Channel WebSocket disconnecten wenn Backend nicht erreichbar
+      if (websocketChannelService.isWebSocketConnected()) {
+        websocketChannelService.disconnect();
+      }
     },
 
     handleApiResponses({

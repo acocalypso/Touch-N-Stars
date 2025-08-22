@@ -389,6 +389,26 @@ const apiService = {
   },
 
   //-------------------------------------  Image  ---------------------------------------
+      async imagePrepared(quality, resize, scale) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/image/prepared`, {
+        params: {
+          quality: quality,
+          resize: resize,
+          scale: scale,
+          autoPrepare: true,
+        },
+        responseType: 'blob',
+      });
+      console.log(response);
+      return response;
+    } catch (error) {
+      // console.error('Error read Image :', error);
+      throw error;
+    }
+  },
+  
   async getSequenceImage(index, quality, resize, scale) {
     try {
       const { BASE_URL } = getUrls();

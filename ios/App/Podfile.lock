@@ -1,15 +1,17 @@
 PODS:
-  - Capacitor (7.4.2):
+  - Capacitor (7.4.3):
     - CapacitorCordova
   - CapacitorApp (7.0.2):
     - Capacitor
-  - CapacitorCordova (7.4.2)
+  - CapacitorCommunityKeepAwake (7.1.0):
+    - Capacitor
+  - CapacitorCordova (7.4.3)
   - CapacitorFilesystem (7.1.4):
     - Capacitor
     - IONFilesystemLib (~> 1.0.1)
-  - CapacitorGeolocation (7.1.4):
+  - CapacitorGeolocation (7.1.5):
     - Capacitor
-    - IONGeolocationLib (~> 1.0)
+    - IONGeolocationLib (= 1.0.1)
   - CapacitorGetlocalip (0.0.2):
     - Capacitor
   - CapacitorHaptics (7.0.2):
@@ -23,11 +25,12 @@ PODS:
   - CapawesomeCapacitorFilePicker (7.2.0):
     - Capacitor
   - IONFilesystemLib (1.0.1)
-  - IONGeolocationLib (1.0.0)
+  - IONGeolocationLib (1.0.1)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
+  - "CapacitorCommunityKeepAwake (from `../../node_modules/@capacitor-community/keep-awake`)"
   - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
   - "CapacitorGeolocation (from `../../node_modules/@capacitor/geolocation`)"
@@ -48,6 +51,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorApp:
     :path: "../../node_modules/@capacitor/app"
+  CapacitorCommunityKeepAwake:
+    :path: "../../node_modules/@capacitor-community/keep-awake"
   CapacitorCordova:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorFilesystem:
@@ -68,11 +73,12 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capawesome/capacitor-file-picker"
 
 SPEC CHECKSUMS:
-  Capacitor: 9d9e481b79ffaeacaf7a85d6a11adec32bd33b59
+  Capacitor: 28d6c01026a9a3f7156529498ec1f389a2a28dbc
   CapacitorApp: 1f6922c9c5c8b1c538d7fbe92ebe44a81b34bed3
-  CapacitorCordova: 5e58d04631bc5094894ac106e2bf1da18a9e6151
+  CapacitorCommunityKeepAwake: 05c75aab989f60e621870cf03b24a144a5544c30
+  CapacitorCordova: 435121e81a2df4d0034f0fb11fcefab5104cfdb5
   CapacitorFilesystem: f9bd850c41e048180e5dc0cbb90f2033ede9d2cc
-  CapacitorGeolocation: 32a1f849c38c72b5071de36a28ebc548ef3bb611
+  CapacitorGeolocation: 84f868bea4c2499aebc3bb3a88fd0a508f87ab87
   CapacitorGetlocalip: d0f07ecbff88e31d28e5cc76dd246fc4c134b36d
   CapacitorHaptics: b3fb2869e72c4466e18ce9ccbeb60a3d8723b3d4
   CapacitorKeyboard: a86aa9e4741b6444a802df26440a92ae041b34a6
@@ -80,8 +86,8 @@ SPEC CHECKSUMS:
   CapacitorStatusBar: e04d05e121d5a5979c29eb4249186a4e4a84cacb
   CapawesomeCapacitorFilePicker: 0f4a913a00e39dd77213449f0d917e92f35a5ca9
   IONFilesystemLib: 89258b8e3e85465da93127d25d7ce37f977e8a6f
-  IONGeolocationLib: 81f33f88d025846946de2cf63b0c7628e7c6bc9d
+  IONGeolocationLib: 20f9d0248a0b5264511fb57a37e25dd2badf797a
 
-PODFILE CHECKSUM: 4db03f0fc8201f835073066d95f323b480054d49
+PODFILE CHECKSUM: a9d7d6d84cd81fe560c57d26e5f8069f279f1da4
 
 COCOAPODS: 1.16.2

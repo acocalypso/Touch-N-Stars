@@ -1,18 +1,19 @@
 <template>
-  <div class="text-center">
-    <!-- Camera Connection Status -->
-    <div class="w-full flex justify-center mb-3">
-      <div class="max-w-xl">
-        <div
-          v-if="!store.cameraInfo.Connected"
-          class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
-        >
-          <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
+  <div class="camera-page">
+    <div class="text-center">
+      <!-- Camera Connection Status -->
+      <div class="w-full flex justify-center mb-3">
+        <div class="max-w-xl">
+          <div
+            v-if="!store.cameraInfo.Connected"
+            class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+          >
+            <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Hauptbereich, wenn Kamera verbunden -->
+      <!-- Hauptbereich, wenn Kamera verbunden -->
     <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
       <!-- ZoomableImage Component - Full Screen -->
       <ZoomableImage
@@ -266,6 +267,7 @@
       </div>
     </template>
   </ModalTransparanet>
+  </div>
 </template>
 
 <script setup>

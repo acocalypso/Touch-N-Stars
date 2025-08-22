@@ -192,7 +192,7 @@ export const apiStore = defineStore('store', {
 
         // when everything is accessible
         this.isBackendReachable = true;
-        
+
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
@@ -200,7 +200,7 @@ export const apiStore = defineStore('store', {
             console.log('Channel WebSocket Message:', message);
             this.handleWebSocketMessage(message);
           });
-          
+
           websocketChannelService.connect();
         }
 
@@ -266,7 +266,7 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       this.apiPort = null;
-      
+
       // Channel WebSocket disconnecten wenn Backend nicht erreichbar
       if (websocketChannelService.isWebSocketConnected()) {
         websocketChannelService.disconnect();
@@ -517,30 +517,30 @@ export const apiStore = defineStore('store', {
 
     async handleWebSocketMessage(message) {
       console.log('Handling WebSocket message:', message);
-      
+
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
         console.log('IMAGE-PREPARED event received, fetching image...');
-        
+
         try {
           const settingsStore = useSettingsStore();
           const cameraStore = useCameraStore();
-          
+
           // Hole Image Quality aus den Settings
           const quality = settingsStore.camera.imageQuality || 90;
-          
+
           console.log(`Fetching image with quality: ${quality}`);
-          
+
           // Rufe getImagePrepared auf
           const imageResponse = await apiService.getImagePrepared(quality);
-          
+
           if (imageResponse && imageResponse.data) {
             // Convert Blob to URL für Anzeige
             const imageUrl = URL.createObjectURL(imageResponse.data);
-            
+
             // Speichere im CameraStore
             cameraStore.imageData = imageUrl;
-            
+
             console.log('Image successfully stored in cameraStore.imageData');
           }
         } catch (error) {

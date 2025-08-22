@@ -389,11 +389,11 @@ const apiService = {
   },
 
   //-------------------------------------  Image  ---------------------------------------
-      async getImagePrepared(quality, resize=false, scale=100) {
+  async getImagePrepared(quality, resize = false, scale = 100) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/image/prepared`, {
-        params: { 
+        params: {
           quality: quality,
           resize: resize,
           scale: scale,

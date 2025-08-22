@@ -51,7 +51,7 @@ class WebSocketChannelService {
         } else {
           message = event.data;
         }
-        
+
         if (this.messageCallback) {
           this.messageCallback(message);
         }
@@ -82,7 +82,9 @@ class WebSocketChannelService {
       }
 
       if (this.shouldReconnect && store.isBackendReachable) {
-        console.log(`Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`);
+        console.log(
+          `Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`
+        );
         setTimeout(() => {
           if (this.shouldReconnect && store.isBackendReachable) {
             this.connect();
@@ -105,7 +107,9 @@ class WebSocketChannelService {
       this.socket.send(JSON.stringify(message));
       console.log('Channel Nachricht gesendet:', message);
     } else {
-      console.error('Channel WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
+      console.error(
+        'Channel WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.'
+      );
       if (this.statusCallback) {
         this.statusCallback('Fehler: WebSocket nicht verbunden');
       }
@@ -116,7 +120,7 @@ class WebSocketChannelService {
   subscribe(eventType) {
     const subscribeMessage = {
       action: 'subscribe',
-      eventType: eventType
+      eventType: eventType,
     };
     this.sendMessage(subscribeMessage);
   }
@@ -125,7 +129,7 @@ class WebSocketChannelService {
   unsubscribe(eventType) {
     const unsubscribeMessage = {
       action: 'unsubscribe',
-      eventType: eventType
+      eventType: eventType,
     };
     this.sendMessage(unsubscribeMessage);
   }

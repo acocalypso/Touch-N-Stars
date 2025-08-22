@@ -2,114 +2,116 @@
   <div class="button-slew-center-rotate">
     <div class="">
       <div class="flex gap-0 border border-gray-600 rounded-lg overflow-hidden">
-      <button
-        @click="store.mountInfo.Slewing ? stopSlew() : slew()"
-        :disabled="
-          !store.mountInfo.Slewing &&
-          (framingStore.isSlewing ||
+        <button
+          @click="store.mountInfo.Slewing ? stopSlew() : slew()"
+          :disabled="
+            !store.mountInfo.Slewing &&
+            (framingStore.isSlewing ||
+              framingStore.isSlewingAndCentering ||
+              framingStore.isRotating ||
+              props.disabled)
+          "
+          :class="[
+            'px-5 flex-1 w-full rounded-none',
+            store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
+          ]"
+        >
+          <span
+            v-if="
+              framingStore.isSlewing ||
+              framingStore.isSlewingAndCentering ||
+              framingStore.isRotating
+            "
+            class="loader mr-2"
+          ></span>
+          <StopCircleIcon v-if="store.mountInfo.Slewing" class="w-6 h-6" />
+          <p v-else-if="label">{{ label }}</p>
+          <p
+            v-else-if="
+              settingsStore.mount.useCenter &&
+              settingsStore.mount.useRotate &&
+              store.rotatorInfo.Connected
+            "
+          >
+            {{ $t('components.slewAndCenter.slew_and_center') }} &
+            {{ $t('components.framing.useRotate') }}
+          </p>
+          <p v-else-if="settingsStore.mount.useCenter">
+            {{ $t('components.slewAndCenter.slew_and_center') }}
+          </p>
+          <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
+        </button>
+        <button
+          @click="showSettingsModal = true"
+          :disabled="
+            framingStore.isSlewing ||
             framingStore.isSlewingAndCentering ||
             framingStore.isRotating ||
-            props.disabled)
-        "
-        :class="[
-          'px-5 flex-1 w-full rounded-none',
-          store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
-        ]"
-      >
-        <span
-          v-if="
-            framingStore.isSlewing || framingStore.isSlewingAndCentering || framingStore.isRotating
+            props.disabled
           "
-          class="loader mr-2"
-        ></span>
-        <StopCircleIcon v-if="store.mountInfo.Slewing" class="w-6 h-6" />
-        <p v-else-if="label">{{ label }}</p>
-        <p
-          v-else-if="
-            settingsStore.mount.useCenter &&
-            settingsStore.mount.useRotate &&
-            store.rotatorInfo.Connected
-          "
+          class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors duration-200 px-3 w-12 h-12 rounded-none border-l border-gray-500"
+          title="Settings"
         >
-          {{ $t('components.slewAndCenter.slew_and_center') }} &
-          {{ $t('components.framing.useRotate') }}
-        </p>
-        <p v-else-if="settingsStore.mount.useCenter">
-          {{ $t('components.slewAndCenter.slew_and_center') }}
-        </p>
-        <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
-      </button>
-      <button
-        @click="showSettingsModal = true"
-        :disabled="
-          framingStore.isSlewing ||
-          framingStore.isSlewingAndCentering ||
-          framingStore.isRotating ||
-          props.disabled
-        "
-        class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors duration-200 px-3 w-12 h-12 rounded-none border-l border-gray-500"
-        title="Settings"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-          />
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-          />
-        </svg>
-      </button>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+        </button>
       </div>
     </div>
 
-  <!-- Settings Modal -->
-  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-[60]'">
-    <template #header>
-      <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
-    </template>
-    <template #body>
-      <div class="space-y-4">
-        <div
-          class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
-        >
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
-            <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
+    <!-- Settings Modal -->
+    <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-[60]'">
+      <template #header>
+        <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
+      </template>
+      <template #body>
+        <div class="space-y-4">
+          <div
+            class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
+          >
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+              <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
+            </div>
+            <div class="ml-6">
+              <toggleButton
+                @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
+                :status-value="settingsStore.mount.useCenter"
+              />
+            </div>
           </div>
-          <div class="ml-6">
-            <toggleButton
-              @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
-              :status-value="settingsStore.mount.useCenter"
-            />
+
+          <div
+            v-if="store.rotatorInfo.Connected"
+            class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
+          >
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+              <span class="text-sm font-medium">{{ $t('components.framing.useRotate') }}</span>
+            </div>
+            <div class="ml-6">
+              <toggleButton
+                @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
+                :status-value="settingsStore.mount.useRotate"
+              />
+            </div>
           </div>
         </div>
+      </template>
+    </Modal>
 
-        <div
-          v-if="store.rotatorInfo.Connected"
-          class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
-        >
-          <div class="flex items-center gap-3">
-            <div class="w-2 h-2 rounded-full bg-purple-400"></div>
-            <span class="text-sm font-medium">{{ $t('components.framing.useRotate') }}</span>
-          </div>
-          <div class="ml-6">
-            <toggleButton
-              @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
-              :status-value="settingsStore.mount.useRotate"
-            />
-          </div>
-        </div>
-      </div>
-    </template>
-  </Modal>
-
-  <CenterModal ref="centeringModalRef" />
+    <CenterModal ref="centeringModalRef" />
   </div>
 </template>
 

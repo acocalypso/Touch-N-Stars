@@ -1,13 +1,14 @@
 <template>
-  <SubNav
-    :items="[
-      { name: t('components.mount.title'), value: 'showMount' },
-      { name: t('components.mount.slew'), value: 'showSlew' },
-      { name: t('components.tppa.title'), value: 'showTppa' },
-    ]"
-    v-model:activeItem="store.mount.currentTab"
-  />
-  <div class="container py-16 flex items-center justify-center">
+  <div class="mount-page">
+    <SubNav
+      :items="[
+        { name: t('components.mount.title'), value: 'showMount' },
+        { name: t('components.mount.slew'), value: 'showSlew' },
+        { name: t('components.tppa.title'), value: 'showTppa' },
+      ]"
+      v-model:activeItem="store.mount.currentTab"
+    />
+    <div class="container py-16 flex items-center justify-center">
     <div class="container max-w-md landscape:max-w-xl">
       <h5 class="text-xl text-center font-bold text-white mb-4">
         {{ $t('components.mount.title') }}
@@ -39,6 +40,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>

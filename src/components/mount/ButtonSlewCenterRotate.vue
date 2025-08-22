@@ -1,6 +1,7 @@
 <template>
-  <div class="">
-    <div class="flex gap-0 border border-gray-600 rounded-lg overflow-hidden">
+  <div class="button-slew-center-rotate">
+    <div class="">
+      <div class="flex gap-0 border border-gray-600 rounded-lg overflow-hidden">
       <button
         @click="store.mountInfo.Slewing ? stopSlew() : slew()"
         :disabled="
@@ -64,8 +65,8 @@
           />
         </svg>
       </button>
+      </div>
     </div>
-  </div>
 
   <!-- Settings Modal -->
   <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-[60]'">
@@ -109,6 +110,7 @@
   </Modal>
 
   <CenterModal ref="centeringModalRef" />
+  </div>
 </template>
 
 <script setup>

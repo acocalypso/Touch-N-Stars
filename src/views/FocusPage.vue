@@ -1,16 +1,17 @@
 <template>
-  <div class="text-left mb-2">
-    <h1 class="text-xl text-center font-bold">{{ $t('components.focuser.title') }}</h1>
-  </div>
-  <div
-    v-if="!store.focuserInfo.Connected"
-    class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
-  >
-    <p class="text-red-400 font-medium text-center">
-      {{ $t('components.focuser.please_connect_focuser') }}
-    </p>
-  </div>
-  <div v-else class="container flex items-center justify-center">
+  <div class="focus-page">
+    <div class="text-left mb-2">
+      <h1 class="text-xl text-center font-bold">{{ $t('components.focuser.title') }}</h1>
+    </div>
+    <div
+      v-if="!store.focuserInfo.Connected"
+      class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+    >
+      <p class="text-red-400 font-medium text-center">
+        {{ $t('components.focuser.please_connect_focuser') }}
+      </p>
+    </div>
+    <div v-else class="container flex items-center justify-center">
     <div class="container max-w-md landscape:max-w-xl">
       <infoFocuser
         v-model="store.focuserInfo.Connected"
@@ -92,6 +93,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 

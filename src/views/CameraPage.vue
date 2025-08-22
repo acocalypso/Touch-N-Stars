@@ -28,6 +28,7 @@
         @fullscreen="openImageModal"
         @zoom-change="handleZoomChange"
         @image-load="handleImageLoad"
+        @image-error="handleImageError"
         class="bg-gray-900"
       >
         <!-- Custom placeholder -->
@@ -271,10 +272,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { EyeIcon } from '@heroicons/vue/24/outline';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
@@ -286,10 +288,12 @@ import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import apiService from '@/services/apiService';
 
 // Stores
 const store = apiStore();
 const cameraStore = useCameraStore();
+const settingsStore = useSettingsStore();
 
 // State
 const showModal = ref(false);
@@ -379,6 +383,34 @@ const openImageModal = () => {
 const closeImageModal = () => {
   showModal.value = false;
 };
+
+const handleImageError = (event) => {
+  console.log('Image load error:', event);
+  // Clear imageData on error to show placeholder
+  cameraStore.imageData = null;
+};
+
+// Load image on mount if imageData is empty
+onMounted(async () => {
+  if (!cameraStore.imageData) {
+    try {
+      const quality = settingsStore.camera.imageQuality || 90;
+      console.log(`Loading image on mount with quality: ${quality}`);
+      
+      const imageResponse = await apiService.getImagePrepared(quality);
+      
+      if (imageResponse && imageResponse.data) {
+        const imageUrl = URL.createObjectURL(imageResponse.data);
+        cameraStore.imageData = imageUrl;
+        console.log('Image loaded successfully on mount');
+      }
+    } catch (error) {
+      console.log('No image available on mount:', error.message);
+      // Keep imageData null/empty on error
+      cameraStore.imageData = null;
+    }
+  }
+});
 </script>
 
 <style scoped>

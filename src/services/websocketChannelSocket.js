@@ -45,13 +45,21 @@ class WebSocketChannelService {
     this.socket.onmessage = (event) => {
       console.log('Channel Nachricht empfangen:', event.data);
       try {
-        const message = JSON.parse(event.data);
-        console.log('Channel Geparste Nachricht:', message);
+        let message;
+        if (event.data.startsWith('{') || event.data.startsWith('[')) {
+          message = JSON.parse(event.data);
+        } else {
+          message = event.data;
+        }
+        
         if (this.messageCallback) {
           this.messageCallback(message);
         }
       } catch (error) {
         console.error('Channel Fehler beim Parsen der Nachricht:', error);
+        if (this.messageCallback) {
+          this.messageCallback(event.data);
+        }
         if (this.statusCallback) {
           this.statusCallback('Fehler beim Empfangen einer Nachricht');
         }
@@ -73,7 +81,6 @@ class WebSocketChannelService {
         this.statusCallback('Geschlossen');
       }
 
-      // Automatische Wiederverbindung nur wenn App online ist
       if (this.shouldReconnect && store.isBackendReachable) {
         console.log(`Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`);
         setTimeout(() => {

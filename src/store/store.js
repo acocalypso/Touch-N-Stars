@@ -195,6 +195,12 @@ export const apiStore = defineStore('store', {
         
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
+          // Setup message callback für IMAGE-PREPARED handling
+          websocketChannelService.setMessageCallback((message) => {
+            console.log('Channel WebSocket Message:', message);
+            this.handleWebSocketMessage(message);
+          });
+          
           websocketChannelService.connect();
         }
 
@@ -507,6 +513,40 @@ export const apiStore = defineStore('store', {
       const isRecent = timeDiff < 10000;
 
       return isRecent;
+    },
+
+    async handleWebSocketMessage(message) {
+      console.log('Handling WebSocket message:', message);
+      
+      // Check if message has the expected structure with Response.Event
+      if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
+        console.log('IMAGE-PREPARED event received, fetching image...');
+        
+        try {
+          const settingsStore = useSettingsStore();
+          const cameraStore = useCameraStore();
+          
+          // Hole Image Quality aus den Settings
+          const quality = settingsStore.camera.imageQuality || 90;
+          
+          console.log(`Fetching image with quality: ${quality}`);
+          
+          // Rufe getImagePrepared auf
+          const imageResponse = await apiService.getImagePrepared(quality);
+          
+          if (imageResponse && imageResponse.data) {
+            // Convert Blob to URL für Anzeige
+            const imageUrl = URL.createObjectURL(imageResponse.data);
+            
+            // Speichere im CameraStore
+            cameraStore.imageData = imageUrl;
+            
+            console.log('Image successfully stored in cameraStore.imageData');
+          }
+        } catch (error) {
+          console.error('Error handling IMAGE-PREPARED message:', error);
+        }
+      }
     },
   },
 });

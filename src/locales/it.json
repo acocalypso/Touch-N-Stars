@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Annulla",
-    "confirm": "Conferma"
+    "confirm": "Conferma",
+    "close": "Vicino"
   },
   "general": {
     "cancel": "Annulla",

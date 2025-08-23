@@ -54,6 +54,7 @@ Mein Dank gilt dem gesamten Entwicklerteam von **NINA**, deren großartige Arbei
 Ein besonderes Dankeschön an **Christian**, den Entwickler der **Advanced API**, für seine Bemühungen und Unterstützung. Seine Arbeit hat die Entwicklung dieser WebApp maßgeblich ermöglicht.
 
 ### 🔍 Weitere Informationen
+- Besuche unsere Website: https://touch-n-stars.eu
 - Mehr Details zur Anwendung und zur Nutzung findest du in unserem [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki).
 - Auf unserem  [YouTube-Kanal](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) gibt es Videoanleitungen und weitere Tipps zur Nutzung von Touch'N'Stars
 - [Stellarium Web engine](https://github.com/Stellarium/stellarium-web-engine)

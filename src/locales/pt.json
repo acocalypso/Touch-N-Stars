@@ -607,7 +607,8 @@
   },
   "common": {
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "close": "Fechar"
   },
   "general": {
     "cancel": "Cancelar",

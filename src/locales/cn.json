@@ -252,7 +252,10 @@
         "trackingActive": "跟踪已激活",
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
-        "notSlewing": "赤道仪未转动"
+        "notSlewing": "赤道仪未转动",
+        "rightAscension": "赤经",
+        "declination": "赤纬",
+        "timeToMeridianFlip": "距离子午线翻转时间"
       },
       "location_sync": {
         "noSync": {

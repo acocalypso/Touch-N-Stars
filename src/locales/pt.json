@@ -295,6 +295,9 @@
       "info": {
         "notConnected": "Por favor, conecte a montagem",
         "notSlewing": "Não gire ativo",
+        "rightAscension": "Ascensão Reta",
+        "declination": "Declinação",
+        "timeToMeridianFlip": "Tempo até Inversão do Meridiano",
         "parked": "Estacionado",
         "slewing": "Balanços de montagem",
         "trackingActive": "Configuração ativa",

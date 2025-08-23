@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rotator page: Dedicated page with enhanced info display and controls
 - Camera page: Quick access buttons and modal popups for rotator controls
 - Navigation: Icons for filterwheel and rotator when equipment is connected
+- Mount info: Added Right Ascension, Declination, and Time to Meridian Flip display
 
 ### Changed
 - Rotator: Moved from camera settings modal to dedicated quick access button

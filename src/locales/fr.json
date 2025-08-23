@@ -252,7 +252,10 @@
         "trackingActive": "Le suivi est actif",
         "trackingDisabled": "Le suivi est désactivé",
         "slewing": "Le suivi est actif",
-        "notSlewing": "Pas de suivi"
+        "notSlewing": "Pas de suivi",
+        "rightAscension": "Ascension Droite",
+        "declination": "Déclinaison",
+        "timeToMeridianFlip": "Temps avant Retournement Méridien"
       },
       "location_sync": {
         "noSync": {

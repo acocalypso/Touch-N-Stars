@@ -263,7 +263,10 @@
         "trackingActive": "Tracking is active",
         "trackingDisabled": "Tracking disabled",
         "slewing": "Mount is slewing",
-        "notSlewing": "Not slewing"
+        "notSlewing": "Not slewing",
+        "rightAscension": "Right Ascension",
+        "declination": "Declination",
+        "timeToMeridianFlip": "Time to Meridian Flip"
       }
     },
     "guider": {

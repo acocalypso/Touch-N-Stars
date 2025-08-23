@@ -9,9 +9,17 @@
       :disabledText="$t('components.rotator.disconnected')"
     />
     <StatusString
-      :isEnabled="store.rotatorInfo.MechanicalPosition !== undefined && store.rotatorInfo.MechanicalPosition !== null"
+      :isEnabled="
+        store.rotatorInfo.MechanicalPosition !== undefined &&
+        store.rotatorInfo.MechanicalPosition !== null
+      "
       :Name="$t('components.rotator.currentPosition')"
-      :Value="store.rotatorInfo.MechanicalPosition !== undefined && store.rotatorInfo.MechanicalPosition !== null ? store.rotatorInfo.MechanicalPosition.toFixed(1) + '°' : ''"
+      :Value="
+        store.rotatorInfo.MechanicalPosition !== undefined &&
+        store.rotatorInfo.MechanicalPosition !== null
+          ? store.rotatorInfo.MechanicalPosition.toFixed(1) + '°'
+          : ''
+      "
     />
     <StatusBool
       :isEnabled="store.rotatorInfo.IsMoving"
@@ -21,7 +29,11 @@
     <StatusString
       :isEnabled="store.rotatorInfo.StepSize !== undefined && store.rotatorInfo.StepSize !== null"
       :Name="$t('components.rotator.stepSize')"
-      :Value="store.rotatorInfo.StepSize !== undefined && store.rotatorInfo.StepSize !== null ? store.rotatorInfo.StepSize.toFixed(2) : ''"
+      :Value="
+        store.rotatorInfo.StepSize !== undefined && store.rotatorInfo.StepSize !== null
+          ? store.rotatorInfo.StepSize.toFixed(2)
+          : ''
+      "
     />
   </div>
 </template>

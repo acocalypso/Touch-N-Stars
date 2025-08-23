@@ -9,9 +9,15 @@
       :Value="store.filterInfo.SelectedFilter ? store.filterInfo.SelectedFilter.Name : ''"
     />
     <StatusString
-      :isEnabled="store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Position !== undefined"
+      :isEnabled="
+        store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Position !== undefined
+      "
       :Name="$t('components.filterwheel.position')"
-      :Value="store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Position !== undefined ? store.filterInfo.SelectedFilter.Position : ''"
+      :Value="
+        store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Position !== undefined
+          ? store.filterInfo.SelectedFilter.Position
+          : ''
+      "
     />
     <StatusString
       :isEnabled="store.filterInfo.AvailableFilters && store.filterInfo.AvailableFilters.length > 0"
@@ -22,7 +28,6 @@
 </template>
 
 <script setup>
-import StatusBool from '@/components/helpers/StatusBool.vue';
 import StatusString from '@/components/helpers/StatusString.vue';
 import { apiStore } from '@/store/store';
 

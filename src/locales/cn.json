@@ -502,9 +502,16 @@
       }
     },
     "filterwheel": {
+      "title": "滤镜轮",
       "filter": "滤镜：",
       "unknown": "未知",
       "nofilteravailable": "暂无滤镜可用",
+      "please_connect_filterwheel": "请连接滤镜轮",
+      "connected": "已连接",
+      "disconnected": "未连接",
+      "currentFilter": "当前滤镜",
+      "position": "位置",
+      "availableFilters": "可用滤镜",
       "manual_filter": {
         "name": "更换为滤镜：",
         "title": "滤镜轮"

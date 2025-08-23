@@ -498,9 +498,16 @@
       }
     },
     "filterwheel": {
+      "title": "Filter Wheel",
       "filter": "Filter:",
       "unknown": "Unknown",
       "nofilteravailable": "No filter available",
+      "please_connect_filterwheel": "Please connect filter wheel",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "currentFilter": "Current Filter",
+      "position": "Position",
+      "availableFilters": "Available Filters",
       "manual_filter": {
         "title": "Filterwheel",
         "name": "Change to filter:"

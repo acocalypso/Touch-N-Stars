@@ -882,9 +882,16 @@
       }
     },
     "filterwheel": {
+      "title": "Filterrad",
       "filter": "Filter:",
       "unknown": "Unbekannt",
       "nofilteravailable": "Kein Filter verfügbar",
+      "please_connect_filterwheel": "Bitte Filterrad verbinden",
+      "connected": "Verbunden",
+      "disconnected": "Nicht verbunden",
+      "currentFilter": "Aktueller Filter",
+      "position": "Position",
+      "availableFilters": "Verfügbare Filter",
       "manual_filter": {
         "name": "Auf Filter wechseln:",
         "title": "Filterrad"

@@ -502,9 +502,16 @@
       }
     },
     "filterwheel": {
+      "title": "Ruota Filtri",
       "filter": "Filtro:",
       "unknown": "Sconosciuto",
       "nofilteravailable": "Nessun filtro disponibile",
+      "please_connect_filterwheel": "Collega la ruota filtri",
+      "connected": "Connesso",
+      "disconnected": "Disconnesso",
+      "currentFilter": "Filtro Attuale",
+      "position": "Posizione",
+      "availableFilters": "Filtri Disponibili",
       "manual_filter": {
         "name": "Change to filter:",
         "title": "Filterwheel"

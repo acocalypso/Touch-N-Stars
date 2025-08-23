@@ -201,13 +201,20 @@
       "titel": "Favoritos"
     },
     "filterwheel": {
+      "title": "Roda de Filtros",
       "filter": "Filtro:",
+      "unknown": "Desconhecido",
+      "nofilteravailable": "Nenhum filtro disponível",
+      "please_connect_filterwheel": "Por favor conecte a roda de filtros",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "currentFilter": "Filtro Atual",
+      "position": "Posição",
+      "availableFilters": "Filtros Disponíveis",
       "manual_filter": {
         "name": "Mudar para o filtro:",
         "title": "Roda de filtro"
-      },
-      "nofilteravailable": "Nenhum filtro disponível",
-      "unknown": "Desconhecido"
+      }
     },
     "flat": {
       "brightness": "Brilho:",

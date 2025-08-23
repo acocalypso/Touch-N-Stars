@@ -24,7 +24,7 @@
               <ButtonsFastChangePositon />
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-4 flex gap-2 items-center">
             <button
               v-if="!store.focuserAfInfo.autofocus_running"
               class="default-button-cyan"
@@ -39,6 +39,14 @@
               :disabled="sequenceStore.sequenceRunning"
             >
               {{ $t('components.focuser.cancel_autofocus') }}
+            </button>
+            <button
+              v-if="store.focuserAfInfo.autofocus_running"
+              @click="showImageModal = true"
+              class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md hover:bg-cyan-600 transition-colors"
+              title="Show Image"
+            >
+              <PhotoIcon class="w-6 h-6" />
             </button>
           </div>
 
@@ -95,6 +103,14 @@
       </div>
     </div>
   </div>
+  
+  <!-- Image Modal -->
+  <ImageModal
+    :showModal="showImageModal"
+    :imageData="cameraStore.imageData"
+    :isLoading="false"
+    @close="showImageModal = false"
+  />
 </template>
 
 <script setup>
@@ -104,15 +120,20 @@ import { useSequenceStore } from '@/store/sequenceStore';
 import infoFocuser from '@/components/focuser/infoFocuser.vue';
 import AfFnishGraph from '@/components/focuser/AfFnishGraph.vue';
 import { apiStore } from '@/store/store';
+import { useCameraStore } from '@/store/cameraStore';
 import AfStatus from '@/components/focuser/AfStatus.vue';
 import AfShowGraph from '@/components/focuser/AfShowGraph.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
+import ImageModal from '@/components/helpers/imageModal.vue';
+import { PhotoIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
+const cameraStore = useCameraStore();
 const sequenceStore = useSequenceStore();
 const position = ref(0);
 const delayShowGraph = ref(true);
+const showImageModal = ref(false);
 
 async function startAutofocus() {
   try {

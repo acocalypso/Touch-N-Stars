@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "close": "Schließen"
   },
   "whatsnew": {
     "title": "Neuigkeiten",

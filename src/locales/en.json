@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "close": "Close"
   },
   "general": {
     "cancel": "Cancel",

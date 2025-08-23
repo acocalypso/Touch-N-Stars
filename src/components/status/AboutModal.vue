@@ -69,6 +69,47 @@
             >
               <path
                 fill-rule="evenodd"
+                d="M3.94 6.06a8 8 0 1112.12 0 8 8 0 01-12.12 0zm10.607 1.414a6 6 0 10-8.485 0 6 6 0 008.485 0zM10 7.5a2.5 2.5 0 110 5 2.5 2.5 0 010-5z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <span>Website</span>
+          </h3>
+          <a
+            href="https://touch-n-stars.eu"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-blue-400 hover:text-blue-300 transition-colors duration-200 pl-7 flex items-center space-x-2 break-all"
+          >
+            <span>https://touch-n-stars.eu</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"
+              />
+              <path
+                d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <div
+          class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
+        >
+          <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
                 d="M10 2a8 8 0 100 16 8 8 0 000-16zM4 10a6 6 0 1112 0 6 6 0 01-12 0zm6-3a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 100-2h-2V8a1 1 0 00-1-1z"
                 clip-rule="evenodd"
               />

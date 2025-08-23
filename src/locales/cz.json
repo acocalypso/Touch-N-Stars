@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Zrušit",
-    "confirm": "Potvrdit"
+    "confirm": "Potvrdit",
+    "close": "Close"
   },
   "general": {
     "cancel": "Zrušit",

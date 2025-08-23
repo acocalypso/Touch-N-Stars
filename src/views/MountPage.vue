@@ -14,6 +14,7 @@
           {{ $t('components.mount.title') }}
         </h5>
         <infoMount
+          v-if="store.mount.currentTab !== 'showTppa'"
           v-model="store.mountInfo.Connected"
           class="gap-1 p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
         />

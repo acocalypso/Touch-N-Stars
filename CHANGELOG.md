@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Camera page: Quick access buttons and modal popups for rotator controls
 - Navigation: Icons for filterwheel and rotator when equipment is connected
 - Mount info: Added Right Ascension, Declination, and Time to Meridian Flip display
+- TPPA page: Image modal with zoom functionality for viewing camera images during alignment
+- Focuser page: Image modal with zoom functionality for viewing camera images during autofocus
 
 ### Changed
 - Rotator: Moved from camera settings modal to dedicated quick access button
+- TPPA page: Mount info display hidden to reduce clutter during alignment process
 
 ### Fixed
 - Sequence: Display of the filter name

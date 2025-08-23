@@ -1018,5 +1018,9 @@
       "title": "Télescope",
       "welcome": "Bienvenue sur le plugin Telescopius!"
     }
+  },
+  "whatsnew": {
+    "loading": "Chargement…",
+    "title": "Quoi de neuf"
   }
 }

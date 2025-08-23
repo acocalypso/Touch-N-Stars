@@ -20,6 +20,14 @@
             >
               <Cog6ToothIcon class="w-6 h-6" />
             </button>
+            <button
+              v-if="tppaStore.isRunning"
+              @click="showImageModal = true"
+              class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md hover:bg-cyan-600 transition-colors"
+              title="Show Image"
+            >
+              <PhotoIcon class="w-6 h-6" />
+            </button>
             <ActuellErrorModal />
             <ErrorCircle />
           </div>
@@ -199,6 +207,14 @@
       <TppaSettings />
     </template>
   </Modal>
+
+  <!-- Image Modal -->
+  <ImageModal
+    :showModal="showImageModal"
+    :imageData="cameraStore.imageData"
+    :isLoading="false"
+    @close="showImageModal = false"
+  />
 </template>
 
 <script setup>
@@ -211,9 +227,11 @@ import {
   ArrowUpIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
+  PhotoIcon,
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
+import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
@@ -221,13 +239,16 @@ import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
+import ImageModal from '@/components/helpers/imageModal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
+const cameraStore = useCameraStore();
 const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);
+const showImageModal = ref(false);
 
 // Tolerance in arc minutes
 const tolerance = 1;

@@ -23,17 +23,17 @@
       :disabledText="$t('components.mount.info.notSlewing')"
     />
     <StatusString
-      :isEnabled="store.mountInfo.RightAscensionString"
+      :isEnabled="!!store.mountInfo.RightAscensionString"
       :Name="$t('components.mount.info.rightAscension')"
       :Value="store.mountInfo.RightAscensionString || ''"
     />
     <StatusString
-      :isEnabled="store.mountInfo.DeclinationString"
+      :isEnabled="!!store.mountInfo.DeclinationString"
       :Name="$t('components.mount.info.declination')"
       :Value="store.mountInfo.DeclinationString || ''"
     />
     <StatusString
-      :isEnabled="store.mountInfo.TimeToMeridianFlipString"
+      :isEnabled="!!store.mountInfo.TimeToMeridianFlipString"
       :Name="$t('components.mount.info.timeToMeridianFlip')"
       :Value="store.mountInfo.TimeToMeridianFlipString || ''"
     />

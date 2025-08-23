@@ -518,11 +518,18 @@
       }
     },
     "rotator": {
+      "title": "Rotatore",
       "label": "Rotatore",
       "move": "Muovi",
+      "control": "Controllo",
       "notConnected": "Collega rotatore",
-      "currentPosition": "Posizione corrente:",
-      "moving": "In movimento"
+      "please_connect_rotator": "Collega il rotatore",
+      "connected": "Connesso",
+      "disconnected": "Disconnesso",
+      "currentPosition": "Posizione Attuale",
+      "moving": "In Movimento",
+      "stationary": "Stazionario",
+      "stepSize": "Dimensione Passo"
     },
     "flat": {
       "please_connect_flatDevice": "Collega dispositivo flat",

@@ -11,6 +11,7 @@ import SequenceMonitoring from '@/views/SequenceMonitoring.vue';
 import SetupPage from '@/views/SetupPage.vue';
 import SwitchPage from '@/views/SwitchPage.vue';
 import FilterwheelPage from '@/views/FilterwheelPage.vue';
+import RotatorPage from '@/views/RotatorPage.vue';
 import Flatassistant from '@/views/FlatassistantPage.vue';
 import FocusPage from '@/views/FocusPage.vue';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -38,6 +39,7 @@ const routes = [
   { path: '/seq-mon', component: SequenceMonitoring, meta: { requiresSetup: true } },
   { path: '/switch', component: SwitchPage, meta: { requiresSetup: true } },
   { path: '/filterwheel', component: FilterwheelPage, meta: { requiresSetup: true } },
+  { path: '/rotator', component: RotatorPage, meta: { requiresSetup: true } },
   { path: '/flats', component: Flatassistant, meta: { requiresSetup: true } },
 ];
 

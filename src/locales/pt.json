@@ -328,11 +328,18 @@
       "label": "Perfil:"
     },
     "rotator": {
-      "currentPosition": "Posição atual:",
+      "title": "Rotador",
       "label": "Rotador",
       "move": "Mover",
-      "moving": "Movido",
-      "notConnected": "Por favor, conecte o rotador"
+      "control": "Controle",
+      "notConnected": "Por favor, conecte o rotador",
+      "please_connect_rotator": "Por favor conecte o rotador",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "currentPosition": "Posição Atual",
+      "moving": "Movendo",
+      "stationary": "Estacionário",
+      "stepSize": "Tamanho do Passo"
     },
     "sequence": {
       "choose_sequence": "Selecione sequência ...",

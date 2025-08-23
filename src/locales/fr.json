@@ -518,11 +518,18 @@
       }
     },
     "rotator": {
+      "title": "Rotateur",
       "label": "Rotateur",
       "move": "Déplacer",
+      "control": "Contrôle",
       "notConnected": "Merci de connecter le rotateur",
-      "currentPosition": "Position actuelle:",
-      "moving": "En mouvement"
+      "please_connect_rotator": "Veuillez connecter le rotateur",
+      "connected": "Connecté",
+      "disconnected": "Déconnecté",
+      "currentPosition": "Position Actuelle",
+      "moving": "En Mouvement",
+      "stationary": "Stationnaire",
+      "stepSize": "Taille de Pas"
     },
     "flat": {
       "please_connect_flatDevice": "Merci de connecter le panneau à flats",

@@ -518,11 +518,18 @@
       }
     },
     "rotator": {
+      "title": "旋转器",
       "label": "旋转器",
       "move": "移动",
+      "control": "控制",
       "notConnected": "请连接旋转器",
-      "currentPosition": "当前位置：",
-      "moving": "移动中"
+      "please_connect_rotator": "请连接旋转器",
+      "connected": "已连接",
+      "disconnected": "未连接",
+      "currentPosition": "当前位置",
+      "moving": "正在移动",
+      "stationary": "静止",
+      "stepSize": "步长"
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场板",

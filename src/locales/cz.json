@@ -518,11 +518,18 @@
       }
     },
     "rotator": {
+      "title": "Rotátor",
       "label": "Rotátor",
       "move": "Pohyb",
+      "control": "Ovládání",
       "notConnected": "připojte rotátor",
-      "currentPosition": "Současná pozice:",
-      "moving": "Vpohybu"
+      "please_connect_rotator": "Připojte prosím rotátor",
+      "connected": "Připojeno",
+      "disconnected": "Odpojeno",
+      "currentPosition": "Aktuální Pozice",
+      "moving": "Pohybuje se",
+      "stationary": "Nehybný",
+      "stepSize": "Velikost Kroku"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",

@@ -514,11 +514,18 @@
       }
     },
     "rotator": {
+      "title": "Rotator",
       "label": "Rotator",
       "move": "Move",
+      "control": "Control",
       "notConnected": "Please connect rotator",
-      "currentPosition": "Current position:",
-      "moving": "Moving"
+      "please_connect_rotator": "Please connect rotator",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "currentPosition": "Current Position",
+      "moving": "Moving",
+      "stationary": "Stationary",
+      "stepSize": "Step Size"
     },
     "flat": {
       "please_connect_flatDevice": "Please connect the flat device",

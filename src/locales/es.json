@@ -518,11 +518,18 @@
       }
     },
     "rotator": {
+      "title": "Rotador",
       "label": "Rotador",
       "move": "Mover",
+      "control": "Control",
       "notConnected": "Por favor conectar rotador",
-      "currentPosition": "Posición Actual:",
-      "moving": "Moviendo"
+      "please_connect_rotator": "Por favor conecta el rotador",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "currentPosition": "Posición Actual",
+      "moving": "Moviendo",
+      "stationary": "Estacionario",
+      "stepSize": "Tamaño de Paso"
     },
     "flat": {
       "please_connect_flatDevice": "Por favor conectar panel de flat",

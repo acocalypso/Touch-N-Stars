@@ -22,6 +22,10 @@
       "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     }
   },
+  "whatsnew": {
+    "title": "What's New",
+    "loading": "Loading…"
+  },
   "setup": {
     "welcome": "Welcome to Touch'N'Stars",
     "description": "Let's get started with a quick setup",

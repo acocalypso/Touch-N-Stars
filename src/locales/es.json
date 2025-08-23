@@ -1011,5 +1011,9 @@
       },
       "submissionHistory": "Historial de sumisión"
     }
+  },
+  "whatsnew": {
+    "loading": "Cargando…",
+    "title": "Qué hay de nuevo"
   }
 }

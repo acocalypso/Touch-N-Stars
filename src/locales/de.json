@@ -3,6 +3,10 @@
     "cancel": "Abbrechen",
     "confirm": "Bestätigen"
   },
+  "whatsnew": {
+    "title": "Neuigkeiten",
+    "loading": "Lade…"
+  },
   "general": {
     "cancel": "Abbrechen",
     "confirm": "Bestätigen"

@@ -1018,5 +1018,9 @@
       "title": "Telescopius",
       "welcome": "Welcome to the Telescopius plugin!"
     }
+  },
+  "whatsnew": {
+    "loading": "Loading…",
+    "title": "What's New"
   }
 }

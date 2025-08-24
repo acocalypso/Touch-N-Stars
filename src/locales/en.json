@@ -633,6 +633,11 @@
       "enter_name": "Enter name",
       "no_fav": "No favorites saved",
       "titel": "Favourites"
+    },
+    "helpers" : {
+      "imageModal": {
+        "no_image": "No image data available"
+      }
     }
   },
   "plugins": {

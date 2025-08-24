@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mount info: Added Right Ascension, Declination, and Time to Meridian Flip display
 - TPPA page: Image modal with zoom functionality for viewing camera images during alignment
 - Focuser page: Image modal with zoom functionality for viewing camera images during autofocus
+- TPPA and Focus pages: Add background camera image when running
 
 ### Changed
 - Rotator: Moved from camera settings modal to dedicated quick access button
@@ -24,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Sequence: Display of the filter name
 - Fix Slew stop if only slew was executed
-- TPPA and Focus pages: Add background camera image when running
-- Autofocus charts: Improved styling with transparent backgrounds and light text
 
 ## [1.1.2.1] - 2025-08-22
 ### Changed

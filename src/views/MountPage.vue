@@ -1,5 +1,8 @@
 <template>
-  <div class="mount-page">
+  <div 
+    class="mount-page"
+    :style="cameraStore.imageData && store.mount.currentTab === 'showTppa' && tppaStore.isRunning ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;` : ''"
+  >
     <SubNav
       :items="[
         { name: t('components.mount.title'), value: 'showMount' },
@@ -24,7 +27,12 @@
         />
         <div v-if="store.mountInfo.Connected">
           <div
-            class="mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg"
+            :class="[
+              'mt-4 border border-gray-700 rounded-lg shadow-lg',
+              store.mount.currentTab === 'showTppa' && tppaStore.isRunning && cameraStore.imageData 
+                ? 'bg-gradient-to-br from-gray-800/30 to-gray-900/30' 
+                : 'bg-gradient-to-br from-gray-800 to-gray-900'
+            ]"
           >
             <div class="container pl-5 pb-5 pr-5">
               <div v-if="store.mount.currentTab === 'showMount'" class="mt-5">
@@ -52,6 +60,8 @@ import infoMount from '@/components/mount/infoMount.vue';
 import infoCamera from '@/components/camera/infoCamera.vue';
 import controlMount from '@/components/mount/controlMount.vue';
 import { apiStore } from '@/store/store';
+import { useTppaStore } from '@/store/tppaStore';
+import { useCameraStore } from '@/store/cameraStore';
 import SubNav from '@/components/SubNav.vue';
 import { useI18n } from 'vue-i18n';
 
@@ -59,6 +69,8 @@ const showTppa = ref(false);
 const { t } = useI18n();
 
 const store = apiStore();
+const tppaStore = useTppaStore();
+const cameraStore = useCameraStore();
 </script>
 
 <style scoped></style>

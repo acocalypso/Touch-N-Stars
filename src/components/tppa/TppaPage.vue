@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="container flex items-center justify-center"
-    :style="cameraStore.imageData && tppaStore.isRunning ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;` : ''"
-  >
+  <div class="container flex items-center justify-center">
     <div class="container max-w-md">
       <div v-if="!isConnected" class="text-gray-600">
         {{ $t('components.tppa.not_available') }}
@@ -196,7 +193,7 @@
       </div>
     </div>
   </div>
-  <div v-if="tppaStore.isRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
+  <div v-if="tppaStore.isRunning" class="bg-gray-800/80 p-5 m-5 border border-gray-500 rounded-md">
     <TppaLastStatus />
   </div>
   <div></div>

@@ -103,7 +103,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Image Modal -->
   <ImageModal
     :showModal="showImageModal"

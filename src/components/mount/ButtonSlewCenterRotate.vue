@@ -141,7 +141,7 @@ const emit = defineEmits(['finished']);
 
 async function stopSlew() {
   try {
-    const response = await apiService.mountAction('abort');
+    const response = await apiService.slewStop();
     if (!response.Success) return;
     console.log('Slew stopped');
   } catch (error) {

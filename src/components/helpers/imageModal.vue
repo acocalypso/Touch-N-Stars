@@ -44,9 +44,9 @@
         ref="imageContainer"
         class="w-full h-full overflow-hidden relative flex items-center justify-center shadow-md shadow-cyan-900"
       >
-      <div v-if="!imageData" class="text-white text-center">
-        <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
-      </div>
+        <div v-if="!imageData" class="text-white text-center">
+          <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
+        </div>
         <img
           v-if="imageData"
           :src="imageData"

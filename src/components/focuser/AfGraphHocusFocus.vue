@@ -53,9 +53,9 @@ function updateChart() {
         plugins: {
           legend: {
             labels: {
-              color: '#f3f4f6'
-            }
-          }
+              color: '#f3f4f6',
+            },
+          },
         },
         scales: {
           x: {
@@ -63,27 +63,27 @@ function updateChart() {
             title: {
               display: true,
               text: 'Position',
-              color: '#f3f4f6'
+              color: '#f3f4f6',
             },
             ticks: {
-              color: '#f3f4f6'
+              color: '#f3f4f6',
             },
             grid: {
-              color: 'rgba(243, 244, 246, 0.2)'
-            }
+              color: 'rgba(243, 244, 246, 0.2)',
+            },
           },
           y: {
             title: {
               display: true,
               text: 'HFR',
-              color: '#f3f4f6'
+              color: '#f3f4f6',
             },
             ticks: {
-              color: '#f3f4f6'
+              color: '#f3f4f6',
             },
             grid: {
-              color: 'rgba(243, 244, 246, 0.2)'
-            }
+              color: 'rgba(243, 244, 246, 0.2)',
+            },
           },
         },
         backgroundColor: 'rgba(0, 0, 0, 0.8)',

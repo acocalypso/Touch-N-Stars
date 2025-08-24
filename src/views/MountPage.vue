@@ -1,7 +1,11 @@
 <template>
-  <div 
+  <div
     class="mount-page"
-    :style="cameraStore.imageData && store.mount.currentTab === 'showTppa' && tppaStore.isRunning ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;` : ''"
+    :style="
+      cameraStore.imageData && store.mount.currentTab === 'showTppa' && tppaStore.isRunning
+        ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;`
+        : ''
+    "
   >
     <SubNav
       :items="[
@@ -29,9 +33,9 @@
           <div
             :class="[
               'mt-4 border border-gray-700 rounded-lg shadow-lg',
-              store.mount.currentTab === 'showTppa' && tppaStore.isRunning && cameraStore.imageData 
-                ? 'bg-gradient-to-br from-gray-800/30 to-gray-900/30' 
-                : 'bg-gradient-to-br from-gray-800 to-gray-900'
+              store.mount.currentTab === 'showTppa' && tppaStore.isRunning && cameraStore.imageData
+                ? 'bg-gradient-to-br from-gray-800/30 to-gray-900/30'
+                : 'bg-gradient-to-br from-gray-800 to-gray-900',
             ]"
           >
             <div class="container pl-5 pb-5 pr-5">

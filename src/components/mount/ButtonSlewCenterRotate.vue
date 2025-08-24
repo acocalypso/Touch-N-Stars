@@ -2,7 +2,7 @@
   <div class="">
     <div class="flex gap-0 border border-gray-600 rounded-lg overflow-hidden">
       <button
-        @click="store.mountInfo.Slewing ? stopSlew() : slew()"
+        @click="store.mountInfo.Slewing ? framingStore.slewStop() : slew()"
         :disabled="
           !store.mountInfo.Slewing &&
           (framingStore.isSlewing ||
@@ -138,16 +138,6 @@ const props = defineProps({
   disabled: Boolean,
 });
 const emit = defineEmits(['finished']);
-
-async function stopSlew() {
-  try {
-    const response = await apiService.mountAction('abort');
-    if (!response.Success) return;
-    console.log('Slew stopped');
-  } catch (error) {
-    console.error('Error stopping slew:', error);
-  }
-}
 
 async function unparkMount() {
   if (store.mountInfo.AtPark) {

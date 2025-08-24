@@ -253,7 +253,10 @@
         "trackingActive": "Sledování je aktivní",
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
-        "notSlewing": "Nepřejíždí"
+        "notSlewing": "Nepřejíždí",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Time to Meridian Flip"
       },
       "location_sync": {
         "noSync": {

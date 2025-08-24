@@ -254,7 +254,10 @@
         "trackingActive": "Seguimiento activo",
         "trackingDisabled": "Seguimiento deshabilitado",
         "slewing": "Montura desplazándose",
-        "notSlewing": "No desplazándose"
+        "notSlewing": "No desplazándose",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Tiempo para voltear meridian"
       },
       "location_sync": {
         "noSync": {

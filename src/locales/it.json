@@ -267,7 +267,10 @@
         "trackingActive": "Inseguimento attivo",
         "trackingDisabled": "Inseguimento disattivato",
         "slewing": "Montatura in movimento",
-        "notSlewing": "Montatura ferma"
+        "notSlewing": "Montatura ferma",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Tempo per il lancio del meridiano"
       }
     },
     "guider": {

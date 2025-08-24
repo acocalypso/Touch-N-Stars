@@ -267,7 +267,10 @@
         "trackingActive": "Rastreamento ativo",
         "trackingDisabled": "Rastreamento desativado",
         "slewing": "Montagem em movimento",
-        "notSlewing": "Sem movimento"
+        "notSlewing": "Sem movimento",
+        "declination": "DEC",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Hora de Meridian Flip"
       }
     },
     "guider": {

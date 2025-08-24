@@ -268,7 +268,10 @@
         "trackingActive": "跟踪已激活",
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
-        "notSlewing": "赤道仪未转动"
+        "notSlewing": "赤道仪未转动",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Time to Meridian Flip"
       }
     },
     "guider": {

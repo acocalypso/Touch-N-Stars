@@ -267,7 +267,10 @@
         "trackingActive": "Le suivi est actif",
         "trackingDisabled": "Le suivi est désactivé",
         "slewing": "Le suivi est actif",
-        "notSlewing": "Pas de suivi"
+        "notSlewing": "Pas de suivi",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Temps de flip méridien"
       }
     },
     "guider": {

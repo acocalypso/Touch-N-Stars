@@ -67,49 +67,48 @@
     </div>
   </div>
 
-    <!-- Settings Modal -->
-    <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-[60]'">
-      <template #header>
-        <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
-      </template>
-      <template #body>
-        <div class="space-y-4">
-          <div
-            class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
-          >
-            <div class="flex items-center gap-3">
-              <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
-              <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
-            </div>
-            <div class="ml-6">
-              <toggleButton
-                @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
-                :status-value="settingsStore.mount.useCenter"
-              />
-            </div>
+  <!-- Settings Modal -->
+  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-[60]'">
+    <template #header>
+      <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
+    </template>
+    <template #body>
+      <div class="space-y-4">
+        <div
+          class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-2 h-2 rounded-full bg-cyan-400"></div>
+            <span class="text-sm font-medium">{{ $t('components.framing.useCenter') }}</span>
           </div>
-
-          <div
-            v-if="store.rotatorInfo.Connected"
-            class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
-          >
-            <div class="flex items-center gap-3">
-              <div class="w-2 h-2 rounded-full bg-purple-400"></div>
-              <span class="text-sm font-medium">{{ $t('components.framing.useRotate') }}</span>
-            </div>
-            <div class="ml-6">
-              <toggleButton
-                @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
-                :status-value="settingsStore.mount.useRotate"
-              />
-            </div>
+          <div class="ml-6">
+            <toggleButton
+              @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
+              :status-value="settingsStore.mount.useCenter"
+            />
           </div>
         </div>
-      </template>
-    </Modal>
 
-    <CenterModal ref="centeringModalRef" />
-  </div>
+        <div
+          v-if="store.rotatorInfo.Connected"
+          class="flex items-center justify-between p-3 bg-gray-700/30 rounded-lg border border-gray-600/30"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+            <span class="text-sm font-medium">{{ $t('components.framing.useRotate') }}</span>
+          </div>
+          <div class="ml-6">
+            <toggleButton
+              @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
+              :status-value="settingsStore.mount.useRotate"
+            />
+          </div>
+        </div>
+      </div>
+    </template>
+  </Modal>
+
+  <CenterModal ref="centeringModalRef" />
 </template>
 
 <script setup>

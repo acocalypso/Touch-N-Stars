@@ -88,8 +88,7 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Aktivovat debug režim",
-        "titel": ""
+        "activate": "Aktivovat debug režim"
       },
       "notifications": {
         "title": "Oznámení",
@@ -226,8 +225,7 @@
         "oldest": "nejstarší první",
         "sort": "Seřadit"
       },
-      "time": "Čas",
-      "sequence_control": ""
+      "time": "Čas"
     },
     "mount": {
       "title": "Montáž",
@@ -255,10 +253,7 @@
         "trackingActive": "Sledování je aktivní",
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
-        "notSlewing": "Nepřejíždí",
-        "rightAscension": "Rektascenze",
-        "declination": "Deklinace",
-        "timeToMeridianFlip": "Čas do Převrácení Meridiánu"
+        "notSlewing": "Nepřejíždí"
       },
       "location_sync": {
         "noSync": {
@@ -510,8 +505,6 @@
       "unknown": "Neznámý",
       "nofilteravailable": "Žádný filtr není k dispozici",
       "please_connect_filterwheel": "Připojte prosím filtrační kolo",
-      "connected": "Připojeno",
-      "disconnected": "Odpojeno",
       "currentFilter": "Aktuální Filtr",
       "position": "Pozice",
       "availableFilters": "Dostupné Filtry",
@@ -527,12 +520,8 @@
       "control": "Ovládání",
       "notConnected": "připojte rotátor",
       "please_connect_rotator": "Připojte prosím rotátor",
-      "connected": "Připojeno",
-      "disconnected": "Odpojeno",
       "currentPosition": "Aktuální Pozice",
-      "moving": "Pohybuje se",
-      "stationary": "Nehybný",
-      "stepSize": "Velikost Kroku"
+      "moving": "Pohybuje se"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",

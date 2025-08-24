@@ -93,8 +93,7 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Attiva modalità debug",
-        "titel": ""
+        "activate": "Attiva modalità debug"
       },
       "notifications": {
         "title": "Notifiche",
@@ -178,7 +177,6 @@
       "message": "Messaggio",
       "download": "Scarica"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Statistiche",
       "noSequenceLoaded": "Nessuna sequenza caricata",
@@ -228,24 +226,23 @@
         "oldest": "più vecchio prima",
         "newest": "più recente prima"
       },
-      "time": "Tempo",
-      "sequence_control": ""
+      "time": "Tempo"
     },
     "mount": {
       "title": "Montatura",
       "slew": "Spostamento",
       "location_sync": {
-        "title": "Impostazioni sincronizzazione posizione",
-        "confirmationMessage": "Se \"Sincronizzazione posizione\" in NINA è impostato su \"Prompt\", potrebbe apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. Per evitare questo e permettere a TNS di impostare automaticamente le coordinate, consigliamo di cambiare l'impostazione in \"Sincronizza con telescopio\"",
-        "toTelescope": {
-          "label": "Sincronizza con telescopio"
-        },
-        "toApplication": {
-          "label": "Sincronizza con applicazione"
-        },
         "noSync": {
           "label": "Nessuna sincronizzazione"
-        }
+        },
+        "toApplication": {
+          "label": "Sincronizzazione all'applicazione"
+        },
+        "toTelescope": {
+          "label": "Sincronizzazione al telescopio"
+        },
+        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
+        "title": "Impostazioni di sincronizzazione della posizione"
       },
       "control": {
         "park": "Parcheggia",
@@ -270,23 +267,7 @@
         "trackingActive": "Inseguimento attivo",
         "trackingDisabled": "Inseguimento disattivato",
         "slewing": "Montatura in movimento",
-        "notSlewing": "Montatura ferma",
-        "rightAscension": "Ascensione Retta",
-        "declination": "Declinazione",
-        "timeToMeridianFlip": "Tempo fino al Ribaltamento Meridiano"
-      },
-      "location_sync": {
-        "noSync": {
-          "label": "Nessuna sincronizzazione"
-        },
-        "toApplication": {
-          "label": "Sincronizzazione all'applicazione"
-        },
-        "toTelescope": {
-          "label": "Sincronizzazione al telescopio"
-        },
-        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
-        "title": "Impostazioni di sincronizzazione della posizione"
+        "notSlewing": "Montatura ferma"
       }
     },
     "guider": {
@@ -523,8 +504,6 @@
       "unknown": "Sconosciuto",
       "nofilteravailable": "Nessun filtro disponibile",
       "please_connect_filterwheel": "Collega la ruota filtri",
-      "connected": "Connesso",
-      "disconnected": "Disconnesso",
       "currentFilter": "Filtro Attuale",
       "position": "Posizione",
       "availableFilters": "Filtri Disponibili",
@@ -540,12 +519,8 @@
       "control": "Controllo",
       "notConnected": "Collega rotatore",
       "please_connect_rotator": "Collega il rotatore",
-      "connected": "Connesso",
-      "disconnected": "Disconnesso",
       "currentPosition": "Posizione Attuale",
-      "moving": "In Movimento",
-      "stationary": "Stazionario",
-      "stepSize": "Dimensione Passo"
+      "moving": "In Movimento"
     },
     "flat": {
       "please_connect_flatDevice": "Connetti il dispositivo flat",

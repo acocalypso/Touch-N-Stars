@@ -93,8 +93,7 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Ativar modo debug",
-        "titel": ""
+        "activate": "Ativar modo debug"
       },
       "notifications": {
         "title": "Notificações",
@@ -178,7 +177,6 @@
       "message": "Mensagem",
       "download": "Baixar"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Estatísticas",
       "noSequenceLoaded": "Nenhuma sequência carregada",
@@ -228,8 +226,7 @@
         "oldest": "mais antigo primeiro",
         "newest": "mais recente primeiro"
       },
-      "time": "Tempo",
-      "sequence_control": ""
+      "time": "Tempo"
     },
     "mount": {
       "title": "Montagem",
@@ -508,14 +505,22 @@
       "manual_filter": {
         "title": "Roda de filtros",
         "name": "Mudar para filtro:"
-      }
+      },
+      "availableFilters": "Filtros disponíveis",
+      "currentFilter": "Filtro de corrente",
+      "please_connect_filterwheel": "Por favor, conecte a roda do filtro",
+      "position": "Posição",
+      "title": "Roda de filtro"
     },
     "rotator": {
       "label": "Rotacionador",
       "move": "Mover",
       "notConnected": "Conecte o rotacionador",
       "currentPosition": "Posição atual:",
-      "moving": "Movendo"
+      "moving": "Movendo",
+      "control": "Controlar",
+      "please_connect_rotator": "Por favor, conecte o rotador",
+      "title": "Rotador"
     },
     "flat": {
       "please_connect_flatDevice": "Conecte o dispositivo flat",

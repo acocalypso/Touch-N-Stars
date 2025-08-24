@@ -177,7 +177,6 @@
       "message": "Message",
       "download": "Download"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Stats",
       "noSequenceLoaded": "No sequence loaded",
@@ -268,10 +267,7 @@
         "trackingActive": "Tracking is active",
         "trackingDisabled": "Tracking disabled",
         "slewing": "Mount is slewing",
-        "notSlewing": "Not slewing",
-        "rightAscension": "Right Ascension",
-        "declination": "Declination",
-        "timeToMeridianFlip": "Time to Meridian Flip"
+        "notSlewing": "Not slewing"
       }
     },
     "guider": {
@@ -508,8 +504,6 @@
       "unknown": "Unknown",
       "nofilteravailable": "No filter available",
       "please_connect_filterwheel": "Please connect filter wheel",
-      "connected": "Connected",
-      "disconnected": "Disconnected",
       "currentFilter": "Current Filter",
       "position": "Position",
       "availableFilters": "Available Filters",
@@ -525,12 +519,8 @@
       "control": "Control",
       "notConnected": "Please connect rotator",
       "please_connect_rotator": "Please connect rotator",
-      "connected": "Connected",
-      "disconnected": "Disconnected",
       "currentPosition": "Current Position",
-      "moving": "Moving",
-      "stationary": "Stationary",
-      "stepSize": "Step Size"
+      "moving": "Moving"
     },
     "flat": {
       "please_connect_flatDevice": "Please connect the flat device",
@@ -628,7 +618,6 @@
         "remove": "Remove",
         "rotation": "Rotation"
       },
-      "no_fav": "No favorites saved",
       "modal_sequence": {
         "titel": "Sequence"
       },
@@ -639,6 +628,7 @@
         "message": "No sequence loaded"
       },
       "enter_name": "Enter name",
+      "no_fav": "No favorites saved",
       "titel": "Favourites"
     }
   },

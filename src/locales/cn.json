@@ -93,8 +93,7 @@
       },
       "debug": {
         "title": "调试",
-        "activate": "激活调试模式",
-        "titel": ""
+        "activate": "激活调试模式"
       },
       "notifications": {
         "title": "通知",
@@ -228,8 +227,7 @@
         "oldest": "最早优先",
         "newest": "最新优先"
       },
-      "time": "时间",
-      "sequence_control": ""
+      "time": "时间"
     },
     "mount": {
       "title": "赤道仪",
@@ -270,10 +268,7 @@
         "trackingActive": "跟踪已激活",
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
-        "notSlewing": "赤道仪未转动",
-        "rightAscension": "赤经",
-        "declination": "赤纬",
-        "timeToMeridianFlip": "距离子午线翻转时间"
+        "notSlewing": "赤道仪未转动"
       }
     },
     "guider": {
@@ -510,8 +505,6 @@
       "unknown": "未知",
       "nofilteravailable": "暂无滤镜可用",
       "please_connect_filterwheel": "请连接滤镜轮",
-      "connected": "已连接",
-      "disconnected": "未连接",
       "currentFilter": "当前滤镜",
       "position": "位置",
       "availableFilters": "可用滤镜",
@@ -527,12 +520,8 @@
       "control": "控制",
       "notConnected": "请连接旋转器",
       "please_connect_rotator": "请连接旋转器",
-      "connected": "已连接",
-      "disconnected": "未连接",
       "currentPosition": "当前位置",
-      "moving": "正在移动",
-      "stationary": "静止",
-      "stepSize": "步长"
+      "moving": "正在移动"
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",

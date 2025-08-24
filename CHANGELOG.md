@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Sequence: Display of the filter name
 - Fix Slew stop if only slew was executed
+- TPPA and Focus pages: Add background camera image when running
+- Autofocus charts: Improved styling with transparent backgrounds and light text
 
 ## [1.1.2.1] - 2025-08-22
 ### Changed

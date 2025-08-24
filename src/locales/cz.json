@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Zrušit",
-    "confirm": "Potvrdit"
+    "confirm": "Potvrdit",
+    "close": "Close"
   },
   "general": {
     "cancel": "Zrušit",
@@ -87,7 +88,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Aktivovat debug režim"
+        "activate": "Aktivovat debug režim",
+        "titel": ""
       },
       "notifications": {
         "title": "Oznámení",
@@ -224,7 +226,8 @@
         "oldest": "nejstarší první",
         "sort": "Seřadit"
       },
-      "time": "Čas"
+      "time": "Čas",
+      "sequence_control": ""
     },
     "mount": {
       "title": "Montáž",
@@ -458,7 +461,6 @@
       "settings": {
         "DirectionEast": "Směr Východ",
         "StartFromCurrentPosition": "Začít ze současné pozice?",
-        "ManualMode": "Manual Mode",
         "camera_settings": "Camera Settings",
         "camera_settings_hint": "Leave empty for NINA defaults",
         "exposure_time": "Exposure Time (s)",
@@ -466,9 +468,7 @@
         "nina_default": "NINA Default",
         "title": "TPPA Settings"
       },
-      "error_modal": {
-        "title": "TPPA Errors"
-      }
+      "error_modal": {}
     },
     "logs": {},
     "test": {},
@@ -794,22 +794,8 @@
         }
       },
       "exportModal": {
-        "buttons": {
-          "copied": "Zkopírováno!",
-          "copyToClipboard": "Kopírovat do Schránky",
-          "downloadJSON": "Stáhnout soubor JSON",
-          "failed": "Selhalo",
-          "sendToNina": "Odeslat dO N.I.N.A",
-          "sending": "Odesílání...",
-          "sent": "Odesláno!"
-        },
-        "howToUse": {
-          "step1": "Stáhněte nebo zkopírujte soubor JSON, nebo",
-          "step2": "Odeslat přímo do N.I.N.A (vyžaduje připojení) nebo",
-          "step3": "Ruční import do N.I.N.A přes Sekvence → Načíst sekvenci",
-          "step4": "Upravte podle potřeby všechna nastavení specifická pro dané zařízení.",
-          "title": "Návod k použití:"
-        },
+        "buttons": {},
+        "howToUse": {},
         "jsonPreview": {
           "categories": "Kategorie",
           "copied": "Kopírováno!",
@@ -820,16 +806,9 @@
           "filenamePrompt": "Zadejte název souboru...",
           "previewDescription": "Náhled a stažení sekvence jako souboru JSON",
           "sequenceJsonExport": "Export sekvence JSON",
-          "title": "Náhled JSON",
           "totalActions": "Celkem Akcí"
         },
-        "messages": {
-          "errorTitle": "Chyba:",
-          "successMessage": "Sekvence byla úspěšně načtena do N.I.N.A!",
-          "successTitle": "Úspěch:"
-        },
-        "subtitle": "Vaše sekvence je připravena k exportu jako JSON kompatibilní s N.I.N.A.",
-        "title": "Exportovat sekvenci N.I.N.A."
+        "messages": {}
       },
       "subtitle": "Vytvářejte profesionální astrofotografické sekvence",
       "title": "N.I.N.A Tvůrce sekvencí",
@@ -842,7 +821,6 @@
         "validSequence": "Sekvence je platná a lze ji exportovat.",
         "saveAsDefault": "Uložit jako výchozí",
         "saveAsDefaultSuccess": "Uloženo jako výchozí sekvence!",
-        "failed": "Selhalo",
         "sendErrorTitle": "Chyba při odesílání do",
         "sendSuccessMessage": "Sekvence úspěšně odeslána do N.I.N.A!",
         "sendToNina": "Odeslat N.I.N.A",
@@ -922,118 +900,111 @@
       "submissionHistory": "Submission History"
     },
     "telescopius": {
-      "apiKey": {
-        "cancel": "Cancel",
-        "configure": "Configure API Key",
-        "configured": "API key is already configured",
-        "delete": "Delete",
-        "description": "To use Telescopius, you need an API key. You can get one on the Telescopius website:",
-        "errors": {
-          "deleteFailed": "API key could not be deleted.",
-          "saveFailed": "API key could not be saved.",
-          "validationFailed": "API key validation failed"
-        },
-        "linkText": "→ Request Telescopius API Key",
-        "loadFromTelescopius": "refresh",
-        "placeholder": "Enter your Telescopius API key...",
-        "required": "API key required",
-        "save": "Save",
-        "securityNote": "The API key is stored on the server and used only for Telescopius requests.",
-        "title": "Telescopius API Key"
-      },
-      "description": "Enables data retrieval from telescopius.com",
-      "initializing": "Initializing...",
+      "title": "Telescopius",
+      "offlineInfo": "Načítá osobní seznamy cílů z telescopius.com a ukládá je lokálně pro offline dostupnost.",
       "landing": {
-        "apiSetup": {
-          "description": "Follow these simple steps to configure the plugin:",
-          "security": {
-            "description": "Your API key is stored only locally on your device and never shared with others. You can delete it at any time.",
-            "title": "Security"
-          },
-          "step1": {
-            "button": "Register for free",
-            "description": "If you don't have an account yet, register for free:",
-            "title": "Create Telescopius Account"
-          },
-          "step2": {
-            "button": "Request API key",
-            "description": "Sign in and go to Settings → API for your personal key:",
-            "title": "Request API Key"
-          },
-          "step3": {
-            "config": {
-              "accessType": "Access Type",
-              "accessTypeValue": "Select Server",
-              "description": "Description",
-              "descriptionValue": "Any description (e.g. API for TNS)",
-              "ipLimit": "Limit access to these IP addresses",
-              "ipLimitValue": "Leave empty",
-              "name": "Name",
-              "nameValue": "Any name (e.g. Touch N Stars)"
-            },
-            "description": "When creating the API key, use these settings:",
-            "title": "Configure API Key"
-          },
-          "step4": {
-            "button": "Configure API Key",
-            "description": "Click \"Configure API Key\" below and enter your key:",
-            "title": "Enter API Key"
-          },
-          "title": "Set up API Key"
-        },
-        "mainFeatures": {
-          "description": "Seamless integration between Telescopius and Touch'N'Stars:",
-          "features": {
-            "autoImport": "Automatic Import: All target lists at once",
-            "directNavigation": "Direct Navigation: Slew with one click",
-            "framingIntegration": "Framing Integration: Uses existing tools",
-            "locationBased": "Location-based: Considers your location",
-            "smartCache": "Smart Cache: Fast offline access"
-          },
-          "title": "Main Features"
-        },
-        "subtitle": "Bring your target objects from Telescopius.com directly into Touch'N'Stars",
-        "title": "Telescopius Plugin",
+        "title": "Zásuvný modul Telescopius",
+        "subtitle": "Přeneste své cílové objekty z Telescopius.com přímo do Touch'N'Stars",
         "whatIsPlugin": {
-          "description": "Load your saved target objects from Telescopius.com directly into Touch'N'Stars and use them for navigation and framing.",
+          "title": "Co je tento zásuvný modul?",
+          "description": "Načtěte své uložené cílové objekty z Telescopius.com přímo do Touch'N'Stars a použijte je pro navigaci a kompozici.",
           "features": {
-            "framingAssistant": "Use framing assistant",
-            "loadLists": "Load target lists from Telescopius.com",
-            "navigate": "Navigate directly to objects",
-            "offlineCache": "Offline cache for fast access"
-          },
-          "title": "What is this plugin?"
+            "loadLists": "Načíst seznamy cílů z Telescopius.com",
+            "navigate": "Navigovat přímo k objektům",
+            "framingAssistant": "Použít asistenta kompozice",
+            "offlineCache": "Offline mezipaměť pro rychlý přístup"
+          }
         },
         "whatIsTelecopius": {
-          "description": "Telescopius is a comprehensive astronomy platform for discovering and planning astronomical observations.",
+          "title": "Co je Telescopius?",
+          "description": "Telescopius je komplexní astronomická platforma pro objevování a plánování astronomických pozorování.",
           "features": {
-            "community": "Community and sharing",
-            "database": "Extensive object database",
-            "lists": "Personalized target lists",
-            "planning": "Observation planning"
+            "database": "Rozsáhlá databáze objektů",
+            "lists": "Personalizované seznamy cílů",
+            "planning": "Plánování pozorování",
+            "community": "Komunita a sdílení"
           },
-          "title": "What is Telescopius?",
-          "visitWebsite": "Visit Telescopius.com"
+          "visitWebsite": "Navštívit Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "Hlavní funkce",
+          "description": "Bezproblémová integrace mezi Telescopius a Touch'N'Stars:",
+          "features": {
+            "autoImport": "Automatický import: Všechny seznamy cílů najednou",
+            "smartCache": "Chytrá mezipaměť: Rychlý offline přístup",
+            "directNavigation": "Přímá navigace: Namířit jedním kliknutím",
+            "framingIntegration": "Integrace kompozice: Využívá existující nástroje",
+            "locationBased": "Založeno na poloze: Zohledňuje vaši lokalitu"
+          }
+        },
+        "apiSetup": {
+          "title": "Nastavení API klíče",
+          "description": "Postupujte podle těchto jednoduchých kroků pro konfiguraci zásuvného modulu:",
+          "step1": {
+            "title": "Vytvořte si účet Telescopius",
+            "description": "Pokud ještě nemáte účet, zaregistrujte se zdarma:",
+            "button": "Registrovat zdarma"
+          },
+          "step2": {
+            "title": "Požádejte o API klíč",
+            "description": "Přihlaste se a přejděte do Nastavení → API pro svůj osobní klíč:",
+            "button": "Požádat o API klíč"
+          },
+          "step3": {
+            "title": "Konfigurujte API klíč",
+            "description": "Při vytváření API klíče použijte tato nastavení:",
+            "config": {
+              "name": "Název",
+              "nameValue": "Libovolný název (např. Touch N Stars)",
+              "description": "Popis",
+              "descriptionValue": "Libovolný popis (např. API pro TNS)",
+              "accessType": "Typ přístupu",
+              "accessTypeValue": "Vyberte Server",
+              "ipLimit": "Omezit přístup na tyto IP adresy",
+              "ipLimitValue": "Nechte prázdné"
+            }
+          },
+          "step4": {
+            "title": "Zadejte API klíč",
+            "description": "Klikněte níže na \"Konfigurovat API klíč\" a zadejte svůj klíč:",
+            "button": "Konfigurovat API klíč"
+          },
+          "security": {
+            "title": "Bezpečnost",
+            "description": "Váš API klíč je uložen pouze lokálně na vašem zařízení a nikdy není sdílen s ostatními. Můžete jej kdykoli smazat."
+          }
         }
       },
-      "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
-      "outdated": {
-        "current": "Current version",
-        "message": "The TouchNStars plugin in NINA is outdated and needs to be updated.",
-        "required": "Required version",
-        "title": "Plugin Outdated"
+      "apiKey": {
+        "title": "Telescopius API klíč",
+        "description": "Pro použití Telescopius potřebujete API klíč. Ten můžete získat na webu Telescopius:",
+        "linkText": "→ Požádat o Telescopius API klíč",
+        "securityNote": "API klíč je uložen na serveru a používá se pouze pro požadavky Telescopius.",
+        "placeholder": "Zadejte svůj Telescopius API klíč...",
+        "configured": "API klíč je již nakonfigurován",
+        "save": "Uložit",
+        "delete": "Smazat",
+        "cancel": "Zrušit",
+        "configure": "Konfigurovat API klíč",
+        "required": "API klíč je vyžadován",
+        "errors": {
+          "saveFailed": "API klíč se nepodařilo uložit.",
+          "deleteFailed": "API klíč se nepodařilo smazat."
+        },
+        "loadFromTelescopius": "obnovit"
       },
       "targetLists": {
-        "connectionError": "Connection to Telescopius failed. The NINA PC needs an internet connection and at least one target list must exist in Telescopius.",
-        "dataFrom": "Data from",
-        "editOnTelescopius": "Edit lists on Telescopius",
-        "noListsDescription": "No target lists have been found in your Telescopius account yet.",
-        "noListsHint": "Create target lists on telescopius.com and then reload them here.",
-        "noListsTitle": "No Target Lists Saved",
-        "refreshFailed": "Update not possible. Telescopius.com not reachable"
-      },
-      "title": "Telescopius",
-      "welcome": "Welcome to the Telescopius plugin!"
+        "noListsTitle": "Žádné uložené seznamy cílů",
+        "noListsDescription": "Ve vašem účtu Telescopius zatím nebyly nalezeny žádné seznamy cílů.",
+        "noListsHint": "Vytvořte seznamy cílů na telescopius.com a poté je zde znovu načtěte.",
+        "editOnTelescopius": "Upravit seznamy na Telescopius",
+        "dataFrom": "Data z",
+        "connectionError": "Připojení k Telescopius selhalo. Počítač NINA potřebuje internetové připojení a v Telescopius musí existovat alespoň jeden seznam cílů."
+      }
     }
+  },
+  "whatsnew": {
+    "loading": "Loading…",
+    "title": "What's New"
   }
 }

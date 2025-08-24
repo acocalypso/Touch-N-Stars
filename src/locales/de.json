@@ -1,7 +1,12 @@
 {
   "common": {
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "close": "Schließen"
+  },
+  "whatsnew": {
+    "title": "Neuigkeiten",
+    "loading": "Lade…"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -64,8 +69,6 @@
     },
     "telescopius": {
       "title": "Telescopius",
-      "welcome": "Willkommen beim Telescopius Plugin!",
-      "description": "Ermöglicht Datenabruf von telescopius.com",
       "offlineInfo": "Lädt persönliche Target Lists von telescopius.com und speichert sie lokal für Offline-Verfügbarkeit.",
       "landing": {
         "title": "Telescopius Plugin",
@@ -154,8 +157,7 @@
         "required": "API Key erforderlich",
         "errors": {
           "saveFailed": "API Key konnte nicht gespeichert werden.",
-          "deleteFailed": "API Key konnte nicht gelöscht werden.",
-          "validationFailed": "API Key Validierung fehlgeschlagen"
+          "deleteFailed": "API Key konnte nicht gelöscht werden."
         },
         "loadFromTelescopius": "Von Telescopius laden"
       },
@@ -163,7 +165,6 @@
         "noListsTitle": "Keine Target Lists gespeichert",
         "noListsDescription": "Es wurden noch keine Target Lists in Ihrem Telescopius-Account gefunden.",
         "noListsHint": "Erstellen Sie Target Lists auf telescopius.com und laden Sie sie dann hier neu.",
-        "refreshFailed": "Update nicht möglich. Telescopius.com nicht erreichbar",
         "editOnTelescopius": "Listen auf Telescopius bearbeiten",
         "dataFrom": "Daten vom",
         "connectionError": "Verbindung zu Telescopius fehlgeschlagen. Der NINA PC benötigt eine Internetverbindung und mindestens eine Target List muss in Telescopius existieren."
@@ -182,7 +183,6 @@
         "sendToNina": "An N.I.N.A Senden",
         "sending": "Wird gesendet...",
         "sent": "Gesendet!",
-        "failed": "Fehlgeschlagen",
         "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
         "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
         "validSequence": "Sequenz ist gültig und kann exportiert werden",
@@ -326,24 +326,9 @@
         "endActions": "🏁 End-Aktionen"
       },
       "exportModal": {
-        "title": "N.I.N.A Sequenz Exportieren",
-        "subtitle": "Ihre Sequenz ist bereit für den Export als N.I.N.A-kompatible JSON",
-        "buttons": {
-          "downloadJSON": "JSON-Datei Herunterladen",
-          "copyToClipboard": "In Zwischenablage Kopieren",
-          "copied": "Kopiert!",
-          "sendToNina": "An N.I.N.A Senden",
-          "sending": "Wird gesendet...",
-          "sent": "Gesendet!",
-          "failed": "Fehlgeschlagen"
-        },
-        "messages": {
-          "successTitle": "Erfolg:",
-          "successMessage": "Sequenz wurde erfolgreich in N.I.N.A geladen!",
-          "errorTitle": "Fehler:"
-        },
+        "buttons": {},
+        "messages": {},
         "jsonPreview": {
-          "title": "JSON-Vorschau",
           "sequenceJsonExport": "Sequenz JSON Export",
           "previewDescription": "Vorschau und Download Ihrer Sequenz als JSON-Datei",
           "totalActions": "Gesamtaktionen",
@@ -355,13 +340,7 @@
           "copied": "Kopiert!",
           "downloadJson": "JSON Herunterladen"
         },
-        "howToUse": {
-          "title": "Verwendung:",
-          "step1": "JSON-Datei herunterladen oder kopieren, oder",
-          "step2": "Direkt an N.I.N.A senden (erfordert Verbindung), oder",
-          "step3": "Manuell in N.I.N.A importieren über Sequenz → Sequenz Laden",
-          "step4": "Geräte-spezifische Einstellungen nach Bedarf anpassen"
-        }
+        "howToUse": {}
       },
       "targetSearch": {
         "searchLabel": "Ziel Suchen",
@@ -471,7 +450,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Debug-Modus aktivieren"
+        "activate": "Debug-Modus aktivieren",
+        "titel": ""
       },
       "notifications": {
         "title": "Benachrichtigungen",
@@ -606,7 +586,8 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit"
+      "time": "Zeit",
+      "sequence_control": ""
     },
     "mount": {
       "title": "Montierung",
@@ -841,16 +822,13 @@
         "title": "TPPA Einstellungen",
         "DirectionEast": "Richtung Osten",
         "StartFromCurrentPosition": "Von der aktuellen Position starten?",
-        "ManualMode": "Manueller Modus",
         "camera_settings": "Kamera-Einstellungen",
         "camera_settings_hint": "Leer lassen für NINA Standardwerte",
         "exposure_time": "Belichtungszeit (s)",
         "gain": "Verstärkung",
         "nina_default": "NINA Standard"
       },
-      "error_modal": {
-        "title": "TPPA Fehler"
-      }
+      "error_modal": {}
     },
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",

@@ -125,6 +125,13 @@
     <!-- LocationSyncModal -->
     <LocationSyncModal />
 
+    <!-- What's New Modal -->
+    <WhatsNewModal
+      v-if="showWhatsNew && whatsNewData"
+      :data="whatsNewData"
+      @close="dismissWhatsNew"
+    />
+
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
@@ -185,6 +192,7 @@ import SettingsComp from '@/components/SettingsComp.vue';
 import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
+import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -194,6 +202,9 @@ const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
 const showSettingsModal = ref(false);
+const showWhatsNew = ref(false);
+const whatsNewData = ref(null);
+const whatsNewPending = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
@@ -321,6 +332,26 @@ onMounted(async () => {
   if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
     await notificationService.initialize();
   }
+
+  // Load What's New content generated at build-time
+  try {
+    const res = await fetch('/whats-new.json', { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      whatsNewData.value = data;
+      const lastShownVersion = localStorage.getItem('tns.whatsnew.version');
+      const shouldShow = data?.version && data.version !== lastShownVersion;
+      if (shouldShow) {
+        if (!showTutorial.value) {
+          showWhatsNew.value = true;
+        } else {
+          whatsNewPending.value = true;
+        }
+      }
+    }
+  } catch (e) {
+    // silently ignore
+  }
 });
 
 // Watch for backend connection and add delay before hiding splash screen
@@ -338,6 +369,17 @@ watch(
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
+  if (whatsNewPending.value && whatsNewData.value) {
+    showWhatsNew.value = true;
+    whatsNewPending.value = false;
+  }
+}
+
+function dismissWhatsNew() {
+  showWhatsNew.value = false;
+  if (whatsNewData.value?.version) {
+    localStorage.setItem('tns.whatsnew.version', whatsNewData.value.version);
+  }
 }
 
 watch(

@@ -1,7 +1,8 @@
 {
   "common": {
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "close": "Cerca"
   },
   "general": {
     "cancel": "Cancelar",
@@ -87,7 +88,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Activar modo debug"
+        "activate": "Activar modo debug",
+        "titel": ""
       },
       "notifications": {
         "title": "Notificaciones",
@@ -224,7 +226,8 @@
         "oldest": "el más antiguo primero",
         "sort": "Ordenar"
       },
-      "time": "Tiempo"
+      "time": "Tiempo",
+      "sequence_control": ""
     },
     "mount": {
       "title": "Montura",
@@ -458,7 +461,6 @@
       "settings": {
         "DirectionEast": "Dirección hacia el este",
         "StartFromCurrentPosition": "¿Comenzar desde la posición actual?",
-        "ManualMode": "Modo manual",
         "camera_settings": "Configuración de cámara",
         "camera_settings_hint": "Deja vacío para los valores predeterminados de Nina",
         "exposure_time": "Tiempo (s) de exposición",
@@ -466,9 +468,7 @@
         "nina_default": "Nina predeterminado",
         "title": "Configuración de TPPA"
       },
-      "error_modal": {
-        "title": "Errores TPPA"
-      }
+      "error_modal": {}
     },
     "logs": {},
     "test": {},
@@ -658,8 +658,6 @@
     "telescopius": {
       "title": "Telescopius",
       "offlineInfo": "Carga listas de objetivos personales de telescopius.com y las almacena localmente para disponibilidad offline.",
-      "welcome": "¡Bienvenido al complemento Telescopius!",
-      "description": "Permite la recuperación de datos desde telescopius.com",
       "landing": {
         "title": "Complemento Telescopius",
         "subtitle": "Trae tus objetos objetivo de Telescopius.com directamente a Touch'N'Stars",
@@ -747,8 +745,7 @@
         "required": "Clave API requerida",
         "errors": {
           "saveFailed": "No se pudo guardar la clave API.",
-          "deleteFailed": "No se pudo eliminar la clave API.",
-          "validationFailed": "Falló la validación de la clave API"
+          "deleteFailed": "No se pudo eliminar la clave API."
         },
         "loadFromTelescopius": "actualizar"
       },
@@ -756,7 +753,6 @@
         "noListsTitle": "No hay listas de objetivos guardadas",
         "noListsDescription": "Aún no se han encontrado listas de objetivos en tu cuenta de Telescopius.",
         "noListsHint": "Crea listas de objetivos en telescopius.com y luego recárgalas aquí.",
-        "refreshFailed": "Actualización no posible. Telescopius.com no disponible",
         "editOnTelescopius": "Editar listas en Telescopius",
         "dataFrom": "Datos del",
         "connectionError": "Conexión a Telescopius falló. El PC de NINA necesita conexión a internet y al menos una lista de objetivos debe existir en Telescopius."
@@ -901,22 +897,8 @@
         }
       },
       "exportModal": {
-        "buttons": {
-          "copied": "¡Copiado!",
-          "copyToClipboard": "Copiar al portapapeles",
-          "downloadJSON": "Descargar el archivo JSON",
-          "failed": "Fallido",
-          "sendToNina": "Enviar a N.I.N.A",
-          "sending": "Envío...",
-          "sent": "¡Enviado!"
-        },
-        "howToUse": {
-          "step1": "Descargar o copiar el archivo json, o",
-          "step2": "Enviar directamente a N.I.N.A (requiere conexión), o",
-          "step3": "Importar manualmente en N.I.N.A a través de secuencia → secuencia de carga",
-          "step4": "Ajuste cualquier configuración específica del equipo según sea necesario",
-          "title": "Cómo usar:"
-        },
+        "buttons": {},
+        "howToUse": {},
         "jsonPreview": {
           "categories": "Categorías",
           "copied": "¡Copiado!",
@@ -927,16 +909,9 @@
           "filenamePrompt": "Ingrese el nombre de archivo ...",
           "previewDescription": "Vista previa y descargue su secuencia como un archivo JSON",
           "sequenceJsonExport": "Secuencia JSON Export",
-          "title": "Vista previa de JSON",
           "totalActions": "Total de acciones"
         },
-        "messages": {
-          "errorTitle": "Error:",
-          "successMessage": "¡La secuencia se ha cargado en N.I.N.A con éxito!",
-          "successTitle": "Éxito:"
-        },
-        "subtitle": "Su secuencia está lista para exportarse como N.I.N.A JSON compatible",
-        "title": "Exportar N.I.N.A secuencia"
+        "messages": {}
       },
       "subtitle": "Crear secuencias profesionales de astrofotografía",
       "toolbar": {
@@ -948,7 +923,6 @@
         "loadBasicSequence": "Cargar secuencia básica",
         "saveAsDefault": "Guardar como predeterminado",
         "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!",
-        "failed": "Fallido",
         "sendErrorTitle": "Error al enviar a N.I.N.A",
         "sendSuccessMessage": "Secuencia enviada con éxito a N.I.N.A!",
         "sendToNina": "Enviar a N.I.N.A",
@@ -1028,5 +1002,9 @@
       },
       "submissionHistory": "Historial de sumisión"
     }
+  },
+  "whatsnew": {
+    "loading": "Cargando…",
+    "title": "Qué hay de nuevo"
   }
 }

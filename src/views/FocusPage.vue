@@ -1,5 +1,8 @@
 <template>
-  <div class="focus-page">
+  <div 
+    class="focus-page"
+    :style="cameraStore.imageData && store.focuserAfInfo.autofocus_running || !delayShowGraph ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;` : ''"
+  >
     <div class="text-left mb-2">
       <h1 class="text-xl text-center font-bold">{{ $t('components.focuser.title') }}</h1>
     </div>

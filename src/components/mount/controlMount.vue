@@ -4,7 +4,7 @@
     <ButtonUnpark />
     <ButtonHome />
     <ButtonSetAsPark />
-    <ButtonSlewStop />
+    <ButtonSlewStop class="w-full" />
   </div>
   <div class="flex mt-4 justify-center items-center">
     <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>

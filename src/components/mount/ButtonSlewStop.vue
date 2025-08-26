@@ -1,7 +1,6 @@
 <template>
   <button
     @click="framingStore.slewStop"
-    v-if="store.mountInfo.Slewing"
     class="default-button-red w-16"
   >
     <StopCircleIcon class="w-8 h-8" />

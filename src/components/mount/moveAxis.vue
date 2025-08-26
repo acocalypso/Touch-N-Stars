@@ -1,5 +1,5 @@
 <template>
-  <div class="relative" :class="{ 'pointer-events-none': !mountStore.wsIsConnected }">
+  <div class="relative">
     <div
       class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid"
     >
@@ -11,10 +11,11 @@
         @mouseleave="sendStop"
         @touchstart.prevent="sendCommand('north')"
         @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchcancel.prevent="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
+        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowUpCircleIcon
           :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
@@ -30,17 +31,18 @@
         @mouseleave="sendStop"
         @touchstart.prevent="sendCommand('west')"
         @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchcancel.prevent="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
+        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowLeftCircleIcon
           :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
           class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
-      <button @click="sendStop" class="btn btn-stop">
+      <button @click="sendStop" class="btn btn-stop" :disabled="!mountStore.wsIsConnected">
         <StopCircleIcon
           class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
           :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'"
@@ -52,10 +54,11 @@
         @mouseleave="sendStop"
         @touchstart.prevent="sendCommand('east')"
         @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchcancel.prevent="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
+        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
@@ -71,10 +74,11 @@
         @mouseleave="sendStop"
         @touchstart.prevent="sendCommand('south')"
         @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchcancel.prevent="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
+        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowDownCircleIcon
           :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
@@ -141,13 +145,11 @@
     <!-- Loading Overlay -->
     <div 
       v-if="!mountStore.wsIsConnected" 
-      class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm flex items-center justify-center rounded-xl z-50 pointer-events-none"
+      class="absolute top-2 right-2 flex items-center space-x-2 z-10"
     >
-      <div class="flex flex-col items-center space-y-3 pointer-events-auto">
-        <!-- Spinner -->
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
-        <p class="text-gray-300 text-sm">Connecting...</p>
-      </div>
+      <!-- Spinner -->
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-cyan-500"></div>
+      <p class="text-gray-300 text-xs">Connecting...</p>
     </div>
   </div>
 </template>

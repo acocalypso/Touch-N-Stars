@@ -432,7 +432,7 @@ const handleDownload = async (data) => {
 };
 
 const handleZoomChange = (zoomLevel) => {
-  console.log('Zoom level changed:', zoomLevel);
+  //console.log('Zoom level changed:', zoomLevel);
 };
 
 const handleImageLoad = () => {

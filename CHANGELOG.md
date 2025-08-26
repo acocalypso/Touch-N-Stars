@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Rotator: Moved from camera settings modal to dedicated quick access button
 - TPPA page: Mount info display hidden to reduce clutter during alignment process
+- Camera page: The last image taken is now always displayed. As in NINA
 
 ### Fixed
 - Sequence: Display of the filter name

@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <div
-      class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid"
+      class="grid grid-cols-3 gap-2 sm:gap-4 p-2 sm:p-4 place-items-center w-48 sm:w-64 mx-auto move-axis-grid"
     >
       <!-- Obere Reihe (Nord) -->
       <div></div>
@@ -19,7 +19,7 @@
       >
         <ArrowUpCircleIcon
           :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
       <div></div>
@@ -39,12 +39,12 @@
       >
         <ArrowLeftCircleIcon
           :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
       <button @click="sendStop" class="btn btn-stop" :disabled="!mountStore.wsIsConnected">
         <StopCircleIcon
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
           :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'"
         />
       </button>
@@ -62,7 +62,7 @@
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
 
@@ -82,7 +82,7 @@
       >
         <ArrowDownCircleIcon
           :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
     </div>
@@ -95,27 +95,27 @@
             {{ $t('components.mount.control.slewRate') }}
           </p>
         </div>
-        <div class="flex flex-row w-full justify-center gap-1 sm:gap-2">
+        <div class="flex flex-row w-full justify-center gap-1">
           <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            class="btn-small text-xs"
             @click="settingsStore.mount.slewRate = 0.017"
           >
             4x
           </button>
           <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            class="btn-small text-xs"
             @click="settingsStore.mount.slewRate = 0.067"
           >
             16x
           </button>
           <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            class="btn-small text-xs"
             @click="settingsStore.mount.slewRate = 0.133"
           >
             32x
           </button>
           <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
+            class="btn-small text-xs"
             @click="settingsStore.mount.slewRate = 0.267"
           >
             62x
@@ -132,7 +132,7 @@
           v-model="settingsStore.mount.slewRate"
         />
         <input
-          class="default-input w-16 sm:w-20 h-6 sm:h-8 text-xs sm:text-sm"
+          class="default-input w-12 sm:w-16 h-6 sm:h-7 text-xs"
           type="number"
           v-model="settingsStore.mount.slewRate"
           min="0.001"
@@ -312,18 +312,47 @@ onBeforeUnmount(() => {
 .btn {
   border-radius: 1rem;
   background-color: #334155;
-  padding: 0.25rem;
+  padding: 0.5rem;
   box-shadow: 0 2px 15px black;
   border: 1px solid #0a0a0a;
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
+  min-width: 3rem;
+  min-height: 3rem;
+}
+
+.btn-small {
+  border-radius: 0.5rem;
+  background-color: #334155;
+  padding: 0.25rem 0.5rem;
+  box-shadow: 0 1px 8px black;
+  border: 1px solid #0a0a0a;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 2rem;
+  min-height: 1.5rem;
+  color: #e5e7eb;
+  transition: all 0.2s;
+}
+
+.btn-small:hover {
+  background-color: #475569;
 }
 
 @media (min-width: 640px) {
   .btn {
-    padding: 0.5rem;
+    padding: 0.75rem;
+    min-width: 4rem;
+    min-height: 4rem;
+  }
+  
+  .btn-small {
+    min-width: 2.5rem;
+    min-height: 1.75rem;
   }
 }
 

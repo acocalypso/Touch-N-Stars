@@ -1,8 +1,5 @@
 <template>
-  <button
-    @click="framingStore.slewStop"
-    class="default-button-red w-16"
-  >
+  <button @click="framingStore.slewStop" class="default-button-red w-16">
     <StopCircleIcon class="w-8 h-8" />
   </button>
 </template>

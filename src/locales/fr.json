@@ -248,7 +248,7 @@
         "park": "Parquer",
         "unpark": "Déparquer",
         "home": "Position de référence",
-        "set_as_park": "Définir comme position de parking",
+        "set_as_park": "Définir Park",
         "trackingMode": "Mode de suivi",
         "manuellControl": "Contrôle manuel",
         "slewRate": "Vitesse de déplacement °/s",

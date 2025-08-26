@@ -66,6 +66,11 @@
    rounded-md 
    text-cyan-100 
    font-medium 
+   text-xs sm:text-sm
+   text-center
+   leading-tight
+   overflow-hidden
+   line-clamp-2
    transition-all
    duration-300
    ease-out
@@ -100,6 +105,11 @@
    rounded-md 
    text-red-100 
    font-medium 
+   text-xs sm:text-sm
+   text-center
+   leading-tight
+   overflow-hidden
+   line-clamp-2
    transition-all
    duration-300
    ease-out
@@ -133,6 +143,11 @@
    rounded-md 
    text-orange-100 
    font-medium 
+   text-xs sm:text-sm
+   text-center
+   leading-tight
+   overflow-hidden
+   line-clamp-2
    transition-all
    duration-300
    ease-out
@@ -166,6 +181,11 @@
    rounded-md 
    text-gray-100 
    font-medium 
+   text-xs sm:text-sm
+   text-center
+   leading-tight
+   overflow-hidden
+   line-clamp-2
    transition-all
    duration-300
    ease-out
@@ -199,6 +219,11 @@
    rounded-md 
    text-blue-100 
    font-medium 
+   text-xs sm:text-sm
+   text-center
+   leading-tight
+   overflow-hidden
+   line-clamp-2
    transition-all
    duration-300
    ease-out
@@ -232,6 +257,11 @@
    rounded-md 
    text-green-100 
    font-medium 
+   text-xs sm:text-sm
+   text-center
+   leading-tight
+   overflow-hidden
+   line-clamp-2
    transition-all
    duration-300
    ease-out

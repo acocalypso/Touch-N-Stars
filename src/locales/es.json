@@ -243,7 +243,7 @@
         },
         "manuellControl": "Control manual",
         "slewRate": "Velocidad de giro °/s",
-        "set_as_park": "Establecido como aparcado",
+        "set_as_park": "Definir Park",
         "sync_coordinates_to_mount": "Sinronizar coordenadas a la montura",
         "setLocationSyncToMount": "Establecer \"Sync to Telescope\""
       },

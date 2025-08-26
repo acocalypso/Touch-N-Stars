@@ -160,8 +160,11 @@ let commandInterval = null; // Speichert das Intervall
 
 const sendCommand = (direction) => {
   console.log('sendCommand called for:', direction);
+  console.log('WebSocket exists:', !!websocketMountControl.socket);
   console.log('WebSocket state:', websocketMountControl.socket?.readyState);
+  console.log('WebSocket OPEN constant:', WebSocket.OPEN);
   console.log('WebSocket connected:', mountStore.wsIsConnected);
+  console.log('WebSocket comparison:', websocketMountControl.socket?.readyState === WebSocket.OPEN);
   
   // Prüfe zuerst den Store-Status
   if (!mountStore.wsIsConnected) {
@@ -169,16 +172,17 @@ const sendCommand = (direction) => {
     return;
   }
   
-  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
-    console.error('WebSocket ist nicht verbunden (Socket).');
+  // Vereinfachte Überprüfung - nur auf readyState 1 (OPEN) prüfen
+  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
+    console.error('WebSocket ist nicht verbunden (Socket). State:', websocketMountControl.socket?.readyState);
     return;
   }
 
   mountStore.lastDirection = direction;
 
   const sendMessage = () => {
-    if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
-      console.error('WebSocket verloren während Befehl');
+    if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
+      console.error('WebSocket verloren während Befehl. State:', websocketMountControl.socket?.readyState);
       clearInterval(commandInterval);
       commandInterval = null;
       return;

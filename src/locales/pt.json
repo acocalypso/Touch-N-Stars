@@ -249,7 +249,7 @@
         "park": "Estacionar",
         "unpark": "Desestacionar",
         "home": "Posição inicial",
-        "set_as_park": "Definir como posição de estacionamento",
+        "set_as_park": "Definir Park",
         "trackingMode": "Modo de rastreamento",
         "manuellControl": "Controle manual",
         "slewRate": "Taxa de movimento °/s",

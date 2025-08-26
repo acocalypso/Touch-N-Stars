@@ -602,7 +602,7 @@
           "unpark": "Fehler beim Ausparken der Montierung",
           "tracking": "Fehler beim Einstellen des Nachführungsmodus"
         },
-        "set_as_park": "Parkposition setzen",
+        "set_as_park": "Als Park setzen",
         "sync_coordinates_to_mount": "Koordinaten zur Montierung senden",
         "setLocationSyncToMount": "Setze \"Sync to telescope\""
       },

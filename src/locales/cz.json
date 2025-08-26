@@ -635,6 +635,11 @@
         "description": "Povolte přijímání oznámení o událostech sekvence.",
         "title": "Konfigurace Oznámení"
       }
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "No image data available"
+      }
     }
   },
   "plugins": {

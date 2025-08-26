@@ -633,6 +633,11 @@
       },
       "enter_name": "Inserisci nome",
       "titel": "Preferiti"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "Nessun dati sull'immagine disponibile"
+      }
     }
   },
   "plugins": {

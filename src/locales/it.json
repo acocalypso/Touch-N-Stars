@@ -249,7 +249,7 @@
         "park": "Parcheggia",
         "unpark": "Rimuovi parcheggio",
         "home": "Posizione home",
-        "set_as_park": "Imposta come posizione parcheggio",
+        "set_as_park": "Imposta Park",
         "trackingMode": "Modalità inseguimento",
         "manuellControl": "Controllo manuale",
         "slewRate": "Velocità spostamento °/s",

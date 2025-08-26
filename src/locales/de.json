@@ -24,8 +24,8 @@
     }
   },
   "whatsnew": {
-    "title": "What's New",
-    "loading": "Loading…"
+    "title": "Neuigkeiten",
+    "loading": "Lade…"
   },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
@@ -523,7 +523,7 @@
       "notConnected": "Bitte Rotator verbinden",
       "please_connect_rotator": "Bitte Rotator verbinden",
       "currentPosition": "Aktuelle Position",
-      "moving": "Bewegt sich"
+      "moving": "Bewegt sich "
     },
     "flat": {
       "please_connect_flatDevice": "Bitte Flatpanel verbinden",
@@ -636,7 +636,7 @@
     },
     "helpers" : {
       "imageModal": {
-        "no_image": "No image data available"
+        "no_image": "Keine Bilddaten verfügbar"
       }
     }
   },
@@ -772,7 +772,7 @@
           "saveFailed": "API Key konnte nicht gespeichert werden.",
           "deleteFailed": "API Key konnte nicht gelöscht werden."
         },
-        "loadFromTelescopius": "Von Telescopius laden"
+        "loadFromTelescopius": "Aktualisieren"
       },
       "targetLists": {
         "noListsTitle": "Keine Target Lists gespeichert",
@@ -969,12 +969,12 @@
       },
       "settings": {
         "title": "Meridianflip",
-        "enableMeridianFlip": "Aktivieren Sie Meridianflip"
+        "enableMeridianFlip": "Meridianflip aktivieren"
       }
     },
     "webcam": {
       "close": "Schließen",
-      "configureUrl": "Konfigurieren Sie die Snapshot -URL und abrufen Bild",
+      "configureUrl": "Snapshot-URL konfigurieren und Bild abrufen",
       "connected": "Verbunden",
       "disconnected": "Getrennt",
       "displayOptions": "Anzeigenoptionen",
@@ -985,15 +985,15 @@
       "noImageAvailable": "Kein Bild verfügbar",
       "refreshInterval": "Aktualisierungsintervall",
       "reset": "Zurücksetzen",
-      "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam -Einstellungen zurücksetzen möchten?",
-      "snapshotUrlDescription": "Eine Snapshot -URL ist ein direkter Link zu einem einzelnen Bild von Ihrer Webcam/IP -Kamera. \nDiese URL sollte ein JPEG/PNG -Bild direkt zurückgeben, nicht eine HTML -Seite oder ein Stream.",
-      "snapshotUrl": "Snapshot -URL",
+      "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam-Einstellungen zurücksetzen möchten?",
+      "snapshotUrlDescription": "Eine Snapshot-URL ist ein direkter Link zu einem einzelnen Bild von Ihrer Webcam/IP-Kamera. Diese URL sollte ein JPEG/PNG-Bild direkt zurückgeben, nicht eine HTML-Seite oder einen Stream.",
+      "snapshotUrl": "Snapshot-URL",
       "settings": "Einstellungen",
       "snapshotUrlExamples": "Beispiele:",
       "startAuto": "Automatisch starten",
       "status": "Status",
-      "stopAuto": "STOPT AUTO",
-      "title": "Webcam -Einstellungen",
+      "stopAuto": "Auto stoppen",
+      "title": "Webcam-Einstellungen",
       "autoRefresh": "Automatische Aktualisierung",
       "errors": {}
     }

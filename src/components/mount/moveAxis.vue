@@ -203,18 +203,27 @@ const sendCommand = (direction) => {
 };
 
 const sendStop = () => {
+  console.log('sendStop called');
+  
   if (!mountStore.lastDirection) {
     console.log('Kein vorheriger Befehl zum Stoppen.');
     return;
   }
 
-  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
-    console.error('WebSocket ist nicht verbunden.');
-    return;
+  // Stoppe das Intervall auf jeden Fall
+  if (commandInterval) {
+    clearInterval(commandInterval);
+    commandInterval = null;
+    console.log('Command interval cleared');
   }
 
-  clearInterval(commandInterval); // Stoppe das Wiederholen
-  commandInterval = null;
+  // Vereinfachte WebSocket-Überprüfung wie bei sendCommand
+  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
+    console.error('WebSocket ist nicht verbunden für Stop. State:', websocketMountControl.socket?.readyState);
+    // Trotzdem lastDirection zurücksetzen
+    mountStore.lastDirection = '';
+    return;
+  }
 
   const message = {
     direction: mountStore.lastDirection,
@@ -222,7 +231,7 @@ const sendStop = () => {
   };
 
   websocketMountControl.socket.send(JSON.stringify(message));
-  console.log(`WS-Stop-Befehl gesendet.`);
+  console.log(`WS-Stop-Befehl gesendet:`, message);
   mountStore.lastDirection = '';
 };
 

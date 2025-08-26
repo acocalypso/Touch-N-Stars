@@ -8,11 +8,9 @@
 </template>
 
 <script setup>
-import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
-const store = apiStore();
 const framingStore = useFramingStore();
 </script>
 

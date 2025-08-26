@@ -255,12 +255,22 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.move-axis-grid {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .btn {
   border-radius: 1rem;
   background-color: #334155;
   padding: 0.25rem;
   box-shadow: 0 2px 15px black;
   border: 1px solid #0a0a0a;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 640px) {

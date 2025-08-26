@@ -93,8 +93,7 @@
       },
       "debug": {
         "title": "调试",
-        "activate": "激活调试模式",
-        "titel": ""
+        "activate": "激活调试模式"
       },
       "notifications": {
         "title": "通知",
@@ -228,8 +227,7 @@
         "oldest": "最早优先",
         "newest": "最新优先"
       },
-      "time": "时间",
-      "sequence_control": ""
+      "time": "时间"
     },
     "mount": {
       "title": "赤道仪",

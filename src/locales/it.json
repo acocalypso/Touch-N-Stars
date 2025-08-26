@@ -93,8 +93,7 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Attiva modalità debug",
-        "titel": ""
+        "activate": "Attiva modalità debug"
       },
       "notifications": {
         "title": "Notifiche",
@@ -228,8 +227,7 @@
         "oldest": "più vecchio prima",
         "newest": "più recente prima"
       },
-      "time": "Tempo",
-      "sequence_control": ""
+      "time": "Tempo"
     },
     "mount": {
       "title": "Montatura",

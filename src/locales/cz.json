@@ -88,8 +88,7 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Aktivovat debug režim",
-        "titel": ""
+        "activate": "Aktivovat debug režim"
       },
       "notifications": {
         "title": "Oznámení",
@@ -226,8 +225,7 @@
         "oldest": "nejstarší první",
         "sort": "Seřadit"
       },
-      "time": "Čas",
-      "sequence_control": ""
+      "time": "Čas"
     },
     "mount": {
       "title": "Montáž",

@@ -397,7 +397,6 @@ const apiService = {
           quality: quality,
           resize: resize,
           scale: scale,
-          autoPrepare: true,
         },
         responseType: 'blob',
       });
@@ -634,7 +633,7 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain, solve = false) {
+  async startCapture(duration, gain, solve = false, omitImage = false) {
     console.log('Zeit:', duration, 'Gain: ', gain);
     try {
       const { BASE_URL } = getUrls();
@@ -643,6 +642,7 @@ const apiService = {
           duration: duration,
           gain: gain,
           solve: solve,
+          omitImage: omitImage,
         },
       });
       return response.data;

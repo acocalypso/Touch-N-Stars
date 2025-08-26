@@ -43,7 +43,7 @@ class WebSocketChannelService {
     };
 
     this.socket.onmessage = (event) => {
-      console.log('Channel Nachricht empfangen:', event.data);
+      //console.log('Channel Nachricht empfangen:', event.data);
       try {
         let message;
         if (event.data.startsWith('{') || event.data.startsWith('[')) {

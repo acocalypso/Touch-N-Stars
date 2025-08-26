@@ -2,7 +2,7 @@
   "common": {
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
-    "close": "Close"
+    "close": "Zavřít"
   },
   "general": {
     "cancel": "Zrušit",
@@ -101,7 +101,7 @@
       "plugins": {
         "title": "Správa pluginů",
         "description": "Spravovat nainstalované pluginy",
-        "author": "Author"
+        "author": "Autor"
       },
       "system": {
         "title": "Systémové ovládání",
@@ -121,8 +121,8 @@
         "emptyFields": "TODO: přeložit [Prázdná pole]"
       },
       "keepAwake": {
-        "description": "Prevent the device from dimming or locking while the app is open.",
-        "title": "Keep Screen Awake"
+        "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená.",
+        "title": "Udržet Obrazovku Aktivní"
       }
     },
     "connectEquipment": {
@@ -342,8 +342,8 @@
         "stopCalibration": "Zastavit Kalibraci",
         "title": "Asistent Kalibrace",
         "west": "Západ",
-        "slewStopped": "Slew stopped",
-        "stopSlew": "Stop Slew"
+        "slewStopped": "Přejezd se zastavil",
+        "stopSlew": "Zastavit Přejezd"
       }
     },
     "focuser": {
@@ -458,12 +458,12 @@
       "settings": {
         "DirectionEast": "Směr Východ",
         "StartFromCurrentPosition": "Začít ze současné pozice?",
-        "camera_settings": "Camera Settings",
-        "camera_settings_hint": "Leave empty for NINA defaults",
-        "exposure_time": "Exposure Time (s)",
+        "camera_settings": "Nastavení Kamery",
+        "camera_settings_hint": "Nechte prázdné pro výchozí nastavení NINA",
+        "exposure_time": "Doba Expozice (s)",
         "gain": "Gain",
-        "nina_default": "NINA Default",
-        "title": "TPPA Settings"
+        "nina_default": "NINA Výchozí",
+        "title": "Nastavení TPPAs"
       },
       "error_modal": {}
     },
@@ -854,36 +854,36 @@
     },
     "logfileCollector": {
       "actions": {
-        "collectUpload": "Collect",
-        "uploading": "Uploading…",
-        "clearAll": "Clear All",
-        "copyToken": "Copy",
-        "remove": "Remove"
+        "collectUpload": "Sbírat",
+        "uploading": "Nahrávání…",
+        "clearAll": "Vymazat Vše",
+        "copyToken": "Kopírovat",
+        "remove": "Odebrat"
       },
-      "descriptionLabel": "Description (optional)",
-      "descriptionPlaceholder": "Describe the problem to investigate...",
-      "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",
+      "descriptionLabel": "Popis (volitelné)",
+      "descriptionPlaceholder": "Popište problém, který chcete prozkoumat...",
+      "intro": "Shromážděte nejnovější protokoly TNS (včetně ladění) a nahrajte je do nakonfigurovaného koncového bodu.",
       "result": {
-        "failed": "Upload failed",
-        "failedWithStatus": "Upload failed ({status})",
-        "success": "Upload successful",
-        "allSubmissionsCleared": "All submissions cleared",
-        "submissionRemoved": "Submission removed",
-        "tokenCopied": "Token copied to clipboard",
-        "tokenCopyFailed": "Failed to copy token"
+        "failed": "Nahrávání se nezdařilo",
+        "failedWithStatus": "Nahrávání se nezdařilo ({status})",
+        "success": "Nahrání úspěšné",
+        "allSubmissionsCleared": "Všechny žádosti byly přijaty",
+        "submissionRemoved": "Příspěvek byl odstraněn",
+        "tokenCopied": "Token zkopírován do schránky",
+        "tokenCopyFailed": "Kopírování tokenu se nezdařilo"
       },
-      "title": "Logfile Collector",
-      "confirmClearAll": "Are you sure you want to clear all submission history?",
-      "lastToken": "Generated Token",
+      "title": "Sběrač Souborů Logů",
+      "confirmClearAll": "Opravdu chcete vymazat celou historii odeslaných příspěvků?",
+      "lastToken": "Generované Tokeny",
       "submissionFields": {
-        "date": "Date",
-        "filename": "Filename",
+        "date": "Datum",
+        "filename": "Název souboru",
         "token": "Token"
       },
-      "submissionHistory": "Submission History"
+      "submissionHistory": "Historie Odeslání"
     },
     "telescopius": {
-      "title": "Telescopius",
+      "title": "Dalekohled",
       "offlineInfo": "Načítá osobní seznamy cílů z telescopius.com a ukládá je lokálně pro offline dostupnost.",
       "landing": {
         "title": "Zásuvný modul Telescopius",
@@ -987,7 +987,7 @@
     }
   },
   "whatsnew": {
-    "loading": "Loading…",
-    "title": "What's New"
+    "loading": "Načítání…",
+    "title": "Co je nového"
   }
 }

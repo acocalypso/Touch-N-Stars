@@ -142,6 +142,17 @@
       </div>
     </div>
 
+    <!-- Loading Overlay -->
+    <div 
+      v-if="!mountStore.wsIsConnected" 
+      class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm flex items-center justify-center rounded-xl z-50"
+    >
+      <div class="flex flex-col items-center space-y-3">
+        <!-- Spinner -->
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+        <p class="text-gray-300 text-sm">Connecting...</p>
+      </div>
+    </div>
   </div>
 </template>
 

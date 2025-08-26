@@ -30,12 +30,12 @@ class WebSocketChannelService {
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
-    console.log('Channel WebSocket URL: ', this.backendUrl);
+    //console.log('Channel WebSocket URL: ', this.backendUrl);
 
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
-      console.log('Channel WebSocket verbunden.');
+      //console.log('Channel WebSocket verbunden.');
       this.isConnected = true;
       if (this.statusCallback) {
         this.statusCallback('Verbunden');
@@ -83,7 +83,7 @@ class WebSocketChannelService {
 
       if (this.shouldReconnect && store.isBackendReachable) {
         console.log(
-          `Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`
+          `Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 2000} Sekunden...`
         );
         setTimeout(() => {
           if (this.shouldReconnect && store.isBackendReachable) {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mountStore.wsIsConnected">
+  <div class="relative">
     <div
       class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid"
     >
@@ -135,6 +135,18 @@
           max="3"
           step="0.001"
         />
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div 
+      v-if="!mountStore.wsIsConnected" 
+      class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm flex items-center justify-center rounded-xl z-10"
+    >
+      <div class="flex flex-col items-center space-y-3">
+        <!-- Spinner -->
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+        <p class="text-gray-300 text-sm">Connecting...</p>
       </div>
     </div>
   </div>

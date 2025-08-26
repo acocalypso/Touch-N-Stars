@@ -59,6 +59,7 @@ export const apiStore = defineStore('store', {
     pageReturnedFromBackground: false,
     pageReturnTime: null,
     isRedirecting: false,
+    isImageFetching: false,
   }),
 
   actions: {
@@ -522,6 +523,13 @@ export const apiStore = defineStore('store', {
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
         console.log('IMAGE-PREPARED event received, fetching image...');
 
+        // Verhindere mehrfache gleichzeitige Anfragen
+        if (this.isImageFetching) {
+          console.log('Image fetch already in progress, skipping...');
+          return;
+        }
+
+        this.isImageFetching = true;
         try {
           const settingsStore = useSettingsStore();
           const cameraStore = useCameraStore();
@@ -545,6 +553,8 @@ export const apiStore = defineStore('store', {
           }
         } catch (error) {
           console.error('Error handling IMAGE-PREPARED message:', error);
+        } finally {
+          this.isImageFetching = false;
         }
       }
     },

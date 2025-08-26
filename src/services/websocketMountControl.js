@@ -41,7 +41,7 @@ class WebSocketService {
       console.log('WebSocket Mount connected.');
       const mountStore = useMountStore();
       mountStore.wsIsConnected = true;
-      
+
       if (this.statusCallback) {
         this.statusCallback('connected');
       }
@@ -72,7 +72,7 @@ class WebSocketService {
       console.error('WebSocket-Fehler:', error);
       const mountStore = useMountStore();
       mountStore.wsIsConnected = false;
-      
+
       if (this.statusCallback) {
         this.statusCallback('Fehler: ' + error.message);
       }
@@ -82,7 +82,7 @@ class WebSocketService {
       console.log('WebSocket geschlossen.');
       const mountStore = useMountStore();
       mountStore.wsIsConnected = false;
-      
+
       if (this.statusCallback) {
         this.statusCallback('Geschlossen');
       }
@@ -104,7 +104,7 @@ class WebSocketService {
     this.shouldReconnect = false;
     const mountStore = useMountStore();
     mountStore.wsIsConnected = false;
-    
+
     if (this.reconnectTimeout) {
       clearTimeout(this.reconnectTimeout);
     }

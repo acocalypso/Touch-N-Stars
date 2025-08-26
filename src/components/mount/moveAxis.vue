@@ -15,7 +15,6 @@
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
-        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowUpCircleIcon
           :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
@@ -35,7 +34,6 @@
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
-        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowLeftCircleIcon
           :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
@@ -58,7 +56,6 @@
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
-        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
@@ -78,7 +75,6 @@
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
-        :disabled="!mountStore.wsIsConnected"
       >
         <ArrowDownCircleIcon
           :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
@@ -142,15 +138,6 @@
       </div>
     </div>
 
-    <!-- Loading Overlay -->
-    <div 
-      v-if="!mountStore.wsIsConnected" 
-      class="absolute top-2 right-2 flex items-center space-x-2 z-10"
-    >
-      <!-- Spinner -->
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-cyan-500"></div>
-      <p class="text-gray-300 text-xs">Connecting...</p>
-    </div>
   </div>
 </template>
 

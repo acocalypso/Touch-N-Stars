@@ -12,6 +12,7 @@
         @touchstart="sendCommand('north')"
         @touchend="sendStop"
         @touchcancel="sendStop"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
@@ -31,6 +32,7 @@
         @touchstart="sendCommand('west')"
         @touchend="sendStop"
         @touchcancel="sendStop"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
@@ -53,6 +55,7 @@
         @touchstart="sendCommand('east')"
         @touchend="sendStop"
         @touchcancel="sendStop"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
@@ -72,6 +75,7 @@
         @touchstart="sendCommand('south')"
         @touchend="sendStop"
         @touchcancel="sendStop"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
@@ -157,6 +161,7 @@ import {
 const mountStore = useMountStore();
 const settingsStore = useSettingsStore();
 let commandInterval = null; // Speichert das Intervall
+let failsafeTimeout = null; // Sicherheits-Timeout
 
 const sendCommand = (direction) => {
   console.log('sendCommand called for:', direction);
@@ -200,6 +205,15 @@ const sendCommand = (direction) => {
 
   sendMessage(); // Sende den Befehl sofort
   commandInterval = setInterval(sendMessage, 800); // Wiederhole jede Sekunde
+  
+  // Sicherheits-Timeout: Stoppt automatisch nach 30 Sekunden
+  if (failsafeTimeout) {
+    clearTimeout(failsafeTimeout);
+  }
+  failsafeTimeout = setTimeout(() => {
+    console.log('FAILSAFE: Automatischer Stop nach 30s');
+    sendStop();
+  }, 30000);
 };
 
 const sendStop = () => {
@@ -215,6 +229,13 @@ const sendStop = () => {
     clearInterval(commandInterval);
     commandInterval = null;
     console.log('Command interval cleared');
+  }
+  
+  // Stoppe auch das Failsafe-Timeout
+  if (failsafeTimeout) {
+    clearTimeout(failsafeTimeout);
+    failsafeTimeout = null;
+    console.log('Failsafe timeout cleared');
   }
 
   // Vereinfachte WebSocket-Überprüfung wie bei sendCommand
@@ -243,9 +264,36 @@ onMounted(() => {
     }
   });
   websocketMountControl.connect();
+  
+  // Globaler Event-Listener für Sicherheit
+  const handleGlobalStop = () => {
+    if (mountStore.lastDirection) {
+      console.log('Global emergency stop triggered');
+      sendStop();
+    }
+  };
+  
+  document.addEventListener('visibilitychange', handleGlobalStop);
+  window.addEventListener('blur', handleGlobalStop);
+  window.addEventListener('pagehide', handleGlobalStop);
 });
 
 onBeforeUnmount(() => {
+  // Sicherheits-Stop beim Unmount
+  if (mountStore.lastDirection) {
+    sendStop();
+  }
+  
+  // Cleanup
+  if (commandInterval) {
+    clearInterval(commandInterval);
+    commandInterval = null;
+  }
+  if (failsafeTimeout) {
+    clearTimeout(failsafeTimeout);
+    failsafeTimeout = null;
+  }
+  
   websocketMountControl.setStatusCallback(null);
   websocketMountControl.setMessageCallback(null);
   websocketMountControl.disconnect();

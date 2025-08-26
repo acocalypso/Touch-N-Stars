@@ -9,9 +9,9 @@
         @mousedown="sendCommand('north')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart="sendCommand('north')"
-        @touchend="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('north', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
         @blur="sendStop"
         @contextmenu.prevent
         class="btn"
@@ -29,9 +29,9 @@
         @mousedown="sendCommand('west')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart="sendCommand('west')"
-        @touchend="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('west', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
         @blur="sendStop"
         @contextmenu.prevent
         class="btn"
@@ -52,9 +52,9 @@
         @mousedown="sendCommand('east')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart="sendCommand('east')"
-        @touchend="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('east', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
         @blur="sendStop"
         @contextmenu.prevent
         class="btn"
@@ -72,9 +72,9 @@
         @mousedown="sendCommand('south')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart="sendCommand('south')"
-        @touchend="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('south', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
         @blur="sendStop"
         @contextmenu.prevent
         class="btn"
@@ -227,6 +227,34 @@ const sendCommand = (direction) => {
   }, 30000);
 };
 
+// Spezielle Touch-Handler für Android
+const handleTouchStart = (direction, event) => {
+  console.log('handleTouchStart:', direction);
+  
+  // Verhindere alle Standard-Browser-Aktionen
+  event.preventDefault();
+  event.stopPropagation();
+  
+  // Entferne jegliche Text-Selektion
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges();
+  }
+  
+  // Starte Bewegung
+  sendCommand(direction);
+};
+
+const handleTouchEnd = (event) => {
+  console.log('handleTouchEnd');
+  
+  // Verhindere alle Standard-Browser-Aktionen
+  event.preventDefault();
+  event.stopPropagation();
+  
+  // Stoppe Bewegung
+  sendStop();
+};
+
 const sendStop = () => {
   console.log('sendStop called');
   
@@ -318,6 +346,8 @@ onBeforeUnmount(() => {
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .btn {

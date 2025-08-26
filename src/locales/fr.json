@@ -93,8 +93,7 @@
       },
       "debug": {
         "title": "Débogage",
-        "activate": "Activer le mode débogage",
-        "titel": ""
+        "activate": "Activer le mode débogage"
       },
       "notifications": {
         "title": "Notifications",
@@ -228,8 +227,7 @@
         "oldest": "le plus ancien en premier",
         "newest": "le plus récent en premier"
       },
-      "time": "Temps",
-      "sequence_control": ""
+      "time": "Temps"
     },
     "mount": {
       "title": "Monture",

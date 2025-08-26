@@ -9,9 +9,9 @@
         @mousedown="sendCommand('north')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('north')"
-        @touchend.prevent="sendStop"
-        @touchcancel.prevent="sendStop"
+        @touchstart="sendCommand('north')"
+        @touchend="sendStop"
+        @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
@@ -28,9 +28,9 @@
         @mousedown="sendCommand('west')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('west')"
-        @touchend.prevent="sendStop"
-        @touchcancel.prevent="sendStop"
+        @touchstart="sendCommand('west')"
+        @touchend="sendStop"
+        @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
@@ -50,9 +50,9 @@
         @mousedown="sendCommand('east')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('east')"
-        @touchend.prevent="sendStop"
-        @touchcancel.prevent="sendStop"
+        @touchstart="sendCommand('east')"
+        @touchend="sendStop"
+        @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
@@ -69,9 +69,9 @@
         @mousedown="sendCommand('south')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('south')"
-        @touchend.prevent="sendStop"
-        @touchcancel.prevent="sendStop"
+        @touchstart="sendCommand('south')"
+        @touchend="sendStop"
+        @touchcancel="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
@@ -159,14 +159,31 @@ const settingsStore = useSettingsStore();
 let commandInterval = null; // Speichert das Intervall
 
 const sendCommand = (direction) => {
+  console.log('sendCommand called for:', direction);
+  console.log('WebSocket state:', websocketMountControl.socket?.readyState);
+  console.log('WebSocket connected:', mountStore.wsIsConnected);
+  
+  // Prüfe zuerst den Store-Status
+  if (!mountStore.wsIsConnected) {
+    console.error('WebSocket ist nicht verbunden (Store).');
+    return;
+  }
+  
   if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
-    console.error('WebSocket ist nicht verbunden.');
+    console.error('WebSocket ist nicht verbunden (Socket).');
     return;
   }
 
   mountStore.lastDirection = direction;
 
   const sendMessage = () => {
+    if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
+      console.error('WebSocket verloren während Befehl');
+      clearInterval(commandInterval);
+      commandInterval = null;
+      return;
+    }
+    
     console.log('sendMessage');
     const message = {
       direction: direction,

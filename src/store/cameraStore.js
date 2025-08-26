@@ -95,7 +95,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
       let image = this.imageData;
       let done = false;
 
-
       while (!done && attempts < maxAttempts && !isAbort.value) {
         try {
           const resImageData = await apiService.getImageData();
@@ -110,7 +109,10 @@ export const useCameraStore = defineStore('cameraStore', () => {
               break;
             }
             if (resImageData.Response != 'Capture already in progress') {
-              console.log('PlateSolveResult received from API.', resImageData?.Response?.PlateSolveResult);
+              console.log(
+                'PlateSolveResult received from API.',
+                resImageData?.Response?.PlateSolveResult
+              );
               plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
               done = true;
               console.log('Image captured with plate solving.');

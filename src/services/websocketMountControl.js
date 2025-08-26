@@ -1,5 +1,6 @@
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
+import { useMountStore } from '@/store/mountStore';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/mount';
@@ -11,7 +12,7 @@ class WebSocketService {
     this.messageCallback = null;
     this.backendUrl = null;
 
-    this.reconnectInterval = 5000; // 5 Sekunden
+    this.reconnectInterval = 2000; // 2 Sekunden
     this.reconnectTimeout = null;
     this.shouldReconnect = true;
   }
@@ -25,18 +26,22 @@ class WebSocketService {
   }
 
   connect() {
+    this.shouldReconnect = true; // Reconnect aktivieren bei neuer Verbindung
     const settingsStore = useSettingsStore();
     const store = apiStore();
     const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
-    console.log('ws url: ', this.backendUrl);
+    //console.log('ws url: ', this.backendUrl);
 
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
       console.log('WebSocket Mount connected.');
+      const mountStore = useMountStore();
+      mountStore.wsIsConnected = true;
+      
       if (this.statusCallback) {
         this.statusCallback('connected');
       }
@@ -65,6 +70,9 @@ class WebSocketService {
 
     this.socket.onerror = (error) => {
       console.error('WebSocket-Fehler:', error);
+      const mountStore = useMountStore();
+      mountStore.wsIsConnected = false;
+      
       if (this.statusCallback) {
         this.statusCallback('Fehler: ' + error.message);
       }
@@ -72,21 +80,31 @@ class WebSocketService {
 
     this.socket.onclose = () => {
       console.log('WebSocket geschlossen.');
+      const mountStore = useMountStore();
+      mountStore.wsIsConnected = false;
+      
       if (this.statusCallback) {
         this.statusCallback('Geschlossen');
       }
 
+      console.log('shouldReconnect:', this.shouldReconnect);
       if (this.shouldReconnect) {
         console.log(`Versuche Reconnect in ${this.reconnectInterval / 1000}s...`);
         this.reconnectTimeout = setTimeout(() => {
+          console.log('Reconnect wird versucht...');
           this.connect();
         }, this.reconnectInterval);
+      } else {
+        console.log('Reconnect deaktiviert');
       }
     };
   }
 
   disconnect() {
     this.shouldReconnect = false;
+    const mountStore = useMountStore();
+    mountStore.wsIsConnected = false;
+    
     if (this.reconnectTimeout) {
       clearTimeout(this.reconnectTimeout);
     }

@@ -84,8 +84,8 @@
       "image": {
         "title": "Bildeinstellungen",
         "quality": "Bildqualität",
-        "strech_factor": "Streckfaktor",
-        "black_clipping": "Schwarzclipping",
+        "strech_factor": "Autostrech Faktor",
+        "black_clipping": "Schwarzpunktfaktor",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unverlinkter Stretch",
         "debayern": "Debayer Bild"

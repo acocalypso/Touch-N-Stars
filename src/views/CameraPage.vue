@@ -26,7 +26,6 @@
           placeholderText="No image captured yet"
           @download="handleDownload"
           @fullscreen="openImageModal"
-          @zoom-change="handleZoomChange"
           @image-load="handleImageLoad"
           @image-error="handleImageError"
           class="bg-gray-900"
@@ -429,10 +428,6 @@ const handleDownload = async (data) => {
     folderPrefix: 'TNS-Images',
     filePrefix: 'TNS',
   });
-};
-
-const handleZoomChange = (zoomLevel) => {
-  //console.log('Zoom level changed:', zoomLevel);
 };
 
 const handleImageLoad = () => {

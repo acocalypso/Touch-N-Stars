@@ -159,7 +159,7 @@
           "saveFailed": "API Key konnte nicht gespeichert werden.",
           "deleteFailed": "API Key konnte nicht gelöscht werden."
         },
-        "loadFromTelescopius": "Von Telescopius laden"
+        "loadFromTelescopius": "Aktualisieren"
       },
       "targetLists": {
         "noListsTitle": "Keine Target Lists gespeichert",
@@ -356,12 +356,12 @@
       },
       "settings": {
         "title": "Meridianflip",
-        "enableMeridianFlip": "Aktivieren Sie Meridianflip"
+        "enableMeridianFlip": "Meridianflip aktivieren"
       }
     },
     "webcam": {
       "close": "Schließen",
-      "configureUrl": "Konfigurieren Sie die Snapshot -URL und abrufen Bild",
+      "configureUrl": "Snapshot-URL konfigurieren und Bild abrufen",
       "connected": "Verbunden",
       "disconnected": "Getrennt",
       "displayOptions": "Anzeigenoptionen",
@@ -372,15 +372,15 @@
       "noImageAvailable": "Kein Bild verfügbar",
       "refreshInterval": "Aktualisierungsintervall",
       "reset": "Zurücksetzen",
-      "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam -Einstellungen zurücksetzen möchten?",
-      "snapshotUrlDescription": "Eine Snapshot -URL ist ein direkter Link zu einem einzelnen Bild von Ihrer Webcam/IP -Kamera. \nDiese URL sollte ein JPEG/PNG -Bild direkt zurückgeben, nicht eine HTML -Seite oder ein Stream.",
-      "snapshotUrl": "Snapshot -URL",
+      "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam-Einstellungen zurücksetzen möchten?",
+      "snapshotUrlDescription": "Eine Snapshot-URL ist ein direkter Link zu einem einzelnen Bild von Ihrer Webcam/IP-Kamera. Diese URL sollte ein JPEG/PNG-Bild direkt zurückgeben, nicht eine HTML-Seite oder einen Stream.",
+      "snapshotUrl": "Snapshot-URL",
       "settings": "Einstellungen",
       "snapshotUrlExamples": "Beispiele:",
       "startAuto": "Automatisch starten",
       "status": "Status",
-      "stopAuto": "STOPT AUTO",
-      "title": "Webcam -Einstellungen",
+      "stopAuto": "Auto stoppen",
+      "title": "Webcam-Einstellungen",
       "autoRefresh": "Automatische Aktualisierung",
       "errors": {}
     }
@@ -444,14 +444,13 @@
         "quality": "Bildqualität",
         "strech_factor": "Streckfaktor",
         "black_clipping": "Schwarzclipping",
-        "DebayeredHFR": "Entbaus Hfr",
-        "UnlinkedStretch": "Unverbinkter Strecher",
-        "debayern": "Debayer -Bild"
+        "DebayeredHFR": "Debayered HFR",
+        "UnlinkedStretch": "Unverlinkter Stretch",
+        "debayern": "Debayer Bild"
       },
       "debug": {
         "title": "Debug",
-        "activate": "Debug-Modus aktivieren",
-        "titel": ""
+        "activate": "Debug-Modus aktivieren"
       },
       "notifications": {
         "title": "Benachrichtigungen",
@@ -526,7 +525,7 @@
         "name": "Wetter"
       },
       "info": {
-        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \\nVerwenden Sie das \"Networked Filter Wheel\" der API für das Filterrad",
+        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \nVerwenden Sie das \"Networked Filter Wheel\" der API für das Filterrad",
         "title": "Info"
       }
     },
@@ -550,7 +549,7 @@
       "choose_sequence": "Sequenz wählen...",
       "no_sequences_found": "Keine Sequenzen gefunden",
       "error_loading_sequences": "Fehler beim Laden der Sequenzen",
-      "error_loading_sequence": "Fehler beim Laden der Sequenz: {error}",
+      "error_loading_sequence": "Fehler beim Laden der Sequenz",
       "filter": "Filter",
       "triggers": "Trigger",
       "details": {},
@@ -586,8 +585,7 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit",
-      "sequence_control": ""
+      "time": "Zeit"
     },
     "mount": {
       "title": "Montierung",
@@ -683,7 +681,7 @@
           "MinMove": "DEC: Min move",
           "aggression": "DEC: Aggression",
           "exp_factor": "DEC: Belichtungsfaktor",
-          "hysteresis": "Dec: Hysterese",
+          "hysteresis": "DEC: Hysterese",
           "predictive_weight": "DEC: Vorhersage Gewichtung",
           "reactive_weight": "DEC: Reaktive Gewichtung",
           "slope_weight": "DEC: Trend Gewichtung"
@@ -700,8 +698,8 @@
           "aggression": "RA: Aggression",
           "exp_factor": "RA: Belichtungsfaktor",
           "hysteresis": "RA: Hysterese",
-          "predictive_weight": " RA: Vorhersage Gewichtung",
-          "reactive_weight": " RA: Reaktive Gewichtung",
+          "predictive_weight": "RA: Vorhersage Gewichtung",
+          "reactive_weight": "RA: Reaktive Gewichtung",
           "slope_weight": "RA: Trend Gewichtung"
         }
       }

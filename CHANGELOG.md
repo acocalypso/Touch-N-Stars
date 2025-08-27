@@ -4,14 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.x.x] - 2025-xx-xx
+## [1.1.2.2] - 2025-08-27
 ### Added
-- Mountpage: Add Slew stop button 
-- Info message: What's new when starting for the first time after an update
+- Mount page: Added slew stop button
+- Info message: Show 'What's new' on first start after an update
 
 ### Fixed
 - Sequence: Display of the filter name
-- Fix Slew stop if only slew was executed
+- Slew stop fixed when only slew was executed
 - Mount websocket connection fix
 
 ## [1.1.2.1] - 2025-08-22

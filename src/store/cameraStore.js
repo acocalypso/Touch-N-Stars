@@ -92,7 +92,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
       let attempts = 0;
       const maxAttempts = 60;
-      let image = this.imageData;
+      let image = imageData.value;
       let done = false;
 
       while (!done && attempts < maxAttempts && !isAbort.value) {
@@ -101,7 +101,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
           console.log('attempts', attempts);
 
-          if (image != this.imageData) {
+          if (image != imageData.value) {
             console.log('Image data received from API.');
             if (solve === false) {
               done = true;

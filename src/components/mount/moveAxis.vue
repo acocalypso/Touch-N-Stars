@@ -96,28 +96,16 @@
           </p>
         </div>
         <div class="flex flex-row w-full justify-center gap-1">
-          <button
-            class="btn-small text-xs"
-            @click="settingsStore.mount.slewRate = 0.017"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.017">
             4x
           </button>
-          <button
-            class="btn-small text-xs"
-            @click="settingsStore.mount.slewRate = 0.067"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.067">
             16x
           </button>
-          <button
-            class="btn-small text-xs"
-            @click="settingsStore.mount.slewRate = 0.133"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.133">
             32x
           </button>
-          <button
-            class="btn-small text-xs"
-            @click="settingsStore.mount.slewRate = 0.267"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.267">
             62x
           </button>
         </div>
@@ -143,8 +131,8 @@
     </div>
 
     <!-- Loading Overlay -->
-    <div 
-      v-if="!mountStore.wsIsConnected" 
+    <div
+      v-if="!mountStore.wsIsConnected"
       class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm flex items-center justify-center rounded-xl z-50"
     >
       <div class="flex flex-col items-center space-y-3">
@@ -181,16 +169,19 @@ const sendCommand = (direction) => {
   console.log('WebSocket OPEN constant:', WebSocket.OPEN);
   console.log('WebSocket connected:', mountStore.wsIsConnected);
   console.log('WebSocket comparison:', websocketMountControl.socket?.readyState === WebSocket.OPEN);
-  
+
   // Prüfe zuerst den Store-Status
   if (!mountStore.wsIsConnected) {
     console.error('WebSocket ist nicht verbunden (Store).');
     return;
   }
-  
+
   // Vereinfachte Überprüfung - nur auf readyState 1 (OPEN) prüfen
   if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
-    console.error('WebSocket ist nicht verbunden (Socket). State:', websocketMountControl.socket?.readyState);
+    console.error(
+      'WebSocket ist nicht verbunden (Socket). State:',
+      websocketMountControl.socket?.readyState
+    );
     return;
   }
 
@@ -198,12 +189,15 @@ const sendCommand = (direction) => {
 
   const sendMessage = () => {
     if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
-      console.error('WebSocket verloren während Befehl. State:', websocketMountControl.socket?.readyState);
+      console.error(
+        'WebSocket verloren während Befehl. State:',
+        websocketMountControl.socket?.readyState
+      );
       clearInterval(commandInterval);
       commandInterval = null;
       return;
     }
-    
+
     console.log('sendMessage');
     const message = {
       direction: direction,
@@ -216,7 +210,7 @@ const sendCommand = (direction) => {
 
   sendMessage(); // Sende den Befehl sofort
   commandInterval = setInterval(sendMessage, 800); // Wiederhole jede Sekunde
-  
+
   // Sicherheits-Timeout: Stoppt automatisch nach 30 Sekunden
   if (failsafeTimeout) {
     clearTimeout(failsafeTimeout);
@@ -230,34 +224,34 @@ const sendCommand = (direction) => {
 // Spezielle Touch-Handler für Android
 const handleTouchStart = (direction, event) => {
   console.log('handleTouchStart:', direction);
-  
+
   // Verhindere alle Standard-Browser-Aktionen
   event.preventDefault();
   event.stopPropagation();
-  
+
   // Entferne jegliche Text-Selektion
   if (window.getSelection) {
     window.getSelection().removeAllRanges();
   }
-  
+
   // Starte Bewegung
   sendCommand(direction);
 };
 
 const handleTouchEnd = (event) => {
   console.log('handleTouchEnd');
-  
+
   // Verhindere alle Standard-Browser-Aktionen
   event.preventDefault();
   event.stopPropagation();
-  
+
   // Stoppe Bewegung
   sendStop();
 };
 
 const sendStop = () => {
   console.log('sendStop called');
-  
+
   if (!mountStore.lastDirection) {
     console.log('Kein vorheriger Befehl zum Stoppen.');
     return;
@@ -269,7 +263,7 @@ const sendStop = () => {
     commandInterval = null;
     console.log('Command interval cleared');
   }
-  
+
   // Stoppe auch das Failsafe-Timeout
   if (failsafeTimeout) {
     clearTimeout(failsafeTimeout);
@@ -279,7 +273,10 @@ const sendStop = () => {
 
   // Vereinfachte WebSocket-Überprüfung wie bei sendCommand
   if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
-    console.error('WebSocket ist nicht verbunden für Stop. State:', websocketMountControl.socket?.readyState);
+    console.error(
+      'WebSocket ist nicht verbunden für Stop. State:',
+      websocketMountControl.socket?.readyState
+    );
     // Trotzdem lastDirection zurücksetzen
     mountStore.lastDirection = '';
     return;
@@ -303,7 +300,7 @@ onMounted(() => {
     }
   });
   websocketMountControl.connect();
-  
+
   // Globaler Event-Listener für Sicherheit
   const handleGlobalStop = () => {
     if (mountStore.lastDirection) {
@@ -311,7 +308,7 @@ onMounted(() => {
       sendStop();
     }
   };
-  
+
   document.addEventListener('visibilitychange', handleGlobalStop);
   window.addEventListener('blur', handleGlobalStop);
   window.addEventListener('pagehide', handleGlobalStop);
@@ -322,7 +319,7 @@ onBeforeUnmount(() => {
   if (mountStore.lastDirection) {
     sendStop();
   }
-  
+
   // Cleanup
   if (commandInterval) {
     clearInterval(commandInterval);
@@ -332,7 +329,7 @@ onBeforeUnmount(() => {
     clearTimeout(failsafeTimeout);
     failsafeTimeout = null;
   }
-  
+
   websocketMountControl.setStatusCallback(null);
   websocketMountControl.setMessageCallback(null);
   websocketMountControl.disconnect();
@@ -390,7 +387,7 @@ onBeforeUnmount(() => {
     min-width: 4rem;
     min-height: 4rem;
   }
-  
+
   .btn-small {
     min-width: 2.5rem;
     min-height: 1.75rem;

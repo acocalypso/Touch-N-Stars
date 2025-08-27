@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.x.x] - 2025-xx-xx
 ### Added
 - Mountpage: Add Slew stop button 
+- Info message: What's new when starting for the first time after an update
 
 ### Fixed
 - Sequence: Display of the filter name
 - Fix Slew stop if only slew was executed
+- Mount websocket connection fix
 
 ## [1.1.2.1] - 2025-08-22
 ### Changed

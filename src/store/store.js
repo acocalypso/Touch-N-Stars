@@ -198,7 +198,7 @@ export const apiStore = defineStore('store', {
         if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
-            console.log('Channel WebSocket Message:', message);
+            //console.log('Channel WebSocket Message:', message);
             this.handleWebSocketMessage(message);
           });
 
@@ -517,7 +517,7 @@ export const apiStore = defineStore('store', {
     },
 
     async handleWebSocketMessage(message) {
-      console.log('Handling WebSocket message:', message);
+      //console.log('Handling WebSocket message:', message);
 
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {

@@ -127,7 +127,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       }
 
       // Wenn bis hier kein Bild und kein Abbruch
-      if (!done && !isAbort.value) {
+    if (!done && !isAbort.value) {
         alert('Image was not provided in time');
       }
     } catch (error) {
@@ -137,6 +137,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       isLoadingImage.value = false;
       // Dauerschleife?
       if (isLooping.value) {
+        console.log('Starting next looped exposure...');
         capturePhoto(apiService, exposureTime, gain);
       }
     }

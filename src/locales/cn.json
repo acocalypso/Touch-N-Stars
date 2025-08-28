@@ -1,13 +1,12 @@
 {
   "common": {
     "cancel": "取消",
-    "confirm": "确认"
+    "confirm": "确认",
+    "close": "关闭"
   },
   "general": {
     "cancel": "取消",
-    "confirm": "确认",
-    "hide": "隐藏",
-    "show": "显示"
+    "confirm": "确认"
   },
   "pages": {
     "equipment": {
@@ -16,16 +15,17 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": " NINA 无法访问",
-    "connecting": "尝试建立连接",
-    "api_version_incompatible": "高级 API 版本不兼容 当前：{ current } 必需：{ required }",
     "connection_error_toast": {
+      "title": "连接错误",
       "message_api": "API 插件不可用。请检查 NINA 中的设置",
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
-      "title": "连接错误",
-      "message_tns_version": "Touch N Stars插件版本过于陈旧。请进行更新！"
+      "message_tns_version": "Touch N Stars 插件版本过于陈旧。请进行更新"
     }
+  },
+  "whatsnew": {
+    "title": "新功能",
+    "loading": "加载中…"
   },
   "setup": {
     "welcome": "欢迎使用 Touch'N'Stars",
@@ -39,30 +39,35 @@
   },
   "components": {
     "framing": {
+      "confirmSetTargetTitle": "确认目标选择",
+      "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
+      "useNinaCache": "使用 NINA 缓存作为目标图像",
+      "setSequnceTarget": "设置为序列目标",
       "search": {
         "title": "搜索",
-        "placeholder": "输入搜索关键词...",
+        "placeholder": "输入搜索内容...",
         "objectTypes": {
           "Planet": "行星",
           "Comet": "彗星",
-          "StellariumObject": "天体",
+          "StellariumObject": "对象",
           "Star": "恒星",
-          "Moon": "月亮"
+          "Moon": "月球"
         }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "搜索",
-        "placeholder": "输入搜索关键词...",
-        "objectTypes": {
-          "Planet": "行星",
-          "Comet": "彗星",
-          "StellariumObject": "天体",
-          "Star": "恒星",
-          "Moon": "月亮"
-        }
-      }
+      },
+      "openFraminingModal": "在取景助手中打开",
+      "fovSettings": {
+        "rotationAngle": "相机旋转角度",
+        "fov": "视场角"
+      },
+      "getImageRotation": {
+        "startCapture": "从相机确定旋转角度",
+        "SolveRun": "板解析",
+        "SolveError": "解析图像错误"
+      },
+      "moveRotator": "旋转相机",
+      "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
+      "useCenter": "居中",
+      "useRotate": "旋转"
     },
     "tutorial": {
       "previous": "上一步",
@@ -71,84 +76,60 @@
     },
     "settings": {
       "title": "设置",
-      "language": "语言",
-      "coordinates": "GPS 坐标",
-      "connection": "N.I.N.A 连接详情",
-      "save": "保存",
       "add": "添加",
-      "update": "更新",
-      "instance": {
-        "name": "实例名称",
-        "ip": "IP 地址",
-        "port": "端口",
-        "edit": "编辑实例",
-        "delete": "删除实例"
-      },
-      "errors": {
-        "emptyFields": "请填完所有字段",
-        "instanceNameRequired": "实例名称必填",
-        "invalidIPFormat": "请提供 IP 或 FQDN",
-        "invalidPortRange": "无效的端口范围",
-        "invalidInstance": "无法建立连接"
-      },
-      "showTutorial": "显示教程",
-      "system": {
-        "description": "点击任一图标重启或关闭系统",
-        "title": "系统控制",
-        "confirmRestart": "您确定要重启系统吗？",
-        "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmation": "确认",
-        "info": "这将关闭或重启正在运行N.I.N.A的电脑！"
-      },
+      "coordinates": "GPS坐标",
+      "save": "保存",
+      "infoSetLocationSync": "请先设置位置同步到赤道仪",
+      "connection": "连接设置",
+      "language": "语言",
       "image": {
         "title": "图像设置",
-        "quality": "质量百分比",
-        "black_clipping": "黑色裁剪",
-        "strech_factor": "拉伸因子"
-      },
-      "plugins": {
-        "description": "插件描述",
-        "title": "插件"
+        "quality": "图像质量",
+        "strech_factor": "拉伸因子",
+        "black_clipping": "黑点剪切",
+        "debayern": "去拜耳图像",
+        "DebayeredHFR": "去拜耳 HFR",
+        "UnlinkedStretch": "非关联拉伸"
       },
       "debug": {
-        "activate": "运行调试窗口",
-        "titel": "调试设置"
+        "title": "调试",
+        "activate": "激活调试模式"
       },
       "notifications": {
-        "enable": "启用通知",
-        "sequence": "序列事件",
-        "title": "通知"
+        "title": "通知",
+        "enable": "启用",
+        "sequence": "序列",
+        "phd2": "PHD2"
       },
-      "infoSetLocationSync": "为确保坐标能正确传输至赤道仪，请将NINA中的“位置同步”选项设置为“与望远镜同步”。这样，TNS就能直接将位置数据发送至赤道仪。"
-    },
-    "framing": {
-      "confirmSetTargetTitle": "确认目标选择",
-      "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
-      "useNinaCache": "使用 NINA 缓存作为目标图像",
-      "setSequnceTarget": "设置为序列目标",
-      "search": {
-        "title": "搜索",
-        "placeholder": "输入搜索内容..."
+      "keepAwake": {
+        "title": "保持屏幕唤醒",
+        "description": "防止应用程序打开时设备变暗或锁定。"
       },
-      "fovSettings": {
-        "fov": "视场",
-        "rotationAngle": "相机旋转角度"
+      "showTutorial": "显示教程",
+      "plugins": {
+        "title": "插件管理",
+        "description": "管理已安装的插件",
+        "author": "作者"
       },
-      "getImageRotation": {
-        "SolveError": "解析图像错误",
-        "SolveRun": "开始解析",
-        "startCapture": "从相机确定旋转角度"
+      "system": {
+        "title": "系统控制",
+        "description": "控制系统重启和关机",
+        "info": "这些操作将影响整个系统",
+        "confirmation": "确认操作",
+        "confirmShutdown": "您确定要关闭系统吗？",
+        "confirmRestart": "您确定要重启系统吗？"
       },
-      "moveRotator": "旋转相机",
-      "openFraminingModal": "在取景助手中打开",
-      "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
-      "currentAltitude": "当前高度",
-      "useCenter": "Center",
-      "useRotate": "Rotate"
+      "update": "更新",
+      "errors": {
+        "instanceNameRequired": "实例名称为必填项",
+        "invalidIPFormat": "无效的 IP 格式",
+        "invalidPortRange": "无效的端口范围",
+        "invalidInstance": "无效的实例",
+        "emptyFields": "空字段"
+      }
     },
     "connectEquipment": {
       "camera": {
-        "error": "控制相机错误：",
         "name": "相机"
       },
       "connectAll": "全部连接",
@@ -156,81 +137,48 @@
       "connectAllError": "连接所有设备时出错",
       "disconnectAllError": "断开所有设备时出错",
       "filter": {
-        "connect": "连接滤镜轮",
-        "disconnect": "断开滤镜轮",
-        "error": "控制滤镜轮错误：",
         "name": "滤镜轮"
       },
       "mount": {
-        "error": "控制赤道仪错误：",
         "name": "赤道仪"
       },
       "focuser": {
-        "error": "控制调焦器错误：",
         "name": "调焦器"
       },
       "rotator": {
-        "error": "控制旋转器错误：",
         "name": "旋转器"
       },
       "guider": {
-        "error": "控制导星错误：",
-        "name": "导星"
+        "name": "导星器"
       },
       "safety": {
-        "error": "控制安全监控错误",
         "name": "安全监控器"
       },
       "flat": {
-        "error": "控制平场板错误：",
         "name": "平场设备"
       },
       "dome": {
-        "error": "控制穹顶错误：",
         "name": "穹顶"
       },
       "switch": {
-        "error": "控制开关错误",
         "name": "开关"
       },
       "weather": {
-        "error": "控制天气设备错误",
         "name": "天气设备"
       },
       "info": {
-        "message": "手动滤镜轮和手动旋转器目前只能通过NINA控制。滤镜轮请使用API的\"电动滤镜轮\"",
-        "title": "信息"
+        "title": "信息",
+        "message": "手动滤镜轮和手动旋转器目前只能通过NINA控制。滤镜轮请使用API的\"网络滤镜轮\""
       }
     },
     "lastLogs": {
-      "loading": "加载数据中...",
-      "error": "加载数据时出错：",
       "timestamp": "时间戳",
       "level": "级别",
       "message": "消息",
-      "member": "成员",
-      "line": "行",
       "download": "下载"
     },
-    "navigation": {
-      "equipment": "设备",
-      "camera": "相机",
-      "autofocus": "自动对焦",
-      "mount": "赤道仪",
-      "guider": "导星",
-      "dome": "穹顶",
-      "sequence": "序列",
-      "settings": "设置",
-      "vnc": "VNC"
-    },
-    "language": {
-      "select": "选择语言"
-    },
-    "equipment": {
-      "control": "设备控制"
-    },
+    "navigation": {},
     "sequence": {
-      "title": "序列",
       "stats": "统计",
       "noSequenceLoaded": "未加载序列",
       "noSequenceData": "尚无数据",
@@ -239,45 +187,27 @@
       "resetSequence": "重置序列",
       "resetConfirmationTitle": "确认重置",
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
-      "load_sequence": "加载序列",
-      "refresh_sequences": "刷新序列",
-      "select_sequence": "选择序列",
-      "choose_sequence": "选择序列...",
+      "load_sequence": "从目录加载序列",
+      "choose_sequence": "选择序列",
       "no_sequences_found": "未找到序列",
-      "sequences_loaded": "序列已加载",
       "error_loading_sequences": "加载序列时出错",
-      "sequence_loaded_successfully": "序列 '{name}' 加载成功",
-      "error_loading_sequence": "加载序列时出错: {error}",
-      "exposures": "曝光",
-      "exposureTime": "曝光时间",
+      "error_loading_sequence": "加载序列时出错",
       "filter": "滤镜",
-      "ditherEvery": "每次抖动",
-      "type": "类型",
-      "deltaHFR": "DeltaHFR",
-      "sampleSize": "样本大小",
       "triggers": "触发器",
-      "details": {
-        "of": "的",
-        "gain": "增益",
-        "ditherAfter": "抖动后",
-        "exposures": "曝光次数"
-      },
-      "date": "日期",
+      "expandAll": "展开全部",
+      "collapseAll": "折叠全部",
+      "details": {},
       "hfr": "HFR",
-      "stars": "星星",
-      "mean": "平均",
+      "mean": "平均值",
       "median": "中位数",
       "stDev": "标准差",
       "rmsText": "RMS",
-      "sequence_control": "序列控制",
-      "temperature": "温度",
       "monitor": {
         "settings": {
           "title": "查看设置",
           "showImage": "显示最后一张图像",
           "showImageStats": "显示最后一张图像统计",
           "showImgStatsGraph": "显示 HFR 图表",
-          "showGuiderGraph": "显示导星图表",
           "showGuiderAfGraph": "显示自动对焦图表",
           "display_status_under_image": "在图片下方显示状态"
         }
@@ -291,42 +221,45 @@
         "header": "信息",
         "message": "很遗憾，您的序列无法编辑。目前不支持所有序列插件。如果您希望帮助我们，请在GitHub上告知您使用的插件。"
       },
-      "info_general": {
-        "message": "很遗憾，我们目前无法处理所有参数。我们正在努力支持尽可能多的NINA功能。由于插件众多，我们无法全部集成。但我们正尝试支持尽可能多的功能。如果您发现显示错误，请帮助我们并在GitHub上报告。"
-      },
+      "info_general": {},
       "sort": {
-        "newest": "最新优先",
+        "sort": "排序",
         "oldest": "最早优先",
-        "sort": "排序"
+        "newest": "最新优先"
       },
       "time": "时间"
     },
     "mount": {
       "title": "赤道仪",
       "slew": "转动",
+      "location_sync": {
+        "title": "位置同步设置",
+        "confirmationMessage": "如果NINA中的\"位置同步\"设置为\"提示\"，在坐标发送到望远镜之前可能会出现确认窗口。为了避免这种情况并允许TNS自动设置坐标，我们建议将设置更改为\"与望远镜同步\"",
+        "toTelescope": {
+          "label": "与望远镜同步"
+        },
+        "toApplication": {
+          "label": "与应用同步"
+        },
+        "noSync": {
+          "label": "不同步"
+        }
+      },
       "control": {
         "park": "停靠",
         "unpark": "解除停靠",
         "home": "归位",
+        "set_as_park": "设为停靠位置",
         "trackingMode": "跟踪模式",
-        "siderial": "恒星",
-        "lunar": "月亮",
-        "solar": "太阳",
-        "king": "King",
-        "stop": "停止",
-        "errors": {
-          "park": "停靠赤道仪时出错",
-          "unpark": "解除停靠赤道仪时出错",
-          "home": "归位赤道仪时出错",
-          "tracking": "设置跟踪模式时出错"
-        },
         "manuellControl": "手动控制",
         "slewRate": "转动速率 °/秒",
-        "info_manuell_controll": "只有在跟踪未激活时才能使用手动控制",
-        "set_as_park": "设为停靠位置",
-        "slew_to_cenit": "转向天顶",
+        "siderial": "恒星时",
         "sync_coordinates_to_mount": "与赤道仪同步坐标",
-        "setLocationSyncToMount": "设置 \"Sync to telescope\""
+        "errors": {
+          "unpark": "解除停靠赤道仪时出错",
+          "tracking": "设置跟踪模式时出错"
+        },
+        "setLocationSyncToMount": "设置\"与望远镜同步\""
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -336,19 +269,6 @@
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
         "notSlewing": "赤道仪未转动"
-      },
-      "location_sync": {
-        "noSync": {
-          "label": "未同步"
-        },
-        "toApplication": {
-          "label": "与应用同步"
-        },
-        "toTelescope": {
-          "label": "与望远镜同步"
-        },
-        "confirmationMessage": "如果NINA中的“位置同步”设置为“提示”，在坐标发送到望远镜之前可能会出现确认窗口。为了避免这种情况并允许TNS自动设置坐标，我们建议将设置更改为“与望远镜同步”",
-        "title": "位置同步设置"
       }
     },
     "guider": {
@@ -359,7 +279,6 @@
       "rms_error": "RMS 误差",
       "title": "导星系统",
       "running": "运行中",
-      "notes": "* 此图表根据N.I.N.A.的设置显示导星数据。",
       "statusLabel": "状态",
       "status": {
         "looping": "拍摄中",
@@ -369,34 +288,62 @@
         "calibrating": "校准中",
         "unknown": "未知"
       },
+      "calibrationAssistant": {
+        "title": "校准助手",
+        "info": "校准助手帮助您将赤道仪定位到最佳校准位置并执行精确校准。",
+        "positionSettings": "位置设置",
+        "decOffset": "赤纬偏移",
+        "meridianOffset": "子午线偏移",
+        "direction": "方向",
+        "west": "西",
+        "east": "东",
+        "slewToPosition": "转向位置",
+        "startCalibration": "开始校准",
+        "stopCalibration": "停止校准",
+        "positionCalculated": "最佳位置已计算",
+        "slewing": "转向目标位置中...",
+        "slewComplete": "转向完成",
+        "slewError": "转向时出错",
+        "stopSlew": "停止转向",
+        "slewStopped": "转向已停止",
+        "calibrating": "校准进行中...",
+        "calibrationComplete": "校准完成",
+        "calibrationFailed": "校准失败",
+        "calibrationStopped": "校准已停止",
+        "calibrationError": "校准时出错",
+        "calibrationResult": "校准结果",
+        "quality": "质量",
+        "goodCalibration": "已获得优秀的校准",
+        "poorCalibration": "校准可以改善。尝试不同的位置或检查您的设备。"
+      },
       "phd2": {
-        "dec": {
-          "MaxMove": "DEC: 最大移动量",
-          "MinMove": "DEC: 最小移动量",
-          "aggression": "DEC: 修正积极性",
-          "exp_factor": "DEC: 曝光因子",
-          "hysteresis": "DEC: 回差补偿",
-          "predictive_weight": "DEC: 预测权重",
-          "reactive_weight": "DEC: 反应权重",
-          "slope_weight": "DEC: 斜率权重"
+        "Exposuretime": "曝光时间",
+        "ra": {
+          "aggression": "赤经: 修正积极性",
+          "hysteresis": "赤经: 回差补偿",
+          "MinMove": "赤经: 最小移动量",
+          "MaxMove": "赤经: 最大移动量",
+          "predictive_weight": "赤经: 预测权重",
+          "reactive_weight": "赤经: 反应权重",
+          "slope_weight": "赤经: 斜率权重",
+          "exp_factor": "赤经: 曝光因子"
         },
-        "error": {
-          "star-lost-message": "星点丢失",
-          "title": "PHD2 错误"
+        "dec": {
+          "aggression": "赤纬: 修正积极性",
+          "hysteresis": "赤纬: 回差补偿",
+          "MinMove": "赤纬: 最小移动量",
+          "MaxMove": "赤纬: 最大移动量",
+          "predictive_weight": "赤纬: 预测权重",
+          "reactive_weight": "赤纬: 反应权重",
+          "slope_weight": "赤纬: 斜率权重",
+          "exp_factor": "赤纬: 曝光因子"
         },
         "profile": "设备配置",
         "forceCalibration": "强制校准",
-        "ra": {
-          "MaxMove": "RA: 最大移动量",
-          "MinMove": "RA: 最小移动量",
-          "aggression": "RA: 修正积极性",
-          "exp_factor": "RA: 修正积极性",
-          "hysteresis": "RA: 回差补偿",
-          "predictive_weight": "RA: 预测权重",
-          "reactive_weight": "RA: 反应权重",
-          "slope_weight": "RA: 斜率权重"
-        },
-        "Exposuretime": "曝光时间"
+        "error": {
+          "title": "PHD2 错误",
+          "star-lost-message": "星点丢失"
+        }
       }
     },
     "focuser": {
@@ -406,7 +353,6 @@
       "start_autofocus": "启动自动对焦",
       "cancel_autofocus": "取消自动对焦",
       "autofocus_graph": "自动对焦图表",
-      "autofocus_running": "自动对焦运行中",
       "autofocus_error": "自动对焦错误",
       "please_connect_focuser": "请连接调焦器",
       "current_position": "当前位置：",
@@ -424,47 +370,41 @@
       "slewing_stopped": "转动已停止",
       "following": "跟随中",
       "following_stopped": "跟随已停止",
-      "at_home": "归位",
-      "not_at_home": "未归位",
+      "at_home": "在归位位置",
+      "not_at_home": "不在归位位置",
       "park": "停靠",
       "unpark": "解除停靠",
-      "shutter_close": "关闭穹顶",
-      "shutter_open": "打开穹顶",
+      "shutter_close": "快门关闭",
+      "shutter_open": "快门打开",
       "control": {
-        "open": "打开穹顶",
-        "close": "关闭穹顶",
-        "stop": "停止穹顶移动",
+        "open": "打开快门",
+        "close": "关闭快门",
+        "stop": "停止快门移动",
         "errors": {
-          "open": "打开穹顶时出错",
-          "close": "关闭穹顶时出错",
-          "stop": "停止穹顶时出错",
-          "home": "归位错误",
+          "open": "打开快门时出错",
+          "close": "关闭快门时出错",
+          "stop": "停止快门时出错",
           "park": "停靠错误",
-          "slew": "转动错误",
-          "stop_slew": "停止转动错误",
           "sync": "同步错误",
+          "stop_slew": "停止转动错误",
+          "home": "归位错误",
           "follow": "跟随望远镜错误"
         },
-        "follow": "穹顶跟随望远镜",
         "slew": "转动",
-        "slew_label": "转动到角度",
+        "slew_label": "转动到度数",
+        "follow": "穹顶跟随望远镜",
         "sync": "与望远镜同步",
-        "home": "归位",
-        "park": "停靠"
+        "park": "停靠",
+        "home": "归位"
       },
       "please_connect_dome": "请连接穹顶",
       "is_sync": "已同步",
       "not_sync": "未同步"
     },
     "camera": {
-      "title": "相机",
       "connect": "请连接相机",
       "settings": "设置",
-      "loop": "循环",
-      "capture_running": "捕捉运行中",
-      "image_loading": "图像加载中...",
-      "start_capture": "开始捕捉",
-      "cancel": "取消",
+      "capture_running": "拍摄运行中",
       "exposure_time": "曝光时间：",
       "gain_iso": "增益 / ISO：",
       "name": "相机名称",
@@ -472,14 +412,11 @@
       "offset": "偏移",
       "temperature": "温度",
       "standby": "待机",
-      "info": "信息",
-      "info_settings": "信息与设置",
-      "please_connect": "请连接相机",
       "cooler_on": "冷却开启",
       "cooler_off": "冷却关闭",
-      "dew_heater": "加热窗",
-      "dew_heater_on": "加热窗开启",
-      "dew_heater_off": "加热窗关闭",
+      "dew_heater": "除露加热器",
+      "dew_heater_on": "除露加热器开启",
+      "dew_heater_off": "除露加热器关闭",
       "camera_cooling": "相机冷却",
       "target_temperature": "目标温度",
       "warm_up_time": "预热时间",
@@ -488,11 +425,11 @@
       "readout_mode": "读出模式",
       "set_use_platesolve": "使用板解析",
       "chip_settings": {
-        "focal_length": "焦距 (mm)",
-        "height": "高度 (像素)",
-        "pixel_size": "像素尺寸 (μm)",
         "title": "芯片设置",
-        "width": "宽度 (像素)"
+        "pixel_size": "像素尺寸 (μm)",
+        "width": "宽度 (px)",
+        "height": "高度 (px)",
+        "focal_length": "焦距 (mm)"
       }
     },
     "tppa": {
@@ -503,7 +440,6 @@
       "altitude_error": "高度错误：",
       "azimuth_error": "方位错误：",
       "total_error": "总错误：",
-      "last_update": "最后更新：",
       "error_values_missing": "缺少错误值",
       "unknown_response_format": "未知的响应格式",
       "east": "东",
@@ -512,26 +448,25 @@
       "up": "上",
       "not_available": "不可用",
       "running": "运行中",
-      "capture_running": "曝光运行中",
-      "last_messages": "最新消息",
-      "plate_solve_error": "板解析错误",
-      "plate_solve_ok": "板解析成功",
       "plate_solve_start": "开始板解析",
+      "plate_solve_ok": "板解析成功",
+      "plate_solve_error": "板解析错误",
       "slewing_first_position": "转向第一个位置",
       "slewing_next_position": "转向下一个位置",
+      "capture_running": "曝光运行中",
+      "last_messages": "最新消息",
       "settings": {
+        "title": "TPPA 设置",
+        "StartFromCurrentPosition": "从当前位置开始？",
         "DirectionEast": "指向东方",
-        "StartFromCurrentPosition": "从现在的位置开始？"
-      }
+        "camera_settings": "相机设置",
+        "camera_settings_hint": "留空则使用 NINA 默认值",
+        "exposure_time": "曝光时间 (秒)",
+        "gain": "增益",
+        "nina_default": "NINA 默认值"
+      },
+      "error_modal": {}
     },
-    "logs": {
-      "loading": "加载数据中...",
-      "error": "加载数据时出错："
-    },
-    "test": {
-      "title": "测试"
-    },
-    "loading": "加载中...",
     "slewAndCenter": {
       "title": "转动与居中",
       "LastSelectedImageSource_wrong": "请在 NINA / Framing 中选择离线星图作为图像源",
@@ -542,31 +477,26 @@
       "slew": "转动",
       "slew_and_center": "转动与居中",
       "errors": {
-        "invalidRAFormat": "无效的赤经格式。请使用 HH:MM:SS 格式。",
-        "invalidDECFormat": "无效的赤纬格式。请使用 ±DD:MM:SS 格式。",
         "invalidRAInput": "无效的赤经输入。",
         "invalidDECInput": "无效的赤纬输入。",
-        "apiUnreachable": "Framing API 无法访问",
-        "invalidFormat": "无效的格式。预期格式：±DD:MM:SS.s",
         "apiResponseError": "API 响应错误：",
         "mountInfoError": "获取赤道仪信息时出错：",
         "invalidAltInput": "无效的高度输入。",
         "invalidAzInput": "无效的方位角输入。"
       },
-      "rotate": "旋转",
       "visibleStars": "可见星搜索",
       "alt": "高度：",
       "az": "方位角：",
       "slew_modal": {
-        "center_Repeat": "重复居中",
-        "center_error": "居中错误",
-        "center_successful": "居中成功",
-        "deviation_target": "与目标偏差：",
-        "exposure_running": "曝光运行中",
+        "is_slewing": "转向目标",
         "is_centering": "居中目标",
         "is_platesolving": "板解析运行中",
-        "is_slewing": "转向目标",
-        "plate_solve_error": "板解析错误"
+        "plate_solve_error": "板解析错误",
+        "center_error": "居中错误",
+        "center_successful": "居中成功",
+        "center_Repeat": "重复居中",
+        "exposure_running": "曝光运行中",
+        "deviation_target": "与目标偏差："
       }
     },
     "filterwheel": {
@@ -574,8 +504,8 @@
       "unknown": "未知",
       "nofilteravailable": "暂无滤镜可用",
       "manual_filter": {
-        "name": "更换为滤镜：",
-        "title": "滤镜轮"
+        "title": "滤镜轮",
+        "name": "更换为滤镜："
       }
     },
     "rotator": {
@@ -583,11 +513,10 @@
       "move": "移动",
       "notConnected": "请连接旋转器",
       "currentPosition": "当前位置：",
-      "moving": "移动中",
-      "stopped": "已停止"
+      "moving": "移动中"
     },
     "flat": {
-      "please_connect_flatDevice": "请连接平场板",
+      "please_connect_flatDevice": "请连接平场设备",
       "device_name": "名称：",
       "cover_state": "盖子状态：",
       "light_state": "灯光状态：",
@@ -599,6 +528,27 @@
       },
       "title": "平场面板"
     },
+    "flatassistant": {
+      "title": "平场助手",
+      "count": "数量",
+      "exposure_time": "曝光时间",
+      "min_exposure_time": "最小曝光时间",
+      "max_exposure_time": "最大曝光时间",
+      "brightness": "亮度",
+      "min_brightness": "最小亮度",
+      "max_brightness": "最大亮度",
+      "histogram_mean_target": "直方图平均目标",
+      "mean_tolerance": "平均容差",
+      "completed_recordings": "已完成记录：",
+      "start_auto_exposure": "开始自动曝光",
+      "start_auto_brightness": "开始自动亮度",
+      "start_sky_flat": "开始天空平场",
+      "stop": "停止",
+      "auto_exposure": "自动曝光",
+      "auto_brightness": "自动亮度",
+      "skyflat": "天空平场",
+      "button_slew_to_zenith": "转向天顶"
+    },
     "weatherModal": {
       "weatherInformation": "天气信息",
       "metric": "公制",
@@ -608,132 +558,428 @@
       "wind": "风",
       "humidity": "湿度",
       "pressure": "气压",
-      "dewPoint": "露点",
-      "rainRate": "降雨率",
+      "skyTemperature": "天空温度",
       "skyQuality": "天空质量",
-      "skyTemperature": "天空温度"
+      "rainRate": "降雨率",
+      "dewPoint": "露点"
     },
     "switch": {
       "gauges": "仪表",
       "switch": "开关"
     },
-    "flatassistant": {
-      "auto_brightness": "自动亮度",
-      "auto_exposure": "自动曝光",
-      "brightness": "亮度",
-      "completed_recordings": "已完成记录：",
-      "count": "数量",
-      "exposure_time": "曝光时间",
-      "histogram_mean_target": "直方图平均目标",
-      "max_brightness": "最大亮度",
-      "max_exposure_time": "最大曝光时间",
-      "mean_tolerance": "平均容差",
-      "min_brightness": "最小亮度",
-      "min_exposure_time": "最小曝光时间",
-      "skyflat": "天空平场",
-      "start_auto_brightness": "开始自动亮度",
-      "start_auto_exposure": "开始自动曝光",
-      "start_sky_flat": "开始天空平场",
-      "stop": "停止",
-      "title": "平场助手",
-      "button_slew_to_zenith": "转向天顶"
-    },
     "stellarium": {
-      "datetime": {
-        "apply": "应用",
-        "date": "日期",
-        "now": "现在",
-        "speed": "速度",
-        "time": "时间",
-        "title": "日期"
-      },
-      "mount_position": {
-        "title": "赤道仪位置"
-      },
       "selected_object": {
-        "button_framing": "前往取景",
-        "dec": "赤纬",
+        "title": "已选对象",
         "ra": "赤经",
-        "title": "已选对象"
+        "dec": "赤纬",
+        "button_framing": "前往取景"
       },
+      "datetime": {
+        "title": "日期与时间",
+        "date": "日期",
+        "time": "时间",
+        "now": "现在",
+        "speed": "速度"
+      },
+      "mount_position": {},
       "settings": {
-        "atmosphere_visible": "显示大气层",
-        "azimuthal_lines_visible": "显示方位线",
         "constellations_lines_visible": "显示星座",
-        "ecliptic_lines_visible": "显示黄道",
+        "azimuthal_lines_visible": "显示方位线",
         "equatorial_lines_visible": "显示赤道线",
+        "meridian_lines_visible": "显示子午线",
+        "ecliptic_lines_visible": "显示黄道",
+        "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
-        "meridian_lines_visible": "显示子午线"
+        "dsos_visible": "深空天体 (梅西耶, NGC)"
       }
     },
     "profile": {
-      "label": "配置文件:"
+      "label": "配置文件："
+    },
+    "notifications": {
+      "modal": {
+        "title": "配置通知",
+        "description": "请授予权限以接收关于序列事件的通知。"
+      }
     },
     "fav_target": {
-      "enter_name": "输入名称",
-      "modal_save": {
-        "message": "目标已保存",
-        "titel": "保存"
+      "table": {
+        "name": "名称",
+        "ra": "赤经",
+        "dec": "赤纬",
+        "load": "加载",
+        "remove": "移除",
+        "rotation": "旋转角度"
       },
+      "no_fav": "没有已保存的收藏",
       "modal_sequence": {
         "titel": "序列"
-      },
-      "modal_sequence_error": {
-        "message": "未加载序列"
       },
       "modal_sequence_ok": {
         "message": "已设置目标"
       },
-      "no_fav": "没有已保存的收藏",
-      "table": {
-        "dec": "赤纬",
-        "load": "加载",
-        "name": "名称",
-        "ra": "赤经",
-        "remove": "移除",
-        "sequnce": "序列目标",
-        "rotation": "旋转角度"
+      "modal_sequence_error": {
+        "message": "未加载序列"
       },
+      "enter_name": "输入名称",
       "titel": "收藏夹"
-    },
-    "notifications": {
-      "modal": {
-        "description": "请授予权限以接收关于序列事件的通知。",
-        "title": "配置通知"
+    }
+  },
+  "plugins": {
+    "common": {
+      "initializing": "初始化中...",
+      "outdated": {
+        "title": "插件已过时",
+        "message": "NINA中的TouchNStars插件已过时，需要更新。",
+        "required": "所需版本",
+        "current": "当前版本"
       }
     },
-    "settings": {
-      "title": "设置",
-      "coordinates": "GPS坐标",
-      "save": "保存",
-      "infoSetLocationSync": "请先设置位置同步到赤道仪",
-      "connection": "连接设置",
-      "language": "语言",
-      "image": {
-        "title": "图像设置",
-        "quality": "图像质量",
-        "strech_factor": "拉伸因子",
-        "black_clipping": "黑点剪切"
+    "logfileCollector": {
+      "title": "日志文件收集器",
+      "intro": "收集最新的 TNS 日志（包括调试）并上传到配置的端点。",
+      "descriptionLabel": "描述（可选）",
+      "descriptionPlaceholder": "描述要调查的问题...",
+      "lastToken": "生成的令牌",
+      "submissionHistory": "提交历史",
+      "confirmClearAll": "您确定要清除所有提交历史吗？",
+      "actions": {
+        "collectUpload": "收集并上传",
+        "uploading": "上传中…",
+        "copyToken": "复制",
+        "remove": "移除",
+        "clearAll": "全部清除"
       },
-      "debug": {
-        "title": "调试",
-        "activate": "激活调试模式"
+      "submissionFields": {
+        "date": "日期",
+        "filename": "文件名",
+        "token": "令牌"
       },
-      "notifications": {
-        "title": "通知"
+      "result": {
+        "success": "上传成功",
+        "failed": "上传失败",
+        "failedWithStatus": "上传失败（{status}）",
+        "tokenCopied": "令牌已复制到剪贴板",
+        "tokenCopyFailed": "复制令牌失败",
+        "submissionRemoved": "提交已移除",
+        "allSubmissionsCleared": "所有提交已清除"
+      }
+    },
+    "telescopius": {
+      "title": "Telescopius",
+      "offlineInfo": "从 telescopius.com 加载个人目标列表并将其存储在本地以供离线使用。",
+      "landing": {
+        "title": "Telescopius 插件",
+        "subtitle": "将您的目标对象从 Telescopius.com 直接带入 Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "这个插件是什么？",
+          "description": "从 Telescopius.com 直接将您保存的目标对象加载到 Touch'N'Stars 中，并将其用于导航和取景。",
+          "features": {
+            "loadLists": "从 Telescopius.com 加载目标列表",
+            "navigate": "直接导航到对象",
+            "framingAssistant": "使用取景助手",
+            "offlineCache": "离线缓存，快速访问"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "Telescopius 是什么？",
+          "description": "Telescopius 是一个全面的天文平台，用于发现和规划天文观测。",
+          "features": {
+            "database": "广泛的对象数据库",
+            "lists": "个性化目标列表",
+            "planning": "观测规划",
+            "community": "社区和分享"
+          },
+          "visitWebsite": "访问 Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "主要功能",
+          "description": "Telescopius 和 Touch'N'Stars 之间的无缝集成：",
+          "features": {
+            "autoImport": "自动导入：一次导入所有目标列表",
+            "smartCache": "智能缓存：快速离线访问",
+            "directNavigation": "直接导航：一键转动",
+            "framingIntegration": "取景集成：使用现有工具",
+            "locationBased": "基于位置：考虑您的位置"
+          }
+        },
+        "apiSetup": {
+          "title": "设置 API 密钥",
+          "description": "按照这些简单步骤配置插件：",
+          "step1": {
+            "title": "创建 Telescopius 账户",
+            "description": "如果您还没有账户，请免费注册：",
+            "button": "免费注册"
+          },
+          "step2": {
+            "title": "请求 API 密钥",
+            "description": "登录并转到设置 → API 获取您的个人密钥：",
+            "button": "请求 API 密钥"
+          },
+          "step3": {
+            "title": "配置 API 密钥",
+            "description": "创建 API 密钥时，使用这些设置：",
+            "config": {
+              "name": "名称",
+              "nameValue": "任何名称（例如 Touch N Stars）",
+              "description": "描述",
+              "descriptionValue": "任何描述（例如 TNS 的 API）",
+              "accessType": "访问类型",
+              "accessTypeValue": "选择服务器",
+              "ipLimit": "限制访问这些 IP 地址",
+              "ipLimitValue": "留空"
+            }
+          },
+          "step4": {
+            "title": "输入 API 密钥",
+            "description": "点击下面的\"配置 API 密钥\"并输入您的密钥：",
+            "button": "配置 API 密钥"
+          },
+          "security": {
+            "title": "安全性",
+            "description": "您的 API 密钥仅存储在您的设备本地，永远不会与他人分享。您可以随时删除它。"
+          }
+        }
       },
-      "showTutorial": "显示教程",
-      "plugins": {
-        "title": "插件管理",
-        "description": "管理已安装的插件"
+      "apiKey": {
+        "title": "Telescopius API 密钥",
+        "description": "要使用 Telescopius，您需要一个 API 密钥。您可以在 Telescopius 网站上获取一个：",
+        "linkText": "→ 请求 Telescopius API 密钥",
+        "securityNote": "API 密钥存储在服务器上，仅用于 Telescopius 请求。",
+        "placeholder": "输入您的 Telescopius API 密钥...",
+        "configured": "API 密钥已配置",
+        "save": "保存",
+        "delete": "删除",
+        "cancel": "取消",
+        "configure": "配置 API 密钥",
+        "required": "需要 API 密钥",
+        "errors": {
+          "saveFailed": "无法保存 API 密钥。",
+          "deleteFailed": "无法删除 API 密钥。"
+        },
+        "loadFromTelescopius": "刷新"
       },
-      "system": {
-        "title": "系统控制",
-        "description": "控制系统重启和关机",
-        "info": "这些操作将影响整个系统",
-        "confirmation": "确认操作",
-        "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmRestart": "您确定要重启系统吗？"
+      "targetLists": {
+        "noListsTitle": "没有已保存的目标列表",
+        "noListsDescription": "您的 Telescopius 账户中尚未找到目标列表。",
+        "noListsHint": "在 telescopius.com 上创建目标列表，然后在此处重新加载。",
+        "editOnTelescopius": "在 Telescopius 上编辑列表",
+        "dataFrom": "数据来自",
+        "connectionError": "与 Telescopius 的连接失败。NINA PC 需要互联网连接，并且在 Telescopius 中必须至少存在一个目标列表。"
+      }
+    },
+    "webcam": {
+      "title": "网络摄像头设置",
+      "snapshotUrl": "快照 URL",
+      "snapshotUrlDescription": "快照 URL 是指向您的网络摄像头/IP 摄像头的单个图像的直接链接。此 URL 应直接返回 JPEG/PNG 图像，而不是 HTML 页面或流。",
+      "snapshotUrlExamples": "示例：",
+      "refreshInterval": "刷新间隔",
+      "displayOptions": "显示选项",
+      "autoRefresh": "自动刷新",
+      "status": "状态",
+      "connected": "已连接",
+      "disconnected": "已断开",
+      "error": "错误",
+      "lastUpdate": "最后更新",
+      "startAuto": "开始自动",
+      "stopAuto": "停止自动",
+      "settings": "设置",
+      "reset": "重置",
+      "close": "关闭",
+      "resetConfirm": "您确定要重置所有网络摄像头设置吗？",
+      "liveView": "实时查看",
+      "noImageAvailable": "无可用图像",
+      "configureUrl": "配置快照 URL 并获取图像",
+      "loadingImage": "加载图像中...",
+      "errors": {}
+    },
+    "sequenceCreator": {
+      "title": "N.I.N.A 序列创建器",
+      "subtitle": "创建专业的天体摄影序列",
+      "toolbar": {
+        "undo": "撤销",
+        "redo": "重做",
+        "loadBasicSequence": "加载基本序列",
+        "clearSequence": "清除序列",
+        "saveAsDefault": "保存为默认",
+        "saveAsDefaultSuccess": "已保存为默认序列！",
+        "sendToNina": "发送到 N.I.N.A",
+        "sending": "发送中...",
+        "sent": "已发送！",
+        "sendErrorTitle": "发送到 N.I.N.A 时出错",
+        "sendSuccessMessage": "序列已成功发送到 N.I.N.A！",
+        "validSequence": "序列有效，可以导出",
+        "invalidSequence": "添加目标设置和智能曝光以创建有效序列"
+      },
+      "confirmations": {
+        "title": "确认",
+        "clearSequence": "您确定要清除整个序列吗？此操作无法撤销。",
+        "saveAsDefault": "您确定要将当前序列保存为默认值吗？这将覆盖之前的默认序列。",
+        "loadBasicSequence": "您确定要加载基本序列吗？这将覆盖当前序列。",
+        "removeAction": "移除 \"{actionName}\" 操作？"
+      },
+      "containers": {
+        "startSequence": {
+          "title": "开始序列",
+          "description": "会话开始时执行的操作",
+          "emptyTitle": "无开始操作",
+          "emptyDescription": "添加操作以准备您的设备进行成像"
+        },
+        "targetSequence": {
+          "title": "目标序列",
+          "description": "您目标的主要成像序列",
+          "emptyTitle": "无目标操作",
+          "emptyDescription": "为您的目标添加成像操作"
+        },
+        "endSequence": {
+          "title": "结束序列",
+          "description": "会话结束时执行的操作",
+          "emptyTitle": "无结束操作",
+          "emptyDescription": "添加操作以安全关闭您的设备"
+        },
+        "noActions": "无操作",
+        "addActionsToContainer": "向此容器添加操作",
+        "addAction": "添加操作"
+      },
+      "actions": {
+        "disabled": "已禁用",
+        "enabled": "已启用",
+        "closeEditor": "关闭编辑器",
+        "editParameters": "编辑参数",
+        "moveUp": "向上移动",
+        "moveDown": "向下移动",
+        "duplicateAction": "复制操作",
+        "removeAction": "移除操作",
+        "clickToRename": "点击重命名",
+        "actionParameters": "操作参数",
+        "changesSaveAutomatically": "更改自动保存",
+        "min": "最小值：",
+        "max": "最大值：",
+        "yes": "是",
+        "no": "否",
+        "notSet": "未设置",
+        "noConfigurableParameters": "此操作没有可配置的参数。",
+        "actionId": "操作 ID",
+        "category": "类别",
+        "parameters": "参数",
+        "unparkTelescope": {
+          "name": "解除望远镜停靠",
+          "description": "解除望远镜赤道仪停靠"
+        },
+        "coolCamera": {
+          "name": "冷却相机",
+          "description": "将相机冷却到指定温度",
+          "temperatureLabel": "温度 (°C)",
+          "temperatureTooltip": "相机冷却的目标温度",
+          "durationLabel": "冷却持续时间（分钟）",
+          "durationTooltip": "主动冷却相机的时间（0 = 冷却到达到温度）"
+        },
+        "targetSettings": {
+          "name": "目标设置",
+          "description": "定义目标坐标和设置",
+          "targetNameLabel": "目标名称",
+          "targetNameTooltip": "天体对象的名称",
+          "raLabel": "赤经",
+          "raTooltip": "HH:MM:SS 格式的赤经",
+          "decLabel": "赤纬",
+          "decTooltip": "DD:MM:SS 格式的赤纬",
+          "positionAngleLabel": "位置角 (°)",
+          "positionAngleTooltip": "相机旋转角度"
+        },
+        "slewToTarget": {
+          "name": "转向目标",
+          "description": "使用不同选项导航到目标",
+          "slewModeLabel": "转向模式",
+          "slewModeTooltip": "选择如何导航到目标"
+        },
+        "runAutofocus": {
+          "name": "运行自动对焦",
+          "description": "执行自动对焦例程"
+        },
+        "startGuiding": {
+          "name": "开始导星",
+          "description": "开始自动导星系统",
+          "forceCalibrationLabel": "强制校准",
+          "forceCalibrationTooltip": "强制新的导星器校准"
+        },
+        "smartExposure": {
+          "name": "智能曝光（成像）",
+          "description": "带抖动和触发器的智能曝光序列",
+          "exposureTimeLabel": "曝光时间 (秒)",
+          "exposureTimeTooltip": "每次曝光的持续时间",
+          "gainLabel": "增益",
+          "gainTooltip": "相机增益设置",
+          "offsetLabel": "偏移",
+          "offsetTooltip": "相机偏移设置",
+          "binningLabel": "像素合并",
+          "binningTooltip": "像素合并模式",
+          "filterLabel": "滤镜",
+          "filterTooltip": "滤镜轮选择",
+          "imageTypeLabel": "图像类型",
+          "imageTypeTooltip": "要捕获的曝光类型",
+          "countLabel": "图像数量",
+          "countTooltip": "要进行的曝光次数",
+          "ditherAfterLabel": "N 次曝光后抖动",
+          "ditherAfterTooltip": "抖动频率"
+        },
+        "stopGuiding": {
+          "name": "停止导星",
+          "description": "停止自动导星系统"
+        },
+        "warmCamera": {
+          "name": "加热相机",
+          "description": "加热相机",
+          "durationLabel": "加热持续时间（分钟）",
+          "durationTooltip": "主动加热相机的时间（0 = 加热到环境温度）"
+        },
+        "findHome": {
+          "name": "寻找归位位置",
+          "description": "将望远镜移动到归位位置"
+        },
+        "parkTelescope": {
+          "name": "停靠望远镜",
+          "description": "停靠望远镜赤道仪"
+        }
+      },
+      "actionLibrary": {
+        "title": "操作库",
+        "description": "点击向容器添加操作",
+        "startActions": "🚀 开始操作",
+        "targetActions": "🎯 目标操作",
+        "endActions": "🏁 结束操作"
+      },
+      "exportModal": {
+        "buttons": {},
+        "messages": {},
+        "jsonPreview": {
+          "sequenceJsonExport": "序列 JSON 导出",
+          "previewDescription": "预览并将您的序列下载为 JSON 文件",
+          "totalActions": "总操作数",
+          "enabled": "已启用",
+          "categories": "类别",
+          "estimatedDuration": "预计持续时间",
+          "filenamePrompt": "输入文件名...",
+          "copyJson": "复制 JSON",
+          "copied": "已复制！",
+          "downloadJson": "下载 JSON"
+        },
+        "howToUse": {}
+      },
+      "targetSearch": {
+        "searchLabel": "搜索目标",
+        "searchDescription": "搜索深空天体、行星或恒星并自动采用坐标",
+        "placeholder": "输入对象名称（例如 M31、NGC 1234、火星）...",
+        "objectTypes": {
+          "DSO": "深空天体",
+          "Planet": "行星",
+          "Star": "恒星",
+          "Moon": "月球",
+          "Comet": "彗星"
+        }
+      },
+      "settings": {
+        "title": "子午线翻转",
+        "enableMeridianFlip": "启用子午线翻转"
       }
     }
   }

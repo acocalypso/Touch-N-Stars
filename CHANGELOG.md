@@ -4,14 +4,67 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1.0] - 2025-07-25
+## [1.1.2.2] - 2025-08-27
 ### Added
-- PHD2 Image
+- Mount page: Added slew stop button
+- Info message: Show 'What's new' on first start after an update
+
+### Fixed
+- Sequence: Display of the filter name
+- Slew stop fixed when only slew was executed
+- Mount websocket connection fix
+
+## [1.1.2.1] - 2025-08-22
+### Changed
+-  Plugin: Sequece Creator: The settings are now saved in the backend.
+
+### Fixed
+- Android: The display turned itself off. Now this can be selected in the settings.
+- Plugin: Sequece Creator: The endcontaienr is now processed sequentially.
+
+## [1.1.2.0] - 2025-08-20
+### Added
+- Image settings: add debayer and unlinked stretch options 
+- TPPA: Settings for GAIN and Exposuretime
+- Telescopius Plugin: Personal target lists from Telescopius can now be loaded. Please note: An API key from Telescopius is required.
+- Logcollector Plugin added - Submit your logs to the Touch N Stars team in case troubleshooting is required.
+
+### Changed
+- Error handling and debug mode rework
+- Slew and center breaks off after one attempt at plate solving.
+
+### Fixed
+- Favorites: fix save rotation
+- Android: Fix image download from Sequence page
+- TPPA: Button position from ErrorModal 
+- Plugin: Sequence Creator fix Meridian Flip
+
+## [1.1.1.1] - 2025-08-07
+### Added
+- Sequence creator: Find home option
+
+### Fixed
+- fix settings button if no connection can be established
+- fix cooling settings at sequence creator
+
+## [1.1.1.0] - 2025-08-05
+### Added
+- PHD2 image similar to PHD2 with guide star marker
 - PHD2 Starimige with starprofiel graph
 - PHD2 callibration assitant
+- Plugin: Sequence Creator for simple sequences added
+- Plugin: Webcam viewer
+- When you start the app for the first time, you will be automatically redirected to the equipment page.
 
 ### Changed
 - The settings modal is now a separate page.
+- Stellaruim search improved
+- The sequence page design has been revised.
+- The iocns of the navbar are no longer dependent on the status of the sequence. 
+- Framing assistant revised
+
+### Fixed
+- Framing: The skychart and the Name is now also displayed when the coordinates come from Stellarium.
 
 ## [1.1.0.0] - 2025-07-25
 ### Added

@@ -36,6 +36,27 @@ export const usePluginStore = defineStore('pluginStore', {
       plugin.enabled = enabled;
 
       if (enabled) {
+        // Ensure plugin has a pluginPath before initializing
+        if (!plugin.pluginPath) {
+          // Find the next available plugin number
+          const existingPaths = this.plugins
+            .map((p) => p.pluginPath)
+            .filter((path) => path && path.match(/^\/plugin\d+$/))
+            .map((path) => parseInt(path.replace('/plugin', '')))
+            .sort((a, b) => a - b);
+
+          let nextNumber = 1;
+          for (const num of existingPaths) {
+            if (num === nextNumber) {
+              nextNumber++;
+            } else {
+              break;
+            }
+          }
+
+          plugin.pluginPath = `/plugin${nextNumber}`;
+        }
+
         // Load and initialize the plugin if it's enabled
         await this.initializePlugin(plugin.id);
       } else {

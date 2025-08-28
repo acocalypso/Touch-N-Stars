@@ -7,22 +7,77 @@
           <NavigationComp />
         </div>
       </nav>
-      <!-- Main content -->
+      <!-- Logo Splash Screen -->
+      <Transition name="splash">
+        <div
+          v-if="
+            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
+            $route.path !== '/setup'
+          "
+          class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
+        >
+          <!-- Minimaler Status-Text -->
+          <p
+            v-if="!store.isBackendReachable && connectionCheckCompleted"
+            class="absolute top-5 left-1/2 transform -translate-x-1/2 text-red-400 text-sm sm:text-base font-medium animate-pulse bg-gray-800 px-4 py-2 rounded-lg border border-red-500/30"
+          >
+            Trying to establish connection...
+          </p>
+
+          <!-- Settings Button -->
+          <button
+            v-if="!store.isBackendReachable && connectionCheckCompleted"
+            @click="showSettingsModal = true"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 px-4 py-2 sm:px-6 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 sm:h-5 sm:w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+            {{ $t('components.settings.title') }}
+          </button>
+
+          <h1 class="text-3xl sm:text-4xl md:text-5xl text-yellow-50 font-mono font-bold mb-4">
+            {{ $t('app.title') }}
+          </h1>
+          <img
+            class="w-72 h-72"
+            src="@/assets/Logo_TouchNStars_600x600.png"
+            alt="TouchNStars Logo"
+          />
+        </div>
+      </Transition>
+
       <div
         v-if="
-          !store.isBackendReachable && settingsStore.setupCompleted && $route.path !== '/settings'
+          !(
+            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
+            $route.path !== '/setup'
+          )
         "
-        class="absolute inset-0 z-50 flex items-center justify-center pointer-events-none"
+        :class="mainContentClasses"
       >
-        <div class="animate-spin rounded-full h-20 w-20 border-t-8 border-red-600"></div>
-      </div>
-
-      <div v-else :class="mainContentClasses">
         <StellariumView
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
         />
-        <router-view :key="routerViewKey" />
+        <router-view v-show="!store.showStellarium" :key="routerViewKey" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
@@ -66,9 +121,54 @@
     <!-- ManuellFilterModal Modal -->
     <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
     <!-- Debug Console -->
-    <ConsoleViewer class="fixed top-32 right-6" v-if="settingsStore.showDebugConsole" />
+    <ConsoleViewer class="fixed top-32 right-6 z-[60]" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
+
+    <!-- What's New Modal -->
+    <WhatsNewModal
+      v-if="showWhatsNew && whatsNewData"
+      :data="whatsNewData"
+      @close="dismissWhatsNew"
+    />
+
+    <!-- Settings Modal -->
+    <div
+      v-if="showSettingsModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    >
+      <div
+        class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"
+      >
+        <div
+          class="sticky top-0 bg-gray-900 p-4 border-b border-gray-700 flex justify-between items-center"
+        >
+          <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
+          <button
+            @click="showSettingsModal = false"
+            class="p-2 text-gray-400 hover:text-white bg-gray-800 rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="p-4">
+          <SettingsComp />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,9 +188,11 @@ import ToastModal from '@/components/helpers/ToastModal.vue';
 import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
+import SettingsComp from '@/components/SettingsComp.vue';
 import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
+import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -98,6 +200,12 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
+const showSplashScreen = ref(true);
+const showSettingsModal = ref(false);
+const showWhatsNew = ref(false);
+const whatsNewData = ref(null);
+const whatsNewPending = ref(false);
+const connectionCheckCompleted = ref(false);
 const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
@@ -196,7 +304,16 @@ onMounted(async () => {
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
 
+  // Timeout für connectionCheckCompleted nach 3 Sekunden
+  const connectionTimeout = setTimeout(() => {
+    connectionCheckCompleted.value = true;
+  }, 3000);
+
   await store.fetchAllInfos(t);
+  // Nach dem ersten Verbindungsversuch ist die Prüfung abgeschlossen
+  connectionCheckCompleted.value = true;
+  clearTimeout(connectionTimeout);
+
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {
@@ -215,11 +332,54 @@ onMounted(async () => {
   if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
     await notificationService.initialize();
   }
+
+  // Load What's New content generated at build-time
+  try {
+    const res = await fetch('/whats-new.json', { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      whatsNewData.value = data;
+      const lastShownVersion = localStorage.getItem('tns.whatsnew.version');
+      const shouldShow = data?.version && data.version !== lastShownVersion;
+      if (shouldShow) {
+        if (!showTutorial.value) {
+          showWhatsNew.value = true;
+        } else {
+          whatsNewPending.value = true;
+        }
+      }
+    }
+  } catch (e) {
+    // silently ignore
+  }
 });
+
+// Watch for backend connection and add delay before hiding splash screen
+watch(
+  () => store.isBackendReachable,
+  (isReachable) => {
+    if (isReachable && showSplashScreen.value) {
+      setTimeout(() => {
+        showSplashScreen.value = false;
+      }, 1000); // 1 second delay
+    }
+  }
+);
 
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
+  if (whatsNewPending.value && whatsNewData.value) {
+    showWhatsNew.value = true;
+    whatsNewPending.value = false;
+  }
+}
+
+function dismissWhatsNew() {
+  showWhatsNew.value = false;
+  if (whatsNewData.value?.version) {
+    localStorage.setItem('tns.whatsnew.version', whatsNewData.value.version);
+  }
 }
 
 watch(
@@ -286,5 +446,19 @@ onBeforeUnmount(() => {
     left: 12rem !important;
     right: 0 !important;
   }
+}
+
+/* Splash Screen Transition */
+.splash-enter-active {
+  transition: opacity 0.3s ease-in;
+}
+
+.splash-leave-active {
+  transition: opacity 0.3s ease-out;
+}
+
+.splash-enter-from,
+.splash-leave-to {
+  opacity: 0;
 }
 </style>

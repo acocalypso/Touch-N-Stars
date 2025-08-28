@@ -18,13 +18,13 @@ async function getlastImage(index, quality, resize, scale) {
   console.log('Load image');
   try {
     const result = await apiService.getSequenceImageFilterd(index, quality, resize, scale, 'FLAT');
-    if (result.StatusCode !== 200) {
+    if (result.status !== 200) {
       console.error('Unknown error: Check NINIA Log for more information');
       return;
     }
-    const image = result?.Response;
-    if (image) {
-      imageData.value = `data:image/jpeg;base64,${image}`;
+    const blob = result.data;
+    if (blob) {
+      imageData.value = URL.createObjectURL(blob);
       isLoadingImg.value = false;
     }
   } catch (error) {

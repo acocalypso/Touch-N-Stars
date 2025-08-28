@@ -16,11 +16,12 @@
       class="fixed right-16 z-10"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     />
+
+    <controlSequence v-if="sequenceStore.sequenceIsLoaded" />
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->
         <div class="backdrop-blur-sm bg-gray-800/50 rounded-xl p-4 shadow-xl">
-          <controlSequence v-if="sequenceStore.sequenceIsLoaded" />
           <LoadSequnce />
           <transition name="slide-fade">
             <div v-show="currentTab === 'showSequenz'" class="space-y-6 md:space-y-8">

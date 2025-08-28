@@ -43,7 +43,7 @@ export const apiStore = defineStore('store', {
     showMount: false,
     showStellarium: false,
     minimumApiVersion: '2.2.6.0',
-    minimumTnsPluginVersion: '1.1.0.0',
+    minimumTnsPluginVersion: '1.1.1.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
     isApiVersionNewerOrEqual: false,
@@ -57,6 +57,7 @@ export const apiStore = defineStore('store', {
     setupCheckConnectionDone: false,
     pageReturnedFromBackground: false,
     pageReturnTime: null,
+    isRedirecting: false,
   }),
 
   actions: {
@@ -93,6 +94,7 @@ export const apiStore = defineStore('store', {
               type: 'error',
               title: t('app.connection_error_toast.title'),
               message: t('app.connection_error_toast.message_tns'),
+              autoClose: false,
             });
           }
           this.clearAllStates();
@@ -111,6 +113,7 @@ export const apiStore = defineStore('store', {
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_tns_version'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
@@ -133,6 +136,7 @@ export const apiStore = defineStore('store', {
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
@@ -155,6 +159,7 @@ export const apiStore = defineStore('store', {
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
@@ -175,6 +180,7 @@ export const apiStore = defineStore('store', {
                   type: 'error',
                   title: t('app.connection_error_toast.title'),
                   message: t('app.connection_error_toast.message_api_version'),
+                  autoClose: false,
                 });
               }
               this.clearAllStates();

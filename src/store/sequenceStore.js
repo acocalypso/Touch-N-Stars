@@ -65,7 +65,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (!items) return;
       items.forEach((item) => {
         if (item && item._path && this.collapsedStates[item._path] === undefined) {
-          this.collapsedStates[item._path] = true;
+          this.collapsedStates[item._path] = false;
         }
         if (item.Items) {
           this.initializeCollapsedStates(item.Items);
@@ -150,13 +150,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
-        console.log('Länge:', keysCount, 'StatusCode:', response?.StatusCode);
 
         //console.log(response);
         if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 4000) {
           // begrenzen auf 4000 keys damit es nicht zu lange dauert
           console.log('nicht editierbar');
-          console.log('Länge:', this.countKeysDeep(response), 'StatusCode:', response?.StatusCode);
           this.sequenceIsEditable = false;
           response = await this.getSequenceInfoJson();
         }

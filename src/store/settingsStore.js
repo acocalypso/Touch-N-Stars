@@ -32,6 +32,9 @@ export const useSettingsStore = defineStore('settings', {
       sequence: {
         enabled: localStorage.getItem('sequenceNotificationsEnabled') === 'true' || false,
       },
+      phd2: {
+        enabled: localStorage.getItem('phd2NotificationsEnabled') === 'true' || false,
+      },
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -99,6 +102,8 @@ export const useSettingsStore = defineStore('settings', {
       'bg-purple-900',
       'bg-rose-900',
     ],
+    // Device/screen behavior
+    keepAwakeEnabled: false,
   }),
   actions: {
     setCoordinates(coords) {
@@ -244,6 +249,11 @@ export const useSettingsStore = defineStore('settings', {
       localStorage.setItem('sequenceNotificationsEnabled', this.notifications.sequence.enabled);
     },
 
+    togglePhd2Notifications() {
+      this.notifications.phd2.enabled = !this.notifications.phd2.enabled;
+      localStorage.setItem('phd2NotificationsEnabled', this.notifications.phd2.enabled);
+    },
+
     togglePluginsVisibility() {
       this.showPlugins = !this.showPlugins;
     },
@@ -251,6 +261,10 @@ export const useSettingsStore = defineStore('settings', {
     setPhd2ForceCalibration(value) {
       this.guider.phd2ForceCalibration = value;
       localStorage.setItem('phd2ForceCalibration', value);
+    },
+
+    setKeepAwakeEnabled(value) {
+      this.keepAwakeEnabled = value;
     },
   },
   persist: {
@@ -271,6 +285,7 @@ export const useSettingsStore = defineStore('settings', {
           'notifications',
           'showPlugins',
           'guider',
+          'keepAwakeEnabled',
         ],
       },
     ],

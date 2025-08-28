@@ -1,0 +1,9 @@
+{
+  "id": "webcam",
+  "name": "webcam",
+  "description": "Used to display an image from a webcam",
+  "version": "1.0.0",
+  "author": "Johannes Maier",
+  "defaultEnabled": false,
+  "enabled": true
+}

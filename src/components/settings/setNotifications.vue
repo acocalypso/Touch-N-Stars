@@ -28,6 +28,20 @@
           />
         </div>
       </div>
+
+      <div
+        class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg ml-2 mt-2"
+      >
+        <label for="phd2NotificationsEnabled" class="text-gray-400">
+          {{ $t('components.settings.notifications.phd2') }}
+        </label>
+        <div>
+          <toggleButton
+            @click="togglePhd2Notifications"
+            :status-value="settingsStore.notifications.phd2.enabled"
+          />
+        </div>
+      </div>
     </div>
 
     <!-- Permission Modal -->
@@ -61,12 +75,19 @@ function toggleSequenceNotifications() {
   settingsStore.toggleSequenceNotifications();
 }
 
+function togglePhd2Notifications() {
+  settingsStore.togglePhd2Notifications();
+}
+
 function handlePermissionResult(granted) {
   if (granted) {
     // Send a test notification to confirm it's working
     notificationService.sendNotification(
       'Notifications Enabled',
-      'You will now receive notifications for sequence events'
+      'You will now receive notifications for sequence events',
+      Math.floor(Math.random() * 10000),
+      'sequence-events',
+      'default'
     );
   }
 }

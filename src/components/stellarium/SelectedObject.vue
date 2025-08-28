@@ -48,11 +48,12 @@
             :dec-string="selectedObjectDec"
           />
         </div>
-        <ButtonSlew :raAngle="props.selectedObjectRaDeg" :decAngle="props.selectedObjectDecDeg" />
-        <ButtonSlewAndCenter
+        <ButtonSlewCenterRotate
+          class="w-full"
           :raAngle="props.selectedObjectRaDeg"
           :decAngle="props.selectedObjectDecDeg"
         />
+
         <ButtomSyncCoordinatesToMount
           :raAngle="props.selectedObjectRaDeg"
           :decAngle="props.selectedObjectDecDeg"
@@ -67,8 +68,7 @@
 import { defineProps, defineEmits, ref, onMounted, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { Capacitor } from '@capacitor/core';
-import ButtonSlew from '@/components/mount/ButtonSlew.vue';
-import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
+import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
 import { useOrientation } from '@/composables/useOrientation';
@@ -115,6 +115,7 @@ function setFramingCoordinates() {
   setTimeout(
     () => {
       emit('setFramingCoordinates', {
+        name: props.selectedObject[0],
         raString: props.selectedObjectRa,
         decString: props.selectedObjectDec,
         ra: props.selectedObjectRaDeg,

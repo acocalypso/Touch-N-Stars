@@ -1,35 +1,35 @@
 {
   "common": {
     "cancel": "Annuler",
-    "confirm": "Confirmer"
+    "confirm": "Confirmer",
+    "close": "Fermer"
   },
   "general": {
     "cancel": "Annuler",
-    "confirm": "Confirmer",
-    "hide": "Cacher",
-    "show": "Montrer"
+    "confirm": "Confirmer"
   },
   "pages": {
     "equipment": {
-      "title": "Contrôle des Equipements"
+      "title": "Contrôle des Équipements"
     }
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA n'est pas accessible",
-    "connecting": "Tentative d'établissement de la connexion",
-    "api_version_incompatible": "Version avancée-API Courant incompatible: {current} requis: {required}",
     "connection_error_toast": {
-      "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
-      "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
-      "message_tns": "Le plugin TouchNstars n'est pas disponible. \nVeuillez vérifier les paramètres de Nina",
       "title": "Erreur de connexion",
-      "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
+      "message_api": "Le plugin API n'est pas disponible. \nVeuillez vérifier les paramètres de NINA",
+      "message_api_version": "Le plugin API est trop vieux. \nVeuillez effectuer une mise à jour",
+      "message_tns": "Le plugin TouchNStars n'est pas disponible. \nVeuillez vérifier les paramètres de NINA",
+      "message_tns_version": "Le plugin Touch N Stars est trop ancien. Veuillez effectuer une mise à jour"
     }
+  },
+  "whatsnew": {
+    "title": "Quoi de neuf",
+    "loading": "Chargement…"
   },
   "setup": {
     "welcome": "Bienvenue dans Touch'N'Stars",
-    "description": "Commencons par un rapide paramétrage",
+    "description": "Commençons par un rapide paramétrage",
     "selectLanguage": "Choisissez la langue",
     "gpsConfiguration": "Configuration des coordonnées GPS",
     "completeSetup": "Paramétrage terminé",
@@ -39,93 +39,10 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Recherche",
-        "placeholder": "Entrez le terme de recherche...",
-        "objectTypes": {
-          "Planet": "Planète",
-          "Comet": "Comète",
-          "StellariumObject": "Objet",
-          "Star": "Étoile",
-          "Moon": "Lune"
-        }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "Recherche",
-        "placeholder": "Entrez le terme de recherche...",
-        "objectTypes": {
-          "Planet": "Planète",
-          "Comet": "Comète",
-          "StellariumObject": "Objet",
-          "Star": "Étoile",
-          "Moon": "Lune"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Précédent",
-      "next": "Suivant",
-      "skip": "Sauter le tutoriel"
-    },
-    "settings": {
-      "title": "Paramétrage",
-      "language": "Langue",
-      "coordinates": "Coordonnées GPS",
-      "connection": "Paramètres de connexion N.I.N.A.",
-      "save": "Enregistrer",
-      "add": "Ajouter",
-      "update": "Mettre à jour",
-      "instance": {
-        "name": "Nom de l'instance",
-        "ip": "Adresse IP",
-        "port": "Port",
-        "edit": "Modifier l'instance",
-        "delete": "Effacer instance"
-      },
-      "errors": {
-        "emptyFields": "Merci de remplir tous les champs",
-        "instanceNameRequired": "Le nom de l'instance est requis",
-        "invalidIPFormat": "Veuillez fournir IP ou FQDN",
-        "invalidPortRange": "Le port doit être compris entre 1 et 65535",
-        "invalidInstance": "Une connexion n'a pas pu être établie"
-      },
-      "showTutorial": "Montrer le tutoriel",
-      "system": {
-        "description": "Cliquez sur l'icône pour redémarrer ou arrêter le système",
-        "title": "Commandes de système",
-        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système?",
-        "confirmShutdown": "Êtes-vous sûr de vouloir fermer le système?",
-        "confirmation": "Confirmation",
-        "info": "Cela fera arrêter ou redémarrer le PC qui héberge l'instance N.I.N.A!"
-      },
-      "image": {
-        "quality": "Qualité en%",
-        "title": "Paramètres d'images",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Strech Factor"
-      },
-      "plugins": {
-        "description": "Description du plugin",
-        "title": "Plugins"
-      },
-      "debug": {
-        "activate": "Activer la fenêtre de débogage",
-        "titel": "Paramètres de débogage"
-      },
-      "notifications": {
-        "enable": "Activer les notifications",
-        "sequence": "Événements de séquence",
-        "title": "Notifications"
-      },
-      "infoSetLocationSync": "Pour vous assurer que les coordonnées sont correctement transférées sur le support, définissez l'option «Location Sync» dans Nina à «Synchronisation du télescope». \nCela permet à TNS d'envoyer les données de localisation directement au support."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
-      "confirmSetTargetMessage": "Etes-vous sur de choisir cette nouvelle cible?",
-      "useNinaCache": "Utiliser le cache NINA cache pour cette image de la cible",
-      "setSequnceTarget": "Sélectionner cette cible pour la sequence",
+      "confirmSetTargetMessage": "Êtes-vous sûr de choisir cette nouvelle cible?",
+      "useNinaCache": "Utiliser le cache NINA pour cette image de la cible",
+      "setSequnceTarget": "Sélectionner cette cible pour la séquence",
       "search": {
         "title": "Chercher",
         "placeholder": "Entrer un élément de recherche...",
@@ -137,287 +54,309 @@
           "Moon": "Lune"
         }
       },
+      "openFraminingModal": "Ouvert dans un cadrage",
       "fovSettings": {
-        "fov": "Champ de vision",
-        "rotationAngle": "Rotation de la caméra"
+        "rotationAngle": "Rotation de la caméra",
+        "fov": "Champ de vision"
       },
       "getImageRotation": {
-        "SolveError": "Image de résolution d'erreur",
         "startCapture": "Déterminer la rotation de la caméra",
-        "SolveRun": "Plaques"
+        "SolveRun": "Platesolve",
+        "SolveError": "Erreur de résolution d'image"
       },
-      "moveRotator": "Caméra de rotation",
-      "openFraminingModal": "Ouvert dans un cadrage",
-      "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans Nina ou l'option «Utiliser Nina Cache» doit être désactivée",
-      "currentAltitude": "Altitude de courant",
-      "useCenter": "Center",
+      "moveRotator": "Rotation de la caméra",
+      "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans NINA ou l'option «Utiliser NINA Cache» doit être désactivée",
+      "useCenter": "Centrer",
       "useRotate": "Tourner"
+    },
+    "tutorial": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "skip": "Sauter le tutoriel"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "add": "ajouter",
+      "coordinates": "Coordonnées GPS",
+      "save": "Enregistrer",
+      "infoSetLocationSync": "Veuillez d'abord définir la synchronisation de localisation sur la monture",
+      "connection": "Paramètres de connexion",
+      "language": "Langue",
+      "image": {
+        "title": "Paramètres d'image",
+        "quality": "Qualité d'image",
+        "strech_factor": "Facteur d'étirement",
+        "black_clipping": "Écrêtage noir",
+        "debayern": "Image de débayeur",
+        "DebayeredHFR": "Débayé HFR",
+        "UnlinkedStretch": "Étirement non lié"
+      },
+      "debug": {
+        "title": "Débogage",
+        "activate": "Activer le mode débogage"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "enable": "Activer",
+        "sequence": "Séquence",
+        "phd2": "PHD2"
+      },
+      "keepAwake": {
+        "title": "Garder l'écran éveillé",
+        "description": "Empêchez l'appareil de se grader ou de se verrouiller pendant que l'application est ouverte."
+      },
+      "showTutorial": "Afficher le tutoriel",
+      "plugins": {
+        "title": "Gestion des plugins",
+        "description": "Gérer les plugins installés",
+        "author": "Auteur"
+      },
+      "system": {
+        "title": "Contrôles système",
+        "description": "Contrôler le redémarrage et l'arrêt du système",
+        "info": "Ces actions affecteront l'ensemble du système",
+        "confirmation": "Confirmer l'action",
+        "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
+        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
+      },
+      "update": "Mettre à jour",
+      "errors": {
+        "instanceNameRequired": "Le nom de l'instance est requis",
+        "invalidIPFormat": "Format IP invalide",
+        "invalidPortRange": "Plage de port invalide",
+        "invalidInstance": "Instance invalide",
+        "emptyFields": "Champs vides"
+      }
     },
     "connectEquipment": {
       "camera": {
-        "error": "Erreur de contrôle de la camera:",
         "name": "Caméra"
       },
-      "connectAll": "Connecter Tout",
-      "disconnectAll": "Déconnecter Tout",
-      "connectAllError": "Erreur de connection des équipements",
-      "disconnectAllError": "Erreur de déconnection de tous les équipements",
+      "connectAll": "Connecter tout",
+      "disconnectAll": "Déconnecter tout",
+      "connectAllError": "Erreur de connexion de tous les équipements",
+      "disconnectAllError": "Erreur de déconnexion de tous les équipements",
       "filter": {
-        "connect": "Connecter la roue à filtre",
-        "disconnect": "Déconnecter la roue à filtre",
-        "error": "Erreur de contrôle de la roue à filtre:",
-        "name": "Roue filtre"
+        "name": "Roue à filtres"
       },
       "mount": {
-        "error": "Erreur de contrôle dela monture:",
-        "name": "Monter"
+        "name": "Monture"
       },
       "focuser": {
-        "error": "Erreur de contrôle du focuseur:",
-        "name": "Focalisation"
+        "name": "Focaliseur"
       },
       "rotator": {
-        "error": "Erreur de contrôle du rotateur:",
         "name": "Rotateur"
       },
       "guider": {
-        "error": "Erreur de contrôle du guideur:",
-        "name": "Guider"
+        "name": "Guideur"
       },
       "safety": {
-        "error": "Erreur de contrôle do moniteur de sureté",
         "name": "Moniteur de sécurité"
       },
       "flat": {
-        "error": "Erreur de contrôle du panneau à flats:",
-        "name": "Flatdevice"
+        "name": "Dispositif de flat"
       },
       "dome": {
-        "error": "Erreur de contrôle du dôme:",
         "name": "Dôme"
       },
       "switch": {
-        "error": "Erreur de contrôle du Commutateurs",
-        "name": "Changer"
+        "name": "Commutateur"
       },
       "weather": {
-        "error": "Erreur de contrôle de la météo",
         "name": "Météo"
       },
       "info": {
-        "message": "La roue filtrante manuelle et le rotateur manuel ne peuvent actuellement être contrôlés que via NINA. \nUtilisez la «Networked Filter Wheel» de l'API pour la roue filtrante",
-        "title": "Informations"
+        "title": "Informations",
+        "message": "La roue filtrante manuelle et le rotateur manuel ne peuvent actuellement être contrôlés que via NINA. \nUtilisez la «Networked Filter Wheel» de l'API pour la roue filtrante"
       }
     },
     "lastLogs": {
-      "loading": "Chargement des données...",
-      "error": "Erreur lors du chargement des données:",
       "timestamp": "Horodatage",
       "level": "Niveau",
       "message": "Message",
-      "member": "Membre",
-      "line": "Ligne",
       "download": "Télécharger"
     },
-    "navigation": {
-      "equipment": "Equipement",
-      "camera": "Camera",
-      "autofocus": "Autofocus",
-      "mount": "Monture",
-      "guider": "Guideur",
-      "dome": "Dôme",
-      "sequence": "Séquence",
-      "settings": "Paramètres",
-      "vnc": "VNC"
-    },
-    "language": {
-      "select": "Choisir la langue"
-    },
-    "equipment": {
-      "control": "Contrôle des Equipements"
-    },
+    "navigation": {},
     "sequence": {
-      "title": "Sequence",
-      "stats": "Stats",
+      "stats": "Statistiques",
       "noSequenceLoaded": "Aucune séquence chargée",
-      "noSequenceData": "pas de données disponibles",
-      "startSequence": "Lancer la sequence",
-      "stopSequence": "Arrêter la sequence",
-      "resetSequence": "Relancer la sequence",
-      "resetConfirmationTitle": "Confirmer la Relance",
-      "resetConfirmationMessage": "Etes-vous sur de vouloir relancer la séquence? Cette action ne peut être annulée.",
-      "load_sequence": "Charger la Séquence",
-      "refresh_sequences": "Actualiser les Séquences",
-      "select_sequence": "Sélectionner la Séquence",
-      "choose_sequence": "Choisir une séquence...",
+      "noSequenceData": "Aucune donnée disponible",
+      "startSequence": "Lancer la séquence",
+      "stopSequence": "Arrêter la séquence",
+      "resetSequence": "Remettre à zéro la séquence",
+      "resetConfirmationTitle": "Confirmer la remise à zéro",
+      "resetConfirmationMessage": "Êtes-vous sûr de vouloir remettre à zéro la séquence? Cette action ne peut être annulée.",
+      "load_sequence": "Charger la séquence depuis le répertoire",
+      "choose_sequence": "Choisir une séquence",
       "no_sequences_found": "Aucune séquence trouvée",
-      "sequences_loaded": "Séquences chargées",
       "error_loading_sequences": "Erreur lors du chargement des séquences",
-      "sequence_loaded_successfully": "Séquence '{name}' chargée avec succès",
-      "error_loading_sequence": "Erreur lors du chargement de la séquence: {error}",
-      "exposures": "Expositions",
-      "exposureTime": "Durée d'expositione",
+      "error_loading_sequence": "Erreur lors du chargement de la séquence",
       "filter": "Filtre",
-      "ditherEvery": "Dither tous les",
-      "type": "Type",
-      "deltaHFR": "Variation de HFR",
-      "sampleSize": "Taille de l'échantillon",
       "triggers": "Déclencheurs",
-      "details": {
-        "of": "de",
-        "gain": "Gain",
-        "ditherAfter": "Dither après",
-        "exposures": "expositions"
-      },
-      "date": "Date",
+      "expandAll": "Tout développer",
+      "collapseAll": "Tout réduire",
+      "details": {},
       "hfr": "HFR",
-      "stars": "Etoiles",
       "mean": "Moyenne",
       "median": "Médiane",
-      "stDev": "St. Dev.",
+      "stDev": "Écart type",
       "rmsText": "RMS",
-      "sequence_control": "Contrôles de Sequence",
-      "temperature": "Temperature",
       "monitor": {
         "settings": {
-          "title": "Visualiser les paramètres",
+          "title": "Paramètres de visualisation",
           "showImage": "Montrer la dernière image",
-          "showImageStats": "Montrer les stats de la dernière image",
-          "showImgStatsGraph": "Montrer la courbe du HFR",
-          "showGuiderGraph": "Montrer la courbe du Guidage",
-          "showGuiderAfGraph": "Montrer la courbe de l'AutoFocus",
-          "display_status_under_image": "Afficher le statut ci-dessous Image"
+          "showImageStats": "Montrer les statistiques de la dernière image",
+          "showImgStatsGraph": "Montrer le graphique HFR",
+          "showGuiderAfGraph": "Montrer le graphique d'autofocus",
+          "display_status_under_image": "Afficher le statut sous l'image"
         }
       },
       "running": "EN COURS D'EXÉCUTION",
-      "imageHistory": "Image History",
-      "duration": "Duration",
+      "imageHistory": "Historique des images",
+      "duration": "Durée",
       "temperatureShort": "Temp",
       "conditions": "Conditions",
       "info": {
         "header": "Informations",
         "message": "Malheureusement, votre séquence ne peut pas être modifiée. \nTous les plugins de séquence ne sont pas actuellement pris en charge. \nSi vous voulez nous aider, faites-nous savoir sur GitHub quels plugins vous utilisez."
       },
-      "info_general": {
-        "message": "Malheureusement, nous ne sommes pas encore en mesure de traiter tous les paramètres. \nNous travaillons à soutenir autant de fonctions NINA que possible. \nParce qu'il y a tellement de plugins, nous ne pouvons pas tous les intégrer. \nCependant, nous essayons d'en soutenir autant que possible. \nSi vous remarquez une erreur dans l'affichage, veuillez nous aider et le signaler sur github"
-      },
+      "info_general": {},
       "sort": {
-        "newest": "le plus récent premier",
-        "oldest": "le plus ancien premier",
-        "sort": "Trier"
+        "sort": "Trier",
+        "oldest": "le plus ancien en premier",
+        "newest": "le plus récent en premier"
       },
       "time": "Temps"
     },
     "mount": {
       "title": "Monture",
       "slew": "Déplacer",
+      "location_sync": {
+        "title": "Paramètres de synchronisation de l'emplacement",
+        "confirmationMessage": "Si «Synchronisation de l'emplacement» dans NINA est défini sur «Invite», une fenêtre de confirmation peut apparaître avant que les coordonnées ne soient envoyées au télescope. \nPour éviter cela et permettre à TNS de définir automatiquement les coordonnées, nous vous recommandons de modifier le paramètre en «Synchroniser au télescope»",
+        "toTelescope": {
+          "label": "Synchroniser au télescope"
+        },
+        "toApplication": {
+          "label": "Synchroniser à l'application"
+        },
+        "noSync": {
+          "label": "Pas de synchronisation"
+        }
+      },
       "control": {
         "park": "Parquer",
         "unpark": "Déparquer",
-        "home": "Home",
-        "trackingMode": "Mode de Suivi",
-        "siderial": "Sideral",
-        "lunar": "Lunaire",
-        "solar": "Solaire",
-        "king": "King",
-        "stop": "Stop",
-        "errors": {
-          "park": "Erreur en parquant la monture",
-          "unpark": "Erreur en déparquant la monture",
-          "home": "Erreur en amenant la monture en position Home",
-          "tracking": "Erreur en modifiant le mode de suivi"
-        },
+        "home": "Position de référence",
+        "set_as_park": "Définir Park",
+        "trackingMode": "Mode de suivi",
         "manuellControl": "Contrôle manuel",
-        "slewRate": "Taux de dalles ° / s",
-        "info_manuell_controll": "Le contrôle manuel n'est disponible que si le suivi n'est pas actif",
-        "set_as_park": "Se dérouler comme parc",
-        "slew_to_cenit": "Tué à Zenith",
-        "sync_coordinates_to_mount": "Sync coordinates with mount",
-        "setLocationSyncToMount": "Définir \"Sync au télescope\""
+        "slewRate": "Vitesse de déplacement °/s",
+        "siderial": "Sidéral",
+        "sync_coordinates_to_mount": "Synchroniser les coordonnées avec la monture",
+        "errors": {
+          "unpark": "Erreur lors du déparquage de la monture",
+          "tracking": "Erreur lors de la configuration du mode de suivi"
+        },
+        "setLocationSyncToMount": "Définir \"Synchroniser au télescope\""
       },
       "info": {
-        "notConnected": "Merci de connecter la mount",
-        "parked": "Parquer",
-        "unparked": "Déparquer",
+        "notConnected": "Veuillez connecter la monture",
+        "parked": "Parquée",
+        "unparked": "Déparquée",
         "trackingActive": "Le suivi est actif",
-        "trackingDisabled": "Le suivi est désactivé",
-        "slewing": "Le suivi est actif",
-        "notSlewing": "Pas de suivi"
-      },
-      "location_sync": {
-        "noSync": {
-          "label": "Pas de synchronisation"
-        },
-        "toApplication": {
-          "label": "Synchronisation avec l'application"
-        },
-        "toTelescope": {
-          "label": "Synchronisation avec le télescope"
-        },
-        "confirmationMessage": "Si «Location Sync» dans Nina est défini sur «Invite», une fenêtre de confirmation peut apparaître avant que les coordonnées ne soient envoyées au télescope. \nPour éviter cela et permettre à TNS de définir automatiquement les coordonnées, nous vous recommandons de modifier le paramètre en «Synchronisation en télescope»",
-        "title": "Paramètres de synchronisation de l'emplacement"
+        "trackingDisabled": "Suivi désactivé",
+        "slewing": "La monture se déplace",
+        "notSlewing": "Pas de déplacement"
       }
     },
     "guider": {
-      "notConnected": "Veuillez connecter le système de guidage",
+      "notConnected": "Veuillez connecter le guideur",
       "start": "Démarrer",
       "startWithCal": "Démarrer avec calibration",
       "stop": "Arrêter",
       "rms_error": "Erreur RMS",
-      "title": "Système de guidage",
+      "title": "Guideur",
       "running": "EN COURS D'EXÉCUTION",
-      "notes": "* Ce graphique affiche des données guidant selon les paramètres de N.I.N.A.",
       "statusLabel": "Statut",
       "status": {
         "looping": "Boucle",
         "lostLock": "Étoile perdue",
         "guiding": "Guidage",
         "stopped": "Arrêté",
-        "calibrating": "Calibrage",
+        "calibrating": "Calibration",
         "unknown": "Inconnu"
       },
+      "calibrationAssistant": {
+        "title": "Assistant de calibration",
+        "info": "L'assistant de calibration vous aide à positionner la monture de manière optimale pour la calibration et à effectuer une calibration précise.",
+        "positionSettings": "Paramètres de position",
+        "decOffset": "Décalage Dec",
+        "meridianOffset": "Décalage méridien",
+        "direction": "Direction",
+        "west": "Ouest",
+        "east": "Est",
+        "slewToPosition": "Déplacer vers la position",
+        "startCalibration": "Démarrer la calibration",
+        "stopCalibration": "Arrêter la calibration",
+        "positionCalculated": "Position optimale calculée",
+        "slewing": "Déplacement vers la position cible...",
+        "slewComplete": "Déplacement terminé",
+        "slewError": "Erreur pendant le déplacement",
+        "stopSlew": "Arrêter le déplacement",
+        "slewStopped": "Déplacement arrêté",
+        "calibrating": "Calibration en cours...",
+        "calibrationComplete": "Calibration terminée",
+        "calibrationFailed": "Calibration échouée",
+        "calibrationStopped": "Calibration arrêtée",
+        "calibrationError": "Erreur pendant la calibration",
+        "calibrationResult": "Résultat de calibration",
+        "quality": "Qualité",
+        "goodCalibration": "Excellente calibration obtenue",
+        "poorCalibration": "La calibration pourrait être améliorée. \nEssayez une position différente ou vérifiez votre équipement."
+      },
       "phd2": {
-        "dec": {
-          "MaxMove": "DEC: Max move",
-          "MinMove": "DEC: Min move",
-          "aggression": "DEC: Aggression",
-          "exp_factor": "DEC: Exposure factor",
-          "hysteresis": "DEC: Hysteresis",
-          "predictive_weight": "DEC: Predictive weight",
-          "reactive_weight": "DEC: ReactiveW weight",
-          "slope_weight": "DEC: Slope weight"
+        "Exposuretime": "Temps d'exposition",
+        "ra": {
+          "aggression": "RA: Agressivité",
+          "hysteresis": "RA: Hystérésis",
+          "MinMove": "RA: Mouvement min",
+          "MaxMove": "RA: Mouvement max",
+          "predictive_weight": "RA: Poids prédictif",
+          "reactive_weight": "RA: Poids réactif",
+          "slope_weight": "RA: Poids de pente",
+          "exp_factor": "RA: Facteur d'exposition"
         },
-        "error": {
-          "star-lost-message": "Star lost",
-          "title": "PHD2 Error"
+        "dec": {
+          "aggression": "DEC: Agressivité",
+          "hysteresis": "DEC: Hystérésis",
+          "MinMove": "DEC: Mouvement min",
+          "MaxMove": "DEC: Mouvement max",
+          "predictive_weight": "DEC: Poids prédictif",
+          "reactive_weight": "DEC: Poids réactif",
+          "slope_weight": "DEC: Poids de pente",
+          "exp_factor": "DEC: Facteur d'exposition"
         },
         "profile": "Profil",
         "forceCalibration": "Forcer la calibration",
-        "ra": {
-          "MaxMove": "RA: Max move",
-          "MinMove": "RA: Min move",
-          "aggression": "RA: Aggression",
-          "exp_factor": "RA: Aggression",
-          "hysteresis": "RA: Hysteresis",
-          "predictive_weight": "RA: Predictive weight",
-          "reactive_weight": "RA: ReactiveW weight",
-          "slope_weight": "RA: Slope weight"
-        },
-        "Exposuretime": "Délai d'exposition"
+        "error": {
+          "title": "Erreur PHD2",
+          "star-lost-message": "Étoile perdue"
+        }
       }
     },
     "focuser": {
-      "title": "Focuseur",
+      "title": "Focaliseur",
       "new_position": "Nouvelle position:",
       "move": "Déplacer",
       "start_autofocus": "Lancer l'autofocus",
-      "cancel_autofocus": "Arrêter l'autofocus",
-      "autofocus_graph": "Courbe d'Autofocus",
-      "autofocus_running": "Autofocus en cours",
-      "autofocus_error": "Erreur d'Autofocus",
-      "please_connect_focuser": "Merci de connecter le focuseur",
+      "cancel_autofocus": "Annuler l'autofocus",
+      "autofocus_graph": "Graphique d'autofocus",
+      "autofocus_error": "Erreur d'autofocus",
+      "please_connect_focuser": "Veuillez connecter le focaliseur",
       "current_position": "Position actuelle:",
-      "temperature": "Temperature:",
+      "temperature": "Température:",
       "moving": "En mouvement",
       "stopped": "Arrêté",
       "autofocus_active": "Autofocus actif",
@@ -426,92 +365,82 @@
     },
     "dome": {
       "title": "Dôme",
-      "azimuth": "azimuth",
+      "azimuth": "Azimut",
       "slewing": "En mouvement",
       "slewing_stopped": "Mouvement arrêté",
       "following": "En suivi",
       "following_stopped": "Suivi arrêté",
-      "at_home": "Home",
-      "not_at_home": "Pas en position Home",
-      "park": "parquer",
-      "unpark": "déparquer",
-      "shutter_close": "Cimier fermé",
-      "shutter_open": "Cimier ouvert",
+      "at_home": "À la position de référence",
+      "not_at_home": "Pas à la position de référence",
+      "park": "Parquer",
+      "unpark": "Déparquer",
+      "shutter_close": "Obturateur fermé",
+      "shutter_open": "Obturateur ouvert",
       "control": {
-        "open": "Ouvrir le cimier",
-        "close": "Fermer le cimier",
-        "stop": "Arrêter le mouvement du cimier",
+        "open": "Ouvrir l'obturateur",
+        "close": "Fermer l'obturateur",
+        "stop": "Arrêter le mouvement de l'obturateur",
         "errors": {
-          "open": "Erreur lors de l'ouverture du cimier",
-          "close": "Erreur lors de la fermeture du cimier",
-          "stop": "Erreur lors de l'arrêt du cimier",
-          "home": "Erreur à la maison",
-          "park": "Parc d'erreurs",
-          "slew": "Erreur Spel",
-          "stop_slew": "Erreur Stop Slew",
-          "sync": "Synchronisation d'erreur",
-          "follow": "Erreur Suivez le télescope"
+          "open": "Erreur lors de l'ouverture de l'obturateur",
+          "close": "Erreur lors de la fermeture de l'obturateur",
+          "stop": "Erreur lors de l'arrêt de l'obturateur",
+          "park": "Erreur de parking",
+          "sync": "Erreur de synchronisation",
+          "stop_slew": "Erreur d'arrêt de déplacement",
+          "home": "Erreur de position de référence",
+          "follow": "Erreur de suivi du télescope"
         },
-        "follow": "Dôme Suivez le télescope",
-        "slew": "Tué",
-        "slew_label": "Tuer à des degrés",
+        "slew": "Déplacer",
+        "slew_label": "Déplacer vers degrés",
+        "follow": "Le dôme suit le télescope",
         "sync": "Synchroniser avec le télescope",
-        "home": "Maison",
-        "park": "Parc"
+        "park": "Parquer",
+        "home": "Position de référence"
       },
       "please_connect_dome": "Veuillez connecter le dôme",
-      "is_sync": "Synchronisation",
-      "not_sync": "Pas synchronisé"
+      "is_sync": "Synchronisé",
+      "not_sync": "Non synchronisé"
     },
     "camera": {
-      "title": "Camera",
-      "connect": "Merci de  connecter la camera",
+      "connect": "Veuillez connecter la caméra",
       "settings": "Paramètres",
-      "loop": "Boucle",
       "capture_running": "Prise de vue en cours",
-      "image_loading": "Chargement de l'image...",
-      "start_capture": "Lancer la prise de vue...",
-      "exposure_time": "Durée d'exposition:",
+      "exposure_time": "Temps d'exposition:",
       "gain_iso": "Gain / ISO:",
-      "name": "Nom de la camera",
+      "name": "Nom de la caméra",
       "gain": "Gain",
-      "offset": "Offset",
+      "offset": "Décalage",
       "temperature": "Température",
       "standby": "En attente",
-      "info": "Info",
-      "info_settings": "Info & Paramètres",
-      "please_connect": "Merci de connecter la camera",
       "cooler_on": "Refroidissement activé",
       "cooler_off": "Refroidissement désactivé",
       "dew_heater": "Antibuée",
       "dew_heater_on": "Antibuée activé",
       "dew_heater_off": "Antibuée désactivé",
-      "camera_cooling": "Refroidissement Camera en cours",
-      "target_temperature": "Température choisie",
-      "warm_up_time": "Délai de réchauffement",
-      "cooling_time": "Délai de refroidissement",
-      "cancel": "Annuler",
-      "binning_mode": "Rabattement",
+      "camera_cooling": "Refroidissement de la caméra",
+      "target_temperature": "Température cible",
+      "warm_up_time": "Temps de réchauffement",
+      "cooling_time": "Temps de refroidissement",
+      "binning_mode": "Binning",
       "readout_mode": "Mode de lecture",
-      "set_use_platesolve": "Utiliser des plaques",
+      "set_use_platesolve": "Utiliser Platesolve",
       "chip_settings": {
-        "focal_length": "Large focale (mm)",
-        "height": "Hauteur (PX)",
-        "pixel_size": "Taille des pixels (μm)",
-        "title": "Paramètres de la puce",
-        "width": "Largeur (PX)"
+        "title": "Paramètres du capteur",
+        "pixel_size": "Taille de pixel (μm)",
+        "width": "Largeur (px)",
+        "height": "Hauteur (px)",
+        "focal_length": "Longueur focale (mm)"
       }
     },
     "tppa": {
-      "title": "Alignement Polaire Trois Points",
-      "camera_mount_required": "La Camera doit être connectée et la monture déparquée",
-      "start_alignment": "Lancer l'alignement",
+      "title": "Alignement polaire à trois points",
+      "camera_mount_required": "La caméra doit être connectée et la monture déparquée",
+      "start_alignment": "Démarrer l'alignement",
       "stop_alignment": "Arrêter l'alignement",
-      "altitude_error": "Erreur en altitude:",
-      "azimuth_error": "Erreur en azimuth:",
+      "altitude_error": "Erreur d'altitude:",
+      "azimuth_error": "Erreur d'azimut:",
       "total_error": "Erreur totale:",
-      "last_update": "Dernière mise à jour:",
-      "error_values_missing": "Valeurs d'erreurs non disponibles",
+      "error_values_missing": "Valeurs d'erreur manquantes",
       "unknown_response_format": "Format de réponse inconnu",
       "east": "Est",
       "west": "Ouest",
@@ -519,92 +448,106 @@
       "up": "Haut",
       "not_available": "Non disponible",
       "running": "EN COURS D'EXÉCUTION",
-      "capture_running": "Exposition à l'exécution",
-      "last_messages": "Dernier messages",
-      "plate_solve_error": "Erreur de plaques",
-      "plate_solve_ok": "Plaques à succès",
-      "plate_solve_start": "Platelolve Start",
-      "slewing_first_position": "Aller à la première position",
-      "slewing_next_position": "Aller à la position suivante",
+      "plate_solve_start": "Début de Platesolve",
+      "plate_solve_ok": "Platesolve réussi",
+      "plate_solve_error": "Erreur de Platesolve",
+      "slewing_first_position": "Déplacement vers la première position",
+      "slewing_next_position": "Déplacement vers la position suivante",
+      "capture_running": "Exposition en cours",
+      "last_messages": "Derniers messages",
       "settings": {
-        "DirectionEast": "Direction à l'est",
-        "StartFromCurrentPosition": "Vous commencez à partir de la position actuelle?"
-      }
+        "title": "Paramètres TPPA",
+        "StartFromCurrentPosition": "Démarrer depuis la position actuelle?",
+        "DirectionEast": "Direction Est",
+        "camera_settings": "Paramètres de caméra",
+        "camera_settings_hint": "Laisser vide pour les valeurs par défaut de NINA",
+        "exposure_time": "Temps d'exposition (s)",
+        "gain": "Gain",
+        "nina_default": "Défaut NINA"
+      },
+      "error_modal": {}
     },
-    "logs": {
-      "loading": "Chargement des données...",
-      "error": "Erreur lors du chargement des données:"
-    },
-    "test": {
-      "title": "Test"
-    },
-    "loading": "Chargement...",
     "slewAndCenter": {
-      "title": "Déplacer et Centrer",
-      "LastSelectedImageSource_wrong": "Merci de sélectionner la carte du ciel locale comme source d'images dans NINA / Cadrage",
+      "title": "Déplacer et centrer",
+      "LastSelectedImageSource_wrong": "Veuillez sélectionner la carte du ciel hors ligne comme source d'image dans NINA / Cadrage",
       "ra": "RA:",
       "dec": "Dec:",
       "ra_placeholder": "RA 03:47:28.2",
       "dec_placeholder": "Dec +24:06:19",
       "slew": "Déplacer",
-      "slew_and_center": "Déplacer et Centrer",
+      "slew_and_center": "Déplacer et centrer",
       "errors": {
-        "invalidRAFormat": "Format RA invalide. Merci d'utiliser HH:MM:SS.",
-        "invalidDECFormat": "Format DEC invalide. Merci d'utiliser ±DD:MM:SS.",
-        "invalidRAInput": "Valeur RA invalide.",
-        "invalidDECInput": "Valeur DEC invalide.",
-        "apiUnreachable": "API de cadrage inaccessible",
-        "invalidFormat": "Format invalide. Attendu: ±DD:MM:SS.s",
+        "invalidRAInput": "Entrée RA invalide.",
+        "invalidDECInput": "Entrée DEC invalide.",
         "apiResponseError": "Erreur dans la réponse de l'API:",
-        "mountInfoError": "Erreur dans l'acquisition de l'information sur la monture:",
-        "invalidAltInput": "Entrée ALT non valide.",
-        "invalidAzInput": "Entrée AZ non valide."
+        "mountInfoError": "Erreur lors de la récupération des informations de la monture:",
+        "invalidAltInput": "Entrée Alt invalide.",
+        "invalidAzInput": "Entrée Az invalide."
       },
-      "rotate": "Tourner",
-      "visibleStars": "Recherche d'étoiles visible",
+      "visibleStars": "Recherche d'étoiles visibles",
       "alt": "Alt:",
-      "az": "AZ:",
+      "az": "Az:",
       "slew_modal": {
-        "center_Repeat": "Centrage répété",
+        "is_slewing": "Déplacement vers la cible",
+        "is_centering": "Centrage de la cible",
+        "is_platesolving": "Platesolve en cours",
+        "plate_solve_error": "Erreur de Platesolve",
         "center_error": "Erreur de centrage",
-        "center_successful": "Centrer réussi",
-        "deviation_target": "Déviation à la cible:",
-        "exposure_running": "Exposition à l'exécution",
-        "is_centering": "Cible centrale",
-        "is_platesolving": "Plaques de course",
-        "is_slewing": "Aller à la cible",
-        "plate_solve_error": "Erreur de plaques"
+        "center_successful": "Centrage réussi",
+        "center_Repeat": "Répéter le centrage",
+        "exposure_running": "Exposition en cours",
+        "deviation_target": "Déviation vers la cible:"
       }
     },
     "filterwheel": {
       "filter": "Filtre:",
       "unknown": "Inconnu",
-      "nofilteravailable": "Pas de filtre disponible",
+      "nofilteravailable": "Aucun filtre disponible",
       "manual_filter": {
-        "name": "Change to filter:",
-        "title": "Filterwheel"
+        "title": "Roue à filtres",
+        "name": "Changer vers le filtre:"
       }
     },
     "rotator": {
       "label": "Rotateur",
       "move": "Déplacer",
-      "notConnected": "Merci de connecter le rotateur",
+      "notConnected": "Veuillez connecter le rotateur",
       "currentPosition": "Position actuelle:",
-      "moving": "En mouvement",
-      "stopped": "Arrêté"
+      "moving": "En mouvement"
     },
     "flat": {
-      "please_connect_flatDevice": "Merci de connecter le panneau à flats",
+      "please_connect_flatDevice": "Veuillez connecter le dispositif de flat",
       "device_name": "Nom:",
-      "cover_state": "Etat du couvercle:",
-      "light_state": "Etat de l'éclairage:",
+      "cover_state": "État du couvercle:",
+      "light_state": "État de l'éclairage:",
       "brightness": "Luminosité:",
       "toggle_light": "Lumière:",
       "cover": {
-        "close": "Fermer le couvercle",
-        "open": "Ouvrir le couvercle"
+        "close": "fermer le couvercle",
+        "open": "ouvrir le couvercle"
       },
-      "title": "Panneau à flats"
+      "title": "Panneau de flat"
+    },
+    "flatassistant": {
+      "title": "Assistant de flat",
+      "count": "Nombre",
+      "exposure_time": "Temps d'exposition",
+      "min_exposure_time": "Temps d'exposition min",
+      "max_exposure_time": "Temps d'exposition max",
+      "brightness": "Luminosité",
+      "min_brightness": "Luminosité min",
+      "max_brightness": "Luminosité max",
+      "histogram_mean_target": "Cible de moyenne d'histogramme",
+      "mean_tolerance": "Tolérance de moyenne",
+      "completed_recordings": "Enregistrements terminés:",
+      "start_auto_exposure": "Démarrer l'auto-exposition",
+      "start_auto_brightness": "Démarrer la luminosité automatique",
+      "start_sky_flat": "Démarrer le flat du ciel",
+      "stop": "Arrêter",
+      "auto_exposure": "Auto-exposition",
+      "auto_brightness": "Luminosité automatique",
+      "skyflat": "Flat du ciel",
+      "button_slew_to_zenith": "Déplacer vers le zénith"
     },
     "weatherModal": {
       "weatherInformation": "Informations météorologiques",
@@ -615,132 +558,428 @@
       "wind": "Vent",
       "humidity": "Humidité",
       "pressure": "Pression",
-      "dewPoint": "Point de rosée",
-      "rainRate": "Taux de pluie",
+      "skyTemperature": "Température du ciel",
       "skyQuality": "Qualité du ciel",
-      "skyTemperature": "Température du ciel"
+      "rainRate": "Taux de pluie",
+      "dewPoint": "Point de rosée"
     },
     "switch": {
       "gauges": "Jauges",
-      "switch": "Changer"
-    },
-    "flatassistant": {
-      "auto_brightness": "Luminosité automatique",
-      "auto_exposure": "Exposition automatique",
-      "brightness": "Luminosité",
-      "completed_recordings": "Enregistrements terminés:",
-      "count": "Compter",
-      "exposure_time": "Délai d'exposition",
-      "histogram_mean_target": "Cible moyenne d'histogramme",
-      "max_brightness": "Luminosité maximale",
-      "max_exposure_time": "Temps d'exposition maximum",
-      "mean_tolerance": "Tolérance moyenne",
-      "min_brightness": "Min luminosité",
-      "min_exposure_time": "Temps d'exposition min",
-      "skyflat": "Skyflat",
-      "start_auto_brightness": "Démarrer l'autoplisation",
-      "start_auto_exposure": "Démarrer l'exposition automatique",
-      "start_sky_flat": "Démarrer le ciel à plat",
-      "stop": "Arrêt",
-      "title": "Assistant plat",
-      "button_slew_to_zenith": "Tué à Zenith"
+      "switch": "Commutateur"
     },
     "stellarium": {
-      "datetime": {
-        "apply": "Appliquer",
-        "date": "Date",
-        "now": "Maintenant",
-        "speed": "Vitesse",
-        "time": "Temps",
-        "title": "Date"
-      },
-      "mount_position": {
-        "title": "Position de montage"
-      },
       "selected_object": {
-        "button_framing": "aller au cadrage",
-        "dec": "DÉC",
-        "ra": "Rampe",
-        "title": "Objet sélectionné"
+        "title": "Objet sélectionné",
+        "ra": "RA",
+        "dec": "DEC",
+        "button_framing": "aller au cadrage"
       },
+      "datetime": {
+        "title": "Date et heure",
+        "date": "Date",
+        "time": "Heure",
+        "now": "Maintenant",
+        "speed": "Vitesse"
+      },
+      "mount_position": {},
       "settings": {
-        "atmosphere_visible": "Montrer l'atmosphère",
-        "azimuthal_lines_visible": "Montrer les lignes azimutales",
-        "constellations_lines_visible": "Montrer les constellations",
-        "ecliptic_lines_visible": "Montrer l'écliptique",
+        "constellations_lines_visible": "Afficher les constellations",
+        "azimuthal_lines_visible": "Afficher les lignes azimutales",
         "equatorial_lines_visible": "Afficher les lignes équatoriales",
-        "landscapes_visible": "Montrer des paysages",
-        "meridian_lines_visible": "Montrer le méridien"
+        "meridian_lines_visible": "Afficher le méridien",
+        "ecliptic_lines_visible": "Afficher l'écliptique",
+        "atmosphere_visible": "Afficher l'atmosphère",
+        "landscapes_visible": "Afficher les paysages",
+        "dsos_visible": "Objets du ciel profond (Messier, NGC)"
       }
     },
     "profile": {
       "label": "Profil:"
     },
+    "notifications": {
+      "modal": {
+        "title": "Configurer les notifications",
+        "description": "Veuillez accorder la permission de recevoir des notifications sur les événements de séquence."
+      }
+    },
     "fav_target": {
-      "enter_name": "Enter name",
-      "modal_save": {
-        "message": "The target has been saved",
-        "titel": "Sauvegarder"
+      "table": {
+        "name": "Nom",
+        "ra": "RA",
+        "dec": "DEC",
+        "load": "Charger",
+        "remove": "Supprimer",
+        "rotation": "Rotation"
       },
+      "no_fav": "Aucun favori enregistré",
       "modal_sequence": {
         "titel": "Séquence"
+      },
+      "modal_sequence_ok": {
+        "message": "Cible définie"
       },
       "modal_sequence_error": {
         "message": "Aucune séquence chargée"
       },
-      "modal_sequence_ok": {
-        "message": "Target set"
-      },
-      "no_fav": "No favorites saved",
-      "table": {
-        "dec": "DEC",
-        "load": "Load",
-        "name": "Nom",
-        "ra": "RA",
-        "remove": "Remove",
-        "sequnce": "Seq. target",
-        "rotation": "Rotation"
-      },
+      "enter_name": "Entrer le nom",
       "titel": "Favoris"
-    },
-    "notifications": {
-      "modal": {
-        "description": "Veuillez accorder l'autorisation de recevoir des notifications sur les événements de séquence.",
-        "title": "Configurer les notifications"
+    }
+  },
+  "plugins": {
+    "common": {
+      "initializing": "Initialisation...",
+      "outdated": {
+        "title": "Plugin obsolète",
+        "message": "Le plugin TouchNStars dans NINA est obsolète et doit être mis à jour.",
+        "required": "Version requise",
+        "current": "Version actuelle"
       }
     },
-    "settings": {
-      "title": "Paramètres",
-      "coordinates": "Coordonnées GPS",
-      "save": "Enregistrer",
-      "infoSetLocationSync": "Veuillez d'abord définir la synchronisation de localisation sur la monture",
-      "connection": "Paramètres de connexion",
-      "language": "Langue",
-      "image": {
-        "title": "Paramètres d'image",
-        "quality": "Qualité d'image",
-        "strech_factor": "Facteur d'étirement",
-        "black_clipping": "Écrêtage noir"
+    "logfileCollector": {
+      "title": "Collecteur de fichiers de log",
+      "intro": "Collecter les derniers logs TNS (y compris le débogage) et les télécharger vers le point de terminaison configuré.",
+      "descriptionLabel": "Description (optionnel)",
+      "descriptionPlaceholder": "Décrire le problème à investiguer...",
+      "lastToken": "Token généré",
+      "submissionHistory": "Historique de soumission",
+      "confirmClearAll": "Êtes-vous sûr de vouloir effacer tout l'historique de soumission?",
+      "actions": {
+        "collectUpload": "Collecter et télécharger",
+        "uploading": "Téléchargement…",
+        "copyToken": "Copier",
+        "remove": "Supprimer",
+        "clearAll": "Tout effacer"
       },
-      "debug": {
-        "title": "Debug",
-        "activate": "Activer le mode debug"
+      "submissionFields": {
+        "date": "Date",
+        "filename": "Nom de fichier",
+        "token": "Token"
       },
-      "notifications": {
-        "title": "Notifications"
+      "result": {
+        "success": "Téléchargement réussi",
+        "failed": "Téléchargement échoué",
+        "failedWithStatus": "Téléchargement échoué ({status})",
+        "tokenCopied": "Token copié dans le presse-papiers",
+        "tokenCopyFailed": "Échec de la copie du token",
+        "submissionRemoved": "Soumission supprimée",
+        "allSubmissionsCleared": "Toutes les soumissions effacées"
+      }
+    },
+    "telescopius": {
+      "title": "Telescopius",
+      "offlineInfo": "Charge les listes de cibles personnelles depuis telescopius.com et les stocke localement pour une disponibilité hors ligne.",
+      "landing": {
+        "title": "Plugin Telescopius",
+        "subtitle": "Apportez vos objets cibles de Telescopius.com directement dans Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "Qu'est-ce que ce plugin?",
+          "description": "Chargez vos objets cibles sauvegardés depuis Telescopius.com directement dans Touch'N'Stars et utilisez-les pour la navigation et le cadrage.",
+          "features": {
+            "loadLists": "Charger les listes de cibles depuis Telescopius.com",
+            "navigate": "Naviguer directement vers les objets",
+            "framingAssistant": "Utiliser l'assistant de cadrage",
+            "offlineCache": "Cache hors ligne pour un accès rapide"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "Qu'est-ce que Telescopius?",
+          "description": "Telescopius est une plateforme d'astronomie complète pour découvrir et planifier des observations astronomiques.",
+          "features": {
+            "database": "Base de données d'objets étendue",
+            "lists": "Listes de cibles personnalisées",
+            "planning": "Planification d'observations",
+            "community": "Communauté et partage"
+          },
+          "visitWebsite": "Visiter Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "Fonctionnalités principales",
+          "description": "Intégration transparente entre Telescopius et Touch'N'Stars:",
+          "features": {
+            "autoImport": "Import automatique: Toutes les listes de cibles en une fois",
+            "smartCache": "Cache intelligent: Accès rapide hors ligne",
+            "directNavigation": "Navigation directe: Déplacer en un clic",
+            "framingIntegration": "Intégration de cadrage: Utilise les outils existants",
+            "locationBased": "Basé sur la localisation: Considère votre emplacement"
+          }
+        },
+        "apiSetup": {
+          "title": "Configurer la clé API",
+          "description": "Suivez ces étapes simples pour configurer le plugin:",
+          "step1": {
+            "title": "Créer un compte Telescopius",
+            "description": "Si vous n'avez pas encore de compte, inscrivez-vous gratuitement:",
+            "button": "S'inscrire gratuitement"
+          },
+          "step2": {
+            "title": "Demander une clé API",
+            "description": "Connectez-vous et allez dans Paramètres → API pour votre clé personnelle:",
+            "button": "Demander une clé API"
+          },
+          "step3": {
+            "title": "Configurer la clé API",
+            "description": "Lors de la création de la clé API, utilisez ces paramètres:",
+            "config": {
+              "name": "Nom",
+              "nameValue": "N'importe quel nom (par ex. Touch N Stars)",
+              "description": "Description",
+              "descriptionValue": "N'importe quelle description (par ex. API pour TNS)",
+              "accessType": "Type d'accès",
+              "accessTypeValue": "Sélectionner Server",
+              "ipLimit": "Limiter l'accès à ces adresses IP",
+              "ipLimitValue": "Laisser vide"
+            }
+          },
+          "step4": {
+            "title": "Entrer la clé API",
+            "description": "Cliquez sur \"Configurer la clé API\" ci-dessous et entrez votre clé:",
+            "button": "Configurer la clé API"
+          },
+          "security": {
+            "title": "Sécurité",
+            "description": "Votre clé API est stockée uniquement localement sur votre appareil et n'est jamais partagée avec d'autres. Vous pouvez la supprimer à tout moment."
+          }
+        }
       },
-      "showTutorial": "Afficher le tutoriel",
-      "plugins": {
-        "title": "Gestion des plugins",
-        "description": "Gérer les plugins installés"
+      "apiKey": {
+        "title": "Clé API Telescopius",
+        "description": "Pour utiliser Telescopius, vous avez besoin d'une clé API. Vous pouvez en obtenir une sur le site web de Telescopius:",
+        "linkText": "→ Demander une clé API Telescopius",
+        "securityNote": "La clé API est stockée sur le serveur et utilisée uniquement pour les requêtes Telescopius.",
+        "placeholder": "Entrez votre clé API Telescopius...",
+        "configured": "La clé API est déjà configurée",
+        "save": "Sauvegarder",
+        "delete": "Supprimer",
+        "cancel": "Annuler",
+        "configure": "Configurer la clé API",
+        "required": "Clé API requise",
+        "errors": {
+          "saveFailed": "La clé API n'a pas pu être sauvegardée.",
+          "deleteFailed": "La clé API n'a pas pu être supprimée."
+        },
+        "loadFromTelescopius": "actualiser"
       },
-      "system": {
-        "title": "Contrôles système",
-        "description": "Contrôler le redémarrage et l'arrêt du système",
-        "info": "Ces actions affecteront l'ensemble du système",
-        "confirmation": "Confirmer l'action",
-        "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
-        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
+      "targetLists": {
+        "noListsTitle": "Aucune liste de cibles sauvegardée",
+        "noListsDescription": "Aucune liste de cibles n'a encore été trouvée dans votre compte Telescopius.",
+        "noListsHint": "Créez des listes de cibles sur telescopius.com puis rechargez-les ici.",
+        "editOnTelescopius": "Éditer les listes sur Telescopius",
+        "dataFrom": "Données du",
+        "connectionError": "La connexion à Telescopius a échoué. Le PC NINA nécessite une connexion internet et au moins une liste de cibles doit exister dans Telescopius."
+      }
+    },
+    "webcam": {
+      "title": "Paramètres Webcam",
+      "snapshotUrl": "URL d'instantané",
+      "snapshotUrlDescription": "Une URL d'instantané est un lien direct vers une seule image de votre webcam/caméra IP. Cette URL devrait retourner directement une image JPEG/PNG, pas une page HTML ou un flux.",
+      "snapshotUrlExamples": "Exemples:",
+      "refreshInterval": "Intervalle de rafraîchissement",
+      "displayOptions": "Options d'affichage",
+      "autoRefresh": "Rafraîchissement automatique",
+      "status": "Statut",
+      "connected": "Connecté",
+      "disconnected": "Déconnecté",
+      "error": "Erreur",
+      "lastUpdate": "Dernière mise à jour",
+      "startAuto": "Démarrer auto",
+      "stopAuto": "Arrêter auto",
+      "settings": "Paramètres",
+      "reset": "Réinitialiser",
+      "close": "Fermer",
+      "resetConfirm": "Êtes-vous sûr de vouloir réinitialiser tous les paramètres de webcam?",
+      "liveView": "Vue en direct",
+      "noImageAvailable": "Aucune image disponible",
+      "configureUrl": "Configurer l'URL d'instantané et récupérer l'image",
+      "loadingImage": "Chargement de l'image...",
+      "errors": {}
+    },
+    "sequenceCreator": {
+      "title": "Créateur de séquence N.I.N.A",
+      "subtitle": "Créer des séquences d'astrophotographie professionnelles",
+      "toolbar": {
+        "undo": "Annuler",
+        "redo": "Refaire",
+        "loadBasicSequence": "Charger séquence de base",
+        "clearSequence": "Effacer la séquence",
+        "saveAsDefault": "Sauvegarder comme défaut",
+        "saveAsDefaultSuccess": "Sauvegardé comme séquence par défaut!",
+        "sendToNina": "Envoyer à N.I.N.A",
+        "sending": "Envoi...",
+        "sent": "Envoyé!",
+        "sendErrorTitle": "Erreur d'envoi à N.I.N.A",
+        "sendSuccessMessage": "Séquence envoyée avec succès à N.I.N.A!",
+        "validSequence": "La séquence est valide et peut être exportée",
+        "invalidSequence": "Ajoutez les paramètres de cible et l'exposition intelligente pour créer une séquence valide"
+      },
+      "confirmations": {
+        "title": "Confirmation",
+        "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? Cette action ne peut pas être annulée.",
+        "saveAsDefault": "Êtes-vous sûr de vouloir sauvegarder la séquence actuelle comme défaut? Cela écrasera la séquence par défaut précédente.",
+        "loadBasicSequence": "Êtes-vous sûr de vouloir charger la séquence de base? Cela écrasera la séquence actuelle.",
+        "removeAction": "Supprimer l'action \"{actionName}\"?"
+      },
+      "containers": {
+        "startSequence": {
+          "title": "Séquence de démarrage",
+          "description": "Actions exécutées au début de la session",
+          "emptyTitle": "Aucune action de démarrage",
+          "emptyDescription": "Ajoutez des actions pour préparer votre équipement à l'imagerie"
+        },
+        "targetSequence": {
+          "title": "Séquence de cible",
+          "description": "Séquence d'imagerie principale pour votre cible",
+          "emptyTitle": "Aucune action de cible",
+          "emptyDescription": "Ajoutez des actions d'imagerie pour votre cible"
+        },
+        "endSequence": {
+          "title": "Séquence de fin",
+          "description": "Actions exécutées à la fin de la session",
+          "emptyTitle": "Aucune action de fin",
+          "emptyDescription": "Ajoutez des actions pour éteindre votre équipement en sécurité"
+        },
+        "noActions": "Aucune action",
+        "addActionsToContainer": "Ajouter des actions à ce conteneur",
+        "addAction": "Ajouter une action"
+      },
+      "actions": {
+        "disabled": "Désactivé",
+        "enabled": "Activé",
+        "closeEditor": "Fermer l'éditeur",
+        "editParameters": "Éditer les paramètres",
+        "moveUp": "Monter",
+        "moveDown": "Descendre",
+        "duplicateAction": "Dupliquer l'action",
+        "removeAction": "Supprimer l'action",
+        "clickToRename": "Cliquer pour renommer",
+        "actionParameters": "Paramètres d'action",
+        "changesSaveAutomatically": "Les modifications sont sauvegardées automatiquement",
+        "min": "Min:",
+        "max": "Max:",
+        "yes": "Oui",
+        "no": "Non",
+        "notSet": "Non défini",
+        "noConfigurableParameters": "Cette action n'a pas de paramètres configurables.",
+        "actionId": "ID d'action",
+        "category": "Catégorie",
+        "parameters": "Paramètres",
+        "unparkTelescope": {
+          "name": "Déparquer le télescope",
+          "description": "Déparquer la monture du télescope"
+        },
+        "coolCamera": {
+          "name": "Refroidir la caméra",
+          "description": "Refroidir la caméra à la température spécifiée",
+          "temperatureLabel": "Température (°C)",
+          "temperatureTooltip": "Température cible pour le refroidissement de la caméra",
+          "durationLabel": "Durée de refroidissement (minutes)",
+          "durationTooltip": "Temps pour refroidir activement la caméra (0 = refroidir jusqu'à ce que la température soit atteinte)"
+        },
+        "targetSettings": {
+          "name": "Paramètres de cible",
+          "description": "Définir les coordonnées et paramètres de cible",
+          "targetNameLabel": "Nom de cible",
+          "targetNameTooltip": "Nom de l'objet céleste",
+          "raLabel": "Ascension droite",
+          "raTooltip": "RA au format HH:MM:SS",
+          "decLabel": "Déclinaison",
+          "decTooltip": "Dec au format DD:MM:SS",
+          "positionAngleLabel": "Angle de position (°)",
+          "positionAngleTooltip": "Angle de rotation de la caméra"
+        },
+        "slewToTarget": {
+          "name": "Déplacer vers la cible",
+          "description": "Naviguer vers la cible avec différentes options",
+          "slewModeLabel": "Mode de déplacement",
+          "slewModeTooltip": "Choisir comment naviguer vers la cible"
+        },
+        "runAutofocus": {
+          "name": "Exécuter l'autofocus",
+          "description": "Effectuer la routine de mise au point automatique"
+        },
+        "startGuiding": {
+          "name": "Démarrer le guidage",
+          "description": "Démarrer le système de guidage automatique",
+          "forceCalibrationLabel": "Forcer la calibration",
+          "forceCalibrationTooltip": "Forcer une nouvelle calibration du guideur"
+        },
+        "smartExposure": {
+          "name": "Exposition intelligente (Imagerie)",
+          "description": "Séquence d'exposition intelligente avec dithering et déclencheurs",
+          "exposureTimeLabel": "Temps d'exposition (s)",
+          "exposureTimeTooltip": "Durée de chaque exposition",
+          "gainLabel": "Gain",
+          "gainTooltip": "Paramètre de gain de la caméra",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Paramètre d'offset de la caméra",
+          "binningLabel": "Binning",
+          "binningTooltip": "Mode de binning des pixels",
+          "filterLabel": "Filtre",
+          "filterTooltip": "Sélection de la roue à filtres",
+          "imageTypeLabel": "Type d'image",
+          "imageTypeTooltip": "Type d'exposition à capturer",
+          "countLabel": "Nombre d'images",
+          "countTooltip": "Nombre d'expositions à prendre",
+          "ditherAfterLabel": "Dithering après N expositions",
+          "ditherAfterTooltip": "Fréquence de dithering"
+        },
+        "stopGuiding": {
+          "name": "Arrêter le guidage",
+          "description": "Arrêter le système de guidage automatique"
+        },
+        "warmCamera": {
+          "name": "Réchauffer la caméra",
+          "description": "Réchauffer la caméra",
+          "durationLabel": "Durée de réchauffement (minutes)",
+          "durationTooltip": "Temps pour réchauffer activement la caméra (0 = réchauffer à la température ambiante)"
+        },
+        "findHome": {
+          "name": "Trouver la position de référence",
+          "description": "Déplacer le télescope vers la position de référence"
+        },
+        "parkTelescope": {
+          "name": "Parquer le télescope",
+          "description": "Parquer la monture du télescope"
+        }
+      },
+      "actionLibrary": {
+        "title": "Bibliothèque d'actions",
+        "description": "Cliquez pour ajouter des actions aux conteneurs",
+        "startActions": "🚀 Actions de démarrage",
+        "targetActions": "🎯 Actions de cible",
+        "endActions": "🏁 Actions de fin"
+      },
+      "exportModal": {
+        "buttons": {},
+        "messages": {},
+        "jsonPreview": {
+          "sequenceJsonExport": "Export JSON de séquence",
+          "previewDescription": "Prévisualiser et télécharger votre séquence en tant que fichier JSON",
+          "totalActions": "Actions totales",
+          "enabled": "Activé",
+          "categories": "Catégories",
+          "estimatedDuration": "Durée estimée",
+          "filenamePrompt": "Entrer le nom de fichier...",
+          "copyJson": "Copier JSON",
+          "copied": "Copié!",
+          "downloadJson": "Télécharger JSON"
+        },
+        "howToUse": {}
+      },
+      "targetSearch": {
+        "searchLabel": "Rechercher une cible",
+        "searchDescription": "Rechercher des objets du ciel profond, planètes ou étoiles et adopter automatiquement les coordonnées",
+        "placeholder": "Entrez le nom de l'objet (par ex. M31, NGC 1234, Mars)...",
+        "objectTypes": {
+          "DSO": "Objet du ciel profond",
+          "Planet": "Planète",
+          "Star": "Étoile",
+          "Moon": "Lune",
+          "Comet": "Comète"
+        }
+      },
+      "settings": {
+        "title": "Retournement au méridien",
+        "enableMeridianFlip": "Activer le retournement au méridien"
       }
     }
   }

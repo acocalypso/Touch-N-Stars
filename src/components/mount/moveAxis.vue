@@ -1,7 +1,7 @@
 <template>
-  <div v-if="mountStore.wsIsConnected">
+  <div class="relative">
     <div
-      class="grid grid-cols-3 gap-1 sm:gap-4 p-1 sm:p-4 place-items-center w-40 sm:w-64 mx-auto move-axis-grid"
+      class="grid grid-cols-3 gap-2 sm:gap-4 p-2 sm:p-4 place-items-center w-48 sm:w-64 mx-auto move-axis-grid"
     >
       <!-- Obere Reihe (Nord) -->
       <div></div>
@@ -9,16 +9,17 @@
         @mousedown="sendCommand('north')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('north')"
-        @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('north', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
       >
         <ArrowUpCircleIcon
           :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
       <div></div>
@@ -28,21 +29,22 @@
         @mousedown="sendCommand('west')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('west')"
-        @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('west', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
       >
         <ArrowLeftCircleIcon
           :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
-      <button @click="sendStop" class="btn btn-stop">
+      <button @click="sendStop" class="btn btn-stop" :disabled="!mountStore.wsIsConnected">
         <StopCircleIcon
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
           :class="mountStore.lastDirection === '' ? 'text-red-500' : 'text-gray-400'"
         />
       </button>
@@ -50,16 +52,17 @@
         @mousedown="sendCommand('east')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('east')"
-        @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('east', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
       >
         <ArrowRightCircleIcon
           :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
 
@@ -69,16 +72,17 @@
         @mousedown="sendCommand('south')"
         @mouseup="sendStop"
         @mouseleave="sendStop"
-        @touchstart.prevent="sendCommand('south')"
-        @touchend.prevent="sendStop"
-        @touchcancel="sendStop"
+        @touchstart.prevent="handleTouchStart('south', $event)"
+        @touchend.prevent="handleTouchEnd"
+        @touchcancel.prevent="handleTouchEnd"
+        @blur="sendStop"
         @contextmenu.prevent
         class="btn"
         :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
       >
         <ArrowDownCircleIcon
           :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
-          class="w-6 h-6 sm:w-12 sm:h-12 move-axis-icon"
+          class="w-8 h-8 sm:w-12 sm:h-12 move-axis-icon"
         />
       </button>
     </div>
@@ -91,29 +95,17 @@
             {{ $t('components.mount.control.slewRate') }}
           </p>
         </div>
-        <div class="flex flex-row w-full justify-center gap-1 sm:gap-2">
-          <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
-            @click="settingsStore.mount.slewRate = 0.017"
-          >
+        <div class="flex flex-row w-full justify-center gap-1">
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.017">
             4x
           </button>
-          <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
-            @click="settingsStore.mount.slewRate = 0.067"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.067">
             16x
           </button>
-          <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
-            @click="settingsStore.mount.slewRate = 0.133"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.133">
             32x
           </button>
-          <button
-            class="btn min-w-8 sm:min-w-12 text-xs sm:text-sm"
-            @click="settingsStore.mount.slewRate = 0.267"
-          >
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.267">
             62x
           </button>
         </div>
@@ -128,13 +120,25 @@
           v-model="settingsStore.mount.slewRate"
         />
         <input
-          class="default-input w-16 sm:w-20 h-6 sm:h-8 text-xs sm:text-sm"
+          class="default-input w-12 sm:w-16 h-6 sm:h-7 text-xs"
           type="number"
           v-model="settingsStore.mount.slewRate"
           min="0.001"
           max="3"
           step="0.001"
         />
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div
+      v-if="!mountStore.wsIsConnected"
+      class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm flex items-center justify-center rounded-xl z-50"
+    >
+      <div class="flex flex-col items-center space-y-3">
+        <!-- Spinner -->
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-500"></div>
+        <p class="text-gray-300 text-sm">Connecting...</p>
       </div>
     </div>
   </div>
@@ -156,16 +160,44 @@ import {
 const mountStore = useMountStore();
 const settingsStore = useSettingsStore();
 let commandInterval = null; // Speichert das Intervall
+let failsafeTimeout = null; // Sicherheits-Timeout
 
 const sendCommand = (direction) => {
-  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
-    console.error('WebSocket ist nicht verbunden.');
+  console.log('sendCommand called for:', direction);
+  console.log('WebSocket exists:', !!websocketMountControl.socket);
+  console.log('WebSocket state:', websocketMountControl.socket?.readyState);
+  console.log('WebSocket OPEN constant:', WebSocket.OPEN);
+  console.log('WebSocket connected:', mountStore.wsIsConnected);
+  console.log('WebSocket comparison:', websocketMountControl.socket?.readyState === WebSocket.OPEN);
+
+  // Prüfe zuerst den Store-Status
+  if (!mountStore.wsIsConnected) {
+    console.error('WebSocket ist nicht verbunden (Store).');
+    return;
+  }
+
+  // Vereinfachte Überprüfung - nur auf readyState 1 (OPEN) prüfen
+  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
+    console.error(
+      'WebSocket ist nicht verbunden (Socket). State:',
+      websocketMountControl.socket?.readyState
+    );
     return;
   }
 
   mountStore.lastDirection = direction;
 
   const sendMessage = () => {
+    if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
+      console.error(
+        'WebSocket verloren während Befehl. State:',
+        websocketMountControl.socket?.readyState
+      );
+      clearInterval(commandInterval);
+      commandInterval = null;
+      return;
+    }
+
     console.log('sendMessage');
     const message = {
       direction: direction,
@@ -178,21 +210,77 @@ const sendCommand = (direction) => {
 
   sendMessage(); // Sende den Befehl sofort
   commandInterval = setInterval(sendMessage, 800); // Wiederhole jede Sekunde
+
+  // Sicherheits-Timeout: Stoppt automatisch nach 30 Sekunden
+  if (failsafeTimeout) {
+    clearTimeout(failsafeTimeout);
+  }
+  failsafeTimeout = setTimeout(() => {
+    console.log('FAILSAFE: Automatischer Stop nach 30s');
+    sendStop();
+  }, 30000);
+};
+
+// Spezielle Touch-Handler für Android
+const handleTouchStart = (direction, event) => {
+  console.log('handleTouchStart:', direction);
+
+  // Verhindere alle Standard-Browser-Aktionen
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Entferne jegliche Text-Selektion
+  if (window.getSelection) {
+    window.getSelection().removeAllRanges();
+  }
+
+  // Starte Bewegung
+  sendCommand(direction);
+};
+
+const handleTouchEnd = (event) => {
+  console.log('handleTouchEnd');
+
+  // Verhindere alle Standard-Browser-Aktionen
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Stoppe Bewegung
+  sendStop();
 };
 
 const sendStop = () => {
+  console.log('sendStop called');
+
   if (!mountStore.lastDirection) {
     console.log('Kein vorheriger Befehl zum Stoppen.');
     return;
   }
 
-  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== WebSocket.OPEN) {
-    console.error('WebSocket ist nicht verbunden.');
-    return;
+  // Stoppe das Intervall auf jeden Fall
+  if (commandInterval) {
+    clearInterval(commandInterval);
+    commandInterval = null;
+    console.log('Command interval cleared');
   }
 
-  clearInterval(commandInterval); // Stoppe das Wiederholen
-  commandInterval = null;
+  // Stoppe auch das Failsafe-Timeout
+  if (failsafeTimeout) {
+    clearTimeout(failsafeTimeout);
+    failsafeTimeout = null;
+    console.log('Failsafe timeout cleared');
+  }
+
+  // Vereinfachte WebSocket-Überprüfung wie bei sendCommand
+  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
+    console.error(
+      'WebSocket ist nicht verbunden für Stop. State:',
+      websocketMountControl.socket?.readyState
+    );
+    // Trotzdem lastDirection zurücksetzen
+    mountStore.lastDirection = '';
+    return;
+  }
 
   const message = {
     direction: mountStore.lastDirection,
@@ -200,7 +288,7 @@ const sendStop = () => {
   };
 
   websocketMountControl.socket.send(JSON.stringify(message));
-  console.log(`WS-Stop-Befehl gesendet.`);
+  console.log(`WS-Stop-Befehl gesendet:`, message);
   mountStore.lastDirection = '';
 };
 
@@ -212,9 +300,36 @@ onMounted(() => {
     }
   });
   websocketMountControl.connect();
+
+  // Globaler Event-Listener für Sicherheit
+  const handleGlobalStop = () => {
+    if (mountStore.lastDirection) {
+      console.log('Global emergency stop triggered');
+      sendStop();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleGlobalStop);
+  window.addEventListener('blur', handleGlobalStop);
+  window.addEventListener('pagehide', handleGlobalStop);
 });
 
 onBeforeUnmount(() => {
+  // Sicherheits-Stop beim Unmount
+  if (mountStore.lastDirection) {
+    sendStop();
+  }
+
+  // Cleanup
+  if (commandInterval) {
+    clearInterval(commandInterval);
+    commandInterval = null;
+  }
+  if (failsafeTimeout) {
+    clearTimeout(failsafeTimeout);
+    failsafeTimeout = null;
+  }
+
   websocketMountControl.setStatusCallback(null);
   websocketMountControl.setMessageCallback(null);
   websocketMountControl.disconnect();
@@ -224,17 +339,58 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.move-axis-grid {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
 .btn {
   border-radius: 1rem;
   background-color: #334155;
-  padding: 0.25rem;
+  padding: 0.5rem;
   box-shadow: 0 2px 15px black;
   border: 1px solid #0a0a0a;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 3rem;
+  min-height: 3rem;
+}
+
+.btn-small {
+  border-radius: 0.5rem;
+  background-color: #334155;
+  padding: 0.25rem 0.5rem;
+  box-shadow: 0 1px 8px black;
+  border: 1px solid #0a0a0a;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 2rem;
+  min-height: 1.5rem;
+  color: #e5e7eb;
+  transition: all 0.2s;
+}
+
+.btn-small:hover {
+  background-color: #475569;
 }
 
 @media (min-width: 640px) {
   .btn {
-    padding: 0.5rem;
+    padding: 0.75rem;
+    min-width: 4rem;
+    min-height: 4rem;
+  }
+
+  .btn-small {
+    min-width: 2.5rem;
+    min-height: 1.75rem;
   }
 }
 

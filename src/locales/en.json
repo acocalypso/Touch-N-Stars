@@ -1,13 +1,12 @@
 {
   "common": {
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "close": "Close"
   },
   "general": {
     "cancel": "Cancel",
-    "confirm": "Confirm",
-    "hide": "Hide",
-    "show": "Show"
+    "confirm": "Confirm"
   },
   "pages": {
     "equipment": {
@@ -16,16 +15,17 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA is unreachable",
-    "connecting": "Attempting to establish connection",
     "connection_error_toast": {
       "title": "Connection error",
       "message_api": "The API plugin is not available. Please check the settings in NINA",
       "message_api_version": "The API plugin is too old. Please perform an update",
       "message_tns": "The Touch'N'Stars plugin is not available. Please check the settings in NINA",
       "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
-    },
-    "api_version_incompatible": "Advanced-API version incompatible current: { current } required: { required }"
+    }
+  },
+  "whatsnew": {
+    "title": "What's New",
+    "loading": "Loading…"
   },
   "setup": {
     "welcome": "Welcome to Touch'N'Stars",
@@ -38,76 +38,6 @@
     "check_wki": "You can find detailed instructions in our wiki"
   },
   "components": {
-    "framing": {
-      "search": {
-        "title": "Search",
-        "placeholder": "Enter search term...",
-        "objectTypes": {
-          "Planet": "Planet",
-          "Comet": "Comet",
-          "StellariumObject": "Object",
-          "Star": "Star",
-          "Moon": "Moon"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Previous",
-      "next": "Next",
-      "skip": "Skip Tutorial"
-    },
-    "settings": {
-      "title": "Settings",
-      "language": "Language",
-      "coordinates": "GPS coordinates",
-      "connection": "N.I.N.A connection details",
-      "save": "Save",
-      "add": "Add",
-      "update": "Update",
-      "instance": {
-        "name": "Instance Name",
-        "ip": "IP Address",
-        "port": "Port",
-        "edit": "Edit instance",
-        "delete": "Delete instance"
-      },
-      "errors": {
-        "emptyFields": "Please fill in all fields",
-        "instanceNameRequired": "Instance name required",
-        "invalidIPFormat": "Please provide IP or FQDN",
-        "invalidPortRange": "Invalid Port",
-        "invalidInstance": "A connection could not be established"
-      },
-      "showTutorial": "Show Tutorial",
-      "system": {
-        "title": "System Controls",
-        "description": "Click an icon to restart or shutdown the system",
-        "confirmShutdown": "Are you sure you want to shutdown the system?",
-        "confirmRestart": "Are you sure you want to restart the system?",
-        "confirmation": "Confirmation",
-        "info": "This will shutdown or restart the PC which is hosting the N.I.N.A instance!"
-      },
-      "image": {
-        "title": "Image settings",
-        "quality": "Quality in % ",
-        "black_clipping": "Black Clipping",
-        "strech_factor": "Stretch Factor"
-      },
-      "plugins": {
-        "title": "Plugins",
-        "description": "Plugin description"
-      },
-      "debug": {
-        "title": "Debug settings",
-        "activate": "Enable debug window"
-      },
-      "notifications": {
-        "title": "Notifications",
-        "enable": "Enable Notifications",
-        "sequence": "Sequence Events"
-      },
-      "infoSetLocationSync": "To ensure that coordinates are correctly transferred to the mount, set the 'Location sync' option in NINA to 'Sync to Telescope'. This allows TNS to send the location data directly to the mount."
-    },
     "framing": {
       "confirmSetTargetTitle": "Confirm Target Selection",
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
@@ -136,59 +66,104 @@
       },
       "moveRotator": "Rotate camera",
       "infoTargetImage": "If the image is only displayed in black, the “Offline Sky Map Cache“ must be set up in NINA or the “use NINA cache” option must be deactivated",
-      "currentAltitude": "Current Altitude",
       "useCenter": "Center",
       "useRotate": "Rotate"
     },
+    "tutorial": {
+      "previous": "Previous",
+      "next": "Next",
+      "skip": "Skip Tutorial"
+    },
+    "settings": {
+      "title": "Settings",
+      "add": "add",
+      "coordinates": "GPS Coordinates",
+      "save": "Save",
+      "infoSetLocationSync": "Please set location sync to mount first",
+      "connection": "Connection Settings",
+      "language": "Language",
+      "image": {
+        "title": "Image Settings",
+        "quality": "Image Quality",
+        "strech_factor": "Stretch Factor",
+        "black_clipping": "Black Clipping",
+        "debayern": "Debayer Image",
+        "DebayeredHFR": "Debayered HFR",
+        "UnlinkedStretch": "Unlinked Strech"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activate Debug Mode"
+      },
+      "notifications": {
+        "title": "Notifications",
+        "enable": "Enable",
+        "sequence": "Sequence",
+        "phd2": "PHD2"
+      },
+      "keepAwake": {
+        "title": "Keep Screen Awake",
+        "description": "Prevent the device from dimming or locking while the app is open."
+      },
+      "showTutorial": "Show Tutorial",
+      "plugins": {
+        "title": "Plugin Management",
+        "description": "Manage installed plugins",
+        "author": "Author"
+      },
+      "system": {
+        "title": "System Controls",
+        "description": "Control system restart and shutdown",
+        "info": "These actions will affect the entire system",
+        "confirmation": "Confirm Action",
+        "confirmShutdown": "Are you sure you want to shutdown the system?",
+        "confirmRestart": "Are you sure you want to restart the system?"
+      },
+      "update": "Update",
+      "errors": {
+        "instanceNameRequired": "Instance name is required",
+        "invalidIPFormat": "Invalid IP format",
+        "invalidPortRange": "Invalid port range",
+        "invalidInstance": "Invalid instance",
+        "emptyFields": "Empty fields"
+      }
+    },
     "connectEquipment": {
       "camera": {
-        "name": "Camera",
-        "error": "Error controlling camera:"
+        "name": "Camera"
       },
       "connectAll": "Connect All",
       "disconnectAll": "Disconnect All",
       "connectAllError": "Error connecting all devices",
       "disconnectAllError": "Error disconnecting all devices",
       "filter": {
-        "connect": "Connect filter wheel",
-        "disconnect": "Disconnect filter wheel",
-        "error": "Error controlling filter wheel:",
         "name": "Filterwheel"
       },
       "mount": {
-        "error": "Error controlling mount:",
         "name": "Mount"
       },
       "focuser": {
-        "error": "Error controlling focuser:",
         "name": "Focuser"
       },
       "rotator": {
-        "error": "Error controlling rotator:",
         "name": "Rotator"
       },
       "guider": {
-        "error": "Error controlling guider:",
         "name": "Guider"
       },
       "safety": {
-        "error": "Error controlling safety monitor",
         "name": "Safety monitor"
       },
       "flat": {
-        "error": "Error controlling flatdevice:",
         "name": "Flatdevice"
       },
       "dome": {
-        "error": "Error controlling dome:",
         "name": "Dome"
       },
       "switch": {
-        "error": "Error controlling switch",
         "name": "Switch"
       },
       "weather": {
-        "error": "Error controlling weather",
         "name": "Weather"
       },
       "info": {
@@ -197,34 +172,13 @@
       }
     },
     "lastLogs": {
-      "loading": "Loading data...",
-      "error": "Error loading data:",
       "timestamp": "Timestamp",
       "level": "Level",
       "message": "Message",
-      "member": "Member",
-      "line": "Line",
       "download": "Download"
     },
-    "navigation": {
-      "equipment": "Equipment",
-      "camera": "Camera",
-      "autofocus": "Autofocus",
-      "mount": "Mount",
-      "guider": "Guider",
-      "dome": "Dome",
-      "sequence": "Sequence",
-      "settings": "Settings",
-      "vnc": "VNC"
-    },
-    "language": {
-      "select": "Select language"
-    },
-    "equipment": {
-      "control": "Equipment Control"
-    },
+    "navigation": {},
     "sequence": {
-      "title": "Sequence",
       "stats": "Stats",
       "noSequenceLoaded": "No sequence loaded",
       "noSequenceData": "No data available yet",
@@ -233,45 +187,27 @@
       "resetSequence": "Reset sequence",
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
-      "load_sequence": "Load Sequence",
-      "refresh_sequences": "Refresh Sequences",
-      "select_sequence": "Select Sequence",
-      "choose_sequence": "Choose sequence...",
-      "no_sequences_found": "No sequences found",
-      "sequences_loaded": "Sequences loaded",
+      "load_sequence": "Load sequence from directory",
+      "choose_sequence": "Choose a sequence",
+      "no_sequences_found": "No sequence found",
       "error_loading_sequences": "Error loading sequences",
-      "sequence_loaded_successfully": "Sequence '{name}' loaded successfully",
-      "error_loading_sequence": "Error loading sequence: {error}",
-      "exposures": "Exposures",
-      "exposureTime": "Exposure time",
+      "error_loading_sequence": "Error loading sequence",
       "filter": "Filter",
-      "ditherEvery": "Dither every",
-      "type": "Type",
-      "deltaHFR": "DeltaHFR",
-      "sampleSize": "Sample size",
       "triggers": "Triggers",
-      "details": {
-        "of": "of",
-        "gain": "Gain",
-        "ditherAfter": "Dither after",
-        "exposures": "exposures"
-      },
-      "date": "Date",
+      "expandAll": "Expand All",
+      "collapseAll": "Collapse All",
+      "details": {},
       "hfr": "HFR",
-      "stars": "Stars",
       "mean": "Mean",
       "median": "Median",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
-      "sequence_control": "Sequence Controls",
-      "temperature": "Temperature",
       "monitor": {
         "settings": {
           "title": "View settings",
           "showImage": "Show last image",
           "showImageStats": "Show last image stats",
           "showImgStatsGraph": "Show HFR-Chart",
-          "showGuiderGraph": "Show guider-chart",
           "showGuiderAfGraph": "Show autofocus-chart",
           "display_status_under_image": "Show status below image"
         }
@@ -285,19 +221,13 @@
         "header": "Info",
         "message": "Unfortunately, your sequence cannot be edited. Not all sequence plugins are currently supported. If you want to help us, let us know on GitHub which plugins you are using."
       },
-      "info_general": {
-        "message": "Unfortunately, we are not yet able to process all parameters. We are working on supporting as many NINA functions as possible. Because there are so many plugins, we cannot integrate them all. However, we are trying to support as many as possible. If you notice an error in the display, please help us and report it on GitHub"
-      },
+      "info_general": {},
       "sort": {
         "sort": "Sort",
         "oldest": "oldest first",
         "newest": "newest first"
       },
-      "time": "Time",
-      "load_sequence": "Load sequence from directory",
-      "no_sequences_found": "No sequence found",
-      "choose_sequence": "Choose a sequence",
-      "error_loading_sequence": "Error loading sequence"
+      "time": "Time"
     },
     "mount": {
       "title": "Mount",
@@ -324,20 +254,12 @@
         "manuellControl": "Manual control",
         "slewRate": "Slew rate °/s",
         "siderial": "Sidereal",
-        "lunar": "Lunar",
-        "solar": "Solar",
-        "king": "King",
-        "stop": "Stop",
         "sync_coordinates_to_mount": "Sync coordinates with mount",
         "errors": {
-          "park": "Error parking mount",
           "unpark": "Error unparking mount",
-          "home": "Error homing mount",
           "tracking": "Error setting tracking mode"
         },
-        "slew_to_cenit": "Slew to Zenith",
-        "setLocationSyncToMount": "Set \"Sync to telescope\"",
-        "info_manuell_controll": "Manual control is only available if tracking is not active."
+        "setLocationSyncToMount": "Set \"Sync to telescope\""
       },
       "info": {
         "notConnected": "Please connect mount",
@@ -357,7 +279,6 @@
       "rms_error": "RMS Error",
       "title": "Guider",
       "running": "RUNNING",
-      "notes": "* This graph displays guiding data according to N.I.N.A.'s settings.",
       "statusLabel": "Status",
       "status": {
         "looping": "Looping",
@@ -376,20 +297,15 @@
         "direction": "Direction",
         "west": "West",
         "east": "East",
-        "calculatedPosition": "Calculated Position",
-        "current": "Current",
-        "target": "Target",
-        "currentPosition": "Current Position",
-        "targetPosition": "Target Position",
         "slewToPosition": "Slew to Position",
         "startCalibration": "Start Calibration",
         "stopCalibration": "Stop Calibration",
-        "recalculate": "Recalculate",
-        "close": "Close",
         "positionCalculated": "Optimal position calculated",
         "slewing": "Slewing to target position...",
         "slewComplete": "Slew completed",
         "slewError": "Error during slew",
+        "stopSlew": "Stop Slew",
+        "slewStopped": "Slew stopped",
         "calibrating": "Calibration in progress...",
         "calibrationComplete": "Calibration completed",
         "calibrationFailed": "Calibration failed",
@@ -398,9 +314,7 @@
         "calibrationResult": "Calibration Result",
         "quality": "Quality",
         "goodCalibration": "Excellent calibration achieved",
-        "poorCalibration": "Calibration could be improved. Try a different position or check your equipment.",
-        "calibrating": "Calibration in progress...",
-        "slewing": "Slewing to target position..."
+        "poorCalibration": "Calibration could be improved. Try a different position or check your equipment."
       },
       "phd2": {
         "Exposuretime": "Exposuretime",
@@ -439,7 +353,6 @@
       "start_autofocus": "Start autofocus",
       "cancel_autofocus": "Cancel autofocus",
       "autofocus_graph": "Autofocus graph",
-      "autofocus_running": "Autofocus running",
       "autofocus_error": "Autofocus error",
       "please_connect_focuser": "Please connect focuser",
       "current_position": "Current position:",
@@ -472,7 +385,6 @@
           "close": "Error close shutter",
           "stop": "Error stop shutter",
           "park": "Error Park",
-          "slew": "Error slew ",
           "sync": "Error sync",
           "stop_slew": "Error stop slew",
           "home": "Error home",
@@ -490,14 +402,9 @@
       "not_sync": "Not sync"
     },
     "camera": {
-      "title": "Camera",
       "connect": "Please connect camera",
       "settings": "Settings",
-      "loop": "Loop",
       "capture_running": "Capture running",
-      "image_loading": "Image loading...",
-      "start_capture": "Start capture",
-      "cancel": "Cancel",
       "exposure_time": "Exposure time:",
       "gain_iso": "Gain / ISO:",
       "name": "Camera name",
@@ -505,9 +412,6 @@
       "offset": "Offset",
       "temperature": "Temperature",
       "standby": "Standby",
-      "info": "Info",
-      "info_settings": "Info & Settings",
-      "please_connect": "Please connect camera",
       "cooler_on": "Cooling On",
       "cooler_off": "Cooling Off",
       "dew_heater": "Dewheater",
@@ -536,7 +440,6 @@
       "altitude_error": "Altitude Error:",
       "azimuth_error": "Azimuth Error:",
       "total_error": "Total Error:",
-      "last_update": "Last update:",
       "error_values_missing": "Missing error values",
       "unknown_response_format": "Unknown response format",
       "east": "East",
@@ -553,18 +456,17 @@
       "capture_running": "Exposure running",
       "last_messages": "Last messages",
       "settings": {
+        "title": "TPPA Settings",
         "StartFromCurrentPosition": "Start from current position?",
-        "DirectionEast": "Direction East"
-      }
+        "DirectionEast": "Direction East",
+        "camera_settings": "Camera Settings",
+        "camera_settings_hint": "Leave empty for NINA defaults",
+        "exposure_time": "Exposure Time (s)",
+        "gain": "Gain",
+        "nina_default": "NINA Default"
+      },
+      "error_modal": {}
     },
-    "logs": {
-      "loading": "Loading data...",
-      "error": "Error loading data:"
-    },
-    "test": {
-      "title": "Test"
-    },
-    "loading": "Loading...",
     "slewAndCenter": {
       "title": "Slew and Center",
       "LastSelectedImageSource_wrong": "Please select offline sky map as image source in NINA / Framing",
@@ -574,14 +476,9 @@
       "dec_placeholder": "Dec +24:06:19",
       "slew": "Slew",
       "slew_and_center": "Slew and Center",
-      "rotate": "Rotate",
       "errors": {
-        "invalidRAFormat": "Invalid RA format. Please use HH:MM:SS.",
-        "invalidDECFormat": "Invalid DEC format. Please use ±DD:MM:SS.",
         "invalidRAInput": "Invalid RA input.",
         "invalidDECInput": "Invalid DEC input.",
-        "apiUnreachable": "Framing API unreachable",
-        "invalidFormat": "Invalid format. Expected: ±DD:MM:SS.s",
         "apiResponseError": "Error in API response:",
         "mountInfoError": "Error fetching mount information:",
         "invalidAltInput": "Invalid alt input.",
@@ -616,8 +513,7 @@
       "move": "Move",
       "notConnected": "Please connect rotator",
       "currentPosition": "Current position:",
-      "moving": "Moving",
-      "stopped": "Stopped"
+      "moving": "Moving"
     },
     "flat": {
       "please_connect_flatDevice": "Please connect the flat device",
@@ -682,13 +578,10 @@
         "title": "Date & Time",
         "date": "Date",
         "time": "Time",
-        "apply": "Apply",
         "now": "Now",
         "speed": "Speed"
       },
-      "mount_position": {
-        "title": "Mount Position"
-      },
+      "mount_position": {},
       "settings": {
         "constellations_lines_visible": "Show Constellations",
         "azimuthal_lines_visible": "Show azimuthal lines",
@@ -697,8 +590,7 @@
         "ecliptic_lines_visible": "Show ecliptic",
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
-        "dsos_visible": "Deep Sky Objects (Messier, NGC)",
-        "camera_fov_visible": "Camera Field of View"
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)"
       }
     },
     "profile": {
@@ -711,23 +603,17 @@
       }
     },
     "fav_target": {
-      "title": "Favorites",
       "table": {
         "name": "Name",
         "ra": "RA",
         "dec": "DEC",
         "load": "Load",
         "remove": "Remove",
-        "sequnce": "Seq. target",
         "rotation": "Rotation"
       },
       "no_fav": "No favorites saved",
-      "modal_save": {
-        "title": "Save",
-        "message": "The target has been saved"
-      },
       "modal_sequence": {
-        "title": "Sequence"
+        "titel": "Sequence"
       },
       "modal_sequence_ok": {
         "message": "Target set"
@@ -735,40 +621,365 @@
       "modal_sequence_error": {
         "message": "No sequence loaded"
       },
-      "enter_name": "Enter name"
+      "enter_name": "Enter name",
+      "titel": "Favourites"
+    }
+  },
+  "plugins": {
+    "common": {
+      "initializing": "Initializing...",
+      "outdated": {
+        "title": "Plugin Outdated",
+        "message": "The TouchNStars Plugin in NINA is outdated and needs to be updated.",
+        "required": "Required Version",
+        "current": "Current Version"
+      }
     },
-    "settings": {
-      "title": "Settings",
-      "coordinates": "GPS Coordinates",
-      "save": "Save",
-      "infoSetLocationSync": "Please set location sync to mount first",
-      "connection": "Connection Settings",
-      "language": "Language",
-      "image": {
-        "title": "Image Settings",
-        "quality": "Image Quality",
-        "strech_factor": "Stretch Factor",
-        "black_clipping": "Black Clipping"
+    "logfileCollector": {
+      "title": "Logfile Collector",
+      "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Describe the problem to investigate...",
+      "lastToken": "Generated Token",
+      "submissionHistory": "Submission History",
+      "confirmClearAll": "Are you sure you want to clear all submission history?",
+      "actions": {
+        "collectUpload": "Collect & Upload",
+        "uploading": "Uploading…",
+        "copyToken": "Copy",
+        "remove": "Remove",
+        "clearAll": "Clear All"
       },
-      "debug": {
-        "title": "Debug",
-        "activate": "Activate Debug Mode"
+      "submissionFields": {
+        "date": "Date",
+        "filename": "Filename",
+        "token": "Token"
       },
-      "notifications": {
-        "title": "Notifications"
+      "result": {
+        "success": "Upload successful",
+        "failed": "Upload failed",
+        "failedWithStatus": "Upload failed ({status})",
+        "tokenCopied": "Token copied to clipboard",
+        "tokenCopyFailed": "Failed to copy token",
+        "submissionRemoved": "Submission removed",
+        "allSubmissionsCleared": "All submissions cleared"
+      }
+    },
+    "telescopius": {
+      "title": "Telescopius",
+      "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",
+      "landing": {
+        "title": "Telescopius Plugin",
+        "subtitle": "Bring your target objects from Telescopius.com directly into Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "What is this plugin?",
+          "description": "Load your saved target objects from Telescopius.com directly into Touch'N'Stars and use them for navigation and framing.",
+          "features": {
+            "loadLists": "Load target lists from Telescopius.com",
+            "navigate": "Navigate directly to objects",
+            "framingAssistant": "Use framing assistant",
+            "offlineCache": "Offline cache for fast access"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "What is Telescopius?",
+          "description": "Telescopius is a comprehensive astronomy platform for discovering and planning astronomical observations.",
+          "features": {
+            "database": "Extensive object database",
+            "lists": "Personalized target lists",
+            "planning": "Observation planning",
+            "community": "Community and sharing"
+          },
+          "visitWebsite": "Visit Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "Main Features",
+          "description": "Seamless integration between Telescopius and Touch'N'Stars:",
+          "features": {
+            "autoImport": "Automatic Import: All target lists at once",
+            "smartCache": "Smart Cache: Fast offline access",
+            "directNavigation": "Direct Navigation: Slew with one click",
+            "framingIntegration": "Framing Integration: Uses existing tools",
+            "locationBased": "Location-based: Considers your location"
+          }
+        },
+        "apiSetup": {
+          "title": "Set up API Key",
+          "description": "Follow these simple steps to configure the plugin:",
+          "step1": {
+            "title": "Create Telescopius Account",
+            "description": "If you don't have an account yet, register for free:",
+            "button": "Register for free"
+          },
+          "step2": {
+            "title": "Request API Key",
+            "description": "Sign in and go to Settings → API for your personal key:",
+            "button": "Request API key"
+          },
+          "step3": {
+            "title": "Configure API Key",
+            "description": "When creating the API key, use these settings:",
+            "config": {
+              "name": "Name",
+              "nameValue": "Any name (e.g. Touch N Stars)",
+              "description": "Description",
+              "descriptionValue": "Any description (e.g. API for TNS)",
+              "accessType": "Access Type",
+              "accessTypeValue": "Select Server",
+              "ipLimit": "Limit access to these IP addresses",
+              "ipLimitValue": "Leave empty"
+            }
+          },
+          "step4": {
+            "title": "Enter API Key",
+            "description": "Click \"Configure API Key\" below and enter your key:",
+            "button": "Configure API Key"
+          },
+          "security": {
+            "title": "Security",
+            "description": "Your API key is stored only locally on your device and never shared with others. You can delete it at any time."
+          }
+        }
       },
-      "showTutorial": "Show Tutorial",
-      "plugins": {
-        "title": "Plugin Management",
-        "description": "Manage installed plugins"
+      "apiKey": {
+        "title": "Telescopius API Key",
+        "description": "To use Telescopius, you need an API key. You can get one on the Telescopius website:",
+        "linkText": "→ Request Telescopius API Key",
+        "securityNote": "The API key is stored on the server and used only for Telescopius requests.",
+        "placeholder": "Enter your Telescopius API key...",
+        "configured": "API key is already configured",
+        "save": "Save",
+        "delete": "Delete",
+        "cancel": "Cancel",
+        "configure": "Configure API Key",
+        "required": "API key required",
+        "errors": {
+          "saveFailed": "API key could not be saved.",
+          "deleteFailed": "API key could not be deleted."
+        },
+        "loadFromTelescopius": "refresh"
       },
-      "system": {
-        "title": "System Controls",
-        "description": "Control system restart and shutdown",
-        "info": "These actions will affect the entire system",
-        "confirmation": "Confirm Action",
-        "confirmShutdown": "Are you sure you want to shutdown the system?",
-        "confirmRestart": "Are you sure you want to restart the system?"
+      "targetLists": {
+        "noListsTitle": "No Target Lists Saved",
+        "noListsDescription": "No target lists have been found in your Telescopius account yet.",
+        "noListsHint": "Create target lists on telescopius.com and then reload them here.",
+        "editOnTelescopius": "Edit lists on Telescopius",
+        "dataFrom": "Data from",
+        "connectionError": "Connection to Telescopius failed. The NINA PC needs an internet connection and at least one target list must exist in Telescopius."
+      }
+    },
+    "webcam": {
+      "title": "Webcam Settings",
+      "snapshotUrl": "Snapshot URL",
+      "snapshotUrlDescription": "A snapshot URL is a direct link to a single image from your webcam/IP camera. This URL should return a JPEG/PNG image directly, not an HTML page or stream.",
+      "snapshotUrlExamples": "Examples:",
+      "refreshInterval": "Refresh Interval",
+      "displayOptions": "Display Options",
+      "autoRefresh": "Auto Refresh",
+      "status": "Status",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "error": "Error",
+      "lastUpdate": "Last Update",
+      "startAuto": "Start Auto",
+      "stopAuto": "Stop Auto",
+      "settings": "Settings",
+      "reset": "Reset",
+      "close": "Close",
+      "resetConfirm": "Are you sure you want to reset all webcam settings?",
+      "liveView": "Live View",
+      "noImageAvailable": "No image available",
+      "configureUrl": "Configure snapshot URL and fetch image",
+      "loadingImage": "Loading image...",
+      "errors": {}
+    },
+    "sequenceCreator": {
+      "title": "N.I.N.A Sequence Creator",
+      "subtitle": "Create professional astrophotography sequences",
+      "toolbar": {
+        "undo": "Undo",
+        "redo": "Redo",
+        "loadBasicSequence": "Load Basic Sequence",
+        "clearSequence": "Clear Sequence",
+        "saveAsDefault": "Save as Default",
+        "saveAsDefaultSuccess": "Saved as default sequence!",
+        "sendToNina": "Send to N.I.N.A",
+        "sending": "Sending...",
+        "sent": "Sent!",
+        "sendErrorTitle": "Error sending to N.I.N.A",
+        "sendSuccessMessage": "Sequence successfully sent to N.I.N.A!",
+        "validSequence": "Sequence is valid and can be exported",
+        "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence"
+      },
+      "confirmations": {
+        "title": "Confirmation",
+        "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",
+        "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence.",
+        "loadBasicSequence": "Are you sure you want to load the basic sequence? This will overwrite the current sequence.",
+        "removeAction": "Remove \"{actionName}\" action?"
+      },
+      "containers": {
+        "startSequence": {
+          "title": "Start Sequence",
+          "description": "Actions executed at the beginning of the session",
+          "emptyTitle": "No Start Actions",
+          "emptyDescription": "Add actions to prepare your equipment for imaging"
+        },
+        "targetSequence": {
+          "title": "Target Sequence",
+          "description": "Main imaging sequence for your target",
+          "emptyTitle": "No Target Actions",
+          "emptyDescription": "Add imaging actions for your target"
+        },
+        "endSequence": {
+          "title": "End Sequence",
+          "description": "Actions executed at the end of the session",
+          "emptyTitle": "No End Actions",
+          "emptyDescription": "Add actions to safely shut down your equipment"
+        },
+        "noActions": "No Actions",
+        "addActionsToContainer": "Add actions to this container",
+        "addAction": "Add Action"
+      },
+      "actions": {
+        "disabled": "Disabled",
+        "enabled": "Enabled",
+        "closeEditor": "Close Editor",
+        "editParameters": "Edit Parameters",
+        "moveUp": "Move Up",
+        "moveDown": "Move Down",
+        "duplicateAction": "Duplicate Action",
+        "removeAction": "Remove Action",
+        "clickToRename": "Click to rename",
+        "actionParameters": "Action Parameters",
+        "changesSaveAutomatically": "Changes save automatically",
+        "min": "Min:",
+        "max": "Max:",
+        "yes": "Yes",
+        "no": "No",
+        "notSet": "Not set",
+        "noConfigurableParameters": "This action has no configurable parameters.",
+        "actionId": "Action ID",
+        "category": "Category",
+        "parameters": "Parameters",
+        "unparkTelescope": {
+          "name": "Unpark Telescope",
+          "description": "Unpark the telescope mount"
+        },
+        "coolCamera": {
+          "name": "Cool Camera",
+          "description": "Cool the camera to specified temperature",
+          "temperatureLabel": "Temperature (°C)",
+          "temperatureTooltip": "Target temperature for camera cooling",
+          "durationLabel": "Cooling Duration (minutes)",
+          "durationTooltip": "Time to actively cool the camera (0 = cool until temperature reached)"
+        },
+        "targetSettings": {
+          "name": "Target Settings",
+          "description": "Define target coordinates and settings",
+          "targetNameLabel": "Target Name",
+          "targetNameTooltip": "Name of the celestial object",
+          "raLabel": "Right Ascension",
+          "raTooltip": "RA in HH:MM:SS format",
+          "decLabel": "Declination",
+          "decTooltip": "Dec in DD:MM:SS format",
+          "positionAngleLabel": "Position Angle (°)",
+          "positionAngleTooltip": "Camera rotation angle"
+        },
+        "slewToTarget": {
+          "name": "Slew to Target",
+          "description": "Navigate to target with different options",
+          "slewModeLabel": "Slew Mode",
+          "slewModeTooltip": "Choose how to navigate to the target"
+        },
+        "runAutofocus": {
+          "name": "Run Autofocus",
+          "description": "Perform automatic focusing routine"
+        },
+        "startGuiding": {
+          "name": "Start Guiding",
+          "description": "Start autoguiding system",
+          "forceCalibrationLabel": "Force Calibration",
+          "forceCalibrationTooltip": "Force new guider calibration"
+        },
+        "smartExposure": {
+          "name": "Smart Exposure (Imaging)",
+          "description": "Intelligent exposure sequence with dithering and triggers",
+          "exposureTimeLabel": "Exposure Time (s)",
+          "exposureTimeTooltip": "Duration of each exposure",
+          "gainLabel": "Gain",
+          "gainTooltip": "Camera gain setting",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Camera offset setting",
+          "binningLabel": "Binning",
+          "binningTooltip": "Pixel binning mode",
+          "filterLabel": "Filter",
+          "filterTooltip": "Filter wheel selection",
+          "imageTypeLabel": "Image Type",
+          "imageTypeTooltip": "Type of exposure to capture",
+          "countLabel": "Image Count",
+          "countTooltip": "Number of exposures to take",
+          "ditherAfterLabel": "Dither After N Exposures",
+          "ditherAfterTooltip": "Dither frequency"
+        },
+        "stopGuiding": {
+          "name": "Stop Guiding",
+          "description": "Stop autoguiding system"
+        },
+        "warmCamera": {
+          "name": "Warm Camera",
+          "description": "Warm up the camera",
+          "durationLabel": "Warming Duration (minutes)",
+          "durationTooltip": "Time to actively warm up the camera (0 = warm to ambient temperature)"
+        },
+        "findHome": {
+          "name": "Find Home",
+          "description": "Move telescope to home position"
+        },
+        "parkTelescope": {
+          "name": "Park Telescope",
+          "description": "Park the telescope mount"
+        }
+      },
+      "actionLibrary": {
+        "title": "Action Library",
+        "description": "Click to add actions to containers",
+        "startActions": "🚀 Start Actions",
+        "targetActions": "🎯 Target Actions",
+        "endActions": "🏁 End Actions"
+      },
+      "exportModal": {
+        "buttons": {},
+        "messages": {},
+        "jsonPreview": {
+          "sequenceJsonExport": "Sequence JSON Export",
+          "previewDescription": "Preview and download your sequence as a JSON file",
+          "totalActions": "Total Actions",
+          "enabled": "Enabled",
+          "categories": "Categories",
+          "estimatedDuration": "Est. Duration",
+          "filenamePrompt": "Enter filename...",
+          "copyJson": "Copy JSON",
+          "copied": "Copied!",
+          "downloadJson": "Download JSON"
+        },
+        "howToUse": {}
+      },
+      "targetSearch": {
+        "searchLabel": "Search Target",
+        "searchDescription": "Search for deep-sky objects, planets or stars and automatically adopt the coordinates",
+        "placeholder": "Enter object name (e.g. M31, NGC 1234, Mars)...",
+        "objectTypes": {
+          "DSO": "Deep-Sky Object",
+          "Planet": "Planet",
+          "Star": "Star",
+          "Moon": "Moon",
+          "Comet": "Comet"
+        }
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Enable Meridianflip"
       }
     }
   }

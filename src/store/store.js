@@ -155,6 +155,7 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiVersion(),
             this.connectingAttempts
           );
+          console.log('API Version response:', responseApiVersion);
           if (!responseApiVersion) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {

@@ -30,6 +30,8 @@ export const apiStore = defineStore('store', {
     weatherInfo: [],
     isBackendReachable: false,
     isWebSocketConnected: false,
+    webSocketDisconnectTime: null,
+    webSocketTimeoutId: null,
     filterName: 'unbekannt',
     filterNr: null,
     showAfGraph: true,
@@ -198,6 +200,8 @@ export const apiStore = defineStore('store', {
         this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
         console.log('WebSocket connected:', this.isWebSocketConnected);
 
+        this.checkWebSocketConnectionTimeout();
+
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
@@ -205,7 +209,6 @@ export const apiStore = defineStore('store', {
             //console.log('Channel WebSocket Message:', message);
             this.handleWebSocketMessage(message);
           });
-
           websocketChannelService.connect();
         }
 
@@ -272,9 +275,47 @@ export const apiStore = defineStore('store', {
       this.errorMessageShown = true;
       this.apiPort = null;
 
+      // Clear WebSocket timeout when clearing states
+      this.clearWebSocketTimeout();
+
       // Channel WebSocket disconnecten wenn Backend nicht erreichbar
       if (websocketChannelService.isWebSocketConnected()) {
         websocketChannelService.disconnect();
+      }
+    },
+
+    checkWebSocketConnectionTimeout() {
+      const currentConnectionState = websocketChannelService.isWebSocketConnected();
+
+      // If WebSocket is connected, clear any existing timeout
+      if (currentConnectionState) {
+        this.clearWebSocketTimeout();
+        this.webSocketDisconnectTime = null;
+        this.isWebSocketConnected = true;
+      } else {
+        // If WebSocket is disconnected and we don't have a disconnect time, set it
+        if (!this.webSocketDisconnectTime) {
+          this.webSocketDisconnectTime = Date.now();
+          console.log('WebSocket disconnected, starting timeout timer');
+        }
+
+        this.isWebSocketConnected = false;
+
+        // Clear existing timeout if any
+        this.clearWebSocketTimeout();
+
+        // Set new timeout for 5 seconds
+        this.webSocketTimeoutId = setTimeout(() => {
+          console.log('WebSocket has been disconnected for 5+ seconds, clearing all states');
+          this.clearAllStates();
+        }, 5000);
+      }
+    },
+
+    clearWebSocketTimeout() {
+      if (this.webSocketTimeoutId) {
+        clearTimeout(this.webSocketTimeoutId);
+        this.webSocketTimeoutId = null;
       }
     },
 
@@ -372,7 +413,13 @@ export const apiStore = defineStore('store', {
 
     startFetchingInfo(t) {
       if (!this.intervalId) {
-        this.intervalId = setInterval(() => this.fetchAllInfos(t), 2000);
+        this.intervalId = setInterval(() => {
+          this.fetchAllInfos(t);
+          // Check WebSocket connection status regularly
+          if (this.isBackendReachable) {
+            this.checkWebSocketConnectionTimeout();
+          }
+        }, 2000);
         console.log('Started fetching info interval');
       }
     },
@@ -381,6 +428,7 @@ export const apiStore = defineStore('store', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+        this.clearWebSocketTimeout();
         websocketChannelService.disconnect();
         console.log('Stopped fetching info interval');
       }

@@ -274,6 +274,18 @@ export const apiStore = defineStore('store', {
         });
       } catch (error) {
         console.error('Fehler beim Abrufen der Informationen:', error);
+        // Network error - treat as backend unreachable
+        console.warn('Network error detected, clearing all states');
+        if (!this.errorMessageShown) {
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_api'),
+            autoClose: false,
+          });
+        }
+        this.clearAllStates();
+        return;
       }
       await this.fetchProfilInfos();
       //when the backend is accessible again close modal

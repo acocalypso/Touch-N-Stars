@@ -136,7 +136,7 @@ class WebSocketChannelService {
 
   // Status prüfen
   isWebSocketConnected() {
-    return this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN;
+    return this.isConnected && this.socket && this.socket.readyState === 1;
   }
 
   // Force reconnect

@@ -29,6 +29,7 @@ export const apiStore = defineStore('store', {
     switchInfo: [],
     weatherInfo: [],
     isBackendReachable: false,
+    isWebSocketConnected: false,
     filterName: 'unbekannt',
     filterNr: null,
     showAfGraph: true,
@@ -193,6 +194,9 @@ export const apiStore = defineStore('store', {
 
         // when everything is accessible
         this.isBackendReachable = true;
+        console.log('Backend Reachable Time:', new Date().toISOString());
+        this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
+        console.log('WebSocket connected:', this.isWebSocketConnected);
 
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
@@ -377,6 +381,7 @@ export const apiStore = defineStore('store', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+        websocketChannelService.disconnect();
         console.log('Stopped fetching info interval');
       }
     },

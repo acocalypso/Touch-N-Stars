@@ -1,6 +1,5 @@
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
-import { handleApiError } from '@/utils/utils';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/socket';
@@ -52,7 +51,6 @@ class WebSocketLivestackService {
       try {
         const message = JSON.parse(event.data);
         console.log('Livestack WebSocket Message:', message);
-        if (handleApiError(message, { title: 'Livestack WebSocket error' })) return;
         if (this.messageCallback) {
           this.messageCallback(message);
         }

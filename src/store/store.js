@@ -74,7 +74,7 @@ export const apiStore = defineStore('store', {
         for (let attempt = 0; attempt <= retries; attempt++) {
           try {
             result = await fn();
-            // console.log(fn, 'Attempt', attempt);
+            //console.log(fn, 'Attempt', attempt);
             if (result) break;
           } catch (e) {
             // ignore error, continue retrying
@@ -134,7 +134,21 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiPort(),
             this.connectingAttempts
           );
+          //console.log('API Port response:', response);
           if (!response) {
+            console.error('API nicht erreichbar');
+            if (!this.errorMessageShown) {
+              toastStore.showToast({
+                type: 'error',
+                title: t('app.connection_error_toast.title'),
+                message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
+              });
+            }
+            this.clearAllStates();
+            return;
+          }
+          if (response.data === -1) {
             console.error('API nicht erreichbar');
             if (!this.errorMessageShown) {
               toastStore.showToast({
@@ -157,7 +171,7 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiVersion(),
             this.connectingAttempts
           );
-          console.log('API Version response:', responseApiVersion);
+          //console.log('API Version response:', responseApiVersion);
           if (!responseApiVersion) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {

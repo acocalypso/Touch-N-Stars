@@ -103,7 +103,7 @@ class WebSocketChannelService {
   }
 
   sendMessage(message) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+    if (this.socket && this.socket.readyState === 1) {
       this.socket.send(JSON.stringify(message));
       //console.log('Channel Nachricht gesendet:', message);
     } else {

@@ -380,41 +380,6 @@ export const apiStore = defineStore('store', {
       }
     },
 
-    checkWebSocketConnectionTimeout() {
-      const currentConnectionState = websocketChannelService.isWebSocketConnected();
-
-      // If WebSocket is connected, clear any existing timeout
-      if (currentConnectionState) {
-        this.clearWebSocketTimeout();
-        this.webSocketDisconnectTime = null;
-        this.isWebSocketConnected = true;
-      } else {
-        // If WebSocket is disconnected and we don't have a disconnect time, set it
-        if (!this.webSocketDisconnectTime) {
-          this.webSocketDisconnectTime = Date.now();
-          console.log('WebSocket disconnected, starting timeout timer');
-        }
-
-        this.isWebSocketConnected = false;
-
-        // Clear existing timeout if any
-        this.clearWebSocketTimeout();
-
-        // Set new timeout for 5 seconds
-        this.webSocketTimeoutId = setTimeout(() => {
-          console.log('WebSocket has been disconnected for 5+ seconds, clearing all states');
-          this.clearAllStates();
-        }, 5000);
-      }
-    },
-
-    clearWebSocketTimeout() {
-      if (this.webSocketTimeoutId) {
-        clearTimeout(this.webSocketTimeoutId);
-        this.webSocketTimeoutId = null;
-      }
-    },
-
     handleApiResponses({
       imageHistoryResponse,
       cameraResponse,

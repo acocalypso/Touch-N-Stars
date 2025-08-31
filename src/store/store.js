@@ -4,6 +4,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
+import { attempt } from 'lodash';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -28,6 +29,7 @@ export const apiStore = defineStore('store', {
     },
     switchInfo: [],
     weatherInfo: [],
+    attemptsToConnect: 0,
     isBackendReachable: false,
     isWebSocketConnected: false,
     isTnsPluginConnected: false,
@@ -67,6 +69,7 @@ export const apiStore = defineStore('store', {
     pageReturnTime: null,
     isRedirecting: false,
     isImageFetching: false,
+    backendReachableTimeoutId: null,
   }),
 
   actions: {
@@ -247,9 +250,6 @@ export const apiStore = defineStore('store', {
           this.isTnsPluginVersionNewerOrEqual
         );
 
-        // when everything is accessible
-        this.isBackendReachable = true;
-        console.log('Backend Reachable Time:', new Date().toISOString());
         this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
         console.log('WebSocket connected:', this.isWebSocketConnected);
 
@@ -263,6 +263,31 @@ export const apiStore = defineStore('store', {
             this.handleWebSocketMessage(message);
           });
           websocketChannelService.connect();
+        }
+
+        // If all conditions are met, mark backend as reachable
+        if (
+          this.isApiConnected &&
+          this.isTnsPluginConnected &&
+          this.isApiVersionNewerOrEqual &&
+          this.isTnsPluginVersionNewerOrEqual &&
+          this.isWebSocketConnected
+        ) {
+          this.isBackendReachable = true;
+          this.attemptsToConnect = 0;
+          console.log('Backend is reachable', new Date().toLocaleTimeString() );
+        } else if (this.attemptsToConnect < 5) {
+          this.attemptsToConnect += 1;
+          console.log('Backend not reachable, attempt', this.attemptsToConnect, new Date().toLocaleTimeString());
+        } else { 
+          this.clearAllStates();
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_api'),
+            autoClose: false,
+          });
+          console.warn('Backend not reachable after multiple attempts, clearing states', new Date().toLocaleTimeString());
         }
 
         const [

@@ -30,6 +30,10 @@ export const apiStore = defineStore('store', {
     weatherInfo: [],
     isBackendReachable: false,
     isWebSocketConnected: false,
+    isTnsPluginConnected: false,
+    isApiConnected: false,
+    isApiVersionNewerOrEqual: false,
+    isTnsPluginVersionNewerOrEqual: false,
     webSocketDisconnectTime: null,
     webSocketTimeoutId: null,
     filterName: 'unbekannt',
@@ -46,7 +50,7 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.6.0',
+    minimumApiVersion: '2.2.9.0',
     minimumTnsPluginVersion: '1.1.1.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
@@ -102,29 +106,35 @@ export const apiStore = defineStore('store', {
               autoClose: false,
             });
           }
+          this.isTnsPluginConnected = false;
           this.clearAllStates();
           return;
         } else {
+          this.isTnsPluginConnected = true;
           //Check the plugin version
-          this.currentTnsPluginVersion = tnsVersionResponse.version;
-          this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-            this.currentTnsPluginVersion,
-            this.minimumTnsPluginVersion
-          );
           if (!this.isTnsPluginVersionNewerOrEqual) {
-            console.warn('TNS version incompatible', this.currentTnsPluginVersion);
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_tns_version'),
-                autoClose: false,
-              });
+            this.currentTnsPluginVersion = tnsVersionResponse.version;
+            this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+              this.currentTnsPluginVersion,
+              this.minimumTnsPluginVersion
+            );
+            if (!this.isTnsPluginVersionNewerOrEqual) {
+              console.warn('TNS version incompatible', this.currentTnsPluginVersion);
+              if (!this.errorMessageShown) {
+                toastStore.showToast({
+                  type: 'error',
+                  title: t('app.connection_error_toast.title'),
+                  message: t('app.connection_error_toast.message_tns_version'),
+                  autoClose: false,
+                });
+              }
+              this.clearAllStates();
+              this.isTnsPluginVersionNewerOrEqual = false;
+              return;
             }
-            this.clearAllStates();
-            return;
+            this.isTnsPluginVersionNewerOrEqual = true;
+            console.log('TNS Plugin Version:', this.currentTnsPluginVersion);
           }
-          //console.log('Plugin ok');
         }
 
         if (!this.apiPort) {
@@ -145,6 +155,8 @@ export const apiStore = defineStore('store', {
                 autoClose: false,
               });
             }
+            this.isApiConnected = false;
+            this.apiPort = null;
             this.clearAllStates();
             return;
           }
@@ -158,14 +170,17 @@ export const apiStore = defineStore('store', {
                 autoClose: false,
               });
             }
+            this.isApiConnected = false;
+            this.apiPort = null;
             this.clearAllStates();
             return;
           }
           this.apiPort = response.data;
           console.log('api Port:', this.apiPort);
+          this.isApiConnected = true;
         }
 
-        if (this.apiPort) {
+        if (this.isApiConnected) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
             () => apiService.fetchApiVersion(),
@@ -183,31 +198,54 @@ export const apiStore = defineStore('store', {
               });
             }
             this.clearAllStates();
+            this.isApiConnected = false;
+            this.apiPort = null;
             return;
           } else {
-            const apiVersionResponse = await apiService.fetchApiVersion();
-            this.currentApiVersion = apiVersionResponse.Response;
-
-            this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-              this.currentApiVersion,
-              this.minimumApiVersion
-            );
-
+            this.isApiConnected = true;
+            //Check the API version
             if (!this.isApiVersionNewerOrEqual) {
-              console.warn('API version incompatible', this.currentApiVersion);
-              if (!this.errorMessageShown) {
-                toastStore.showToast({
-                  type: 'error',
-                  title: t('app.connection_error_toast.title'),
-                  message: t('app.connection_error_toast.message_api_version'),
-                  autoClose: false,
-                });
+              const apiVersionResponse = await apiService.fetchApiVersion();
+              this.currentApiVersion = apiVersionResponse.Response;
+
+              this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+                this.currentApiVersion,
+                this.minimumApiVersion
+              );
+
+              if (!this.isApiVersionNewerOrEqual) {
+                console.warn('API version incompatible', this.currentApiVersion);
+                if (!this.errorMessageShown) {
+                  toastStore.showToast({
+                    type: 'error',
+                    title: t('app.connection_error_toast.title'),
+                    message: t('app.connection_error_toast.message_api_version'),
+                    autoClose: false,
+                  });
+                }
+                this.clearAllStates();
+                this.isApiVersionNewerOrEqual = false;
+                return;
               }
-              this.clearAllStates();
-              return;
+              console.log('API Version:', this.currentApiVersion);
+              this.isApiVersionNewerOrEqual = true;
             }
           }
         }
+
+        console.log('API und TNS Plugin reachable');
+        console.log(
+          'Api connected',
+          this.isApiConnected,
+          'TNS connected',
+          this.isTnsPluginConnected
+        );
+        console.log(
+          'Api version ok',
+          this.isApiVersionNewerOrEqual,
+          'TNS version ok',
+          this.isTnsPluginVersionNewerOrEqual
+        );
 
         // when everything is accessible
         this.isBackendReachable = true;

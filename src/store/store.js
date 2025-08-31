@@ -4,7 +4,6 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
-import { attempt } from 'lodash';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -275,11 +274,15 @@ export const apiStore = defineStore('store', {
         ) {
           this.isBackendReachable = true;
           this.attemptsToConnect = 0;
-          console.log('Backend is reachable', new Date().toLocaleTimeString() );
+          console.log('Backend is reachable', new Date().toLocaleTimeString());
         } else if (this.attemptsToConnect < 5) {
           this.attemptsToConnect += 1;
-          console.log('Backend not reachable, attempt', this.attemptsToConnect, new Date().toLocaleTimeString());
-        } else { 
+          console.log(
+            'Backend not reachable, attempt',
+            this.attemptsToConnect,
+            new Date().toLocaleTimeString()
+          );
+        } else {
           this.clearAllStates();
           toastStore.showToast({
             type: 'error',
@@ -287,7 +290,10 @@ export const apiStore = defineStore('store', {
             message: t('app.connection_error_toast.message_api'),
             autoClose: false,
           });
-          console.warn('Backend not reachable after multiple attempts, clearing states', new Date().toLocaleTimeString());
+          console.warn(
+            'Backend not reachable after multiple attempts, clearing states',
+            new Date().toLocaleTimeString()
+          );
         }
 
         const [

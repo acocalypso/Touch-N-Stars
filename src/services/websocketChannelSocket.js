@@ -95,7 +95,6 @@ class WebSocketChannelService {
   }
 
   disconnect() {
-    return;
     this.shouldReconnect = false;
     this.isConnected = false;
     if (this.socket) {

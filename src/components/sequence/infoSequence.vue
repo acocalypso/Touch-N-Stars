@@ -139,14 +139,14 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, watch, ref, nextTick } from 'vue';
+import { computed, onBeforeMount, watch, ref, nextTick } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 
 const sequenceStore = useSequenceStore();
-const autoFollow = ref(true); // Auto-follow feature toggle
+const autoFollow = ref(false); // Auto-follow feature toggle
 
 const globalTriggers = computed(() => {
   // Find the first container with GlobalTriggers
@@ -238,7 +238,7 @@ function getAllPaths() {
 }
 
 // Auto-follow functionality
-function findRunningItems(items) {
+function findRunningItems() {
   const runningItems = [];
 
   function searchItems(itemList, containerIndex = -1) {

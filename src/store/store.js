@@ -300,7 +300,7 @@ export const apiStore = defineStore('store', {
     clearAllStates() {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
-      this.apiPort = null;
+      //this.apiPort = null;
 
       // Clear WebSocket timeout when clearing states
       this.clearWebSocketTimeout();

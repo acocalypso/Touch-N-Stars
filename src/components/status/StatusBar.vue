@@ -239,7 +239,7 @@
 
 <script setup>
 import { apiStore } from '@/store/store';
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed } from 'vue';
 import { CameraIcon, LinkIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';

@@ -252,8 +252,6 @@ export const apiStore = defineStore('store', {
         this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
         console.log('WebSocket connected:', this.isWebSocketConnected);
 
-        this.checkWebSocketConnectionTimeout();
-
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
@@ -343,18 +341,6 @@ export const apiStore = defineStore('store', {
         });
       } catch (error) {
         console.error('Fehler beim Abrufen der Informationen:', error);
-        // Network error - treat as backend unreachable
-        console.warn('Network error detected, clearing all states');
-        if (!this.errorMessageShown) {
-          toastStore.showToast({
-            type: 'error',
-            title: t('app.connection_error_toast.title'),
-            message: t('app.connection_error_toast.message_api'),
-            autoClose: false,
-          });
-        }
-        this.clearAllStates();
-        return;
       }
       await this.fetchProfilInfos();
       //when the backend is accessible again close modal
@@ -370,9 +356,6 @@ export const apiStore = defineStore('store', {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       //this.apiPort = null;
-
-      // Clear WebSocket timeout when clearing states
-      this.clearWebSocketTimeout();
 
       // Channel WebSocket disconnecten wenn Backend nicht erreichbar
       if (websocketChannelService.isWebSocketConnected()) {
@@ -474,12 +457,9 @@ export const apiStore = defineStore('store', {
 
     startFetchingInfo(t) {
       if (!this.intervalId) {
+        this.attemptsToConnect = 0;
         this.intervalId = setInterval(() => {
           this.fetchAllInfos(t);
-          // Check WebSocket connection status regularly
-          if (this.isBackendReachable) {
-            this.checkWebSocketConnectionTimeout();
-          }
         }, 2000);
         console.log('Started fetching info interval');
       }
@@ -487,9 +467,9 @@ export const apiStore = defineStore('store', {
 
     stopFetchingInfo() {
       if (this.intervalId) {
+        this.attemptsToConnect = 0;
         clearInterval(this.intervalId);
         this.intervalId = null;
-        this.clearWebSocketTimeout();
         websocketChannelService.disconnect();
         console.log('Stopped fetching info interval');
       }

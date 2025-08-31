@@ -95,6 +95,7 @@ class WebSocketChannelService {
   }
 
   disconnect() {
+    return;
     this.shouldReconnect = false;
     this.isConnected = false;
     if (this.socket) {
@@ -105,7 +106,7 @@ class WebSocketChannelService {
   sendMessage(message) {
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(JSON.stringify(message));
-      //console.log('Channel Nachricht gesendet:', message);
+      console.log('Channel Nachricht gesendet:', message);
     } else {
       console.error(
         'Channel WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.'

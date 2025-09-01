@@ -4,7 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.x.x] - 2025-xx-xx
+## [1.1.3.0] - 2025-09-01
+### Important information
+- Advanced API V2.2.9.0 is required
+
 ### Added
 - Filterwheel page: Dedicated page with responsive grid layout and status information
 - Rotator page: Dedicated page with enhanced info display and controls
@@ -14,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TPPA page: Image modal with zoom functionality for viewing camera images during alignment
 - Focuser page: Image modal with zoom functionality for viewing camera images during autofocus
 - TPPA and Focus pages: Add background camera image when running
+- Websocket connection monitoring created
 
 ### Changed
 - Rotator: Moved from camera settings modal to dedicated quick access button
@@ -21,8 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Camera page: The last image taken is now always displayed. As in NINA
 - Mount page: Added slew stop button
 - Info message: Show 'What's new' on first start after an update
-
-### Fixed
 
 ## [1.1.2.2] - 2025-08-22
 ### Added

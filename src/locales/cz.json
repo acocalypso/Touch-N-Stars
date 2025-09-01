@@ -82,9 +82,9 @@
         "quality": "Kvalita obrázku",
         "strech_factor": "Faktor roztažení",
         "black_clipping": "Černé ořezávání",
-        "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Unlinked Strech",
-        "debayern": "Debayer Image"
+        "DebayeredHFR": "Debayer HFR",
+        "UnlinkedStretch": "Nepropojený Stretch",
+        "debayern": "Debayer Snímek"
       },
       "debug": {
         "title": "Debug",
@@ -327,7 +327,7 @@
         "calibrationStopped": "Kalibrace zastavena",
         "decOffset": "Dec Offset",
         "direction": "Směr",
-        "east": "Váchod",
+        "east": "Východ",
         "goodCalibration": "Dosaženo vynikající kalibrace",
         "info": "Asistent kalibrace vám pomůže optimálně nastavit polohu montáže pro kalibraci a provést přesnou kalibraci.",
         "meridianOffset": "Posun poledníku",
@@ -522,9 +522,8 @@
       "move": "Pohyb",
       "control": "Ovládání",
       "notConnected": "připojte rotátor",
-      "please_connect_rotator": "Připojte prosím rotátor",
-      "currentPosition": "Aktuální Pozice",
-      "moving": "Pohybuje se"
+      "currentPosition": "Současná pozice:",
+      "moving": "V pohybu"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",
@@ -745,8 +744,8 @@
           "targetNameTooltip": "Název nebeského tělesa"
         },
         "unparkTelescope": {
-          "description": "Unpark the telescope mount",
-          "name": "Unpark Telescope"
+          "description": "Unpark montáže dalekohledu",
+          "name": "Unpark Dalekohledu"
         },
         "warmCamera": {
           "description": "Zahřát kameru",

@@ -2,6 +2,7 @@
   <div class="space-y-4">
     <!-- Subtle Actions Bar -->
     <div class="mb-3 flex justify-between">
+      <p>{{ sequenceStore.runningItems }}</p>
       <div class="flex items-center gap-1">
         <button
           @click="autoFollow = !autoFollow"

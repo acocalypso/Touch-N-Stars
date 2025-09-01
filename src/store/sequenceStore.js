@@ -14,6 +14,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceEdit: false,
     sequenceIsEditable: true,
     targetName: '',
+    runningItems: [],
     lastImage: {
       index: 0,
       quality: 0,
@@ -207,6 +208,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
 
+        // Collect all running items with their names
+        this.runningItems = [];
+        this.collectRunningItems(response.Response);
+
         // Update sequence running state (this will trigger notification if state changed)
         this.setSequenceRunning(isRunning || false);
       } else {
@@ -328,6 +333,35 @@ export const useSequenceStore = defineStore('sequenceStore', {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return null;
       }
+    },
+
+    collectRunningItems(containers) {
+      if (!containers || !Array.isArray(containers)) return;
+
+      containers.forEach((container) => {
+        if (container.Items) {
+          this.findRunningItemsRecursive(container.Items);
+        }
+      });
+    },
+
+    findRunningItemsRecursive(items) {
+      if (!items || !Array.isArray(items)) return;
+
+      items.forEach((item) => {
+        // Wenn Item RUNNING ist und verschachtelte Items hat, nur tiefer suchen
+        if (item.Status === 'RUNNING' && item.Items && item.Items.length > 0) {
+          this.findRunningItemsRecursive(item.Items);
+        }
+        // Wenn Item RUNNING ist aber keine verschachtelten Items hat, hinzufügen
+        else if (item.Status === 'RUNNING' && item.Name && (!item.Items || item.Items.length === 0)) {
+          this.runningItems.push(item.Name);
+        }
+        // Wenn Item nicht RUNNING ist, trotzdem tiefer suchen
+        else if (item.Items && item.Items.length > 0) {
+          this.findRunningItemsRecursive(item.Items);
+        }
+      });
     },
 
     findAndSetTargetName(items) {

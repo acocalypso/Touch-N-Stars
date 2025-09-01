@@ -203,6 +203,15 @@
         </svg>
       </button>
     </div>
+    <!--WS Status -->
+    <div class="flex w-5 h-5">
+      <LinkIcon
+        :class="{
+          'text-green-500': store.isWebSocketConnected,
+          'text-red-500': !store.isWebSocketConnected,
+        }"
+      />
+    </div>
 
     <!-- Weather modal -->
     <WeatherModal
@@ -231,7 +240,7 @@
 <script setup>
 import { apiStore } from '@/store/store';
 import { ref, computed } from 'vue';
-import { CameraIcon } from '@heroicons/vue/24/outline';
+import { CameraIcon, LinkIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
 import GuiderGraph from '../guider/GuiderGraph.vue';

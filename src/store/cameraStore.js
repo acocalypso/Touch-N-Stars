@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
-import { useSettingsStore } from './settingsStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
-  const settingsStore = useSettingsStore();
   const store = apiStore();
   const remainingExposureTime = ref(0);
   const progress = ref(0);
@@ -79,7 +77,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     try {
       // Starte Aufnahme via API
-      const capturePromise = apiService.startCapture(exposureTime, gain, solve);
+      const capturePromise = apiService.startCapture(exposureTime, gain, solve, true);
 
       // Countdown laufen lassen
       await startExposureCountdown(exposureTime);
@@ -90,25 +88,36 @@ export const useCameraStore = defineStore('cameraStore', () => {
       // Jetzt Bild holen
       isExposure.value = false;
       isLoadingImage.value = true;
+      plateSolveResult.value = null;
 
       let attempts = 0;
       const maxAttempts = 60;
-      let image = null;
+      let image = imageData.value;
+      let done = false;
 
-      while (!image && attempts < maxAttempts && !isAbort.value) {
+      while (!done && attempts < maxAttempts && !isAbort.value) {
         try {
-          const result = await apiService.getCaptureResult(settingsStore.camera.imageQuality);
+          const resImageData = await apiService.getImageData();
 
-          console.log(result);
-          console.log(result.data.type);
-          if (result.data.type.includes('image')) {
-            const resImageData = await apiService.getImageData();
-            plateSolveResult.value = resImageData?.Response?.PlateSolveResult;
-            console.log('Platesovle:', plateSolveResult.value);
-            const blob = result.data;
-            imageData.value = URL.createObjectURL(blob);
-            image = result.data;
-            break;
+          console.log('attempts', attempts);
+
+          if (image != imageData.value) {
+            console.log('Image data received from API.');
+            if (solve === false) {
+              done = true;
+              console.log('Image captured without plate solving.');
+              break;
+            }
+            if (resImageData.Response != 'Capture already in progress') {
+              console.log(
+                'PlateSolveResult received from API.',
+                resImageData?.Response?.PlateSolveResult
+              );
+              plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
+              done = true;
+              console.log('Image captured with plate solving.');
+              break;
+            }
           }
         } catch (error) {
           console.error('Fehler beim Abrufen des Bildes:', error.message);
@@ -118,7 +127,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       }
 
       // Wenn bis hier kein Bild und kein Abbruch
-      if (!image && !isAbort.value) {
+      if (!done && !isAbort.value) {
         alert('Image was not provided in time');
       }
     } catch (error) {
@@ -128,6 +137,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       isLoadingImage.value = false;
       // Dauerschleife?
       if (isLooping.value) {
+        console.log('Starting next looped exposure...');
         capturePhoto(apiService, exposureTime, gain);
       }
     }

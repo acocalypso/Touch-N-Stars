@@ -268,7 +268,10 @@
         "trackingActive": "跟踪已激活",
         "trackingDisabled": "跟踪已禁用",
         "slewing": "赤道仪正在转动",
-        "notSlewing": "赤道仪未转动"
+        "notSlewing": "赤道仪未转动",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Time to Meridian Flip"
       }
     },
     "guider": {
@@ -500,20 +503,28 @@
       }
     },
     "filterwheel": {
+      "title": "滤镜轮",
       "filter": "滤镜：",
       "unknown": "未知",
       "nofilteravailable": "暂无滤镜可用",
+      "please_connect_filterwheel": "请连接滤镜轮",
+      "currentFilter": "当前滤镜",
+      "position": "位置",
+      "availableFilters": "可用滤镜",
       "manual_filter": {
         "title": "滤镜轮",
         "name": "更换为滤镜："
       }
     },
     "rotator": {
+      "title": "旋转器",
       "label": "旋转器",
       "move": "移动",
+      "control": "控制",
       "notConnected": "请连接旋转器",
-      "currentPosition": "当前位置：",
-      "moving": "移动中"
+      "please_connect_rotator": "请连接旋转器",
+      "currentPosition": "当前位置",
+      "moving": "正在移动"
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",
@@ -623,6 +634,11 @@
       },
       "enter_name": "输入名称",
       "titel": "收藏夹"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "No image data available"
+      }
     }
   },
   "plugins": {

@@ -177,7 +177,6 @@
       "message": "Mensagem",
       "download": "Baixar"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Estatísticas",
       "noSequenceLoaded": "Nenhuma sequência carregada",
@@ -268,7 +267,10 @@
         "trackingActive": "Rastreamento ativo",
         "trackingDisabled": "Rastreamento desativado",
         "slewing": "Montagem em movimento",
-        "notSlewing": "Sem movimento"
+        "notSlewing": "Sem movimento",
+        "declination": "DEC",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Hora de Meridian Flip"
       }
     },
     "guider": {
@@ -506,14 +508,22 @@
       "manual_filter": {
         "title": "Roda de filtros",
         "name": "Mudar para filtro:"
-      }
+      },
+      "availableFilters": "Filtros disponíveis",
+      "currentFilter": "Filtro de corrente",
+      "please_connect_filterwheel": "Por favor, conecte a roda do filtro",
+      "position": "Posição",
+      "title": "Roda de filtro"
     },
     "rotator": {
       "label": "Rotacionador",
       "move": "Mover",
       "notConnected": "Conecte o rotacionador",
       "currentPosition": "Posição atual:",
-      "moving": "Movendo"
+      "moving": "Movendo",
+      "control": "Controlar",
+      "please_connect_rotator": "Por favor, conecte o rotador",
+      "title": "Rotador"
     },
     "flat": {
       "please_connect_flatDevice": "Conecte o dispositivo flat",
@@ -623,6 +633,11 @@
       },
       "enter_name": "Digite o nome",
       "titel": "Favoritos"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "Sem dados de imagem disponíveis"
+      }
     }
   },
   "plugins": {

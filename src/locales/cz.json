@@ -253,7 +253,10 @@
         "trackingActive": "Sledování je aktivní",
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
-        "notSlewing": "Nepřejíždí"
+        "notSlewing": "Nepřejíždí",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Time to Meridian Flip"
       },
       "location_sync": {
         "noSync": {
@@ -500,17 +503,24 @@
       }
     },
     "filterwheel": {
+      "title": "Filtrační Kolo",
       "filter": "Filtr:",
       "unknown": "Neznámý",
       "nofilteravailable": "Žádný filtr není k dispozici",
+      "please_connect_filterwheel": "Připojte prosím filtrační kolo",
+      "currentFilter": "Aktuální Filtr",
+      "position": "Pozice",
+      "availableFilters": "Dostupné Filtry",
       "manual_filter": {
         "name": "Změna filtru:",
         "title": "FiltračníKolo"
       }
     },
     "rotator": {
+      "title": "Rotátor",
       "label": "Rotátor",
       "move": "Pohyb",
+      "control": "Ovládání",
       "notConnected": "připojte rotátor",
       "currentPosition": "Současná pozice:",
       "moving": "V pohybu"
@@ -623,6 +633,11 @@
       "modal": {
         "description": "Povolte přijímání oznámení o událostech sekvence.",
         "title": "Konfigurace Oznámení"
+      }
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "No image data available"
       }
     }
   },

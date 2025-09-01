@@ -23,6 +23,10 @@
       "message_tns_version": "El complemento Touch N Stars plugin es demasiado antiguo. Por favor actualiza el complemento"
     }
   },
+  "whatsnew": {
+    "loading": "Cargando…",
+    "title": "Qué hay de nuevo"
+  },
   "setup": {
     "welcome": "Bienvenido a Touch'N'Stars",
     "description": "Empezar configuración rápida",
@@ -173,9 +177,6 @@
       "message": "Mensaje",
       "download": "Descargar"
     },
-    "navigation": {},
-    "language": {},
-    "equipment": {},
     "sequence": {
       "stats": "Estadísticas",
       "noSequenceLoaded": "No hay sequencia cargada",
@@ -253,7 +254,10 @@
         "trackingActive": "Seguimiento activo",
         "trackingDisabled": "Seguimiento deshabilitado",
         "slewing": "Montura desplazándose",
-        "notSlewing": "No desplazándose"
+        "notSlewing": "No desplazándose",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Tiempo para voltear meridian"
       },
       "location_sync": {
         "noSync": {
@@ -465,8 +469,6 @@
       },
       "error_modal": {}
     },
-    "logs": {},
-    "test": {},
     "slewAndCenter": {
       "title": "Desplazar y Centrar",
       "LastSelectedImageSource_wrong": "Por favor seleccionar mapa del cielo offline como fuente de imágen en NINA / Framing",
@@ -500,19 +502,27 @@
       }
     },
     "filterwheel": {
+      "title": "Rueda de Filtros",
       "filter": "Filtro:",
       "unknown": "Desconocido",
       "nofilteravailable": "No hay filtro disponible",
+      "please_connect_filterwheel": "Por favor conecta la rueda de filtros",
+      "currentFilter": "Filtro Actual",
+      "position": "Posición",
+      "availableFilters": "Filtros Disponibles",
       "manual_filter": {
         "name": "Cambiar a filtro:",
         "title": "Rueda de filtros"
       }
     },
     "rotator": {
+      "title": "Rotador",
       "label": "Rotador",
       "move": "Mover",
+      "control": "Control",
       "notConnected": "Por favor conectar rotador",
-      "currentPosition": "Posición Actual:",
+      "please_connect_rotator": "Por favor conecta el rotador",
+      "currentPosition": "Posición Actual",
       "moving": "Moviendo"
     },
     "flat": {
@@ -596,19 +606,13 @@
     "profile": {
       "label": "Perfil:"
     },
+    "notifications": {
+      "modal": {
+        "description": "Otorgue permiso para recibir notificaciones sobre eventos de secuencia.",
+        "title": "Configurar notificaciones"
+      }
+    },
     "fav_target": {
-      "enter_name": "Introducir nombre",
-      "modal_save": {},
-      "modal_sequence": {
-        "titel": "Secuencia"
-      },
-      "modal_sequence_error": {
-        "message": "Sin secuencia cargada"
-      },
-      "modal_sequence_ok": {
-        "message": "Objeto cargado"
-      },
-      "no_fav": "No hay favoritos",
       "table": {
         "dec": "DEC",
         "load": "Cargar",
@@ -617,12 +621,22 @@
         "remove": "Eliminar",
         "rotation": "Rotación"
       },
+      "modal_sequence": {
+        "titel": "Secuencia"
+      },
+      "modal_sequence_ok": {
+        "message": "Objeto cargado"
+      },
+      "modal_sequence_error": {
+        "message": "Sin secuencia cargada"
+      },
+      "enter_name": "Introducir nombre",
+      "no_fav": "No hay favoritos",
       "titel": "Favoritos"
     },
-    "notifications": {
-      "modal": {
-        "description": "Otorgue permiso para recibir notificaciones sobre eventos de secuencia.",
-        "title": "Configurar notificaciones"
+    "helpers": {
+      "imageModal": {
+        "no_image": "No hay datos de imagen disponibles"
       }
     }
   },
@@ -983,9 +997,5 @@
       },
       "submissionHistory": "Historial de sumisión"
     }
-  },
-  "whatsnew": {
-    "loading": "Cargando…",
-    "title": "Qué hay de nuevo"
   }
 }

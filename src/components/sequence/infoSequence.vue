@@ -1,7 +1,25 @@
 <template>
   <div class="space-y-4">
     <!-- Subtle Actions Bar -->
-    <div class="mb-3 flex justify-end">
+    <div class="mb-3 flex justify-between">
+      <div class="flex items-center gap-1">
+        <button
+          @click="autoFollow = !autoFollow"
+          class="px-2 py-1 text-xs rounded transition-colors flex items-center gap-1"
+          :class="
+            autoFollow
+              ? 'text-cyan-300 bg-cyan-900/30 border border-cyan-700/50'
+              : 'text-gray-400 hover:text-gray-300 hover:bg-gray-800/30'
+          "
+          title="Auto-follow aktivieren/deaktivieren"
+        >
+          <div
+            class="w-2 h-2 rounded-full"
+            :class="autoFollow ? 'bg-cyan-400' : 'bg-gray-500'"
+          ></div>
+          Auto-Follow
+        </button>
+      </div>
       <div class="flex items-center gap-1">
         <button
           @click="expandAll"
@@ -121,13 +139,14 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount } from 'vue';
+import { computed, onBeforeMount, watch, ref, nextTick } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 
 const sequenceStore = useSequenceStore();
+const autoFollow = ref(false); // Auto-follow feature toggle
 
 const globalTriggers = computed(() => {
   // Find the first container with GlobalTriggers
@@ -217,6 +236,168 @@ function getAllPaths() {
 
   return paths;
 }
+
+// Auto-follow functionality
+function findRunningItems() {
+  const runningItems = [];
+
+  function searchItems(itemList, containerIndex = -1) {
+    if (!itemList) return;
+
+    itemList.forEach((item, index) => {
+      if (item.Status === 'RUNNING') {
+        runningItems.push({
+          item,
+          path: item._path,
+          containerIndex,
+          index,
+        });
+      }
+
+      // Check triggers
+      if (item.Triggers) {
+        item.Triggers.forEach((trigger) => {
+          if (trigger.Status === 'RUNNING') {
+            runningItems.push({
+              item: trigger,
+              path: trigger._path,
+              containerIndex,
+              index,
+              type: 'trigger',
+            });
+          }
+        });
+      }
+
+      // Check conditions
+      if (item.Conditions) {
+        item.Conditions.forEach((condition) => {
+          if (condition.Status === 'RUNNING') {
+            runningItems.push({
+              item: condition,
+              path: condition._path,
+              containerIndex,
+              index,
+              type: 'condition',
+            });
+          }
+        });
+      }
+
+      // Recursively check nested items
+      if (item.Items) {
+        searchItems(item.Items, containerIndex);
+      }
+    });
+  }
+
+  // Search in sequence containers
+  sequenceStore.sequenceInfo.forEach((container, containerIndex) => {
+    if (container.Status === 'RUNNING') {
+      // Expand running container if collapsed
+      if (sequenceStore.isCollapsed(container.Name)) {
+        sequenceStore.setCollapsedState(container.Name, false);
+      }
+    }
+
+    if (container.Items) {
+      searchItems(container.Items, containerIndex);
+    }
+
+    if (container.GlobalTriggers) {
+      searchItems(container.GlobalTriggers, containerIndex);
+    }
+  });
+
+  return runningItems;
+}
+
+async function scrollToRunningItem() {
+  if (!autoFollow.value) return;
+
+  await nextTick();
+
+  const runningItems = findRunningItems();
+
+  if (runningItems.length > 0) {
+    // Auto-expand collapsed states for running items
+    runningItems.forEach((runningItem) => {
+      if (runningItem.path && sequenceStore.isCollapsed(runningItem.path)) {
+        sequenceStore.setCollapsedState(runningItem.path, false);
+      }
+    });
+
+    // Wait for DOM update after expanding
+    await nextTick();
+
+    // Find all running elements and get the deepest/innermost one
+    const runningElements = document.querySelectorAll('[class*="ring-cyan-400"]');
+
+    if (runningElements.length > 0) {
+      if (runningElements.length === 1) {
+        // Single running item - scroll to it
+        runningElements[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'nearest',
+        });
+      } else {
+        // Multiple running items (parallel execution)
+        // Find the group that contains all parallel running items
+        const elementPositions = Array.from(runningElements).map((element) => ({
+          element,
+          top: element.getBoundingClientRect().top,
+          depth: getElementDepth(element),
+        }));
+
+        // Sort by position and depth
+        elementPositions.sort((a, b) => {
+          // First by depth (deeper = more specific)
+          if (a.depth !== b.depth) return b.depth - a.depth;
+          // Then by position (topmost first)
+          return a.top - b.top;
+        });
+
+        // For parallel items at the same depth, show the first one
+        const targetElement = elementPositions[0].element;
+
+        // Scroll to show the parallel group
+        targetElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start', // Show from top to see all parallel items
+          inline: 'nearest',
+        });
+      }
+    }
+  }
+}
+
+function getElementDepth(element) {
+  let depth = 0;
+  let parent = element.parentElement;
+  while (parent) {
+    if (
+      parent.classList.contains('space-y-2') ||
+      parent.classList.contains('mt-3') ||
+      parent.classList.contains('space-y-4')
+    ) {
+      depth++;
+    }
+    parent = parent.parentElement;
+  }
+  return depth;
+}
+
+// Watch for changes in sequence info to auto-scroll to running items
+watch(
+  () => sequenceStore.sequenceInfo,
+  () => {
+    if (autoFollow.value) {
+      scrollToRunningItem();
+    }
+  },
+  { deep: true }
+);
 
 onBeforeMount(async () => {
   await sequenceStore.getSequenceInfo();

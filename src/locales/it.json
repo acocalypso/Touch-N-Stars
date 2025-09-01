@@ -177,7 +177,6 @@
       "message": "Messaggio",
       "download": "Scarica"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Statistiche",
       "noSequenceLoaded": "Nessuna sequenza caricata",
@@ -233,17 +232,17 @@
       "title": "Montatura",
       "slew": "Spostamento",
       "location_sync": {
-        "title": "Impostazioni sincronizzazione posizione",
-        "confirmationMessage": "Se \"Sincronizzazione posizione\" in NINA è impostato su \"Prompt\", potrebbe apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. Per evitare questo e permettere a TNS di impostare automaticamente le coordinate, consigliamo di cambiare l'impostazione in \"Sincronizza con telescopio\"",
-        "toTelescope": {
-          "label": "Sincronizza con telescopio"
-        },
-        "toApplication": {
-          "label": "Sincronizza con applicazione"
-        },
         "noSync": {
           "label": "Nessuna sincronizzazione"
-        }
+        },
+        "toApplication": {
+          "label": "Sincronizzazione all'applicazione"
+        },
+        "toTelescope": {
+          "label": "Sincronizzazione al telescopio"
+        },
+        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
+        "title": "Impostazioni di sincronizzazione della posizione"
       },
       "control": {
         "park": "Parcheggia",
@@ -268,7 +267,10 @@
         "trackingActive": "Inseguimento attivo",
         "trackingDisabled": "Inseguimento disattivato",
         "slewing": "Montatura in movimento",
-        "notSlewing": "Nessun movimento"
+        "notSlewing": "Montatura ferma",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Tempo per il lancio del meridiano"
       }
     },
     "guider": {
@@ -500,20 +502,28 @@
       }
     },
     "filterwheel": {
+      "title": "Ruota Filtri",
       "filter": "Filtro:",
       "unknown": "Sconosciuto",
       "nofilteravailable": "Nessun filtro disponibile",
+      "please_connect_filterwheel": "Collega la ruota filtri",
+      "currentFilter": "Filtro Attuale",
+      "position": "Posizione",
+      "availableFilters": "Filtri Disponibili",
       "manual_filter": {
         "title": "Ruota filtri",
         "name": "Cambia a filtro:"
       }
     },
     "rotator": {
+      "title": "Rotatore",
       "label": "Rotatore",
-      "move": "Sposta",
-      "notConnected": "Connetti il rotatore",
-      "currentPosition": "Posizione attuale:",
-      "moving": "In movimento"
+      "move": "Muovi",
+      "control": "Controllo",
+      "notConnected": "Collega rotatore",
+      "please_connect_rotator": "Collega il rotatore",
+      "currentPosition": "Posizione Attuale",
+      "moving": "In Movimento"
     },
     "flat": {
       "please_connect_flatDevice": "Connetti il dispositivo flat",
@@ -623,6 +633,11 @@
       },
       "enter_name": "Inserisci nome",
       "titel": "Preferiti"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "Nessun dati sull'immagine disponibile"
+      }
     }
   },
   "plugins": {

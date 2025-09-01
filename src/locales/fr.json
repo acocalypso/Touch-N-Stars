@@ -177,7 +177,6 @@
       "message": "Message",
       "download": "Télécharger"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Statistiques",
       "noSequenceLoaded": "Aucune séquence chargée",
@@ -233,17 +232,17 @@
       "title": "Monture",
       "slew": "Déplacer",
       "location_sync": {
-        "title": "Paramètres de synchronisation de l'emplacement",
-        "confirmationMessage": "Si «Synchronisation de l'emplacement» dans NINA est défini sur «Invite», une fenêtre de confirmation peut apparaître avant que les coordonnées ne soient envoyées au télescope. \nPour éviter cela et permettre à TNS de définir automatiquement les coordonnées, nous vous recommandons de modifier le paramètre en «Synchroniser au télescope»",
-        "toTelescope": {
-          "label": "Synchroniser au télescope"
-        },
-        "toApplication": {
-          "label": "Synchroniser à l'application"
-        },
         "noSync": {
           "label": "Pas de synchronisation"
-        }
+        },
+        "toApplication": {
+          "label": "Synchronisation avec l'application"
+        },
+        "toTelescope": {
+          "label": "Synchronisation avec le télescope"
+        },
+        "confirmationMessage": "Si «Location Sync» dans Nina est défini sur «Invite», une fenêtre de confirmation peut apparaître avant que les coordonnées ne soient envoyées au télescope. \nPour éviter cela et permettre à TNS de définir automatiquement les coordonnées, nous vous recommandons de modifier le paramètre en «Synchronisation en télescope»",
+        "title": "Paramètres de synchronisation de l'emplacement"
       },
       "control": {
         "park": "Parquer",
@@ -266,9 +265,12 @@
         "parked": "Parquée",
         "unparked": "Déparquée",
         "trackingActive": "Le suivi est actif",
-        "trackingDisabled": "Suivi désactivé",
-        "slewing": "La monture se déplace",
-        "notSlewing": "Pas de déplacement"
+        "trackingDisabled": "Le suivi est désactivé",
+        "slewing": "Le suivi est actif",
+        "notSlewing": "Pas de suivi",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Temps de flip méridien"
       }
     },
     "guider": {
@@ -500,20 +502,28 @@
       }
     },
     "filterwheel": {
+      "title": "Roue à Filtres",
       "filter": "Filtre:",
       "unknown": "Inconnu",
       "nofilteravailable": "Aucun filtre disponible",
+      "please_connect_filterwheel": "Veuillez connecter la roue à filtres",
+      "currentFilter": "Filtre Actuel",
+      "position": "Position",
+      "availableFilters": "Filtres Disponibles",
       "manual_filter": {
         "title": "Roue à filtres",
         "name": "Changer vers le filtre:"
       }
     },
     "rotator": {
+      "title": "Rotateur",
       "label": "Rotateur",
       "move": "Déplacer",
+      "control": "Contrôle",
       "notConnected": "Veuillez connecter le rotateur",
-      "currentPosition": "Position actuelle:",
-      "moving": "En mouvement"
+      "please_connect_rotator": "Veuillez connecter le rotateur",
+      "currentPosition": "Position Actuelle",
+      "moving": "En Mouvement"
     },
     "flat": {
       "please_connect_flatDevice": "Veuillez connecter le dispositif de flat",
@@ -623,6 +633,11 @@
       },
       "enter_name": "Entrer le nom",
       "titel": "Favoris"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "Aucune donnée d'image disponible"
+      }
     }
   },
   "plugins": {

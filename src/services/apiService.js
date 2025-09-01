@@ -389,6 +389,25 @@ const apiService = {
   },
 
   //-------------------------------------  Image  ---------------------------------------
+  async getImagePrepared(quality, resize = false, scale = 100) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/prepared-image`, {
+        params: {
+          quality: quality,
+          resize: resize,
+          scale: scale,
+        },
+        responseType: 'blob',
+      });
+      console.log(response);
+      return response;
+    } catch (error) {
+      // console.error('Error read Image :', error);
+      throw error;
+    }
+  },
+
   async getSequenceImage(index, quality, resize, scale) {
     try {
       const { BASE_URL } = getUrls();
@@ -614,7 +633,7 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain, solve = false) {
+  async startCapture(duration, gain, solve = false, omitImage = false) {
     console.log('Zeit:', duration, 'Gain: ', gain);
     try {
       const { BASE_URL } = getUrls();
@@ -623,6 +642,7 @@ const apiService = {
           duration: duration,
           gain: gain,
           solve: solve,
+          omitImage: omitImage,
         },
       });
       return response.data;

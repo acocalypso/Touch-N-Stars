@@ -7,8 +7,6 @@
         <div>
           <p class="text-sm font-medium text-gray-400 md:text-base">{{ WritableSwitche.Name }}</p>
           <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Description }}</p>
-          <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Id }}</p>
-          <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Value }}</p>
         </div>
         <toggleButton
           @click="setBool(WritableSwitche.Id, WritableSwitche.Value)"

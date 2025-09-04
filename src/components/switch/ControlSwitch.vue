@@ -7,6 +7,8 @@
         <div>
           <p class="text-sm font-medium text-gray-400 md:text-base">{{ WritableSwitche.Name }}</p>
           <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Description }}</p>
+          <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Id }}</p>
+          <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Value }}</p>
         </div>
         <toggleButton
           @click="setBool(WritableSwitche.Id, WritableSwitche.Value)"
@@ -46,13 +48,13 @@ const store = apiStore();
 
 async function setBool(id, value) {
   try {
-    //console.log('id: ', id, 'value: ', value)
+    console.log('id: ', id, 'value: ', value)
     if (value === 1.0) {
       await apiService.setSwitch(id, 0);
-      console.log('Switch on ID: ', id);
+      console.log('Switch off ID: ', id);
     } else {
       await apiService.setSwitch(id, 1);
-      console.log('Switch off ID: ', id);
+      console.log('Switch on ID: ', id);
     }
   } catch (error) {
     console.log('Feher beim setzen des Switches ');

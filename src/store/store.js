@@ -235,7 +235,7 @@ export const apiStore = defineStore('store', {
           }
         }
 
-       /* console.log('API und TNS Plugin reachable');
+        /* console.log('API und TNS Plugin reachable');
         console.log(
           'Api connected',
           this.isApiConnected,

@@ -26,6 +26,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mount page: Added slew stop button
 - Info message: Show 'What's new' on first start after an update
 
+### Fixed
+- Fixed bug with switches when a non-writable switch is in the sequence
+
 ## [1.1.2.2] - 2025-08-22
 ### Added
 - Mountpage: Add Slew stop button 

@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      v-if="false"
       class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg mb-2"
     >
       <label for="notificationsEnabled" class="text-gray-400">

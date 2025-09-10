@@ -167,7 +167,7 @@
                       />
                     </template>
                     <template v-else>
-                      {{ value }}
+                      {{ formatValue(value) }}
                     </template>
                   </span>
                 </div>
@@ -301,7 +301,7 @@
                       </div>
                     </template>
                     <template v-else>
-                      {{ value }}
+                      {{ formatValue(value) }}
                     </template>
                   </span>
                 </div>
@@ -467,14 +467,14 @@
                       <template v-else>
                         <div>
                           <span class="text-gray-400">{{ subKey }}:</span>
-                          <span class="ml-1">{{ subValue }}</span>
+                          <span class="ml-1">{{ formatValue(subValue) }}</span>
                         </div>
                       </template>
                     </template>
                   </div>
                 </template>
                 <template v-else>
-                  {{ value }}
+                  {{ formatValue(value) }}
                 </template>
               </span>
             </div>
@@ -554,6 +554,11 @@ function formatKey(key) {
     .replace(/([A-Z])/g, ' $1') // Add space before uppercase letters
     .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
     .trim(); // Remove leading/trailing spaces
+}
+
+function formatValue(value) {
+  // Replace -1 with "default"
+  return value === -1 ? 'default' : value;
 }
 
 function hasContent(item) {

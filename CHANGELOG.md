@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fixed bug with switches when a non-writable switch is in the sequence
+- Default gain and offset are now displayed in the sequence instead of -1.
 
 ## [1.1.2.2] - 2025-08-22
 ### Added

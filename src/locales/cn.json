@@ -93,7 +93,8 @@
       },
       "debug": {
         "title": "调试",
-        "activate": "激活调试模式"
+        "activate": "激活调试模式",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "通知",
@@ -524,7 +525,11 @@
       "notConnected": "请连接旋转器",
       "please_connect_rotator": "请连接旋转器",
       "currentPosition": "当前位置",
-      "moving": "正在移动"
+      "moving": "正在移动",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "stationary": "Stationary",
+      "stepSize": "Step Size"
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",

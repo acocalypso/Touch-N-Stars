@@ -79,14 +79,14 @@
                       <template v-else>
                         <div>
                           <span class="text-gray-400">{{ subKey }}:</span>
-                          <span class="ml-1">{{ formatValue(subValue) }}</span>
+                          <span class="ml-1">{{ formatValue(subValue, subKey) }}</span>
                         </div>
                       </template>
                     </template>
                   </div>
                 </template>
                 <template v-else>
-                  {{ formatValue(value) }}
+                  {{ formatValue(value, key) }}
                 </template>
               </span>
             </div>
@@ -152,7 +152,7 @@
                       </div>
                     </template>
                     <template v-else>
-                      {{ formatValue(value) }}
+                      {{ formatValue(value, key) }}
                     </template>
                   </span>
                 </div>
@@ -168,6 +168,7 @@
 <script setup>
 import { defineProps } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { apiStore } from '@/store/store';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 
@@ -183,6 +184,7 @@ defineProps({
 });
 
 const sequenceStore = useSequenceStore();
+const store = apiStore();
 const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items']);
 
 // Helper functions
@@ -194,9 +196,17 @@ function formatKey(key) {
     .trim(); // Remove leading/trailing spaces
 }
 
-function formatValue(value) {
-  // Replace -1 with "default"
-  return value === -1 ? 'default' : value;
+function formatValue(value, key) {
+  if (value === -1) {
+    if (key === 'Gain') {
+      return store.profileInfo?.CameraSettings?.Gain ?? 'default';
+    } else if (key === 'Offset') {
+      return store.profileInfo?.CameraSettings?.Offset ?? 'default';
+    } else {
+      return 'default';
+    }
+  }
+  return value;
 }
 
 function statusColor(status) {

@@ -32,7 +32,9 @@
       </div>
 
       <!-- Body -->
-      <div class="p-4 overflow-y-auto sm:max-h-[calc(85vh-3.25rem)] space-y-2">
+      <div
+        class="p-4 overflow-y-auto max-h-[calc(100vh-8rem)] sm:max-h-[calc(85vh-3.25rem)] space-y-2"
+      >
         <div v-if="data" class="prose prose-invert max-w-none">
           <!-- Render HTML from generator; it's sanitized/minimal from generator -->
           <div v-html="data.html"></div>

@@ -88,7 +88,7 @@
               <!-- Disconnect Icon - positioned below the mount icon -->
               <LinkSlashIcon 
                 v-if="!store.mountInfo.Connected"
-                class="absolute -bottom-1 -right-1 w-5 h-5 text-red-500 bg-gray-800 rounded-full p-0.5"
+                class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
               />
             </div>
           </router-link>

@@ -29,7 +29,22 @@
           :show-only-exposing="showTppa"
           class="gap-1 p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
         />
-        <div v-if="store.mountInfo.Connected">
+        <div v-if="store.mountInfo.Connected && store.mount.currentTab !== 'showTppa'">
+          <div
+            class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
+          >
+            <div class="container pl-5 pb-5 pr-5">
+              <div v-if="store.mount.currentTab === 'showMount'" class="mt-5">
+                <controlMount />
+              </div>
+              <div v-if="store.mount.currentTab === 'showSlew'" class="mt-5">
+                <TargetSearch class="w-full mt-2" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="store.mount.currentTab === 'showTppa'">
           <div
             :class="[
               'mt-4 border border-gray-700 rounded-lg shadow-lg',
@@ -39,18 +54,13 @@
             ]"
           >
             <div class="container pl-5 pb-5 pr-5">
-              <div v-if="store.mount.currentTab === 'showMount'" class="mt-5">
-                <controlMount />
-              </div>
-              <div v-if="store.mount.currentTab === 'showTppa'" class="mt-5">
+              <div class="mt-5">
                 <TppaPage />
-              </div>
-              <div v-if="store.mount.currentTab === 'showSlew'" class="mt-5">
-                <TargetSearch class="w-full mt-2" />
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

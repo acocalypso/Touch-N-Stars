@@ -53,7 +53,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.mountInfo.Connected">
+        <div>
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"

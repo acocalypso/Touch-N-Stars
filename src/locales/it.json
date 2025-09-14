@@ -466,9 +466,11 @@
         "camera_settings_hint": "Lascia vuoto per i default NINA",
         "exposure_time": "Tempo esposizione (s)",
         "gain": "Guadagno",
-        "nina_default": "Default NINA"
+        "nina_default": "Default NINA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Sposta e centra",

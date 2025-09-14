@@ -86,7 +86,7 @@
                 <path d="M14 5l3 5.5" />
               </svg>
               <!-- Disconnect Icon - positioned below the mount icon -->
-              <LinkSlashIcon 
+              <LinkSlashIcon
                 v-if="!store.mountInfo.Connected"
                 class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
               />

@@ -465,9 +465,11 @@
         "exposure_time": "Doba Expozice (s)",
         "gain": "Gain",
         "nina_default": "NINA Výchozí",
-        "title": "Nastavení TPPAs"
+        "title": "Nastavení TPPAs",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "logs": {},
     "test": {},

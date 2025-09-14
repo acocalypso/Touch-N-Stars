@@ -466,9 +466,11 @@
         "camera_settings_hint": "Leer lassen für NINA Standardwerte",
         "exposure_time": "Belichtungszeit (s)",
         "gain": "Verstärkung",
-        "nina_default": "NINA Standard"
+        "nina_default": "NINA Standard",
+        "ManualMode": "Manuell"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",

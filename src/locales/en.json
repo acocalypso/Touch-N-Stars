@@ -469,7 +469,8 @@
         "nina_default": "NINA Default",
         "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Slew and Center",

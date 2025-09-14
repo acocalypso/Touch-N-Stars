@@ -378,7 +378,6 @@ async function startAlignment() {
   }
 
   message.ManualMode = tppaStore.settings.ManualMode;
-  
 
   if (tppaStore.settings.ExposureTime !== null) {
     message.ExposureTime = tppaStore.settings.ExposureTime;

@@ -11,7 +11,7 @@
       :items="[
         { name: t('components.mount.title'), value: 'showMount' },
         { name: t('components.mount.slew'), value: 'showSlew' },
-        { name: t('components.tppa.title'), value: 'showTppa' },
+        { name: t('components.tppa.tppa'), value: 'showTppa' },
       ]"
       v-model:activeItem="store.mount.currentTab"
     />

@@ -466,9 +466,11 @@
         "exposure_time": "Tiempo (s) de exposición",
         "gain": "Ganar",
         "nina_default": "Nina predeterminado",
-        "title": "Configuración de TPPA"
+        "title": "Configuración de TPPA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Desplazar y Centrar",

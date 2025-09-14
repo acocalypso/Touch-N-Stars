@@ -467,9 +467,11 @@
         "camera_settings_hint": "留空则使用 NINA 默认值",
         "exposure_time": "曝光时间 (秒)",
         "gain": "增益",
-        "nina_default": "NINA 默认值"
+        "nina_default": "NINA 默认值",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "转动与居中",

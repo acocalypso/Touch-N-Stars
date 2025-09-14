@@ -11,7 +11,7 @@ import { useTppaStore } from '@/store/tppaStore';
 const tppaStore = useTppaStore();
 
 const statusText = computed(() => {
-  if (!tppaStore.currentMessage?.message?.Response?.Status) return 'Keine Nachricht empfangen';
+  if (!tppaStore.currentMessage?.message?.Response?.Status) return;
   return tppaStore.currentMessage.message.Response.Status;
 });
 

@@ -249,6 +249,7 @@ const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);
 const showImageModal = ref(false);
+let lastMessageTimeout = null;
 
 // Tolerance in arc minutes
 const tolerance = 1;
@@ -475,9 +476,30 @@ onMounted(() => {
       startStop.value = true;
     }
 
-    // Update pause state based on WebSocket message status
+    // Update pause state based on WebSocket message status FIRST
     if (message.Response && message.Response.Status) {
       tppaStore.isPause = message.Response.Status === 'Paused';
+    }
+
+    // Only set timeout if not paused - when paused, no messages come for longer periods
+    if (message.Response) {
+      if (!tppaStore.isPause) {
+        // Reset timeout for stop detection - if no message for 30 seconds, assume stopped
+        if (lastMessageTimeout) {
+          clearTimeout(lastMessageTimeout);
+        }
+        lastMessageTimeout = setTimeout(() => {
+          console.log('No WebSocket messages for 30 seconds - assuming TPPA stopped');
+          tppaStore.setRunning(false);
+          startStop.value = false;
+          resetErrors();
+        }, 30000);
+      } else {
+        // Clear timeout when paused
+        if (lastMessageTimeout) {
+          clearTimeout(lastMessageTimeout);
+        }
+      }
     }
 
     formatMessage(message);
@@ -487,6 +509,9 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (lastMessageTimeout) {
+    clearTimeout(lastMessageTimeout);
+  }
   websocketService.setStatusCallback(null);
   websocketService.setMessageCallback(null);
   websocketService.disconnect();

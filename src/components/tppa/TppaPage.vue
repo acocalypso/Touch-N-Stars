@@ -319,6 +319,7 @@ function formatMessage(message) {
   }
 
   if (message.Response) {
+    console.log('Processing message.Response:', message.Response);
     if (typeof message.Response === 'string') {
       if (message.Response === 'started procedure') {
         console.log('Start TPPA');
@@ -429,6 +430,11 @@ async function wait(ms) {
 onMounted(() => {
   tppaStore.initialize();
 
+  // Check initial pause state if there's already a current message
+  if (tppaStore.currentMessage?.message?.Response?.Status) {
+    tppaStore.isPause = tppaStore.currentMessage.message.Response.Status === 'Paused';
+  }
+
   websocketService.setStatusCallback((status) => {
     console.log('status updated:', status);
     isConnected.value = status === 'Verbunden';
@@ -465,6 +471,12 @@ onMounted(() => {
       startStop.value = false;
       resetErrors();
     }
+
+    // Update pause state based on WebSocket message status
+    if (message.Response && message.Response.Status) {
+      tppaStore.isPause = message.Response.Status === 'Paused';
+    }
+
     formatMessage(message);
   });
 

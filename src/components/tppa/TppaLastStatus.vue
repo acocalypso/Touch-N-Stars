@@ -5,28 +5,18 @@
 </div>
 </template>
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import websocketService from '@/services/websocketTppa';
+import { computed } from 'vue';
+import { useTppaStore } from '@/store/tppaStore';
 
-const lastMessage = ref(null);
+const tppaStore = useTppaStore();
 
 const statusText = computed(() => {
-  if (!lastMessage.value?.Response?.Status) return 'Keine Nachricht empfangen';
-  return lastMessage.value.Response.Status;
+  if (!tppaStore.currentMessage?.message?.Response?.Status) return 'Keine Nachricht empfangen';
+  return tppaStore.currentMessage.message.Response.Status;
 });
 
 const progressPercent = computed(() => {
-  if (!lastMessage.value?.Response?.Progress || lastMessage.value.Response.Progress === -1) return null;
-  return Math.round(lastMessage.value.Response.Progress * 100);
-});
-
-onMounted(() => {
-  websocketService.setMessageCallback((message) => {
-    lastMessage.value = message;
-  });
-});
-
-onUnmounted(() => {
-  websocketService.setMessageCallback(null);
+  if (!tppaStore.currentMessage?.message?.Response?.Progress || tppaStore.currentMessage.message.Response.Progress === -1) return null;
+  return Math.round(tppaStore.currentMessage.message.Response.Progress * 100);
 });
 </script>

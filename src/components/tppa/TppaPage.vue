@@ -320,7 +320,6 @@ function formatMessage(message) {
   }
 
   if (message.Response) {
-    console.log('Processing message.Response:', message.Response);
     if (typeof message.Response === 'string') {
       if (message.Response === 'started procedure') {
         console.log('Start TPPA');
@@ -377,6 +376,9 @@ async function startAlignment() {
     message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
     message.EastDirection = tppaStore.settings.EastDirection;
   }
+
+  message.ManualMode = tppaStore.settings.ManualMode;
+  
 
   if (tppaStore.settings.ExposureTime !== null) {
     message.ExposureTime = tppaStore.settings.ExposureTime;
@@ -456,7 +458,7 @@ onMounted(() => {
   });
 
   websocketService.setMessageCallback((message) => {
-    console.log('New message received:', message);
+    //console.log('New message received:', message);
     const newMessage = {
       message: message,
       time: getCurrentTime(),

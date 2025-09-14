@@ -1,8 +1,8 @@
 <template>
-<div>
-  <p>{{ statusText }}</p>
-  <p v-if="progressPercent !== null">{{ progressPercent }}%</p>
-</div>
+  <div>
+    <p>{{ statusText }}</p>
+    <p v-if="progressPercent !== null">{{ progressPercent }}%</p>
+  </div>
 </template>
 <script setup>
 import { computed } from 'vue';
@@ -16,7 +16,11 @@ const statusText = computed(() => {
 });
 
 const progressPercent = computed(() => {
-  if (!tppaStore.currentMessage?.message?.Response?.Progress || tppaStore.currentMessage.message.Response.Progress === -1) return null;
+  if (
+    !tppaStore.currentMessage?.message?.Response?.Progress ||
+    tppaStore.currentMessage.message.Response.Progress === -1
+  )
+    return null;
   return Math.round(tppaStore.currentMessage.message.Response.Progress * 100);
 });
 </script>

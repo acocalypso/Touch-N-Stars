@@ -430,9 +430,12 @@ async function wait(ms) {
 onMounted(() => {
   tppaStore.initialize();
 
-  // Check initial pause state if there's already a current message
+  // Check initial states if there's already a current message
   if (tppaStore.currentMessage?.message?.Response?.Status) {
-    tppaStore.isPause = tppaStore.currentMessage.message.Response.Status === 'Paused';
+    const status = tppaStore.currentMessage.message.Response.Status;
+    tppaStore.isPause = status === 'Paused';
+    // Set running state based on message - if we have status messages, TPPA is likely running
+    tppaStore.setRunning(status !== 'stopped procedure' && status !== '');
   }
 
   websocketService.setStatusCallback((status) => {
@@ -462,14 +465,14 @@ onMounted(() => {
     tppaStore.currentMessage = JSON.parse(JSON.stringify(newMessage));
 
     // Update running state based on message
-    if (message.Response != 'stopped procedure') {
-      tppaStore.setRunning(true);
-      startStop.value = true;
-      console.log('TPPA start');
-    } else if (message.Response === 'stopped procedure') {
+    if (message.Response === 'stopped procedure') {
       tppaStore.setRunning(false);
       startStop.value = false;
       resetErrors();
+    } else if (message.Response) {
+      // Any other response means TPPA is running
+      tppaStore.setRunning(true);
+      startStop.value = true;
     }
 
     // Update pause state based on WebSocket message status

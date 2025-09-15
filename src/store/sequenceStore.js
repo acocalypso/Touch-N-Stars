@@ -354,7 +354,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
           this.findRunningItemsRecursive(item.Items);
         }
         // Wenn Item RUNNING ist aber keine verschachtelten Items hat, hinzufügen
-        else if (item.Status === 'RUNNING' && item.Name && (!item.Items || item.Items.length === 0)) {
+        else if (
+          item.Status === 'RUNNING' &&
+          item.Name &&
+          (!item.Items || item.Items.length === 0)
+        ) {
           this.runningItems.push(item.Name);
         }
         // Wenn Item nicht RUNNING ist, trotzdem tiefer suchen

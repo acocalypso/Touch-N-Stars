@@ -345,7 +345,7 @@ function formatMessage(message) {
 
         tppaStore.azimuthCorDirectionLeft = AzimuthError > 0 ? true : false;
         tppaStore.altitudeCorDirectionTop = AltitudeError < 0 ? true : false;
-        // Prüfe, ob sich der Nutzer auf der Südhalbkugel befindet
+        // Check if in southern hemisphere
         tppaStore.isSouthernHemisphere = store.profileInfo.AstrometrySettings.Latitude < 0;
         if (tppaStore.isSouthernHemisphere) {
           console.log('isSouthernHemisphere');
@@ -377,7 +377,14 @@ async function startAlignment() {
     message.EastDirection = tppaStore.settings.EastDirection;
   }
 
-  message.ManualMode = tppaStore.settings.ManualMode;
+  if (!store.mountInfo.Connected) {
+    // if mount is not connected, force manual mode
+    message.ManualMode = true;
+    console.log('Mount not connected, forcing ManualMode to true');
+  } else {
+    message.ManualMode = tppaStore.settings.ManualMode;
+    console.log('Mount connected, using ManualMode from settings:', tppaStore.settings.ManualMode);
+  }
 
   if (tppaStore.settings.ExposureTime !== null) {
     message.ExposureTime = tppaStore.settings.ExposureTime;
@@ -447,7 +454,7 @@ onMounted(() => {
 
     // Automatische Wiederverbindung wenn Verbindung geschlossen wurde
     if (status === 'Geschlossen') {
-      console.log('Verbindung verloren - starte Wiederverbindung...');
+      console.log('connection closed, trying to reconnect in 3 seconds');
       setTimeout(() => {
         if (!isConnected.value) {
           websocketService.connect();

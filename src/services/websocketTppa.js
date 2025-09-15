@@ -41,10 +41,10 @@ class WebSocketService {
     };
 
     this.socket.onmessage = (event) => {
-      console.log('Nachricht empfangen:', event.data);
+      //console.log('Nachricht empfangen:', event.data);
       try {
         const message = JSON.parse(event.data);
-        console.log('Geparste Nachricht:', message);
+        //console.log('Geparste Nachricht:', message);
         if (this.messageCallback) {
           this.messageCallback(message);
         }

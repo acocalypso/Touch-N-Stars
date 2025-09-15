@@ -88,7 +88,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Aktivovat debug režim"
+        "activate": "Aktivovat debug režim",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "Oznámení",
@@ -256,7 +257,7 @@
         "notSlewing": "Nepřejíždí",
         "declination": "Dec",
         "rightAscension": "Ra",
-        "timeToMeridianFlip": "Time to Meridian Flip"
+        "timeToMeridianFlip": "Čas na Překlopení Poledník"
       },
       "location_sync": {
         "noSync": {
@@ -464,9 +465,11 @@
         "exposure_time": "Doba Expozice (s)",
         "gain": "Gain",
         "nina_default": "NINA Výchozí",
-        "title": "Nastavení TPPAs"
+        "title": "Nastavení TPPAs",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "logs": {},
     "test": {},
@@ -523,7 +526,12 @@
       "control": "Ovládání",
       "notConnected": "připojte rotátor",
       "currentPosition": "Současná pozice:",
-      "moving": "V pohybu"
+      "moving": "V pohybu",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "stationary": "Stationary",
+      "stepSize": "Step Size",
+      "please_connect_rotator": "Please connect rotator"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",

@@ -92,7 +92,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Debug-Modus aktivieren"
+        "activate": "Debug-Modus aktivieren",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "Benachrichtigungen",
@@ -465,9 +466,11 @@
         "camera_settings_hint": "Leer lassen für NINA Standardwerte",
         "exposure_time": "Belichtungszeit (s)",
         "gain": "Verstärkung",
-        "nina_default": "NINA Standard"
+        "nina_default": "NINA Standard",
+        "ManualMode": "Manuell"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",
@@ -523,7 +526,11 @@
       "notConnected": "Bitte Rotator verbinden",
       "please_connect_rotator": "Bitte Rotator verbinden",
       "currentPosition": "Aktuelle Position",
-      "moving": "Bewegt sich "
+      "moving": "Bewegt sich ",
+      "connected": "Verbunden",
+      "disconnected": "Getrennt",
+      "stationary": "Stationär",
+      "stepSize": "Schrittgröße"
     },
     "flat": {
       "please_connect_flatDevice": "Bitte Flatpanel verbinden",
@@ -634,7 +641,7 @@
         "title": "Benachrichtigungen konfigurieren"
       }
     },
-    "helpers" : {
+    "helpers": {
       "imageModal": {
         "no_image": "Keine Bilddaten verfügbar"
       }

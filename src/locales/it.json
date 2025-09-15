@@ -93,7 +93,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Attiva modalità debug"
+        "activate": "Attiva modalità debug",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "Notifiche",
@@ -465,9 +466,11 @@
         "camera_settings_hint": "Lascia vuoto per i default NINA",
         "exposure_time": "Tempo esposizione (s)",
         "gain": "Guadagno",
-        "nina_default": "Default NINA"
+        "nina_default": "Default NINA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Sposta e centra",
@@ -523,7 +526,11 @@
       "notConnected": "Collega rotatore",
       "please_connect_rotator": "Collega il rotatore",
       "currentPosition": "Posizione Attuale",
-      "moving": "In Movimento"
+      "moving": "In Movimento",
+      "connected": "Collegato",
+      "disconnected": "Disconnesso",
+      "stationary": "Stazionario",
+      "stepSize": "Step Size"
     },
     "flat": {
       "please_connect_flatDevice": "Connetti il dispositivo flat",

@@ -92,7 +92,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Activar modo debug"
+        "activate": "Activar modo debug",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "Notificaciones",
@@ -465,9 +466,11 @@
         "exposure_time": "Tiempo (s) de exposición",
         "gain": "Ganar",
         "nina_default": "Nina predeterminado",
-        "title": "Configuración de TPPA"
+        "title": "Configuración de TPPA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Desplazar y Centrar",
@@ -523,7 +526,11 @@
       "notConnected": "Por favor conectar rotador",
       "please_connect_rotator": "Por favor conecta el rotador",
       "currentPosition": "Posición Actual",
-      "moving": "Moviendo"
+      "moving": "Moviendo",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "stationary": "Estacionario",
+      "stepSize": "Step Size"
     },
     "flat": {
       "please_connect_flatDevice": "Por favor conectar panel de flat",

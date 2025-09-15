@@ -235,7 +235,7 @@ export const apiStore = defineStore('store', {
           }
         }
 
-        console.log('API und TNS Plugin reachable');
+        /* console.log('API und TNS Plugin reachable');
         console.log(
           'Api connected',
           this.isApiConnected,
@@ -247,10 +247,10 @@ export const apiStore = defineStore('store', {
           this.isApiVersionNewerOrEqual,
           'TNS version ok',
           this.isTnsPluginVersionNewerOrEqual
-        );
+        ); */
 
         this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
-        console.log('WebSocket connected:', this.isWebSocketConnected);
+        //console.log('WebSocket connected:', this.isWebSocketConnected);
 
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
@@ -272,7 +272,7 @@ export const apiStore = defineStore('store', {
         ) {
           this.isBackendReachable = true;
           this.attemptsToConnect = 0;
-          console.log('Backend is reachable', new Date().toLocaleTimeString());
+          //console.log('Backend is reachable', new Date().toLocaleTimeString());
         } else if (this.attemptsToConnect < 5) {
           this.attemptsToConnect += 1;
           console.log(

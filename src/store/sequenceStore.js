@@ -208,9 +208,12 @@ export const useSequenceStore = defineStore('sequenceStore', {
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
 
-        // Collect all running items with their names
+        // Collect all running items with their names - always use JSON data for this
         this.runningItems = [];
-        this.collectRunningItems(response.Response);
+        const jsonResponse = await this.getSequenceInfoJson();
+        if (jsonResponse?.Success) {
+          this.collectRunningItems(jsonResponse.Response);
+        }
 
         // Update sequence running state (this will trigger notification if state changed)
         this.setSequenceRunning(isRunning || false);
@@ -340,18 +343,20 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
       containers.forEach((container) => {
         if (container.Items) {
-          this.findRunningItemsRecursive(container.Items);
+          this.findRunningItemsRecursive(container.Items, [container]);
         }
       });
     },
 
-    findRunningItemsRecursive(items) {
+    findRunningItemsRecursive(items, containerHierarchy = []) {
       if (!items || !Array.isArray(items)) return;
 
       items.forEach((item) => {
         // Wenn Item RUNNING ist und verschachtelte Items hat, nur tiefer suchen
         if (item.Status === 'RUNNING' && item.Items && item.Items.length > 0) {
-          this.findRunningItemsRecursive(item.Items);
+          // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist
+          const newHierarchy = item.Name ? [...containerHierarchy, item] : containerHierarchy;
+          this.findRunningItemsRecursive(item.Items, newHierarchy);
         }
         // Wenn Item RUNNING ist aber keine verschachtelten Items hat, hinzufügen
         else if (
@@ -359,13 +364,55 @@ export const useSequenceStore = defineStore('sequenceStore', {
           item.Name &&
           (!item.Items || item.Items.length === 0)
         ) {
-          this.runningItems.push(item.Name);
+          let itemName = item.Name;
+
+          // Erst prüfen, ob das Item selbst Iterations hat
+          if (item.Iterations !== undefined && item.CompletedIterations !== undefined) {
+            itemName = `${item.Name} ${item.CompletedIterations}/${item.Iterations}`;
+          }
+          // Sonst in der gesamten Container-Hierarchie nach Iteration-Information suchen
+          else {
+            const iterationInfo = this.findIterationInfoInHierarchy(containerHierarchy);
+            if (iterationInfo) {
+              itemName = `${item.Name} ${iterationInfo.completed}/${iterationInfo.total}`;
+            }
+          }
+
+          this.runningItems.push(itemName);
         }
         // Wenn Item nicht RUNNING ist, trotzdem tiefer suchen
         else if (item.Items && item.Items.length > 0) {
-          this.findRunningItemsRecursive(item.Items);
+          // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist
+          const newHierarchy = item.Name ? [...containerHierarchy, item] : containerHierarchy;
+          this.findRunningItemsRecursive(item.Items, newHierarchy);
         }
       });
+    },
+
+    findIterationInfoInHierarchy(containerHierarchy) {
+      // Von der äußersten zur innersten Ebene suchen
+      for (let i = containerHierarchy.length - 1; i >= 0; i--) {
+        const container = containerHierarchy[i];
+        const iterationInfo = this.findIterationInfoInConditions(container.Conditions);
+        if (iterationInfo) {
+          return iterationInfo;
+        }
+      }
+      return null;
+    },
+
+    findIterationInfoInConditions(conditions) {
+      if (!conditions || !Array.isArray(conditions)) return null;
+
+      for (const condition of conditions) {
+        if (condition.Iterations !== undefined && condition.CompletedIterations !== undefined) {
+          return {
+            completed: condition.CompletedIterations,
+            total: condition.Iterations
+          };
+        }
+      }
+      return null;
     },
 
     findAndSetTargetName(items) {

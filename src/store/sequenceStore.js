@@ -408,7 +408,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         if (condition.Iterations !== undefined && condition.CompletedIterations !== undefined) {
           return {
             completed: condition.CompletedIterations,
-            total: condition.Iterations
+            total: condition.Iterations,
           };
         }
       }

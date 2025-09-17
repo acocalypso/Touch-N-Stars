@@ -162,10 +162,7 @@
           </label>
           <div>
             <toggleButton
-              @click="
-                settingsStore.stellarium.landscapesVisible =
-                  !settingsStore.stellarium.landscapesVisible
-              "
+              @click="showLandscape"
               :status-value="settingsStore.stellarium.landscapesVisible"
             />
           </div>
@@ -203,6 +200,13 @@ const settingsVisible = ref(false);
 
 function toggleControls() {
   settingsVisible.value = !settingsVisible.value;
+}
+
+function showLandscape() {
+  settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
+  // Emit event to parent to trigger re-render via landscapeSwitch
+  const event = new CustomEvent('refresh-stellarium');
+  window.dispatchEvent(event);
 }
 
 // Check if in landscape mode

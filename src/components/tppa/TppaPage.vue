@@ -377,7 +377,10 @@ async function startAlignment() {
     message.EastDirection = tppaStore.settings.EastDirection;
   }
 
-  if (!store.mountInfo.Connected && store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')) {
+  if (
+    !store.mountInfo.Connected &&
+    store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')
+  ) {
     // if mount is not connected, force manual mode
     message.ManualMode = true;
     console.log('Mount not connected, forcing ManualMode to true');

@@ -227,7 +227,9 @@
         "oldest": "oldest first",
         "newest": "newest first"
       },
-      "time": "Time"
+      "time": "Time",
+      "noRunningItems": "Sequence stopped",
+      "status": "Current status"
     },
     "mount": {
       "title": "Mount",

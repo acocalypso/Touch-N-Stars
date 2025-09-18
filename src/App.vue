@@ -76,6 +76,7 @@
         <StellariumView
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
+          :key="stellariumRefreshKey"
         />
         <router-view v-show="!store.showStellarium" :key="routerViewKey" />
       </div>
@@ -210,6 +211,7 @@ const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
 const landscapeSwitch = ref(null);
+const stellariumRefreshKey = ref(null);
 const routerViewKey = ref(Date.now());
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
@@ -303,6 +305,12 @@ onMounted(async () => {
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Listen for manual Stellarium refresh ONLY
+  window.addEventListener('refresh-stellarium', () => {
+    console.log('Manual Stellarium refresh requested');
+    stellariumRefreshKey.value = Date.now();
+  });
 
   // Timeout für connectionCheckCompleted nach 3 Sekunden
   const connectionTimeout = setTimeout(() => {
@@ -406,6 +414,9 @@ onBeforeUnmount(() => {
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
+  window.removeEventListener('refresh-stellarium', () => {
+    stellariumRefreshKey.value = Date.now();
+  });
 });
 </script>
 

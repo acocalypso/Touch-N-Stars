@@ -9,7 +9,7 @@
         'relative inline-flex h-6 w-12 items-center rounded-full transition-all duration-300 ease-out border shadow-inner backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 hover:shadow-md',
       ]"
       type="button"
-      :aria-pressed="statusValue.toString()"
+      :aria-pressed="statusValue?.toString() || 'false'"
     >
       <span class="sr-only">Toggle camera cooling</span>
 

@@ -53,35 +53,44 @@
           </router-link>
         </div>
 
-        <div v-if="store.mountInfo.Connected">
+        <div>
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              :class="[
-                'icon force-visible',
-                store.mountInfo.AtPark
-                  ? 'text-red-500'
-                  : !store.mountInfo.TrackingEnabled
-                    ? 'text-yellow-500'
-                    : 'text-green-500',
-              ]"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M6 21l6 -5l6 5" />
-              <path d="M12 13v8" />
-              <path
-                d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
+            <div class="relative">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                :class="[
+                  'icon force-visible',
+                  !store.mountInfo.Connected
+                    ? 'text-white'
+                    : store.mountInfo.AtPark
+                      ? 'text-red-500'
+                      : !store.mountInfo.TrackingEnabled
+                        ? 'text-yellow-500'
+                        : 'text-green-500',
+                ]"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 21l6 -5l6 5" />
+                <path d="M12 13v8" />
+                <path
+                  d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
+                />
+                <path d="M14 5l3 5.5" />
+              </svg>
+              <!-- Disconnect Icon - positioned below the mount icon -->
+              <LinkSlashIcon
+                v-if="!store.mountInfo.Connected"
+                class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
               />
-              <path d="M14 5l3 5.5" />
-            </svg>
+            </div>
           </router-link>
         </div>
 
@@ -153,6 +162,41 @@
         <div v-if="store.switchInfo.Connected">
           <router-link to="/switch" class="nav-button" active-class="active-nav-button">
             <AdjustmentsVerticalIcon class="icon force-visible" />
+          </router-link>
+        </div>
+
+        <div v-if="store.filterInfo.Connected">
+          <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
+            <svg
+              baseProfile="full"
+              version="1.1"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon force-visible"
+            >
+              <defs />
+              <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+              <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+              <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+              <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+              <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+              <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+            </svg>
+          </router-link>
+        </div>
+
+        <div v-if="store.rotatorInfo.Connected">
+          <router-link to="/rotator" class="nav-button" active-class="active-nav-button">
+            <svg
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+              class="icon force-visible"
+            >
+              <path
+                d="M6 7L7 6L4.70711 3.70711L5.19868 3.21553C5.97697 2.43724 7.03256 2 8.13323 2C11.361 2 14 4.68015 14 7.93274C14 11.2589 11.3013 14 8 14C6.46292 14 4.92913 13.4144 3.75736 12.2426L2.34315 13.6569C3.90505 15.2188 5.95417 16 8 16C12.4307 16 16 12.3385 16 7.93274C16 3.60052 12.4903 0 8.13323 0C6.50213 0 4.93783 0.647954 3.78447 1.80132L3.29289 2.29289L1 0L0 1V7H6Z"
+              />
+            </svg>
           </router-link>
         </div>
 
@@ -319,6 +363,7 @@ import {
   AdjustmentsVerticalIcon,
   SparklesIcon,
   InformationCircleIcon,
+  LinkSlashIcon,
 } from '@heroicons/vue/24/outline';
 import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useRoute } from 'vue-router';

@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
+import websocketChannelService from '@/services/websocketChannelSocket';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -27,7 +28,15 @@ export const apiStore = defineStore('store', {
     },
     switchInfo: [],
     weatherInfo: [],
+    attemptsToConnect: 0,
     isBackendReachable: false,
+    isWebSocketConnected: false,
+    isTnsPluginConnected: false,
+    isApiConnected: false,
+    isApiVersionNewerOrEqual: false,
+    isTnsPluginVersionNewerOrEqual: false,
+    webSocketDisconnectTime: null,
+    webSocketTimeoutId: null,
     filterName: 'unbekannt',
     filterNr: null,
     showAfGraph: true,
@@ -42,7 +51,7 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.6.0',
+    minimumApiVersion: '2.2.9.0',
     minimumTnsPluginVersion: '1.1.1.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
@@ -58,6 +67,8 @@ export const apiStore = defineStore('store', {
     pageReturnedFromBackground: false,
     pageReturnTime: null,
     isRedirecting: false,
+    isImageFetching: false,
+    backendReachableTimeoutId: null,
   }),
 
   actions: {
@@ -69,7 +80,7 @@ export const apiStore = defineStore('store', {
         for (let attempt = 0; attempt <= retries; attempt++) {
           try {
             result = await fn();
-            // console.log(fn, 'Attempt', attempt);
+            //console.log(fn, 'Attempt', attempt);
             if (result) break;
           } catch (e) {
             // ignore error, continue retrying
@@ -97,29 +108,35 @@ export const apiStore = defineStore('store', {
               autoClose: false,
             });
           }
+          this.isTnsPluginConnected = false;
           this.clearAllStates();
           return;
         } else {
+          this.isTnsPluginConnected = true;
           //Check the plugin version
-          this.currentTnsPluginVersion = tnsVersionResponse.version;
-          this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-            this.currentTnsPluginVersion,
-            this.minimumTnsPluginVersion
-          );
           if (!this.isTnsPluginVersionNewerOrEqual) {
-            console.warn('TNS version incompatible', this.currentTnsPluginVersion);
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_tns_version'),
-                autoClose: false,
-              });
+            this.currentTnsPluginVersion = tnsVersionResponse.version;
+            this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+              this.currentTnsPluginVersion,
+              this.minimumTnsPluginVersion
+            );
+            if (!this.isTnsPluginVersionNewerOrEqual) {
+              console.warn('TNS version incompatible', this.currentTnsPluginVersion);
+              if (!this.errorMessageShown) {
+                toastStore.showToast({
+                  type: 'error',
+                  title: t('app.connection_error_toast.title'),
+                  message: t('app.connection_error_toast.message_tns_version'),
+                  autoClose: false,
+                });
+              }
+              this.clearAllStates();
+              this.isTnsPluginVersionNewerOrEqual = false;
+              return;
             }
-            this.clearAllStates();
-            return;
+            this.isTnsPluginVersionNewerOrEqual = true;
+            console.log('TNS Plugin Version:', this.currentTnsPluginVersion);
           }
-          //console.log('Plugin ok');
         }
 
         if (!this.apiPort) {
@@ -129,6 +146,7 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiPort(),
             this.connectingAttempts
           );
+          //console.log('API Port response:', response);
           if (!response) {
             console.error('API nicht erreichbar');
             if (!this.errorMessageShown) {
@@ -139,19 +157,38 @@ export const apiStore = defineStore('store', {
                 autoClose: false,
               });
             }
+            this.isApiConnected = false;
+            this.apiPort = null;
+            this.clearAllStates();
+            return;
+          }
+          if (response.data === -1) {
+            console.error('API nicht erreichbar');
+            if (!this.errorMessageShown) {
+              toastStore.showToast({
+                type: 'error',
+                title: t('app.connection_error_toast.title'),
+                message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
+              });
+            }
+            this.isApiConnected = false;
+            this.apiPort = null;
             this.clearAllStates();
             return;
           }
           this.apiPort = response.data;
           console.log('api Port:', this.apiPort);
+          this.isApiConnected = true;
         }
 
-        if (this.apiPort) {
+        if (this.isApiConnected) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
             () => apiService.fetchApiVersion(),
             this.connectingAttempts
           );
+          //console.log('API Version response:', responseApiVersion);
           if (!responseApiVersion) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {
@@ -163,34 +200,99 @@ export const apiStore = defineStore('store', {
               });
             }
             this.clearAllStates();
+            this.isApiConnected = false;
+            this.apiPort = null;
             return;
           } else {
-            const apiVersionResponse = await apiService.fetchApiVersion();
-            this.currentApiVersion = apiVersionResponse.Response;
-
-            this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-              this.currentApiVersion,
-              this.minimumApiVersion
-            );
-
+            this.isApiConnected = true;
+            //Check the API version
             if (!this.isApiVersionNewerOrEqual) {
-              console.warn('API version incompatible', this.currentApiVersion);
-              if (!this.errorMessageShown) {
-                toastStore.showToast({
-                  type: 'error',
-                  title: t('app.connection_error_toast.title'),
-                  message: t('app.connection_error_toast.message_api_version'),
-                  autoClose: false,
-                });
+              const apiVersionResponse = await apiService.fetchApiVersion();
+              this.currentApiVersion = apiVersionResponse.Response;
+
+              this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+                this.currentApiVersion,
+                this.minimumApiVersion
+              );
+
+              if (!this.isApiVersionNewerOrEqual) {
+                console.warn('API version incompatible', this.currentApiVersion);
+                if (!this.errorMessageShown) {
+                  toastStore.showToast({
+                    type: 'error',
+                    title: t('app.connection_error_toast.title'),
+                    message: t('app.connection_error_toast.message_api_version'),
+                    autoClose: false,
+                  });
+                }
+                this.clearAllStates();
+                this.isApiVersionNewerOrEqual = false;
+                return;
               }
-              this.clearAllStates();
-              return;
+              console.log('API Version:', this.currentApiVersion);
+              this.isApiVersionNewerOrEqual = true;
             }
           }
         }
 
-        // when everything is accessible
-        this.isBackendReachable = true;
+        /* console.log('API und TNS Plugin reachable');
+        console.log(
+          'Api connected',
+          this.isApiConnected,
+          'TNS connected',
+          this.isTnsPluginConnected
+        );
+        console.log(
+          'Api version ok',
+          this.isApiVersionNewerOrEqual,
+          'TNS version ok',
+          this.isTnsPluginVersionNewerOrEqual
+        ); */
+
+        this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
+        //console.log('WebSocket connected:', this.isWebSocketConnected);
+
+        // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
+        if (!websocketChannelService.isWebSocketConnected()) {
+          // Setup message callback für IMAGE-PREPARED handling
+          websocketChannelService.setMessageCallback((message) => {
+            //console.log('Channel WebSocket Message:', message);
+            this.handleWebSocketMessage(message);
+          });
+          websocketChannelService.connect();
+        }
+
+        // If all conditions are met, mark backend as reachable
+        if (
+          this.isApiConnected &&
+          this.isTnsPluginConnected &&
+          this.isApiVersionNewerOrEqual &&
+          this.isTnsPluginVersionNewerOrEqual &&
+          this.isWebSocketConnected
+        ) {
+          this.isBackendReachable = true;
+          this.attemptsToConnect = 0;
+          //console.log('Backend is reachable', new Date().toLocaleTimeString());
+        } else if (this.attemptsToConnect < 5) {
+          this.attemptsToConnect += 1;
+          console.log(
+            'Backend not reachable, attempt',
+            this.attemptsToConnect,
+            new Date().toLocaleTimeString()
+          );
+        } else {
+          this.clearAllStates();
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_api'),
+            autoClose: false,
+          });
+          console.warn(
+            'Backend not reachable after multiple attempts, clearing states',
+            new Date().toLocaleTimeString()
+          );
+        }
 
         const [
           imageHistoryResponse,
@@ -253,7 +355,12 @@ export const apiStore = defineStore('store', {
     clearAllStates() {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
-      this.apiPort = null;
+      //this.apiPort = null;
+
+      // Channel WebSocket disconnecten wenn Backend nicht erreichbar
+      if (websocketChannelService.isWebSocketConnected()) {
+        websocketChannelService.disconnect();
+      }
     },
 
     handleApiResponses({
@@ -350,14 +457,21 @@ export const apiStore = defineStore('store', {
 
     startFetchingInfo(t) {
       if (!this.intervalId) {
-        this.intervalId = setInterval(() => this.fetchAllInfos(t), 2000);
+        this.attemptsToConnect = 0;
+        this.intervalId = setInterval(() => {
+          this.fetchAllInfos(t);
+        }, 2000);
+        console.log('Started fetching info interval');
       }
     },
 
     stopFetchingInfo() {
       if (this.intervalId) {
+        this.attemptsToConnect = 0;
         clearInterval(this.intervalId);
         this.intervalId = null;
+        websocketChannelService.disconnect();
+        console.log('Stopped fetching info interval');
       }
     },
 
@@ -496,6 +610,42 @@ export const apiStore = defineStore('store', {
       const isRecent = timeDiff < 10000;
 
       return isRecent;
+    },
+
+    async handleWebSocketMessage(message) {
+      //console.log('Handling WebSocket message:', message);
+
+      // Check if message has the expected structure with Response.Event
+      if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
+        // Verhindere mehrfache gleichzeitige Anfragen
+        if (this.isImageFetching) {
+          return;
+        }
+
+        this.isImageFetching = true;
+        try {
+          const settingsStore = useSettingsStore();
+          const cameraStore = useCameraStore();
+
+          // Hole Image Quality aus den Settings
+          const quality = settingsStore.camera.imageQuality || 90;
+
+          // Rufe getImagePrepared auf
+          const imageResponse = await apiService.getImagePrepared(quality);
+
+          if (imageResponse && imageResponse.data) {
+            // Convert Blob to URL für Anzeige
+            const imageUrl = URL.createObjectURL(imageResponse.data);
+
+            // Speichere im CameraStore
+            cameraStore.imageData = imageUrl;
+          }
+        } catch (error) {
+          console.error('Error handling IMAGE-PREPARED message:', error);
+        } finally {
+          this.isImageFetching = false;
+        }
+      }
     },
   },
 });

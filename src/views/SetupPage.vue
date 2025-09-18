@@ -281,7 +281,7 @@ async function nextStep() {
   if (currentStep.value === 5) {
     store.startFetchingInfo();
     store.setupCheckConnectionDone = true;
-    await wait(500);
+    await wait(2500);
     if (!store.isBackendReachable) {
       console.log('Backend not reachable');
       previousStep();
@@ -349,7 +349,7 @@ async function saveInstance() {
     }
     console.log('Backend reachable');
     store.startFetchingInfo();
-    await wait(1500);
+    await wait(2500);
     await locationStore.loadFromAstrometrySettings();
     nextStep();
   } catch (error) {

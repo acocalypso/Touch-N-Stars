@@ -27,6 +27,18 @@
         />
       </div>
     </div>
+    <div class="flex flex-row items-center justify-between w-full">
+      <label for="toggle_Pos" class="text-gray-300">
+        {{ $t('components.tppa.settings.ManualMode') }}
+      </label>
+      <div>
+        <toggleButton
+          @click="toggleManualMode"
+          :status-value="tppaStore.settings.ManualMode"
+          class="pr-5 pl-5 justify-center"
+        />
+      </div>
+    </div>
 
     <!-- Camera Settings -->
     <div class="border-t border-gray-600 pt-2 mt-2">
@@ -90,6 +102,16 @@ function toggleDirection() {
   } else {
     tppaStore.settings.EastDirection = true;
     console.log('EastDirection on');
+  }
+}
+
+function toggleManualMode() {
+  if (tppaStore.settings.ManualMode) {
+    tppaStore.settings.ManualMode = false;
+    console.log('ManualMode off');
+  } else {
+    tppaStore.settings.ManualMode = true;
+    console.log('ManualMode on');
   }
 }
 

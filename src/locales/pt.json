@@ -93,7 +93,8 @@
       },
       "debug": {
         "title": "Debug",
-        "activate": "Ativar modo debug"
+        "activate": "Ativar modo debug",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "Notificações",
@@ -177,7 +178,6 @@
       "message": "Mensagem",
       "download": "Baixar"
     },
-    "navigation": {},
     "sequence": {
       "stats": "Estatísticas",
       "noSequenceLoaded": "Nenhuma sequência carregada",
@@ -268,7 +268,10 @@
         "trackingActive": "Rastreamento ativo",
         "trackingDisabled": "Rastreamento desativado",
         "slewing": "Montagem em movimento",
-        "notSlewing": "Sem movimento"
+        "notSlewing": "Sem movimento",
+        "declination": "DEC",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Hora de Meridian Flip"
       }
     },
     "guider": {
@@ -463,9 +466,11 @@
         "camera_settings_hint": "Deixe em branco para padrões do NINA",
         "exposure_time": "Tempo de exposição (s)",
         "gain": "Ganho",
-        "nina_default": "Padrão NINA"
+        "nina_default": "Padrão NINA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Mover e centralizar",
@@ -506,14 +511,26 @@
       "manual_filter": {
         "title": "Roda de filtros",
         "name": "Mudar para filtro:"
-      }
+      },
+      "availableFilters": "Filtros disponíveis",
+      "currentFilter": "Filtro de corrente",
+      "please_connect_filterwheel": "Por favor, conecte a roda do filtro",
+      "position": "Posição",
+      "title": "Roda de filtro"
     },
     "rotator": {
       "label": "Rotacionador",
       "move": "Mover",
       "notConnected": "Conecte o rotacionador",
       "currentPosition": "Posição atual:",
-      "moving": "Movendo"
+      "moving": "Movendo",
+      "control": "Controlar",
+      "please_connect_rotator": "Por favor, conecte o rotador",
+      "title": "Rotador",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "stationary": "Estacionário",
+      "stepSize": "Step Size"
     },
     "flat": {
       "please_connect_flatDevice": "Conecte o dispositivo flat",
@@ -623,6 +640,11 @@
       },
       "enter_name": "Digite o nome",
       "titel": "Favoritos"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "Sem dados de imagem disponíveis"
+      }
     }
   },
   "plugins": {

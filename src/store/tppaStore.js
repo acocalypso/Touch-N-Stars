@@ -22,6 +22,7 @@ export const useTppaStore = defineStore('tppaStore', {
     settings: {
       StartFromCurrentPosition: false,
       EastDirection: false,
+      ManualMode: false,
       ExposureTime: null,
       Gain: null,
     },

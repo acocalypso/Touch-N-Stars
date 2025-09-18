@@ -1,278 +1,329 @@
 <template>
-  <div class="text-center">
-    <!-- Camera Connection Status -->
-    <div class="w-full flex justify-center mb-3">
-      <div class="max-w-xl">
-        <div
-          v-if="!store.cameraInfo.Connected"
-          class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
-        >
-          <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Hauptbereich, wenn Kamera verbunden -->
-    <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
-      <!-- ZoomableImage Component - Full Screen -->
-      <ZoomableImage
-        :imageData="cameraStore.imageData"
-        :showControls="true"
-        :showDownload="true"
-        :showFullscreen="true"
-        height="100vh"
-        altText="Captured Astrophoto"
-        placeholderText="No image captured yet"
-        @download="handleDownload"
-        @fullscreen="openImageModal"
-        @zoom-change="handleZoomChange"
-        @image-load="handleImageLoad"
-        class="bg-gray-900"
-      >
-        <!-- Custom placeholder -->
-        <template #placeholder>
-          <div class="flex flex-col items-center justify-center text-gray-400">
-            <img
-              src="../assets/Logo_TouchNStars_600x600.png"
-              alt="TouchNStars Logo"
-              class="w-44 h-44 opacity-50 mb-4"
-            />
-            <p class="text-lg">One touch to the stars</p>
+  <div class="camera-page">
+    <div class="text-center">
+      <!-- Camera Connection Status -->
+      <div class="w-full flex justify-center mb-3">
+        <div class="max-w-xl">
+          <div
+            v-if="!store.cameraInfo.Connected"
+            class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+          >
+            <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
           </div>
-        </template>
-      </ZoomableImage>
+        </div>
+      </div>
 
+      <!-- Hauptbereich, wenn Kamera verbunden -->
+      <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
+        <!-- ZoomableImage Component - Full Screen -->
+        <ZoomableImage
+          :imageData="cameraStore.imageData"
+          :showControls="true"
+          :showDownload="true"
+          :showFullscreen="true"
+          height="100vh"
+          altText="Captured Astrophoto"
+          placeholderText="No image captured yet"
+          @download="handleDownload"
+          @fullscreen="openImageModal"
+          @image-load="handleImageLoad"
+          @image-error="handleImageError"
+          class="bg-gray-900"
+        >
+          <!-- Custom placeholder -->
+          <template #placeholder>
+            <div class="flex flex-col items-center justify-center text-gray-400">
+              <img
+                src="../assets/Logo_TouchNStars_600x600.png"
+                alt="TouchNStars Logo"
+                class="w-44 h-44 opacity-50 mb-4"
+              />
+              <p class="text-lg">One touch to the stars</p>
+            </div>
+          </template>
+        </ZoomableImage>
+
+        <div
+          v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
+          :class="iconCenterHere"
+        >
+          <button
+            @click="cameraStore.slewModal = true"
+            class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+            title="Center Here"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Capture Button Overlay -->
+        <div class="absolute inset-0 pointer-events-none z-[55]">
+          <div class="pointer-events-auto">
+            <CaptureButton />
+          </div>
+        </div>
+      </div>
+
+      <!-- Fullscreen Image Modal -->
+      <ImageModal
+        :showModal="showModal"
+        :imageData="cameraStore.imageData"
+        :isLoading="false"
+        @close="closeImageModal"
+      />
+
+      <!-- Slew Modal -->
       <div
-        v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
-        :class="iconCenterHere"
+        v-if="cameraStore.slewModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       >
+        <div
+          class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        >
+          <CenterHere />
+          <button
+            @click="cameraStore.slewModal = false"
+            class="fixed top-2 right-2 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Access Buttons -->
+    <div :class="quickButtonsClasses">
+      <div v-if="store.mountInfo.Connected">
         <button
-          @click="cameraStore.slewModal = true"
-          class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
-          title="Center Here"
+          @click="openModal('mount')"
+          :class="[buttonClasses, { 'glow-green': showMount }]"
+          title="Mount Controls"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            fill="none"
+            :class="iconClasses"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            fill="none"
             stroke="currentColor"
-            class="w-6 h-6"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M6 21l6 -5l6 5" />
+            <path d="M12 13v8" />
+            <path
+              d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
+            />
+            <path d="M14 5l3 5.5" />
+          </svg>
+        </button>
+      </div>
+      <div v-if="store.focuserInfo.Connected">
+        <button
+          @click="openModal('focuser')"
+          :class="[buttonClasses, { 'glow-green': showFocuser }]"
+          title="Focuser Controls"
+        >
+          <EyeIcon :class="iconClasses" />
+        </button>
+      </div>
+      <div v-if="store.filterInfo.Connected">
+        <button
+          @click="openModal('filter')"
+          :class="[buttonClasses, { 'glow-green': showFilter }]"
+          title="Filter Wheel"
+        >
+          <svg
+            :class="iconClasses"
+            baseProfile="full"
+            version="1.1"
+            viewBox="0 0 100 100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs />
+            <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+            <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+            <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+            <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+            <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+            <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+          </svg>
+        </button>
+      </div>
+      <div v-if="store.rotatorInfo.Connected">
+        <button
+          @click="openModal('rotator')"
+          :class="[buttonClasses, { 'glow-green': showRotator }]"
+          title="Rotator Controls"
+        >
+          <svg
+            :class="iconClasses"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
+              d="M6 7L7 6L4.70711 3.70711L5.19868 3.21553C5.97697 2.43724 7.03256 2 8.13323 2C11.361 2 14 4.68015 14 7.93274C14 11.2589 11.3013 14 8 14C6.46292 14 4.92913 13.4144 3.75736 12.2426L2.34315 13.6569C3.90505 15.2188 5.95417 16 8 16C12.4307 16 16 12.3385 16 7.93274C16 3.60052 12.4903 0 8.13323 0C6.50213 0 4.93783 0.647954 3.78447 1.80132L3.29289 2.29289L1 0L0 1V7H6Z"
             />
           </svg>
         </button>
       </div>
+    </div>
 
-      <!-- Capture Button Overlay -->
-      <div class="absolute inset-0 pointer-events-none z-[55]">
-        <div class="pointer-events-auto">
-          <CaptureButton />
+    <ModalTransparanet :show="showMount" @close="showMount = false">
+      <template #header>
+        <div class="flex items-center justify-between w-full">
+          <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
+          <div class="flex items-center gap-2 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+              />
+            </svg>
+            <span class="text-xs">Drag</span>
+          </div>
         </div>
-      </div>
-    </div>
+      </template>
+      <template #body>
+        <moveAxis />
+      </template>
+    </ModalTransparanet>
 
-    <!-- Fullscreen Image Modal -->
-    <ImageModal
-      :showModal="showModal"
-      :imageData="cameraStore.imageData"
-      :isLoading="false"
-      @close="closeImageModal"
-    />
+    <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
+      <template #header>
+        <div class="flex items-center justify-between w-full">
+          <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
+          <div class="flex items-center gap-2 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+              />
+            </svg>
+            <span class="text-xs">Drag</span>
+          </div>
+        </div>
+      </template>
+      <template #body>
+        <div>
+          <MoveFocuser class="w-full" />
+          <ButtonsFastChangePositon class="pt-2" />
+        </div>
+      </template>
+    </ModalTransparanet>
 
-    <!-- Slew Modal -->
-    <div
-      v-if="cameraStore.slewModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-    >
-      <div
-        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-      >
-        <CenterHere />
-        <button
-          @click="cameraStore.slewModal = false"
-          class="fixed top-2 right-2 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
+    <ModalTransparanet :show="showFilter" @close="showFilter = false">
+      <template #header>
+        <div class="flex items-center justify-between w-full">
+          <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
+          <div class="flex items-center gap-2 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+              />
+            </svg>
+            <span class="text-xs">Drag</span>
+          </div>
+        </div>
+      </template>
+      <template #body>
+        <div>
+          <changeFilter />
+        </div>
+      </template>
+    </ModalTransparanet>
+
+    <ModalTransparanet :show="showRotator" @close="showRotator = false">
+      <template #header>
+        <div class="flex items-center justify-between w-full">
+          <h2 class="text-1xl font-semibold">{{ $t('components.rotator.title') }}</h2>
+          <div class="flex items-center gap-2 text-gray-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+              />
+            </svg>
+            <span class="text-xs">Drag</span>
+          </div>
+        </div>
+      </template>
+      <template #body>
+        <div>
+          <controlRotator />
+        </div>
+      </template>
+    </ModalTransparanet>
   </div>
-
-  <!-- Quick Access Buttons -->
-  <div :class="quickButtonsClasses">
-    <div v-if="store.mountInfo.Connected">
-      <button
-        @click="openModal('mount')"
-        :class="[buttonClasses, { 'glow-green': showMount }]"
-        title="Mount Controls"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          :class="iconClasses"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M6 21l6 -5l6 5" />
-          <path d="M12 13v8" />
-          <path
-            d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
-          />
-          <path d="M14 5l3 5.5" />
-        </svg>
-      </button>
-    </div>
-    <div v-if="store.focuserInfo.Connected">
-      <button
-        @click="openModal('focuser')"
-        :class="[buttonClasses, { 'glow-green': showFocuser }]"
-        title="Focuser Controls"
-      >
-        <EyeIcon :class="iconClasses" />
-      </button>
-    </div>
-    <div v-if="store.filterInfo.Connected">
-      <button
-        @click="openModal('filter')"
-        :class="[buttonClasses, { 'glow-green': showFilter }]"
-        title="Filter Wheel"
-      >
-        <svg
-          :class="iconClasses"
-          baseProfile="full"
-          version="1.1"
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs />
-          <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-          <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-          <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-          <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-          <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-          <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <ModalTransparanet :show="showMount" @close="showMount = false">
-    <template #header>
-      <div class="flex items-center justify-between w-full">
-        <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
-        <div class="flex items-center gap-2 text-gray-400">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-            />
-          </svg>
-          <span class="text-xs">Drag</span>
-        </div>
-      </div>
-    </template>
-    <template #body>
-      <moveAxis />
-    </template>
-  </ModalTransparanet>
-
-  <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
-    <template #header>
-      <div class="flex items-center justify-between w-full">
-        <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
-        <div class="flex items-center gap-2 text-gray-400">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-            />
-          </svg>
-          <span class="text-xs">Drag</span>
-        </div>
-      </div>
-    </template>
-    <template #body>
-      <div>
-        <MoveFocuser class="w-full" />
-        <ButtonsFastChangePositon class="pt-2" />
-      </div>
-    </template>
-  </ModalTransparanet>
-
-  <ModalTransparanet :show="showFilter" @close="showFilter = false">
-    <template #header>
-      <div class="flex items-center justify-between w-full">
-        <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
-        <div class="flex items-center gap-2 text-gray-400">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-            />
-          </svg>
-          <span class="text-xs">Drag</span>
-        </div>
-      </div>
-    </template>
-    <template #body>
-      <div>
-        <changeFilter />
-      </div>
-    </template>
-  </ModalTransparanet>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { EyeIcon } from '@heroicons/vue/24/outline';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
@@ -283,17 +334,21 @@ import moveAxis from '@/components/mount/moveAxis.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
+import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import apiService from '@/services/apiService';
 
 // Stores
 const store = apiStore();
 const cameraStore = useCameraStore();
+const settingsStore = useSettingsStore();
 
 // State
 const showModal = ref(false);
 const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
+const showRotator = ref(false);
 
 // Modal Management - togglet das Modal oder schließt andere
 const openModal = (modalType) => {
@@ -304,6 +359,7 @@ const openModal = (modalType) => {
       } else {
         showFocuser.value = false;
         showFilter.value = false;
+        showRotator.value = false;
         showMount.value = true;
       }
       break;
@@ -313,6 +369,7 @@ const openModal = (modalType) => {
       } else {
         showMount.value = false;
         showFilter.value = false;
+        showRotator.value = false;
         showFocuser.value = true;
       }
       break;
@@ -322,7 +379,18 @@ const openModal = (modalType) => {
       } else {
         showMount.value = false;
         showFocuser.value = false;
+        showRotator.value = false;
         showFilter.value = true;
+      }
+      break;
+    case 'rotator':
+      if (showRotator.value) {
+        showRotator.value = false;
+      } else {
+        showMount.value = false;
+        showFocuser.value = false;
+        showFilter.value = false;
+        showRotator.value = true;
       }
       break;
   }
@@ -362,10 +430,6 @@ const handleDownload = async (data) => {
   });
 };
 
-const handleZoomChange = (zoomLevel) => {
-  console.log('Zoom level changed:', zoomLevel);
-};
-
 const handleImageLoad = () => {
   console.log('Image loaded successfully');
 };
@@ -377,6 +441,34 @@ const openImageModal = () => {
 const closeImageModal = () => {
   showModal.value = false;
 };
+
+const handleImageError = (event) => {
+  console.log('Image load error:', event);
+  // Clear imageData on error to show placeholder
+  cameraStore.imageData = null;
+};
+
+// Load image on mount if imageData is empty
+onMounted(async () => {
+  if (!cameraStore.imageData) {
+    try {
+      const quality = settingsStore.camera.imageQuality || 90;
+      console.log(`Loading image on mount with quality: ${quality}`);
+
+      const imageResponse = await apiService.getImagePrepared(quality);
+
+      if (imageResponse && imageResponse.data) {
+        const imageUrl = URL.createObjectURL(imageResponse.data);
+        cameraStore.imageData = imageUrl;
+        console.log('Image loaded successfully on mount');
+      }
+    } catch (error) {
+      console.log('No image available on mount:', error.message);
+      // Keep imageData null/empty on error
+      cameraStore.imageData = null;
+    }
+  }
+});
 </script>
 
 <style scoped>

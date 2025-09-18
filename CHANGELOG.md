@@ -4,14 +4,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.2.2] - 2025-08-27
+## [1.1.4.0] - 2025-xx-xx
+### Important information
+- Advanced API V2.2.10.0 is required
+
 ### Added
+- Three Point Polar Alignment (TPPA): Manual Mode
+
+### Changed
+- The mount page is now always visible. An icon indicates whether the mount is connected.
+
+### Fixed
+- Image statistics: Temperature limited to one decimal place
+
+## [1.1.3.0] - 2025-09-10
+### Important information
+- Advanced API V2.2.9.0 is required
+
+### Added
+- Filterwheel page: Dedicated page with responsive grid layout and status information
+- Rotator page: Dedicated page with enhanced info display and controls
+- Camera page: Quick access buttons and modal popups for rotator controls
+- Navigation: Icons for filterwheel and rotator when equipment is connected
+- Mount info: Added Right Ascension, Declination, and Time to Meridian Flip display
+- TPPA page: Image modal with zoom functionality for viewing camera images during alignment
+- Focuser page: Image modal with zoom functionality for viewing camera images during autofocus
+- TPPA and Focus pages: Add background camera image when running
+- Websocket connection monitoring created
+
+### Changed
+- Rotator: Moved from camera settings modal to dedicated quick access button
+- TPPA page: Mount info display hidden to reduce clutter during alignment process
+- Camera page: The last image taken is now always displayed. As in NINA
 - Mount page: Added slew stop button
 - Info message: Show 'What's new' on first start after an update
+- Removed local notification for now.
+
+### Fixed
+- Fixed bug with switches when a non-writable switch is in the sequence
+- Default gain and offset are now displayed in the sequence instead of -1.
+
+## [1.1.2.2] - 2025-08-22
+### Added
+- Mountpage: Add Slew stop button 
+- Info message: What's new when starting for the first time after an update
 
 ### Fixed
 - Sequence: Display of the filter name
-- Slew stop fixed when only slew was executed
+- Fix Slew stop if only slew was executed
 - Mount websocket connection fix
 
 ## [1.1.2.1] - 2025-08-22

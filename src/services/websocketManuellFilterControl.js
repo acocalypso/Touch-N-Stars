@@ -118,7 +118,7 @@ class WebSocketService {
 
   // Methode zum Senden von Nachrichten
   sendMessage(message) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+    if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message);
     } else {
       console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');

@@ -82,13 +82,14 @@
         "quality": "Kvalita obrázku",
         "strech_factor": "Faktor roztažení",
         "black_clipping": "Černé ořezávání",
-        "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Unlinked Strech",
-        "debayern": "Debayer Image"
+        "DebayeredHFR": "Debayer HFR",
+        "UnlinkedStretch": "Nepropojený Stretch",
+        "debayern": "Debayer Snímek"
       },
       "debug": {
         "title": "Debug",
-        "activate": "Aktivovat debug režim"
+        "activate": "Aktivovat debug režim",
+        "titel": "Debug"
       },
       "notifications": {
         "title": "Oznámení",
@@ -253,7 +254,10 @@
         "trackingActive": "Sledování je aktivní",
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
-        "notSlewing": "Nepřejíždí"
+        "notSlewing": "Nepřejíždí",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "timeToMeridianFlip": "Čas na Překlopení Poledník"
       },
       "location_sync": {
         "noSync": {
@@ -324,7 +328,7 @@
         "calibrationStopped": "Kalibrace zastavena",
         "decOffset": "Dec Offset",
         "direction": "Směr",
-        "east": "Váchod",
+        "east": "Východ",
         "goodCalibration": "Dosaženo vynikající kalibrace",
         "info": "Asistent kalibrace vám pomůže optimálně nastavit polohu montáže pro kalibraci a provést přesnou kalibraci.",
         "meridianOffset": "Posun poledníku",
@@ -461,9 +465,11 @@
         "exposure_time": "Doba Expozice (s)",
         "gain": "Gain",
         "nina_default": "NINA Výchozí",
-        "title": "Nastavení TPPAs"
+        "title": "Nastavení TPPAs",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "logs": {},
     "test": {},
@@ -500,20 +506,32 @@
       }
     },
     "filterwheel": {
+      "title": "Filtrační Kolo",
       "filter": "Filtr:",
       "unknown": "Neznámý",
       "nofilteravailable": "Žádný filtr není k dispozici",
+      "please_connect_filterwheel": "Připojte prosím filtrační kolo",
+      "currentFilter": "Aktuální Filtr",
+      "position": "Pozice",
+      "availableFilters": "Dostupné Filtry",
       "manual_filter": {
         "name": "Změna filtru:",
         "title": "FiltračníKolo"
       }
     },
     "rotator": {
+      "title": "Rotátor",
       "label": "Rotátor",
       "move": "Pohyb",
+      "control": "Ovládání",
       "notConnected": "připojte rotátor",
       "currentPosition": "Současná pozice:",
-      "moving": "Vpohybu"
+      "moving": "V pohybu",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "stationary": "Stationary",
+      "stepSize": "Step Size",
+      "please_connect_rotator": "Please connect rotator"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",
@@ -624,6 +642,11 @@
         "description": "Povolte přijímání oznámení o událostech sekvence.",
         "title": "Konfigurace Oznámení"
       }
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "No image data available"
+      }
     }
   },
   "plugins": {
@@ -729,8 +752,8 @@
           "targetNameTooltip": "Název nebeského tělesa"
         },
         "unparkTelescope": {
-          "description": "Unpark the telescope mount",
-          "name": "Unpark Telescope"
+          "description": "Unpark montáže dalekohledu",
+          "name": "Unpark Dalekohledu"
         },
         "warmCamera": {
           "description": "Zahřát kameru",

@@ -20,6 +20,14 @@
             >
               <Cog6ToothIcon class="w-6 h-6" />
             </button>
+            <button
+              v-if="tppaStore.isRunning"
+              @click="showImageModal = true"
+              class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md hover:bg-cyan-600 transition-colors"
+              title="Show Image"
+            >
+              <PhotoIcon class="w-6 h-6" />
+            </button>
             <ActuellErrorModal />
             <ErrorCircle />
           </div>
@@ -185,7 +193,7 @@
       </div>
     </div>
   </div>
-  <div v-if="tppaStore.isRunning" class="bg-gray-800 p-5 m-5 border border-gray-500 rounded-md">
+  <div v-if="tppaStore.isRunning" class="bg-gray-800/80 p-5 m-5 border border-gray-500 rounded-md">
     <TppaLastStatus />
   </div>
   <div></div>
@@ -199,6 +207,14 @@
       <TppaSettings />
     </template>
   </Modal>
+
+  <!-- Image Modal -->
+  <ImageModal
+    :showModal="showImageModal"
+    :imageData="cameraStore.imageData"
+    :isLoading="false"
+    @close="showImageModal = false"
+  />
 </template>
 
 <script setup>
@@ -211,9 +227,11 @@ import {
   ArrowUpIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
+  PhotoIcon,
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
+import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
@@ -221,13 +239,17 @@ import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
+import ImageModal from '@/components/helpers/imageModal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
+const cameraStore = useCameraStore();
 const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);
+const showImageModal = ref(false);
+let lastMessageTimeout = null;
 
 // Tolerance in arc minutes
 const tolerance = 1;
@@ -323,7 +345,7 @@ function formatMessage(message) {
 
         tppaStore.azimuthCorDirectionLeft = AzimuthError > 0 ? true : false;
         tppaStore.altitudeCorDirectionTop = AltitudeError < 0 ? true : false;
-        // Prüfe, ob sich der Nutzer auf der Südhalbkugel befindet
+        // Check if in southern hemisphere
         tppaStore.isSouthernHemisphere = store.profileInfo.AstrometrySettings.Latitude < 0;
         if (tppaStore.isSouthernHemisphere) {
           console.log('isSouthernHemisphere');
@@ -353,6 +375,15 @@ async function startAlignment() {
   } else {
     message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
     message.EastDirection = tppaStore.settings.EastDirection;
+  }
+
+  if (!store.mountInfo.Connected) {
+    // if mount is not connected, force manual mode
+    message.ManualMode = true;
+    console.log('Mount not connected, forcing ManualMode to true');
+  } else {
+    message.ManualMode = tppaStore.settings.ManualMode;
+    console.log('Mount connected, using ManualMode from settings:', tppaStore.settings.ManualMode);
   }
 
   if (tppaStore.settings.ExposureTime !== null) {
@@ -408,6 +439,14 @@ async function wait(ms) {
 onMounted(() => {
   tppaStore.initialize();
 
+  // Check initial states if there's already a current message
+  if (tppaStore.currentMessage?.message?.Response?.Status) {
+    const status = tppaStore.currentMessage.message.Response.Status;
+    tppaStore.isPause = status === 'Paused';
+    // Set running state based on message - if we have status messages, TPPA is likely running
+    tppaStore.setRunning(status !== 'stopped procedure' && status !== '');
+  }
+
   websocketService.setStatusCallback((status) => {
     console.log('status updated:', status);
     isConnected.value = status === 'Verbunden';
@@ -415,7 +454,7 @@ onMounted(() => {
 
     // Automatische Wiederverbindung wenn Verbindung geschlossen wurde
     if (status === 'Geschlossen') {
-      console.log('Verbindung verloren - starte Wiederverbindung...');
+      console.log('connection closed, trying to reconnect in 3 seconds');
       setTimeout(() => {
         if (!isConnected.value) {
           websocketService.connect();
@@ -425,7 +464,7 @@ onMounted(() => {
   });
 
   websocketService.setMessageCallback((message) => {
-    console.log('New message received:', message);
+    //console.log('New message received:', message);
     const newMessage = {
       message: message,
       time: getCurrentTime(),
@@ -435,15 +474,42 @@ onMounted(() => {
     tppaStore.currentMessage = JSON.parse(JSON.stringify(newMessage));
 
     // Update running state based on message
-    if (message.Response != 'stopped procedure') {
-      tppaStore.setRunning(true);
-      startStop.value = true;
-      console.log('TPPA start');
-    } else if (message.Response === 'stopped procedure') {
+    if (message.Response === 'stopped procedure') {
       tppaStore.setRunning(false);
       startStop.value = false;
       resetErrors();
+    } else if (message.Response) {
+      // Any other response means TPPA is running
+      tppaStore.setRunning(true);
+      startStop.value = true;
     }
+
+    // Update pause state based on WebSocket message status FIRST
+    if (message.Response && message.Response.Status) {
+      tppaStore.isPause = message.Response.Status === 'Paused';
+    }
+
+    // Only set timeout if not paused - when paused, no messages come for longer periods
+    if (message.Response) {
+      if (!tppaStore.isPause) {
+        // Reset timeout for stop detection - if no message for 30 seconds, assume stopped
+        if (lastMessageTimeout) {
+          clearTimeout(lastMessageTimeout);
+        }
+        lastMessageTimeout = setTimeout(() => {
+          console.log('No WebSocket messages for 30 seconds - assuming TPPA stopped');
+          tppaStore.setRunning(false);
+          startStop.value = false;
+          resetErrors();
+        }, 30000);
+      } else {
+        // Clear timeout when paused
+        if (lastMessageTimeout) {
+          clearTimeout(lastMessageTimeout);
+        }
+      }
+    }
+
     formatMessage(message);
   });
 
@@ -451,6 +517,9 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  if (lastMessageTimeout) {
+    clearTimeout(lastMessageTimeout);
+  }
   websocketService.setStatusCallback(null);
   websocketService.setMessageCallback(null);
   websocketService.disconnect();

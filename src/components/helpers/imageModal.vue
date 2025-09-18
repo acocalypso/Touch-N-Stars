@@ -20,7 +20,6 @@
       >
         ✕
       </button>
-
       <!-- Zoom Overlay -->
       <div
         class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-[100] pointer-events-none"
@@ -45,6 +44,9 @@
         ref="imageContainer"
         class="w-full h-full overflow-hidden relative flex items-center justify-center shadow-md shadow-cyan-900"
       >
+        <div v-if="!imageData" class="text-white text-center">
+          <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
+        </div>
         <img
           v-if="imageData"
           :src="imageData"
@@ -59,14 +61,16 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useCameraStore } from '@/store/cameraStore';
 
 const settingsStore = useSettingsStore();
+const cameraStore = useCameraStore();
 
 const props = defineProps({
   showModal: {
@@ -172,6 +176,28 @@ watch(
     }
   }
 );
+
+// Load image on mount if imageData is empty
+onMounted(async () => {
+  if (!cameraStore.imageData) {
+    try {
+      const quality = settingsStore.camera.imageQuality || 90;
+      console.log(`Loading image on mount with quality: ${quality}`);
+
+      const imageResponse = await apiService.getImagePrepared(quality);
+
+      if (imageResponse && imageResponse.data) {
+        const imageUrl = URL.createObjectURL(imageResponse.data);
+        cameraStore.imageData = imageUrl;
+        console.log('Image loaded successfully on mount');
+      }
+    } catch (error) {
+      console.log('No image available on mount:', error.message);
+      // Keep imageData null/empty on error
+      cameraStore.imageData = null;
+    }
+  }
+});
 
 onBeforeUnmount(() => {
   destroyPanzoom();

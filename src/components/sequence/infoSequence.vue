@@ -4,13 +4,16 @@
       v-if="store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')"
       class="p-5 bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg transition-all duration-200 hover:shadow-xl"
     >
-      
       <div class="flex items-center gap-2 pb-4">
         <div class="w-2 h-2 bg-green-300 rounded-full shadow-purple-400/50 shadow-sm"></div>
         <h2 class="font-medium text-lg text-purple-200">{{ $t('components.sequence.status') }}:</h2>
         <SequenceRunningItem />
       </div>
-      <div class="p-5 bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg transition-all duration-200 hover:shadow-xl"><SequenceRunningConditions /></div>
+      <div
+        class="p-5 bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg transition-all duration-200 hover:shadow-xl"
+      >
+        <SequenceRunningConditions />
+      </div>
     </div>
     <!-- Subtle Actions Bar -->
     <div class="mb-3 flex justify-between">

@@ -43,22 +43,6 @@ const runningConditions = computed(() => {
   return conditions;
 });
 
-function statusColor(status) {
-  switch (status) {
-    case 'FINISHED':
-      return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50 shadow-emerald-400/20 shadow-sm';
-    case 'RUNNING':
-      return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50 shadow-cyan-400/20 shadow-sm';
-    case 'CREATED':
-      return 'bg-amber-500/30 text-amber-200 border border-amber-400/50 shadow-amber-400/20 shadow-sm';
-    case 'SKIPPED':
-      return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
-    case 'DISABLED':
-      return 'bg-red-500/30 text-red-300 border border-red-400/50';
-    default:
-      return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
-  }
-}
 
 function getConditionDetails(condition) {
   const details = [];

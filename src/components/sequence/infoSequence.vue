@@ -80,8 +80,8 @@
         v-if="!sequenceStore.isCollapsed('GlobalTrigger')"
         class="p-3 pt-0 overflow-hidden transition-all duration-200 ease-in-out"
       >
-        <RecursiveItemState v-if="sequenceStore.sequenceIsEditable && false" :items="globalTriggers" />
-        <RecursiveItemJson v-if="!sequenceStore.sequenceIsEditable || true" :items="globalTriggers" />
+        <RecursiveItemState v-if="sequenceStore.sequenceIsEditable" :items="globalTriggers" />
+        <RecursiveItemJson v-if="!sequenceStore.sequenceIsEditable" :items="globalTriggers" />
       </div>
     </div>
 

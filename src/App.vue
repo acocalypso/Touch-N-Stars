@@ -194,11 +194,14 @@ import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
+import wsFilter from '@/services/websocketManuellFilterControl';
+import { useFilterStore } from '@/store/filterStore';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
+const filterStore = useFilterStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -374,6 +377,31 @@ watch(
   }
 );
 
+// Watch for Network Filter Wheel connection and manage WebSocket
+watch(
+  () => [store.filterInfo.Connected, store.filterInfo.DeviceId, store.isBackendReachable],
+  ([connected, deviceId, backendReachable]) => {
+    if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
+      // WebSocket aufbauen
+      wsFilter.setStatusCallback((status) => {
+        console.log('WebSocket Filter Status:', status);
+        if (status === 'connected') {
+          filterStore.wsIsConnected = true;
+          console.log('WebSocket Filter verbunden!');
+        } else {
+          filterStore.wsIsConnected = false;
+        }
+      });
+      wsFilter.connect();
+    } else {
+      // WebSocket trennen
+      wsFilter.disconnect();
+      filterStore.wsIsConnected = false;
+    }
+  },
+  { immediate: true }
+);
+
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
@@ -411,6 +439,7 @@ onBeforeUnmount(() => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  wsFilter.disconnect();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);

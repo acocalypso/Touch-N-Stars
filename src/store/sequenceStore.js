@@ -15,6 +15,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceIsEditable: true,
     targetName: '',
     runningItems: [],
+    runningConditions: [],
     lastImage: {
       index: 0,
       quality: 0,
@@ -210,9 +211,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
         // Collect all running items with their names - always use JSON data for this
         this.runningItems = [];
+        this.runningConditions = [];
         const jsonResponse = await this.getSequenceInfoJson();
         if (jsonResponse?.Success) {
           this.collectRunningItems(jsonResponse.Response);
+          this.collectRunningConditions(jsonResponse.Response);
         }
 
         // Update sequence running state (this will trigger notification if state changed)
@@ -346,6 +349,41 @@ export const useSequenceStore = defineStore('sequenceStore', {
           this.findRunningItemsRecursive(container.Items, [container]);
         }
       });
+    },
+
+    collectRunningConditions(containers) {
+      if (!containers || !Array.isArray(containers)) return;
+
+      containers.forEach((container) => {
+        this.findRunningConditionsRecursive(container);
+      });
+    },
+
+    findRunningConditionsRecursive(container) {
+      if (!container) return;
+
+      // Nur Conditions sammeln wenn der Container RUNNING ist
+      if (container.Status === 'RUNNING' && container.Conditions && container.Conditions.length > 0) {
+        this.runningConditions.push(...container.Conditions);
+      }
+
+      // Für Items mit Iterations/ExposureCount eine virtuelle Condition erstellen (nur wenn RUNNING)
+      if (container.Status === 'RUNNING' && container.Iterations !== undefined && container.ExposureCount !== undefined && container.Name) {
+        this.runningConditions.push({
+          Name: `${container.Name}_Iterations`,
+          Status: container.Status,
+          Iterations: container.Iterations,
+          CompletedIterations: container.ExposureCount,
+          Type: 'iterations'
+        });
+      }
+
+      // Rekursiv durch alle Items gehen
+      if (container.Items) {
+        container.Items.forEach(item => {
+          this.findRunningConditionsRecursive(item);
+        });
+      }
     },
 
     findRunningItemsRecursive(items, containerHierarchy = []) {

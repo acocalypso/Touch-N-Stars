@@ -51,6 +51,9 @@
                 <template v-else-if="key === 'TargetTime'">
                   {{ formatDateTime(value) }}
                 </template>
+                <template v-else-if="key === 'TimeToMeridianFlip'">
+                  {{ formatTimeSpan(value) }}
+                </template>
                 <template v-else-if="key === 'Coordinates'">
                   <div class="space-y-1">
                     <div class="flex items-center gap-2">
@@ -185,7 +188,7 @@ defineProps({
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
-const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items']);
+const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items', '_path', 'Issues']);
 
 // Helper functions
 function formatKey(key) {

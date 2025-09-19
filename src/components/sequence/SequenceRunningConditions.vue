@@ -1,6 +1,10 @@
 <template>
   <div v-if="sequenceStore.runningConditions.length > 0" class="space-y-1">
-    <div v-for="(condition, index) in sequenceStore.runningConditions" :key="index" class="text-sm text-gray-300">
+    <div
+      v-for="(condition, index) in sequenceStore.runningConditions"
+      :key="index"
+      class="text-sm text-gray-300"
+    >
       {{ removeSuffix(condition.Name) }}
       <span v-if="getConditionDetails(condition)" class="text-gray-500">
         - {{ getConditionDetails(condition) }}
@@ -19,8 +23,14 @@ function getConditionDetails(condition) {
   const details = [];
 
   // Time-based conditions
-  if (condition.Hours !== undefined && condition.Minutes !== undefined && condition.Seconds !== undefined) {
-    details.push(`Time: ${condition.Hours.toString().padStart(2, '0')}:${condition.Minutes.toString().padStart(2, '0')}:${condition.Seconds.toString().padStart(2, '0')}`);
+  if (
+    condition.Hours !== undefined &&
+    condition.Minutes !== undefined &&
+    condition.Seconds !== undefined
+  ) {
+    details.push(
+      `Time: ${condition.Hours.toString().padStart(2, '0')}:${condition.Minutes.toString().padStart(2, '0')}:${condition.Seconds.toString().padStart(2, '0')}`
+    );
   }
 
   if (condition.RemainingTime) {
@@ -40,11 +50,18 @@ function getConditionDetails(condition) {
 
   // Moon illumination conditions
   if (condition.CurrentIllumination !== undefined && condition.TargetIllumination !== undefined) {
-    details.push(`Moon: ${condition.CurrentIllumination.toFixed(1)}% / ${condition.TargetIllumination}%`);
+    details.push(
+      `Moon: ${condition.CurrentIllumination.toFixed(1)}% / ${condition.TargetIllumination}%`
+    );
   }
 
-  if (condition.CurrentMoonIllumination !== undefined && condition.UserMoonIllumination !== undefined) {
-    details.push(`Moon: ${condition.CurrentMoonIllumination.toFixed(1)}% / ${condition.UserMoonIllumination}%`);
+  if (
+    condition.CurrentMoonIllumination !== undefined &&
+    condition.UserMoonIllumination !== undefined
+  ) {
+    details.push(
+      `Moon: ${condition.CurrentMoonIllumination.toFixed(1)}% / ${condition.UserMoonIllumination}%`
+    );
   }
 
   // Altitude conditions

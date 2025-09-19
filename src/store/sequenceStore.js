@@ -363,24 +363,33 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (!container) return;
 
       // Nur Conditions sammeln wenn der Container RUNNING ist
-      if (container.Status === 'RUNNING' && container.Conditions && container.Conditions.length > 0) {
+      if (
+        container.Status === 'RUNNING' &&
+        container.Conditions &&
+        container.Conditions.length > 0
+      ) {
         this.runningConditions.push(...container.Conditions);
       }
 
       // Für Items mit Iterations/ExposureCount eine virtuelle Condition erstellen (nur wenn RUNNING)
-      if (container.Status === 'RUNNING' && container.Iterations !== undefined && container.ExposureCount !== undefined && container.Name) {
+      if (
+        container.Status === 'RUNNING' &&
+        container.Iterations !== undefined &&
+        container.ExposureCount !== undefined &&
+        container.Name
+      ) {
         this.runningConditions.push({
           Name: `${container.Name}_Iterations`,
           Status: container.Status,
           Iterations: container.Iterations,
           CompletedIterations: container.ExposureCount,
-          Type: 'iterations'
+          Type: 'iterations',
         });
       }
 
       // Rekursiv durch alle Items gehen
       if (container.Items) {
-        container.Items.forEach(item => {
+        container.Items.forEach((item) => {
           this.findRunningConditionsRecursive(item);
         });
       }

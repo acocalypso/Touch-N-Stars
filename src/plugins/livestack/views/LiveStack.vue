@@ -88,9 +88,9 @@
         <div
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
-          <div v-if="currentImageUrl" class="relative">
+          <div v-if="livestackStore.currentImageUrl" class="relative">
             <ZoomableImage
-              :imageData="currentImageUrl"
+              :imageData="livestackStore.currentImageUrl"
               :loading="false"
               :showControls="true"
               :showDownload="false"
@@ -162,7 +162,7 @@ import { useLivestackStore } from '../store/livestackStore';
 
 const livestackStore = useLivestackStore();
 const availableImages = ref([]);
-const currentImageUrl = ref(null);
+// const currentImageUrl = ref(null); // Moved to store
 const currentTarget = ref(null);
 const isLoading = ref(false);
 const isStarting = ref(false);
@@ -220,7 +220,13 @@ const selectFilter = async (filter) => {
   }
 };
 
-const loadImage = async (target, filter) => {
+const loadImage = async (target, filter, forceReload = false) => {
+  // Check if we should reload the image (unless forced)
+  if (!forceReload && !livestackStore.shouldReloadImage(target, filter)) {
+    console.log('Using cached image for', target, filter);
+    return;
+  }
+
   isLoading.value = true;
   errorMessage.value = null;
 
@@ -228,11 +234,7 @@ const loadImage = async (target, filter) => {
     const newImageUrl = await apiService.getLivestackImage(target, filter);
 
     // Only update the image URL after successful load
-    if (currentImageUrl.value) {
-      URL.revokeObjectURL(currentImageUrl.value);
-    }
-
-    currentImageUrl.value = newImageUrl;
+    livestackStore.setCurrentImageUrl(newImageUrl, target, filter);
     lastUpdated.value = new Date().toLocaleTimeString();
   } catch (error) {
     console.error('Error loading image:', error);
@@ -240,6 +242,11 @@ const loadImage = async (target, filter) => {
   } finally {
     isLoading.value = false;
   }
+};
+
+const forceLoadImage = async (target, filter) => {
+  // Force reload even if cached - used for websocket updates
+  await loadImage(target, filter, true);
 };
 
 const refreshImages = async () => {
@@ -306,10 +313,10 @@ const handleWebSocketMessage = (message) => {
     if (Event === 'STACK-UPDATED') {
       console.log(`Stack updated for ${Target} with filter ${Filter} (Auto Refresh ON)`);
 
-      // If this is the currently selected target and filter, reload the image
+      // If this is the currently selected target and filter, force reload the image
       if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {
-        console.log('Reloading current image due to stack update');
-        loadImage(Target, Filter);
+        console.log('Force reloading current image due to stack update');
+        forceLoadImage(Target, Filter);
       }
 
       // Also update the available images list
@@ -338,6 +345,12 @@ onMounted(() => {
 
   // Initial check for available images
   checkImageAvailability();
+
+  // Load current image in background if target and filter are available
+  if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {
+    console.log('Loading cached image on mount:', livestackStore.currentImageTarget, livestackStore.currentImageFilter);
+    forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
+  }
 });
 
 onUnmounted(() => {
@@ -346,10 +359,8 @@ onUnmounted(() => {
     clearInterval(refreshInterval);
   }
 
-  // Clean up image URL
-  if (currentImageUrl.value) {
-    URL.revokeObjectURL(currentImageUrl.value);
-  }
+  // Don't clear image URL here - keep it cached for next visit
+  // livestackStore.clearCurrentImageUrl();
 
   // Disconnect WebSocket
   websocketLivestackService.disconnect();

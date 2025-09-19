@@ -366,18 +366,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
         ) {
           let itemName = item.Name;
 
-          // Erst prüfen, ob das Item selbst Iterations hat
-          if (item.Iterations !== undefined && item.CompletedIterations !== undefined) {
-            itemName = `${item.Name} ${item.CompletedIterations}/${item.Iterations}`;
-          }
-          // Sonst in der gesamten Container-Hierarchie nach Iteration-Information suchen
-          else {
-            const iterationInfo = this.findIterationInfoInHierarchy(containerHierarchy);
-            if (iterationInfo) {
-              itemName = `${item.Name} ${iterationInfo.completed}/${iterationInfo.total}`;
-            }
-          }
-
           this.runningItems.push(itemName);
         }
         // Wenn Item nicht RUNNING ist, trotzdem tiefer suchen

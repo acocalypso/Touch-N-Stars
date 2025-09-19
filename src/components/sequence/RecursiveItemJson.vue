@@ -188,7 +188,15 @@ defineProps({
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
-const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items', '_path', 'Issues']);
+const excludedKeys = new Set([
+  'Name',
+  'Status',
+  'Conditions',
+  'Triggers',
+  'Items',
+  '_path',
+  'Issues',
+]);
 
 // Helper functions
 function formatKey(key) {

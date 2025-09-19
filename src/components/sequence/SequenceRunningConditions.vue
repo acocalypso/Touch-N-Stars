@@ -1,10 +1,6 @@
 <template>
   <div v-if="runningConditions.length > 0" class="space-y-1">
-    <div
-      v-for="(condition, index) in runningConditions"
-      :key="index"
-      class="text-sm text-gray-300"
-    >
+    <div v-for="(condition, index) in runningConditions" :key="index" class="text-sm text-gray-300">
       {{ removeSuffix(condition.Name) }}
       <span v-if="getConditionDetails(condition)" class="text-gray-500">
         - {{ getConditionDetails(condition) }}
@@ -34,13 +30,13 @@ const runningConditions = computed(() => {
     }
 
     if (container.Items) {
-      container.Items.forEach(item => {
+      container.Items.forEach((item) => {
         extractConditionsFromContainer(item);
       });
     }
   }
 
-  sequenceStore.sequenceInfo.forEach(container => {
+  sequenceStore.sequenceInfo.forEach((container) => {
     extractConditionsFromContainer(container);
   });
 
@@ -67,8 +63,14 @@ function statusColor(status) {
 function getConditionDetails(condition) {
   const details = [];
 
-  if (condition.Hours !== undefined && condition.Minutes !== undefined && condition.Seconds !== undefined) {
-    details.push(`Time: ${condition.Hours.toString().padStart(2, '0')}:${condition.Minutes.toString().padStart(2, '0')}:${condition.Seconds.toString().padStart(2, '0')}`);
+  if (
+    condition.Hours !== undefined &&
+    condition.Minutes !== undefined &&
+    condition.Seconds !== undefined
+  ) {
+    details.push(
+      `Time: ${condition.Hours.toString().padStart(2, '0')}:${condition.Minutes.toString().padStart(2, '0')}:${condition.Seconds.toString().padStart(2, '0')}`
+    );
   }
 
   if (condition.Iterations !== undefined) {
@@ -76,8 +78,13 @@ function getConditionDetails(condition) {
     details.push(`Iterations: ${completed}/${condition.Iterations}`);
   }
 
-  if (condition.CurrentMoonIllumination !== undefined && condition.UserMoonIllumination !== undefined) {
-    details.push(`Moon: ${condition.CurrentMoonIllumination.toFixed(1)}% / ${condition.UserMoonIllumination}%`);
+  if (
+    condition.CurrentMoonIllumination !== undefined &&
+    condition.UserMoonIllumination !== undefined
+  ) {
+    details.push(
+      `Moon: ${condition.CurrentMoonIllumination.toFixed(1)}% / ${condition.UserMoonIllumination}%`
+    );
   }
 
   if (condition.InterruptReason) {

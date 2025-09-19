@@ -51,7 +51,7 @@
                 <template v-else-if="key === 'TargetTime'">
                   {{ formatDateTime(value) }}
                 </template>
-                <template v-else-if="key === 'TimeToMeridianFlip'">
+                <template v-else-if="key === 'TimeToFlip'">
                   {{ formatTimeSpan(value) }}
                 </template>
                 <template v-else-if="key === 'Coordinates'">

@@ -85,8 +85,10 @@
 <script setup>
 import { useTppaStore } from '@/store/tppaStore';
 import toggleButton from '../helpers/toggleButton.vue';
+import { apiStore } from '@/store/store';
 
 const tppaStore = useTppaStore();
+const store = apiStore();
 
 function togglePosition() {
   if (tppaStore.settings.StartFromCurrentPosition) {

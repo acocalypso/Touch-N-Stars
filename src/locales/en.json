@@ -209,7 +209,8 @@
           "showImageStats": "Show last image stats",
           "showImgStatsGraph": "Show HFR-Chart",
           "showGuiderAfGraph": "Show autofocus-chart",
-          "display_status_under_image": "Show status below image"
+          "display_status_under_image": "Show status below image",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "RUNNING",
@@ -229,7 +230,7 @@
       },
       "time": "Time",
       "noRunningItems": "Sequence stopped",
-      "status": "Current status"
+      "status": "Sequence status"
     },
     "mount": {
       "title": "Mount",

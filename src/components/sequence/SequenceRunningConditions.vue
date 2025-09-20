@@ -10,7 +10,9 @@
         - {{ getConditionDetails(condition) }}
       </span>
     </div>
-    <div v-if="sequenceStore.runningConditions.length === 0" class="text-gray-500 italic text-sm">No conditions</div>
+    <div v-if="sequenceStore.runningConditions.length === 0" class="text-gray-500 italic text-sm">
+      No conditions
+    </div>
   </div>
 </template>
 <script setup>

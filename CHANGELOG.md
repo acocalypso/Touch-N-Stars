@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Three Point Polar Alignment (TPPA): Manual Mode
-- The current status is now displayed in the sequence. 
+- The current status is now displayed in the sequence and sequence dashboard
 
 ### Changed
 - The mount page is now always visible. An icon indicates whether the mount is connected.

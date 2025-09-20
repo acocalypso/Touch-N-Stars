@@ -64,7 +64,7 @@
       </div>
     </div>
 
-        <div
+    <div
       class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
       <label for="showSequenceCurrentState" class="text-gray-400">

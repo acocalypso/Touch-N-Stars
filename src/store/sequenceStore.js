@@ -389,7 +389,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
         container.Conditions.length > 0
       ) {
         // Nur nicht-disabled Conditions hinzufügen
-        const enabledConditions = container.Conditions.filter(condition => condition.Status !== 'DISABLED');
+        const enabledConditions = container.Conditions.filter(
+          (condition) => condition.Status !== 'DISABLED'
+        );
         this.runningConditions.push(...enabledConditions);
       }
 

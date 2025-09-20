@@ -210,7 +210,8 @@
           "showImageStats": "显示最后一张图像统计",
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderAfGraph": "显示自动对焦图表",
-          "display_status_under_image": "在图片下方显示状态"
+          "display_status_under_image": "在图片下方显示状态",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "运行中",
@@ -228,7 +229,9 @@
         "oldest": "最早优先",
         "newest": "最新优先"
       },
-      "time": "时间"
+      "time": "时间",
+      "noRunningItems": "Sequence stopped",
+      "status": "Sequence status"
     },
     "mount": {
       "title": "赤道仪",

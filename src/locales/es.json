@@ -209,7 +209,8 @@
           "showImageStats": "Mostrar estadísticas de la última imágen",
           "showImgStatsGraph": "Mostrar gráfica HFR",
           "showGuiderAfGraph": "Mostrar gráfica autoenfoque",
-          "display_status_under_image": "Mostrar estado debajo de la imagen"
+          "display_status_under_image": "Mostrar estado debajo de la imagen",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "EJECUTANDOSE",
@@ -227,7 +228,9 @@
         "oldest": "el más antiguo primero",
         "sort": "Ordenar"
       },
-      "time": "Tiempo"
+      "time": "Tiempo",
+      "noRunningItems": "Sequence stopped",
+      "status": "Estado de secuencia"
     },
     "mount": {
       "title": "Montura",

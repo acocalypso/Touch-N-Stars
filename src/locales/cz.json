@@ -208,7 +208,8 @@
           "showImageStats": "Zobrazit statistiku posledního snímku",
           "showImgStatsGraph": "Zobrazit HFR-Graf",
           "showGuiderAfGraph": "Zobrazit graf-ostření",
-          "display_status_under_image": "Zobrazit stav pod obrázkem"
+          "display_status_under_image": "Zobrazit stav pod obrázkem",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "BĚŽÍCÍ",
@@ -226,7 +227,9 @@
         "oldest": "nejstarší první",
         "sort": "Seřadit"
       },
-      "time": "Čas"
+      "time": "Čas",
+      "noRunningItems": "Sequence stopped",
+      "status": "Sequence status"
     },
     "mount": {
       "title": "Montáž",

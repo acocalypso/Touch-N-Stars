@@ -209,7 +209,8 @@
           "showImageStats": "Statistiken des letzten Bildes anzeigen",
           "showImgStatsGraph": "HFR-Diagramm anzeigen",
           "showGuiderAfGraph": "Autofokus-Diagramm anzeigen",
-          "display_status_under_image": "Status unter Bild anzeigen"
+          "display_status_under_image": "Status unter Bild anzeigen",
+          "sequenceCurrentState": "Sequenzstatus anzeigen"
         }
       },
       "running": "WIRD AUSGEFÜHRT",
@@ -227,7 +228,9 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit"
+      "time": "Zeit",
+      "noRunningItems": "Sequenz gestoppt",
+      "status": "Sequenzstatus"
     },
     "mount": {
       "title": "Montierung",

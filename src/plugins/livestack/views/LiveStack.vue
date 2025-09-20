@@ -348,7 +348,11 @@ onMounted(() => {
 
   // Load current image in background if target and filter are available
   if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {
-    console.log('Loading cached image on mount:', livestackStore.currentImageTarget, livestackStore.currentImageFilter);
+    console.log(
+      'Loading cached image on mount:',
+      livestackStore.currentImageTarget,
+      livestackStore.currentImageFilter
+    );
     forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
   }
 });

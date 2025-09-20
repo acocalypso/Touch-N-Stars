@@ -210,12 +210,32 @@ export const useSequenceStore = defineStore('sequenceStore', {
         );
 
         // Collect all running items with their names - always use JSON data for this
-        this.runningItems = [];
-        this.runningConditions = [];
+        const newRunningItems = [];
+        const newRunningConditions = [];
         const jsonResponse = await this.getSequenceInfoJson();
         if (jsonResponse?.Success) {
+          // Temporarily store in local variables
+          const oldRunningItems = this.runningItems;
+          const oldRunningConditions = this.runningConditions;
+
+          this.runningItems = newRunningItems;
+          this.runningConditions = newRunningConditions;
+
           this.collectRunningItems(jsonResponse.Response);
           this.collectRunningConditions(jsonResponse.Response);
+
+          // Only update if arrays actually changed
+          if (JSON.stringify(oldRunningItems) !== JSON.stringify(this.runningItems)) {
+            // runningItems changed, keep new values
+          } else {
+            this.runningItems = oldRunningItems;
+          }
+
+          if (JSON.stringify(oldRunningConditions) !== JSON.stringify(this.runningConditions)) {
+            // runningConditions changed, keep new values
+          } else {
+            this.runningConditions = oldRunningConditions;
+          }
         }
 
         // Update sequence running state (this will trigger notification if state changed)
@@ -368,7 +388,9 @@ export const useSequenceStore = defineStore('sequenceStore', {
         container.Conditions &&
         container.Conditions.length > 0
       ) {
-        this.runningConditions.push(...container.Conditions);
+        // Nur nicht-disabled Conditions hinzufügen
+        const enabledConditions = container.Conditions.filter(condition => condition.Status !== 'DISABLED');
+        this.runningConditions.push(...enabledConditions);
       }
 
       // Für Items mit Iterations/ExposureCount eine virtuelle Condition erstellen (nur wenn RUNNING)

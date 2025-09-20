@@ -1,5 +1,5 @@
 <template>
-  <div v-if="sequenceStore.runningConditions.length > 0" class="space-y-1">
+  <div class="space-y-1">
     <div
       v-for="(condition, index) in sequenceStore.runningConditions"
       :key="index"
@@ -10,8 +10,8 @@
         - {{ getConditionDetails(condition) }}
       </span>
     </div>
+    <div v-if="sequenceStore.runningConditions.length === 0" class="text-gray-500 italic text-sm">No conditions</div>
   </div>
-  <div v-else class="text-gray-500 italic text-sm">No conditions</div>
 </template>
 <script setup>
 import { useSequenceStore } from '@/store/sequenceStore';

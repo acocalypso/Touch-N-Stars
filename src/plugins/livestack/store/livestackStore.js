@@ -30,9 +30,11 @@ export const useLivestackStore = defineStore('livestackStore', {
     },
     shouldReloadImage(target, filter) {
       // Reload if no image cached or target/filter changed
-      return !this.currentImageUrl ||
-             this.currentImageTarget !== target ||
-             this.currentImageFilter !== filter;
+      return (
+        !this.currentImageUrl ||
+        this.currentImageTarget !== target ||
+        this.currentImageFilter !== filter
+      );
     },
     forceReloadImage() {
       // Force reload even if cached - used for websocket updates

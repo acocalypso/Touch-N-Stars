@@ -5,7 +5,7 @@
       :key="index"
       class="text-sm text-gray-300"
     >
-      {{ removeSuffix(condition.Name) }}
+      {{ removeSuffix(condition.Name).replace(/_/g, ' ') }}
       <span v-if="getConditionDetails(condition)" class="text-gray-500">
         - {{ getConditionDetails(condition) }}
       </span>
@@ -34,7 +34,8 @@ function getConditionDetails(condition) {
   }
 
   if (condition.RemainingTime) {
-    details.push(`Remaining: ${condition.RemainingTime}`);
+    const cleanTime = condition.RemainingTime.replace(/\.\d+$/, '');
+    details.push(`Remaining: ${cleanTime}`);
   }
 
   if (condition.TargetTime) {

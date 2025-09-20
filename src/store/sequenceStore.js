@@ -423,6 +423,15 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (!items || !Array.isArray(items)) return;
 
       items.forEach((item) => {
+        // Check for running triggers
+        if (item.Triggers && Array.isArray(item.Triggers)) {
+          item.Triggers.forEach((trigger) => {
+            if (trigger.Name && trigger.Status === 'RUNNING') {
+              this.runningItems.push(trigger.Name);
+            }
+          });
+        }
+
         // Wenn Item RUNNING ist und verschachtelte Items hat, nur tiefer suchen
         if (item.Status === 'RUNNING' && item.Items && item.Items.length > 0) {
           // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist

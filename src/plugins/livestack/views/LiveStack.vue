@@ -157,7 +157,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
-import websocketLivestackService from '@/services/apiSocket.js';
+import websocketLivestackService from '@/services/websocketLivestack.js';
 import { useLivestackStore } from '../store/livestackStore';
 
 const livestackStore = useLivestackStore();

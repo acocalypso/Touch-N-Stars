@@ -52,12 +52,6 @@
             <p v-if="lastUpdated" class="text-gray-400 text-sm mt-1">
               Last updated: {{ lastUpdated }}
             </p>
-            <p class="text-gray-400 text-xs mt-1">
-              WebSocket:
-              <span :class="wsStatus === 'connected' ? 'text-green-400' : 'text-red-400'">
-                {{ wsStatus === 'connected' ? 'Connected' : 'Disconnected' }}
-              </span>
-            </p>
           </div>
         </div>
 

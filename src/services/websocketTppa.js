@@ -34,9 +34,9 @@ class WebSocketService {
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
-      console.log('WebSocket verbunden.');
+      console.log('WebSocket TPPA connected.');
       if (this.statusCallback) {
-        this.statusCallback('Verbunden');
+        this.statusCallback('connected');
       }
     };
 
@@ -57,9 +57,9 @@ class WebSocketService {
     };
 
     this.socket.onerror = (error) => {
-      console.error('WebSocket-Fehler:', error);
+      console.error('WebSocket-Error:', error);
       if (this.statusCallback) {
-        this.statusCallback('Fehler: ' + error.message);
+        this.statusCallback('Error: ' + error.message);
       }
     };
 
@@ -87,9 +87,9 @@ class WebSocketService {
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message);
     } else {
-      console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
+      console.error('WebSocket TPPA is not connected. Message could not be sent.');
       if (this.statusCallback) {
-        this.statusCallback('Fehler: WebSocket nicht verbunden');
+        this.statusCallback('Error: WebSocket TPPA not connected');
       }
     }
   }

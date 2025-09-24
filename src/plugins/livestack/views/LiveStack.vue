@@ -157,12 +157,11 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
-import websocketLivestackService from '@/services/websocketLivestack.js';
+import websocketLivestackService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore';
 
 const livestackStore = useLivestackStore();
 const availableImages = ref([]);
-// const currentImageUrl = ref(null); // Moved to store
 const currentTarget = ref(null);
 const isLoading = ref(false);
 const isStarting = ref(false);
@@ -341,7 +340,7 @@ onMounted(() => {
   websocketLivestackService.setMessageCallback(handleWebSocketMessage);
 
   // Connect to WebSocket
-  websocketLivestackService.connect();
+  //websocketLivestackService.connect();
 
   // Initial check for available images
   checkImageAvailability();
@@ -367,6 +366,6 @@ onUnmounted(() => {
   // livestackStore.clearCurrentImageUrl();
 
   // Disconnect WebSocket
-  websocketLivestackService.disconnect();
+  //websocketLivestackService.disconnect();
 });
 </script>

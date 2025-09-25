@@ -90,13 +90,18 @@
           </div>
         </div>
         <!-- Triggers Section -->
-        <div v-if="item.Triggers?.length" class="mb-3">
+        <div v-if="item.Triggers?.length" class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2">
           <div class="flex items-center justify-between gap-2 mb-2">
-            <div class="flex items-center gap-2">
-              <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
-              <h4 class="text-sm font-medium text-emerald-200">
-                {{ $t('components.sequence.triggers') }}
-              </h4>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center justify-center w-6 h-6 bg-emerald-500/20 rounded-full border border-emerald-400/50">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
+              </div>
+              <div class="flex flex-col">
+                <h4 class="text-sm font-semibold text-emerald-200">
+                  {{ $t('components.sequence.triggers') }}
+                </h4>
+                <span class="text-xs text-emerald-300/70">Auslösebedingungen</span>
+              </div>
             </div>
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
@@ -192,13 +197,18 @@
         </div>
 
         <!-- Conditions -->
-        <div v-if="item.Conditions?.length" class="mb-3">
+        <div v-if="item.Conditions?.length" class="mb-3 bg-orange-900/20 rounded-lg border border-orange-500/30 p-2">
           <div class="flex items-center justify-between gap-2 mb-2">
-            <div class="flex items-center gap-2">
-              <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
-              <h4 class="text-sm font-medium text-orange-200">
-                {{ $t('components.sequence.conditions') }}
-              </h4>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center justify-center w-6 h-6 bg-orange-500/20 rounded-full border border-orange-400/50">
+                <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
+              </div>
+              <div class="flex flex-col">
+                <h4 class="text-sm font-semibold text-orange-200">
+                  {{ $t('components.sequence.conditions') }}
+                </h4>
+                <span class="text-xs text-orange-300/70">Wartebedingungen</span>
+              </div>
             </div>
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)"

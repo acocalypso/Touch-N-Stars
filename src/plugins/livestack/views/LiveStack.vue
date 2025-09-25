@@ -11,15 +11,17 @@
           <div class="flex justify-center space-x-4 mb-4">
             <button
               @click="startLivestack"
-              :disabled="isStarting"
-              class="px-4 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+              class="default-button-green"
             >
               {{ isStarting ? 'Starting...' : 'Start Livestack' }}
+            </button>
+            <button @click="stopLivestack" class="default-button-red">
+              {{ 'Stop Livestack' }}
             </button>
             <button
               @click="toggleAutoRefresh"
               :class="
-                autoRefresh ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700'
+                autoRefresh ? 'default-button-blue' : 'default-button-gray'
               "
               class="px-4 py-2 text-white rounded-lg transition-colors"
             >
@@ -28,7 +30,7 @@
             <button
               @click="refreshImages"
               :disabled="isLoading"
-              class="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+              class="default-button-blue"
             >
               {{ isLoading ? 'Loading...' : 'Refresh Images' }}
             </button>
@@ -180,6 +182,24 @@ const startLivestack = async () => {
   } catch (error) {
     console.error('Error starting livestack:', error);
     errorMessage.value = 'Error starting livestack: ' + error.message;
+  } finally {
+    isStarting.value = false;
+  }
+};
+
+const stopLivestack = async () => {
+  errorMessage.value = null;
+
+  try {
+    const result = await apiService.livestackStop();
+    if (result.Success) {
+      console.log('Livestack stop successfully');
+    } else {
+      errorMessage.value = result.Error || 'Failed to stop livestack';
+    }
+  } catch (error) {
+    console.error('Error stoping livestack:', error);
+    errorMessage.value = 'Error stoping livestack: ' + error.message;
   } finally {
     isStarting.value = false;
   }

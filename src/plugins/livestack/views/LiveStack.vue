@@ -11,28 +11,14 @@
           <div class="flex justify-center space-x-4 mb-4">
             <button
               @click="startLivestack"
-              class="default-button-green"
+              class="default-button-green flex items-center justify-center"
+              :disabled="isStarting"
             >
-              {{ isStarting ? 'Starting...' : 'Start Livestack' }}
+              <PlayIcon v-if="!isStarting" class="w-5 h-5" />
+              <ArrowPathIcon v-else class="w-5 h-5 animate-spin" />
             </button>
-            <button @click="stopLivestack" class="default-button-red">
-              {{ 'Stop Livestack' }}
-            </button>
-            <button
-              @click="toggleAutoRefresh"
-              :class="
-                autoRefresh ? 'default-button-blue' : 'default-button-gray'
-              "
-              class="px-4 py-2 text-white rounded-lg transition-colors"
-            >
-              {{ autoRefresh ? 'Stop Auto Refresh' : 'Start Auto Refresh' }}
-            </button>
-            <button
-              @click="refreshImages"
-              :disabled="isLoading"
-              class="default-button-blue"
-            >
-              {{ isLoading ? 'Loading...' : 'Refresh Images' }}
+            <button @click="stopLivestack" class="default-button-red flex items-center justify-center">
+              <StopIcon class="w-5 h-5" />
             </button>
           </div>
 
@@ -155,13 +141,13 @@ import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketLivestackService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore';
+import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 const livestackStore = useLivestackStore();
 const availableImages = ref([]);
 const currentTarget = ref(null);
 const isLoading = ref(false);
 const isStarting = ref(false);
-const autoRefresh = ref(true);
 const lastUpdated = ref(null);
 const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
@@ -280,22 +266,6 @@ const refreshImages = async () => {
   }
 };
 
-const toggleAutoRefresh = () => {
-  autoRefresh.value = !autoRefresh.value;
-
-  if (autoRefresh.value) {
-    refreshInterval = setInterval(() => {
-      if (!isLoading.value) {
-        refreshImages();
-      }
-    }, 5000);
-  } else {
-    if (refreshInterval) {
-      clearInterval(refreshInterval);
-      refreshInterval = null;
-    }
-  }
-};
 
 const handleZoomChange = (zoomLevel) => {
   console.log('Livestack image zoom level changed:', zoomLevel);
@@ -319,12 +289,12 @@ const handleWebSocketStatus = (status) => {
 const handleWebSocketMessage = (message) => {
   console.log('Received livestack WebSocket message:', message);
 
-  // Handle STACK-UPDATED events only if auto refresh is enabled
-  if (message.Type === 'Socket' && message.Success && message.Response && autoRefresh.value) {
+  // Handle STACK-UPDATED events
+  if (message.Type === 'Socket' && message.Success && message.Response) {
     const { Target, Filter, Event } = message.Response;
 
     if (Event === 'STACK-UPDATED') {
-      console.log(`Stack updated for ${Target} with filter ${Filter} (Auto Refresh ON)`);
+      console.log(`Stack updated for ${Target} with filter ${Filter}`);
 
       // If this is the currently selected target and filter, force reload the image
       if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {
@@ -334,16 +304,6 @@ const handleWebSocketMessage = (message) => {
 
       // Also update the available images list
       checkImageAvailability();
-    }
-  } else if (
-    message.Type === 'Socket' &&
-    message.Success &&
-    message.Response &&
-    !autoRefresh.value
-  ) {
-    const { Event } = message.Response;
-    if (Event === 'STACK-UPDATED') {
-      console.log('Stack updated but Auto Refresh is OFF - ignoring');
     }
   }
 };
@@ -358,6 +318,13 @@ onMounted(() => {
 
   // Initial check for available images
   checkImageAvailability();
+
+  // Start auto refresh interval
+  refreshInterval = setInterval(() => {
+    if (!isLoading.value) {
+      refreshImages();
+    }
+  }, 5000);
 
   // Load current image in background if target and filter are available
   if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {

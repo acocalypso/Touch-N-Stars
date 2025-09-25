@@ -95,12 +95,9 @@
               <div class="flex items-center justify-center w-6 h-6 bg-emerald-500/20 rounded-full border border-emerald-400/50">
                 <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
               </div>
-              <div class="flex flex-col">
-                <h4 class="text-sm font-semibold text-emerald-200">
-                  {{ $t('components.sequence.triggers') }}
-                </h4>
-                <span class="text-xs text-emerald-300/70">Auslösebedingungen</span>
-              </div>
+              <h4 class="text-sm font-semibold text-emerald-200">
+                {{ $t('components.sequence.triggers') }}
+              </h4>
             </div>
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
@@ -202,12 +199,9 @@
               <div class="flex items-center justify-center w-6 h-6 bg-orange-500/20 rounded-full border border-orange-400/50">
                 <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
               </div>
-              <div class="flex flex-col">
-                <h4 class="text-sm font-semibold text-orange-200">
-                  {{ $t('components.sequence.conditions') }}
-                </h4>
-                <span class="text-xs text-orange-300/70">Wartebedingungen</span>
-              </div>
+              <h4 class="text-sm font-semibold text-orange-200">
+                {{ $t('components.sequence.conditions') }}
+              </h4>
             </div>
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)"
@@ -528,7 +522,7 @@
                 <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
               </div>
               <h4 class="text-sm font-semibold text-cyan-200">
-                Instructions
+                {{ $t('components.sequence.instructions') }}
               </h4>
             </div>
             <button

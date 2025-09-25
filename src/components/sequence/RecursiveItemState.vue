@@ -91,14 +91,29 @@
         </div>
         <!-- Triggers Section -->
         <div v-if="item.Triggers?.length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
-            <h4 class="text-sm font-medium text-emerald-200">
-              {{ $t('components.sequence.triggers') }}
-            </h4>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
+              <h4 class="text-sm font-medium text-emerald-200">
+                {{ $t('components.sequence.triggers') }}
+              </h4>
+            </div>
+            <button
+              @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
+              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              :title="sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) ? 'Erweitern' : 'Zusammenklappen'"
+            >
+              <ChevronRightIcon
+                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) }"
+              />
+            </button>
           </div>
 
-          <div class="space-y-1">
+          <div
+            v-show="!sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)"
+            class="space-y-1"
+          >
             <div
               v-for="(trigger, tIndex) in item.Triggers"
               :key="tIndex"
@@ -178,13 +193,28 @@
 
         <!-- Conditions -->
         <div v-if="item.Conditions?.length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
-            <h4 class="text-sm font-medium text-orange-200">
-              {{ $t('components.sequence.conditions') }}
-            </h4>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
+              <h4 class="text-sm font-medium text-orange-200">
+                {{ $t('components.sequence.conditions') }}
+              </h4>
+            </div>
+            <button
+              @click="sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)"
+              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              :title="sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`) ? 'Erweitern' : 'Zusammenklappen'"
+            >
+              <ChevronRightIcon
+                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`) }"
+              />
+            </button>
           </div>
-          <div class="space-y-1">
+          <div
+            v-show="!sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`)"
+            class="space-y-1"
+          >
             <div
               v-for="(condition, cIndex) in item.Conditions"
               :key="cIndex"

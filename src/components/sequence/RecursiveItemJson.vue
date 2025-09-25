@@ -112,13 +112,28 @@
 
         <!-- Triggers Section -->
         <div v-if="item.Triggers?.length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">
-              {{ $t('components.sequence.triggers') }}
-            </h4>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+              <h4 class="text-sm font-medium text-slate-200">
+                {{ $t('components.sequence.triggers') }}
+              </h4>
+            </div>
+            <button
+              @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
+              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              :title="sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) ? 'Erweitern' : 'Zusammenklappen'"
+            >
+              <ChevronRightIcon
+                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) }"
+              />
+            </button>
           </div>
-          <div class="space-y-1">
+          <div
+            v-show="!sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)"
+            class="space-y-1"
+          >
             <div
               v-for="(trigger, tIndex) in item.Triggers"
               :key="tIndex"
@@ -172,6 +187,7 @@
 import { defineProps } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
+import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 

@@ -92,9 +92,7 @@
         <div v-if="item.Triggers?.length" class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2">
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
-              <div class="flex items-center justify-center w-6 h-6 bg-emerald-500/20 rounded-full border border-emerald-400/50">
-                <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
-              </div>
+              <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
               <h4 class="text-sm font-semibold text-emerald-200">
                 {{ $t('components.sequence.triggers') }}
               </h4>
@@ -196,9 +194,7 @@
         <div v-if="item.Conditions?.length" class="mb-3 bg-orange-900/20 rounded-lg border border-orange-500/30 p-2">
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
-              <div class="flex items-center justify-center w-6 h-6 bg-orange-500/20 rounded-full border border-orange-400/50">
-                <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
-              </div>
+              <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
               <h4 class="text-sm font-semibold text-orange-200">
                 {{ $t('components.sequence.conditions') }}
               </h4>
@@ -514,9 +510,7 @@
         <div v-if="item.Items?.length" class="mt-3 bg-cyan-900/20 rounded-lg border border-cyan-500/30 p-2">
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
-              <div class="flex items-center justify-center w-6 h-6 bg-cyan-500/20 rounded-full border border-cyan-400/50">
-                <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
-              </div>
+              <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
               <h4 class="text-sm font-semibold text-cyan-200">
                 {{ $t('components.sequence.instructions') }}
               </h4>

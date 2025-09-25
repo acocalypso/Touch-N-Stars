@@ -54,12 +54,27 @@
         class="p-2 sm:p-3 pt-0"
       >
         <!-- Target Information Section -->
-        <div v-if="item.Target" class="mb-3">
-          <div class="bg-gray-800/60 rounded-md p-2 sm:p-3 border border-amber-500/20">
-            <div class="flex items-center gap-2 mb-2">
-              <div class="w-2 h-2 bg-amber-400 rounded-full shadow-amber-400/50 shadow-sm"></div>
-              <span class="text-sm font-medium text-amber-200">Target Coordinates</span>
+        <div v-if="item.Target" class="mb-3 bg-gray-900/20 rounded-lg border border-gray-500/30 p-2">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 bg-gray-400 rounded-full shadow-gray-400/50 shadow-sm"></div>
+              <h4 class="text-sm font-semibold text-gray-200">Target Coordinates</h4>
             </div>
+            <button
+              @click="sequenceStore.toggleCollapsedState(`${item._path || 'target'}-target`)"
+              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              :title="sequenceStore.isCollapsed(`${item._path || 'target'}-target`) ? 'Erweitern' : 'Zusammenklappen'"
+            >
+              <ChevronRightIcon
+                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'target'}-target`) }"
+              />
+            </button>
+          </div>
+          <div
+            v-show="!sequenceStore.isCollapsed(`${item._path || 'target'}-target`)"
+            class="bg-gray-800/60 rounded-md p-2 sm:p-3 border border-amber-500/20"
+          >
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div class="flex items-center gap-2">
                 <span class="text-amber-300 text-sm font-medium w-12 flex-shrink-0">RA:</span>

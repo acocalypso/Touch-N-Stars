@@ -229,7 +229,8 @@
       },
       "time": "Čas",
       "noRunningItems": "Sequence stopped",
-      "status": "Sequence status"
+      "status": "Sequence status",
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Montáž",

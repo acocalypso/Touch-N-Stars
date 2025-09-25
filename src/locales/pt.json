@@ -230,7 +230,8 @@
       },
       "time": "Tempo",
       "noRunningItems": "Sequence stopped",
-      "status": "Status da sequência"
+      "status": "Status da sequência",
+      "instructions": "Instruções"
     },
     "mount": {
       "title": "Montagem",

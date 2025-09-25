@@ -231,7 +231,8 @@
       },
       "time": "时间",
       "noRunningItems": "Sequence stopped",
-      "status": "Sequence status"
+      "status": "Sequence status",
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "赤道仪",

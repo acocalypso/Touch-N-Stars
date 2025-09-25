@@ -781,7 +781,7 @@ function getDisplayFields(item) {
 
 function getDisplayFieldsConditions(item) {
   return Object.entries(item).filter(
-    ([key]) => !excludedKeysConditions.has(key) && item[key] !== undefined && item[key]
+    ([key]) => !excludedKeysConditions.has(key) && item[key] !== undefined && item[key] !== null
   );
 }
 

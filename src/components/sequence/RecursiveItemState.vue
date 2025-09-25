@@ -54,7 +54,10 @@
         class="p-2 sm:p-3 pt-0"
       >
         <!-- Target Information Section -->
-        <div v-if="item.Target" class="mb-3 bg-gray-900/20 rounded-lg border border-gray-500/30 p-2">
+        <div
+          v-if="item.Target"
+          class="mb-3 bg-gray-900/20 rounded-lg border border-gray-500/30 p-2"
+        >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
               <div class="w-2 h-2 bg-gray-400 rounded-full shadow-gray-400/50 shadow-sm"></div>
@@ -63,11 +66,17 @@
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'target'}-target`)"
               class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="sequenceStore.isCollapsed(`${item._path || 'target'}-target`) ? 'Erweitern' : 'Zusammenklappen'"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'target'}-target`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
             >
               <ChevronRightIcon
                 class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'target'}-target`) }"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'target'}-target`),
+                }"
               />
             </button>
           </div>
@@ -104,10 +113,15 @@
           </div>
         </div>
         <!-- Triggers Section -->
-        <div v-if="item.Triggers?.length" class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2">
+        <div
+          v-if="item.Triggers?.length"
+          class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2"
+        >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
-              <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
+              <div
+                class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"
+              ></div>
               <h4 class="text-sm font-semibold text-emerald-200">
                 {{ $t('components.sequence.triggers') }}
               </h4>
@@ -115,11 +129,17 @@
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
               class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) ? 'Erweitern' : 'Zusammenklappen'"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
             >
               <ChevronRightIcon
                 class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) }"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`),
+                }"
               />
             </button>
           </div>
@@ -206,7 +226,10 @@
         </div>
 
         <!-- Conditions -->
-        <div v-if="item.Conditions?.length" class="mb-3 bg-orange-900/20 rounded-lg border border-orange-500/30 p-2">
+        <div
+          v-if="item.Conditions?.length"
+          class="mb-3 bg-orange-900/20 rounded-lg border border-orange-500/30 p-2"
+        >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
               <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
@@ -215,13 +238,23 @@
               </h4>
             </div>
             <button
-              @click="sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)"
+              @click="
+                sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)
+              "
               class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`) ? 'Erweitern' : 'Zusammenklappen'"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
             >
               <ChevronRightIcon
                 class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`) }"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(
+                    `${item._path || 'conditions'}-conditions`
+                  ),
+                }"
               />
             </button>
           </div>
@@ -522,7 +555,10 @@
         </div>
 
         <!-- Nested Items -->
-        <div v-if="item.Items?.length" class="mt-3 bg-cyan-900/20 rounded-lg border border-cyan-500/30 p-2">
+        <div
+          v-if="item.Items?.length"
+          class="mt-3 bg-cyan-900/20 rounded-lg border border-cyan-500/30 p-2"
+        >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
               <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
@@ -533,11 +569,17 @@
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
               class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="sequenceStore.isCollapsed(`${item._path || 'items'}-items`) ? 'Erweitern' : 'Zusammenklappen'"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
             >
               <ChevronRightIcon
                 class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`) }"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`),
+                }"
               />
             </button>
           </div>

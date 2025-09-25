@@ -17,7 +17,10 @@
               <PlayIcon v-if="!isStarting" class="w-5 h-5" />
               <ArrowPathIcon v-else class="w-5 h-5 animate-spin" />
             </button>
-            <button @click="stopLivestack" class="default-button-red flex items-center justify-center">
+            <button
+              @click="stopLivestack"
+              class="default-button-red flex items-center justify-center"
+            >
               <StopIcon class="w-5 h-5" />
             </button>
           </div>
@@ -265,7 +268,6 @@ const refreshImages = async () => {
     errorMessage.value = 'No images available from livestack';
   }
 };
-
 
 const handleZoomChange = (zoomLevel) => {
   console.log('Livestack image zoom level changed:', zoomLevel);

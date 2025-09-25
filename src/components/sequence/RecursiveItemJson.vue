@@ -93,7 +93,10 @@
         </div>
 
         <!-- Nested Items -->
-        <div v-if="item.Items?.length" class="mt-3 bg-cyan-900/20 rounded-lg border border-cyan-500/30 p-2">
+        <div
+          v-if="item.Items?.length"
+          class="mt-3 bg-cyan-900/20 rounded-lg border border-cyan-500/30 p-2"
+        >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
               <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
@@ -104,11 +107,17 @@
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
               class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="sequenceStore.isCollapsed(`${item._path || 'items'}-items`) ? 'Erweitern' : 'Zusammenklappen'"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
             >
               <ChevronRightIcon
                 class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`) }"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`),
+                }"
               />
             </button>
           </div>
@@ -130,10 +139,15 @@
         </div>
 
         <!-- Triggers Section -->
-        <div v-if="item.Triggers?.length" class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2">
+        <div
+          v-if="item.Triggers?.length"
+          class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2"
+        >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
-              <div class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"></div>
+              <div
+                class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"
+              ></div>
               <h4 class="text-sm font-semibold text-emerald-200">
                 {{ $t('components.sequence.triggers') }}
               </h4>
@@ -141,11 +155,17 @@
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
               class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) ? 'Erweitern' : 'Zusammenklappen'"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
             >
               <ChevronRightIcon
                 class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{ 'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`) }"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`),
+                }"
               />
             </button>
           </div>

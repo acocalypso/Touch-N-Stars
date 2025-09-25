@@ -13,18 +13,6 @@
       <!-- Header with Collapse Button -->
       <div class="flex justify-between items-center p-2 sm:p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">
-          <button
-            v-if="hasContent(item)"
-            @click="sequenceStore.toggleCollapsedState(item._path)"
-            class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-            :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
-          >
-            <ChevronRightIcon
-              class="w-4 h-4 text-gray-400 transition-transform duration-200"
-              :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
-            />
-          </button>
-          <div v-else class="w-6 flex-shrink-0"></div>
           <h3 class="font-medium text-gray-100 text-sm md:text-base truncate">
             {{ removeSuffix(item.Name) }}
           </h3>
@@ -45,6 +33,17 @@
             <PowerIcon
               class="w-4 h-4"
               :class="item.Status === 'DISABLED' ? 'text-red-400' : 'text-emerald-400'"
+            />
+          </button>
+          <button
+            v-if="hasContent(item)"
+            @click="sequenceStore.toggleCollapsedState(item._path)"
+            class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+            :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
+          >
+            <ChevronRightIcon
+              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+              :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
             />
           </button>
         </div>

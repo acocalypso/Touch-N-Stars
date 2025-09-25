@@ -31,10 +31,6 @@
       <!-- Dynamic Details Grid -->
       <div class="p-2 sm:p-3 pt-0">
         <div v-if="getDisplayFields(item).length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">Properties</h4>
-          </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div
               v-for="[key, value] in getDisplayFields(item)"

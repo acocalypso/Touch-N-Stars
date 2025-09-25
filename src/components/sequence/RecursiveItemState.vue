@@ -345,10 +345,6 @@
 
         <!--Item Properties-->
         <div v-if="getDisplayFields(item).length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
-            <h4 class="text-sm font-medium text-cyan-200">Properties</h4>
-          </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
             <div
               v-for="[key, value] in getDisplayFields(item)"

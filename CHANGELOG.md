@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The mount page is now always visible. An icon indicates whether the mount is connected.
 - There is now a refresh button in iOS to reload Stellarium.
+- Sequence design adapted
 
 ### Fixed
 - Image statistics: Temperature limited to one decimal place

@@ -25,7 +25,14 @@
       </svg>
     </div>
     <!--Camera-->
-    <div v-if="store.cameraInfo.Connected" class="flex items-center gap-1">
+    <button
+      v-if="store.cameraInfo.Connected"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': cameraStore.showCameraInfo,
+      }"
+      @click="handleCameraClick"
+    >
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
       </div>
@@ -52,31 +59,46 @@
       <p v-if="store.cameraInfo.CoolerOn" class="hidden xs:block">
         ({{ Number(store.cameraInfo.CoolerPower).toFixed(0) }}%)
       </p>
-      <div v-if="store.filterInfo.Connected" class="hidden sm:block">
-        <p class="flex items-center">
-          <svg
-            class="w-5 h-5"
-            baseProfile="full"
-            version="1.1"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:ev="http://www.w3.org/2001/xml-events"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-          >
-            <defs />
-            <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-            <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-            <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-            <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-          </svg>
-          {{ store.filterInfo.SelectedFilter.Name }}
-        </p>
-      </div>
-    </div>
+    </button>
+    <!--Filter-->
+    <button
+      v-if="store.filterInfo.Connected"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': filterStore.showFilterwheelInfo,
+      }"
+      @click="handleFilterClick"
+    >
+      <p class="flex items-center">
+        <svg
+          class="w-5 h-5"
+          baseProfile="full"
+          version="1.1"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:ev="http://www.w3.org/2001/xml-events"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <defs />
+          <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+          <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+          <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+          <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+        </svg>
+        {{ store.filterInfo.SelectedFilter.Name }}
+      </p>
+    </button>
     <!--Mount-->
-    <button v-if="store.mountInfo.Connected" class="flex flex-row">
+    <button
+      v-if="store.mountInfo.Connected"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': mountStore.showMountInfo,
+      }"
+      @click="handleMountClick"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -115,7 +137,7 @@
           'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
           'glow-red': guiderStore.phd2StarLost,
         }"
-        @click="guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph"
+        @click="handleGuiderClick"
       >
         <svg
           class="w-5 h-5 icon icon-tabler icons-tabler-outline icon-tabler-viewfinder"
@@ -234,6 +256,33 @@
         <GuiderStats />
       </div>
     </div>
+
+    <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="cameraStore.showCameraInfo"
+    >
+      <infoCamera class="p-5" />
+    </div>
+
+    <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="mountStore.showMountInfo"
+    >
+      <infoMount class="p-5" />
+    </div>
+
+    <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="filterStore.showFilterwheelInfo"
+    >
+      <InfoFilterwheel class="p-5" />
+    </div>
   </div>
 </template>
 
@@ -248,7 +297,12 @@ import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
+import { useMountStore } from '@/store/mountStore';
+import { useFilterStore } from '@/store/filterStore';
 import { useOrientation } from '@/composables/useOrientation';
+import infoCamera from '../camera/infoCamera.vue';
+import infoMount from '../mount/infoMount.vue';
+import InfoFilterwheel from '../filterwheel/InfoFilterwheel.vue';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
@@ -256,6 +310,8 @@ const showLogModal = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
+const mountStore = useMountStore();
+const filterStore = useFilterStore();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 
 const activeInstanceColor = computed(() => {
@@ -267,7 +323,7 @@ const activeInstanceColor = computed(() => {
 const { isLandscape } = useOrientation();
 const guiderGraphClasses = computed(() => ({
   'fixed left-0 w-full': !isLandscape.value,
-  'fixed left-32 w-full': isLandscape.value,
+  'fixed left-32 right-0': isLandscape.value,
 }));
 
 function handleWeatherClick(event) {
@@ -280,6 +336,42 @@ function handleLogClick(event) {
   showLogModal.value = true;
   event.stopPropagation();
   event.preventDefault();
+}
+
+function handleCameraClick() {
+  cameraStore.showCameraInfo = !cameraStore.showCameraInfo;
+  if (cameraStore.showCameraInfo) {
+    guiderStore.showGuiderGraph = false;
+    mountStore.showMountInfo = false;
+    filterStore.showFilterwheelInfo = false;
+  }
+}
+
+function handleGuiderClick() {
+  guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph;
+  if (guiderStore.showGuiderGraph) {
+    cameraStore.showCameraInfo = false;
+    mountStore.showMountInfo = false;
+    filterStore.showFilterwheelInfo = false;
+  }
+}
+
+function handleMountClick() {
+  mountStore.showMountInfo = !mountStore.showMountInfo;
+  if (mountStore.showMountInfo) {
+    cameraStore.showCameraInfo = false;
+    guiderStore.showGuiderGraph = false;
+    filterStore.showFilterwheelInfo = false;
+  }
+}
+
+function handleFilterClick() {
+  filterStore.showFilterwheelInfo = !filterStore.showFilterwheelInfo;
+  if (filterStore.showFilterwheelInfo) {
+    cameraStore.showCameraInfo = false;
+    guiderStore.showGuiderGraph = false;
+    mountStore.showMountInfo = false;
+  }
 }
 </script>
 

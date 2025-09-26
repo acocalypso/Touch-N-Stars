@@ -76,6 +76,7 @@
         <StellariumView
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
+          :key="stellariumRefreshKey"
         />
         <router-view v-show="!store.showStellarium" :key="routerViewKey" />
       </div>
@@ -193,11 +194,14 @@ import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
+import wsFilter from '@/services/websocketManuellFilterControl';
+import { useFilterStore } from '@/store/filterStore';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
+const filterStore = useFilterStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -210,6 +214,7 @@ const { t, locale } = useI18n();
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
 const landscapeSwitch = ref(null);
+const stellariumRefreshKey = ref(null);
 const routerViewKey = ref(Date.now());
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
@@ -304,6 +309,12 @@ onMounted(async () => {
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
 
+  // Listen for manual Stellarium refresh ONLY
+  window.addEventListener('refresh-stellarium', () => {
+    console.log('Manual Stellarium refresh requested');
+    stellariumRefreshKey.value = Date.now();
+  });
+
   // Timeout für connectionCheckCompleted nach 3 Sekunden
   const connectionTimeout = setTimeout(() => {
     connectionCheckCompleted.value = true;
@@ -366,6 +377,31 @@ watch(
   }
 );
 
+// Watch for Network Filter Wheel connection and manage WebSocket
+watch(
+  () => [store.filterInfo.Connected, store.filterInfo.DeviceId, store.isBackendReachable],
+  ([connected, deviceId, backendReachable]) => {
+    if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
+      // WebSocket aufbauen
+      wsFilter.setStatusCallback((status) => {
+        //console.log('WebSocket Filter Status:', status);
+        if (status === 'connected') {
+          filterStore.wsIsConnected = true;
+          //console.log('WebSocket Filter verbunden!');
+        } else {
+          filterStore.wsIsConnected = false;
+        }
+      });
+      wsFilter.connect();
+    } else {
+      // WebSocket trennen
+      wsFilter.disconnect();
+      filterStore.wsIsConnected = false;
+    }
+  },
+  { immediate: true }
+);
+
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
@@ -403,9 +439,13 @@ onBeforeUnmount(() => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  wsFilter.disconnect();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
+  window.removeEventListener('refresh-stellarium', () => {
+    stellariumRefreshKey.value = Date.now();
+  });
 });
 </script>
 

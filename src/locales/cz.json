@@ -208,7 +208,8 @@
           "showImageStats": "Zobrazit statistiku posledního snímku",
           "showImgStatsGraph": "Zobrazit HFR-Graf",
           "showGuiderAfGraph": "Zobrazit graf-ostření",
-          "display_status_under_image": "Zobrazit stav pod obrázkem"
+          "display_status_under_image": "Zobrazit stav pod obrázkem",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "BĚŽÍCÍ",
@@ -226,7 +227,10 @@
         "oldest": "nejstarší první",
         "sort": "Seřadit"
       },
-      "time": "Čas"
+      "time": "Čas",
+      "noRunningItems": "Sequence stopped",
+      "status": "Sequence status",
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Montáž",
@@ -412,7 +416,7 @@
       "name": "Jméno kamery",
       "gain": "Gain",
       "offset": "Offset",
-      "temperature": "Teplota",
+      "temperature": "Teplota (°C)",
       "standby": "Pohotovostní režim",
       "cooler_on": "Chlazení On",
       "cooler_off": "Chlazení Off",
@@ -432,7 +436,10 @@
         "pixel_size": "Velikost pixelů (μm)",
         "title": "Nastavení čipu",
         "width": "Šířka (px)"
-      }
+      },
+      "at_target_temp": "At target temp",
+      "cooler_power": "Cooler power (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",
@@ -465,9 +472,11 @@
         "exposure_time": "Doba Expozice (s)",
         "gain": "Gain",
         "nina_default": "NINA Výchozí",
-        "title": "Nastavení TPPAs"
+        "title": "Nastavení TPPAs",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "logs": {},
     "test": {},
@@ -1003,6 +1012,18 @@
         "dataFrom": "Data z",
         "connectionError": "Připojení k Telescopius selhalo. Počítač NINA potřebuje internetové připojení a v Telescopius musí existovat alespoň jeden seznam cílů."
       }
+    },
+    "livestack": {
+      "available_filters": "Available Filters",
+      "beta_note": "This plugin is still under development and may contain some errors!",
+      "images_available": "{count} Images Available",
+      "last_updated": "Last updated",
+      "no_image_available": "No image available",
+      "no_images_available": "No Images Available",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Status",
+      "target": "Target"
     }
   },
   "whatsnew": {

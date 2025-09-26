@@ -25,6 +25,7 @@ export const useSettingsStore = defineStore('settings', {
       showImgStatsGraph: true,
       showGuiderGraph: true,
       showGuiderAfGraph: true,
+      showSequenceCurrentState: true,
       displayStatusUnderImage: false,
     },
     notifications: {

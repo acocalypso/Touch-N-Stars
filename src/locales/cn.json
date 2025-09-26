@@ -210,7 +210,8 @@
           "showImageStats": "显示最后一张图像统计",
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderAfGraph": "显示自动对焦图表",
-          "display_status_under_image": "在图片下方显示状态"
+          "display_status_under_image": "在图片下方显示状态",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "运行中",
@@ -228,7 +229,10 @@
         "oldest": "最早优先",
         "newest": "最新优先"
       },
-      "time": "时间"
+      "time": "时间",
+      "noRunningItems": "Sequence stopped",
+      "status": "Sequence status",
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "赤道仪",
@@ -434,7 +438,10 @@
         "width": "宽度 (px)",
         "height": "高度 (px)",
         "focal_length": "焦距 (mm)"
-      }
+      },
+      "at_target_temp": "At target temp",
+      "cooler_power": "Cooler power (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "三点极轴对准",
@@ -467,9 +474,11 @@
         "camera_settings_hint": "留空则使用 NINA 默认值",
         "exposure_time": "曝光时间 (秒)",
         "gain": "增益",
-        "nina_default": "NINA 默认值"
+        "nina_default": "NINA 默认值",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "转动与居中",
@@ -1002,6 +1011,18 @@
         "title": "子午线翻转",
         "enableMeridianFlip": "启用子午线翻转"
       }
+    },
+    "livestack": {
+      "available_filters": "Available Filters",
+      "beta_note": "This plugin is still under development and may contain some errors!",
+      "images_available": "{count} Images Available",
+      "last_updated": "Last updated",
+      "no_image_available": "No image available",
+      "no_images_available": "No Images Available",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Status",
+      "target": "Target"
     }
   }
 }

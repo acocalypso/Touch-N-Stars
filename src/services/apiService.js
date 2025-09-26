@@ -311,6 +311,11 @@ const apiService = {
       return { Success: false, Response: null };
     }
   },
+  //------------------------------------- Plugins ------------------------------------------
+  async getPlugins() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/application/plugins`);
+  },
 
   //------------------------------------- Fav Targets ------------------------------------------
 
@@ -1314,6 +1319,55 @@ const apiService = {
       await this.deleteSetting('sequence_creator_default');
     } catch (error) {
       console.error('Error deleting default sequence:', error);
+      throw error;
+    }
+  },
+
+  //-------------------------------------  Livestack ---------------------------------------
+  async livestackStart() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/start`);
+      return response.data;
+    } catch (error) {
+      console.error('Error starting livestack:', error);
+      throw error;
+    }
+  },
+
+  async livestackStop() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/stop`);
+      return response.data;
+    } catch (error) {
+      console.error('Error starting livestack:', error);
+      throw error;
+    }
+  },
+
+  async livestackImageAvailable() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/image/available`);
+      return response.data;
+    } catch (error) {
+      console.error('Error checking livestack image availability:', error);
+      throw error;
+    }
+  },
+
+  async getLivestackImage(target, filter) {
+    try {
+      const { BASE_URL } = getUrls();
+      const encodedTarget = encodeURIComponent(target);
+      const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}`, {
+        params: { stream: true },
+        responseType: 'blob',
+      });
+      return URL.createObjectURL(response.data);
+    } catch (error) {
+      console.error('Error fetching livestack image:', error);
       throw error;
     }
   },

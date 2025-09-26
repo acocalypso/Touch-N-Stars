@@ -31,10 +31,6 @@
       <!-- Dynamic Details Grid -->
       <div class="p-2 sm:p-3 pt-0">
         <div v-if="getDisplayFields(item).length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-blue-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">Properties</h4>
-          </div>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div
               v-for="[key, value] in getDisplayFields(item)"
@@ -50,6 +46,9 @@
                 </template>
                 <template v-else-if="key === 'TargetTime'">
                   {{ formatDateTime(value) }}
+                </template>
+                <template v-else-if="key === 'TimeToFlip'">
+                  {{ formatTimeSpan(value) }}
                 </template>
                 <template v-else-if="key === 'Coordinates'">
                   <div class="space-y-1">
@@ -94,28 +93,86 @@
         </div>
 
         <!-- Nested Items -->
-        <div v-if="item.Items?.length" class="mt-3 space-y-2">
-          <RecursiveItemState
-            v-if="sequenceStore.sequenceIsEditable"
-            :items="item.Items"
-            :isTopLevel="false"
-          />
-          <RecursiveItemJson
-            v-if="!sequenceStore.sequenceIsEditable"
-            :items="item.Items"
-            :isTopLevel="false"
-          />
+        <div
+          v-if="item.Items?.length"
+          class="mt-3 bg-cyan-900/20 rounded-lg border border-cyan-500/30 p-2"
+        >
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-3">
+              <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
+              <h4 class="text-sm font-semibold text-cyan-200">
+                {{ $t('components.sequence.instructions') }}
+              </h4>
+            </div>
+            <button
+              @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
+              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
+            >
+              <ChevronRightIcon
+                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`),
+                }"
+              />
+            </button>
+          </div>
+          <div
+            v-show="!sequenceStore.isCollapsed(`${item._path || 'items'}-items`)"
+            class="space-y-2"
+          >
+            <RecursiveItemState
+              v-if="sequenceStore.sequenceIsEditable"
+              :items="item.Items"
+              :isTopLevel="false"
+            />
+            <RecursiveItemJson
+              v-if="!sequenceStore.sequenceIsEditable"
+              :items="item.Items"
+              :isTopLevel="false"
+            />
+          </div>
         </div>
 
         <!-- Triggers Section -->
-        <div v-if="item.Triggers?.length" class="mb-3">
-          <div class="flex items-center gap-2 mb-2">
-            <div class="w-2 h-2 bg-green-400 rounded-full"></div>
-            <h4 class="text-sm font-medium text-slate-200">
-              {{ $t('components.sequence.triggers') }}
-            </h4>
+        <div
+          v-if="item.Triggers?.length"
+          class="mb-3 bg-emerald-900/20 rounded-lg border border-emerald-500/30 p-2"
+        >
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"
+              ></div>
+              <h4 class="text-sm font-semibold text-emerald-200">
+                {{ $t('components.sequence.triggers') }}
+              </h4>
+            </div>
+            <button
+              @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
+              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              :title="
+                sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
+                  ? 'Erweitern'
+                  : 'Zusammenklappen'
+              "
+            >
+              <ChevronRightIcon
+                class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                :class="{
+                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`),
+                }"
+              />
+            </button>
           </div>
-          <div class="space-y-1">
+          <div
+            v-show="!sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)"
+            class="space-y-1"
+          >
             <div
               v-for="(trigger, tIndex) in item.Triggers"
               :key="tIndex"
@@ -169,6 +226,7 @@
 import { defineProps } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
+import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 
@@ -185,7 +243,15 @@ defineProps({
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
-const excludedKeys = new Set(['Name', 'Status', 'Conditions', 'Triggers', 'Items']);
+const excludedKeys = new Set([
+  'Name',
+  'Status',
+  'Conditions',
+  'Triggers',
+  'Items',
+  '_path',
+  'Issues',
+]);
 
 // Helper functions
 function formatKey(key) {

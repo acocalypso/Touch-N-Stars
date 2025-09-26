@@ -146,6 +146,17 @@ class WebSocketChannelService {
     }
     this.connect();
   }
+
+  sendMessage(message) {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(message);
+    } else {
+      console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
+      if (this.statusCallback) {
+        this.statusCallback('Fehler: WebSocket nicht verbunden');
+      }
+    }
+  }
 }
 
 const websocketChannelService = new WebSocketChannelService();

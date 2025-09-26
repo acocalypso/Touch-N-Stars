@@ -14,6 +14,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceEdit: false,
     sequenceIsEditable: true,
     targetName: '',
+    runningItems: [],
+    runningConditions: [],
     lastImage: {
       index: 0,
       quality: 0,
@@ -207,6 +209,35 @@ export const useSequenceStore = defineStore('sequenceStore', {
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
 
+        // Collect all running items with their names - always use JSON data for this
+        const newRunningItems = [];
+        const newRunningConditions = [];
+        const jsonResponse = await this.getSequenceInfoJson();
+        if (jsonResponse?.Success) {
+          // Temporarily store in local variables
+          const oldRunningItems = this.runningItems;
+          const oldRunningConditions = this.runningConditions;
+
+          this.runningItems = newRunningItems;
+          this.runningConditions = newRunningConditions;
+
+          this.collectRunningItems(jsonResponse.Response);
+          this.collectRunningConditions(jsonResponse.Response);
+
+          // Only update if arrays actually changed
+          if (JSON.stringify(oldRunningItems) !== JSON.stringify(this.runningItems)) {
+            // runningItems changed, keep new values
+          } else {
+            this.runningItems = oldRunningItems;
+          }
+
+          if (JSON.stringify(oldRunningConditions) !== JSON.stringify(this.runningConditions)) {
+            // runningConditions changed, keep new values
+          } else {
+            this.runningConditions = oldRunningConditions;
+          }
+        }
+
         // Update sequence running state (this will trigger notification if state changed)
         this.setSequenceRunning(isRunning || false);
       } else {
@@ -328,6 +359,128 @@ export const useSequenceStore = defineStore('sequenceStore', {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return null;
       }
+    },
+
+    collectRunningItems(containers) {
+      if (!containers || !Array.isArray(containers)) return;
+
+      containers.forEach((container) => {
+        if (container.Items) {
+          this.findRunningItemsRecursive(container.Items, [container]);
+        }
+      });
+    },
+
+    collectRunningConditions(containers) {
+      if (!containers || !Array.isArray(containers)) return;
+
+      containers.forEach((container) => {
+        this.findRunningConditionsRecursive(container);
+      });
+    },
+
+    findRunningConditionsRecursive(container) {
+      if (!container) return;
+
+      // Nur Conditions sammeln wenn der Container RUNNING ist
+      if (
+        container.Status === 'RUNNING' &&
+        container.Conditions &&
+        container.Conditions.length > 0
+      ) {
+        // Nur nicht-disabled Conditions hinzufügen
+        const enabledConditions = container.Conditions.filter(
+          (condition) => condition.Status !== 'DISABLED'
+        );
+        this.runningConditions.push(...enabledConditions);
+      }
+
+      // Für Items mit Iterations/ExposureCount eine virtuelle Condition erstellen (nur wenn RUNNING)
+      if (
+        container.Status === 'RUNNING' &&
+        container.Iterations !== undefined &&
+        container.ExposureCount !== undefined &&
+        container.Name
+      ) {
+        this.runningConditions.push({
+          Name: `${container.Name}_Iterations`,
+          Status: container.Status,
+          Iterations: container.Iterations,
+          CompletedIterations: container.ExposureCount,
+          Type: 'iterations',
+        });
+      }
+
+      // Rekursiv durch alle Items gehen
+      if (container.Items) {
+        container.Items.forEach((item) => {
+          this.findRunningConditionsRecursive(item);
+        });
+      }
+    },
+
+    findRunningItemsRecursive(items, containerHierarchy = []) {
+      if (!items || !Array.isArray(items)) return;
+
+      items.forEach((item) => {
+        // Check for running triggers
+        if (item.Triggers && Array.isArray(item.Triggers)) {
+          item.Triggers.forEach((trigger) => {
+            if (trigger.Name && trigger.Status === 'RUNNING') {
+              this.runningItems.push(trigger.Name);
+            }
+          });
+        }
+
+        // Wenn Item RUNNING ist und verschachtelte Items hat, nur tiefer suchen
+        if (item.Status === 'RUNNING' && item.Items && item.Items.length > 0) {
+          // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist
+          const newHierarchy = item.Name ? [...containerHierarchy, item] : containerHierarchy;
+          this.findRunningItemsRecursive(item.Items, newHierarchy);
+        }
+        // Wenn Item RUNNING ist aber keine verschachtelten Items hat, hinzufügen
+        else if (
+          item.Status === 'RUNNING' &&
+          item.Name &&
+          (!item.Items || item.Items.length === 0)
+        ) {
+          let itemName = item.Name;
+
+          this.runningItems.push(itemName);
+        }
+        // Wenn Item nicht RUNNING ist, trotzdem tiefer suchen
+        else if (item.Items && item.Items.length > 0) {
+          // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist
+          const newHierarchy = item.Name ? [...containerHierarchy, item] : containerHierarchy;
+          this.findRunningItemsRecursive(item.Items, newHierarchy);
+        }
+      });
+    },
+
+    findIterationInfoInHierarchy(containerHierarchy) {
+      // Von der äußersten zur innersten Ebene suchen
+      for (let i = containerHierarchy.length - 1; i >= 0; i--) {
+        const container = containerHierarchy[i];
+        const iterationInfo = this.findIterationInfoInConditions(container.Conditions);
+        if (iterationInfo) {
+          return iterationInfo;
+        }
+      }
+      return null;
+    },
+
+    findIterationInfoInConditions(conditions) {
+      if (!conditions || !Array.isArray(conditions)) return null;
+
+      for (const condition of conditions) {
+        if (condition.Iterations !== undefined && condition.CompletedIterations !== undefined) {
+          return {
+            completed: condition.CompletedIterations,
+            total: condition.Iterations,
+          };
+        }
+      }
+      return null;
     },
 
     findAndSetTargetName(items) {

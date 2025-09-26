@@ -1,3 +1,4 @@
+import { showLocationSyncModal } from '@/utils/locationSyncUtils'; // eslint-disable-line no-unused-vars
 import { defineStore } from 'pinia';
 
 export const useFilterStore = defineStore('filterStore', {
@@ -6,6 +7,7 @@ export const useFilterStore = defineStore('filterStore', {
     filterChange: false,
     message: '',
     filterName: '',
+    showFilterwheelInfo: false,
   }),
   actions: {},
 });

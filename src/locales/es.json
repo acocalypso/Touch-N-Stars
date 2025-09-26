@@ -209,7 +209,8 @@
           "showImageStats": "Mostrar estadísticas de la última imágen",
           "showImgStatsGraph": "Mostrar gráfica HFR",
           "showGuiderAfGraph": "Mostrar gráfica autoenfoque",
-          "display_status_under_image": "Mostrar estado debajo de la imagen"
+          "display_status_under_image": "Mostrar estado debajo de la imagen",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "EJECUTANDOSE",
@@ -227,7 +228,10 @@
         "oldest": "el más antiguo primero",
         "sort": "Ordenar"
       },
-      "time": "Tiempo"
+      "time": "Tiempo",
+      "noRunningItems": "Sequence stopped",
+      "status": "Estado de secuencia",
+      "instructions": "Instrucciones"
     },
     "mount": {
       "title": "Montura",
@@ -413,7 +417,7 @@
       "name": "Nombre cámara",
       "gain": "Ganancia",
       "offset": "Offset",
-      "temperature": "Temperatura",
+      "temperature": "Temperatura (°C)",
       "standby": "Reposo",
       "cooler_on": "Refrigeración activa",
       "cooler_off": "Refrigeración parada",
@@ -433,7 +437,10 @@
         "pixel_size": "Tamaño de píxel (μm)",
         "title": "Configuración del sensor",
         "width": "Ancho (PX)"
-      }
+      },
+      "at_target_temp": "A temperatura objetivo",
+      "cooler_power": "Potencia más fría (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",
@@ -466,9 +473,11 @@
         "exposure_time": "Tiempo (s) de exposición",
         "gain": "Ganar",
         "nina_default": "Nina predeterminado",
-        "title": "Configuración de TPPA"
+        "title": "Configuración de TPPA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Desplazar y Centrar",
@@ -1001,6 +1010,18 @@
         "token": "Simbólico"
       },
       "submissionHistory": "Historial de sumisión"
+    },
+    "livestack": {
+      "available_filters": "Filtros disponibles",
+      "beta_note": "¡Este complemento todavía está en desarrollo y puede contener algunos errores!",
+      "images_available": "{Count} Imágenes disponibles",
+      "last_updated": "Última actualización",
+      "no_image_available": "No hay imagen disponible",
+      "no_images_available": "No hay imágenes disponibles",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Estado",
+      "target": "Target"
     }
   }
 }

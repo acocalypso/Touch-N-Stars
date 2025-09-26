@@ -77,6 +77,27 @@
             <SequenzGraph />
           </div>
 
+          <!-- Sequence current status -->
+          <div
+            v-if="settingsStore.monitorViewSetting.showSequenceCurrentState"
+            class="w-full border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-5"
+          >
+            <div class="flex items-center gap-2 pb-1">
+              <div class="w-2 h-2 bg-green-300 rounded-full shadow-purple-400/50 shadow-sm"></div>
+              <h2 class="font-medium text-lg text-purple-200">
+                {{ $t('components.sequence.status') }}:
+              </h2>
+            </div>
+            <div class="pb-4">
+              <SequenceRunningItem />
+            </div>
+            <div
+              class="p-5 bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg mb-3 shadow-lg transition-all duration-200 hover:shadow-xl"
+            >
+              <SequenceRunningConditions />
+            </div>
+          </div>
+
           <div
             class="flex flex-col w-full min-h-80 border border-cyan-700 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl p-2"
             v-if="settingsStore.monitorViewSetting.showGuiderAfGraph && store.focuserInfo.Connected"
@@ -110,6 +131,8 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useSequenceStore } from '@/store/sequenceStore';
+import SequenceRunningItem from '@/components/sequence/SequenceRunningItem.vue';
+import SequenceRunningConditions from '@/components/sequence/SequenceRunningConditions.vue';
 
 const currentTab = ref('showStats');
 

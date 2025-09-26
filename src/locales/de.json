@@ -209,7 +209,8 @@
           "showImageStats": "Statistiken des letzten Bildes anzeigen",
           "showImgStatsGraph": "HFR-Diagramm anzeigen",
           "showGuiderAfGraph": "Autofokus-Diagramm anzeigen",
-          "display_status_under_image": "Status unter Bild anzeigen"
+          "display_status_under_image": "Status unter Bild anzeigen",
+          "sequenceCurrentState": "Sequenzstatus anzeigen"
         }
       },
       "running": "WIRD AUSGEFÜHRT",
@@ -227,7 +228,10 @@
         "oldest": "älteste zuerst",
         "newest": "neueste zuerst"
       },
-      "time": "Zeit"
+      "time": "Zeit",
+      "noRunningItems": "Sequenz gestoppt",
+      "status": "Sequenzstatus",
+      "instructions": "Anweisungen"
     },
     "mount": {
       "title": "Montierung",
@@ -413,7 +417,7 @@
       "name": "Kameraname",
       "gain": "Gain",
       "offset": "Offset",
-      "temperature": "Temperatur",
+      "temperature": "Temperatur (°C)",
       "standby": "Standby",
       "cooler_on": "Kühlung ein",
       "cooler_off": "Kühlung aus",
@@ -433,7 +437,10 @@
         "pixel_size": "Pixelgröße (μm)",
         "title": "Chipeinstellungen",
         "width": "Breite (PX)"
-      }
+      },
+      "at_target_temp": "Zieltemperatur erreicht",
+      "cooler_power": "Kühlerleistung (%)",
+      "temperature_setpoint": "Temp Sollwert (° C)"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",
@@ -466,9 +473,11 @@
         "camera_settings_hint": "Leer lassen für NINA Standardwerte",
         "exposure_time": "Belichtungszeit (s)",
         "gain": "Verstärkung",
-        "nina_default": "NINA Standard"
+        "nina_default": "NINA Standard",
+        "ManualMode": "Manuell"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",
@@ -1001,6 +1010,18 @@
       "title": "Webcam-Einstellungen",
       "autoRefresh": "Automatische Aktualisierung",
       "errors": {}
+    },
+    "livestack": {
+      "available_filters": "Verfügbare Filter",
+      "beta_note": "Dieses Plugin befindet sich noch in der Entwicklung und kann einige Fehler enthalten!",
+      "images_available": "{count} Bilder verfügbar",
+      "last_updated": "Zuletzt aktualisiert",
+      "no_image_available": "Kein Bild verfügbar",
+      "no_images_available": "Keine Bilder verfügbar",
+      "not_available": "Livestack wurde nicht gefunden. \nBitte installieren Sie das Livestack-Plugin zuerst in Nina.",
+      "start_and_select_filter": "Starten Sie das livestack und wählen Sie einen Filter aus, um Bilder anzuzeigen",
+      "status": "Status",
+      "target": "Ziel"
     }
   }
 }

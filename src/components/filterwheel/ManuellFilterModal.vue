@@ -27,7 +27,6 @@
   </div>
 </template>
 <script setup>
-import { onMounted, onBeforeUnmount } from 'vue';
 import wsFilter from '@/services/websocketManuellFilterControl';
 import { useFilterStore } from '@/store/filterStore';
 
@@ -37,25 +36,4 @@ function confirmFilterChange() {
   wsFilter.sendMessage('filter-changed');
   console.log('Filter gewechselt:', filterStore.filterName);
 }
-
-onMounted(() => {
-  wsFilter.setStatusCallback((status) => {
-    console.log('Status aktualisiert:', status);
-    if (status === 'connected') {
-      filterStore.wsIsConnected = true;
-      console.log('WebSocket Filter verbunden!');
-    }
-  });
-  wsFilter.connect();
-});
-
-onBeforeUnmount(() => {
-  wsFilter.setStatusCallback(null);
-  wsFilter.setMessageCallback(null);
-  filterStore.wsIsConnected = false;
-  wsFilter.disconnect();
-  if (wsFilter.socket) {
-    wsFilter.socket.close();
-  }
-});
 </script>

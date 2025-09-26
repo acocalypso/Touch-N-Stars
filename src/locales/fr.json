@@ -209,7 +209,8 @@
           "showImageStats": "Montrer les statistiques de la dernière image",
           "showImgStatsGraph": "Montrer le graphique HFR",
           "showGuiderAfGraph": "Montrer le graphique d'autofocus",
-          "display_status_under_image": "Afficher le statut sous l'image"
+          "display_status_under_image": "Afficher le statut sous l'image",
+          "sequenceCurrentState": "Show Sequence state"
         }
       },
       "running": "EN COURS D'EXÉCUTION",
@@ -227,7 +228,10 @@
         "oldest": "le plus ancien en premier",
         "newest": "le plus récent en premier"
       },
-      "time": "Temps"
+      "time": "Temps",
+      "noRunningItems": "Sequence stopped",
+      "status": "Statut de séquence",
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Monture",
@@ -413,7 +417,7 @@
       "name": "Nom de la caméra",
       "gain": "Gain",
       "offset": "Décalage",
-      "temperature": "Température",
+      "temperature": "Température (°C)",
       "standby": "En attente",
       "cooler_on": "Refroidissement activé",
       "cooler_off": "Refroidissement désactivé",
@@ -433,7 +437,10 @@
         "width": "Largeur (px)",
         "height": "Hauteur (px)",
         "focal_length": "Longueur focale (mm)"
-      }
+      },
+      "at_target_temp": "À la température cible",
+      "cooler_power": "Puissance plus fraîche (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "Alignement polaire à trois points",
@@ -466,9 +473,11 @@
         "camera_settings_hint": "Laisser vide pour les valeurs par défaut de NINA",
         "exposure_time": "Temps d'exposition (s)",
         "gain": "Gain",
-        "nina_default": "Défaut NINA"
+        "nina_default": "Défaut NINA",
+        "ManualMode": "Manual mode"
       },
-      "error_modal": {}
+      "error_modal": {},
+      "tppa": "TPPA"
     },
     "slewAndCenter": {
       "title": "Déplacer et centrer",
@@ -1001,6 +1010,18 @@
         "title": "Retournement au méridien",
         "enableMeridianFlip": "Activer le retournement au méridien"
       }
+    },
+    "livestack": {
+      "available_filters": "Filtres disponibles",
+      "beta_note": "Ce plugin est toujours en cours de développement et peut contenir des erreurs!",
+      "images_available": "{count} Images disponibles",
+      "last_updated": "Dernière mise à jour",
+      "no_image_available": "Aucune image disponible",
+      "no_images_available": "Pas d'images disponibles",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Statut",
+      "target": "Target"
     }
   }
 }

@@ -451,8 +451,8 @@ onMounted(() => {
   }
 
   websocketService.setStatusCallback((status) => {
-    console.log('status updated:', status);
-    isConnected.value = status === 'Verbunden';
+    console.log('status updated tppa ws:', status);
+    isConnected.value = status === 'connected';
     tppaStore.isConnected = isConnected.value;
 
     // Automatische Wiederverbindung wenn Verbindung geschlossen wurde

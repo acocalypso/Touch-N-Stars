@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Three Point Polar Alignment (TPPA): Manual Mode (Advanced API V2.2.10.0 is required)
 - The current status is now displayed in the sequence and sequence dashboard
+- Livestack plugin (note: currently in beta version)
 
 ### Changed
 - The mount page is now always visible. An icon indicates whether the mount is connected.

@@ -1,10 +1,6 @@
 <template>
-  <div v-if="!store.cameraInfo.Connected" class="flex justify-center items-center pb-2">
-    <div class="w-full p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-      <p class="text-red-400 text-center font-medium">{{ $t('components.camera.connect') }}</p>
-    </div>
-  </div>
-  <div v-else-if="showAllInfo" class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
+
+  <div class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
     <StatusString
       :isEnabled="store.cameraInfo.Name !== ''"
       :Name="$t('components.camera.name')"
@@ -42,13 +38,6 @@
       :isEnabled="store.cameraInfo.DewHeaterOn"
       :enabledText="$t('components.camera.dew_heater_on')"
       :disabledText="$t('components.camera.dew_heater_off')"
-    />
-  </div>
-  <div v-else-if="showOnlyExposing" class="gap-2">
-    <StatusBool
-      :isEnabled="store.cameraInfo.IsExposing"
-      :enabledText="$t('components.camera.capture_running')"
-      :disabledText="$t('components.camera.standby')"
     />
   </div>
 </template>

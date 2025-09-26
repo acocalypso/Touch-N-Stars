@@ -25,7 +25,7 @@
       </svg>
     </div>
     <!--Camera-->
-    <div v-if="store.cameraInfo.Connected" class="flex items-center gap-1">
+    <button v-if="store.cameraInfo.Connected" class="flex items-center gap-1" @click="handleCameraClick">
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
       </div>
@@ -74,7 +74,7 @@
           {{ store.filterInfo.SelectedFilter.Name }}
         </p>
       </div>
-    </div>
+    </button>
     <!--Mount-->
     <button v-if="store.mountInfo.Connected" class="flex flex-row">
       <svg
@@ -115,7 +115,7 @@
           'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
           'glow-red': guiderStore.phd2StarLost,
         }"
-        @click="guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph"
+        @click="handleGuiderClick"
       >
         <svg
           class="w-5 h-5 icon icon-tabler icons-tabler-outline icon-tabler-viewfinder"
@@ -234,6 +234,18 @@
         <GuiderStats />
       </div>
     </div>
+
+      <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="cameraStore.showCameraInfo"
+    >
+      
+      <infoCamera class="p-5" />
+
+    </div>
+
   </div>
 </template>
 
@@ -249,6 +261,7 @@ import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
 import { useOrientation } from '@/composables/useOrientation';
+import infoCamera from '../camera/infoCamera.vue';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
@@ -267,7 +280,7 @@ const activeInstanceColor = computed(() => {
 const { isLandscape } = useOrientation();
 const guiderGraphClasses = computed(() => ({
   'fixed left-0 w-full': !isLandscape.value,
-  'fixed left-32 w-full': isLandscape.value,
+  'fixed left-32 right-0': isLandscape.value,
 }));
 
 function handleWeatherClick(event) {
@@ -280,6 +293,20 @@ function handleLogClick(event) {
   showLogModal.value = true;
   event.stopPropagation();
   event.preventDefault();
+}
+
+function handleCameraClick() {
+  cameraStore.showCameraInfo = !cameraStore.showCameraInfo;
+  if (cameraStore.showCameraInfo) {
+    guiderStore.showGuiderGraph = false;
+  }
+}
+
+function handleGuiderClick() {
+  guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph;
+  if (guiderStore.showGuiderGraph) {
+    cameraStore.showCameraInfo = false;
+  }
 }
 </script>
 

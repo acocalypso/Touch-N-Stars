@@ -29,6 +29,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const readoutMode = ref(0);
   const containerSize = ref(100);
   const slewModal = ref(false);
+  const showCameraInfo = ref(false);
 
   let exposureCountdownTimer = null;
 

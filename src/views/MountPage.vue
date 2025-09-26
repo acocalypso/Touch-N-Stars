@@ -25,10 +25,6 @@
           v-model="store.mountInfo.Connected"
           class="gap-1 p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
         />
-        <infoCamera
-          :show-only-exposing="showTppa"
-          class="gap-1 p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
-        />
         <div v-if="store.mountInfo.Connected && store.mount.currentTab !== 'showTppa'">
           <div
             class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
@@ -70,7 +66,6 @@ import { ref } from 'vue';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import TargetSearch from '@/components/framing/TargetSearch.vue';
 import infoMount from '@/components/mount/infoMount.vue';
-import infoCamera from '@/components/camera/infoCamera.vue';
 import controlMount from '@/components/mount/controlMount.vue';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';

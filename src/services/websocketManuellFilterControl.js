@@ -33,6 +33,17 @@ class WebSocketService {
     //Nur wenn das Backenderreichbar ist
     if (!store.isBackendReachable) return;
 
+    // Prüfen ob bereits verbunden
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      //console.log('WebSocket bereits verbunden, überspringe connect()');
+      return;
+    }
+
+    // Vorherige Verbindung schließen falls vorhanden
+    if (this.socket) {
+      this.socket.close();
+    }
+
     const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;

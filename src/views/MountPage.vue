@@ -73,7 +73,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import SubNav from '@/components/SubNav.vue';
 import { useI18n } from 'vue-i18n';
 
-const showTppa = ref(false);
+const showTppa = ref(false); // eslint-disable-line no-unused-vars
 const { t } = useI18n();
 
 const store = apiStore();

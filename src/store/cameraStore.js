@@ -29,7 +29,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const readoutMode = ref(0);
   const containerSize = ref(100);
   const slewModal = ref(false);
-  const showCameraInfo = ref(false);
+  const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
 
   let exposureCountdownTimer = null;
 

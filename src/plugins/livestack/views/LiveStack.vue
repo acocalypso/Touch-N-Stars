@@ -4,18 +4,18 @@
       <h5 class="text-2xl text-center font-bold text-white mb-4">Livestack</h5>
       <!-- Error Message -->
       <div
-          v-if="!livestackPluginAvailable"
-          class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4"
-        >
-          <p class="text-red-400 text-center">{{ t('plugins.livestack.not_available') }}</p>
+        v-if="!livestackPluginAvailable"
+        class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4"
+      >
+        <p class="text-red-400 text-center">{{ t('plugins.livestack.not_available') }}</p>
       </div>
       <div v-else class="flex flex-col space-y-4">
-             <div
+        <div
           v-if="livestackPluginAvailable"
           class="border border-blue-700 rounded-lg bg-blue-900/50 shadow-lg p-4"
         >
           <p class="text-blue-400 text-center">{{ t('plugins.livestack.beta_note') }}</p>
-      </div>
+        </div>
         <!-- Controls -->
         <div
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
@@ -63,7 +63,9 @@
           v-if="availableImages.length > 0"
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
-          <h6 class="text-lg font-semibold text-white mb-3 text-center">{{ t('plugins.livestack.available_filters') }}</h6>
+          <h6 class="text-lg font-semibold text-white mb-3 text-center">
+            {{ t('plugins.livestack.available_filters') }}
+          </h6>
           <div class="flex flex-wrap justify-center gap-2">
             <button
               v-for="image in availableImages"
@@ -137,15 +139,13 @@
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketLivestackService from '@/services/websocketChannelSocket.js';
@@ -164,7 +164,6 @@ const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
-
 
 const startLivestack = async () => {
   isStarting.value = true;
@@ -260,7 +259,6 @@ const forceLoadImage = async (target, filter) => {
   await loadImage(target, filter, true);
 };
 
-
 const handleZoomChange = (zoomLevel) => {
   console.log('Livestack image zoom level changed:', zoomLevel);
 };
@@ -308,7 +306,7 @@ onMounted(async () => {
 
   // Check if Livestack plugin is available
   if (!response.Success || !response.Response?.includes('Livestack')) {
-    console.error('Livestack plugin is not available or not installed') ;
+    console.error('Livestack plugin is not available or not installed');
     return;
   }
   livestackPluginAvailable.value = true;
@@ -320,7 +318,6 @@ onMounted(async () => {
   // Initial check for available images
   checkImageAvailability();
 
-
   // Load current image in background if target and filter are available
   if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {
     console.log(
@@ -331,6 +328,4 @@ onMounted(async () => {
     forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
   }
 });
-
-
 </script>

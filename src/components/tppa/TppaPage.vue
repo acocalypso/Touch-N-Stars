@@ -457,12 +457,12 @@ onMounted(() => {
 
     // Automatische Wiederverbindung wenn Verbindung geschlossen wurde
     if (status === 'Geschlossen') {
-      console.log('connection closed, trying to reconnect in 3 seconds');
+      console.log('connection closed, trying to reconnect in 2 seconds');
       setTimeout(() => {
         if (!isConnected.value) {
           websocketService.connect();
         }
-      }, 3000);
+      }, 2000);
     }
   });
 

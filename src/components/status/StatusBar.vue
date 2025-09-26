@@ -25,7 +25,12 @@
       </svg>
     </div>
     <!--Camera-->
-    <button v-if="store.cameraInfo.Connected" class="flex items-center gap-1" @click="handleCameraClick">
+    <button v-if="store.cameraInfo.Connected"
+        class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+        :class="{
+          'glow-green': cameraStore.showCameraInfo,
+        }"
+       @click="handleCameraClick">
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
       </div>
@@ -52,6 +57,8 @@
       <p v-if="store.cameraInfo.CoolerOn" class="hidden xs:block">
         ({{ Number(store.cameraInfo.CoolerPower).toFixed(0) }}%)
       </p>
+    </button>
+    <!--Filter-->
       <div v-if="store.filterInfo.Connected" class="hidden sm:block">
         <p class="flex items-center">
           <svg
@@ -74,7 +81,6 @@
           {{ store.filterInfo.SelectedFilter.Name }}
         </p>
       </div>
-    </button>
     <!--Mount-->
     <button v-if="store.mountInfo.Connected" class="flex flex-row">
       <svg

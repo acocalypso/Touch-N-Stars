@@ -1010,6 +1010,18 @@
       "title": "Webcam-Einstellungen",
       "autoRefresh": "Automatische Aktualisierung",
       "errors": {}
+    },
+    "livestack": {
+      "available_filters": "Verfügbare Filter",
+      "beta_note": "Dieses Plugin befindet sich noch in der Entwicklung und kann einige Fehler enthalten!",
+      "images_available": "{count} Bilder verfügbar",
+      "last_updated": "Zuletzt aktualisiert",
+      "no_image_available": "Kein Bild verfügbar",
+      "no_images_available": "Keine Bilder verfügbar",
+      "not_available": "Livestack wurde nicht gefunden. \nBitte installieren Sie das Livestack-Plugin zuerst in Nina.",
+      "start_and_select_filter": "Starten Sie das livestack und wählen Sie einen Filter aus, um Bilder anzuzeigen",
+      "status": "Status",
+      "target": "Ziel"
     }
   }
 }

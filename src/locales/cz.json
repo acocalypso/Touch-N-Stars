@@ -1012,6 +1012,18 @@
         "dataFrom": "Data z",
         "connectionError": "Připojení k Telescopius selhalo. Počítač NINA potřebuje internetové připojení a v Telescopius musí existovat alespoň jeden seznam cílů."
       }
+    },
+    "livestack": {
+      "available_filters": "Available Filters",
+      "beta_note": "This plugin is still under development and may contain some errors!",
+      "images_available": "{count} Images Available",
+      "last_updated": "Last updated",
+      "no_image_available": "No image available",
+      "no_images_available": "No Images Available",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Status",
+      "target": "Target"
     }
   },
   "whatsnew": {

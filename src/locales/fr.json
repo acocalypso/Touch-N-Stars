@@ -1010,6 +1010,18 @@
         "title": "Retournement au méridien",
         "enableMeridianFlip": "Activer le retournement au méridien"
       }
+    },
+    "livestack": {
+      "available_filters": "Filtres disponibles",
+      "beta_note": "Ce plugin est toujours en cours de développement et peut contenir des erreurs!",
+      "images_available": "{count} Images disponibles",
+      "last_updated": "Dernière mise à jour",
+      "no_image_available": "Aucune image disponible",
+      "no_images_available": "Pas d'images disponibles",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Statut",
+      "target": "Target"
     }
   }
 }

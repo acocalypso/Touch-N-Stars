@@ -1010,6 +1010,18 @@
         "title": "Inversão meridiana",
         "enableMeridianFlip": "Habilitar inversão meridiana"
       }
+    },
+    "livestack": {
+      "available_filters": "Filtros disponíveis",
+      "beta_note": "Este plugin ainda está em desenvolvimento e pode conter alguns erros!",
+      "images_available": "{count} imagens disponíveis",
+      "last_updated": "Última atualização",
+      "no_image_available": "Nenhuma imagem disponível",
+      "no_images_available": "Nenhuma imagem disponível",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Status",
+      "target": "Target"
     }
   }
 }

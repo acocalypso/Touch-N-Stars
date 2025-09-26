@@ -1011,6 +1011,18 @@
         "title": "子午线翻转",
         "enableMeridianFlip": "启用子午线翻转"
       }
+    },
+    "livestack": {
+      "available_filters": "Available Filters",
+      "beta_note": "This plugin is still under development and may contain some errors!",
+      "images_available": "{count} Images Available",
+      "last_updated": "Last updated",
+      "no_image_available": "No image available",
+      "no_images_available": "No Images Available",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "status": "Status",
+      "target": "Target"
     }
   }
 }

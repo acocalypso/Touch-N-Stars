@@ -1010,6 +1010,18 @@
         "title": "Meridianflip",
         "enableMeridianFlip": "Enable Meridianflip"
       }
+    },
+    "livestack": {
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "beta_note": "This plugin is still under development and may contain some errors!",
+      "status": "Status",
+      "target": "Target",
+      "last_updated": "Last updated",
+      "available_filters": "Available Filters",
+      "no_image_available": "No image available",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "images_available": "{count} Images Available",
+      "no_images_available": "No Images Available"
     }
   }
 }

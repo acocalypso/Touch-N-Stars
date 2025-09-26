@@ -1,9 +1,21 @@
 <template>
-  <div class="container py-16 flex items-center justify-center">
+  <div class="container py-5 flex items-center justify-center">
     <div class="container max-w-6xl">
       <h5 class="text-2xl text-center font-bold text-white mb-4">Livestack</h5>
-
-      <div class="flex flex-col space-y-4">
+      <!-- Error Message -->
+      <div
+          v-if="!livestackPluginAvailable"
+          class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4"
+        >
+          <p class="text-red-400 text-center">{{ t('plugins.livestack.not_available') }}</p>
+      </div>
+      <div v-else class="flex flex-col space-y-4">
+             <div
+          v-if="livestackPluginAvailable"
+          class="border border-blue-700 rounded-lg bg-blue-900/50 shadow-lg p-4"
+        >
+          <p class="text-blue-400 text-center">{{ t('plugins.livestack.beta_note') }}</p>
+      </div>
         <!-- Controls -->
         <div
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
@@ -28,20 +40,20 @@
           <!-- Status -->
           <div class="text-center">
             <p class="text-white">
-              Status:
+              {{ t('plugins.livestack.status') }}:
               <span :class="availableImages.length > 0 ? 'text-green-400' : 'text-red-400'">
                 {{
                   availableImages.length > 0
-                    ? `${availableImages.length} Images Available`
-                    : 'No Images Available'
+                    ? t('plugins.livestack.images_available', { count: availableImages.length })
+                    : t('plugins.livestack.no_images_available')
                 }}
               </span>
             </p>
             <p v-if="currentTarget" class="text-gray-400 text-sm mt-1">
-              Target: {{ currentTarget }}
+              {{ t('plugins.livestack.target') }}: {{ currentTarget }}
             </p>
             <p v-if="lastUpdated" class="text-gray-400 text-sm mt-1">
-              Last updated: {{ lastUpdated }}
+              {{ t('plugins.livestack.last_updated') }}: {{ lastUpdated }}
             </p>
           </div>
         </div>
@@ -51,7 +63,7 @@
           v-if="availableImages.length > 0"
           class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
         >
-          <h6 class="text-lg font-semibold text-white mb-3 text-center">Available Filters</h6>
+          <h6 class="text-lg font-semibold text-white mb-3 text-center">{{ t('plugins.livestack.available_filters') }}</h6>
           <div class="flex flex-wrap justify-center gap-2">
             <button
               v-for="image in availableImages"
@@ -120,19 +132,13 @@
                   />
                 </svg>
               </div>
-              <p>No image available</p>
-              <p class="text-sm mt-2">Start livestack and select a filter to see images</p>
+              <p>{{ t('plugins.livestack.no_image_available') }}</p>
+              <p class="text-sm mt-2">{{ t('plugins.livestack.start_and_select_filter') }}</p>
             </div>
           </div>
         </div>
 
-        <!-- Error Message -->
-        <div
-          v-if="errorMessage"
-          class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4"
-        >
-          <p class="text-red-400 text-center">{{ errorMessage }}</p>
-        </div>
+
       </div>
     </div>
   </div>
@@ -145,7 +151,9 @@ import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketLivestackService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore';
 import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const livestackStore = useLivestackStore();
 const availableImages = ref([]);
 const currentTarget = ref(null);
@@ -155,7 +163,8 @@ const lastUpdated = ref(null);
 const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
-let refreshInterval = null;
+const livestackPluginAvailable = ref(false);
+
 
 const startLivestack = async () => {
   isStarting.value = true;
@@ -251,23 +260,6 @@ const forceLoadImage = async (target, filter) => {
   await loadImage(target, filter, true);
 };
 
-const refreshImages = async () => {
-  await checkImageAvailability();
-
-  if (
-    currentTarget.value &&
-    livestackStore.selectedFilter &&
-    availableImages.value.some((img) => img.Filter === livestackStore.selectedFilter)
-  ) {
-    await loadImage(currentTarget.value, livestackStore.selectedFilter);
-  } else if (availableImages.value.length > 0) {
-    livestackStore.selectedFilter = availableImages.value[0].Filter;
-    currentTarget.value = availableImages.value[0].Target;
-    await loadImage(currentTarget.value, livestackStore.selectedFilter);
-  } else {
-    errorMessage.value = 'No images available from livestack';
-  }
-};
 
 const handleZoomChange = (zoomLevel) => {
   console.log('Livestack image zoom level changed:', zoomLevel);
@@ -310,23 +302,24 @@ const handleWebSocketMessage = (message) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  const response = await apiService.getPlugins();
+  console.log('Plugins response:', response);
+
+  // Check if Livestack plugin is available
+  if (!response.Success || !response.Response?.includes('Livestack')) {
+    console.error('Livestack plugin is not available or not installed') ;
+    return;
+  }
+  livestackPluginAvailable.value = true;
+
   // Setup WebSocket callbacks
   websocketLivestackService.setStatusCallback(handleWebSocketStatus);
   websocketLivestackService.setMessageCallback(handleWebSocketMessage);
 
-  // Connect to WebSocket
-  //websocketLivestackService.connect();
-
   // Initial check for available images
   checkImageAvailability();
 
-  // Start auto refresh interval
-  refreshInterval = setInterval(() => {
-    if (!isLoading.value) {
-      refreshImages();
-    }
-  }, 5000);
 
   // Load current image in background if target and filter are available
   if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {
@@ -339,16 +332,5 @@ onMounted(() => {
   }
 });
 
-onUnmounted(() => {
-  // Clean up auto refresh interval
-  if (refreshInterval) {
-    clearInterval(refreshInterval);
-  }
 
-  // Don't clear image URL here - keep it cached for next visit
-  // livestackStore.clearCurrentImageUrl();
-
-  // Disconnect WebSocket
-  //websocketLivestackService.disconnect();
-});
 </script>

@@ -438,7 +438,10 @@
         "width": "宽度 (px)",
         "height": "高度 (px)",
         "focal_length": "焦距 (mm)"
-      }
+      },
+      "at_target_temp": "At target temp",
+      "cooler_power": "Cooler power (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "三点极轴对准",

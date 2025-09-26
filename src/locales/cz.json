@@ -436,7 +436,10 @@
         "pixel_size": "Velikost pixelů (μm)",
         "title": "Nastavení čipu",
         "width": "Šířka (px)"
-      }
+      },
+      "at_target_temp": "At target temp",
+      "cooler_power": "Cooler power (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

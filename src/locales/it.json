@@ -437,7 +437,10 @@
         "width": "Larghezza (px)",
         "height": "Altezza (px)",
         "focal_length": "Lunghezza focale (mm)"
-      }
+      },
+      "at_target_temp": "A temperatura target",
+      "cooler_power": "Potenza più fredda (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "Allineamento polare a tre punti",

@@ -437,7 +437,10 @@
         "pixel_size": "Pixelgröße (μm)",
         "title": "Chipeinstellungen",
         "width": "Breite (PX)"
-      }
+      },
+      "at_target_temp": "Zieltemperatur erreicht",
+      "cooler_power": "Kühlerleistung (%)",
+      "temperature_setpoint": "Temp Sollwert (° C)"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

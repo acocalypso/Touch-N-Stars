@@ -437,7 +437,10 @@
         "pixel_size": "Tamaño de píxel (μm)",
         "title": "Configuración del sensor",
         "width": "Ancho (PX)"
-      }
+      },
+      "at_target_temp": "A temperatura objetivo",
+      "cooler_power": "Potencia más fría (%)",
+      "temperature_setpoint": "Temp setpoint (°C)"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

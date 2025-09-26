@@ -311,6 +311,11 @@ const apiService = {
       return { Success: false, Response: null };
     }
   },
+  //------------------------------------- Plugins ------------------------------------------
+  async getPlugins() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/application/plugins`);
+  },
 
   //------------------------------------- Fav Targets ------------------------------------------
 

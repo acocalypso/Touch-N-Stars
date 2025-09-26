@@ -1,5 +1,4 @@
 <template>
-
   <div class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
     <StatusString
       :isEnabled="store.cameraInfo.Name !== ''"

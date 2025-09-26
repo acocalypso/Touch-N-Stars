@@ -25,12 +25,14 @@
       </svg>
     </div>
     <!--Camera-->
-    <button v-if="store.cameraInfo.Connected"
-        class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-        :class="{
-          'glow-green': cameraStore.showCameraInfo,
-        }"
-       @click="handleCameraClick">
+    <button
+      v-if="store.cameraInfo.Connected"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': cameraStore.showCameraInfo,
+      }"
+      @click="handleCameraClick"
+    >
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
       </div>
@@ -59,44 +61,44 @@
       </p>
     </button>
     <!--Filter-->
-      <button 
-        v-if="store.filterInfo.Connected" 
-        class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-        :class="{
-          'glow-green': filterStore.showFilterwheelInfo,
-        }"
-        @click="handleFilterClick"
+    <button
+      v-if="store.filterInfo.Connected"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': filterStore.showFilterwheelInfo,
+      }"
+      @click="handleFilterClick"
+    >
+      <p class="flex items-center">
+        <svg
+          class="w-5 h-5"
+          baseProfile="full"
+          version="1.1"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:ev="http://www.w3.org/2001/xml-events"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
         >
-        <p class="flex items-center">
-          <svg
-            class="w-5 h-5"
-            baseProfile="full"
-            version="1.1"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlns:ev="http://www.w3.org/2001/xml-events"
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-          >
-            <defs />
-            <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-            <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-            <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-            <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-          </svg>
-          {{ store.filterInfo.SelectedFilter.Name }}
-        </p>
-      </button>
+          <defs />
+          <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+          <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+          <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+          <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+          <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+        </svg>
+        {{ store.filterInfo.SelectedFilter.Name }}
+      </p>
+    </button>
     <!--Mount-->
-    <button 
-      v-if="store.mountInfo.Connected" 
+    <button
+      v-if="store.mountInfo.Connected"
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
       :class="{
         'glow-green': mountStore.showMountInfo,
       }"
       @click="handleMountClick"
-      >
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -281,7 +283,6 @@
     >
       <InfoFilterwheel class="p-5" />
     </div>
-
   </div>
 </template>
 
@@ -296,7 +297,7 @@ import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
-import {useMountStore} from '@/store/mountStore';
+import { useMountStore } from '@/store/mountStore';
 import { useFilterStore } from '@/store/filterStore';
 import { useOrientation } from '@/composables/useOrientation';
 import infoCamera from '../camera/infoCamera.vue';
@@ -365,8 +366,8 @@ function handleMountClick() {
 }
 
 function handleFilterClick() {
-  filterStore.showFilterwheelInfo = ! filterStore.showFilterwheelInfo;
-  if ( filterStore.showFilterwheelInfo) {
+  filterStore.showFilterwheelInfo = !filterStore.showFilterwheelInfo;
+  if (filterStore.showFilterwheelInfo) {
     cameraStore.showCameraInfo = false;
     guiderStore.showGuiderGraph = false;
     mountStore.showMountInfo = false;

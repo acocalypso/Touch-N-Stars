@@ -82,7 +82,14 @@
         </p>
       </div>
     <!--Mount-->
-    <button v-if="store.mountInfo.Connected" class="flex flex-row">
+    <button 
+      v-if="store.mountInfo.Connected" 
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': mountStore.showMountInfo,
+      }"
+      @click="handleMountClick"
+      >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -241,15 +248,22 @@
       </div>
     </div>
 
-      <div
+    <div
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
       v-show="cameraStore.showCameraInfo"
     >
-      
       <infoCamera class="p-5" />
+    </div>
 
+    <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="mountStore.showMountInfo"
+    >
+      <infoMount class="p-5" />
     </div>
 
   </div>
@@ -266,8 +280,10 @@ import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
+import {useMountStore} from '@/store/mountStore';
 import { useOrientation } from '@/composables/useOrientation';
 import infoCamera from '../camera/infoCamera.vue';
+import infoMount from '../mount/infoMount.vue';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
@@ -275,6 +291,7 @@ const showLogModal = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
+const mountStore = useMountStore();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 
 const activeInstanceColor = computed(() => {
@@ -305,6 +322,7 @@ function handleCameraClick() {
   cameraStore.showCameraInfo = !cameraStore.showCameraInfo;
   if (cameraStore.showCameraInfo) {
     guiderStore.showGuiderGraph = false;
+    mountStore.showMountInfo = false;
   }
 }
 
@@ -312,6 +330,15 @@ function handleGuiderClick() {
   guiderStore.showGuiderGraph = !guiderStore.showGuiderGraph;
   if (guiderStore.showGuiderGraph) {
     cameraStore.showCameraInfo = false;
+    mountStore.showMountInfo = false;
+  }
+}
+
+function handleMountClick() {
+  mountStore.showMountInfo = !mountStore.showMountInfo;
+  if (mountStore.showMountInfo) {
+    cameraStore.showCameraInfo = false;
+    guiderStore.showGuiderGraph = false;
   }
 }
 </script>

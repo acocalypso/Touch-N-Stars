@@ -5,6 +5,7 @@ export const useMountStore = defineStore('mountStore', {
     lastDirection: '',
     rate: 1,
     wsIsConnected: false,
+    showMountInfo: false,
   }),
   actions: {},
 });

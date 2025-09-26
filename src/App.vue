@@ -384,10 +384,10 @@ watch(
     if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
       // WebSocket aufbauen
       wsFilter.setStatusCallback((status) => {
-        console.log('WebSocket Filter Status:', status);
+        //console.log('WebSocket Filter Status:', status);
         if (status === 'connected') {
           filterStore.wsIsConnected = true;
-          console.log('WebSocket Filter verbunden!');
+          //console.log('WebSocket Filter verbunden!');
         } else {
           filterStore.wsIsConnected = false;
         }

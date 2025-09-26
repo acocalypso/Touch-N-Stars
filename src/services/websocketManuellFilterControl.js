@@ -37,7 +37,7 @@ class WebSocketService {
     const backendHost = settingsStore.connection.ip || window.location.hostname;
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
-    console.log('ws url: ', this.backendUrl);
+    //console.log('ws url: ', this.backendUrl);
 
     this.socket = new WebSocket(this.backendUrl);
 
@@ -48,7 +48,7 @@ class WebSocketService {
       }
 
       this.sendMessage('get-target-filter');
-      console.log('get-target-filter gesendet');
+      //console.log('get-target-filter gesendet');
 
       // Falls vorher ein Reconnect-Timer lief: abbrechen
       if (this.reconnectTimeout) {
@@ -58,7 +58,7 @@ class WebSocketService {
     };
 
     this.socket.onmessage = (event) => {
-      console.log('Nachricht empfangen:', event.data);
+      //console.log('Nachricht empfangen:', event.data);
       try {
         const message = event.data;
         const filterStore = useFilterStore(); // erneute Instanz sichern (falls State neu aufgebaut wurde)

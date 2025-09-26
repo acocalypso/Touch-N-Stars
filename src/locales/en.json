@@ -417,7 +417,7 @@
       "name": "Camera name",
       "gain": "Gain",
       "offset": "Offset",
-      "temperature": "Temperature",
+      "temperature": "Temperature  (°C)",
       "standby": "Standby",
       "cooler_on": "Cooling On",
       "cooler_off": "Cooling Off",
@@ -437,7 +437,10 @@
         "width": "Width (px)",
         "height": "Height (px)",
         "focal_length": "Focal length (mm)"
-      }
+      },
+      "at_target_temp": "At target temp",
+      "temperature_setpoint": "Temp setpoint (°C)",
+      "cooler_power": "Cooler power (%)"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

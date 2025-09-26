@@ -416,7 +416,7 @@
       "name": "Jméno kamery",
       "gain": "Gain",
       "offset": "Offset",
-      "temperature": "Teplota",
+      "temperature": "Teplota (°C)",
       "standby": "Pohotovostní režim",
       "cooler_on": "Chlazení On",
       "cooler_off": "Chlazení Off",

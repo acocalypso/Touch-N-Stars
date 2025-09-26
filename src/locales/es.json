@@ -417,7 +417,7 @@
       "name": "Nombre cámara",
       "gain": "Ganancia",
       "offset": "Offset",
-      "temperature": "Temperatura",
+      "temperature": "Temperatura (°C)",
       "standby": "Reposo",
       "cooler_on": "Refrigeración activa",
       "cooler_off": "Refrigeración parada",

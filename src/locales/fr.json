@@ -417,7 +417,7 @@
       "name": "Nom de la caméra",
       "gain": "Gain",
       "offset": "Décalage",
-      "temperature": "Température",
+      "temperature": "Température (°C)",
       "standby": "En attente",
       "cooler_on": "Refroidissement activé",
       "cooler_off": "Refroidissement désactivé",

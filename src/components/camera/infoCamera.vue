@@ -21,11 +21,26 @@
       :Name="$t('components.camera.temperature')"
       :Value="formattedTemperature"
     />
+    <StatusString
+      :isEnabled="isTemperatureEnabled"
+      :Name="$t('components.camera.temperature_setpoint')"
+      :Value="formattedTemperatureSetpoint"
+    />
+    <StatusString
+      :isEnabled="store.cameraInfo.CoolerOn"
+      :Name="$t('components.camera.cooler_power')"
+      :Value="store.cameraInfo.CoolerPower"
+    />
     <StatusBool
-      class="col-start-1"
       :isEnabled="store.cameraInfo.IsExposing"
       :enabledText="$t('components.camera.capture_running')"
       :disabledText="$t('components.camera.standby')"
+    />
+    <StatusBool
+      v-if="store.cameraInfo.CanSetTemperature"
+      :isEnabled="store.cameraInfo.AtTargetTemp"
+      :enabledText="$t('components.camera.at_target_temp')"
+      :disabledText="$t('components.camera.at_target_temp')"
     />
     <StatusBool
       v-if="store.cameraInfo.CanSetTemperature"
@@ -66,6 +81,13 @@ const isTemperatureEnabled = computed(() => {
 });
 const formattedTemperature = computed(() => {
   const temp = store.cameraInfo.Temperature;
+  if (temp == null || isNaN(temp)) {
+    return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
+  }
+  return temp.toFixed(2); // Formatierte Temperatur
+});
+const formattedTemperatureSetpoint = computed(() => {
+  const temp = store.cameraInfo.TemperatureSetPoint;
   if (temp == null || isNaN(temp)) {
     return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
   }

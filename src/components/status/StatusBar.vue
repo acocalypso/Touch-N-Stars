@@ -59,7 +59,14 @@
       </p>
     </button>
     <!--Filter-->
-      <div v-if="store.filterInfo.Connected" class="hidden sm:block">
+      <button 
+        v-if="store.filterInfo.Connected" 
+        class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+        :class="{
+          'glow-green': filterStore.showFilterwheelInfo,
+        }"
+        @click="handleFilterClick"
+        >
         <p class="flex items-center">
           <svg
             class="w-5 h-5"
@@ -80,7 +87,7 @@
           </svg>
           {{ store.filterInfo.SelectedFilter.Name }}
         </p>
-      </div>
+      </button>
     <!--Mount-->
     <button 
       v-if="store.mountInfo.Connected" 
@@ -266,6 +273,15 @@
       <infoMount class="p-5" />
     </div>
 
+    <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="filterStore.showFilterwheelInfo"
+    >
+      <InfoFilterwheel class="p-5" />
+    </div>
+
   </div>
 </template>
 
@@ -281,9 +297,11 @@ import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
 import {useMountStore} from '@/store/mountStore';
+import { useFilterStore } from '@/store/filterStore';
 import { useOrientation } from '@/composables/useOrientation';
 import infoCamera from '../camera/infoCamera.vue';
 import infoMount from '../mount/infoMount.vue';
+import InfoFilterwheel from '../filterwheel/InfoFilterwheel.vue';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
@@ -292,6 +310,7 @@ const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
 const mountStore = useMountStore();
+const filterStore = useFilterStore();
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 
 const activeInstanceColor = computed(() => {
@@ -323,6 +342,7 @@ function handleCameraClick() {
   if (cameraStore.showCameraInfo) {
     guiderStore.showGuiderGraph = false;
     mountStore.showMountInfo = false;
+    filterStore.showFilterwheelInfo = false;
   }
 }
 
@@ -331,6 +351,7 @@ function handleGuiderClick() {
   if (guiderStore.showGuiderGraph) {
     cameraStore.showCameraInfo = false;
     mountStore.showMountInfo = false;
+    filterStore.showFilterwheelInfo = false;
   }
 }
 
@@ -339,6 +360,16 @@ function handleMountClick() {
   if (mountStore.showMountInfo) {
     cameraStore.showCameraInfo = false;
     guiderStore.showGuiderGraph = false;
+    filterStore.showFilterwheelInfo = false;
+  }
+}
+
+function handleFilterClick() {
+  filterStore.showFilterwheelInfo = ! filterStore.showFilterwheelInfo;
+  if ( filterStore.showFilterwheelInfo) {
+    cameraStore.showCameraInfo = false;
+    guiderStore.showGuiderGraph = false;
+    mountStore.showMountInfo = false;
   }
 }
 </script>

@@ -2,7 +2,7 @@
   <div v-if="!store.filterInfo.Connected" class="text-red-500">
     <p>{{ $t('components.filterwheel.please_connect_filterwheel') }}</p>
   </div>
-  <div v-else class="gap-2">
+  <div v-else class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
     <StatusString
       :isEnabled="store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Name"
       :Name="$t('components.filterwheel.currentFilter')"

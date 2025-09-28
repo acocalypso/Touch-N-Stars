@@ -23,7 +23,7 @@ export const useLogStore = defineStore('LogStore', {
       'Sequence contains no matching element',
       'DllLoader failed to load library',
       "Can't get running items: SequencerNavigation not initialized yet!",
-      "PHD2 connection attempt",
+      'PHD2 connection attempt',
       'System.InvalidOperationException',
     ],
   }),
@@ -69,9 +69,8 @@ export const useLogStore = defineStore('LogStore', {
       });
     },
 
-
     isMessageFiltered(message) {
-      return this.messageFilters.some(filter =>
+      return this.messageFilters.some((filter) =>
         message.toLowerCase().includes(filter.toLowerCase())
       );
     },

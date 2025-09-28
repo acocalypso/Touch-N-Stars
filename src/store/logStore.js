@@ -18,6 +18,14 @@ export const useLogStore = defineStore('LogStore', {
     lastHfrLogTime: 0,
     lastErrorWarningTimestamp:
       localStorage.getItem('lastErrorWarningTimestamp') || '1970-01-01T00:00:00.0000',
+
+    messageFilters: [
+      'Sequence contains no matching element',
+      'DllLoader failed to load library',
+      "Can't get running items: SequencerNavigation not initialized yet!",
+      "PHD2 connection attempt",
+      'System.InvalidOperationException',
+    ],
   }),
 
   actions: {
@@ -61,6 +69,13 @@ export const useLogStore = defineStore('LogStore', {
       });
     },
 
+
+    isMessageFiltered(message) {
+      return this.messageFilters.some(filter =>
+        message.toLowerCase().includes(filter.toLowerCase())
+      );
+    },
+
     checkForNewErrorWarnings(logs) {
       if (!logs || !Array.isArray(logs)) return;
 
@@ -72,11 +87,14 @@ export const useLogStore = defineStore('LogStore', {
       // Filtere nur Meldungen der letzten 10 Minuten
       const recentLogs = errorWarningLogs.filter((log) => this.isWithinTenMinutes(log.timestamp));
 
+      // Filtere heraus, was in den Message-Filtern steht
+      const unfilteredLogs = recentLogs.filter((log) => !this.isMessageFiltered(log.message));
+
       // Sortiere nach Timestamp (neueste zuerst)
-      recentLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      unfilteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
       // Finde neue Meldungen seit dem letzten gespeicherten Timestamp
-      const newLogs = recentLogs.filter(
+      const newLogs = unfilteredLogs.filter(
         (log) => new Date(log.timestamp) > new Date(this.lastErrorWarningTimestamp)
       );
 

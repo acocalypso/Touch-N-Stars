@@ -52,7 +52,6 @@
           </span>
         </button>
 
-
         <!-- Star Components Toggle Button -->
         <button
           v-if="guiderStore.phd2Connection?.IsConnected"
@@ -359,18 +358,14 @@ async function startGuiding() {
 }
 
 async function stopGuiding() {
-
   try {
-
-      await apiService.setPHD2StopGuiding();
-
+    await apiService.setPHD2StopGuiding();
   } catch (error) {
     console.error('Fehler beim Guiding Toggle:', error.response?.data || error);
   } finally {
     isProcessing.value = false;
   }
 }
-
 </script>
 
 <style scoped>

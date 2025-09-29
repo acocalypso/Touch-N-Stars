@@ -23,23 +23,25 @@ export const useLogStore = defineStore('LogStore', {
       // Nachrichten die ANGEZEIGT werden sollen (Whitelist)
       'guide star',
       'Platesolve failed',
-      'Timed-out waiting for guider to settle'
+      'Timed-out waiting for guider to settle',
     ],
 
     // Regeln zum Ändern von Level und Text bestimmter Log-Einträge
     logTransformRules: [
       {
-        condition: (log) => log.level === 'ERROR' && log.message.includes('error:timed-out waiting for guider to settle'),
-        transform: (log) => ({ ...log, level: 'WARNING', message: log.message })
+        condition: (log) =>
+          log.level === 'ERROR' &&
+          log.message.includes('error:timed-out waiting for guider to settle'),
+        transform: (log) => ({ ...log, level: 'WARNING', message: log.message }),
       },
       {
         condition: (log) => log.level === 'INFO' && log.message.includes('Platesolve failed'),
-        transform: (log) => ({ ...log, level: 'WARNING', message: log.message })
+        transform: (log) => ({ ...log, level: 'WARNING', message: log.message }),
       },
       {
         condition: (log) => log.message.includes('error:timed-out waiting for guider to settle'),
-        transform: (log) => ({ ...log, message: 'Timed-out waiting for guider to settle' })
-      }
+        transform: (log) => ({ ...log, message: 'Timed-out waiting for guider to settle' }),
+      },
     ],
   }),
 
@@ -114,7 +116,7 @@ export const useLogStore = defineStore('LogStore', {
 
       // Filtere ERROR und WARNING Nachrichten (OHNE Transformation der ursprünglichen Logs)
       const errorWarningLogs = logs.filter(
-        (log) => log.level === 'ERROR' || log.level === 'WARNING'|| log.level === 'INFO'
+        (log) => log.level === 'ERROR' || log.level === 'WARNING' || log.level === 'INFO'
       );
 
       // Filtere nur Meldungen der letzten 10 Minuten
@@ -141,7 +143,12 @@ export const useLogStore = defineStore('LogStore', {
         // Transformiere nur für die Anzeige (nicht die ursprünglichen Logs)
         const displayLog = this.transformLog(latestLog);
 
-        const type = displayLog.level === 'ERROR' ? 'error' : displayLog.level === 'WARNING' ? 'warning' : 'info';
+        const type =
+          displayLog.level === 'ERROR'
+            ? 'error'
+            : displayLog.level === 'WARNING'
+              ? 'warning'
+              : 'info';
         const formattedTime = this.formatTimestamp(latestLog.timestamp);
 
         toastStore.showToast({

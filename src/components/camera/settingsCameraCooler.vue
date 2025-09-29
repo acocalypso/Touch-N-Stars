@@ -199,13 +199,13 @@ onMounted(() => {
   if (store.profileInfo.CameraSettings.CoolingDuration <= 0) {
     cameraStore.coolingTime = 10;
   } else {
-    cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration; 
+    cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration;
   }
 
   if (store.profileInfo.CameraSettings.WarmingDuration <= 0) {
     cameraStore.warmingTime = 10;
   } else {
-    cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration; 
+    cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration;
   }
 });
 </script>

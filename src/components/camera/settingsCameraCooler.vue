@@ -195,7 +195,17 @@ watch(
 onMounted(() => {
   cameraStore.buttonCoolerOn = store.cameraInfo.CoolerOn;
   cameraStore.coolingTemp = store.profileInfo.CameraSettings.Temperature;
-  cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration;
-  cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration;
+
+  if (store.profileInfo.CameraSettings.CoolingDuration <= 0) {
+    cameraStore.coolingTime = 10;
+  } else {
+    cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration; 
+  }
+
+  if (store.profileInfo.CameraSettings.WarmingDuration <= 0) {
+    cameraStore.warmingTime = 10;
+  } else {
+    cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration; 
+  }
 });
 </script>

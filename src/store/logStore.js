@@ -22,7 +22,24 @@ export const useLogStore = defineStore('LogStore', {
     messageFilters: [
       // Nachrichten die ANGEZEIGT werden sollen (Whitelist)
       'guide star',
-      'Platesolve failed'
+      'Platesolve failed',
+      'Timed-out waiting for guider to settle'
+    ],
+
+    // Regeln zum Ändern von Level und Text bestimmter Log-Einträge
+    logTransformRules: [
+      {
+        condition: (log) => log.level === 'ERROR' && log.message.includes('error:timed-out waiting for guider to settle'),
+        transform: (log) => ({ ...log, level: 'WARNING', message: log.message })
+      },
+      {
+        condition: (log) => log.level === 'INFO' && log.message.includes('Platesolve failed'),
+        transform: (log) => ({ ...log, level: 'WARNING', message: log.message })
+      },
+      {
+        condition: (log) => log.message.includes('error:timed-out waiting for guider to settle'),
+        transform: (log) => ({ ...log, message: 'Timed-out waiting for guider to settle' })
+      }
     ],
   }),
 
@@ -36,8 +53,8 @@ export const useLogStore = defineStore('LogStore', {
           return;
         }
 
-        // Logs vom Backend holen (z.B. die letzten 100)
-        const logs = await apiService.getLastLogs('100');
+        // Logs vom Backend holen (z.B. die letzten 50)
+        const logs = await apiService.getLastLogs('50');
         this.LogsInfo.logs = logs;
 
         // Prüfe auf neue ERROR/WARNING Meldungen
@@ -67,6 +84,19 @@ export const useLogStore = defineStore('LogStore', {
       });
     },
 
+    // Transformiert Log-Einträge basierend auf den definierten Regeln
+    transformLog(log) {
+      let transformedLog = { ...log };
+
+      for (const rule of this.logTransformRules) {
+        if (rule.condition(transformedLog)) {
+          transformedLog = rule.transform(transformedLog);
+        }
+      }
+
+      return transformedLog;
+    },
+
     isMessageAllowed(message) {
       // Wenn keine Filter definiert sind, alle Nachrichten erlauben
       if (this.messageFilters.length === 0) {
@@ -82,7 +112,7 @@ export const useLogStore = defineStore('LogStore', {
     checkForNewErrorWarnings(logs) {
       if (!logs || !Array.isArray(logs)) return;
 
-      // Filtere ERROR und WARNING Nachrichten
+      // Filtere ERROR und WARNING Nachrichten (OHNE Transformation der ursprünglichen Logs)
       const errorWarningLogs = logs.filter(
         (log) => log.level === 'ERROR' || log.level === 'WARNING'|| log.level === 'INFO'
       );
@@ -107,14 +137,18 @@ export const useLogStore = defineStore('LogStore', {
 
         // Zeige die neueste Meldung
         const latestLog = newLogs[0];
-        const type = latestLog.level === 'ERROR' ? 'error' : latestLog.level === 'WARNING' ? 'warning' : 'info';
+
+        // Transformiere nur für die Anzeige (nicht die ursprünglichen Logs)
+        const displayLog = this.transformLog(latestLog);
+
+        const type = displayLog.level === 'ERROR' ? 'error' : displayLog.level === 'WARNING' ? 'warning' : 'info';
         const formattedTime = this.formatTimestamp(latestLog.timestamp);
 
         toastStore.showToast({
           type: type,
-          title: `${latestLog.level}: ${formattedTime}`,
-          message: latestLog.message,
-          autoClose: latestLog.level === 'ERROR' ? false : true,
+          title: `${displayLog.level}: ${formattedTime}`,
+          message: displayLog.message,
+          autoClose: displayLog.level === 'ERROR' ? false : true,
           autoCloseDelay: 8000,
         });
 

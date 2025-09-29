@@ -21,7 +21,8 @@ export const useLogStore = defineStore('LogStore', {
 
     messageFilters: [
       // Nachrichten die ANGEZEIGT werden sollen (Whitelist)
-      'guide star'
+      'guide star',
+      'Platesolve failed'
     ],
   }),
 
@@ -83,7 +84,7 @@ export const useLogStore = defineStore('LogStore', {
 
       // Filtere ERROR und WARNING Nachrichten
       const errorWarningLogs = logs.filter(
-        (log) => log.level === 'ERROR' || log.level === 'WARNING'
+        (log) => log.level === 'ERROR' || log.level === 'WARNING'|| log.level === 'INFO'
       );
 
       // Filtere nur Meldungen der letzten 10 Minuten
@@ -106,7 +107,7 @@ export const useLogStore = defineStore('LogStore', {
 
         // Zeige die neueste Meldung
         const latestLog = newLogs[0];
-        const type = latestLog.level === 'ERROR' ? 'error' : 'warning';
+        const type = latestLog.level === 'ERROR' ? 'error' : latestLog.level === 'WARNING' ? 'warning' : 'info';
         const formattedTime = this.formatTimestamp(latestLog.timestamp);
 
         toastStore.showToast({

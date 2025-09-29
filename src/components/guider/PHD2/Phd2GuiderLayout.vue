@@ -359,14 +359,13 @@ async function startGuiding() {
 
 async function stopGuiding() {
   try {
-    if(!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')){
+    if (!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')) {
       await apiService.guiderAction('stop');
       console.log('Guiding stopped via guiderAction');
     } else {
       await apiService.setPHD2StopGuiding();
       console.log('Guiding stopped via setPHD2StopGuiding');
     }
-    
   } catch (error) {
     console.error('Fehler beim Guiding Toggle:', error.response?.data || error);
   } finally {

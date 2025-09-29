@@ -20,11 +20,8 @@ export const useLogStore = defineStore('LogStore', {
       localStorage.getItem('lastErrorWarningTimestamp') || '1970-01-01T00:00:00.0000',
 
     messageFilters: [
-      'Sequence contains no matching element',
-      'DllLoader failed to load library',
-      "Can't get running items: SequencerNavigation not initialized yet!",
-      'PHD2 connection attempt',
-      'System.InvalidOperationException',
+      // Nachrichten die ANGEZEIGT werden sollen (Whitelist)
+      'guide star'
     ],
   }),
 
@@ -69,7 +66,13 @@ export const useLogStore = defineStore('LogStore', {
       });
     },
 
-    isMessageFiltered(message) {
+    isMessageAllowed(message) {
+      // Wenn keine Filter definiert sind, alle Nachrichten erlauben
+      if (this.messageFilters.length === 0) {
+        return true;
+      }
+
+      // Prüfen ob die Nachricht einen der erlaubten Filter enthält
       return this.messageFilters.some((filter) =>
         message.toLowerCase().includes(filter.toLowerCase())
       );
@@ -86,14 +89,14 @@ export const useLogStore = defineStore('LogStore', {
       // Filtere nur Meldungen der letzten 10 Minuten
       const recentLogs = errorWarningLogs.filter((log) => this.isWithinTenMinutes(log.timestamp));
 
-      // Filtere heraus, was in den Message-Filtern steht
-      const unfilteredLogs = recentLogs.filter((log) => !this.isMessageFiltered(log.message));
+      // Erlaube nur Nachrichten, die in den Message-Filtern enthalten sind
+      const allowedLogs = recentLogs.filter((log) => this.isMessageAllowed(log.message));
 
       // Sortiere nach Timestamp (neueste zuerst)
-      unfilteredLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+      allowedLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
       // Finde neue Meldungen seit dem letzten gespeicherten Timestamp
-      const newLogs = unfilteredLogs.filter(
+      const newLogs = allowedLogs.filter(
         (log) => new Date(log.timestamp) > new Date(this.lastErrorWarningTimestamp)
       );
 

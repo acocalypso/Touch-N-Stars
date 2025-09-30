@@ -94,7 +94,7 @@
             <div class="flex space-x-2 mb-3">
               <button
                 @click="startLivestack"
-                class="flex-1 bg-green-600 hover:bg-green-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+                class="default-button-green"
                 :disabled="isStarting"
               >
                 <PlayIcon v-if="!isStarting" class="w-4 h-4" />
@@ -102,14 +102,14 @@
               </button>
               <button
                 @click="stopLivestack"
-                class="flex-1 bg-red-600 hover:bg-red-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+                class="default-button-red"
               >
                 <StopIcon class="w-4 h-4" />
               </button>
               <button
                 v-if="livestackStore.currentImageUrl"
                 @click="handleDownload({ imageData: livestackStore.currentImageUrl })"
-                class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+                class="default-button-blue"
                 title="Download Image"
               >
                 <ArrowDownTrayIcon class="w-4 h-4" />

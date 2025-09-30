@@ -372,20 +372,27 @@ const handleWebSocketMessage = async (message) => {
         `Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`
       );
 
-      // If this is the currently selected target and filter, force reload the image
-      if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {
-        console.log('Force reloading current image due to stack update');
-        await forceLoadImage(Target, Filter);
-      }
-
-      // Update the available images list without loading image again
+      // Update the available images list first
       try {
         const result = await apiService.livestackImageAvailable();
         if (result.Success && Array.isArray(result.Response)) {
           availableImages.value = result.Response;
+
+          // Update currentTarget if it's null
+          if (!currentTarget.value && result.Response.length > 0) {
+            currentTarget.value = result.Response[0].Target;
+          }
         }
       } catch (error) {
         console.error('Error updating image availability:', error);
+      }
+
+      // If this is the currently selected target and filter, force reload the image
+      // Also load if currentTarget was null (first image)
+      if ((currentTarget.value === Target && livestackStore.selectedFilter === Filter) ||
+          (!livestackStore.currentImageUrl && livestackStore.selectedFilter === Filter)) {
+        console.log('Force reloading current image due to stack update');
+        await forceLoadImage(Target, Filter);
       }
     } else {
       //console.log(`Received non-STACK-UPDATED event: ${Event}`);

@@ -322,12 +322,10 @@ const handleDownload = () => {
 // Watchers
 watch(
   () => props.imageData,
-  (newImageData) => {
-    if (newImageData) {
-      nextTick(() => {
-        onImageLoad();
-      });
-    } else {
+  (newImageData, oldImageData) => {
+    // Only destroy panzoom when image is removed (set to null)
+    // Don't call onImageLoad here - let the native @load event handle it
+    if (!newImageData && oldImageData) {
       destroyPanzoom();
       zoomLevel.value = 1;
     }

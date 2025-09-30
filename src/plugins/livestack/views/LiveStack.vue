@@ -344,8 +344,8 @@ const handleWebSocketStatus = (status) => {
   console.log('Livestack WebSocket status:', status);
 };
 
-const handleWebSocketMessage = (message) => {
-  console.log('Received livestack WebSocket message:', message);
+const handleWebSocketMessage = async (message) => {
+  //console.log('Received livestack WebSocket message:', message);
 
   // Handle STACK-UPDATED events
   if (message.Type === 'Socket' && message.Success && message.Response) {
@@ -358,18 +358,23 @@ const handleWebSocketMessage = (message) => {
       // If this is the currently selected target and filter, force reload the image
       if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {
         console.log('Force reloading current image due to stack update');
-        forceLoadImage(Target, Filter);
-      } else {
-        console.log('Stack update is for different target/filter, not reloading');
+        await forceLoadImage(Target, Filter);
       }
 
-      // Also update the available images list
-      checkImageAvailability();
+      // Update the available images list without loading image again
+      try {
+        const result = await apiService.livestackImageAvailable();
+        if (result.Success && Array.isArray(result.Response)) {
+          availableImages.value = result.Response;
+        }
+      } catch (error) {
+        console.error('Error updating image availability:', error);
+      }
     } else {
-      console.log(`Received non-STACK-UPDATED event: ${Event}`);
+      //console.log(`Received non-STACK-UPDATED event: ${Event}`);
     }
   } else {
-    console.log('WebSocket message does not match expected format');
+    //console.log('WebSocket message does not match expected format');
   }
 };
 

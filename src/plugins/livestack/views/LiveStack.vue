@@ -389,8 +389,10 @@ const handleWebSocketMessage = async (message) => {
 
       // If this is the currently selected target and filter, force reload the image
       // Also load if currentTarget was null (first image)
-      if ((currentTarget.value === Target && livestackStore.selectedFilter === Filter) ||
-          (!livestackStore.currentImageUrl && livestackStore.selectedFilter === Filter)) {
+      if (
+        (currentTarget.value === Target && livestackStore.selectedFilter === Filter) ||
+        (!livestackStore.currentImageUrl && livestackStore.selectedFilter === Filter)
+      ) {
         console.log('Force reloading current image due to stack update');
         await forceLoadImage(Target, Filter);
       }

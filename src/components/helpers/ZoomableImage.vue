@@ -44,6 +44,7 @@
       :class="{ 'opacity-50': loading }"
       @load="onImageLoad"
       @error="onImageError"
+      @click="handleImageClick"
     />
 
     <!-- Loading Spinner Overlay -->
@@ -132,7 +133,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['download', 'fullscreen', 'zoom-change', 'image-load', 'image-error']);
+const emits = defineEmits(['download', 'fullscreen', 'zoom-change', 'image-load', 'image-error', 'click']);
 
 // Refs
 const imageContainer = ref(null);
@@ -149,6 +150,13 @@ const { isLandscape } = useOrientation();
 
 const handleFullscreen = () => {
   emits('fullscreen', {
+    imageData: props.imageData,
+    zoomLevel: zoomLevel.value,
+  });
+};
+
+const handleImageClick = () => {
+  emits('click', {
     imageData: props.imageData,
     zoomLevel: zoomLevel.value,
   });

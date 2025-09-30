@@ -11,11 +11,11 @@
     <!-- Main content when plugin is available -->
     <div v-else>
       <!-- Fullscreen Image Display -->
-      <div v-show="livestackStore.currentImageUrl" class="fixed inset-0 z-10">
+      <div class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
           :imageData="livestackStore.currentImageUrl"
-          :loading="false"
+          :loading="isLoading"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="true"
@@ -124,6 +124,13 @@
                       : t('plugins.livestack.no_images_available')
                   }}
                 </span>
+              </p>
+              <p v-if="isLoading" class="text-yellow-400 mt-1 flex items-center">
+                <svg class="animate-spin -ml-1 mr-2 h-3 w-3 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Loading image...
               </p>
               <p v-if="currentTarget" class="text-gray-400 mt-1">
                 {{ t('plugins.livestack.target') }}: {{ currentTarget }}
@@ -246,9 +253,15 @@ const checkImageAvailability = async () => {
       availableImages.value = result.Response;
       if (availableImages.value.length > 0) {
         currentTarget.value = availableImages.value[0].Target;
-        if (!livestackStore.selectedFilter) {
+
+        // Auto-select first available filter if no filter is selected
+        // or if current filter is not available anymore
+        const availableFilters = availableImages.value.map(img => img.Filter);
+        if (!livestackStore.selectedFilter || !availableFilters.includes(livestackStore.selectedFilter)) {
           livestackStore.selectedFilter = availableImages.value[0].Filter;
+          console.log('Auto-selected filter:', livestackStore.selectedFilter);
         }
+
         loadImage(currentTarget.value, livestackStore.selectedFilter);
       }
     } else {
@@ -268,12 +281,15 @@ const selectFilter = async (filter) => {
 };
 
 const loadImage = async (target, filter, forceReload = false) => {
+  console.log(`loadImage called: target=${target}, filter=${filter}, forceReload=${forceReload}`);
+
   // Check if we should reload the image (unless forced)
   if (!forceReload && !livestackStore.shouldReloadImage(target, filter)) {
     console.log('Using cached image for', target, filter);
     return;
   }
 
+  console.log('Loading new image...');
   isLoading.value = true;
   errorMessage.value = null;
 
@@ -292,13 +308,14 @@ const loadImage = async (target, filter, forceReload = false) => {
 };
 
 const forceLoadImage = async (target, filter) => {
+  console.log(`forceLoadImage called: target=${target}, filter=${filter}`);
   // Force reload even if cached - used for websocket updates
   await loadImage(target, filter, true);
 };
 
 
 const handleZoomChange = (zoomLevel) => {
-  console.log('Livestack image zoom level changed:', zoomLevel);
+  //console.log('Livestack image zoom level changed:', zoomLevel);
 };
 
 const handleImageLoad = () => {
@@ -336,16 +353,23 @@ const handleWebSocketMessage = (message) => {
 
     if (Event === 'STACK-UPDATED') {
       console.log(`Stack updated for ${Target} with filter ${Filter}`);
+      console.log(`Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`);
 
       // If this is the currently selected target and filter, force reload the image
       if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {
         console.log('Force reloading current image due to stack update');
         forceLoadImage(Target, Filter);
+      } else {
+        console.log('Stack update is for different target/filter, not reloading');
       }
 
       // Also update the available images list
       checkImageAvailability();
+    } else {
+      console.log(`Received non-STACK-UPDATED event: ${Event}`);
     }
+  } else {
+    console.log('WebSocket message does not match expected format');
   }
 };
 
@@ -363,6 +387,12 @@ onMounted(async () => {
   // Setup WebSocket callbacks
   websocketLivestackService.setStatusCallback(handleWebSocketStatus);
   websocketLivestackService.setMessageCallback(handleWebSocketMessage);
+
+  // Connect WebSocket
+  websocketLivestackService.connect();
+
+  // Subscribe to livestack events
+  websocketLivestackService.subscribe('STACK-UPDATED');
 
   // Initial check for available images
   checkImageAvailability();

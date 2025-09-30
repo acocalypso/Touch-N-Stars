@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - There is now a refresh button in iOS to reload Stellarium.
 - Sequence design adapted
 - PHD2 connection establishment has been improved
+- Save zoom and position in the camera image 
 
 ### Fixed
 - Image statistics: Temperature limited to one decimal place

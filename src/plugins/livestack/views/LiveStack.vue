@@ -23,7 +23,6 @@
           height="100vh"
           :altText="`Livestack Image - ${livestackStore.selectedFilter}`"
           placeholderText="Loading livestack image..."
-          @zoom-change="handleZoomChange"
           @image-load="handleImageLoad"
           @image-error="handleImageError"
           @download="handleDownload"
@@ -52,11 +51,12 @@
         </div>
       </div>
 
-
       <!-- Control Panel Overlay -->
       <div :class="controlPanelClasses">
         <!-- Status Display -->
-        <div class="bg-gray-800/90 backdrop-blur-sm rounded-lg text-white transition-all duration-300">
+        <div
+          class="bg-gray-800/90 backdrop-blur-sm rounded-lg text-white transition-all duration-300"
+        >
           <!-- Header with toggle button -->
           <div class="flex items-center justify-between p-4 border-b border-gray-700">
             <h5 class="text-lg font-bold">Livestack</h5>
@@ -74,14 +74,17 @@
                 class="w-4 h-4 transition-transform duration-200"
                 :class="{ 'rotate-180': isControlPanelMinimized }"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                />
               </svg>
             </button>
           </div>
 
           <!-- Collapsible content -->
           <div v-show="!isControlPanelMinimized" class="p-4">
-
             <!-- Beta Notice -->
             <div v-if="livestackPluginAvailable" class="bg-blue-600/50 rounded p-2 mb-3 text-xs">
               <p class="text-blue-200">{{ t('plugins.livestack.beta_note') }}</p>
@@ -126,9 +129,25 @@
                 </span>
               </p>
               <p v-if="isLoading" class="text-yellow-400 mt-1 flex items-center">
-                <svg class="animate-spin -ml-1 mr-2 h-3 w-3 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  class="animate-spin -ml-1 mr-2 h-3 w-3 text-yellow-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
                 Loading image...
               </p>
@@ -168,7 +187,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -201,13 +219,12 @@ const isControlPanelMinimized = ref(false);
 const controlPanelClasses = computed(() => ({
   'fixed z-30 max-w-sm': true,
   'top-24 right-4': !isLandscape.value, // Portrait mode - below navbar
-  'top-4 right-4': isLandscape.value,   // Landscape mode - normal position
+  'top-4 right-4': isLandscape.value, // Landscape mode - normal position
 }));
 
 const toggleControlPanel = () => {
   isControlPanelMinimized.value = !isControlPanelMinimized.value;
 };
-
 
 const startLivestack = async () => {
   isStarting.value = true;
@@ -256,8 +273,11 @@ const checkImageAvailability = async () => {
 
         // Auto-select first available filter if no filter is selected
         // or if current filter is not available anymore
-        const availableFilters = availableImages.value.map(img => img.Filter);
-        if (!livestackStore.selectedFilter || !availableFilters.includes(livestackStore.selectedFilter)) {
+        const availableFilters = availableImages.value.map((img) => img.Filter);
+        if (
+          !livestackStore.selectedFilter ||
+          !availableFilters.includes(livestackStore.selectedFilter)
+        ) {
           livestackStore.selectedFilter = availableImages.value[0].Filter;
           console.log('Auto-selected filter:', livestackStore.selectedFilter);
         }
@@ -313,11 +333,6 @@ const forceLoadImage = async (target, filter) => {
   await loadImage(target, filter, true);
 };
 
-
-const handleZoomChange = (zoomLevel) => {
-  //console.log('Livestack image zoom level changed:', zoomLevel);
-};
-
 const handleImageLoad = () => {
   console.log('Livestack image loaded successfully');
 };
@@ -353,7 +368,9 @@ const handleWebSocketMessage = async (message) => {
 
     if (Event === 'STACK-UPDATED') {
       console.log(`Stack updated for ${Target} with filter ${Filter}`);
-      console.log(`Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`);
+      console.log(
+        `Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`
+      );
 
       // If this is the currently selected target and filter, force reload the image
       if (currentTarget.value === Target && livestackStore.selectedFilter === Filter) {

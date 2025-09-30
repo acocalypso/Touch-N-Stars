@@ -133,7 +133,14 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['download', 'fullscreen', 'zoom-change', 'image-load', 'image-error', 'click']);
+const emits = defineEmits([
+  'download',
+  'fullscreen',
+  'zoom-change',
+  'image-load',
+  'image-error',
+  'click',
+]);
 
 // Refs
 const imageContainer = ref(null);

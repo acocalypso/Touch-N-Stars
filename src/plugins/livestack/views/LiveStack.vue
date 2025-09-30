@@ -92,18 +92,11 @@
 
             <!-- Controls -->
             <div class="flex space-x-2 mb-3">
-              <button
-                @click="startLivestack"
-                class="default-button-green"
-                :disabled="isStarting"
-              >
+              <button @click="startLivestack" class="default-button-green" :disabled="isStarting">
                 <PlayIcon v-if="!isStarting" class="w-4 h-4" />
                 <ArrowPathIcon v-else class="w-4 h-4 animate-spin" />
               </button>
-              <button
-                @click="stopLivestack"
-                class="default-button-red"
-              >
+              <button @click="stopLivestack" class="default-button-red">
                 <StopIcon class="w-4 h-4" />
               </button>
               <button

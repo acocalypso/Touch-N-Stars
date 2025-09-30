@@ -144,6 +144,7 @@ let panzoomInstance = null;
 const zoomLevel = ref(1);
 const originalWidth = ref(1);
 const originalHeight = ref(1);
+const savedTransform = ref(null); // Save zoom and pan position
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
@@ -239,6 +240,24 @@ const initializePanzoom = () => {
         }
       }
 
+      // Restore saved transform if available
+      if (savedTransform.value) {
+        try {
+          // Use moveTo and zoomAbs separately for better position restoration
+          const { x, y, scale } = savedTransform.value;
+
+          // First zoom to the saved scale
+          panzoomInstance.zoomAbs(0, 0, scale);
+
+          // Then move to the saved position
+          panzoomInstance.moveTo(x, y);
+
+          console.log('Restored zoom and position:', savedTransform.value);
+        } catch (error) {
+          console.warn('Could not restore transform:', error);
+        }
+      }
+
       // Initial zoom level
       logZoomLevel();
 
@@ -264,6 +283,16 @@ const initializePanzoom = () => {
 
 const destroyPanzoom = () => {
   if (panzoomInstance) {
+    // Save current transform before destroying
+    try {
+      if (typeof panzoomInstance.getTransform === 'function') {
+        savedTransform.value = panzoomInstance.getTransform();
+        console.log('Saved transform:', savedTransform.value);
+      }
+    } catch (error) {
+      console.warn('Could not save transform:', error);
+    }
+
     panzoomInstance.dispose();
     panzoomInstance = null;
   }

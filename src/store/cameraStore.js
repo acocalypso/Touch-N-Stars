@@ -211,6 +211,13 @@ export const useCameraStore = defineStore('cameraStore', () => {
       return;
     }
 
+    // Stop any existing countdown loop first
+    if (countdownRunning.value) {
+      countdownRunning.value = false;
+      // Wait a bit to ensure old loop stops
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
     // Ensure time sync before starting countdown
     await timeSync.ensureSync();
 

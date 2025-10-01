@@ -52,29 +52,29 @@ class WebSocketChannelService {
         resolve();
       };
 
-    this.socket.onmessage = (event) => {
-      //console.log('Channel Nachricht empfangen:', event.data);
-      try {
-        let message;
-        if (event.data.startsWith('{') || event.data.startsWith('[')) {
-          message = JSON.parse(event.data);
-        } else {
-          message = event.data;
-        }
+      this.socket.onmessage = (event) => {
+        //console.log('Channel Nachricht empfangen:', event.data);
+        try {
+          let message;
+          if (event.data.startsWith('{') || event.data.startsWith('[')) {
+            message = JSON.parse(event.data);
+          } else {
+            message = event.data;
+          }
 
-        if (this.messageCallback) {
-          this.messageCallback(message);
+          if (this.messageCallback) {
+            this.messageCallback(message);
+          }
+        } catch (error) {
+          console.error('Channel Fehler beim Parsen der Nachricht:', error);
+          if (this.messageCallback) {
+            this.messageCallback(event.data);
+          }
+          if (this.statusCallback) {
+            this.statusCallback('Fehler beim Empfangen einer Nachricht');
+          }
         }
-      } catch (error) {
-        console.error('Channel Fehler beim Parsen der Nachricht:', error);
-        if (this.messageCallback) {
-          this.messageCallback(event.data);
-        }
-        if (this.statusCallback) {
-          this.statusCallback('Fehler beim Empfangen einer Nachricht');
-        }
-      }
-    };
+      };
 
       this.socket.onerror = (error) => {
         console.error('Channel WebSocket-Fehler:', error);

@@ -372,7 +372,7 @@ watch(
     if (isReachable && showSplashScreen.value) {
       setTimeout(() => {
         showSplashScreen.value = false;
-      }, 1000); // 1 second delay
+      }, 200); // delay
     }
   }
 );

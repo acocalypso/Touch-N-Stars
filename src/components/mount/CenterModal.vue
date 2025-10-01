@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="flex items-center justify-center w-full mt-4">
-          <ButtonSlewStop class="p-2" @click="isModalOpen = flase" />
+          <ButtonSlewStop class="p-2" />
         </div>
       </div>
     </div>

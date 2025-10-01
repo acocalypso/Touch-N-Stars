@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence design adapted
 - PHD2 connection establishment has been improved
 - Save zoom and position in the camera image 
+- Improved app loading speed by adjusting timeout periods 
 
 ### Fixed
 - Image statistics: Temperature limited to one decimal place

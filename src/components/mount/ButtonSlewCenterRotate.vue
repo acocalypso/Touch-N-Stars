@@ -108,7 +108,7 @@
     </template>
   </Modal>
 
-  <CenterModal ref="centeringModalRef" />
+  <CenterModal />
 </template>
 
 <script setup>
@@ -128,7 +128,6 @@ const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
-const centeringModalRef = ref(null);
 const showSettingsModal = ref(false);
 
 const props = defineProps({
@@ -160,7 +159,7 @@ async function slew() {
     let numberOfAttemptsTemp = 0;
 
     if (center || rotate) {
-      centeringModalRef.value?.openModal();
+      framingStore.showCenterModal = true;
       console.log('First: Slew to the target');
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
       if (framingStore.slewIsStopt) return;

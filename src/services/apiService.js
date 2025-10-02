@@ -735,7 +735,7 @@ const apiService = {
     }
   },
 
-  async startCooling(temp, minutes) {
+  async startCameraCooling(temp, minutes) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/cool`, {
@@ -751,7 +751,7 @@ const apiService = {
     }
   },
 
-  async stoppCooling() {
+  async stopCameraCooling() {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/cool`, {
@@ -760,6 +760,34 @@ const apiService = {
       return response.data;
     } catch (error) {
       // console.error('Error retrieving capture result:', error);
+      throw error;
+    }
+  },
+
+  async startCameraWarming(minutes) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/warm`, {
+        params: {
+          minutes: minutes,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async stopCameraWarming() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/warm`, {
+        params: {
+          cancel: true,
+        },
+      });
+      return response.data;
+    } catch (error) {
       throw error;
     }
   },

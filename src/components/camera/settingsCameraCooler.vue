@@ -44,6 +44,12 @@
               @blur="setCoolingTime"
             />
           </div>
+          <div class="flex items-center justify-between mb-2">
+          <label for="Cooler" class="text-gray-200 font-medium">
+            {{ $t('components.camera.camera_warming') }}
+          </label>
+          <toggleButton @click="toggleWarming" :status-value="cameraStore.buttonWarmingOn" />
+        </div>
           <div
             class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
           >
@@ -84,6 +90,7 @@ import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import { cond } from 'lodash';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
@@ -124,9 +131,74 @@ async function setCoolingTemp() {
       'CameraSettings-Temperature',
       cameraStore.coolingTemp
     );
-    console.log(response);
+    console.log('setCoolingTemp', response);
   } catch (error) {
     console.log('Error:', error);
+  }
+}
+
+function toggleCooling() {
+  console.log('Toggle Cooling', cameraStore.buttonCoolerOn);
+  if (!cameraStore.buttonCoolerOn) {
+    startCooling();
+    console.log('Start Cooling');
+  } else {
+    stopCooling();
+    console.log('stop Cooling');
+  }
+}
+
+async function startCooling() {
+  try {
+    const response = await apiService.stopCameraWarming();
+    console.log('Antwort warming stop:', response);
+    cameraStore.buttonWarmingOn = false;
+    const response2 = await apiService.startCameraCooling(cameraStore.coolingTemp, cameraStore.coolingTime);
+    cameraStore.buttonCoolerOn = true;
+    console.log('Antwort cooling start:', response2);
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+async function stopCooling() {
+  try {
+    const response = await apiService.stopCameraCooling();
+    cameraStore.buttonCoolerOn = false;
+    console.log('Antwort cooling stop:', response);
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+function toggleWarming() {
+  if (!cameraStore.buttonWarmingOn) {
+    startWarming();
+    console.log('Start warming');
+  } else {
+    stopWarming();
+    console.log('stop warming');
+  }
+}
+
+async function startWarming() {
+  try {
+    const response = await apiService.stopCameraCooling();
+    console.log('Antwort cooling stop:', response);
+    cameraStore.buttonCoolerOn = false;
+    const response2 = await apiService.startCameraWarming(cameraStore.warmingTime);
+    cameraStore.buttonWarmingOn = true;
+    console.log('Antwort warming start:', response2);
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+async function stopWarming() {
+  try {
+    const response = await apiService.stopCameraWarming();
+    cameraStore.buttonWarmingOn = false;
+    console.log('Antwort warming stop:', response);
+  } catch (error) {
+    console.log('Fehler:', error);
   }
 }
 
@@ -148,52 +220,52 @@ function toggleDewHeater() {
   }
 }
 
-function toggleCooling() {
-  if (store.cameraInfo.CoolerOn) {
-    stoppCooling();
-    console.log('stopp');
-  } else {
-    startCooling();
-    console.log('start');
-  }
-}
-
-async function startCooling() {
-  try {
-    const dataWarm = await apiService.startStoppWarming(true);
-    Promise.all([dataWarm]);
-    console.log('Antwort warming:', dataWarm);
-    cameraStore.buttonCoolerOn = true;
-    const dataCool = apiService.startCooling(cameraStore.coolingTemp, cameraStore.coolingTime);
-    console.log('Antwort cooling:', dataCool);
-    console.log('SollTemp:', cameraStore.coolingTemp);
-  } catch (error) {
-    console.log('Fehler:', error);
-  }
-}
-async function stoppCooling() {
-  try {
-    const dataCool = await apiService.stoppCooling();
-    Promise.all([dataCool]);
-    cameraStore.buttonCoolerOn = false;
-    console.log('Antwort cooling:', dataCool);
-    const dataWarm = apiService.startStoppWarming(false, cameraStore.warmingTime);
-    console.log('Antwort warming:', dataWarm);
-  } catch (error) {
-    console.log('Fehler:', error);
-  }
-}
 
 watch(
   () => store.cameraInfo.CoolerOn,
-  (newValue) => {
-    cameraStore.buttonCoolerOn = newValue;
+  () => {
+    if(!store.cameraInfo.CoolerOn){
+      cameraStore.buttonCoolerOn = false;
+      ameraStore.buttonWarmingOn = false;
+    }
+    //cameraStore.buttonCoolerOn = newValue;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => store.cameraInfo.TemperatureSetPoint,
+  (newValue, oldValue) => {
+  
+  console.log('TemperatureSetPoint changed from', oldValue, 'to', newValue);
+  if (newValue === oldValue || oldValue === undefined) return;
+
+  if (store.cameraInfo.Temperature == null || isNaN(store.cameraInfo.Temperature || store.cameraInfo.TemperatureSetPoint == null || isNaN(store.cameraInfo.TemperatureSetPoint))) {
+    return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
+  }
+
+  if(Math.round(store.cameraInfo.TemperatureSetPoint) <= Math.round(store.cameraInfo.Temperature)){
+      cameraStore.buttonCoolerOn = true;
+      cameraStore.buttonWarmingOn = false;
+      console.log('Cooling active');
+    }
+
+  if(Math.round(store.cameraInfo.TemperatureSetPoint) > Math.round(store.cameraInfo.Temperature)){
+      cameraStore.buttonCoolerOn = false;
+      cameraStore.buttonWarmingOn = true;
+      console.log('Warming active');
+    }
+    //cameraStore.buttonCoolerOn = newValue;
   },
   { immediate: true }
 );
 
 onMounted(() => {
-  cameraStore.buttonCoolerOn = store.cameraInfo.CoolerOn;
+  if(!store.cameraInfo.CoolerOn){
+      cameraStore.buttonCoolerOn = false;
+      cameraStore.buttonWarmingOn = false;
+    }
+
   cameraStore.coolingTemp = store.profileInfo.CameraSettings.Temperature;
 
   if (store.profileInfo.CameraSettings.CoolingDuration <= 0) {

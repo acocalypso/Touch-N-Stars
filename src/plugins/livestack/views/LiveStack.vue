@@ -225,7 +225,7 @@ import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketLivestackService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore';
-import { PlayIcon, StopIcon, ArrowPathIcon, ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
+import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';

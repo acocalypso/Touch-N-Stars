@@ -240,6 +240,12 @@ function checkButtonStatus() {
     console.log('Cooler is off');
     return;
   }
+  if (store.cameraInfo.AtTargetTemp) {
+    cameraStore.buttonCoolerOn = false;
+    cameraStore.buttonWarmingOn = false;
+    console.log('At target temp');
+    return;
+  }
   if (
     Math.round(store.profileInfo.CameraSettings.Temperature) ===
     Math.round(store.cameraInfo.Temperature)
@@ -264,6 +270,14 @@ function checkButtonStatus() {
 
 watch(
   () => store.cameraInfo.CoolerOn,
+  () => {
+    checkButtonStatus();
+  },
+  { immediate: true }
+);
+
+watch(
+  () => store.cameraInfo.AtTargetTemp,
   () => {
     checkButtonStatus();
   },

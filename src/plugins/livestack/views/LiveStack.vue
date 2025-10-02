@@ -1,13 +1,57 @@
 <template>
   <div class="livestack-page">
+        <div v-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
+      <svg
+        class="animate-spin -ml-1 mr-3 h-10 w-10 text-gray-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+    </div>
     <!-- Error Message when plugin not available -->
     <div
-      v-if="!livestackPluginAvailable"
+      v-else-if="!livestackPluginAvailable"
       class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4 m-4"
     >
       <p class="text-red-400 text-center">{{ t('plugins.livestack.not_available') }}</p>
     </div>
-
+    <div v-else-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
+      <svg
+        class="animate-spin -ml-1 mr-3 h-10 w-10 text-gray-500"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      <p class="text-gray-500 mt-2">{{ t('loading') }}</p>
+    </div>
     <!-- Main content when plugin is available -->
     <div v-else>
       <!-- Fullscreen Image Display -->
@@ -193,10 +237,12 @@ import { PlayIcon, StopIcon, ArrowPathIcon, ArrowDownTrayIcon } from '@heroicons
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import { apiStore } from '@/store/store';
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
 const { isLandscape } = useOrientation();
+const store = apiStore();
 const availableImages = ref([]);
 const currentTarget = ref(null);
 const isLoading = ref(false);
@@ -207,6 +253,8 @@ const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const isControlPanelMinimized = ref(false);
+const pageIsLoading = ref(true);
+
 
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
@@ -398,6 +446,13 @@ const handleWebSocketMessage = async (message) => {
 };
 
 onMounted(async () => {
+
+  if (store.isBackendReachable === false) {
+    console.warn('Backend is not reachable - skipping livestack initialization');
+    return;
+  }
+  pageIsLoading.value = false;
+
   const response = await apiService.getPlugins();
   console.log('Plugins response:', response);
 

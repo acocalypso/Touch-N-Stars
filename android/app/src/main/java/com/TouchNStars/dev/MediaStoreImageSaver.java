@@ -16,8 +16,13 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -29,41 +34,72 @@ public class MediaStoreImageSaver extends Plugin {
 
     @PluginMethod
     public void saveImageToGallery(PluginCall call) {
+        String fileUri = call.getString("fileUri");
         String base64Data = call.getString("base64Data");
         String filename = call.getString("filename");
         String folderName = call.getString("folderName", "TouchNStars");
-        
-        if (base64Data == null || base64Data.isEmpty()) {
-            call.reject("Base64 data is required");
-            return;
-        }
-        
+
         if (filename == null || filename.isEmpty()) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             filename = "TNS_" + sdf.format(new Date()) + ".png";
         }
-        
+
         try {
-            // Remove data URL prefix if present
-            if (base64Data.startsWith("data:")) {
-                base64Data = base64Data.substring(base64Data.indexOf(",") + 1);
+            byte[] imageBytes;
+
+            // Priority: use fileUri if provided (more memory efficient)
+            if (fileUri != null && !fileUri.isEmpty()) {
+                Log.d(TAG, "Reading image from file URI: " + fileUri);
+                imageBytes = readImageFromFile(fileUri);
+            } else if (base64Data != null && !base64Data.isEmpty()) {
+                Log.d(TAG, "Reading image from base64 data");
+                // Remove data URL prefix if present
+                if (base64Data.startsWith("data:")) {
+                    base64Data = base64Data.substring(base64Data.indexOf(",") + 1);
+                }
+                imageBytes = Base64.decode(base64Data, Base64.DEFAULT);
+            } else {
+                call.reject("Either fileUri or base64Data is required");
+                return;
             }
-            
-            byte[] imageBytes = Base64.decode(base64Data, Base64.DEFAULT);
-            
+
             String savedPath = saveImageToMediaStore(imageBytes, filename, folderName);
-            
+
             JSObject result = new JSObject();
             result.put("success", true);
             result.put("path", savedPath);
             result.put("filename", filename);
             result.put("message", "Image saved to gallery successfully");
-            
+
             call.resolve(result);
-            
+
         } catch (Exception e) {
             Log.e(TAG, "Error saving image to gallery", e);
             call.reject("Failed to save image: " + e.getMessage());
+        }
+    }
+
+    private byte[] readImageFromFile(String fileUri) throws IOException {
+        // Remove file:// prefix if present
+        String filePath = fileUri;
+        if (filePath.startsWith("file://")) {
+            filePath = filePath.substring(7);
+        }
+
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new IOException("File does not exist: " + filePath);
+        }
+
+        // Read file efficiently using FileChannel
+        try (FileInputStream fis = new FileInputStream(file);
+             FileChannel channel = fis.getChannel()) {
+
+            long fileSize = channel.size();
+            ByteBuffer buffer = ByteBuffer.allocate((int) fileSize);
+            channel.read(buffer);
+
+            return buffer.array();
         }
     }
     

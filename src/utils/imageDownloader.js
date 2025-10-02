@@ -344,21 +344,79 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         primaryDirName = 'Documents';
       }
 
-      // Process the image data (handles different formats)
-      console.log('[ImageDownloader] Processing image data for mobile download...');
-      const { base64 } = await processImageData(imageData);
-
       // For Android, try MediaStore integration first (user-accessible storage)
       if (platform === 'android') {
         try {
-          console.log('[ImageDownloader] Attempting MediaStore save...');
+          console.log('[ImageDownloader] Attempting MediaStore save via temp file...');
+
+          // Get blob directly without base64 conversion to save memory
+          let blob;
+          if (imageData.startsWith('data:image')) {
+            const base64 = imageData.split(',')[1];
+            const byteCharacters = atob(base64);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+              byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            blob = new Blob([byteArray], { type: 'image/jpeg' });
+          } else {
+            const response = await fetch(imageData);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch image: ${response.status}`);
+            }
+            blob = await response.blob();
+          }
+
+          // Convert blob to ArrayBuffer for Filesystem API
+          const arrayBuffer = await blob.arrayBuffer();
+          const uint8Array = new Uint8Array(arrayBuffer);
+
+          // Convert to base64 for Filesystem.writeFile (only way to write binary data)
+          let binary = '';
+          const len = uint8Array.byteLength;
+          for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(uint8Array[i]);
+          }
+          const base64Data = btoa(binary);
+
+          // Write to temporary file
+          const tempFileName = `temp_${Date.now()}.jpg`;
+          await Filesystem.writeFile({
+            path: tempFileName,
+            data: base64Data,
+            directory: Directory.Cache,
+          });
+
+          console.log('[ImageDownloader] Temporary file written, getting URI...');
+
+          // Get the file URI
+          const fileUri = await Filesystem.getUri({
+            path: tempFileName,
+            directory: Directory.Cache,
+          });
+
+          console.log('[ImageDownloader] File URI:', fileUri.uri);
+
+          // Send only the file path to MediaStore plugin (not the base64 data!)
           const result = await MediaStoreImageSaver.saveImageToGallery({
-            base64Data: base64,
+            fileUri: fileUri.uri,
             filename: fileName,
             folderName: folderName,
           });
 
           console.log('[ImageDownloader] MediaStore save successful:', result);
+
+          // Clean up temp file
+          try {
+            await Filesystem.deleteFile({
+              path: tempFileName,
+              directory: Directory.Cache,
+            });
+            console.log('[ImageDownloader] Temp file cleaned up');
+          } catch (cleanupError) {
+            console.log('[ImageDownloader] Cleanup of temp file failed (non-critical):', cleanupError);
+          }
 
           notificationManager.showSuccess(
             `Image saved to gallery`,
@@ -374,6 +432,10 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           // Continue with original filesystem approach
         }
       }
+
+      // Process the image data for fallback methods
+      console.log('[ImageDownloader] Processing image data for mobile download...');
+      const { base64 } = await processImageData(imageData);
 
       // Create folder directory if it doesn't exist
       try {

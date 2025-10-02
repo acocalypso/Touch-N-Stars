@@ -9,7 +9,10 @@
         class="bg-gray-800 text-white p-4 rounded-lg min-w-[400px] max-w-4xl max-h-[80vh] min-h-48 overflow-y-auto"
       >
         <div class="flex justify-end items-center">
-          <button @click="framingStore.showCenterModal = false" class="text-white hover:text-gray-300">
+          <button
+            @click="framingStore.showCenterModal = false"
+            class="text-white hover:text-gray-300"
+          >
             <XMarkIcon class="w-6 h-6" />
           </button>
         </div>

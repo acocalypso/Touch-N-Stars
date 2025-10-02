@@ -62,7 +62,7 @@
           :loading="isLoading"
           :showControls="true"
           :showDownload="true"
-          :showFullscreen="true"
+          :showFullscreen="false"
           :initialZoom="currentZoomLevel"
           height="100vh"
           :altText="`Livestack Image - ${livestackStore.selectedFilter}`"
@@ -143,14 +143,7 @@
               <button @click="stopLivestack" class="default-button-red">
                 <StopIcon class="w-4 h-4" />
               </button>
-              <button
-                v-if="livestackStore.currentImageUrl"
-                @click="handleDownload({ imageData: livestackStore.currentImageUrl })"
-                class="default-button-blue"
-                title="Download Image"
-              >
-                <ArrowDownTrayIcon class="w-4 h-4" />
-              </button>
+
             </div>
 
             <!-- Status -->
@@ -259,8 +252,8 @@ const pageIsLoading = ref(true);
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
   'fixed z-30 max-w-sm': true,
-  'top-24 right-4': !isLandscape.value, // Portrait mode - below navbar
-  'top-4 right-4': isLandscape.value, // Landscape mode - normal position
+  'top-24 left-4': !isLandscape.value, // Portrait mode - below navbar
+  'top-4 left-40': isLandscape.value, // Landscape mode - normal position
 }));
 
 const toggleControlPanel = () => {
@@ -384,15 +377,12 @@ const handleImageError = (event) => {
 };
 
 const handleDownload = async (data) => {
-  const currentDate = new Date().toISOString().split('T')[0];
-  const target = currentTarget.value || 'Unknown';
-  const filter = livestackStore.selectedFilter || 'NoFilter';
-
-  await downloadImageHelper(data.imageData, currentDate, {
-    folderPrefix: 'TNS-Livestack',
-    filePrefix: `Livestack_${target}_${filter}`,
+  await downloadImageHelper(data.imageData, new Date().toISOString().split('T')[0], {
+    folderPrefix: 'TNS-Images',
+    filePrefix: 'TNS',
   });
 };
+
 
 // WebSocket handlers
 const handleWebSocketStatus = (status) => {

@@ -2,7 +2,7 @@
   <div class="flex flex-col items-center gap-2">
     <div v-if="store.cameraInfo.CanSetTemperature" class="w-full">
       <div class="flex flex-col border border-slate-600/40 p-3 pb-3 rounded-lg min-w-36">
-        <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
           <label for="Cooler" class="text-gray-200 font-medium">
             {{ $t('components.camera.camera_cooling') }}
           </label>
@@ -44,14 +44,17 @@
               @blur="setCoolingTime"
             />
           </div>
-          <div class="flex items-center justify-between mb-2">
+        </div>
+        <div class="border-t border-slate-600/40 my-4"></div>
+        <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
           <label for="Cooler" class="text-gray-200 font-medium">
             {{ $t('components.camera.camera_warming') }}
           </label>
           <toggleButton @click="toggleWarming" :status-value="cameraStore.buttonWarmingOn" />
         </div>
+        <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
+            class="flex justify-between flex-row items-center sm:flex-col w-full sm:w-1/2 border border-gray-500 p-2 rounded-lg"
           >
             <label for="WarmingDurationTime" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.warm_up_time') }}
@@ -90,7 +93,6 @@ import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { cond } from 'lodash';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
@@ -153,7 +155,18 @@ async function startCooling() {
     const response = await apiService.stopCameraWarming();
     console.log('Antwort warming stop:', response);
     cameraStore.buttonWarmingOn = false;
-    const response2 = await apiService.startCameraCooling(cameraStore.coolingTemp, cameraStore.coolingTime);
+    if (
+      Math.round(store.profileInfo.CameraSettings.Temperature) ===
+      Math.round(store.cameraInfo.Temperature)
+    ) {
+      cameraStore.buttonCoolerOn = false;
+      console.log('At target temp');
+      return;
+    }
+    const response2 = await apiService.startCameraCooling(
+      cameraStore.coolingTemp,
+      cameraStore.coolingTime
+    );
     cameraStore.buttonCoolerOn = true;
     console.log('Antwort cooling start:', response2);
   } catch (error) {
@@ -220,52 +233,58 @@ function toggleDewHeater() {
   }
 }
 
+function checkButtonStatus() {
+  if (!store.cameraInfo.CoolerOn) {
+    cameraStore.buttonCoolerOn = false;
+    cameraStore.buttonWarmingOn = false;
+    console.log('Cooler is off');
+    return;
+  }
+  if (
+    Math.round(store.profileInfo.CameraSettings.Temperature) ===
+    Math.round(store.cameraInfo.Temperature)
+  ) {
+    cameraStore.buttonCoolerOn = false;
+    console.log('At target temp');
+    return;
+  }
+  if (Math.round(store.cameraInfo.TemperatureSetPoint) < Math.round(store.cameraInfo.Temperature)) {
+    cameraStore.buttonCoolerOn = true;
+    cameraStore.buttonWarmingOn = false;
+    console.log('Cooling active');
+    return;
+  }
+  if (Math.round(store.cameraInfo.TemperatureSetPoint) > Math.round(store.cameraInfo.Temperature)) {
+    cameraStore.buttonCoolerOn = false;
+    cameraStore.buttonWarmingOn = true;
+    console.log('Warming active');
+    return;
+  }
+}
 
 watch(
   () => store.cameraInfo.CoolerOn,
   () => {
-    if(!store.cameraInfo.CoolerOn){
-      cameraStore.buttonCoolerOn = false;
-      ameraStore.buttonWarmingOn = false;
-    }
-    //cameraStore.buttonCoolerOn = newValue;
+    checkButtonStatus();
   },
   { immediate: true }
 );
 
 watch(
   () => store.cameraInfo.TemperatureSetPoint,
-  (newValue, oldValue) => {
-  
-  console.log('TemperatureSetPoint changed from', oldValue, 'to', newValue);
-  if (newValue === oldValue || oldValue === undefined) return;
-
-  if (store.cameraInfo.Temperature == null || isNaN(store.cameraInfo.Temperature || store.cameraInfo.TemperatureSetPoint == null || isNaN(store.cameraInfo.TemperatureSetPoint))) {
-    return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
+  () => {
+    checkButtonStatus();
   }
+);
 
-  if(Math.round(store.cameraInfo.TemperatureSetPoint) <= Math.round(store.cameraInfo.Temperature)){
-      cameraStore.buttonCoolerOn = true;
-      cameraStore.buttonWarmingOn = false;
-      console.log('Cooling active');
-    }
-
-  if(Math.round(store.cameraInfo.TemperatureSetPoint) > Math.round(store.cameraInfo.Temperature)){
-      cameraStore.buttonCoolerOn = false;
-      cameraStore.buttonWarmingOn = true;
-      console.log('Warming active');
-    }
-    //cameraStore.buttonCoolerOn = newValue;
-  },
-  { immediate: true }
+watch(
+  () => store.cameraInfo.Temperature,
+  () => {
+    checkButtonStatus();
+  }
 );
 
 onMounted(() => {
-  if(!store.cameraInfo.CoolerOn){
-      cameraStore.buttonCoolerOn = false;
-      cameraStore.buttonWarmingOn = false;
-    }
-
   cameraStore.coolingTemp = store.profileInfo.CameraSettings.Temperature;
 
   if (store.profileInfo.CameraSettings.CoolingDuration <= 0) {

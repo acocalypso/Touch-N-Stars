@@ -1,6 +1,6 @@
 <template>
   <div class="livestack-page">
-        <div v-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
+    <div v-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
       <svg
         class="animate-spin -ml-1 mr-3 h-10 w-10 text-gray-500"
         xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +143,6 @@
               <button @click="stopLivestack" class="default-button-red">
                 <StopIcon class="w-4 h-4" />
               </button>
-
             </div>
 
             <!-- Status -->
@@ -247,7 +246,6 @@ const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const isControlPanelMinimized = ref(false);
 const pageIsLoading = ref(true);
-
 
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
@@ -383,7 +381,6 @@ const handleDownload = async (data) => {
   });
 };
 
-
 // WebSocket handlers
 const handleWebSocketStatus = (status) => {
   wsStatus.value = status;
@@ -436,7 +433,6 @@ const handleWebSocketMessage = async (message) => {
 };
 
 onMounted(async () => {
-
   if (store.isBackendReachable === false) {
     console.warn('Backend is not reachable - skipping livestack initialization');
     return;

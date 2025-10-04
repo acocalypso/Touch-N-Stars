@@ -68,6 +68,7 @@ import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useCameraStore } from '@/store/cameraStore';
+import apiService from '@/services/apiService';
 
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();

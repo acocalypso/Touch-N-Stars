@@ -290,17 +290,35 @@ function handleVisibilityChange() {
     logStore.stopFetchingLog();
     sequenceStore.stopFetching();
   } else {
-    // Setze Flag für kürzlich zurückgekehrte Seite
-    store.setPageReturnedFromBackground();
+    resumeApp();
+  }
+}
 
-    // Force UI refresh beim Resume
-    routerViewKey.value = Date.now();
+function handlePageShow() {
+  // pageshow wird schneller ausgelöst als visibilitychange
+  if (!document.hidden) {
+    resumeApp();
+  }
+}
 
-    store.startFetchingInfo(t);
-    logStore.startFetchingLog();
-    if (!sequenceStore.sequenceEdit) {
-      sequenceStore.startFetching();
-    }
+function handleFocus() {
+  // focus event als zusätzlicher Trigger
+  if (!document.hidden) {
+    resumeApp();
+  }
+}
+
+function resumeApp() {
+  // Setze Flag für kürzlich zurückgekehrte Seite
+  store.setPageReturnedFromBackground();
+
+  // Force UI refresh beim Resume
+  routerViewKey.value = Date.now();
+
+  store.startFetchingInfo(t);
+  logStore.startFetchingLog();
+  if (!sequenceStore.sequenceEdit) {
+    sequenceStore.startFetching();
   }
 }
 
@@ -308,6 +326,8 @@ onMounted(async () => {
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
+  window.addEventListener('pageshow', handlePageShow);
+  window.addEventListener('focus', handleFocus);
 
   // Listen for manual Stellarium refresh ONLY
   window.addEventListener('refresh-stellarium', () => {
@@ -441,6 +461,8 @@ onBeforeUnmount(() => {
   sequenceStore.stopFetching();
   wsFilter.disconnect();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('pageshow', handlePageShow);
+  window.removeEventListener('focus', handleFocus);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
   window.removeEventListener('refresh-stellarium', () => {

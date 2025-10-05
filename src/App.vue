@@ -294,9 +294,13 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   wsFilter.disconnect();
+  store.isApiConnected = false;
+  store.apiPort = null;
+  store.isTnsPluginConnected = false;
+  store.isBackendReachable = false;
 }
 
-function resumeApp() {
+async function resumeApp() {
   console.log('App resumed, restarting intervals...');
 
   // Setze Flag für kürzlich zurückgekehrte Seite
@@ -305,6 +309,7 @@ function resumeApp() {
   // Force UI refresh beim Resume
   routerViewKey.value = Date.now();
 
+  await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
   if (!sequenceStore.sequenceEdit) {

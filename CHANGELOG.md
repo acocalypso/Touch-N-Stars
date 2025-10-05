@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHD2 connection establishment has been improved
 - Save zoom and position in the camera image 
 - Improved app loading speed by adjusting timeout periods 
+- The camera cooling and warming function has been revised.
+- The speed for connecting to NINA has been improved.
 
 ### Fixed
 - Image statistics: Temperature limited to one decimal place

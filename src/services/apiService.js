@@ -1409,12 +1409,17 @@ const apiService = {
     }
   },
 
-  async getLivestackImage(target, filter) {
+  async getLivestackImage(target, filter, quality = 80, scale = 100) {
     try {
       const { BASE_URL } = getUrls();
       const encodedTarget = encodeURIComponent(target);
       const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}`, {
-        params: { stream: true },
+        params: { 
+          stream: true,
+          quality: quality, 
+          scale: scale,
+          resize: true,
+        },
         responseType: 'blob',
       });
       return URL.createObjectURL(response.data);

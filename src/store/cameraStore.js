@@ -20,6 +20,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const coolingTime = ref(10);
   const warmingTime = ref(10);
   const buttonCoolerOn = ref(false);
+  const buttonWarmingOn = ref(false);
   const plateSolveError = ref(false);
   const plateSolveResult = ref('');
   const exposureCountdown = ref(0);
@@ -201,6 +202,14 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
+  // Stoppt den Countdown (z.B. wenn App pausiert)
+  function stopCountdown() {
+    if (countdownRunning.value) {
+      console.log('Stopping exposure countdown...');
+      countdownRunning.value = false;
+    }
+  }
+
   //Countdown für Statusanzeige mit Server-Zeit-Synchronisation
   async function updateCountdown() {
     const exposureEndTime = store.cameraInfo.ExposureEndTime;
@@ -209,6 +218,13 @@ export const useCameraStore = defineStore('cameraStore', () => {
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
       return;
+    }
+
+    // Stop any existing countdown loop first
+    if (countdownRunning.value) {
+      countdownRunning.value = false;
+      // Wait a bit to ensure old loop stops
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     // Ensure time sync before starting countdown
@@ -280,6 +296,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     coolingTime,
     warmingTime,
     buttonCoolerOn,
+    buttonWarmingOn,
     plateSolveError,
     plateSolveResult,
     exposureCountdown,
@@ -295,5 +312,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     getCameraRotation,
     abortExposure,
     updateCountdown,
+    stopCountdown,
   };
 });

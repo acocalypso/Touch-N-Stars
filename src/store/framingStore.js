@@ -29,6 +29,7 @@ export const useFramingStore = defineStore('FramingStore', {
     width: 200,
     height: 200,
     slewIsStopt: false,
+    showCenterModal: false,
   }),
   actions: {
     async slew(RAangle, DECangle) {

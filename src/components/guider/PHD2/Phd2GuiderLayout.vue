@@ -12,21 +12,14 @@
       </div>
 
       <div v-else :class="buttonsClass">
-        <!-- Start/Stop Button -->
+        <!-- Start Button -->
         <button
-          @click="toggleGuiding"
-          :class="guidingButtonClass"
-          class="px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+          v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
+          @click="startGuiding"
+          class="default-button-cyan px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
         >
           <span class="flex items-center justify-center">
-            <template
-              v-if="
-                store.guiderInfo.State === 'Guiding' || store.guiderInfo.State === 'Calibrating'
-              "
-            >
-              <StopIcon class="w-5 h-5" />
-            </template>
-            <template v-else-if="isProcessing">
+            <template v-if="isProcessing">
               <svg
                 class="animate-spin w-5 h-5"
                 fill="none"
@@ -46,6 +39,16 @@
                 <polygon points="5,3 19,12 5,21" />
               </svg>
             </template>
+          </span>
+        </button>
+
+        <!-- Stop Button (Always Visible) -->
+        <button
+          @click="stopGuiding"
+          class="default-button-red px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+        >
+          <span class="flex items-center justify-center">
+            <StopIcon class="w-5 h-5" />
           </span>
         </button>
 
@@ -336,34 +339,32 @@ const statusTextClasses = computed(() => {
   };
 });
 
-const guidingButtonClass = computed(() => {
-  const state = store.guiderInfo?.State;
-
-  // Show red for both Guiding and Calibrating states
-  if (state === 'Guiding' || state === 'Calibrating') {
-    return 'default-button-red';
-  } else {
-    return 'default-button-cyan';
-  }
-});
-
-// Toggle guiding function
-async function toggleGuiding() {
+// Start guiding function
+async function startGuiding() {
   isProcessing.value = true;
   try {
-    const state = store.guiderInfo?.State;
+    await apiService.guiderStart(settingsStore.guider.phd2ForceCalibration);
+    console.log(
+      'Guider started',
+      settingsStore.guider.phd2ForceCalibration
+        ? 'with forced calibration'
+        : 'without forced calibration'
+    );
+  } catch (error) {
+    console.error('Fehler beim Guider Start:', error.response?.data || error);
+  } finally {
+    isProcessing.value = false;
+  }
+}
 
-    if (state === 'Guiding' || state === 'Calibrating') {
+async function stopGuiding() {
+  try {
+    if (!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')) {
       await apiService.guiderAction('stop');
-      console.log('Guider stopped');
+      console.log('Guiding stopped via guiderAction');
     } else {
-      await apiService.guiderStart(settingsStore.guider.phd2ForceCalibration);
-      console.log(
-        'Guider started',
-        settingsStore.guider.phd2ForceCalibration
-          ? 'with forced calibration'
-          : 'without forced calibration'
-      );
+      await apiService.setPHD2StopGuiding();
+      console.log('Guiding stopped via setPHD2StopGuiding');
     }
   } catch (error) {
     console.error('Fehler beim Guiding Toggle:', error.response?.data || error);

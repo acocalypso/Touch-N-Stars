@@ -41,15 +41,16 @@
       :src="imageData"
       :alt="altText"
       class="w-full h-full object-contain cursor-move transition-opacity duration-200"
-      :class="{ 'opacity-50': loading }"
+      :class="{ 'opacity-90': loading }"
       @load="onImageLoad"
       @error="onImageError"
+      @click="handleImageClick"
     />
 
     <!-- Loading Spinner Overlay -->
     <div
       v-if="loading && imageData"
-      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 z-40"
+      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 z-40"
     >
       <div class="flex flex-col items-center text-white">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-2"></div>
@@ -132,7 +133,14 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['download', 'fullscreen', 'zoom-change', 'image-load', 'image-error']);
+const emits = defineEmits([
+  'download',
+  'fullscreen',
+  'zoom-change',
+  'image-load',
+  'image-error',
+  'click',
+]);
 
 // Refs
 const imageContainer = ref(null);
@@ -143,12 +151,20 @@ let panzoomInstance = null;
 const zoomLevel = ref(1);
 const originalWidth = ref(1);
 const originalHeight = ref(1);
+const savedTransform = ref(null); // Save zoom and pan position
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
 const handleFullscreen = () => {
   emits('fullscreen', {
+    imageData: props.imageData,
+    zoomLevel: zoomLevel.value,
+  });
+};
+
+const handleImageClick = () => {
+  emits('click', {
     imageData: props.imageData,
     zoomLevel: zoomLevel.value,
   });
@@ -231,6 +247,24 @@ const initializePanzoom = () => {
         }
       }
 
+      // Restore saved transform if available
+      if (savedTransform.value) {
+        try {
+          // Use moveTo and zoomAbs separately for better position restoration
+          const { x, y, scale } = savedTransform.value;
+
+          // First zoom to the saved scale
+          panzoomInstance.zoomAbs(0, 0, scale);
+
+          // Then move to the saved position
+          panzoomInstance.moveTo(x, y);
+
+          console.log('Restored zoom and position:', savedTransform.value);
+        } catch (error) {
+          console.warn('Could not restore transform:', error);
+        }
+      }
+
       // Initial zoom level
       logZoomLevel();
 
@@ -256,6 +290,16 @@ const initializePanzoom = () => {
 
 const destroyPanzoom = () => {
   if (panzoomInstance) {
+    // Save current transform before destroying
+    try {
+      if (typeof panzoomInstance.getTransform === 'function') {
+        savedTransform.value = panzoomInstance.getTransform();
+        console.log('Saved transform:', savedTransform.value);
+      }
+    } catch (error) {
+      console.warn('Could not save transform:', error);
+    }
+
     panzoomInstance.dispose();
     panzoomInstance = null;
   }
@@ -285,12 +329,10 @@ const handleDownload = () => {
 // Watchers
 watch(
   () => props.imageData,
-  (newImageData) => {
-    if (newImageData) {
-      nextTick(() => {
-        onImageLoad();
-      });
-    } else {
+  (newImageData, oldImageData) => {
+    // Only destroy panzoom when image is removed (set to null)
+    // Don't call onImageLoad here - let the native @load event handle it
+    if (!newImageData && oldImageData) {
       destroyPanzoom();
       zoomLevel.value = 1;
     }

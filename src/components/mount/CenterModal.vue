@@ -2,14 +2,17 @@
   <div>
     <!-- Modal Overlay -->
     <div
-      v-if="isModalOpen"
+      v-if="framingStore.showCenterModal"
       class="fixed inset-0 bg-black bg-opacity-50 z-10 flex items-center justify-center"
     >
       <div
         class="bg-gray-800 text-white p-4 rounded-lg min-w-[400px] max-w-4xl max-h-[80vh] min-h-48 overflow-y-auto"
       >
         <div class="flex justify-end items-center">
-          <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
+          <button
+            @click="framingStore.showCenterModal = false"
+            class="text-white hover:text-gray-300"
+          >
             <XMarkIcon class="w-6 h-6" />
           </button>
         </div>
@@ -39,7 +42,7 @@
           </div>
         </div>
         <div class="flex items-center justify-center w-full mt-4">
-          <ButtonSlewStop class="p-2" @click="isModalOpen = flase" />
+          <ButtonSlewStop class="p-2" />
         </div>
       </div>
     </div>
@@ -50,6 +53,7 @@
 import { ref, watch } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { useLogStore } from '@/store/logStore';
+import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { formatTime } from '@/utils/utils';
 import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
@@ -57,25 +61,27 @@ import { apiStore } from '@/store/store';
 
 const { t } = useI18n();
 const logStore = useLogStore();
+const framingStore = useFramingStore();
 const store = apiStore();
-const isModalOpen = ref(false);
 let lastProcessedTimestamp = new Date();
 const lastCenterMessages = ref([]);
 const centeringDone = ref(false);
 const centeringSeparation = ref({ distance: null });
 
-function openModal() {
-  isModalOpen.value = true;
-  lastCenterMessages.value = [
-    {
-      timestamp: new Date().toISOString(),
-      message: t('components.slewAndCenter.slew_modal.is_slewing'),
-      color: 'inherit',
-    },
-  ];
-}
-
-defineExpose({ openModal });
+watch(
+  () => framingStore.showCenterModal,
+  (newValue) => {
+    if (newValue) {
+      lastCenterMessages.value = [
+        {
+          timestamp: new Date().toISOString(),
+          message: t('components.slewAndCenter.slew_modal.is_slewing'),
+          color: 'inherit',
+        },
+      ];
+    }
+  }
+);
 
 watch(
   () => logStore.LogsInfo.logs,

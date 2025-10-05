@@ -439,7 +439,8 @@
       },
       "at_target_temp": "Při cílové teplotě",
       "cooler_power": "Výkon chlazení (%)",
-      "temperature_setpoint": "Nastavená teplota (°C)"
+      "temperature_setpoint": "Nastavená teplota (°C)",
+      "camera_warming": "Camera warm up"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

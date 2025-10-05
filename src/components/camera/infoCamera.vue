@@ -28,7 +28,7 @@
     <StatusString
       :isEnabled="store.cameraInfo.CoolerOn"
       :Name="$t('components.camera.cooler_power')"
-      :Value="store.cameraInfo.CoolerPower"
+      :Value="isNaN(store.cameraInfo.CoolerPower) ? 0 : Math.round(store.cameraInfo.CoolerPower)"
     />
     <StatusBool
       :isEnabled="store.cameraInfo.IsExposing"

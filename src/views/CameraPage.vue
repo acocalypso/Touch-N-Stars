@@ -21,6 +21,7 @@
           :showControls="true"
           :showDownload="true"
           :showFullscreen="true"
+          :loading="store.isImageFetching"
           height="100vh"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"

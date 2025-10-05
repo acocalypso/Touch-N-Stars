@@ -441,7 +441,8 @@
       },
       "at_target_temp": "At target temp",
       "cooler_power": "Cooler power (%)",
-      "temperature_setpoint": "Temp setpoint (°C)"
+      "temperature_setpoint": "Temp setpoint (°C)",
+      "camera_warming": "Camera warm up"
     },
     "tppa": {
       "title": "三点极轴对准",

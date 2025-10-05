@@ -179,10 +179,12 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
 import { Capacitor } from '@capacitor/core';
+import { App as CapacitorApp } from '@capacitor/app';
 import NavigationComp from '@/components/NavigationComp.vue';
 import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
+import { useCameraStore } from './store/cameraStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
@@ -202,6 +204,7 @@ const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const filterStore = useFilterStore();
+const cameraStore = useCameraStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -219,7 +222,7 @@ const routerViewKey = ref(Date.now());
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 
-// Orientierung tracking
+// Orientation tracking
 const { isLandscape } = useOrientation();
 
 useHead({
@@ -237,7 +240,7 @@ function updateOrientation() {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  // Prüfen, ob Breite und Höhe sich stark ändern
+  // Check if width and height changed significantly
   if (Math.abs(width - initialWidth) > 100 && Math.abs(height - initialHeight) > 100) {
     const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
 
@@ -251,12 +254,12 @@ function updateOrientation() {
     initialWidth = width;
     initialHeight = height;
   } else {
-    // Auch bei kleinen Änderungen Orientierung prüfen (für bessere Responsivität)
+    // Also check orientation for small changes (for better responsiveness)
     checkOrientationChange();
   }
 }
 
-// Computed Classes für responsive Layout
+// Computed classes for responsive layout
 const appLayoutClasses = computed(() => ({
   'app-portrait': !isLandscape.value,
   'app-landscape': isLandscape.value,
@@ -284,23 +287,74 @@ function handleOrientationChange() {
   }, 100);
 }
 
+function pauseApp() {
+  console.log('App paused, stopping all intervals...');
+  store.stopFetchingInfo();
+  logStore.stopFetchingLog();
+  sequenceStore.stopFetching();
+  cameraStore.stopCountdown();
+  wsFilter.disconnect();
+  store.isApiConnected = false;
+  store.apiPort = null;
+  store.isTnsPluginConnected = false;
+  store.isBackendReachable = false;
+}
+
+async function resumeApp() {
+  console.log('App resumed, restarting intervals...');
+
+  // Set flag for recently returned from background
+  store.setPageReturnedFromBackground();
+
+  // Force UI refresh on resume
+  routerViewKey.value = Date.now();
+
+  // Important: Re-enable WebSocket Channel Service shouldReconnect flag
+  const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
+  wsChannelService.shouldReconnect = true;
+
+  await store.fetchAllInfos(t);
+  store.startFetchingInfo(t);
+  logStore.startFetchingLog();
+  if (!sequenceStore.sequenceEdit) {
+    sequenceStore.startFetching();
+  }
+
+  // Restart countdown if exposure is running
+  if (store.cameraInfo.IsExposing && store.cameraInfo.ExposureEndTime) {
+    console.log('Restarting exposure countdown after resume...');
+    cameraStore.updateCountdown();
+  }
+
+  // Reconnect WebSocket filter if needed
+  if (
+    store.filterInfo.DeviceId === 'Networked Filter Wheel' &&
+    store.filterInfo.Connected &&
+    store.isBackendReachable
+  ) {
+    wsFilter.connect();
+  }
+}
+
 function handleVisibilityChange() {
   if (document.hidden) {
-    store.stopFetchingInfo();
-    logStore.stopFetchingLog();
-    sequenceStore.stopFetching();
+    pauseApp();
   } else {
-    // Setze Flag für kürzlich zurückgekehrte Seite
-    store.setPageReturnedFromBackground();
+    resumeApp();
+  }
+}
 
-    // Force UI refresh beim Resume
-    routerViewKey.value = Date.now();
+function handlePageShow() {
+  // pageshow is triggered faster than visibilitychange
+  if (!document.hidden) {
+    resumeApp();
+  }
+}
 
-    store.startFetchingInfo(t);
-    logStore.startFetchingLog();
-    if (!sequenceStore.sequenceEdit) {
-      sequenceStore.startFetching();
-    }
+function handleFocus() {
+  // focus event as additional trigger
+  if (!document.hidden) {
+    resumeApp();
   }
 }
 
@@ -308,6 +362,30 @@ onMounted(async () => {
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
+  window.addEventListener('pageshow', handlePageShow);
+  window.addEventListener('focus', handleFocus);
+
+  // Capacitor App Lifecycle Events for mobile platforms
+  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+    CapacitorApp.addListener('pause', () => {
+      console.log('Capacitor App pause event');
+      pauseApp();
+    });
+
+    CapacitorApp.addListener('resume', () => {
+      console.log('Capacitor App resume event');
+      resumeApp();
+    });
+
+    CapacitorApp.addListener('appStateChange', (state) => {
+      console.log('Capacitor App state change:', state.isActive);
+      if (state.isActive) {
+        resumeApp();
+      } else {
+        pauseApp();
+      }
+    });
+  }
 
   // Listen for manual Stellarium refresh ONLY
   window.addEventListener('refresh-stellarium', () => {
@@ -315,13 +393,13 @@ onMounted(async () => {
     stellariumRefreshKey.value = Date.now();
   });
 
-  // Timeout für connectionCheckCompleted nach 3 Sekunden
+  // Timeout for connectionCheckCompleted after 3 seconds
   const connectionTimeout = setTimeout(() => {
     connectionCheckCompleted.value = true;
   }, 3000);
 
   await store.fetchAllInfos(t);
-  // Nach dem ersten Verbindungsversuch ist die Prüfung abgeschlossen
+  // Connection check is completed after first connection attempt
   connectionCheckCompleted.value = true;
   clearTimeout(connectionTimeout);
 
@@ -372,7 +450,7 @@ watch(
     if (isReachable && showSplashScreen.value) {
       setTimeout(() => {
         showSplashScreen.value = false;
-      }, 1000); // 1 second delay
+      }, 200); // delay
     }
   }
 );
@@ -382,19 +460,19 @@ watch(
   () => [store.filterInfo.Connected, store.filterInfo.DeviceId, store.isBackendReachable],
   ([connected, deviceId, backendReachable]) => {
     if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
-      // WebSocket aufbauen
+      // Establish WebSocket connection
       wsFilter.setStatusCallback((status) => {
         //console.log('WebSocket Filter Status:', status);
         if (status === 'connected') {
           filterStore.wsIsConnected = true;
-          //console.log('WebSocket Filter verbunden!');
+          //console.log('WebSocket Filter connected!');
         } else {
           filterStore.wsIsConnected = false;
         }
       });
       wsFilter.connect();
     } else {
-      // WebSocket trennen
+      // Disconnect WebSocket
       wsFilter.disconnect();
       filterStore.wsIsConnected = false;
     }
@@ -435,22 +513,32 @@ watch(
   }
 );
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
+  console.log('App.vue unmounted, cleaning up...');
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   wsFilter.disconnect();
+  store.clearAllStates();
+  store.isApiConnected = false;
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('pageshow', handlePageShow);
+  window.removeEventListener('focus', handleFocus);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
   window.removeEventListener('refresh-stellarium', () => {
     stellariumRefreshKey.value = Date.now();
   });
+
+  // Remove Capacitor listeners
+  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+    await CapacitorApp.removeAllListeners();
+  }
 });
 </script>
 
 <style scoped>
-/* Tablet Landscape Anpassungen */
+/* Tablet Landscape Adjustments */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .app-landscape .main-content {
     margin-left: 8rem !important;
@@ -468,14 +556,14 @@ onBeforeUnmount(() => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Safe Area Support - nur für Portrait unten */
+/* Safe Area Support - only for portrait bottom */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .app-portrait .main-content {
     padding-bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
   }
 }
 
-/* Responsive Anpassungen für sehr kleine Bildschirme */
+/* Responsive adjustments for very small screens */
 @media (max-width: 480px) {
   .app-landscape .container {
     padding-left: 12rem !important;

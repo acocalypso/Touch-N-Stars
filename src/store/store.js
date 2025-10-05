@@ -113,6 +113,7 @@ export const apiStore = defineStore('store', {
           return;
         } else {
           this.isTnsPluginConnected = true;
+          //console.log('TNS Plugin reachable');
           //Check the plugin version
           if (!this.isTnsPluginVersionNewerOrEqual) {
             this.currentTnsPluginVersion = tnsVersionResponse.version;
@@ -235,7 +236,7 @@ export const apiStore = defineStore('store', {
           }
         }
 
-        /* console.log('API und TNS Plugin reachable');
+        /*console.log('API und TNS Plugin reachable');
         console.log(
           'Api connected',
           this.isApiConnected,
@@ -247,10 +248,7 @@ export const apiStore = defineStore('store', {
           this.isApiVersionNewerOrEqual,
           'TNS version ok',
           this.isTnsPluginVersionNewerOrEqual
-        ); */
-
-        this.isWebSocketConnected = websocketChannelService.isWebSocketConnected();
-        //console.log('WebSocket connected:', this.isWebSocketConnected);
+        );*/
 
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
@@ -259,7 +257,18 @@ export const apiStore = defineStore('store', {
             //console.log('Channel WebSocket Message:', message);
             this.handleWebSocketMessage(message);
           });
-          websocketChannelService.connect();
+
+          // Versuche WebSocket zu verbinden (max 500ms warten)
+          try {
+            await websocketChannelService.connect(500);
+            this.isWebSocketConnected = true;
+          } catch (error) {
+            // WebSocket fehlgeschlagen oder Timeout - nicht kritisch, App läuft weiter
+            console.warn('WebSocket connection failed or timeout:', error.message);
+            this.isWebSocketConnected = false;
+          }
+        } else {
+          this.isWebSocketConnected = true;
         }
 
         // If all conditions are met, mark backend as reachable

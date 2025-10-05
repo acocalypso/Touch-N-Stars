@@ -194,6 +194,30 @@ const apiService = {
     }
   },
 
+  async setPHD2StartGuiding() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/start-guiding`, {});
+      console.log('PHD2 TNS API stop guiding:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error('Error disconnect-equipment PHD2:', error);
+      throw error;
+    }
+  },
+
+  async setPHD2StopGuiding() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/stop-guiding`, {});
+      console.log('PHD2 TNS API disconnect-equipment:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error('Error stop guiding PHD2:', error);
+      throw error;
+    }
+  },
+
   async getPhd2Exposure() {
     try {
       const { API_URL } = getUrls();
@@ -711,7 +735,7 @@ const apiService = {
     }
   },
 
-  async startCooling(temp, minutes) {
+  async startCameraCooling(temp, minutes) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/cool`, {
@@ -727,7 +751,7 @@ const apiService = {
     }
   },
 
-  async stoppCooling() {
+  async stopCameraCooling() {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/camera/cool`, {
@@ -736,6 +760,34 @@ const apiService = {
       return response.data;
     } catch (error) {
       // console.error('Error retrieving capture result:', error);
+      throw error;
+    }
+  },
+
+  async startCameraWarming(minutes) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/warm`, {
+        params: {
+          minutes: minutes,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async stopCameraWarming() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/warm`, {
+        params: {
+          cancel: true,
+        },
+      });
+      return response.data;
+    } catch (error) {
       throw error;
     }
   },
@@ -1357,12 +1409,17 @@ const apiService = {
     }
   },
 
-  async getLivestackImage(target, filter) {
+  async getLivestackImage(target, filter, quality = 80, scale = 100) {
     try {
       const { BASE_URL } = getUrls();
       const encodedTarget = encodeURIComponent(target);
       const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}`, {
-        params: { stream: true },
+        params: {
+          stream: true,
+          quality: quality,
+          scale: scale,
+          resize: true,
+        },
         responseType: 'blob',
       });
       return URL.createObjectURL(response.data);

@@ -10,8 +10,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Register custom plugins
-        registerPlugin(MediaStoreImageSaver.class);
+        // MediaStoreImageSaver plugin removed to fix performance issues
     }
 
     @Override

@@ -113,7 +113,7 @@ export const apiStore = defineStore('store', {
           return;
         } else {
           this.isTnsPluginConnected = true;
-          console.log('TNS Plugin reachable');
+          //console.log('TNS Plugin reachable');
           //Check the plugin version
           if (!this.isTnsPluginVersionNewerOrEqual) {
             this.currentTnsPluginVersion = tnsVersionResponse.version;
@@ -281,7 +281,7 @@ export const apiStore = defineStore('store', {
         ) {
           this.isBackendReachable = true;
           this.attemptsToConnect = 0;
-          console.log('Backend is reachable', new Date().toLocaleTimeString());
+          //console.log('Backend is reachable', new Date().toLocaleTimeString());
         } else if (this.attemptsToConnect < 5) {
           this.attemptsToConnect += 1;
           console.log(

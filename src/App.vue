@@ -222,7 +222,7 @@ const routerViewKey = ref(Date.now());
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 
-// Orientierung tracking
+// Orientation tracking
 const { isLandscape } = useOrientation();
 
 useHead({
@@ -240,7 +240,7 @@ function updateOrientation() {
   const width = window.innerWidth;
   const height = window.innerHeight;
 
-  // Prüfen, ob Breite und Höhe sich stark ändern
+  // Check if width and height changed significantly
   if (Math.abs(width - initialWidth) > 100 && Math.abs(height - initialHeight) > 100) {
     const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
 
@@ -254,12 +254,12 @@ function updateOrientation() {
     initialWidth = width;
     initialHeight = height;
   } else {
-    // Auch bei kleinen Änderungen Orientierung prüfen (für bessere Responsivität)
+    // Also check orientation for small changes (for better responsiveness)
     checkOrientationChange();
   }
 }
 
-// Computed Classes für responsive Layout
+// Computed classes for responsive layout
 const appLayoutClasses = computed(() => ({
   'app-portrait': !isLandscape.value,
   'app-landscape': isLandscape.value,
@@ -303,11 +303,15 @@ function pauseApp() {
 async function resumeApp() {
   console.log('App resumed, restarting intervals...');
 
-  // Setze Flag für kürzlich zurückgekehrte Seite
+  // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
 
-  // Force UI refresh beim Resume
+  // Force UI refresh on resume
   routerViewKey.value = Date.now();
+
+  // Important: Re-enable WebSocket Channel Service shouldReconnect flag
+  const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
+  wsChannelService.shouldReconnect = true;
 
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
@@ -316,13 +320,13 @@ async function resumeApp() {
     sequenceStore.startFetching();
   }
 
-  // Countdown neu starten wenn Belichtung läuft
+  // Restart countdown if exposure is running
   if (store.cameraInfo.IsExposing && store.cameraInfo.ExposureEndTime) {
     console.log('Restarting exposure countdown after resume...');
     cameraStore.updateCountdown();
   }
 
-  // WebSocket Filter wieder verbinden wenn nötig
+  // Reconnect WebSocket filter if needed
   if (
     store.filterInfo.DeviceId === 'Networked Filter Wheel' &&
     store.filterInfo.Connected &&
@@ -341,14 +345,14 @@ function handleVisibilityChange() {
 }
 
 function handlePageShow() {
-  // pageshow wird schneller ausgelöst als visibilitychange
+  // pageshow is triggered faster than visibilitychange
   if (!document.hidden) {
     resumeApp();
   }
 }
 
 function handleFocus() {
-  // focus event als zusätzlicher Trigger
+  // focus event as additional trigger
   if (!document.hidden) {
     resumeApp();
   }
@@ -361,7 +365,7 @@ onMounted(async () => {
   window.addEventListener('pageshow', handlePageShow);
   window.addEventListener('focus', handleFocus);
 
-  // Capacitor App Lifecycle Events für mobile Plattformen
+  // Capacitor App Lifecycle Events for mobile platforms
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
     CapacitorApp.addListener('pause', () => {
       console.log('Capacitor App pause event');
@@ -389,13 +393,13 @@ onMounted(async () => {
     stellariumRefreshKey.value = Date.now();
   });
 
-  // Timeout für connectionCheckCompleted nach 3 Sekunden
+  // Timeout for connectionCheckCompleted after 3 seconds
   const connectionTimeout = setTimeout(() => {
     connectionCheckCompleted.value = true;
   }, 3000);
 
   await store.fetchAllInfos(t);
-  // Nach dem ersten Verbindungsversuch ist die Prüfung abgeschlossen
+  // Connection check is completed after first connection attempt
   connectionCheckCompleted.value = true;
   clearTimeout(connectionTimeout);
 
@@ -456,19 +460,19 @@ watch(
   () => [store.filterInfo.Connected, store.filterInfo.DeviceId, store.isBackendReachable],
   ([connected, deviceId, backendReachable]) => {
     if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
-      // WebSocket aufbauen
+      // Establish WebSocket connection
       wsFilter.setStatusCallback((status) => {
         //console.log('WebSocket Filter Status:', status);
         if (status === 'connected') {
           filterStore.wsIsConnected = true;
-          //console.log('WebSocket Filter verbunden!');
+          //console.log('WebSocket Filter connected!');
         } else {
           filterStore.wsIsConnected = false;
         }
       });
       wsFilter.connect();
     } else {
-      // WebSocket trennen
+      // Disconnect WebSocket
       wsFilter.disconnect();
       filterStore.wsIsConnected = false;
     }
@@ -526,7 +530,7 @@ onBeforeUnmount(async () => {
     stellariumRefreshKey.value = Date.now();
   });
 
-  // Capacitor Listener entfernen
+  // Remove Capacitor listeners
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
     await CapacitorApp.removeAllListeners();
   }
@@ -534,7 +538,7 @@ onBeforeUnmount(async () => {
 </script>
 
 <style scoped>
-/* Tablet Landscape Anpassungen */
+/* Tablet Landscape Adjustments */
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .app-landscape .main-content {
     margin-left: 8rem !important;
@@ -552,14 +556,14 @@ onBeforeUnmount(async () => {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Safe Area Support - nur für Portrait unten */
+/* Safe Area Support - only for portrait bottom */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .app-portrait .main-content {
     padding-bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
   }
 }
 
-/* Responsive Anpassungen für sehr kleine Bildschirme */
+/* Responsive adjustments for very small screens */
 @media (max-width: 480px) {
   .app-landscape .container {
     padding-left: 12rem !important;

@@ -202,6 +202,14 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
+  // Stoppt den Countdown (z.B. wenn App pausiert)
+  function stopCountdown() {
+    if (countdownRunning.value) {
+      console.log('Stopping exposure countdown...');
+      countdownRunning.value = false;
+    }
+  }
+
   //Countdown für Statusanzeige mit Server-Zeit-Synchronisation
   async function updateCountdown() {
     const exposureEndTime = store.cameraInfo.ExposureEndTime;
@@ -304,5 +312,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     getCameraRotation,
     abortExposure,
     updateCountdown,
+    stopCountdown,
   };
 });

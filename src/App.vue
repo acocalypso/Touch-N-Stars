@@ -179,10 +179,12 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
 import { Capacitor } from '@capacitor/core';
+import { App as CapacitorApp } from '@capacitor/app';
 import NavigationComp from '@/components/NavigationComp.vue';
 import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
+import { useCameraStore } from './store/cameraStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
@@ -202,6 +204,7 @@ const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const filterStore = useFilterStore();
+const cameraStore = useCameraStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -284,11 +287,49 @@ function handleOrientationChange() {
   }, 100);
 }
 
+function pauseApp() {
+  console.log('App paused, stopping all intervals...');
+  store.stopFetchingInfo();
+  logStore.stopFetchingLog();
+  sequenceStore.stopFetching();
+  cameraStore.stopCountdown();
+  wsFilter.disconnect();
+}
+
+function resumeApp() {
+  console.log('App resumed, restarting intervals...');
+
+  // Setze Flag für kürzlich zurückgekehrte Seite
+  store.setPageReturnedFromBackground();
+
+  // Force UI refresh beim Resume
+  routerViewKey.value = Date.now();
+
+  store.startFetchingInfo(t);
+  logStore.startFetchingLog();
+  if (!sequenceStore.sequenceEdit) {
+    sequenceStore.startFetching();
+  }
+
+  // Countdown neu starten wenn Belichtung läuft
+  if (store.cameraInfo.IsExposing && store.cameraInfo.ExposureEndTime) {
+    console.log('Restarting exposure countdown after resume...');
+    cameraStore.updateCountdown();
+  }
+
+  // WebSocket Filter wieder verbinden wenn nötig
+  if (
+    store.filterInfo.DeviceId === 'Networked Filter Wheel' &&
+    store.filterInfo.Connected &&
+    store.isBackendReachable
+  ) {
+    wsFilter.connect();
+  }
+}
+
 function handleVisibilityChange() {
   if (document.hidden) {
-    store.stopFetchingInfo();
-    logStore.stopFetchingLog();
-    sequenceStore.stopFetching();
+    pauseApp();
   } else {
     resumeApp();
   }
@@ -308,26 +349,34 @@ function handleFocus() {
   }
 }
 
-function resumeApp() {
-  // Setze Flag für kürzlich zurückgekehrte Seite
-  store.setPageReturnedFromBackground();
-
-  // Force UI refresh beim Resume
-  routerViewKey.value = Date.now();
-
-  store.startFetchingInfo(t);
-  logStore.startFetchingLog();
-  if (!sequenceStore.sequenceEdit) {
-    sequenceStore.startFetching();
-  }
-}
-
 onMounted(async () => {
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
   window.addEventListener('pageshow', handlePageShow);
   window.addEventListener('focus', handleFocus);
+
+  // Capacitor App Lifecycle Events für mobile Plattformen
+  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+    CapacitorApp.addListener('pause', () => {
+      console.log('Capacitor App pause event');
+      pauseApp();
+    });
+
+    CapacitorApp.addListener('resume', () => {
+      console.log('Capacitor App resume event');
+      resumeApp();
+    });
+
+    CapacitorApp.addListener('appStateChange', (state) => {
+      console.log('Capacitor App state change:', state.isActive);
+      if (state.isActive) {
+        resumeApp();
+      } else {
+        pauseApp();
+      }
+    });
+  }
 
   // Listen for manual Stellarium refresh ONLY
   window.addEventListener('refresh-stellarium', () => {
@@ -455,11 +504,14 @@ watch(
   }
 );
 
-onBeforeUnmount(() => {
+onBeforeUnmount(async () => {
+  console.log('App.vue unmounted, cleaning up...');
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   wsFilter.disconnect();
+  store.clearAllStates();
+  store.isApiConnected = false;
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   window.removeEventListener('pageshow', handlePageShow);
   window.removeEventListener('focus', handleFocus);
@@ -468,6 +520,11 @@ onBeforeUnmount(() => {
   window.removeEventListener('refresh-stellarium', () => {
     stellariumRefreshKey.value = Date.now();
   });
+
+  // Capacitor Listener entfernen
+  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+    await CapacitorApp.removeAllListeners();
+  }
 });
 </script>
 

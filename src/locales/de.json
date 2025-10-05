@@ -440,7 +440,8 @@
       },
       "at_target_temp": "Zieltemperatur erreicht",
       "cooler_power": "Kühlerleistung (%)",
-      "temperature_setpoint": "Temp Sollwert (° C)"
+      "temperature_setpoint": "Temp Sollwert (° C)",
+      "camera_warming": "Kamera aufwärmen"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

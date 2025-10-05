@@ -440,7 +440,8 @@
       },
       "at_target_temp": "A temperatura objetivo",
       "cooler_power": "Potencia más fría (%)",
-      "temperature_setpoint": "Temp setpoint (°C)"
+      "temperature_setpoint": "Temp setpoint (°C)",
+      "camera_warming": "Calentamiento de la cámara"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

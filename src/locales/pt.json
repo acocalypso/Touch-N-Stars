@@ -440,7 +440,8 @@
       },
       "at_target_temp": "At target temp",
       "cooler_power": "Potência mais fria (%)",
-      "temperature_setpoint": "Temp setpoint (°C)"
+      "temperature_setpoint": "Temp setpoint (°C)",
+      "camera_warming": "Aquecimento da câmera"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",

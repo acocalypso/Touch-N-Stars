@@ -1414,9 +1414,9 @@ const apiService = {
       const { BASE_URL } = getUrls();
       const encodedTarget = encodeURIComponent(target);
       const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}`, {
-        params: { 
+        params: {
           stream: true,
-          quality: quality, 
+          quality: quality,
           scale: scale,
           resize: true,
         },

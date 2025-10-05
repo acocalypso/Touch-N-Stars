@@ -32,7 +32,10 @@ class WebSocketChannelService {
       this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
       //console.log('Channel WebSocket URL: ', this.backendUrl);
-      if (backendPort === null) return;
+      if (backendPort === null) {
+        backendPort = 1888; // Standardport setzen, falls nicht definiert
+      }
+
       this.socket = new WebSocket(this.backendUrl);
 
       // Timeout wenn Verbindung zu lange dauert

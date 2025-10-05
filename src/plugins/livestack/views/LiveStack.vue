@@ -347,9 +347,9 @@ const loadImage = async (target, filter, forceReload = false) => {
   isLoading.value = true;
   errorMessage.value = null;
 
-  const cameraWidth = store.profileInfo?.FramingAssistantSettings?.CameraWidth
-  const cameraHeight = store.profileInfo?.FramingAssistantSettings?.CameraHeight
-  const maxDimension = Math.max(cameraWidth, cameraHeight)
+  const cameraWidth = store.profileInfo?.FramingAssistantSettings?.CameraWidth;
+  const cameraHeight = store.profileInfo?.FramingAssistantSettings?.CameraHeight;
+  const maxDimension = Math.max(cameraWidth, cameraHeight);
   const scale = maxDimension > 2000 ? (2000 / maxDimension) * 100 : 100;
   console.log(`Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
   try {

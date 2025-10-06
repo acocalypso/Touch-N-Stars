@@ -813,7 +813,7 @@
         "sent": "Gesendet!",
         "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
         "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
-        "validSequence": "Sequenz ist gültig und kann exportiert werden",
+        "validSequence": "Sequenz ist gültig und kann übernommen werden",
         "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
       },
       "confirmations": {

@@ -927,7 +927,7 @@
       "toolbar": {
         "redo": "Rehacer",
         "undo": "Deshacer",
-        "validSequence": "La secuencia es válida y se puede exportar",
+        "validSequence": "La secuencia es válida y puede ser adoptada",
         "clearSequence": "Secuencia clara",
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
         "loadBasicSequence": "Cargar secuencia básica",

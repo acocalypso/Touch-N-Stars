@@ -838,7 +838,7 @@
         "sent": "Enviado!",
         "sendErrorTitle": "Erro ao enviar para N.I.N.A",
         "sendSuccessMessage": "Sequência enviada com sucesso para N.I.N.A!",
-        "validSequence": "A sequência é válida e pode ser exportada",
+        "validSequence": "A sequência é válida e pode ser adotada",
         "invalidSequence": "Adicione Configurações de Alvo e Exposição Inteligente para criar uma sequência válida"
       },
       "confirmations": {

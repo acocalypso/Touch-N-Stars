@@ -839,7 +839,7 @@
         "sent": "已发送！",
         "sendErrorTitle": "发送到 N.I.N.A 时出错",
         "sendSuccessMessage": "序列已成功发送到 N.I.N.A！",
-        "validSequence": "序列有效，可以导出",
+        "validSequence": "序列有效，可以采用",
         "invalidSequence": "添加目标设置和智能曝光以创建有效序列"
       },
       "confirmations": {

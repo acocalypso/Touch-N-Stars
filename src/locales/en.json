@@ -838,7 +838,7 @@
         "sent": "Sent!",
         "sendErrorTitle": "Error sending to N.I.N.A",
         "sendSuccessMessage": "Sequence successfully sent to N.I.N.A!",
-        "validSequence": "Sequence is valid and can be exported",
+        "validSequence": "Sequence is valid and can be adopted",
         "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence"
       },
       "confirmations": {

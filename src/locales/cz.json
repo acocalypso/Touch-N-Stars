@@ -830,7 +830,7 @@
         "loadBasicSequence": "Načíst Základní Sekvenci",
         "redo": "Znovu",
         "undo": "Zpět",
-        "validSequence": "Sekvence je platná a lze ji exportovat.",
+        "validSequence": "Sekvence je platná a lze ji převzít.",
         "saveAsDefault": "Uložit jako výchozí",
         "saveAsDefaultSuccess": "Uloženo jako výchozí sekvence!",
         "sendErrorTitle": "Chyba při odesílání do",

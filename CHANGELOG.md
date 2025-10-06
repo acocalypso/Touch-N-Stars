@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved app loading speed by adjusting timeout periods 
 - The camera cooling and warming function has been revised.
 - The speed for connecting to NINA has been improved.
+- Sequence-Creator: Added an option to switch directly to the sequence page
 
 ### Fixed
 - Image statistics: Temperature limited to one decimal place

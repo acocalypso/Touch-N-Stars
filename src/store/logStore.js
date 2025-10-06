@@ -24,6 +24,7 @@ export const useLogStore = defineStore('LogStore', {
       'guide star',
       'Platesolve failed',
       'Timed-out waiting for guider to settle',
+      'PHDError:',
     ],
 
     // Regeln zum Ändern von Level und Text bestimmter Log-Einträge

@@ -778,6 +778,7 @@
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
         "removeAction": "Odstranit akci „{actionName}",
+        "navigateToSequence": "Chcete nyní přejít na stránku Sekvence?",
         "title": "Potvrzení",
         "saveAsDefault": "Opravdu chcete uložit aktuální sekvenci jako výchozí? Tím se přepíše předchozí výchozí sekvence.",
         "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence."
@@ -830,12 +831,12 @@
         "loadBasicSequence": "Načíst Základní Sekvenci",
         "redo": "Znovu",
         "undo": "Zpět",
-        "validSequence": "Sekvence je platná a lze ji exportovat.",
+        "validSequence": "Sekvence je platná a lze ji převzít.",
         "saveAsDefault": "Uložit jako výchozí",
         "saveAsDefaultSuccess": "Uloženo jako výchozí sekvence!",
         "sendErrorTitle": "Chyba při odesílání do",
         "sendSuccessMessage": "Sekvence úspěšně odeslána do N.I.N.A!",
-        "sendToNina": "Odeslat N.I.N.A",
+        "sendToNina": "Převzít sekvenci",
         "sending": "Odesílání...",
         "sent": "Odesláno!"
       },

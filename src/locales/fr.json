@@ -833,12 +833,12 @@
         "clearSequence": "Effacer la séquence",
         "saveAsDefault": "Sauvegarder comme défaut",
         "saveAsDefaultSuccess": "Sauvegardé comme séquence par défaut!",
-        "sendToNina": "Envoyer à N.I.N.A",
+        "sendToNina": "Adopter la séquence",
         "sending": "Envoi...",
         "sent": "Envoyé!",
         "sendErrorTitle": "Erreur d'envoi à N.I.N.A",
         "sendSuccessMessage": "Séquence envoyée avec succès à N.I.N.A!",
-        "validSequence": "La séquence est valide et peut être exportée",
+        "validSequence": "La séquence est valide et peut être adoptée",
         "invalidSequence": "Ajoutez les paramètres de cible et l'exposition intelligente pour créer une séquence valide"
       },
       "confirmations": {
@@ -846,7 +846,8 @@
         "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? Cette action ne peut pas être annulée.",
         "saveAsDefault": "Êtes-vous sûr de vouloir sauvegarder la séquence actuelle comme défaut? Cela écrasera la séquence par défaut précédente.",
         "loadBasicSequence": "Êtes-vous sûr de vouloir charger la séquence de base? Cela écrasera la séquence actuelle.",
-        "removeAction": "Supprimer l'action \"{actionName}\"?"
+        "removeAction": "Supprimer l'action \"{actionName}\"?",
+        "navigateToSequence": "Voulez-vous passer à la page Séquence maintenant?"
       },
       "containers": {
         "startSequence": {

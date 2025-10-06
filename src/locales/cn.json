@@ -834,12 +834,12 @@
         "clearSequence": "清除序列",
         "saveAsDefault": "保存为默认",
         "saveAsDefaultSuccess": "已保存为默认序列！",
-        "sendToNina": "发送到 N.I.N.A",
+        "sendToNina": "采用序列",
         "sending": "发送中...",
         "sent": "已发送！",
         "sendErrorTitle": "发送到 N.I.N.A 时出错",
         "sendSuccessMessage": "序列已成功发送到 N.I.N.A！",
-        "validSequence": "序列有效，可以导出",
+        "validSequence": "序列有效，可以采用",
         "invalidSequence": "添加目标设置和智能曝光以创建有效序列"
       },
       "confirmations": {
@@ -847,7 +847,8 @@
         "clearSequence": "您确定要清除整个序列吗？此操作无法撤销。",
         "saveAsDefault": "您确定要将当前序列保存为默认值吗？这将覆盖之前的默认序列。",
         "loadBasicSequence": "您确定要加载基本序列吗？这将覆盖当前序列。",
-        "removeAction": "移除 \"{actionName}\" 操作？"
+        "removeAction": "移除 \"{actionName}\" 操作？",
+        "navigateToSequence": "您现在想切换到序列页面吗？"
       },
       "containers": {
         "startSequence": {

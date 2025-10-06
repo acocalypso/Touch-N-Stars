@@ -881,7 +881,8 @@
         "removeAction": "¿Eliminar la acción \"{ActionName}\"?",
         "title": "Confirmación",
         "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior.",
-        "loadBasicSequence": "¿Estás seguro de que quieres cargar la secuencia básica? Esto sobrescribirá la secuencia actual."
+        "loadBasicSequence": "¿Estás seguro de que quieres cargar la secuencia básica? Esto sobrescribirá la secuencia actual.",
+        "navigateToSequence": "¿Desea cambiar a la página de Secuencia ahora?"
       },
       "containers": {
         "addAction": "Agregar acción",
@@ -927,7 +928,7 @@
       "toolbar": {
         "redo": "Rehacer",
         "undo": "Deshacer",
-        "validSequence": "La secuencia es válida y se puede exportar",
+        "validSequence": "La secuencia es válida y puede ser adoptada",
         "clearSequence": "Secuencia clara",
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
         "loadBasicSequence": "Cargar secuencia básica",
@@ -935,7 +936,7 @@
         "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!",
         "sendErrorTitle": "Error al enviar a N.I.N.A",
         "sendSuccessMessage": "Secuencia enviada con éxito a N.I.N.A!",
-        "sendToNina": "Enviar a N.I.N.A",
+        "sendToNina": "Adoptar secuencia",
         "sending": "Envío...",
         "sent": "¡Enviado!"
       },

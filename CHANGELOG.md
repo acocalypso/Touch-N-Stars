@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Three Point Polar Alignment (TPPA): Manual Mode (Advanced API V2.2.10.0 is required)
 - The current status is now displayed in the sequence and sequence dashboard
 - Livestack plugin (note: currently in beta version)
-- PHD2: Warning message if no star was found
+- PHD2: more warning message 
 - The status of the camera, mount, and filter wheel can be opened by pressing the icons in the status bar.
 
 ### Changed
@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved app loading speed by adjusting timeout periods 
 - The camera cooling and warming function has been revised.
 - The speed for connecting to NINA has been improved.
+- Sequence-Creator: Added an option to switch directly to the sequence page
 
 ### Fixed
 - Image statistics: Temperature limited to one decimal place

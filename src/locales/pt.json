@@ -833,12 +833,12 @@
         "clearSequence": "Limpar sequência",
         "saveAsDefault": "Salvar como padrão",
         "saveAsDefaultSuccess": "Salvo como sequência padrão!",
-        "sendToNina": "Enviar para N.I.N.A",
+        "sendToNina": "Adotar sequência",
         "sending": "Enviando...",
         "sent": "Enviado!",
         "sendErrorTitle": "Erro ao enviar para N.I.N.A",
         "sendSuccessMessage": "Sequência enviada com sucesso para N.I.N.A!",
-        "validSequence": "A sequência é válida e pode ser exportada",
+        "validSequence": "A sequência é válida e pode ser adotada",
         "invalidSequence": "Adicione Configurações de Alvo e Exposição Inteligente para criar uma sequência válida"
       },
       "confirmations": {
@@ -846,7 +846,8 @@
         "clearSequence": "Tem certeza de que deseja limpar toda a sequência? Esta ação não pode ser desfeita.",
         "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? Isso substituirá a sequência padrão anterior.",
         "loadBasicSequence": "Tem certeza de que deseja carregar a sequência básica? Isso substituirá a sequência atual.",
-        "removeAction": "Remover ação \"{actionName}\"?"
+        "removeAction": "Remover ação \"{actionName}\"?",
+        "navigateToSequence": "Deseja mudar para a página de Sequência agora?"
       },
       "containers": {
         "startSequence": {

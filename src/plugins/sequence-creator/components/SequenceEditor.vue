@@ -403,12 +403,37 @@
         </div>
       </template>
     </Modal>
+
+    <!-- Navigate to Sequence Page Confirmation Modal -->
+    <Modal :show="showNavigateModal" @close="cancelNavigate">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.confirmations.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="text-center">
+          <p class="text-gray-300 mb-6">
+            {{ t('plugins.sequenceCreator.confirmations.navigateToSequence') }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <button @click="cancelNavigate" class="default-button-gray text-sm">
+              {{ t('general.cancel') }}
+            </button>
+            <button @click="confirmNavigate" class="default-button-green text-sm">
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useSequenceStore } from '../stores/sequenceStore.js';
 import { useToastStore } from '@/store/toastStore.js';
 import { apiStore } from '@/store/store.js';
@@ -417,6 +442,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService.js';
 
 const { t } = useI18n();
+const router = useRouter();
 const store = useSequenceStore();
 const toastStore = useToastStore();
 const mainStore = apiStore();
@@ -424,6 +450,7 @@ const mainStore = apiStore();
 const showClearModal = ref(false);
 const showSaveAsDefaultModal = ref(false);
 const showLoadBasicModal = ref(false);
+const showNavigateModal = ref(false);
 
 // Version checking states
 const isInitializing = ref(true);
@@ -507,6 +534,15 @@ function cancelLoadBasic() {
   showLoadBasicModal.value = false;
 }
 
+function confirmNavigate() {
+  showNavigateModal.value = false;
+  router.push('/sequence');
+}
+
+function cancelNavigate() {
+  showNavigateModal.value = false;
+}
+
 async function sendToNina() {
   isSendingToNina.value = true;
 
@@ -524,6 +560,9 @@ async function sendToNina() {
         autoCloseDelay: 1000,
       });
       console.log('Sequence successfully sent to N.I.N.A:', response);
+
+      // Show navigation confirmation modal
+      showNavigateModal.value = true;
     } else {
       // Show error toast
       toastStore.showToast({

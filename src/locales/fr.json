@@ -846,7 +846,8 @@
         "clearSequence": "Êtes-vous sûr de vouloir effacer toute la séquence? Cette action ne peut pas être annulée.",
         "saveAsDefault": "Êtes-vous sûr de vouloir sauvegarder la séquence actuelle comme défaut? Cela écrasera la séquence par défaut précédente.",
         "loadBasicSequence": "Êtes-vous sûr de vouloir charger la séquence de base? Cela écrasera la séquence actuelle.",
-        "removeAction": "Supprimer l'action \"{actionName}\"?"
+        "removeAction": "Supprimer l'action \"{actionName}\"?",
+        "navigateToSequence": "Voulez-vous passer à la page Séquence maintenant?"
       },
       "containers": {
         "startSequence": {

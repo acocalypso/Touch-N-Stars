@@ -847,7 +847,8 @@
         "clearSequence": "您确定要清除整个序列吗？此操作无法撤销。",
         "saveAsDefault": "您确定要将当前序列保存为默认值吗？这将覆盖之前的默认序列。",
         "loadBasicSequence": "您确定要加载基本序列吗？这将覆盖当前序列。",
-        "removeAction": "移除 \"{actionName}\" 操作？"
+        "removeAction": "移除 \"{actionName}\" 操作？",
+        "navigateToSequence": "您现在想切换到序列页面吗？"
       },
       "containers": {
         "startSequence": {

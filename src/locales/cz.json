@@ -778,6 +778,7 @@
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
         "removeAction": "Odstranit akci „{actionName}",
+        "navigateToSequence": "Chcete nyní přejít na stránku Sekvence?",
         "title": "Potvrzení",
         "saveAsDefault": "Opravdu chcete uložit aktuální sekvenci jako výchozí? Tím se přepíše předchozí výchozí sekvence.",
         "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence."

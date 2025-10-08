@@ -119,84 +119,13 @@
     </div>
 
     <!-- Quick Access Buttons -->
-    <div :class="quickButtonsClasses">
-      <div v-if="store.mountInfo.Connected">
-        <button
-          @click="openModal('mount')"
-          :class="[buttonClasses, { 'glow-green': showMount }]"
-          title="Mount Controls"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            :class="iconClasses"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M6 21l6 -5l6 5" />
-            <path d="M12 13v8" />
-            <path
-              d="M3.294 13.678l.166 .281c.52 .88 1.624 1.265 2.605 .91l14.242 -5.165a1.023 1.023 0 0 0 .565 -1.456l-2.62 -4.705a1.087 1.087 0 0 0 -1.447 -.42l-.056 .032l-12.694 7.618c-1.02 .613 -1.357 1.897 -.76 2.905z"
-            />
-            <path d="M14 5l3 5.5" />
-          </svg>
-        </button>
-      </div>
-      <div v-if="store.focuserInfo.Connected">
-        <button
-          @click="openModal('focuser')"
-          :class="[buttonClasses, { 'glow-green': showFocuser }]"
-          title="Focuser Controls"
-        >
-          <EyeIcon :class="iconClasses" />
-        </button>
-      </div>
-      <div v-if="store.filterInfo.Connected">
-        <button
-          @click="openModal('filter')"
-          :class="[buttonClasses, { 'glow-green': showFilter }]"
-          title="Filter Wheel"
-        >
-          <svg
-            :class="iconClasses"
-            baseProfile="full"
-            version="1.1"
-            viewBox="0 0 100 100"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <defs />
-            <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-            <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-            <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-            <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-            <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-          </svg>
-        </button>
-      </div>
-      <div v-if="store.rotatorInfo.Connected">
-        <button
-          @click="openModal('rotator')"
-          :class="[buttonClasses, { 'glow-green': showRotator }]"
-          title="Rotator Controls"
-        >
-          <svg
-            :class="iconClasses"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 7L7 6L4.70711 3.70711L5.19868 3.21553C5.97697 2.43724 7.03256 2 8.13323 2C11.361 2 14 4.68015 14 7.93274C14 11.2589 11.3013 14 8 14C6.46292 14 4.92913 13.4144 3.75736 12.2426L2.34315 13.6569C3.90505 15.2188 5.95417 16 8 16C12.4307 16 16 12.3385 16 7.93274C16 3.60052 12.4903 0 8.13323 0C6.50213 0 4.93783 0.647954 3.78447 1.80132L3.29289 2.29289L1 0L0 1V7H6Z"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
+    <QuickAccessButtons
+      :showMount="showMount"
+      :showFocuser="showFocuser"
+      :showFilter="showFilter"
+      :showRotator="showRotator"
+      @open-modal="openModal"
+    />
 
     <ModalTransparanet :show="showMount" @close="showMount = false">
       <template #header>
@@ -325,11 +254,11 @@ import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { EyeIcon } from '@heroicons/vue/24/outline';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
+import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
 import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
@@ -400,24 +329,6 @@ const openModal = (modalType) => {
 const { isLandscape } = useOrientation();
 
 // Responsive computed properties
-const quickButtonsClasses = computed(() => ({
-  'fixed flex gap-2 text-gray-300 z-10': true,
-  'top-24 left-5 flex-row': !isLandscape.value,
-  'top-5 left-36 flex-row': isLandscape.value, // Updated to left-36 (9rem) für neue Navigation
-}));
-
-const buttonClasses = computed(() => ({
-  'rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-500 transition-colors duration-200': true,
-  'w-12 h-12': !isLandscape.value,
-  'w-10 h-10': isLandscape.value,
-}));
-
-const iconClasses = computed(() => ({
-  'text-gray-300': true,
-  'w-6 h-6': !isLandscape.value,
-  'w-5 h-5': isLandscape.value,
-}));
-
 const iconCenterHere = computed(() => [
   'absolute z-10',
   !isLandscape.value ? 'top-24 right-28' : 'top-2 right-28', // Kept on right side as it relates to image controls
@@ -473,17 +384,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.glow-green {
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
-  border-color: rgb(34, 197, 94);
-}
-
-.transition-colors {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
-
 /* Drag-Hinweis für Modal Headers */
 :deep(.modal-header) {
   cursor: move;
@@ -492,18 +392,5 @@ onMounted(async () => {
 
 :deep(.modal-header:active) {
   cursor: grabbing;
-}
-
-/* Standard Positioning für alle Geräte */
-@media screen and (orientation: landscape) {
-  .quickButtonsClasses {
-    left: 9rem !important; /* Fester Abstand für alle Geräte */
-  }
-}
-
-@media (max-height: 600px) and (orientation: landscape) {
-  .quickButtonsClasses {
-    top: 0.25rem !important;
-  }
 }
 </style>

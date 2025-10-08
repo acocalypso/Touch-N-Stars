@@ -30,10 +30,10 @@
 import { computed } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
-import MountButton from '@/components/helpers/buttons/MountButton.vue';
-import FocuserButton from '@/components/helpers/buttons/FocuserButton.vue';
-import FilterButton from '@/components/helpers/buttons/FilterButton.vue';
-import RotatorButton from '@/components/helpers/buttons/RotatorButton.vue';
+import MountButton from '@/components/helpers/quickAccessButtons/MountButton.vue';
+import FocuserButton from '@/components/helpers/quickAccessButtons/FocuserButton.vue';
+import FilterButton from '@/components/helpers/quickAccessButtons/FilterButton.vue';
+import RotatorButton from '@/components/helpers/quickAccessButtons/RotatorButton.vue';
 
 const props = defineProps({
   showMount: {

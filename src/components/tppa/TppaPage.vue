@@ -28,6 +28,7 @@
             >
               <PhotoIcon class="w-6 h-6" />
             </button>
+            <MountButton v-if="store.mountInfo.Connected" :isActive="showMount" @click="toggleMount" />
             <ActuellErrorModal />
             <ErrorCircle />
           </div>
@@ -215,6 +216,35 @@
     :isLoading="false"
     @close="showImageModal = false"
   />
+
+  <!-- Mount Modal -->
+  <ModalTransparanet :show="showMount" @close="showMount = false">
+    <template #header>
+      <div class="flex items-center justify-between w-full">
+        <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
+        <div class="flex items-center gap-2 text-gray-400">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+            />
+          </svg>
+          <span class="text-xs">Drag</span>
+        </div>
+      </div>
+    </template>
+    <template #body>
+      <moveAxis />
+    </template>
+  </ModalTransparanet>
 </template>
 
 <script setup>
@@ -239,7 +269,10 @@ import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
+import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
+import MountButton from '@/components/helpers/quickAccessButtons/MountButton.vue';
+import moveAxis from '@/components/mount/moveAxis.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
@@ -249,7 +282,12 @@ const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);
 const showImageModal = ref(false);
+const showMount = ref(false);
 let lastMessageTimeout = null;
+
+function toggleMount() {
+  showMount.value = !showMount.value;
+}
 
 // Tolerance in arc minutes
 const tolerance = 1;

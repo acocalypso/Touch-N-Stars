@@ -28,7 +28,11 @@
             >
               <PhotoIcon class="w-6 h-6" />
             </button>
-            <MountButton v-if="store.mountInfo.Connected" :isActive="showMount" @click="toggleMount" />
+            <MountButton
+              v-if="store.mountInfo.Connected && tppaStore.ManualMode"
+              :isActive="showMount"
+              @click="toggleMount"
+            />
             <ActuellErrorModal />
             <ErrorCircle />
           </div>

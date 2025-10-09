@@ -444,7 +444,7 @@
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",
-      "camera_mount_required": "Kamera musí být připojena a montáž musí být odparkována",
+      "camera_mount_required": "Kamera musí být připojena",
       "start_alignment": "Spustit Zarovnání",
       "stop_alignment": "Zastavit Zarovnánít",
       "altitude_error": "Chyba v Nad. výšce:",

@@ -445,7 +445,7 @@
     },
     "tppa": {
       "title": "Allineamento polare a tre punti",
-      "camera_mount_required": "La fotocamera deve essere connessa e la montatura non parcheggiata",
+      "camera_mount_required": "La fotocamera deve essere connessa",
       "start_alignment": "Avvia allineamento",
       "stop_alignment": "Ferma allineamento",
       "altitude_error": "Errore altitudine:",

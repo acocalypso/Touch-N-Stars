@@ -445,7 +445,7 @@
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",
-      "camera_mount_required": "Kamera muss verbunden und Montierung ausgeparkt sein",
+      "camera_mount_required": "Kamera muss verbunden sein",
       "start_alignment": "Ausrichtung starten",
       "stop_alignment": "Ausrichtung stoppen",
       "altitude_error": "Höhenfehler:",

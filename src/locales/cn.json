@@ -446,7 +446,7 @@
     },
     "tppa": {
       "title": "三点极轴对准",
-      "camera_mount_required": "必须连接相机且赤道仪未停靠",
+      "camera_mount_required": "必须连接相机",
       "start_alignment": "开始对准",
       "stop_alignment": "停止对准",
       "altitude_error": "高度错误：",

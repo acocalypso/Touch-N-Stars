@@ -35,7 +35,7 @@ import FocuserButton from '@/components/helpers/quickAccessButtons/FocuserButton
 import FilterButton from '@/components/helpers/quickAccessButtons/FilterButton.vue';
 import RotatorButton from '@/components/helpers/quickAccessButtons/RotatorButton.vue';
 
-const props = defineProps({
+defineProps({
   showMount: {
     type: Boolean,
     default: false,

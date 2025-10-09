@@ -26,7 +26,7 @@
             {{ item.Status }}
           </span>
           <button
-            v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+            v-if="sequenceStore.sequenceEdit && !readOnly"
             @click="toggleDisable(item._path, item.Status, 'Status')"
             class="p-1 rounded-md hover:bg-slate-700/50 transition-colors"
           >
@@ -169,7 +169,7 @@
                     {{ trigger.Status }}
                   </span>
                   <button
-                    v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+                    v-if="sequenceStore.sequenceEdit && !readOnly"
                     @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
                     class="p-1 rounded hover:bg-slate-600/50 transition-colors"
                   >
@@ -283,7 +283,7 @@
                     {{ condition.Status }}
                   </span>
                   <button
-                    v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+                    v-if="sequenceStore.sequenceEdit && !readOnly"
                     @click="toggleDisable(condition._path, condition.Status, 'Status')"
                     class="p-1 rounded hover:bg-slate-600/50 transition-colors"
                   >
@@ -782,8 +782,15 @@ function statusColor(status) {
 }
 
 function getDisplayFields(item) {
+  // Check if this is a GlobalTrigger (has a _path containing 'GlobalTriggers')
+  const isGlobalTrigger = item._path && item._path.includes('GlobalTriggers');
+
   return Object.entries(item).filter(
-    ([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null
+    ([key, value]) => {
+      // For GlobalTriggers, exclude 'Inherited' field if it exists
+      if (isGlobalTrigger && key === 'Inherited') return false;
+      return !excludedKeys.has(key) && value !== undefined && value !== null;
+    }
   );
 }
 
@@ -860,19 +867,26 @@ async function updateFilter(event, path, newValue) {
 }
 
 async function toggleDisable(path, newValue, typ) {
-  console.log('toggleDisable', path, typ, newValue);
-  let action = '';
-  if (newValue === 'DISABLED') {
-    action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent('CREATED')}`;
-  } else {
-    action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent('DISABLED')}`;
+  // Check if this is a GlobalTrigger and fix the path
+  let correctedPath = path;
+  if (path && path.includes('GlobalTriggers')) {
+    // Remove any container prefix before GlobalTriggers
+    // e.g., "Global-GlobalTriggers-0" -> "GlobalTriggers-0"
+    correctedPath = path.replace(/^[^-]+-GlobalTriggers/, 'GlobalTriggers');
   }
 
-  console.log('action:', action);
+  let action = '';
+  if (newValue === 'DISABLED') {
+    action = `edit?path=${encodeURIComponent(correctedPath + '-' + typ)}&value=${encodeURIComponent('CREATED')}`;
+  } else {
+    action = `edit?path=${encodeURIComponent(correctedPath + '-' + typ)}&value=${encodeURIComponent('DISABLED')}`;
+  }
+
   try {
     const data = await apiService.sequenceAction(action);
-    sequenceStore.getSequenceInfo();
-    console.log('Antwort:', data);
+    if (data.Success) {
+      sequenceStore.getSequenceInfo();
+    }
   } catch (error) {
     console.log('Fehler:', error);
   }

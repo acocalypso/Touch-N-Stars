@@ -269,7 +269,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
         // Falls der Container GlobalTriggers hat, ebenfalls Pfade generieren
         if (container.GlobalTriggers) {
           container.GlobalTriggers.forEach((trigger, tIndex) => {
-            const triggerPath = `${pathPart}-GlobalTriggers-${tIndex}`;
+            // GlobalTriggers sind auf oberster Ebene, brauchen kein Container-Präfix
+            const triggerPath = `GlobalTriggers-${tIndex}`;
             trigger._path = triggerPath;
           });
         }

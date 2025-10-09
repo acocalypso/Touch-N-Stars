@@ -295,7 +295,47 @@
                 </div>
               </div>
               <div class="grid grid-cols-1 gap-3 text-sm">
+                <!-- Special handling for Altitude conditions with InterruptReason -->
+                <template
+                  v-if="
+                    condition.InterruptReason === 'Target is below horizon' &&
+                    condition.Data &&
+                    condition.Data.Offset !== undefined
+                  "
+                >
+                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Interrupt Reason:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      {{ condition.InterruptReason }}
+                    </span>
+                  </div>
+                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Offset:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex items-center gap-2">
+                          <input
+                            class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            v-model="condition.Data.Offset"
+                            @change="updateDataOffset($event, condition._path, condition.Data.Offset)"
+                          />
+                          <span class="text-gray-400">°</span>
+                        </div>
+                      </template>
+                      <template v-else>
+                        {{ condition.Data.Offset }}°
+                      </template>
+                    </span>
+                  </div>
+                </template>
+                <!-- Normal fields for all other conditions -->
                 <div
+                  v-else
                   v-for="[key, value] in getDisplayFieldsConditions(condition)"
                   :key="key"
                   class="flex flex-col sm:flex-row gap-6"
@@ -834,6 +874,28 @@ async function updateOnOffValue(path, newValue) {
     if (response.StatusCode === 200) {
       sequenceStore.getSequenceInfo();
       console.log('Antwort:', response);
+    }
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+async function updateDataOffset(event, path, newValue) {
+  const action = `edit?path=${encodeURIComponent(path + '-Data-Offset')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
     }
   } catch (error) {
     console.log('Fehler:', error);

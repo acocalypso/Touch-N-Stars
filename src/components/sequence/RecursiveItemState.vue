@@ -297,7 +297,9 @@
               <div class="grid grid-cols-1 gap-3 text-sm">
                 <!-- Special handling for Loop for Time Span condition -->
                 <template v-if="condition.Name === 'Loop for Time Span_Condition'">
-                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">Time:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
@@ -317,7 +319,9 @@
                             min="0"
                             max="59"
                             v-model="condition.Minutes"
-                            @change="updateValue($event, condition._path, condition.Minutes, 'Minutes')"
+                            @change="
+                              updateValue($event, condition._path, condition.Minutes, 'Minutes')
+                            "
                           />
                           <span class="text-gray-400">m</span>
                           <input
@@ -326,7 +330,9 @@
                             min="0"
                             max="59"
                             v-model="condition.Seconds"
-                            @change="updateValue($event, condition._path, condition.Seconds, 'Seconds')"
+                            @change="
+                              updateValue($event, condition._path, condition.Seconds, 'Seconds')
+                            "
                           />
                           <span class="text-gray-400">s</span>
                         </div>
@@ -343,7 +349,8 @@
                     condition.Data &&
                     condition.Data.Offset !== undefined &&
                     (condition.InterruptReason === 'Target is below horizon' ||
-                      condition.InterruptReason === 'Moon is outside of the specified altitude range' ||
+                      condition.InterruptReason ===
+                        'Moon is outside of the specified altitude range' ||
                       condition.InterruptReason === 'Sun is outside of the specified range' ||
                       condition.Name === 'Loop until Altitude Below_Condition')
                   "
@@ -359,7 +366,9 @@
                       {{ condition.InterruptReason }}
                     </span>
                   </div>
-                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Comparator:</span
                     >
@@ -368,7 +377,9 @@
                         <select
                           class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           v-model.number="condition.Data.Comparator"
-                          @change="updateDataComparator($event, condition._path, condition.Data.Comparator)"
+                          @change="
+                            updateDataComparator($event, condition._path, condition.Data.Comparator)
+                          "
                         >
                           <option :value="1">&lt;</option>
                           <option :value="3">&gt;</option>
@@ -379,7 +390,9 @@
                       </template>
                     </span>
                   </div>
-                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Offset:</span
                     >
@@ -390,14 +403,14 @@
                             class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             v-model="condition.Data.Offset"
-                            @change="updateDataOffset($event, condition._path, condition.Data.Offset)"
+                            @change="
+                              updateDataOffset($event, condition._path, condition.Data.Offset)
+                            "
                           />
                           <span class="text-gray-400">°</span>
                         </div>
                       </template>
-                      <template v-else>
-                        {{ condition.Data.Offset }}°
-                      </template>
+                      <template v-else> {{ condition.Data.Offset }}° </template>
                     </span>
                   </div>
                 </template>
@@ -893,13 +906,11 @@ function getDisplayFields(item) {
   // Check if this is a GlobalTrigger (has a _path containing 'GlobalTriggers')
   const isGlobalTrigger = item._path && item._path.includes('GlobalTriggers');
 
-  return Object.entries(item).filter(
-    ([key, value]) => {
-      // For GlobalTriggers, exclude 'Inherited' field if it exists
-      if (isGlobalTrigger && key === 'Inherited') return false;
-      return !excludedKeys.has(key) && value !== undefined && value !== null;
-    }
-  );
+  return Object.entries(item).filter(([key, value]) => {
+    // For GlobalTriggers, exclude 'Inherited' field if it exists
+    if (isGlobalTrigger && key === 'Inherited') return false;
+    return !excludedKeys.has(key) && value !== undefined && value !== null;
+  });
 }
 
 function getDisplayFieldsConditions(item) {

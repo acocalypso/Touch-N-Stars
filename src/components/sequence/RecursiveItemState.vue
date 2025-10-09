@@ -295,13 +295,56 @@
                 </div>
               </div>
               <div class="grid grid-cols-1 gap-3 text-sm">
+                <!-- Special handling for Loop for Time Span condition -->
+                <template v-if="condition.Name === 'Loop for Time Span_Condition'">
+                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">Time:</span>
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex items-center gap-2">
+                          <input
+                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="23"
+                            v-model="condition.Hours"
+                            @change="updateValue($event, condition._path, condition.Hours, 'Hours')"
+                          />
+                          <span class="text-gray-400">h</span>
+                          <input
+                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59"
+                            v-model="condition.Minutes"
+                            @change="updateValue($event, condition._path, condition.Minutes, 'Minutes')"
+                          />
+                          <span class="text-gray-400">m</span>
+                          <input
+                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59"
+                            v-model="condition.Seconds"
+                            @change="updateValue($event, condition._path, condition.Seconds, 'Seconds')"
+                          />
+                          <span class="text-gray-400">s</span>
+                        </div>
+                      </template>
+                      <template v-else>
+                        {{ condition.Hours }}h {{ condition.Minutes }}m {{ condition.Seconds }}s
+                      </template>
+                    </span>
+                  </div>
+                </template>
                 <!-- Special handling for Altitude conditions with Data.Offset -->
                 <template
-                  v-if="
+                  v-else-if="
                     condition.Data &&
                     condition.Data.Offset !== undefined &&
                     (condition.InterruptReason === 'Target is below horizon' ||
                       condition.InterruptReason === 'Moon is outside of the specified altitude range' ||
+                      condition.InterruptReason === 'Sun is outside of the specified range' ||
                       condition.Name === 'Loop until Altitude Below_Condition')
                   "
                 >
@@ -314,6 +357,26 @@
                     >
                     <span class="text-slate-200 break-all min-w-0">
                       {{ condition.InterruptReason }}
+                    </span>
+                  </div>
+                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Comparator:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <select
+                          class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          v-model.number="condition.Data.Comparator"
+                          @change="updateDataComparator($event, condition._path, condition.Data.Comparator)"
+                        >
+                          <option :value="1">&lt;</option>
+                          <option :value="3">&gt;</option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        {{ condition.Data.Comparator === 1 ? '<' : '>' }}
+                      </template>
                     </span>
                   </div>
                   <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
@@ -887,6 +950,28 @@ async function updateOnOffValue(path, newValue) {
 
 async function updateDataOffset(event, path, newValue) {
   const action = `edit?path=${encodeURIComponent(path + '-Data-Offset')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+async function updateDataComparator(event, path, newValue) {
+  const action = `edit?path=${encodeURIComponent(path + '-Data-Comparator')}&value=${encodeURIComponent(newValue)}`;
   const inputElement = event.target;
   try {
     const response = await apiService.sequenceAction(action);

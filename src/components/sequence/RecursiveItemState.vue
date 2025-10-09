@@ -295,15 +295,20 @@
                 </div>
               </div>
               <div class="grid grid-cols-1 gap-3 text-sm">
-                <!-- Special handling for Altitude conditions with InterruptReason -->
+                <!-- Special handling for Altitude conditions with Data.Offset -->
                 <template
                   v-if="
-                    condition.InterruptReason === 'Target is below horizon' &&
                     condition.Data &&
-                    condition.Data.Offset !== undefined
+                    condition.Data.Offset !== undefined &&
+                    (condition.InterruptReason === 'Target is below horizon' ||
+                      condition.InterruptReason === 'Moon is outside of the specified altitude range' ||
+                      condition.Name === 'Loop until Altitude Below_Condition')
                   "
                 >
-                  <div class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20">
+                  <div
+                    v-if="condition.InterruptReason"
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Interrupt Reason:</span
                     >

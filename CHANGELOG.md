@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.x.x] - 2025-xx-xx
 ### Added
+- TPPA Manual mode: Button added to control the mount 
 
 ### Changed
 

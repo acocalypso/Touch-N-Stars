@@ -29,7 +29,7 @@
               <PhotoIcon class="w-6 h-6" />
             </button>
             <MountButton
-              v-if="store.mountInfo.Connected && tppaStore.ManualMode"
+              v-if="store.mountInfo.Connected && tppaStore.settings.ManualMode"
               :isActive="showMount"
               @click="toggleMount"
             />

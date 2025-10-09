@@ -531,7 +531,11 @@
                   </select>
                 </template>
                 <template v-else-if="key === 'OnOff'">
-                  <ToggleButton :statusValue="value" :disabled="true" />
+                  <ToggleButton
+                    :statusValue="value"
+                    :disabled="!sequenceStore.sequenceEdit || readOnly"
+                    @update:statusValue="(newValue) => updateOnOffValue(item._path, newValue)"
+                  />
                 </template>
                 <template v-else-if="typeof value === 'object'">
                   <div class="grid grid-cols-1 gap-1">
@@ -808,6 +812,21 @@ async function updateValue(event, path, newValue, typ) {
       setTimeout(() => {
         inputElement.classList.remove('glow-red');
       }, 1000);
+    }
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+async function updateOnOffValue(path, newValue) {
+  console.log('updateOnOffValue', path, 'OnOff', newValue);
+  const action = `edit?path=${encodeURIComponent(path + '-OnOff')}&value=${encodeURIComponent(newValue)}`;
+  console.log('action:', action);
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      console.log('Antwort:', response);
     }
   } catch (error) {
     console.log('Fehler:', error);

@@ -530,6 +530,9 @@
                     <option value="BIAS">BIAS</option>
                   </select>
                 </template>
+                <template v-else-if="key === 'OnOff'">
+                  <ToggleButton :statusValue="value" :disabled="true" />
+                </template>
                 <template v-else-if="typeof value === 'object'">
                   <div class="grid grid-cols-1 gap-1">
                     <template v-for="[subKey, subValue] in Object.entries(value)" :key="subKey">
@@ -619,6 +622,7 @@ import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import SkyChart from '@/components/framing/SkyChart.vue';
+import ToggleButton from '@/components/helpers/toggleButton.vue';
 import {
   removeSuffix,
   formatDuration,

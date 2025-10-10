@@ -217,13 +217,26 @@
                         <div>{{ formatDec(value) }}</div>
                       </div>
                     </template>
+                    <template v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly">
+                      <select
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                        v-model.number="trigger[key]"
+                        @change="updateValue($event, trigger._path, trigger[key], key)"
+                      >
+                        <option :value="0">Siderial</option>
+                        <option :value="1">Lunar</option>
+                        <option :value="2">Solar</option>
+                        <option :value="3">King</option>
+                        <option :value="5">Stopped</option>
+                      </select>
+                    </template>
                     <template
                       v-else-if="
                         updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly
                       "
                     >
                       <input
-                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         type="number"
                         v-model="trigger[key]"
                         @change="updateValue($event, trigger._path, trigger[key], key)"
@@ -852,6 +865,19 @@
                   </select>
                 </template>
                 <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
+                <template v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly">
+                  <select
+                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                    v-model.number="item[key]"
+                    @change="updateValue($event, item._path, item[key], key)"
+                  >
+                    <option :value="0">Siderial</option>
+                    <option :value="1">Lunar</option>
+                    <option :value="2">Solar</option>
+                    <option :value="3">King</option>
+                    <option :value="5">Stopped</option>
+                  </select>
+                </template>
                 <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
                   <select
                     class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
@@ -1012,6 +1038,17 @@ function formatValue(value, key) {
     } else {
       return 'default';
     }
+  }
+  // Format TrackingMode
+  if (key === 'TrackingMode') {
+    const trackingModes = {
+      0: 'Siderial',
+      1: 'Lunar',
+      2: 'Solar',
+      3: 'King',
+      5: 'Stopped',
+    };
+    return trackingModes[value] ?? value;
   }
   return value;
 }

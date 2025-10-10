@@ -292,9 +292,23 @@
                       :class="condition.Status === 'DISABLED' ? 'text-red-400' : 'text-green-400'"
                     />
                   </button>
+                  <button
+                    @click="sequenceStore.toggleCollapsedState(condition._path)"
+                    class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                    :title="
+                      sequenceStore.isCollapsed(condition._path) ? 'Erweitern' : 'Zusammenklappen'
+                    "
+                  >
+                    <ChevronRightIcon
+                      class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                      :class="{
+                        'rotate-90': !sequenceStore.isCollapsed(condition._path),
+                      }"
+                    />
+                  </button>
                 </div>
               </div>
-              <div class="grid grid-cols-1 gap-3 text-sm">
+              <div v-show="!sequenceStore.isCollapsed(condition._path)" class="grid grid-cols-1 gap-3 text-sm">
                 <!-- Special handling for Loop for Time Span condition -->
                 <template
                   v-if="

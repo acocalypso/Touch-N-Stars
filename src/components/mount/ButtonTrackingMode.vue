@@ -27,7 +27,7 @@ const statusClass = ref('');
 const { t } = useI18n();
 
 async function setTrackingMode(mode) {
-  //0=Siderial, 1=Lunar, 2=Solar, 3=King, 4=Stopped
+  //0=Siderial, 1=Lunar, 2=Solar, 3=King, 5=Stopped
   try {
     const response = await apiService.setTrackingMode(mode);
     if (!response.Success) return;

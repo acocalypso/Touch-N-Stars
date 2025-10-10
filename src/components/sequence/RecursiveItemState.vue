@@ -155,6 +155,20 @@
             >
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2 min-w-0">
+                  <button
+                    @click="sequenceStore.toggleCollapsedState(trigger._path)"
+                    class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                    :title="
+                      sequenceStore.isCollapsed(trigger._path) ? 'Erweitern' : 'Zusammenklappen'
+                    "
+                  >
+                    <ChevronRightIcon
+                      class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                      :class="{
+                        'rotate-90': !sequenceStore.isCollapsed(trigger._path),
+                      }"
+                    />
+                  </button>
                   <div class="w-1.5 h-1.5 bg-green-400/60 rounded-full flex-shrink-0"></div>
                   <span class="text-sm font-medium text-slate-200 truncate">
                     {{ removeSuffix(trigger.Name) }}
@@ -181,7 +195,7 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
+              <div v-show="!sequenceStore.isCollapsed(trigger._path)" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
                 <div
                   v-for="[key, value] in getDisplayFields(trigger)"
                   :key="key"

@@ -446,17 +446,6 @@
                   "
                 >
                   <div
-                    v-if="condition.InterruptReason"
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
-                  >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
-                      >Interrupt Reason:</span
-                    >
-                    <span class="text-slate-200 break-all min-w-0">
-                      {{ condition.InterruptReason }}
-                    </span>
-                  </div>
-                  <div
                     v-if="
                       condition.InterruptReason &&
                       condition.InterruptReason !== 'Target is below horizon'

@@ -195,7 +195,10 @@
                 </div>
               </div>
 
-              <div v-show="!sequenceStore.isCollapsed(trigger._path)" class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
+              <div
+                v-show="!sequenceStore.isCollapsed(trigger._path)"
+                class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm"
+              >
                 <div
                   v-for="[key, value] in getDisplayFields(trigger)"
                   :key="key"
@@ -217,7 +220,9 @@
                         <div>{{ formatDec(value) }}</div>
                       </div>
                     </template>
-                    <template v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly">
+                    <template
+                      v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly"
+                    >
                       <select
                         class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         v-model.number="trigger[key]"
@@ -865,7 +870,9 @@
                   </select>
                 </template>
                 <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
-                <template v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly">
+                <template
+                  v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly"
+                >
                   <select
                     class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                     v-model.number="item[key]"

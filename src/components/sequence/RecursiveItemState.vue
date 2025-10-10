@@ -296,7 +296,15 @@
               </div>
               <div class="grid grid-cols-1 gap-3 text-sm">
                 <!-- Special handling for Loop for Time Span condition -->
-                <template v-if="condition.Name === 'Loop for Time Span_Condition'">
+                <template
+                  v-if="
+                    condition.Hours !== undefined &&
+                    condition.Minutes !== undefined &&
+                    condition.Seconds !== undefined &&
+                    !condition.Data &&
+                    !condition.InterruptReason
+                  "
+                >
                   <div
                     class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
@@ -343,16 +351,98 @@
                     </span>
                   </div>
                 </template>
+                <!-- Special handling for Moon illumination condition -->
+                <template
+                  v-else-if="
+                    condition.Comparator !== undefined &&
+                    condition.UserMoonIllumination !== undefined &&
+                    condition.CurrentMoonIllumination !== undefined
+                  "
+                >
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Comparator:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <select
+                          class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          v-model.number="condition.Comparator"
+                          @change="updateComparator($event, condition._path, condition.Comparator)"
+                        >
+                          <option :value="1">&lt;</option>
+                          <option :value="2">&lt;=</option>
+                          <option :value="3">&gt;</option>
+                          <option :value="4">&gt;=</option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        {{
+                          condition.Comparator === 1
+                            ? '<'
+                            : condition.Comparator === 2
+                              ? '<='
+                              : condition.Comparator === 3
+                                ? '>'
+                                : '>='
+                        }}
+                      </template>
+                    </span>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >User Moon Illumination:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex items-center gap-2">
+                          <input
+                            class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="100"
+                            v-model="condition.UserMoonIllumination"
+                            @change="
+                              updateValue(
+                                $event,
+                                condition._path,
+                                condition.UserMoonIllumination,
+                                'UserMoonIllumination'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400">%</span>
+                        </div>
+                      </template>
+                      <template v-else> {{ condition.UserMoonIllumination }}% </template>
+                    </span>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Current Moon Illumination:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      {{ condition.CurrentMoonIllumination?.toFixed(2) }}%
+                    </span>
+                  </div>
+                </template>
                 <!-- Special handling for Altitude conditions with Data.Offset -->
                 <template
                   v-else-if="
                     condition.Data &&
                     condition.Data.Offset !== undefined &&
+                    condition.Data.Comparator !== undefined &&
                     (condition.InterruptReason === 'Target is below horizon' ||
                       condition.InterruptReason ===
                         'Moon is outside of the specified altitude range' ||
                       condition.InterruptReason === 'Sun is outside of the specified range' ||
-                      condition.Name === 'Loop until Altitude Below_Condition')
+                      condition.InterruptReason === null)
                   "
                 >
                   <div
@@ -367,6 +457,10 @@
                     </span>
                   </div>
                   <div
+                    v-if="
+                      condition.InterruptReason &&
+                      condition.InterruptReason !== 'Target is below horizon'
+                    "
                     class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
@@ -382,11 +476,37 @@
                           "
                         >
                           <option :value="1">&lt;</option>
+                          <option
+                            v-if="
+                              condition.InterruptReason !==
+                                'Moon is outside of the specified altitude range' &&
+                              condition.InterruptReason !== 'Sun is outside of the specified range'
+                            "
+                            :value="2"
+                            >&lt;=</option
+                          >
                           <option :value="3">&gt;</option>
+                          <option
+                            v-if="
+                              condition.InterruptReason !==
+                                'Moon is outside of the specified altitude range' &&
+                              condition.InterruptReason !== 'Sun is outside of the specified range'
+                            "
+                            :value="4"
+                            >&gt;=</option
+                          >
                         </select>
                       </template>
                       <template v-else>
-                        {{ condition.Data.Comparator === 1 ? '<' : '>' }}
+                        {{
+                          condition.Data.Comparator === 1
+                            ? '<'
+                            : condition.Data.Comparator === 2
+                              ? '<='
+                              : condition.Data.Comparator === 3
+                                ? '>'
+                                : '>='
+                        }}
                       </template>
                     </span>
                   </div>
@@ -411,6 +531,77 @@
                         </div>
                       </template>
                       <template v-else> {{ condition.Data.Offset }}° </template>
+                    </span>
+                  </div>
+                  <!-- RA Coordinates for Loop until Altitude Below and Target is below horizon -->
+                  <div
+                    v-if="
+                      (condition.InterruptReason === null ||
+                        condition.InterruptReason === 'Target is below horizon') &&
+                      condition.Data.Coordinates !== undefined
+                    "
+                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">RA:</span>
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex items-center gap-2">
+                          <input
+                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="23"
+                            v-model="condition.Data.Coordinates.RAHours"
+                            @change="
+                              updateDataCoordinates(
+                                $event,
+                                condition._path,
+                                condition.Data.Coordinates,
+                                'RAHours'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400">h</span>
+                          <input
+                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59"
+                            v-model="condition.Data.Coordinates.RAMinutes"
+                            @change="
+                              updateDataCoordinates(
+                                $event,
+                                condition._path,
+                                condition.Data.Coordinates,
+                                'RAMinutes'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400">m</span>
+                          <input
+                            class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59.999"
+                            step="0.001"
+                            v-model.number="condition.Data.Coordinates.RASeconds"
+                            @change="
+                              updateDataCoordinates(
+                                $event,
+                                condition._path,
+                                condition.Data.Coordinates,
+                                'RASeconds'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400">s</span>
+                        </div>
+                      </template>
+                      <template v-else>
+                        {{ condition.Data.Coordinates.RAHours }}h
+                        {{ condition.Data.Coordinates.RAMinutes }}m
+                        {{ condition.Data.Coordinates.RASeconds?.toFixed(3) }}s
+                      </template>
                     </span>
                   </div>
                 </template>
@@ -983,6 +1174,50 @@ async function updateDataOffset(event, path, newValue) {
 
 async function updateDataComparator(event, path, newValue) {
   const action = `edit?path=${encodeURIComponent(path + '-Data-Comparator')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+async function updateComparator(event, path, newValue) {
+  const action = `edit?path=${encodeURIComponent(path + '-Comparator')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Fehler:', error);
+  }
+}
+
+async function updateDataCoordinates(event, path, coordinates, field) {
+  const action = `edit?path=${encodeURIComponent(path + '-Data-Coordinates-' + field)}&value=${encodeURIComponent(coordinates[field])}`;
   const inputElement = event.target;
   try {
     const response = await apiService.sequenceAction(action);

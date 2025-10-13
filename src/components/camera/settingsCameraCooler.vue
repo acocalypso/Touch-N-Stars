@@ -9,7 +9,7 @@
             'bg-slate-700/40': coolerStatus === 'off',
             'bg-blue-600/20 border border-blue-500/40': coolerStatus === 'cooling',
             'bg-green-600/20 border border-green-500/40': coolerStatus === 'holding',
-            'bg-orange-600/20 border border-orange-500/40': coolerStatus === 'warming'
+            'bg-orange-600/20 border border-orange-500/40': coolerStatus === 'warming',
           }"
         >
           <span class="text-xs text-gray-300 font-medium">
@@ -21,7 +21,7 @@
               'text-gray-400': coolerStatus === 'off',
               'text-blue-400': coolerStatus === 'cooling',
               'text-green-400': coolerStatus === 'holding',
-              'text-orange-400': coolerStatus === 'warming'
+              'text-orange-400': coolerStatus === 'warming',
             }"
           >
             {{ coolerStatusText }}

@@ -1,7 +1,35 @@
 <template>
   <div class="flex flex-col items-center gap-2">
     <div v-if="store.cameraInfo.CanSetTemperature" class="w-full">
-      <div class="flex flex-col border border-slate-600/40 p-3 pb-3 rounded-lg min-w-36">
+      <div class="flex flex-col border border-slate-600/40 p-3 rounded-lg min-w-36">
+        <!-- Cooler Status Indicator - ganz oben -->
+        <div
+          class="flex items-center justify-center gap-2 px-3 py-2 mb-3 rounded-lg"
+          :class="{
+            'bg-slate-700/40': coolerStatus === 'off',
+            'bg-blue-600/20 border border-blue-500/40': coolerStatus === 'cooling',
+            'bg-green-600/20 border border-green-500/40': coolerStatus === 'holding',
+            'bg-orange-600/20 border border-orange-500/40': coolerStatus === 'warming'
+          }"
+        >
+          <span class="text-xs text-gray-300 font-medium">
+            {{ $t('components.camera.cooler_status') }}:
+          </span>
+          <span
+            class="text-xs font-semibold"
+            :class="{
+              'text-gray-400': coolerStatus === 'off',
+              'text-blue-400': coolerStatus === 'cooling',
+              'text-green-400': coolerStatus === 'holding',
+              'text-orange-400': coolerStatus === 'warming'
+            }"
+          >
+            {{ coolerStatusText }}
+          </span>
+        </div>
+
+        <div class="border-t border-slate-600/40 mb-3"></div>
+
         <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
           <label for="Cooler" class="text-gray-200 font-medium">
             {{ $t('components.camera.camera_cooling') }}
@@ -47,32 +75,6 @@
         </div>
         <div class="border-t border-slate-600/40 my-4"></div>
 
-        <!-- Cooler Status Indicator -->
-        <div
-          class="flex items-center justify-center gap-2 px-3 py-2 mb-3 rounded-lg"
-          :class="{
-            'bg-slate-700/40': coolerStatus === 'off',
-            'bg-blue-600/20 border border-blue-500/40': coolerStatus === 'cooling',
-            'bg-green-600/20 border border-green-500/40': coolerStatus === 'holding',
-            'bg-orange-600/20 border border-orange-500/40': coolerStatus === 'warming'
-          }"
-        >
-          <span class="text-xs text-gray-300 font-medium">
-            {{ $t('components.camera.cooler_status') }}:
-          </span>
-          <span
-            class="text-xs font-semibold"
-            :class="{
-              'text-gray-400': coolerStatus === 'off',
-              'text-blue-400': coolerStatus === 'cooling',
-              'text-green-400': coolerStatus === 'holding',
-              'text-orange-400': coolerStatus === 'warming'
-            }"
-          >
-            {{ coolerStatusText }}
-          </span>
-        </div>
-
         <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
           <label for="Cooler" class="text-gray-200 font-medium">
             {{ $t('components.camera.camera_warming') }}
@@ -115,7 +117,7 @@
 </template>
 
 <script setup>
-import { watch, onMounted, computed } from 'vue';
+import { watch, onMounted, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
@@ -126,8 +128,17 @@ const store = apiStore();
 const cameraStore = useCameraStore();
 const { t } = useI18n();
 
+// Timeout-Mechanismus für AtTargetTemp
+let atTargetTempTimeout = null;
+const isStableAtTarget = ref(false);
+
 const coolerStatus = computed(() => {
-  // Check button states first (user intention)
+  // Zuerst prüfen, ob Cooler überhaupt an ist
+  if (!store.cameraInfo.CoolerOn) {
+    return 'off';
+  }
+
+  // Dann Button-Zustände prüfen (Benutzerabsicht während aktiven Prozessen)
   if (cameraStore.buttonWarmingOn) {
     return 'warming';
   }
@@ -135,20 +146,24 @@ const coolerStatus = computed(() => {
     return 'cooling';
   }
 
-  // Then check actual hardware state
-  if (!store.cameraInfo.CoolerOn) {
-    return 'off';
-  }
-  if (store.cameraInfo.AtTargetTemp) {
+  // Nur stabiles AtTargetTemp berücksichtigen (mit Timeout validiert)
+  if (isStableAtTarget.value) {
     return 'holding';
   }
-  if (Math.round(store.cameraInfo.TemperatureSetPoint) < Math.round(store.cameraInfo.Temperature)) {
+
+  // Aktuelle Temperatur vs Zieltemperatur prüfen
+  const currentTemp = Math.round(store.cameraInfo.Temperature);
+  const targetTemp = Math.round(store.cameraInfo.TemperatureSetPoint);
+
+  if (targetTemp < currentTemp) {
     return 'cooling';
   }
-  if (Math.round(store.cameraInfo.TemperatureSetPoint) > Math.round(store.cameraInfo.Temperature)) {
+  if (targetTemp > currentTemp) {
     return 'warming';
   }
-  return 'off';
+
+  // Wenn Temperaturen gleich sind, aber noch nicht stabil
+  return 'holding';
 });
 
 const coolerStatusText = computed(() => {
@@ -312,10 +327,11 @@ function checkButtonStatus() {
     console.log('Cooler is off');
     return;
   }
-  if (store.cameraInfo.AtTargetTemp) {
+  // Nur stabiles AtTargetTemp berücksichtigen
+  if (isStableAtTarget.value) {
     cameraStore.buttonCoolerOn = false;
     cameraStore.buttonWarmingOn = false;
-    console.log('At target temp');
+    console.log('At target temp (stable)');
     return;
   }
   if (
@@ -350,8 +366,24 @@ watch(
 
 watch(
   () => store.cameraInfo.AtTargetTemp,
-  () => {
-    checkButtonStatus();
+  (newValue) => {
+    // Timeout zurücksetzen bei jeder Änderung
+    if (atTargetTempTimeout) {
+      clearTimeout(atTargetTempTimeout);
+      atTargetTempTimeout = null;
+    }
+
+    if (newValue) {
+      // Warte 15 Sekunden, bevor AtTargetTemp als stabil gilt
+      atTargetTempTimeout = setTimeout(() => {
+        isStableAtTarget.value = true;
+        checkButtonStatus();
+      }, 15000);
+    } else {
+      // Sofort zurücksetzen, wenn AtTargetTemp false wird
+      isStableAtTarget.value = false;
+      checkButtonStatus();
+    }
   },
   { immediate: true }
 );

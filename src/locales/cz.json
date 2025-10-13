@@ -440,7 +440,12 @@
       "at_target_temp": "Při cílové teplotě",
       "cooler_power": "Výkon chlazení (%)",
       "temperature_setpoint": "Nastavená teplota (°C)",
-      "camera_warming": "Camera warm up"
+      "camera_warming": "Camera warm up",
+      "cooler_status": "Stav chlazení",
+      "cooler_status_off": "VYPNUTO",
+      "cooler_status_cooling": "Aktivní - Chlazení na",
+      "cooler_status_holding": "Aktivní - Při cílové teplotě",
+      "cooler_status_warming": "Aktivní - Ohřev na"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

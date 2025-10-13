@@ -441,7 +441,12 @@
       "at_target_temp": "At target temp",
       "temperature_setpoint": "Temp setpoint (°C)",
       "cooler_power": "Cooler power (%)",
-      "camera_warming": "Camera warm up"
+      "camera_warming": "Camera warm up",
+      "cooler_status": "Cooler Status",
+      "cooler_status_off": "OFF",
+      "cooler_status_cooling": "Active - Cooling to",
+      "cooler_status_holding": "Active - At target temp",
+      "cooler_status_warming": "Active - Warming to"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

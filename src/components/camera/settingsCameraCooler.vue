@@ -46,6 +46,33 @@
           </div>
         </div>
         <div class="border-t border-slate-600/40 my-4"></div>
+
+        <!-- Cooler Status Indicator -->
+        <div
+          class="flex items-center justify-center gap-2 px-3 py-2 mb-3 rounded-lg"
+          :class="{
+            'bg-slate-700/40': coolerStatus === 'off',
+            'bg-blue-600/20 border border-blue-500/40': coolerStatus === 'cooling',
+            'bg-green-600/20 border border-green-500/40': coolerStatus === 'holding',
+            'bg-orange-600/20 border border-orange-500/40': coolerStatus === 'warming'
+          }"
+        >
+          <span class="text-xs text-gray-300 font-medium">
+            {{ $t('components.camera.cooler_status') }}:
+          </span>
+          <span
+            class="text-xs font-semibold"
+            :class="{
+              'text-gray-400': coolerStatus === 'off',
+              'text-blue-400': coolerStatus === 'cooling',
+              'text-green-400': coolerStatus === 'holding',
+              'text-orange-400': coolerStatus === 'warming'
+            }"
+          >
+            {{ coolerStatusText }}
+          </span>
+        </div>
+
         <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
           <label for="Cooler" class="text-gray-200 font-medium">
             {{ $t('components.camera.camera_warming') }}
@@ -88,7 +115,8 @@
 </template>
 
 <script setup>
-import { watch, onMounted } from 'vue';
+import { watch, onMounted, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
@@ -96,6 +124,50 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
+const { t } = useI18n();
+
+const coolerStatus = computed(() => {
+  // Check button states first (user intention)
+  if (cameraStore.buttonWarmingOn) {
+    return 'warming';
+  }
+  if (cameraStore.buttonCoolerOn) {
+    return 'cooling';
+  }
+
+  // Then check actual hardware state
+  if (!store.cameraInfo.CoolerOn) {
+    return 'off';
+  }
+  if (store.cameraInfo.AtTargetTemp) {
+    return 'holding';
+  }
+  if (Math.round(store.cameraInfo.TemperatureSetPoint) < Math.round(store.cameraInfo.Temperature)) {
+    return 'cooling';
+  }
+  if (Math.round(store.cameraInfo.TemperatureSetPoint) > Math.round(store.cameraInfo.Temperature)) {
+    return 'warming';
+  }
+  return 'off';
+});
+
+const coolerStatusText = computed(() => {
+  const currentTemp = Math.round(store.cameraInfo.Temperature);
+  const targetTemp = Math.round(store.cameraInfo.TemperatureSetPoint);
+
+  switch (coolerStatus.value) {
+    case 'off':
+      return t('components.camera.cooler_status_off');
+    case 'cooling':
+      return `${t('components.camera.cooler_status_cooling')} ${targetTemp}°C`;
+    case 'holding':
+      return `${t('components.camera.cooler_status_holding')} (${currentTemp}°C)`;
+    case 'warming':
+      return `${t('components.camera.cooler_status_warming')} ${targetTemp}°C`;
+    default:
+      return t('components.camera.cooler_status_off');
+  }
+});
 
 async function setCoolingTime() {
   try {

@@ -441,7 +441,12 @@
       "at_target_temp": "A temperatura target",
       "cooler_power": "Potenza più fredda (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Riscaldamento della fotocamera"
+      "camera_warming": "Riscaldamento della fotocamera",
+      "cooler_status": "Stato raffreddamento",
+      "cooler_status_off": "SPENTO",
+      "cooler_status_cooling": "Attivo - Raffreddamento a",
+      "cooler_status_holding": "Attivo - A temperatura target",
+      "cooler_status_warming": "Attivo - Riscaldamento a"
     },
     "tppa": {
       "title": "Allineamento polare a tre punti",

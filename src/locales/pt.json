@@ -441,7 +441,12 @@
       "at_target_temp": "At target temp",
       "cooler_power": "Potência mais fria (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Aquecimento da câmera"
+      "camera_warming": "Aquecimento da câmera",
+      "cooler_status": "Status do resfriador",
+      "cooler_status_off": "DESLIGADO",
+      "cooler_status_cooling": "Ativo - Resfriando para",
+      "cooler_status_holding": "Ativo - Na temperatura alvo",
+      "cooler_status_warming": "Ativo - Aquecendo para"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",

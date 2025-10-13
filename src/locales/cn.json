@@ -442,7 +442,12 @@
       "at_target_temp": "At target temp",
       "cooler_power": "Cooler power (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Camera warm up"
+      "camera_warming": "Camera warm up",
+      "cooler_status": "冷却器状态",
+      "cooler_status_off": "关闭",
+      "cooler_status_cooling": "活跃 - 冷却至",
+      "cooler_status_holding": "活跃 - 达到目标温度",
+      "cooler_status_warming": "活跃 - 加热至"
     },
     "tppa": {
       "title": "三点极轴对准",

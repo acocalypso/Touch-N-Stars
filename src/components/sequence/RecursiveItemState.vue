@@ -355,23 +355,23 @@
                   "
                 >
                   <div
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">Time:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
-                        <div class="flex items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-1 sm:gap-2">
                           <input
-                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="23"
                             v-model="condition.Hours"
                             @change="updateValue($event, condition._path, condition.Hours, 'Hours')"
                           />
-                          <span class="text-gray-400">h</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">h</span>
                           <input
-                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="59"
@@ -380,9 +380,9 @@
                               updateValue($event, condition._path, condition.Minutes, 'Minutes')
                             "
                           />
-                          <span class="text-gray-400">m</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">m</span>
                           <input
-                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="59"
@@ -391,7 +391,7 @@
                               updateValue($event, condition._path, condition.Seconds, 'Seconds')
                             "
                           />
-                          <span class="text-gray-400">s</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">s</span>
                         </div>
                       </template>
                       <template v-else>
@@ -409,7 +409,7 @@
                   "
                 >
                   <div
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Comparator:</span
@@ -417,7 +417,7 @@
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <select
-                          class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           v-model.number="condition.Comparator"
                           @change="updateComparator($event, condition._path, condition.Comparator)"
                         >
@@ -441,16 +441,16 @@
                     </span>
                   </div>
                   <div
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >User Moon Illumination:</span
                     >
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1 sm:gap-2">
                           <input
-                            class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="100"
@@ -464,14 +464,14 @@
                               )
                             "
                           />
-                          <span class="text-gray-400">%</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">%</span>
                         </div>
                       </template>
                       <template v-else> {{ condition.UserMoonIllumination }}% </template>
                     </span>
                   </div>
                   <div
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Current Moon Illumination:</span
@@ -499,7 +499,7 @@
                       condition.InterruptReason &&
                       condition.InterruptReason !== 'Target is below horizon'
                     "
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Comparator:</span
@@ -507,7 +507,7 @@
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <select
-                          class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           v-model.number="condition.Data.Comparator"
                           @change="
                             updateDataComparator($event, condition._path, condition.Data.Comparator)
@@ -551,23 +551,23 @@
                     </span>
                   </div>
                   <div
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
                       >Offset:</span
                     >
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1 sm:gap-2">
                           <input
-                            class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             v-model="condition.Data.Offset"
                             @change="
                               updateDataOffset($event, condition._path, condition.Data.Offset)
                             "
                           />
-                          <span class="text-gray-400">°</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">°</span>
                         </div>
                       </template>
                       <template v-else> {{ condition.Data.Offset }}° </template>
@@ -580,14 +580,14 @@
                         condition.InterruptReason === 'Target is below horizon') &&
                       condition.Data.Coordinates !== undefined
                     "
-                    class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
                     <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">RA:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
-                        <div class="flex items-center gap-2">
+                        <div class="flex flex-wrap items-center gap-1 sm:gap-2">
                           <input
-                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="23"
@@ -601,9 +601,9 @@
                               )
                             "
                           />
-                          <span class="text-gray-400">h</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">h</span>
                           <input
-                            class="w-16 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="59"
@@ -617,9 +617,9 @@
                               )
                             "
                           />
-                          <span class="text-gray-400">m</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">m</span>
                           <input
-                            class="w-20 bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            class="w-14 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                             type="number"
                             min="0"
                             max="59.999"
@@ -634,7 +634,7 @@
                               )
                             "
                           />
-                          <span class="text-gray-400">s</span>
+                          <span class="text-gray-400 text-xs sm:text-sm">s</span>
                         </div>
                       </template>
                       <template v-else>
@@ -683,12 +683,12 @@
                         </div>
                         <div
                           v-if="sequenceStore.sequenceEdit && !readOnly"
-                          class="flex items-center gap-2"
+                          class="flex flex-wrap items-center gap-1 sm:gap-2"
                         >
-                          <span class="text-gray-400 shrink-0">Time:</span>
-                          <div class="flex gap-1">
+                          <span class="text-gray-400 shrink-0 text-xs sm:text-sm">Time:</span>
+                          <div class="flex flex-wrap gap-1">
                             <input
-                              class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                              class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                               type="number"
                               min="0"
                               max="23"
@@ -697,9 +697,9 @@
                                 updateValue($event, condition._path, condition.Hours, 'Hours')
                               "
                             />
-                            <span class="text-gray-400">:</span>
+                            <span class="text-gray-400 text-xs sm:text-sm">:</span>
                             <input
-                              class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                              class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                               type="number"
                               min="0"
                               max="59"
@@ -708,9 +708,9 @@
                                 updateValue($event, condition._path, condition.Minutes, 'Minutes')
                               "
                             />
-                            <span class="text-gray-400">:</span>
+                            <span class="text-gray-400 text-xs sm:text-sm">:</span>
                             <input
-                              class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                              class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                               type="number"
                               min="0"
                               max="59"
@@ -794,30 +794,30 @@
                     </div>
                     <div
                       v-if="sequenceStore.sequenceEdit && !readOnly"
-                      class="flex items-center gap-2"
+                      class="flex flex-wrap items-center gap-1 sm:gap-2"
                     >
-                      <span class="text-gray-400 shrink-0">Time:</span>
-                      <div class="flex gap-1">
+                      <span class="text-gray-400 shrink-0 text-xs sm:text-sm">Time:</span>
+                      <div class="flex flex-wrap gap-1">
                         <input
-                          class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           type="number"
                           min="0"
                           max="23"
                           v-model="item.Hours"
                           @change="updateValue($event, item._path, item.Hours, 'Hours')"
                         />
-                        <span class="text-gray-400">:</span>
+                        <span class="text-gray-400 text-xs sm:text-sm">:</span>
                         <input
-                          class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           type="number"
                           min="0"
                           max="59"
                           v-model="item.Minutes"
                           @change="updateValue($event, item._path, item.Minutes, 'Minutes')"
                         />
-                        <span class="text-gray-400">:</span>
+                        <span class="text-gray-400 text-xs sm:text-sm">:</span>
                         <input
-                          class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           type="number"
                           min="0"
                           max="59"

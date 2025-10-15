@@ -230,7 +230,12 @@
       "time": "Čas",
       "noRunningItems": "Sekvence zastavena",
       "status": "Stav sekvence",
-      "instructions": "Pokyny"
+      "instructions": "Pokyny",
+      "tnsMessageBox": {
+        "title": "Zpráva sekvence",
+        "stopSequence": "Zastavit sekvenci",
+        "continueSequence": "Pokračovat v sekvenci"
+      }
     },
     "mount": {
       "title": "Montáž",

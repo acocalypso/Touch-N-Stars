@@ -231,7 +231,12 @@
       "time": "Tiempo",
       "noRunningItems": "Sequence stopped",
       "status": "Estado de secuencia",
-      "instructions": "Instrucciones"
+      "instructions": "Instrucciones",
+      "tnsMessageBox": {
+        "title": "Mensaje de secuencia",
+        "stopSequence": "Parar secuencia",
+        "continueSequence": "Continuar secuencia"
+      }
     },
     "mount": {
       "title": "Montura",

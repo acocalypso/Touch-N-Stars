@@ -232,7 +232,12 @@
       "time": "时间",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions"
+      "instructions": "Instructions",
+      "tnsMessageBox": {
+        "title": "序列消息",
+        "stopSequence": "停止序列",
+        "continueSequence": "继续序列"
+      }
     },
     "mount": {
       "title": "赤道仪",

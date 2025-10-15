@@ -171,10 +171,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
         // Check TNS-Messagebox
         let tnsMessage = null;
         if (store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.5.0')) {
-        tnsMessage = await apiService.getTnsMessageBox();
-        //console.log('TNS Message Box:', tnsMessage);
+          tnsMessage = await apiService.getTnsMessageBox();
+          //console.log('TNS Message Box:', tnsMessage);
         }
-        
+
         if (tnsMessage?.Success && tnsMessage?.Response.Count > 0) {
           console.log('TNS Message Box has messages:', tnsMessage?.Response.MessageBoxes[0].Text);
           // Show modal with TNS message

@@ -1,22 +1,18 @@
 <template>
   <Modal :show="sequenceStore.showTnsModal" @close="handleStopSequence">
     <template #header>
-      <h2 class="text-xl font-bold text-cyan-400">{{ $t('components.sequence.tnsMessageBox.title') }}</h2>
+      <h2 class="text-xl font-bold text-cyan-400">
+        {{ $t('components.sequence.tnsMessageBox.title') }}
+      </h2>
     </template>
     <template #body>
       <div class="space-y-4">
         <p class="text-gray-200">{{ sequenceStore.tnsModalMessage }}</p>
         <div class="flex gap-4 justify-center mt-6">
-          <button
-            @click="handleStopSequence"
-            class="default-button-red"
-          >
+          <button @click="handleStopSequence" class="default-button-red">
             {{ $t('components.sequence.tnsMessageBox.stopSequence') }}
           </button>
-          <button
-            @click="handleContinueSequence"
-            class="default-button-cyan"
-          >
+          <button @click="handleContinueSequence" class="default-button-cyan">
             {{ $t('components.sequence.tnsMessageBox.continueSequence') }}
           </button>
         </div>

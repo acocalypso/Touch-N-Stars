@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.x.x] [App3.5.0] - 2025-xx-xx
 ### Added
 - TPPA Manual mode: Button added to control the mount 
+- TNS Sequence MessageBox. 
 
 ### Changed
+- More settings of the sequence can be changed.
 
 ### Fixed
 - Center here: The target selection covered the center Modal 

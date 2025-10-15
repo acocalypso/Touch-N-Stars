@@ -133,6 +133,9 @@
       @close="dismissWhatsNew"
     />
 
+    <!-- TNS MessageBox Modal -->
+    <SequenceTnsMessageBoxModal />
+
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
@@ -198,6 +201,7 @@ import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import wsFilter from '@/services/websocketManuellFilterControl';
 import { useFilterStore } from '@/store/filterStore';
+import SequenceTnsMessageBoxModal from '@/components/sequence/SequenceTnsMessageBoxModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

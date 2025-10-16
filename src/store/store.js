@@ -149,7 +149,7 @@ export const apiStore = defineStore('store', {
           );
           //console.log('API Port response:', response);
           if (!response) {
-            console.error('API nicht erreichbar');
+            console.error('API not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({
                 type: 'error',
@@ -164,7 +164,7 @@ export const apiStore = defineStore('store', {
             return;
           }
           if (response.data === -1) {
-            console.error('API nicht erreichbar');
+            console.error('API not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({
                 type: 'error',
@@ -349,13 +349,13 @@ export const apiStore = defineStore('store', {
           switchResponse,
         });
       } catch (error) {
-        console.error('Fehler beim Abrufen der Informationen:', error);
+        console.error('Error fetching information:', error);
       }
       await this.fetchProfilInfos();
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
-        console.log('Backend ist reachable');
+        console.log('Backend is reachable');
         toastStore.newMessage = false;
         this.errorMessageShown = false;
       }
@@ -394,73 +394,73 @@ export const apiStore = defineStore('store', {
       if (cameraResponse.Success) {
         this.cameraInfo = cameraResponse.Response;
       } else {
-        console.error('Fehler in der Kamera-API-Antwort:', cameraResponse.Error);
+        console.error('Error in camera API response:', cameraResponse.Error);
       }
 
       if (mountResponse.Success) {
         this.mountInfo = mountResponse.Response;
       } else {
-        console.error('Fehler in der Mount-API-Antwort:', mountResponse.Error);
+        console.error('Error in mount API response:', mountResponse.Error);
       }
 
       if (filterResponse.Success) {
         this.filterInfo = filterResponse.Response;
       } else {
-        console.error('Fehler in der Filter-API-Antwort:', filterResponse.Error);
+        console.error('Error in filter API response:', filterResponse.Error);
       }
 
       if (rotatorResponse.Success) {
         this.rotatorInfo = rotatorResponse.Response;
       } else {
-        console.error('Fehler in der Rotator-API-Antwort:', rotatorResponse.Error);
+        console.error('Error in rotator API response:', rotatorResponse.Error);
       }
 
       if (focuserResponse.Success) {
         this.focuserInfo = focuserResponse.Response;
       } else {
-        console.error('Fehler in der Focuser-API-Antwort:', focuserResponse.Error);
+        console.error('Error in focuser API response:', focuserResponse.Error);
       }
 
       if (focuserAfResponse.Success) {
         this.focuserAfInfo = focuserAfResponse;
       } else {
-        console.error('Fehler in der Focuser-AF-API-Antwort:', focuserAfResponse.Error);
+        console.error('Error in focuser AF API response:', focuserAfResponse.Error);
       }
 
       if (safetyResponse.Success) {
         this.safetyInfo = safetyResponse.Response;
       } else {
-        console.error('Fehler in der Safety-API-Antwort:', safetyResponse.Error);
+        console.error('Error in safety API response:', safetyResponse.Error);
       }
 
       if (guiderResponse.Success) {
         this.guiderInfo = guiderResponse.Response;
       } else {
-        console.error('Fehler in der Guider-API-Antwort:', guiderResponse.Error);
+        console.error('Error in guider API response:', guiderResponse.Error);
       }
 
       if (flatdeviceResponse.Success) {
         this.flatdeviceInfo = flatdeviceResponse.Response;
       } else {
-        console.error('Fehler in der Flat-API-Antwort:', flatdeviceResponse.Error);
+        console.error('Error in flat device API response:', flatdeviceResponse.Error);
       }
 
       if (domeResponse.Success) {
         this.domeInfo = domeResponse.Response;
       } else {
-        console.error('Fehler in der Flat-API-Antwort:', domeResponse.Error);
+        console.error('Error in dome API response:', domeResponse.Error);
       }
 
       if (weatherResponse.Success) {
         this.weatherInfo = weatherResponse.Response;
       } else {
-        console.error('Fehler in der Weather-API-Antwort:', weatherResponse.Error);
+        console.error('Error in weather API response:', weatherResponse.Error);
       }
 
       if (switchResponse.Success) {
         this.switchInfo = switchResponse.Response;
       } else {
-        console.error('Fehler in der Switch-API-Antwort:', switchResponse.Error);
+        console.error('Error in switch API response:', switchResponse.Error);
       }
     },
 
@@ -503,10 +503,10 @@ export const apiStore = defineStore('store', {
           this.profileInfo = profileInfoResponse.Response;
           this.getExistingEquipment(this.profileInfo);
         } else {
-          console.error('Fehler in der Profil-API-Antwort:', profileInfoResponse?.Error);
+          console.error('Error in profile API response:', profileInfoResponse?.Error);
         }
       } catch (error) {
-        console.error('Fehler beim Abrufen der Profilinformationen:', error);
+        console.error('Error fetching profile information:', error);
       }
     },
 
@@ -557,7 +557,7 @@ export const apiStore = defineStore('store', {
       cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
       cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
       console.log(
-        'Kameraeinstellungen gesetzt:',
+        'Camera settings set:',
         cStore.coolingTemp,
         cStore.coolingTime,
         cStore.warmingTime
@@ -565,7 +565,7 @@ export const apiStore = defineStore('store', {
     },
     setDefaultRotatorSettings() {
       this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
-      console.log('Rotatoreinstellung gesetzt:', this.rotatorMechanicalPosition);
+      console.log('Rotator setting set:', this.rotatorMechanicalPosition);
     },
     setDefaultCoordinates() {
       const cStore = useSettingsStore();

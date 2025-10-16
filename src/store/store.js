@@ -183,7 +183,8 @@ export const apiStore = defineStore('store', {
           this.isApiConnected = true;
         }
 
-        if (this.isApiConnected) {
+        // Prüfe API-Version bei jedem Durchlauf (validiert auch dass API erreichbar ist)
+        if (this.apiPort) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
             () => apiService.fetchApiVersion(),
@@ -201,15 +202,14 @@ export const apiStore = defineStore('store', {
               });
             }
             this.clearAllStates();
-            this.isApiConnected = false;
-            this.apiPort = null;
             return;
           } else {
+            // API ist erreichbar!
             this.isApiConnected = true;
-            //Check the API version
+
+            //Check the API version (nur beim ersten Mal)
             if (!this.isApiVersionNewerOrEqual) {
-              const apiVersionResponse = await apiService.fetchApiVersion();
-              this.currentApiVersion = apiVersionResponse.Response;
+              this.currentApiVersion = responseApiVersion.Response;
 
               this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
                 this.currentApiVersion,
@@ -227,7 +227,6 @@ export const apiStore = defineStore('store', {
                   });
                 }
                 this.clearAllStates();
-                this.isApiVersionNewerOrEqual = false;
                 return;
               }
               console.log('API Version:', this.currentApiVersion);
@@ -258,14 +257,15 @@ export const apiStore = defineStore('store', {
             this.handleWebSocketMessage(message);
           });
 
-          // Versuche WebSocket zu verbinden (max 500ms warten)
+          // Versuche WebSocket zu verbinden (max 1000ms warten)
           try {
-            await websocketChannelService.connect(500);
+            await websocketChannelService.connect(1000);
             this.isWebSocketConnected = true;
           } catch (error) {
-            // WebSocket fehlgeschlagen oder Timeout - nicht kritisch, App läuft weiter
+            // WebSocket fehlgeschlagen oder Timeout
             console.warn('WebSocket connection failed or timeout:', error.message);
             this.isWebSocketConnected = false;
+            // WebSocket wird automatisch via onclose-Handler versuchen wiederherzustellen
           }
         } else {
           this.isWebSocketConnected = true;
@@ -283,12 +283,16 @@ export const apiStore = defineStore('store', {
           this.attemptsToConnect = 0;
           //console.log('Backend is reachable', new Date().toLocaleTimeString());
         } else if (this.attemptsToConnect < 5) {
+          // Backend ist NICHT erreichbar - Flag explizit auf false setzen
+          this.isBackendReachable = false;
           this.attemptsToConnect += 1;
+          // WICHTIG: Bei Backend-Ausfall auch Equipment-Anfragen überspringen!
           console.log(
             'Backend not reachable, attempt',
             this.attemptsToConnect,
             new Date().toLocaleTimeString()
           );
+          return; // Equipment-Anfragen überspringen wenn Backend nicht erreichbar
         } else {
           this.clearAllStates();
           toastStore.showToast({
@@ -364,7 +368,14 @@ export const apiStore = defineStore('store', {
     clearAllStates() {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
-      //this.apiPort = null;
+      // WICHTIG: Flags zurücksetzen, damit beim nächsten Versuch neu geprüft wird
+      this.isApiConnected = false;
+      this.isTnsPluginConnected = false;
+      this.isWebSocketConnected = false;
+      this.isApiVersionNewerOrEqual = false;
+      this.isTnsPluginVersionNewerOrEqual = false;
+      this.apiPort = null;
+      this.attemptsToConnect = 0;
 
       // Channel WebSocket disconnecten wenn Backend nicht erreichbar
       if (websocketChannelService.isWebSocketConnected()) {

@@ -13,6 +13,7 @@ class WebSocketChannelService {
     this.reconnectDelay = 2000; // 2 Sekunden
     this.shouldReconnect = true;
     this.isConnected = false;
+    this.reconnectTimeoutId = null; // Track reconnect timeout
   }
 
   setStatusCallback(callback) {
@@ -32,12 +33,15 @@ class WebSocketChannelService {
       const store = apiStore();
       const backendPort = store.apiPort;
       const backendHost = settingsStore.connection.ip || window.location.hostname;
-      this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
-      //console.log('Channel WebSocket URL: ', this.backendUrl);
-      if (backendPort === null) {
-        backendPort = 1888; // Standardport setzen, falls nicht definiert
+      // Sicherheitsprüfung: apiPort muss gesetzt sein
+      if (backendPort === null || backendPort === undefined) {
+        reject(new Error('WebSocket connection failed: API port not available'));
+        return;
       }
+
+      this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
+      //console.log('Channel WebSocket URL: ', this.backendUrl);
 
       this.socket = new WebSocket(this.backendUrl);
 
@@ -121,7 +125,9 @@ class WebSocketChannelService {
           console.log(
             `Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`
           );
-          setTimeout(() => {
+          // WICHTIG: Timeout tracken, damit es bei disconnect() gecleard werden kann
+          this.reconnectTimeoutId = setTimeout(() => {
+            this.reconnectTimeoutId = null;
             // Erneute Prüfung vor Reconnect
             const recheckConditions =
               this.shouldReconnect &&
@@ -150,6 +156,13 @@ class WebSocketChannelService {
   disconnect() {
     this.shouldReconnect = false;
     this.isConnected = false;
+
+    // WICHTIG: Laufende Reconnect-Timeouts clearen
+    if (this.reconnectTimeoutId) {
+      clearTimeout(this.reconnectTimeoutId);
+      this.reconnectTimeoutId = null;
+    }
+
     if (this.socket) {
       this.socket.close();
     }

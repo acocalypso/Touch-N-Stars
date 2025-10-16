@@ -298,10 +298,8 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   wsFilter.disconnect();
-  store.isApiConnected = false;
-  store.apiPort = null;
-  store.isTnsPluginConnected = false;
-  store.isBackendReachable = false;
+  // Alle Flags zurücksetzen für sauberen Neustart beim Resume
+  store.clearAllStates();
 }
 
 async function resumeApp() {

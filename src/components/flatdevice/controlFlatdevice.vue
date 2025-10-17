@@ -58,32 +58,32 @@ async function flatdeviceSetLight() {
   try {
     if (store.flatdeviceInfo.LightOn) {
       await apiService.flatdeviceSetLight(false);
-      console.log('Flat Licht aus');
+      console.log('Flat light off');
     } else {
       flatStore.brightness = 100;
       await apiService.flatdeviceSetLight(true);
-      console.log('Flat Licht ein');
+      console.log('Flat light on');
     }
   } catch (error) {
-    console.log('Fehler beim steuern des Flatlichts');
+    console.log('Error controlling flat light');
   }
 }
 
 async function closeCover() {
   try {
     await apiService.flatdeviceSetCover(true);
-    console.log('Flat cover zu');
+    console.log('Flat cover closed');
   } catch (error) {
-    console.log('Feher beim steuern des Flatcover ');
+    console.log('Error controlling flat cover');
   }
 }
 
 async function openCover() {
   try {
     await apiService.flatdeviceSetCover(false);
-    console.log('Flat cover auf');
+    console.log('Flat cover open');
   } catch (error) {
-    console.log('Feher beim steuern des Flatcover ');
+    console.log('Error controlling flat cover');
   }
 }
 
@@ -96,10 +96,10 @@ async function SetBrightness() {
         flatStore.brightness = store.flatdeviceInfo.MaxBrightness;
       }
       await apiService.flatdeviceSetBrightness(flatStore.brightness);
-      console.log('Helligkeit gesetzt');
+      console.log('Brightness set');
     }
   } catch (error) {
-    console.log('Feher beim steuern des Flatcover ');
+    console.log('Error controlling flat cover');
   }
 }
 </script>

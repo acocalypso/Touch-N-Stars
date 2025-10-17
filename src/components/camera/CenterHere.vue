@@ -129,7 +129,7 @@ async function fetchFramingInfo() {
     const data = await apiService.framingAction('info');
     framingStore.framingInfo = data.Response;
   } catch (error) {
-    console.error('Fehler beim Abrufen des FramingInfo:', error);
+    console.error('Error fetching FramingInfo:', error);
   }
 }
 
@@ -213,7 +213,7 @@ async function calculateRaDec() {
   sensorWidth = -1;
 
   if (sensorWidth === -1) {
-    console.log('DLSR erkannt');
+    console.log('DSLR detected');
     await fetchFramingInfo();
     sensorWidth = framingStore.framingInfo.CameraWidth;
     sensorHeight = framingStore.framingInfo.CameraHeight;

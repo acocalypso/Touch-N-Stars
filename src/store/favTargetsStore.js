@@ -13,7 +13,7 @@ export const useFavTargetStore = defineStore('favTarget', {
         this.favoriteTargets = favorites;
         console.log(favorites);
       } catch (error) {
-        console.error('Fehler beim Laden der Favoriten:', error);
+        console.error('Error loading favorites:', error);
       }
     },
 

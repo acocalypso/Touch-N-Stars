@@ -53,7 +53,7 @@ class WebSocketService {
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
-      console.log('WebSocket Filterwheel verbunden.');
+      console.log('WebSocket Filterwheel connected.');
       if (this.statusCallback) {
         this.statusCallback('connected');
       }
@@ -86,29 +86,29 @@ class WebSocketService {
           this.messageCallback(message);
         }
       } catch (error) {
-        console.error('Fehler beim Parsen der Nachricht:', error);
+        console.error('Error parsing message:', error);
         if (this.statusCallback) {
-          this.statusCallback('Fehler beim Empfangen einer Nachricht');
+          this.statusCallback('Error receiving message');
         }
       }
     };
 
     this.socket.onerror = (error) => {
-      console.error('WebSocket-Fehler:', error);
+      console.error('WebSocket error:', error);
       if (this.statusCallback) {
-        this.statusCallback('Fehler: ' + error.message);
+        this.statusCallback('Error: ' + error.message);
       }
     };
 
     this.socket.onclose = () => {
-      console.log('WebSocket Filterwheel geschlossen.');
+      console.log('WebSocket Filterwheel closed.');
       if (this.statusCallback) {
-        this.statusCallback('Geschlossen');
+        this.statusCallback('Closed');
       }
 
       // Reconnect versuchen
       if (this.shouldReconnect) {
-        console.log(`Versuche Reconnect in ${this.reconnectInterval / 1000}s...`);
+        console.log(`Attempting reconnect in ${this.reconnectInterval / 1000}s...`);
         this.reconnectTimeout = setTimeout(() => {
           this.connect();
         }, this.reconnectInterval);
@@ -132,9 +132,9 @@ class WebSocketService {
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message);
     } else {
-      console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
+      console.error('WebSocket is not connected. Message could not be sent.');
       if (this.statusCallback) {
-        this.statusCallback('Fehler: WebSocket nicht verbunden');
+        this.statusCallback('Error: WebSocket not connected');
       }
     }
   }

@@ -27,7 +27,7 @@ onBeforeUnmount(() => {
 
 function initGraph() {
   if (!store.imageHistoryInfo) {
-    console.log('Keine Daten vorhanden');
+    console.log('No data available');
     return;
   }
 

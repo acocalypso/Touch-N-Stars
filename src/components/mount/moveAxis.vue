@@ -172,7 +172,7 @@ const sendCommand = (direction) => {
 
   // Prüfe zuerst den Store-Status
   if (!mountStore.wsIsConnected) {
-    console.error('WebSocket ist nicht verbunden (Store).');
+    console.error('WebSocket is not connected (Store).');
     return;
   }
 
@@ -190,7 +190,7 @@ const sendCommand = (direction) => {
   const sendMessage = () => {
     if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
       console.error(
-        'WebSocket verloren während Befehl. State:',
+        'WebSocket lost during command. State:',
         websocketMountControl.socket?.readyState
       );
       clearInterval(commandInterval);
@@ -205,7 +205,7 @@ const sendCommand = (direction) => {
     };
 
     websocketMountControl.socket.send(JSON.stringify(message));
-    console.log(`WS-Befehl gesendet:`, message);
+    console.log(`WS command sent:`, message);
   };
 
   sendMessage(); // Sende den Befehl sofort
@@ -253,7 +253,7 @@ const sendStop = () => {
   console.log('sendStop called');
 
   if (!mountStore.lastDirection) {
-    console.log('Kein vorheriger Befehl zum Stoppen.');
+    console.log('No previous command to stop.');
     return;
   }
 
@@ -274,7 +274,7 @@ const sendStop = () => {
   // Vereinfachte WebSocket-Überprüfung wie bei sendCommand
   if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
     console.error(
-      'WebSocket ist nicht verbunden für Stop. State:',
+      'WebSocket is not connected for stop. State:',
       websocketMountControl.socket?.readyState
     );
     // Trotzdem lastDirection zurücksetzen
@@ -288,13 +288,13 @@ const sendStop = () => {
   };
 
   websocketMountControl.socket.send(JSON.stringify(message));
-  console.log(`WS-Stop-Befehl gesendet:`, message);
+  console.log(`WS stop command sent:`, message);
   mountStore.lastDirection = '';
 };
 
 onMounted(() => {
   websocketMountControl.setStatusCallback((status) => {
-    console.log('Status aktualisiert:', status);
+    console.log('Status updated:', status);
     if (status === 'connected') {
       mountStore.wsIsConnected = true;
     }

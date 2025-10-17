@@ -456,7 +456,7 @@ function resetErrors() {
 }
 
 function stopAlignment() {
-  console.log("Sende 'stop-alignment' an den Server");
+  console.log("Sending 'stop-alignment' to the server");
   //websocketService.sendMessage('stop-alignment');
   websocketService.sendMessage(
     JSON.stringify({

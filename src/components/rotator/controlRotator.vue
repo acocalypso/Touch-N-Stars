@@ -55,9 +55,9 @@ const store = apiStore();
 async function moveRotator() {
   try {
     await apiService.moveMechanicalRotator(store.rotatorMechanicalPosition);
-    console.log('Rotator dreht');
+    console.log('Rotator rotating');
   } catch (error) {
-    console.log('Fehler beim parken der Montierung');
+    console.log('Error parking mount');
   }
 }
 </script>

@@ -29,14 +29,14 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         const store = apiStore();
 
         if (!store.isBackendReachable) {
-          console.warn('Backend ist nicht erreichbar flats');
+          console.warn('Backend is not reachable flats');
           return;
         }
         const status = await apiService.flatassistantAction('status');
         this.status = status.Response;
         //console.log('Flats Status:', this.status);
       } catch (error) {
-        console.error('Fehler beim Abrufen der Informationen:', error);
+        console.error('Error fetching information:', error);
       }
     },
 

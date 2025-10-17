@@ -122,7 +122,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
             }
           }
         } catch (error) {
-          console.error('Fehler beim Abrufen des Bildes:', error.message);
+          console.error('Error fetching image:', error.message);
         }
         attempts++;
         await wait(1000);
@@ -133,7 +133,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
         alert('Image was not provided in time');
       }
     } catch (error) {
-      console.error('Fehler bei der Aufnahme:', error.message);
+      console.error('Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
@@ -161,9 +161,9 @@ export const useCameraStore = defineStore('cameraStore', () => {
       remainingExposureTime.value = 0;
       progress.value = 0;
 
-      console.log('Belichtung erfolgreich abgebrochen.');
+      console.log('Exposure successfully aborted.');
     } catch (error) {
-      console.error('Fehler beim Abbrechen der Belichtung:', error);
+      console.error('Error aborting exposure:', error);
     } finally {
       loading.value = false;
     }
@@ -195,7 +195,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
         console.log('Camera position angle: ', framingStore.rotationAngle);
       }
     } catch (error) {
-      console.error('Fehler bei der Aufnahme:', error.message);
+      console.error('Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;

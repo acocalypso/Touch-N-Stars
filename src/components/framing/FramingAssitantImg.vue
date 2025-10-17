@@ -101,7 +101,7 @@ onMounted(async () => {
   framingStore.cameraRelativeX = 0.5;
   framingStore.cameraRelativeY = 0.5;
 
-  console.log('Kamera in Mitte positioniert - Bild wurde mit aktuellen RA/DEC-Koordinaten geladen');
+  console.log('Camera centered - Image loaded with current RA/DEC coordinates');
 
   await nextTick();
   await new Promise((resolve) => setTimeout(resolve, 500));
@@ -320,7 +320,7 @@ async function getTargetPic() {
     }
     targetPic.value = await apiService.searchTargetPic(width, height, fov, ra, dec, useCache);
   } catch (error) {
-    console.error('Fehler beim Abrufen des Bildes:', error);
+    console.error('Error fetching image:', error);
   }
 }
 
@@ -329,7 +329,7 @@ async function fetchFramingInfo() {
     const data = await apiService.framingAction('info');
     framingStore.framingInfo = data.Response;
   } catch (error) {
-    console.error('Fehler beim Abrufen des FramingInfo:', error);
+    console.error('Error fetching FramingInfo:', error);
   }
 }
 

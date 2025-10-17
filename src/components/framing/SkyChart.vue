@@ -273,7 +273,7 @@ async function loadCustomHorizont() {
       altitude: Altitudes[i],
     }));
   } catch (error) {
-    console.error('Fehler beim Laden der Horizontdaten:', error);
+    console.error('Error loading horizon data:', error);
   }
 }
 

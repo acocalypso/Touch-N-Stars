@@ -1197,7 +1197,7 @@ async function updateValue(event, path, newValue, typ) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1212,7 +1212,7 @@ async function updateOnOffValue(path, newValue) {
       console.log('Antwort:', response);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1234,7 +1234,7 @@ async function updateDataOffset(event, path, newValue) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1256,7 +1256,7 @@ async function updateDataComparator(event, path, newValue) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1278,7 +1278,7 @@ async function updateComparator(event, path, newValue) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1300,7 +1300,7 @@ async function updateDataCoordinates(event, path, coordinates, field) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1326,7 +1326,7 @@ async function updateFilter(event, path, newValue) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1352,7 +1352,7 @@ async function toggleDisable(path, newValue, typ) {
       sequenceStore.getSequenceInfo();
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -1376,7 +1376,7 @@ async function updateBinning(path, binOb) {
     console.log('Antwort:', data);
     sequenceStore.getSequenceInfo();
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 

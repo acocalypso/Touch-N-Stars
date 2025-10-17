@@ -240,7 +240,7 @@ function toggleCooling() {
 async function startCooling() {
   try {
     const response = await apiService.stopCameraWarming();
-    console.log('Antwort warming stop:', response);
+    console.log('Response warming stop:', response);
     cameraStore.buttonWarmingOn = false;
     if (
       Math.round(store.profileInfo.CameraSettings.Temperature) ===
@@ -255,18 +255,18 @@ async function startCooling() {
       cameraStore.coolingTime
     );
     cameraStore.buttonCoolerOn = true;
-    console.log('Antwort cooling start:', response2);
+    console.log('Response cooling start:', response2);
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 async function stopCooling() {
   try {
     const response = await apiService.stopCameraCooling();
     cameraStore.buttonCoolerOn = false;
-    console.log('Antwort cooling stop:', response);
+    console.log('Response cooling stop:', response);
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -283,22 +283,22 @@ function toggleWarming() {
 async function startWarming() {
   try {
     const response = await apiService.stopCameraCooling();
-    console.log('Antwort cooling stop:', response);
+    console.log('Response cooling stop:', response);
     cameraStore.buttonCoolerOn = false;
     const response2 = await apiService.startCameraWarming(cameraStore.warmingTime);
     cameraStore.buttonWarmingOn = true;
-    console.log('Antwort warming start:', response2);
+    console.log('Response warming start:', response2);
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 async function stopWarming() {
   try {
     const response = await apiService.stopCameraWarming();
     cameraStore.buttonWarmingOn = false;
-    console.log('Antwort warming stop:', response);
+    console.log('Response warming stop:', response);
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -308,14 +308,14 @@ function toggleDewHeater() {
       const data = apiService.startStoppDewheater(false);
       console.log(data);
     } catch (error) {
-      console.log('Fehler:', error);
+      console.log('Error:', error);
     }
   } else {
     try {
       const data = apiService.startStoppDewheater(true);
       console.log(data);
     } catch (error) {
-      console.log('Fehler:', error);
+      console.log('Error:', error);
     }
   }
 }

@@ -29,7 +29,7 @@ async function getlastImage(index, quality, resize, scale) {
     }
   } catch (error) {
     isLoadingImg.value = false;
-    console.error('Fehler beim Abrufen des Bildes:', error.message);
+    console.error('Error fetching image:', error.message);
   }
 }
 

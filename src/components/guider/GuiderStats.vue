@@ -13,7 +13,7 @@
   <p>
     Total: {{ store.guiderInfo.RMSError?.Total.Pixel.toFixed(2) }} ({{
       store.guiderInfo.RMSError?.Total.Arcseconds.toFixed(2)
-    }}")"
+    }}")
   </p>
 </template>
 

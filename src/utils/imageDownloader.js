@@ -406,7 +406,7 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           // Save to Photos app in TouchNStars album
           await PhotoLibrarySaver.saveImage({
             base64: base64Data,
-            albumName: 'TouchNStars'
+            albumName: 'TouchNStars',
           });
 
           console.log('[ImageDownloader] Image saved to iOS Photos app');
@@ -418,7 +418,10 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
 
           return true;
         } catch (iosError) {
-          console.warn('[ImageDownloader] iOS PhotoLibrarySaver failed, falling back to Filesystem:', iosError);
+          console.warn(
+            '[ImageDownloader] iOS PhotoLibrarySaver failed, falling back to Filesystem:',
+            iosError
+          );
           // Fall through to use Filesystem API as fallback
         }
       }

@@ -1,6 +1,6 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
-import MediaScanner from '@/plugins/mediaScanner';
+import { MediaScanner, PhotoLibrarySaver } from './mediaScanner';
 
 // Note: MediaStoreImageSaver plugin removed to fix performance issues on Android
 
@@ -388,6 +388,40 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         '[ImageDownloader] Image source type:',
         imageData.startsWith('data:') ? 'base64' : imageData.startsWith('blob:') ? 'blob' : 'url'
       );
+
+      // iOS: Use PhotoLibrarySaver plugin to save directly to Photos app
+      if (platform === 'ios') {
+        try {
+          console.log('[ImageDownloader] Using iOS PhotoLibrarySaver plugin');
+
+          // Process the image data
+          const { base64 } = await processImageData(imageData);
+
+          // Prepare base64 with data URL prefix if not present
+          let base64Data = base64;
+          if (!imageData.startsWith('data:image')) {
+            base64Data = `data:image/jpeg;base64,${base64}`;
+          }
+
+          // Save to Photos app in TouchNStars album
+          await PhotoLibrarySaver.saveImage({
+            base64: base64Data,
+            albumName: 'TouchNStars'
+          });
+
+          console.log('[ImageDownloader] Image saved to iOS Photos app');
+
+          notificationManager.showSuccess(
+            `Image saved to Photos`,
+            `Album: TouchNStars • File: ${fileName}`
+          );
+
+          return true;
+        } catch (iosError) {
+          console.warn('[ImageDownloader] iOS PhotoLibrarySaver failed, falling back to Filesystem:', iosError);
+          // Fall through to use Filesystem API as fallback
+        }
+      }
 
       // Check and request permissions for Android
       if (platform === 'android') {

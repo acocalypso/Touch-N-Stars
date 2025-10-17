@@ -368,7 +368,6 @@ export const apiStore = defineStore('store', {
     clearAllStates() {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
-      // WICHTIG: Flags zurücksetzen, damit beim nächsten Versuch neu geprüft wird
       this.isApiConnected = false;
       this.isTnsPluginConnected = false;
       this.isWebSocketConnected = false;

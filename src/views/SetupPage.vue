@@ -225,7 +225,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
@@ -261,6 +261,19 @@ const instanceData = ref({
 });
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
+
+// Setup-Schritt im localStorage speichern, damit er nach Berechtigungsabfragen wiederhergestellt werden kann
+onMounted(() => {
+  const savedStep = localStorage.getItem('setupCurrentStep');
+  if (savedStep) {
+    currentStep.value = parseInt(savedStep);
+  }
+});
+
+// Schritt bei jeder Änderung speichern
+watch(currentStep, (newStep) => {
+  localStorage.setItem('setupCurrentStep', newStep.toString());
+});
 
 function beforeEnter() {
   isVisible.value = false;
@@ -362,6 +375,8 @@ async function saveInstance() {
 function completeSetup() {
   settingsStore.completeSetup();
   localStorage.setItem('setupCompleted', 'true');
+  // Setup-Schritt aus localStorage entfernen
+  localStorage.removeItem('setupCurrentStep');
   router.push('/');
 }
 </script>

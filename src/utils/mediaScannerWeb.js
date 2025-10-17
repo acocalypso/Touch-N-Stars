@@ -14,6 +14,7 @@ export class MediaScannerWeb {
     return {
       success: true,
       message: 'Web platform - image already saved',
+      path: options.path,
     };
   }
 }

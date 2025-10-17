@@ -9,8 +9,9 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // MediaStoreImageSaver plugin removed to fix performance issues
+
+        // Register MediaScanner plugin for gallery integration
+        registerPlugin(MediaScannerPlugin.class);
     }
 
     @Override

@@ -191,7 +191,7 @@ export const apiStore = defineStore('store', {
             this.connectingAttempts
           );
           //console.log('API Version response:', responseApiVersion);
-          if (responseApiVersion?.Success === false ) {
+          if (responseApiVersion?.Success === false) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({

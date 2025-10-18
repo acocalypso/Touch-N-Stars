@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - More settings of the sequence can be changed.
+- Disable shake-to-undo functionality in iOS
 
 ### Fixed
 - Center here: The target selection covered the center Modal 

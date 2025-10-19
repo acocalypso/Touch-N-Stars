@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
+import { apiStore } from '@/store/store';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -107,6 +108,10 @@ export const useSettingsStore = defineStore('settings', {
     keepAwakeEnabled: false,
   }),
   actions: {
+    _getApiStore() {
+      return apiStore();
+    },
+
     setCoordinates(coords) {
       this.coordinates = {
         latitude: coords.latitude,
@@ -132,6 +137,9 @@ export const useSettingsStore = defineStore('settings', {
     async setConnection(connection) {
       this.connection.ip = connection.ip;
       this.connection.port = connection.port;
+
+      // Clear all backend states when connection changes
+      this._getApiStore().clearAllStates();
     },
 
     addInstance(instance) {
@@ -173,6 +181,9 @@ export const useSettingsStore = defineStore('settings', {
         if (this.selectedInstanceId === id) {
           this.connection.ip = mergedInstance.ip;
           this.connection.port = mergedInstance.port;
+
+          // Clear all backend states when active connection changes
+          this._getApiStore().clearAllStates();
         }
       }
     },
@@ -209,12 +220,18 @@ export const useSettingsStore = defineStore('settings', {
       if (instance) {
         this.connection.ip = instance.ip;
         this.connection.port = instance.port;
+
+        // Clear all backend states when switching instances
+        this._getApiStore().clearAllStates();
       }
     },
 
     setActiveConnection(ip, port) {
       this.connection.ip = ip;
       this.connection.port = port;
+
+      // Clear all backend states when connection changes
+      this._getApiStore().clearAllStates();
     },
 
     setLanguage(lang) {

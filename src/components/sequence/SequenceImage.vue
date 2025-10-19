@@ -49,7 +49,9 @@
         </div>
 
         <div v-if="isValidNumber(stats.Temperature)" class="flex gap-1 min-w-0">
-          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.temperatureShort') }}:</span>
+          <span class="font-bold whitespace-nowrap"
+            >{{ $t('components.sequence.temperatureShort') }}:</span
+          >
           <span class="truncate">{{ stats.Temperature.toFixed(1) }}°C</span>
         </div>
 

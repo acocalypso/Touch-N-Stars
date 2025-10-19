@@ -210,7 +210,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
-  //Countdown für Statusanzeige mit Server-Zeit-Synchronisation
+  // Countdown for status display with server time synchronization
   async function updateCountdown() {
     const exposureEndTime = store.cameraInfo.ExposureEndTime;
 
@@ -220,12 +220,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
       return;
     }
 
-    // Stop any existing countdown loop first
-    if (countdownRunning.value) {
-      countdownRunning.value = false;
-      // Wait a bit to ensure old loop stops
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
+    // Stop all existing countdown loops immediately
+    countdownRunning.value = false;
+
+    // Wait briefly to ensure running loops are definitely terminated
+    await new Promise((resolve) => setTimeout(resolve, 150));
 
     // Ensure time sync before starting countdown
     await timeSync.ensureSync();
@@ -240,6 +239,8 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     // Reset progress to 0 at start
     exposureProgress.value = 0;
+
+    // Start the new countdown
     countdownRunning.value = true;
 
     // Store initial countdown value to calculate total duration
@@ -252,7 +253,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       if (remainingTime <= 0 || !store.cameraInfo.IsExposing) {
         exposureProgress.value = 100;
         exposureCountdown.value = 0;
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second
         exposureProgress.value = 0;
         countdownRunning.value = false;
         break;
@@ -278,7 +279,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
         timeSync.ensureSync();
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second
     }
   }
 

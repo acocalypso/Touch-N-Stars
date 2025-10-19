@@ -8,62 +8,54 @@
     <div
       v-if="showStats"
       :class="[
-        'flex flex-col w-full min-w-60 bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-4 text-xs sm:text-sm space-y-2 bg-black bg-opacity-10',
+        'flex flex-col w-full bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-2 text-xs bg-black bg-opacity-10',
         { absolute: !displayStatusUnderImage },
       ]"
     >
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="stats.Date" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.time') }}: </span>
-          <span>{{ formatDate(stats.Date) }}</span>
+      <div class="grid grid-cols-2 gap-x-1 gap-y-0.5">
+        <div v-if="stats.Date" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.time') }}:</span>
+          <span class="truncate">{{ formatDate(stats.Date) }}</span>
         </div>
 
-        <div v-if="isValidNumber(stats.ExposureTime)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.duration') }}:</span>
-          <span>{{ stats.ExposureTime.toFixed(2) }} s</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="isValidNumber(stats.HFR)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.hfr') }}:</span>
-          <span>{{ stats.HFR.toFixed(2) }}</span>
+        <div v-if="isValidNumber(stats.ExposureTime)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.duration') }}:</span>
+          <span class="truncate">{{ stats.ExposureTime.toFixed(2) }}s</span>
         </div>
 
-        <div v-if="isValidNumber(stats.Mean)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.mean') }}:</span>
-          <span>{{ stats.Mean.toFixed(2) }}</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="isValidNumber(stats.Median)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.median') }}:</span>
-          <span>{{ stats.Median.toFixed(2) }}</span>
+        <div v-if="isValidNumber(stats.HFR)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.hfr') }}:</span>
+          <span class="truncate">{{ stats.HFR.toFixed(2) }}</span>
         </div>
 
-        <div v-if="isValidNumber(stats.StDev)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.stDev') }}:</span>
-          <span>{{ stats.StDev.toFixed(2) }}</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="stats.RmsText" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.rmsText') }}:</span>
-          <span>{{ formatRms(stats.RmsText) }}</span>
+        <div v-if="isValidNumber(stats.Mean)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
+          <span class="truncate">{{ stats.Mean.toFixed(2) }}</span>
         </div>
 
-        <div v-if="isValidNumber(stats.Temperature)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.temperatureShort') }}:</span>
-          <span>{{ stats.Temperature.toFixed(1) }} °C</span>
+        <div v-if="isValidNumber(stats.Median)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.median') }}:</span>
+          <span class="truncate">{{ stats.Median.toFixed(2) }}</span>
         </div>
-      </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="stats.Filter" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.filter') }}:</span>
-          <span>{{ stats.Filter }}</span>
+        <div v-if="isValidNumber(stats.StDev)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.stDev') }}:</span>
+          <span class="truncate">{{ stats.StDev.toFixed(2) }}</span>
+        </div>
+
+        <div v-if="stats.RmsText" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.rmsText') }}:</span>
+          <span class="truncate">{{ formatRms(stats.RmsText) }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.Temperature)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.temperatureShort') }}:</span>
+          <span class="truncate">{{ stats.Temperature.toFixed(1) }}°C</span>
+        </div>
+
+        <div v-if="stats.Filter" class="flex gap-1 col-span-2 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.filter') }}:</span>
+          <span class="truncate">{{ stats.Filter }}</span>
         </div>
       </div>
     </div>

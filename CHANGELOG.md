@@ -11,9 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - More settings of the sequence can be changed.
+- Disable shake-to-undo functionality in iOS
 
 ### Fixed
 - Center here: The target selection covered the center Modal 
+- Display of statistics in history images fixed
+- Improved timeout during reconnection
+
 
 ## [1.1.4.0] [App3.4.0] - 2025-10-07
 ### Added

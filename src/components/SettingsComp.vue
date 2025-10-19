@@ -389,8 +389,11 @@ onMounted(async () => {
     keepAwakeSupported.value = false;
   }
 
-  if (keepAwakeSupported.value) {
-    await applyKeepAwake(settingsStore.keepAwakeEnabled);
+  // Apply keep-awake setting after a short delay to ensure Capacitor is ready
+  if (keepAwakeSupported.value && settingsStore.keepAwakeEnabled) {
+    setTimeout(async () => {
+      await applyKeepAwake(settingsStore.keepAwakeEnabled);
+    }, 1000);
   }
 });
 

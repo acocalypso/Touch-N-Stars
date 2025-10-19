@@ -381,19 +381,12 @@ onMounted(async () => {
   await pluginStore.loadAndRegisterPlugins(true);
   console.log('After manual load - plugins:', pluginStore.plugins);
 
-  // Check keep-awake support and apply current setting
+  // Check keep-awake support
   try {
     const res = await KeepAwake.isSupported();
     keepAwakeSupported.value = !!res?.isSupported;
   } catch (e) {
     keepAwakeSupported.value = false;
-  }
-
-  // Apply keep-awake setting after a short delay to ensure Capacitor is ready
-  if (keepAwakeSupported.value && settingsStore.keepAwakeEnabled) {
-    setTimeout(async () => {
-      await applyKeepAwake(settingsStore.keepAwakeEnabled);
-    }, 1000);
   }
 });
 

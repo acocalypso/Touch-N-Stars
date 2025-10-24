@@ -391,9 +391,9 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
 
       // iOS: Use PhotoLibrarySaver plugin to save directly to Photos app
       if (platform === 'ios') {
-        try {
-          console.log('[ImageDownloader] Using iOS PhotoLibrarySaver plugin');
+        console.log('[ImageDownloader] Using iOS PhotoLibrarySaver plugin');
 
+        try {
           // Process the image data
           const { base64 } = await processImageData(imageData);
 
@@ -401,15 +401,20 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           let base64Data = base64;
           if (!imageData.startsWith('data:image')) {
             base64Data = `data:image/jpeg;base64,${base64}`;
+          } else {
+            base64Data = imageData;
           }
 
+          console.log('[ImageDownloader] Saving to iOS Photos app with album: TouchNStars');
+          console.log('[ImageDownloader] Image data format:', base64Data.substring(0, 50) + '...');
+
           // Save to Photos app in TouchNStars album
-          await PhotoLibrarySaver.saveImage({
+          const result = await PhotoLibrarySaver.saveImage({
             base64: base64Data,
             albumName: 'TouchNStars',
           });
 
-          console.log('[ImageDownloader] Image saved to iOS Photos app');
+          console.log('[ImageDownloader] iOS PhotoLibrarySaver success:', result);
 
           notificationManager.showSuccess(
             `Image saved to Photos`,
@@ -418,11 +423,24 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
 
           return true;
         } catch (iosError) {
-          console.warn(
-            '[ImageDownloader] iOS PhotoLibrarySaver failed, falling back to Filesystem:',
-            iosError
-          );
-          // Fall through to use Filesystem API as fallback
+          console.error('[ImageDownloader] iOS PhotoLibrarySaver failed:', iosError);
+          console.error('[ImageDownloader] Error details:', JSON.stringify(iosError));
+
+          // Check if it's a permission error
+          if (
+            iosError.message &&
+            (iosError.message.includes('permission') || iosError.message.includes('authorized'))
+          ) {
+            notificationManager.showError(
+              `Photo library permission denied. Please enable photo access in Settings > Touch-N-Stars > Photos`
+            );
+          } else {
+            notificationManager.showError(
+              `Failed to save to Photos app: ${iosError.message || 'Unknown error'}`
+            );
+          }
+
+          return false;
         }
       }
 

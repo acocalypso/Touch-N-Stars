@@ -62,14 +62,14 @@ onMounted(() => {
     if (store.cameraInfo.IsExposing && store.cameraInfo.ExposureEndTime) {
       const currentCountdown = cameraStore.exposureCountdown;
 
-      // Check if countdown value hasn't changed in 5 seconds
+      // Check if countdown value hasn't changed in 3 seconds
       if (
         lastCountdownValue.value !== null &&
         lastCountdownValue.value === currentCountdown &&
         currentCountdown > 0
       ) {
         console.error(
-          `[ExposureCountdown Watchdog] Countdown stuck at ${currentCountdown}s for 5+ seconds, forcing restart...`
+          `[ExposureCountdown Watchdog] Countdown stuck at ${currentCountdown}s for 3+ seconds, forcing restart...`
         );
         cameraStore.updateCountdown();
       }
@@ -79,7 +79,7 @@ onMounted(() => {
       // Reset when not exposing
       lastCountdownValue.value = null;
     }
-  }, 5000); // Check every 5 seconds
+  }, 3000); // Check every 3 seconds
 });
 
 onUnmounted(() => {

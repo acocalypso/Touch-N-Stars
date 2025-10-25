@@ -246,6 +246,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
     // Store initial countdown value to calculate total duration
     let initialCountdown = null;
 
+    // Watchdog: Track previous countdown value to detect stuck timer
+    let previousCountdown = null;
+    let stuckCounter = 0;
+    const maxStuckIterations = 3; // Restart after 3 seconds of no change
+
     while (countdownRunning.value) {
       // Use server-synchronized time for accurate countdown
       const remainingTime = timeSync.calculateCountdown(exposureEndTime);
@@ -259,6 +264,30 @@ export const useCameraStore = defineStore('cameraStore', () => {
         break;
       }
 
+      // Watchdog: Check if countdown value changed
+      if (previousCountdown !== null && previousCountdown === remainingTime) {
+        stuckCounter++;
+        console.warn(
+          `[Watchdog] Countdown stuck at ${remainingTime}s (${stuckCounter}/${maxStuckIterations})`
+        );
+
+        if (stuckCounter >= maxStuckIterations) {
+          console.error(
+            '[Watchdog] Countdown stuck for too long, restarting countdown with time resync...'
+          );
+          // Force time resync
+          await timeSync.ensureSync();
+          stuckCounter = 0;
+          previousCountdown = null;
+          initialCountdown = null;
+          continue; // Continue with fresh calculation
+        }
+      } else {
+        // Countdown is progressing normally, reset stuck counter
+        stuckCounter = 0;
+      }
+
+      previousCountdown = remainingTime;
       exposureCountdown.value = remainingTime;
 
       // Set initial countdown on first iteration

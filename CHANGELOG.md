@@ -12,11 +12,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - More settings of the sequence can be changed.
 - Disable shake-to-undo functionality in iOS
+- iOS: Images are now saved under photos.
+- Camera cooling status is now displayed
 
 ### Fixed
 - Center here: The target selection covered the center Modal 
 - Display of statistics in history images fixed
 - Improved timeout during reconnection
+- fix exposure countdown
+- fix keep Screen awake
+- Switch between two instances repaired
+- save setup step
+- If the API cannot be reached, the correct message is now displayed.
 
 
 ## [1.1.4.0] [App3.4.0] - 2025-10-07

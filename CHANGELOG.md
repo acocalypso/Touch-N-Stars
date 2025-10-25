@@ -6,24 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.5.0] [App3.5.0] - 2025-xx-xx
 ### Added
-- TPPA Manual mode: Button added to control the mount 
-- TNS Sequence MessageBox. 
+- Added a button to control the mount in TPPA Manual Mode.  
+- Added TNS Sequence MessageBox.  
 
 ### Changed
-- More settings of the sequence can be changed.
-- Disable shake-to-undo functionality in iOS
-- iOS: Images are now saved under photos.
-- Camera cooling status is now displayed
+- Updated sequence settings: more options can now be modified.  
+- Disabled the shake-to-undo functionality on iOS.  
+- iOS: Images are now saved under **Photos**.  
+- Camera cooling status is now displayed.  
 
 ### Fixed
-- Center here: The target selection covered the center Modal 
-- Display of statistics in history images fixed
-- Improved timeout during reconnection
-- fix exposure countdown
-- fix keep Screen awake
-- Switch between two instances repaired
-- save setup step
-- If the API cannot be reached, the correct message is now displayed.
+- Fixed “Center Here”: target selection no longer covers the center modal.  
+- Fixed display of statistics in history images.  
+- Improved timeout handling during reconnection.  
+- Fixed exposure countdown.  
+- Fixed “Keep screen awake” function.  
+- Fixed switching between two instances.  
+- Fixed saving of setup step.  
+- Fixed message display when the API cannot be reached.  
+- Fixed total error display (secondary double quote for arcseconds).  
 
 ## [1.1.4.0] [App3.4.0] - 2025-10-07
 ### Added

@@ -390,7 +390,9 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         imageData.startsWith('data:') ? 'base64' : imageData.startsWith('blob:') ? 'blob' : 'url'
       );
 
-      // iOS: Use @capacitor-community/media to save directly to Photos app
+      // iOS: Use @capacitor-community/media to save to Photos app (Camera Roll)
+      // Note: Album support has issues - first photo goes to Camera Roll, subsequent photos to album
+      // We save to Camera Roll directly to ensure consistent behavior
       if (platform === 'ios') {
         console.log('[ImageDownloader] Using @capacitor-community/media for iOS');
 
@@ -398,77 +400,21 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           // Process the image data to get base64
           const { base64 } = await processImageData(imageData);
 
-          console.log('[ImageDownloader] Saving to iOS Photos app');
+          console.log('[ImageDownloader] Saving to iOS Photos app (Camera Roll)');
           console.log('[ImageDownloader] Image size:', Math.round(base64.length / 1024), 'KB');
 
-          // First, try to get or create the TouchNStars album
-          let albumId = null;
-          let albumJustCreated = false;
-          try {
-            const albums = await Media.getAlbums();
-            console.log('[ImageDownloader] Available albums:', albums);
-
-            // Look for TouchNStars album
-            const touchNStarsAlbum = albums.albums.find((album) => album.name === 'TouchNStars');
-
-            if (touchNStarsAlbum) {
-              albumId = touchNStarsAlbum.identifier;
-              console.log('[ImageDownloader] Found TouchNStars album:', albumId);
-            } else {
-              // Try to create the album
-              console.log('[ImageDownloader] TouchNStars album not found, creating...');
-              const newAlbum = await Media.createAlbum({ name: 'TouchNStars' });
-              albumId = newAlbum.identifier;
-              albumJustCreated = true;
-              console.log('[ImageDownloader] Created TouchNStars album:', albumId);
-
-              // Give iOS a moment to finalize the album creation
-              await new Promise((resolve) => setTimeout(resolve, 100));
-            }
-          } catch (albumError) {
-            console.warn(
-              '[ImageDownloader] Could not get/create album, saving to camera roll:',
-              albumError
-            );
-            // Continue without album - will save to "Recents"
-          }
-
-          // Save to Photos app using Media plugin
-          // Note: path should be base64 string WITH data URL prefix or file:// URL
-          const saveOptions = {
+          // Save to Photos app (Camera Roll / Recents)
+          // Note: We don't use albumIdentifier because of iOS album creation issues
+          const result = await Media.savePhoto({
             path: `data:image/jpeg;base64,${base64}`,
-          };
-
-          // Add album if we have one
-          if (albumId) {
-            saveOptions.albumIdentifier = albumId;
-          }
-
-          console.log('[ImageDownloader] Saving with options:', {
-            hasAlbumId: !!albumId,
-            albumJustCreated,
-            path: 'base64...',
           });
-          const result = await Media.savePhoto(saveOptions);
 
-          console.log('[ImageDownloader] iOS Media.savePhoto success:', result);
+          console.log('[ImageDownloader] Media.savePhoto success:', result);
 
-          // If album was just created and save succeeded, verify the photo is in the album
-          if (albumJustCreated && result.filePath) {
-            console.log('[ImageDownloader] Photo saved to newly created album');
-          }
-
-          if (albumId) {
-            notificationManager.showSuccess(
-              `Image saved to Photos`,
-              `Album: TouchNStars • File: ${fileName}`
-            );
-          } else {
-            notificationManager.showSuccess(
-              `Image saved to Photos`,
-              `Saved to Camera Roll • File: ${fileName}`
-            );
-          }
+          notificationManager.showSuccess(
+            `Image saved to Photos`,
+            `Saved to Camera Roll • File: ${fileName}`
+          );
 
           return true;
         } catch (iosError) {

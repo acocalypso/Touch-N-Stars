@@ -25,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - save setup step
 - If the API cannot be reached, the correct message is now displayed.
 
-
 ## [1.1.4.0] [App3.4.0] - 2025-10-07
 ### Added
 - Three Point Polar Alignment (TPPA): Manual Mode (Advanced API V2.2.10.0 is required)

@@ -398,22 +398,66 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           // Process the image data to get base64
           const { base64 } = await processImageData(imageData);
 
-          console.log('[ImageDownloader] Saving to iOS Photos app with album: TouchNStars');
+          console.log('[ImageDownloader] Saving to iOS Photos app');
           console.log('[ImageDownloader] Image size:', Math.round(base64.length / 1024), 'KB');
 
+          // First, try to get or create the TouchNStars album
+          let albumId = null;
+          try {
+            const albums = await Media.getAlbums();
+            console.log('[ImageDownloader] Available albums:', albums);
+
+            // Look for TouchNStars album
+            const touchNStarsAlbum = albums.albums.find((album) => album.name === 'TouchNStars');
+
+            if (touchNStarsAlbum) {
+              albumId = touchNStarsAlbum.identifier;
+              console.log('[ImageDownloader] Found TouchNStars album:', albumId);
+            } else {
+              // Try to create the album
+              console.log('[ImageDownloader] TouchNStars album not found, creating...');
+              const newAlbum = await Media.createAlbum({ name: 'TouchNStars' });
+              albumId = newAlbum.identifier;
+              console.log('[ImageDownloader] Created TouchNStars album:', albumId);
+            }
+          } catch (albumError) {
+            console.warn(
+              '[ImageDownloader] Could not get/create album, saving to camera roll:',
+              albumError
+            );
+            // Continue without album - will save to "Recents"
+          }
+
           // Save to Photos app using Media plugin
-          // Note: Media.savePhoto expects base64 WITHOUT data URL prefix
-          const result = await Media.savePhoto({
-            path: base64,
-            albumIdentifier: 'TouchNStars',
+          // Note: path should be base64 string WITH data URL prefix or file:// URL
+          const saveOptions = {
+            path: `data:image/jpeg;base64,${base64}`,
+          };
+
+          // Add album if we have one
+          if (albumId) {
+            saveOptions.albumIdentifier = albumId;
+          }
+
+          console.log('[ImageDownloader] Saving with options:', {
+            ...saveOptions,
+            path: 'base64...',
           });
+          const result = await Media.savePhoto(saveOptions);
 
           console.log('[ImageDownloader] iOS Media.savePhoto success:', result);
 
-          notificationManager.showSuccess(
-            `Image saved to Photos`,
-            `Album: TouchNStars • File: ${fileName}`
-          );
+          if (albumId) {
+            notificationManager.showSuccess(
+              `Image saved to Photos`,
+              `Album: TouchNStars • File: ${fileName}`
+            );
+          } else {
+            notificationManager.showSuccess(
+              `Image saved to Photos`,
+              `Saved to Camera Roll • File: ${fileName}`
+            );
+          }
 
           return true;
         } catch (iosError) {

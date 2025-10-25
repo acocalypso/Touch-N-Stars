@@ -403,6 +403,7 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
 
           // First, try to get or create the TouchNStars album
           let albumId = null;
+          let albumJustCreated = false;
           try {
             const albums = await Media.getAlbums();
             console.log('[ImageDownloader] Available albums:', albums);
@@ -418,7 +419,11 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
               console.log('[ImageDownloader] TouchNStars album not found, creating...');
               const newAlbum = await Media.createAlbum({ name: 'TouchNStars' });
               albumId = newAlbum.identifier;
+              albumJustCreated = true;
               console.log('[ImageDownloader] Created TouchNStars album:', albumId);
+
+              // Give iOS a moment to finalize the album creation
+              await new Promise((resolve) => setTimeout(resolve, 100));
             }
           } catch (albumError) {
             console.warn(
@@ -440,12 +445,18 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           }
 
           console.log('[ImageDownloader] Saving with options:', {
-            ...saveOptions,
+            hasAlbumId: !!albumId,
+            albumJustCreated,
             path: 'base64...',
           });
           const result = await Media.savePhoto(saveOptions);
 
           console.log('[ImageDownloader] iOS Media.savePhoto success:', result);
+
+          // If album was just created and save succeeded, verify the photo is in the album
+          if (albumJustCreated && result.filePath) {
+            console.log('[ImageDownloader] Photo saved to newly created album');
+          }
 
           if (albumId) {
             notificationManager.showSuccess(

@@ -19,7 +19,7 @@ async function setTrackingMode(mode) {
     const response = await apiService.setTrackingMode(mode);
     if (!response.Success) return;
     statusClass.value = 'glow-green';
-    console.log(t('components.mount.control.trackingMode') + ' gesetzt');
+    console.log(t('components.mount.control.trackingMode') + ' set');
   } catch (error) {
     console.log(t('components.mount.control.errors.tracking'));
   }

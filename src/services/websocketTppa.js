@@ -49,9 +49,9 @@ class WebSocketService {
           this.messageCallback(message);
         }
       } catch (error) {
-        console.error('Fehler beim Parsen der Nachricht:', error);
+        console.error('Error parsing message:', error);
         if (this.statusCallback) {
-          this.statusCallback('Fehler beim Empfangen einer Nachricht');
+          this.statusCallback('Error receiving message');
         }
       }
     };
@@ -64,13 +64,13 @@ class WebSocketService {
     };
 
     this.socket.onclose = () => {
-      console.log('WebSocket geschlossen.');
+      console.log('WebSocket closed.');
       if (this.statusCallback) {
-        this.statusCallback('Geschlossen');
+        this.statusCallback('Closed');
       }
 
       if (this.shouldReconnect && store.isBackendReachable) {
-        console.log(`Versuche erneut zu verbinden in ${this.reconnectDelay / 1000} Sekunden...`);
+        console.log(`Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`);
         setTimeout(() => this.connect(), this.reconnectDelay);
       }
     };

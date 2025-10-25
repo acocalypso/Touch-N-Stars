@@ -133,6 +133,9 @@
       @close="dismissWhatsNew"
     />
 
+    <!-- TNS MessageBox Modal -->
+    <SequenceTnsMessageBoxModal />
+
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
@@ -180,6 +183,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 import NavigationComp from '@/components/NavigationComp.vue';
 import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
@@ -198,6 +202,7 @@ import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import wsFilter from '@/services/websocketManuellFilterControl';
 import { useFilterStore } from '@/store/filterStore';
+import SequenceTnsMessageBoxModal from '@/components/sequence/SequenceTnsMessageBoxModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -294,10 +299,8 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   wsFilter.disconnect();
-  store.isApiConnected = false;
-  store.apiPort = null;
-  store.isTnsPluginConnected = false;
-  store.isBackendReachable = false;
+  // Alle Flags zurücksetzen für sauberen Neustart beim Resume
+  store.clearAllStates();
 }
 
 async function resumeApp() {
@@ -420,6 +423,25 @@ onMounted(async () => {
   // Initialize notification service if notifications are enabled
   if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
     await notificationService.initialize();
+  }
+
+  // Initialize Keep Screen Awake for mobile platforms
+  if (['android', 'ios'].includes(Capacitor.getPlatform())) {
+    try {
+      const res = await KeepAwake.isSupported();
+      if (res?.isSupported && settingsStore.keepAwakeEnabled) {
+        setTimeout(async () => {
+          try {
+            await KeepAwake.keepAwake();
+            console.log('Keep Awake activated on app start');
+          } catch (e) {
+            console.warn('KeepAwake activation error:', e);
+          }
+        }, 1000);
+      }
+    } catch (e) {
+      console.warn('KeepAwake support check failed:', e);
+    }
   }
 
   // Load What's New content generated at build-time

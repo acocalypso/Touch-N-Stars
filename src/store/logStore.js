@@ -52,7 +52,7 @@ export const useLogStore = defineStore('LogStore', {
         const store = apiStore();
 
         if (!store.isBackendReachable) {
-          console.warn('Backend ist nicht erreichbar log');
+          console.warn('Backend is not reachable log');
           return;
         }
 
@@ -64,7 +64,7 @@ export const useLogStore = defineStore('LogStore', {
         this.checkForNewErrorWarnings(logs);
         //console.log('Alle Logs:', this.LogsInfo);
       } catch (error) {
-        console.error('Fehler beim Abrufen der Informationen:', error);
+        console.error('Error fetching information:', error);
       }
     },
 

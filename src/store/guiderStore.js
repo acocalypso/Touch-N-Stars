@@ -27,7 +27,7 @@ export const useGuiderStore = defineStore('guiderStore', {
       const store = apiStore();
       try {
         if (!store.isBackendReachable) {
-          console.warn('Backend ist nicht erreichbar log');
+          console.warn('Backend is not reachable log');
           return;
         }
         //Graphdaten vom Backend holen

@@ -381,16 +381,12 @@ onMounted(async () => {
   await pluginStore.loadAndRegisterPlugins(true);
   console.log('After manual load - plugins:', pluginStore.plugins);
 
-  // Check keep-awake support and apply current setting
+  // Check keep-awake support
   try {
     const res = await KeepAwake.isSupported();
     keepAwakeSupported.value = !!res?.isSupported;
   } catch (e) {
     keepAwakeSupported.value = false;
-  }
-
-  if (keepAwakeSupported.value) {
-    await applyKeepAwake(settingsStore.keepAwakeEnabled);
   }
 });
 

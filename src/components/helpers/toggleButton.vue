@@ -2,11 +2,13 @@
   <div class="flex items-center">
     <button
       @click="updateToggled"
+      :disabled="disabled"
       :class="[
         statusValue
           ? 'bg-emerald-600/20 border-emerald-500/60'
           : 'bg-slate-700/40 border-slate-600/40',
-        'relative inline-flex h-6 w-12 items-center rounded-full transition-all duration-300 ease-out border shadow-inner backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40 hover:shadow-md',
+        disabled ? 'cursor-not-allowed opacity-60' : 'hover:shadow-md',
+        'relative inline-flex h-6 w-12 items-center rounded-full transition-all duration-300 ease-out border shadow-inner backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40',
       ]"
       type="button"
       :aria-pressed="statusValue?.toString() || 'false'"
@@ -53,6 +55,10 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Emits for parent communication
@@ -60,6 +66,8 @@ const emits = defineEmits(['update:statusValue']);
 
 // Toggle the current value
 function updateToggled() {
-  emits('update:statusValue', !props.statusValue);
+  if (!props.disabled) {
+    emits('update:statusValue', !props.statusValue);
+  }
 }
 </script>

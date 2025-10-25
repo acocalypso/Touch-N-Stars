@@ -231,7 +231,12 @@
       "time": "Temps",
       "noRunningItems": "Sequence stopped",
       "status": "Statut de séquence",
-      "instructions": "Instructions"
+      "instructions": "Instructions",
+      "tnsMessageBox": {
+        "title": "Message de séquence",
+        "stopSequence": "Arrêter la séquence",
+        "continueSequence": "Continuer la séquence"
+      }
     },
     "mount": {
       "title": "Monture",
@@ -412,7 +417,7 @@
       "connect": "Veuillez connecter la caméra",
       "settings": "Paramètres",
       "capture_running": "Prise de vue en cours",
-      "exposure_time": "Temps d'exposition:",
+      "exposure_time": "Temps d'exposition (s):",
       "gain_iso": "Gain / ISO:",
       "name": "Nom de la caméra",
       "gain": "Gain",
@@ -425,9 +430,9 @@
       "dew_heater_on": "Antibuée activé",
       "dew_heater_off": "Antibuée désactivé",
       "camera_cooling": "Refroidissement de la caméra",
-      "target_temperature": "Température cible",
-      "warm_up_time": "Temps de réchauffement",
-      "cooling_time": "Temps de refroidissement",
+      "target_temperature": "Température cible (°C)",
+      "warm_up_time": "Temps de réchauffement (min)",
+      "cooling_time": "Temps de refroidissement (min)",
       "binning_mode": "Binning",
       "readout_mode": "Mode de lecture",
       "set_use_platesolve": "Utiliser Platesolve",
@@ -441,11 +446,16 @@
       "at_target_temp": "À la température cible",
       "cooler_power": "Puissance plus fraîche (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Réchauffement de la caméra"
+      "camera_warming": "Réchauffement de la caméra",
+      "cooler_status": "État du refroidisseur",
+      "cooler_status_off": "ÉTEINT",
+      "cooler_status_cooling": "Actif - Refroidissement à",
+      "cooler_status_holding": "Actif - À la température cible",
+      "cooler_status_warming": "Actif - Réchauffement à"
     },
     "tppa": {
       "title": "Alignement polaire à trois points",
-      "camera_mount_required": "La caméra doit être connectée et la monture déparquée",
+      "camera_mount_required": "La caméra doit être connectée",
       "start_alignment": "Démarrer l'alignement",
       "stop_alignment": "Arrêter l'alignement",
       "altitude_error": "Erreur d'altitude:",

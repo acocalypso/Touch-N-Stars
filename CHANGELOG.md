@@ -4,7 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.4.0] - 2025-10-07
+## [1.1.5.0] [App3.5.0] - 2025-xx-xx
+### Added
+- Added a button to control the mount in TPPA Manual Mode.  
+- Added TNS Sequence MessageBox.  
+
+### Changed
+- Updated sequence settings: more options can now be modified.  
+- Disabled the shake-to-undo functionality on iOS.  
+- iOS: Images are now saved under **Photos**.  
+- Camera cooling status is now displayed.  
+
+### Fixed
+- Fixed “Center Here”: target selection no longer covers the center modal.  
+- Fixed display of statistics in history images.  
+- Improved timeout handling during reconnection.  
+- Fixed exposure countdown.  
+- Fixed “Keep screen awake” function.  
+- Fixed switching between two instances.  
+- Fixed saving of setup step.  
+- Fixed message display when the API cannot be reached.  
+- Fixed total error display (secondary double quote for arcseconds).  
+
+## [1.1.4.0] [App3.4.0] - 2025-10-07
 ### Added
 - Three Point Polar Alignment (TPPA): Manual Mode (Advanced API V2.2.10.0 is required)
 - The current status is now displayed in the sequence and sequence dashboard
@@ -27,7 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Image statistics: Temperature limited to one decimal place
 - Sequence: Changing the values of conditions fixed
 
-## [1.1.3.0] - 2025-09-10
+## [1.1.3.0] [App3.3.0] - 2025-09-10
 ### Important information
 - Advanced API V2.2.9.0 is required
 
@@ -54,7 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed bug with switches when a non-writable switch is in the sequence
 - Default gain and offset are now displayed in the sequence instead of -1.
 
-## [1.1.2.2] - 2025-08-22
+## [1.1.2.2] [App3.2.2] - 2025-08-22
 ### Added
 - Mountpage: Add Slew stop button 
 - Info message: What's new when starting for the first time after an update
@@ -64,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix Slew stop if only slew was executed
 - Mount websocket connection fix
 
-## [1.1.2.1] - 2025-08-22
+## [1.1.2.1] [App3.2.1] - 2025-08-22
 ### Changed
 -  Plugin: Sequece Creator: The settings are now saved in the backend.
 
@@ -72,7 +94,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Android: The display turned itself off. Now this can be selected in the settings.
 - Plugin: Sequece Creator: The endcontaienr is now processed sequentially.
 
-## [1.1.2.0] - 2025-08-20
+## [1.1.2.0] [App3.2.0] - 2025-08-20
 ### Added
 - Image settings: add debayer and unlinked stretch options 
 - TPPA: Settings for GAIN and Exposuretime
@@ -89,7 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TPPA: Button position from ErrorModal 
 - Plugin: Sequence Creator fix Meridian Flip
 
-## [1.1.1.1] - 2025-08-07
+## [1.1.1.1] [App3.1.1] - 2025-08-07
 ### Added
 - Sequence creator: Find home option
 
@@ -97,7 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fix settings button if no connection can be established
 - fix cooling settings at sequence creator
 
-## [1.1.1.0] - 2025-08-05
+## [1.1.1.0] [App3.1.0] - 2025-08-05
 ### Added
 - PHD2 image similar to PHD2 with guide star marker
 - PHD2 Starimige with starprofiel graph

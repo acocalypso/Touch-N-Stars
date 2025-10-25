@@ -34,7 +34,7 @@ onMounted(() => {
 // Setzt den initialen Binning Mode aus BinX und BinY
 const initializeBinningMode = () => {
   if (!store.cameraInfo) {
-    console.warn('Kamera-Info nicht geladen');
+    console.warn('Camera info not loaded');
     return;
   }
 
@@ -49,7 +49,7 @@ async function setBinnig() {
     const data = await apiService.setBinningMode(cameraStore.binningMode);
     console.log(data);
   } catch (error) {
-    console.log('Fehler beim setzten des binning');
+    console.log('Error while setting binning');
   }
 }
 </script>

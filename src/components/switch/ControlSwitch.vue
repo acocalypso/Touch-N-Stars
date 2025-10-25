@@ -53,7 +53,7 @@ async function setBool(id, value) {
       console.log('Switch on ID: ', id);
     }
   } catch (error) {
-    console.log('Feher beim setzen des Switches ');
+    console.log('Error while setting the switch');
   }
 }
 
@@ -68,7 +68,7 @@ async function setValue(id, value, valueMin, valueMax) {
     await apiService.setSwitch(id, value);
     console.log('Value set: ', value);
   } catch (error) {
-    console.log('Feher beim setzen des Switches ');
+    console.log('Error while setting the switch');
   }
 }
 </script>

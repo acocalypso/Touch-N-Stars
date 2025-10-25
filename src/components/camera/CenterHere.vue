@@ -129,7 +129,7 @@ async function fetchFramingInfo() {
     const data = await apiService.framingAction('info');
     framingStore.framingInfo = data.Response;
   } catch (error) {
-    console.error('Fehler beim Abrufen des FramingInfo:', error);
+    console.error('Error fetching FramingInfo:', error);
   }
 }
 
@@ -213,7 +213,7 @@ async function calculateRaDec() {
   sensorWidth = -1;
 
   if (sensorWidth === -1) {
-    console.log('DLSR erkannt');
+    console.log('DSLR detected');
     await fetchFramingInfo();
     sensorWidth = framingStore.framingInfo.CameraWidth;
     sensorHeight = framingStore.framingInfo.CameraHeight;
@@ -274,12 +274,13 @@ async function calculateRaDec() {
 
 <style scoped>
 .wrapper {
-  /* Begrenze die Breite auf 80% der Viewport-Breite, 
+  /* Begrenze die Breite auf 80% der Viewport-Breite,
      max. 800px, zentriere optional via margin */
 
   width: 90vw;
   margin: 0 auto;
   position: relative;
+  z-index: 1;
 }
 
 .main-image {
@@ -292,6 +293,7 @@ async function calculateRaDec() {
   position: absolute;
   cursor: move;
   user-select: none;
+  z-index: 2;
 }
 
 .box-text {

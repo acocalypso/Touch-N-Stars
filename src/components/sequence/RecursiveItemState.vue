@@ -13,6 +13,17 @@
       <!-- Header with Collapse Button -->
       <div class="flex justify-between items-center p-2 sm:p-3 border-b border-gray-700/60">
         <div class="flex items-center gap-3">
+          <button
+            v-if="hasContent(item)"
+            @click="sequenceStore.toggleCollapsedState(item._path)"
+            class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+            :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
+          >
+            <ChevronRightIcon
+              class="w-4 h-4 text-gray-400 transition-transform duration-200"
+              :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
+            />
+          </button>
           <h3 class="font-medium text-gray-100 text-sm md:text-base truncate">
             {{ removeSuffix(item.Name) }}
           </h3>
@@ -26,24 +37,13 @@
             {{ item.Status }}
           </span>
           <button
-            v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+            v-if="sequenceStore.sequenceEdit && !readOnly"
             @click="toggleDisable(item._path, item.Status, 'Status')"
             class="p-1 rounded-md hover:bg-slate-700/50 transition-colors"
           >
             <PowerIcon
               class="w-4 h-4"
               :class="item.Status === 'DISABLED' ? 'text-red-400' : 'text-emerald-400'"
-            />
-          </button>
-          <button
-            v-if="hasContent(item)"
-            @click="sequenceStore.toggleCollapsedState(item._path)"
-            class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-            :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
-          >
-            <ChevronRightIcon
-              class="w-4 h-4 text-gray-400 transition-transform duration-200"
-              :class="{ 'rotate-90': !sequenceStore.isCollapsed(item._path) }"
             />
           </button>
         </div>
@@ -60,25 +60,25 @@
         >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
+              <button
+                @click="sequenceStore.toggleCollapsedState(`${item._path || 'target'}-target`)"
+                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                :title="
+                  sequenceStore.isCollapsed(`${item._path || 'target'}-target`)
+                    ? 'Erweitern'
+                    : 'Zusammenklappen'
+                "
+              >
+                <ChevronRightIcon
+                  class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                  :class="{
+                    'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'target'}-target`),
+                  }"
+                />
+              </button>
               <div class="w-2 h-2 bg-gray-400 rounded-full shadow-gray-400/50 shadow-sm"></div>
               <h4 class="text-sm font-semibold text-gray-200">Target Coordinates</h4>
             </div>
-            <button
-              @click="sequenceStore.toggleCollapsedState(`${item._path || 'target'}-target`)"
-              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="
-                sequenceStore.isCollapsed(`${item._path || 'target'}-target`)
-                  ? 'Erweitern'
-                  : 'Zusammenklappen'
-              "
-            >
-              <ChevronRightIcon
-                class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{
-                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'target'}-target`),
-                }"
-              />
-            </button>
           </div>
           <div
             v-show="!sequenceStore.isCollapsed(`${item._path || 'target'}-target`)"
@@ -119,6 +119,22 @@
         >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
+              <button
+                @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
+                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                :title="
+                  sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
+                    ? 'Erweitern'
+                    : 'Zusammenklappen'
+                "
+              >
+                <ChevronRightIcon
+                  class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                  :class="{
+                    'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`),
+                  }"
+                />
+              </button>
               <div
                 class="w-2 h-2 bg-emerald-400 rounded-full shadow-emerald-400/50 shadow-sm"
               ></div>
@@ -126,22 +142,6 @@
                 {{ $t('components.sequence.triggers') }}
               </h4>
             </div>
-            <button
-              @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
-              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="
-                sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
-                  ? 'Erweitern'
-                  : 'Zusammenklappen'
-              "
-            >
-              <ChevronRightIcon
-                class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{
-                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`),
-                }"
-              />
-            </button>
           </div>
 
           <div
@@ -155,6 +155,20 @@
             >
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2 min-w-0">
+                  <button
+                    @click="sequenceStore.toggleCollapsedState(trigger._path)"
+                    class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                    :title="
+                      sequenceStore.isCollapsed(trigger._path) ? 'Erweitern' : 'Zusammenklappen'
+                    "
+                  >
+                    <ChevronRightIcon
+                      class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                      :class="{
+                        'rotate-90': !sequenceStore.isCollapsed(trigger._path),
+                      }"
+                    />
+                  </button>
                   <div class="w-1.5 h-1.5 bg-green-400/60 rounded-full flex-shrink-0"></div>
                   <span class="text-sm font-medium text-slate-200 truncate">
                     {{ removeSuffix(trigger.Name) }}
@@ -169,7 +183,7 @@
                     {{ trigger.Status }}
                   </span>
                   <button
-                    v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+                    v-if="sequenceStore.sequenceEdit && !readOnly"
                     @click="toggleDisable(trigger._path, trigger.Status, 'Status')"
                     class="p-1 rounded hover:bg-slate-600/50 transition-colors"
                   >
@@ -181,7 +195,10 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm">
+              <div
+                v-show="!sequenceStore.isCollapsed(trigger._path)"
+                class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-sm"
+              >
                 <div
                   v-for="[key, value] in getDisplayFields(trigger)"
                   :key="key"
@@ -204,12 +221,27 @@
                       </div>
                     </template>
                     <template
+                      v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly"
+                    >
+                      <select
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                        v-model.number="trigger[key]"
+                        @change="updateValue($event, trigger._path, trigger[key], key)"
+                      >
+                        <option :value="0">Siderial</option>
+                        <option :value="1">Lunar</option>
+                        <option :value="2">Solar</option>
+                        <option :value="3">King</option>
+                        <option :value="5">Stopped</option>
+                      </select>
+                    </template>
+                    <template
                       v-else-if="
                         updateKeys.includes(key) && sequenceStore.sequenceEdit && !readOnly
                       "
                     >
                       <input
-                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                        class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                         type="number"
                         v-model="trigger[key]"
                         @change="updateValue($event, trigger._path, trigger[key], key)"
@@ -232,31 +264,31 @@
         >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
+              <button
+                @click="
+                  sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)
+                "
+                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                :title="
+                  sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`)
+                    ? 'Erweitern'
+                    : 'Zusammenklappen'
+                "
+              >
+                <ChevronRightIcon
+                  class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                  :class="{
+                    'rotate-90': !sequenceStore.isCollapsed(
+                      `${item._path || 'conditions'}-conditions`
+                    ),
+                  }"
+                />
+              </button>
               <div class="w-2 h-2 bg-orange-400 rounded-full shadow-orange-400/50 shadow-sm"></div>
               <h4 class="text-sm font-semibold text-orange-200">
                 {{ $t('components.sequence.conditions') }}
               </h4>
             </div>
-            <button
-              @click="
-                sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)
-              "
-              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="
-                sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`)
-                  ? 'Erweitern'
-                  : 'Zusammenklappen'
-              "
-            >
-              <ChevronRightIcon
-                class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{
-                  'rotate-90': !sequenceStore.isCollapsed(
-                    `${item._path || 'conditions'}-conditions`
-                  ),
-                }"
-              />
-            </button>
           </div>
           <div
             v-show="!sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`)"
@@ -269,6 +301,20 @@
             >
               <div class="flex items-center justify-between gap-2 mb-2">
                 <div class="flex items-center gap-2 min-w-0">
+                  <button
+                    @click="sequenceStore.toggleCollapsedState(condition._path)"
+                    class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                    :title="
+                      sequenceStore.isCollapsed(condition._path) ? 'Erweitern' : 'Zusammenklappen'
+                    "
+                  >
+                    <ChevronRightIcon
+                      class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                      :class="{
+                        'rotate-90': !sequenceStore.isCollapsed(condition._path),
+                      }"
+                    />
+                  </button>
                   <div class="w-1.5 h-1.5 bg-orange-400/60 rounded-full flex-shrink-0"></div>
                   <span class="text-sm font-medium text-slate-200 truncate">
                     {{ removeSuffix(condition.Name) }}
@@ -283,7 +329,7 @@
                     {{ condition.Status }}
                   </span>
                   <button
-                    v-if="sequenceStore.sequenceEdit && containerIndex === 1 && !readOnly"
+                    v-if="sequenceStore.sequenceEdit && !readOnly"
                     @click="toggleDisable(condition._path, condition.Status, 'Status')"
                     class="p-1 rounded hover:bg-slate-600/50 transition-colors"
                   >
@@ -294,8 +340,314 @@
                   </button>
                 </div>
               </div>
-              <div class="grid grid-cols-1 gap-3 text-sm">
+              <div
+                v-show="!sequenceStore.isCollapsed(condition._path)"
+                class="grid grid-cols-1 gap-3 text-sm"
+              >
+                <!-- Special handling for Loop for Time Span condition -->
+                <template
+                  v-if="
+                    condition.Hours !== undefined &&
+                    condition.Minutes !== undefined &&
+                    condition.Seconds !== undefined &&
+                    !condition.Data &&
+                    !condition.InterruptReason
+                  "
+                >
+                  <div
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">Time:</span>
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+                          <input
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="23"
+                            v-model="condition.Hours"
+                            @change="updateValue($event, condition._path, condition.Hours, 'Hours')"
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">h</span>
+                          <input
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59"
+                            v-model="condition.Minutes"
+                            @change="
+                              updateValue($event, condition._path, condition.Minutes, 'Minutes')
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">m</span>
+                          <input
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59"
+                            v-model="condition.Seconds"
+                            @change="
+                              updateValue($event, condition._path, condition.Seconds, 'Seconds')
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">s</span>
+                        </div>
+                      </template>
+                      <template v-else>
+                        {{ condition.Hours }}h {{ condition.Minutes }}m {{ condition.Seconds }}s
+                      </template>
+                    </span>
+                  </div>
+                </template>
+                <!-- Special handling for Moon illumination condition -->
+                <template
+                  v-else-if="
+                    condition.Comparator !== undefined &&
+                    condition.UserMoonIllumination !== undefined &&
+                    condition.CurrentMoonIllumination !== undefined
+                  "
+                >
+                  <div
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Comparator:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <select
+                          class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          v-model.number="condition.Comparator"
+                          @change="updateComparator($event, condition._path, condition.Comparator)"
+                        >
+                          <option :value="1">&lt;</option>
+                          <option :value="2">&lt;=</option>
+                          <option :value="3">&gt;</option>
+                          <option :value="4">&gt;=</option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        {{
+                          condition.Comparator === 1
+                            ? '<'
+                            : condition.Comparator === 2
+                              ? '<='
+                              : condition.Comparator === 3
+                                ? '>'
+                                : '>='
+                        }}
+                      </template>
+                    </span>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >User Moon Illumination:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex items-center gap-1 sm:gap-2">
+                          <input
+                            class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="100"
+                            v-model="condition.UserMoonIllumination"
+                            @change="
+                              updateValue(
+                                $event,
+                                condition._path,
+                                condition.UserMoonIllumination,
+                                'UserMoonIllumination'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">%</span>
+                        </div>
+                      </template>
+                      <template v-else> {{ condition.UserMoonIllumination }}% </template>
+                    </span>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Current Moon Illumination:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      {{ condition.CurrentMoonIllumination?.toFixed(2) }}%
+                    </span>
+                  </div>
+                </template>
+                <!-- Special handling for Altitude conditions with Data.Offset -->
+                <template
+                  v-else-if="
+                    condition.Data &&
+                    condition.Data.Offset !== undefined &&
+                    condition.Data.Comparator !== undefined &&
+                    (condition.InterruptReason === 'Target is below horizon' ||
+                      condition.InterruptReason ===
+                        'Moon is outside of the specified altitude range' ||
+                      condition.InterruptReason === 'Sun is outside of the specified range' ||
+                      condition.InterruptReason === null)
+                  "
+                >
+                  <div
+                    v-if="
+                      condition.InterruptReason &&
+                      condition.InterruptReason !== 'Target is below horizon'
+                    "
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Comparator:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <select
+                          class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          v-model.number="condition.Data.Comparator"
+                          @change="
+                            updateDataComparator($event, condition._path, condition.Data.Comparator)
+                          "
+                        >
+                          <option :value="1">&lt;</option>
+                          <option
+                            v-if="
+                              condition.InterruptReason !==
+                                'Moon is outside of the specified altitude range' &&
+                              condition.InterruptReason !== 'Sun is outside of the specified range'
+                            "
+                            :value="2"
+                          >
+                            &lt;=
+                          </option>
+                          <option :value="3">&gt;</option>
+                          <option
+                            v-if="
+                              condition.InterruptReason !==
+                                'Moon is outside of the specified altitude range' &&
+                              condition.InterruptReason !== 'Sun is outside of the specified range'
+                            "
+                            :value="4"
+                          >
+                            &gt;=
+                          </option>
+                        </select>
+                      </template>
+                      <template v-else>
+                        {{
+                          condition.Data.Comparator === 1
+                            ? '<'
+                            : condition.Data.Comparator === 2
+                              ? '<='
+                              : condition.Data.Comparator === 3
+                                ? '>'
+                                : '>='
+                        }}
+                      </template>
+                    </span>
+                  </div>
+                  <div
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                      >Offset:</span
+                    >
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex items-center gap-1 sm:gap-2">
+                          <input
+                            class="w-16 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            v-model="condition.Data.Offset"
+                            @change="
+                              updateDataOffset($event, condition._path, condition.Data.Offset)
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">°</span>
+                        </div>
+                      </template>
+                      <template v-else> {{ condition.Data.Offset }}° </template>
+                    </span>
+                  </div>
+                  <!-- RA Coordinates for Loop until Altitude Below and Target is below horizon -->
+                  <div
+                    v-if="
+                      (condition.InterruptReason === null ||
+                        condition.InterruptReason === 'Target is below horizon') &&
+                      condition.Data.Coordinates !== undefined
+                    "
+                    class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
+                  >
+                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">RA:</span>
+                    <span class="text-slate-200 break-all min-w-0">
+                      <template v-if="sequenceStore.sequenceEdit && !readOnly">
+                        <div class="flex flex-wrap items-center gap-1 sm:gap-2">
+                          <input
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="23"
+                            v-model="condition.Data.Coordinates.RAHours"
+                            @change="
+                              updateDataCoordinates(
+                                $event,
+                                condition._path,
+                                condition.Data.Coordinates,
+                                'RAHours'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">h</span>
+                          <input
+                            class="w-12 sm:w-16 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59"
+                            v-model="condition.Data.Coordinates.RAMinutes"
+                            @change="
+                              updateDataCoordinates(
+                                $event,
+                                condition._path,
+                                condition.Data.Coordinates,
+                                'RAMinutes'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">m</span>
+                          <input
+                            class="w-14 sm:w-20 bg-slate-700/50 border border-slate-600/50 rounded px-1 sm:px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                            type="number"
+                            min="0"
+                            max="59.999"
+                            step="0.001"
+                            v-model.number="condition.Data.Coordinates.RASeconds"
+                            @change="
+                              updateDataCoordinates(
+                                $event,
+                                condition._path,
+                                condition.Data.Coordinates,
+                                'RASeconds'
+                              )
+                            "
+                          />
+                          <span class="text-gray-400 text-xs sm:text-sm">s</span>
+                        </div>
+                      </template>
+                      <template v-else>
+                        {{ condition.Data.Coordinates.RAHours }}h
+                        {{ condition.Data.Coordinates.RAMinutes }}m
+                        {{ condition.Data.Coordinates.RASeconds?.toFixed(3) }}s
+                      </template>
+                    </span>
+                  </div>
+                </template>
+                <!-- Normal fields for all other conditions -->
                 <div
+                  v-else
                   v-for="[key, value] in getDisplayFieldsConditions(condition)"
                   :key="key"
                   class="flex flex-col sm:flex-row gap-6"
@@ -331,12 +683,12 @@
                         </div>
                         <div
                           v-if="sequenceStore.sequenceEdit && !readOnly"
-                          class="flex items-center gap-2"
+                          class="flex flex-wrap items-center gap-1 sm:gap-2"
                         >
-                          <span class="text-gray-400 shrink-0">Time:</span>
-                          <div class="flex gap-1">
+                          <span class="text-gray-400 shrink-0 text-xs sm:text-sm">Time:</span>
+                          <div class="flex flex-wrap gap-1">
                             <input
-                              class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                              class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                               type="number"
                               min="0"
                               max="23"
@@ -345,9 +697,9 @@
                                 updateValue($event, condition._path, condition.Hours, 'Hours')
                               "
                             />
-                            <span class="text-gray-400">:</span>
+                            <span class="text-gray-400 text-xs sm:text-sm">:</span>
                             <input
-                              class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                              class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                               type="number"
                               min="0"
                               max="59"
@@ -356,9 +708,9 @@
                                 updateValue($event, condition._path, condition.Minutes, 'Minutes')
                               "
                             />
-                            <span class="text-gray-400">:</span>
+                            <span class="text-gray-400 text-xs sm:text-sm">:</span>
                             <input
-                              class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                              class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                               type="number"
                               min="0"
                               max="59"
@@ -442,30 +794,30 @@
                     </div>
                     <div
                       v-if="sequenceStore.sequenceEdit && !readOnly"
-                      class="flex items-center gap-2"
+                      class="flex flex-wrap items-center gap-1 sm:gap-2"
                     >
-                      <span class="text-gray-400 shrink-0">Time:</span>
-                      <div class="flex gap-1">
+                      <span class="text-gray-400 shrink-0 text-xs sm:text-sm">Time:</span>
+                      <div class="flex flex-wrap gap-1">
                         <input
-                          class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           type="number"
                           min="0"
                           max="23"
                           v-model="item.Hours"
                           @change="updateValue($event, item._path, item.Hours, 'Hours')"
                         />
-                        <span class="text-gray-400">:</span>
+                        <span class="text-gray-400 text-xs sm:text-sm">:</span>
                         <input
-                          class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           type="number"
                           min="0"
                           max="59"
                           v-model="item.Minutes"
                           @change="updateValue($event, item._path, item.Minutes, 'Minutes')"
                         />
-                        <span class="text-gray-400">:</span>
+                        <span class="text-gray-400 text-xs sm:text-sm">:</span>
                         <input
-                          class="w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                          class="w-10 sm:w-12 bg-slate-700/50 border border-slate-600/50 rounded px-1 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                           type="number"
                           min="0"
                           max="59"
@@ -518,6 +870,21 @@
                   </select>
                 </template>
                 <template v-else-if="key === 'Binning'"> {{ value.X }}x{{ value.Y }} </template>
+                <template
+                  v-else-if="key === 'TrackingMode' && sequenceStore.sequenceEdit && !readOnly"
+                >
+                  <select
+                    class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
+                    v-model.number="item[key]"
+                    @change="updateValue($event, item._path, item[key], key)"
+                  >
+                    <option :value="0">Siderial</option>
+                    <option :value="1">Lunar</option>
+                    <option :value="2">Solar</option>
+                    <option :value="3">King</option>
+                    <option :value="5">Stopped</option>
+                  </select>
+                </template>
                 <template v-else-if="key === 'ImageType' && sequenceStore.sequenceEdit">
                   <select
                     class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
@@ -529,6 +896,13 @@
                     <option value="DARK">DARK</option>
                     <option value="BIAS">BIAS</option>
                   </select>
+                </template>
+                <template v-else-if="key === 'OnOff'">
+                  <ToggleButton
+                    :statusValue="value"
+                    :disabled="!sequenceStore.sequenceEdit || readOnly"
+                    @update:statusValue="(newValue) => updateOnOffValue(item._path, newValue)"
+                  />
                 </template>
                 <template v-else-if="typeof value === 'object'">
                   <div class="grid grid-cols-1 gap-1">
@@ -561,27 +935,27 @@
         >
           <div class="flex items-center justify-between gap-2 mb-2">
             <div class="flex items-center gap-3">
+              <button
+                @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
+                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                :title="
+                  sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
+                    ? 'Erweitern'
+                    : 'Zusammenklappen'
+                "
+              >
+                <ChevronRightIcon
+                  class="w-4 h-4 text-gray-400 transition-transform duration-200"
+                  :class="{
+                    'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`),
+                  }"
+                />
+              </button>
               <div class="w-2 h-2 bg-cyan-400 rounded-full shadow-cyan-400/50 shadow-sm"></div>
               <h4 class="text-sm font-semibold text-cyan-200">
                 {{ $t('components.sequence.instructions') }}
               </h4>
             </div>
-            <button
-              @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
-              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
-              :title="
-                sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
-                  ? 'Erweitern'
-                  : 'Zusammenklappen'
-              "
-            >
-              <ChevronRightIcon
-                class="w-4 h-4 text-gray-400 transition-transform duration-200"
-                :class="{
-                  'rotate-90': !sequenceStore.isCollapsed(`${item._path || 'items'}-items`),
-                }"
-              />
-            </button>
           </div>
           <div
             v-show="!sequenceStore.isCollapsed(`${item._path || 'items'}-items`)"
@@ -619,6 +993,7 @@ import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import SkyChart from '@/components/framing/SkyChart.vue';
+import ToggleButton from '@/components/helpers/toggleButton.vue';
 import {
   removeSuffix,
   formatDuration,
@@ -670,6 +1045,17 @@ function formatValue(value, key) {
     } else {
       return 'default';
     }
+  }
+  // Format TrackingMode
+  if (key === 'TrackingMode') {
+    const trackingModes = {
+      0: 'Siderial',
+      1: 'Lunar',
+      2: 'Solar',
+      3: 'King',
+      5: 'Stopped',
+    };
+    return trackingModes[value] ?? value;
   }
   return value;
 }
@@ -774,9 +1160,14 @@ function statusColor(status) {
 }
 
 function getDisplayFields(item) {
-  return Object.entries(item).filter(
-    ([key, value]) => !excludedKeys.has(key) && value !== undefined && value !== null
-  );
+  // Check if this is a GlobalTrigger (has a _path containing 'GlobalTriggers')
+  const isGlobalTrigger = item._path && item._path.includes('GlobalTriggers');
+
+  return Object.entries(item).filter(([key, value]) => {
+    // For GlobalTriggers, exclude 'Inherited' field if it exists
+    if (isGlobalTrigger && key === 'Inherited') return false;
+    return !excludedKeys.has(key) && value !== undefined && value !== null;
+  });
 }
 
 function getDisplayFieldsConditions(item) {
@@ -806,7 +1197,110 @@ async function updateValue(event, path, newValue, typ) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
+  }
+}
+
+async function updateOnOffValue(path, newValue) {
+  console.log('updateOnOffValue', path, 'OnOff', newValue);
+  const action = `edit?path=${encodeURIComponent(path + '-OnOff')}&value=${encodeURIComponent(newValue)}`;
+  console.log('action:', action);
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      console.log('Antwort:', response);
+    }
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function updateDataOffset(event, path, newValue) {
+  const action = `edit?path=${encodeURIComponent(path + '-Data-Offset')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function updateDataComparator(event, path, newValue) {
+  const action = `edit?path=${encodeURIComponent(path + '-Data-Comparator')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function updateComparator(event, path, newValue) {
+  const action = `edit?path=${encodeURIComponent(path + '-Comparator')}&value=${encodeURIComponent(newValue)}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Error:', error);
+  }
+}
+
+async function updateDataCoordinates(event, path, coordinates, field) {
+  const action = `edit?path=${encodeURIComponent(path + '-Data-Coordinates-' + field)}&value=${encodeURIComponent(coordinates[field])}`;
+  const inputElement = event.target;
+  try {
+    const response = await apiService.sequenceAction(action);
+    if (response.StatusCode === 200) {
+      sequenceStore.getSequenceInfo();
+      inputElement.classList.add('glow-green');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-green');
+      }, 1000);
+    } else {
+      inputElement.classList.add('glow-red');
+      setTimeout(() => {
+        inputElement.classList.remove('glow-red');
+      }, 1000);
+    }
+  } catch (error) {
+    console.log('Error:', error);
   }
 }
 
@@ -832,26 +1326,33 @@ async function updateFilter(event, path, newValue) {
       }, 1000);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
 async function toggleDisable(path, newValue, typ) {
-  console.log('toggleDisable', path, typ, newValue);
-  let action = '';
-  if (newValue === 'DISABLED') {
-    action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent('CREATED')}`;
-  } else {
-    action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent('DISABLED')}`;
+  // Check if this is a GlobalTrigger and fix the path
+  let correctedPath = path;
+  if (path && path.includes('GlobalTriggers')) {
+    // Remove any container prefix before GlobalTriggers
+    // e.g., "Global-GlobalTriggers-0" -> "GlobalTriggers-0"
+    correctedPath = path.replace(/^[^-]+-GlobalTriggers/, 'GlobalTriggers');
   }
 
-  console.log('action:', action);
+  let action = '';
+  if (newValue === 'DISABLED') {
+    action = `edit?path=${encodeURIComponent(correctedPath + '-' + typ)}&value=${encodeURIComponent('CREATED')}`;
+  } else {
+    action = `edit?path=${encodeURIComponent(correctedPath + '-' + typ)}&value=${encodeURIComponent('DISABLED')}`;
+  }
+
   try {
     const data = await apiService.sequenceAction(action);
-    sequenceStore.getSequenceInfo();
-    console.log('Antwort:', data);
+    if (data.Success) {
+      sequenceStore.getSequenceInfo();
+    }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 
@@ -875,7 +1376,7 @@ async function updateBinning(path, binOb) {
     console.log('Antwort:', data);
     sequenceStore.getSequenceInfo();
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 

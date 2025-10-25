@@ -232,7 +232,12 @@
       "time": "时间",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions"
+      "instructions": "Instructions",
+      "tnsMessageBox": {
+        "title": "序列消息",
+        "stopSequence": "停止序列",
+        "continueSequence": "继续序列"
+      }
     },
     "mount": {
       "title": "赤道仪",
@@ -413,7 +418,7 @@
       "connect": "请连接相机",
       "settings": "设置",
       "capture_running": "拍摄运行中",
-      "exposure_time": "曝光时间：",
+      "exposure_time": "曝光时间 (s)：",
       "gain_iso": "增益 / ISO：",
       "name": "相机名称",
       "gain": "增益",
@@ -426,9 +431,9 @@
       "dew_heater_on": "除露加热器开启",
       "dew_heater_off": "除露加热器关闭",
       "camera_cooling": "相机冷却",
-      "target_temperature": "目标温度",
-      "warm_up_time": "预热时间",
-      "cooling_time": "冷却时间",
+      "target_temperature": "目标温度 (°C)",
+      "warm_up_time": "预热时间 (min)",
+      "cooling_time": "冷却时间 (min)",
       "binning_mode": "像素合并",
       "readout_mode": "读出模式",
       "set_use_platesolve": "使用板解析",
@@ -442,11 +447,16 @@
       "at_target_temp": "At target temp",
       "cooler_power": "Cooler power (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Camera warm up"
+      "camera_warming": "Camera warm up",
+      "cooler_status": "冷却器状态",
+      "cooler_status_off": "关闭",
+      "cooler_status_cooling": "活跃 - 冷却至",
+      "cooler_status_holding": "活跃 - 达到目标温度",
+      "cooler_status_warming": "活跃 - 加热至"
     },
     "tppa": {
       "title": "三点极轴对准",
-      "camera_mount_required": "必须连接相机且赤道仪未停靠",
+      "camera_mount_required": "必须连接相机",
       "start_alignment": "开始对准",
       "stop_alignment": "停止对准",
       "altitude_error": "高度错误：",

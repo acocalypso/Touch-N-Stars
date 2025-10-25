@@ -84,7 +84,7 @@ async function getDevices() {
 
   // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
-    console.error('apiAction ist nicht definiert');
+    console.error('apiAction is not defined');
     return;
   }
 
@@ -105,7 +105,7 @@ async function getDevices() {
     const response = await apiService[props.apiAction]('list-devices');
     if (response.Error) {
       error.value = true;
-      console.error('API-Fehler:', response.Error);
+      console.error('API Error:', response.Error);
       return;
     }
 
@@ -114,11 +114,11 @@ async function getDevices() {
       equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
-      console.error('Fehlerhafte API-Antwort:', response);
+      console.error('Faulty API response:', response);
     }
   } catch (err) {
     error.value = true;
-    console.error('Fehler:', err);
+    console.error('Error:', err);
   } finally {
     isScanning.value = false;
   }
@@ -127,7 +127,7 @@ async function getDevices() {
 async function rescanDevices() {
   // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
-    console.error('apiAction ist nicht definiert');
+    console.error('apiAction is not defined');
     return;
   }
 
@@ -144,7 +144,7 @@ async function rescanDevices() {
     isScanning.value = false;
     if (response.Error) {
       error.value = true;
-      console.error('API-Fehler:', response.Error);
+      console.error('API Error:', response.Error);
       isScanning.value = false;
       return;
     }
@@ -154,11 +154,11 @@ async function rescanDevices() {
       equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
-      console.error('Fehlerhafte API-Antwort:', response);
+      console.error('Faulty API response:', response);
     }
   } catch (err) {
     error.value = true;
-    console.error('Fehler:', err);
+    console.error('Error:', err);
   }
 }
 

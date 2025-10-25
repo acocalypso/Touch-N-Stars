@@ -110,7 +110,7 @@ async function fetchLastAf() {
     if (fittings.Quadratic) {
       const quadraticParams = parseQuadraticFormula(fittings.Quadratic);
       if (!quadraticParams) {
-        console.warn('Quadratic Fitting-Formel konnte nicht geparst werden.');
+        console.warn('Quadratic fitting formula could not be parsed.');
       } else {
         // Falls parse erfolgreich, Trendline berechnen
         const quadraticFunction = (x) =>
@@ -118,7 +118,7 @@ async function fetchLastAf() {
         quadraticTrendline = positions.map((x) => quadraticFunction(x));
       }
     } else {
-      console.warn('Keine Quadratic-Formel vorhanden. (fittings.Quadratic leer)');
+      console.warn('No quadratic formula available. (fittings.Quadratic empty)');
     }
 
     // Hyperbolisch parsen
@@ -126,7 +126,7 @@ async function fetchLastAf() {
     if (fittings.Hyperbolic) {
       const hyperbolicParams = parseHyperbolicFormula(fittings.Hyperbolic);
       if (!hyperbolicParams) {
-        console.warn('Hyperbolic Fitting-Formel konnte nicht geparst werden.');
+        console.warn('Hyperbolic fitting formula could not be parsed.');
       } else {
         // Falls parse erfolgreich, Trendline berechnen
         const hyperbolicFunction = (x) =>
@@ -134,7 +134,7 @@ async function fetchLastAf() {
         hyperbolicTrendline = positions.map((x) => hyperbolicFunction(x));
       }
     } else {
-      console.warn('Keine Hyperbolic-Formel vorhanden. (fittings.Hyperbolic leer)');
+      console.warn('No hyperbolic formula available. (fittings.Hyperbolic empty)');
     }
 
     // Chart aktualisieren, falls vorhanden
@@ -160,13 +160,13 @@ async function fetchLastAf() {
       chartInstance.update();
     }
   } catch (error) {
-    console.error('Fehler beim Abrufen der Daten:', error);
+    console.error('Error fetching data:', error);
   }
 }
 
 onMounted(() => {
   const ctx = chartCanvas.value.getContext('2d');
-  console.log('Grafik laden');
+  console.log('Loading graph');
 
   // Initialer Chart
   chartInstance = new Chart(ctx, {

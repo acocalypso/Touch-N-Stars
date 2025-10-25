@@ -116,10 +116,10 @@ async function startSequence() {
   sequenceStore.setSequenceRunning(true);
   try {
     const data = await apiService.sequenceAction('start');
-    console.log('Antwort:', data);
+    console.log('Response:', data);
     await sequenceStore.getSequenceInfo();
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
     sequenceStore.setSequenceRunning(false);
   }
 }
@@ -127,7 +127,7 @@ async function startSequence() {
 async function stopSequence() {
   try {
     const data = await apiService.sequenceAction('stop');
-    console.log('Antwort:', data);
+    console.log('Response:', data);
 
     // Only stop if the API confirms success
     if (data.Success) {
@@ -137,7 +137,7 @@ async function stopSequence() {
       console.error('Failed to stop sequence:', data.Error);
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
     sequenceStore.setSequenceRunning(false);
   }
 }
@@ -159,7 +159,7 @@ async function confirmReset() {
       isLoading.value = false;
     }
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
     // Allow retry on error
     isLoading.value = false;
   }

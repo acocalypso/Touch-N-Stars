@@ -351,7 +351,7 @@ async function startGuiding() {
         : 'without forced calibration'
     );
   } catch (error) {
-    console.error('Fehler beim Guider Start:', error.response?.data || error);
+    console.error('Error during guider start:', error.response?.data || error);
   } finally {
     isProcessing.value = false;
   }
@@ -367,7 +367,7 @@ async function stopGuiding() {
       console.log('Guiding stopped via setPHD2StopGuiding');
     }
   } catch (error) {
-    console.error('Fehler beim Guiding Toggle:', error.response?.data || error);
+    console.error('Error during guiding toggle:', error.response?.data || error);
   } finally {
     isProcessing.value = false;
   }

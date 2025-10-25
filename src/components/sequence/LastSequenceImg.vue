@@ -85,7 +85,7 @@ async function getlastImage(index, quality, scale) {
       console.log('isLoadingImg: ', isLoadingImg.value, 'lastImgIndex', lastImgIndex.value);
     }
   } catch (error) {
-    console.error('Fehler beim Abrufen des Bildes:', error.message);
+    console.error('Error fetching image:', error.message);
   }
 }
 

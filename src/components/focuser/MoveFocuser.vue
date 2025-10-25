@@ -31,7 +31,7 @@ async function moveFocuser() {
     loading.value = true;
     await apiService.moveFocuser(position.value);
   } catch (error) {
-    console.error('Fehler beim Bewegen des Fokussierers:', error);
+    console.error('Error moving focuser:', error);
   } finally {
     loading.value = false;
   }

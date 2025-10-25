@@ -33,7 +33,7 @@ onMounted(() => {
 
 const initializeReadoutMode = () => {
   if (!store.cameraInfo) {
-    console.warn('Kamera-Info nicht geladen');
+    console.warn('Camera info not loaded');
     return;
   }
 
@@ -47,7 +47,7 @@ async function setReadoutMode() {
     const data = await apiService.setReadoutMode(cameraStore.readoutMode);
     console.log(data);
   } catch (error) {
-    console.log('Fehler beim setzten des readoutMode');
+    console.log('Error while setting readoutMode');
   }
 }
 </script>

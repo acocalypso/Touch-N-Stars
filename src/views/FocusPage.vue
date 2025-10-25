@@ -148,14 +148,14 @@ async function startAutofocus() {
     store.afTimestampLastStart = Date.now(); // Setze den Zeitstempel des letzten Starts
     store.afCurveData = []; // Leere die Kurvendaten
   } catch (error) {
-    console.error('Fehler beim Autofokus', error);
+    console.error('Error during autofocus', error);
   }
 }
 async function stoppAutofocus() {
   try {
     await apiService.focuserAfAction('stopp');
   } catch (error) {
-    console.error('Fehler beim Autofokus', error);
+    console.error('Error during autofocus', error);
   }
 }
 

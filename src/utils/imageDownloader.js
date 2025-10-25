@@ -1,5 +1,7 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
+import { Media } from '@capacitor-community/media';
+import { MediaScanner } from './mediaScanner';
 
 // Note: MediaStoreImageSaver plugin removed to fix performance issues on Android
 
@@ -360,9 +362,17 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
   try {
     const now = new Date();
     const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-    const folderName = `${folderPrefix}-${currentDate}`;
-
     const timeString = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+    const platform = Capacitor.getPlatform();
+
+    // For Android, use a fixed folder name "TouchNStars" to store all images in the gallery
+    // For other platforms, use date-based folder structure
+    let folderName;
+    if (platform === 'android') {
+      folderName = 'TouchNStars';
+    } else {
+      folderName = `${folderPrefix}-${currentDate}`;
+    }
 
     if (imageDate === '0000-00-00') {
       fileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;
@@ -371,7 +381,6 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
       const cleanImageDate = imageDate.replace(/[T:+]/g, '-').replace(/\.\d+/g, '');
       fileName = `${filePrefix}-${cleanImageDate}_${timeString}.jpg`;
     }
-    const platform = Capacitor.getPlatform();
 
     if (platform === 'android' || platform === 'ios') {
       console.log('[ImageDownloader] Handling mobile platform download');
@@ -380,6 +389,57 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         '[ImageDownloader] Image source type:',
         imageData.startsWith('data:') ? 'base64' : imageData.startsWith('blob:') ? 'blob' : 'url'
       );
+
+      // iOS: Use @capacitor-community/media to save to Photos app (Camera Roll)
+      // Note: Album support has issues - first photo goes to Camera Roll, subsequent photos to album
+      // We save to Camera Roll directly to ensure consistent behavior
+      if (platform === 'ios') {
+        console.log('[ImageDownloader] Using @capacitor-community/media for iOS');
+
+        try {
+          // Process the image data to get base64
+          const { base64 } = await processImageData(imageData);
+
+          console.log('[ImageDownloader] Saving to iOS Photos app (Camera Roll)');
+          console.log('[ImageDownloader] Image size:', Math.round(base64.length / 1024), 'KB');
+
+          // Save to Photos app (Camera Roll / Recents)
+          // Note: We don't use albumIdentifier because of iOS album creation issues
+          const result = await Media.savePhoto({
+            path: `data:image/jpeg;base64,${base64}`,
+          });
+
+          console.log('[ImageDownloader] Media.savePhoto success:', result);
+
+          notificationManager.showSuccess(
+            `Image saved to Photos`,
+            `Saved to Camera Roll • File: ${fileName}`
+          );
+
+          return true;
+        } catch (iosError) {
+          console.error('[ImageDownloader] iOS Media.savePhoto failed:', iosError);
+          console.error('[ImageDownloader] Error details:', JSON.stringify(iosError));
+
+          // Check if it's a permission error
+          if (
+            iosError.message &&
+            (iosError.message.includes('permission') ||
+              iosError.message.includes('authorized') ||
+              iosError.message.includes('denied'))
+          ) {
+            notificationManager.showError(
+              `Photo library permission denied. Please enable photo access in Settings > Touch-N-Stars > Photos`
+            );
+          } else {
+            notificationManager.showError(
+              `Failed to save to Photos app: ${iosError.message || 'Unknown error'}`
+            );
+          }
+
+          return false;
+        }
+      }
 
       // Check and request permissions for Android
       if (platform === 'android') {
@@ -402,9 +462,9 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
       // Use different directory strategy based on platform
       let primaryDirectory, primaryDirName;
       if (platform === 'android') {
-        // For Android, try Documents first (more accessible to users)
-        primaryDirectory = Directory.Documents;
-        primaryDirName = 'Documents';
+        // For Android, use ExternalStorage to save in Pictures folder (visible in Gallery)
+        primaryDirectory = Directory.ExternalStorage;
+        primaryDirName = 'Pictures';
       } else {
         // For iOS, Documents directory works well
         primaryDirectory = Directory.Documents;
@@ -478,14 +538,22 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         }
       }
 
+      // For Android, construct the full path including Pictures folder
+      let fullPath;
+      if (platform === 'android') {
+        fullPath = `Pictures/${folderName}`;
+      } else {
+        fullPath = folderName;
+      }
+
       // Create folder directory if it doesn't exist
       try {
         await Filesystem.mkdir({
-          path: folderName,
+          path: fullPath,
           directory: primaryDirectory,
           recursive: true,
         });
-        console.log(`[ImageDownloader] Created directory: ${folderName} in ${primaryDirName}`);
+        console.log(`[ImageDownloader] Created directory: ${fullPath} in ${primaryDirName}`);
       } catch (mkdirError) {
         // Directory might already exist, this is fine
         if (
@@ -494,31 +562,49 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           mkdirError.message.includes('FILE_EXISTS') ||
           mkdirError.code === 'DIRECTORY_EXISTS'
         ) {
-          console.log(`[ImageDownloader] Directory already exists: ${folderName}`);
+          console.log(`[ImageDownloader] Directory already exists: ${fullPath}`);
         } else {
           console.warn('[ImageDownloader] Error creating directory:', mkdirError);
           // Don't throw here, try to continue with file write
         }
       }
 
-      // Write the image file to the date-specific folder
+      // Write the image file to the folder
       try {
-        console.log(`[ImageDownloader] Attempting to write to ${primaryDirName}...`);
+        console.log(`[ImageDownloader] Attempting to write to ${primaryDirName}/${fullPath}...`);
         await Filesystem.writeFile({
-          path: `${folderName}/${fileName}`,
+          path: `${fullPath}/${fileName}`,
           data: base64,
           directory: primaryDirectory,
           // Omit encoding for binary data (base64)
         });
         console.log(
-          `[ImageDownloader] Image saved successfully to ${folderName}/${fileName} in ${primaryDirName}`
+          `[ImageDownloader] Image saved successfully to ${fullPath}/${fileName} in ${primaryDirName}`
         );
+
+        // Trigger media scanner on Android to make image visible in Gallery
+        if (platform === 'android') {
+          try {
+            const fileUri = await Filesystem.getUri({
+              path: `${fullPath}/${fileName}`,
+              directory: primaryDirectory,
+            });
+            console.log('[ImageDownloader] File URI:', fileUri.uri);
+
+            // Scan file to make it visible in gallery
+            await MediaScanner.scanFile({ path: fileUri.uri });
+            console.log('[ImageDownloader] Media scan completed');
+          } catch (scanError) {
+            console.warn('[ImageDownloader] Media scan failed (non-critical):', scanError);
+            // Don't fail the whole operation if media scan fails
+          }
+        }
 
         // Show success notification
         if (platform === 'android') {
           notificationManager.showSuccess(
-            `Image saved to ${folderName} folder`,
-            `File: ${fileName} • Location: ${primaryDirName}`
+            `Image saved to Gallery`,
+            `Folder: ${folderName} • File: ${fileName}`
           );
         } else if (platform === 'ios') {
           notificationManager.showSuccess(

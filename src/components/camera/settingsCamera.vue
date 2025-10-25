@@ -96,7 +96,7 @@ onMounted(() => {
 // Setzt den initialen Offset
 const initializeOffset = () => {
   if (!store.cameraInfo) {
-    console.warn('Kamera-Info nicht geladen');
+    console.warn('Camera info not loaded');
     return;
   }
 
@@ -121,7 +121,7 @@ async function setOffset() {
     );
     console.log(data);
   } catch (error) {
-    console.log('Fehler beim setzten des Offset');
+    console.log('Error while setting offset');
   }
 }
 </script>

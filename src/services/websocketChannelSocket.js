@@ -13,6 +13,7 @@ class WebSocketChannelService {
     this.reconnectDelay = 2000; // 2 Sekunden
     this.shouldReconnect = true;
     this.isConnected = false;
+    this.reconnectTimeoutId = null; // Track reconnect timeout
   }
 
   setStatusCallback(callback) {
@@ -25,22 +26,32 @@ class WebSocketChannelService {
 
   connect(timeout = 500) {
     return new Promise((resolve, reject) => {
+      // Setze shouldReconnect auf true bei jedem Connect-Versuch
+      this.shouldReconnect = true;
+
       const settingsStore = useSettingsStore();
       const store = apiStore();
       const backendPort = store.apiPort;
       const backendHost = settingsStore.connection.ip || window.location.hostname;
-      this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
-      //console.log('Channel WebSocket URL: ', this.backendUrl);
-      if (backendPort === null) {
-        backendPort = 1888; // Standardport setzen, falls nicht definiert
+      // Sicherheitsprüfung: apiPort muss gesetzt sein
+      if (backendPort === null || backendPort === undefined) {
+        reject(new Error('WebSocket connection failed: API port not available'));
+        return;
       }
+
+      this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
+      //console.log('Channel WebSocket URL: ', this.backendUrl);
 
       this.socket = new WebSocket(this.backendUrl);
 
       // Timeout wenn Verbindung zu lange dauert
       const timeoutId = setTimeout(() => {
         if (!this.isConnected) {
+          // WICHTIG: Socket schließen, damit onclose-Handler getriggert wird
+          if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+            this.socket.close();
+          }
           reject(new Error('WebSocket connection timeout'));
         }
       }, timeout);
@@ -50,7 +61,7 @@ class WebSocketChannelService {
         clearTimeout(timeoutId);
         this.isConnected = true;
         if (this.statusCallback) {
-          this.statusCallback('Verbunden');
+          this.statusCallback('Connected');
         }
         resolve();
       };
@@ -69,41 +80,72 @@ class WebSocketChannelService {
             this.messageCallback(message);
           }
         } catch (error) {
-          console.error('Channel Fehler beim Parsen der Nachricht:', error);
+          console.error('Channel error parsing message:', error);
           if (this.messageCallback) {
             this.messageCallback(event.data);
           }
           if (this.statusCallback) {
-            this.statusCallback('Fehler beim Empfangen einer Nachricht');
+            this.statusCallback('Error receiving message');
           }
         }
       };
 
       this.socket.onerror = (error) => {
-        console.error('Channel WebSocket-Fehler:', error);
+        console.error('Channel WebSocket error:', error);
         clearTimeout(timeoutId);
         this.isConnected = false;
         if (this.statusCallback) {
-          this.statusCallback('Fehler: ' + error.message);
+          this.statusCallback('Error: ' + error.message);
         }
-        reject(error);
+        // NICHT reject() hier - onclose wird automatisch nach onerror getriggert
+        // und handled den Reconnect
       };
 
       this.socket.onclose = (event) => {
-        console.log('Channel WebSocket geschlossen.', event.code, event.reason);
+        console.log('Channel WebSocket closed.', event.code, event.reason);
         this.isConnected = false;
+
+        // Store-Flag aktualisieren
+        const store = apiStore();
+        store.isWebSocketConnected = false;
+
         if (this.statusCallback) {
-          this.statusCallback('Geschlossen');
+          this.statusCallback('Closed');
         }
 
-        const store = apiStore();
-        if (this.shouldReconnect && store.isBackendReachable) {
+        // Reconnect basierend auf shouldReconnect und ob API/TNS-Plugin erreichbar sind
+        // Warte NICHT auf isBackendReachable, da das einen Teufelskreis erzeugt
+        const shouldAttemptReconnect =
+          this.shouldReconnect &&
+          store.isApiConnected &&
+          store.isTnsPluginConnected &&
+          store.apiPort !== null;
+
+        if (shouldAttemptReconnect) {
           console.log(
-            `Channel WebSocket: Versuche erneut zu verbinden in ${this.reconnectDelay / 2000} Sekunden...`
+            `Channel WebSocket: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
           );
-          setTimeout(() => {
-            if (this.shouldReconnect && store.isBackendReachable) {
-              this.connect();
+          // WICHTIG: Timeout tracken, damit es bei disconnect() gecleard werden kann
+          this.reconnectTimeoutId = setTimeout(() => {
+            this.reconnectTimeoutId = null;
+            // Erneute Prüfung vor Reconnect
+            const recheckConditions =
+              this.shouldReconnect &&
+              store.isApiConnected &&
+              store.isTnsPluginConnected &&
+              store.apiPort !== null;
+
+            if (recheckConditions) {
+              this.connect()
+                .then(() => {
+                  // KRITISCH: Store-Flag aktualisieren nach erfolgreichem Reconnect!
+                  store.isWebSocketConnected = true;
+                  console.log('WebSocket successfully reconnected');
+                })
+                .catch((error) => {
+                  console.warn('WebSocket reconnect failed:', error.message);
+                  store.isWebSocketConnected = false;
+                });
             }
           }, this.reconnectDelay);
         }
@@ -114,21 +156,28 @@ class WebSocketChannelService {
   disconnect() {
     this.shouldReconnect = false;
     this.isConnected = false;
+
+    // WICHTIG: Laufende Reconnect-Timeouts clearen
+    if (this.reconnectTimeoutId) {
+      clearTimeout(this.reconnectTimeoutId);
+      this.reconnectTimeoutId = null;
+    }
+
     if (this.socket) {
       this.socket.close();
     }
   }
 
   sendMessage(message) {
-    if (this.socket && this.socket.readyState === 1) {
-      this.socket.send(JSON.stringify(message));
-      console.log('Channel Nachricht gesendet:', message);
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      // Für strukturierte Nachrichten (Objekte) JSON.stringify verwenden
+      const messageToSend = typeof message === 'string' ? message : JSON.stringify(message);
+      this.socket.send(messageToSend);
+      console.log('Channel message sent:', message);
     } else {
-      console.error(
-        'Channel WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.'
-      );
+      console.error('WebSocket is not connected. Message could not be sent.');
       if (this.statusCallback) {
-        this.statusCallback('Fehler: WebSocket nicht verbunden');
+        this.statusCallback('Error: WebSocket not connected');
       }
     }
   }
@@ -162,17 +211,6 @@ class WebSocketChannelService {
       this.socket.close();
     }
     this.connect();
-  }
-
-  sendMessage(message) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      this.socket.send(message);
-    } else {
-      console.error('WebSocket ist nicht verbunden. Nachricht konnte nicht gesendet werden.');
-      if (this.statusCallback) {
-        this.statusCallback('Fehler: WebSocket nicht verbunden');
-      }
-    }
   }
 }
 

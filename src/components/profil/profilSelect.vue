@@ -43,7 +43,7 @@ async function fetchProfiles() {
       store.setDefaultCoordinates();
     }
   } catch (error) {
-    console.error('Fehler beim Laden der Profile:', error);
+    console.error('Error loading profiles:', error);
   }
 }
 
@@ -52,14 +52,14 @@ async function updateProfile() {
     // Switch to the selected profile
     const response = await apiService.profileSwitch(selectedProfileId.value);
     if (response && response.Success) {
-      console.log('Profil erfolgreich aktualisiert');
+      console.log('Profile successfully updated');
       fetchProfiles(); // Refresh profiles after update
     } else {
-      alert('Fehler beim Aktualisieren des Profils');
+      alert('Error updating profile');
     }
   } catch (error) {
-    console.error('Fehler beim Aktualisieren des Profils:', error);
-    alert('Fehler beim Aktualisieren des Profils');
+    console.error('Error updating profile:', error);
+    alert('Error updating profile');
   }
 }
 

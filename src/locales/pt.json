@@ -231,7 +231,12 @@
       "time": "Tempo",
       "noRunningItems": "Sequence stopped",
       "status": "Status da sequência",
-      "instructions": "Instruções"
+      "instructions": "Instruções",
+      "tnsMessageBox": {
+        "title": "Mensagem de sequência",
+        "stopSequence": "Parar sequência",
+        "continueSequence": "Continuar sequência"
+      }
     },
     "mount": {
       "title": "Montagem",
@@ -412,7 +417,7 @@
       "connect": "Conecte a câmera",
       "settings": "Configurações",
       "capture_running": "Captura em execução",
-      "exposure_time": "Tempo de exposição:",
+      "exposure_time": "Tempo de exposição (s):",
       "gain_iso": "Ganho / ISO:",
       "name": "Nome da câmera",
       "gain": "Ganho",
@@ -425,9 +430,9 @@
       "dew_heater_on": "Aquecedor de orvalho ligado",
       "dew_heater_off": "Aquecedor de orvalho desligado",
       "camera_cooling": "Resfriamento da câmera",
-      "target_temperature": "Temperatura alvo",
-      "warm_up_time": "Tempo de aquecimento",
-      "cooling_time": "Tempo de resfriamento",
+      "target_temperature": "Temperatura alvo (°C)",
+      "warm_up_time": "Tempo de aquecimento (min)",
+      "cooling_time": "Tempo de resfriamento (min)",
       "binning_mode": "Binning",
       "readout_mode": "Modo de leitura",
       "set_use_platesolve": "Usar Platesolve",
@@ -441,11 +446,16 @@
       "at_target_temp": "At target temp",
       "cooler_power": "Potência mais fria (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Aquecimento da câmera"
+      "camera_warming": "Aquecimento da câmera",
+      "cooler_status": "Status do resfriador",
+      "cooler_status_off": "DESLIGADO",
+      "cooler_status_cooling": "Ativo - Resfriando para",
+      "cooler_status_holding": "Ativo - Na temperatura alvo",
+      "cooler_status_warming": "Ativo - Aquecendo para"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",
-      "camera_mount_required": "A câmera deve estar conectada e a montagem desestacionada",
+      "camera_mount_required": "A câmera deve estar conectada",
       "start_alignment": "Iniciar alinhamento",
       "stop_alignment": "Parar alinhamento",
       "altitude_error": "Erro de altitude:",

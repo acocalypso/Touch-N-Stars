@@ -231,7 +231,12 @@
       "time": "Tiempo",
       "noRunningItems": "Sequence stopped",
       "status": "Estado de secuencia",
-      "instructions": "Instrucciones"
+      "instructions": "Instrucciones",
+      "tnsMessageBox": {
+        "title": "Mensaje de secuencia",
+        "stopSequence": "Parar secuencia",
+        "continueSequence": "Continuar secuencia"
+      }
     },
     "mount": {
       "title": "Montura",
@@ -412,7 +417,7 @@
       "connect": "Por favor conectar cámara",
       "settings": "Parámetros",
       "capture_running": "Captura activa",
-      "exposure_time": "Tiempo exposición:",
+      "exposure_time": "Tiempo exposición (s):",
       "gain_iso": "Ganancia / ISO:",
       "name": "Nombre cámara",
       "gain": "Ganancia",
@@ -425,9 +430,9 @@
       "dew_heater_on": "Antivaho encendido",
       "dew_heater_off": "Antivaho apagado",
       "camera_cooling": "Cámara refrigerando",
-      "target_temperature": "Temperatura configurada",
-      "warm_up_time": "Tiempo calentamiento",
-      "cooling_time": "Tiempo enfriamiento",
+      "target_temperature": "Temperatura configurada (°C)",
+      "warm_up_time": "Tiempo calentamiento (min)",
+      "cooling_time": "Tiempo enfriamiento (min)",
       "binning_mode": "Binning",
       "readout_mode": "Modo de lectura",
       "set_use_platesolve": "Usar platesolve",
@@ -441,11 +446,16 @@
       "at_target_temp": "A temperatura objetivo",
       "cooler_power": "Potencia más fría (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Calentamiento de la cámara"
+      "camera_warming": "Calentamiento de la cámara",
+      "cooler_status": "Estado del enfriador",
+      "cooler_status_off": "APAGADO",
+      "cooler_status_cooling": "Activo - Enfriando a",
+      "cooler_status_holding": "Activo - A temperatura objetivo",
+      "cooler_status_warming": "Activo - Calentando a"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",
-      "camera_mount_required": "La cámara debe estar conectada y montura desaparcada",
+      "camera_mount_required": "La cámara debe estar conectada",
       "start_alignment": "Empezar Alineamiento",
       "stop_alignment": "Parar Alineamiento",
       "altitude_error": "Error Altitud:",

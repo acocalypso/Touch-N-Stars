@@ -231,7 +231,12 @@
       "time": "Zeit",
       "noRunningItems": "Sequenz gestoppt",
       "status": "Sequenzstatus",
-      "instructions": "Anweisungen"
+      "instructions": "Anweisungen",
+      "tnsMessageBox": {
+        "title": "Sequenz Nachricht",
+        "stopSequence": "Sequenz stoppen",
+        "continueSequence": "Sequenz fortsetzen"
+      }
     },
     "mount": {
       "title": "Montierung",
@@ -412,7 +417,7 @@
       "connect": "Bitte Kamera verbinden",
       "settings": "Einstellungen",
       "capture_running": "Aufnahme läuft",
-      "exposure_time": "Belichtungszeit:",
+      "exposure_time": "Belichtungszeit (s):",
       "gain_iso": "Gain / ISO:",
       "name": "Kameraname",
       "gain": "Gain",
@@ -425,9 +430,9 @@
       "dew_heater_on": "Taupunktregler ein",
       "dew_heater_off": "Taupunktregler aus",
       "camera_cooling": "Kamerakühlung",
-      "target_temperature": "Zieltemperatur",
-      "warm_up_time": "Aufwärmzeit",
-      "cooling_time": "Kühlzeit",
+      "target_temperature": "Zieltemperatur (°C)",
+      "warm_up_time": "Aufwärmzeit (min)",
+      "cooling_time": "Kühlzeit (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
       "set_use_platesolve": "Use Platesolve",
@@ -441,11 +446,16 @@
       "at_target_temp": "Zieltemperatur erreicht",
       "cooler_power": "Kühlerleistung (%)",
       "temperature_setpoint": "Temp Sollwert (° C)",
-      "camera_warming": "Kamera aufwärmen"
+      "camera_warming": "Kamera aufwärmen",
+      "cooler_status": "Kühler Status",
+      "cooler_status_off": "AUS",
+      "cooler_status_cooling": "Aktiv - Kühlt auf",
+      "cooler_status_holding": "Aktiv - Zieltemperatur erreicht",
+      "cooler_status_warming": "Aktiv - Wärmt auf"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",
-      "camera_mount_required": "Kamera muss verbunden und Montierung ausgeparkt sein",
+      "camera_mount_required": "Kamera muss verbunden sein",
       "start_alignment": "Ausrichtung starten",
       "stop_alignment": "Ausrichtung stoppen",
       "altitude_error": "Höhenfehler:",

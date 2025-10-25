@@ -1,6 +1,7 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
-import { MediaScanner, PhotoLibrarySaver } from './mediaScanner';
+import { Media } from '@capacitor-community/media';
+import { MediaScanner } from './mediaScanner';
 
 // Note: MediaStoreImageSaver plugin removed to fix performance issues on Android
 
@@ -389,32 +390,25 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         imageData.startsWith('data:') ? 'base64' : imageData.startsWith('blob:') ? 'blob' : 'url'
       );
 
-      // iOS: Use PhotoLibrarySaver plugin to save directly to Photos app
+      // iOS: Use @capacitor-community/media to save directly to Photos app
       if (platform === 'ios') {
-        console.log('[ImageDownloader] Using iOS PhotoLibrarySaver plugin');
+        console.log('[ImageDownloader] Using @capacitor-community/media for iOS');
 
         try {
-          // Process the image data
+          // Process the image data to get base64
           const { base64 } = await processImageData(imageData);
 
-          // Prepare base64 with data URL prefix if not present
-          let base64Data = base64;
-          if (!imageData.startsWith('data:image')) {
-            base64Data = `data:image/jpeg;base64,${base64}`;
-          } else {
-            base64Data = imageData;
-          }
-
           console.log('[ImageDownloader] Saving to iOS Photos app with album: TouchNStars');
-          console.log('[ImageDownloader] Image data format:', base64Data.substring(0, 50) + '...');
+          console.log('[ImageDownloader] Image size:', Math.round(base64.length / 1024), 'KB');
 
-          // Save to Photos app in TouchNStars album
-          const result = await PhotoLibrarySaver.saveImage({
-            base64: base64Data,
-            albumName: 'TouchNStars',
+          // Save to Photos app using Media plugin
+          // Note: Media.savePhoto expects base64 WITHOUT data URL prefix
+          const result = await Media.savePhoto({
+            path: base64,
+            albumIdentifier: 'TouchNStars',
           });
 
-          console.log('[ImageDownloader] iOS PhotoLibrarySaver success:', result);
+          console.log('[ImageDownloader] iOS Media.savePhoto success:', result);
 
           notificationManager.showSuccess(
             `Image saved to Photos`,
@@ -423,13 +417,15 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
 
           return true;
         } catch (iosError) {
-          console.error('[ImageDownloader] iOS PhotoLibrarySaver failed:', iosError);
+          console.error('[ImageDownloader] iOS Media.savePhoto failed:', iosError);
           console.error('[ImageDownloader] Error details:', JSON.stringify(iosError));
 
           // Check if it's a permission error
           if (
             iosError.message &&
-            (iosError.message.includes('permission') || iosError.message.includes('authorized'))
+            (iosError.message.includes('permission') ||
+              iosError.message.includes('authorized') ||
+              iosError.message.includes('denied'))
           ) {
             notificationManager.showError(
               `Photo library permission denied. Please enable photo access in Settings > Touch-N-Stars > Photos`

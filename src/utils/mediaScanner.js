@@ -1,12 +1,9 @@
 import { registerPlugin } from '@capacitor/core';
 
-// Register both Android MediaScanner and iOS PhotoLibrarySaver
+// Register Android MediaScanner plugin for gallery integration
+// Note: iOS now uses @capacitor-community/media instead of custom PhotoLibrarySaver
 const MediaScanner = registerPlugin('MediaScanner', {
   web: () => import('./mediaScannerWeb').then((m) => new m.MediaScannerWeb()),
 });
 
-const PhotoLibrarySaver = registerPlugin('PhotoLibrarySaver', {
-  web: () => import('./mediaScannerWeb').then((m) => new m.MediaScannerWeb()),
-});
-
-export { MediaScanner, PhotoLibrarySaver };
+export { MediaScanner };

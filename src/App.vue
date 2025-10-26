@@ -136,6 +136,9 @@
     <!-- TNS MessageBox Modal -->
     <SequenceTnsMessageBoxModal />
 
+    <!-- Dialog Modal -->
+    <DialogModal />
+
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
@@ -204,6 +207,7 @@ import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import wsFilter from '@/services/websocketManuellFilterControl';
 import { useFilterStore } from '@/store/filterStore';
 import SequenceTnsMessageBoxModal from '@/components/sequence/SequenceTnsMessageBoxModal.vue';
+import DialogModal from '@/components/helpers/DialogModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

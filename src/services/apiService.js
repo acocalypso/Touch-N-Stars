@@ -580,7 +580,7 @@ const apiService = {
   async getDialogList() {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}dialog/list`);
+      const response = await axios.get(`${API_URL}dialogs/list`);
       return response.data;
     } catch (error) {
       // console.error('Error fetching dialog list:', error);
@@ -591,7 +591,7 @@ const apiService = {
   async getDialogCount() {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}dialog/count`);
+      const response = await axios.get(`${API_URL}dialogs/count`);
       return response.data;
     } catch (error) {
       // console.error('Error fetching dialog count:', error);
@@ -599,49 +599,49 @@ const apiService = {
     }
   },
 
-  async getDialogInfo(dialogId) {
+  async clickDialogButton(buttonName, windowHashCode = null) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}dialog/info/${dialogId}`);
-      return response.data;
-    } catch (error) {
-      // console.error(`Error fetching dialog info for ${dialogId}:`, error);
-      throw error;
-    }
-  },
-
-  async clickDialogButton(dialogId, buttonIndex) {
-    try {
-      const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}dialog/button/${dialogId}/${buttonIndex}`);
+      const params = { button: buttonName };
+      if (windowHashCode) {
+        params.window = windowHashCode;
+      }
+      console.log('API URL:', `${API_URL}dialogs/click-button`);
+      console.log('Params:', params);
+      const response = await axios.post(`${API_URL}dialogs/click-button`, null, { params });
       console.log('Dialog button clicked:', response.data);
       return response.data;
     } catch (error) {
-      // console.error(`Error clicking dialog button ${buttonIndex} for ${dialogId}:`, error);
+      console.error(`Error clicking dialog button ${buttonName}:`, error);
+      console.error('Error response:', error.response?.data);
       throw error;
     }
   },
 
-  async closeDialog(dialogId) {
+  async closeAllDialogs(confirm = true) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}dialog/close/${dialogId}`);
-      console.log('Dialog closed:', response.data);
-      return response.data;
-    } catch (error) {
-      // console.error(`Error closing dialog ${dialogId}:`, error);
-      throw error;
-    }
-  },
-
-  async closeAllDialogs() {
-    try {
-      const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}dialog/close-all`);
+      const response = await axios.post(`${API_URL}dialogs/close-all`, null, {
+        params: { confirm },
+      });
       console.log('All dialogs closed:', response.data);
       return response.data;
     } catch (error) {
       // console.error('Error closing all dialogs:', error);
+      throw error;
+    }
+  },
+
+  async closeDialogsByType(type, confirm = true) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}dialogs/close-by-type`, null, {
+        params: { type, confirm },
+      });
+      console.log('Dialogs closed by type:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error(`Error closing dialogs by type ${type}:`, error);
       throw error;
     }
   },

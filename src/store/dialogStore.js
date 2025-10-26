@@ -20,8 +20,11 @@ export const useDialogStore = defineStore('dialogStore', {
 
         const response = await apiService.getDialogList();
         if (response.Success) {
-          this.dialogs = response.Response || [];
-          this.dialogCount = this.dialogs.length;
+          this.dialogs = response.Response.Dialogs || [];
+          console.log('Fetched dialogs:',response.Response);  
+          this.dialogCount = response.Response.Count;
+          console.log('Dialog count:', this.dialogCount);
+         
         }
       } catch (error) {
         console.error('Error fetching dialogs:', error);
@@ -45,51 +48,41 @@ export const useDialogStore = defineStore('dialogStore', {
       }
     },
 
-    async getDialogInfo(dialogId) {
+    async clickButton(buttonName, windowHashCode = null) {
       try {
-        const response = await apiService.getDialogInfo(dialogId);
-        return response;
-      } catch (error) {
-        console.error(`Error fetching dialog info for ${dialogId}:`, error);
-        throw error;
-      }
-    },
-
-    async clickButton(dialogId, buttonIndex) {
-      try {
-        const response = await apiService.clickDialogButton(dialogId, buttonIndex);
+        const response = await apiService.clickDialogButton(buttonName, windowHashCode);
         if (response.Success) {
           await this.fetchDialogs();
         }
         return response;
       } catch (error) {
-        console.error(`Error clicking button ${buttonIndex} in dialog ${dialogId}:`, error);
+        console.error(`Error clicking button ${buttonName}:`, error);
         throw error;
       }
     },
 
-    async closeDialog(dialogId) {
+    async closeAllDialogs(confirm = true) {
       try {
-        const response = await apiService.closeDialog(dialogId);
-        if (response.Success) {
-          await this.fetchDialogs();
-        }
-        return response;
-      } catch (error) {
-        console.error(`Error closing dialog ${dialogId}:`, error);
-        throw error;
-      }
-    },
-
-    async closeAllDialogs() {
-      try {
-        const response = await apiService.closeAllDialogs();
+        const response = await apiService.closeAllDialogs(confirm);
         if (response.Success) {
           await this.fetchDialogs();
         }
         return response;
       } catch (error) {
         console.error('Error closing all dialogs:', error);
+        throw error;
+      }
+    },
+
+    async closeDialogsByType(type, confirm = true) {
+      try {
+        const response = await apiService.closeDialogsByType(type, confirm);
+        if (response.Success) {
+          await this.fetchDialogs();
+        }
+        return response;
+      } catch (error) {
+        console.error(`Error closing dialogs by type ${type}:`, error);
         throw error;
       }
     },

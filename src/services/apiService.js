@@ -575,6 +575,77 @@ const apiService = {
     }
   },
 
+  //-------------------------------------  Dialog ---------------------------------------
+
+  async getDialogList() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}dialog/list`);
+      return response.data;
+    } catch (error) {
+      // console.error('Error fetching dialog list:', error);
+      throw error;
+    }
+  },
+
+  async getDialogCount() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}dialog/count`);
+      return response.data;
+    } catch (error) {
+      // console.error('Error fetching dialog count:', error);
+      throw error;
+    }
+  },
+
+  async getDialogInfo(dialogId) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}dialog/info/${dialogId}`);
+      return response.data;
+    } catch (error) {
+      // console.error(`Error fetching dialog info for ${dialogId}:`, error);
+      throw error;
+    }
+  },
+
+  async clickDialogButton(dialogId, buttonIndex) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}dialog/button/${dialogId}/${buttonIndex}`);
+      console.log('Dialog button clicked:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error(`Error clicking dialog button ${buttonIndex} for ${dialogId}:`, error);
+      throw error;
+    }
+  },
+
+  async closeDialog(dialogId) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}dialog/close/${dialogId}`);
+      console.log('Dialog closed:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error(`Error closing dialog ${dialogId}:`, error);
+      throw error;
+    }
+  },
+
+  async closeAllDialogs() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}dialog/close-all`);
+      console.log('All dialogs closed:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error('Error closing all dialogs:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Mount ---------------------------------------
   mountAction(action) {
     const { BASE_URL } = getUrls();

@@ -189,6 +189,7 @@ import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
+import { useDialogStore } from './store/dialogStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
@@ -210,6 +211,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const filterStore = useFilterStore();
 const cameraStore = useCameraStore();
+const dialogStore = useDialogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -298,6 +300,7 @@ function pauseApp() {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
+  dialogStore.stopPolling();
   wsFilter.disconnect();
   // Alle Flags zurücksetzen für sauberen Neustart beim Resume
   store.clearAllStates();
@@ -319,6 +322,7 @@ async function resumeApp() {
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
+  dialogStore.startPolling();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }
@@ -408,6 +412,7 @@ onMounted(async () => {
 
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
+  dialogStore.startPolling();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }
@@ -540,6 +545,7 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  dialogStore.stopPolling();
   wsFilter.disconnect();
   store.clearAllStates();
   store.isApiConnected = false;

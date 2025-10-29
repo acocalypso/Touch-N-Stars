@@ -7,8 +7,8 @@
       :disabled="cameraStore.loading"
     >
       <template v-if="cameraStore.loading">
-        <!-- Wenn Belichtung läuft -->
-        <div v-if="cameraStore.isExposure" class="flex items-center">
+        <!-- Phase 1: Belichtung läuft mit Server-Countdown -->
+        <div v-if="store.cameraInfo.IsExposing" class="flex items-center">
           <svg class="w-6 h-6" viewBox="0 0 36 36">
             <path
               class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
@@ -19,7 +19,7 @@
             <path
               class="fill-none stroke-current stroke-[2.8]"
               :style="{
-                strokeDasharray: cameraStore.progress + ', 100',
+                strokeDasharray: cameraStore.exposureProgress + ', 100',
                 transform: 'rotate(-90deg)',
                 transformOrigin: 'center',
               }"
@@ -30,10 +30,10 @@
           </svg>
           <span class="ml-2 text-white text-sm font-medium">
             {{ $t('components.camera.capture_running') }}
-            {{ cameraStore.remainingExposureTime }}s
+            {{ cameraStore.exposureCountdown }}s
           </span>
         </div>
-        <!-- Wenn Bild gerade geladen wird -->
+        <!-- Phase 2: Bild wird geladen - Spinner -->
         <div v-else-if="cameraStore.isLoadingImage" class="flex items-center">
           <svg class="w-6 h-6 animate-spin text-white" fill="none" viewBox="0 0 24 24">
             <circle

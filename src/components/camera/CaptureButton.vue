@@ -10,9 +10,9 @@
     <!-- Capture / Cancel Combined Button -->
     <button
       class="relative flex-shrink-0 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-      :class="[cameraStore.isExposure ? 'bg-red-600' : 'bg-gray-600', buttonSizeClasses]"
+      :class="[store.cameraInfo.IsExposing ? 'bg-red-600' : 'bg-gray-600', buttonSizeClasses]"
       @click="
-        cameraStore.isExposure
+        store.cameraInfo.IsExposing
           ? cameraStore.abortExposure(apiService)
           : cameraStore.capturePhoto(
               apiService,
@@ -21,10 +21,10 @@
               settingsStore.camera.useSolve
             )
       "
-      :disabled="(cameraStore.loading && !cameraStore.isExposure) || sequenceStore.sequenceRunning"
+      :disabled="(cameraStore.loading && !store.cameraInfo.IsExposing) || sequenceStore.sequenceRunning"
     >
-      <!-- Belichtungsfortschritt -->
-      <template v-if="cameraStore.isExposure">
+      <!-- Phase 1: Belichtungsfortschritt mit Server-Countdown -->
+      <template v-if="store.cameraInfo.IsExposing">
         <svg :class="['absolute inset-0', progressSizeClasses]" viewBox="0 0 36 36">
           <path
             class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
@@ -33,7 +33,7 @@
           <path
             class="fill-none stroke-white stroke-[2.8]"
             :style="{
-              strokeDasharray: cameraStore.progress + ', 100',
+              strokeDasharray: cameraStore.exposureProgress + ', 100',
               transform: 'rotate(-90deg)',
               transformOrigin: 'center',
             }"
@@ -41,15 +41,17 @@
           />
         </svg>
         <span :class="['text-white font-semibold z-10', progressTextClasses]">
-          {{ cameraStore.remainingExposureTime }}s
+          {{ cameraStore.exposureCountdown }}s
         </span>
       </template>
 
-      <!-- Icon-Wechsel basierend auf Belichtungsstatus -->
+      <!-- Phase 2: Bild-Laden oder Idle -->
       <template v-else>
-        <template v-if="cameraStore.loading">
+        <!-- Loading Image - Spinner -->
+        <template v-if="cameraStore.isLoadingImage">
           <div :class="['loader', loaderSizeClasses]"></div>
         </template>
+        <!-- Idle State - Kamera Icon -->
         <template v-else>
           <svg
             :class="iconSizeClasses"
@@ -205,6 +207,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useGuiderStore } from '@/store/guiderStore';
+import { apiStore } from '@/store/store';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
@@ -215,6 +218,7 @@ const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const guiderStore = useGuiderStore();
+const store = apiStore();
 const openSettings = ref(false);
 const showDropdown = ref(false);
 

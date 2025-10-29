@@ -19,6 +19,10 @@
       "smallIcon": "ic_stat_icon",
       "iconColor": "#0891b2",
       "sound": "beep.wav"
+    },
+    "CapacitorUpdater": {
+      "autoUpdate": false,
+      "statsUrl": ""
     }
   }
 }

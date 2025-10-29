@@ -10,6 +10,7 @@ import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
+import { markAppReady } from '@/services/updateService';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -90,6 +91,8 @@ app.use(pinia).use(head).use(i18n).use(router);
 
   // Mount the app after plugins are initialized
   app.mount('#app');
+
+  await markAppReady();
 
   // Initialize time synchronization after app is mounted and stores are ready
   setTimeout(async () => {

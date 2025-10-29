@@ -3,7 +3,7 @@
   <transition name="fade">
     <div
       v-if="toastStore.newMessage && (toastStore.isConfirmation || toastStore.type === 'critical')"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center"
     >
       <div
         :class="[
@@ -49,7 +49,7 @@
   </transition>
 
   <!-- Non-blocking Toast Notifications -->
-  <div class="fixed top-4 right-4 z-40 space-y-3 max-w-sm pointer-events-none">
+  <div class="fixed top-4 right-4 z-[9999] space-y-3 max-w-sm pointer-events-none">
     <transition-group name="toast-slide">
       <div
         v-if="toastStore.newMessage && !toastStore.isConfirmation && toastStore.type !== 'critical'"

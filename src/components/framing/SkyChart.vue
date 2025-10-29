@@ -244,7 +244,7 @@ function updateChart() {
     return i === mid ? 90 : 0;
   });
 
-  chartInstance.update(); 
+  chartInstance.update();
 }
 
 async function loadCustomHorizont() {

@@ -21,7 +21,9 @@
               settingsStore.camera.useSolve
             )
       "
-      :disabled="(cameraStore.loading && !store.cameraInfo.IsExposing) || sequenceStore.sequenceRunning"
+      :disabled="
+        (cameraStore.loading && !store.cameraInfo.IsExposing) || sequenceStore.sequenceRunning
+      "
     >
       <!-- Phase 1: Belichtungsfortschritt mit Server-Countdown -->
       <template v-if="store.cameraInfo.IsExposing">

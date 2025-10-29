@@ -2,9 +2,6 @@ name: Build Bundle & Tag Release
 
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - master
 
 jobs:
   build-and-tag:
@@ -37,7 +34,9 @@ jobs:
 
       - name: Read package version
         id: pkg
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> "$GITHUB_OUTPUT"
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Ensure tag does not already exist
         run: |

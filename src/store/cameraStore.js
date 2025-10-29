@@ -7,12 +7,10 @@ import { timeSync } from '@/utils/timeSync';
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
   const store = apiStore();
-  const remainingExposureTime = ref(0);
-  const progress = ref(0);
   const imageData = ref(null);
   const loading = ref(false);
-  const isExposure = ref(false);
   const isLoadingImage = ref(false);
+  const loadingTimeout = ref(null);
   const isLooping = ref(false);
   const isAbort = ref(false);
   const showInfo = ref(false);
@@ -32,115 +30,105 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const slewModal = ref(false);
   const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
 
-  let exposureCountdownTimer = null;
-
   // Hilfsfunktion, um kurz zu warten
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  // Startet den Belichtungs-Countdown
-  function startExposureCountdown(totalTime) {
-    // Hier gleich Promise zurückgeben, damit wir drauf warten können
-    return new Promise((resolve, reject) => {
-      exposureCountdownTimer = setInterval(() => {
-        // Abbruch?
-        if (!isExposure.value) {
-          clearInterval(exposureCountdownTimer);
-          reject(new Error('Belichtung wurde abgebrochen.'));
-          return;
-        }
-
-        remainingExposureTime.value--;
-        progress.value = ((totalTime - remainingExposureTime.value) / totalTime) * 100;
-
-        if (remainingExposureTime.value <= 0) {
-          clearInterval(exposureCountdownTimer);
-          progress.value = 100;
-          resolve(); // Countdown fertig
-        }
-      }, 1000);
-    });
-  }
-
-  // Startet die Aufnahme + Countdown + Bildabruf
+  // Startet die Aufnahme + Bildabruf
   async function capturePhoto(apiService, exposureTime, gain, solve = false) {
     if (exposureTime <= 0) {
       exposureTime = 2; // Default-Wert
       return;
     }
+
     loading.value = true;
-    isExposure.value = true;
     isLoadingImage.value = false;
     isAbort.value = false;
-    remainingExposureTime.value = exposureTime;
-    progress.value = 0;
-    //console.log(gain);
+    plateSolveResult.value = null;
 
     try {
-      // Starte Aufnahme via API
-      const capturePromise = apiService.startCapture(exposureTime, gain, solve, true);
+      // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
+      await apiService.startCapture(exposureTime, gain, solve, true);
 
-      // Countdown laufen lassen
-      await startExposureCountdown(exposureTime);
-
-      // Warte, bis API-Aufnahme fertig ist
-      await capturePromise;
-
-      // Jetzt Bild holen
-      isExposure.value = false;
-      isLoadingImage.value = true;
-      plateSolveResult.value = null;
-
-      let attempts = 0;
-      const maxAttempts = 60;
-      let image = imageData.value;
-      let done = false;
-
-      while (!done && attempts < maxAttempts && !isAbort.value) {
-        try {
-          const resImageData = await apiService.getImageData();
-
-          console.log('attempts', attempts);
-
-          if (image != imageData.value) {
-            console.log('Image data received from API.');
-            if (solve === false) {
-              done = true;
-              console.log('Image captured without plate solving.');
-              break;
-            }
-            if (resImageData.Response != 'Capture already in progress') {
-              console.log(
-                'PlateSolveResult received from API.',
-                resImageData?.Response?.PlateSolveResult
-              );
-              plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
-              done = true;
-              console.log('Image captured with plate solving.');
-              break;
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching image:', error.message);
-        }
-        attempts++;
-        await wait(1000);
+      // Warte bis Belichtung fertig ist (Server-Countdown läuft automatisch via updateCountdown)
+      while (store.cameraInfo.IsExposing && !isAbort.value) {
+        await wait(500);
       }
 
-      // Wenn bis hier kein Bild und kein Abbruch
-      if (!done && !isAbort.value) {
-        alert('Image was not provided in time');
+      // Phase 2: Bild laden mit Timeout
+      if (!isAbort.value) {
+        isLoadingImage.value = true;
+
+        // Setze Timeout (60 Sekunden)
+        const timeoutPromise = new Promise((_, reject) => {
+          loadingTimeout.value = setTimeout(() => {
+            reject(new Error('Image loading timeout'));
+          }, 60000);
+        });
+
+        // Warte auf Bild oder Timeout
+        const imagePromise = new Promise(async (resolve, reject) => {
+          let attempts = 0;
+          const maxAttempts = 60;
+          const previousImage = imageData.value;
+
+          while (attempts < maxAttempts && !isAbort.value) {
+            try {
+              const resImageData = await apiService.getImageData();
+
+              // Prüfe ob neues Bild vorhanden
+              if (previousImage !== imageData.value) {
+                console.log('Image data received from API.');
+
+                if (solve === false) {
+                  resolve('Image captured without plate solving.');
+                  return;
+                }
+
+                if (resImageData.Response !== 'Capture already in progress') {
+                  plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
+                  resolve('Image captured with plate solving.');
+                  return;
+                }
+              }
+            } catch (error) {
+              console.error('Error fetching image:', error.message);
+            }
+
+            attempts++;
+            await wait(1000);
+          }
+
+          reject(new Error('Max attempts reached'));
+        });
+
+        try {
+          await Promise.race([imagePromise, timeoutPromise]);
+          console.log('Image successfully loaded');
+        } catch (error) {
+          console.error('Image loading failed:', error.message);
+          if (!isAbort.value) {
+            alert('Image was not provided in time');
+          }
+        } finally {
+          // Clear timeout
+          if (loadingTimeout.value) {
+            clearTimeout(loadingTimeout.value);
+            loadingTimeout.value = null;
+          }
+        }
       }
     } catch (error) {
       console.error('Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
+
       // Dauerschleife?
-      if (isLooping.value) {
+      if (isLooping.value && !isAbort.value) {
         console.log('Starting next looped exposure...');
-        capturePhoto(apiService, exposureTime, gain);
+        capturePhoto(apiService, exposureTime, gain, solve);
       }
     }
   }
@@ -152,14 +140,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
     try {
       console.log('Abbruch der Belichtung gestartet...');
       await apiService.cameraAction('abort-exposure');
-      clearInterval(exposureCountdownTimer);
 
       isAbort.value = true;
-      isExposure.value = false;
       isLoadingImage.value = false;
       isLooping.value = false;
-      remainingExposureTime.value = 0;
-      progress.value = 0;
+
+      // Clear timeout if running
+      if (loadingTimeout.value) {
+        clearTimeout(loadingTimeout.value);
+        loadingTimeout.value = null;
+      }
 
       console.log('Exposure successfully aborted.');
     } catch (error) {
@@ -172,7 +162,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   async function getCameraRotation(apiService, exposureTime = 2, gain) {
     loading.value = true;
     isLoadingImage.value = true;
-    progress.value = 0;
     plateSolveError.value = false;
 
     try {
@@ -313,11 +302,8 @@ export const useCameraStore = defineStore('cameraStore', () => {
   }
 
   return {
-    remainingExposureTime,
-    progress,
     imageData,
     loading,
-    isExposure,
     isLoadingImage,
     isLooping,
     isAbort,

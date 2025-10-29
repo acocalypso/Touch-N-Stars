@@ -28,10 +28,16 @@ function sanitizeVersion(version) {
   if (!version) {
     return '';
   }
+
   const trimmed = version.trim();
   const withoutPrefix = trimmed.replace(/^v/gi, '');
-  const [clean] = withoutPrefix.split(/[-+]/); // drop prerelease/build metadata
-  return clean;
+  const match = withoutPrefix.match(/\d+(?:\.\d+)+/);
+  if (match) {
+    return match[0];
+  }
+
+  const fallback = withoutPrefix.split(/[-+]/)[0];
+  return fallback ? fallback.trim() : '';
 }
 
 function compareVersions(remote, local) {
@@ -81,9 +87,15 @@ async function fetchLatestRelease() {
       throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
     }
 
+    const normalizedVersion = sanitizeVersion(release.tag_name || release.name);
+    if (!normalizedVersion) {
+      console.warn('[Updater] Skipping release with unparseable version:', release.tag_name);
+      return null;
+    }
+
     return {
       tagName: release.tag_name,
-      version: sanitizeVersion(release.tag_name || release.name),
+      version: normalizedVersion,
       name: release.name || release.tag_name,
       notes: release.body || '',
       assetUrl: asset.browser_download_url,

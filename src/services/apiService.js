@@ -1305,6 +1305,19 @@ const apiService = {
     }
   },
 
+  async cancelSlewAndCenter() { //Kommt von der TNS API 
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}framing/cancel`, {});
+      console.log('Cancel SlweAndCenter:', response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //-------------------------------------  Target Search ---------------------------------------
+
   async searchNGC(query, limit = 10) {
     const { API_URL } = getUrls();
     return this._getWithParams(`${API_URL}ngc/search`, { query, limit });

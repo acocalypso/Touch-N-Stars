@@ -244,13 +244,12 @@ function updateChart() {
     return i === mid ? 90 : 0;
   });
 
-  chartInstance.update(); // 👈 macht den Job
+  chartInstance.update();
 }
 
 async function loadCustomHorizont() {
   try {
     const response = await apiService.profileAction('horizon');
-    console.log(response);
 
     if (response.StatusCode !== 200 || !response.Response) {
       console.warn('Horizon data not found or invalid:', response);

@@ -36,9 +36,8 @@ const framingStore = useFramingStore();
 async function moveRotator() {
   try {
     await apiService.moveMechanicalRotator(framingStore.rotationAngle);
-    console.log('Rotator rotating to: ', framingStore.rotationAngle);
   } catch (error) {
-    console.log('Error parking the mount');
+    console.error('Error moving rotator:', error);
   }
 }
 </script>

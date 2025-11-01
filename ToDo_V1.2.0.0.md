@@ -13,3 +13,4 @@
 -[x] Slew and Center Modal entfernen
 -[x] Das schließen des center fenster schickt ein slew stop
 -[] Beim abbrechen von Slew and Center kommt eine Fehlermeldung
+-[x] Fenster von manuellen Filterrad kann nicht geschlossen werden

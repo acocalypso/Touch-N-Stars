@@ -360,9 +360,21 @@ async function handleClose() {
     }
   }
 
-  // Schließe über PART_CloseButton mit Titel
   const windowTitle = currentDialog.value?.Title;
-  console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);
-  await dialogStore.clickButton('PART_CloseButton', windowTitle);
+  const availableCommands = currentDialog.value?.AvailableCommands || [];
+
+  // Filtere PART_* und UnnamedButton heraus um den echten Button zu finden
+  const realButtons = availableCommands.filter((cmd) => !cmd.startsWith('PART_') && cmd !== 'UnnamedButton');
+
+  // Wenn es genau einen echten Button gibt, drücke diesen
+  if (realButtons.length === 1) {
+    const buttonName = realButtons[0];
+    console.log('Closing dialog with single button:', buttonName, 'Window Title:', windowTitle);
+    await dialogStore.clickButton(buttonName, windowTitle);
+  } else {
+    // Ansonsten verwende PART_CloseButton (Standard)
+    console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);
+    await dialogStore.clickButton('PART_CloseButton', windowTitle);
+  }
 }
 </script>

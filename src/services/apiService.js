@@ -1305,7 +1305,8 @@ const apiService = {
     }
   },
 
-  async cancelSlewAndCenter() { //Kommt von der TNS API 
+  async cancelSlewAndCenter() {
+    //Kommt von der TNS API
     try {
       const { API_URL } = getUrls();
       const response = await axios.post(`${API_URL}framing/cancel`, {});

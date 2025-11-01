@@ -161,7 +161,7 @@ async function slew() {
     if (center || rotate) {
       framingStore.showCenterModal = true;
       console.log('First: Slew to the target');
-      await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
+      await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, true, false);
       if (framingStore.slewIsStopt) return;
       console.log('Second: center the target');
       // Temporarily set NumberOfAttempts to 1 if it is greater than 1

@@ -21,10 +21,9 @@ export const useDialogStore = defineStore('dialogStore', {
         const response = await apiService.getDialogList();
         if (response.Success) {
           this.dialogs = response.Response.Dialogs || [];
-          //console.log('Fetched dialogs:',response.Response);  
+          //console.log('Fetched dialogs:',response.Response);
           this.dialogCount = response.Response.Count;
           //console.log('Dialog count:', this.dialogCount);
-         
         }
       } catch (error) {
         console.error('Error fetching dialogs:', error);

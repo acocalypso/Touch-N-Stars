@@ -16,7 +16,11 @@
 
           <!-- Parameters Grid (nur wenn echte Daten vorhanden) -->
           <div v-if="plateSolvingHasData" class="grid grid-cols-2 gap-2 text-sm">
-            <div v-for="param in plateSolvingDisplayParams" :key="param.key" class="bg-gray-800 p-2 rounded">
+            <div
+              v-for="param in plateSolvingDisplayParams"
+              :key="param.key"
+              class="bg-gray-800 p-2 rounded"
+            >
               <span class="text-gray-400">{{ param.label }}:</span>
               <span class="text-white ml-2">{{ param.value }}</span>
             </div>
@@ -27,13 +31,21 @@
             <table class="w-full text-xs border border-gray-700">
               <thead class="bg-gray-800">
                 <tr>
-                  <th v-for="header in plateSolvingHeaders" :key="header" class="px-2 py-1 text-left border-b border-gray-700">
+                  <th
+                    v-for="header in plateSolvingHeaders"
+                    :key="header"
+                    class="px-2 py-1 text-left border-b border-gray-700"
+                  >
                     {{ header }}
                   </th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(row, idx) in plateSolvingTable" :key="idx" class="border-b border-gray-700">
+                <tr
+                  v-for="(row, idx) in plateSolvingTable"
+                  :key="idx"
+                  class="border-b border-gray-700"
+                >
                   <td v-for="header in plateSolvingHeaders" :key="header" class="px-2 py-1">
                     {{ getTableValue(row, header) }}
                   </td>
@@ -50,12 +62,16 @@
             <!-- Current Position -->
             <div class="bg-gray-800 p-4 rounded-lg text-center">
               <p class="text-gray-400 text-sm mb-2">{{ rotatorContent.Text1 }}</p>
-              <p class="text-4xl font-bold text-white">{{ rotatorContent.Text2 }}{{ rotatorContent.Text3 }}</p>
+              <p class="text-4xl font-bold text-white">
+                {{ rotatorContent.Text2 }}{{ rotatorContent.Text3 }}
+              </p>
             </div>
             <!-- Target Position -->
             <div class="bg-gray-800 p-4 rounded-lg text-center">
               <p class="text-gray-400 text-sm mb-2">{{ rotatorContent.Text4 }}</p>
-              <p class="text-4xl font-bold text-white">{{ rotatorContent.Text5 }}{{ rotatorContent.Text6 }}</p>
+              <p class="text-4xl font-bold text-white">
+                {{ rotatorContent.Text5 }}{{ rotatorContent.Text6 }}
+              </p>
             </div>
           </div>
 
@@ -64,47 +80,76 @@
             <!-- Clock Display -->
             <svg width="200" height="200" viewBox="0 0 200 200" class="mb-4">
               <!-- Clock Circle -->
-              <circle cx="100" cy="100" r="80" fill="none" stroke="#4B5563" stroke-width="2"/>
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#4B5563" stroke-width="2" />
 
               <!-- Degree Markers -->
-              <text v-for="angle in [0, 90, 180, 270]" :key="angle"
-                :x="100 + Math.sin(angle * Math.PI / 180) * 70"
-                :y="100 - Math.cos(angle * Math.PI / 180) * 70"
-                text-anchor="middle" dominant-baseline="middle"
-                class="fill-gray-400 text-xs">
+              <text
+                v-for="angle in [0, 90, 180, 270]"
+                :key="angle"
+                :x="100 + Math.sin((angle * Math.PI) / 180) * 70"
+                :y="100 - Math.cos((angle * Math.PI) / 180) * 70"
+                text-anchor="middle"
+                dominant-baseline="middle"
+                class="fill-gray-400 text-xs"
+              >
                 {{ angle }}°
               </text>
 
               <!-- Current Position (blue line) -->
               <line
-                x1="100" y1="100"
-                :x2="100 + Math.sin(parseFloat(rotatorContent.Text2 || 0) * Math.PI / 180) * 60"
-                :y2="100 - Math.cos(parseFloat(rotatorContent.Text2 || 0) * Math.PI / 180) * 60"
-                stroke="#3B82F6" stroke-width="3" stroke-linecap="round"/>
+                x1="100"
+                y1="100"
+                :x2="100 + Math.sin((parseFloat(rotatorContent.Text2 || 0) * Math.PI) / 180) * 60"
+                :y2="100 - Math.cos((parseFloat(rotatorContent.Text2 || 0) * Math.PI) / 180) * 60"
+                stroke="#3B82F6"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
 
               <!-- Target Position (green line) -->
               <line
-                x1="100" y1="100"
-                :x2="100 + Math.sin(parseFloat(rotatorContent.Text5 || 0) * Math.PI / 180) * 60"
-                :y2="100 - Math.cos(parseFloat(rotatorContent.Text5 || 0) * Math.PI / 180) * 60"
-                stroke="#10B981" stroke-width="3" stroke-linecap="round" stroke-dasharray="5,5"/>
+                x1="100"
+                y1="100"
+                :x2="100 + Math.sin((parseFloat(rotatorContent.Text5 || 0) * Math.PI) / 180) * 60"
+                :y2="100 - Math.cos((parseFloat(rotatorContent.Text5 || 0) * Math.PI) / 180) * 60"
+                stroke="#10B981"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-dasharray="5,5"
+              />
 
               <!-- Rotation Arc -->
               <path
-                :d="getRotationArc(parseFloat(rotatorContent.Text2 || 0), parseFloat(rotatorContent.Text5 || 0))"
-                fill="none" stroke="#F59E0B" stroke-width="2"
-                :marker-end="rotatorContent.Text9?.toLowerCase().includes('clock') ? 'url(#arrowhead)' : ''"
+                :d="
+                  getRotationArc(
+                    parseFloat(rotatorContent.Text2 || 0),
+                    parseFloat(rotatorContent.Text5 || 0)
+                  )
+                "
+                fill="none"
+                stroke="#F59E0B"
+                stroke-width="2"
+                :marker-end="
+                  rotatorContent.Text9?.toLowerCase().includes('clock') ? 'url(#arrowhead)' : ''
+                "
               />
 
               <!-- Arrow marker definition -->
               <defs>
-                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                  <polygon points="0,0 10,5 0,10" fill="#F59E0B"/>
+                <marker
+                  id="arrowhead"
+                  markerWidth="10"
+                  markerHeight="10"
+                  refX="5"
+                  refY="5"
+                  orient="auto"
+                >
+                  <polygon points="0,0 10,5 0,10" fill="#F59E0B" />
                 </marker>
               </defs>
 
               <!-- Center dot -->
-              <circle cx="100" cy="100" r="4" fill="white"/>
+              <circle cx="100" cy="100" r="4" fill="white" />
             </svg>
 
             <!-- Legend -->
@@ -120,7 +165,9 @@
             </div>
 
             <!-- Rotation Info -->
-            <p class="text-2xl font-bold text-yellow-500 mb-1">{{ rotatorContent.Text7 }}{{ rotatorContent.Text8 }}</p>
+            <p class="text-2xl font-bold text-yellow-500 mb-1">
+              {{ rotatorContent.Text7 }}{{ rotatorContent.Text8 }}
+            </p>
             <p class="text-gray-400 text-sm">{{ rotatorContent.Text9 }}</p>
           </div>
         </div>
@@ -206,7 +253,7 @@ const plateSolvingDisplayParams = computed(() => {
   // Index 11: Decerror/DecFehler
   const indices = [8, 9, 11];
 
-  return indices.map(index => {
+  return indices.map((index) => {
     const key = paramKeys[index];
     return {
       key: key || `param_${index}`,
@@ -220,7 +267,7 @@ const plateSolvingHeaders = computed(() => {
   // Zeige nur Index 0 (Time/Zeit) und Index 3 (Error distance/Fehlerabstand)
   // Die Namen kommen direkt von der API in der richtigen Sprache
   const allHeaders = currentDialog.value?.Content?.TableHeaders || [];
-  const headers = [allHeaders[0], allHeaders[3]].filter(h => h !== undefined);
+  const headers = [allHeaders[0], allHeaders[3]].filter((h) => h !== undefined);
   return headers;
 });
 
@@ -232,9 +279,10 @@ const plateSolvingTable = computed(() => {
 const visibleCommands = computed(() => {
   if (!currentDialog.value?.AvailableCommands) return [];
 
-  return currentDialog.value.AvailableCommands
-    .map((cmd, index) => ({ text: cmd, originalIndex: index }))
-    .filter(cmd => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
+  return currentDialog.value.AvailableCommands.map((cmd, index) => ({
+    text: cmd,
+    originalIndex: index,
+  })).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
 });
 
 function getRotationArc(currentAngle, targetAngle) {
@@ -283,7 +331,7 @@ function getTableValue(row, header) {
 
   // Lowercase-Variante: "RA error (px)" -> "raerrorpx" (dann suche case-insensitive)
   const lowerKey = header.toLowerCase().replace(/[^a-z0-9]/g, '');
-  const matchingKey = Object.keys(row).find(k => k.toLowerCase() === lowerKey);
+  const matchingKey = Object.keys(row).find((k) => k.toLowerCase() === lowerKey);
   if (matchingKey && row[matchingKey] !== undefined) {
     return row[matchingKey];
   }
@@ -306,5 +354,4 @@ async function handleClose() {
   console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);
   await dialogStore.clickButton('PART_CloseButton', windowTitle);
 }
-
 </script>

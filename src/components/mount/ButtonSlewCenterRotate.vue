@@ -108,7 +108,6 @@
     </template>
   </Modal>
 
-  <CenterModal />
 </template>
 
 <script setup>
@@ -120,7 +119,6 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import CenterModal from '@/components/mount/CenterModal.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
@@ -156,33 +154,13 @@ async function slew() {
     await unparkMount(); // Überprüfen und Entparken, falls erforderlich
     const center = settingsStore.mount.useCenter;
     const rotate = settingsStore.mount.useRotate && store.rotatorInfo.Connected;
-    let numberOfAttemptsTemp = 0;
-
     if (center || rotate) {
-      framingStore.showCenterModal = true;
-      console.log('First: Slew to the target');
-      await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, true, false);
       if (framingStore.slewIsStopt) return;
-      console.log('Second: center the target');
-      // Temporarily set NumberOfAttempts to 1 if it is greater than 1
-      if (store.profileInfo.PlateSolveSettings.NumberOfAttempts > 1) {
-        numberOfAttemptsTemp = store.profileInfo.PlateSolveSettings.NumberOfAttempts;
-        console.log('change NumberOfAttempts to 1 from ', numberOfAttemptsTemp);
-        await apiService.profileChangeValue('PlateSolveSettings-NumberOfAttempts', 1);
-      }
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, center, rotate);
-      if (numberOfAttemptsTemp > 1) {
-        console.log('change NumberOfAttempts to ', numberOfAttemptsTemp);
-        await apiService.profileChangeValue(
-          'PlateSolveSettings-NumberOfAttempts',
-          numberOfAttemptsTemp
-        );
-      }
     } else {
       console.log('Slew without centering or rotating');
       await framingStore.slewAndCenterRotate(props.raAngle, props.decAngle, false, false);
     }
-
     emit('finished'); // Emit Event nach Erfolg
   } catch (error) {
     console.error('Slew error:', error);

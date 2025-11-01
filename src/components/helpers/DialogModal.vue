@@ -195,6 +195,7 @@
 import { computed } from 'vue';
 import { useDialogStore } from '@/store/dialogStore';
 import Modal from '@/components/helpers/Modal.vue';
+import apiService from '@/services/apiService';
 
 const dialogStore = useDialogStore();
 
@@ -349,6 +350,16 @@ async function handleButtonClick(buttonName) {
 }
 
 async function handleClose() {
+  // Wenn es ein Plate Solving Dialog ist, sende slewStop
+  if (isPlateSolvingDialog.value) {
+    try {
+      console.log('Closing Plate Solving dialog - sending slewStop');
+      await apiService.slewStop();
+    } catch (error) {
+      console.error('Error sending slewStop:', error);
+    }
+  }
+
   // Schließe über PART_CloseButton mit Titel
   const windowTitle = currentDialog.value?.Title;
   console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);

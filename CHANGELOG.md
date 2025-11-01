@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 ### Changed
+- Stellaruim now displays the time from NINA when starting up. 
 
 ### Fixed
 - Fixed guider calibration assitant slew stop

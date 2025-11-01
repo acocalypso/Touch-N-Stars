@@ -119,8 +119,6 @@
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
     <ToastModal v-if="settingsStore.setupCompleted || store.setupCheckConnectionDone" />
-    <!-- ManuellFilterModal Modal -->
-    <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
     <!-- Debug Console -->
     <ConsoleViewer class="fixed top-32 right-6 z-[60]" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
@@ -196,7 +194,6 @@ import { useDialogStore } from './store/dialogStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
-import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
 import SettingsComp from '@/components/SettingsComp.vue';

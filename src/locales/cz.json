@@ -230,12 +230,7 @@
       "time": "Čas",
       "noRunningItems": "Sekvence zastavena",
       "status": "Stav sekvence",
-      "instructions": "Pokyny",
-      "tnsMessageBox": {
-        "title": "Zpráva sekvence",
-        "stopSequence": "Zastavit sekvenci",
-        "continueSequence": "Pokračovat v sekvenci"
-      }
+      "instructions": "Pokyny"
     },
     "mount": {
       "title": "Montáž",
@@ -531,11 +526,7 @@
       "please_connect_filterwheel": "Připojte prosím filtrační kolo",
       "currentFilter": "Aktuální Filtr",
       "position": "Pozice",
-      "availableFilters": "Dostupné Filtry",
-      "manual_filter": {
-        "name": "Změna filtru:",
-        "title": "FiltračníKolo"
-      }
+      "availableFilters": "Dostupné Filtry"
     },
     "rotator": {
       "title": "Rotátor",

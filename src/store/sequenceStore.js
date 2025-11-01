@@ -168,20 +168,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       if (response?.Success) {
-        // Check TNS-Messagebox
-        let tnsMessage = null;
-        if (store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.5.0')) {
-          tnsMessage = await apiService.getTnsMessageBox();
-          //console.log('TNS Message Box:', tnsMessage);
-        }
-
-        if (tnsMessage?.Success && tnsMessage?.Response.Count > 0) {
-          console.log('TNS Message Box has messages:', tnsMessage?.Response.MessageBoxes[0].Text);
-          // Show modal with TNS message
-          this.tnsModalMessage = tnsMessage?.Response.MessageBoxes[0].Text;
-          this.showTnsModal = true;
-        }
-
         // Check for errors in sequence items
         let hasErrors = false;
         let errorMessage = '';
@@ -549,21 +535,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
         return response;
       } catch (error) {
         console.error('Error fetching available sequences:', error);
-        throw error;
-      }
-    },
-
-    async closeTnsMessageBox(continueSequence) {
-      try {
-        await apiService.setCloseTnsMessageBox(continueSequence);
-        this.showTnsModal = false;
-        this.tnsModalMessage = '';
-        if (!continueSequence) {
-          // Stop sequence if user chose to stop
-          await apiService.sequenceAction('stop');
-        }
-      } catch (error) {
-        console.error('Error closing TNS MessageBox:', error);
         throw error;
       }
     },

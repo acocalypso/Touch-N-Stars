@@ -3,7 +3,7 @@
 -[] TPPA Fenster über die sequenz
 -[] Autofokus Fenster über sequenz
 -[] Meridian Fenster
--[] Fenster für TNS Messagebox umstellen
+-[x] Fenster für TNS Messagebox umstellen
 -[] Fenster von Mountsync
 
 -[] Info meldung für manuelles Filterrad und Rotator entfernen

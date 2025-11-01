@@ -231,12 +231,7 @@
       "time": "Time",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions",
-      "tnsMessageBox": {
-        "title": "Sequence Message",
-        "stopSequence": "Stop Sequence",
-        "continueSequence": "Continue Sequence"
-      }
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Mount",
@@ -530,11 +525,7 @@
       "please_connect_filterwheel": "Please connect filter wheel",
       "currentFilter": "Current Filter",
       "position": "Position",
-      "availableFilters": "Available Filters",
-      "manual_filter": {
-        "title": "Filterwheel",
-        "name": "Change to filter:"
-      }
+      "availableFilters": "Available Filters"
     },
     "rotator": {
       "title": "Rotator",

@@ -131,9 +131,6 @@
       @close="dismissWhatsNew"
     />
 
-    <!-- TNS MessageBox Modal -->
-    <SequenceTnsMessageBoxModal />
-
     <!-- Dialog Modal -->
     <DialogModal />
 
@@ -201,16 +198,12 @@ import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
-import wsFilter from '@/services/websocketManuellFilterControl';
-import { useFilterStore } from '@/store/filterStore';
-import SequenceTnsMessageBoxModal from '@/components/sequence/SequenceTnsMessageBoxModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
-const filterStore = useFilterStore();
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
 const showLogsModal = ref(false);
@@ -302,7 +295,6 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
-  wsFilter.disconnect();
   // Alle Flags zurücksetzen für sauberen Neustart beim Resume
   store.clearAllStates();
 }
@@ -332,15 +324,6 @@ async function resumeApp() {
   if (store.cameraInfo.IsExposing && store.cameraInfo.ExposureEndTime) {
     console.log('Restarting exposure countdown after resume...');
     cameraStore.updateCountdown();
-  }
-
-  // Reconnect WebSocket filter if needed
-  if (
-    store.filterInfo.DeviceId === 'Networked Filter Wheel' &&
-    store.filterInfo.Connected &&
-    store.isBackendReachable
-  ) {
-    wsFilter.connect();
   }
 }
 
@@ -483,31 +466,6 @@ watch(
   }
 );
 
-// Watch for Network Filter Wheel connection and manage WebSocket
-watch(
-  () => [store.filterInfo.Connected, store.filterInfo.DeviceId, store.isBackendReachable],
-  ([connected, deviceId, backendReachable]) => {
-    if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
-      // Establish WebSocket connection
-      wsFilter.setStatusCallback((status) => {
-        //console.log('WebSocket Filter Status:', status);
-        if (status === 'connected') {
-          filterStore.wsIsConnected = true;
-          //console.log('WebSocket Filter connected!');
-        } else {
-          filterStore.wsIsConnected = false;
-        }
-      });
-      wsFilter.connect();
-    } else {
-      // Disconnect WebSocket
-      wsFilter.disconnect();
-      filterStore.wsIsConnected = false;
-    }
-  },
-  { immediate: true }
-);
-
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
@@ -547,7 +505,6 @@ onBeforeUnmount(async () => {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   dialogStore.stopPolling();
-  wsFilter.disconnect();
   store.clearAllStates();
   store.isApiConnected = false;
   document.removeEventListener('visibilitychange', handleVisibilityChange);

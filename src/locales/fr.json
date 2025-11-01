@@ -231,12 +231,7 @@
       "time": "Temps",
       "noRunningItems": "Sequence stopped",
       "status": "Statut de séquence",
-      "instructions": "Instructions",
-      "tnsMessageBox": {
-        "title": "Message de séquence",
-        "stopSequence": "Arrêter la séquence",
-        "continueSequence": "Continuer la séquence"
-      }
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Monture",
@@ -530,11 +525,7 @@
       "please_connect_filterwheel": "Veuillez connecter la roue à filtres",
       "currentFilter": "Filtre Actuel",
       "position": "Position",
-      "availableFilters": "Filtres Disponibles",
-      "manual_filter": {
-        "title": "Roue à filtres",
-        "name": "Changer vers le filtre:"
-      }
+      "availableFilters": "Filtres Disponibles"
     },
     "rotator": {
       "title": "Rotateur",

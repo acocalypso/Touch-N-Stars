@@ -546,35 +546,6 @@ const apiService = {
     }
   },
 
-  //-------------------------------------  TNS Message Box ---------------------------------------
-
-  async getTnsMessageBox() {
-    try {
-      const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}messagebox/list`, {
-        params: {},
-      });
-      return response.data;
-    } catch (error) {
-      // console.error('Error fetching get-algo-param-names:', error);
-      throw error;
-    }
-  },
-
-  async setCloseTnsMessageBox(cont) {
-    try {
-      const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}messagebox/close-all`, {
-        continue: cont,
-      });
-      console.log('PHD2 TNS API setPHD2AlgoParam:', response.data);
-      return response.data;
-    } catch (error) {
-      // console.error('Error setPHD2AlgoParam PHD2:', error);
-      throw error;
-    }
-  },
-
   //-------------------------------------  Dialog ---------------------------------------
 
   async getDialogList() {

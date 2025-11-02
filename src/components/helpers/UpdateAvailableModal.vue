@@ -34,6 +34,29 @@
         </div>
 
         <div
+          v-if="hasWhatsNew"
+          class="mb-6 max-h-52 overflow-y-auto rounded-xl border border-gray-700 bg-gray-800/60 p-4 text-sm text-gray-200"
+        >
+          <p class="mb-2 font-semibold text-gray-100">{{ t('updates.whatsNew') }}</p>
+          <p
+            v-if="whatsNewTitle"
+            class="mb-3 text-xs font-medium uppercase tracking-wide text-gray-400"
+          >
+            {{ whatsNewTitle }}
+          </p>
+          <div
+            v-if="whatsNewHtml"
+            class="space-y-2 text-sm leading-relaxed text-gray-200"
+            v-html="whatsNewHtml"
+          ></div>
+          <pre
+            v-else-if="whatsNewText"
+            class="whitespace-pre-wrap font-sans leading-relaxed text-gray-300"
+            v-text="whatsNewText"
+          ></pre>
+        </div>
+
+        <div
           v-if="releaseNotes"
           class="mb-6 max-h-52 overflow-y-auto rounded-xl border border-gray-700 bg-gray-800/60 p-4 text-sm text-gray-200"
         >
@@ -119,6 +142,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  whatsNew: {
+    type: [Object, String],
+    default: null,
+  },
   releaseNotes: {
     type: String,
     default: '',
@@ -143,6 +170,32 @@ const busyStatuses = new Set(['downloading', 'setting']);
 
 const isBusy = computed(() => busyStatuses.has(props.status));
 const formattedProgress = computed(() => Math.round(props.progress));
+const whatsNewTitle = computed(() =>
+  typeof props.whatsNew === 'object' && props.whatsNew
+    ? props.whatsNew.title || props.whatsNew.version || ''
+    : ''
+);
+const whatsNewHtml = computed(() =>
+  typeof props.whatsNew === 'object' && props.whatsNew ? props.whatsNew.html || '' : ''
+);
+const whatsNewText = computed(() => {
+  if (!props.whatsNew) {
+    return '';
+  }
+  if (typeof props.whatsNew === 'string') {
+    return props.whatsNew;
+  }
+  if (props.whatsNew.markdown) {
+    return props.whatsNew.markdown;
+  }
+  if (!props.whatsNew.html) {
+    return JSON.stringify(props.whatsNew, null, 2);
+  }
+  return '';
+});
+const hasWhatsNew = computed(() =>
+  Boolean(whatsNewHtml.value || whatsNewText.value || whatsNewTitle.value)
+);
 
 const { t } = useI18n();
 </script>

@@ -32,6 +32,7 @@
     "description": "Ein neueres App-Bundle ({version}) steht zur Installation bereit.",
     "releaseNotes": "Versionshinweise",
     "downloading": "Update wird heruntergeladen… {progress}%",
+    "whatsNew": "Das ist neu",
     "preparing": "Update wird vorbereitet… bitte die App geöffnet lassen.",
     "error": "Update fehlgeschlagen. Bitte später erneut versuchen.",
     "later": "Später",

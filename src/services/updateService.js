@@ -5,6 +5,7 @@ import appVersion from '@/version';
 const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
 const GITHUB_API_BASE = 'https://api.github.com/repos/acocalypso/Touch-N-Stars';
 const UPDATE_ASSET_NAME = 'dist.zip';
+const WHATS_NEW_ASSET_NAME = 'whats-new.json';
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
@@ -79,9 +80,9 @@ async function fetchLatestRelease() {
       return null;
     }
 
-    const asset = Array.isArray(release.assets)
-      ? release.assets.find((item) => item?.name === UPDATE_ASSET_NAME)
-      : null;
+    const assets = Array.isArray(release.assets) ? release.assets : [];
+    const asset = assets.find((item) => item?.name === UPDATE_ASSET_NAME) ?? null;
+    const whatsNewAsset = assets.find((item) => item?.name === WHATS_NEW_ASSET_NAME) ?? null;
 
     if (!asset || !asset.browser_download_url) {
       throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
@@ -99,6 +100,7 @@ async function fetchLatestRelease() {
       name: release.name || release.tag_name,
       notes: release.body || '',
       assetUrl: asset.browser_download_url,
+      whatsNewUrl: whatsNewAsset?.browser_download_url ?? null,
       publishedAt: release.published_at,
     };
   } catch (error) {
@@ -192,5 +194,34 @@ export async function markAppReady() {
     await CapacitorUpdater.notifyAppReady();
   } catch (error) {
     console.warn('[Updater] notifyAppReady failed:', error);
+  }
+}
+
+export async function fetchWhatsNewContent(url) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        Accept: 'application/octet-stream',
+        'User-Agent': defaultHeaders['User-Agent'],
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to download whats-new.json (${response.status})`);
+    }
+
+    const payload = await response.text();
+    try {
+      return JSON.parse(payload);
+    } catch (parseError) {
+      throw new Error(`Invalid whats-new.json payload: ${parseError.message}`);
+    }
+  } catch (error) {
+    console.warn('[Updater] Failed to download whats-new.json:', error);
+    return null;
   }
 }

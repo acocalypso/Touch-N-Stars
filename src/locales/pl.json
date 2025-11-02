@@ -31,6 +31,7 @@
     "title": "Dostępna aktualizacja",
     "description": "Dostępna jest nowsza wersja aplikacji ({version}). Zainstalować teraz?",
     "releaseNotes": "Informacje o wydaniu",
+    "whatsNew": "Co nowego",
     "downloading": "Pobieranie aktualizacji… {progress}%",
     "preparing": "Przygotowywanie aktualizacji… pozostaw aplikację otwartą.",
     "error": "Aktualizacja nie powiodła się. Spróbuj ponownie później.",

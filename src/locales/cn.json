@@ -31,6 +31,7 @@
     "title": "有可用更新",
     "description": "检测到更新版本 ({version})，是否立即安装？",
     "releaseNotes": "更新说明",
+    "whatsNew": "最新内容",
     "downloading": "正在下载更新… {progress}%",
     "preparing": "正在准备更新… 请保持应用开启。",
     "error": "更新失败。请稍后再试。",

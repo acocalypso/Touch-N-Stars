@@ -131,6 +131,7 @@
       v-if="showUpdateModal && updateInfo"
       :version="updateInfo.version"
       :release-notes="updateInfo.notes"
+      :whats-new="updateInfo.whatsNew"
       :progress="updateProgress"
       :status="updateStatus"
       :error="updateError"
@@ -219,6 +220,7 @@ import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue'
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
+  fetchWhatsNewContent,
   isNativePlatform,
 } from '@/services/updateService';
 
@@ -399,7 +401,19 @@ async function checkForAppUpdate() {
   try {
     const result = await checkForManualUpdate();
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
-      updateInfo.value = result;
+      let whatsNewDetails = null;
+      if (result.whatsNewUrl) {
+        try {
+          whatsNewDetails = await fetchWhatsNewContent(result.whatsNewUrl);
+        } catch (whatsNewError) {
+          console.warn('Failed to load whats-new content:', whatsNewError);
+        }
+      }
+
+      updateInfo.value = {
+        ...result,
+        whatsNew: whatsNewDetails,
+      };
       updateStatus.value = 'idle';
       updateProgress.value = 0;
       updateError.value = '';

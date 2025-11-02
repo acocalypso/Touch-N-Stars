@@ -32,6 +32,7 @@
     "description": "Hay una versión más reciente de la aplicación ({version}) lista para instalar.",
     "releaseNotes": "Notas de la versión",
     "downloading": "Descargando actualización… {progress}%",
+    "whatsNew": "Novedades",
     "preparing": "Preparando la actualización… mantén la app abierta.",
     "error": "La actualización ha fallado. Inténtalo de nuevo más tarde.",
     "later": "Más tarde",

@@ -32,6 +32,7 @@
     "description": "Une version plus récente ({version}) est prête à être installée.",
     "releaseNotes": "Notes de version",
     "downloading": "Téléchargement de la mise à jour… {progress}%",
+    "whatsNew": "Nouveautés",
     "preparing": "Préparation de la mise à jour… veuillez laisser l'application ouverte.",
     "error": "La mise à jour a échoué. Veuillez réessayer plus tard.",
     "later": "Plus tard",

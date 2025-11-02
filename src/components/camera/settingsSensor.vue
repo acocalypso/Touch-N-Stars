@@ -134,9 +134,3 @@ onMounted(() => {
   chipWidth.value = profile?.FramingAssistantSettings?.CameraWidth || 3001;
 });
 </script>
-
-<style scoped>
-.glow-green {
-  box-shadow: 0 0 10px #00ff00;
-}
-</style>

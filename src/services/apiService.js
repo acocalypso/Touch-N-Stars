@@ -1,3 +1,4 @@
+import { wait } from '@/utils/utils';
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
 
@@ -692,7 +693,7 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain, solve = false, omitImage = false) {
+  async startCapture(duration, gain, solve = false, omitImage = false, save = false) {
     console.log('Zeit:', duration, 'Gain: ', gain);
     try {
       const { BASE_URL } = getUrls();
@@ -702,6 +703,7 @@ const apiService = {
           gain: gain,
           solve: solve,
           omitImage: omitImage,
+          save: save,
         },
       });
       return response.data;

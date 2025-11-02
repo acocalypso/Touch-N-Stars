@@ -46,65 +46,52 @@ export const useCameraStore = defineStore('cameraStore', () => {
     isLoadingImage.value = false;
     isAbort.value = false;
     plateSolveResult.value = null;
+    const save = store.profileInfo.SnapShotControlSettings.Save;
 
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
-      await apiService.startCapture(exposureTime, gain, solve, true);
-
-      // Warte bis Belichtung fertig ist (Server-Countdown läuft automatisch via updateCountdown)
-      while (store.cameraInfo.IsExposing && !isAbort.value) {
-        await wait(500);
+      await apiService.startCapture(exposureTime, gain, solve, true, save);
+      while (!store.isImageFetching) {
+        await wait(100);
+        //console.log('Waiting for exposure to complete...');
       }
 
       // Phase 2: Bild laden mit Timeout
       if (!isAbort.value) {
         isLoadingImage.value = true;
 
-        // Setze Timeout (60 Sekunden)
-        const timeoutPromise = new Promise((_, reject) => {
-          loadingTimeout.value = setTimeout(() => {
-            reject(new Error('Image loading timeout'));
-          }, 60000);
-        });
-
         // Warte auf Bild oder Timeout
-        const imagePromise = new Promise(async (resolve, reject) => {
-          let attempts = 0;
-          const maxAttempts = 60;
-          const previousImage = imageData.value;
+        let attempts = 0;
+        const maxAttempts = 60;
+        const previousImage = imageData.value;
 
-          while (attempts < maxAttempts && !isAbort.value) {
-            try {
-              const resImageData = await apiService.getImageData();
+        while (attempts < maxAttempts && !isAbort.value) {
+          try {
+            const resImageData = await apiService.getImageData();
 
-              // Prüfe ob neues Bild vorhanden
-              if (previousImage !== imageData.value) {
-                console.log('Image data received from API.');
+            // Prüfe ob neues Bild vorhanden
+            if (previousImage !== imageData.value) {
+              console.log('Image data received from API.');
 
-                if (solve === false) {
-                  resolve('Image captured without plate solving.');
-                  return;
-                }
-
-                if (resImageData.Response !== 'Capture already in progress') {
-                  plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
-                  resolve('Image captured with plate solving.');
-                  return;
-                }
+              if (solve === false) {
+                return;
               }
-            } catch (error) {
-              console.error('Error fetching image:', error.message);
-            }
 
-            attempts++;
-            await wait(1000);
+              if (resImageData.Response !== 'Capture already in progress') {
+                plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
+                return;
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching image:', error.message);
           }
 
-          reject(new Error('Max attempts reached'));
-        });
+          attempts++;
+          //console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
+          await wait(1000);
+        }
 
         try {
-          await Promise.race([imagePromise, timeoutPromise]);
           console.log('Image successfully loaded');
         } catch (error) {
           console.error('Image loading failed:', error.message);
@@ -128,7 +115,8 @@ export const useCameraStore = defineStore('cameraStore', () => {
       // Dauerschleife?
       if (isLooping.value && !isAbort.value) {
         console.log('Starting next looped exposure...');
-        capturePhoto(apiService, exposureTime, gain, solve);
+        capturePhoto(apiService, exposureTime, gain, solve, false, save);
+        console.log('save value in loop: ', save);
       }
     }
   }

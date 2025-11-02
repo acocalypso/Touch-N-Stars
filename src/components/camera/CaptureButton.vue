@@ -17,7 +17,7 @@
           : cameraStore.capturePhoto(
               apiService,
               settingsStore.camera.exposureTime,
-              settingsStore.camera.gain,
+              store.profileInfo.SnapShotControlSettings.Gain,
               settingsStore.camera.useSolve
             )
       "

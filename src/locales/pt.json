@@ -451,7 +451,8 @@
       "cooler_status_off": "DESLIGADO",
       "cooler_status_cooling": "Ativo - Resfriando para",
       "cooler_status_holding": "Ativo - Na temperatura alvo",
-      "cooler_status_warming": "Ativo - Aquecendo para"
+      "cooler_status_warming": "Ativo - Aquecendo para",
+      "set_save_snapshot": "Salvar snapshots"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",

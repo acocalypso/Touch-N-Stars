@@ -65,6 +65,5 @@ jobs:
           name: v${{ steps.pkg.outputs.version }}
           files: |
             dist.zip
-            public/whats-new.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

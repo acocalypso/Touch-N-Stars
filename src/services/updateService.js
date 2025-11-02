@@ -5,13 +5,21 @@ import appVersion from '@/version';
 const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
 const GITHUB_API_BASE = 'https://api.github.com/repos/acocalypso/Touch-N-Stars';
 const UPDATE_ASSET_NAME = 'dist.zip';
-const WHATS_NEW_ASSET_NAME = 'whats-new.json';
-const RAW_CONTENT_BASE = 'https://raw.githubusercontent.com/acocalypso/Touch-N-Stars';
+const CHANGELOG_RAW_URL =
+  'https://raw.githubusercontent.com/acocalypso/Touch-N-Stars/master/CHANGELOG.md';
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
   'User-Agent': 'touch-n-stars-updater',
 };
+
+function buildHeaders(acceptType) {
+  const headers = { ...defaultHeaders };
+  if (acceptType) {
+    headers.Accept = acceptType;
+  }
+  return headers;
+}
 
 function getPlatform() {
   try {
@@ -82,8 +90,11 @@ async function fetchLatestRelease() {
     }
 
     const assets = Array.isArray(release.assets) ? release.assets : [];
-    const asset = assets.find((item) => item?.name === UPDATE_ASSET_NAME) ?? null;
-    const whatsNewAsset = assets.find((item) => item?.name === WHATS_NEW_ASSET_NAME) ?? null;
+    console.info(
+      '[Updater] Release assets found:',
+      assets.map((assetItem) => assetItem?.name).filter(Boolean)
+    );
+    const asset = assets.find((item) => item?.name === UPDATE_ASSET_NAME) || null;
 
     if (!asset || !asset.browser_download_url) {
       throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
@@ -101,7 +112,6 @@ async function fetchLatestRelease() {
       name: release.name || release.tag_name,
       notes: release.body || '',
       assetUrl: asset.browser_download_url,
-      whatsNewUrl: whatsNewAsset?.browser_download_url ?? null,
       publishedAt: release.published_at,
     };
   } catch (error) {
@@ -198,54 +208,143 @@ export async function markAppReady() {
   }
 }
 
-export async function fetchWhatsNewContent({ assetUrl, tagName, version }) {
-  const candidateUrls = [];
-
-  if (assetUrl) {
-    candidateUrls.push({
-      url: assetUrl,
-      headers: {
-        Accept: 'application/octet-stream',
-        'User-Agent': defaultHeaders['User-Agent'],
-      },
-    });
+function extractLatestChangelogSection(markdown) {
+  if (!markdown) {
+    return null;
   }
 
-  const possibleTags = new Set();
-  if (tagName) {
-    possibleTags.add(tagName);
-  }
-  if (version) {
-    possibleTags.add(`v${version}`);
-    possibleTags.add(version);
-  }
-
-  for (const tag of possibleTags) {
-    candidateUrls.push({
-      url: `${RAW_CONTENT_BASE}/${tag}/public/${WHATS_NEW_ASSET_NAME}`,
-      headers: {
-        Accept: 'application/json',
-        'User-Agent': defaultHeaders['User-Agent'],
-      },
-    });
-  }
-
-  for (const candidate of candidateUrls) {
-    try {
-      const response = await fetch(candidate.url, {
-        headers: candidate.headers,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const payload = await response.text();
-      return JSON.parse(payload);
-    } catch (error) {
-      console.warn('[Updater] Failed to load whats-new.json from', candidate.url, error);
+  const lines = markdown.split(/\r?\n/);
+  let startIdx = -1;
+  for (let index = 0; index < lines.length; index += 1) {
+    if (lines[index].startsWith('## [')) {
+      startIdx = index;
+      break;
     }
   }
 
-  return null;
+  if (startIdx === -1) {
+    return null;
+  }
+
+  let endIdx = lines.length;
+  for (let index = startIdx + 1; index < lines.length; index += 1) {
+    if (lines[index].startsWith('## [')) {
+      endIdx = index;
+      break;
+    }
+  }
+
+  const sectionLines = lines.slice(startIdx, endIdx);
+  const heading = sectionLines[0]?.trim() ?? '';
+  const match = heading.match(/^## \[(.+?)\]\s*-\s*(.+)$/);
+  const version = match ? match[1].trim() : 'unknown';
+  const date = match ? match[2].trim() : '';
+  const bodyLines = sectionLines.slice(1);
+
+  while (bodyLines.length && !bodyLines[0].trim()) {
+    bodyLines.shift();
+  }
+  while (bodyLines.length && !bodyLines[bodyLines.length - 1].trim()) {
+    bodyLines.pop();
+  }
+
+  const markdownOut = [heading, '', ...bodyLines].join('\n');
+  return {
+    version,
+    date,
+    heading,
+    bodyLines,
+    markdown: markdownOut,
+  };
+}
+
+function escapeHtml(value) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function changelogLinesToHtml(lines, heading) {
+  const parts = [];
+
+  if (heading) {
+    const titleText = heading.replace(/^##\s*/, '');
+    parts.push(`<h2 class="text-xl sm:text-2xl font-bold mb-3">${escapeHtml(titleText)}</h2>`);
+  }
+
+  let index = 0;
+  while (index < lines.length) {
+    const line = lines[index];
+    if (!line.trim()) {
+      index += 1;
+      continue;
+    }
+
+    if (line.startsWith('### ')) {
+      parts.push(
+        `<h3 class="text-lg sm:text-xl font-semibold mt-4 mb-2">${escapeHtml(line.slice(4))}</h3>`
+      );
+      index += 1;
+      continue;
+    }
+
+    if (line.startsWith('- ')) {
+      const items = [];
+      while (index < lines.length && lines[index].startsWith('- ')) {
+        items.push(lines[index].slice(2));
+        index += 1;
+      }
+      const listItems = items
+        .map(
+          (item) =>
+            `<li class="ml-4 list-disc"><span class="align-middle">${escapeHtml(item)}</span></li>`
+        )
+        .join('');
+      parts.push(`<ul class="pl-5 space-y-1">${listItems}</ul>`);
+      continue;
+    }
+
+    parts.push(`<p class="mb-2">${escapeHtml(line)}</p>`);
+    index += 1;
+  }
+
+  return parts.join('\n');
+}
+
+export async function fetchChangelogWhatsNew() {
+  // Mirror the CLI generator to render the latest CHANGELOG entry for the update modal.
+  try {
+    console.info('[Updater] Fetching latest changelog entry');
+    const response = await fetch(CHANGELOG_RAW_URL, {
+      headers: buildHeaders('text/plain'),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const markdown = await response.text();
+    const section = extractLatestChangelogSection(markdown);
+    if (!section) {
+      throw new Error('CHANGELOG.md does not contain a valid release section');
+    }
+
+    const html = changelogLinesToHtml(section.bodyLines, section.heading);
+    const titleBase = `What's New in ${section.version}`;
+    const title = section.date ? `${titleBase} (${section.date})` : titleBase;
+
+    return {
+      version: section.version,
+      date: section.date,
+      title,
+      html,
+      markdown: section.markdown,
+    };
+  } catch (error) {
+    console.warn('[Updater] Failed to load changelog whats-new content:', error);
+    return null;
+  }
 }

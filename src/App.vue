@@ -220,7 +220,7 @@ import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue'
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
-  fetchWhatsNewContent,
+  fetchChangelogWhatsNew,
   isNativePlatform,
 } from '@/services/updateService';
 
@@ -403,11 +403,8 @@ async function checkForAppUpdate() {
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
       let whatsNewDetails = null;
       try {
-        whatsNewDetails = await fetchWhatsNewContent({
-          assetUrl: result.whatsNewUrl,
-          tagName: result.tagName,
-          version: result.version,
-        });
+        whatsNewDetails = await fetchChangelogWhatsNew();
+        console.info('Update whats-new content resolved:', whatsNewDetails);
       } catch (whatsNewError) {
         console.warn('Failed to load whats-new content:', whatsNewError);
       }

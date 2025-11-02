@@ -51,25 +51,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
       await apiService.startCapture(exposureTime, gain, solve, true, save);
-
-      // Warte bis Belichtung fertig ist (Server-Countdown läuft automatisch via updateCountdown)
-      while (store.cameraInfo.IsExposing && !isAbort.value) {
-        await wait(500);
+      while (!store.isImageFetching) {
+        await wait(100);
+        //console.log('Waiting for exposure to complete...');
       }
 
       // Phase 2: Bild laden mit Timeout
       if (!isAbort.value) {
         isLoadingImage.value = true;
 
-        // Setze Timeout (60 Sekunden)
-        const timeoutPromise = new Promise((_, reject) => {
-          loadingTimeout.value = setTimeout(() => {
-            reject(new Error('Image loading timeout'));
-          }, 60000);
-        });
-
         // Warte auf Bild oder Timeout
-        const imagePromise = new Promise(async (resolve, reject) => {
           let attempts = 0;
           const maxAttempts = 60;
           const previousImage = imageData.value;
@@ -83,13 +74,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
                 console.log('Image data received from API.');
 
                 if (solve === false) {
-                  resolve('Image captured without plate solving.');
                   return;
                 }
 
                 if (resImageData.Response !== 'Capture already in progress') {
                   plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
-                  resolve('Image captured with plate solving.');
                   return;
                 }
               }
@@ -98,15 +87,13 @@ export const useCameraStore = defineStore('cameraStore', () => {
             }
 
             attempts++;
-            console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
+            //console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
             await wait(1000);
           }
 
-          reject(new Error('Max attempts reached'));
-        });
 
         try {
-          await Promise.race([imagePromise, timeoutPromise]);
+          
           console.log('Image successfully loaded');
         } catch (error) {
           console.error('Image loading failed:', error.message);

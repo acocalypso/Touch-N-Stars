@@ -168,11 +168,11 @@ async function setGain() {
 }
 
 async function setExposureTime() {
-    statusClassExposureTime.value = 'glow-green';
-    console.log('Error while setting exposure time');
-    setTimeout(() => {
-      statusClassExposureTime.value = '';
-    }, 1000);
+  statusClassExposureTime.value = 'glow-green';
+  console.log('Error while setting exposure time');
+  setTimeout(() => {
+    statusClassExposureTime.value = '';
+  }, 1000);
 }
 
 onMounted(() => {

@@ -24,7 +24,8 @@
       <select
         v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
         id="gain"
-        v-model.number="settingsStore.camera.gain"
+        @select="setGain"
+        v-model.number="gain"
         class="default-select ml-auto h-8 w-28"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
@@ -34,7 +35,8 @@
       <input
         v-else
         id="gain"
-        v-model.number="settingsStore.camera.gain"
+        @blur="setGain"
+        v-model.number="gain"
         type="number"
         class="default-input ml-auto h-8 w-28"
         placeholder="1"
@@ -79,7 +81,7 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
@@ -90,6 +92,7 @@ import setSaveSnapshot from './setSaveSnapshot.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const gain = ref(0);
 
 onMounted(() => {
   initializeOffset();
@@ -126,4 +129,24 @@ async function setOffset() {
     console.log('Error while setting offset');
   }
 }
+
+async function setGain() {
+  try {
+    const data = await apiService.profileChangeValue(
+      'SnapShotControlSettings-Gain',
+      gain.value
+    );
+    console.log(data);
+  } catch (error) {
+    console.log('Error while setting gain');
+  }
+}
+
+onMounted(() => {
+  gain.value = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
+  if (gain.value === -1 ) {
+    gain.value = store.profileInfo?.CameraSettings?.Gain;
+  }
+});
+
 </script>

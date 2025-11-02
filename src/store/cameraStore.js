@@ -46,10 +46,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
     isLoadingImage.value = false;
     isAbort.value = false;
     plateSolveResult.value = null;
+    const save = store.profileInfo.SnapShotControlSettings.Save;
 
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
-      await apiService.startCapture(exposureTime, gain, solve, true);
+      await apiService.startCapture(exposureTime, gain, solve, true, save);
 
       // Warte bis Belichtung fertig ist (Server-Countdown läuft automatisch via updateCountdown)
       while (store.cameraInfo.IsExposing && !isAbort.value) {
@@ -97,6 +98,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
             }
 
             attempts++;
+            console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
             await wait(1000);
           }
 
@@ -128,7 +130,8 @@ export const useCameraStore = defineStore('cameraStore', () => {
       // Dauerschleife?
       if (isLooping.value && !isAbort.value) {
         console.log('Starting next looped exposure...');
-        capturePhoto(apiService, exposureTime, gain, solve);
+        capturePhoto(apiService, exposureTime, gain, solve, false, save);
+        console.log('save value in loop: ', save);
       }
     }
   }

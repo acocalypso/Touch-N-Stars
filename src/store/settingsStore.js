@@ -1,3 +1,4 @@
+
 import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';

@@ -288,7 +288,7 @@ function applyDateTime() {
 // Reset to current time
 async function resetToCurrentTime() {
   if (!stellariumStore.stel) return;
-  const response = await apiService.fetchNinaTime()
+  const response = await apiService.fetchNinaTime();
   const apiTimeString = response.Response;
   console.log('NINA Time fetched:', apiTimeString);
 
@@ -297,8 +297,8 @@ async function resetToCurrentTime() {
 
   const [_, datePart, timePart] = match;
 
-  dateValue.value = datePart;    // "2025-11-01"
-  timeValue.value = timePart;    // "07:07:04"
+  dateValue.value = datePart; // "2025-11-01"
+  timeValue.value = timePart; // "07:07:04"
 
   applyDateTime();
 
@@ -337,14 +337,12 @@ onMounted(() => {
   resetToCurrentTime();
   updateTime();
   timeSpeed.value = 0; // ini
-  
 });
 
 onBeforeUnmount(() => {
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId);
   }
-  
 });
 </script>
 

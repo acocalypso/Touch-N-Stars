@@ -18,7 +18,7 @@
               apiService,
               settingsStore.camera.exposureTime,
               settingsStore.camera.gain,
-              settingsStore.camera.useSolve
+              settingsStore.camera.useSolve,
             )
       "
       :disabled="

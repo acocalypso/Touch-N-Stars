@@ -74,6 +74,7 @@
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
     <setSolve />
+    <setSaveSnapshot />
   </div>
 </template>
 
@@ -85,6 +86,7 @@ import apiService from '@/services/apiService';
 import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
 import setSolve from '@/components/camera/setSolve.vue';
+import setSaveSnapshot from './setSaveSnapshot.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

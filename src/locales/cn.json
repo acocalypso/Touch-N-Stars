@@ -281,6 +281,8 @@
         "notSlewing": "赤道仪未转动",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Time to Meridian Flip"
       }
     },

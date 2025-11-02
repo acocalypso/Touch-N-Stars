@@ -266,6 +266,8 @@
         "notSlewing": "Nepřejíždí",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Čas na Překlopení Poledník"
       },
       "location_sync": {

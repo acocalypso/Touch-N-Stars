@@ -36,6 +36,18 @@
     />
     <StatusString
       v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.AltitudeString"
+      :Name="$t('components.mount.info.Alt')"
+      :Value="store.mountInfo.AltitudeString || ''"
+    />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.AzimuthString"
+      :Name="$t('components.mount.info.Az')"
+      :Value="store.mountInfo.AzimuthString || ''"
+    />
+    <StatusString
+      v-if="!hideMountInfos"
       :isEnabled="!!store.mountInfo.TimeToMeridianFlipString"
       :Name="$t('components.mount.info.timeToMeridianFlip')"
       :Value="store.mountInfo.TimeToMeridianFlipString || ''"

@@ -267,6 +267,8 @@
         "notSlewing": "No desplazándose",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Tiempo para voltear meridian"
       },
       "location_sync": {

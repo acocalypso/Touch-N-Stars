@@ -267,6 +267,8 @@
         "notSlewing": "Schwenken nicht aktiv",
         "declination": "Dez",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Zeit bis Meridian Flip"
       },
       "location_sync": {

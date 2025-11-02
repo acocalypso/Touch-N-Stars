@@ -280,6 +280,8 @@
         "notSlewing": "Montatura ferma",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Tempo per il lancio del meridiano"
       }
     },

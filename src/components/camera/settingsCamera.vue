@@ -9,9 +9,11 @@
       <input
         id="exposure"
         v-model.number="settingsStore.camera.exposureTime"
+        @change="setExposureTime"
         type="number"
         class="default-input ml-auto h-8 w-28"
         placeholder="sek"
+        :class="statusClassExposureTime"
       />
     </div>
 
@@ -100,6 +102,7 @@ const settingsStore = useSettingsStore();
 
 const statusClassOffset = ref('');
 const statusClassGain = ref('');
+const statusClassExposureTime = ref('');
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
@@ -163,6 +166,23 @@ async function setGain() {
   } finally {
     setTimeout(() => {
       statusClassGain.value = '';
+    }, 1000);
+  }
+}
+
+async function setExposureTime() {
+  try {
+    const data = await apiService.profileChangeValue(
+      'CameraSettings-ExposureTime',
+      settingsStore.camera.exposureTime
+    );
+    console.log(data);
+    statusClassExposureTime.value = 'glow-green';
+  } catch (error) {
+    console.log('Error while setting exposure time');
+  } finally {
+    setTimeout(() => {
+      statusClassExposureTime.value = '';
     }, 1000);
   }
 }

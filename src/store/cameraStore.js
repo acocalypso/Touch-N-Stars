@@ -61,39 +61,37 @@ export const useCameraStore = defineStore('cameraStore', () => {
         isLoadingImage.value = true;
 
         // Warte auf Bild oder Timeout
-          let attempts = 0;
-          const maxAttempts = 60;
-          const previousImage = imageData.value;
+        let attempts = 0;
+        const maxAttempts = 60;
+        const previousImage = imageData.value;
 
-          while (attempts < maxAttempts && !isAbort.value) {
-            try {
-              const resImageData = await apiService.getImageData();
+        while (attempts < maxAttempts && !isAbort.value) {
+          try {
+            const resImageData = await apiService.getImageData();
 
-              // Prüfe ob neues Bild vorhanden
-              if (previousImage !== imageData.value) {
-                console.log('Image data received from API.');
+            // Prüfe ob neues Bild vorhanden
+            if (previousImage !== imageData.value) {
+              console.log('Image data received from API.');
 
-                if (solve === false) {
-                  return;
-                }
-
-                if (resImageData.Response !== 'Capture already in progress') {
-                  plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
-                  return;
-                }
+              if (solve === false) {
+                return;
               }
-            } catch (error) {
-              console.error('Error fetching image:', error.message);
-            }
 
-            attempts++;
-            //console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
-            await wait(1000);
+              if (resImageData.Response !== 'Capture already in progress') {
+                plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
+                return;
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching image:', error.message);
           }
 
+          attempts++;
+          //console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
+          await wait(1000);
+        }
 
         try {
-          
           console.log('Image successfully loaded');
         } catch (error) {
           console.error('Image loading failed:', error.message);

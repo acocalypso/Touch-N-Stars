@@ -91,7 +91,11 @@
           v-if="livestackStore.selectedFilter"
           class="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm z-20"
         >
-          {{ livestackStore.selectedFilter === 'No_filter' ? livestackStore.selectedTarget : `${livestackStore.selectedFilter} (${livestackStore.selectedTarget})` }}
+          {{
+            livestackStore.selectedFilter === 'No_filter'
+              ? livestackStore.selectedTarget
+              : `${livestackStore.selectedFilter} (${livestackStore.selectedTarget})`
+          }}
         </div>
       </div>
 
@@ -204,13 +208,16 @@
               :key="`${image.Filter}-${image.Target}-${index}`"
               @click="selectFilter(image.Filter, image.Target)"
               :class="
-                livestackStore.selectedFilter === image.Filter && livestackStore.selectedTarget === image.Target
+                livestackStore.selectedFilter === image.Filter &&
+                livestackStore.selectedTarget === image.Target
                   ? 'bg-blue-600 hover:bg-blue-700'
                   : 'bg-gray-600 hover:bg-gray-700'
               "
               class="px-2 py-1 text-white rounded text-xs transition-colors"
             >
-              {{ image.Filter === 'No_filter' ? image.Target : `${image.Filter} (${image.Target})` }}
+              {{
+                image.Filter === 'No_filter' ? image.Target : `${image.Filter} (${image.Target})`
+              }}
             </button>
           </div>
         </div>
@@ -308,13 +315,19 @@ const checkImageAvailability = async () => {
         // Auto-select first available filter/target combination if no filter is selected
         // or if current filter/target combination is not available anymore
         const isCurrentCombinationAvailable = availableImages.value.some(
-          (img) => img.Filter === livestackStore.selectedFilter && img.Target === livestackStore.selectedTarget
+          (img) =>
+            img.Filter === livestackStore.selectedFilter &&
+            img.Target === livestackStore.selectedTarget
         );
 
         if (!livestackStore.selectedFilter || !isCurrentCombinationAvailable) {
           livestackStore.selectedFilter = availableImages.value[0].Filter;
           livestackStore.selectedTarget = availableImages.value[0].Target;
-          console.log('Auto-selected filter/target:', livestackStore.selectedFilter, livestackStore.selectedTarget);
+          console.log(
+            'Auto-selected filter/target:',
+            livestackStore.selectedFilter,
+            livestackStore.selectedTarget
+          );
         }
 
         loadImage(livestackStore.selectedTarget, livestackStore.selectedFilter);

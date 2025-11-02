@@ -18,7 +18,7 @@
               apiService,
               settingsStore.camera.exposureTime,
               store.profileInfo.SnapShotControlSettings.Gain,
-              settingsStore.camera.useSolve,
+              settingsStore.camera.useSolve
             )
       "
       :disabled="

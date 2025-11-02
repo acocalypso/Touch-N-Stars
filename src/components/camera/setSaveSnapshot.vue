@@ -21,21 +21,13 @@ import apiService from '@/services/apiService';
 
 const store = apiStore();
 
-
 async function toggleSave() {
   if (store.profileInfo.SnapShotControlSettings.Save) {
-    await apiService.profileChangeValue(
-      'SnapShotControlSettings-Save',
-      false
-    );
+    await apiService.profileChangeValue('SnapShotControlSettings-Save', false);
     console.log('Save snapshots off');
   } else {
-    await apiService.profileChangeValue(
-      'SnapShotControlSettings-Save',
-      true
-    );
+    await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
     console.log('Save snapshots on');
   }
 }
-
 </script>

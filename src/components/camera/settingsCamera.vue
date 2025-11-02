@@ -122,7 +122,7 @@ const initializeGain = () => {
   }
 
   settingsStore.camera.gain = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
-  if (settingsStore.camera.gain === -1 ) {
+  if (settingsStore.camera.gain === -1) {
     settingsStore.camera.gain = store.profileInfo?.CameraSettings?.Gain;
   }
 };
@@ -155,10 +155,7 @@ async function setOffset() {
 
 async function setGain() {
   try {
-    const data = await apiService.profileChangeValue(
-      'SnapShotControlSettings-Gain',
-      gain.value
-    );
+    const data = await apiService.profileChangeValue('SnapShotControlSettings-Gain', gain.value);
     console.log(data);
     statusClassGain.value = 'glow-green';
   } catch (error) {
@@ -191,11 +188,4 @@ onMounted(() => {
   initializeOffset();
   initializeGain();
 });
-
 </script>
-
-<style scoped>
-.glow-green {
-  box-shadow: 0 0 10px #00ff00;
-}
-</style>

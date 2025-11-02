@@ -168,20 +168,11 @@ async function setGain() {
 }
 
 async function setExposureTime() {
-  try {
-    const data = await apiService.profileChangeValue(
-      'CameraSettings-ExposureTime',
-      settingsStore.camera.exposureTime
-    );
-    console.log(data);
     statusClassExposureTime.value = 'glow-green';
-  } catch (error) {
     console.log('Error while setting exposure time');
-  } finally {
     setTimeout(() => {
       statusClassExposureTime.value = '';
     }, 1000);
-  }
 }
 
 onMounted(() => {

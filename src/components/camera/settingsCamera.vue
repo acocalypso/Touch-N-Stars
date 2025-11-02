@@ -36,7 +36,7 @@
         v-else
         id="gain"
         @blur="setGain"
-        v-model.number="gain"
+        v-model.number="settingsStore.camera.gain"
         type="number"
         class="default-input ml-auto h-8 w-28"
         placeholder="1"
@@ -92,11 +92,6 @@ import setSaveSnapshot from './setSaveSnapshot.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
-const gain = ref(0);
-
-onMounted(() => {
-  initializeOffset();
-});
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
@@ -107,6 +102,18 @@ const initializeOffset = () => {
 
   const offset = store.cameraInfo.Offset ?? 0; // Falls undefined -> Standardwert 1
   settingsStore.camera.offset = offset;
+};
+
+const initializeGain = () => {
+  if (!store.cameraInfo) {
+    console.warn('Camera info not loaded');
+    return;
+  }
+
+  settingsStore.camera.gain = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
+  if (settingsStore.camera.gain === -1 ) {
+    settingsStore.camera.gain = store.profileInfo?.CameraSettings?.Gain;
+  }
 };
 
 async function setOffset() {
@@ -143,10 +150,8 @@ async function setGain() {
 }
 
 onMounted(() => {
-  gain.value = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
-  if (gain.value === -1 ) {
-    gain.value = store.profileInfo?.CameraSettings?.Gain;
-  }
+  initializeOffset();
+  initializeGain();
 });
 
 </script>

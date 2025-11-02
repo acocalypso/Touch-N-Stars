@@ -280,6 +280,8 @@
         "notSlewing": "Sem movimento",
         "declination": "DEC",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Hora de Meridian Flip"
       }
     },

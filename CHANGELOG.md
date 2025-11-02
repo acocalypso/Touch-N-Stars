@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Option to save snapshots
 - Green glow effect for camera settings when successfully changed (Exposure Time, Gain, Offset, Target Temperature, Cooling Time, Warming Time, Pixel Size)
 - Translations for snapshot settings in all supported languages
+- Added Altitude (Alt) and Azimuth (Az)  to mountinfo
 
 ### Changed
 - Stellarium now displays the time from NINA when starting up.

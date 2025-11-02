@@ -144,6 +144,7 @@ async function slewAndCenterFinished() {
   );
   cameraStore.imageData = '';
   cameraStore.slewModal = false;
+  framingStore.showCenterModal = false;
 }
 
 function onImageLoad() {

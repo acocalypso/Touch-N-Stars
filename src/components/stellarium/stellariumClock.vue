@@ -295,7 +295,8 @@ async function resetToCurrentTime() {
   const match = apiTimeString.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/);
   if (!match) return;
 
-  const [_, datePart, timePart] = match;
+  const datePart = match[1];
+  const timePart = match[2];
 
   dateValue.value = datePart; // "2025-11-01"
   timeValue.value = timePart; // "07:07:04"

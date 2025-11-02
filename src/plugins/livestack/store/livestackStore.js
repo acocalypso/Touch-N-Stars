@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const useLivestackStore = defineStore('livestackStore', {
   state: () => ({
     selectedFilter: [],
+    selectedTarget: null,
     currentImageUrl: null,
     lastImageUpdate: null,
     currentImageTarget: null,

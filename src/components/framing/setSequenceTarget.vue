@@ -73,7 +73,6 @@ async function setSequenceTarget() {
 
   try {
     await apiService.sequnceTargetSet(name, ra, dec, rotation, index);
-    console.log('Sequence target updated successfully.');
   } catch (error) {
     console.error('Error setting sequence target:', error);
   }

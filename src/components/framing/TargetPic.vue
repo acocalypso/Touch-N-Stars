@@ -60,12 +60,10 @@ async function getTargetPic() {
     const fov = framingStore.fov;
 
     const useCache = settingsStore.framing.useNinaCache;
-    console.log('Image is being fetched', 'RA: ', ra, 'DEC: ', dec, useCache);
     if (targetPic.value) {
       URL.revokeObjectURL(targetPic.value);
     }
     targetPic.value = await apiService.searchTargetPic(width, height, fov, ra, dec, useCache);
-    console.log('Load TargestPic');
   } catch (error) {
     console.error('Error fetching image:', error);
   }

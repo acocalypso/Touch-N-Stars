@@ -278,6 +278,8 @@
         "notSlewing": "Schwenken nicht aktiv",
         "declination": "Dez",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Zeit bis Meridian Flip"
       },
       "location_sync": {
@@ -462,7 +464,8 @@
       "cooler_status_off": "AUS",
       "cooler_status_cooling": "Aktiv - Kühlt auf",
       "cooler_status_holding": "Aktiv - Zieltemperatur erreicht",
-      "cooler_status_warming": "Aktiv - Wärmt auf"
+      "cooler_status_warming": "Aktiv - Wärmt auf",
+      "set_save_snapshot": "Snapshots speichern"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

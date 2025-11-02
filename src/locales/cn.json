@@ -292,6 +292,8 @@
         "notSlewing": "赤道仪未转动",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Time to Meridian Flip"
       }
     },
@@ -463,7 +465,8 @@
       "cooler_status_off": "关闭",
       "cooler_status_cooling": "活跃 - 冷却至",
       "cooler_status_holding": "活跃 - 达到目标温度",
-      "cooler_status_warming": "活跃 - 加热至"
+      "cooler_status_warming": "活跃 - 加热至",
+      "set_save_snapshot": "保存快照"
     },
     "tppa": {
       "title": "三点极轴对准",

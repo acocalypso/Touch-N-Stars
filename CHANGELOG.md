@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6.0] [App3.6.0] - 2025-xx-xx
+### Added
+- Option to save snapshots
+- Green glow effect for camera settings when successfully changed (Exposure Time, Gain, Offset, Target Temperature, Cooling Time, Warming Time, Pixel Size)
+- Translations for snapshot settings in all supported languages
+- Added Altitude (Alt) and Azimuth (Az)  to mountinfo
+
+### Changed
+- Stellarium now displays the time from NINA when starting up.
+- Camera Gain synchronizes with the NINA Snapshot setting.
+
+### Fixed
+- Fixed guider calibration assitant slew stop
+- Fixed loading images during continuous loop
+
 ## [1.1.5.0] [App3.5.0] - 2025-10-25
 ### Added
 - Added a button to control the mount in TPPA Manual Mode.  

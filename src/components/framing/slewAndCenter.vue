@@ -150,7 +150,6 @@ function handleBlurDEC() {
     return; // Nichts tun, wenn der Wert leer ist
   }
   if (validateDEC(localDECangleString.value)) {
-    console.log('Lokal DEC', localDECangleString.value);
     updateDec();
   } else {
     alert(t('components.slewAndCenter.errors.invalidDECInput'));
@@ -211,9 +210,6 @@ function updateAltAz() {
 
   statusClassRaDec.value = '';
   statusClassAzAlt.value = 'glow-green';
-
-  console.log('→ RA (°):', ra);
-  console.log('→ DEC (°):', dec);
 }
 
 async function fetchInfo() {

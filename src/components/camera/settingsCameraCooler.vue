@@ -52,6 +52,7 @@
               step="1"
               @change="setCoolingTemp"
               @blur="setCoolingTemp"
+              :class="statusClassCoolingTemp"
             />
           </div>
 
@@ -70,6 +71,7 @@
               step="1"
               @change="setCoolingTime"
               @blur="setCoolingTime"
+              :class="statusClassCoolingTime"
             />
           </div>
         </div>
@@ -96,6 +98,7 @@
               step="1"
               @change="setWarmingTime"
               @blur="setWarmingTime"
+              :class="statusClassWarmingTime"
             />
           </div>
         </div>
@@ -131,6 +134,10 @@ const { t } = useI18n();
 // Timeout-Mechanismus für AtTargetTemp
 let atTargetTempTimeout = null;
 const isStableAtTarget = ref(false);
+
+const statusClassCoolingTemp = ref('');
+const statusClassCoolingTime = ref('');
+const statusClassWarmingTime = ref('');
 
 const coolerStatus = computed(() => {
   // Zuerst prüfen, ob Cooler überhaupt an ist
@@ -194,8 +201,13 @@ async function setCoolingTime() {
       cameraStore.coolingTime
     );
     console.log(response);
+    statusClassCoolingTime.value = 'glow-green';
   } catch (error) {
     console.log('Error:', error);
+  } finally {
+    setTimeout(() => {
+      statusClassCoolingTime.value = '';
+    }, 1000);
   }
 }
 
@@ -209,8 +221,13 @@ async function setWarmingTime() {
       cameraStore.warmingTime
     );
     console.log(response);
+    statusClassWarmingTime.value = 'glow-green';
   } catch (error) {
     console.log('Error:', error);
+  } finally {
+    setTimeout(() => {
+      statusClassWarmingTime.value = '';
+    }, 1000);
   }
 }
 
@@ -221,8 +238,13 @@ async function setCoolingTemp() {
       cameraStore.coolingTemp
     );
     console.log('setCoolingTemp', response);
+    statusClassCoolingTemp.value = 'glow-green';
   } catch (error) {
     console.log('Error:', error);
+  } finally {
+    setTimeout(() => {
+      statusClassCoolingTemp.value = '';
+    }, 1000);
   }
 }
 

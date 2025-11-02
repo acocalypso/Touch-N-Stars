@@ -291,6 +291,8 @@
         "notSlewing": "Pas de suivi",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Temps de flip méridien"
       }
     },
@@ -462,7 +464,8 @@
       "cooler_status_off": "ÉTEINT",
       "cooler_status_cooling": "Actif - Refroidissement à",
       "cooler_status_holding": "Actif - À la température cible",
-      "cooler_status_warming": "Actif - Réchauffement à"
+      "cooler_status_warming": "Actif - Réchauffement à",
+      "set_save_snapshot": "Enregistrer des instantanés"
     },
     "tppa": {
       "title": "Alignement polaire à trois points",

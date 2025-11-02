@@ -1,4 +1,3 @@
-import { wait } from '@/utils/utils';
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
 

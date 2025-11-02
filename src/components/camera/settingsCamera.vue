@@ -27,6 +27,7 @@
         @select="setGain"
         v-model.number="gain"
         class="default-select ml-auto h-8 w-28"
+        :class="statusClassGain"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
           {{ value }}
@@ -36,10 +37,12 @@
         v-else
         id="gain"
         @blur="setGain"
+        @change="setGain"
         v-model.number="settingsStore.camera.gain"
         type="number"
         class="default-input ml-auto h-8 w-28"
         placeholder="1"
+        :class="statusClassGain"
       />
     </div>
 
@@ -56,6 +59,7 @@
         v-model.number="settingsStore.camera.offset"
         @change="setOffset"
         class="default-select ml-auto h-8 w-28"
+        :class="statusClassOffset"
       >
         <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
           {{ value }}
@@ -71,6 +75,7 @@
         :max="store.cameraInfo.OffsetMax"
         class="default-input ml-auto h-8 w-28"
         placeholder="0"
+        :class="statusClassOffset"
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
@@ -92,6 +97,9 @@ import setSaveSnapshot from './setSaveSnapshot.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+
+const statusClassOffset = ref('');
+const statusClassGain = ref('');
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
@@ -132,8 +140,13 @@ async function setOffset() {
       settingsStore.camera.offset
     );
     console.log(data);
+    statusClassOffset.value = 'glow-green';
   } catch (error) {
     console.log('Error while setting offset');
+  } finally {
+    setTimeout(() => {
+      statusClassOffset.value = '';
+    }, 1000);
   }
 }
 
@@ -144,8 +157,13 @@ async function setGain() {
       gain.value
     );
     console.log(data);
+    statusClassGain.value = 'glow-green';
   } catch (error) {
     console.log('Error while setting gain');
+  } finally {
+    setTimeout(() => {
+      statusClassGain.value = '';
+    }, 1000);
   }
 }
 
@@ -155,3 +173,9 @@ onMounted(() => {
 });
 
 </script>
+
+<style scoped>
+.glow-green {
+  box-shadow: 0 0 10px #00ff00;
+}
+</style>

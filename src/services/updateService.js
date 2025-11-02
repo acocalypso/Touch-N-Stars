@@ -6,6 +6,7 @@ const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
 const GITHUB_API_BASE = 'https://api.github.com/repos/acocalypso/Touch-N-Stars';
 const UPDATE_ASSET_NAME = 'dist.zip';
 const WHATS_NEW_ASSET_NAME = 'whats-new.json';
+const RAW_CONTENT_BASE = 'https://raw.githubusercontent.com/acocalypso/Touch-N-Stars';
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
@@ -197,31 +198,54 @@ export async function markAppReady() {
   }
 }
 
-export async function fetchWhatsNewContent(url) {
-  if (!url) {
-    return null;
-  }
+export async function fetchWhatsNewContent({ assetUrl, tagName, version }) {
+  const candidateUrls = [];
 
-  try {
-    const response = await fetch(url, {
+  if (assetUrl) {
+    candidateUrls.push({
+      url: assetUrl,
       headers: {
         Accept: 'application/octet-stream',
         'User-Agent': defaultHeaders['User-Agent'],
       },
     });
-
-    if (!response.ok) {
-      throw new Error(`Failed to download whats-new.json (${response.status})`);
-    }
-
-    const payload = await response.text();
-    try {
-      return JSON.parse(payload);
-    } catch (parseError) {
-      throw new Error(`Invalid whats-new.json payload: ${parseError.message}`);
-    }
-  } catch (error) {
-    console.warn('[Updater] Failed to download whats-new.json:', error);
-    return null;
   }
+
+  const possibleTags = new Set();
+  if (tagName) {
+    possibleTags.add(tagName);
+  }
+  if (version) {
+    possibleTags.add(`v${version}`);
+    possibleTags.add(version);
+  }
+
+  for (const tag of possibleTags) {
+    candidateUrls.push({
+      url: `${RAW_CONTENT_BASE}/${tag}/public/${WHATS_NEW_ASSET_NAME}`,
+      headers: {
+        Accept: 'application/json',
+        'User-Agent': defaultHeaders['User-Agent'],
+      },
+    });
+  }
+
+  for (const candidate of candidateUrls) {
+    try {
+      const response = await fetch(candidate.url, {
+        headers: candidate.headers,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const payload = await response.text();
+      return JSON.parse(payload);
+    } catch (error) {
+      console.warn('[Updater] Failed to load whats-new.json from', candidate.url, error);
+    }
+  }
+
+  return null;
 }

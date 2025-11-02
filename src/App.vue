@@ -402,12 +402,14 @@ async function checkForAppUpdate() {
     const result = await checkForManualUpdate();
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
       let whatsNewDetails = null;
-      if (result.whatsNewUrl) {
-        try {
-          whatsNewDetails = await fetchWhatsNewContent(result.whatsNewUrl);
-        } catch (whatsNewError) {
-          console.warn('Failed to load whats-new content:', whatsNewError);
-        }
+      try {
+        whatsNewDetails = await fetchWhatsNewContent({
+          assetUrl: result.whatsNewUrl,
+          tagName: result.tagName,
+          version: result.version,
+        });
+      } catch (whatsNewError) {
+        console.warn('Failed to load whats-new content:', whatsNewError);
       }
 
       updateInfo.value = {

@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Build web bundle
-        run: npm run build
+        run: npm run build:native
 
       - name: Package dist assets
         run: |

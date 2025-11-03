@@ -5,9 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.2.0.0] [App3.x.x] - 2025-xx-xx
-### Changed
+### Add
 - **App**
-  - Add dialog modal
+  - Add dialog modal with component-based architecture for different dialog types:
+    - `DefaultDialog.vue` - Standard text dialogs
+    - `PlateSolvingDialog.vue` - Plate solving status with parameters and results table
+    - `ManualRotatorDialog.vue` - Rotator position control with clock visualization
+    - `TppaPage.vue` - Three-Point Polar Alignment dialog integrated in modal
+  - TPPA dialog now displays in modal window instead of separate page
+  - Stop button in TPPA alignment automatically closes dialog window
+  - Improved z-index layering for Mount Controls modal overlay in TPPA dialog
+  - Refactored `DialogModal.vue` into separate, focused components for better maintainability
 - **Plugin**
   - Major refactoring Separated monolithic `Controller.cs` (2800+ lines) into separate, focused controller classes:
     - `AutofocusController` - Autofocus control endpoints

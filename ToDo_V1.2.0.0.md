@@ -1,7 +1,5 @@
 # ToDo V1.2.0.0
 
--[] TPPA Fenster über die sequenz
-
 -[] Autofokus Fenster über sequenz
 
 -[] Meridian Fenster
@@ -26,3 +24,4 @@
 -[x] SlewAndCenter mit Cancel funktion
 -[x] Slew and Center Modal entfernen
 -[x] Das schließen des center fenster schickt ein slew stop
+-[x] TPPA Fenster über die sequenz

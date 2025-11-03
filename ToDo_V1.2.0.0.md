@@ -10,7 +10,7 @@
 
 -[] Beim abbrechen von Slew and Center kommt eine Fehlermeldung
 
--[] Mehr Fehlermedlungen vom Log
+-[] Mehr Fehlermedlungen vom Log error 500
 
 --- 
 

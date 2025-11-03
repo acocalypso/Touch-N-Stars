@@ -364,7 +364,9 @@ async function handleClose() {
   const availableCommands = currentDialog.value?.AvailableCommands || [];
 
   // Filtere PART_* und UnnamedButton heraus um den echten Button zu finden
-  const realButtons = availableCommands.filter((cmd) => !cmd.startsWith('PART_') && cmd !== 'UnnamedButton');
+  const realButtons = availableCommands.filter(
+    (cmd) => !cmd.startsWith('PART_') && cmd !== 'UnnamedButton'
+  );
 
   // Wenn es genau einen echten Button gibt, drücke diesen
   if (realButtons.length === 1) {

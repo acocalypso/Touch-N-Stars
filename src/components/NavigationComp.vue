@@ -464,9 +464,7 @@ onMounted(() => {
   setTimeout(() => {
     forceIconVisibility();
   }, 500);
-
 });
-
 
 onBeforeUnmount(() => {
   window.removeEventListener('orientationchange', handleOrientationChange);

@@ -233,7 +233,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     const maxStuckIterations = 3; // Restart after 3 seconds of no change
 
     while (countdownRunning.value && currentSessionId === countdownSessionId) {
-    
       // Use server-synchronized time for accurate countdown
       const remainingTime = timeSync.calculateCountdown(exposureEndTime);
 

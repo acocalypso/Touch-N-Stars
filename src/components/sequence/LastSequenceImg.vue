@@ -80,10 +80,10 @@ async function getlastImage(index, quality, scale) {
     if (cameraStore.imageData === null) {
       imageData.value = await sequenceStore.getImageByIndex(index, quality, scale);
       console.log('fetched image by index');
-      } else {
-        imageData.value = cameraStore.imageData;
-        console.log('fetched image from camera store');
-      } 
+    } else {
+      imageData.value = cameraStore.imageData;
+      console.log('fetched image from camera store');
+    }
     if (imageData.value) {
       setSelectedDataset(index);
       sequenceStore.lastImage.scale = scale;

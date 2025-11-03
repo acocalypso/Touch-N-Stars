@@ -350,7 +350,6 @@ async function resumeApp() {
     sequenceStore.startFetching();
   }
 
-
   // Reconnect WebSocket filter if needed
   if (
     store.filterInfo.DeviceId === 'Networked Filter Wheel' &&

@@ -5,16 +5,12 @@
       <!-- Current Position -->
       <div class="bg-gray-800 p-4 rounded-lg text-center">
         <p class="text-gray-400 text-sm mb-2">{{ content.Text1 }}</p>
-        <p class="text-4xl font-bold text-white">
-          {{ content.Text2 }}{{ content.Text3 }}
-        </p>
+        <p class="text-4xl font-bold text-white">{{ content.Text2 }}{{ content.Text3 }}</p>
       </div>
       <!-- Target Position -->
       <div class="bg-gray-800 p-4 rounded-lg text-center">
         <p class="text-gray-400 text-sm mb-2">{{ content.Text4 }}</p>
-        <p class="text-4xl font-bold text-white">
-          {{ content.Text5 }}{{ content.Text6 }}
-        </p>
+        <p class="text-4xl font-bold text-white">{{ content.Text5 }}{{ content.Text6 }}</p>
       </div>
     </div>
 
@@ -72,14 +68,7 @@
 
         <!-- Arrow marker definition -->
         <defs>
-          <marker
-            id="arrowhead"
-            markerWidth="10"
-            markerHeight="10"
-            refX="5"
-            refY="5"
-            orient="auto"
-          >
+          <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
             <polygon points="0,0 10,5 0,10" fill="#F59E0B" />
           </marker>
         </defs>
@@ -101,9 +90,7 @@
       </div>
 
       <!-- Rotation Info -->
-      <p class="text-2xl font-bold text-yellow-500 mb-1">
-        {{ content.Text7 }}{{ content.Text8 }}
-      </p>
+      <p class="text-2xl font-bold text-yellow-500 mb-1">{{ content.Text7 }}{{ content.Text8 }}</p>
       <p class="text-gray-400 text-sm">{{ content.Text9 }}</p>
     </div>
   </div>

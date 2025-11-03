@@ -83,7 +83,6 @@ const visibleCommands = computed(() => {
   })).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
 });
 
-
 async function handleButtonClick(buttonName) {
   // Verwende den Titel als window-Parameter
   const windowTitle = currentDialog.value?.Title;

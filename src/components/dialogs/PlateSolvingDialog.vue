@@ -32,11 +32,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(row, idx) in plateSolvingTable"
-            :key="idx"
-            class="border-b border-gray-700"
-          >
+          <tr v-for="(row, idx) in plateSolvingTable" :key="idx" class="border-b border-gray-700">
             <td v-for="header in plateSolvingHeaders" :key="header" class="px-2 py-1">
               {{ getTableValue(row, header) }}
             </td>

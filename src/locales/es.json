@@ -262,6 +262,8 @@
         "notSlewing": "No desplazándose",
         "declination": "Dec",
         "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
         "timeToMeridianFlip": "Tiempo para voltear meridian"
       },
       "location_sync": {
@@ -446,7 +448,8 @@
       "cooler_status_off": "APAGADO",
       "cooler_status_cooling": "Activo - Enfriando a",
       "cooler_status_holding": "Activo - A temperatura objetivo",
-      "cooler_status_warming": "Activo - Calentando a"
+      "cooler_status_warming": "Activo - Calentando a",
+      "set_save_snapshot": "Guardar snapshots"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

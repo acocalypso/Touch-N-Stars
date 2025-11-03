@@ -275,7 +275,9 @@
         "notSlewing": "Brak obrotu",
         "timeToMeridianFlip": "Czas do przerzutu przez meridian",
         "declination": "Dec",
-        "rightAscension": "Ra"
+        "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az"
       }
     },
     "guider": {
@@ -446,7 +448,8 @@
       "cooler_status_off": "WYŁ",
       "cooler_status_cooling": "Aktywne - Chłodzenie do",
       "cooler_status_holding": "Aktywne - Przy temp. docelowej",
-      "cooler_status_warming": "Aktywne - Nagrzewanie do"
+      "cooler_status_warming": "Aktywne - Nagrzewanie do",
+      "set_save_snapshot": "Zapisz snapshoty"
     },
     "tppa": {
       "title": "Wyrównanie biegunowe trzypunktowe",

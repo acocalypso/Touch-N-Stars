@@ -1044,5 +1044,17 @@
   "whatsnew": {
     "loading": "Načítání…",
     "title": "Co je nového"
+  },
+  "updates": {
+    "description": "A newer app bundle ({version}) is ready to install.",
+    "downloading": "Downloading update… {progress}%",
+    "error": "Update failed. Please try again later.",
+    "later": "Later",
+    "preparing": "Preparing update… please keep the app open.",
+    "releaseNotes": "Release notes",
+    "whatsNew": "Novinky",
+    "title": "Update available",
+    "updateNow": "Update now",
+    "working": "Working…"
   }
 }

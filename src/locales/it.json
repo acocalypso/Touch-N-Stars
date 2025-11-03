@@ -17,6 +17,7 @@
     "title": "Touch'N'Stars",
     "connection_error_toast": {
       "title": "Errore di connessione",
+      "whatsNew": "Novità",
       "message_api": "Il plugin API non è disponibile. Si prega di controllare le impostazioni in NINA",
       "message_api_version": "Il plugin API è troppo vecchio. Si prega di eseguire un aggiornamento",
       "message_tns": "Il plugin TouchNStars non è disponibile. Si prega di controllare le impostazioni in NINA",
@@ -26,6 +27,18 @@
   "whatsnew": {
     "title": "Novità",
     "loading": "Caricamento…"
+  },
+  "updates": {
+    "title": "Aggiornamento disponibile",
+    "description": "È disponibile una nuova versione dell'app ({version}). Installarla ora?",
+    "releaseNotes": "Note di rilascio",
+    "whatsNew": "Novità",
+    "downloading": "Download dell'aggiornamento… {progress}%",
+    "preparing": "Preparazione dell'aggiornamento… lascia l'app aperta.",
+    "error": "Aggiornamento non riuscito. Riprova più tardi.",
+    "later": "Più tardi",
+    "updateNow": "Aggiorna ora",
+    "working": "In corso…"
   },
   "setup": {
     "welcome": "Benvenuto in Touch'N'Stars",

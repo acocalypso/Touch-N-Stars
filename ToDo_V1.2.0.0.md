@@ -10,6 +10,8 @@
 
 -[] Mehr Fehlermedlungen vom Log error 500
 
+-[] Alle Modals auf Modal.vue umstellen
+
 --- 
 
 -[x] Fenster für TNS Messagebox umstellen

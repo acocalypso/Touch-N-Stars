@@ -17,7 +17,11 @@
           <slot name="header">
             <h2 class="text-xl font-bold">Standard Titel</h2>
           </slot>
-          <button v-if="!disableClose" @click="handleClose" class="w-8 h-8 text-gray-400 hover:text-gray-600">
+          <button
+            v-if="!disableClose"
+            @click="handleClose"
+            class="w-8 h-8 text-gray-400 hover:text-gray-600"
+          >
             <XMarkIcon />
           </button>
         </div>

@@ -27,6 +27,18 @@
     "title": "Novidades",
     "loading": "Carregando…"
   },
+  "updates": {
+    "title": "Atualização disponível",
+    "description": "Existe uma versão mais recente ({version}) pronta para instalar.",
+    "releaseNotes": "Notas da versão",
+    "whatsNew": "Novidades",
+    "downloading": "A descarregar atualização… {progress}%",
+    "preparing": "A preparar a atualização… mantenha a aplicação aberta.",
+    "error": "A atualização falhou. Tente novamente mais tarde.",
+    "later": "Mais tarde",
+    "updateNow": "Atualizar agora",
+    "working": "A trabalhar…"
+  },
   "setup": {
     "welcome": "Bem-vindo ao Touch'N'Stars",
     "description": "Vamos começar com uma configuração rápida",

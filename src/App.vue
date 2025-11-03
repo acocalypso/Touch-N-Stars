@@ -124,6 +124,19 @@
     <!-- LocationSyncModal -->
     <LocationSyncModal />
 
+    <!-- Update Available Modal -->
+    <UpdateAvailableModal
+      v-if="showUpdateModal && updateInfo"
+      :version="updateInfo.version"
+      :release-notes="updateInfo.notes"
+      :whats-new="updateInfo.whatsNew"
+      :progress="updateProgress"
+      :status="updateStatus"
+      :error="updateError"
+      @confirm="handleUpdateConfirm"
+      @cancel="handleUpdateCancel"
+    />
+
     <!-- What's New Modal -->
     <WhatsNewModal
       v-if="showWhatsNew && whatsNewData"
@@ -199,6 +212,13 @@ import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
+import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
+import {
+  checkForManualUpdate,
+  downloadAndApplyUpdate,
+  fetchChangelogWhatsNew,
+  isNativePlatform,
+} from '@/services/updateService';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -220,6 +240,13 @@ const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : '
 const landscapeSwitch = ref(null);
 const stellariumRefreshKey = ref(null);
 const routerViewKey = ref(Date.now());
+const showUpdateModal = ref(false);
+const updateInfo = ref(null);
+const updateStatus = ref('idle');
+const updateProgress = ref(0);
+const updateError = ref('');
+const dismissedUpdateVersion = ref(null);
+const checkingUpdate = ref(false);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 
@@ -349,12 +376,95 @@ function handleFocus() {
   }
 }
 
+async function checkForAppUpdate() {
+  if (!isNativePlatform() || checkingUpdate.value || showUpdateModal.value) {
+    return;
+  }
+
+  checkingUpdate.value = true;
+  try {
+    const result = await checkForManualUpdate();
+    if (result?.available && result.version !== dismissedUpdateVersion.value) {
+      let whatsNewDetails = null;
+      try {
+        whatsNewDetails = await fetchChangelogWhatsNew();
+        console.info('Update whats-new content resolved:', whatsNewDetails);
+      } catch (whatsNewError) {
+        console.warn('Failed to load whats-new content:', whatsNewError);
+      }
+
+      updateInfo.value = {
+        ...result,
+        whatsNew: whatsNewDetails,
+      };
+      updateStatus.value = 'idle';
+      updateProgress.value = 0;
+      updateError.value = '';
+      showUpdateModal.value = true;
+    }
+  } catch (error) {
+    console.warn('Update check failed:', error);
+  } finally {
+    checkingUpdate.value = false;
+  }
+}
+
+async function handleUpdateConfirm() {
+  if (!updateInfo.value || updateStatus.value === 'downloading') {
+    return;
+  }
+
+  updateStatus.value = 'downloading';
+  updateError.value = '';
+  updateProgress.value = 0;
+
+  try {
+    await downloadAndApplyUpdate({
+      version: updateInfo.value.version,
+      downloadUrl: updateInfo.value.downloadUrl,
+      onProgress: (percent) => {
+        if (Number.isFinite(percent)) {
+          updateProgress.value = Math.min(100, Math.max(0, percent));
+        }
+      },
+      onPreparing: () => {
+        updateStatus.value = 'setting';
+      },
+    });
+  } catch (error) {
+    console.warn('Manual update failed:', error);
+    updateStatus.value = 'error';
+    const message = error?.message ? `${t('updates.error')} ${error.message}` : t('updates.error');
+    updateError.value = message.trim();
+  }
+}
+
+function handleUpdateCancel() {
+  if (updateStatus.value === 'downloading' || updateStatus.value === 'setting') {
+    return;
+  }
+
+  if (updateInfo.value?.version) {
+    dismissedUpdateVersion.value = updateInfo.value.version;
+  }
+
+  showUpdateModal.value = false;
+  updateStatus.value = 'idle';
+  updateProgress.value = 0;
+  updateError.value = '';
+  updateInfo.value = null;
+}
+
 onMounted(async () => {
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
   window.addEventListener('pageshow', handlePageShow);
   window.addEventListener('focus', handleFocus);
+
+  if (isNativePlatform()) {
+    void checkForAppUpdate();
+  }
 
   // Capacitor App Lifecycle Events for mobile platforms
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {

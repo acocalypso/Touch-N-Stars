@@ -27,6 +27,18 @@
     "title": "Neuigkeiten",
     "loading": "Lade…"
   },
+  "updates": {
+    "title": "Update verfügbar",
+    "description": "Ein neueres App-Bundle ({version}) steht zur Installation bereit.",
+    "releaseNotes": "Versionshinweise",
+    "downloading": "Update wird heruntergeladen… {progress}%",
+    "whatsNew": "Das ist neu",
+    "preparing": "Update wird vorbereitet… bitte die App geöffnet lassen.",
+    "error": "Update fehlgeschlagen. Bitte später erneut versuchen.",
+    "later": "Später",
+    "updateNow": "Jetzt aktualisieren",
+    "working": "Wird ausgeführt…"
+  },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
     "description": "Lass uns mit einer kurzen Einrichtung beginnen",

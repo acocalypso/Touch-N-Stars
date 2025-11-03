@@ -636,6 +636,7 @@ export const apiStore = defineStore('store', {
 
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
+        //console.log('IMAGE-PREPARED event received');
         // Verhindere mehrfache gleichzeitige Anfragen
         if (this.isImageFetching) {
           return;
@@ -653,11 +654,17 @@ export const apiStore = defineStore('store', {
           const imageResponse = await apiService.getImagePrepared(quality);
 
           if (imageResponse && imageResponse.data) {
+            // Revoke alte URL bevor neue erstellt wird (Speicherleck vermeiden)
+            if (cameraStore.imageData) {
+              URL.revokeObjectURL(cameraStore.imageData);
+            }
+
             // Convert Blob to URL für Anzeige
             const imageUrl = URL.createObjectURL(imageResponse.data);
 
             // Speichere im CameraStore
             cameraStore.imageData = imageUrl;
+            console.log('Fetched prepared image and updated camera store');
           }
         } catch (error) {
           console.error('Error handling IMAGE-PREPARED message:', error);

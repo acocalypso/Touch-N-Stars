@@ -6,7 +6,7 @@
         'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30',
         zIndexClass,
       ]"
-      @click="$emit('close')"
+      @click="handleClose"
     >
       <div
         class="p-6 bg-gradient-to-br from-gray-950 bg-gray-800 rounded-lg shadow-lg max-w-2xl w-full relative"
@@ -17,7 +17,7 @@
           <slot name="header">
             <h2 class="text-xl font-bold">Standard Titel</h2>
           </slot>
-          <button @click="$emit('close')" class="w-8 h-8 text-gray-400 hover:text-gray-600">
+          <button v-if="!disableClose" @click="handleClose" class="w-8 h-8 text-gray-400 hover:text-gray-600">
             <XMarkIcon />
           </button>
         </div>
@@ -42,11 +42,21 @@ const props = defineProps({
     type: String,
     default: 'z-40',
   },
+  disableClose: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const zIndexClass = computed(() => props.zIndex);
 
-defineEmits(['close']);
+const emit = defineEmits(['close']);
+
+function handleClose() {
+  if (!props.disableClose) {
+    emit('close');
+  }
+}
 </script>
 
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <Modal :show="showDialog" :zIndex="'z-60'" @close="handleClose">
+  <Modal :show="showDialog" :zIndex="'z-60'" :disableClose="isAutoFocusDialog" @close="handleClose">
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentDialog?.Title || 'Dialog' }}
@@ -16,11 +16,14 @@
         <!-- Manual Rotator Dialog -->
         <ManualRotatorDialog v-else-if="isManualRotatorDialog" :dialog="currentDialog" />
 
+        <!-- AutoFocus Dialog -->
+        <AutoFocusDialog v-else-if="isAutoFocusDialog" />
+
         <!-- Default Dialog -->
         <DefaultDialog v-else :dialog="currentDialog" />
 
         <!-- Buttons (responsiv: untereinander auf schmalen Bildschirmen, nebeneinander sonst) -->
-        <div class="flex flex-col sm:flex-row gap-2 mt-6">
+        <div v-if="!isAutoFocusDialog" class="flex flex-col sm:flex-row gap-2 mt-6">
           <button
             v-for="(button, index) in visibleCommands"
             :key="index"
@@ -43,6 +46,7 @@ import apiService from '@/services/apiService';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';
 import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
+import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
 import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 
 const dialogStore = useDialogStore();
@@ -71,6 +75,11 @@ const isPlateSolvingDialog = computed(() => {
 // Manual Rotator Dialog Detection
 const isManualRotatorDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.Equipment.Equipment.MyRotator.ManualRotator';
+});
+
+// AutoFocus Dialog Detection
+const isAutoFocusDialog = computed(() => {
+  return currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM';
 });
 
 // Filtere PART_* und UnnamedButton Commands heraus

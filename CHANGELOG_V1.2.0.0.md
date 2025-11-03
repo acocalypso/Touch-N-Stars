@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `PlateSolvingDialog.vue` - Plate solving status with parameters and results table
     - `ManualRotatorDialog.vue` - Rotator position control with clock visualization
     - `TppaPage.vue` - Three-Point Polar Alignment dialog integrated in modal
+    - `Autofocus dialog` 
   - TPPA dialog now displays in modal window instead of separate page
   - Stop button in TPPA alignment automatically closes dialog window
   - Improved z-index layering for Mount Controls modal overlay in TPPA dialog

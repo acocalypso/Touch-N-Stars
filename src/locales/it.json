@@ -17,7 +17,6 @@
     "title": "Touch'N'Stars",
     "connection_error_toast": {
       "title": "Errore di connessione",
-      "whatsNew": "Novità",
       "message_api": "Il plugin API non è disponibile. Si prega di controllare le impostazioni in NINA",
       "message_api_version": "Il plugin API è troppo vecchio. Si prega di eseguire un aggiornamento",
       "message_tns": "Il plugin TouchNStars non è disponibile. Si prega di controllare le impostazioni in NINA",

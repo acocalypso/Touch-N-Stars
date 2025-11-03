@@ -228,7 +228,8 @@
       "running": "EXECUTANDO",
       "imageHistory": "Histórico de imagens",
       "duration": "Duração",
-      "temperatureShort": "Temp",
+  "temperatureShort": "Temp",
+  "targetName": "Alvo",
       "conditions": "Condições",
       "info": {
         "header": "Informações",

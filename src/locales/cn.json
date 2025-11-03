@@ -229,7 +229,8 @@
       "running": "运行中",
       "imageHistory": "图像历史",
       "duration": "持续时间",
-      "temperatureShort": "温度",
+  "temperatureShort": "温度",
+  "targetName": "目标",
       "conditions": "条件",
       "info": {
         "header": "信息",

@@ -80,11 +80,91 @@ const minQuality = settingsStore.camera.imageQuality <= 40 ? settingsStore.camer
 const minScale = 0.3;
 
 function addImageToHistory(imageIndex, imageData, stats) {
+  const statsWithTargetName = enrichStatsWithTargetName(stats, imageIndex);
+
   imageHistory.value.push({
-    stats,
+    stats: statsWithTargetName,
     data: imageData,
     index: imageIndex,
   });
+}
+
+function enrichStatsWithTargetName(stats, imageIndex) {
+  const resolvedTargetName = resolveTargetName(stats, imageIndex);
+
+  if (!stats) {
+    if (!resolvedTargetName) {
+      return {};
+    }
+
+    return {
+      TargetName: resolvedTargetName,
+    };
+  }
+
+  if (!resolvedTargetName) {
+    return stats;
+  }
+
+  if (stats.TargetName === resolvedTargetName) {
+    return stats;
+  }
+
+  return {
+    ...stats,
+    TargetName: resolvedTargetName,
+  };
+}
+
+function resolveTargetName(stats, imageIndex) {
+  const persistedName = sequenceStore.getImageTargetName(imageIndex);
+  if (persistedName) {
+    return persistedName;
+  }
+
+  const derivedName = extractTargetName(stats);
+  if (derivedName) {
+    sequenceStore.setImageTargetName(imageIndex, derivedName);
+    return derivedName;
+  }
+
+  const fallback = sequenceStore.targetName?.trim() || sequenceStore.lastTargetName?.trim() || '';
+  if (fallback) {
+    sequenceStore.setImageTargetName(imageIndex, fallback);
+    return fallback;
+  }
+
+  return '';
+}
+
+function extractTargetName(stats) {
+  if (!stats) return '';
+
+  const candidateValues = [
+    stats.TargetName,
+    stats.Target?.TargetName,
+    stats.Target?.Name,
+    stats.Target,
+    stats.SequenceTargetName,
+    stats.Name,
+  ];
+
+  for (const candidate of candidateValues) {
+    const normalized = normalizePossibleRef(candidate);
+    if (typeof normalized === 'string' && normalized.trim().length > 0) {
+      return normalized.trim();
+    }
+  }
+
+  return '';
+}
+
+function normalizePossibleRef(value) {
+  if (value && typeof value === 'object' && 'value' in value) {
+    return value.value;
+  }
+
+  return value;
 }
 
 async function wait(ms) {
@@ -94,10 +174,13 @@ async function wait(ms) {
 watch(
   () => store.imageHistoryInfo,
   async (newVal, oldVal) => {
+    if (!newVal || newVal.length === 0) {
+      return;
+    }
+
     if (!oldVal || newVal.length > oldVal.length) {
       const latestIndex = newVal.length - 1;
-      const isImageLoaded =
-        imageHistory.value.some((image) => image.index == latestIndex).length > 0;
+      const isImageLoaded = imageHistory.value.some((image) => image.index === latestIndex);
 
       if (!isImageLoaded) {
         await wait(3000); // Wait 3 seconds. The image may not be available yet.

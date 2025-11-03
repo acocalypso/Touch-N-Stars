@@ -14,6 +14,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceEdit: false,
     sequenceIsEditable: true,
     targetName: '',
+    lastTargetName: '',
+    imageTargetNames: {},
     runningItems: [],
     runningConditions: [],
     lastImage: {
@@ -33,14 +35,46 @@ export const useSequenceStore = defineStore('sequenceStore', {
         // If the sequence is now running and it wasn't before, it has started
         if (isRunning && !this.sequenceRunning) {
           notificationService.sendSequenceNotification('started');
+          // ensure image names are retained for new run
+          this.imageTargetNames = { ...this.imageTargetNames };
         }
         // If the sequence is no longer running and it was before, it has completed
         else if (!isRunning && this.sequenceRunning) {
           notificationService.sendSequenceNotification('completed');
+          // do not wipe imageTargetNames here to preserve recorded names
         }
       }
 
       this.sequenceRunning = isRunning;
+    },
+    setImageTargetName(index, name) {
+      if (!Number.isInteger(index) || index < 0) return;
+
+      const trimmedName = typeof name === 'string' ? name.trim() : '';
+      if (!trimmedName) return;
+
+      const existingName = this.imageTargetNames[index];
+      if (existingName && existingName.trim().length > 0) {
+        if (existingName === trimmedName) {
+          this.lastTargetName = trimmedName;
+        }
+        return;
+      }
+
+      this.imageTargetNames = {
+        ...this.imageTargetNames,
+        [index]: trimmedName,
+      };
+
+      this.lastTargetName = trimmedName;
+    },
+    getImageTargetName(index) {
+      if (!Number.isInteger(index) || index < 0) return '';
+
+      return this.imageTargetNames[index] || '';
+    },
+    clearImageTargetNames() {
+      this.imageTargetNames = {};
     },
     toggleCollapsedState(containerName) {
       this.collapsedStates = {
@@ -506,12 +540,30 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
       for (const item of items) {
         // Wenn das Item läuft und ein Target hat, speichern
-        if (item?.Status === 'RUNNING' && item?.Target?.TargetName) {
-          this.targetName = item.Target.TargetName;
-          console.log('Aktives Target (RUNNING):', this.targetName);
-          return; // ersten aktiven Treffer nehmen
+        if (item?.Status === 'RUNNING') {
+          const resolvedName = this.extractTargetName(item.Target);
+          if (resolvedName) {
+            this.targetName = resolvedName;
+            this.lastTargetName = resolvedName;
+            console.log('Aktives Target (RUNNING):', this.targetName);
+            return; // ersten aktiven Treffer nehmen
+          }
         }
       }
+    },
+
+    extractTargetName(target) {
+      if (!target) return '';
+
+      if (typeof target === 'string') {
+        return target.trim();
+      }
+
+      if (typeof target.TargetName === 'string') {
+        return target.TargetName.trim();
+      }
+
+      return '';
     },
 
     startFetching() {

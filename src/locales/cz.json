@@ -215,7 +215,8 @@
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
-      "temperatureShort": "Teplota",
+  "temperatureShort": "Teplota",
+  "targetName": "Cíl",
       "conditions": "Podmínky",
       "info": {
         "header": "Info",

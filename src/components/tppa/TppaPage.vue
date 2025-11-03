@@ -255,6 +255,7 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
+const emit = defineEmits(['close']);
 import websocketService from '@/services/websocketTppa';
 import {
   ArrowDownIcon,
@@ -463,6 +464,8 @@ function stopAlignment() {
       Action: 'stop-alignment',
     })
   );
+  // Close the dialog when stop is clicked
+  emit('close');
 }
 
 async function unparkMount() {

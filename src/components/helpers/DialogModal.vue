@@ -1,5 +1,5 @@
 <template>
-  <Modal :show="showDialog" :zIndex="'z-50'" @close="handleClose">
+  <Modal :show="showDialog" :zIndex="'z-60'" @close="handleClose">
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentDialog?.Title || 'Dialog' }}
@@ -7,6 +7,9 @@
     </template>
     <template #body>
       <div class="space-y-4">
+        <!-- TPPA (Polar Alignment) Dialog -->
+        <TppaPage v-if="isTPPADialog" @close="handleClose" />
+
         <!-- PlateSolving Status Dialog -->
         <div v-if="isPlateSolvingDialog" class="space-y-3">
           <!-- Status Message (nur wenn nicht leer) -->
@@ -173,7 +176,7 @@
         </div>
 
         <!-- Normal Dialog -->
-        <p v-else class="text-gray-200 whitespace-pre-wrap">{{ dialogMessage }}</p>
+        <p v-else-if="!isTPPADialog" class="text-gray-200 whitespace-pre-wrap">{{ dialogMessage }}</p>
 
         <!-- Buttons (responsiv: untereinander auf schmalen Bildschirmen, nebeneinander sonst) -->
         <div class="flex flex-col sm:flex-row gap-2 mt-6">
@@ -196,6 +199,7 @@ import { computed } from 'vue';
 import { useDialogStore } from '@/store/dialogStore';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
+import TppaPage from '@/components/tppa/TppaPage.vue';
 
 const dialogStore = useDialogStore();
 
@@ -213,6 +217,11 @@ const currentDialog = computed(() => {
 const dialogMessage = computed(() => {
   // Alle Dialoge haben jetzt einheitlich Content.Message
   return currentDialog.value?.Content?.Message || '';
+});
+
+// TPPA (Polar Alignment) Dialog Detection
+const isTPPADialog = computed(() => {
+  return currentDialog.value?.ContentType === 'NINA.Plugins.PolarAlignment.TPAPAVM';
 });
 
 // PlateSolving Dialog Detection

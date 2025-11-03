@@ -228,7 +228,8 @@
       "running": "WIRD AUSGEFÜHRT",
       "imageHistory": "Image History",
       "duration": "Duration",
-      "temperatureShort": "Temp",
+  "temperatureShort": "Temp",
+  "targetName": "Ziel",
       "conditions": "Bedingungen",
       "info": {
         "header": "Info",

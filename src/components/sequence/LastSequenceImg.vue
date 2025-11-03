@@ -24,6 +24,7 @@
         RmsText,
         Temperature,
         Filter,
+        TargetName,
       }"
     />
   </div>
@@ -53,6 +54,7 @@ const Temperature = ref(null);
 const ExposureTime = ref(null);
 const dateValue = ref(null);
 const lastImgIndex = ref(null);
+const TargetName = ref(null);
 
 async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -104,7 +106,63 @@ function setSelectedDataset(datasetIndex) {
     Temperature.value = selectedData.Temperature;
     ExposureTime.value = selectedData.ExposureTime;
     dateValue.value = selectedData.Date;
+    TargetName.value = resolveTargetName(selectedData, datasetIndex);
   }
+}
+
+function resolveTargetName(selectedData, imageIndex) {
+  if (!Number.isInteger(imageIndex) || imageIndex < 0) {
+    return sequenceStore.targetName || sequenceStore.lastTargetName;
+  }
+
+  const persistedName = sequenceStore.getImageTargetName(imageIndex);
+  if (persistedName) {
+    return persistedName;
+  }
+
+  const derivedName = extractTargetName(selectedData);
+  if (derivedName) {
+    sequenceStore.setImageTargetName(imageIndex, derivedName);
+    return derivedName;
+  }
+
+  const fallback = sequenceStore.targetName || sequenceStore.lastTargetName;
+  if (fallback) {
+    sequenceStore.setImageTargetName(imageIndex, fallback);
+    return fallback;
+  }
+
+  return '';
+}
+
+function extractTargetName(stats) {
+  if (!stats) return '';
+
+  const candidateValues = [
+    stats.TargetName,
+    stats.Target?.TargetName,
+    stats.Target?.Name,
+    stats.Target,
+    stats.SequenceTargetName,
+    stats.Name,
+  ];
+
+  for (const candidate of candidateValues) {
+    const normalized = normalizePossibleRef(candidate);
+    if (typeof normalized === 'string' && normalized.trim().length > 0) {
+      return normalized.trim();
+    }
+  }
+
+  return '';
+}
+
+function normalizePossibleRef(value) {
+  if (value && typeof value === 'object' && 'value' in value) {
+    return value.value;
+  }
+
+  return value;
 }
 
 watch(

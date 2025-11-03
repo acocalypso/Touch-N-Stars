@@ -13,6 +13,13 @@
       ]"
     >
       <div class="grid grid-cols-2 gap-x-1 gap-y-0.5">
+        <div v-if="targetName" class="flex gap-1 col-span-2 min-w-0">
+          <span class="font-bold whitespace-nowrap">
+            {{ $t('components.sequence.targetName') }}:
+          </span>
+          <span class="truncate">{{ targetName }}</span>
+        </div>
+
         <div v-if="stats.Date" class="flex gap-1 min-w-0">
           <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.time') }}:</span>
           <span class="truncate">{{ formatDate(stats.Date) }}</span>
@@ -74,7 +81,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -110,6 +117,64 @@ const props = defineProps({
 const isLoadingModal = ref(false);
 const showModal = ref(false);
 const fullResImage = ref(props.image);
+
+watch(
+  () => [props.index, props.stats],
+  () => {
+    if (!Number.isInteger(props.index) || props.index < 0) return;
+
+    const statsTargetName = extractTargetNameFromStats(props.stats);
+    const existingName = sequenceStore.getImageTargetName(props.index);
+    if (!existingName && statsTargetName) {
+      sequenceStore.setImageTargetName(props.index, statsTargetName);
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+const targetName = computed(() => {
+  const persistedTargetName = sequenceStore.getImageTargetName(props.index);
+  if (persistedTargetName) {
+    return persistedTargetName;
+  }
+
+  const statsTargetName = extractTargetNameFromStats(props.stats);
+  if (statsTargetName) {
+    return statsTargetName;
+  }
+
+  return sequenceStore.targetName?.trim() || sequenceStore.lastTargetName?.trim() || '';
+});
+
+function normalizePossibleRef(value) {
+  if (value && typeof value === 'object' && 'value' in value) {
+    return value.value;
+  }
+
+  return value;
+}
+
+function extractTargetNameFromStats(stats) {
+  if (!stats) return '';
+
+  const candidateValues = [
+    stats.TargetName,
+    stats.Target?.TargetName,
+    stats.Target?.Name,
+    stats.Target,
+    stats.SequenceTargetName,
+    stats.Name,
+  ];
+
+  for (const candidate of candidateValues) {
+    const normalized = normalizePossibleRef(candidate);
+    if (typeof normalized === 'string' && normalized.trim().length > 0) {
+      return normalized.trim();
+    }
+  }
+
+  return '';
+}
 
 function openModal() {
   isLoadingModal.value = true;

@@ -228,7 +228,8 @@
       "running": "W TRAKCIE",
       "imageHistory": "Historia obrazów",
       "duration": "Czas trwania",
-      "temperatureShort": "Temp",
+  "temperatureShort": "Temp",
+  "targetName": "Cel",
       "conditions": "Warunki",
       "info": {
         "header": "Info",

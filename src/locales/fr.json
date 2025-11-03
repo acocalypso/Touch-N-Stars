@@ -228,7 +228,8 @@
       "running": "EN COURS D'EXÉCUTION",
       "imageHistory": "Historique des images",
       "duration": "Durée",
-      "temperatureShort": "Temp",
+  "temperatureShort": "Temp",
+  "targetName": "Cible",
       "conditions": "Conditions",
       "info": {
         "header": "Informations",

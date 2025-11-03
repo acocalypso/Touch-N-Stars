@@ -350,11 +350,6 @@ async function resumeApp() {
     sequenceStore.startFetching();
   }
 
-  // Restart countdown if exposure is running
-  if (store.cameraInfo.IsExposing && store.cameraInfo.ExposureEndTime) {
-    console.log('Restarting exposure countdown after resume...');
-    cameraStore.updateCountdown();
-  }
 
   // Reconnect WebSocket filter if needed
   if (

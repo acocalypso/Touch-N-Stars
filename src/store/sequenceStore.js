@@ -545,7 +545,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
           if (resolvedName) {
             this.targetName = resolvedName;
             this.lastTargetName = resolvedName;
-            console.log('Aktives Target (RUNNING):', this.targetName);
+            //console.log('Aktives Target (RUNNING):', this.targetName);
             return; // ersten aktiven Treffer nehmen
           }
         }

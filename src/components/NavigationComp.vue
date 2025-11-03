@@ -464,23 +464,7 @@ onMounted(() => {
   setTimeout(() => {
     forceIconVisibility();
   }, 500);
-
-  // Prüfe beim Mount, ob bereits eine Belichtung läuft
-  if (store.cameraInfo.ExposureEndTime && store.cameraInfo.IsExposing) {
-    cameraStore.updateCountdown();
-  }
 });
-
-// Watcher für Belichtungsstart
-watch(
-  () => store.cameraInfo.IsExposing,
-  (isExposing, wasExposing) => {
-    if (isExposing && !wasExposing && store.cameraInfo.ExposureEndTime) {
-      // Belichtung hat gerade gestartet
-      cameraStore.updateCountdown();
-    }
-  }
-);
 
 onBeforeUnmount(() => {
   window.removeEventListener('orientationchange', handleOrientationChange);

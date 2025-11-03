@@ -29,6 +29,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const containerSize = ref(100);
   const slewModal = ref(false);
   const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
+  let countdownSessionId = 0; // Eindeutige ID für jede Countdown-Session
 
   // Hilfsfunktion, um kurz zu warten
   function wait(ms) {
@@ -197,6 +198,9 @@ export const useCameraStore = defineStore('cameraStore', () => {
       return;
     }
 
+    // Erstelle neue Session-ID für diese Countdown-Instanz
+    const currentSessionId = ++countdownSessionId;
+
     // Stop all existing countdown loops immediately
     countdownRunning.value = false;
 
@@ -228,7 +232,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     let stuckCounter = 0;
     const maxStuckIterations = 3; // Restart after 3 seconds of no change
 
-    while (countdownRunning.value) {
+    while (countdownRunning.value && currentSessionId === countdownSessionId) {
       // Use server-synchronized time for accurate countdown
       const remainingTime = timeSync.calculateCountdown(exposureEndTime);
 

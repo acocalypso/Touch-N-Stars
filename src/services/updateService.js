@@ -3,10 +3,10 @@ import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import appVersion from '@/version';
 
 const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
-const GITHUB_API_BASE = 'https://api.github.com/repos/acocalypso/Touch-N-Stars';
+const GITHUB_API_BASE = 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
 const UPDATE_ASSET_NAME = 'dist.zip';
 const CHANGELOG_RAW_URL =
-  'https://raw.githubusercontent.com/acocalypso/Touch-N-Stars/master/CHANGELOG.md';
+  'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',

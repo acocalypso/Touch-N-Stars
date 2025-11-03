@@ -13,8 +13,12 @@ const defaultHeaders = {
   'User-Agent': 'touch-n-stars-updater',
 };
 
-function buildHeaders(acceptType) {
+function buildHeaders(acceptType, options = {}) {
+  const { includeUserAgent = true } = options;
   const headers = { ...defaultHeaders };
+  if (!includeUserAgent) {
+    delete headers['User-Agent'];
+  }
   if (acceptType) {
     headers.Accept = acceptType;
   }
@@ -319,7 +323,7 @@ export async function fetchChangelogWhatsNew() {
   try {
     console.info('[Updater] Fetching latest changelog entry');
     const response = await fetch(CHANGELOG_RAW_URL, {
-      headers: buildHeaders('text/plain'),
+      headers: buildHeaders('text/plain', { includeUserAgent: false }),
     });
 
     if (!response.ok) {
@@ -344,7 +348,7 @@ export async function fetchChangelogWhatsNew() {
       markdown: section.markdown,
     };
   } catch (error) {
-    console.warn('[Updater] Failed to load changelog whats-new content:', error);
+    console.warn('[Updater] Failed to load changelog whats-new content:', error?.message ?? error);
     return null;
   }
 }

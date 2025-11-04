@@ -1082,7 +1082,7 @@ function formatTargetRA(inputCoordinates) {
 
 function formatTargetDec(inputCoordinates) {
   if (!inputCoordinates) return 'N/A';
-  const degrees = inputCoordinates.DecDegrees || 0;
+  const degrees = Math.abs(inputCoordinates.DecDegrees || 0);
   const minutes = inputCoordinates.DecMinutes || 0;
   const seconds = inputCoordinates.DecSeconds || 0;
   const sign = inputCoordinates.NegativeDec ? '-' : '+';

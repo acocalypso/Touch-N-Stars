@@ -196,6 +196,18 @@ function selectTarget(item) {
   framingStore.DECangle = item.Dec;
   framingStore.RAangleString = degreesToHMS(item.RA);
   framingStore.DECangleString = degreesToDMS(item.Dec);
+
+  // Berechne und speichere auch Alt/Az
+  const { altitude, azimuth } = raDecToAltAz(
+    item.RA,
+    item.Dec,
+    settingsStore.coordinates.latitude,
+    settingsStore.coordinates.longitude
+  );
+  framingStore.ALTangle = altitude;
+  framingStore.AZangle = azimuth;
+  framingStore.ALTangleString = altitude.toFixed(3);
+  framingStore.AZangleString = azimuth.toFixed(3);
 }
 
 onMounted(async () => {

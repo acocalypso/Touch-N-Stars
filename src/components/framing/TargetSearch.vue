@@ -155,6 +155,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
+import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
@@ -195,35 +196,6 @@ function selectTarget(item) {
   framingStore.DECangle = item.Dec;
   framingStore.RAangleString = degreesToHMS(item.RA);
   framingStore.DECangleString = degreesToDMS(item.Dec);
-}
-
-function degreesToHMS(deg) {
-  const totalHours = deg / 15;
-  const h = Math.floor(totalHours);
-  const remainingHours = totalHours - h;
-  const totalMinutes = remainingHours * 60;
-  const m = Math.floor(totalMinutes);
-  const remainingMinutes = totalMinutes - m;
-  const s = remainingMinutes * 60;
-  const hStr = String(h).padStart(2, '0');
-  const mStr = String(m).padStart(2, '0');
-  const sStr = s.toFixed(1).padStart(4, '0');
-  return `${hStr}:${mStr}:${sStr}`;
-}
-
-function degreesToDMS(deg) {
-  const sign = deg < 0 ? '-' : '+';
-  deg = Math.abs(deg);
-  const d = Math.floor(deg);
-  const remainingDeg = deg - d;
-  const totalMinutes = remainingDeg * 60;
-  const m = Math.floor(totalMinutes);
-  const remainingMinutes = totalMinutes - m;
-  const s = remainingMinutes * 60;
-  const dStr = String(d).padStart(2, '0');
-  const mStr = String(m).padStart(2, '0');
-  const sStr = s.toFixed(1).padStart(4, '0');
-  return `${sign}${dStr}:${mStr}:${sStr}`;
 }
 
 onMounted(async () => {
@@ -311,28 +283,14 @@ async function updateRaDec() {
 }
 
 function calculateAltAz(raDeg, decDeg) {
-  const latRad = (settingsStore.coordinates.latitude * Math.PI) / 180;
-  const decRad = (decDeg * Math.PI) / 180;
-  const now = new Date();
-  const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
-  const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  const LMST = (GMST + settingsStore.coordinates.longitude / 15) % 24;
-  const hourAngle = LMST * 15 - raDeg;
-  const haRad = (hourAngle * Math.PI) / 180;
-  const altRad = Math.asin(
-    Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad)
+  const { altitude, azimuth } = raDecToAltAz(
+    raDeg,
+    decDeg,
+    settingsStore.coordinates.latitude,
+    settingsStore.coordinates.longitude
   );
-  const alt = (altRad * 180) / Math.PI;
-  const azRad = Math.atan2(
-    -Math.cos(decRad) * Math.cos(latRad) * Math.sin(haRad),
-    Math.sin(decRad) * Math.cos(latRad) - Math.cos(decRad) * Math.sin(latRad) * Math.cos(haRad)
-  );
-  let az = (azRad * 180) / Math.PI;
-  if (az < 0) {
-    az += 360;
-  }
-  const direction = getDirection(az);
-  return { alt: alt, az: az, direction: direction };
+  const direction = getDirection(azimuth);
+  return { alt: altitude, az: azimuth, direction: direction };
 }
 
 function getDirection(az) {
@@ -360,28 +318,6 @@ function updateSiderealTime() {
   const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
   const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
   currentSiderealTime.value = (GMST % 24) * 15 + settingsStore.coordinates.longitude / 15;
-}
-
-// Converts an HMS string (e.g. "12:34:56.7") to degrees.
-function hmsToDegrees(hms) {
-  const parts = hms.split(':');
-  if (parts.length !== 3) return 0;
-  const h = parseFloat(parts[0]);
-  const m = parseFloat(parts[1]);
-  const s = parseFloat(parts[2]);
-  return (h + m / 60 + s / 3600) * 15;
-}
-
-// Converts a DMS string (e.g. "+12:34:56.7") to degrees.
-function dmsToDegrees(dms) {
-  const clean = dms.replace('°', '').trim();
-  const sign = clean.startsWith('-') ? -1 : 1;
-  const parts = clean.replace('+', '').split(':');
-  if (parts.length !== 3) return 0;
-  const d = parseFloat(parts[0]);
-  const m = parseFloat(parts[1]);
-  const s = parseFloat(parts[2]);
-  return sign * (Math.abs(d) + m / 60 + s / 3600);
 }
 
 async function slew() {

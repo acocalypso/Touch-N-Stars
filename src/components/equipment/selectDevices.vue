@@ -78,8 +78,8 @@ const isToggleCon = ref(false);
 const borderClass = ref('border-gray-500');
 const infoVisible = ref(false);
 
-// Funktion für API-Aufruf mit dynamischem `apiAction`
-async function getDevices() {
+// Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
+async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   error.value = false;
 
   // Prüfung ob apiAction definiert ist
@@ -104,6 +104,14 @@ async function getDevices() {
     }
     const response = await apiService[props.apiAction]('list-devices');
     if (response.Error) {
+      // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
+      if (retryCount < maxRetries) {
+        console.warn(
+          `[${apiName}] API Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        return getDevices(retryCount + 1, maxRetries, delayMs);
+      }
       error.value = true;
       console.error('API Error:', response.Error);
       return;
@@ -117,6 +125,15 @@ async function getDevices() {
       console.error('Faulty API response:', response);
     }
   } catch (err) {
+    // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
+    if (retryCount < maxRetries) {
+      console.warn(
+        `[${apiName}] Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`,
+        err.message
+      );
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      return getDevices(retryCount + 1, maxRetries, delayMs);
+    }
     error.value = true;
     console.error('Error:', err);
   } finally {

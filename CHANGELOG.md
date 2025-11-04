@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed guider calibration assitant slew stop
 - Fixed loading images during continuous loop
 - Hidden ExposureCount from sequence display
+- Fixed negative declination display in sequence target coordinates (#596)
 
 ## [1.1.5.0] [App3.5.0] - 2025-10-25
 ### Added

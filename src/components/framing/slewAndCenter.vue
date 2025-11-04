@@ -83,7 +83,13 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
-import { hmsToDegrees, dmsToDegrees, altAzToRaDec, raDecToAltAz, parseAngleInput } from '@/utils/utils';
+import {
+  hmsToDegrees,
+  dmsToDegrees,
+  altAzToRaDec,
+  raDecToAltAz,
+  parseAngleInput,
+} from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 

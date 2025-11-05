@@ -230,7 +230,7 @@
 import { ref, onMounted, computed } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
-import websocketLivestackService from '@/services/websocketChannelSocket.js';
+import websocketChannelService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore';
 import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
@@ -476,15 +476,31 @@ onMounted(async () => {
   }
   livestackPluginAvailable.value = true;
 
-  // Setup WebSocket callbacks
-  websocketLivestackService.setStatusCallback(handleWebSocketStatus);
-  websocketLivestackService.setMessageCallback(handleWebSocketMessage);
+  // Setup WebSocket callbacks auf dem globalen WebSocket Service
+  const originalStatusCallback = websocketChannelService.statusCallback;
+  const originalMessageCallback = websocketChannelService.messageCallback;
 
-  // Connect WebSocket
-  websocketLivestackService.connect();
+  websocketChannelService.setStatusCallback((status) => {
+    handleWebSocketStatus(status);
+    if (originalStatusCallback) originalStatusCallback(status);
+  });
 
-  // Subscribe to livestack events
-  websocketLivestackService.subscribe('STACK-UPDATED');
+  websocketChannelService.setMessageCallback((message) => {
+    handleWebSocketMessage(message);
+    if (originalMessageCallback) originalMessageCallback(message);
+  });
+
+  // Stelle sicher, dass WebSocket verbunden ist
+  try {
+    if (!websocketChannelService.isWebSocketConnected()) {
+      console.log('WebSocket not connected, attempting to connect...');
+      await websocketChannelService.connect();
+    }
+    // Subscribe to livestack events
+    websocketChannelService.subscribe('STACK-UPDATED');
+  } catch (error) {
+    console.error('Failed to connect WebSocket for livestack:', error);
+  }
 
   // Initial check for available images
   checkImageAvailability();

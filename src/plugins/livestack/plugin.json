@@ -2,7 +2,7 @@
   "id": "livestack",
   "name": "livestack",
   "description": "shows the image provided by the Livestack plugin in NINA",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Johannes Maier",
   "defaultEnabled": false,
   "enabled": true

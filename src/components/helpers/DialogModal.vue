@@ -19,6 +19,9 @@
         <!-- AutoFocus Dialog -->
         <AutoFocusDialog v-else-if="isAutoFocusDialog" />
 
+        <!-- Meridian Flip Dialog -->
+        <MeridianFlipDialog v-else-if="isMeridianFlipDialog" :dialog="currentDialog" :meridianFlipData="dialogStore.meridianFlipData" />
+
         <!-- Default Dialog -->
         <DefaultDialog v-else :dialog="currentDialog" />
 
@@ -47,6 +50,7 @@ import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';
 import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
 import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
+import MeridianFlipDialog from '@/components/dialogs/MeridianFlipDialog.vue';
 import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 
 const dialogStore = useDialogStore();
@@ -80,6 +84,11 @@ const isManualRotatorDialog = computed(() => {
 // AutoFocus Dialog Detection
 const isAutoFocusDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM';
+});
+
+// Meridian Flip Dialog Detection
+const isMeridianFlipDialog = computed(() => {
+  return currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM';
 });
 
 // Filtere PART_* und UnnamedButton Commands heraus

@@ -1,9 +1,4 @@
 # ToDo V1.2.0.0
-
-
-
--[] Meridian Fenster
-
 -[] Fenster von Mountsync
 
 -[] Beim abbrechen von Slew and Center kommt eine Fehlermeldung
@@ -28,3 +23,4 @@
 -[x] Das schließen des center fenster schickt ein slew stop
 -[x] TPPA Fenster über die sequenz
 -[x] Autofokus Fenster über sequenz
+-[x] Meridian Fenster

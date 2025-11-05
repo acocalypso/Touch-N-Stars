@@ -14,9 +14,7 @@
           @click="selectTarget(target)"
           :class="[
             'w-full text-left px-3 py-2 text-sm rounded transition-colors',
-            selectedTarget === target
-              ? 'default-button-blue'
-              : 'default-button-gray',
+            selectedTarget === target ? 'default-button-blue' : 'default-button-gray',
           ]"
         >
           {{ target }}
@@ -44,7 +42,6 @@
           ]"
         >
           {{ filter === 'No_filter' ? t('plugins.livestack.no_filter') : filter }}
-
         </button>
       </div>
     </div>
@@ -101,12 +98,6 @@ const filtersForTarget = computed(() => {
     .map((img) => img.Filter);
   return Array.from(new Set(filters)).sort();
 });
-
-// Get stack count for a target/filter combination
-const getStackCountForTargetFilter = (target, filter) => {
-  const image = props.availableImages.find((img) => img.Target === target && img.Filter === filter);
-  return image?.StackCount || 0;
-};
 
 const selectTarget = (target) => {
   emit('select-target', target);

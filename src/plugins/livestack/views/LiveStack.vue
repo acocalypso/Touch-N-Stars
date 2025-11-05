@@ -136,7 +136,6 @@
                 <StopIcon class="w-4 h-4" />
               </button>
             </div>
-
           </div>
         </div>
 
@@ -172,7 +171,6 @@ import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import TargetFilterSelector from '../components/TargetFilterSelector.vue';
-
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
@@ -349,18 +347,6 @@ const selectFilterFromSelector = async (filter) => {
     console.log(`Selected filter/target combination: ${selectedTargetForUI.value} / ${filter}`);
     await loadImage(selectedTargetForUI.value, filter);
   }
-};
-
-// Stack-Count für aktuelle Auswahl abrufen
-const getStackCountForCurrentSelection = () => {
-  if (!livestackStore.selectedTarget || !livestackStore.selectedFilter) {
-    return null;
-  }
-  const image = availableImages.value.find(
-    (img) =>
-      img.Target === livestackStore.selectedTarget && img.Filter === livestackStore.selectedFilter
-  );
-  return image?.StackCount || 0;
 };
 
 // WebSocket handlers

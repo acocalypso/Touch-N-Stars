@@ -446,18 +446,18 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.runningConditions.push(...enabledConditions);
       }
 
-      // Für Items mit Iterations/ExposureCount eine virtuelle Condition erstellen (nur wenn RUNNING)
+      // Für Items mit Iterations/CompletedIterations eine virtuelle Condition erstellen (nur wenn RUNNING)
       if (
         container.Status === 'RUNNING' &&
         container.Iterations !== undefined &&
-        container.ExposureCount !== undefined &&
+        container.CompletedIterations !== undefined &&
         container.Name
       ) {
         this.runningConditions.push({
           Name: `${container.Name}_Iterations`,
           Status: container.Status,
           Iterations: container.Iterations,
-          CompletedIterations: container.ExposureCount,
+          CompletedIterations: container.CompletedIterations,
           Type: 'iterations',
         });
       }

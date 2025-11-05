@@ -347,7 +347,6 @@ async function resumeApp() {
     sequenceStore.startFetching();
   }
 
-
   if (isNativePlatform()) {
     void checkForAppUpdate();
   }

@@ -20,7 +20,11 @@
         <AutoFocusDialog v-else-if="isAutoFocusDialog" />
 
         <!-- Meridian Flip Dialog -->
-        <MeridianFlipDialog v-else-if="isMeridianFlipDialog" :dialog="currentDialog" :meridianFlipData="dialogStore.meridianFlipData" />
+        <MeridianFlipDialog
+          v-else-if="isMeridianFlipDialog"
+          :dialog="currentDialog"
+          :meridianFlipData="dialogStore.meridianFlipData"
+        />
 
         <!-- Default Dialog -->
         <DefaultDialog v-else :dialog="currentDialog" />

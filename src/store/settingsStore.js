@@ -8,6 +8,7 @@ export const useSettingsStore = defineStore('settings', {
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
     showDebugConsole: false,
     showSpecial: false,
+    useBetaFeatures: false,
     coordinates: {
       latitude: null,
       longitude: null,
@@ -304,6 +305,7 @@ export const useSettingsStore = defineStore('settings', {
           'showPlugins',
           'guider',
           'keepAwakeEnabled',
+          'useBetaFeatures',
         ],
       },
     ],

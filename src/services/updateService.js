@@ -1,12 +1,22 @@
 import { Capacitor } from '@capacitor/core';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import appVersion from '@/version';
+import { useSettingsStore } from '@/store/settingsStore';
 
-const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
-const GITHUB_API_BASE = 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
-const UPDATE_ASSET_NAME = 'dist.zip';
-const CHANGELOG_RAW_URL =
+const settingsStore = useSettingsStore();
+
+let SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
+let GITHUB_API_BASE = 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
+let UPDATE_ASSET_NAME = 'dist.zip';
+let CHANGELOG_RAW_URL =
   'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
+
+if (settingsStore.useBetaFeatures) {
+  GITHUB_API_BASE = 'https://api.github.com/repos/JohannesWorks/Touch-N-Stars';
+  CHANGELOG_RAW_URL =
+    'https://raw.githubusercontent.com/JohannesWorks/Touch-N-Stars/refs/heads/master/CHANGELOG.md';
+  console.log('[Updater] Beta features enabled: using beta update channels');
+}
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',

@@ -3,7 +3,10 @@
     <!-- Slew and Center Active -->
     <div v-if="slewAndCenterActive" class="space-y-3">
       <!-- Status Header -->
-      <div v-show="slewAndCenterStatus" class="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 p-3 rounded-lg border border-blue-500/30">
+      <div
+        v-show="slewAndCenterStatus"
+        class="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 p-3 rounded-lg border border-blue-500/30"
+      >
         <div class="flex items-center justify-between">
           <span class="text-xs text-gray-400">{{ slewAndCenterStatus }}</span>
         </div>
@@ -23,10 +26,16 @@
               : 'bg-gray-800 border-gray-700',
           ]"
         >
-          <p class="text-xs mb-1" :class="isErrorWithinThreshold ? 'text-green-400' : 'text-gray-400'">
+          <p
+            class="text-xs mb-1"
+            :class="isErrorWithinThreshold ? 'text-green-400' : 'text-gray-400'"
+          >
             {{ $t('dialogs.plateSolving.error') }}
           </p>
-          <p class="font-semibold" :class="isErrorWithinThreshold ? 'text-green-300' : 'text-white'">
+          <p
+            class="font-semibold"
+            :class="isErrorWithinThreshold ? 'text-green-300' : 'text-white'"
+          >
             {{ currentMeasurement.ErrorDistance }}
           </p>
         </div>
@@ -56,7 +65,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(measurement, idx) in measurements" :key="idx" class="border-b border-gray-700/50">
+            <tr
+              v-for="(measurement, idx) in measurements"
+              :key="idx"
+              class="border-b border-gray-700/50"
+            >
               <td class="px-2 py-2 text-gray-300">{{ measurement.Time }}</td>
               <td class="px-2 py-2 flex justify-center">
                 <CheckIcon v-if="measurement.Success" class="w-5 h-5 text-green-400" />
@@ -118,11 +131,9 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 
-const { t } = useI18n();
 const store = apiStore();
 
 const props = defineProps({
@@ -207,7 +218,9 @@ const isErrorWithinThreshold = computed(() => {
 
   const numericThreshold = parseFloat(String(threshold).replace(/[^\d.]/g, ''));
 
-  return !isNaN(numericError) && !isNaN(numericThreshold) && Math.abs(numericError) < numericThreshold;
+  return (
+    !isNaN(numericError) && !isNaN(numericThreshold) && Math.abs(numericError) < numericThreshold
+  );
 });
 
 // Legacy format support

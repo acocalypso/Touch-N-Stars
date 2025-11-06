@@ -228,8 +228,8 @@
       "running": "W TRAKCIE",
       "imageHistory": "Historia obrazów",
       "duration": "Czas trwania",
-  "temperatureShort": "Temp",
-  "targetName": "Cel",
+      "temperatureShort": "Temp",
+      "targetName": "Cel",
       "conditions": "Warunki",
       "info": {
         "header": "Info",
@@ -522,14 +522,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Obrót do celu",
-        "is_centering": "Centrowanie celu",
-        "is_platesolving": "Trwa rozwiązanie płyty",
-        "plate_solve_error": "Błąd rozwiązania płyty",
-        "center_error": "Błąd centrowania",
-        "center_successful": "Centrowanie udane",
-        "center_Repeat": "Powtórz centrowanie",
-        "exposure_running": "Trwa naświetlanie",
         "deviation_target": "Odchylenie od celu:"
       }
     },
@@ -548,7 +540,6 @@
       "label": "Rotator",
       "move": "Przesuń",
       "control": "Sterowanie",
-      "notConnected": "Proszę podłączyć rotator",
       "please_connect_rotator": "Proszę podłączyć rotator",
       "connected": "Połączony",
       "disconnected": "Rozłączony",
@@ -1033,14 +1024,21 @@
     "livestack": {
       "not_available": "Nie znaleziono Livestack. Najpierw zainstaluj wtyczkę Livestack w NINA.",
       "beta_note": "Ta wtyczka jest nadal w fazie rozwoju i może zawierać błędy!",
-      "status": "Status",
       "target": "Cel",
-      "last_updated": "Ostatnia aktualizacja",
       "available_filters": "Dostępne filtry",
       "no_image_available": "Brak dostępnego obrazu",
       "start_and_select_filter": "Uruchom livestack i wybierz filtr, aby zobaczyć obrazy",
-      "images_available": "{count} dostępnych obrazów",
-      "no_images_available": "Brak dostępnych obrazów"
+      "no_filter": "Brak filtra",
+      "no_filters_available": "Brak dostępnych filtrów dla tego celu"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Czas",
+      "status": "Stan",
+      "error": "Odległość Błędu",
+      "rotation": "Rotacja"
+    }
+  },
+  "loading": "załadunek"
 }

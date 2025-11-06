@@ -215,8 +215,8 @@
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
-  "temperatureShort": "Teplota",
-  "targetName": "Cíl",
+      "temperatureShort": "Teplota",
+      "targetName": "Cíl",
       "conditions": "Podmínky",
       "info": {
         "header": "Info",
@@ -511,15 +511,7 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "center_Repeat": "Opakované centrování",
-        "center_error": "Chyba centrování",
-        "center_successful": "Úspěšné centrování",
-        "deviation_target": "Odchylka od cíle:",
-        "exposure_running": "Expozice běží",
-        "is_centering": "Cíl uprostřed",
-        "is_platesolving": "Astrometrie běží",
-        "is_slewing": "Přejezd na cíl",
-        "plate_solve_error": "Astrometrie chyba"
+        "deviation_target": "Odchylka od cíle:"
       }
     },
     "filterwheel": {
@@ -537,7 +529,6 @@
       "label": "Rotátor",
       "move": "Pohyb",
       "control": "Ovládání",
-      "notConnected": "připojte rotátor",
       "currentPosition": "Současná pozice:",
       "moving": "V pohybu",
       "connected": "Připojeno",
@@ -1023,14 +1014,12 @@
     "livestack": {
       "available_filters": "Dostupné Filtry",
       "beta_note": "Tento plugin je stále ve vývoji a může obsahovat některé chyby!",
-      "images_available": "{count} Dostupný Snímek",
-      "last_updated": "Poslední aktualizace",
       "no_image_available": "Žádný snímek není k dispozici.",
-      "no_images_available": "Žádné snímky nejsou k dispozici",
       "not_available": "Livestack nebyl nalezen. Nejprve nainstalujte plugin Livestack do NINA.",
       "start_and_select_filter": "Spusťte livestack a vyberte filtr pro zobrazení snímků",
-      "status": "Stav",
-      "target": "Cíl"
+      "target": "Cíl",
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
     }
   },
   "whatsnew": {
@@ -1048,5 +1037,14 @@
     "title": "Update available",
     "updateNow": "Update now",
     "working": "Working…"
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Čas",
+      "status": "Stav",
+      "error": "Chyba Vzdálenosti",
+      "rotation": "Rotace"
+    }
+  },
+  "loading": "loading"
 }

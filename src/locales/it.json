@@ -228,8 +228,8 @@
       "running": "IN ESECUZIONE",
       "imageHistory": "Storico immagini",
       "duration": "Durata",
-  "temperatureShort": "Temp",
-  "targetName": "Target",
+      "temperatureShort": "Temp",
+      "targetName": "Target",
       "conditions": "Condizioni",
       "info": {
         "header": "Informazioni",
@@ -522,14 +522,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Spostamento verso target",
-        "is_centering": "Centraggio target",
-        "is_platesolving": "Platesolve in corso",
-        "plate_solve_error": "Errore Platesolve",
-        "center_error": "Errore centraggio",
-        "center_successful": "Centraggio riuscito",
-        "center_Repeat": "Ripeti centraggio",
-        "exposure_running": "Esposizione in corso",
         "deviation_target": "Deviazione dal target:"
       }
     },
@@ -548,7 +540,6 @@
       "label": "Rotatore",
       "move": "Muovi",
       "control": "Controllo",
-      "notConnected": "Collega rotatore",
       "please_connect_rotator": "Collega il rotatore",
       "currentPosition": "Posizione Attuale",
       "moving": "In Movimento",
@@ -1033,14 +1024,21 @@
     "livestack": {
       "available_filters": "Filtri disponibili",
       "beta_note": "Questo plugin è ancora in fase di sviluppo e può contenere alcuni errori!",
-      "images_available": "{Conteggio} Immagini disponibili",
-      "last_updated": "Ultimo aggiornamento",
       "no_image_available": "Nessuna immagine disponibile",
-      "no_images_available": "Nessuna immagine disponibile",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Stato",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "Nessun filtro",
+      "no_filters_available": "Nessun filtro disponibile per questo target"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Ora",
+      "status": "Stato",
+      "error": "Distanza di Errore",
+      "rotation": "Rotazione"
+    }
+  },
+  "loading": "caricamento"
 }

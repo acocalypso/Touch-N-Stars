@@ -11,7 +11,7 @@
         <TppaPage v-if="isTPPADialog" @close="handleClose" />
 
         <!-- PlateSolving Status Dialog -->
-        <PlateSolvingDialog v-else-if="isPlateSolvingDialog" :dialog="currentDialog" />
+        <PlateSolvingDialog v-else-if="isPlateSolvingDialog" :dialog="currentDialog" :slewAndCenterData="dialogStore.slewAndCenterData" />
 
         <!-- Manual Rotator Dialog -->
         <ManualRotatorDialog v-else-if="isManualRotatorDialog" :dialog="currentDialog" />

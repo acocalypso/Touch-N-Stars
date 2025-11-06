@@ -229,8 +229,8 @@
       "running": "运行中",
       "imageHistory": "图像历史",
       "duration": "持续时间",
-  "temperatureShort": "温度",
-  "targetName": "目标",
+      "temperatureShort": "温度",
+      "targetName": "目标",
       "conditions": "条件",
       "info": {
         "header": "信息",
@@ -523,14 +523,6 @@
       "alt": "高度：",
       "az": "方位角：",
       "slew_modal": {
-        "is_slewing": "转向目标",
-        "is_centering": "居中目标",
-        "is_platesolving": "板解析运行中",
-        "plate_solve_error": "板解析错误",
-        "center_error": "居中错误",
-        "center_successful": "居中成功",
-        "center_Repeat": "重复居中",
-        "exposure_running": "曝光运行中",
         "deviation_target": "与目标偏差："
       }
     },
@@ -549,7 +541,6 @@
       "label": "旋转器",
       "move": "移动",
       "control": "控制",
-      "notConnected": "请连接旋转器",
       "please_connect_rotator": "请连接旋转器",
       "currentPosition": "当前位置",
       "moving": "正在移动",
@@ -1034,14 +1025,21 @@
     "livestack": {
       "available_filters": "Available Filters",
       "beta_note": "This plugin is still under development and may contain some errors!",
-      "images_available": "{count} Images Available",
-      "last_updated": "Last updated",
       "no_image_available": "No image available",
-      "no_images_available": "No Images Available",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Status",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "时间",
+      "status": "状态",
+      "error": "误差距离",
+      "rotation": "旋转"
+    }
+  },
+  "loading": "loading"
 }

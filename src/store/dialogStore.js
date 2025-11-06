@@ -7,6 +7,7 @@ export const useDialogStore = defineStore('dialogStore', {
     dialogs: [],
     dialogCount: 0,
     meridianFlipData: null,
+    slewAndCenterData: null,
     intervalId: null,
     isPolling: false,
   }),
@@ -27,6 +28,10 @@ export const useDialogStore = defineStore('dialogStore', {
           // Store MeridianFlip data if available
           if (response.Response.MeridianFlip) {
             this.meridianFlipData = response.Response.MeridianFlip;
+          }
+          // Store SlewAndCenter data if available
+          if (response.Response.SlewAndCenter) {
+            this.slewAndCenterData = response.Response.SlewAndCenter;
           }
           //console.log('Dialog count:', this.dialogCount);
         }

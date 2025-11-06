@@ -228,8 +228,8 @@
       "running": "WIRD AUSGEFÜHRT",
       "imageHistory": "Image History",
       "duration": "Duration",
-  "temperatureShort": "Temp",
-  "targetName": "Ziel",
+      "temperatureShort": "Temp",
+      "targetName": "Ziel",
       "conditions": "Bedingungen",
       "info": {
         "header": "Info",
@@ -522,14 +522,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Zum Ziel schwenken",
-        "is_centering": "Ziel zentrieren",
-        "is_platesolving": "Platesolve läuft",
-        "plate_solve_error": "Platesolve-Fehler",
-        "center_error": "Zentrierfehler",
-        "center_successful": "Zentrieren erfolgreich",
-        "center_Repeat": "Zentrieren wiederholen",
-        "exposure_running": "Belichtung läuft",
         "deviation_target": "Abweichung zum Ziel:"
       }
     },
@@ -548,7 +540,6 @@
       "label": "Rotator",
       "move": "Bewegen",
       "control": "Steuerung",
-      "notConnected": "Bitte Rotator verbinden",
       "please_connect_rotator": "Bitte Rotator verbinden",
       "currentPosition": "Aktuelle Position",
       "moving": "Bewegt sich ",
@@ -1033,14 +1024,21 @@
     "livestack": {
       "available_filters": "Verfügbare Filter",
       "beta_note": "Dieses Plugin befindet sich noch in der Entwicklung und kann einige Fehler enthalten!",
-      "images_available": "{count} Bilder verfügbar",
-      "last_updated": "Zuletzt aktualisiert",
       "no_image_available": "Kein Bild verfügbar",
-      "no_images_available": "Keine Bilder verfügbar",
       "not_available": "Livestack wurde nicht gefunden. \nBitte installieren Sie das Livestack-Plugin zuerst in Nina.",
       "start_and_select_filter": "Starten Sie das livestack und wählen Sie einen Filter aus, um Bilder anzuzeigen",
-      "status": "Status",
-      "target": "Ziel"
+      "target": "Ziel",
+      "no_filter": "Kein Filter",
+      "no_filters_available": "Für dieses Ziel sind keine Filter verfügbar"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Zeit",
+      "status": "Status",
+      "error": "Fehlerdistanz",
+      "rotation": "Rotation"
+    }
+  },
+  "loading": "Laden"
 }

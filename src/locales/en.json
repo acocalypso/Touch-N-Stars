@@ -119,7 +119,7 @@
         "description": "Prevent the device from dimming or locking while the app is open."
       },
       "beta": {
-        "title": "Beta Update Channel",
+        "title": "Beta Update Channel"
       },
       "showTutorial": "Show Tutorial",
       "plugins": {

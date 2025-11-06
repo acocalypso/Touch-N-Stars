@@ -119,7 +119,7 @@
         "description": "防止应用程序打开时设备变暗或锁定。"
       },
       "beta": {
-        "title": "测试版更新通道",
+        "title": "测试版更新通道"
       },
       "showTutorial": "显示教程",
       "plugins": {

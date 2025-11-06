@@ -367,8 +367,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
         quality <= this.lastImage.quality &&
         scale <= this.lastImage.scale
       ) {
-        console.log('aus cache');
-        console.log(this.lastImage.image);
+        console.log('lastImage from cache');
+        //console.log(this.lastImage.image);
         image = this.lastImage.image;
         return image;
       }

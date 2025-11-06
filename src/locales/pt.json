@@ -118,6 +118,9 @@
         "title": "Manter tela ligada",
         "description": "Impede que o dispositivo escureça ou trave enquanto o aplicativo está aberto."
       },
+      "beta": {
+        "title": "Canal de atualização beta",
+      },
       "showTutorial": "Mostrar tutorial",
       "plugins": {
         "title": "Gerenciamento de plugins",

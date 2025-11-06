@@ -1,12 +1,35 @@
 import { Capacitor } from '@capacitor/core';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import appVersion from '@/version';
+import { useSettingsStore } from '@/store/settingsStore';
 
-const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
-const GITHUB_API_BASE = 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
-const UPDATE_ASSET_NAME = 'dist.zip';
-const CHANGELOG_RAW_URL =
-  'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
+let SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
+let UPDATE_ASSET_NAME = 'dist.zip';
+
+function getGithubApiBase() {
+  try {
+    const settingsStore = useSettingsStore();
+    if (settingsStore?.useBetaFeatures) {
+      console.log('[Updater] Beta features enabled: using beta update channels');
+      return 'https://api.github.com/repos/JohannesWorks/Touch-N-Stars';
+    }
+  } catch (error) {
+    // Store not initialized yet, use default
+  }
+  return 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
+}
+
+function getChangelogRawUrl() {
+  try {
+    const settingsStore = useSettingsStore();
+    if (settingsStore?.useBetaFeatures) {
+      return 'https://raw.githubusercontent.com/JohannesWorks/Touch-N-Stars/refs/heads/master/CHANGELOG.md';
+    }
+  } catch (error) {
+    // Store not initialized yet, use default
+  }
+  return 'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
+}
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
@@ -88,7 +111,7 @@ async function fetchJson(url) {
 
 async function fetchLatestRelease() {
   try {
-    const release = await fetchJson(`${GITHUB_API_BASE}/releases/latest`);
+    const release = await fetchJson(`${getGithubApiBase()}/releases/latest`);
     if (!release || release.draft || release.prerelease) {
       return null;
     }
@@ -322,7 +345,7 @@ export async function fetchChangelogWhatsNew() {
   // Mirror the CLI generator to render the latest CHANGELOG entry for the update modal.
   try {
     console.info('[Updater] Fetching latest changelog entry');
-    const response = await fetch(CHANGELOG_RAW_URL, {
+    const response = await fetch(getChangelogRawUrl(), {
       headers: buildHeaders('text/plain', { includeUserAgent: false }),
     });
 

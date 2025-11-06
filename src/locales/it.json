@@ -118,6 +118,9 @@
         "title": "Mantieni schermo acceso",
         "description": "Impedisce al dispositivo di spegnersi o bloccarsi mentre l'app è aperta."
       },
+      "beta": {
+        "title": "Canale di aggiornamento beta",
+      },
       "showTutorial": "Mostra tutorial",
       "plugins": {
         "title": "Gestione plugin",

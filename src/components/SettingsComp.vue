@@ -160,6 +160,17 @@
       </div>
     </div>
 
+    <!-- set beta -->
+    <div
+      class="bg-gray-800 rounded-lg p-4"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+    >
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.beta.title') }}
+      </h3>
+      <SetBeta />
+    </div>
+
     <!-- Tutorial Button -->
     <div class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">Tutorial</h3>
@@ -343,6 +354,7 @@ import SetDebug from '@/components/settings/setDebug.vue';
 import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
+import SetBeta from '@/components/settings/setBeta.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

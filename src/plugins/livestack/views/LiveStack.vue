@@ -85,18 +85,6 @@
             </div>
           </template>
         </ZoomableImage>
-
-        <!-- Filter Label Overlay -->
-        <div
-          v-if="livestackStore.selectedFilter"
-          class="absolute top-2 left-2 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm z-20"
-        >
-          {{
-            livestackStore.selectedFilter === 'No_filter'
-              ? livestackStore.selectedTarget
-              : `${livestackStore.selectedFilter} (${livestackStore.selectedTarget})`
-          }}
-        </div>
       </div>
 
       <!-- Control Panel Overlay -->
@@ -148,78 +136,22 @@
                 <StopIcon class="w-4 h-4" />
               </button>
             </div>
-
-            <!-- Status -->
-            <div class="text-xs">
-              <p>
-                {{ t('plugins.livestack.status') }}:
-                <span :class="availableImages.length > 0 ? 'text-green-400' : 'text-red-400'">
-                  {{
-                    availableImages.length > 0
-                      ? t('plugins.livestack.images_available', { count: availableImages.length })
-                      : t('plugins.livestack.no_images_available')
-                  }}
-                </span>
-              </p>
-              <p v-if="isLoading" class="text-yellow-400 mt-1 flex items-center">
-                <svg
-                  class="animate-spin -ml-1 mr-2 h-3 w-3 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-                Loading image...
-              </p>
-              <p v-if="currentTarget" class="text-gray-400 mt-1">
-                {{ t('plugins.livestack.target') }}: {{ currentTarget }}
-              </p>
-              <p v-if="lastUpdated" class="text-gray-400 mt-1">
-                {{ t('plugins.livestack.last_updated') }}: {{ lastUpdated }}
-              </p>
-            </div>
           </div>
         </div>
 
-        <!-- Filter Selection -->
+        <!-- Target and Filter Selection (Two-Level) -->
         <div
           v-if="availableImages.length > 0 && !isControlPanelMinimized"
           class="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 mt-2"
         >
-          <h6 class="text-sm font-semibold text-white mb-2">
-            {{ t('plugins.livestack.available_filters') }}
-          </h6>
-          <div class="flex flex-wrap gap-1">
-            <button
-              v-for="(image, index) in availableImages"
-              :key="`${image.Filter}-${image.Target}-${index}`"
-              @click="selectFilter(image.Filter, image.Target)"
-              :class="
-                livestackStore.selectedFilter === image.Filter &&
-                livestackStore.selectedTarget === image.Target
-                  ? 'bg-blue-600 hover:bg-blue-700'
-                  : 'bg-gray-600 hover:bg-gray-700'
-              "
-              class="px-2 py-1 text-white rounded text-xs transition-colors"
-            >
-              {{
-                image.Filter === 'No_filter' ? image.Target : `${image.Filter} (${image.Target})`
-              }}
-            </button>
-          </div>
+          <TargetFilterSelector
+            :availableImages="availableImages"
+            :selectedTarget="selectedTargetForUI"
+            :selectedFilter="livestackStore.selectedFilter"
+            :currentTarget="livestackStore.selectedTarget"
+            @select-target="selectTargetUI"
+            @select-filter="selectFilterFromSelector"
+          />
         </div>
       </div>
     </div>
@@ -230,7 +162,7 @@
 import { ref, onMounted, computed } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
-import websocketLivestackService from '@/services/websocketChannelSocket.js';
+import websocketChannelService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore';
 import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
@@ -238,6 +170,7 @@ import { useOrientation } from '@/composables/useOrientation';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
+import TargetFilterSelector from '../components/TargetFilterSelector.vue';
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
@@ -255,6 +188,7 @@ const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const isControlPanelMinimized = ref(false);
 const pageIsLoading = ref(true);
+const selectedTargetForUI = ref(null); // Für zwei-stufige Selektion
 
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
@@ -341,14 +275,6 @@ const checkImageAvailability = async () => {
   }
 };
 
-const selectFilter = async (filter, target) => {
-  livestackStore.selectedFilter = filter;
-  livestackStore.selectedTarget = target;
-  if (target) {
-    await loadImage(target, filter);
-  }
-};
-
 const loadImage = async (target, filter, forceReload = false) => {
   console.log(`loadImage called: target=${target}, filter=${filter}, forceReload=${forceReload}`);
 
@@ -406,6 +332,21 @@ const handleDownload = async (data) => {
     folderPrefix: 'TNS-Images',
     filePrefix: 'TNS',
   });
+};
+
+// Zwei-stufige Selektion Handler
+const selectTargetUI = (target) => {
+  selectedTargetForUI.value = target;
+  console.log('Selected target for UI:', target);
+};
+
+const selectFilterFromSelector = async (filter) => {
+  if (selectedTargetForUI.value) {
+    livestackStore.selectedTarget = selectedTargetForUI.value;
+    livestackStore.selectedFilter = filter;
+    console.log(`Selected filter/target combination: ${selectedTargetForUI.value} / ${filter}`);
+    await loadImage(selectedTargetForUI.value, filter);
+  }
 };
 
 // WebSocket handlers
@@ -476,15 +417,31 @@ onMounted(async () => {
   }
   livestackPluginAvailable.value = true;
 
-  // Setup WebSocket callbacks
-  websocketLivestackService.setStatusCallback(handleWebSocketStatus);
-  websocketLivestackService.setMessageCallback(handleWebSocketMessage);
+  // Setup WebSocket callbacks auf dem globalen WebSocket Service
+  const originalStatusCallback = websocketChannelService.statusCallback;
+  const originalMessageCallback = websocketChannelService.messageCallback;
 
-  // Connect WebSocket
-  websocketLivestackService.connect();
+  websocketChannelService.setStatusCallback((status) => {
+    handleWebSocketStatus(status);
+    if (originalStatusCallback) originalStatusCallback(status);
+  });
 
-  // Subscribe to livestack events
-  websocketLivestackService.subscribe('STACK-UPDATED');
+  websocketChannelService.setMessageCallback((message) => {
+    handleWebSocketMessage(message);
+    if (originalMessageCallback) originalMessageCallback(message);
+  });
+
+  // Stelle sicher, dass WebSocket verbunden ist
+  try {
+    if (!websocketChannelService.isWebSocketConnected()) {
+      console.log('WebSocket not connected, attempting to connect...');
+      await websocketChannelService.connect();
+    }
+    // Subscribe to livestack events
+    websocketChannelService.subscribe('STACK-UPDATED');
+  } catch (error) {
+    console.error('Failed to connect WebSocket for livestack:', error);
+  }
 
   // Initial check for available images
   checkImageAvailability();

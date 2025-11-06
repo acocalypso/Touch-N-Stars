@@ -354,7 +354,6 @@ import SetDebug from '@/components/settings/setDebug.vue';
 import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
-import setBeta from '@/components/settings/setBeta.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
 
 const router = useRouter();

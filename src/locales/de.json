@@ -30,6 +30,8 @@
   "updates": {
     "title": "Update verfügbar",
     "description": "Ein neueres App-Bundle ({version}) steht zur Installation bereit.",
+    "downgradeTitle": "Zur Stable-Version wechseln",
+    "downgradeDescription": "Wechsle zurück zur Stable-Version ({version}). Dies ersetzt deine aktuelle Beta-Version.",
     "releaseNotes": "Versionshinweise",
     "downloading": "Update wird heruntergeladen… {progress}%",
     "whatsNew": "Das ist neu",

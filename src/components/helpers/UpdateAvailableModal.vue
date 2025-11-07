@@ -26,9 +26,15 @@
             </svg>
           </div>
           <div class="flex-1">
-            <h2 class="text-2xl font-semibold text-white">{{ t('updates.title') }}</h2>
+            <h2 class="text-2xl font-semibold text-white">
+              {{ isDowngrade ? t('updates.downgradeTitle') : t('updates.title') }}
+            </h2>
             <p class="mt-2 text-sm text-gray-300">
-              {{ t('updates.description', { version }) }}
+              {{
+                isDowngrade
+                  ? t('updates.downgradeDescription', { version })
+                  : t('updates.description', { version })
+              }}
             </p>
           </div>
         </div>
@@ -161,6 +167,10 @@ const props = defineProps({
   error: {
     type: String,
     default: '',
+  },
+  isDowngrade: {
+    type: Boolean,
+    default: false,
   },
 });
 

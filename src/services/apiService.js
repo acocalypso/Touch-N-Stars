@@ -1516,6 +1516,18 @@ const apiService = {
     }
   },
 
+  async livestackImageInfo(target, filter) {
+    try {
+      const { BASE_URL } = getUrls();
+      const encodedTarget = encodeURIComponent(target);
+      const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}/info`);
+      return response.data;
+    } catch (error) {
+      console.error('Error checking livestack image info:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

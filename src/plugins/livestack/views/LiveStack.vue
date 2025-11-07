@@ -145,6 +145,7 @@
           class="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 mt-2"
         >
           <TargetFilterSelector
+            ref="targetFilterSelectorRef"
             :availableImages="availableImages"
             :selectedTarget="selectedTargetForUI"
             :selectedFilter="livestackStore.selectedFilter"
@@ -189,6 +190,7 @@ const livestackPluginAvailable = ref(false);
 const isControlPanelMinimized = ref(false);
 const pageIsLoading = ref(true);
 const selectedTargetForUI = ref(null); // Für zwei-stufige Selektion
+const targetFilterSelectorRef = ref(null); // Referenz zur TargetFilterSelector-Komponente
 
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
@@ -367,6 +369,11 @@ const handleWebSocketMessage = async (message) => {
       console.log(
         `Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`
       );
+
+      // Invalidate the stack count cache in TargetFilterSelector
+      if (targetFilterSelectorRef.value) {
+        targetFilterSelectorRef.value.invalidateStackCountCache();
+      }
 
       // Update the available images list first
       try {

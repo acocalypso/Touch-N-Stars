@@ -465,7 +465,8 @@
       "cooler_status_cooling": "Aktywne - Chłodzenie do",
       "cooler_status_holding": "Aktywne - Przy temp. docelowej",
       "cooler_status_warming": "Aktywne - Nagrzewanie do",
-      "set_save_snapshot": "Zapisz snapshoty"
+      "set_save_snapshot": "Zapisz snapshoty",
+      "snapshotTargetName": "Nazwa celu"
     },
     "tppa": {
       "title": "Wyrównanie biegunowe trzypunktowe",

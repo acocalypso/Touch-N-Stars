@@ -467,7 +467,8 @@
       "cooler_status_cooling": "Aktiv - Kühlt auf",
       "cooler_status_holding": "Aktiv - Zieltemperatur erreicht",
       "cooler_status_warming": "Aktiv - Wärmt auf",
-      "set_save_snapshot": "Snapshots speichern"
+      "set_save_snapshot": "Snapshots speichern",
+      "snapshotTargetName": "Zielname"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

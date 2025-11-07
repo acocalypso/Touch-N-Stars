@@ -466,7 +466,8 @@
       "cooler_status_cooling": "活跃 - 冷却至",
       "cooler_status_holding": "活跃 - 达到目标温度",
       "cooler_status_warming": "活跃 - 加热至",
-      "set_save_snapshot": "保存快照"
+      "set_save_snapshot": "保存快照",
+      "snapshotTargetName": "目标名称"
     },
     "tppa": {
       "title": "三点极轴对准",

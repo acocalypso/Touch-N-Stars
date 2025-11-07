@@ -135,6 +135,7 @@
       :progress="updateProgress"
       :status="updateStatus"
       :error="updateError"
+      :is-downgrade="updateInfo.isDowngrade || false"
       @confirm="handleUpdateConfirm"
       @cancel="handleUpdateCancel"
     />
@@ -386,14 +387,17 @@ function handleFocus() {
   }
 }
 
-async function checkForAppUpdate() {
+async function checkForAppUpdate(options = {}) {
+  const { allowDowngrade = false } = options;
+
   if (!isNativePlatform() || checkingUpdate.value || showUpdateModal.value) {
     return;
   }
 
   checkingUpdate.value = true;
   try {
-    const result = await checkForManualUpdate();
+    // checkForManualUpdate uses appVersion by default, no need to pass it
+    const result = await checkForManualUpdate(undefined, { allowDowngrade });
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
       let whatsNewDetails = null;
       try {
@@ -502,6 +506,19 @@ onMounted(async () => {
   window.addEventListener('refresh-stellarium', () => {
     console.log('Manual Stellarium refresh requested');
     stellariumRefreshKey.value = Date.now();
+  });
+
+  // Listen for update channel changes
+  window.addEventListener('check-app-update', (event) => {
+    console.log('Update check requested via channel switch');
+    if (event?.detail?.resetDismissed) {
+      dismissedUpdateVersion.value = null;
+      console.log('Cleared dismissed update version for channel switch');
+    }
+    if (isNativePlatform()) {
+      // Allow downgrades when switching channels (e.g., Beta -> Stable)
+      void checkForAppUpdate({ allowDowngrade: true });
+    }
   });
 
   // Timeout for connectionCheckCompleted after 3 seconds
@@ -658,6 +675,11 @@ onBeforeUnmount(async () => {
   window.removeEventListener('orientationchange', handleOrientationChange);
   window.removeEventListener('refresh-stellarium', () => {
     stellariumRefreshKey.value = Date.now();
+  });
+  window.removeEventListener('check-app-update', () => {
+    if (isNativePlatform()) {
+      void checkForAppUpdate();
+    }
   });
 
   // Remove Capacitor listeners

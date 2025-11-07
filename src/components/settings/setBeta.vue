@@ -18,20 +18,16 @@
 <script setup>
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { checkForManualUpdate } from '@/services/updateService';
 
 const settingsStore = useSettingsStore();
 
 async function toggleDebug(value) {
   settingsStore.useBetaFeatures = value;
 
-  // Check for updates when switching update channel
-  try {
-    console.log('[Beta Settings] Update channel switched, checking for updates...');
-    await checkForManualUpdate();
-  } catch (error) {
-    console.warn('[Beta Settings] Failed to check for updates:', error);
-  }
+  // Trigger update check in App.vue via custom event
+  // Pass reset flag to clear dismissed version when switching channels
+  console.log('[Beta Settings] Update channel switched, triggering update check...');
+  window.dispatchEvent(new CustomEvent('check-app-update', { detail: { resetDismissed: true } }));
 }
 </script>
 <style scoped>

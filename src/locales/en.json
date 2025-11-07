@@ -30,6 +30,8 @@
   "updates": {
     "title": "Update available",
     "description": "A newer app bundle ({version}) is ready to install.",
+    "downgradeTitle": "Switch to Stable Version",
+    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
     "releaseNotes": "Release notes",
     "whatsNew": "What's new",
     "downloading": "Downloading update… {progress}%",

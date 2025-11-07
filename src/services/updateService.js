@@ -207,7 +207,14 @@ async function fetchLatestRelease() {
   }
 }
 
-export async function checkForManualUpdate(currentVersion = appVersion) {
+export async function checkForManualUpdate(currentVersion = appVersion, options = {}) {
+  const { allowDowngrade = false } = options;
+
+  console.log('[Updater] checkForManualUpdate called with:', {
+    currentVersion,
+    allowDowngrade,
+  });
+
   if (!isNativePlatform()) {
     return { available: false, reason: 'non-native-platform' };
   }
@@ -217,9 +224,32 @@ export async function checkForManualUpdate(currentVersion = appVersion) {
     return { available: false, reason: 'no-release' };
   }
 
-  if (compareVersions(latestRelease.version, currentVersion) <= 0) {
+  const versionComparison = compareVersions(latestRelease.version, currentVersion);
+  console.log('[Updater] Version comparison:', {
+    latestVersion: latestRelease.version,
+    currentVersion,
+    comparison: versionComparison,
+    allowDowngrade,
+  });
+
+  // If not allowing downgrades, skip if version is not newer
+  if (!allowDowngrade && versionComparison <= 0) {
+    console.log('[Updater] No update: version not newer and downgrade not allowed');
     return { available: false, reason: 'no-newer-version' };
   }
+
+  // If versions are identical, no update needed
+  if (versionComparison === 0) {
+    console.log('[Updater] No update: same version');
+    return { available: false, reason: 'same-version' };
+  }
+
+  // If downgrade is allowed or version is newer, return available
+  const isDowngrade = versionComparison < 0;
+  console.log('[Updater] Update available:', {
+    version: latestRelease.version,
+    isDowngrade,
+  });
 
   return {
     available: true,
@@ -229,6 +259,7 @@ export async function checkForManualUpdate(currentVersion = appVersion) {
     notes: latestRelease.notes,
     downloadUrl: latestRelease.assetUrl,
     publishedAt: latestRelease.publishedAt,
+    isDowngrade,
   };
 }
 

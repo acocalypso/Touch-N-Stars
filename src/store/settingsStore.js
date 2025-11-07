@@ -61,6 +61,7 @@ export const useSettingsStore = defineStore('settings', {
       useSolve: false,
       imageScale: 100,
       imageQuality: 90,
+      snapshotTargetName: 'Snapshot',
     },
     flats: {
       selectedOption: 'AutoExposure',
@@ -306,6 +307,7 @@ export const useSettingsStore = defineStore('settings', {
           'guider',
           'keepAwakeEnabled',
           'useBetaFeatures',
+          'camera',
         ],
       },
     ],

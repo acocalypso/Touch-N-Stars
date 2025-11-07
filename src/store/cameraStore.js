@@ -3,6 +3,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
+import { useSettingsStore } from '@/store/settingsStore'; 
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -30,6 +31,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const slewModal = ref(false);
   const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
   let countdownSessionId = 0; // Eindeutige ID für jede Countdown-Session
+  const settingsStore = useSettingsStore();
 
   // Hilfsfunktion, um kurz zu warten
   function wait(ms) {
@@ -51,7 +53,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
-      await apiService.startCapture(exposureTime, gain, solve, true, save);
+      await apiService.startCapture(exposureTime, gain, solve, true, save, settingsStore.camera.snapshotTargetName);
       while (!store.isImageFetching) {
         await wait(100);
         //console.log('Waiting for exposure to complete...');

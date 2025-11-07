@@ -13,11 +13,12 @@
           :key="`target-${target}`"
           @click="selectTarget(target)"
           :class="[
-            'w-full text-left px-3 py-2 text-sm rounded transition-colors',
+            'w-full text-left px-3 py-2 text-sm rounded transition-colors flex justify-between items-center',
             selectedTarget === target ? 'default-button-blue' : 'default-button-gray',
           ]"
         >
-          {{ target }}
+          <span>{{ target }}</span>
+          <span class="text-xs opacity-75">{{ getTargetStackCount(target) }}</span>
         </button>
       </div>
     </div>
@@ -159,17 +160,57 @@ const getStackCountText = (target, filter) => {
   return countText ? `[${countText}]` : '';
 };
 
-// Lade Stack-Counts wenn verfügbare Filter sich ändern
+const getTargetStackCount = (target) => {
+  // Finde den Mono-Filter mit den meisten Stacks für diesen Target
+  if (!target) return '';
+
+  let maxMonoCount = 0;
+
+  // Hole alle Filter für diesen Target aus availableImages
+  const filtersForThisTarget = props.availableImages
+    .filter((img) => img.Target === target)
+    .map((img) => img.Filter);
+
+  // Iteriere durch alle Mono-Filter für diesen Target
+  filtersForThisTarget.forEach((filter) => {
+    const key = `${target}-${filter}`;
+    const counts = stackCounts.value[key];
+
+    // Nur Mono-Filter berücksichtigen (RGB ignorieren)
+    if (counts && counts.mono !== undefined) {
+      maxMonoCount = Math.max(maxMonoCount, counts.mono);
+    }
+  });
+
+  return maxMonoCount > 0 ? `[${maxMonoCount}]` : '';
+};
+
+// Lade Stack-Counts für alle Filter aller Targets beim Init und bei Änderung
 watch(
-  () => filtersForTarget.value,
-  (newFilters) => {
-    if (props.selectedTarget && newFilters.length > 0) {
-      newFilters.forEach((filter) => {
-        loadStackCount(props.selectedTarget, filter);
+  () => props.availableImages,
+  (newImages) => {
+    // Lade Stack-Counts für alle verfügbaren Target/Filter-Kombinationen
+    newImages.forEach((img) => {
+      loadStackCount(img.Target, img.Filter);
+    });
+  },
+  { immediate: true, deep: true }
+);
+
+// Lade auch Stack-Counts für den aktuell ausgewählten Target
+watch(
+  () => props.selectedTarget,
+  (newTarget) => {
+    if (newTarget) {
+      const filtersForSelectedTarget = props.availableImages
+        .filter((img) => img.Target === newTarget)
+        .map((img) => img.Filter);
+
+      filtersForSelectedTarget.forEach((filter) => {
+        loadStackCount(newTarget, filter);
       });
     }
-  },
-  { immediate: true }
+  }
 );
 
 // Expose the invalidateStackCountCache method for parent components

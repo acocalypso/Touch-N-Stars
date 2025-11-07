@@ -41,18 +41,12 @@
               : 'default-button-gray',
           ]"
         >
-          {{ filter === 'No_filter' ? t('plugins.livestack.no_filter') : filter }}
+          {{ filter === 'No_filter' ? 'No Filter' : filter }}
         </button>
       </div>
     </div>
 
-    <!-- Info Text -->
-    <div
-      v-if="selectedTarget && filtersForTarget.length === 0"
-      class="mt-3 p-2 bg-gray-700/50 rounded text-xs text-gray-400"
-    >
-      {{ t('plugins.livestack.no_filters_available') }}
-    </div>
+
   </div>
 </template>
 

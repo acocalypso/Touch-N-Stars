@@ -30,6 +30,8 @@
   "updates": {
     "title": "Update verfügbar",
     "description": "Ein neueres App-Bundle ({version}) steht zur Installation bereit.",
+    "downgradeTitle": "Zur Stable-Version wechseln",
+    "downgradeDescription": "Wechsle zurück zur Stable-Version ({version}). Dies ersetzt deine aktuelle Beta-Version.",
     "releaseNotes": "Versionshinweise",
     "downloading": "Update wird heruntergeladen… {progress}%",
     "whatsNew": "Das ist neu",
@@ -116,6 +118,9 @@
       "keepAwake": {
         "title": "Bildschirm aktiv halten",
         "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist."
+      },
+      "beta": {
+        "title": "Beta-Update-Kanal"
       },
       "showTutorial": "Tutorial anzeigen",
       "plugins": {

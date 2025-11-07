@@ -113,6 +113,9 @@
         "sequence": "secuencia",
         "phd2": "PHD2"
       },
+      "beta": {
+        "title": "Canal de actualización beta"
+      },
       "showTutorial": "Mostrar tutorial",
       "plugins": {
         "title": "Gestión de plugins",

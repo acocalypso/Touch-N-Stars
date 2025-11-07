@@ -30,6 +30,8 @@
   "updates": {
     "title": "Update available",
     "description": "A newer app bundle ({version}) is ready to install.",
+    "downgradeTitle": "Switch to Stable Version",
+    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
     "releaseNotes": "Release notes",
     "whatsNew": "What's new",
     "downloading": "Downloading update… {progress}%",
@@ -117,6 +119,9 @@
       "keepAwake": {
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
+      },
+      "beta": {
+        "title": "Beta Update Channel"
       },
       "showTutorial": "Show Tutorial",
       "plugins": {

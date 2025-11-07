@@ -261,12 +261,18 @@ const instanceData = ref({
 });
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
+const stepInitialized = ref(false); // Tracks if step 5 logic has run
 
 // Setup-Schritt im localStorage speichern, damit er nach Berechtigungsabfragen wiederhergestellt werden kann
 onMounted(() => {
   const savedStep = localStorage.getItem('setupCurrentStep');
   if (savedStep) {
-    currentStep.value = parseInt(savedStep);
+    const step = parseInt(savedStep);
+    currentStep.value = step;
+    // If we're resuming at step 5, mark it as already initialized
+    if (step === 5) {
+      stepInitialized.value = true;
+    }
   }
 });
 
@@ -285,18 +291,22 @@ function afterEnter() {
 
 async function nextStep() {
   currentStep.value++;
+
   // Skip instance configuration on web
   if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value++;
   }
 
   // Fetch GPS info after instance setup on mobile
-  if (currentStep.value === 5) {
+  // Only run this initialization logic once per step 5 visit
+  if (currentStep.value === 5 && !stepInitialized.value) {
+    stepInitialized.value = true;
     store.startFetchingInfo();
     store.setupCheckConnectionDone = true;
     await wait(2500);
     if (!store.isBackendReachable) {
       console.log('Backend not reachable');
+      stepInitialized.value = false; // Reset flag if we go back
       previousStep();
       return;
     }
@@ -305,6 +315,11 @@ async function nextStep() {
 }
 
 function previousStep() {
+  // Reset step 5 initialization flag when leaving step 5
+  if (currentStep.value === 5) {
+    stepInitialized.value = false;
+  }
+
   currentStep.value--;
   // Skip instance configuration when going back on web
   if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {

@@ -135,6 +135,7 @@
       :progress="updateProgress"
       :status="updateStatus"
       :error="updateError"
+      :is-downgrade="updateInfo.isDowngrade || false"
       @confirm="handleUpdateConfirm"
       @cancel="handleUpdateCancel"
     />
@@ -152,13 +153,13 @@
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50"
     >
       <div
         class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"
       >
         <div
-          class="sticky top-0 bg-gray-900 p-4 border-b border-gray-700 flex justify-between items-center"
+          class="sticky top-0 z-10 bg-gray-900 p-4 border-b border-gray-700 flex justify-between items-center"
         >
           <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
           <button
@@ -386,14 +387,17 @@ function handleFocus() {
   }
 }
 
-async function checkForAppUpdate() {
+async function checkForAppUpdate(options = {}) {
+  const { allowDowngrade = false } = options;
+
   if (!isNativePlatform() || checkingUpdate.value || showUpdateModal.value) {
     return;
   }
 
   checkingUpdate.value = true;
   try {
-    const result = await checkForManualUpdate();
+    // checkForManualUpdate uses appVersion by default, no need to pass it
+    const result = await checkForManualUpdate(undefined, { allowDowngrade });
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
       let whatsNewDetails = null;
       try {
@@ -502,6 +506,19 @@ onMounted(async () => {
   window.addEventListener('refresh-stellarium', () => {
     console.log('Manual Stellarium refresh requested');
     stellariumRefreshKey.value = Date.now();
+  });
+
+  // Listen for update channel changes
+  window.addEventListener('check-app-update', (event) => {
+    console.log('Update check requested via channel switch');
+    if (event?.detail?.resetDismissed) {
+      dismissedUpdateVersion.value = null;
+      console.log('Cleared dismissed update version for channel switch');
+    }
+    if (isNativePlatform()) {
+      // Allow downgrades when switching channels (e.g., Beta -> Stable)
+      void checkForAppUpdate({ allowDowngrade: true });
+    }
   });
 
   // Timeout for connectionCheckCompleted after 3 seconds
@@ -658,6 +675,11 @@ onBeforeUnmount(async () => {
   window.removeEventListener('orientationchange', handleOrientationChange);
   window.removeEventListener('refresh-stellarium', () => {
     stellariumRefreshKey.value = Date.now();
+  });
+  window.removeEventListener('check-app-update', () => {
+    if (isNativePlatform()) {
+      void checkForAppUpdate();
+    }
   });
 
   // Remove Capacitor listeners

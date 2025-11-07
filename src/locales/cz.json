@@ -123,6 +123,9 @@
       "keepAwake": {
         "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená.",
         "title": "Udržet Obrazovku Aktivní"
+      },
+      "beta": {
+        "title": "Beta aktualizační kanál"
       }
     },
     "connectEquipment": {

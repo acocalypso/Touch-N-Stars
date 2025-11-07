@@ -1,12 +1,35 @@
 import { Capacitor } from '@capacitor/core';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import appVersion from '@/version';
+import { useSettingsStore } from '@/store/settingsStore';
 
-const SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
-const GITHUB_API_BASE = 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
-const UPDATE_ASSET_NAME = 'dist.zip';
-const CHANGELOG_RAW_URL =
-  'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
+let SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
+let UPDATE_ASSET_NAME = 'dist.zip';
+
+function getGithubApiBase() {
+  try {
+    const settingsStore = useSettingsStore();
+    if (settingsStore?.useBetaFeatures) {
+      console.log('[Updater] Beta features enabled: using beta update channels');
+      return 'https://api.github.com/repos/JohannesWorks/Touch-N-Stars';
+    }
+  } catch (error) {
+    // Store not initialized yet, use default
+  }
+  return 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
+}
+
+function getChangelogRawUrl() {
+  try {
+    const settingsStore = useSettingsStore();
+    if (settingsStore?.useBetaFeatures) {
+      return 'https://raw.githubusercontent.com/JohannesWorks/Touch-N-Stars/refs/heads/master/CHANGELOG.md';
+    }
+  } catch (error) {
+    // Store not initialized yet, use default
+  }
+  return 'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
+}
 
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
@@ -38,39 +61,93 @@ export function isNativePlatform() {
   return SUPPORTED_PLATFORMS.has(getPlatform());
 }
 
-function sanitizeVersion(version) {
+function parseVersion(version) {
   if (!version) {
-    return '';
+    return { major: 0, minor: 0, patch: 0, prerelease: [], prereleaseParts: [] };
   }
 
   const trimmed = version.trim();
   const withoutPrefix = trimmed.replace(/^v/gi, '');
-  const match = withoutPrefix.match(/\d+(?:\.\d+)+/);
-  if (match) {
-    return match[0];
+
+  // Split version and pre-release parts (e.g., "4.0.0-beta.1" -> ["4.0.0", "beta.1"])
+  const [corePart, ...prereleaseParts] = withoutPrefix.split(/[-+]/);
+
+  // Extract major.minor.patch
+  const match = corePart.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
+  if (!match) {
+    return { major: 0, minor: 0, patch: 0, prerelease: [], prereleaseParts: [] };
   }
 
-  const fallback = withoutPrefix.split(/[-+]/)[0];
-  return fallback ? fallback.trim() : '';
+  const major = Number.parseInt(match[1], 10);
+  const minor = Number.parseInt(match[2], 10) || 0;
+  const patch = Number.parseInt(match[3], 10) || 0;
+
+  // Parse pre-release identifiers (e.g., "beta.1" -> ["beta", "1"])
+  const prereleasePart = prereleaseParts.join('-');
+  const prerelease = prereleasePart ? prereleasePart.split('.') : [];
+
+  return {
+    major,
+    minor,
+    patch,
+    prerelease,
+    prereleaseParts,
+  };
 }
 
 function compareVersions(remote, local) {
-  const remoteParts = sanitizeVersion(remote)
-    .split('.')
-    .map((segment) => Number.parseInt(segment, 10) || 0);
-  const localParts = sanitizeVersion(local)
-    .split('.')
-    .map((segment) => Number.parseInt(segment, 10) || 0);
-  const maxLength = Math.max(remoteParts.length, localParts.length);
+  const remoteVersion = parseVersion(remote);
+  const localVersion = parseVersion(local);
 
-  for (let index = 0; index < maxLength; index += 1) {
-    const remoteSegment = remoteParts[index] ?? 0;
-    const localSegment = localParts[index] ?? 0;
-    if (remoteSegment > localSegment) {
-      return 1;
-    }
-    if (remoteSegment < localSegment) {
-      return -1;
+  // Compare major.minor.patch
+  if (remoteVersion.major !== localVersion.major) {
+    return remoteVersion.major > localVersion.major ? 1 : -1;
+  }
+  if (remoteVersion.minor !== localVersion.minor) {
+    return remoteVersion.minor > localVersion.minor ? 1 : -1;
+  }
+  if (remoteVersion.patch !== localVersion.patch) {
+    return remoteVersion.patch > localVersion.patch ? 1 : -1;
+  }
+
+  // When core versions are equal, compare pre-release versions
+  const remoteHasPrerelease = remoteVersion.prerelease.length > 0;
+  const localHasPrerelease = localVersion.prerelease.length > 0;
+
+  // Version without pre-release is greater than with pre-release (4.0.0 > 4.0.0-beta.1)
+  if (remoteHasPrerelease && !localHasPrerelease) {
+    return -1; // remote has pre-release, local doesn't: remote is less
+  }
+  if (!remoteHasPrerelease && localHasPrerelease) {
+    return 1; // remote doesn't have pre-release, local does: remote is greater
+  }
+
+  // Both have pre-release: compare identifiers
+  if (remoteHasPrerelease && localHasPrerelease) {
+    const maxLength = Math.max(remoteVersion.prerelease.length, localVersion.prerelease.length);
+    for (let i = 0; i < maxLength; i += 1) {
+      const remotePart = remoteVersion.prerelease[i] ?? '';
+      const localPart = localVersion.prerelease[i] ?? '';
+
+      // Try numeric comparison first
+      const remoteNum = Number.parseInt(remotePart, 10);
+      const localNum = Number.parseInt(localPart, 10);
+      const remoteIsNum = !Number.isNaN(remoteNum);
+      const localIsNum = !Number.isNaN(localNum);
+
+      if (remoteIsNum && localIsNum) {
+        if (remoteNum !== localNum) {
+          return remoteNum > localNum ? 1 : -1;
+        }
+      } else if (remoteIsNum !== localIsNum) {
+        // Numbers are less than non-numbers
+        return remoteIsNum ? -1 : 1;
+      } else {
+        // Both are strings: lexical comparison
+        if (remotePart !== localPart) {
+          return remotePart > localPart ? 1 : -1;
+        }
+      }
     }
   }
 
@@ -88,8 +165,8 @@ async function fetchJson(url) {
 
 async function fetchLatestRelease() {
   try {
-    const release = await fetchJson(`${GITHUB_API_BASE}/releases/latest`);
-    if (!release || release.draft || release.prerelease) {
+    const release = await fetchJson(`${getGithubApiBase()}/releases/latest`);
+    if (!release || release.draft) {
       return null;
     }
 
@@ -104,8 +181,13 @@ async function fetchLatestRelease() {
       throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
     }
 
-    const normalizedVersion = sanitizeVersion(release.tag_name || release.name);
-    if (!normalizedVersion) {
+    const versionString = release.tag_name || release.name;
+    const parsedVersion = parseVersion(versionString);
+    const normalizedVersion = `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}${
+      parsedVersion.prerelease.length > 0 ? `-${parsedVersion.prerelease.join('.')}` : ''
+    }`;
+
+    if (!normalizedVersion || normalizedVersion === '0.0.0') {
       console.warn('[Updater] Skipping release with unparseable version:', release.tag_name);
       return null;
     }
@@ -117,6 +199,7 @@ async function fetchLatestRelease() {
       notes: release.body || '',
       assetUrl: asset.browser_download_url,
       publishedAt: release.published_at,
+      isPrerelease: release.prerelease,
     };
   } catch (error) {
     console.warn('[Updater] Failed to resolve latest release:', error);
@@ -124,7 +207,16 @@ async function fetchLatestRelease() {
   }
 }
 
-export async function checkForManualUpdate(currentVersion = appVersion) {
+export async function checkForManualUpdate(currentVersion = appVersion, options = {}) {
+  const { allowDowngrade = false } = options;
+
+  console.log(
+    '[Updater] checkForManualUpdate called - version:',
+    currentVersion,
+    'allowDowngrade:',
+    allowDowngrade
+  );
+
   if (!isNativePlatform()) {
     return { available: false, reason: 'non-native-platform' };
   }
@@ -134,9 +226,39 @@ export async function checkForManualUpdate(currentVersion = appVersion) {
     return { available: false, reason: 'no-release' };
   }
 
-  if (compareVersions(latestRelease.version, currentVersion) <= 0) {
+  const versionComparison = compareVersions(latestRelease.version, currentVersion);
+  console.log(
+    '[Updater] Version comparison:',
+    'latest:',
+    latestRelease.version,
+    'current:',
+    currentVersion,
+    'result:',
+    versionComparison,
+    'allowDowngrade:',
+    allowDowngrade
+  );
+
+  // If not allowing downgrades, skip if version is not newer
+  if (!allowDowngrade && versionComparison <= 0) {
+    console.log('[Updater] No update: version not newer and downgrade not allowed');
     return { available: false, reason: 'no-newer-version' };
   }
+
+  // If versions are identical, no update needed
+  if (versionComparison === 0) {
+    console.log('[Updater] No update: same version');
+    return { available: false, reason: 'same-version' };
+  }
+
+  // If downgrade is allowed or version is newer, return available
+  const isDowngrade = versionComparison < 0;
+  console.log(
+    '[Updater] Update available - version:',
+    latestRelease.version,
+    'isDowngrade:',
+    isDowngrade
+  );
 
   return {
     available: true,
@@ -146,6 +268,7 @@ export async function checkForManualUpdate(currentVersion = appVersion) {
     notes: latestRelease.notes,
     downloadUrl: latestRelease.assetUrl,
     publishedAt: latestRelease.publishedAt,
+    isDowngrade,
   };
 }
 
@@ -322,7 +445,7 @@ export async function fetchChangelogWhatsNew() {
   // Mirror the CLI generator to render the latest CHANGELOG entry for the update modal.
   try {
     console.info('[Updater] Fetching latest changelog entry');
-    const response = await fetch(CHANGELOG_RAW_URL, {
+    const response = await fetch(getChangelogRawUrl(), {
       headers: buildHeaders('text/plain', { includeUserAgent: false }),
     });
 

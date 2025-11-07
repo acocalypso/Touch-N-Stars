@@ -734,7 +734,7 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain, solve = false, omitImage = false, save = false) {
+  async startCapture(duration, gain, solve = false, omitImage = false, save = false, targetName = 'Snapshot') {
     console.log('Zeit:', duration, 'Gain: ', gain);
     try {
       const { BASE_URL } = getUrls();
@@ -745,6 +745,7 @@ const apiService = {
           solve: solve,
           omitImage: omitImage,
           save: save,
+          targetName: targetName
         },
       });
       return response.data;

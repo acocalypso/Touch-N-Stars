@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [LivestackPlugin0.4.0] [App3.6.2]- 2025-11-07
+## [LivestackPlugin0.4.0] [App4.0.0-beta.2]- 2025-11-07
 ### Important information
 - Advanced API V2.2.11.0 and Livestack 1.0.1.5 is required for Livestack
 ### Added

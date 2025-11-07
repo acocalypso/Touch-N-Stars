@@ -92,7 +92,17 @@ const filtersForTarget = computed(() => {
   const filters = props.availableImages
     .filter((img) => img.Target === props.selectedTarget)
     .map((img) => img.Filter);
-  return Array.from(new Set(filters)).sort();
+
+  const uniqueFilters = Array.from(new Set(filters));
+
+  // Sortiere so, dass RGB am Ende steht
+  const sorted = uniqueFilters.sort((a, b) => {
+    if (a === 'RGB') return 1;  // RGB nach hinten
+    if (b === 'RGB') return -1;
+    return a.localeCompare(b);  // Andere alphabetisch
+  });
+
+  return sorted;
 });
 
 const selectTarget = (target) => {

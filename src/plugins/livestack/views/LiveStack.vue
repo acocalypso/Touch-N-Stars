@@ -22,12 +22,14 @@
         ></path>
       </svg>
     </div>
-    <!-- Error Message when plugin not available -->
+    <!-- Error Message when plugin not available or version incompatible -->
     <div
-      v-else-if="!livestackPluginAvailable"
+      v-else-if="!pageIsLoading && (!livestackPluginAvailable || errorMessage)"
       class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4 m-4"
     >
-      <p class="text-red-400 text-center">{{ t('plugins.livestack.not_available') }}</p>
+      <p class="text-red-400 text-center">
+        {{ errorMessage || t('plugins.livestack.not_available') }}
+      </p>
     </div>
     <div v-else-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
       <svg
@@ -405,9 +407,23 @@ const handleWebSocketMessage = async (message) => {
 onMounted(async () => {
   if (store.isBackendReachable === false) {
     console.warn('Backend is not reachable - skipping livestack initialization');
+    pageIsLoading.value = false;
     return;
   }
-  pageIsLoading.value = false;
+
+  // Check API version - LiveStack requires 2.2.11.0 or higher
+  const minimumApiVersion = '2.2.11.0';
+  const isVersionValid = store.checkVersionNewerOrEqual(
+    store.currentApiVersion,
+    minimumApiVersion
+  );
+
+  if (!isVersionValid) {
+    console.error(`LiveStack requires API version ${minimumApiVersion} or higher. Current version: ${store.currentApiVersion}`);
+    errorMessage.value = `API version ${minimumApiVersion} or higher required`;
+    pageIsLoading.value = false;
+    return;
+  }
 
   const response = await apiService.getPlugins();
   console.log('Plugins response:', response);
@@ -415,8 +431,10 @@ onMounted(async () => {
   // Check if Livestack plugin is available
   if (!response.Success || !response.Response?.includes('Livestack')) {
     console.error('Livestack plugin is not available or not installed');
+    pageIsLoading.value = false;
     return;
   }
+
   livestackPluginAvailable.value = true;
 
   // Setup WebSocket callbacks auf dem globalen WebSocket Service
@@ -457,5 +475,6 @@ onMounted(async () => {
     );
     forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
   }
+  pageIsLoading.value = false;
 });
 </script>

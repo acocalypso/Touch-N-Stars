@@ -210,10 +210,12 @@ async function fetchLatestRelease() {
 export async function checkForManualUpdate(currentVersion = appVersion, options = {}) {
   const { allowDowngrade = false } = options;
 
-  console.log('[Updater] checkForManualUpdate called with:', {
+  console.log(
+    '[Updater] checkForManualUpdate called - version:',
     currentVersion,
-    allowDowngrade,
-  });
+    'allowDowngrade:',
+    allowDowngrade
+  );
 
   if (!isNativePlatform()) {
     return { available: false, reason: 'non-native-platform' };
@@ -225,12 +227,17 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
   }
 
   const versionComparison = compareVersions(latestRelease.version, currentVersion);
-  console.log('[Updater] Version comparison:', {
-    latestVersion: latestRelease.version,
+  console.log(
+    '[Updater] Version comparison:',
+    'latest:',
+    latestRelease.version,
+    'current:',
     currentVersion,
-    comparison: versionComparison,
-    allowDowngrade,
-  });
+    'result:',
+    versionComparison,
+    'allowDowngrade:',
+    allowDowngrade
+  );
 
   // If not allowing downgrades, skip if version is not newer
   if (!allowDowngrade && versionComparison <= 0) {
@@ -246,10 +253,12 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
 
   // If downgrade is allowed or version is newer, return available
   const isDowngrade = versionComparison < 0;
-  console.log('[Updater] Update available:', {
-    version: latestRelease.version,
-    isDowngrade,
-  });
+  console.log(
+    '[Updater] Update available - version:',
+    latestRelease.version,
+    'isDowngrade:',
+    isDowngrade
+  );
 
   return {
     available: true,

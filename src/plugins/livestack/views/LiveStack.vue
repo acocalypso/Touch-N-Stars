@@ -365,11 +365,6 @@ const handleWebSocketMessage = async (message) => {
     const { Target, Filter, Event } = message.Response;
 
     if (Event === 'STACK-UPDATED') {
-      console.log(`Stack updated for ${Target} with filter ${Filter}`);
-      console.log(
-        `Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`
-      );
-
       // Invalidate the stack count cache in TargetFilterSelector
       if (targetFilterSelectorRef.value) {
         targetFilterSelectorRef.value.invalidateStackCountCache();

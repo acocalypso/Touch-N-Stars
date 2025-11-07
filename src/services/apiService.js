@@ -1523,7 +1523,10 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}/info`);
       return response.data;
     } catch (error) {
-      console.error('Error checking livestack image info:', error);
+      // Nur bei echten Errors loggen
+      if (error.response?.status !== 404) {
+        // console.error('Error checking livestack image info:', error);
+      }
       throw error;
     }
   },

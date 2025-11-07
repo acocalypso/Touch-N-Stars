@@ -113,9 +113,17 @@ const loadStackCount = async (target, filter, forceRefresh = false) => {
 
   try {
     const response = await apiService.livestackImageInfo(target, filter);
-    if (response.Success && response.Response) {
-      const { IsMonochrome, StackCount, RedStackCount, GreenStackCount, BlueStackCount } = response.Response;
 
+    // Prüfe ob Response valide ist
+    if (!response || typeof response !== 'object') {
+      return;
+    }
+
+    // Handle sowohl Success flag als auch direkte Response mit IsMonochrome
+    const responseData = response.Response || response;
+    const { IsMonochrome, StackCount, RedStackCount, GreenStackCount, BlueStackCount } = responseData;
+
+    if (IsMonochrome !== undefined) {
       if (IsMonochrome) {
         stackCounts.value[key] = {
           mono: StackCount || 0,
@@ -129,7 +137,10 @@ const loadStackCount = async (target, filter, forceRefresh = false) => {
       }
     }
   } catch (error) {
-    console.error(`Error loading stack info for ${target}/${filter}:`, error);
+    // Nur bei echten Errors loggen, nicht bei fehlgeschlagenen Requests
+    if (error.message && !error.message.includes('Network')) {
+      console.debug(`Loading stack info for ${target}/${filter} (this is normal if endpoint not ready yet)`);
+    }
   }
 };
 

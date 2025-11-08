@@ -81,4 +81,9 @@ function handleClose() {
   background-color: #4a5568;
   border-radius: 20px;
 }
+
+/* High z-index for modals */
+:deep(.z-\[80\]) {
+  z-index: 80 !important;
+}
 </style>

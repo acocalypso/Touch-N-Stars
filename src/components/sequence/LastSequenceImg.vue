@@ -37,6 +37,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 import { useCameraStore } from '@/store/cameraStore';
+import { useImagetStore } from '@/store/imageStore';
 
 let isLoadingImg = ref(true);
 
@@ -44,6 +45,7 @@ const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const cameraStore = useCameraStore();
+const imageStore = useImagetStore();
 const imageData = ref(null);
 const Filter = ref(null);
 const HFR = ref(null);
@@ -77,11 +79,11 @@ async function getlastImage(index, quality, scale) {
     return;
   }
   try {
-    if (cameraStore.imageData === null) {
+    if (imageStore.imageData === null) {
       imageData.value = await sequenceStore.getImageByIndex(index, quality, scale);
       console.log('fetched image by index');
     } else {
-      imageData.value = cameraStore.imageData;
+      imageData.value = imageStore.imageData;
       console.log('fetched image from camera store');
     }
     if (imageData.value) {

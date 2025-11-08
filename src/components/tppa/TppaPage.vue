@@ -216,7 +216,7 @@
   <!-- Image Modal -->
   <ImageModal
     :showModal="showImageModal"
-    :imageData="cameraStore.imageData"
+    :imageData="imageStore.imageData"
     :isLoading="false"
     @close="showImageModal = false"
   />
@@ -266,7 +266,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
-import { useCameraStore } from '@/store/cameraStore';
+import { useImagetStore } from '@/store/imageStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
@@ -282,7 +282,7 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
-const cameraStore = useCameraStore();
+const imageStore = useImagetStore();
 const startStop = ref(false);
 const isConnected = ref(false);
 const showSettings = ref(false);

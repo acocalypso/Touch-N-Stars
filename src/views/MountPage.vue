@@ -2,8 +2,8 @@
   <div
     class="mount-page"
     :style="
-      cameraStore.imageData && store.mount.currentTab === 'showTppa' && tppaStore.isRunning
-        ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;`
+      imageStore.imageData && store.mount.currentTab === 'showTppa' && tppaStore.isRunning
+        ? `background-image: url(${imageStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;`
         : ''
     "
   >
@@ -44,7 +44,7 @@
           <div
             :class="[
               'mt-4 border border-gray-700 rounded-lg shadow-lg',
-              store.mount.currentTab === 'showTppa' && tppaStore.isRunning && cameraStore.imageData
+              store.mount.currentTab === 'showTppa' && tppaStore.isRunning && imageStore.imageData
                 ? 'bg-gradient-to-br from-gray-800/30 to-gray-900/30'
                 : 'bg-gradient-to-br from-gray-800 to-gray-900',
             ]"
@@ -69,7 +69,6 @@ import infoMount from '@/components/mount/infoMount.vue';
 import controlMount from '@/components/mount/controlMount.vue';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
-import { useCameraStore } from '@/store/cameraStore';
 import SubNav from '@/components/SubNav.vue';
 import { useI18n } from 'vue-i18n';
 
@@ -78,7 +77,7 @@ const { t } = useI18n();
 
 const store = apiStore();
 const tppaStore = useTppaStore();
-const cameraStore = useCameraStore();
+const imageStore = useImagetStore();
 </script>
 
 <style scoped></style>

@@ -97,9 +97,9 @@ const filtersForTarget = computed(() => {
 
   // Sortiere so, dass RGB am Ende steht
   const sorted = uniqueFilters.sort((a, b) => {
-    if (a === 'RGB') return 1;  // RGB nach hinten
+    if (a === 'RGB') return 1; // RGB nach hinten
     if (b === 'RGB') return -1;
-    return a.localeCompare(b);  // Andere alphabetisch
+    return a.localeCompare(b); // Andere alphabetisch
   });
 
   return sorted;
@@ -131,7 +131,8 @@ const loadStackCount = async (target, filter, forceRefresh = false) => {
 
     // Handle sowohl Success flag als auch direkte Response mit IsMonochrome
     const responseData = response.Response || response;
-    const { IsMonochrome, StackCount, RedStackCount, GreenStackCount, BlueStackCount } = responseData;
+    const { IsMonochrome, StackCount, RedStackCount, GreenStackCount, BlueStackCount } =
+      responseData;
 
     if (IsMonochrome !== undefined) {
       if (IsMonochrome) {
@@ -149,7 +150,9 @@ const loadStackCount = async (target, filter, forceRefresh = false) => {
   } catch (error) {
     // Nur bei echten Errors loggen, nicht bei fehlgeschlagenen Requests
     if (error.message && !error.message.includes('Network')) {
-      console.debug(`Loading stack info for ${target}/${filter} (this is normal if endpoint not ready yet)`);
+      console.debug(
+        `Loading stack info for ${target}/${filter} (this is normal if endpoint not ready yet)`
+      );
     }
   }
 };

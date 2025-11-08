@@ -3,7 +3,7 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
-import { useSettingsStore } from '@/store/settingsStore'; 
+import { useSettingsStore } from '@/store/settingsStore';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -53,7 +53,14 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
-      await apiService.startCapture(exposureTime, gain, solve, true, save, settingsStore.camera.snapshotTargetName);
+      await apiService.startCapture(
+        exposureTime,
+        gain,
+        solve,
+        true,
+        save,
+        settingsStore.camera.snapshotTargetName
+      );
       while (!store.isImageFetching) {
         await wait(100);
         //console.log('Waiting for exposure to complete...');

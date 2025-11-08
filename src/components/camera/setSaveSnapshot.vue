@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col w-full border border-gray-500 p-2 rounded-lg"
-  >
+  <div class="flex flex-col w-full border border-gray-500 p-2 rounded-lg">
     <div class="flex flex-row items-center justify-between">
       <label for="toggle_light" class="text-gray-200">
         {{ $t('components.camera.set_save_snapshot') }}
@@ -14,7 +12,10 @@
         />
       </div>
     </div>
-    <div v-show="store.profileInfo.SnapShotControlSettings.Save" class="flex flex-row items-center justify-between mt-3">
+    <div
+      v-show="store.profileInfo.SnapShotControlSettings.Save"
+      class="flex flex-row items-center justify-between mt-3"
+    >
       <label for="targetName" class="text-gray-200 mr-2">
         {{ $t('components.camera.snapshotTargetName') }}
       </label>

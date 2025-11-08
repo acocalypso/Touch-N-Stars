@@ -734,7 +734,14 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain, solve = false, omitImage = false, save = false, targetName = 'Snapshot') {
+  async startCapture(
+    duration,
+    gain,
+    solve = false,
+    omitImage = false,
+    save = false,
+    targetName = 'Snapshot'
+  ) {
     console.log('Zeit:', duration, 'Gain: ', gain);
     try {
       const { BASE_URL } = getUrls();
@@ -745,7 +752,7 @@ const apiService = {
           solve: solve,
           omitImage: omitImage,
           save: save,
-          targetName: targetName
+          targetName: targetName,
         },
       });
       return response.data;
@@ -1521,7 +1528,9 @@ const apiService = {
     try {
       const { BASE_URL } = getUrls();
       const encodedTarget = encodeURIComponent(target);
-      const response = await axios.get(`${BASE_URL}/livestack/image/${encodedTarget}/${filter}/info`);
+      const response = await axios.get(
+        `${BASE_URL}/livestack/image/${encodedTarget}/${filter}/info`
+      );
       return response.data;
     } catch (error) {
       // Nur bei echten Errors loggen

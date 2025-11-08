@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
+import { useImagetStore } from './imageStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
   const store = apiStore();
-  const imageData = ref(null);
   const loading = ref(false);
   const isLoadingImage = ref(false);
   const loadingTimeout = ref(null);
@@ -48,11 +48,12 @@ export const useCameraStore = defineStore('cameraStore', () => {
     isAbort.value = false;
     plateSolveResult.value = null;
     const save = store.profileInfo.SnapShotControlSettings.Save;
+    const imageStore = useImagetStore();
 
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
       await apiService.startCapture(exposureTime, gain, solve, true, save);
-      while (!store.isImageFetching) {
+      while (!imageStore.isImageFetching) {
         await wait(100);
         //console.log('Waiting for exposure to complete...');
       }
@@ -64,14 +65,14 @@ export const useCameraStore = defineStore('cameraStore', () => {
         // Warte auf Bild oder Timeout
         let attempts = 0;
         const maxAttempts = 60;
-        const previousImage = imageData.value;
+        const previousImage = imageStore.imageData;
 
         while (attempts < maxAttempts && !isAbort.value) {
           try {
             const resImageData = await apiService.getImageData();
 
             // Prüfe ob neues Bild vorhanden
-            if (previousImage !== imageData.value) {
+            if (previousImage !== imageStore.imageData) {
               console.log('Image data received from API.');
 
               if (solve === false) {
@@ -294,7 +295,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   }
 
   return {
-    imageData,
     loading,
     isLoadingImage,
     isLooping,

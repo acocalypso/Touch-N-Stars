@@ -67,11 +67,10 @@ import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
-import { useCameraStore } from '@/store/cameraStore';
-import apiService from '@/services/apiService';
+import { useImagetStore } from '@/store/imageStore';
 
 const settingsStore = useSettingsStore();
-const cameraStore = useCameraStore();
+const imageStore = useImagetStore();
 
 const props = defineProps({
   showModal: {
@@ -180,23 +179,8 @@ watch(
 
 // Load image on mount if imageData is empty
 onMounted(async () => {
-  if (!cameraStore.imageData) {
-    try {
-      const quality = settingsStore.camera.imageQuality || 90;
-      console.log(`Loading image on mount with quality: ${quality}`);
-
-      const imageResponse = await apiService.getImagePrepared(quality);
-
-      if (imageResponse && imageResponse.data) {
-        const imageUrl = URL.createObjectURL(imageResponse.data);
-        cameraStore.imageData = imageUrl;
-        console.log('Image loaded successfully on mount');
-      }
-    } catch (error) {
-      console.log('No image available on mount:', error.message);
-      // Keep imageData null/empty on error
-      cameraStore.imageData = null;
-    }
+  if (!imageStore.imageData) {
+    await imageStore.getImage();
   }
 });
 

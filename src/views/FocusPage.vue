@@ -2,8 +2,8 @@
   <div
     class="focus-page"
     :style="
-      (cameraStore.imageData && store.focuserAfInfo.autofocus_running) || !delayShowGraph
-        ? `background-image: url(${cameraStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;`
+      (imageStore.imageData && store.focuserAfInfo.autofocus_running) || !delayShowGraph
+        ? `background-image: url(${imageStore.imageData}); background-size: cover; background-position: center; background-repeat: no-repeat;`
         : ''
     "
   >
@@ -114,7 +114,7 @@
   <!-- Image Modal -->
   <ImageModal
     :showModal="showImageModal"
-    :imageData="cameraStore.imageData"
+    :imageData="imageStore.imageData"
     :isLoading="false"
     @close="showImageModal = false"
   />
@@ -124,10 +124,10 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useImagetStore } from '@/store/imageStore';
 import infoFocuser from '@/components/focuser/infoFocuser.vue';
 import AfFnishGraph from '@/components/focuser/AfFnishGraph.vue';
 import { apiStore } from '@/store/store';
-import { useCameraStore } from '@/store/cameraStore';
 import AfStatus from '@/components/focuser/AfStatus.vue';
 import AfShowGraph from '@/components/focuser/AfShowGraph.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
@@ -136,7 +136,7 @@ import ImageModal from '@/components/helpers/imageModal.vue';
 import { PhotoIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
-const cameraStore = useCameraStore();
+const imageStore = useImagetStore();
 const sequenceStore = useSequenceStore();
 const position = ref(0);
 const delayShowGraph = ref(true);

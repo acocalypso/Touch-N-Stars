@@ -355,8 +355,6 @@ const closeImageModal = () => {
   showModal.value = false;
 };
 
-
-
 // Load image on mount if imageData is empty
 onMounted(async () => {
   if (!imageStore.imageData) {

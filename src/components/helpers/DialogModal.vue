@@ -1,5 +1,10 @@
 <template>
-  <Modal :show="showDialog" :zIndex="'z-[80]'" :disableClose="isAutoFocusDialog" @close="handleClose">
+  <Modal
+    :show="showDialog"
+    :zIndex="'z-[80]'"
+    :disableClose="isAutoFocusDialog"
+    @close="handleClose"
+  >
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentDialog?.Title || 'Dialog' }}

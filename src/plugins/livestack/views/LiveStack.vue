@@ -92,7 +92,9 @@
       <!-- Control Panel Overlay -->
       <div :class="controlPanelClasses">
         <!-- Header with toggle button - always visible -->
-        <div class="sticky top-0 z-40 bg-gray-800/90 backdrop-blur-sm rounded-t-lg flex items-center justify-between p-4 border-b border-gray-700">
+        <div
+          class="sticky top-0 z-40 bg-gray-800/90 backdrop-blur-sm rounded-t-lg flex items-center justify-between p-4 border-b border-gray-700"
+        >
           <h5 class="text-lg font-bold text-white">Livestack</h5>
           <button
             @click="toggleControlPanel"
@@ -108,11 +110,7 @@
               class="w-4 h-4 transition-transform duration-200 text-white"
               :class="{ 'rotate-180': isControlPanelMinimized }"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M4.5 15.75l7.5-7.5 7.5 7.5"
-              />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
             </svg>
           </button>
         </div>

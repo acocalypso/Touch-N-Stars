@@ -117,7 +117,7 @@
       },
       "keepAwake": {
         "title": "Bildschirm aktiv halten",
-        "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist."
+        "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist. "
       },
       "beta": {
         "title": "Beta-Update-Kanal"

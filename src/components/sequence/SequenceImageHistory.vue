@@ -55,9 +55,11 @@ import SequenceImage from '@/components/sequence/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useImagetStore } from '@/store/imageStore';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
+const imageStore = useImagetStore();
 const imageHistory = ref([]);
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -187,7 +189,7 @@ watch(
         isLoadingImages.value = true;
         const stats = newVal[latestIndex];
 
-        const image = await sequenceStore.getImageByIndex(latestIndex, minQuality, minScale);
+        const image = await imageStore.getImageByIndex(latestIndex, minQuality, minScale);
         addImageToHistory(latestIndex, image, stats);
         isLoadingImages.value = false;
       }
@@ -198,7 +200,7 @@ watch(
 
 onMounted(async () => {
   for (const imageIndex in store.imageHistoryInfo) {
-    const image = await sequenceStore.getThumbnailByIndex(imageIndex);
+    const image = await imageStore.getThumbnailByIndex(imageIndex);
     const stats = store.imageHistoryInfo[imageIndex];
     addImageToHistory(Number(imageIndex), image, stats);
   }

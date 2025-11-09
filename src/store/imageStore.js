@@ -7,6 +7,13 @@ export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
     isImageFetching: false,
+    lastImage: {
+      index: 0,
+      quality: 0,
+      resize: false,
+      scale: 0,
+      image: null,
+    },
   }),
   actions: {
     calcScale() {
@@ -40,6 +47,48 @@ export const useImagetStore = defineStore('imageStore', {
         console.error('Error fetching information:', error);
       } finally {
         this.isImageFetching = false;
+      }
+    },
+
+    async getImageByIndex(index) {
+      const settingsStore = useSettingsStore();
+      const store = apiStore();
+      let image = null;
+      const scale = this.calcScale();
+      const quality = settingsStore.camera.imageQuality;
+
+      if (
+        this.lastImage.image &&
+        index === this.lastImage.index
+      ) {
+        console.log('lastImage from cache');
+        //console.log(this.lastImage.image);
+        image = this.lastImage.image;
+        return image;
+      }
+      try {
+        const result = await apiService.getSequenceImage(index, quality, true, scale);
+        if (result.status != 200) {
+          console.error('Unknown error: Check NINA Logs for more information');
+          return;
+        }
+        const blob = result.data;
+        const imageUrl = URL.createObjectURL(blob);
+        return imageUrl;
+      } catch (error) {
+        console.error(`An error happened while getting image with index ${index}`, error.message);
+        return;
+      }
+    },
+
+    async getThumbnailByIndex(index) {
+      try {
+        const blob = await apiService.getSequenceThumbnail(index);
+        const imageUrl = URL.createObjectURL(blob);
+        return imageUrl;
+      } catch (error) {
+        console.error(`An error happened while getting image with index ${index}`, error.message);
+        return null;
       }
     },
   },

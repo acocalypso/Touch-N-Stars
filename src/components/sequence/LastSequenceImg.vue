@@ -66,32 +66,36 @@ async function wait(ms) {
 
 async function getlastImage(index, quality, scale) {
   if (
-    sequenceStore.lastImage.image &&
-    index === sequenceStore.lastImage.index &&
-    quality <= sequenceStore.lastImage.quality &&
-    scale <= sequenceStore.lastImage.scale
+    imageStore.lastImage.image &&
+    index === imageStore.lastImage.index &&
+    quality <= imageStore.lastImage.quality &&
+    scale <= imageStore.lastImage.scale
   ) {
     lastImgIndex.value = index;
-    imageData.value = sequenceStore.lastImage.image;
+    imageData.value = imageStore.lastImage.image;
     isLoadingImg.value = false;
     setSelectedDataset(index);
     console.log('aus cache');
     return;
   }
   try {
-    if (imageStore.imageData === null) {
-      imageData.value = await sequenceStore.getImageByIndex(index, quality, scale);
-      console.log('fetched image by index');
+    // fetched image from getImage (Save enabled)
+    if (store.profileInfo?.SnapShotControlSettings?.Save && imageStore.imageData) {
+      imageData.value = imageStore.imageData;
+      console.log('fetched image from getImage (Save enabled)');
+    } else if (imageStore.imageData === null) {
+      imageData.value = await imageStore.getImageByIndex(index, quality, scale);
+      console.log('fetched image by index from NINA');
     } else {
       imageData.value = imageStore.imageData;
-      console.log('fetched image from camera store');
+      console.log('fetched image from store');
     }
     if (imageData.value) {
       setSelectedDataset(index);
-      sequenceStore.lastImage.scale = scale;
-      sequenceStore.lastImage.quality = quality;
-      sequenceStore.lastImage.index = index;
-      sequenceStore.lastImage.image = imageData.value;
+      imageStore.lastImage.scale = scale;
+      imageStore.lastImage.quality = quality;
+      imageStore.lastImage.index = index;
+      imageStore.lastImage.image = imageData.value;
       lastImgIndex.value = index;
       isLoadingImg.value = false;
       console.log('isLoadingImg: ', isLoadingImg.value, 'lastImgIndex', lastImgIndex.value);

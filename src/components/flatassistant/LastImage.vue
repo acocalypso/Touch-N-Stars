@@ -8,7 +8,4 @@
 import { useImagetStore } from '@/store/imageStore';
 
 const imagetStore = useImagetStore();
-
-
-
 </script>

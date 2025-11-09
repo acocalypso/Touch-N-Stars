@@ -85,9 +85,11 @@ import { ref, defineProps, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useImagetStore } from '@/store/imageStore';
 
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
+const imageStore = useImagetStore();
 
 const props = defineProps({
   index: {
@@ -180,7 +182,7 @@ function openModal() {
   isLoadingModal.value = true;
   showModal.value = true;
 
-  sequenceStore
+  imageStore
     .getImageByIndex(props.index, settingsStore.camera.imageQuality, 0.5)
     .then((image) => {
       fullResImage.value = image;

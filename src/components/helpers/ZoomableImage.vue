@@ -259,7 +259,7 @@ const initializePanzoom = () => {
           // Then move to the saved position
           panzoomInstance.moveTo(x, y);
 
-          console.log('Restored zoom and position:', savedTransform.value);
+          //console.log('Restored zoom and position:', savedTransform.value);
         } catch (error) {
           console.warn('Could not restore transform:', error);
         }
@@ -268,8 +268,8 @@ const initializePanzoom = () => {
       // Initial zoom level
       logZoomLevel();
 
-      console.log('Panzoom initialized successfully');
-      console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
+      //console.log('Panzoom initialized successfully');
+      //console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
     } catch (error) {
       console.error('Error initializing panzoom:', error);
     }

@@ -23,8 +23,6 @@ PODS:
     - Capacitor
   - CapacitorKeyboard (7.0.3):
     - Capacitor
-  - CapacitorLocalNotifications (7.0.3):
-    - Capacitor
   - CapacitorStatusBar (7.0.3):
     - Capacitor
   - CapawesomeCapacitorFilePicker (7.2.0):
@@ -54,7 +52,6 @@ DEPENDENCIES:
   - CapacitorGetlocalip (from `../../node_modules/capacitor-getlocalip`)
   - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
-  - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
   - "CapawesomeCapacitorFilePicker (from `../../node_modules/@capawesome/capacitor-file-picker`)"
   - "CapgoCapacitorUpdater (from `../../node_modules/@capgo/capacitor-updater`)"
@@ -90,8 +87,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/haptics"
   CapacitorKeyboard:
     :path: "../../node_modules/@capacitor/keyboard"
-  CapacitorLocalNotifications:
-    :path: "../../node_modules/@capacitor/local-notifications"
   CapacitorStatusBar:
     :path: "../../node_modules/@capacitor/status-bar"
   CapawesomeCapacitorFilePicker:
@@ -112,7 +107,6 @@ SPEC CHECKSUMS:
   CapacitorGetlocalip: d0f07ecbff88e31d28e5cc76dd246fc4c134b36d
   CapacitorHaptics: b3fb2869e72c4466e18ce9ccbeb60a3d8723b3d4
   CapacitorKeyboard: 62f36104f26d53d8b3a2a43f2a69fe714f1777d5
-  CapacitorLocalNotifications: 0811aef56ab2e5f7f9ae72f47d3473ab50c29038
   CapacitorStatusBar: 0659ddc7b1713764a05831463d215b177a15d054
   CapawesomeCapacitorFilePicker: 0f4a913a00e39dd77213449f0d917e92f35a5ca9
   CapgoCapacitorUpdater: c61e0231cd4853cfab289c2ac7546aac107676c8
@@ -122,6 +116,6 @@ SPEC CHECKSUMS:
   SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
   Version: de5907f2c5d0f3cf21708db7801d1d5401139486
 
-PODFILE CHECKSUM: ad20e38eacf2b7621f7d6f7e2505bed022499272
+PODFILE CHECKSUM: 7bbf10bf50d379d1b0ded0fcc2eb8bcf008ae4d9
 
 COCOAPODS: 1.16.2

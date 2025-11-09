@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import notificationService from '@/services/notificationService';
 
 export const useGuiderStore = defineStore('guiderStore', {
   state: () => ({
@@ -66,8 +65,6 @@ export const useGuiderStore = defineStore('guiderStore', {
           // Prüfe, ob die Seite kürzlich aus dem Hintergrund zurückgekehrt ist
           const mainStore = apiStore();
           if (!mainStore.isPageRecentlyReturnedFromBackground()) {
-            // Send PHD2 star lost notification
-            notificationService.sendPhd2Notification('star-lost');
             console.log('Show star lost toast');
           } else {
             console.log('Page recently returned from background, skipping star lost toast');

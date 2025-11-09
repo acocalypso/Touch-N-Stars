@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
-import notificationService from '@/services/notificationService';
 import { apiStore } from './store';
 
 export const useSequenceStore = defineStore('sequenceStore', {
@@ -27,13 +26,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (this.sequenceRunning !== isRunning) {
         // If the sequence is now running and it wasn't before, it has started
         if (isRunning && !this.sequenceRunning) {
-          notificationService.sendSequenceNotification('started');
           // ensure image names are retained for new run
           this.imageTargetNames = { ...this.imageTargetNames };
         }
         // If the sequence is no longer running and it was before, it has completed
         else if (!isRunning && this.sequenceRunning) {
-          notificationService.sendSequenceNotification('completed');
           // do not wipe imageTargetNames here to preserve recorded names
         }
       }
@@ -215,7 +212,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         }
 
         if (hasErrors) {
-          notificationService.sendSequenceNotification('error', errorMessage);
+          console.warn('Sequence error detected:', errorMessage);
         }
 
         this.sequenceInfo = response.Response;
@@ -520,12 +517,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.intervalId = null;
       }
     },
-
-    // Reset the sequence and send notification
+    // Reset the active sequence on the backend
     async resetSequence() {
       try {
         await apiService.sequenceAction('reset');
-        notificationService.sendSequenceNotification('reset');
         return true;
       } catch (error) {
         console.error('Error resetting sequence:', error);

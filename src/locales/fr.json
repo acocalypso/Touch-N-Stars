@@ -37,7 +37,9 @@
     "error": "La mise à jour a échoué. Veuillez réessayer plus tard.",
     "later": "Plus tard",
     "updateNow": "Mettre à jour maintenant",
-    "working": "En cours…"
+    "working": "En cours…",
+    "downgradeDescription": "Revenez à la version stable ({version}). \nCela remplacera votre version bêta actuelle.",
+    "downgradeTitle": "Passer à la version stable"
   },
   "setup": {
     "welcome": "Bienvenue dans Touch'N'Stars",

@@ -208,7 +208,6 @@ import ToastModal from '@/components/helpers/ToastModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
 import SettingsComp from '@/components/SettingsComp.vue';
-import notificationService from './services/notificationService';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
@@ -532,11 +531,6 @@ onMounted(async () => {
   // Show tutorial on first visit
   if (!settingsStore.tutorial.completed) {
     showTutorial.value = true;
-  }
-
-  // Initialize notification service if notifications are enabled
-  if (settingsStore.notifications.enabled && ['android', 'ios'].includes(Capacitor.getPlatform())) {
-    await notificationService.initialize();
   }
 
   // Initialize Keep Screen Awake for mobile platforms

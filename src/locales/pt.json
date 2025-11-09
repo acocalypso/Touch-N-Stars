@@ -37,7 +37,9 @@
     "error": "A atualização falhou. Tente novamente mais tarde.",
     "later": "Mais tarde",
     "updateNow": "Atualizar agora",
-    "working": "A trabalhar…"
+    "working": "A trabalhar…",
+    "downgradeDescription": "Volte para a versão estável ({version}). \nIsso substituirá sua versão beta atual.",
+    "downgradeTitle": "Mudar para a versão estável"
   },
   "setup": {
     "welcome": "Bem-vindo ao Touch'N'Stars",

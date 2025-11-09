@@ -37,7 +37,9 @@
     "error": "Aktualizacja nie powiodła się. Spróbuj ponownie później.",
     "later": "Później",
     "updateNow": "Aktualizuj teraz",
-    "working": "W toku…"
+    "working": "W toku…",
+    "downgradeDescription": "Wróć do wersji stabilnej ({version}). \nZastąpi to Twoją obecną wersję beta.",
+    "downgradeTitle": "Przełącz na wersję stabilną"
   },
   "setup": {
     "welcome": "Witaj w Touch'N'Stars",

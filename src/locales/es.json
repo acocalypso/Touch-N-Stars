@@ -37,7 +37,9 @@
     "error": "La actualización ha fallado. Inténtalo de nuevo más tarde.",
     "later": "Más tarde",
     "updateNow": "Actualizar ahora",
-    "working": "Trabajando…"
+    "working": "Trabajando…",
+    "downgradeDescription": "Vuelva a la versión estable ({versión}). \nEsto reemplazará su versión beta actual.",
+    "downgradeTitle": "Cambiar a la versión estable"
   },
   "setup": {
     "welcome": "Bienvenido a Touch'N'Stars",

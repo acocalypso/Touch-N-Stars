@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.0.0-beta.4]- 2025-xx-xx
+## [App4.0.0-beta.4]- 2025-11-09
 ### Added
 - Centralized image management system with new Image Store
 - Configurable maximum image dimension setting (Full/High/Medium/Low presets) for optimized performance across different camera types
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized performance logging threshold for image requests
 
 ### Fixed
-- Fix info overlay about offline catalog in slew tab 
+- Fixed info overlay about offline catalog in slew tab 
 - Fixed race condition between simultaneous image fetch operations
 - Fixed memory leaks from unreleased Blob URLs in image operations
 

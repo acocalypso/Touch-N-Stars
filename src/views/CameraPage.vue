@@ -251,7 +251,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useImagetStore } from '@/store/imageStore';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
@@ -265,12 +264,10 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
-import apiService from '@/services/apiService';
 
 // Stores
 const store = apiStore();
 const cameraStore = useCameraStore();
-const settingsStore = useSettingsStore();
 const imageStore = useImagetStore();
 
 // State
@@ -341,8 +338,6 @@ const handleDownload = async (data) => {
     filePrefix: 'TNS',
   });
 };
-
-
 
 const openImageModal = () => {
   showModal.value = true;

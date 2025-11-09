@@ -78,9 +78,6 @@ function toggleSortOrder() {
   sortAscending.value = !sortAscending.value;
 }
 
-const minQuality = settingsStore.camera.imageQuality <= 40 ? settingsStore.camera.imageQuality : 40;
-const minScale = 0.3;
-
 function addImageToHistory(imageIndex, imageData, stats) {
   const statsWithTargetName = enrichStatsWithTargetName(stats, imageIndex);
 

@@ -4,7 +4,6 @@ import { useFramingStore } from '@/store/framingStore';
 import { useImagetStore } from './imageStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
-import { useSettingsStore } from '@/store/settingsStore';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -31,7 +30,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const slewModal = ref(false);
   const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
   let countdownSessionId = 0; // Eindeutige ID für jede Countdown-Session
-  const settingsStore = useSettingsStore();
 
   // Hilfsfunktion, um kurz zu warten
   function wait(ms) {

@@ -36,7 +36,9 @@
     <!-- Loading Spinner when no image yet -->
     <div v-else-if="isLoadingImg" class="flex items-center justify-center w-full h-64">
       <div class="flex flex-col items-center text-blue-500">
-        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"></div>
+        <div
+          class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
+        ></div>
         <p class="text-sm mt-2">Loading image...</p>
       </div>
     </div>
@@ -69,10 +71,6 @@ const ExposureTime = ref(null);
 const dateValue = ref(null);
 const lastImgIndex = ref(null);
 const TargetName = ref(null);
-
-async function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 async function loadImage(index) {
   try {

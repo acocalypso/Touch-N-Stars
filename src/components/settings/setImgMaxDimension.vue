@@ -5,10 +5,12 @@
     }}</label>
     <select
       :value="String(settingsStore.camera.maxDimension)"
-      @change="(e) => {
-        settingsStore.camera.maxDimension = parseInt(e.target.value);
-        updateSetting();
-      }"
+      @change="
+        (e) => {
+          settingsStore.camera.maxDimension = parseInt(e.target.value);
+          updateSetting();
+        }
+      "
       :class="[statusClass]"
       class="default-input w-full py-2"
     >
@@ -34,12 +36,9 @@ const resolutionOptions = [
 
 async function updateSetting() {
   statusClass.value = 'glow-green';
-  console.log(
-    `Set max image dimension to ${settingsStore.camera.maxDimension}px`
-  );
+  console.log(`Set max image dimension to ${settingsStore.camera.maxDimension}px`);
   setTimeout(() => {
     statusClass.value = '';
   }, 1000);
 }
 </script>
-

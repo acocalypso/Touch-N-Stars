@@ -25,7 +25,9 @@ export const useImagetStore = defineStore('imageStore', {
       const maxDimension = Math.max(cameraWidth, cameraHeight);
       const maxDimensionSetting = settingsStore.camera.maxDimension;
       const scale = maxDimension > maxDimensionSetting ? maxDimensionSetting / maxDimension : 100;
-      console.log(`[ImageStore] Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
+      console.log(
+        `[ImageStore] Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`
+      );
       return scale;
     },
 
@@ -51,7 +53,9 @@ export const useImagetStore = defineStore('imageStore', {
           });
         }
 
-        console.log(`[ImageStore] ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`);
+        console.log(
+          `[ImageStore] ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`
+        );
         const imageResponse = await apiService.getImagePrepared(quality, resize, scale);
 
         if (imageResponse && imageResponse.data) {
@@ -91,18 +95,18 @@ export const useImagetStore = defineStore('imageStore', {
 
       this.isSequenceImageFetching = true;
       try {
-          // Wait if another fetch is in progress
-           if (this.isImageFetching) {
-            console.log('[ImageStore] Waiting for getImage() to complete...');
-            await new Promise((resolve) => {
-              const interval = setInterval(() => {
-                if (!this.isImageFetching ) {
-                  clearInterval(interval);
-                  resolve();
-                }
-              }, 100);
-              setTimeout(() => clearInterval(interval), 5000);
-            });
+        // Wait if another fetch is in progress
+        if (this.isImageFetching) {
+          console.log('[ImageStore] Waiting for getImage() to complete...');
+          await new Promise((resolve) => {
+            const interval = setInterval(() => {
+              if (!this.isImageFetching) {
+                clearInterval(interval);
+                resolve();
+              }
+            }, 100);
+            setTimeout(() => clearInterval(interval), 5000);
+          });
         }
 
         // Load image from API
@@ -136,7 +140,10 @@ export const useImagetStore = defineStore('imageStore', {
 
         return imageUrl;
       } catch (error) {
-        console.error(`[ImageStore] An error happened while getting image with index ${index}`, error.message);
+        console.error(
+          `[ImageStore] An error happened while getting image with index ${index}`,
+          error.message
+        );
         return;
       } finally {
         this.isSequenceImageFetching = false;
@@ -149,7 +156,10 @@ export const useImagetStore = defineStore('imageStore', {
         const imageUrl = URL.createObjectURL(blob);
         return imageUrl;
       } catch (error) {
-        console.error(`[ImageStore] An error happened while getting image with index ${index}`, error.message);
+        console.error(
+          `[ImageStore] An error happened while getting image with index ${index}`,
+          error.message
+        );
         return null;
       }
     },

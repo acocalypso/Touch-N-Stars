@@ -70,7 +70,7 @@
         </div>
 
         <!-- Capture Button Overlay -->
-        <div class="absolute inset-0 pointer-events-none z-[55]">
+        <div class="absolute inset-0 pointer-events-none z-60">
           <div class="pointer-events-auto">
             <CaptureButton />
           </div>

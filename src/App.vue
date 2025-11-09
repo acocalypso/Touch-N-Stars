@@ -120,7 +120,7 @@
     <!-- Error Modal -->
     <ToastModal v-if="settingsStore.setupCompleted || store.setupCheckConnectionDone" />
     <!-- Debug Console -->
-    <ConsoleViewer class="fixed top-32 right-6 z-[60]" v-if="settingsStore.showDebugConsole" />
+    <ConsoleViewer class="fixed top-32 right-6 z-60" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
 
@@ -151,7 +151,7 @@
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
-      class="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-top flex items-center justify-center bg-black bg-opacity-50"
     >
       <div
         class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"

@@ -22,7 +22,7 @@
       </button>
       <!-- Zoom Overlay -->
       <div
-        class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-[100] pointer-events-none"
+        class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-top pointer-events-none"
       >
         Zoom: {{ zoomLevel.toFixed(2) }}x
       </div>
@@ -30,13 +30,13 @@
       <button
         v-if="imageData"
         @click="downloadImage"
-        class="absolute top-4 right-20 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-[100]"
+        class="absolute top-4 right-20 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-top"
       >
         <ArrowDownTrayIcon class="h-6" />
       </button>
       <BadButton
         v-if="settingsStore.showSpecial"
-        class="absolute top-4 right-40 h-6 z-[100]"
+        class="absolute top-4 right-40 h-6 z-top"
         :index="index"
       />
 

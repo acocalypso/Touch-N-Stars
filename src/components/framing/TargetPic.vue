@@ -16,7 +16,7 @@
   <!-- Modal -->
   <div
     v-if="showModal"
-    class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center"
+    class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-top"
     @click.self="showModal = false"
   >
     <!-- Modal Box -->

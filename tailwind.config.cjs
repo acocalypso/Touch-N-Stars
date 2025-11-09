@@ -7,6 +7,12 @@ module.exports = {
       screens: {
         xs: '480px', // Fügt eine "xs"-Breakpoint für 480px hinzu
       },
+      zIndex: {
+        60: '60',  
+        70: '70', 
+        top: '1000', // topmost layer
+        toast: '9999', // toast notifications
+      },
     },
   },
   plugins: [],

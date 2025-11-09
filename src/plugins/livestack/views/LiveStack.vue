@@ -91,45 +91,40 @@
 
       <!-- Control Panel Overlay -->
       <div :class="controlPanelClasses">
-        <!-- Status Display -->
+        <!-- Header with toggle button - always visible -->
         <div
-          class="bg-gray-800/90 backdrop-blur-sm rounded-lg text-white transition-all duration-300"
+          class="sticky top-0 z-40 bg-gray-800/90 backdrop-blur-sm rounded-t-lg flex items-center justify-between p-4 border-b border-gray-700"
         >
-          <!-- Header with toggle button -->
-          <div class="flex items-center justify-between p-4 border-b border-gray-700">
-            <h5 class="text-lg font-bold">Livestack</h5>
-            <button
-              @click="toggleControlPanel"
-              class="p-1 hover:bg-gray-700 rounded transition-colors"
-              :title="isControlPanelMinimized ? 'Expand' : 'Minimize'"
+          <h5 class="text-lg font-bold text-white">Livestack</h5>
+          <button
+            @click="toggleControlPanel"
+            class="p-1 hover:bg-gray-700 rounded transition-colors"
+            :title="isControlPanelMinimized ? 'Expand' : 'Minimize'"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4 transition-transform duration-200 text-white"
+              :class="{ 'rotate-180': isControlPanelMinimized }"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-4 h-4 transition-transform duration-200"
-                :class="{ 'rotate-180': isControlPanelMinimized }"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
-                />
-              </svg>
-            </button>
-          </div>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          </button>
+        </div>
 
-          <!-- Collapsible content -->
-          <div v-show="!isControlPanelMinimized" class="p-4">
+        <!-- Scrollable content -->
+        <div v-show="!isControlPanelMinimized" class="bg-gray-800/90 backdrop-blur-sm">
+          <div class="p-4 border-b border-gray-700">
             <!-- Beta Notice -->
             <div v-if="livestackPluginAvailable" class="bg-blue-600/50 rounded p-2 mb-3 text-xs">
               <p class="text-blue-200">{{ t('plugins.livestack.beta_note') }}</p>
             </div>
 
             <!-- Controls -->
-            <div class="flex space-x-2 mb-3">
+            <div class="flex space-x-2">
               <button @click="startLivestack" class="default-button-green" :disabled="isStarting">
                 <PlayIcon v-if="!isStarting" class="w-4 h-4" />
                 <ArrowPathIcon v-else class="w-4 h-4 animate-spin" />
@@ -139,22 +134,19 @@
               </button>
             </div>
           </div>
-        </div>
 
-        <!-- Target and Filter Selection (Two-Level) -->
-        <div
-          v-if="availableImages.length > 0 && !isControlPanelMinimized"
-          class="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 mt-2"
-        >
-          <TargetFilterSelector
-            ref="targetFilterSelectorRef"
-            :availableImages="availableImages"
-            :selectedTarget="selectedTargetForUI"
-            :selectedFilter="livestackStore.selectedFilter"
-            :currentTarget="livestackStore.selectedTarget"
-            @select-target="selectTargetUI"
-            @select-filter="selectFilterFromSelector"
-          />
+          <!-- Target and Filter Selection (Two-Level) -->
+          <div v-if="availableImages.length > 0" class="p-4">
+            <TargetFilterSelector
+              ref="targetFilterSelectorRef"
+              :availableImages="availableImages"
+              :selectedTarget="selectedTargetForUI"
+              :selectedFilter="livestackStore.selectedFilter"
+              :currentTarget="livestackStore.selectedTarget"
+              @select-target="selectTargetUI"
+              @select-filter="selectFilterFromSelector"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -196,9 +188,9 @@ const targetFilterSelectorRef = ref(null); // Referenz zur TargetFilterSelector-
 
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
-  'fixed z-30 max-w-sm': true,
+  'fixed z-30 max-w-sm max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin': true,
   'top-24 left-4': !isLandscape.value, // Portrait mode - below navbar
-  'top-4 left-40': isLandscape.value, // Landscape mode - normal position
+  'top-4 left-40 max-h-[calc(100vh-2rem)]': isLandscape.value, // Landscape mode - normal position
 }));
 
 const toggleControlPanel = () => {
@@ -477,3 +469,29 @@ onMounted(async () => {
   pageIsLoading.value = false;
 });
 </script>
+
+<style scoped>
+/* iOS Safari scroll fix - make scrolling work on fixed positioned elements */
+.livestack-page {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+:deep(.scrollbar-thin) {
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+}
+
+:deep(.scrollbar-thin::-webkit-scrollbar) {
+  width: 6px;
+}
+
+:deep(.scrollbar-thin::-webkit-scrollbar-track) {
+  background: transparent;
+}
+
+:deep(.scrollbar-thin::-webkit-scrollbar-thumb) {
+  background-color: #4a5568;
+  border-radius: 20px;
+}
+</style>

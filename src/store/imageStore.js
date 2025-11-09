@@ -120,7 +120,7 @@ export const useImagetStore = defineStore('imageStore', {
           console.error('Fetched image is corrupted');
           // Gebe neue URL frei wenn ungültig
           URL.revokeObjectURL(imageUrl);
-          return;
+          return this.getImageByIndex(index);
         }
 
         // Gebe alte cached URL frei bevor neue gespeichert wird

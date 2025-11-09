@@ -1,32 +1,45 @@
 <template>
-  <div class="flex flex-col w-full justify-center gap-4">
-    <div v-if="isLoadingImg">
-      <!--Spinner-->
-      <div class="flex items-center justify-center">
-        <div
-          class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
-        ></div>
+  <div class="relative w-full">
+    <!-- Image Container -->
+    <div v-if="settingsStore.monitorViewSetting.showImage && imageData" class="relative">
+      <SequenceImage
+        :index="lastImgIndex"
+        :image="imageData"
+        :showStats="settingsStore.monitorViewSetting.showImageStats"
+        :displayStatusUnderImage="settingsStore.monitorViewSetting.displayStatusUnderImage"
+        :stats="{
+          Date: dateValue,
+          ExposureTime,
+          HFR,
+          Mean,
+          Median,
+          StDev,
+          RmsText,
+          Temperature,
+          Filter,
+          TargetName,
+        }"
+      />
+
+      <!-- Loading Spinner Overlay -->
+      <div
+        v-if="isLoadingImg && imageData"
+        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 z-40"
+      >
+        <div class="flex flex-col items-center text-white">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-2"></div>
+          <p class="text-sm">Loading image...</p>
+        </div>
       </div>
     </div>
-    <SequenceImage
-      v-else-if="settingsStore.monitorViewSetting.showImage && imageData"
-      :index="lastImgIndex"
-      :image="imageData"
-      :showStats="settingsStore.monitorViewSetting.showImageStats"
-      :displayStatusUnderImage="settingsStore.monitorViewSetting.displayStatusUnderImage"
-      :stats="{
-        Date: dateValue,
-        ExposureTime,
-        HFR,
-        Mean,
-        Median,
-        StDev,
-        RmsText,
-        Temperature,
-        Filter,
-        TargetName,
-      }"
-    />
+
+    <!-- Loading Spinner when no image yet -->
+    <div v-else-if="isLoadingImg" class="flex items-center justify-center w-full h-64">
+      <div class="flex flex-col items-center text-blue-500">
+        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"></div>
+        <p class="text-sm mt-2">Loading image...</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -36,15 +49,12 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
-import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
 
 let isLoadingImg = ref(true);
-
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
-const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
 const imageData = ref(null);
 const Filter = ref(null);
@@ -64,44 +74,20 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function getlastImage(index, quality, scale) {
-  if (
-    imageStore.lastImage.image &&
-    index === imageStore.lastImage.index &&
-    quality <= imageStore.lastImage.quality &&
-    scale <= imageStore.lastImage.scale
-  ) {
-    lastImgIndex.value = index;
-    imageData.value = imageStore.lastImage.image;
-    isLoadingImg.value = false;
-    setSelectedDataset(index);
-    console.log('aus cache');
-    return;
-  }
+async function loadImage(index) {
   try {
-    // fetched image from getImage (Save enabled)
-    if (store.profileInfo?.SnapShotControlSettings?.Save && imageStore.imageData) {
-      imageData.value = imageStore.imageData;
-      console.log('fetched image from getImage (Save enabled)');
-    } else if (imageStore.imageData === null) {
-      imageData.value = await imageStore.getImageByIndex(index, quality, scale);
-      console.log('fetched image by index from NINA');
-    } else {
-      imageData.value = imageStore.imageData;
-      console.log('fetched image from store');
-    }
+    isLoadingImg.value = true;
+    imageData.value = await imageStore.getImageByIndex(index);
+
     if (imageData.value) {
       setSelectedDataset(index);
-      imageStore.lastImage.scale = scale;
-      imageStore.lastImage.quality = quality;
-      imageStore.lastImage.index = index;
-      imageStore.lastImage.image = imageData.value;
       lastImgIndex.value = index;
-      isLoadingImg.value = false;
-      console.log('isLoadingImg: ', isLoadingImg.value, 'lastImgIndex', lastImgIndex.value);
+      console.log('Image loaded successfully:', index);
     }
   } catch (error) {
-    console.error('Error fetching image:', error.message);
+    console.error('Error loading image:', error.message);
+  } finally {
+    isLoadingImg.value = false;
   }
 }
 
@@ -187,9 +173,7 @@ watch(
       console.log('Watch imageHistoryInfo');
       console.log('latestIndex: ', latestIndex);
 
-      await wait(3000); // Wait 3 seconds. The image may not be available yet.
-
-      getlastImage(latestIndex, settingsStore.camera.imageQuality, 0.5);
+      loadImage(latestIndex);
     }
   },
   { immediate: false }
@@ -197,7 +181,7 @@ watch(
 
 onMounted(() => {
   const latestIndex = store.imageHistoryInfo.length - 1;
-  getlastImage(latestIndex, settingsStore.camera.imageQuality, 0.5);
+  loadImage(latestIndex);
   console.log('Mounted last LastSequenceImg');
   console.log('latestIndex: ', latestIndex);
   console.log('isLoadingImg: ', isLoadingImg.value);

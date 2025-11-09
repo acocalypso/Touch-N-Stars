@@ -189,7 +189,7 @@ watch(
         isLoadingImages.value = true;
         const stats = newVal[latestIndex];
 
-        const image = await imageStore.getImageByIndex(latestIndex, minQuality, minScale);
+        const image = await imageStore.getImageByIndex(latestIndex);
         addImageToHistory(latestIndex, image, stats);
         isLoadingImages.value = false;
       }

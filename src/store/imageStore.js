@@ -53,26 +53,58 @@ export const useImagetStore = defineStore('imageStore', {
     async getImageByIndex(index) {
       console.log(`Getting image by index: ${index}`);
       const settingsStore = useSettingsStore();
-      let image = null;
-      const scale = this.calcScale();
       const quality = settingsStore.camera.imageQuality;
+      const scale = this.calcScale();
 
-      if (
-        this.lastImage.image &&
-        index === this.lastImage.index
-      ) {
+      // Cache-Prüfung
+      if (this.lastImage.image && index === this.lastImage.index) {
         console.log('lastImage from cache');
-        image = this.lastImage.image;
-        return image;
+        const isValid = await this.validateImage(this.lastImage.image);
+        if (!isValid) {
+          console.warn('Cached image is corrupted, fetching new image');
+          this.lastImage.image = null;
+          return this.getImageByIndex(index);
+        }
+        return this.lastImage.image;
       }
+
       try {
+          // Warte maximal 5 Sekunden, bis getImage() fertig ist
+           if (this.isImageFetching) {
+            console.log('Waiting for getImage() to complete...');
+            await new Promise((resolve) => {
+              const interval = setInterval(() => {
+                if (!this.isImageFetching ) {
+                  clearInterval(interval);
+                  resolve();
+                }
+              }, 100);
+              setTimeout(() => clearInterval(interval), 5000);
+            });
+        }
+
+        // Lade Bild von der API
         const result = await apiService.getSequenceImage(index, quality, true, scale);
-        if (result.status != 200) {
+        if (result.status !== 200) {
           console.error('Unknown error: Check NINA Logs for more information');
           return;
         }
         const blob = result.data;
         const imageUrl = URL.createObjectURL(blob);
+
+        // Validiere das neue Bild
+        const isValid = await this.validateImage(imageUrl);
+        if (!isValid) {
+          console.error('Fetched image is corrupted');
+          return;
+        }
+
+        // Speichere im Cache
+        this.lastImage.scale = scale;
+        this.lastImage.quality = quality;
+        this.lastImage.index = index;
+        this.lastImage.image = imageUrl;
+
         return imageUrl;
       } catch (error) {
         console.error(`An error happened while getting image with index ${index}`, error.message);

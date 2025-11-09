@@ -430,7 +430,6 @@ const apiService = {
         },
         responseType: 'blob',
       });
-      console.log(response);
       return response;
     } catch (error) {
       // console.error('Error read Image :', error);
@@ -451,7 +450,6 @@ const apiService = {
         },
         responseType: 'blob',
       });
-      console.log(response);
       return response;
     } catch (error) {
       // console.error('Error read Image :', error);
@@ -465,7 +463,6 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/image/thumbnail/${index}`, {
         responseType: 'blob',
       });
-      console.log(response);
       return response.data;
     } catch (error) {
       // console.error('Error read Thumbnail :', error);

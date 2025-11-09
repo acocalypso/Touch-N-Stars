@@ -12,6 +12,11 @@
 #   public *;
 #}
 
+# Preserve Capacitor plugin annotations so permission handling keeps working
+-keepattributes RuntimeVisibleAnnotations,RuntimeVisibleParameterAnnotations
+-keep @com.getcapacitor.annotation.CapacitorPlugin class * { *; }
+-keep class com.capacitorjs.plugins.** { *; }
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

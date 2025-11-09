@@ -5,9 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App4.0.0-beta.4]- 2025-xx-xx
+### Added
+- Centralized image management system with new Image Store
+- Configurable maximum image dimension setting (Full/High/Medium/Low presets) for optimized performance across different camera types
+- Image validation to detect corrupted images with automatic retry mechanism
+- Visual loading spinner overlay for image loading states
+
+### Changed
+- Improved image fetch performance with proper memory management
+- Enhanced exposure countdown watchdog with increased check interval for better accuracy
+- Optimized performance logging threshold for image requests
+
 ### Fixed
 - Fix info overlay about offline catalog in slew tab 
-
+- Fixed race condition between simultaneous image fetch operations
+- Fixed memory leaks from unreleased Blob URLs in image operations
 
 ## [LivestackPlugin0.4.1] [App4.0.0-beta.3]- 2025-11-08
 ### Fixed

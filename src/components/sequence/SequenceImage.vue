@@ -183,7 +183,7 @@ function openModal() {
   showModal.value = true;
 
   imageStore
-    .getImageByIndex(props.index, settingsStore.camera.imageQuality, 0.5)
+    .getImageByIndex(props.index)
     .then((image) => {
       fullResImage.value = image;
     })

@@ -51,8 +51,8 @@ export const useImagetStore = defineStore('imageStore', {
     },
 
     async getImageByIndex(index) {
+      console.log(`Getting image by index: ${index}`);
       const settingsStore = useSettingsStore();
-      const store = apiStore();
       let image = null;
       const scale = this.calcScale();
       const quality = settingsStore.camera.imageQuality;
@@ -62,7 +62,6 @@ export const useImagetStore = defineStore('imageStore', {
         index === this.lastImage.index
       ) {
         console.log('lastImage from cache');
-        //console.log(this.lastImage.image);
         image = this.lastImage.image;
         return image;
       }
@@ -90,6 +89,34 @@ export const useImagetStore = defineStore('imageStore', {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return null;
       }
+    },
+
+    async validateImage(imageUrl) {
+      return new Promise((resolve) => {
+        if (!imageUrl) {
+          resolve(false);
+          return;
+        }
+
+        const img = new Image();
+        img.onload = () => {
+          console.log('Image is valid');
+          resolve(true);
+        };
+        img.onerror = () => {
+          console.error('Image is corrupted or invalid');
+          resolve(false);
+        };
+        img.src = imageUrl;
+
+        // Timeout nach 5 Sekunden für den Fall, dass das Bild nicht lädt
+        setTimeout(() => {
+          if (!img.complete) {
+            console.error('Image loading timeout');
+            resolve(false);
+          }
+        }, 5000);
+      });
     },
   },
 });

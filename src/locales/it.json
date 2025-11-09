@@ -37,7 +37,9 @@
     "error": "Aggiornamento non riuscito. Riprova più tardi.",
     "later": "Più tardi",
     "updateNow": "Aggiorna ora",
-    "working": "In corso…"
+    "working": "In corso…",
+    "downgradeDescription": "Torna alla versione stabile ({version}). \nQuesto sostituirà la tua attuale versione beta.",
+    "downgradeTitle": "Passa alla versione stabile"
   },
   "setup": {
     "welcome": "Benvenuto in Touch'N'Stars",
@@ -231,8 +233,8 @@
       "running": "IN ESECUZIONE",
       "imageHistory": "Storico immagini",
       "duration": "Durata",
-  "temperatureShort": "Temp",
-  "targetName": "Target",
+      "temperatureShort": "Temp",
+      "targetName": "Target",
       "conditions": "Condizioni",
       "info": {
         "header": "Informazioni",

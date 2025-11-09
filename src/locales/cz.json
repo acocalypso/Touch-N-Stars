@@ -218,8 +218,8 @@
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
-  "temperatureShort": "Teplota",
-  "targetName": "Cíl",
+      "temperatureShort": "Teplota",
+      "targetName": "Cíl",
       "conditions": "Podmínky",
       "info": {
         "header": "Info",
@@ -1059,6 +1059,8 @@
     "whatsNew": "Novinky",
     "title": "Update available",
     "updateNow": "Update now",
-    "working": "Working…"
+    "working": "Working…",
+    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
+    "downgradeTitle": "Switch to Stable Version"
   }
 }

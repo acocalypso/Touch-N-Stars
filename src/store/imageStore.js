@@ -7,6 +7,7 @@ export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
     isImageFetching: false,
+    isSequenceImageFetching: false,
     lastImage: {
       index: 0,
       quality: 0,
@@ -17,11 +18,13 @@ export const useImagetStore = defineStore('imageStore', {
   }),
   actions: {
     calcScale() {
+      const settingsStore = useSettingsStore();
       const store = apiStore();
       const cameraWidth = store.profileInfo?.FramingAssistantSettings?.CameraWidth;
       const cameraHeight = store.profileInfo?.FramingAssistantSettings?.CameraHeight;
       const maxDimension = Math.max(cameraWidth, cameraHeight);
-      const scale = maxDimension > 2000 ? 2000 / maxDimension : 100;
+      const maxDimensionSetting = settingsStore.camera.maxDimension;
+      const scale = maxDimension > maxDimensionSetting ? maxDimensionSetting / maxDimension : 100;
       console.log(`Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
       return scale;
     },
@@ -34,6 +37,20 @@ export const useImagetStore = defineStore('imageStore', {
       this.isImageFetching = true;
 
       try {
+        // Wait if another fetch is in progress
+        if (this.isSequenceImageFetching) {
+          console.log('Waiting for getImageByIndex() to complete...');
+          await new Promise((resolve) => {
+            const interval = setInterval(() => {
+              if (!this.isSequenceImageFetching) {
+                clearInterval(interval);
+                resolve();
+              }
+            }, 100);
+            setTimeout(() => clearInterval(interval), 5000);
+          });
+        }
+
         console.log(`ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`);
         const imageResponse = await apiService.getImagePrepared(quality, resize, scale);
 
@@ -62,12 +79,17 @@ export const useImagetStore = defineStore('imageStore', {
         const isValid = await this.validateImage(this.lastImage.image);
         if (!isValid) {
           console.warn('Cached image is corrupted, fetching new image');
+          // Gebe alte URL frei
+          if (this.lastImage.image) {
+            URL.revokeObjectURL(this.lastImage.image);
+          }
           this.lastImage.image = null;
           return this.getImageByIndex(index);
         }
         return this.lastImage.image;
       }
 
+      this.isSequenceImageFetching = true;
       try {
           // Wait if another fetch is in progress
            if (this.isImageFetching) {
@@ -92,11 +114,18 @@ export const useImagetStore = defineStore('imageStore', {
         const blob = result.data;
         const imageUrl = URL.createObjectURL(blob);
 
-        // Valid new image 
+        // Valid new image
         const isValid = await this.validateImage(imageUrl);
         if (!isValid) {
           console.error('Fetched image is corrupted');
+          // Gebe neue URL frei wenn ungültig
+          URL.revokeObjectURL(imageUrl);
           return;
+        }
+
+        // Gebe alte cached URL frei bevor neue gespeichert wird
+        if (this.lastImage.image && this.lastImage.image !== imageUrl) {
+          URL.revokeObjectURL(this.lastImage.image);
         }
 
         // Save to cache
@@ -109,6 +138,8 @@ export const useImagetStore = defineStore('imageStore', {
       } catch (error) {
         console.error(`An error happened while getting image with index ${index}`, error.message);
         return;
+      } finally {
+        this.isSequenceImageFetching = false;
       }
     },
 

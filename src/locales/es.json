@@ -96,6 +96,7 @@
       "image": {
         "title": "Configuración de imagen",
         "quality": "Calidad de imagen",
+        "maxDimension": "Tamaño máx. de imagen",
         "strech_factor": "Factor de estiramiento",
         "black_clipping": "Recorte negro",
         "DebayeredHFR": "Debayered HFR",

@@ -112,6 +112,7 @@
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <setImgQuality />
+        <setImgMaxDimension />
         <setImgStrechFactor />
         <setImgBlackClipping />
       </div>
@@ -355,6 +356,7 @@ import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
+import setImgMaxDimension from './settings/setImgMaxDimension.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

@@ -98,6 +98,7 @@
       "image": {
         "title": "Bildeinstellungen",
         "quality": "Bildqualität",
+        "maxDimension": "Max. Bildgröße",
         "strech_factor": "Autostrech Faktor",
         "black_clipping": "Schwarzpunktfaktor",
         "DebayeredHFR": "Debayered HFR",

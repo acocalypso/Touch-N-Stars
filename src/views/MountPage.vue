@@ -69,6 +69,7 @@ import infoMount from '@/components/mount/infoMount.vue';
 import controlMount from '@/components/mount/controlMount.vue';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
+import { useImagetStore } from '@/store/imageStore';
 import SubNav from '@/components/SubNav.vue';
 import { useI18n } from 'vue-i18n';
 

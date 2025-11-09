@@ -80,6 +80,7 @@
       "image": {
         "title": "Nastavení obrázku",
         "quality": "Kvalita obrázku",
+        "maxDimension": "Maks. velikost obrázku",
         "strech_factor": "Faktor roztažení",
         "black_clipping": "Černé ořezávání",
         "DebayeredHFR": "Debayer HFR",

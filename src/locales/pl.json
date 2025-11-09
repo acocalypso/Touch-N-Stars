@@ -97,6 +97,7 @@
       "image": {
         "title": "Ustawienia obrazu",
         "quality": "Jakość obrazu",
+        "maxDimension": "Maks. rozmiar obrazu",
         "strech_factor": "Współczynnik rozciągnięcia",
         "black_clipping": "Przycinanie czerni",
         "debayern": "Debayer obrazu",

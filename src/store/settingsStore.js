@@ -61,6 +61,7 @@ export const useSettingsStore = defineStore('settings', {
       useSolve: false,
       imageScale: 100,
       imageQuality: 90,
+      maxDimension: 2048,
       snapshotTargetName: 'Snapshot',
     },
     flats: {

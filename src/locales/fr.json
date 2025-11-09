@@ -97,6 +97,7 @@
       "image": {
         "title": "Paramètres d'image",
         "quality": "Qualité d'image",
+        "maxDimension": "Taille max. de l'image",
         "strech_factor": "Facteur d'étirement",
         "black_clipping": "Écrêtage noir",
         "debayern": "Image de débayeur",

@@ -97,6 +97,7 @@
       "image": {
         "title": "图像设置",
         "quality": "图像质量",
+        "maxDimension": "最大图像尺寸",
         "strech_factor": "拉伸因子",
         "black_clipping": "黑点剪切",
         "debayern": "去拜耳图像",

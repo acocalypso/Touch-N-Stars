@@ -34,7 +34,7 @@ export const useImagetStore = defineStore('imageStore', {
       this.isImageFetching = true;
 
       try {
-        console.log(`Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`);
+        console.log(`ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`);
         const imageResponse = await apiService.getImagePrepared(quality, resize, scale);
 
         if (imageResponse && imageResponse.data) {
@@ -51,7 +51,7 @@ export const useImagetStore = defineStore('imageStore', {
     },
 
     async getImageByIndex(index) {
-      console.log(`Getting image by index: ${index}`);
+      console.log(`ImageStore.getImageByIndex: Getting image by index: ${index}`);
       const settingsStore = useSettingsStore();
       const quality = settingsStore.camera.imageQuality;
       const scale = this.calcScale();
@@ -69,7 +69,7 @@ export const useImagetStore = defineStore('imageStore', {
       }
 
       try {
-          // Warte maximal 5 Sekunden, bis getImage() fertig ist
+          // Wait if another fetch is in progress
            if (this.isImageFetching) {
             console.log('Waiting for getImage() to complete...');
             await new Promise((resolve) => {
@@ -83,7 +83,7 @@ export const useImagetStore = defineStore('imageStore', {
             });
         }
 
-        // Lade Bild von der API
+        // Load image from API
         const result = await apiService.getSequenceImage(index, quality, true, scale);
         if (result.status !== 200) {
           console.error('Unknown error: Check NINA Logs for more information');
@@ -92,14 +92,14 @@ export const useImagetStore = defineStore('imageStore', {
         const blob = result.data;
         const imageUrl = URL.createObjectURL(blob);
 
-        // Validiere das neue Bild
+        // Valid new image 
         const isValid = await this.validateImage(imageUrl);
         if (!isValid) {
           console.error('Fetched image is corrupted');
           return;
         }
 
-        // Speichere im Cache
+        // Save to cache
         this.lastImage.scale = scale;
         this.lastImage.quality = quality;
         this.lastImage.index = index;

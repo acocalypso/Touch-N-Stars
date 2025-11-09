@@ -130,17 +130,6 @@
       <SetDebug />
     </div>
 
-    <!-- Notifications settings -->
-    <div
-      class="bg-gray-800 rounded-lg p-4"
-      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
-    >
-      <h3 class="text-lg font-semibold text-white mb-4">
-        {{ $t('components.settings.notifications.title') }}
-      </h3>
-      <SetNotifications />
-    </div>
-
     <!-- Keep Screen Awake (mobile only) -->
     <div
       class="bg-gray-800 rounded-lg p-4"
@@ -351,7 +340,6 @@ import setImgUnlinkedStrech from './settings/setImgUnlinkedStrech.vue';
 import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
-import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';

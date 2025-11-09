@@ -30,15 +30,6 @@ export const useSettingsStore = defineStore('settings', {
       showSequenceCurrentState: true,
       displayStatusUnderImage: false,
     },
-    notifications: {
-      enabled: localStorage.getItem('notificationsEnabled') === 'true' || false,
-      sequence: {
-        enabled: localStorage.getItem('sequenceNotificationsEnabled') === 'true' || false,
-      },
-      phd2: {
-        enabled: localStorage.getItem('phd2NotificationsEnabled') === 'true' || false,
-      },
-    },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
       completed: localStorage.getItem('tutorialCompleted') === 'true',
@@ -258,21 +249,6 @@ export const useSettingsStore = defineStore('settings', {
       localStorage.setItem('useImperialUnits', this.useImperialUnits);
     },
 
-    toggleNotifications() {
-      this.notifications.enabled = !this.notifications.enabled;
-      localStorage.setItem('notificationsEnabled', this.notifications.enabled);
-    },
-
-    toggleSequenceNotifications() {
-      this.notifications.sequence.enabled = !this.notifications.sequence.enabled;
-      localStorage.setItem('sequenceNotificationsEnabled', this.notifications.sequence.enabled);
-    },
-
-    togglePhd2Notifications() {
-      this.notifications.phd2.enabled = !this.notifications.phd2.enabled;
-      localStorage.setItem('phd2NotificationsEnabled', this.notifications.phd2.enabled);
-    },
-
     togglePluginsVisibility() {
       this.showPlugins = !this.showPlugins;
     },
@@ -301,7 +277,6 @@ export const useSettingsStore = defineStore('settings', {
           'lastCreatedInstanceId',
           'monitorViewSetting',
           'tutorial',
-          'notifications',
           'showPlugins',
           'guider',
           'keepAwakeEnabled',

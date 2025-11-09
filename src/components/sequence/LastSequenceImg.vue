@@ -82,7 +82,7 @@ async function loadImage(index) {
     if (imageData.value) {
       setSelectedDataset(index);
       lastImgIndex.value = index;
-      console.log('Image loaded successfully:', index);
+      console.log('[LastSequneceImg] Image loaded successfully:', index);
     }
   } catch (error) {
     console.error('Error loading image:', error.message);
@@ -170,8 +170,7 @@ watch(
   async (newVal, oldVal) => {
     if (!oldVal || newVal.length > oldVal.length) {
       const latestIndex = newVal.length - 1;
-      console.log('Watch imageHistoryInfo');
-      console.log('latestIndex: ', latestIndex);
+      console.log('[LastSequenceImg] latestIndex: ', latestIndex);
 
       loadImage(latestIndex);
     }
@@ -182,9 +181,9 @@ watch(
 onMounted(() => {
   const latestIndex = store.imageHistoryInfo.length - 1;
   loadImage(latestIndex);
-  console.log('Mounted last LastSequenceImg');
-  console.log('latestIndex: ', latestIndex);
-  console.log('isLoadingImg: ', isLoadingImg.value);
+  console.log('[LastSequenceImg] Mounted');
+  console.log('[LastSequenceImg] latestIndex: ', latestIndex);
+  //console.log('isLoadingImg: ', isLoadingImg.value);
 });
 </script>
 

@@ -150,11 +150,10 @@ function initGraph() {
 watch(
   () => store.imageHistoryInfo,
   (newVal, oldVal) => {
-    //Prüfen, ob es mehr Elemente als vorher gibt
+    //Check if new data is added
     if (!oldVal || newVal.length > oldVal.length) {
-      console.log('Neuer Datensatz hinzugekommen!');
+      console.log('[SequenceGraph] New data available, updating graph...');
       if (chart && newVal) {
-        console.log('Daten aktualisieren');
         const newLabels = newVal.map((item) => new Date(item.Date).toLocaleTimeString());
         const newStarsData = newVal.map((item) => item.Stars);
         const newHfrData = newVal.map((item) => item.HFR);

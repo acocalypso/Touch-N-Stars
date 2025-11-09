@@ -27,7 +27,6 @@
           placeholderText="No image captured yet"
           @download="handleDownload"
           @fullscreen="openImageModal"
-          @image-load="handleImageLoad"
           class="bg-gray-900"
         >
           <!-- Custom placeholder -->
@@ -343,9 +342,7 @@ const handleDownload = async (data) => {
   });
 };
 
-const handleImageLoad = () => {
-  console.log('Image loaded successfully');
-};
+
 
 const openImageModal = () => {
   showModal.value = true;

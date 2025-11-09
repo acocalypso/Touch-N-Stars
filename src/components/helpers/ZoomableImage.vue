@@ -294,7 +294,7 @@ const destroyPanzoom = () => {
     try {
       if (typeof panzoomInstance.getTransform === 'function') {
         savedTransform.value = panzoomInstance.getTransform();
-        console.log('Saved transform:', savedTransform.value);
+        //console.log('Saved transform:', savedTransform.value);
       }
     } catch (error) {
       console.warn('Could not save transform:', error);

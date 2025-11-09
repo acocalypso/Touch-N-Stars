@@ -25,7 +25,7 @@ export const useImagetStore = defineStore('imageStore', {
       const maxDimension = Math.max(cameraWidth, cameraHeight);
       const maxDimensionSetting = settingsStore.camera.maxDimension;
       const scale = maxDimension > maxDimensionSetting ? maxDimensionSetting / maxDimension : 100;
-      console.log(`Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
+      console.log(`[ImageStore] Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
       return scale;
     },
 
@@ -39,7 +39,7 @@ export const useImagetStore = defineStore('imageStore', {
       try {
         // Wait if another fetch is in progress
         if (this.isSequenceImageFetching) {
-          console.log('Waiting for getImageByIndex() to complete...');
+          console.log('[ImageStore] Waiting for getImageByIndex() to complete...');
           await new Promise((resolve) => {
             const interval = setInterval(() => {
               if (!this.isSequenceImageFetching) {
@@ -51,7 +51,7 @@ export const useImagetStore = defineStore('imageStore', {
           });
         }
 
-        console.log(`ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`);
+        console.log(`[ImageStore] ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`);
         const imageResponse = await apiService.getImagePrepared(quality, resize, scale);
 
         if (imageResponse && imageResponse.data) {
@@ -61,24 +61,24 @@ export const useImagetStore = defineStore('imageStore', {
           this.imageData = URL.createObjectURL(imageResponse.data);
         }
       } catch (error) {
-        console.error('Error fetching information:', error);
+        console.error('[ImageStore] Error fetching information:', error);
       } finally {
         this.isImageFetching = false;
       }
     },
 
     async getImageByIndex(index) {
-      console.log(`ImageStore.getImageByIndex: Getting image by index: ${index}`);
+      console.log(`[ImageStore] ImageStore.getImageByIndex: Getting image by index: ${index}`);
       const settingsStore = useSettingsStore();
       const quality = settingsStore.camera.imageQuality;
       const scale = this.calcScale();
 
       // Cache-Prüfung
       if (this.lastImage.image && index === this.lastImage.index) {
-        console.log('lastImage from cache');
+        console.log('[ImageStore] lastImage from cache');
         const isValid = await this.validateImage(this.lastImage.image);
         if (!isValid) {
-          console.warn('Cached image is corrupted, fetching new image');
+          console.warn('[ImageStore] Cached image is corrupted, fetching new image');
           // Gebe alte URL frei
           if (this.lastImage.image) {
             URL.revokeObjectURL(this.lastImage.image);
@@ -93,7 +93,7 @@ export const useImagetStore = defineStore('imageStore', {
       try {
           // Wait if another fetch is in progress
            if (this.isImageFetching) {
-            console.log('Waiting for getImage() to complete...');
+            console.log('[ImageStore] Waiting for getImage() to complete...');
             await new Promise((resolve) => {
               const interval = setInterval(() => {
                 if (!this.isImageFetching ) {
@@ -108,7 +108,7 @@ export const useImagetStore = defineStore('imageStore', {
         // Load image from API
         const result = await apiService.getSequenceImage(index, quality, true, scale);
         if (result.status !== 200) {
-          console.error('Unknown error: Check NINA Logs for more information');
+          console.error('[ImageStore] Unknown error: Check NINA Logs for more information');
           return;
         }
         const blob = result.data;
@@ -117,7 +117,7 @@ export const useImagetStore = defineStore('imageStore', {
         // Valid new image
         const isValid = await this.validateImage(imageUrl);
         if (!isValid) {
-          console.error('Fetched image is corrupted');
+          console.error('[ImageStore] Fetched image is corrupted');
           // Gebe neue URL frei wenn ungültig
           URL.revokeObjectURL(imageUrl);
           return this.getImageByIndex(index);
@@ -136,7 +136,7 @@ export const useImagetStore = defineStore('imageStore', {
 
         return imageUrl;
       } catch (error) {
-        console.error(`An error happened while getting image with index ${index}`, error.message);
+        console.error(`[ImageStore] An error happened while getting image with index ${index}`, error.message);
         return;
       } finally {
         this.isSequenceImageFetching = false;
@@ -149,7 +149,7 @@ export const useImagetStore = defineStore('imageStore', {
         const imageUrl = URL.createObjectURL(blob);
         return imageUrl;
       } catch (error) {
-        console.error(`An error happened while getting image with index ${index}`, error.message);
+        console.error(`[ImageStore] An error happened while getting image with index ${index}`, error.message);
         return null;
       }
     },
@@ -163,11 +163,11 @@ export const useImagetStore = defineStore('imageStore', {
 
         const img = new Image();
         img.onload = () => {
-          console.log('Image is valid');
+          console.log('[ImageStore] Image is valid');
           resolve(true);
         };
         img.onerror = () => {
-          console.error('Image is corrupted or invalid');
+          console.error('[ImageStore] Image is corrupted or invalid');
           resolve(false);
         };
         img.src = imageUrl;
@@ -175,7 +175,7 @@ export const useImagetStore = defineStore('imageStore', {
         // Timeout nach 5 Sekunden für den Fall, dass das Bild nicht lädt
         setTimeout(() => {
           if (!img.complete) {
-            console.error('Image loading timeout');
+            console.error('[ImageStore] Image loading timeout');
             resolve(false);
           }
         }, 5000);

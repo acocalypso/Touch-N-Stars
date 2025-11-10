@@ -359,6 +359,7 @@ async function resumeApp() {
     wsFilter.connect();
   }
 
+  // Check for app update independently from backend status
   if (isNativePlatform()) {
     void checkForAppUpdate();
   }
@@ -475,6 +476,7 @@ onMounted(async () => {
   window.addEventListener('pageshow', handlePageShow);
   window.addEventListener('focus', handleFocus);
 
+  // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
     void checkForAppUpdate();
   }

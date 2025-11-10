@@ -46,7 +46,6 @@ function getPlatform() {
 }
 
 export function isNativePlatform() {
-  //return true;
   return SUPPORTED_PLATFORMS.has(getPlatform());
 }
 
@@ -343,24 +342,32 @@ function changelogLinesToHtml(lines, heading) {
   return parts.join('\n');
 }
 
-export async function fetchChangelogWhatsNew() {
+export async function fetchChangelogWhatsNew(latestRelease = null) {
   try {
     console.info('[Updater] Fetching latest changelog');
 
-    const latestRelease = await fetchLatestRelease();
-    if (!latestRelease?.changelogUrl) {
+    // Use provided release info or fetch it if not provided
+    const release = latestRelease || (await fetchLatestRelease());
+    console.log('[Updater] Latest release for changelog:', release);
+
+    if (!release?.changelogUrl) {
       console.warn('[Updater] No changelog asset found in release');
       return null;
     }
 
-    const response = await fetch(latestRelease.changelogUrl, {
-      headers: buildHeaders('text/plain', { includeUserAgent: false }),
+    // Fetch from GitHub API at the specific release tag to avoid CORS issues
+    const apiUrl = `${getGithubApiBase()}/contents/CHANGELOG.md?ref=${release.tagName}`;
+    console.log('[Updater] Fetching changelog from API:', apiUrl);
+
+    const response = await fetch(apiUrl, {
+      headers: buildHeaders('application/vnd.github.raw'),
     });
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
 
+    console.log('[Updater] Changelog fetched successfully');
     const markdown = await response.text();
     const section = extractLatestChangelogSection(markdown);
     if (!section) {

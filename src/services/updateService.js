@@ -19,18 +19,6 @@ function getGithubApiBase() {
   return 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
 }
 
-function getChangelogRawUrl() {
-  try {
-    const settingsStore = useSettingsStore();
-    if (settingsStore?.useBetaFeatures) {
-      return 'https://raw.githubusercontent.com/JohannesWorks/Touch-N-Stars/refs/heads/master/CHANGELOG.md';
-    }
-  } catch (error) {
-    // Store not initialized yet, use default
-  }
-  return 'https://raw.githubusercontent.com/Touch-N-Stars/Touch-N-Stars/master/CHANGELOG.md';
-}
-
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
   'User-Agent': 'touch-n-stars-updater',
@@ -69,11 +57,9 @@ function parseVersion(version) {
   const trimmed = version.trim();
   const withoutPrefix = trimmed.replace(/^v/gi, '');
 
-  // Split version and pre-release parts (e.g., "4.0.0-beta.1" -> ["4.0.0", "beta.1"])
   const [corePart, ...prereleaseParts] = withoutPrefix.split(/[-+]/);
-
-  // Extract major.minor.patch
   const match = corePart.match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?/);
+
   if (!match) {
     return { major: 0, minor: 0, patch: 0, prerelease: [], prereleaseParts: [] };
   }
@@ -82,7 +68,6 @@ function parseVersion(version) {
   const minor = Number.parseInt(match[2], 10) || 0;
   const patch = Number.parseInt(match[3], 10) || 0;
 
-  // Parse pre-release identifiers (e.g., "beta.1" -> ["beta", "1"])
   const prereleasePart = prereleaseParts.join('-');
   const prerelease = prereleasePart ? prereleasePart.split('.') : [];
 
@@ -99,7 +84,6 @@ function compareVersions(remote, local) {
   const remoteVersion = parseVersion(remote);
   const localVersion = parseVersion(local);
 
-  // Compare major.minor.patch
   if (remoteVersion.major !== localVersion.major) {
     return remoteVersion.major > localVersion.major ? 1 : -1;
   }
@@ -110,43 +94,29 @@ function compareVersions(remote, local) {
     return remoteVersion.patch > localVersion.patch ? 1 : -1;
   }
 
-  // When core versions are equal, compare pre-release versions
   const remoteHasPrerelease = remoteVersion.prerelease.length > 0;
   const localHasPrerelease = localVersion.prerelease.length > 0;
 
-  // Version without pre-release is greater than with pre-release (4.0.0 > 4.0.0-beta.1)
-  if (remoteHasPrerelease && !localHasPrerelease) {
-    return -1; // remote has pre-release, local doesn't: remote is less
-  }
-  if (!remoteHasPrerelease && localHasPrerelease) {
-    return 1; // remote doesn't have pre-release, local does: remote is greater
-  }
+  if (remoteHasPrerelease && !localHasPrerelease) return -1;
+  if (!remoteHasPrerelease && localHasPrerelease) return 1;
 
-  // Both have pre-release: compare identifiers
   if (remoteHasPrerelease && localHasPrerelease) {
     const maxLength = Math.max(remoteVersion.prerelease.length, localVersion.prerelease.length);
-    for (let i = 0; i < maxLength; i += 1) {
+    for (let i = 0; i < maxLength; i++) {
       const remotePart = remoteVersion.prerelease[i] ?? '';
       const localPart = localVersion.prerelease[i] ?? '';
 
-      // Try numeric comparison first
       const remoteNum = Number.parseInt(remotePart, 10);
       const localNum = Number.parseInt(localPart, 10);
       const remoteIsNum = !Number.isNaN(remoteNum);
       const localIsNum = !Number.isNaN(localNum);
 
       if (remoteIsNum && localIsNum) {
-        if (remoteNum !== localNum) {
-          return remoteNum > localNum ? 1 : -1;
-        }
+        if (remoteNum !== localNum) return remoteNum > localNum ? 1 : -1;
       } else if (remoteIsNum !== localIsNum) {
-        // Numbers are less than non-numbers
         return remoteIsNum ? -1 : 1;
       } else {
-        // Both are strings: lexical comparison
-        if (remotePart !== localPart) {
-          return remotePart > localPart ? 1 : -1;
-        }
+        if (remotePart !== localPart) return remotePart > localPart ? 1 : -1;
       }
     }
   }
@@ -166,20 +136,18 @@ async function fetchJson(url) {
 async function fetchLatestRelease() {
   try {
     const release = await fetchJson(`${getGithubApiBase()}/releases/latest`);
-    if (!release || release.draft) {
-      return null;
-    }
+    if (!release || release.draft) return null;
 
     const assets = Array.isArray(release.assets) ? release.assets : [];
-    console.info(
-      '[Updater] Release assets found:',
-      assets.map((assetItem) => assetItem?.name).filter(Boolean)
-    );
-    const asset = assets.find((item) => item?.name === UPDATE_ASSET_NAME) || null;
 
-    if (!asset || !asset.browser_download_url) {
+    console.info('[Updater] Release assets found:', assets.map((a) => a?.name).filter(Boolean));
+
+    const updateAsset = assets.find((a) => a?.name === UPDATE_ASSET_NAME) || null;
+    if (!updateAsset || !updateAsset.browser_download_url) {
       throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
     }
+
+    const changelogAsset = assets.find((a) => a?.name === 'CHANGELOG.md') || null;
 
     const versionString = release.tag_name || release.name;
     const parsedVersion = parseVersion(versionString);
@@ -197,7 +165,8 @@ async function fetchLatestRelease() {
       version: normalizedVersion,
       name: release.name || release.tag_name,
       notes: release.body || '',
-      assetUrl: asset.browser_download_url,
+      assetUrl: updateAsset.browser_download_url,
+      changelogUrl: changelogAsset ? changelogAsset.browser_download_url : null,
       publishedAt: release.published_at,
       isPrerelease: release.prerelease,
     };
@@ -210,12 +179,7 @@ async function fetchLatestRelease() {
 export async function checkForManualUpdate(currentVersion = appVersion, options = {}) {
   const { allowDowngrade = false } = options;
 
-  console.log(
-    '[Updater] checkForManualUpdate called - version:',
-    currentVersion,
-    'allowDowngrade:',
-    allowDowngrade
-  );
+  console.log('[Updater] checkForManualUpdate called - version:', currentVersion);
 
   if (!isNativePlatform()) {
     return { available: false, reason: 'non-native-platform' };
@@ -227,48 +191,16 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
   }
 
   const versionComparison = compareVersions(latestRelease.version, currentVersion);
-  console.log(
-    '[Updater] Version comparison:',
-    'latest:',
-    latestRelease.version,
-    'current:',
-    currentVersion,
-    'result:',
-    versionComparison,
-    'allowDowngrade:',
-    allowDowngrade
-  );
+  console.log('[Updater] Version comparison:', versionComparison);
 
-  // If not allowing downgrades, skip if version is not newer
   if (!allowDowngrade && versionComparison <= 0) {
-    console.log('[Updater] No update: version not newer and downgrade not allowed');
     return { available: false, reason: 'no-newer-version' };
   }
 
-  // If versions are identical, no update needed
-  if (versionComparison === 0) {
-    console.log('[Updater] No update: same version');
-    return { available: false, reason: 'same-version' };
-  }
-
-  // If downgrade is allowed or version is newer, return available
-  const isDowngrade = versionComparison < 0;
-  console.log(
-    '[Updater] Update available - version:',
-    latestRelease.version,
-    'isDowngrade:',
-    isDowngrade
-  );
-
   return {
     available: true,
-    version: latestRelease.version,
-    tagName: latestRelease.tagName,
-    name: latestRelease.name,
-    notes: latestRelease.notes,
-    downloadUrl: latestRelease.assetUrl,
-    publishedAt: latestRelease.publishedAt,
-    isDowngrade,
+    ...latestRelease,
+    isDowngrade: versionComparison < 0,
   };
 }
 
@@ -278,7 +210,6 @@ export async function downloadAndApplyUpdate(options) {
   if (!isNativePlatform()) {
     throw new Error('Updates are only supported on native platforms');
   }
-
   if (!version || !downloadUrl) {
     throw new Error('Missing download metadata');
   }
@@ -286,9 +217,7 @@ export async function downloadAndApplyUpdate(options) {
   let listener;
   try {
     listener = await CapacitorUpdater.addListener('download', (event) => {
-      if (event?.bundle?.version !== version) {
-        return;
-      }
+      if (event?.bundle?.version !== version) return;
       if (typeof onProgress === 'function') {
         onProgress(event.percent ?? 0);
       }
@@ -298,18 +227,11 @@ export async function downloadAndApplyUpdate(options) {
   }
 
   try {
-    const bundle = await CapacitorUpdater.download({
-      version,
-      url: downloadUrl,
-    });
+    const bundle = await CapacitorUpdater.download({ version, url: downloadUrl });
 
-    if (!bundle?.id) {
-      throw new Error('Download completed without a valid bundle identifier');
-    }
+    if (!bundle?.id) throw new Error('Download completed without a valid bundle identifier');
 
-    if (typeof onPreparing === 'function') {
-      onPreparing();
-    }
+    if (typeof onPreparing === 'function') onPreparing();
 
     await CapacitorUpdater.set({ id: bundle.id });
     return bundle;
@@ -325,9 +247,7 @@ export async function downloadAndApplyUpdate(options) {
 }
 
 export async function markAppReady() {
-  if (!isNativePlatform()) {
-    return;
-  }
+  if (!isNativePlatform()) return;
   try {
     await CapacitorUpdater.notifyAppReady();
   } catch (error) {
@@ -336,27 +256,16 @@ export async function markAppReady() {
 }
 
 function extractLatestChangelogSection(markdown) {
-  if (!markdown) {
-    return null;
-  }
+  if (!markdown) return null;
 
   const lines = markdown.split(/\r?\n/);
-  let startIdx = -1;
-  for (let index = 0; index < lines.length; index += 1) {
-    if (lines[index].startsWith('## [')) {
-      startIdx = index;
-      break;
-    }
-  }
-
-  if (startIdx === -1) {
-    return null;
-  }
+  let startIdx = lines.findIndex((line) => line.startsWith('## ['));
+  if (startIdx === -1) return null;
 
   let endIdx = lines.length;
-  for (let index = startIdx + 1; index < lines.length; index += 1) {
-    if (lines[index].startsWith('## [')) {
-      endIdx = index;
+  for (let i = startIdx + 1; i < lines.length; i++) {
+    if (lines[i].startsWith('## [')) {
+      endIdx = i;
       break;
     }
   }
@@ -366,22 +275,15 @@ function extractLatestChangelogSection(markdown) {
   const match = heading.match(/^## \[(.+?)\]\s*-\s*(.+)$/);
   const version = match ? match[1].trim() : 'unknown';
   const date = match ? match[2].trim() : '';
-  const bodyLines = sectionLines.slice(1);
 
-  while (bodyLines.length && !bodyLines[0].trim()) {
-    bodyLines.shift();
-  }
-  while (bodyLines.length && !bodyLines[bodyLines.length - 1].trim()) {
-    bodyLines.pop();
-  }
+  const bodyLines = sectionLines.slice(1).filter((line) => line.trim());
 
-  const markdownOut = [heading, '', ...bodyLines].join('\n');
   return {
     version,
     date,
     heading,
     bodyLines,
-    markdown: markdownOut,
+    markdown: [heading, '', ...bodyLines].join('\n'),
   };
 }
 
@@ -405,16 +307,12 @@ function changelogLinesToHtml(lines, heading) {
   let index = 0;
   while (index < lines.length) {
     const line = lines[index];
-    if (!line.trim()) {
-      index += 1;
-      continue;
-    }
 
     if (line.startsWith('### ')) {
       parts.push(
         `<h3 class="text-lg sm:text-xl font-semibold mt-4 mb-2">${escapeHtml(line.slice(4))}</h3>`
       );
-      index += 1;
+      index++;
       continue;
     }
 
@@ -422,41 +320,58 @@ function changelogLinesToHtml(lines, heading) {
       const items = [];
       while (index < lines.length && lines[index].startsWith('- ')) {
         items.push(lines[index].slice(2));
-        index += 1;
+        index++;
       }
-      const listItems = items
-        .map(
-          (item) =>
-            `<li class="ml-4 list-disc"><span class="align-middle">${escapeHtml(item)}</span></li>`
-        )
-        .join('');
-      parts.push(`<ul class="pl-5 space-y-1">${listItems}</ul>`);
+      parts.push(
+        `<ul class="pl-5 space-y-1">${items
+          .map(
+            (item) =>
+              `<li class="ml-4 list-disc"><span class="align-middle">${escapeHtml(
+                item
+              )}</span></li>`
+          )
+          .join('')}</ul>`
+      );
       continue;
     }
 
     parts.push(`<p class="mb-2">${escapeHtml(line)}</p>`);
-    index += 1;
+    index++;
   }
 
   return parts.join('\n');
 }
 
-export async function fetchChangelogWhatsNew() {
-  // Mirror the CLI generator to render the latest CHANGELOG entry for the update modal.
+export async function fetchChangelogWhatsNew(latestRelease = null) {
   try {
-    console.info('[Updater] Fetching latest changelog entry');
-    const response = await fetch(getChangelogRawUrl(), {
-      headers: buildHeaders('text/plain', { includeUserAgent: false }),
+    console.info('[Updater] Fetching latest changelog');
+
+    // Use provided release info or fetch it if not provided
+    const release = latestRelease || (await fetchLatestRelease());
+    console.log('[Updater] Latest release for changelog:', release);
+
+    if (!release?.changelogUrl) {
+      console.warn('[Updater] No changelog asset found in release');
+      return null;
+    }
+
+    // Fetch from GitHub API at the specific release tag to avoid CORS issues
+    const apiUrl = `${getGithubApiBase()}/contents/CHANGELOG.md?ref=${release.tagName}`;
+    console.log('[Updater] Fetching changelog from API:', apiUrl);
+
+    const response = await fetch(apiUrl, {
+      headers: buildHeaders('application/vnd.github.raw'),
     });
 
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
 
+    console.log('[Updater] Changelog fetched successfully');
     const markdown = await response.text();
     const section = extractLatestChangelogSection(markdown);
     if (!section) {
-      throw new Error('CHANGELOG.md does not contain a valid release section');
+      throw new Error('Changelog has no valid section');
     }
 
     const html = changelogLinesToHtml(section.bodyLines, section.heading);
@@ -471,7 +386,7 @@ export async function fetchChangelogWhatsNew() {
       markdown: section.markdown,
     };
   } catch (error) {
-    console.warn('[Updater] Failed to load changelog whats-new content:', error?.message ?? error);
+    console.warn('[Updater] Failed to load changelog whats-new:', error?.message ?? error);
     return null;
   }
 }

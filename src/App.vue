@@ -401,7 +401,7 @@ async function checkForAppUpdate(options = {}) {
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
       let whatsNewDetails = null;
       try {
-        whatsNewDetails = await fetchChangelogWhatsNew();
+        whatsNewDetails = await fetchChangelogWhatsNew(result);
         console.info('Update whats-new content resolved:', whatsNewDetails);
       } catch (whatsNewError) {
         console.warn('Failed to load whats-new content:', whatsNewError);

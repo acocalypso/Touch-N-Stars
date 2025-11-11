@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mb-4 flex items-center px-4 sm:px-0">
+    <div class="mb-4 flex items-center gap-3 px-4 sm:px-0">
       <button
         @click="toggleSortOrder"
         class="flex items-center gap-2 text-sm sm:text-base text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-all duration-150 ease-in-out focus:outline-none group bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2"
@@ -28,6 +28,20 @@
           }}
         </span>
       </button>
+      <button
+        @click="toggleShowHistoryStats"
+        class="flex items-center gap-2 text-sm sm:text-base transition-all duration-150 ease-in-out focus:outline-none group bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2"
+        :class="settingsStore.monitorViewSetting.showHistoryImageStats
+          ? 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'
+          : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400'"
+        role="button"
+        aria-label="Toggle image statistics"
+      >
+        <ChartBarIcon class="w-5 h-5" />
+        <span class="border-b-2 border-transparent group-hover:border-current">
+          {{ t('components.sequence.stats') }}
+        </span>
+      </button>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3 xl:gap-4 pt-4 pb-20">
       <div v-for="image in sortedImageHistory" v-bind:key="image.data" class="relative">
@@ -35,7 +49,7 @@
           :index="image.index"
           :image="image.data"
           :stats="image.stats"
-          :showStats="settingsStore.monitorViewSetting.showImageStats"
+          :showStats="settingsStore.monitorViewSetting.showHistoryImageStats"
         />
       </div>
       <div v-if="isLoadingImages" class="flex items-center justify-center p-5 h-full min-h-[300px]">
@@ -50,7 +64,7 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
 import { ref, watch, onMounted, computed } from 'vue';
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { ChevronUpIcon, ChevronDownIcon, ChartBarIcon } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/sequence/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -66,6 +80,11 @@ const settingsStore = useSettingsStore();
 const isLoadingImages = ref(false);
 
 const sortAscending = ref(false);
+
+function toggleShowHistoryStats() {
+  settingsStore.monitorViewSetting.showHistoryImageStats =
+    !settingsStore.monitorViewSetting.showHistoryImageStats;
+}
 
 const sortedImageHistory = computed(() => {
   return [...imageHistory.value].sort((a, b) => {

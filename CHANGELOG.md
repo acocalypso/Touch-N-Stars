@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [logfile-collector1.0.2] [App4.0.0-beta.7] - 2025-11-xx
+### Added
+- SequenceImageHistory: Added toggle button for image statistics display 
+
 ### Fixed
 - logfile-collector: Fixed copy token
 - App: Fixed save target name

@@ -77,13 +77,12 @@ export const useImagetStore = defineStore('imageStore', {
       const quality = settingsStore.camera.imageQuality;
       const scale = this.calcScale();
 
-      // Cache-Prüfung
+      // check cache
       if (this.lastImage.image && index === this.lastImage.index) {
         console.log('[ImageStore] lastImage from cache');
         const isValid = await this.validateImage(this.lastImage.image);
         if (!isValid) {
           console.warn('[ImageStore] Cached image is corrupted, fetching new image');
-          // Gebe alte URL frei
           if (this.lastImage.image) {
             URL.revokeObjectURL(this.lastImage.image);
           }
@@ -110,6 +109,7 @@ export const useImagetStore = defineStore('imageStore', {
         }
 
         // Load image from API
+        console.log('[ImageStore] Loding sequneceimage from API...');
         const result = await apiService.getSequenceImage(index, quality, true, scale);
         if (result.status !== 200) {
           console.error('[ImageStore] Unknown error: Check NINA Logs for more information');
@@ -121,7 +121,7 @@ export const useImagetStore = defineStore('imageStore', {
         // Valid new image
         const isValid = await this.validateImage(imageUrl);
         if (!isValid) {
-          console.error('[ImageStore] Fetched image is corrupted');
+          console.error('[ImageStore] Fetched sequneceimage is corrupted');
           // Gebe neue URL frei wenn ungültig
           URL.revokeObjectURL(imageUrl);
           return this.getImageByIndex(index);

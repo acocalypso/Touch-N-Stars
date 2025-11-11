@@ -29,6 +29,7 @@ export const useSettingsStore = defineStore('settings', {
       showGuiderAfGraph: true,
       showSequenceCurrentState: true,
       displayStatusUnderImage: false,
+      showHistoryImageStats:true,
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {

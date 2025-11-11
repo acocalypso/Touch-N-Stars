@@ -41,15 +41,7 @@
       </div>
     </transition>
 
-    <button
-      type="button"
-      class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed right-4"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
-      @click="showSettingsModal = true"
-      aria-label="Open settings"
-    >
-      <Cog6ToothIcon class="icon" />
-    </button>
+
 
     <SubNav
       :items="[
@@ -61,6 +53,16 @@
 
     <div class="flex items-center justify-center mb-6 mt-16">
       <div v-if="currentTab == 'showStats'">
+        <button
+          type="button"
+          class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed right-4"
+          style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+          @click="showSettingsModal = true"
+          aria-label="Open settings"
+        >
+          <Cog6ToothIcon class="icon" />
+        </button>
+
         <div
           v-if="store.imageHistoryInfo && store.imageHistoryInfo.length > 0"
           class="flex flex-col min-w-[80vw] w-full max-w-4xl justify-center items-center space-y-4"
@@ -140,6 +142,7 @@ const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const showSettingsModal = ref(false);
+
 </script>
 
 <style>

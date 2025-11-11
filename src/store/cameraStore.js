@@ -53,14 +53,15 @@ export const useCameraStore = defineStore('cameraStore', () => {
     try {
       // Phase 1: Starte Belichtung (Server liefert ExposureEndTime und IsExposing)
       await apiService.startCapture(exposureTime, gain, solve, true, save);
+      isLoadingImage.value = true;
       while (!imageStore.isImageFetching) {
-        await wait(100);
-        //console.log('Waiting for exposure to complete...');
+        await wait(500);
+        //console.log('[cameraStore] Waiting for exposure to complete...');
       }
 
       // Phase 2: Bild laden mit Timeout
       if (!isAbort.value) {
-        isLoadingImage.value = true;
+        console.log('[cameraStore] Starting to load image data from API...');
 
         // Warte auf Bild oder Timeout
         let attempts = 0;
@@ -73,7 +74,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
             // Prüfe ob neues Bild vorhanden
             if (previousImage !== imageStore.imageData) {
-              console.log('Image data received from API.');
+              console.log('[cameraStore] Image data received from API.');
 
               if (solve === false) {
                 return;
@@ -85,18 +86,18 @@ export const useCameraStore = defineStore('cameraStore', () => {
               }
             }
           } catch (error) {
-            console.error('Error fetching image:', error.message);
+            console.error(' [cameraStore]Error fetching image:', error.message);
           }
 
           attempts++;
-          //console.log(`Waiting for image... Attempt ${attempts}/${maxAttempts}`);
+          //console.log(`[cameraStore] Waiting for image... Attempt ${attempts}/${maxAttempts}`);
           await wait(1000);
         }
 
         try {
-          console.log('Image successfully loaded');
+          console.log('[cameraStore] Image successfully loaded');
         } catch (error) {
-          console.error('Image loading failed:', error.message);
+          console.error('[cameraStore] Image loading failed:', error.message);
           if (!isAbort.value) {
             alert('Image was not provided in time');
           }
@@ -109,16 +110,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
         }
       }
     } catch (error) {
-      console.error('Error during capture:', error.message);
+      console.error('[cameraStore] Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
 
       // Dauerschleife?
       if (isLooping.value && !isAbort.value) {
-        console.log('Starting next looped exposure...');
+        console.log('[cameraStore] Starting next looped exposure...');
         capturePhoto(apiService, exposureTime, gain, solve, false, save);
-        console.log('save value in loop: ', save);
+        console.log('[cameraStore] save value in loop: ', save);
       }
     }
   }
@@ -128,7 +129,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
    */
   async function abortExposure(apiService) {
     try {
-      console.log('Abbruch der Belichtung gestartet...');
+      console.log('[cameraStore] Canceling exposure...');
       await apiService.cameraAction('abort-exposure');
 
       isAbort.value = true;
@@ -141,9 +142,9 @@ export const useCameraStore = defineStore('cameraStore', () => {
         loadingTimeout.value = null;
       }
 
-      console.log('Exposure successfully aborted.');
+      console.log('E[cameraStore] xposure successfully aborted.');
     } catch (error) {
-      console.error('Error aborting exposure:', error);
+      console.error('[cameraStore] Error aborting exposure:', error);
     } finally {
       loading.value = false;
     }
@@ -161,20 +162,20 @@ export const useCameraStore = defineStore('cameraStore', () => {
       let plateSolveStatusCode = 0;
       isLoadingImage.value = true;
       result = await apiService.getPlatesovle(exposureTime, gain);
-      console.log('result: ', result);
+      console.log('[cameraStore] result platesolve: ', result);
 
       plateSolveResult = result?.Response?.PlateSolveResult;
       plateSolveStatusCode = result?.StatusCode;
       if (plateSolveStatusCode != 200) {
         plateSolveError.value = true;
-        console.log('plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
+        console.log('[cameraStore] plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
       }
       if (plateSolveResult) {
         framingStore.rotationAngle = plateSolveResult.PositionAngle;
-        console.log('Camera position angle: ', framingStore.rotationAngle);
+        console.log('[cameraStore] Camera position angle: ', framingStore.rotationAngle);
       }
     } catch (error) {
-      console.error('Error during capture:', error.message);
+      console.error('[cameraStore] Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
@@ -184,7 +185,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   // Stoppt den Countdown (z.B. wenn App pausiert)
   function stopCountdown() {
     if (countdownRunning.value) {
-      console.log('Stopping exposure countdown...');
+      console.log('[cameraStore] Stopping exposure countdown...');
       countdownRunning.value = false;
     }
   }
@@ -213,7 +214,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
     const endTime = new Date(exposureEndTime).getTime();
     if (isNaN(endTime)) {
-      console.error('Invalid date format for ExposureEndTime.');
+      console.error('[cameraStore] Invalid date format for ExposureEndTime.');
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
       return;
@@ -250,12 +251,12 @@ export const useCameraStore = defineStore('cameraStore', () => {
       if (previousCountdown !== null && previousCountdown === remainingTime) {
         stuckCounter++;
         console.warn(
-          `[Watchdog] Countdown stuck at ${remainingTime}s (${stuckCounter}/${maxStuckIterations})`
+          `[cameraStore] Watchdog Countdown stuck at ${remainingTime}s (${stuckCounter}/${maxStuckIterations})`
         );
 
         if (stuckCounter >= maxStuckIterations) {
           console.error(
-            '[Watchdog] Countdown stuck for too long, restarting countdown with time resync...'
+            '[cameraStore] Watchdog Countdown stuck for too long, restarting countdown with time resync...'
           );
           // Force time resync
           await timeSync.ensureSync();

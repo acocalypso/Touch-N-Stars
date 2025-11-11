@@ -4,6 +4,7 @@ import { useFramingStore } from '@/store/framingStore';
 import { useImagetStore } from './imageStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
+import { useSettingsStore } from './settingsStore';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -49,10 +50,12 @@ export const useCameraStore = defineStore('cameraStore', () => {
     plateSolveResult.value = null;
     const save = store.profileInfo.SnapShotControlSettings.Save;
     const imageStore = useImagetStore();
+    const settingsStore = useSettingsStore();
+    const targetName = settingsStore.camera.snapshotTargetName;
 
     try {
       // Phase 1: Start exposure (Server provides ExposureEndTime and IsExposing)
-      await apiService.startCapture(exposureTime, gain, solve, true, save);
+      await apiService.startCapture(exposureTime, gain, solve, true, save, targetName);
       isLoadingImage.value = true;
       while (!imageStore.isImageFetching) {
         await wait(500);

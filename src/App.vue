@@ -435,7 +435,7 @@ async function handleUpdateConfirm() {
   try {
     await downloadAndApplyUpdate({
       version: updateInfo.value.version,
-      downloadUrl: updateInfo.value.downloadUrl,
+      downloadUrl: updateInfo.value.assetUrl,
       onProgress: (percent) => {
         if (Number.isFinite(percent)) {
           updateProgress.value = Math.min(100, Math.max(0, percent));

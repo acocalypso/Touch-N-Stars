@@ -4,14 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [logfile-collector1.0.2]- 2025-11-xx
+## [logfile-collector1.0.2] [App4.0.0-beta.7] - 2025-11-xx
 ### Fixed
-- Fixed copy token
+- logfile-collector: Fixed copy token
+- App: Fixed save target name
 
 ## [App4.0.0-beta.6]- 2025-11-11
 ### Fixed
 - Fixed image loading at startup
 - Fixed Exposurebutton spinner to show the image loading
+- Fixed update url
 
 ## [App4.0.0-beta.5]- 2025-11-10
 ### Fixed

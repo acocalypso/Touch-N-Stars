@@ -41,8 +41,6 @@
       </div>
     </transition>
 
-
-
     <SubNav
       :items="[
         { name: $t('components.sequence.stats'), value: 'showStats' },
@@ -142,7 +140,6 @@ const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const showSettingsModal = ref(false);
-
 </script>
 
 <style>

@@ -44,6 +44,7 @@
     "axios": "1.13.2",
     "capacitor-getlocalip": "0.0.2",
     "chart.js": "4.5.1",
+    "chartjs-plugin-zoom": "^2.2.0",
     "core-js": "3.46.0",
     "date-fns": "4.1.0",
     "file-saver": "^2.0.5",

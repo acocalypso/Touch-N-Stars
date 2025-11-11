@@ -139,6 +139,9 @@ function initGraph() {
         },
       },
       plugins: {
+        tooltip: {
+          enabled: false,
+        },
         legend: {
           display: true,
           labels: {
@@ -159,7 +162,6 @@ function initGraph() {
           pan: {
             enabled: true,
             mode: 'x',
-            modifierKey: 'ctrl',
           },
           limits: {
             x: { min: 'original', max: 'original' },

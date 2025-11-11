@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [logfile-collector1.0.2] [App4.0.0-beta.7] - 2025-11-xx
 ### Added
 - SequenceImageHistory: Added toggle button for image statistics display 
+- SequnceGraph: zoom function for the graph
 
 ### Fixed
 - logfile-collector: Fixed copy token

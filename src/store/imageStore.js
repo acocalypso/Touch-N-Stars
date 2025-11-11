@@ -37,6 +37,7 @@ export const useImagetStore = defineStore('imageStore', {
       const scale = this.calcScale();
       const resize = scale < 1;
       this.isImageFetching = true;
+      const fetchStartTime = Date.now();
 
       try {
         // Wait if another fetch is in progress
@@ -67,6 +68,12 @@ export const useImagetStore = defineStore('imageStore', {
       } catch (error) {
         console.error('[ImageStore] Error fetching information:', error);
       } finally {
+        // Ensure isImageFetching is true for at least 1 second
+        const elapsedTime = Date.now() - fetchStartTime;
+        const minDuration = 1000; // 1 second in milliseconds
+        if (elapsedTime < minDuration) {
+          await new Promise((resolve) => setTimeout(resolve, minDuration - elapsedTime));
+        }
         this.isImageFetching = false;
       }
     },

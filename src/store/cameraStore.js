@@ -58,7 +58,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
       await apiService.startCapture(exposureTime, gain, solve, true, save, targetName);
       isLoadingImage.value = true;
       while (!imageStore.isImageFetching) {
-        await wait(500);
+        await wait(100);
         //console.log('[cameraStore] Waiting for exposure to complete...');
       }
 

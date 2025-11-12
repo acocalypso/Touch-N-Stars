@@ -31,11 +31,9 @@
 </template>
 <script setup>
 import { useSettingsStore } from '@/store/settingsStore';
-import { useMountStore } from '@/store/mountStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const settingsStore = useSettingsStore();
-const mountStore = useMountStore();
 
 function toggleSolve() {
   if (settingsStore.camera.useSolve) {

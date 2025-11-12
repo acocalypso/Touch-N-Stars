@@ -22,15 +22,13 @@
 
 <script setup>
 import { defineProps, ref } from 'vue';
-import { apiStore } from '@/store/store';
+import { useMountStore } from '@/store/mountStore';
 import { useFramingStore } from '@/store/framingStore';
-import { useI18n } from 'vue-i18n';
-import apiService from '@/services/apiService';
-import { wait } from '@/utils/utils';
+import { apiStore } from '@/store/store';
 
 const store = apiStore();
+const mountStore = useMountStore();
 const framingStore = useFramingStore();
-const { t } = useI18n();
 const statusClass = ref('');
 const isLoading = ref(false);
 
@@ -41,30 +39,16 @@ const props = defineProps({
   disabled: Boolean,
 });
 
-async function setTrackingMode() {
-  if (!store.mountInfo.TrackingEnabled) {
-    try {
-      const response = await apiService.setTrackingMode(0);
-      await wait(1000);
-      if (!response.Success) return;
-    } catch (error) {
-      console.log(t('components.mount.control.errors.unpark'));
-    }
-  }
-}
-
 async function syncCoordinates() {
-  //Montierung muss im Tracking mode sein
   isLoading.value = true;
-  await setTrackingMode();
-  try {
-    const response = await apiService.mountAction(`sync?ra=${props.raAngle}&dec=${props.decAngle}`);
-    console.log(response);
+  const result = await mountStore.syncCoordinates(props.raAngle, props.decAngle);
+
+  if (result.success) {
     statusClass.value = 'glow-green';
-  } catch (error) {
-    console.log('Error when setting the coordinates');
+  } else {
     statusClass.value = 'glow-red';
   }
+
   isLoading.value = false;
   setTimeout(() => {
     statusClass.value = '';

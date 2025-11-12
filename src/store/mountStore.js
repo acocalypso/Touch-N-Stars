@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
-import { apiStore } from '@/store/store';
+import { useToastStore } from './toastStore';
 
 export const useMountStore = defineStore('mountStore', {
   state: () => ({
@@ -8,30 +8,39 @@ export const useMountStore = defineStore('mountStore', {
     rate: 1,
     wsIsConnected: false,
     showMountInfo: false,
+    isSyncCoordinates: false,
+    lastSyncTime: null,
   }),
   actions: {
-    async setTrackingMode() {
-      const store = apiStore();
-      if (!store.mountInfo.TrackingEnabled) {
-        try {
-          const response = await apiService.setTrackingMode(0);
-          await new Promise((resolve) => setTimeout(resolve, 1000));
-          if (!response.Success) return;
-        } catch (error) {
-          console.log('Error setting tracking mode');
-        }
-      }
-    },
-
     async syncCoordinates(raAngle, decAngle) {
-      //await this.setTrackingMode();
+      const toastStore = useToastStore();
+      this.isSyncCoordinates = true;
       try {
         const response = await apiService.mountAction(`sync?ra=${raAngle}&dec=${decAngle}`);
-        console.log(response);
+
+        // Speichere lastSyncTime bei erfolgreichem Sync
+        this.lastSyncTime = new Date().toISOString();
+        console.log('[mountSotre] Coordinates synced successfully', this.lastSyncTime);
+
+        toastStore.showToast({
+          type: 'success',
+          title: 'Mount',
+          message: 'Coordinates synced successfully',
+        });
+
         return { success: true, response };
       } catch (error) {
-        console.log('Error when syncing the coordinates');
+        console.log('[mountSotre] Error when syncing the coordinates');
+
+        toastStore.showToast({
+          type: 'error',
+          title: 'Mount',
+          message: 'Error when syncing the coordinates',
+        });
+
         return { success: false, error };
+      } finally {
+        this.isSyncCoordinates = false;
       }
     },
   },

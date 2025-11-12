@@ -12,10 +12,7 @@
         />
       </div>
     </div>
-    <div
-      v-show="store.profileInfo.SnapShotControlSettings.Save"
-      class="flex flex-row items-center justify-between mt-3"
-    >
+    <div class="flex flex-row items-center justify-between mt-3">
       <label for="targetName" class="text-gray-200 mr-2">
         {{ $t('components.camera.snapshotTargetName') }}
       </label>
@@ -24,6 +21,7 @@
         v-model="settingsStore.camera.snapshotTargetName"
         type="text"
         class="default-input h-8 flex-1"
+        :disabled="!store.profileInfo.SnapShotControlSettings.Save"
       />
     </div>
   </div>

@@ -51,6 +51,7 @@ export const useSettingsStore = defineStore('settings', {
       gain: 0,
       offset: 0,
       useSolve: false,
+      useSyncSolveToMount: false,
       imageScale: 100,
       imageQuality: 90,
       maxDimension: 2048,

@@ -5,6 +5,7 @@ import { useImagetStore } from './imageStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
 import { useSettingsStore } from './settingsStore';
+import { useMountStore } from './mountStore';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -51,6 +52,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     const save = store.profileInfo.SnapShotControlSettings.Save;
     const imageStore = useImagetStore();
     const settingsStore = useSettingsStore();
+    const mountSotre = useMountStore();
     const targetName = settingsStore.camera.snapshotTargetName;
 
     try {
@@ -84,7 +86,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
               }
 
               if (resImageData.Response !== 'Capture already in progress') {
+                //save plate solve result
                 plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
+                console.log('[cameraStore] PlateSolveResult:', plateSolveResult.value);
+                //if solve to mount is enabled, sync coordinates
+                if (plateSolveResult.value && settingsStore.camera.useSyncSolveToMount) {
+                  await mountSotre.syncCoordinates(
+                    plateSolveResult.value.Coordinates.RADegrees,
+                    plateSolveResult.value.Coordinates.Dec
+                  );
+                }
                 return;
               }
             }
@@ -93,7 +104,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
           }
 
           attempts++;
-          //console.log(`[cameraStore] Waiting for image... Attempt ${attempts}/${maxAttempts}`);
+          //console.debug(`[cameraStore] Waiting for image... Attempt ${attempts}/${maxAttempts}`);
           await wait(1000);
         }
 

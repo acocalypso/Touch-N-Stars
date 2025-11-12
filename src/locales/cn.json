@@ -470,7 +470,8 @@
       "cooler_status_holding": "活跃 - 达到目标温度",
       "cooler_status_warming": "活跃 - 加热至",
       "set_save_snapshot": "保存快照",
-      "snapshotTargetName": "目标名称"
+      "snapshotTargetName": "目标名称",
+      "set_use_solve_sync_to_mount": "Sync to mount"
     },
     "tppa": {
       "title": "三点极轴对准",

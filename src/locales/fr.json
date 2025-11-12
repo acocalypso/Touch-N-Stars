@@ -469,7 +469,8 @@
       "cooler_status_holding": "Actif - À la température cible",
       "cooler_status_warming": "Actif - Réchauffement à",
       "set_save_snapshot": "Enregistrer des instantanés",
-      "snapshotTargetName": "Nom de la cible"
+      "snapshotTargetName": "Nom de la cible",
+      "set_use_solve_sync_to_mount": "Synchroniser pour monter"
     },
     "tppa": {
       "title": "Alignement polaire à trois points",

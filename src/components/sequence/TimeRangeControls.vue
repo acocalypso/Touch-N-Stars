@@ -27,14 +27,19 @@
           <!-- Dual Range Slider -->
           <div class="relative pt-2 pb-2">
             <!-- Background Track -->
-            <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-700 rounded-full -translate-y-1/2"></div>
+            <div
+              class="absolute top-1/2 left-0 right-0 h-1 bg-gray-700 rounded-full -translate-y-1/2"
+            ></div>
 
             <!-- Highlight Track (selected range) -->
             <div
               class="absolute top-1/2 h-1 bg-cyan-800 rounded-full pointer-events-none -translate-y-1/2"
               :style="{
                 left: dataLength > 1 ? `${(currentStartIndex / (dataLength - 1)) * 100}%` : '0%',
-                right: dataLength > 1 ? `${((dataLength - 1 - currentEndIndexValue) / (dataLength - 1)) * 100}%` : '0%',
+                right:
+                  dataLength > 1
+                    ? `${((dataLength - 1 - currentEndIndexValue) / (dataLength - 1)) * 100}%`
+                    : '0%',
               }"
             ></div>
 
@@ -87,18 +92,24 @@
           </button>
         </div>
 
-        <div v-else class="text-xs text-gray-500">{{ $t('components.sequence.graphControls.noDataAvailable') }}</div>
+        <div v-else class="text-xs text-gray-500">
+          {{ $t('components.sequence.graphControls.noDataAvailable') }}
+        </div>
 
         <!-- Divider -->
         <div class="border-t border-gray-700/50"></div>
 
         <!-- Data Source Selector -->
         <div class="flex flex-col gap-2">
-          <div class="text-xs text-gray-300 font-semibold">{{ $t('components.sequence.graphControls.dataSources') }}</div>
+          <div class="text-xs text-gray-300 font-semibold">
+            {{ $t('components.sequence.graphControls.dataSources') }}
+          </div>
           <div class="grid grid-cols-2 gap-3">
             <!-- First Data Source -->
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-gray-400">{{ $t('components.sequence.graphControls.source1') }}</label>
+              <label class="text-xs text-gray-400">{{
+                $t('components.sequence.graphControls.source1')
+              }}</label>
               <select
                 :value="dataSource1"
                 @change="updateDataSource1"
@@ -112,7 +123,9 @@
 
             <!-- Second Data Source -->
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-gray-400">{{ $t('components.sequence.graphControls.source2') }}</label>
+              <label class="text-xs text-gray-400">{{
+                $t('components.sequence.graphControls.source2')
+              }}</label>
               <select
                 :value="dataSource2"
                 @change="updateDataSource2"
@@ -163,11 +176,9 @@ const currentStartIndex = computed(
 
 const currentEndIndex = computed(() => settingsStore.monitorViewSetting.historyTimeRange.endIndex);
 
-const currentEndIndexValue = computed(() => (currentEndIndex.value !== null ? currentEndIndex.value : dataLength.value - 1));
-
-const displayedCount = computed(() => {
-  return currentEndIndexValue.value - currentStartIndex.value + 1;
-});
+const currentEndIndexValue = computed(() =>
+  currentEndIndex.value !== null ? currentEndIndex.value : dataLength.value - 1
+);
 
 const dataSource1 = computed(() => settingsStore.monitorViewSetting.graphDataSource1);
 const dataSource2 = computed(() => settingsStore.monitorViewSetting.graphDataSource2);

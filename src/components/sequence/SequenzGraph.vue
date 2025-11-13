@@ -44,16 +44,16 @@ onBeforeUnmount(() => {
 
 function getColorForDataSource(source) {
   const colorMap = {
-    Stars: '#3B82F6',      // blue
-    HFR: '#EF4444',        // red
-    Median: '#22C55E',     // green
-    Mean: '#FBBF24',       // amber
-    StDev: '#A78BFA',      // purple
-    Min: '#06B6D4',        // cyan
-    Max: '#F97316',        // orange
+    Stars: '#3B82F6', // blue
+    HFR: '#EF4444', // red
+    Median: '#22C55E', // green
+    Mean: '#FBBF24', // amber
+    StDev: '#A78BFA', // purple
+    Min: '#06B6D4', // cyan
+    Max: '#F97316', // orange
     Temperature: '#EC4899', // pink
-    Gain: '#10B981',       // emerald
-    Offset: '#8B5CF6',     // violet
+    Gain: '#10B981', // emerald
+    Offset: '#8B5CF6', // violet
     ExposureTime: '#6366F1', // indigo
   };
   return colorMap[source] || '#CCCCCC';

@@ -228,10 +228,7 @@ export const useSettingsStore = defineStore('settings', {
         // Clear all backend states when switching instances
         this._getApiStore().clearAllStates();
         imageStore.clearImageCache();
-        console.log(
-          '[SettingsStore] Selected instance set to:',
-          id
-        );
+        console.log('[SettingsStore] Selected instance set to:', id);
       }
     },
 

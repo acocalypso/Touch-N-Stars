@@ -3,7 +3,7 @@
     <!-- Header Button -->
     <button
       @click="toggleControls"
-      class="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-gray-200 hover:bg-gray-700/50 transition-colors w-full text-left"
+      class="flex items-center gap-2 px-3 py-2 h-8 text-sm font-semibold text-gray-200 hover:bg-gray-700/50 transition-colors w-full text-left"
     >
       <ChevronRightIcon
         class="w-4 h-4 flex-shrink-0 transition-transform duration-200"
@@ -102,7 +102,7 @@
               <select
                 :value="dataSource1"
                 @change="updateDataSource1"
-                class="w-full px-2 py-1 text-xs bg-gray-700 text-gray-300 border border-gray-600 rounded hover:bg-gray-600 focus:outline-none focus:border-cyan-500 transition-colors"
+                class="w-full px-2 py-1 text-sm bg-gray-700 text-gray-300 border border-gray-600 rounded hover:bg-gray-600 focus:outline-none focus:border-cyan-500 transition-colors"
               >
                 <option v-for="source in availableSources" :key="source" :value="source">
                   {{ source }}
@@ -116,7 +116,7 @@
               <select
                 :value="dataSource2"
                 @change="updateDataSource2"
-                class="w-full px-2 py-1 text-xs bg-gray-700 text-gray-300 border border-gray-600 rounded hover:bg-gray-600 focus:outline-none focus:border-cyan-500 transition-colors"
+                class="w-full px-2 py-1 text-sm bg-gray-700 text-gray-300 border border-gray-600 rounded hover:bg-gray-600 focus:outline-none focus:border-cyan-500 transition-colors"
               >
                 <option v-for="source in availableSources" :key="source" :value="source">
                   {{ source }}

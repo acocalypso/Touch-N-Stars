@@ -8,7 +8,7 @@
     <div
       v-if="showStats"
       :class="[
-        'flex flex-col w-full bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-2 text-xs bg-black bg-opacity-10',
+        'flex flex-col w-full bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-2 text-xs text-gray-300 bg-black bg-opacity-10',
         { absolute: !displayStatusUnderImage },
       ]"
     >

@@ -160,6 +160,9 @@ function initGraph() {
           display: true,
           labels: {
             color: '#CCCCCC',
+            usePointStyle: false,
+            boxWidth: 20,
+            boxHeight: 2,
           },
         },
       },

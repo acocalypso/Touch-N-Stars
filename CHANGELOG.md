@@ -5,8 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App4.0.0-beta.9] - 2025-11-XX
-### Changed
-- Sequence Graph: Select datasource and time
+### Added
+- Time Range Controls: Collapsible control panel with dual-range slider for time-based filtering
+- Sequence Graph: Data source selector for primary and secondary graph displays
 
 ## [App4.0.0-beta.8] - 2025-11-12
 ### Added

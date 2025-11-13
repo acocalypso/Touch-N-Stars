@@ -1,22 +1,22 @@
 <template>
   <div class="flex flex-col gap-3 p-3 bg-gray-800/50 rounded-lg">
-    <!-- Range Slider Bar mit zwei Griffen -->
-    <div v-if="dataLength > 0" class="flex flex-col gap-3">
-      <!-- Time Display -->
+          <!-- Time Display -->
       <div class="flex justify-between items-center text-xs text-gray-400">
         <span>{{ formatTime(currentStartIndex) }}</span>
-        <span class="text-cyan-400">{{ displayedCount }} / {{ dataLength }}</span>
         <span>{{ formatTime(currentEndIndexValue) }}</span>
       </div>
+    <!-- Range Slider Bar mit zwei Griffen -->
+    <div v-if="dataLength > 0" class="flex flex-col gap-3">
+
 
       <!-- Dual Range Slider -->
       <div class="relative pt-2 pb-2 ">
         <!-- Background Track -->
-        <div class="absolute top-1/2 left-0 right-0 h-2 bg-gray-700 rounded-full -translate-y-1/2"></div>
+        <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-700 rounded-full -translate-y-1/2"></div>
 
         <!-- Highlight Track (selected range) -->
         <div
-          class="absolute top-1/2 h-2 bg-cyan-800 rounded-full pointer-events-none -translate-y-1/2"
+          class="absolute top-1/2 h-1 bg-cyan-800 rounded-full pointer-events-none -translate-y-1/2"
           :style="{
             left: dataLength > 1 ? `${(currentStartIndex / (dataLength - 1)) * 100}%` : '0%',
             right: dataLength > 1 ? `${((dataLength - 1 - currentEndIndexValue) / (dataLength - 1)) * 100}%` : '0%',
@@ -25,7 +25,7 @@
 
         <!-- Start Thumb (visual only) -->
         <div
-          class="absolute top-1/2 w-2 h-6 bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+          class="absolute top-1/2 w-2 rounded-md h-6 bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
           :style="{
             left: dataLength > 1 ? `${(currentStartIndex / (dataLength - 1)) * 100}%` : '0%',
           }"
@@ -33,7 +33,7 @@
 
         <!-- End Thumb (visual only) -->
         <div
-          class="absolute top-1/2 w-2 h-6 bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+          class="absolute top-1/2 w-2 rounded-md h-6 bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
           :style="{
             left: dataLength > 1 ? `${(currentEndIndexValue / (dataLength - 1)) * 100}%` : '0%',
           }"

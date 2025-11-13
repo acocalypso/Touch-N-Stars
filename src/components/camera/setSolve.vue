@@ -22,7 +22,7 @@
         <toggleButton
           @click="toggleSync"
           :status-value="settingsStore.camera.useSyncSolveToMount"
-          :disabled="!settingsStore.camera.useSolve"
+          :disabled="!settingsStore.camera.useSolve || !store.mountInfo.Connected "
           class="pr-5 pl-5 justify-center"
         />
       </div>
@@ -31,9 +31,11 @@
 </template>
 <script setup>
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const settingsStore = useSettingsStore();
+const store = apiStore();
 
 function toggleSolve() {
   if (settingsStore.camera.useSolve) {

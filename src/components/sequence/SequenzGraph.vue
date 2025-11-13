@@ -3,7 +3,6 @@
     <div class="w-full h-[15vh] min-h-20">
       <canvas ref="hfrGraph"></canvas>
     </div>
-    <DataSourceSelector />
     <TimeRangeControls />
   </div>
 </template>
@@ -14,7 +13,6 @@ import { Chart } from 'chart.js/auto';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import TimeRangeControls from './TimeRangeControls.vue';
-import DataSourceSelector from './DataSourceSelector.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

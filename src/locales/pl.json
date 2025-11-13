@@ -231,6 +231,15 @@
           "sequenceCurrentState": "Pokaż stan sekwencji"
         }
       },
+      "graphControls": {
+        "title": "Kontrolki Wykresu",
+        "dataSources": "Źródła Danych",
+        "source1": "Źródło 1",
+        "source2": "Źródło 2",
+        "reset": "Resetuj",
+        "noDataAvailable": "Brak dostępnych danych",
+        "timeDisplay": "Zakres Czasu"
+      },
       "running": "W TRAKCIE",
       "imageHistory": "Historia obrazów",
       "duration": "Czas trwania",

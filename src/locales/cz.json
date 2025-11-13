@@ -216,6 +216,15 @@
           "sequenceCurrentState": "Zobrazit stav sekvence"
         }
       },
+      "graphControls": {
+        "title": "Ovládání Grafu",
+        "dataSources": "Zdroje Dat",
+        "source1": "Zdroj 1",
+        "source2": "Zdroj 2",
+        "reset": "Obnovit",
+        "noDataAvailable": "Žádná dostupná data",
+        "timeDisplay": "Časový Rozsah"
+      },
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",

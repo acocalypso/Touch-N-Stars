@@ -231,6 +231,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "Graph Controls",
+        "dataSources": "Data Sources",
+        "source1": "Source 1",
+        "source2": "Source 2",
+        "reset": "Reset",
+        "noDataAvailable": "No data available",
+        "timeDisplay": "Time Range"
+      },
       "running": "RUNNING",
       "imageHistory": "Image History",
       "duration": "Duration",

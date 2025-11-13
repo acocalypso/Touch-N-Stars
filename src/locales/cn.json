@@ -232,6 +232,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "图表控制",
+        "dataSources": "数据源",
+        "source1": "源 1",
+        "source2": "源 2",
+        "reset": "重置",
+        "noDataAvailable": "无可用数据",
+        "timeDisplay": "时间范围"
+      },
       "running": "运行中",
       "imageHistory": "图像历史",
       "duration": "持续时间",

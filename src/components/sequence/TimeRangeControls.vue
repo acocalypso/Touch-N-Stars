@@ -10,7 +10,7 @@
         :class="{ 'rotate-90': isControlsOpen }"
       />
       <Cog6ToothIcon class="w-4 h-4 flex-shrink-0" />
-      <span>Graph Controls</span>
+      <span>{{ $t('components.sequence.graphControls.title') }}</span>
     </button>
 
     <!-- Collapsible Controls Section -->
@@ -83,22 +83,22 @@
             @click="resetTimeRange"
             class="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 rounded transition-all duration-150"
           >
-            Reset
+            {{ $t('components.sequence.graphControls.reset') }}
           </button>
         </div>
 
-        <div v-else class="text-xs text-gray-500">No data available</div>
+        <div v-else class="text-xs text-gray-500">{{ $t('components.sequence.graphControls.noDataAvailable') }}</div>
 
         <!-- Divider -->
         <div class="border-t border-gray-700/50"></div>
 
         <!-- Data Source Selector -->
         <div class="flex flex-col gap-2">
-          <div class="text-xs text-gray-300 font-semibold">Data Sources</div>
+          <div class="text-xs text-gray-300 font-semibold">{{ $t('components.sequence.graphControls.dataSources') }}</div>
           <div class="grid grid-cols-2 gap-3">
             <!-- First Data Source -->
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-gray-400">Source 1</label>
+              <label class="text-xs text-gray-400">{{ $t('components.sequence.graphControls.source1') }}</label>
               <select
                 :value="dataSource1"
                 @change="updateDataSource1"
@@ -112,7 +112,7 @@
 
             <!-- Second Data Source -->
             <div class="flex flex-col gap-1">
-              <label class="text-xs text-gray-400">Source 2</label>
+              <label class="text-xs text-gray-400">{{ $t('components.sequence.graphControls.source2') }}</label>
               <select
                 :value="dataSource2"
                 @change="updateDataSource2"

@@ -231,6 +231,15 @@
           "sequenceCurrentState": "Sequenzstatus anzeigen"
         }
       },
+      "graphControls": {
+        "title": "Grapheinstellungen",
+        "dataSources": "Datenquellen",
+        "source1": "Quelle 1",
+        "source2": "Quelle 2",
+        "reset": "Zurücksetzen",
+        "noDataAvailable": "Keine Daten verfügbar",
+        "timeDisplay": "Zeitbereich"
+      },
       "running": "WIRD AUSGEFÜHRT",
       "imageHistory": "Image History",
       "duration": "Duration",

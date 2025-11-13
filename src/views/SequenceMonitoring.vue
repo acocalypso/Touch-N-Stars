@@ -49,7 +49,7 @@
       v-model:activeItem="currentTab"
     />
 
-    <div class="flex items-center justify-center mb-6 mt-16">
+    <div class="flex items-center justify-center mb-6 mt-16 mx-2">
       <div v-if="currentTab == 'showStats'">
         <button
           type="button"

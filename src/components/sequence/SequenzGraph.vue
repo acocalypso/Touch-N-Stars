@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col gap-3 px-3">
-  <TimeRangeControls />
-  <div class="w-full h-[25vh] min-h-40">
+  <div class="flex flex-col gap-3 px-2">
+  <div class="w-full h-[15vh] min-h-20">
     <canvas ref="hfrGraph"></canvas>
   </div>
+   <TimeRangeControls />
 </div>
 </template>
 
@@ -97,11 +97,11 @@ function initGraph() {
       scales: {
         x: {
           title: {
-            display: true,
+            display: false,
             text: 'Time',
           },
           ticks: {
-            color: '#e5e7eb', // <- Zahlen-Beschriftung auf Y-Achse
+            display: false,
           },
         },
         // Linke Y-Achse

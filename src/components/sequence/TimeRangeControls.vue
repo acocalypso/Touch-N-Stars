@@ -10,7 +10,7 @@
       </div>
 
       <!-- Dual Range Slider -->
-      <div class="relative pt-2 pb-2 px-3">
+      <div class="relative pt-2 pb-2 ">
         <!-- Background Track -->
         <div class="absolute top-1/2 left-0 right-0 h-2 bg-gray-700 rounded-full -translate-y-1/2"></div>
 
@@ -25,7 +25,7 @@
 
         <!-- Start Thumb (visual only) -->
         <div
-          class="absolute top-1/2 w-6 h-6 bg-cyan-600 rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+          class="absolute top-1/2 w-2 h-6 bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
           :style="{
             left: dataLength > 1 ? `${(currentStartIndex / (dataLength - 1)) * 100}%` : '0%',
           }"
@@ -33,7 +33,7 @@
 
         <!-- End Thumb (visual only) -->
         <div
-          class="absolute top-1/2 w-6 h-6 bg-cyan-600 rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+          class="absolute top-1/2 w-2 h-6 bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
           :style="{
             left: dataLength > 1 ? `${(currentEndIndexValue / (dataLength - 1)) * 100}%` : '0%',
           }"

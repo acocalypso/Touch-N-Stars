@@ -19,7 +19,7 @@ export const useMountStore = defineStore('mountStore', {
       this.isSyncCoordinates = true;
 
       if (!store.mountInfo.Connected) {
-          toastStore.showToast({
+        toastStore.showToast({
           type: 'warning',
           title: 'Mount',
           message: 'Mount not connected',

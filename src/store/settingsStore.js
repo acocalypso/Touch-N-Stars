@@ -29,7 +29,11 @@ export const useSettingsStore = defineStore('settings', {
       showGuiderAfGraph: true,
       showSequenceCurrentState: true,
       displayStatusUnderImage: false,
-      showHistoryImageStats:true,
+      showHistoryImageStats: true,
+      historyTimeRange: {
+        startIndex: 0, // Index des ersten anzuzeigenden Datenpunkts
+        endIndex: null, // null bedeutet: alle Daten anzeigen
+      },
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -264,6 +268,16 @@ export const useSettingsStore = defineStore('settings', {
 
     setKeepAwakeEnabled(value) {
       this.keepAwakeEnabled = value;
+    },
+
+    setHistoryTimeRange(startIndex, endIndex) {
+      this.monitorViewSetting.historyTimeRange.startIndex = startIndex;
+      this.monitorViewSetting.historyTimeRange.endIndex = endIndex;
+    },
+
+    resetHistoryTimeRange() {
+      this.monitorViewSetting.historyTimeRange.startIndex = 0;
+      this.monitorViewSetting.historyTimeRange.endIndex = null;
     },
   },
   persist: {

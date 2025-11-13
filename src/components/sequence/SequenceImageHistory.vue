@@ -31,9 +31,11 @@
       <button
         @click="toggleShowHistoryStats"
         class="flex items-center gap-2 text-sm sm:text-base transition-all duration-150 ease-in-out focus:outline-none group bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2"
-        :class="settingsStore.monitorViewSetting.showHistoryImageStats
-          ? 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'
-          : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400'"
+        :class="
+          settingsStore.monitorViewSetting.showHistoryImageStats
+            ? 'text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300'
+            : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400'
+        "
         role="button"
         aria-label="Toggle image statistics"
       >

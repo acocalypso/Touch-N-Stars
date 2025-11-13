@@ -1,15 +1,21 @@
 <template>
-  <div>
-    <canvas class="w-full h-[25vh] min-h-40" ref="hfrGraph"></canvas>
+  <div class="flex flex-col gap-3">
+  <TimeRangeControls />
+  <div class="w-full h-[25vh] min-h-40">
+    <canvas ref="hfrGraph"></canvas>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { Chart } from 'chart.js/auto';
 import { apiStore } from '@/store/store';
+import { useSettingsStore } from '@/store/settingsStore';
+import TimeRangeControls from './TimeRangeControls.vue';
 
 const store = apiStore();
+const settingsStore = useSettingsStore();
 const hfrGraph = ref(null);
 let chart = null;
 
@@ -18,6 +24,17 @@ onMounted(() => {
     initGraph();
   });
 });
+
+function getFilteredData(allData) {
+  if (!allData || allData.length === 0) return allData;
+
+  const { startIndex, endIndex } = settingsStore.monitorViewSetting.historyTimeRange;
+
+  if (endIndex === null) {
+    return allData.slice(startIndex);
+  }
+  return allData.slice(startIndex, endIndex + 1);
+}
 
 onBeforeUnmount(() => {
   if (chart) {
@@ -31,7 +48,7 @@ function initGraph() {
     return;
   }
 
-  const responseData = store.imageHistoryInfo;
+  const responseData = getFilteredData(store.imageHistoryInfo);
 
   // X-Achse (Labels)
   const labels = responseData.map((item) => new Date(item.Date).toLocaleTimeString());
@@ -154,26 +171,41 @@ function initGraph() {
   });
 }
 
+function updateChartData() {
+  if (!chart || !store.imageHistoryInfo) return;
+
+  const responseData = getFilteredData(store.imageHistoryInfo);
+
+  const newLabels = responseData.map((item) => new Date(item.Date).toLocaleTimeString());
+  const newStarsData = responseData.map((item) => item.Stars);
+  const newHfrData = responseData.map((item) => item.HFR);
+  const newMedianData = responseData.map((item) => item.Median);
+
+  chart.data.labels = newLabels;
+  chart.data.datasets[0].data = newStarsData; // Stars
+  chart.data.datasets[1].data = newHfrData; // HFR
+  chart.data.datasets[2].data = newMedianData; // Median
+  chart.update();
+}
+
 watch(
   () => store.imageHistoryInfo,
   (newVal, oldVal) => {
     //Check if new data is added
     if (!oldVal || newVal.length > oldVal.length) {
       console.log('[SequenceGraph] New data available, updating graph...');
-      if (chart && newVal) {
-        const newLabels = newVal.map((item) => new Date(item.Date).toLocaleTimeString());
-        const newStarsData = newVal.map((item) => item.Stars);
-        const newHfrData = newVal.map((item) => item.HFR);
-        const newMedianData = newVal.map((item) => item.Median);
-
-        chart.data.labels = newLabels;
-        chart.data.datasets[0].data = newStarsData; // Stars
-        chart.data.datasets[1].data = newHfrData; // HFR
-        chart.data.datasets[2].data = newMedianData; // Median
-        chart.update();
-      }
+      updateChartData();
     }
   }
+);
+
+watch(
+  () => settingsStore.monitorViewSetting.historyTimeRange,
+  () => {
+    console.log('[SequenceGraph] Time range changed, updating graph...');
+    updateChartData();
+  },
+  { deep: true }
 );
 </script>
 

@@ -22,7 +22,7 @@
         <toggleButton
           @click="toggleSync"
           :status-value="settingsStore.camera.useSyncSolveToMount"
-          :disabled="!settingsStore.camera.useSolve || !store.mountInfo.Connected "
+          :disabled="!settingsStore.camera.useSolve || !store.mountInfo.Connected"
           class="pr-5 pl-5 justify-center"
         />
       </div>

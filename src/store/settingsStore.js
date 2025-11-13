@@ -34,6 +34,8 @@ export const useSettingsStore = defineStore('settings', {
         startIndex: 0, // Index des ersten anzuzeigenden Datenpunkts
         endIndex: null, // null bedeutet: alle Daten anzeigen
       },
+      graphDataSource1: 'HFR', // Erste Datenquelle für Graph
+      graphDataSource2: 'Stars', // Zweite Datenquelle für Graph
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -279,6 +281,14 @@ export const useSettingsStore = defineStore('settings', {
       this.monitorViewSetting.historyTimeRange.startIndex = 0;
       this.monitorViewSetting.historyTimeRange.endIndex = null;
     },
+
+    setGraphDataSource1(dataSource) {
+      this.monitorViewSetting.graphDataSource1 = dataSource;
+    },
+
+    setGraphDataSource2(dataSource) {
+      this.monitorViewSetting.graphDataSource2 = dataSource;
+    },
   },
   persist: {
     enabled: true,
@@ -300,6 +310,8 @@ export const useSettingsStore = defineStore('settings', {
           'keepAwakeEnabled',
           'useBetaFeatures',
           'camera',
+          'monitorViewSetting.graphDataSource1',
+          'monitorViewSetting.graphDataSource2',
         ],
       },
     ],

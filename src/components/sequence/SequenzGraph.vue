@@ -1,10 +1,11 @@
 <template>
   <div class="flex flex-col gap-3 px-2">
-  <div class="w-full h-[15vh] min-h-20">
-    <canvas ref="hfrGraph"></canvas>
+    <div class="w-full h-[15vh] min-h-20">
+      <canvas ref="hfrGraph"></canvas>
+    </div>
+    <DataSourceSelector />
+    <TimeRangeControls />
   </div>
-   <TimeRangeControls />
-</div>
 </template>
 
 <script setup>
@@ -13,6 +14,7 @@ import { Chart } from 'chart.js/auto';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import TimeRangeControls from './TimeRangeControls.vue';
+import DataSourceSelector from './DataSourceSelector.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -42,6 +44,27 @@ onBeforeUnmount(() => {
   }
 });
 
+function getColorForDataSource(source) {
+  const colorMap = {
+    Stars: '#3B82F6',      // blue
+    HFR: '#EF4444',        // red
+    Median: '#22C55E',     // green
+    Mean: '#FBBF24',       // amber
+    StDev: '#A78BFA',      // purple
+    Min: '#06B6D4',        // cyan
+    Max: '#F97316',        // orange
+    Temperature: '#EC4899', // pink
+    Gain: '#10B981',       // emerald
+    Offset: '#8B5CF6',     // violet
+    ExposureTime: '#6366F1', // indigo
+  };
+  return colorMap[source] || '#CCCCCC';
+}
+
+function getDataForSource(data, source) {
+  return data.map((item) => item[source]);
+}
+
 function initGraph() {
   if (!store.imageHistoryInfo) {
     console.log('No data available');
@@ -53,14 +76,13 @@ function initGraph() {
   // X-Achse (Labels)
   const labels = responseData.map((item) => new Date(item.Date).toLocaleTimeString());
 
-  // Y-Achse (Daten) für Stars
-  const starsData = responseData.map((item) => item.Stars);
+  // Get selected data sources
+  const source1 = settingsStore.monitorViewSetting.graphDataSource1;
+  const source2 = settingsStore.monitorViewSetting.graphDataSource2;
 
-  // Y-Achse (Daten) für HFR
-  const hfrData = responseData.map((item) => item.HFR);
-
-  // Y-Achse (Daten) für Median
-  const medinaData = responseData.map((item) => item.Median);
+  // Get data for selected sources
+  const data1 = getDataForSource(responseData, source1);
+  const data2 = getDataForSource(responseData, source2);
 
   // Chart.js-Instanz erzeugen
   chart = new Chart(hfrGraph.value, {
@@ -69,25 +91,18 @@ function initGraph() {
       labels,
       datasets: [
         {
-          label: 'Stars',
-          data: starsData,
-          borderColor: 'blue',
+          label: source1,
+          data: data1,
+          borderColor: getColorForDataSource(source1),
           fill: false,
-          yAxisID: 'yStars',
+          yAxisID: 'y1',
         },
         {
-          label: 'HFR',
-          data: hfrData,
-          borderColor: 'red',
+          label: source2,
+          data: data2,
+          borderColor: getColorForDataSource(source2),
           fill: false,
-          yAxisID: 'yHfr', // <--- Wichtig: ID der rechten Y-Achse
-        },
-        {
-          label: 'Median',
-          data: medinaData,
-          borderColor: 'green',
-          fill: false,
-          yAxisID: 'yMedian', // <--- Wichtig: ID der linken Y-Achse
+          yAxisID: 'y2',
         },
       ],
     },
@@ -105,48 +120,32 @@ function initGraph() {
           },
         },
         // Linke Y-Achse
-        yStars: {
+        y1: {
           type: 'linear',
           display: true,
           position: 'left',
           title: {
             display: true,
-            text: 'Stars',
+            text: source1,
             color: '#CCCCCC',
           },
           ticks: {
-            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
+            color: '#CCCCCC',
           },
         },
         // Rechte Y-Achse
-        yHfr: {
+        y2: {
           type: 'linear',
           display: true,
           position: 'right',
           title: {
             display: true,
-            text: 'HFR',
+            text: source2,
             color: '#CCCCCC',
           },
           ticks: {
-            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
-          },
-        },
-        // Rechte Y-Achse
-        yMedian: {
-          type: 'linear',
-          display: true,
-          position: 'right',
-          title: {
-            display: true,
-            text: 'Median',
             color: '#CCCCCC',
           },
-          ticks: {
-            color: '#CCCCCC', // <- Zahlen-Beschriftung auf Y-Achse
-          },
-
-          // Verhindert Überlagerung der Gitterlinien
           grid: {
             drawOnChartArea: false,
           },
@@ -179,15 +178,16 @@ function updateChartData() {
 
   const responseData = getFilteredData(store.imageHistoryInfo);
 
+  const source1 = settingsStore.monitorViewSetting.graphDataSource1;
+  const source2 = settingsStore.monitorViewSetting.graphDataSource2;
+
   const newLabels = responseData.map((item) => new Date(item.Date).toLocaleTimeString());
-  const newStarsData = responseData.map((item) => item.Stars);
-  const newHfrData = responseData.map((item) => item.HFR);
-  const newMedianData = responseData.map((item) => item.Median);
+  const newData1 = getDataForSource(responseData, source1);
+  const newData2 = getDataForSource(responseData, source2);
 
   chart.data.labels = newLabels;
-  chart.data.datasets[0].data = newStarsData; // Stars
-  chart.data.datasets[1].data = newHfrData; // HFR
-  chart.data.datasets[2].data = newMedianData; // Median
+  chart.data.datasets[0].data = newData1;
+  chart.data.datasets[1].data = newData2;
   chart.update();
 }
 
@@ -209,6 +209,20 @@ watch(
     updateChartData();
   },
   { deep: true }
+);
+
+watch(
+  () => [
+    settingsStore.monitorViewSetting.graphDataSource1,
+    settingsStore.monitorViewSetting.graphDataSource2,
+  ],
+  () => {
+    console.log('[SequenceGraph] Data sources changed, rebuilding graph...');
+    if (chart) {
+      chart.destroy();
+    }
+    initGraph();
+  }
 );
 </script>
 

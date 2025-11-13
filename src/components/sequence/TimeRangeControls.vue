@@ -5,7 +5,7 @@
       <!-- Time Display -->
       <div class="flex justify-between items-center text-xs text-gray-400">
         <span>{{ formatTime(currentStartIndex) }}</span>
-        <span class="text-blue-400">{{ displayedCount }} / {{ dataLength }}</span>
+        <span class="text-cyan-400">{{ displayedCount }} / {{ dataLength }}</span>
         <span>{{ formatTime(currentEndIndexValue) }}</span>
       </div>
 
@@ -16,7 +16,7 @@
 
         <!-- Highlight Track (selected range) -->
         <div
-          class="absolute top-1/2 h-2 bg-blue-600 rounded-full pointer-events-none -translate-y-1/2"
+          class="absolute top-1/2 h-2 bg-cyan-800 rounded-full pointer-events-none -translate-y-1/2"
           :style="{
             left: dataLength > 1 ? `${(currentStartIndex / (dataLength - 1)) * 100}%` : '0%',
             right: dataLength > 1 ? `${((dataLength - 1 - currentEndIndexValue) / (dataLength - 1)) * 100}%` : '0%',
@@ -25,7 +25,7 @@
 
         <!-- Start Thumb (visual only) -->
         <div
-          class="absolute top-1/2 w-6 h-6 bg-blue-600 rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+          class="absolute top-1/2 w-6 h-6 bg-cyan-600 rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
           :style="{
             left: dataLength > 1 ? `${(currentStartIndex / (dataLength - 1)) * 100}%` : '0%',
           }"
@@ -33,7 +33,7 @@
 
         <!-- End Thumb (visual only) -->
         <div
-          class="absolute top-1/2 w-6 h-6 bg-blue-600 rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+          class="absolute top-1/2 w-6 h-6 bg-cyan-600 rounded-full -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
           :style="{
             left: dataLength > 1 ? `${(currentEndIndexValue / (dataLength - 1)) * 100}%` : '0%',
           }"

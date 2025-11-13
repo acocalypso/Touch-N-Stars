@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col gap-3 px-3">
   <TimeRangeControls />
   <div class="w-full h-[25vh] min-h-40">
     <canvas ref="hfrGraph"></canvas>

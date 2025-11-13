@@ -23,6 +23,24 @@
       "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
     }
   },
+  "whatsnew": {
+    "loading": "Načítání…",
+    "title": "Co je nového"
+  },
+  "updates": {
+    "title": "Update available",
+    "description": "A newer app bundle ({version}) is ready to install.",
+    "downloading": "Downloading update… {progress}%",
+    "downgradeTitle": "Switch to Stable Version",
+    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
+    "error": "Update failed. Please try again later.",
+    "later": "Later",
+    "preparing": "Preparing update… please keep the app open.",
+    "releaseNotes": "Release notes",
+    "whatsNew": "Novinky",
+    "updateNow": "Update now",
+    "working": "Working…"
+  },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
     "description": "Začněme rychlým nastavením",
@@ -1036,22 +1054,6 @@
       "no_filter": "No Filter",
       "no_filters_available": "No filters available for this target"
     }
-  },
-  "whatsnew": {
-    "loading": "Načítání…",
-    "title": "Co je nového"
-  },
-  "updates": {
-    "description": "A newer app bundle ({version}) is ready to install.",
-    "downloading": "Downloading update… {progress}%",
-    "error": "Update failed. Please try again later.",
-    "later": "Later",
-    "preparing": "Preparing update… please keep the app open.",
-    "releaseNotes": "Release notes",
-    "whatsNew": "Novinky",
-    "title": "Update available",
-    "updateNow": "Update now",
-    "working": "Working…"
   },
   "dialogs": {
     "plateSolving": {

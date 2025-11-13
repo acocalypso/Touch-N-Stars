@@ -7,10 +7,7 @@
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { Chart } from 'chart.js/auto';
-import zoomPlugin from 'chartjs-plugin-zoom';
 import { apiStore } from '@/store/store';
-
-Chart.register(zoomPlugin);
 
 const store = apiStore();
 const hfrGraph = ref(null);
@@ -146,28 +143,6 @@ function initGraph() {
           display: true,
           labels: {
             color: '#CCCCCC',
-          },
-        },
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-              speed: 0.05,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: 'x',
-          },
-          pan: {
-            enabled: true,
-            mode: 'x',
-          },
-          limits: {
-            x: { min: 'original', max: 'original' },
-          },
-          onZoomComplete({ chart }) {
-            chart.update('none');
           },
         },
       },

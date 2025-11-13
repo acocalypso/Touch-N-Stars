@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
+import { useImagetStore } from './imageStore';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -219,12 +220,18 @@ export const useSettingsStore = defineStore('settings', {
     setSelectedInstanceId(id) {
       this.selectedInstanceId = id;
       const instance = this.getInstance(id);
+      const imageStore = useImagetStore();
       if (instance) {
         this.connection.ip = instance.ip;
         this.connection.port = instance.port;
 
         // Clear all backend states when switching instances
         this._getApiStore().clearAllStates();
+        imageStore.clearImageCache();
+        console.log(
+          '[SettingsStore] Selected instance set to:',
+          id
+        );
       }
     },
 

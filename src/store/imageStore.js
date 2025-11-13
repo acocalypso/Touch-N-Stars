@@ -198,5 +198,14 @@ export const useImagetStore = defineStore('imageStore', {
         }, 5000);
       });
     },
+
+    clearImageCache() {
+      this.imageData = null;
+      this.isImageFetching = false;
+      this.isSequenceImageFetching = false;
+      this.lastImage.index = 0;
+      this.lastImage.image = null;
+      console.log('[ImageStore] Clearing image cache');
+    },
   },
 });

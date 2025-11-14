@@ -90,193 +90,145 @@
       </div>
 
       <!-- Control Panel Overlay -->
-      <div :class="controlPanelClasses">
-        <!-- Header with toggle button - always visible -->
-        <div
-          class="sticky top-0 z-40 bg-gray-800/90 backdrop-blur-sm rounded-t-lg flex items-center justify-between p-4 border-b border-gray-700"
-        >
-          <h5 class="text-lg font-bold text-white">Livestack</h5>
-          <button
-            @click="toggleControlPanel"
-            class="p-1 hover:bg-gray-700 rounded transition-colors"
-            :title="isControlPanelMinimized ? 'Expand' : 'Minimize'"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4 transition-transform duration-200 text-white"
-              :class="{ 'rotate-180': isControlPanelMinimized }"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Scrollable content -->
-        <div v-show="!isControlPanelMinimized" class="bg-gray-800/90 backdrop-blur-sm">
-          <div class="p-4 border-b border-gray-700">
-            <!-- Beta Notice -->
-            <div v-if="livestackPluginAvailable" class="bg-blue-600/50 rounded p-2 mb-3 text-xs">
-              <p class="text-blue-200">{{ t('plugins.livestack.beta_note') }}</p>
-            </div>
-
-            <!-- Controls -->
-            <div class="flex space-x-2">
-              <button @click="startLivestack" class="default-button-green" :disabled="isStarting">
-                <PlayIcon v-if="!isStarting" class="w-4 h-4" />
-                <ArrowPathIcon v-else class="w-4 h-4 animate-spin" />
-              </button>
-              <button @click="stopLivestack" class="default-button-red">
-                <StopIcon class="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <!-- Target and Filter Selection (Two-Level) -->
-          <div v-if="availableImages.length > 0" class="p-4">
-            <TargetFilterSelector
-              ref="targetFilterSelectorRef"
-              :availableImages="availableImages"
-              :selectedTarget="selectedTargetForUI"
-              :selectedFilter="livestackStore.selectedFilter"
-              :currentTarget="livestackStore.selectedTarget"
-              @select-target="selectTargetUI"
-              @select-filter="selectFilterFromSelector"
-            />
-          </div>
-        </div>
-      </div>
+      <LivestackControlBar />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
+import { watch } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketChannelService from '@/services/websocketChannelSocket.js';
-import { useLivestackStore } from '../store/livestackStore';
-import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { useLivestackStore } from '../store/livestackStore.js';
 import { useI18n } from 'vue-i18n';
-import { useOrientation } from '@/composables/useOrientation';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
-import TargetFilterSelector from '../components/TargetFilterSelector.vue';
+import LivestackControlBar from '../components/LivestackControlBar.vue';
+import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
-const { isLandscape } = useOrientation();
 const store = apiStore();
 const settingsStore = useSettingsStore();
-const availableImages = ref([]);
-const currentTarget = ref(null);
 const isLoading = ref(false);
-const isStarting = ref(false);
 const lastUpdated = ref(null);
 const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
-const isControlPanelMinimized = ref(false);
 const pageIsLoading = ref(true);
-const selectedTargetForUI = ref(null); // Für zwei-stufige Selektion
-const targetFilterSelectorRef = ref(null); // Referenz zur TargetFilterSelector-Komponente
+const livestackRefs = storeToRefs(livestackStore);
 
-// Responsive positioning for control panel
-const controlPanelClasses = computed(() => ({
-  'fixed z-30 max-w-sm max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin': true,
-  'top-24 left-4': !isLandscape.value, // Portrait mode - below navbar
-  'top-4 left-40 max-h-[calc(100vh-2rem)]': isLandscape.value, // Landscape mode - normal position
-}));
-
-const toggleControlPanel = () => {
-  isControlPanelMinimized.value = !isControlPanelMinimized.value;
-};
-
-const startLivestack = async () => {
-  isStarting.value = true;
-  errorMessage.value = null;
-
+// Fetch info for a given target/filter using the API (authoritative count)
+const fetchAndUpdateCount = async (target, filter) => {
+  const targetLabel = target?.label ?? target;
+  const filterLabel = filter?.label ?? filter;
+  if (!targetLabel || !filterLabel) return;
   try {
-    const result = await apiService.livestackStart();
-    if (result.Success) {
-      console.log('Livestack started successfully');
+    const info = await apiService.livestackImageInfo(targetLabel, filterLabel);
+    if (info && info.Success && info.Response) {
+      const count = info.Response.IsMonochrome
+        ? (info.Response.StackCount ?? '--')
+        : `${info.Response.RedStackCount}|${info.Response.GreenStackCount}|${info.Response.BlueStackCount}`;
+      console.log(`Fetched count for ${targetLabel}/${filterLabel}:`, count);
+      livestackStore.updateCountForTargetFilter(targetLabel, filterLabel, count);
     } else {
-      errorMessage.value = result.Error || 'Failed to start livestack';
+      console.log('livestackImageInfo returned no info for', targetLabel, filterLabel);
     }
-  } catch (error) {
-    console.error('Error starting livestack:', error);
-    errorMessage.value = 'Error starting livestack: ' + error.message;
-  } finally {
-    isStarting.value = false;
+  } catch (err) {
+    console.error('Error fetching livestack image info:', err);
   }
 };
 
-const stopLivestack = async () => {
-  errorMessage.value = null;
-
-  try {
-    const result = await apiService.livestackStop();
-    if (result.Success) {
-      console.log('Livestack stop successfully');
-    } else {
-      errorMessage.value = result.Error || 'Failed to stop livestack';
-    }
-  } catch (error) {
-    console.error('Error stoping livestack:', error);
-    errorMessage.value = 'Error stoping livestack: ' + error.message;
-  } finally {
-    isStarting.value = false;
+// Fetch all target/filter/count tuples up front
+const loadAllTargetFilterCounts = async () => {
+  const result = await apiService.livestackImageAvailable();
+  if (!result.Success || !Array.isArray(result.Response)) {
+    console.log('✗ API response not successful or Response not array');
+    return [];
   }
+
+  const pairs = Array.from(
+    new Map(
+      result.Response.map(({ Target, Filter }) => ({ target: Target, filter: Filter }))
+        .filter(({ target, filter }) => target && filter)
+        .map(({ target, filter }) => [`${target}|${filter}`, { target, filter }])
+    ).values()
+  );
+
+  console.log(`Fetching counts for ${pairs.length} target/filter pairs`);
+  const counts = await Promise.all(
+    pairs.map(async ({ target, filter }) => {
+      try {
+        const info = await apiService.livestackImageInfo(target, filter);
+        const count =
+          info?.Success && info.Response
+            ? info.Response.IsMonochrome
+              ? (info.Response.StackCount ?? '--')
+              : `${info.Response.RedStackCount}|${info.Response.GreenStackCount}|${info.Response.BlueStackCount}`
+            : '--';
+        return { target, filter, count };
+      } catch (error) {
+        console.error('Error fetching livestack image info:', error);
+        return { target, filter, count: '--' };
+      }
+    })
+  );
+
+  return counts;
 };
+
+// Observe changes to selected target/filter and load image accordingly
+watch(
+  () => livestackRefs.selectedTarget.value,
+  (newVal) => {
+    if (newVal) {
+      const targetLabel = newVal?.label;
+      const filterLabel = livestackStore.selectedFilter?.label;
+      loadImage(targetLabel, filterLabel);
+    }
+  }
+);
+
+watch(
+  () => livestackRefs.selectedFilter.value,
+  (newVal) => {
+    if (newVal) {
+      const filterLabel = newVal?.label;
+      const targetLabel = livestackStore.selectedTarget?.label;
+      loadImage(targetLabel, filterLabel);
+    }
+  }
+);
 
 const checkImageAvailability = async () => {
   try {
-    const result = await apiService.livestackImageAvailable();
-    if (result.Success && Array.isArray(result.Response)) {
-      availableImages.value = result.Response;
-      if (availableImages.value.length > 0) {
-        currentTarget.value = availableImages.value[0].Target;
-
-        // Auto-select first available filter/target combination if no filter is selected
-        // or if current filter/target combination is not available anymore
-        const isCurrentCombinationAvailable = availableImages.value.some(
-          (img) =>
-            img.Filter === livestackStore.selectedFilter &&
-            img.Target === livestackStore.selectedTarget
-        );
-
-        if (!livestackStore.selectedFilter || !isCurrentCombinationAvailable) {
-          livestackStore.selectedFilter = availableImages.value[0].Filter;
-          livestackStore.selectedTarget = availableImages.value[0].Target;
-          console.log(
-            'Auto-selected filter/target:',
-            livestackStore.selectedFilter,
-            livestackStore.selectedTarget
-          );
-        }
-
-        loadImage(livestackStore.selectedTarget, livestackStore.selectedFilter);
-      }
-    } else {
-      availableImages.value = [];
+    const counts = await loadAllTargetFilterCounts();
+    livestackStore.initFromCounts(counts);
+    if (livestackStore.selectedTarget && livestackStore.selectedFilter) {
+      const t = livestackStore.selectedTarget?.label;
+      const f = livestackStore.selectedFilter?.label;
+      loadImage(t, f);
     }
   } catch (error) {
     console.error('Error checking image availability:', error);
-    availableImages.value = [];
+    livestackStore.initFromCounts([]);
   }
 };
 
 const loadImage = async (target, filter, forceReload = false) => {
-  console.log(`loadImage called: target=${target}, filter=${filter}, forceReload=${forceReload}`);
+  const targetLabel = target?.label ?? target;
+  const filterLabel = filter?.label ?? filter;
+  console.log(
+    `loadImage called: target=${targetLabel}, filter=${filterLabel}, forceReload=${forceReload}`
+  );
 
   // Check if we should reload the image (unless forced)
-  if (!forceReload && !livestackStore.shouldReloadImage(target, filter)) {
-    console.log('Using cached image for', target, filter);
+  if (!forceReload && !livestackStore.shouldReloadImage(targetLabel, filterLabel)) {
+    console.log('Using cached image for', targetLabel, filterLabel);
     return;
   }
 
@@ -291,14 +243,14 @@ const loadImage = async (target, filter, forceReload = false) => {
   console.log(`Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
   try {
     const newImageUrl = await apiService.getLivestackImage(
-      target,
-      filter,
+      targetLabel,
+      filterLabel,
       settingsStore.camera.imageQuality,
       scale
     );
 
     // Only update the image URL after successful load
-    livestackStore.setCurrentImageUrl(newImageUrl, target, filter);
+    livestackStore.setCurrentImageUrl(newImageUrl, targetLabel, filterLabel);
     lastUpdated.value = new Date().toLocaleTimeString();
   } catch (error) {
     console.error('Error loading image:', error);
@@ -330,21 +282,6 @@ const handleDownload = async (data) => {
   });
 };
 
-// Zwei-stufige Selektion Handler
-const selectTargetUI = (target) => {
-  selectedTargetForUI.value = target;
-  console.log('Selected target for UI:', target);
-};
-
-const selectFilterFromSelector = async (filter) => {
-  if (selectedTargetForUI.value) {
-    livestackStore.selectedTarget = selectedTargetForUI.value;
-    livestackStore.selectedFilter = filter;
-    console.log(`Selected filter/target combination: ${selectedTargetForUI.value} / ${filter}`);
-    await loadImage(selectedTargetForUI.value, filter);
-  }
-};
-
 // WebSocket handlers
 const handleWebSocketStatus = (status) => {
   wsStatus.value = status;
@@ -352,47 +289,51 @@ const handleWebSocketStatus = (status) => {
 };
 
 const handleWebSocketMessage = async (message) => {
-  //console.log('Received livestack WebSocket message:', message);
+  // Log ALL messages to see what Livestack sends
+  console.log('📨 RAW WebSocket message:', JSON.stringify(message).substring(0, 200));
 
   // Handle STACK-UPDATED events
   if (message.Type === 'Socket' && message.Success && message.Response) {
-    const { Target, Filter, Event } = message.Response;
+    console.log('✓ Message matches Socket format');
+    const { Target, Filter, Event, StackCount, IsMonochrome } = message.Response;
+    console.log(
+      `  Event: ${Event}, Target: ${Target}, Filter: ${Filter}, StackCount: ${StackCount}`
+    );
 
     if (Event === 'STACK-UPDATED') {
-      // Invalidate the stack count cache in TargetFilterSelector
-      if (targetFilterSelectorRef.value) {
-        targetFilterSelectorRef.value.invalidateStackCountCache();
-      }
+      console.log(`🎬 Stack updated for ${Target} with filter ${Filter} (socket notified)`);
 
-      // Update the available images list first
-      try {
-        const result = await apiService.livestackImageAvailable();
-        if (result.Success && Array.isArray(result.Response)) {
-          availableImages.value = result.Response;
+      // Use authoritative API to get the count for this specific pair
+      await fetchAndUpdateCount(Target, Filter);
 
-          // Update currentTarget if it's null
-          if (!currentTarget.value && result.Response.length > 0) {
-            currentTarget.value = result.Response[0].Target;
-          }
-        }
-      } catch (error) {
-        console.error('Error updating image availability:', error);
-      }
+      // Resolve current target/ filter labels (store may hold objects or strings)
+      const currentImageTargetLabel =
+        livestackStore.currentImageTarget ?? livestackStore.selectedTarget?.label;
+      const selectedFilterLabel = livestackStore.selectedFilter?.label;
+
+      console.log(
+        `Current target: ${currentImageTargetLabel}, Current filter: ${selectedFilterLabel}`
+      );
 
       // If this is the currently selected target and filter, force reload the image
-      // Also load if currentTarget was null (first image)
       if (
-        (currentTarget.value === Target && livestackStore.selectedFilter === Filter) ||
-        (!livestackStore.currentImageUrl && livestackStore.selectedFilter === Filter)
+        ((currentImageTargetLabel === Target || livestackStore.selectedTarget?.label === Target) &&
+          selectedFilterLabel === Filter) ||
+        (!livestackStore.currentImageUrl && selectedFilterLabel === Filter)
       ) {
         console.log('Force reloading current image due to stack update');
         await forceLoadImage(Target, Filter);
       }
     } else {
-      //console.log(`Received non-STACK-UPDATED event: ${Event}`);
+      console.log(`ℹ️ Received non-STACK-UPDATED event: ${Event}`);
     }
   } else {
-    //console.log('WebSocket message does not match expected format');
+    console.log(
+      'ℹ️ Message does not match Socket format. Type:',
+      message.Type,
+      'Success:',
+      message.Success
+    );
   }
 };
 
@@ -449,7 +390,9 @@ onMounted(async () => {
       await websocketChannelService.connect();
     }
     // Subscribe to livestack events
+    console.log('📤 Subscribing to STACK-UPDATED events');
     websocketChannelService.subscribe('STACK-UPDATED');
+    console.log('✓ Subscribe message sent');
   } catch (error) {
     console.error('Failed to connect WebSocket for livestack:', error);
   }
@@ -458,16 +401,20 @@ onMounted(async () => {
   checkImageAvailability();
 
   // Load current image in background if target and filter are available
-  if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {
+  if (livestackStore.selectedTarget && livestackStore.selectedFilter) {
     console.log(
       'Loading cached image on mount:',
-      livestackStore.currentImageTarget,
-      livestackStore.currentImageFilter
+      livestackStore.selectedTarget,
+      livestackStore.selectedFilter
     );
-    forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
+    const t = livestackStore.selectedTarget?.label;
+    const f = livestackStore.selectedFilter?.label;
+    forceLoadImage(t, f);
   }
   pageIsLoading.value = false;
 });
+
+// Normalize inputs inside loadImage: ensure target/filter are label strings
 </script>
 
 <style scoped>

@@ -1,116 +1,81 @@
 <template>
-  <div class="target-filter-selector">
-    <!-- Target Selection -->
-    <div class="selector-section">
-      <h6 class="text-sm font-semibold text-white mb-2">
-        {{ t('plugins.livestack.target') }}
-      </h6>
-      <div
-        class="target-list max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-      >
-        <button
-          v-for="target in uniqueTargets"
-          :key="`target-${target}`"
-          @click="selectTarget(target)"
-          :class="[
-            'w-full text-left px-3 py-2 text-sm rounded transition-colors flex justify-between items-center',
-            selectedTarget === target ? 'default-button-blue' : 'default-button-gray',
-          ]"
-        >
-          <span>{{ target }}</span>
-          <span class="text-xs opacity-75">{{ getTargetStackCount(target) }}</span>
-        </button>
-      </div>
-    </div>
+  <div :class="[isPortrait ? 'flex-col space-y-2' : 'flex']">
+    <ButtonWithOptions
+      ref="targetButtonRef"
+      :availableOptions="availableTargets"
+      :currentOption="selectedTarget"
+      :placeholder="'No target'"
+      :fullWidth="isPortrait"
+      @optionSelected="selectTarget($event)"
+      @open="handleTargetOpen"
+      @close="handleTargetClose"
+    />
 
-    <!-- Filter Selection (nur wenn Target ausgewählt) -->
-    <div v-if="selectedTarget" class="selector-section mt-3">
-      <h6 class="text-sm font-semibold text-white mb-2">
-        {{ t('plugins.livestack.available_filters') }}
-      </h6>
-      <div
-        class="filter-list max-h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-      >
-        <button
-          v-for="(filter, index) in filtersForTarget"
-          :key="`filter-${filter}-${index}`"
-          @click="selectFilter(filter)"
-          :class="[
-            'w-full text-left px-3 py-2 text-sm rounded transition-colors flex justify-between items-center',
-            selectedFilter === filter && selectedTarget === currentTarget
-              ? 'default-button-green'
-              : 'default-button-gray',
-          ]"
-        >
-          <span>{{ filter === 'No_filter' ? 'No Filter' : filter }}</span>
-          <span class="text-xs opacity-75">{{ getStackCountText(selectedTarget, filter) }}</span>
-        </button>
-      </div>
-    </div>
+    <ButtonWithOptions
+      v-show="showFilters"
+      ref="filterButtonRef"
+      :availableOptions="availableFilters"
+      :currentOption="selectedFilter"
+      :placeholder="'No filter'"
+      :fullWidth="isPortrait"
+      @optionSelected="selectFilter($event)"
+      @open="handleFilterOpen"
+      @close="handleFilterClose"
+    />
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
-import apiService from '@/services/apiService';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import ButtonWithOptions from './ButtonWithOptions.vue';
+import { useLivestackStore } from '../store/livestackStore.js';
+
+const store = useLivestackStore();
+const { availableTargets, selectedTarget, availableFilters, selectedFilter, showFilters } =
+  storeToRefs(store);
 
 const props = defineProps({
-  availableImages: {
-    type: Array,
-    required: true,
-    default: () => [],
-  },
-  selectedTarget: {
-    type: String,
-    default: null,
-  },
-  selectedFilter: {
-    type: String,
-    default: null,
-  },
-  currentTarget: {
-    type: String,
-    default: null,
+  isPortrait: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const emit = defineEmits(['select-target', 'select-filter']);
+// State variables
+const targetButtonRef = ref(null);
+const filterButtonRef = ref(null);
+const targetDropdownOpen = ref(false);
+const filterDropdownOpen = ref(false);
 
-const { t } = useI18n();
-const stackCounts = ref({}); // Speichert Stack-Counts: { 'target-filter': { mono: 2 } oder { red: 2, green: 2, blue: 2 } }
-
-// Unique targets from available images
-const uniqueTargets = computed(() => {
-  const targets = new Set(props.availableImages.map((img) => img.Target));
-  return Array.from(targets).sort();
-});
-
-// Filters for the selected target
-const filtersForTarget = computed(() => {
-  if (!props.selectedTarget) return [];
-  const filters = props.availableImages
-    .filter((img) => img.Target === props.selectedTarget)
-    .map((img) => img.Filter);
-
-  const uniqueFilters = Array.from(new Set(filters));
-
-  // Sortiere so, dass RGB am Ende steht
-  const sorted = uniqueFilters.sort((a, b) => {
-    if (a === 'RGB') return 1; // RGB nach hinten
-    if (b === 'RGB') return -1;
-    return a.localeCompare(b); // Andere alphabetisch
-  });
-
-  return sorted;
-});
-
-const selectTarget = (target) => {
-  emit('select-target', target);
+const selectTarget = (item) => {
+  targetDropdownOpen.value = false;
+  store.selectTarget(item.label);
 };
 
-const selectFilter = (filter) => {
-  emit('select-filter', filter);
+const selectFilter = (item) => {
+  filterDropdownOpen.value = false;
+  store.selectFilter(item.label);
+};
+
+const handleTargetOpen = () => {
+  targetDropdownOpen.value = true;
+  filterDropdownOpen.value = false;
+  filterButtonRef.value?.closeList();
+};
+
+const handleTargetClose = () => {
+  targetDropdownOpen.value = false;
+};
+
+const handleFilterOpen = () => {
+  filterDropdownOpen.value = true;
+  targetDropdownOpen.value = false;
+  targetButtonRef.value?.closeList();
+};
+
+const handleFilterClose = () => {
+  filterDropdownOpen.value = false;
 };
 
 const loadStackCount = async (target, filter, forceRefresh = false) => {

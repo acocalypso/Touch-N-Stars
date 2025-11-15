@@ -53,6 +53,12 @@
 	<string>Save captured images to your photo library in the TouchNStars album</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Access photo library to save captured images</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Discover Touch-N-Stars instances on your local network.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_touchnstars._tcp.</string>
+	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
@@ -64,6 +70,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 </dict>

@@ -23,6 +23,7 @@ def capacitor_pods
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
   pod 'CapawesomeCapacitorFilePicker', :path => '../../node_modules/@capawesome/capacitor-file-picker'
   pod 'CapgoCapacitorUpdater', :path => '../../node_modules/@capgo/capacitor-updater'
+  pod 'DevioartsCapacitorMdns', :path => '../../node_modules/@devioarts/capacitor-mdns'
   pod 'CapacitorGetlocalip', :path => '../../node_modules/capacitor-getlocalip'
 end
 

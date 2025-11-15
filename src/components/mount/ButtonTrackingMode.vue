@@ -1,5 +1,5 @@
 <template>
-  <button @click="setTrackingMode(0)" class="default-button-cyan" :class="statusClass">
+  <button v-if="store.mountInfo.CanSetTrackingEnabled" @click="setTrackingMode(0)" class="default-button-cyan" :class="statusClass">
     {{ $t('components.mount.control.siderial') }}
   </button>
   <!-- aktuell deaktiviert da NINA nur Siderial umsetzt
@@ -22,7 +22,9 @@
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const statusClass = ref('');
 const { t } = useI18n();
 

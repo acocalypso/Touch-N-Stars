@@ -176,6 +176,16 @@ watch(
   { immediate: false }
 );
 
+watch(
+  () => sequenceStore.selectedImageIndex,
+  (newIndex) => {
+    if (typeof newIndex === 'number' && newIndex >= 0) {
+      console.log('[LastSequenceImg] Loading image from graph click:', newIndex);
+      loadImage(newIndex);
+    }
+  }
+);
+
 onMounted(() => {
   const latestIndex = store.imageHistoryInfo.length - 1;
   loadImage(latestIndex);

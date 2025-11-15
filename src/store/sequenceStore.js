@@ -19,8 +19,14 @@ export const useSequenceStore = defineStore('sequenceStore', {
     runningConditions: [],
     showTnsModal: false,
     tnsModalMessage: '',
+    selectedImageIndex: null,
   }),
   actions: {
+    setSelectedImageIndex(index) {
+      if (Number.isInteger(index) && index >= 0) {
+        this.selectedImageIndex = index;
+      }
+    },
     setSequenceRunning(isRunning) {
       // Check if the sequence state has changed
       if (this.sequenceRunning !== isRunning) {

@@ -12,10 +12,12 @@ import { ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { Chart } from 'chart.js/auto';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useSequenceStore } from '@/store/sequenceStore';
 import TimeRangeControls from './TimeRangeControls.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const sequenceStore = useSequenceStore();
 const hfrGraph = ref(null);
 let chart = null;
 
@@ -36,10 +38,18 @@ function getFilteredData(allData) {
   return allData.slice(startIndex, endIndex + 1);
 }
 
-onBeforeUnmount(() => {
+function destroyChart() {
+  if (hfrGraph.value) {
+    hfrGraph.value.removeEventListener('click', handleCanvasClick);
+  }
   if (chart) {
     chart.destroy();
+    chart = null;
   }
+}
+
+onBeforeUnmount(() => {
+  destroyChart();
 });
 
 function getColorForDataSource(source) {
@@ -61,6 +71,29 @@ function getColorForDataSource(source) {
 
 function getDataForSource(data, source) {
   return data.map((item) => item[source]);
+}
+
+function handleCanvasClick(event) {
+  if (!chart) return;
+
+  const canvasRect = hfrGraph.value.getBoundingClientRect();
+  const clickX = event.clientX - canvasRect.left;
+
+  // Get the x-axis scale
+  const xScale = chart.scales.x;
+  if (!xScale) return;
+
+  // Calculate the data index from pixel position
+  const dataIndex = Math.round(xScale.getValueForPixel(clickX));
+
+  if (typeof dataIndex === 'number' && dataIndex >= 0 && dataIndex < chart.data.labels.length) {
+    // Get the actual index in the full dataset (considering the time range)
+    const { startIndex } = settingsStore.monitorViewSetting.historyTimeRange;
+    const actualIndex = startIndex + dataIndex;
+
+    console.log('[SequenzGraph] Clicked on data point index:', actualIndex);
+    sequenceStore.setSelectedImageIndex(actualIndex);
+  }
 }
 
 function initGraph() {
@@ -169,6 +202,9 @@ function initGraph() {
       },
     },
   });
+
+  // Add click handler to canvas
+  hfrGraph.value.addEventListener('click', handleCanvasClick);
 }
 
 function updateChartData() {
@@ -216,9 +252,7 @@ watch(
   ],
   () => {
     console.log('[SequenceGraph] Data sources changed, rebuilding graph...');
-    if (chart) {
-      chart.destroy();
-    }
+    destroyChart();
     initGraph();
   }
 );

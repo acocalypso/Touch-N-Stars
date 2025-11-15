@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.0.0-beta.10] - 2025-11-XX
 ### Fixed
 - Reloading the image when changing instances
-- Button für 
+- The Mount Control button is only displayed if the function is supported.
 
 ## [App4.0.0-beta.9] - 2025-11-13
 ### Added

@@ -23,7 +23,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
   }),
   actions: {
     setSelectedImageIndex(index) {
-      if (Number.isInteger(index) && index >= 0) {
+      if (index === null || (Number.isInteger(index) && index >= 0)) {
         this.selectedImageIndex = index;
       }
     },

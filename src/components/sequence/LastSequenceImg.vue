@@ -182,6 +182,8 @@ watch(
     if (typeof newIndex === 'number' && newIndex >= 0) {
       console.log('[LastSequenceImg] Loading image from graph click:', newIndex);
       loadImage(newIndex);
+      // Reset the selected index so the same image can be selected again
+      sequenceStore.setSelectedImageIndex(null);
     }
   }
 );

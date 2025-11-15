@@ -32,6 +32,13 @@ function getFilteredData(allData) {
 
   const { startIndex, endIndex } = settingsStore.monitorViewSetting.historyTimeRange;
 
+  // Auto-reset if startIndex is beyond current data length (new session with different data)
+  if (startIndex >= allData.length) {
+    console.log('[SequenzGraph] startIndex exceeds data length, resetting time range');
+    settingsStore.resetHistoryTimeRange();
+    return allData;
+  }
+
   if (endIndex === null) {
     return allData.slice(startIndex);
   }

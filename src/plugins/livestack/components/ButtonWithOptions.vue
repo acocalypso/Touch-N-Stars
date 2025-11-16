@@ -66,7 +66,7 @@ const buttonMinWidth = computed(() => {
 });
 
 const buttonDisabled = computed(() => {
-  return !(props.availableOptions && props.availableOptions.length) || !props.canOpen;
+  return !(props.availableOptions && props.availableOptions.length > 1) || !props.canOpen;
 });
 
 const closeList = () => {
@@ -86,7 +86,7 @@ watch(showTargetList, (value) => {
 });
 
 const toggleTargetList = () => {
-  if (!(props.availableOptions && props.availableOptions.length >= 2) || !props.canOpen) return;
+  if (buttonDisabled.value) return;
   showTargetList.value = !showTargetList.value;
 };
 

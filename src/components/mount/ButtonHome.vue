@@ -1,5 +1,9 @@
 <template>
-  <button v-if="store.mountInfo.CanFindHome" @click="mountHome" :class="['default-button-cyan', statusClass]">
+  <button
+    v-if="store.mountInfo.CanFindHome"
+    @click="mountHome"
+    :class="['default-button-cyan', statusClass]"
+  >
     {{ $t('components.mount.control.home') }}
   </button>
 </template>

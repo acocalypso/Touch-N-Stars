@@ -35,5 +35,8 @@ project(':capawesome-capacitor-file-picker').projectDir = new File('../node_modu
 include ':capgo-capacitor-updater'
 project(':capgo-capacitor-updater').projectDir = new File('../node_modules/@capgo/capacitor-updater/android')
 
+include ':devioarts-capacitor-mdns'
+project(':devioarts-capacitor-mdns').projectDir = new File('../node_modules/@devioarts/capacitor-mdns/android')
+
 include ':capacitor-getlocalip'
 project(':capacitor-getlocalip').projectDir = new File('../node_modules/capacitor-getlocalip/android')

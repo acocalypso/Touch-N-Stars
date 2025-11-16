@@ -44,26 +44,52 @@ function updateChart() {
             cubicInterpolationMode: 'default',
             pointRadius: 4,
             pointStyle: 'circle',
+            borderColor: 'rgb(59, 130, 246)',
+            backgroundColor: 'rgb(59, 130, 246)',
+            pointBackgroundColor: 'rgb(59, 130, 246)',
+            pointBorderColor: 'rgb(59, 130, 246)',
           },
         ],
       },
       options: {
         responsive: true,
+        plugins: {
+          legend: {
+            labels: {
+              color: '#f3f4f6',
+            },
+          },
+        },
         scales: {
           x: {
             type: 'linear',
             title: {
               display: true,
               text: 'Position',
+              color: '#f3f4f6',
+            },
+            ticks: {
+              color: '#f3f4f6',
+            },
+            grid: {
+              color: 'rgba(243, 244, 246, 0.2)',
             },
           },
           y: {
             title: {
               display: true,
               text: 'HFR',
+              color: '#f3f4f6',
+            },
+            ticks: {
+              color: '#f3f4f6',
+            },
+            grid: {
+              color: 'rgba(243, 244, 246, 0.2)',
             },
           },
         },
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
       },
     });
   } else {

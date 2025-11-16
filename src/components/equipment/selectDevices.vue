@@ -19,13 +19,6 @@
         {{ device.DisplayName }}
       </option>
     </select>
-    <div v-if="infoVisible">
-      <infoModal
-        size="w-8 h-8"
-        :title="$t('components.connectEquipment.info.title')"
-        :message="$t('components.connectEquipment.info.message')"
-      />
-    </div>
     <div class="flex w-20 gap-1">
       <button
         @click="rescanDevices"
@@ -55,7 +48,6 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
-import infoModal from '@/components/helpers/infoModal.vue';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
@@ -76,15 +68,14 @@ const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
 const borderClass = ref('border-gray-500');
-const infoVisible = ref(false);
 
-// Funktion für API-Aufruf mit dynamischem `apiAction`
-async function getDevices() {
+// Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
+async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   error.value = false;
 
   // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
-    console.error('apiAction ist nicht definiert');
+    console.error('apiAction is not defined');
     return;
   }
 
@@ -94,18 +85,26 @@ async function getDevices() {
     equipmentStore.availableDevices[apiName].length > 0
   ) {
     devices.value = equipmentStore.availableDevices[apiName];
-    console.log(`[${apiName}] Geräte geladen aus Store`);
+    console.log(`[${apiName}] Devices loaded from store`);
     return;
   }
   isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
-      throw new Error(`Ungültige API-Methode: ${props.apiAction}`);
+      throw new Error(`Invalid API method: ${props.apiAction}`);
     }
     const response = await apiService[props.apiAction]('list-devices');
     if (response.Error) {
+      // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
+      if (retryCount < maxRetries) {
+        console.warn(
+          `[${apiName}] API Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        return getDevices(retryCount + 1, maxRetries, delayMs);
+      }
       error.value = true;
-      console.error('API-Fehler:', response.Error);
+      console.error('API Error:', response.Error);
       return;
     }
 
@@ -114,11 +113,20 @@ async function getDevices() {
       equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
-      console.error('Fehlerhafte API-Antwort:', response);
+      console.error('Faulty API response:', response);
     }
   } catch (err) {
+    // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
+    if (retryCount < maxRetries) {
+      console.warn(
+        `[${apiName}] Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`,
+        err.message
+      );
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      return getDevices(retryCount + 1, maxRetries, delayMs);
+    }
     error.value = true;
-    console.error('Fehler:', err);
+    console.error('Error:', err);
   } finally {
     isScanning.value = false;
   }
@@ -127,7 +135,7 @@ async function getDevices() {
 async function rescanDevices() {
   // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
-    console.error('apiAction ist nicht definiert');
+    console.error('apiAction is not defined');
     return;
   }
 
@@ -137,14 +145,14 @@ async function rescanDevices() {
   isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
-      throw new Error(`Ungültige API-Methode: ${props.apiAction}`);
+      throw new Error(`Invalid API method: ${props.apiAction}`);
     }
     const response = await apiService[props.apiAction]('rescan');
     console.log(response);
     isScanning.value = false;
     if (response.Error) {
       error.value = true;
-      console.error('API-Fehler:', response.Error);
+      console.error('API Error:', response.Error);
       isScanning.value = false;
       return;
     }
@@ -154,11 +162,11 @@ async function rescanDevices() {
       equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
-      console.error('Fehlerhafte API-Antwort:', response);
+      console.error('Faulty API response:', response);
     }
   } catch (err) {
     error.value = true;
-    console.error('Fehler:', err);
+    console.error('Error:', err);
   }
 }
 
@@ -208,15 +216,8 @@ async function toggleConnection() {
 }
 
 function updateBorderClass() {
-  infoVisible.value = false;
   if (error.value) {
     borderClass.value = 'border-red-500 error-glow';
-  } else if (
-    props.isConnected &&
-    (props.defaultDeviceId === 'Manual Filter Wheel' || props.defaultDeviceId === 'Manual Rotator')
-  ) {
-    borderClass.value = 'border-orange-500 warning-glow';
-    infoVisible.value = true;
   } else if (props.isConnected) {
     borderClass.value = 'border-green-500 connected-glow';
   } else {

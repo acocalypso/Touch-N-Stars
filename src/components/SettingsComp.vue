@@ -112,8 +112,14 @@
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <setImgQuality />
+        <setImgMaxDimension />
         <setImgStrechFactor />
         <setImgBlackClipping />
+      </div>
+      <div class="flex flex-col mt-4 gap-2">
+        <setImgDebayern />
+        <setImgDebayernHfr />
+        <setImgUnlinkedStrech />
       </div>
     </div>
 
@@ -125,15 +131,34 @@
       <SetDebug />
     </div>
 
-    <!-- Notifications settings -->
+    <!-- Keep Screen Awake (mobile only) -->
+    <div
+      class="bg-gray-800 rounded-lg p-4"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform()) && keepAwakeSupported"
+    >
+      <h3 class="text-lg font-semibold text-white mb-4">
+        {{ $t('components.settings.keepAwake.title') }}
+      </h3>
+      <div class="flex items-center justify-between">
+        <p class="text-gray-300 text-sm mr-4">
+          {{ $t('components.settings.keepAwake.description') }}
+        </p>
+        <ToggleButton
+          :statusValue="settingsStore.keepAwakeEnabled"
+          @update:statusValue="onToggleKeepAwake"
+        />
+      </div>
+    </div>
+
+    <!-- set beta -->
     <div
       class="bg-gray-800 rounded-lg p-4"
       v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
     >
       <h3 class="text-lg font-semibold text-white mb-4">
-        {{ $t('components.settings.notifications.title') }}
+        {{ $t('components.settings.beta.title') }}
       </h3>
-      <SetNotifications />
+      <SetBeta />
     </div>
 
     <!-- Tutorial Button -->
@@ -145,7 +170,7 @@
     </div>
 
     <!-- Plugin Management -->
-    <div v-if="store.isBackendReachable && false" class="bg-gray-800 rounded-lg p-4">
+    <div v-if="store.isBackendReachable && true" class="bg-gray-800 rounded-lg p-4">
       <h3 class="text-lg font-semibold text-white mb-4">
         {{ $t('components.settings.plugins.title') }}
       </h3>
@@ -179,6 +204,9 @@
           <div class="flex-1 min-w-0">
             <h4 class="text-white font-medium">{{ plugin.name }}</h4>
             <p class="text-sm text-gray-400">{{ plugin.description }}</p>
+            <p v-if="plugin.author" class="text-xs text-gray-500 mt-1">
+              {{ $t('components.settings.plugins.author') }}: {{ plugin.author }}
+            </p>
           </div>
           <div class="flex items-center gap-3 ml-4">
             <span class="text-xs text-gray-500">v{{ plugin.version }}</span>
@@ -303,15 +331,20 @@ import {
 } from '@/utils/location';
 import { useRouter } from 'vue-router';
 import { Capacitor } from '@capacitor/core';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
 import setImgQuality from '@/components/settings/setImgQuality.vue';
 import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
+import setImgDebayern from './settings/setImgDebayern.vue';
+import setImgDebayernHfr from './settings/setImgDebayernHfr.vue';
+import setImgUnlinkedStrech from './settings/setImgUnlinkedStrech.vue';
 import SetInstance from '@/components/settings/setInstance.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import SetDebug from '@/components/settings/setDebug.vue';
-import SetNotifications from '@/components/settings/setNotifications.vue';
 import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
+import SetBeta from '@/components/settings/setBeta.vue';
+import setImgMaxDimension from './settings/setImgMaxDimension.vue';
 
 const router = useRouter();
 const { locale } = useI18n();
@@ -327,6 +360,7 @@ const showTutorialModal = ref(false);
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 
 const languages = getAvailableLanguages();
+const keepAwakeSupported = ref(false);
 
 // Load stored settings on mount
 onMounted(async () => {
@@ -348,6 +382,14 @@ onMounted(async () => {
   // Ensure plugins are loaded (force reload to catch metadata changes)
   await pluginStore.loadAndRegisterPlugins(true);
   console.log('After manual load - plugins:', pluginStore.plugins);
+
+  // Check keep-awake support
+  try {
+    const res = await KeepAwake.isSupported();
+    keepAwakeSupported.value = !!res?.isSupported;
+  } catch (e) {
+    keepAwakeSupported.value = false;
+  }
 });
 
 watchEffect(() => {
@@ -432,4 +474,32 @@ async function togglePlugin(pluginId, enabled) {
   // Use the enhanced togglePlugin method which handles initialization
   await pluginStore.togglePlugin(pluginId, enabled);
 }
+
+async function applyKeepAwake(enabled) {
+  try {
+    if (enabled) {
+      await KeepAwake.keepAwake();
+    } else {
+      await KeepAwake.allowSleep();
+    }
+  } catch (e) {
+    console.warn('KeepAwake error', e);
+  }
+}
+
+async function onToggleKeepAwake(value) {
+  settingsStore.setKeepAwakeEnabled(value);
+  if (keepAwakeSupported.value) {
+    await applyKeepAwake(value);
+  }
+}
+
+watch(
+  () => settingsStore.keepAwakeEnabled,
+  async (val, oldVal) => {
+    if (val !== oldVal && keepAwakeSupported.value) {
+      await applyKeepAwake(val);
+    }
+  }
+);
 </script>

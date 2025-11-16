@@ -1,20 +1,18 @@
 import { defineStore } from 'pinia';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
-import { useSettingsStore } from './settingsStore';
+import { useImagetStore } from './imageStore';
 import { ref } from 'vue';
 import { timeSync } from '@/utils/timeSync';
+import { useSettingsStore } from './settingsStore';
+import { useMountStore } from './mountStore';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
-  const settingsStore = useSettingsStore();
   const store = apiStore();
-  const remainingExposureTime = ref(0);
-  const progress = ref(0);
-  const imageData = ref(null);
   const loading = ref(false);
-  const isExposure = ref(false);
   const isLoadingImage = ref(false);
+  const loadingTimeout = ref(null);
   const isLooping = ref(false);
   const isAbort = ref(false);
   const showInfo = ref(false);
@@ -22,6 +20,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const coolingTime = ref(10);
   const warmingTime = ref(10);
   const buttonCoolerOn = ref(false);
+  const buttonWarmingOn = ref(false);
   const plateSolveError = ref(false);
   const plateSolveResult = ref('');
   const exposureCountdown = ref(0);
@@ -31,127 +30,135 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const readoutMode = ref(0);
   const containerSize = ref(100);
   const slewModal = ref(false);
+  const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
+  let countdownSessionId = 0; // Unique ID for each countdown session
 
-  let exposureCountdownTimer = null;
-
-  // Hilfsfunktion, um kurz zu warten
+  // Helper function to wait briefly
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  // Startet den Belichtungs-Countdown
-  function startExposureCountdown(totalTime) {
-    // Hier gleich Promise zurückgeben, damit wir drauf warten können
-    return new Promise((resolve, reject) => {
-      exposureCountdownTimer = setInterval(() => {
-        // Abbruch?
-        if (!isExposure.value) {
-          clearInterval(exposureCountdownTimer);
-          reject(new Error('Belichtung wurde abgebrochen.'));
-          return;
-        }
-
-        remainingExposureTime.value--;
-        progress.value = ((totalTime - remainingExposureTime.value) / totalTime) * 100;
-
-        if (remainingExposureTime.value <= 0) {
-          clearInterval(exposureCountdownTimer);
-          progress.value = 100;
-          resolve(); // Countdown fertig
-        }
-      }, 1000);
-    });
-  }
-
-  // Startet die Aufnahme + Countdown + Bildabruf
+  // Start capture + image fetch
   async function capturePhoto(apiService, exposureTime, gain, solve = false) {
     if (exposureTime <= 0) {
-      exposureTime = 2; // Default-Wert
+      exposureTime = 2; // Default value
       return;
     }
+
     loading.value = true;
-    isExposure.value = true;
     isLoadingImage.value = false;
     isAbort.value = false;
-    remainingExposureTime.value = exposureTime;
-    progress.value = 0;
-    //console.log(gain);
+    plateSolveResult.value = null;
+    const save = store.profileInfo.SnapShotControlSettings.Save;
+    const imageStore = useImagetStore();
+    const settingsStore = useSettingsStore();
+    const mountSotre = useMountStore();
+    const targetName = settingsStore.camera.snapshotTargetName;
 
     try {
-      // Starte Aufnahme via API
-      const capturePromise = apiService.startCapture(exposureTime, gain, solve);
-
-      // Countdown laufen lassen
-      await startExposureCountdown(exposureTime);
-
-      // Warte, bis API-Aufnahme fertig ist
-      await capturePromise;
-
-      // Jetzt Bild holen
-      isExposure.value = false;
+      // Phase 1: Start exposure (Server provides ExposureEndTime and IsExposing)
+      await apiService.startCapture(exposureTime, gain, solve, true, save, targetName);
       isLoadingImage.value = true;
-
-      let attempts = 0;
-      const maxAttempts = 60;
-      let image = null;
-
-      while (!image && attempts < maxAttempts && !isAbort.value) {
-        try {
-          const result = await apiService.getCaptureResult(settingsStore.camera.imageQuality);
-
-          console.log(result);
-          console.log(result.data.type);
-          if (result.data.type.includes('image')) {
-            const resImageData = await apiService.getImageData();
-            plateSolveResult.value = resImageData?.Response?.PlateSolveResult;
-            console.log('Platesovle:', plateSolveResult.value);
-            const blob = result.data;
-            imageData.value = URL.createObjectURL(blob);
-            image = result.data;
-            break;
-          }
-        } catch (error) {
-          console.error('Fehler beim Abrufen des Bildes:', error.message);
-        }
-        attempts++;
-        await wait(1000);
+      while (!imageStore.isImageFetching) {
+        await wait(100);
+        //console.log('[cameraStore] Waiting for exposure to complete...');
       }
 
-      // Wenn bis hier kein Bild und kein Abbruch
-      if (!image && !isAbort.value) {
-        alert('Image was not provided in time');
+      // Phase 2: Load image with timeout
+      if (!isAbort.value) {
+        console.log('[cameraStore] Starting to load image data from API...');
+
+        // Wait for image or timeout
+        let attempts = 0;
+        const maxAttempts = 60;
+        const previousImage = imageStore.imageData;
+
+        while (attempts < maxAttempts && !isAbort.value) {
+          try {
+            const resImageData = await apiService.getImageData();
+
+            // Check if new image is available
+            if (previousImage !== imageStore.imageData) {
+              console.log('[cameraStore] Image data received from API.');
+
+              if (solve === false) {
+                return;
+              }
+
+              if (resImageData.Response !== 'Capture already in progress') {
+                //save plate solve result
+                plateSolveResult.value = resImageData?.Response?.PlateSolveResult || null;
+                console.log('[cameraStore] PlateSolveResult:', plateSolveResult.value);
+                //if solve to mount is enabled, sync coordinates
+                if (plateSolveResult.value && settingsStore.camera.useSyncSolveToMount) {
+                  await mountSotre.syncCoordinates(
+                    plateSolveResult.value.Coordinates.RADegrees,
+                    plateSolveResult.value.Coordinates.Dec
+                  );
+                }
+                return;
+              }
+            }
+          } catch (error) {
+            console.error(' [cameraStore]Error fetching image:', error.message);
+          }
+
+          attempts++;
+          //console.debug(`[cameraStore] Waiting for image... Attempt ${attempts}/${maxAttempts}`);
+          await wait(1000);
+        }
+
+        try {
+          console.log('[cameraStore] Image successfully loaded');
+        } catch (error) {
+          console.error('[cameraStore] Image loading failed:', error.message);
+          if (!isAbort.value) {
+            alert('Image was not provided in time');
+          }
+        } finally {
+          // Clear timeout
+          if (loadingTimeout.value) {
+            clearTimeout(loadingTimeout.value);
+            loadingTimeout.value = null;
+          }
+        }
       }
     } catch (error) {
-      console.error('Fehler bei der Aufnahme:', error.message);
+      console.error('[cameraStore] Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
-      // Dauerschleife?
-      if (isLooping.value) {
-        capturePhoto(apiService, exposureTime, gain);
+
+      // Continuous loop?
+      if (isLooping.value && !isAbort.value) {
+        console.log('[cameraStore] Starting next looped exposure...');
+        capturePhoto(apiService, exposureTime, gain, solve, false, save);
+        console.log('[cameraStore] save value in loop: ', save);
       }
     }
   }
 
   /**
-   * Bricht die Belichtung ab
+   * Aborts the exposure
    */
   async function abortExposure(apiService) {
     try {
-      console.log('Abbruch der Belichtung gestartet...');
+      console.log('[cameraStore] Canceling exposure...');
       await apiService.cameraAction('abort-exposure');
-      clearInterval(exposureCountdownTimer);
 
       isAbort.value = true;
-      isExposure.value = false;
       isLoadingImage.value = false;
       isLooping.value = false;
-      remainingExposureTime.value = 0;
-      progress.value = 0;
 
-      console.log('Belichtung erfolgreich abgebrochen.');
+      // Clear timeout if running
+      if (loadingTimeout.value) {
+        clearTimeout(loadingTimeout.value);
+        loadingTimeout.value = null;
+      }
+
+      console.log('E[cameraStore] xposure successfully aborted.');
     } catch (error) {
-      console.error('Fehler beim Abbrechen der Belichtung:', error);
+      console.error('[cameraStore] Error aborting exposure:', error);
     } finally {
       loading.value = false;
     }
@@ -160,37 +167,44 @@ export const useCameraStore = defineStore('cameraStore', () => {
   async function getCameraRotation(apiService, exposureTime = 2, gain) {
     loading.value = true;
     isLoadingImage.value = true;
-    progress.value = 0;
     plateSolveError.value = false;
 
     try {
-      // Starte Aufnahme via API
-      let result; // Deklaration der Variable result
+      // Start capture via API
+      let result; // Variable declaration for result
       let plateSolveResult = null;
       let plateSolveStatusCode = 0;
       isLoadingImage.value = true;
       result = await apiService.getPlatesovle(exposureTime, gain);
-      console.log('result: ', result);
+      console.log('[cameraStore] result platesolve: ', result);
 
       plateSolveResult = result?.Response?.PlateSolveResult;
       plateSolveStatusCode = result?.StatusCode;
       if (plateSolveStatusCode != 200) {
         plateSolveError.value = true;
-        console.log('plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
+        console.log('[cameraStore] plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
       }
       if (plateSolveResult) {
         framingStore.rotationAngle = plateSolveResult.PositionAngle;
-        console.log('Camera position angle: ', framingStore.rotationAngle);
+        console.log('[cameraStore] Camera position angle: ', framingStore.rotationAngle);
       }
     } catch (error) {
-      console.error('Fehler bei der Aufnahme:', error.message);
+      console.error('[cameraStore] Error during capture:', error.message);
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
     }
   }
 
-  //Countdown für Statusanzeige mit Server-Zeit-Synchronisation
+  // Stop countdown (e.g. when app is paused)
+  function stopCountdown() {
+    if (countdownRunning.value) {
+      console.log('[cameraStore] Stopping exposure countdown...');
+      countdownRunning.value = false;
+    }
+  }
+
+  // Countdown for status display with server time synchronization
   async function updateCountdown() {
     const exposureEndTime = store.cameraInfo.ExposureEndTime;
 
@@ -200,40 +214,80 @@ export const useCameraStore = defineStore('cameraStore', () => {
       return;
     }
 
-    // Ensure time sync before starting countdown
+    // Create new session ID for this countdown instance
+    const currentSessionId = ++countdownSessionId;
+
+    // Stop all existing countdown loops immediately
+    countdownRunning.value = false;
+
+    // Wait briefly to ensure running loops are definitely terminated
+    await new Promise((resolve) => setTimeout(resolve, 150));
+
+    // Ensure time synchronization before starting countdown
     await timeSync.ensureSync();
 
     const endTime = new Date(exposureEndTime).getTime();
     if (isNaN(endTime)) {
-      console.error('Ungültiges Datumsformat für ExposureEndTime.');
+      console.error('[cameraStore] Invalid date format for ExposureEndTime.');
       exposureCountdown.value = 0;
       exposureProgress.value = 0;
       return;
     }
 
-    // Reset progress to 0 at start
+    // Reset progress to 0 at the start
     exposureProgress.value = 0;
+
+    // Start the new countdown
     countdownRunning.value = true;
 
-    // Store initial countdown value to calculate total duration
+    // Store initial countdown value to calculate the total duration
     let initialCountdown = null;
 
-    while (countdownRunning.value) {
-      // Use server-synchronized time for accurate countdown
+    // Watchdog: Track previous countdown value to detect stuck timer
+    let previousCountdown = null;
+    let stuckCounter = 0;
+    const maxStuckIterations = 3; // Restart after 3 seconds of no change
+
+    while (countdownRunning.value && currentSessionId === countdownSessionId) {
+      // Use server-synchronized time for an accurate countdown
       const remainingTime = timeSync.calculateCountdown(exposureEndTime);
 
       if (remainingTime <= 0 || !store.cameraInfo.IsExposing) {
         exposureProgress.value = 100;
         exposureCountdown.value = 0;
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second
         exposureProgress.value = 0;
         countdownRunning.value = false;
         break;
       }
 
+      // Watchdog: Check if the countdown value changed
+      if (previousCountdown !== null && previousCountdown === remainingTime) {
+        stuckCounter++;
+        console.warn(
+          `[cameraStore] Watchdog Countdown stuck at ${remainingTime}s (${stuckCounter}/${maxStuckIterations})`
+        );
+
+        if (stuckCounter >= maxStuckIterations) {
+          console.error(
+            '[cameraStore] Watchdog Countdown stuck for too long, restarting countdown with time resynchronization...'
+          );
+          // Force time resynchronization
+          await timeSync.ensureSync();
+          stuckCounter = 0;
+          previousCountdown = null;
+          initialCountdown = null;
+          continue; // Continue with a fresh calculation
+        }
+      } else {
+        // Countdown is progressing normally, reset stuck counter
+        stuckCounter = 0;
+      }
+
+      previousCountdown = remainingTime;
       exposureCountdown.value = remainingTime;
 
-      // Set initial countdown on first iteration
+      // Set initial countdown on the first iteration
       if (initialCountdown === null) {
         initialCountdown = remainingTime;
       }
@@ -246,21 +300,17 @@ export const useCameraStore = defineStore('cameraStore', () => {
         exposureProgress.value = 0;
       }
 
-      // Re-sync periodically during long exposures
+      // Re-synchronize periodically during long exposures
       if (remainingTime % 30 === 0) {
         timeSync.ensureSync();
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 Sekunde warten
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second
     }
   }
 
   return {
-    remainingExposureTime,
-    progress,
-    imageData,
     loading,
-    isExposure,
     isLoadingImage,
     isLooping,
     isAbort,
@@ -269,6 +319,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     coolingTime,
     warmingTime,
     buttonCoolerOn,
+    buttonWarmingOn,
     plateSolveError,
     plateSolveResult,
     exposureCountdown,
@@ -284,5 +335,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     getCameraRotation,
     abortExposure,
     updateCountdown,
+    stopCountdown,
   };
 });

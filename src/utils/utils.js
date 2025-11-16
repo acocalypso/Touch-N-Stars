@@ -1,28 +1,3 @@
-import { useToastStore } from '@/store/toastStore';
-
-export function handleApiError(response, options = {}) {
-  const {
-    title = 'Error',
-    defaultMessage = 'An unknown error has occurred.',
-    silent = false,
-  } = options;
-  const toastStore = useToastStore();
-
-  if (response?.StatusCode !== 200) {
-    console.error('API Error:', response);
-
-    if (!silent) {
-      toastStore.showToast({
-        type: 'error',
-        title,
-        message: response?.Error || defaultMessage,
-      });
-    }
-    return true; // Fehler erkannt
-  }
-  return false;
-}
-
 export async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -156,6 +131,42 @@ export function getGST() {
 export function getLST(longitude) {
   const GST = getGST();
   return (GST + longitude) % 360;
+}
+
+/**
+ * Converts right ascension (RA) and declination (Dec) coordinates to altitude and azimuth.
+ *
+ * @param {number} ra - The right ascension in degrees (0° - 360°).
+ * @param {number} dec - The declination in degrees (-90° to +90°).
+ * @param {number} latitude - The observer's geographic latitude in degrees.
+ * @param {number} longitude - The observer's geographic longitude in degrees.
+ * @returns {{altitude: number, azimuth: number}} An object containing the horizontal coordinates: altitude and azimuth.
+ */
+export function raDecToAltAz(ra, dec, latitude, longitude) {
+  const rad = Math.PI / 180; // Umrechnung Grad → Radiant
+  const deg = 180 / Math.PI; // Umrechnung Radiant → Grad
+
+  // Lokale Sternzeit berechnen
+  const LST = getLST(longitude);
+
+  // Umwandlung in Radianten
+  const delta = dec * rad;
+  const phi = latitude * rad;
+
+  // Stundenwinkel berechnen
+  const HA = (LST - ra) * rad;
+
+  // Altitude berechnen
+  const sinAlt = Math.sin(delta) * Math.sin(phi) + Math.cos(delta) * Math.cos(phi) * Math.cos(HA);
+  const altitude = Math.asin(sinAlt) * deg;
+
+  // Azimut berechnen (0°=Nord, 90°=Ost)
+  const y = -Math.cos(delta) * Math.sin(HA);
+  const x = Math.sin(delta) * Math.cos(phi) - Math.cos(delta) * Math.sin(phi) * Math.cos(HA);
+  let azimuth = Math.atan2(y, x) * deg;
+  if (azimuth < 0) azimuth += 360; // Normierung auf 0 - 360°
+
+  return { altitude, azimuth };
 }
 
 /**

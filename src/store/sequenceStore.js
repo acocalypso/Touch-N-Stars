@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
-import notificationService from '@/services/notificationService';
 import { apiStore } from './store';
 
 export const useSequenceStore = defineStore('sequenceStore', {
@@ -14,29 +13,64 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceEdit: false,
     sequenceIsEditable: true,
     targetName: '',
-    lastImage: {
-      index: 0,
-      quality: 0,
-      resize: false,
-      scale: 0,
-      image: null,
-    },
+    lastTargetName: '',
+    imageTargetNames: {},
+    runningItems: [],
+    runningConditions: [],
+    showTnsModal: false,
+    tnsModalMessage: '',
+    selectedImageIndex: null,
   }),
   actions: {
+    setSelectedImageIndex(index) {
+      if (index === null || (Number.isInteger(index) && index >= 0)) {
+        this.selectedImageIndex = index;
+      }
+    },
     setSequenceRunning(isRunning) {
       // Check if the sequence state has changed
       if (this.sequenceRunning !== isRunning) {
         // If the sequence is now running and it wasn't before, it has started
         if (isRunning && !this.sequenceRunning) {
-          notificationService.sendSequenceNotification('started');
+          // ensure image names are retained for new run
+          this.imageTargetNames = { ...this.imageTargetNames };
         }
         // If the sequence is no longer running and it was before, it has completed
         else if (!isRunning && this.sequenceRunning) {
-          notificationService.sendSequenceNotification('completed');
+          // do not wipe imageTargetNames here to preserve recorded names
         }
       }
 
       this.sequenceRunning = isRunning;
+    },
+    setImageTargetName(index, name) {
+      if (!Number.isInteger(index) || index < 0) return;
+
+      const trimmedName = typeof name === 'string' ? name.trim() : '';
+      if (!trimmedName) return;
+
+      const existingName = this.imageTargetNames[index];
+      if (existingName && existingName.trim().length > 0) {
+        if (existingName === trimmedName) {
+          this.lastTargetName = trimmedName;
+        }
+        return;
+      }
+
+      this.imageTargetNames = {
+        ...this.imageTargetNames,
+        [index]: trimmedName,
+      };
+
+      this.lastTargetName = trimmedName;
+    },
+    getImageTargetName(index) {
+      if (!Number.isInteger(index) || index < 0) return '';
+
+      return this.imageTargetNames[index] || '';
+    },
+    clearImageTargetNames() {
+      this.imageTargetNames = {};
     },
     toggleCollapsedState(containerName) {
       this.collapsedStates = {
@@ -65,7 +99,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (!items) return;
       items.forEach((item) => {
         if (item && item._path && this.collapsedStates[item._path] === undefined) {
-          this.collapsedStates[item._path] = true;
+          this.collapsedStates[item._path] = false;
         }
         if (item.Items) {
           this.initializeCollapsedStates(item.Items);
@@ -150,13 +184,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
-        console.log('Länge:', keysCount, 'StatusCode:', response?.StatusCode);
 
         //console.log(response);
         if (response?.StatusCode === 500 || !response?.StatusCode || keysCount > 4000) {
           // begrenzen auf 4000 keys damit es nicht zu lange dauert
-          console.log('nicht editierbar');
-          console.log('Länge:', this.countKeysDeep(response), 'StatusCode:', response?.StatusCode);
+          console.log('not editable');
           this.sequenceIsEditable = false;
           response = await this.getSequenceInfoJson();
         }
@@ -186,7 +218,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         }
 
         if (hasErrors) {
-          notificationService.sendSequenceNotification('error', errorMessage);
+          console.warn('Sequence error detected:', errorMessage);
         }
 
         this.sequenceInfo = response.Response;
@@ -208,6 +240,35 @@ export const useSequenceStore = defineStore('sequenceStore', {
         const isRunning = response.Response?.some((sequence) =>
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
+
+        // Collect all running items with their names - always use JSON data for this
+        const newRunningItems = [];
+        const newRunningConditions = [];
+        const jsonResponse = await this.getSequenceInfoJson();
+        if (jsonResponse?.Success) {
+          // Temporarily store in local variables
+          const oldRunningItems = this.runningItems;
+          const oldRunningConditions = this.runningConditions;
+
+          this.runningItems = newRunningItems;
+          this.runningConditions = newRunningConditions;
+
+          this.collectRunningItems(jsonResponse.Response);
+          this.collectRunningConditions(jsonResponse.Response);
+
+          // Only update if arrays actually changed
+          if (JSON.stringify(oldRunningItems) !== JSON.stringify(this.runningItems)) {
+            // runningItems changed, keep new values
+          } else {
+            this.runningItems = oldRunningItems;
+          }
+
+          if (JSON.stringify(oldRunningConditions) !== JSON.stringify(this.runningConditions)) {
+            // runningConditions changed, keep new values
+          } else {
+            this.runningConditions = oldRunningConditions;
+          }
+        }
 
         // Update sequence running state (this will trigger notification if state changed)
         this.setSequenceRunning(isRunning || false);
@@ -240,7 +301,8 @@ export const useSequenceStore = defineStore('sequenceStore', {
         // Falls der Container GlobalTriggers hat, ebenfalls Pfade generieren
         if (container.GlobalTriggers) {
           container.GlobalTriggers.forEach((trigger, tIndex) => {
-            const triggerPath = `${pathPart}-GlobalTriggers-${tIndex}`;
+            // GlobalTriggers sind auf oberster Ebene, brauchen kein Container-Präfix
+            const triggerPath = `GlobalTriggers-${tIndex}`;
             trigger._path = triggerPath;
           });
         }
@@ -292,44 +354,126 @@ export const useSequenceStore = defineStore('sequenceStore', {
       });
     },
 
-    async getImageByIndex(index, quality, scale) {
-      let image = null;
+    collectRunningItems(containers) {
+      if (!containers || !Array.isArray(containers)) return;
 
-      if (
-        this.lastImage.image &&
-        index === this.lastImage.index &&
-        quality <= this.lastImage.quality &&
-        scale <= this.lastImage.scale
-      ) {
-        console.log('aus cache');
-        console.log(this.lastImage.image);
-        image = this.lastImage.image;
-        return image;
-      }
-      try {
-        const result = await apiService.getSequenceImage(index, quality, true, scale);
-        if (result.status != 200) {
-          console.error('Unknown error: Check NINA Logs for more information');
-          return;
+      containers.forEach((container) => {
+        if (container.Items) {
+          this.findRunningItemsRecursive(container.Items, [container]);
         }
-        const blob = result.data;
-        const imageUrl = URL.createObjectURL(blob);
-        return imageUrl;
-      } catch (error) {
-        console.error(`An error happened while getting image with index ${index}`, error.message);
-        return;
+      });
+    },
+
+    collectRunningConditions(containers) {
+      if (!containers || !Array.isArray(containers)) return;
+
+      containers.forEach((container) => {
+        this.findRunningConditionsRecursive(container);
+      });
+    },
+
+    findRunningConditionsRecursive(container) {
+      if (!container) return;
+
+      // Nur Conditions sammeln wenn der Container RUNNING ist
+      if (
+        container.Status === 'RUNNING' &&
+        container.Conditions &&
+        container.Conditions.length > 0
+      ) {
+        // Nur nicht-disabled Conditions hinzufügen
+        const enabledConditions = container.Conditions.filter(
+          (condition) => condition.Status !== 'DISABLED'
+        );
+        this.runningConditions.push(...enabledConditions);
+      }
+
+      // Für Items mit Iterations/CompletedIterations eine virtuelle Condition erstellen (nur wenn RUNNING)
+      if (
+        container.Status === 'RUNNING' &&
+        container.Iterations !== undefined &&
+        container.CompletedIterations !== undefined &&
+        container.Name
+      ) {
+        this.runningConditions.push({
+          Name: `${container.Name}_Iterations`,
+          Status: container.Status,
+          Iterations: container.Iterations,
+          CompletedIterations: container.CompletedIterations,
+          Type: 'iterations',
+        });
+      }
+
+      // Rekursiv durch alle Items gehen
+      if (container.Items) {
+        container.Items.forEach((item) => {
+          this.findRunningConditionsRecursive(item);
+        });
       }
     },
 
-    async getThumbnailByIndex(index) {
-      try {
-        const blob = await apiService.getSequenceThumbnail(index);
-        const imageUrl = URL.createObjectURL(blob);
-        return imageUrl;
-      } catch (error) {
-        console.error(`An error happened while getting image with index ${index}`, error.message);
-        return null;
+    findRunningItemsRecursive(items, containerHierarchy = []) {
+      if (!items || !Array.isArray(items)) return;
+
+      items.forEach((item) => {
+        // Check for running triggers
+        if (item.Triggers && Array.isArray(item.Triggers)) {
+          item.Triggers.forEach((trigger) => {
+            if (trigger.Name && trigger.Status === 'RUNNING') {
+              this.runningItems.push(trigger.Name);
+            }
+          });
+        }
+
+        // Wenn Item RUNNING ist und verschachtelte Items hat, nur tiefer suchen
+        if (item.Status === 'RUNNING' && item.Items && item.Items.length > 0) {
+          // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist
+          const newHierarchy = item.Name ? [...containerHierarchy, item] : containerHierarchy;
+          this.findRunningItemsRecursive(item.Items, newHierarchy);
+        }
+        // Wenn Item RUNNING ist aber keine verschachtelten Items hat, hinzufügen
+        else if (
+          item.Status === 'RUNNING' &&
+          item.Name &&
+          (!item.Items || item.Items.length === 0)
+        ) {
+          let itemName = item.Name;
+
+          this.runningItems.push(itemName);
+        }
+        // Wenn Item nicht RUNNING ist, trotzdem tiefer suchen
+        else if (item.Items && item.Items.length > 0) {
+          // Aktuelles Item zur Hierarchie hinzufügen, falls es ein Container ist
+          const newHierarchy = item.Name ? [...containerHierarchy, item] : containerHierarchy;
+          this.findRunningItemsRecursive(item.Items, newHierarchy);
+        }
+      });
+    },
+
+    findIterationInfoInHierarchy(containerHierarchy) {
+      // Von der äußersten zur innersten Ebene suchen
+      for (let i = containerHierarchy.length - 1; i >= 0; i--) {
+        const container = containerHierarchy[i];
+        const iterationInfo = this.findIterationInfoInConditions(container.Conditions);
+        if (iterationInfo) {
+          return iterationInfo;
+        }
       }
+      return null;
+    },
+
+    findIterationInfoInConditions(conditions) {
+      if (!conditions || !Array.isArray(conditions)) return null;
+
+      for (const condition of conditions) {
+        if (condition.Iterations !== undefined && condition.CompletedIterations !== undefined) {
+          return {
+            completed: condition.CompletedIterations,
+            total: condition.Iterations,
+          };
+        }
+      }
+      return null;
     },
 
     findAndSetTargetName(items) {
@@ -338,12 +482,30 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
       for (const item of items) {
         // Wenn das Item läuft und ein Target hat, speichern
-        if (item?.Status === 'RUNNING' && item?.Target?.TargetName) {
-          this.targetName = item.Target.TargetName;
-          console.log('Aktives Target (RUNNING):', this.targetName);
-          return; // ersten aktiven Treffer nehmen
+        if (item?.Status === 'RUNNING') {
+          const resolvedName = this.extractTargetName(item.Target);
+          if (resolvedName) {
+            this.targetName = resolvedName;
+            this.lastTargetName = resolvedName;
+            //console.log('Aktives Target (RUNNING):', this.targetName);
+            return; // ersten aktiven Treffer nehmen
+          }
         }
       }
+    },
+
+    extractTargetName(target) {
+      if (!target) return '';
+
+      if (typeof target === 'string') {
+        return target.trim();
+      }
+
+      if (typeof target.TargetName === 'string') {
+        return target.TargetName.trim();
+      }
+
+      return '';
     },
 
     startFetching() {
@@ -361,12 +523,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.intervalId = null;
       }
     },
-
-    // Reset the sequence and send notification
+    // Reset the active sequence on the backend
     async resetSequence() {
       try {
         await apiService.sequenceAction('reset');
-        notificationService.sendSequenceNotification('reset');
         return true;
       } catch (error) {
         console.error('Error resetting sequence:', error);

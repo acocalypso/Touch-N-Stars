@@ -36,17 +36,33 @@
 
     <!-- Main Image -->
     <img
-      v-if="imageData"
+      v-if="imageData && !imageLoadError"
       ref="image"
       :src="imageData"
       :alt="altText"
       class="w-full h-full object-contain cursor-move transition-opacity duration-200"
+      :class="{ 'opacity-90': loading }"
       @load="onImageLoad"
       @error="onImageError"
+      @click="handleImageClick"
     />
 
+    <!-- Loading Spinner Overlay -->
+    <div
+      v-if="loading && imageData"
+      class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 z-40"
+    >
+      <div class="flex flex-col items-center text-white">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-2"></div>
+        <p class="text-sm">Loading new image...</p>
+      </div>
+    </div>
+
     <!-- Placeholder -->
-    <div v-else class="flex items-center justify-center w-full h-full bg-gray-800/20">
+    <div
+      v-else-if="!imageData || imageLoadError"
+      class="flex items-center justify-center w-full h-full bg-gray-800/20"
+    >
       <slot name="placeholder">
         <div class="text-gray-400 text-center">
           <div class="w-16 h-16 mx-auto mb-2 opacity-50">
@@ -80,6 +96,12 @@ const props = defineProps({
     default: 'No image available',
   },
 
+  // Loading state
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+
   // UI Controls
   showControls: {
     type: Boolean,
@@ -111,7 +133,14 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['download', 'fullscreen', 'zoom-change', 'image-load', 'image-error']);
+const emits = defineEmits([
+  'download',
+  'fullscreen',
+  'zoom-change',
+  'image-load',
+  'image-error',
+  'click',
+]);
 
 // Refs
 const imageContainer = ref(null);
@@ -122,12 +151,21 @@ let panzoomInstance = null;
 const zoomLevel = ref(1);
 const originalWidth = ref(1);
 const originalHeight = ref(1);
+const savedTransform = ref(null); // Save zoom and pan position
+const imageLoadError = ref(false); // Track image load errors
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
 const handleFullscreen = () => {
   emits('fullscreen', {
+    imageData: props.imageData,
+    zoomLevel: zoomLevel.value,
+  });
+};
+
+const handleImageClick = () => {
+  emits('click', {
     imageData: props.imageData,
     zoomLevel: zoomLevel.value,
   });
@@ -210,11 +248,29 @@ const initializePanzoom = () => {
         }
       }
 
+      // Restore saved transform if available
+      if (savedTransform.value) {
+        try {
+          // Use moveTo and zoomAbs separately for better position restoration
+          const { x, y, scale } = savedTransform.value;
+
+          // First zoom to the saved scale
+          panzoomInstance.zoomAbs(0, 0, scale);
+
+          // Then move to the saved position
+          panzoomInstance.moveTo(x, y);
+
+          //console.log('Restored zoom and position:', savedTransform.value);
+        } catch (error) {
+          console.warn('Could not restore transform:', error);
+        }
+      }
+
       // Initial zoom level
       logZoomLevel();
 
-      console.log('Panzoom initialized successfully');
-      console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
+      //console.log('Panzoom initialized successfully');
+      //console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
     } catch (error) {
       console.error('Error initializing panzoom:', error);
     }
@@ -235,6 +291,16 @@ const initializePanzoom = () => {
 
 const destroyPanzoom = () => {
   if (panzoomInstance) {
+    // Save current transform before destroying
+    try {
+      if (typeof panzoomInstance.getTransform === 'function') {
+        savedTransform.value = panzoomInstance.getTransform();
+        //console.log('Saved transform:', savedTransform.value);
+      }
+    } catch (error) {
+      console.warn('Could not save transform:', error);
+    }
+
     panzoomInstance.dispose();
     panzoomInstance = null;
   }
@@ -242,6 +308,7 @@ const destroyPanzoom = () => {
 
 // Event handlers
 const onImageLoad = () => {
+  imageLoadError.value = false; // Clear error on successful load
   nextTick(() => {
     destroyPanzoom();
     initializePanzoom();
@@ -250,6 +317,7 @@ const onImageLoad = () => {
 };
 
 const onImageError = (event) => {
+  imageLoadError.value = true; // Track that an error occurred
   console.error('Image load error:', event);
   emits('image-error', event);
 };
@@ -264,14 +332,16 @@ const handleDownload = () => {
 // Watchers
 watch(
   () => props.imageData,
-  (newImageData) => {
-    if (newImageData) {
-      nextTick(() => {
-        onImageLoad();
-      });
-    } else {
+  (newImageData, oldImageData) => {
+    // Only destroy panzoom when image is removed (set to null)
+    // Don't call onImageLoad here - let the native @load event handle it
+    if (!newImageData && oldImageData) {
       destroyPanzoom();
       zoomLevel.value = 1;
+    }
+    // Reset error flag when new image is provided
+    if (newImageData) {
+      imageLoadError.value = false;
     }
   }
 );

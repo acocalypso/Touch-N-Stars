@@ -8,62 +8,63 @@
     <div
       v-if="showStats"
       :class="[
-        'flex flex-col w-full min-w-60 bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-4 text-xs sm:text-sm space-y-2 bg-black bg-opacity-10',
+        'flex flex-col w-full bottom-0 shadow-lg shadow-cyan-700/40 rounded-xl p-2 text-xs text-gray-300 bg-black bg-opacity-10',
         { absolute: !displayStatusUnderImage },
       ]"
     >
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="stats.Date" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.time') }}: </span>
-          <span>{{ formatDate(stats.Date) }}</span>
+      <div class="grid grid-cols-2 gap-x-1 gap-y-0.5">
+        <div v-if="targetName" class="flex gap-1 col-span-2 min-w-0">
+          <span class="font-bold whitespace-nowrap">
+            {{ $t('components.sequence.targetName') }}:
+          </span>
+          <span class="truncate">{{ targetName }}</span>
         </div>
 
-        <div v-if="isValidNumber(stats.ExposureTime)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.duration') }}:</span>
-          <span>{{ stats.ExposureTime.toFixed(2) }} s</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="isValidNumber(stats.HFR)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.hfr') }}:</span>
-          <span>{{ stats.HFR.toFixed(2) }}</span>
+        <div v-if="stats.Date" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.time') }}:</span>
+          <span class="truncate">{{ formatDate(stats.Date) }}</span>
         </div>
 
-        <div v-if="isValidNumber(stats.Mean)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.mean') }}:</span>
-          <span>{{ stats.Mean.toFixed(2) }}</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="isValidNumber(stats.Median)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.median') }}:</span>
-          <span>{{ stats.Median.toFixed(2) }}</span>
+        <div v-if="isValidNumber(stats.ExposureTime)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.duration') }}:</span>
+          <span class="truncate">{{ stats.ExposureTime.toFixed(2) }}s</span>
         </div>
 
-        <div v-if="isValidNumber(stats.StDev)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.stDev') }}:</span>
-          <span>{{ stats.StDev.toFixed(2) }}</span>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="stats.RmsText" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.rmsText') }}:</span>
-          <span>{{ formatRms(stats.RmsText) }}</span>
+        <div v-if="isValidNumber(stats.HFR)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.hfr') }}:</span>
+          <span class="truncate">{{ stats.HFR.toFixed(2) }}</span>
         </div>
 
-        <div v-if="isValidNumber(stats.Temperature)" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.temperatureShort') }}:</span>
-          <span>{{ stats.Temperature }} °C</span>
+        <div v-if="isValidNumber(stats.Mean)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
+          <span class="truncate">{{ stats.Mean.toFixed(2) }}</span>
         </div>
-      </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div v-if="stats.Filter" class="flex justify-between">
-          <span class="font-bold">{{ $t('components.sequence.filter') }}:</span>
-          <span>{{ stats.Filter }}</span>
+        <div v-if="isValidNumber(stats.Median)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.median') }}:</span>
+          <span class="truncate">{{ stats.Median.toFixed(2) }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.StDev)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.stDev') }}:</span>
+          <span class="truncate">{{ stats.StDev.toFixed(2) }}</span>
+        </div>
+
+        <div v-if="stats.RmsText" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.rmsText') }}:</span>
+          <span class="truncate">{{ formatRms(stats.RmsText) }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.Temperature)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap"
+            >{{ $t('components.sequence.temperatureShort') }}:</span
+          >
+          <span class="truncate">{{ stats.Temperature.toFixed(1) }}°C</span>
+        </div>
+
+        <div v-if="stats.Filter" class="flex gap-1 col-span-2 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.filter') }}:</span>
+          <span class="truncate">{{ stats.Filter }}</span>
         </div>
       </div>
     </div>
@@ -80,13 +81,13 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref, defineProps, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useImagetStore } from '@/store/imageStore';
 
-const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
+const imageStore = useImagetStore();
 
 const props = defineProps({
   index: {
@@ -117,12 +118,70 @@ const isLoadingModal = ref(false);
 const showModal = ref(false);
 const fullResImage = ref(props.image);
 
+watch(
+  () => [props.index, props.stats],
+  () => {
+    if (!Number.isInteger(props.index) || props.index < 0) return;
+
+    const statsTargetName = extractTargetNameFromStats(props.stats);
+    const existingName = sequenceStore.getImageTargetName(props.index);
+    if (!existingName && statsTargetName) {
+      sequenceStore.setImageTargetName(props.index, statsTargetName);
+    }
+  },
+  { immediate: true, deep: true }
+);
+
+const targetName = computed(() => {
+  const persistedTargetName = sequenceStore.getImageTargetName(props.index);
+  if (persistedTargetName) {
+    return persistedTargetName;
+  }
+
+  const statsTargetName = extractTargetNameFromStats(props.stats);
+  if (statsTargetName) {
+    return statsTargetName;
+  }
+
+  return sequenceStore.targetName?.trim() || sequenceStore.lastTargetName?.trim() || '';
+});
+
+function normalizePossibleRef(value) {
+  if (value && typeof value === 'object' && 'value' in value) {
+    return value.value;
+  }
+
+  return value;
+}
+
+function extractTargetNameFromStats(stats) {
+  if (!stats) return '';
+
+  const candidateValues = [
+    stats.TargetName,
+    stats.Target?.TargetName,
+    stats.Target?.Name,
+    stats.Target,
+    stats.SequenceTargetName,
+    stats.Name,
+  ];
+
+  for (const candidate of candidateValues) {
+    const normalized = normalizePossibleRef(candidate);
+    if (typeof normalized === 'string' && normalized.trim().length > 0) {
+      return normalized.trim();
+    }
+  }
+
+  return '';
+}
+
 function openModal() {
   isLoadingModal.value = true;
   showModal.value = true;
 
-  sequenceStore
-    .getImageByIndex(props.index, settingsStore.camera.imageQuality, 0.5)
+  imageStore
+    .getImageByIndex(props.index)
     .then((image) => {
       fullResImage.value = image;
     })

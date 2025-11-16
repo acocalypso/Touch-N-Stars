@@ -9,7 +9,7 @@
           <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Description }}</p>
         </div>
         <toggleButton
-          @click="setBool(WritableSwitche.Id, WritableSwitche.Value)"
+          @click="setBool(index, WritableSwitche.Value)"
           :status-value="WritableSwitche.TargetValue === 1"
         />
       </div>
@@ -25,9 +25,7 @@
           <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Description }}</p>
         </div>
         <SetValue
-          @blur="
-            setValue(WritableSwitche.Id, $event, WritableSwitche.Minimum, WritableSwitche.Maximum)
-          "
+          @blur="setValue(index, $event, WritableSwitche.Minimum, WritableSwitche.Maximum)"
           :store-value="WritableSwitche.Value"
           :min="WritableSwitche.Minimum"
           :max="WritableSwitche.Maximum"
@@ -46,16 +44,16 @@ const store = apiStore();
 
 async function setBool(id, value) {
   try {
-    //console.log('id: ', id, 'value: ', value)
+    console.log('id: ', id, 'value: ', value);
     if (value === 1.0) {
       await apiService.setSwitch(id, 0);
-      console.log('Switch on ID: ', id);
+      console.log('Switch off ID: ', id);
     } else {
       await apiService.setSwitch(id, 1);
-      console.log('Switch off ID: ', id);
+      console.log('Switch on ID: ', id);
     }
   } catch (error) {
-    console.log('Feher beim setzen des Switches ');
+    console.log('Error while setting the switch');
   }
 }
 
@@ -70,7 +68,7 @@ async function setValue(id, value, valueMin, valueMax) {
     await apiService.setSwitch(id, value);
     console.log('Value set: ', value);
   } catch (error) {
-    console.log('Feher beim setzen des Switches ');
+    console.log('Error while setting the switch');
   }
 }
 </script>

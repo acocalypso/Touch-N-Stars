@@ -45,19 +45,21 @@
           <input
             type="text"
             v-model="localAltAngleString"
+            @focus="isEditingAltAz = true"
             @blur="handleBlurAlt"
             @keyup.enter="handleBlurAlt"
             class="default-input w-full h-10"
-            placeholder="12:34:56 / 12.456"
+            placeholder="12.456"
           />
           <p class="w-24">{{ $t('components.slewAndCenter.az') }}</p>
           <input
             type="text"
             v-model="localAzAngleString"
+            @focus="isEditingAltAz = true"
             @blur="handleBlurAz"
             @keyup.enter="handleBlurAz"
             class="default-input w-full h-10"
-            placeholder="12:34:56 / 123.456"
+            placeholder="123.456"
           />
         </div>
         <div class="w-full">
@@ -81,7 +83,13 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
-import { hmsToDegrees, dmsToDegrees, altAzToRaDec, parseAngleInput } from '@/utils/utils';
+import {
+  hmsToDegrees,
+  dmsToDegrees,
+  altAzToRaDec,
+  raDecToAltAz,
+  parseAngleInput,
+} from '@/utils/utils';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 
@@ -99,6 +107,7 @@ const localAzAngleString = ref();
 const Info = ref(null);
 const statusClassRaDec = ref('');
 const statusClassAzAlt = ref('');
+const isEditingAltAz = ref(false);
 
 watch(
   () => framingStore.RAangleString,
@@ -112,6 +121,22 @@ watch(
   (newValue) => {
     localDECangleString.value = newValue;
     updateDec();
+  }
+);
+watch(
+  () => framingStore.ALTangleString,
+  (newValue) => {
+    if (newValue) {
+      localAltAngleString.value = newValue;
+    }
+  }
+);
+watch(
+  () => framingStore.AZangleString,
+  (newValue) => {
+    if (newValue) {
+      localAzAngleString.value = newValue;
+    }
   }
 );
 function validateRA(raString) {
@@ -150,7 +175,6 @@ function handleBlurDEC() {
     return; // Nichts tun, wenn der Wert leer ist
   }
   if (validateDEC(localDECangleString.value)) {
-    console.log('Lokal DEC', localDECangleString.value);
     updateDec();
   } else {
     alert(t('components.slewAndCenter.errors.invalidDECInput'));
@@ -166,6 +190,7 @@ function handleBlurAlt() {
   } else {
     alert(t('components.slewAndCenter.errors.invalidAltInput'));
   }
+  isEditingAltAz.value = false;
 }
 
 function handleBlurAz() {
@@ -177,18 +202,42 @@ function handleBlurAz() {
   } else {
     alert(t('components.slewAndCenter.errors.invalidAzInput'));
   }
+  isEditingAltAz.value = false;
 }
 
 function updateRA() {
   framingStore.RAangle = hmsToDegrees(localRAangleString.value);
+  updateAltAzFromRaDec();
   statusClassRaDec.value = 'glow-green';
   statusClassAzAlt.value = '';
 }
 
 function updateDec() {
   framingStore.DECangle = dmsToDegrees(localDECangleString.value);
+  updateAltAzFromRaDec();
   statusClassRaDec.value = 'glow-green';
   statusClassAzAlt.value = '';
+}
+
+function updateAltAzFromRaDec() {
+  // Nicht aktualisieren, wenn der Nutzer gerade Alt/Az bearbeitet
+  if (isEditingAltAz.value) {
+    return;
+  }
+
+  if (!framingStore.RAangle || !framingStore.DECangle) {
+    return;
+  }
+
+  const { altitude, azimuth } = raDecToAltAz(
+    framingStore.RAangle,
+    framingStore.DECangle,
+    store.profileInfo.AstrometrySettings.Latitude,
+    store.profileInfo.AstrometrySettings.Longitude
+  );
+
+  localAltAngleString.value = altitude.toFixed(3);
+  localAzAngleString.value = azimuth.toFixed(3);
 }
 
 function updateAltAz() {
@@ -211,9 +260,6 @@ function updateAltAz() {
 
   statusClassRaDec.value = '';
   statusClassAzAlt.value = 'glow-green';
-
-  console.log('→ RA (°):', ra);
-  console.log('→ DEC (°):', dec);
 }
 
 async function fetchInfo() {
@@ -230,6 +276,7 @@ async function fetchInfo() {
 }
 
 let intervalId = null;
+let altAzUpdateIntervalId = null;
 
 function startFetchingInfo() {
   fetchInfo();
@@ -243,12 +290,28 @@ function stopFetchingInfo() {
   }
 }
 
+function startUpdatingAltAz() {
+  updateAltAzFromRaDec(); // Initial update
+  altAzUpdateIntervalId = setInterval(() => {
+    updateAltAzFromRaDec();
+  }, 1000); // Update every second
+}
+
+function stopUpdatingAltAz() {
+  if (altAzUpdateIntervalId) {
+    clearInterval(altAzUpdateIntervalId);
+    altAzUpdateIntervalId = null;
+  }
+}
+
 onMounted(async () => {
   startFetchingInfo();
+  startUpdatingAltAz();
 });
 
 onBeforeUnmount(() => {
   stopFetchingInfo();
+  stopUpdatingAltAz();
 });
 </script>
 

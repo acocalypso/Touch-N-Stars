@@ -3,7 +3,7 @@
   <transition name="fade">
     <div
       v-if="toastStore.newMessage && (toastStore.isConfirmation || toastStore.type === 'critical')"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      class="fixed inset-0 bg-black bg-opacity-50 z-top flex items-center justify-center"
     >
       <div
         :class="[
@@ -49,7 +49,7 @@
   </transition>
 
   <!-- Non-blocking Toast Notifications -->
-  <div class="fixed top-4 right-4 z-40 space-y-3 max-w-sm pointer-events-none">
+  <div class="fixed top-4 right-4 z-toast space-y-3 max-w-sm pointer-events-none">
     <transition-group name="toast-slide">
       <div
         v-if="toastStore.newMessage && !toastStore.isConfirmation && toastStore.type !== 'critical'"
@@ -90,11 +90,47 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, watch, onBeforeUnmount } from 'vue';
 import { useToastStore } from '@/store/toastStore';
 import { XMarkIcon, GlobeAltIcon } from '@heroicons/vue/24/outline';
 
 const toastStore = useToastStore();
+
+// Auto-close Timer
+let autoCloseTimer = null;
+
+// Watch für neue Toast-Nachrichten
+watch(
+  () => toastStore.newMessage,
+  (newValue) => {
+    if (
+      newValue &&
+      !toastStore.isConfirmation &&
+      toastStore.type !== 'critical' &&
+      toastStore.autoClose
+    ) {
+      // Timer für normale Toast-Nachrichten (nicht für Confirmations oder Critical)
+      if (autoCloseTimer) {
+        clearTimeout(autoCloseTimer);
+      }
+      autoCloseTimer = setTimeout(() => {
+        toastStore.closeToast();
+      }, toastStore.autoCloseDelay);
+    } else if (!newValue && autoCloseTimer) {
+      // Timer löschen wenn Toast manuell geschlossen wird
+      clearTimeout(autoCloseTimer);
+      autoCloseTimer = null;
+    }
+  },
+  { immediate: true }
+);
+
+// Cleanup bei Component-Destroy
+onBeforeUnmount(() => {
+  if (autoCloseTimer) {
+    clearTimeout(autoCloseTimer);
+  }
+});
 
 const toastTypeShadow = computed(() => {
   switch (toastStore.type) {

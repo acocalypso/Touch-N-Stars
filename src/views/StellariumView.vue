@@ -48,6 +48,28 @@
       <stellariumCredits />
       <stellariumSettings />
 
+      <!-- Refresh Button (iOS only) -->
+      <button
+        v-if="Capacitor.getPlatform() === 'ios'"
+        @click="refreshStellarium"
+        class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-7 h-7 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        </svg>
+      </button>
+
       <!-- Clock -->
       <stellariumClock v-if="stellariumStore.stel" />
     </div>
@@ -154,22 +176,29 @@ function toggleSearch(event) {
 }
 
 // Framing-Koordinaten
-function setFramingCoordinates() {
-  framingStore.RAangleString = selectedObjectRa.value;
-  framingStore.DECangleString = selectedObjectDec.value;
-  framingStore.RAangle = selectedObjectRaDeg.value;
-  framingStore.DECangle = selectedObjectDecDeg.value;
-  //framingStore.selectedItem = selectedObject.value;
+function setFramingCoordinates(data) {
+  framingStore.RAangleString = data?.raString || selectedObjectRa.value;
+  framingStore.DECangleString = data?.decString || selectedObjectDec.value;
+  framingStore.RAangle = data?.ra || selectedObjectRaDeg.value;
+  framingStore.DECangle = data?.dec || selectedObjectDecDeg.value;
   framingStore.selectedItem = {
-    Name: '',
-    RA: selectedObjectRaDeg.value,
-    Dec: selectedObjectDecDeg.value,
+    Name: data?.name || selectedObject.value?.[0] || '',
+    RA: data?.ra || selectedObjectRaDeg.value,
+    Dec: data?.dec || selectedObjectDecDeg.value,
   };
 
   console.log('Set Framing Coordinates');
   store.mount.currentTab = 'showSlew';
   console.log('store.mount.currentTab', store.mount.currentTab);
   router.push('/mount');
+}
+
+// Refresh Stellarium function
+function refreshStellarium() {
+  console.log('Manually refreshing Stellarium...');
+  // Emit event to parent to trigger re-render via landscapeSwitch
+  const event = new CustomEvent('refresh-stellarium');
+  window.dispatchEvent(event);
 }
 
 watch(
@@ -187,28 +216,28 @@ onMounted(async () => {
   // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
   const script = document.createElement('script');
   script.src = '/stellarium-js/stellarium-web-engine.js';
-  console.log('Stellarium-Web-Engine-Skript wird geladen...');
+  console.log('Loading Stellarium Web Engine script...');
 
   script.onload = async () => {
     if (!window.StelWebEngine) {
-      console.error('StelWebEngine globales Objekt nicht gefunden!');
+      console.error('StelWebEngine global object not found!');
       return;
     }
 
     try {
       const response = await fetch(wasmPath);
       if (!response.ok) {
-        throw new Error(`Fehler beim Laden der WASM-Datei: ${response.statusText}`);
+        throw new Error(`Error loading WASM file: ${response.statusText}`);
       }
       const wasmArrayBuffer = await response.arrayBuffer();
-      console.log('WASM-Datei erfolgreich geladen. Größe (Byte):', wasmArrayBuffer.byteLength);
+      console.log('WASM file loaded successfully. Size (bytes):', wasmArrayBuffer.byteLength);
 
       window.StelWebEngine({
         wasmFile: wasmPath,
 
         canvas: stelCanvas.value,
         onReady(stel) {
-          console.log('Stellarium ist bereit!');
+          console.log('Stellarium is ready!');
           stellariumStore.stel = stel;
 
           // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
@@ -216,20 +245,20 @@ onMounted(async () => {
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
 
-          console.log('zeit', stel.core.observer.utc);
+          console.log('time', stel.core.observer.utc);
           //stel.core.observer.tt = 0
-          console.log('Aktuelle Beobachterposition:');
+          console.log('Current observer position:');
           console.log(
-            'Breitengrad:',
+            'Latitude:',
             stel.core.observer.latitude,
             store.profileInfo.AstrometrySettings.Latitude
           );
           console.log(
-            'Längengrad:',
+            'Longitude:',
             stel.core.observer.longitude,
             store.profileInfo.AstrometrySettings.Longitude
           );
-          console.log('Höhe:', stel.core.observer.elevation);
+          console.log('Elevation:', stel.core.observer.elevation);
 
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
@@ -282,16 +311,16 @@ onMounted(async () => {
               if (!selection) {
                 // Abwahl
                 selectedObject.value = null;
-                console.log('Keine Auswahl (abgewählt).');
+                console.log('No selection (deselected).');
                 return;
               }
               if (stel.core.selection) {
                 isSearchVisible.value = false;
                 const selectedDesignations = stel.core.selection.designations();
                 selectedObject.value = selectedDesignations;
-                console.log('Objekt-Bezeichnungen:', selectedDesignations);
+                console.log('Object designations:', selectedDesignations);
                 const info = stel.core.selection;
-                //console.log('Objekt-Informationen:', info);
+                //console.log('Object information:', info);
 
                 const raDec = info.getInfo('RADEC');
                 console.log(raDec);
@@ -313,14 +342,14 @@ onMounted(async () => {
         },
       });
     } catch (err) {
-      console.error('Fehler bei Fetch oder StelWebEngine:', err);
+      console.error('Error with Fetch or StelWebEngine:', err);
     }
   };
   document.head.appendChild(script);
 });
 onBeforeUnmount(() => {
   if (stellariumStore.stel) {
-    console.log('Stellarium wird zerstört...');
+    console.log('Destroying Stellarium...');
 
     // Entferne die Stellarium-Instanz
     stellariumStore.stel = null;
@@ -330,7 +359,7 @@ onBeforeUnmount(() => {
       stelCanvas.value.height = 0;
     }
 
-    console.log('Stellarium erfolgreich beendet.');
+    console.log('Stellarium successfully terminated.');
   }
 });
 </script>

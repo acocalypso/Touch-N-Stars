@@ -8,12 +8,46 @@ import { createHead } from '@unhead/vue';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
+import { setupErrorHandler } from '@/utils/errorHandler';
+import { ensureConsolePatched } from '@/utils/consoleCapture';
+import { markAppReady } from '@/services/updateService';
 
 // Tooltip directive
 const tooltipDirective = {
-  mounted(el, binding) {
+  mounted(el, binding, vnode) {
+    // Check if this is a component instance (not a DOM element)
+    if (vnode.component) {
+      // Find the actual root element of the component
+      const rootEl = vnode.component.subTree?.el;
+      if (rootEl && typeof rootEl.setAttribute === 'function') {
+        rootEl.setAttribute('title', binding.value);
+        rootEl.style.cursor = 'pointer';
+        return;
+      }
+    }
+
+    // Handle regular DOM elements
+    if (!el || typeof el.setAttribute !== 'function') {
+      return; // Silently ignore invalid elements
+    }
     el.setAttribute('title', binding.value);
     el.style.cursor = 'pointer';
+  },
+  updated(el, binding, vnode) {
+    // Check if this is a component instance
+    if (vnode.component) {
+      const rootEl = vnode.component.subTree?.el;
+      if (rootEl && typeof rootEl.setAttribute === 'function') {
+        rootEl.setAttribute('title', binding.value);
+        return;
+      }
+    }
+
+    // Handle regular DOM elements
+    if (!el || typeof el.setAttribute !== 'function') {
+      return;
+    }
+    el.setAttribute('title', binding.value);
   },
 };
 
@@ -21,8 +55,18 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 const head = createHead();
 
+// Setup global error handling
+setupErrorHandler();
+
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
+
+// Start capturing console logs as early as possible
+try {
+  ensureConsolePatched();
+} catch (e) {
+  /* noop */
+}
 
 // Initialize i18n with store before mounting
 const settingsStore = pinia.state.value.settings;
@@ -47,6 +91,8 @@ app.use(pinia).use(head).use(i18n).use(router);
 
   // Mount the app after plugins are initialized
   app.mount('#app');
+
+  await markAppReady();
 
   // Initialize time synchronization after app is mounted and stores are ready
   setTimeout(async () => {

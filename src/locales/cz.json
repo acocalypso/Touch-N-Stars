@@ -1,13 +1,12 @@
 {
   "common": {
     "cancel": "Zrušit",
-    "confirm": "Potvrdit"
+    "confirm": "Potvrdit",
+    "close": "Zavřít"
   },
   "general": {
     "cancel": "Zrušit",
-    "confirm": "Potvrdit",
-    "hide": "Skrýt",
-    "show": "Zobrazit"
+    "confirm": "Potvrdit"
   },
   "pages": {
     "equipment": {
@@ -16,9 +15,6 @@
   },
   "app": {
     "title": "Touch'N'Stars",
-    "unreachable": "NINA je nedostupné",
-    "connecting": "Pokus o připojení",
-    "api_version_incompatible": "Verze pokročilého rozhraní API je nekompatibilní, aktuální: { current } požadovaná: { required }",
     "connection_error_toast": {
       "message_api": "Zásuvný modul API není k dispozici. Zkontrolujte nastavení v NINA",
       "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
@@ -26,6 +22,24 @@
       "title": "Chyba připojení",
       "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
     }
+  },
+  "whatsnew": {
+    "loading": "Načítání…",
+    "title": "Co je nového"
+  },
+  "updates": {
+    "title": "Update available",
+    "description": "A newer app bundle ({version}) is ready to install.",
+    "downloading": "Downloading update… {progress}%",
+    "downgradeTitle": "Switch to Stable Version",
+    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
+    "error": "Update failed. Please try again later.",
+    "later": "Later",
+    "preparing": "Preparing update… please keep the app open.",
+    "releaseNotes": "Release notes",
+    "whatsNew": "Novinky",
+    "updateNow": "Update now",
+    "working": "Working…"
   },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
@@ -39,96 +53,20 @@
   },
   "components": {
     "framing": {
-      "search": {
-        "title": "Hledání",
-        "placeholder": "Zadejte vyhledávací termín...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Kometa",
-          "StellariumObject": "Objekt",
-          "Star": "Hvězda",
-          "Moon": "Měsíc"
-        }
-      }
-    },
-    "framing": {
-      "search": {
-        "title": "Hledání",
-        "placeholder": "Zadejte vyhledávací termín...",
-        "objectTypes": {
-          "Planet": "Planeta",
-          "Comet": "Kometa",
-          "StellariumObject": "Objekt",
-          "Star": "Hvězda",
-          "Moon": "Měsíc"
-        }
-      }
-    },
-    "tutorial": {
-      "previous": "Předchozí",
-      "next": "Další",
-      "skip": "Přeskočit Tutoriál"
-    },
-    "settings": {
-      "title": "Nastavení",
-      "language": "Jazyk",
-      "coordinates": "Souřadnice GPS",
-      "connection": "Podrobnosti o připojení k N.I.N.A",
-      "save": "Uložit",
-      "add": "Přidat",
-      "update": "Aktualizace",
-      "instance": {
-        "name": "Název Relace",
-        "ip": "IP Addresa",
-        "port": "Port",
-        "edit": "Upravit Relace",
-        "delete": "Smazat Relace"
-      },
-      "errors": {
-        "emptyFields": "Vyplňte všechna pole",
-        "instanceNameRequired": "Název instance je povinný",
-        "invalidIPFormat": "Uveďte prosím IP nebo FQDN",
-        "invalidPortRange": "Port musí být v rozsahu 1 až 65535",
-        "invalidInstance": "Připojení se nepodařilo navázat"
-      },
-      "showTutorial": "Ukázat Tutoriál",
-      "system": {
-        "description": "Klikněte na libovolnou ikonu pro restart nebo vypnutí systému",
-        "title": "Ovládání Systému",
-        "confirmRestart": "Určitě chcete systém restartovat?",
-        "confirmShutdown": "Jste si jisti, že chcete systém vypnout?",
-        "confirmation": "Potvrzení",
-        "info": "Tím se vypne nebo restartuje počítač, který je hostitelem instalace N.I.N.A!"
-      },
-      "image": {
-        "quality": "Kvalita v %",
-        "title": "Nastavení snímků",
-        "black_clipping": "Černý Výstřižek",
-        "strech_factor": "Faktor Strech"
-      },
-      "plugins": {
-        "description": "Popis pluginu",
-        "title": "Pluginy"
-      },
-      "debug": {
-        "activate": "Povolit okno ladění",
-        "titel": "Nastavení Ladění"
-      },
-      "notifications": {
-        "enable": "Povolení oznámení",
-        "sequence": "Sekvence událostí",
-        "title": "Oznámení"
-      },
-      "infoSetLocationSync": "Aby bylo zajištěno správné přenesení souřadnic do montáže, nastavte v programu NINA možnost „Synchronizace polohy“ na „Synchronizovat s dalekohledem“. To umožní programu TNS odeslat údaje o poloze přímo do montáže."
-    },
-    "framing": {
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",
       "setSequnceTarget": "nastavit tento cíl jako součást sekvence",
       "search": {
         "title": "Hledat",
-        "placeholder": "Zadejte hledaný výraz..."
+        "placeholder": "Zadejte hledaný výraz...",
+        "objectTypes": {
+          "Comet": "Kometa",
+          "Moon": "Mesíc",
+          "Planet": "Planeta",
+          "Star": "Hvězda",
+          "StellariumObject": "Objekt"
+        }
       },
       "fovSettings": {
         "rotationAngle": "Natočení kamery",
@@ -142,59 +80,109 @@
       "moveRotator": "Otáčení kamery",
       "openFraminingModal": "Spustť ve Snímkování",
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
-      "currentAltitude": "Aktuální nadm. výška",
-      "useCenter": "Center",
-      "useRotate": "Rotate"
+      "useCenter": "Střed",
+      "useRotate": "Rotace"
+    },
+    "tutorial": {
+      "previous": "Předchozí",
+      "next": "Další",
+      "skip": "Přeskočit Tutoriál"
+    },
+    "settings": {
+      "title": "Nastavení",
+      "coordinates": "GPS souřadnice",
+      "save": "Uložit",
+      "infoSetLocationSync": "Nejprve nastavte synchronizaci polohy na montáž",
+      "connection": "Nastavení připojení",
+      "language": "Jazyk",
+      "image": {
+        "title": "Nastavení obrázku",
+        "quality": "Kvalita obrázku",
+        "maxDimension": "Maks. velikost obrázku",
+        "strech_factor": "Faktor roztažení",
+        "black_clipping": "Černé ořezávání",
+        "DebayeredHFR": "Debayer HFR",
+        "UnlinkedStretch": "Nepropojený Stretch",
+        "debayern": "Debayer Snímek"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Aktivovat debug režim",
+        "titel": "Debug"
+      },
+      "notifications": {
+        "title": "Oznámení",
+        "enable": "Activate",
+        "sequence": "sekvence",
+        "phd2": "PHD2"
+      },
+      "showTutorial": "Zobrazit tutoriál",
+      "plugins": {
+        "title": "Správa pluginů",
+        "description": "Spravovat nainstalované pluginy",
+        "author": "Autor"
+      },
+      "system": {
+        "title": "Systémové ovládání",
+        "description": "Ovládání restartování a vypnutí systému",
+        "info": "Tyto akce ovlivní celý systém",
+        "confirmation": "Potvrdit akci",
+        "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
+        "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
+      },
+      "add": "přidat",
+      "update": "TODO: přeložit [Aktualizace]",
+      "errors": {
+        "instanceNameRequired": "TODO: přeložit [Je vyžadován název instance]",
+        "invalidIPFormat": "TODO: přeložit [Neplatný formát IP adresy]",
+        "invalidPortRange": "TODO: přeložit [Neplatný rozsah portů]",
+        "invalidInstance": "TODO: přeložit [Neplatná instance]",
+        "emptyFields": "TODO: přeložit [Prázdná pole]"
+      },
+      "keepAwake": {
+        "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená.",
+        "title": "Udržet Obrazovku Aktivní"
+      },
+      "beta": {
+        "title": "Beta aktualizační kanál"
+      }
     },
     "connectEquipment": {
       "camera": {
-        "error": "Chyba při ovládání kamery:",
-        "name": "Camera"
+        "name": "Kamera"
       },
       "connectAll": "Připojit Vše",
       "disconnectAll": "Odpojit Vše",
       "connectAllError": "Chyba při připojování všech zařízení",
       "disconnectAllError": "Chyba při odpojování všech zařízení",
       "filter": {
-        "connect": "Připojit filtrační kolo",
-        "disconnect": "Odpojit filtrační kolo",
-        "error": "Chyba při ovládání filtračního kola:",
         "name": "FiltračníKolo"
       },
       "mount": {
-        "error": "Chyba při ovládání montáže:",
         "name": "Montáž"
       },
       "focuser": {
-        "error": "Chyba při ovládání ostření:",
         "name": "Ostření"
       },
       "rotator": {
-        "error": "Chyba při ovládání rotátoru:",
         "name": "Rotátor"
       },
       "guider": {
-        "error": "Chyba při ovládání pointace:",
         "name": "Navádění"
       },
       "safety": {
-        "error": "Chyba při ovládání bezpečnostního monitoru",
         "name": "Bez. monitor"
       },
       "flat": {
-        "error": "Chyba při ovládání flat zařízení:",
         "name": "FlatZařízení"
       },
       "dome": {
-        "error": "Chyba při ovládání kopule:",
         "name": "Kopule"
       },
       "switch": {
-        "error": "Chyba při ovládání přepínače",
         "name": "Přepínač"
       },
       "weather": {
-        "error": "Chyba při ovládání počasí",
         "name": "Počasí"
       },
       "info": {
@@ -203,34 +191,15 @@
       }
     },
     "lastLogs": {
-      "loading": "Načítání dat...",
-      "error": "Chyba při načítání dat...:",
       "timestamp": "Časové razítko",
       "level": "Úroveň",
       "message": "Zpráva",
-      "member": "Člen",
-      "line": "Řádek",
       "download": "Stáhnout"
     },
-    "navigation": {
-      "equipment": "Zařízení",
-      "camera": "Kamera",
-      "autofocus": "AutoOstření",
-      "mount": "Montáž",
-      "guider": "Pointace",
-      "dome": "Kopule",
-      "sequence": "Sekvence",
-      "settings": "Nastavení",
-      "vnc": "VNC"
-    },
-    "language": {
-      "select": "Výběr jazyka"
-    },
-    "equipment": {
-      "control": "Kontrola Zařízení"
-    },
+    "navigation": {},
+    "language": {},
+    "equipment": {},
     "sequence": {
-      "title": "Sekvence",
       "stats": "Statistiky",
       "noSequenceLoaded": "Žádná načtená sekvence",
       "noSequenceData": "zatím nejsou k dispozici žádná data",
@@ -240,66 +209,60 @@
       "resetConfirmationTitle": "Potvrzení resetu",
       "resetConfirmationMessage": "Jste si jisti, že chcete resetovat sekvenci? Tuto akci nelze vrátit zpět.",
       "load_sequence": "Načíst Sekvenci",
-      "refresh_sequences": "Obnovit Sekvence",
-      "select_sequence": "Vybrat Sekvenci",
       "choose_sequence": "Vyberte sekvenci...",
       "no_sequences_found": "Žádné sekvence nenalezeny",
-      "sequences_loaded": "Sekvence načteny",
       "error_loading_sequences": "Chyba při načítání sekvencí",
-      "sequence_loaded_successfully": "Sekvence '{name}' úspěšně načtena",
       "error_loading_sequence": "Chyba při načítání sekvence: {error}",
-      "exposures": "Expozice",
-      "exposureTime": "Čas expozice",
       "filter": "Filtr",
-      "ditherEvery": "Každý Dither",
-      "type": "Typ",
-      "deltaHFR": "DeltaHFR",
-      "sampleSize": "Velikost vzorku",
       "triggers": "Spouštěče:",
-      "details": {
-        "of": "of",
-        "gain": "Gain",
-        "ditherAfter": "Dither po",
-        "exposures": "expozice"
-      },
-      "date": "Datum",
+      "expandAll": "Rozbalit vše",
+      "collapseAll": "Sbalit vše",
+      "details": {},
       "hfr": "HFR",
-      "stars": "Hvězdy",
       "mean": "Průměr",
       "median": "Střední",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
-      "sequence_control": "Ovládání Sekvence",
-      "temperature": "Teplota",
       "monitor": {
         "settings": {
           "title": "Zobrazit nastavení",
           "showImage": "Zobrazit poslední snímek",
           "showImageStats": "Zobrazit statistiku posledního snímku",
           "showImgStatsGraph": "Zobrazit HFR-Graf",
-          "showGuiderGraph": "Zobrazit graf-pointace",
           "showGuiderAfGraph": "Zobrazit graf-ostření",
-          "display_status_under_image": "Zobrazit stav pod obrázkem"
+          "display_status_under_image": "Zobrazit stav pod obrázkem",
+          "sequenceCurrentState": "Zobrazit stav sekvence"
         }
+      },
+      "graphControls": {
+        "title": "Ovládání Grafu",
+        "dataSources": "Zdroje Dat",
+        "source1": "Zdroj 1",
+        "source2": "Zdroj 2",
+        "reset": "Obnovit",
+        "noDataAvailable": "Žádná dostupná data",
+        "timeDisplay": "Časový Rozsah"
       },
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
       "temperatureShort": "Teplota",
+      "targetName": "Cíl",
       "conditions": "Podmínky",
       "info": {
         "header": "Info",
         "message": "Vaši sekvenci bohužel nelze upravit. V současné době nejsou podporovány všechny zásuvné moduly sekvencí. Pokud nám chcete pomoci, dejte nám na GitHub vědět, které pluginy používáte."
       },
-      "info_general": {
-        "message": "Bohužel zatím nejsme schopni zpracovat všechny parametry. Pracujeme na podpoře co největšího počtu funkcí NINA. Vzhledem k tomu, že existuje velké množství zásuvných modulů, nemůžeme je všechny integrovat. Snažíme se jich však podporovat co nejvíce. Pokud si všimnete chyby v zobrazení, pomozte nám a nahlaste ji na GitHubu."
-      },
+      "info_general": {},
       "sort": {
         "newest": "nejnovější první",
         "oldest": "nejstarší první",
         "sort": "Seřadit"
       },
-      "time": "Čas"
+      "time": "Čas",
+      "noRunningItems": "Sekvence zastavena",
+      "status": "Stav sekvence",
+      "instructions": "Pokyny"
     },
     "mount": {
       "title": "Montáž",
@@ -310,21 +273,13 @@
         "home": "Home",
         "trackingMode": "Režim Sledování",
         "siderial": "Hvězdný",
-        "lunar": "Lunární",
-        "solar": "Solární",
-        "king": "King",
-        "stop": "Zastavit",
         "errors": {
-          "park": "Chyba při parkování montáže",
           "unpark": "Chyba při odparkování montáže",
-          "home": "Chyba v navádění montáže",
           "tracking": "Chyba při nastavování režimu sledován"
         },
         "manuellControl": "Ruční Ovládání",
         "slewRate": "Rychlost pohybu °/s",
-        "info_manuell_controll": "Ruční ovládání je k dispozici pouze v případě, že sledování není aktivní.",
         "set_as_park": "Nastavit jako park",
-        "slew_to_cenit": "Přelet do Zenitu",
         "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží",
         "setLocationSyncToMount": "Nastavit 'Synchronizovat s dalekohledem'"
       },
@@ -335,7 +290,12 @@
         "trackingActive": "Sledování je aktivní",
         "trackingDisabled": "Sledování vypnuto",
         "slewing": "Montáž přejíždí",
-        "notSlewing": "Nepřejíždí"
+        "notSlewing": "Nepřejíždí",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az",
+        "timeToMeridianFlip": "Čas na Překlopení Poledník"
       },
       "location_sync": {
         "noSync": {
@@ -359,7 +319,6 @@
       "rms_error": "RMS Chyba",
       "title": "Navádění",
       "running": "PROBÍHÁ",
-      "notes": "* Tento graf zobrazuje data navádění podle nastavení N.I.N.A.",
       "statusLabel": "Stav",
       "status": {
         "looping": "Smyčka",
@@ -396,7 +355,35 @@
           "reactive_weight": "RA: Reaktivní váha W",
           "slope_weight": "RA: Váha sklonu"
         },
-        "Exposuretime": "Exposuretime"
+        "Exposuretime": "Expozice"
+      },
+      "calibrationAssistant": {
+        "calibrating": "Probíhá kalibrace...",
+        "calibrationComplete": "Kalibrace dokončena",
+        "calibrationError": "Chyba během kalibrace",
+        "calibrationFailed": "Kalibrace selhala",
+        "calibrationResult": "Výsledek kalibrace",
+        "calibrationStopped": "Kalibrace zastavena",
+        "decOffset": "Dec Offset",
+        "direction": "Směr",
+        "east": "Východ",
+        "goodCalibration": "Dosaženo vynikající kalibrace",
+        "info": "Asistent kalibrace vám pomůže optimálně nastavit polohu montáže pro kalibraci a provést přesnou kalibraci.",
+        "meridianOffset": "Posun poledníku",
+        "poorCalibration": "Kalibraci lze vylepšit. Zkuste jinou polohu nebo zkontrolujte své zařízení.",
+        "positionCalculated": "Vypočítaná optimální poloha",
+        "positionSettings": "Nastavení Polohy",
+        "quality": "Kvalita",
+        "slewComplete": "Přejezd dokončen",
+        "slewError": "Chyba během přejezdu",
+        "slewToPosition": "Pžejezd na Pozici",
+        "slewing": "Přejíží do cílové polohy...",
+        "startCalibration": "Spustit Kalibraci",
+        "stopCalibration": "Zastavit Kalibraci",
+        "title": "Asistent Kalibrace",
+        "west": "Západ",
+        "slewStopped": "Přejezd se zastavil",
+        "stopSlew": "Zastavit Přejezd"
       }
     },
     "focuser": {
@@ -406,7 +393,6 @@
       "start_autofocus": "Spustit AutoOstření",
       "cancel_autofocus": "Zrušit AutoOstření",
       "autofocus_graph": "AutoOstření graf",
-      "autofocus_running": "AutoOstření běží",
       "autofocus_error": "AutoOstření chyba",
       "please_connect_focuser": "Připojte ostření",
       "current_position": "Současná pozice:",
@@ -428,8 +414,8 @@
       "not_at_home": "není na místě",
       "park": "parkovat",
       "unpark": "odparkovat",
-      "shutter_close": "šterbina zavřená",
-      "shutter_open": "šterbina otevřená",
+      "shutter_close": "štěrbina zavřená",
+      "shutter_open": "štěrbina otevřená",
       "control": {
         "open": "Otevřít štěrbinu",
         "close": "Zavřít štěrbinu",
@@ -440,10 +426,9 @@
           "stop": "Chyba v zastavení štěrbiny",
           "home": "Chyba home",
           "park": "Chyba Park",
-          "slew": "Chyba přejezd",
           "stop_slew": "Chyba zastavení přejezdu",
-          "sync": "Chaby synch.",
-          "follow": "Sledování chyb Dalekohled"
+          "sync": "Chyba synch.",
+          "follow": "Sledování chyb Dalekohledu"
         },
         "follow": "Dalekohled s kopulí",
         "slew": "Přejezd",
@@ -457,33 +442,25 @@
       "not_sync": "Není synch."
     },
     "camera": {
-      "title": "Kamera",
       "connect": "Připojte kameru",
       "settings": "Nastavení",
-      "loop": "Cyklus",
       "capture_running": "Snímání probíhá",
-      "image_loading": "Načítání snímku...",
-      "start_capture": "Spustit snímání",
-      "cancel": "Rušit",
-      "exposure_time": "Čas expozice:",
+      "exposure_time": "Čas expozice (s):",
       "gain_iso": "Gain / ISO:",
       "name": "Jméno kamery",
       "gain": "Gain",
       "offset": "Offset",
-      "temperature": "Teplota",
+      "temperature": "Teplota (°C)",
       "standby": "Pohotovostní režim",
-      "info": "Informace",
-      "info_settings": "Informace & Nastavení",
-      "please_connect": "Připojte kameru",
       "cooler_on": "Chlazení On",
       "cooler_off": "Chlazení Off",
       "dew_heater": "Topný pásek",
       "dew_heater_on": "Topný pásek On",
       "dew_heater_off": "Topný pásek Off",
       "camera_cooling": "Chlazení kamery",
-      "target_temperature": "Cílová teplota",
-      "warm_up_time": "Doba zahřátí",
-      "cooling_time": "Doba chlazení",
+      "target_temperature": "Cílová teplota (°C)",
+      "warm_up_time": "Doba zahřátí (min)",
+      "cooling_time": "Doba chlazení (min)",
       "binning_mode": "Binning",
       "readout_mode": "Režim Čtení",
       "set_use_platesolve": "Použít Řešení",
@@ -493,17 +470,28 @@
         "pixel_size": "Velikost pixelů (μm)",
         "title": "Nastavení čipu",
         "width": "Šířka (px)"
-      }
+      },
+      "at_target_temp": "Při cílové teplotě",
+      "cooler_power": "Výkon chlazení (%)",
+      "temperature_setpoint": "Nastavená teplota (°C)",
+      "camera_warming": "Camera warm up",
+      "cooler_status": "Stav chlazení",
+      "cooler_status_off": "VYPNUTO",
+      "cooler_status_cooling": "Aktivní - Chlazení na",
+      "cooler_status_holding": "Aktivní - Při cílové teplotě",
+      "cooler_status_warming": "Aktivní - Ohřev na",
+      "set_save_snapshot": "Uložit snímky",
+      "snapshotTargetName": "Název cíle",
+      "set_use_solve_sync_to_mount": "Sync to mount"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",
-      "camera_mount_required": "Kamera musí být připojena a montáž musí být odparkována",
+      "camera_mount_required": "Kamera musí být připojena",
       "start_alignment": "Spustit Zarovnání",
       "stop_alignment": "Zastavit Zarovnánít",
       "altitude_error": "Chyba v Nad. výšce:",
       "azimuth_error": "Chyba v Azimutu:",
       "total_error": "Celková Chyba:",
-      "last_update": "Naposledy Aktualizováno:",
       "error_values_missing": "Chybějící hodnoty chyby",
       "unknown_response_format": "Neznámý formát odpovědi",
       "east": "Východ",
@@ -521,17 +509,20 @@
       "slewing_next_position": "Přesun na další polohu",
       "settings": {
         "DirectionEast": "Směr Východ",
-        "StartFromCurrentPosition": "Začít ze současné pozice?"
-      }
+        "StartFromCurrentPosition": "Začít ze současné pozice?",
+        "camera_settings": "Nastavení Kamery",
+        "camera_settings_hint": "Nechte prázdné pro výchozí nastavení NINA",
+        "exposure_time": "Doba Expozice (s)",
+        "gain": "Gain",
+        "nina_default": "NINA Výchozí",
+        "title": "Nastavení TPPAs",
+        "ManualMode": "Manual mode"
+      },
+      "error_modal": {},
+      "tppa": "TPPA"
     },
-    "logs": {
-      "loading": "Načítání dat...",
-      "error": "Chyba při načítání dat:"
-    },
-    "test": {
-      "title": "Test"
-    },
-    "loading": "Načítání...",
+    "logs": {},
+    "test": {},
     "slewAndCenter": {
       "title": "Přejet a Vycentrovat",
       "LastSelectedImageSource_wrong": "Vyberte offline mapu oblohy jako zdroj obrázku v NINA / Snímkování",
@@ -542,49 +533,42 @@
       "slew": "Přejet",
       "slew_and_center": "Přejet a Vycentrovat",
       "errors": {
-        "invalidRAFormat": "Neplatný formát RA. Používejte prosím HH:MM:SS.",
-        "invalidDECFormat": "Neplatný formát DEC. Používejte prosím ±DD:MM:SS.",
         "invalidRAInput": "Neplatný vstup RA.",
         "invalidDECInput": "Neplatný vstup DEC.",
-        "apiUnreachable": "Nedostupnost rozhraní API pro snímkování",
-        "invalidFormat": "Nesprávný formát. Očekává se: ±DD:MM:SS.s",
         "apiResponseError": "Chyba v odpovědi API:",
         "mountInfoError": "Chyba při získávání informací o montáži:",
         "invalidAltInput": "Neplatný vstup alt.",
         "invalidAzInput": "Neplatný vstup az."
       },
-      "rotate": "Rotace",
       "visibleStars": "Hledání Viditelných Hvězd",
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "center_Repeat": "Opakované centrování",
-        "center_error": "Chyba centrování",
-        "center_successful": "Úspěšné centrování",
-        "deviation_target": "Odchylka od cíle:",
-        "exposure_running": "Expozice běží",
-        "is_centering": "Cíl uprostřed",
-        "is_platesolving": "Astrometrie běží",
-        "is_slewing": "Přejezd na cíl",
-        "plate_solve_error": "Astrometrie chyba"
+        "deviation_target": "Odchylka od cíle:"
       }
     },
     "filterwheel": {
+      "title": "Filtrační Kolo",
       "filter": "Filtr:",
       "unknown": "Neznámý",
       "nofilteravailable": "Žádný filtr není k dispozici",
-      "manual_filter": {
-        "name": "Změna filtru:",
-        "title": "FiltračníKolo"
-      }
+      "please_connect_filterwheel": "Připojte prosím filtrační kolo",
+      "currentFilter": "Aktuální Filtr",
+      "position": "Pozice",
+      "availableFilters": "Dostupné Filtry"
     },
     "rotator": {
+      "title": "Rotátor",
       "label": "Rotátor",
       "move": "Pohyb",
-      "notConnected": "připojte rotátor",
+      "control": "Ovládání",
       "currentPosition": "Současná pozice:",
-      "moving": "Vpohybu",
-      "stopped": "Zastavil"
+      "moving": "V pohybu",
+      "connected": "Připojeno",
+      "disconnected": "Odpojeno",
+      "stationary": "Stacionární",
+      "stepSize": "Velikost Kroku",
+      "please_connect_rotator": "Připojte rotátor"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",
@@ -640,16 +624,13 @@
     },
     "stellarium": {
       "datetime": {
-        "apply": "Použít",
         "date": "Datum",
         "now": "Nyní",
         "speed": "Rychlost",
         "time": "Čas",
-        "title": "Datum"
+        "title": "Název"
       },
-      "mount_position": {
-        "title": "Pozice Montáže"
-      },
+      "mount_position": {},
       "selected_object": {
         "button_framing": "přejít na snímkování",
         "dec": "DEC",
@@ -663,7 +644,8 @@
         "ecliptic_lines_visible": "Zobrazit ekliptiku",
         "equatorial_lines_visible": "Zobrazit rovníkové linie",
         "landscapes_visible": "Ukázat krajinu",
-        "meridian_lines_visible": "Zobrazit poledník"
+        "meridian_lines_visible": "Zobrazit poledník",
+        "dsos_visible": "Deep Sky Objekty (Messier, NGC)"
       }
     },
     "profile": {
@@ -671,10 +653,7 @@
     },
     "fav_target": {
       "enter_name": "Zadejte jméno",
-      "modal_save": {
-        "message": "Cíl byl uložen",
-        "titel": "Uložit"
-      },
+      "modal_save": {},
       "modal_sequence": {
         "titel": "Sekvence"
       },
@@ -691,7 +670,6 @@
         "name": "Jméno",
         "ra": "RA",
         "remove": "Odstranit",
-        "sequnce": "Cíl sekvence",
         "rotation": "Rotace"
       },
       "titel": "Oblíbené"
@@ -702,39 +680,388 @@
         "title": "Konfigurace Oznámení"
       }
     },
-    "settings": {
-      "title": "Nastavení",
-      "coordinates": "GPS souřadnice",
-      "save": "Uložit",
-      "infoSetLocationSync": "Nejprve nastavte synchronizaci polohy na montáž",
-      "connection": "Nastavení připojení",
-      "language": "Jazyk",
-      "image": {
-        "title": "Nastavení obrázku",
-        "quality": "Kvalita obrázku",
-        "strech_factor": "Faktor roztažení",
-        "black_clipping": "Černé ořezávání"
-      },
-      "debug": {
-        "title": "Debug",
-        "activate": "Aktivovat debug režim"
-      },
-      "notifications": {
-        "title": "Oznámení"
-      },
-      "showTutorial": "Zobrazit tutoriál",
-      "plugins": {
-        "title": "Správa pluginů",
-        "description": "Spravovat nainstalované pluginy"
-      },
-      "system": {
-        "title": "Systémové ovládání",
-        "description": "Ovládání restartování a vypnutí systému",
-        "info": "Tyto akce ovlivní celý systém",
-        "confirmation": "Potvrdit akci",
-        "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
-        "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
+    "helpers": {
+      "imageModal": {
+        "no_image": "No image data available"
       }
     }
-  }
+  },
+  "plugins": {
+    "common": {
+      "initializing": "Inicializace...",
+      "outdated": {
+        "title": "Plugin Zastaralý",
+        "message": "Plugin TouchNStars v NINA je zastaralý a musí být aktualizován.",
+        "required": "Požadovaná Verze",
+        "current": "Aktuální Verze"
+      }
+    },
+    "sequenceCreator": {
+      "actionLibrary": {
+        "description": "Kliknutím přidáte akce do kontejnerů",
+        "endActions": "🏁 Ukončit Akce",
+        "startActions": "🚀 Spustit Akce",
+        "targetActions": "🎯 Cílové Akce",
+        "title": "Knihovna Akcí"
+      },
+      "actions": {
+        "actionId": "ID Akce",
+        "actionParameters": "Parametry Akce",
+        "category": "Kategorie",
+        "changesSaveAutomatically": "Změny se ukládají automaticky",
+        "closeEditor": "Zavřít Editor",
+        "disabled": "Vypnuto",
+        "duplicateAction": "Duplikovat Akci",
+        "editParameters": "Upravit Parametry",
+        "enabled": "Zapnuto",
+        "max": "Max:",
+        "min": "Min:",
+        "moveDown": "Pohyb Dolů",
+        "moveUp": "Pohyb Nahoru",
+        "no": "No",
+        "noConfigurableParameters": "Tato akce nemá žádné konfigurovatelné parametry.",
+        "notSet": "Není nastaveno",
+        "parameters": "Parametery",
+        "removeAction": "Odebrat Akci",
+        "yes": "Yes",
+        "coolCamera": {
+          "description": "Ochlazení kamery na stanovenou teplotu",
+          "durationLabel": "Doba chlazení (minuty)",
+          "durationTooltip": "Čas pro aktivní chlazení kamery (0 = chlazení až do dosažení teploty)",
+          "name": "Kamera Vychlazena",
+          "temperatureLabel": "Teplota (°C)",
+          "temperatureTooltip": "Cílová teplota pro chlazení kameryg"
+        },
+        "parkTelescope": {
+          "description": "Parkování montáže dalekohledu",
+          "name": "Park Dalekohledu"
+        },
+        "runAutofocus": {
+          "description": "Provést automatické zaostření",
+          "name": "Spustit AutoOstření"
+        },
+        "slewToTarget": {
+          "description": "Přejít na cíl s různými možnostmi",
+          "name": "Přejet na Cíl",
+          "slewModeLabel": "Režim Přejíždění",
+          "slewModeTooltip": "Vyberte způsob navigace k cíli"
+        },
+        "smartExposure": {
+          "binningLabel": "Binning",
+          "binningTooltip": "Režim binning pixelů",
+          "countLabel": "Počet snímků",
+          "countTooltip": "Počet expozic",
+          "description": "Inteligentní expoziční sekvence s ditheringem a spouštěči",
+          "ditherAfterLabel": "Dither po N expozicíchs",
+          "ditherAfterTooltip": "Frekvence ditheringu",
+          "exposureTimeLabel": "Expoziční doba (s)",
+          "exposureTimeTooltip": "Délka trvání každé expozice",
+          "filterLabel": "Filtr",
+          "filterTooltip": "Výběr filtrového kola",
+          "gainLabel": "Gain",
+          "gainTooltip": "Nastavení gain kamery",
+          "imageTypeLabel": "Typ snímku",
+          "imageTypeTooltip": "Typ expozice pro snímání",
+          "name": "Inteligentní expozice (Zobrazování)",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Nastavení offset kamery"
+        },
+        "startGuiding": {
+          "description": "Spustit automatické navádění",
+          "forceCalibrationLabel": "Síla Kalibrace",
+          "forceCalibrationTooltip": "Vynutit novou kalibraci navádění",
+          "name": "Spustit Navádění"
+        },
+        "stopGuiding": {
+          "description": "Zastavit Autonavádění",
+          "name": "Zastavit Navádění"
+        },
+        "targetSettings": {
+          "decLabel": "Deklinace",
+          "decTooltip": "Dec v DD:MM:SS formátu",
+          "description": "Definice souřadnic cíle a nastavení",
+          "name": "Nastavení Cíle",
+          "positionAngleLabel": "Úhel Polohy (°)",
+          "positionAngleTooltip": "Úhel natočení kamery",
+          "raLabel": "Rektascenze",
+          "raTooltip": "RA v HH:MM:SS formátu",
+          "targetNameLabel": "Název Cíle",
+          "targetNameTooltip": "Název nebeského tělesa"
+        },
+        "unparkTelescope": {
+          "description": "Unpark montáže dalekohledu",
+          "name": "Unpark Dalekohledu"
+        },
+        "warmCamera": {
+          "description": "Zahřát kameru",
+          "durationLabel": "Čas zahřívání (minuty)",
+          "durationTooltip": "Čas na aktivní zahřátí kamery (0 = zahřátí na okolní teplotu)",
+          "name": "Zahřátá Kamera"
+        },
+        "clickToRename": "Kliknutím přejmenujte",
+        "findHome": {
+          "description": "Nastavte dalekohled do výchozí polohy.",
+          "name": "Najít Home"
+        }
+      },
+      "confirmations": {
+        "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
+        "removeAction": "Odstranit akci „{actionName}",
+        "navigateToSequence": "Chcete nyní přejít na stránku Sekvence?",
+        "title": "Potvrzení",
+        "saveAsDefault": "Opravdu chcete uložit aktuální sekvenci jako výchozí? Tím se přepíše předchozí výchozí sekvence.",
+        "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence."
+      },
+      "containers": {
+        "addAction": "Přidat Akci",
+        "addActionsToContainer": "Přidat akce do tohoto kontejneru",
+        "endSequence": {
+          "description": "Akce provedené na konci relace",
+          "emptyDescription": "Přidejte akce pro bezpečné vypnutí zařízení",
+          "emptyTitle": "Žádné Akce Na konci",
+          "title": "Konec Sekvence"
+        },
+        "noActions": "Žádné Akce",
+        "startSequence": {
+          "description": "Akce provedené na začátku relace",
+          "emptyDescription": "Přidejte akce pro přípravu zařízení pro snímání obrazu",
+          "emptyTitle": "Žádné Akce při Spuštění",
+          "title": "Spustit Sekvenci"
+        },
+        "targetSequence": {
+          "description": "Hlavní zobrazovací sekvence pro váš cíl",
+          "emptyDescription": "Přidejte zobrazovací akce pro svůj cíl",
+          "emptyTitle": "Žádné Cílové Akce",
+          "title": "Cílová Sekvence"
+        }
+      },
+      "exportModal": {
+        "buttons": {},
+        "howToUse": {},
+        "jsonPreview": {
+          "categories": "Kategorie",
+          "copied": "Kopírováno!",
+          "copyJson": "Kopírovat JSON",
+          "downloadJson": "Stáhnout JSON",
+          "enabled": "Zapnuto",
+          "estimatedDuration": "Přibližná délka trvání",
+          "filenamePrompt": "Zadejte název souboru...",
+          "previewDescription": "Náhled a stažení sekvence jako souboru JSON",
+          "sequenceJsonExport": "Export sekvence JSON",
+          "totalActions": "Celkem Akcí"
+        },
+        "messages": {}
+      },
+      "subtitle": "Vytvářejte profesionální astrofotografické sekvence",
+      "title": "N.I.N.A Tvůrce sekvencí",
+      "toolbar": {
+        "clearSequence": "Vymazat Sekvenci",
+        "invalidSequence": "Přidejte nastavení cíle a inteligentní expozici, abyste vytvořili platnou sekvenci.",
+        "loadBasicSequence": "Načíst Základní Sekvenci",
+        "redo": "Znovu",
+        "undo": "Zpět",
+        "validSequence": "Sekvence je platná a lze ji převzít.",
+        "saveAsDefault": "Uložit jako výchozí",
+        "saveAsDefaultSuccess": "Uloženo jako výchozí sekvence!",
+        "sendErrorTitle": "Chyba při odesílání do",
+        "sendSuccessMessage": "Sekvence úspěšně odeslána do N.I.N.A!",
+        "sendToNina": "Převzít sekvenci",
+        "sending": "Odesílání...",
+        "sent": "Odesláno!"
+      },
+      "settings": {
+        "title": "Překlopení Poledníku",
+        "enableMeridianFlip": "Zapnuto  Překlopení Poledníku"
+      },
+      "targetSearch": {
+        "objectTypes": {
+          "Comet": "Kometa",
+          "DSO": "Deep-Sky Object",
+          "Moon": "Měsíc",
+          "Planet": "Planety",
+          "Star": "Hvězda"
+        },
+        "placeholder": "Zadejte název objektu (např. M31, NGC 1234, Mars)...",
+        "searchDescription": "Vyhledávejte objekty hlubokého vesmíru, planety nebo hvězdy a automaticky přejímejte souřadnice.",
+        "searchLabel": "Hledat Cíl"
+      }
+    },
+    "webcam": {
+      "close": "Zavřít",
+      "configureUrl": "Konfigurace URL snímku a načtení obrázku",
+      "connected": "Připojeno",
+      "disconnected": "Odpojeno",
+      "displayOptions": "Možnosti zobrazení",
+      "error": "Chyba",
+      "lastUpdate": "Poslední aktualizace",
+      "liveView": "Živý Náhled",
+      "loadingImage": "Načítání snímku...",
+      "noImageAvailable": "Žádný snímek k dispozici",
+      "refreshInterval": "Obnovit Intervall",
+      "reset": "Reset",
+      "resetConfirm": "Opravdu chcete resetovat všechna nastavení webové kamery?",
+      "snapshotUrlDescription": "URL snímku je přímý odkaz na jeden obrázek z vaší webové kamery/IP kamery. Tato URL by měla vrátit přímo obrázek ve formátu JPEG/PNG, nikoli HTML stránku nebo stream.",
+      "snapshotUrl": "Snímek URL",
+      "settings": "Nastavení",
+      "snapshotUrlExamples": "Příklady:",
+      "startAuto": "Auto Start",
+      "status": "Stav",
+      "stopAuto": "Auto Stop",
+      "title": "Nastavení Webkamery",
+      "autoRefresh": "Auto Obnovení Refresh",
+      "errors": {}
+    },
+    "logfileCollector": {
+      "actions": {
+        "collectUpload": "Sbírat",
+        "uploading": "Nahrávání…",
+        "clearAll": "Vymazat Vše",
+        "copyToken": "Kopírovat",
+        "remove": "Odebrat"
+      },
+      "descriptionLabel": "Popis (volitelné)",
+      "descriptionPlaceholder": "Popište problém, který chcete prozkoumat...",
+      "intro": "Shromážděte nejnovější protokoly TNS (včetně ladění) a nahrajte je do nakonfigurovaného koncového bodu.",
+      "result": {
+        "failed": "Nahrávání se nezdařilo",
+        "failedWithStatus": "Nahrávání se nezdařilo ({status})",
+        "success": "Nahrání úspěšné",
+        "allSubmissionsCleared": "Všechny žádosti byly přijaty",
+        "submissionRemoved": "Příspěvek byl odstraněn",
+        "tokenCopied": "Token zkopírován do schránky",
+        "tokenCopyFailed": "Kopírování tokenu se nezdařilo"
+      },
+      "title": "Sběrač Souborů Logů",
+      "confirmClearAll": "Opravdu chcete vymazat celou historii odeslaných příspěvků?",
+      "lastToken": "Generované Tokeny",
+      "submissionFields": {
+        "date": "Datum",
+        "filename": "Název souboru",
+        "token": "Token"
+      },
+      "submissionHistory": "Historie Odeslání"
+    },
+    "telescopius": {
+      "title": "Dalekohled",
+      "offlineInfo": "Načítá osobní seznamy cílů z telescopius.com a ukládá je lokálně pro offline dostupnost.",
+      "landing": {
+        "title": "Zásuvný modul Telescopius",
+        "subtitle": "Přeneste své cílové objekty z Telescopius.com přímo do Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "Co je tento zásuvný modul?",
+          "description": "Načtěte své uložené cílové objekty z Telescopius.com přímo do Touch'N'Stars a použijte je pro navigaci a kompozici.",
+          "features": {
+            "loadLists": "Načíst seznamy cílů z Telescopius.com",
+            "navigate": "Navigovat přímo k objektům",
+            "framingAssistant": "Použít asistenta kompozice",
+            "offlineCache": "Offline mezipaměť pro rychlý přístup"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "Co je Telescopius?",
+          "description": "Telescopius je komplexní astronomická platforma pro objevování a plánování astronomických pozorování.",
+          "features": {
+            "database": "Rozsáhlá databáze objektů",
+            "lists": "Personalizované seznamy cílů",
+            "planning": "Plánování pozorování",
+            "community": "Komunita a sdílení"
+          },
+          "visitWebsite": "Navštívit Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "Hlavní funkce",
+          "description": "Bezproblémová integrace mezi Telescopius a Touch'N'Stars:",
+          "features": {
+            "autoImport": "Automatický import: Všechny seznamy cílů najednou",
+            "smartCache": "Chytrá mezipaměť: Rychlý offline přístup",
+            "directNavigation": "Přímá navigace: Namířit jedním kliknutím",
+            "framingIntegration": "Integrace kompozice: Využívá existující nástroje",
+            "locationBased": "Založeno na poloze: Zohledňuje vaši lokalitu"
+          }
+        },
+        "apiSetup": {
+          "title": "Nastavení API klíče",
+          "description": "Postupujte podle těchto jednoduchých kroků pro konfiguraci zásuvného modulu:",
+          "step1": {
+            "title": "Vytvořte si účet Telescopius",
+            "description": "Pokud ještě nemáte účet, zaregistrujte se zdarma:",
+            "button": "Registrovat zdarma"
+          },
+          "step2": {
+            "title": "Požádejte o API klíč",
+            "description": "Přihlaste se a přejděte do Nastavení → API pro svůj osobní klíč:",
+            "button": "Požádat o API klíč"
+          },
+          "step3": {
+            "title": "Konfigurujte API klíč",
+            "description": "Při vytváření API klíče použijte tato nastavení:",
+            "config": {
+              "name": "Název",
+              "nameValue": "Libovolný název (např. Touch N Stars)",
+              "description": "Popis",
+              "descriptionValue": "Libovolný popis (např. API pro TNS)",
+              "accessType": "Typ přístupu",
+              "accessTypeValue": "Vyberte Server",
+              "ipLimit": "Omezit přístup na tyto IP adresy",
+              "ipLimitValue": "Nechte prázdné"
+            }
+          },
+          "step4": {
+            "title": "Zadejte API klíč",
+            "description": "Klikněte níže na \"Konfigurovat API klíč\" a zadejte svůj klíč:",
+            "button": "Konfigurovat API klíč"
+          },
+          "security": {
+            "title": "Bezpečnost",
+            "description": "Váš API klíč je uložen pouze lokálně na vašem zařízení a nikdy není sdílen s ostatními. Můžete jej kdykoli smazat."
+          }
+        }
+      },
+      "apiKey": {
+        "title": "Telescopius API klíč",
+        "description": "Pro použití Telescopius potřebujete API klíč. Ten můžete získat na webu Telescopius:",
+        "linkText": "→ Požádat o Telescopius API klíč",
+        "securityNote": "API klíč je uložen na serveru a používá se pouze pro požadavky Telescopius.",
+        "placeholder": "Zadejte svůj Telescopius API klíč...",
+        "configured": "API klíč je již nakonfigurován",
+        "save": "Uložit",
+        "delete": "Smazat",
+        "cancel": "Zrušit",
+        "configure": "Konfigurovat API klíč",
+        "required": "API klíč je vyžadován",
+        "errors": {
+          "saveFailed": "API klíč se nepodařilo uložit.",
+          "deleteFailed": "API klíč se nepodařilo smazat."
+        },
+        "loadFromTelescopius": "obnovit"
+      },
+      "targetLists": {
+        "noListsTitle": "Žádné uložené seznamy cílů",
+        "noListsDescription": "Ve vašem účtu Telescopius zatím nebyly nalezeny žádné seznamy cílů.",
+        "noListsHint": "Vytvořte seznamy cílů na telescopius.com a poté je zde znovu načtěte.",
+        "editOnTelescopius": "Upravit seznamy na Telescopius",
+        "dataFrom": "Data z",
+        "connectionError": "Připojení k Telescopius selhalo. Počítač NINA potřebuje internetové připojení a v Telescopius musí existovat alespoň jeden seznam cílů."
+      }
+    },
+    "livestack": {
+      "available_filters": "Dostupné Filtry",
+      "beta_note": "Tento plugin je stále ve vývoji a může obsahovat některé chyby!",
+      "no_image_available": "Žádný snímek není k dispozici.",
+      "not_available": "Livestack nebyl nalezen. Nejprve nainstalujte plugin Livestack do NINA.",
+      "start_and_select_filter": "Spusťte livestack a vyberte filtr pro zobrazení snímků",
+      "target": "Cíl",
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
+    }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Čas",
+      "status": "Stav",
+      "error": "Chyba Vzdálenosti",
+      "rotation": "Rotace"
+    }
+  },
+  "loading": "loading"
 }

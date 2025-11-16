@@ -7,7 +7,6 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
-import { handleApiError } from '@/utils/utils';
 import { ref } from 'vue';
 
 const { t } = useI18n();
@@ -15,8 +14,7 @@ const statusClass = ref('');
 
 async function closeShutter() {
   try {
-    const response = await apiService.domeAction('close');
-    if (handleApiError(response, { title: t('components.dome.control.errors.close') })) return;
+    await apiService.domeAction('close');
     statusClass.value = 'glow-green';
     console.log(t('components.dome.control.close'));
   } catch (error) {

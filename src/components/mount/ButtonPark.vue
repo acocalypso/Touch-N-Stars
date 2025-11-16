@@ -1,5 +1,5 @@
 <template>
-  <button @click="mountPark" :class="['default-button-red', statusClass]">
+  <button v-if="store.mountInfo.CanPark" @click="mountPark" :class="['default-button-red', statusClass]">
     {{ $t('components.mount.control.park') }}
   </button>
 </template>
@@ -7,15 +7,16 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const statusClass = ref('');
 
 async function mountPark() {
   try {
     const response = await apiService.mountAction('park');
     console.log('park', response);
-    if (handleApiError(response, { title: 'Mount error' })) return;
+    if (!response.Success) return;
 
     // Button grün leuchten lassen
     statusClass.value = 'glow-green';

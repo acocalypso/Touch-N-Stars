@@ -34,7 +34,6 @@
 import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { handleApiError } from '@/utils/utils';
 import { useI18n } from 'vue-i18n';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
@@ -68,7 +67,7 @@ async function slewDome() {
 async function stopSlew() {
   try {
     const response = await apiService.domeAction('stop');
-    if (handleApiError(response, { title: t('components.dome.control.errors.stop_slew') })) return;
+    if (!response.Success) return;
     isSlewing.value = false;
     statusClass.value = 'glow-green';
     console.log('Stopping slew:', response);

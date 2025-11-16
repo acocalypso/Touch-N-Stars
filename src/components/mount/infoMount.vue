@@ -22,15 +22,52 @@
       :enabledText="$t('components.mount.info.slewing')"
       :disabledText="$t('components.mount.info.notSlewing')"
     />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.RightAscensionString"
+      :Name="$t('components.mount.info.rightAscension')"
+      :Value="store.mountInfo.RightAscensionString || ''"
+    />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.DeclinationString"
+      :Name="$t('components.mount.info.declination')"
+      :Value="store.mountInfo.DeclinationString || ''"
+    />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.AltitudeString"
+      :Name="$t('components.mount.info.Alt')"
+      :Value="store.mountInfo.AltitudeString || ''"
+    />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.AzimuthString"
+      :Name="$t('components.mount.info.Az')"
+      :Value="store.mountInfo.AzimuthString || ''"
+    />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.TimeToMeridianFlipString"
+      :Name="$t('components.mount.info.timeToMeridianFlip')"
+      :Value="store.mountInfo.TimeToMeridianFlipString || ''"
+    />
   </div>
 </template>
 
 <script setup>
 import StatusBool from '@/components/helpers/StatusBool.vue';
+import StatusString from '@/components/helpers/StatusString.vue';
 import { apiStore } from '@/store/store';
 const store = apiStore();
 
-defineProps({
+const props = defineProps({
   modelValue: Boolean,
+  hideMountInfos: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const { hideMountInfos } = props;
 </script>

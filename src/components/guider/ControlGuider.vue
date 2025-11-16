@@ -106,7 +106,7 @@ async function guiderStartStop(befehl) {
     await apiService.guiderAction(befehl);
     console.log('Guider Command:', befehl);
   } catch (error) {
-    console.error('Fehler:', error.response?.data || error);
+    console.error('Error:', error.response?.data || error);
   } finally {
     isProcessingStart.value = false;
   }
@@ -118,7 +118,7 @@ async function guiderStartWithCal() {
     await apiService.guiderStart(true);
     console.log('Guider Command: Start with cal');
   } catch (error) {
-    console.error('Fehler:', error.response?.data || error);
+    console.error('Error:', error.response?.data || error);
   } finally {
     isProcessingStartWithCal.value = false;
   }

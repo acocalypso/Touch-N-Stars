@@ -3,15 +3,235 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [App4.0.0-beta.10] - 2025-11-XX
+### Fixed
+- Reloading the image when changing instances
+- The Mount Control button is only displayed if the function is supported.
 
-## [1.1.1.0] - 2025-07-25
+## [App4.0.0-beta.9] - 2025-11-13
 ### Added
-- PHD2 Image
+- Time Range Controls: Collapsible control panel with dual-range slider for time-based filtering
+- Sequence Graph: Data source selector for primary and secondary graph displays
+
+## [App4.0.0-beta.8] - 2025-11-12
+### Added
+- Camera settings: Sync platesove coordinates to mount
+
+## [logfile-collector1.0.2] [App4.0.0-beta.7] - 2025-11-11
+### Added
+- SequenceImageHistory: Added toggle button for image statistics display 
+- SequnceGraph: zoom function for the graph
+
+### Fixed
+- logfile-collector: Fixed copy token
+- App: Fixed save target name
+
+## [App4.0.0-beta.6]- 2025-11-11
+### Fixed
+- Fixed image loading at startup
+- Fixed Exposurebutton spinner to show the image loading
+- Fixed update url
+
+## [App4.0.0-beta.5]- 2025-11-10
+### Fixed
+- Fixed: Downgrade function if the backend is unavailable 
+
+## [App4.0.0-beta.4]- 2025-11-09
+### Added
+- Centralized image management system with new Image Store
+- Configurable maximum image dimension setting (Full/High/Medium/Low presets) for optimized performance across different camera types
+- Image validation to detect corrupted images with automatic retry mechanism
+- Visual loading spinner overlay for image loading states
+
+### Changed
+- Improved image fetch performance with proper memory management
+- Enhanced exposure countdown watchdog with increased check interval for better accuracy
+- Optimized performance logging threshold for image requests
+
+### Fixed
+- Fixed info overlay about offline catalog in slew tab 
+- Fixed race condition between simultaneous image fetch operations
+- Fixed memory leaks from unreleased Blob URLs in image operations
+
+## [LivestackPlugin0.4.1] [App4.0.0-beta.3]- 2025-11-08
+### Fixed
+- Fixed dialog visibility issue on Camera Page when dialogs appear over the image view
+- Fixed scrolling on iOS for Livestack control panel and improved UI responsiveness on small screens
+- Livestack: Control panel header now remains fixed while content scrolls on iOS devices 
+
+## [LivestackPlugin0.4.0] [App4.0.0-beta.2]- 2025-11-07
+### Important information
+- Advanced API V2.2.11.0 and Livestack 1.0.1.5 is required for Livestack
+### Added
+- Livestack: Display of the number of stacked images added
+- App: An option to specify the target name when saving snapshots
+
+## [App3.6.1] - 2025-11-05
+### Added
+- Option to join the beta channel
+
+### Fixed
+- Fixed error in the display of the modal settings
+- Fixed Setup for querying GPS data 
+
+## [1.1.6.1] [App3.6.0] - 2025-11-05
+### Changed
+- Plugin Livestack: Button for selecting targets revised
+### Fixed
+- Fixed Websocket connection of the Livestack plugin
+
+## [1.1.6.0] [App3.6.0] - 2025-11-05
+### Added
+- Option to save snapshots
+- Green glow effect for camera settings when successfully changed (Exposure Time, Gain, Offset, Target Temperature, Cooling Time, Warming Time, Pixel Size)
+- Translations for snapshot settings in all supported languages
+- Added Altitude (Alt) and Azimuth (Az)  to mountinfo
+- Updater
+
+### Changed
+- Stellarium now displays the time from NINA when starting up.
+- Camera Gain synchronizes with the NINA Snapshot setting.
+
+### Fixed
+- Fixed guider calibration assistant slew stop
+- Fixed loading images during continuous loop
+- Hid ExposureCount from sequence display
+- Fixed negative declination display in sequence target coordinates
+- Fixed display of alt/az in the framing tab 
+
+## [1.1.5.0] [App3.5.0] - 2025-10-25
+### Added
+- Added a button to control the mount in TPPA Manual Mode.  
+- Added TNS Sequence MessageBox.  
+
+### Changed
+- Updated sequence settings: more options can now be modified.  
+- Disabled the shake-to-undo functionality on iOS.  
+- iOS: Images are now saved under **Photos**.  
+- Camera cooling status is now displayed.  
+
+### Fixed
+- Fixed “Center Here”: target selection no longer covers the center modal.  
+- Fixed display of statistics in history images.  
+- Improved timeout handling during reconnection.  
+- Fixed exposure countdown.  
+- Fixed “Keep screen awake” function.  
+- Fixed switching between two instances.  
+- Fixed saving of setup step.  
+- Fixed message display when the API cannot be reached.  
+- Fixed total error display (secondary double quote for arcseconds).  
+
+## [1.1.4.0] [App3.4.0] - 2025-10-07
+### Added
+- Three Point Polar Alignment (TPPA): Manual Mode (Advanced API V2.2.10.0 is required)
+- The current status is now displayed in the sequence and sequence dashboard
+- Livestack plugin (note: currently in beta version)
+- PHD2: more warning messages 
+- The status of the camera, mount, and filter wheel can be opened by pressing the icons in the status bar.
+
+### Changed
+- The mount page is now always visible. An icon indicates whether the mount is connected.
+- There is now a refresh button in iOS to reload Stellarium.
+- Sequence design updated
+- PHD2 connection establishment has been improved
+- Save zoom and position in the camera image 
+- Improved app loading speed by adjusting timeout periods 
+- The camera cooling and warming function has been revised.
+- The speed for connecting to NINA has been improved.
+- Sequence-Creator: Added an option to switch directly to the sequence page
+
+### Fixed
+- Image statistics: Temperature limited to one decimal place
+- Sequence: Changing the values of conditions fixed
+
+## [1.1.3.0] [App3.3.0] - 2025-09-10
+### Important information
+- Advanced API V2.2.9.0 is required
+
+### Added
+- Filterwheel page: Dedicated page with responsive grid layout and status information
+- Rotator page: Dedicated page with enhanced info display and controls
+- Camera page: Quick access buttons and modal popups for rotator controls
+- Navigation: Icons for filterwheel and rotator when equipment is connected
+- Mount info: Added Right Ascension, Declination, and Time to Meridian Flip display
+- TPPA page: Image modal with zoom functionality for viewing camera images during alignment
+- Focuser page: Image modal with zoom functionality for viewing camera images during autofocus
+- TPPA and Focus pages: Add background camera image when running
+- Websocket connection monitoring created
+
+### Changed
+- Rotator: Moved from camera settings modal to dedicated quick access button
+- TPPA page: Mount info display hidden to reduce clutter during alignment process
+- Camera page: The last image taken is now always displayed. As in NINA
+- Mount page: Added slew stop button
+- Info message: Show 'What's new' on first start after an update
+- Removed local notification for now.
+
+### Fixed
+- Fixed bug with switches when a non-writable switch is in the sequence
+- Default gain and offset are now displayed in the sequence instead of -1.
+
+## [1.1.2.2] [App3.2.2] - 2025-08-22
+### Added
+- Mountpage: Add Slew stop button 
+- Info message: What's new when starting for the first time after an update
+
+### Fixed
+- Sequence: Display of the filter name
+- Fix Slew stop if only slew was executed
+- Mount websocket connection fix
+
+## [1.1.2.1] [App3.2.1] - 2025-08-22
+### Changed
+-  Plugin: Sequece Creator: The settings are now saved in the backend.
+
+### Fixed
+- Android: The display turned itself off. Now this can be selected in the settings.
+- Plugin: Sequece Creator: The endcontaienr is now processed sequentially.
+
+## [1.1.2.0] [App3.2.0] - 2025-08-20
+### Added
+- Image settings: add debayer and unlinked stretch options 
+- TPPA: Settings for GAIN and Exposuretime
+- Telescopius Plugin: Personal target lists from Telescopius can now be loaded. Please note: An API key from Telescopius is required.
+- Logcollector Plugin added - Submit your logs to the Touch N Stars team in case troubleshooting is required.
+
+### Changed
+- Error handling and debug mode rework
+- Slew and center breaks off after one attempt at plate solving.
+
+### Fixed
+- Favorites: fix save rotation
+- Android: Fix image download from Sequence page
+- TPPA: Button position from ErrorModal 
+- Plugin: Sequence Creator fix Meridian Flip
+
+## [1.1.1.1] [App3.1.1] - 2025-08-07
+### Added
+- Sequence creator: Find home option
+
+### Fixed
+- fix settings button if no connection can be established
+- fix cooling settings at sequence creator
+
+## [1.1.1.0] [App3.1.0] - 2025-08-05
+### Added
+- PHD2 image similar to PHD2 with guide star marker
 - PHD2 Starimige with starprofiel graph
 - PHD2 callibration assitant
+- Plugin: Sequence Creator for simple sequences added
+- Plugin: Webcam viewer
+- When you start the app for the first time, you will be automatically redirected to the equipment page.
 
 ### Changed
 - The settings modal is now a separate page.
+- Stellaruim search improved
+- The sequence page design has been revised.
+- The iocns of the navbar are no longer dependent on the status of the sequence. 
+- Framing assistant revised
+
+### Fixed
+- Framing: The skychart and the Name is now also displayed when the coordinates come from Stellarium.
 
 ## [1.1.0.0] - 2025-07-25
 ### Added

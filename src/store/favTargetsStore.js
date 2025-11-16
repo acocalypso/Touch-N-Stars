@@ -13,7 +13,7 @@ export const useFavTargetStore = defineStore('favTarget', {
         this.favoriteTargets = favorites;
         console.log(favorites);
       } catch (error) {
-        console.error('Fehler beim Laden der Favoriten:', error);
+        console.error('Error loading favorites:', error);
       }
     },
 
@@ -22,7 +22,7 @@ export const useFavTargetStore = defineStore('favTarget', {
         const response = await apiService.addFavorite(target);
         this.favoriteTargets.push(response.Response); // API gibt den gespeicherten Eintrag zurück
       } catch (error) {
-        console.error('Fehler beim Hinzufügen des Favoriten:', error);
+        console.error('Error adding favorite:', error);
       }
     },
 
@@ -32,7 +32,7 @@ export const useFavTargetStore = defineStore('favTarget', {
         const favorites = await apiService.getAllFavorites();
         this.favoriteTargets = favorites;
       } catch (error) {
-        console.error('Fehler beim Löschen des Favoriten:', error);
+        console.error('Error deleting favorite:', error);
       }
     },
 

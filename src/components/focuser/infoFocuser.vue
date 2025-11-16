@@ -23,7 +23,6 @@
       :enabledText="$t('components.focuser.autofocus_active')"
       :disabledText="$t('components.focuser.autofocus')"
     />
-    <infoCamera :show-only-exposing="store.focuserAfInfo.autofocus_running" />
   </div>
 </template>
 
@@ -31,7 +30,6 @@
 import { computed } from 'vue';
 import StatusBool from '@/components/helpers/StatusBool.vue';
 import StatusString from '@/components/helpers/StatusString.vue';
-import infoCamera from '@/components/camera/infoCamera.vue';
 import { apiStore } from '@/store/store';
 const store = apiStore();
 

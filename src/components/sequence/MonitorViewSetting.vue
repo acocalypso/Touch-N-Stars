@@ -67,6 +67,23 @@
     <div
       class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
+      <label for="showSequenceCurrentState" class="text-gray-400">
+        {{ $t('components.sequence.monitor.settings.sequenceCurrentState') }}
+      </label>
+      <div>
+        <toggleButton
+          @click="
+            settingsStore.monitorViewSetting.showSequenceCurrentState =
+              !settingsStore.monitorViewSetting.showSequenceCurrentState
+          "
+          :status-value="settingsStore.monitorViewSetting.showSequenceCurrentState"
+        />
+      </div>
+    </div>
+
+    <div
+      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+    >
       <label for="showGuiderAfGraph" class="text-gray-400">
         {{ $t('components.sequence.monitor.settings.showGuiderAfGraph') }}
       </label>

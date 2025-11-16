@@ -49,8 +49,12 @@
 	<true/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Sync current coordinates to the mount</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Save captured images to your photo library in the TouchNStars album</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access photo library to save captured images</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>	
+	<false/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>
@@ -58,6 +62,8 @@
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
 </dict>

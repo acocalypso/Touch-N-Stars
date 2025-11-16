@@ -99,6 +99,7 @@
       "image": {
         "title": "图像设置",
         "quality": "图像质量",
+        "maxDimension": "最大图像尺寸",
         "strech_factor": "拉伸因子",
         "black_clipping": "黑点剪切",
         "debayern": "去拜耳图像",
@@ -231,6 +232,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "图表控制",
+        "dataSources": "数据源",
+        "source1": "源 1",
+        "source2": "源 2",
+        "reset": "重置",
+        "noDataAvailable": "无可用数据",
+        "timeDisplay": "时间范围"
+      },
       "running": "运行中",
       "imageHistory": "图像历史",
       "duration": "持续时间",
@@ -250,12 +260,7 @@
       "time": "时间",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions",
-      "tnsMessageBox": {
-        "title": "序列消息",
-        "stopSequence": "停止序列",
-        "continueSequence": "继续序列"
-      }
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "赤道仪",
@@ -473,7 +478,9 @@
       "cooler_status_cooling": "活跃 - 冷却至",
       "cooler_status_holding": "活跃 - 达到目标温度",
       "cooler_status_warming": "活跃 - 加热至",
-      "set_save_snapshot": "保存快照"
+      "set_save_snapshot": "保存快照",
+      "snapshotTargetName": "目标名称",
+      "set_use_solve_sync_to_mount": "Sync to mount"
     },
     "tppa": {
       "title": "三点极轴对准",
@@ -533,14 +540,6 @@
       "alt": "高度：",
       "az": "方位角：",
       "slew_modal": {
-        "is_slewing": "转向目标",
-        "is_centering": "居中目标",
-        "is_platesolving": "板解析运行中",
-        "plate_solve_error": "板解析错误",
-        "center_error": "居中错误",
-        "center_successful": "居中成功",
-        "center_Repeat": "重复居中",
-        "exposure_running": "曝光运行中",
         "deviation_target": "与目标偏差："
       }
     },
@@ -552,18 +551,13 @@
       "please_connect_filterwheel": "请连接滤镜轮",
       "currentFilter": "当前滤镜",
       "position": "位置",
-      "availableFilters": "可用滤镜",
-      "manual_filter": {
-        "title": "滤镜轮",
-        "name": "更换为滤镜："
-      }
+      "availableFilters": "可用滤镜"
     },
     "rotator": {
       "title": "旋转器",
       "label": "旋转器",
       "move": "移动",
       "control": "控制",
-      "notConnected": "请连接旋转器",
       "please_connect_rotator": "请连接旋转器",
       "currentPosition": "当前位置",
       "moving": "正在移动",
@@ -1048,14 +1042,21 @@
     "livestack": {
       "available_filters": "Available Filters",
       "beta_note": "This plugin is still under development and may contain some errors!",
-      "images_available": "{count} Images Available",
-      "last_updated": "Last updated",
       "no_image_available": "No image available",
-      "no_images_available": "No Images Available",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Status",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "时间",
+      "status": "状态",
+      "error": "误差距离",
+      "rotation": "旋转"
+    }
+  },
+  "loading": "loading"
 }

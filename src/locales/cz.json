@@ -23,6 +23,24 @@
       "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
     }
   },
+  "whatsnew": {
+    "loading": "Načítání…",
+    "title": "Co je nového"
+  },
+  "updates": {
+    "title": "Update available",
+    "description": "A newer app bundle ({version}) is ready to install.",
+    "downloading": "Downloading update… {progress}%",
+    "downgradeTitle": "Switch to Stable Version",
+    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
+    "error": "Update failed. Please try again later.",
+    "later": "Later",
+    "preparing": "Preparing update… please keep the app open.",
+    "releaseNotes": "Release notes",
+    "whatsNew": "Novinky",
+    "updateNow": "Update now",
+    "working": "Working…"
+  },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
     "description": "Začněme rychlým nastavením",
@@ -80,6 +98,7 @@
       "image": {
         "title": "Nastavení obrázku",
         "quality": "Kvalita obrázku",
+        "maxDimension": "Maks. velikost obrázku",
         "strech_factor": "Faktor roztažení",
         "black_clipping": "Černé ořezávání",
         "DebayeredHFR": "Debayer HFR",
@@ -215,6 +234,15 @@
           "sequenceCurrentState": "Zobrazit stav sekvence"
         }
       },
+      "graphControls": {
+        "title": "Ovládání Grafu",
+        "dataSources": "Zdroje Dat",
+        "source1": "Zdroj 1",
+        "source2": "Zdroj 2",
+        "reset": "Obnovit",
+        "noDataAvailable": "Žádná dostupná data",
+        "timeDisplay": "Časový Rozsah"
+      },
       "running": "BĚŽÍCÍ",
       "imageHistory": "Historie Snímků",
       "duration": "Trvání",
@@ -234,12 +262,7 @@
       "time": "Čas",
       "noRunningItems": "Sekvence zastavena",
       "status": "Stav sekvence",
-      "instructions": "Pokyny",
-      "tnsMessageBox": {
-        "title": "Zpráva sekvence",
-        "stopSequence": "Zastavit sekvenci",
-        "continueSequence": "Pokračovat v sekvenci"
-      }
+      "instructions": "Pokyny"
     },
     "mount": {
       "title": "Montáž",
@@ -457,7 +480,9 @@
       "cooler_status_cooling": "Aktivní - Chlazení na",
       "cooler_status_holding": "Aktivní - Při cílové teplotě",
       "cooler_status_warming": "Aktivní - Ohřev na",
-      "set_save_snapshot": "Uložit snímky"
+      "set_save_snapshot": "Uložit snímky",
+      "snapshotTargetName": "Název cíle",
+      "set_use_solve_sync_to_mount": "Sync to mount"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",
@@ -519,15 +544,7 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "center_Repeat": "Opakované centrování",
-        "center_error": "Chyba centrování",
-        "center_successful": "Úspěšné centrování",
-        "deviation_target": "Odchylka od cíle:",
-        "exposure_running": "Expozice běží",
-        "is_centering": "Cíl uprostřed",
-        "is_platesolving": "Astrometrie běží",
-        "is_slewing": "Přejezd na cíl",
-        "plate_solve_error": "Astrometrie chyba"
+        "deviation_target": "Odchylka od cíle:"
       }
     },
     "filterwheel": {
@@ -538,18 +555,13 @@
       "please_connect_filterwheel": "Připojte prosím filtrační kolo",
       "currentFilter": "Aktuální Filtr",
       "position": "Pozice",
-      "availableFilters": "Dostupné Filtry",
-      "manual_filter": {
-        "name": "Změna filtru:",
-        "title": "FiltračníKolo"
-      }
+      "availableFilters": "Dostupné Filtry"
     },
     "rotator": {
       "title": "Rotátor",
       "label": "Rotátor",
       "move": "Pohyb",
       "control": "Ovládání",
-      "notConnected": "připojte rotátor",
       "currentPosition": "Současná pozice:",
       "moving": "V pohybu",
       "connected": "Připojeno",
@@ -1035,32 +1047,21 @@
     "livestack": {
       "available_filters": "Dostupné Filtry",
       "beta_note": "Tento plugin je stále ve vývoji a může obsahovat některé chyby!",
-      "images_available": "{count} Dostupný Snímek",
-      "last_updated": "Poslední aktualizace",
       "no_image_available": "Žádný snímek není k dispozici.",
-      "no_images_available": "Žádné snímky nejsou k dispozici",
       "not_available": "Livestack nebyl nalezen. Nejprve nainstalujte plugin Livestack do NINA.",
       "start_and_select_filter": "Spusťte livestack a vyberte filtr pro zobrazení snímků",
-      "status": "Stav",
-      "target": "Cíl"
+      "target": "Cíl",
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
     }
   },
-  "whatsnew": {
-    "loading": "Načítání…",
-    "title": "Co je nového"
+  "dialogs": {
+    "plateSolving": {
+      "time": "Čas",
+      "status": "Stav",
+      "error": "Chyba Vzdálenosti",
+      "rotation": "Rotace"
+    }
   },
-  "updates": {
-    "description": "A newer app bundle ({version}) is ready to install.",
-    "downloading": "Downloading update… {progress}%",
-    "error": "Update failed. Please try again later.",
-    "later": "Later",
-    "preparing": "Preparing update… please keep the app open.",
-    "releaseNotes": "Release notes",
-    "whatsNew": "Novinky",
-    "title": "Update available",
-    "updateNow": "Update now",
-    "working": "Working…",
-    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
-    "downgradeTitle": "Switch to Stable Version"
-  }
+  "loading": "loading"
 }

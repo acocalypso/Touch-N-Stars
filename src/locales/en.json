@@ -99,6 +99,7 @@
       "image": {
         "title": "Image Settings",
         "quality": "Image Quality",
+        "maxDimension": "Max. Image Size",
         "strech_factor": "Stretch Factor",
         "black_clipping": "Black Clipping",
         "debayern": "Debayer Image",
@@ -230,11 +231,20 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "Graph Controls",
+        "dataSources": "Data Sources",
+        "source1": "Source 1",
+        "source2": "Source 2",
+        "reset": "Reset",
+        "noDataAvailable": "No data available",
+        "timeDisplay": "Time Range"
+      },
       "running": "RUNNING",
       "imageHistory": "Image History",
       "duration": "Duration",
       "temperatureShort": "Temp",
-  "targetName": "Target",
+      "targetName": "Target",
       "conditions": "Conditions",
       "info": {
         "header": "Info",
@@ -249,12 +259,7 @@
       "time": "Time",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions",
-      "tnsMessageBox": {
-        "title": "Sequence Message",
-        "stopSequence": "Stop Sequence",
-        "continueSequence": "Continue Sequence"
-      }
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Mount",
@@ -472,7 +477,9 @@
       "cooler_status_cooling": "Active - Cooling to",
       "cooler_status_holding": "Active - At target temp",
       "cooler_status_warming": "Active - Warming to",
-      "set_save_snapshot": "Save snapshots"
+      "set_save_snapshot": "Save snapshots",
+      "snapshotTargetName": "Targe name",
+      "set_use_solve_sync_to_mount": "Sync to mount"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",
@@ -532,14 +539,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Slewing to target",
-        "is_centering": "Center target",
-        "is_platesolving": "Platesolve running",
-        "plate_solve_error": "Platesolve error",
-        "center_error": "Centering error",
-        "center_successful": "Centering successful",
-        "center_Repeat": "Repeat centering",
-        "exposure_running": "Exposure running",
         "deviation_target": "Deviation to the target:"
       }
     },
@@ -551,18 +550,13 @@
       "please_connect_filterwheel": "Please connect filter wheel",
       "currentFilter": "Current Filter",
       "position": "Position",
-      "availableFilters": "Available Filters",
-      "manual_filter": {
-        "title": "Filterwheel",
-        "name": "Change to filter:"
-      }
+      "availableFilters": "Available Filters"
     },
     "rotator": {
       "title": "Rotator",
       "label": "Rotator",
       "move": "Move",
       "control": "Control",
-      "notConnected": "Please connect rotator",
       "please_connect_rotator": "Please connect rotator",
       "connected": "Connected",
       "disconnected": "Disconnected",
@@ -1047,14 +1041,21 @@
     "livestack": {
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "beta_note": "This plugin is still under development and may contain some errors!",
-      "status": "Status",
       "target": "Target",
-      "last_updated": "Last updated",
       "available_filters": "Available Filters",
       "no_image_available": "No image available",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "images_available": "{count} Images Available",
-      "no_images_available": "No Images Available"
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Time",
+      "status": "Status",
+      "error": "Error Distance",
+      "rotation": "Rotation"
+    }
+  },
+  "loading": "loading"
 }

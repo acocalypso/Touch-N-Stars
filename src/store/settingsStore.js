@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
+import { useImagetStore } from './imageStore';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -29,6 +30,13 @@ export const useSettingsStore = defineStore('settings', {
       showGuiderAfGraph: true,
       showSequenceCurrentState: true,
       displayStatusUnderImage: false,
+      showHistoryImageStats: true,
+      historyTimeRange: {
+        startIndex: 0, // Index des ersten anzuzeigenden Datenpunkts
+        endIndex: null, // null bedeutet: alle Daten anzeigen
+      },
+      graphDataSource1: 'HFR', // Erste Datenquelle für Graph
+      graphDataSource2: 'Stars', // Zweite Datenquelle für Graph
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -50,8 +58,11 @@ export const useSettingsStore = defineStore('settings', {
       gain: 0,
       offset: 0,
       useSolve: false,
+      useSyncSolveToMount: false,
       imageScale: 100,
       imageQuality: 90,
+      maxDimension: 2048,
+      snapshotTargetName: 'Snapshot',
     },
     flats: {
       selectedOption: 'AutoExposure',
@@ -209,12 +220,15 @@ export const useSettingsStore = defineStore('settings', {
     setSelectedInstanceId(id) {
       this.selectedInstanceId = id;
       const instance = this.getInstance(id);
+      const imageStore = useImagetStore();
       if (instance) {
         this.connection.ip = instance.ip;
         this.connection.port = instance.port;
 
         // Clear all backend states when switching instances
         this._getApiStore().clearAllStates();
+        imageStore.clearImageCache();
+        console.log('[SettingsStore] Selected instance set to:', id);
       }
     },
 
@@ -261,6 +275,24 @@ export const useSettingsStore = defineStore('settings', {
     setKeepAwakeEnabled(value) {
       this.keepAwakeEnabled = value;
     },
+
+    setHistoryTimeRange(startIndex, endIndex) {
+      this.monitorViewSetting.historyTimeRange.startIndex = startIndex;
+      this.monitorViewSetting.historyTimeRange.endIndex = endIndex;
+    },
+
+    resetHistoryTimeRange() {
+      this.monitorViewSetting.historyTimeRange.startIndex = 0;
+      this.monitorViewSetting.historyTimeRange.endIndex = null;
+    },
+
+    setGraphDataSource1(dataSource) {
+      this.monitorViewSetting.graphDataSource1 = dataSource;
+    },
+
+    setGraphDataSource2(dataSource) {
+      this.monitorViewSetting.graphDataSource2 = dataSource;
+    },
   },
   persist: {
     enabled: true,
@@ -281,6 +313,9 @@ export const useSettingsStore = defineStore('settings', {
           'guider',
           'keepAwakeEnabled',
           'useBetaFeatures',
+          'camera',
+          'monitorViewSetting.graphDataSource1',
+          'monitorViewSetting.graphDataSource2',
         ],
       },
     ],

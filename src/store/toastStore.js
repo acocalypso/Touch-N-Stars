@@ -24,7 +24,7 @@ export const useToastStore = defineStore('toastStore', {
       link = '',
       linkText = '',
       autoClose = true,
-      autoCloseDelay = 5000,
+      autoCloseDelay = 3000,
     }) {
       this.newMessage = true;
       this.type = type;

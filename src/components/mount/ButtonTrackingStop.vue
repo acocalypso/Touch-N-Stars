@@ -1,5 +1,5 @@
 <template>
-  <button @click="setTrackingMode(4)" class="default-button-red" :class="statusClass">
+  <button v-if="store.mountInfo.CanSetTrackingEnabled" @click="setTrackingMode(4)" class="default-button-red" :class="statusClass">
     <StopCircleIcon class="w-8 h-8" />
   </button>
 </template>
@@ -9,7 +9,9 @@ import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const statusClass = ref('');
 const { t } = useI18n();
 

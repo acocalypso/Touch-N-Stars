@@ -90,15 +90,21 @@ export function setupErrorHandler() {
           });
         }
       } else if (response.status === 200 && duration > 5000) {
-        // Log slow requests (over 5 seconds)
-        createStructuredLog('WARN', 'PERFORMANCE', {
-          method,
-          url,
-          status: response.status,
-          message: `Slow request detected`,
-          duration,
-          extra: { threshold: 5000 },
-        });
+        // Check if this is an image request - use higher threshold (10 seconds)
+        const isImageRequest = url.includes('/image/');
+        const threshold = isImageRequest ? 10000 : 5000;
+
+        if (duration > threshold) {
+          // Log slow requests (over threshold)
+          createStructuredLog('WARN', 'PERFORMANCE', {
+            method,
+            url,
+            status: response.status,
+            message: `Slow request detected`,
+            duration,
+            extra: { threshold },
+          });
+        }
       }
 
       return response;

@@ -98,6 +98,7 @@
       "image": {
         "title": "Bildeinstellungen",
         "quality": "Bildqualität",
+        "maxDimension": "Max. Bildgröße",
         "strech_factor": "Autostrech Faktor",
         "black_clipping": "Schwarzpunktfaktor",
         "DebayeredHFR": "Debayered HFR",
@@ -230,11 +231,20 @@
           "sequenceCurrentState": "Sequenzstatus anzeigen"
         }
       },
+      "graphControls": {
+        "title": "Grapheinstellungen",
+        "dataSources": "Datenquellen",
+        "source1": "Quelle 1",
+        "source2": "Quelle 2",
+        "reset": "Zurücksetzen",
+        "noDataAvailable": "Keine Daten verfügbar",
+        "timeDisplay": "Zeitbereich"
+      },
       "running": "WIRD AUSGEFÜHRT",
       "imageHistory": "Image History",
       "duration": "Duration",
-  "temperatureShort": "Temp",
-  "targetName": "Ziel",
+      "temperatureShort": "Temp",
+      "targetName": "Ziel",
       "conditions": "Bedingungen",
       "info": {
         "header": "Info",
@@ -249,12 +259,7 @@
       "time": "Zeit",
       "noRunningItems": "Sequenz gestoppt",
       "status": "Sequenzstatus",
-      "instructions": "Anweisungen",
-      "tnsMessageBox": {
-        "title": "Sequenz Nachricht",
-        "stopSequence": "Sequenz stoppen",
-        "continueSequence": "Sequenz fortsetzen"
-      }
+      "instructions": "Anweisungen"
     },
     "mount": {
       "title": "Montierung",
@@ -472,7 +477,9 @@
       "cooler_status_cooling": "Aktiv - Kühlt auf",
       "cooler_status_holding": "Aktiv - Zieltemperatur erreicht",
       "cooler_status_warming": "Aktiv - Wärmt auf",
-      "set_save_snapshot": "Snapshots speichern"
+      "set_save_snapshot": "Snapshots speichern",
+      "snapshotTargetName": "Zielname",
+      "set_use_solve_sync_to_mount": "Mit Montierung synchronisieren"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",
@@ -532,14 +539,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Zum Ziel schwenken",
-        "is_centering": "Ziel zentrieren",
-        "is_platesolving": "Platesolve läuft",
-        "plate_solve_error": "Platesolve-Fehler",
-        "center_error": "Zentrierfehler",
-        "center_successful": "Zentrieren erfolgreich",
-        "center_Repeat": "Zentrieren wiederholen",
-        "exposure_running": "Belichtung läuft",
         "deviation_target": "Abweichung zum Ziel:"
       }
     },
@@ -551,18 +550,13 @@
       "please_connect_filterwheel": "Bitte Filterrad verbinden",
       "currentFilter": "Aktueller Filter",
       "position": "Position",
-      "availableFilters": "Verfügbare Filter",
-      "manual_filter": {
-        "name": "Auf Filter wechseln:",
-        "title": "Filterrad"
-      }
+      "availableFilters": "Verfügbare Filter"
     },
     "rotator": {
       "title": "Rotator",
       "label": "Rotator",
       "move": "Bewegen",
       "control": "Steuerung",
-      "notConnected": "Bitte Rotator verbinden",
       "please_connect_rotator": "Bitte Rotator verbinden",
       "currentPosition": "Aktuelle Position",
       "moving": "Bewegt sich ",
@@ -1047,14 +1041,21 @@
     "livestack": {
       "available_filters": "Verfügbare Filter",
       "beta_note": "Dieses Plugin befindet sich noch in der Entwicklung und kann einige Fehler enthalten!",
-      "images_available": "{count} Bilder verfügbar",
-      "last_updated": "Zuletzt aktualisiert",
       "no_image_available": "Kein Bild verfügbar",
-      "no_images_available": "Keine Bilder verfügbar",
       "not_available": "Livestack wurde nicht gefunden. \nBitte installieren Sie das Livestack-Plugin zuerst in Nina.",
       "start_and_select_filter": "Starten Sie das livestack und wählen Sie einen Filter aus, um Bilder anzuzeigen",
-      "status": "Status",
-      "target": "Ziel"
+      "target": "Ziel",
+      "no_filter": "Kein Filter",
+      "no_filters_available": "Für dieses Ziel sind keine Filter verfügbar"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Zeit",
+      "status": "Status",
+      "error": "Fehlerdistanz",
+      "rotation": "Rotation"
+    }
+  },
+  "loading": "Laden"
 }

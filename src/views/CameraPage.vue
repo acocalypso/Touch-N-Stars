@@ -17,18 +17,16 @@
       <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
-          :imageData="cameraStore.imageData"
+          :imageData="imageStore.imageData"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="true"
-          :loading="store.isImageFetching"
+          :loading="imageStore.isImageFetching"
           height="100vh"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
           @fullscreen="openImageModal"
-          @image-load="handleImageLoad"
-          @image-error="handleImageError"
           class="bg-gray-900"
         >
           <!-- Custom placeholder -->
@@ -45,7 +43,7 @@
         </ZoomableImage>
 
         <div
-          v-if="cameraStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
+          v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
           :class="iconCenterHere"
         >
           <button
@@ -81,7 +79,7 @@
       <!-- Fullscreen Image Modal -->
       <ImageModal
         :showModal="showModal"
-        :imageData="cameraStore.imageData"
+        :imageData="imageStore.imageData"
         :isLoading="false"
         @close="closeImageModal"
       />
@@ -253,7 +251,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useImagetStore } from '@/store/imageStore';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
@@ -266,12 +264,11 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
-import apiService from '@/services/apiService';
 
 // Stores
 const store = apiStore();
 const cameraStore = useCameraStore();
-const settingsStore = useSettingsStore();
+const imageStore = useImagetStore();
 
 // State
 const showModal = ref(false);
@@ -342,10 +339,6 @@ const handleDownload = async (data) => {
   });
 };
 
-const handleImageLoad = () => {
-  console.log('Image loaded successfully');
-};
-
 const openImageModal = () => {
   showModal.value = true;
 };
@@ -354,31 +347,10 @@ const closeImageModal = () => {
   showModal.value = false;
 };
 
-const handleImageError = (event) => {
-  console.log('Image load error:', event);
-  // Clear imageData on error to show placeholder
-  cameraStore.imageData = null;
-};
-
 // Load image on mount if imageData is empty
 onMounted(async () => {
-  if (!cameraStore.imageData) {
-    try {
-      const quality = settingsStore.camera.imageQuality || 90;
-      console.log(`Loading image on mount with quality: ${quality}`);
-
-      const imageResponse = await apiService.getImagePrepared(quality);
-
-      if (imageResponse && imageResponse.data) {
-        const imageUrl = URL.createObjectURL(imageResponse.data);
-        cameraStore.imageData = imageUrl;
-        console.log('Image loaded successfully on mount');
-      }
-    } catch (error) {
-      console.log('No image available on mount:', error.message);
-      // Keep imageData null/empty on error
-      cameraStore.imageData = null;
-    }
+  if (!imageStore.imageData) {
+    await imageStore.getImage();
   }
 });
 </script>

@@ -69,7 +69,7 @@ onMounted(() => {
         currentCountdown > 0
       ) {
         console.error(
-          `[ExposureCountdown Watchdog] Countdown stuck at ${currentCountdown}s for 3+ seconds, forcing restart...`
+          `[ExposureCountdown Watchdog] Countdown stuck at ${currentCountdown}s for 4+ seconds, forcing restart...`
         );
         cameraStore.updateCountdown();
       }
@@ -79,7 +79,7 @@ onMounted(() => {
       // Reset when not exposing
       lastCountdownValue.value = null;
     }
-  }, 3000); // Check every 3 seconds
+  }, 4000); // Check every 4 seconds
 });
 
 onUnmounted(() => {

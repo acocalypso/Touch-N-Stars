@@ -1,5 +1,5 @@
 <template>
-  <button @click="mountPark" :class="['default-button-red', statusClass]">
+  <button v-if="store.mountInfo.CanPark" @click="mountPark" :class="['default-button-red', statusClass]">
     {{ $t('components.mount.control.park') }}
   </button>
 </template>
@@ -7,7 +7,9 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const statusClass = ref('');
 
 async function mountPark() {

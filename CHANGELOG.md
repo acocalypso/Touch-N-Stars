@@ -3,16 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [App4.0.0-beta.10] - 2025-11-XX
+
+## [App4.0.0-beta.10] [webcam-1.0.1] - 2025-11-XX
 ### Fixed
 - Reloading the image when changing instances
 - The Mount Control button is only displayed if the function is supported.
+- Webcam Plugin: add crossOrigin="anonymous"
 
-## [App4.0.0-beta.9] [webcam-1.0.1]- 2025-11-13
+## [App4.0.0-beta.9] - 2025-11-13
 ### Added
 - Time Range Controls: Collapsible control panel with dual-range slider for time-based filtering
 - Sequence Graph: Data source selector for primary and secondary graph displays
-- Webcam Plugin: add crossOrigin="anonymous"
 
 ## [App4.0.0-beta.8] - 2025-11-12
 ### Added

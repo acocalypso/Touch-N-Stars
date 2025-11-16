@@ -1,5 +1,10 @@
 <template>
-  <button v-if="store.mountInfo.CanSetTrackingEnabled" @click="setTrackingMode(4)" class="default-button-red" :class="statusClass">
+  <button
+    v-if="store.mountInfo.CanSetTrackingEnabled"
+    @click="setTrackingMode(4)"
+    class="default-button-red"
+    :class="statusClass"
+  >
     <StopCircleIcon class="w-8 h-8" />
   </button>
 </template>

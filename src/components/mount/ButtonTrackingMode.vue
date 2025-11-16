@@ -1,5 +1,10 @@
 <template>
-  <button v-if="store.mountInfo.CanSetTrackingEnabled" @click="setTrackingMode(0)" class="default-button-cyan" :class="statusClass">
+  <button
+    v-if="store.mountInfo.CanSetTrackingEnabled"
+    @click="setTrackingMode(0)"
+    class="default-button-cyan"
+    :class="statusClass"
+  >
     {{ $t('components.mount.control.siderial') }}
   </button>
   <!-- aktuell deaktiviert da NINA nur Siderial umsetzt

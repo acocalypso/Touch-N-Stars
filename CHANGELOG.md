@@ -8,10 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reloading the image when changing instances
 - The Mount Control button is only displayed if the function is supported.
 
-## [App4.0.0-beta.9] - 2025-11-13
+## [App4.0.0-beta.9] [webcam-1.0.1]- 2025-11-13
 ### Added
 - Time Range Controls: Collapsible control panel with dual-range slider for time-based filtering
 - Sequence Graph: Data source selector for primary and secondary graph displays
+- Webcam Plugin: add crossOrigin="anonymous"
 
 ## [App4.0.0-beta.8] - 2025-11-12
 ### Added

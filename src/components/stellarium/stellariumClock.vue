@@ -148,6 +148,7 @@ import { ref, onMounted, computed, watch, onBeforeUnmount } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { mjdToUTC, utcToMJD } from '@/utils/utils.js';
 import { useOrientation } from '@/composables/useOrientation';
+import apiService from '@/services/apiService';
 
 const stellariumStore = useStellariumStore();
 const formattedTime = ref('');
@@ -285,13 +286,24 @@ function applyDateTime() {
 }
 
 // Reset to current time
-function resetToCurrentTime() {
+async function resetToCurrentTime() {
   if (!stellariumStore.stel) return;
+  const response = await apiService.fetchNinaTime();
+  const apiTimeString = response.Response;
+  console.log('NINA Time fetched:', apiTimeString);
 
-  // Get current time
-  const now = new Date();
-  dateValue.value = formatDateForInput(now);
-  timeValue.value = formatTimeForInput(now);
+  const match = apiTimeString.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/);
+  if (!match) return;
+
+  const datePart = match[1];
+  const timePart = match[2];
+
+  dateValue.value = datePart; // "2025-11-01"
+  timeValue.value = timePart; // "07:07:04"
+
+  applyDateTime();
+
+  console.log('Reset to current time:', dateValue.value, timeValue.value);
 
   // Apply to Stellarium
   applyDateTime();
@@ -323,6 +335,7 @@ watch(timeSpeed, (newValue) => {
 });
 
 onMounted(() => {
+  resetToCurrentTime();
   updateTime();
   timeSpeed.value = 0; // ini
 });

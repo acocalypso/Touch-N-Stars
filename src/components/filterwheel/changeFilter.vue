@@ -42,10 +42,10 @@ const store = apiStore();
 async function changeFilter() {
   try {
     const data = apiService.changeFilter(store.filterNr);
-    console.log('Antwort:', data);
+    console.log('Response:', data);
     console.log('Filter:', store.filterNr);
   } catch (error) {
-    console.log('Fehler:', error);
+    console.log('Error:', error);
   }
 }
 

@@ -5,6 +5,7 @@ node_modules
 /server/build
 /server/static
 .claude
+package-lock.json
 
 # hrz
 *.hrz
@@ -33,3 +34,5 @@ copyDistToPlugin.bat
 
 resources/android/**/*
 src/plugins/pluginRegistry.js
+public/whats-new.json
+nul

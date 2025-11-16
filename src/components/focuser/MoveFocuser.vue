@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
@@ -31,7 +31,7 @@ async function moveFocuser() {
     loading.value = true;
     await apiService.moveFocuser(position.value);
   } catch (error) {
-    console.error('Fehler beim Bewegen des Fokussierers:', error);
+    console.error('Error moving focuser:', error);
   } finally {
     loading.value = false;
   }
@@ -40,6 +40,14 @@ async function moveFocuser() {
 onMounted(() => {
   position.value = store.focuserInfo.Position || 100;
 });
+watch(
+  () => store.focuserInfo.Position,
+  (newPosition) => {
+    if (newPosition !== position.value) {
+      position.value = newPosition;
+    }
+  }
+);
 </script>
 
 <style scoped></style>

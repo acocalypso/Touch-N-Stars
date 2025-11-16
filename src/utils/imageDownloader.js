@@ -1,5 +1,9 @@
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
+import { Media } from '@capacitor-community/media';
+import { MediaScanner } from './mediaScanner';
+
+// Note: MediaStoreImageSaver plugin removed to fix performance issues on Android
 
 // We'll create our own notification manager instance for images
 // by importing the styles and classes from logDownloader
@@ -209,9 +213,9 @@ const initNotificationManager = () => {
 initNotificationManager();
 
 /**
- * Helper function to detect and handle different image data formats
+ * Helper function to detect and handle different image data formats with size validation
  * @param {string} imageData - The image data (base64, blob URL, or regular URL)
- * @returns {Promise<{blob: Blob, base64: string}>} - Returns both blob and base64 data
+ * @returns {Promise<{blob: Blob, base64: string, size: number}>} - Returns blob, base64 data and size
  */
 async function processImageData(imageData) {
   try {
@@ -221,40 +225,109 @@ async function processImageData(imageData) {
     if (imageData.startsWith('data:image')) {
       // Already a base64 data URL
       base64 = imageData.split(',')[1];
-      // Convert base64 to blob
-      const byteCharacters = atob(base64);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+
+      // Quick size estimation: base64 length * 0.75 ≈ original size
+      const estimatedSize = Math.floor(base64.length * 0.75);
+
+      // Log file size info (no limits, just info)
+      if (estimatedSize > 20 * 1024 * 1024) {
+        console.log(
+          `[ImageDownloader] Large image detected: ${Math.round(estimatedSize / 1024 / 1024)}MB - using optimized processing`
+        );
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+      // Convert base64 to blob (memory efficient for large files)
+      const byteCharacters = atob(base64);
+      const chunks = [];
+
+      // Dynamic chunk size based on file size
+      let chunkSize = 8192; // 8KB for smaller files
+      if (estimatedSize > 50 * 1024 * 1024) {
+        chunkSize = 32768; // 32KB for very large files (50MB+)
+      } else if (estimatedSize > 20 * 1024 * 1024) {
+        chunkSize = 16384; // 16KB for large files (20MB+)
+      }
+
+      console.log(`[ImageDownloader] Processing with ${chunkSize / 1024}KB chunks...`);
+
+      for (let i = 0; i < byteCharacters.length; i += chunkSize) {
+        const chunk = byteCharacters.slice(i, i + chunkSize);
+        const byteNumbers = new Array(chunk.length);
+        for (let j = 0; j < chunk.length; j++) {
+          byteNumbers[j] = chunk.charCodeAt(j);
+        }
+        chunks.push(new Uint8Array(byteNumbers));
+
+        // For very large files, yield control occasionally to prevent blocking
+        if (estimatedSize > 50 * 1024 * 1024 && i % (chunkSize * 10) === 0) {
+          await new Promise((resolve) => setTimeout(resolve, 0));
+        }
+      }
+
+      blob = new Blob(chunks, { type: 'image/jpeg' });
     } else {
       // It's a blob URL or regular URL, fetch it
       const response = await fetch(imageData);
       if (!response.ok) {
         throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`);
       }
+
+      // Check Content-Length header if available
+      const contentLength = response.headers.get('content-length');
+      if (contentLength) {
+        const size = parseInt(contentLength);
+        if (size > 20 * 1024 * 1024) {
+          console.log(
+            `[ImageDownloader] Large image detected: ${Math.round(size / 1024 / 1024)}MB - using optimized processing`
+          );
+        }
+      }
+
       blob = await response.blob();
 
-      // Convert blob to base64
-      base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          try {
-            const result = reader.result;
-            const base64Data = result.split(',')[1];
-            resolve(base64Data);
-          } catch (error) {
-            reject(error);
-          }
-        };
-        reader.onerror = () => reject(new Error('Failed to read blob as base64'));
-        reader.readAsDataURL(blob);
-      });
+      // For large files (>10MB), process in background to avoid UI blocking
+      if (blob.size > 10 * 1024 * 1024) {
+        console.log('[ImageDownloader] Large file detected, using optimized processing...');
+
+        // Use a more memory-efficient approach for large files
+        base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            try {
+              const result = reader.result;
+              const base64Data = result.split(',')[1];
+              resolve(base64Data);
+            } catch (error) {
+              reject(error);
+            }
+          };
+          reader.onerror = () => reject(new Error('Failed to read blob as base64'));
+
+          // Process in next tick to avoid blocking UI
+          setTimeout(() => {
+            reader.readAsDataURL(blob);
+          }, 0);
+        });
+      } else {
+        // Standard processing for smaller files
+        base64 = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            try {
+              const result = reader.result;
+              const base64Data = result.split(',')[1];
+              resolve(base64Data);
+            } catch (error) {
+              reject(error);
+            }
+          };
+          reader.onerror = () => reject(new Error('Failed to read blob as base64'));
+          reader.readAsDataURL(blob);
+        });
+      }
     }
 
-    return { blob, base64 };
+    return { blob, base64, size: blob.size };
   } catch (error) {
     console.error('Error processing image data:', error);
     throw error;
@@ -289,16 +362,25 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
   try {
     const now = new Date();
     const currentDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-    const folderName = `${folderPrefix}-${currentDate}`;
-
     const timeString = `${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}`;
+    const platform = Capacitor.getPlatform();
+
+    // For Android, use a fixed folder name "TouchNStars" to store all images in the gallery
+    // For other platforms, use date-based folder structure
+    let folderName;
+    if (platform === 'android') {
+      folderName = 'TouchNStars';
+    } else {
+      folderName = `${folderPrefix}-${currentDate}`;
+    }
 
     if (imageDate === '0000-00-00') {
       fileName = `${filePrefix}-${currentDate}_${timeString}.jpg`;
     } else {
-      fileName = `${filePrefix}-${imageDate}_${timeString}.jpg`;
+      // Clean imageDate by removing invalid characters for Android filesystem
+      const cleanImageDate = imageDate.replace(/[T:+]/g, '-').replace(/\.\d+/g, '');
+      fileName = `${filePrefix}-${cleanImageDate}_${timeString}.jpg`;
     }
-    const platform = Capacitor.getPlatform();
 
     if (platform === 'android' || platform === 'ios') {
       console.log('[ImageDownloader] Handling mobile platform download');
@@ -307,6 +389,57 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
         '[ImageDownloader] Image source type:',
         imageData.startsWith('data:') ? 'base64' : imageData.startsWith('blob:') ? 'blob' : 'url'
       );
+
+      // iOS: Use @capacitor-community/media to save to Photos app (Camera Roll)
+      // Note: Album support has issues - first photo goes to Camera Roll, subsequent photos to album
+      // We save to Camera Roll directly to ensure consistent behavior
+      if (platform === 'ios') {
+        console.log('[ImageDownloader] Using @capacitor-community/media for iOS');
+
+        try {
+          // Process the image data to get base64
+          const { base64 } = await processImageData(imageData);
+
+          console.log('[ImageDownloader] Saving to iOS Photos app (Camera Roll)');
+          console.log('[ImageDownloader] Image size:', Math.round(base64.length / 1024), 'KB');
+
+          // Save to Photos app (Camera Roll / Recents)
+          // Note: We don't use albumIdentifier because of iOS album creation issues
+          const result = await Media.savePhoto({
+            path: `data:image/jpeg;base64,${base64}`,
+          });
+
+          console.log('[ImageDownloader] Media.savePhoto success:', result);
+
+          notificationManager.showSuccess(
+            `Image saved to Photos`,
+            `Saved to Camera Roll • File: ${fileName}`
+          );
+
+          return true;
+        } catch (iosError) {
+          console.error('[ImageDownloader] iOS Media.savePhoto failed:', iosError);
+          console.error('[ImageDownloader] Error details:', JSON.stringify(iosError));
+
+          // Check if it's a permission error
+          if (
+            iosError.message &&
+            (iosError.message.includes('permission') ||
+              iosError.message.includes('authorized') ||
+              iosError.message.includes('denied'))
+          ) {
+            notificationManager.showError(
+              `Photo library permission denied. Please enable photo access in Settings > Touch-N-Stars > Photos`
+            );
+          } else {
+            notificationManager.showError(
+              `Failed to save to Photos app: ${iosError.message || 'Unknown error'}`
+            );
+          }
+
+          return false;
+        }
+      }
 
       // Check and request permissions for Android
       if (platform === 'android') {
@@ -329,27 +462,98 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
       // Use different directory strategy based on platform
       let primaryDirectory, primaryDirName;
       if (platform === 'android') {
-        // For Android, try Documents first (more accessible to users)
-        primaryDirectory = Directory.Documents;
-        primaryDirName = 'Documents';
+        // For Android, use ExternalStorage to save in Pictures folder (visible in Gallery)
+        primaryDirectory = Directory.ExternalStorage;
+        primaryDirName = 'Pictures';
       } else {
         // For iOS, Documents directory works well
         primaryDirectory = Directory.Documents;
         primaryDirName = 'Documents';
       }
 
-      // Process the image data (handles different formats)
+      // Skip MediaStore plugin (was causing performance issues) and use direct Filesystem API
+
+      // Process the image data for fallback methods
       console.log('[ImageDownloader] Processing image data for mobile download...');
-      const { base64 } = await processImageData(imageData);
+      const { base64, size } = await processImageData(imageData);
+
+      // Show file size info
+      const sizeMB = Math.round((size / 1024 / 1024) * 10) / 10;
+      console.log(`[ImageDownloader] Processing ${sizeMB}MB image file...`);
+
+      // Update progress notification for large files
+      if (size > 10 * 1024 * 1024 && notificationManager) {
+        // Remove existing progress notification
+        const existingProgress = document.getElementById('image-download-progress');
+        if (existingProgress) {
+          existingProgress.remove();
+        }
+
+        // Determine processing type based on size
+        let processingType = 'Large Image';
+        let statusText = `Processing ${sizeMB}MB file...`;
+
+        if (size > 50 * 1024 * 1024) {
+          processingType = 'Very Large Image';
+          statusText = `Processing ${sizeMB}MB file with optimized chunks...`;
+        } else if (size > 100 * 1024 * 1024) {
+          processingType = 'Huge Image';
+          statusText = `Processing ${sizeMB}MB file - this may take a while...`;
+        }
+
+        // Show updated progress with file size
+        const notification = document.createElement('div');
+        notification.id = 'image-download-progress';
+        notification.innerHTML = `
+          <div style="
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            border: 1px solid #06b6d4;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 20px rgba(6, 182, 212, 0.2);
+            backdrop-filter: blur(10px);
+            min-width: 280px;
+            animation: slideInRight 0.3s ease-out;
+            pointer-events: auto;
+          ">
+            <div style="display: flex; align-items: center; gap: 12px; color: white;">
+              <div style="
+                width: 20px;
+                height: 20px;
+                border: 2px solid #06b6d4;
+                border-top: 2px solid transparent;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+              "></div>
+              <div>
+                <div style="font-weight: 600; font-size: 14px;">Saving ${processingType}</div>
+                <div style="font-size: 12px; color: #9ca3af; margin-top: 2px;">${statusText}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (notificationManager.container) {
+          notificationManager.container.appendChild(notification);
+        }
+      }
+
+      // For Android, construct the full path including Pictures folder
+      let fullPath;
+      if (platform === 'android') {
+        fullPath = `Pictures/${folderName}`;
+      } else {
+        fullPath = folderName;
+      }
 
       // Create folder directory if it doesn't exist
       try {
         await Filesystem.mkdir({
-          path: folderName,
+          path: fullPath,
           directory: primaryDirectory,
           recursive: true,
         });
-        console.log(`[ImageDownloader] Created directory: ${folderName} in ${primaryDirName}`);
+        console.log(`[ImageDownloader] Created directory: ${fullPath} in ${primaryDirName}`);
       } catch (mkdirError) {
         // Directory might already exist, this is fine
         if (
@@ -358,31 +562,49 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           mkdirError.message.includes('FILE_EXISTS') ||
           mkdirError.code === 'DIRECTORY_EXISTS'
         ) {
-          console.log(`[ImageDownloader] Directory already exists: ${folderName}`);
+          console.log(`[ImageDownloader] Directory already exists: ${fullPath}`);
         } else {
           console.warn('[ImageDownloader] Error creating directory:', mkdirError);
           // Don't throw here, try to continue with file write
         }
       }
 
-      // Write the image file to the date-specific folder
+      // Write the image file to the folder
       try {
-        console.log(`[ImageDownloader] Attempting to write to ${primaryDirName}...`);
+        console.log(`[ImageDownloader] Attempting to write to ${primaryDirName}/${fullPath}...`);
         await Filesystem.writeFile({
-          path: `${folderName}/${fileName}`,
+          path: `${fullPath}/${fileName}`,
           data: base64,
           directory: primaryDirectory,
           // Omit encoding for binary data (base64)
         });
         console.log(
-          `[ImageDownloader] Image saved successfully to ${folderName}/${fileName} in ${primaryDirName}`
+          `[ImageDownloader] Image saved successfully to ${fullPath}/${fileName} in ${primaryDirName}`
         );
+
+        // Trigger media scanner on Android to make image visible in Gallery
+        if (platform === 'android') {
+          try {
+            const fileUri = await Filesystem.getUri({
+              path: `${fullPath}/${fileName}`,
+              directory: primaryDirectory,
+            });
+            console.log('[ImageDownloader] File URI:', fileUri.uri);
+
+            // Scan file to make it visible in gallery
+            await MediaScanner.scanFile({ path: fileUri.uri });
+            console.log('[ImageDownloader] Media scan completed');
+          } catch (scanError) {
+            console.warn('[ImageDownloader] Media scan failed (non-critical):', scanError);
+            // Don't fail the whole operation if media scan fails
+          }
+        }
 
         // Show success notification
         if (platform === 'android') {
           notificationManager.showSuccess(
-            `Image saved to ${folderName} folder`,
-            `File: ${fileName} • Location: ${primaryDirName}`
+            `Image saved to Gallery`,
+            `Folder: ${folderName} • File: ${fileName}`
           );
         } else if (platform === 'ios') {
           notificationManager.showSuccess(
@@ -456,8 +678,8 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
               console.log(`Image saved successfully using ${strategy.name}: ${fileName}`);
 
               notificationManager.showSuccess(
-                `Image saved to device storage`,
-                `File: ${fileName} • Location: ${strategy.name}`
+                `Image saved successfully using ${strategy.name}`,
+                `File: ${fileName}`
               );
 
               success = true;
@@ -478,8 +700,6 @@ export async function downloadImage(imageData, imageDate = '0000-00-00', options
           throw writeError; // Re-throw if it's not Android
         }
       }
-
-      return true;
     } else {
       // Standard web browser download
       console.log('Processing image data for web download...');

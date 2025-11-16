@@ -3,7 +3,7 @@
     <!-- Hauptbild: wird responsiv skaliert -->
     <img
       ref="imageRef"
-      :src="cameraStore.imageData"
+      :src="imageStore.imageData"
       alt="Captured Image"
       class="main-image"
       @load="onImageLoad"
@@ -39,10 +39,7 @@
   </div>
   <div class="flex flex-col md:flex-row py-1 gap-1">
     <div class="flex-1">
-      <ButtonSlew class="w-full" :raAngle="newRa" :decAngle="newDec" @finished="slewFinished" />
-    </div>
-    <div class="flex-1">
-      <ButtonSlewAndCenter
+      <ButtonSlewCenterRotate
         class="w-full"
         :raAngle="newRa"
         :decAngle="newDec"
@@ -56,18 +53,19 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useCameraStore } from '@/store/cameraStore';
+import { useImagetStore } from '@/store/imageStore';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { wait, degreesToHMS, degreesToDMS } from '@/utils/utils.js';
 import apiService from '@/services/apiService';
-import ButtonSlew from '@/components/mount/ButtonSlew.vue';
-import ButtonSlewAndCenter from '@/components/mount/ButtonSlewAndCenter.vue';
+import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 
 const cameraStore = useCameraStore();
 const framingStore = useFramingStore();
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const imageStore = useImagetStore();
 
 const baseRA = ref(100.0); // RA in Grad für Bildzentrum
 const baseDec = ref(20.0); // Dec in Grad für Bildzentrum
@@ -99,7 +97,7 @@ onMounted(async () => {
 
   // Beobachtet die Bildgröße
   resizeObserver = new ResizeObserver(() => {
-    console.log('Bildgröße hat sich geändert!');
+    console.log('Image size changed!');
     onWindowResize();
   });
 
@@ -133,21 +131,8 @@ async function fetchFramingInfo() {
     const data = await apiService.framingAction('info');
     framingStore.framingInfo = data.Response;
   } catch (error) {
-    console.error('Fehler beim Abrufen des FramingInfo:', error);
+    console.error('Error fetching FramingInfo:', error);
   }
-}
-
-async function slewFinished() {
-  console.log('Slew finished!');
-  await wait(500);
-  cameraStore.capturePhoto(
-    apiService,
-    settingsStore.camera.exposureTime,
-    settingsStore.camera.gain,
-    settingsStore.camera.useSolve
-  );
-  cameraStore.imageData = '';
-  cameraStore.slewModal = false;
 }
 
 async function slewAndCenterFinished() {
@@ -159,8 +144,8 @@ async function slewAndCenterFinished() {
     settingsStore.camera.gain,
     settingsStore.camera.useSolve
   );
-  cameraStore.imageData = '';
   cameraStore.slewModal = false;
+  framingStore.showCenterModal = false;
 }
 
 function onImageLoad() {
@@ -230,7 +215,7 @@ async function calculateRaDec() {
   sensorWidth = -1;
 
   if (sensorWidth === -1) {
-    console.log('DLSR erkannt');
+    console.log('DSLR detected');
     await fetchFramingInfo();
     sensorWidth = framingStore.framingInfo.CameraWidth;
     sensorHeight = framingStore.framingInfo.CameraHeight;
@@ -291,12 +276,13 @@ async function calculateRaDec() {
 
 <style scoped>
 .wrapper {
-  /* Begrenze die Breite auf 80% der Viewport-Breite, 
+  /* Begrenze die Breite auf 80% der Viewport-Breite,
      max. 800px, zentriere optional via margin */
 
   width: 90vw;
   margin: 0 auto;
   position: relative;
+  z-index: 1;
 }
 
 .main-image {
@@ -309,6 +295,7 @@ async function calculateRaDec() {
   position: absolute;
   cursor: move;
   user-select: none;
+  z-index: 2;
 }
 
 .box-text {

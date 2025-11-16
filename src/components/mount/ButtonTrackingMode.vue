@@ -1,5 +1,5 @@
 <template>
-  <button @click="setTrackingMode(0)" class="default-button-cyan" :class="statusClass">
+  <button v-if="store.mountInfo.CanSetTrackingEnabled" @click="setTrackingMode(0)" class="default-button-cyan" :class="statusClass">
     {{ $t('components.mount.control.siderial') }}
   </button>
   <!-- aktuell deaktiviert da NINA nur Siderial umsetzt
@@ -21,19 +21,20 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
-import { handleApiError } from '@/utils/utils';
 import { useI18n } from 'vue-i18n';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const statusClass = ref('');
 const { t } = useI18n();
 
 async function setTrackingMode(mode) {
-  //0=Siderial, 1=Lunar, 2=Solar, 3=King, 4=Stopped
+  //0=Siderial, 1=Lunar, 2=Solar, 3=King, 5=Stopped
   try {
     const response = await apiService.setTrackingMode(mode);
-    if (handleApiError(response, { title: t('components.mount.control.errors.tracking') })) return;
+    if (!response.Success) return;
     statusClass.value = 'glow-green';
-    console.log(t('components.mount.control.trackingMode') + ' gesetzt');
+    console.log(t('components.mount.control.trackingMode') + ' set');
   } catch (error) {
     console.log(t('components.mount.control.errors.tracking'));
   }

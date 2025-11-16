@@ -1,8 +1,10 @@
 # Touch'N'Stars: WebApp for Mobile Control of NINA
 
+[![](https://dcbadge.limes.pink/api/server/4gZJEMWFcN)](https://discord.com/invite/4gZJEMWFcN)
+
 [![Download on the App Store](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83)](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
 
-<a href="https://play.google.com/store/apps/details?id=com.TouchNStars.dev"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="60"></a>
+<a href="https://play.google.com/store/apps/details?id=com.TouchNStars.dev"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" height="50"></a>
 
 # 🤝 **Community-Powered, Forever Free: Donate to Cover Apple’s Developer Fee**
 
@@ -51,6 +53,7 @@ Special thanks go to the entire **NINA** development team, whose excellent work 
 A special thank you to **Christian**, the developer of the **Advanced API**, for his efforts and support. His work has significantly enabled the development of this web app.
 
 ### 🔍 Further information
+- Visit our website: https://touch-n-stars.eu
 - You can find more details about the application and how to use it in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki).
 - Our [YouTube channel](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) has video instructions and further tips on how to use Touch'N'Stars
 - You want to say thank you? We are happy about a beer 🍻 😀 [paypal.me/TouchNStars](http://paypal.me/TouchNStars)

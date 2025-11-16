@@ -1,5 +1,7 @@
 # Touch'N'Stars: WebApp für die mobile Steuerung von NINA
 
+[![](https://dcbadge.limes.pink/api/server/4gZJEMWFcN)](https://discord.com/invite/4gZJEMWFcN)
+
 [![Im App Store laden](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/de-de?size=250x83)](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
 
 <a href="https://play.google.com/store/apps/details?id=com.TouchNStars.dev"><img alt="Jetzt bei Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/de_badge_web_generic.png" height="50"></a>
@@ -54,6 +56,7 @@ Mein Dank gilt dem gesamten Entwicklerteam von **NINA**, deren großartige Arbei
 Ein besonderes Dankeschön an **Christian**, den Entwickler der **Advanced API**, für seine Bemühungen und Unterstützung. Seine Arbeit hat die Entwicklung dieser WebApp maßgeblich ermöglicht.
 
 ### 🔍 Weitere Informationen
+- Besuche unsere Website: https://touch-n-stars.eu
 - Mehr Details zur Anwendung und zur Nutzung findest du in unserem [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki).
 - Auf unserem  [YouTube-Kanal](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) gibt es Videoanleitungen und weitere Tipps zur Nutzung von Touch'N'Stars
 - [Stellarium Web engine](https://github.com/Stellarium/stellarium-web-engine)

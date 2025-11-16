@@ -1,0 +1,13 @@
+{
+  "id": "logfile-collector",
+  "name": "logfile-collector",
+  "description": "Collect logfiles and sent them to the Touch 'N' Stars Team",
+  "version": "1.0.2",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true,
+  "config": {
+    "uploadUrl": "https://touch-n-stars.eu/ingest/logs",
+    "authToken": "f4c9a7d2e18b3f607911ad5e82bc9487"
+  }
+}

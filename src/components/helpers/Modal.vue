@@ -2,8 +2,11 @@
   <teleport to="body">
     <div
       v-if="show"
-      class="fixed inset-0 z-40 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30"
-      @click="$emit('close')"
+      :class="[
+        'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30',
+        zIndexClass,
+      ]"
+      @click="handleClose"
     >
       <div
         class="p-6 bg-gradient-to-br from-gray-950 bg-gray-800 rounded-lg shadow-lg max-w-2xl w-full relative"
@@ -14,7 +17,11 @@
           <slot name="header">
             <h2 class="text-xl font-bold">Standard Titel</h2>
           </slot>
-          <button @click="$emit('close')" class="w-8 h-8 text-gray-400 hover:text-gray-600">
+          <button
+            v-if="!disableClose"
+            @click="handleClose"
+            class="w-8 h-8 text-gray-400 hover:text-gray-600"
+          >
             <XMarkIcon />
           </button>
         </div>
@@ -30,11 +37,30 @@
   </teleport>
 </template>
 <script setup>
+import { computed } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
-defineProps({
+
+const props = defineProps({
   show: Boolean,
+  zIndex: {
+    type: String,
+    default: 'z-40',
+  },
+  disableClose: {
+    type: Boolean,
+    default: false,
+  },
 });
-defineEmits(['close']);
+
+const zIndexClass = computed(() => props.zIndex);
+
+const emit = defineEmits(['close']);
+
+function handleClose() {
+  if (!props.disableClose) {
+    emit('close');
+  }
+}
 </script>
 
 <style scoped>
@@ -54,5 +80,10 @@ defineEmits(['close']);
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background-color: #4a5568;
   border-radius: 20px;
+}
+
+/* High z-index for modals */
+:deep(.z-\[80\]) {
+  z-index: 80 !important;
 }
 </style>

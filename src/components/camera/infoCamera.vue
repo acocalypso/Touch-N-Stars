@@ -1,10 +1,5 @@
 <template>
-  <div v-if="!store.cameraInfo.Connected" class="flex justify-center items-center pb-2">
-    <div class="w-full p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-      <p class="text-red-400 text-center font-medium">{{ $t('components.camera.connect') }}</p>
-    </div>
-  </div>
-  <div v-else-if="showAllInfo" class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
+  <div class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
     <StatusString
       :isEnabled="store.cameraInfo.Name !== ''"
       :Name="$t('components.camera.name')"
@@ -25,11 +20,26 @@
       :Name="$t('components.camera.temperature')"
       :Value="formattedTemperature"
     />
+    <StatusString
+      :isEnabled="isTemperatureEnabled"
+      :Name="$t('components.camera.temperature_setpoint')"
+      :Value="formattedTemperatureSetpoint"
+    />
+    <StatusString
+      :isEnabled="store.cameraInfo.CoolerOn"
+      :Name="$t('components.camera.cooler_power')"
+      :Value="isNaN(store.cameraInfo.CoolerPower) ? 0 : Math.round(store.cameraInfo.CoolerPower)"
+    />
     <StatusBool
-      class="col-start-1"
       :isEnabled="store.cameraInfo.IsExposing"
       :enabledText="$t('components.camera.capture_running')"
       :disabledText="$t('components.camera.standby')"
+    />
+    <StatusBool
+      v-if="store.cameraInfo.CanSetTemperature"
+      :isEnabled="store.cameraInfo.AtTargetTemp"
+      :enabledText="$t('components.camera.at_target_temp')"
+      :disabledText="$t('components.camera.at_target_temp')"
     />
     <StatusBool
       v-if="store.cameraInfo.CanSetTemperature"
@@ -42,13 +52,6 @@
       :isEnabled="store.cameraInfo.DewHeaterOn"
       :enabledText="$t('components.camera.dew_heater_on')"
       :disabledText="$t('components.camera.dew_heater_off')"
-    />
-  </div>
-  <div v-else-if="showOnlyExposing" class="gap-2">
-    <StatusBool
-      :isEnabled="store.cameraInfo.IsExposing"
-      :enabledText="$t('components.camera.capture_running')"
-      :disabledText="$t('components.camera.standby')"
     />
   </div>
 </template>
@@ -77,6 +80,13 @@ const isTemperatureEnabled = computed(() => {
 });
 const formattedTemperature = computed(() => {
   const temp = store.cameraInfo.Temperature;
+  if (temp == null || isNaN(temp)) {
+    return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
+  }
+  return temp.toFixed(2); // Formatierte Temperatur
+});
+const formattedTemperatureSetpoint = computed(() => {
+  const temp = store.cameraInfo.TemperatureSetPoint;
   if (temp == null || isNaN(temp)) {
     return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
   }

@@ -26,7 +26,7 @@ export const useGuiderStore = defineStore('guiderStore', {
       const store = apiStore();
       try {
         if (!store.isBackendReachable) {
-          console.warn('Backend ist nicht erreichbar log');
+          console.warn('Backend is not reachable log');
           return;
         }
         //Graphdaten vom Backend holen
@@ -65,7 +65,6 @@ export const useGuiderStore = defineStore('guiderStore', {
           // Prüfe, ob die Seite kürzlich aus dem Hintergrund zurückgekehrt ist
           const mainStore = apiStore();
           if (!mainStore.isPageRecentlyReturnedFromBackground()) {
-            // Hier könnte die Toast-Benachrichtigung angezeigt werden
             console.log('Show star lost toast');
           } else {
             console.log('Page recently returned from background, skipping star lost toast');

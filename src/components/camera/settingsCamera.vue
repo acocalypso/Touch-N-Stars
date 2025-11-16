@@ -9,9 +9,11 @@
       <input
         id="exposure"
         v-model.number="settingsStore.camera.exposureTime"
+        @change="setExposureTime"
         type="number"
         class="default-input ml-auto h-8 w-28"
         placeholder="sek"
+        :class="statusClassExposureTime"
       />
     </div>
 
@@ -24,8 +26,10 @@
       <select
         v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
         id="gain"
-        v-model.number="settingsStore.camera.gain"
+        @select="setGain"
+        v-model.number="gain"
         class="default-select ml-auto h-8 w-28"
+        :class="statusClassGain"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
           {{ value }}
@@ -34,10 +38,13 @@
       <input
         v-else
         id="gain"
+        @blur="setGain"
+        @change="setGain"
         v-model.number="settingsStore.camera.gain"
         type="number"
         class="default-input ml-auto h-8 w-28"
         placeholder="1"
+        :class="statusClassGain"
       />
     </div>
 
@@ -54,6 +61,7 @@
         v-model.number="settingsStore.camera.offset"
         @change="setOffset"
         class="default-select ml-auto h-8 w-28"
+        :class="statusClassOffset"
       >
         <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
           {{ value }}
@@ -69,34 +77,37 @@
         :max="store.cameraInfo.OffsetMax"
         class="default-input ml-auto h-8 w-28"
         placeholder="0"
+        :class="statusClassOffset"
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
     <setSolve />
+    <setSaveSnapshot />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
 import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
 import setSolve from '@/components/camera/setSolve.vue';
+import setSaveSnapshot from './setSaveSnapshot.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
 
-onMounted(() => {
-  initializeOffset();
-});
+const statusClassOffset = ref('');
+const statusClassGain = ref('');
+const statusClassExposureTime = ref('');
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
   if (!store.cameraInfo) {
-    console.warn('Kamera-Info nicht geladen');
+    console.warn('Camera info not loaded');
     return;
   }
 
@@ -104,15 +115,27 @@ const initializeOffset = () => {
   settingsStore.camera.offset = offset;
 };
 
+const initializeGain = () => {
+  if (!store.cameraInfo) {
+    console.warn('Camera info not loaded');
+    return;
+  }
+
+  settingsStore.camera.gain = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
+  if (settingsStore.camera.gain === -1) {
+    settingsStore.camera.gain = store.profileInfo?.CameraSettings?.Gain;
+  }
+};
+
 async function setOffset() {
   console.log(settingsStore.camera.offset);
   if (store.cameraInfo.OffsetMin > settingsStore.camera.offset) {
     settingsStore.camera.offset = store.cameraInfo.OffsetMin;
-    console.log('Offset zu klein min: ', store.cameraInfo.OffsetMin);
+    console.log('Offset too small, min:', store.cameraInfo.OffsetMin);
   }
   if (store.cameraInfo.OffsetMax < settingsStore.camera.offset) {
     settingsStore.camera.offset = store.cameraInfo.OffsetMax;
-    console.log('Offset zu groß, Max: ', store.cameraInfo.OffsetMax);
+    console.log('Offset too large, max:', store.cameraInfo.OffsetMax);
   }
   try {
     const data = await apiService.profileChangeValue(
@@ -120,8 +143,40 @@ async function setOffset() {
       settingsStore.camera.offset
     );
     console.log(data);
+    statusClassOffset.value = 'glow-green';
   } catch (error) {
-    console.log('Fehler beim setzten des Offset');
+    console.log('Error while setting offset');
+  } finally {
+    setTimeout(() => {
+      statusClassOffset.value = '';
+    }, 1000);
   }
 }
+
+async function setGain() {
+  try {
+    const data = await apiService.profileChangeValue('SnapShotControlSettings-Gain', gain.value);
+    console.log(data);
+    statusClassGain.value = 'glow-green';
+  } catch (error) {
+    console.log('Error while setting gain');
+  } finally {
+    setTimeout(() => {
+      statusClassGain.value = '';
+    }, 1000);
+  }
+}
+
+async function setExposureTime() {
+  statusClassExposureTime.value = 'glow-green';
+  console.log('Error while setting exposure time');
+  setTimeout(() => {
+    statusClassExposureTime.value = '';
+  }, 1000);
+}
+
+onMounted(() => {
+  initializeOffset();
+  initializeGain();
+});
 </script>

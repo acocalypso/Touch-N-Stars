@@ -3,6 +3,8 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
+import { useImagetStore } from './imageStore';
+import websocketChannelService from '@/services/websocketChannelSocket';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -27,7 +29,15 @@ export const apiStore = defineStore('store', {
     },
     switchInfo: [],
     weatherInfo: [],
+    attemptsToConnect: 0,
     isBackendReachable: false,
+    isWebSocketConnected: false,
+    isTnsPluginConnected: false,
+    isApiConnected: false,
+    isApiVersionNewerOrEqual: false,
+    isTnsPluginVersionNewerOrEqual: false,
+    webSocketDisconnectTime: null,
+    webSocketTimeoutId: null,
     filterName: 'unbekannt',
     filterNr: null,
     showAfGraph: true,
@@ -42,8 +52,8 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.6.0',
-    minimumTnsPluginVersion: '1.1.0.0',
+    minimumApiVersion: '2.2.9.0',
+    minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
     isApiVersionNewerOrEqual: false,
@@ -57,6 +67,8 @@ export const apiStore = defineStore('store', {
     setupCheckConnectionDone: false,
     pageReturnedFromBackground: false,
     pageReturnTime: null,
+    isRedirecting: false,
+    backendReachableTimeoutId: null,
   }),
 
   actions: {
@@ -68,7 +80,7 @@ export const apiStore = defineStore('store', {
         for (let attempt = 0; attempt <= retries; attempt++) {
           try {
             result = await fn();
-            // console.log(fn, 'Attempt', attempt);
+            //console.log(fn, 'Attempt', attempt);
             if (result) break;
           } catch (e) {
             // ignore error, continue retrying
@@ -93,30 +105,39 @@ export const apiStore = defineStore('store', {
               type: 'error',
               title: t('app.connection_error_toast.title'),
               message: t('app.connection_error_toast.message_tns'),
+              autoClose: false,
             });
           }
+          this.isTnsPluginConnected = false;
           this.clearAllStates();
           return;
         } else {
+          this.isTnsPluginConnected = true;
+          //console.log('TNS Plugin reachable');
           //Check the plugin version
-          this.currentTnsPluginVersion = tnsVersionResponse.version;
-          this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-            this.currentTnsPluginVersion,
-            this.minimumTnsPluginVersion
-          );
           if (!this.isTnsPluginVersionNewerOrEqual) {
-            console.warn('TNS version incompatible', this.currentTnsPluginVersion);
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_tns_version'),
-              });
+            this.currentTnsPluginVersion = tnsVersionResponse.version;
+            this.isTnsPluginVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+              this.currentTnsPluginVersion,
+              this.minimumTnsPluginVersion
+            );
+            if (!this.isTnsPluginVersionNewerOrEqual) {
+              console.warn('TNS version incompatible', this.currentTnsPluginVersion);
+              if (!this.errorMessageShown) {
+                toastStore.showToast({
+                  type: 'error',
+                  title: t('app.connection_error_toast.title'),
+                  message: t('app.connection_error_toast.message_tns_version'),
+                  autoClose: false,
+                });
+              }
+              this.clearAllStates();
+              this.isTnsPluginVersionNewerOrEqual = false;
+              return;
             }
-            this.clearAllStates();
-            return;
+            this.isTnsPluginVersionNewerOrEqual = true;
+            console.log('TNS Plugin Version:', this.currentTnsPluginVersion);
           }
-          //console.log('Plugin ok');
         }
 
         if (!this.apiPort) {
@@ -126,65 +147,165 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiPort(),
             this.connectingAttempts
           );
+          //console.log('API Port response:', response);
           if (!response) {
-            console.error('API nicht erreichbar');
+            console.error('API not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
               });
             }
+            this.isApiConnected = false;
+            this.apiPort = null;
+            this.clearAllStates();
+            return;
+          }
+          if (response.data === -1) {
+            console.error('API not reachable');
+            if (!this.errorMessageShown) {
+              toastStore.showToast({
+                type: 'error',
+                title: t('app.connection_error_toast.title'),
+                message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
+              });
+            }
+            this.isApiConnected = false;
+            this.apiPort = null;
             this.clearAllStates();
             return;
           }
           this.apiPort = response.data;
           console.log('api Port:', this.apiPort);
+          this.isApiConnected = true;
         }
 
+        // Prüfe API-Version bei jedem Durchlauf (validiert auch dass API erreichbar ist)
         if (this.apiPort) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
             () => apiService.fetchApiVersion(),
             this.connectingAttempts
           );
-          if (!responseApiVersion) {
+          //console.log('API Version response:', responseApiVersion);
+          if (responseApiVersion?.Success === false) {
             console.warn('API-Plugin not reachable');
             if (!this.errorMessageShown) {
               toastStore.showToast({
                 type: 'error',
                 title: t('app.connection_error_toast.title'),
                 message: t('app.connection_error_toast.message_api'),
+                autoClose: false,
               });
             }
             this.clearAllStates();
             return;
           } else {
-            const apiVersionResponse = await apiService.fetchApiVersion();
-            this.currentApiVersion = apiVersionResponse.Response;
+            // API ist erreichbar!
+            this.isApiConnected = true;
 
-            this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
-              this.currentApiVersion,
-              this.minimumApiVersion
-            );
-
+            //Check the API version (nur beim ersten Mal)
             if (!this.isApiVersionNewerOrEqual) {
-              console.warn('API version incompatible', this.currentApiVersion);
-              if (!this.errorMessageShown) {
-                toastStore.showToast({
-                  type: 'error',
-                  title: t('app.connection_error_toast.title'),
-                  message: t('app.connection_error_toast.message_api_version'),
-                });
+              this.currentApiVersion = responseApiVersion.Response;
+
+              this.isApiVersionNewerOrEqual = this.checkVersionNewerOrEqual(
+                this.currentApiVersion,
+                this.minimumApiVersion
+              );
+
+              if (!this.isApiVersionNewerOrEqual) {
+                console.warn('API version incompatible', this.currentApiVersion);
+                if (!this.errorMessageShown) {
+                  toastStore.showToast({
+                    type: 'error',
+                    title: t('app.connection_error_toast.title'),
+                    message: t('app.connection_error_toast.message_api_version'),
+                    autoClose: false,
+                  });
+                }
+                this.clearAllStates();
+                return;
               }
-              this.clearAllStates();
-              return;
+              console.log('API Version:', this.currentApiVersion);
+              this.isApiVersionNewerOrEqual = true;
             }
           }
         }
 
-        // when everything is accessible
-        this.isBackendReachable = true;
+        /*console.log('API und TNS Plugin reachable');
+        console.log(
+          'Api connected',
+          this.isApiConnected,
+          'TNS connected',
+          this.isTnsPluginConnected
+        );
+        console.log(
+          'Api version ok',
+          this.isApiVersionNewerOrEqual,
+          'TNS version ok',
+          this.isTnsPluginVersionNewerOrEqual
+        );*/
+
+        // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
+        if (!websocketChannelService.isWebSocketConnected()) {
+          // Setup message callback für IMAGE-PREPARED handling
+          websocketChannelService.setMessageCallback((message) => {
+            //console.log('Channel WebSocket Message:', message);
+            this.handleWebSocketMessage(message);
+          });
+
+          // Versuche WebSocket zu verbinden (max 1000ms warten)
+          try {
+            await websocketChannelService.connect(1000);
+            this.isWebSocketConnected = true;
+          } catch (error) {
+            // WebSocket fehlgeschlagen oder Timeout
+            console.warn('WebSocket connection failed or timeout:', error.message);
+            this.isWebSocketConnected = false;
+            // WebSocket wird automatisch via onclose-Handler versuchen wiederherzustellen
+          }
+        } else {
+          this.isWebSocketConnected = true;
+        }
+
+        // If all conditions are met, mark backend as reachable
+        if (
+          this.isApiConnected &&
+          this.isTnsPluginConnected &&
+          this.isApiVersionNewerOrEqual &&
+          this.isTnsPluginVersionNewerOrEqual &&
+          this.isWebSocketConnected
+        ) {
+          this.isBackendReachable = true;
+          this.attemptsToConnect = 0;
+          //console.log('Backend is reachable', new Date().toLocaleTimeString());
+        } else if (this.attemptsToConnect < 5) {
+          // Backend ist NICHT erreichbar - Flag explizit auf false setzen
+          this.isBackendReachable = false;
+          this.attemptsToConnect += 1;
+          // WICHTIG: Bei Backend-Ausfall auch Equipment-Anfragen überspringen!
+          console.log(
+            'Backend not reachable, attempt',
+            this.attemptsToConnect,
+            new Date().toLocaleTimeString()
+          );
+          return; // Equipment-Anfragen überspringen wenn Backend nicht erreichbar
+        } else {
+          this.clearAllStates();
+          toastStore.showToast({
+            type: 'error',
+            title: t('app.connection_error_toast.title'),
+            message: t('app.connection_error_toast.message_api'),
+            autoClose: false,
+          });
+          console.warn(
+            'Backend not reachable after multiple attempts, clearing states',
+            new Date().toLocaleTimeString()
+          );
+        }
 
         const [
           imageHistoryResponse,
@@ -232,13 +353,13 @@ export const apiStore = defineStore('store', {
           switchResponse,
         });
       } catch (error) {
-        console.error('Fehler beim Abrufen der Informationen:', error);
+        console.error('Error fetching information:', error);
       }
       await this.fetchProfilInfos();
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
-        console.log('Backend ist reachable');
+        console.log('Backend is reachable');
         toastStore.newMessage = false;
         this.errorMessageShown = false;
       }
@@ -247,7 +368,18 @@ export const apiStore = defineStore('store', {
     clearAllStates() {
       this.isBackendReachable = false;
       this.errorMessageShown = true;
+      this.isApiConnected = false;
+      this.isTnsPluginConnected = false;
+      this.isWebSocketConnected = false;
+      this.isApiVersionNewerOrEqual = false;
+      this.isTnsPluginVersionNewerOrEqual = false;
       this.apiPort = null;
+      this.attemptsToConnect = 0;
+
+      // Channel WebSocket disconnecten wenn Backend nicht erreichbar
+      if (websocketChannelService.isWebSocketConnected()) {
+        websocketChannelService.disconnect();
+      }
     },
 
     handleApiResponses({
@@ -272,86 +404,93 @@ export const apiStore = defineStore('store', {
       if (cameraResponse.Success) {
         this.cameraInfo = cameraResponse.Response;
       } else {
-        console.error('Fehler in der Kamera-API-Antwort:', cameraResponse.Error);
+        console.error('Error in camera API response:', cameraResponse.Error);
       }
 
       if (mountResponse.Success) {
         this.mountInfo = mountResponse.Response;
       } else {
-        console.error('Fehler in der Mount-API-Antwort:', mountResponse.Error);
+        console.error('Error in mount API response:', mountResponse.Error);
       }
 
       if (filterResponse.Success) {
         this.filterInfo = filterResponse.Response;
       } else {
-        console.error('Fehler in der Filter-API-Antwort:', filterResponse.Error);
+        console.error('Error in filter API response:', filterResponse.Error);
       }
 
       if (rotatorResponse.Success) {
         this.rotatorInfo = rotatorResponse.Response;
       } else {
-        console.error('Fehler in der Rotator-API-Antwort:', rotatorResponse.Error);
+        console.error('Error in rotator API response:', rotatorResponse.Error);
       }
 
       if (focuserResponse.Success) {
         this.focuserInfo = focuserResponse.Response;
       } else {
-        console.error('Fehler in der Focuser-API-Antwort:', focuserResponse.Error);
+        console.error('Error in focuser API response:', focuserResponse.Error);
       }
 
       if (focuserAfResponse.Success) {
         this.focuserAfInfo = focuserAfResponse;
       } else {
-        console.error('Fehler in der Focuser-AF-API-Antwort:', focuserAfResponse.Error);
+        console.error('Error in focuser AF API response:', focuserAfResponse.Error);
       }
 
       if (safetyResponse.Success) {
         this.safetyInfo = safetyResponse.Response;
       } else {
-        console.error('Fehler in der Safety-API-Antwort:', safetyResponse.Error);
+        console.error('Error in safety API response:', safetyResponse.Error);
       }
 
       if (guiderResponse.Success) {
         this.guiderInfo = guiderResponse.Response;
       } else {
-        console.error('Fehler in der Guider-API-Antwort:', guiderResponse.Error);
+        console.error('Error in guider API response:', guiderResponse.Error);
       }
 
       if (flatdeviceResponse.Success) {
         this.flatdeviceInfo = flatdeviceResponse.Response;
       } else {
-        console.error('Fehler in der Flat-API-Antwort:', flatdeviceResponse.Error);
+        console.error('Error in flat device API response:', flatdeviceResponse.Error);
       }
 
       if (domeResponse.Success) {
         this.domeInfo = domeResponse.Response;
       } else {
-        console.error('Fehler in der Flat-API-Antwort:', domeResponse.Error);
+        console.error('Error in dome API response:', domeResponse.Error);
       }
 
       if (weatherResponse.Success) {
         this.weatherInfo = weatherResponse.Response;
       } else {
-        console.error('Fehler in der Weather-API-Antwort:', weatherResponse.Error);
+        console.error('Error in weather API response:', weatherResponse.Error);
       }
 
       if (switchResponse.Success) {
         this.switchInfo = switchResponse.Response;
       } else {
-        console.error('Fehler in der Switch-API-Antwort:', switchResponse.Error);
+        console.error('Error in switch API response:', switchResponse.Error);
       }
     },
 
     startFetchingInfo(t) {
       if (!this.intervalId) {
-        this.intervalId = setInterval(() => this.fetchAllInfos(t), 2000);
+        this.attemptsToConnect = 0;
+        this.intervalId = setInterval(() => {
+          this.fetchAllInfos(t);
+        }, 2000);
+        console.log('Started fetching info interval');
       }
     },
 
     stopFetchingInfo() {
       if (this.intervalId) {
+        this.attemptsToConnect = 0;
         clearInterval(this.intervalId);
         this.intervalId = null;
+        websocketChannelService.disconnect();
+        console.log('Stopped fetching info interval');
       }
     },
 
@@ -374,10 +513,10 @@ export const apiStore = defineStore('store', {
           this.profileInfo = profileInfoResponse.Response;
           this.getExistingEquipment(this.profileInfo);
         } else {
-          console.error('Fehler in der Profil-API-Antwort:', profileInfoResponse?.Error);
+          console.error('Error in profile API response:', profileInfoResponse?.Error);
         }
       } catch (error) {
-        console.error('Fehler beim Abrufen der Profilinformationen:', error);
+        console.error('Error fetching profile information:', error);
       }
     },
 
@@ -428,7 +567,7 @@ export const apiStore = defineStore('store', {
       cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
       cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
       console.log(
-        'Kameraeinstellungen gesetzt:',
+        'Camera settings set:',
         cStore.coolingTemp,
         cStore.coolingTime,
         cStore.warmingTime
@@ -436,7 +575,7 @@ export const apiStore = defineStore('store', {
     },
     setDefaultRotatorSettings() {
       this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
-      console.log('Rotatoreinstellung gesetzt:', this.rotatorMechanicalPosition);
+      console.log('Rotator setting set:', this.rotatorMechanicalPosition);
     },
     setDefaultCoordinates() {
       const cStore = useSettingsStore();
@@ -490,6 +629,20 @@ export const apiStore = defineStore('store', {
       const isRecent = timeDiff < 10000;
 
       return isRecent;
+    },
+
+    async handleWebSocketMessage(message) {
+      //console.log('Handling WebSocket message:', message);
+      const imageStore = useImagetStore();
+      // Check if message has the expected structure with Response.Event
+      if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
+        //console.log('IMAGE-PREPARED event received');
+        // Verhindere mehrfache gleichzeitige Anfragen
+        if (imageStore.isImageFetching) {
+          return;
+        }
+        await imageStore.getImage();
+      }
     },
   },
 });

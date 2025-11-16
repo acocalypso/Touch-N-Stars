@@ -244,16 +244,15 @@ function updateChart() {
     return i === mid ? 90 : 0;
   });
 
-  chartInstance.update(); // 👈 macht den Job
+  chartInstance.update();
 }
 
 async function loadCustomHorizont() {
   try {
     const response = await apiService.profileAction('horizon');
-    console.log(response);
 
     if (response.StatusCode !== 200 || !response.Response) {
-      console.warn('Horizontdaten nicht gefunden oder ungültig:', response);
+      console.warn('Horizon data not found or invalid:', response);
       return;
     }
 
@@ -264,7 +263,7 @@ async function loadCustomHorizont() {
       !Array.isArray(Altitudes) ||
       Azimuths.length !== Altitudes.length
     ) {
-      console.warn('Ungültige Horizontdatenstruktur:', response.Response);
+      console.warn('Invalid horizon data structure:', response.Response);
       return;
     }
 
@@ -273,7 +272,7 @@ async function loadCustomHorizont() {
       altitude: Altitudes[i],
     }));
   } catch (error) {
-    console.error('Fehler beim Laden der Horizontdaten:', error);
+    console.error('Error loading horizon data:', error);
   }
 }
 

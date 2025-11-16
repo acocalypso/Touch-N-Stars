@@ -20,10 +20,9 @@
       >
         ✕
       </button>
-
       <!-- Zoom Overlay -->
       <div
-        class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-[100] pointer-events-none"
+        class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-top pointer-events-none"
       >
         Zoom: {{ zoomLevel.toFixed(2) }}x
       </div>
@@ -31,13 +30,13 @@
       <button
         v-if="imageData"
         @click="downloadImage"
-        class="absolute top-4 right-20 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-[100]"
+        class="absolute top-4 right-20 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-top"
       >
         <ArrowDownTrayIcon class="h-6" />
       </button>
       <BadButton
         v-if="settingsStore.showSpecial"
-        class="absolute top-4 right-40 h-6 z-[100]"
+        class="absolute top-4 right-40 h-6 z-top"
         :index="index"
       />
 
@@ -45,6 +44,9 @@
         ref="imageContainer"
         class="w-full h-full overflow-hidden relative flex items-center justify-center shadow-md shadow-cyan-900"
       >
+        <div v-if="!imageData" class="text-white text-center">
+          <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
+        </div>
         <img
           v-if="imageData"
           :src="imageData"
@@ -59,14 +61,16 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useImagetStore } from '@/store/imageStore';
 
 const settingsStore = useSettingsStore();
+const imageStore = useImagetStore();
 
 const props = defineProps({
   showModal: {
@@ -172,6 +176,13 @@ watch(
     }
   }
 );
+
+// Load image on mount if imageData is empty
+onMounted(async () => {
+  if (!imageStore.imageData) {
+    await imageStore.getImage();
+  }
+});
 
 onBeforeUnmount(() => {
   destroyPanzoom();

@@ -80,7 +80,12 @@ export function setupErrorHandler() {
 
         // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
         // Skip toasts for HTTP 200 + StatusCode 200 (successful responses) and all 404s
-        if ((response.status >= 400 || statusCode >= 400) && statusCode !== 404 && statusCode !== 409 && statusCode !== 500) {
+        if (
+          (response.status >= 400 || statusCode >= 400) &&
+          statusCode !== 404 &&
+          statusCode !== 409 &&
+          statusCode !== 500
+        ) {
           showToast({
             type: isRealError ? 'error' : 'info',
             title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,

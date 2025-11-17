@@ -230,7 +230,7 @@ const fetchAndUpdateCount = async (target, filter) => {
     if (info && info.Success && info.Response) {
       const count = info.Response.IsMonochrome
         ? (info.Response.StackCount ?? '--')
-        : `${info.Response.RedStackCount}|${info.Response.GreenStackCount}|${info.Response.BlueStackCount}`;
+        : `${info.Response.RedStackCount} | ${info.Response.GreenStackCount} | ${info.Response.BlueStackCount}`;
       livestackStore.updateCountForTargetFilter(targetLabel, filterLabel, count);
     } else {
       console.log('livestackImageInfo returned no info for', targetLabel, filterLabel);
@@ -265,7 +265,7 @@ const loadAllTargetFilterCounts = async () => {
           info?.Success && info.Response
             ? info.Response.IsMonochrome
               ? (info.Response.StackCount ?? '--')
-              : `${info.Response.RedStackCount}|${info.Response.GreenStackCount}|${info.Response.BlueStackCount}`
+              : `${info.Response.RedStackCount} | ${info.Response.GreenStackCount} | ${info.Response.BlueStackCount}`
             : '--';
         return { target, filter, count };
       } catch (error) {
@@ -371,7 +371,7 @@ onMounted(async () => {
   }
 
   // Initial check for available images
-  checkImageAvailability();
+  await checkImageAvailability();
 
   // Load current image in background if target and filter are available
   if (livestackStore.selectedTarget && livestackStore.selectedFilter) {

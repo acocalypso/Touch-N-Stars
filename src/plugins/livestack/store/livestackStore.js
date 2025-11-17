@@ -15,8 +15,7 @@ export const useLivestackStore = defineStore('livestackStore', {
   getters: {
     currentCounter: (state) => {
       if (state.selectedTarget == null) return '--';
-      if (state.showFilters) return state.selectedFilter?.count ?? '--';
-      return state.selectedTarget?.count ?? '--';
+      return state.selectedFilter?.count ?? '--';
     },
   },
   actions: {
@@ -34,10 +33,14 @@ export const useLivestackStore = defineStore('livestackStore', {
         }
       });
       this.availableTargets = Array.from(targetsMap.values());
-      this.selectedTarget = this.availableTargets[0] || null;
+      if(this.selectedTarget == null) {
+        this.selectedTarget = this.availableTargets[0] || null;
+      }
 
       this.availableFilters = this._filtersForTarget(this.selectedTarget?.label);
-      this.selectedFilter = this._defaultFilter();
+      if(this.availableFilters.find(f => f.label === this.selectedFilter?.label) == null) {
+        this.selectedFilter = this._defaultFilter();        
+      } 
     },
     selectTarget(targetLabel) {
       const found = this.availableTargets.find((t) => t.label === targetLabel);

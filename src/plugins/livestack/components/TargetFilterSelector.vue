@@ -77,5 +77,4 @@ const handleFilterOpen = () => {
 const handleFilterClose = () => {
   filterDropdownOpen.value = false;
 };
-
 </script>

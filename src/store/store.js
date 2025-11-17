@@ -305,19 +305,17 @@ export const apiStore = defineStore('store', {
           );
         }
 
-        // Rufe Event-Historie nur alle 30 Sekunden ab (oder beim Start wenn lastEventHistoryFetch = 0)
+        // Fetch event history only every 30 seconds (or on startup if lastEventHistoryFetch = 0)
         const now = Date.now();
         if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 30000) {
-          console.log('Fetching event history...');
           const eventHistoryResponse = await apiService.getEventHistory();
-          console.log('Event History Response:', eventHistoryResponse);
 
-          // Verarbeite Event-Historie um Connection-Status zu bestimmen
+          // Process event history to determine connection status
           this.processEventHistory(eventHistoryResponse);
           this.lastEventHistoryFetch = now;
         }
 
-        // Baue API-Requests dynamisch basierend auf Connection-Status
+        // Build API requests dynamically based on connection status
         const requests = [];
         const requestMap = {};
 
@@ -375,7 +373,7 @@ export const apiStore = defineStore('store', {
 
         const responses = await Promise.all(requests);
 
-        // Zuordnung der Responses zu den korrekten Keys
+        // Map responses to correct keys
         const responseData = {
           imageHistoryResponse: responses[0],
           cameraResponse: null,
@@ -700,7 +698,7 @@ export const apiStore = defineStore('store', {
         await imageStore.getImage();
       }
 
-      // Wenn eine Gerät-Verbindungsmeldung kommt, rufe Event-Historie sofort ab
+      // If a device connection event arrives via WebSocket, fetch event history immediately
       if (message.Response && message.Response.Event) {
         const event = message.Response.Event;
         const deviceEvents = [
@@ -729,8 +727,7 @@ export const apiStore = defineStore('store', {
         ];
 
         if (deviceEvents.includes(event)) {
-          console.log('Device connection event detected via WebSocket:', event);
-          // Rufe Event-Historie sofort ab
+          // Fetch event history immediately
           try {
             const eventHistoryResponse = await apiService.getEventHistory();
             this.processEventHistory(eventHistoryResponse);
@@ -763,42 +760,36 @@ export const apiStore = defineStore('store', {
         SAFETY: 'isSafetyConnected',
       };
 
-      // Setze alle auf false
+      // Initialize all devices as disconnected
       Object.values(deviceMap).forEach((key) => {
         this[key] = false;
       });
 
-      // Sortiere Events nach Timestamp (neueste zuerst)
+      // Sort events by timestamp (newest first)
       const sortedEvents = [...events].sort(
         (a, b) => new Date(b.Time).getTime() - new Date(a.Time).getTime()
       );
 
-      console.log('Sorted events (newest first):', sortedEvents.slice(0, 5).map(e => ({ Event: e.Event, Time: e.Time })));
-
-      // Finde das neueste Event für jedes Gerät
+      // Find the latest event for each device
       const latestEvents = {};
       for (const event of sortedEvents) {
         const eventString = event.Event || '';
         for (const deviceName of Object.keys(deviceMap)) {
-          // Wenn wir dieses Gerät noch nicht gefunden haben und der Event diesen Device enthält
+          // If we haven't found this device yet and the event contains this device
           if (!latestEvents[deviceName] && eventString.includes(deviceName)) {
-            console.log(`Found latest event for ${deviceName}:`, eventString);
             latestEvents[deviceName] = event;
           }
         }
       }
 
-      console.log('Latest events per device:', Object.entries(latestEvents).map(([k, v]) => ({ device: k, event: v.Event })));
-
-      // Setze den Connection-Status basierend auf dem neuesten Event
+      // Set connection status based on the latest event
       Object.entries(latestEvents).forEach(([deviceName, event]) => {
         const stateKey = deviceMap[deviceName];
         const isConnected = event.Event.endsWith('-CONNECTED');
-        console.log(`Setting ${deviceName} (${stateKey}) to ${isConnected} based on event: ${event.Event}`);
         this[stateKey] = isConnected;
       });
 
-      // Lösche Daten von nicht verbundenen Geräten
+      // Clear data for disconnected devices
       if (!this.isCameraConnected) this.cameraInfo = { IsExposing: false };
       if (!this.isMountConnected) this.mountInfo = [];
       if (!this.isFilterConnected) this.filterInfo = [];
@@ -817,20 +808,6 @@ export const apiStore = defineStore('store', {
       if (!this.isSafetyConnected) this.safetyInfo = { Connected: false, IsSafe: false };
       if (!this.isWeatherConnected) this.weatherInfo = [];
       if (!this.isSwitchConnected) this.switchInfo = [];
-
-      console.log('Processed device connection states:', {
-        isMountConnected: this.isMountConnected,
-        isCameraConnected: this.isCameraConnected,
-        isFilterConnected: this.isFilterConnected,
-        isRotatorConnected: this.isRotatorConnected,
-        isFocuserConnected: this.isFocuserConnected,
-        isGuiderConnected: this.isGuiderConnected,
-        isFlatdeviceConnected: this.isFlatdeviceConnected,
-        isDomeConnected: this.isDomeConnected,
-        isSwitchConnected: this.isSwitchConnected,
-        isWeatherConnected: this.isWeatherConnected,
-        isSafetyConnected: this.isSafetyConnected,
-      });
     },
   },
 });

@@ -8,24 +8,34 @@
       </div>
     </div>
 
-    <div class="histogram-range-slider-wrapper mb-2">
-      <div class="range-track"></div>
-      <input
-        v-model.number="localBlackPoint"
-        type="range"
-        min="0"
-        :max="255"
-        class="range-input range-input-black"
-        @input="onBlackPointChange"
-      />
-      <input
-        v-model.number="localWhitePoint"
-        type="range"
-        min="0"
-        max="255"
-        class="range-input range-input-white"
-        @input="onWhitePointChange"
-      />
+    <!-- Range Slider with Visual Indicators -->
+    <div class="mb-2 space-y-1">
+      <div class="flex gap-2">
+        <div class="flex-1">
+          <label class="text-xs text-gray-400">Black</label>
+          <input
+            v-model.number="localBlackPoint"
+            type="range"
+            min="0"
+            max="255"
+            class="w-full h-2 bg-gray-700 rounded-full cursor-pointer appearance-none accent-red-500"
+            @input="onBlackPointChange"
+          />
+          <div class="text-xs text-gray-400 text-right">{{ localBlackPoint }}</div>
+        </div>
+        <div class="flex-1">
+          <label class="text-xs text-gray-400">White</label>
+          <input
+            v-model.number="localWhitePoint"
+            type="range"
+            min="0"
+            max="255"
+            class="w-full h-2 bg-gray-700 rounded-full cursor-pointer appearance-none accent-gray-300"
+            @input="onWhitePointChange"
+          />
+          <div class="text-xs text-gray-400 text-right">{{ localWhitePoint }}</div>
+        </div>
+      </div>
     </div>
 
     <div class="histogram-canvas-wrapper" :style="{ height: height, width: width }">
@@ -182,6 +192,10 @@ const drawHistogram = () => {
 };
 
 const onBlackPointChange = () => {
+  // Prevent blackPoint from being >= whitePoint
+  if (localBlackPoint.value >= localWhitePoint.value) {
+    localBlackPoint.value = localWhitePoint.value - 1;
+  }
   emit('levels-changed', {
     blackPoint: localBlackPoint.value,
     whitePoint: localWhitePoint.value,
@@ -189,6 +203,10 @@ const onBlackPointChange = () => {
 };
 
 const onWhitePointChange = () => {
+  // Prevent whitePoint from being <= blackPoint
+  if (localWhitePoint.value <= localBlackPoint.value) {
+    localWhitePoint.value = localBlackPoint.value + 1;
+  }
   emit('levels-changed', {
     blackPoint: localBlackPoint.value,
     whitePoint: localWhitePoint.value,
@@ -245,123 +263,5 @@ onMounted(() => {
 .histogram-stats {
   border-top: 1px solid #333333;
   padding-top: 8px;
-}
-
-.histogram-range-slider-wrapper {
-  position: relative;
-  height: 24px;
-  margin-bottom: 4px;
-  display: flex;
-  align-items: center;
-}
-
-.range-track {
-  position: absolute;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, #ef4444, #f3f4f6);
-  border-radius: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.range-input {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  appearance: none;
-  -webkit-appearance: none;
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  z-index: 2;
-}
-
-.range-input-black {
-  pointer-events: auto;
-  z-index: 5;
-}
-
-.range-input-white {
-  pointer-events: auto;
-  z-index: 4;
-}
-
-/* Webkit browsers (Chrome, Safari, Edge) */
-.range-input::-webkit-slider-thumb {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #60a5fa;
-  cursor: grab;
-  border: 2px solid #1f2937;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  pointer-events: auto;
-}
-
-.range-input-black::-webkit-slider-thumb {
-  background: #ef4444;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-.range-input-white::-webkit-slider-thumb {
-  background: #f3f4f6;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.range-input::-webkit-slider-thumb:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
-}
-
-.range-input::-webkit-slider-thumb:active {
-  cursor: grabbing;
-}
-
-/* Firefox */
-.range-input::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #60a5fa;
-  cursor: grab;
-  border: 2px solid #1f2937;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  pointer-events: auto;
-}
-
-.range-input-black::-moz-range-thumb {
-  background: #ef4444;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-.range-input-white::-moz-range-thumb {
-  background: #f3f4f6;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.3);
-}
-
-.range-input::-moz-range-thumb:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  transform: scale(1.1);
-}
-
-.range-input::-moz-range-thumb:active {
-  cursor: grabbing;
-}
-
-.range-input::-moz-range-track {
-  background: transparent;
-  border: none;
-}
-
-.range-input::-moz-range-border {
-  border: none;
 }
 </style>

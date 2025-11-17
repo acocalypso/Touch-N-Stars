@@ -3,43 +3,77 @@
     <div class="histogram-header mb-2 flex justify-between items-center">
       <h3 class="text-sm font-semibold text-gray-300">Brightness Histogram</h3>
       <div class="text-xs text-gray-400 space-x-3">
-        <span>Black: <span class="text-gray-300 font-mono">{{ localBlackPoint }}</span></span>
-        <span>White: <span class="text-gray-300 font-mono">{{ localWhitePoint }}</span></span>
+        <span
+          >Black: <span class="text-gray-300 font-mono">{{ localBlackPoint }}</span></span
+        >
+        <span
+          >White: <span class="text-gray-300 font-mono">{{ localWhitePoint }}</span></span
+        >
       </div>
     </div>
 
-    <!-- Range Slider with Visual Indicators -->
-    <div class="mb-2 space-y-1">
-      <div class="flex gap-2">
-        <div class="flex-1">
-          <label class="text-xs text-gray-400">Black</label>
-          <input
-            v-model.number="localBlackPoint"
-            type="range"
-            min="0"
-            max="255"
-            class="w-full h-2 bg-gray-700 rounded-full cursor-pointer appearance-none accent-red-500"
-            @input="onBlackPointChange"
-          />
-          <div class="text-xs text-gray-400 text-right">{{ localBlackPoint }}</div>
-        </div>
-        <div class="flex-1">
-          <label class="text-xs text-gray-400">White</label>
-          <input
-            v-model.number="localWhitePoint"
-            type="range"
-            min="0"
-            max="255"
-            class="w-full h-2 bg-gray-700 rounded-full cursor-pointer appearance-none accent-gray-300"
-            @input="onWhitePointChange"
-          />
-          <div class="text-xs text-gray-400 text-right">{{ localWhitePoint }}</div>
+    <!-- Histogram with integrated range sliders -->
+    <div
+      class="histogram-canvas-wrapper relative"
+      :style="{ height: height, width: width }"
+      ref="wrapperElement"
+      @mousedown="onMouseDown"
+      @touchstart="onTouchStart"
+    >
+      <canvas ref="canvasElement" class="histogram-canvas w-full h-full absolute inset-0"></canvas>
+
+      <!-- Black Point Thumb (visual only) -->
+      <div
+        class="absolute top-0 h-full w-0.5 bg-transparent pointer-events-none"
+        :style="{
+          left: `${(localBlackPoint / 255) * 100}%`,
+          zIndex: localBlackPoint > 127 ? 4 : 5,
+        }"
+      >
+        <div
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+        >
+          <div class="w-1 h-full border-l-2 border-red-500"></div>
         </div>
       </div>
-    </div>
 
-    <div class="histogram-canvas-wrapper" :style="{ height: height, width: width }">
-      <canvas ref="canvasElement" class="histogram-canvas w-full h-full"></canvas>
+      <!-- White Point Thumb (visual only) -->
+      <div
+        class="absolute top-0 h-full w-0.5 bg-transparent pointer-events-none"
+        :style="{
+          left: `${(localWhitePoint / 255) * 100}%`,
+          zIndex: localWhitePoint <= 127 ? 4 : 5,
+        }"
+      >
+        <div
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+        >
+          <div class="w-1 h-full border-l-2 border-gray-200"></div>
+        </div>
+      </div>
+
+      <!-- Interactive hit zones for dragging -->
+      <div
+        class="absolute top-0 h-full pointer-events-auto cursor-grab active:cursor-grabbing"
+        :style="{
+          left: `calc(${(localBlackPoint / 255) * 100}% - 12px)`,
+          width: '24px',
+          zIndex: 10,
+        }"
+        @mousedown="onBlackPointMouseDown"
+        @touchstart="onBlackPointTouchStart"
+      ></div>
+
+      <div
+        class="absolute top-0 h-full pointer-events-auto cursor-grab active:cursor-grabbing"
+        :style="{
+          left: `calc(${(localWhitePoint / 255) * 100}% - 12px)`,
+          width: '24px',
+          zIndex: 9,
+        }"
+        @mousedown="onWhitePointMouseDown"
+        @touchstart="onWhitePointTouchStart"
+      ></div>
     </div>
 
     <div v-if="showStats" class="histogram-stats mt-3 grid grid-cols-4 gap-2 text-xs text-gray-400">
@@ -64,7 +98,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { getHistogramStats } from '@/utils/histogramUtils';
 
 const props = defineProps({
@@ -97,9 +131,26 @@ const props = defineProps({
 const emit = defineEmits(['levels-changed']);
 
 const canvasElement = ref(null);
+const wrapperElement = ref(null);
 const stats = ref({ min: 0, max: 0, mean: 0, median: 0 });
 const localBlackPoint = ref(props.blackPoint);
 const localWhitePoint = ref(props.whitePoint);
+
+// Dragging state
+const isDraggingBlack = ref(false);
+const isDraggingWhite = ref(false);
+
+// Throttle updates to reduce performance impact
+let lastEmitTime = 0;
+const EMIT_THROTTLE_MS = 1000; // Emit max every 300ms
+
+const throttledEmit = () => {
+  const now = Date.now();
+  if (now - lastEmitTime >= EMIT_THROTTLE_MS) {
+    emitLevelsChanged();
+    lastEmitTime = now;
+  }
+};
 
 const drawHistogram = () => {
   if (!canvasElement.value || !props.data || props.data.length === 0) {
@@ -191,27 +242,135 @@ const drawHistogram = () => {
   stats.value = getHistogramStats(props.data);
 };
 
-const onBlackPointChange = () => {
-  // Prevent blackPoint from being >= whitePoint
-  if (localBlackPoint.value >= localWhitePoint.value) {
-    localBlackPoint.value = localWhitePoint.value - 1;
-  }
+const emitLevelsChanged = () => {
   emit('levels-changed', {
     blackPoint: localBlackPoint.value,
     whitePoint: localWhitePoint.value,
   });
 };
 
-const onWhitePointChange = () => {
-  // Prevent whitePoint from being <= blackPoint
-  if (localWhitePoint.value <= localBlackPoint.value) {
-    localWhitePoint.value = localBlackPoint.value + 1;
-  }
-  emit('levels-changed', {
-    blackPoint: localBlackPoint.value,
-    whitePoint: localWhitePoint.value,
-  });
+const calculateValueFromPosition = (clientX) => {
+  if (!wrapperElement.value) return 0;
+
+  const rect = wrapperElement.value.getBoundingClientRect();
+  const relativeX = clientX - rect.left;
+  const percentage = Math.max(0, Math.min(1, relativeX / rect.width));
+  return Math.round(percentage * 255);
 };
+
+// Black point drag handlers
+const onBlackPointMouseDown = (event) => {
+  event.preventDefault();
+  isDraggingBlack.value = true;
+
+  const handleMouseMove = (moveEvent) => {
+    const newValue = calculateValueFromPosition(moveEvent.clientX);
+    localBlackPoint.value = Math.min(newValue, localWhitePoint.value - 1);
+    throttledEmit();
+  };
+
+  const handleMouseUp = () => {
+    isDraggingBlack.value = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+    // Final emit after drag ends
+    emitLevelsChanged();
+  };
+
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+};
+
+const onBlackPointTouchStart = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Ignore multi-touch
+  if (event.touches.length > 1) return;
+
+  isDraggingBlack.value = true;
+
+  const handleTouchMove = (moveEvent) => {
+    // Ignore multi-touch during drag
+    if (moveEvent.touches.length > 1) return;
+
+    moveEvent.preventDefault();
+    const touch = moveEvent.touches[0];
+    const newValue = calculateValueFromPosition(touch.clientX);
+    localBlackPoint.value = Math.min(newValue, localWhitePoint.value - 1);
+    throttledEmit();
+  };
+
+  const handleTouchEnd = () => {
+    isDraggingBlack.value = false;
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
+    // Final emit after drag ends
+    emitLevelsChanged();
+  };
+
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
+  document.addEventListener('touchend', handleTouchEnd);
+};
+
+// White point drag handlers
+const onWhitePointMouseDown = (event) => {
+  event.preventDefault();
+  isDraggingWhite.value = true;
+
+  const handleMouseMove = (moveEvent) => {
+    const newValue = calculateValueFromPosition(moveEvent.clientX);
+    localWhitePoint.value = Math.max(newValue, localBlackPoint.value + 1);
+    throttledEmit();
+  };
+
+  const handleMouseUp = () => {
+    isDraggingWhite.value = false;
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', handleMouseUp);
+    // Final emit after drag ends
+    emitLevelsChanged();
+  };
+
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+};
+
+const onWhitePointTouchStart = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+
+  // Ignore multi-touch
+  if (event.touches.length > 1) return;
+
+  isDraggingWhite.value = true;
+
+  const handleTouchMove = (moveEvent) => {
+    // Ignore multi-touch during drag
+    if (moveEvent.touches.length > 1) return;
+
+    moveEvent.preventDefault();
+    const touch = moveEvent.touches[0];
+    const newValue = calculateValueFromPosition(touch.clientX);
+    localWhitePoint.value = Math.max(newValue, localBlackPoint.value + 1);
+    throttledEmit();
+  };
+
+  const handleTouchEnd = () => {
+    isDraggingWhite.value = false;
+    document.removeEventListener('touchmove', handleTouchMove);
+    document.removeEventListener('touchend', handleTouchEnd);
+    // Final emit after drag ends
+    emitLevelsChanged();
+  };
+
+  document.addEventListener('touchmove', handleTouchMove, { passive: false });
+  document.addEventListener('touchend', handleTouchEnd);
+};
+
+// Dummy handlers to prevent event propagation
+const onMouseDown = () => {};
+const onTouchStart = () => {};
 
 watch(
   () => props.data,

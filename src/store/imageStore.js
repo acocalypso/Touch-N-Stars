@@ -256,8 +256,7 @@ export const useImagetStore = defineStore('imageStore', {
         }
         this.stretchedImageData = URL.createObjectURL(stretchedBlob);
 
-        // Calculate histogram for stretched image
-        await this.calculateImageHistogram(this.stretchedImageData);
+        // Keep original histogram - don't recalculate for stretched image
         console.log('[ImageStore] Stretch applied successfully');
       } catch (error) {
         console.error('[ImageStore] Error applying stretch:', error);

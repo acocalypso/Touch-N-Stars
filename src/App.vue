@@ -119,8 +119,6 @@
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
     <!-- Error Modal -->
     <ToastModal v-if="settingsStore.setupCompleted || store.setupCheckConnectionDone" />
-    <!-- ManuellFilterModal Modal -->
-    <ManuellFilterModal v-if="store.filterInfo.DeviceId === 'Networked Filter Wheel'" />
     <!-- Debug Console -->
     <ConsoleViewer class="fixed top-32 right-6 z-60" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
@@ -147,8 +145,8 @@
       @close="dismissWhatsNew"
     />
 
-    <!-- TNS MessageBox Modal -->
-    <SequenceTnsMessageBoxModal />
+    <!-- Dialog Modal -->
+    <DialogModal />
 
     <!-- Settings Modal -->
     <div
@@ -203,19 +201,17 @@ import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
+import { useDialogStore } from './store/dialogStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
-import ManuellFilterModal from '@/components/filterwheel/ManuellFilterModal.vue';
 import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
 import SettingsComp from '@/components/SettingsComp.vue';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
-import wsFilter from '@/services/websocketManuellFilterControl';
-import { useFilterStore } from '@/store/filterStore';
-import SequenceTnsMessageBoxModal from '@/components/sequence/SequenceTnsMessageBoxModal.vue';
+import DialogModal from '@/components/helpers/DialogModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import {
   checkForManualUpdate,
@@ -228,8 +224,8 @@ const store = apiStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
-const filterStore = useFilterStore();
 const cameraStore = useCameraStore();
+const dialogStore = useDialogStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -325,7 +321,7 @@ function pauseApp() {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
-  wsFilter.disconnect();
+  dialogStore.stopPolling();
   // Alle Flags zurücksetzen für sauberen Neustart beim Resume
   store.clearAllStates();
 }
@@ -346,20 +342,11 @@ async function resumeApp() {
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
+  dialogStore.startPolling();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }
 
-  // Reconnect WebSocket filter if needed
-  if (
-    store.filterInfo.DeviceId === 'Networked Filter Wheel' &&
-    store.filterInfo.Connected &&
-    store.isBackendReachable
-  ) {
-    wsFilter.connect();
-  }
-
-  // Check for app update independently from backend status
   if (isNativePlatform()) {
     void checkForAppUpdate();
   }
@@ -435,7 +422,7 @@ async function handleUpdateConfirm() {
   try {
     await downloadAndApplyUpdate({
       version: updateInfo.value.version,
-      downloadUrl: updateInfo.value.downloadUrl,
+      downloadUrl: updateInfo.value.assetUrl,
       onProgress: (percent) => {
         if (Number.isFinite(percent)) {
           updateProgress.value = Math.min(100, Math.max(0, percent));
@@ -534,6 +521,7 @@ onMounted(async () => {
 
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
+  dialogStore.startPolling();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }
@@ -598,31 +586,6 @@ watch(
   }
 );
 
-// Watch for Network Filter Wheel connection and manage WebSocket
-watch(
-  () => [store.filterInfo.Connected, store.filterInfo.DeviceId, store.isBackendReachable],
-  ([connected, deviceId, backendReachable]) => {
-    if (deviceId === 'Networked Filter Wheel' && connected && backendReachable) {
-      // Establish WebSocket connection
-      wsFilter.setStatusCallback((status) => {
-        //console.log('WebSocket Filter Status:', status);
-        if (status === 'connected') {
-          filterStore.wsIsConnected = true;
-          //console.log('WebSocket Filter connected!');
-        } else {
-          filterStore.wsIsConnected = false;
-        }
-      });
-      wsFilter.connect();
-    } else {
-      // Disconnect WebSocket
-      wsFilter.disconnect();
-      filterStore.wsIsConnected = false;
-    }
-  },
-  { immediate: true }
-);
-
 function closeTutorial() {
   showTutorial.value = false;
   settingsStore.completeTutorial();
@@ -661,7 +624,7 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
-  wsFilter.disconnect();
+  dialogStore.stopPolling();
   store.clearAllStates();
   store.isApiConnected = false;
   document.removeEventListener('visibilitychange', handleVisibilityChange);

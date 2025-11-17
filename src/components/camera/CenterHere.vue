@@ -3,7 +3,7 @@
     <!-- Hauptbild: wird responsiv skaliert -->
     <img
       ref="imageRef"
-      :src="cameraStore.imageData"
+      :src="imageStore.imageData"
       alt="Captured Image"
       class="main-image"
       @load="onImageLoad"
@@ -53,6 +53,7 @@
 import { ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useCameraStore } from '@/store/cameraStore';
+import { useImagetStore } from '@/store/imageStore';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -64,6 +65,7 @@ const cameraStore = useCameraStore();
 const framingStore = useFramingStore();
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const imageStore = useImagetStore();
 
 const baseRA = ref(100.0); // RA in Grad für Bildzentrum
 const baseDec = ref(20.0); // Dec in Grad für Bildzentrum
@@ -142,7 +144,6 @@ async function slewAndCenterFinished() {
     settingsStore.camera.gain,
     settingsStore.camera.useSolve
   );
-  cameraStore.imageData = '';
   cameraStore.slewModal = false;
   framingStore.showCenterModal = false;
 }

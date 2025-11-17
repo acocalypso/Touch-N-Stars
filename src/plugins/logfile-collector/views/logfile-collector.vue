@@ -54,7 +54,7 @@
         <div class="flex items-center justify-between">
           <code class="text-xs text-cyan-400 font-mono">{{ lastGeneratedToken }}</code>
           <button
-            @click="copyTokenToClipboard"
+            @click="copyTokenToClipboard(lastGeneratedToken)"
             class="ml-2 px-2 py-1 text-xs bg-gray-700 hover:bg-gray-600 rounded"
           >
             {{ $t('plugins.logfileCollector.actions.copyToken') }}

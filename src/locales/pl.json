@@ -129,6 +129,7 @@
       "image": {
         "title": "Ustawienia obrazu",
         "quality": "Jakość obrazu",
+        "maxDimension": "Maks. rozmiar obrazu",
         "strech_factor": "Współczynnik rozciągnięcia",
         "black_clipping": "Przycinanie czerni",
         "debayern": "Debayer obrazu",
@@ -260,6 +261,15 @@
           "sequenceCurrentState": "Pokaż stan sekwencji"
         }
       },
+      "graphControls": {
+        "title": "Kontrolki Wykresu",
+        "dataSources": "Źródła Danych",
+        "source1": "Źródło 1",
+        "source2": "Źródło 2",
+        "reset": "Resetuj",
+        "noDataAvailable": "Brak dostępnych danych",
+        "timeDisplay": "Zakres Czasu"
+      },
       "running": "W TRAKCIE",
       "imageHistory": "Historia obrazów",
       "duration": "Czas trwania",
@@ -279,12 +289,7 @@
       "time": "Czas",
       "noRunningItems": "Sekwencja zatrzymana",
       "status": "Status sekwencji",
-      "instructions": "Instrukcje",
-      "tnsMessageBox": {
-        "title": "Wiadomość sekwencji",
-        "stopSequence": "Zatrzymaj sekwencję",
-        "continueSequence": "Kontynuuj sekwencję"
-      }
+      "instructions": "Instrukcje"
     },
     "mount": {
       "title": "Montaż",
@@ -502,7 +507,9 @@
       "cooler_status_cooling": "Aktywne - Chłodzenie do",
       "cooler_status_holding": "Aktywne - Przy temp. docelowej",
       "cooler_status_warming": "Aktywne - Nagrzewanie do",
-      "set_save_snapshot": "Zapisz snapshoty"
+      "set_save_snapshot": "Zapisz snapshoty",
+      "snapshotTargetName": "Nazwa celu",
+      "set_use_solve_sync_to_mount": "Zsynchronizuj, aby zamontować"
     },
     "tppa": {
       "title": "Wyrównanie biegunowe trzypunktowe",
@@ -562,14 +569,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Obrót do celu",
-        "is_centering": "Centrowanie celu",
-        "is_platesolving": "Trwa rozwiązanie płyty",
-        "plate_solve_error": "Błąd rozwiązania płyty",
-        "center_error": "Błąd centrowania",
-        "center_successful": "Centrowanie udane",
-        "center_Repeat": "Powtórz centrowanie",
-        "exposure_running": "Trwa naświetlanie",
         "deviation_target": "Odchylenie od celu:"
       }
     },
@@ -581,18 +580,13 @@
       "please_connect_filterwheel": "Proszę podłączyć koło filtrów",
       "currentFilter": "Aktualny filtr",
       "position": "Pozycja",
-      "availableFilters": "Dostępne filtry",
-      "manual_filter": {
-        "title": "Koło filtrów",
-        "name": "Zmień na filtr:"
-      }
+      "availableFilters": "Dostępne filtry"
     },
     "rotator": {
       "title": "Rotator",
       "label": "Rotator",
       "move": "Przesuń",
       "control": "Sterowanie",
-      "notConnected": "Proszę podłączyć rotator",
       "please_connect_rotator": "Proszę podłączyć rotator",
       "connected": "Połączony",
       "disconnected": "Rozłączony",
@@ -1077,14 +1071,21 @@
     "livestack": {
       "not_available": "Nie znaleziono Livestack. Najpierw zainstaluj wtyczkę Livestack w NINA.",
       "beta_note": "Ta wtyczka jest nadal w fazie rozwoju i może zawierać błędy!",
-      "status": "Status",
       "target": "Cel",
-      "last_updated": "Ostatnia aktualizacja",
       "available_filters": "Dostępne filtry",
       "no_image_available": "Brak dostępnego obrazu",
       "start_and_select_filter": "Uruchom livestack i wybierz filtr, aby zobaczyć obrazy",
-      "images_available": "{count} dostępnych obrazów",
-      "no_images_available": "Brak dostępnych obrazów"
+      "no_filter": "Brak filtra",
+      "no_filters_available": "Brak dostępnych filtrów dla tego celu"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Czas",
+      "status": "Stan",
+      "error": "Odległość Błędu",
+      "rotation": "Rotacja"
+    }
+  },
+  "loading": "załadunek"
 }

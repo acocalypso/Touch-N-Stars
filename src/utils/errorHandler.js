@@ -80,7 +80,12 @@ export function setupErrorHandler() {
 
         // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
         // Skip toasts for HTTP 200 + StatusCode 200 (successful responses) and all 404s
-        if ((response.status >= 400 || statusCode >= 400) && statusCode !== 404) {
+        if (
+          (response.status >= 400 || statusCode >= 400) &&
+          statusCode !== 404 &&
+          statusCode !== 409 &&
+          statusCode !== 500
+        ) {
           showToast({
             type: isRealError ? 'error' : 'info',
             title: isRealError ? `API Error ${statusCode}` : `API Status ${statusCode}`,
@@ -90,15 +95,21 @@ export function setupErrorHandler() {
           });
         }
       } else if (response.status === 200 && duration > 5000) {
-        // Log slow requests (over 5 seconds)
-        createStructuredLog('WARN', 'PERFORMANCE', {
-          method,
-          url,
-          status: response.status,
-          message: `Slow request detected`,
-          duration,
-          extra: { threshold: 5000 },
-        });
+        // Check if this is an image request - use higher threshold (10 seconds)
+        const isImageRequest = url.includes('/image/');
+        const threshold = isImageRequest ? 10000 : 5000;
+
+        if (duration > threshold) {
+          // Log slow requests (over threshold)
+          createStructuredLog('WARN', 'PERFORMANCE', {
+            method,
+            url,
+            status: response.status,
+            message: `Slow request detected`,
+            duration,
+            extra: { threshold },
+          });
+        }
       }
 
       return response;

@@ -430,7 +430,6 @@ const apiService = {
         },
         responseType: 'blob',
       });
-      console.log(response);
       return response;
     } catch (error) {
       // console.error('Error read Image :', error);
@@ -451,7 +450,6 @@ const apiService = {
         },
         responseType: 'blob',
       });
-      console.log(response);
       return response;
     } catch (error) {
       // console.error('Error read Image :', error);
@@ -465,7 +463,6 @@ const apiService = {
       const response = await axios.get(`${BASE_URL}/image/thumbnail/${index}`, {
         responseType: 'blob',
       });
-      console.log(response);
       return response.data;
     } catch (error) {
       // console.error('Error read Thumbnail :', error);
@@ -546,31 +543,73 @@ const apiService = {
     }
   },
 
-  //-------------------------------------  TNS Message Box ---------------------------------------
+  //-------------------------------------  Dialog ---------------------------------------
 
-  async getTnsMessageBox() {
+  async getDialogList() {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}messagebox/list`, {
-        params: {},
-      });
+      const response = await axios.get(`${API_URL}dialogs/list`);
       return response.data;
     } catch (error) {
-      // console.error('Error fetching get-algo-param-names:', error);
+      // console.error('Error fetching dialog list:', error);
       throw error;
     }
   },
 
-  async setCloseTnsMessageBox(cont) {
+  async getDialogCount() {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}messagebox/close-all`, {
-        continue: cont,
-      });
-      console.log('PHD2 TNS API setPHD2AlgoParam:', response.data);
+      const response = await axios.get(`${API_URL}dialogs/count`);
       return response.data;
     } catch (error) {
-      // console.error('Error setPHD2AlgoParam PHD2:', error);
+      // console.error('Error fetching dialog count:', error);
+      throw error;
+    }
+  },
+
+  async clickDialogButton(buttonName, windowHashCode = null) {
+    try {
+      const { API_URL } = getUrls();
+      const params = { button: buttonName };
+      if (windowHashCode) {
+        params.window = windowHashCode;
+      }
+      console.log('API URL:', `${API_URL}dialogs/click-button`);
+      console.log('Params:', params);
+      const response = await axios.post(`${API_URL}dialogs/click-button`, null, { params });
+      console.log('Dialog button clicked:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error(`Error clicking dialog button ${buttonName}:`, error);
+      console.error('Error response:', error.response?.data);
+      throw error;
+    }
+  },
+
+  async closeAllDialogs(confirm = true) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}dialogs/close-all`, null, {
+        params: { confirm },
+      });
+      console.log('All dialogs closed:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error('Error closing all dialogs:', error);
+      throw error;
+    }
+  },
+
+  async closeDialogsByType(type, confirm = true) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}dialogs/close-by-type`, null, {
+        params: { type, confirm },
+      });
+      console.log('Dialogs closed by type:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error(`Error closing dialogs by type ${type}:`, error);
       throw error;
     }
   },
@@ -692,7 +731,14 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
-  async startCapture(duration, gain, solve = false, omitImage = false, save = false) {
+  async startCapture(
+    duration,
+    gain,
+    solve = false,
+    omitImage = false,
+    save = false,
+    targetName = 'Snapshot'
+  ) {
     console.log('Zeit:', duration, 'Gain: ', gain);
     try {
       const { BASE_URL } = getUrls();
@@ -703,6 +749,7 @@ const apiService = {
           solve: solve,
           omitImage: omitImage,
           save: save,
+          targetName: targetName,
         },
       });
       return response.data;
@@ -1235,6 +1282,20 @@ const apiService = {
     }
   },
 
+  async cancelSlewAndCenter() {
+    //Kommt von der TNS API
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}framing/cancel`, {});
+      console.log('Cancel SlweAndCenter:', response.data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  //-------------------------------------  Target Search ---------------------------------------
+
   async searchNGC(query, limit = 10) {
     const { API_URL } = getUrls();
     return this._getWithParams(`${API_URL}ngc/search`, { query, limit });
@@ -1456,6 +1517,23 @@ const apiService = {
       return URL.createObjectURL(response.data);
     } catch (error) {
       console.error('Error fetching livestack image:', error);
+      throw error;
+    }
+  },
+
+  async livestackImageInfo(target, filter) {
+    try {
+      const { BASE_URL } = getUrls();
+      const encodedTarget = encodeURIComponent(target);
+      const response = await axios.get(
+        `${BASE_URL}/livestack/image/${encodedTarget}/${filter}/info`
+      );
+      return response.data;
+    } catch (error) {
+      // Nur bei echten Errors loggen
+      if (error.response?.status !== 404) {
+        // console.error('Error checking livestack image info:', error);
+      }
       throw error;
     }
   },

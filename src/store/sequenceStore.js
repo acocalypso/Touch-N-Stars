@@ -17,17 +17,16 @@ export const useSequenceStore = defineStore('sequenceStore', {
     imageTargetNames: {},
     runningItems: [],
     runningConditions: [],
-    lastImage: {
-      index: 0,
-      quality: 0,
-      resize: false,
-      scale: 0,
-      image: null,
-    },
     showTnsModal: false,
     tnsModalMessage: '',
+    selectedImageIndex: null,
   }),
   actions: {
+    setSelectedImageIndex(index) {
+      if (index === null || (Number.isInteger(index) && index >= 0)) {
+        this.selectedImageIndex = index;
+      }
+    },
     setSequenceRunning(isRunning) {
       // Check if the sequence state has changed
       if (this.sequenceRunning !== isRunning) {
@@ -199,20 +198,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       if (response?.Success) {
-        // Check TNS-Messagebox
-        let tnsMessage = null;
-        if (store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.5.0')) {
-          tnsMessage = await apiService.getTnsMessageBox();
-          //console.log('TNS Message Box:', tnsMessage);
-        }
-
-        if (tnsMessage?.Success && tnsMessage?.Response.Count > 0) {
-          console.log('TNS Message Box has messages:', tnsMessage?.Response.MessageBoxes[0].Text);
-          // Show modal with TNS message
-          this.tnsModalMessage = tnsMessage?.Response.MessageBoxes[0].Text;
-          this.showTnsModal = true;
-        }
-
         // Check for errors in sequence items
         let hasErrors = false;
         let errorMessage = '';
@@ -367,46 +352,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
         const conditionPath = `${parentPath}-Conditions-${idx}`;
         condition._path = conditionPath;
       });
-    },
-
-    async getImageByIndex(index, quality, scale) {
-      let image = null;
-
-      if (
-        this.lastImage.image &&
-        index === this.lastImage.index &&
-        quality <= this.lastImage.quality &&
-        scale <= this.lastImage.scale
-      ) {
-        console.log('lastImage from cache');
-        //console.log(this.lastImage.image);
-        image = this.lastImage.image;
-        return image;
-      }
-      try {
-        const result = await apiService.getSequenceImage(index, quality, true, scale);
-        if (result.status != 200) {
-          console.error('Unknown error: Check NINA Logs for more information');
-          return;
-        }
-        const blob = result.data;
-        const imageUrl = URL.createObjectURL(blob);
-        return imageUrl;
-      } catch (error) {
-        console.error(`An error happened while getting image with index ${index}`, error.message);
-        return;
-      }
-    },
-
-    async getThumbnailByIndex(index) {
-      try {
-        const blob = await apiService.getSequenceThumbnail(index);
-        const imageUrl = URL.createObjectURL(blob);
-        return imageUrl;
-      } catch (error) {
-        console.error(`An error happened while getting image with index ${index}`, error.message);
-        return null;
-      }
     },
 
     collectRunningItems(containers) {
@@ -596,21 +541,6 @@ export const useSequenceStore = defineStore('sequenceStore', {
         return response;
       } catch (error) {
         console.error('Error fetching available sequences:', error);
-        throw error;
-      }
-    },
-
-    async closeTnsMessageBox(continueSequence) {
-      try {
-        await apiService.setCloseTnsMessageBox(continueSequence);
-        this.showTnsModal = false;
-        this.tnsModalMessage = '';
-        if (!continueSequence) {
-          // Stop sequence if user chose to stop
-          await apiService.sequenceAction('stop');
-        }
-      } catch (error) {
-        console.error('Error closing TNS MessageBox:', error);
         throw error;
       }
     },

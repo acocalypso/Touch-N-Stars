@@ -35,3 +35,4 @@ copyDistToPlugin.bat
 resources/android/**/*
 src/plugins/pluginRegistry.js
 public/whats-new.json
+nul

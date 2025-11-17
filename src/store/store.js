@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
+import { useImagetStore } from './imageStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 
 export const apiStore = defineStore('store', {
@@ -51,8 +52,8 @@ export const apiStore = defineStore('store', {
     showFocuser: false,
     showMount: false,
     showStellarium: false,
-    minimumApiVersion: '2.2.9.0',
-    minimumTnsPluginVersion: '1.1.1.0',
+    minimumApiVersion: '2.2.11.0',
+    minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
     isApiVersionNewerOrEqual: false,
@@ -67,7 +68,6 @@ export const apiStore = defineStore('store', {
     pageReturnedFromBackground: false,
     pageReturnTime: null,
     isRedirecting: false,
-    isImageFetching: false,
     backendReachableTimeoutId: null,
   }),
 
@@ -633,44 +633,15 @@ export const apiStore = defineStore('store', {
 
     async handleWebSocketMessage(message) {
       //console.log('Handling WebSocket message:', message);
-
+      const imageStore = useImagetStore();
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
         //console.log('IMAGE-PREPARED event received');
         // Verhindere mehrfache gleichzeitige Anfragen
-        if (this.isImageFetching) {
+        if (imageStore.isImageFetching) {
           return;
         }
-
-        this.isImageFetching = true;
-        try {
-          const settingsStore = useSettingsStore();
-          const cameraStore = useCameraStore();
-
-          // Hole Image Quality aus den Settings
-          const quality = settingsStore.camera.imageQuality || 90;
-
-          // Rufe getImagePrepared auf
-          const imageResponse = await apiService.getImagePrepared(quality);
-
-          if (imageResponse && imageResponse.data) {
-            // Revoke alte URL bevor neue erstellt wird (Speicherleck vermeiden)
-            if (cameraStore.imageData) {
-              URL.revokeObjectURL(cameraStore.imageData);
-            }
-
-            // Convert Blob to URL für Anzeige
-            const imageUrl = URL.createObjectURL(imageResponse.data);
-
-            // Speichere im CameraStore
-            cameraStore.imageData = imageUrl;
-            console.log('Fetched prepared image and updated camera store');
-          }
-        } catch (error) {
-          console.error('Error handling IMAGE-PREPARED message:', error);
-        } finally {
-          this.isImageFetching = false;
-        }
+        await imageStore.getImage();
       }
     },
   },

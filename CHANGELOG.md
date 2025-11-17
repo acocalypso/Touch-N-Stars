@@ -4,6 +4,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Plugin1.2.1.0] [App4.0.0] [webcam-1.0.1] [LivestackPlugin0.4.1] [logfile-collector1.0.2] - 2025-11-16
+### Important information
+- Advanced API V2.2.11.0 and Livestack 1.0.1.5 are required for Livestack.
+
+### Added
+- Time Range Controls: Collapsible control panel with dual-range slider for time-based filtering.
+- Sequence Graph: Data source selector for primary and secondary graph displays.
+- Camera settings: Sync plate solve coordinates to mount.
+- SequenceImageHistory: Added toggle button for image statistics display.
+- SequenceGraph: Zoom function for the graph.
+- Centralized image management system with new Image Store.
+- Configurable maximum image dimension setting (Full/High/Medium/Low presets) for optimized performance across different camera types.
+- Image validation to detect corrupted images with automatic retry mechanism.
+- Visual loading spinner overlay for image loading states.
+- Livestack: Display of the number of stacked images added.
+- App: An option to specify the target name when saving snapshots.
+
+### Changed
+- Improved image fetch performance with proper memory management.
+- Enhanced exposure countdown watchdog with increased check interval for better accuracy.
+- Optimized performance logging threshold for image requests.
+
+### Fixed
+- Reloading the image when changing instances.
+- The Mount Control button is only displayed if the function is supported.
+- Webcam Plugin: Add crossOrigin="anonymous".
+- logfile-collector: Fixed copy token.
+- App: Fixed save target name.
+- Fixed image loading at startup.
+- Fixed Exposure button spinner to show the image loading.
+- Fixed update URL.
+- Fixed downgrade function if the backend is unavailable.
+- Fixed info overlay about offline catalog in slew tab.
+- Fixed race condition between simultaneous image fetch operations.
+- Fixed memory leaks from unreleased Blob URLs in image operations.
+- Fixed dialog visibility issue on Camera Page when dialogs appear over the image view.
+- Fixed scrolling on iOS for Livestack control panel and improved UI responsiveness on small screens.
+- Livestack: Control panel header now remains fixed while content scrolls on iOS devices.
+
 ## [App3.6.1] - 2025-11-05
 ### Added
 - Option to join the beta channel

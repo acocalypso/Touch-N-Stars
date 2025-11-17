@@ -36,7 +36,7 @@
         class="flex flex-col gap-2 mt-2"
       >
         <div class="flex gap-1">
-          <button @click="setFramingCoordinates" class="default-button-cyan max-w-56">
+          <button @click="setFramingCoordinates" class="default-button-cyan max-w-60">
             {{ $t('components.stellarium.selected_object.button_framing') }}
           </button>
           <SaveFavTargets

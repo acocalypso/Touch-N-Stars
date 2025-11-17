@@ -1,7 +1,6 @@
 // Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
 import { h, markRaw } from 'vue';
-import LegacyPluginView from './views/LiveStackLegacy.vue';
 import PluginView from './views/LiveStack.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';

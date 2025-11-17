@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex items-center justify-center p-1 w-10 h-10 rounded-full mr-2 bg-gray-700/50 text-white border border-gray-400 z-[500]"
+    class="flex items-center justify-center p-1 w-10 h-10 rounded-full mr-2 bg-gray-600 text-white border border-gray-400 z-top"
     @click="showConfiguration = !showConfiguration"
   >
     <Cog6ToothIcon class="w-6 h-6" />

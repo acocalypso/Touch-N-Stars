@@ -308,8 +308,8 @@ const handleWebSocketMessage = async (message) => {
         console.log('Force reloading current image due to stack update');
         await forceLoadImage(Target, Filter);
       }
-    } 
-  } 
+    }
+  }
 };
 
 onMounted(async () => {

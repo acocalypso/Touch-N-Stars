@@ -53,7 +53,6 @@ export const useLivestackStore = defineStore('livestackStore', {
 
     // Update count for a specific target/filter from WebSocket event
     updateCountForTargetFilter(targetLabel, filterLabel, count) {
-
       // Find or create target
       let targetObj = this.availableTargets.find((t) => t.label === targetLabel);
       if (!targetObj) {
@@ -145,4 +144,5 @@ export const useLivestackStore = defineStore('livestackStore', {
         return this.availableFilters.find((f) => f.label === 'RGB') || null;
       }
     },
+  },
 });

@@ -79,6 +79,7 @@ export const apiStore = defineStore('store', {
     isDomeConnected: false,
     isSwitchConnected: false,
     isWeatherConnected: false,
+    isSafetyConnected: false,
   }),
 
   actions: {
@@ -309,51 +310,96 @@ export const apiStore = defineStore('store', {
         // Verarbeite Event-Historie um Connection-Status zu bestimmen
         this.processEventHistory(eventHistoryResponse);
 
-        const [
-          imageHistoryResponse,
-          cameraResponse,
-          mountResponse,
-          filterResponse,
-          rotatorResponse,
-          focuserResponse,
-          focuserAfResponse,
-          guiderResponse,
-          flatdeviceResponse,
-          domeResponse,
-          safetyResponse,
-          weatherResponse,
-          switchResponse,
-        ] = await Promise.all([
-          apiService.imageHistoryAll(),
-          apiService.cameraAction('info'),
-          apiService.mountAction('info'),
-          apiService.filterAction('info'),
-          apiService.rotatorAction('info'),
-          apiService.focusAction('info'),
-          apiService.focuserAfAction('info'),
-          apiService.guiderAction('info'),
-          apiService.flatdeviceAction('info'),
-          apiService.domeAction('info'),
-          apiService.safetyAction('info'),
-          apiService.weatherAction('info'),
-          apiService.switchAction('info'),
-        ]);
+        // Baue API-Requests dynamisch basierend auf Connection-Status
+        const requests = [];
+        const requestMap = {};
 
-        this.handleApiResponses({
-          imageHistoryResponse,
-          cameraResponse,
-          mountResponse,
-          filterResponse,
-          rotatorResponse,
-          focuserResponse,
-          focuserAfResponse,
-          guiderResponse,
-          flatdeviceResponse,
-          domeResponse,
-          safetyResponse,
-          weatherResponse,
-          switchResponse,
-        });
+        requests.push(apiService.imageHistoryAll());
+        requestMap['imageHistoryResponse'] = 'imageHistoryResponse';
+
+        if (this.isCameraConnected) {
+          requests.push(apiService.cameraAction('info'));
+          requestMap[requests.length - 1] = 'cameraResponse';
+        }
+        if (this.isMountConnected) {
+          requests.push(apiService.mountAction('info'));
+          requestMap[requests.length - 1] = 'mountResponse';
+        }
+        if (this.isFilterConnected) {
+          requests.push(apiService.filterAction('info'));
+          requestMap[requests.length - 1] = 'filterResponse';
+        }
+        if (this.isRotatorConnected) {
+          requests.push(apiService.rotatorAction('info'));
+          requestMap[requests.length - 1] = 'rotatorResponse';
+        }
+        if (this.isFocuserConnected) {
+          requests.push(apiService.focusAction('info'));
+          requestMap[requests.length - 1] = 'focuserResponse';
+        }
+        if (this.isFocuserConnected) {
+          requests.push(apiService.focuserAfAction('info'));
+          requestMap[requests.length - 1] = 'focuserAfResponse';
+        }
+        if (this.isGuiderConnected) {
+          requests.push(apiService.guiderAction('info'));
+          requestMap[requests.length - 1] = 'guiderResponse';
+        }
+        if (this.isFlatdeviceConnected) {
+          requests.push(apiService.flatdeviceAction('info'));
+          requestMap[requests.length - 1] = 'flatdeviceResponse';
+        }
+        if (this.isDomeConnected) {
+          requests.push(apiService.domeAction('info'));
+          requestMap[requests.length - 1] = 'domeResponse';
+        }
+        if (this.isSafetyConnected) {
+          requests.push(apiService.safetyAction('info'));
+          requestMap[requests.length - 1] = 'safetyResponse';
+        }
+        if (this.isWeatherConnected) {
+          requests.push(apiService.weatherAction('info'));
+          requestMap[requests.length - 1] = 'weatherResponse';
+        }
+        if (this.isSwitchConnected) {
+          requests.push(apiService.switchAction('info'));
+          requestMap[requests.length - 1] = 'switchResponse';
+        }
+
+        const responses = await Promise.all(requests);
+
+        // Zuordnung der Responses zu den korrekten Keys
+        const responseData = {
+          imageHistoryResponse: responses[0],
+          cameraResponse: null,
+          mountResponse: null,
+          filterResponse: null,
+          rotatorResponse: null,
+          focuserResponse: null,
+          focuserAfResponse: null,
+          guiderResponse: null,
+          flatdeviceResponse: null,
+          domeResponse: null,
+          safetyResponse: null,
+          weatherResponse: null,
+          switchResponse: null,
+        };
+
+        let responseIndex = 1;
+        if (this.isCameraConnected) responseData.cameraResponse = responses[responseIndex++];
+        if (this.isMountConnected) responseData.mountResponse = responses[responseIndex++];
+        if (this.isFilterConnected) responseData.filterResponse = responses[responseIndex++];
+        if (this.isRotatorConnected) responseData.rotatorResponse = responses[responseIndex++];
+        if (this.isFocuserConnected) responseData.focuserResponse = responses[responseIndex++];
+        if (this.isFocuserConnected) responseData.focuserAfResponse = responses[responseIndex++];
+        if (this.isGuiderConnected) responseData.guiderResponse = responses[responseIndex++];
+        if (this.isFlatdeviceConnected) responseData.flatdeviceResponse = responses[responseIndex++];
+        if (this.isDomeConnected) responseData.domeResponse = responses[responseIndex++];
+        if (this.isSafetyConnected) responseData.safetyResponse = responses[responseIndex++];
+        if (this.isWeatherConnected) responseData.weatherResponse = responses[responseIndex++];
+        if (this.isSwitchConnected) responseData.switchResponse = responses[responseIndex++];
+
+        this.handleApiResponses(responseData);
       } catch (error) {
         console.error('Error fetching information:', error);
       }
@@ -399,79 +445,79 @@ export const apiStore = defineStore('store', {
       weatherResponse,
       switchResponse,
     }) {
-      if (imageHistoryResponse.Success) {
+      if (imageHistoryResponse?.Success) {
         this.imageHistoryInfo = imageHistoryResponse.Response;
       }
 
-      if (cameraResponse.Success) {
+      if (cameraResponse?.Success) {
         this.cameraInfo = cameraResponse.Response;
-      } else {
+      } else if (cameraResponse) {
         console.error('Error in camera API response:', cameraResponse.Error);
       }
 
-      if (mountResponse.Success) {
+      if (mountResponse?.Success) {
         this.mountInfo = mountResponse.Response;
-      } else {
+      } else if (mountResponse) {
         console.error('Error in mount API response:', mountResponse.Error);
       }
 
-      if (filterResponse.Success) {
+      if (filterResponse?.Success) {
         this.filterInfo = filterResponse.Response;
-      } else {
+      } else if (filterResponse) {
         console.error('Error in filter API response:', filterResponse.Error);
       }
 
-      if (rotatorResponse.Success) {
+      if (rotatorResponse?.Success) {
         this.rotatorInfo = rotatorResponse.Response;
-      } else {
+      } else if (rotatorResponse) {
         console.error('Error in rotator API response:', rotatorResponse.Error);
       }
 
-      if (focuserResponse.Success) {
+      if (focuserResponse?.Success) {
         this.focuserInfo = focuserResponse.Response;
-      } else {
+      } else if (focuserResponse) {
         console.error('Error in focuser API response:', focuserResponse.Error);
       }
 
-      if (focuserAfResponse.Success) {
+      if (focuserAfResponse?.Success) {
         this.focuserAfInfo = focuserAfResponse;
-      } else {
+      } else if (focuserAfResponse) {
         console.error('Error in focuser AF API response:', focuserAfResponse.Error);
       }
 
-      if (safetyResponse.Success) {
+      if (safetyResponse?.Success) {
         this.safetyInfo = safetyResponse.Response;
-      } else {
+      } else if (safetyResponse) {
         console.error('Error in safety API response:', safetyResponse.Error);
       }
 
-      if (guiderResponse.Success) {
+      if (guiderResponse?.Success) {
         this.guiderInfo = guiderResponse.Response;
-      } else {
+      } else if (guiderResponse) {
         console.error('Error in guider API response:', guiderResponse.Error);
       }
 
-      if (flatdeviceResponse.Success) {
+      if (flatdeviceResponse?.Success) {
         this.flatdeviceInfo = flatdeviceResponse.Response;
-      } else {
+      } else if (flatdeviceResponse) {
         console.error('Error in flat device API response:', flatdeviceResponse.Error);
       }
 
-      if (domeResponse.Success) {
+      if (domeResponse?.Success) {
         this.domeInfo = domeResponse.Response;
-      } else {
+      } else if (domeResponse) {
         console.error('Error in dome API response:', domeResponse.Error);
       }
 
-      if (weatherResponse.Success) {
+      if (weatherResponse?.Success) {
         this.weatherInfo = weatherResponse.Response;
-      } else {
+      } else if (weatherResponse) {
         console.error('Error in weather API response:', weatherResponse.Error);
       }
 
-      if (switchResponse.Success) {
+      if (switchResponse?.Success) {
         this.switchInfo = switchResponse.Response;
-      } else {
+      } else if (switchResponse) {
         console.error('Error in switch API response:', switchResponse.Error);
       }
     },
@@ -665,6 +711,7 @@ export const apiStore = defineStore('store', {
         'DOME': 'isDomeConnected',
         'SWITCH': 'isSwitchConnected',
         'WEATHER': 'isWeatherConnected',
+        'SAFETY': 'isSafetyConnected',
       };
 
       // Setze alle auf false
@@ -687,9 +734,29 @@ export const apiStore = defineStore('store', {
       // Setze den Connection-Status basierend auf dem neuesten Event
       Object.entries(latestEvents).forEach(([deviceName, event]) => {
         const stateKey = deviceMap[deviceName];
-        const isConnected = event.Event.includes('CONNECTED') && !event.Event.includes('DISCONNECTED');
+        const isConnected = event.Event.endsWith('CONNECTED');
         this[stateKey] = isConnected;
       });
+
+      // Lösche Daten von nicht verbundenen Geräten
+      if (!this.isCameraConnected) this.cameraInfo = { IsExposing: false };
+      if (!this.isMountConnected) this.mountInfo = [];
+      if (!this.isFilterConnected) this.filterInfo = [];
+      if (!this.isRotatorConnected) this.rotatorInfo = [];
+      if (!this.isFocuserConnected) {
+        this.focuserInfo = [];
+        this.focuserAfInfo = {};
+      }
+      if (!this.isGuiderConnected) {
+        this.guiderInfo = [];
+        this.afCurveData = [];
+        this.afTimestampLastStart = null;
+      }
+      if (!this.isFlatdeviceConnected) this.flatdeviceInfo = [];
+      if (!this.isDomeConnected) this.domeInfo = [];
+      if (!this.isSafetyConnected) this.safetyInfo = { Connected: false, IsSafe: false };
+      if (!this.isWeatherConnected) this.weatherInfo = [];
+      if (!this.isSwitchConnected) this.switchInfo = [];
 
       console.log('Processed device connection states:', {
         isMountConnected: this.isMountConnected,
@@ -702,6 +769,7 @@ export const apiStore = defineStore('store', {
         isDomeConnected: this.isDomeConnected,
         isSwitchConnected: this.isSwitchConnected,
         isWeatherConnected: this.isWeatherConnected,
+        isSafetyConnected: this.isSafetyConnected,
       });
     },
   },

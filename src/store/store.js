@@ -737,6 +737,24 @@ export const apiStore = defineStore('store', {
             console.error('Error fetching event history from WebSocket trigger:', error);
           }
         }
+
+        // Handle autofocus events via WebSocket
+        const autofocusEvents = [
+          'AUTOFOCUS-STARTING',
+          'AUTOFOCUS-POINT-ADDED',
+          'AUTOFOCUS-FINISHED',
+        ];
+
+        if (autofocusEvents.includes(event)) {
+          // Fetch event history immediately for autofocus
+          try {
+            const eventHistoryResponse = await apiService.getEventHistory();
+            this.processEventHistory(eventHistoryResponse);
+            this.lastEventHistoryFetch = Date.now();
+          } catch (error) {
+            console.error('Error fetching event history from autofocus WebSocket trigger:', error);
+          }
+        }
       }
     },
 

@@ -1,5 +1,6 @@
 <template>
-  <AfGraphNinaFocus v-if="!isHocusFocus" />
+  <AfLiveGraph v-if="store.checkVersionNewerOrEqual(store.currentApiVersion,'2.2.11.0')" />
+  <AfGraphNinaFocus v-else-if="!isHocusFocus" />
   <AfGraphHocusFocus v-else />
 </template>
 
@@ -7,9 +8,12 @@
 import { ref, watch } from 'vue';
 import AfGraphHocusFocus from '@/components/focuser/AfGraphHocusFocus.vue';
 import AfGraphNinaFocus from '@/components/focuser/AfGraphNinaFocus.vue';
+import AfLiveGraph from './AfLiveGraph.vue';
 import { useLogStore } from '@/store/logStore';
+import { apiStore } from '@/store/store';
 
 const logStore = useLogStore();
+const store = apiStore();
 const isHocusFocus = ref(false);
 
 watch(
@@ -25,7 +29,7 @@ watch(
       const startMatch = entry.message.match(/Starting AutoFocus with initial position (\d+)/);
       if (startMatch) {
         isHocusFocus.value = true;
-        console.log('Hocus Focus running');
+        //console.log('Hocus Focus running');
       }
     }
   },

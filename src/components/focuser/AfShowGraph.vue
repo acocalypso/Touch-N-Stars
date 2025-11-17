@@ -1,5 +1,5 @@
 <template>
-  <AfLiveGraph v-if="store.checkVersionNewerOrEqual(store.currentApiVersion,'2.2.11.0')" />
+  <AfLiveGraph v-if="store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.11.0')" />
   <AfGraphNinaFocus v-else-if="!isHocusFocus" />
   <AfGraphHocusFocus v-else />
 </template>

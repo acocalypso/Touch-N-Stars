@@ -1,0 +1,124 @@
+/**
+ * Utility functions for image histogram calculation
+ */
+
+/**
+ * Calculate brightness histogram from image URL
+ * Converts image to grayscale using luma formula and creates histogram buckets
+ * @param {string} imageUrl - URL or blob URL of the image
+ * @param {number} bucketCount - Number of histogram buckets (default 256)
+ * @returns {Promise<Array<number>>} Array of pixel counts for each brightness level
+ */
+export async function calculateHistogram(imageUrl, bucketCount = 256) {
+  return new Promise((resolve, reject) => {
+    if (!imageUrl) {
+      reject(new Error('Invalid image URL'));
+      return;
+    }
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          reject(new Error('Could not get canvas context'));
+          return;
+        }
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // Draw image on canvas
+        ctx.drawImage(img, 0, 0);
+
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Initialize histogram buckets
+        const histogram = new Array(bucketCount).fill(0);
+
+        // Calculate histogram using luma formula for brightness
+        // Luma = 0.299*R + 0.587*G + 0.114*B
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          const a = data[i + 3];
+
+          // Skip fully transparent pixels
+          if (a === 0) {
+            continue;
+          }
+
+          // Calculate brightness (luma)
+          const brightness = Math.round(0.299 * r + 0.587 * g + 0.114 * b);
+
+          // Map to bucket (0-255 range)
+          const bucketIndex = Math.min(
+            Math.floor((brightness / 255) * (bucketCount - 1)),
+            bucketCount - 1
+          );
+          histogram[bucketIndex]++;
+        }
+
+        // Normalize histogram to percentage for easier visualization
+        const totalPixels = canvas.width * canvas.height;
+        const normalizedHistogram = histogram.map((count) => (count / totalPixels) * 100);
+
+        resolve(normalizedHistogram);
+      } catch (error) {
+        reject(new Error(`Error processing image data: ${error.message}`));
+      }
+    };
+
+    img.onerror = () => {
+      reject(new Error('Failed to load image'));
+    };
+
+    img.src = imageUrl;
+
+    // Timeout after 10 seconds
+    setTimeout(() => {
+      reject(new Error('Image loading timeout'));
+    }, 10000);
+  });
+}
+
+/**
+ * Get statistics from histogram
+ * @param {Array<number>} histogram - Histogram data array
+ * @returns {Object} Statistics object with min, max, mean, median
+ */
+export function getHistogramStats(histogram) {
+  if (!histogram || histogram.length === 0) {
+    return { min: 0, max: 0, mean: 0, median: 0 };
+  }
+
+  const nonZeroValues = histogram
+    .map((value, index) => ({ value, index }))
+    .filter((item) => item.value > 0);
+
+  if (nonZeroValues.length === 0) {
+    return { min: 0, max: 0, mean: 0, median: 0 };
+  }
+
+  const indices = nonZeroValues.map((item) => item.index);
+
+  const min = Math.min(...indices);
+  const max = Math.max(...indices);
+  const mean = indices.reduce((a, b) => a + b) / indices.length;
+
+  // Calculate median
+  const sorted = [...indices].sort((a, b) => a - b);
+  const median =
+    sorted.length % 2 === 0
+      ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
+      : sorted[Math.floor(sorted.length / 2)];
+
+  return { min, max, mean, median };
+}

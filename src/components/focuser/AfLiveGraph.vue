@@ -118,6 +118,6 @@ watch(
 
 onMounted(() => {
   updateChart();
- console.log('[AfLiveGraph] Livechart mounted');
+  console.log('[AfLiveGraph] Livechart mounted');
 });
 </script>

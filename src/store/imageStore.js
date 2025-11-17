@@ -2,10 +2,12 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from './settingsStore';
+import { calculateHistogram } from '@/utils/histogramUtils';
 
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
+    imageHistogram: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
     lastImage: {
@@ -14,6 +16,7 @@ export const useImagetStore = defineStore('imageStore', {
       resize: false,
       scale: 0,
       image: null,
+      histogram: null,
     },
   }),
   actions: {
@@ -29,6 +32,23 @@ export const useImagetStore = defineStore('imageStore', {
         `[ImageStore] Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`
       );
       return scale;
+    },
+
+    async calculateImageHistogram(imageUrl) {
+      if (!imageUrl) {
+        this.imageHistogram = null;
+        return;
+      }
+
+      try {
+        console.log('[ImageStore] Calculating histogram for image...');
+        const histogram = await calculateHistogram(imageUrl);
+        this.imageHistogram = histogram;
+        console.log('[ImageStore] Histogram calculated successfully');
+      } catch (error) {
+        console.error('[ImageStore] Error calculating histogram:', error);
+        this.imageHistogram = null;
+      }
     },
 
     async getImage() {
@@ -64,6 +84,8 @@ export const useImagetStore = defineStore('imageStore', {
             URL.revokeObjectURL(this.imageData);
           }
           this.imageData = URL.createObjectURL(imageResponse.data);
+          // Calculate histogram for the new image
+          await this.calculateImageHistogram(this.imageData);
         }
       } catch (error) {
         console.error('[ImageStore] Error fetching information:', error);
@@ -144,6 +166,10 @@ export const useImagetStore = defineStore('imageStore', {
         this.lastImage.quality = quality;
         this.lastImage.index = index;
         this.lastImage.image = imageUrl;
+
+        // Calculate histogram for the sequence image
+        await this.calculateImageHistogram(imageUrl);
+        this.lastImage.histogram = this.imageHistogram;
 
         return imageUrl;
       } catch (error) {

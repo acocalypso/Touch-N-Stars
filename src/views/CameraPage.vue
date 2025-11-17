@@ -14,88 +14,65 @@
       </div>
 
       <!-- Hauptbereich, wenn Kamera verbunden -->
-      <div v-show="store.cameraInfo.Connected" class="flex flex-col inset-0 z-10 h-screen">
-        <!-- ZoomableImage Component -->
-        <div class="flex-1 overflow-hidden">
-          <ZoomableImage
-            :imageData="imageStore.stretchedImageData || imageStore.imageData"
-            :showControls="true"
-            :showDownload="true"
-            :showFullscreen="true"
-            :loading="imageStore.isImageFetching"
-            height="100%"
-            altText="Captured Astrophoto"
-            placeholderText="No image captured yet"
-            @download="handleDownload"
-            @fullscreen="openImageModal"
-            class="bg-gray-900"
-          >
-            <!-- Custom placeholder -->
-            <template #placeholder>
-              <div class="flex flex-col items-center justify-center text-gray-400">
-                <img
-                  src="../assets/Logo_TouchNStars_600x600.png"
-                  alt="TouchNStars Logo"
-                  class="w-44 h-44 opacity-50 mb-4"
-                />
-                <p class="text-lg">One touch to the stars</p>
-              </div>
-            </template>
-          </ZoomableImage>
-        </div>
-
-        <!-- Histogram Chart with Stretch Controls -->
-        <div v-if="imageStore.imageData" class="bg-gray-900 border-t border-gray-700 px-4 py-2">
-          <HistogramChart
-            :data="imageStore.imageHistogram"
-            height="100px"
-            :showStats="true"
-            :blackPoint="imageStore.blackPoint"
-            :whitePoint="imageStore.whitePoint"
-            @levels-changed="onLevelsChanged"
-          />
-          <!-- Stretch Controls -->
-          <div v-if="imageStore.stretchedImageData" class="mt-2 flex gap-2 justify-end">
-            <button
-              @click="resetStretch"
-              class="px-3 py-1 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded transition-colors"
-            >
-              Reset Stretch
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div
-        v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
-        :class="iconCenterHere"
-      >
-        <button
-          @click="cameraStore.slewModal = true"
-          class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
-          title="Center Here"
+      <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
+        <!-- ZoomableImage Component - Full Screen -->
+        <ZoomableImage
+          :imageData="imageStore.imageData"
+          :showControls="true"
+          :showDownload="true"
+          :showFullscreen="true"
+          :loading="imageStore.isImageFetching"
+          height="100vh"
+          altText="Captured Astrophoto"
+          placeholderText="No image captured yet"
+          @download="handleDownload"
+          @fullscreen="openImageModal"
+          class="bg-gray-900"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-6 h-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
-            />
-          </svg>
-        </button>
-      </div>
+          <!-- Custom placeholder -->
+          <template #placeholder>
+            <div class="flex flex-col items-center justify-center text-gray-400">
+              <img
+                src="../assets/Logo_TouchNStars_600x600.png"
+                alt="TouchNStars Logo"
+                class="w-44 h-44 opacity-50 mb-4"
+              />
+              <p class="text-lg">One touch to the stars</p>
+            </div>
+          </template>
+        </ZoomableImage>
 
-      <!-- Capture Button Overlay -->
-      <div class="absolute inset-0 pointer-events-none z-60">
-        <div class="pointer-events-auto">
-          <CaptureButton />
+        <div
+          v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
+          :class="iconCenterHere"
+        >
+          <button
+            @click="cameraStore.slewModal = true"
+            class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+            title="Center Here"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Capture Button Overlay -->
+        <div class="absolute inset-0 pointer-events-none z-60">
+          <div class="pointer-events-auto">
+            <CaptureButton />
+          </div>
         </div>
       </div>
 
@@ -277,7 +254,6 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
-import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
 import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
@@ -369,15 +345,6 @@ const openImageModal = () => {
 
 const closeImageModal = () => {
   showModal.value = false;
-};
-
-const onLevelsChanged = async (event) => {
-  const { blackPoint, whitePoint } = event;
-  await imageStore.applyStretch(blackPoint, whitePoint);
-};
-
-const resetStretch = () => {
-  imageStore.resetStretch();
 };
 
 // Load image on mount if imageData is empty

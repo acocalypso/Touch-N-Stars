@@ -4,6 +4,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
 import { useImagetStore } from './imageStore';
+import { useAutofocusStore } from '@/store/autofocusStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 
 export const apiStore = defineStore('store', {
@@ -808,6 +809,10 @@ export const apiStore = defineStore('store', {
       if (!this.isSafetyConnected) this.safetyInfo = { Connected: false, IsSafe: false };
       if (!this.isWeatherConnected) this.weatherInfo = [];
       if (!this.isSwitchConnected) this.switchInfo = [];
+
+      // Process autofocus events
+      const autofocusStore = useAutofocusStore();
+      autofocusStore.processAutofocusEvents(sortedEvents);
     },
   },
 });

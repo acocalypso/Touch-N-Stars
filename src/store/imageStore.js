@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from './settingsStore';
-import { calculateHistogram } from '@/utils/histogramUtils';
+import { calculateHistogram, applyLevelsStretch } from '@/utils/histogramUtils';
 
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
@@ -10,6 +10,9 @@ export const useImagetStore = defineStore('imageStore', {
     imageHistogram: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
+    stretchedImageData: null,
+    blackPoint: 0,
+    whitePoint: 255,
     lastImage: {
       index: 0,
       quality: 0,
@@ -232,6 +235,49 @@ export const useImagetStore = defineStore('imageStore', {
       this.lastImage.index = 0;
       this.lastImage.image = null;
       console.log('[ImageStore] Clearing image cache');
+    },
+
+    async applyStretch(blackPoint, whitePoint) {
+      if (!this.imageData) {
+        console.warn('[ImageStore] No image data to apply stretch');
+        return;
+      }
+
+      try {
+        console.log(
+          `[ImageStore] Applying stretch: blackPoint=${blackPoint}, whitePoint=${whitePoint}`
+        );
+        this.blackPoint = blackPoint;
+        this.whitePoint = whitePoint;
+
+        const stretchedBlob = await applyLevelsStretch(this.imageData, blackPoint, whitePoint);
+        if (this.stretchedImageData) {
+          URL.revokeObjectURL(this.stretchedImageData);
+        }
+        this.stretchedImageData = URL.createObjectURL(stretchedBlob);
+
+        // Calculate histogram for stretched image
+        await this.calculateImageHistogram(this.stretchedImageData);
+        console.log('[ImageStore] Stretch applied successfully');
+      } catch (error) {
+        console.error('[ImageStore] Error applying stretch:', error);
+        this.stretchedImageData = null;
+      }
+    },
+
+    resetStretch() {
+      if (this.stretchedImageData) {
+        URL.revokeObjectURL(this.stretchedImageData);
+        this.stretchedImageData = null;
+      }
+      this.blackPoint = 0;
+      this.whitePoint = 255;
+
+      // Reset histogram to original image
+      if (this.imageData) {
+        this.calculateImageHistogram(this.imageData);
+      }
+      console.log('[ImageStore] Stretch reset');
     },
   },
 });

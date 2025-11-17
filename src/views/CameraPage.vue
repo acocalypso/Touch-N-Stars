@@ -18,7 +18,7 @@
         <!-- ZoomableImage Component -->
         <div class="flex-1 overflow-hidden">
           <ZoomableImage
-            :imageData="imageStore.imageData"
+            :imageData="imageStore.stretchedImageData || imageStore.imageData"
             :showControls="true"
             :showDownload="true"
             :showFullscreen="true"
@@ -44,9 +44,25 @@
           </ZoomableImage>
         </div>
 
-        <!-- Histogram Chart -->
+        <!-- Histogram Chart with Stretch Controls -->
         <div v-if="imageStore.imageData" class="bg-gray-900 border-t border-gray-700 px-4 py-2">
-          <HistogramChart :data="imageStore.imageHistogram" height="100px" :showStats="true" />
+          <HistogramChart
+            :data="imageStore.imageHistogram"
+            height="100px"
+            :showStats="true"
+            :blackPoint="imageStore.blackPoint"
+            :whitePoint="imageStore.whitePoint"
+            @levels-changed="onLevelsChanged"
+          />
+          <!-- Stretch Controls -->
+          <div v-if="imageStore.stretchedImageData" class="mt-2 flex gap-2 justify-end">
+            <button
+              @click="resetStretch"
+              class="px-3 py-1 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded transition-colors"
+            >
+              Reset Stretch
+            </button>
+          </div>
         </div>
       </div>
 
@@ -353,6 +369,15 @@ const openImageModal = () => {
 
 const closeImageModal = () => {
   showModal.value = false;
+};
+
+const onLevelsChanged = async (event) => {
+  const { blackPoint, whitePoint } = event;
+  await imageStore.applyStretch(blackPoint, whitePoint);
+};
+
+const resetStretch = () => {
+  imageStore.resetStretch();
 };
 
 // Load image on mount if imageData is empty

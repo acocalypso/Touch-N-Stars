@@ -122,3 +122,83 @@ export function getHistogramStats(histogram) {
 
   return { min, max, mean, median };
 }
+
+/**
+ * Apply levels stretch to an image (Schwarzpunkt & Weißpunkt adjustment)
+ * @param {string} imageUrl - URL or blob URL of the image
+ * @param {number} blackPoint - Input black level (0-255)
+ * @param {number} whitePoint - Input white level (0-255)
+ * @returns {Promise<Blob>} Stretched image as blob
+ */
+export async function applyLevelsStretch(imageUrl, blackPoint = 0, whitePoint = 255) {
+  return new Promise((resolve, reject) => {
+    if (!imageUrl || blackPoint >= whitePoint) {
+      reject(new Error('Invalid parameters for levels stretch'));
+      return;
+    }
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          reject(new Error('Could not get canvas context'));
+          return;
+        }
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        // Draw image on canvas
+        ctx.drawImage(img, 0, 0);
+
+        // Get image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Apply levels stretch to each pixel
+        const range = whitePoint - blackPoint;
+        for (let i = 0; i < data.length; i += 4) {
+          const r = data[i];
+          const g = data[i + 1];
+          const b = data[i + 2];
+          // Alpha channel (i + 3) unchanged
+
+          // Apply levels stretch formula: (value - black) / (white - black) * 255
+          data[i] = Math.max(0, Math.min(255, Math.round(((r - blackPoint) / range) * 255)));
+          data[i + 1] = Math.max(0, Math.min(255, Math.round(((g - blackPoint) / range) * 255)));
+          data[i + 2] = Math.max(0, Math.min(255, Math.round(((b - blackPoint) / range) * 255)));
+        }
+
+        // Put modified image data back on canvas
+        ctx.putImageData(imageData, 0, 0);
+
+        // Convert canvas to blob
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to convert canvas to blob'));
+          }
+        }, 'image/png');
+      } catch (error) {
+        reject(new Error(`Error processing image data: ${error.message}`));
+      }
+    };
+
+    img.onerror = () => {
+      reject(new Error('Failed to load image'));
+    };
+
+    img.src = imageUrl;
+
+    // Timeout after 10 seconds
+    setTimeout(() => {
+      reject(new Error('Image loading timeout'));
+    }, 10000);
+  });
+}

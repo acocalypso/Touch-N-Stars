@@ -17,7 +17,7 @@
       <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
-          :imageData="imageStore.imageData"
+          :imageData="imageStore.stretchedImageData || imageStore.imageData"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="true"
@@ -41,6 +41,54 @@
             </div>
           </template>
         </ZoomableImage>
+
+        <!-- Histogram Overlay -->
+        <div
+          v-if="showHistogram && imageStore.imageData && imageStore.imageHistogram"
+          class="absolute top-32 left-4 right-4 z-50 max-w-96"
+        >
+          <HistogramChart
+            :data="imageStore.imageHistogram"
+            height="120px"
+            :showStats="true"
+            :blackPoint="imageStore.blackPoint"
+            :whitePoint="imageStore.whitePoint"
+            @levels-changed="onLevelsChanged"
+          />
+          <!-- Reset Stretch Button -->
+          <div v-if="imageStore.stretchedImageData" class="mt-2 flex gap-2 justify-end">
+            <button
+              @click="resetStretch"
+              class="px-3 py-1 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded transition-colors"
+            >
+              Reset Stretch
+            </button>
+          </div>
+        </div>
+
+        <!-- Histogram Toggle Button -->
+        <button
+          v-if="imageStore.imageData"
+          @click="showHistogram = !showHistogram"
+          class="absolute top-20 right-4 z-40 px-3 py-2 bg-gray-800/90 hover:bg-gray-700 text-white text-sm rounded-lg shadow-lg transition-colors backdrop-blur-sm"
+          :title="showHistogram ? 'Hide Histogram' : 'Show Histogram'"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 inline mr-1"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h18M3 9h18M3 15h18M3 21h18"
+            />
+          </svg>
+          {{ showHistogram ? 'Hide' : 'Show' }} Histogram
+        </button>
 
         <div
           v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
@@ -254,6 +302,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
+import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
 import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
@@ -276,6 +325,7 @@ const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
+const showHistogram = ref(false);
 
 // Modal Management - togglet das Modal oder schließt andere
 const openModal = (modalType) => {
@@ -345,6 +395,15 @@ const openImageModal = () => {
 
 const closeImageModal = () => {
   showModal.value = false;
+};
+
+const onLevelsChanged = async (event) => {
+  const { blackPoint, whitePoint } = event;
+  await imageStore.applyStretch(blackPoint, whitePoint);
+};
+
+const resetStretch = () => {
+  imageStore.resetStretch();
 };
 
 // Load image on mount if imageData is empty

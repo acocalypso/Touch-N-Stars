@@ -1,5 +1,9 @@
 <template>
-  <button v-if="store.mountInfo.CanPark" @click="mountUnpark" :class="['default-button-cyan', statusClass]">
+  <button
+    v-if="store.mountInfo.CanPark"
+    @click="mountUnpark"
+    :class="['default-button-cyan', statusClass]"
+  >
     {{ $t('components.mount.control.unpark') }}
   </button>
 </template>

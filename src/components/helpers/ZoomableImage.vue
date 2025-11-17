@@ -36,7 +36,7 @@
 
     <!-- Main Image -->
     <img
-      v-if="imageData"
+      v-if="imageData && !imageLoadError"
       ref="image"
       :src="imageData"
       :alt="altText"
@@ -60,7 +60,7 @@
 
     <!-- Placeholder -->
     <div
-      v-else-if="!imageData"
+      v-else-if="!imageData || imageLoadError"
       class="flex items-center justify-center w-full h-full bg-gray-800/20"
     >
       <slot name="placeholder">
@@ -152,6 +152,7 @@ const zoomLevel = ref(1);
 const originalWidth = ref(1);
 const originalHeight = ref(1);
 const savedTransform = ref(null); // Save zoom and pan position
+const imageLoadError = ref(false); // Track image load errors
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
@@ -259,7 +260,7 @@ const initializePanzoom = () => {
           // Then move to the saved position
           panzoomInstance.moveTo(x, y);
 
-          console.log('Restored zoom and position:', savedTransform.value);
+          //console.log('Restored zoom and position:', savedTransform.value);
         } catch (error) {
           console.warn('Could not restore transform:', error);
         }
@@ -268,8 +269,8 @@ const initializePanzoom = () => {
       // Initial zoom level
       logZoomLevel();
 
-      console.log('Panzoom initialized successfully');
-      console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
+      //console.log('Panzoom initialized successfully');
+      //console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
     } catch (error) {
       console.error('Error initializing panzoom:', error);
     }
@@ -294,7 +295,7 @@ const destroyPanzoom = () => {
     try {
       if (typeof panzoomInstance.getTransform === 'function') {
         savedTransform.value = panzoomInstance.getTransform();
-        console.log('Saved transform:', savedTransform.value);
+        //console.log('Saved transform:', savedTransform.value);
       }
     } catch (error) {
       console.warn('Could not save transform:', error);
@@ -307,6 +308,7 @@ const destroyPanzoom = () => {
 
 // Event handlers
 const onImageLoad = () => {
+  imageLoadError.value = false; // Clear error on successful load
   nextTick(() => {
     destroyPanzoom();
     initializePanzoom();
@@ -315,6 +317,7 @@ const onImageLoad = () => {
 };
 
 const onImageError = (event) => {
+  imageLoadError.value = true; // Track that an error occurred
   console.error('Image load error:', event);
   emits('image-error', event);
 };
@@ -335,6 +338,10 @@ watch(
     if (!newImageData && oldImageData) {
       destroyPanzoom();
       zoomLevel.value = 1;
+    }
+    // Reset error flag when new image is provided
+    if (newImageData) {
+      imageLoadError.value = false;
     }
   }
 );

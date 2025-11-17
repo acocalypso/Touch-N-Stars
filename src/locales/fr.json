@@ -52,6 +52,36 @@
     "check_wki": "Vous pouvez trouver des instructions détaillées dans notre wiki"
   },
   "components": {
+    "instanceDetection": {
+      "autoDetectionTitle": "Détection automatique",
+      "scanButton": "Analyser",
+      "scanningButton": "Analyse en cours…",
+      "noInstanceMessage": "Aucune instance Touch-N-Stars trouvée. Veuillez vérifier qu’elle est active et sur le même réseau.",
+      "mdnsAvailabilityHint": "La découverte mDNS est disponible dans les applications Android et iOS. Utilisez la configuration manuelle dans le navigateur.",
+      "manualConfigTitle": "Configuration manuelle",
+      "instanceNameLabel": "Nom de l’instance",
+      "instanceNamePlaceholder": "Mon instance",
+      "ipLabel": "Adresse IP / FQDN",
+      "ipPlaceholder": "192.168.x.x",
+      "portLabel": "Port",
+      "portPlaceholder": "5000",
+      "modalTitle": "Instances détectées",
+      "modalSubtitle": "Sélectionnez une instance Touch-N-Stars dans la liste.",
+      "addressUnavailable": "Adresse indisponible",
+      "otherAddresses": "Autres adresses :",
+      "otherAddressesFallback": "n.d.",
+      "modalEmpty": "Aucune instance Touch-N-Stars trouvée sur ce réseau.",
+      "mdnsRequired": "La découverte mDNS nécessite l’application Android ou iOS.",
+      "scanningMessage": "Recherche d’instances Touch-N-Stars…",
+      "discoveringMessage": "Découverte des instances Touch-N-Stars…",
+      "noFoundMessage": "Aucune instance Touch-N-Stars trouvée via mDNS.",
+      "selectionSuccess": "{label} ({ip}:{port}) sélectionnée.",
+      "foundSingle": "1 instance Touch-N-Stars trouvée.",
+      "foundMultiple": "{count} instances Touch-N-Stars trouvées.",
+      "discoveryFailedStatus": "Échec de la découverte : {message}",
+      "discoveryFailedBase": "Échec de la découverte.",
+      "discoveryPermissionHintWrapper": "{message} Vérifiez que l’application dispose de l’accès au réseau local / aux appareils à proximité dans les paramètres système."
+    },
     "framing": {
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
       "confirmSetTargetMessage": "Êtes-vous sûr de choisir cette nouvelle cible?",
@@ -99,6 +129,7 @@
       "image": {
         "title": "Paramètres d'image",
         "quality": "Qualité d'image",
+        "maxDimension": "Taille max. de l'image",
         "strech_factor": "Facteur d'étirement",
         "black_clipping": "Écrêtage noir",
         "debayern": "Image de débayeur",
@@ -230,6 +261,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "Paramètres du graphique",
+        "dataSources": "Sources de données",
+        "source1": "Source 1",
+        "source2": "Source 2",
+        "reset": "Réinitialiser",
+        "noDataAvailable": "Aucune donnée disponible",
+        "timeDisplay": "Plage horaire"
+      },
       "running": "EN COURS D'EXÉCUTION",
       "imageHistory": "Historique des images",
       "duration": "Durée",
@@ -249,12 +289,7 @@
       "time": "Temps",
       "noRunningItems": "Sequence stopped",
       "status": "Statut de séquence",
-      "instructions": "Instructions",
-      "tnsMessageBox": {
-        "title": "Message de séquence",
-        "stopSequence": "Arrêter la séquence",
-        "continueSequence": "Continuer la séquence"
-      }
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "Monture",
@@ -472,7 +507,9 @@
       "cooler_status_cooling": "Actif - Refroidissement à",
       "cooler_status_holding": "Actif - À la température cible",
       "cooler_status_warming": "Actif - Réchauffement à",
-      "set_save_snapshot": "Enregistrer des instantanés"
+      "set_save_snapshot": "Enregistrer des instantanés",
+      "snapshotTargetName": "Nom de la cible",
+      "set_use_solve_sync_to_mount": "Synchroniser pour monter"
     },
     "tppa": {
       "title": "Alignement polaire à trois points",
@@ -532,14 +569,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Déplacement vers la cible",
-        "is_centering": "Centrage de la cible",
-        "is_platesolving": "Platesolve en cours",
-        "plate_solve_error": "Erreur de Platesolve",
-        "center_error": "Erreur de centrage",
-        "center_successful": "Centrage réussi",
-        "center_Repeat": "Répéter le centrage",
-        "exposure_running": "Exposition en cours",
         "deviation_target": "Déviation vers la cible:"
       }
     },
@@ -551,18 +580,13 @@
       "please_connect_filterwheel": "Veuillez connecter la roue à filtres",
       "currentFilter": "Filtre Actuel",
       "position": "Position",
-      "availableFilters": "Filtres Disponibles",
-      "manual_filter": {
-        "title": "Roue à filtres",
-        "name": "Changer vers le filtre:"
-      }
+      "availableFilters": "Filtres Disponibles"
     },
     "rotator": {
       "title": "Rotateur",
       "label": "Rotateur",
       "move": "Déplacer",
       "control": "Contrôle",
-      "notConnected": "Veuillez connecter le rotateur",
       "please_connect_rotator": "Veuillez connecter le rotateur",
       "currentPosition": "Position Actuelle",
       "moving": "En Mouvement",
@@ -1047,14 +1071,21 @@
     "livestack": {
       "available_filters": "Filtres disponibles",
       "beta_note": "Ce plugin est toujours en cours de développement et peut contenir des erreurs!",
-      "images_available": "{count} Images disponibles",
-      "last_updated": "Dernière mise à jour",
       "no_image_available": "Aucune image disponible",
-      "no_images_available": "Pas d'images disponibles",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Statut",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "Aucun filtre",
+      "no_filters_available": "Aucun filtre disponible pour cette cible"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Heure",
+      "status": "Statut",
+      "error": "Distance d'erreur",
+      "rotation": "Rotation"
+    }
+  },
+  "loading": "chargement"
 }

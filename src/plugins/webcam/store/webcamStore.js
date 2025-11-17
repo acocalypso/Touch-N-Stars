@@ -132,7 +132,7 @@ export const useWebcamStore = defineStore('webcamStore', {
       if (!this.currentImageUrl) {
         this.setConnectionStatus(false, 'Failed to load next webcam image');
       }
-      console.error('Next webcam image load error:', error);
+      console.debug('Next webcam image load error (will retry on next refresh):', error);
     },
 
     startAutoRefresh() {

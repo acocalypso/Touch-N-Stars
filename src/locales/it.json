@@ -52,6 +52,36 @@
     "check_wki": "Puoi trovare istruzioni dettagliate nel nostro wiki"
   },
   "components": {
+    "instanceDetection": {
+      "autoDetectionTitle": "Rilevamento automatico",
+      "scanButton": "Scansione",
+      "scanningButton": "Scansione in corso…",
+      "noInstanceMessage": "Nessuna istanza Touch-N-Stars trovata. Assicurati che sia in esecuzione e nella stessa rete.",
+      "mdnsAvailabilityHint": "Il rilevamento mDNS è disponibile solo nelle app Android e iOS. Nel browser utilizza la configurazione manuale.",
+      "manualConfigTitle": "Configurazione manuale",
+      "instanceNameLabel": "Nome istanza",
+      "instanceNamePlaceholder": "La mia istanza",
+      "ipLabel": "Indirizzo IP / FQDN",
+      "ipPlaceholder": "192.168.x.x",
+      "portLabel": "Porta",
+      "portPlaceholder": "5000",
+      "modalTitle": "Istanze rilevate",
+      "modalSubtitle": "Seleziona un’istanza Touch-N-Stars dall’elenco.",
+      "addressUnavailable": "Indirizzo non disponibile",
+      "otherAddresses": "Altri indirizzi:",
+      "otherAddressesFallback": "n/d",
+      "modalEmpty": "Nessuna istanza Touch-N-Stars trovata in questa rete.",
+      "mdnsRequired": "Il rilevamento mDNS richiede l’app Android o iOS.",
+      "scanningMessage": "Ricerca delle istanze Touch-N-Stars…",
+      "discoveringMessage": "Individuazione delle istanze Touch-N-Stars…",
+      "noFoundMessage": "Nessuna istanza Touch-N-Stars trovata tramite mDNS.",
+      "selectionSuccess": "Selezionata {label} ({ip}:{port}).",
+      "foundSingle": "Trovata 1 istanza Touch-N-Stars.",
+      "foundMultiple": "Trovate {count} istanze Touch-N-Stars.",
+      "discoveryFailedStatus": "Rilevamento non riuscito: {message}",
+      "discoveryFailedBase": "Rilevamento non riuscito.",
+      "discoveryPermissionHintWrapper": "{message} Assicurati che l’app abbia l’accesso alla rete locale / ai dispositivi nelle vicinanze nelle impostazioni di sistema."
+    },
     "framing": {
       "confirmSetTargetTitle": "Conferma Selezione Target",
       "confirmSetTargetMessage": "Sei sicuro di voler impostare questo target come target della sequenza?",
@@ -99,6 +129,7 @@
       "image": {
         "title": "Impostazioni immagine",
         "quality": "Qualità immagine",
+        "maxDimension": "Dimensione max. immagine",
         "strech_factor": "Fattore di stiramento",
         "black_clipping": "Ritaglio nero",
         "debayern": "Immagine debayer",
@@ -230,6 +261,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "Controlli Grafico",
+        "dataSources": "Fonti Dati",
+        "source1": "Fonte 1",
+        "source2": "Fonte 2",
+        "reset": "Ripristina",
+        "noDataAvailable": "Nessun dato disponibile",
+        "timeDisplay": "Intervallo di Tempo"
+      },
       "running": "IN ESECUZIONE",
       "imageHistory": "Storico immagini",
       "duration": "Durata",
@@ -249,12 +289,7 @@
       "time": "Tempo",
       "noRunningItems": "Sequence stopped",
       "status": "Stato di sequenza",
-      "instructions": "Istruzioni",
-      "tnsMessageBox": {
-        "title": "Messaggio di sequenza",
-        "stopSequence": "Ferma sequenza",
-        "continueSequence": "Continua sequenza"
-      }
+      "instructions": "Istruzioni"
     },
     "mount": {
       "title": "Montatura",
@@ -472,7 +507,9 @@
       "cooler_status_cooling": "Attivo - Raffreddamento a",
       "cooler_status_holding": "Attivo - A temperatura target",
       "cooler_status_warming": "Attivo - Riscaldamento a",
-      "set_save_snapshot": "Salva istantanee"
+      "set_save_snapshot": "Salva istantanee",
+      "snapshotTargetName": "Nome del target",
+      "set_use_solve_sync_to_mount": "Sincronizza per montare"
     },
     "tppa": {
       "title": "Allineamento polare a tre punti",
@@ -532,14 +569,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Spostamento verso target",
-        "is_centering": "Centraggio target",
-        "is_platesolving": "Platesolve in corso",
-        "plate_solve_error": "Errore Platesolve",
-        "center_error": "Errore centraggio",
-        "center_successful": "Centraggio riuscito",
-        "center_Repeat": "Ripeti centraggio",
-        "exposure_running": "Esposizione in corso",
         "deviation_target": "Deviazione dal target:"
       }
     },
@@ -551,18 +580,13 @@
       "please_connect_filterwheel": "Collega la ruota filtri",
       "currentFilter": "Filtro Attuale",
       "position": "Posizione",
-      "availableFilters": "Filtri Disponibili",
-      "manual_filter": {
-        "title": "Ruota filtri",
-        "name": "Cambia a filtro:"
-      }
+      "availableFilters": "Filtri Disponibili"
     },
     "rotator": {
       "title": "Rotatore",
       "label": "Rotatore",
       "move": "Muovi",
       "control": "Controllo",
-      "notConnected": "Collega rotatore",
       "please_connect_rotator": "Collega il rotatore",
       "currentPosition": "Posizione Attuale",
       "moving": "In Movimento",
@@ -1047,14 +1071,21 @@
     "livestack": {
       "available_filters": "Filtri disponibili",
       "beta_note": "Questo plugin è ancora in fase di sviluppo e può contenere alcuni errori!",
-      "images_available": "{Conteggio} Immagini disponibili",
-      "last_updated": "Ultimo aggiornamento",
       "no_image_available": "Nessuna immagine disponibile",
-      "no_images_available": "Nessuna immagine disponibile",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Stato",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "Nessun filtro",
+      "no_filters_available": "Nessun filtro disponibile per questo target"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Ora",
+      "status": "Stato",
+      "error": "Distanza di Errore",
+      "rotation": "Rotazione"
+    }
+  },
+  "loading": "caricamento"
 }

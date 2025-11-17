@@ -52,6 +52,36 @@
     "check_wki": "Você pode encontrar instruções detalhadas em nosso wiki"
   },
   "components": {
+    "instanceDetection": {
+      "autoDetectionTitle": "Detecção automática",
+      "scanButton": "Buscar",
+      "scanningButton": "Buscando…",
+      "noInstanceMessage": "Nenhuma instância do Touch-N-Stars foi encontrada. Verifique se ela está em execução e na mesma rede.",
+      "mdnsAvailabilityHint": "A descoberta via mDNS está disponível apenas nos apps Android e iOS. No navegador, utilize a configuração manual.",
+      "manualConfigTitle": "Configuração manual",
+      "instanceNameLabel": "Nome da instância",
+      "instanceNamePlaceholder": "Minha instância",
+      "ipLabel": "Endereço IP / FQDN",
+      "ipPlaceholder": "192.168.x.x",
+      "portLabel": "Porta",
+      "portPlaceholder": "5000",
+      "modalTitle": "Instâncias encontradas",
+      "modalSubtitle": "Selecione uma instância Touch-N-Stars na lista.",
+      "addressUnavailable": "Endereço indisponível",
+      "otherAddresses": "Outros endereços:",
+      "otherAddressesFallback": "n/d",
+      "modalEmpty": "Nenhuma instância Touch-N-Stars foi encontrada nesta rede.",
+      "mdnsRequired": "A descoberta via mDNS requer o app Android ou iOS.",
+      "scanningMessage": "Procurando instâncias Touch-N-Stars…",
+      "discoveringMessage": "Descobrindo instâncias Touch-N-Stars…",
+      "noFoundMessage": "Nenhuma instância Touch-N-Stars encontrada via mDNS.",
+      "selectionSuccess": "{label} ({ip}:{port}) selecionada.",
+      "foundSingle": "Foi encontrada 1 instância Touch-N-Stars.",
+      "foundMultiple": "Foram encontradas {count} instâncias Touch-N-Stars.",
+      "discoveryFailedStatus": "Falha na descoberta: {message}",
+      "discoveryFailedBase": "A descoberta falhou.",
+      "discoveryPermissionHintWrapper": "{message} Garanta, nas configurações do sistema, que o app tenha acesso à rede local / dispositivos próximos."
+    },
     "framing": {
       "confirmSetTargetTitle": "Confirmar Seleção do Alvo",
       "confirmSetTargetMessage": "Tem certeza de que deseja definir este alvo como alvo da sequência?",
@@ -99,6 +129,7 @@
       "image": {
         "title": "Configurações de imagem",
         "quality": "Qualidade da imagem",
+        "maxDimension": "Tamanho máx. da imagem",
         "strech_factor": "Fator de estiramento",
         "black_clipping": "Recorte preto",
         "debayern": "Imagem debayer",
@@ -230,6 +261,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "Controles do Gráfico",
+        "dataSources": "Fontes de Dados",
+        "source1": "Fonte 1",
+        "source2": "Fonte 2",
+        "reset": "Redefinir",
+        "noDataAvailable": "Nenhum dado disponível",
+        "timeDisplay": "Intervalo de Tempo"
+      },
       "running": "EXECUTANDO",
       "imageHistory": "Histórico de imagens",
       "duration": "Duração",
@@ -249,12 +289,7 @@
       "time": "Tempo",
       "noRunningItems": "Sequence stopped",
       "status": "Status da sequência",
-      "instructions": "Instruções",
-      "tnsMessageBox": {
-        "title": "Mensagem de sequência",
-        "stopSequence": "Parar sequência",
-        "continueSequence": "Continuar sequência"
-      }
+      "instructions": "Instruções"
     },
     "mount": {
       "title": "Montagem",
@@ -472,7 +507,9 @@
       "cooler_status_cooling": "Ativo - Resfriando para",
       "cooler_status_holding": "Ativo - Na temperatura alvo",
       "cooler_status_warming": "Ativo - Aquecendo para",
-      "set_save_snapshot": "Salvar snapshots"
+      "set_save_snapshot": "Salvar snapshots",
+      "snapshotTargetName": "Nome do alvo",
+      "set_use_solve_sync_to_mount": "Sincronizar para montar"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",
@@ -532,14 +569,6 @@
       "alt": "Alt:",
       "az": "Az:",
       "slew_modal": {
-        "is_slewing": "Movendo para alvo",
-        "is_centering": "Centralizando alvo",
-        "is_platesolving": "Platesolve em execução",
-        "plate_solve_error": "Erro no Platesolve",
-        "center_error": "Erro de centralização",
-        "center_successful": "Centralização bem-sucedida",
-        "center_Repeat": "Repetir centralização",
-        "exposure_running": "Exposição em execução",
         "deviation_target": "Desvio do alvo:"
       }
     },
@@ -547,10 +576,6 @@
       "filter": "Filtro:",
       "unknown": "Desconhecido",
       "nofilteravailable": "Nenhum filtro disponível",
-      "manual_filter": {
-        "title": "Roda de filtros",
-        "name": "Mudar para filtro:"
-      },
       "availableFilters": "Filtros disponíveis",
       "currentFilter": "Filtro de corrente",
       "please_connect_filterwheel": "Por favor, conecte a roda do filtro",
@@ -560,7 +585,6 @@
     "rotator": {
       "label": "Rotacionador",
       "move": "Mover",
-      "notConnected": "Conecte o rotacionador",
       "currentPosition": "Posição atual:",
       "moving": "Movendo",
       "control": "Controlar",
@@ -1047,14 +1071,21 @@
     "livestack": {
       "available_filters": "Filtros disponíveis",
       "beta_note": "Este plugin ainda está em desenvolvimento e pode conter alguns erros!",
-      "images_available": "{count} imagens disponíveis",
-      "last_updated": "Última atualização",
       "no_image_available": "Nenhuma imagem disponível",
-      "no_images_available": "Nenhuma imagem disponível",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Status",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "Sem filtro",
+      "no_filters_available": "Não há filtros disponíveis para esta segmentação"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Hora",
+      "status": "Status",
+      "error": "Distância de Erro",
+      "rotation": "Rotação"
+    }
+  },
+  "loading": "carregando"
 }

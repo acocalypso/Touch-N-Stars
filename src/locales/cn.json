@@ -52,6 +52,36 @@
     "check_wki": "您可以在我们的维基中找到详细说明"
   },
   "components": {
+    "instanceDetection": {
+      "autoDetectionTitle": "自动检测",
+      "scanButton": "扫描",
+      "scanningButton": "正在扫描…",
+      "noInstanceMessage": "未找到任何 Touch-N-Stars 实例。请确保实例正在运行并与设备处于同一网络。",
+      "mdnsAvailabilityHint": "mDNS 发现仅在 Android 和 iOS 应用中可用。在浏览器中请使用手动配置。",
+      "manualConfigTitle": "手动配置",
+      "instanceNameLabel": "实例名称",
+      "instanceNamePlaceholder": "我的实例",
+      "ipLabel": "IP 地址 / FQDN",
+      "ipPlaceholder": "192.168.x.x",
+      "portLabel": "端口",
+      "portPlaceholder": "5000",
+      "modalTitle": "已发现的实例",
+      "modalSubtitle": "从列表中选择一个 Touch-N-Stars 实例。",
+      "addressUnavailable": "地址不可用",
+      "otherAddresses": "其他地址：",
+      "otherAddressesFallback": "无",
+      "modalEmpty": "在此网络中未找到任何 Touch-N-Stars 实例。",
+      "mdnsRequired": "mDNS 发现需要在 Android 或 iOS 应用中运行。",
+      "scanningMessage": "正在搜索 Touch-N-Stars 实例…",
+      "discoveringMessage": "正在发现 Touch-N-Stars 实例…",
+      "noFoundMessage": "通过 mDNS 未找到 Touch-N-Stars 实例。",
+      "selectionSuccess": "已选择 {label}（{ip}:{port}）。",
+      "foundSingle": "找到 1 个 Touch-N-Stars 实例。",
+      "foundMultiple": "找到 {count} 个 Touch-N-Stars 实例。",
+      "discoveryFailedStatus": "发现失败：{message}",
+      "discoveryFailedBase": "发现失败。",
+      "discoveryPermissionHintWrapper": "{message} 请在系统设置中确保应用拥有局域网/附近设备的访问权限。"
+    },
     "framing": {
       "confirmSetTargetTitle": "确认目标选择",
       "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
@@ -99,6 +129,7 @@
       "image": {
         "title": "图像设置",
         "quality": "图像质量",
+        "maxDimension": "最大图像尺寸",
         "strech_factor": "拉伸因子",
         "black_clipping": "黑点剪切",
         "debayern": "去拜耳图像",
@@ -231,6 +262,15 @@
           "sequenceCurrentState": "Show Sequence state"
         }
       },
+      "graphControls": {
+        "title": "图表控制",
+        "dataSources": "数据源",
+        "source1": "源 1",
+        "source2": "源 2",
+        "reset": "重置",
+        "noDataAvailable": "无可用数据",
+        "timeDisplay": "时间范围"
+      },
       "running": "运行中",
       "imageHistory": "图像历史",
       "duration": "持续时间",
@@ -250,12 +290,7 @@
       "time": "时间",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions",
-      "tnsMessageBox": {
-        "title": "序列消息",
-        "stopSequence": "停止序列",
-        "continueSequence": "继续序列"
-      }
+      "instructions": "Instructions"
     },
     "mount": {
       "title": "赤道仪",
@@ -473,7 +508,9 @@
       "cooler_status_cooling": "活跃 - 冷却至",
       "cooler_status_holding": "活跃 - 达到目标温度",
       "cooler_status_warming": "活跃 - 加热至",
-      "set_save_snapshot": "保存快照"
+      "set_save_snapshot": "保存快照",
+      "snapshotTargetName": "目标名称",
+      "set_use_solve_sync_to_mount": "Sync to mount"
     },
     "tppa": {
       "title": "三点极轴对准",
@@ -533,14 +570,6 @@
       "alt": "高度：",
       "az": "方位角：",
       "slew_modal": {
-        "is_slewing": "转向目标",
-        "is_centering": "居中目标",
-        "is_platesolving": "板解析运行中",
-        "plate_solve_error": "板解析错误",
-        "center_error": "居中错误",
-        "center_successful": "居中成功",
-        "center_Repeat": "重复居中",
-        "exposure_running": "曝光运行中",
         "deviation_target": "与目标偏差："
       }
     },
@@ -552,18 +581,13 @@
       "please_connect_filterwheel": "请连接滤镜轮",
       "currentFilter": "当前滤镜",
       "position": "位置",
-      "availableFilters": "可用滤镜",
-      "manual_filter": {
-        "title": "滤镜轮",
-        "name": "更换为滤镜："
-      }
+      "availableFilters": "可用滤镜"
     },
     "rotator": {
       "title": "旋转器",
       "label": "旋转器",
       "move": "移动",
       "control": "控制",
-      "notConnected": "请连接旋转器",
       "please_connect_rotator": "请连接旋转器",
       "currentPosition": "当前位置",
       "moving": "正在移动",
@@ -1048,14 +1072,21 @@
     "livestack": {
       "available_filters": "Available Filters",
       "beta_note": "This plugin is still under development and may contain some errors!",
-      "images_available": "{count} Images Available",
-      "last_updated": "Last updated",
       "no_image_available": "No image available",
-      "no_images_available": "No Images Available",
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "start_and_select_filter": "Start livestack and select a filter to see images",
-      "status": "Status",
-      "target": "Target"
+      "target": "Target",
+      "no_filter": "No Filter",
+      "no_filters_available": "No filters available for this target"
     }
-  }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "时间",
+      "status": "状态",
+      "error": "误差距离",
+      "rotation": "旋转"
+    }
+  },
+  "loading": "loading"
 }

@@ -22,12 +22,14 @@
         ></path>
       </svg>
     </div>
-    <!-- Error Message when plugin not available -->
+    <!-- Error Message when plugin not available or version incompatible -->
     <div
-      v-else-if="!livestackPluginAvailable"
+      v-else-if="!pageIsLoading && (!livestackPluginAvailable || errorMessage)"
       class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4 m-4"
     >
-      <p class="text-red-400 text-center">{{ t('plugins.livestack.not_available') }}</p>
+      <p class="text-red-400 text-center">
+        {{ errorMessage || t('plugins.livestack.not_available') }}
+      </p>
     </div>
     <div v-else-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
       <svg
@@ -89,45 +91,40 @@
 
       <!-- Control Panel Overlay -->
       <div :class="controlPanelClasses">
-        <!-- Status Display -->
+        <!-- Header with toggle button - always visible -->
         <div
-          class="bg-gray-800/90 backdrop-blur-sm rounded-lg text-white transition-all duration-300"
+          class="sticky top-0 z-40 bg-gray-800/90 backdrop-blur-sm rounded-t-lg flex items-center justify-between p-4 border-b border-gray-700"
         >
-          <!-- Header with toggle button -->
-          <div class="flex items-center justify-between p-4 border-b border-gray-700">
-            <h5 class="text-lg font-bold">Livestack</h5>
-            <button
-              @click="toggleControlPanel"
-              class="p-1 hover:bg-gray-700 rounded transition-colors"
-              :title="isControlPanelMinimized ? 'Expand' : 'Minimize'"
+          <h5 class="text-lg font-bold text-white">Livestack</h5>
+          <button
+            @click="toggleControlPanel"
+            class="p-1 hover:bg-gray-700 rounded transition-colors"
+            :title="isControlPanelMinimized ? 'Expand' : 'Minimize'"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-4 h-4 transition-transform duration-200 text-white"
+              :class="{ 'rotate-180': isControlPanelMinimized }"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-4 h-4 transition-transform duration-200"
-                :class="{ 'rotate-180': isControlPanelMinimized }"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
-                />
-              </svg>
-            </button>
-          </div>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+            </svg>
+          </button>
+        </div>
 
-          <!-- Collapsible content -->
-          <div v-show="!isControlPanelMinimized" class="p-4">
+        <!-- Scrollable content -->
+        <div v-show="!isControlPanelMinimized" class="bg-gray-800/90 backdrop-blur-sm">
+          <div class="p-4 border-b border-gray-700">
             <!-- Beta Notice -->
             <div v-if="livestackPluginAvailable" class="bg-blue-600/50 rounded p-2 mb-3 text-xs">
               <p class="text-blue-200">{{ t('plugins.livestack.beta_note') }}</p>
             </div>
 
             <!-- Controls -->
-            <div class="flex space-x-2 mb-3">
+            <div class="flex space-x-2">
               <button @click="startLivestack" class="default-button-green" :disabled="isStarting">
                 <PlayIcon v-if="!isStarting" class="w-4 h-4" />
                 <ArrowPathIcon v-else class="w-4 h-4 animate-spin" />
@@ -137,21 +134,19 @@
               </button>
             </div>
           </div>
-        </div>
 
-        <!-- Target and Filter Selection (Two-Level) -->
-        <div
-          v-if="availableImages.length > 0 && !isControlPanelMinimized"
-          class="bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 mt-2"
-        >
-          <TargetFilterSelector
-            :availableImages="availableImages"
-            :selectedTarget="selectedTargetForUI"
-            :selectedFilter="livestackStore.selectedFilter"
-            :currentTarget="livestackStore.selectedTarget"
-            @select-target="selectTargetUI"
-            @select-filter="selectFilterFromSelector"
-          />
+          <!-- Target and Filter Selection (Two-Level) -->
+          <div v-if="availableImages.length > 0" class="p-4">
+            <TargetFilterSelector
+              ref="targetFilterSelectorRef"
+              :availableImages="availableImages"
+              :selectedTarget="selectedTargetForUI"
+              :selectedFilter="livestackStore.selectedFilter"
+              :currentTarget="livestackStore.selectedTarget"
+              @select-target="selectTargetUI"
+              @select-filter="selectFilterFromSelector"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -189,12 +184,13 @@ const livestackPluginAvailable = ref(false);
 const isControlPanelMinimized = ref(false);
 const pageIsLoading = ref(true);
 const selectedTargetForUI = ref(null); // Für zwei-stufige Selektion
+const targetFilterSelectorRef = ref(null); // Referenz zur TargetFilterSelector-Komponente
 
 // Responsive positioning for control panel
 const controlPanelClasses = computed(() => ({
-  'fixed z-30 max-w-sm': true,
+  'fixed z-30 max-w-sm max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin': true,
   'top-24 left-4': !isLandscape.value, // Portrait mode - below navbar
-  'top-4 left-40': isLandscape.value, // Landscape mode - normal position
+  'top-4 left-40 max-h-[calc(100vh-2rem)]': isLandscape.value, // Landscape mode - normal position
 }));
 
 const toggleControlPanel = () => {
@@ -291,7 +287,7 @@ const loadImage = async (target, filter, forceReload = false) => {
   const cameraWidth = store.profileInfo?.FramingAssistantSettings?.CameraWidth;
   const cameraHeight = store.profileInfo?.FramingAssistantSettings?.CameraHeight;
   const maxDimension = Math.max(cameraWidth, cameraHeight);
-  const scale = maxDimension > 2000 ? (2000 / maxDimension) * 100 : 100;
+  const scale = maxDimension > 2000 ? 2000 / maxDimension : 100;
   console.log(`Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
   try {
     const newImageUrl = await apiService.getLivestackImage(
@@ -363,10 +359,10 @@ const handleWebSocketMessage = async (message) => {
     const { Target, Filter, Event } = message.Response;
 
     if (Event === 'STACK-UPDATED') {
-      console.log(`Stack updated for ${Target} with filter ${Filter}`);
-      console.log(
-        `Current target: ${currentTarget.value}, Current filter: ${livestackStore.selectedFilter}`
-      );
+      // Invalidate the stack count cache in TargetFilterSelector
+      if (targetFilterSelectorRef.value) {
+        targetFilterSelectorRef.value.invalidateStackCountCache();
+      }
 
       // Update the available images list first
       try {
@@ -403,9 +399,22 @@ const handleWebSocketMessage = async (message) => {
 onMounted(async () => {
   if (store.isBackendReachable === false) {
     console.warn('Backend is not reachable - skipping livestack initialization');
+    pageIsLoading.value = false;
     return;
   }
-  pageIsLoading.value = false;
+
+  // Check API version - LiveStack requires 2.2.11.0 or higher
+  const minimumApiVersion = '2.2.11.0';
+  const isVersionValid = store.checkVersionNewerOrEqual(store.currentApiVersion, minimumApiVersion);
+
+  if (!isVersionValid) {
+    console.error(
+      `LiveStack requires API version ${minimumApiVersion} or higher. Current version: ${store.currentApiVersion}`
+    );
+    errorMessage.value = `API version ${minimumApiVersion} or higher required`;
+    pageIsLoading.value = false;
+    return;
+  }
 
   const response = await apiService.getPlugins();
   console.log('Plugins response:', response);
@@ -413,8 +422,10 @@ onMounted(async () => {
   // Check if Livestack plugin is available
   if (!response.Success || !response.Response?.includes('Livestack')) {
     console.error('Livestack plugin is not available or not installed');
+    pageIsLoading.value = false;
     return;
   }
+
   livestackPluginAvailable.value = true;
 
   // Setup WebSocket callbacks auf dem globalen WebSocket Service
@@ -455,5 +466,32 @@ onMounted(async () => {
     );
     forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
   }
+  pageIsLoading.value = false;
 });
 </script>
+
+<style scoped>
+/* iOS Safari scroll fix - make scrolling work on fixed positioned elements */
+.livestack-page {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+:deep(.scrollbar-thin) {
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch; /* iOS momentum scrolling */
+}
+
+:deep(.scrollbar-thin::-webkit-scrollbar) {
+  width: 6px;
+}
+
+:deep(.scrollbar-thin::-webkit-scrollbar-track) {
+  background: transparent;
+}
+
+:deep(.scrollbar-thin::-webkit-scrollbar-thumb) {
+  background-color: #4a5568;
+  border-radius: 20px;
+}
+</style>

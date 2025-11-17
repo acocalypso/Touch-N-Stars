@@ -1,5 +1,9 @@
 <template>
-  <button @click="mountHome" :class="['default-button-cyan', statusClass]">
+  <button
+    v-if="store.mountInfo.CanFindHome"
+    @click="mountHome"
+    :class="['default-button-cyan', statusClass]"
+  >
     {{ $t('components.mount.control.home') }}
   </button>
 </template>
@@ -7,7 +11,9 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const statusClass = ref('');
 
 async function mountHome() {

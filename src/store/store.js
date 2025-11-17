@@ -69,6 +69,16 @@ export const apiStore = defineStore('store', {
     pageReturnTime: null,
     isRedirecting: false,
     backendReachableTimeoutId: null,
+    isMountConnected: false,
+    isCameraConnected: false,
+    isFilterConnected: false,
+    isRotatorConnected: false,
+    isFocuserConnected: false,
+    isGuiderConnected: false,
+    isFlatdeviceConnected: false,
+    isDomeConnected: false,
+    isSwitchConnected: false,
+    isWeatherConnected: false,
   }),
 
   actions: {
@@ -235,20 +245,6 @@ export const apiStore = defineStore('store', {
           }
         }
 
-        /*console.log('API und TNS Plugin reachable');
-        console.log(
-          'Api connected',
-          this.isApiConnected,
-          'TNS connected',
-          this.isTnsPluginConnected
-        );
-        console.log(
-          'Api version ok',
-          this.isApiVersionNewerOrEqual,
-          'TNS version ok',
-          this.isTnsPluginVersionNewerOrEqual
-        );*/
-
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
         if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
@@ -306,6 +302,12 @@ export const apiStore = defineStore('store', {
             new Date().toLocaleTimeString()
           );
         }
+
+        const eventHistoryResponse = await apiService.getEventHistory();
+        console.log('Event History Response:', eventHistoryResponse);
+
+        // Verarbeite Event-Historie um Connection-Status zu bestimmen
+        this.processEventHistory(eventHistoryResponse);
 
         const [
           imageHistoryResponse,
@@ -643,6 +645,64 @@ export const apiStore = defineStore('store', {
         }
         await imageStore.getImage();
       }
+    },
+
+    processEventHistory(eventHistoryResponse) {
+      if (!eventHistoryResponse?.Success || !eventHistoryResponse?.Response) {
+        console.warn('Invalid event history response');
+        return;
+      }
+
+      const events = eventHistoryResponse.Response;
+      const deviceMap = {
+        'MOUNT': 'isMountConnected',
+        'CAMERA': 'isCameraConnected',
+        'FILTER': 'isFilterConnected',
+        'ROTATOR': 'isRotatorConnected',
+        'FOCUSER': 'isFocuserConnected',
+        'GUIDER': 'isGuiderConnected',
+        'FLATDEVICE': 'isFlatdeviceConnected',
+        'DOME': 'isDomeConnected',
+        'SWITCH': 'isSwitchConnected',
+        'WEATHER': 'isWeatherConnected',
+      };
+
+      // Setze alle auf false
+      Object.values(deviceMap).forEach(key => {
+        this[key] = false;
+      });
+
+      // Finde das neueste Event für jedes Gerät (rückwärts iterieren, da neueste am Ende sind)
+      const latestEvents = {};
+      for (let i = events.length - 1; i >= 0; i--) {
+        const event = events[i];
+        const eventString = event.Event || '';
+        for (const deviceName of Object.keys(deviceMap)) {
+          if (eventString.includes(deviceName) && !latestEvents[deviceName]) {
+            latestEvents[deviceName] = event;
+          }
+        }
+      }
+
+      // Setze den Connection-Status basierend auf dem neuesten Event
+      Object.entries(latestEvents).forEach(([deviceName, event]) => {
+        const stateKey = deviceMap[deviceName];
+        const isConnected = event.Event.includes('CONNECTED') && !event.Event.includes('DISCONNECTED');
+        this[stateKey] = isConnected;
+      });
+
+      console.log('Processed device connection states:', {
+        isMountConnected: this.isMountConnected,
+        isCameraConnected: this.isCameraConnected,
+        isFilterConnected: this.isFilterConnected,
+        isRotatorConnected: this.isRotatorConnected,
+        isFocuserConnected: this.isFocuserConnected,
+        isGuiderConnected: this.isGuiderConnected,
+        isFlatdeviceConnected: this.isFlatdeviceConnected,
+        isDomeConnected: this.isDomeConnected,
+        isSwitchConnected: this.isSwitchConnected,
+        isWeatherConnected: this.isWeatherConnected,
+      });
     },
   },
 });

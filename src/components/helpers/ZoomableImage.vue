@@ -27,6 +27,31 @@
       >
         <MagnifyingGlassPlusIcon class="w-5 h-5" />
       </button>
+
+      <!-- Histogram Button -->
+      <button
+        v-if="showHistogram !== false"
+        @click.stop="handleHistogramToggle"
+        @touchstart.stop
+        :class="actionButtonClasses"
+        title="Toggle Histogram"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="w-5 h-5"
+        >
+          <!-- Astrophoto histogram: steep rise at start, then smooth decline -->
+          <polyline points="2,18 3,16 4,12 5,8 6,5 7,4 8,3 10,3 12,4 14,6 16,9 18,12 20,15 22,17" />
+          <!-- Base line -->
+          <line x1="2" y1="20" x2="22" y2="20" />
+        </svg>
+      </button>
     </div>
 
     <!-- Custom Action Slot (bottom right) -->
@@ -115,6 +140,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  showHistogram: {
+    type: Boolean,
+    default: false,
+  },
 
   // Zoom settings
   minZoom: {
@@ -136,6 +165,7 @@ const props = defineProps({
 const emits = defineEmits([
   'download',
   'fullscreen',
+  'histogram-toggle',
   'zoom-change',
   'image-load',
   'image-error',
@@ -162,6 +192,10 @@ const handleFullscreen = () => {
     imageData: props.imageData,
     zoomLevel: zoomLevel.value,
   });
+};
+
+const handleHistogramToggle = () => {
+  emits('histogram-toggle');
 };
 
 const handleImageClick = () => {

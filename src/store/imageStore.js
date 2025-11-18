@@ -86,6 +86,8 @@ export const useImagetStore = defineStore('imageStore', {
           if (this.imageData) {
             URL.revokeObjectURL(this.imageData);
           }
+          // Reset stretched image when loading a new image
+          this.resetStretch();
           this.imageData = URL.createObjectURL(imageResponse.data);
           // Calculate histogram for the new image
           await this.calculateImageHistogram(this.imageData);
@@ -169,6 +171,9 @@ export const useImagetStore = defineStore('imageStore', {
         this.lastImage.quality = quality;
         this.lastImage.index = index;
         this.lastImage.image = imageUrl;
+
+        // Reset stretched image when loading a new image
+        this.resetStretch();
 
         // Calculate histogram for the sequence image
         await this.calculateImageHistogram(imageUrl);

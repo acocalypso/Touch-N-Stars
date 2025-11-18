@@ -63,9 +63,11 @@ const startLivestack = async () => {
     }
   } catch (error) {
     console.error('Error starting livestack:', error);
-    setError(t('plugins.livestack.errors.start_exception', {
-      message: error.message,
-    }));
+    setError(
+      t('plugins.livestack.errors.start_exception', {
+        message: error.message,
+      })
+    );
   } finally {
     //isStarting.value = false;
   }

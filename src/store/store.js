@@ -306,10 +306,10 @@ export const apiStore = defineStore('store', {
           );
         }
 
-        // Fetch event history only every 30 seconds (or on startup if lastEventHistoryFetch = 0)
+        // Fetch event history only every 15 seconds (or on startup if lastEventHistoryFetch = 0)
         const now = Date.now();
-        if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 30000 || true) {
-          console.log('Test');
+        if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 15000 ) {
+          console.log('[Store] Fetch history');
           const eventHistoryResponse = await apiService.getEventHistory();
 
           // Process event history to determine connection status
@@ -431,6 +431,7 @@ export const apiStore = defineStore('store', {
       this.isTnsPluginVersionNewerOrEqual = false;
       this.apiPort = null;
       this.attemptsToConnect = 0;
+      this.lastEventHistoryFetch = 0;
 
       // Channel WebSocket disconnecten wenn Backend nicht erreichbar
       if (websocketChannelService.isWebSocketConnected()) {
@@ -796,8 +797,13 @@ export const apiStore = defineStore('store', {
         const eventString = event.Event || '';
         for (const deviceName of Object.keys(deviceMap)) {
           // If we haven't found this device yet and the event contains this device
-          if (!latestEvents[deviceName] && eventString.includes(deviceName)) {
-            latestEvents[deviceName] = event;
+          // Use exact matching to avoid partial matches (e.g., FOCUSER matching FOCUSER-*)
+          if (!latestEvents[deviceName]) {
+            const connectedPattern = `${deviceName}-CONNECTED`;
+            const disconnectedPattern = `${deviceName}-DISCONNECTED`;
+            if (eventString === connectedPattern || eventString === disconnectedPattern) {
+              latestEvents[deviceName] = event;
+            }
           }
         }
       }
@@ -807,6 +813,7 @@ export const apiStore = defineStore('store', {
         const stateKey = deviceMap[deviceName];
         const isConnected = event.Event.endsWith('-CONNECTED');
         this[stateKey] = isConnected;
+        console.log(`Device ${deviceName}: ${event.Event} -> ${isConnected}`);
       });
 
       // Clear data for disconnected devices

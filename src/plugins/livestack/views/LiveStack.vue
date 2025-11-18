@@ -90,7 +90,7 @@
       </div>
 
       <!-- Control Panel Overlay -->
-      <LivestackControlBar />
+      <LivestackControlBar @error="errorMessage = $event" />
     </div>
   </div>
 </template>

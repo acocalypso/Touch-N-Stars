@@ -22,7 +22,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { watch } from 'vue';
 import StackFrameCounter from './FrameCounter.vue';
 import LiveStackConfiguration from './LivestackConfiguration.vue';
 import TargetFilterSelector from './TargetFilterSelector.vue';
@@ -32,11 +32,12 @@ import { storeToRefs } from 'pinia';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 
-const errorMessage = ref(null);
-
 const store = useLivestackStore();
 const attributes = storeToRefs(store);
 const { t } = useI18n();
+const emit = defineEmits(['error']);
+
+const setError = (message) => emit('error', message);
 
 watch(
   () => attributes.isStacking.value,
@@ -51,38 +52,38 @@ watch(
 
 const startLivestack = async () => {
   //isStarting.value = true;
-  errorMessage.value = null;
+  setError(null);
 
   try {
     const result = await apiService.livestackStart();
     if (result.Success) {
       console.log('Livestack started successfully');
     } else {
-      errorMessage.value = result.Error || t('plugins.livestack.errors.start_failed');
+      setError(result.Error || t('plugins.livestack.errors.start_failed'));
     }
   } catch (error) {
     console.error('Error starting livestack:', error);
-    errorMessage.value = t('plugins.livestack.errors.start_exception', {
+    setError(t('plugins.livestack.errors.start_exception', {
       message: error.message,
-    });
+    }));
   } finally {
     //isStarting.value = false;
   }
 };
 
 const stopLivestack = async () => {
-  errorMessage.value = null;
+  setError(null);
 
   try {
     const result = await apiService.livestackStop();
     if (result.Success) {
       console.log('Livestack stop successfully');
     } else {
-      errorMessage.value = result.Error || t('plugins.livestack.errors.stop_failed');
+      setError(result.Error || t('plugins.livestack.errors.stop_failed'));
     }
   } catch (error) {
     console.error('Error stoping livestack:', error);
-    errorMessage.value = t('plugins.livestack.errors.stop_exception', { message: error.message });
+    setError(t('plugins.livestack.errors.stop_exception', { message: error.message }));
   } finally {
     //isStarting.value = false;
   }

@@ -60,8 +60,6 @@
           />
         </div>
 
-
-
         <div
           v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
           :class="iconCenterHere"
@@ -103,7 +101,6 @@
         :isLoading="false"
         @close="closeImageModal"
       />
-
 
       <!-- Slew Modal -->
       <div
@@ -383,7 +380,6 @@ const onLevelsChanged = async (event) => {
   const { blackPoint, whitePoint } = event;
   await imageStore.applyStretch(blackPoint, whitePoint);
 };
-
 
 // Load image on mount if imageData is empty
 onMounted(async () => {

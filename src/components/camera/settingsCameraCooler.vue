@@ -30,11 +30,17 @@
 
         <div class="border-t border-slate-600/40 mb-3"></div>
 
-        <div class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg">
+        <div
+          class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg"
+        >
           <label for="Cooler" class="text-xs md:text-sm text-gray-200 font-medium">
             {{ $t('components.camera.camera_cooling') }}
           </label>
-          <toggleButton @click="toggleCooling" :status-value="cameraStore.buttonCoolerOn" class="h-7 md:h-8" />
+          <toggleButton
+            @click="toggleCooling"
+            :status-value="cameraStore.buttonCoolerOn"
+            class="h-7 md:h-8"
+          />
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div
@@ -77,11 +83,17 @@
         </div>
         <div class="border-t border-slate-600/40 my-4"></div>
 
-        <div class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg">
+        <div
+          class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg"
+        >
           <label for="Cooler" class="text-xs md:text-sm text-gray-200 font-medium">
             {{ $t('components.camera.camera_warming') }}
           </label>
-          <toggleButton @click="toggleWarming" :status-value="cameraStore.buttonWarmingOn" class="h-7 md:h-8" />
+          <toggleButton
+            @click="toggleWarming"
+            :status-value="cameraStore.buttonWarmingOn"
+            class="h-7 md:h-8"
+          />
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div

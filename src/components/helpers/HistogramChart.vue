@@ -1,6 +1,5 @@
 <template>
   <div v-if="data && data.length > 0" class="relative p-4 bg-gray-900/20 rounded-lg shadow-md">
-
     <!-- Histogram with integrated range sliders -->
     <div
       class="relative bg-gradient-to-b from-gray-950 to-gray-900 rounded border border-gray-700 opacity-80"
@@ -64,12 +63,11 @@
         @touchstart="onWhitePointTouchStart"
       ></div>
     </div>
-
   </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { getHistogramStats } from '@/utils/histogramUtils';
 
 const props = defineProps({
@@ -372,4 +370,3 @@ onMounted(() => {
   window.addEventListener('resize', drawHistogram);
 });
 </script>
-

@@ -308,7 +308,7 @@ export const apiStore = defineStore('store', {
 
         // Fetch event history only every 15 seconds (or on startup if lastEventHistoryFetch = 0)
         const now = Date.now();
-        if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 15000 ) {
+        if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 15000) {
           console.log('[Store] Fetch history');
           const eventHistoryResponse = await apiService.getEventHistory();
 

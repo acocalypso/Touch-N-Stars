@@ -1,5 +1,5 @@
 <template>
-  <div :class="[isPortrait ? 'flex-col space-y-2' : 'flex']">
+  <div :class="[isPortrait ? 'flex flex-col space-y-2' : 'flex']">
     <ButtonWithOptions
       ref="targetButtonRef"
       :availableOptions="availableTargets"
@@ -31,6 +31,14 @@ import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import ButtonWithOptions from './ButtonWithOptions.vue';
 import { useLivestackStore } from '../store/livestackStore.js';
+import { _ } from 'core-js';
+
+const { isPortrait } = defineProps({
+  isPortrait: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const store = useLivestackStore();
 const { availableTargets, selectedTarget, availableFilters, selectedFilter, showFilters } =

@@ -8,7 +8,7 @@
     <StackFrameCounter />
   </div>
   <div
-    class="absolute top-24 left-2 right-14 bg-gray-900/50 backdrop-blur-md p-2 text-white rounded-xl border border-gray-200 z-50 shadow-lg shadow-black transition-all duration-300 landscape:hidden"
+    class="absolute top-24 left-2 right-16 bg-gray-900/50 backdrop-blur-md p-2 text-white rounded-xl border border-gray-200 z-50 shadow-lg shadow-black transition-all duration-300 landscape:hidden"
   >
     <div class="flex justify-between mb-4">
       <StartStopButton />

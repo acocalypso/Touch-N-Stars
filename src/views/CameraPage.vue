@@ -45,7 +45,8 @@
         <!-- Histogram Overlay -->
         <div
           v-if="showHistogram && imageStore.imageData && imageStore.imageHistogram"
-          class="absolute top-32 left-4 right-4 z-50 max-w-96"
+          class="z-50"
+          :class="[histogramClasses]"
         >
           <HistogramChart
             :data="imageStore.imageHistogram"
@@ -327,6 +328,17 @@ const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
 
+// Check if in landscape mode
+const { isLandscape } = useOrientation();
+
+// Container positioning classes
+const histogramClasses = computed(() => ({
+  // Portrait mode - bottom center
+  'absolute top-32 left-4': !isLandscape.value,
+  // Landscape mode - left side vertical (changed from right to left)
+  'absolute top-24 left-36': isLandscape.value,
+}));
+
 // Modal Management - togglet das Modal oder schließt andere
 const openModal = (modalType) => {
   switch (modalType) {
@@ -372,8 +384,6 @@ const openModal = (modalType) => {
       break;
   }
 };
-
-const { isLandscape } = useOrientation();
 
 // Responsive computed properties
 const iconCenterHere = computed(() => [

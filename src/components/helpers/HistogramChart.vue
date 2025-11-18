@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data && data.length > 0" class="histogram-container p-4 bg-gray-900 rounded-lg">
+  <div v-if="data && data.length > 0" class="histogram-container p-4 bg-gray-900/20 rounded-lg">
     <div class="histogram-header mb-2 flex justify-between items-center">
       <h3 class="text-sm font-semibold text-gray-300">Brightness Histogram</h3>
       <div class="text-xs text-gray-400 space-x-3">

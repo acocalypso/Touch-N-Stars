@@ -13,7 +13,7 @@
       @click="toggleTargetList"
     >
       <span class="flex justify-between items-center w-full">
-        {{ props.currentOption?.label || props.placeholder }}
+        {{ props.currentOption?.label || placeholderText }}
         <ChevronDoubleDownIcon
           v-show="props.availableOptions.length > 1 && props.canOpen"
           class="inline-block w-4 h-4 ml-1"
@@ -43,14 +43,17 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { ChevronDoubleDownIcon } from '@heroicons/vue/24/solid';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   availableOptions: { type: Array, default: () => [] },
   currentOption: { type: Object, default: null },
-  placeholder: { type: String, default: 'Empty' },
+  placeholder: { type: String, default: '' },
   canOpen: { type: Boolean, default: true },
   fullWidth: { type: Boolean, default: false },
 });
+
+const { t } = useI18n();
 
 const showTargetList = ref(false);
 
@@ -68,6 +71,8 @@ const buttonMinWidth = computed(() => {
 const buttonDisabled = computed(() => {
   return !(props.availableOptions && props.availableOptions.length > 1) || !props.canOpen;
 });
+
+const placeholderText = computed(() => props.placeholder || t('plugins.livestack.empty_option'));
 
 const closeList = () => {
   if (!showTargetList.value) return;

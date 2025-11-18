@@ -30,11 +30,13 @@ import StartStopButton from './StartStopButton.vue';
 import { useLivestackStore } from '../store/livestackStore.js';
 import { storeToRefs } from 'pinia';
 import apiService from '@/services/apiService';
+import { useI18n } from 'vue-i18n';
 
 const errorMessage = ref(null);
 
 const store = useLivestackStore();
 const attributes = storeToRefs(store);
+const { t } = useI18n();
 
 watch(
   () => attributes.isStacking.value,
@@ -56,11 +58,13 @@ const startLivestack = async () => {
     if (result.Success) {
       console.log('Livestack started successfully');
     } else {
-      errorMessage.value = result.Error || 'Failed to start livestack';
+      errorMessage.value = result.Error || t('plugins.livestack.errors.start_failed');
     }
   } catch (error) {
     console.error('Error starting livestack:', error);
-    errorMessage.value = 'Error starting livestack: ' + error.message;
+    errorMessage.value = t('plugins.livestack.errors.start_exception', {
+      message: error.message,
+    });
   } finally {
     //isStarting.value = false;
   }
@@ -74,11 +78,11 @@ const stopLivestack = async () => {
     if (result.Success) {
       console.log('Livestack stop successfully');
     } else {
-      errorMessage.value = result.Error || 'Failed to stop livestack';
+      errorMessage.value = result.Error || t('plugins.livestack.errors.stop_failed');
     }
   } catch (error) {
     console.error('Error stoping livestack:', error);
-    errorMessage.value = 'Error stoping livestack: ' + error.message;
+    errorMessage.value = t('plugins.livestack.errors.stop_exception', { message: error.message });
   } finally {
     //isStarting.value = false;
   }

@@ -67,8 +67,8 @@
           :showFullscreen="false"
           :initialZoom="currentZoomLevel"
           height="100vh"
-          :altText="`Livestack Image - ${livestackStore.selectedFilter}`"
-          placeholderText="Loading livestack image..."
+          :altText="imageAltText"
+          :placeholderText="imagePlaceholderText"
           @image-load="handleImageLoad"
           @image-error="handleImageError"
           @download="handleDownload"
@@ -96,8 +96,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import websocketChannelService from '@/services/websocketChannelSocket.js';
@@ -121,6 +120,10 @@ const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const pageIsLoading = ref(true);
 const livestackRefs = storeToRefs(livestackStore);
+const imageAltText = computed(() =>
+  t('plugins.livestack.image_alt', { filter: livestackStore.selectedFilter?.label ?? '' })
+);
+const imagePlaceholderText = computed(() => t('plugins.livestack.loading_image'));
 
 // Observe changes to selected target/filter and load image accordingly
 watch(
@@ -192,7 +195,7 @@ const loadImage = async (target, filter, forceReload = false) => {
     lastUpdated.value = new Date().toLocaleTimeString();
   } catch (error) {
     console.error('Error loading image:', error);
-    errorMessage.value = 'Error loading image: ' + error.message;
+    errorMessage.value = t('plugins.livestack.errors.loading_image', { message: error.message });
   } finally {
     isLoading.value = false;
   }
@@ -210,7 +213,7 @@ const handleImageLoad = () => {
 
 const handleImageError = (event) => {
   console.error('Error loading livestack image:', event);
-  errorMessage.value = 'Failed to load livestack image';
+  errorMessage.value = t('plugins.livestack.errors.failed_to_load');
 };
 
 const handleDownload = async (data) => {
@@ -327,7 +330,9 @@ onMounted(async () => {
     console.error(
       `LiveStack requires API version ${minimumApiVersion} or higher. Current version: ${store.currentApiVersion}`
     );
-    errorMessage.value = `API version ${minimumApiVersion} or higher required`;
+    errorMessage.value = t('plugins.livestack.errors.api_version_required', {
+      version: minimumApiVersion,
+    });
     pageIsLoading.value = false;
     return;
   }

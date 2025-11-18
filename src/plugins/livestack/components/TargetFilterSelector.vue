@@ -4,7 +4,7 @@
       ref="targetButtonRef"
       :availableOptions="availableTargets"
       :currentOption="selectedTarget"
-      :placeholder="'No target'"
+      :placeholder="t('plugins.livestack.no_target')"
       :fullWidth="isPortrait"
       @optionSelected="selectTarget($event)"
       @open="handleTargetOpen"
@@ -16,7 +16,7 @@
       ref="filterButtonRef"
       :availableOptions="availableFilters"
       :currentOption="selectedFilter"
-      :placeholder="'No filter'"
+      :placeholder="t('plugins.livestack.no_filter')"
       :fullWidth="isPortrait"
       @optionSelected="selectFilter($event)"
       @open="handleFilterOpen"
@@ -28,12 +28,14 @@
 <script setup>
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
 import ButtonWithOptions from './ButtonWithOptions.vue';
 import { useLivestackStore } from '../store/livestackStore.js';
 
 const store = useLivestackStore();
 const { availableTargets, selectedTarget, availableFilters, selectedFilter, showFilters } =
   storeToRefs(store);
+const { t } = useI18n();
 
 // State variables
 const targetButtonRef = ref(null);

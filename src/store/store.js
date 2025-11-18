@@ -308,7 +308,8 @@ export const apiStore = defineStore('store', {
 
         // Fetch event history only every 30 seconds (or on startup if lastEventHistoryFetch = 0)
         const now = Date.now();
-        if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 30000) {
+        if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 30000 || true) {
+          console.log('Test');
           const eventHistoryResponse = await apiService.getEventHistory();
 
           // Process event history to determine connection status

@@ -1,15 +1,15 @@
 <template>
-  <div v-if="data && data.length > 0" class="histogram-container p-4 bg-gray-900/20 rounded-lg">
+  <div v-if="data && data.length > 0" class="relative p-4 bg-gray-900/20 rounded-lg shadow-md">
 
     <!-- Histogram with integrated range sliders -->
     <div
-      class="histogram-canvas-wrapper relative"
+      class="relative bg-gradient-to-b from-gray-950 to-gray-900 rounded border border-gray-700 opacity-80"
       :style="{ height: height, width: width }"
       ref="wrapperElement"
       @mousedown="onMouseDown"
       @touchstart="onTouchStart"
     >
-      <canvas ref="canvasElement" class="histogram-canvas w-full h-full absolute inset-0"></canvas>
+      <canvas ref="canvasElement" class="block w-full h-full absolute inset-0"></canvas>
 
       <!-- Black Point Thumb (visual only) -->
       <div
@@ -373,25 +373,3 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-.histogram-container {
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.histogram-canvas-wrapper {
-  position: relative;
-  background: linear-gradient(180deg, #0f0f0f 0%, #1a1a1a 100%);
-  border-radius: 4px;
-  border: 1px solid #333333;
-}
-
-.histogram-canvas {
-  display: block;
-}
-
-.histogram-stats {
-  border-top: 1px solid #333333;
-  padding-top: 8px;
-}
-</style>

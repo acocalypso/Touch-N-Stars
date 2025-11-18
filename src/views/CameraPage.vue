@@ -56,40 +56,9 @@
             :whitePoint="imageStore.whitePoint"
             @levels-changed="onLevelsChanged"
           />
-          <!-- Reset Stretch Button -->
-          <div v-if="imageStore.stretchedImageData" class="mt-2 flex gap-2 justify-end">
-            <button
-              @click="resetStretch"
-              class="px-3 py-1 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded transition-colors"
-            >
-              Reset Stretch
-            </button>
-          </div>
         </div>
 
-        <!-- Histogram Toggle Button -->
-        <button
-          v-if="imageStore.imageData"
-          @click="showHistogram = !showHistogram"
-          class="absolute top-20 right-4 z-40 px-3 py-2 bg-gray-800/90 hover:bg-gray-700 text-white text-sm rounded-lg shadow-lg transition-colors backdrop-blur-sm"
-          :title="showHistogram ? 'Hide Histogram' : 'Show Histogram'"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-5 h-5 inline mr-1"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3 3h18M3 9h18M3 15h18M3 21h18"
-            />
-          </svg>
-          {{ showHistogram ? 'Hide' : 'Show' }} Histogram
-        </button>
+
 
         <div
           v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
@@ -132,6 +101,29 @@
         :isLoading="false"
         @close="closeImageModal"
       />
+
+      <!-- Histogram Toggle Button -->
+        <button
+          v-if="imageStore.imageData"
+          @click="showHistogram = !showHistogram"
+          class="absolute top-20 right-4 z-40 px-3 py-2 bg-gray-800/90 hover:bg-gray-700 text-white text-sm rounded-lg shadow-lg transition-colors backdrop-blur-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-5 h-5 inline mr-1"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 3h18M3 9h18M3 15h18M3 21h18"
+            />
+          </svg>
+          {{ showHistogram ? 'Hide' : 'Show' }} Histogram
+        </button>
 
       <!-- Slew Modal -->
       <div
@@ -334,7 +326,7 @@ const { isLandscape } = useOrientation();
 // Container positioning classes
 const histogramClasses = computed(() => ({
   // Portrait mode - bottom center
-  'absolute top-32 left-4 w-2/3 min-w-72': !isLandscape.value,
+  'absolute top-36 left-4 w-2/3 min-w-72': !isLandscape.value,
   // Landscape mode - left side vertical (changed from right to left)
   'absolute top-24 left-36 w-1/2 min-w-72': isLandscape.value,
 }));
@@ -412,9 +404,6 @@ const onLevelsChanged = async (event) => {
   await imageStore.applyStretch(blackPoint, whitePoint);
 };
 
-const resetStretch = () => {
-  imageStore.resetStretch();
-};
 
 // Load image on mount if imageData is empty
 onMounted(async () => {

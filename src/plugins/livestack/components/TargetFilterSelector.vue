@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import ButtonWithOptions from './ButtonWithOptions.vue';
 import { useLivestackStore } from '../store/livestackStore.js';
@@ -34,13 +34,6 @@ import { useLivestackStore } from '../store/livestackStore.js';
 const store = useLivestackStore();
 const { availableTargets, selectedTarget, availableFilters, selectedFilter, showFilters } =
   storeToRefs(store);
-
-const props = defineProps({
-  isPortrait: {
-    type: Boolean,
-    default: false,
-  },
-});
 
 // State variables
 const targetButtonRef = ref(null);

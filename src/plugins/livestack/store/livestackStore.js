@@ -33,14 +33,14 @@ export const useLivestackStore = defineStore('livestackStore', {
         }
       });
       this.availableTargets = Array.from(targetsMap.values());
-      if(this.selectedTarget == null) {
+      if (this.selectedTarget == null) {
         this.selectedTarget = this.availableTargets[0] || null;
       }
 
       this.availableFilters = this._filtersForTarget(this.selectedTarget?.label);
-      if(this.availableFilters.find(f => f.label === this.selectedFilter?.label) == null) {
-        this.selectedFilter = this._defaultFilter();        
-      } 
+      if (this.availableFilters.find((f) => f.label === this.selectedFilter?.label) == null) {
+        this.selectedFilter = this._defaultFilter();
+      }
     },
     selectTarget(targetLabel) {
       const found = this.availableTargets.find((t) => t.label === targetLabel);

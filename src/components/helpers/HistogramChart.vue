@@ -1,16 +1,5 @@
 <template>
   <div v-if="data && data.length > 0" class="histogram-container p-4 bg-gray-900/20 rounded-lg">
-    <div class="histogram-header mb-2 flex justify-between items-center">
-      <h3 class="text-sm font-semibold text-gray-300">Brightness Histogram</h3>
-      <div class="text-xs text-gray-400 space-x-3">
-        <span
-          >Black: <span class="text-gray-300 font-mono">{{ localBlackPoint }}</span></span
-        >
-        <span
-          >White: <span class="text-gray-300 font-mono">{{ localWhitePoint }}</span></span
-        >
-      </div>
-    </div>
 
     <!-- Histogram with integrated range sliders -->
     <div
@@ -76,24 +65,6 @@
       ></div>
     </div>
 
-    <div v-if="showStats" class="histogram-stats mt-3 grid grid-cols-4 gap-2 text-xs text-gray-400">
-      <div>
-        <span class="text-gray-500">Min:</span>
-        <span class="text-gray-300 font-mono">{{ stats.min }}</span>
-      </div>
-      <div>
-        <span class="text-gray-500">Max:</span>
-        <span class="text-gray-300 font-mono">{{ stats.max }}</span>
-      </div>
-      <div>
-        <span class="text-gray-500">Mean:</span>
-        <span class="text-gray-300 font-mono">{{ stats.mean.toFixed(0) }}</span>
-      </div>
-      <div>
-        <span class="text-gray-500">Median:</span>
-        <span class="text-gray-300 font-mono">{{ stats.median.toFixed(0) }}</span>
-      </div>
-    </div>
   </div>
 </template>
 

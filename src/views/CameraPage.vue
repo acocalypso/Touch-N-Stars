@@ -334,9 +334,9 @@ const { isLandscape } = useOrientation();
 // Container positioning classes
 const histogramClasses = computed(() => ({
   // Portrait mode - bottom center
-  'absolute top-32 left-4': !isLandscape.value,
+  'absolute top-32 left-4 w-2/3 min-w-72': !isLandscape.value,
   // Landscape mode - left side vertical (changed from right to left)
-  'absolute top-24 left-36': isLandscape.value,
+  'absolute top-24 left-36 w-1/2 min-w-72': isLandscape.value,
 }));
 
 // Modal Management - togglet das Modal oder schließt andere

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Fixed Camera settings layout
 - SequenceCreator Autofocus sequence fixed
+- Fixed Dialog Modal
 
 ## [Plugin1.2.1.0] [App4.0.0] [webcam-1.0.1] [LivestackPlugin0.4.1] [logfile-collector1.0.2] - 2025-11-16
 ### Important information

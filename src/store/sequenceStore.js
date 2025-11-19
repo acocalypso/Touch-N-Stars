@@ -198,6 +198,18 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       if (response?.Success) {
+        const isEmptySequence = this.isSequenceResponseEmpty(response.Response);
+        if (isEmptySequence) {
+          this.sequenceInfo = [];
+          this.sequenceIsLoaded = false;
+          this.sequenceRunning = false;
+          this.targetName = '';
+          this.runningItems = [];
+          this.runningConditions = [];
+          this.collapsedStates = {};
+          return;
+        }
+
         // Check for errors in sequence items
         let hasErrors = false;
         let errorMessage = '';
@@ -276,6 +288,28 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.sequenceIsLoaded = false;
         this.sequenceRunning = false;
       }
+    },
+
+    isSequenceResponseEmpty(containers) {
+      if (!Array.isArray(containers) || containers.length === 0) {
+        return true;
+      }
+
+      const hasContent = containers.some((container) => {
+        if (!container || typeof container !== 'object') return false;
+
+        const hasItems = Array.isArray(container.Items) && container.Items.length > 0;
+        const hasContainerTriggers =
+          Array.isArray(container.Triggers) && container.Triggers.length > 0;
+        const hasContainerConditions =
+          Array.isArray(container.Conditions) && container.Conditions.length > 0;
+        const hasGlobalTriggers =
+          Array.isArray(container.GlobalTriggers) && container.GlobalTriggers.length > 0;
+
+        return hasItems || hasContainerTriggers || hasContainerConditions || hasGlobalTriggers;
+      });
+
+      return !hasContent;
     },
 
     generatePaths(sequenceData) {

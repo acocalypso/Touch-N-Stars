@@ -1061,16 +1061,21 @@ export const useSequenceStore = defineStore('sequence', () => {
     };
 
     // Process actions for this specific target (EXCLUDE target-settings as it's already used for coordinates)
-    const regularActions = actions.filter(
-      (action) => action.type !== 'smart-exposure' && action.type !== 'target-settings'
+    const preSlewActions = actions.filter(
+      (action) =>
+        action.type !== 'smart-exposure' &&
+        action.type !== 'target-settings' &&
+        action.type !== 'run-autofocus'
     );
+    const autofocusActions = actions.filter((action) => action.type === 'run-autofocus');
     const smartExposureActions = actions.filter((action) => action.type === 'smart-exposure');
 
-    // Add all regular actions (slew-to-target, run-autofocus, etc. but NOT target-settings)
-    regularActions.forEach((action) => {
+    // Add pre-slew actions (like slew-to-target, start-guiding, etc.) but NOT autofocus
+    preSlewActions.forEach((action) => {
       dsoContainer.Items.$values.push(convertActionToNina(action, generateId, dsoContainerId));
     });
-    if (smartExposureActions.length > 0) {
+
+    if (smartExposureActions.length > 0 || autofocusActions.length > 0) {
       const targetImagingContainer = {
         $id: targetImagingId,
         $type: 'NINA.Sequencer.Container.SequentialContainer, NINA.Sequencer',
@@ -1089,9 +1094,7 @@ export const useSequenceStore = defineStore('sequence', () => {
           $id: generateId(),
           $type:
             'System.Collections.ObjectModel.ObservableCollection`1[[NINA.Sequencer.SequenceItem.ISequenceItem, NINA.Sequencer]], System.ObjectModel',
-          $values: smartExposureActions.map((action) =>
-            createBasicSmartExposureContainer(action, generateId, targetImagingId)
-          ),
+          $values: [],
         },
         Triggers: {
           $id: generateId(),
@@ -1103,6 +1106,30 @@ export const useSequenceStore = defineStore('sequence', () => {
         ErrorBehavior: 0,
         Attempts: 1,
       };
+
+      // Build imaging instructions with alternating autofocus and smart exposure
+      if (smartExposureActions.length > 0) {
+        smartExposureActions.forEach((smartExposureAction, index) => {
+          // Add autofocus before each smart exposure (if autofocus actions exist)
+          if (autofocusActions.length > 0) {
+            const autofocusAction = autofocusActions[index] || autofocusActions[0];
+            targetImagingContainer.Items.$values.push(
+              convertActionToNina(autofocusAction, generateId, targetImagingId)
+            );
+          }
+          // Add smart exposure
+          targetImagingContainer.Items.$values.push(
+            createBasicSmartExposureContainer(smartExposureAction, generateId, targetImagingId)
+          );
+        });
+      } else if (autofocusActions.length > 0) {
+        // If only autofocus without smart exposure
+        autofocusActions.forEach((action) => {
+          targetImagingContainer.Items.$values.push(
+            convertActionToNina(action, generateId, targetImagingId)
+          );
+        });
+      }
 
       dsoContainer.Items.$values.push(targetImagingContainer);
     }

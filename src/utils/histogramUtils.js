@@ -69,7 +69,8 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255)
       canvas.height = imageData.height;
       ctx.putImageData(imageData, 0, 0);
 
-      // Convert to blob
+      // Convert to blob - use JPEG for much faster encoding on Android
+      // Quality 0.95 maintains good visual quality while being fast
       canvas.toBlob(
         (blob) => {
           if (blob) {
@@ -78,7 +79,8 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255)
             reject(new Error('Failed to convert canvas to blob'));
           }
         },
-        'image/png'
+        'image/jpeg',
+        0.95
       );
     } catch (error) {
       reject(new Error(`Error processing cached image data: ${error.message}`));
@@ -261,14 +263,19 @@ export async function applyLevelsStretch(imageUrl, blackPoint = 0, whitePoint = 
         // Put modified image data back on canvas
         ctx.putImageData(imageData, 0, 0);
 
-        // Convert canvas to blob
-        canvas.toBlob((blob) => {
-          if (blob) {
-            resolve(blob);
-          } else {
-            reject(new Error('Failed to convert canvas to blob'));
-          }
-        }, 'image/png');
+        // Convert canvas to blob - use JPEG for much faster encoding on Android
+        // Quality 0.95 maintains good visual quality while being fast
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error('Failed to convert canvas to blob'));
+            }
+          },
+          'image/jpeg',
+          0.95
+        );
       } catch (error) {
         reject(new Error(`Error processing image data: ${error.message}`));
       }

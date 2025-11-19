@@ -4,7 +4,6 @@
 
 // Cache for original image data to avoid re-loading during stretch operations
 let cachedOriginalImageData = null;
-let cachedImageUrl = null;
 
 /**
  * Store original image data for efficient stretch operations
@@ -13,7 +12,6 @@ let cachedImageUrl = null;
  * @param {ImageData} imageData - The ImageData object
  */
 export function cacheOriginalImageData(imageUrl, imageData) {
-  cachedImageUrl = imageUrl;
   // Clone the image data to preserve it
   cachedOriginalImageData = new ImageData(
     new Uint8ClampedArray(imageData.data),

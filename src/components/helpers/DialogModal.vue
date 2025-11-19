@@ -69,14 +69,38 @@ import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 const dialogStore = useDialogStore();
 
 const showDialog = computed(() => {
-  return dialogStore.dialogs && dialogStore.dialogs.length > 0;
+  if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return false;
+
+  // Zeige Dialog nur, wenn es einen bekannten Dialog gibt
+  return dialogStore.dialogs.some((dialog) => isKnownDialog(dialog));
 });
+
+// Liste der bekannten Dialog-Types (Whitelist)
+const knownDialogTypes = [
+  'NINA.Plugins.PolarAlignment.TPAPAVM',
+  'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM',
+  'NINA.Equipment.Equipment.MyRotator.ManualRotator',
+  'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM',
+  'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM',
+  'NINA.WPF.Base.ViewModel.MeridianFlipVM',
+];
+
+const isKnownDialog = (dialog) => {
+  return dialog && knownDialogTypes.includes(dialog.ContentType);
+};
 
 const currentDialog = computed(() => {
   if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return null;
 
-  // Zeige den letzten Dialog aus dem Array (neuester)
-  return dialogStore.dialogs[dialogStore.dialogs.length - 1];
+  // Finde den letzten bekannten Dialog aus dem Array
+  for (let i = dialogStore.dialogs.length - 1; i >= 0; i--) {
+    if (isKnownDialog(dialogStore.dialogs[i])) {
+      return dialogStore.dialogs[i];
+    }
+  }
+
+  // Kein bekannter Dialog gefunden
+  return null;
 });
 
 // TPPA (Polar Alignment) Dialog Detection
@@ -96,7 +120,7 @@ const isManualRotatorDialog = computed(() => {
 
 // AutoFocus Dialog Detection
 const isAutoFocusDialog = computed(() => {
-  return currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM';
+  return currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM' || currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM';
 });
 
 // Meridian Flip Dialog Detection

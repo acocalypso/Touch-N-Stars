@@ -22,7 +22,7 @@
           :showDownload="true"
           :showFullscreen="true"
           :showHistogram="true"
-          :loading="imageStore.isImageFetching"
+          :loading="imageStore.isImageFetching || imageStore.isStretchProcessing"
           height="100vh"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"

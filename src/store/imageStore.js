@@ -10,6 +10,7 @@ export const useImagetStore = defineStore('imageStore', {
     imageHistogram: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
+    isStretchProcessing: false,
     stretchedImageData: null,
     blackPoint: 0,
     whitePoint: 255,
@@ -21,6 +22,8 @@ export const useImagetStore = defineStore('imageStore', {
       image: null,
       histogram: null,
     },
+    _lastApplyStretchTime: 0,
+    _pendingStretchValues: null,
   }),
   actions: {
     calcScale() {
@@ -248,24 +251,61 @@ export const useImagetStore = defineStore('imageStore', {
         return;
       }
 
+      // Always update the displayed values immediately for UI responsiveness
+      this.blackPoint = blackPoint;
+      this.whitePoint = whitePoint;
+
+      // Throttle the actual image processing to avoid flickering
+      const now = Date.now();
+      const timeSinceLastApply = now - this._lastApplyStretchTime;
+      const APPLY_THROTTLE_MS = 500; 
+
+      // Store pending values
+      this._pendingStretchValues = { blackPoint, whitePoint };
+
+      if (timeSinceLastApply < APPLY_THROTTLE_MS) {
+        // Skip this update, wait for next throttle window
+        return;
+      }
+
       try {
+        // Show loading spinner while processing
+        this.isStretchProcessing = true;
+
         console.log(
           `[ImageStore] Applying stretch: blackPoint=${blackPoint}, whitePoint=${whitePoint}`
         );
-        this.blackPoint = blackPoint;
-        this.whitePoint = whitePoint;
 
         const stretchedBlob = await applyLevelsStretch(this.imageData, blackPoint, whitePoint);
         if (this.stretchedImageData) {
           URL.revokeObjectURL(this.stretchedImageData);
         }
         this.stretchedImageData = URL.createObjectURL(stretchedBlob);
+        this._lastApplyStretchTime = now;
 
-        // Keep original histogram - don't recalculate for stretched image
+        // Hide loading spinner after processing is complete
+        this.isStretchProcessing = false;
+
+        // If there are pending values different from what we just applied, apply them
+        if (
+          this._pendingStretchValues &&
+          (this._pendingStretchValues.blackPoint !== blackPoint ||
+            this._pendingStretchValues.whitePoint !== whitePoint)
+        ) {
+          // Schedule next update
+          setTimeout(() => {
+            this.applyStretch(
+              this._pendingStretchValues.blackPoint,
+              this._pendingStretchValues.whitePoint
+            );
+          }, 50);
+        }
+
         console.log('[ImageStore] Stretch applied successfully');
       } catch (error) {
         console.error('[ImageStore] Error applying stretch:', error);
         this.stretchedImageData = null;
+        this.isStretchProcessing = false;
       }
     },
 

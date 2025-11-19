@@ -1072,11 +1072,27 @@
       "available_filters": "Filtros disponibles",
       "beta_note": "¡Este complemento todavía está en desarrollo y puede contener algunos errores!",
       "no_image_available": "No hay imagen disponible",
-      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
-      "start_and_select_filter": "Start livestack and select a filter to see images",
-      "target": "Target",
+      "not_available": "No he encontrado Livestack. Por favor, instala el plugin de Livestack in NINA.",
+      "start_and_select_filter": "Arranca Livestack y selecciona objeto y filtro para ver imagenes.",
+      "target": "Objeto",
       "no_filter": "Sin filtro",
-      "no_filters_available": "No hay filtros disponibles para este objetivo"
+      "no_filters_available": "No hay filtros disponibles para este objetivo",
+      "no_target": "Sin objeto",
+      "configuration_title": "Configuración de Livestack",
+      "drag_hint": "Arrastrar",
+      "show_rgb_only": "Mostrar solo composición RGB",
+      "empty_option": "Vacío",
+      "image_alt": "Imagen de Livestack - {filter}",
+      "loading_image": "Cargando imagen de Livestack...",
+      "errors": {
+        "start_failed": "No se pudo iniciar Livestack",
+        "start_exception": "Error al iniciar Livestack: {message}",
+        "stop_failed": "No se pudo detener Livestack",
+        "stop_exception": "Error al detener Livestack: {message}",
+        "loading_image": "Error al cargar la imagen: {message}",
+        "failed_to_load": "No se pudo cargar la imagen de Livestack",
+        "api_version_required": "Se requiere la versión de la API {version} o superior"
+      }
     }
   },
   "dialogs": {

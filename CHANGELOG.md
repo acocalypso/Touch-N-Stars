@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
 
 ### Added
-- Livestack running status is shown in Livestack screen. When a user directly in N.I.N.A. or a sequece, starts or stops the Livestack process, the new status is shown in the plugin.
-- Livestack New layout that show permanently the curently show Target/Filter combination and frame count.
+- Livestack running status is shown in Livestack screen. When a user directly in N.I.N.A. or a sequence, starts or stops the Livestack process, the new status is shown in the plugin.
+- Livestack New layout that shows permanently the currently displayed Target/Filter combination and frame count.
 - Livestack Configuration option to show only the RGB composite, instead of each channel.
 - App Camerapage histogram and image strech function
 

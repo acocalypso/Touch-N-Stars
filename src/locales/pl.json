@@ -1076,7 +1076,23 @@
       "no_image_available": "Brak dostępnego obrazu",
       "start_and_select_filter": "Uruchom livestack i wybierz filtr, aby zobaczyć obrazy",
       "no_filter": "Brak filtra",
-      "no_filters_available": "Brak dostępnych filtrów dla tego celu"
+      "no_filters_available": "Brak dostępnych filtrów dla tego celu",
+      "no_target": "No target",
+      "configuration_title": "Livestack configuration",
+      "drag_hint": "Drag",
+      "show_rgb_only": "Show RGB composition only",
+      "empty_option": "Empty",
+      "image_alt": "Livestack image - {filter}",
+      "loading_image": "Loading livestack image...",
+      "errors": {
+        "start_failed": "Failed to start livestack",
+        "start_exception": "Error starting livestack: {message}",
+        "stop_failed": "Failed to stop livestack",
+        "stop_exception": "Error stopping livestack: {message}",
+        "loading_image": "Error loading image: {message}",
+        "failed_to_load": "Failed to load livestack image",
+        "api_version_required": "API version {version} or higher required"
+      }
     }
   },
   "dialogs": {

@@ -191,6 +191,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { apiStore } from '@/store/store';
+import { useImagetStore } from './store/imageStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
 import { Capacitor } from '@capacitor/core';
@@ -226,6 +227,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
+const imageStore = useImagetStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
 const showSplashScreen = ref(true);
@@ -343,6 +345,7 @@ async function resumeApp() {
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
   dialogStore.startPolling();
+  imageStore.getImage();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }

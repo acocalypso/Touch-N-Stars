@@ -1,7 +1,7 @@
 // Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
 import { h, markRaw } from 'vue';
-import DefaultPluginView from './views/LiveStack.vue';
+import PluginView from './views/LiveStack.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
 
@@ -18,7 +18,7 @@ export default {
     // Register route with generic plugin path
     router.addRoute({
       path: pluginPath,
-      component: DefaultPluginView,
+      component: PluginView,
       meta: { requiresSetup: true },
     });
 

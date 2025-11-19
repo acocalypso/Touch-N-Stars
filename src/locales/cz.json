@@ -1081,8 +1081,24 @@
       "not_available": "Livestack nebyl nalezen. Nejprve nainstalujte plugin Livestack do NINA.",
       "start_and_select_filter": "Spusťte livestack a vyberte filtr pro zobrazení snímků",
       "target": "Cíl",
-      "no_filter": "No Filter",
-      "no_filters_available": "No filters available for this target"
+      "no_filter": "No filter",
+      "no_filters_available": "No filters available for this target",
+      "no_target": "No target",
+      "configuration_title": "Livestack configuration",
+      "drag_hint": "Drag",
+      "show_rgb_only": "Show RGB composition only",
+      "empty_option": "Empty",
+      "image_alt": "Livestack image - {filter}",
+      "loading_image": "Loading livestack image...",
+      "errors": {
+        "start_failed": "Failed to start livestack",
+        "start_exception": "Error starting livestack: {message}",
+        "stop_failed": "Failed to stop livestack",
+        "stop_exception": "Error stopping livestack: {message}",
+        "loading_image": "Error loading image: {message}",
+        "failed_to_load": "Failed to load livestack image",
+        "api_version_required": "API version {version} or higher required"
+      }
     }
   },
   "dialogs": {

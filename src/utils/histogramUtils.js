@@ -2,6 +2,92 @@
  * Utility functions for image histogram calculation
  */
 
+// Cache for original image data to avoid re-loading during stretch operations
+let cachedOriginalImageData = null;
+let cachedImageUrl = null;
+
+/**
+ * Store original image data for efficient stretch operations
+ * Called when image is first loaded
+ * @param {string} imageUrl - The image URL
+ * @param {ImageData} imageData - The ImageData object
+ */
+export function cacheOriginalImageData(imageUrl, imageData) {
+  cachedImageUrl = imageUrl;
+  // Clone the image data to preserve it
+  cachedOriginalImageData = new ImageData(
+    new Uint8ClampedArray(imageData.data),
+    imageData.width,
+    imageData.height
+  );
+}
+
+/**
+ * Apply levels stretch using cached image data (super fast on repeated calls)
+ * @param {number} blackPoint - Input black level (0-255)
+ * @param {number} whitePoint - Input white level (0-255)
+ * @returns {Promise<Blob>} Stretched image as blob
+ */
+export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255) {
+  return new Promise((resolve, reject) => {
+    if (!cachedOriginalImageData || blackPoint >= whitePoint) {
+      reject(new Error('No cached image data or invalid parameters'));
+      return;
+    }
+
+    try {
+      // Clone cached data so we don't modify it
+      const imageData = new ImageData(
+        new Uint8ClampedArray(cachedOriginalImageData.data),
+        cachedOriginalImageData.width,
+        cachedOriginalImageData.height
+      );
+
+      const data = imageData.data;
+      const range = whitePoint - blackPoint;
+
+      // Apply levels stretch formula to each pixel
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+
+        // Apply levels stretch: (value - black) / (white - black) * 255
+        data[i] = Math.max(0, Math.min(255, Math.round(((r - blackPoint) / range) * 255)));
+        data[i + 1] = Math.max(0, Math.min(255, Math.round(((g - blackPoint) / range) * 255)));
+        data[i + 2] = Math.max(0, Math.min(255, Math.round(((b - blackPoint) / range) * 255)));
+      }
+
+      // Create canvas and put modified data
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      if (!ctx) {
+        reject(new Error('Could not get canvas context'));
+        return;
+      }
+
+      canvas.width = imageData.width;
+      canvas.height = imageData.height;
+      ctx.putImageData(imageData, 0, 0);
+
+      // Convert to blob
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to convert canvas to blob'));
+          }
+        },
+        'image/png'
+      );
+    } catch (error) {
+      reject(new Error(`Error processing cached image data: ${error.message}`));
+    }
+  });
+}
+
 /**
  * Calculate brightness histogram from image URL
  * Converts image to grayscale using luma formula and creates histogram buckets

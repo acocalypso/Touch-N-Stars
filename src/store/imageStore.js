@@ -2,7 +2,12 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from './settingsStore';
-import { calculateHistogram, applyLevelsStretch } from '@/utils/histogramUtils';
+import {
+  calculateHistogram,
+  applyLevelsStretch,
+  applyLevelsStretchCached,
+  cacheOriginalImageData,
+} from '@/utils/histogramUtils';
 
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
@@ -51,6 +56,28 @@ export const useImagetStore = defineStore('imageStore', {
         console.log('[ImageStore] Calculating histogram for image...');
         const histogram = await calculateHistogram(imageUrl);
         this.imageHistogram = histogram;
+
+        // Also cache the original image data for fast stretch operations
+        try {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            if (ctx) {
+              canvas.width = img.width;
+              canvas.height = img.height;
+              ctx.drawImage(img, 0, 0);
+              const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+              cacheOriginalImageData(imageUrl, imageData);
+              console.log('[ImageStore] Image data cached for fast stretch operations');
+            }
+          };
+          img.src = imageUrl;
+        } catch (cacheErr) {
+          console.warn('[ImageStore] Could not cache image data:', cacheErr);
+        }
+
         console.log('[ImageStore] Histogram calculated successfully');
       } catch (error) {
         console.error('[ImageStore] Error calculating histogram:', error);
@@ -285,11 +312,19 @@ export const useImagetStore = defineStore('imageStore', {
             `[ImageStore] Applying stretch: blackPoint=${latestBlackPoint}, whitePoint=${latestWhitePoint}`
           );
 
-          const stretchedBlob = await applyLevelsStretch(
-            this.imageData,
-            latestBlackPoint,
-            latestWhitePoint
-          );
+          // Try to use cached version for speed, fallback to regular version
+          let stretchedBlob;
+          try {
+            stretchedBlob = await applyLevelsStretchCached(latestBlackPoint, latestWhitePoint);
+          } catch (cacheError) {
+            // If cache not available, use regular method
+            console.log('[ImageStore] Cache not available, using regular stretch method');
+            stretchedBlob = await applyLevelsStretch(
+              this.imageData,
+              latestBlackPoint,
+              latestWhitePoint
+            );
+          }
           if (this.stretchedImageData) {
             URL.revokeObjectURL(this.stretchedImageData);
           }

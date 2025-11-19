@@ -69,19 +69,27 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255)
       canvas.height = imageData.height;
       ctx.putImageData(imageData, 0, 0);
 
-      // Convert to blob - use JPEG for much faster encoding on Android
-      // Quality 0.95 maintains good visual quality while being fast
-      canvas.toBlob(
-        (blob) => {
-          if (blob) {
-            resolve(blob);
-          } else {
-            reject(new Error('Failed to convert canvas to blob'));
-          }
-        },
-        'image/jpeg',
-        0.95
-      );
+      // Convert to data URL first (faster on some Android devices), then to blob
+      try {
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+        fetch(dataUrl)
+          .then((res) => res.blob())
+          .then((blob) => resolve(blob))
+          .catch((err) => reject(err));
+      } catch (error) {
+        // Fallback to toBlob if toDataURL fails
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error('Failed to convert canvas to blob'));
+            }
+          },
+          'image/jpeg',
+          0.9
+        );
+      }
     } catch (error) {
       reject(new Error(`Error processing cached image data: ${error.message}`));
     }

@@ -128,6 +128,12 @@ const meridianFlipSteps = computed(() => {
   return [];
 });
 
+// Track the current step index
+const currentStepIndex = computed(() => {
+  if (!props.meridianFlipData?.Steps) return -1;
+  return props.meridianFlipData.Steps.findIndex((step) => !step.Finished) || 0;
+});
+
 // Check if step is current
 const isStepCurrent = (index) => {
   return index === currentStepIndex.value;

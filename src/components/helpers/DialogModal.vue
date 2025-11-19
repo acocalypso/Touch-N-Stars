@@ -69,14 +69,33 @@ import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 const dialogStore = useDialogStore();
 
 const showDialog = computed(() => {
-  return dialogStore.dialogs && dialogStore.dialogs.length > 0;
+  if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return false;
+
+  // Zeige Dialog nur, wenn es keinen AvalonDock floating window gibt
+  return dialogStore.dialogs.some((dialog) => {
+    return (
+      !dialog.ContentType?.includes('AvalonDock') &&
+      !dialog.ContentType?.includes('FloatingWindowContentHost')
+    );
+  });
 });
 
 const currentDialog = computed(() => {
   if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return null;
 
-  // Zeige den letzten Dialog aus dem Array (neuester)
-  return dialogStore.dialogs[dialogStore.dialogs.length - 1];
+  // Zeige den letzten Dialog aus dem Array (neuester), außer AvalonDock floating windows
+  for (let i = dialogStore.dialogs.length - 1; i >= 0; i--) {
+    const dialog = dialogStore.dialogs[i];
+    if (
+      !dialog.ContentType?.includes('AvalonDock') &&
+      !dialog.ContentType?.includes('FloatingWindowContentHost')
+    ) {
+      return dialog;
+    }
+  }
+
+  // Kein Dialog gefunden
+  return null;
 });
 
 // TPPA (Polar Alignment) Dialog Detection
@@ -96,7 +115,10 @@ const isManualRotatorDialog = computed(() => {
 
 // AutoFocus Dialog Detection
 const isAutoFocusDialog = computed(() => {
-  return currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM';
+  return (
+    currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM' ||
+    currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM'
+  );
 });
 
 // Meridian Flip Dialog Detection

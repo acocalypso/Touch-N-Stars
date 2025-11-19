@@ -1490,6 +1490,17 @@ const apiService = {
     }
   },
 
+  async livestackStatus() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error checking livestack running state:', error);
+      throw error;
+    }
+  },
+
   async livestackImageAvailable() {
     try {
       const { BASE_URL } = getUrls();

@@ -290,12 +290,11 @@ const handleWebSocketStatus = (status) => {
 const handleWebSocketMessage = async (message) => {
   // Handle STACK-UPDATED events
   if (message.Type === 'Socket' && message.Success && message.Response) {
-    const { Target, Filter, Event, StackCount } = message.Response;
-    console.log(
-      `  Event: ${Event}, Target: ${Target}, Filter: ${Filter}, StackCount: ${StackCount}`
-    );
+    const { Event } = message.Response;
 
     if (Event === 'STACK-UPDATED') {
+      const { Target, Filter } = message.Response;
+
       // Use authoritative API to get the count for this specific pair
       await fetchAndUpdateCount(Target, Filter);
 
@@ -311,6 +310,10 @@ const handleWebSocketMessage = async (message) => {
         console.log('Force reloading current image due to stack update');
         await forceLoadImage(Target, Filter);
       }
+    } else if (Event === 'STACK-STATUS') {
+      const { Status } = message.Response;
+      livestackStore.status = Status;
+      console.log('Current status:', livestackStore.status);
     }
   }
 };
@@ -371,9 +374,14 @@ onMounted(async () => {
     }
     // Subscribe to livestack events
     websocketChannelService.subscribe('STACK-UPDATED');
+    websocketChannelService.subscribe('STACK-STATUS');
   } catch (error) {
     console.error('Failed to connect WebSocket for livestack:', error);
   }
+
+  // Initial Livestack state
+  const initialStatus = await apiService.livestackStatus();
+  livestackStore.status = initialStatus.Response || 'Stopped';
 
   // Initial check for available images
   await checkImageAvailability();

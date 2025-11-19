@@ -1,41 +1,66 @@
 <template>
-  <div class="flex items-center">
+  <div :class="['counter-wrapper mr-2', { 'counter-wrapper--active': isRunning }]">
     <button
-      :class="[
-        'flex items-center justify-center p-1 w-10 h-10 rounded-full bg-gray-700/50 text-white',
-        store.isStacking
-          ? 'bg-red-600/60 hover:bg-red-600/90 border border-red-400'
-          : 'bg-green-600/60 hover:bg-green-600/90 border border-green-400',
-      ]"
+      class="flex items-center justify-center p-1 w-10 h-10 rounded-full bg-gray-600 text-white border border-gray-400"
       @click="toggleStacking"
     >
-      <StopIcon v-if="store.isStacking" class="w-6 h-6" />
-      <PlayIcon v-else class="w-6 h-6" />
+      <StopIcon v-if="isRunning" class="w-6 h-6 text-red-500" />
+      <PlayIcon v-else-if="isStopped" class="w-6 h-6 text-green-500" />
+      <ArrowPathIcon v-else class="w-6 h-6 animate-spin text-orange-500" />
     </button>
-    <ArrowPathIcon
-      :class="[
-        'w-5 h-5 mx-2',
-        store.isStacking ? 'text-green-400 animate-spin slow-spin' : ' text-gray-400 ',
-      ]"
-    />
   </div>
 </template>
 
 <script setup>
-import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
-import { useLivestackStore } from '../store/livestackStore';
+import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/solid';
+import { useLivestackStore } from '../store/livestackStore.js';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
 
 const store = useLivestackStore();
-const emit = defineEmits(['start', 'stop']);
+const { status } = storeToRefs(store);
+
+console.log('Livestack status in StartStopButton:', status.value);
+
+const isRunning = computed(() => status.value === 'Running');
+const isStopped = computed(() => status.value === 'Stopped');
+
+const emit = defineEmits(['pressed']);
 
 const toggleStacking = () => {
-  store.isStacking = !store.isStacking;
-  emit(store.isStacking ? 'start' : 'stop');
+  emit('pressed');
 };
 </script>
 
 <style scoped>
-.slow-spin {
-  animation-duration: 2s;
+.counter-wrapper {
+  position: relative;
+}
+.counter-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 4px solid;
+  border-radius: 9999px;
+  opacity: 0;
+  border-color: rgba(89, 154, 24, 0.6);
+  transform: scale(1);
+  pointer-events: none;
+}
+.counter-wrapper--active::before {
+  opacity: 1;
+  border-top-color: rgba(96, 252, 11, 0.9);
+  animation: counter-spin 2s linear infinite;
+}
+@keyframes counter-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

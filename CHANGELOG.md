@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [LivestackPlugin0.5.0] - 2025-11-19
+### Important information
+- Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
+
+### Added
+- Livestack running status is shown in Livestack screen. When a user directly in N.I.N.A. or a sequece, starts or stops the Livestack process, the new status is shown in the plugin.
+- New layout that show permanently the curently show Target/Filter combination and frame count.
+- Configuration option to show only the RGB composite, instead of each channel.
+
 ## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
 ### Fixed
 - Fixed Camera settings layout

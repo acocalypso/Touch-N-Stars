@@ -22,18 +22,15 @@
 </template>
 
 <script setup>
-import { watch } from 'vue';
 import StackFrameCounter from './FrameCounter.vue';
 import LiveStackConfiguration from './LivestackConfiguration.vue';
 import TargetFilterSelector from './TargetFilterSelector.vue';
 import StartStopButton from './StartStopButton.vue';
 import { useLivestackStore } from '../store/livestackStore.js';
-import { storeToRefs } from 'pinia';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 
 const store = useLivestackStore();
-const attributes = storeToRefs(store);
 const { t } = useI18n();
 const emit = defineEmits(['error']);
 

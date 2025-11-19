@@ -315,10 +315,15 @@ export const useImagetStore = defineStore('imageStore', {
           // Try to use cached version for speed, fallback to regular version
           let stretchedBlob;
           try {
+            console.log('[ImageStore] Attempting to use cached image data...');
             stretchedBlob = await applyLevelsStretchCached(latestBlackPoint, latestWhitePoint);
+            console.log('[ImageStore] Used cached image data (fast)');
           } catch (cacheError) {
             // If cache not available, use regular method
-            console.log('[ImageStore] Cache not available, using regular stretch method');
+            console.log(
+              '[ImageStore] Cache not available, using regular stretch method:',
+              cacheError.message
+            );
             stretchedBlob = await applyLevelsStretch(
               this.imageData,
               latestBlackPoint,

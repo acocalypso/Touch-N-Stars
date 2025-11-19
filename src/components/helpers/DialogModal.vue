@@ -71,35 +71,24 @@ const dialogStore = useDialogStore();
 const showDialog = computed(() => {
   if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return false;
 
-  // Zeige Dialog nur, wenn es einen bekannten Dialog gibt
-  return dialogStore.dialogs.some((dialog) => isKnownDialog(dialog));
+  // Zeige Dialog nur, wenn es keinen AvalonDock floating window gibt
+  return dialogStore.dialogs.some((dialog) => {
+    return !dialog.ContentType?.includes('AvalonDock') && !dialog.ContentType?.includes('FloatingWindowContentHost');
+  });
 });
-
-// Liste der bekannten Dialog-Types (Whitelist)
-const knownDialogTypes = [
-  'NINA.Plugins.PolarAlignment.TPAPAVM',
-  'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM',
-  'NINA.Equipment.Equipment.MyRotator.ManualRotator',
-  'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM',
-  'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM',
-  'NINA.WPF.Base.ViewModel.MeridianFlipVM',
-];
-
-const isKnownDialog = (dialog) => {
-  return dialog && knownDialogTypes.includes(dialog.ContentType);
-};
 
 const currentDialog = computed(() => {
   if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return null;
 
-  // Finde den letzten bekannten Dialog aus dem Array
+  // Zeige den letzten Dialog aus dem Array (neuester), außer AvalonDock floating windows
   for (let i = dialogStore.dialogs.length - 1; i >= 0; i--) {
-    if (isKnownDialog(dialogStore.dialogs[i])) {
-      return dialogStore.dialogs[i];
+    const dialog = dialogStore.dialogs[i];
+    if (!dialog.ContentType?.includes('AvalonDock') && !dialog.ContentType?.includes('FloatingWindowContentHost')) {
+      return dialog;
     }
   }
 
-  // Kein bekannter Dialog gefunden
+  // Kein Dialog gefunden
   return null;
 });
 

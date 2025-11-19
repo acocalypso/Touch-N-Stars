@@ -111,7 +111,7 @@ const isDraggingWhite = ref(false);
 
 // Throttle updates to reduce performance impact
 let lastEmitTime = 0;
-const EMIT_THROTTLE_MS = 1000; 
+const EMIT_THROTTLE_MS = 300; 
 const throttledEmit = () => {
   const now = Date.now();
   if (now - lastEmitTime >= EMIT_THROTTLE_MS) {

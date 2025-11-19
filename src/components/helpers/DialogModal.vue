@@ -73,7 +73,10 @@ const showDialog = computed(() => {
 
   // Zeige Dialog nur, wenn es keinen AvalonDock floating window gibt
   return dialogStore.dialogs.some((dialog) => {
-    return !dialog.ContentType?.includes('AvalonDock') && !dialog.ContentType?.includes('FloatingWindowContentHost');
+    return (
+      !dialog.ContentType?.includes('AvalonDock') &&
+      !dialog.ContentType?.includes('FloatingWindowContentHost')
+    );
   });
 });
 
@@ -83,7 +86,10 @@ const currentDialog = computed(() => {
   // Zeige den letzten Dialog aus dem Array (neuester), außer AvalonDock floating windows
   for (let i = dialogStore.dialogs.length - 1; i >= 0; i--) {
     const dialog = dialogStore.dialogs[i];
-    if (!dialog.ContentType?.includes('AvalonDock') && !dialog.ContentType?.includes('FloatingWindowContentHost')) {
+    if (
+      !dialog.ContentType?.includes('AvalonDock') &&
+      !dialog.ContentType?.includes('FloatingWindowContentHost')
+    ) {
       return dialog;
     }
   }
@@ -109,7 +115,10 @@ const isManualRotatorDialog = computed(() => {
 
 // AutoFocus Dialog Detection
 const isAutoFocusDialog = computed(() => {
-  return currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM' || currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM';
+  return (
+    currentDialog.value?.ContentType === 'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM' ||
+    currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM'
+  );
 });
 
 // Meridian Flip Dialog Detection

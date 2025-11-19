@@ -325,8 +325,8 @@ onMounted(async () => {
     return;
   }
 
-  // Check API version - LiveStack requires 2.2.11.0 or higher
-  const minimumApiVersion = '2.2.11.0';
+  // Check API version - LiveStack requires 2.2.12.0 or higher
+  const minimumApiVersion = '2.2.12.0';
   const isVersionValid = store.checkVersionNewerOrEqual(store.currentApiVersion, minimumApiVersion);
 
   if (!isVersionValid) {

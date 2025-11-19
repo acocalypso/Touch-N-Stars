@@ -31,7 +31,6 @@ import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import ButtonWithOptions from './ButtonWithOptions.vue';
 import { useLivestackStore } from '../store/livestackStore.js';
-import { _ } from 'core-js';
 
 const { isPortrait } = defineProps({
   isPortrait: {

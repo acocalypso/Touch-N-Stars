@@ -97,6 +97,12 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/time`);
   },
 
+  //------------------------------------------- event-history -------------------------------------------------
+  async getEventHistory() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/event-history`);
+  },
+
   //------------------------------------- PHD2 ------------------------------------------
   //https://github.com/acocalypso/N.I.N.A-Plugin-for-Touch-N-Stars/blob/PHD2/PHD2_API_README.md
   async connectPHD2() {

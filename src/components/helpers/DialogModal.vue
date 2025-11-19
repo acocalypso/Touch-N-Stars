@@ -79,6 +79,21 @@ const currentDialog = computed(() => {
   return dialogStore.dialogs[dialogStore.dialogs.length - 1];
 });
 
+// Backend identifies dialogs by a window hash; fall back to legacy fields if needed
+const windowIdentifier = computed(() => {
+  const dialog = currentDialog.value;
+  if (!dialog) return null;
+
+  return (
+    dialog.WindowHashCode ||
+    dialog.WindowHandle ||
+    dialog.WindowId ||
+    dialog.WindowTitle ||
+    dialog.Title ||
+    null
+  );
+});
+
 // TPPA (Polar Alignment) Dialog Detection
 const isTPPADialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.Plugins.PolarAlignment.TPAPAVM';
@@ -115,12 +130,12 @@ const visibleCommands = computed(() => {
 });
 
 async function handleButtonClick(buttonName) {
-  // Verwende den Titel als window-Parameter
-  const windowTitle = currentDialog.value?.Title;
-  console.log('Clicking button:', buttonName, 'Window Title:', windowTitle);
+  // Verwende den Fenster-Identifikator als window-Parameter
+  const windowKey = windowIdentifier.value;
+  console.log('Clicking button:', buttonName, 'Window Identifier:', windowKey);
   console.log('Current dialog:', currentDialog.value);
   console.log('Available commands:', currentDialog.value?.AvailableCommands);
-  await dialogStore.clickButton(buttonName, windowTitle);
+  await dialogStore.clickButton(buttonName, windowKey);
 }
 
 async function handleClose() {
@@ -134,7 +149,7 @@ async function handleClose() {
     }
   }
 
-  const windowTitle = currentDialog.value?.Title;
+  const windowKey = windowIdentifier.value;
   const availableCommands = currentDialog.value?.AvailableCommands || [];
 
   // Filtere PART_* und UnnamedButton heraus um den echten Button zu finden
@@ -145,12 +160,12 @@ async function handleClose() {
   // Wenn es genau einen echten Button gibt, drücke diesen
   if (realButtons.length === 1) {
     const buttonName = realButtons[0];
-    console.log('Closing dialog with single button:', buttonName, 'Window Title:', windowTitle);
-    await dialogStore.clickButton(buttonName, windowTitle);
+    console.log('Closing dialog with single button:', buttonName, 'Window Identifier:', windowKey);
+    await dialogStore.clickButton(buttonName, windowKey);
   } else {
     // Ansonsten verwende PART_CloseButton (Standard)
-    console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);
-    await dialogStore.clickButton('PART_CloseButton', windowTitle);
+    console.log('Closing dialog with PART_CloseButton, Window Identifier:', windowKey);
+    await dialogStore.clickButton('PART_CloseButton', windowKey);
   }
 }
 </script>

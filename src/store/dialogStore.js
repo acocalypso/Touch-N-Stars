@@ -24,6 +24,7 @@ export const useDialogStore = defineStore('dialogStore', {
         if (response.Success) {
           this.dialogs = response.Response.Dialogs || [];
           //console.log('Fetched dialogs:',response.Response);
+          //console.log('[DialogStore] dialogs.length' , this.dialogs.length)
           this.dialogCount = response.Response.Count;
           // Store MeridianFlip data if available
           if (response.Response.MeridianFlip) {
@@ -33,7 +34,7 @@ export const useDialogStore = defineStore('dialogStore', {
           if (response.Response.SlewAndCenter) {
             this.slewAndCenterData = response.Response.SlewAndCenter;
           }
-          //console.log('Dialog count:', this.dialogCount);
+          console.log('Dialog count:', this.dialogCount);
         }
       } catch (error) {
         console.error('Error fetching dialogs:', error);

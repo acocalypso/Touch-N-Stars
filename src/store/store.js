@@ -309,7 +309,7 @@ export const apiStore = defineStore('store', {
         // Fetch event history only every 15 seconds (or on startup if lastEventHistoryFetch = 0)
         const now = Date.now();
         if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 15000) {
-          console.log('[Store] Fetch history');
+          //console.log('[Store] Fetch history');
           const eventHistoryResponse = await apiService.getEventHistory();
 
           // Process event history to determine connection status
@@ -668,12 +668,12 @@ export const apiStore = defineStore('store', {
     setPageReturnedFromBackground() {
       this.pageReturnedFromBackground = true;
       this.pageReturnTime = Date.now();
-      console.log('Page returned from background at:', new Date().toISOString());
+      console.log('[API Store] Page returned from background at:', new Date().toISOString());
 
       setTimeout(() => {
         this.pageReturnedFromBackground = false;
         this.pageReturnTime = null;
-        console.log('Page background suppression ended');
+        //console.log('Page background suppression ended');
       }, 10000);
     },
 
@@ -813,7 +813,7 @@ export const apiStore = defineStore('store', {
         const stateKey = deviceMap[deviceName];
         const isConnected = event.Event.endsWith('-CONNECTED');
         this[stateKey] = isConnected;
-        console.log(`Device ${deviceName}: ${event.Event} -> ${isConnected}`);
+        //console.log(`Device ${deviceName}: ${event.Event} -> ${isConnected}`);
       });
 
       // Clear data for disconnected devices

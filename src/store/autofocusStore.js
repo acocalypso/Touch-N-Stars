@@ -17,7 +17,7 @@ export const useAutofocusStore = defineStore('autofocus', {
       this.isFinished = false;
 
       if (!events || events.length === 0) {
-        console.log('[Autofocus] No events to process');
+        //console.log('[Autofocus] No events to process');
         return;
       }
 
@@ -32,21 +32,21 @@ export const useAutofocusStore = defineStore('autofocus', {
 
       // If no AUTOFOCUS-STARTING found, nothing to process
       if (latestStartingIndex === -1) {
-        console.log('[Autofocus] No AUTOFOCUS-STARTING event found');
+        //console.log('[Autofocus] No AUTOFOCUS-STARTING event found');
         return;
       }
 
       const startEvent = events[latestStartingIndex];
       this.lastStartTime = startEvent.Time;
       this.isRunning = true;
-      console.log('[Autofocus] Found AUTOFOCUS-STARTING at', startEvent.Time);
+      //console.log('[Autofocus] Found AUTOFOCUS-STARTING at', startEvent.Time);
 
       // Check for AUTOFOCUS-FINISHED after the AUTOFOCUS-STARTING
       for (let i = latestStartingIndex - 1; i >= 0; i--) {
         if (events[i].Event === 'AUTOFOCUS-FINISHED') {
           this.isFinished = true;
           this.isRunning = false;
-          console.log('[Autofocus] Found AUTOFOCUS-FINISHED at', events[i].Time);
+          //console.log('[Autofocus] Found AUTOFOCUS-FINISHED at', events[i].Time);
           break;
         }
       }

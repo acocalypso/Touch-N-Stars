@@ -53,7 +53,6 @@ export const useImagetStore = defineStore('imageStore', {
       }
 
       try {
-        console.log('[ImageStore] Calculating histogram for image...');
         const histogram = await calculateHistogram(imageUrl);
         this.imageHistogram = histogram;
 
@@ -70,15 +69,12 @@ export const useImagetStore = defineStore('imageStore', {
               ctx.drawImage(img, 0, 0);
               const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
               cacheOriginalImageData(imageUrl, imageData);
-              console.log('[ImageStore] Image data cached for fast stretch operations');
             }
           };
           img.src = imageUrl;
         } catch (cacheErr) {
-          console.warn('[ImageStore] Could not cache image data:', cacheErr);
+          // Silently ignore cache errors
         }
-
-        console.log('[ImageStore] Histogram calculated successfully');
       } catch (error) {
         console.error('[ImageStore] Error calculating histogram:', error);
         this.imageHistogram = null;
@@ -308,22 +304,12 @@ export const useImagetStore = defineStore('imageStore', {
           // Show loading spinner while processing
           this.isStretchProcessing = true;
 
-          console.log(
-            `[ImageStore] Applying stretch: blackPoint=${latestBlackPoint}, whitePoint=${latestWhitePoint}`
-          );
-
           // Try to use cached version for speed, fallback to regular version
           let stretchedBlob;
           try {
-            console.log('[ImageStore] Attempting to use cached image data...');
             stretchedBlob = await applyLevelsStretchCached(latestBlackPoint, latestWhitePoint);
-            console.log('[ImageStore] Used cached image data (fast)');
           } catch (cacheError) {
             // If cache not available, use regular method
-            console.log(
-              '[ImageStore] Cache not available, using regular stretch method:',
-              cacheError.message
-            );
             stretchedBlob = await applyLevelsStretch(
               this.imageData,
               latestBlackPoint,
@@ -335,8 +321,6 @@ export const useImagetStore = defineStore('imageStore', {
           }
           this.stretchedImageData = URL.createObjectURL(stretchedBlob);
           this._lastApplyStretchTime = Date.now();
-
-          console.log('[ImageStore] Stretch applied successfully');
         } catch (error) {
           console.error('[ImageStore] Error applying stretch:', error);
           this.stretchedImageData = null;
@@ -359,7 +343,7 @@ export const useImagetStore = defineStore('imageStore', {
       if (this.imageData) {
         this.calculateImageHistogram(this.imageData);
       }
-      console.log('[ImageStore] Stretch reset');
+      //console.log('[ImageStore] Stretch reset');
     },
   },
 });

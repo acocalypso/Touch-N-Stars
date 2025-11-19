@@ -37,13 +37,23 @@ import { computed, ref } from 'vue';
 import apiService from '@/services/apiService';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useToastStore } from '@/store/toastStore';
+import { useI18n } from 'vue-i18n';
 
 const showModal = ref(false);
 
 const framingStore = useFramingStore();
 const sequenceStore = useSequenceStore();
+const toastStore = useToastStore();
+const { t } = useI18n();
 
 const hasTargetSelected = computed(() => !!framingStore.selectedItem);
+const hasSequenceLoaded = computed(
+  () =>
+    sequenceStore.sequenceIsLoaded &&
+    Array.isArray(sequenceStore.sequenceInfo) &&
+    sequenceStore.sequenceInfo.length > 0
+);
 
 async function handleConfirm() {
   showModal.value = false;
@@ -66,15 +76,31 @@ async function setSequenceTarget() {
 
   console.log('Name:', name, 'RA:', ra, 'Dec:', dec, 'Rotation:', rotation);
 
-  if (!sequenceStore.sequenceIsLoaded) {
+  if (!hasSequenceLoaded.value) {
     console.error('No sequence loaded');
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message: t('components.fav_target.modal_sequence_error.message'),
+    });
     return;
   }
 
   try {
     await apiService.sequnceTargetSet(name, ra, dec, rotation, index);
+    toastStore.showToast({
+      type: 'success',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message: t('components.fav_target.modal_sequence_ok.message'),
+    });
   } catch (error) {
     console.error('Error setting sequence target:', error);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message:
+        error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
+    });
   }
 }
 </script>

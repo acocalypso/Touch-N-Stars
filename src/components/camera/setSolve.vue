@@ -1,21 +1,21 @@
 <template>
   <div
-    class="flex flex-col gap-2 items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+    class="flex flex-col gap-2 items-center justify-between w-full border border-gray-500 p-1 md:p-2 rounded-lg"
   >
     <div class="flex flex-row items-center justify-between w-full">
-      <label for="toggle_light" class="text-gray-200">
+      <label for="toggle_light" class="text-xs md:text-sm text-gray-200">
         {{ $t('components.camera.set_use_platesolve') }}
       </label>
       <div>
         <toggleButton
           @click="toggleSolve"
           :status-value="settingsStore.camera.useSolve"
-          class="pr-5 pl-5 justify-center"
+          class="pr-5 pl-5 justify-center h-7 md:h-8"
         />
       </div>
     </div>
     <div class="flex flex-row items-center justify-between w-full">
-      <label for="toggle_light" class="text-gray-200">
+      <label for="toggle_light" class="text-xs md:text-sm text-gray-200">
         {{ $t('components.camera.set_use_solve_sync_to_mount') }}
       </label>
       <div>
@@ -23,7 +23,7 @@
           @click="toggleSync"
           :status-value="settingsStore.camera.useSyncSolveToMount"
           :disabled="!settingsStore.camera.useSolve || !store.mountInfo.Connected"
-          class="pr-5 pl-5 justify-center"
+          class="pr-5 pl-5 justify-center h-7 md:h-8"
         />
       </div>
     </div>

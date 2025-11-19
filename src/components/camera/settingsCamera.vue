@@ -1,9 +1,9 @@
 <template>
   <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2">
     <div
-      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
     >
-      <label for="exposure" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
+      <label for="exposure" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.exposure_time') }}
       </label>
       <input
@@ -11,16 +11,16 @@
         v-model.number="settingsStore.camera.exposureTime"
         @change="setExposureTime"
         type="number"
-        class="default-input ml-auto h-8 w-28"
+        class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
         placeholder="sek"
         :class="statusClassExposureTime"
       />
     </div>
 
     <div
-      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
     >
-      <label for="gain" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
+      <label for="gain" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
@@ -28,7 +28,7 @@
         id="gain"
         @select="setGain"
         v-model.number="gain"
-        class="default-select ml-auto h-8 w-28"
+        class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
         :class="statusClassGain"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
@@ -42,7 +42,7 @@
         @change="setGain"
         v-model.number="settingsStore.camera.gain"
         type="number"
-        class="default-input ml-auto h-8 w-28"
+        class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
         placeholder="1"
         :class="statusClassGain"
       />
@@ -50,9 +50,9 @@
 
     <div
       v-if="store.cameraInfo.CanSetOffset"
-      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
     >
-      <label for="offset" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
+      <label for="offset" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.offset') }}
       </label>
       <select
@@ -60,7 +60,7 @@
         id="offset"
         v-model.number="settingsStore.camera.offset"
         @change="setOffset"
-        class="default-select ml-auto h-8 w-28"
+        class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
         :class="statusClassOffset"
       >
         <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
@@ -75,7 +75,7 @@
         @change="setOffset"
         :min="store.cameraInfo.OffsetMin"
         :max="store.cameraInfo.OffsetMax"
-        class="default-input ml-auto h-8 w-28"
+        class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
         placeholder="0"
         :class="statusClassOffset"
       />

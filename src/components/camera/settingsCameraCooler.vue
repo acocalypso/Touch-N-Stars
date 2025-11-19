@@ -30,24 +30,30 @@
 
         <div class="border-t border-slate-600/40 mb-3"></div>
 
-        <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
-          <label for="Cooler" class="text-gray-200 font-medium">
+        <div
+          class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg"
+        >
+          <label for="Cooler" class="text-xs md:text-sm text-gray-200 font-medium">
             {{ $t('components.camera.camera_cooling') }}
           </label>
-          <toggleButton @click="toggleCooling" :status-value="cameraStore.buttonCoolerOn" />
+          <toggleButton
+            @click="toggleCooling"
+            :status-value="cameraStore.buttonCoolerOn"
+            class="h-7 md:h-8"
+          />
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 md:p-2 rounded-lg"
           >
-            <label for="TemperatureSetPoint" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
+            <label for="TemperatureSetPoint" class="text-xs md:text-sm mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.target_temperature') }}:
             </label>
             <input
               id="TemperatureSetPoint"
               v-model="cameraStore.coolingTemp"
               type="number"
-              class="default-input ml-auto sm:ml-0 h-8 w-20 sm:w-full"
+              class="default-input ml-auto sm:ml-0 h-7 md:h-8 w-16 md:w-20 sm:w-full"
               placeholder="1"
               step="1"
               @change="setCoolingTemp"
@@ -57,16 +63,16 @@
           </div>
 
           <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-2 rounded-lg"
+            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 md:p-2 rounded-lg"
           >
-            <label for="CoolingDurationTime" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
+            <label for="CoolingDurationTime" class="text-xs md:text-sm mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.cooling_time') }}
             </label>
             <input
               id="CoolingDurationTime"
               v-model="cameraStore.coolingTime"
               type="number"
-              class="default-input ml-auto sm:ml-0 h-8 w-20 sm:w-full"
+              class="default-input ml-auto sm:ml-0 h-7 md:h-8 w-16 md:w-20 sm:w-full"
               placeholder="1"
               step="1"
               @change="setCoolingTime"
@@ -77,24 +83,30 @@
         </div>
         <div class="border-t border-slate-600/40 my-4"></div>
 
-        <div class="flex items-center justify-between mb-2 border border-gray-500 p-2 rounded-lg">
-          <label for="Cooler" class="text-gray-200 font-medium">
+        <div
+          class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg"
+        >
+          <label for="Cooler" class="text-xs md:text-sm text-gray-200 font-medium">
             {{ $t('components.camera.camera_warming') }}
           </label>
-          <toggleButton @click="toggleWarming" :status-value="cameraStore.buttonWarmingOn" />
+          <toggleButton
+            @click="toggleWarming"
+            :status-value="cameraStore.buttonWarmingOn"
+            class="h-7 md:h-8"
+          />
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <div
-            class="flex justify-between flex-row items-center sm:flex-col w-full sm:w-1/2 border border-gray-500 p-2 rounded-lg"
+            class="flex justify-between flex-row items-center sm:flex-col w-full sm:w-1/2 border border-gray-500 p-1 md:p-2 rounded-lg"
           >
-            <label for="WarmingDurationTime" class="text-sm sm:text-xs mr-3 sm:mb-1 text-gray-200"
+            <label for="WarmingDurationTime" class="text-xs md:text-sm mr-3 sm:mb-1 text-gray-200"
               >{{ $t('components.camera.warm_up_time') }}
             </label>
             <input
               id="WarmingDurationTime"
               v-model="cameraStore.warmingTime"
               type="number"
-              class="default-input ml-auto sm:ml-0 h-8 w-20 sm:w-full"
+              class="default-input ml-auto sm:ml-0 h-7 md:h-8 w-16 md:w-20 sm:w-full"
               step="1"
               @change="setWarmingTime"
               @blur="setWarmingTime"

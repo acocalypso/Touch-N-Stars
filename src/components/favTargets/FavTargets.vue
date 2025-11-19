@@ -86,7 +86,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -102,6 +102,13 @@ const selectedTargetId = ref(null);
 const isModalOpen = ref(false);
 const toastStore = useToastStore();
 const { t } = useI18n();
+
+const hasSequenceLoaded = computed(
+  () =>
+    sequenceStore.sequenceIsLoaded &&
+    Array.isArray(sequenceStore.sequenceInfo) &&
+    sequenceStore.sequenceInfo.length > 0
+);
 
 defineProps({
   showSeqTarget: {
@@ -145,7 +152,7 @@ async function setSequenceTarget(target) {
 
   console.log('Name:', Name, 'RA:', Ra, 'Dec:', Dec, 'Rotation:', Rotation);
 
-  if (!sequenceStore.sequenceIsLoaded) {
+  if (!hasSequenceLoaded.value) {
     console.error('No sequence loaded');
     toastStore.showToast({
       type: 'error',
@@ -164,6 +171,12 @@ async function setSequenceTarget(target) {
     });
   } catch (error) {
     console.error('Error setting sequence target:', error);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message:
+        error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
+    });
   }
 }
 

@@ -289,7 +289,10 @@
       "time": "Tempo",
       "noRunningItems": "Sequence stopped",
       "status": "Status da sequência",
-      "instructions": "Instruções"
+      "instructions": "Instruções",
+      "HFRStDev": "HFR St. Dev",
+      "Max": "Max",
+      "Min": "Min"
     },
     "mount": {
       "title": "Montagem",

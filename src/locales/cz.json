@@ -292,7 +292,10 @@
       "time": "Čas",
       "noRunningItems": "Sekvence zastavena",
       "status": "Stav sekvence",
-      "instructions": "Pokyny"
+      "instructions": "Pokyny",
+      "HFRStDev": "HFR St. Dev",
+      "Max": "Max",
+      "Min": "Min"
     },
     "mount": {
       "title": "Montáž",

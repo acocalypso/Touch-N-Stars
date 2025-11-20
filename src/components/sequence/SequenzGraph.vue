@@ -69,9 +69,7 @@ function getColorForDataSource(source) {
     Min: '#06B6D4', // cyan
     Max: '#F97316', // orange
     Temperature: '#EC4899', // pink
-    Gain: '#10B981', // emerald
-    Offset: '#8B5CF6', // violet
-    ExposureTime: '#6366F1', // indigo
+    HFRStDev: '#6366F1', // indigo
   };
   return colorMap[source] || '#CCCCCC';
 }

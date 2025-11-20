@@ -11,13 +11,17 @@
           Date: dateValue,
           ExposureTime,
           HFR,
+          Min,
+          Max,
           Mean,
           Median,
           StDev,
+          HFRStDev,
           RmsText,
           Temperature,
+          Stars,
           Filter,
-          TargetName,
+          TargetName,    
         }"
       />
 
@@ -71,6 +75,9 @@ const ExposureTime = ref(null);
 const dateValue = ref(null);
 const lastImgIndex = ref(null);
 const TargetName = ref(null);
+const Min = ref(null);
+const Max = ref(null);
+const HFRStDev = ref(null);
 
 async function loadImage(index) {
   try {
@@ -105,6 +112,10 @@ function setSelectedDataset(datasetIndex) {
     ExposureTime.value = selectedData.ExposureTime;
     dateValue.value = selectedData.Date;
     TargetName.value = resolveTargetName(selectedData, datasetIndex);
+    Min.value = selectedData.Min;
+    Max.value = selectedData.Max;
+    HFRStDev.value = selectedData.HFRStDev;
+
   }
 }
 

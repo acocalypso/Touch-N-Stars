@@ -45,11 +45,7 @@
         </ZoomableImage>
 
         <!-- Histogram Overlay -->
-        <div
-          v-if="showHistogram && imageStore.imageData"
-          class="z-50"
-          :class="[histogramClasses]"
-        >
+        <div v-if="showHistogram && imageStore.imageData" class="z-50" :class="[histogramClasses]">
           <HistogramChart
             :data="getHistogram()"
             height="120px"

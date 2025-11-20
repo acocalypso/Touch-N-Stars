@@ -40,7 +40,9 @@
             class="w-6 h-6"
           >
             <!-- Astrophoto histogram: steep rise at start, then smooth decline -->
-            <polyline points="2,18 3,16 4,12 5,8 6,5 7,4 8,3 10,3 12,4 14,6 16,9 18,12 20,15 22,17" />
+            <polyline
+              points="2,18 3,16 4,12 5,8 6,5 7,4 8,3 10,3 12,4 14,6 16,9 18,12 20,15 22,17"
+            />
             <!-- Base line -->
             <line x1="2" y1="20" x2="22" y2="20" />
           </svg>
@@ -69,11 +71,7 @@
             stroke="currentColor"
             class="w-6 h-6"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>

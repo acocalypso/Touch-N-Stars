@@ -93,7 +93,7 @@
         <!-- Histogram Overlay -->
         <div
           v-if="showHistogram && livestackStore.currentImageUrl && getHistogram()"
-          class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70 "
+          class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70"
         >
           <HistogramChart
             :data="getHistogram()"

@@ -312,7 +312,7 @@ const handleWebSocketMessage = async (message) => {
       }
     } else if (Event === 'STACK-STATUS') {
       const { Status } = message.Response;
-      livestackStore.status = Status;
+      livestackStore.setStatus(Status);
       console.log('Current status:', livestackStore.status);
     }
   }
@@ -352,7 +352,7 @@ onMounted(async () => {
 
   livestackPluginAvailable.value = true;
 
-  // Setup WebSocket callbacks auf dem globalen WebSocket Service
+  // Setup WebSocket callbacks on the global WebSocket Service
   const originalStatusCallback = websocketChannelService.statusCallback;
   const originalMessageCallback = websocketChannelService.messageCallback;
 
@@ -366,7 +366,7 @@ onMounted(async () => {
     if (originalMessageCallback) originalMessageCallback(message);
   });
 
-  // Stelle sicher, dass WebSocket verbunden ist
+  // Ensure that WebSocket is connected
   try {
     if (!websocketChannelService.isWebSocketConnected()) {
       console.log('WebSocket not connected, attempting to connect...');
@@ -381,7 +381,7 @@ onMounted(async () => {
 
   // Initial Livestack state
   const initialStatus = await apiService.livestackStatus();
-  livestackStore.status = initialStatus.Response || 'Stopped';
+  livestackStore.setStatus(initialStatus.Response || 'stopped');
 
   // Initial check for available images
   await checkImageAvailability();

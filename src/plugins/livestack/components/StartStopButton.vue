@@ -22,8 +22,8 @@ const { status } = storeToRefs(store);
 
 console.log('Livestack status in StartStopButton:', status.value);
 
-const isRunning = computed(() => status.value === 'running');
-const isStopped = computed(() => status.value === 'stopped');
+const isRunning = computed(() => status.value === 'Running');
+const isStopped = computed(() => status.value === 'Stopped');
 
 const emit = defineEmits(['pressed']);
 

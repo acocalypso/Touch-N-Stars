@@ -10,6 +10,9 @@ export const useSettingsStore = defineStore('settings', {
     showDebugConsole: false,
     showSpecial: false,
     useBetaFeatures: false,
+    livestack: {
+      showFilters: true,
+    },
     coordinates: {
       latitude: null,
       longitude: null,
@@ -312,10 +315,12 @@ export const useSettingsStore = defineStore('settings', {
           'showPlugins',
           'guider',
           'keepAwakeEnabled',
+          'livestack',
           'useBetaFeatures',
           'camera',
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
+          'livestack',
         ],
       },
     ],

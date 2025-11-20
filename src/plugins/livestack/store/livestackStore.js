@@ -22,7 +22,8 @@ export const useLivestackStore = defineStore('livestackStore', {
     },
     showFilters: (state) => {
       const settingsStore = useSettingsStore();
-      return settingsStore.livestack.showFilters;
+      // Fall back to true if persisted settings were missing the livestack section
+      return settingsStore.livestack?.showFilters ?? true;
     },
   },
   actions: {
@@ -52,6 +53,9 @@ export const useLivestackStore = defineStore('livestackStore', {
 
     setShowFilters(show) {
       const settingsStore = useSettingsStore();
+      if (!settingsStore.livestack) {
+        settingsStore.livestack = { showFilters: true };
+      }
       settingsStore.livestack.showFilters = show;
       this.selectedFilter = this._defaultFilter();
     },
@@ -232,7 +236,8 @@ export const useLivestackStore = defineStore('livestackStore', {
     },
     _defaultFilter() {
       const settingsStore = useSettingsStore();
-      if (settingsStore.livestack.showFilters) {
+      const showFilters = settingsStore.livestack?.showFilters ?? true;
+      if (showFilters) {
         return this.availableFilters[0] || null;
       } else {
         return this.availableFilters.find((f) => f.label === 'RGB') || null;

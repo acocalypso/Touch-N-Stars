@@ -60,11 +60,12 @@
       <div class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
-          :imageData="livestackStore.currentImageUrl"
+          :imageData="getStretchSettings().stretchedImageData || livestackStore.currentImageUrl"
           :loading="isLoading"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="false"
+          :showHistogram="true"
           :initialZoom="currentZoomLevel"
           height="100vh"
           :altText="imageAltText"
@@ -72,6 +73,7 @@
           @image-load="handleImageLoad"
           @image-error="handleImageError"
           @download="handleDownload"
+          @histogram-toggle="showHistogram = !showHistogram"
           class="bg-gray-900"
         >
           <!-- Custom placeholder -->
@@ -87,6 +89,21 @@
             </div>
           </template>
         </ZoomableImage>
+
+        <!-- Histogram Overlay -->
+        <div
+          v-if="showHistogram && livestackStore.currentImageUrl && getHistogram()"
+          class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70 "
+        >
+          <HistogramChart
+            :data="getHistogram()"
+            height="100px"
+            :showStats="false"
+            :blackPoint="getStretchSettings().blackPoint"
+            :whitePoint="getStretchSettings().whitePoint"
+            @levels-changed="onLevelsChanged"
+          />
+        </div>
       </div>
 
       <!-- Control Panel Overlay -->
@@ -99,8 +116,10 @@
 import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
+import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import websocketChannelService from '@/services/websocketChannelSocket.js';
 import { useLivestackStore } from '../store/livestackStore.js';
+import { useHistogramStore } from '@/store/histogramStore';
 import { useI18n } from 'vue-i18n';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import { apiStore } from '@/store/store';
@@ -110,6 +129,7 @@ import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
+const histogramStore = useHistogramStore();
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const isLoading = ref(false);
@@ -119,6 +139,7 @@ const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const pageIsLoading = ref(true);
+const showHistogram = ref(false);
 const livestackRefs = storeToRefs(livestackStore);
 const imageAltText = computed(() =>
   t('plugins.livestack.image_alt', { filter: livestackStore.selectedFilter?.label ?? '' })
@@ -193,6 +214,9 @@ const loadImage = async (target, filter, forceReload = false) => {
     // Only update the image URL after successful load
     livestackStore.setCurrentImageUrl(newImageUrl, targetLabel, filterLabel);
     lastUpdated.value = new Date().toLocaleTimeString();
+
+    // Calculate histogram for the new image
+    await histogramStore.calculateHistogramForImage(newImageUrl);
   } catch (error) {
     console.error('Error loading image:', error);
     errorMessage.value = t('plugins.livestack.errors.loading_image', { message: error.message });
@@ -221,6 +245,28 @@ const handleDownload = async (data) => {
     folderPrefix: 'TNS-Images',
     filePrefix: 'TNS',
   });
+};
+
+const getHistogram = () => {
+  if (!livestackStore.currentImageUrl) return null;
+  return histogramStore.getHistogram(livestackStore.currentImageUrl);
+};
+
+const getStretchSettings = () => {
+  if (!livestackStore.currentImageUrl) {
+    return {
+      blackPoint: 0,
+      whitePoint: 255,
+      stretchedImageData: null,
+    };
+  }
+  return histogramStore.getStretchSettings(livestackStore.currentImageUrl);
+};
+
+const onLevelsChanged = async (event) => {
+  if (!livestackStore.currentImageUrl) return;
+  const { blackPoint, whitePoint } = event;
+  await histogramStore.applyStretch(livestackStore.currentImageUrl, blackPoint, whitePoint);
 };
 
 // Fetch info for a given target/filter using the API (authoritative count)

@@ -37,7 +37,7 @@ const emit = defineEmits(['error']);
 const setError = (message) => emit('error', message);
 
 const toogleState = () => {
-  if (store.status === 'Running') {
+  if (store.status === 'running') {
     stopLivestack();
   } else {
     startLivestack();
@@ -46,7 +46,7 @@ const toogleState = () => {
 
 const startLivestack = async () => {
   const previousStatus = store.status;
-  store.status = 'Waiting';
+  store.status = 'waiting';
   setError(null);
 
   try {
@@ -69,7 +69,7 @@ const startLivestack = async () => {
   }
 
   // Assume running after successful start until websocket updates
-  store.status = 'Running';
+  store.status = 'running';
 };
 
 const stopLivestack = async () => {
@@ -81,7 +81,7 @@ const stopLivestack = async () => {
     const result = await apiService.livestackStop();
     if (result.Success) {
       console.log('Livestack stop successfully');
-      store.status = 'Stopped';
+      store.status = 'stopped';
     } else {
       setError(result.Error || t('plugins.livestack.errors.stop_failed'));
       store.status = previousStatus;

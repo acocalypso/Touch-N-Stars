@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './imageStore';
+import livestack from '@/plugins/livestack';
+import { get, set } from 'lodash';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -83,6 +85,9 @@ export const useSettingsStore = defineStore('settings', {
     },
     guider: {
       phd2ForceCalibration: localStorage.getItem('phd2ForceCalibration') === 'true',
+    },
+    livestack: {
+      showFilters: true,
     },
     instanceColorClasses: [
       'bg-gray-900/95',
@@ -293,6 +298,14 @@ export const useSettingsStore = defineStore('settings', {
     setGraphDataSource2(dataSource) {
       this.monitorViewSetting.graphDataSource2 = dataSource;
     },
+
+    getLivestackShowFilters() {
+      return this.livestack.showFilters;
+    },
+
+    setLivestackShowFilters(value) {
+      this.livestack.showFilters = value;
+    },
   },
   persist: {
     enabled: true,
@@ -316,6 +329,7 @@ export const useSettingsStore = defineStore('settings', {
           'camera',
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
+          'livestack',
         ],
       },
     ],

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import { useSettingsStore } from '@/store/settingsStore';
 
 export const useLivestackStore = defineStore('livestackStore', {
   state: () => ({
@@ -10,7 +11,6 @@ export const useLivestackStore = defineStore('livestackStore', {
     selectedTarget: null,
     currentImageUrl: null,
     lastImageUpdate: null,
-    showFilters: true,
     status: 'stopped',
   }),
   getters: {
@@ -18,6 +18,10 @@ export const useLivestackStore = defineStore('livestackStore', {
       if (state.selectedTarget == null) return '--';
       return state.selectedFilter?.count ?? '--';
     },
+    showFilters: (state) => {
+      const settingsStore = useSettingsStore();
+      return settingsStore.livestack.showFilters;
+    }
   },
   actions: {
     initFromCounts(counts = []) {
@@ -43,6 +47,13 @@ export const useLivestackStore = defineStore('livestackStore', {
         this.selectedFilter = this._defaultFilter();
       }
     },
+
+    setShowFilters(show) {
+      const settingsStore = useSettingsStore();
+      settingsStore.livestack.showFilters = show;
+      this.selectedFilter = this._defaultFilter();
+    },
+
     selectTarget(targetLabel) {
       const found = this.availableTargets.find((t) => t.label === targetLabel);
       this.selectedTarget =
@@ -51,6 +62,7 @@ export const useLivestackStore = defineStore('livestackStore', {
       this.availableFilters = this._filtersForTarget(this.selectedTarget?.label);
       this.selectedFilter = this._defaultFilter();
     },
+
     selectFilter(filterLabel) {
       this.selectedFilter = this.availableFilters.find((f) => f.label === filterLabel) || null;
     },
@@ -90,6 +102,7 @@ export const useLivestackStore = defineStore('livestackStore', {
           this._defaultFilter();
       }
     },
+
     setCurrentImageUrl(imageUrl, target = null, filter = null) {
       // Clean up previous image URL if it exists
       if (this.currentImageUrl) {
@@ -100,6 +113,7 @@ export const useLivestackStore = defineStore('livestackStore', {
       this.currentImageFilter = filter;
       this.lastImageUpdate = new Date().toISOString();
     },
+
     clearCurrentImageUrl() {
       if (this.currentImageUrl) {
         URL.revokeObjectURL(this.currentImageUrl);
@@ -216,7 +230,8 @@ export const useLivestackStore = defineStore('livestackStore', {
       return Array.from(filtersMap.values());
     },
     _defaultFilter() {
-      if (this.showFilters) {
+      const settingsStore = useSettingsStore();
+      if (settingsStore.livestack.showFilters) {
         return this.availableFilters[0] || null;
       } else {
         return this.availableFilters.find((f) => f.label === 'RGB') || null;

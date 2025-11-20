@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useSettingsStore } from '@/store/settingsStore';
 
 export const useLivestackStore = defineStore('livestackStore', {
   state: () => ({
@@ -9,13 +10,16 @@ export const useLivestackStore = defineStore('livestackStore', {
     selectedTarget: null,
     currentImageUrl: null,
     lastImageUpdate: null,
-    showFilters: true,
-    status: 'Stopped',
+    status: 'stopped',
   }),
   getters: {
     currentCounter: (state) => {
       if (state.selectedTarget == null) return '--';
       return state.selectedFilter?.count ?? '--';
+    },
+    showFilters: () => {
+      const settingsStore = useSettingsStore();
+      return settingsStore.getLivestackShowFilters();
     },
   },
   actions: {
@@ -120,11 +124,19 @@ export const useLivestackStore = defineStore('livestackStore', {
       // Force reload even if cached - used for websocket updates
       return true;
     },
+    setStatus(status) {
+      // Normalize status to lowercase for consistency
+      if (!status) {
+        this.status = 'stopped';
+        return;
+      }
+      this.status = status.toLowerCase();
+    },
     toogleShowFilters() {
-      this.showFilters = !this.showFilters;
+      const settingsStore = useSettingsStore();
+      settingsStore.setLivestackShowFilters(!settingsStore.getLivestackShowFilters());
       this.selectedFilter = this._defaultFilter();
     },
-
     // Collect filters for a given target from the current tuples
     _filtersForTarget(targetLabel) {
       if (!targetLabel) return [];
@@ -141,7 +153,8 @@ export const useLivestackStore = defineStore('livestackStore', {
       return Array.from(filtersMap.values());
     },
     _defaultFilter() {
-      if (this.showFilters) {
+      const settingsStore = useSettingsStore();
+      if (settingsStore.getLivestackShowFilters()) {
         return this.availableFilters[0] || null;
       } else {
         return this.availableFilters.find((f) => f.label === 'RGB') || null;

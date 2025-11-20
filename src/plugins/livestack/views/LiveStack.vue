@@ -352,7 +352,7 @@ onMounted(async () => {
 
   livestackPluginAvailable.value = true;
 
-  // Setup WebSocket callbacks auf dem globalen WebSocket Service
+  // Setup WebSocket callbacks on the global WebSocket Service
   const originalStatusCallback = websocketChannelService.statusCallback;
   const originalMessageCallback = websocketChannelService.messageCallback;
 
@@ -366,7 +366,7 @@ onMounted(async () => {
     if (originalMessageCallback) originalMessageCallback(message);
   });
 
-  // Stelle sicher, dass WebSocket verbunden ist
+  // Ensure that WebSocket is connected
   try {
     if (!websocketChannelService.isWebSocketConnected()) {
       console.log('WebSocket not connected, attempting to connect...');

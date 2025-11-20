@@ -70,12 +70,22 @@ function getColorForDataSource(source) {
     Max: '#F97316', // orange
     Temperature: '#EC4899', // pink
     HFRStDev: '#6366F1', // indigo
+    RmsText: '#6366F1', // indigo
   };
   return colorMap[source] || '#CCCCCC';
 }
 
 function getDataForSource(data, source) {
-  return data.map((item) => item[source]);
+  return data.map((item) => {
+    const value = item[source] ?? item['RmsText'];
+    // Extract first number from RMS format "Tot: 0.00 (0.00")"
+    if (source === 'RMS' && typeof value === 'string') {
+      const match = value.match(/(-?\d+\.?\d*)\s*\(/);
+      const num = match ? parseFloat(match[1]) : NaN;
+      return num;
+    }
+    return value;
+  });
 }
 
 function handleCanvasClick(event) {

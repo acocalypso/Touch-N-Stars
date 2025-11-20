@@ -164,6 +164,7 @@ const availableSources = [
   'Max',
   'Temperature',
   'HFRStDev',
+  'RMS',
 ];
 
 const dataLength = computed(() => apiStoreInstance.imageHistoryInfo?.length ?? 0);

@@ -13,27 +13,70 @@
     </div>
     <!-- Inhalt der Modal -->
     <div v-else class="relative w-full h-full bg-gray-900 z-60 flex items-center justify-center">
-      <button
-        class="absolute rounded-full h-8 w-8 shadow-lg shadow-black flex justify-center items-center bg-gray-800 top-4 right-4 text-white hover:text-gray-300 text-2xl font-extrabold z-70"
-        @click="closeModal"
-        aria-label="Schließen"
-      >
-        ✕
-      </button>
       <!-- Zoom Overlay -->
       <div
         class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-top pointer-events-none"
       >
         Zoom: {{ zoomLevel.toFixed(2) }}x
       </div>
-      <!-- Download Button -->
-      <button
-        v-if="imageData"
-        @click="downloadImage"
-        class="absolute top-4 right-20 rounded-lg bg-gray-800 text-white text-sm px-3 py-1 shadow-lg shadow-black hover:bg-gray-700 transition z-top"
-      >
-        <ArrowDownTrayIcon class="h-6" />
-      </button>
+
+      <!-- Control Buttons Container -->
+      <div class="absolute top-4 right-4 flex gap-2 z-70">
+        <!-- Histogram Toggle Button -->
+        <button
+          @click="showHistogram = !showHistogram"
+          class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+          :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogram }"
+          title="Histogram anzeigen"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="w-6 h-6"
+          >
+            <!-- Astrophoto histogram: steep rise at start, then smooth decline -->
+            <polyline points="2,18 3,16 4,12 5,8 6,5 7,4 8,3 10,3 12,4 14,6 16,9 18,12 20,15 22,17" />
+            <!-- Base line -->
+            <line x1="2" y1="20" x2="22" y2="20" />
+          </svg>
+        </button>
+
+        <!-- Download Button -->
+        <button
+          v-if="imageData"
+          @click="downloadImage"
+          class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+        >
+          <ArrowDownTrayIcon class="h-6" />
+        </button>
+
+        <!-- Close Button -->
+        <button
+          class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
+          @click="closeModal"
+          aria-label="Schließen"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
       <BadButton
         v-if="settingsStore.showSpecial"
         class="absolute top-4 right-40 h-6 z-top"
@@ -49,11 +92,26 @@
         </div>
         <img
           v-if="imageData"
-          :src="imageData"
+          :src="getStretchSettings().stretchedImageData || imageData"
           ref="image"
           @load="onImageLoad"
           class="w-full h-full object-contain cursor-move"
           alt="Vergrößertes Bild"
+        />
+      </div>
+
+      <!-- Histogram Overlay -->
+      <div
+        v-if="showHistogram && imageData && getHistogram()"
+        class="absolute bottom-4 left-4 right-4 z-70 bg-gray-900/80 rounded-lg p-3 backdrop-blur-sm"
+      >
+        <HistogramChart
+          :data="getHistogram()"
+          height="100px"
+          :showStats="false"
+          :blackPoint="getStretchSettings().blackPoint"
+          :whitePoint="getStretchSettings().whitePoint"
+          @levels-changed="onLevelsChanged"
         />
       </div>
     </div>
@@ -61,14 +119,17 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
+import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useHistogramStore } from '@/store/histogramStore';
 
 const settingsStore = useSettingsStore();
+const histogramStore = useHistogramStore();
 
 const props = defineProps({
   showModal: {
@@ -101,6 +162,7 @@ const originalWidth = ref(1);
 const originalHeight = ref(1);
 const currentWidth = ref(1);
 const currentHeight = ref(1);
+const showHistogram = ref(false);
 
 function closeModal() {
   emits('close');
@@ -175,9 +237,41 @@ watch(
   }
 );
 
+watch(
+  () => props.imageData,
+  (newVal) => {
+    if (newVal) {
+      // Calculate histogram for the new image
+      histogramStore.calculateHistogramForImage(newVal);
+    }
+  }
+);
+
+const getHistogram = () => {
+  if (!props.imageData) return null;
+  return histogramStore.getHistogram(props.imageData);
+};
+
+const getStretchSettings = () => {
+  if (!props.imageData) {
+    return {
+      blackPoint: 0,
+      whitePoint: 255,
+      stretchedImageData: null,
+    };
+  }
+  return histogramStore.getStretchSettings(props.imageData);
+};
+
+const onLevelsChanged = async (event) => {
+  if (!props.imageData) return;
+  const { blackPoint, whitePoint } = event;
+  await histogramStore.applyStretch(props.imageData, blackPoint, whitePoint);
+};
 
 onBeforeUnmount(() => {
   destroyPanzoom();
+  histogramStore.resetStretch(props.imageData);
 });
 </script>
 

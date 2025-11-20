@@ -74,7 +74,7 @@ const startLivestack = async () => {
 
 const stopLivestack = async () => {
   const previousStatus = store.status;
-  store.status = 'Waiting';
+  store.status = 'waiting';
   setError(null);
 
   try {

@@ -312,7 +312,7 @@ const handleWebSocketMessage = async (message) => {
       }
     } else if (Event === 'STACK-STATUS') {
       const { Status } = message.Response;
-      livestackStore.status = Status;
+      livestackStore.status = Status ? Status.toLowerCase() : Status;
       console.log('Current status:', livestackStore.status);
     }
   }
@@ -381,7 +381,7 @@ onMounted(async () => {
 
   // Initial Livestack state
   const initialStatus = await apiService.livestackStatus();
-  livestackStore.status = initialStatus.Response || 'Stopped';
+  livestackStore.status = initialStatus.Response ? initialStatus.Response.toLowerCase() : 'stopped';
 
   // Initial check for available images
   await checkImageAvailability();

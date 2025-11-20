@@ -10,7 +10,7 @@ export const useLivestackStore = defineStore('livestackStore', {
     currentImageUrl: null,
     lastImageUpdate: null,
     showFilters: true,
-    status: 'Stopped',
+    status: 'stopped',
   }),
   getters: {
     currentCounter: (state) => {

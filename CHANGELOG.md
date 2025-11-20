@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.1.0.beta] [LivestackPlugin0.5.0] - 2025-11-19
+## [App4.1.0.beta2] [LivestackPlugin0.6.0] - 2025-11-19
+### Added
+- Histogram and image stretch
+- Tracking mode selection for mount
+
+## [App4.1.0.beta1] [LivestackPlugin0.5.0] - 2025-11-19
 ### Important information
 - Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
 

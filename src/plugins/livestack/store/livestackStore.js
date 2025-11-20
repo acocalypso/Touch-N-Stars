@@ -9,6 +9,8 @@ export const useLivestackStore = defineStore('livestackStore', {
     availableFilters: [],
     selectedFilter: null,
     selectedTarget: null,
+    currentImageTarget: null,
+    currentImageFilter: null,
     currentImageUrl: null,
     lastImageUpdate: null,
     status: 'stopped',
@@ -21,7 +23,7 @@ export const useLivestackStore = defineStore('livestackStore', {
     showFilters: (state) => {
       const settingsStore = useSettingsStore();
       return settingsStore.livestack.showFilters;
-    }
+    },
   },
   actions: {
     initFromCounts(counts = []) {
@@ -136,8 +138,7 @@ export const useLivestackStore = defineStore('livestackStore', {
       return true;
     },
     toogleShowFilters() {
-      this.showFilters = !this.showFilters;
-      this.selectedFilter = this._defaultFilter();
+      this.setShowFilters(!this.showFilters);
     },
 
     async checkImageAvailability() {

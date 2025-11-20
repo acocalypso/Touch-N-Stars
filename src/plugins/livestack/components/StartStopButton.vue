@@ -1,7 +1,7 @@
 <template>
-  <div :class="['counter-wrapper mr-2', { 'counter-wrapper--active': isRunning }]">
+  <div :class="['counter-wrapper', { 'counter-wrapper--active': isRunning }]">
     <button
-      class="flex items-center justify-center p-1 w-10 h-10 rounded-full bg-gray-600 text-white border border-gray-400"
+      class="default-button-gray w-10 h-10 rounded-full p-0 min-h-10 min-w-10"
       @click="toggleStacking"
     >
       <StopIcon v-if="isRunning" class="w-6 h-6 text-red-500" />

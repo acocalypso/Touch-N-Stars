@@ -17,12 +17,12 @@
       <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
-          :imageData="imageStore.stretchedImageData || imageStore.imageData"
+          :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="true"
           :showHistogram="true"
-          :loading="imageStore.isImageFetching || imageStore.isStretchProcessing"
+          :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
           height="100vh"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
@@ -46,16 +46,16 @@
 
         <!-- Histogram Overlay -->
         <div
-          v-if="showHistogram && imageStore.imageData && imageStore.imageHistogram"
+          v-if="showHistogram && imageStore.imageData"
           class="z-50"
           :class="[histogramClasses]"
         >
           <HistogramChart
-            :data="imageStore.imageHistogram"
+            :data="getHistogram()"
             height="120px"
             :showStats="true"
-            :blackPoint="imageStore.blackPoint"
-            :whitePoint="imageStore.whitePoint"
+            :blackPoint="getStretchSettings().blackPoint"
+            :whitePoint="getStretchSettings().whitePoint"
             @levels-changed="onLevelsChanged"
           />
         </div>
@@ -285,9 +285,12 @@ import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 
 // Stores
+import { useHistogramStore } from '@/store/histogramStore';
+
 const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
+const histogramStore = useHistogramStore();
 
 // State
 const showModal = ref(false);
@@ -376,9 +379,26 @@ const closeImageModal = () => {
   showModal.value = false;
 };
 
+const getHistogram = () => {
+  if (!imageStore.imageData) return null;
+  return histogramStore.getHistogram(imageStore.imageData);
+};
+
+const getStretchSettings = () => {
+  if (!imageStore.imageData) {
+    return {
+      blackPoint: 0,
+      whitePoint: 255,
+      stretchedImageData: null,
+    };
+  }
+  return histogramStore.getStretchSettings(imageStore.imageData);
+};
+
 const onLevelsChanged = async (event) => {
+  if (!imageStore.imageData) return;
   const { blackPoint, whitePoint } = event;
-  await imageStore.applyStretch(blackPoint, whitePoint);
+  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint);
 };
 
 // Load image on mount if imageData is empty
@@ -386,11 +406,15 @@ onMounted(async () => {
   if (!imageStore.imageData) {
     await imageStore.getImage();
   }
+  // Calculate histogram for the image
+  if (imageStore.imageData) {
+    await histogramStore.calculateHistogramForImage(imageStore.imageData);
+  }
 });
 </script>
 
 <style scoped>
-/* Drag-Hinweis für Modal Headers */
+/* Drag Modal Headers */
 :deep(.modal-header) {
   cursor: move;
   cursor: grab;

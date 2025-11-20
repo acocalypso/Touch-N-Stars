@@ -4,7 +4,7 @@
       :disabled="buttonDisabled"
       :style="props.fullWidth ? { width: '100%' } : { minWidth: buttonMinWidth }"
       :class="[
-        'bg-gray-600 text-white font-bold py-1 px-2 rounded-md border border-gray-400 z-50 transition',
+        'bg-gray-800 text-gray-300 py-1 px-2 rounded-md border border-gray-500 z-50 transition',
         props.fullWidth ? 'w-full justify-between' : '',
         buttonDisabled
           ? 'bg-gray-600/50 opacity-50 cursor-not-allowed'

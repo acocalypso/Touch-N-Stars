@@ -8,7 +8,7 @@
     <StackFrameCounter />
   </div>
   <div
-    class="absolute top-24 left-2 right-16 bg-gradient-to-br from-gray-800/80 to-gray-900/90 backdrop-blur-lg px-3 py-3 text-white rounded-lg border border-gray-700/50 z-50 shadow-lg shadow-black/40 transition-all duration-300 landscape:hidden"
+    class="absolute top-24 left-2 right-28 bg-gradient-to-br from-gray-800/80 to-gray-900/90 backdrop-blur-lg px-3 py-3 text-gray-300 rounded-lg border border-gray-700/50 z-50 shadow-lg shadow-black/40 transition-all duration-300 landscape:hidden"
   >
     <div class="flex justify-between items-center gap-2 mb-3">
       <StartStopButton @pressed="toogleState()" />

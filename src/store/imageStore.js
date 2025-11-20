@@ -2,34 +2,20 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from './settingsStore';
-import {
-  calculateHistogram,
-  applyLevelsStretch,
-  applyLevelsStretchCached,
-  cacheOriginalImageData,
-} from '@/utils/histogramUtils';
+import { useHistogramStore } from './histogramStore';
 
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
-    imageHistogram: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
-    isStretchProcessing: false,
-    stretchedImageData: null,
-    blackPoint: 0,
-    whitePoint: 255,
     lastImage: {
       index: 0,
       quality: 0,
       resize: false,
       scale: 0,
       image: null,
-      histogram: null,
     },
-    _lastApplyStretchTime: 0,
-    _pendingStretchValues: null,
-    _stretchTimeoutId: null,
   }),
   actions: {
     calcScale() {
@@ -46,40 +32,6 @@ export const useImagetStore = defineStore('imageStore', {
       return scale;
     },
 
-    async calculateImageHistogram(imageUrl) {
-      if (!imageUrl) {
-        this.imageHistogram = null;
-        return;
-      }
-
-      try {
-        const histogram = await calculateHistogram(imageUrl);
-        this.imageHistogram = histogram;
-
-        // Also cache the original image data for fast stretch operations
-        try {
-          const img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              canvas.width = img.width;
-              canvas.height = img.height;
-              ctx.drawImage(img, 0, 0);
-              const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-              cacheOriginalImageData(imageUrl, imageData);
-            }
-          };
-          img.src = imageUrl;
-        } catch (cacheErr) {
-          // Silently ignore cache errors
-        }
-      } catch (error) {
-        console.error('[ImageStore] Error calculating histogram:', error);
-        this.imageHistogram = null;
-      }
-    },
 
     async getImage() {
       const settingsStore = useSettingsStore();
@@ -112,12 +64,14 @@ export const useImagetStore = defineStore('imageStore', {
         if (imageResponse && imageResponse.data) {
           if (this.imageData) {
             URL.revokeObjectURL(this.imageData);
+            // Clean up old image from histogram store
+            const histogramStore = useHistogramStore();
+            histogramStore.clearImageCache(this.imageData);
           }
-          // Reset stretched image when loading a new image
-          this.resetStretch();
           this.imageData = URL.createObjectURL(imageResponse.data);
           // Calculate histogram for the new image
-          await this.calculateImageHistogram(this.imageData);
+          const histogramStore = useHistogramStore();
+          await histogramStore.calculateHistogramForImage(this.imageData);
         }
       } catch (error) {
         console.error('[ImageStore] Error fetching information:', error);
@@ -191,6 +145,9 @@ export const useImagetStore = defineStore('imageStore', {
         // Gebe alte cached URL frei bevor neue gespeichert wird
         if (this.lastImage.image && this.lastImage.image !== imageUrl) {
           URL.revokeObjectURL(this.lastImage.image);
+          // Clean up old image from histogram store
+          const histogramStore = useHistogramStore();
+          histogramStore.clearImageCache(this.lastImage.image);
         }
 
         // Save to cache
@@ -199,12 +156,9 @@ export const useImagetStore = defineStore('imageStore', {
         this.lastImage.index = index;
         this.lastImage.image = imageUrl;
 
-        // Reset stretched image when loading a new image
-        this.resetStretch();
-
         // Calculate histogram for the sequence image
-        await this.calculateImageHistogram(imageUrl);
-        this.lastImage.histogram = this.imageHistogram;
+        const histogramStore = useHistogramStore();
+        await histogramStore.calculateHistogramForImage(imageUrl);
 
         return imageUrl;
       } catch (error) {
@@ -261,89 +215,17 @@ export const useImagetStore = defineStore('imageStore', {
     },
 
     clearImageCache() {
+      if (this.imageData) {
+        // Clean up from histogram store
+        const histogramStore = useHistogramStore();
+        histogramStore.clearImageCache(this.imageData);
+      }
       this.imageData = null;
       this.isImageFetching = false;
       this.isSequenceImageFetching = false;
       this.lastImage.index = 0;
       this.lastImage.image = null;
       console.log('[ImageStore] Clearing image cache');
-    },
-
-    async applyStretch(blackPoint, whitePoint) {
-      if (!this.imageData) {
-        console.warn('[ImageStore] No image data to apply stretch');
-        return;
-      }
-
-      // Always update the displayed values immediately for UI responsiveness
-      this.blackPoint = blackPoint;
-      this.whitePoint = whitePoint;
-
-      // Store pending values for later processing
-      this._pendingStretchValues = { blackPoint, whitePoint };
-
-      // If already processing, don't start another one - it will pick up pending values
-      if (this.isStretchProcessing) {
-        return;
-      }
-
-      // If we have a pending timeout, clear it and schedule a new one
-      if (this._stretchTimeoutId !== null) {
-        clearTimeout(this._stretchTimeoutId);
-      }
-
-      // Throttle: only process after 300ms of no changes
-      this._stretchTimeoutId = setTimeout(async () => {
-        this._stretchTimeoutId = null;
-
-        // Get the latest pending values
-        const latestBlackPoint = this._pendingStretchValues.blackPoint;
-        const latestWhitePoint = this._pendingStretchValues.whitePoint;
-
-        try {
-          // Show loading spinner while processing
-          this.isStretchProcessing = true;
-
-          // Try to use cached version for speed, fallback to regular version
-          let stretchedBlob;
-          try {
-            stretchedBlob = await applyLevelsStretchCached(latestBlackPoint, latestWhitePoint);
-          } catch (cacheError) {
-            // If cache not available, use regular method
-            stretchedBlob = await applyLevelsStretch(
-              this.imageData,
-              latestBlackPoint,
-              latestWhitePoint
-            );
-          }
-          if (this.stretchedImageData) {
-            URL.revokeObjectURL(this.stretchedImageData);
-          }
-          this.stretchedImageData = URL.createObjectURL(stretchedBlob);
-          this._lastApplyStretchTime = Date.now();
-        } catch (error) {
-          console.error('[ImageStore] Error applying stretch:', error);
-          this.stretchedImageData = null;
-        } finally {
-          // Hide loading spinner after processing is complete
-          this.isStretchProcessing = false;
-        }
-      }, 300); // Wait 300ms before processing
-    },
-
-    resetStretch() {
-      if (this.stretchedImageData) {
-        URL.revokeObjectURL(this.stretchedImageData);
-        this.stretchedImageData = null;
-      }
-      this.blackPoint = 0;
-      this.whitePoint = 255;
-
-      // Reset histogram to original image
-      if (this.imageData) {
-        this.calculateImageHistogram(this.imageData);
-      }
-      //console.log('[ImageStore] Stretch reset');
     },
   },
 });

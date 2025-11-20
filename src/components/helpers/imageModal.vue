@@ -67,10 +67,8 @@ import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
-import { useImagetStore } from '@/store/imageStore';
 
 const settingsStore = useSettingsStore();
-const imageStore = useImagetStore();
 
 const props = defineProps({
   showModal: {
@@ -177,12 +175,6 @@ watch(
   }
 );
 
-// Load image on mount if imageData is empty
-onMounted(async () => {
-  if (!imageStore.imageData) {
-    await imageStore.getImage();
-  }
-});
 
 onBeforeUnmount(() => {
   destroyPanzoom();

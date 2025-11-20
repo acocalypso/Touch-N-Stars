@@ -290,7 +290,10 @@
       "time": "时间",
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
-      "instructions": "Instructions"
+      "instructions": "Instructions",
+      "HFRStDev": "HFR St. Dev",
+      "Max": "Max",
+      "Min": "Min"
     },
     "mount": {
       "title": "赤道仪",

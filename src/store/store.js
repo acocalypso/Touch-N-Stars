@@ -15,7 +15,7 @@ export const apiStore = defineStore('store', {
     lastEventHistoryFetch: 0,
     profileInfo: [],
     cameraInfo: { IsExposing: false },
-    mountInfo: [],
+    mountInfo: { TrackingMode: null },
     filterInfo: [],
     focuserInfo: [],
     rotatorInfo: [],
@@ -818,7 +818,7 @@ export const apiStore = defineStore('store', {
 
       // Clear data for disconnected devices
       if (!this.isCameraConnected) this.cameraInfo = { IsExposing: false };
-      if (!this.isMountConnected) this.mountInfo = [];
+      if (!this.isMountConnected) this.mountInfo = { TrackingMode: null };
       if (!this.isFilterConnected) this.filterInfo = [];
       if (!this.isRotatorConnected) this.rotatorInfo = [];
       if (!this.isFocuserConnected) {

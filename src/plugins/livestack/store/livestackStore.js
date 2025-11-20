@@ -10,7 +10,7 @@ export const useLivestackStore = defineStore('livestackStore', {
     selectedTarget: null,
     currentImageUrl: null,
     lastImageUpdate: null,
-    status: 'Stopped',
+    status: 'stopped',
   }),
   getters: {
     currentCounter: (state) => {
@@ -123,6 +123,14 @@ export const useLivestackStore = defineStore('livestackStore', {
     forceReloadImage() {
       // Force reload even if cached - used for websocket updates
       return true;
+    },
+    setStatus(status) {
+      // Normalize status to lowercase for consistency
+      if (!status) {
+        this.status = 'stopped';
+        return;
+      }
+      this.status = status.toLowerCase();
     },
     toogleShowFilters() {
       const settingsStore = useSettingsStore();

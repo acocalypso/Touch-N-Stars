@@ -20,7 +20,7 @@ export const useLivestackStore = defineStore('livestackStore', {
       if (state.selectedTarget == null) return '--';
       return state.selectedFilter?.count ?? '--';
     },
-    showFilters: (state) => {
+    showFilters: () => {
       const settingsStore = useSettingsStore();
       // Fall back to true if persisted settings were missing the livestack section
       return settingsStore.livestack?.showFilters ?? true;
@@ -150,8 +150,6 @@ export const useLivestackStore = defineStore('livestackStore', {
         const counts = await this.loadAllTargetFilterCounts();
         this.initFromCounts(counts);
         if (this.selectedTarget && this.selectedFilter) {
-          const t = this.selectedTarget?.label;
-          const f = this.selectedFilter?.label;
           return true;
         }
       } catch (error) {

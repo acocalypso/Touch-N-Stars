@@ -15,7 +15,7 @@
   </div>
 </template>
 <script setup>
-import { defineProps, defineEmits, computed } from 'vue';
+import { computed } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 defineProps({
   items: {

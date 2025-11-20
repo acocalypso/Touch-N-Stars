@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { Capacitor } from '@capacitor/core';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';

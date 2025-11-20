@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref } from 'vue';
+import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';

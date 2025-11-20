@@ -169,21 +169,6 @@ watch(
   }
 );
 
-const checkImageAvailability = async () => {
-  try {
-    const counts = await loadAllTargetFilterCounts();
-    livestackStore.initFromCounts(counts);
-    if (livestackStore.selectedTarget && livestackStore.selectedFilter) {
-      const t = livestackStore.selectedTarget?.label;
-      const f = livestackStore.selectedFilter?.label;
-      loadImage(t, f);
-    }
-  } catch (error) {
-    console.error('Error checking image availability:', error);
-    livestackStore.initFromCounts([]);
-  }
-};
-
 const loadImage = async (target, filter, forceReload = false) => {
   const targetLabel = target?.label ?? target;
   const filterLabel = filter?.label ?? filter;
@@ -269,64 +254,6 @@ const onLevelsChanged = async (event) => {
   await histogramStore.applyStretch(livestackStore.currentImageUrl, blackPoint, whitePoint);
 };
 
-// Fetch info for a given target/filter using the API (authoritative count)
-const fetchAndUpdateCount = async (target, filter) => {
-  const targetLabel = target?.label ?? target;
-  const filterLabel = filter?.label ?? filter;
-  if (!targetLabel || !filterLabel) return;
-  try {
-    const info = await apiService.livestackImageInfo(targetLabel, filterLabel);
-    if (info && info.Success && info.Response) {
-      const count = info.Response.IsMonochrome
-        ? (info.Response.StackCount ?? '--')
-        : `${info.Response.RedStackCount} | ${info.Response.GreenStackCount} | ${info.Response.BlueStackCount}`;
-      livestackStore.updateCountForTargetFilter(targetLabel, filterLabel, count);
-    } else {
-      console.log('livestackImageInfo returned no info for', targetLabel, filterLabel);
-    }
-  } catch (err) {
-    console.error('Error fetching livestack image info:', err);
-  }
-};
-
-// Fetch all target/filter/count tuples up front
-const loadAllTargetFilterCounts = async () => {
-  const result = await apiService.livestackImageAvailable();
-  if (!result.Success || !Array.isArray(result.Response)) {
-    console.log('✗ API response not successful or Response not array');
-    return [];
-  }
-
-  const pairs = Array.from(
-    new Map(
-      result.Response.map(({ Target, Filter }) => ({ target: Target, filter: Filter }))
-        .filter(({ target, filter }) => target && filter)
-        .map(({ target, filter }) => [`${target}|${filter}`, { target, filter }])
-    ).values()
-  );
-
-  console.log(`Fetching counts for ${pairs.length} target/filter pairs`);
-  const counts = await Promise.all(
-    pairs.map(async ({ target, filter }) => {
-      try {
-        const info = await apiService.livestackImageInfo(target, filter);
-        const count =
-          info?.Success && info.Response
-            ? info.Response.IsMonochrome
-              ? (info.Response.StackCount ?? '--')
-              : `${info.Response.RedStackCount} | ${info.Response.GreenStackCount} | ${info.Response.BlueStackCount}`
-            : '--';
-        return { target, filter, count };
-      } catch (error) {
-        console.error('Error fetching livestack image info:', error);
-        return { target, filter, count: '--' };
-      }
-    })
-  );
-
-  return counts;
-};
-
 // WebSocket handlers
 const handleWebSocketStatus = (status) => {
   wsStatus.value = status;
@@ -342,7 +269,7 @@ const handleWebSocketMessage = async (message) => {
       const { Target, Filter } = message.Response;
 
       // Use authoritative API to get the count for this specific pair
-      await fetchAndUpdateCount(Target, Filter);
+      await livestackStore.fetchAndUpdateCount(Target, Filter);
 
       // Resolve current target/ filter labels (store may hold objects or strings)
       const selectedTargetLabel = livestackStore.selectedTarget?.label;
@@ -430,7 +357,7 @@ onMounted(async () => {
   livestackStore.status = initialStatus.Response ? initialStatus.Response.toLowerCase() : 'stopped';
 
   // Initial check for available images
-  await checkImageAvailability();
+  await livestackStore.checkImageAvailability();
 
   // Load current image in background if target and filter are available
   if (livestackStore.selectedTarget && livestackStore.selectedFilter) {

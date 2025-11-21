@@ -1,4 +1,14 @@
 <template>
+  <!-- Crosshair in the center -->
+  <div class="crosshair-container">
+    <!-- Vertical line -->
+    <div class="crosshair-line vertical"></div>
+    <!-- Horizontal line -->
+    <div class="crosshair-line horizontal"></div>
+    <!-- Center dot -->
+    <div class="crosshair-dot"></div>
+  </div>
+
   <button
     :class="buttonClasses"
     class="fixed bg-black bg-opacity-80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md z-10"
@@ -155,6 +165,54 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+/* Crosshair styles */
+.crosshair-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  pointer-events: none;
+  width: 40px;
+  height: 40px;
+}
+
+.crosshair-line {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.crosshair-line.vertical {
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.crosshair-line.horizontal {
+  width: 100%;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.crosshair-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (orientation: landscape) {
+  .crosshair-container {
+    left: calc(50% + 4rem);
+  }
+}
+
 /* Ensure proper touch handling */
 .touch-manipulation {
   touch-action: manipulation;

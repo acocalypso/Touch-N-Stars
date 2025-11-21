@@ -73,6 +73,9 @@
       <!-- Clock -->
       <stellariumClock v-if="stellariumStore.stel" />
     </div>
+
+    <!-- View Direction Display -->
+    <StellariumViewDirection v-if="stellariumStore.stel" />
   </div>
 </template>
 
@@ -93,6 +96,7 @@ import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 import SelectedObject from '@/components/stellarium/SelectedObject.vue';
 import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 import stellariumClock from '@/components/stellarium/stellariumClock.vue';
+import StellariumViewDirection from '@/components/stellarium/StellariumViewDirection.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -245,23 +249,39 @@ onMounted(async () => {
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
 
-          console.log('time', stel.core.observer.utc);
-          //stel.core.observer.tt = 0
-          console.log('Current observer position:');
-          console.log(
-            'Latitude:',
-            stel.core.observer.latitude,
-            store.profileInfo.AstrometrySettings.Latitude
-          );
-          console.log(
-            'Longitude:',
-            stel.core.observer.longitude,
-            store.profileInfo.AstrometrySettings.Longitude
-          );
-          console.log('Elevation:', stel.core.observer.elevation);
-
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
+
+          // Speichere Stellarium für späteren Zugriff
+          stellariumStore.stel = stel;
+
+          // Hilfsfunktion zum Auslesen der aktuellen Blickrichtung (RA/Dec)
+          function getCurrentViewDirection() {
+            const obs = stel.core.observer;
+
+            // Im VIEW-Frame zeigt [0, 0, -1] nach vorne (wo die Kamera hinzeigt)
+            // Im VIEW-Frame zeigt [0, 0, 1] nach hinten (hinter die Kamera)
+            // Wir wollen nach vorne gucken, also [0, 0, -1]
+            const viewVec = [0, 0, -1];
+
+            // Konvertiere von VIEW zu CIRS
+            const cirsVec = stel.convertFrame(stel.observer, 'VIEW', 'CIRS', viewVec);
+
+            // Konvertiere zu sphärischen Koordinaten (RA/Dec)
+            const raDecSpherical = stel.c2s(cirsVec);
+
+            const alt = obs.azalt[0];
+            const az = obs.azalt[1];
+
+            return {
+              ra: raDecSpherical[0],
+              dec: raDecSpherical[1],
+              alt,
+              az,
+            };
+          }
+
+          stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
           //IP und Port vom Plugin ermitteln

@@ -1,6 +1,6 @@
 <template>
   <!-- Crosshair in the center -->
-  <div class="crosshair-container">
+  <div class="crosshair-container" @click="openFramingModal">
     <!-- Vertical line -->
     <div class="crosshair-line vertical"></div>
     <!-- Horizontal line -->
@@ -71,10 +71,12 @@
 <script setup>
 import { ref, onMounted, computed, onBeforeUnmount } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
+import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 import { useOrientation } from '@/composables/useOrientation';
 
 const stellariumStore = useStellariumStore();
+const framingStore = useFramingStore();
 const formattedRA = ref('--:--:--');
 const formattedDec = ref('+--:--:--');
 const formattedRADeg = ref('0.00');
@@ -143,6 +145,14 @@ function toggleViewInfo() {
   isViewInfoVisible.value = !isViewInfoVisible.value;
 }
 
+function openFramingModal() {
+  framingStore.RAangle = parseFloat(formattedRADeg.value);
+  framingStore.DECangle = parseFloat(formattedDecDeg.value);
+  framingStore.RAangleString = formattedRA.value;
+  framingStore.DECangleString = formattedDec.value;
+  framingStore.showFramingModal = true;
+}
+
 function copyToClipboard() {
   const text = `RA: ${formattedRA.value}, Dec: ${formattedDec.value}`;
   navigator.clipboard.writeText(text).then(() => {
@@ -172,9 +182,9 @@ onBeforeUnmount(() => {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;
-  pointer-events: none;
   width: 40px;
   height: 40px;
+  cursor: pointer;
 }
 
 .crosshair-line {

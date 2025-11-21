@@ -21,7 +21,7 @@
           Temperature,
           Stars,
           Filter,
-          TargetName,    
+          TargetName,
         }"
       />
 
@@ -115,7 +115,6 @@ function setSelectedDataset(datasetIndex) {
     Min.value = selectedData.Min;
     Max.value = selectedData.Max;
     HFRStDev.value = selectedData.HFRStDev;
-
   }
 }
 

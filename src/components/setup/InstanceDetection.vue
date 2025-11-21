@@ -171,7 +171,7 @@
   </div>
 </template>
 <script setup>
-import { defineEmits, defineProps, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { Capacitor } from '@capacitor/core';
 import { mDNS } from '@devioarts/capacitor-mdns';
 import { useI18n } from 'vue-i18n';

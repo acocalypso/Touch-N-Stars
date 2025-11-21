@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';

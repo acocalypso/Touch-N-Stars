@@ -3,8 +3,9 @@
     <div>
       <canvas ref="chartCanvas" class="w-full h-72 md:h-96 xl:h-[600px]"></canvas>
     </div>
-    <div v-show="timestamp.length > 0" class="text-center mt-4 ">
-      <p>{{ timestamp }}</p><p>{{ temperature }}°C</p>
+    <div v-show="timestamp.length > 0" class="text-center mt-4">
+      <p>{{ timestamp }}</p>
+      <p>{{ temperature }}°C</p>
     </div>
   </div>
 </template>
@@ -20,7 +21,7 @@ Chart.register(...registerables);
 
 const chartCanvas = ref(null);
 const timestamp = ref(''); // Timestamp für die Anzeige
-const temperature = ref()
+const temperature = ref();
 const store = apiStore();
 let chartInstance = null;
 let fetchInterval = null;

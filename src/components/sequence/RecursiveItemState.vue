@@ -983,7 +983,6 @@
 
 <script setup>
 import { watch } from 'vue';
-import { defineProps } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';

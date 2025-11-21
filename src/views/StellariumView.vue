@@ -297,7 +297,54 @@ onMounted(async () => {
             };
           }
 
+          // Hilfsfunktion zum Setzen der Blickrichtung (RA/Dec)
+          function setViewDirection(raDeg, decDeg) {
+            try {
+              // Convert degrees to radians
+              const raRad = raDeg * stel.D2R;
+              const decRad = decDeg * stel.D2R;
+
+              // Create ICRF vector from RA/Dec (using two separate parameters!)
+              const icrfVec = stel.s2c(raRad, decRad);
+
+              // Convert from ICRF to CIRS frame
+              const cirsVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
+
+              // Create a virtual circle object at the specified position
+              const targetCircle = stel.createObj('circle', {
+                id: 'framingTarget',
+                pos: cirsVec,
+                color: [0, 0, 0, 0.1],
+                size: [0.05, 0.05],
+              });
+
+              // Update the object and select it
+              targetCircle.pos = cirsVec;
+              targetCircle.update();
+              stel.core.selection = targetCircle;
+              stel.pointAndLock(targetCircle);
+
+              console.log('Updated Stellarium view to RA:', raDeg, 'Dec:', decDeg);
+            } catch (error) {
+              console.error('Error setting view direction:', error);
+            }
+          }
+
           stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
+          stellariumStore.setViewDirection = setViewDirection;
+
+          // Watch for framing coordinates changes and update Stellarium view
+          watch(
+            () => ({
+              ra: framingStore.RAangle,
+              dec: framingStore.DECangle,
+            }),
+            (newCoords) => {
+              if (!framingStore.showFramingModal) return;
+              setViewDirection(newCoords.ra, newCoords.dec);
+            },
+            { deep: true }
+          );
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
           //IP und Port vom Plugin ermitteln

@@ -24,11 +24,11 @@
       class="flex-col w-full space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
     >
       <fovParameter />
-          <ButtonSlewCenterRotate
-            class="w-full"
-            :raAngle="framingStore.RAangle"
-            :decAngle="framingStore.DECangle"
-          />
+      <ButtonSlewCenterRotate
+        class="w-full"
+        :raAngle="framingStore.RAangle"
+        :decAngle="framingStore.DECangle"
+      />
       <setSequenceTarget />
     </div>
   </div>

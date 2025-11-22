@@ -56,10 +56,10 @@ function updateViewDirection() {
     // Normalize RA to 0-360 range
     raDeg = ((raDeg % 360) + 360) % 360;
 
-    formattedRA.value = degreesToHMS(raDeg );
-    formattedDec.value = degreesToDMS(decDeg );
-    formattedRADeg.value = (raDeg).toString();
-    formattedDecDeg.value = (decDeg ).toString();
+    formattedRA.value = degreesToHMS(raDeg);
+    formattedDec.value = degreesToDMS(decDeg);
+    formattedRADeg.value = raDeg.toString();
+    formattedDecDeg.value = decDeg.toString();
   } catch (error) {
     console.error('Error updating view direction:', error);
   }

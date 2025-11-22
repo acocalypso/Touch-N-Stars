@@ -146,26 +146,21 @@ const imageAltText = computed(() =>
 );
 const imagePlaceholderText = computed(() => t('plugins.livestack.loading_image'));
 
-// Observe changes to selected target/filter and load image accordingly
+// Observe changes to target/filter together to avoid duplicate loads
 watch(
-  () => livestackRefs.selectedTarget.value,
-  (newVal) => {
-    if (newVal) {
-      const targetLabel = newVal?.label;
-      const filterLabel = livestackStore.selectedFilter?.label;
-      loadImage(targetLabel, filterLabel);
-    }
-  }
-);
+  () => [livestackRefs.selectedTarget.value, livestackRefs.selectedFilter.value],
+  ([newTarget, newFilter], [oldTarget, oldFilter]) => {
+    const targetLabel = newTarget?.label;
+    const filterLabel = newFilter?.label;
 
-watch(
-  () => livestackRefs.selectedFilter.value,
-  (newVal) => {
-    if (newVal) {
-      const filterLabel = newVal?.label;
-      const targetLabel = livestackStore.selectedTarget?.label;
-      loadImage(targetLabel, filterLabel);
-    }
+    const oldTargetLabel = oldTarget?.label ?? oldTarget;
+    const oldFilterLabel = oldFilter?.label ?? oldFilter;
+
+    // Skip if nothing changed or labels are missing
+    if (!targetLabel || !filterLabel) return;
+    if (targetLabel === oldTargetLabel && filterLabel === oldFilterLabel) return;
+
+    loadImage(targetLabel, filterLabel);
   }
 );
 

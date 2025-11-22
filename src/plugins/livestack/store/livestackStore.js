@@ -14,14 +14,13 @@ export const useLivestackStore = defineStore('livestackStore', {
     currentImageUrl: null,
     lastImageUpdate: null,
     status: 'stopped',
-    isTrackingStacks: false,
+    isTrackingStacks: true,
   }),
   getters: {
     currentCounter: (state) => {
-      if (state.selectedTarget == null) return '--';
       return state.selectedFilter?.count ?? '--';
     },
-    
+
     showFilters: () => {
       const settingsStore = useSettingsStore();
       // Fall back to true if persisted settings were missing the livestack section
@@ -29,10 +28,10 @@ export const useLivestackStore = defineStore('livestackStore', {
     },
 
     activeImages: (state) => {
-      if(state.showFilters) {
-        return state.availableImages
+      if (state.showFilters) {
+        return state.availableImages;
       } else {
-        return state.availableImages.filter(img => img.filter === 'RGB');
+        return state.availableImages.filter((img) => img.filter === 'RGB');
       }
     },
 
@@ -85,14 +84,17 @@ export const useLivestackStore = defineStore('livestackStore', {
     // Update count for a specific target/filter from WebSocket event
     updateCountForTargetFilter(targetLabel, filterLabel, count) {
       // Find or create target
-      let image = this.availableImages.find((img) => img.target === targetLabel && img.filter === filterLabel);
+      let image = this.availableImages.find(
+        (img) => img.target === targetLabel && img.filter === filterLabel
+      );
       if (!image) {
         this.availableImages.push({ target: targetLabel, filter: filterLabel, count });
-        this.makeAvailableTargets();
-        this.makeAvailableFilters();
       } else {
         image.count = count;
       }
+
+      this.makeAvailableTargets();
+      this.makeAvailableFilters();
 
       if (this.isTrackingStacks) {
         this.selectTarget(targetLabel);
@@ -206,17 +208,19 @@ export const useLivestackStore = defineStore('livestackStore', {
           targetsMap.set(target, { label: target, count });
         }
       });
-      this.availableTargets = Array.from(targetsMap.values()).toSorted((a, b) => a.label.localeCompare(b.label));
+      this.availableTargets = Array.from(targetsMap.values()).toSorted((a, b) =>
+        a.label.localeCompare(b.label)
+      );
       if (this.selectedTarget == null) {
         this.selectedTarget = this.availableTargets[0] || null;
       }
     },
 
     makeAvailableFilters() {
-      this.availableFilters = this._filtersForTarget(this.selectedTarget?.label).toSorted((a, b) => a.label.localeCompare(b.label));
-      if (this.availableFilters.find((f) => f.label === this.selectedFilter?.label) == null) {
-        this.selectedFilter = this._defaultFilter();
-      }
+      this.availableFilters = this._filtersForTarget(this.selectedTarget?.label).toSorted((a, b) =>
+        a.label.localeCompare(b.label)
+      );
+      this.selectedFilter = this._defaultFilter();
     },
 
     // Fetch info for a given target/filter using the API (authoritative count)
@@ -255,7 +259,8 @@ export const useLivestackStore = defineStore('livestackStore', {
       return Array.from(filtersMap.values());
     },
     _defaultFilter() {
-      return this.availableFilters[0] || null;
+      return this.activeFilters.find((f) => f.label === this.selectedFilter?.label) || 
+      this.availableFilters[0] || null;
     },
   },
 });

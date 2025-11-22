@@ -61,11 +61,11 @@ const emit = defineEmits(['optionSelected', 'open', 'close']);
 
 const buttonMinWidth = computed(() => {
   const avail = props.availableOptions || [];
-  if (avail.length === 0) return '18ch';
+  if (avail.length === 0) return '20ch';
   const lengths = avail.map((t) => (t?.label ? t.label.length : 0));
   const currentLength = props.currentOption?.label?.length ?? 0;
   const longest = Math.max(currentLength, ...lengths);
-  return `${Math.max(18, longest + 8)}ch`;
+  return `${Math.max(20, longest + 14)}ch`;
 });
 
 const buttonDisabled = computed(() => {

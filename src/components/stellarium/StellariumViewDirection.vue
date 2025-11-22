@@ -111,17 +111,23 @@ const modalClasses = computed(() => ({
 }));
 
 function updateViewDirection() {
-  if (!stellariumStore.stel || !stellariumStore.getCurrentViewDirection) return;
+  if (!stellariumStore.stel) return;
 
   try {
-    const viewDir = stellariumStore.getCurrentViewDirection();
     const stel = stellariumStore.stel;
+    const obs = stel.observer;
 
-    // Update RA/Dec
-    let raDeg = rad2deg(viewDir.ra);
-    const decDeg = rad2deg(viewDir.dec);
-    const altDeg = rad2deg(viewDir.alt);
-    const azDeg = rad2deg(viewDir.az);
+    // Get the center of the view - forward direction is [0, 0, -1] in VIEW frame
+    const viewVec = [0, 0, -1];
+
+    // Convert from VIEW to CIRS frame
+    const cirsVec = stel.convertFrame(obs, 'VIEW', 'ICRF', viewVec);
+
+    // Convert to spherical coordinates (RA/Dec)
+    const radec = stel.c2s(cirsVec);
+
+    let raDeg = rad2deg(radec[0]);
+    const decDeg = rad2deg(radec[1]);
 
     // Normalize RA to 0-360 range
     raDeg = ((raDeg % 360) + 360) % 360;
@@ -130,12 +136,10 @@ function updateViewDirection() {
     formattedDec.value = degreesToDMS(decDeg + COORD_OFFSET_DEC);
     formattedRADeg.value = (raDeg + COORD_OFFSET_RA).toString();
     formattedDecDeg.value = (decDeg + COORD_OFFSET_DEC).toString();
-    formattedAlt.value = altDeg.toFixed(2);
-    formattedAz.value = azDeg.toFixed(2);
 
     // Update observer position
-    const lat = stel.core.observer.latitude * stel.R2D;
-    const lon = stel.core.observer.longitude * stel.R2D;
+    const lat = obs.latitude * stel.R2D;
+    const lon = obs.longitude * stel.R2D;
     formattedLat.value = lat.toFixed(4);
     formattedLon.value = lon.toFixed(4);
   } catch (error) {
@@ -182,7 +186,7 @@ onBeforeUnmount(() => {
 /* Crosshair styles */
 .crosshair-container {
   position: fixed;
-  top: calc(50% - 8px);
+  top: calc(50% - 16px);
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;

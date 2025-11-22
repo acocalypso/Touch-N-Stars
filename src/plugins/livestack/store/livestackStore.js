@@ -14,12 +14,16 @@ export const useLivestackStore = defineStore('livestackStore', {
     currentImageUrl: null,
     lastImageUpdate: null,
     status: 'stopped',
-    isTrackingStacks: true,
   }),
   getters: {
     currentCounter: (state) => {
       console.log('Getting currentCounter for filter:', state.selectedFilter);
       return state.selectedFilter?.count ?? '--';
+    },
+
+    isTrackingStacks: () => {
+      const settingsStore = useSettingsStore();
+      return settingsStore.livestack?.isTrackingStacks ?? true;
     },
 
     showFilters: () => {
@@ -61,10 +65,19 @@ export const useLivestackStore = defineStore('livestackStore', {
     setShowFilters(show) {
       const settingsStore = useSettingsStore();
       if (!settingsStore.livestack) {
-        settingsStore.livestack = { showFilters: true };
+        settingsStore.livestack = { showFilters: true, isTrackingStacks: true };
       }
       settingsStore.livestack.showFilters = show;
+      // If filters are hidden, ensure selection stays valid (RGB-only branch)
       this.selectedFilter = this._defaultFilter();
+    },
+
+    setTrackingStacks(track) {
+      const settingsStore = useSettingsStore();
+      if (!settingsStore.livestack) {
+        settingsStore.livestack = { showFilters: true, isTrackingStacks: true };
+      }
+      settingsStore.livestack.isTrackingStacks = track;
     },
 
     selectTarget(targetLabel) {

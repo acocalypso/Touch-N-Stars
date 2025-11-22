@@ -4,7 +4,7 @@
   >
     <StartStopButton @pressed="toogleState()" />
     <TargetFilterSelector :isPortrait="false" />
-    <LiveStackConfiguration />
+    <LivestackSettings />
     <StackFrameCounter />
   </div>
   <div
@@ -13,7 +13,7 @@
     <div class="flex justify-between items-center gap-2 mb-3">
       <StartStopButton @pressed="toogleState()" />
       <div class="flex gap-1.5">
-        <LiveStackConfiguration />
+        <LivestackSettings />
         <StackFrameCounter />
       </div>
     </div>
@@ -23,7 +23,7 @@
 
 <script setup>
 import StackFrameCounter from './FrameCounter.vue';
-import LiveStackConfiguration from './LivestackConfiguration.vue';
+import LivestackSettings from './LivestackSettings.vue';
 import TargetFilterSelector from './TargetFilterSelector.vue';
 import StartStopButton from './StartStopButton.vue';
 import { useLivestackStore } from '../store/livestackStore.js';

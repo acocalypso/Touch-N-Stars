@@ -84,7 +84,7 @@
       @click.self="framingStore.showFramingModal = false"
     >
       <div
-        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
         :style="{ minWidth: `${framingStore.containerSize}px` }"
         @click.stop
       >
@@ -264,7 +264,6 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-          stel.core.observer.view_offset_alt = 0;  // Sichtpunkt-Versatz auf 0 setzen
 
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;

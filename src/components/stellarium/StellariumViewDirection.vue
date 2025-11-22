@@ -1,6 +1,8 @@
 <template>
   <!-- Crosshair in the center -->
   <div class="crosshair-container" @click="openFramingModal">
+    <!-- Rectangle around crosshair -->
+    <div class="crosshair-rectangle"></div>
     <!-- Vertical line -->
     <div class="crosshair-line vertical"></div>
     <!-- Horizontal line -->
@@ -93,10 +95,21 @@ onBeforeUnmount(() => {
   top: calc(50% - 16px);
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 5;
+  z-index: 1;
   width: 40px;
   height: 40px;
   cursor: pointer;
+}
+
+.crosshair-rectangle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 45px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  pointer-events: none;
 }
 
 .crosshair-line {
@@ -141,7 +154,7 @@ onBeforeUnmount(() => {
   top: calc(50% + 20px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5;
+  z-index: 1;
   text-align: center;
   pointer-events: none;
 }

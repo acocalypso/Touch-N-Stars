@@ -73,6 +73,24 @@
       <!-- Clock -->
       <stellariumClock v-if="stellariumStore.stel" />
     </div>
+
+    <!-- View Direction Display -->
+    <StellariumViewDirection v-if="stellariumStore.stel" />
+
+    <!-- Framing Modal -->
+    <div
+      v-if="framingStore.showFramingModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      @click.self="framingStore.showFramingModal = false"
+    >
+      <div
+        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        :style="{ minWidth: `${framingStore.containerSize}px` }"
+        @click.stop
+      >
+        <FramingAssistangModal />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -93,6 +111,8 @@ import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 import SelectedObject from '@/components/stellarium/SelectedObject.vue';
 import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 import stellariumClock from '@/components/stellarium/stellariumClock.vue';
+import StellariumViewDirection from '@/components/stellarium/StellariumViewDirection.vue';
+import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -245,23 +265,102 @@ onMounted(async () => {
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
 
-          console.log('time', stel.core.observer.utc);
-          //stel.core.observer.tt = 0
-          console.log('Current observer position:');
-          console.log(
-            'Latitude:',
-            stel.core.observer.latitude,
-            store.profileInfo.AstrometrySettings.Latitude
-          );
-          console.log(
-            'Longitude:',
-            stel.core.observer.longitude,
-            store.profileInfo.AstrometrySettings.Longitude
-          );
-          console.log('Elevation:', stel.core.observer.elevation);
-
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
+
+          // Speichere Stellarium für späteren Zugriff
+          stellariumStore.stel = stel;
+
+          // Hilfsfunktion zum Auslesen der aktuellen Blickrichtung (RA/Dec)
+          function getCurrentViewDirection() {
+            const obs = stel.core.observer;
+
+            // Im VIEW-Frame zeigt [0, 0, -1] nach vorne (wo die Kamera hinzeigt)
+            // Im VIEW-Frame zeigt [0, 0, 1] nach hinten (hinter die Kamera)
+            // Wir wollen nach vorne gucken, also [0, 0, -1]
+            const viewVec = [0, 0, -1];
+
+            // Konvertiere von VIEW zu CIRS
+            const cirsVec = stel.convertFrame(stel.observer, 'VIEW', 'CIRS', viewVec);
+
+            // Konvertiere zu sphärischen Koordinaten (RA/Dec)
+            const raDecSpherical = stel.c2s(cirsVec);
+
+            const alt = obs.azalt[0];
+            const az = obs.azalt[1];
+
+            return {
+              ra: raDecSpherical[0],
+              dec: raDecSpherical[1],
+              alt,
+              az,
+            };
+          }
+
+          // Hilfsfunktion zum Setzen der Blickrichtung (RA/Dec)
+          function setViewDirection(raDeg, decDeg) {
+            try {
+              // Convert degrees to radians
+              const raRad = raDeg * stel.D2R;
+              const decRad = decDeg * stel.D2R;
+
+              // Create ICRF vector from RA/Dec
+              const icrfVec = stel.s2c(raRad, decRad);
+
+              // Convert from ICRF to CIRS frame
+              const cirsVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
+
+              // Create a virtual circle object at the specified position
+              const targetCircle = stel.createObj('circle', {
+                id: 'framingTarget',
+                pos: cirsVec,
+                color: [0, 0, 0, 0.1],
+                size: [0.05, 0.05],
+              });
+
+              // Update the object and select it
+              targetCircle.pos = cirsVec;
+              targetCircle.update();
+              stel.core.selection = targetCircle;
+              stel.pointAndLock(targetCircle);
+
+              console.log('Updated Stellarium view to RA:', raDeg, 'Dec:', decDeg);
+            } catch (error) {
+              console.error('Error setting view direction:', error);
+            }
+          }
+
+          stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
+          stellariumStore.setViewDirection = setViewDirection;
+
+          // Watch for framing coordinates changes and update Stellarium view
+          let stopCoordWatch = null;
+          watch(
+            () => framingStore.showFramingModal,
+            (isVisible) => {
+              if (isVisible) {
+                // Start watching coordinates when modal opens
+                if (!stopCoordWatch) {
+                  stopCoordWatch = watch(
+                    () => ({
+                      ra: framingStore.RAangle,
+                      dec: framingStore.DECangle,
+                    }),
+                    (newCoords) => {
+                      setViewDirection(newCoords.ra, newCoords.dec);
+                    },
+                    { deep: true }
+                  );
+                }
+              } else {
+                // Stop watching when modal closes
+                if (stopCoordWatch) {
+                  stopCoordWatch();
+                  stopCoordWatch = null;
+                }
+              }
+            }
+          );
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
           //IP und Port vom Plugin ermitteln

@@ -673,7 +673,8 @@
         "ecliptic_lines_visible": "Afficher l'écliptique",
         "atmosphere_visible": "Afficher l'atmosphère",
         "landscapes_visible": "Afficher les paysages",
-        "dsos_visible": "Objets du ciel profond (Messier, NGC)"
+        "dsos_visible": "Objets du ciel profond (Messier, NGC)",
+        "title": "Paramètres"
       }
     },
     "profile": {

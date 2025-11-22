@@ -678,7 +678,8 @@
         "equatorial_lines_visible": "Zobrazit rovníkové linie",
         "landscapes_visible": "Ukázat krajinu",
         "meridian_lines_visible": "Zobrazit poledník",
-        "dsos_visible": "Deep Sky Objekty (Messier, NGC)"
+        "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
+        "title": "Settings"
       }
     },
     "profile": {

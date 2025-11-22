@@ -1,33 +1,16 @@
 <template>
-  <div>
-    <!-- Modal Trigger -->
-    <button
-      @click="isModalOpen = true"
-      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
-    >
-      <InformationCircleIcon class="w-7 h-7 text-white" />
-    </button>
+  <button
+    @click="isModalOpen = true"
+    class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+  >
+    <InformationCircleIcon class="w-7 h-7 text-white" />
+  </button>
 
-    <!-- Modal Overlay -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex"
-      :class="containerClasses"
-      @click.self="isModalOpen = false"
-    >
-      <div
-        :class="modalClasses"
-        class="bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-y-auto"
-        @click.stop
-      >
-        <div
-          class="flex justify-between items-center mb-4 sticky top-0 bg-gray-800 pb-2 border-b border-gray-600"
-        >
-          <h2 class="text-xl font-bold">Data Credits</h2>
-          <button @click="isModalOpen = false" class="text-white hover:text-gray-300 p-1">
-            <XMarkIcon class="w-6 h-6" />
-          </button>
-        </div>
+  <Modal :show="isModalOpen" @close="isModalOpen = false" zIndex="z-40">
+    <template #header>
+      <h2>Data Credits</h2>
+    </template>
+    <template #body>
 
         <div class="space-y-4">
           <section>
@@ -216,32 +199,16 @@
             </ul>
           </section>
         </div>
-      </div>
-    </div>
-  </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
-import { useOrientation } from '@/composables/useOrientation';
+import { ref } from 'vue';
+import { InformationCircleIcon } from '@heroicons/vue/24/outline';
+import Modal from '@/components/helpers/Modal.vue';
 
 const isModalOpen = ref(false);
-
-// Check if in landscape mode
-const { isLandscape } = useOrientation();
-
-// Container classes for modal positioning
-const containerClasses = computed(() => ({
-  'items-center justify-center p-4': !isLandscape.value,
-  'items-center justify-end pr-4 pl-24': isLandscape.value, // Account for right navigation
-}));
-
-// Modal sizing classes
-const modalClasses = computed(() => ({
-  'max-w-4xl max-h-[80vh]': !isLandscape.value,
-  'max-w-xl max-h-[80vh]': isLandscape.value,
-}));
 </script>
 
 <style scoped>

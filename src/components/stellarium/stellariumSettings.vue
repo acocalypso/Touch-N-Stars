@@ -1,55 +1,18 @@
-<style scoped>
-/* Scrollbar styling for landscape mode */
-@media screen and (orientation: landscape) {
-  .overflow-y-auto::-webkit-scrollbar {
-    width: 4px;
-  }
 
-  .overflow-y-auto::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 2px;
-  }
-
-  .overflow-y-auto::-webkit-scrollbar-thumb {
-    background: rgba(6, 182, 212, 0.5);
-    border-radius: 2px;
-  }
-
-  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-    background: rgba(6, 182, 212, 0.7);
-  }
-}
-
-/* Responsive adjustments */
-@media screen and (orientation: landscape) and (max-height: 600px) {
-  /* For very short landscape screens */
-  .max-h-\[80vh\] {
-    max-height: 90vh !important;
-  }
-}
-</style>
 <template>
-  <div>
-    <button
-      @click="toggleControls"
-      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
-      :class="{ 'bg-cyan-600': settingsVisible }"
-    >
-      <Cog6ToothIcon class="w-7 h-7" />
-    </button>
-  </div>
-  <!-- Date/Time Control Panel -->
-  <div
-    v-if="settingsVisible"
-    class="fixed inset-0 z-50 flex bg-transparent"
-    :class="containerClasses"
-    @click.self="settingsVisible = false"
+  <button
+    @click="toggleControls"
+    class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+    :class="{ 'bg-cyan-600': settingsVisible }"
   >
-    <div
-      v-if="settingsVisible"
-      :class="modalClasses"
-      class="flex flex-col gap-1 bg-black bg-opacity-90 backdrop-blur-sm p-4 rounded-lg shadow-lg text-white border border-gray-600"
-    >
+    <Cog6ToothIcon class="w-7 h-7" />
+  </button>
+
+  <Modal :show="settingsVisible" @close="settingsVisible = false" zIndex="z-40">
+    <template #header>
+      <h3>{{ $t('components.stellarium.settings.title') }}</h3>
+    </template>
+    <template #body>
       <!-- Settings Container with conditional grid layout -->
       <div :class="settingsContainerClasses">
         <div
@@ -182,8 +145,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -193,6 +156,7 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import { watch, ref, computed } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
+import Modal from '@/components/helpers/Modal.vue';
 
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
@@ -212,22 +176,6 @@ function showLandscape() {
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
-// Container positioning classes - angepasst für rechte Navigation
-const containerClasses = computed(() => ({
-  // Portrait mode - centered, top
-  'items-start justify-center pt-24': !isLandscape.value,
-  // Landscape mode - rechte Seite, höher positioniert
-  'items-start justify-end pr-4 pt-10': isLandscape.value,
-}));
-
-// Modal positioning classes
-const modalClasses = computed(() => ({
-  // Portrait mode - auto width
-  'w-72': !isLandscape.value,
-  // Landscape mode - responsive width, max height
-  'w-auto max-h-[80vh] overflow-y-auto': isLandscape.value,
-}));
-
 // Settings container classes for grid layout
 const settingsContainerClasses = computed(() => ({
   // Portrait mode - single column
@@ -238,3 +186,33 @@ const settingsContainerClasses = computed(() => ({
 
 watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });
 </script>
+<style scoped>
+/* Scrollbar styling for landscape mode */
+@media screen and (orientation: landscape) {
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 2px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: rgba(6, 182, 212, 0.5);
+    border-radius: 2px;
+  }
+
+  .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: rgba(6, 182, 212, 0.7);
+  }
+}
+
+/* Responsive adjustments */
+@media screen and (orientation: landscape) and (max-height: 600px) {
+  /* For very short landscape screens */
+  .max-h-\[80vh\] {
+    max-height: 90vh !important;
+  }
+}
+</style>

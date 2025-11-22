@@ -8,34 +8,14 @@
     <p class="text-center">{{ formattedTime }}</p>
     <p class="text-xs text-center">{{ formattedDate }}</p>
   </button>
-  <!-- Date/Time Control Panel -->
-  <div
-    v-if="isDateTimeVisible"
-    class="fixed inset-0 z-10 flex bg-black bg-opacity-50"
-    :class="containerClasses"
-    @click.self="isDateTimeVisible = false"
-  >
-    <div
-      :class="[
-        modalClasses,
-        {
-          'p-4': !isLandscape.value,
-          'p-3': isLandscape.value,
-        },
-      ]"
-      class="bg-black bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg text-gray-300 border border-gray-600"
-    >
-      <h3
-        :class="{
-          'text-lg font-semibold mb-3': !isLandscape.value,
-          'text-base font-semibold mb-2': isLandscape.value,
-        }"
-      >
-        {{ $t('components.stellarium.datetime.title') }}
-      </h3>
 
+  <Modal :show="isDateTimeVisible" @close="isDateTimeVisible = false" zIndex="z-40">
+    <template #header>
+      <h3>{{ $t('components.stellarium.datetime.title') }}</h3>
+    </template>
+    <template #body>
       <!-- Content Grid - responsive layout -->
-      <div :class="contentGridClasses">
+      <div :class="contentGridClasses" class="bg-gray-950 p-4 rounded-md">
         <!-- First Row: Date and Speed -->
         <div :class="{ 'space-y-3': !isLandscape.value, 'space-y-2': isLandscape.value }">
           <div>
@@ -79,11 +59,12 @@
             </div>
             <input
               type="range"
-              v-model="timeSpeed"
+              :value="timeSpeed"
+              @input="updateTimeSpeed"
               min="-10"
               max="10"
               step="1"
-              class="w-full h-2 bg-slate-800/40 rounded-lg appearance-none cursor-pointer touch-manipulation focus:outline-none focus:ring-2 focus:ring-cyan-500/40 backdrop-blur-sm"
+              class="w-full h-2 bg-gray-900 rounded cursor-pointer accent-cyan-700"
             />
             <div
               :class="{
@@ -139,8 +120,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -149,6 +130,7 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { mjdToUTC, utcToMJD } from '@/utils/utils.js';
 import { useOrientation } from '@/composables/useOrientation';
 import apiService from '@/services/apiService';
+import Modal from '@/components/helpers/Modal.vue';
 
 const stellariumStore = useStellariumStore();
 const formattedTime = ref('');
@@ -166,18 +148,6 @@ const { isLandscape } = useOrientation();
 const buttonClasses = computed(() => ({
   'left-1/2 transform -translate-x-1/2 px-4 sm:px-8 text-sm sm:text-base': !isLandscape.value,
   'left-1/2 transform -translate-x-1/2 px-3 text-xs ml-24': isLandscape.value, // Added ml-24 to move away from left navigation
-}));
-
-// Container positioning classes - adjusted for left navigation
-const containerClasses = computed(() => ({
-  'items-center justify-center p-4': !isLandscape.value,
-  'items-center justify-center pl-32 pr-4': isLandscape.value, // Center the modal better in landscape
-}));
-
-// Modal sizing classes
-const modalClasses = computed(() => ({
-  'w-full max-w-sm sm:max-w-md mx-4': !isLandscape.value,
-  'w-[420px] max-w-[90vw]': isLandscape.value, // Optimized width, remove max-height to prevent scrolling
 }));
 
 // Content grid layout classes
@@ -325,6 +295,11 @@ const timeSpeedDescription = computed(() => {
   return 'Time rewind';
 });
 
+// Update time speed function
+function updateTimeSpeed(event) {
+  timeSpeed.value = event.target.value;
+}
+
 // Watch for changes in time speed
 watch(timeSpeed, (newValue) => {
   if (!stellariumStore.stel) return;
@@ -389,71 +364,6 @@ onBeforeUnmount(() => {
     .grid-cols-2 {
       gap: 0.5rem !important;
     }
-  }
-}
-
-/* Improve range slider for mobile devices */
-input[type='range'] {
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
-  cursor: pointer;
-}
-
-input[type='range']::-webkit-slider-track {
-  background: #1e293b;
-  height: 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(71, 85, 105, 0.3);
-}
-
-input[type='range']::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  background: #06b6d4;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-input[type='range']::-moz-range-track {
-  background: #1e293b;
-  height: 8px;
-  border-radius: 4px;
-  border: 1px solid rgba(71, 85, 105, 0.3);
-}
-
-input[type='range']::-moz-range-thumb {
-  background: #06b6d4;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Compact design for landscape */
-@media screen and (orientation: landscape) {
-  input[type='range']::-webkit-slider-track {
-    height: 6px;
-  }
-
-  input[type='range']::-webkit-slider-thumb {
-    height: 16px;
-    width: 16px;
-  }
-
-  input[type='range']::-moz-range-track {
-    height: 6px;
-  }
-
-  input[type='range']::-moz-range-thumb {
-    height: 16px;
-    width: 16px;
   }
 }
 

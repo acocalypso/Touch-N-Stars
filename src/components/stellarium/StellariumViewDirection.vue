@@ -32,8 +32,6 @@ const formattedRADeg = ref('0.00');
 const formattedDecDeg = ref('0.00');
 
 // Koordinaten-Offset (in Grad) für Justierung
-const COORD_OFFSET_RA = 0;
-const COORD_OFFSET_DEC = 0;
 let animationFrameId = null;
 
 function updateViewDirection() {
@@ -58,10 +56,10 @@ function updateViewDirection() {
     // Normalize RA to 0-360 range
     raDeg = ((raDeg % 360) + 360) % 360;
 
-    formattedRA.value = degreesToHMS(raDeg + COORD_OFFSET_RA);
-    formattedDec.value = degreesToDMS(decDeg + COORD_OFFSET_DEC);
-    formattedRADeg.value = (raDeg + COORD_OFFSET_RA).toString();
-    formattedDecDeg.value = (decDeg + COORD_OFFSET_DEC).toString();
+    formattedRA.value = degreesToHMS(raDeg );
+    formattedDec.value = degreesToDMS(decDeg );
+    formattedRADeg.value = (raDeg).toString();
+    formattedDecDeg.value = (decDeg ).toString();
   } catch (error) {
     console.error('Error updating view direction:', error);
   }

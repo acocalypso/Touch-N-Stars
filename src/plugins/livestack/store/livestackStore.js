@@ -18,6 +18,7 @@ export const useLivestackStore = defineStore('livestackStore', {
   }),
   getters: {
     currentCounter: (state) => {
+      console.log('Getting currentCounter for filter:', state.selectedFilter);
       return state.selectedFilter?.count ?? '--';
     },
 
@@ -27,17 +28,15 @@ export const useLivestackStore = defineStore('livestackStore', {
       return settingsStore.livestack?.showFilters ?? true;
     },
 
-    activeImages: (state) => {
-      if (state.showFilters) {
-        return state.availableImages;
-      } else {
-        return state.availableImages.filter((img) => img.filter === 'RGB');
-      }
+    activeImages() {
+      return this.showFilters
+        ? this.availableImages
+        : this.availableImages.filter((img) => img.filter === 'RGB');
     },
 
-    activeTargets: (state) => {
+    activeTargets() {
       const targetsMap = new Map();
-      state.activeImages.forEach(({ target, count }) => {
+      this.activeImages.forEach(({ target, count }) => {
         if (!targetsMap.has(target)) {
           targetsMap.set(target, { label: target, count });
         }
@@ -45,11 +44,11 @@ export const useLivestackStore = defineStore('livestackStore', {
       return Array.from(targetsMap.values()).toSorted((a, b) => a.label.localeCompare(b.label));
     },
 
-    activeFilters: (state) => {
-      if (!state.selectedTarget) return [];
+    activeFilters() {
+      if (!this.selectedTarget) return [];
       const filtersMap = new Map();
-      state.activeImages
-        .filter((img) => img.target === state.selectedTarget.label)
+      this.activeImages
+        .filter((img) => img.target === this.selectedTarget.label)
         .forEach(({ filter, count }) => {
           if (filter && !filtersMap.has(filter)) {
             filtersMap.set(filter, { label: filter, count });
@@ -78,7 +77,12 @@ export const useLivestackStore = defineStore('livestackStore', {
     },
 
     selectFilter(filterLabel) {
-      this.selectedFilter = this.availableFilters.find((f) => f.label === filterLabel) || null;
+      const found = this.availableFilters.find((f) => f.label === filterLabel);
+      if (found) {
+        this.selectedFilter = found;
+      } else if (!this.selectedFilter) {
+        this.selectedFilter = this._defaultFilter();
+      }
     },
 
     // Update count for a specific target/filter from WebSocket event
@@ -97,8 +101,11 @@ export const useLivestackStore = defineStore('livestackStore', {
       this.makeAvailableFilters();
 
       if (this.isTrackingStacks) {
-        this.selectTarget(targetLabel);
-        this.selectFilter(filterLabel);
+        const filterAllowed = this.showFilters || filterLabel === 'RGB';
+        if (filterAllowed) {
+          this.selectTarget(targetLabel);
+          this.selectFilter(filterLabel);
+        }
       }
     },
 
@@ -259,8 +266,11 @@ export const useLivestackStore = defineStore('livestackStore', {
       return Array.from(filtersMap.values());
     },
     _defaultFilter() {
-      return this.activeFilters.find((f) => f.label === this.selectedFilter?.label) || 
-      this.availableFilters[0] || null;
+      return (
+        this.activeFilters.find((f) => f.label === this.selectedFilter?.label) ||
+        this.availableFilters[0] ||
+        null
+      );
     },
   },
 });

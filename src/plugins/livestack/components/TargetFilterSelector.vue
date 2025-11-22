@@ -42,9 +42,7 @@ const { isPortrait } = defineProps({
 
 const store = useLivestackStore();
 const {
-  availableTargets,
   selectedTarget,
-  availableFilters,
   selectedFilter,
   showFilters,
   activeTargets,

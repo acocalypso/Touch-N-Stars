@@ -1082,7 +1082,7 @@
       "no_filter": "Sin filtro",
       "no_filters_available": "No hay filtros disponibles para este objetivo",
       "no_target": "Sin objeto",
-      "configuration_title": "Livestack Settings",
+      "configuration_title": "Configuración Livestack",
       "drag_hint": "Arrastrar",
       "show_rgb_only": "Mostrar solo composición RGB",
       "track_stack_updates": "Mostrar el ultimo stack actualizado",

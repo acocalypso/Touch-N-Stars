@@ -29,7 +29,10 @@
             <div
               class="flex flex-row items-center gap-4 w-full min-w-28 border border-gray-500 p-2 rounded-lg bg-gray-800/70"
             >
-              <label for="toggle_osc_components" class="flex-1 text-xs md:text-sm text-gray-200 pl-2">
+              <label
+                for="toggle_osc_components"
+                class="flex-1 text-xs md:text-sm text-gray-200 pl-2"
+              >
                 {{ t('plugins.livestack.show_rgb_only') }}
               </label>
               <toggleButton
@@ -42,7 +45,10 @@
             <div
               class="flex flex-row items-center gap-4 w-full min-w-28 border border-gray-500 p-2 rounded-lg bg-gray-800/70"
             >
-              <label for="toggle_tracking_stacks" class="flex-1 text-xs md:text-sm text-gray-200 pl-2">
+              <label
+                for="toggle_tracking_stacks"
+                class="flex-1 text-xs md:text-sm text-gray-200 pl-2"
+              >
                 {{ t('plugins.livestack.track_stack_updates') }}
               </label>
               <toggleButton

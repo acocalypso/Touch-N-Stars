@@ -6,6 +6,7 @@
       :currentOption="selectedTarget"
       :placeholder="t('plugins.livestack.no_target')"
       :fullWidth="isPortrait"
+      :showCount="!showFilters"
       @optionSelected="selectTarget($event)"
       @open="handleTargetOpen"
       @close="handleTargetClose"

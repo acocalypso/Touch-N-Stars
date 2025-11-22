@@ -33,7 +33,9 @@
       >
         <div class="flex items-center justify-between space-x-3">
           <span class="truncate">{{ item.label }}</span>
-          <span class="bg-gray-600 px-2 rounded-md shrink-0">{{ item.count }}</span>
+          <span v-if="props.showCount" class="bg-gray-600 px-2 rounded-md shrink-0">
+            {{ item.count }}
+          </span>
         </div>
       </li>
     </ul>
@@ -51,6 +53,7 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   canOpen: { type: Boolean, default: true },
   fullWidth: { type: Boolean, default: false },
+  showCount: { type: Boolean, default: true },
 });
 
 const { t } = useI18n();
@@ -61,11 +64,18 @@ const emit = defineEmits(['optionSelected', 'open', 'close']);
 
 const buttonMinWidth = computed(() => {
   const avail = props.availableOptions || [];
-  if (avail.length === 0) return '20ch';
-  const lengths = avail.map((t) => (t?.label ? t.label.length : 0));
-  const currentLength = props.currentOption?.label?.length ?? 0;
-  const longest = Math.max(currentLength, ...lengths);
-  return `${Math.max(20, longest + 14)}ch`;
+  const measureOption = (opt) => {
+    const labelLength = opt?.label?.length ?? 0;
+    const hasCount = props.showCount && opt && opt.count !== undefined && opt.count !== null;
+    const countLength = hasCount ? String(opt.count).length + 4 : 0; // extra padding for badge
+    return labelLength + countLength;
+  };
+
+  const lengths = avail.length ? avail.map((opt) => measureOption(opt)) : [0];
+  const currentLength = measureOption(props.currentOption);
+  const placeholderLength = placeholderText.value?.length ?? 0;
+  const longest = Math.max(placeholderLength, currentLength, ...lengths);
+  return `${Math.max(10, longest)}ch`;
 });
 
 const buttonDisabled = computed(() => {

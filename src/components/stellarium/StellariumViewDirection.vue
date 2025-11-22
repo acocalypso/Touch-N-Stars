@@ -1,6 +1,6 @@
 <template>
-  <!-- Crosshair in the center -->
-  <div class="crosshair-container" @click="openFramingModal">
+  <!-- Framing symbol in the center -->
+  <div class="framing-container" @click="openFramingModal">
     <!-- Rectangle around crosshair -->
     <div class="crosshair-rectangle"></div>
     <!-- Vertical line -->
@@ -9,6 +9,13 @@
     <div class="crosshair-line horizontal"></div>
     <!-- Center dot -->
     <div class="crosshair-dot"></div>
+    <!-- SVG framing symbol overlay -->
+    <svg viewBox="0 0 100 100" class="framing-icon">
+      <!-- First rectangle (straight) -->
+      <rect x="60" y="30" width="25" height="13" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="1.5"/>
+      <!-- Second rectangle (rotated, overlapped) -->
+      <rect x="62" y="28" width="25" height="13" fill="none" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.5" transform="rotate(15 75 35)"/>
+    </svg>
   </div>
 
   <!-- Coordinates below crosshair -->
@@ -87,15 +94,15 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* Crosshair styles */
-.crosshair-container {
+/* Framing symbol styles */
+.framing-container {
   position: fixed;
-  top: calc(50% - 16px);
+  top: calc(50% - 30px);
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-  width: 40px;
-  height: 40px;
+  width: 70px;
+  height: 70px;
   cursor: pointer;
 }
 
@@ -106,7 +113,7 @@ onBeforeUnmount(() => {
   width: 60px;
   height: 45px;
   transform: translate(-50%, -50%);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.5);
   pointer-events: none;
 }
 
@@ -117,16 +124,18 @@ onBeforeUnmount(() => {
 
 .crosshair-line.vertical {
   width: 2px;
-  height: 100%;
+  height: 12px;
   left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .crosshair-line.horizontal {
-  width: 100%;
+  width: 12px;
   height: 2px;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .crosshair-dot {
@@ -140,8 +149,17 @@ onBeforeUnmount(() => {
   transform: translate(-50%, -50%);
 }
 
+.framing-icon {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  filter: drop-shadow(0 0 4px rgba(6, 182, 212, 0.4));
+}
+
 @media (orientation: landscape) {
-  .crosshair-container {
+  .framing-container {
     left: calc(50% + 4rem);
   }
 }

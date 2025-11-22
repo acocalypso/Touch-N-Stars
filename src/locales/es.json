@@ -673,7 +673,8 @@
         "equatorial_lines_visible": "Mostrar líneas ecuatoriales",
         "landscapes_visible": "Mostrar horizonte",
         "meridian_lines_visible": "Mostrar meridiano",
-        "dsos_visible": "Objetos de cielo profundo (Messier, NGC)"
+        "dsos_visible": "Objetos de cielo profundo (Messier, NGC)",
+        "title": "Ajustes"
       }
     },
     "profile": {

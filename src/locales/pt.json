@@ -673,7 +673,8 @@
         "ecliptic_lines_visible": "Mostrar eclíptica",
         "atmosphere_visible": "Mostrar atmosfera",
         "landscapes_visible": "Mostrar paisagens",
-        "dsos_visible": "Objetos do céu profundo (Messier, NGC)"
+        "dsos_visible": "Objetos do céu profundo (Messier, NGC)",
+        "title": "Configurações"
       }
     },
     "profile": {

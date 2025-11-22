@@ -673,7 +673,8 @@
         "equatorial_lines_visible": "Äquatoriale Gitter",
         "landscapes_visible": "Landschaften",
         "dsos_visible": "Deep-Sky Objekte (Messier, NGC)",
-        "meridian_lines_visible": "Meridian"
+        "meridian_lines_visible": "Meridian",
+        "title": "Einstellungen"
       }
     },
     "profile": {

@@ -12,9 +12,26 @@
     <!-- SVG framing symbol overlay -->
     <svg viewBox="0 0 100 100" class="framing-icon">
       <!-- First rectangle (straight) -->
-      <rect x="60" y="30" width="25" height="13" fill="none" stroke="rgba(255, 255, 255, 0.6)" stroke-width="1.5"/>
+      <rect
+        x="60"
+        y="30"
+        width="25"
+        height="13"
+        fill="none"
+        stroke="rgba(255, 255, 255, 0.6)"
+        stroke-width="1.5"
+      />
       <!-- Second rectangle (rotated, overlapped) -->
-      <rect x="62" y="28" width="25" height="13" fill="none" stroke="rgba(6, 182, 212, 0.7)" stroke-width="1.5" transform="rotate(15 75 35)"/>
+      <rect
+        x="62"
+        y="28"
+        width="25"
+        height="13"
+        fill="none"
+        stroke="rgba(6, 182, 212, 0.7)"
+        stroke-width="1.5"
+        transform="rotate(15 75 35)"
+      />
     </svg>
   </div>
 

@@ -1,4 +1,3 @@
-
 <template>
   <button
     @click="toggleControls"

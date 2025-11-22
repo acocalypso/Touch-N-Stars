@@ -264,6 +264,7 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
+          stel.core.observer.view_offset_alt = 0;  // Sichtpunkt-Versatz auf 0 setzen
 
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;
@@ -304,7 +305,7 @@ onMounted(async () => {
               const raRad = raDeg * stel.D2R;
               const decRad = decDeg * stel.D2R;
 
-              // Create ICRF vector from RA/Dec (using two separate parameters!)
+              // Create ICRF vector from RA/Dec
               const icrfVec = stel.s2c(raRad, decRad);
 
               // Convert from ICRF to CIRS frame
@@ -334,16 +335,32 @@ onMounted(async () => {
           stellariumStore.setViewDirection = setViewDirection;
 
           // Watch for framing coordinates changes and update Stellarium view
+          let stopCoordWatch = null;
           watch(
-            () => ({
-              ra: framingStore.RAangle,
-              dec: framingStore.DECangle,
-            }),
-            (newCoords) => {
-              if (!framingStore.showFramingModal) return;
-              setViewDirection(newCoords.ra, newCoords.dec);
-            },
-            { deep: true }
+            () => framingStore.showFramingModal,
+            (isVisible) => {
+              if (isVisible) {
+                // Start watching coordinates when modal opens
+                if (!stopCoordWatch) {
+                  stopCoordWatch = watch(
+                    () => ({
+                      ra: framingStore.RAangle,
+                      dec: framingStore.DECangle,
+                    }),
+                    (newCoords) => {
+                      setViewDirection(newCoords.ra, newCoords.dec);
+                    },
+                    { deep: true }
+                  );
+                }
+              } else {
+                // Stop watching when modal closes
+                if (stopCoordWatch) {
+                  stopCoordWatch();
+                  stopCoordWatch = null;
+                }
+              }
+            }
           );
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen

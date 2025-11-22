@@ -81,6 +81,10 @@ const formattedRA = ref('--:--:--');
 const formattedDec = ref('+--:--:--');
 const formattedRADeg = ref('0.00');
 const formattedDecDeg = ref('0.00');
+
+// Koordinaten-Offset (in Grad) für Justierung
+const COORD_OFFSET_RA = 0;
+const COORD_OFFSET_DEC = 0;
 const formattedAlt = ref('0.00');
 const formattedAz = ref('0.00');
 const formattedLat = ref('0.00');
@@ -122,10 +126,10 @@ function updateViewDirection() {
     // Normalize RA to 0-360 range
     raDeg = ((raDeg % 360) + 360) % 360;
 
-    formattedRA.value = degreesToHMS(raDeg);
-    formattedDec.value = degreesToDMS(decDeg);
-    formattedRADeg.value = raDeg.toFixed(2);
-    formattedDecDeg.value = decDeg.toFixed(2);
+    formattedRA.value = degreesToHMS(raDeg + COORD_OFFSET_RA);
+    formattedDec.value = degreesToDMS(decDeg + COORD_OFFSET_DEC);
+    formattedRADeg.value = (raDeg + COORD_OFFSET_RA).toString();
+    formattedDecDeg.value = (decDeg + COORD_OFFSET_DEC).toString();
     formattedAlt.value = altDeg.toFixed(2);
     formattedAz.value = azDeg.toFixed(2);
 
@@ -178,7 +182,7 @@ onBeforeUnmount(() => {
 /* Crosshair styles */
 .crosshair-container {
   position: fixed;
-  top: 50%;
+  top: calc(50% - 8px);
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5;

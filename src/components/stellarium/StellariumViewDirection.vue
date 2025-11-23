@@ -102,7 +102,6 @@ function openFramingModal() {
     RA: formattedRADeg.value,
     Dec: formattedDecDeg.value,
   };
-
 }
 
 onMounted(() => {

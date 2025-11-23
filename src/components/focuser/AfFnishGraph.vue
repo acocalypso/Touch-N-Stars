@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
@@ -168,7 +168,7 @@ async function fetchLastAf() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   const ctx = chartCanvas.value.getContext('2d');
   console.log('Loading graph');
 
@@ -274,7 +274,8 @@ onMounted(() => {
     fetchLastAf();
   }, 15000); // 30 Sekunden
 
-  // Daten laden
+  // Daten laden nach nextTick, um sicherzustellen, dass Chart vollständig initialisiert ist
+  await nextTick();
   fetchLastAf();
 
   // Event Listener hinzufügen

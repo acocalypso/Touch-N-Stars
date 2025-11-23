@@ -99,7 +99,9 @@
             </div>
             <div v-else-if="!store.focuserAfInfo.afError">
               <p class="mb-4 text-center">{{ $t('components.focuser.last_autofocus') }}</p>
-              <AfFnishGraph class="flex-grow h-screen" />
+              <div class="flex-grow h-screen">
+                <AfFnishGraph />
+              </div>
             </div>
             <div v-else class="text-center text-red-600">
               <p>{{ $t('components.focuser.autofocus_error') }}</p>

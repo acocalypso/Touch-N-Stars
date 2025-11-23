@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.1.0.beta3] - 2025-11-22
 ### Added
 - Framing assistang in Stellarium
+- Profile loading spinner
 
 ## [App4.1.0.beta2] [LivestackPlugin0.6.0] - 2025-11-19
 ### Added

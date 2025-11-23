@@ -30,6 +30,23 @@
         }"
       ></div>
 
+      <!-- FOV Steuerung (oben rechts) -->
+      <div class="absolute top-3 right-3 z-10 bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2">
+        <button
+          @click="adjustFov(-0.5)"
+          class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+        >
+          -
+        </button>
+        <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center">{{ framingStore.fov.toFixed(1) }}°</span>
+        <button
+          @click="adjustFov(0.5)"
+          class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+        >
+          +
+        </button>
+      </div>
+
       <!-- Moveable-->
       <Moveable
         ref="moveableRef"
@@ -118,33 +135,18 @@ watch(
   () => framingStore.fov,
   async (newFov, oldFov) => {
     if (cameraFovX.value > 0 && newFov !== oldFov) {
-      // Alte Kamera-Position relativ zum Container merken
-      const oldCenterX = x.value + framingStore.camWidth / 2;
-      const oldCenterY = y.value + framingStore.camHeight / 2;
-      const relativeCenterX = oldCenterX / framingStore.containerSize;
-      const relativeCenterY = oldCenterY / framingStore.containerSize;
-
       // Kamera-Box-Größe neu berechnen
       updateCameraBoxSize();
 
-      // Kamera-Position basierend auf relativer Position neu berechnen
-      const newCenterX = relativeCenterX * framingStore.containerSize;
-      const newCenterY = relativeCenterY * framingStore.containerSize;
-      x.value = newCenterX - framingStore.camWidth / 2;
-      y.value = newCenterY - framingStore.camHeight / 2;
-
-      // Position innerhalb Container halten
-      x.value = Math.max(0, Math.min(x.value, framingStore.containerSize - framingStore.camWidth));
-      y.value = Math.max(0, Math.min(y.value, framingStore.containerSize - framingStore.camHeight));
+      // Rechteck in der Mitte des Containers positionieren
+      x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+      y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
 
       // Position im Store speichern (absolut und relativ)
       framingStore.cameraX = x.value;
       framingStore.cameraY = y.value;
-
-      const centerX = x.value + framingStore.camWidth / 2;
-      const centerY = y.value + framingStore.camHeight / 2;
-      framingStore.cameraRelativeX = centerX / framingStore.containerSize;
-      framingStore.cameraRelativeY = centerY / framingStore.containerSize;
+      framingStore.cameraRelativeX = 0.5;
+      framingStore.cameraRelativeY = 0.5;
 
       // Nur Hintergrundbild neu laden (mit Debounce)
       debouncedImageReload();
@@ -375,6 +377,12 @@ function degreesToDMS(deg) {
 }
 function rad2deg(rad) {
   return rad * (180 / Math.PI);
+}
+
+// FOV Anpassung mit +/- Buttons
+function adjustFov(delta) {
+  const newValue = parseFloat(framingStore.fov) + delta;
+  framingStore.fov = Math.max(0.1, Math.min(180, Math.round(newValue * 10) / 10));
 }
 </script>
 

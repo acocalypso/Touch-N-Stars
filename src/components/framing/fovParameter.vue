@@ -38,16 +38,6 @@
             </button>
           </div>
         </div>
-        <!-- Kompakter FOV Range-Slider (häufig genutzte Werte 0.1-20°) -->
-        <input
-          class="w-full h-1 bg-gray-600 rounded-lg appearance-none slider"
-          type="range"
-          min="0.1"
-          max="20"
-          step="0.1"
-          :value="Math.min(framingStore.fov, 20)"
-          @input="updateFovFromSlider($event.target.value)"
-        />
       </div>
     </div>
 
@@ -112,11 +102,6 @@ const framingStore = useFramingStore();
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
   framingStore.fov = Math.max(0.1, Math.min(180, Math.round(newValue * 10) / 10));
-}
-
-// FOV Update vom Slider (nur für Werte 0.1-20°)
-function updateFovFromSlider(value) {
-  framingStore.fov = parseFloat(value);
 }
 
 // Rotation Anpassung mit +/- Buttons

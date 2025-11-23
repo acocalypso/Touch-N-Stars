@@ -51,8 +51,10 @@
             height="120px"
             :showStats="true"
             :blackPoint="getStretchSettings().blackPoint"
+            :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             @levels-changed="onLevelsChanged"
+            @levels-reset="onLevelsReset"
           />
         </div>
 
@@ -385,6 +387,7 @@ const getStretchSettings = () => {
     return {
       blackPoint: 0,
       whitePoint: 255,
+      midPoint: 127,
       stretchedImageData: null,
     };
   }
@@ -393,8 +396,13 @@ const getStretchSettings = () => {
 
 const onLevelsChanged = async (event) => {
   if (!imageStore.imageData) return;
-  const { blackPoint, whitePoint } = event;
-  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint);
+  const { blackPoint, whitePoint, midPoint } = event;
+  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint, midPoint);
+};
+
+const onLevelsReset = async () => {
+  if (!imageStore.imageData) return;
+  histogramStore.resetStretch(imageStore.imageData);
 };
 
 // Load image on mount if imageData is empty

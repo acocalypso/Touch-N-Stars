@@ -5,7 +5,7 @@
     </div>
     <div v-show="timestamp.length > 0" class="text-center mt-4">
       <p>{{ timestamp }}</p>
-      <p>{{ temperature }}°C</p>
+      <p v-show="temperature != null">{{ temperature }}°C</p>
     </div>
   </div>
 </template>
@@ -75,9 +75,11 @@ async function fetchLastAf() {
   try {
     const response = await apiService.focusAction('last-af');
     const apiData = response.Response;
+    //console.log('API Data for Last AF:', apiData);
     const dateLastAf = new Date(apiData.Timestamp);
     const dateProfilLastUsed = new Date(store.profileInfo.LastUsed);
-    temperature.value = apiData.Temperature.toFixed(2);
+    const temp = parseFloat(apiData?.Temperature);
+    temperature.value = isNaN(temp) ? null : temp.toFixed(2);
     //console.log(dateLastAf, ' : ', dateProfilLastUsed);
 
     if (dateLastAf < dateProfilLastUsed) {

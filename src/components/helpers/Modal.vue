@@ -6,7 +6,6 @@
         'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30',
         zIndexClass,
       ]"
-      @click="handleClose"
     >
       <div
         class="p-6 bg-gradient-to-br from-gray-950 bg-gray-800 rounded-lg shadow-lg max-w-2xl w-full relative"

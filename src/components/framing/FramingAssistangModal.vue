@@ -22,10 +22,11 @@
     <!-- Kontrollen bleiben immer sichtbar -->
     <div
       class="flex-col w-full space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
-    >    <!-- getImageRotation Komponente -->
-    <div class="col-span-2">
-      <getImageRotation />
-    </div>
+    >
+      <!-- getImageRotation Komponente -->
+      <div class="col-span-2">
+        <getImageRotation />
+      </div>
       <ButtonSlewCenterRotate
         class="w-full"
         :raAngle="framingStore.RAangle"

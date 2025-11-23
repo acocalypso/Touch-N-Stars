@@ -18,33 +18,39 @@
       <!-- TargetPic als Hintergrund -->
       <img class="absolute inset-0" :src="targetPic" />
 
-      <!-- Verschiebbares / drehbares Ziel-Element -->
+      <!-- Verschiebbares / drehbares Ziel-Element (nur für Moveable Tracking) -->
       <div
-        class="target"
         ref="targetRef"
         :style="{
           width: `${framingStore.camWidth}px`,
           height: `${framingStore.camHeight}px`,
-          transform: `translate(${x}px, ${y}px) rotate(${-framingStore.rotationAngle}deg)`,
+          transform: `translate(${x}px, ${y}px) rotate(${framingStore.rotationAngle}deg)`,
           zIndex: 2,
         }"
       ></div>
 
-      <!-- FOV Steuerung (oben rechts) -->
-      <div class="absolute top-3 right-3 z-10 bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2">
-        <button
-          @click="adjustFov(-0.5)"
-          class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-        >
-          -
-        </button>
-        <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center">{{ framingStore.fov.toFixed(1) }}°</span>
-        <button
-          @click="adjustFov(0.5)"
-          class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-        >
-          +
-        </button>
+      <!-- FOV und Rotation Steuerung (oben rechts) -->
+      <div class="absolute top-3 right-3 z-10 flex flex-col gap-2">
+        <!-- FOV Steuerung -->
+        <div class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2">
+          <button
+            @click="adjustFov(-0.5)"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            -
+          </button>
+          <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center">{{ framingStore.fov.toFixed(1) }}°</span>
+          <button
+            @click="adjustFov(0.5)"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            +
+          </button>
+        </div>
+        <!-- Rotation Anzeige -->
+        <div class="bg-gray-800/90 border border-gray-600 rounded-lg px-3 py-2 flex items-center justify-center">
+          <span class="text-xs text-gray-300 font-medium">{{ Math.round(framingStore.rotationAngle) }}°</span>
+        </div>
       </div>
 
       <!-- Moveable-->
@@ -52,8 +58,9 @@
         ref="moveableRef"
         :target="targetRef"
         :draggable="true"
-        :rotatable="false"
+        :rotatable="true"
         @drag="onDrag"
+        @rotate="onRotate"
       />
     </div>
   </div>
@@ -123,13 +130,6 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
-watch(
-  () => framingStore.rotationAngle,
-  () => {
-    debounceRotateRange();
-  }
-);
-
 // FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
 watch(
   () => framingStore.fov,
@@ -157,6 +157,14 @@ watch(
   }
 );
 
+// Rotation-Watcher: Moveable-Rahmen aktualisieren wenn Winkel sich ändert
+watch(
+  () => framingStore.rotationAngle,
+  () => {
+    updateMoveable();
+  }
+);
+
 let imageReloadTimeout;
 function debouncedImageReload() {
   clearTimeout(imageReloadTimeout);
@@ -173,18 +181,6 @@ function updateMoveable() {
       moveableRef.value.updateRect();
     });
   }
-}
-
-let debounceTimeout;
-function debounceRotateRange() {
-  clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(() => {
-    rotateByRange();
-  }, 500); // Wartezeit in Millisekunden
-}
-function rotateByRange() {
-  const normalizedAngle = framingStore.rotationAngle % 360; // Sicherstellen, dass der Wert im Bereich 0-360 bleibt
-  moveableRef.value.request('rotatable', { rotate: normalizedAngle }, true);
 }
 
 // Einmalig den echten Kamera-FOV berechnen (basierend auf Hardware)
@@ -257,6 +253,7 @@ function adjustContainerIfNeeded() {
   }
 }
 
+let dragDebounceTimeout;
 // Drag-Event von Moveable
 function onDrag(e) {
   x.value += e.delta[0];
@@ -280,7 +277,16 @@ function onDrag(e) {
   framingStore.cameraRelativeX = centerX / framingStore.containerSize;
   framingStore.cameraRelativeY = centerY / framingStore.containerSize;
 
-  calculateRaDec();
+  // Debounced RA/DEC Berechnung
+  clearTimeout(dragDebounceTimeout);
+  dragDebounceTimeout = setTimeout(() => {
+    calculateRaDec();
+  }, 300);
+}
+
+// Rotate-Event von Moveable
+function onRotate(e) {
+  framingStore.rotationAngle = e.rotate;
 }
 
 async function getTargetPic() {
@@ -387,11 +393,4 @@ function adjustFov(delta) {
 </script>
 
 <style scoped>
-.target {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px dashed red;
-}
 </style>

@@ -41,51 +41,6 @@
       </div>
     </div>
 
-    <!-- Rotation Bereich -->
-    <div class="col-span-2 sm:col-span-1">
-      <div class="flex flex-col space-y-2 p-3 border border-gray-600 rounded-lg bg-gray-800/50">
-        <div class="flex items-center justify-between">
-          <label class="text-xs font-medium text-gray-400 uppercase tracking-wide">
-            {{ $t('components.framing.fovSettings.rotationAngle') }}
-          </label>
-          <span class="text-xs text-gray-500">°</span>
-        </div>
-        <div class="flex items-center space-x-2">
-          <input
-            class="flex-1 bg-gray-700 border border-gray-600 rounded px-2 py-1 text-sm text-white focus:border-cyan-500 focus:outline-none"
-            type="number"
-            v-model="framingStore.rotationAngle"
-            min="0"
-            max="360"
-            step="1"
-            @focus="$event.target.select()"
-          />
-          <div class="flex space-x-1">
-            <button
-              @click="adjustRotation(-5)"
-              class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-            >
-              -
-            </button>
-            <button
-              @click="adjustRotation(5)"
-              class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
-            >
-              +
-            </button>
-          </div>
-        </div>
-        <!-- Kompakter Range-Slider -->
-        <input
-          class="w-full h-1 bg-gray-600 rounded-lg appearance-none slider"
-          type="range"
-          min="0"
-          max="360"
-          v-model="framingStore.rotationAngle"
-        />
-      </div>
-    </div>
-
     <!-- getImageRotation Komponente -->
     <div class="col-span-2">
       <getImageRotation />
@@ -102,15 +57,6 @@ const framingStore = useFramingStore();
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
   framingStore.fov = Math.max(0.1, Math.min(180, Math.round(newValue * 10) / 10));
-}
-
-// Rotation Anpassung mit +/- Buttons
-function adjustRotation(delta) {
-  let newValue = parseInt(framingStore.rotationAngle) + delta;
-  // Wrap around: 0-360 Grad
-  if (newValue < 0) newValue += 360;
-  if (newValue >= 360) newValue -= 360;
-  framingStore.rotationAngle = newValue;
 }
 </script>
 

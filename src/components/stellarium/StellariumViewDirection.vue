@@ -97,6 +97,12 @@ function openFramingModal() {
   framingStore.RAangleString = formattedRA.value;
   framingStore.DECangleString = formattedDec.value;
   framingStore.showFramingModal = true;
+  framingStore.selectedItem = {
+    Name: 'Stellarium View',
+    RA: formattedRADeg.value,
+    Dec: formattedDecDeg.value,
+  };
+
 }
 
 onMounted(() => {
@@ -114,12 +120,12 @@ onBeforeUnmount(() => {
 /* Framing symbol styles */
 .framing-container {
   position: fixed;
-  top: calc(50% - 30px);
+  top: calc(50% - 15px);
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
-  width: 70px;
-  height: 70px;
+  width: 100px;
+  height: 100px;
   cursor: pointer;
 }
 
@@ -141,14 +147,14 @@ onBeforeUnmount(() => {
 
 .crosshair-line.vertical {
   width: 2px;
-  height: 12px;
+  height: 20px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
 .crosshair-line.horizontal {
-  width: 12px;
+  width: 20px;
   height: 2px;
   left: 50%;
   top: 50%;

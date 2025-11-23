@@ -12,7 +12,7 @@ import {
  */
 export const useHistogramStore = defineStore('histogramStore', {
   state: () => ({
-    // Map: imageUrl → { histogram, blackPoint, whitePoint, stretchedImageData }
+    // Map: imageUrl → { histogram, blackPoint, whitePoint, midPoint, stretchedImageData }
     imageSettings: new Map(),
 
     // Processing flags
@@ -20,7 +20,7 @@ export const useHistogramStore = defineStore('histogramStore', {
 
     // Throttle timers
     stretchTimeouts: new Map(), // imageUrl → timeoutId
-    pendingStretchValues: new Map(), // imageUrl → { blackPoint, whitePoint }
+    pendingStretchValues: new Map(), // imageUrl → { blackPoint, whitePoint, midPoint }
   }),
 
   actions: {
@@ -43,6 +43,7 @@ export const useHistogramStore = defineStore('histogramStore', {
             histogram: null,
             blackPoint: 0,
             whitePoint: 255,
+            midPoint: 127,
             stretchedImageData: null,
           });
         }
@@ -82,9 +83,10 @@ export const useHistogramStore = defineStore('histogramStore', {
      * @param {string} imageUrl - Image URL or blob URL
      * @param {number} blackPoint - Input black level (0-255)
      * @param {number} whitePoint - Input white level (0-255)
+     * @param {number} midPoint - Midtone balance (0-255)
      * @returns {Promise<void>}
      */
-    async applyStretch(imageUrl, blackPoint, whitePoint) {
+    async applyStretch(imageUrl, blackPoint, whitePoint, midPoint = 127) {
       if (!imageUrl) {
         console.warn('[HistogramStore] No image URL provided');
         return;
@@ -96,18 +98,29 @@ export const useHistogramStore = defineStore('histogramStore', {
           histogram: null,
           blackPoint: 0,
           whitePoint: 255,
+          midPoint: 127,
           stretchedImageData: null,
         });
       }
 
+      // Clamp incoming values to keep a valid range
+      const clampedBlack = Math.max(0, Math.min(254, blackPoint));
+      const clampedWhite = Math.max(clampedBlack + 1, Math.min(255, whitePoint));
+      const clampedMid = Math.min(Math.max(midPoint ?? 127, clampedBlack + 1), clampedWhite - 1);
+
       const settings = this.imageSettings.get(imageUrl);
 
       // Update the displayed values immediately for UI responsiveness
-      settings.blackPoint = blackPoint;
-      settings.whitePoint = whitePoint;
+      settings.blackPoint = clampedBlack;
+      settings.whitePoint = clampedWhite;
+      settings.midPoint = clampedMid;
 
       // Store pending values for later processing
-      this.pendingStretchValues.set(imageUrl, { blackPoint, whitePoint });
+      this.pendingStretchValues.set(imageUrl, {
+        blackPoint: clampedBlack,
+        whitePoint: clampedWhite,
+        midPoint: clampedMid,
+      });
 
       // If already processing, don't start another one - it will pick up pending values
       if (this.processingImages.has(imageUrl)) {
@@ -129,6 +142,10 @@ export const useHistogramStore = defineStore('histogramStore', {
 
         const latestBlackPoint = pending.blackPoint;
         const latestWhitePoint = pending.whitePoint;
+        const latestMidPoint = Math.min(
+          Math.max(pending.midPoint ?? 127, pending.blackPoint + 1),
+          pending.whitePoint - 1
+        );
 
         try {
           this.processingImages.add(imageUrl);
@@ -136,10 +153,19 @@ export const useHistogramStore = defineStore('histogramStore', {
           // Try to use cached version for speed, fallback to regular version
           let stretchedBlob;
           try {
-            stretchedBlob = await applyLevelsStretchCached(latestBlackPoint, latestWhitePoint);
+            stretchedBlob = await applyLevelsStretchCached(
+              latestBlackPoint,
+              latestWhitePoint,
+              latestMidPoint
+            );
           } catch (cacheError) {
             // If cache not available, use regular method
-            stretchedBlob = await applyLevelsStretch(imageUrl, latestBlackPoint, latestWhitePoint);
+            stretchedBlob = await applyLevelsStretch(
+              imageUrl,
+              latestBlackPoint,
+              latestWhitePoint,
+              latestMidPoint
+            );
           }
 
           const settings = this.imageSettings.get(imageUrl);
@@ -176,13 +202,14 @@ export const useHistogramStore = defineStore('histogramStore', {
     /**
      * Get stretch settings for a specific image
      * @param {string} imageUrl - Image URL
-     * @returns {Object} { blackPoint, whitePoint, stretchedImageData }
+     * @returns {Object} { blackPoint, whitePoint, midPoint, stretchedImageData }
      */
     getStretchSettings(imageUrl) {
       if (!this.imageSettings.has(imageUrl)) {
         return {
           blackPoint: 0,
           whitePoint: 255,
+          midPoint: 127,
           stretchedImageData: null,
         };
       }
@@ -191,6 +218,7 @@ export const useHistogramStore = defineStore('histogramStore', {
       return {
         blackPoint: settings.blackPoint,
         whitePoint: settings.whitePoint,
+        midPoint: settings.midPoint,
         stretchedImageData: settings.stretchedImageData,
       };
     },
@@ -207,6 +235,7 @@ export const useHistogramStore = defineStore('histogramStore', {
         }
         settings.blackPoint = 0;
         settings.whitePoint = 255;
+        settings.midPoint = 127;
         settings.stretchedImageData = null;
       }
     },

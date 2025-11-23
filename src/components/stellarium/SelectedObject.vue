@@ -35,19 +35,15 @@
         v-if="store.mountInfo.Connected && !store.sequenceRunning"
         class="flex flex-col gap-2 mt-2"
       >
-        <div class="flex gap-1">
-          <button @click="setFramingCoordinates" class="default-button-cyan max-w-60">
-            {{ $t('components.stellarium.selected_object.button_framing') }}
-          </button>
+      
           <SaveFavTargets
-            class="w-5 h-5"
             :name="selectedObject[0]"
             :ra="selectedObjectRaDeg"
             :dec="selectedObjectDecDeg"
             :ra-string="selectedObjectRa"
             :dec-string="selectedObjectDec"
           />
-        </div>
+
         <ButtonSlewCenterRotate
           class="w-full"
           :raAngle="props.selectedObjectRaDeg"

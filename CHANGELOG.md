@@ -5,8 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App4.1.0.beta4] - 2025-11-xx
+### Changed
+- Framing Assistant: Improved UI with FOV controls in image and optimized button layout
+
 ### Fixed
-- No longer close Dialog Modal when pressing next to it
+- Dialog Modal no longer closes when clicking outside it
 - Focuser small steps were not always adopted
 
 ## [App4.1.0.beta3] - 2025-11-22

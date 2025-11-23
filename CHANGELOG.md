@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App4.1.0.beta4] - 2025-11-xx
+### Fixed
+- No longer close Dialog Modal when pressing next to it
+- Focuser small steps were not always adopted
+
 ## [App4.1.0.beta3] - 2025-11-22
 ### Added
 - Framing assistang in Stellarium
@@ -26,12 +31,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App Camerapage histogram and image strech function
 
 ## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
-### Fixed
-- Fixed Camera settings layout
-- SequenceCreator Autofocus sequence fixed
-- Fixed Dialog Modal
-
-## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-18
 ### Added
 - Device connection status tracking: Real-time monitoring of 11 device types based on event history.
 - Autofocus event tracking: Dedicated store with real-time autofocus state, points, and HFR visualization.
@@ -39,7 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - AfLiveGraph: Refactored to use autofocus store instead of log parsing.
 
-## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
 ### Fixed
 - Fixed Camera settings layout
 - SequenceCreator Autofocus sequence fixed

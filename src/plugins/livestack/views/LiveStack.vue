@@ -61,7 +61,7 @@
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
           :imageData="getStretchSettings().stretchedImageData || livestackStore.currentImageUrl"
-          :loading="isLoading"
+          :loading="isLoading || isHistogramProcessing"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="false"
@@ -95,13 +95,21 @@
           v-if="showHistogram && livestackStore.currentImageUrl && getHistogram()"
           class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70"
         >
+          <div
+            v-if="isHistogramProcessing"
+            class="absolute inset-0 bg-gray-900/70 flex items-center justify-center rounded-lg text-gray-200 text-sm pointer-events-none"
+          >
+            Procesando…
+          </div>
           <HistogramChart
             :data="getHistogram()"
             height="100px"
             :showStats="false"
             :blackPoint="getStretchSettings().blackPoint"
+            :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             @levels-changed="onLevelsChanged"
+            @levels-reset="onLevelsReset"
           />
         </div>
       </div>
@@ -140,6 +148,9 @@ const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const pageIsLoading = ref(true);
 const showHistogram = ref(false);
+const isHistogramProcessing = computed(() =>
+  histogramStore.isProcessing(livestackStore.currentImageUrl)
+);
 const livestackRefs = storeToRefs(livestackStore);
 const imageAltText = computed(() =>
   t('plugins.livestack.image_alt', { filter: livestackStore.selectedFilter?.label ?? '' })
@@ -237,6 +248,7 @@ const getStretchSettings = () => {
     return {
       blackPoint: 0,
       whitePoint: 255,
+      midPoint: 127,
       stretchedImageData: null,
     };
   }
@@ -245,8 +257,18 @@ const getStretchSettings = () => {
 
 const onLevelsChanged = async (event) => {
   if (!livestackStore.currentImageUrl) return;
-  const { blackPoint, whitePoint } = event;
-  await histogramStore.applyStretch(livestackStore.currentImageUrl, blackPoint, whitePoint);
+  const { blackPoint, whitePoint, midPoint } = event;
+  await histogramStore.applyStretch(
+    livestackStore.currentImageUrl,
+    blackPoint,
+    whitePoint,
+    midPoint
+  );
+};
+
+const onLevelsReset = () => {
+  if (!livestackStore.currentImageUrl) return;
+  histogramStore.resetStretch(livestackStore.currentImageUrl);
 };
 
 // WebSocket handlers

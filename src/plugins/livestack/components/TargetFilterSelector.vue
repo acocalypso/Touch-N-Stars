@@ -41,13 +41,8 @@ const { isPortrait } = defineProps({
 });
 
 const store = useLivestackStore();
-const {
-  selectedTarget,
-  selectedFilter,
-  showFilters,
-  activeTargets,
-  activeFilters,
-} = storeToRefs(store);
+const { selectedTarget, selectedFilter, showFilters, activeTargets, activeFilters } =
+  storeToRefs(store);
 const { t } = useI18n();
 
 // State variables

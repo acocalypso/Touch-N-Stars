@@ -108,8 +108,10 @@
           height="100px"
           :showStats="false"
           :blackPoint="getStretchSettings().blackPoint"
+          :midPoint="getStretchSettings().midPoint"
           :whitePoint="getStretchSettings().whitePoint"
           @levels-changed="onLevelsChanged"
+          @levels-reset="onLevelsReset"
         />
       </div>
     </div>
@@ -255,6 +257,7 @@ const getStretchSettings = () => {
     return {
       blackPoint: 0,
       whitePoint: 255,
+      midPoint: 127,
       stretchedImageData: null,
     };
   }
@@ -263,8 +266,13 @@ const getStretchSettings = () => {
 
 const onLevelsChanged = async (event) => {
   if (!props.imageData) return;
-  const { blackPoint, whitePoint } = event;
-  await histogramStore.applyStretch(props.imageData, blackPoint, whitePoint);
+  const { blackPoint, whitePoint, midPoint } = event;
+  await histogramStore.applyStretch(props.imageData, blackPoint, whitePoint, midPoint);
+};
+
+const onLevelsReset = () => {
+  if (!props.imageData) return;
+  histogramStore.resetStretch(props.imageData);
 };
 
 onBeforeUnmount(() => {

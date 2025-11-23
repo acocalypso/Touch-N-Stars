@@ -1085,7 +1085,7 @@
       "configuration_title": "Configuración Livestack",
       "drag_hint": "Arrastrar",
       "show_rgb_only": "Mostrar solo composición RGB",
-      "track_stack_updates": "Mostrar el ultimo stack actualizado",
+      "track_stack_updates": "Mostrar siempre la pila más reciente",
       "empty_option": "Vacío",
       "image_alt": "Imagen de Livestack - {filter}",
       "loading_image": "Cargando imagen de Livestack...",

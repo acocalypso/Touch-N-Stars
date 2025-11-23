@@ -1085,7 +1085,7 @@
       "configuration_title": "Livestack Settings",
       "drag_hint": "Drag",
       "show_rgb_only": "Show RGB composition only",
-      "track_stack_updates": "Track stack updates",
+      "track_stack_updates": "Always show the latest stack",
       "empty_option": "Empty",
       "image_alt": "Livestack image - {filter}",
       "loading_image": "Loading livestack image...",

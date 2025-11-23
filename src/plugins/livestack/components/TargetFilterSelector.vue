@@ -2,10 +2,11 @@
   <div :class="[isPortrait ? 'flex flex-col space-y-2' : 'flex']">
     <ButtonWithOptions
       ref="targetButtonRef"
-      :availableOptions="availableTargets"
+      :availableOptions="activeTargets"
       :currentOption="selectedTarget"
       :placeholder="t('plugins.livestack.no_target')"
       :fullWidth="isPortrait"
+      :showCount="!showFilters"
       @optionSelected="selectTarget($event)"
       @open="handleTargetOpen"
       @close="handleTargetClose"
@@ -14,7 +15,7 @@
     <ButtonWithOptions
       v-show="showFilters"
       ref="filterButtonRef"
-      :availableOptions="availableFilters"
+      :availableOptions="activeFilters"
       :currentOption="selectedFilter"
       :placeholder="t('plugins.livestack.no_filter')"
       :fullWidth="isPortrait"
@@ -40,8 +41,13 @@ const { isPortrait } = defineProps({
 });
 
 const store = useLivestackStore();
-const { availableTargets, selectedTarget, availableFilters, selectedFilter, showFilters } =
-  storeToRefs(store);
+const {
+  selectedTarget,
+  selectedFilter,
+  showFilters,
+  activeTargets,
+  activeFilters,
+} = storeToRefs(store);
 const { t } = useI18n();
 
 // State variables

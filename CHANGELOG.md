@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - AfLiveGraph: Refactored to use autofocus store instead of log parsing.
 
+## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
 ### Fixed
 - Fixed Camera settings layout
 - SequenceCreator Autofocus sequence fixed

@@ -1,10 +1,10 @@
 <template>
   <div
-    class="absolute top-3 left-40 bg-gradient-to-br from-gray-800/80 to-gray-900/90 backdrop-blur-lg px-3 py-2 text-white flex items-center gap-1.5 rounded-lg border border-gray-700/50 z-50 shadow-lg shadow-black/40 transition-all duration-300 portrait:hidden"
+    class="absolute top-3 left-36 bg-gradient-to-br from-gray-800/80 to-gray-900/90 backdrop-blur-lg px-3 py-2 text-white flex items-center gap-1.5 rounded-lg border border-gray-700/50 z-50 shadow-lg shadow-black/40 transition-all duration-300 portrait:hidden"
   >
     <StartStopButton @pressed="toogleState()" />
     <TargetFilterSelector :isPortrait="false" />
-    <LiveStackConfiguration />
+    <LivestackSettings />
     <StackFrameCounter />
   </div>
   <div
@@ -13,7 +13,7 @@
     <div class="flex justify-between items-center gap-2 mb-3">
       <StartStopButton @pressed="toogleState()" />
       <div class="flex gap-1.5">
-        <LiveStackConfiguration />
+        <LivestackSettings />
         <StackFrameCounter />
       </div>
     </div>
@@ -23,7 +23,7 @@
 
 <script setup>
 import StackFrameCounter from './FrameCounter.vue';
-import LiveStackConfiguration from './LivestackConfiguration.vue';
+import LivestackSettings from './LivestackSettings.vue';
 import TargetFilterSelector from './TargetFilterSelector.vue';
 import StartStopButton from './StartStopButton.vue';
 import { useLivestackStore } from '../store/livestackStore.js';

@@ -61,7 +61,7 @@
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
           :imageData="getStretchSettings().stretchedImageData || livestackStore.currentImageUrl"
-          :loading="isLoading"
+          :loading="isLoading || isHistogramProcessing"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="false"
@@ -95,13 +95,21 @@
           v-if="showHistogram && livestackStore.currentImageUrl && getHistogram()"
           class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70"
         >
+          <div
+            v-if="isHistogramProcessing"
+            class="absolute inset-0 bg-gray-900/70 flex items-center justify-center rounded-lg text-gray-200 text-sm pointer-events-none"
+          >
+            Procesando…
+          </div>
           <HistogramChart
             :data="getHistogram()"
             height="100px"
             :showStats="false"
             :blackPoint="getStretchSettings().blackPoint"
+            :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             @levels-changed="onLevelsChanged"
+            @levels-reset="onLevelsReset"
           />
         </div>
       </div>
@@ -140,32 +148,30 @@ const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
 const pageIsLoading = ref(true);
 const showHistogram = ref(false);
+const isHistogramProcessing = computed(() =>
+  histogramStore.isProcessing(livestackStore.currentImageUrl)
+);
 const livestackRefs = storeToRefs(livestackStore);
 const imageAltText = computed(() =>
   t('plugins.livestack.image_alt', { filter: livestackStore.selectedFilter?.label ?? '' })
 );
 const imagePlaceholderText = computed(() => t('plugins.livestack.loading_image'));
 
-// Observe changes to selected target/filter and load image accordingly
+// Observe changes to target/filter together to avoid duplicate loads
 watch(
-  () => livestackRefs.selectedTarget.value,
-  (newVal) => {
-    if (newVal) {
-      const targetLabel = newVal?.label;
-      const filterLabel = livestackStore.selectedFilter?.label;
-      loadImage(targetLabel, filterLabel);
-    }
-  }
-);
+  () => [livestackRefs.selectedTarget.value, livestackRefs.selectedFilter.value],
+  ([newTarget, newFilter], [oldTarget, oldFilter]) => {
+    const targetLabel = newTarget?.label;
+    const filterLabel = newFilter?.label;
 
-watch(
-  () => livestackRefs.selectedFilter.value,
-  (newVal) => {
-    if (newVal) {
-      const filterLabel = newVal?.label;
-      const targetLabel = livestackStore.selectedTarget?.label;
-      loadImage(targetLabel, filterLabel);
-    }
+    const oldTargetLabel = oldTarget?.label ?? oldTarget;
+    const oldFilterLabel = oldFilter?.label ?? oldFilter;
+
+    // Skip if nothing changed or labels are missing
+    if (!targetLabel || !filterLabel) return;
+    if (targetLabel === oldTargetLabel && filterLabel === oldFilterLabel) return;
+
+    loadImage(targetLabel, filterLabel);
   }
 );
 
@@ -242,6 +248,7 @@ const getStretchSettings = () => {
     return {
       blackPoint: 0,
       whitePoint: 255,
+      midPoint: 127,
       stretchedImageData: null,
     };
   }
@@ -250,8 +257,18 @@ const getStretchSettings = () => {
 
 const onLevelsChanged = async (event) => {
   if (!livestackStore.currentImageUrl) return;
-  const { blackPoint, whitePoint } = event;
-  await histogramStore.applyStretch(livestackStore.currentImageUrl, blackPoint, whitePoint);
+  const { blackPoint, whitePoint, midPoint } = event;
+  await histogramStore.applyStretch(
+    livestackStore.currentImageUrl,
+    blackPoint,
+    whitePoint,
+    midPoint
+  );
+};
+
+const onLevelsReset = () => {
+  if (!livestackStore.currentImageUrl) return;
+  histogramStore.resetStretch(livestackStore.currentImageUrl);
 };
 
 // WebSocket handlers

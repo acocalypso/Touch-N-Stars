@@ -17,47 +17,67 @@ export const useLivestackStore = defineStore('livestackStore', {
   }),
   getters: {
     currentCounter: (state) => {
-      if (state.selectedTarget == null) return '--';
+      console.log('Getting currentCounter for filter:', state.selectedFilter);
       return state.selectedFilter?.count ?? '--';
     },
+
+    isTrackingStacks: () => {
+      const settingsStore = useSettingsStore();
+      return settingsStore.livestack?.isTrackingStacks ?? true;
+    },
+
     showFilters: () => {
       const settingsStore = useSettingsStore();
       // Fall back to true if persisted settings were missing the livestack section
       return settingsStore.livestack?.showFilters ?? true;
     },
-  },
-  actions: {
-    initFromCounts(counts = []) {
-      const normalized = Array.isArray(counts)
-        ? counts.filter((c) => c && c.target && c.filter)
-        : [];
 
-      this.availableImages = normalized;
+    activeImages() {
+      return this.showFilters
+        ? this.availableImages
+        : this.availableImages.filter((img) => img.filter === 'RGB');
+    },
 
+    activeTargets() {
       const targetsMap = new Map();
-      normalized.forEach(({ target, count }) => {
+      this.activeImages.forEach(({ target, count }) => {
         if (!targetsMap.has(target)) {
           targetsMap.set(target, { label: target, count });
         }
       });
-      this.availableTargets = Array.from(targetsMap.values());
-      if (this.selectedTarget == null) {
-        this.selectedTarget = this.availableTargets[0] || null;
-      }
-
-      this.availableFilters = this._filtersForTarget(this.selectedTarget?.label);
-      if (this.availableFilters.find((f) => f.label === this.selectedFilter?.label) == null) {
-        this.selectedFilter = this._defaultFilter();
-      }
+      return Array.from(targetsMap.values()).toSorted((a, b) => a.label.localeCompare(b.label));
     },
 
+    activeFilters() {
+      if (!this.selectedTarget) return [];
+      const filtersMap = new Map();
+      this.activeImages
+        .filter((img) => img.target === this.selectedTarget.label)
+        .forEach(({ filter, count }) => {
+          if (filter && !filtersMap.has(filter)) {
+            filtersMap.set(filter, { label: filter, count });
+          }
+        });
+      return Array.from(filtersMap.values()).toSorted((a, b) => a.label.localeCompare(b.label));
+    },
+  },
+  actions: {
     setShowFilters(show) {
       const settingsStore = useSettingsStore();
       if (!settingsStore.livestack) {
-        settingsStore.livestack = { showFilters: true };
+        settingsStore.livestack = { showFilters: true, isTrackingStacks: true };
       }
       settingsStore.livestack.showFilters = show;
+      // If filters are hidden, ensure selection stays valid (RGB-only branch)
       this.selectedFilter = this._defaultFilter();
+    },
+
+    setTrackingStacks(track) {
+      const settingsStore = useSettingsStore();
+      if (!settingsStore.livestack) {
+        settingsStore.livestack = { showFilters: true, isTrackingStacks: true };
+      }
+      settingsStore.livestack.isTrackingStacks = track;
     },
 
     selectTarget(targetLabel) {
@@ -70,42 +90,35 @@ export const useLivestackStore = defineStore('livestackStore', {
     },
 
     selectFilter(filterLabel) {
-      this.selectedFilter = this.availableFilters.find((f) => f.label === filterLabel) || null;
+      const found = this.availableFilters.find((f) => f.label === filterLabel);
+      if (found) {
+        this.selectedFilter = found;
+      } else if (!this.selectedFilter) {
+        this.selectedFilter = this._defaultFilter();
+      }
     },
 
     // Update count for a specific target/filter from WebSocket event
     updateCountForTargetFilter(targetLabel, filterLabel, count) {
       // Find or create target
-      let targetObj = this.availableTargets.find((t) => t.label === targetLabel);
-      if (!targetObj) {
-        targetObj = { label: targetLabel, count };
-        this.availableTargets.push(targetObj);
-
-        // If no target was selected, select this new one
-        if (!this.selectedTarget) {
-          this.selectedTarget = targetObj;
-        }
-      } else {
-        targetObj.count = count;
-      }
-
-      // Update or append the underlying tuple
-      let tuple = this.availableImages.find(
+      let image = this.availableImages.find(
         (img) => img.target === targetLabel && img.filter === filterLabel
       );
-      if (!tuple) {
-        tuple = { target: targetLabel, filter: filterLabel, count };
-        this.availableImages.push(tuple);
+      if (!image) {
+        this.availableImages.push({ target: targetLabel, filter: filterLabel, count });
       } else {
-        tuple.count = count;
+        image.count = count;
       }
 
-      // Recompute filters for the selected target
-      if (this.selectedTarget?.label === targetLabel) {
-        this.availableFilters = this._filtersForTarget(targetLabel);
-        this.selectedFilter =
-          this.availableFilters.find((f) => f.label === this.selectedFilter?.label) ||
-          this._defaultFilter();
+      this.makeAvailableTargets();
+      this.makeAvailableFilters();
+
+      if (this.isTrackingStacks) {
+        const filterAllowed = this.showFilters || filterLabel === 'RGB';
+        if (filterAllowed) {
+          this.selectTarget(targetLabel);
+          this.selectFilter(filterLabel);
+        }
       }
     },
 
@@ -145,16 +158,17 @@ export const useLivestackStore = defineStore('livestackStore', {
       this.setShowFilters(!this.showFilters);
     },
 
+    // Check image availability and initialize store state
     async checkImageAvailability() {
       try {
         const counts = await this.loadAllTargetFilterCounts();
-        this.initFromCounts(counts);
+        this.makeAvailableImages(counts);
         if (this.selectedTarget && this.selectedFilter) {
           return true;
         }
       } catch (error) {
         console.error('Error checking image availability:', error);
-        this.initFromCounts([]);
+        this.makeAvailableImages([]);
         return false;
       }
     },
@@ -197,6 +211,38 @@ export const useLivestackStore = defineStore('livestackStore', {
       return counts;
     },
 
+    // Build availableImages from counts
+    makeAvailableImages(counts = []) {
+      const normalized = Array.isArray(counts)
+        ? counts.filter((c) => c && c.target && c.filter)
+        : [];
+      this.availableImages = normalized;
+      this.makeAvailableTargets();
+      this.makeAvailableFilters();
+    },
+
+    makeAvailableTargets() {
+      const targetsMap = new Map();
+      this.activeImages.forEach(({ target, count }) => {
+        if (!targetsMap.has(target)) {
+          targetsMap.set(target, { label: target, count });
+        }
+      });
+      this.availableTargets = Array.from(targetsMap.values()).toSorted((a, b) =>
+        a.label.localeCompare(b.label)
+      );
+      if (this.selectedTarget == null) {
+        this.selectedTarget = this.availableTargets[0] || null;
+      }
+    },
+
+    makeAvailableFilters() {
+      this.availableFilters = this._filtersForTarget(this.selectedTarget?.label).toSorted((a, b) =>
+        a.label.localeCompare(b.label)
+      );
+      this.selectedFilter = this._defaultFilter();
+    },
+
     // Fetch info for a given target/filter using the API (authoritative count)
     async fetchAndUpdateCount(target, filter) {
       const targetLabel = target?.label ?? target;
@@ -222,7 +268,7 @@ export const useLivestackStore = defineStore('livestackStore', {
       if (!targetLabel) return [];
 
       const filtersMap = new Map();
-      this.availableImages
+      this.activeImages
         .filter((img) => img.target === targetLabel)
         .forEach(({ filter, count }) => {
           if (filter && !filtersMap.has(filter)) {
@@ -233,13 +279,11 @@ export const useLivestackStore = defineStore('livestackStore', {
       return Array.from(filtersMap.values());
     },
     _defaultFilter() {
-      const settingsStore = useSettingsStore();
-      const showFilters = settingsStore.livestack?.showFilters ?? true;
-      if (showFilters) {
-        return this.availableFilters[0] || null;
-      } else {
-        return this.availableFilters.find((f) => f.label === 'RGB') || null;
-      }
+      return (
+        this.activeFilters.find((f) => f.label === this.selectedFilter?.label) ||
+        this.availableFilters[0] ||
+        null
+      );
     },
   },
 });

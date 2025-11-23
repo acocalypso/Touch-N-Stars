@@ -46,7 +46,7 @@
           framingStore.isRotating ||
           props.disabled
         "
-        class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors duration-200 px-3 w-12 h-12 rounded-none border-l border-gray-500"
+        class="bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white transition-colors duration-200 px-3 w-10 h-10 rounded-none border-l border-gray-500"
         title="Settings"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

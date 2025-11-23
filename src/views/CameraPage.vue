@@ -51,8 +51,10 @@
             height="120px"
             :showStats="true"
             :blackPoint="getStretchSettings().blackPoint"
+            :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             @levels-changed="onLevelsChanged"
+            @levels-reset="onLevelsReset"
           />
         </div>
 
@@ -356,7 +358,7 @@ const openModal = (modalType) => {
 // Responsive computed properties
 const iconCenterHere = computed(() => [
   'absolute z-10',
-  !isLandscape.value ? 'top-24 right-28' : 'top-2 right-28', // Kept on right side as it relates to image controls
+  !isLandscape.value ? 'top-24 right-40' : 'top-2 right-40', // Kept on right side as it relates to image controls
 ]);
 
 // Event handlers
@@ -385,6 +387,7 @@ const getStretchSettings = () => {
     return {
       blackPoint: 0,
       whitePoint: 255,
+      midPoint: 127,
       stretchedImageData: null,
     };
   }
@@ -393,8 +396,13 @@ const getStretchSettings = () => {
 
 const onLevelsChanged = async (event) => {
   if (!imageStore.imageData) return;
-  const { blackPoint, whitePoint } = event;
-  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint);
+  const { blackPoint, whitePoint, midPoint } = event;
+  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint, midPoint);
+};
+
+const onLevelsReset = async () => {
+  if (!imageStore.imageData) return;
+  histogramStore.resetStretch(imageStore.imageData);
 };
 
 // Load image on mount if imageData is empty

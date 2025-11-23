@@ -21,12 +21,32 @@ export function cacheOriginalImageData(imageUrl, imageData) {
 }
 
 /**
+ * Utility helpers for tone mapping
+ */
+const clamp01 = (value) => Math.min(1, Math.max(0, value));
+
+/**
+ * Midtone curve using a gamma-like transform (stable and monotonic).
+ * This keeps 0→0 and 1→1 and pivots around the chosen midtone.
+ */
+const applyMidtoneTransfer = (value, midTone) => {
+  const m = Math.min(0.999, Math.max(0.001, midTone)); // avoid division by zero
+  if (Math.abs(m - 0.5) < 1e-6) {
+    return clamp01(value);
+  }
+  const gamma = Math.log(0.5) / Math.log(m);
+  const transformed = value ** gamma;
+  return clamp01(transformed);
+};
+
+/**
  * Apply levels stretch using cached image data (super fast on repeated calls)
  * @param {number} blackPoint - Input black level (0-255)
  * @param {number} whitePoint - Input white level (0-255)
+ * @param {number} midPoint - Midtone balance (0-255), default center
  * @returns {Promise<Blob>} Stretched image as blob
  */
-export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255) {
+export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255, midPoint = 127) {
   return new Promise((resolve, reject) => {
     if (!cachedOriginalImageData || blackPoint >= whitePoint) {
       reject(new Error('No cached image data or invalid parameters'));
@@ -43,6 +63,7 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255)
 
       const data = imageData.data;
       const range = whitePoint - blackPoint;
+      const midTone = clamp01((midPoint - blackPoint) / range);
 
       // Apply levels stretch formula to each pixel
       for (let i = 0; i < data.length; i += 4) {
@@ -50,10 +71,13 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255)
         const g = data[i + 1];
         const b = data[i + 2];
 
-        // Apply levels stretch: (value - black) / (white - black) * 255
-        data[i] = Math.max(0, Math.min(255, Math.round(((r - blackPoint) / range) * 255)));
-        data[i + 1] = Math.max(0, Math.min(255, Math.round(((g - blackPoint) / range) * 255)));
-        data[i + 2] = Math.max(0, Math.min(255, Math.round(((b - blackPoint) / range) * 255)));
+        const stretchedR = applyMidtoneTransfer(clamp01((r - blackPoint) / range), midTone);
+        const stretchedG = applyMidtoneTransfer(clamp01((g - blackPoint) / range), midTone);
+        const stretchedB = applyMidtoneTransfer(clamp01((b - blackPoint) / range), midTone);
+
+        data[i] = Math.round(stretchedR * 255);
+        data[i + 1] = Math.round(stretchedG * 255);
+        data[i + 2] = Math.round(stretchedB * 255);
       }
 
       // Create canvas and put modified data
@@ -222,9 +246,15 @@ export function getHistogramStats(histogram) {
  * @param {string} imageUrl - URL or blob URL of the image
  * @param {number} blackPoint - Input black level (0-255)
  * @param {number} whitePoint - Input white level (0-255)
+ * @param {number} midPoint - Midtone balance (0-255), default center
  * @returns {Promise<Blob>} Stretched image as blob
  */
-export async function applyLevelsStretch(imageUrl, blackPoint = 0, whitePoint = 255) {
+export async function applyLevelsStretch(
+  imageUrl,
+  blackPoint = 0,
+  whitePoint = 255,
+  midPoint = 127
+) {
   return new Promise((resolve, reject) => {
     if (!imageUrl || blackPoint >= whitePoint) {
       reject(new Error('Invalid parameters for levels stretch'));
@@ -256,16 +286,20 @@ export async function applyLevelsStretch(imageUrl, blackPoint = 0, whitePoint = 
 
         // Apply levels stretch to each pixel
         const range = whitePoint - blackPoint;
+        const midTone = clamp01((midPoint - blackPoint) / range);
         for (let i = 0; i < data.length; i += 4) {
           const r = data[i];
           const g = data[i + 1];
           const b = data[i + 2];
           // Alpha channel (i + 3) unchanged
 
-          // Apply levels stretch formula: (value - black) / (white - black) * 255
-          data[i] = Math.max(0, Math.min(255, Math.round(((r - blackPoint) / range) * 255)));
-          data[i + 1] = Math.max(0, Math.min(255, Math.round(((g - blackPoint) / range) * 255)));
-          data[i + 2] = Math.max(0, Math.min(255, Math.round(((b - blackPoint) / range) * 255)));
+          const stretchedR = applyMidtoneTransfer(clamp01((r - blackPoint) / range), midTone);
+          const stretchedG = applyMidtoneTransfer(clamp01((g - blackPoint) / range), midTone);
+          const stretchedB = applyMidtoneTransfer(clamp01((b - blackPoint) / range), midTone);
+
+          data[i] = Math.round(stretchedR * 255);
+          data[i + 1] = Math.round(stretchedG * 255);
+          data[i + 2] = Math.round(stretchedB * 255);
         }
 
         // Put modified image data back on canvas

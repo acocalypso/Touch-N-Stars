@@ -49,7 +49,7 @@ const timeoutId = ref(null); // ID für den Timeout
 
 async function moveFocuser(newPosiont) {
   const currentPosition = store.focuserInfo.Position;
-  newPosiont = Math.max(0, newPosiont);
+  newPosiont = Math.max(0, Math.round(newPosiont));
   try {
     console.log('Change focuser positon from', currentPosition, 'to', newPosiont);
     await apiService.moveFocuser(newPosiont);

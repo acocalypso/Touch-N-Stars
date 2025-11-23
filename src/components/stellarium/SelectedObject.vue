@@ -35,19 +35,14 @@
         v-if="store.mountInfo.Connected && !store.sequenceRunning"
         class="flex flex-col gap-2 mt-2"
       >
-        <div class="flex gap-1">
-          <button @click="setFramingCoordinates" class="default-button-cyan max-w-60">
-            {{ $t('components.stellarium.selected_object.button_framing') }}
-          </button>
-          <SaveFavTargets
-            class="w-5 h-5"
-            :name="selectedObject[0]"
-            :ra="selectedObjectRaDeg"
-            :dec="selectedObjectDecDeg"
-            :ra-string="selectedObjectRa"
-            :dec-string="selectedObjectDec"
-          />
-        </div>
+        <SaveFavTargets
+          :name="selectedObject[0]"
+          :ra="selectedObjectRaDeg"
+          :dec="selectedObjectDecDeg"
+          :ra-string="selectedObjectRa"
+          :dec-string="selectedObjectDec"
+        />
+
         <ButtonSlewCenterRotate
           class="w-full"
           :raAngle="props.selectedObjectRaDeg"
@@ -82,7 +77,6 @@ const props = defineProps({
   selectedObjectDecDeg: Number,
 });
 
-const emit = defineEmits(['setFramingCoordinates']);
 const buttonsEnabled = ref(false);
 
 // Check if in landscape mode
@@ -103,37 +97,6 @@ const contentClasses = computed(() => ({
   // Landscape mode - account for status bar and navigation
   'max-h-[calc(100vh-8rem)]': isLandscape.value,
 }));
-
-function setFramingCoordinates() {
-  // Temporarily disable buttons to prevent multiple taps (especially on iOS)
-  buttonsEnabled.value = false;
-
-  // Platform detection for iOS-specific handling
-  const isIOS = Capacitor.getPlatform() === 'ios';
-
-  // For iOS, add a small delay to ensure touch events are fully processed
-  setTimeout(
-    () => {
-      emit('setFramingCoordinates', {
-        name: props.selectedObject[0],
-        raString: props.selectedObjectRa,
-        decString: props.selectedObjectDec,
-        ra: props.selectedObjectRaDeg,
-        dec: props.selectedObjectDecDeg,
-        item: props.selectedObject,
-      });
-
-      // Re-enable buttons after a short delay
-      setTimeout(
-        () => {
-          buttonsEnabled.value = true;
-        },
-        isIOS ? 300 : 100
-      );
-    },
-    isIOS ? 50 : 0
-  );
-}
 
 onMounted(() => {
   buttonsEnabled.value = false;

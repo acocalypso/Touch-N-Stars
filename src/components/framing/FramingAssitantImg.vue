@@ -254,6 +254,8 @@ function adjustContainerIfNeeded() {
 }
 
 let dragDebounceTimeout;
+let rotateDebounceTimeout;
+
 // Drag-Event von Moveable
 function onDrag(e) {
   x.value += e.delta[0];
@@ -284,9 +286,15 @@ function onDrag(e) {
   }, 300);
 }
 
-// Rotate-Event von Moveable
+// Rotate-Event von Moveable mit Debounce
 function onRotate(e) {
   framingStore.rotationAngle = e.rotate;
+
+  // Debounced Berechnung
+  clearTimeout(rotateDebounceTimeout);
+  rotateDebounceTimeout = setTimeout(() => {
+    calculateRaDec();
+  }, 300);
 }
 
 async function getTargetPic() {

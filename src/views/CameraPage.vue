@@ -17,16 +17,18 @@
       <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
-          :imageData="imageStore.imageData"
+          :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="true"
-          :loading="imageStore.isImageFetching"
+          :showHistogram="true"
+          :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
           height="100vh"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
           @fullscreen="openImageModal"
+          @histogram-toggle="showHistogram = !showHistogram"
           class="bg-gray-900"
         >
           <!-- Custom placeholder -->
@@ -41,6 +43,18 @@
             </div>
           </template>
         </ZoomableImage>
+
+        <!-- Histogram Overlay -->
+        <div v-if="showHistogram && imageStore.imageData" class="z-50" :class="[histogramClasses]">
+          <HistogramChart
+            :data="getHistogram()"
+            height="120px"
+            :showStats="true"
+            :blackPoint="getStretchSettings().blackPoint"
+            :whitePoint="getStretchSettings().whitePoint"
+            @levels-changed="onLevelsChanged"
+          />
+        </div>
 
         <div
           v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
@@ -254,6 +268,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
+import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
 import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
@@ -266,9 +281,12 @@ import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 
 // Stores
+import { useHistogramStore } from '@/store/histogramStore';
+
 const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
+const histogramStore = useHistogramStore();
 
 // State
 const showModal = ref(false);
@@ -276,6 +294,18 @@ const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
+const showHistogram = ref(false);
+
+// Check if in landscape mode
+const { isLandscape } = useOrientation();
+
+// Container positioning classes
+const histogramClasses = computed(() => ({
+  // Portrait mode - bottom center
+  'absolute top-36 left-4 w-2/3 min-w-72': !isLandscape.value,
+  // Landscape mode - left side vertical (changed from right to left)
+  'absolute top-24 left-36 w-1/2 min-w-72': isLandscape.value,
+}));
 
 // Modal Management - togglet das Modal oder schließt andere
 const openModal = (modalType) => {
@@ -323,8 +353,6 @@ const openModal = (modalType) => {
   }
 };
 
-const { isLandscape } = useOrientation();
-
 // Responsive computed properties
 const iconCenterHere = computed(() => [
   'absolute z-10',
@@ -347,16 +375,42 @@ const closeImageModal = () => {
   showModal.value = false;
 };
 
+const getHistogram = () => {
+  if (!imageStore.imageData) return null;
+  return histogramStore.getHistogram(imageStore.imageData);
+};
+
+const getStretchSettings = () => {
+  if (!imageStore.imageData) {
+    return {
+      blackPoint: 0,
+      whitePoint: 255,
+      stretchedImageData: null,
+    };
+  }
+  return histogramStore.getStretchSettings(imageStore.imageData);
+};
+
+const onLevelsChanged = async (event) => {
+  if (!imageStore.imageData) return;
+  const { blackPoint, whitePoint } = event;
+  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint);
+};
+
 // Load image on mount if imageData is empty
 onMounted(async () => {
   if (!imageStore.imageData) {
     await imageStore.getImage();
   }
+  // Calculate histogram for the image
+  if (imageStore.imageData) {
+    await histogramStore.calculateHistogramForImage(imageStore.imageData);
+  }
 });
 </script>
 
 <style scoped>
-/* Drag-Hinweis für Modal Headers */
+/* Drag Modal Headers */
 :deep(.modal-header) {
   cursor: move;
   cursor: grab;

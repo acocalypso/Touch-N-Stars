@@ -47,8 +47,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
-
 // Props definition
 const props = defineProps({
   statusValue: {

@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref } from 'vue';
+import { ref } from 'vue';
 import { useMountStore } from '@/store/mountStore';
 import { useFramingStore } from '@/store/framingStore';
 import { apiStore } from '@/store/store';

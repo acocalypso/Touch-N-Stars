@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from './settingsStore';
+import { useHistogramStore } from './histogramStore';
 
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
@@ -62,8 +63,14 @@ export const useImagetStore = defineStore('imageStore', {
         if (imageResponse && imageResponse.data) {
           if (this.imageData) {
             URL.revokeObjectURL(this.imageData);
+            // Clean up old image from histogram store
+            const histogramStore = useHistogramStore();
+            histogramStore.clearImageCache(this.imageData);
           }
           this.imageData = URL.createObjectURL(imageResponse.data);
+          // Calculate histogram for the new image
+          const histogramStore = useHistogramStore();
+          await histogramStore.calculateHistogramForImage(this.imageData);
         }
       } catch (error) {
         console.error('[ImageStore] Error fetching information:', error);
@@ -137,6 +144,9 @@ export const useImagetStore = defineStore('imageStore', {
         // Gebe alte cached URL frei bevor neue gespeichert wird
         if (this.lastImage.image && this.lastImage.image !== imageUrl) {
           URL.revokeObjectURL(this.lastImage.image);
+          // Clean up old image from histogram store
+          const histogramStore = useHistogramStore();
+          histogramStore.clearImageCache(this.lastImage.image);
         }
 
         // Save to cache
@@ -144,6 +154,10 @@ export const useImagetStore = defineStore('imageStore', {
         this.lastImage.quality = quality;
         this.lastImage.index = index;
         this.lastImage.image = imageUrl;
+
+        // Calculate histogram for the sequence image
+        const histogramStore = useHistogramStore();
+        await histogramStore.calculateHistogramForImage(imageUrl);
 
         return imageUrl;
       } catch (error) {
@@ -200,6 +214,11 @@ export const useImagetStore = defineStore('imageStore', {
     },
 
     clearImageCache() {
+      if (this.imageData) {
+        // Clean up from histogram store
+        const histogramStore = useHistogramStore();
+        histogramStore.clearImageCache(this.imageData);
+      }
       this.imageData = null;
       this.isImageFetching = false;
       this.isSequenceImageFetching = false;

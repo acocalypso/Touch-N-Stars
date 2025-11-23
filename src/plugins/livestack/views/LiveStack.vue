@@ -60,18 +60,20 @@
       <div class="fixed inset-0 z-10">
         <!-- ZoomableImage Component - Full Screen -->
         <ZoomableImage
-          :imageData="livestackStore.currentImageUrl"
+          :imageData="getStretchSettings().stretchedImageData || livestackStore.currentImageUrl"
           :loading="isLoading"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="false"
+          :showHistogram="true"
           :initialZoom="currentZoomLevel"
           height="100vh"
-          :altText="`Livestack Image - ${livestackStore.selectedFilter}`"
-          placeholderText="Loading livestack image..."
+          :altText="imageAltText"
+          :placeholderText="imagePlaceholderText"
           @image-load="handleImageLoad"
           @image-error="handleImageError"
           @download="handleDownload"
+          @histogram-toggle="showHistogram = !showHistogram"
           class="bg-gray-900"
         >
           <!-- Custom placeholder -->
@@ -87,196 +89,88 @@
             </div>
           </template>
         </ZoomableImage>
+
+        <!-- Histogram Overlay -->
+        <div
+          v-if="showHistogram && livestackStore.currentImageUrl && getHistogram()"
+          class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70"
+        >
+          <HistogramChart
+            :data="getHistogram()"
+            height="100px"
+            :showStats="false"
+            :blackPoint="getStretchSettings().blackPoint"
+            :whitePoint="getStretchSettings().whitePoint"
+            @levels-changed="onLevelsChanged"
+          />
+        </div>
       </div>
 
       <!-- Control Panel Overlay -->
-      <div :class="controlPanelClasses">
-        <!-- Header with toggle button - always visible -->
-        <div
-          class="sticky top-0 z-40 bg-gray-800/90 backdrop-blur-sm rounded-t-lg flex items-center justify-between p-4 border-b border-gray-700"
-        >
-          <h5 class="text-lg font-bold text-white">Livestack</h5>
-          <button
-            @click="toggleControlPanel"
-            class="p-1 hover:bg-gray-700 rounded transition-colors"
-            :title="isControlPanelMinimized ? 'Expand' : 'Minimize'"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4 transition-transform duration-200 text-white"
-              :class="{ 'rotate-180': isControlPanelMinimized }"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Scrollable content -->
-        <div v-show="!isControlPanelMinimized" class="bg-gray-800/90 backdrop-blur-sm">
-          <div class="p-4 border-b border-gray-700">
-            <!-- Beta Notice -->
-            <div v-if="livestackPluginAvailable" class="bg-blue-600/50 rounded p-2 mb-3 text-xs">
-              <p class="text-blue-200">{{ t('plugins.livestack.beta_note') }}</p>
-            </div>
-
-            <!-- Controls -->
-            <div class="flex space-x-2">
-              <button @click="startLivestack" class="default-button-green" :disabled="isStarting">
-                <PlayIcon v-if="!isStarting" class="w-4 h-4" />
-                <ArrowPathIcon v-else class="w-4 h-4 animate-spin" />
-              </button>
-              <button @click="stopLivestack" class="default-button-red">
-                <StopIcon class="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <!-- Target and Filter Selection (Two-Level) -->
-          <div v-if="availableImages.length > 0" class="p-4">
-            <TargetFilterSelector
-              ref="targetFilterSelectorRef"
-              :availableImages="availableImages"
-              :selectedTarget="selectedTargetForUI"
-              :selectedFilter="livestackStore.selectedFilter"
-              :currentTarget="livestackStore.selectedTarget"
-              @select-target="selectTargetUI"
-              @select-filter="selectFilterFromSelector"
-            />
-          </div>
-        </div>
-      </div>
+      <LivestackControlBar @error="errorMessage = $event" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
+import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import websocketChannelService from '@/services/websocketChannelSocket.js';
-import { useLivestackStore } from '../store/livestackStore';
-import { PlayIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { useLivestackStore } from '../store/livestackStore.js';
+import { useHistogramStore } from '@/store/histogramStore';
 import { useI18n } from 'vue-i18n';
-import { useOrientation } from '@/composables/useOrientation';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
-import TargetFilterSelector from '../components/TargetFilterSelector.vue';
+import LivestackControlBar from '../components/LivestackControlBar.vue';
+import { storeToRefs } from 'pinia';
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
-const { isLandscape } = useOrientation();
+const histogramStore = useHistogramStore();
 const store = apiStore();
 const settingsStore = useSettingsStore();
-const availableImages = ref([]);
-const currentTarget = ref(null);
 const isLoading = ref(false);
-const isStarting = ref(false);
 const lastUpdated = ref(null);
 const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
 const livestackPluginAvailable = ref(false);
-const isControlPanelMinimized = ref(false);
 const pageIsLoading = ref(true);
-const selectedTargetForUI = ref(null); // Für zwei-stufige Selektion
-const targetFilterSelectorRef = ref(null); // Referenz zur TargetFilterSelector-Komponente
+const showHistogram = ref(false);
+const livestackRefs = storeToRefs(livestackStore);
+const imageAltText = computed(() =>
+  t('plugins.livestack.image_alt', { filter: livestackStore.selectedFilter?.label ?? '' })
+);
+const imagePlaceholderText = computed(() => t('plugins.livestack.loading_image'));
 
-// Responsive positioning for control panel
-const controlPanelClasses = computed(() => ({
-  'fixed z-30 max-w-sm max-h-[calc(100vh-8rem)] overflow-y-auto scrollbar-thin': true,
-  'top-24 left-4': !isLandscape.value, // Portrait mode - below navbar
-  'top-4 left-40 max-h-[calc(100vh-2rem)]': isLandscape.value, // Landscape mode - normal position
-}));
+// Observe changes to target/filter together to avoid duplicate loads
+watch(
+  () => [livestackRefs.selectedTarget.value, livestackRefs.selectedFilter.value],
+  ([newTarget, newFilter], [oldTarget, oldFilter]) => {
+    const targetLabel = newTarget?.label;
+    const filterLabel = newFilter?.label;
 
-const toggleControlPanel = () => {
-  isControlPanelMinimized.value = !isControlPanelMinimized.value;
-};
+    const oldTargetLabel = oldTarget?.label ?? oldTarget;
+    const oldFilterLabel = oldFilter?.label ?? oldFilter;
 
-const startLivestack = async () => {
-  isStarting.value = true;
-  errorMessage.value = null;
+    // Skip if nothing changed or labels are missing
+    if (!targetLabel || !filterLabel) return;
+    if (targetLabel === oldTargetLabel && filterLabel === oldFilterLabel) return;
 
-  try {
-    const result = await apiService.livestackStart();
-    if (result.Success) {
-      console.log('Livestack started successfully');
-    } else {
-      errorMessage.value = result.Error || 'Failed to start livestack';
-    }
-  } catch (error) {
-    console.error('Error starting livestack:', error);
-    errorMessage.value = 'Error starting livestack: ' + error.message;
-  } finally {
-    isStarting.value = false;
+    loadImage(targetLabel, filterLabel);
   }
-};
-
-const stopLivestack = async () => {
-  errorMessage.value = null;
-
-  try {
-    const result = await apiService.livestackStop();
-    if (result.Success) {
-      console.log('Livestack stop successfully');
-    } else {
-      errorMessage.value = result.Error || 'Failed to stop livestack';
-    }
-  } catch (error) {
-    console.error('Error stoping livestack:', error);
-    errorMessage.value = 'Error stoping livestack: ' + error.message;
-  } finally {
-    isStarting.value = false;
-  }
-};
-
-const checkImageAvailability = async () => {
-  try {
-    const result = await apiService.livestackImageAvailable();
-    if (result.Success && Array.isArray(result.Response)) {
-      availableImages.value = result.Response;
-      if (availableImages.value.length > 0) {
-        currentTarget.value = availableImages.value[0].Target;
-
-        // Auto-select first available filter/target combination if no filter is selected
-        // or if current filter/target combination is not available anymore
-        const isCurrentCombinationAvailable = availableImages.value.some(
-          (img) =>
-            img.Filter === livestackStore.selectedFilter &&
-            img.Target === livestackStore.selectedTarget
-        );
-
-        if (!livestackStore.selectedFilter || !isCurrentCombinationAvailable) {
-          livestackStore.selectedFilter = availableImages.value[0].Filter;
-          livestackStore.selectedTarget = availableImages.value[0].Target;
-          console.log(
-            'Auto-selected filter/target:',
-            livestackStore.selectedFilter,
-            livestackStore.selectedTarget
-          );
-        }
-
-        loadImage(livestackStore.selectedTarget, livestackStore.selectedFilter);
-      }
-    } else {
-      availableImages.value = [];
-    }
-  } catch (error) {
-    console.error('Error checking image availability:', error);
-    availableImages.value = [];
-  }
-};
+);
 
 const loadImage = async (target, filter, forceReload = false) => {
-  console.log(`loadImage called: target=${target}, filter=${filter}, forceReload=${forceReload}`);
+  const targetLabel = target?.label ?? target;
+  const filterLabel = filter?.label ?? filter;
 
   // Check if we should reload the image (unless forced)
-  if (!forceReload && !livestackStore.shouldReloadImage(target, filter)) {
-    console.log('Using cached image for', target, filter);
+  if (!forceReload && !livestackStore.shouldReloadImage(targetLabel, filterLabel)) {
+    console.log('Using cached image for', targetLabel, filterLabel);
     return;
   }
 
@@ -291,18 +185,21 @@ const loadImage = async (target, filter, forceReload = false) => {
   console.log(`Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`);
   try {
     const newImageUrl = await apiService.getLivestackImage(
-      target,
-      filter,
+      targetLabel,
+      filterLabel,
       settingsStore.camera.imageQuality,
       scale
     );
 
     // Only update the image URL after successful load
-    livestackStore.setCurrentImageUrl(newImageUrl, target, filter);
+    livestackStore.setCurrentImageUrl(newImageUrl, targetLabel, filterLabel);
     lastUpdated.value = new Date().toLocaleTimeString();
+
+    // Calculate histogram for the new image
+    await histogramStore.calculateHistogramForImage(newImageUrl);
   } catch (error) {
     console.error('Error loading image:', error);
-    errorMessage.value = 'Error loading image: ' + error.message;
+    errorMessage.value = t('plugins.livestack.errors.loading_image', { message: error.message });
   } finally {
     isLoading.value = false;
   }
@@ -320,7 +217,7 @@ const handleImageLoad = () => {
 
 const handleImageError = (event) => {
   console.error('Error loading livestack image:', event);
-  errorMessage.value = 'Failed to load livestack image';
+  errorMessage.value = t('plugins.livestack.errors.failed_to_load');
 };
 
 const handleDownload = async (data) => {
@@ -330,19 +227,26 @@ const handleDownload = async (data) => {
   });
 };
 
-// Zwei-stufige Selektion Handler
-const selectTargetUI = (target) => {
-  selectedTargetForUI.value = target;
-  console.log('Selected target for UI:', target);
+const getHistogram = () => {
+  if (!livestackStore.currentImageUrl) return null;
+  return histogramStore.getHistogram(livestackStore.currentImageUrl);
 };
 
-const selectFilterFromSelector = async (filter) => {
-  if (selectedTargetForUI.value) {
-    livestackStore.selectedTarget = selectedTargetForUI.value;
-    livestackStore.selectedFilter = filter;
-    console.log(`Selected filter/target combination: ${selectedTargetForUI.value} / ${filter}`);
-    await loadImage(selectedTargetForUI.value, filter);
+const getStretchSettings = () => {
+  if (!livestackStore.currentImageUrl) {
+    return {
+      blackPoint: 0,
+      whitePoint: 255,
+      stretchedImageData: null,
+    };
   }
+  return histogramStore.getStretchSettings(livestackStore.currentImageUrl);
+};
+
+const onLevelsChanged = async (event) => {
+  if (!livestackStore.currentImageUrl) return;
+  const { blackPoint, whitePoint } = event;
+  await histogramStore.applyStretch(livestackStore.currentImageUrl, blackPoint, whitePoint);
 };
 
 // WebSocket handlers
@@ -352,47 +256,33 @@ const handleWebSocketStatus = (status) => {
 };
 
 const handleWebSocketMessage = async (message) => {
-  //console.log('Received livestack WebSocket message:', message);
-
   // Handle STACK-UPDATED events
   if (message.Type === 'Socket' && message.Success && message.Response) {
-    const { Target, Filter, Event } = message.Response;
+    const { Event } = message.Response;
 
     if (Event === 'STACK-UPDATED') {
-      // Invalidate the stack count cache in TargetFilterSelector
-      if (targetFilterSelectorRef.value) {
-        targetFilterSelectorRef.value.invalidateStackCountCache();
-      }
+      const { Target, Filter } = message.Response;
 
-      // Update the available images list first
-      try {
-        const result = await apiService.livestackImageAvailable();
-        if (result.Success && Array.isArray(result.Response)) {
-          availableImages.value = result.Response;
+      // Use authoritative API to get the count for this specific pair
+      await livestackStore.fetchAndUpdateCount(Target, Filter);
 
-          // Update currentTarget if it's null
-          if (!currentTarget.value && result.Response.length > 0) {
-            currentTarget.value = result.Response[0].Target;
-          }
-        }
-      } catch (error) {
-        console.error('Error updating image availability:', error);
-      }
+      // Resolve current target/ filter labels (store may hold objects or strings)
+      const selectedTargetLabel = livestackStore.selectedTarget?.label;
+      const selectedFilterLabel = livestackStore.selectedFilter?.label;
 
       // If this is the currently selected target and filter, force reload the image
-      // Also load if currentTarget was null (first image)
       if (
-        (currentTarget.value === Target && livestackStore.selectedFilter === Filter) ||
-        (!livestackStore.currentImageUrl && livestackStore.selectedFilter === Filter)
+        (selectedTargetLabel === Target && selectedFilterLabel === Filter) ||
+        (!livestackStore.currentImageUrl && selectedFilterLabel === Filter)
       ) {
         console.log('Force reloading current image due to stack update');
         await forceLoadImage(Target, Filter);
       }
-    } else {
-      //console.log(`Received non-STACK-UPDATED event: ${Event}`);
+    } else if (Event === 'STACK-STATUS') {
+      const { Status } = message.Response;
+      livestackStore.status = Status ? Status.toLowerCase() : Status;
+      console.log('Current status:', livestackStore.status);
     }
-  } else {
-    //console.log('WebSocket message does not match expected format');
   }
 };
 
@@ -403,15 +293,17 @@ onMounted(async () => {
     return;
   }
 
-  // Check API version - LiveStack requires 2.2.11.0 or higher
-  const minimumApiVersion = '2.2.11.0';
+  // Check API version - LiveStack requires 2.2.12.0 or higher
+  const minimumApiVersion = '2.2.12.0';
   const isVersionValid = store.checkVersionNewerOrEqual(store.currentApiVersion, minimumApiVersion);
 
   if (!isVersionValid) {
     console.error(
       `LiveStack requires API version ${minimumApiVersion} or higher. Current version: ${store.currentApiVersion}`
     );
-    errorMessage.value = `API version ${minimumApiVersion} or higher required`;
+    errorMessage.value = t('plugins.livestack.errors.api_version_required', {
+      version: minimumApiVersion,
+    });
     pageIsLoading.value = false;
     return;
   }
@@ -428,7 +320,7 @@ onMounted(async () => {
 
   livestackPluginAvailable.value = true;
 
-  // Setup WebSocket callbacks auf dem globalen WebSocket Service
+  // Setup WebSocket callbacks on the global WebSocket service
   const originalStatusCallback = websocketChannelService.statusCallback;
   const originalMessageCallback = websocketChannelService.messageCallback;
 
@@ -442,7 +334,7 @@ onMounted(async () => {
     if (originalMessageCallback) originalMessageCallback(message);
   });
 
-  // Stelle sicher, dass WebSocket verbunden ist
+  // Ensure WebSocket is connected
   try {
     if (!websocketChannelService.isWebSocketConnected()) {
       console.log('WebSocket not connected, attempting to connect...');
@@ -450,21 +342,28 @@ onMounted(async () => {
     }
     // Subscribe to livestack events
     websocketChannelService.subscribe('STACK-UPDATED');
+    websocketChannelService.subscribe('STACK-STATUS');
   } catch (error) {
     console.error('Failed to connect WebSocket for livestack:', error);
   }
 
+  // Initial Livestack state
+  const initialStatus = await apiService.livestackStatus();
+  livestackStore.status = initialStatus.Response ? initialStatus.Response.toLowerCase() : 'stopped';
+
   // Initial check for available images
-  checkImageAvailability();
+  await livestackStore.checkImageAvailability();
 
   // Load current image in background if target and filter are available
-  if (livestackStore.currentImageTarget && livestackStore.currentImageFilter) {
+  if (livestackStore.selectedTarget && livestackStore.selectedFilter) {
     console.log(
       'Loading cached image on mount:',
-      livestackStore.currentImageTarget,
-      livestackStore.currentImageFilter
+      livestackStore.selectedTarget,
+      livestackStore.selectedFilter
     );
-    forceLoadImage(livestackStore.currentImageTarget, livestackStore.currentImageFilter);
+    const t = livestackStore.selectedTarget?.label;
+    const f = livestackStore.selectedFilter?.label;
+    forceLoadImage(t, f);
   }
   pageIsLoading.value = false;
 });

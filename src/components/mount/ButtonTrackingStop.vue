@@ -3,21 +3,19 @@
     v-if="store.mountInfo.CanSetTrackingEnabled"
     @click="setTrackingMode(4)"
     class="default-button-red"
-    :class="statusClass"
+    :class="{ 'glow-green': store.mountInfo.TrackingMode === 'Stopped' }"
   >
     <StopCircleIcon class="w-8 h-8" />
   </button>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
-const statusClass = ref('');
 const { t } = useI18n();
 
 async function setTrackingMode(mode) {
@@ -25,14 +23,10 @@ async function setTrackingMode(mode) {
   try {
     const response = await apiService.setTrackingMode(mode);
     if (!response.Success) return;
-    statusClass.value = 'glow-green';
     console.log(t('components.mount.control.trackingMode') + ' set');
   } catch (error) {
     console.log(t('components.mount.control.errors.tracking'));
   }
-  setTimeout(() => {
-    statusClass.value = '';
-  }, 1000);
 }
 </script>
 

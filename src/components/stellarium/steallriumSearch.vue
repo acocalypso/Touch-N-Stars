@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, defineExpose } from 'vue';
+import { ref, nextTick } from 'vue';
 import apiService from '@/services/apiService';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { rad2deg } from '@/utils/utils';

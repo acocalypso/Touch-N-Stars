@@ -223,7 +223,6 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';

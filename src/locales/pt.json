@@ -289,7 +289,10 @@
       "time": "Tempo",
       "noRunningItems": "Sequence stopped",
       "status": "Status da sequência",
-      "instructions": "Instruções"
+      "instructions": "Instruções",
+      "HFRStDev": "HFR St. Dev",
+      "Max": "Max",
+      "Min": "Min"
     },
     "mount": {
       "title": "Montagem",
@@ -670,7 +673,8 @@
         "ecliptic_lines_visible": "Mostrar eclíptica",
         "atmosphere_visible": "Mostrar atmosfera",
         "landscapes_visible": "Mostrar paisagens",
-        "dsos_visible": "Objetos do céu profundo (Messier, NGC)"
+        "dsos_visible": "Objetos do céu profundo (Messier, NGC)",
+        "title": "Configurações"
       }
     },
     "profile": {
@@ -1076,7 +1080,24 @@
       "start_and_select_filter": "Start livestack and select a filter to see images",
       "target": "Target",
       "no_filter": "Sem filtro",
-      "no_filters_available": "Não há filtros disponíveis para esta segmentação"
+      "no_filters_available": "Não há filtros disponíveis para esta segmentação",
+      "no_target": "No target",
+      "configuration_title": "Livestack Settings",
+      "drag_hint": "Drag",
+      "show_rgb_only": "Show RGB composition only",
+      "track_stack_updates": "Track stack updates",
+      "empty_option": "Empty",
+      "image_alt": "Livestack image - {filter}",
+      "loading_image": "Loading livestack image...",
+      "errors": {
+        "start_failed": "Failed to start livestack",
+        "start_exception": "Error starting livestack: {message}",
+        "stop_failed": "Failed to stop livestack",
+        "stop_exception": "Error stopping livestack: {message}",
+        "loading_image": "Error loading image: {message}",
+        "failed_to_load": "Failed to load livestack image",
+        "api_version_required": "API version {version} or higher required"
+      }
     }
   },
   "dialogs": {

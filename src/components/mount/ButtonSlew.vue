@@ -21,7 +21,6 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';

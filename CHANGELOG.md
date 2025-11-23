@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App4.1.0.beta3] - 2025-11-22
+### Added
+- Framing assistang in Stellarium
+
+## [App4.1.0.beta2] [LivestackPlugin0.6.0] - 2025-11-19
+### Added
+- Histogram and image stretch
+- Tracking mode selection for mount
+- More Stats for Sequence Graph
+- Temperature display during last autofocus
+
+## [App4.1.0.beta1] [LivestackPlugin0.5.0] - 2025-11-19
+### Important information
+- Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
+
+### Added
+- Livestack running status is shown in Livestack screen. When a user directly in N.I.N.A. or a sequence, starts or stops the Livestack process, the new status is shown in the plugin.
+- Livestack New layout that shows permanently the currently displayed Target/Filter combination and frame count.
+- Livestack Configuration option to show only the RGB composite, instead of each channel.
+- App Camerapage histogram and image strech function
+
+## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
+### Fixed
+- Fixed Camera settings layout
+- SequenceCreator Autofocus sequence fixed
+- Fixed Dialog Modal
+
+## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-18
+### Added
+- Device connection status tracking: Real-time monitoring of 11 device types based on event history.
+- Autofocus event tracking: Dedicated store with real-time autofocus state, points, and HFR visualization.
+
+### Changed
+- AfLiveGraph: Refactored to use autofocus store instead of log parsing.
+
 ## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
 ### Fixed
 - Fixed Camera settings layout

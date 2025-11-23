@@ -35,6 +35,16 @@
           <span class="truncate">{{ stats.HFR.toFixed(2) }}</span>
         </div>
 
+        <div v-if="isValidNumber(stats.Min)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Min') }}:</span>
+          <span class="truncate">{{ stats.Min.toFixed(0) }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.Max)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Max') }}:</span>
+          <span class="truncate">{{ stats.Max.toFixed(0) }}</span>
+        </div>
+
         <div v-if="isValidNumber(stats.Mean)" class="flex gap-1 min-w-0">
           <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
           <span class="truncate">{{ stats.Mean.toFixed(2) }}</span>
@@ -48,6 +58,11 @@
         <div v-if="isValidNumber(stats.StDev)" class="flex gap-1 min-w-0">
           <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.stDev') }}:</span>
           <span class="truncate">{{ stats.StDev.toFixed(2) }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.HFRStDev)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.HFRStDev') }}:</span>
+          <span class="truncate">{{ stats.HFRStDev.toFixed(2) }}</span>
         </div>
 
         <div v-if="stats.RmsText" class="flex gap-1 min-w-0">
@@ -81,7 +96,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, computed, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';

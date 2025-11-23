@@ -2,7 +2,7 @@
   <div
     v-if="selectedObject"
     :class="containerClasses"
-    class="absolute bg-black bg-opacity-90 backdrop-blur-sm text-gray-300 p-4 rounded-lg shadow-lg border border-gray-600"
+    class="absolute bg-black bg-opacity-90 backdrop-blur-sm text-gray-300 p-4 rounded-lg shadow-lg border border-gray-600 z-50"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits, ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { Capacitor } from '@capacitor/core';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';

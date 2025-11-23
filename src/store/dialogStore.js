@@ -34,7 +34,7 @@ export const useDialogStore = defineStore('dialogStore', {
           if (response.Response.SlewAndCenter) {
             this.slewAndCenterData = response.Response.SlewAndCenter;
           }
-          console.log('Dialog count:', this.dialogCount);
+          //console.log('Dialog count:', this.dialogCount);
         }
       } catch (error) {
         console.error('Error fetching dialogs:', error);

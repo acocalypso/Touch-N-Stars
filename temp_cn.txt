@@ -1,0 +1,26 @@
+        "title": "子午线翻转",
+        "enableMeridianFlip": "启用子午线翻转"
+      }
+    },
+    "livestack": {
+      "available_filters": "Available Filters",
+      "beta_note": "This plugin is still under development and may contain some errors!",
+      "no_image_available": "No image available",
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "target": "Target",
+      "no_filter": "No filter",
+      "no_filters_available": "No filters available for this target",
+      "no_target": "No target",
+      "configuration_title": "Livestack configuration",
+      "drag_hint": "Drag",
+      "show_rgb_only": "Show RGB composition only",
+      "empty_option": "Empty",
+      "image_alt": "Livestack image - {filter}",
+      "loading_image": "Loading livestack image...",
+      "errors": {
+        "start_failed": "Failed to start livestack",
+        "start_exception": "Error starting livestack: {message}",
+        "stop_failed": "Failed to stop livestack",
+        "stop_exception": "Error stopping livestack: {message}",
+        "loading_image": "Error loading image: {message}",

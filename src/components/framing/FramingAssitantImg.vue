@@ -71,7 +71,7 @@ onMounted(async () => {
   calculateRealCameraFov();
 
   // Container-Größe berechnen
-  const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 200);
+  const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 400);
   const roundedDimension = Math.floor(smallerDimension / 100) * 100;
   framingStore.containerSize = roundedDimension;
 

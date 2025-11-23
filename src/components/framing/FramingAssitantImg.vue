@@ -30,16 +30,20 @@
       ></div>
 
       <!-- FOV und Rotation Steuerung (oben rechts) -->
-      <div class="absolute top-3 right-3 z-10 flex flex-col gap-2">
+      <div class="absolute top-3 right-3 z-10 flex gap-2">
         <!-- FOV Steuerung -->
-        <div class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2">
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2"
+        >
           <button
             @click="adjustFov(-0.5)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             -
           </button>
-          <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center">{{ framingStore.fov.toFixed(1) }}°</span>
+          <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center"
+            >{{ framingStore.fov.toFixed(1) }}°</span
+          >
           <button
             @click="adjustFov(0.5)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
@@ -48,8 +52,12 @@
           </button>
         </div>
         <!-- Rotation Anzeige -->
-        <div class="bg-gray-800/90 border border-gray-600 rounded-lg px-3 py-2 flex items-center justify-center">
-          <span class="text-xs text-gray-300 font-medium">{{ Math.round(framingStore.rotationAngle) }}°</span>
+        <div
+          class="bg-gray-800/90 border min-w-14 border-gray-600 rounded-lg px-3 py-2 flex items-center justify-center"
+        >
+          <span class="text-xs text-gray-300 font-medium"
+            >{{ Math.round(framingStore.rotationAngle) }}°</span
+          >
         </div>
       </div>
 
@@ -67,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -94,8 +102,8 @@ onMounted(async () => {
   // Einmalig echten Kamera-FOV berechnen (basierend auf Hardware)
   calculateRealCameraFov();
 
-  // Container-Größe berechnen
-  const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 400);
+  // Container-Größe berechnen (maximal nutzen)
+  const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
   const roundedDimension = Math.floor(smallerDimension / 100) * 100;
   framingStore.containerSize = roundedDimension;
 
@@ -125,10 +133,34 @@ onMounted(async () => {
   framingStore.cameraRelativeX = 0.5;
   framingStore.cameraRelativeY = 0.5;
 
+  // Resize Event-Listener hinzufügen
+  window.addEventListener('resize', handleWindowResize);
+
   await nextTick();
   await new Promise((resolve) => setTimeout(resolve, 500));
   isLoading.value = false;
 });
+
+// Cleanup beim Unmount
+onUnmounted(() => {
+  window.removeEventListener('resize', handleWindowResize);
+});
+
+// Window Resize Handler
+let resizeTimeout;
+function handleWindowResize() {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
+    const roundedDimension = Math.floor(smallerDimension / 100) * 100;
+
+    if (roundedDimension !== framingStore.containerSize) {
+      framingStore.containerSize = roundedDimension;
+      updateCameraBoxSize();
+      updateMoveable();
+    }
+  }, 300);
+}
 
 // FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
 watch(
@@ -400,5 +432,4 @@ function adjustFov(delta) {
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

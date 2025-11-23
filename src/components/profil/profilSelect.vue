@@ -7,7 +7,9 @@
         class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center pointer-events-auto"
       >
         <div class="flex flex-col items-center">
-          <div class="w-16 h-16 border-4 border-gray-600 border-t-blue-500 rounded-full animate-spin"></div>
+          <div
+            class="w-16 h-16 border-4 border-gray-600 border-t-blue-500 rounded-full animate-spin"
+          ></div>
           <p class="text-white mt-4">{{ $t('loading') }}</p>
         </div>
       </div>

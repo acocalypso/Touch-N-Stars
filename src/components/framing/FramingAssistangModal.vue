@@ -22,8 +22,10 @@
     <!-- Kontrollen bleiben immer sichtbar -->
     <div
       class="flex-col w-full space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
-    >
-      <fovParameter />
+    >    <!-- getImageRotation Komponente -->
+    <div class="col-span-2">
+      <getImageRotation />
+    </div>
       <ButtonSlewCenterRotate
         class="w-full"
         :raAngle="framingStore.RAangle"
@@ -37,7 +39,7 @@
 <script setup>
 import { ref, computed, defineAsyncComponent, watch } from 'vue';
 import { useFramingStore } from '@/store/framingStore';
-import fovParameter from '@/components/framing/fovParameter.vue';
+import getImageRotation from '@/components/framing/getImageRotation.vue';
 import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 import setSequenceTarget from './setSequenceTarget.vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';

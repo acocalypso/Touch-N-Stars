@@ -1098,6 +1098,31 @@
         "failed_to_load": "No se pudo cargar la imagen de Livestack",
         "api_version_required": "Se requiere la versión de la API {version} o superior"
       }
+    },
+    "shortcuts": {
+      "title": "Accesos Directos",
+      "addNew": "Nuevo Acceso",
+      "noShortcuts": "No hay accesos directos",
+      "noShortcutsDescription": "Crea accesos directos para cargar y ejecutar tus secuencias de N.I.N.A rápidamente",
+      "createFirst": "Crear primer acceso directo",
+      "newShortcut": "Nuevo Acceso Directo",
+      "editShortcut": "Editar Acceso Directo",
+      "phrase": "Nombre del Acceso",
+      "phrasePlaceholder": "Ej: Sesión M31",
+      "sequenceFile": "Archivo de Secuencia",
+      "selectSequence": "Seleccionar secuencia...",
+      "refreshSequences": "Actualizar lista",
+      "autoStart": "Iniciar automáticamente",
+      "autoStartEnabled": "Inicio automático activado",
+      "icon": "Icono",
+      "color": "Color",
+      "create": "Crear",
+      "update": "Actualizar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "confirmDelete": "Confirmar Eliminación",
+      "confirmDeleteMessage": "¿Estás seguro de eliminar el acceso directo '{phrase}'?"
     }
   },
   "dialogs": {

@@ -1,0 +1,9 @@
+{
+  "id": "shortcuts",
+  "name": "Shortcuts",
+  "description": "Create shortcuts to quickly load and start N.I.N.A sequences",
+  "version": "1.0.0",
+  "author": "Rafa Barberá",
+  "defaultEnabled": false,
+  "enabled": true
+}

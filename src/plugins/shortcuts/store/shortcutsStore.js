@@ -23,9 +23,18 @@ export const useShortcutsStore = defineStore('shortcuts', {
       this.isLoadingSequences = true;
       try {
         const response = await apiService.sequenceAction('list-available');
-        if (response && response.data) {
-          this.availableSequences = response.data;
-        }
+        // API returns { Success, Response: [ 'filename.json', ... ] }
+        const sequences = response?.Response ?? response?.data ?? response ?? [];
+        const normalized = Array.isArray(sequences)
+          ? sequences
+              .map((item) => {
+                const path = typeof item === 'string' ? item : item?.path || item?.Path || '';
+                const name = path ? path.split(/[/\\]/).pop() : '';
+                return { path, name };
+              })
+              .filter((seq) => seq.path)
+          : [];
+        this.availableSequences = normalized;
       } catch (error) {
         console.error('Error loading sequences:', error);
         const toastStore = useToastStore();
@@ -84,6 +93,15 @@ export const useShortcutsStore = defineStore('shortcuts', {
         console.error('Shortcut not found:', id);
         return false;
       }
+      if (!shortcut.sequencePath) {
+        const toastStore = useToastStore();
+        toastStore.showToast({
+          type: 'error',
+          title: 'Error',
+          message: 'No sequence selected for this shortcut',
+        });
+        return false;
+      }
 
       const toastStore = useToastStore();
       const sequenceStore = useSequenceStore();
@@ -96,10 +114,30 @@ export const useShortcutsStore = defineStore('shortcuts', {
           message: `Loading sequence: ${shortcut.phrase}`,
         });
 
-        const loadResponse = await apiService.sequenceLoadJson(shortcut.sequencePath);
+        // Try loading using the stored path; if that fails, retry with only the filename
+        const candidates = [
+          shortcut.sequencePath,
+          shortcut.sequencePath.split(/[/\\]/).pop(),
+        ].filter(Boolean);
 
-        if (!loadResponse || loadResponse.error) {
-          throw new Error(loadResponse?.error || 'Error loading sequence');
+        let loadResponse = null;
+        let lastError = null;
+        for (const candidate of candidates) {
+          try {
+            const action = `load?sequenceName=${encodeURIComponent(candidate)}`;
+            loadResponse = await apiService.sequenceAction(action);
+            if (!loadResponse || loadResponse.Success === false || loadResponse.error) {
+              throw new Error(loadResponse?.Response || loadResponse?.error || 'Load failed');
+            }
+            break; // success
+          } catch (err) {
+            lastError = err;
+            loadResponse = null;
+          }
+        }
+
+        if (!loadResponse) {
+          throw lastError || new Error('Error loading sequence');
         }
 
         toastStore.showToast({

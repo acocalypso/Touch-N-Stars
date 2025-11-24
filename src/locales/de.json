@@ -1102,6 +1102,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "Neuer Shortcut",
+      "autoStart": "Autostart-Sequenz",
+      "autoStartDescription": "Starten Sie die Sequenz nach dem Laden automatisch",
+      "autoStartEnabled": "Autostart aktiviert",
+      "cancel": "Stornieren",
+      "color": "Farbe",
+      "confirmDelete": "Shortcutlöschen?",
+      "confirmDeleteMessage": "Sind Sie sicher, dass Sie „{phrase}“ löschen möchten? \nDiese Aktion kann nicht rückgängig gemacht werden.",
+      "confirmDeleteTitle": "Verknüpfung löschen",
+      "create": "Erstellen",
+      "delete": "Löschen",
+      "createFirst": "Erste Verknüpfung erstellen",
+      "deleteShortcut": "Shortcutlöschen",
+      "description": "Schneller Zugriff zum Laden und Starten von N.I.N.A.-Sequenzen",
+      "edit": "Bearbeiten",
+      "editShortcut": "Shortcut bearbeiten",
+      "errors": {
+        "deleteFailed": "Shortcutkonnte nicht gelöscht werden",
+        "executeFailed": "Shortcutkonnte nicht ausgeführt werden",
+        "loadFailed": "Shortcut konnten nicht geladen werden",
+        "nameRequired": "Der Name des Shortcuts ist erforderlich",
+        "saveFailed": "Shortcut konnte nicht gespeichert werden",
+        "sequenceLoadFailed": "Die Sequenzen konnten nicht geladen werden",
+        "sequenceRequired": "Bitte wählen Sie eine Sequenz aus"
+      },
+      "execute": "Ausführen",
+      "icon": "Symbol",
+      "loadingSequences": "Sequenzen werden geladen...",
+      "manualExecution": "Manuelle Ausführung",
+      "menu": "Speisekarte",
+      "newShortcut": "Neue Verknüpfung",
+      "noSequencesAvailable": "Keine Sequenzen verfügbar",
+      "noShortcuts": "Es wurden noch keine Verknüpfungen erstellt",
+      "noShortcutsDescription": "Erstellen Sie Shortcuts, um Ihre Lieblingssequenzen schnell zu laden",
+      "phrase": "Shortcutname",
+      "phrasePlaceholder": "z.B. M31-Sitzung",
+      "refreshSequences": "Liste aktualisieren",
+      "selectColor": "Wählen Sie eine Farbe",
+      "selectIcon": "Wählen Sie ein Symbol aus",
+      "selectSequence": "Wählen Sie eine Sequenz aus...",
+      "sequenceFile": "Sequenzdatei",
+      "shortcutName": "Shortcutname",
+      "shortcutNamePlaceholder": "z. B. M31-Sitzung",
+      "success": {
+        "created": "Shortcut erfolgreich erstellt",
+        "deleted": "Shortcut erfolgreich gelöscht",
+        "updated": "Shortcut erfolgreich aktualisiert"
+      },
+      "update": "Update"
     }
   },
   "dialogs": {

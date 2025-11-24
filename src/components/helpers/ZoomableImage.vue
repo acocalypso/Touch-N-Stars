@@ -33,7 +33,10 @@
         v-if="showHistogram !== false"
         @click.stop="handleHistogramToggle"
         @touchstart.stop
-        :class="actionButtonClasses"
+        :class="[
+          actionButtonClasses,
+          showHistogramPulse && 'feature-highlight'
+        ]"
         title="Toggle Histogram"
       >
         <svg
@@ -105,6 +108,7 @@ import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue'
 import Panzoom from 'panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
   // Image data
@@ -187,6 +191,25 @@ const imageLoadError = ref(false); // Track image load errors
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
+// Settings store for tracking histogram feature visit
+const settingsStore = useSettingsStore();
+const showHistogramPulse = ref(false);
+
+const checkHistogramFeatureHighlight = () => {
+  // Nur pulsieren wenn: Bild vorhanden, erfolgreich geladen UND Histogram noch nicht besucht
+  // Das Placeholder wird angezeigt wenn: !imageData || imageLoadError
+  // Also darf Puls nur an wenn: imageData && !imageLoadError
+  const hasVisitedHistogram = settingsStore.tutorial?.histogramVisited === true;
+  const isShowingPlaceholder = !props.imageData || imageLoadError.value;
+  const shouldPulse = !isShowingPlaceholder && !hasVisitedHistogram;
+  showHistogramPulse.value = shouldPulse;
+};
+
+const markHistogramAsVisited = () => {
+  settingsStore.tutorial.histogramVisited = true;
+  showHistogramPulse.value = false;
+};
+
 const handleFullscreen = () => {
   emits('fullscreen', {
     imageData: props.imageData,
@@ -195,6 +218,7 @@ const handleFullscreen = () => {
 };
 
 const handleHistogramToggle = () => {
+  markHistogramAsVisited();
   emits('histogram-toggle');
 };
 
@@ -346,12 +370,14 @@ const onImageLoad = () => {
   nextTick(() => {
     destroyPanzoom();
     initializePanzoom();
+    checkHistogramFeatureHighlight(); // Check when image successfully loads
     emits('image-load');
   });
 };
 
 const onImageError = (event) => {
   imageLoadError.value = true; // Track that an error occurred
+  showHistogramPulse.value = false; // Stop pulsing on error
   console.error('Image load error:', event);
   emits('image-error', event);
 };
@@ -372,8 +398,10 @@ watch(
     if (!newImageData && oldImageData) {
       destroyPanzoom();
       zoomLevel.value = 1;
+      showHistogramPulse.value = false;
     }
     // Reset error flag when new image is provided
+    // checkHistogramFeatureHighlight() wird in onImageLoad() aufgerufen
     if (newImageData) {
       imageLoadError.value = false;
     }
@@ -384,8 +412,11 @@ watch(
 onMounted(() => {
   if (props.imageData) {
     nextTick(() => {
-      onImageLoad();
+      onImageLoad(); // This will call checkHistogramFeatureHighlight()
     });
+  } else {
+    // Kein Bild beim Mount - Puls deaktivieren
+    showHistogramPulse.value = false;
   }
 });
 

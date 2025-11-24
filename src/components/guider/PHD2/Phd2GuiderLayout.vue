@@ -12,6 +12,20 @@
       </div>
 
       <div v-else :class="buttonsClass">
+        <!-- Loop Button -->
+        <button
+          v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
+          @click="startLooping"
+          class="default-button-orange px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+        >
+          <span class="flex items-center justify-center">
+            <ArrowPathIcon
+              :class="store.guiderInfo.State === 'Looping' ? 'animate-spin' : ''"
+              class="w-5 h-5"
+            />
+          </span>
+        </button>
+
         <!-- Start Button -->
         <button
           v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
@@ -191,7 +205,7 @@ import { ref, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { Cog6ToothIcon, StopIcon } from '@heroicons/vue/24/outline';
+import { Cog6ToothIcon, StopIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 import Phd2Settings from '@/components/guider/PHD2/Phd2Settings.vue';
 import Phd2Image from '@/components/guider/PHD2/Phd2Image.vue';
 import Phd2Guidstar from '@/components/guider/PHD2/Phd2Guidstar.vue';
@@ -354,6 +368,17 @@ async function startGuiding() {
     console.error('Error during guider start:', error.response?.data || error);
   } finally {
     isProcessing.value = false;
+  }
+}
+
+// Start guiding function
+async function startLooping() {
+  try {
+    await apiService.setPHD2StartLooping(settingsStore.guider.phd2ForceCalibration);
+    console.log('[PHD2] Start looping');
+  } catch (error) {
+    console.error('[PHD2] Error during guider start:', error.response?.data || error);
+  } finally {
   }
 }
 

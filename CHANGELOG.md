@@ -9,12 +9,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Shortcuts plugin: create custom buttons that load a chosen N.I.N.A. sequence and optionally auto-start it with one tap.
 
 ## [App4.1.0.beta4] - 2025-11-23
+## [App4.1.0.beta5] - 2025-11-24
+### Added
+- PHD2 looping 
+- Total exposure time in Image-History
+
+## [App4.1.0.beta4] [LivestackPlugin0.6.1] - 2025-11-23
+### Added
+- Mid tone control on histograms.
+- Reset button on histograms.
+- Option to "Always shows the latest stack" in Livestack Settings.
+- Optimized the info shows in target and filters dropdown.
+
 ### Changed
 - Framing Assistant: Improved UI with FOV controls in image and optimized button layout
 
 ### Fixed
 - Dialog Modal no longer closes when clicking outside it
 - Focuser small steps were not always adopted
+- Load of stacked image in sync with counts
+- Increase visibility of "running ring" in Start/Stop Livestack button
 
 ## [App4.1.0.beta3] - 2025-11-22
 ### Added

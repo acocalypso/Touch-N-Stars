@@ -292,7 +292,11 @@
       "instructions": "Instructions",
       "Min": "Min",
       "Max": "Max",
-      "HFRStDev": "HFR St. Dev"
+      "HFRStDev": "HFR St. Dev",
+      "totalExposureTime": {
+        "title": "Total exposure time",
+        "Pictures": "Pictures"
+      }
     },
     "mount": {
       "title": "Mount",

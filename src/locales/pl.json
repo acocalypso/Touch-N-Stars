@@ -292,7 +292,11 @@
       "instructions": "Instrukcje",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
-      "Min": "Min"
+      "Min": "Min",
+      "totalExposureTime": {
+        "Pictures": "Pictures",
+        "title": "Total exposure time"
+      }
     },
     "mount": {
       "title": "Montaż",

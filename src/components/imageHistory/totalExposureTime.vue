@@ -4,13 +4,22 @@
     <div v-if="selectedTargetData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
       <div class="flex justify-between items-center">
         <select id="targetSelect" v-model="selectedTarget" class="default-select">
-          <option v-for="target in exposureTimeByTarget" :key="target.targetName" :value="target.targetName">
+          <option
+            v-for="target in exposureTimeByTarget"
+            :key="target.targetName"
+            :value="target.targetName"
+          >
             {{ target.targetName }}
           </option>
         </select>
         <span class="text-right">
-          <div class="text-sm text-gray-600 dark:text-gray-400">{{ selectedTargetData.imageCount }} {{ $t('components.sequence.totalExposureTime.Pictures') }}</div>
-          <div class="font-mono text-lg text-gray-300 font-bold">{{ formatExposureTime(selectedTargetData.totalTime) }}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">
+            {{ selectedTargetData.imageCount }}
+            {{ $t('components.sequence.totalExposureTime.Pictures') }}
+          </div>
+          <div class="font-mono text-lg text-gray-300 font-bold">
+            {{ formatExposureTime(selectedTargetData.totalTime) }}
+          </div>
         </span>
       </div>
     </div>
@@ -47,14 +56,14 @@ const exposureTimeByTarget = computed(() => {
 
   const targetMap = {};
 
-  store.imageHistoryInfo.forEach(image => {
+  store.imageHistoryInfo.forEach((image) => {
     const targetName = image.TargetName || '?';
 
     if (!targetMap[targetName]) {
       targetMap[targetName] = {
         targetName,
         totalTime: 0,
-        imageCount: 0
+        imageCount: 0,
       };
     }
 
@@ -66,7 +75,7 @@ const exposureTimeByTarget = computed(() => {
 });
 
 const selectedTargetData = computed(() => {
-  return exposureTimeByTarget.value.find(target => target.targetName === selectedTarget.value);
+  return exposureTimeByTarget.value.find((target) => target.targetName === selectedTarget.value);
 });
 
 const formatExposureTime = (seconds) => {
@@ -86,8 +95,6 @@ const formatExposureTime = (seconds) => {
 
   return `${hours}h ${remainingMinutes}m ${remainingSeconds.toFixed(1)}s`;
 };
-
-
 </script>
 
 <style scoped></style>

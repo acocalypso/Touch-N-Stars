@@ -1,0 +1,765 @@
+// Mock API Service for development/testing without N.I.N.A
+// Enable by setting localStorage.setItem('USE_MOCK_API', 'true')
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Mock state to simulate equipment status
+const mockState = {
+  isConnected: true,
+  apiVersion: '2.2.11.0',
+  tnsPluginVersion: '1.2.0.0',
+  apiPort: 5000,
+  equipment: {
+    camera: { connected: true },
+    mount: { connected: true },
+    filter: { connected: true },
+    focuser: { connected: true },
+    rotator: { connected: false },
+    guider: { connected: false },
+    flatdevice: { connected: false },
+    dome: { connected: false },
+    switch: { connected: false },
+    weather: { connected: false },
+    safety: { connected: false },
+  },
+  sequences: [
+    {
+      path: 'C:\\Users\\User\\Documents\\NINA\\Sequences\\M31_Andromeda.json',
+      name: 'M31 Andromeda',
+    },
+    {
+      path: 'C:\\Users\\User\\Documents\\NINA\\Sequences\\M42_Orion.json',
+      name: 'M42 Orion Nebula',
+    },
+    {
+      path: 'C:\\Users\\User\\Documents\\NINA\\Sequences\\NGC7000_NorthAmerica.json',
+      name: 'NGC 7000 North America',
+    },
+    {
+      path: 'C:\\Users\\User\\Documents\\NINA\\Sequences\\IC1396_Elephant.json',
+      name: 'IC 1396 Elephant Trunk',
+    },
+    {
+      path: 'C:\\Users\\User\\Documents\\NINA\\Sequences\\NGC2244_Rosette.json',
+      name: 'NGC 2244 Rosette Nebula',
+    },
+  ],
+  favorites: [],
+  settings: {},
+};
+
+const mockApiService = {
+  async fetchApiPort() {
+    await delay(100);
+    return {
+      data: mockState.apiPort,
+      status: 200,
+    };
+  },
+
+  async fetchTnsPluginVersion() {
+    await delay(100);
+    return {
+      version: mockState.tnsPluginVersion,
+      status: 200,
+    };
+  },
+
+  async fetchApiVersion() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: mockState.apiVersion,
+    };
+  },
+
+  async fetchNinaTime() {
+    await delay(50);
+    return {
+      Success: true,
+      Response: new Date().toISOString(),
+    };
+  },
+
+  async getEventHistory() {
+    await delay(100);
+    const events = [];
+    const now = new Date();
+
+    // Generate connection events based on mock state
+    Object.entries(mockState.equipment).forEach(([device, state]) => {
+      if (state.connected) {
+        const deviceName = device.toUpperCase();
+        events.push({
+          Time: new Date(now.getTime() - 10000).toISOString(),
+          Event: `${deviceName}-CONNECTED`,
+        });
+      }
+    });
+
+    return {
+      Success: true,
+      Response: events.sort((a, b) => new Date(b.Time) - new Date(a.Time)),
+    };
+  },
+
+  // Plugins
+  async getPlugins() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: [{ Name: "Touch 'N' Stars", Version: '1.2.0.0', Enabled: true }],
+    };
+  },
+
+  // Favorites
+  async getAllFavorites() {
+    await delay(100);
+    return mockState.favorites;
+  },
+
+  async addFavorite(favorite) {
+    await delay(100);
+    const newFavorite = {
+      ...favorite,
+      id: Date.now().toString(),
+    };
+    mockState.favorites.push(newFavorite);
+    return newFavorite;
+  },
+
+  async updateFavorite(id, updatedFavorite) {
+    await delay(100);
+    const index = mockState.favorites.findIndex((f) => f.id === id);
+    if (index !== -1) {
+      mockState.favorites[index] = { ...mockState.favorites[index], ...updatedFavorite };
+      return mockState.favorites[index];
+    }
+    throw new Error('Favorite not found');
+  },
+
+  async deleteFavorite(id) {
+    await delay(100);
+    const index = mockState.favorites.findIndex((f) => f.id === id);
+    if (index !== -1) {
+      mockState.favorites.splice(index, 1);
+      return { success: true };
+    }
+    throw new Error('Favorite not found');
+  },
+
+  // Image History
+  async imageHistoryAll() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: [],
+    };
+  },
+
+  async imageHistoryAllFilterd(imageType) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: [],
+    };
+  },
+
+  // Sequence
+  sequenceAction(action) {
+    return delay(100).then(() => {
+      if (action === 'list-available') {
+        return {
+          Success: true,
+          data: mockState.sequences,
+        };
+      }
+      return {
+        Success: true,
+        Response: `Sequence ${action} executed`,
+      };
+    });
+  },
+
+  async sequenceLoadJson(sequenceName) {
+    await delay(200);
+    return {
+      Success: true,
+      Response: `Sequence loaded: ${sequenceName}`,
+    };
+  },
+
+  async sequnceTargetSet(name, ra, dec, rotation, index) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: `Target set: ${name}`,
+    };
+  },
+
+  // Profile
+  profileAction(action) {
+    return delay(100).then(() => {
+      if (action === 'show?active=true') {
+        return {
+          Success: true,
+          Response: {
+            CameraSettings: {
+              Id: 'ZWO ASI294MC Pro',
+              Temperature: -10,
+              CoolingDuration: 10,
+              WarmingDuration: 10,
+            },
+            TelescopeSettings: {
+              Id: 'Celestron AVX',
+            },
+            FilterWheelSettings: {
+              Id: 'ZWO EFW',
+            },
+            FocuserSettings: {
+              Id: 'ZWO EAF',
+            },
+            RotatorSettings: {
+              Id: 'No_Device',
+            },
+            GuiderSettings: {
+              GuiderName: 'No_Guider',
+            },
+            FlatDeviceSettings: {
+              Id: 'No_Device',
+            },
+            DomeSettings: {
+              Id: 'No_Device',
+            },
+            SwitchSettings: {
+              Id: 'No_Device',
+            },
+            WeatherDataSettings: {
+              Id: 'No_Device',
+            },
+            SafetyMonitorSettings: {
+              Id: 'No_Device',
+            },
+            AstrometrySettings: {
+              Latitude: 40.7128,
+              Longitude: -74.006,
+              Elevation: 10,
+            },
+            ImageSettings: {
+              AutoStretchFactor: 0.15,
+              DetectStars: true,
+            },
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Profile ${action} executed`,
+      };
+    });
+  },
+
+  async profileChangeValue(settingpath, newValue) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: `Setting ${settingpath} changed to ${newValue}`,
+    };
+  },
+
+  async profileSwitch(profileid) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: `Switched to profile ${profileid}`,
+    };
+  },
+
+  // Camera
+  cameraAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.camera.connected,
+            Name: 'ZWO ASI294MC Pro',
+            Temperature: -10.5,
+            TargetTemperature: -10,
+            CoolerPower: 45.2,
+            CoolerOn: true,
+            IsExposing: false,
+            CanSetTemperature: true,
+            HasShutter: true,
+            BinX: 1,
+            BinY: 1,
+            Gain: 120,
+            Offset: 30,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Camera ${action} executed`,
+      };
+    });
+  },
+
+  async startCapture(duration, gain, solve, omitImage, save, targetName) {
+    await delay(duration * 1000);
+    return {
+      Success: true,
+      Response: 'Capture completed',
+    };
+  },
+
+  // Mount
+  mountAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.mount.connected,
+            Name: 'Celestron AVX',
+            RightAscension: 5.5,
+            Declination: 22.0,
+            Altitude: 45.0,
+            Azimuth: 180.0,
+            SideOfPier: 'East',
+            Tracking: true,
+            TrackingMode: 'Sidereal',
+            Slewing: false,
+            AtPark: false,
+            AtHome: false,
+            Coordinates: {
+              RADegrees: 82.5, // 5.5 hours * 15 degrees/hour
+              Dec: 22.0,
+              Altitude: 45.0,
+              Azimuth: 180.0,
+            },
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Mount ${action} executed`,
+      };
+    });
+  },
+
+  async setTrackingMode(TrackingMode) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: `Tracking mode set to ${TrackingMode}`,
+    };
+  },
+
+  async moveAxis(direction, rate) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: `Moving ${direction} at rate ${rate}`,
+    };
+  },
+
+  async moveAxisStop() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: 'Axis movement stopped',
+    };
+  },
+
+  // Filter
+  filterAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.filter.connected,
+            Name: 'ZWO EFW',
+            Position: 0,
+            Filters: ['L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII'],
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Filter ${action} executed`,
+      };
+    });
+  },
+
+  async changeFilter(filterNr) {
+    await delay(500);
+    return {
+      Success: true,
+      Response: `Filter changed to position ${filterNr}`,
+    };
+  },
+
+  // Focuser
+  focusAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.focuser.connected,
+            Name: 'ZWO EAF',
+            Position: 5000,
+            IsMoving: false,
+            Temperature: 15.5,
+            TempCompAvailable: true,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Focuser ${action} executed`,
+      };
+    });
+  },
+
+  focuserAfAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            IsRunning: false,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Autofocus ${action} executed`,
+      };
+    });
+  },
+
+  async moveFocuser(position) {
+    await delay(500);
+    return {
+      Success: true,
+      Response: `Focuser moved to ${position}`,
+    };
+  },
+
+  // Rotator
+  rotatorAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.rotator.connected,
+            Position: 0,
+            MechanicalPosition: 0,
+            IsMoving: false,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Rotator ${action} executed`,
+      };
+    });
+  },
+
+  // Guider
+  guiderAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.guider.connected,
+            Name: 'PHD2',
+            State: 'Stopped',
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Guider ${action} executed`,
+      };
+    });
+  },
+
+  // Flat Device
+  flatdeviceAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.flatdevice.connected,
+            LightOn: false,
+            Brightness: 0,
+            CoverState: 'Unknown',
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Flat device ${action} executed`,
+      };
+    });
+  },
+
+  // Dome
+  domeAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.dome.connected,
+            Azimuth: 0,
+            ShutterStatus: 'Closed',
+            AtHome: false,
+            AtPark: false,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Dome ${action} executed`,
+      };
+    });
+  },
+
+  // Switch
+  switchAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.switch.connected,
+            Switches: [],
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Switch ${action} executed`,
+      };
+    });
+  },
+
+  // Weather
+  weatherAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.weather.connected,
+            CloudCover: 20,
+            DewPoint: 5,
+            Humidity: 65,
+            Pressure: 1013,
+            RainRate: 0,
+            SkyBrightness: 18.5,
+            SkyQuality: 20.0,
+            SkyTemperature: 5,
+            StarFWHM: 2.5,
+            Temperature: 10,
+            WindDirection: 180,
+            WindGust: 5,
+            WindSpeed: 3,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Weather ${action} executed`,
+      };
+    });
+  },
+
+  // Safety Monitor
+  safetyAction(action) {
+    return delay(100).then(() => {
+      if (action === 'info') {
+        return {
+          Success: true,
+          Response: {
+            Connected: mockState.equipment.safety.connected,
+            IsSafe: true,
+          },
+        };
+      }
+      return {
+        Success: true,
+        Response: `Safety ${action} executed`,
+      };
+    });
+  },
+
+  // Settings
+  async getAllSettings() {
+    await delay(100);
+    return Object.entries(mockState.settings).map(([key, value]) => ({
+      Key: key,
+      Value: value,
+    }));
+  },
+
+  async getSetting(key) {
+    await delay(100);
+    if (mockState.settings[key] !== undefined) {
+      return {
+        Success: true,
+        Response: {
+          Key: key,
+          Value: mockState.settings[key],
+        },
+      };
+    }
+    return {
+      Success: false,
+      Error: 'Setting not found',
+    };
+  },
+
+  async createSetting(setting) {
+    await delay(100);
+    mockState.settings[setting.Key] = setting.Value;
+    return {
+      Success: true,
+      Response: setting,
+    };
+  },
+
+  async updateSetting(key, value) {
+    await delay(100);
+    mockState.settings[key] = value;
+    return {
+      Success: true,
+      Response: { Key: key, Value: value },
+    };
+  },
+
+  async deleteSetting(key) {
+    await delay(100);
+    delete mockState.settings[key];
+    return {
+      Success: true,
+    };
+  },
+
+  // Default sequence methods
+  async getDefaultSequence() {
+    return this.getSetting('sequence_creator_default')
+      .then((response) => {
+        if (response.Success && response.Response && response.Response.Value) {
+          return JSON.parse(response.Response.Value);
+        }
+        return null;
+      })
+      .catch(() => null);
+  },
+
+  async saveDefaultSequence(sequenceData) {
+    try {
+      await this.createSetting({
+        Key: 'sequence_creator_default',
+        Value: JSON.stringify(sequenceData),
+      });
+    } catch (error) {
+      await this.updateSetting('sequence_creator_default', JSON.stringify(sequenceData));
+    }
+  },
+
+  async deleteDefaultSequence() {
+    await this.deleteSetting('sequence_creator_default');
+  },
+
+  // Dialogs
+  async getDialogList() {
+    await delay(100);
+    return [];
+  },
+
+  async getDialogCount() {
+    await delay(100);
+    return 0;
+  },
+
+  // Framing
+  framingAction(action) {
+    return delay(100).then(() => ({
+      Success: true,
+      Response: `Framing ${action} executed`,
+    }));
+  },
+
+  async slewAndCenter(ra, dec, Center, rotate, rotationAngle) {
+    await delay(2000);
+    return {
+      Success: true,
+      Response: 'Slew completed',
+    };
+  },
+
+  // Application
+  async applicatioTabSwitch(tab) {
+    await delay(100);
+    return {
+      Success: true,
+      Response: `Switched to tab ${tab}`,
+    };
+  },
+
+  async fetchApplicatioTab() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: 'Equipment',
+    };
+  },
+
+  // Livestack
+  async livestackStart() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: 'Livestack started',
+    };
+  },
+
+  async livestackStop() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: 'Livestack stopped',
+    };
+  },
+
+  async livestackStatus() {
+    await delay(100);
+    return {
+      Success: true,
+      Response: {
+        IsRunning: false,
+      },
+    };
+  },
+
+  async livestackImageAvailable() {
+    await delay(100);
+    return {
+      Success: false,
+    };
+  },
+};
+
+// Export mock state for testing/manipulation
+export { mockState };
+export default mockApiService;

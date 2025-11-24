@@ -248,8 +248,15 @@ export const apiStore = defineStore('store', {
           }
         }
 
+        // Check if mock API mode is enabled
+        const useMockApi = localStorage.getItem('USE_MOCK_API') === 'true';
+
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
-        if (!websocketChannelService.isWebSocketConnected()) {
+        if (useMockApi) {
+          // In mock mode, skip WebSocket connection
+          console.log('[MOCK MODE] Skipping WebSocket connection');
+          this.isWebSocketConnected = true;
+        } else if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             //console.log('Channel WebSocket Message:', message);

@@ -1102,6 +1102,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Shortcuts",
+      "description": "Quick access to load and start N.I.N.A sequences",
+      "addNew": "New Shortcut",
+      "newShortcut": "New Shortcut",
+      "createFirst": "Create First Shortcut",
+      "menu": "Menu",
+      "edit": "Edit",
+      "editShortcut": "Edit Shortcut",
+      "deleteShortcut": "Delete Shortcut",
+      "noShortcuts": "No shortcuts created yet",
+      "noShortcutsDescription": "Create shortcuts to quickly load your favorite sequences",
+      "phrase": "Shortcut Name",
+      "phrasePlaceholder": "e.g., M31 Session",
+      "shortcutName": "Shortcut Name",
+      "shortcutNamePlaceholder": "e.g., M31 Session",
+      "sequenceFile": "Sequence File",
+      "selectSequence": "Select a sequence...",
+      "autoStart": "Auto-start sequence",
+      "autoStartDescription": "Automatically start the sequence after loading",
+      "autoStartEnabled": "Auto-start enabled",
+      "manualExecution": "Manual execution",
+      "icon": "Icon",
+      "selectIcon": "Select an icon",
+      "color": "Color",
+      "selectColor": "Select a color",
+      "create": "Create",
+      "update": "Update",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "execute": "Execute",
+      "refreshSequences": "Refresh list",
+      "loadingSequences": "Loading sequences...",
+      "noSequencesAvailable": "No sequences available",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Delete Shortcut",
+      "errors": {
+        "nameRequired": "Shortcut name is required",
+        "sequenceRequired": "Please select a sequence",
+        "loadFailed": "Failed to load shortcuts",
+        "saveFailed": "Failed to save shortcut",
+        "deleteFailed": "Failed to delete shortcut",
+        "executeFailed": "Failed to execute shortcut",
+        "sequenceLoadFailed": "Failed to load sequences"
+      },
+      "success": {
+        "created": "Shortcut created successfully",
+        "updated": "Shortcut updated successfully",
+        "deleted": "Shortcut deleted successfully"
+      }
     }
   },
   "dialogs": {

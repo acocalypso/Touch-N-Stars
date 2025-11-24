@@ -122,11 +122,11 @@
 <script setup>
 import { ref } from 'vue';
 import SubNav from '@/components/SubNav.vue';
-import SequenceImageHistory from '@/components/sequence/SequenceImageHistory.vue';
-import LastSequenceImg from '@/components/sequence/LastSequenceImg.vue';
-import SequenzGraph from '@/components/sequence/SequenzGraph.vue';
+import SequenceImageHistory from '@/components/imageHistory/SequenceImageHistory.vue';
+import LastSequenceImg from '@/components/imageHistory/LastSequenceImg.vue';
+import SequenzGraph from '@/components/imageHistory/SequenzGraph.vue';
 import AutofocusGrafik from '@/components/focuser/AfFnishGraph.vue';
-import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
+import MonitorViewSetting from '@/components/imageHistory/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';

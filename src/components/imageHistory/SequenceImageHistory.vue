@@ -67,7 +67,7 @@
 import { useI18n } from 'vue-i18n';
 import { ref, watch, onMounted, computed } from 'vue';
 import { ChevronUpIcon, ChevronDownIcon, ChartBarIcon } from '@heroicons/vue/24/outline';
-import SequenceImage from '@/components/sequence/SequenceImage.vue';
+import SequenceImage from '@/components/imageHistory/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';

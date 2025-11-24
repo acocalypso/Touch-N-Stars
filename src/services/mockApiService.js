@@ -6,7 +6,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Mock state to simulate equipment status
 const mockState = {
   isConnected: true,
-  apiVersion: '2.2.11.0',
+  apiVersion: '2.2.12.0',
   tnsPluginVersion: '1.2.0.0',
   apiPort: 5000,
   equipment: {
@@ -249,6 +249,19 @@ const mockApiService = {
               AutoStretchFactor: 0.15,
               DetectStars: true,
             },
+            FramingAssistantSettings: {
+              LastSelectedImageSource: 'SKYATLAS',
+              CameraWidth: 3001,
+              CameraHeight: 1501,
+            },
+            SnapShotControlSettings: {
+              Save: false,
+              Gain: 120,
+            },
+            PlateSolveSettings: {
+              Gain: 120,
+              ExposureTime: 5,
+            },
           },
         };
       }
@@ -295,6 +308,8 @@ const mockApiService = {
             BinY: 1,
             Gain: 120,
             Offset: 30,
+            BinningModes: [{ Name: '1x1' }, { Name: '2x2' }],
+            ReadoutModes: ['Mode 0', 'Mode 1'],
           },
         };
       }
@@ -757,6 +772,46 @@ const mockApiService = {
     return {
       Success: false,
     };
+  },
+
+  // Target picture (framing)
+  async searchTargetPic(width, height, fov, ra, dec, useCache) {
+    await delay(100);
+    // Simple static placeholder image (SVG data URL) so UI shows something in mock mode
+    const placeholderSvg = encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+        <defs>
+          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#grad)" />
+        <text x="50%" y="45%" fill="#e5e7eb" font-family="Arial, sans-serif" font-size="28" text-anchor="middle">
+          Mock Target
+        </text>
+        <text x="50%" y="55%" fill="#cbd5e1" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">
+          RA: ${ra?.toFixed ? ra.toFixed(2) : ra} / DEC: ${dec?.toFixed ? dec.toFixed(2) : dec}
+        </text>
+      </svg>`
+    );
+    return `data:image/svg+xml,${placeholderSvg}`;
+  },
+
+  // Logs
+  async getLastLogs(count, level) {
+    await delay(100);
+    const now = Date.now();
+    const makeLog = (idx, message, logLevel = 'INFO') => ({
+      timestamp: new Date(now - idx * 1000).toISOString(),
+      level: logLevel,
+      message,
+    });
+    return [
+      makeLog(1, 'Mock: Flats started'),
+      makeLog(2, 'Mock: Exposure completed'),
+      makeLog(3, 'Mock: Mount tracking'),
+    ];
   },
 };
 

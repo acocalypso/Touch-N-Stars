@@ -83,11 +83,20 @@ app.use(pinia).use(head).use(i18n).use(router);
   // Store references to app and router in plugin store
   pluginStore.initializeAppAndRouter(app, router);
 
-  // Load and register all available plugins
-  await pluginStore.loadAndRegisterPlugins();
+  // Skip plugin loading entirely in mock mode to avoid duplicate/saved plugin routes
+  const useMockApi = localStorage.getItem('USE_MOCK_API') === 'true';
+  if (!useMockApi) {
+    // Load and register all available plugins
+    await pluginStore.loadAndRegisterPlugins();
 
-  // Initialize all enabled plugins
-  await pluginStore.initializeEnabledPlugins();
+    // Initialize all enabled plugins
+    await pluginStore.initializeEnabledPlugins();
+  } else {
+    // Ensure plugin lists are empty in mock mode
+    pluginStore.plugins = [];
+    pluginStore.navigationItems = [];
+    pluginStore.isInitialized = true;
+  }
 
   // Mount the app after plugins are initialized
   app.mount('#app');

@@ -28,6 +28,6 @@ const histogramMeanPercentage = computed({
 });
 
 onMounted(() => {
-  flatsStore.histogramMean = store.profileInfo.FlatWizardSettings.HistogramMeanTarget;
+  flatsStore.histogramMean = store.profileInfo?.FlatWizardSettings?.HistogramMeanTarget ?? 0;
 });
 </script>

@@ -13,8 +13,36 @@ export const apiStore = defineStore('store', {
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
-    profileInfo: [],
-    cameraInfo: { IsExposing: false },
+    profileInfo: {
+      CameraSettings: {
+        MinFlatExposureTime: 0,
+        MaxFlatExposureTime: 0,
+      },
+      FlatWizardSettings: {
+        HistogramTolerance: 0,
+        HistogramMeanTarget: 0,
+        FlatCount: 0,
+      },
+      FramingAssistantSettings: {
+        LastSelectedImageSource: 'SKYATLAS',
+        CameraWidth: 3001,
+        CameraHeight: 1501,
+      },
+      PlateSolveSettings: {
+        Gain: 0,
+        ExposureTime: 0,
+      },
+      SnapShotControlSettings: {
+        Save: false,
+        Gain: 0,
+      },
+      AstrometrySettings: {
+        Latitude: 0,
+        Longitude: 0,
+        Elevation: 0,
+      },
+    },
+    cameraInfo: { IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { TrackingMode: null },
     filterInfo: [],
     focuserInfo: [],

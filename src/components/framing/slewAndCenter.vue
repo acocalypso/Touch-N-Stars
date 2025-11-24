@@ -3,10 +3,7 @@
     <div class="container max-w-md">
       <h5 class="text-xl font-bold text-white mb-4">{{ $t('components.slewAndCenter.title') }}</h5>
 
-      <div
-        v-if="store.profileInfo.FramingAssistantSettings.LastSelectedImageSource !== 'SKYATLAS'"
-        class="flex justify-center items-center pb-2"
-      >
+      <div v-if="!hasSkyAtlasSource" class="flex justify-center items-center pb-2">
         <div class="w-full p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
           <p class="text-red-400 text-center font-medium">
             {{ $t('components.slewAndCenter.LastSelectedImageSource_wrong') }}
@@ -78,7 +75,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount, computed } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -108,6 +105,9 @@ const Info = ref(null);
 const statusClassRaDec = ref('');
 const statusClassAzAlt = ref('');
 const isEditingAltAz = ref(false);
+const hasSkyAtlasSource = computed(
+  () => store.profileInfo?.FramingAssistantSettings?.LastSelectedImageSource === 'SKYATLAS'
+);
 
 watch(
   () => framingStore.RAangleString,
@@ -225,7 +225,7 @@ function updateAltAzFromRaDec() {
     return;
   }
 
-  if (!framingStore.RAangle || !framingStore.DECangle) {
+  if (!framingStore.RAangle || !framingStore.DECangle || !store.profileInfo?.AstrometrySettings) {
     return;
   }
 
@@ -247,6 +247,10 @@ function updateAltAz() {
 
   const alt = parseAngleInput(localAltAngleString.value);
   const az = parseAngleInput(localAzAngleString.value);
+
+  if (!store.profileInfo?.AstrometrySettings) {
+    return;
+  }
 
   const { ra, dec } = altAzToRaDec(
     alt,

@@ -293,7 +293,11 @@
       "instructions": "Instructions",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
-      "Min": "Min"
+      "Min": "Min",
+      "totalExposureTime": {
+        "Pictures": "Pictures",
+        "title": "Total exposure time"
+      }
     },
     "mount": {
       "title": "赤道仪",

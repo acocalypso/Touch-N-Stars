@@ -1,28 +1,44 @@
 <template>
   <div class="flex flex-col gap-3">
-    <div v-if="exposureTimeByTarget.length > 0" class="flex flex-col gap-2">
-      <div v-for="target in exposureTimeByTarget" :key="target.targetName" class="flex justify-between items-center bg-gray-100 dark:bg-gray-800 p-3 rounded">
-        <span class="font-semibold">{{ target.targetName }}</span>
+    <!-- Selected Target Display -->
+    <div v-if="selectedTargetData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
+      <div class="flex justify-between items-center">
+        <select id="targetSelect" v-model="selectedTarget" class="default-select">
+          <option v-for="target in exposureTimeByTarget" :key="target.targetName" :value="target.targetName">
+            {{ target.targetName }}
+          </option>
+        </select>
         <span class="text-right">
-          <div class="text-sm text-gray-600 dark:text-gray-400">{{ target.imageCount }} Bilder</div>
-          <div class="font-mono">{{ formatExposureTime(target.totalTime) }}</div>
+          <div class="text-sm text-gray-600 dark:text-gray-400">{{ selectedTargetData.imageCount }} {{ $t('components.sequence.totalExposureTime.Pictures') }}</div>
+          <div class="font-mono text-lg text-gray-300 font-bold">{{ formatExposureTime(selectedTargetData.totalTime) }}</div>
         </span>
       </div>
-    </div>
-    <div v-else class="text-gray-500 dark:text-gray-400 text-center py-4">
-      Keine Bilddaten verfügbar
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { apiStore } from '@/store/store';
-import { useSettingsStore } from '@/store/settingsStore';
-import { useSequenceStore } from '@/store/sequenceStore';
 
 const store = apiStore();
+const selectedTarget = ref(null);
+let previousLength = 0;
 
+watch(
+  () => store.imageHistoryInfo,
+  (newVal) => {
+    if (newVal && newVal.length > 0) {
+      // Only auto-select the latest target if new images have been added
+      if (newVal.length > previousLength) {
+        const latestTarget = newVal[newVal.length - 1].TargetName;
+        selectedTarget.value = latestTarget;
+      }
+      previousLength = newVal.length;
+    }
+  },
+  { immediate: true }
+);
 
 const exposureTimeByTarget = computed(() => {
   if (!store.imageHistoryInfo || !Array.isArray(store.imageHistoryInfo)) {
@@ -32,7 +48,7 @@ const exposureTimeByTarget = computed(() => {
   const targetMap = {};
 
   store.imageHistoryInfo.forEach(image => {
-    const targetName = image.TargetName || 'Unbekannt';
+    const targetName = image.TargetName || '?';
 
     if (!targetMap[targetName]) {
       targetMap[targetName] = {
@@ -47,6 +63,10 @@ const exposureTimeByTarget = computed(() => {
   });
 
   return Object.values(targetMap).sort((a, b) => a.targetName.localeCompare(b.targetName));
+});
+
+const selectedTargetData = computed(() => {
+  return exposureTimeByTarget.value.find(target => target.targetName === selectedTarget.value);
 });
 
 const formatExposureTime = (seconds) => {
@@ -67,18 +87,6 @@ const formatExposureTime = (seconds) => {
   return `${hours}h ${remainingMinutes}m ${remainingSeconds.toFixed(1)}s`;
 };
 
-onMounted(() => {
-  // Component will automatically update via computed property
-});
-
-watch(
-  () => store.imageHistoryInfo,
-  (newVal, oldVal) => {
-    if (!oldVal || newVal.length > oldVal.length) {
-      console.log('[totalExposureTime] New image data available');
-    }
-  }
-);
 
 </script>
 

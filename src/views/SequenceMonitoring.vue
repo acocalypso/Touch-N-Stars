@@ -96,6 +96,13 @@
             >
               <SequenceRunningConditions />
             </div>
+            <div class="border-t border-slate-600/50 my-4"></div>
+            <div>
+              <h4 class="text-purple-200">
+                {{ $t('components.sequence.totalExposureTime.title') }}:
+              </h4>
+              <totalExposureTime />
+            </div>
           </div>
 
           <div
@@ -133,6 +140,7 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useSequenceStore } from '@/store/sequenceStore';
 import SequenceRunningItem from '@/components/sequence/SequenceRunningItem.vue';
 import SequenceRunningConditions from '@/components/sequence/SequenceRunningConditions.vue';
+import totalExposureTime from '@/components/imageHistory/totalExposureTime.vue';
 
 const currentTab = ref('showStats');
 

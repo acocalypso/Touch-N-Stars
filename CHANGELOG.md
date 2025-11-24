@@ -4,13 +4,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.1.0.beta4] - 2025-11-23
+## [App4.1.0.beta4] [LivestackPlugin0.7.0] - 2025-11-23
+### Added
+- Mid tone control on histograms.
+- Reset button on histograms.
+- Option to "Always shows the latest stack" in Livestack Settings.
+- Optimized the info shows in target and filters dropdown.
+
 ### Changed
 - Framing Assistant: Improved UI with FOV controls in image and optimized button layout
 
 ### Fixed
 - Dialog Modal no longer closes when clicking outside it
 - Focuser small steps were not always adopted
+- Load of stacked image in sync with counts
+- Increase visibility of "running ring" in Start/Stop Livestack button
 
 ## [App4.1.0.beta3] - 2025-11-22
 ### Added

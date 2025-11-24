@@ -36,14 +36,14 @@ Simply click the shortcut button. This will:
 
 ### Editing a shortcut
 
-1. Click the edit icon (✏️) on the shortcut card
+1. Tap the menu (three dots) on the shortcut card and choose **Edit**
 2. Modify the desired fields
 3. Click "Update"
 
 ### Deleting a shortcut
 
-1. Click the trash icon (🗑️) on the shortcut card
-2. Confirm the deletion
+1. Tap the menu (three dots) on the shortcut card and choose **Delete**
+2. Confirm the deletion in the dialog
 
 ## N.I.N.A APIs Used
 
@@ -57,8 +57,7 @@ Returns the list of sequence files (.json) available in N.I.N.A.
 
 ### Load a sequence
 ```javascript
-POST /v2/api/sequence/load
-Body: { filename.json }
+GET /v2/api/sequence/load?sequenceName=<filename.json>
 ```
 Loads a specific sequence in N.I.N.A.
 

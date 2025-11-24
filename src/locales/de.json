@@ -292,7 +292,11 @@
       "instructions": "Anweisungen",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
-      "Min": "Min"
+      "Min": "Min",
+      "totalExposureTime": {
+        "Pictures": "Bilder",
+        "title": "Gesamtbelichtungszeit"
+      }
     },
     "mount": {
       "title": "Montierung",

@@ -54,7 +54,7 @@ import { ref, watch, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
-import SequenceImage from '@/components/sequence/SequenceImage.vue';
+import SequenceImage from '@/components/imageHistory/SequenceImage.vue';
 import { useImagetStore } from '@/store/imageStore';
 
 let isLoadingImg = ref(true);

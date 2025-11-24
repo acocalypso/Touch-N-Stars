@@ -96,6 +96,13 @@
             >
               <SequenceRunningConditions />
             </div>
+            <div class="border-t border-slate-600/50 my-4"></div>
+            <div>
+              <h4 class="text-purple-200">
+                {{ $t('components.sequence.totalExposureTime.title') }}:
+              </h4>
+              <totalExposureTime />
+            </div>
           </div>
 
           <div
@@ -122,17 +129,18 @@
 <script setup>
 import { ref } from 'vue';
 import SubNav from '@/components/SubNav.vue';
-import SequenceImageHistory from '@/components/sequence/SequenceImageHistory.vue';
-import LastSequenceImg from '@/components/sequence/LastSequenceImg.vue';
-import SequenzGraph from '@/components/sequence/SequenzGraph.vue';
+import SequenceImageHistory from '@/components/imageHistory/SequenceImageHistory.vue';
+import LastSequenceImg from '@/components/imageHistory/LastSequenceImg.vue';
+import SequenzGraph from '@/components/imageHistory/SequenzGraph.vue';
 import AutofocusGrafik from '@/components/focuser/AfFnishGraph.vue';
-import MonitorViewSetting from '@/components/sequence/MonitorViewSetting.vue';
+import MonitorViewSetting from '@/components/imageHistory/MonitorViewSetting.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useSequenceStore } from '@/store/sequenceStore';
 import SequenceRunningItem from '@/components/sequence/SequenceRunningItem.vue';
 import SequenceRunningConditions from '@/components/sequence/SequenceRunningConditions.vue';
+import totalExposureTime from '@/components/imageHistory/totalExposureTime.vue';
 
 const currentTab = ref('showStats');
 

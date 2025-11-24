@@ -22,7 +22,7 @@
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->
         <div class="backdrop-blur-sm bg-gray-800/50 rounded-xl p-4 shadow-xl">
-          <LoadSequnce />
+          <LoadSequence />
           <transition name="slide-fade">
             <div v-show="currentTab === 'showSequenz'" class="space-y-6 md:space-y-8">
               <infoSequence />
@@ -42,7 +42,7 @@ import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
-import LoadSequnce from '@/components/sequence/LoadSequnce.vue';
+import LoadSequence from '@/components/sequence/LoadSequence.vue';
 
 const currentTab = ref('showSequenz'); // Standardwert
 const sequenceStore = useSequenceStore();

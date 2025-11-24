@@ -18,32 +18,64 @@
       <!-- TargetPic als Hintergrund -->
       <img class="absolute inset-0" :src="targetPic" />
 
-      <!-- Verschiebbares / drehbares Ziel-Element -->
+      <!-- Verschiebbares / drehbares Ziel-Element (nur für Moveable Tracking) -->
       <div
-        class="target"
         ref="targetRef"
         :style="{
           width: `${framingStore.camWidth}px`,
           height: `${framingStore.camHeight}px`,
-          transform: `translate(${x}px, ${y}px) rotate(${-framingStore.rotationAngle}deg)`,
+          transform: `translate(${x}px, ${y}px) rotate(${framingStore.rotationAngle}deg)`,
           zIndex: 2,
         }"
       ></div>
+
+      <!-- FOV und Rotation Steuerung (oben rechts) -->
+      <div class="absolute top-3 right-3 z-10 flex gap-2">
+        <!-- FOV Steuerung -->
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2"
+        >
+          <button
+            @click="adjustFov(-0.5)"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            -
+          </button>
+          <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center"
+            >{{ framingStore.fov.toFixed(1) }}°</span
+          >
+          <button
+            @click="adjustFov(0.5)"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            +
+          </button>
+        </div>
+        <!-- Rotation Anzeige -->
+        <div
+          class="bg-gray-800/90 border min-w-14 border-gray-600 rounded-lg px-3 py-2 flex items-center justify-center"
+        >
+          <span class="text-xs text-gray-300 font-medium"
+            >{{ Math.round(framingStore.rotationAngle) }}°</span
+          >
+        </div>
+      </div>
 
       <!-- Moveable-->
       <Moveable
         ref="moveableRef"
         :target="targetRef"
         :draggable="true"
-        :rotatable="false"
+        :rotatable="true"
         @drag="onDrag"
+        @rotate="onRotate"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -70,8 +102,8 @@ onMounted(async () => {
   // Einmalig echten Kamera-FOV berechnen (basierend auf Hardware)
   calculateRealCameraFov();
 
-  // Container-Größe berechnen
-  const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 400);
+  // Container-Größe berechnen (maximal nutzen)
+  const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
   const roundedDimension = Math.floor(smallerDimension / 100) * 100;
   framingStore.containerSize = roundedDimension;
 
@@ -101,50 +133,52 @@ onMounted(async () => {
   framingStore.cameraRelativeX = 0.5;
   framingStore.cameraRelativeY = 0.5;
 
+  // Resize Event-Listener hinzufügen
+  window.addEventListener('resize', handleWindowResize);
+
   await nextTick();
   await new Promise((resolve) => setTimeout(resolve, 500));
   isLoading.value = false;
 });
 
-watch(
-  () => framingStore.rotationAngle,
-  () => {
-    debounceRotateRange();
-  }
-);
+// Cleanup beim Unmount
+onUnmounted(() => {
+  window.removeEventListener('resize', handleWindowResize);
+});
+
+// Window Resize Handler
+let resizeTimeout;
+function handleWindowResize() {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
+    const roundedDimension = Math.floor(smallerDimension / 100) * 100;
+
+    if (roundedDimension !== framingStore.containerSize) {
+      framingStore.containerSize = roundedDimension;
+      updateCameraBoxSize();
+      updateMoveable();
+    }
+  }, 300);
+}
 
 // FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
 watch(
   () => framingStore.fov,
   async (newFov, oldFov) => {
     if (cameraFovX.value > 0 && newFov !== oldFov) {
-      // Alte Kamera-Position relativ zum Container merken
-      const oldCenterX = x.value + framingStore.camWidth / 2;
-      const oldCenterY = y.value + framingStore.camHeight / 2;
-      const relativeCenterX = oldCenterX / framingStore.containerSize;
-      const relativeCenterY = oldCenterY / framingStore.containerSize;
-
       // Kamera-Box-Größe neu berechnen
       updateCameraBoxSize();
 
-      // Kamera-Position basierend auf relativer Position neu berechnen
-      const newCenterX = relativeCenterX * framingStore.containerSize;
-      const newCenterY = relativeCenterY * framingStore.containerSize;
-      x.value = newCenterX - framingStore.camWidth / 2;
-      y.value = newCenterY - framingStore.camHeight / 2;
-
-      // Position innerhalb Container halten
-      x.value = Math.max(0, Math.min(x.value, framingStore.containerSize - framingStore.camWidth));
-      y.value = Math.max(0, Math.min(y.value, framingStore.containerSize - framingStore.camHeight));
+      // Rechteck in der Mitte des Containers positionieren
+      x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+      y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
 
       // Position im Store speichern (absolut und relativ)
       framingStore.cameraX = x.value;
       framingStore.cameraY = y.value;
-
-      const centerX = x.value + framingStore.camWidth / 2;
-      const centerY = y.value + framingStore.camHeight / 2;
-      framingStore.cameraRelativeX = centerX / framingStore.containerSize;
-      framingStore.cameraRelativeY = centerY / framingStore.containerSize;
+      framingStore.cameraRelativeX = 0.5;
+      framingStore.cameraRelativeY = 0.5;
 
       // Nur Hintergrundbild neu laden (mit Debounce)
       debouncedImageReload();
@@ -152,6 +186,14 @@ watch(
       // Moveable manuell aktualisieren damit der blaue Rahmen neu gerendert wird
       updateMoveable();
     }
+  }
+);
+
+// Rotation-Watcher: Moveable-Rahmen aktualisieren wenn Winkel sich ändert
+watch(
+  () => framingStore.rotationAngle,
+  () => {
+    updateMoveable();
   }
 );
 
@@ -171,18 +213,6 @@ function updateMoveable() {
       moveableRef.value.updateRect();
     });
   }
-}
-
-let debounceTimeout;
-function debounceRotateRange() {
-  clearTimeout(debounceTimeout);
-  debounceTimeout = setTimeout(() => {
-    rotateByRange();
-  }, 500); // Wartezeit in Millisekunden
-}
-function rotateByRange() {
-  const normalizedAngle = framingStore.rotationAngle % 360; // Sicherstellen, dass der Wert im Bereich 0-360 bleibt
-  moveableRef.value.request('rotatable', { rotate: normalizedAngle }, true);
 }
 
 // Einmalig den echten Kamera-FOV berechnen (basierend auf Hardware)
@@ -255,6 +285,9 @@ function adjustContainerIfNeeded() {
   }
 }
 
+let dragDebounceTimeout;
+let rotateDebounceTimeout;
+
 // Drag-Event von Moveable
 function onDrag(e) {
   x.value += e.delta[0];
@@ -278,7 +311,22 @@ function onDrag(e) {
   framingStore.cameraRelativeX = centerX / framingStore.containerSize;
   framingStore.cameraRelativeY = centerY / framingStore.containerSize;
 
-  calculateRaDec();
+  // Debounced RA/DEC Berechnung
+  clearTimeout(dragDebounceTimeout);
+  dragDebounceTimeout = setTimeout(() => {
+    calculateRaDec();
+  }, 300);
+}
+
+// Rotate-Event von Moveable mit Debounce
+function onRotate(e) {
+  framingStore.rotationAngle = e.rotate;
+
+  // Debounced Berechnung
+  clearTimeout(rotateDebounceTimeout);
+  rotateDebounceTimeout = setTimeout(() => {
+    calculateRaDec();
+  }, 300);
 }
 
 async function getTargetPic() {
@@ -376,14 +424,12 @@ function degreesToDMS(deg) {
 function rad2deg(rad) {
   return rad * (180 / Math.PI);
 }
+
+// FOV Anpassung mit +/- Buttons
+function adjustFov(delta) {
+  const newValue = parseFloat(framingStore.fov) + delta;
+  framingStore.fov = Math.max(0.1, Math.min(180, Math.round(newValue * 10) / 10));
+}
 </script>
 
-<style scoped>
-.target {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px dashed red;
-}
-</style>
+<style scoped></style>

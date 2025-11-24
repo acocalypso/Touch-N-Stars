@@ -358,7 +358,7 @@ const openModal = (modalType) => {
 // Responsive computed properties
 const iconCenterHere = computed(() => [
   'absolute z-10',
-  !isLandscape.value ? 'top-24 right-28' : 'top-2 right-28', // Kept on right side as it relates to image controls
+  !isLandscape.value ? 'top-24 right-40' : 'top-2 right-40', // Kept on right side as it relates to image controls
 ]);
 
 // Event handlers

@@ -5,13 +5,13 @@
     </div>
     <div v-show="timestamp.length > 0" class="text-center mt-4">
       <p>{{ timestamp }}</p>
-      <p>{{ temperature }}°C</p>
+      <p v-show="temperature != null">{{ temperature }}°C</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
@@ -75,9 +75,11 @@ async function fetchLastAf() {
   try {
     const response = await apiService.focusAction('last-af');
     const apiData = response.Response;
+    //console.log('API Data for Last AF:', apiData);
     const dateLastAf = new Date(apiData.Timestamp);
     const dateProfilLastUsed = new Date(store.profileInfo.LastUsed);
-    temperature.value = apiData.Temperature.toFixed(2);
+    const temp = parseFloat(apiData?.Temperature);
+    temperature.value = isNaN(temp) ? null : temp.toFixed(2);
     //console.log(dateLastAf, ' : ', dateProfilLastUsed);
 
     if (dateLastAf < dateProfilLastUsed) {
@@ -166,7 +168,7 @@ async function fetchLastAf() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   const ctx = chartCanvas.value.getContext('2d');
   console.log('Loading graph');
 
@@ -272,7 +274,8 @@ onMounted(() => {
     fetchLastAf();
   }, 15000); // 30 Sekunden
 
-  // Daten laden
+  // Daten laden nach nextTick, um sicherzustellen, dass Chart vollständig initialisiert ist
+  await nextTick();
   fetchLastAf();
 
   // Event Listener hinzufügen

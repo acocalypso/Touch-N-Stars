@@ -4,9 +4,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App4.1.0.beta5] - 2025-11-24
+### Added
+- PHD2 looping 
+- Total exposure time in Image-History
+
+## [App4.1.0.beta4] [LivestackPlugin0.6.1] - 2025-11-23
+### Added
+- Mid tone control on histograms.
+- Reset button on histograms.
+- Option to "Always shows the latest stack" in Livestack Settings.
+- Optimized the info shows in target and filters dropdown.
+
+### Changed
+- Framing Assistant: Improved UI with FOV controls in image and optimized button layout
+
+### Fixed
+- Dialog Modal no longer closes when clicking outside it
+- Focuser small steps were not always adopted
+- Load of stacked image in sync with counts
+- Increase visibility of "running ring" in Start/Stop Livestack button
+
 ## [App4.1.0.beta3] - 2025-11-22
 ### Added
 - Framing assistang in Stellarium
+- Profile loading spinner
 
 ## [App4.1.0.beta2] [LivestackPlugin0.6.0] - 2025-11-19
 ### Added
@@ -26,12 +48,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - App Camerapage histogram and image strech function
 
 ## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
-### Fixed
-- Fixed Camera settings layout
-- SequenceCreator Autofocus sequence fixed
-- Fixed Dialog Modal
-
-## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-18
 ### Added
 - Device connection status tracking: Real-time monitoring of 11 device types based on event history.
 - Autofocus event tracking: Dedicated store with real-time autofocus state, points, and HFR visualization.
@@ -39,7 +55,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - AfLiveGraph: Refactored to use autofocus store instead of log parsing.
 
-## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
 ### Fixed
 - Fixed Camera settings layout
 - SequenceCreator Autofocus sequence fixed

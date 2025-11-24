@@ -212,6 +212,18 @@ const apiService = {
     }
   },
 
+  async setPHD2StartLooping() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/start-looping`, {});
+      console.log('PHD2 TNS API start-looping:', response.data);
+      return response.data;
+    } catch (error) {
+      // console.error('Error disconnect-equipment PHD2:', error);
+      throw error;
+    }
+  },
+
   async setPHD2StopGuiding() {
     try {
       const { API_URL } = getUrls();

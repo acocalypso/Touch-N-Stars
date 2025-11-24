@@ -292,7 +292,11 @@
       "instructions": "Anweisungen",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
-      "Min": "Min"
+      "Min": "Min",
+      "totalExposureTime": {
+        "Pictures": "Bilder",
+        "title": "Gesamtbelichtungszeit"
+      }
     },
     "mount": {
       "title": "Montierung",
@@ -1085,7 +1089,7 @@
       "configuration_title": "Livestack Settings",
       "drag_hint": "Drag",
       "show_rgb_only": "Show RGB composition only",
-      "track_stack_updates": "Track stack updates",
+      "track_stack_updates": "Immer den neuesten Stack anzeigen",
       "empty_option": "Empty",
       "image_alt": "Livestack image - {filter}",
       "loading_image": "Loading livestack image...",

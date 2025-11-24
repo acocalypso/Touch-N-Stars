@@ -1,11 +1,27 @@
 <template>
   <div class="w-full flex items-center">
+    <!-- Loading Spinner Overlay -->
+    <teleport to="body">
+      <div
+        v-if="isLoading"
+        class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center pointer-events-auto"
+      >
+        <div class="flex flex-col items-center">
+          <div
+            class="w-16 h-16 border-4 border-gray-600 border-t-blue-500 rounded-full animate-spin"
+          ></div>
+          <p class="text-white mt-4">{{ $t('loading') }}</p>
+        </div>
+      </div>
+    </teleport>
+
     <label class="mr-2" for="profileDropdown">{{ $t('components.profile.label') }} </label>
     <select
       id="profileDropdown"
       class="default-select w-full ml-auto"
       v-model="selectedProfileId"
       @change="updateProfile"
+      :disabled="isLoading"
     >
       <option v-for="profile in profiles" :key="profile.Id" :value="profile.Id">
         {{ profile.Name }}
@@ -22,6 +38,7 @@ import { apiStore } from '@/store/store';
 const store = apiStore(); // Access the store
 const profiles = ref([]); // Profiles array
 const selectedProfileId = ref(null); // Currently selected profile ID
+const isLoading = ref(false); // Loading state
 
 async function fetchProfiles() {
   try {
@@ -48,18 +65,21 @@ async function fetchProfiles() {
 }
 
 async function updateProfile() {
+  isLoading.value = true;
   try {
     // Switch to the selected profile
     const response = await apiService.profileSwitch(selectedProfileId.value);
     if (response && response.Success) {
       console.log('Profile successfully updated');
-      fetchProfiles(); // Refresh profiles after update
+      await fetchProfiles(); // Refresh profiles after update
     } else {
       alert('Error updating profile');
     }
   } catch (error) {
     console.error('Error updating profile:', error);
     alert('Error updating profile');
+  } finally {
+    isLoading.value = false;
   }
 }
 

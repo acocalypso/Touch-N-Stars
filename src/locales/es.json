@@ -1102,6 +1102,58 @@
         "failed_to_load": "No se pudo cargar la imagen de Livestack",
         "api_version_required": "Se requiere la versión de la API {version} o superior"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "Nuevo Acceso",
+      "noShortcuts": "No hay accesos directos",
+      "noShortcutsDescription": "Crea accesos directos para cargar y ejecutar tus secuencias de N.I.N.A rápidamente",
+      "createFirst": "Crear primer acceso directo",
+      "newShortcut": "Nuevo Acceso Directo",
+      "editShortcut": "Editar Acceso Directo",
+      "phrase": "Nombre del Acceso",
+      "phrasePlaceholder": "Ej: Sesión M31",
+      "sequenceFile": "Archivo de Secuencia",
+      "selectSequence": "Seleccionar secuencia...",
+      "refreshSequences": "Actualizar lista",
+      "autoStart": "Iniciar automáticamente",
+      "autoStartEnabled": "Inicio automático activado",
+      "icon": "Icono",
+      "color": "Color",
+      "create": "Crear",
+      "update": "Actualizar",
+      "cancel": "Cancel",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "confirmDelete": "Confirmar Eliminación",
+      "confirmDeleteMessage": "¿Estás seguro de eliminar el acceso directo '{phrase}'?",
+      "autoStartDescription": "Iniciar automáticamente la secuencia después de cargar",
+      "confirmDeleteTitle": "Eliminar acceso directo",
+      "deleteShortcut": "Eliminar acceso directo",
+      "description": "Acceso rápido para cargar e iniciar secuencias N.I.N.A.",
+      "errors": {
+        "deleteFailed": "No se pudo eliminar el acceso directo",
+        "executeFailed": "No se pudo ejecutar el acceso directo",
+        "loadFailed": "No se pudieron cargar los accesos directos",
+        "nameRequired": "El nombre del acceso directo es obligatorio",
+        "saveFailed": "No se pudo guardar el acceso directo",
+        "sequenceLoadFailed": "No se pudieron cargar secuencias",
+        "sequenceRequired": "Por favor seleccione una secuencia"
+      },
+      "execute": "Ejecutar",
+      "loadingSequences": "Cargando secuencias...",
+      "manualExecution": "Ejecución manual",
+      "menu": "Menú",
+      "noSequencesAvailable": "No hay secuencias disponibles",
+      "selectColor": "Selecciona un color",
+      "selectIcon": "Seleccione un icono",
+      "shortcutName": "Nombre del acceso directo",
+      "shortcutNamePlaceholder": "por ejemplo, sesión M31",
+      "success": {
+        "created": "Acceso directo creado exitosamente",
+        "deleted": "Acceso directo eliminado correctamente",
+        "updated": "Acceso directo actualizado correctamente"
+      }
     }
   },
   "dialogs": {

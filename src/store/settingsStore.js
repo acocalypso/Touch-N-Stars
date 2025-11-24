@@ -45,6 +45,9 @@ export const useSettingsStore = defineStore('settings', {
     tutorial: {
       completed: localStorage.getItem('tutorialCompleted') === 'true',
       steps: tutorialContent.steps,
+      histogramVisited: false,
+      selectTargetVisited: false,
+      statusBarButtonsVisited: false,
     },
     framing: {
       useNinaCache: true,
@@ -55,6 +58,7 @@ export const useSettingsStore = defineStore('settings', {
       reverseSecondaryAxis: false,
       useCenter: false,
       useRotate: false,
+      settingsVisited: false,
     },
     camera: {
       exposureTime: 2,
@@ -321,6 +325,10 @@ export const useSettingsStore = defineStore('settings', {
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
           'livestack',
+          'mount.settingsVisited',
+          'tutorial.histogramVisited',
+          'tutorial.selectTargetVisited',
+          'tutorial.statusBarButtonsVisited',
         ],
       },
     ],

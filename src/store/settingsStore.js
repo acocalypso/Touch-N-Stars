@@ -46,6 +46,8 @@ export const useSettingsStore = defineStore('settings', {
       completed: localStorage.getItem('tutorialCompleted') === 'true',
       steps: tutorialContent.steps,
       histogramVisited: false,
+      selectTargetVisited: false,
+      statusBarButtonsVisited: false,
     },
     framing: {
       useNinaCache: true,
@@ -325,6 +327,8 @@ export const useSettingsStore = defineStore('settings', {
           'livestack',
           'mount.settingsVisited',
           'tutorial.histogramVisited',
+          'tutorial.selectTargetVisited',
+          'tutorial.statusBarButtonsVisited',
         ],
       },
     ],

@@ -1104,7 +1104,7 @@
       }
     },
     "shortcuts": {
-      "title": "Shortcuts",
+      "title": "Sequence-Shortcuts",
       "description": "Quick access to load and start N.I.N.A sequences",
       "addNew": "New Shortcut",
       "newShortcut": "New Shortcut",

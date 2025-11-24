@@ -1102,6 +1102,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "New Shortcut",
+      "autoStart": "Sequenza di avvio automatico",
+      "autoStartDescription": "Avvia automaticamente la sequenza dopo il caricamento",
+      "autoStartEnabled": "Avvio automatico abilitato",
+      "cancel": "Cancel",
+      "color": "Colore",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Elimina collegamento",
+      "create": "Creare",
+      "delete": "Eliminare",
+      "createFirst": "Crea il primo collegamento",
+      "deleteShortcut": "Elimina collegamento",
+      "description": "Accesso rapido per caricare e avviare sequenze N.I.N.A",
+      "edit": "Modificare",
+      "editShortcut": "Modifica collegamento",
+      "errors": {
+        "deleteFailed": "Impossibile eliminare il collegamento",
+        "executeFailed": "Impossibile eseguire la scorciatoia",
+        "loadFailed": "Impossibile caricare i collegamenti",
+        "nameRequired": "Il nome della scorciatoia è obbligatorio",
+        "saveFailed": "Impossibile salvare il collegamento",
+        "sequenceLoadFailed": "Impossibile caricare le sequenze",
+        "sequenceRequired": "Seleziona una sequenza"
+      },
+      "execute": "Eseguire",
+      "icon": "Icona",
+      "loadingSequences": "Caricamento sequenze...",
+      "manualExecution": "Esecuzione manuale",
+      "menu": "Menu",
+      "newShortcut": "Nuova scorciatoia",
+      "noSequencesAvailable": "Nessuna sequenza disponibile",
+      "noShortcuts": "Nessuna scorciatoia ancora creata",
+      "noShortcutsDescription": "Crea scorciatoie per caricare rapidamente le tue sequenze preferite",
+      "phrase": "Nome della scorciatoia",
+      "phrasePlaceholder": "ad esempio, sessione M31",
+      "refreshSequences": "Aggiorna elenco",
+      "selectColor": "Seleziona un colore",
+      "selectIcon": "Seleziona un'icona",
+      "selectSequence": "Seleziona una sequenza...",
+      "sequenceFile": "File di sequenza",
+      "shortcutName": "Nome della scorciatoia",
+      "shortcutNamePlaceholder": "ad esempio, sessione M31",
+      "success": {
+        "created": "Collegamento creato correttamente",
+        "deleted": "Collegamento eliminato correttamente",
+        "updated": "Collegamento aggiornato correttamente"
+      },
+      "update": "Aggiornamento"
     }
   },
   "dialogs": {

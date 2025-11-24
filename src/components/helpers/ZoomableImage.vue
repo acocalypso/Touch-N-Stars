@@ -33,10 +33,7 @@
         v-if="showHistogram !== false"
         @click.stop="handleHistogramToggle"
         @touchstart.stop
-        :class="[
-          actionButtonClasses,
-          showHistogramPulse && 'feature-highlight'
-        ]"
+        :class="[actionButtonClasses, showHistogramPulse && 'feature-highlight']"
         title="Toggle Histogram"
       >
         <svg

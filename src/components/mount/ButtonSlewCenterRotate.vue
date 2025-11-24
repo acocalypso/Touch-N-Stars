@@ -4,11 +4,12 @@
       <button
         @click="store.mountInfo.Slewing ? framingStore.slewStop() : slew()"
         :disabled="
-          !store.mountInfo.Slewing &&
-          (framingStore.isSlewing ||
-            framingStore.isSlewingAndCentering ||
-            framingStore.isRotating ||
-            props.disabled) || !store.mountInfo.Connected
+          (!store.mountInfo.Slewing &&
+            (framingStore.isSlewing ||
+              framingStore.isSlewingAndCentering ||
+              framingStore.isRotating ||
+              props.disabled)) ||
+          !store.mountInfo.Connected
         "
         :class="[
           'px-5 flex-1 w-full rounded-none',

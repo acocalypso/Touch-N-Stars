@@ -8,7 +8,7 @@
           (framingStore.isSlewing ||
             framingStore.isSlewingAndCentering ||
             framingStore.isRotating ||
-            props.disabled)
+            props.disabled) || !store.mountInfo.Connected
         "
         :class="[
           'px-5 flex-1 w-full rounded-none',

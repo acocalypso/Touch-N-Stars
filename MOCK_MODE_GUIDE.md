@@ -11,19 +11,20 @@ Mock Mode is a development feature that allows you to test and explore the Touch
 - Develop and test new features
 - Debug UI issues
 - Demo the application
+- Avoid plugin routes loading while offline (plugins are skipped in mock mode)
 
 ## How to Enable Mock Mode
 
 ### Option 1: Using Browser Developer Tools
 
-1. Open Touch-N-Stars in your browser
-2. Open the browser's Developer Tools (F12 or right-click > Inspect)
-3. Go to the Console tab
+1. Open Touch-N-Stars in your browser.
+2. Open the browser's Developer Tools (F12 or right-click > Inspect).
+3. Go to the Console tab.
 4. Type the following command and press Enter:
    ```javascript
    localStorage.setItem('USE_MOCK_API', 'true')
    ```
-5. Refresh the page
+5. Refresh the page.
 
 ### Option 2: Programmatically
 
@@ -36,12 +37,12 @@ localStorage.setItem('USE_MOCK_API', 'true');
 
 To return to using the real N.I.N.A API:
 
-1. Open the browser's Developer Tools Console
+1. Open the browser's Developer Tools Console.
 2. Type:
    ```javascript
    localStorage.removeItem('USE_MOCK_API')
    ```
-3. Refresh the page
+3. Refresh the page.
 
 ## What Data is Simulated?
 
@@ -57,75 +58,26 @@ Mock Mode provides realistic simulated data for:
 - **Flat Device**: Not connected
 - **Dome**: Not connected
 - **Weather**: Not connected
+- **Target/Framing**: Static placeholder image returned for target pictures
 
 ### Sequences
 Three example sequences are available:
 - M31 (Andromeda)
-- M42 (Orion)  
+- M42 (Orion)
 - NGC7000 (North America Nebula)
 
 ### Favorites
-Empty list that you can populate and manipulate
+Empty list that you can populate and manipulate.
 
 ### Settings
-Persistent settings storage using mock implementation
+Persistent settings storage using mock implementation with sane defaults for flat wizard, snapshot, plate solve, framing, etc.
 
 ## Testing Features
 
-### Available Plugin Features
+### Plugins and Shortcuts
 
-All plugins and shortcuts should work in mock mode:
-
-- **Livestack Plugin**: Can start/stop (no actual images)
-- **Sequence Creator**: Full functionality with mock sequences
-- **Shortcuts**: All shortcuts respond with mock actions
-- **Webcam**: Mock camera data
-- **Telescopius**: Integration testing with mock coordinates
-- **Logfile Collector**: Mock log collection
-
-### Testing Plugins and Shortcuts
-
-To test plugin/shortcut UI without N.I.N.A:
-
-1. Enable Mock Mode (see instructions above)
-2. Navigate to the Plugins page
-3. All plugin UIs will load with simulated equipment data
-4. Test shortcuts from the Shortcuts page
-5. All actions will return mock success responses
-
-#### Testing the Shortcuts Plugin in Detail
-
-The Shortcuts plugin has been fully updated with mock data:
-
-**What Works:**
-- View existing shortcuts as cards
-- Create new shortcuts with custom names, icons, and colors
-- Select from mock sequences (M31, M42, NGC7000)
-- Edit existing shortcuts
-- Delete shortcuts with confirmation
-- Execute shortcuts (simulates loading and optionally starting sequences)
-- Auto-start toggle functionality
-
-**Step-by-Step Testing:**
-
-1. Navigate to the Shortcuts plugin via the plugins menu
-2. You'll see sample shortcuts displayed as colorful cards
-3. **Create Test**: Click "New Shortcut"
-   - Enter a name (e.g., "Test M31")
-   - Select a sequence from the dropdown
-   - Choose an icon and color
-   - Enable/disable auto-start
-   - Click "Create"
-4. **Edit Test**: Hover over a shortcut and click the pencil icon
-   - Modify any settings
-   - Click "Update"
-5. **Delete Test**: Hover over a shortcut and click the trash icon
-   - Confirm deletion in the modal
-6. **Execute Test**: Click on a shortcut card
-   - Success toast will appear
-   - Sequence will be "loaded" (in mock mode)
-
-All UI interactions work perfectly without N.I.N.A running!
+- Plugins are skipped entirely in mock mode to avoid stale or duplicated routes.
+- Shortcuts UI continues to work with mock actions.
 
 ### Equipment Control
 
@@ -135,16 +87,19 @@ You can test all equipment controls:
 - Filter changes (simulates 500ms delay)
 - Focuser movement (simulates 500ms delay)
 - Sequence start/stop/pause
+- Framing target image returns a static placeholder (no backend call)
+- WebSocket is skipped; UI uses polling in mock mode
 
 ### Limitations
 
 Mock Mode has some limitations:
 
-1. **No Real Images**: Image capture returns success but no actual images
-2. **No Plate Solving**: Plate solve operations return mock success
-3. **No PHD2 Integration**: PHD2 calls return mock data
-4. **Static Weather Data**: Weather information doesn't change
-5. **No Real Equipment Changes**: Equipment states are simulated
+1. **No Real Images**: Image capture returns success but no actual images.
+2. **No Plate Solving**: Plate solve operations return mock success.
+3. **No PHD2 Integration**: PHD2 calls return mock data.
+4. **Static Weather Data**: Weather information doesn't change.
+5. **No Real Equipment Changes**: Equipment states are simulated.
+6. **Plugins Disabled**: Built-in plugins do not load in mock mode.
 
 ## Customizing Mock Data
 
@@ -153,7 +108,7 @@ You can customize the mock data by modifying the `mockState` object in `/src/ser
 ```javascript
 const mockState = {
   isConnected: true,
-  apiVersion: '2.2.11.0',
+  apiVersion: '2.2.12.0',
   equipment: {
     camera: { connected: true },
     mount: { connected: true },
@@ -168,7 +123,7 @@ const mockState = {
 };
 ```
 
-You can also manipulate mock state at runtime:
+You can also manipulate mock state at runtime (when not in production):
 
 ```javascript
 import { mockState } from '@/services/mockApiService';
@@ -181,7 +136,7 @@ mockState.favorites.push({
   id: '123',
   name: 'M31',
   ra: 10.68,
-  dec: 41.27
+  dec: 41.27,
 });
 ```
 
@@ -191,17 +146,18 @@ When Mock Mode is active, you'll see console messages like:
 ```
 [MOCK MODE] Using mock implementation for: cameraAction
 [MOCK MODE] Using mock implementation for: mountAction
+[MOCK MODE] Skipping WebSocket connection
 ```
 
 This helps you verify that mock mode is working correctly.
 
 ## Tips for Development
 
-1. **Start Development**: Always test UI changes in Mock Mode first
-2. **Check Console**: Monitor console for mock mode messages
-3. **Test Transitions**: Test switching between mock and real mode
-4. **Verify Delays**: Mock operations include realistic delays (e.g., filter changes)
-5. **Error Scenarios**: Modify mock state to test error handling
+1. **Start Development**: Always test UI changes in Mock Mode first.
+2. **Check Console**: Monitor console for mock mode messages.
+3. **Test Transitions**: Test switching between mock and real mode.
+4. **Verify Delays**: Mock operations include realistic delays (e.g., filter changes).
+5. **Error Scenarios**: Modify mock state to test error handling.
 
 ## Troubleshooting
 
@@ -211,19 +167,19 @@ This helps you verify that mock mode is working correctly.
    ```javascript
    console.log(localStorage.getItem('USE_MOCK_API'));
    ```
-   Should return `"true"`
+   Should return `"true"`.
 
-2. Hard refresh the page (Ctrl+F5 / Cmd+Shift+R)
+2. Hard refresh the page (Ctrl+F5 / Cmd+Shift+R).
 
-3. Check browser console for errors
+3. Check browser console for errors.
 
 ### Switching Between Modes
 
 If you experience issues switching modes:
-1. Clear localStorage completely
-2. Close all browser tabs
-3. Restart the application
-4. Re-enable mock mode if needed
+1. Clear localStorage completely.
+2. Close all browser tabs.
+3. Restart the application.
+4. Re-enable mock mode if needed.
 
 ## Contributing
 

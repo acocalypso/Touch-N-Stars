@@ -23,6 +23,36 @@ export const apiStore = defineStore('store', {
         HistogramMeanTarget: 0,
         FlatCount: 0,
       },
+      TelescopeSettings: {
+        Id: 'Celestron AVX',
+      },
+      FilterWheelSettings: {
+        Id: 'ZWO EFW',
+      },
+      FocuserSettings: {
+        Id: 'ZWO EAF',
+      },
+      RotatorSettings: {
+        Id: 'Mock Rotator',
+      },
+      GuiderSettings: {
+        GuiderName: 'PHD2_Single',
+      },
+      FlatDeviceSettings: {
+        Id: 'Mock Flat Device',
+      },
+      DomeSettings: {
+        Id: 'Mock Dome',
+      },
+      SwitchSettings: {
+        Id: 'Mock Switch',
+      },
+      WeatherDataSettings: {
+        Id: 'Mock Weather',
+      },
+      SafetyMonitorSettings: {
+        Id: 'Mock Safety',
+      },
       FramingAssistantSettings: {
         LastSelectedImageSource: 'SKYATLAS',
         CameraWidth: 3001,

@@ -14,13 +14,13 @@ const mockState = {
     mount: { connected: true },
     filter: { connected: true },
     focuser: { connected: true },
-    rotator: { connected: false },
-    guider: { connected: false },
-    flatdevice: { connected: false },
-    dome: { connected: false },
-    switch: { connected: false },
-    weather: { connected: false },
-    safety: { connected: false },
+    rotator: { connected: true },
+    guider: { connected: true },
+    flatdevice: { connected: true },
+    dome: { connected: true },
+    switch: { connected: true },
+    weather: { connected: true },
+    safety: { connected: true },
   },
   sequences: [
     {
@@ -46,6 +46,39 @@ const mockState = {
   ],
   favorites: [],
   settings: {},
+};
+
+// Device catalogs for connectEquipment
+const deviceCatalog = {
+  camera: [{ Id: 'ZWO ASI294MC Pro', DisplayName: 'ZWO ASI294MC Pro' }],
+  mount: [{ Id: 'Celestron AVX', DisplayName: 'Celestron AVX' }],
+  filter: [{ Id: 'ZWO EFW', DisplayName: 'ZWO EFW' }],
+  focuser: [{ Id: 'ZWO EAF', DisplayName: 'ZWO EAF' }],
+  rotator: [{ Id: 'Mock Rotator', DisplayName: 'Mock Rotator' }],
+  guider: [{ Id: 'PHD2_Single', DisplayName: 'PHD2 Single (Mock)' }],
+  flatdevice: [{ Id: 'Mock Flat Device', DisplayName: 'Mock Flat Device' }],
+  dome: [{ Id: 'Mock Dome', DisplayName: 'Mock Dome' }],
+  switch: [{ Id: 'Mock Switch', DisplayName: 'Mock Switch' }],
+  weather: [{ Id: 'Mock Weather', DisplayName: 'Mock Weather' }],
+  safety: [{ Id: 'Mock Safety', DisplayName: 'Mock Safety' }],
+};
+
+const buildDeviceResponse = (deviceKey, action) => {
+  if (action === 'list-devices' || action === 'rescan') {
+    return {
+      Success: true,
+      Response: deviceCatalog[deviceKey] || [],
+    };
+  }
+  if (action.startsWith('connect')) {
+    mockState.equipment[deviceKey].connected = true;
+    return { Success: true, Response: `${deviceKey} connected` };
+  }
+  if (action === 'disconnect') {
+    mockState.equipment[deviceKey].connected = false;
+    return { Success: true, Response: `${deviceKey} disconnected` };
+  }
+  return null;
 };
 
 const mockApiService = {
@@ -86,15 +119,27 @@ const mockApiService = {
     const events = [];
     const now = new Date();
 
-    // Generate connection events based on mock state
-    Object.entries(mockState.equipment).forEach(([device, state]) => {
-      if (state.connected) {
-        const deviceName = device.toUpperCase();
-        events.push({
-          Time: new Date(now.getTime() - 10000).toISOString(),
-          Event: `${deviceName}-CONNECTED`,
-        });
-      }
+    // Map equipment keys to expected event names in store.processEventHistory
+    const deviceNameMap = {
+      camera: 'CAMERA',
+      mount: 'MOUNT',
+      filter: 'FILTERWHEEL',
+      focuser: 'FOCUSER',
+      rotator: 'ROTATOR',
+      guider: 'GUIDER',
+      flatdevice: 'FLAT',
+      dome: 'DOME',
+      switch: 'SWITCH',
+      weather: 'WEATHER',
+      safety: 'SAFETY',
+    };
+
+    Object.entries(mockState.equipment).forEach(([device, state], idx) => {
+      const mappedName = deviceNameMap[device];
+      if (!mappedName) return;
+      const timestamp = new Date(now.getTime() - (idx + 1) * 1000).toISOString();
+      const eventType = state.connected ? `${mappedName}-CONNECTED` : `${mappedName}-DISCONNECTED`;
+      events.push({ Time: timestamp, Event: eventType });
     });
 
     return {
@@ -220,25 +265,25 @@ const mockApiService = {
               Id: 'ZWO EAF',
             },
             RotatorSettings: {
-              Id: 'No_Device',
+              Id: 'Mock Rotator',
             },
             GuiderSettings: {
-              GuiderName: 'No_Guider',
+              GuiderName: 'PHD2_Single',
             },
             FlatDeviceSettings: {
-              Id: 'No_Device',
+              Id: 'Mock Flat Device',
             },
             DomeSettings: {
-              Id: 'No_Device',
+              Id: 'Mock Dome',
             },
             SwitchSettings: {
-              Id: 'No_Device',
+              Id: 'Mock Switch',
             },
             WeatherDataSettings: {
-              Id: 'No_Device',
+              Id: 'Mock Weather',
             },
             SafetyMonitorSettings: {
-              Id: 'No_Device',
+              Id: 'Mock Safety',
             },
             AstrometrySettings: {
               Latitude: 40.7128,
@@ -291,6 +336,8 @@ const mockApiService = {
   // Camera
   cameraAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('camera', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -331,6 +378,8 @@ const mockApiService = {
   // Mount
   mountAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('mount', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -390,6 +439,8 @@ const mockApiService = {
   // Filter
   filterAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('filter', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -398,6 +449,7 @@ const mockApiService = {
             Name: 'ZWO EFW',
             Position: 0,
             Filters: ['L', 'R', 'G', 'B', 'Ha', 'OIII', 'SII'],
+            SelectedFilter: { Name: 'L', Id: 0 },
           },
         };
       }
@@ -419,6 +471,8 @@ const mockApiService = {
   // Focuser
   focusAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('focuser', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -467,6 +521,8 @@ const mockApiService = {
   // Rotator
   rotatorAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('rotator', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -488,6 +544,8 @@ const mockApiService = {
   // Guider
   guiderAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('guider', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -508,6 +566,8 @@ const mockApiService = {
   // Flat Device
   flatdeviceAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('flatdevice', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -529,6 +589,8 @@ const mockApiService = {
   // Dome
   domeAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('dome', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -551,6 +613,8 @@ const mockApiService = {
   // Switch
   switchAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('switch', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -570,6 +634,8 @@ const mockApiService = {
   // Weather
   weatherAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('weather', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,
@@ -601,6 +667,8 @@ const mockApiService = {
   // Safety Monitor
   safetyAction(action) {
     return delay(100).then(() => {
+      const base = buildDeviceResponse('safety', action);
+      if (base) return base;
       if (action === 'info') {
         return {
           Success: true,

@@ -26,8 +26,6 @@
           </span>
         </button>
 
-
-
         <!-- Start Button -->
         <button
           v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
@@ -375,14 +373,12 @@ async function startGuiding() {
 
 // Start guiding function
 async function startLooping() {
-
   try {
     await apiService.setPHD2StartLooping(settingsStore.guider.phd2ForceCalibration);
-    console.log( '[PHD2] Start looping',);
+    console.log('[PHD2] Start looping');
   } catch (error) {
     console.error('[PHD2] Error during guider start:', error.response?.data || error);
   } finally {
-
   }
 }
 

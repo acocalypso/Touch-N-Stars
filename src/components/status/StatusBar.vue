@@ -28,10 +28,13 @@
     <button
       v-if="store.cameraInfo.Connected"
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-      :class="{
-        'glow-green': cameraStore.showCameraInfo,
-      }"
-      @click="handleCameraClick"
+      :class="[
+        {
+          'glow-green': cameraStore.showCameraInfo,
+        },
+        showStatusBarPulse && 'feature-highlight',
+      ]"
+      @click="handleCameraClickWithVisit"
     >
       <div class="flex w-5 h-5">
         <CameraIcon :class="{ 'text-green-500': store.cameraInfo.IsExposing }" />
@@ -64,10 +67,13 @@
     <button
       v-if="store.filterInfo.Connected"
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-      :class="{
-        'glow-green': filterStore.showFilterwheelInfo,
-      }"
-      @click="handleFilterClick"
+      :class="[
+        {
+          'glow-green': filterStore.showFilterwheelInfo,
+        },
+        showStatusBarPulse && 'feature-highlight',
+      ]"
+      @click="handleFilterClickWithVisit"
     >
       <p class="flex items-center">
         <svg
@@ -94,10 +100,13 @@
     <button
       v-if="store.mountInfo.Connected"
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-      :class="{
-        'glow-green': mountStore.showMountInfo,
-      }"
-      @click="handleMountClick"
+      :class="[
+        {
+          'glow-green': mountStore.showMountInfo,
+        },
+        showStatusBarPulse && 'feature-highlight',
+      ]"
+      @click="handleMountClickWithVisit"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -133,11 +142,14 @@
     <div v-if="store.guiderInfo.Connected" class="flex items-center gap-1">
       <button
         class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
-        :class="{
-          'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
-          'glow-red': guiderStore.phd2StarLost,
-        }"
-        @click="handleGuiderClick"
+        :class="[
+          {
+            'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
+            'glow-red': guiderStore.phd2StarLost,
+          },
+          showStatusBarPulse && 'feature-highlight',
+        ]"
+        @click="handleGuiderClickWithVisit"
       >
         <svg
           class="w-5 h-5 icon icon-tabler icons-tabler-outline icon-tabler-viewfinder"
@@ -312,12 +324,46 @@ const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
 const mountStore = useMountStore();
 const filterStore = useFilterStore();
+const showStatusBarPulse = ref(false);
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
+
+const checkStatusBarFeatureHighlight = () => {
+  const hasVisited = settingsStore.tutorial?.statusBarButtonsVisited === true;
+  showStatusBarPulse.value = !hasVisited;
+};
+
+const markStatusBarAsVisited = () => {
+  settingsStore.tutorial.statusBarButtonsVisited = true;
+  showStatusBarPulse.value = false;
+};
+
+const handleCameraClickWithVisit = () => {
+  handleCameraClick();
+  markStatusBarAsVisited();
+};
+
+const handleFilterClickWithVisit = () => {
+  handleFilterClick();
+  markStatusBarAsVisited();
+};
+
+const handleMountClickWithVisit = () => {
+  handleMountClick();
+  markStatusBarAsVisited();
+};
+
+const handleGuiderClickWithVisit = () => {
+  handleGuiderClick();
+  markStatusBarAsVisited();
+};
 
 const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
   return color;
 });
+
+// Initialize feature highlight on mount
+checkStatusBarFeatureHighlight();
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();

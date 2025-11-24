@@ -1102,6 +1102,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "New Shortcut",
+      "autoStart": "Sekwencja automatycznego startu",
+      "autoStartDescription": "Automatycznie rozpocznij sekwencję po załadowaniu",
+      "autoStartEnabled": "Włączono automatyczne uruchamianie",
+      "cancel": "Cancel",
+      "color": "Kolor",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Usuń skrót",
+      "create": "Tworzyć",
+      "delete": "Usuwać",
+      "createFirst": "Utwórz pierwszy skrót",
+      "deleteShortcut": "Usuń skrót",
+      "description": "Szybki dostęp do ładowania i uruchamiania sekwencji N.I.N.A",
+      "edit": "Redagować",
+      "editShortcut": "Edytuj skrót",
+      "errors": {
+        "deleteFailed": "Nie udało się usunąć skrótu",
+        "executeFailed": "Nie udało się wykonać skrótu",
+        "loadFailed": "Nie udało się załadować skrótów",
+        "nameRequired": "Nazwa skrótu jest wymagana",
+        "saveFailed": "Nie udało się zapisać skrótu",
+        "sequenceLoadFailed": "Nie udało się załadować sekwencji",
+        "sequenceRequired": "Proszę wybrać sekwencję"
+      },
+      "execute": "Wykonać",
+      "icon": "Ikona",
+      "loadingSequences": "Ładowanie sekwencji...",
+      "manualExecution": "Wykonanie ręczne",
+      "menu": "Menu",
+      "newShortcut": "Nowy skrót",
+      "noSequencesAvailable": "Brak dostępnych sekwencji",
+      "noShortcuts": "Nie utworzono jeszcze żadnych skrótów",
+      "noShortcutsDescription": "Twórz skróty, aby szybko ładować swoje ulubione sekwencje",
+      "phrase": "Nazwa skrótu",
+      "phrasePlaceholder": "np. sesja M31",
+      "refreshSequences": "Odśwież listę",
+      "selectColor": "Wybierz kolor",
+      "selectIcon": "Wybierz ikonę",
+      "selectSequence": "Wybierz sekwencję...",
+      "sequenceFile": "Plik sekwencji",
+      "shortcutName": "Nazwa skrótu",
+      "shortcutNamePlaceholder": "np. sesja M31",
+      "success": {
+        "created": "Skrót został utworzony pomyślnie",
+        "deleted": "Skrót został pomyślnie usunięty",
+        "updated": "Skrót został pomyślnie zaktualizowany"
+      },
+      "update": "Aktualizacja"
     }
   },
   "dialogs": {

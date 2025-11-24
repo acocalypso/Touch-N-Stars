@@ -1108,6 +1108,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "New Shortcut",
+      "autoStart": "Auto-start sequence",
+      "autoStartDescription": "Automatically start the sequence after loading",
+      "autoStartEnabled": "Auto-start enabled",
+      "cancel": "Cancel",
+      "color": "Color",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Delete Shortcut",
+      "create": "Create",
+      "delete": "Delete",
+      "createFirst": "Create First Shortcut",
+      "deleteShortcut": "Delete Shortcut",
+      "description": "Quick access to load and start N.I.N.A sequences",
+      "edit": "Edit",
+      "editShortcut": "Edit Shortcut",
+      "errors": {
+        "deleteFailed": "Failed to delete shortcut",
+        "executeFailed": "Failed to execute shortcut",
+        "loadFailed": "Failed to load shortcuts",
+        "nameRequired": "Shortcut name is required",
+        "saveFailed": "Failed to save shortcut",
+        "sequenceLoadFailed": "Failed to load sequences",
+        "sequenceRequired": "Please select a sequence"
+      },
+      "execute": "Execute",
+      "icon": "Icon",
+      "loadingSequences": "Loading sequences...",
+      "manualExecution": "Manual execution",
+      "menu": "Menu",
+      "newShortcut": "New Shortcut",
+      "noSequencesAvailable": "No sequences available",
+      "noShortcuts": "No shortcuts created yet",
+      "noShortcutsDescription": "Create shortcuts to quickly load your favorite sequences",
+      "phrase": "Shortcut Name",
+      "phrasePlaceholder": "e.g., M31 Session",
+      "refreshSequences": "Refresh list",
+      "selectColor": "Select a color",
+      "selectIcon": "Select an icon",
+      "selectSequence": "Select a sequence...",
+      "sequenceFile": "Sequence File",
+      "shortcutName": "Shortcut Name",
+      "shortcutNamePlaceholder": "e.g., M31 Session",
+      "success": {
+        "created": "Shortcut created successfully",
+        "deleted": "Shortcut deleted successfully",
+        "updated": "Shortcut updated successfully"
+      },
+      "update": "Update"
     }
   },
   "dialogs": {

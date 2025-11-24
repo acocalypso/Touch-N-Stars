@@ -1102,6 +1102,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "New Shortcut",
+      "autoStart": "Séquence de démarrage automatique",
+      "autoStartDescription": "Démarrer automatiquement la séquence après le chargement",
+      "autoStartEnabled": "Démarrage automatique activé",
+      "cancel": "Cancel",
+      "color": "Couleur",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Supprimer le raccourci",
+      "create": "Créer",
+      "delete": "Supprimer",
+      "createFirst": "Créer un premier raccourci",
+      "deleteShortcut": "Supprimer le raccourci",
+      "description": "Accès rapide pour charger et démarrer les séquences N.I.N.A.",
+      "edit": "Modifier",
+      "editShortcut": "Modifier le raccourci",
+      "errors": {
+        "deleteFailed": "Échec de la suppression du raccourci",
+        "executeFailed": "Échec de l'exécution du raccourci",
+        "loadFailed": "Échec du chargement des raccourcis",
+        "nameRequired": "Le nom du raccourci est obligatoire",
+        "saveFailed": "Échec de l'enregistrement du raccourci",
+        "sequenceLoadFailed": "Échec du chargement des séquences",
+        "sequenceRequired": "Veuillez sélectionner une séquence"
+      },
+      "execute": "Exécuter",
+      "icon": "Icône",
+      "loadingSequences": "Chargement des séquences...",
+      "manualExecution": "Exécution manuelle",
+      "menu": "Menu",
+      "newShortcut": "Nouveau raccourci",
+      "noSequencesAvailable": "Aucune séquence disponible",
+      "noShortcuts": "Aucun raccourci créé pour l'instant",
+      "noShortcutsDescription": "Créez des raccourcis pour charger rapidement vos séquences préférées",
+      "phrase": "Nom du raccourci",
+      "phrasePlaceholder": "par exemple, session M31",
+      "refreshSequences": "Actualiser la liste",
+      "selectColor": "Sélectionnez une couleur",
+      "selectIcon": "Sélectionnez une icône",
+      "selectSequence": "Sélectionnez une séquence...",
+      "sequenceFile": "Fichier de séquence",
+      "shortcutName": "Nom du raccourci",
+      "shortcutNamePlaceholder": "par exemple, session M31",
+      "success": {
+        "created": "Raccourci créé avec succès",
+        "deleted": "Raccourci supprimé avec succès",
+        "updated": "Raccourci mis à jour avec succès"
+      },
+      "update": "Mise à jour"
     }
   },
   "dialogs": {

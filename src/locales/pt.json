@@ -1102,6 +1102,58 @@
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
       }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "addNew": "New Shortcut",
+      "autoStart": "Sequência de início automático",
+      "autoStartDescription": "Iniciar automaticamente a sequência após o carregamento",
+      "autoStartEnabled": "Início automático ativado",
+      "cancel": "Cancel",
+      "color": "Cor",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Excluir atalho",
+      "create": "Criar",
+      "delete": "Excluir",
+      "createFirst": "Crie o primeiro atalho",
+      "deleteShortcut": "Excluir atalho",
+      "description": "Acesso rápido para carregar e iniciar sequências N.I.N.A",
+      "edit": "Editar",
+      "editShortcut": "Editar atalho",
+      "errors": {
+        "deleteFailed": "Falha ao excluir o atalho",
+        "executeFailed": "Falha ao executar o atalho",
+        "loadFailed": "Falha ao carregar atalhos",
+        "nameRequired": "O nome do atalho é obrigatório",
+        "saveFailed": "Falha ao salvar o atalho",
+        "sequenceLoadFailed": "Falha ao carregar sequências",
+        "sequenceRequired": "Selecione uma sequência"
+      },
+      "execute": "Executar",
+      "icon": "Ícone",
+      "loadingSequences": "Carregando sequências...",
+      "manualExecution": "Execução manual",
+      "menu": "Menu",
+      "newShortcut": "Novo atalho",
+      "noSequencesAvailable": "Nenhuma sequência disponível",
+      "noShortcuts": "Nenhum atalho criado ainda",
+      "noShortcutsDescription": "Crie atalhos para carregar rapidamente suas sequências favoritas",
+      "phrase": "Nome do atalho",
+      "phrasePlaceholder": "por exemplo, Sessão M31",
+      "refreshSequences": "Atualizar lista",
+      "selectColor": "Selecione uma cor",
+      "selectIcon": "Selecione um ícone",
+      "selectSequence": "Selecione uma sequência...",
+      "sequenceFile": "Arquivo de sequência",
+      "shortcutName": "Nome do atalho",
+      "shortcutNamePlaceholder": "por exemplo, Sessão M31",
+      "success": {
+        "created": "Atalho criado com sucesso",
+        "deleted": "Atalho excluído com sucesso",
+        "updated": "Atalho atualizado com sucesso"
+      },
+      "update": "Atualizar"
     }
   },
   "dialogs": {

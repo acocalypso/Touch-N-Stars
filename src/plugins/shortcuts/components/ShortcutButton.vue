@@ -1,30 +1,45 @@
 <template>
-  <button
+  <div
     @click="executeShortcut"
-    :disabled="isExecuting"
-    :class="buttonColorClass"
-    class="relative group flex flex-col items-center justify-center gap-3 rounded-xl p-6 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 min-h-[140px]"
+    :class="[
+      buttonColorClass,
+      { 'opacity-50 cursor-not-allowed': isExecuting, 'cursor-pointer': !isExecuting },
+    ]"
+    class="w-full relative group flex flex-row items-center justify-start gap-4 rounded-xl p-4 pr-20 shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
   >
     <!-- Icon -->
     <component
       :is="iconComponent"
-      class="w-12 h-12 text-white"
+      class="w-8 h-8 text-white flex-shrink-0"
       :class="{ 'animate-pulse': isExecuting }"
     />
 
     <!-- Phrase -->
-    <span class="text-white font-medium text-center text-sm leading-tight px-2">
+    <span class="text-white font-medium text-left text-base leading-tight">
       {{ shortcut.phrase }}
     </span>
 
-    <!-- Auto-start indicator -->
+    <!-- Execution type indicator -->
     <div
-      v-if="shortcut.autoStart"
-      class="absolute top-2 right-2 bg-white/20 backdrop-blur-sm rounded-full p-1.5"
-      :title="$t('plugins.shortcuts.autoStartEnabled')"
+      class="absolute top-1/2 -translate-y-1/2 right-12 bg-white/20 backdrop-blur-sm rounded-full p-1.5"
+      :title="
+        shortcut.autoStart
+          ? $t('plugins.shortcuts.autoStartEnabled')
+          : $t('plugins.shortcuts.manualExecution')
+      "
     >
-      <PlayIcon class="w-4 h-4 text-white" />
+      <PlayIcon v-if="shortcut.autoStart" class="w-5 h-5 text-white" />
+      <HandRaisedIcon v-else class="w-5 h-5 text-white" />
     </div>
+
+    <!-- Menu button -->
+    <button
+      @click.stop="handleMenuClick"
+      class="absolute top-1/2 -translate-y-1/2 right-3 p-1.5 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full transition-colors z-10"
+      :title="$t('plugins.shortcuts.menu')"
+    >
+      <EllipsisVerticalIcon class="w-5 h-5 text-white" />
+    </button>
 
     <!-- Loading spinner -->
     <div
@@ -33,7 +48,7 @@
     >
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
     </div>
-  </button>
+  </div>
 </template>
 
 <script setup>
@@ -49,6 +64,8 @@ import {
   RocketLaunchIcon,
   GlobeAltIcon,
   PlayIcon,
+  HandRaisedIcon,
+  EllipsisVerticalIcon,
 } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
@@ -57,6 +74,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(['menu-click']);
 
 const shortcutsStore = useShortcutsStore();
 const isExecuting = ref(false);
@@ -104,5 +123,9 @@ const executeShortcut = async () => {
   } finally {
     isExecuting.value = false;
   }
+};
+
+const handleMenuClick = () => {
+  emit('menu-click', props.shortcut.id);
 };
 </script>

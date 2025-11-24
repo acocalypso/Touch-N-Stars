@@ -45,27 +45,17 @@
     <!-- Shortcuts grid -->
     <div
       v-if="shortcutsStore.hasShortcuts && !showEditor"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+      class="grid gap-4 pb-32"
+      :class="gridClasses"
     >
       <div v-for="shortcut in shortcutsStore.shortcuts" :key="shortcut.id" class="relative group">
         <!-- Shortcut Button -->
-        <div class="relative">
-          <ShortcutButton :shortcut="shortcut" />
-
-          <!-- Context Menu Button (Three Dots) - Positioned inside the button -->
-          <button
-            @click.stop="toggleMenu(shortcut.id)"
-            class="absolute top-3 right-3 p-2 bg-gray-800/90 hover:bg-gray-700 backdrop-blur-sm rounded-lg transition-colors z-10"
-            :title="$t('plugins.shortcuts.menu')"
-          >
-            <EllipsisVerticalIcon class="w-5 h-5 text-white" />
-          </button>
-        </div>
+        <ShortcutButton :shortcut="shortcut" @menu-click="toggleMenu" />
 
         <!-- Dropdown Menu -->
         <div
           v-if="openMenuId === shortcut.id"
-          class="absolute top-12 right-2 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden z-20 min-w-[150px]"
+          class="absolute top-full mt-2 right-2 bg-gray-800 rounded-lg shadow-xl border border-gray-700 overflow-hidden z-30 min-w-[150px]"
         >
           <button
             @click="handleEditClick(shortcut)"
@@ -121,25 +111,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useShortcutsStore } from '../store/shortcutsStore';
+import { useOrientation } from '@/composables/useOrientation';
 import ShortcutButton from '../components/ShortcutButton.vue';
 import ShortcutEditor from '../components/ShortcutEditor.vue';
-import {
-  BoltIcon,
-  PlusIcon,
-  PencilIcon,
-  TrashIcon,
-  EllipsisVerticalIcon,
-} from '@heroicons/vue/24/outline';
+import { BoltIcon, PlusIcon, PencilIcon, TrashIcon } from '@heroicons/vue/24/outline';
 
 const shortcutsStore = useShortcutsStore();
+const { isLandscape } = useOrientation();
 
 const showEditor = ref(false);
 const editingShortcut = ref(null);
 const showDeleteConfirm = ref(false);
 const shortcutToDelete = ref(null);
 const openMenuId = ref(null);
+
+// Compute grid classes based on orientation
+const gridClasses = computed(() => {
+  return isLandscape.value ? 'grid-cols-2' : 'grid-cols-1';
+});
 
 const openEditor = (shortcut = null) => {
   editingShortcut.value = shortcut;

@@ -1119,6 +1119,8 @@
       "selectSequence": "Select a sequence...",
       "autoStart": "Auto-start sequence",
       "autoStartDescription": "Automatically start the sequence after loading",
+      "autoStartEnabled": "Auto-start enabled",
+      "manualExecution": "Manual execution",
       "icon": "Icon",
       "selectIcon": "Select an icon",
       "color": "Color",

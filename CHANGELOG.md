@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.1.0.beta4] [LivestackPlugin0.7.0] - 2025-11-23
+## [App4.1.0.beta4] [LivestackPlugin0.6.1] - 2025-11-23
 ### Added
 - Mid tone control on histograms.
 - Reset button on histograms.

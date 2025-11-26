@@ -1,9 +1,16 @@
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
+import mockApiService from './mockApiService';
 
 let settingsStore;
 let store;
 const DEFAULT_TIMEOUT = 10000;
+
+// Check if mock API should be used
+const useMockApi = () => {
+  // Check localStorage for USE_MOCK_API flag
+  return localStorage.getItem('USE_MOCK_API') === 'true';
+};
 
 const initializeStore = () => {
   if (!settingsStore) {
@@ -1600,4 +1607,17 @@ const apiService = {
   },
 };
 
-export default apiService;
+// Create a proxy that checks for mock mode and routes accordingly
+const apiServiceProxy = new Proxy(apiService, {
+  get(target, prop) {
+    // If mock mode is enabled and the method exists in mock service, use it
+    if (useMockApi() && typeof mockApiService[prop] === 'function') {
+      console.log(`[MOCK MODE] Using mock implementation for: ${prop}`);
+      return mockApiService[prop].bind(mockApiService);
+    }
+    // Otherwise use real API service
+    return target[prop];
+  },
+});
+
+export default apiServiceProxy;

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { useToastStore } from '@/store/toastStore';
-import { useSequenceStore } from '@/store/sequenceStore';
 
 export const useShortcutsStore = defineStore('shortcuts', {
   state: () => ({
@@ -104,7 +103,6 @@ export const useShortcutsStore = defineStore('shortcuts', {
       }
 
       const toastStore = useToastStore();
-      const sequenceStore = useSequenceStore();
 
       try {
         // Load the sequence

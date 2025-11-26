@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-2">
     <div
-      v-for="(item, index) in items.filter(i => {
+      v-for="(item, index) in items.filter((i) => {
         // Skip items with Name === null and OnOff property
         if (i.Name === null && i.OnOff !== undefined) return false;
         // Skip items with Name === null and no display fields

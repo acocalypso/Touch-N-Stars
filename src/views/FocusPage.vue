@@ -56,7 +56,7 @@
               <PhotoIcon class="w-6 h-6" />
             </button>
           </div>
-                      <!-- Settings Button -->
+          <!-- Settings Button -->
           <button
             @click="openSettings = true"
             class="default-button-gray flex items-center justify-center px-3 px-2 mt-2"
@@ -128,19 +128,17 @@
     @close="showImageModal = false"
   />
 
-      <!-- Settings Modal -->
-    <Modal :show="openSettings" @close="openSettings = false">
-      <template #header>
-        <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
-      </template>
-      <template #body>
-        <div class="flex flex-col gap-1 mt-2 w-full">
-          <AfSettings />
-        </div>
-      </template>
-    </Modal>
-
-
+  <!-- Settings Modal -->
+  <Modal :show="openSettings" @close="openSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
+    </template>
+    <template #body>
+      <div class="flex flex-col gap-1 mt-2 w-full">
+        <AfSettings />
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script setup>

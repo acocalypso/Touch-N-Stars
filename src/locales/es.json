@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "close": "Cerca"
+    "close": "Cerca",
+    "select": "Select"
   },
   "general": {
     "cancel": "Cancelar",
@@ -418,7 +419,19 @@
         "title": "Asistente de calibración",
         "west": "Oeste",
         "info": "El asistente de calibración lo ayuda desplazar la montura de manera óptima para la calibración y realizar una calibración precisa."
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Tramado solo en RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Tiempo de espera de inicio de guía",
+      "phd2Path": "Camino PHD2",
+      "phd2ServerHost": "Nombre de host del servidor PHD2",
+      "phd2ServerPort": "Puerto del servidor PHD2",
+      "roiPercentage": "Porcentaje de ROI para encontrar estrella guía (%)",
+      "settings": "Configuración de guía",
+      "settlePixels": "Establecer tolerancia de píxeles (px)",
+      "settleTime": "Tiempo mínimo de liquidación (s)",
+      "settleTimeout": "Liquidar tiempos de espera"
     },
     "focuser": {
       "title": "Enfocador",
@@ -435,7 +448,32 @@
       "stopped": "Parado",
       "autofocus_active": "Autoenfoque activo",
       "autofocus": "Autoenfoque",
-      "last_autofocus": "Último autoenfoque"
+      "last_autofocus": "Último autoenfoque",
+      "settings": {
+        "ABSOLUTE": "Absoluto",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Estrategia de ajuste de curvas",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Número de fotogramas por punto",
+        "AutoFocusOuterCropRatio": "Proporción de cultivo exterior",
+        "AutoFocusStepSize": "Tamaño del paso",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Número total de intentos",
+        "AutoFocusUseBrightestStars": "Utilice las estrellas más brillantes",
+        "BacklashCompensationModel": "Modelo de compensación de reacción",
+        "BacklashIn": "Contragolpe en",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Tiempo de establecimiento del enfocador",
+        "HYPERBOLIC": "Hiperbólico",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabólico",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Tendencia hiperbólica",
+        "TRENDLINES": "Líneas de tendencia",
+        "TRENDPARABOLIC": "Tendencia parabólica"
+      }
     },
     "dome": {
       "title": "Cúpula",

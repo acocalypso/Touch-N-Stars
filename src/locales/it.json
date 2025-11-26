@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Annulla",
     "confirm": "Conferma",
-    "close": "Chiudi"
+    "close": "Chiudi",
+    "select": "Select"
   },
   "general": {
     "cancel": "Annulla",
@@ -418,7 +419,19 @@
           "title": "Errore PHD2",
           "star-lost-message": "Stella persa"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dithering solo in RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Timeout inizio guida (s)",
+      "phd2Path": "Percorso PHD2",
+      "phd2ServerHost": "Nome host del server PHD2",
+      "phd2ServerPort": "Porta del server PHD2",
+      "roiPercentage": "Percentuale ROI per trovare la stella guida (%)",
+      "settings": "Impostazioni della guida",
+      "settlePixels": "Regola la tolleranza dei pixel (px)",
+      "settleTime": "Tempo minimo di regolamento (s)",
+      "settleTimeout": "Stabilisci Timeout(s)"
     },
     "focuser": {
       "title": "Focheggiatore",
@@ -435,7 +448,32 @@
       "stopped": "Fermato",
       "autofocus_active": "Autofocus attivo",
       "autofocus": "Autofocus",
-      "last_autofocus": "Ultimo autofocus"
+      "last_autofocus": "Ultimo autofocus",
+      "settings": {
+        "ABSOLUTE": "Assoluto",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Strategia di adattamento della curva",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Numero di fotogrammi per punto",
+        "AutoFocusOuterCropRatio": "Rapporto del raccolto esterno",
+        "AutoFocusStepSize": "Dimensione del passo",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Numero totale di tentativi",
+        "AutoFocusUseBrightestStars": "Usa le stelle più luminose",
+        "BacklashCompensationModel": "Modello di compensazione del gioco",
+        "BacklashIn": "Contraccolpo",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Tempo di regolazione del focheggiatore",
+        "HYPERBOLIC": "Iperbolico",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabolico",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Tendenza iperbolica",
+        "TRENDLINES": "Linee di tendenza",
+        "TRENDPARABOLIC": "Tendenza parabolica"
+      }
     },
     "dome": {
       "title": "Cupola",

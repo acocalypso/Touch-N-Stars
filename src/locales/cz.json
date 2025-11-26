@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
-    "close": "Zavřít"
+    "close": "Zavřít",
+    "select": "Select"
   },
   "general": {
     "cancel": "Zrušit",
@@ -421,7 +422,19 @@
         "west": "Západ",
         "slewStopped": "Přejezd se zastavil",
         "stopSlew": "Zastavit Přejezd"
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither in RA Only",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Guiding Start Timeout (s)",
+      "phd2Path": "PHD2 Path",
+      "phd2ServerHost": "PHD2 Server Hostname",
+      "phd2ServerPort": "PHD2 Server Port",
+      "roiPercentage": "ROI Percentage to Find Guide Star (%)",
+      "settings": "Guider Settings",
+      "settlePixels": "Settle Pixel Tolerance (px)",
+      "settleTime": "Minimum Settle Time (s)",
+      "settleTimeout": "Settle Timeout (s)"
     },
     "focuser": {
       "title": "Ostření",
@@ -438,7 +451,32 @@
       "stopped": "Zastaveno",
       "autofocus_active": "AutoOstření aktivní",
       "autofocus": "AutoOstření",
-      "last_autofocus": "Poslední AutoOstření"
+      "last_autofocus": "Poslední AutoOstření",
+      "settings": {
+        "ABSOLUTE": "Absolute",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Curve fitting strategy",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Number of Frames Per Point",
+        "AutoFocusOuterCropRatio": "Outer Crop Ratio",
+        "AutoFocusStepSize": "Step Size",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Total Number of Attempts",
+        "AutoFocusUseBrightestStars": "Use Brightest Stars",
+        "BacklashCompensationModel": "Backlash compensation model",
+        "BacklashIn": "Backlash In",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Focuser Settle Time",
+        "HYPERBOLIC": "Hyperbolic",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabolic",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Trend Hyperbolic",
+        "TRENDLINES": "Trendlines",
+        "TRENDPARABOLIC": "Trend Parabolic"
+      }
     },
     "dome": {
       "title": "Kopule",

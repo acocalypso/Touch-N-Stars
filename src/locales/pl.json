@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
-    "close": "Zamknij"
+    "close": "Zamknij",
+    "select": "Select"
   },
   "general": {
     "cancel": "Anuluj",
@@ -418,7 +419,19 @@
           "title": "Błąd PHD2",
           "star-lost-message": "Utracono gwiazdę"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dithering tylko w RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Limit czasu rozpoczęcia prowadzenia (s)",
+      "phd2Path": "Ścieżka PHD2",
+      "phd2ServerHost": "Nazwa hosta serwera PHD2",
+      "phd2ServerPort": "Port serwera PHD2",
+      "roiPercentage": "Procent ROI potrzebny do znalezienia gwiazdy prowadzącej (%)",
+      "settings": "Ustawienia przewodnika",
+      "settlePixels": "Ustaw tolerancję pikseli (px)",
+      "settleTime": "Minimalny czas osiadania (s)",
+      "settleTimeout": "Ustalenie limitu czasu (s)"
     },
     "focuser": {
       "title": "Focuser",
@@ -435,7 +448,32 @@
       "stopped": "Zatrzymany",
       "autofocus_active": "Autofokus aktywny",
       "autofocus": "Autofokus",
-      "last_autofocus": "Ostatni autofokus"
+      "last_autofocus": "Ostatni autofokus",
+      "settings": {
+        "ABSOLUTE": "Absolutny",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Strategia dopasowania krzywej",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Liczba klatek na punkt",
+        "AutoFocusOuterCropRatio": "Zewnętrzny współczynnik przycięcia",
+        "AutoFocusStepSize": "Rozmiar kroku",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Całkowita liczba prób",
+        "AutoFocusUseBrightestStars": "Użyj najjaśniejszych gwiazd",
+        "BacklashCompensationModel": "Model kompensacji luzów",
+        "BacklashIn": "Luz w",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Czas osiadania focusera",
+        "HYPERBOLIC": "Hiperboliczny",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Paraboliczny",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Trend hiperboliczny",
+        "TRENDLINES": "Linie trendu",
+        "TRENDPARABOLIC": "Trend paraboliczny"
+      }
     },
     "dome": {
       "title": "Kopuła",

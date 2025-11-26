@@ -349,6 +349,7 @@
         "settings": "Mount Settings",
         "connectionMode": "Connection Mode",
         "devicePort": "Device Port",
+        "ipAddress": "IP Address",
         "baudRate": "Baud Rate"
       }
     },

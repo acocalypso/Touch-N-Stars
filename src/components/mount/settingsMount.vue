@@ -21,7 +21,11 @@
     <!-- Device Port -->
     <div class="flex flex-row items-center justify-between w-full mt-2 md:mt-3">
       <label for="devicePort" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.mount.config.devicePort') }}
+        {{
+          connectionMode === 'NETWORK'
+            ? $t('components.mount.config.ipAddress')
+            : $t('components.mount.config.devicePort')
+        }}
       </label>
       <input
         id="devicePort"

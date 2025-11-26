@@ -344,6 +344,13 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az"
+      },
+      "config": {
+        "settings": "Mount Settings",
+        "connectionMode": "Connection Mode",
+        "devicePort": "Device Port",
+        "ipAddress": "IP Address",
+        "baudRate": "Baud Rate"
       }
     },
     "guider": {

@@ -74,6 +74,7 @@
       :deviceName="$t('components.connectEquipment.mount.name')"
       :default-device-id="store.profileInfo?.TelescopeSettings?.Id"
       :isConnected="store.mountInfo.Connected"
+      @open-config="openMountSettings"
     />
 
     <selectDevices
@@ -150,6 +151,16 @@
       <settingsGuiderConnect :selectedGuiderDevice="selectedGuiderDevice" />
     </template>
   </Modal>
+
+  <!-- Mount Settings Modal -->
+  <Modal :show="showMountSettings" @close="showMountSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.mount.config.settings') }}</h2>
+    </template>
+    <template #body>
+      <settingsMount :selectedMountDevice="selectedMountDevice" />
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -160,6 +171,7 @@ import apiService from '@/services/apiService';
 import selectDevices from '@/components/equipment/selectDevices.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
+import settingsMount from '@/components/mount/settingsMount.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
@@ -168,10 +180,17 @@ const isConnecting = ref(false);
 const isDisconnecting = ref(false);
 const showGuiderSettings = ref(false);
 const selectedGuiderDevice = ref('');
+const showMountSettings = ref(false);
+const selectedMountDevice = ref('');
 
 const openGuiderSettings = (payload) => {
   selectedGuiderDevice.value = payload?.selectedDeviceDisplayName || '';
   showGuiderSettings.value = true;
+};
+
+const openMountSettings = (payload) => {
+  selectedMountDevice.value = payload?.selectedDeviceDisplayName || '';
+  showMountSettings.value = true;
 };
 
 const allConnected = computed(() => {

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <label class="block text-sm font-medium text-gray-300 mb-2">{{
+  <div class="flex flex-col md:flex-row w-full md:items-center min-w-28 border border-gray-500 p-1 rounded-lg">
+    <label class="text-sm sm:text-xs md:mr-3 mb-2 md:mb-1 text-gray-200">{{
       $t('components.focuser.settings.BacklashIn') }}</label>
     <input
       @change="updateSetting"
@@ -11,7 +11,7 @@
       min="0"
       max="100000"
       step="1"
-      class="default-input w-full py-2"
+      class="default-input h-8 w-full md:w-28 md:ml-auto py-2"
       placeholder="100"
     />
   </div>

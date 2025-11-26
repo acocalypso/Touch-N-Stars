@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <label class="block text-sm font-medium text-gray-300 mb-2">{{
+  <div class="flex flex-col w-full border border-gray-500 p-1 rounded-lg">
+    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{
       $t('components.focuser.settings.AutoFocusFitFunction') }}</label>
     <select
       v-model="selectedValue"

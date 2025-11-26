@@ -1,34 +1,66 @@
 <template>
   <div class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg">
     <label class="text-sm sm:text-xs md:mr-3 mb-2 md:mb-1 text-gray-200">{{
-      $t('components.focuser.settings.AutoFocusInitialOffsetSteps') }}</label>
+      $t(`components.focuser.settings.${labelKey}`) }}</label>
     <input
       @change="updateSetting"
       @blur="updateSetting"
       :class="[statusClass]"
-      v-model.number="setValue"
+      v-model.number="value"
       type="number"
-      min="0"
-      max="100"
-      step="1"
+      :min="min"
+      :max="max"
+      :step="step"
       class="default-input h-8 w-full md:w-28 md:ml-auto py-2"
-      placeholder="100"
+      :placeholder="placeholder"
     />
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 
+const props = defineProps({
+  labelKey: {
+    type: String,
+    required: true
+  },
+  settingKey: {
+    type: String,
+    required: true
+  },
+  storeKey: {
+    type: String,
+    required: true
+  },
+  min: {
+    type: Number,
+    default: 0
+  },
+  max: {
+    type: Number,
+    default: 100000
+  },
+  step: {
+    type: Number,
+    default: 1
+  },
+  placeholder: {
+    type: String,
+    default: '100'
+  }
+});
+
 const store = apiStore();
-const setValue = ref(0);
+const value = ref(0);
 const statusClass = ref('');
 
 async function updateSetting() {
-  let value = String(setValue.value).replace(',', '.');
+  let settingValue = String(value.value).replace(',', '.');
   try {
-    const response = await apiService.profileChangeValue('FocuserSettings-AutoFocusInitialOffsetSteps', value);
+    const response = await apiService.profileChangeValue(`FocuserSettings-${props.settingKey}`, settingValue);
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {
@@ -40,6 +72,6 @@ async function updateSetting() {
 }
 
 onMounted(() => {
-  setValue.value = store.profileInfo.FocuserSettings.AutoFocusInitialOffsetSteps;
+  value.value = store.profileInfo.FocuserSettings[props.storeKey];
 });
 </script>

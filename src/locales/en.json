@@ -472,7 +472,8 @@
         "TRENDHYPERBOLIC": "Trend Hyperbolic",
         "BacklashCompensationModel": "Backlash compensation model",
         "OVERSHOOT": "Overshoot",
-        "ABSOLUTE": "Absolute"
+        "ABSOLUTE": "Absolute",
+        "title": "Autofocus-Settings"
       }
     },
     "dome": {

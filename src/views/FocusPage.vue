@@ -131,7 +131,7 @@
   <!-- Settings Modal -->
   <Modal :show="openSettings" @close="openSettings = false">
     <template #header>
-      <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
+      <h2 class="text-2xl font-semibold">{{ $t('components.focuser.settings.title') }}</h2>
     </template>
     <template #body>
       <div class="flex flex-col gap-1 mt-2 w-full">

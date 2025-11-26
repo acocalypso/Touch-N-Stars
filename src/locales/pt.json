@@ -472,7 +472,8 @@
         "RSquaredThreshold": "R-Squared Threshold",
         "TRENDHYPERBOLIC": "Tendência Hiperbólica",
         "TRENDLINES": "Linhas de tendência",
-        "TRENDPARABOLIC": "Tendência Parabólica"
+        "TRENDPARABOLIC": "Tendência Parabólica",
+        "title": "Autofocus-Settings"
       }
     },
     "dome": {

@@ -3,7 +3,7 @@
     class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg"
   >
     <label class="text-sm sm:text-xs md:mr-3 mb-2 md:mb-1 text-gray-200">{{
-      $t(`components.focuser.settings.${labelKey}`)
+      $t(`${labelKey}`)
     }}</label>
     <input
       @change="updateSetting"
@@ -21,8 +21,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { apiStore } from '@/store/store';
+import { ref, onMounted, computed } from 'vue';
 import apiService from '@/services/apiService';
 
 const props = defineProps({
@@ -34,8 +33,8 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  storeKey: {
-    type: String,
+  modelValue: {
+    type: Number,
     required: true,
   },
   min: {
@@ -56,7 +55,6 @@ const props = defineProps({
   },
 });
 
-const store = apiStore();
 const value = ref(0);
 const statusClass = ref('');
 
@@ -64,7 +62,7 @@ async function updateSetting() {
   let settingValue = String(value.value).replace(',', '.');
   try {
     const response = await apiService.profileChangeValue(
-      `FocuserSettings-${props.settingKey}`,
+      `${props.settingKey}`,
       settingValue
     );
     if (!response.Success) return;
@@ -78,6 +76,6 @@ async function updateSetting() {
 }
 
 onMounted(() => {
-  value.value = store.profileInfo.FocuserSettings[props.storeKey];
+  value.value = props.modelValue;
 });
 </script>

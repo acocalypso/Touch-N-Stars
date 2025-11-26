@@ -37,6 +37,10 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  modelDefaultValue: {
+    type: Number,
+    default: 0,
+  },
   min: {
     type: Number,
     default: 0,
@@ -73,6 +77,12 @@ async function updateSetting() {
 }
 
 onMounted(() => {
-  value.value = props.modelValue;
+  if (props.modelValue === -1) {
+    value.value = props.modelDefaultValue;
+    return;
+  } else {
+    value.value = props.modelValue;
+  }
+  
 });
 </script>

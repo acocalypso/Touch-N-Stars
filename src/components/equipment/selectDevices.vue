@@ -19,10 +19,25 @@
         {{ device.DisplayName }}
       </option>
     </select>
-    <div class="flex w-20 gap-1">
+    <div class="flex w-30 gap-1">
+      <button
+        @click="configDevice"
+        :disabled="
+          isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
+        "
+        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+      >
+        <Cog6ToothIcon
+          class="w-6 h-6"
+          :class="{
+            'text-gray-400':
+              isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
+          }"
+        />
+      </button>
       <button
         @click="rescanDevices"
-        :disabled="isScanning"
+        :disabled="isScanning || isConnected"
         class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
       >
         <ArrowPathIcon
@@ -45,9 +60,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
-import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
+import { ArrowPathIcon, LinkIcon, LinkSlashIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
@@ -68,6 +83,10 @@ const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
 const borderClass = ref('border-gray-500');
+
+const selectedDeviceObj = computed(() =>
+  devices.value.find((d) => d.DisplayName === selectedDevice.value)
+);
 
 // Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
 async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
@@ -130,6 +149,16 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   } finally {
     isScanning.value = false;
   }
+}
+
+const emit = defineEmits(['openConfig']);
+
+async function configDevice() {
+  emit('openConfig', {
+    deviceName: props.deviceName,
+    apiAction: props.apiAction,
+    selectedDeviceDisplayName: selectedDevice.value,
+  });
 }
 
 async function rescanDevices() {

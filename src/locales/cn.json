@@ -38,8 +38,8 @@
     "later": "稍后提醒",
     "updateNow": "立即更新",
     "working": "处理中…",
-    "downgradeDescription": "Switch back to the stable version ({version}). This will replace your current beta version.",
-    "downgradeTitle": "Switch to Stable Version"
+    "downgradeDescription": "切换回稳定版本 ({version})，这将替换您当前的测试版。",
+    "downgradeTitle": "切换到稳定版本"
   },
   "setup": {
     "welcome": "欢迎使用 Touch'N'Stars",
@@ -139,7 +139,7 @@
       "debug": {
         "title": "调试",
         "activate": "激活调试模式",
-        "titel": "Debug"
+        "titel": "调试"
       },
       "notifications": {
         "title": "通知",
@@ -259,7 +259,7 @@
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderAfGraph": "显示自动对焦图表",
           "display_status_under_image": "在图片下方显示状态",
-          "sequenceCurrentState": "Show Sequence state"
+          "sequenceCurrentState": "显示序列状态"
         }
       },
       "graphControls": {
@@ -288,15 +288,15 @@
         "newest": "最新优先"
       },
       "time": "时间",
-      "noRunningItems": "Sequence stopped",
-      "status": "Sequence status",
-      "instructions": "Instructions",
-      "HFRStDev": "HFR St. Dev",
-      "Max": "Max",
-      "Min": "Min",
+      "noRunningItems": "序列已停止",
+      "status": "序列状态",
+      "instructions": "操作提示",
+      "HFRStDev": "HFR 标准差",
+      "Max": "最大",
+      "Min": "最小",
       "totalExposureTime": {
-        "Pictures": "Pictures",
-        "title": "Total exposure time"
+        "Pictures": "张数",
+        "title": "总曝光时间"
       }
     },
     "mount": {
@@ -341,9 +341,9 @@
         "notSlewing": "赤道仪未转动",
         "declination": "Dec",
         "rightAscension": "Ra",
-        "Alt": "Alt",
-        "Az": "Az",
-        "timeToMeridianFlip": "Time to Meridian Flip"
+        "Alt": "高度 (Alt)",
+        "Az": "方位角 (Az)",
+        "timeToMeridianFlip": "距离子午线翻转的时间"
       }
     },
     "guider": {
@@ -507,9 +507,9 @@
         "focal_length": "焦距 (mm)"
       },
       "at_target_temp": "At target temp",
-      "cooler_power": "Cooler power (%)",
-      "temperature_setpoint": "Temp setpoint (°C)",
-      "camera_warming": "Camera warm up",
+      "temperature_setpoint": "温度设定值 (°C)",
+      "cooler_power": "冷却功率 (%)",
+      "camera_warming": "相机升温",
       "cooler_status": "冷却器状态",
       "cooler_status_off": "关闭",
       "cooler_status_cooling": "活跃 - 冷却至",
@@ -517,7 +517,7 @@
       "cooler_status_warming": "活跃 - 加热至",
       "set_save_snapshot": "保存快照",
       "snapshotTargetName": "目标名称",
-      "set_use_solve_sync_to_mount": "Sync to mount"
+      "set_use_solve_sync_to_mount": "与赤道仪同步"
     },
     "tppa": {
       "title": "三点极轴对准",
@@ -551,10 +551,10 @@
         "exposure_time": "曝光时间 (秒)",
         "gain": "增益",
         "nina_default": "NINA 默认值",
-        "ManualMode": "Manual mode"
+        "ManualMode": "手动模式"
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "极轴对准 (TPPA)"
     },
     "slewAndCenter": {
       "title": "转动与居中",
@@ -598,10 +598,10 @@
       "please_connect_rotator": "请连接旋转器",
       "currentPosition": "当前位置",
       "moving": "正在移动",
-      "connected": "Connected",
-      "disconnected": "Disconnected",
-      "stationary": "Stationary",
-      "stepSize": "Step Size"
+      "connected": "已连接",
+      "disconnected": "未连接",
+      "stationary": "静止",
+      "stepSize": "步进大小"
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",
@@ -679,7 +679,7 @@
         "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
-        "title": "Settings"
+        "title": "设置"
       }
     },
     "profile": {
@@ -715,7 +715,7 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "No image data available"
+        "no_image": "暂无图像数据"
       }
     }
   },
@@ -1078,83 +1078,83 @@
       }
     },
     "livestack": {
-      "available_filters": "Available Filters",
-      "beta_note": "This plugin is still under development and may contain some errors!",
-      "no_image_available": "No image available",
-      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
-      "start_and_select_filter": "Start livestack and select a filter to see images",
-      "target": "Target",
-      "no_filter": "No filter",
-      "no_filters_available": "No filters available for this target",
-      "no_target": "No target",
-      "configuration_title": "Livestack Settings",
-      "drag_hint": "Drag",
-      "show_rgb_only": "Show RGB composition only",
-      "track_stack_updates": "Always show the latest stack",
-      "empty_option": "Empty",
-      "image_alt": "Livestack image - {filter}",
-      "loading_image": "Loading livestack image...",
+      "available_filters": "可用滤镜",
+      "beta_note": "该插件仍在开发中，可能包含一些错误！",
+      "no_image_available": "暂无图像",
+      "not_available": "未找到 Livestack。请先在 NINA 中安装 Livestack 插件。",
+      "start_and_select_filter": "启动 Livestack 并选择滤镜以查看图像",
+      "target": "目标",
+      "no_filter": "无滤镜",
+      "no_filters_available": "此目标没有可用滤镜",
+      "no_target": "没有目标",
+      "configuration_title": "Livestack 设置",
+      "drag_hint": "拖拽",
+      "show_rgb_only": "仅显示 RGB 合成",
+      "track_stack_updates": "始终显示最新堆栈",
+      "empty_option": "空",
+      "image_alt": "Livestack 图像 - {filter}",
+      "loading_image": "加载 Livestack 图像...",
       "errors": {
-        "start_failed": "Failed to start livestack",
-        "start_exception": "Error starting livestack: {message}",
-        "stop_failed": "Failed to stop livestack",
-        "stop_exception": "Error stopping livestack: {message}",
-        "loading_image": "Error loading image: {message}",
-        "failed_to_load": "Failed to load livestack image",
-        "api_version_required": "API version {version} or higher required"
+        "start_failed": "无法启动 Livestack",
+        "start_exception": "启动 Livestack 时出错：{message}",
+        "stop_failed": "无法停止 Livestack",
+        "stop_exception": "停止 Livestack 时出错：{message}",
+        "loading_image": "加载图像出错：{message}",
+        "failed_to_load": "无法加载 Livestack 图像",
+        "api_version_required": "需要 API 版本 {version} 或更高"
       }
     },
     "shortcuts": {
-      "title": "Sequence-Shortcuts",
-      "addNew": "New Shortcut",
-      "autoStart": "Auto-start sequence",
-      "autoStartDescription": "Automatically start the sequence after loading",
-      "autoStartEnabled": "Auto-start enabled",
-      "cancel": "Cancel",
-      "color": "Color",
-      "confirmDelete": "Delete Shortcut?",
-      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
-      "confirmDeleteTitle": "Delete Shortcut",
-      "create": "Create",
-      "delete": "Delete",
-      "createFirst": "Create First Shortcut",
-      "deleteShortcut": "Delete Shortcut",
-      "description": "Quick access to load and start N.I.N.A sequences",
-      "edit": "Edit",
-      "editShortcut": "Edit Shortcut",
+      "title": "序列快捷方式",
+      "description": "快速访问 N.I.N.A 序列的加载与启动",
+      "addNew": "新增快捷方式",
+      "newShortcut": "新建快捷方式",
+      "createFirst": "创建首个快捷方式",
+      "menu": "菜单",
+      "edit": "编辑",
+      "editShortcut": "编辑快捷方式",
+      "deleteShortcut": "删除快捷方式",
+      "noShortcuts": "尚未创建快捷方式",
+      "noShortcutsDescription": "创建快捷方式以快速加载常用序列",
+      "phrase": "快捷方式名称",
+      "phrasePlaceholder": "例如：M31 观测",
+      "shortcutName": "快捷方式名称",
+      "shortcutNamePlaceholder": "例如：M31 观测",
+      "sequenceFile": "序列文件",
+      "selectSequence": "选择一个序列...",
+      "autoStart": "自动启动序列",
+      "autoStartDescription": "加载完成后自动启动序列",
+      "autoStartEnabled": "已启用自动启动",
+      "manualExecution": "手动执行",
+      "icon": "图标",
+      "selectIcon": "选择图标",
+      "color": "颜色",
+      "selectColor": "选择颜色",
+      "create": "创建",
+      "update": "更新",
+      "cancel": "取消",
+      "delete": "删除",
+      "execute": "执行",
+      "refreshSequences": "刷新列表",
+      "loadingSequences": "正在加载序列...",
+      "noSequencesAvailable": "没有可用的序列",
+      "confirmDelete": "删除快捷方式？",
+      "confirmDeleteMessage": "您确定要删除“{phrase}”吗？此操作无法撤销。",
+      "confirmDeleteTitle": "删除快捷方式",
       "errors": {
-        "deleteFailed": "Failed to delete shortcut",
-        "executeFailed": "Failed to execute shortcut",
-        "loadFailed": "Failed to load shortcuts",
-        "nameRequired": "Shortcut name is required",
-        "saveFailed": "Failed to save shortcut",
-        "sequenceLoadFailed": "Failed to load sequences",
-        "sequenceRequired": "Please select a sequence"
+        "nameRequired": "快捷方式名称为必填项",
+        "sequenceRequired": "请选择一个序列",
+        "loadFailed": "加载快捷方式失败",
+        "saveFailed": "保存快捷方式失败",
+        "deleteFailed": "删除快捷方式失败",
+        "executeFailed": "执行快捷方式失败",
+        "sequenceLoadFailed": "加载序列失败"
       },
-      "execute": "Execute",
-      "icon": "Icon",
-      "loadingSequences": "Loading sequences...",
-      "manualExecution": "Manual execution",
-      "menu": "Menu",
-      "newShortcut": "New Shortcut",
-      "noSequencesAvailable": "No sequences available",
-      "noShortcuts": "No shortcuts created yet",
-      "noShortcutsDescription": "Create shortcuts to quickly load your favorite sequences",
-      "phrase": "Shortcut Name",
-      "phrasePlaceholder": "e.g., M31 Session",
-      "refreshSequences": "Refresh list",
-      "selectColor": "Select a color",
-      "selectIcon": "Select an icon",
-      "selectSequence": "Select a sequence...",
-      "sequenceFile": "Sequence File",
-      "shortcutName": "Shortcut Name",
-      "shortcutNamePlaceholder": "e.g., M31 Session",
       "success": {
-        "created": "Shortcut created successfully",
-        "deleted": "Shortcut deleted successfully",
-        "updated": "Shortcut updated successfully"
-      },
-      "update": "Update"
+        "created": "快捷方式创建成功",
+        "updated": "快捷方式更新成功",
+        "deleted": "快捷方式删除成功"
+      }
     }
   },
   "dialogs": {
@@ -1165,5 +1165,5 @@
       "rotation": "旋转"
     }
   },
-  "loading": "loading"
+  "loading": "加载中"
 }

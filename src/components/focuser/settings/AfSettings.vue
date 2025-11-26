@@ -75,6 +75,12 @@
           storeKey="AutoFocusCurveFitting"
           :options="['TRENDLINES', 'PARABOLIC', 'TRENDPARABOLIC', 'HYPERBOLIC', 'TRENDHYPERBOLIC']"
         />
+        <SettingSelect
+          labelKey="BacklashCompensationModel"
+          settingKey="BacklashCompensationModel"
+          storeKey="BacklashCompensationModel"
+          :options="['OVERSHOOT', 'ABSOLUTE']"
+        />
         <setAutoFocusDisableGuiding />
     </div>
 </template>

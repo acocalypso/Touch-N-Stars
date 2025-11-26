@@ -20,6 +20,6 @@ const store = apiStore();
 const flatsStore = useFlatassistantStore();
 
 onMounted(() => {
-  flatsStore.count = store.profileInfo.FlatWizardSettings.FlatCount;
+  flatsStore.count = store.profileInfo?.FlatWizardSettings?.FlatCount ?? 0;
 });
 </script>

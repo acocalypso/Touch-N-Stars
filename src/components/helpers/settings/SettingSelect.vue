@@ -1,8 +1,6 @@
 <template>
   <div class="flex flex-col w-full border border-gray-500 p-1 rounded-lg">
-    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{
-      $t(`components.focuser.settings.${labelKey}`)
-    }}</label>
+    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{ $t(`${labelKey}`) }}</label>
     <select
       v-model="value"
       @change="updateSetting"
@@ -19,7 +17,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 
 const props = defineProps({
@@ -31,7 +28,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  storeKey: {
+  modelValue: {
     type: String,
     required: true,
   },
@@ -41,16 +38,12 @@ const props = defineProps({
   },
 });
 
-const store = apiStore();
 const value = ref('');
 const statusClass = ref('');
 
 async function updateSetting() {
   try {
-    const response = await apiService.profileChangeValue(
-      `FocuserSettings-${props.settingKey}`,
-      value.value
-    );
+    const response = await apiService.profileChangeValue(props.settingKey, value.value);
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {
@@ -62,6 +55,6 @@ async function updateSetting() {
 }
 
 onMounted(() => {
-  value.value = store.profileInfo.FocuserSettings[props.storeKey];
+  value.value = props.modelValue;
 });
 </script>

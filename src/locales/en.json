@@ -633,7 +633,10 @@
       "please_connect_filterwheel": "Please connect filter wheel",
       "currentFilter": "Current Filter",
       "position": "Position",
-      "availableFilters": "Available Filters"
+      "availableFilters": "Available Filters",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "Rotator",

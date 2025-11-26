@@ -28,6 +28,6 @@ const meanTolerancePercentage = computed({
 });
 
 onMounted(() => {
-  flatsStore.meanTolerance = store.profileInfo.FlatWizardSettings.HistogramTolerance;
+  flatsStore.meanTolerance = store.profileInfo?.FlatWizardSettings?.HistogramTolerance ?? 0;
 });
 </script>

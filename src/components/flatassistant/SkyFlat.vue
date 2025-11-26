@@ -10,7 +10,7 @@
     <setHistogramMeanTarget />
     <setHistogramTolerance />
     <changeFilter v-if="store.filterInfo.Connected" />
-    <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
+    <setBinning v-if="(store.cameraInfo?.BinningModes?.length || 0) > 1" />
     <div v-show="flatsStore.status.State != 'Running'">
       <button @click="startAutoExposure" class="default-button-cyan">
         {{ $t('components.flatassistant.start_sky_flat') }}

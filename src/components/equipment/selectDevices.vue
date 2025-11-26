@@ -21,6 +21,7 @@
     </select>
     <div class="flex w-30 gap-1">
       <button
+      v-if="store.isPINS"
         @click="configDevice"
         :disabled="
           isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
@@ -66,8 +67,10 @@ import { ArrowPathIcon, LinkIcon, LinkSlashIcon, Cog6ToothIcon } from '@heroicon
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
+import { apiStore } from '@/store/store';
 
 const equipmentStore = useEquipmentStore();
+const store = apiStore();
 const { t } = useI18n();
 
 const props = defineProps({

@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 
 const props = defineProps({
@@ -61,10 +61,7 @@ const statusClass = ref('');
 async function updateSetting() {
   let settingValue = String(value.value).replace(',', '.');
   try {
-    const response = await apiService.profileChangeValue(
-      `${props.settingKey}`,
-      settingValue
-    );
+    const response = await apiService.profileChangeValue(`${props.settingKey}`, settingValue);
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {

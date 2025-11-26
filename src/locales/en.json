@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "close": "Close"
+    "close": "Close",
+    "select": "Select"
   },
   "general": {
     "cancel": "Cancel",
@@ -447,7 +448,32 @@
       "stopped": "Stopped",
       "autofocus_active": "Autofocus active",
       "autofocus": "Autofocus",
-      "last_autofocus": "Last autofocus"
+      "last_autofocus": "Last autofocus",
+      "settings": {
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusStepSize": "Step Size",
+        "FocuserSettleTime": "Focuser Settle Time",
+        "AutoFocusTotalNumberOfAttempts": "Total Number of Attempts",
+        "AutoFocusNumberOfFramesPerPoint": "Number of Frames Per Point",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusOuterCropRatio": "Outer Crop Ratio",
+        "AutoFocusUseBrightestStars": "Use Brightest Stars",
+        "BacklashIn": "Backlash In",
+        "BacklashOut": "Backlash Out",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "AutoFocusFitFunction": "Curve fitting strategy",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "TRENDLINES": "Trendlines",
+        "PARABOLIC": "Parabolic",
+        "TRENDPARABOLIC": "Trend Parabolic",
+        "HYPERBOLIC": "Hyperbolic",
+        "TRENDHYPERBOLIC": "Trend Hyperbolic",
+        "BacklashCompensationModel": "Backlash compensation model",
+        "OVERSHOOT": "Overshoot",
+        "ABSOLUTE": "Absolute"
+      }
     },
     "dome": {
       "title": "Dome",

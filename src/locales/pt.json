@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "close": "Fechar"
+    "close": "Fechar",
+    "select": "Select"
   },
   "general": {
     "cancel": "Cancelar",
@@ -418,7 +419,19 @@
           "title": "Erro PHD2",
           "star-lost-message": "Estrela perdida"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither somente em RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Tempo limite de início orientador(es)",
+      "phd2Path": "Caminho PHD2",
+      "phd2ServerHost": "Nome de host do servidor PHD2",
+      "phd2ServerPort": "Porta do servidor PHD2",
+      "roiPercentage": "Porcentagem de ROI para encontrar estrela guia (%)",
+      "settings": "Configurações do guia",
+      "settlePixels": "Estabelecer tolerância de pixel (px)",
+      "settleTime": "Tempo(s) Mínimo(s) de Liquidação",
+      "settleTimeout": "Tempo limite de liquidação (s)"
     },
     "focuser": {
       "title": "Focalizador",
@@ -435,7 +448,32 @@
       "stopped": "Parado",
       "autofocus_active": "Autofoco ativo",
       "autofocus": "Autofoco",
-      "last_autofocus": "Último autofoco"
+      "last_autofocus": "Último autofoco",
+      "settings": {
+        "ABSOLUTE": "Absoluto",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Estratégia de ajuste de curva",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Número de quadros por ponto",
+        "AutoFocusOuterCropRatio": "Proporção de corte externo",
+        "AutoFocusStepSize": "Tamanho do passo",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Número total de tentativas",
+        "AutoFocusUseBrightestStars": "Use as estrelas mais brilhantes",
+        "BacklashCompensationModel": "Modelo de compensação de folga",
+        "BacklashIn": "Reação negativa",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Tempo de acomodação do focalizador",
+        "HYPERBOLIC": "Hiperbólico",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabólico",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Tendência Hiperbólica",
+        "TRENDLINES": "Linhas de tendência",
+        "TRENDPARABOLIC": "Tendência Parabólica"
+      }
     },
     "dome": {
       "title": "Domo",

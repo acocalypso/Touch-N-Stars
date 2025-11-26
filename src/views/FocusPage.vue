@@ -56,6 +56,13 @@
               <PhotoIcon class="w-6 h-6" />
             </button>
           </div>
+                      <!-- Settings Button -->
+          <button
+            @click="openSettings = true"
+            class="default-button-gray flex items-center justify-center px-3 px-2 mt-2"
+          >
+            <Cog6ToothIcon class="w-5 h-5" />
+          </button>
 
           <div class="flex items-center space-x-3 mt-4">
             <div class="w-3 h-[1px] bg-gray-700"></div>
@@ -120,6 +127,20 @@
     :isLoading="false"
     @close="showImageModal = false"
   />
+
+      <!-- Settings Modal -->
+    <Modal :show="openSettings" @close="openSettings = false">
+      <template #header>
+        <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col gap-1 mt-2 w-full">
+          <AfSettings />
+        </div>
+      </template>
+    </Modal>
+
+
 </template>
 
 <script setup>
@@ -135,7 +156,9 @@ import AfShowGraph from '@/components/focuser/AfShowGraph.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
-import { PhotoIcon } from '@heroicons/vue/24/outline';
+import { PhotoIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import AfSettings from '@/components/focuser/settings/AfSettings.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const store = apiStore();
 const imageStore = useImagetStore();
@@ -143,6 +166,7 @@ const sequenceStore = useSequenceStore();
 const position = ref(0);
 const delayShowGraph = ref(true);
 const showImageModal = ref(false);
+const openSettings = ref(false);
 
 async function startAutofocus() {
   try {

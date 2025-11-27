@@ -4,26 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.1.0.beta7] - 2025-11-XX
-### Fixed
-- Depiction of sequence flats repairers
+## [App4.1.0] [ShortcutsPlugin1.0.0] [LivestackPlugin0.6.1]
 
-## [App4.1.0.beta6] [ShortcutsPlugin1.0.0] - 2025-11-24
+### Important information
+- Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
 ### Added
-- Shortcuts plugin: create custom buttons that load a chosen N.I.N.A. sequence and optionally auto-start it with one tap.
-- Add feature highlight
-
-## [App4.1.0.beta5] - 2025-11-24
-### Added
-- PHD2 looping 
-- Total exposure time in Image-History
-
-## [App4.1.0.beta4] [LivestackPlugin0.6.1] - 2025-11-23
-### Added
+- Histogram and image stretch
+- Tracking mode selection for mount
+- More Stats for Sequence Graph
+- Temperature display during last autofocus
+- Livestack running status is shown in Livestack screen. When a user directly in N.I.N.A. or in a sequence starts or stops the Livestack process, the new status is shown in the plugin.
+- New Livestack layout that shows permanently the currently displayed Target/Filter combination and frame count.
+- Configuration option to show only the RGB composite in Livestack, instead of each channel.
+- App Camera page histogram and image stretch function
+- Framing assistant in Stellarium
+- Profile loading spinner
 - Mid tone control on histograms.
 - Reset button on histograms.
 - Option to "Always shows the latest stack" in Livestack Settings.
-- Optimized the info shows in target and filters dropdown.
+- Optimized the information shown in the target and filters dropdown.
+- Added PHD2 looping support
+- Total exposure time in Image-History
+- Shortcuts plugin: create custom buttons that load a chosen N.I.N.A. sequence and optionally auto-start it with one tap.
+- Added feature highlight
 
 ### Changed
 - Framing Assistant: Improved UI with FOV controls in image and optimized button layout
@@ -33,28 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Focuser small steps were not always adopted
 - Load of stacked image in sync with counts
 - Increase visibility of "running ring" in Start/Stop Livestack button
-
-## [App4.1.0.beta3] - 2025-11-22
-### Added
-- Framing assistang in Stellarium
-- Profile loading spinner
-
-## [App4.1.0.beta2] [LivestackPlugin0.6.0] - 2025-11-19
-### Added
-- Histogram and image stretch
-- Tracking mode selection for mount
-- More Stats for Sequence Graph
-- Temperature display during last autofocus
-
-## [App4.1.0.beta1] [LivestackPlugin0.5.0] - 2025-11-19
-### Important information
-- Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
-
-### Added
-- Livestack running status is shown in Livestack screen. When a user directly in N.I.N.A. or a sequence, starts or stops the Livestack process, the new status is shown in the plugin.
-- Livestack New layout that shows permanently the currently displayed Target/Filter combination and frame count.
-- Livestack Configuration option to show only the RGB composite, instead of each channel.
-- App Camerapage histogram and image strech function
+- Depiction of sequence flats repairers
 
 ## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
 ### Added

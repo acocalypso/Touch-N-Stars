@@ -4,62 +4,77 @@
       labelKey="components.focuser.settings.AutoFocusInitialOffsetSteps"
       settingKey="FocuserSettings-AutoFocusInitialOffsetSteps"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusInitialOffsetSteps"
-      :max="100"
+      :max="10"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusStepSize"
       settingKey="FocuserSettings-AutoFocusStepSize"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusStepSize"
+      :max="1000"
     />
     <SettingInput
       labelKey="components.focuser.settings.FocuserSettleTime"
       settingKey="FocuserSettings-FocuserSettleTime"
       :modelValue="store.profileInfo.FocuserSettings.FocuserSettleTime"
+      :max="1000"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusTotalNumberOfAttempts"
       settingKey="FocuserSettings-AutoFocusTotalNumberOfAttempts"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusTotalNumberOfAttempts"
+      :max="50"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusNumberOfFramesPerPoint"
       settingKey="FocuserSettings-AutoFocusNumberOfFramesPerPoint"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusNumberOfFramesPerPoint"
+      :max="50"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusInnerCropRatio"
       settingKey="FocuserSettings-AutoFocusInnerCropRatio"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusInnerCropRatio"
+      :min="0.2"
+      :max="1"
+      step="0.1"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusOuterCropRatio"
       settingKey="FocuserSettings-AutoFocusOuterCropRatio"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusOuterCropRatio"
+      :min="0.2"
+      :max="1"
+      step="0.1"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusUseBrightestStars"
       settingKey="FocuserSettings-AutoFocusUseBrightestStars"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusUseBrightestStars"
+      max="9999"
     />
     <SettingInput
       labelKey="components.focuser.settings.BacklashIn"
       settingKey="FocuserSettings-BacklashIn"
       :modelValue="store.profileInfo.FocuserSettings.BacklashIn"
+      max="9999"
     />
     <SettingInput
       labelKey="components.focuser.settings.BacklashOut"
       settingKey="FocuserSettings-BacklashOut"
       :modelValue="store.profileInfo.FocuserSettings.BacklashOut"
+      max="9999"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusBinning"
       settingKey="FocuserSettings-AutoFocusBinning"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusBinning"
+      max="9"
     />
     <SettingInput
       labelKey="components.focuser.settings.AutoFocusTimeoutSeconds"
       settingKey="FocuserSettings-AutoFocusTimeoutSeconds"
       :modelValue="store.profileInfo.FocuserSettings.AutoFocusTimeoutSeconds"
+      :max="9999"
     />
     <SettingInput
       labelKey="components.focuser.settings.RSquaredThreshold"
@@ -86,7 +101,7 @@
 </template>
 <script setup>
 import { apiStore } from '@/store/store';
-import SettingInput from '@/components/helpers/settings/SettingInput.vue';
+import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SettingSelect from '@/components/helpers/settings/SettingSelect.vue';
 import setAutoFocusDisableGuiding from './setAutoFocusDisableGuiding.vue';
 

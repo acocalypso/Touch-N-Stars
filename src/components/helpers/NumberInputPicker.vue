@@ -8,11 +8,11 @@
     </label>
     <input
       :id="inputId"
-      :value="modelValue"
+      :value="isDefaultValue && defaultValue !== null ? defaultValue : isDefaultValue ? '' : modelValue"
       type="number"
-      class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
+      class="default-input ml-auto h-7 md:h-8 w-24 md:w-28"
       :class="statusClass"
-      :placeholder="placeholder"
+      :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
       :step="step"
       :min="min"
       :max="max"
@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useNumberPicker } from '@/composables/useNumberPicker';
 
 const props = defineProps({
@@ -72,6 +72,11 @@ const props = defineProps({
     required: false,
     default: 'number-input',
   },
+  defaultValue: {
+    type: Number,
+    required: false,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'change']);
@@ -79,13 +84,24 @@ const emit = defineEmits(['update:modelValue', 'change']);
 const { openPicker: openNumberPicker } = useNumberPicker();
 const statusClass = ref('');
 
+const isDefaultValue = computed(() => {
+  return props.modelValue === -1 || props.modelValue === null || props.modelValue === undefined || props.modelValue === 0;
+});
+
 function openPicker() {
+  let valueToPass;
+  if (isDefaultValue.value) {
+    valueToPass = props.defaultValue !== null ? props.defaultValue : props.min;
+  } else {
+    valueToPass = props.modelValue;
+  }
+
   openNumberPicker(
     props.labelKey,
     props.min,
     props.max,
     props.step,
-    props.modelValue,
+    valueToPass,
     (newValue) => {
       emit('update:modelValue', newValue);
       statusClass.value = 'glow-green';

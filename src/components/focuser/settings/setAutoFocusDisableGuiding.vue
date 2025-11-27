@@ -3,10 +3,7 @@
     <span class="text-sm font-medium text-gray-300">
       {{ $t('components.focuser.settings.AutoFocusDisableGuiding') }}
     </span>
-    <toggleButton
-      @click="updateSetting"
-      :status-value="isEnabled"
-    />
+    <toggleButton @click="updateSetting" :status-value="isEnabled" />
   </div>
 </template>
 <script setup>
@@ -21,7 +18,10 @@ const isEnabled = ref(false);
 async function updateSetting() {
   isEnabled.value = !isEnabled.value;
   try {
-    const response = await apiService.profileChangeValue('FocuserSettings-AutoFocusDisableGuiding', isEnabled.value);
+    const response = await apiService.profileChangeValue(
+      'FocuserSettings-AutoFocusDisableGuiding',
+      isEnabled.value
+    );
     if (!response.Success) {
       // Revert on error
       isEnabled.value = !isEnabled.value;

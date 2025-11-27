@@ -21,7 +21,7 @@
     </select>
     <div class="flex w-30 gap-1">
       <button
-      v-if="store.isPINS"
+        v-if="store.isPINS"
         @click="configDevice"
         :disabled="
           isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)

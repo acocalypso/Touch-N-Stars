@@ -1,7 +1,10 @@
 <template>
-  <div class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg">
+  <div
+    class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg"
+  >
     <label class="text-sm sm:text-xs md:mr-3 mb-2 md:mb-1 text-gray-200">{{
-      $t(`components.focuser.settings.${labelKey}`) }}</label>
+      $t(`components.focuser.settings.${labelKey}`)
+    }}</label>
     <input
       @change="updateSetting"
       @blur="updateSetting"
@@ -25,32 +28,32 @@ import apiService from '@/services/apiService';
 const props = defineProps({
   labelKey: {
     type: String,
-    required: true
+    required: true,
   },
   settingKey: {
     type: String,
-    required: true
+    required: true,
   },
   storeKey: {
     type: String,
-    required: true
+    required: true,
   },
   min: {
     type: Number,
-    default: 0
+    default: 0,
   },
   max: {
     type: Number,
-    default: 100000
+    default: 100000,
   },
   step: {
     type: Number,
-    default: 1
+    default: 1,
   },
   placeholder: {
     type: String,
-    default: '100'
-  }
+    default: '100',
+  },
 });
 
 const store = apiStore();
@@ -60,7 +63,10 @@ const statusClass = ref('');
 async function updateSetting() {
   let settingValue = String(value.value).replace(',', '.');
   try {
-    const response = await apiService.profileChangeValue(`FocuserSettings-${props.settingKey}`, settingValue);
+    const response = await apiService.profileChangeValue(
+      `FocuserSettings-${props.settingKey}`,
+      settingValue
+    );
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {

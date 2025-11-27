@@ -23,9 +23,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { usePickerStore } from '@/store/pickerStore';
 import apiService from '@/services/apiService';
-import { useNumberPicker } from '@/composables/useNumberPicker';
 
 const props = defineProps({
   labelKey: {
@@ -64,13 +64,19 @@ const props = defineProps({
 
 const value = ref(0);
 const statusClass = ref('');
-const { openPicker } = useNumberPicker();
+const pickerStore = usePickerStore();
+
+const decimalPlaces = computed(() => {
+  const stepStr = String(props.step);
+  return stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
+});
 
 function openPickerOverlay() {
-  openPicker(props.labelKey, props.min, props.max, props.step, value.value, (newValue) => {
+  pickerStore.createDigitPickers(props.labelKey, props.min, props.max, props.step, value.value, decimalPlaces.value);
+  pickerStore.open(props.labelKey, [], value.value, (newValue) => {
     value.value = newValue;
     updateSetting();
-  });
+  }, decimalPlaces.value);
 }
 
 async function updateSetting() {

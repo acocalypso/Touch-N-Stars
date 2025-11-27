@@ -1,16 +1,19 @@
 <template>
   <div class="container w-full flex flex-col items-center justify-center">
-    <div class="flex space-x-3 items-center w-full">
-      <label for="position" class="w-auto">{{ $t('components.focuser.new_position') }} </label>
-      <input
-        id="position"
-        v-model.number="position"
-        type="number"
-        class="default-input w-full h-10"
+    <div class="flex space-x-3 items-center w-full gap-2">
+      <NumberInputPicker
+        v-model="position"
+        :label="$t('components.focuser.new_position')"
+        labelKey="components.focuser.new_position"
+        :min="0"
+        :max="999999"
+        :step="50"
+        :decimalPlaces="0"
         placeholder="1"
-        step="50"
+        inputId="focuser-position"
+        wrapperClass="flex-1"
       />
-      <button class="default-button-cyan" @click="moveFocuser">
+      <button class="default-button-cyan max-w-52 h-10 whitespace-nowrap" @click="moveFocuser">
         {{ $t('components.focuser.move') }}
       </button>
     </div>
@@ -21,6 +24,7 @@
 import { ref, onMounted, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 const position = ref(0);

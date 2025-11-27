@@ -344,6 +344,13 @@
         "Alt": "Alt",
         "Az": "Az",
         "timeToMeridianFlip": "Temps de flip méridien"
+      },
+      "config": {
+        "baudRate": "Débit en bauds",
+        "connectionMode": "Mode de connexion",
+        "devicePort": "Port de périphérique",
+        "ipAddress": "Adresse IP",
+        "settings": "Paramètres de montage"
       }
     },
     "guider": {

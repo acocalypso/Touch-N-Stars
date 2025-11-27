@@ -344,6 +344,13 @@
         "Alt": "Alt",
         "Az": "Az",
         "timeToMeridianFlip": "Hora de Meridian Flip"
+      },
+      "config": {
+        "baudRate": "Taxa de transmissão",
+        "connectionMode": "Modo de conexão",
+        "devicePort": "Porta do dispositivo",
+        "ipAddress": "Endereço IP",
+        "settings": "Configurações de montagem"
       }
     },
     "guider": {

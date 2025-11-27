@@ -148,66 +148,8 @@
     <!-- Dialog Modal -->
     <DialogModal />
 
-    <!-- ScrollPicker Overlay -->
-    <Transition name="fade">
-      <div
-        v-if="showPickerOverlay"
-        class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm"
-        @click="closePickerOverlay"
-      >
-        <div
-          class="bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50 w-full max-h-72 p-4 rounded-t-lg"
-          @click.stop
-        >
-          <div class="max-w-md mx-auto">
-            <div class="flex items-center justify-between mb-3">
-              <label class="block text-sm font-medium">{{ pickerLabel }}</label>
-              <button
-                @click="closePickerOverlay"
-                class="p-2 rounded-full hover:bg-gray-700/50 transition-colors text-green-500 hover:text-green-400"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </button>
-            </div>
-            <input
-              :value="getValueFromDigits(pickerDigits)"
-              type="number"
-              class="w-full mb-3 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none text-center"
-              placeholder="Type a value..."
-              @change="(e) => {
-                const val = parseFloat(e.target.value);
-                if (!isNaN(val)) {
-                  updatePickerFromInput(val);
-                }
-              }"
-            />
-            <div class="flex justify-center items-center mb-3">
-              <div v-for="(digit, index) in pickerDigits" :key="index">
-                <div v-if="digit.isDecimalSeparator" class="text-lg font-bold text-gray-300 mx-1">
-                  .
-                </div>
-                <div v-else class="w-12">
-                  <ScrollPicker :options="digit.options" v-model="digit.value" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Transition>
+    <!-- Picker Overlay Component -->
+    <PickerOverlay />
 
     <!-- Settings Modal -->
     <div
@@ -264,6 +206,7 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
 import { useDialogStore } from './store/dialogStore';
+import { usePickerStore } from '@/store/pickerStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
@@ -275,7 +218,7 @@ import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
-import ScrollPicker from '@/components/helpers/picker/ScrollPicker.vue';
+import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
@@ -311,13 +254,6 @@ const updateProgress = ref(0);
 const updateError = ref('');
 const dismissedUpdateVersion = ref(null);
 const checkingUpdate = ref(false);
-const showPickerOverlay = ref(false);
-const pickerValue = ref(0);
-const pickerLabel = ref('Select Value');
-const pickerDigits = ref([]); // Array für Dezimalstellen
-const pickerMin = ref(0);
-const pickerMax = ref(0);
-const pickerInputValue = ref(0);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 
@@ -386,169 +322,20 @@ function handleOrientationChange() {
   }, 100);
 }
 
-// Global picker functions
-let pickerCallback = null;
-
-function createDigitPickers(min, max, currentValue, requestedDecimalPlaces = 0) {
-  const minStr = min.toString();
-  const maxStr = max.toString();
-  const valueStr = currentValue.toString();
-
-  // Prüfe ob Dezimalzahlen enthalten sind
-  const hasDecimal = minStr.includes('.') || maxStr.includes('.') || valueStr.includes('.');
-
-  if (hasDecimal || requestedDecimalPlaces > 0) {
-    // Dezimalzahlen-Logik
-    let minParts, maxParts, valueParts;
-
-    if (hasDecimal) {
-      minParts = minStr.split('.');
-      maxParts = maxStr.split('.');
-      valueParts = valueStr.split('.');
-    } else {
-      // Fallback: nutze die angeforderten Dezimalstellen
-      minParts = [Math.floor(min).toString(), ''];
-      maxParts = [Math.floor(max).toString(), ''];
-      valueParts = [Math.floor(currentValue).toString(), ''];
-    }
-
-    const minIntStr = minParts[0] || '0';
-    const maxIntStr = maxParts[0] || '0';
-    const valueIntStr = valueParts[0] || '0';
-
-    const minDecStr = minParts[1] || '';
-    const maxDecStr = maxParts[1] || '';
-    const valueDecStr = valueParts[1] || '';
-
-    // Verwende angeforderte DecimalPlaces oder berechne aus min/max
-    let decimalPlaces = Math.max(minDecStr.length, maxDecStr.length, valueDecStr.length);
-    if (requestedDecimalPlaces > 0) {
-      decimalPlaces = requestedDecimalPlaces;
-    }
-
-    const paddedMinInt = minIntStr.padStart(maxIntStr.length, '0');
-    const paddedValueInt = valueIntStr.padStart(maxIntStr.length, '0');
-    const paddedValueDec = valueDecStr.padEnd(decimalPlaces, '0');
-
-    const digits = [];
-
-    // Integer part
-    for (let i = 0; i < paddedMinInt.length; i++) {
-      const digitOptions = Array.from({ length: 10 }, (_, j) => j);
-      digits.push({
-        options: digitOptions,
-        value: parseInt(paddedValueInt[i]),
-        position: i,
-        isDecimal: false,
-      });
-    }
-
-    // Decimal separator
-    digits.push({
-      isDecimalSeparator: true,
-    });
-
-    // Decimal part
-    for (let i = 0; i < decimalPlaces; i++) {
-      const digitOptions = Array.from({ length: 10 }, (_, j) => j);
-      digits.push({
-        options: digitOptions,
-        value: parseInt(paddedValueDec[i] || '0'),
-        position: i,
-        isDecimal: true,
-      });
-    }
-
-    return digits;
-  } else {
-    // Integer-Logik (wie vorher)
-    const valueStrPadded = valueStr.padStart(maxStr.length, '0');
-
-    const digits = [];
-
-    for (let i = 0; i < maxStr.length; i++) {
-      const digitOptions = Array.from({ length: 10 }, (_, j) => j);
-      digits.push({
-        options: digitOptions,
-        value: parseInt(valueStrPadded[i]),
-        position: i,
-        isDecimal: false,
-      });
-    }
-
-    return digits;
-  }
-}
-
-function getValueFromDigits(digits) {
-  let intPart = '';
-  let decPart = '';
-  let isDecimal = false;
-
-  for (const digit of digits) {
-    if (digit.isDecimalSeparator) {
-      isDecimal = true;
-    } else if (isDecimal) {
-      decPart += digit.value;
-    } else {
-      intPart += digit.value;
-    }
-  }
-
-  intPart = intPart.replace(/^0+/, '') || '0';
-
-  if (decPart) {
-    decPart = decPart.replace(/0+$/, ''); // Trailing zeros entfernen
-    return parseFloat(intPart + '.' + decPart);
-  }
-
-  return parseInt(intPart);
-}
+// Global picker functions - delegated to PickerStore
+const pickerStore = usePickerStore();
 
 window.openPickerOverlay = (label, options, value, callback, decimalPlaces = 0) => {
-  pickerLabel.value = label;
-  pickerValue.value = value;
-
-  // Wenn options ein Array mit Objekten ist, nutze den ersten und letzten value
-  if (options && options.length > 0 && typeof options[0] === 'object' && 'value' in options[0]) {
-    pickerMin.value = options[0].value;
-    pickerMax.value = options[options.length - 1].value;
-  } else {
-    pickerMin.value = 0;
-    pickerMax.value = 100;
-  }
-
-  pickerDigits.value = createDigitPickers(pickerMin.value, pickerMax.value, value, decimalPlaces);
-  pickerInputValue.value = value;
-  pickerCallback = callback;
-  showPickerOverlay.value = true;
+  pickerStore.open(label, options, value, callback, decimalPlaces);
 };
 
-function updatePickerFromInput(inputValue) {
-  // Clamp value to min/max range
-  let clampedValue = inputValue;
-  if (clampedValue < pickerMin.value) {
-    clampedValue = pickerMin.value;
-  }
-  if (clampedValue > pickerMax.value) {
-    clampedValue = pickerMax.value;
-  }
+window.getPickerValue = () => {
+  return pickerStore.getValueFromDigits();
+};
 
-  pickerDigits.value = createDigitPickers(pickerMin.value, pickerMax.value, clampedValue);
-}
-
-window.getPickerValue = () => getValueFromDigits(pickerDigits.value);
-
-function closePickerOverlay() {
-  pickerValue.value = getValueFromDigits(pickerDigits.value);
-  showPickerOverlay.value = false;
-  if (pickerCallback) {
-    pickerCallback(pickerValue.value);
-    pickerCallback = null;
-  }
-}
-
-window.closePickerOverlay = closePickerOverlay;
+window.closePickerOverlay = () => {
+  pickerStore.close();
+};
 
 function pauseApp() {
   console.log('App paused, stopping all intervals...');

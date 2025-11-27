@@ -45,8 +45,7 @@ const emits = defineEmits(['update:modelValue']);
   font-weight: 600;
 }
 
-:deep(.vue-scroll-picker-item[data-value=''],
-.vue-scroll-picker-item[aria-disabled='true']) {
+:deep(.vue-scroll-picker-item[data-value=''], .vue-scroll-picker-item[aria-disabled='true']) {
   color: rgb(107 114 128); /* gray-500 */
 }
 

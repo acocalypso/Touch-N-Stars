@@ -139,13 +139,6 @@
       </div>
     </template>
   </Modal>
-
-  <!-- ScrollPicker -->
-  <div class="mt-6 px-4">
-    <label class="block text-sm font-medium mb-2">Select Value (0-10)</label>
-    <ScrollPicker :options="pickerOptions" v-model="pickerValue" />
-    <p class="text-center mt-2 text-sm text-gray-400">Selected: {{ pickerValue }}</p>
-  </div>
 </template>
 
 <script setup>
@@ -164,7 +157,6 @@ import ImageModal from '@/components/helpers/imageModal.vue';
 import { PhotoIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import AfSettings from '@/components/focuser/settings/AfSettings.vue';
 import Modal from '@/components/helpers/Modal.vue';
-import ScrollPicker from '@/components/helpers/picker/ScrollPicker.vue';
 
 const store = apiStore();
 const imageStore = useImagetStore();
@@ -173,11 +165,6 @@ const position = ref(0);
 const delayShowGraph = ref(true);
 const showImageModal = ref(false);
 const openSettings = ref(false);
-const pickerValue = ref(5);
-const pickerOptions = Array.from({ length: 11 }, (_, i) => ({
-  name: i.toString(),
-  value: i,
-}));
 
 async function startAutofocus() {
   try {

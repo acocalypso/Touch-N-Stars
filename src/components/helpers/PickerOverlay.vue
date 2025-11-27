@@ -47,7 +47,13 @@
           </div>
           <div class="flex justify-center items-center mb-3">
             <div v-for="(digit, index) in pickerStore.digits" :key="index">
-              <div v-if="digit.isDecimalSeparator" class="text-lg font-bold text-gray-300 mx-1">
+              <div v-if="digit.isSign" class="w-14">
+                <ScrollPicker :options="digit.options" v-model="digit.value" />
+              </div>
+              <div
+                v-else-if="digit.isDecimalSeparator"
+                class="text-lg font-bold text-gray-300 mx-1"
+              >
                 .
               </div>
               <div v-else class="w-12">

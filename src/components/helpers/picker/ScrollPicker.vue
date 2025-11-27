@@ -33,6 +33,8 @@ const emits = defineEmits(['update:modelValue']);
   background-color: transparent;
   border: 1px solid rgb(34 197 94 / 0.2); /* cyan border */
   border-radius: 0.5rem;
+  height: 120px;
+  max-height: 120px;
 }
 
 :deep(.vue-scroll-picker-item) {

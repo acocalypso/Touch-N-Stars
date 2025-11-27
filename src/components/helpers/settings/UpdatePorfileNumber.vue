@@ -25,6 +25,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
+import { useNumberPicker } from '@/composables/useNumberPicker';
 
 const props = defineProps({
   labelKey: {
@@ -63,48 +64,13 @@ const props = defineProps({
 
 const value = ref(0);
 const statusClass = ref('');
+const { openPicker } = useNumberPicker();
 
 function openPickerOverlay() {
-  // Bestimme Dezimalplätze basierend auf step
-  const stepStr = String(props.step);
-  const decimalPlaces = stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
-
-  const pickerOptions = [];
-  if (decimalPlaces > 0) {
-    // Dezimalzahlen
-    const step = parseFloat(props.step);
-    let current = props.min;
-    while (current <= props.max + 0.0001) {
-      // Kleine Toleranz für Floating Point
-      pickerOptions.push({
-        name: current.toFixed(decimalPlaces),
-        value: parseFloat(current.toFixed(decimalPlaces)),
-      });
-      current += step;
-    }
-  } else {
-    // Integer
-    for (let i = props.min; i <= props.max; i += props.step) {
-      pickerOptions.push({
-        name: i.toString(),
-        value: i,
-      });
-    }
-  }
-
-  window.openPickerOverlay(
-    props.labelKey,
-    pickerOptions,
-    value.value,
-    (newValue) => {
-      // Runde auf die richtige Dezimalstelle
-      const rounded =
-        decimalPlaces > 0 ? parseFloat(newValue.toFixed(decimalPlaces)) : Math.round(newValue);
-      value.value = rounded;
-      updateSetting();
-    },
-    decimalPlaces
-  );
+  openPicker(props.labelKey, props.min, props.max, props.step, value.value, (newValue) => {
+    value.value = newValue;
+    updateSetting();
+  });
 }
 
 async function updateSetting() {

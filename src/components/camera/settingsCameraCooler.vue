@@ -43,43 +43,33 @@
           />
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
-          <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 md:p-2 rounded-lg"
-          >
-            <label for="TemperatureSetPoint" class="text-xs md:text-sm mr-3 sm:mb-1 text-gray-200"
-              >{{ $t('components.camera.target_temperature') }}:
-            </label>
-            <input
-              id="TemperatureSetPoint"
-              v-model="cameraStore.coolingTemp"
-              type="number"
-              class="default-input ml-auto sm:ml-0 h-7 md:h-8 w-16 md:w-20 sm:w-full"
-              placeholder="1"
-              step="1"
-              @change="setCoolingTemp"
-              @blur="setCoolingTemp"
-              :class="statusClassCoolingTemp"
-            />
-          </div>
+          <NumberInputPicker
+            v-model="cameraStore.coolingTemp"
+            :label="$t('components.camera.target_temperature')"
+            labelKey="components.camera.target_temperature"
+            :min="-50"
+            :max="30"
+            :step="1"
+            :decimalPlaces="0"
+            placeholder="-10"
+            inputId="TemperatureSetPoint"
+            wrapperClass="sm:flex-1 col-span-2"
+            @change="setCoolingTemp"
+          />
 
-          <div
-            class="flex sm:flex-1 justify-between flex-row items-center sm:flex-col sm:w-auto col-span-2 w-full border border-gray-500 p-1 md:p-2 rounded-lg"
-          >
-            <label for="CoolingDurationTime" class="text-xs md:text-sm mr-3 sm:mb-1 text-gray-200"
-              >{{ $t('components.camera.cooling_time') }}
-            </label>
-            <input
-              id="CoolingDurationTime"
-              v-model="cameraStore.coolingTime"
-              type="number"
-              class="default-input ml-auto sm:ml-0 h-7 md:h-8 w-16 md:w-20 sm:w-full"
-              placeholder="1"
-              step="1"
-              @change="setCoolingTime"
-              @blur="setCoolingTime"
-              :class="statusClassCoolingTime"
-            />
-          </div>
+          <NumberInputPicker
+            v-model="cameraStore.coolingTime"
+            :label="$t('components.camera.cooling_time')"
+            labelKey="components.camera.cooling_time"
+            :min="1"
+            :max="300"
+            :step="1"
+            :decimalPlaces="0"
+            placeholder="1"
+            inputId="CoolingDurationTime"
+            wrapperClass="sm:flex-1 col-span-2"
+            @change="setCoolingTime"
+          />
         </div>
         <div class="border-t border-slate-600/40 my-4"></div>
 
@@ -96,23 +86,18 @@
           />
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
-          <div
-            class="flex justify-between flex-row items-center sm:flex-col w-full sm:w-1/2 border border-gray-500 p-1 md:p-2 rounded-lg"
-          >
-            <label for="WarmingDurationTime" class="text-xs md:text-sm mr-3 sm:mb-1 text-gray-200"
-              >{{ $t('components.camera.warm_up_time') }}
-            </label>
-            <input
-              id="WarmingDurationTime"
-              v-model="cameraStore.warmingTime"
-              type="number"
-              class="default-input ml-auto sm:ml-0 h-7 md:h-8 w-16 md:w-20 sm:w-full"
-              step="1"
-              @change="setWarmingTime"
-              @blur="setWarmingTime"
-              :class="statusClassWarmingTime"
-            />
-          </div>
+          <NumberInputPicker
+            v-model="cameraStore.warmingTime"
+            :label="$t('components.camera.warm_up_time')"
+            labelKey="components.camera.warm_up_time"
+            :min="1"
+            :max="300"
+            :step="1"
+            :decimalPlaces="0"
+            inputId="WarmingDurationTime"
+            wrapperClass="w-full sm:w-1/2"
+            @change="setWarmingTime"
+          />
         </div>
       </div>
     </div>
@@ -138,6 +123,7 @@ import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
@@ -147,9 +133,6 @@ const { t } = useI18n();
 let atTargetTempTimeout = null;
 const isStableAtTarget = ref(false);
 
-const statusClassCoolingTemp = ref('');
-const statusClassCoolingTime = ref('');
-const statusClassWarmingTime = ref('');
 
 const coolerStatus = computed(() => {
   // Zuerst prüfen, ob Cooler überhaupt an ist
@@ -213,13 +196,8 @@ async function setCoolingTime() {
       cameraStore.coolingTime
     );
     console.log(response);
-    statusClassCoolingTime.value = 'glow-green';
   } catch (error) {
     console.log('Error:', error);
-  } finally {
-    setTimeout(() => {
-      statusClassCoolingTime.value = '';
-    }, 1000);
   }
 }
 
@@ -233,13 +211,8 @@ async function setWarmingTime() {
       cameraStore.warmingTime
     );
     console.log(response);
-    statusClassWarmingTime.value = 'glow-green';
   } catch (error) {
     console.log('Error:', error);
-  } finally {
-    setTimeout(() => {
-      statusClassWarmingTime.value = '';
-    }, 1000);
   }
 }
 
@@ -250,13 +223,8 @@ async function setCoolingTemp() {
       cameraStore.coolingTemp
     );
     console.log('setCoolingTemp', response);
-    statusClassCoolingTemp.value = 'glow-green';
   } catch (error) {
     console.log('Error:', error);
-  } finally {
-    setTimeout(() => {
-      statusClassCoolingTemp.value = '';
-    }, 1000);
   }
 }
 

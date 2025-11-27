@@ -76,9 +76,12 @@ export const usePickerStore = defineStore('pickerStore', {
       let intPart = '';
       let decPart = '';
       let isDecimal = false;
+      let sign = '+';
 
       for (const digit of this.digits) {
-        if (digit.isDecimalSeparator) {
+        if (digit.isSign) {
+          sign = digit.value;
+        } else if (digit.isDecimalSeparator) {
           isDecimal = true;
         } else if (isDecimal) {
           decPart += digit.value;
@@ -89,35 +92,55 @@ export const usePickerStore = defineStore('pickerStore', {
 
       intPart = intPart.replace(/^0+/, '') || '0';
 
+      let result;
       if (decPart) {
         decPart = decPart.replace(/0+$/, '');
-        return parseFloat(intPart + '.' + decPart);
+        result = parseFloat(intPart + '.' + decPart);
+      } else {
+        result = parseInt(intPart);
       }
 
-      return parseInt(intPart);
+      return sign === '-' ? -result : result;
     },
 
     createDigitPickers(min, max, currentValue, requestedDecimalPlaces = 0) {
-      const minStr = min.toString();
-      const maxStr = max.toString();
-      const valueStr = currentValue.toString();
+      // Prüfe ob negative Werte möglich sind
+      const hasNegativeRange = min < 0;
+      const isCurrentValueNegative = currentValue < 0;
+
+      // Entferne Vorzeichen für weitere Verarbeitung
+      const minAbsStr = Math.abs(min).toString();
+      const maxAbsStr = Math.abs(max).toString();
+      const valueAbsStr = Math.abs(currentValue).toString();
 
       // Prüfe ob Dezimalzahlen enthalten sind
-      const hasDecimal = minStr.includes('.') || maxStr.includes('.') || valueStr.includes('.');
+      const hasDecimal =
+        minAbsStr.includes('.') || maxAbsStr.includes('.') || valueAbsStr.includes('.');
+
+      const digits = [];
+
+      // Füge Vorzeichen-Picker am Anfang hinzu, wenn negativ möglich ist
+      if (hasNegativeRange) {
+        digits.push({
+          isSign: true,
+          options: ['+', '-'],
+          value: isCurrentValueNegative ? '-' : '+',
+        });
+      }
 
       if (hasDecimal || requestedDecimalPlaces > 0) {
         // Dezimalzahlen-Logik
         let minParts, maxParts, valueParts;
 
         if (hasDecimal) {
-          minParts = minStr.split('.');
-          maxParts = maxStr.split('.');
-          valueParts = valueStr.split('.');
+          minParts = minAbsStr.split('.');
+          maxParts = maxAbsStr.split('.');
+          valueParts = valueAbsStr.split('.');
         } else {
           // Fallback: nutze die angeforderten Dezimalstellen
-          minParts = [Math.floor(min).toString(), ''];
-          maxParts = [Math.floor(max).toString(), ''];
-          valueParts = [Math.floor(currentValue).toString(), ''];
+          minParts = [Math.floor(Math.abs(min)).toString(), ''];
+          maxParts = [Math.floor(Math.abs(max)).toString(), ''];
+          valueParts = [Math.floor(Math.abs(currentValue)).toString(), ''];
         }
 
         const minIntStr = minParts[0] || '0';
@@ -137,8 +160,6 @@ export const usePickerStore = defineStore('pickerStore', {
         const paddedMinInt = minIntStr.padStart(maxIntStr.length, '0');
         const paddedValueInt = valueIntStr.padStart(maxIntStr.length, '0');
         const paddedValueDec = valueDecStr.padEnd(decimalPlaces, '0');
-
-        const digits = [];
 
         // Integer part
         for (let i = 0; i < paddedMinInt.length; i++) {
@@ -170,11 +191,9 @@ export const usePickerStore = defineStore('pickerStore', {
         return digits;
       } else {
         // Integer-Logik
-        const valueStrPadded = valueStr.padStart(maxStr.length, '0');
+        const valueStrPadded = valueAbsStr.padStart(maxAbsStr.length, '0');
 
-        const digits = [];
-
-        for (let i = 0; i < maxStr.length; i++) {
+        for (let i = 0; i < maxAbsStr.length; i++) {
           const digitOptions = Array.from({ length: 10 }, (_, j) => j);
           digits.push({
             options: digitOptions,

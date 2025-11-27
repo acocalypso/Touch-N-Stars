@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col w-full border border-gray-500 p-1 rounded-lg">
-    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{ $t(`${labelKey}`) }}</label>
+    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{
+      $t(`components.focuser.settings.${labelKey}`)
+    }}</label>
     <select
       v-model="value"
       @change="updateSetting"
@@ -43,7 +45,10 @@ const statusClass = ref('');
 
 async function updateSetting() {
   try {
-    const response = await apiService.profileChangeValue(props.settingKey, value.value);
+    const response = await apiService.profileChangeValue(
+      `FocuserSettings-${props.settingKey}`,
+      value.value
+    );
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {

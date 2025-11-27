@@ -350,7 +350,9 @@
         "connectionMode": "Connection Mode",
         "devicePort": "Device Port",
         "ipAddress": "IP Address",
-        "baudRate": "Baud Rate"
+        "baudRate": "Baud Rate",
+        "primaryReverse": "Primary Axis Reversed",
+        "secondaryReverse": "Secondary Axis Reversed"
       }
     },
     "guider": {

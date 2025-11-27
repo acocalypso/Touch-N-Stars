@@ -108,6 +108,7 @@
           <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 0.267">
             62x
           </button>
+          <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 5">max</button>
         </div>
       </div>
       <div class="flex flex-row w-full items-center">
@@ -124,9 +125,32 @@
           type="number"
           v-model="settingsStore.mount.slewRate"
           min="0.001"
-          max="3"
+          max="5"
           step="0.001"
         />
+      </div>
+      <!-- Switches to reverse axis movement -->
+      <div class="flex flex-row items-center justify-between w-full mt-2 md:mt-3">
+        <label class="text-xs md:text-sm text-gray-200 mr-2">
+          {{ $t('components.mount.config.primaryReverse') }}
+        </label>
+        <toggleButton
+          @click="togglePrimaryReversed"
+          :status-value="store.profileInfo?.TelescopeSettings?.PrimaryReversed"
+          class="pr-5 pl-5 justify-center h-7 md:h-8"
+        />
+      </div>
+      <div class="flex flex-row items-center justify-between w-full mt-2 md:mt-3">
+        <label class="text-xs md:text-sm text-gray-200 mr-2">
+          {{ $t('components.mount.config.secondaryReverse') }}
+        </label>
+        <div>
+          <toggleButton
+            @click="toggleSecondaryReversed"
+            :status-value="store.profileInfo?.TelescopeSettings?.SecondaryReversed"
+            class="pr-5 pl-5 justify-center h-7 md:h-8"
+          />
+        </div>
       </div>
     </div>
 
@@ -156,9 +180,14 @@ import {
   ArrowUpCircleIcon,
   StopCircleIcon,
 } from '@heroicons/vue/24/outline';
+import toggleButton from '@/components/helpers/toggleButton.vue';
+import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
 const mountStore = useMountStore();
 const settingsStore = useSettingsStore();
+const store = apiStore();
+
 let commandInterval = null; // Speichert das Intervall
 let failsafeTimeout = null; // Sicherheits-Timeout
 
@@ -336,6 +365,31 @@ onBeforeUnmount(() => {
   mountStore.lastDirection = '';
   mountStore.wsIsConnected = false;
 });
+
+async function updateValue(key, value) {
+  try {
+    const response = await apiService.profileChangeValue(key, value);
+    console.log(`Response [${key}]:`, response);
+  } catch (error) {
+    console.error(`Error updating ${key}:`, error);
+  } finally {
+    setTimeout(1000);
+  }
+}
+
+async function togglePrimaryReversed() {
+  await updateValue(
+    'TelescopeSettings-PrimaryReversed',
+    !store.profileInfo?.TelescopeSettings?.PrimaryReversed
+  );
+}
+
+async function toggleSecondaryReversed() {
+  await updateValue(
+    'TelescopeSettings-SecondaryReversed',
+    !store.profileInfo?.TelescopeSettings?.SecondaryReversed
+  );
+}
 </script>
 
 <style scoped>
@@ -397,24 +451,30 @@ onBeforeUnmount(() => {
 /* Landscape-Modus Anpassungen für kleine Bildschirme */
 @media screen and (orientation: landscape) and (max-height: 600px) {
   .move-axis-grid {
-    width: 12rem; /* w-48 */
+    width: 12rem;
+    /* w-48 */
     gap: 0.5rem;
     padding: 0.5rem;
   }
 
   .move-axis-icon {
-    width: 2.25rem; /* w-9 */
-    height: 2.25rem; /* h-9 */
+    width: 2.25rem;
+    /* w-9 */
+    height: 2.25rem;
+    /* h-9 */
   }
 
   .btn {
     padding: 0.375rem;
   }
 }
+
 .glow-green {
   box-shadow: 0 0 10px #00ff00;
 }
+
 .glow-red {
-  box-shadow: 0 0 10px rgb(255, 0, 0); /* Roter Schein */
+  box-shadow: 0 0 10px rgb(255, 0, 0);
+  /* Roter Schein */
 }
 </style>

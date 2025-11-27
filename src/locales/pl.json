@@ -344,6 +344,13 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az"
+      },
+      "config": {
+        "baudRate": "Szybkość transmisji",
+        "connectionMode": "Tryb połączenia",
+        "devicePort": "Port urządzenia",
+        "ipAddress": "Adres IP",
+        "settings": "Ustawienia montowania"
       }
     },
     "guider": {

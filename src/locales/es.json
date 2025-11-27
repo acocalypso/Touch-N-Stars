@@ -344,6 +344,13 @@
         },
         "confirmationMessage": "Si la 'Sincronización de ubicación' en Nina se establece en 'Aviso', puede aparecer una ventana de confirmación antes de que se envíen coordenadas al telescopio. \nPara evitar esto y permitir que TNS establezca automáticamente las coordenadas, recomendamos cambiar la configuración a 'sincronizar al telescopio'",
         "title": "Configuración de sincronización de ubicación"
+      },
+      "config": {
+        "baudRate": "Velocidad de baudios",
+        "connectionMode": "Modo de conexión",
+        "devicePort": "Puerto del dispositivo",
+        "ipAddress": "Dirección IP",
+        "settings": "Configuración de montaje"
       }
     },
     "guider": {

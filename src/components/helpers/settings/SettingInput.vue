@@ -3,7 +3,7 @@
     class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg"
   >
     <label class="text-sm sm:text-xs md:mr-3 mb-2 md:mb-1 text-gray-200">{{
-      $t(`${labelKey}`)
+      $t(`components.focuser.settings.${labelKey}`)
     }}</label>
     <input
       @change="updateSetting"
@@ -33,13 +33,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  modelValue: {
-    type: Number,
+  storeKey: {
+    type: String,
     required: true,
-  },
-  modelDefaultValue: {
-    type: Number,
-    default: 0,
   },
   min: {
     type: Number,
@@ -65,7 +61,10 @@ const statusClass = ref('');
 async function updateSetting() {
   let settingValue = String(value.value).replace(',', '.');
   try {
-    const response = await apiService.profileChangeValue(`${props.settingKey}`, settingValue);
+    const response = await apiService.profileChangeValue(
+      `FocuserSettings-${props.settingKey}`,
+      settingValue
+    );
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {

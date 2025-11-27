@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
+    class="flex flex-row w-full items-center min-w-28"
     :class="wrapperClass"
   >
     <label v-if="label" :for="inputId" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
@@ -10,8 +10,11 @@
       :id="inputId"
       :value="isDefaultValue && defaultValue !== null ? defaultValue : isDefaultValue ? '' : modelValue"
       type="number"
-      class="default-input ml-auto h-7 md:h-8 w-24 md:w-28"
-      :class="statusClass"
+      :class="[
+        'default-input h-7 md:h-8',
+        wrapperClass === 'w-full' ? 'w-full' : 'w-24 md:w-28 ml-auto',
+        statusClass
+      ]"
       :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
       :step="step"
       :min="min"
@@ -85,7 +88,7 @@ const { openPicker: openNumberPicker } = useNumberPicker();
 const statusClass = ref('');
 
 const isDefaultValue = computed(() => {
-  return props.modelValue === -1 || props.modelValue === null || props.modelValue === undefined || props.modelValue === 0;
+  return props.modelValue === -1 || props.modelValue === null || props.modelValue === undefined;
 });
 
 function openPicker() {

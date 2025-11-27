@@ -1,6 +1,7 @@
 <template>
-  <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2">
+  <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2 ">
     <NumberInputPicker
+      class=" border border-gray-500 p-1 md:p-2 rounded-lg"
       v-model="settingsStore.camera.exposureTime"
       :label="$t('components.camera.exposure_time')"
       labelKey="components.camera.exposure_time"
@@ -33,6 +34,7 @@
     </div>
     <NumberInputPicker
       v-else
+      class=" border border-gray-500 p-1 md:p-2 rounded-lg"
       v-model="settingsStore.camera.gain"
       :label="$t('components.camera.gain_iso')"
       labelKey="components.camera.gain_iso"
@@ -68,6 +70,7 @@
       </div>
       <NumberInputPicker
         v-else
+        class=" border border-gray-500 p-1 md:p-2 rounded-lg"
         v-model="settingsStore.camera.offset"
         :label="$t('components.camera.offset')"
         labelKey="components.camera.offset"

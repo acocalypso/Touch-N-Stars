@@ -44,6 +44,7 @@
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <NumberInputPicker
+            class=" border border-gray-500 p-1 md:p-2 rounded-lg"
             v-model="cameraStore.coolingTemp"
             :label="$t('components.camera.target_temperature')"
             labelKey="components.camera.target_temperature"
@@ -58,6 +59,7 @@
           />
 
           <NumberInputPicker
+            class=" border border-gray-500 p-1 md:p-2 rounded-lg"
             v-model="cameraStore.coolingTime"
             :label="$t('components.camera.cooling_time')"
             labelKey="components.camera.cooling_time"
@@ -87,6 +89,7 @@
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <NumberInputPicker
+            class=" border border-gray-500 p-1 md:p-2 rounded-lg"
             v-model="cameraStore.warmingTime"
             :label="$t('components.camera.warm_up_time')"
             labelKey="components.camera.warm_up_time"

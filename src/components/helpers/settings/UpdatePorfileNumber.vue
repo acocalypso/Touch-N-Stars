@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg"
+    class="flex flex-col md:flex-row w-full md:items-center"
   >
     <NumberInputPicker
       v-model="value"

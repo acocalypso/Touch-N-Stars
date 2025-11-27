@@ -15,6 +15,7 @@
       :min="min"
       :max="max"
       :step="step"
+      readonly
       class="default-input h-8 w-full md:w-28 md:ml-auto py-2"
       :placeholder="placeholder"
     />

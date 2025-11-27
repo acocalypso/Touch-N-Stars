@@ -182,7 +182,19 @@
                 </svg>
               </button>
             </div>
-            <div class="flex justify-center items-center gap-1 mb-3">
+            <input
+              :value="getValueFromDigits(pickerDigits)"
+              type="number"
+              class="w-full mb-3 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-500 focus:border-cyan-500 focus:outline-none text-center"
+              placeholder="Type a value..."
+              @change="(e) => {
+                const val = parseFloat(e.target.value);
+                if (!isNaN(val)) {
+                  updatePickerFromInput(val);
+                }
+              }"
+            />
+            <div class="flex justify-center items-center mb-3">
               <div v-for="(digit, index) in pickerDigits" :key="index">
                 <div v-if="digit.isDecimalSeparator" class="text-lg font-bold text-gray-300 mx-1">
                   .
@@ -192,9 +204,6 @@
                 </div>
               </div>
             </div>
-            <p class="text-center mt-2 text-sm text-gray-400">
-              {{ getValueFromDigits(pickerDigits) }}
-            </p>
           </div>
         </div>
       </div>
@@ -308,6 +317,7 @@ const pickerLabel = ref('Select Value');
 const pickerDigits = ref([]); // Array für Dezimalstellen
 const pickerMin = ref(0);
 const pickerMax = ref(0);
+const pickerInputValue = ref(0);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 
@@ -509,9 +519,23 @@ window.openPickerOverlay = (label, options, value, callback, decimalPlaces = 0) 
   }
 
   pickerDigits.value = createDigitPickers(pickerMin.value, pickerMax.value, value, decimalPlaces);
+  pickerInputValue.value = value;
   pickerCallback = callback;
   showPickerOverlay.value = true;
 };
+
+function updatePickerFromInput(inputValue) {
+  // Clamp value to min/max range
+  let clampedValue = inputValue;
+  if (clampedValue < pickerMin.value) {
+    clampedValue = pickerMin.value;
+  }
+  if (clampedValue > pickerMax.value) {
+    clampedValue = pickerMax.value;
+  }
+
+  pickerDigits.value = createDigitPickers(pickerMin.value, pickerMax.value, clampedValue);
+}
 
 window.getPickerValue = () => getValueFromDigits(pickerDigits.value);
 

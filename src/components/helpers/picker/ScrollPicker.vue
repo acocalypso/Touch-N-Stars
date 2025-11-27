@@ -30,7 +30,7 @@ const emits = defineEmits(['update:modelValue']);
 <style scoped>
 /* VueScrollPicker Styling */
 :deep(.vue-scroll-picker) {
-  background-color: rgb(55 65 81); /* gray-700 */
+  background-color: transparent;
   border: 1px solid rgb(34 197 94 / 0.2); /* cyan border */
   border-radius: 0.5rem;
 }
@@ -50,12 +50,12 @@ const emits = defineEmits(['update:modelValue']);
 }
 
 :deep(.vue-scroll-picker-layer-top) {
-  background: linear-gradient(180deg, rgb(55 65 81) 10%, rgba(55, 65, 81, 0.5));
+  background: linear-gradient(180deg, rgba(55, 65, 81, 0.9) 10%, rgba(55, 65, 81, 0.3));
   border-bottom: 1px solid rgb(34 197 94 / 0.3);
 }
 
 :deep(.vue-scroll-picker-layer-bottom) {
-  background: linear-gradient(0deg, rgb(55 65 81) 10%, rgba(55, 65, 81, 0.5));
+  background: linear-gradient(0deg, rgba(55, 65, 81, 0.9) 10%, rgba(55, 65, 81, 0.3));
   border-top: 1px solid rgb(34 197 94 / 0.3);
 }
 </style>

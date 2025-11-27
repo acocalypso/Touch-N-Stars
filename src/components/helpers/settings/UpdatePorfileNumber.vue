@@ -2,30 +2,25 @@
   <div
     class="flex flex-col md:flex-row w-full md:items-center border border-gray-500 p-1 rounded-lg"
   >
-    <label class="text-sm sm:text-xs md:mr-3 mb-2 md:mb-1 text-gray-200">{{
-      $t(`${labelKey}`)
-    }}</label>
-    <input
-      @change="updateSetting"
-      @blur="updateSetting"
-      @focus="openPickerOverlay"
-      :class="[statusClass]"
-      v-model.number="value"
-      type="number"
+    <NumberInputPicker
+      v-model="value"
+      :label="$t(`${labelKey}`)"
+      :labelKey="labelKey"
       :min="min"
       :max="max"
       :step="step"
-      readonly
-      class="default-input h-8 w-full md:w-28 md:ml-auto py-2"
+      :decimalPlaces="decimalPlaces"
       :placeholder="placeholder"
+      wrapperClass="flex-1"
+      @change="updateSetting"
     />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
-import { usePickerStore } from '@/store/pickerStore';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const props = defineProps({
   labelKey: {
@@ -63,40 +58,24 @@ const props = defineProps({
 });
 
 const value = ref(0);
-const statusClass = ref('');
-const pickerStore = usePickerStore();
 
 const decimalPlaces = computed(() => {
   const stepStr = String(props.step);
   return stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
 });
 
-function openPickerOverlay() {
-  pickerStore.createDigitPickers(props.labelKey, props.min, props.max, props.step, value.value, decimalPlaces.value);
-  pickerStore.open(props.labelKey, [], value.value, (newValue) => {
-    value.value = newValue;
-    updateSetting();
-  }, decimalPlaces.value);
-}
-
 async function updateSetting() {
   let settingValue = String(value.value).replace(',', '.');
   try {
-    const response = await apiService.profileChangeValue(`${props.settingKey}`, settingValue);
-    if (!response.Success) return;
-    statusClass.value = 'glow-green';
+    await apiService.profileChangeValue(`${props.settingKey}`, settingValue);
   } catch (error) {
-    console.log('Error save setting');
+    console.error('Error updating setting:', error);
   }
-  setTimeout(() => {
-    statusClass.value = '';
-  }, 1000);
 }
 
 onMounted(() => {
   if (props.modelValue === -1) {
     value.value = props.modelDefaultValue;
-    return;
   } else {
     value.value = props.modelValue;
   }

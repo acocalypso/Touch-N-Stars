@@ -72,7 +72,7 @@
   </div>
 
   <!-- Settings Modal -->
-  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-60'">
+  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-40'">
     <template #header>
       <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
     </template>
@@ -108,6 +108,15 @@
             />
           </div>
         </div>
+
+        <div class="border-t border-gray-600/30 pt-4">
+          <SettingInput
+            labelKey="components.mount.settings.telescope_settle_time"
+            settingKey="TelescopeSettings-SettleTime"
+            :modelValue="store.profileInfo.TelescopeSettings.SettleTime"
+            :max="600"
+          />
+        </div>
       </div>
     </template>
   </Modal>
@@ -123,6 +132,7 @@ import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();

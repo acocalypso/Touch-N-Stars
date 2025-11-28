@@ -121,6 +121,7 @@
     },
     "settings": {
       "title": "Settings",
+      "general": "General",
       "add": "add",
       "coordinates": "GPS Coordinates",
       "save": "Save",
@@ -168,6 +169,21 @@
         "confirmation": "Confirm Action",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
         "confirmRestart": "Are you sure you want to restart the system?"
+      },
+      "plate_solver": {
+        "title": "Plate solver settings",
+        "basic": "Basic settings",
+        "search": "Search settings",
+        "retry": "Retry settings",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "BlindFailoverEnabled": "Blind failover enabled"
       },
       "update": "Update",
       "errors": {
@@ -353,6 +369,23 @@
         "baudRate": "Baud Rate",
         "primaryReverse": "Primary Axis Reversed",
         "secondaryReverse": "Secondary Axis Reversed"
+      },
+      "settings": {
+        "meridian_flip_settings": "Meridian-Settings",
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip": {
+          "basic": "Basic settings",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "SettleTime": "Settle time (s)",
+          "Recenter": "Recenter",
+          "UseSideOfPier": "Use side of pier",
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "RotateImageAfterFlip": "Rotate image after flip"
+        }
       }
     },
     "guider": {
@@ -444,6 +477,7 @@
     },
     "focuser": {
       "title": "Focuser",
+      "focus": "Focus",
       "new_position": "New position:",
       "move": "Move",
       "start_autofocus": "Start autofocus",
@@ -482,7 +516,11 @@
         "BacklashCompensationModel": "Backlash compensation model",
         "OVERSHOOT": "Overshoot",
         "ABSOLUTE": "Absolute",
-        "title": "Autofocus-Settings"
+        "title": "Autofocus-Settings",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop & Stars",
+        "backlash": "Backlash",
+        "advanced": "Advanced"
       }
     },
     "dome": {

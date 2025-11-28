@@ -121,6 +121,7 @@
     },
     "settings": {
       "title": "Settings",
+      "general": "General",
       "add": "add",
       "coordinates": "GPS Coordinates",
       "save": "Save",
@@ -168,6 +169,21 @@
         "confirmation": "Confirm Action",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
         "confirmRestart": "Are you sure you want to restart the system?"
+      },
+      "plate_solver": {
+        "title": "Plate solver settings",
+        "basic": "Basic settings",
+        "search": "Search settings",
+        "retry": "Retry settings",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "BlindFailoverEnabled": "Blind failover enabled"
       },
       "update": "Update",
       "errors": {

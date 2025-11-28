@@ -435,6 +435,7 @@
     },
     "focuser": {
       "title": "Focuser",
+      "focus": "Focus",
       "new_position": "New position:",
       "move": "Move",
       "start_autofocus": "Start autofocus",
@@ -473,7 +474,11 @@
         "BacklashCompensationModel": "Backlash compensation model",
         "OVERSHOOT": "Overshoot",
         "ABSOLUTE": "Absolute",
-        "title": "Autofocus-Settings"
+        "title": "Autofocus-Settings",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop & Stars",
+        "backlash": "Backlash",
+        "advanced": "Advanced"
       }
     },
     "dome": {

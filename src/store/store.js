@@ -122,6 +122,9 @@ export const apiStore = defineStore('store', {
     mount: {
       currentTab: 'showMount',
     },
+    focuser: {
+      currentTab: 'showFocus',
+    },
     closeErrorModal: false,
     errorMessageShown: false,
     connectingAttempts: 2,

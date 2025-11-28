@@ -1,7 +1,7 @@
 <template>
-  <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2 ">
+  <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2">
     <NumberInputPicker
-      class=" border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="border border-gray-500 p-1 md:p-2 rounded-lg"
       v-model="settingsStore.camera.exposureTime"
       :label="$t('components.camera.exposure_time')"
       labelKey="components.camera.exposure_time"
@@ -34,7 +34,7 @@
     </div>
     <NumberInputPicker
       v-else
-      class=" border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="border border-gray-500 p-1 md:p-2 rounded-lg"
       v-model="settingsStore.camera.gain"
       :label="$t('components.camera.gain_iso')"
       labelKey="components.camera.gain_iso"
@@ -47,9 +47,7 @@
       @change="setGain"
     />
 
-    <div
-      v-if="store.cameraInfo.CanSetOffset"
-    >
+    <div v-if="store.cameraInfo.CanSetOffset">
       <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
         class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
@@ -70,7 +68,7 @@
       </div>
       <NumberInputPicker
         v-else
-        class=" border border-gray-500 p-1 md:p-2 rounded-lg"
+        class="border border-gray-500 p-1 md:p-2 rounded-lg"
         v-model="settingsStore.camera.offset"
         :label="$t('components.camera.offset')"
         labelKey="components.camera.offset"
@@ -150,7 +148,10 @@ async function setOffset() {
 
 async function setGain() {
   try {
-    const data = await apiService.profileChangeValue('SnapShotControlSettings-Gain', settingsStore.camera.gain);
+    const data = await apiService.profileChangeValue(
+      'SnapShotControlSettings-Gain',
+      settingsStore.camera.gain
+    );
     console.log(data);
   } catch (error) {
     console.log('Error while setting gain');
@@ -159,7 +160,10 @@ async function setGain() {
 
 async function setExposureTime() {
   try {
-    await apiService.profileChangeValue('CameraSettings-ExposureTime', settingsStore.camera.exposureTime);
+    await apiService.profileChangeValue(
+      'CameraSettings-ExposureTime',
+      settingsStore.camera.exposureTime
+    );
   } catch (error) {
     console.log('Error while setting exposure time');
   }

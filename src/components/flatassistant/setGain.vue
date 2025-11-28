@@ -1,5 +1,8 @@
 <template>
-  <div v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0" class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg">
+  <div
+    v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
+    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  >
     <label for="gain" class="text-sm mr-3 mb-1 text-gray-400">
       {{ $t('components.camera.gain_iso') }}
     </label>

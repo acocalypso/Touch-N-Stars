@@ -1,19 +1,18 @@
 <template>
-  <div
-    class="flex flex-row w-full items-center min-w-28"
-    :class="wrapperClass"
-  >
+  <div class="flex flex-row w-full items-center min-w-28" :class="wrapperClass">
     <label v-if="label" :for="inputId" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
       {{ label }}
     </label>
     <input
       :id="inputId"
-      :value="isDefaultValue && defaultValue !== null ? defaultValue : isDefaultValue ? '' : modelValue"
+      :value="
+        isDefaultValue && defaultValue !== null ? defaultValue : isDefaultValue ? '' : modelValue
+      "
       type="number"
       :class="[
         'default-input h-7 md:h-8',
         wrapperClass === 'w-full' ? 'w-full' : 'w-24 md:w-28 ml-auto',
-        statusClass
+        statusClass,
       ]"
       :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
       :step="step"

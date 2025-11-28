@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="flex flex-col md:flex-row w-full md:items-center"
-  >
+  <div class="flex flex-col md:flex-row w-full md:items-center">
     <NumberInputPicker
       v-model="value"
       :label="$t(`${labelKey}`)"

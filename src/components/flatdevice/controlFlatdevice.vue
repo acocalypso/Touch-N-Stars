@@ -13,10 +13,7 @@
       </div>
     </div>
 
-    <div
-      v-if="store.flatdeviceInfo.LightOn"
-      class="border border-gray-500 p-2 rounded-lg"
-    >
+    <div v-if="store.flatdeviceInfo.LightOn" class="border border-gray-500 p-2 rounded-lg">
       <NumberInputPicker
         v-model="flatStore.brightness"
         :label="$t('components.flat.brightness')"

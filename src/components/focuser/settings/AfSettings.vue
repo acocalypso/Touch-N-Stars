@@ -85,15 +85,15 @@
       step="0.1"
     />
     <SettingSelect
-      labelKey="components.focuser.settings.AutoFocusFitFunction"
-      settingKey="FocuserSettings-AutoFocusCurveFitting"
-      :modelValue="store.profileInfo.FocuserSettings.AutoFocusCurveFitting"
+      labelKey="AutoFocusFitFunction"
+      settingKey="AutoFocusCurveFitting"
+      storeKey="AutoFocusCurveFitting"
       :options="['TRENDLINES', 'PARABOLIC', 'TRENDPARABOLIC', 'HYPERBOLIC', 'TRENDHYPERBOLIC']"
     />
     <SettingSelect
-      labelKey="components.focuser.settings.BacklashCompensationModel"
-      settingKey="FocuserSettings-BacklashCompensationModel"
-      :modelValue="store.profileInfo.FocuserSettings.BacklashCompensationModel"
+      labelKey="BacklashCompensationModel"
+      settingKey="BacklashCompensationModel"
+      storeKey="BacklashCompensationModel"
       :options="['OVERSHOOT', 'ABSOLUTE']"
     />
     <setAutoFocusDisableGuiding />
@@ -104,6 +104,4 @@ import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SettingSelect from '@/components/helpers/settings/SettingSelect.vue';
 import setAutoFocusDisableGuiding from './setAutoFocusDisableGuiding.vue';
-
-const store = apiStore();
 </script>

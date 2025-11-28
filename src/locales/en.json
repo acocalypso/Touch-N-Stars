@@ -344,6 +344,15 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az"
+      },
+      "config": {
+        "settings": "Mount Settings",
+        "connectionMode": "Connection Mode",
+        "devicePort": "Device Port",
+        "ipAddress": "IP Address",
+        "baudRate": "Baud Rate",
+        "primaryReverse": "Primary Axis Reversed",
+        "secondaryReverse": "Secondary Axis Reversed"
       }
     },
     "guider": {

@@ -29,13 +29,9 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  modelValue: {
-    type: Number,
+  storeKey: {
+    type: String,
     required: true,
-  },
-  modelDefaultValue: {
-    type: Number,
-    default: 0,
   },
   min: {
     type: Number,

@@ -10,7 +10,7 @@ import websocketChannelService from '@/services/websocketChannelSocket';
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
-    isPINS: false,
+    isPINS: true,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,

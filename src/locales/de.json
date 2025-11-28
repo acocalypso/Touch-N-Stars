@@ -344,6 +344,13 @@
           "label": "Synchronisation mit dem Teleskop"
         },
         "title": "Standortsynchronisierungseinstellungen"
+      },
+      "config": {
+        "baudRate": "Baudrate",
+        "connectionMode": "Verbindungsmodus",
+        "devicePort": "Geräteport",
+        "ipAddress": "IP-Adresse",
+        "settings": "Mount-Einstellungen"
       }
     },
     "guider": {

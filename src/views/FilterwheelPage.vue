@@ -36,13 +36,14 @@
   </div>
 
   <!-- Settings Modal -->
+  <!-- Settings Modal -->
   <Modal :show="openSettings" @close="openSettings = false">
     <template #header>
       <h2 class="text-2xl font-semibold">{{ $t('components.filterwheel.settings.title') }}</h2>
     </template>
     <template #body>
       <div class="flex flex-col gap-1 mt-2 w-full">
-        <FilterSettings />
+        <AfFilterSettings />
       </div>
     </template>
   </Modal>
@@ -53,7 +54,7 @@ import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import InfoFilterwheel from '@/components/filterwheel/InfoFilterwheel.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
-import FilterSettings from '@/components/filterwheel/settings/FilterSettings.vue';
+import AfFilterSettings from '@/components/filterwheel/settings/AfFilterSettings.vue';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();

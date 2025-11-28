@@ -25,77 +25,57 @@
     @change="debouncedUpdateMaxMove"
   />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="aggression !== null"
-  >
-    <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.ra.aggression') }}
-    </label>
-    <input
-      @change="debouncedUpdateAggression"
-      id="pixel-size"
-      v-model.number="aggression"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassAggression"
-      step="1"
-    />
-  </div>
+    v-model="aggression"
+    :label="$t('components.guider.phd2.ra.aggression')"
+    labelKey="components.guider.phd2.ra.aggression"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="aggression"
+    @change="debouncedUpdateAggression"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="hysteresis !== null"
-  >
-    <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.ra.hysteresis') }}
-    </label>
-    <input
-      @input="debouncedUpdateHysteresis"
-      id="pixel-size"
-      v-model.number="hysteresis"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassHysteresis"
-      step="1"
-    />
-  </div>
+    v-model="hysteresis"
+    :label="$t('components.guider.phd2.ra.hysteresis')"
+    labelKey="components.guider.phd2.ra.hysteresis"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="hysteresis"
+    @change="debouncedUpdateHysteresis"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="predictiveWeight !== null"
-  >
-    <label for="predictive-weight" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.ra.predictive_weight') }}
-    </label>
-    <input
-      @input="debouncedUpdatePredictiveWeight"
-      id="predictive-weight"
-      v-model.number="predictiveWeight"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassPredictiveWeight"
-      step="1"
-    />
-  </div>
+    v-model="predictiveWeight"
+    :label="$t('components.guider.phd2.ra.predictive_weight')"
+    labelKey="components.guider.phd2.ra.predictive_weight"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="predictive-weight"
+    @change="debouncedUpdatePredictiveWeight"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="reactiveWeight !== null"
-  >
-    <label for="reactive-weight" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.ra.reactive_weight') }}
-    </label>
-    <input
-      @input="debouncedUpdateReactiveWeight"
-      id="reactive-weight"
-      v-model.number="reactiveWeight"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassReactiveWeight"
-      step="1"
-    />
-  </div>
+    v-model="reactiveWeight"
+    :label="$t('components.guider.phd2.ra.reactive_weight')"
+    labelKey="components.guider.phd2.ra.reactive_weight"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="reactive-weight"
+    @change="debouncedUpdateReactiveWeight"
+  />
 
   <NumberInputPicker
     v-if="slopeWeight !== null"

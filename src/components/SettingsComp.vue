@@ -13,8 +13,11 @@
       <!-- General Tab -->
       <div v-if="settingsStore.settings.currentTab === 'general'" class="space-y-6">
         <!-- GPS Coordinates -->
-        <div v-if="store.isBackendReachable" class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
+        <div
+          v-if="store.isBackendReachable"
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.coordinates') }}
           </h3>
           <div class="flex gap-4 items-end">
@@ -91,7 +94,9 @@
             {{ gpsError }}
           </div>
           <button
-            v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'"
+            v-if="
+              store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
+            "
             @click="locationStore.saveCoordinates"
             class="default-button-cyan mt-3"
           >
@@ -107,18 +112,20 @@
 
         <!-- Connection Settings -->
         <div
-          class="bg-gray-800 rounded-lg p-4"
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
           v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
         >
-          <h3 class="text-lg font-semibold text-white mb-4">
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.connection') }}
           </h3>
           <SetInstance />
         </div>
 
         <!-- Language Selection -->
-        <div class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
+        <div
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.language') }}
           </h3>
           <select
@@ -126,15 +133,23 @@
             @change="changeLanguage($event.target.value)"
             class="default-input w-full py-2"
           >
-            <option v-for="lang in languages" :key="lang.code" :value="lang.code" class="bg-gray-700">
+            <option
+              v-for="lang in languages"
+              :key="lang.code"
+              :value="lang.code"
+              class="bg-gray-700"
+            >
               {{ lang.name }}
             </option>
           </select>
         </div>
 
         <!-- Image settings -->
-        <div v-if="store.isBackendReachable" class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
+        <div
+          v-if="store.isBackendReachable"
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.image.title') }}
           </h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -151,8 +166,10 @@
         </div>
 
         <!-- Debug settings -->
-        <div class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
+        <div
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.debug.title') }}
           </h3>
           <SetDebug />
@@ -160,10 +177,10 @@
 
         <!-- Keep Screen Awake (mobile only) -->
         <div
-          class="bg-gray-800 rounded-lg p-4"
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
           v-if="['android', 'ios'].includes(Capacitor.getPlatform()) && keepAwakeSupported"
         >
-          <h3 class="text-lg font-semibold text-white mb-4">
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.keepAwake.title') }}
           </h3>
           <div class="flex items-center justify-between">
@@ -179,29 +196,35 @@
 
         <!-- set beta -->
         <div
-          class="bg-gray-800 rounded-lg p-4"
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
           v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
         >
-          <h3 class="text-lg font-semibold text-white mb-4">
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.beta.title') }}
           </h3>
           <SetBeta />
         </div>
 
         <!-- Tutorial Button -->
-        <div class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">Tutorial</h3>
+        <div
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">Tutorial</h3>
           <button @click="showTutorial" class="default-button-gray w-full">
             {{ $t('components.settings.showTutorial') }}
           </button>
         </div>
 
         <!-- System Controls -->
-        <div class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
+        <div
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.system.title') }}
           </h3>
-          <p class="text-gray-400 text-sm mb-2">{{ $t('components.settings.system.description') }}</p>
+          <p class="text-gray-400 text-sm mb-2">
+            {{ $t('components.settings.system.description') }}
+          </p>
           <p class="text-gray-400 text-sm mb-4">{{ $t('components.settings.system.info') }}</p>
 
           <div class="flex justify-center gap-3">
@@ -261,11 +284,16 @@
 
       <!-- Plugins Tab -->
       <div v-if="settingsStore.settings.currentTab === 'plugins'" class="space-y-6">
-        <div v-if="store.isBackendReachable && true" class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
+        <div
+          v-if="store.isBackendReachable && true"
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.plugins.title') }}
           </h3>
-          <p class="text-gray-400 text-sm mb-4">{{ $t('components.settings.plugins.description') }}</p>
+          <p class="text-gray-400 text-sm mb-4">
+            {{ $t('components.settings.plugins.description') }}
+          </p>
 
           <!-- Empty State -->
           <div v-if="pluginStore.plugins.length === 0" class="text-center py-8">
@@ -313,12 +341,7 @@
 
       <!-- Plate Solver Tab -->
       <div v-if="settingsStore.settings.currentTab === 'plateSolver'" class="space-y-6">
-        <div v-if="store.isBackendReachable" class="bg-gray-800 rounded-lg p-4">
-          <h3 class="text-lg font-semibold text-white mb-4">
-            {{ $t('components.settings.plate_solver.title') }}
-          </h3>
-          <PlateSolverSettingsPanel />
-        </div>
+        <PlateSolverSettingsPanel v-if="store.isBackendReachable" />
       </div>
     </div>
   </div>

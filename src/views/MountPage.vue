@@ -26,11 +26,11 @@
           v-model="store.mountInfo.Connected"
           class="gap-1 p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
         />
-        <Transition
-          name="slide-in"
-          mode="out-in"
-        >
-          <div v-if="store.mount.currentTab === 'showMount' && store.mountInfo.Connected" key="mount-tab">
+        <Transition name="slide-in" mode="out-in">
+          <div
+            v-if="store.mount.currentTab === 'showMount' && store.mountInfo.Connected"
+            key="mount-tab"
+          >
             <div
               class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
             >
@@ -43,11 +43,11 @@
           </div>
         </Transition>
 
-        <Transition
-          name="slide-in"
-          mode="out-in"
-        >
-          <div v-if="store.mount.currentTab === 'showSlew' && store.mountInfo.Connected" key="slew-tab">
+        <Transition name="slide-in" mode="out-in">
+          <div
+            v-if="store.mount.currentTab === 'showSlew' && store.mountInfo.Connected"
+            key="slew-tab"
+          >
             <div
               class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
             >
@@ -60,10 +60,7 @@
           </div>
         </Transition>
 
-        <Transition
-          name="slide-in"
-          mode="out-in"
-        >
+        <Transition name="slide-in" mode="out-in">
           <div v-if="store.mount.currentTab === 'showTppa'" key="tppa-tab">
             <div
               :class="[
@@ -82,10 +79,7 @@
           </div>
         </Transition>
 
-        <Transition
-          name="slide-in"
-          mode="out-in"
-        >
+        <Transition name="slide-in" mode="out-in">
           <div v-if="store.mount.currentTab === 'showSettings'" key="settings-tab">
             <div
               class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"

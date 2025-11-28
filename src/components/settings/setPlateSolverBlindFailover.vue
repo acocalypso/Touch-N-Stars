@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between border border-gray-500 p-1 rounded-lg">
+  <div class="flex items-center justify-between">
     <span class="text-sm font-medium text-gray-300">
       {{ $t('components.settings.plate_solver.BlindFailoverEnabled') }}
     </span>

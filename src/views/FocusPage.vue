@@ -36,10 +36,7 @@
     <div v-else class="container flex items-center justify-center">
       <div class="container max-w-md landscape:max-w-xl">
         <!-- Focus Tab -->
-        <Transition
-          name="slide-in"
-          mode="out-in"
-        >
+        <Transition name="slide-in" mode="out-in">
           <div v-if="currentTab === 'showFocus'" class="mt-4" key="focus">
             <infoFocuser
               v-model="store.focuserInfo.Connected"
@@ -52,10 +49,7 @@
         </Transition>
 
         <!-- Settings Tab -->
-        <Transition
-          name="slide-in"
-          mode="out-in"
-        >
+        <Transition name="slide-in" mode="out-in">
           <div v-if="currentTab === 'showSettings'" class="mt-4" key="settings">
             <FocusSettingsPanel />
           </div>

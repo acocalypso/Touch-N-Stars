@@ -53,29 +53,31 @@
       </p>
 
       <!-- Exposure Time -->
-      <div class="flex flex-row items-center justify-between w-full mb-2">
-        <label class="text-gray-300">{{ $t('components.tppa.settings.exposure_time') }}:</label>
-        <input
-          :value="tppaStore.settings.ExposureTime || ''"
-          @input="updateExposureTime"
-          type="number"
-          min="0"
-          step="0.1"
-          :placeholder="$t('components.tppa.settings.nina_default')"
-          class="bg-gray-700 text-white px-2 py-1 rounded border border-gray-600 w-24 placeholder-gray-500"
+      <div class="mb-2">
+        <NumberInputPicker
+          v-model="tppaStore.settings.ExposureTime"
+          :label="$t('components.tppa.settings.exposure_time')"
+          labelKey="components.tppa.settings.exposure_time"
+          :min="0"
+          :max="999"
+          :step="0.1"
+          :decimalPlaces="1"
+          inputId="tppa-exposure-time"
         />
       </div>
 
       <!-- Gain -->
-      <div class="flex flex-row items-center justify-between w-full">
-        <label class="text-gray-300">{{ $t('components.tppa.settings.gain') }}:</label>
-        <input
-          :value="tppaStore.settings.Gain || ''"
-          @input="updateGain"
-          type="number"
-          min="0"
-          :placeholder="$t('components.tppa.settings.nina_default')"
-          class="bg-gray-700 text-white px-2 py-1 rounded border border-gray-600 w-24 placeholder-gray-500"
+      <div>
+        <NumberInputPicker
+          v-model="tppaStore.settings.Gain"
+          :label="$t('components.tppa.settings.gain')"
+          labelKey="components.tppa.settings.gain"
+          :min="0"
+          :max="9999"
+          :step="1"
+          :decimalPlaces="0"
+          :defaultValue="store.profileInfo.CameraSettings.Gain"
+          inputId="tppa-gain"
         />
       </div>
     </div>
@@ -84,8 +86,9 @@
 
 <script setup>
 import { useTppaStore } from '@/store/tppaStore';
-import toggleButton from '../helpers/toggleButton.vue';
 import { apiStore } from '@/store/store';
+import toggleButton from '../helpers/toggleButton.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -118,15 +121,5 @@ function toggleManualMode() {
     tppaStore.settings.ManualMode = true;
     console.log('ManualMode on');
   }
-}
-
-function updateExposureTime(event) {
-  const value = event.target.value;
-  tppaStore.settings.ExposureTime = value === '' ? null : parseFloat(value);
-}
-
-function updateGain(event) {
-  const value = event.target.value;
-  tppaStore.settings.Gain = value === '' ? null : parseInt(value);
 }
 </script>

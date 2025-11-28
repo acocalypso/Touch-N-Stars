@@ -468,7 +468,7 @@
         "AutoFocusStepSize": "Schrittgröße",
         "AutoFocusTimeoutSeconds": "Autofokus-Timeout (Sekunden)",
         "AutoFocusTotalNumberOfAttempts": "Gesamtzahl der Versuche",
-        "AutoFocusUseBrightestStars": "Verwend die hellsten Sterne",
+        "AutoFocusUseBrightestStars": "Verwende die hellsten Sterne",
         "BacklashCompensationModel": "Modell zur Spielkompensation",
         "BacklashIn": "Backlash In",
         "BacklashOut": "Backlash Out",
@@ -479,7 +479,8 @@
         "RSquaredThreshold": "R-Squared Threshold",
         "TRENDHYPERBOLIC": "Hyperbolischer Trend",
         "TRENDLINES": "Trendlinien",
-        "TRENDPARABOLIC": "Parabolischer Trend"
+        "TRENDPARABOLIC": "Parabolischer Trend",
+        "title": "Autofokus-Einstellungen"
       }
     },
     "dome": {

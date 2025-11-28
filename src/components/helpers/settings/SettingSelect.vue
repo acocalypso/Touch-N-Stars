@@ -19,7 +19,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 
 const props = defineProps({
@@ -31,7 +30,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  storeKey: {
+  modelValue: {
     type: String,
     required: true,
   },
@@ -41,16 +40,12 @@ const props = defineProps({
   },
 });
 
-const store = apiStore();
 const value = ref('');
 const statusClass = ref('');
 
 async function updateSetting() {
   try {
-    const response = await apiService.profileChangeValue(
-      `FocuserSettings-${props.settingKey}`,
-      value.value
-    );
+    const response = await apiService.profileChangeValue(props.settingKey, value.value);
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {
@@ -62,6 +57,6 @@ async function updateSetting() {
 }
 
 onMounted(() => {
-  value.value = store.profileInfo.FocuserSettings[props.storeKey];
+  value.value = props.modelValue;
 });
 </script>

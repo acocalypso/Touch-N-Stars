@@ -148,6 +148,9 @@
     <!-- Dialog Modal -->
     <DialogModal />
 
+    <!-- Picker Overlay Component -->
+    <PickerOverlay />
+
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
@@ -203,6 +206,7 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
 import { useDialogStore } from './store/dialogStore';
+import { usePickerStore } from '@/store/pickerStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
@@ -214,6 +218,7 @@ import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
+import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
@@ -316,6 +321,21 @@ function handleOrientationChange() {
     updateOrientation();
   }, 100);
 }
+
+// Global picker functions - delegated to PickerStore
+const pickerStore = usePickerStore();
+
+window.openPickerOverlay = (label, options, value, callback, decimalPlaces = 0) => {
+  pickerStore.open(label, options, value, callback, decimalPlaces);
+};
+
+window.getPickerValue = () => {
+  return pickerStore.getValueFromDigits();
+};
+
+window.closePickerOverlay = () => {
+  pickerStore.close();
+};
 
 function pauseApp() {
   console.log('App paused, stopping all intervals...');
@@ -701,6 +721,20 @@ onBeforeUnmount(async () => {
 
 .splash-enter-from,
 .splash-leave-to {
+  opacity: 0;
+}
+
+/* Fade Transition for Picker Overlay */
+.fade-enter-active {
+  transition: opacity 0.2s ease-in;
+}
+
+.fade-leave-active {
+  transition: opacity 0.2s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>

@@ -111,7 +111,7 @@
           <button class="btn-small text-xs" @click="settingsStore.mount.slewRate = 5">max</button>
         </div>
       </div>
-      <div class="flex flex-row w-full items-center">
+      <div class="flex flex-row w-full items-center gap-2">
         <input
           class="w-full mx-1 sm:mx-2"
           type="range"
@@ -120,13 +120,16 @@
           step="0.001"
           v-model="settingsStore.mount.slewRate"
         />
-        <input
-          class="default-input w-12 sm:w-16 h-6 sm:h-7 text-xs"
-          type="number"
+        <NumberInputPicker
           v-model="settingsStore.mount.slewRate"
-          min="0.001"
-          max="5"
-          step="0.001"
+          :label="$t('components.mount.control.slewRate')"
+          labelKey="components.mount.control.slewRate"
+          :min="0.01"
+          :max="5"
+          :step="0.001"
+          :decimalPlaces="3"
+          inputId="slew-rate"
+          wrapperClass="w-32 sm:w-40"
         />
       </div>
       <!-- Switches to reverse axis movement -->
@@ -173,6 +176,7 @@ import { onMounted, onBeforeUnmount } from 'vue';
 import websocketMountControl from '@/services/websocketMountControl';
 import { useMountStore } from '@/store/mountStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import {
   ArrowRightCircleIcon,
   ArrowLeftCircleIcon,

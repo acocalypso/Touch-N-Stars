@@ -6,81 +6,53 @@
       </label>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <!-- Pixel Size -->
-        <div
-          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
-        >
-          <label for="pixel-size" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
-            {{ $t('components.camera.chip_settings.pixel_size') }}
-          </label>
-          <input
-            @blur="updatePixelSize"
-            @change="updatePixelSize"
-            id="pixel-size"
-            v-model.number="pixelSize"
-            type="number"
-            class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
-            :class="statusClassPixelSize"
-            step="0.01"
-          />
-        </div>
+        <NumberInputPicker
+          v-model="pixelSize"
+          :label="$t('components.camera.chip_settings.pixel_size')"
+          labelKey="components.camera.chip_settings.pixel_size"
+          :min="0.01"
+          :max="50"
+          :step="0.01"
+          :decimalPlaces="2"
+          inputId="pixel-size"
+          @change="updatePixelSize"
+        />
 
-        <!-- Chip Height -->
-        <div
-          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
-        >
-          <label for="chip-high" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
-            {{ $t('components.camera.chip_settings.height') }}
-          </label>
-          <input
-            @blur="updateChipHigh"
-            @change="updateChipHigh"
-            id="chip-high"
-            v-model.number="chipHigh"
-            type="number"
-            class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
-            :class="statusClassChipHigh"
-            step="1"
-          />
-        </div>
+        <NumberInputPicker
+          v-model="chipHigh"
+          :label="$t('components.camera.chip_settings.height')"
+          labelKey="components.camera.chip_settings.height"
+          :min="100"
+          :max="10000"
+          :step="1"
+          :decimalPlaces="0"
+          inputId="chip-high"
+          @change="updateChipHigh"
+        />
 
-        <!-- Chip Width -->
-        <div
-          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
-        >
-          <label for="chip-width" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
-            {{ $t('components.camera.chip_settings.width') }}
-          </label>
-          <input
-            @blur="updateChipWidth"
-            @change="updateChipWidth"
-            id="chip-width"
-            v-model.number="chipWidth"
-            type="number"
-            class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
-            :class="statusClassChipWidth"
-            step="1"
-          />
-        </div>
+        <NumberInputPicker
+          v-model="chipWidth"
+          :label="$t('components.camera.chip_settings.width')"
+          labelKey="components.camera.chip_settings.width"
+          :min="100"
+          :max="10000"
+          :step="1"
+          :decimalPlaces="0"
+          inputId="chip-width"
+          @change="updateChipWidth"
+        />
 
-        <!-- Focal Length -->
-        <div
-          class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
-        >
-          <label for="focal-length" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
-            {{ $t('components.camera.chip_settings.focal_length') }}
-          </label>
-          <input
-            @blur="updateFocalLength"
-            @change="updateFocalLength"
-            id="focal-length"
-            v-model.number="focalLength"
-            type="number"
-            class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
-            :class="statusClassFocalLength"
-            step="1"
-          />
-        </div>
+        <NumberInputPicker
+          v-model="focalLength"
+          :label="$t('components.camera.chip_settings.focal_length')"
+          labelKey="components.camera.chip_settings.focal_length"
+          :min="10"
+          :max="5000"
+          :step="1"
+          :decimalPlaces="0"
+          inputId="focal-length"
+          @change="updateFocalLength"
+        />
       </div>
     </div>
   </div>
@@ -90,6 +62,7 @@
 import { onMounted, ref } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 
@@ -98,33 +71,37 @@ const focalLength = ref(0);
 const chipHigh = ref(0);
 const chipWidth = ref(0);
 
-const statusClassPixelSize = ref('');
-const statusClassFocalLength = ref('');
-const statusClassChipHigh = ref('');
-const statusClassChipWidth = ref('');
-
-async function updateValue(key, value, statusClassRef) {
+async function updatePixelSize() {
   try {
-    const response = await apiService.profileChangeValue(key, value);
-    console.log(`Response [${key}]:`, response);
-    statusClassRef.value = 'glow-green';
+    await apiService.profileChangeValue('CameraSettings-PixelSize', pixelSize.value);
   } catch (error) {
-    console.error(`Error updating ${key}:`, error);
-  } finally {
-    setTimeout(() => {
-      statusClassRef.value = '';
-    }, 1000);
+    console.error('Error updating PixelSize:', error);
   }
 }
 
-const updatePixelSize = () =>
-  updateValue('CameraSettings-PixelSize', pixelSize.value, statusClassPixelSize);
-const updateFocalLength = () =>
-  updateValue('TelescopeSettings-FocalLength', focalLength.value, statusClassFocalLength);
-const updateChipHigh = () =>
-  updateValue('FramingAssistantSettings-CameraHeight', chipHigh.value, statusClassChipHigh);
-const updateChipWidth = () =>
-  updateValue('FramingAssistantSettings-CameraWidth', chipWidth.value, statusClassChipWidth);
+async function updateFocalLength() {
+  try {
+    await apiService.profileChangeValue('TelescopeSettings-FocalLength', focalLength.value);
+  } catch (error) {
+    console.error('Error updating FocalLength:', error);
+  }
+}
+
+async function updateChipHigh() {
+  try {
+    await apiService.profileChangeValue('FramingAssistantSettings-CameraHeight', chipHigh.value);
+  } catch (error) {
+    console.error('Error updating ChipHigh:', error);
+  }
+}
+
+async function updateChipWidth() {
+  try {
+    await apiService.profileChangeValue('FramingAssistantSettings-CameraWidth', chipWidth.value);
+  } catch (error) {
+    console.error('Error updating ChipWidth:', error);
+  }
+}
 
 onMounted(() => {
   const profile = store.profileInfo;

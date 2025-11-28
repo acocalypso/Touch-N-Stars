@@ -14,22 +14,19 @@
 
     <!-- Guiding Start Timeout -->
     <div class="flex flex-row items-center justify-between">
-      <label for="guidingStartTimeout" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.guidingStartTimeout') }}
-      </label>
-      <div class="flex items-center gap-2">
-        <input
-          id="guidingStartTimeout"
-          v-model.number="guidingStartTimeout"
-          @change="setGuidingStartTimeout"
-          type="number"
-          min="0"
-          step="1"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-24"
-          :class="statusClassGuidingStartTimeout"
-          placeholder="60"
-        />
-      </div>
+      <NumberInputPicker
+        v-model="guidingStartTimeout"
+        :label="$t('components.guider.guidingStartTimeout')"
+        labelKey="components.guider.guidingStartTimeout"
+        :min="0"
+        :max="300"
+        :step="1"
+        :decimalPlaces="0"
+        placeholder="60"
+        inputId="guidingStartTimeout"
+        wrapperClass="w-24"
+        @change="setGuidingStartTimeout"
+      />
     </div>
   </div>
 </template>
@@ -39,6 +36,7 @@ import { ref, onMounted } from 'vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 

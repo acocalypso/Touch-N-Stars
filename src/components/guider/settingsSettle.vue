@@ -2,62 +2,53 @@
   <div class="flex flex-col w-full border border-gray-500 p-1 md:p-2 rounded-lg">
     <!-- Settle Pixel Tolerance -->
     <div class="flex flex-row items-center justify-between">
-      <label for="settlePixels" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.settlePixels') }}
-      </label>
-      <div class="flex items-center gap-2">
-        <input
-          id="settlePixels"
-          v-model.number="settlePixels"
-          @change="setSettlePixels"
-          type="number"
-          min="0"
-          step="0.1"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-24"
-          :class="statusClassSettlePixels"
-          placeholder="1.5"
-        />
-      </div>
+      <NumberInputPicker
+        v-model="settlePixels"
+        :label="$t('components.guider.settlePixels')"
+        labelKey="components.guider.settlePixels"
+        :min="0"
+        :max="100"
+        :step="0.1"
+        :decimalPlaces="1"
+        placeholder="1.5"
+        inputId="settlePixels"
+        wrapperClass="w-24"
+        @change="setSettlePixels"
+      />
     </div>
 
     <!-- Minimum Settle Time -->
     <div class="flex flex-row items-center justify-between mt-2 md:mt-3">
-      <label for="settleTime" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.settleTime') }}
-      </label>
-      <div class="flex items-center gap-2">
-        <input
-          id="settleTime"
-          v-model.number="settleTime"
-          @change="setSettleTime"
-          type="number"
-          min="0"
-          step="1"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-24"
-          :class="statusClassSettleTime"
-          placeholder="10"
-        />
-      </div>
+      <NumberInputPicker
+        v-model="settleTime"
+        :label="$t('components.guider.settleTime')"
+        labelKey="components.guider.settleTime"
+        :min="0"
+        :max="300"
+        :step="1"
+        :decimalPlaces="0"
+        placeholder="10"
+        inputId="settleTime"
+        wrapperClass="w-24"
+        @change="setSettleTime"
+      />
     </div>
 
     <!-- Settle Timeout -->
     <div class="flex flex-row items-center justify-between mt-2 md:mt-3">
-      <label for="settleTimeout" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.settleTimeout') }}
-      </label>
-      <div class="flex items-center gap-2">
-        <input
-          id="settleTimeout"
-          v-model.number="settleTimeout"
-          @change="setSettleTimeout"
-          type="number"
-          min="0"
-          step="1"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-24"
-          :class="statusClassSettleTimeout"
-          placeholder="30"
-        />
-      </div>
+      <NumberInputPicker
+        v-model="settleTimeout"
+        :label="$t('components.guider.settleTimeout')"
+        labelKey="components.guider.settleTimeout"
+        :min="0"
+        :max="300"
+        :step="1"
+        :decimalPlaces="0"
+        placeholder="30"
+        inputId="settleTimeout"
+        wrapperClass="w-24"
+        @change="setSettleTimeout"
+      />
     </div>
   </div>
 </template>
@@ -66,6 +57,7 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 

@@ -33,20 +33,19 @@
     </div>
 
     <!-- PHD2 Server Port -->
-    <div class="flex flex-row items-center justify-between w-full mt-2 md:mt-3">
-      <label for="phd2ServerPort" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.phd2ServerPort') }}
-      </label>
-      <input
-        id="phd2ServerPort"
-        v-model.number="phd2ServerPort"
-        @change="setPhd2ServerPort"
-        type="number"
-        min="1"
-        max="65535"
-        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
-        :class="statusClassPhd2ServerPort"
+    <div class="mt-2 md:mt-3">
+      <NumberInputPicker
+        v-model="phd2ServerPort"
+        :label="$t('components.guider.phd2ServerPort')"
+        labelKey="components.guider.phd2ServerPort"
+        :min="1"
+        :max="65535"
+        :step="1"
+        :decimalPlaces="0"
         placeholder="4400"
+        inputId="phd2ServerPort"
+        wrapperClass="w-full"
+        @change="setPhd2ServerPort"
       />
     </div>
   </div>
@@ -56,6 +55,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const props = defineProps({
   selectedGuiderDevice: { type: String, default: '' },

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { markRaw } from 'vue';
 import { loadAllPluginsMetadata, importPlugin } from '@/utils/pluginDiscovery';
 
 export const usePluginStore = defineStore('pluginStore', {
@@ -166,6 +167,10 @@ export const usePluginStore = defineStore('pluginStore', {
 
       // Add plugin ID to the navigation item
       navigationItem.pluginId = pluginId;
+      // Avoid making component constructors reactive
+      if (navigationItem.icon) {
+        navigationItem.icon = markRaw(navigationItem.icon);
+      }
 
       // Add the navigation item
       this.addNavigationItem(navigationItem);

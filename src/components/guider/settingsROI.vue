@@ -2,23 +2,19 @@
   <div class="flex flex-col w-full border border-gray-500 p-1 md:p-2 rounded-lg">
     <!-- ROI Percentage -->
     <div class="flex flex-row items-center justify-between">
-      <label for="roiPercentage" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.roiPercentage') }}
-      </label>
-      <div class="flex items-center gap-2">
-        <input
-          id="roiPercentage"
-          v-model.number="roiPercentage"
-          @change="setRoiPercentage"
-          type="number"
-          min="0"
-          max="100"
-          step="1"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-24"
-          :class="statusClassRoiPercentage"
-          placeholder="25"
-        />
-      </div>
+      <NumberInputPicker
+        v-model="roiPercentage"
+        :label="$t('components.guider.roiPercentage')"
+        labelKey="components.guider.roiPercentage"
+        :min="0"
+        :max="100"
+        :step="1"
+        :decimalPlaces="0"
+        placeholder="25"
+        inputId="roiPercentage"
+        wrapperClass="w-24"
+        @change="setRoiPercentage"
+      />
     </div>
   </div>
 </template>
@@ -27,6 +23,7 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 

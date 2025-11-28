@@ -14,8 +14,66 @@ export const apiStore = defineStore('store', {
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
-    profileInfo: [],
-    cameraInfo: { IsExposing: false },
+    profileInfo: {
+      CameraSettings: {
+        MinFlatExposureTime: 0,
+        MaxFlatExposureTime: 0,
+      },
+      FlatWizardSettings: {
+        HistogramTolerance: 0,
+        HistogramMeanTarget: 0,
+        FlatCount: 0,
+      },
+      TelescopeSettings: {
+        Id: 'Celestron AVX',
+      },
+      FilterWheelSettings: {
+        Id: 'ZWO EFW',
+      },
+      FocuserSettings: {
+        Id: 'ZWO EAF',
+      },
+      RotatorSettings: {
+        Id: 'Mock Rotator',
+      },
+      GuiderSettings: {
+        GuiderName: 'PHD2_Single',
+      },
+      FlatDeviceSettings: {
+        Id: 'Mock Flat Device',
+      },
+      DomeSettings: {
+        Id: 'Mock Dome',
+      },
+      SwitchSettings: {
+        Id: 'Mock Switch',
+      },
+      WeatherDataSettings: {
+        Id: 'Mock Weather',
+      },
+      SafetyMonitorSettings: {
+        Id: 'Mock Safety',
+      },
+      FramingAssistantSettings: {
+        LastSelectedImageSource: 'SKYATLAS',
+        CameraWidth: 3001,
+        CameraHeight: 1501,
+      },
+      PlateSolveSettings: {
+        Gain: 0,
+        ExposureTime: 0,
+      },
+      SnapShotControlSettings: {
+        Save: false,
+        Gain: 0,
+      },
+      AstrometrySettings: {
+        Latitude: 0,
+        Longitude: 0,
+        Elevation: 0,
+      },
+    },
+    cameraInfo: { IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { TrackingMode: null },
     filterInfo: [],
     focuserInfo: [],
@@ -249,8 +307,15 @@ export const apiStore = defineStore('store', {
           }
         }
 
+        // Check if mock API mode is enabled
+        const useMockApi = localStorage.getItem('USE_MOCK_API') === 'true';
+
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
-        if (!websocketChannelService.isWebSocketConnected()) {
+        if (useMockApi) {
+          // In mock mode, skip WebSocket connection
+          console.log('[MOCK MODE] Skipping WebSocket connection');
+          this.isWebSocketConnected = true;
+        } else if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             //console.log('Channel WebSocket Message:', message);

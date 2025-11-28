@@ -1,8 +1,12 @@
 <template>
   <div class="flex flex-col gap-2 sm:gap-4">
     <!-- Basic Settings Container -->
-    <div class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50">
-      <h3 class="font-semibold text-sm text-gray-300">{{ $t('components.focuser.settings.basic') }}</h3>
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.basic') }}
+      </h3>
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusInitialOffsetSteps"
         settingKey="FocuserSettings-AutoFocusInitialOffsetSteps"
@@ -36,8 +40,12 @@
     </div>
 
     <!-- Crop & Stars Container -->
-    <div class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50">
-      <h3 class="font-semibold text-sm text-gray-300">{{ $t('components.focuser.settings.crop_and_stars') }}</h3>
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.crop_and_stars') }}
+      </h3>
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusInnerCropRatio"
         settingKey="FocuserSettings-AutoFocusInnerCropRatio"
@@ -63,8 +71,12 @@
     </div>
 
     <!-- Backlash Container -->
-    <div class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50">
-      <h3 class="font-semibold text-sm text-gray-300">{{ $t('components.focuser.settings.backlash') }}</h3>
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.backlash') }}
+      </h3>
       <SettingInput
         labelKey="components.focuser.settings.BacklashIn"
         settingKey="FocuserSettings-BacklashIn"
@@ -86,8 +98,12 @@
     </div>
 
     <!-- Advanced Container -->
-    <div class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50">
-      <h3 class="font-semibold text-sm text-gray-300">{{ $t('components.focuser.settings.advanced') }}</h3>
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.advanced') }}
+      </h3>
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusBinning"
         settingKey="FocuserSettings-AutoFocusBinning"

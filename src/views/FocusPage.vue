@@ -12,7 +12,7 @@
         { name: t('components.focuser.title'), value: 'showFocus' },
         { name: t('components.focuser.settings.title'), value: 'showSettings' },
       ]"
-      v-model:activeItem="store.focuser.currentTab"
+      v-model:activeItem="currentTab"
     >
       <template #icon-showFocus>
         <EyeIcon class="w-4 h-4" />
@@ -36,26 +36,37 @@
     <div v-else class="container flex items-center justify-center">
       <div class="container max-w-md landscape:max-w-xl">
         <!-- Focus Tab -->
-        <div v-if="store.focuser.currentTab === 'showFocus'" class="mt-4">
-          <infoFocuser
-            v-model="store.focuserInfo.Connected"
-            class="grid grid-cols-2 landscape:grid-cols-3"
-          />
-          <div class="mt-4">
-            <FocusMainPanel />
+        <Transition
+          name="slide-in"
+          mode="out-in"
+        >
+          <div v-if="currentTab === 'showFocus'" class="mt-4" key="focus">
+            <infoFocuser
+              v-model="store.focuserInfo.Connected"
+              class="grid grid-cols-2 landscape:grid-cols-3"
+            />
+            <div class="mt-4">
+              <FocusMainPanel />
+            </div>
           </div>
-        </div>
+        </Transition>
 
         <!-- Settings Tab -->
-        <div v-if="store.focuser.currentTab === 'showSettings'" class="mt-4">
-          <FocusSettingsPanel />
-        </div>
+        <Transition
+          name="slide-in"
+          mode="out-in"
+        >
+          <div v-if="currentTab === 'showSettings'" class="mt-4" key="settings">
+            <FocusSettingsPanel />
+          </div>
+        </Transition>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EyeIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import infoFocuser from '@/components/focuser/infoFocuser.vue';
@@ -68,4 +79,28 @@ import { useImagetStore } from '@/store/imageStore';
 const { t } = useI18n();
 const store = apiStore();
 const imageStore = useImagetStore();
+const currentTab = ref('showFocus');
 </script>
+
+<style scoped>
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-in-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.slide-in-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-in-enter-to,
+.slide-in-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>

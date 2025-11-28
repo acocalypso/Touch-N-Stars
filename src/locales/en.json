@@ -344,6 +344,22 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az"
+      },
+      "settings": {
+        "meridian_flip_settings": "Meridian-Settings",
+        "meridian_flip": {
+          "basic": "Basic settings",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "SettleTime": "Settle time (s)",
+          "Recenter": "Recenter",
+          "UseSideOfPier": "Use side of pier",
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "RotateImageAfterFlip": "Rotate image after flip"
+        }
       }
     },
     "guider": {

@@ -27,7 +27,7 @@
 </template>
 <script setup>
 import { apiStore } from '@/store/store';
-import SettingInput from '@/components/helpers/settings/SettingInput.vue';
+import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 
 const store = apiStore();
 </script>

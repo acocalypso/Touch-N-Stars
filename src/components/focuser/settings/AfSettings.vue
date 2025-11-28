@@ -100,7 +100,6 @@
   </div>
 </template>
 <script setup>
-import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SettingSelect from '@/components/helpers/settings/SettingSelect.vue';
 import setAutoFocusDisableGuiding from './setAutoFocusDisableGuiding.vue';

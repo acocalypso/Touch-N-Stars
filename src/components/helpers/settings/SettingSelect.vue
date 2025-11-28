@@ -45,10 +45,7 @@ const statusClass = ref('');
 
 async function updateSetting() {
   try {
-    const response = await apiService.profileChangeValue(
-      props.settingKey,
-      value.value
-    );
+    const response = await apiService.profileChangeValue(props.settingKey, value.value);
     if (!response.Success) return;
     statusClass.value = 'glow-green';
   } catch (error) {

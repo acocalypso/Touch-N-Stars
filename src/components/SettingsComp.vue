@@ -5,37 +5,52 @@
       <h3 class="text-lg font-semibold text-white mb-4">
         {{ $t('components.settings.coordinates') }}
       </h3>
-      <div class="flex items-center gap-2">
-        <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-300 mb-2">Latitude</label>
-          <input
+      <div class="flex gap-4 items-end">
+        <div class="flex flex-col flex-1">
+          <label class="text-xs md:text-sm text-gray-300 mb-1">Latitude</label>
+          <NumberInputPicker
             v-model="latitude"
-            type="text"
-            class="default-input w-full py-2"
+            :label="``"
+            :min="-90"
+            :max="90"
+            :step="0.001"
+            :decimalPlaces="3"
             placeholder="Latitude"
+            inputId="latitude"
+            wrapperClass="w-full"
           />
         </div>
-        <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-300 mb-2">Longitude</label>
-          <input
+        <div class="flex flex-col flex-1">
+          <label class="text-xs md:text-sm text-gray-300 mb-1">Longitude</label>
+          <NumberInputPicker
             v-model="longitude"
-            type="text"
-            class="default-input w-full py-2"
+            :label="``"
+            :min="-180"
+            :max="180"
+            :step="0.001"
+            :decimalPlaces="3"
             placeholder="Longitude"
+            inputId="longitude"
+            wrapperClass="w-full"
           />
         </div>
-        <div class="flex-1">
-          <label class="block text-sm font-medium text-gray-300 mb-2">Altitude</label>
-          <input
+        <div class="flex flex-col flex-1">
+          <label class="text-xs md:text-sm text-gray-300 mb-1">Altitude</label>
+          <NumberInputPicker
             v-model="altitude"
-            type="text"
-            class="default-input w-full py-2"
+            :label="``"
+            :min="-500"
+            :max="9000"
+            :step="1"
+            :decimalPlaces="0"
             placeholder="Altitude"
+            inputId="altitude"
+            wrapperClass="w-full"
           />
         </div>
         <button
           @click="getCurrentLocation"
-          class="mt-6 p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors"
+          class="p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors flex-shrink-0"
           title="Get current location"
         >
           <svg
@@ -345,6 +360,7 @@ import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.v
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
 import setImgMaxDimension from './settings/setImgMaxDimension.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const router = useRouter();
 const { locale } = useI18n();

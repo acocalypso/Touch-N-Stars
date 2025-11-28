@@ -2,21 +2,19 @@
   <div class="flex flex-col w-full border border-gray-500 p-1 md:p-2 rounded-lg">
     <!-- Dither Pixels -->
     <div class="flex flex-row items-center justify-between">
-      <label for="ditherPixels" class="text-xs md:text-sm text-gray-200 mr-2">
-        {{ $t('components.guider.ditherPixels') }}
-      </label>
-      <div class="flex items-center gap-2">
-        <input
-          id="ditherPixels"
-          v-model.number="ditherPixels"
-          @change="setDitherPixels"
-          type="number"
-          min="0"
-          step="1"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-24"
-          :class="statusClassDitherPixels"
-        />
-      </div>
+      <NumberInputPicker
+        v-model="ditherPixels"
+        :label="$t('components.guider.ditherPixels')"
+        labelKey="components.guider.ditherPixels"
+        :min="0"
+        :max="100"
+        :step="1"
+        :decimalPlaces="0"
+        placeholder="3"
+        inputId="ditherPixels"
+        wrapperClass="w-24"
+        @change="setDitherPixels"
+      />
     </div>
 
     <div class="flex flex-row items-center justify-between">
@@ -37,6 +35,7 @@ import { ref, onMounted } from 'vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 

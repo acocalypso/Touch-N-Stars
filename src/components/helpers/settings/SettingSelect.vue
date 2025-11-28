@@ -46,7 +46,7 @@ const statusClass = ref('');
 async function updateSetting() {
   try {
     const response = await apiService.profileChangeValue(
-      `FocuserSettings-${props.settingKey}`,
+      props.settingKey,
       value.value
     );
     if (!response.Success) return;

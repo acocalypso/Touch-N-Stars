@@ -183,7 +183,8 @@
         "MaxObjects": "Max objects",
         "NumberOfAttempts": "Number of attempts",
         "ReattemptDelay": "Reattempt delay (s)",
-        "BlindFailoverEnabled": "Blind failover enabled"
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ASTAPLocation": "ASTAP Location"
       },
       "update": "Update",
       "errors": {

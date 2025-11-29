@@ -1,7 +1,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import * as signalR from '@microsoft/signalr';
 
-export const useWebSocketNotifications = () => {
+export const useSignalRNotifications = () => {
   const notifications = ref([]);
   let connection = null;
 

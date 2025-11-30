@@ -1185,7 +1185,7 @@
       "show_rgb_only": "Zobrazit pouze složení RGB",
       "track_stack_updates": "Vždy zobrazovat nejnovější stack",
       "empty_option": "Prázdné",
-      "image_alt": "Snímek Livestack – {filter}"",
+      "image_alt": "Snímek Livestack – {filter}",
       "loading_image": "Načítání živého snímku...",
       "errors": {
         "start_failed": "Nepodařilo se spustit livestack",

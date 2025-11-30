@@ -1,0 +1,9 @@
+{
+  "id": "systemmetrics",
+  "name": "SystemMetrics",
+  "description": "Display System metrics of the system",
+  "version": "1.0.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true
+}

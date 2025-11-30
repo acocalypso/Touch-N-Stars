@@ -176,6 +176,23 @@
         "invalidPortRange": "Nieprawidłowy zakres portu",
         "invalidInstance": "Nieprawidłowa instancja",
         "emptyFields": "Puste pola"
+      },
+      "general": "Ogólny",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Czas ekspozycji (y)",
+        "Gain": "Gain",
+        "MaxObjects": "Maksymalna liczba obiektów",
+        "NumberOfAttempts": "Liczba prób",
+        "ReattemptDelay": "Opóźnienie ponownej próby",
+        "RotationTolerance": "Tolerancja obrotu (°)",
+        "SearchRadius": "Promień wyszukiwania (°)",
+        "Threshold": "Próg",
+        "basic": "Podstawowe ustawienia",
+        "retry": "Spróbuj ponownie ustawień",
+        "search": "Ustawienia wyszukiwania",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -345,6 +362,23 @@
         "Alt": "Alt",
         "Az": "Az"
       },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Maks. minuty po południku",
+          "MinutesAfterMeridian": "Minuty po południku",
+          "PauseTimeBeforeMeridian": "Zatrzymaj czas przed południkiem",
+          "Recenter": "Ostatnio",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Czas rozliczenia (y)",
+          "basic": "Podstawowe ustawienia",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Zachowanie",
+          "post_flip_actions": "Działania po przewróceniu"
+        },
+        "telescope_settle_time": "Czas ustalenia po zaostrzeniu (s)",
+        "meridian_flip_settings": "Ustawienia południka"
+      },
       "config": {
         "baudRate": "Szybkość transmisji",
         "connectionMode": "Tryb połączenia",
@@ -480,8 +514,13 @@
         "TRENDHYPERBOLIC": "Trend hiperboliczny",
         "TRENDLINES": "Linie trendu",
         "TRENDPARABOLIC": "Trend paraboliczny",
-        "title": "Autofocus-Settings"
-      }
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Ustawienia podstawowe",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Kopuła",
@@ -633,7 +672,10 @@
       "please_connect_filterwheel": "Proszę podłączyć koło filtrów",
       "currentFilter": "Aktualny filtr",
       "position": "Pozycja",
-      "availableFilters": "Dostępne filtry"
+      "availableFilters": "Dostępne filtry",
+      "settings": {
+        "title": "Ustawienia filtrów"
+      }
     },
     "rotator": {
       "title": "Rotator",

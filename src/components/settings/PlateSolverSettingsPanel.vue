@@ -21,6 +21,20 @@
         :min="0"
         :max="600"
       />
+      <div class="flex flex-row items-center justify-between w-full">
+        <label for="astapLocation" class="text-xs sm:text-sm text-gray-200">
+          {{ $t('components.settings.plate_solver.ASTAPLocation') }}
+        </label>
+        <input
+          id="astapLocation"
+          v-model="astapLocation"
+          @change="setAstapLocation"
+          type="text"
+          class="default-input h-7 sm:h-8 text-xs sm:text-sm w-48"
+          :class="statusClassAstapLocation"
+          placeholder="C:\\Program Files\\astap\\astap.exe"
+        />
+      </div>
     </div>
 
     <!-- Search Settings Container -->
@@ -85,9 +99,45 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import setPlateSolverBlindFailover from './setPlateSolverBlindFailover.vue';
+import apiService from '@/services/apiService';
 
 const store = apiStore();
+
+const astapLocation = ref('');
+const statusClassAstapLocation = ref('');
+
+const initializeSettings = () => {
+  if (!store.profileInfo?.PlateSolveSettings) {
+    console.warn('PlateSolveSettings not loaded');
+    return;
+  }
+
+  astapLocation.value = store.profileInfo.PlateSolveSettings.ASTAPLocation ?? '';
+};
+
+async function setAstapLocation() {
+  try {
+    const data = await apiService.profileChangeValue(
+      'PlateSolveSettings-ASTAPLocation',
+      astapLocation.value
+    );
+    console.log(data);
+    statusClassAstapLocation.value = 'glow-green';
+  } catch (error) {
+    console.error('Error setting ASTAP location:', error);
+    statusClassAstapLocation.value = 'glow-red';
+  } finally {
+    setTimeout(() => {
+      statusClassAstapLocation.value = '';
+    }, 2000);
+  }
+}
+
+onMounted(() => {
+  initializeSettings();
+});
 </script>

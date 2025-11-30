@@ -11,7 +11,7 @@ import signalRNotificationService from '@/services/signalRNotificationService';
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
-    isPINS: true,
+    isPINS: false,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
@@ -160,6 +160,8 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
+      const settingsStore = useSettingsStore();
+      this.isPINS = settingsStore.isPinsEnabled;
 
       const tryWithRetry = async (fn, retries = 1, delay = 2000) => {
         let result = null;

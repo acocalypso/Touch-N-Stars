@@ -1,17 +1,18 @@
 <template>
   <div class="min-h-screen bg-gray-900">
     <SubNav
+      v-if="store.isBackendReachable"
       :items="[
         { name: t('components.settings.general'), value: 'general' },
         { name: t('components.settings.plugins.title'), value: 'plugins' },
         { name: t('components.settings.plate_solver.title'), value: 'plateSolver' },
       ]"
-      v-model:activeItem="settingsStore.settings.currentTab"
+      v-model:activeItem="activeTab"
     />
 
     <div class="p-4 max-w-xl mx-auto space-y-6">
       <!-- General Tab -->
-      <div v-if="settingsStore.settings.currentTab === 'general'" class="space-y-6">
+      <div v-if="activeTab === 'general'" class="space-y-6">
         <!-- GPS Coordinates -->
         <div
           v-if="store.isBackendReachable"
@@ -283,7 +284,7 @@
       </div>
 
       <!-- Plugins Tab -->
-      <div v-if="settingsStore.settings.currentTab === 'plugins'" class="space-y-6">
+      <div v-if="activeTab === 'plugins'" class="space-y-6">
         <div
           v-if="store.isBackendReachable && true"
           class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -340,7 +341,7 @@
       </div>
 
       <!-- Plate Solver Tab -->
-      <div v-if="settingsStore.settings.currentTab === 'plateSolver'" class="space-y-6">
+      <div v-if="activeTab === 'plateSolver'" class="space-y-6">
         <PlateSolverSettingsPanel v-if="store.isBackendReachable" />
       </div>
     </div>
@@ -421,6 +422,7 @@ const pluginStore = usePluginStore();
 
 const currentLanguage = ref(settingsStore.getLanguage());
 const locationStore = useLocationStore();
+const activeTab = ref('general');
 
 // Tutorial
 const showTutorialModal = ref(false);

@@ -116,9 +116,6 @@ export const useSettingsStore = defineStore('settings', {
     ],
     // Device/screen behavior
     keepAwakeEnabled: false,
-    settings: {
-      currentTab: 'general',
-    },
   }),
   actions: {
     _getApiStore() {

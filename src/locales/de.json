@@ -176,6 +176,23 @@
         "invalidPortRange": "Ungültiger Port-Bereich",
         "invalidInstance": "Ungültige Instanz",
         "emptyFields": "Leere Felder"
+      },
+      "general": "Allgemein",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP-Speicherort",
+        "BlindFailoverEnabled": "Blind Solver aktiviert",
+        "ExposureTime": "Belichtungszeit (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Max. Objekte",
+        "NumberOfAttempts": "Anzahl der Versuche",
+        "ReattemptDelay": "Verzögerung (s) bei erneutem Versuch",
+        "RotationTolerance": "Drehungstoleranz (°)",
+        "SearchRadius": "Suchradius (°)",
+        "Threshold": "Schwelle",
+        "basic": "Grundeinstellungen",
+        "retry": "Wiederholungseinstellungen",
+        "search": "Sucheinstellungen",
+        "title": "Einstellungen für den Plate solver"
       }
     },
     "connectEquipment": {
@@ -344,6 +361,23 @@
           "label": "Synchronisation mit dem Teleskop"
         },
         "title": "Standortsynchronisierungseinstellungen"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Autofokus nach dem Flip",
+          "MaxMinutesAfterMeridian": "Max. Minuten nach Meridian",
+          "MinutesAfterMeridian": "Minuten nach Meridian",
+          "PauseTimeBeforeMeridian": "Pausenzeit vor dem Meridian",
+          "Recenter": "Neu zentrieren",
+          "RotateImageAfterFlip": "Bild nach dem Flip drehen",
+          "SettleTime": "Einschwingzeit(en)",
+          "UseSideOfPier": "Benutze \"side of pier\"",
+          "basic": "Grundeinstellungen",
+          "behavior": "Verhalten",
+          "post_flip_actions": "Aktionen nach dem Flip"
+        },
+        "meridian_flip_settings": "Meridian-Einstellungen",
+        "telescope_settle_time": "Einschwingzeit nach Schwenken (s)"
       }
     },
     "guider": {
@@ -473,8 +507,13 @@
         "TRENDHYPERBOLIC": "Hyperbolischer Trend",
         "TRENDLINES": "Trendlinien",
         "TRENDPARABOLIC": "Parabolischer Trend",
-        "title": "Autofokus-Einstellungen"
-      }
+        "title": "Autofokus-Einstellungen",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Grundeinstellungen",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Fokus"
     },
     "dome": {
       "title": "Kuppel",
@@ -626,7 +665,10 @@
       "please_connect_filterwheel": "Bitte Filterrad verbinden",
       "currentFilter": "Aktueller Filter",
       "position": "Position",
-      "availableFilters": "Verfügbare Filter"
+      "availableFilters": "Verfügbare Filter",
+      "settings": {
+        "title": "Filtereinstellungen"
+      }
     },
     "rotator": {
       "title": "Rotator",

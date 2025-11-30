@@ -176,6 +176,23 @@
       },
       "beta": {
         "title": "Beta aktualizační kanál"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "basic": "Basic settings",
+        "retry": "Retry settings",
+        "search": "Search settings",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -347,6 +364,23 @@
         },
         "confirmationMessage": "Pokud je v aplikaci NINA nastavena možnost „Synchronizace polohy“ na „Vyžádat potvrzení“, může se před odesláním souřadnic do dalekohledu zobrazit potvrzovací okno. Abyste tomu zabránili a umožnili aplikaci TNS automaticky nastavit souřadnice, doporučujeme změnit nastavení na „Synchronizovat s dalekohledem“.",
         "title": "Předvolby synchronizace polohy"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Settle time (s)",
+          "basic": "Basic settings",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions"
+        },
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip_settings": "Meridian-Settings"
       }
     },
     "guider": {
@@ -476,8 +510,13 @@
         "TRENDHYPERBOLIC": "Trend Hyperbolic",
         "TRENDLINES": "Trendlines",
         "TRENDPARABOLIC": "Trend Parabolic",
-        "title": "Autofocus-Settings"
-      }
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Kopule",
@@ -631,7 +670,10 @@
       "please_connect_filterwheel": "Připojte prosím filtrační kolo",
       "currentFilter": "Aktuální Filtr",
       "position": "Pozice",
-      "availableFilters": "Dostupné Filtry"
+      "availableFilters": "Dostupné Filtry",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "Rotátor",

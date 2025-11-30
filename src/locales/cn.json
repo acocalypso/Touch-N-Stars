@@ -176,6 +176,23 @@
         "invalidPortRange": "无效的端口范围",
         "invalidInstance": "无效的实例",
         "emptyFields": "空字段"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "basic": "Basic settings",
+        "retry": "Retry settings",
+        "search": "Search settings",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -345,6 +362,23 @@
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
         "timeToMeridianFlip": "距离子午线翻转的时间"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Settle time (s)",
+          "basic": "Basic settings",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions"
+        },
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip_settings": "Meridian-Settings"
       }
     },
     "guider": {
@@ -474,8 +508,13 @@
         "TRENDHYPERBOLIC": "Trend Hyperbolic",
         "TRENDLINES": "Trendlines",
         "TRENDPARABOLIC": "Trend Parabolic",
-        "title": "Autofocus-Settings"
-      }
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "穹顶",
@@ -627,7 +666,10 @@
       "please_connect_filterwheel": "请连接滤镜轮",
       "currentFilter": "当前滤镜",
       "position": "位置",
-      "availableFilters": "可用滤镜"
+      "availableFilters": "可用滤镜",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "旋转器",

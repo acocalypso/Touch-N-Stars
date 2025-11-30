@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+### Added
+- Bahtifocus plugin: added placeholder translation keys to all remaining locales to keep the new UI strings wired up.
+- Bahtifocus plugin: automatically downscale large image uploads and surface a notice when optimization runs to prevent oversized requests.
+
+### Changed
+- Bahtifocus plugin: switch Bahtinov analysis submissions to binary uploads with metadata headers, including abort handling and a legacy JSON fallback when needed.
+
+
 ## [App4.1.0.beta6] [ShortcutsPlugin1.0.0] - 2025-11-24
 ### Added
 - Shortcuts plugin: create custom buttons that load a chosen N.I.N.A. sequence and optionally auto-start it with one tap.

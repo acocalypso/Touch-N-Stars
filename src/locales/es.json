@@ -176,6 +176,23 @@
       "keepAwake": {
         "description": "Evite que el dispositivo se atenúe o se bloquee mientras la aplicación está abierta.",
         "title": "Mantenga la pantalla despierta"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Tiempo(s) de exposición",
+        "Gain": "Gain",
+        "MaxObjects": "Objetos máximos",
+        "NumberOfAttempts": "Número de intentos",
+        "ReattemptDelay": "Retraso(s) de reintento",
+        "RotationTolerance": "Tolerancia de rotación (°)",
+        "SearchRadius": "Radio de búsqueda (°)",
+        "Threshold": "Límite",
+        "basic": "Configuraciones básicas",
+        "retry": "Reintentar configuración",
+        "search": "Configuración de búsqueda",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -345,6 +362,23 @@
         "confirmationMessage": "Si la 'Sincronización de ubicación' en Nina se establece en 'Aviso', puede aparecer una ventana de confirmación antes de que se envíen coordenadas al telescopio. \nPara evitar esto y permitir que TNS establezca automáticamente las coordenadas, recomendamos cambiar la configuración a 'sincronizar al telescopio'",
         "title": "Configuración de sincronización de ubicación"
       },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Minutos máximos después del meridiano",
+          "MinutesAfterMeridian": "Minutos después del meridiano",
+          "PauseTimeBeforeMeridian": "Tiempo de pausa antes del meridiano",
+          "Recenter": "Recentrar",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Tiempo(s) de liquidación",
+          "basic": "Configuraciones básicas",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Comportamiento",
+          "post_flip_actions": "Acciones posteriores al giro"
+        },
+        "telescope_settle_time": "Tiempo de liquidación después de la(s) serie(s)",
+        "meridian_flip_settings": "Configuración de meridianos"
+      },
       "config": {
         "baudRate": "Velocidad de baudios",
         "connectionMode": "Modo de conexión",
@@ -480,8 +514,13 @@
         "TRENDHYPERBOLIC": "Tendencia hiperbólica",
         "TRENDLINES": "Líneas de tendencia",
         "TRENDPARABOLIC": "Tendencia parabólica",
-        "title": "Autofocus-Settings"
-      }
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Configuraciones básicas",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Cúpula",
@@ -633,7 +672,10 @@
       "please_connect_filterwheel": "Por favor conecta la rueda de filtros",
       "currentFilter": "Filtro Actual",
       "position": "Posición",
-      "availableFilters": "Filtros Disponibles"
+      "availableFilters": "Filtros Disponibles",
+      "settings": {
+        "title": "Configuración de filtro"
+      }
     },
     "rotator": {
       "title": "Rotador",

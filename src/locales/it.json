@@ -176,6 +176,23 @@
         "invalidPortRange": "Intervallo porta non valido",
         "invalidInstance": "Istanza non valida",
         "emptyFields": "Campi vuoti"
+      },
+      "general": "Generale",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Tempo di esposizione (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Oggetti massimi",
+        "NumberOfAttempts": "Numero di tentativi",
+        "ReattemptDelay": "Ritardo/i per il nuovo tentativo",
+        "RotationTolerance": "Tolleranza di rotazione (°)",
+        "SearchRadius": "Raggio di ricerca (°)",
+        "Threshold": "Soglia",
+        "basic": "Impostazioni di base",
+        "retry": "Riprova le impostazioni",
+        "search": "Impostazioni di ricerca",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -345,6 +362,23 @@
         "Az": "Az",
         "timeToMeridianFlip": "Tempo per il lancio del meridiano"
       },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Max minuti dopo il meridiano",
+          "MinutesAfterMeridian": "Minuti dopo il meridiano",
+          "PauseTimeBeforeMeridian": "Tempo di pausa prima del meridiano",
+          "Recenter": "Recente",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Tempo/i di liquidazione",
+          "basic": "Impostazioni di base",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Comportamento",
+          "post_flip_actions": "Azioni post-giro"
+        },
+        "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
+        "meridian_flip_settings": "Impostazioni dei meridiani"
+      },
       "config": {
         "baudRate": "Velocità di trasmissione",
         "connectionMode": "Modalità di connessione",
@@ -480,8 +514,13 @@
         "TRENDHYPERBOLIC": "Tendenza iperbolica",
         "TRENDLINES": "Linee di tendenza",
         "TRENDPARABOLIC": "Tendenza parabolica",
-        "title": "Autofocus-Settings"
-      }
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Impostazioni di base",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Cupola",
@@ -633,7 +672,10 @@
       "please_connect_filterwheel": "Collega la ruota filtri",
       "currentFilter": "Filtro Attuale",
       "position": "Posizione",
-      "availableFilters": "Filtri Disponibili"
+      "availableFilters": "Filtri Disponibili",
+      "settings": {
+        "title": "Impostazioni filtro"
+      }
     },
     "rotator": {
       "title": "Rotatore",

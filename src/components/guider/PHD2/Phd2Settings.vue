@@ -5,7 +5,7 @@
   <div v-if="guiderStore.phd2IsConnected" class="flex flex-col gap-1">
     <div class="p-4 flex flex-col gap-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
       <!-- Force Calibration Toggle -->
-      <div class="flex items-center justify-between border border-gray-500 p-1 rounded-lg">
+      <div class="flex items-center justify-between">
         <span class="text-sm font-medium text-gray-300">
           {{ $t('components.guider.phd2.forceCalibration') }}
         </span>

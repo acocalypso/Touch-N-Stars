@@ -1,7 +1,13 @@
 <template>
   <div class="space-y-2">
     <div
-      v-for="(item, index) in items"
+      v-for="(item, index) in items.filter((i) => {
+        // Skip items with Name === null and OnOff property
+        if (i.Name === null && i.OnOff !== undefined) return false;
+        // Skip items with Name === null and no display fields
+        if (i.Name === null && getDisplayFields(i).length === 0) return false;
+        return true;
+      })"
       :key="index"
       class="bg-gray-900/80 backdrop-blur-sm rounded-lg transition-all duration-200 hover:bg-gray-900/90 border border-gray-800/50"
       :class="{
@@ -1055,6 +1061,10 @@ function formatValue(value, key) {
       5: 'Stopped',
     };
     return trackingModes[value] ?? value;
+  }
+  // Multiply by 100 if key contains 'Percentage'
+  if (key.includes('Percentage') && typeof value === 'number') {
+    return Math.round(value * 100);
   }
   return value;
 }

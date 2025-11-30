@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "close": "Close"
+    "close": "Close",
+    "select": "Select"
   },
   "general": {
     "cancel": "Cancel",
@@ -120,6 +121,7 @@
     },
     "settings": {
       "title": "Settings",
+      "general": "General",
       "add": "add",
       "coordinates": "GPS Coordinates",
       "save": "Save",
@@ -167,6 +169,22 @@
         "confirmation": "Confirm Action",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
         "confirmRestart": "Are you sure you want to restart the system?"
+      },
+      "plate_solver": {
+        "title": "Plate solver settings",
+        "basic": "Basic settings",
+        "search": "Search settings",
+        "retry": "Retry settings",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ASTAPLocation": "ASTAP Location"
       },
       "update": "Update",
       "errors": {
@@ -343,6 +361,23 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az"
+      },
+      "settings": {
+        "meridian_flip_settings": "Meridian-Settings",
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip": {
+          "basic": "Basic settings",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "SettleTime": "Settle time (s)",
+          "Recenter": "Recenter",
+          "UseSideOfPier": "Use side of pier",
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "RotateImageAfterFlip": "Rotate image after flip"
+        }
       }
     },
     "guider": {
@@ -354,6 +389,18 @@
       "title": "Guider",
       "running": "RUNNING",
       "statusLabel": "Status",
+      "settings": "Guider Settings",
+      "phd2Path": "PHD2 Path",
+      "phd2ServerHost": "PHD2 Server Hostname",
+      "phd2ServerPort": "PHD2 Server Port",
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither in RA Only",
+      "settlePixels": "Settle Pixel Tolerance (px)",
+      "settleTime": "Minimum Settle Time (s)",
+      "settleTimeout": "Settle Timeout (s)",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Guiding Start Timeout (s)",
+      "roiPercentage": "ROI Percentage to Find Guide Star (%)",
       "status": {
         "looping": "Looping",
         "lostLock": "Lost Lock",
@@ -422,6 +469,7 @@
     },
     "focuser": {
       "title": "Focuser",
+      "focus": "Focus",
       "new_position": "New position:",
       "move": "Move",
       "start_autofocus": "Start autofocus",
@@ -435,7 +483,37 @@
       "stopped": "Stopped",
       "autofocus_active": "Autofocus active",
       "autofocus": "Autofocus",
-      "last_autofocus": "Last autofocus"
+      "last_autofocus": "Last autofocus",
+      "settings": {
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusStepSize": "Step Size",
+        "FocuserSettleTime": "Focuser Settle Time",
+        "AutoFocusTotalNumberOfAttempts": "Total Number of Attempts",
+        "AutoFocusNumberOfFramesPerPoint": "Number of Frames Per Point",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusOuterCropRatio": "Outer Crop Ratio",
+        "AutoFocusUseBrightestStars": "Use Brightest Stars",
+        "BacklashIn": "Backlash In",
+        "BacklashOut": "Backlash Out",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "AutoFocusFitFunction": "Curve fitting strategy",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "TRENDLINES": "Trendlines",
+        "PARABOLIC": "Parabolic",
+        "TRENDPARABOLIC": "Trend Parabolic",
+        "HYPERBOLIC": "Hyperbolic",
+        "TRENDHYPERBOLIC": "Trend Hyperbolic",
+        "BacklashCompensationModel": "Backlash compensation model",
+        "OVERSHOOT": "Overshoot",
+        "ABSOLUTE": "Absolute",
+        "title": "Autofocus-Settings",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop & Stars",
+        "backlash": "Backlash",
+        "advanced": "Advanced"
+      }
     },
     "dome": {
       "title": "Dome",
@@ -587,7 +665,10 @@
       "please_connect_filterwheel": "Please connect filter wheel",
       "currentFilter": "Current Filter",
       "position": "Position",
-      "availableFilters": "Available Filters"
+      "availableFilters": "Available Filters",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "Rotator",

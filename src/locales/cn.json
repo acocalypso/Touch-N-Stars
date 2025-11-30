@@ -2,7 +2,8 @@
   "common": {
     "cancel": "取消",
     "confirm": "确认",
-    "close": "关闭"
+    "close": "关闭",
+    "select": "Select"
   },
   "general": {
     "cancel": "取消",
@@ -175,6 +176,23 @@
         "invalidPortRange": "无效的端口范围",
         "invalidInstance": "无效的实例",
         "emptyFields": "空字段"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "basic": "Basic settings",
+        "retry": "Retry settings",
+        "search": "Search settings",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -344,6 +362,23 @@
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
         "timeToMeridianFlip": "距离子午线翻转的时间"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Settle time (s)",
+          "basic": "Basic settings",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions"
+        },
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip_settings": "Meridian-Settings"
       }
     },
     "guider": {
@@ -419,7 +454,19 @@
           "title": "PHD2 错误",
           "star-lost-message": "星点丢失"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither in RA Only",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Guiding Start Timeout (s)",
+      "phd2Path": "PHD2 Path",
+      "phd2ServerHost": "PHD2 Server Hostname",
+      "phd2ServerPort": "PHD2 Server Port",
+      "roiPercentage": "ROI Percentage to Find Guide Star (%)",
+      "settings": "Guider Settings",
+      "settlePixels": "Settle Pixel Tolerance (px)",
+      "settleTime": "Minimum Settle Time (s)",
+      "settleTimeout": "Settle Timeout (s)"
     },
     "focuser": {
       "title": "调焦器",
@@ -436,7 +483,38 @@
       "stopped": "已停止",
       "autofocus_active": "自动对焦激活中",
       "autofocus": "自动对焦",
-      "last_autofocus": "上次自动对焦"
+      "last_autofocus": "上次自动对焦",
+      "settings": {
+        "ABSOLUTE": "Absolute",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Curve fitting strategy",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Number of Frames Per Point",
+        "AutoFocusOuterCropRatio": "Outer Crop Ratio",
+        "AutoFocusStepSize": "Step Size",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Total Number of Attempts",
+        "AutoFocusUseBrightestStars": "Use Brightest Stars",
+        "BacklashCompensationModel": "Backlash compensation model",
+        "BacklashIn": "Backlash In",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Focuser Settle Time",
+        "HYPERBOLIC": "Hyperbolic",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabolic",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Trend Hyperbolic",
+        "TRENDLINES": "Trendlines",
+        "TRENDPARABOLIC": "Trend Parabolic",
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "穹顶",
@@ -588,7 +666,10 @@
       "please_connect_filterwheel": "请连接滤镜轮",
       "currentFilter": "当前滤镜",
       "position": "位置",
-      "availableFilters": "可用滤镜"
+      "availableFilters": "可用滤镜",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "旋转器",

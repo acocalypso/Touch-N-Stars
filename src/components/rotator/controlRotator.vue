@@ -1,20 +1,20 @@
 <template>
   <div>
     <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg">
-      <label for="position" class="text-xs mb-1 text-gray-400">{{
-        $t('components.rotator.label')
-      }}</label>
-      <div class="flex gap-2">
-        <input
-          id="position"
-          v-model.number="store.rotatorMechanicalPosition"
-          type="number"
-          class="default-input h-10 w-40"
+      <div class="flex gap-2 items-end">
+        <NumberInputPicker
+          v-model="store.rotatorMechanicalPosition"
+          :label="$t('components.rotator.label')"
+          labelKey="components.rotator.label"
+          :min="0"
+          :max="360"
+          :step="1"
+          :decimalPlaces="0"
           placeholder="1"
-          step="1"
+          inputId="position"
         />
         <button
-          class="default-button-cyan"
+          class="default-button-cyan h-7 md:h-8"
           @click="moveRotator"
           :disabled="store.rotatorInfo.IsMoving"
         >
@@ -49,6 +49,7 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 

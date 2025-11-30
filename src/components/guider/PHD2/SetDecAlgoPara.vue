@@ -1,150 +1,111 @@
 <template>
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="minMove !== null"
-  >
-    <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.MinMove') }}
-    </label>
-    <input
-      @change="debouncedUpdateMinMove"
-      id="pixel-size"
-      v-model.number="minMove"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassMinMove"
-      step="0.01"
-    />
-  </div>
+    v-model="minMove"
+    :label="$t('components.guider.phd2.dec.MinMove')"
+    labelKey="components.guider.phd2.dec.MinMove"
+    :min="0"
+    :max="1"
+    :step="0.01"
+    :decimalPlaces="2"
+    inputId="min-move-dec"
+    @change="debouncedUpdateMinMove"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="maxMove !== null"
-  >
-    <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.MaxMove') }}
-    </label>
-    <input
-      @change="debouncedUpdateMaxMove"
-      id="pixel-size"
-      v-model.number="maxMove"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassMaxMove"
-      step="0.01"
-    />
-  </div>
+    v-model="maxMove"
+    :label="$t('components.guider.phd2.dec.MaxMove')"
+    labelKey="components.guider.phd2.dec.MaxMove"
+    :min="0"
+    :max="10"
+    :step="0.01"
+    :decimalPlaces="2"
+    inputId="max-move-dec"
+    @change="debouncedUpdateMaxMove"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="aggression !== null"
-  >
-    <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.aggression') }}
-    </label>
-    <input
-      @change="debouncedUpdateAggression"
-      id="pixel-size"
-      v-model.number="aggression"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassAggression"
-      step="1"
-    />
-  </div>
+    v-model="aggression"
+    :label="$t('components.guider.phd2.dec.aggression')"
+    labelKey="components.guider.phd2.dec.aggression"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="aggression-dec"
+    @change="debouncedUpdateAggression"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="hysteresis !== null"
-  >
-    <label for="pixel-size" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.hysteresis') }}
-    </label>
-    <input
-      @input="debouncedUpdateHysteresis"
-      id="pixel-size"
-      v-model.number="hysteresis"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassHysteresis"
-      step="1"
-    />
-  </div>
+    v-model="hysteresis"
+    :label="$t('components.guider.phd2.dec.hysteresis')"
+    labelKey="components.guider.phd2.dec.hysteresis"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="hysteresis-dec"
+    @change="debouncedUpdateHysteresis"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="predictiveWeight !== null"
-  >
-    <label for="predictive-weight" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.predictive_weight') }}
-    </label>
-    <input
-      @input="debouncedUpdatePredictiveWeight"
-      id="predictive-weight"
-      v-model.number="predictiveWeight"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassPredictiveWeight"
-      step="1"
-    />
-  </div>
+    v-model="predictiveWeight"
+    :label="$t('components.guider.phd2.dec.predictive_weight')"
+    labelKey="components.guider.phd2.dec.predictive_weight"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="predictive-weight-dec"
+    @change="debouncedUpdatePredictiveWeight"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="reactiveWeight !== null"
-  >
-    <label for="reactive-weight" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.reactive_weight') }}
-    </label>
-    <input
-      @input="debouncedUpdateReactiveWeight"
-      id="reactive-weight"
-      v-model.number="reactiveWeight"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassReactiveWeight"
-      step="1"
-    />
-  </div>
+    v-model="reactiveWeight"
+    :label="$t('components.guider.phd2.dec.reactive_weight')"
+    labelKey="components.guider.phd2.dec.reactive_weight"
+    :min="0"
+    :max="100"
+    :step="1"
+    :decimalPlaces="0"
+    inputId="reactive-weight-dec"
+    @change="debouncedUpdateReactiveWeight"
+  />
 
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+  <NumberInputPicker
     v-if="slopeWeight !== null"
-  >
-    <label for="slope-weight" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.slope_weight') }}
-    </label>
-    <input
-      @input="debouncedUpdateSlopeWeight"
-      id="slope-weight"
-      v-model.number="slopeWeight"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassSlopeWeight"
-      step="0.01"
-    />
-  </div>
-  <div
-    class="flex flex-row w-full items-center min-w-28 border border-gray-500 p-1 rounded-lg"
+    v-model="slopeWeight"
+    :label="$t('components.guider.phd2.dec.slope_weight')"
+    labelKey="components.guider.phd2.dec.slope_weight"
+    :min="0"
+    :max="1"
+    :step="0.01"
+    :decimalPlaces="2"
+    inputId="slope-weight-dec"
+    @change="debouncedUpdateSlopeWeight"
+  />
+  <NumberInputPicker
     v-if="expFactor !== null"
-  >
-    <label for="exp-factor" class="text-sm mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.dec.exp_factor') }}
-    </label>
-    <input
-      @input="debouncedUpdateExpFactor"
-      id="exp-factor"
-      v-model.number="expFactor"
-      type="number"
-      class="default-input ml-auto h-8 w-28"
-      :class="statusClassExpFactor"
-      step="0.1"
-    />
-  </div>
+    v-model="expFactor"
+    :label="$t('components.guider.phd2.dec.exp_factor')"
+    labelKey="components.guider.phd2.dec.exp_factor"
+    :min="0"
+    :max="5"
+    :step="0.1"
+    :decimalPlaces="1"
+    inputId="exp-factor-dec"
+    @change="debouncedUpdateExpFactor"
+  />
 </template>
 
 <script setup>
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { onMounted, ref } from 'vue';
 
 const minMove = ref(null);
@@ -157,15 +118,6 @@ const periodLength = ref(null);
 const slopeWeight = ref(null);
 const expFactor = ref(null);
 
-const statusClassMinMove = ref('');
-const statusClassMaxMove = ref('');
-const statusClassAggression = ref('');
-const statusClassHysteresis = ref('');
-const statusClassReactiveWeight = ref('');
-const statusClassPredictiveWeight = ref('');
-const statusClassSlopeWeight = ref('');
-const statusClassExpFactor = ref('');
-
 const axis = 'dec';
 
 const debouncedUpdateExpFactor = debounce(setExpFactor, 1000);
@@ -173,14 +125,8 @@ async function setExpFactor() {
   expFactor.value = validatePositiveInput(expFactor.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'expFactor', expFactor.value);
-    statusClassExpFactor.value = 'glow-green';
   } catch (error) {
-    statusClassExpFactor.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassExpFactor.value = '';
-    }, 1000);
   }
 }
 
@@ -189,14 +135,8 @@ async function setSlopeWeight() {
   slopeWeight.value = validatePositiveInput(slopeWeight.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'slopeWeight', slopeWeight.value);
-    statusClassSlopeWeight.value = 'glow-green';
   } catch (error) {
-    statusClassSlopeWeight.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassSlopeWeight.value = '';
-    }, 1000);
   }
 }
 
@@ -205,14 +145,8 @@ async function setPredictiveWeight() {
   predictiveWeight.value = validatePositiveInput(predictiveWeight.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'predictiveWeight', predictiveWeight.value / 100);
-    statusClassPredictiveWeight.value = 'glow-green';
   } catch (error) {
-    statusClassPredictiveWeight.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassPredictiveWeight.value = '';
-    }, 1000);
   }
 }
 
@@ -221,14 +155,8 @@ async function setReactiveWeight() {
   reactiveWeight.value = validatePositiveInput(reactiveWeight.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'reactiveWeight', reactiveWeight.value / 100);
-    statusClassReactiveWeight.value = 'glow-green';
   } catch (error) {
-    statusClassReactiveWeight.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassReactiveWeight.value = '';
-    }, 1000);
   }
 }
 
@@ -237,14 +165,8 @@ async function setMinMove() {
   minMove.value = validatePositiveInput(minMove.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'minMove', minMove.value);
-    statusClassMinMove.value = 'glow-green';
   } catch (error) {
-    statusClassMinMove.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassMinMove.value = '';
-    }, 1000);
   }
 }
 
@@ -253,14 +175,8 @@ async function setMaxMove() {
   maxMove.value = validatePositiveInput(maxMove.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'maxMove', maxMove.value);
-    statusClassMaxMove.value = 'glow-green';
   } catch (error) {
-    statusClassMaxMove.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassMaxMove.value = '';
-    }, 1000);
   }
 }
 
@@ -269,14 +185,8 @@ async function setAggression() {
   aggression.value = validatePositiveInput(aggression.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'aggression', aggression.value / 100);
-    statusClassAggression.value = 'glow-green';
   } catch (error) {
-    statusClassAggression.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassAggression.value = '';
-    }, 1000);
   }
 }
 
@@ -285,14 +195,8 @@ async function setHysteresis() {
   hysteresis.value = validatePositiveInput(hysteresis.value);
   try {
     await apiService.setPHD2AlgoParam(axis, 'hysteresis', hysteresis.value / 100);
-    statusClassHysteresis.value = 'glow-green';
   } catch (error) {
-    statusClassHysteresis.value = 'glow-red';
     fetchPrameter();
-  } finally {
-    setTimeout(() => {
-      statusClassHysteresis.value = '';
-    }, 1000);
   }
 }
 

@@ -13,21 +13,19 @@
       </div>
     </div>
 
-    <div
-      v-if="store.flatdeviceInfo.LightOn"
-      class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-    >
-      <label for="SetBrightness" class="text-gray-400">
-        {{ $t('components.flat.brightness') }}
-      </label>
-      <input
-        id="SetBrightness"
+    <div v-if="store.flatdeviceInfo.LightOn" class="border border-gray-500 p-2 rounded-lg">
+      <NumberInputPicker
         v-model="flatStore.brightness"
-        type="number"
-        class="default-input h-10 w-24"
+        :label="$t('components.flat.brightness')"
+        labelKey="components.flat.brightness"
+        :min="store.flatdeviceInfo.MinBrightness"
+        :max="store.flatdeviceInfo.MaxBrightness"
+        :step="1"
+        :decimalPlaces="0"
         placeholder="1"
-        step="1"
-        @blur="SetBrightness"
+        inputId="SetBrightness"
+        wrapperClass="w-full"
+        @change="SetBrightness"
       />
     </div>
     <div v-if="store.flatdeviceInfo.SupportsOpenClose">
@@ -50,6 +48,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFlatStore } from '@/store/flatdeviceStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 const flatStore = useFlatStore();

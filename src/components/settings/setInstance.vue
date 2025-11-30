@@ -34,12 +34,16 @@
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-2">Port</label>
-          <input
+          <NumberInputPicker
             v-model="tempInstance.port"
-            type="number"
-            class="default-input w-full py-2"
+            :label="`Port`"
+            :min="1"
+            :max="65535"
+            :step="1"
+            :decimalPlaces="0"
             placeholder="5000"
+            inputId="port"
+            wrapperClass="w-full"
           />
         </div>
       </div>
@@ -203,6 +207,7 @@
 import { watch, ref, computed } from 'vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import InstanceDetection from '../setup/InstanceDetection.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const settingsStore = useSettingsStore();
 const instances = computed(() => settingsStore.connection.instances);

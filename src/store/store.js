@@ -10,6 +10,7 @@ import websocketChannelService from '@/services/websocketChannelSocket';
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
+    isPINS: false,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
@@ -71,6 +72,16 @@ export const apiStore = defineStore('store', {
         Longitude: 0,
         Elevation: 0,
       },
+      MeridianFlipSettings: {
+        MinutesAfterMeridian: 0,
+        MaxMinutesAfterMeridian: 0,
+        PauseTimeBeforeMeridian: 0,
+        Recenter: false,
+        SettleTime: 0,
+        UseSideOfPier: false,
+        AutoFocusAfterFlip: false,
+        RotateImageAfterFlip: false,
+      },
     },
     cameraInfo: { IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { TrackingMode: null },
@@ -120,6 +131,9 @@ export const apiStore = defineStore('store', {
     isTnsPluginVersionNewerOrEqual: false,
     mount: {
       currentTab: 'showMount',
+    },
+    focuser: {
+      currentTab: 'showFocus',
     },
     closeErrorModal: false,
     errorMessageShown: false,

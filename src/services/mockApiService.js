@@ -1,5 +1,6 @@
 // Mock API Service for development/testing without N.I.N.A
 // Enable by setting localStorage.setItem('USE_MOCK_API', 'true')
+/* eslint-disable */
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

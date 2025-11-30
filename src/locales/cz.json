@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
-    "close": "Zavřít"
+    "close": "Zavřít",
+    "select": "Select"
   },
   "general": {
     "cancel": "Zrušit",
@@ -175,6 +176,23 @@
       },
       "beta": {
         "title": "Beta aktualizační kanál"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "basic": "Basic settings",
+        "retry": "Retry settings",
+        "search": "Search settings",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -346,6 +364,23 @@
         },
         "confirmationMessage": "Pokud je v aplikaci NINA nastavena možnost „Synchronizace polohy“ na „Vyžádat potvrzení“, může se před odesláním souřadnic do dalekohledu zobrazit potvrzovací okno. Abyste tomu zabránili a umožnili aplikaci TNS automaticky nastavit souřadnice, doporučujeme změnit nastavení na „Synchronizovat s dalekohledem“.",
         "title": "Předvolby synchronizace polohy"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Settle time (s)",
+          "basic": "Basic settings",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions"
+        },
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip_settings": "Meridian-Settings"
       }
     },
     "guider": {
@@ -421,7 +456,19 @@
         "west": "Západ",
         "slewStopped": "Přejezd se zastavil",
         "stopSlew": "Zastavit Přejezd"
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither in RA Only",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Guiding Start Timeout (s)",
+      "phd2Path": "PHD2 Path",
+      "phd2ServerHost": "PHD2 Server Hostname",
+      "phd2ServerPort": "PHD2 Server Port",
+      "roiPercentage": "ROI Percentage to Find Guide Star (%)",
+      "settings": "Guider Settings",
+      "settlePixels": "Settle Pixel Tolerance (px)",
+      "settleTime": "Minimum Settle Time (s)",
+      "settleTimeout": "Settle Timeout (s)"
     },
     "focuser": {
       "title": "Ostření",
@@ -438,7 +485,38 @@
       "stopped": "Zastaveno",
       "autofocus_active": "AutoOstření aktivní",
       "autofocus": "AutoOstření",
-      "last_autofocus": "Poslední AutoOstření"
+      "last_autofocus": "Poslední AutoOstření",
+      "settings": {
+        "ABSOLUTE": "Absolute",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Curve fitting strategy",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Number of Frames Per Point",
+        "AutoFocusOuterCropRatio": "Outer Crop Ratio",
+        "AutoFocusStepSize": "Step Size",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Total Number of Attempts",
+        "AutoFocusUseBrightestStars": "Use Brightest Stars",
+        "BacklashCompensationModel": "Backlash compensation model",
+        "BacklashIn": "Backlash In",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Focuser Settle Time",
+        "HYPERBOLIC": "Hyperbolic",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabolic",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Trend Hyperbolic",
+        "TRENDLINES": "Trendlines",
+        "TRENDPARABOLIC": "Trend Parabolic",
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Kopule",
@@ -592,7 +670,10 @@
       "please_connect_filterwheel": "Připojte prosím filtrační kolo",
       "currentFilter": "Aktuální Filtr",
       "position": "Pozice",
-      "availableFilters": "Dostupné Filtry"
+      "availableFilters": "Dostupné Filtry",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "Rotátor",
@@ -1089,77 +1170,77 @@
       "not_available": "Livestack nebyl nalezen. Nejprve nainstalujte plugin Livestack do NINA.",
       "start_and_select_filter": "Spusťte livestack a vyberte filtr pro zobrazení snímků",
       "target": "Cíl",
-      "no_filter": "No filter",
-      "no_filters_available": "No filters available for this target",
-      "no_target": "No target",
-      "configuration_title": "Livestack Settings",
-      "drag_hint": "Drag",
-      "show_rgb_only": "Show RGB composition only",
-      "track_stack_updates": "Always show the latest stack",
-      "empty_option": "Empty",
-      "image_alt": "Livestack image - {filter}",
-      "loading_image": "Loading livestack image...",
+      "no_filter": "Bez filtru",
+      "no_filters_available": "Pro tento cíl nejsou k dispozici žádné filtry.",
+      "no_target": "Bez cíle",
+      "configuration_title": "Nastavení Livestack",
+      "drag_hint": "Přetáhnout",
+      "show_rgb_only": "Zobrazit pouze složení RGB",
+      "track_stack_updates": "Vždy zobrazovat nejnovější stack",
+      "empty_option": "Prázdné",
+      "image_alt": "Snímek Livestack – {filter}"",
+      "loading_image": "Načítání živého snímku...",
       "errors": {
-        "start_failed": "Failed to start livestack",
-        "start_exception": "Error starting livestack: {message}",
-        "stop_failed": "Failed to stop livestack",
-        "stop_exception": "Error stopping livestack: {message}",
-        "loading_image": "Error loading image: {message}",
-        "failed_to_load": "Failed to load livestack image",
-        "api_version_required": "API version {version} or higher required"
+        "start_failed": "Nepodařilo se spustit livestack",
+        "start_exception": "Chyba při spuštění livestack: {message}",
+        "stop_failed": "Nepodařilo se zastavit livestack",
+        "stop_exception": "Chyba při zastavení livestacku: {message}",
+        "loading_image": "Chyba při načítání snímku: {message}",
+        "failed_to_load": "Nepodařilo se načíst obrázek livestack",
+        "api_version_required": "Vyžadována verze API {version} nebo vyšší"
       }
     },
     "shortcuts": {
-      "title": "Sequence-Shortcuts",
-      "addNew": "New Shortcut",
-      "autoStart": "Auto-start sequence",
-      "autoStartDescription": "Automatically start the sequence after loading",
-      "autoStartEnabled": "Auto-start enabled",
-      "cancel": "Cancel",
-      "color": "Color",
-      "confirmDelete": "Delete Shortcut?",
-      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
-      "confirmDeleteTitle": "Delete Shortcut",
+      "title": "Zkratky Sekvencí",
+      "addNew": "Nová zkratka",
+      "autoStart": "Sekvence automatického spuštění",
+      "autoStartDescription": "Po načtení automaticky spustit sekvenci",
+      "autoStartEnabled": "Automatické spuštění povoleno",
+      "cancel": "Zrušit",
+      "color": "Barva",
+      "confirmDelete": "Odstranit zkratku?",
+      "confirmDeleteMessage": "Opravdu chcete smazat „{phrase}“? Tuto akci nelze vrátit zpět.",
+      "confirmDeleteTitle": "Odstranit zkratku",
       "create": "Create",
       "delete": "Delete",
       "createFirst": "Create First Shortcut",
       "deleteShortcut": "Delete Shortcut",
-      "description": "Quick access to load and start N.I.N.A sequences",
-      "edit": "Edit",
-      "editShortcut": "Edit Shortcut",
+      "description": "Rychlý přístup k načtení a spuštění sekvencí N.I.N.A.",
+      "edit": "Upravit",
+      "editShortcut": "Upravit zkratku",
       "errors": {
-        "deleteFailed": "Failed to delete shortcut",
-        "executeFailed": "Failed to execute shortcut",
-        "loadFailed": "Failed to load shortcuts",
-        "nameRequired": "Shortcut name is required",
-        "saveFailed": "Failed to save shortcut",
-        "sequenceLoadFailed": "Failed to load sequences",
-        "sequenceRequired": "Please select a sequence"
+        "deleteFailed": "Nepodařilo se odstranit zkratku",
+        "executeFailed": "Nepodařilo se provést zkratkut",
+        "loadFailed": "Nepodařilo se načíst klávesové zkratky",
+        "nameRequired": "Je vyžadován název zkratky",
+        "saveFailed": "Nepodařilo se uložit zkratku",
+        "sequenceLoadFailed": "Nepodařilo se načíst sekvence",
+        "sequenceRequired": "Vyberte sekvenci"
       },
-      "execute": "Execute",
-      "icon": "Icon",
-      "loadingSequences": "Loading sequences...",
-      "manualExecution": "Manual execution",
+      "execute": "Provést",
+      "icon": "Ikona",
+      "loadingSequences": "Načítání sekvencí...",
+      "manualExecution": "Ruční provedení",
       "menu": "Menu",
-      "newShortcut": "New Shortcut",
-      "noSequencesAvailable": "No sequences available",
-      "noShortcuts": "No shortcuts created yet",
-      "noShortcutsDescription": "Create shortcuts to quickly load your favorite sequences",
-      "phrase": "Shortcut Name",
-      "phrasePlaceholder": "e.g., M31 Session",
-      "refreshSequences": "Refresh list",
-      "selectColor": "Select a color",
-      "selectIcon": "Select an icon",
-      "selectSequence": "Select a sequence...",
-      "sequenceFile": "Sequence File",
-      "shortcutName": "Shortcut Name",
-      "shortcutNamePlaceholder": "e.g., M31 Session",
+      "newShortcut": "Nová zkratka",
+      "noSequencesAvailable": "Žádné sekvence nejsou k dispozici",
+      "noShortcuts": "Zatím nebyly vytvořeny žádné zkratky",
+      "noShortcutsDescription": "Vytvořte zkratky pro rychlé načtení oblíbených sekvencí",
+      "phrase": "Název zkratky",
+      "phrasePlaceholder": "např. relace M31",
+      "refreshSequences": "Obnovit seznam",
+      "selectColor": "Vyberte barvu",
+      "selectIcon": "Vyberte ikonu",
+      "selectSequence": "Vyberte sekvenci...",
+      "sequenceFile": "Sekvenční soubor",
+      "shortcutName": "Název zkratky",
+      "shortcutNamePlaceholder": "např. relace M31",
       "success": {
-        "created": "Shortcut created successfully",
-        "deleted": "Shortcut deleted successfully",
-        "updated": "Shortcut updated successfully"
+        "created": "Zkratka byla úspěšně vytvořenay",
+        "deleted": "Zkratka byla úspěšně odstraněna",
+        "updated": "Zkratka byla úspěšně aktualizována"
       },
-      "update": "Update"
+      "update": "Aktualizace"
     }
   },
   "dialogs": {
@@ -1170,5 +1251,5 @@
       "rotation": "Rotace"
     }
   },
-  "loading": "loading"
+  "loading": "načítání"
 }

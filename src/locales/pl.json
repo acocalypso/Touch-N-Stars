@@ -865,7 +865,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Pokaż parametry optyczne",
+        "toggleParametersHide": "Ukryj parametry optyczne"
+      },
+      "camera": {
+        "capture": "Wykonaj klatkę",
+        "capturing": "Wykonywanie…",
+        "captureFailed": "Nie można wykonać nowej klatki.",
+        "abort": "Przerwij ekspozycję",
+        "abortFailed": "Nie udało się przerwać trwającej ekspozycji.",
+        "exposureLabel": "Czas ekspozycji",
+        "exposureUnit": "sekundy",
+        "statusDisconnected": "Podłącz kamerę, aby wykonywać klatki.",
+        "statusExposing": "Ekspozycja w toku…",
+        "statusExposingCountdown": "Ekspozycja w toku – pozostało {seconds}s.",
+        "statusLoading": "Pobieranie danych obrazu…",
+        "statusLooping": "Ekspozycje w pętli. Ekspozycja będzie powtarzana do zatrzymania."
       },
       "overlay": {
         "title": "Overlay preview",

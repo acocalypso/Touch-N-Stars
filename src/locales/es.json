@@ -865,7 +865,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Mostrar parámetros ópticos",
+        "toggleParametersHide": "Ocultar parámetros ópticos"
+      },
+      "camera": {
+        "capture": "Capturar cuadro",
+        "capturing": "Capturando…",
+        "captureFailed": "No se puede capturar un nuevo cuadro.",
+        "abort": "Abortar captura",
+        "abortFailed": "No se puede abortar la captura activa.",
+        "exposureLabel": "Tiempo de exposición",
+        "exposureUnit": "segundos",
+        "statusDisconnected": "Conecta una cámara para capturar cuadros.",
+        "statusExposing": "Exposición en curso…",
+        "statusExposingCountdown": "Exposición en curso – faltan {seconds}s.",
+        "statusLoading": "Recibiendo datos de imagen…",
+        "statusLooping": "Captura en bucle. La captura se repetirá hasta detenerse."
       },
       "overlay": {
         "title": "Overlay preview",

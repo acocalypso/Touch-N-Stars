@@ -865,7 +865,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Afficher les paramètres optiques",
+        "toggleParametersHide": "Masquer les paramètres optiques"
+      },
+      "camera": {
+        "capture": "Capturer une image",
+        "capturing": "Capture en cours…",
+        "captureFailed": "Impossible de capturer une nouvelle image.",
+        "abort": "Arrêter la capture",
+        "abortFailed": "Impossible d'arrêter la capture en cours.",
+        "exposureLabel": "Temps d’exposition",
+        "exposureUnit": "secondes",
+        "statusDisconnected": "Connectez une caméra pour capturer des images.",
+        "statusExposing": "Exposition en cours…",
+        "statusExposingCountdown": "Exposition en cours – {seconds}s restantes.",
+        "statusLoading": "Réception des données d’image…",
+        "statusLooping": "Capture en boucle. L’acquisition se répétera jusqu’à l’arrêt."
       },
       "overlay": {
         "title": "Overlay preview",

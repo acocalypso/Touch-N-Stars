@@ -25,33 +25,72 @@
             </p>
 
             <div class="mt-4 flex flex-col gap-4">
-              <div class="flex flex-wrap gap-3">
-                <label
-                  class="relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg border border-cyan-500/60 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-200 transition hover:bg-cyan-500/20"
+              <div class="flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-lg border border-cyan-500/60 bg-cyan-500/10 px-4 py-2 text-sm font-medium text-cyan-200 transition hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                  @click="handleCapture"
+                  :disabled="!isCameraConnected || isCameraBusy"
                 >
-                  <input
-                    ref="fileInputRef"
-                    type="file"
-                    class="hidden"
-                    accept=".png,.jpg,.jpeg,.webp,.tif,.tiff,.bmp,.fit,.fits"
-                    @change="handleFileChange"
-                  />
+                  <svg
+                    v-if="isCameraBusy"
+                    class="h-4 w-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    />
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 0 1 8-8v4l3-3-3-3v2C7.373 4 2 9.373 2 16h4a8 8 0 0 1 8-8z"
+                    />
+                  </svg>
+                  <svg v-else class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M4 7a2 2 0 0 1 2-2h2l1.5-2h5L16 5h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Zm8 9a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"
+                    />
+                  </svg>
+                  <span>
+                    {{
+                      isCameraBusy
+                        ? t('plugins.bahtifocus.camera.capturing')
+                        : t('plugins.bahtifocus.camera.capture')
+                    }}
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-lg border border-red-500/60 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-200 transition hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-60"
+                  @click="abortCapture"
+                  :disabled="!isCameraConnected || !canAbortCapture"
+                >
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
-                      stroke-width="1.8"
-                      d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 10l5-5m0 0 5 5m-5-5v12"
+                      stroke-width="1.5"
+                      d="M6 6h12v12H6z"
                     />
                   </svg>
-                  <span>{{ t('plugins.bahtifocus.image.selectFile') }}</span>
-                </label>
+                  <span>{{ t('plugins.bahtifocus.camera.abort') }}</span>
+                </button>
 
                 <button
                   type="button"
                   class="inline-flex items-center gap-2 rounded-lg border border-blue-500/50 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-200 transition hover:bg-blue-500/20 disabled:cursor-not-allowed disabled:opacity-60"
                   @click="loadLatestCapturedImage"
-                  :disabled="isLoadingCapture"
+                  :disabled="isLoadingCapture || isCameraBusy"
                 >
                   <svg
                     v-if="isLoadingCapture"
@@ -90,6 +129,41 @@
                   </span>
                 </button>
 
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-5 py-2 text-sm font-semibold text-gray-900 shadow-lg shadow-cyan-500/40 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
+                  @click="handleAnalyze"
+                  :disabled="isSubmitting || !hasImageLoaded"
+                >
+                  <svg
+                    v-if="isSubmitting"
+                    class="h-4 w-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    />
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 0 1 8-8v4l3-3-3-3v2C7.373 4 2 9.373 2 16h4a8 8 0 0 1 8-8z"
+                    />
+                  </svg>
+                  <span>
+                    {{
+                      isSubmitting
+                        ? t('plugins.bahtifocus.actions.submitting')
+                        : t('plugins.bahtifocus.actions.runAnalysis')
+                    }}
+                  </span>
+                </button>
+
                 <select
                   v-if="exampleOptions.length"
                   v-model="selectedExampleKey"
@@ -103,6 +177,26 @@
                   </option>
                 </select>
               </div>
+
+              <div class="flex flex-wrap items-center gap-3 text-sm text-gray-300">
+                <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                  {{ t('plugins.bahtifocus.camera.exposureLabel') }}
+                </label>
+                <input
+                  v-model.number="settingsStore.camera.exposureTime"
+                  type="number"
+                  step="0.1"
+                  min="0.1"
+                  class="default-input w-24"
+                />
+                <span class="text-xs text-gray-500">{{
+                  t('plugins.bahtifocus.camera.exposureUnit')
+                }}</span>
+              </div>
+
+              <p v-if="cameraStatusMessage" class="text-xs text-gray-400">
+                {{ cameraStatusMessage }}
+              </p>
 
               <div
                 v-if="imageState.name"
@@ -154,305 +248,303 @@
 
           <section class="rounded-2xl border border-gray-700/70 bg-gray-900/70 p-6 shadow-inner">
             <header class="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h2 class="text-lg font-semibold text-white">
-                  {{ t('plugins.bahtifocus.sections.parameters') }}
-                </h2>
+              <h2 class="text-lg font-semibold text-white">
+                {{ t('plugins.bahtifocus.sections.parameters') }}
+              </h2>
+              <button
+                type="button"
+                class="inline-flex items-center gap-2 rounded-lg border border-gray-600 px-3 py-2 text-xs font-medium text-gray-200 hover:border-gray-500 hover:bg-gray-800/70"
+                @click="toggleParameters"
+                :aria-expanded="parametersExpanded"
+              >
+                <svg
+                  class="h-4 w-4 transition-transform"
+                  :class="{ 'rotate-180': parametersExpanded }"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M6 9l6 6 6-6"
+                  />
+                </svg>
+                <span>
+                  {{
+                    parametersExpanded
+                      ? t('plugins.bahtifocus.actions.toggleParametersHide')
+                      : t('plugins.bahtifocus.actions.toggleParametersShow')
+                  }}
+                </span>
+              </button>
+            </header>
+
+            <div v-if="parametersExpanded" class="space-y-6">
+              <div class="space-y-2">
                 <p class="text-sm text-gray-400">
                   {{ t('plugins.bahtifocus.sections.parametersHint') }}
                 </p>
-              </div>
-              <div
-                v-if="lastAngles"
-                class="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-100"
-              >
-                <p class="font-medium">
-                  {{ t('plugins.bahtifocus.previousAngles.savedLabel') }}
-                </p>
-                <p>{{ lastAngles.map((value) => formatNumber(value, 2)).join('°, ') }}°</p>
-              </div>
-            </header>
-
-            <form @submit.prevent="handleAnalyze" class="space-y-6">
-              <div class="grid gap-4 md:grid-cols-2">
-                <div class="flex flex-col gap-1">
-                  <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                    {{ t('plugins.bahtifocus.inputs.focalLength') }}
-                  </label>
-                  <input
-                    v-model="form.focalLength"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    class="default-input"
-                    @blur="touchField('focalLength')"
-                  />
-                  <p
-                    v-if="shouldShowError('focalLength', form.focalLength)"
-                    class="text-xs text-red-400"
-                  >
-                    {{ errors.focalLength }}
+                <div
+                  v-if="lastAngles"
+                  class="rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-2 text-xs text-emerald-100"
+                >
+                  <p class="font-medium">
+                    {{ t('plugins.bahtifocus.previousAngles.savedLabel') }}
                   </p>
-                </div>
-
-                <div class="flex flex-col gap-1">
-                  <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                    {{ t('plugins.bahtifocus.inputs.pixelSize') }}
-                  </label>
-                  <input
-                    v-model="form.pixelSize"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    class="default-input"
-                    @blur="touchField('pixelSize')"
-                  />
-                  <p
-                    v-if="shouldShowError('pixelSize', form.pixelSize)"
-                    class="text-xs text-red-400"
-                  >
-                    {{ errors.pixelSize }}
-                  </p>
-                </div>
-
-                <div class="flex flex-col gap-1">
-                  <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                    {{ t('plugins.bahtifocus.inputs.focalRatio') }}
-                  </label>
-                  <input
-                    v-model="form.focalRatio"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    class="default-input"
-                    @blur="touchField('focalRatio')"
-                  />
-                  <p
-                    v-if="shouldShowError('focalRatio', form.focalRatio)"
-                    class="text-xs text-red-400"
-                  >
-                    {{ errors.focalRatio }}
-                  </p>
-                </div>
-
-                <div class="flex flex-col gap-1">
-                  <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                    {{ t('plugins.bahtifocus.inputs.apertureDiameter') }}
-                  </label>
-                  <input
-                    v-model="form.apertureDiameter"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    class="default-input"
-                    @blur="touchField('apertureDiameter')"
-                  />
-                  <p
-                    v-if="shouldShowError('apertureDiameter', form.apertureDiameter)"
-                    class="text-xs text-red-400"
-                  >
-                    {{ errors.apertureDiameter }}
-                  </p>
-                </div>
-
-                <div class="flex flex-col gap-1">
-                  <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                    {{ t('plugins.bahtifocus.inputs.resizeFactor') }}
-                  </label>
-                  <input
-                    v-model="form.resizeFactor"
-                    type="number"
-                    step="0.1"
-                    min="0"
-                    class="default-input"
-                    @blur="touchField('resizeFactor')"
-                  />
-                  <p
-                    v-if="shouldShowError('resizeFactor', form.resizeFactor)"
-                    class="text-xs text-red-400"
-                  >
-                    {{ errors.resizeFactor }}
-                  </p>
+                  <p>{{ lastAngles.map((value) => formatNumber(value, 2)).join('°, ') }}°</p>
                 </div>
               </div>
 
-              <div class="space-y-3">
-                <label class="flex items-center gap-2 text-sm text-gray-200">
-                  <input
-                    type="checkbox"
-                    v-model="form.cropEnabled"
-                    class="h-4 w-4 rounded border-gray-600 bg-gray-900 text-cyan-500 focus:ring-cyan-500"
-                  />
-                  <span>{{ t('plugins.bahtifocus.crop.enable') }}</span>
-                </label>
-
-                <div v-if="form.cropEnabled" class="grid gap-4 md:grid-cols-2">
+              <form @submit.prevent="handleAnalyze" class="space-y-6">
+                <div class="grid gap-4 md:grid-cols-2">
                   <div class="flex flex-col gap-1">
                     <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                      {{ t('plugins.bahtifocus.crop.x') }}
+                      {{ t('plugins.bahtifocus.inputs.focalLength') }}
                     </label>
                     <input
-                      v-model="form.crop.x"
+                      v-model="form.focalLength"
                       type="number"
-                      step="1"
+                      step="0.1"
                       min="0"
                       class="default-input"
-                      @blur="touchCropField('x')"
-                    />
-                    <p v-if="shouldShowCropError('x', form.crop.x)" class="text-xs text-red-400">
-                      {{ errors.crop.x }}
-                    </p>
-                  </div>
-
-                  <div class="flex flex-col gap-1">
-                    <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                      {{ t('plugins.bahtifocus.crop.y') }}
-                    </label>
-                    <input
-                      v-model="form.crop.y"
-                      type="number"
-                      step="1"
-                      min="0"
-                      class="default-input"
-                      @blur="touchCropField('y')"
-                    />
-                    <p v-if="shouldShowCropError('y', form.crop.y)" class="text-xs text-red-400">
-                      {{ errors.crop.y }}
-                    </p>
-                  </div>
-
-                  <div class="flex flex-col gap-1">
-                    <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                      {{ t('plugins.bahtifocus.crop.width') }}
-                    </label>
-                    <input
-                      v-model="form.crop.width"
-                      type="number"
-                      step="1"
-                      min="1"
-                      class="default-input"
-                      @blur="touchCropField('width')"
+                      @blur="touchField('focalLength')"
                     />
                     <p
-                      v-if="shouldShowCropError('width', form.crop.width)"
+                      v-if="shouldShowError('focalLength', form.focalLength)"
                       class="text-xs text-red-400"
                     >
-                      {{ errors.crop.width }}
+                      {{ errors.focalLength }}
                     </p>
                   </div>
 
                   <div class="flex flex-col gap-1">
                     <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                      {{ t('plugins.bahtifocus.crop.height') }}
+                      {{ t('plugins.bahtifocus.inputs.pixelSize') }}
                     </label>
                     <input
-                      v-model="form.crop.height"
-                      type="number"
-                      step="1"
-                      min="1"
-                      class="default-input"
-                      @blur="touchCropField('height')"
-                    />
-                    <p
-                      v-if="shouldShowCropError('height', form.crop.height)"
-                      class="text-xs text-red-400"
-                    >
-                      {{ errors.crop.height }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  <label class="text-sm font-medium text-gray-200">
-                    {{ t('plugins.bahtifocus.previousAngles.label') }}
-                  </label>
-                  <button
-                    type="button"
-                    class="text-xs text-cyan-300 underline underline-offset-2 hover:text-cyan-200"
-                    @click="resetAnglesFromStore"
-                    v-if="lastAngles"
-                  >
-                    {{ t('plugins.bahtifocus.previousAngles.reset') }}
-                  </button>
-                </div>
-
-                <div class="grid gap-4 md:grid-cols-3">
-                  <div v-for="index in 3" :key="`angle-${index}`" class="flex flex-col gap-1">
-                    <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
-                      {{ t('plugins.bahtifocus.previousAngles.input', { index }) }}
-                    </label>
-                    <input
-                      v-model="form.previousAngles[index - 1]"
+                      v-model="form.pixelSize"
                       type="number"
                       step="0.01"
+                      min="0"
                       class="default-input"
-                      @blur="touchAngleField(index - 1)"
+                      @blur="touchField('pixelSize')"
                     />
-                    <p v-if="shouldShowAngleError(index - 1)" class="text-xs text-red-400">
-                      {{ errors.previousAngles[index - 1] }}
+                    <p
+                      v-if="shouldShowError('pixelSize', form.pixelSize)"
+                      class="text-xs text-red-400"
+                    >
+                      {{ errors.pixelSize }}
+                    </p>
+                  </div>
+
+                  <div class="flex flex-col gap-1">
+                    <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                      {{ t('plugins.bahtifocus.inputs.focalRatio') }}
+                    </label>
+                    <input
+                      v-model="form.focalRatio"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      class="default-input"
+                      @blur="touchField('focalRatio')"
+                    />
+                    <p
+                      v-if="shouldShowError('focalRatio', form.focalRatio)"
+                      class="text-xs text-red-400"
+                    >
+                      {{ errors.focalRatio }}
+                    </p>
+                  </div>
+
+                  <div class="flex flex-col gap-1">
+                    <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                      {{ t('plugins.bahtifocus.inputs.apertureDiameter') }}
+                    </label>
+                    <input
+                      v-model="form.apertureDiameter"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      class="default-input"
+                      @blur="touchField('apertureDiameter')"
+                    />
+                    <p
+                      v-if="shouldShowError('apertureDiameter', form.apertureDiameter)"
+                      class="text-xs text-red-400"
+                    >
+                      {{ errors.apertureDiameter }}
+                    </p>
+                  </div>
+
+                  <div class="flex flex-col gap-1">
+                    <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                      {{ t('plugins.bahtifocus.inputs.resizeFactor') }}
+                    </label>
+                    <input
+                      v-model="form.resizeFactor"
+                      type="number"
+                      step="0.1"
+                      min="0"
+                      class="default-input"
+                      @blur="touchField('resizeFactor')"
+                    />
+                    <p
+                      v-if="shouldShowError('resizeFactor', form.resizeFactor)"
+                      class="text-xs text-red-400"
+                    >
+                      {{ errors.resizeFactor }}
                     </p>
                   </div>
                 </div>
-              </div>
 
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p v-if="analysisDurationMs" class="text-xs text-gray-400">
-                  {{
-                    t('plugins.bahtifocus.analysis.lastDuration', {
-                      seconds: (analysisDurationMs / 1000).toFixed(2),
-                    })
-                  }}
-                </p>
-                <div class="flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    class="rounded-lg border border-gray-600 px-4 py-2 text-sm font-medium text-gray-200 hover:border-gray-500 hover:bg-gray-800/70"
-                    @click="resetFormToDefaults"
-                  >
-                    {{ t('plugins.bahtifocus.actions.resetForm') }}
-                  </button>
-                  <button
-                    type="submit"
-                    class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-6 py-2 text-sm font-semibold text-gray-900 shadow-lg shadow-cyan-500/40 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="isSubmitting"
-                  >
-                    <svg
-                      v-if="isSubmitting"
-                      class="h-4 w-4 animate-spin"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
+                <div class="space-y-3">
+                  <label class="flex items-center gap-2 text-sm text-gray-200">
+                    <input
+                      type="checkbox"
+                      v-model="form.cropEnabled"
+                      class="h-4 w-4 rounded border-gray-600 bg-gray-900 text-cyan-500 focus:ring-cyan-500"
+                    />
+                    <span>{{ t('plugins.bahtifocus.crop.enable') }}</span>
+                  </label>
+
+                  <div v-if="form.cropEnabled" class="grid gap-4 md:grid-cols-2">
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                        {{ t('plugins.bahtifocus.crop.x') }}
+                      </label>
+                      <input
+                        v-model="form.crop.x"
+                        type="number"
+                        step="1"
+                        min="0"
+                        class="default-input"
+                        @blur="touchCropField('x')"
                       />
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 0 1 8-8v4l3-3-3-3v2C7.373 4 2 9.373 2 16h4a8 8 0 0 1 8-8z"
+                      <p v-if="shouldShowCropError('x', form.crop.x)" class="text-xs text-red-400">
+                        {{ errors.crop.x }}
+                      </p>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                        {{ t('plugins.bahtifocus.crop.y') }}
+                      </label>
+                      <input
+                        v-model="form.crop.y"
+                        type="number"
+                        step="1"
+                        min="0"
+                        class="default-input"
+                        @blur="touchCropField('y')"
                       />
-                    </svg>
-                    <span>
-                      {{
-                        isSubmitting
-                          ? t('plugins.bahtifocus.actions.submitting')
-                          : t('plugins.bahtifocus.actions.runAnalysis')
-                      }}
-                    </span>
-                  </button>
+                      <p v-if="shouldShowCropError('y', form.crop.y)" class="text-xs text-red-400">
+                        {{ errors.crop.y }}
+                      </p>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                        {{ t('plugins.bahtifocus.crop.width') }}
+                      </label>
+                      <input
+                        v-model="form.crop.width"
+                        type="number"
+                        step="1"
+                        min="1"
+                        class="default-input"
+                        @blur="touchCropField('width')"
+                      />
+                      <p
+                        v-if="shouldShowCropError('width', form.crop.width)"
+                        class="text-xs text-red-400"
+                      >
+                        {{ errors.crop.width }}
+                      </p>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                        {{ t('plugins.bahtifocus.crop.height') }}
+                      </label>
+                      <input
+                        v-model="form.crop.height"
+                        type="number"
+                        step="1"
+                        min="1"
+                        class="default-input"
+                        @blur="touchCropField('height')"
+                      />
+                      <p
+                        v-if="shouldShowCropError('height', form.crop.height)"
+                        class="text-xs text-red-400"
+                      >
+                        {{ errors.crop.height }}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <p v-if="analysisError" class="text-sm text-red-400">
-                {{ analysisError }}
-              </p>
-            </form>
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between">
+                    <label class="text-sm font-medium text-gray-200">
+                      {{ t('plugins.bahtifocus.previousAngles.label') }}
+                    </label>
+                    <button
+                      type="button"
+                      class="text-xs text-cyan-300 underline underline-offset-2 hover:text-cyan-200"
+                      @click="resetAnglesFromStore"
+                      v-if="lastAngles"
+                    >
+                      {{ t('plugins.bahtifocus.previousAngles.reset') }}
+                    </button>
+                  </div>
+
+                  <div class="grid gap-4 md:grid-cols-3">
+                    <div v-for="index in 3" :key="`angle-${index}`" class="flex flex-col gap-1">
+                      <label class="text-xs font-medium uppercase tracking-wide text-gray-400">
+                        {{ t('plugins.bahtifocus.previousAngles.input', { index }) }}
+                      </label>
+                      <input
+                        v-model="form.previousAngles[index - 1]"
+                        type="number"
+                        step="0.01"
+                        class="default-input"
+                        @blur="touchAngleField(index - 1)"
+                      />
+                      <p v-if="shouldShowAngleError(index - 1)" class="text-xs text-red-400">
+                        {{ errors.previousAngles[index - 1] }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <p v-if="analysisDurationMs" class="text-xs text-gray-400">
+                    {{
+                      t('plugins.bahtifocus.analysis.lastDuration', {
+                        seconds: (analysisDurationMs / 1000).toFixed(2),
+                      })
+                    }}
+                  </p>
+                  <div class="flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      class="rounded-lg border border-gray-600 px-4 py-2 text-sm font-medium text-gray-200 hover:border-gray-500 hover:bg-gray-800/70"
+                      @click="resetFormToDefaults"
+                    >
+                      {{ t('plugins.bahtifocus.actions.resetForm') }}
+                    </button>
+                  </div>
+                </div>
+
+                <p v-if="analysisError" class="text-sm text-red-400">
+                  {{ analysisError }}
+                </p>
+              </form>
+            </div>
           </section>
 
           <section class="rounded-2xl border border-gray-700/70 bg-gray-900/70 p-6 shadow-inner">
@@ -602,8 +694,10 @@ import { computed, reactive, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n';
 import { useToastStore } from '@/store/toastStore';
 import { useImagetStore } from '@/store/imageStore';
+import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
+import apiService from '@/services/apiService';
 import BahtinovOverlay from '../components/BahtinovOverlay.vue';
 
 /**
@@ -656,6 +750,7 @@ import BahtinovOverlay from '../components/BahtinovOverlay.vue';
 const { t } = useI18n();
 const toastStore = useToastStore();
 const imageStore = useImagetStore();
+const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const mainStore = apiStore();
 
@@ -673,7 +768,6 @@ const RESIZE_COMPATIBLE_MIME_TYPES = new Set([
   'image/tiff',
 ]);
 
-const fileInputRef = ref(null);
 const selectedExampleKey = ref('');
 const exampleOptions = ref([]);
 const isLoadingCapture = ref(false);
@@ -683,6 +777,7 @@ const analysisError = ref('');
 const analysisDurationMs = ref(null);
 const showAllErrors = ref(false);
 const analysisAbortController = ref(null);
+const parametersExpanded = ref(false);
 
 const formTouched = reactive({
   focalLength: false,
@@ -777,12 +872,67 @@ const analysisEndpoint = computed(() => {
   return `${base.replace(/\/$/, '')}/bahtinov/analyze`;
 });
 
+const snapshotGain = computed(() => {
+  const profileGain = Number(mainStore.profileInfo?.SnapShotControlSettings?.Gain);
+  if (Number.isFinite(profileGain)) {
+    return profileGain;
+  }
+  const settingsGain = Number(settingsStore.camera.gain);
+  return Number.isFinite(settingsGain) ? settingsGain : 0;
+});
+
+const isCameraConnected = computed(() => Boolean(mainStore.cameraInfo?.Connected));
+
+const isCameraBusy = computed(
+  () =>
+    Boolean(mainStore.cameraInfo?.IsExposing) ||
+    Boolean(cameraStore.loading) ||
+    Boolean(cameraStore.isLoadingImage) ||
+    isLoadingCapture.value
+);
+
+const canAbortCapture = computed(
+  () =>
+    Boolean(mainStore.cameraInfo?.IsExposing) ||
+    Boolean(cameraStore.loading) ||
+    Boolean(cameraStore.isLoadingImage) ||
+    Boolean(cameraStore.isLooping)
+);
+
+const cameraStatusMessage = computed(() => {
+  if (!isCameraConnected.value) {
+    return t('plugins.bahtifocus.camera.statusDisconnected');
+  }
+
+  if (mainStore.cameraInfo?.IsExposing) {
+    const remaining = Number(cameraStore.exposureCountdown) || 0;
+    if (remaining > 0) {
+      return t('plugins.bahtifocus.camera.statusExposingCountdown', {
+        seconds: remaining,
+      });
+    }
+    return t('plugins.bahtifocus.camera.statusExposing');
+  }
+
+  if (cameraStore.loading || cameraStore.isLoadingImage || isLoadingCapture.value) {
+    return t('plugins.bahtifocus.camera.statusLoading');
+  }
+
+  if (cameraStore.isLooping) {
+    return t('plugins.bahtifocus.camera.statusLooping');
+  }
+
+  return '';
+});
+
 const analysisOverlay = computed(() => analysisResult.value?.response ?? null);
 const isSubmitting = computed(() => analysisLoading.value);
 
 const shouldShowImageError = computed(
   () => Boolean(errors.image) && (showAllErrors.value || isSubmitting.value)
 );
+
+const hasImageLoaded = computed(() => Boolean(imageState.blob || imageState.base64));
 
 const uploadTransportLabel = computed(() => {
   if (!imageState.blob) {
@@ -884,16 +1034,43 @@ function formatNumber(value, fractionDigits = 2) {
   return Number(value).toFixed(fractionDigits);
 }
 
-async function handleFileChange(event) {
-  const [file] = event.target.files || [];
-  event.target.value = '';
-  if (!file) return;
-  try {
-    await setImageFromBlob(file, file.name, 'upload');
-    selectedExampleKey.value = '';
-  } catch (error) {
-    handleError(error, t('plugins.bahtifocus.errors.readFile'));
+async function handleCapture() {
+  if (!isCameraConnected.value || isCameraBusy.value) {
+    return;
   }
+
+  const parsedExposure = Number(settingsStore.camera.exposureTime);
+  const safeExposure = Number.isFinite(parsedExposure) && parsedExposure > 0 ? parsedExposure : 2;
+  settingsStore.camera.exposureTime = safeExposure;
+
+  try {
+    await cameraStore.capturePhoto(
+      apiService,
+      safeExposure,
+      snapshotGain.value,
+      settingsStore.camera.useSolve
+    );
+    await loadLatestCapturedImage();
+  } catch (error) {
+    cameraStore.isLooping = false;
+    handleError(error, t('plugins.bahtifocus.camera.captureFailed'));
+  }
+}
+
+async function abortCapture() {
+  if (!isCameraConnected.value || !canAbortCapture.value) {
+    return;
+  }
+
+  try {
+    await cameraStore.abortExposure(apiService);
+  } catch (error) {
+    handleError(error, t('plugins.bahtifocus.camera.abortFailed'));
+  }
+}
+
+function toggleParameters() {
+  parametersExpanded.value = !parametersExpanded.value;
 }
 
 async function loadLatestCapturedImage() {

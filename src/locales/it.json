@@ -865,7 +865,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Mostra parametri ottici",
+        "toggleParametersHide": "Nascondi parametri ottici"
+      },
+      "camera": {
+        "capture": "Acquisisci frame",
+        "capturing": "Acquisizione in corso…",
+        "captureFailed": "Impossibile acquisire un nuovo frame.",
+        "abort": "Annulla acquisizione",
+        "abortFailed": "Impossibile annullare l'acquisizione in corso.",
+        "exposureLabel": "Tempo di esposizione",
+        "exposureUnit": "secondi",
+        "statusDisconnected": "Collega una camera per acquisire i frame.",
+        "statusExposing": "Esposizione in corso…",
+        "statusExposingCountdown": "Esposizione in corso – restano {seconds}s.",
+        "statusLoading": "Ricezione dei dati immagine…",
+        "statusLooping": "Acquisizione in ciclo. L'acquisizione continuerà finché non verrà interrotta."
       },
       "overlay": {
         "title": "Overlay preview",

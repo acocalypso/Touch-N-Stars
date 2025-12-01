@@ -73,8 +73,8 @@ export const useImagetStore = defineStore('imageStore', {
           // Calculate histogram for the new image
           const isValid = await this.validateImage(this.imageData);
           if (isValid) {
-          const histogramStore = useHistogramStore();
-          await histogramStore.calculateHistogramForImage(this.imageData); 
+            const histogramStore = useHistogramStore();
+            await histogramStore.calculateHistogramForImage(this.imageData);
           }
         }
       } catch (error) {

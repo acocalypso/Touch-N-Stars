@@ -866,7 +866,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "显示光学参数",
+        "toggleParametersHide": "隐藏光学参数"
+      },
+      "camera": {
+        "capture": "捕获帧",
+        "capturing": "正在捕获…",
+        "captureFailed": "无法捕获新的图像。",
+        "abort": "中止捕获",
+        "abortFailed": "无法中止当前捕获。",
+        "exposureLabel": "曝光时间",
+        "exposureUnit": "秒",
+        "statusDisconnected": "请连接相机以捕获图像。",
+        "statusExposing": "曝光进行中…",
+        "statusExposingCountdown": "曝光进行中 – 剩余 {seconds} 秒。",
+        "statusLoading": "正在接收图像数据…",
+        "statusLooping": "循环曝光中，捕获会持续直到停止。"
       },
       "overlay": {
         "title": "Overlay preview",

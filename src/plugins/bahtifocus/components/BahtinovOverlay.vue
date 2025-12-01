@@ -10,6 +10,7 @@
       class="absolute inset-0 h-full w-full object-contain"
       :class="{ 'opacity-90': hasOverlay }"
       ref="imageElement"
+      @load="handleImageLoad"
     />
     <svg
       v-if="hasOverlay"
@@ -102,7 +103,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
   imageSrc: {
@@ -120,6 +121,8 @@ const props = defineProps({
 });
 
 const imageElement = ref(null);
+const naturalSize = ref({ width: 0, height: 0 });
+const fallbackMinHeight = '16rem';
 
 const processedWidth = computed(() => props.overlay?.processedWidth ?? null);
 const processedHeight = computed(() => props.overlay?.processedHeight ?? null);
@@ -134,7 +137,14 @@ const containerStyle = computed(() => {
       aspectRatio: `${processedWidth.value} / ${processedHeight.value}`,
     };
   }
-  return {};
+  if (naturalSize.value.width && naturalSize.value.height) {
+    return {
+      aspectRatio: `${naturalSize.value.width} / ${naturalSize.value.height}`,
+    };
+  }
+  return {
+    minHeight: fallbackMinHeight,
+  };
 });
 
 const viewBox = computed(() => {
@@ -203,4 +213,24 @@ const scaleLabel = computed(() => {
   if (!props.overlay?.referenceErrorScale) return '';
   return `Reference scale: ${props.overlay.referenceErrorScale.toFixed(2)} px`; // px to align with backend units
 });
+
+const handleImageLoad = () => {
+  const element = imageElement.value;
+  if (!element) {
+    return;
+  }
+  const width = Number(element.naturalWidth);
+  const height = Number(element.naturalHeight);
+  if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+    return;
+  }
+  naturalSize.value = { width, height };
+};
+
+watch(
+  () => props.imageSrc,
+  () => {
+    naturalSize.value = { width: 0, height: 0 };
+  }
+);
 </script>

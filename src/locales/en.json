@@ -865,7 +865,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Show optical parameters",
+        "toggleParametersHide": "Hide optical parameters"
+      },
+      "camera": {
+        "capture": "Capture frame",
+        "capturing": "Capturing…",
+        "captureFailed": "Unable to capture a new frame.",
+        "abort": "Abort capture",
+        "abortFailed": "Unable to abort the active capture.",
+        "exposureLabel": "Exposure time",
+        "exposureUnit": "seconds",
+        "statusDisconnected": "Connect a camera to capture frames.",
+        "statusExposing": "Exposure in progress…",
+        "statusExposingCountdown": "Exposure in progress – {seconds}s remaining.",
+        "statusLoading": "Receiving image data…",
+        "statusLooping": "Looping exposures. Capture will repeat until stopped."
       },
       "overlay": {
         "title": "Overlay preview",

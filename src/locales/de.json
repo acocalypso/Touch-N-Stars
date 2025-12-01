@@ -865,7 +865,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Optische Parameter anzeigen",
+        "toggleParametersHide": "Optische Parameter ausblenden"
+      },
+      "camera": {
+        "capture": "Aufnahme starten",
+        "capturing": "Aufnahme läuft…",
+        "captureFailed": "Neue Aufnahme konnte nicht gestartet werden.",
+        "abort": "Aufnahme abbrechen",
+        "abortFailed": "Aktive Aufnahme konnte nicht abgebrochen werden.",
+        "exposureLabel": "Belichtungszeit",
+        "exposureUnit": "Sekunden",
+        "statusDisconnected": "Verbinde eine Kamera, um Bilder aufzunehmen.",
+        "statusExposing": "Belichtung läuft…",
+        "statusExposingCountdown": "Belichtung läuft – noch {seconds}s.",
+        "statusLoading": "Bilddaten werden geladen…",
+        "statusLooping": "Serienaufnahme aktiv. Die Aufnahme wird fortlaufend wiederholt."
       },
       "overlay": {
         "title": "Overlay preview",

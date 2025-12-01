@@ -871,7 +871,23 @@
       "actions": {
         "resetForm": "Reset form",
         "submitting": "Analyzing…",
-        "runAnalysis": "Run analysis"
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Zobrazit optické parametry",
+        "toggleParametersHide": "Skrýt optické parametry"
+      },
+      "camera": {
+        "capture": "Pořídit snímek",
+        "capturing": "Probíhá snímání…",
+        "captureFailed": "Nový snímek se nepodařilo pořídit.",
+        "abort": "Zastavit snímání",
+        "abortFailed": "Aktivní snímání se nepodařilo zastavit.",
+        "exposureLabel": "Expoziční čas",
+        "exposureUnit": "sekundy",
+        "statusDisconnected": "Připojte kameru pro pořízení snímku.",
+        "statusExposing": "Probíhá expozice…",
+        "statusExposingCountdown": "Probíhá expozice – zbývá {seconds}s.",
+        "statusLoading": "Načítám obrazová data…",
+        "statusLooping": "Opakovaná expozice. Snímání se bude opakovat, dokud ho nezastavíte."
       },
       "overlay": {
         "title": "Overlay preview",

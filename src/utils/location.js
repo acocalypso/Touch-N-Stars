@@ -4,9 +4,9 @@ import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 
-export const latitude = ref('');
-export const longitude = ref('');
-export const altitude = ref('');
+export const latitude = ref(0);
+export const longitude = ref(0);
+export const altitude = ref(0);
 export const gpsError = ref(null);
 
 export async function getCurrentLocation() {

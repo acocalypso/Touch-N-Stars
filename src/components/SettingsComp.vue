@@ -27,6 +27,7 @@
               <NumberInputPicker
                 v-model="latitude"
                 :label="``"
+                :labelKey="'latitude'"
                 :min="-90"
                 :max="90"
                 :step="0.001"
@@ -41,6 +42,7 @@
               <NumberInputPicker
                 v-model="longitude"
                 :label="``"
+                :labelKey="'longitude'"
                 :min="-180"
                 :max="180"
                 :step="0.001"
@@ -55,6 +57,7 @@
               <NumberInputPicker
                 v-model="altitude"
                 :label="``"
+                :labelKey="'altitude'"
                 :min="-500"
                 :max="9000"
                 :step="1"

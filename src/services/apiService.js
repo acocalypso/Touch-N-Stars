@@ -1322,6 +1322,9 @@ const apiService = {
   //-------------------------------------  Target Search ---------------------------------------
 
   async searchNGC(query, limit = 10) {
+    if (!query || query.replace(/[^a-zA-Z0-9]/g, '').length < 2) {
+      return { data: [] };
+    }
     const { API_URL } = getUrls();
     return this._getWithParams(`${API_URL}ngc/search`, { query, limit });
   },

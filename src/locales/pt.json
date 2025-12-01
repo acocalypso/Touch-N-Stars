@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "close": "Fechar"
+    "close": "Fechar",
+    "select": "Select"
   },
   "general": {
     "cancel": "Cancelar",
@@ -175,6 +176,23 @@
         "invalidPortRange": "Faixa de porta inválida",
         "invalidInstance": "Instância inválida",
         "emptyFields": "Campos vazios"
+      },
+      "general": "Em geral",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Tempo(s) de exposição",
+        "Gain": "Gain",
+        "MaxObjects": "Máximo de objetos",
+        "NumberOfAttempts": "Número de tentativas",
+        "ReattemptDelay": "Atraso(s) de nova tentativa",
+        "RotationTolerance": "Tolerância de rotação (°)",
+        "SearchRadius": "Raio de pesquisa (°)",
+        "Threshold": "Limite",
+        "basic": "Configurações básicas",
+        "retry": "Tentar novamente as configurações",
+        "search": "Configurações de pesquisa",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -343,6 +361,23 @@
         "Alt": "Alt",
         "Az": "Az",
         "timeToMeridianFlip": "Hora de Meridian Flip"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Máximo de minutos após o meridiano",
+          "MinutesAfterMeridian": "Minutos depois do meridiano",
+          "PauseTimeBeforeMeridian": "Tempo de pausa antes do meridiano",
+          "Recenter": "Recentrador",
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "SettleTime": "Tempo(s) de liquidação",
+          "basic": "Configurações básicas",
+          "UseSideOfPier": "Use side of pier",
+          "behavior": "Comportamento",
+          "post_flip_actions": "Ações pós-inversão"
+        },
+        "telescope_settle_time": "Tempo de liquidação após a(s) rotação(ões)",
+        "meridian_flip_settings": "Configurações do Meridiano"
       }
     },
     "guider": {
@@ -418,7 +453,19 @@
           "title": "Erro PHD2",
           "star-lost-message": "Estrela perdida"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither somente em RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Tempo limite de início orientador(es)",
+      "phd2Path": "Caminho PHD2",
+      "phd2ServerHost": "Nome de host do servidor PHD2",
+      "phd2ServerPort": "Porta do servidor PHD2",
+      "roiPercentage": "Porcentagem de ROI para encontrar estrela guia (%)",
+      "settings": "Configurações do guia",
+      "settlePixels": "Estabelecer tolerância de pixel (px)",
+      "settleTime": "Tempo(s) Mínimo(s) de Liquidação",
+      "settleTimeout": "Tempo limite de liquidação (s)"
     },
     "focuser": {
       "title": "Focalizador",
@@ -435,7 +482,38 @@
       "stopped": "Parado",
       "autofocus_active": "Autofoco ativo",
       "autofocus": "Autofoco",
-      "last_autofocus": "Último autofoco"
+      "last_autofocus": "Último autofoco",
+      "settings": {
+        "ABSOLUTE": "Absoluto",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Estratégia de ajuste de curva",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Número de quadros por ponto",
+        "AutoFocusOuterCropRatio": "Proporção de corte externo",
+        "AutoFocusStepSize": "Tamanho do passo",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Número total de tentativas",
+        "AutoFocusUseBrightestStars": "Use as estrelas mais brilhantes",
+        "BacklashCompensationModel": "Modelo de compensação de folga",
+        "BacklashIn": "Reação negativa",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Tempo de acomodação do focalizador",
+        "HYPERBOLIC": "Hiperbólico",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabólico",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Tendência Hiperbólica",
+        "TRENDLINES": "Linhas de tendência",
+        "TRENDPARABOLIC": "Tendência Parabólica",
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Configurações básicas",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Domo",
@@ -587,7 +665,10 @@
       "currentFilter": "Filtro de corrente",
       "please_connect_filterwheel": "Por favor, conecte a roda do filtro",
       "position": "Posição",
-      "title": "Roda de filtro"
+      "title": "Roda de filtro",
+      "settings": {
+        "title": "Configurações de filtro"
+      }
     },
     "rotator": {
       "label": "Rotacionador",

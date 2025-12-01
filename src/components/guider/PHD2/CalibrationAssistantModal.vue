@@ -15,40 +15,38 @@
         </div>
 
         <!-- Position Settings -->
-        <div class="bg-gray-700/50 p-3 rounded-lg">
+        <div class="bg-gray-700/50 p-3 rounded-lg space-y-3">
           <h3 class="text-sm font-medium text-gray-300 mb-3">
             {{ $t('components.guider.calibrationAssistant.positionSettings') }}
           </h3>
           <div class="space-y-3">
             <!-- Dec Offset -->
-            <div>
-              <label class="block text-xs text-gray-400 mb-1">
-                {{ $t('components.guider.calibrationAssistant.decOffset') }} (°)
-              </label>
-              <input
-                v-model.number="decOffset"
-                type="number"
-                min="-90"
-                max="90"
-                class="w-full px-2 py-1 bg-gray-600 text-white text-sm rounded border border-gray-500 focus:border-blue-400"
-                @input="calculateOptimalPosition"
-              />
-            </div>
+            <NumberInputPicker
+              v-model="decOffset"
+              :label="`${$t('components.guider.calibrationAssistant.decOffset')} (°)`"
+              labelKey="components.guider.calibrationAssistant.decOffset"
+              :min="-90"
+              :max="90"
+              :step="1"
+              :decimalPlaces="0"
+              inputId="decOffset"
+              wrapperClass="w-full"
+              @change="calculateOptimalPosition"
+            />
 
             <!-- Meridian Offset -->
-            <div>
-              <label class="block text-xs text-gray-400 mb-1">
-                {{ $t('components.guider.calibrationAssistant.meridianOffset') }} (°)
-              </label>
-              <input
-                v-model.number="meridianOffset"
-                type="number"
-                min="0"
-                max="90"
-                class="w-full px-2 py-1 bg-gray-600 text-white text-sm rounded border border-gray-500 focus:border-blue-400"
-                @input="calculateOptimalPosition"
-              />
-            </div>
+            <NumberInputPicker
+              v-model="meridianOffset"
+              :label="`${$t('components.guider.calibrationAssistant.meridianOffset')} (°)`"
+              labelKey="components.guider.calibrationAssistant.meridianOffset"
+              :min="0"
+              :max="90"
+              :step="1"
+              :decimalPlaces="0"
+              inputId="meridianOffset"
+              wrapperClass="w-full"
+              @change="calculateOptimalPosition"
+            />
 
             <!-- East/West Selection -->
             <div>
@@ -156,6 +154,7 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { StopIcon } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS, getLST } from '@/utils/utils';

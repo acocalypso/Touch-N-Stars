@@ -88,6 +88,7 @@
       :deviceName="$t('components.connectEquipment.guider.name')"
       :default-device-id="store.profileInfo?.GuiderSettings?.GuiderName"
       :isConnected="store.guiderInfo.Connected"
+      @open-config="openGuiderSettings"
     />
 
     <selectDevices
@@ -139,6 +140,16 @@
       :isConnected="store.switchInfo.Connected"
     />
   </div>
+
+  <!-- Guider Settings Modal -->
+  <Modal :show="showGuiderSettings" @close="showGuiderSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.guider.settings') }}</h2>
+    </template>
+    <template #body>
+      <settingsGuiderConnect :selectedGuiderDevice="selectedGuiderDevice" />
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -147,12 +158,21 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import selectDevices from '@/components/equipment/selectDevices.vue';
+import Modal from '@/components/helpers/Modal.vue';
+import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
 const store = apiStore();
 const isConnecting = ref(false);
 const isDisconnecting = ref(false);
+const showGuiderSettings = ref(false);
+const selectedGuiderDevice = ref('');
+
+const openGuiderSettings = (payload) => {
+  selectedGuiderDevice.value = payload?.selectedDeviceDisplayName || '';
+  showGuiderSettings.value = true;
+};
 
 const allConnected = computed(() => {
   return store.existingEquipmentList.every((device) => {

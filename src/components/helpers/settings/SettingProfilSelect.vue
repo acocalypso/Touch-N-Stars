@@ -11,7 +11,7 @@
     >
       <option value="">{{ $t('common.select') }}</option>
       <option v-for="option in options" :key="option" :value="option">
-        {{ $t(`components.focuser.settings.${option}`) }}
+        {{ $t('components.focuser.settings.' + option) }}
       </option>
     </select>
   </div>

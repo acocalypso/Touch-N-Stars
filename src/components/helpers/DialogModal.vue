@@ -2,7 +2,6 @@
   <Modal
     :show="showDialog"
     :zIndex="'z-[80]'"
-    :disableClose="isAutoFocusDialog"
     @close="handleClose"
   >
     <template #header>
@@ -146,6 +145,16 @@ async function handleButtonClick(buttonName) {
 }
 
 async function handleClose() {
+  // Wenn es ein AutoFocus Dialog ist, sende stopAutofocus
+  if (isAutoFocusDialog.value) {
+    try {
+      console.log('Closing AutoFocus dialog - sending stopAutofocus');
+      await apiService.focuserAfAction('stopp');
+    } catch (error) {
+      console.error('Error during autofocus:', error);
+    }
+  }
+
   // Wenn es ein Plate Solving Dialog ist, sende slewStop
   if (isPlateSolvingDialog.value) {
     try {

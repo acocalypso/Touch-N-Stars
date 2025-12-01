@@ -353,6 +353,7 @@ async function resumeApp() {
 
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
+  store.checkForPINS(); // Re-check for PINS support
 
   // Force UI refresh on resume
   routerViewKey.value = Date.now();
@@ -545,6 +546,7 @@ onMounted(async () => {
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
   dialogStore.startPolling();
+  store.checkForPINS(); // Check for PINS support
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }

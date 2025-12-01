@@ -157,8 +157,8 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
-      const settingsStore = useSettingsStore();
-      this.isPINS = settingsStore.isPinsEnabled;
+      //const settingsStore = useSettingsStore();
+      //this.isPINS = settingsStore.isPinsEnabled;
 
       const tryWithRetry = async (fn, retries = 1, delay = 2000) => {
         let result = null;
@@ -198,6 +198,7 @@ export const apiStore = defineStore('store', {
           return;
         } else {
           this.isTnsPluginConnected = true;
+
           //console.log('TNS Plugin reachable');
           //Check the plugin version
           if (!this.isTnsPluginVersionNewerOrEqual) {
@@ -795,6 +796,13 @@ export const apiStore = defineStore('store', {
       }
       this.isVersionNewerOrEqual = true;
       return true;
+    },
+    async checkForPINS() {
+      const pinsVersion = await apiService.fetchPinsVersion();
+      if (pinsVersion && pinsVersion.Response) {
+        this.isPINS = true;
+        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      }
     },
 
     setPageReturnedFromBackground() {

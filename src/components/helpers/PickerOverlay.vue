@@ -5,7 +5,7 @@
       class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm"
     >
       <div
-        class="bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50 w-full max-h-72 p-4 rounded-t-lg"
+        class="bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50 w-full max-h-96 p-4 rounded-t-lg"
         @click.stop
       >
         <div class="max-w-md mx-auto">
@@ -56,7 +56,7 @@
               >
                 .
               </div>
-              <div v-else class="w-12">
+              <div v-else class="w-16">
                 <ScrollPicker :options="digit.options" v-model="digit.value" />
               </div>
             </div>

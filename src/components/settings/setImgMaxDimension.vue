@@ -12,7 +12,7 @@
         }
       "
       :class="[statusClass]"
-      class="default-input w-full py-2"
+      class="default-input w-full h-10 py-2"
     >
       <option v-for="option in resolutionOptions" :key="option.value" :value="String(option.value)">
         {{ option.label }} ({{ option.value }}px)

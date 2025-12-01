@@ -74,6 +74,7 @@ const { t } = useI18n();
 const store = apiStore();
 const imageStore = useImagetStore();
 const currentTab = ref('showFocus');
+const delayShowGraph = ref(false);
 </script>
 
 <style scoped>

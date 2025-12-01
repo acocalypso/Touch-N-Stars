@@ -83,23 +83,20 @@ export const apiStore = defineStore('store', {
         RotateImageAfterFlip: false,
       },
     },
-    cameraInfo: { IsExposing: false, BinningModes: [], ReadoutModes: [] },
-    mountInfo: { TrackingMode: null },
-    filterInfo: [],
-    focuserInfo: [],
-    rotatorInfo: [],
-    focuserAfInfo: {},
+    cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
+    mountInfo: { Connected: false, TrackingMode: null },
+    filterInfo: { Connected: false },
+    focuserInfo: { Connected: false },
+    rotatorInfo: { Connected: false },
+    focuserAfInfo: { Connected: false },
+    guiderInfo: { Connected: false },
+    flatdeviceInfo: { Connected: false },
+    domeInfo: { Connected: false },
+    safetyInfo: { Connected: false, IsSafe: false },
+    switchInfo: { Connected: false },
+    weatherInfo: { Connected: false },
     afTimestampLastStart: null,
     afCurveData: [],
-    guiderInfo: [],
-    flatdeviceInfo: [],
-    domeInfo: [],
-    safetyInfo: {
-      Connected: false,
-      IsSafe: false,
-    },
-    switchInfo: [],
-    weatherInfo: [],
     attemptsToConnect: 0,
     isBackendReachable: false,
     isWebSocketConnected: false,
@@ -896,24 +893,24 @@ export const apiStore = defineStore('store', {
       });
 
       // Clear data for disconnected devices
-      if (!this.isCameraConnected) this.cameraInfo = { IsExposing: false };
-      if (!this.isMountConnected) this.mountInfo = { TrackingMode: null };
-      if (!this.isFilterConnected) this.filterInfo = [];
-      if (!this.isRotatorConnected) this.rotatorInfo = [];
+      if (!this.isCameraConnected) this.cameraInfo = { Connected: false, IsExposing: false };
+      if (!this.isMountConnected) this.mountInfo = { Connected: false, TrackingMode: null };
+      if (!this.isFilterConnected) this.filterInfo = { Connected: false };
+      if (!this.isRotatorConnected) this.rotatorInfo = { Connected: false };
       if (!this.isFocuserConnected) {
-        this.focuserInfo = [];
-        this.focuserAfInfo = {};
+        this.focuserInfo = { Connected: false };
+        this.focuserAfInfo = { Connected: false };
       }
       if (!this.isGuiderConnected) {
-        this.guiderInfo = [];
+        this.guiderInfo = { Connected: false };
         this.afCurveData = [];
         this.afTimestampLastStart = null;
       }
-      if (!this.isFlatdeviceConnected) this.flatdeviceInfo = [];
-      if (!this.isDomeConnected) this.domeInfo = [];
+      if (!this.isFlatdeviceConnected) this.flatdeviceInfo = { Connected: false };
+      if (!this.isDomeConnected) this.domeInfo = { Connected: false };
       if (!this.isSafetyConnected) this.safetyInfo = { Connected: false, IsSafe: false };
-      if (!this.isWeatherConnected) this.weatherInfo = [];
-      if (!this.isSwitchConnected) this.switchInfo = [];
+      if (!this.isWeatherConnected) this.weatherInfo = { Connected: false };
+      if (!this.isSwitchConnected) this.switchInfo = { Connected: false };
 
       // Process autofocus events
       const autofocusStore = useAutofocusStore();

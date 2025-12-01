@@ -831,6 +831,7 @@ const imageState = reactive({
   dataUrl: '',
   previewUrl: '',
   previewAvailable: false,
+  previewObjectUrl: '',
   mimeType: '',
   name: '',
   sizeBytes: 0,
@@ -1097,10 +1098,12 @@ async function loadLatestCapturedImage() {
 }
 
 function clearImage() {
+  releasePreviewObjectUrl();
   imageState.base64 = '';
   imageState.dataUrl = '';
   imageState.previewUrl = '';
   imageState.previewAvailable = false;
+  imageState.previewObjectUrl = '';
   imageState.mimeType = '';
   imageState.name = '';
   imageState.sizeBytes = 0;
@@ -1113,6 +1116,10 @@ function clearImage() {
   imageState.source = '';
   imageState.sourceLabel = '';
   imageState.sizeLabel = '';
+
+  analysisResult.value = null;
+  analysisError.value = '';
+  analysisDurationMs.value = null;
 }
 
 function handleError(error, fallbackMessage) {
@@ -1127,6 +1134,8 @@ function handleError(error, fallbackMessage) {
 }
 
 async function setImageFromBlob(blob, name, source) {
+  releasePreviewObjectUrl();
+
   const normalized = await prepareImageForUpload(blob, name);
   const processedBlob = normalized.blob;
   const dataUrl = await blobToDataUrl(processedBlob);
@@ -1135,11 +1144,14 @@ async function setImageFromBlob(blob, name, source) {
     throw new Error('Unable to extract base64 image data');
   }
 
+  const detectedMime = await detectImageMimeType(processedBlob);
+  const resolvedMime = detectedMime || normalized.mime || processedBlob.type || inferMimeType(name);
+
   imageState.base64 = base64.trim();
   imageState.dataUrl = dataUrl;
   imageState.blob = processedBlob;
   imageState.name = name || 'image';
-  imageState.mimeType = normalized.mime || processedBlob.type || inferMimeType(name);
+  imageState.mimeType = resolvedMime;
   imageState.sizeBytes = processedBlob.size;
   imageState.sizeLabel = formatBytes(processedBlob.size);
   imageState.originalSizeBytes = blob.size;
@@ -1149,8 +1161,44 @@ async function setImageFromBlob(blob, name, source) {
   imageState.height = normalized.height ?? null;
   imageState.source = source;
   imageState.sourceLabel = sourceLabelFor(source);
-  imageState.previewAvailable = isPreviewable(imageState.mimeType);
-  imageState.previewUrl = imageState.previewAvailable ? dataUrl : '';
+
+  let previewAvailable = Boolean(imageState.mimeType?.startsWith('image/'));
+  let previewUrl = previewAvailable ? dataUrl : '';
+
+  if (!previewAvailable) {
+    const dataUrlRenderable = await canRenderImageSource(dataUrl);
+    if (dataUrlRenderable) {
+      previewAvailable = true;
+      previewUrl = dataUrl;
+    }
+  }
+
+  if (
+    !previewAvailable &&
+    typeof URL !== 'undefined' &&
+    typeof URL.createObjectURL === 'function'
+  ) {
+    try {
+      const objectUrl = URL.createObjectURL(processedBlob);
+      const objectRenderable = await canRenderImageSource(objectUrl);
+      if (objectRenderable) {
+        previewAvailable = true;
+        previewUrl = objectUrl;
+        imageState.previewObjectUrl = objectUrl;
+      } else {
+        URL.revokeObjectURL(objectUrl);
+      }
+    } catch (error) {
+      console.warn('[Bahtifocus] Failed to build preview object URL', error);
+    }
+  }
+
+  imageState.previewAvailable = previewAvailable;
+  imageState.previewUrl = previewAvailable ? previewUrl : '';
+
+  analysisResult.value = null;
+  analysisError.value = '';
+  analysisDurationMs.value = null;
 
   if (normalized.resized && normalized.width && normalized.height) {
     toastStore.showToast({
@@ -1190,10 +1238,6 @@ function inferMimeType(name = '') {
   }
 }
 
-function isPreviewable(mimeType) {
-  return ['image/jpeg', 'image/png', 'image/webp', 'image/bmp', 'image/tiff'].includes(mimeType);
-}
-
 function sourceLabelFor(source) {
   if (source === 'capture') {
     return t('plugins.bahtifocus.image.sourceCaptured');
@@ -1214,6 +1258,131 @@ async function blobToDataUrl(blob) {
     reader.onerror = () => reject(new Error('Failed to read file'));
     reader.readAsDataURL(blob);
   });
+}
+
+function releasePreviewObjectUrl() {
+  if (!imageState.previewObjectUrl) {
+    return;
+  }
+  if (typeof URL === 'undefined' || typeof URL.revokeObjectURL !== 'function') {
+    imageState.previewObjectUrl = '';
+    return;
+  }
+  try {
+    URL.revokeObjectURL(imageState.previewObjectUrl);
+  } catch (error) {
+    console.warn('[Bahtifocus] Failed to revoke preview object URL', error);
+  } finally {
+    imageState.previewObjectUrl = '';
+  }
+}
+
+async function canRenderImageSource(src) {
+  if (!src || typeof Image === 'undefined') {
+    return false;
+  }
+
+  return await new Promise((resolve) => {
+    const image = new Image();
+    let settled = false;
+
+    const cleanup = (result) => {
+      if (settled) {
+        return;
+      }
+      settled = true;
+      image.onload = null;
+      image.onerror = null;
+      resolve(result);
+    };
+
+    const timeoutId = setTimeout(() => {
+      cleanup(false);
+    }, 3000);
+
+    image.onload = () => {
+      clearTimeout(timeoutId);
+      cleanup(true);
+    };
+
+    image.onerror = () => {
+      clearTimeout(timeoutId);
+      cleanup(false);
+    };
+
+    image.src = src;
+  });
+}
+
+async function detectImageMimeType(blob) {
+  if (!blob || typeof blob.slice !== 'function' || typeof blob.arrayBuffer !== 'function') {
+    return '';
+  }
+
+  try {
+    const buffer = await blob.slice(0, 12).arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+
+    if (bytes.length >= 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
+      return 'image/jpeg';
+    }
+
+    if (
+      bytes.length >= 8 &&
+      bytes[0] === 0x89 &&
+      bytes[1] === 0x50 &&
+      bytes[2] === 0x4e &&
+      bytes[3] === 0x47 &&
+      bytes[4] === 0x0d &&
+      bytes[5] === 0x0a &&
+      bytes[6] === 0x1a &&
+      bytes[7] === 0x0a
+    ) {
+      return 'image/png';
+    }
+
+    if (
+      bytes.length >= 6 &&
+      bytes[0] === 0x47 &&
+      bytes[1] === 0x49 &&
+      bytes[2] === 0x46 &&
+      bytes[3] === 0x38 &&
+      (bytes[4] === 0x39 || bytes[4] === 0x37) &&
+      bytes[5] === 0x61
+    ) {
+      return 'image/gif';
+    }
+
+    if (
+      bytes.length >= 12 &&
+      bytes[0] === 0x52 &&
+      bytes[1] === 0x49 &&
+      bytes[2] === 0x46 &&
+      bytes[3] === 0x46 &&
+      bytes[8] === 0x57 &&
+      bytes[9] === 0x45 &&
+      bytes[10] === 0x42 &&
+      bytes[11] === 0x50
+    ) {
+      return 'image/webp';
+    }
+
+    if (bytes.length >= 2 && bytes[0] === 0x42 && bytes[1] === 0x4d) {
+      return 'image/bmp';
+    }
+
+    if (
+      bytes.length >= 4 &&
+      ((bytes[0] === 0x49 && bytes[1] === 0x49 && bytes[2] === 0x2a && bytes[3] === 0x00) ||
+        (bytes[0] === 0x4d && bytes[1] === 0x4d && bytes[2] === 0x00 && bytes[3] === 0x2a))
+    ) {
+      return 'image/tiff';
+    }
+  } catch (error) {
+    console.warn('[Bahtifocus] Unable to detect image mime type', error);
+  }
+
+  return '';
 }
 
 function formatBytes(bytes) {
@@ -1624,6 +1793,8 @@ async function handleAnalyze() {
   showAllErrors.value = false;
   analysisLoading.value = true;
   analysisError.value = '';
+  analysisResult.value = null;
+  analysisDurationMs.value = null;
   const previousController = analysisAbortController.value;
   if (previousController) {
     previousController.abort();

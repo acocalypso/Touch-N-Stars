@@ -1,17 +1,18 @@
 <template>
   <div class="min-h-screen bg-gray-900">
     <SubNav
+      v-if="store.isBackendReachable"
       :items="[
         { name: t('components.settings.general'), value: 'general' },
         { name: t('components.settings.plugins.title'), value: 'plugins' },
         { name: t('components.settings.plate_solver.title'), value: 'plateSolver' },
       ]"
-      v-model:activeItem="settingsStore.settings.currentTab"
+      v-model:activeItem="activeTab"
     />
 
     <div class="p-4 max-w-xl mx-auto space-y-6">
       <!-- General Tab -->
-      <div v-if="settingsStore.settings.currentTab === 'general'" class="space-y-6">
+      <div v-if="activeTab === 'general'" class="space-y-6">
         <!-- GPS Coordinates -->
         <div
           v-if="store.isBackendReachable"
@@ -20,12 +21,13 @@
           <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.coordinates') }}
           </h3>
-          <div class="flex gap-4 items-end">
-            <div class="flex flex-col flex-1">
+          <div class="grid grid-cols-2 md:flex md:gap-4 md:items-end gap-2">
+            <div class="flex flex-col">
               <label class="text-xs md:text-sm text-gray-300 mb-1">Latitude</label>
               <NumberInputPicker
                 v-model="latitude"
                 :label="``"
+                :labelKey="'latitude'"
                 :min="-90"
                 :max="90"
                 :step="0.001"
@@ -35,11 +37,12 @@
                 wrapperClass="w-full"
               />
             </div>
-            <div class="flex flex-col flex-1">
+            <div class="flex flex-col">
               <label class="text-xs md:text-sm text-gray-300 mb-1">Longitude</label>
               <NumberInputPicker
                 v-model="longitude"
                 :label="``"
+                :labelKey="'longitude'"
                 :min="-180"
                 :max="180"
                 :step="0.001"
@@ -49,11 +52,12 @@
                 wrapperClass="w-full"
               />
             </div>
-            <div class="flex flex-col flex-1">
+            <div class="flex flex-col md:flex-1">
               <label class="text-xs md:text-sm text-gray-300 mb-1">Altitude</label>
               <NumberInputPicker
                 v-model="altitude"
                 :label="``"
+                :labelKey="'altitude'"
                 :min="-500"
                 :max="9000"
                 :step="1"
@@ -65,7 +69,7 @@
             </div>
             <button
               @click="getCurrentLocation"
-              class="p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors flex-shrink-0"
+              class="default-button-gray md:w-10 md:h-10 md:flex-shrink-0 col-span-2 md:col-span-1 md:self-end"
               title="Get current location"
             >
               <svg
@@ -283,7 +287,7 @@
       </div>
 
       <!-- Plugins Tab -->
-      <div v-if="settingsStore.settings.currentTab === 'plugins'" class="space-y-6">
+      <div v-if="activeTab === 'plugins'" class="space-y-6">
         <div
           v-if="store.isBackendReachable && true"
           class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -340,7 +344,7 @@
       </div>
 
       <!-- Plate Solver Tab -->
-      <div v-if="settingsStore.settings.currentTab === 'plateSolver'" class="space-y-6">
+      <div v-if="activeTab === 'plateSolver'" class="space-y-6">
         <PlateSolverSettingsPanel v-if="store.isBackendReachable" />
       </div>
     </div>
@@ -421,6 +425,7 @@ const pluginStore = usePluginStore();
 
 const currentLanguage = ref(settingsStore.getLanguage());
 const locationStore = useLocationStore();
+const activeTab = ref('general');
 
 // Tutorial
 const showTutorialModal = ref(false);

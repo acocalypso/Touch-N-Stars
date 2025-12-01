@@ -816,6 +816,132 @@
         "current": "Version actuelle"
       }
     },
+    "bahtifocus": {
+      "title": "Bahtinov Mask Analyzer",
+      "subtitle": "Capture or load an image to measure focus quality with your Bahtinov mask.",
+      "sections": {
+        "imageSource": "Image Source",
+        "imageSourceHint": "Capture a fresh frame, upload a file, or choose an example image to begin.",
+        "parameters": "Optical Parameters",
+        "parametersHint": "Enter the optical and camera data used for this exposure to get accurate metrics."
+      },
+      "image": {
+        "selectFile": "Select image",
+        "loadingCapture": "Loading capture…",
+        "useLatestCapture": "Use latest capture",
+        "examplePlaceholder": "Load example image…",
+        "clearSelection": "Clear selection",
+        "source": "Source",
+        "size": "File size",
+        "originalSize": "original {size}",
+        "mime": "Format",
+        "transport": "Upload mode",
+        "transportBinary": "Binary stream",
+        "transportLegacy": "Legacy JSON fallback",
+        "previewUnavailable": "Preview not available. The analysis still supports this format.",
+        "capturedName": "Latest capture",
+        "sourceCaptured": "Current capture",
+        "sourceExample": "Example image",
+        "sourceUpload": "Uploaded image",
+        "resizedTitle": "Image optimized",
+        "resizedMessage": "Resized to {width}×{height} (about {size}). Original size was {originalSize}."
+      },
+      "inputs": {
+        "focalLength": "Focal length (mm)",
+        "pixelSize": "Pixel size (µm)",
+        "focalRatio": "Focal ratio (f/)",
+        "apertureDiameter": "Aperture diameter (mm)",
+        "resizeFactor": "Resize factor"
+      },
+      "crop": {
+        "enable": "Crop processed region",
+        "x": "Crop X",
+        "y": "Crop Y",
+        "width": "Crop width",
+        "height": "Crop height"
+      },
+      "previousAngles": {
+        "label": "Previous angles",
+        "savedLabel": "Last saved angles",
+        "reset": "Restore last angles",
+        "input": "Angle {index} (°)"
+      },
+      "analysis": {
+        "lastDuration": "Last run: {seconds}s"
+      },
+      "actions": {
+        "resetForm": "Reset form",
+        "submitting": "Analyzing…",
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Afficher les paramètres optiques",
+        "toggleParametersHide": "Masquer les paramètres optiques"
+      },
+      "camera": {
+        "capture": "Capturer une image",
+        "capturing": "Capture en cours…",
+        "captureFailed": "Impossible de capturer une nouvelle image.",
+        "abort": "Arrêter la capture",
+        "abortFailed": "Impossible d'arrêter la capture en cours.",
+        "exposureLabel": "Temps d’exposition",
+        "exposureUnit": "secondes",
+        "statusDisconnected": "Connectez une caméra pour capturer des images.",
+        "statusExposing": "Exposition en cours…",
+        "statusExposingCountdown": "Exposition en cours – {seconds}s restantes.",
+        "statusLoading": "Réception des données d’image…",
+        "statusLooping": "Capture en boucle. L’acquisition se répétera jusqu’à l’arrêt."
+      },
+      "overlay": {
+        "title": "Overlay preview",
+        "processedSize": "Processed size: {width} x {height} px",
+        "noImage": "Select or capture an image to view the overlay."
+      },
+      "results": {
+        "title": "Analysis results",
+        "focusErrorPixels": "Focus error (px)",
+        "absoluteFocusError": "Focus error (mm)",
+        "criticalFocusThreshold": "Critical focus threshold (mm)",
+        "isWithinCriticalFocus": "Critical focus status",
+        "focusOk": "Within critical focus",
+        "focusNotOk": "Outside critical focus",
+        "maskAngle": "Mask angle (°)",
+        "effectiveResizeFactor": "Effective resize factor",
+        "lineAngles": "Mask line angles",
+        "updatedAngles": "Updated angles",
+        "cropApplied": "Processed crop",
+        "noCrop": "No crop applied",
+        "failure": "Analysis failed. Check the backend response for details.",
+        "placeholder": "Run the analyzer to see focus metrics here.",
+        "successTitle": "Analysis finished",
+        "successMessage": "Bahtinov metrics updated successfully."
+      },
+      "tips": {
+        "title": "Tips",
+        "tip1": "Use a bright star near the target to generate a clear diffraction pattern.",
+        "tip2": "Ensure the Bahtinov mask is aligned before capturing the image.",
+        "tip3": "Reuse the suggested angles to stabilize subsequent measurements."
+      },
+      "errors": {
+        "title": "Bahtinov analysis",
+        "readFile": "Unable to read the selected file.",
+        "captureLoad": "Failed to load the latest capture from N.I.N.A.",
+        "exampleLoad": "Could not load the example image.",
+        "analysisFailed": "Analysis request failed.",
+        "badRequest": "The server rejected the request. Please verify the parameters.",
+        "mockMode": "Bahtinov analysis is not available while the mock API is enabled.",
+        "missingServer": "Unable to determine the backend address. Check the connection settings."
+      },
+      "validation": {
+        "title": "Validation error",
+        "fixErrors": "Please fix the highlighted errors before running the analysis.",
+        "requiredPositive": "Enter a positive value.",
+        "invalidPositive": "Value must be positive.",
+        "ratioOrAperture": "Provide either the focal ratio or the aperture diameter.",
+        "invalidNonNegative": "Enter a non-negative value.",
+        "allAnglesRequired": "Provide all three angles or clear the fields.",
+        "invalidNumber": "Enter a valid number.",
+        "imageRequired": "Select an image before running the analysis."
+      }
+    },
     "logfileCollector": {
       "title": "Collecteur de fichiers de log",
       "intro": "Collecter les derniers logs TNS (y compris le débogage) et les télécharger vers le point de terminaison configuré.",

@@ -1,0 +1,9 @@
+{
+  "id": "bahtifocus",
+  "name": "BahtiFocus",
+  "description": "Bahtinov Mask analyzer based on xxx",
+  "version": "1.0.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true
+}

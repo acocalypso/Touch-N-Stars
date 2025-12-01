@@ -10,7 +10,7 @@
       "
       type="number"
       :class="[
-        'default-input h-7 md:h-8',
+        'default-input h-10',
         wrapperClass === 'w-full' ? 'w-full' : 'w-24 md:w-28 ml-auto',
         statusClass,
       ]"

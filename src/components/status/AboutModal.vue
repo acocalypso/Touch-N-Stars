@@ -52,7 +52,7 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span @click="PINS">Version</span>
+            <span>Version</span>
           </h3>
           <p class="text-gray-300 pl-7">{{ version }}</p>
         </div>
@@ -318,18 +318,6 @@ import { useSettingsStore } from '@/store/settingsStore';
 const settingsStore = useSettingsStore();
 const emit = defineEmits(['close']);
 const count = ref(0);
-
-function PINS() {
-  count.value++;
-  if (count.value === 3) {
-    alert('PINS Aktiviert.');
-    settingsStore.isPinsEnabled = true;
-  }
-  if (count.value === 4) {
-    alert('vorbei der spaß ');
-    settingsStore.isPinsEnabled = false;
-  }
-}
 
 function startBad() {
   count.value++;

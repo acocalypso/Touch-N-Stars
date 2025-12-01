@@ -103,7 +103,7 @@ const apiService = {
     const { BASE_URL } = getUrls();
     try {
       const { data } = await axios.get(`${BASE_URL}/version/pins`, { timeout });
-      return data; 
+      return data;
     } catch (err) {
       if (err.code === 'ECONNABORTED') {
         console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);

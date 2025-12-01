@@ -799,10 +799,10 @@ export const apiStore = defineStore('store', {
     },
     async checkForPINS() {
       const pinsVersion = await apiService.fetchPinsVersion();
-        if (pinsVersion && pinsVersion.Response) {
-          this.isPINS = true;
-          console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-        }
+      if (pinsVersion && pinsVersion.Response) {
+        this.isPINS = true;
+        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      }
     },
 
     setPageReturnedFromBackground() {

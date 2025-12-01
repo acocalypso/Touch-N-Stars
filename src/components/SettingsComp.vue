@@ -21,8 +21,8 @@
           <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.coordinates') }}
           </h3>
-          <div class="flex gap-4 items-end">
-            <div class="flex flex-col flex-1">
+          <div class="grid grid-cols-2 md:flex md:gap-4 md:items-end gap-2">
+            <div class="flex flex-col">
               <label class="text-xs md:text-sm text-gray-300 mb-1">Latitude</label>
               <NumberInputPicker
                 v-model="latitude"
@@ -37,7 +37,7 @@
                 wrapperClass="w-full"
               />
             </div>
-            <div class="flex flex-col flex-1">
+            <div class="flex flex-col">
               <label class="text-xs md:text-sm text-gray-300 mb-1">Longitude</label>
               <NumberInputPicker
                 v-model="longitude"
@@ -52,7 +52,7 @@
                 wrapperClass="w-full"
               />
             </div>
-            <div class="flex flex-col flex-1">
+            <div class="flex flex-col md:flex-1">
               <label class="text-xs md:text-sm text-gray-300 mb-1">Altitude</label>
               <NumberInputPicker
                 v-model="altitude"
@@ -69,7 +69,7 @@
             </div>
             <button
               @click="getCurrentLocation"
-              class="p-2 bg-gray-600 hover:bg-gray-500 rounded-md transition-colors flex-shrink-0"
+              class="default-button-gray md:w-10 md:h-10 md:flex-shrink-0 col-span-2 md:col-span-1 md:self-end"
               title="Get current location"
             >
               <svg

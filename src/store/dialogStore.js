@@ -379,7 +379,9 @@ export const useDialogStore = defineStore('dialogStore', {
         console.log('[dialogStore] Slew and center cancelled');
 
         // 3. Close dialog via button click
-        await this.clickButton('PART_CloseButton', dialog.Title);
+        const store = apiStore();
+        const buttonToClick = store.isPINS ? 'Cancel' : 'PART_CloseButton';
+        await this.clickButton(buttonToClick, dialog.Title);
 
         // 4. Remove dialog from array (in case server doesn't send ClearDialog event)
         this.dialogs = this.dialogs.filter((d) => d.ContentType !== contentType);
@@ -424,7 +426,9 @@ export const useDialogStore = defineStore('dialogStore', {
         }
 
         // 2. Close dialog via button click
-        await this.clickButton('PART_CloseButton', dialog.Title);
+        const store = apiStore();
+        const buttonToClick = store.isPINS ? 'Cancel' : 'PART_CloseButton';
+        await this.clickButton(buttonToClick, dialog.Title);
 
         // 3. Remove dialog from array (in case server doesn't send ClearDialog event)
         this.dialogs = this.dialogs.filter((d) => !contentTypes.includes(d.ContentType));
@@ -451,7 +455,9 @@ export const useDialogStore = defineStore('dialogStore', {
         console.log('[dialogStore] Closing Manual Rotator dialog...');
 
         // Close dialog via button click
-        await this.clickButton('PART_CloseButton', dialog.Title);
+        const store = apiStore();
+        const buttonToClick = store.isPINS ? 'Cancel' : 'PART_CloseButton';
+        await this.clickButton(buttonToClick, dialog.Title);
 
         // Remove dialog from array (in case server doesn't send ClearDialog event)
         this.dialogs = this.dialogs.filter(
@@ -483,7 +489,9 @@ export const useDialogStore = defineStore('dialogStore', {
         this.meridianFlipData = null;
 
         // Close dialog via button click
-        await this.clickButton('PART_CloseButton', dialog.Title);
+        const store = apiStore();
+        const buttonToClick = store.isPINS ? 'Cancel' : 'PART_CloseButton';
+        await this.clickButton(buttonToClick, dialog.Title);
 
         // Remove dialog from array (in case server doesn't send ClearDialog event)
         this.dialogs = this.dialogs.filter(
@@ -510,7 +518,9 @@ export const useDialogStore = defineStore('dialogStore', {
         console.log(`[dialogStore] Closing dialog: ${contentType}`);
 
         // Close dialog via button click
-        await this.clickButton('PART_CloseButton', dialog.Title);
+        const store = apiStore();
+        const buttonToClick = store.isPINS ? 'Cancel' : 'PART_CloseButton';
+        await this.clickButton(buttonToClick, dialog.Title);
 
         // Remove dialog from array (in case server doesn't send ClearDialog event)
         this.dialogs = this.dialogs.filter((d) => d.ContentType !== contentType);

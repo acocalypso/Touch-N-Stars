@@ -365,7 +365,19 @@ async function resumeApp() {
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
-  dialogStore.startPolling();
+
+  // Check for PINS support first
+  await store.checkForPINS();
+
+  // Initialize dialog updates based on mode
+  if (store.isPINS) {
+    // PINS/Headless mode: Use SignalR for real-time updates
+    await dialogStore.initializeDialogSignalR();
+  } else {
+    // WPF mode: Use polling
+    dialogStore.startPolling();
+  }
+
   imageStore.getImage();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
@@ -545,8 +557,19 @@ onMounted(async () => {
 
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
-  dialogStore.startPolling();
-  store.checkForPINS(); // Check for PINS support
+
+  // Check for PINS support first
+  await store.checkForPINS();
+
+  // Initialize dialog updates based on mode
+  if (store.isPINS) {
+    // PINS/Headless mode: Use SignalR for real-time updates
+    await dialogStore.initializeDialogSignalR();
+  } else {
+    // WPF mode: Use polling
+    dialogStore.startPolling();
+  }
+
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }
@@ -649,7 +672,16 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
-  dialogStore.stopPolling();
+
+  // Stop dialog updates based on mode
+  if (store.isPINS) {
+    // Disconnect SignalR in PINS mode
+    await dialogStore.disconnectDialogSignalR();
+  } else {
+    // Stop polling in WPF mode
+    dialogStore.stopPolling();
+  }
+
   store.clearAllStates();
   store.isApiConnected = false;
   document.removeEventListener('visibilitychange', handleVisibilityChange);

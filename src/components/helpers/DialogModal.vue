@@ -137,6 +137,19 @@ async function handleButtonClick(buttonName) {
   console.log('Clicking button:', buttonName, 'Window Title:', windowTitle);
   console.log('Current dialog:', currentDialog.value);
   console.log('Available commands:', currentDialog.value?.AvailableCommands);
+
+  // If clicking Cancel on Plate Solving dialog, stop the slew and rotator operations
+  if (isPlateSolvingDialog.value && buttonName.toLowerCase().includes('cancel')) {
+    try {
+      console.log(
+        'Cancel button clicked on Plate Solving dialog - sending slewStop and rotator halt'
+      );
+      await Promise.all([apiService.slewStop(), apiService.rotatorAction('halt')]);
+    } catch (error) {
+      console.error('Error sending stop commands:', error);
+    }
+  }
+
   await dialogStore.clickButton(buttonName, windowTitle);
 }
 
@@ -154,10 +167,10 @@ async function handleClose() {
   // Wenn es ein Plate Solving Dialog ist, sende slewStop
   if (isPlateSolvingDialog.value) {
     try {
-      console.log('Closing Plate Solving dialog - sending slewStop');
-      await apiService.slewStop();
+      console.log('Closing Plate Solving dialog - sending slewStop and rotator halt');
+      await Promise.all([apiService.slewStop(), apiService.rotatorAction('halt')]);
     } catch (error) {
-      console.error('Error sending slewStop:', error);
+      console.error('Error sending stop commands:', error);
     }
   }
 

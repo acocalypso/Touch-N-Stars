@@ -1270,10 +1270,10 @@ const apiService = {
     }
   },
 
-  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle) {
+  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle, abortSignal = null) {
     try {
       const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, {
+      const config = {
         params: {
           ra: ra,
           dec: dec,
@@ -1282,7 +1282,14 @@ const apiService = {
           rotationAngle: rotationAngle,
           waitForResult: true,
         },
-      });
+      };
+
+      // Add abort signal if provided
+      if (abortSignal) {
+        config.signal = abortSignal;
+      }
+
+      const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, config);
       console.log('Slew response: ', response);
       return response.data;
     } catch (error) {

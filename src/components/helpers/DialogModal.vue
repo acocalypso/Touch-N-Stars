@@ -132,29 +132,27 @@ const visibleCommands = computed(() => {
 });
 
 async function handleButtonClick(buttonName) {
-  // Verwende den Titel als window-Parameter
   const windowTitle = currentDialog.value?.Title;
   console.log('Clicking button:', buttonName, 'Window Title:', windowTitle);
-  console.log('Current dialog:', currentDialog.value);
-  console.log('Available commands:', currentDialog.value?.AvailableCommands);
 
-  // If clicking Cancel on Plate Solving dialog, stop the slew and rotator operations
+  // If clicking Cancel on Plate Solving dialog, use centralized cleanup
   if (isPlateSolvingDialog.value && buttonName.toLowerCase().includes('cancel')) {
-    try {
-      console.log(
-        'Cancel button clicked on Plate Solving dialog - sending slewStop and rotator halt'
-      );
-      await Promise.all([apiService.slewStop(), apiService.rotatorAction('halt')]);
-    } catch (error) {
-      console.error('Error sending stop commands:', error);
-    }
+    console.log('Cancel button clicked on Plate Solving dialog - triggering cleanup');
+    await dialogStore.closePlateSolvingDialog();
+    return;
   }
 
   await dialogStore.clickButton(buttonName, windowTitle);
 }
 
 async function handleClose() {
-  // Wenn es ein AutoFocus Dialog ist, sende stopAutofocus
+  // Handle Plate Solving Dialog - centralized cleanup
+  if (isPlateSolvingDialog.value) {
+    await dialogStore.closePlateSolvingDialog();
+    return;
+  }
+
+  // Handle AutoFocus Dialog
   if (isAutoFocusDialog.value) {
     try {
       console.log('Closing AutoFocus dialog - sending stopAutofocus');
@@ -164,31 +162,22 @@ async function handleClose() {
     }
   }
 
-  // Wenn es ein Plate Solving Dialog ist, sende slewStop
-  if (isPlateSolvingDialog.value) {
-    try {
-      console.log('Closing Plate Solving dialog - sending slewStop and rotator halt');
-      await Promise.all([apiService.slewStop(), apiService.rotatorAction('halt')]);
-    } catch (error) {
-      console.error('Error sending stop commands:', error);
-    }
-  }
-
+  // Default close logic for other dialogs
   const windowTitle = currentDialog.value?.Title;
   const availableCommands = currentDialog.value?.AvailableCommands || [];
 
-  // Filtere PART_* und UnnamedButton heraus um den echten Button zu finden
+  // Filter out PART_* and UnnamedButton to find real buttons
   const realButtons = availableCommands.filter(
     (cmd) => !cmd.startsWith('PART_') && cmd !== 'UnnamedButton'
   );
 
-  // Wenn es genau einen echten Button gibt, drücke diesen
+  // If exactly one real button exists, click it
   if (realButtons.length === 1) {
     const buttonName = realButtons[0];
     console.log('Closing dialog with single button:', buttonName, 'Window Title:', windowTitle);
     await dialogStore.clickButton(buttonName, windowTitle);
   } else {
-    // Ansonsten verwende PART_CloseButton (Standard)
+    // Otherwise use PART_CloseButton (default)
     console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);
     await dialogStore.clickButton('PART_CloseButton', windowTitle);
   }

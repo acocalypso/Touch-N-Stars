@@ -360,6 +360,47 @@ export const useDialogStore = defineStore('dialogStore', {
     },
 
     /**
+     * Close Plate Solving Dialog with cleanup
+     */
+    async closePlateSolvingDialog() {
+      try {
+        const dialog = this.dialogs.find(
+          (d) => d.ContentType === 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM'
+        );
+
+        if (!dialog) {
+          console.warn('[dialogStore] No Plate Solving dialog found to close');
+          return;
+        }
+
+        console.log('[dialogStore] Closing Plate Solving dialog...');
+
+        // 2. Cleanup state
+        this.slewAndCenterData = null;
+        console.log('[dialogStore] Slew and center cancelled');
+
+        // 3. Close dialog via button click
+        await this.clickButton('PART_CloseButton', dialog.Title);
+
+        // 4. Remove dialog from array (in case server doesn't send ClearDialog event)
+        this.dialogs = this.dialogs.filter(
+          (d) => d.ContentType !== 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM'
+        );
+        console.log('[dialogStore] Plate Solving dialog closed and removed');
+
+        // 1. Send stop commands
+        try {
+          await apiService.slewStop();
+          console.log('[dialogStore] Stop commands sent successfully');
+        } catch (error) {
+          console.error('[dialogStore] Error sending stop commands:', error);
+        }
+      } catch (error) {
+        console.error('[dialogStore] Error closing Plate Solving dialog:', error);
+      }
+    },
+
+    /**
      * Disconnect from SignalR
      */
     async disconnectDialogSignalR() {

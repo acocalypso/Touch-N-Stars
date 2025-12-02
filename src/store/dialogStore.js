@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import signalRDialogService from '@/services/signalRDialogService';
+import { useFramingStore } from '@/store/framingStore';
 
 export const useDialogStore = defineStore('dialogStore', {
   state: () => ({
@@ -10,6 +12,7 @@ export const useDialogStore = defineStore('dialogStore', {
     slewAndCenterData: null,
     intervalId: null,
     isPolling: false,
+    isConnectedToSignalR: false,
   }),
   actions: {
     async fetchDialogs() {
@@ -60,11 +63,39 @@ export const useDialogStore = defineStore('dialogStore', {
 
     async clickButton(buttonName, windowHashCode = null) {
       try {
-        const response = await apiService.clickDialogButton(buttonName, windowHashCode);
-        if (response.Success) {
-          await this.fetchDialogs();
+        const store = apiStore();
+
+        // In PINS mode, use SignalR to click the button directly
+        if (store.isPINS && signalRDialogService.isSignalRConnected()) {
+          console.log('[dialogStore] Clicking button via SignalR:', buttonName);
+
+          // Find the current dialog's ContentType
+          const currentDialog =
+            this.dialogs.length > 0 ? this.dialogs[this.dialogs.length - 1] : null;
+          if (currentDialog && currentDialog.ContentType) {
+            console.log(
+              '[dialogStore] Sending ClickDialogButton:',
+              currentDialog.ContentType,
+              buttonName
+            );
+            await signalRDialogService.connection.invoke(
+              'ClickDialogButton',
+              currentDialog.ContentType,
+              buttonName
+            );
+            return { Success: true };
+          } else {
+            console.warn('[dialogStore] No dialog found to click button on');
+            return { Success: false, Error: 'No active dialog' };
+          }
+        } else {
+          // WPF mode - use HTTP API
+          const response = await apiService.clickDialogButton(buttonName, windowHashCode);
+          if (response.Success) {
+            await this.fetchDialogs();
+          }
+          return response;
         }
-        return response;
       } catch (error) {
         console.error(`Error clicking button ${buttonName}:`, error);
         throw error;
@@ -114,6 +145,230 @@ export const useDialogStore = defineStore('dialogStore', {
           clearInterval(this.intervalId);
           this.intervalId = null;
         }
+      }
+    },
+
+    /**
+     * Initialize SignalR connection for dialog updates
+     * This allows receiving real-time updates without polling
+     */
+    async initializeDialogSignalR() {
+      const store = apiStore();
+
+      if (!store.isBackendReachable) {
+        console.warn('[dialogStore] Backend is not reachable, cannot establish SignalR connection');
+        return;
+      }
+
+      // Check if already connected
+      if (signalRDialogService.isSignalRConnected()) {
+        console.log('[dialogStore] SignalR already connected, skipping initialization');
+        return;
+      }
+
+      try {
+        console.log('[dialogStore] Initializing SignalR connection via service');
+
+        // Set up callbacks
+        signalRDialogService.setDialogCallback((dialogData) => {
+          console.log('[dialogStore] Dialog callback triggered:', dialogData);
+          this.handleDialogUpdate(dialogData);
+        });
+
+        signalRDialogService.setMeasurementCallback((measurement) => {
+          console.log('[dialogStore] Measurement callback triggered:', measurement);
+          this.handleMeasurementUpdate(measurement);
+        });
+
+        signalRDialogService.setDialogStatusCallback((status) => {
+          console.log('[dialogStore] Status callback triggered:', status);
+          this.handleStatusUpdate(status);
+        });
+
+        signalRDialogService.setClearDialogCallback((contentType) => {
+          console.log('[dialogStore] Clear dialog callback triggered:', contentType);
+          this.handleClearDialog(contentType);
+        });
+
+        signalRDialogService.setStatusCallback((status) => {
+          console.log('[dialogStore] SignalR connection status:', status);
+          this.isConnectedToSignalR = status === 'Connected' || status === 'Reconnected';
+        });
+
+        // Connect
+        await signalRDialogService.connect();
+        console.log('[dialogStore] Dialog SignalR connection established');
+        this.isConnectedToSignalR = true;
+      } catch (error) {
+        console.error('[dialogStore] Failed to establish SignalR connection:', error);
+        this.isConnectedToSignalR = false;
+      }
+    } /**
+     * Handle dialog update from SignalR
+     */,
+    handleDialogUpdate(dialogData) {
+      console.log('[dialogStore] handleDialogUpdate received:', dialogData);
+
+      // Normalize property names (handle both camelCase and PascalCase)
+      const normalizedDialog = {
+        Title: dialogData.Title || dialogData.title,
+        ContentType: dialogData.ContentType || dialogData.contentType,
+        Active: dialogData.Active ?? dialogData.active ?? true,
+        Status: dialogData.Status || dialogData.status || '',
+        SlewAndCenter: dialogData.SlewAndCenter || dialogData.slewAndCenter,
+        Parameters: dialogData.Parameters || dialogData.parameters || {},
+        StatusMessage: dialogData.StatusMessage || dialogData.statusMessage,
+        Table: dialogData.Table || dialogData.table,
+        TableHeaders: dialogData.TableHeaders || dialogData.tableHeaders,
+        AvailableCommands: dialogData.AvailableCommands || dialogData.availableCommands || [],
+      };
+
+      // Normalize SlewAndCenter nested properties if present
+      if (normalizedDialog.SlewAndCenter) {
+        const sc = normalizedDialog.SlewAndCenter;
+        normalizedDialog.SlewAndCenter = {
+          Active: sc.Active ?? sc.active ?? false,
+          Status: sc.Status || sc.status || '',
+          CurrentMeasurement: sc.CurrentMeasurement || sc.currentMeasurement || null,
+          Measurements: sc.Measurements || sc.measurements || [],
+        };
+
+        // Normalize measurements array if present
+        if (
+          normalizedDialog.SlewAndCenter.Measurements &&
+          normalizedDialog.SlewAndCenter.Measurements.length > 0
+        ) {
+          normalizedDialog.SlewAndCenter.Measurements =
+            normalizedDialog.SlewAndCenter.Measurements.map((m) => ({
+              Time: m.Time || m.time || '',
+              Success: m.Success ?? m.success ?? false,
+              ErrorDistance: m.ErrorDistance || m.errorDistance || '--',
+              Rotation: m.Rotation || m.rotation || '--',
+            }));
+        }
+
+        // Normalize CurrentMeasurement if present
+        if (normalizedDialog.SlewAndCenter.CurrentMeasurement) {
+          const cm = normalizedDialog.SlewAndCenter.CurrentMeasurement;
+          normalizedDialog.SlewAndCenter.CurrentMeasurement = {
+            Time: cm.Time || cm.time || '',
+            Success: cm.Success ?? cm.success ?? false,
+            ErrorDistance: cm.ErrorDistance || cm.errorDistance || '--',
+            Rotation: cm.Rotation || cm.rotation || '--',
+          };
+        }
+      }
+
+      console.log('[dialogStore] Normalized dialog:', normalizedDialog);
+      console.log('[dialogStore] ContentType:', normalizedDialog.ContentType);
+
+      // Update or add the dialog to the dialogs array
+      const existingIndex = this.dialogs.findIndex(
+        (d) => d.ContentType === normalizedDialog.ContentType
+      );
+
+      if (existingIndex >= 0) {
+        // Update existing dialog
+        console.log('[dialogStore] Updating existing dialog at index', existingIndex);
+        this.dialogs[existingIndex] = {
+          ...this.dialogs[existingIndex],
+          ...normalizedDialog,
+        };
+      } else {
+        // Add new dialog
+        console.log('[dialogStore] Adding new dialog');
+        this.dialogs.push(normalizedDialog);
+      }
+
+      console.log('[dialogStore] Current dialogs array:', this.dialogs);
+
+      // Extract and store slew and center data if available
+      if (normalizedDialog.SlewAndCenter) {
+        this.slewAndCenterData = normalizedDialog.SlewAndCenter;
+      }
+
+      // Extract and store meridian flip data if available
+      if (normalizedDialog.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM') {
+        this.meridianFlipData = normalizedDialog;
+      }
+    },
+
+    /**
+     * Handle measurement update from SignalR
+     */
+    handleMeasurementUpdate(measurement) {
+      if (!this.slewAndCenterData) {
+        this.slewAndCenterData = {
+          Active: true,
+          Status: '',
+          CurrentMeasurement: null,
+          Measurements: [],
+        };
+      }
+
+      // Update current measurement
+      this.slewAndCenterData.CurrentMeasurement = measurement;
+
+      // Add to measurements history
+      if (!this.slewAndCenterData.Measurements) {
+        this.slewAndCenterData.Measurements = [];
+      }
+      this.slewAndCenterData.Measurements.push(measurement);
+    },
+
+    /**
+     * Handle status update from SignalR
+     */
+    handleStatusUpdate(status) {
+      if (!this.slewAndCenterData) {
+        this.slewAndCenterData = {
+          Active: true,
+          Status: status,
+          CurrentMeasurement: null,
+          Measurements: [],
+        };
+      } else {
+        this.slewAndCenterData.Status = status;
+      }
+    },
+
+    /**
+     * Handle clear dialog from SignalR
+     */
+    handleClearDialog(contentType) {
+      console.log('[dialogStore] handleClearDialog called with contentType:', contentType);
+      console.log('[dialogStore] Current dialogs before clear:', this.dialogs);
+
+      // Remove dialog from the dialogs array
+      const beforeCount = this.dialogs.length;
+      this.dialogs = this.dialogs.filter((d) => d.ContentType !== contentType);
+      const afterCount = this.dialogs.length;
+
+      console.log('[dialogStore] Dialogs removed:', beforeCount - afterCount);
+      console.log('[dialogStore] Current dialogs after clear:', this.dialogs);
+
+      // Clear related data based on dialog type
+      if (contentType === 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM') {
+        this.slewAndCenterData = null;
+        // Cancel the in-flight API request and reset state
+        const framingStore = useFramingStore();
+        framingStore.cancelSlewAndCenter();
+        console.log('[dialogStore] Cancelled slew and center operation');
+      } else if (contentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM') {
+        this.meridianFlipData = null;
+      }
+    },
+
+    /**
+     * Disconnect from SignalR
+     */
+    async disconnectDialogSignalR() {
+      try {
+        await signalRDialogService.disconnect();
+        console.log('[dialogStore] Disconnected from dialog SignalR');
+        this.isConnectedToSignalR = false;
+      } catch (error) {
+        console.error('[dialogStore] Error disconnecting from SignalR:', error);
       }
     },
   },

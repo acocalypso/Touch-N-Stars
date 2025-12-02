@@ -66,7 +66,7 @@ class SignalRNotificationService {
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
       this.url = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-      console.log('Connecting to SignalR at:', this.url);
+      console.log('[SignalRNotificationService] Connecting to SignalR at:', this.url);
 
       try {
         this.connection = new signalR.HubConnectionBuilder()
@@ -190,11 +190,11 @@ class SignalRNotificationService {
       return this.connection
         .stop()
         .then(() => {
-          console.log('SignalR disconnected');
+          console.log('[SignalRNotificationService] SignalR disconnected');
           this.connection = null;
         })
         .catch((err) => {
-          console.error('Error disconnecting SignalR:', err);
+          console.error('[SignalRNotificationService] Error disconnecting SignalR:', err);
           this.connection = null;
         });
     }

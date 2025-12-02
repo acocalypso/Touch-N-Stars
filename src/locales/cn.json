@@ -578,7 +578,7 @@
       "readout_mode": "读出模式",
       "set_use_platesolve": "使用板解析",
       "chip_settings": {
-        "title": "芯片设置",
+        "title": "Camera chip settings",
         "pixel_size": "像素尺寸 (μm)",
         "width": "宽度 (px)",
         "height": "高度 (px)",

@@ -10,12 +10,21 @@
       <p class="text-gray-300 text-sm">
         {{ $t('components.settings.equipment.description') }}
       </p>
+      <div class="mt-2">
+        <settings-sensor />
+      </div>
+      <div class="mt-2">
+        <settingsTelescope />
+      </div>
     </div>
+
   </div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n';
+import settingsSensor from '@/components/settings/camera/settingsSensor.vue';
+import settingsTelescope from '@/components/settings/telescope/settingsTelescope.vue';
 
 const { t } = useI18n();
 </script>

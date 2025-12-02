@@ -577,7 +577,7 @@
       "readout_mode": "Tryb odczytu",
       "set_use_platesolve": "Użyj Platesolve",
       "chip_settings": {
-        "title": "Ustawienia matrycy",
+        "title": "Ustawienia układu aparatu",
         "pixel_size": "Rozmiar piksela (μm)",
         "width": "Szerokość (px)",
         "height": "Wysokość (px)",

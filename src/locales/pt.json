@@ -577,7 +577,7 @@
       "readout_mode": "Modo de leitura",
       "set_use_platesolve": "Usar Platesolve",
       "chip_settings": {
-        "title": "Configurações do chip",
+        "title": "Configurações do chip da câmera",
         "pixel_size": "Tamanho do pixel (μm)",
         "width": "Largura (px)",
         "height": "Altura (px)",

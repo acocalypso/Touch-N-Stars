@@ -580,7 +580,7 @@
         "focal_length": "Longitud focal (mm)",
         "height": "Alto (PX)",
         "pixel_size": "Tamaño de píxel (μm)",
-        "title": "Configuración del sensor",
+        "title": "Configuración del chip de la cámara",
         "width": "Ancho (PX)"
       },
       "at_target_temp": "A temperatura objetivo",

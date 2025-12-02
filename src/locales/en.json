@@ -201,6 +201,9 @@
         "invalidPortRange": "Invalid port range",
         "invalidInstance": "Invalid instance",
         "emptyFields": "Empty fields"
+      },
+      "telescope": {
+        "titel": "Telescope settings"
       }
     },
     "connectEquipment": {
@@ -585,7 +588,7 @@
       "readout_mode": "Readout Mode",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
-        "title": "Chip settings",
+        "title": "Camera chip settings",
         "pixel_size": "Pixel size (μm)",
         "width": "Width (px)",
         "height": "Height (px)",

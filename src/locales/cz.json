@@ -583,7 +583,7 @@
         "focal_length": "Ohnisková vzdálenost (mm)",
         "height": "Výška (px)",
         "pixel_size": "Velikost pixelů (μm)",
-        "title": "Nastavení čipu",
+        "title": "Camera chip settings",
         "width": "Šířka (px)"
       },
       "at_target_temp": "Při cílové teplotě",

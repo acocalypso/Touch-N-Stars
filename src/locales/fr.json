@@ -577,7 +577,7 @@
       "readout_mode": "Mode de lecture",
       "set_use_platesolve": "Utiliser Platesolve",
       "chip_settings": {
-        "title": "Paramètres du capteur",
+        "title": "Paramètres de la puce de la caméra",
         "pixel_size": "Taille de pixel (μm)",
         "width": "Largeur (px)",
         "height": "Hauteur (px)",

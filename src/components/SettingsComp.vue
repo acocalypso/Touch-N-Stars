@@ -4,9 +4,9 @@
       v-if="store.isBackendReachable"
       :items="[
         { name: t('components.settings.general'), value: 'general' },
+        { name: t('components.settings.equipment.title'), value: 'equipment' },
         { name: t('components.settings.plugins.title'), value: 'plugins' },
         { name: t('components.settings.plate_solver.title'), value: 'plateSolver' },
-        { name: t('components.settings.equipment.title'), value: 'equipment' },
       ]"
       v-model:activeItem="activeTab"
     />
@@ -19,15 +19,14 @@
         @restart-system="restartSystem"
         @shutdown-system="shutdownSystem"
       />
+      <!-- Equipment Tab -->
+      <SettingsEquipmentTab v-if="activeTab === 'equipment'" />
 
       <!-- Plugins Tab -->
       <SettingsPluginsTab v-if="activeTab === 'plugins'" />
 
       <!-- Plate Solver Tab -->
       <SettingsPlateSolverTab v-if="activeTab === 'plateSolver'" />
-
-      <!-- Equipment Tab -->
-      <SettingsEquipmentTab v-if="activeTab === 'equipment'" />
     </div>
   </div>
 
@@ -63,22 +62,18 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
-import apiService from '@/services/apiService';
 import TutorialModal from '@/components/TutorialModal.vue';
 import SubNav from '@/components/SubNav.vue';
 import SettingsGeneralTab from '@/components/settings/SettingsGeneralTab.vue';
 import SettingsPluginsTab from '@/components/settings/SettingsPluginsTab.vue';
 import SettingsPlateSolverTab from '@/components/settings/SettingsPlateSolverTab.vue';
 import SettingsEquipmentTab from '@/components/settings/SettingsEquipmentTab.vue';
-import { useRouter } from 'vue-router';
-import { KeepAwake } from '@capacitor-community/keep-awake';
 import { usePluginStore } from '@/store/pluginStore';
 
-const router = useRouter();
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
 const store = apiStore();
@@ -90,7 +85,6 @@ const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const confirmAction = ref(null);
 
 onMounted(async () => {
-  // Ensure plugins are loaded
   await pluginStore.loadAndRegisterPlugins(true);
 });
 
@@ -108,25 +102,11 @@ function cancelConfirmation() {
   confirmAction.value = null;
 }
 
-function performRestart() {
-  router.push('/');
-  store.showSettings = false;
-  store.isBackendReachable = false;
-  apiService.restart();
-}
-
-function performShutdown() {
-  router.push('/');
-  store.showSettings = false;
-  store.isBackendReachable = false;
-  apiService.shutdown();
-}
-
 function confirmActionHandler() {
   if (confirmAction.value === 'restart') {
-    performRestart();
+    location.reload();
   } else if (confirmAction.value === 'shutdown') {
-    performShutdown();
+    location.reload();
   }
   confirmAction.value = null;
 }
@@ -138,25 +118,4 @@ function restartSystem() {
 function shutdownSystem() {
   confirmAction.value = 'shutdown';
 }
-
-async function applyKeepAwake(enabled) {
-  try {
-    if (enabled) {
-      await KeepAwake.keepAwake();
-    } else {
-      await KeepAwake.allowSleep();
-    }
-  } catch (e) {
-    console.warn('KeepAwake error', e);
-  }
-}
-
-watch(
-  () => settingsStore.keepAwakeEnabled,
-  async (val, oldVal) => {
-    if (val !== oldVal) {
-      await applyKeepAwake(val);
-    }
-  }
-);
 </script>

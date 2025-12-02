@@ -584,7 +584,7 @@
         "focal_length": "Brennweite (mm)",
         "height": "Höhe (PX)",
         "pixel_size": "Pixelgröße (μm)",
-        "title": "Chipeinstellungen",
+        "title": "Einstellungen des Kamerachips",
         "width": "Breite (PX)"
       },
       "at_target_temp": "Zieltemperatur erreicht",

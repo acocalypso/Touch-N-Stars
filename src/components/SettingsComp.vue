@@ -12,7 +12,20 @@
 
     <div class="p-4 max-w-xl mx-auto space-y-6">
       <!-- General Tab -->
-      <div v-if="activeTab === 'general'" class="space-y-6">
+      <SettingsGeneralTab v-if="activeTab === 'general'"
+        @show-tutorial="showTutorial"
+        @restart-system="restartSystem"
+        @shutdown-system="shutdownSystem"
+      />
+
+      <!-- Plugins Tab (Legacy wrapper) -->
+      <SettingsPluginsTab v-if="activeTab === 'plugins'" />
+
+      <!-- Plate Solver Tab (Legacy wrapper) -->
+      <SettingsPlateSolverTab v-if="activeTab === 'plateSolver'" />
+
+      <!-- This section below is kept for future compatibility -->
+      <div v-if="false" class="space-y-6">
         <!-- GPS Coordinates -->
         <div
           v-if="store.isBackendReachable"
@@ -156,7 +169,7 @@
           <h3 class="font-bold text-base text-cyan-400">
             {{ $t('components.settings.image.title') }}
           </h3>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <setImgQuality />
             <setImgMaxDimension />
             <setImgStrechFactor />
@@ -167,16 +180,6 @@
             <setImgDebayernHfr />
             <setImgUnlinkedStrech />
           </div>
-        </div>
-
-        <!-- Debug settings -->
-        <div
-          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-        >
-          <h3 class="font-bold text-base text-cyan-400">
-            {{ $t('components.settings.debug.title') }}
-          </h3>
-          <SetDebug />
         </div>
 
         <!-- Keep Screen Awake (mobile only) -->
@@ -194,6 +197,24 @@
             <ToggleButton
               :statusValue="settingsStore.keepAwakeEnabled"
               @update:statusValue="onToggleKeepAwake"
+            />
+          </div>
+        </div>
+
+        <!-- Touch Input Optimization -->
+        <div
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
+            {{ $t('components.settings.input.title') }}
+          </h3>
+          <div class="flex items-center justify-between">
+            <p class="text-gray-300 text-sm mr-4">
+              {{ $t('components.settings.input.touchOptimized') }}
+            </p>
+            <ToggleButton
+              :statusValue="settingsStore.touchOptimized"
+              @update:statusValue="settingsStore.touchOptimized = $event"
             />
           </div>
         </div>
@@ -217,6 +238,16 @@
           <button @click="showTutorial" class="default-button-gray w-full">
             {{ $t('components.settings.showTutorial') }}
           </button>
+        </div>
+
+        <!-- Debug settings -->
+        <div
+          class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+        >
+          <h3 class="font-bold text-base text-cyan-400">
+            {{ $t('components.settings.debug.title') }}
+          </h3>
+          <SetDebug />
         </div>
 
         <!-- System Controls -->
@@ -390,6 +421,9 @@ import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import TutorialModal from '@/components/TutorialModal.vue';
 import SubNav from '@/components/SubNav.vue';
+import SettingsGeneralTab from '@/components/settings/SettingsGeneralTab.vue';
+import SettingsPluginsTab from '@/components/settings/SettingsPluginsTab.vue';
+import SettingsPlateSolverTab from '@/components/settings/SettingsPlateSolverTab.vue';
 import {
   latitude,
   longitude,

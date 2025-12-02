@@ -153,6 +153,10 @@
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
       },
+      "input": {
+        "title": "Input Optimization",
+        "touchOptimized": "Touch-optimized picker"
+      },
       "beta": {
         "title": "Beta Update Channel"
       },

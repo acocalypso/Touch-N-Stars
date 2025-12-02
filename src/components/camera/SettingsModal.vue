@@ -11,12 +11,10 @@
         class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50"
       />
     </div>
-    <settingsSensor class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
   </div>
 </template>
 <script setup>
 import { apiStore } from '@/store/store';
-import settingsSensor from './settingsSensor.vue';
 import settingsCameraCooler from './settingsCameraCooler.vue';
 import changeFilter from '../filterwheel/changeFilter.vue';
 import settingsCamera from './settingsCamera.vue';

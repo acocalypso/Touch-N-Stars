@@ -310,7 +310,7 @@ import setImgDebayernHfr from './setImgDebayernHfr.vue';
 import setImgUnlinkedStrech from './setImgUnlinkedStrech.vue';
 import SetInstance from '@/components/settings/setInstance.vue';
 import SetDebug from '@/components/settings/setDebug.vue';
-import ButtonSetLocationSyncToMount from './mount/ButtonSetLocationSyncToMount.vue';
+import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
 import setImgMaxDimension from './setImgMaxDimension.vue';

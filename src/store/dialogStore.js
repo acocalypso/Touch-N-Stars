@@ -364,9 +364,8 @@ export const useDialogStore = defineStore('dialogStore', {
      */
     async closePlateSolvingDialog() {
       try {
-        const dialog = this.dialogs.find(
-          (d) => d.ContentType === 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM'
-        );
+        const contentType = 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM';
+        const dialog = this.dialogs.find((d) => d.ContentType === contentType);
 
         if (!dialog) {
           console.warn('[dialogStore] No Plate Solving dialog found to close');
@@ -383,9 +382,7 @@ export const useDialogStore = defineStore('dialogStore', {
         await this.clickButton('PART_CloseButton', dialog.Title);
 
         // 4. Remove dialog from array (in case server doesn't send ClearDialog event)
-        this.dialogs = this.dialogs.filter(
-          (d) => d.ContentType !== 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM'
-        );
+        this.dialogs = this.dialogs.filter((d) => d.ContentType !== contentType);
         console.log('[dialogStore] Plate Solving dialog closed and removed');
 
         // 1. Send stop commands
@@ -397,6 +394,129 @@ export const useDialogStore = defineStore('dialogStore', {
         }
       } catch (error) {
         console.error('[dialogStore] Error closing Plate Solving dialog:', error);
+      }
+    },
+
+    /**
+     * Close AutoFocus Dialog with cleanup
+     */
+    async closeAutoFocusDialog() {
+      try {
+        const contentTypes = [
+          'NINA.Joko.Plugins.HocusFocus.AutoFocus.HocusFocusVM',
+          'NINA.WPF.Base.ViewModel.AutoFocus.AutoFocusVM',
+        ];
+        const dialog = this.dialogs.find((d) => contentTypes.includes(d.ContentType));
+
+        if (!dialog) {
+          console.warn('[dialogStore] No AutoFocus dialog found to close');
+          return;
+        }
+
+        console.log('[dialogStore] Closing AutoFocus dialog...');
+
+        // 1. Send stop command
+        try {
+          await apiService.focuserAfAction('stopp');
+          console.log('[dialogStore] AutoFocus stopped successfully');
+        } catch (error) {
+          console.error('[dialogStore] Error stopping AutoFocus:', error);
+        }
+
+        // 2. Close dialog via button click
+        await this.clickButton('PART_CloseButton', dialog.Title);
+
+        // 3. Remove dialog from array (in case server doesn't send ClearDialog event)
+        this.dialogs = this.dialogs.filter((d) => !contentTypes.includes(d.ContentType));
+        console.log('[dialogStore] AutoFocus dialog closed and removed');
+      } catch (error) {
+        console.error('[dialogStore] Error closing AutoFocus dialog:', error);
+      }
+    },
+
+    /**
+     * Close Manual Rotator Dialog with cleanup
+     */
+    async closeManualRotatorDialog() {
+      try {
+        const dialog = this.dialogs.find(
+          (d) => d.ContentType === 'NINA.Equipment.Equipment.MyRotator.ManualRotator'
+        );
+
+        if (!dialog) {
+          console.warn('[dialogStore] No Manual Rotator dialog found to close');
+          return;
+        }
+
+        console.log('[dialogStore] Closing Manual Rotator dialog...');
+
+        // Close dialog via button click
+        await this.clickButton('PART_CloseButton', dialog.Title);
+
+        // Remove dialog from array (in case server doesn't send ClearDialog event)
+        this.dialogs = this.dialogs.filter(
+          (d) => d.ContentType !== 'NINA.Equipment.Equipment.MyRotator.ManualRotator'
+        );
+        console.log('[dialogStore] Manual Rotator dialog closed and removed');
+      } catch (error) {
+        console.error('[dialogStore] Error closing Manual Rotator dialog:', error);
+      }
+    },
+
+    /**
+     * Close Meridian Flip Dialog with cleanup
+     */
+    async closeMeridianFlipDialog() {
+      try {
+        const dialog = this.dialogs.find(
+          (d) => d.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM'
+        );
+
+        if (!dialog) {
+          console.warn('[dialogStore] No Meridian Flip dialog found to close');
+          return;
+        }
+
+        console.log('[dialogStore] Closing Meridian Flip dialog...');
+
+        // Cleanup data
+        this.meridianFlipData = null;
+
+        // Close dialog via button click
+        await this.clickButton('PART_CloseButton', dialog.Title);
+
+        // Remove dialog from array (in case server doesn't send ClearDialog event)
+        this.dialogs = this.dialogs.filter(
+          (d) => d.ContentType !== 'NINA.WPF.Base.ViewModel.MeridianFlipVM'
+        );
+        console.log('[dialogStore] Meridian Flip dialog closed and removed');
+      } catch (error) {
+        console.error('[dialogStore] Error closing Meridian Flip dialog:', error);
+      }
+    },
+
+    /**
+     * Generic close dialog function for dialogs without special cleanup
+     */
+    async closeDialog(contentType) {
+      try {
+        const dialog = this.dialogs.find((d) => d.ContentType === contentType);
+
+        if (!dialog) {
+          console.warn(`[dialogStore] No dialog found with ContentType: ${contentType}`);
+          return;
+        }
+
+        console.log(`[dialogStore] Closing dialog: ${contentType}`);
+
+        // Close dialog via button click
+        await this.clickButton('PART_CloseButton', dialog.Title);
+
+        // Remove dialog from array (in case server doesn't send ClearDialog event)
+        this.dialogs = this.dialogs.filter((d) => d.ContentType !== contentType);
+        console.log(`[dialogStore] Dialog closed and removed: ${contentType}`);
+      } catch (error) {
+        console.error(`[dialogStore] Error closing dialog (${contentType}):`, error);
       }
     },
 

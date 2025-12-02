@@ -152,17 +152,31 @@ async function handleClose() {
     return;
   }
 
-  // Handle AutoFocus Dialog
+  // Handle AutoFocus Dialog - centralized cleanup
   if (isAutoFocusDialog.value) {
-    try {
-      console.log('Closing AutoFocus dialog - sending stopAutofocus');
-      await apiService.focuserAfAction('stopp');
-    } catch (error) {
-      console.error('Error during autofocus:', error);
-    }
+    await dialogStore.closeAutoFocusDialog();
+    return;
   }
 
-  // Default close logic for other dialogs
+  // Handle Manual Rotator Dialog - centralized cleanup
+  if (isManualRotatorDialog.value) {
+    await dialogStore.closeManualRotatorDialog();
+    return;
+  }
+
+  // Handle Meridian Flip Dialog - centralized cleanup
+  if (isMeridianFlipDialog.value) {
+    await dialogStore.closeMeridianFlipDialog();
+    return;
+  }
+
+  // Handle TPPA Dialog - centralized cleanup (no special cleanup needed)
+  if (isTPPADialog.value) {
+    await dialogStore.closeDialog(currentDialog.value?.ContentType);
+    return;
+  }
+
+  // Default close logic for any other dialogs
   const windowTitle = currentDialog.value?.Title;
   const availableCommands = currentDialog.value?.AvailableCommands || [];
 

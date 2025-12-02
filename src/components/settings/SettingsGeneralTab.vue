@@ -85,9 +85,7 @@
         {{ gpsError }}
       </div>
       <button
-        v-if="
-          store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
-        "
+        v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'"
         @click="locationStore.saveCoordinates"
         class="default-button-cyan mt-3"
       >
@@ -124,12 +122,7 @@
         @change="changeLanguage($event.target.value)"
         class="default-input w-full py-2"
       >
-        <option
-          v-for="lang in languages"
-          :key="lang.code"
-          :value="lang.code"
-          class="bg-gray-700"
-        >
+        <option v-for="lang in languages" :key="lang.code" :value="lang.code" class="bg-gray-700">
           {{ lang.name }}
         </option>
       </select>
@@ -293,7 +286,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, watchEffect } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -343,17 +336,27 @@ const checkKeepAwakeSupport = async () => {
   }
 };
 
-checkKeepAwakeSupport();
+onMounted(async () => {
+  checkKeepAwakeSupport();
+  // Load coordinates if backend is reachable
+  if (store.isBackendReachable) {
+    const storedCoords = settingsStore.coordinates;
+    if (storedCoords) {
+      latitude.value = storedCoords.latitude;
+      longitude.value = storedCoords.longitude;
+      altitude.value = storedCoords.altitude || 0;
+    }
+  }
+});
+
+watchEffect(() => {
+  currentLanguage.value = locale.value;
+});
 
 // Watch language changes
-const changeLanguage = async (newLanguage) => {
-  try {
-    settingsStore.setLanguage(newLanguage);
-    locale.value = newLanguage;
-    currentLanguage.value = newLanguage;
-  } catch (error) {
-    console.error('Error changing language:', error);
-  }
+const changeLanguage = (newLanguage) => {
+  locale.value = newLanguage;
+  settingsStore.setLanguage(newLanguage);
 };
 
 const onToggleKeepAwake = async (value) => {
@@ -371,16 +374,18 @@ const onToggleKeepAwake = async (value) => {
   }
 };
 
+const emit = defineEmits(['show-tutorial', 'restart-system', 'shutdown-system']);
+
 const showTutorial = () => {
-  // This will be emitted to parent
+  emit('show-tutorial');
 };
 
 // System actions
 const restartSystem = async () => {
-  // This will be emitted to parent
+  emit('restart-system');
 };
 
 const shutdownSystem = async () => {
-  // This will be emitted to parent
+  emit('shutdown-system');
 };
 </script>

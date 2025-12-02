@@ -57,12 +57,18 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { usePluginStore } from '@/store/pluginStore';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const pluginStore = usePluginStore();
+
+onMounted(async () => {
+  // Ensure plugins are loaded (force reload to catch metadata changes)
+  await pluginStore.loadAndRegisterPlugins(true);
+});
 
 const togglePlugin = async (pluginId, enabled) => {
   try {

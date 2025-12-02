@@ -12,7 +12,8 @@
 
     <div class="p-4 max-w-xl mx-auto space-y-6">
       <!-- General Tab -->
-      <SettingsGeneralTab v-if="activeTab === 'general'"
+      <SettingsGeneralTab
+        v-if="activeTab === 'general'"
         @show-tutorial="showTutorial"
         @restart-system="restartSystem"
         @shutdown-system="shutdownSystem"

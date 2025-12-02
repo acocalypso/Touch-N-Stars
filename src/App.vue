@@ -154,7 +154,7 @@
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
-      class="fixed inset-0 z-top flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50"
     >
       <div
         class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"

@@ -190,6 +190,10 @@
         "BlindFailoverEnabled": "Blind failover enabled",
         "ASTAPLocation": "ASTAP Location"
       },
+      "equipment": {
+        "title": "Equipment",
+        "description": "Manage your equipment settings"
+      },
       "update": "Update",
       "errors": {
         "instanceNameRequired": "Instance name is required",

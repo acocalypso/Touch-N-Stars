@@ -193,6 +193,10 @@
         "retry": "Wiederholungseinstellungen",
         "search": "Sucheinstellungen",
         "title": "Einstellungen für den Plate solver"
+      },
+      "equipment": {
+        "title": "Ausrüstung",
+        "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       }
     },
     "connectEquipment": {

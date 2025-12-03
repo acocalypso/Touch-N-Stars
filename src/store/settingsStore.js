@@ -9,7 +9,9 @@ export const useSettingsStore = defineStore('settings', {
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
     showDebugConsole: false,
     showSpecial: false,
+    isPinsEnabled: false,
     useBetaFeatures: false,
+    touchOptimized: true,
     livestack: {
       showFilters: true,
     },
@@ -321,6 +323,7 @@ export const useSettingsStore = defineStore('settings', {
           'keepAwakeEnabled',
           'livestack',
           'useBetaFeatures',
+          'touchOptimized',
           'camera',
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',

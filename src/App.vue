@@ -154,7 +154,7 @@
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
-      class="fixed inset-0 z-top flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50"
     >
       <div
         class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"
@@ -353,6 +353,7 @@ async function resumeApp() {
 
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
+  store.checkForPINS(); // Re-check for PINS support
 
   // Force UI refresh on resume
   routerViewKey.value = Date.now();
@@ -364,7 +365,19 @@ async function resumeApp() {
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
-  dialogStore.startPolling();
+
+  // Check for PINS support first
+  await store.checkForPINS();
+
+  // Initialize dialog updates based on mode
+  if (store.isPINS) {
+    // PINS/Headless mode: Use SignalR for real-time updates
+    await dialogStore.initializeDialogSignalR();
+  } else {
+    // WPF mode: Use polling
+    dialogStore.startPolling();
+  }
+
   imageStore.getImage();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
@@ -544,7 +557,19 @@ onMounted(async () => {
 
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
-  dialogStore.startPolling();
+
+  // Check for PINS support first
+  await store.checkForPINS();
+
+  // Initialize dialog updates based on mode
+  if (store.isPINS) {
+    // PINS/Headless mode: Use SignalR for real-time updates
+    await dialogStore.initializeDialogSignalR();
+  } else {
+    // WPF mode: Use polling
+    dialogStore.startPolling();
+  }
+
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
   }
@@ -647,7 +672,16 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
-  dialogStore.stopPolling();
+
+  // Stop dialog updates based on mode
+  if (store.isPINS) {
+    // Disconnect SignalR in PINS mode
+    await dialogStore.disconnectDialogSignalR();
+  } else {
+    // Stop polling in WPF mode
+    dialogStore.stopPolling();
+  }
+
   store.clearAllStates();
   store.isApiConnected = false;
   document.removeEventListener('visibilitychange', handleVisibilityChange);

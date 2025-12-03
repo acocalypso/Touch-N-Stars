@@ -153,6 +153,10 @@
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
       },
+      "input": {
+        "title": "Input Optimization",
+        "touchOptimized": "Touch-optimized picker"
+      },
       "beta": {
         "title": "Beta Update Channel"
       },
@@ -186,6 +190,10 @@
         "BlindFailoverEnabled": "Blind failover enabled",
         "ASTAPLocation": "ASTAP Location"
       },
+      "equipment": {
+        "title": "Equipment",
+        "description": "Manage your equipment settings"
+      },
       "update": "Update",
       "errors": {
         "instanceNameRequired": "Instance name is required",
@@ -193,6 +201,9 @@
         "invalidPortRange": "Invalid port range",
         "invalidInstance": "Invalid instance",
         "emptyFields": "Empty fields"
+      },
+      "telescope": {
+        "titel": "Telescope settings"
       }
     },
     "connectEquipment": {
@@ -360,7 +371,17 @@
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
-        "Az": "Az"
+        "Az": "Az",
+        "SideOfPier": "Side of pier"
+      },
+      "config": {
+        "settings": "Mount Settings",
+        "connectionMode": "Connection Mode",
+        "devicePort": "Device Port",
+        "ipAddress": "IP Address",
+        "baudRate": "Baud Rate",
+        "primaryReverse": "Primary Axis Reversed",
+        "secondaryReverse": "Secondary Axis Reversed"
       },
       "settings": {
         "meridian_flip_settings": "Meridian-Settings",
@@ -577,7 +598,7 @@
       "readout_mode": "Readout Mode",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
-        "title": "Chip settings",
+        "title": "Camera chip settings",
         "pixel_size": "Pixel size (μm)",
         "width": "Width (px)",
         "height": "Height (px)",

@@ -33,6 +33,7 @@ export const useFramingStore = defineStore('FramingStore', {
     width: 200,
     height: 200,
     slewIsStopt: false,
+    slewAbortController: null,
   }),
   actions: {
     async slew(RAangle, DECangle) {
@@ -63,14 +64,46 @@ export const useFramingStore = defineStore('FramingStore', {
     async slewAndCenterRotate(RAangle, DECangle, center, rotate) {
       this.slewIsStopt = false;
       console.log('SlewAndCenterRotate', RAangle, DECangle);
+
+      // Abort any existing slew operation
+      if (this.slewAbortController) {
+        console.log('Aborting previous slew operation');
+        this.slewAbortController.abort();
+      }
+
+      // Create new abort controller for this operation
+      this.slewAbortController = new AbortController();
       this.isSlewingAndCentering = true;
+
       try {
-        await apiService.slewAndCenter(RAangle, DECangle, center, rotate, this.rotationAngle);
+        await apiService.slewAndCenter(
+          RAangle,
+          DECangle,
+          center,
+          rotate,
+          this.rotationAngle,
+          this.slewAbortController.signal
+        );
       } catch (error) {
-        console.error('SlewAndCenter Error', error);
+        if (error.name === 'AbortError' || error.name === 'CanceledError') {
+          console.log('SlewAndCenter was cancelled');
+        } else {
+          console.error('SlewAndCenter Error', error);
+        }
       } finally {
         this.isSlewingAndCentering = false;
+        this.slewAbortController = null;
       }
+    },
+
+    cancelSlewAndCenter() {
+      console.log('cancelSlewAndCenter called');
+      if (this.slewAbortController) {
+        this.slewAbortController.abort();
+        this.slewAbortController = null;
+      }
+      this.isSlewingAndCentering = false;
+      this.slewIsStopt = false;
     },
     async slewStop() {
       console.log('slewStop');

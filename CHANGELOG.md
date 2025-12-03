@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.2.0.beta4] - 2025-12-xx
 ### Added
 - Equipment settings page
+- Mount: Siede of pier info
 
 ### Changed
 - Camera chipsettings are now in equipment settings page

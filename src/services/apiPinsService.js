@@ -35,7 +35,7 @@ const getUrls = () => {
 export default {
   //-------------------platesove the last image------------------------
   //http://localhost:1888/v2/api/platesolve
-  safetyAction() {
+  solveLastImage() {
     const { BASE_URL } = getUrls();
     return this._simpleGetRequest(`${BASE_URL}/platesolve`);
   },

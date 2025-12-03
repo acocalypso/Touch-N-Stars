@@ -3,7 +3,8 @@
     <div v-if="show" class="fixed inset-0 z-50 text-gray-200 p-2 pointer-events-none">
       <div
         ref="modalElement"
-        class="p-6 bg-gradient-to-br from-gray-950/20 rounded-lg shadow-lg w-80 sm:w-96 relative pointer-events-auto touch-none"
+        class="p-6 bg-gradient-to-br rounded-lg shadow-lg w-80 sm:w-96 relative pointer-events-auto touch-none"
+        :class="getOpacityClass()"
         :style="{ position: 'absolute', ...position }"
         @click.stop
       >
@@ -39,6 +40,14 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   show: Boolean,
+  opacity: {
+    type: Number,
+    default: 20, // 0-100
+  },
+  zIndex: {
+    type: String,
+    default: 'z-50',
+  },
 });
 
 const emit = defineEmits(['close']);
@@ -133,6 +142,20 @@ watch(
     }
   }
 );
+
+// Dynamische Klasse basierend auf Opacity
+function getOpacityClass() {
+  const opacity = props.opacity;
+  if (opacity <= 20) return 'from-gray-950/20';
+  if (opacity <= 30) return 'from-gray-950/30';
+  if (opacity <= 40) return 'from-gray-950/40';
+  if (opacity <= 50) return 'from-gray-950/50';
+  if (opacity <= 60) return 'from-gray-950/60';
+  if (opacity <= 70) return 'from-gray-950/70';
+  if (opacity <= 80) return 'from-gray-950/80';
+  if (opacity <= 90) return 'from-gray-950/90';
+  return 'from-gray-950/95';
+}
 </script>
 
 <style scoped>

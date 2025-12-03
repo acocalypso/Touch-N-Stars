@@ -152,6 +152,17 @@
         "title": "Manter tela ligada",
         "description": "Impede que o dispositivo escureça ou trave enquanto o aplicativo está aberto."
       },
+      "input": {
+        "title": "Otimização de entrada",
+        "touchOptimized": "Seletor otimizado para toque"
+      },
+      "equipment": {
+        "title": "Equipamento",
+        "description": "Gerenciar suas configurações de equipamento"
+      },
+      "telescope": {
+        "titel": "Configurações do telescópio"
+      },
       "beta": {
         "title": "Canal de atualização beta"
       },
@@ -360,6 +371,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Lado do muro",
         "timeToMeridianFlip": "Hora de Meridian Flip"
       },
       "settings": {
@@ -369,10 +381,10 @@
           "MinutesAfterMeridian": "Minutos depois do meridiano",
           "PauseTimeBeforeMeridian": "Tempo de pausa antes do meridiano",
           "Recenter": "Recentrador",
-          "RotateImageAfterFlip": "Rotate image after flip",
+          "RotateImageAfterFlip": "Girar imagem após a inversão",
           "SettleTime": "Tempo(s) de liquidação",
           "basic": "Configurações básicas",
-          "UseSideOfPier": "Use side of pier",
+          "UseSideOfPier": "Usar lado do muro",
           "behavior": "Comportamento",
           "post_flip_actions": "Ações pós-inversão"
         },

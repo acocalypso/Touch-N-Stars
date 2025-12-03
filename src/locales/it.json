@@ -152,6 +152,17 @@
         "title": "Mantieni schermo acceso",
         "description": "Impedisce al dispositivo di spegnersi o bloccarsi mentre l'app è aperta."
       },
+      "input": {
+        "title": "Ottimizzazione input",
+        "touchOptimized": "Selettore ottimizzato per touch"
+      },
+      "equipment": {
+        "title": "Attrezzatura",
+        "description": "Gestisci le impostazioni dell'attrezzatura"
+      },
+      "telescope": {
+        "titel": "Impostazioni del telescopio"
+      },
       "beta": {
         "title": "Canale di aggiornamento beta"
       },
@@ -360,6 +371,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Lato del muro",
         "timeToMeridianFlip": "Tempo per il lancio del meridiano"
       },
       "settings": {
@@ -369,10 +381,10 @@
           "MinutesAfterMeridian": "Minuti dopo il meridiano",
           "PauseTimeBeforeMeridian": "Tempo di pausa prima del meridiano",
           "Recenter": "Recente",
-          "RotateImageAfterFlip": "Rotate image after flip",
+          "RotateImageAfterFlip": "Ruota immagine dopo il giro",
           "SettleTime": "Tempo/i di liquidazione",
           "basic": "Impostazioni di base",
-          "UseSideOfPier": "Use side of pier",
+          "UseSideOfPier": "Usa lato del muro",
           "behavior": "Comportamento",
           "post_flip_actions": "Azioni post-giro"
         },

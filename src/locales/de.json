@@ -151,6 +151,17 @@
         "title": "Bildschirm aktiv halten",
         "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist. "
       },
+      "input": {
+        "title": "Eingabeoptimierung",
+        "touchOptimized": "Touchscreen-optimierte Auswahl"
+      },
+      "equipment": {
+        "title": "Ausrüstung",
+        "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
+      },
+      "telescope": {
+        "titel": "Teleskopeinstellungen"
+      },
       "beta": {
         "title": "Beta-Update-Kanal"
       },
@@ -351,6 +362,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Seite des Piers",
         "timeToMeridianFlip": "Zeit bis Meridian Flip"
       },
       "location_sync": {

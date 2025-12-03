@@ -286,12 +286,10 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, watchEffect } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { ref, onMounted, watchEffect } from 'vue';
 import { getAvailableLanguages } from '@/i18n';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
-import apiService from '@/services/apiService';
 import {
   latitude,
   longitude,
@@ -316,7 +314,6 @@ import SetBeta from '@/components/settings/setBeta.vue';
 import setImgMaxDimension from './setImgMaxDimension.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
-const { locale, t } = useI18n();
 const settingsStore = useSettingsStore();
 const store = apiStore();
 const locationStore = useLocationStore();

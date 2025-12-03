@@ -21,9 +21,6 @@
 </template>
 
 <script setup>
-import { useI18n } from 'vue-i18n';
 import settingsSensor from '@/components/settings/camera/settingsSensor.vue';
 import settingsTelescope from '@/components/settings/telescope/settingsTelescope.vue';
-
-const { t } = useI18n();
 </script>

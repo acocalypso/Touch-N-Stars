@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.2.0.beta4] - 2025-12-xx
 ### Added
 - Livestack plugin icon shows stacking status
+- Netherland language support - PeterKr
+- Plugin System Metrics
 
 ## [App4.2.0.beta3] - 2025-12-01
 ### Important information

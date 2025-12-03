@@ -39,6 +39,14 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   show: Boolean,
+  opacity: {
+    type: Number,
+    default: 20, // 0-100
+  },
+  zIndex: {
+    type: String,
+    default: 'z-50',
+  },
 });
 
 const emit = defineEmits(['close']);

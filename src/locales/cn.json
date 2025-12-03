@@ -152,6 +152,17 @@
         "title": "保持屏幕唤醒",
         "description": "防止应用程序打开时设备变暗或锁定。"
       },
+      "input": {
+        "title": "输入优化",
+        "touchOptimized": "触摸优化选择器"
+      },
+      "equipment": {
+        "title": "设备",
+        "description": "管理您的设备设置"
+      },
+      "telescope": {
+        "titel": "望远镜设置"
+      },
       "beta": {
         "title": "测试版更新通道"
       },
@@ -361,6 +372,7 @@
         "rightAscension": "Ra",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
+        "SideOfPier": "镜面选择",
         "timeToMeridianFlip": "距离子午线翻转的时间"
       },
       "settings": {
@@ -370,10 +382,10 @@
           "MinutesAfterMeridian": "Minutes after meridian",
           "PauseTimeBeforeMeridian": "Pause time before meridian",
           "Recenter": "Recenter",
-          "RotateImageAfterFlip": "Rotate image after flip",
-          "SettleTime": "Settle time (s)",
-          "basic": "Basic settings",
-          "UseSideOfPier": "Use side of pier",
+          "RotateImageAfterFlip": "翻转后旋转图像",
+          "SettleTime": "稳定时间(秒)",
+          "basic": "基本设置",
+          "UseSideOfPier": "使用镜面选择",
           "behavior": "Behavior",
           "post_flip_actions": "Post-flip actions"
         },
@@ -381,11 +393,13 @@
         "meridian_flip_settings": "Meridian-Settings"
       },
       "config": {
-        "baudRate": "Baud Rate",
-        "connectionMode": "Connection Mode",
-        "devicePort": "Device Port",
-        "ipAddress": "IP Address",
-        "settings": "Mount Settings"
+        "settings": "赤道仪设置",
+        "connectionMode": "连接模式",
+        "devicePort": "设备端口",
+        "ipAddress": "IP地址",
+        "baudRate": "波特率",
+        "primaryReverse": "主轴反向",
+        "secondaryReverse": "副轴反向"
       }
     },
     "guider": {
@@ -585,7 +599,7 @@
       "readout_mode": "读出模式",
       "set_use_platesolve": "使用板解析",
       "chip_settings": {
-        "title": "芯片设置",
+        "title": "Camera chip settings",
         "pixel_size": "像素尺寸 (μm)",
         "width": "宽度 (px)",
         "height": "高度 (px)",

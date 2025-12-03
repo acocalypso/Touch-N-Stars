@@ -52,6 +52,12 @@
       :Name="$t('components.mount.info.timeToMeridianFlip')"
       :Value="store.mountInfo.TimeToMeridianFlipString || ''"
     />
+    <StatusString
+      v-if="!hideMountInfos"
+      :isEnabled="!!store.mountInfo.SideOfPier"
+      :Name="$t('components.mount.info.SideOfPier')"
+      :Value="sideOfPierDisplay()"
+    />
   </div>
 </template>
 
@@ -70,4 +76,9 @@ const props = defineProps({
 });
 
 const { hideMountInfos } = props;
+
+const sideOfPierDisplay = () => {
+  const value = store.mountInfo.SideOfPier || '';
+  return value.replace('pier', '');
+};
 </script>

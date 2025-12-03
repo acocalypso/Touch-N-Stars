@@ -152,6 +152,17 @@
         "title": "Utrzymuj ekran aktywnym",
         "description": "Zapobiega przyciemnieniu lub blokowaniu urządzenia podczas otwartej aplikacji."
       },
+      "input": {
+        "title": "Optymalizacja wejścia",
+        "touchOptimized": "Selektor zoptymalizowany dla dotyku"
+      },
+      "equipment": {
+        "title": "Sprzęt",
+        "description": "Zarządzaj ustawieniami sprzętu"
+      },
+      "telescope": {
+        "titel": "Ustawienia teleskopu"
+      },
       "beta": {
         "title": "Kanał aktualizacji beta"
       },
@@ -360,7 +371,8 @@
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
-        "Az": "Az"
+        "Az": "Az",
+        "SideOfPier": "Strona mola"
       },
       "settings": {
         "meridian_flip": {
@@ -369,10 +381,10 @@
           "MinutesAfterMeridian": "Minuty po południku",
           "PauseTimeBeforeMeridian": "Zatrzymaj czas przed południkiem",
           "Recenter": "Ostatnio",
-          "RotateImageAfterFlip": "Rotate image after flip",
+          "RotateImageAfterFlip": "Obróć obraz po przewróceniu",
           "SettleTime": "Czas rozliczenia (y)",
           "basic": "Podstawowe ustawienia",
-          "UseSideOfPier": "Use side of pier",
+          "UseSideOfPier": "Użyj strony mola",
           "behavior": "Zachowanie",
           "post_flip_actions": "Działania po przewróceniu"
         },
@@ -380,11 +392,13 @@
         "meridian_flip_settings": "Ustawienia południka"
       },
       "config": {
-        "baudRate": "Szybkość transmisji",
+        "settings": "Ustawienia montowania",
         "connectionMode": "Tryb połączenia",
         "devicePort": "Port urządzenia",
         "ipAddress": "Adres IP",
-        "settings": "Ustawienia montowania"
+        "baudRate": "Szybkość transmisji",
+        "primaryReverse": "Oś pierwotna odwrócona",
+        "secondaryReverse": "Oś wtórna odwrócona"
       }
     },
     "guider": {
@@ -584,7 +598,7 @@
       "readout_mode": "Tryb odczytu",
       "set_use_platesolve": "Użyj Platesolve",
       "chip_settings": {
-        "title": "Ustawienia matrycy",
+        "title": "Ustawienia układu aparatu",
         "pixel_size": "Rozmiar piksela (μm)",
         "width": "Szerokość (px)",
         "height": "Wysokość (px)",

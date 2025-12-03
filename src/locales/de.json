@@ -151,6 +151,17 @@
         "title": "Bildschirm aktiv halten",
         "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist. "
       },
+      "input": {
+        "title": "Eingabeoptimierung",
+        "touchOptimized": "Touchscreen-optimierte Auswahl"
+      },
+      "equipment": {
+        "title": "Ausrüstung",
+        "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
+      },
+      "telescope": {
+        "titel": "Teleskopeinstellungen"
+      },
       "beta": {
         "title": "Beta-Update-Kanal"
       },
@@ -193,6 +204,10 @@
         "retry": "Wiederholungseinstellungen",
         "search": "Sucheinstellungen",
         "title": "Einstellungen für den Plate solver"
+      },
+      "equipment": {
+        "title": "Ausrüstung",
+        "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       }
     },
     "connectEquipment": {
@@ -347,6 +362,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Seite des Piers",
         "timeToMeridianFlip": "Zeit bis Meridian Flip"
       },
       "location_sync": {
@@ -380,11 +396,13 @@
         "telescope_settle_time": "Einschwingzeit nach Schwenken (s)"
       },
       "config": {
-        "baudRate": "Baudrate",
+        "settings": "Mount-Einstellungen",
         "connectionMode": "Verbindungsmodus",
         "devicePort": "Geräteport",
         "ipAddress": "IP-Adresse",
-        "settings": "Mount-Einstellungen"
+        "baudRate": "Baudrate",
+        "primaryReverse": "Primärachse umgekehrt",
+        "secondaryReverse": "Sekundärachse umgekehrt"
       }
     },
     "guider": {
@@ -587,7 +605,7 @@
         "focal_length": "Brennweite (mm)",
         "height": "Höhe (PX)",
         "pixel_size": "Pixelgröße (μm)",
-        "title": "Chipeinstellungen",
+        "title": "Einstellungen des Kamerachips",
         "width": "Breite (PX)"
       },
       "at_target_temp": "Zieltemperatur erreicht",

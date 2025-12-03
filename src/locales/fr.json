@@ -152,6 +152,17 @@
         "title": "Garder l'écran éveillé",
         "description": "Empêchez l'appareil de se grader ou de se verrouiller pendant que l'application est ouverte."
       },
+      "input": {
+        "title": "Optimisation des entrées",
+        "touchOptimized": "Sélecteur tactile"
+      },
+      "equipment": {
+        "title": "Équipement",
+        "description": "Gérer vos paramètres d'équipement"
+      },
+      "telescope": {
+        "titel": "Paramètres du télescope"
+      },
       "beta": {
         "title": "Canal de mise à jour bêta"
       },
@@ -360,6 +371,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Côté du mur",
         "timeToMeridianFlip": "Temps de flip méridien"
       },
       "settings": {
@@ -369,10 +381,10 @@
           "MinutesAfterMeridian": "Minutes après le méridien",
           "PauseTimeBeforeMeridian": "Temps de pause avant le méridien",
           "Recenter": "recentrer",
-          "RotateImageAfterFlip": "Rotate image after flip",
+          "RotateImageAfterFlip": "Faire pivoter l'image après le retournement",
           "SettleTime": "Temps de stabilisation",
           "basic": "Paramètres de base",
-          "UseSideOfPier": "Use side of pier",
+          "UseSideOfPier": "Utiliser le côté du mur",
           "behavior": "Comportement",
           "post_flip_actions": "Actions post-retournement"
         },
@@ -380,11 +392,13 @@
         "meridian_flip_settings": "Paramètres méridiens"
       },
       "config": {
-        "baudRate": "Débit en bauds",
+        "settings": "Paramètres de montage",
         "connectionMode": "Mode de connexion",
         "devicePort": "Port de périphérique",
         "ipAddress": "Adresse IP",
-        "settings": "Paramètres de montage"
+        "baudRate": "Débit en bauds",
+        "primaryReverse": "Axe primaire inversé",
+        "secondaryReverse": "Axe secondaire inversé"
       }
     },
     "guider": {
@@ -584,7 +598,7 @@
       "readout_mode": "Mode de lecture",
       "set_use_platesolve": "Utiliser Platesolve",
       "chip_settings": {
-        "title": "Paramètres du capteur",
+        "title": "Paramètres de la puce de la caméra",
         "pixel_size": "Taille de pixel (μm)",
         "width": "Largeur (px)",
         "height": "Hauteur (px)",

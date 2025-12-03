@@ -152,6 +152,17 @@
         "title": "Mantieni schermo acceso",
         "description": "Impedisce al dispositivo di spegnersi o bloccarsi mentre l'app è aperta."
       },
+      "input": {
+        "title": "Ottimizzazione input",
+        "touchOptimized": "Selettore ottimizzato per touch"
+      },
+      "equipment": {
+        "title": "Attrezzatura",
+        "description": "Gestisci le impostazioni dell'attrezzatura"
+      },
+      "telescope": {
+        "titel": "Impostazioni del telescopio"
+      },
       "beta": {
         "title": "Canale di aggiornamento beta"
       },
@@ -360,6 +371,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Lato del muro",
         "timeToMeridianFlip": "Tempo per il lancio del meridiano"
       },
       "settings": {
@@ -369,10 +381,10 @@
           "MinutesAfterMeridian": "Minuti dopo il meridiano",
           "PauseTimeBeforeMeridian": "Tempo di pausa prima del meridiano",
           "Recenter": "Recente",
-          "RotateImageAfterFlip": "Rotate image after flip",
+          "RotateImageAfterFlip": "Ruota immagine dopo il giro",
           "SettleTime": "Tempo/i di liquidazione",
           "basic": "Impostazioni di base",
-          "UseSideOfPier": "Use side of pier",
+          "UseSideOfPier": "Usa lato del muro",
           "behavior": "Comportamento",
           "post_flip_actions": "Azioni post-giro"
         },
@@ -380,11 +392,13 @@
         "meridian_flip_settings": "Impostazioni dei meridiani"
       },
       "config": {
-        "baudRate": "Velocità di trasmissione",
+        "settings": "Impostazioni di montaggio",
         "connectionMode": "Modalità di connessione",
         "devicePort": "Porta del dispositivo",
         "ipAddress": "Indirizzo IP",
-        "settings": "Impostazioni di montaggio"
+        "baudRate": "Velocità di trasmissione",
+        "primaryReverse": "Asse primario invertito",
+        "secondaryReverse": "Asse secondario invertito"
       }
     },
     "guider": {
@@ -584,7 +598,7 @@
       "readout_mode": "Modalità lettura",
       "set_use_platesolve": "Usa Platesolve",
       "chip_settings": {
-        "title": "Impostazioni chip",
+        "title": "Impostazioni del chip della fotocamera",
         "pixel_size": "Dimensione pixel (μm)",
         "width": "Larghezza (px)",
         "height": "Altezza (px)",

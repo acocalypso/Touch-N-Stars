@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Equipment settings page
 - Mount: Siede of pier info
 - Livestack plugin icon shows stacking status
+- Netherland language support - PeterKr
+- Plugin System Metrics
 
 ### Changed
 - Camera chipsettings are now in equipment settings page

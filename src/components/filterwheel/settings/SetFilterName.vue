@@ -3,12 +3,7 @@
     <label class="text-sm text-gray-200 mr-10 whitespace-nowrap">
       {{ $t('components.filterwheel.settings.FilterWheelFilters.Name') }}
     </label>
-    <input
-      v-model="value"
-      type="text"
-      class="default-input w-full"
-      @change="updateSetting"
-    />
+    <input v-model="value" type="text" class="default-input w-full" @change="updateSetting" />
   </div>
 </template>
 

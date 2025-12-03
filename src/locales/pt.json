@@ -392,11 +392,13 @@
         "meridian_flip_settings": "Configurações do Meridiano"
       },
       "config": {
-        "baudRate": "Taxa de transmissão",
+        "settings": "Configurações de montagem",
         "connectionMode": "Modo de conexão",
         "devicePort": "Porta do dispositivo",
         "ipAddress": "Endereço IP",
-        "settings": "Configurações de montagem"
+        "baudRate": "Taxa de transmissão",
+        "primaryReverse": "Eixo primário invertido",
+        "secondaryReverse": "Eixo secundário invertido"
       }
     },
     "guider": {

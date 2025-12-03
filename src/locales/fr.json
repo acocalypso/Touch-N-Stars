@@ -392,11 +392,13 @@
         "meridian_flip_settings": "Paramètres méridiens"
       },
       "config": {
-        "baudRate": "Débit en bauds",
+        "settings": "Paramètres de montage",
         "connectionMode": "Mode de connexion",
         "devicePort": "Port de périphérique",
         "ipAddress": "Adresse IP",
-        "settings": "Paramètres de montage"
+        "baudRate": "Débit en bauds",
+        "primaryReverse": "Axe primaire inversé",
+        "secondaryReverse": "Axe secondaire inversé"
       }
     },
     "guider": {

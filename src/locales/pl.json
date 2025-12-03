@@ -392,11 +392,13 @@
         "meridian_flip_settings": "Ustawienia południka"
       },
       "config": {
-        "baudRate": "Szybkość transmisji",
+        "settings": "Ustawienia montowania",
         "connectionMode": "Tryb połączenia",
         "devicePort": "Port urządzenia",
         "ipAddress": "Adres IP",
-        "settings": "Ustawienia montowania"
+        "baudRate": "Szybkość transmisji",
+        "primaryReverse": "Oś pierwotna odwrócona",
+        "secondaryReverse": "Oś wtórna odwrócona"
       }
     },
     "guider": {

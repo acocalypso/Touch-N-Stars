@@ -395,11 +395,13 @@
         "meridian_flip_settings": "Meridian-Settings"
       },
       "config": {
-        "baudRate": "Baud Rate",
-        "connectionMode": "Connection Mode",
-        "devicePort": "Device Port",
-        "ipAddress": "IP Address",
-        "settings": "Mount Settings"
+        "settings": "Nastavení montáže",
+        "connectionMode": "Režim připojení",
+        "devicePort": "Port zařízení",
+        "ipAddress": "IP adresa",
+        "baudRate": "Přenosová rychlost",
+        "primaryReverse": "Primární osa obrácená",
+        "secondaryReverse": "Sekundární osa obrácená"
       }
     },
     "guider": {

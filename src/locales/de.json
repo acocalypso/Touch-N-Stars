@@ -396,11 +396,13 @@
         "telescope_settle_time": "Einschwingzeit nach Schwenken (s)"
       },
       "config": {
-        "baudRate": "Baudrate",
+        "settings": "Mount-Einstellungen",
         "connectionMode": "Verbindungsmodus",
         "devicePort": "Geräteport",
         "ipAddress": "IP-Adresse",
-        "settings": "Mount-Einstellungen"
+        "baudRate": "Baudrate",
+        "primaryReverse": "Primärachse umgekehrt",
+        "secondaryReverse": "Sekundärachse umgekehrt"
       }
     },
     "guider": {

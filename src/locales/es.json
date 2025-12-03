@@ -147,6 +147,17 @@
         "sequence": "secuencia",
         "phd2": "PHD2"
       },
+      "input": {
+        "title": "Optimización de entrada",
+        "touchOptimized": "Selector optimizado para táctil"
+      },
+      "equipment": {
+        "title": "Equipo",
+        "description": "Gestionar la configuración de su equipo"
+      },
+      "telescope": {
+        "titel": "Configuración del telescopio"
+      },
       "beta": {
         "title": "Canal de actualización beta"
       },
@@ -347,6 +358,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Lado del muro",
         "timeToMeridianFlip": "Tiempo para voltear meridian"
       },
       "location_sync": {
@@ -369,10 +381,10 @@
           "MinutesAfterMeridian": "Minutos después del meridiano",
           "PauseTimeBeforeMeridian": "Tiempo de pausa antes del meridiano",
           "Recenter": "Recentrar",
-          "RotateImageAfterFlip": "Rotate image after flip",
+          "RotateImageAfterFlip": "Rotar imagen después del giro",
           "SettleTime": "Tiempo(s) de liquidación",
           "basic": "Configuraciones básicas",
-          "UseSideOfPier": "Use side of pier",
+          "UseSideOfPier": "Usar lado del muro",
           "behavior": "Comportamiento",
           "post_flip_actions": "Acciones posteriores al giro"
         },
@@ -587,7 +599,7 @@
         "focal_length": "Longitud focal (mm)",
         "height": "Alto (PX)",
         "pixel_size": "Tamaño de píxel (μm)",
-        "title": "Configuración del sensor",
+        "title": "Configuración del chip de la cámara",
         "width": "Ancho (PX)"
       },
       "at_target_temp": "A temperatura objetivo",

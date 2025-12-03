@@ -147,6 +147,17 @@
         "sequence": "sekvence",
         "phd2": "PHD2"
       },
+      "input": {
+        "title": "Optimalizace vstupu",
+        "touchOptimized": "Dotykový selektor"
+      },
+      "equipment": {
+        "title": "Vybavení",
+        "description": "Spravovat nastavení vybavení"
+      },
+      "telescope": {
+        "titel": "Nastavení dalekohledu"
+      },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
         "title": "Správa pluginů",
@@ -350,6 +361,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Strana mola",
         "timeToMeridianFlip": "Čas na Překlopení Poledník"
       },
       "location_sync": {
@@ -372,10 +384,10 @@
           "MinutesAfterMeridian": "Minutes after meridian",
           "PauseTimeBeforeMeridian": "Pause time before meridian",
           "Recenter": "Recenter",
-          "RotateImageAfterFlip": "Rotate image after flip",
-          "SettleTime": "Settle time (s)",
-          "basic": "Basic settings",
-          "UseSideOfPier": "Use side of pier",
+          "RotateImageAfterFlip": "Otočit snímek po otočení",
+          "SettleTime": "Doba usazení (s)",
+          "basic": "Základní nastavení",
+          "UseSideOfPier": "Použít stranu mola",
           "behavior": "Behavior",
           "post_flip_actions": "Post-flip actions"
         },
@@ -590,7 +602,7 @@
         "focal_length": "Ohnisková vzdálenost (mm)",
         "height": "Výška (px)",
         "pixel_size": "Velikost pixelů (μm)",
-        "title": "Nastavení čipu",
+        "title": "Camera chip settings",
         "width": "Šířka (px)"
       },
       "at_target_temp": "Při cílové teplotě",

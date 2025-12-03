@@ -18,8 +18,9 @@
       :step="step"
       :min="min"
       :max="max"
-      readonly
+      :readonly="settingsStore.touchOptimized"
       @focus="openPicker"
+      @input="onDirectInput"
     />
   </div>
 </template>
@@ -27,6 +28,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useNumberPicker } from '@/composables/useNumberPicker';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
   modelValue: {
@@ -84,6 +86,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'change']);
 
 const { openPicker: openNumberPicker } = useNumberPicker();
+const settingsStore = useSettingsStore();
 const statusClass = ref('');
 
 const isDefaultValue = computed(() => {
@@ -91,6 +94,11 @@ const isDefaultValue = computed(() => {
 });
 
 function openPicker() {
+  // If touch optimization is disabled, don't open picker
+  if (!settingsStore.touchOptimized) {
+    return;
+  }
+
   let valueToPass;
   if (isDefaultValue.value) {
     valueToPass = props.defaultValue !== null ? props.defaultValue : props.min;
@@ -114,5 +122,22 @@ function openPicker() {
     },
     props.decimalPlaces
   );
+}
+
+function onDirectInput(event) {
+  const value = event.target.value;
+  if (value === '' || value === null) {
+    emit('update:modelValue', -1);
+  } else {
+    const numValue = parseFloat(value);
+    if (!isNaN(numValue)) {
+      emit('update:modelValue', numValue);
+      statusClass.value = 'glow-green';
+      emit('change', numValue);
+      setTimeout(() => {
+        statusClass.value = '';
+      }, 1000);
+    }
+  }
 }
 </script>

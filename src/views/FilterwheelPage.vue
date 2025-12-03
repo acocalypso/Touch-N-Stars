@@ -19,6 +19,7 @@
       <div>
         <!-- Settings Button -->
         <button
+          v-if="false"
           @click="openSettings = true"
           class="default-button-gray flex items-center justify-center px-3 px-2 mt-2"
         >

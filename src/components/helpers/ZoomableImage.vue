@@ -1,17 +1,16 @@
 <template>
   <div
-    ref="imageContainer"
-    class="zoomable-image-container relative overflow-hidden w-full"
-    :class="containerClasses"
+    ref="container"
+    class="zoomable-image-container relative w-full overflow-hidden"
+    :style="{ height: height }"
   >
-    <!-- Action Buttons + Zoom Display (responsive position) -->
-    <div v-if="imageData" :class="actionAreaClasses">
+    <!-- Action Buttons -->
+    <div v-if="imageData" class="absolute top-2 right-2 z-10 flex gap-2 portrait:top-24">
       <!-- Download Button -->
       <button
         v-if="showDownload"
         @click.stop="handleDownload"
-        @touchstart.stop
-        :class="actionButtonClasses"
+        class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
         title="Download Image"
       >
         <ArrowDownTrayIcon class="w-5 h-5" />
@@ -21,8 +20,7 @@
       <button
         v-if="showFullscreen"
         @click.stop="handleFullscreen"
-        @touchstart.stop
-        :class="actionButtonClasses"
+        class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
         title="Open Fullscreen"
       >
         <MagnifyingGlassPlusIcon class="w-5 h-5" />
@@ -32,8 +30,8 @@
       <button
         v-if="showHistogram !== false"
         @click.stop="handleHistogramToggle"
-        @touchstart.stop
-        :class="[actionButtonClasses, showHistogramPulse && 'feature-highlight']"
+        class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
+        :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogramActive }"
         title="Toggle Histogram"
       >
         <svg
@@ -42,21 +40,12 @@
           fill="none"
           stroke="currentColor"
           stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
           class="w-5 h-5"
         >
-          <!-- Astrophoto histogram: steep rise at start, then smooth decline -->
           <polyline points="2,18 3,16 4,12 5,8 6,5 7,4 8,3 10,3 12,4 14,6 16,9 18,12 20,15 22,17" />
-          <!-- Base line -->
           <line x1="2" y1="20" x2="22" y2="20" />
         </svg>
       </button>
-    </div>
-
-    <!-- Custom Action Slot (bottom right) -->
-    <div v-if="$slots.actions && imageData" class="absolute bottom-2 right-2 z-50">
-      <slot name="actions"></slot>
     </div>
 
     <!-- Main Image -->
@@ -65,21 +54,20 @@
       ref="image"
       :src="imageData"
       :alt="altText"
-      class="w-full h-full object-contain cursor-move transition-opacity duration-200"
-      :class="{ 'opacity-90': loading }"
+      class="w-full h-full object-contain absolute inset-0"
       @load="onImageLoad"
       @error="onImageError"
       @click="handleImageClick"
     />
 
-    <!-- Loading Spinner Overlay -->
+    <!-- Loading Spinner -->
     <div
       v-if="loading && imageData"
       class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 z-40"
     >
       <div class="flex flex-col items-center text-white">
         <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-2"></div>
-        <p class="text-sm">Loading new image...</p>
+        <p class="text-sm">Loading...</p>
       </div>
     </div>
 
@@ -90,9 +78,7 @@
     >
       <slot name="placeholder">
         <div class="text-gray-400 text-center">
-          <div class="w-16 h-16 mx-auto mb-2 opacity-50">
-            <PhotoIcon class="w-full h-full" />
-          </div>
+          <PhotoIcon class="w-16 h-16 mx-auto mb-2 opacity-50" />
           <p class="text-sm">{{ placeholderText }}</p>
         </div>
       </slot>
@@ -102,13 +88,10 @@
 
 <script setup>
 import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
-import Panzoom from 'panzoom';
+import Panzoom from '@panzoom/panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
-import { useOrientation } from '@/composables/useOrientation';
-import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
-  // Image data
   imageData: {
     type: String,
     default: null,
@@ -121,17 +104,9 @@ const props = defineProps({
     type: String,
     default: 'No image available',
   },
-
-  // Loading state
   loading: {
     type: Boolean,
     default: false,
-  },
-
-  // UI Controls
-  showControls: {
-    type: Boolean,
-    default: true,
   },
   showDownload: {
     type: Boolean,
@@ -145,8 +120,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-
-  // Zoom settings
   minZoom: {
     type: Number,
     default: 0.8,
@@ -155,11 +128,9 @@ const props = defineProps({
     type: Number,
     default: 40,
   },
-
-  // Container settings
   height: {
     type: String,
-    default: 'auto', // 'auto', '60vh', '400px', etc.
+    default: '60vh',
   },
 });
 
@@ -174,249 +145,102 @@ const emits = defineEmits([
 ]);
 
 // Refs
-const imageContainer = ref(null);
+const container = ref(null);
 const image = ref(null);
-
-// Zoom state
 let panzoomInstance = null;
+
+// State
 const zoomLevel = ref(1);
-const originalWidth = ref(1);
-const originalHeight = ref(1);
-const savedTransform = ref(null); // Save zoom and pan position
-const imageLoadError = ref(false); // Track image load errors
+const imageLoadError = ref(false);
+const showHistogramActive = ref(false);
 
-// Check if in landscape mode
-const { isLandscape } = useOrientation();
-
-// Settings store for tracking histogram feature visit
-const settingsStore = useSettingsStore();
-const showHistogramPulse = ref(false);
-
-const checkHistogramFeatureHighlight = () => {
-  // Nur pulsieren wenn: Bild vorhanden, erfolgreich geladen UND Histogram noch nicht besucht
-  // Das Placeholder wird angezeigt wenn: !imageData || imageLoadError
-  // Also darf Puls nur an wenn: imageData && !imageLoadError
-  const hasVisitedHistogram = settingsStore.tutorial?.histogramVisited === true;
-  const isShowingPlaceholder = !props.imageData || imageLoadError.value;
-  const shouldPulse = !isShowingPlaceholder && !hasVisitedHistogram;
-  showHistogramPulse.value = shouldPulse;
-};
-
-const markHistogramAsVisited = () => {
-  settingsStore.tutorial.histogramVisited = true;
-  showHistogramPulse.value = false;
-};
-
-const handleFullscreen = () => {
-  emits('fullscreen', {
-    imageData: props.imageData,
-    zoomLevel: zoomLevel.value,
-  });
-};
-
-const handleHistogramToggle = () => {
-  markHistogramAsVisited();
-  emits('histogram-toggle');
-};
-
-const handleImageClick = () => {
-  emits('click', {
-    imageData: props.imageData,
-    zoomLevel: zoomLevel.value,
-  });
-};
-
-// Computed classes
-const containerClasses = computed(() => ({
-  'min-h-[60vh]': props.height === 'auto',
-}));
-
-const actionButtonClasses = computed(() => [
-  'w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg',
-  'flex items-center justify-center transition-colors backdrop-blur-sm',
-  'pointer-events-auto touch-manipulation active:bg-gray-600 active:scale-95',
-]);
-
-const actionAreaClasses = computed(() => [
-  'absolute z-10 flex gap-2 items-center',
-  !isLandscape.value
-    ? 'top-24 right-2' // Portrait fullscreen: below navigation
-    : 'top-2 right-2', // Landscape: top left (changed from right to left)
-]);
-
-// Zoom functions
-const logZoomLevel = () => {
-  if (image.value && panzoomInstance) {
-    try {
-      // Try different API methods depending on panzoom version
-      let currentScale = 1;
-
-      if (typeof panzoomInstance.getTransform === 'function') {
-        const transform = panzoomInstance.getTransform();
-        currentScale = transform.scale;
-      } else if (typeof panzoomInstance.getScale === 'function') {
-        currentScale = panzoomInstance.getScale();
-      } else {
-        // Fallback: calculate from DOM
-        const { width } = image.value.getBoundingClientRect();
-        currentScale = width / originalWidth.value;
-      }
-
-      if (Math.abs(currentScale - zoomLevel.value) > 0.01) {
-        zoomLevel.value = currentScale;
-        emits('zoom-change', currentScale);
-      }
-    } catch (error) {
-      console.warn('Error getting zoom level:', error);
-    }
-  }
-};
-
-const initializePanzoom = () => {
-  if (image.value) {
-    // Store original dimensions
-    originalWidth.value = image.value.naturalWidth;
-    originalHeight.value = image.value.naturalHeight;
-
-    try {
-      // Initialize panzoom with error handling
-      panzoomInstance = Panzoom(image.value, {
-        maxZoom: props.maxZoom,
-        minZoom: props.minZoom,
-        contain: 'inside',
-        smoothScroll: true,
-        zoomDoubleClickSpeed: 1,
-      });
-
-      // Event listeners with error handling
-      try {
-        panzoomInstance.on('zoom', logZoomLevel);
-        panzoomInstance.on('pan', logZoomLevel);
-        panzoomInstance.on('transform', logZoomLevel);
-      } catch (eventError) {
-        console.warn('Some panzoom events not available:', eventError);
-        // Fallback: just try zoom event
-        try {
-          panzoomInstance.on('zoom', logZoomLevel);
-        } catch (e) {
-          console.warn('No zoom events available');
-        }
-      }
-
-      // Restore saved transform if available
-      if (savedTransform.value) {
-        try {
-          // Use moveTo and zoomAbs separately for better position restoration
-          const { x, y, scale } = savedTransform.value;
-
-          // First zoom to the saved scale
-          panzoomInstance.zoomAbs(0, 0, scale);
-
-          // Then move to the saved position
-          panzoomInstance.moveTo(x, y);
-
-          //console.log('Restored zoom and position:', savedTransform.value);
-        } catch (error) {
-          console.warn('Could not restore transform:', error);
-        }
-      }
-
-      // Initial zoom level
-      logZoomLevel();
-
-      //console.log('Panzoom initialized successfully');
-      //console.log('Available methods:', Object.getOwnPropertyNames(panzoomInstance));
-    } catch (error) {
-      console.error('Error initializing panzoom:', error);
-    }
-
-    // Touch event handling for mobile - but exclude control areas
-    image.value.addEventListener(
-      'touchmove',
-      (event) => {
-        // Don't prevent if touch is on control buttons
-        if (!event.target.closest('.z-50')) {
-          event.preventDefault();
-        }
-      },
-      { passive: false }
-    );
-  }
-};
-
-const destroyPanzoom = () => {
-  if (panzoomInstance) {
-    // Save current transform before destroying
-    try {
-      if (typeof panzoomInstance.getTransform === 'function') {
-        savedTransform.value = panzoomInstance.getTransform();
-        //console.log('Saved transform:', savedTransform.value);
-      }
-    } catch (error) {
-      console.warn('Could not save transform:', error);
-    }
-
-    panzoomInstance.dispose();
-    panzoomInstance = null;
-  }
-};
-
-// Event handlers
+// Initialize Panzoom when image loads
 const onImageLoad = () => {
-  imageLoadError.value = false; // Clear error on successful load
+  imageLoadError.value = false;
   nextTick(() => {
-    destroyPanzoom();
-    initializePanzoom();
-    checkHistogramFeatureHighlight(); // Check when image successfully loads
+    initPanzoom();
     emits('image-load');
   });
 };
 
 const onImageError = (event) => {
-  imageLoadError.value = true; // Track that an error occurred
-  showHistogramPulse.value = false; // Stop pulsing on error
-  console.error('Image load error:', event);
+  imageLoadError.value = true;
   emits('image-error', event);
 };
 
-const handleDownload = () => {
-  emits('download', {
-    imageData: props.imageData,
-    zoomLevel: zoomLevel.value,
-  });
+const initPanzoom = () => {
+  // Destroy old instance if exists
+  if (panzoomInstance) {
+    panzoomInstance.destroy();
+  }
+
+  if (!image.value || !container.value) return;
+
+  try {
+    // Create new Panzoom instance on the image element directly
+    panzoomInstance = Panzoom(image.value, {
+      maxScale: props.maxZoom,
+      minScale: props.minZoom,
+      contain: 'outside',
+      step: 1.5, // Zoom increment per mousewheel/pinch event
+      friction: 0.15, // Drag deceleration (lower = slower/more resistance)
+    });
+
+    // Listen to zoom changes
+    image.value.addEventListener('panzoomchange', () => {
+      if (panzoomInstance) {
+        zoomLevel.value = panzoomInstance.getScale();
+        emits('zoom-change', zoomLevel.value);
+      }
+    });
+
+    // Add mousewheel support
+    container.value.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+  } catch (error) {
+    console.error('Error initializing Panzoom:', error);
+  }
 };
 
-// Watchers
+const destroyPanzoom = () => {
+  if (panzoomInstance) {
+    try {
+      panzoomInstance.destroy();
+    } catch (error) {
+      console.warn('Error destroying Panzoom:', error);
+    }
+    panzoomInstance = null;
+  }
+};
+
+const handleDownload = () => {
+  emits('download', { imageData: props.imageData, zoomLevel: zoomLevel.value });
+};
+
+const handleFullscreen = () => {
+  emits('fullscreen', { imageData: props.imageData, zoomLevel: zoomLevel.value });
+};
+
+const handleHistogramToggle = () => {
+  showHistogramActive.value = !showHistogramActive.value;
+  emits('histogram-toggle');
+};
+
+const handleImageClick = () => {
+  emits('click', { imageData: props.imageData, zoomLevel: zoomLevel.value });
+};
+
+// Watch for image changes
 watch(
   () => props.imageData,
-  (newImageData, oldImageData) => {
-    // Only destroy panzoom when image is removed (set to null)
-    // Don't call onImageLoad here - let the native @load event handle it
-    if (!newImageData && oldImageData) {
+  (newVal, oldVal) => {
+    if (!newVal && oldVal) {
       destroyPanzoom();
       zoomLevel.value = 1;
-      showHistogramPulse.value = false;
-    }
-    // Reset error flag when new image is provided
-    // checkHistogramFeatureHighlight() wird in onImageLoad() aufgerufen
-    if (newImageData) {
-      imageLoadError.value = false;
     }
   }
 );
 
-// Lifecycle
-onMounted(() => {
-  if (props.imageData) {
-    nextTick(() => {
-      onImageLoad(); // This will call checkHistogramFeatureHighlight()
-    });
-  } else {
-    // Kein Bild beim Mount - Puls deaktivieren
-    showHistogramPulse.value = false;
-  }
-});
-
+// Cleanup on unmount
 onBeforeUnmount(() => {
   destroyPanzoom();
 });
@@ -425,33 +249,13 @@ onBeforeUnmount(() => {
 <style scoped>
 .zoomable-image-container {
   position: relative;
-  overflow: hidden;
+  background-color: transparent;
 }
 
-/* Dynamic height based on prop */
-.zoomable-image-container {
-  height: v-bind(height);
-}
-
-/* Ensure image fills container */
 .zoomable-image-container img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-/* Backdrop blur for better button visibility */
-.backdrop-blur-sm {
-  backdrop-filter: blur(4px);
-}
-
-/* Smooth zoom transitions */
-.zoomable-image-container img {
-  transition: transform 0.1s ease-out;
-}
-
-/* Custom scrollbar for touch devices */
-.zoomable-image-container::-webkit-scrollbar {
-  display: none;
 }
 </style>

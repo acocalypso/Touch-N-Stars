@@ -88,14 +88,15 @@
         <div v-if="!imageData" class="text-white text-center">
           <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
         </div>
-        <img
-          v-if="imageData"
-          :src="getStretchSettings().stretchedImageData || imageData"
-          ref="image"
-          @load="onImageLoad"
-          class="w-full h-full object-contain cursor-move"
-          alt="Vergrößertes Bild"
-        />
+        <div v-if="imageData" ref="panzoomContainer" class="w-full h-full">
+          <img
+            :src="getStretchSettings().stretchedImageData || imageData"
+            ref="image"
+            @load="onImageLoad"
+            class="w-full h-full object-contain cursor-move"
+            alt="Vergrößertes Bild"
+          />
+        </div>
       </div>
 
       <!-- Histogram Overlay -->
@@ -120,7 +121,7 @@
 
 <script setup>
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
-import Panzoom from 'panzoom';
+import Panzoom from '@panzoom/panzoom';
 import { ArrowDownTrayIcon } from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
@@ -156,58 +157,54 @@ const props = defineProps({
 
 const emits = defineEmits(['close']);
 const image = ref(null);
+const imageContainer = ref(null);
 let panzoomInstance = null;
 const zoomLevel = ref(1);
-const originalWidth = ref(1);
-const originalHeight = ref(1);
-const currentWidth = ref(1);
-const currentHeight = ref(1);
 const showHistogram = ref(false);
 
 function closeModal() {
   emits('close');
 }
 
-const logZoomLevel = () => {
-  if (image.value) {
-    const { width, height } = image.value.getBoundingClientRect();
-    currentWidth.value = width;
-    currentHeight.value = height;
-
-    const zoomX = width / originalWidth.value;
-    const zoomY = height / originalHeight.value;
-    zoomLevel.value = Math.max(zoomX, zoomY);
-  }
-};
-
 const initializePanzoom = () => {
-  if (image.value) {
-    originalWidth.value = image.value.naturalWidth;
-    originalHeight.value = image.value.naturalHeight;
+  // Destroy old instance if exists
+  if (panzoomInstance) {
+    panzoomInstance.destroy();
+  }
 
+  if (!image.value || !imageContainer.value) return;
+
+  try {
+    // Create new Panzoom instance on the image element directly
     panzoomInstance = Panzoom(image.value, {
-      maxZoom: 40,
-      minZoom: 0.5,
-      contain: 'inside',
-      smoothScroll: true,
+      maxScale: 40,
+      minScale: 0.5,
+      contain: 'outside',
+      step: 1.5, // Zoom increment per mousewheel/pinch event
+      friction: 0.15, // Drag deceleration (lower = slower/more resistance)
     });
 
-    panzoomInstance.on('zoom', logZoomLevel);
-    logZoomLevel();
+    // Listen to zoom changes
+    image.value.addEventListener('panzoomchange', () => {
+      if (panzoomInstance) {
+        zoomLevel.value = panzoomInstance.getScale();
+      }
+    });
 
-    image.value.addEventListener(
-      'touchmove',
-      (event) => {
-        event.preventDefault();
-      },
-      { passive: false }
-    );
+    // Add mousewheel support
+    imageContainer.value.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+  } catch (error) {
+    console.error('Error initializing Panzoom:', error);
   }
 };
 
 const destroyPanzoom = () => {
   if (panzoomInstance) {
-    panzoomInstance.dispose();
+    try {
+      panzoomInstance.destroy();
+    } catch (error) {
+      console.warn('Error destroying Panzoom:', error);
+    }
     panzoomInstance = null;
   }
 };

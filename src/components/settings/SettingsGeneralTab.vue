@@ -313,7 +313,9 @@ import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
 import setImgMaxDimension from './setImgMaxDimension.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { useI18n } from 'vue-i18n';
 
+const { locale } = useI18n();
 const settingsStore = useSettingsStore();
 const store = apiStore();
 const locationStore = useLocationStore();

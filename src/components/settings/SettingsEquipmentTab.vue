@@ -17,7 +17,6 @@
         <settingsTelescope />
       </div>
     </div>
-
   </div>
 </template>
 

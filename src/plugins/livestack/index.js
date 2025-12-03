@@ -1,19 +1,26 @@
 // Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
-import { h, markRaw } from 'vue';
+import { h, markRaw, computed } from 'vue';
 import PluginView from './views/LiveStack.vue';
 import { usePluginStore } from '@/store/pluginStore';
+import { useLivestackStore } from './store/livestackStore';
 import metadata from './plugin.json';
 
 export default {
   metadata,
   install(app, options) {
     const pluginStore = usePluginStore();
+    const livestackStore = useLivestackStore();
     const router = options.router;
 
     // Get current plugin state from store
     const currentPlugin = pluginStore.plugins.find((p) => p.id === metadata.id);
     const pluginPath = currentPlugin ? currentPlugin.pluginPath : '/plugin2';
+
+    // Foreground color changes based on livestack running status
+    const strokeColor = computed(() =>
+      livestackStore.status === 'running' ? 'var(--color-green-500, #10b981)' : 'currentColor'
+    );
 
     // Register route with generic plugin path
     router.addRoute({
@@ -37,7 +44,7 @@ export default {
                 fill: 'none',
                 viewBox: '0 0 24 24',
                 'stroke-width': '1.5',
-                stroke: 'currentColor',
+                stroke: strokeColor.value,
               },
               [
                 // Back image

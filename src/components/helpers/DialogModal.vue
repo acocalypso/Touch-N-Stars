@@ -52,7 +52,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useDialogStore } from '@/store/dialogStore';
-import Modal from '@/components/helpers/Modal.vue';
+import Modal from '@/components/helpers/ModalTransparent.vue';
 import apiService from '@/services/apiService';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';

@@ -222,7 +222,7 @@
   />
 
   <!-- Mount Modal -->
-  <ModalTransparanet :show="showMount" @close="showMount = false">
+  <ModalTransparent :show="showMount" @close="showMount = false">
     <template #header>
       <div class="flex items-center justify-between w-full">
         <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
@@ -248,7 +248,7 @@
     <template #body>
       <moveAxis />
     </template>
-  </ModalTransparanet>
+  </ModalTransparent>
 </template>
 
 <script setup>
@@ -274,7 +274,7 @@ import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
-import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
+import ModalTransparent from '@/components/helpers/ModalTransparent.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import MountButton from '@/components/helpers/quickAccessButtons/MountButton.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';

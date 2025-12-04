@@ -3,7 +3,9 @@
     "cancel": "Annulla",
     "confirm": "Conferma",
     "close": "Chiudi",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Elimina",
+    "edit": "Modifica"
   },
   "general": {
     "cancel": "Annulla",
@@ -390,15 +392,6 @@
         },
         "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
         "meridian_flip_settings": "Impostazioni dei meridiani"
-      },
-      "config": {
-        "settings": "Impostazioni di montaggio",
-        "connectionMode": "Modalità di connessione",
-        "devicePort": "Porta del dispositivo",
-        "ipAddress": "Indirizzo IP",
-        "baudRate": "Velocità di trasmissione",
-        "primaryReverse": "Asse primario invertito",
-        "secondaryReverse": "Asse secondario invertito"
       }
     },
     "guider": {
@@ -688,8 +681,18 @@
       "position": "Posizione",
       "availableFilters": "Filtri Disponibili",
       "settings": {
-        "title": "Impostazioni filtro"
+        "title": "Impostazioni filtro",
+        "FilterWheelFilters": {
+          "FocusOffset": "Offset messa a fuoco",
+          "Position": "Posizione",
+          "AutoFocusExposureTime": "Tempo di esposizione autofocus",
+          "Name": "Nome"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Rimuovi Filtro",
+      "confirmMessage": "Sei sicuro di voler rimuovere questo filtro? Questa azione non può essere annullata."
     },
     "rotator": {
       "title": "Rotatore",

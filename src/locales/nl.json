@@ -3,7 +3,9 @@
     "cancel": "Annuleer",
     "confirm": "Bevestig",
     "close": "Sluiten",
-    "select": "Selecteer"
+    "select": "Selecteer",
+    "delete": "Verwijderen",
+    "edit": "Bewerken"
   },
   "general": {
     "cancel": "Annuleer",
@@ -193,6 +195,17 @@
         "retry": "Probeer de instellingen opnieuw",
         "search": "Zoekinstellingen",
         "title": "Instellingen plaatoplosser"
+      },
+      "equipment": {
+        "description": "Beheer uw apparatuurinstellingen",
+        "title": "Apparatuur"
+      },
+      "input": {
+        "title": "Invoeroptimalisatie",
+        "touchOptimized": "Touch-geoptimaliseerde kiezer"
+      },
+      "telescope": {
+        "titel": "Telescoop instellingen"
       }
     },
     "connectEquipment": {
@@ -360,7 +373,8 @@
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
-        "Az": "Az"
+        "Az": "Az",
+        "SideOfPier": "Kant van de pier"
       },
       "settings": {
         "meridian_flip": {
@@ -667,8 +681,18 @@
       "position": "Positie",
       "availableFilters": "Beschikbare Filters",
       "settings": {
-        "title": "Filterinstellingen"
+        "title": "Filterinstellingen",
+        "FilterWheelFilters": {
+          "FocusOffset": "Focusafwijking",
+          "Position": "Positie",
+          "AutoFocusExposureTime": "Belichtingstijd autofocus",
+          "Name": "Naam"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Filter verwijderen",
+      "confirmMessage": "Weet u zeker dat u dit filter wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden."
     },
     "rotator": {
       "title": "Rotator",

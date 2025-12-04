@@ -5,7 +5,7 @@
       <!-- Status Header -->
       <div
         v-show="slewAndCenterStatus"
-        class="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 w-full p-3 rounded-lg border border-blue-500/30"
+        class="bg-gradient-to-r from-blue-900/50 to-cyan-900/50 p-3 rounded-lg border border-blue-500/30"
       >
         <div class="flex items-center justify-between">
           <span class="text-xs text-gray-400">{{ slewAndCenterStatus }}</span>
@@ -27,24 +27,21 @@
           ]"
         >
           <p
-            class="text-xs mb-2"
+            class="text-xs mb-1"
             :class="isErrorWithinThreshold ? 'text-green-400' : 'text-gray-400'"
           >
             {{ $t('dialogs.plateSolving.error') }}
           </p>
-          <div class="space-y-1" :class="isErrorWithinThreshold ? 'text-green-300' : 'text-white'">
-            <p
-              v-for="(line, idx) in parseErrorDistance(currentMeasurement.ErrorDistance)"
-              :key="idx"
-              class="text-xs font-semibold"
-            >
-              {{ line }}
-            </p>
-          </div>
+          <p
+            class="font-semibold"
+            :class="isErrorWithinThreshold ? 'text-green-300' : 'text-white'"
+          >
+            {{ currentMeasurement.ErrorDistance }}
+          </p>
         </div>
         <div class="bg-gray-800 p-3 rounded-lg border border-gray-700">
           <p class="text-xs text-gray-400 mb-1">{{ $t('dialogs.plateSolving.rotation') }}</p>
-          <p class="text-white font-semibold">{{ Math.round(currentMeasurement.Rotation) }}°</p>
+          <p class="text-white font-semibold">{{ currentMeasurement.Rotation }}°</p>
         </div>
       </div>
 
@@ -78,10 +75,8 @@
                 <CheckIcon v-if="measurement.Success" class="w-5 h-5 text-green-400" />
                 <XMarkIcon v-else class="w-5 h-5 text-red-400" />
               </td>
-              <td class="px-2 py-2 text-gray-300">
-                {{ extractDistance(measurement.ErrorDistance) }}
-              </td>
-              <td class="px-2 py-2 text-gray-300">{{ Math.round(measurement.Rotation) }}°</td>
+              <td class="px-2 py-2 text-gray-300">{{ measurement.ErrorDistance }}</td>
+              <td class="px-2 py-2 text-gray-300">{{ measurement.Rotation }}°</td>
             </tr>
           </tbody>
         </table>
@@ -291,31 +286,5 @@ function getTableValue(row, header) {
   }
 
   return '';
-}
-
-function parseErrorDistance(errorDistance) {
-  if (!errorDistance || typeof errorDistance !== 'string') {
-    return [errorDistance];
-  }
-
-  // Split by semicolon and trim each part
-  return errorDistance
-    .split(';')
-    .map((part) => part.trim())
-    .filter((part) => part.length > 0);
-}
-
-function extractDistance(errorDistance) {
-  if (!errorDistance || typeof errorDistance !== 'string') {
-    return errorDistance;
-  }
-
-  // Extract "Distance: 74° 24' 55"" from the error distance string
-  const match = errorDistance.match(/Distance:\s*([^;]+)/);
-  if (match) {
-    return match[1].trim();
-  }
-
-  return errorDistance;
 }
 </script>

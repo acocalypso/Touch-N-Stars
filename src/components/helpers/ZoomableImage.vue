@@ -46,6 +46,9 @@
           <line x1="2" y1="20" x2="22" y2="20" />
         </svg>
       </button>
+
+      <!-- Plate Solve Button -->
+      <SolvePreparedImage v-if="showSolve" />
     </div>
 
     <!-- Main Image -->
@@ -90,6 +93,7 @@
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from '@panzoom/panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
+import SolvePreparedImage from '@/components/platesolve/solvePreparedImage.vue';
 
 const props = defineProps({
   imageData: {
@@ -117,6 +121,10 @@ const props = defineProps({
     default: true,
   },
   showHistogram: {
+    type: Boolean,
+    default: false,
+  },
+  showSolve: {
     type: Boolean,
     default: false,
   },

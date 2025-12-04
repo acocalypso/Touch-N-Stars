@@ -22,6 +22,7 @@
           :showDownload="true"
           :showFullscreen="true"
           :showHistogram="true"
+          :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
           height="100vh"
           altText="Captured Astrophoto"

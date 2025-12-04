@@ -206,6 +206,7 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
 import { useDialogStore } from './store/dialogStore';
+import { useMessageboxStore } from './store/messageboxStore';
 import { usePickerStore } from '@/store/pickerStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
@@ -232,6 +233,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
+const messageboxStore = useMessageboxStore();
 const imageStore = useImagetStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
@@ -344,6 +346,7 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
+  messageboxStore.stopPolling();
   // Alle Flags zurücksetzen für sauberen Neustart beim Resume
   store.clearAllStates();
 }
@@ -373,9 +376,11 @@ async function resumeApp() {
   if (store.isPINS) {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
+    await messageboxStore.initializeMessageboxSignalR();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
+    messageboxStore.startPolling();
   }
 
   imageStore.getImage();
@@ -565,9 +570,11 @@ onMounted(async () => {
   if (store.isPINS) {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
+    await messageboxStore.initializeMessageboxSignalR();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
+    messageboxStore.startPolling();
   }
 
   if (!sequenceStore.sequenceEdit) {
@@ -677,9 +684,11 @@ onBeforeUnmount(async () => {
   if (store.isPINS) {
     // Disconnect SignalR in PINS mode
     await dialogStore.disconnectDialogSignalR();
+    await messageboxStore.disconnectMessageboxSignalR();
   } else {
     // Stop polling in WPF mode
     dialogStore.stopPolling();
+    messageboxStore.stopPolling();
   }
 
   store.clearAllStates();

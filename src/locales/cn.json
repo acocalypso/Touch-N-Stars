@@ -2,7 +2,8 @@
   "common": {
     "cancel": "取消",
     "confirm": "确认",
-    "close": "关闭"
+    "close": "关闭",
+    "select": "Select"
   },
   "general": {
     "cancel": "取消",
@@ -151,6 +152,17 @@
         "title": "保持屏幕唤醒",
         "description": "防止应用程序打开时设备变暗或锁定。"
       },
+      "input": {
+        "title": "输入优化",
+        "touchOptimized": "触摸优化选择器"
+      },
+      "equipment": {
+        "title": "设备",
+        "description": "管理您的设备设置"
+      },
+      "telescope": {
+        "titel": "望远镜设置"
+      },
       "beta": {
         "title": "测试版更新通道"
       },
@@ -175,6 +187,23 @@
         "invalidPortRange": "无效的端口范围",
         "invalidInstance": "无效的实例",
         "emptyFields": "空字段"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Exposure time (s)",
+        "Gain": "Gain",
+        "MaxObjects": "Max objects",
+        "NumberOfAttempts": "Number of attempts",
+        "ReattemptDelay": "Reattempt delay (s)",
+        "RotationTolerance": "Rotation tolerance (°)",
+        "SearchRadius": "Search radius (°)",
+        "Threshold": "Threshold",
+        "basic": "Basic settings",
+        "retry": "Retry settings",
+        "search": "Search settings",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -343,7 +372,25 @@
         "rightAscension": "Ra",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
+        "SideOfPier": "镜面选择",
         "timeToMeridianFlip": "距离子午线翻转的时间"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Max minutes after meridian",
+          "MinutesAfterMeridian": "Minutes after meridian",
+          "PauseTimeBeforeMeridian": "Pause time before meridian",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "翻转后旋转图像",
+          "SettleTime": "稳定时间(秒)",
+          "basic": "基本设置",
+          "UseSideOfPier": "使用镜面选择",
+          "behavior": "Behavior",
+          "post_flip_actions": "Post-flip actions"
+        },
+        "telescope_settle_time": "Settle time after slew (s)",
+        "meridian_flip_settings": "Meridian-Settings"
       }
     },
     "guider": {
@@ -419,7 +466,19 @@
           "title": "PHD2 错误",
           "star-lost-message": "星点丢失"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither in RA Only",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Guiding Start Timeout (s)",
+      "phd2Path": "PHD2 Path",
+      "phd2ServerHost": "PHD2 Server Hostname",
+      "phd2ServerPort": "PHD2 Server Port",
+      "roiPercentage": "ROI Percentage to Find Guide Star (%)",
+      "settings": "Guider Settings",
+      "settlePixels": "Settle Pixel Tolerance (px)",
+      "settleTime": "Minimum Settle Time (s)",
+      "settleTimeout": "Settle Timeout (s)"
     },
     "focuser": {
       "title": "调焦器",
@@ -436,7 +495,38 @@
       "stopped": "已停止",
       "autofocus_active": "自动对焦激活中",
       "autofocus": "自动对焦",
-      "last_autofocus": "上次自动对焦"
+      "last_autofocus": "上次自动对焦",
+      "settings": {
+        "ABSOLUTE": "Absolute",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Curve fitting strategy",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Number of Frames Per Point",
+        "AutoFocusOuterCropRatio": "Outer Crop Ratio",
+        "AutoFocusStepSize": "Step Size",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Total Number of Attempts",
+        "AutoFocusUseBrightestStars": "Use Brightest Stars",
+        "BacklashCompensationModel": "Backlash compensation model",
+        "BacklashIn": "Backlash In",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Focuser Settle Time",
+        "HYPERBOLIC": "Hyperbolic",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabolic",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Trend Hyperbolic",
+        "TRENDLINES": "Trendlines",
+        "TRENDPARABOLIC": "Trend Parabolic",
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Basic Settings",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "穹顶",
@@ -500,7 +590,7 @@
       "readout_mode": "读出模式",
       "set_use_platesolve": "使用板解析",
       "chip_settings": {
-        "title": "芯片设置",
+        "title": "Camera chip settings",
         "pixel_size": "像素尺寸 (μm)",
         "width": "宽度 (px)",
         "height": "高度 (px)",
@@ -588,7 +678,10 @@
       "please_connect_filterwheel": "请连接滤镜轮",
       "currentFilter": "当前滤镜",
       "position": "位置",
-      "availableFilters": "可用滤镜"
+      "availableFilters": "可用滤镜",
+      "settings": {
+        "title": "Filter-Settings"
+      }
     },
     "rotator": {
       "title": "旋转器",
@@ -727,6 +820,132 @@
         "message": "NINA中的TouchNStars插件已过时，需要更新。",
         "required": "所需版本",
         "current": "当前版本"
+      }
+    },
+    "bahtifocus": {
+      "title": "Bahtinov Mask Analyzer",
+      "subtitle": "Capture or load an image to measure focus quality with your Bahtinov mask.",
+      "sections": {
+        "imageSource": "Image Source",
+        "imageSourceHint": "Capture a fresh frame, upload a file, or choose an example image to begin.",
+        "parameters": "Optical Parameters",
+        "parametersHint": "Enter the optical and camera data used for this exposure to get accurate metrics."
+      },
+      "image": {
+        "selectFile": "Select image",
+        "loadingCapture": "Loading capture…",
+        "useLatestCapture": "Use latest capture",
+        "examplePlaceholder": "Load example image…",
+        "clearSelection": "Clear selection",
+        "source": "Source",
+        "size": "File size",
+        "originalSize": "original {size}",
+        "mime": "Format",
+        "transport": "Upload mode",
+        "transportBinary": "Binary stream",
+        "transportLegacy": "Legacy JSON fallback",
+        "previewUnavailable": "Preview not available. The analysis still supports this format.",
+        "capturedName": "Latest capture",
+        "sourceCaptured": "Current capture",
+        "sourceExample": "Example image",
+        "sourceUpload": "Uploaded image",
+        "resizedTitle": "Image optimized",
+        "resizedMessage": "Resized to {width}×{height} (about {size}). Original size was {originalSize}."
+      },
+      "inputs": {
+        "focalLength": "Focal length (mm)",
+        "pixelSize": "Pixel size (µm)",
+        "focalRatio": "Focal ratio (f/)",
+        "apertureDiameter": "Aperture diameter (mm)",
+        "resizeFactor": "Resize factor"
+      },
+      "crop": {
+        "enable": "Crop processed region",
+        "x": "Crop X",
+        "y": "Crop Y",
+        "width": "Crop width",
+        "height": "Crop height"
+      },
+      "previousAngles": {
+        "label": "Previous angles",
+        "savedLabel": "Last saved angles",
+        "reset": "Restore last angles",
+        "input": "Angle {index} (°)"
+      },
+      "analysis": {
+        "lastDuration": "Last run: {seconds}s"
+      },
+      "actions": {
+        "resetForm": "Reset form",
+        "submitting": "Analyzing…",
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "显示光学参数",
+        "toggleParametersHide": "隐藏光学参数"
+      },
+      "camera": {
+        "capture": "捕获帧",
+        "capturing": "正在捕获…",
+        "captureFailed": "无法捕获新的图像。",
+        "abort": "中止捕获",
+        "abortFailed": "无法中止当前捕获。",
+        "exposureLabel": "曝光时间",
+        "exposureUnit": "秒",
+        "statusDisconnected": "请连接相机以捕获图像。",
+        "statusExposing": "曝光进行中…",
+        "statusExposingCountdown": "曝光进行中 – 剩余 {seconds} 秒。",
+        "statusLoading": "正在接收图像数据…",
+        "statusLooping": "循环曝光中，捕获会持续直到停止。"
+      },
+      "overlay": {
+        "title": "Overlay preview",
+        "processedSize": "Processed size: {width} x {height} px",
+        "noImage": "Select or capture an image to view the overlay."
+      },
+      "results": {
+        "title": "Analysis results",
+        "focusErrorPixels": "Focus error (px)",
+        "absoluteFocusError": "Focus error (mm)",
+        "criticalFocusThreshold": "Critical focus threshold (mm)",
+        "isWithinCriticalFocus": "Critical focus status",
+        "focusOk": "Within critical focus",
+        "focusNotOk": "Outside critical focus",
+        "maskAngle": "Mask angle (°)",
+        "effectiveResizeFactor": "Effective resize factor",
+        "lineAngles": "Mask line angles",
+        "updatedAngles": "Updated angles",
+        "cropApplied": "Processed crop",
+        "noCrop": "No crop applied",
+        "failure": "Analysis failed. Check the backend response for details.",
+        "placeholder": "Run the analyzer to see focus metrics here.",
+        "successTitle": "Analysis finished",
+        "successMessage": "Bahtinov metrics updated successfully."
+      },
+      "tips": {
+        "title": "Tips",
+        "tip1": "Use a bright star near the target to generate a clear diffraction pattern.",
+        "tip2": "Ensure the Bahtinov mask is aligned before capturing the image.",
+        "tip3": "Reuse the suggested angles to stabilize subsequent measurements."
+      },
+      "errors": {
+        "title": "Bahtinov analysis",
+        "readFile": "Unable to read the selected file.",
+        "captureLoad": "Failed to load the latest capture from N.I.N.A.",
+        "exampleLoad": "Could not load the example image.",
+        "analysisFailed": "Analysis request failed.",
+        "badRequest": "The server rejected the request. Please verify the parameters.",
+        "mockMode": "Bahtinov analysis is not available while the mock API is enabled.",
+        "missingServer": "Unable to determine the backend address. Check the connection settings."
+      },
+      "validation": {
+        "title": "Validation error",
+        "fixErrors": "Please fix the highlighted errors before running the analysis.",
+        "requiredPositive": "Enter a positive value.",
+        "invalidPositive": "Value must be positive.",
+        "ratioOrAperture": "Provide either the focal ratio or the aperture diameter.",
+        "invalidNonNegative": "Enter a non-negative value.",
+        "allAnglesRequired": "Provide all three angles or clear the fields.",
+        "invalidNumber": "Enter a valid number.",
+        "imageRequired": "Select an image before running the analysis."
       }
     },
     "logfileCollector": {

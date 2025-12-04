@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
-    "close": "Zamknij"
+    "close": "Zamknij",
+    "select": "Select"
   },
   "general": {
     "cancel": "Anuluj",
@@ -151,6 +152,17 @@
         "title": "Utrzymuj ekran aktywnym",
         "description": "Zapobiega przyciemnieniu lub blokowaniu urządzenia podczas otwartej aplikacji."
       },
+      "input": {
+        "title": "Optymalizacja wejścia",
+        "touchOptimized": "Selektor zoptymalizowany dla dotyku"
+      },
+      "equipment": {
+        "title": "Sprzęt",
+        "description": "Zarządzaj ustawieniami sprzętu"
+      },
+      "telescope": {
+        "titel": "Ustawienia teleskopu"
+      },
       "beta": {
         "title": "Kanał aktualizacji beta"
       },
@@ -175,6 +187,23 @@
         "invalidPortRange": "Nieprawidłowy zakres portu",
         "invalidInstance": "Nieprawidłowa instancja",
         "emptyFields": "Puste pola"
+      },
+      "general": "Ogólny",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Czas ekspozycji (y)",
+        "Gain": "Gain",
+        "MaxObjects": "Maksymalna liczba obiektów",
+        "NumberOfAttempts": "Liczba prób",
+        "ReattemptDelay": "Opóźnienie ponownej próby",
+        "RotationTolerance": "Tolerancja obrotu (°)",
+        "SearchRadius": "Promień wyszukiwania (°)",
+        "Threshold": "Próg",
+        "basic": "Podstawowe ustawienia",
+        "retry": "Spróbuj ponownie ustawień",
+        "search": "Ustawienia wyszukiwania",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -342,7 +371,25 @@
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
-        "Az": "Az"
+        "Az": "Az",
+        "SideOfPier": "Strona mola"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Maks. minuty po południku",
+          "MinutesAfterMeridian": "Minuty po południku",
+          "PauseTimeBeforeMeridian": "Zatrzymaj czas przed południkiem",
+          "Recenter": "Ostatnio",
+          "RotateImageAfterFlip": "Obróć obraz po przewróceniu",
+          "SettleTime": "Czas rozliczenia (y)",
+          "basic": "Podstawowe ustawienia",
+          "UseSideOfPier": "Użyj strony mola",
+          "behavior": "Zachowanie",
+          "post_flip_actions": "Działania po przewróceniu"
+        },
+        "telescope_settle_time": "Czas ustalenia po zaostrzeniu (s)",
+        "meridian_flip_settings": "Ustawienia południka"
       }
     },
     "guider": {
@@ -418,7 +465,19 @@
           "title": "Błąd PHD2",
           "star-lost-message": "Utracono gwiazdę"
         }
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dithering tylko w RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Limit czasu rozpoczęcia prowadzenia (s)",
+      "phd2Path": "Ścieżka PHD2",
+      "phd2ServerHost": "Nazwa hosta serwera PHD2",
+      "phd2ServerPort": "Port serwera PHD2",
+      "roiPercentage": "Procent ROI potrzebny do znalezienia gwiazdy prowadzącej (%)",
+      "settings": "Ustawienia przewodnika",
+      "settlePixels": "Ustaw tolerancję pikseli (px)",
+      "settleTime": "Minimalny czas osiadania (s)",
+      "settleTimeout": "Ustalenie limitu czasu (s)"
     },
     "focuser": {
       "title": "Focuser",
@@ -435,7 +494,38 @@
       "stopped": "Zatrzymany",
       "autofocus_active": "Autofokus aktywny",
       "autofocus": "Autofokus",
-      "last_autofocus": "Ostatni autofokus"
+      "last_autofocus": "Ostatni autofokus",
+      "settings": {
+        "ABSOLUTE": "Absolutny",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Strategia dopasowania krzywej",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Liczba klatek na punkt",
+        "AutoFocusOuterCropRatio": "Zewnętrzny współczynnik przycięcia",
+        "AutoFocusStepSize": "Rozmiar kroku",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Całkowita liczba prób",
+        "AutoFocusUseBrightestStars": "Użyj najjaśniejszych gwiazd",
+        "BacklashCompensationModel": "Model kompensacji luzów",
+        "BacklashIn": "Luz w",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Czas osiadania focusera",
+        "HYPERBOLIC": "Hiperboliczny",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Paraboliczny",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Trend hiperboliczny",
+        "TRENDLINES": "Linie trendu",
+        "TRENDPARABOLIC": "Trend paraboliczny",
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Ustawienia podstawowe",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Kopuła",
@@ -499,7 +589,7 @@
       "readout_mode": "Tryb odczytu",
       "set_use_platesolve": "Użyj Platesolve",
       "chip_settings": {
-        "title": "Ustawienia matrycy",
+        "title": "Ustawienia układu aparatu",
         "pixel_size": "Rozmiar piksela (μm)",
         "width": "Szerokość (px)",
         "height": "Wysokość (px)",
@@ -587,7 +677,10 @@
       "please_connect_filterwheel": "Proszę podłączyć koło filtrów",
       "currentFilter": "Aktualny filtr",
       "position": "Pozycja",
-      "availableFilters": "Dostępne filtry"
+      "availableFilters": "Dostępne filtry",
+      "settings": {
+        "title": "Ustawienia filtrów"
+      }
     },
     "rotator": {
       "title": "Rotator",
@@ -726,6 +819,132 @@
         "message": "Wtyczka TouchNStars w NINA jest przestarzała i wymaga aktualizacji.",
         "required": "Wymagana wersja",
         "current": "Aktualna wersja"
+      }
+    },
+    "bahtifocus": {
+      "title": "Bahtinov Mask Analyzer",
+      "subtitle": "Capture or load an image to measure focus quality with your Bahtinov mask.",
+      "sections": {
+        "imageSource": "Image Source",
+        "imageSourceHint": "Capture a fresh frame, upload a file, or choose an example image to begin.",
+        "parameters": "Optical Parameters",
+        "parametersHint": "Enter the optical and camera data used for this exposure to get accurate metrics."
+      },
+      "image": {
+        "selectFile": "Select image",
+        "loadingCapture": "Loading capture…",
+        "useLatestCapture": "Use latest capture",
+        "examplePlaceholder": "Load example image…",
+        "clearSelection": "Clear selection",
+        "source": "Source",
+        "size": "File size",
+        "originalSize": "original {size}",
+        "mime": "Format",
+        "transport": "Upload mode",
+        "transportBinary": "Binary stream",
+        "transportLegacy": "Legacy JSON fallback",
+        "previewUnavailable": "Preview not available. The analysis still supports this format.",
+        "capturedName": "Latest capture",
+        "sourceCaptured": "Current capture",
+        "sourceExample": "Example image",
+        "sourceUpload": "Uploaded image",
+        "resizedTitle": "Image optimized",
+        "resizedMessage": "Resized to {width}×{height} (about {size}). Original size was {originalSize}."
+      },
+      "inputs": {
+        "focalLength": "Focal length (mm)",
+        "pixelSize": "Pixel size (µm)",
+        "focalRatio": "Focal ratio (f/)",
+        "apertureDiameter": "Aperture diameter (mm)",
+        "resizeFactor": "Resize factor"
+      },
+      "crop": {
+        "enable": "Crop processed region",
+        "x": "Crop X",
+        "y": "Crop Y",
+        "width": "Crop width",
+        "height": "Crop height"
+      },
+      "previousAngles": {
+        "label": "Previous angles",
+        "savedLabel": "Last saved angles",
+        "reset": "Restore last angles",
+        "input": "Angle {index} (°)"
+      },
+      "analysis": {
+        "lastDuration": "Last run: {seconds}s"
+      },
+      "actions": {
+        "resetForm": "Reset form",
+        "submitting": "Analyzing…",
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Pokaż parametry optyczne",
+        "toggleParametersHide": "Ukryj parametry optyczne"
+      },
+      "camera": {
+        "capture": "Wykonaj klatkę",
+        "capturing": "Wykonywanie…",
+        "captureFailed": "Nie można wykonać nowej klatki.",
+        "abort": "Przerwij ekspozycję",
+        "abortFailed": "Nie udało się przerwać trwającej ekspozycji.",
+        "exposureLabel": "Czas ekspozycji",
+        "exposureUnit": "sekundy",
+        "statusDisconnected": "Podłącz kamerę, aby wykonywać klatki.",
+        "statusExposing": "Ekspozycja w toku…",
+        "statusExposingCountdown": "Ekspozycja w toku – pozostało {seconds}s.",
+        "statusLoading": "Pobieranie danych obrazu…",
+        "statusLooping": "Ekspozycje w pętli. Ekspozycja będzie powtarzana do zatrzymania."
+      },
+      "overlay": {
+        "title": "Overlay preview",
+        "processedSize": "Processed size: {width} x {height} px",
+        "noImage": "Select or capture an image to view the overlay."
+      },
+      "results": {
+        "title": "Analysis results",
+        "focusErrorPixels": "Focus error (px)",
+        "absoluteFocusError": "Focus error (mm)",
+        "criticalFocusThreshold": "Critical focus threshold (mm)",
+        "isWithinCriticalFocus": "Critical focus status",
+        "focusOk": "Within critical focus",
+        "focusNotOk": "Outside critical focus",
+        "maskAngle": "Mask angle (°)",
+        "effectiveResizeFactor": "Effective resize factor",
+        "lineAngles": "Mask line angles",
+        "updatedAngles": "Updated angles",
+        "cropApplied": "Processed crop",
+        "noCrop": "No crop applied",
+        "failure": "Analysis failed. Check the backend response for details.",
+        "placeholder": "Run the analyzer to see focus metrics here.",
+        "successTitle": "Analysis finished",
+        "successMessage": "Bahtinov metrics updated successfully."
+      },
+      "tips": {
+        "title": "Tips",
+        "tip1": "Use a bright star near the target to generate a clear diffraction pattern.",
+        "tip2": "Ensure the Bahtinov mask is aligned before capturing the image.",
+        "tip3": "Reuse the suggested angles to stabilize subsequent measurements."
+      },
+      "errors": {
+        "title": "Bahtinov analysis",
+        "readFile": "Unable to read the selected file.",
+        "captureLoad": "Failed to load the latest capture from N.I.N.A.",
+        "exampleLoad": "Could not load the example image.",
+        "analysisFailed": "Analysis request failed.",
+        "badRequest": "The server rejected the request. Please verify the parameters.",
+        "mockMode": "Bahtinov analysis is not available while the mock API is enabled.",
+        "missingServer": "Unable to determine the backend address. Check the connection settings."
+      },
+      "validation": {
+        "title": "Validation error",
+        "fixErrors": "Please fix the highlighted errors before running the analysis.",
+        "requiredPositive": "Enter a positive value.",
+        "invalidPositive": "Value must be positive.",
+        "ratioOrAperture": "Provide either the focal ratio or the aperture diameter.",
+        "invalidNonNegative": "Enter a non-negative value.",
+        "allAnglesRequired": "Provide all three angles or clear the fields.",
+        "invalidNumber": "Enter a valid number.",
+        "imageRequired": "Select an image before running the analysis."
       }
     },
     "logfileCollector": {

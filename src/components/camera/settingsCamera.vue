@@ -1,83 +1,84 @@
 <template>
   <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2">
-    <div
-      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
-    >
-      <label for="exposure" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
-        {{ $t('components.camera.exposure_time') }}
-      </label>
-      <input
-        id="exposure"
-        v-model.number="settingsStore.camera.exposureTime"
-        @change="setExposureTime"
-        type="number"
-        class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
-        placeholder="sek"
-        :class="statusClassExposureTime"
-      />
-    </div>
+    <NumberInputPicker
+      class="border border-gray-500 p-1 md:p-2 rounded-lg"
+      v-model="settingsStore.camera.exposureTime"
+      :label="$t('components.camera.exposure_time')"
+      labelKey="components.camera.exposure_time"
+      :min="0"
+      :max="9999"
+      :step="0.001"
+      :decimalPlaces="3"
+      placeholder="sek"
+      inputId="exposure"
+      @change="setExposureTime"
+    />
 
     <div
+      v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
       class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
     >
       <label for="gain" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
-        v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
         id="gain"
         @select="setGain"
         v-model.number="gain"
         class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
-        :class="statusClassGain"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
           {{ value }}
         </option>
       </select>
-      <input
-        v-else
-        id="gain"
-        @blur="setGain"
-        @change="setGain"
-        v-model.number="settingsStore.camera.gain"
-        type="number"
-        class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
-        placeholder="1"
-        :class="statusClassGain"
-      />
     </div>
+    <NumberInputPicker
+      v-else
+      class="border border-gray-500 p-1 md:p-2 rounded-lg"
+      v-model="settingsStore.camera.gain"
+      :label="$t('components.camera.gain_iso')"
+      labelKey="components.camera.gain_iso"
+      :min="0"
+      :max="9999"
+      :step="1"
+      :decimalPlaces="0"
+      placeholder="1"
+      inputId="gain"
+      @change="setGain"
+    />
 
-    <div
-      v-if="store.cameraInfo.CanSetOffset"
-      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
-    >
-      <label for="offset" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
-        {{ $t('components.camera.offset') }}
-      </label>
-      <select
+    <div v-if="store.cameraInfo.CanSetOffset">
+      <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
-        id="offset"
-        v-model.number="settingsStore.camera.offset"
-        @change="setOffset"
-        class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
-        :class="statusClassOffset"
+        class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
       >
-        <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
-          {{ value }}
-        </option>
-      </select>
-      <input
+        <label for="offset" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
+          {{ $t('components.camera.offset') }}
+        </label>
+        <select
+          id="offset"
+          v-model.number="settingsStore.camera.offset"
+          @change="setOffset"
+          class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
+        >
+          <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
+            {{ value }}
+          </option>
+        </select>
+      </div>
+      <NumberInputPicker
         v-else
-        id="offset"
-        v-model.number="settingsStore.camera.offset"
-        type="number"
-        @change="setOffset"
+        class="border border-gray-500 p-1 md:p-2 rounded-lg"
+        v-model="settingsStore.camera.offset"
+        :label="$t('components.camera.offset')"
+        labelKey="components.camera.offset"
         :min="store.cameraInfo.OffsetMin"
         :max="store.cameraInfo.OffsetMax"
-        class="default-input ml-auto h-7 md:h-8 w-20 md:w-28"
+        :step="1"
+        :decimalPlaces="0"
         placeholder="0"
-        :class="statusClassOffset"
+        inputId="offset"
+        @change="setOffset"
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
@@ -88,10 +89,11 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
 import setSolve from '@/components/camera/setSolve.vue';
@@ -99,10 +101,6 @@ import setSaveSnapshot from './setSaveSnapshot.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
-
-const statusClassOffset = ref('');
-const statusClassGain = ref('');
-const statusClassExposureTime = ref('');
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
@@ -143,36 +141,32 @@ async function setOffset() {
       settingsStore.camera.offset
     );
     console.log(data);
-    statusClassOffset.value = 'glow-green';
   } catch (error) {
     console.log('Error while setting offset');
-  } finally {
-    setTimeout(() => {
-      statusClassOffset.value = '';
-    }, 1000);
   }
 }
 
 async function setGain() {
   try {
-    const data = await apiService.profileChangeValue('SnapShotControlSettings-Gain', gain.value);
+    const data = await apiService.profileChangeValue(
+      'SnapShotControlSettings-Gain',
+      settingsStore.camera.gain
+    );
     console.log(data);
-    statusClassGain.value = 'glow-green';
   } catch (error) {
     console.log('Error while setting gain');
-  } finally {
-    setTimeout(() => {
-      statusClassGain.value = '';
-    }, 1000);
   }
 }
 
 async function setExposureTime() {
-  statusClassExposureTime.value = 'glow-green';
-  console.log('Error while setting exposure time');
-  setTimeout(() => {
-    statusClassExposureTime.value = '';
-  }, 1000);
+  try {
+    await apiService.profileChangeValue(
+      'CameraSettings-ExposureTime',
+      settingsStore.camera.exposureTime
+    );
+  } catch (error) {
+    console.log('Error while setting exposure time');
+  }
 }
 
 onMounted(() => {

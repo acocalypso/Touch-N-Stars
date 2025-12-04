@@ -141,7 +141,7 @@
       @open-modal="openModal"
     />
 
-    <ModalTransparanet :show="showMount" @close="showMount = false">
+    <ModalTransparent :show="showMount" @close="showMount = false">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
@@ -167,9 +167,9 @@
       <template #body>
         <moveAxis />
       </template>
-    </ModalTransparanet>
+    </ModalTransparent>
 
-    <ModalTransparanet :show="showFocuser" @close="showFocuser = false">
+    <ModalTransparent :show="showFocuser" @close="showFocuser = false">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
@@ -198,9 +198,9 @@
           <ButtonsFastChangePositon class="pt-2" />
         </div>
       </template>
-    </ModalTransparanet>
+    </ModalTransparent>
 
-    <ModalTransparanet :show="showFilter" @close="showFilter = false">
+    <ModalTransparent :show="showFilter" @close="showFilter = false">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
@@ -228,9 +228,9 @@
           <changeFilter />
         </div>
       </template>
-    </ModalTransparanet>
+    </ModalTransparent>
 
-    <ModalTransparanet :show="showRotator" @close="showRotator = false">
+    <ModalTransparent :show="showRotator" @close="showRotator = false">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.rotator.title') }}</h2>
@@ -258,7 +258,7 @@
           <controlRotator />
         </div>
       </template>
-    </ModalTransparanet>
+    </ModalTransparent>
   </div>
 </template>
 
@@ -274,7 +274,7 @@ import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
 import CaptureButton from '@/components/camera/CaptureButton.vue';
 import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
-import ModalTransparanet from '@/components/helpers/ModalTransparanet.vue';
+import ModalTransparent from '@/components/helpers/ModalTransparent.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';

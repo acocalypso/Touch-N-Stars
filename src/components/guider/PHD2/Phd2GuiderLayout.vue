@@ -297,7 +297,7 @@
     </div>
 
     <!-- Settings Modal -->
-    <Modal :show="openSettings" @close="openSettings = false">
+    <Modal :show="openSettings" @close="openSettings = false" maxWidth="max-w-md">
       <template #header>
         <h2 class="text-2xl font-semibold">{{ $t('components.camera.settings') }}</h2>
       </template>

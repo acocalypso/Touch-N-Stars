@@ -1,19 +1,20 @@
 <template>
-  <input
-    @blur="emitValue"
-    v-model.number="localValue"
-    type="number"
-    class="default-input h-10 w-40"
-    placeholder="1"
-    step="1"
+  <NumberInputPicker
+    v-model="localValue"
+    labelKey="components.switch.value"
     :min="props.min"
     :max="props.max"
+    :step="1"
+    :decimalPlaces="2"
+    inputId="switch-value"
+    @change="emitValue"
   />
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
-const emit = defineEmits(['blur']); // Event deklarieren
+const emit = defineEmits(['blur']);
 const props = defineProps({
   storeValue: {
     type: Number,
@@ -30,9 +31,8 @@ const props = defineProps({
 });
 const localValue = ref(0);
 
-// Funktion zum Emitten des Werts
 function emitValue() {
-  emit('blur', localValue.value); // Sende den Wert zurück an die Eltern-Komponente
+  emit('blur', localValue.value);
 }
 
 onMounted(() => {

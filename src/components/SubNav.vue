@@ -9,6 +9,9 @@
         @click="selectItem(item.value)"
         :title="item.name"
       >
+        <slot :name="`icon-${item.value}`">
+          <span class="w-4 h-4 flex-shrink-0" />
+        </slot>
         {{ item.name }}
       </button>
     </div>
@@ -48,30 +51,44 @@ const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
 }
 .subnav-button {
   @apply w-auto h-auto
-    border border-slate-600/30
-    bg-slate-800/40
-    text-gray-300
-    rounded-full
-    hover:bg-slate-700/60
-    hover:border-slate-500/50
+    bg-transparent
+    text-gray-400
+    rounded-md
     hover:text-gray-200
-    backdrop-blur-sm
+    hover:bg-gray-800/30
     transition-all
     duration-200
     ease-out
     focus:outline-none
-    focus:ring-2
-    focus:ring-cyan-500/40
-    px-2 py-2 text-xs
+    px-2 py-1.5 sm:px-4 sm:py-2
+    text-xs sm:text-sm
     flex-1
-    max-w-52;
+    max-w-52
+    flex
+    items-center
+    justify-center
+    gap-1 sm:gap-2
+    relative;
+}
+.subnav-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: transparent;
+  transition: all 200ms ease-out;
+}
+.subnav-button:hover::after {
+  background-color: rgba(6, 182, 212, 0.3);
 }
 .active-subnav-button {
-  @apply border border-cyan-500/50
-    bg-cyan-700/50
-    text-cyan-100
-    shadow-md
-    shadow-cyan-500/20;
+  @apply text-cyan-400;
+}
+.active-subnav-button::after {
+  background-color: rgba(6, 182, 212, 1) !important;
+  box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
 }
 /* Landscape mode specific styles */
 @media screen and (orientation: landscape) {

@@ -10,27 +10,93 @@ import websocketChannelService from '@/services/websocketChannelSocket';
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
+    isPINS: false,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
-    profileInfo: [],
-    cameraInfo: { IsExposing: false },
-    mountInfo: { TrackingMode: null },
-    filterInfo: [],
-    focuserInfo: [],
-    rotatorInfo: [],
-    focuserAfInfo: {},
+    profileInfo: {
+      CameraSettings: {
+        MinFlatExposureTime: 0,
+        MaxFlatExposureTime: 0,
+      },
+      FlatWizardSettings: {
+        HistogramTolerance: 0,
+        HistogramMeanTarget: 0,
+        FlatCount: 0,
+      },
+      TelescopeSettings: {
+        Id: 'Celestron AVX',
+      },
+      FilterWheelSettings: {
+        Id: 'ZWO EFW',
+      },
+      FocuserSettings: {
+        Id: 'ZWO EAF',
+      },
+      RotatorSettings: {
+        Id: 'Mock Rotator',
+      },
+      GuiderSettings: {
+        GuiderName: 'PHD2_Single',
+      },
+      FlatDeviceSettings: {
+        Id: 'Mock Flat Device',
+      },
+      DomeSettings: {
+        Id: 'Mock Dome',
+      },
+      SwitchSettings: {
+        Id: 'Mock Switch',
+      },
+      WeatherDataSettings: {
+        Id: 'Mock Weather',
+      },
+      SafetyMonitorSettings: {
+        Id: 'Mock Safety',
+      },
+      FramingAssistantSettings: {
+        LastSelectedImageSource: 'SKYATLAS',
+        CameraWidth: 3001,
+        CameraHeight: 1501,
+      },
+      PlateSolveSettings: {
+        Gain: 0,
+        ExposureTime: 0,
+      },
+      SnapShotControlSettings: {
+        Save: false,
+        Gain: 0,
+      },
+      AstrometrySettings: {
+        Latitude: 0,
+        Longitude: 0,
+        Elevation: 0,
+      },
+      MeridianFlipSettings: {
+        MinutesAfterMeridian: 0,
+        MaxMinutesAfterMeridian: 0,
+        PauseTimeBeforeMeridian: 0,
+        Recenter: false,
+        SettleTime: 0,
+        UseSideOfPier: false,
+        AutoFocusAfterFlip: false,
+        RotateImageAfterFlip: false,
+      },
+    },
+    cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
+    mountInfo: { Connected: false, TrackingMode: null },
+    filterInfo: { Connected: false },
+    focuserInfo: { Connected: false },
+    rotatorInfo: { Connected: false },
+    focuserAfInfo: { Connected: false },
+    guiderInfo: { Connected: false },
+    flatdeviceInfo: { Connected: false },
+    domeInfo: { Connected: false },
+    safetyInfo: { Connected: false, IsSafe: false },
+    switchInfo: { Connected: false },
+    weatherInfo: { Connected: false },
     afTimestampLastStart: null,
     afCurveData: [],
-    guiderInfo: [],
-    flatdeviceInfo: [],
-    domeInfo: [],
-    safetyInfo: {
-      Connected: false,
-      IsSafe: false,
-    },
-    switchInfo: [],
-    weatherInfo: [],
     attemptsToConnect: 0,
     isBackendReachable: false,
     isWebSocketConnected: false,
@@ -62,6 +128,9 @@ export const apiStore = defineStore('store', {
     isTnsPluginVersionNewerOrEqual: false,
     mount: {
       currentTab: 'showMount',
+    },
+    focuser: {
+      currentTab: 'showFocus',
     },
     closeErrorModal: false,
     errorMessageShown: false,
@@ -248,8 +317,15 @@ export const apiStore = defineStore('store', {
           }
         }
 
+        // Check if mock API mode is enabled
+        const useMockApi = localStorage.getItem('USE_MOCK_API') === 'true';
+
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
-        if (!websocketChannelService.isWebSocketConnected()) {
+        if (useMockApi) {
+          // In mock mode, skip WebSocket connection
+          console.log('[MOCK MODE] Skipping WebSocket connection');
+          this.isWebSocketConnected = true;
+        } else if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             //console.log('Channel WebSocket Message:', message);
@@ -817,24 +893,24 @@ export const apiStore = defineStore('store', {
       });
 
       // Clear data for disconnected devices
-      if (!this.isCameraConnected) this.cameraInfo = { IsExposing: false };
-      if (!this.isMountConnected) this.mountInfo = { TrackingMode: null };
-      if (!this.isFilterConnected) this.filterInfo = [];
-      if (!this.isRotatorConnected) this.rotatorInfo = [];
+      if (!this.isCameraConnected) this.cameraInfo = { Connected: false, IsExposing: false };
+      if (!this.isMountConnected) this.mountInfo = { Connected: false, TrackingMode: null };
+      if (!this.isFilterConnected) this.filterInfo = { Connected: false };
+      if (!this.isRotatorConnected) this.rotatorInfo = { Connected: false };
       if (!this.isFocuserConnected) {
-        this.focuserInfo = [];
-        this.focuserAfInfo = {};
+        this.focuserInfo = { Connected: false };
+        this.focuserAfInfo = { Connected: false };
       }
       if (!this.isGuiderConnected) {
-        this.guiderInfo = [];
+        this.guiderInfo = { Connected: false };
         this.afCurveData = [];
         this.afTimestampLastStart = null;
       }
-      if (!this.isFlatdeviceConnected) this.flatdeviceInfo = [];
-      if (!this.isDomeConnected) this.domeInfo = [];
+      if (!this.isFlatdeviceConnected) this.flatdeviceInfo = { Connected: false };
+      if (!this.isDomeConnected) this.domeInfo = { Connected: false };
       if (!this.isSafetyConnected) this.safetyInfo = { Connected: false, IsSafe: false };
-      if (!this.isWeatherConnected) this.weatherInfo = [];
-      if (!this.isSwitchConnected) this.switchInfo = [];
+      if (!this.isWeatherConnected) this.weatherInfo = { Connected: false };
+      if (!this.isSwitchConnected) this.switchInfo = { Connected: false };
 
       // Process autofocus events
       const autofocusStore = useAutofocusStore();

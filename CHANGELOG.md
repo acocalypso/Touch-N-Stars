@@ -4,8 +4,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.1.0] [ShortcutsPlugin1.0.0] [LivestackPlugin0.6.1]
 
+## [App4.2.0] [livestack0.6.2] [bahtifocus1.0.0] - 2025-12-04
+### Important information
+TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
+### Added
+- Equipment settings page
+- Mount: Side of pier info
+- Livestack plugin icon shows stacking status
+- Netherland language support - PeterKr
+- Plugin System Metrics
+- Plugin BahtiFocus
+- Close Autofocus dialog
+- Meridian settings
+- Autofocus settings
+- Numberpicker
+
+### Changed
+- Camera chipsettings are now in equipment settings page
+
+### Fixed
+- Fix settings modal layout
+- Fix console warnings
+
+## [App4.1.0] [ShortcutsPlugin1.0.0] [LivestackPlugin0.6.1]
 ### Important information
 - Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
 ### Added

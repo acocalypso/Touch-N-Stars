@@ -2,7 +2,8 @@
   "common": {
     "cancel": "Cancelar",
     "confirm": "Confirmar",
-    "close": "Cerca"
+    "close": "Cerca",
+    "select": "Select"
   },
   "general": {
     "cancel": "Cancelar",
@@ -146,6 +147,17 @@
         "sequence": "secuencia",
         "phd2": "PHD2"
       },
+      "input": {
+        "title": "Optimización de entrada",
+        "touchOptimized": "Selector optimizado para táctil"
+      },
+      "equipment": {
+        "title": "Equipo",
+        "description": "Gestionar la configuración de su equipo"
+      },
+      "telescope": {
+        "titel": "Configuración del telescopio"
+      },
       "beta": {
         "title": "Canal de actualización beta"
       },
@@ -175,6 +187,23 @@
       "keepAwake": {
         "description": "Evite que el dispositivo se atenúe o se bloquee mientras la aplicación está abierta.",
         "title": "Mantenga la pantalla despierta"
+      },
+      "general": "General",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP Location",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ExposureTime": "Tiempo(s) de exposición",
+        "Gain": "Gain",
+        "MaxObjects": "Objetos máximos",
+        "NumberOfAttempts": "Número de intentos",
+        "ReattemptDelay": "Retraso(s) de reintento",
+        "RotationTolerance": "Tolerancia de rotación (°)",
+        "SearchRadius": "Radio de búsqueda (°)",
+        "Threshold": "Límite",
+        "basic": "Configuraciones básicas",
+        "retry": "Reintentar configuración",
+        "search": "Configuración de búsqueda",
+        "title": "Plate solver settings"
       }
     },
     "connectEquipment": {
@@ -329,6 +358,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
+        "SideOfPier": "Lado del muro",
         "timeToMeridianFlip": "Tiempo para voltear meridian"
       },
       "location_sync": {
@@ -343,6 +373,23 @@
         },
         "confirmationMessage": "Si la 'Sincronización de ubicación' en Nina se establece en 'Aviso', puede aparecer una ventana de confirmación antes de que se envíen coordenadas al telescopio. \nPara evitar esto y permitir que TNS establezca automáticamente las coordenadas, recomendamos cambiar la configuración a 'sincronizar al telescopio'",
         "title": "Configuración de sincronización de ubicación"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "MaxMinutesAfterMeridian": "Minutos máximos después del meridiano",
+          "MinutesAfterMeridian": "Minutos después del meridiano",
+          "PauseTimeBeforeMeridian": "Tiempo de pausa antes del meridiano",
+          "Recenter": "Recentrar",
+          "RotateImageAfterFlip": "Rotar imagen después del giro",
+          "SettleTime": "Tiempo(s) de liquidación",
+          "basic": "Configuraciones básicas",
+          "UseSideOfPier": "Usar lado del muro",
+          "behavior": "Comportamiento",
+          "post_flip_actions": "Acciones posteriores al giro"
+        },
+        "telescope_settle_time": "Tiempo de liquidación después de la(s) serie(s)",
+        "meridian_flip_settings": "Configuración de meridianos"
       }
     },
     "guider": {
@@ -418,7 +465,19 @@
         "title": "Asistente de calibración",
         "west": "Oeste",
         "info": "El asistente de calibración lo ayuda desplazar la montura de manera óptima para la calibración y realizar una calibración precisa."
-      }
+      },
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Tramado solo en RA",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Tiempo de espera de inicio de guía",
+      "phd2Path": "Camino PHD2",
+      "phd2ServerHost": "Nombre de host del servidor PHD2",
+      "phd2ServerPort": "Puerto del servidor PHD2",
+      "roiPercentage": "Porcentaje de ROI para encontrar estrella guía (%)",
+      "settings": "Configuración de guía",
+      "settlePixels": "Establecer tolerancia de píxeles (px)",
+      "settleTime": "Tiempo mínimo de liquidación (s)",
+      "settleTimeout": "Liquidar tiempos de espera"
     },
     "focuser": {
       "title": "Enfocador",
@@ -435,7 +494,38 @@
       "stopped": "Parado",
       "autofocus_active": "Autoenfoque activo",
       "autofocus": "Autoenfoque",
-      "last_autofocus": "Último autoenfoque"
+      "last_autofocus": "Último autoenfoque",
+      "settings": {
+        "ABSOLUTE": "Absoluto",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
+        "AutoFocusFitFunction": "Estrategia de ajuste de curvas",
+        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusNumberOfFramesPerPoint": "Número de fotogramas por punto",
+        "AutoFocusOuterCropRatio": "Proporción de cultivo exterior",
+        "AutoFocusStepSize": "Tamaño del paso",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "AutoFocusTotalNumberOfAttempts": "Número total de intentos",
+        "AutoFocusUseBrightestStars": "Utilice las estrellas más brillantes",
+        "BacklashCompensationModel": "Modelo de compensación de reacción",
+        "BacklashIn": "Contragolpe en",
+        "BacklashOut": "Backlash Out",
+        "FocuserSettleTime": "Tiempo de establecimiento del enfocador",
+        "HYPERBOLIC": "Hiperbólico",
+        "OVERSHOOT": "Overshoot",
+        "PARABOLIC": "Parabólico",
+        "RSquaredThreshold": "R-Squared Threshold",
+        "TRENDHYPERBOLIC": "Tendencia hiperbólica",
+        "TRENDLINES": "Líneas de tendencia",
+        "TRENDPARABOLIC": "Tendencia parabólica",
+        "title": "Autofocus-Settings",
+        "advanced": "Advanced",
+        "backlash": "Backlash",
+        "basic": "Configuraciones básicas",
+        "crop_and_stars": "Crop"
+      },
+      "focus": "Focus"
     },
     "dome": {
       "title": "Cúpula",
@@ -502,7 +592,7 @@
         "focal_length": "Longitud focal (mm)",
         "height": "Alto (PX)",
         "pixel_size": "Tamaño de píxel (μm)",
-        "title": "Configuración del sensor",
+        "title": "Configuración del chip de la cámara",
         "width": "Ancho (PX)"
       },
       "at_target_temp": "A temperatura objetivo",
@@ -587,7 +677,10 @@
       "please_connect_filterwheel": "Por favor conecta la rueda de filtros",
       "currentFilter": "Filtro Actual",
       "position": "Posición",
-      "availableFilters": "Filtros Disponibles"
+      "availableFilters": "Filtros Disponibles",
+      "settings": {
+        "title": "Configuración de filtro"
+      }
     },
     "rotator": {
       "title": "Rotador",
@@ -726,6 +819,132 @@
         "message": "El plugin TouchNStars en NINA está desactualizado y necesita ser actualizado.",
         "required": "Versión requerida",
         "current": "Versión actual"
+      }
+    },
+    "bahtifocus": {
+      "title": "Bahtinov Mask Analyzer",
+      "subtitle": "Capture or load an image to measure focus quality with your Bahtinov mask.",
+      "sections": {
+        "imageSource": "Image Source",
+        "imageSourceHint": "Capture a fresh frame, upload a file, or choose an example image to begin.",
+        "parameters": "Optical Parameters",
+        "parametersHint": "Enter the optical and camera data used for this exposure to get accurate metrics."
+      },
+      "image": {
+        "selectFile": "Select image",
+        "loadingCapture": "Loading capture…",
+        "useLatestCapture": "Use latest capture",
+        "examplePlaceholder": "Load example image…",
+        "clearSelection": "Clear selection",
+        "source": "Source",
+        "size": "File size",
+        "originalSize": "original {size}",
+        "mime": "Format",
+        "transport": "Upload mode",
+        "transportBinary": "Binary stream",
+        "transportLegacy": "Legacy JSON fallback",
+        "previewUnavailable": "Preview not available. The analysis still supports this format.",
+        "capturedName": "Latest capture",
+        "sourceCaptured": "Current capture",
+        "sourceExample": "Example image",
+        "sourceUpload": "Uploaded image",
+        "resizedTitle": "Image optimized",
+        "resizedMessage": "Resized to {width}×{height} (about {size}). Original size was {originalSize}."
+      },
+      "inputs": {
+        "focalLength": "Focal length (mm)",
+        "pixelSize": "Pixel size (µm)",
+        "focalRatio": "Focal ratio (f/)",
+        "apertureDiameter": "Aperture diameter (mm)",
+        "resizeFactor": "Resize factor"
+      },
+      "crop": {
+        "enable": "Crop processed region",
+        "x": "Crop X",
+        "y": "Crop Y",
+        "width": "Crop width",
+        "height": "Crop height"
+      },
+      "previousAngles": {
+        "label": "Previous angles",
+        "savedLabel": "Last saved angles",
+        "reset": "Restore last angles",
+        "input": "Angle {index} (°)"
+      },
+      "analysis": {
+        "lastDuration": "Last run: {seconds}s"
+      },
+      "actions": {
+        "resetForm": "Reset form",
+        "submitting": "Analyzing…",
+        "runAnalysis": "Run analysis",
+        "toggleParametersShow": "Mostrar parámetros ópticos",
+        "toggleParametersHide": "Ocultar parámetros ópticos"
+      },
+      "camera": {
+        "capture": "Capturar cuadro",
+        "capturing": "Capturando…",
+        "captureFailed": "No se puede capturar un nuevo cuadro.",
+        "abort": "Abortar captura",
+        "abortFailed": "No se puede abortar la captura activa.",
+        "exposureLabel": "Tiempo de exposición",
+        "exposureUnit": "segundos",
+        "statusDisconnected": "Conecta una cámara para capturar cuadros.",
+        "statusExposing": "Exposición en curso…",
+        "statusExposingCountdown": "Exposición en curso – faltan {seconds}s.",
+        "statusLoading": "Recibiendo datos de imagen…",
+        "statusLooping": "Captura en bucle. La captura se repetirá hasta detenerse."
+      },
+      "overlay": {
+        "title": "Overlay preview",
+        "processedSize": "Processed size: {width} x {height} px",
+        "noImage": "Select or capture an image to view the overlay."
+      },
+      "results": {
+        "title": "Analysis results",
+        "focusErrorPixels": "Focus error (px)",
+        "absoluteFocusError": "Focus error (mm)",
+        "criticalFocusThreshold": "Critical focus threshold (mm)",
+        "isWithinCriticalFocus": "Critical focus status",
+        "focusOk": "Within critical focus",
+        "focusNotOk": "Outside critical focus",
+        "maskAngle": "Mask angle (°)",
+        "effectiveResizeFactor": "Effective resize factor",
+        "lineAngles": "Mask line angles",
+        "updatedAngles": "Updated angles",
+        "cropApplied": "Processed crop",
+        "noCrop": "No crop applied",
+        "failure": "Analysis failed. Check the backend response for details.",
+        "placeholder": "Run the analyzer to see focus metrics here.",
+        "successTitle": "Analysis finished",
+        "successMessage": "Bahtinov metrics updated successfully."
+      },
+      "tips": {
+        "title": "Tips",
+        "tip1": "Use a bright star near the target to generate a clear diffraction pattern.",
+        "tip2": "Ensure the Bahtinov mask is aligned before capturing the image.",
+        "tip3": "Reuse the suggested angles to stabilize subsequent measurements."
+      },
+      "errors": {
+        "title": "Bahtinov analysis",
+        "readFile": "Unable to read the selected file.",
+        "captureLoad": "Failed to load the latest capture from N.I.N.A.",
+        "exampleLoad": "Could not load the example image.",
+        "analysisFailed": "Analysis request failed.",
+        "badRequest": "The server rejected the request. Please verify the parameters.",
+        "mockMode": "Bahtinov analysis is not available while the mock API is enabled.",
+        "missingServer": "Unable to determine the backend address. Check the connection settings."
+      },
+      "validation": {
+        "title": "Validation error",
+        "fixErrors": "Please fix the highlighted errors before running the analysis.",
+        "requiredPositive": "Enter a positive value.",
+        "invalidPositive": "Value must be positive.",
+        "ratioOrAperture": "Provide either the focal ratio or the aperture diameter.",
+        "invalidNonNegative": "Enter a non-negative value.",
+        "allAnglesRequired": "Provide all three angles or clear the fields.",
+        "invalidNumber": "Enter a valid number.",
+        "imageRequired": "Select an image before running the analysis."
       }
     },
     "telescopius": {

@@ -31,7 +31,7 @@
         :min="0"
       />
     </div>
-    <AddNewFilter/>
+    <AddNewFilter />
   </div>
 </template>
 <script setup>

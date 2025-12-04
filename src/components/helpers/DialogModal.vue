@@ -1,5 +1,5 @@
 <template>
-  <Modal :show="showDialog" :opacity="90" @close="handleClose">
+  <Modal :show="showDialog" :opacity="90" :closeOnBackdropClick="false" @close="handleClose">
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentDialog?.Title || 'Dialog' }}

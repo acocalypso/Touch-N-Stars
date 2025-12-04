@@ -969,6 +969,20 @@ const apiService = {
     }
   },
 
+  // only in PINS version jm 04.12.2025
+  async removeFilter(filterNr) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/filterwheel/remove-filter`, {
+        params: { filterId: filterNr },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+
   //-------------------------------------  Rotator ---------------------------------------
   rotatorAction(action) {
     const { BASE_URL } = getUrls();

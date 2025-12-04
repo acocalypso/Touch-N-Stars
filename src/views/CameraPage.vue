@@ -22,6 +22,7 @@
           :showDownload="true"
           :showFullscreen="true"
           :showHistogram="true"
+          :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
           height="100vh"
           altText="Captured Astrophoto"
@@ -280,6 +281,7 @@ import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
+import SolvePreparedImage from '@/components/platesolve/solvePreparedImage.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 
 // Stores

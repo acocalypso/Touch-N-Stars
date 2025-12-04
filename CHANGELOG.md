@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Filtersettings
 
+### Changed
+- Change Panzoom lib 
+
 ## [App4.2.0] [livestack0.6.2][bahtifocus1.0.0] - 2025-12-04
 ### Important information
 TouchNStar Plugin 1.2.3.0 is required for BahtiFocus

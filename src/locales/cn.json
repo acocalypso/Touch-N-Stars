@@ -9,7 +9,9 @@
   },
   "general": {
     "cancel": "取消",
-    "confirm": "确认"
+    "confirm": "确认",
+    "yes": "是",
+    "no": "否"
   },
   "pages": {
     "equipment": {
@@ -822,6 +824,16 @@
       "imageModal": {
         "no_image": "暂无图像数据"
       }
+    },
+    "platesolve": {
+      "solve_successful": "解析成功",
+      "solve_failed": "解析失败",
+      "solving": "解析中...",
+      "solve_time": "解析时间",
+      "orientation": "方向",
+      "flipped": "翻转",
+      "ra": "赤经",
+      "dec": "赤纬"
     }
   },
   "plugins": {

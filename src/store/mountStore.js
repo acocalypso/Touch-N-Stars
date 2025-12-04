@@ -29,6 +29,7 @@ export const useMountStore = defineStore('mountStore', {
       }
       try {
         const response = await apiService.mountAction(`sync?ra=${raAngle}&dec=${decAngle}`);
+        console.log('[mountSotre] Sync response:', response);
         // Speichere lastSyncTime bei erfolgreichem Sync
         this.lastSyncTime = new Date().toISOString();
         console.log('[mountSotre] Coordinates synced successfully', this.lastSyncTime);

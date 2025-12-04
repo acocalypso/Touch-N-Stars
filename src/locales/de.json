@@ -9,7 +9,9 @@
   },
   "general": {
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "pages": {
     "equipment": {
@@ -824,6 +826,16 @@
       "imageModal": {
         "no_image": "Keine Bilddaten verfügbar"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Lösung erfolgreich",
+      "solve_failed": "Lösung fehlgeschlagen",
+      "solving": "Löse...",
+      "solve_time": "Lösungszeit",
+      "orientation": "Ausrichtung",
+      "flipped": "Gespiegelt",
+      "ra": "RA",
+      "dec": "Dek"
     }
   },
   "plugins": {

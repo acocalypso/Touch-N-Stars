@@ -3,7 +3,8 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "close": "Close",
-    "select": "Select"
+    "select": "Select",
+    "edit": "Edit"
   },
   "general": {
     "cancel": "Cancel",
@@ -688,7 +689,13 @@
       "position": "Position",
       "availableFilters": "Available Filters",
       "settings": {
-        "title": "Filter-Settings"
+        "title": "Filter-Settings",
+        "FilterWheelFilters": {
+          "FocusOffset": "Focus Offset",
+          "Position": "Position",
+          "AutoFocusExposureTime": "AutoFocus Exposure Time",
+          "Name": "Name"
+        }
       }
     },
     "rotator": {

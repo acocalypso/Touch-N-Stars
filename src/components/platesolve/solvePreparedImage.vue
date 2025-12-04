@@ -139,8 +139,10 @@
 <script setup>
 import { ref } from 'vue';
 import apiService from '@/services/apiService';
+import { useCameraStore } from '@/store/cameraStore';
 import ButtomSyncCoordinatesToMount from '../mount/ButtomSyncCoordinatesToMount.vue';
 
+const cameraStore = useCameraStore();
 const isSolving = ref(false);
 const showModal = ref(false);
 const solveResult = ref(null);
@@ -163,9 +165,9 @@ async function solvePreparedImage() {
     solveError.value = null;
     const response = await apiService.solvePreparedImage();
     solveResult.value = response;
-    console.log('Solve Result:', response);
+    cameraStore.plateSolveResult = response.Response;
   } catch (error) {
-    console.error('Error solving prepared image:', error);
+    console.error('[solvePreparedImage] Error solving prepared image:', error);
     solveError.value = error.message || 'Failed to solve image';
   } finally {
     isSolving.value = false;

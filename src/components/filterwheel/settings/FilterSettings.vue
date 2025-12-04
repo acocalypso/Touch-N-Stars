@@ -10,7 +10,7 @@
           {{ $t('components.filterwheel.settings.FilterWheelFilters.Position') }}
           {{ filter.Position + 1 }}
         </h3>
-        <RemoveFilter :filterId="getOriginalIndex(filter)" />
+        <RemoveFilter v-if="store.isPINS" :filterId="getOriginalIndex(filter)" />
       </div>
       <SetFilterName
         v-model="filter.Name"
@@ -31,7 +31,7 @@
         :min="0"
       />
     </div>
-    <AddNewFilter />
+    <AddNewFilter v-if="store.isPINS" />
   </div>
 </template>
 <script setup>

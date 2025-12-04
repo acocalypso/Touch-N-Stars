@@ -8,7 +8,6 @@ import cn from './locales/cn.json';
 import pt from './locales/pt.json';
 import es from './locales/es.json';
 import pl from './locales/pl.json';
-import nl from './locales/nl.json';
 
 // Available languages with their display names
 const availableLanguages = [
@@ -21,7 +20,6 @@ const availableLanguages = [
   { code: 'pt', name: 'Português' },
   { code: 'es', name: 'Español' },
   { code: 'pl', name: 'Polski' },
-  { code: 'nl', name: 'Nederlands' },
 ];
 
 const messages = {
@@ -34,7 +32,6 @@ const messages = {
   pt,
   es,
   pl,
-  nl,
 };
 
 // Create i18n instance

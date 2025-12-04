@@ -395,15 +395,6 @@
         },
         "telescope_settle_time": "Settle time after slew (s)",
         "meridian_flip_settings": "Meridian-Settings"
-      },
-      "config": {
-        "settings": "Nastavení montáže",
-        "connectionMode": "Režim připojení",
-        "devicePort": "Port zařízení",
-        "ipAddress": "IP adresa",
-        "baudRate": "Přenosová rychlost",
-        "primaryReverse": "Primární osa obrácená",
-        "secondaryReverse": "Sekundární osa obrácená"
       }
     },
     "guider": {

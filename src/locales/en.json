@@ -376,15 +376,6 @@
         "Az": "Az",
         "SideOfPier": "Side of pier"
       },
-      "config": {
-        "settings": "Mount Settings",
-        "connectionMode": "Connection Mode",
-        "devicePort": "Device Port",
-        "ipAddress": "IP Address",
-        "baudRate": "Baud Rate",
-        "primaryReverse": "Primary Axis Reversed",
-        "secondaryReverse": "Secondary Axis Reversed"
-      },
       "settings": {
         "meridian_flip_settings": "Meridian-Settings",
         "telescope_settle_time": "Settle time after slew (s)",

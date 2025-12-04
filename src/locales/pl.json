@@ -392,15 +392,6 @@
         },
         "telescope_settle_time": "Czas ustalenia po zaostrzeniu (s)",
         "meridian_flip_settings": "Ustawienia południka"
-      },
-      "config": {
-        "settings": "Ustawienia montowania",
-        "connectionMode": "Tryb połączenia",
-        "devicePort": "Port urządzenia",
-        "ipAddress": "Adres IP",
-        "baudRate": "Szybkość transmisji",
-        "primaryReverse": "Oś pierwotna odwrócona",
-        "secondaryReverse": "Oś wtórna odwrócona"
       }
     },
     "guider": {

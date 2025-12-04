@@ -98,22 +98,6 @@ const apiService = {
     }
   },
 
-  // Backend reachability check
-  async fetchPinsVersion(timeout = DEFAULT_TIMEOUT) {
-    const { BASE_URL } = getUrls();
-    try {
-      const { data } = await axios.get(`${BASE_URL}/version/pins`, { timeout });
-      return data;
-    } catch (err) {
-      if (err.code === 'ECONNABORTED') {
-        console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);
-      } else {
-        // console.error('Error reaching backend:', err.message);
-      }
-      return null;
-    }
-  },
-
   //------------------------------------------- time -------------------------------------------------
   async fetchNinaTime() {
     const { BASE_URL } = getUrls();
@@ -1284,10 +1268,10 @@ const apiService = {
     }
   },
 
-  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle, abortSignal = null) {
+  async slewAndCenter(ra, dec, Center = false, rotate = false, rotationAngle) {
     try {
       const { BASE_URL } = getUrls();
-      const config = {
+      const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, {
         params: {
           ra: ra,
           dec: dec,
@@ -1296,14 +1280,7 @@ const apiService = {
           rotationAngle: rotationAngle,
           waitForResult: true,
         },
-      };
-
-      // Add abort signal if provided
-      if (abortSignal) {
-        config.signal = abortSignal;
-      }
-
-      const response = await axios.get(`${BASE_URL}/equipment/mount/slew`, config);
+      });
       console.log('Slew response: ', response);
       return response.data;
     } catch (error) {

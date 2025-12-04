@@ -9,7 +9,6 @@ export const useSettingsStore = defineStore('settings', {
     setupCompleted: localStorage.getItem('setupCompleted') === 'true',
     showDebugConsole: false,
     showSpecial: false,
-    isPinsEnabled: false,
     useBetaFeatures: false,
     touchOptimized: true,
     livestack: {

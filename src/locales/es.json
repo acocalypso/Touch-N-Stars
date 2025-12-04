@@ -392,15 +392,6 @@
         },
         "telescope_settle_time": "Tiempo de liquidación después de la(s) serie(s)",
         "meridian_flip_settings": "Configuración de meridianos"
-      },
-      "config": {
-        "settings": "Configuración de montaje",
-        "connectionMode": "Modo de conexión",
-        "devicePort": "Puerto del dispositivo",
-        "ipAddress": "Dirección IP",
-        "baudRate": "Velocidad de baudios",
-        "primaryReverse": "Eje primario invertido",
-        "secondaryReverse": "Eje secundario invertido"
       }
     },
     "guider": {

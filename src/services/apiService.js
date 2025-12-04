@@ -982,7 +982,6 @@ const apiService = {
     }
   },
 
-
   //-------------------------------------  Rotator ---------------------------------------
   rotatorAction(action) {
     const { BASE_URL } = getUrls();

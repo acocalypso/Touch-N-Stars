@@ -195,6 +195,17 @@
         "retry": "Probeer de instellingen opnieuw",
         "search": "Zoekinstellingen",
         "title": "Instellingen plaatoplosser"
+      },
+      "equipment": {
+        "description": "Beheer uw apparatuurinstellingen",
+        "title": "Apparatuur"
+      },
+      "input": {
+        "title": "Invoeroptimalisatie",
+        "touchOptimized": "Touch-geoptimaliseerde kiezer"
+      },
+      "telescope": {
+        "titel": "Telescoop instellingen"
       }
     },
     "connectEquipment": {
@@ -362,7 +373,8 @@
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
-        "Az": "Az"
+        "Az": "Az",
+        "SideOfPier": "Kant van de pier"
       },
       "settings": {
         "meridian_flip": {

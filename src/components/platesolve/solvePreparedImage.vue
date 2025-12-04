@@ -12,8 +12,9 @@
       stroke-width="1.5"
       class="w-5 h-5"
     >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3 2" />
+      <path d="M12 2L12 7M12 17L12 22M2 12L7 12M17 12L22 12" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="12" cy="12" r="8" opacity="0.5" />
     </svg>
   </button>
 
@@ -49,7 +50,7 @@
         <div class="max-h-[60vh] overflow-y-auto scrollbar-thin">
           <div v-if="isSolving" class="loading-spinner">
             <div class="spinner"></div>
-            <p class="text-gray-300">Solving...</p>
+            <p class="text-gray-300">{{ $t('components.platesolve.solving') }}</p>
           </div>
 
           <div v-else-if="solveResult" class="solve-result space-y-4">
@@ -62,7 +63,11 @@
                 ]"
               ></div>
               <span :class="solveResult.Response?.Success ? 'text-green-400' : 'text-red-400'">
-                {{ solveResult.Response?.Success ? 'Solve Successful' : 'Solve Failed' }}
+                {{
+                  solveResult.Response?.Success
+                    ? $t('components.platesolve.solve_successful')
+                    : $t('components.platesolve.solve_failed')
+                }}
               </span>
             </div>
 
@@ -72,7 +77,7 @@
                   v-if="solveResult.Response?.SolveTime"
                   class="flex justify-between items-center"
                 >
-                  <span class="text-gray-400">Solve Time:</span>
+                  <span class="text-gray-400">{{ $t('components.platesolve.solve_time') }}</span>
                   <span class="text-cyan-400 font-semibold text-sm">{{
                     formatDateTime(solveResult.Response.SolveTime)
                   }}</span>
@@ -81,7 +86,7 @@
                   v-if="solveResult.Response?.Orientation !== undefined"
                   class="flex justify-between items-center"
                 >
-                  <span class="text-gray-400">Orientation:</span>
+                  <span class="text-gray-400">{{ $t('components.platesolve.orientation') }}</span>
                   <span class="text-cyan-400 font-semibold"
                     >{{ formatValue(solveResult.Response.Orientation) }}°</span
                   >
@@ -90,42 +95,32 @@
                   v-if="solveResult.Response?.PositionAngle !== undefined"
                   class="flex justify-between items-center"
                 >
-                  <span class="text-gray-400">Position Angle:</span>
+                  <span class="text-gray-400">{{ $t('components.platesolve.ra') }}</span>
                   <span class="text-cyan-400 font-semibold"
-                    >{{ formatValue(solveResult.Response.PositionAngle) }}°</span
+                    >{{ formatValue(solveResult.Response.Coordinates.RAString) }}°</span
                   >
                 </div>
                 <div
                   v-if="solveResult.Response?.Pixscale !== undefined"
                   class="flex justify-between items-center"
                 >
-                  <span class="text-gray-400">Pixel Scale:</span>
+                  <span class="text-gray-400">{{ $t('components.platesolve.dec') }}</span>
                   <span class="text-cyan-400 font-semibold"
-                    >{{ formatValue(solveResult.Response.Pixscale) }}"</span
+                    >{{ formatValue(solveResult.Response.Coordinates.DecString) }}"</span
                   >
                 </div>
-                <div
-                  v-if="solveResult.Response?.Radius !== undefined"
-                  class="flex justify-between items-center"
-                >
-                  <span class="text-gray-400">Radius:</span>
-                  <span class="text-cyan-400 font-semibold">{{
-                    formatValue(solveResult.Response.Radius)
-                  }}</span>
-                </div>
                 <div class="flex justify-between items-center pt-2 border-t border-gray-600">
-                  <span class="text-gray-400">Flipped:</span>
+                  <span class="text-gray-400">{{ $t('components.platesolve.flipped') }}</span>
                   <span class="text-cyan-400 font-semibold">{{
-                    solveResult.Response?.Flipped ? 'Yes' : 'No'
+                    solveResult.Response?.Flipped ? $t('general.yes') : $t('general.no')
                   }}</span>
                 </div>
               </div>
             </div>
             <ButtomSyncCoordinatesToMount
               v-if="solveResult.Response?.Success"
-              :ra="solveResult.Response.RA"
-              :dec="solveResult.Response.Dec"
-              class="w-full"
+              :raAngle="solveResult.Response.Coordinates.RADegrees"
+              :decAngle="solveResult.Response.Coordinates.Dec"
             />
           </div>
 
@@ -168,6 +163,7 @@ async function solvePreparedImage() {
     solveError.value = null;
     const response = await apiService.solvePreparedImage();
     solveResult.value = response;
+    console.log('Solve Result:', response);
   } catch (error) {
     console.error('Error solving prepared image:', error);
     solveError.value = error.message || 'Failed to solve image';

@@ -3,7 +3,9 @@
     "cancel": "Annuleer",
     "confirm": "Bevestig",
     "close": "Sluiten",
-    "select": "Selecteer"
+    "select": "Selecteer",
+    "delete": "Verwijderen",
+    "edit": "Bewerken"
   },
   "general": {
     "cancel": "Annuleer",
@@ -667,8 +669,18 @@
       "position": "Positie",
       "availableFilters": "Beschikbare Filters",
       "settings": {
-        "title": "Filterinstellingen"
+        "title": "Filterinstellingen",
+        "FilterWheelFilters": {
+          "FocusOffset": "Focusafwijking",
+          "Position": "Positie",
+          "AutoFocusExposureTime": "Belichtingstijd autofocus",
+          "Name": "Naam"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Filter verwijderen",
+      "confirmMessage": "Weet u zeker dat u dit filter wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden."
     },
     "rotator": {
       "title": "Rotator",

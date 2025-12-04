@@ -87,7 +87,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from '@panzoom/panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
 

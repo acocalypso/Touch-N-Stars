@@ -3,7 +3,9 @@
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
     "close": "Zavřít",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Odstranit",
+    "edit": "Upravit"
   },
   "general": {
     "cancel": "Zrušit",
@@ -393,15 +395,6 @@
         },
         "telescope_settle_time": "Settle time after slew (s)",
         "meridian_flip_settings": "Meridian-Settings"
-      },
-      "config": {
-        "settings": "Nastavení montáže",
-        "connectionMode": "Režim připojení",
-        "devicePort": "Port zařízení",
-        "ipAddress": "IP adresa",
-        "baudRate": "Přenosová rychlost",
-        "primaryReverse": "Primární osa obrácená",
-        "secondaryReverse": "Sekundární osa obrácená"
       }
     },
     "guider": {
@@ -693,8 +686,18 @@
       "position": "Pozice",
       "availableFilters": "Dostupné Filtry",
       "settings": {
-        "title": "Filter-Settings"
+        "title": "Nastavení filtru",
+        "FilterWheelFilters": {
+          "FocusOffset": "Posun zaostření",
+          "Position": "Pozice",
+          "AutoFocusExposureTime": "Čas expozice automatického zaostření",
+          "Name": "Název"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Odstranit Filtr",
+      "confirmMessage": "Jste si jisti, že chcete odstranit tento filtr? Tuto akci nelze vrátit zpět."
     },
     "rotator": {
       "title": "Rotátor",

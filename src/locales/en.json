@@ -3,7 +3,9 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "close": "Close",
-    "select": "Select"
+    "select": "Select",
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "general": {
     "cancel": "Cancel",
@@ -374,15 +376,6 @@
         "Az": "Az",
         "SideOfPier": "Side of pier"
       },
-      "config": {
-        "settings": "Mount Settings",
-        "connectionMode": "Connection Mode",
-        "devicePort": "Device Port",
-        "ipAddress": "IP Address",
-        "baudRate": "Baud Rate",
-        "primaryReverse": "Primary Axis Reversed",
-        "secondaryReverse": "Secondary Axis Reversed"
-      },
       "settings": {
         "meridian_flip_settings": "Meridian-Settings",
         "telescope_settle_time": "Settle time after slew (s)",
@@ -688,8 +681,18 @@
       "position": "Position",
       "availableFilters": "Available Filters",
       "settings": {
-        "title": "Filter-Settings"
+        "title": "Filter-Settings",
+        "FilterWheelFilters": {
+          "FocusOffset": "Focus Offset",
+          "Position": "Position",
+          "AutoFocusExposureTime": "AutoFocus Exposure Time",
+          "Name": "Name"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Remove Filter",
+      "confirmMessage": "Are you sure you want to remove this filter? This action cannot be undone."
     },
     "rotator": {
       "title": "Rotator",

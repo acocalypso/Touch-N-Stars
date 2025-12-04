@@ -1,8 +1,6 @@
 <template>
   <div class="flex flex-col w-full border border-gray-500 p-1 rounded-lg">
-    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{
-      $t(`components.focuser.settings.${labelKey}`)
-    }}</label>
+    <label class="text-sm sm:text-xs mb-2 text-gray-200">{{ $t(`${labelKey}`) }}</label>
     <select
       v-model="value"
       @change="updateSetting"

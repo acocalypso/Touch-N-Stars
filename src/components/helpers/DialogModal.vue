@@ -53,6 +53,7 @@
 import { computed } from 'vue';
 import { useDialogStore } from '@/store/dialogStore';
 import Modal from '@/components/helpers/Modal.vue';
+import apiService from '@/services/apiService';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';
 import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
@@ -131,66 +132,50 @@ const visibleCommands = computed(() => {
 });
 
 async function handleButtonClick(buttonName) {
+  // Verwende den Titel als window-Parameter
   const windowTitle = currentDialog.value?.Title;
   console.log('Clicking button:', buttonName, 'Window Title:', windowTitle);
-
-  // If clicking Cancel on Plate Solving dialog, use centralized cleanup
-  if (isPlateSolvingDialog.value && buttonName.toLowerCase().includes('cancel')) {
-    console.log('Cancel button clicked on Plate Solving dialog - triggering cleanup');
-    await dialogStore.closePlateSolvingDialog();
-    return;
-  }
-
+  console.log('Current dialog:', currentDialog.value);
+  console.log('Available commands:', currentDialog.value?.AvailableCommands);
   await dialogStore.clickButton(buttonName, windowTitle);
 }
 
 async function handleClose() {
-  // Handle Plate Solving Dialog - centralized cleanup
-  if (isPlateSolvingDialog.value) {
-    await dialogStore.closePlateSolvingDialog();
-    return;
-  }
-
-  // Handle AutoFocus Dialog - centralized cleanup
+  // Wenn es ein AutoFocus Dialog ist, sende stopAutofocus
   if (isAutoFocusDialog.value) {
-    await dialogStore.closeAutoFocusDialog();
-    return;
+    try {
+      console.log('Closing AutoFocus dialog - sending stopAutofocus');
+      await apiService.focuserAfAction('stopp');
+    } catch (error) {
+      console.error('Error during autofocus:', error);
+    }
   }
 
-  // Handle Manual Rotator Dialog - centralized cleanup
-  if (isManualRotatorDialog.value) {
-    await dialogStore.closeManualRotatorDialog();
-    return;
+  // Wenn es ein Plate Solving Dialog ist, sende slewStop
+  if (isPlateSolvingDialog.value) {
+    try {
+      console.log('Closing Plate Solving dialog - sending slewStop');
+      await apiService.slewStop();
+    } catch (error) {
+      console.error('Error sending slewStop:', error);
+    }
   }
 
-  // Handle Meridian Flip Dialog - centralized cleanup
-  if (isMeridianFlipDialog.value) {
-    await dialogStore.closeMeridianFlipDialog();
-    return;
-  }
-
-  // Handle TPPA Dialog - centralized cleanup (no special cleanup needed)
-  if (isTPPADialog.value) {
-    await dialogStore.closeDialog(currentDialog.value?.ContentType);
-    return;
-  }
-
-  // Default close logic for any other dialogs
   const windowTitle = currentDialog.value?.Title;
   const availableCommands = currentDialog.value?.AvailableCommands || [];
 
-  // Filter out PART_* and UnnamedButton to find real buttons
+  // Filtere PART_* und UnnamedButton heraus um den echten Button zu finden
   const realButtons = availableCommands.filter(
     (cmd) => !cmd.startsWith('PART_') && cmd !== 'UnnamedButton'
   );
 
-  // If exactly one real button exists, click it
+  // Wenn es genau einen echten Button gibt, drücke diesen
   if (realButtons.length === 1) {
     const buttonName = realButtons[0];
     console.log('Closing dialog with single button:', buttonName, 'Window Title:', windowTitle);
     await dialogStore.clickButton(buttonName, windowTitle);
   } else {
-    // Otherwise use PART_CloseButton (default)
+    // Ansonsten verwende PART_CloseButton (Standard)
     console.log('Closing dialog with PART_CloseButton, Window Title:', windowTitle);
     await dialogStore.clickButton('PART_CloseButton', windowTitle);
   }

@@ -448,7 +448,7 @@ const apiService = {
     const { BASE_URL } = getUrls();
     return this._simpleGetRequest(`${BASE_URL}/prepared-image/solve`);
   },
-  
+
   //-------------------------------------  Image  ---------------------------------------
   async getImagePrepared(quality, resize = false, scale = 100) {
     try {

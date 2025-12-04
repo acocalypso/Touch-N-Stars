@@ -1385,3 +1385,1378 @@
   },
   "loading": "laden"
 }
+{
+  "common": {
+    "cancel": "Annuleer",
+    "confirm": "Bevestig",
+    "close": "Sluiten",
+    "select": "Selecteer"
+  },
+  "general": {
+    "cancel": "Annuleer",
+    "confirm": "Bevestig"
+  },
+  "pages": {
+    "equipment": {
+      "title": "Apparaatuur Beheer"
+    }
+  },
+  "app": {
+    "title": "Touch'N'Stars",
+    "connection_error_toast": {
+      "title": "Verbindingsfout",
+      "message_api": "API plugin is niet beschikbaar. Controleer instellingen in NINA",
+      "message_api_version": "API plugin is te oud. Voer update uit",
+      "message_tns": "De Touch'N'Stars plugin is niet beschikbaar. Controleer instellingen in NINA",
+      "message_tns_version": "De Touch N Stars plugin is te oud. Voer update uit"
+    }
+  },
+  "whatsnew": {
+    "title": "Wat is Nieuw",
+    "loading": "Loading…"
+  },
+  "updates": {
+    "title": "Update beschikbaar",
+    "description": "Een nieuwe App ({version}) is klaar om te installeren.",
+    "downgradeTitle": "Schakel naar Stabiele versie",
+    "downgradeDescription": "Schakel terug naar Stabiele versie ({version}). Deze vervangt uw beta versie.",
+    "releaseNotes": "Release notes",
+    "whatsNew": "Wat is Nieuw",
+    "downloading": "Downloading update… {voortgang}%",
+    "preparing": "Update voorbereiden… houdt de app open.",
+    "error": "Update fout. Probeer later nogmaals.",
+    "later": "Later",
+    "updateNow": "Update nu",
+    "working": "Bezig…"
+  },
+  "setup": {
+    "welcome": "Welkom bij Touch'N'Stars",
+    "description": "Laten we beginnen met een korte setup",
+    "selectLanguage": "Selecteer je taal",
+    "gpsConfiguration": "GPS Configuratie",
+    "completeSetup": "Complete Setup",
+    "instanceConfiguration": "N.I.N.A connectie details",
+    "InfoAppsTitel": "Wiki",
+    "check_wki": "Gedetailleerde instructies vind je in de wiki"
+  },
+  "components": {
+    "instanceDetection": {
+      "autoDetectionTitle": "Auto-Detectie",
+      "scanButton": "Zoek",
+      "scanningButton": "Zoeken...",
+      "noInstanceMessage": "Geen werkende Touch-N-Stars installatie gevonden. Zorg dat er een Touch-N-Stars instantie actief is op hetzelfde netwerk.",
+      "mdnsAvailabilityHint": "mDNS discovery is beschikbaar voor Android en iOS apps. Gebruik handmatige configuratie indien je in een browser werkt.",
+      "manualConfigTitle": "Handmatige Configuratie",
+      "instanceNameLabel": "Instantie Naam",
+      "instanceNamePlaceholder": "Mijn Installatie",
+      "ipLabel": "IP Address / FQDN",
+      "ipPlaceholder": "192.168.x.x",
+      "portLabel": "Port",
+      "portPlaceholder": "5000",
+      "modalTitle": "Gevonden Installaties",
+      "modalSubtitle": "Selecteer een Touch-N-Stars installatie uit de lijst.",
+      "addressUnavailable": "Adress niet beschikbaar",
+      "otherAddresses": "Andere adressen:",
+      "otherAddressesFallback": "n/b",
+      "modalEmpty": "Geen Touch-N-Stars instantie gevonden op dit netwerk.",
+      "mdnsRequired": "mDNS discovery moet draaien op Android of iOS.",
+      "scanningMessage": "Scannen naar Touch-N-Stars instanties...",
+      "discoveringMessage": "Zoeken naar Touch-N-Stars instanties...",
+      "noFoundMessage": "Geen Touch-N-Stars instanties gevonden via mDNS.",
+      "selectionSuccess": "Selecteer {label} ({ip}:{port}).",
+      "foundSingle": "1 Touch-N-Stars instantie gevonden.",
+      "foundMultiple": "{count} Touch-N-Stars instanties gevonden.",
+      "discoveryFailedStatus": "Zoeken mislukt: {message}",
+      "discoveryFailedBase": "Zoeken mislukt.",
+      "discoveryPermissionHintWrapper": "{message} Zorg er voor dat de App lokale netwerk/Apparaten toegang heeft in systeem instellingen."
+    },
+    "framing": {
+      "confirmSetTargetTitle": "Bevestig Doel Selectie",
+      "confirmSetTargetMessage": "Weet u zeker dat u dit Doel wilt instellen als het sequentie Doel?",
+      "useNinaCache": "Gebruik NINA cache voor het Doel beeld",
+      "setSequnceTarget": "gebruik als sequentie Doel",
+      "search": {
+        "title": "Zoeken",
+        "placeholder": "Voer een zoek term in...",
+        "objectTypes": {
+          "Planet": "Planeet",
+          "Comet": "Komeet",
+          "StellariumObject": "Object",
+          "Star": "Ster",
+          "Moon": "Maan"
+        }
+      },
+      "openFraminingModal": "Open in framing-assistent",
+      "fovSettings": {
+        "rotationAngle": "Camera rotatie",
+        "fov": "Field of View"
+      },
+      "getImageRotation": {
+        "startCapture": "Bepaal rotatie van camera",
+        "SolveRun": "Platesolve",
+        "SolveError": "Fout tijdens image solving"
+      },
+      "moveRotator": "Rotateer camera",
+      "infoTargetImage": "Indien het beeld wordt weergegeven in zwart, dan moet de “Offline Sky Map Cache“ ingesteld worden in NINA of moet de optie “gebruik NINA cache” ge-deactiveerd worden",
+      "useCenter": "Centreer",
+      "useRotate": "Roteer"
+    },
+    "tutorial": {
+      "previous": "Vorige",
+      "next": "Volgende",
+      "skip": "Sla Tutorial over"
+    },
+    "settings": {
+      "title": "Instellingen",
+      "add": "toevoegen",
+      "coordinates": "GPS Coordinaten",
+      "save": "Opslaan",
+      "infoSetLocationSync": "Stel eerst de montering locatie in",
+      "connection": "Connectie instellingen",
+      "language": "Taal",
+      "image": {
+        "title": "Beeld instellingen",
+        "quality": "Beeld Qualiteit",
+        "maxDimension": "Max. Beeld formaat",
+        "strech_factor": "Stretch Factor",
+        "black_clipping": "Black Clipping",
+        "debayern": "Debayer beeld",
+        "DebayeredHFR": "Debayered HFR",
+        "UnlinkedStretch": "Unlinked Strech"
+      },
+      "debug": {
+        "title": "Debug",
+        "activate": "Activateer Debug Mode",
+        "titel": "Debug"
+      },
+      "notifications": {
+        "title": "Notificaties",
+        "enable": "Activeer",
+        "sequence": "Sequentie",
+        "phd2": "PHD2"
+      },
+      "keepAwake": {
+        "title": "Houdt scherm actief",
+        "description": "Voorkom dat het apparaat het scherm dimt of vergrendeld terwijl de App actief is."
+      },
+      "beta": {
+        "title": "Beta Update Kanaal"
+      },
+      "showTutorial": "Toon Instructie",
+      "plugins": {
+        "title": "Plugin Beheer",
+        "description": "Beheer geinstalleerde plugins",
+        "author": "Auteur"
+      },
+      "system": {
+        "title": "Systeem Beheer",
+        "description": "Beheer systeem herstart en afsluiten",
+        "info": "Deze acties hebben effect op het hele systeem",
+        "confirmation": "Bevestig Actie",
+        "confirmShutdown": "Weet u zeker dat u het systeem wilt afsluiten?",
+        "confirmRestart": "Weet u zeker dat u het systeem wilt herstarten?"
+      },
+      "update": "Update",
+      "errors": {
+        "instanceNameRequired": "Instantie naam is vereist",
+        "invalidIPFormat": "Ongeldige IP notatie",
+        "invalidPortRange": "Ongeldige port reeks",
+        "invalidInstance": "Ongeldige instantie",
+        "emptyFields": "Lege velden"
+      },
+      "general": "Algemeen",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP-locatie",
+        "BlindFailoverEnabled": "Blinde failover ingeschakeld",
+        "ExposureTime": "Belichtingstijd(en)",
+        "Gain": "Verdienen",
+        "MaxObjects": "Maximaal aantal objecten",
+        "NumberOfAttempts": "Aantal pogingen",
+        "ReattemptDelay": "Vertraging(en) voor nieuwe poging",
+        "RotationTolerance": "Rotatietolerantie (°)",
+        "SearchRadius": "Zoekradius (°)",
+        "Threshold": "Drempelwaarde",
+        "basic": "Basisinstellingen",
+        "retry": "Probeer de instellingen opnieuw",
+        "search": "Zoekinstellingen",
+        "title": "Instellingen plaatoplosser"
+      }
+    },
+    "connectEquipment": {
+      "camera": {
+        "name": "Camera"
+      },
+      "connectAll": "Verbind met alle apparaten",
+      "disconnectAll": "Verbreek alle connecties",
+      "connectAllError": "Fout tijdens alle apparaten connecteren",
+      "disconnectAllError": "Fout bij verbreken alle connecties",
+      "filter": {
+        "name": "Filterwiel"
+      },
+      "mount": {
+        "name": "Montering"
+      },
+      "focuser": {
+        "name": "Focuser"
+      },
+      "rotator": {
+        "name": "Rotator"
+      },
+      "guider": {
+        "name": "Guider"
+      },
+      "safety": {
+        "name": "Safety monitor"
+      },
+      "flat": {
+        "name": "Flatdevice"
+      },
+      "dome": {
+        "name": "Dome"
+      },
+      "switch": {
+        "name": "Switch"
+      },
+      "weather": {
+        "name": "Weer"
+      },
+      "info": {
+        "title": "Info",
+        "message": "Het handmatige filterwiel en de handmatige rotator kunnen kunnen momenteel uitsluitend via NINA worden aangestuurd. Gebruik de API “Networked Filter Wheel” voor het filterwiel"
+      }
+    },
+    "lastLogs": {
+      "timestamp": "Tijdstempel",
+      "level": "Niveau",
+      "message": "Bericht",
+      "download": "Download"
+    },
+    "sequence": {
+      "stats": "Stats",
+      "noSequenceLoaded": "Geen sequentie geladen",
+      "noSequenceData": "Nog geen Data aanwezig",
+      "startSequence": "Start sequentie",
+      "stopSequence": "Stop sequentie",
+      "resetSequence": "Reset sequentie",
+      "resetConfirmationTitle": "Bevestig Reset",
+      "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet geannuleerd worden.",
+      "load_sequence": "Laad sequentie vanuit directory",
+      "choose_sequence": "Kies een sequentie",
+      "no_sequences_found": "Gene sequentie gevonden",
+      "error_loading_sequences": "Fout tijdens laden sequenties",
+      "error_loading_sequence": "Fout tijdens laden sequentie",
+      "filter": "Filter",
+      "triggers": "Triggers",
+      "expandAll": "Alles uitvouwen",
+      "collapseAll": "Alles inklappen",
+      "details": {},
+      "hfr": "HFR",
+      "mean": "Mean",
+      "median": "Median",
+      "stDev": "St. Dev.",
+      "rmsText": "RMS",
+      "monitor": {
+        "settings": {
+          "title": "Toon instellingen",
+          "showImage": "Toon laatste beeld",
+          "showImageStats": "Toon laatste beeld eigenschappen",
+          "showImgStatsGraph": "Toon HFR-grafiek",
+          "showGuiderAfGraph": "Toon autofocus-grafiek",
+          "display_status_under_image": "Toon status onder beeld",
+          "sequenceCurrentState": "Toon Sequentie status"
+        }
+      },
+      "graphControls": {
+        "title": "Grafiek Instellingen",
+        "dataSources": "Data Bronnen",
+        "source1": "Bron 1",
+        "source2": "Bron 2",
+        "reset": "Reset",
+        "noDataAvailable": "Geen data aanwezig",
+        "timeDisplay": "Tijd reeks"
+      },
+      "running": "IN WERKING",
+      "imageHistory": "Beeld geschiedenis",
+      "duration": "Duur",
+      "temperatureShort": "Temp",
+      "targetName": "Doel",
+      "conditions": "Condities",
+      "info": {
+        "header": "Info",
+        "message": "Helaas, uw sequentie kan niet aangepast worden. Niet alle sequentie plugins worden momenteel ondersteund. Als u ons wilt helpen, laat ons via GitHub weten welke plugins u gebruikt."
+      },
+      "info_general": {},
+      "sort": {
+        "sort": "Sorteer",
+        "oldest": "oudste eerst",
+        "newest": "nieuwste eerst"
+      },
+      "time": "Tijd",
+      "noRunningItems": "Sequentie gestopt",
+      "status": "Sequentie status",
+      "instructions": "Instructies",
+      "Min": "Min",
+      "Max": "Max",
+      "HFRStDev": "HFR St. Dev",
+      "totalExposureTime": {
+        "title": "Totale belichtingstijd",
+        "Pictures": "Afbeeldingen"
+      }
+    },
+    "mount": {
+      "title": "Montering",
+      "slew": "Slew",
+      "location_sync": {
+        "title": "Locatie sync instellingen",
+        "confirmationMessage": "Als 'Locatie Sync' in NINA is ingesteld op 'Prompt', dan kan een bevestigingsscherm worden getoond voordat de coordinaten naar de telescoop worden gestuurd. Om dit te voorkomen moet u TNS toestaan om automatisch de coordinaten in te stellen, we adviseren om de instellingen te wijzigen naar 'Sync naar Telescoop'",
+        "toTelescope": {
+          "label": "Sync naar Telescoop"
+        },
+        "toApplication": {
+          "label": "Sync to applicatie"
+        },
+        "noSync": {
+          "label": "Geen sync"
+        }
+      },
+      "control": {
+        "park": "Park",
+        "unpark": "Unpark",
+        "home": "Home",
+        "set_as_park": "Stel in als park",
+        "trackingMode": "Tracking Mode",
+        "manuellControl": "Manuele controle",
+        "slewRate": "Slew snelheid °/s",
+        "siderial": "Sidereal",
+        "sync_coordinates_to_mount": "Sync coordinaten met montering",
+        "errors": {
+          "unpark": "Fout unparking montering",
+          "tracking": "Fout bij instellen tracking mode"
+        },
+        "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\""
+      },
+      "info": {
+        "notConnected": "Verbind montering",
+        "parked": "Parked",
+        "unparked": "Unparked",
+        "trackingActive": "Tracking is actief",
+        "trackingDisabled": "Tracking uit gezet",
+        "slewing": "Montering draait",
+        "notSlewing": "Staat stil",
+        "timeToMeridianFlip": "Tijd tot Meridian Flip",
+        "declination": "Dec",
+        "rightAscension": "Ra",
+        "Alt": "Alt",
+        "Az": "Az"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Autofocus na omdraaien",
+          "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
+          "MinutesAfterMeridian": "Minuten na de meridiaan",
+          "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien",
+          "SettleTime": "Afrekeningstijd(en)",
+          "UseSideOfPier": "Gebruik de kant van de pier",
+          "basic": "Basisinstellingen",
+          "behavior": "Gedrag",
+          "post_flip_actions": "Acties na de flip"
+        },
+        "meridian_flip_settings": "Meridiaan-instellingen",
+        "telescope_settle_time": "Settle tijd na slew(s)"
+      }
+    },
+    "guider": {
+      "notConnected": "Verbind guider",
+      "start": "Start",
+      "startWithCal": "Start met calibratie",
+      "stop": "Stop",
+      "rms_error": "RMS Fout",
+      "title": "Guider",
+      "running": "IN WERKING",
+      "statusLabel": "Status",
+      "status": {
+        "looping": "Looping",
+        "lostLock": "Fix verloren",
+        "guiding": "Guiding",
+        "stopped": "Gestopt",
+        "calibrating": "Calibreren",
+        "unknown": "Onbekend"
+      },
+      "calibrationAssistant": {
+        "title": "Calibratie Assistent",
+        "info": "De Calibratie Assistent helpt om de monteringpositie te verbeteren voor accurate calibratie.",
+        "positionSettings": "Positie Instellingen",
+        "decOffset": "Dec Offset",
+        "meridianOffset": "Meridiaan Offset",
+        "direction": "Richting",
+        "west": "West",
+        "east": "Oost",
+        "slewToPosition": "Beweeg naar Positie",
+        "startCalibration": "Start Calibratie",
+        "stopCalibration": "Stop Calibratie",
+        "positionCalculated": "Optimale positie berekend",
+        "slewing": "Beweeg naar doel...",
+        "slewComplete": "Slew compleet",
+        "slewError": "Fout tijdens slew",
+        "stopSlew": "Stop Slew",
+        "slewStopped": "Slew gestopt",
+        "calibrating": "Calibreren actief...",
+        "calibrationComplete": "Calibratie afgerond",
+        "calibrationFailed": "Calibration niet gelukt",
+        "calibrationStopped": "Calibratie gestopt",
+        "calibrationError": "Fout tijdens calibratie",
+        "calibrationResult": "Calibration Resultaat",
+        "quality": "Kwaliteit",
+        "goodCalibration": "Optimale calibratie bereikt",
+        "poorCalibration": "Calibratie kan beter. Probeer een andere locatie of controleer uw apparatuur."
+      },
+      "phd2": {
+        "Exposuretime": "Belichtingstijd",
+        "ra": {
+          "aggression": "RA: Aggression",
+          "hysteresis": "RA: Hysteresis",
+          "MinMove": "RA: Min beweging",
+          "MaxMove": "RA: Max beweging",
+          "predictive_weight": "RA: Predictive weight",
+          "reactive_weight": "RA: Reactive weight",
+          "slope_weight": "RA: Slope weight",
+          "exp_factor": "RA: Exposure factor"
+        },
+        "dec": {
+          "aggression": "DEC: Aggression",
+          "hysteresis": "DEC: Hysteresis",
+          "MinMove": "DEC: Min beweging",
+          "MaxMove": "DEC: Max beweging",
+          "predictive_weight": "DEC: Predictive weight",
+          "reactive_weight": "DEC: Reactive weight",
+          "slope_weight": "DEC: Slope weight",
+          "exp_factor": "DEC: Exposure factor"
+        },
+        "profile": "Profiel",
+        "forceCalibration": "Forceer Calibratie",
+        "error": {
+          "title": "PHD2 fout",
+          "star-lost-message": "Ster verdwenen"
+        }
+      },
+      "ditherPixels": "Ditherpixels (px)",
+      "ditherRAOnly": "Alleen ditheren in RA",
+      "guidingStartRetry": "Begeleiding Start opnieuw proberen",
+      "guidingStartTimeout": "Begeleidende starttime-out(s)",
+      "phd2Path": "PHD2-pad",
+      "phd2ServerHost": "PHD2-serverhostnaam",
+      "phd2ServerPort": "PHD2-serverpoort",
+      "roiPercentage": "ROI-percentage om gidsster te vinden (%)",
+      "settings": "Guider-instellingen",
+      "settlePixels": "Pixeltolerantie instellen (px)",
+      "settleTime": "Minimale afwikkelingstijd (s)",
+      "settleTimeout": "Time-out(s) afhandelen"
+    },
+    "focuser": {
+      "title": "Focuser",
+      "new_position": "Nieuwe positie:",
+      "move": "Beweeg",
+      "start_autofocus": "Start autofocus",
+      "cancel_autofocus": "Annuleer autofocus",
+      "autofocus_graph": "Autofocus grafiek",
+      "autofocus_error": "Autofocus fout",
+      "please_connect_focuser": "Maak verbinding met focuser",
+      "current_position": "Huidige positie:",
+      "temperature": "Temperatuur:",
+      "moving": "Beweeg",
+      "stopped": "Gestopt",
+      "autofocus_active": "Autofocus actief",
+      "autofocus": "Autofocus",
+      "last_autofocus": "Laatste autofocus",
+      "focus": "Focus",
+      "settings": {
+        "ABSOLUTE": "Absoluut",
+        "AutoFocusBinning": "Autofocus-binning",
+        "AutoFocusDisableGuiding": "Schakel begeleiding tijdens autofocus uit",
+        "AutoFocusFitFunction": "Curve-fitting strategie",
+        "AutoFocusInitialOffsetSteps": "Initiële offsetstappen",
+        "AutoFocusInnerCropRatio": "Binnenste gewasverhouding",
+        "AutoFocusNumberOfFramesPerPoint": "Aantal frames per punt",
+        "AutoFocusOuterCropRatio": "Buitenste gewasverhouding",
+        "AutoFocusStepSize": "Stapgrootte",
+        "AutoFocusTimeoutSeconds": "Time-out autofocus (seconden)",
+        "AutoFocusTotalNumberOfAttempts": "Totaal aantal pogingen",
+        "AutoFocusUseBrightestStars": "Gebruik de helderste sterren",
+        "BacklashCompensationModel": "Spelingscompensatiemodel",
+        "BacklashIn": "Tegenslag binnen",
+        "BacklashOut": "Terugslag uit",
+        "FocuserSettleTime": "Focuser-insteltijd",
+        "HYPERBOLIC": "Hyperbolisch",
+        "OVERSHOOT": "Overschrijding",
+        "PARABOLIC": "Parabolisch",
+        "RSquaredThreshold": "R-kwadraatdrempel",
+        "TRENDHYPERBOLIC": "Trendhyperbolisch",
+        "TRENDLINES": "Trendlijnen",
+        "TRENDPARABOLIC": "Trend parabolisch",
+        "advanced": "Geavanceerd",
+        "backlash": "Verzet",
+        "basic": "Basisinstellingen",
+        "crop_and_stars": "Gewas",
+        "title": "Autofocus-instellingen"
+      }
+    },
+    "dome": {
+      "title": "Dome",
+      "azimuth": "Azimuth",
+      "slewing": "Slewing",
+      "slewing_stopped": "Slewing gestopt",
+      "following": "Volgen",
+      "following_stopped": "Volgen gestopt",
+      "at_home": "Home",
+      "not_at_home": "Niet op home",
+      "park": "Park",
+      "unpark": "Unpark",
+      "shutter_close": "Shutter gesloten",
+      "shutter_open": "Shutter open",
+      "control": {
+        "open": "Open shutter",
+        "close": "Sluit shutter",
+        "stop": "Stop shutter beweging",
+        "errors": {
+          "open": "Fout bij openen shutter",
+          "close": "Fout bij sluiten shutter",
+          "stop": "Fout stop shutter",
+          "park": "Fout Park",
+          "sync": "Fout sync",
+          "stop_slew": "Fout stop slew",
+          "home": "Fout home",
+          "follow": "Fout bij volgen Telescoop"
+        },
+        "slew": "Slew",
+        "slew_label": "Slew naar graden",
+        "follow": "Dome volgt telescoop",
+        "sync": "Sync met telescoop",
+        "park": "Park",
+        "home": "Home"
+      },
+      "please_connect_dome": "Maak verbinding met dome",
+      "is_sync": "Sync",
+      "not_sync": "Geen sync"
+    },
+    "camera": {
+      "connect": "Maak verbinding met camera",
+      "settings": "Instellingen",
+      "capture_running": "Camera actief",
+      "exposure_time": "Belichting tijd (s):",
+      "gain_iso": "Gain / ISO:",
+      "name": "Camera naam",
+      "gain": "Gain",
+      "offset": "Offset",
+      "temperature": "Temperatuur  (°C)",
+      "standby": "Standby",
+      "cooler_on": "Koeling Aan",
+      "cooler_off": "Koeling Uit",
+      "dew_heater": "Dew Heater",
+      "dew_heater_on": "Dewheater Aan",
+      "dew_heater_off": "Dewheater Uit",
+      "camera_cooling": "Camera afkoelen",
+      "target_temperature": "Doel temperatuur (°C)",
+      "warm_up_time": "Warm-up tijd (min)",
+      "cooling_time": "Koeling tijd (min)",
+      "binning_mode": "Binning",
+      "readout_mode": "Readout Mode",
+      "set_use_platesolve": "Gebruik Platesolve",
+      "chip_settings": {
+        "title": "Sensor instellingen",
+        "pixel_size": "Pixel grootte (μm)",
+        "width": "Breedte (px)",
+        "height": "Hoogte (px)",
+        "focal_length": "Focale lengte (mm)"
+      },
+      "at_target_temp": "Op doel temperatuur",
+      "temperature_setpoint": "Temp setpoint (°C)",
+      "cooler_power": "Koeler vermogen (%)",
+      "camera_warming": "Camera opwarmen",
+      "cooler_status": "Koeler Status",
+      "cooler_status_off": "UIT",
+      "cooler_status_cooling": "Actief - Koelen naar",
+      "cooler_status_holding": "Actief - Op temperatuur",
+      "cooler_status_warming": "Actief - Opwarmen",
+      "set_save_snapshot": "Bewaar snapshots",
+      "snapshotTargetName": "Doel naam",
+      "set_use_solve_sync_to_mount": "Sync naar Montering"
+    },
+    "tppa": {
+      "title": "Three Point Polar Alignment",
+      "camera_mount_required": "Camera moet verbonden zijn",
+      "start_alignment": "Start Alignment",
+      "stop_alignment": "Stop Alignment",
+      "altitude_error": "Altitude afwijking:",
+      "azimuth_error": "Azimuth afwijking:",
+      "total_error": "Totale afwijking:",
+      "error_values_missing": "Geen waardes gevonden",
+      "unknown_response_format": "Respons formaat niet correct",
+      "east": "Oost",
+      "west": "West",
+      "down": "Omlaag",
+      "up": "Omhoog",
+      "not_available": "Niet beschikbaar",
+      "running": "IN WERKING",
+      "plate_solve_start": "Platesolve start",
+      "plate_solve_ok": "Platesolve succes",
+      "plate_solve_error": "Platesolve fout",
+      "slewing_first_position": "Slewing naar eerste positie",
+      "slewing_next_position": "Slewing naar volgende positie",
+      "capture_running": "Camera actief",
+      "last_messages": "Laatste meldingen",
+      "settings": {
+        "title": "TPPA Instellingen",
+        "StartFromCurrentPosition": "Start vanaf huidige positie",
+        "DirectionEast": "Richting Oost",
+        "camera_settings": "Camera Instellingen",
+        "camera_settings_hint": "Laat leeg voor NINA standaard waardes",
+        "exposure_time": "Belichtingstijd (s)",
+        "gain": "Gain",
+        "nina_default": "NINA standaard",
+        "ManualMode": "Manuele mode"
+      },
+      "error_modal": {},
+      "tppa": "TPPA"
+    },
+    "slewAndCenter": {
+      "title": "Slew en Centreer",
+      "LastSelectedImageSource_wrong": "Selecteer offline sky map als beeldbron in NINA / Framing",
+      "ra": "RA:",
+      "dec": "Dec:",
+      "ra_placeholder": "RA 03:47:28.2",
+      "dec_placeholder": "Dec +24:06:19",
+      "slew": "Slew",
+      "slew_and_center": "Slew en Centreer",
+      "errors": {
+        "invalidRAInput": "Ongeldige RA input.",
+        "invalidDECInput": "Ongeldige DEC input.",
+        "apiResponseError": "Fout in API antwoord:",
+        "mountInfoError": "Fout bij ophalen Monteringspositie:",
+        "invalidAltInput": "Ongeldige alt input.",
+        "invalidAzInput": "Ongeldige az input."
+      },
+      "visibleStars": "Zichtbare Ster zoeken",
+      "alt": "Alt:",
+      "az": "Az:",
+      "slew_modal": {
+        "deviation_target": "Afwijking tot doel:"
+      }
+    },
+    "filterwheel": {
+      "title": "Filter Wiel",
+      "filter": "Filter:",
+      "unknown": "Onbekend",
+      "nofilteravailable": "Geen filter aanwezig",
+      "please_connect_filterwheel": "Verbind met filterwiel",
+      "currentFilter": "Huidige Filter",
+      "position": "Positie",
+      "availableFilters": "Beschikbare Filters",
+      "settings": {
+        "title": "Filterinstellingen"
+      }
+    },
+    "rotator": {
+      "title": "Rotator",
+      "label": "Rotator",
+      "move": "Draai",
+      "control": "Control",
+      "please_connect_rotator": "Verbind met rotator",
+      "connected": "Verbonden",
+      "disconnected": "Verbroken",
+      "currentPosition": "Huidige Positie",
+      "moving": "Bewegen",
+      "stationary": "Stationair",
+      "stepSize": "Stap grootte"
+    },
+    "flat": {
+      "please_connect_flatDevice": "Verbind met flat apparaat",
+      "device_name": "Naam:",
+      "cover_state": "Cover Status:",
+      "light_state": "Licht Status",
+      "brightness": "Herlderheid:",
+      "toggle_light": "Licht:",
+      "cover": {
+        "close": "sluit cover",
+        "open": "open cover"
+      },
+      "title": "Flatpanel"
+    },
+    "flatassistant": {
+      "title": "Flat assistent",
+      "count": "Aantal",
+      "exposure_time": "Belichtingstijd",
+      "min_exposure_time": "Min belichtingstijd",
+      "max_exposure_time": "Max belichtingstijd",
+      "brightness": "Helderheid",
+      "min_brightness": "Min helderheid",
+      "max_brightness": "Max helderheid",
+      "histogram_mean_target": "Histogram gemiddeld doel",
+      "mean_tolerance": "Gemiddelde tolerantie",
+      "completed_recordings": "Voltooide opnames:",
+      "start_auto_exposure": "Start auto belichting",
+      "start_auto_brightness": "Start auto helderheid",
+      "start_sky_flat": "Start hemel flat",
+      "stop": "Stop",
+      "auto_exposure": "Auto belichting",
+      "auto_brightness": "Auto helderheid",
+      "skyflat": "Skyflat",
+      "button_slew_to_zenith": "Slew naar zenith"
+    },
+    "weatherModal": {
+      "weatherInformation": "Weer Informatie",
+      "metric": "Metrisch",
+      "imperial": "Imperiaal",
+      "temperature": "Temperatuur",
+      "cloudCover": "Bewolking",
+      "wind": "Wind",
+      "humidity": "Vochtigheid",
+      "pressure": "Luchtdruk",
+      "skyTemperature": "Luchttemperatuur",
+      "skyQuality": "Luchtkwaliteit",
+      "rainRate": "Neerslag",
+      "dewPoint": "Dauwpunt"
+    },
+    "switch": {
+      "gauges": "Gauges",
+      "switch": "Switch"
+    },
+    "stellarium": {
+      "selected_object": {
+        "title": "Geselecteerde object",
+        "ra": "RA",
+        "dec": "DEC",
+        "button_framing": "Ga naar framing"
+      },
+      "datetime": {
+        "title": "Datum & Tijd",
+        "date": "Datum",
+        "time": "Tijd",
+        "now": "Nu",
+        "speed": "Snelheid"
+      },
+      "mount_position": {},
+      "settings": {
+        "constellations_lines_visible": "Toon sterrenbeelden",
+        "azimuthal_lines_visible": "Toon azimuth lijnen",
+        "equatorial_lines_visible": "Toon equatoriale lijnen",
+        "meridian_lines_visible": "Toon meridiaan lijnen",
+        "ecliptic_lines_visible": "Toon ecliptica",
+        "atmosphere_visible": "Toon atmosfeer",
+        "landscapes_visible": "Toon landschap",
+        "dsos_visible": "Deep Sky Objects (Messier, NGC)",
+        "title": "Instellingen"
+      }
+    },
+    "profile": {
+      "label": "Profiel:"
+    },
+    "notifications": {
+      "modal": {
+        "title": "Configureer Notificaties",
+        "description": "Geef permissie om notificaties te ontvangen over sequentie gebeurtenissen."
+      }
+    },
+    "fav_target": {
+      "table": {
+        "name": "Naam",
+        "ra": "RA",
+        "dec": "DEC",
+        "load": "Laden",
+        "remove": "Verwijderen",
+        "rotation": "Rotatie"
+      },
+      "modal_sequence": {
+        "titel": "Sequentie"
+      },
+      "modal_sequence_ok": {
+        "message": "Doel set"
+      },
+      "modal_sequence_error": {
+        "message": "Geen sequentie geladen"
+      },
+      "enter_name": "Voer naam in",
+      "no_fav": "Geen favorieten opgeslagen",
+      "titel": "Favorieten"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "Geen beeld data beschikbaar"
+      }
+    }
+  },
+  "plugins": {
+    "common": {
+      "initializing": "Initialiseren...",
+      "outdated": {
+        "title": "Plugin Verouderd",
+        "message": "De TouchNStars Plugin in NINA is verouderd en moet worden vernieuwd.",
+        "required": "Benodigde Versie",
+        "current": "Huidige Versie"
+      }
+    },
+    "logfileCollector": {
+      "title": "Logfile Collector",
+      "intro": "Verzamel laatste TNS logs (inclusief debug) en upload deze naar het geconfigureerde endpoint.",
+      "descriptionLabel": "Beschrijving (optioneel)",
+      "descriptionPlaceholder": "Beschrijf het probleem om te onderzoeken...",
+      "lastToken": "Genereer Token",
+      "submissionHistory": "Verzend Historie",
+      "confirmClearAll": "Weet u zeker dat u de verzend hostorie wilt verwijderen?",
+      "actions": {
+        "collectUpload": "Verzamel & Upload",
+        "uploading": "Uploading…",
+        "copyToken": "Kopieer",
+        "remove": "Verwijder",
+        "clearAll": "Alles opschonen"
+      },
+      "submissionFields": {
+        "date": "Datum",
+        "filename": "Bestandsnaam",
+        "token": "Token"
+      },
+      "result": {
+        "success": "Upload successvol",
+        "failed": "Upload mislukt",
+        "failedWithStatus": "Upload mislukt ({status})",
+        "tokenCopied": "Token gekopieerd naar klembord",
+        "tokenCopyFailed": "Kopieer token mislukt",
+        "submissionRemoved": "Verzending verwijdert",
+        "allSubmissionsCleared": "Alle verzendingen verwijdert"
+      }
+    },
+    "telescopius": {
+      "title": "Telescopius",
+      "offlineInfo": "Laad persoonlijke objectenlijst vanuit telescopius.com en bewaar deze lokaal zodat deze offline beschikbaar zijn.",
+      "landing": {
+        "title": "Telescopius Plugin",
+        "subtitle": "Laad je doelobjecten vanuit Telescopius.com rechtstreeks in Touch'N'Stars",
+        "whatIsPlugin": {
+          "title": "Wat is deze plugin?",
+          "description": "Laad je opgeslagen doelobjecten vanuit Telescopius.com rechtstreeks in Touch'N'Stars en gebruik deze voor navigatie en framing.",
+          "features": {
+            "loadLists": "Laad doelobjecten vanuit Telescopius.com",
+            "navigate": "Navigeer direct naar objecten",
+            "framingAssistant": "Gebruik framing assistent",
+            "offlineCache": "Offline cache voor snelle toegang"
+          }
+        },
+        "whatIsTelecopius": {
+          "title": "Wat is Telescopius?",
+          "description": "Telescopius is een astronomie platform voor het ontdekken en plannen van astronomische observaties.",
+          "features": {
+            "database": "Uitgebreide object database",
+            "lists": "Persoonlijke objecten lijsten",
+            "planning": "Observatie planning",
+            "community": "Gemeenschap en delen"
+          },
+          "visitWebsite": "Bezoek Telescopius.com"
+        },
+        "mainFeatures": {
+          "title": "Hoofd eigenschappen",
+          "description": "Naadloze integratie tussen Telescopius en Touch'N'Stars:",
+          "features": {
+            "autoImport": "Automatische Import: Alle object/doellijsten",
+            "smartCache": "Smart Cache: Snelle offline toegang",
+            "directNavigation": "Directe Navigatie: Slew met 1 click",
+            "framingIntegration": "Framing Integratie: Gebruik bestaande tools",
+            "locationBased": "Locatie-gebaseerd: Houdt rekening met je locatie"
+          }
+        },
+        "apiSetup": {
+          "title": "Instellen API Key",
+          "description": "Volg deze stappen om de plugin te configureren:",
+          "step1": {
+            "title": "Aanmaken Telescopius Account",
+            "description": "Als je nog geen account hebt, registreer gratis:",
+            "button": "Gratis registreren"
+          },
+          "step2": {
+            "title": "Vraag om API Key",
+            "description": "Log in en ga naar Settings → API om uw persoonlijke key aan te vragen:",
+            "button": "Vraag API key"
+          },
+          "step3": {
+            "title": "Configureer API Key",
+            "description": "Gedurende de API key-generatie, gebruik volgende instellingen:",
+            "config": {
+              "name": "Naam",
+              "nameValue": "Willekeurige naam (vb. Touch N Stars)",
+              "description": "Beschrijving",
+              "descriptionValue": "Willekeurige beschrijving (vb. API for TNS)",
+              "accessType": "Access Type",
+              "accessTypeValue": "Selecteer Server",
+              "ipLimit": "Beperk toegang tot deze IP addressen",
+              "ipLimitValue": "Laat leeg / geen IP-adres opvoeren"
+            }
+          },
+          "step4": {
+            "title": "Voer API Key in",
+            "description": "Click \"Configureer API Key\" hieronder en voer uw key in:",
+            "button": "Configureer API Key"
+          },
+          "security": {
+            "title": "Beveiliging",
+            "description": "Uw API-key wordt alleen opgeslagen op uw apparaat en wordt niet gedeeld met anderen. U kunt uw key op elk moment verwijderen."
+          }
+        }
+      },
+      "apiKey": {
+        "title": "Telescopius API Key",
+        "description": "Om Telescopius te gebruiken heeft u een API key nodig. U kunt deze aanmaken op de Telescopius website:",
+        "linkText": "→ Verzoek Telescopius API Key",
+        "securityNote": "De API key wordt opgeslagern op de server en uitsluitend gebruikt voor Telescopius-verzoeken.",
+        "placeholder": "Voer uw Telescopius API key in...",
+        "configured": "API key is reeds geconfigureerd",
+        "save": "Opslaan",
+        "delete": "Verwijderen",
+        "cancel": "Annuleren",
+        "configure": "Configureer API Key",
+        "required": "API key vereist",
+        "errors": {
+          "saveFailed": "API key kan niet opgeslagen worden.",
+          "deleteFailed": "API key kan niet verwijdert worden."
+        },
+        "loadFromTelescopius": "vernieuwen"
+      },
+      "targetLists": {
+        "noListsTitle": "Geen Doellijst",
+        "noListsDescription": "Er is geen object/doellijst gevonden in uw Telescopius account.",
+        "noListsHint": "Maak object/doellijst aan in telescopius.com laad deze hier in.",
+        "editOnTelescopius": "Bewerk lijsten in Telescopius",
+        "dataFrom": "Data van",
+        "connectionError": "Connectie met Telescopius mislukt. De NINA PC heeft een active internetverbinding nodig en er moet minimaal 1 lijst aangemaakt zijn in Telescopius."
+      }
+    },
+    "webcam": {
+      "title": "Webcam Instellingen",
+      "snapshotUrl": "Snapshot URL",
+      "snapshotUrlDescription": "Een snapshot URL is een directe link naar een beeld van uw webcam/IP camera. Deze URL moet direct een JPEG/PNG beeld tonen, niet een HTML pagina of stream.",
+      "snapshotUrlExamples": "Voorbeelden:",
+      "refreshInterval": "Verversing Interval",
+      "displayOptions": "Weergave opties",
+      "autoRefresh": "Auto verversen",
+      "status": "Status",
+      "connected": "Verbonden",
+      "disconnected": "Verbinding verbroken",
+      "error": "Fou",
+      "lastUpdate": "Laatste Update",
+      "startAuto": "Start Auto",
+      "stopAuto": "Stop Auto",
+      "settings": "Instellingen",
+      "reset": "Reset",
+      "close": "Sluiten",
+      "resetConfirm": "Weet u zeker dat u alle webcam instellingen wilt resetten?",
+      "liveView": "Live beeld",
+      "noImageAvailable": "Geen beeld beschikbaar",
+      "configureUrl": "Configureer snapshot URL haal beeld op",
+      "loadingImage": "Beeld laden...",
+      "errors": {}
+    },
+    "sequenceCreator": {
+      "title": "N.I.N.A Sequence Creator",
+      "subtitle": "Maak professionele astrophotografie sequenties",
+      "toolbar": {
+        "undo": "Annuleer",
+        "redo": "Opnieuw",
+        "loadBasicSequence": "Laad Basis Sequentie",
+        "clearSequence": "Sequentie leeg maken",
+        "saveAsDefault": "Bewaar als Standaard",
+        "saveAsDefaultSuccess": "Bewaar als Standaard sequentie!",
+        "sendToNina": "Adopter Sequence",
+        "sending": "Vezenden...",
+        "sent": "Verzonden!",
+        "sendErrorTitle": "Fout bij sturen naar N.I.N.A",
+        "sendSuccessMessage": "Sequentie successvol verzonden naar N.I.N.A!",
+        "validSequence": "Sequentie is valide en kan gebruikt worden",
+        "invalidSequence": "Voeg object toe aan Doelinstellingen en Slimme opnames om een valide sequentie aan te maken"
+      },
+      "confirmations": {
+        "title": "Bevestiging",
+        "clearSequence": "Weet u zeker dat u de gehele sequentie wilt verwijderen? Deze actie kan niet worden hersteld.",
+        "saveAsDefault": "Weet u zeker dat u de huidige sequentie wilt bewaren als Standaard sequentie? Deze actie overschrijft de vorige Standaard sequentie.",
+        "loadBasicSequence": "Weet u zeker dat u de Basis sequentie wilt laden? Deze actie overschrijft de huidige sequentie.",
+        "removeAction": "Verwijder \"{actionName}\" actie?",
+        "navigateToSequence": "Wilt u nu schakelen naar de Sequentie pagina?"
+      },
+      "containers": {
+        "startSequence": {
+          "title": "Start Sequentie",
+          "description": "Acties uitvoeren aan het begin van een sessie",
+          "emptyTitle": "Geen Start Acties",
+          "emptyDescription": "Voeg acties toe om uw apparatuur voor te bereiden om opnames te maken"
+        },
+        "targetSequence": {
+          "title": "Doel Sequentie",
+          "description": "Hoofd opname sequentie voor uw object",
+          "emptyTitle": "Geen doel acties",
+          "emptyDescription": "Voeg acties toe voor opnames van uw doel/object"
+        },
+        "endSequence": {
+          "title": "Einde Sequentie",
+          "description": "Acties uit te voeren aan het einde van de sessie",
+          "emptyTitle": "Geen Einde Acties",
+          "emptyDescription": "Voeg Acties toe om uw apparatuur veilig af te sluiten aan het einde van de sessie"
+        },
+        "noActions": "Geen Acties",
+        "addActionsToContainer": "Voeg Acties toe aan deze container",
+        "addAction": "Actie toevoegen"
+      },
+      "actions": {
+        "disabled": "Uitschakelen",
+        "enabled": "Aanschakelen",
+        "closeEditor": "Sluit Editor",
+        "editParameters": "Wijzig Parameters",
+        "moveUp": "Beweeg omhoog",
+        "moveDown": "Beweeg naar beneden",
+        "duplicateAction": "Dupliceer Actie",
+        "removeAction": "Verwijder Actie",
+        "clickToRename": "Click om te hernoemen",
+        "actionParameters": "Actie Parameters",
+        "changesSaveAutomatically": "Wijzigingen worden automatisch opgeslagen",
+        "min": "Min:",
+        "max": "Max:",
+        "yes": "Ja",
+        "no": "Nee",
+        "notSet": "Niet ingesteld",
+        "noConfigurableParameters": "Deze actie heeft geen configureerbare parameters.",
+        "actionId": "Action ID",
+        "category": "Categorie",
+        "parameters": "Parameters",
+        "unparkTelescope": {
+          "name": "Unpark Telescoop",
+          "description": "Unpark de telescoop montering"
+        },
+        "coolCamera": {
+          "name": "Koel Camera",
+          "description": "Koel de camera naar gespecificeerde temperatuur",
+          "temperatureLabel": "Temperatuur (°C)",
+          "temperatureTooltip": "Doel temperature voor camera koeling",
+          "durationLabel": "Koel tijd (in minuten)",
+          "durationTooltip": "Tijd om camera te koelen (0 = koelen tot temperatuur is bereikt)"
+        },
+        "targetSettings": {
+          "name": "Doelobject instellingen",
+          "description": "Definieer doelobject coordinaten en instellingen",
+          "targetNameLabel": "Doelobject naam",
+          "targetNameTooltip": "Naam van het Doelobject",
+          "raLabel": "Right Ascension",
+          "raTooltip": "RA in HH:MM:SS formaat",
+          "decLabel": "Declination",
+          "decTooltip": "Dec in DD:MM:SS formaat",
+          "positionAngleLabel": "Positie hoek (°)",
+          "positionAngleTooltip": "Camera rotatie hoek"
+        },
+        "slewToTarget": {
+          "name": "Beweeg naar Doelobject",
+          "description": "Navigeer naar object met verschillende opties",
+          "slewModeLabel": "Slew Mode",
+          "slewModeTooltip": "Kies hoe te bewegen naar het Doelobject"
+        },
+        "runAutofocus": {
+          "name": "Autofocus uitvoeren",
+          "description": "Automatische focusroutine uitvoeren"
+        },
+        "startGuiding": {
+          "name": "Start Guiding",
+          "description": "Start autoguiding systeem",
+          "forceCalibrationLabel": "Forceer Calibratie",
+          "forceCalibrationTooltip": "Forceer nieuwe guider calibratie"
+        },
+        "smartExposure": {
+          "name": "Smart Exposure (Imaging)",
+          "description": "Intelligente opname sequentie met dithering en triggers",
+          "exposureTimeLabel": "Belichtingstijd (s)",
+          "exposureTimeTooltip": "Belichtingstijd van elke opname",
+          "gainLabel": "Gain",
+          "gainTooltip": "Camera gain instelling",
+          "offsetLabel": "Offset",
+          "offsetTooltip": "Camera offset instelling",
+          "binningLabel": "Binning",
+          "binningTooltip": "Pixel binning mode",
+          "filterLabel": "Filter",
+          "filterTooltip": "Filter wiel selectie",
+          "imageTypeLabel": "Beeld Type",
+          "imageTypeTooltip": "Type beeld voor opname",
+          "countLabel": "Beeld aantal",
+          "countTooltip": "Aantal op te nemen beelden",
+          "ditherAfterLabel": "Dither na elke N opnames",
+          "ditherAfterTooltip": "Dither frequentie"
+        },
+        "stopGuiding": {
+          "name": "Stop Guiding",
+          "description": "Stop autoguiding systeem"
+        },
+        "warmCamera": {
+          "name": "Camera verwarming",
+          "description": "Verwarm de camera",
+          "durationLabel": "Verwarmingstijd (in minuten)",
+          "durationTooltip": "Tijd om camera op te warmen (0 = opwarmen tot omgevingstemperatuur)"
+        },
+        "findHome": {
+          "name": "Terug naar Home",
+          "description": "Beweeg telescoop naar HOME positie"
+        },
+        "parkTelescope": {
+          "name": "Parkeer Telescoop",
+          "description": "Parkeer de telescoop montering"
+        }
+      },
+      "actionLibrary": {
+        "title": "Acties Bibliotheek",
+        "description": "Click om acties toe te voegen",
+        "startActions": "🚀 Start Acties",
+        "targetActions": "🎯 Doelobject Acties",
+        "endActions": "🏁 Einde Acties"
+      },
+      "exportModal": {
+        "buttons": {},
+        "messages": {},
+        "jsonPreview": {
+          "sequenceJsonExport": "Export sequentie naar JSON",
+          "previewDescription": "Toon en download sequentie naar JSON bestand",
+          "totalActions": "Totale Acties",
+          "enabled": "Aan",
+          "categories": "Categorieen",
+          "estimatedDuration": "Verwachte tijdsduur",
+          "filenamePrompt": "Bestandsnaam...",
+          "copyJson": "Kopieer JSON",
+          "copied": "Gekopieerd!",
+          "downloadJson": "Download JSON"
+        },
+        "howToUse": {}
+      },
+      "targetSearch": {
+        "searchLabel": "Zoek Doelobject",
+        "searchDescription": "Zoek naar deep-sky objecten, planeten of sterren en gebruik direct de coordinaten",
+        "placeholder": "Voer object naam in (vb. M31, NGC 1234, Mars)...",
+        "objectTypes": {
+          "DSO": "Deep-Sky Object",
+          "Planet": "Planeet",
+          "Star": "Ster",
+          "Moon": "Maan",
+          "Comet": "Komeet"
+        }
+      },
+      "settings": {
+        "title": "Meridianflip",
+        "enableMeridianFlip": "Meridianflip AAN"
+      }
+    },
+    "livestack": {
+      "not_available": "Livestack is niet gevonden. Installeer de Livestack plugin eerst in NINA.",
+      "beta_note": "Deze plugin is nog in ontwikkeling en kan fouten geven!",
+      "target": "Doelobject",
+      "available_filters": "Beschikbare Filters",
+      "no_image_available": "Geen beeld aanwezig",
+      "start_and_select_filter": "Start livestack en selecteer filter om beeld te zien",
+      "no_filter": "Geen filter",
+      "no_filters_available": "Geen filters aanwezig voor dit doel",
+      "no_target": "Geen doelobject",
+      "configuration_title": "Livestack Instellingen",
+      "drag_hint": "Sleep",
+      "show_rgb_only": "Toon alleen RGB compositie",
+      "track_stack_updates": "Altijd de laatste stack tonen",
+      "empty_option": "Leeg",
+      "image_alt": "Livestack beeld - {filter}",
+      "loading_image": "Laden livestack beeld...",
+      "errors": {
+        "start_failed": "livestack start niet",
+        "start_exception": "Fout bij starten starting livestack: {message}",
+        "stop_failed": "Fout bij stoppen livestack",
+        "stop_exception": "Fout bij stoppen livestack: {message}",
+        "loading_image": "Fout bij laden beeld: {message}",
+        "failed_to_load": "Livestack fout bij beeld laden",
+        "api_version_required": "API versie {version} of hoger vereist"
+      }
+    },
+    "shortcuts": {
+      "title": "Sequentie-Shortcuts",
+      "description": "Snelle toegang om N.I.N.A sequenties te laden",
+      "addNew": "Nieuwe Shortcut",
+      "newShortcut": "Nieuwe Shortcut",
+      "createFirst": "Creer Eerste Shortcut",
+      "menu": "Menu",
+      "edit": "Bewerken",
+      "editShortcut": "Bewerk Shortcut",
+      "deleteShortcut": "Verwijder Shortcut",
+      "noShortcuts": "Nog geen shortcuts gemaakt",
+      "noShortcutsDescription": "Maak shortcuts om snel favoriete sequenties te laden",
+      "phrase": "Shortcut Naam",
+      "phrasePlaceholder": "vb., M31 Sessie",
+      "shortcutName": "Shortcut Naam",
+      "shortcutNamePlaceholder": "vb., M31 Sessie",
+      "sequenceFile": "Sequentie Bestand",
+      "selectSequence": "Selecter een sequentie...",
+      "autoStart": "Auto-start sequentie",
+      "autoStartDescription": "Automatisch starten van sequentie nadat deze ingeladen is",
+      "autoStartEnabled": "Auto-start AAN",
+      "manualExecution": "Manueel Uitvoeren",
+      "icon": "Ikoon",
+      "selectIcon": "Selecteer een ikoon",
+      "color": "Kleur",
+      "selectColor": "Selecter een kleur",
+      "create": "Aanmaken",
+      "update": "Wijzigen",
+      "cancel": "Annuleer",
+      "delete": "Verwijder",
+      "execute": "Uitvoeren",
+      "refreshSequences": "Ververs lijst",
+      "loadingSequences": "Sequenties laden...",
+      "noSequencesAvailable": "Geen sequenties beschikbaar",
+      "confirmDelete": "Verwijder Shortcut?",
+      "confirmDeleteMessage": "Weet u zeker dat u \"{phrase}\" wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "confirmDeleteTitle": "Verwijder Shortcut",
+      "errors": {
+        "nameRequired": "Shortcut naam is vereist",
+        "sequenceRequired": "Selecteer een sequentie",
+        "loadFailed": "Fout bij laden shortcuts",
+        "saveFailed": "Fout bij opslaan shortcut",
+        "deleteFailed": "Fout bij verwijderen shortcut",
+        "executeFailed": "Fout bij uitvoeren shortcut",
+        "sequenceLoadFailed": "Fout bij laden sequenties"
+      },
+      "success": {
+        "created": "Shortcut maken gelukt",
+        "updated": "Shortcut wijzigen gelukt",
+        "deleted": "Shortcut verwijderen gelukt"
+      }
+    },
+    "bahtifocus": {
+      "actions": {
+        "resetForm": "Formulier opnieuw instellen",
+        "runAnalysis": "Analyse uitvoeren",
+        "submitting": "Analyseren…",
+        "toggleParametersHide": "Verberg optische parameters",
+        "toggleParametersShow": "Toon optische parameters"
+      },
+      "analysis": {
+        "lastDuration": "Laatste run: {seconden}s"
+      },
+      "camera": {
+        "abort": "Vastleggen afbreken",
+        "abortFailed": "Kan de actieve opname niet afbreken.",
+        "capture": "Frame vastleggen",
+        "captureFailed": "Kan geen nieuw frame vastleggen.",
+        "capturing": "Vastleggen…",
+        "exposureLabel": "Blootstellingstijd",
+        "exposureUnit": "seconden",
+        "statusDisconnected": "Sluit een camera aan om frames vast te leggen.",
+        "statusExposing": "Belichting bezig...",
+        "statusExposingCountdown": "Belichting bezig – {seconden} resterend.",
+        "statusLoading": "Beeldgegevens ontvangen…",
+        "statusLooping": "Belichtingen in een lus maken. \nHet vastleggen wordt herhaald totdat het wordt gestopt."
+      },
+      "crop": {
+        "enable": "Gewasverwerkte regio",
+        "height": "Gewashoogte",
+        "width": "Gewasbreedte",
+        "x": "X bijsnijden",
+        "y": "Snijd Y bij"
+      },
+      "errors": {
+        "analysisFailed": "Analyseverzoek is mislukt.",
+        "badRequest": "De server heeft het verzoek afgewezen. \nControleer de parameters.",
+        "captureLoad": "Kan de nieuwste opname van N.I.N.A. niet laden.",
+        "exampleLoad": "Kan de voorbeeldafbeelding niet laden.",
+        "missingServer": "Kan het backend-adres niet bepalen. \nControleer de verbindingsinstellingen.",
+        "mockMode": "Bahtinov-analyse is niet beschikbaar zolang de nep-API is ingeschakeld.",
+        "readFile": "Kan het geselecteerde bestand niet lezen.",
+        "title": "Bahtinov-analyse"
+      },
+      "image": {
+        "capturedName": "Laatste opname",
+        "clearSelection": "Duidelijke selectie",
+        "examplePlaceholder": "Voorbeeldafbeelding laden…",
+        "loadingCapture": "Opname laden…",
+        "mime": "Formaat",
+        "originalSize": "origineel {maat}",
+        "previewUnavailable": "Voorbeeld niet beschikbaar. \nDe analyse ondersteunt dit formaat nog steeds.",
+        "resizedMessage": "Formaat aangepast naar {breedte}×{hoogte} (ongeveer {grootte}). \nOrigineel formaat was {originalSize}.",
+        "resizedTitle": "Afbeelding geoptimaliseerd",
+        "selectFile": "Selecteer afbeelding",
+        "size": "Bestandsgrootte",
+        "source": "Bron",
+        "sourceCaptured": "Huidige opname",
+        "sourceExample": "Voorbeeld afbeelding",
+        "sourceUpload": "Geüploade afbeelding",
+        "transport": "Uploadmodus",
+        "transportBinary": "Binaire stroom",
+        "transportLegacy": "Verouderde JSON-fallback",
+        "useLatestCapture": "Gebruik de nieuwste opname"
+      },
+      "inputs": {
+        "apertureDiameter": "Openingsdiameter (mm)",
+        "focalLength": "Brandpuntsafstand (mm)",
+        "focalRatio": "Brandpuntsverhouding (f/)",
+        "pixelSize": "Pixelgrootte (μm)",
+        "resizeFactor": "Formaatfactor"
+      },
+      "overlay": {
+        "noImage": "Selecteer of maak een afbeelding om de overlay te bekijken.",
+        "processedSize": "Verwerkte grootte: {breedte} x {hoogte} px",
+        "title": "Overlay-voorbeeld"
+      },
+      "previousAngles": {
+        "input": "Hoek {index} (°)",
+        "label": "Vorige hoeken",
+        "reset": "Herstel laatste hoeken",
+        "savedLabel": "Laatst opgeslagen hoeken"
+      },
+      "results": {
+        "absoluteFocusError": "Focusfout (mm)",
+        "criticalFocusThreshold": "Kritische focusdrempel (mm)",
+        "cropApplied": "Verwerkt gewas",
+        "effectiveResizeFactor": "Effectieve formaatfactor",
+        "failure": "Analyse mislukt. \nControleer het backend-antwoord voor meer informatie.",
+        "focusErrorPixels": "Focusfout (px)",
+        "focusNotOk": "Buiten kritische focus",
+        "focusOk": "Binnen kritische focus",
+        "isWithinCriticalFocus": "Kritieke focusstatus",
+        "lineAngles": "Maskerlijnhoeken",
+        "maskAngle": "Maskerhoek (°)",
+        "noCrop": "Geen uitsnede toegepast",
+        "placeholder": "Voer de analyser uit om hier de focusstatistieken te bekijken.",
+        "successMessage": "Bahtinov-statistieken zijn succesvol bijgewerkt.",
+        "successTitle": "Analyse voltooid",
+        "title": "Analyseresultaten",
+        "updatedAngles": "Bijgewerkte hoeken"
+      },
+      "sections": {
+        "imageSource": "Afbeeldingsbron",
+        "imageSourceHint": "Maak een nieuw frame, upload een bestand of kies een voorbeeldafbeelding om te beginnen.",
+        "parameters": "Optische parameters",
+        "parametersHint": "Voer de optische en cameragegevens in die voor deze belichting zijn gebruikt om nauwkeurige meetgegevens te krijgen."
+      },
+      "subtitle": "Leg een afbeelding vast of laad deze om de focuskwaliteit te meten met uw Bahtinov-masker.",
+      "tips": {
+        "tip1": "Gebruik een heldere ster in de buurt van het doel om een ​​duidelijk diffractiepatroon te genereren.",
+        "tip2": "Zorg ervoor dat het Bahtinov-masker is uitgelijnd voordat u de afbeelding maakt.",
+        "tip3": "Hergebruik de voorgestelde hoeken om daaropvolgende metingen te stabiliseren.",
+        "title": "Tips"
+      },
+      "title": "Bahtinov-maskeranalysator",
+      "validation": {
+        "allAnglesRequired": "Zorg voor alle drie de hoeken of maak de velden leeg.",
+        "fixErrors": "Los de gemarkeerde fouten op voordat u de analyse uitvoert.",
+        "imageRequired": "Selecteer een afbeelding voordat u de analyse uitvoert.",
+        "invalidNonNegative": "Voer een niet-negatieve waarde in.",
+        "invalidNumber": "Voer een geldig nummer in.",
+        "invalidPositive": "Waarde moet positief zijn.",
+        "ratioOrAperture": "Geef de brandpuntsverhouding of de diafragmadiameter op.",
+        "requiredPositive": "Voer een positieve waarde in.",
+        "title": "Validatiefout"
+      }
+    }
+  },
+  "dialogs": {
+    "plateSolving": {
+      "time": "Tijd",
+      "status": "Status",
+      "error": "Foute afstand",
+      "rotation": "Rotatie"
+    }
+  },
+  "loading": "laden"
+}

@@ -8,32 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Filtersettings
 
-## [App4.2.0.beta4] [livestack0.6.2]  - 2025-12-xx
+## [App4.2.0] [livestack0.6.2][bahtifocus1.0.0] - 2025-12-04
+### Important information
+TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 ### Added
 - Equipment settings page
-- Mount: Siede of pier info
+- Mount: Side of pier info
 - Livestack plugin icon shows stacking status
+- Netherland language support - PeterKr
+- Plugin System Metrics
+- Plugin BahtiFocus
+- Close Autofocus dialog
+- Meridian settings
+- Autofocus settings
+- Numberpicker
 
 ### Changed
 - Camera chipsettings are now in equipment settings page
 
-## [App4.2.0.beta3] - 2025-12-01
-### Important information
-TouchNStar Plugin 1.2.3.0 are required for BahtiFocus
-### Added
-- Plugin BahtiFocus
-- Close Autofocus dialog
-
-## [App4.2.0.beta2] - 2025-12-01
 ### Fixed
-- Fix settings modal layot
-- Fix consol warnings
-
-## [App4.2.0.beta1] - 2025-11-30
-### Added
-- Meridian settings
-- Autofocus settings
-- Numberpicker 
+- Fix settings modal layout
+- Fix console warnings
 
 ## [App4.1.0] [ShortcutsPlugin1.0.0] [LivestackPlugin0.6.1]
 ### Important information

@@ -6,6 +6,7 @@
         'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30',
         zIndexClass,
       ]"
+      @click="handleBackdropClick"
     >
       <div
         :class="[
@@ -56,6 +57,10 @@ const props = defineProps({
     type: String,
     default: 'max-w-2xl',
   },
+  closeOnBackdropClick: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const zIndexClass = computed(() => props.zIndex);
@@ -65,6 +70,12 @@ const emit = defineEmits(['close']);
 function handleClose() {
   if (!props.disableClose) {
     emit('close');
+  }
+}
+
+function handleBackdropClick(event) {
+  if (event.target === event.currentTarget && props.closeOnBackdropClick) {
+    handleClose();
   }
 }
 </script>

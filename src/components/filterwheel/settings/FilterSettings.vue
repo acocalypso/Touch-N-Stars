@@ -5,10 +5,13 @@
       :key="index"
       class="p-4 border border-gray-700 rounded-lg bg-gray-800/50"
     >
-      <h3 class="font-bold text-base text-cyan-400 mb-2">
-        {{ $t('components.filterwheel.settings.FilterWheelFilters.Position') }}
-        {{ filter.Position + 1 }}
-      </h3>
+      <div class="flex justify-between items-center mb-2">
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.filterwheel.settings.FilterWheelFilters.Position') }}
+          {{ filter.Position + 1 }}
+        </h3>
+        <RemoveFilter :filterId="getOriginalIndex(filter)" />
+      </div>
       <SetFilterName
         v-model="filter.Name"
         :settingKey="`FilterWheelSettings-FilterWheelFilters-${getOriginalIndex(filter)}-Name`"
@@ -37,6 +40,7 @@ import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SetFilterName from './SetFilterName.vue';
 import AddNewFilter from './AddNewFilter.vue';
+import RemoveFilter from './RemoveFilter.vue';
 
 const store = apiStore();
 

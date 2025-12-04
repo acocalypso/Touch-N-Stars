@@ -956,11 +956,11 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/filterwheel/${action}`);
   },
 
-  async changeFilter(filterNr) {
+  async changeFilter(filterId) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/equipment/filterwheel/change-filter`, {
-        params: { filterId: filterNr },
+        params: { filterId: filterId },
       });
       return response.data;
     } catch (error) {

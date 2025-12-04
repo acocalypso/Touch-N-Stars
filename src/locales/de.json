@@ -4,7 +4,8 @@
     "confirm": "Bestätigen",
     "close": "Schließen",
     "select": "Wählen",
-    "edit": "Bearbeiten"
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -691,6 +692,10 @@
           "AutoFocusExposureTime": "Autofokus-Belichtungszeit"
         }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Filter entfernen",
+      "confirmMessage": "Sind Sie sicher, dass Sie diesen Filter entfernen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
     },
     "rotator": {
       "title": "Rotator",

@@ -4,7 +4,8 @@
     "confirm": "Confirm",
     "close": "Close",
     "select": "Select",
-    "edit": "Edit"
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "general": {
     "cancel": "Cancel",
@@ -688,6 +689,10 @@
           "Name": "Name"
         }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Remove Filter",
+      "confirmMessage": "Are you sure you want to remove this filter? This action cannot be undone."
     },
     "rotator": {
       "title": "Rotator",

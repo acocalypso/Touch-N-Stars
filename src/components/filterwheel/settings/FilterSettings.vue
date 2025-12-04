@@ -28,6 +28,7 @@
         :min="0"
       />
     </div>
+    <AddNewFilter />
   </div>
 </template>
 <script setup>
@@ -35,6 +36,7 @@ import { computed } from 'vue';
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SetFilterName from './SetFilterName.vue';
+import AddNewFilter from './AddNewFilter.vue';
 
 const store = apiStore();
 

@@ -1,10 +1,10 @@
 <template>
-<div v-if="store.isPINS || true">
+  <div v-if="store.isPINS || true">
     <button @click="platesolveLastImage" :disabled="isLoading">
-        <span v-if="isLoading" class="spinner"></span>
-        <span>Plate Solve Last Image</span>
+      <span v-if="isLoading" class="spinner"></span>
+      <span>Plate Solve Last Image</span>
     </button>
-</div>
+  </div>
 </template>
 <script setup>
 import { ref } from 'vue';
@@ -27,7 +27,6 @@ async function platesolveLastImage() {
     isLoading.value = false;
   }
 }
-
 </script>
 
 <style scoped>

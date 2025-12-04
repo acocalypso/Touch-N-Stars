@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useSettingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from '@/store/settingsStore';
 
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();

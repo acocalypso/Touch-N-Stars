@@ -393,6 +393,15 @@
         },
         "telescope_settle_time": "Settle time after slew (s)",
         "meridian_flip_settings": "Meridian-Settings"
+      },
+      "config": {
+        "settings": "赤道仪设置",
+        "connectionMode": "连接模式",
+        "devicePort": "设备端口",
+        "ipAddress": "IP地址",
+        "baudRate": "波特率",
+        "primaryReverse": "主轴反向",
+        "secondaryReverse": "副轴反向"
       }
     },
     "guider": {

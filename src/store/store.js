@@ -6,6 +6,7 @@ import { useToastStore } from '@/store/toastStore';
 import { useImagetStore } from './imageStore';
 import { useAutofocusStore } from '@/store/autofocusStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
+import signalRNotificationService from '@/services/signalRNotificationService';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -156,6 +157,8 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
+      //const settingsStore = useSettingsStore();
+      //this.isPINS = settingsStore.isPinsEnabled;
 
       const tryWithRetry = async (fn, retries = 1, delay = 2000) => {
         let result = null;
@@ -195,6 +198,7 @@ export const apiStore = defineStore('store', {
           return;
         } else {
           this.isTnsPluginConnected = true;
+
           //console.log('TNS Plugin reachable');
           //Check the plugin version
           if (!this.isTnsPluginVersionNewerOrEqual) {
@@ -328,7 +332,6 @@ export const apiStore = defineStore('store', {
         } else if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback für IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
-            //console.log('Channel WebSocket Message:', message);
             this.handleWebSocketMessage(message);
           });
 
@@ -338,12 +341,60 @@ export const apiStore = defineStore('store', {
             this.isWebSocketConnected = true;
           } catch (error) {
             // WebSocket fehlgeschlagen oder Timeout
-            console.warn('WebSocket connection failed or timeout:', error.message);
+            console.warn('[API Store] WebSocket connection failed or timeout:', error.message);
             this.isWebSocketConnected = false;
             // WebSocket wird automatisch via onclose-Handler versuchen wiederherzustellen
           }
         } else {
           this.isWebSocketConnected = true;
+        }
+
+        // Connect SignalR Notification Service
+        if (!useMockApi && this.isPINS && !signalRNotificationService.isSignalRConnected()) {
+          // Setup callbacks for SignalR Notifications
+          signalRNotificationService.setStatusCallback((status) => {
+            console.log('[API Store] SignalR Status:', status);
+          });
+
+          signalRNotificationService.setNotificationCallback((notification) => {
+            //console.log('[API Store] SignalR Notification:', notification);
+
+            // Show toast notification
+            const toastStore = useToastStore();
+
+            // Determine toast type and autoClose based on notification.type
+            // 0 = info, 1 = success, 2 = warning, 3 = error
+            let toastType = 'info';
+            let autoClose = true;
+            let autoCloseDelay = notification.lifetimeMs ? notification.lifetimeMs : 5000;
+
+            if (notification.type === 1) {
+              toastType = 'success';
+            } else if (notification.type === 2) {
+              toastType = 'warning';
+              autoCloseDelay = 5000;
+            } else if (notification.type === 3) {
+              toastType = 'error';
+              autoClose = false; // Error toasts stay open
+            }
+
+            toastStore.showToast({
+              type: toastType,
+              title: notification.title || '',
+              message: notification.message,
+              autoClose: autoClose,
+              autoCloseDelay: autoCloseDelay,
+            });
+          });
+
+          // Try to connect SignalR
+          try {
+            await signalRNotificationService.connect();
+            console.log('[API Store] SignalR Notification Service connected');
+          } catch (error) {
+            console.warn('[API Store] SignalR connection failed:', error.message);
+            // SignalR will automatically attempt to reconnect via reconnect logic
+          }
         }
 
         // If all conditions are met, mark backend as reachable
@@ -509,9 +560,14 @@ export const apiStore = defineStore('store', {
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
 
-      // Channel WebSocket disconnecten wenn Backend nicht erreichbar
+      // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
         websocketChannelService.disconnect();
+      }
+
+      // Disconnect SignalR when backend is not reachable
+      if (signalRNotificationService.isSignalRConnected()) {
+        signalRNotificationService.disconnect();
       }
     },
 
@@ -623,6 +679,7 @@ export const apiStore = defineStore('store', {
         clearInterval(this.intervalId);
         this.intervalId = null;
         websocketChannelService.disconnect();
+        signalRNotificationService.disconnect();
         console.log('Stopped fetching info interval');
       }
     },
@@ -739,6 +796,13 @@ export const apiStore = defineStore('store', {
       }
       this.isVersionNewerOrEqual = true;
       return true;
+    },
+    async checkForPINS() {
+      const pinsVersion = await apiService.fetchPinsVersion();
+      if (pinsVersion && pinsVersion.Response) {
+        this.isPINS = true;
+        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      }
     },
 
     setPageReturnedFromBackground() {

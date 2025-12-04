@@ -392,6 +392,15 @@
         },
         "telescope_settle_time": "Temps de stabilisation après le(s) balayage(s)",
         "meridian_flip_settings": "Paramètres méridiens"
+      },
+      "config": {
+        "settings": "Paramètres de montage",
+        "connectionMode": "Mode de connexion",
+        "devicePort": "Port de périphérique",
+        "ipAddress": "Adresse IP",
+        "baudRate": "Débit en bauds",
+        "primaryReverse": "Axe primaire inversé",
+        "secondaryReverse": "Axe secondaire inversé"
       }
     },
     "guider": {

@@ -64,7 +64,7 @@ const props = defineProps({
 const store = apiStore();
 
 const isPHD2Selected = computed(() => {
-  return props.selectedGuiderDevice === 'PHD2' || props.selectedGuiderDevice === 'PHD2_Single';
+  return props.selectedGuiderDevice.includes('PHD2');
 });
 
 const phd2Path = ref('');

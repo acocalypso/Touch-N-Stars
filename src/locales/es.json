@@ -3,7 +3,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "close": "Cerca",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Eliminar",
+    "edit": "Editar"
   },
   "general": {
     "cancel": "Cancelar",
@@ -679,8 +681,18 @@
       "position": "Posición",
       "availableFilters": "Filtros Disponibles",
       "settings": {
-        "title": "Configuración de filtro"
+        "title": "Configuración de filtro",
+        "FilterWheelFilters": {
+          "FocusOffset": "Offset de enfoque",
+          "Position": "Posición",
+          "AutoFocusExposureTime": "Tiempo de exposición de enfoque automático",
+          "Name": "Nombre"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Eliminar Filtro",
+      "confirmMessage": "¿Está seguro de que desea eliminar este filtro? Esta acción no se puede deshacer."
     },
     "rotator": {
       "title": "Rotador",

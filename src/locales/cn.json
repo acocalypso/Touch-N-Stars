@@ -3,7 +3,9 @@
     "cancel": "取消",
     "confirm": "确认",
     "close": "关闭",
-    "select": "Select"
+    "select": "Select",
+    "delete": "删除",
+    "edit": "编辑"
   },
   "general": {
     "cancel": "取消",
@@ -680,8 +682,18 @@
       "position": "位置",
       "availableFilters": "可用滤镜",
       "settings": {
-        "title": "Filter-Settings"
+        "title": "滤镜设置",
+        "FilterWheelFilters": {
+          "FocusOffset": "对焦偏移",
+          "Position": "位置",
+          "AutoFocusExposureTime": "自动对焦曝光时间",
+          "Name": "名称"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "删除过滤器",
+      "confirmMessage": "您确定要删除此过滤器吗？此操作无法撤销。"
     },
     "rotator": {
       "title": "旋转器",

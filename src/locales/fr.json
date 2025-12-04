@@ -3,7 +3,9 @@
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "close": "Fermer",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Supprimer",
+    "edit": "Modifier"
   },
   "general": {
     "cancel": "Annuler",
@@ -679,8 +681,18 @@
       "position": "Position",
       "availableFilters": "Filtres Disponibles",
       "settings": {
-        "title": "Paramètres de filtre"
+        "title": "Paramètres de filtre",
+        "FilterWheelFilters": {
+          "FocusOffset": "Décalage de mise au point",
+          "Position": "Position",
+          "AutoFocusExposureTime": "Temps d'exposition de la mise au point automatique",
+          "Name": "Nom"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Supprimer le Filtre",
+      "confirmMessage": "Êtes-vous sûr de vouloir supprimer ce filtre ? Cette action ne peut pas être annulée."
     },
     "rotator": {
       "title": "Rotateur",

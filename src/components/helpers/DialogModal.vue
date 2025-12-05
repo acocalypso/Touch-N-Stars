@@ -1,5 +1,5 @@
 <template>
-  <Modal :show="showDialog" :zIndex="'z-[80]'" @close="handleClose">
+  <Modal :show="showDialog" :zIndex="'z-[80]'" @close="handleClose" :closeOnBackdropClick="false">
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentDialog?.Title || 'Dialog' }}
@@ -11,6 +11,10 @@
         <TppaPage v-if="isTPPADialog" @close="handleClose" />
 
         <!-- PlateSolving Status Dialog -->
+        <PlateSolvingSignalRDialog
+          v-else-if="isSignalRPlateSolvingDialog"
+          :dialog="currentDialog"
+        />
         <PlateSolvingDialog
           v-else-if="isPlateSolvingDialog"
           :dialog="currentDialog"
@@ -18,12 +22,17 @@
         />
 
         <!-- Manual Rotator Dialog -->
+        <ManualRotatorSignalRDialog v-else-if="isSignalRRotatorDialog" :dialog="currentDialog" />
         <ManualRotatorDialog v-else-if="isManualRotatorDialog" :dialog="currentDialog" />
 
         <!-- AutoFocus Dialog -->
         <AutoFocusDialog v-else-if="isAutoFocusDialog" />
 
         <!-- Meridian Flip Dialog -->
+        <MeridianFlipSignalRDialog
+          v-else-if="isSignalRMeridianFlipDialog"
+          :dialog="currentDialog"
+        />
         <MeridianFlipDialog
           v-else-if="isMeridianFlipDialog"
           :dialog="currentDialog"
@@ -52,15 +61,20 @@
 <script setup>
 import { computed } from 'vue';
 import { useDialogStore } from '@/store/dialogStore';
+import { apiStore } from '@/store/store';
 import Modal from '@/components/helpers/Modal.vue';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';
+import PlateSolvingSignalRDialog from '@/components/dialogs/PlateSolvingSignalRDialog.vue';
 import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
+import ManualRotatorSignalRDialog from '@/components/dialogs/ManualRotatorSignalRDialog.vue';
 import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
 import MeridianFlipDialog from '@/components/dialogs/MeridianFlipDialog.vue';
+import MeridianFlipSignalRDialog from '@/components/dialogs/MeridianFlipSignalRDialog.vue';
 import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 
 const dialogStore = useDialogStore();
+const store = apiStore();
 
 const showDialog = computed(() => {
   if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return false;
@@ -102,9 +116,23 @@ const isPlateSolvingDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM';
 });
 
+// Check if using SignalR (for choosing correct plate solving component)
+const isSignalRPlateSolvingDialog = computed(() => {
+  if (!isPlateSolvingDialog.value) return false;
+  return store.isPINS;
+});
+
 // Manual Rotator Dialog Detection
 const isManualRotatorDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.Equipment.Equipment.MyRotator.ManualRotator';
+});
+
+// Check if using SignalR (for choosing correct rotator component)
+const isSignalRRotatorDialog = computed(() => {
+  if (!isManualRotatorDialog.value) return false;
+  // Check if we're in PINS mode (SignalR) and the dialog doesn't have Text1-Text9 properties
+  const content = currentDialog.value?.Content || {};
+  return store.isPINS && (!content.Text1 || !content.Text2);
 });
 
 // AutoFocus Dialog Detection
@@ -118,6 +146,12 @@ const isAutoFocusDialog = computed(() => {
 // Meridian Flip Dialog Detection
 const isMeridianFlipDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM';
+});
+
+// Check if using SignalR (for choosing correct meridian flip component)
+const isSignalRMeridianFlipDialog = computed(() => {
+  if (!isMeridianFlipDialog.value) return false;
+  return store.isPINS;
 });
 
 // Filtere PART_* und UnnamedButton Commands heraus

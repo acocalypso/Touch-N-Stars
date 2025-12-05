@@ -9,7 +9,9 @@
   },
   "general": {
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "yes": "Sim",
+    "no": "Não"
   },
   "pages": {
     "equipment": {
@@ -821,6 +823,16 @@
       "imageModal": {
         "no_image": "Sem dados de imagem disponíveis"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Resolução bem-sucedida",
+      "solve_failed": "Resolução falhou",
+      "solving": "Resolvendo...",
+      "solve_time": "Tempo de resolução",
+      "orientation": "Orientação",
+      "flipped": "Invertido",
+      "ra": "AR",
+      "dec": "Dec"
     }
   },
   "plugins": {

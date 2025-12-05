@@ -148,6 +148,9 @@
     <!-- Dialog Modal -->
     <DialogModal />
 
+    <!-- MessageBox Modal -->
+    <MessageBoxModal />
+
     <!-- Picker Overlay Component -->
     <PickerOverlay />
 
@@ -206,6 +209,7 @@ import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
 import { useDialogStore } from './store/dialogStore';
+import { useMessageboxStore } from './store/messageboxStore';
 import { usePickerStore } from '@/store/pickerStore';
 import { useI18n } from 'vue-i18n';
 import TutorialModal from '@/components/TutorialModal.vue';
@@ -217,6 +221,7 @@ import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
+import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import {
@@ -232,6 +237,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
+const messageboxStore = useMessageboxStore();
 const imageStore = useImagetStore();
 const showLogsModal = ref(false);
 const showTutorial = ref(false);
@@ -373,6 +379,7 @@ async function resumeApp() {
   if (store.isPINS) {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
+    await messageboxStore.initializeMessageboxSignalR();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -565,6 +572,7 @@ onMounted(async () => {
   if (store.isPINS) {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
+    await messageboxStore.initializeMessageboxSignalR();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -677,6 +685,7 @@ onBeforeUnmount(async () => {
   if (store.isPINS) {
     // Disconnect SignalR in PINS mode
     await dialogStore.disconnectDialogSignalR();
+    await messageboxStore.disconnectMessageboxSignalR();
   } else {
     // Stop polling in WPF mode
     dialogStore.stopPolling();

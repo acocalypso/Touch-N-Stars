@@ -11,6 +11,10 @@
         <TppaPage v-if="isTPPADialog" @close="handleClose" />
 
         <!-- PlateSolving Status Dialog -->
+        <PlateSolvingSignalRDialog
+          v-else-if="isSignalRPlateSolvingDialog"
+          :dialog="currentDialog"
+        />
         <PlateSolvingDialog
           v-else-if="isPlateSolvingDialog"
           :dialog="currentDialog"
@@ -61,6 +65,7 @@ import { apiStore } from '@/store/store';
 import Modal from '@/components/helpers/Modal.vue';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';
+import PlateSolvingSignalRDialog from '@/components/dialogs/PlateSolvingSignalRDialog.vue';
 import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
 import ManualRotatorSignalRDialog from '@/components/dialogs/ManualRotatorSignalRDialog.vue';
 import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
@@ -109,6 +114,12 @@ const isTPPADialog = computed(() => {
 // PlateSolving Dialog Detection
 const isPlateSolvingDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.PlateSolvingStatusVM';
+});
+
+// Check if using SignalR (for choosing correct plate solving component)
+const isSignalRPlateSolvingDialog = computed(() => {
+  if (!isPlateSolvingDialog.value) return false;
+  return store.isPINS;
 });
 
 // Manual Rotator Dialog Detection

@@ -350,7 +350,6 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
-  messageboxStore.stopPolling();
   // Alle Flags zurücksetzen für sauberen Neustart beim Resume
   store.clearAllStates();
 }
@@ -690,7 +689,6 @@ onBeforeUnmount(async () => {
   } else {
     // Stop polling in WPF mode
     dialogStore.stopPolling();
-    messageboxStore.stopPolling();
   }
 
   store.clearAllStates();

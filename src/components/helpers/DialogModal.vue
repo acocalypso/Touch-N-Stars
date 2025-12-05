@@ -25,6 +25,10 @@
         <AutoFocusDialog v-else-if="isAutoFocusDialog" />
 
         <!-- Meridian Flip Dialog -->
+        <MeridianFlipSignalRDialog
+          v-else-if="isSignalRMeridianFlipDialog"
+          :dialog="currentDialog"
+        />
         <MeridianFlipDialog
           v-else-if="isMeridianFlipDialog"
           :dialog="currentDialog"
@@ -61,6 +65,7 @@ import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
 import ManualRotatorSignalRDialog from '@/components/dialogs/ManualRotatorSignalRDialog.vue';
 import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
 import MeridianFlipDialog from '@/components/dialogs/MeridianFlipDialog.vue';
+import MeridianFlipSignalRDialog from '@/components/dialogs/MeridianFlipSignalRDialog.vue';
 import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 
 const dialogStore = useDialogStore();
@@ -132,44 +137,34 @@ const isMeridianFlipDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM';
 });
 
+// Check if using SignalR (for choosing correct meridian flip component)
+const isSignalRMeridianFlipDialog = computed(() => {
+  if (!isMeridianFlipDialog.value) return false;
+  return store.isPINS;
+});
+
 // Filtere PART_* und UnnamedButton Commands heraus
 const visibleCommands = computed(() => {
   if (!currentDialog.value?.AvailableCommands) return [];
 
-  let commands = currentDialog.value.AvailableCommands.map((cmd, index) => ({
+  return currentDialog.value.AvailableCommands.map((cmd, index) => ({
     text: cmd,
     originalIndex: index,
   })).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
-
-  // For Manual Rotator in PINS mode, replace "Cancel" with "OK"
-  if (isSignalRRotatorDialog.value) {
-    commands = commands.map((cmd) => ({
-      ...cmd,
-      text: cmd.text === 'Cancel' ? 'OK' : cmd.text,
-    }));
-  }
-
-  return commands;
 });
 
 async function handleButtonClick(buttonName) {
   const windowTitle = currentDialog.value?.Title;
   console.log('Clicking button:', buttonName, 'Window Title:', windowTitle);
 
-  // For Manual Rotator in PINS mode, map "OK" back to "Cancel" for the backend
-  let actualButtonName = buttonName;
-  if (isSignalRRotatorDialog.value && buttonName === 'OK') {
-    actualButtonName = 'Cancel';
-  }
-
   // If clicking Cancel on Plate Solving dialog, use centralized cleanup
-  if (isPlateSolvingDialog.value && actualButtonName.toLowerCase().includes('cancel')) {
+  if (isPlateSolvingDialog.value && buttonName.toLowerCase().includes('cancel')) {
     console.log('Cancel button clicked on Plate Solving dialog - triggering cleanup');
     await dialogStore.closePlateSolvingDialog();
     return;
   }
 
-  await dialogStore.clickButton(actualButtonName, windowTitle);
+  await dialogStore.clickButton(buttonName, windowTitle);
 }
 
 async function handleClose() {

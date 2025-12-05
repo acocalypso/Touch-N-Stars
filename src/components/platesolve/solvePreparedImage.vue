@@ -18,7 +18,13 @@
     </svg>
   </button>
 
-  <Modal :show="showModal" @close="closeModal" :closeOnBackdropClick="false" max-width="max-w-md" z-index="z-50">
+  <Modal
+    :show="showModal"
+    @close="closeModal"
+    :closeOnBackdropClick="false"
+    max-width="max-w-md"
+    z-index="z-50"
+  >
     <template #header>
       <h2 class="text-xl font-bold text-white">Plate Solve</h2>
     </template>

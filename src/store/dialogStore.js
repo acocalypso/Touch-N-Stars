@@ -217,6 +217,12 @@ export const useDialogStore = defineStore('dialogStore', {
         Status: dialogData.Status || dialogData.status || '',
         SlewAndCenter: dialogData.SlewAndCenter || dialogData.slewAndCenter,
         Parameters: dialogData.Parameters || dialogData.parameters || {},
+        Content:
+          dialogData.Content ||
+          dialogData.content ||
+          dialogData.Parameters ||
+          dialogData.parameters ||
+          {},
         StatusMessage: dialogData.StatusMessage || dialogData.statusMessage,
         Table: dialogData.Table || dialogData.table,
         TableHeaders: dialogData.TableHeaders || dialogData.tableHeaders,
@@ -289,7 +295,13 @@ export const useDialogStore = defineStore('dialogStore', {
 
       // Extract and store meridian flip data if available
       if (normalizedDialog.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM') {
-        this.meridianFlipData = normalizedDialog;
+        // Normalize meridian flip specific data
+        const flipData = {
+          ...normalizedDialog,
+          Steps: normalizedDialog.Content?.Steps || normalizedDialog.Parameters?.Steps || [],
+        };
+        this.meridianFlipData = flipData;
+        console.log('[dialogStore] Meridian flip data stored:', this.meridianFlipData);
       }
     },
 

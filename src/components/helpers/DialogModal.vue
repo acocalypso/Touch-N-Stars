@@ -18,6 +18,7 @@
         />
 
         <!-- Manual Rotator Dialog -->
+        <ManualRotatorSignalRDialog v-else-if="isSignalRRotatorDialog" :dialog="currentDialog" />
         <ManualRotatorDialog v-else-if="isManualRotatorDialog" :dialog="currentDialog" />
 
         <!-- AutoFocus Dialog -->
@@ -52,15 +53,18 @@
 <script setup>
 import { computed } from 'vue';
 import { useDialogStore } from '@/store/dialogStore';
+import { apiStore } from '@/store/store';
 import Modal from '@/components/helpers/Modal.vue';
 import TppaPage from '@/components/tppa/TppaPage.vue';
 import PlateSolvingDialog from '@/components/dialogs/PlateSolvingDialog.vue';
 import ManualRotatorDialog from '@/components/dialogs/ManualRotatorDialog.vue';
+import ManualRotatorSignalRDialog from '@/components/dialogs/ManualRotatorSignalRDialog.vue';
 import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
 import MeridianFlipDialog from '@/components/dialogs/MeridianFlipDialog.vue';
 import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
 
 const dialogStore = useDialogStore();
+const store = apiStore();
 
 const showDialog = computed(() => {
   if (!dialogStore.dialogs || dialogStore.dialogs.length === 0) return false;
@@ -107,6 +111,14 @@ const isManualRotatorDialog = computed(() => {
   return currentDialog.value?.ContentType === 'NINA.Equipment.Equipment.MyRotator.ManualRotator';
 });
 
+// Check if using SignalR (for choosing correct rotator component)
+const isSignalRRotatorDialog = computed(() => {
+  if (!isManualRotatorDialog.value) return false;
+  // Check if we're in PINS mode (SignalR) and the dialog doesn't have Text1-Text9 properties
+  const content = currentDialog.value?.Content || {};
+  return store.isPINS && (!content.Text1 || !content.Text2);
+});
+
 // AutoFocus Dialog Detection
 const isAutoFocusDialog = computed(() => {
   return (
@@ -124,24 +136,40 @@ const isMeridianFlipDialog = computed(() => {
 const visibleCommands = computed(() => {
   if (!currentDialog.value?.AvailableCommands) return [];
 
-  return currentDialog.value.AvailableCommands.map((cmd, index) => ({
+  let commands = currentDialog.value.AvailableCommands.map((cmd, index) => ({
     text: cmd,
     originalIndex: index,
   })).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
+
+  // For Manual Rotator in PINS mode, replace "Cancel" with "OK"
+  if (isSignalRRotatorDialog.value) {
+    commands = commands.map((cmd) => ({
+      ...cmd,
+      text: cmd.text === 'Cancel' ? 'OK' : cmd.text,
+    }));
+  }
+
+  return commands;
 });
 
 async function handleButtonClick(buttonName) {
   const windowTitle = currentDialog.value?.Title;
   console.log('Clicking button:', buttonName, 'Window Title:', windowTitle);
 
+  // For Manual Rotator in PINS mode, map "OK" back to "Cancel" for the backend
+  let actualButtonName = buttonName;
+  if (isSignalRRotatorDialog.value && buttonName === 'OK') {
+    actualButtonName = 'Cancel';
+  }
+
   // If clicking Cancel on Plate Solving dialog, use centralized cleanup
-  if (isPlateSolvingDialog.value && buttonName.toLowerCase().includes('cancel')) {
+  if (isPlateSolvingDialog.value && actualButtonName.toLowerCase().includes('cancel')) {
     console.log('Cancel button clicked on Plate Solving dialog - triggering cleanup');
     await dialogStore.closePlateSolvingDialog();
     return;
   }
 
-  await dialogStore.clickButton(buttonName, windowTitle);
+  await dialogStore.clickButton(actualButtonName, windowTitle);
 }
 
 async function handleClose() {

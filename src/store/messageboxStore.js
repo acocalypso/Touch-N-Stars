@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import signalRMessageboxesService from '@/services/signalRMessageboxesService';
 
@@ -7,130 +6,33 @@ export const useMessageboxStore = defineStore('messageboxStore', {
   state: () => ({
     messageboxes: [],
     messageboxCount: 0,
-    intervalId: null,
-    isPolling: false,
     isConnectedToSignalR: false,
   }),
   actions: {
-    async fetchMessageboxes() {
-      const store = apiStore();
+    async respondToMessageBox(messageBoxId, result) {
       try {
-        if (!store.isBackendReachable) {
-          console.warn('[messageboxStore] Backend is not reachable');
-          return;
-        }
+        if (signalRMessageboxesService.isSignalRConnected()) {
+          console.log(
+            '[messageboxStore] Responding to MessageBox via SignalR:',
+            messageBoxId,
+            result
+          );
 
-        const response = await apiService.getMessageboxList();
-        if (response.Success) {
-          this.messageboxes = response.Response.Messageboxes || [];
-          this.messageboxCount = response.Response.Count;
-        }
-      } catch (error) {
-        console.error('[messageboxStore] Error fetching messageboxes:', error);
-      }
-    },
+          await signalRMessageboxesService.connection.invoke(
+            'RespondToMessageBox',
+            messageBoxId,
+            result
+          );
 
-    async fetchMessageboxCount() {
-      const store = apiStore();
-      try {
-        if (!store.isBackendReachable) {
-          console.warn('[messageboxStore] Backend is not reachable');
-          return;
-        }
-
-        const response = await apiService.getMessageboxCount();
-        if (response.Success) {
-          this.messageboxCount = response.Response;
-        }
-      } catch (error) {
-        console.error('[messageboxStore] Error fetching messagebox count:', error);
-      }
-    },
-
-    async clickButton(buttonName, windowHashCode = null) {
-      try {
-        const store = apiStore();
-
-        // In PINS mode, use SignalR to click the button directly
-        if (store.isPINS && signalRMessageboxesService.isSignalRConnected()) {
-          console.log('[messageboxStore] Clicking button via SignalR:', buttonName);
-
-          // Find the current messagebox's ContentType
-          const currentMessagebox =
-            this.messageboxes.length > 0 ? this.messageboxes[this.messageboxes.length - 1] : null;
-          if (currentMessagebox && currentMessagebox.ContentType) {
-            console.log(
-              '[messageboxStore] Sending ClickMessageboxButton:',
-              currentMessagebox.ContentType,
-              buttonName
-            );
-            await signalRMessageboxesService.connection.invoke(
-              'ClickMessageboxButton',
-              currentMessagebox.ContentType,
-              buttonName
-            );
-            return { Success: true };
-          } else {
-            console.warn('[messageboxStore] No messagebox found to click button on');
-            return { Success: false, Error: 'No active messagebox' };
-          }
+          console.log('[messageboxStore] MessageBox response sent successfully');
+          return { Success: true };
         } else {
-          // WPF mode - use HTTP API
-          const response = await apiService.clickMessageboxButton(buttonName, windowHashCode);
-          if (response.Success) {
-            await this.fetchMessageboxes();
-          }
-          return response;
+          console.error('[messageboxStore] SignalR not connected');
+          throw new Error('SignalR not connected');
         }
       } catch (error) {
-        console.error(`[messageboxStore] Error clicking button ${buttonName}:`, error);
+        console.error(`[messageboxStore] Error responding to MessageBox:`, error);
         throw error;
-      }
-    },
-
-    async closeAllMessageboxes(confirm = true) {
-      try {
-        const response = await apiService.closeAllMessageboxes(confirm);
-        if (response.Success) {
-          await this.fetchMessageboxes();
-        }
-        return response;
-      } catch (error) {
-        console.error('[messageboxStore] Error closing all messageboxes:', error);
-        throw error;
-      }
-    },
-
-    async closeMessageboxByType(type, confirm = true) {
-      try {
-        const response = await apiService.closeMessageboxByType(type, confirm);
-        if (response.Success) {
-          await this.fetchMessageboxes();
-        }
-        return response;
-      } catch (error) {
-        console.error(`[messageboxStore] Error closing messagebox by type ${type}:`, error);
-        throw error;
-      }
-    },
-
-    startPolling(interval = 2000) {
-      if (!this.isPolling) {
-        console.log('[messageboxStore] Start polling messageboxes...');
-        this.isPolling = true;
-        this.fetchMessageboxes();
-        this.intervalId = setInterval(() => this.fetchMessageboxes(), interval);
-      }
-    },
-
-    stopPolling() {
-      if (this.isPolling) {
-        console.log('[messageboxStore] Stop polling messageboxes...');
-        this.isPolling = false;
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = null;
-        }
       }
     },
 
@@ -157,20 +59,10 @@ export const useMessageboxStore = defineStore('messageboxStore', {
       try {
         console.log('[messageboxStore] Initializing SignalR connection via service');
 
-        // Set up callbacks
+        // Set up callback for ReceiveMessageBox event
         signalRMessageboxesService.setDialogCallback((messageboxData) => {
-          console.log('[messageboxStore] Messagebox callback triggered:', messageboxData);
+          console.log('[messageboxStore] MessageBox received:', messageboxData);
           this.handleMessageboxUpdate(messageboxData);
-        });
-
-        signalRMessageboxesService.setDialogStatusCallback((status) => {
-          console.log('[messageboxStore] Status callback triggered:', status);
-          this.handleStatusUpdate(status);
-        });
-
-        signalRMessageboxesService.setClearDialogCallback((contentType) => {
-          console.log('[messageboxStore] Clear messagebox callback triggered:', contentType);
-          this.handleClearMessagebox(contentType);
         });
 
         signalRMessageboxesService.setStatusCallback((status) => {
@@ -194,26 +86,21 @@ export const useMessageboxStore = defineStore('messageboxStore', {
     handleMessageboxUpdate(messageboxData) {
       console.log('[messageboxStore] handleMessageboxUpdate received:', messageboxData);
 
-      // Normalize property names (handle both camelCase and PascalCase)
+      // Map SignalR messagebox structure to internal format
       const normalizedMessagebox = {
-        Title: messageboxData.Title || messageboxData.title,
-        ContentType: messageboxData.ContentType || messageboxData.contentType,
-        Active: messageboxData.Active ?? messageboxData.active ?? true,
-        Status: messageboxData.Status || messageboxData.status || '',
-        Message: messageboxData.Message || messageboxData.message || '',
-        Parameters: messageboxData.Parameters || messageboxData.parameters || {},
-        StatusMessage: messageboxData.StatusMessage || messageboxData.statusMessage,
-        AvailableCommands:
-          messageboxData.AvailableCommands || messageboxData.availableCommands || [],
+        id: messageboxData.id,
+        title: messageboxData.title,
+        text: messageboxData.text,
+        button: messageboxData.button,
+        defaultResult: messageboxData.defaultResult,
+        timestamp: messageboxData.timestamp,
+        result: messageboxData.result,
       };
 
       console.log('[messageboxStore] Normalized messagebox:', normalizedMessagebox);
-      console.log('[messageboxStore] ContentType:', normalizedMessagebox.ContentType);
 
-      // Update or add the messagebox to the messageboxes array
-      const existingIndex = this.messageboxes.findIndex(
-        (m) => m.ContentType === normalizedMessagebox.ContentType
-      );
+      // Update or add the messagebox to the messageboxes array using id
+      const existingIndex = this.messageboxes.findIndex((m) => m.id === normalizedMessagebox.id);
 
       if (existingIndex >= 0) {
         // Update existing messagebox
@@ -242,13 +129,13 @@ export const useMessageboxStore = defineStore('messageboxStore', {
     /**
      * Handle clear messagebox from SignalR
      */
-    handleClearMessagebox(contentType) {
-      console.log('[messageboxStore] handleClearMessagebox called with contentType:', contentType);
+    handleClearMessagebox(messageboxId) {
+      console.log('[messageboxStore] handleClearMessagebox called with id:', messageboxId);
       console.log('[messageboxStore] Current messageboxes before clear:', this.messageboxes);
 
       // Remove messagebox from the messageboxes array
       const beforeCount = this.messageboxes.length;
-      this.messageboxes = this.messageboxes.filter((m) => m.ContentType !== contentType);
+      this.messageboxes = this.messageboxes.filter((m) => m.id !== messageboxId);
       const afterCount = this.messageboxes.length;
 
       console.log('[messageboxStore] Messageboxes removed:', beforeCount - afterCount);
@@ -258,27 +145,22 @@ export const useMessageboxStore = defineStore('messageboxStore', {
     /**
      * Generic close messagebox function
      */
-    async closeMessagebox(contentType) {
+    async closeMessagebox(messageboxId) {
       try {
-        const messagebox = this.messageboxes.find((m) => m.ContentType === contentType);
+        const messagebox = this.messageboxes.find((m) => m.id === messageboxId);
 
         if (!messagebox) {
-          console.warn(`[messageboxStore] No messagebox found with ContentType: ${contentType}`);
+          console.warn(`[messageboxStore] No messagebox found with id: ${messageboxId}`);
           return;
         }
 
-        console.log(`[messageboxStore] Closing messagebox: ${contentType}`);
-
-        // Close messagebox via button click
-        const store = apiStore();
-        const buttonToClick = store.isPINS ? 'OK' : 'PART_CloseButton';
-        await this.clickButton(buttonToClick, messagebox.Title);
+        console.log(`[messageboxStore] Closing messagebox: ${messageboxId}`);
 
         // Remove messagebox from array (in case server doesn't send ClearDialog event)
-        this.messageboxes = this.messageboxes.filter((m) => m.ContentType !== contentType);
-        console.log(`[messageboxStore] Messagebox closed and removed: ${contentType}`);
+        this.messageboxes = this.messageboxes.filter((m) => m.id !== messageboxId);
+        console.log(`[messageboxStore] Messagebox closed and removed: ${messageboxId}`);
       } catch (error) {
-        console.error(`[messageboxStore] Error closing messagebox (${contentType}):`, error);
+        console.error(`[messageboxStore] Error closing messagebox (${messageboxId}):`, error);
       }
     },
 

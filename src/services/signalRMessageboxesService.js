@@ -53,7 +53,7 @@ class SignalRMessageboxesService {
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
       this.url = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-      console.log('[signalRMessageboxesService] Connecting to SignalR at:', this.url);
+      //console.log('[signalRMessageboxesService] Connecting to SignalR at:', this.url);
 
       try {
         this.connection = new signalR.HubConnectionBuilder()
@@ -61,37 +61,21 @@ class SignalRMessageboxesService {
           .withAutomaticReconnect([1000, 3000, 5000, 10000, 30000])
           .build();
 
-        // Event Handler for ReceiveDialog
-        this.connection.on('ReceiveDialog', (dialogData) => {
-          console.log('[signalRMessageboxesService] Received dialog:', dialogData);
+        // Generic event logger - logs ALL messages from server
+        this.connection.onclose((error) => {
+          console.log('[signalRMessageboxesService] 🔴 Connection closed:', error);
+        });
+
+        // Event Handler for ReceiveMessageBox
+        this.connection.on('ReceiveMessageBox', (messageBoxData) => {
+          console.log('[signalRMessageboxesService] Received MessageBox:', messageBoxData);
           if (this.dialogCallback) {
-            this.dialogCallback(dialogData);
+            this.dialogCallback(messageBoxData);
           }
         });
 
-        // Event Handler for ReceiveMeasurement
-        this.connection.on('ReceiveMeasurement', (measurement) => {
-          console.log('[signalRMessageboxesService] Received measurement:', measurement);
-          if (this.measurementCallback) {
-            this.measurementCallback(measurement);
-          }
-        });
-
-        // Event Handler for ReceiveDialogStatus
-        this.connection.on('ReceiveDialogStatus', (status) => {
-          console.log('[signalRMessageboxesService] Received dialog status:', status);
-          if (this.dialogStatusCallback) {
-            this.dialogStatusCallback(status);
-          }
-        });
-
-        // Event Handler for ClearDialog
-        this.connection.on('ClearDialog', (contentType) => {
-          console.log('[signalRMessageboxesService] Clear dialog:', contentType);
-          if (this.clearDialogCallback) {
-            this.clearDialogCallback(contentType);
-          }
-        });
+        // Note: MessageBox Hub only sends 'ReceiveMessageBox' event
+        // No ReceiveMeasurement, ReceiveDialogStatus, or ClearDialog events in MessageBox Hub
 
         // Reconnection Events
         this.connection.onreconnected(() => {

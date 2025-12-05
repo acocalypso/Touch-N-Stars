@@ -148,6 +148,9 @@
     <!-- Dialog Modal -->
     <DialogModal />
 
+    <!-- MessageBox Modal -->
+    <MessageBoxModal />
+
     <!-- Picker Overlay Component -->
     <PickerOverlay />
 
@@ -218,6 +221,7 @@ import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
+import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import {

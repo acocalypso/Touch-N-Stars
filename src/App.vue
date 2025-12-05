@@ -384,7 +384,6 @@ async function resumeApp() {
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
-    messageboxStore.startPolling();
   }
 
   imageStore.getImage();
@@ -578,7 +577,6 @@ onMounted(async () => {
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
-    messageboxStore.startPolling();
   }
 
   if (!sequenceStore.sequenceEdit) {

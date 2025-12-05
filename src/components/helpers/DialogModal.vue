@@ -1,5 +1,5 @@
 <template>
-  <Modal :show="showDialog" :zIndex="'z-[80]'" @close="handleClose">
+  <Modal :show="showDialog" :zIndex="'z-[80]'" @close="handleClose" :closeOnBackdropClick="false">
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentDialog?.Title || 'Dialog' }}

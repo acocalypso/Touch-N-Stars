@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.3.0.beta1] - 2025-12-xx
+## [App4.3.0-beta2] - 2025-12-06
+
+### Fixed
+- ZoomableImage: Preserve zoom level and pan position when loading new images
+
+## [App4.3.0-beta1] - 2025-12-06
 ### Added
 - Filtersettings
 - Platesolve last image
@@ -14,9 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Settings from Slew and Center button
-## [App4.2.1]
-### Fixed
-- Fixed shutdown and restart
+
+## [App4.2.2]
+### Changed
+- Update NL
 
 ## [App4.2.0] [livestack0.6.2][bahtifocus1.0.0] - 2025-12-04
 ### Important information

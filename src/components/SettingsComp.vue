@@ -68,11 +68,13 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import TutorialModal from '@/components/TutorialModal.vue';
 import SubNav from '@/components/SubNav.vue';
+import apiService from '@/services/apiService';
 import SettingsGeneralTab from '@/components/settings/SettingsGeneralTab.vue';
 import SettingsPluginsTab from '@/components/settings/SettingsPluginsTab.vue';
 import SettingsPlateSolverTab from '@/components/settings/SettingsPlateSolverTab.vue';
 import SettingsEquipmentTab from '@/components/settings/SettingsEquipmentTab.vue';
 import { usePluginStore } from '@/store/pluginStore';
+import wait from '@/utils/utils';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -102,11 +104,17 @@ function cancelConfirmation() {
   confirmAction.value = null;
 }
 
-function confirmActionHandler() {
+async function confirmActionHandler() {
   if (confirmAction.value === 'restart') {
+    apiService.restart();
     location.reload();
+    console.log('[SettingsComp] System restarting...');
+    await wait(2000);
   } else if (confirmAction.value === 'shutdown') {
+    apiService.shutdown();
     location.reload();
+    console.log('[SettingsComp] System shutting down...');
+    await wait(2000);
   }
   confirmAction.value = null;
 }

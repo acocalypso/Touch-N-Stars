@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Settings from Slew and Center button
+
 ## [App4.2.2]
 ### Changed
 - Update NL

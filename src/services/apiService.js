@@ -98,6 +98,22 @@ const apiService = {
     }
   },
 
+  // Backend reachability check
+  async fetchPinsVersion(timeout = DEFAULT_TIMEOUT) {
+    const { BASE_URL } = getUrls();
+    try {
+      const { data } = await axios.get(`${BASE_URL}/version/pins`, { timeout });
+      return data;
+    } catch (err) {
+      if (err.code === 'ECONNABORTED') {
+        console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);
+      } else {
+        // console.error('Error reaching backend:', err.message);
+      }
+      return null;
+    }
+  },
+
   //------------------------------------------- time -------------------------------------------------
   async fetchNinaTime() {
     const { BASE_URL } = getUrls();
@@ -441,6 +457,12 @@ const apiService = {
       // console.error('Error read Image History:', error);
       throw error;
     }
+  },
+
+  //-------------------------------------  plate solve  ---------------------------------------
+  async solvePreparedImage() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/prepared-image/solve`);
   },
 
   //-------------------------------------  Image  ---------------------------------------

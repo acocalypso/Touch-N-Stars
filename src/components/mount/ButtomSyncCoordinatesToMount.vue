@@ -39,8 +39,13 @@ const props = defineProps({
 });
 
 async function syncCoordinates() {
+  console.log(
+    '[ButtomSyncCoordinatesToMount] Syncing coordinates to mount:',
+    props.raAngle,
+    props.decAngle
+  );
   const result = await mountStore.syncCoordinates(props.raAngle, props.decAngle);
-
+  console.log('[ButtomSyncCoordinatesToMount] Sync result:', result);
   if (result.success) {
     statusClass.value = 'glow-green';
   } else {

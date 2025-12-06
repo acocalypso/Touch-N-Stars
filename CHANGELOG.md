@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.3.0.beta1] - 2025-12-xx
 ### Added
 - Filtersettings
+- Platesolve last image
+
+### Changed
+- Change Panzoom lib 
+
+### Fixed
+- Settings from Slew and Center button
+## [App4.2.1]
+### Fixed
+- Fixed shutdown and restart
 
 ## [App4.2.0] [livestack0.6.2][bahtifocus1.0.0] - 2025-12-04
 ### Important information

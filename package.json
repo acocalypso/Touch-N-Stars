@@ -1,6 +1,6 @@
 {
   "name": "touch-n-stars",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -38,6 +38,7 @@
     "@capgo/capacitor-updater": "7.30.0",
     "@devioarts/capacitor-mdns": "^0.0.2",
     "@heroicons/vue": "^2.2.0",
+    "@microsoft/signalr": "^10.0.0",
     "@panzoom/panzoom": "^4.6.1",
     "@pinkcao/vue-drag-resize-rotate": "^2.0.0",
     "@vueuse/core": "14.0.0",

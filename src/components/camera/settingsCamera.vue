@@ -23,8 +23,8 @@
       </label>
       <select
         id="gain"
-        @select="setGain"
-        v-model.number="gain"
+        v-model.number="settingsStore.camera.gain"
+        @change="setGain"
         class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">

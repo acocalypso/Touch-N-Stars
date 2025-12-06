@@ -9,7 +9,9 @@
   },
   "general": {
     "cancel": "Annuleer",
-    "confirm": "Bevestig"
+    "confirm": "Bevestig",
+    "yes": "Ja",
+    "no": "Nee"
   },
   "pages": {
     "equipment": {
@@ -821,6 +823,16 @@
       "imageModal": {
         "no_image": "Geen beeld data beschikbaar"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Oplossing succesvol",
+      "solve_failed": "Oplossing mislukt",
+      "solving": "Oplossen...",
+      "solve_time": "Oplossingstijd",
+      "orientation": "Oriëntatie",
+      "flipped": "Gespiegeld",
+      "ra": "RA",
+      "dec": "Dec"
     }
   },
   "plugins": {

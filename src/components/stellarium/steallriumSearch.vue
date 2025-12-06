@@ -17,7 +17,7 @@
         <!-- Überprüfe, ob targetSearchResult ein Array ist und Elemente hat -->
         <ul
           v-if="Array.isArray(targetSearchResult) && targetSearchResult.length > 0"
-          class="default-select mt-1 z-10"
+          class="default-select mt-1 z-10 max-h-[21.5rem] overflow-y-auto"
         >
           <li
             v-for="(item, index) in targetSearchResult"
@@ -81,7 +81,7 @@ async function fetchTargetSearch() {
     return;
   }
   try {
-    const data = await apiService.searchNGC(searchQuery.value, 10);
+    const data = await apiService.searchNGC(searchQuery.value, 50);
     let results = Array.isArray(data) ? data : [];
 
     // Planeten mit Stellarium-Objekten suchen

@@ -1,53 +1,38 @@
 <template>
   <div>
-    <button @click="showModal = true" :disabled="!hasTargetSelected" class="default-button-cyan">
+    <button @click="setSequenceTarget" :disabled="!hasTargetSelected" class="default-button-cyan">
       {{ $t('components.framing.setSequnceTarget') }}
     </button>
-
-    <!-- Modal -->
-    <transition name="fade">
-      <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-        <div class="bg-gray-800 rounded-lg p-6 max-w-sm w-full mx-4">
-          <h3 class="text-lg font-bold mb-4 text-gray-100">
-            {{ $t('components.framing.confirmSetTargetTitle') }}
-          </h3>
-          <p class="mb-6 text-gray-300">{{ $t('components.framing.confirmSetTargetMessage') }}</p>
-          <div class="flex justify-end space-x-4">
-            <button
-              @click="showModal = false"
-              class="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
-            >
-              {{ $t('common.cancel') }}
-            </button>
-            <button
-              @click="handleConfirm"
-              class="px-4 py-2 text-sm font-medium text-white bg-cyan-600 hover:bg-cyan-500 rounded transition-colors"
-            >
-              {{ $t('common.confirm') }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </transition>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import apiService from '@/services/apiService';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useToastStore } from '@/store/toastStore';
 import { useI18n } from 'vue-i18n';
 
-const showModal = ref(false);
+const props = defineProps({
+  raAngle: Number,
+  decAngle: Number,
+  name: String,
+});
 
 const framingStore = useFramingStore();
 const sequenceStore = useSequenceStore();
 const toastStore = useToastStore();
 const { t } = useI18n();
 
-const hasTargetSelected = computed(() => !!framingStore.selectedItem);
+const hasTargetSelected = computed(() => {
+  // Wenn Props übergeben wurden (z.B. von Stellarium), ist ein Target vorhanden
+  if (props.raAngle !== undefined && props.decAngle !== undefined && props.name) {
+    return true;
+  }
+  // Ansonsten prüfen, ob im framingStore ein Target ausgewählt ist
+  return !!framingStore.selectedItem;
+});
 const hasSequenceLoaded = computed(
   () =>
     sequenceStore.sequenceIsLoaded &&
@@ -55,13 +40,19 @@ const hasSequenceLoaded = computed(
     sequenceStore.sequenceInfo.length > 0
 );
 
-async function handleConfirm() {
-  showModal.value = false;
-  await setSequenceTarget();
-}
-
 async function setSequenceTarget() {
   console.log('Setting sequence target');
+
+  // Wenn Props übergeben wurden, diese in den framingStore schreiben
+  if (props.raAngle !== undefined && props.decAngle !== undefined) {
+    framingStore.RAangle = props.raAngle;
+    framingStore.DECangle = props.decAngle;
+
+    // Wenn ein Name übergeben wurde, ein selectedItem-Objekt erstellen
+    if (props.name) {
+      framingStore.selectedItem = { Name: props.name };
+    }
+  }
 
   if (!framingStore.selectedItem) {
     console.error('No target selected');
@@ -104,15 +95,3 @@ async function setSequenceTarget() {
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

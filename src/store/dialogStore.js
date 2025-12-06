@@ -209,55 +209,14 @@ export const useDialogStore = defineStore('dialogStore', {
     handleDialogUpdate(dialogData) {
       console.log('[dialogStore] handleDialogUpdate received:', dialogData);
 
-      // Normalize property names (handle both camelCase and PascalCase)
+      // Keep dialog data as-is, only normalize essential properties for dialog management
       const normalizedDialog = {
+        ...dialogData,
+        // Normalize only ContentType and Title for dialog identification and display
         Title: dialogData.Title || dialogData.title,
         ContentType: dialogData.ContentType || dialogData.contentType,
-        Active: dialogData.Active ?? dialogData.active ?? true,
-        Status: dialogData.Status || dialogData.status || '',
-        SlewAndCenter: dialogData.SlewAndCenter || dialogData.slewAndCenter,
-        Parameters: dialogData.Parameters || dialogData.parameters || {},
-        StatusMessage: dialogData.StatusMessage || dialogData.statusMessage,
-        Table: dialogData.Table || dialogData.table,
-        TableHeaders: dialogData.TableHeaders || dialogData.tableHeaders,
         AvailableCommands: dialogData.AvailableCommands || dialogData.availableCommands || [],
       };
-
-      // Normalize SlewAndCenter nested properties if present
-      if (normalizedDialog.SlewAndCenter) {
-        const sc = normalizedDialog.SlewAndCenter;
-        normalizedDialog.SlewAndCenter = {
-          Active: sc.Active ?? sc.active ?? false,
-          Status: sc.Status || sc.status || '',
-          CurrentMeasurement: sc.CurrentMeasurement || sc.currentMeasurement || null,
-          Measurements: sc.Measurements || sc.measurements || [],
-        };
-
-        // Normalize measurements array if present
-        if (
-          normalizedDialog.SlewAndCenter.Measurements &&
-          normalizedDialog.SlewAndCenter.Measurements.length > 0
-        ) {
-          normalizedDialog.SlewAndCenter.Measurements =
-            normalizedDialog.SlewAndCenter.Measurements.map((m) => ({
-              Time: m.Time || m.time || '',
-              Success: m.Success ?? m.success ?? false,
-              ErrorDistance: m.ErrorDistance || m.errorDistance || '--',
-              Rotation: m.Rotation || m.rotation || '--',
-            }));
-        }
-
-        // Normalize CurrentMeasurement if present
-        if (normalizedDialog.SlewAndCenter.CurrentMeasurement) {
-          const cm = normalizedDialog.SlewAndCenter.CurrentMeasurement;
-          normalizedDialog.SlewAndCenter.CurrentMeasurement = {
-            Time: cm.Time || cm.time || '',
-            Success: cm.Success ?? cm.success ?? false,
-            ErrorDistance: cm.ErrorDistance || cm.errorDistance || '--',
-            Rotation: cm.Rotation || cm.rotation || '--',
-          };
-        }
-      }
 
       console.log('[dialogStore] Normalized dialog:', normalizedDialog);
       console.log('[dialogStore] ContentType:', normalizedDialog.ContentType);
@@ -281,16 +240,6 @@ export const useDialogStore = defineStore('dialogStore', {
       }
 
       console.log('[dialogStore] Current dialogs array:', this.dialogs);
-
-      // Extract and store slew and center data if available
-      if (normalizedDialog.SlewAndCenter) {
-        this.slewAndCenterData = normalizedDialog.SlewAndCenter;
-      }
-
-      // Extract and store meridian flip data if available
-      if (normalizedDialog.ContentType === 'NINA.WPF.Base.ViewModel.MeridianFlipVM') {
-        this.meridianFlipData = normalizedDialog;
-      }
     },
 
     /**

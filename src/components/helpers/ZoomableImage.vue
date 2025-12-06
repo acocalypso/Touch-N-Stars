@@ -162,6 +162,10 @@ const zoomLevel = ref(1);
 const imageLoadError = ref(false);
 const showHistogramActive = ref(false);
 
+// Store zoom and pan state
+const savedZoom = ref(null);
+const savedPan = ref(null);
+
 // Initialize Panzoom when image loads
 const onImageLoad = () => {
   imageLoadError.value = false;
@@ -177,8 +181,10 @@ const onImageError = (event) => {
 };
 
 const initPanzoom = () => {
-  // Destroy old instance if exists
+  // Save current zoom and pan state before destroying
   if (panzoomInstance) {
+    savedZoom.value = panzoomInstance.getScale();
+    savedPan.value = panzoomInstance.getPan();
     panzoomInstance.destroy();
   }
 
@@ -192,6 +198,9 @@ const initPanzoom = () => {
       contain: 'outside',
       step: 1.5, // Zoom increment per mousewheel/pinch event
       friction: 0.15, // Drag deceleration (lower = slower/more resistance)
+      startScale: savedZoom.value || 1,
+      startX: savedPan.value?.x || 0,
+      startY: savedPan.value?.y || 0,
     });
 
     // Listen to zoom changes

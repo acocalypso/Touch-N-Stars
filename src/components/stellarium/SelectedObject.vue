@@ -48,6 +48,12 @@
           :raAngle="props.selectedObjectRaDeg"
           :decAngle="props.selectedObjectDecDeg"
         />
+        <setSequenceTarget
+          class="w-full"
+          :raAngle="props.selectedObjectRaDeg"
+          :decAngle="props.selectedObjectDecDeg"
+          :name="props.selectedObject[0]"
+        />
 
         <ButtomSyncCoordinatesToMount
           :raAngle="props.selectedObjectRaDeg"
@@ -66,6 +72,7 @@ import { Capacitor } from '@capacitor/core';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
+import setSequenceTarget from '../framing/setSequenceTarget.vue';
 import { useOrientation } from '@/composables/useOrientation';
 
 const store = apiStore();

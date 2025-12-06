@@ -1356,7 +1356,7 @@ const apiService = {
 
   //-------------------------------------  Target Search ---------------------------------------
 
-  async searchNGC(query, limit = 10) {
+  async searchNGC(query, limit = 50) {
     if (!query || query.replace(/[^a-zA-Z0-9]/g, '').length < 2) {
       return { data: [] };
     }

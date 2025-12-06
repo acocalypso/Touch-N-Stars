@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [App4.3.0.beta1] - 2025-12-xx
+## [App4.3.0-beta1] - 2025-12-06
 ### Added
 - Filtersettings
 - Platesolve last image

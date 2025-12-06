@@ -2,8 +2,7 @@
   "common": {
     "cancel": "Annuleer",
     "confirm": "Bevestig",
-    "close": "Sluiten",
-    "select": "Selecteer"
+    "close": "Sluiten"
   },
   "general": {
     "cancel": "Annuleer",
@@ -47,7 +46,7 @@
     "description": "Laten we beginnen met een korte setup",
     "selectLanguage": "Selecteer je taal",
     "gpsConfiguration": "GPS Configuratie",
-    "completeSetup": "Complete Setup",
+    "completeSetup": "Afronden Setup",
     "instanceConfiguration": "N.I.N.A connectie details",
     "InfoAppsTitel": "Wiki",
     "check_wki": "Gedetailleerde instructies vind je in de wiki"
@@ -67,7 +66,7 @@
       "portLabel": "Port",
       "portPlaceholder": "5000",
       "modalTitle": "Gevonden Installaties",
-      "modalSubtitle": "Selecteer een Touch-N-Stars installatie uit de lijst.",
+      "modalSubtitle": "Selecteer een Touch-N-Stars instantie uit de lijst.",
       "addressUnavailable": "Adress niet beschikbaar",
       "otherAddresses": "Andere adressen:",
       "otherAddressesFallback": "n/b",
@@ -81,7 +80,7 @@
       "foundMultiple": "{count} Touch-N-Stars instanties gevonden.",
       "discoveryFailedStatus": "Zoeken mislukt: {message}",
       "discoveryFailedBase": "Zoeken mislukt.",
-      "discoveryPermissionHintWrapper": "{message} Zorg er voor dat de App lokale netwerk/Apparaten toegang heeft in systeem instellingen."
+      "discoveryPermissionHintWrapper": "{message} Zorg er voor dat de App toegang heeft tot lokale netwerk & Apparaten (Systeem Instellingen)."
     },
     "framing": {
       "confirmSetTargetTitle": "Bevestig Doel Selectie",
@@ -124,15 +123,15 @@
       "add": "toevoegen",
       "coordinates": "GPS Coordinaten",
       "save": "Opslaan",
-      "infoSetLocationSync": "Stel eerst de montering locatie in",
+      "infoSetLocationSync": "Stel eerst de monteringslocatie in",
       "connection": "Connectie instellingen",
       "language": "Taal",
       "image": {
-        "title": "Beeld instellingen",
-        "quality": "Beeld Qualiteit",
-        "maxDimension": "Max. Beeld formaat",
+        "title": "Beeld Instellingen",
+        "quality": "Beeld kwaliteit",
+        "maxDimension": "Max. Beeldformaat",
         "strech_factor": "Stretch Factor",
-        "black_clipping": "Black Clipping",
+        "black_clipping": "Zwart Clipping",
         "debayern": "Debayer beeld",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unlinked Strech"
@@ -149,22 +148,22 @@
         "phd2": "PHD2"
       },
       "keepAwake": {
-        "title": "Houdt scherm actief",
-        "description": "Voorkom dat het apparaat het scherm dimt of vergrendeld terwijl de App actief is."
+        "title": "Scherm actief",
+        "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
       },
       "beta": {
         "title": "Beta Update Kanaal"
       },
-      "showTutorial": "Toon Instructie",
+      "showTutorial": "Toon korte instructie",
       "plugins": {
         "title": "Plugin Beheer",
-        "description": "Beheer geinstalleerde plugins",
+        "description": "Zet geinstalleerde plugins AAN of UIT",
         "author": "Auteur"
       },
       "system": {
         "title": "Systeem Beheer",
-        "description": "Beheer systeem herstart en afsluiten",
-        "info": "Deze acties hebben effect op het hele systeem",
+        "description": "Herstart of Afsluiten NINA-PC",
+        "info": "Voorzichtig, deze acties hebben effect op het gehele NINA-systeem!",
         "confirmation": "Bevestig Actie",
         "confirmShutdown": "Weet u zeker dat u het systeem wilt afsluiten?",
         "confirmRestart": "Weet u zeker dat u het systeem wilt herstarten?"
@@ -176,23 +175,6 @@
         "invalidPortRange": "Ongeldige port reeks",
         "invalidInstance": "Ongeldige instantie",
         "emptyFields": "Lege velden"
-      },
-      "general": "Algemeen",
-      "plate_solver": {
-        "ASTAPLocation": "ASTAP-locatie",
-        "BlindFailoverEnabled": "Blinde failover ingeschakeld",
-        "ExposureTime": "Belichtingstijd(en)",
-        "Gain": "Verdienen",
-        "MaxObjects": "Maximaal aantal objecten",
-        "NumberOfAttempts": "Aantal pogingen",
-        "ReattemptDelay": "Vertraging(en) voor nieuwe poging",
-        "RotationTolerance": "Rotatietolerantie (°)",
-        "SearchRadius": "Zoekradius (°)",
-        "Threshold": "Drempelwaarde",
-        "basic": "Basisinstellingen",
-        "retry": "Probeer de instellingen opnieuw",
-        "search": "Zoekinstellingen",
-        "title": "Instellingen plaatoplosser"
       }
     },
     "connectEquipment": {
@@ -239,8 +221,8 @@
       }
     },
     "lastLogs": {
-      "timestamp": "Tijdstempel",
-      "level": "Niveau",
+      "timestamp": "Datum",
+      "level": "Lognivo",
       "message": "Bericht",
       "download": "Download"
     },
@@ -252,10 +234,10 @@
       "stopSequence": "Stop sequentie",
       "resetSequence": "Reset sequentie",
       "resetConfirmationTitle": "Bevestig Reset",
-      "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet geannuleerd worden.",
+      "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "load_sequence": "Laad sequentie vanuit directory",
       "choose_sequence": "Kies een sequentie",
-      "no_sequences_found": "Gene sequentie gevonden",
+      "no_sequences_found": "Geen sequentie gevonden",
       "error_loading_sequences": "Fout tijdens laden sequenties",
       "error_loading_sequence": "Fout tijdens laden sequentie",
       "filter": "Filter",
@@ -343,7 +325,7 @@
         "siderial": "Sidereal",
         "sync_coordinates_to_mount": "Sync coordinaten met montering",
         "errors": {
-          "unpark": "Fout unparking montering",
+          "unpark": "Fout unpark montering",
           "tracking": "Fout bij instellen tracking mode"
         },
         "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\""
@@ -361,23 +343,6 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az"
-      },
-      "settings": {
-        "meridian_flip": {
-          "AutoFocusAfterFlip": "Autofocus na omdraaien",
-          "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
-          "MinutesAfterMeridian": "Minuten na de meridiaan",
-          "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
-          "Recenter": "Recenter",
-          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien",
-          "SettleTime": "Afrekeningstijd(en)",
-          "UseSideOfPier": "Gebruik de kant van de pier",
-          "basic": "Basisinstellingen",
-          "behavior": "Gedrag",
-          "post_flip_actions": "Acties na de flip"
-        },
-        "meridian_flip_settings": "Meridiaan-instellingen",
-        "telescope_settle_time": "Settle tijd na slew(s)"
       }
     },
     "guider": {
@@ -417,10 +382,10 @@
         "slewStopped": "Slew gestopt",
         "calibrating": "Calibreren actief...",
         "calibrationComplete": "Calibratie afgerond",
-        "calibrationFailed": "Calibration niet gelukt",
+        "calibrationFailed": "Calibratie niet gelukt",
         "calibrationStopped": "Calibratie gestopt",
         "calibrationError": "Fout tijdens calibratie",
-        "calibrationResult": "Calibration Resultaat",
+        "calibrationResult": "Calibratie Resultaat",
         "quality": "Kwaliteit",
         "goodCalibration": "Optimale calibratie bereikt",
         "poorCalibration": "Calibratie kan beter. Probeer een andere locatie of controleer uw apparatuur."
@@ -453,19 +418,7 @@
           "title": "PHD2 fout",
           "star-lost-message": "Ster verdwenen"
         }
-      },
-      "ditherPixels": "Ditherpixels (px)",
-      "ditherRAOnly": "Alleen ditheren in RA",
-      "guidingStartRetry": "Begeleiding Start opnieuw proberen",
-      "guidingStartTimeout": "Begeleidende starttime-out(s)",
-      "phd2Path": "PHD2-pad",
-      "phd2ServerHost": "PHD2-serverhostnaam",
-      "phd2ServerPort": "PHD2-serverpoort",
-      "roiPercentage": "ROI-percentage om gidsster te vinden (%)",
-      "settings": "Guider-instellingen",
-      "settlePixels": "Pixeltolerantie instellen (px)",
-      "settleTime": "Minimale afwikkelingstijd (s)",
-      "settleTimeout": "Time-out(s) afhandelen"
+      }
     },
     "focuser": {
       "title": "Focuser",
@@ -482,38 +435,7 @@
       "stopped": "Gestopt",
       "autofocus_active": "Autofocus actief",
       "autofocus": "Autofocus",
-      "last_autofocus": "Laatste autofocus",
-      "focus": "Focus",
-      "settings": {
-        "ABSOLUTE": "Absoluut",
-        "AutoFocusBinning": "Autofocus-binning",
-        "AutoFocusDisableGuiding": "Schakel begeleiding tijdens autofocus uit",
-        "AutoFocusFitFunction": "Curve-fitting strategie",
-        "AutoFocusInitialOffsetSteps": "Initiële offsetstappen",
-        "AutoFocusInnerCropRatio": "Binnenste gewasverhouding",
-        "AutoFocusNumberOfFramesPerPoint": "Aantal frames per punt",
-        "AutoFocusOuterCropRatio": "Buitenste gewasverhouding",
-        "AutoFocusStepSize": "Stapgrootte",
-        "AutoFocusTimeoutSeconds": "Time-out autofocus (seconden)",
-        "AutoFocusTotalNumberOfAttempts": "Totaal aantal pogingen",
-        "AutoFocusUseBrightestStars": "Gebruik de helderste sterren",
-        "BacklashCompensationModel": "Spelingscompensatiemodel",
-        "BacklashIn": "Tegenslag binnen",
-        "BacklashOut": "Terugslag uit",
-        "FocuserSettleTime": "Focuser-insteltijd",
-        "HYPERBOLIC": "Hyperbolisch",
-        "OVERSHOOT": "Overschrijding",
-        "PARABOLIC": "Parabolisch",
-        "RSquaredThreshold": "R-kwadraatdrempel",
-        "TRENDHYPERBOLIC": "Trendhyperbolisch",
-        "TRENDLINES": "Trendlijnen",
-        "TRENDPARABOLIC": "Trend parabolisch",
-        "advanced": "Geavanceerd",
-        "backlash": "Verzet",
-        "basic": "Basisinstellingen",
-        "crop_and_stars": "Gewas",
-        "title": "Autofocus-instellingen"
-      }
+      "last_autofocus": "Laatste autofocus"
     },
     "dome": {
       "title": "Dome",
@@ -562,7 +484,7 @@
       "name": "Camera naam",
       "gain": "Gain",
       "offset": "Offset",
-      "temperature": "Temperatuur  (°C)",
+      "temperature": "Temperatuur (°C)",
       "standby": "Standby",
       "cooler_on": "Koeling Aan",
       "cooler_off": "Koeling Uit",
@@ -612,7 +534,7 @@
       "up": "Omhoog",
       "not_available": "Niet beschikbaar",
       "running": "IN WERKING",
-      "plate_solve_start": "Platesolve start",
+      "plate_solve_start": "Platesolve Start",
       "plate_solve_ok": "Platesolve succes",
       "plate_solve_error": "Platesolve fout",
       "slewing_first_position": "Slewing naar eerste positie",
@@ -665,10 +587,7 @@
       "please_connect_filterwheel": "Verbind met filterwiel",
       "currentFilter": "Huidige Filter",
       "position": "Positie",
-      "availableFilters": "Beschikbare Filters",
-      "settings": {
-        "title": "Filterinstellingen"
-      }
+      "availableFilters": "Beschikbare Filters"
     },
     "rotator": {
       "title": "Rotator",
@@ -811,11 +730,11 @@
     },
     "logfileCollector": {
       "title": "Logfile Collector",
-      "intro": "Verzamel laatste TNS logs (inclusief debug) en upload deze naar het geconfigureerde endpoint.",
+      "intro": "Verzamel laatste TNS logs (inclusief debug) en auto-upload naar Support.",
       "descriptionLabel": "Beschrijving (optioneel)",
       "descriptionPlaceholder": "Beschrijf het probleem om te onderzoeken...",
       "lastToken": "Genereer Token",
-      "submissionHistory": "Verzend Historie",
+      "submissionHistory": "Verzend Historie,
       "confirmClearAll": "Weet u zeker dat u de verzend hostorie wilt verwijderen?",
       "actions": {
         "collectUpload": "Verzamel & Upload",
@@ -919,7 +838,7 @@
         "title": "Telescopius API Key",
         "description": "Om Telescopius te gebruiken heeft u een API key nodig. U kunt deze aanmaken op de Telescopius website:",
         "linkText": "→ Verzoek Telescopius API Key",
-        "securityNote": "De API key wordt opgeslagern op de server en uitsluitend gebruikt voor Telescopius-verzoeken.",
+        "securityNote": "De API key wordt opgeslagen op de server en uitsluitend gebruikt voor Telescopius-verzoeken.",
         "placeholder": "Voer uw Telescopius API key in...",
         "configured": "API key is reeds geconfigureerd",
         "save": "Opslaan",
@@ -953,7 +872,7 @@
       "status": "Status",
       "connected": "Verbonden",
       "disconnected": "Verbinding verbroken",
-      "error": "Fou",
+      "error": "Fout",
       "lastUpdate": "Laatste Update",
       "startAuto": "Start Auto",
       "stopAuto": "Stop Auto",
@@ -977,8 +896,8 @@
         "clearSequence": "Sequentie leeg maken",
         "saveAsDefault": "Bewaar als Standaard",
         "saveAsDefaultSuccess": "Bewaar als Standaard sequentie!",
-        "sendToNina": "Adopter Sequence",
-        "sending": "Vezenden...",
+        "sendToNina": "Adopteer Sequence",
+        "sending": "Verzenden...",
         "sent": "Verzonden!",
         "sendErrorTitle": "Fout bij sturen naar N.I.N.A",
         "sendSuccessMessage": "Sequentie successvol verzonden naar N.I.N.A!",
@@ -1234,132 +1153,6 @@
         "created": "Shortcut maken gelukt",
         "updated": "Shortcut wijzigen gelukt",
         "deleted": "Shortcut verwijderen gelukt"
-      }
-    },
-    "bahtifocus": {
-      "actions": {
-        "resetForm": "Formulier opnieuw instellen",
-        "runAnalysis": "Analyse uitvoeren",
-        "submitting": "Analyseren…",
-        "toggleParametersHide": "Verberg optische parameters",
-        "toggleParametersShow": "Toon optische parameters"
-      },
-      "analysis": {
-        "lastDuration": "Laatste run: {seconden}s"
-      },
-      "camera": {
-        "abort": "Vastleggen afbreken",
-        "abortFailed": "Kan de actieve opname niet afbreken.",
-        "capture": "Frame vastleggen",
-        "captureFailed": "Kan geen nieuw frame vastleggen.",
-        "capturing": "Vastleggen…",
-        "exposureLabel": "Blootstellingstijd",
-        "exposureUnit": "seconden",
-        "statusDisconnected": "Sluit een camera aan om frames vast te leggen.",
-        "statusExposing": "Belichting bezig...",
-        "statusExposingCountdown": "Belichting bezig – {seconden} resterend.",
-        "statusLoading": "Beeldgegevens ontvangen…",
-        "statusLooping": "Belichtingen in een lus maken. \nHet vastleggen wordt herhaald totdat het wordt gestopt."
-      },
-      "crop": {
-        "enable": "Gewasverwerkte regio",
-        "height": "Gewashoogte",
-        "width": "Gewasbreedte",
-        "x": "X bijsnijden",
-        "y": "Snijd Y bij"
-      },
-      "errors": {
-        "analysisFailed": "Analyseverzoek is mislukt.",
-        "badRequest": "De server heeft het verzoek afgewezen. \nControleer de parameters.",
-        "captureLoad": "Kan de nieuwste opname van N.I.N.A. niet laden.",
-        "exampleLoad": "Kan de voorbeeldafbeelding niet laden.",
-        "missingServer": "Kan het backend-adres niet bepalen. \nControleer de verbindingsinstellingen.",
-        "mockMode": "Bahtinov-analyse is niet beschikbaar zolang de nep-API is ingeschakeld.",
-        "readFile": "Kan het geselecteerde bestand niet lezen.",
-        "title": "Bahtinov-analyse"
-      },
-      "image": {
-        "capturedName": "Laatste opname",
-        "clearSelection": "Duidelijke selectie",
-        "examplePlaceholder": "Voorbeeldafbeelding laden…",
-        "loadingCapture": "Opname laden…",
-        "mime": "Formaat",
-        "originalSize": "origineel {maat}",
-        "previewUnavailable": "Voorbeeld niet beschikbaar. \nDe analyse ondersteunt dit formaat nog steeds.",
-        "resizedMessage": "Formaat aangepast naar {breedte}×{hoogte} (ongeveer {grootte}). \nOrigineel formaat was {originalSize}.",
-        "resizedTitle": "Afbeelding geoptimaliseerd",
-        "selectFile": "Selecteer afbeelding",
-        "size": "Bestandsgrootte",
-        "source": "Bron",
-        "sourceCaptured": "Huidige opname",
-        "sourceExample": "Voorbeeld afbeelding",
-        "sourceUpload": "Geüploade afbeelding",
-        "transport": "Uploadmodus",
-        "transportBinary": "Binaire stroom",
-        "transportLegacy": "Verouderde JSON-fallback",
-        "useLatestCapture": "Gebruik de nieuwste opname"
-      },
-      "inputs": {
-        "apertureDiameter": "Openingsdiameter (mm)",
-        "focalLength": "Brandpuntsafstand (mm)",
-        "focalRatio": "Brandpuntsverhouding (f/)",
-        "pixelSize": "Pixelgrootte (μm)",
-        "resizeFactor": "Formaatfactor"
-      },
-      "overlay": {
-        "noImage": "Selecteer of maak een afbeelding om de overlay te bekijken.",
-        "processedSize": "Verwerkte grootte: {breedte} x {hoogte} px",
-        "title": "Overlay-voorbeeld"
-      },
-      "previousAngles": {
-        "input": "Hoek {index} (°)",
-        "label": "Vorige hoeken",
-        "reset": "Herstel laatste hoeken",
-        "savedLabel": "Laatst opgeslagen hoeken"
-      },
-      "results": {
-        "absoluteFocusError": "Focusfout (mm)",
-        "criticalFocusThreshold": "Kritische focusdrempel (mm)",
-        "cropApplied": "Verwerkt gewas",
-        "effectiveResizeFactor": "Effectieve formaatfactor",
-        "failure": "Analyse mislukt. \nControleer het backend-antwoord voor meer informatie.",
-        "focusErrorPixels": "Focusfout (px)",
-        "focusNotOk": "Buiten kritische focus",
-        "focusOk": "Binnen kritische focus",
-        "isWithinCriticalFocus": "Kritieke focusstatus",
-        "lineAngles": "Maskerlijnhoeken",
-        "maskAngle": "Maskerhoek (°)",
-        "noCrop": "Geen uitsnede toegepast",
-        "placeholder": "Voer de analyser uit om hier de focusstatistieken te bekijken.",
-        "successMessage": "Bahtinov-statistieken zijn succesvol bijgewerkt.",
-        "successTitle": "Analyse voltooid",
-        "title": "Analyseresultaten",
-        "updatedAngles": "Bijgewerkte hoeken"
-      },
-      "sections": {
-        "imageSource": "Afbeeldingsbron",
-        "imageSourceHint": "Maak een nieuw frame, upload een bestand of kies een voorbeeldafbeelding om te beginnen.",
-        "parameters": "Optische parameters",
-        "parametersHint": "Voer de optische en cameragegevens in die voor deze belichting zijn gebruikt om nauwkeurige meetgegevens te krijgen."
-      },
-      "subtitle": "Leg een afbeelding vast of laad deze om de focuskwaliteit te meten met uw Bahtinov-masker.",
-      "tips": {
-        "tip1": "Gebruik een heldere ster in de buurt van het doel om een ​​duidelijk diffractiepatroon te genereren.",
-        "tip2": "Zorg ervoor dat het Bahtinov-masker is uitgelijnd voordat u de afbeelding maakt.",
-        "tip3": "Hergebruik de voorgestelde hoeken om daaropvolgende metingen te stabiliseren.",
-        "title": "Tips"
-      },
-      "title": "Bahtinov-maskeranalysator",
-      "validation": {
-        "allAnglesRequired": "Zorg voor alle drie de hoeken of maak de velden leeg.",
-        "fixErrors": "Los de gemarkeerde fouten op voordat u de analyse uitvoert.",
-        "imageRequired": "Selecteer een afbeelding voordat u de analyse uitvoert.",
-        "invalidNonNegative": "Voer een niet-negatieve waarde in.",
-        "invalidNumber": "Voer een geldig nummer in.",
-        "invalidPositive": "Waarde moet positief zijn.",
-        "ratioOrAperture": "Geef de brandpuntsverhouding of de diafragmadiameter op.",
-        "requiredPositive": "Voer een positieve waarde in.",
-        "title": "Validatiefout"
       }
     }
   },

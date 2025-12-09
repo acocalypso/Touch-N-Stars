@@ -35,7 +35,7 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { useGuiderStore } from '@/store/guiderStore';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { LinkSlashIcon, LinkIcon } from '@heroicons/vue/24/outline';
 
 const guiderStore = useGuiderStore();
@@ -70,9 +70,18 @@ async function disconnectEquipment() {
   }
 }
 
+
+
 onMounted(async () => {
   const response = await apiService.getPhd2CurrentProfile();
   profiles.value = guiderStore.phd2EquipmentProfiles;
   selectedProfile.value = response.Response.Profile.name;
+});
+
+watch(selectedProfile, async (newProfile, oldProfile) => {
+  if (oldProfile && newProfile !== oldProfile) {
+    console.log('Profile changed from', oldProfile, 'to', newProfile);
+    await guiderStore.fetchPHD2Cameras();
+  }
 });
 </script>

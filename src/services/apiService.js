@@ -991,7 +991,6 @@ const apiService = {
     }
   },
 
-  // only in PINS version jm 04.12.2025
   async removeFilter(filterNr) {
     try {
       const { BASE_URL } = getUrls();

@@ -33,17 +33,52 @@ const getUrls = () => {
 };
 
 export default {
-  //-------------------platesove the last image------------------------
-  //http://localhost:1888/v2/api/platesolve
-  solveLastImage() {
-    const { BASE_URL } = getUrls();
-    return this._simpleGetRequest(`${BASE_URL}/platesolve`);
+  //-------------------PHD2------------------------
+
+  getPHD2CameraList() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/phd2/camera/list`);
+  },
+
+  getPHD2SelectedCamera() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/phd2/camera/selected`);
+  },
+
+  setPHD2SelectedCamera(index) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}/phd2/camera/selected`, { index });
+  },
+
+  getPHD2MountList() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/phd2/mount/list`);
+  },
+
+  getPHD2SelectedMount() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/phd2/mount/selected`);
+  },
+
+  setPHD2SelectedMount(index) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}/phd2/mount/selected`, { index });
   },
 
   // Private method for simple GET requests
   _simpleGetRequest(url) {
     return axios
       .get(url)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  // Private method for simple PUT requests
+  _simplePutRequest(url, data) {
+    return axios
+      .put(url, data)
       .then((response) => response.data)
       .catch((error) => {
         throw error;

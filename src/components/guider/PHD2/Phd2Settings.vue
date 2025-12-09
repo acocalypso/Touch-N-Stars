@@ -25,6 +25,10 @@
       <SetDecAlgoPara />
     </div>
   </div>
+  <div v-else>
+   <Phd2SelectCamera />
+   <Phd2SelectMount />
+  </div>
 </template>
 
 <script setup>
@@ -35,6 +39,8 @@ import SetRaAlgoPara from '@/components/guider/PHD2/SetRaAlgoPara.vue';
 import SetDecAlgoPara from '@/components/guider/PHD2/SetDecAlgoPara.vue';
 import PHD2Profil from '@/components/guider/PHD2/PHD2Profil.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import Phd2SelectCamera from '@/components/guider/PHD2/pins/Phd2SelectCamera.vue';
+import Phd2SelectMount from '@/components/guider/PHD2/pins/Phd2SelectMount.vue';
 
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();

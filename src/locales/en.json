@@ -394,6 +394,13 @@
           "AutoFocusAfterFlip": "Auto focus after flip",
           "RotateImageAfterFlip": "Rotate image after flip"
         }
+      },
+      "config": {
+        "settings": "Mount Settings",
+        "connectionMode": "Connection Mode",
+        "devicePort": "Device Port",
+        "ipAddress": "IP Address",
+        "baudRate": "Baud Rate"
       }
     },
     "guider": {

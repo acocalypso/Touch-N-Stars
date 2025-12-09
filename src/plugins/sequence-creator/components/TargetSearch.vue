@@ -27,7 +27,7 @@
       <!-- Search Results Dropdown -->
       <div
         v-if="showResults && Array.isArray(targetSearchResult) && targetSearchResult.length > 0"
-        class="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+        class="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg max-h-[21.5rem] overflow-y-auto"
       >
         <ul class="py-1">
           <li
@@ -115,7 +115,7 @@ async function fetchTargetSearch() {
   }
 
   try {
-    const data = await apiService.searchNGC(searchQuery.value, 10);
+    const data = await apiService.searchNGC(searchQuery.value, 50);
     let results = Array.isArray(data) ? data : [];
 
     // Filter celestial bodies that match the search query

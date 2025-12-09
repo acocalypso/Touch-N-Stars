@@ -1,6 +1,17 @@
 <template>
-  <div class="flex flex-row w-full items-center min-w-28" :class="wrapperClass">
-    <label v-if="label" :for="inputId" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
+  <div
+    :class="[
+      labelPosition === 'top' ? '' : 'flex flex-row w-full items-center min-w-28',
+      wrapperClass
+    ]"
+  >
+    <label
+      v-if="label"
+      :for="inputId"
+      :class="labelPosition === 'top'
+        ? 'block text-sm font-medium text-gray-300 mb-2'
+        : 'text-xs md:text-sm mr-3 mb-1 text-gray-200'"
+    >
       {{ label }}
     </label>
     <input
@@ -10,8 +21,8 @@
       "
       type="number"
       :class="[
-        'default-input h-10',
-        wrapperClass === 'w-full' ? 'w-full' : 'w-24 md:w-28 ml-auto',
+        labelPosition === 'top' ? 'default-input w-full py-2' : 'default-input h-10',
+        labelPosition === 'top' ? '' : (wrapperClass === 'w-full' ? 'w-full' : 'w-24 md:w-28 ml-auto'),
         statusClass,
       ]"
       :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
@@ -80,6 +91,12 @@ const props = defineProps({
     type: Number,
     required: false,
     default: null,
+  },
+  labelPosition: {
+    type: String,
+    required: false,
+    default: 'left',
+    validator: (value) => ['left', 'top'].includes(value),
   },
 });
 

@@ -70,8 +70,6 @@ async function disconnectEquipment() {
   }
 }
 
-
-
 onMounted(async () => {
   const response = await apiService.getPhd2CurrentProfile();
   profiles.value = guiderStore.phd2EquipmentProfiles;
@@ -82,6 +80,7 @@ watch(selectedProfile, async (newProfile, oldProfile) => {
   if (oldProfile && newProfile !== oldProfile) {
     console.log('Profile changed from', oldProfile, 'to', newProfile);
     await guiderStore.fetchPHD2Cameras();
+    await guiderStore.fetchPHD2Mounts();
   }
 });
 </script>

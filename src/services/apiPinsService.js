@@ -50,6 +50,21 @@ export default {
     return this._simplePutRequest(`${API_URL}/phd2/camera/selected`, { index });
   },
 
+  getPHD2MountList() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/phd2/mount/list`);
+  },
+
+  getPHD2SelectedMount() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/phd2/mount/selected`);
+  },
+
+  setPHD2SelectedMount(index) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}/phd2/mount/selected`, { index });
+  },
+
   // Private method for simple GET requests
   _simpleGetRequest(url) {
     return axios

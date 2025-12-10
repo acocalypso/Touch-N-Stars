@@ -5,6 +5,7 @@
     </label>
     <select
       v-model="selectedProfile"
+      @change="onProfileChange"
       class="default-select h-8 w-28 ml-auto"
       :class="statusClassConnect"
       :disabled="guiderStore.phd2IsConnected"
@@ -35,7 +36,7 @@
 <script setup>
 import apiService from '@/services/apiService';
 import { useGuiderStore } from '@/store/guiderStore';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import { LinkSlashIcon, LinkIcon } from '@heroicons/vue/24/outline';
 
 const guiderStore = useGuiderStore();
@@ -70,17 +71,21 @@ async function disconnectEquipment() {
   }
 }
 
+async function onProfileChange() {
+  const profileIndex = profiles.value.indexOf(selectedProfile.value);
+  if (profileIndex !== -1) {
+    // Backend erwartet eine ID die bei 1 beginnt, nicht bei 0
+    const profileId = profileIndex + 1;
+    console.log('Profile changed to:', selectedProfile.value, 'with ID', profileId);
+    await guiderStore.setPHD2Profil(profileId);
+    await guiderStore.fetchPHD2Cameras();
+    await guiderStore.refreshPHD2SelectedMount();
+  }
+}
+
 onMounted(async () => {
   const response = await apiService.getPhd2CurrentProfile();
   profiles.value = guiderStore.phd2EquipmentProfiles;
   selectedProfile.value = response.Response.Profile.name;
-});
-
-watch(selectedProfile, async (newProfile, oldProfile) => {
-  if (oldProfile && newProfile !== oldProfile) {
-    console.log('Profile changed from', oldProfile, 'to', newProfile);
-    await guiderStore.fetchPHD2Cameras();
-    await guiderStore.fetchPHD2Mounts();
-  }
 });
 </script>

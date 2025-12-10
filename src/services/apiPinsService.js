@@ -37,33 +37,39 @@ export default {
 
   getPHD2CameraList() {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}/phd2/camera/list`);
+    return this._simpleGetRequest(`${API_URL}phd2/camera/list`);
   },
 
   getPHD2SelectedCamera() {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}/phd2/camera/selected`);
+    return this._simpleGetRequest(`${API_URL}phd2/camera/selected`);
   },
 
   setPHD2SelectedCamera(index) {
     const { API_URL } = getUrls();
-    return this._simplePutRequest(`${API_URL}/phd2/camera/selected`, { index });
+    return this._simplePutRequest(`${API_URL}phd2/camera/selected`, { index });
   },
 
   getPHD2MountList() {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}/phd2/mount/list`);
+    return this._simpleGetRequest(`${API_URL}phd2/mount/list`);
   },
 
   getPHD2SelectedMount() {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}/phd2/mount/selected`);
+    return this._simpleGetRequest(`${API_URL}phd2/mount/selected`);
   },
 
   setPHD2SelectedMount(index) {
     const { API_URL } = getUrls();
-    return this._simplePutRequest(`${API_URL}/phd2/mount/selected`, { index });
+    return this._simplePutRequest(`${API_URL}phd2/mount/selected`, { index });
   },
+
+  setPHD2SelectedProfile(id) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/profile/select`, { id });
+  },
+
 
   // Private method for simple GET requests
   _simpleGetRequest(url) {

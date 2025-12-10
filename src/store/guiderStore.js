@@ -166,6 +166,18 @@ export const useGuiderStore = defineStore('guiderStore', {
       }
     },
 
+    async setPHD2Profil(id) {
+      try {
+        const response = await apiPinsService.setPHD2SelectedProfile(id);
+        if (response.Success && response.Response) {
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 profile:', error);
+        throw error;
+      }
+    },
+
     // PHD2 Camera Actions (PINS)
     async fetchPHD2Cameras() {
       const store = apiStore();

@@ -26,8 +26,8 @@
     </div>
   </div>
   <div v-else>
-   <Phd2SelectCamera />
-   <Phd2SelectMount />
+    <Phd2SelectCamera />
+    <Phd2SelectMount />
   </div>
 </template>
 

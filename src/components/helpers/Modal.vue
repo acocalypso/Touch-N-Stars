@@ -40,10 +40,7 @@
     </div>
 
     <!-- Minimized floating box (nur wenn minimiert) -->
-    <div
-      v-if="show && isMinimized"
-      :class="['fixed bottom-4 right-4 shadow-2xl', zIndexClass]"
-    >
+    <div v-if="show && isMinimized" :class="['fixed bottom-4 right-4 shadow-2xl', zIndexClass]">
       <div
         :class="[
           'p-6 bg-gradient-to-br from-gray-950 bg-gray-800 rounded-lg shadow-lg relative',

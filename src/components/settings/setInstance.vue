@@ -44,6 +44,7 @@
             placeholder="5000"
             inputId="port"
             wrapperClass="w-full"
+            labelPosition="top"
           />
         </div>
       </div>

@@ -13,6 +13,7 @@ export const useDialogStore = defineStore('dialogStore', {
     intervalId: null,
     isPolling: false,
     isConnectedToSignalR: false,
+    minimizedDialogs: {}, // Track minimized state per dialog ID
   }),
   actions: {
     async fetchDialogs() {
@@ -490,6 +491,34 @@ export const useDialogStore = defineStore('dialogStore', {
       } catch (error) {
         console.error('[dialogStore] Error disconnecting from SignalR:', error);
       }
+    },
+
+    /**
+     * Toggle minimize state for a dialog
+     */
+    toggleMinimizedDialog(dialogId) {
+      this.minimizedDialogs[dialogId] = !this.minimizedDialogs[dialogId];
+    },
+
+    /**
+     * Check if a dialog is minimized
+     */
+    isDialogMinimized(dialogId) {
+      return !!this.minimizedDialogs[dialogId];
+    },
+
+    /**
+     * Minimize a dialog
+     */
+    minimizeDialog(dialogId) {
+      this.minimizedDialogs[dialogId] = true;
+    },
+
+    /**
+     * Restore a minimized dialog
+     */
+    restoreDialog(dialogId) {
+      this.minimizedDialogs[dialogId] = false;
     },
   },
 });

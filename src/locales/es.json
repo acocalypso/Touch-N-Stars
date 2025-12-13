@@ -3,11 +3,15 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "close": "Cerca",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Eliminar",
+    "edit": "Editar"
   },
   "general": {
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No"
   },
   "pages": {
     "equipment": {
@@ -679,8 +683,18 @@
       "position": "Posición",
       "availableFilters": "Filtros Disponibles",
       "settings": {
-        "title": "Configuración de filtro"
+        "title": "Configuración de filtro",
+        "FilterWheelFilters": {
+          "FocusOffset": "Offset de enfoque",
+          "Position": "Posición",
+          "AutoFocusExposureTime": "Tiempo de exposición de enfoque automático",
+          "Name": "Nombre"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Eliminar Filtro",
+      "confirmMessage": "¿Está seguro de que desea eliminar este filtro? Esta acción no se puede deshacer."
     },
     "rotator": {
       "title": "Rotador",
@@ -809,6 +823,16 @@
       "imageModal": {
         "no_image": "No hay datos de imagen disponibles"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Resolución exitosa",
+      "solve_failed": "Resolución fallida",
+      "solving": "Resolviendo...",
+      "solve_time": "Tiempo de resolución",
+      "orientation": "Orientación",
+      "flipped": "Invertido",
+      "ra": "AR",
+      "dec": "Dec"
     }
   },
   "plugins": {

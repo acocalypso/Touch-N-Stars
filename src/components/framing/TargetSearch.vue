@@ -37,7 +37,7 @@
             Array.isArray(framingStore.targetSearchResult) &&
             framingStore.targetSearchResult.length > 0
           "
-          class="default-select"
+          class="default-select max-h-[21.5rem] overflow-y-auto"
         >
           <li
             v-for="(item, index) in framingStore.targetSearchResult"
@@ -180,7 +180,7 @@ async function fetchTargetSearch() {
     return;
   }
   try {
-    const data = await apiService.searchNGC(framingStore.searchQuery, 10);
+    const data = await apiService.searchNGC(framingStore.searchQuery, 50);
     framingStore.targetSearchResult = Array.isArray(data) ? data : [];
   } catch (error) {
     console.error('Error fetching search suggestions:', error);

@@ -3,11 +3,15 @@
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
     "close": "Zavřít",
-    "select": "Select"
+    "select": "Select",
+    "delete": "Odstranit",
+    "edit": "Upravit"
   },
   "general": {
     "cancel": "Zrušit",
-    "confirm": "Potvrdit"
+    "confirm": "Potvrdit",
+    "yes": "Ano",
+    "no": "Ne"
   },
   "pages": {
     "equipment": {
@@ -684,8 +688,18 @@
       "position": "Pozice",
       "availableFilters": "Dostupné Filtry",
       "settings": {
-        "title": "Filter-Settings"
+        "title": "Nastavení filtru",
+        "FilterWheelFilters": {
+          "FocusOffset": "Posun zaostření",
+          "Position": "Pozice",
+          "AutoFocusExposureTime": "Čas expozice automatického zaostření",
+          "Name": "Název"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Odstranit Filtr",
+      "confirmMessage": "Jste si jisti, že chcete odstranit tento filtr? Tuto akci nelze vrátit zpět."
     },
     "rotator": {
       "title": "Rotátor",
@@ -815,6 +829,16 @@
       "imageModal": {
         "no_image": "No image data available"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Řešení úspěšné",
+      "solve_failed": "Řešení selhalo",
+      "solving": "Řešení...",
+      "solve_time": "Čas řešení",
+      "orientation": "Orientace",
+      "flipped": "Převráceno",
+      "ra": "RA",
+      "dec": "Dec"
     }
   },
   "plugins": {

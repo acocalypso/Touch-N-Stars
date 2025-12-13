@@ -72,7 +72,7 @@
   </div>
 
   <!-- Settings Modal -->
-  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-40'">
+  <Modal :show="showSettingsModal" @close="showSettingsModal = false" :zIndex="'z-50'">
     <template #header>
       <h2 class="text-xl font-bold">{{ $t('components.settings.title') }}</h2>
     </template>

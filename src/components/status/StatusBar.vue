@@ -93,7 +93,7 @@
           <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
           <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
         </svg>
-        {{ store.filterInfo.SelectedFilter.Name }}
+        {{ store.filterInfo.SelectedFilter?.Name || 'No Filter' }}
       </p>
     </button>
     <!--Mount-->

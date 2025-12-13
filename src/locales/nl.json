@@ -2,11 +2,16 @@
   "common": {
     "cancel": "Annuleer",
     "confirm": "Bevestig",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "select": "Selecteer",
+    "delete": "Verwijderen",
+    "edit": "Bewerken"
   },
   "general": {
     "cancel": "Annuleer",
-    "confirm": "Bevestig"
+    "confirm": "Bevestig",
+    "yes": "Ja",
+    "no": "Nee"
   },
   "pages": {
     "equipment": {
@@ -175,6 +180,34 @@
         "invalidPortRange": "Ongeldige port reeks",
         "invalidInstance": "Ongeldige instantie",
         "emptyFields": "Lege velden"
+      },
+      "general": "Algemeen",
+      "plate_solver": {
+        "ASTAPLocation": "ASTAP-locatie",
+        "BlindFailoverEnabled": "Blinde failover ingeschakeld",
+        "ExposureTime": "Belichtingstijd(en)",
+        "Gain": "Verdienen",
+        "MaxObjects": "Maximaal aantal objecten",
+        "NumberOfAttempts": "Aantal pogingen",
+        "ReattemptDelay": "Vertraging(en) voor nieuwe poging",
+        "RotationTolerance": "Rotatietolerantie (°)",
+        "SearchRadius": "Zoekradius (°)",
+        "Threshold": "Drempelwaarde",
+        "basic": "Basisinstellingen",
+        "retry": "Probeer de instellingen opnieuw",
+        "search": "Zoekinstellingen",
+        "title": "Instellingen plaatoplosser"
+      },
+      "equipment": {
+        "description": "Beheer uw apparatuurinstellingen",
+        "title": "Apparatuur"
+      },
+      "input": {
+        "title": "Invoeroptimalisatie",
+        "touchOptimized": "Touch-geoptimaliseerde kiezer"
+      },
+      "telescope": {
+        "titel": "Telescoop instellingen"
       }
     },
     "connectEquipment": {
@@ -342,7 +375,25 @@
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
-        "Az": "Az"
+        "Az": "Az",
+        "SideOfPier": "Kant van de pier"
+      },
+      "settings": {
+        "meridian_flip": {
+          "AutoFocusAfterFlip": "Autofocus na omdraaien",
+          "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
+          "MinutesAfterMeridian": "Minuten na de meridiaan",
+          "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
+          "Recenter": "Recenter",
+          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien",
+          "SettleTime": "Afrekeningstijd(en)",
+          "UseSideOfPier": "Gebruik de kant van de pier",
+          "basic": "Basisinstellingen",
+          "behavior": "Gedrag",
+          "post_flip_actions": "Acties na de flip"
+        },
+        "meridian_flip_settings": "Meridiaan-instellingen",
+        "telescope_settle_time": "Settle tijd na slew(s)"
       }
     },
     "guider": {
@@ -418,7 +469,19 @@
           "title": "PHD2 fout",
           "star-lost-message": "Ster verdwenen"
         }
-      }
+      },
+      "ditherPixels": "",
+      "ditherRAOnly": "",
+      "guidingStartRetry": "",
+      "guidingStartTimeout": "",
+      "phd2Path": "",
+      "phd2ServerHost": "",
+      "phd2ServerPort": "",
+      "roiPercentage": "",
+      "settings": "",
+      "settlePixels": "",
+      "settleTime": "",
+      "settleTimeout": ""
     },
     "focuser": {
       "title": "Focuser",
@@ -435,7 +498,38 @@
       "stopped": "Gestopt",
       "autofocus_active": "Autofocus actief",
       "autofocus": "Autofocus",
-      "last_autofocus": "Laatste autofocus"
+      "last_autofocus": "Laatste autofocus",
+      "focus": "",
+      "settings": {
+        "ABSOLUTE": "",
+        "AutoFocusBinning": "",
+        "AutoFocusDisableGuiding": "",
+        "AutoFocusFitFunction": "",
+        "AutoFocusInitialOffsetSteps": "",
+        "AutoFocusInnerCropRatio": "",
+        "AutoFocusNumberOfFramesPerPoint": "",
+        "AutoFocusOuterCropRatio": "",
+        "AutoFocusStepSize": "",
+        "AutoFocusTimeoutSeconds": "",
+        "AutoFocusTotalNumberOfAttempts": "",
+        "AutoFocusUseBrightestStars": "",
+        "BacklashCompensationModel": "",
+        "BacklashIn": "",
+        "BacklashOut": "",
+        "FocuserSettleTime": "",
+        "HYPERBOLIC": "",
+        "OVERSHOOT": "",
+        "PARABOLIC": "",
+        "RSquaredThreshold": "",
+        "TRENDHYPERBOLIC": "",
+        "TRENDLINES": "",
+        "TRENDPARABOLIC": "",
+        "advanced": "",
+        "backlash": "",
+        "basic": "",
+        "crop_and_stars": "",
+        "title": ""
+      }
     },
     "dome": {
       "title": "Dome",
@@ -587,7 +681,20 @@
       "please_connect_filterwheel": "Verbind met filterwiel",
       "currentFilter": "Huidige Filter",
       "position": "Positie",
-      "availableFilters": "Beschikbare Filters"
+      "availableFilters": "Beschikbare Filters",
+      "settings": {
+        "title": "Filterinstellingen",
+        "FilterWheelFilters": {
+          "FocusOffset": "Focusafwijking",
+          "Position": "Positie",
+          "AutoFocusExposureTime": "Belichtingstijd autofocus",
+          "Name": "Naam"
+        }
+      }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Filter verwijderen",
+      "confirmMessage": "Weet u zeker dat u dit filter wilt verwijderen? Deze actie kan niet ongedaan gemaakt worden."
     },
     "rotator": {
       "title": "Rotator",
@@ -716,6 +823,16 @@
       "imageModal": {
         "no_image": "Geen beeld data beschikbaar"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Oplossing succesvol",
+      "solve_failed": "Oplossing mislukt",
+      "solving": "Oplossen...",
+      "solve_time": "Oplossingstijd",
+      "orientation": "Oriëntatie",
+      "flipped": "Gespiegeld",
+      "ra": "RA",
+      "dec": "Dec"
     }
   },
   "plugins": {
@@ -1153,6 +1270,132 @@
         "created": "Shortcut maken gelukt",
         "updated": "Shortcut wijzigen gelukt",
         "deleted": "Shortcut verwijderen gelukt"
+      }
+    },
+    "bahtifocus": {
+      "actions": {
+        "resetForm": "",
+        "runAnalysis": "",
+        "submitting": "",
+        "toggleParametersHide": "",
+        "toggleParametersShow": ""
+      },
+      "analysis": {
+        "lastDuration": ""
+      },
+      "camera": {
+        "abort": "",
+        "abortFailed": "",
+        "capture": "",
+        "captureFailed": "",
+        "capturing": "",
+        "exposureLabel": "",
+        "exposureUnit": "",
+        "statusDisconnected": "",
+        "statusExposing": "",
+        "statusExposingCountdown": "",
+        "statusLoading": "",
+        "statusLooping": ""
+      },
+      "crop": {
+        "enable": "",
+        "height": "",
+        "width": "",
+        "x": "",
+        "y": ""
+      },
+      "errors": {
+        "analysisFailed": "",
+        "badRequest": "",
+        "captureLoad": "",
+        "exampleLoad": "",
+        "missingServer": "",
+        "mockMode": "",
+        "readFile": "",
+        "title": ""
+      },
+      "image": {
+        "capturedName": "",
+        "clearSelection": "",
+        "examplePlaceholder": "",
+        "loadingCapture": "",
+        "mime": "",
+        "originalSize": "",
+        "previewUnavailable": "",
+        "resizedMessage": "",
+        "resizedTitle": "",
+        "selectFile": "",
+        "size": "",
+        "source": "",
+        "sourceCaptured": "",
+        "sourceExample": "",
+        "sourceUpload": "",
+        "transport": "",
+        "transportBinary": "",
+        "transportLegacy": "",
+        "useLatestCapture": ""
+      },
+      "inputs": {
+        "apertureDiameter": "",
+        "focalLength": "",
+        "focalRatio": "",
+        "pixelSize": "",
+        "resizeFactor": ""
+      },
+      "overlay": {
+        "noImage": "",
+        "processedSize": "",
+        "title": ""
+      },
+      "previousAngles": {
+        "input": "",
+        "label": "",
+        "reset": "",
+        "savedLabel": ""
+      },
+      "results": {
+        "absoluteFocusError": "",
+        "criticalFocusThreshold": "",
+        "cropApplied": "",
+        "effectiveResizeFactor": "",
+        "failure": "",
+        "focusErrorPixels": "",
+        "focusNotOk": "",
+        "focusOk": "",
+        "isWithinCriticalFocus": "",
+        "lineAngles": "",
+        "maskAngle": "",
+        "noCrop": "",
+        "placeholder": "",
+        "successMessage": "",
+        "successTitle": "",
+        "title": "",
+        "updatedAngles": ""
+      },
+      "sections": {
+        "imageSource": "",
+        "imageSourceHint": "",
+        "parameters": "",
+        "parametersHint": ""
+      },
+      "subtitle": "",
+      "tips": {
+        "tip1": "",
+        "tip2": "",
+        "tip3": "",
+        "title": ""
+      },
+      "title": "",
+      "validation": {
+        "allAnglesRequired": "",
+        "fixErrors": "",
+        "imageRequired": "",
+        "invalidNonNegative": "",
+        "invalidNumber": "",
+        "invalidPositive": "",
+        "ratioOrAperture": "",
+        "requiredPositive": "",
+        "title": ""
       }
     }
   },

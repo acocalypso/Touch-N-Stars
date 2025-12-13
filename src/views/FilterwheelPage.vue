@@ -1,62 +1,94 @@
 <template>
-  <div class="text-left mb-2">
-    <h1 class="text-xl text-center font-bold">{{ $t('components.filterwheel.title') }}</h1>
-  </div>
-  <div
-    v-if="!store.filterInfo.Connected"
-    class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
-  >
-    <p class="text-red-400 font-medium text-center">
-      {{ $t('components.filterwheel.please_connect_filterwheel') }}
-    </p>
-  </div>
-  <div v-else class="container flex items-center justify-center">
-    <div class="container max-w-md landscape:max-w-xl">
-      <div>
-        <InfoFilterwheel class="grid grid-cols-2 landscape:grid-cols-3" />
-      </div>
-
-      <div>
-        <!-- Settings Button -->
-        <button
-          v-if="false"
-          @click="openSettings = true"
-          class="default-button-gray flex items-center justify-center px-3 px-2 mt-2"
+  <div class="filterwheel-page">
+    <SubNav
+      :items="[
+        { name: t('components.filterwheel.title'), value: 'showFilterwheel' },
+        { name: t('components.filterwheel.settings.title'), value: 'showSettings' },
+      ]"
+      v-model:activeItem="currentTab"
+    />
+    <div class="container py-16 flex items-center justify-center">
+      <div class="container max-w-md landscape:max-w-xl">
+        <h5 class="text-xl text-center font-bold text-white mb-4">
+          {{ $t('components.filterwheel.title') }}
+        </h5>
+        <div
+          v-if="!store.filterInfo.Connected"
+          class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
         >
-          <Cog6ToothIcon class="w-5 h-5" />
-        </button>
-      </div>
+          <p class="text-red-400 font-medium text-center">
+            {{ $t('components.filterwheel.please_connect_filterwheel') }}
+          </p>
+        </div>
 
-      <div
-        class="mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
-      >
-        <strong>{{ $t('components.filterwheel.filter') }}</strong>
-        <changeFilter />
+        <Transition name="slide-in" mode="out-in">
+          <div
+            v-if="currentTab === 'showFilterwheel' && store.filterInfo.Connected"
+            key="filterwheel-tab"
+          >
+            <div>
+              <InfoFilterwheel class="grid grid-cols-2 landscape:grid-cols-3 mt-4" />
+            </div>
+
+            <div
+              class="mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
+            >
+              <strong>{{ $t('components.filterwheel.filter') }}</strong>
+              <changeFilter />
+            </div>
+          </div>
+        </Transition>
+
+        <Transition name="slide-in" mode="out-in">
+          <div v-if="currentTab === 'showSettings'" key="settings-tab">
+            <div
+              class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
+            >
+              <div class="container pl-5 pb-5 pr-5">
+                <div class="mt-5">
+                  <FilterSettings />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Transition>
       </div>
     </div>
   </div>
-
-  <!-- Settings Modal -->
-  <Modal :show="openSettings" @close="openSettings = false">
-    <template #header>
-      <h2 class="text-2xl font-semibold">{{ $t('components.filterwheel.settings.title') }}</h2>
-    </template>
-    <template #body>
-      <div class="flex flex-col gap-1 mt-2 w-full">
-        <FilterSettings />
-      </div>
-    </template>
-  </Modal>
 </template>
 <script setup>
 import { ref } from 'vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import InfoFilterwheel from '@/components/filterwheel/InfoFilterwheel.vue';
-import Modal from '@/components/helpers/Modal.vue';
-import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import FilterSettings from '@/components/filterwheel/settings/FilterSettings.vue';
+import SubNav from '@/components/SubNav.vue';
 import { apiStore } from '@/store/store';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const store = apiStore();
-const openSettings = ref(false);
+const currentTab = ref('showFilterwheel');
 </script>
+
+<style scoped>
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.slide-in-enter-from {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.slide-in-leave-to {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.slide-in-enter-to,
+.slide-in-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+</style>

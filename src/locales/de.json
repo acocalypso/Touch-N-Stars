@@ -3,11 +3,15 @@
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "close": "Schließen",
-    "select": "Wählen"
+    "select": "Wählen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
   },
   "general": {
     "cancel": "Abbrechen",
-    "confirm": "Bestätigen"
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "pages": {
     "equipment": {
@@ -204,10 +208,6 @@
         "retry": "Wiederholungseinstellungen",
         "search": "Sucheinstellungen",
         "title": "Einstellungen für den Plate solver"
-      },
-      "equipment": {
-        "title": "Ausrüstung",
-        "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       }
     },
     "connectEquipment": {
@@ -683,8 +683,18 @@
       "position": "Position",
       "availableFilters": "Verfügbare Filter",
       "settings": {
-        "title": "Filtereinstellungen"
+        "title": "Filtereinstellungen",
+        "FilterWheelFilters": {
+          "FocusOffset": "Fokus-Offset",
+          "Position": "Position",
+          "AutoFocusExposureTime": "Autofokus-Belichtungszeit",
+          "Name": "Name"
+        }
       }
+    },
+    "RemoveFilter": {
+      "confirmTitle": "Filter entfernen",
+      "confirmMessage": "Sind Sie sicher, dass Sie diesen Filter entfernen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
     },
     "rotator": {
       "title": "Rotator",
@@ -813,6 +823,16 @@
       "imageModal": {
         "no_image": "Keine Bilddaten verfügbar"
       }
+    },
+    "platesolve": {
+      "solve_successful": "Lösung erfolgreich",
+      "solve_failed": "Lösung fehlgeschlagen",
+      "solving": "Löse...",
+      "solve_time": "Lösungszeit",
+      "orientation": "Ausrichtung",
+      "flipped": "Gespiegelt",
+      "ra": "RA",
+      "dec": "Dek"
     }
   },
   "plugins": {

@@ -1,12 +1,28 @@
 <template>
-  <Modal :show="showDialog" :zIndex="'z-[80]'" @close="handleClose" :closeOnBackdropClick="false">
+  <Modal
+    :show="showDialog"
+    :zIndex="'z-[80]'"
+    @close="handleClose"
+    :closeOnBackdropClick="false"
+    :isMinimized="isMinimized"
+  >
     <template #header>
-      <h2 class="text-xl font-bold text-white">
-        {{ currentDialog?.Title || 'Dialog' }}
-      </h2>
+      <div class="flex justify-between items-center w-full">
+        <h2 class="text-xl font-bold text-white">
+          {{ currentDialog?.Title || 'Dialog' }}
+        </h2>
+        <button
+          @click="toggleMinimize"
+          class="w-8 h-8 flex items-center justify-center hover:bg-slate-700/50 rounded transition-colors ml-2"
+          :title="isMinimized ? 'Restore' : 'Minimize'"
+        >
+          <MinusIcon v-if="!isMinimized" class="w-5 h-5" />
+          <Square2StackIcon v-else class="w-5 h-5" />
+        </button>
+      </div>
     </template>
     <template #body>
-      <div class="space-y-4">
+      <div v-show="!isMinimized" class="space-y-4">
         <!-- TPPA (Polar Alignment) Dialog -->
         <TppaPage v-if="isTPPADialog" @close="handleClose" />
 
@@ -72,6 +88,7 @@ import AutoFocusDialog from '@/components/dialogs/AutoFocusDialog.vue';
 import MeridianFlipDialog from '@/components/dialogs/MeridianFlipDialog.vue';
 import MeridianFlipSignalRDialog from '@/components/dialogs/MeridianFlipSignalRDialog.vue';
 import DefaultDialog from '@/components/dialogs/DefaultDialog.vue';
+import { MinusIcon, Square2StackIcon } from '@heroicons/vue/24/outline';
 
 const dialogStore = useDialogStore();
 const store = apiStore();
@@ -163,6 +180,21 @@ const visibleCommands = computed(() => {
     originalIndex: index,
   })).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
 });
+
+// Dialog ID for minimize state tracking
+const dialogId = computed(() => {
+  return currentDialog.value?.ContentType || currentDialog.value?.Title || 'dialog';
+});
+
+// Check if dialog is minimized
+const isMinimized = computed(() => {
+  return dialogStore.isDialogMinimized(dialogId.value);
+});
+
+// Toggle minimize state
+function toggleMinimize() {
+  dialogStore.toggleMinimizedDialog(dialogId.value);
+}
 
 async function handleButtonClick(buttonName) {
   const windowTitle = currentDialog.value?.Title;

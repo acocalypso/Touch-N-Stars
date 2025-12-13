@@ -70,6 +70,15 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/profile/select`, { id });
   },
 
+  renamePHD2Profile(name) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/profile/rename`, { name });
+  },
+
+  deletePHD2Profile(name) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/profile/delete`, { name });
+  },
 
   // Private method for simple GET requests
   _simpleGetRequest(url) {
@@ -85,6 +94,16 @@ export default {
   _simplePutRequest(url, data) {
     return axios
       .put(url, data)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  // Private method for simple POST requests
+  _simplePostRequest(url, data) {
+    return axios
+      .post(url, data)
       .then((response) => response.data)
       .catch((error) => {
         throw error;

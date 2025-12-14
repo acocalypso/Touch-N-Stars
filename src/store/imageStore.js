@@ -90,7 +90,7 @@ export const useImagetStore = defineStore('imageStore', {
       }
     },
 
-    async getImageByIndex(index) {
+    async getImageByIndex(index, retryCount = 0) {
       console.log(`[ImageStore] ImageStore.getImageByIndex: Getting image by index: ${index}`);
       const settingsStore = useSettingsStore();
       const quality = settingsStore.camera.imageQuality;
@@ -106,7 +106,13 @@ export const useImagetStore = defineStore('imageStore', {
             URL.revokeObjectURL(this.lastImage.image);
           }
           this.lastImage.image = null;
-          return this.getImageByIndex(index);
+          // Nur einmal retry beim Cache
+          if (retryCount < 1) {
+            return this.getImageByIndex(index, retryCount + 1);
+          } else {
+            console.error('[ImageStore] Max retries reached for cached image');
+            return null;
+          }
         }
         return this.lastImage.image;
       }
@@ -132,10 +138,20 @@ export const useImagetStore = defineStore('imageStore', {
         const result = await apiService.getSequenceImage(index, quality, true, scale);
         if (result.status !== 200) {
           console.error('[ImageStore] Unknown error: Check NINA Logs for more information');
-          return;
+          return null;
         }
         const blob = result.data;
+
+        // Prüfe ob der Blob gültig ist
+        if (!blob || blob.size === 0) {
+          console.error('[ImageStore] Received empty blob from API');
+          return null;
+        }
+
         const imageUrl = URL.createObjectURL(blob);
+
+        // Warte kurz, damit der Browser den Blob prozessieren kann
+        await new Promise((resolve) => setTimeout(resolve, 50));
 
         // Valid new image
         const isValid = await this.validateImage(imageUrl);
@@ -143,7 +159,16 @@ export const useImagetStore = defineStore('imageStore', {
           console.error('[ImageStore] Fetched sequneceimage is corrupted');
           // Gebe neue URL frei wenn ungültig
           URL.revokeObjectURL(imageUrl);
-          return this.getImageByIndex(index);
+
+          // Verhindere Endlosschleife - max 2 Versuche
+          if (retryCount < 2) {
+            console.log(`[ImageStore] Retrying... (attempt ${retryCount + 1}/2)`);
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            return this.getImageByIndex(index, retryCount + 1);
+          } else {
+            console.error('[ImageStore] Max retries reached, image validation failed');
+            return null;
+          }
         }
 
         // Gebe alte cached URL frei bevor neue gespeichert wird
@@ -170,7 +195,7 @@ export const useImagetStore = defineStore('imageStore', {
           `[ImageStore] An error happened while getting image with index ${index}`,
           error.message
         );
-        return;
+        return null;
       } finally {
         this.isSequenceImageFetching = false;
       }
@@ -193,28 +218,68 @@ export const useImagetStore = defineStore('imageStore', {
     async validateImage(imageUrl) {
       return new Promise((resolve) => {
         if (!imageUrl) {
+          console.error('[ImageStore] No imageUrl provided for validation');
           resolve(false);
           return;
         }
 
         const img = new Image();
-        img.onload = () => {
-          console.log('[ImageStore] Image is valid');
-          resolve(true);
-        };
-        img.onerror = () => {
-          console.error('[ImageStore] Image is corrupted or invalid');
-          resolve(false);
-        };
-        img.src = imageUrl;
+        let resolved = false;
 
-        // Timeout nach 5 Sekunden für den Fall, dass das Bild nicht lädt
-        setTimeout(() => {
-          if (!img.complete) {
-            console.error('[ImageStore] Image loading timeout');
+        const cleanup = () => {
+          // Entferne Event-Listener und setze src zurück um Speicher freizugeben
+          img.onload = null;
+          img.onerror = null;
+          img.src = '';
+        };
+
+        img.onload = () => {
+          if (!resolved) {
+            resolved = true;
+            // Prüfe ob das Bild eine gültige Größe hat
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+              console.log(
+                '[ImageStore] Image is valid',
+                `${img.naturalWidth}x${img.naturalHeight}`
+              );
+              cleanup();
+              resolve(true);
+            } else {
+              console.error('[ImageStore] Image loaded but has invalid dimensions');
+              cleanup();
+              resolve(false);
+            }
+          }
+        };
+
+        img.onerror = (error) => {
+          if (!resolved) {
+            resolved = true;
+            console.error('[ImageStore] Image is corrupted or invalid', error);
+            cleanup();
             resolve(false);
           }
-        }, 5000);
+        };
+
+        // Setze src erst nach event listeners
+        try {
+          img.src = imageUrl;
+        } catch (error) {
+          console.error('[ImageStore] Failed to set image src', error);
+          cleanup();
+          resolved = true;
+          resolve(false);
+        }
+
+        // Timeout nach 10 Sekunden für den Fall, dass das Bild nicht lädt
+        setTimeout(() => {
+          if (!resolved) {
+            resolved = true;
+            console.error('[ImageStore] Image loading timeout after 10s');
+            cleanup();
+            resolve(false);
+          }
+        }, 10000);
       });
     },
 

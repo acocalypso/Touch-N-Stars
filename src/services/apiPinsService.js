@@ -130,6 +130,11 @@ export default {
     return this._simplePostRequest(`${API_URL}phd2/profile/delete`, { name });
   },
 
+  createPHD2Profile(name) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/profile/create`, { name });
+  },
+
   // Private method for simple GET requests
   _simpleGetRequest(url) {
     return axios

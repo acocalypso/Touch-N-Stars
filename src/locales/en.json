@@ -470,6 +470,9 @@
         "decAlgorithm": "DEC Algorithm",
         "equipment": "Equipment",
         "optical": "Optical Settings",
+        "focalLength": "Focal Length",
+        "calibrationStep": "Calibration Step",
+        "reverseDecAfterFlip": "Reverse DEC after Flip",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",
@@ -493,7 +496,8 @@
         "error": {
           "title": "PHD2 Error",
           "star-lost-message": "Star lost"
-        }
+        },
+        "shared_prarmeters": "Shared parameters"
       }
     },
     "focuser": {

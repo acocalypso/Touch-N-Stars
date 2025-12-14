@@ -82,6 +82,7 @@ async function onProfileChange() {
     await guiderStore.refreshPHD2SelectedMount();
     await guiderStore.fetchPHD2FocalLength();
     await guiderStore.fetchPHD2CalibrationStep();
+    await guiderStore.fetchPHD2ReverseDecAfterFlip();
   }
 }
 

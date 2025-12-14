@@ -41,6 +41,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Calibration Step State (PINS)
     phd2CalibrationStep: null,
     phd2CalibrationStepLoading: false,
+
+    // PHD2 Reverse DEC After Flip State (PINS)
+    phd2ReverseDecAfterFlip: false,
+    phd2ReverseDecAfterFlipLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -336,6 +340,36 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 calibration step:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Reverse DEC After Flip Actions (PINS)
+    async fetchPHD2ReverseDecAfterFlip() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2ReverseDecAfterFlipLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2ReverseDecAfterFlip();
+        if (response.Success && response.Response) {
+          this.phd2ReverseDecAfterFlip = response.Response.ReverseDecAfterFlip;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 reverse DEC after flip:', error);
+      } finally {
+        this.phd2ReverseDecAfterFlipLoading = false;
+      }
+    },
+
+    async setPHD2ReverseDecAfterFlip(enabled) {
+      try {
+        const response = await apiPinsService.setPHD2ReverseDecAfterFlip(enabled);
+        if (response.Success && response.Response) {
+          this.phd2ReverseDecAfterFlip = response.Response.ReverseDecAfterFlip;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 reverse DEC after flip:', error);
         throw error;
       }
     },

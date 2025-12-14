@@ -93,6 +93,16 @@
         </h3>
         <Phd2CalibrationStep />
       </div>
+
+      <!-- Shared Prameters -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.shared_prarmeters') }}
+        </h3>
+        <Phd2ReverseDecAfterFlip />
+      </div>
     </template>
   </div>
 </template>
@@ -109,6 +119,7 @@ import Phd2SelectCamera from '@/components/guider/PHD2/pins/Phd2SelectCamera.vue
 import Phd2SelectMount from '@/components/guider/PHD2/pins/Phd2SelectMount.vue';
 import Phd2FocalLength from '@/components/guider/PHD2/pins/Phd2FocalLength.vue';
 import Phd2CalibrationStep from '@/components/guider/PHD2/pins/Phd2CalibrationStep.vue';
+import Phd2ReverseDecAfterFlip from '@/components/guider/PHD2/pins/Phd2ReverseDecAfterFlip.vue';
 
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();

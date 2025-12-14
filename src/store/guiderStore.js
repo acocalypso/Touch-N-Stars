@@ -45,6 +45,14 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Reverse DEC After Flip State (PINS)
     phd2ReverseDecAfterFlip: false,
     phd2ReverseDecAfterFlipLoading: false,
+
+    // PHD2 Guide Algorithm RA State (PINS)
+    phd2GuideAlgorithmRA: null,
+    phd2GuideAlgorithmRALoading: false,
+
+    // PHD2 Guide Algorithm DEC State (PINS)
+    phd2GuideAlgorithmDEC: null,
+    phd2GuideAlgorithmDECLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -370,6 +378,66 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 reverse DEC after flip:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Guide Algorithm RA Actions (PINS)
+    async fetchPHD2GuideAlgorithmRA() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2GuideAlgorithmRALoading = true;
+      try {
+        const response = await apiPinsService.getPHD2GuideAlgorithmRA();
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmRA = response.Response.GuideAlgorithmRA;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 guide algorithm RA:', error);
+      } finally {
+        this.phd2GuideAlgorithmRALoading = false;
+      }
+    },
+
+    async setPHD2GuideAlgorithmRA(algorithm) {
+      try {
+        const response = await apiPinsService.setPHD2GuideAlgorithmRA(algorithm);
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmRA = response.Response.GuideAlgorithmRA;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 guide algorithm RA:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Guide Algorithm DEC Actions (PINS)
+    async fetchPHD2GuideAlgorithmDEC() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2GuideAlgorithmDECLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2GuideAlgorithmDEC();
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmDEC = response.Response.GuideAlgorithmDEC;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 guide algorithm DEC:', error);
+      } finally {
+        this.phd2GuideAlgorithmDECLoading = false;
+      }
+    },
+
+    async setPHD2GuideAlgorithmDEC(algorithm) {
+      try {
+        const response = await apiPinsService.setPHD2GuideAlgorithmDEC(algorithm);
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmDEC = response.Response.GuideAlgorithmDEC;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 guide algorithm DEC:', error);
         throw error;
       }
     },

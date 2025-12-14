@@ -473,6 +473,10 @@
         "focalLength": "Focal Length",
         "calibrationStep": "Calibration Step",
         "reverseDecAfterFlip": "Reverse DEC after Flip",
+        "shared_prarmeters": "Shared Parameters",
+        "guideAlgorithm": "Guide Algorithm",
+        "guideAlgorithmRA": "RA Guide Algorithm",
+        "guideAlgorithmDEC": "DEC Guide Algorithm",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",

@@ -113,6 +113,8 @@ async function onProfileChange() {
       await guiderStore.fetchPHD2FocalLength();
       await guiderStore.fetchPHD2CalibrationStep();
       await guiderStore.fetchPHD2ReverseDecAfterFlip();
+      await guiderStore.fetchPHD2GuideAlgorithmRA();
+      await guiderStore.fetchPHD2GuideAlgorithmDEC();
     } finally {
       isChangingProfile.value = false;
     }

@@ -56,15 +56,25 @@
       >
         <LinkSlashIcon class="w-full h-7 text-gray-300" />
       </button>
+      <button
+        @click="showManagementModal = true"
+        class="default-button-cyan w-12"
+        :disabled="guiderStore.phd2IsConnected"
+      >
+        <Cog6ToothIcon class="w-7 h-7 text-gray-300" />
+      </button>
     </div>
   </div>
+
+  <PHD2ProfileManagementModal :show="showManagementModal" @close="handleModalClose" />
 </template>
 
 <script setup>
 import apiService from '@/services/apiService';
 import { useGuiderStore } from '@/store/guiderStore';
 import { onMounted, ref } from 'vue';
-import { LinkSlashIcon, LinkIcon } from '@heroicons/vue/24/outline';
+import { LinkSlashIcon, LinkIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import PHD2ProfileManagementModal from './PHD2ProfileManagementModal.vue';
 
 const guiderStore = useGuiderStore();
 const profiles = ref([]);
@@ -72,6 +82,7 @@ const selectedProfile = ref('');
 const statusClassConnect = ref();
 const statusClassDisconnect = ref();
 const isChangingProfile = ref(false);
+const showManagementModal = ref(false);
 
 async function connectEquipment() {
   try {
@@ -113,10 +124,20 @@ async function onProfileChange() {
       await guiderStore.fetchPHD2FocalLength();
       await guiderStore.fetchPHD2CalibrationStep();
       await guiderStore.fetchPHD2ReverseDecAfterFlip();
+      await guiderStore.fetchPHD2GuideAlgorithmRA();
+      await guiderStore.fetchPHD2GuideAlgorithmDEC();
     } finally {
       isChangingProfile.value = false;
     }
   }
+}
+
+async function handleModalClose() {
+  showManagementModal.value = false;
+  // Profile-Liste neu laden
+  const response = await apiService.getPhd2CurrentProfile();
+  profiles.value = guiderStore.phd2EquipmentProfiles;
+  selectedProfile.value = response.Response.Profile.name;
 }
 
 onMounted(async () => {

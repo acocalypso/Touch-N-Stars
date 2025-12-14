@@ -95,6 +95,26 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/reverse-dec-after-flip`, { enabled });
   },
 
+  getPHD2GuideAlgorithmRA() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/algorithm-ra`);
+  },
+
+  setPHD2GuideAlgorithmRA(algorithm) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/algorithm-ra`, { algorithm });
+  },
+
+  getPHD2GuideAlgorithmDEC() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/algorithm-dec`);
+  },
+
+  setPHD2GuideAlgorithmDEC(algorithm) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/algorithm-dec`, { algorithm });
+  },
+
   setPHD2SelectedProfile(id) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/profile/select`, { id });
@@ -108,6 +128,11 @@ export default {
   deletePHD2Profile(name) {
     const { API_URL } = getUrls();
     return this._simplePostRequest(`${API_URL}phd2/profile/delete`, { name });
+  },
+
+  createPHD2Profile(name) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/profile/create`, { name });
   },
 
   // Private method for simple GET requests

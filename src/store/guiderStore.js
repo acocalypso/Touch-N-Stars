@@ -45,6 +45,14 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Reverse DEC After Flip State (PINS)
     phd2ReverseDecAfterFlip: false,
     phd2ReverseDecAfterFlipLoading: false,
+
+    // PHD2 Guide Algorithm RA State (PINS)
+    phd2GuideAlgorithmRA: null,
+    phd2GuideAlgorithmRALoading: false,
+
+    // PHD2 Guide Algorithm DEC State (PINS)
+    phd2GuideAlgorithmDEC: null,
+    phd2GuideAlgorithmDECLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -370,6 +378,146 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 reverse DEC after flip:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Guide Algorithm RA Actions (PINS)
+    async fetchPHD2GuideAlgorithmRA() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2GuideAlgorithmRALoading = true;
+      try {
+        const response = await apiPinsService.getPHD2GuideAlgorithmRA();
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmRA = response.Response.GuideAlgorithmRA;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 guide algorithm RA:', error);
+      } finally {
+        this.phd2GuideAlgorithmRALoading = false;
+      }
+    },
+
+    async setPHD2GuideAlgorithmRA(algorithm) {
+      try {
+        const response = await apiPinsService.setPHD2GuideAlgorithmRA(algorithm);
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmRA = response.Response.GuideAlgorithmRA;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 guide algorithm RA:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Guide Algorithm DEC Actions (PINS)
+    async fetchPHD2GuideAlgorithmDEC() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2GuideAlgorithmDECLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2GuideAlgorithmDEC();
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmDEC = response.Response.GuideAlgorithmDEC;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 guide algorithm DEC:', error);
+      } finally {
+        this.phd2GuideAlgorithmDECLoading = false;
+      }
+    },
+
+    async setPHD2GuideAlgorithmDEC(algorithm) {
+      try {
+        const response = await apiPinsService.setPHD2GuideAlgorithmDEC(algorithm);
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmDEC = response.Response.GuideAlgorithmDEC;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 guide algorithm DEC:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Profile Management Actions
+    async createPHD2Profile(profileName) {
+      try {
+        const response = await apiPinsService.createPHD2Profile(profileName);
+        if (response.Success && response.Response) {
+          // Reload profiles list after creation
+          const profilesResponse = await apiService.getPhd2Profile();
+          if (profilesResponse.Response && profilesResponse.Response.EquipmentProfiles) {
+            this.phd2EquipmentProfiles = profilesResponse.Response.EquipmentProfiles;
+          }
+          return response;
+        }
+      } catch (error) {
+        console.error('Error creating PHD2 profile:', error);
+        throw error;
+      }
+    },
+
+    async renamePHD2Profile(newName, profileId) {
+      try {
+        console.log('Renaming profile ID', profileId, 'to', newName);
+        await this.setPHD2Profil(profileId);
+        const response = await apiPinsService.renamePHD2Profile(newName);
+        if (response.Success) {
+          // Reload profiles list after rename
+          const profilesResponse = await apiService.getPhd2Profile();
+          if (profilesResponse.Response && profilesResponse.Response.EquipmentProfiles) {
+            this.phd2EquipmentProfiles = profilesResponse.Response.EquipmentProfiles;
+          }
+          return response;
+        }
+      } catch (error) {
+        console.error('Error renaming PHD2 profile:', error);
+        throw error;
+      }
+    },
+
+    async deletePHD2Profile(profileName) {
+      try {
+        // Validate that at least 2 profiles exist before deletion
+        if (this.phd2EquipmentProfiles.length <= 1) {
+          throw new Error('Cannot delete the last profile');
+        }
+
+        // Get current profile before deletion
+        const currentProfileResponse = await apiService.getPhd2CurrentProfile();
+        const currentProfileName = currentProfileResponse.Response?.Profile?.name;
+        const isCurrentProfileDeleted = currentProfileName === profileName;
+
+        // Delete the profile
+        const response = await apiPinsService.deletePHD2Profile(profileName);
+        if (response.Success) {
+          // Reload profiles list after deletion
+          const profilesResponse = await apiService.getPhd2Profile();
+          if (profilesResponse.Response && profilesResponse.Response.EquipmentProfiles) {
+            this.phd2EquipmentProfiles = profilesResponse.Response.EquipmentProfiles;
+
+            // If current profile was deleted, switch to first available profile
+            if (isCurrentProfileDeleted && this.phd2EquipmentProfiles.length > 0) {
+              const newProfileId = 1; // First profile ID is 1
+              await this.setPHD2Profil(newProfileId);
+
+              // Reload all PHD2 settings
+              await this.fetchPHD2Cameras();
+              await this.refreshPHD2SelectedMount();
+              await this.fetchPHD2FocalLength();
+              await this.fetchPHD2CalibrationStep();
+              await this.fetchPHD2ReverseDecAfterFlip();
+              await this.fetchPHD2GuideAlgorithmRA();
+              await this.fetchPHD2GuideAlgorithmDEC();
+            }
+          }
+          return response;
+        }
+      } catch (error) {
+        console.error('Error deleting PHD2 profile:', error);
         throw error;
       }
     },

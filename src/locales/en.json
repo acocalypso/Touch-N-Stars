@@ -473,6 +473,10 @@
         "focalLength": "Focal Length",
         "calibrationStep": "Calibration Step",
         "reverseDecAfterFlip": "Reverse DEC after Flip",
+        "shared_prarmeters": "Shared Parameters",
+        "guideAlgorithm": "Guide Algorithm",
+        "guideAlgorithmRA": "RA Guide Algorithm",
+        "guideAlgorithmDEC": "DEC Guide Algorithm",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",
@@ -497,7 +501,32 @@
           "title": "PHD2 Error",
           "star-lost-message": "Star lost"
         },
-        "shared_prarmeters": "Shared parameters"
+        "shared_prarmeters": "Shared parameters",
+        "profileManagement": {
+          "title": "Manage Profiles",
+          "createNew": "Create New Profile",
+          "profileName": "Profile Name",
+          "profileNamePlaceholder": "Enter profile name",
+          "profilesList": "Profiles",
+          "create": "Create",
+          "rename": "Rename",
+          "delete": "Delete",
+          "cancel": "Cancel",
+          "confirmDelete": "Confirm Delete?",
+          "lastProfileWarning": "Cannot delete the last profile",
+          "success": {
+            "created": "Profile created successfully",
+            "renamed": "Profile renamed successfully",
+            "deleted": "Profile deleted successfully"
+          },
+          "errors": {
+            "emptyName": "Profile name cannot be empty",
+            "duplicateName": "Profile name already exists",
+            "createFailed": "Failed to create profile",
+            "renameFailed": "Failed to rename profile",
+            "deleteFailed": "Failed to delete profile"
+          }
+        }
       }
     },
     "focuser": {

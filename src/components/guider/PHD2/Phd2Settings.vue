@@ -25,9 +25,16 @@
       <SetDecAlgoPara />
     </div>
   </div>
-  <div v-else>
-    <Phd2SelectCamera />
-    <Phd2SelectMount />
+  <div v-else class="flex flex-col gap-4">
+    <div class="p-4 flex flex-col gap-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
+      <Phd2SelectCamera />
+    </div>
+    <div class="p-4 flex flex-col gap-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
+      <Phd2SelectMount />
+    </div>
+    <div class="p-4 flex flex-col gap-1 bg-gray-800/50 rounded-lg border border-gray-700/50">
+      <Phd2FocalLength />
+    </div>
   </div>
 </template>
 
@@ -41,6 +48,7 @@ import PHD2Profil from '@/components/guider/PHD2/PHD2Profil.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import Phd2SelectCamera from '@/components/guider/PHD2/pins/Phd2SelectCamera.vue';
 import Phd2SelectMount from '@/components/guider/PHD2/pins/Phd2SelectMount.vue';
+import Phd2FocalLength from '@/components/guider/PHD2/pins/Phd2FocalLength.vue';
 
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();

@@ -33,6 +33,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2SelectedMountIndex: null,
     phd2SelectedMountName: null,
     phd2MountsLoading: false,
+
+    // PHD2 Focal Length State (PINS)
+    phd2FocalLength: null,
+    phd2FocalLengthLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -269,6 +273,36 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error refreshing PHD2 selected mount:', error);
+      }
+    },
+
+    // PHD2 Focal Length Actions (PINS)
+    async fetchPHD2FocalLength() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2FocalLengthLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2Focallength();
+        if (response.Success && response.Response) {
+          this.phd2FocalLength = response.Response.FocalLength;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 focal length:', error);
+      } finally {
+        this.phd2FocalLengthLoading = false;
+      }
+    },
+
+    async setPHD2FocalLength(focalLength) {
+      try {
+        const response = await apiPinsService.setPHD2Focallength(focalLength);
+        if (response.Success && response.Response) {
+          this.phd2FocalLength = response.Response.FocalLength;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 focal length:', error);
+        throw error;
       }
     },
   },

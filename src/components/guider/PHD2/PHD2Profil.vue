@@ -80,6 +80,7 @@ async function onProfileChange() {
     await guiderStore.setPHD2Profil(profileId);
     await guiderStore.fetchPHD2Cameras();
     await guiderStore.refreshPHD2SelectedMount();
+    await guiderStore.fetchPHD2FocalLength();
   }
 }
 

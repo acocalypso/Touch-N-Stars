@@ -462,6 +462,14 @@
       },
       "phd2": {
         "Exposuretime": "Exposuretime",
+        "profile": "Profile",
+        "forceCalibration": "Force Calibration",
+        "calibration": "Calibration",
+        "exposure": "Exposure",
+        "raAlgorithm": "RA Algorithm",
+        "decAlgorithm": "DEC Algorithm",
+        "equipment": "Equipment",
+        "optical": "Optical Settings",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",
@@ -482,8 +490,6 @@
           "slope_weight": "DEC: Slope weight",
           "exp_factor": "DEC: Exposure factor"
         },
-        "profile": "Profile",
-        "forceCalibration": "Force Calibration",
         "error": {
           "title": "PHD2 Error",
           "star-lost-message": "Star lost"

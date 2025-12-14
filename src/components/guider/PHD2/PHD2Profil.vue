@@ -61,7 +61,7 @@
         class="default-button-cyan w-12"
         :disabled="guiderStore.phd2IsConnected"
       >
-        <CogIcon class="w-7 h-7 text-gray-300" />
+        <Cog6ToothIcon class="w-7 h-7 text-gray-300" />
       </button>
     </div>
   </div>
@@ -73,7 +73,7 @@
 import apiService from '@/services/apiService';
 import { useGuiderStore } from '@/store/guiderStore';
 import { onMounted, ref } from 'vue';
-import { LinkSlashIcon, LinkIcon, CogIcon } from '@heroicons/vue/24/outline';
+import { LinkSlashIcon, LinkIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import PHD2ProfileManagementModal from './PHD2ProfileManagementModal.vue';
 
 const guiderStore = useGuiderStore();

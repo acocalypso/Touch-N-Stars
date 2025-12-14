@@ -161,7 +161,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['close']);
+defineEmits(['close']);
 
 const guiderStore = useGuiderStore();
 
@@ -216,7 +216,7 @@ watch(
       editingProfileName.value = null;
       statusMessage.value = null;
     }
-  },
+  }
 );
 
 // Methods

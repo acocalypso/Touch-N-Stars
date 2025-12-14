@@ -23,13 +23,7 @@ import { useGuiderStore } from '@/store/guiderStore';
 
 const guiderStore = useGuiderStore();
 
-const algorithms = [
-  'None',
-  'Hysteresis',
-  'Lowpass',
-  'Lowpass2',
-  'Resist Switch',
-];
+const algorithms = ['None', 'Hysteresis', 'Lowpass', 'Lowpass2', 'Resist Switch'];
 
 onMounted(async () => {
   await guiderStore.fetchPHD2GuideAlgorithmDEC();

@@ -37,6 +37,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Focal Length State (PINS)
     phd2FocalLength: null,
     phd2FocalLengthLoading: false,
+
+    // PHD2 Calibration Step State (PINS)
+    phd2CalibrationStep: null,
+    phd2CalibrationStepLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -302,6 +306,36 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 focal length:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Calibration Step Actions (PINS)
+    async fetchPHD2CalibrationStep() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2CalibrationStepLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2CalibrationStep();
+        if (response.Success && response.Response) {
+          this.phd2CalibrationStep = response.Response.CalibrationStep;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 calibration step:', error);
+      } finally {
+        this.phd2CalibrationStepLoading = false;
+      }
+    },
+
+    async setPHD2CalibrationStep(calibrationStep) {
+      try {
+        const response = await apiPinsService.setPHD2CalibrationStep(calibrationStep);
+        if (response.Success && response.Response) {
+          this.phd2CalibrationStep = response.Response.CalibrationStep;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 calibration step:', error);
         throw error;
       }
     },

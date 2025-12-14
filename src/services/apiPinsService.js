@@ -75,6 +75,16 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/calibration/focal-length`, { focalLength });
   },
 
+  getPHD2CalibrationStep() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/step`);
+  },
+
+  setPHD2CalibrationStep(calibrationStep) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/step`, { calibrationStep });
+  },
+
   setPHD2SelectedProfile(id) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/profile/select`, { id });

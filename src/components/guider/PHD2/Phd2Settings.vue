@@ -10,6 +10,16 @@
       <PHD2Profil />
     </div>
 
+    <!-- Shared Parameters (always visible) -->
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.guider.phd2.shared_prarmeters') }}
+      </h3>
+      <Phd2ReverseDecAfterFlip />
+    </div>
+
     <template v-if="guiderStore.phd2IsConnected">
       <!-- Calibration Settings -->
       <div
@@ -92,16 +102,6 @@
           {{ $t('components.guider.phd2.calibration') }}
         </h3>
         <Phd2CalibrationStep />
-      </div>
-
-      <!-- Shared Prameters -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.shared_prarmeters') }}
-        </h3>
-        <Phd2ReverseDecAfterFlip />
       </div>
     </template>
   </div>

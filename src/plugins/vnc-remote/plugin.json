@@ -1,0 +1,9 @@
+{
+  "id": "vnc-remote",
+  "name": "VNC Remote",
+  "description": "VNC Client",
+  "version": "1.0.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true
+}

@@ -39,6 +39,7 @@
     "@devioarts/capacitor-mdns": "^0.0.2",
     "@heroicons/vue": "^2.2.0",
     "@microsoft/signalr": "^10.0.0",
+    "@novnc/novnc": "1.5.0",
     "@panzoom/panzoom": "^4.6.1",
     "@pinkcao/vue-drag-resize-rotate": "^2.0.0",
     "@vueuse/core": "14.0.0",

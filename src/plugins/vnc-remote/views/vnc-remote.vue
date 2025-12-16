@@ -1,6 +1,6 @@
 <template>
-  <div class="container py-16">
-    <div class="container max-w-6xl space-y-6">
+  <div class="container py-6">
+    <div class="container max-w-7xl space-y-4">
       <h5 class="text-2xl text-center font-bold text-white">VNC Remote</h5>
 
       <div class="grid gap-4 lg:grid-cols-3">
@@ -24,59 +24,17 @@
               />
             </label>
 
-            <div class="grid grid-cols-2 gap-3">
-              <label class="text-sm text-gray-300">
-                Port
-                <input
-                  v-model.trim="port"
-                  type="number"
-                  min="1"
-                  max="65535"
-                  class="mt-1 w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-white focus:border-indigo-400 focus:outline-none"
-                  placeholder="6080"
-                />
-              </label>
-
-              <label class="text-sm text-gray-300">
-                Path (optional)
-                <input
-                  v-model.trim="connectionPath"
-                  type="text"
-                  class="mt-1 w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-white focus:border-indigo-400 focus:outline-none"
-                  placeholder="websockify"
-                  autocomplete="off"
-                />
-              </label>
-            </div>
-
             <label class="text-sm text-gray-300">
-              Password (optional)
+              Port
               <input
-                v-model="password"
-                type="password"
+                v-model.trim="port"
+                type="number"
+                min="1"
+                max="65535"
                 class="mt-1 w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-white focus:border-indigo-400 focus:outline-none"
-                autocomplete="new-password"
+                placeholder="6080"
               />
             </label>
-
-            <div class="grid grid-cols-2 gap-3 text-sm text-gray-200">
-              <label class="inline-flex items-center space-x-2">
-                <input v-model="useTls" type="checkbox" class="h-4 w-4 text-indigo-500" />
-                <span>Use TLS (wss)</span>
-              </label>
-              <label class="inline-flex items-center space-x-2">
-                <input v-model="viewOnly" type="checkbox" class="h-4 w-4 text-indigo-500" />
-                <span>View only</span>
-              </label>
-              <label class="inline-flex items-center space-x-2">
-                <input v-model="resizeSession" type="checkbox" class="h-4 w-4 text-indigo-500" />
-                <span>Resize remote</span>
-              </label>
-              <label class="inline-flex items-center space-x-2">
-                <input v-model="scaleViewport" type="checkbox" class="h-4 w-4 text-indigo-500" />
-                <span>Scale viewport</span>
-              </label>
-            </div>
 
             <div class="flex items-center gap-3 pt-2">
               <button
@@ -114,7 +72,7 @@
 
           <div
             ref="viewerRef"
-            class="relative min-h-[420px] w-full overflow-hidden rounded border border-gray-800 bg-black/60"
+            class="relative h-[70vh] w-full overflow-hidden rounded border border-gray-800 bg-black/60"
           >
             <div
               v-if="!isConnected"
@@ -131,16 +89,13 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { useSettingsStore } from '@/store/settingsStore';
 
-const host = ref('localhost');
+const settingsStore = useSettingsStore();
+
+const host = ref('');
 const port = ref('6080');
-const connectionPath = ref('');
-const password = ref('');
-const useTls = ref(false);
-const viewOnly = ref(false);
-const resizeSession = ref(true);
-const scaleViewport = ref(true);
 
 const isConnecting = ref(false);
 const isConnected = ref(false);
@@ -150,14 +105,35 @@ const errorMessage = ref('');
 const viewerRef = ref(null);
 const rfbInstance = ref(null);
 
+const applyAutoHost = () => {
+  const candidateHost = settingsStore?.connection?.ip || window?.location?.hostname || 'localhost';
+  const trimmed = host.value.trim();
+
+  // Only auto-fill when the field is still empty or on its default.
+  if (!trimmed || trimmed === 'localhost' || trimmed === window?.location?.hostname) {
+    host.value = candidateHost;
+  }
+};
+
+onMounted(() => {
+  applyAutoHost();
+});
+
+watch(
+  () => settingsStore?.connection?.ip,
+  () => {
+    if (isConnected.value || isConnecting.value) return;
+    applyAutoHost();
+  }
+);
+
 const connectionUrl = computed(() => {
   const trimmedHost = host.value.trim() || 'localhost';
   const trimmedPort = (port.value || '').toString().trim() || '6080';
-  const cleanedPath = connectionPath.value.trim().replace(/^\/+/, '').replace(/\/+$/, '');
-  const scheme = useTls.value ? 'wss' : 'ws';
-  const pathSegment = cleanedPath ? `/${cleanedPath}` : '';
 
-  return `${scheme}://${trimmedHost}:${trimmedPort}${pathSegment}`;
+  // Use a sensible default based on how the UI is hosted
+  const scheme = window?.location?.protocol === 'https:' ? 'wss' : 'ws';
+  return `${scheme}://${trimmedHost}:${trimmedPort}`;
 });
 
 const canConnect = computed(() => Boolean(host.value.trim()) && Boolean(port.value));
@@ -201,7 +177,7 @@ function handleSecurityFailure(event) {
 
 function handleCredentialsRequired() {
   isConnected.value = false;
-  errorMessage.value = 'Password required';
+  errorMessage.value = 'Credentials required by server';
   statusMessage.value = 'Awaiting credentials';
 }
 
@@ -219,16 +195,17 @@ const connect = async () => {
 
     detachRfb();
 
-    const { default: RFB } = await import('@novnc/novnc/core/rfb.js');
+    const { default: RFB } = await import('@novnc/novnc/lib/rfb.js');
 
     const rfb = new RFB(viewerRef.value, connectionUrl.value, {
-      credentials: password.value ? { password: password.value } : undefined,
       shared: true,
-      viewOnly: viewOnly.value,
     });
 
-    rfb.scaleViewport = scaleViewport.value;
-    rfb.resizeSession = resizeSession.value;
+    // Let noVNC handle scaling so pointer coordinates match the image.
+    // CSS-stretching the canvas breaks click/drag mapping.
+    rfb.scaleViewport = true;
+    rfb.clipViewport = true;
+    rfb.resizeSession = false;
 
     rfb.addEventListener('connect', handleConnect);
     rfb.addEventListener('disconnect', handleDisconnect);
@@ -250,24 +227,6 @@ const disconnect = () => {
   isConnected.value = false;
   statusMessage.value = 'Disconnected';
 };
-
-watch(viewOnly, (value) => {
-  if (rfbInstance.value) {
-    rfbInstance.value.viewOnly = value;
-  }
-});
-
-watch(resizeSession, (value) => {
-  if (rfbInstance.value) {
-    rfbInstance.value.resizeSession = value;
-  }
-});
-
-watch(scaleViewport, (value) => {
-  if (rfbInstance.value) {
-    rfbInstance.value.scaleViewport = value;
-  }
-});
 
 onBeforeUnmount(detachRfb);
 </script>

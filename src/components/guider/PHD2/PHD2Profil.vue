@@ -57,6 +57,7 @@
         <LinkSlashIcon class="w-full h-7 text-gray-300" />
       </button>
       <button
+        v-if="store.isPINS"
         @click="showManagementModal = true"
         class="default-button-cyan w-12"
         :disabled="guiderStore.phd2IsConnected"
@@ -75,8 +76,10 @@ import { useGuiderStore } from '@/store/guiderStore';
 import { onMounted, ref } from 'vue';
 import { LinkSlashIcon, LinkIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import PHD2ProfileManagementModal from './PHD2ProfileManagementModal.vue';
+import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();
+const store = apiStore();
 const profiles = ref([]);
 const selectedProfile = ref('');
 const statusClassConnect = ref();

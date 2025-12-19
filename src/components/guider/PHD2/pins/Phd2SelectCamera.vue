@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div v-if="store.isPINS" class="w-full">
     <label class="block text-gray-200 text-sm font-medium mb-2"> PHD2 Camera </label>
     <select
       v-model="guiderStore.phd2SelectedCameraIndex"
@@ -18,7 +18,9 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useGuiderStore } from '@/store/guiderStore';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const guiderStore = useGuiderStore();
 
 onMounted(async () => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row w-full items-center min-w-28">
+  <div v-if="store.isPINS" class="flex flex-row w-full items-center min-w-28">
     <label for="guide-algorithm-dec" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
       {{ $t('components.guider.phd2.guideAlgorithmDEC') }}
     </label>
@@ -20,7 +20,9 @@
 <script setup>
 import { onMounted } from 'vue';
 import { useGuiderStore } from '@/store/guiderStore';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const guiderStore = useGuiderStore();
 
 const algorithms = ['None', 'Hysteresis', 'Lowpass', 'Lowpass2', 'Resist Switch'];

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-between w-full">
+  <div v-if="store.isPINS" class="flex items-center justify-between w-full">
     <span class="text-sm font-medium text-gray-300">
       {{ $t('components.guider.phd2.reverseDecAfterFlip') }}
     </span>
@@ -15,7 +15,9 @@
 import { onMounted } from 'vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const guiderStore = useGuiderStore();
 
 onMounted(async () => {

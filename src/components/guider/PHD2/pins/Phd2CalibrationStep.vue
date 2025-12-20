@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div v-if="store.isPINS" class="w-full">
     <NumberInputPicker
       v-model="calibrationStepValue"
       label="Calibration Step"
@@ -19,7 +19,9 @@
 import { onMounted, computed } from 'vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const guiderStore = useGuiderStore();
 
 const calibrationStepValue = computed({

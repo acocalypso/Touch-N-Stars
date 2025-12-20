@@ -12,6 +12,7 @@
 
     <!-- Shared Parameters (always visible) -->
     <div
+      v-if="store.isPINS"
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">
@@ -72,7 +73,7 @@
       </div>
     </template>
 
-    <template v-else>
+    <template v-else-if="store.isPINS">
       <!-- Equipment Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -133,7 +134,9 @@ import Phd2CalibrationStep from '@/components/guider/PHD2/pins/Phd2CalibrationSt
 import Phd2ReverseDecAfterFlip from '@/components/guider/PHD2/pins/Phd2ReverseDecAfterFlip.vue';
 import Phd2GuideAlgorithmRA from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmRA.vue';
 import Phd2GuideAlgorithmDEC from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmDEC.vue';
+import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
+const store = apiStore();
 </script>

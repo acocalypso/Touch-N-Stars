@@ -1,6 +1,6 @@
 {
   "name": "touch-n-stars",
-  "version": "4.4.0.pins1",
+  "version": "4.4.0-beta1",
   "private": true,
   "type": "module",
   "scripts": {

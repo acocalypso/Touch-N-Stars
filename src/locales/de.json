@@ -732,7 +732,16 @@
       "connected": "Verbunden",
       "disconnected": "Getrennt",
       "stationary": "Stationär",
-      "stepSize": "Schrittgröße"
+      "stepSize": "Schrittgröße",
+      "settings": {
+        "title": "Rotator-Einstellungen",
+        "basic": "Grundeinstellungen",
+        "FULL": "Voll (360°)",
+        "HALF": "Halb (180°)",
+        "QUARTER": "Viertel (90°)",
+        "RangeStartMechanicalPosition": "Mechanische Startposition (°)",
+        "RangeType": "Bereichstyp"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Bitte Flatpanel verbinden",

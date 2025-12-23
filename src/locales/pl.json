@@ -707,7 +707,16 @@
       "currentPosition": "Aktualna pozycja",
       "moving": "W ruchu",
       "stationary": "Stacjonarny",
-      "stepSize": "Rozmiar kroku"
+      "stepSize": "Rozmiar kroku",
+      "settings": {
+        "title": "Ustawienia Rotatora",
+        "basic": "Ustawienia podstawowe",
+        "FULL": "Pełny (360°)",
+        "HALF": "Połowa (180°)",
+        "QUARTER": "Ćwierć (90°)",
+        "RangeStartMechanicalPosition": "Mechaniczna pozycja startowa (°)",
+        "RangeType": "Typ zakresu"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Proszę podłączyć urządzenie flat",

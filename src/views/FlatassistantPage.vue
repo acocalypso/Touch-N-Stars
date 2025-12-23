@@ -9,8 +9,8 @@
       <ButtonSlew
         class="p-4 w-full"
         :label="t('components.flatassistant.button_slew_to_zenith')"
-        :raAngle="refRa"
-        :decAngle="refDec"
+        :raAngle="computedRa"
+        :decAngle="computedDec"
       />
       <select
         v-model="settingsStore.flats.selectedOption"
@@ -41,7 +41,6 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
 import { computed } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
@@ -58,8 +57,6 @@ import { useI18n } from 'vue-i18n';
 const flatsStore = useFlatassistantStore();
 const settingsStore = useSettingsStore();
 const store = apiStore();
-const refRa = ref(0);
-const refDec = ref(0);
 const { t } = useI18n();
 
 const selectedComponent = computed(() => {
@@ -73,15 +70,27 @@ const selectedComponent = computed(() => {
   }
 });
 
-onMounted(() => {
-  const { ra, dec } = altAzToRaDec(
-    90,
-    10,
+const computedRa = computed(() => {
+  // Konvertiere Alt/Az zu RA/Dec für Flat Position
+  // Alt: 89° 00' 00", Az: 90° 00' 00"
+  const { ra } = altAzToRaDec(
+    89, // Altitude in Grad
+    90, // Azimut in Grad
     store.profileInfo.AstrometrySettings.Latitude,
     store.profileInfo.AstrometrySettings.Longitude
   );
-  refRa.value = ra;
-  refDec.value = dec;
-  console.log('askljdf', ra, dec);
+  return ra;
+});
+
+const computedDec = computed(() => {
+  // Konvertiere Alt/Az zu RA/Dec für Flat Position
+  // Alt: 89° 00' 00", Az: 90° 00' 00"
+  const { dec } = altAzToRaDec(
+    89, // Altitude in Grad
+    90, // Azimut in Grad
+    store.profileInfo.AstrometrySettings.Latitude,
+    store.profileInfo.AstrometrySettings.Longitude
+  );
+  return dec;
 });
 </script>

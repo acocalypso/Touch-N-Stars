@@ -707,7 +707,16 @@
       "connected": "Collegato",
       "disconnected": "Disconnesso",
       "stationary": "Stazionario",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Impostazioni Rotatore",
+        "basic": "Impostazioni di base",
+        "FULL": "Completo (360°)",
+        "HALF": "Metà (180°)",
+        "QUARTER": "Quarto (90°)",
+        "RangeStartMechanicalPosition": "Posizione di partenza meccanica (°)",
+        "RangeType": "Tipo di intervallo"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Connetti il dispositivo flat",

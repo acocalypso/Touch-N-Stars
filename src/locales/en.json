@@ -707,7 +707,16 @@
       "currentPosition": "Current Position",
       "moving": "Moving",
       "stationary": "Stationary",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Settings",
+        "basic": "Basic Settings",
+        "QUARTER": "90°",
+        "HALF": "180°",
+        "FULL": "360°",
+        "RangeType": "Mechanical Range",
+        "RangeStartMechanicalPosition": "Mechanical Range Start"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Please connect the flat device",

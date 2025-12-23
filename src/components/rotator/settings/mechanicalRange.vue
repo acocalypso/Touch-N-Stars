@@ -1,11 +1,10 @@
 <template>
   <div class="p-4 gap-2 flex flex-col bg-gray-800/50 rounded-lg border border-gray-700/50">
-
     <SettingSelect
       labelKey="components.rotator.settings.RangeType"
       settingKey="RotatorSettings-RangeType"
       :modelValue="store.profileInfo.RotatorSettings.RangeType"
-      :options="['QUARTER' ,'HALF', 'FULL']"
+      :options="['QUARTER', 'HALF', 'FULL']"
       translationPrefix="components.rotator.settings."
     />
     <SettingInput
@@ -22,7 +21,6 @@
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SettingSelect from '@/components/helpers/settings/SettingProfilSelect.vue';
-
 
 const store = apiStore();
 </script>

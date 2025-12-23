@@ -708,7 +708,16 @@
       "connected": "已连接",
       "disconnected": "未连接",
       "stationary": "静止",
-      "stepSize": "步进大小"
+      "stepSize": "步进大小",
+      "settings": {
+        "title": "旋转器设置",
+        "basic": "基本设置",
+        "FULL": "完整 (360°)",
+        "HALF": "一半 (180°)",
+        "QUARTER": "四分之一 (90°)",
+        "RangeStartMechanicalPosition": "机械起始位置 (°)",
+        "RangeType": "范围类型"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",

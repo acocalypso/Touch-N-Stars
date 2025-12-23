@@ -712,7 +712,16 @@
       "disconnected": "Odpojeno",
       "stationary": "Stacionární",
       "stepSize": "Velikost Kroku",
-      "please_connect_rotator": "Připojte rotátor"
+      "please_connect_rotator": "Připojte rotátor",
+      "settings": {
+        "title": "Nastavení Rotátoru",
+        "basic": "Základní nastavení",
+        "FULL": "Plný (360°)",
+        "HALF": "Polovina (180°)",
+        "QUARTER": "Čtvrtina (90°)",
+        "RangeStartMechanicalPosition": "Mechanická počáteční pozice (°)",
+        "RangeType": "Typ rozsahu"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",

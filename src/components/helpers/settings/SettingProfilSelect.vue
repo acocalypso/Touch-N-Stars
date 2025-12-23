@@ -9,7 +9,7 @@
     >
       <option value="">{{ $t('common.select') }}</option>
       <option v-for="option in options" :key="option" :value="option">
-        {{ $t('components.focuser.settings.' + option) }}
+        {{ $t(translationPrefix + option) }}
       </option>
     </select>
   </div>
@@ -34,6 +34,10 @@ const props = defineProps({
   },
   options: {
     type: Array,
+    required: true,
+  },
+  translationPrefix: {
+    type: String,
     required: true,
   },
 });

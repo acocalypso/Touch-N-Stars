@@ -94,6 +94,7 @@
         settingKey="FocuserSettings-BacklashCompensationModel"
         :modelValue="store.profileInfo.FocuserSettings.BacklashCompensationModel"
         :options="['OVERSHOOT', 'ABSOLUTE']"
+        translationPrefix="components.focuser.settings."
       />
     </div>
 
@@ -129,6 +130,7 @@
         settingKey="FocuserSettings-AutoFocusCurveFitting"
         :modelValue="store.profileInfo.FocuserSettings.AutoFocusCurveFitting"
         :options="['TRENDLINES', 'PARABOLIC', 'TRENDPARABOLIC', 'HYPERBOLIC', 'TRENDHYPERBOLIC']"
+        translationPrefix="components.focuser.settings."
       />
       <setAutoFocusDisableGuiding />
     </div>

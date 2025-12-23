@@ -14,7 +14,7 @@
         <Cog6ToothIcon class="w-4 h-4" />
       </template>
     </SubNav>
-    
+
     <div
       v-if="!store.rotatorInfo.Connected"
       class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"

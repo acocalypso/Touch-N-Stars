@@ -1,5 +1,5 @@
 <template>
-  <div class="rotator-page">
+  <div>
     <SubNav
       :items="[
         { name: t('components.rotator.title'), value: 'showRotator' },
@@ -15,9 +15,6 @@
       </template>
     </SubNav>
 
-    <div class="text-left mb-2">
-      <h1 class="text-xl text-center font-bold">{{ $t('components.rotator.title') }}</h1>
-    </div>
     <div
       v-if="!store.rotatorInfo.Connected"
       class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
@@ -26,11 +23,11 @@
         {{ $t('components.rotator.please_connect_rotator') }}
       </p>
     </div>
-    <div v-else class="container flex items-center justify-center">
+    <div v-else class="container flex items-center justify-center pt-10">
       <div class="container max-w-md landscape:max-w-xl">
         <!-- Rotator Tab -->
         <Transition name="slide-in" mode="out-in">
-          <div v-if="currentTab === 'showRotator'" key="rotator">
+          <div v-if="currentTab === 'showRotator'" class="mt-4" key="rotator">
             <div>
               <infoRotator class="grid grid-cols-2 landscape:grid-cols-3" />
             </div>

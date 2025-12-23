@@ -709,8 +709,13 @@
       "stationary": "Stationary",
       "stepSize": "Step Size",
       "settings": {
-        "title": "Rotator Settings",
-        "basic": "Basic Settings"
+        "title": "Settings",
+        "basic": "Basic Settings",
+        "QUARTER": "90°",
+        "HALF": "180°",
+        "FULL": "360°",
+        "RangeType": "Mechanical Range",
+        "RangeStartMechanicalPosition": "Mechanical Range Start"
       }
     },
     "flat": {

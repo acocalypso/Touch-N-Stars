@@ -8,6 +8,7 @@
         {{ $t('components.rotator.settings.basic') }}
       </h3>
       <rotatorReverse />
+        <mechanicalRange />
     </div>
   </div>
 </template>
@@ -15,6 +16,7 @@
 <script setup>
 import { apiStore } from '@/store/store';
 import rotatorReverse from './rotatorReverse.vue';
+import mechanicalRange from './settings/mechanicalRange.vue';
 
 const store = apiStore();
 </script>

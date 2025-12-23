@@ -43,7 +43,7 @@
           </svg>
         </button>
       </div>
-        <rotatorReverse />
+
     </div>
   </div>
 </template>
@@ -52,7 +52,6 @@
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import rotatorReverse from './rotatorReverse.vue';
 
 const store = apiStore();
 

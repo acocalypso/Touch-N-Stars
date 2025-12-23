@@ -707,7 +707,11 @@
       "currentPosition": "Current Position",
       "moving": "Moving",
       "stationary": "Stationary",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Rotator Settings",
+        "basic": "Basic Settings"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Please connect the flat device",

@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rotator: Settings Mechanical Range
 
 ### Fixed
-- Flatwizzard: Slwe to zenith
-- Flatwizzard: Max brightness
+- Flat Wizard: Slew to zenith
+- Flat Wizard: Max brightness
 - Webcam Plugin: Load snapshot
 
 ## [App4.3.0] - 2025-12-13
@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change Panzoom lib 
 - Update NL
 - GPS Coordinates: Fixed decimal places
+- Image History: Layout adjustments
 
 ### Fixed
 - ZoomableImage: Preserve zoom level and pan position when loading new images

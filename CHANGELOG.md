@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - increased limits for target search
 - Change Panzoom lib 
 - Update NL
+- GPS Coordinates: Fixed decimal places
 
 ### Fixed
 - ZoomableImage: Preserve zoom level and pan position when loading new images

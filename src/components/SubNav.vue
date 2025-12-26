@@ -1,6 +1,6 @@
 <template>
   <div class="subnav shadow-md fixed z-10" :class="[subnavClasses, backgroundClasses]">
-    <div class="flex mx-auto h-12 items-center justify-center px-6 space-x-4">
+    <div class="flex mx-auto h-12 items-center justify-center px-2 space-x-1">
       <button
         v-for="item in items"
         :key="item.name"
@@ -9,9 +9,6 @@
         @click="selectItem(item.value)"
         :title="item.name"
       >
-        <slot :name="`icon-${item.value}`">
-          <span class="w-4 h-4 flex-shrink-0" />
-        </slot>
         {{ item.name }}
       </button>
     </div>

@@ -42,6 +42,7 @@
           </svg>
         </button>
       </div>
+      <rotatorReverse />
     </div>
   </div>
 </template>

@@ -43,7 +43,6 @@
         :alt="'Webcam snapshot'"
         class="w-full h-auto max-h-96 object-contain transition-opacity duration-300"
         :class="{ 'opacity-90': webcamStore.isTransitioning }"
-        crossOrigin="anonymous"
         @error="webcamStore.onCurrentImageError"
         @load="webcamStore.onCurrentImageLoad"
       />
@@ -54,7 +53,6 @@
         :src="webcamStore.nextImageUrl"
         :alt="'Next webcam snapshot'"
         class="absolute inset-0 w-full h-auto max-h-96 object-contain opacity-0 pointer-events-none"
-        crossOrigin="anonymous"
         @error="webcamStore.onNextImageError"
         @load="webcamStore.onNextImageLoad"
       />

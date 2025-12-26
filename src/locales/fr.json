@@ -707,7 +707,16 @@
       "connected": "Connecté",
       "disconnected": "Déconnecté",
       "stationary": "Stationnaire",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Paramètres du Rotateur",
+        "basic": "Paramètres de base",
+        "FULL": "Complet (360°)",
+        "HALF": "Moitié (180°)",
+        "QUARTER": "Quart (90°)",
+        "RangeStartMechanicalPosition": "Position de départ mécanique (°)",
+        "RangeType": "Type de plage"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Veuillez connecter le dispositif de flat",

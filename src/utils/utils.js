@@ -161,9 +161,9 @@ export function raDecToAltAz(ra, dec, latitude, longitude) {
   const altitude = Math.asin(sinAlt) * deg;
 
   // Azimut berechnen (0°=Nord, 90°=Ost)
-  const y = -Math.cos(delta) * Math.sin(HA);
-  const x = Math.sin(delta) * Math.cos(phi) - Math.cos(delta) * Math.sin(phi) * Math.cos(HA);
-  let azimuth = Math.atan2(y, x) * deg;
+  const sinAz = -Math.cos(delta) * Math.sin(HA);
+  const cosAz = Math.sin(delta) * Math.cos(phi) - Math.cos(delta) * Math.sin(phi) * Math.cos(HA);
+  let azimuth = Math.atan2(sinAz, cosAz) * deg;
   if (azimuth < 0) azimuth += 360; // Normierung auf 0 - 360°
 
   return { altitude, azimuth };
@@ -187,22 +187,24 @@ export function altAzToRaDec(altitude, azimuth, latitude, longitude) {
   const LST = getLST(longitude);
 
   // Umwandlung in Radianten
-  const h = altitude * rad;
-  const A = azimuth * rad;
+  const alt = altitude * rad;
+  const az = azimuth * rad;
   const phi = latitude * rad;
 
   // Deklination berechnen
-  const sinDec = Math.sin(h) * Math.sin(phi) + Math.cos(h) * Math.cos(phi) * Math.cos(A);
+  const sinDec = Math.sin(alt) * Math.sin(phi) + Math.cos(alt) * Math.cos(phi) * Math.cos(az);
   const dec = Math.asin(sinDec) * deg;
 
   // Stundenwinkel berechnen
-  const y = -Math.sin(A) * Math.cos(h);
-  const x = Math.cos(phi) * Math.sin(h) - Math.sin(phi) * Math.cos(h) * Math.cos(A);
+  const y = -Math.sin(az) * Math.cos(alt);
+  const x = Math.cos(phi) * Math.sin(alt) - Math.sin(phi) * Math.cos(alt) * Math.cos(az);
   const HA = Math.atan2(y, x) * deg;
 
   // Rektaszension berechnen
   let ra = (LST - HA) % 360;
   if (ra < 0) ra += 360; // Normierung auf 0 - 360°
+  //console.log(`Computed RA: ${ra}, Dec: ${dec}`);
+  //console.log(`Input Altitude: ${altitude}, Azimuth: ${azimuth}, Latitude: ${latitude}, Longitude: ${longitude}`);
 
   return { ra, dec };
 }

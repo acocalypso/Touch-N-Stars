@@ -8,10 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
 
+### Changed
+- WeatherModal: Unit toggle button now shows the target unit instead of the current unit
+
 ### Fixed
 - Flat Wizard: Slew to zenith
 - Flat Wizard: Max brightness
 - Webcam Plugin: Load snapshot
+- WeatherModal: Wind speed unit now correctly displays mph for imperial units
 
 ## [App4.3.0] - 2025-12-13
 ### Added

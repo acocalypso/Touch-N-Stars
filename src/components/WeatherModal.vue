@@ -22,8 +22,8 @@
           >
             {{
               settingsStore.useImperialUnits
-                ? $t('components.weatherModal.metric')
-                : $t('components.weatherModal.imperial')
+                ? $t('components.weatherModal.imperial')
+                : $t('components.weatherModal.metric')
             }}
           </button>
         </div>
@@ -360,7 +360,7 @@ const windDirection = computed(() => {
 });
 
 const windSpeedUnit = computed(() => {
-  return settingsStore.useImperialUnits ? 'm/s' : 'm/s';
+  return settingsStore.useImperialUnits ? 'mph' : 'm/s';
 });
 
 const cloudCover = computed(() => {

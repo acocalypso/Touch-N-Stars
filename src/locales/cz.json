@@ -326,6 +326,7 @@
       "noRunningItems": "Sekvence zastavena",
       "status": "Stav sekvence",
       "instructions": "Pokyny",
+      "noItemsInContainer": "Žádné položky v tomto kontejneru",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",

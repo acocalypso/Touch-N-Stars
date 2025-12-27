@@ -323,6 +323,7 @@
       "noRunningItems": "Sequentie gestopt",
       "status": "Sequentie status",
       "instructions": "Instructies",
+      "noItemsInContainer": "Geen items in deze container",
       "Min": "Min",
       "Max": "Max",
       "HFRStDev": "HFR St. Dev",

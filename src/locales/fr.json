@@ -323,6 +323,7 @@
       "noRunningItems": "Sequence stopped",
       "status": "Statut de séquence",
       "instructions": "Instructions",
+      "noItemsInContainer": "Aucun élément dans ce conteneur",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",

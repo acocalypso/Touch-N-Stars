@@ -324,6 +324,7 @@
       "noRunningItems": "序列已停止",
       "status": "序列状态",
       "instructions": "操作提示",
+      "noItemsInContainer": "此容器中没有项目",
       "HFRStDev": "HFR 标准差",
       "Max": "最大",
       "Min": "最小",

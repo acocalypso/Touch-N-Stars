@@ -148,7 +148,7 @@
               />
             </svg>
           </div>
-          Keine Items in diesem Container
+          {{ $t('components.sequence.noItemsInContainer') }}
         </div>
       </div>
     </div>

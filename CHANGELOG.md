@@ -10,12 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
+- Image History: Layout adjustments
 
 ### Fixed
 - Flat Wizard: Slew to zenith
 - Flat Wizard: Max brightness
 - Webcam Plugin: Load snapshot
 - WeatherModal: Wind speed unit now correctly displays mph for imperial units
+- GPS Coordinates: Fixed decimal places
 
 ## [App4.3.0] - 2025-12-13
 ### Added
@@ -28,8 +30,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - increased limits for target search
 - Change Panzoom lib 
 - Update NL
-- GPS Coordinates: Fixed decimal places
-- Image History: Layout adjustments
 
 ### Fixed
 - ZoomableImage: Preserve zoom level and pan position when loading new images

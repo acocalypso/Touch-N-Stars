@@ -61,7 +61,7 @@ const { isLandscape } = useOrientation();
 
 const quickButtonsClasses = computed(() => ({
   'fixed flex gap-2 text-gray-300 z-10': true,
-  'top-24 left-5 flex-row': !isLandscape.value,
+  'top-24 left-5 flex-col': !isLandscape.value,
   'top-5 left-36 flex-row': isLandscape.value,
 }));
 </script>

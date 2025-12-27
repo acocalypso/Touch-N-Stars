@@ -323,6 +323,7 @@
       "noRunningItems": "Sekwencja zatrzymana",
       "status": "Status sekwencji",
       "instructions": "Instrukcje",
+      "noItemsInContainer": "Brak elementów w tym kontenerze",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",

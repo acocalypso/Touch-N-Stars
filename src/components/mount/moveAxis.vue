@@ -189,6 +189,13 @@ const sendCommand = (direction) => {
     return;
   }
 
+  // WICHTIG: Stoppe zuerst das alte Intervall falls es noch läuft!
+  if (commandInterval) {
+    clearInterval(commandInterval);
+    commandInterval = null;
+    console.log('Previous command interval cleared before starting new one');
+  }
+
   mountStore.lastDirection = direction;
 
   const sendMessage = () => {

@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
 - Image History: Layout adjustments
+- Stellarium: View now syncs to mount position on load when mount is connected
 
 ### Fixed
 - Flat Wizard: Slew to zenith
@@ -19,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WeatherModal: Wind speed unit now correctly displays mph for imperial units
 - GPS Coordinates: Fixed decimal places
 - Mount Control: Fixed issue where multiple movement intervals could run in parallel, causing unintended slewing and tracking mode changes when changing slew rate
-- Stellarium: View now syncs to mount position on load when mount is connected
+
 
 ## [App4.3.0] - 2025-12-13
 ### Added

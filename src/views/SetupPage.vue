@@ -136,10 +136,10 @@
             <button
               @click="saveInstance"
               :disabled="checkConnection"
-              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50"
+              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              <span v-if="checkConnection" class="loader w-10"></span>
-              <p>{{ t('common.confirm') }}</p>
+              <span v-if="checkConnection" class="loader"></span>
+              <span v-if="!checkConnection">{{ t('common.confirm') }}</span>
             </button>
           </div>
         </div>

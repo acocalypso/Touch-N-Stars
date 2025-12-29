@@ -202,9 +202,11 @@
             </button>
             <button
               @click="saveGPS"
-              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg"
+              :disabled="loadingGPSData"
+              class="bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 px-4 rounded-lg disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {{ t('common.confirm') }}
+              <span v-if="loadingGPSData" class="loader"></span>
+              <span v-if="!loadingGPSData">{{ t('common.confirm') }}</span>
             </button>
           </div>
         </div>
@@ -262,6 +264,7 @@ const instanceData = ref({
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
 const stepInitialized = ref(false); // Tracks if step 5 logic has run
+const loadingGPSData = ref(false); // Tracks if GPS data is being loaded
 
 // Setup-Schritt im localStorage speichern, damit er nach Berechtigungsabfragen wiederhergestellt werden kann
 onMounted(() => {
@@ -301,16 +304,21 @@ async function nextStep() {
   // Only run this initialization logic once per step 5 visit
   if (currentStep.value === 5 && !stepInitialized.value) {
     stepInitialized.value = true;
-    store.startFetchingInfo();
-    store.setupCheckConnectionDone = true;
-    await wait(2500);
-    if (!store.isBackendReachable) {
-      console.log('Backend not reachable');
-      stepInitialized.value = false; // Reset flag if we go back
-      previousStep();
-      return;
+    loadingGPSData.value = true;
+    try {
+      store.startFetchingInfo();
+      store.setupCheckConnectionDone = true;
+      await wait(2500);
+      if (!store.isBackendReachable) {
+        console.log('Backend not reachable');
+        stepInitialized.value = false; // Reset flag if we go back
+        previousStep();
+        return;
+      }
+      await locationStore.loadFromAstrometrySettings();
+    } finally {
+      loadingGPSData.value = false;
     }
-    await locationStore.loadFromAstrometrySettings();
   }
 }
 

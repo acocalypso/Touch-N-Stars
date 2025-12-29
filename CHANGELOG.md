@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
+- Setup: Loading spinner while GPS data and astrometry settings are being loaded
 
 ### Changed
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
 - Image History: Layout adjustments
 - Stellarium: View now syncs to mount position on load when mount is connected
+- Setup: Confirm button disabled during data loading to prevent premature confirmation
 
 ### Fixed
 - Flat Wizard: Slew to zenith

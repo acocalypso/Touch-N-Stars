@@ -106,9 +106,15 @@ const props = defineProps({
   },
 });
 
-// Get content from dialog
+// Get content from dialog (try both PascalCase and lowercase)
 const content = computed(() => {
-  return props.dialog?.Content || props.dialog?.Parameters || {};
+  return (
+    props.dialog?.Content ||
+    props.dialog?.content ||
+    props.dialog?.Parameters ||
+    props.dialog?.parameters ||
+    {}
+  );
 });
 
 // Extract raw values from SignalR data

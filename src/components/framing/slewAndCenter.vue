@@ -311,6 +311,14 @@ function stopUpdatingAltAz() {
 onMounted(async () => {
   startFetchingInfo();
   startUpdatingAltAz();
+  
+  if (!hasSkyAtlasSource.value && store.isPINS) {
+    await apiService.profileChangeValue(
+      'FramingAssistantSettings-LastSelectedImageSource',
+      'SKYATLAS'
+    );
+    console.log('[SlewAndCenter] LastSelectedImageSource set to SKYATLAS');
+  }
 });
 
 onBeforeUnmount(() => {

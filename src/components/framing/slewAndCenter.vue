@@ -311,7 +311,8 @@ function stopUpdatingAltAz() {
 onMounted(async () => {
   startFetchingInfo();
   startUpdatingAltAz();
-  if (!hasSkyAtlasSource.value) {
+  
+  if (!hasSkyAtlasSource.value && store.isPINS) {
     await apiService.profileChangeValue(
       'FramingAssistantSettings-LastSelectedImageSource',
       'SKYATLAS'

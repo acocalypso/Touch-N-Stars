@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Máximo de objetos",
         "NumberOfAttempts": "Número de tentativas",
-        "ReattemptDelay": "Atraso(s) de nova tentativa",
+        "ReattemptDelay": "Atraso (min) de nova tentativa",
         "RotationTolerance": "Tolerância de rotação (°)",
         "SearchRadius": "Raio de pesquisa (°)",
         "Threshold": "Limite",

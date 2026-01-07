@@ -190,7 +190,7 @@
         "RotationTolerance": "Rotation tolerance (°)",
         "MaxObjects": "Max objects",
         "NumberOfAttempts": "Number of attempts",
-        "ReattemptDelay": "Reattempt delay (s)",
+        "ReattemptDelay": "Reattempt delay (min)",
         "BlindFailoverEnabled": "Blind failover enabled",
         "ASTAPLocation": "ASTAP Location"
       },

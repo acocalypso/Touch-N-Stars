@@ -189,7 +189,7 @@
         "Gain": "Verdienen",
         "MaxObjects": "Maximaal aantal objecten",
         "NumberOfAttempts": "Aantal pogingen",
-        "ReattemptDelay": "Vertraging(en) voor nieuwe poging",
+        "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
         "RotationTolerance": "Rotatietolerantie (°)",
         "SearchRadius": "Zoekradius (°)",
         "Threshold": "Drempelwaarde",

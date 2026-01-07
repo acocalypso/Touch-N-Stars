@@ -55,8 +55,8 @@
         settingKey="PlateSolveSettings-Threshold"
         :modelValue="store.profileInfo.PlateSolveSettings.Threshold"
         :min="0"
-        :max="100"
-        step="0.1"
+        :max="999"
+        step="1"
       />
       <SettingInput
         labelKey="components.settings.plate_solver.RotationTolerance"

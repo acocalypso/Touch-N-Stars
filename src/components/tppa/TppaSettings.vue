@@ -42,6 +42,7 @@
         />
       </div>
     </div>
+    <setSlewRatePins v-if="store.isPINS" />
 
     <!-- Camera Settings -->
     <div class="border-t border-gray-600 pt-2 mt-2">
@@ -89,6 +90,7 @@ import { useTppaStore } from '@/store/tppaStore';
 import { apiStore } from '@/store/store';
 import toggleButton from '../helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import setSlewRatePins from '../mount/settings/setSlewRatePins.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();

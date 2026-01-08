@@ -54,7 +54,7 @@ export const useSettingsStore = defineStore('settings', {
       useNinaCache: true,
     },
     mount: {
-      slewRate: 2,
+      slewRate: 9,
       reversePrimaryAxis: false,
       reverseSecondaryAxis: false,
       useCenter: false,

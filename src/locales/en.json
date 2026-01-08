@@ -362,7 +362,8 @@
           "unpark": "Error unparking mount",
           "tracking": "Error setting tracking mode"
         },
-        "setLocationSyncToMount": "Set \"Sync to telescope\""
+        "setLocationSyncToMount": "Set \"Sync to telescope\"",
+        "slewRateINDI": "Slewspeed"
       },
       "info": {
         "notConnected": "Please connect mount",

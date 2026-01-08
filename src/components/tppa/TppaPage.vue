@@ -444,7 +444,7 @@ async function startAlignment() {
 
   // if PINS, add MoveRate for INDI
   if (store.isPINS) {
-    message.MoveRate = settingsStore.mount.slewRate
+    message.MoveRate = settingsStore.mount.slewRate;
     console.log('[TPPA Page] Setting MoveRate to:', settingsStore.mount.slewRate);
   }
 

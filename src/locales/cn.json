@@ -400,6 +400,13 @@
         "meridian_flip_settings": "Meridian-Settings",
         "reverse_primary_axis": "反转主轴",
         "reverse_secondary_axis": "反转副轴"
+      },
+      "config": {
+        "baudRate": "波特率",
+        "connectionMode": "连接模式",
+        "devicePort": "设备端口",
+        "ipAddress": "IP 地址",
+        "settings": "赤道仪设置"
       }
     },
     "guider": {
@@ -474,7 +481,45 @@
         "error": {
           "title": "PHD2 错误",
           "star-lost-message": "星点丢失"
-        }
+        },
+        "calibration": "校准",
+        "calibrationStep": "校准步骤",
+        "decAlgorithm": "赤纬算法",
+        "equipment": "设备",
+        "exposure": "曝光",
+        "focalLength": "焦距",
+        "guideAlgorithm": "导星算法",
+        "guideAlgorithmDEC": "赤纬导星算法",
+        "guideAlgorithmRA": "赤经导星算法",
+        "optical": "光学设置",
+        "profileManagement": {
+          "cancel": "取消",
+          "confirmDelete": "确认删除？",
+          "create": "创建",
+          "createNew": "创建新配置",
+          "delete": "删除",
+          "errors": {
+            "createFailed": "创建配置失败",
+            "deleteFailed": "删除配置失败",
+            "duplicateName": "配置名称已存在",
+            "emptyName": "配置名称不能为空",
+            "renameFailed": "重命名配置失败"
+          },
+          "lastProfileWarning": "无法删除最后一个配置",
+          "profileName": "配置名称",
+          "profileNamePlaceholder": "输入配置名称",
+          "profilesList": "配置列表",
+          "rename": "重命名",
+          "success": {
+            "created": "配置创建成功",
+            "deleted": "配置删除成功",
+            "renamed": "配置重命名成功"
+          },
+          "title": "管理配置"
+        },
+        "raAlgorithm": "赤经算法",
+        "reverseDecAfterFlip": "翻转后反转赤纬",
+        "shared_prarmeters": "共享参数"
       },
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dither in RA Only",

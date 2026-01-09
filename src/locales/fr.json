@@ -399,6 +399,13 @@
         "meridian_flip_settings": "Paramètres méridiens",
         "reverse_primary_axis": "Inverser l'axe primaire",
         "reverse_secondary_axis": "Inverser l'axe secondaire"
+      },
+      "config": {
+        "baudRate": "Débit en bauds",
+        "connectionMode": "Mode de connexion",
+        "devicePort": "Port de l'appareil",
+        "ipAddress": "Adresse IP",
+        "settings": "Paramètres de la monture"
       }
     },
     "guider": {
@@ -473,7 +480,45 @@
         "error": {
           "title": "Erreur PHD2",
           "star-lost-message": "Étoile perdue"
-        }
+        },
+        "calibration": "Calibration",
+        "calibrationStep": "Étape de calibration",
+        "decAlgorithm": "Algorithme DEC",
+        "equipment": "Équipement",
+        "exposure": "Exposition",
+        "focalLength": "Distance focale",
+        "guideAlgorithm": "Algorithme de guidage",
+        "guideAlgorithmDEC": "Algorithme de guidage DEC",
+        "guideAlgorithmRA": "Algorithme de guidage RA",
+        "optical": "Paramètres optiques",
+        "profileManagement": {
+          "cancel": "Annuler",
+          "confirmDelete": "Confirmer la suppression ?",
+          "create": "Créer",
+          "createNew": "Créer un nouveau profil",
+          "delete": "Supprimer",
+          "errors": {
+            "createFailed": "Échec de la création du profil",
+            "deleteFailed": "Échec de la suppression du profil",
+            "duplicateName": "Le nom du profil existe déjà",
+            "emptyName": "Le nom du profil ne peut pas être vide",
+            "renameFailed": "Échec du renommage du profil"
+          },
+          "lastProfileWarning": "Impossible de supprimer le dernier profil",
+          "profileName": "Nom du profil",
+          "profileNamePlaceholder": "Entrez le nom du profil",
+          "profilesList": "Profils",
+          "rename": "Renommer",
+          "success": {
+            "created": "Profil créé avec succès",
+            "deleted": "Profil supprimé avec succès",
+            "renamed": "Profil renommé avec succès"
+          },
+          "title": "Gérer les profils"
+        },
+        "raAlgorithm": "Algorithme RA",
+        "reverseDecAfterFlip": "Inverser DEC après retournement",
+        "shared_prarmeters": "Paramètres partagés"
       },
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dithering en RA uniquement",

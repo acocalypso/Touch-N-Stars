@@ -399,6 +399,13 @@
         "meridian_flip_settings": "Configurações do Meridiano",
         "reverse_primary_axis": "Inverter eixo primário",
         "reverse_secondary_axis": "Inverter eixo secundário"
+      },
+      "config": {
+        "baudRate": "Taxa de transmissão",
+        "connectionMode": "Modo de conexão",
+        "devicePort": "Porta do dispositivo",
+        "ipAddress": "Endereço IP",
+        "settings": "Configurações da montagem"
       }
     },
     "guider": {
@@ -473,7 +480,45 @@
         "error": {
           "title": "Erro PHD2",
           "star-lost-message": "Estrela perdida"
-        }
+        },
+        "calibration": "Calibração",
+        "calibrationStep": "Passo de calibração",
+        "decAlgorithm": "Algoritmo DEC",
+        "equipment": "Equipamento",
+        "exposure": "Exposição",
+        "focalLength": "Distância focal",
+        "guideAlgorithm": "Algoritmo de guiamento",
+        "guideAlgorithmDEC": "Algoritmo de guiamento DEC",
+        "guideAlgorithmRA": "Algoritmo de guiamento RA",
+        "optical": "Configurações ópticas",
+        "profileManagement": {
+          "cancel": "Cancelar",
+          "confirmDelete": "Confirmar exclusão?",
+          "create": "Criar",
+          "createNew": "Criar novo perfil",
+          "delete": "Excluir",
+          "errors": {
+            "createFailed": "Falha ao criar perfil",
+            "deleteFailed": "Falha ao excluir perfil",
+            "duplicateName": "O nome do perfil já existe",
+            "emptyName": "O nome do perfil não pode estar vazio",
+            "renameFailed": "Falha ao renomear perfil"
+          },
+          "lastProfileWarning": "Não é possível excluir o último perfil",
+          "profileName": "Nome do perfil",
+          "profileNamePlaceholder": "Digite o nome do perfil",
+          "profilesList": "Perfis",
+          "rename": "Renomear",
+          "success": {
+            "created": "Perfil criado com sucesso",
+            "deleted": "Perfil excluído com sucesso",
+            "renamed": "Perfil renomeado com sucesso"
+          },
+          "title": "Gerenciar perfis"
+        },
+        "raAlgorithm": "Algoritmo RA",
+        "reverseDecAfterFlip": "Inverter DEC após inversão",
+        "shared_prarmeters": "Parâmetros compartilhados"
       },
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dither somente em RA",

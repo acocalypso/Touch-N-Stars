@@ -399,6 +399,13 @@
         "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
         "reverse_primary_axis": "Primärachse umkehren",
         "reverse_secondary_axis": "Sekundärachse umkehren"
+      },
+      "config": {
+        "baudRate": "Baudrate",
+        "connectionMode": "Verbindungsmodus",
+        "devicePort": "Geräteport",
+        "ipAddress": "IP-Adresse",
+        "settings": "Montierungseinstellungen"
       }
     },
     "guider": {
@@ -498,7 +505,20 @@
             "renameFailed": "Profil konnte nicht umbenannt werden",
             "deleteFailed": "Profil konnte nicht gelöscht werden"
           }
-        }
+        },
+        "calibration": "Kalibrierung",
+        "calibrationStep": "Kalibrierungsschritt",
+        "decAlgorithm": "DEC-Algorithmus",
+        "equipment": "Ausrüstung",
+        "exposure": "Belichtung",
+        "focalLength": "Brennweite",
+        "guideAlgorithm": "Guiding-Algorithmus",
+        "guideAlgorithmDEC": "DEC-Guiding-Algorithmus",
+        "guideAlgorithmRA": "RA-Guiding-Algorithmus",
+        "optical": "Optische Einstellungen",
+        "raAlgorithm": "RA-Algorithmus",
+        "reverseDecAfterFlip": "DEC nach Flip umkehren",
+        "shared_prarmeters": "Gemeinsame Parameter"
       },
       "ditherPixels": "Dither-Pixel (px)",
       "ditherRAOnly": "Dither nur in RA",

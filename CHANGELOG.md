@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
+- Mount: Reverse Primary Axis setting
+- Mount: Reverse Secondary Axis setting
 - Setup: Loading spinner while GPS data and astrometry settings are being loaded
 
 ### Changed

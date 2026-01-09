@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center ">
+  <div class="flex items-center">
     <span class="text-sm font-medium text-gray-300 mr-2">
       {{ $t('components.mount.settings.reverse_secondary_axis') }}
     </span>

@@ -396,7 +396,8 @@
           "AutoFocusAfterFlip": "Auto focus after flip",
           "RotateImageAfterFlip": "Rotate image after flip"
         },
-        "reverse_primary_axis": "Primary reversed"
+        "reverse_primary_axis": "Primary reversed",
+        "reverse_secondary_axis": "Secondary reverse"
       }
     },
     "guider": {

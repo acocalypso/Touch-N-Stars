@@ -414,7 +414,7 @@ async function startAlignment() {
   const message = {
     Action: 'start-alignment',
   };
-  
+
   //Defines if the direction for the second and third point should be done by moving the mount in east or west direction along the RA axis
   message.EastDirection = tppaStore.settings.EastDirection;
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center ">
     <span class="text-sm font-medium text-gray-300 mr-2">
-      {{ $t('components.mount.settings.reverse_primary_axis') }}
+      {{ $t('components.mount.settings.reverse_secondary_axis') }}
     </span>
     <toggleButton @click="updateSetting" :status-value="isEnabled" />
   </div>
@@ -19,7 +19,7 @@ async function updateSetting() {
   isEnabled.value = !isEnabled.value;
   try {
     const response = await apiService.profileChangeValue(
-      'TelescopeSettings-PrimaryReversed',
+      'TelescopeSettings-SecondaryReversed',
       isEnabled.value
     );
     if (!response.Success) {
@@ -34,6 +34,6 @@ async function updateSetting() {
 }
 
 onMounted(() => {
-  isEnabled.value = store.profileInfo.TelescopeSettings.PrimaryReversed;
+  isEnabled.value = store.profileInfo.TelescopeSettings.SecondaryReversed;
 });
 </script>

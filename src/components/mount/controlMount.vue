@@ -18,7 +18,7 @@
 
   <div class="flex mt-4 justify-center items-center">
     <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
-    <p class="text-xs">{{ $t('components.mount.control.trackingMode') }}</p>
+    <p class="text-xs">{{ $t('components.mount.control.reverse_axis') }}</p>
     <div class="flex-grow ml-2 h-[1px] bg-gray-700"></div>
   </div>
   <div class="flex gap-x-2 mt-2">

@@ -363,7 +363,8 @@
           "tracking": "Error setting tracking mode"
         },
         "setLocationSyncToMount": "Set \"Sync to telescope\"",
-        "slewRateINDI": "Slewspeed"
+        "slewRateINDI": "Slewspeed",
+        "reverse_axis": "Axis direction"
       },
       "info": {
         "notConnected": "Please connect mount",

@@ -402,6 +402,13 @@
         "meridian_flip_settings": "Meridian-Settings",
         "reverse_primary_axis": "Obrátit primární osu",
         "reverse_secondary_axis": "Obrátit sekundární osu"
+      },
+      "config": {
+        "baudRate": "Přenosová rychlost",
+        "connectionMode": "Režim připojení",
+        "devicePort": "Port zařízení",
+        "ipAddress": "IP adresa",
+        "settings": "Nastavení montáže"
       }
     },
     "guider": {
@@ -448,7 +455,45 @@
           "reactive_weight": "RA: Reaktivní váha W",
           "slope_weight": "RA: Váha sklonu"
         },
-        "Exposuretime": "Expozice"
+        "Exposuretime": "Expozice",
+        "calibration": "Kalibrace",
+        "calibrationStep": "Krok kalibrace",
+        "decAlgorithm": "DEC algoritmus",
+        "equipment": "Vybavení",
+        "exposure": "Expozice",
+        "focalLength": "Ohnisková vzdálenost",
+        "guideAlgorithm": "Algoritmus vedení",
+        "guideAlgorithmDEC": "DEC algoritmus vedení",
+        "guideAlgorithmRA": "RA algoritmus vedení",
+        "optical": "Optická nastavení",
+        "profileManagement": {
+          "cancel": "Zrušit",
+          "confirmDelete": "Potvrdit smazání?",
+          "create": "Vytvořit",
+          "createNew": "Vytvořit nový profil",
+          "delete": "Smazat",
+          "errors": {
+            "createFailed": "Vytvoření profilu se nezdařilo",
+            "deleteFailed": "Smazání profilu se nezdařilo",
+            "duplicateName": "Název profilu již existuje",
+            "emptyName": "Název profilu nemůže být prázdný",
+            "renameFailed": "Přejmenování profilu se nezdařilo"
+          },
+          "lastProfileWarning": "Nelze smazat poslední profil",
+          "profileName": "Název profilu",
+          "profileNamePlaceholder": "Zadejte název profilu",
+          "profilesList": "Profily",
+          "rename": "Přejmenovat",
+          "success": {
+            "created": "Profil úspěšně vytvořen",
+            "deleted": "Profil úspěšně smazán",
+            "renamed": "Profil úspěšně přejmenován"
+          },
+          "title": "Spravovat profily"
+        },
+        "raAlgorithm": "RA algoritmus",
+        "reverseDecAfterFlip": "Obrátit DEC po převrácení",
+        "shared_prarmeters": "Sdílené parametry"
       },
       "calibrationAssistant": {
         "calibrating": "Probíhá kalibrace...",

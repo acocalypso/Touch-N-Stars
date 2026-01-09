@@ -399,6 +399,13 @@
         "meridian_flip_settings": "Configuración de meridianos",
         "reverse_primary_axis": "Invertir eje primario",
         "reverse_secondary_axis": "Invertir eje secundario"
+      },
+      "config": {
+        "baudRate": "Velocidad en baudios",
+        "connectionMode": "Modo de conexión",
+        "devicePort": "Puerto del dispositivo",
+        "ipAddress": "Dirección IP",
+        "settings": "Configuración de la montura"
       }
     },
     "guider": {
@@ -445,7 +452,45 @@
           "reactive_weight": "RA: Peso reactivo",
           "slope_weight": "RA: Peso de inclinación"
         },
-        "Exposuretime": "Tiempo de exposición"
+        "Exposuretime": "Tiempo de exposición",
+        "calibration": "Calibración",
+        "calibrationStep": "Paso de calibración",
+        "decAlgorithm": "Algoritmo DEC",
+        "equipment": "Equipo",
+        "exposure": "Exposición",
+        "focalLength": "Distancia focal",
+        "guideAlgorithm": "Algoritmo de guiado",
+        "guideAlgorithmDEC": "Algoritmo de guiado DEC",
+        "guideAlgorithmRA": "Algoritmo de guiado RA",
+        "optical": "Configuración óptica",
+        "profileManagement": {
+          "cancel": "Cancelar",
+          "confirmDelete": "¿Confirmar eliminación?",
+          "create": "Crear",
+          "createNew": "Crear nuevo perfil",
+          "delete": "Eliminar",
+          "errors": {
+            "createFailed": "Error al crear perfil",
+            "deleteFailed": "Error al eliminar perfil",
+            "duplicateName": "El nombre del perfil ya existe",
+            "emptyName": "El nombre del perfil no puede estar vacío",
+            "renameFailed": "Error al renombrar perfil"
+          },
+          "lastProfileWarning": "No se puede eliminar el último perfil",
+          "profileName": "Nombre del perfil",
+          "profileNamePlaceholder": "Introduzca el nombre del perfil",
+          "profilesList": "Perfiles",
+          "rename": "Renombrar",
+          "success": {
+            "created": "Perfil creado correctamente",
+            "deleted": "Perfil eliminado correctamente",
+            "renamed": "Perfil renombrado correctamente"
+          },
+          "title": "Gestionar perfiles"
+        },
+        "raAlgorithm": "Algoritmo RA",
+        "reverseDecAfterFlip": "Invertir DEC después del volteo",
+        "shared_prarmeters": "Parámetros compartidos"
       },
       "calibrationAssistant": {
         "calibrating": "Calibración en progreso ...",

@@ -399,6 +399,13 @@
         "telescope_settle_time": "Settle tijd na slew(s)",
         "reverse_primary_axis": "Primaire as omkeren",
         "reverse_secondary_axis": "Secundaire as omkeren"
+      },
+      "config": {
+        "baudRate": "Baudrate",
+        "connectionMode": "Verbindingsmodus",
+        "devicePort": "Apparaatpoort",
+        "ipAddress": "IP-adres",
+        "settings": "Montage-instellingen"
       }
     },
     "guider": {
@@ -473,7 +480,45 @@
         "error": {
           "title": "PHD2 fout",
           "star-lost-message": "Ster verdwenen"
-        }
+        },
+        "calibration": "Kalibratie",
+        "calibrationStep": "Kalibratiestap",
+        "decAlgorithm": "DEC-algoritme",
+        "equipment": "Apparatuur",
+        "exposure": "Belichtingstijd",
+        "focalLength": "Brandpuntsafstand",
+        "guideAlgorithm": "Gidsalgoritme",
+        "guideAlgorithmDEC": "DEC-gidsalgoritme",
+        "guideAlgorithmRA": "RA-gidsalgoritme",
+        "optical": "Optische instellingen",
+        "profileManagement": {
+          "cancel": "Annuleren",
+          "confirmDelete": "Verwijdering bevestigen?",
+          "create": "Aanmaken",
+          "createNew": "Nieuw profiel aanmaken",
+          "delete": "Verwijderen",
+          "errors": {
+            "createFailed": "Profiel aanmaken mislukt",
+            "deleteFailed": "Profiel verwijderen mislukt",
+            "duplicateName": "Profielnaam bestaat al",
+            "emptyName": "Profielnaam mag niet leeg zijn",
+            "renameFailed": "Profiel hernoemen mislukt"
+          },
+          "lastProfileWarning": "Kan laatste profiel niet verwijderen",
+          "profileName": "Profielnaam",
+          "profileNamePlaceholder": "Voer profielnaam in",
+          "profilesList": "Profielen",
+          "rename": "Hernoemen",
+          "success": {
+            "created": "Profiel succesvol aangemaakt",
+            "deleted": "Profiel succesvol verwijderd",
+            "renamed": "Profiel succesvol hernoemd"
+          },
+          "title": "Profielen beheren"
+        },
+        "raAlgorithm": "RA-algoritme",
+        "reverseDecAfterFlip": "DEC omkeren na flip",
+        "shared_prarmeters": "Gedeelde parameters"
       },
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dither alleen in RA",

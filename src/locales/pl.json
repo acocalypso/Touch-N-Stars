@@ -399,6 +399,13 @@
         "meridian_flip_settings": "Ustawienia południka",
         "reverse_primary_axis": "Odwróć oś główną",
         "reverse_secondary_axis": "Odwróć oś drugorzędną"
+      },
+      "config": {
+        "baudRate": "Szybkość transmisji",
+        "connectionMode": "Tryb połączenia",
+        "devicePort": "Port urządzenia",
+        "ipAddress": "Adres IP",
+        "settings": "Ustawienia montażu"
       }
     },
     "guider": {
@@ -473,7 +480,45 @@
         "error": {
           "title": "Błąd PHD2",
           "star-lost-message": "Utracono gwiazdę"
-        }
+        },
+        "calibration": "Kalibracja",
+        "calibrationStep": "Krok kalibracji",
+        "decAlgorithm": "Algorytm DEC",
+        "equipment": "Sprzęt",
+        "exposure": "Ekspozycja",
+        "focalLength": "Ogniskowa",
+        "guideAlgorithm": "Algorytm prowadzenia",
+        "guideAlgorithmDEC": "Algorytm prowadzenia DEC",
+        "guideAlgorithmRA": "Algorytm prowadzenia RA",
+        "optical": "Ustawienia optyczne",
+        "profileManagement": {
+          "cancel": "Anuluj",
+          "confirmDelete": "Potwierdzić usunięcie?",
+          "create": "Utwórz",
+          "createNew": "Utwórz nowy profil",
+          "delete": "Usuń",
+          "errors": {
+            "createFailed": "Nie udało się utworzyć profilu",
+            "deleteFailed": "Nie udało się usunąć profilu",
+            "duplicateName": "Nazwa profilu już istnieje",
+            "emptyName": "Nazwa profilu nie może być pusta",
+            "renameFailed": "Nie udało się zmienić nazwy profilu"
+          },
+          "lastProfileWarning": "Nie można usunąć ostatniego profilu",
+          "profileName": "Nazwa profilu",
+          "profileNamePlaceholder": "Wprowadź nazwę profilu",
+          "profilesList": "Profile",
+          "rename": "Zmień nazwę",
+          "success": {
+            "created": "Profil został pomyślnie utworzony",
+            "deleted": "Profil został pomyślnie usunięty",
+            "renamed": "Profil został pomyślnie zmieniony"
+          },
+          "title": "Zarządzaj profilami"
+        },
+        "raAlgorithm": "Algorytm RA",
+        "reverseDecAfterFlip": "Odwróć DEC po przewróceniu",
+        "shared_prarmeters": "Parametry współdzielone"
       },
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dithering tylko w RA",

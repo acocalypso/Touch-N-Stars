@@ -12,10 +12,7 @@
         />
       </div>
     </div>
-    <div
-      v-show="tppaStore.settings.StartFromCurrentPosition"
-      class="flex flex-row items-center justify-between w-full"
-    >
+    <div class="flex flex-row items-center justify-between w-full">
       <label for="toggle_Pos" class="text-gray-300">
         {{ $t('components.tppa.settings.DirectionEast') }}
       </label>

@@ -18,6 +18,16 @@
 
   <div class="flex mt-4 justify-center items-center">
     <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
+    <p class="text-xs">{{ $t('components.mount.control.reverse_axis') }}</p>
+    <div class="flex-grow ml-2 h-[1px] bg-gray-700"></div>
+  </div>
+  <div class="flex gap-x-2 mt-2">
+    <setReversePrimaryAxis class="flex-1" />
+    <setReverseSecondaryAxis class="flex-1" />
+  </div>
+
+  <div class="flex mt-4 justify-center items-center">
+    <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
     <p class="text-xs">{{ $t('components.mount.control.manuellControl') }}</p>
     <div class="flex-grow ml-2 h-[1px] bg-gray-700"></div>
   </div>
@@ -35,4 +45,6 @@ import ButtonPark from '@/components/mount/ButtonPark.vue';
 import ButtonSlewStop from '@/components/mount//ButtonSlewStop.vue';
 import ButtonTrackingMode from '@/components/mount/ButtonTrackingMode.vue';
 import ButtonTrackingStop from '@/components/mount/ButtonTrackingStop.vue';
+import setReversePrimaryAxis from './settings/setReversePrimaryAxis.vue';
+import setReverseSecondaryAxis from './settings/setReverseSecondaryAxis.vue';
 </script>

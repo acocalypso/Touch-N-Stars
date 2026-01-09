@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
+- Mount: Reverse Primary Axis setting
+- Mount: Reverse Secondary Axis setting
 - Setup: Loading spinner while GPS data and astrometry settings are being loaded
 
 ### Changed
@@ -14,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Image History: Layout adjustments
 - Stellarium: View now syncs to mount position on load when mount is connected
 - Setup: Confirm button disabled during data loading to prevent premature confirmation
+- Camera: Remove minimum cooling time
+- Camera: Remove minimum warming time
 
 ### Fixed
 - Flat Wizard: Slew to zenith

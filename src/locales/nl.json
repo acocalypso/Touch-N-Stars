@@ -356,6 +356,8 @@
         "trackingMode": "Tracking Mode",
         "manuellControl": "Manuele controle",
         "slewRate": "Slew snelheid °/s",
+        "slewRateINDI": "Bewegingssnelheid",
+        "reverse_axis": "Asrichting",
         "siderial": "Sidereal",
         "sync_coordinates_to_mount": "Sync coordinaten met montering",
         "errors": {
@@ -394,7 +396,9 @@
           "post_flip_actions": "Acties na de flip"
         },
         "meridian_flip_settings": "Meridiaan-instellingen",
-        "telescope_settle_time": "Settle tijd na slew(s)"
+        "telescope_settle_time": "Settle tijd na slew(s)",
+        "reverse_primary_axis": "Primaire as omkeren",
+        "reverse_secondary_axis": "Secundaire as omkeren"
       }
     },
     "guider": {

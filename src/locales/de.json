@@ -342,6 +342,8 @@
         "trackingMode": "Nachführungsmodus",
         "manuellControl": "Manuelle Bedienung",
         "slewRate": "Bewegungsrate °/s",
+        "slewRateINDI": "Schwenkgeschwindigkeit",
+        "reverse_axis": "Achsenrichtung",
         "siderial": "Siderisch",
         "errors": {
           "unpark": "Fehler beim Ausparken der Montierung",
@@ -394,7 +396,9 @@
           "post_flip_actions": "Aktionen nach dem Flip"
         },
         "meridian_flip_settings": "Meridian-Einstellungen",
-        "telescope_settle_time": "Einschwingzeit nach Schwenken (s)"
+        "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
+        "reverse_primary_axis": "Primärachse umkehren",
+        "reverse_secondary_axis": "Sekundärachse umkehren"
       }
     },
     "guider": {

@@ -395,7 +395,8 @@
           "UseSideOfPier": "Use side of pier",
           "AutoFocusAfterFlip": "Auto focus after flip",
           "RotateImageAfterFlip": "Rotate image after flip"
-        }
+        },
+        "reverse_primary_axis": "Primary reversed"
       }
     },
     "guider": {

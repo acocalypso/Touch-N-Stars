@@ -356,6 +356,8 @@
         "trackingMode": "Modo de rastreamento",
         "manuellControl": "Controle manual",
         "slewRate": "Taxa de movimento °/s",
+        "slewRateINDI": "Velocidade de movimento",
+        "reverse_axis": "Direção dos eixos",
         "siderial": "Sideral",
         "sync_coordinates_to_mount": "Sincronizar coordenadas com montagem",
         "errors": {
@@ -394,7 +396,9 @@
           "post_flip_actions": "Ações pós-inversão"
         },
         "telescope_settle_time": "Tempo de liquidação após a(s) rotação(ões)",
-        "meridian_flip_settings": "Configurações do Meridiano"
+        "meridian_flip_settings": "Configurações do Meridiano",
+        "reverse_primary_axis": "Inverter eixo primário",
+        "reverse_secondary_axis": "Inverter eixo secundário"
       }
     },
     "guider": {

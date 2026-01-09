@@ -356,6 +356,8 @@
         "trackingMode": "Modalità inseguimento",
         "manuellControl": "Controllo manuale",
         "slewRate": "Velocità spostamento °/s",
+        "slewRateINDI": "Velocità di movimento",
+        "reverse_axis": "Direzione assi",
         "siderial": "Siderale",
         "sync_coordinates_to_mount": "Sincronizza coordinate con montatura",
         "errors": {
@@ -394,7 +396,9 @@
           "post_flip_actions": "Azioni post-giro"
         },
         "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
-        "meridian_flip_settings": "Impostazioni dei meridiani"
+        "meridian_flip_settings": "Impostazioni dei meridiani",
+        "reverse_primary_axis": "Inverti asse primario",
+        "reverse_secondary_axis": "Inverti asse secondario"
       }
     },
     "guider": {

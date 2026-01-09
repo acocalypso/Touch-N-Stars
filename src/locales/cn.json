@@ -357,6 +357,8 @@
         "trackingMode": "跟踪模式",
         "manuellControl": "手动控制",
         "slewRate": "转动速率 °/秒",
+        "slewRateINDI": "运动速度",
+        "reverse_axis": "轴向方向",
         "siderial": "恒星时",
         "sync_coordinates_to_mount": "与赤道仪同步坐标",
         "errors": {
@@ -395,7 +397,9 @@
           "post_flip_actions": "Post-flip actions"
         },
         "telescope_settle_time": "Settle time after slew (s)",
-        "meridian_flip_settings": "Meridian-Settings"
+        "meridian_flip_settings": "Meridian-Settings",
+        "reverse_primary_axis": "反转主轴",
+        "reverse_secondary_axis": "反转副轴"
       }
     },
     "guider": {

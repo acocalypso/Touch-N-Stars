@@ -363,7 +363,8 @@
           "tracking": "Error setting tracking mode"
         },
         "setLocationSyncToMount": "Set \"Sync to telescope\"",
-        "slewRateINDI": "Slewspeed"
+        "slewRateINDI": "Slewspeed",
+        "reverse_axis": "Axis direction"
       },
       "info": {
         "notConnected": "Please connect mount",
@@ -395,7 +396,9 @@
           "UseSideOfPier": "Use side of pier",
           "AutoFocusAfterFlip": "Auto focus after flip",
           "RotateImageAfterFlip": "Rotate image after flip"
-        }
+        },
+        "reverse_primary_axis": "Primary reversed",
+        "reverse_secondary_axis": "Secondary reverse"
       },
       "config": {
         "settings": "Mount Settings",

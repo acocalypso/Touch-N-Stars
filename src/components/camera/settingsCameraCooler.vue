@@ -63,7 +63,7 @@
             v-model="cameraStore.coolingTime"
             :label="$t('components.camera.cooling_time')"
             labelKey="components.camera.cooling_time"
-            :min="1"
+            :min="0"
             :max="300"
             :step="1"
             :decimalPlaces="0"
@@ -93,7 +93,7 @@
             v-model="cameraStore.warmingTime"
             :label="$t('components.camera.warm_up_time')"
             labelKey="components.camera.warm_up_time"
-            :min="1"
+            :min="0"
             :max="300"
             :step="1"
             :decimalPlaces="0"
@@ -190,9 +190,6 @@ const coolerStatusText = computed(() => {
 
 async function setCoolingTime() {
   try {
-    if (cameraStore.coolingTime <= 1) {
-      cameraStore.coolingTime = 1;
-    }
     const response = await apiService.profileChangeValue(
       'CameraSettings-CoolingDuration',
       cameraStore.coolingTime
@@ -205,9 +202,6 @@ async function setCoolingTime() {
 
 async function setWarmingTime() {
   try {
-    if (cameraStore.warmingTime <= 1) {
-      cameraStore.warmingTime = 1;
-    }
     const response = await apiService.profileChangeValue(
       'CameraSettings-WarmingDuration',
       cameraStore.warmingTime

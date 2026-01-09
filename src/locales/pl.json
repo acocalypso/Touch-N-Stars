@@ -356,6 +356,8 @@
         "trackingMode": "Tryb śledzenia",
         "manuellControl": "Sterowanie ręczne",
         "slewRate": "Prędkość obrotu °/s",
+        "slewRateINDI": "Prędkość ruchu",
+        "reverse_axis": "Kierunek osi",
         "siderial": "Gwiezdny",
         "sync_coordinates_to_mount": "Synchronizuj współrzędne z montażem",
         "errors": {
@@ -394,7 +396,9 @@
           "post_flip_actions": "Działania po przewróceniu"
         },
         "telescope_settle_time": "Czas ustalenia po zaostrzeniu (s)",
-        "meridian_flip_settings": "Ustawienia południka"
+        "meridian_flip_settings": "Ustawienia południka",
+        "reverse_primary_axis": "Odwróć oś główną",
+        "reverse_secondary_axis": "Odwróć oś drugorzędną"
       }
     },
     "guider": {

@@ -356,6 +356,8 @@
         "trackingMode": "Mode de suivi",
         "manuellControl": "Contrôle manuel",
         "slewRate": "Vitesse de déplacement °/s",
+        "slewRateINDI": "Vitesse de balayage",
+        "reverse_axis": "Direction des axes",
         "siderial": "Sidéral",
         "sync_coordinates_to_mount": "Synchroniser les coordonnées avec la monture",
         "errors": {
@@ -394,7 +396,9 @@
           "post_flip_actions": "Actions post-retournement"
         },
         "telescope_settle_time": "Temps de stabilisation après le(s) balayage(s)",
-        "meridian_flip_settings": "Paramètres méridiens"
+        "meridian_flip_settings": "Paramètres méridiens",
+        "reverse_primary_axis": "Inverser l'axe primaire",
+        "reverse_secondary_axis": "Inverser l'axe secondaire"
       }
     },
     "guider": {

@@ -8,6 +8,7 @@
 import { onMounted, ref, watch, computed } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
+import { timeSync } from '@/utils/timeSync';
 
 Chart.register(...registerables);
 
@@ -28,7 +29,7 @@ const canvasRef = ref(null);
 let chartInstance = null;
 
 const baseTime = computed(() => {
-  const now = new Date();
+  const now = new Date(timeSync.getServerTime());
   return new Date(now.getTime() - 12 * 60 * 60 * 1000); // Startzeit = 12h vor jetzt
 });
 

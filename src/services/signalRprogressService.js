@@ -3,14 +3,13 @@ import { useSettingsStore } from '../store/settingsStore';
 
 const backendProtokol = 'http';
 const backendPort = 4782; // NINA server port
-const backendPfad = '/hubs/notifications';
+const backendPfad = '/hubs/progress';
 
-class SignalRNotificationService {
+class SignalRProgressService {
   constructor() {
     this.connection = null;
     this.statusCallback = null;
-    this.messageCallback = null;
-    this.notificationCallback = null;
+    this.progressCallback = null;
     this.reconnectDelay = 2000; // 2 Sekunden
     this.shouldReconnect = true;
     this.isConnected = false;
@@ -22,39 +21,8 @@ class SignalRNotificationService {
     this.statusCallback = callback;
   }
 
-  setMessageCallback(callback) {
-    this.messageCallback = callback;
-  }
-
-  setNotificationCallback(callback) {
-    this.notificationCallback = callback;
-  }
-
-  parseTimespan(timespan) {
-    // Parse ISO 8601 duration or HH:MM:SS format
-    if (typeof timespan !== 'string') return 5000;
-
-    // ISO 8601 format: PT5S, PT1M30S, etc.
-    const iso8601Regex = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?$/;
-    const match = timespan.match(iso8601Regex);
-
-    if (match) {
-      const hours = parseInt(match[1] || 0);
-      const minutes = parseInt(match[2] || 0);
-      const seconds = parseFloat(match[3] || 0);
-      return (hours * 3600 + minutes * 60 + seconds) * 1000;
-    }
-
-    // HH:MM:SS format
-    const parts = timespan.split(':');
-    if (parts.length === 3) {
-      const h = parseInt(parts[0]);
-      const m = parseInt(parts[1]);
-      const s = parseInt(parts[2]);
-      return (h * 3600 + m * 60 + s) * 1000;
-    }
-
-    return 5000; // Default 5 seconds
+  setProgressCallback(callback) {
+    this.progressCallback = callback;
   }
 
   connect() {
@@ -66,7 +34,7 @@ class SignalRNotificationService {
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
       this.url = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-      console.log('[SignalRNotificationService] Connecting to SignalR at:', this.url);
+      console.log('[SignalRProgressService] Connecting to SignalR at:', this.url);
 
       try {
         this.connection = new signalR.HubConnectionBuilder()
@@ -74,39 +42,30 @@ class SignalRNotificationService {
           .withAutomaticReconnect([1000, 3000, 5000, 10000, 30000])
           .build();
 
-        // Event Handler für Notifications
-        this.connection.on('ReceiveNotification', (notification) => {
-          //console.log('[SignalRNotificationService] Received notification:', notification);
-
-          const notifObj = {
-            ...notification,
-            id: Date.now() + Math.random(),
-            timestamp: new Date(notification.timestamp),
+        // Event Handler für Progress Updates
+        this.connection.on('ReceiveProgress', (progressMessage) => {
+          //console.log('Received progress:', progressMessage);
+          const progressObj = {
+            source: progressMessage.source,
+            status: progressMessage.status,
+            progress: progressMessage.progress,
+            maxProgress: progressMessage.maxProgress,
+            progress2: progressMessage.progress2,
+            maxProgress2: progressMessage.maxProgress2,
+            progress3: progressMessage.progress3,
+            maxProgress3: progressMessage.maxProgress3,
+            timestamp: new Date(progressMessage.timestamp),
           };
 
-          // Callback für Notification aufrufen (wenn gesetzt)
-          if (this.notificationCallback) {
-            this.notificationCallback(notifObj);
-          }
-
-          // Generischer Message Callback (wenn gesetzt)
-          if (this.messageCallback) {
-            this.messageCallback(notifObj);
-          }
-
-          // Auto-remove handling (optional - Callback muss selbst implementieren)
-          if (notification.lifetime) {
-            const lifetimeMs = this.parseTimespan(notification.lifetime);
-            // Weitergeben der Lifetime-Info
-            if (this.notificationCallback) {
-              notifObj.lifetimeMs = lifetimeMs;
-            }
+          // Callback für Progress aufrufen (wenn gesetzt)
+          if (this.progressCallback) {
+            this.progressCallback(progressObj);
           }
         });
 
         // Reconnection Events
         this.connection.onreconnected(() => {
-          console.log('[SignalRNotificationService] SignalR reconnected');
+          console.log('[SignalRProgressService] SignalR reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
             this.statusCallback('Reconnected');
@@ -114,7 +73,7 @@ class SignalRNotificationService {
         });
 
         this.connection.onreconnecting(() => {
-          console.log('[SignalRNotificationService] SignalR reconnecting...');
+          console.log('[SignalRProgressService] SignalR reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
             this.statusCallback('Reconnecting');
@@ -122,7 +81,7 @@ class SignalRNotificationService {
         });
 
         this.connection.onclose((error) => {
-          console.log('[SignalRNotificationService] SignalR connection closed', error);
+          console.log('[SignalRProgressService] SignalR connection closed', error);
           this.isConnected = false;
 
           if (this.statusCallback) {
@@ -132,7 +91,7 @@ class SignalRNotificationService {
           // Manual reconnect wenn shouldReconnect true ist
           if (this.shouldReconnect && !error) {
             console.log(
-              `[SignalRNotificationService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
+              `[SignalRProgressService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
             this.reconnectTimeoutId = setTimeout(() => {
               this.reconnectTimeoutId = null;
@@ -140,11 +99,11 @@ class SignalRNotificationService {
               if (this.shouldReconnect) {
                 this.connect()
                   .then(() => {
-                    console.log('[SignalRNotificationService] SignalR successfully reconnected');
+                    console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
                   .catch((error) => {
                     console.warn(
-                      '[SignalRNotificationService] SignalR reconnect failed:',
+                      '[SignalRProgressService] SignalR reconnect failed:',
                       error.message
                     );
                   });
@@ -157,7 +116,7 @@ class SignalRNotificationService {
         this.connection
           .start()
           .then(() => {
-            console.log('[SignalRNotificationService] SignalR connected for notifications');
+            console.log('[SignalRProgressService] SignalR connected for progress updates');
             this.isConnected = true;
             if (this.statusCallback) {
               this.statusCallback('Connected');
@@ -165,7 +124,7 @@ class SignalRNotificationService {
             resolve();
           })
           .catch((err) => {
-            console.error('[SignalRNotificationService] SignalR connection error:', err);
+            console.error('[SignalRProgressService] SignalR connection error:', err);
             this.isConnected = false;
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
@@ -173,7 +132,7 @@ class SignalRNotificationService {
             reject(err);
           });
       } catch (err) {
-        console.error('[SignalRNotificationService] SignalR setup error:', err);
+        console.error('[SignalRProgressService] SignalR setup error:', err);
         reject(err);
       }
     });
@@ -193,11 +152,11 @@ class SignalRNotificationService {
       return this.connection
         .stop()
         .then(() => {
-          console.log('[SignalRNotificationService] SignalR disconnected');
+          console.log('[SignalRProgressService] SignalR disconnected');
           this.connection = null;
         })
         .catch((err) => {
-          console.error('[SignalRNotificationService] Error disconnecting SignalR:', err);
+          console.error('[SignalRProgressService] Error disconnecting SignalR:', err);
           this.connection = null;
         });
     }
@@ -210,10 +169,10 @@ class SignalRNotificationService {
       return this.connection
         .invoke(methodName, ...args)
         .then(() => {
-          console.log('[SignalRNotificationService] SignalR message sent:', methodName, args);
+          console.log('[SignalRProgressService] SignalR message sent:', methodName, args);
         })
         .catch((err) => {
-          console.error('[SignalRNotificationService] Error sending SignalR message:', err);
+          console.error('[SignalRProgressService] Error sending SignalR message:', err);
           if (this.statusCallback) {
             this.statusCallback('Error: Failed to send message');
           }
@@ -221,11 +180,11 @@ class SignalRNotificationService {
         });
     } else {
       const error = new Error(
-        '[SignalRNotificationService] SignalR is not connected. Message could not be sent.'
+        '[SignalRProgressService] SignalR is not connected. Message could not be sent.'
       );
       console.error(error.message);
       if (this.statusCallback) {
-        this.statusCallback('[SignalRNotificationService] Error: SignalR not connected');
+        this.statusCallback('[SignalRProgressService] Error: SignalR not connected');
       }
       return Promise.reject(error);
     }
@@ -251,5 +210,5 @@ class SignalRNotificationService {
   }
 }
 
-const signalRNotificationService = new SignalRNotificationService();
-export default signalRNotificationService;
+const signalRProgressService = new SignalRProgressService();
+export default signalRProgressService;

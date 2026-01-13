@@ -44,8 +44,7 @@ class SignalRProgressService {
 
         // Event Handler für Progress Updates
         this.connection.on('ReceiveProgress', (progressMessage) => {
-          console.log('Received progress:', progressMessage);
-
+          //console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
             status: progressMessage.status,
@@ -66,7 +65,7 @@ class SignalRProgressService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
-          console.log('SignalR reconnected');
+          console.log('[SignalRProgressService] SignalR reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
             this.statusCallback('Reconnected');
@@ -74,7 +73,7 @@ class SignalRProgressService {
         });
 
         this.connection.onreconnecting(() => {
-          console.log('SignalR reconnecting...');
+          console.log('[SignalRProgressService] SignalR reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
             this.statusCallback('Reconnecting');
@@ -82,7 +81,7 @@ class SignalRProgressService {
         });
 
         this.connection.onclose((error) => {
-          console.log('SignalR connection closed', error);
+          console.log('[SignalRProgressService] SignalR connection closed', error);
           this.isConnected = false;
 
           if (this.statusCallback) {
@@ -92,7 +91,7 @@ class SignalRProgressService {
           // Manual reconnect wenn shouldReconnect true ist
           if (this.shouldReconnect && !error) {
             console.log(
-              `SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
+              `[SignalRProgressService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
             this.reconnectTimeoutId = setTimeout(() => {
               this.reconnectTimeoutId = null;
@@ -100,10 +99,10 @@ class SignalRProgressService {
               if (this.shouldReconnect) {
                 this.connect()
                   .then(() => {
-                    console.log('SignalR successfully reconnected');
+                    console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
                   .catch((error) => {
-                    console.warn('SignalR reconnect failed:', error.message);
+                    console.warn('[SignalRProgressService] SignalR reconnect failed:', error.message);
                   });
               }
             }, this.reconnectDelay);
@@ -114,7 +113,7 @@ class SignalRProgressService {
         this.connection
           .start()
           .then(() => {
-            console.log('SignalR connected for progress updates');
+            console.log('[SignalRProgressService] SignalR connected for progress updates');
             this.isConnected = true;
             if (this.statusCallback) {
               this.statusCallback('Connected');
@@ -122,7 +121,7 @@ class SignalRProgressService {
             resolve();
           })
           .catch((err) => {
-            console.error('SignalR connection error:', err);
+            console.error('[SignalRProgressService] SignalR connection error:', err);
             this.isConnected = false;
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
@@ -130,7 +129,7 @@ class SignalRProgressService {
             reject(err);
           });
       } catch (err) {
-        console.error('SignalR setup error:', err);
+        console.error('[SignalRProgressService] SignalR setup error:', err);
         reject(err);
       }
     });
@@ -167,20 +166,20 @@ class SignalRProgressService {
       return this.connection
         .invoke(methodName, ...args)
         .then(() => {
-          console.log('SignalR message sent:', methodName, args);
+          console.log('[SignalRProgressService] SignalR message sent:', methodName, args);
         })
         .catch((err) => {
-          console.error('Error sending SignalR message:', err);
+          console.error('[SignalRProgressService] Error sending SignalR message:', err);
           if (this.statusCallback) {
             this.statusCallback('Error: Failed to send message');
           }
           throw err;
         });
     } else {
-      const error = new Error('SignalR is not connected. Message could not be sent.');
+      const error = new Error('[SignalRProgressService] SignalR is not connected. Message could not be sent.');
       console.error(error.message);
       if (this.statusCallback) {
-        this.statusCallback('Error: SignalR not connected');
+        this.statusCallback('[SignalRProgressService] Error: SignalR not connected');
       }
       return Promise.reject(error);
     }

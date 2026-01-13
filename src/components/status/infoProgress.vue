@@ -57,7 +57,6 @@ const progressItems = ref([]);
 const handleProgress = (progressObj) => {
   const existingIndex = progressItems.value.findIndex((p) => p.source === progressObj.source);
 
-  // Wenn status null oder undefined ist, entferne das Item sofort
   if (progressObj.status === null || progressObj.status === undefined || progressObj.status === '') {
     if (existingIndex >= 0) {
       progressItems.value.splice(existingIndex, 1);
@@ -65,7 +64,6 @@ const handleProgress = (progressObj) => {
     return;
   }
 
-  // Aktualisiere oder füge Items hinzu (wenn status gültig)
   if (existingIndex >= 0) {
     progressItems.value[existingIndex] = progressObj;
   } else {

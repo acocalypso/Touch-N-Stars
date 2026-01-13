@@ -322,7 +322,7 @@
       <InfoFilterwheel class="p-5" />
     </div>
 
-    <div
+    <div v-if="store.isPINS"
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"

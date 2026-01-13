@@ -280,6 +280,7 @@ import ImageModal from '@/components/helpers/imageModal.vue';
 import MountButton from '@/components/helpers/quickAccessButtons/MountButton.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { timeSync } from '@/utils/timeSync';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -355,7 +356,7 @@ function convertDMSToDecimal(dms) {
 }
 
 function getCurrentTime() {
-  const now = new Date();
+  const now = new Date(timeSync.getServerTime());
   return now.toLocaleTimeString();
 }
 

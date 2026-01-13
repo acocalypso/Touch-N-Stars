@@ -102,7 +102,10 @@ class SignalRProgressService {
                     console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
                   .catch((error) => {
-                    console.warn('[SignalRProgressService] SignalR reconnect failed:', error.message);
+                    console.warn(
+                      '[SignalRProgressService] SignalR reconnect failed:',
+                      error.message
+                    );
                   });
               }
             }, this.reconnectDelay);
@@ -176,7 +179,9 @@ class SignalRProgressService {
           throw err;
         });
     } else {
-      const error = new Error('[SignalRProgressService] SignalR is not connected. Message could not be sent.');
+      const error = new Error(
+        '[SignalRProgressService] SignalR is not connected. Message could not be sent.'
+      );
       console.error(error.message);
       if (this.statusCallback) {
         this.statusCallback('[SignalRProgressService] Error: SignalR not connected');

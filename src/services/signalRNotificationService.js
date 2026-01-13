@@ -76,7 +76,7 @@ class SignalRNotificationService {
 
         // Event Handler für Notifications
         this.connection.on('ReceiveNotification', (notification) => {
-          console.log('Received notification:', notification);
+          //console.log('[SignalRNotificationService] Received notification:', notification);
 
           const notifObj = {
             ...notification,
@@ -106,7 +106,7 @@ class SignalRNotificationService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
-          console.log('SignalR reconnected');
+          console.log('[SignalRNotificationService] SignalR reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
             this.statusCallback('Reconnected');
@@ -114,7 +114,7 @@ class SignalRNotificationService {
         });
 
         this.connection.onreconnecting(() => {
-          console.log('SignalR reconnecting...');
+          console.log('[SignalRNotificationService] SignalR reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
             this.statusCallback('Reconnecting');
@@ -122,7 +122,7 @@ class SignalRNotificationService {
         });
 
         this.connection.onclose((error) => {
-          console.log('SignalR connection closed', error);
+          console.log('[SignalRNotificationService] SignalR connection closed', error);
           this.isConnected = false;
 
           if (this.statusCallback) {
@@ -132,7 +132,7 @@ class SignalRNotificationService {
           // Manual reconnect wenn shouldReconnect true ist
           if (this.shouldReconnect && !error) {
             console.log(
-              `SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
+              `[SignalRNotificationService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
             this.reconnectTimeoutId = setTimeout(() => {
               this.reconnectTimeoutId = null;
@@ -140,10 +140,10 @@ class SignalRNotificationService {
               if (this.shouldReconnect) {
                 this.connect()
                   .then(() => {
-                    console.log('SignalR successfully reconnected');
+                    console.log('[SignalRNotificationService] SignalR successfully reconnected');
                   })
                   .catch((error) => {
-                    console.warn('SignalR reconnect failed:', error.message);
+                    console.warn('[SignalRNotificationService] SignalR reconnect failed:', error.message);
                   });
               }
             }, this.reconnectDelay);
@@ -154,7 +154,7 @@ class SignalRNotificationService {
         this.connection
           .start()
           .then(() => {
-            console.log('SignalR connected for notifications');
+            console.log('[SignalRNotificationService] SignalR connected for notifications');
             this.isConnected = true;
             if (this.statusCallback) {
               this.statusCallback('Connected');
@@ -162,7 +162,7 @@ class SignalRNotificationService {
             resolve();
           })
           .catch((err) => {
-            console.error('SignalR connection error:', err);
+            console.error('[SignalRNotificationService] SignalR connection error:', err);
             this.isConnected = false;
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
@@ -170,7 +170,7 @@ class SignalRNotificationService {
             reject(err);
           });
       } catch (err) {
-        console.error('SignalR setup error:', err);
+        console.error('[SignalRNotificationService] SignalR setup error:', err);
         reject(err);
       }
     });
@@ -207,20 +207,20 @@ class SignalRNotificationService {
       return this.connection
         .invoke(methodName, ...args)
         .then(() => {
-          console.log('SignalR message sent:', methodName, args);
+          console.log('[SignalRNotificationService] SignalR message sent:', methodName, args);
         })
         .catch((err) => {
-          console.error('Error sending SignalR message:', err);
+          console.error('[SignalRNotificationService] Error sending SignalR message:', err);
           if (this.statusCallback) {
             this.statusCallback('Error: Failed to send message');
           }
           throw err;
         });
     } else {
-      const error = new Error('SignalR is not connected. Message could not be sent.');
+      const error = new Error('[SignalRNotificationService] SignalR is not connected. Message could not be sent.');
       console.error(error.message);
       if (this.statusCallback) {
-        this.statusCallback('Error: SignalR not connected');
+        this.statusCallback('[SignalRNotificationService] Error: SignalR not connected');
       }
       return Promise.reject(error);
     }

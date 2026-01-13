@@ -328,7 +328,7 @@
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
       v-show="showProgress"
     >
-      <infoProgress class="p-5" />
+      <infoProgress class="" />
     </div>
 
   </div>

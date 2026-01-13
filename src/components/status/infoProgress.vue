@@ -57,7 +57,11 @@ const progressItems = ref([]);
 const handleProgress = (progressObj) => {
   const existingIndex = progressItems.value.findIndex((p) => p.source === progressObj.source);
 
-  if (progressObj.status === null || progressObj.status === undefined || progressObj.status === '') {
+  if (
+    progressObj.status === null ||
+    progressObj.status === undefined ||
+    progressObj.status === ''
+  ) {
     if (existingIndex >= 0) {
       progressItems.value.splice(existingIndex, 1);
     }

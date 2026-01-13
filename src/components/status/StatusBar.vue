@@ -212,6 +212,32 @@
       </svg>
       <span class="text-sm">{{ store.weatherInfo.Temperature.toFixed(1) }}°C</span>
     </button>
+    <!--Progress -->
+    <button
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': showProgress,
+      }"
+      @click.stop.prevent="handleProgressClick"
+    >
+      <svg
+        class="w-5 h-5"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M10 20.777a8.942 8.942 0 0 1 -2.48 -.969" />
+        <path d="M14 3.223a9.003 9.003 0 0 1 0 17.554" />
+        <path d="M4.579 17.093a8.961 8.961 0 0 1 -1.227 -2.592" />
+        <path d="M3.124 10.5c.16 -.95 .468 -1.85 .9 -2.675l.169 -.305" />
+        <path d="M6.907 4.579a8.954 8.954 0 0 1 3.093 -1.356" />
+      </svg>
+    </button>
     <!--Log -->
     <div>
       <button
@@ -295,6 +321,16 @@
     >
       <InfoFilterwheel class="p-5" />
     </div>
+
+    <div
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="showProgress"
+    >
+      <infoProgress class="p-5" />
+    </div>
+
   </div>
 </template>
 
@@ -315,10 +351,12 @@ import { useOrientation } from '@/composables/useOrientation';
 import infoCamera from '../camera/infoCamera.vue';
 import infoMount from '../mount/infoMount.vue';
 import InfoFilterwheel from '../filterwheel/InfoFilterwheel.vue';
+import infoProgress from './infoProgress.vue';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
+const showProgress = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
@@ -390,6 +428,7 @@ function handleCameraClick() {
     guiderStore.showGuiderGraph = false;
     mountStore.showMountInfo = false;
     filterStore.showFilterwheelInfo = false;
+    showProgress.value = false;
   }
 }
 
@@ -399,6 +438,7 @@ function handleGuiderClick() {
     cameraStore.showCameraInfo = false;
     mountStore.showMountInfo = false;
     filterStore.showFilterwheelInfo = false;
+    showProgress.value = false;
   }
 }
 
@@ -408,6 +448,7 @@ function handleMountClick() {
     cameraStore.showCameraInfo = false;
     guiderStore.showGuiderGraph = false;
     filterStore.showFilterwheelInfo = false;
+    showProgress.value = false;
   }
 }
 
@@ -417,6 +458,17 @@ function handleFilterClick() {
     cameraStore.showCameraInfo = false;
     guiderStore.showGuiderGraph = false;
     mountStore.showMountInfo = false;
+    showProgress.value = false;
+  }
+}
+
+function handleProgressClick() {
+  showProgress.value = !showProgress.value;
+  if (showProgress.value) {
+    cameraStore.showCameraInfo = false;
+    guiderStore.showGuiderGraph = false;
+    mountStore.showMountInfo = false;
+    filterStore.showFilterwheelInfo = false;
   }
 }
 </script>

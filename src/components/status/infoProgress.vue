@@ -63,28 +63,49 @@ import { apiStore } from '@/store/store';
 import signalRProgressService from '@/services/signalRprogressService';
 
 const progressItems = ref([]);
+const removeTimeouts = ref(new Map());
 
 const handleProgress = (progressObj) => {
-  // Prüfe ob Progress abgeschlossen ist (alle Progress-Werte sind >= maxProgress oder < 0)
-  const isCompleted =
-    (progressObj.progress < 0 || progressObj.progress >= progressObj.maxProgress) &&
-    (progressObj.progress2 < 0 || progressObj.progress2 >= progressObj.maxProgress2) &&
-    (progressObj.progress3 < 0 || progressObj.progress3 >= progressObj.maxProgress3);
-
   const existingIndex = progressItems.value.findIndex((p) => p.source === progressObj.source);
 
-  if (isCompleted) {
-    // Entferne abgeschlossene Items
+  // Clear existing timeout for this source
+  if (removeTimeouts.value.has(progressObj.source)) {
+    clearTimeout(removeTimeouts.value.get(progressObj.source));
+    removeTimeouts.value.delete(progressObj.source);
+  }
+
+  // Wenn status null ist, entferne das Item
+  if (progressObj.status === null) {
     if (existingIndex >= 0) {
       progressItems.value.splice(existingIndex, 1);
     }
+    return;
+  }
+
+  // Aktualisiere oder füge Items hinzu (wenn status nicht null)
+  if (existingIndex >= 0) {
+    progressItems.value[existingIndex] = progressObj;
   } else {
-    // Aktualisiere oder füge laufende Items hinzu
-    if (existingIndex >= 0) {
-      progressItems.value[existingIndex] = progressObj;
-    } else {
-      progressItems.value.push(progressObj);
-    }
+    progressItems.value.push(progressObj);
+  }
+
+  // Prüfe ob mindestens ein Progress läuft (>= 0 und < maxProgress)
+  const isRunning =
+    (progressObj.progress >= 0 && progressObj.progress < progressObj.maxProgress) ||
+    (progressObj.progress2 >= 0 && progressObj.progress2 < progressObj.maxProgress2) ||
+    (progressObj.progress3 >= 0 && progressObj.progress3 < progressObj.maxProgress3);
+
+  // Wenn nicht mehr laufend, setze Timeout zum Entfernen nach 30 Sekunden
+  if (!isRunning) {
+    const timeoutId = setTimeout(() => {
+      const idx = progressItems.value.findIndex((p) => p.source === progressObj.source);
+      if (idx >= 0) {
+        progressItems.value.splice(idx, 1);
+      }
+      removeTimeouts.value.delete(progressObj.source);
+    }, 30000);
+
+    removeTimeouts.value.set(progressObj.source, timeoutId);
   }
 };
 
@@ -100,5 +121,9 @@ onMounted(() => {
 
 onUnmounted(() => {
   signalRProgressService.setProgressCallback(null);
+
+  // Clear all timeouts
+  removeTimeouts.value.forEach((timeoutId) => clearTimeout(timeoutId));
+  removeTimeouts.value.clear();
 });
 </script>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+  <g fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Outer frame -->
+    <rect x="2.5" y="2.5" width="19" height="19" rx="0.8"/>
+    <!-- Connection lines (network path) -->
+    <path d="M12 5.2 L6.6 9.6 L6.6 16.8 L12 19.0 L18.0 15.9 L18.0 7.4 L12 5.2 Z"/>
+    <path d="M12 5.2 L18.0 7.4"/>
+    <path d="M12 19.0 L12 15.0"/>
+    <!-- Central target -->
+    <circle cx="12" cy="12" r="3.2"/>
+    <!-- Nodes -->
+    <circle cx="12" cy="5.2" r="1.4"/>
+    <circle cx="18.0" cy="7.4" r="1.4"/>
+    <circle cx="6.6" cy="9.6" r="1.4"/>
+    <circle cx="6.6" cy="16.8" r="1.4"/>
+    <circle cx="12" cy="19.0" r="1.2"/>
+    <circle cx="18.0" cy="15.9" r="1.2"/>
+  </g>
+</svg>

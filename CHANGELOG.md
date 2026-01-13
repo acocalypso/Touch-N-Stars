@@ -15,9 +15,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
 - Image History: Layout adjustments
 - Stellarium: View now syncs to mount position on load when mount is connected
+- Stellarium: Now uses server time instead of client time for accurate time display
 - Setup: Confirm button disabled during data loading to prevent premature confirmation
 - Camera: Remove minimum cooling time
 - Camera: Remove minimum warming time
+- Time Synchronization: All astronomical calculations (Sidereal Time, object altitude, Stellarium) now use server time for consistency
+- TPPA: Time display now uses server time
+- LiveStack: "Last Updated" timestamp now uses server time
 
 ### Fixed
 - Flat Wizard: Slew to zenith

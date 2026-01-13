@@ -1,0 +1,210 @@
+import * as signalR from '@microsoft/signalr';
+import { useSettingsStore } from '../store/settingsStore';
+
+const backendProtokol = 'http';
+const backendPort = 4782; // NINA server port
+const backendPfad = '/hubs/progress';
+
+class SignalRProgressService {
+  constructor() {
+    this.connection = null;
+    this.statusCallback = null;
+    this.progressCallback = null;
+    this.reconnectDelay = 2000; // 2 Sekunden
+    this.shouldReconnect = true;
+    this.isConnected = false;
+    this.reconnectTimeoutId = null;
+    this.url = null;
+  }
+
+  setStatusCallback(callback) {
+    this.statusCallback = callback;
+  }
+
+  setProgressCallback(callback) {
+    this.progressCallback = callback;
+  }
+
+  connect() {
+    return new Promise((resolve, reject) => {
+      // Setze shouldReconnect auf true bei jedem Connect-Versuch
+      this.shouldReconnect = true;
+
+      const settingsStore = useSettingsStore();
+      const backendHost = settingsStore.connection.ip || window.location.hostname;
+
+      this.url = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
+      console.log('[SignalRProgressService] Connecting to SignalR at:', this.url);
+
+      try {
+        this.connection = new signalR.HubConnectionBuilder()
+          .withUrl(this.url, { withCredentials: false })
+          .withAutomaticReconnect([1000, 3000, 5000, 10000, 30000])
+          .build();
+
+        // Event Handler für Progress Updates
+        this.connection.on('ReceiveProgress', (progressMessage) => {
+          console.log('Received progress:', progressMessage);
+
+          const progressObj = {
+            source: progressMessage.source,
+            status: progressMessage.status,
+            progress: progressMessage.progress,
+            maxProgress: progressMessage.maxProgress,
+            progress2: progressMessage.progress2,
+            maxProgress2: progressMessage.maxProgress2,
+            progress3: progressMessage.progress3,
+            maxProgress3: progressMessage.maxProgress3,
+            timestamp: new Date(progressMessage.timestamp),
+          };
+
+          // Callback für Progress aufrufen (wenn gesetzt)
+          if (this.progressCallback) {
+            this.progressCallback(progressObj);
+          }
+        });
+
+        // Reconnection Events
+        this.connection.onreconnected(() => {
+          console.log('SignalR reconnected');
+          this.isConnected = true;
+          if (this.statusCallback) {
+            this.statusCallback('Reconnected');
+          }
+        });
+
+        this.connection.onreconnecting(() => {
+          console.log('SignalR reconnecting...');
+          this.isConnected = false;
+          if (this.statusCallback) {
+            this.statusCallback('Reconnecting');
+          }
+        });
+
+        this.connection.onclose((error) => {
+          console.log('SignalR connection closed', error);
+          this.isConnected = false;
+
+          if (this.statusCallback) {
+            this.statusCallback('Closed');
+          }
+
+          // Manual reconnect wenn shouldReconnect true ist
+          if (this.shouldReconnect && !error) {
+            console.log(
+              `SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
+            );
+            this.reconnectTimeoutId = setTimeout(() => {
+              this.reconnectTimeoutId = null;
+
+              if (this.shouldReconnect) {
+                this.connect()
+                  .then(() => {
+                    console.log('SignalR successfully reconnected');
+                  })
+                  .catch((error) => {
+                    console.warn('SignalR reconnect failed:', error.message);
+                  });
+              }
+            }, this.reconnectDelay);
+          }
+        });
+
+        // Verbindung starten
+        this.connection
+          .start()
+          .then(() => {
+            console.log('SignalR connected for progress updates');
+            this.isConnected = true;
+            if (this.statusCallback) {
+              this.statusCallback('Connected');
+            }
+            resolve();
+          })
+          .catch((err) => {
+            console.error('SignalR connection error:', err);
+            this.isConnected = false;
+            if (this.statusCallback) {
+              this.statusCallback('Error: ' + err.message);
+            }
+            reject(err);
+          });
+      } catch (err) {
+        console.error('SignalR setup error:', err);
+        reject(err);
+      }
+    });
+  }
+
+  disconnect() {
+    this.shouldReconnect = false;
+    this.isConnected = false;
+
+    // Laufende Reconnect-Timeouts clearen
+    if (this.reconnectTimeoutId) {
+      clearTimeout(this.reconnectTimeoutId);
+      this.reconnectTimeoutId = null;
+    }
+
+    if (this.connection) {
+      return this.connection
+        .stop()
+        .then(() => {
+          console.log('[SignalRProgressService] SignalR disconnected');
+          this.connection = null;
+        })
+        .catch((err) => {
+          console.error('[SignalRProgressService] Error disconnecting SignalR:', err);
+          this.connection = null;
+        });
+    }
+    return Promise.resolve();
+  }
+
+  // Optional: Methode zum Senden von Messages an den Hub (falls benötigt)
+  sendMessage(methodName, ...args) {
+    if (this.connection && this.isConnected) {
+      return this.connection
+        .invoke(methodName, ...args)
+        .then(() => {
+          console.log('SignalR message sent:', methodName, args);
+        })
+        .catch((err) => {
+          console.error('Error sending SignalR message:', err);
+          if (this.statusCallback) {
+            this.statusCallback('Error: Failed to send message');
+          }
+          throw err;
+        });
+    } else {
+      const error = new Error('SignalR is not connected. Message could not be sent.');
+      console.error(error.message);
+      if (this.statusCallback) {
+        this.statusCallback('Error: SignalR not connected');
+      }
+      return Promise.reject(error);
+    }
+  }
+
+  // Status prüfen
+  isSignalRConnected() {
+    return (
+      this.isConnected &&
+      this.connection &&
+      this.connection.state === signalR.HubConnectionState.Connected
+    );
+  }
+
+  // Force reconnect
+  forceReconnect() {
+    if (this.connection) {
+      return this.disconnect().then(() => {
+        return this.connect();
+      });
+    }
+    return this.connect();
+  }
+}
+
+const signalRProgressService = new SignalRProgressService();
+export default signalRProgressService;

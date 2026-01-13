@@ -143,7 +143,10 @@ class SignalRNotificationService {
                     console.log('[SignalRNotificationService] SignalR successfully reconnected');
                   })
                   .catch((error) => {
-                    console.warn('[SignalRNotificationService] SignalR reconnect failed:', error.message);
+                    console.warn(
+                      '[SignalRNotificationService] SignalR reconnect failed:',
+                      error.message
+                    );
                   });
               }
             }, this.reconnectDelay);
@@ -217,7 +220,9 @@ class SignalRNotificationService {
           throw err;
         });
     } else {
-      const error = new Error('[SignalRNotificationService] SignalR is not connected. Message could not be sent.');
+      const error = new Error(
+        '[SignalRNotificationService] SignalR is not connected. Message could not be sent.'
+      );
       console.error(error.message);
       if (this.statusCallback) {
         this.statusCallback('[SignalRNotificationService] Error: SignalR not connected');

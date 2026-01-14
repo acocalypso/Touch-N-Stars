@@ -43,9 +43,8 @@ const displayItems = computed(() => {
   if (statusSlot1.value) {
     const progress = statusSlot1.value;
     if (progress.status && progress.status !== '') {
-      const percentage = progress.maxProgress > 0
-        ? (progress.progress / progress.maxProgress) * 100
-        : 0;
+      const percentage =
+        progress.maxProgress > 0 ? (progress.progress / progress.maxProgress) * 100 : 0;
       const showProgress = progress.progress >= 0;
       items.push({
         id: `slot1-${progress.timestamp.getTime()}`,
@@ -64,9 +63,8 @@ const displayItems = computed(() => {
   if (statusSlot2.value) {
     const progress = statusSlot2.value;
     if (progress.status2 && progress.status2 !== '') {
-      const percentage = progress.maxProgress2 > 0
-        ? (progress.progress2 / progress.maxProgress2) * 100
-        : 0;
+      const percentage =
+        progress.maxProgress2 > 0 ? (progress.progress2 / progress.maxProgress2) * 100 : 0;
       const showProgress = progress.progress2 >= 0;
       items.push({
         id: `slot2-${progress.timestamp.getTime()}`,
@@ -85,9 +83,8 @@ const displayItems = computed(() => {
   if (statusSlot3.value) {
     const progress = statusSlot3.value;
     if (progress.status3 && progress.status3 !== '') {
-      const percentage = progress.maxProgress3 > 0
-        ? (progress.progress3 / progress.maxProgress3) * 100
-        : 0;
+      const percentage =
+        progress.maxProgress3 > 0 ? (progress.progress3 / progress.maxProgress3) * 100 : 0;
       const showProgress = progress.progress3 >= 0;
       items.push({
         id: `slot3-${progress.timestamp.getTime()}`,

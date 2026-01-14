@@ -7,7 +7,7 @@
   </p>
   <p>
     DEC: {{ store.guiderInfo.RMSError?.Dec.Pixel.toFixed(2) }} ({{
-      store.guiderInfo?.RMSError?.RA.Arcseconds.toFixed(2)
+      store.guiderInfo?.RMSError?.Dec.Arcseconds.toFixed(2)
     }}")
   </p>
   <p>

@@ -214,6 +214,7 @@
     </button>
     <!--Progress -->
     <button
+      v-if="store.isPINS"
       class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
       :class="{
         'glow-green': showProgress,

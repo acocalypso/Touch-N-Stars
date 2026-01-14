@@ -53,12 +53,17 @@ class SignalRProgressService {
           const progressObj = {
             source: progressMessage.source,
             status: progressMessage.status,
+            status2: progressMessage.status2,
+            status3: progressMessage.status3,
             progress: progressMessage.progress,
             maxProgress: progressMessage.maxProgress,
+            progressType: progressMessage.progressType,
             progress2: progressMessage.progress2,
             maxProgress2: progressMessage.maxProgress2,
+            progressType2: progressMessage.progressType2,
             progress3: progressMessage.progress3,
             maxProgress3: progressMessage.maxProgress3,
+            progressType3: progressMessage.progressType3,
             timestamp: new Date(progressMessage.timestamp),
           };
 

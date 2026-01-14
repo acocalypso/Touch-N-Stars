@@ -10,6 +10,7 @@ class SignalRProgressService {
     this.connection = null;
     this.statusCallback = null;
     this.progressCallback = null;
+    this.reconnectCallback = null;
     this.reconnectDelay = 2000; // 2 Sekunden
     this.shouldReconnect = true;
     this.isConnected = false;
@@ -23,6 +24,10 @@ class SignalRProgressService {
 
   setProgressCallback(callback) {
     this.progressCallback = callback;
+  }
+
+  setReconnectCallback(callback) {
+    this.reconnectCallback = callback;
   }
 
   connect() {
@@ -44,7 +49,7 @@ class SignalRProgressService {
 
         // Event Handler für Progress Updates
         this.connection.on('ReceiveProgress', (progressMessage) => {
-          //console.log('Received progress:', progressMessage);
+          console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
             status: progressMessage.status,
@@ -69,6 +74,9 @@ class SignalRProgressService {
           this.isConnected = true;
           if (this.statusCallback) {
             this.statusCallback('Reconnected');
+          }
+          if (this.reconnectCallback) {
+            this.reconnectCallback();
           }
         });
 

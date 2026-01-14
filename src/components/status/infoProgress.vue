@@ -53,10 +53,32 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import signalRProgressService from '@/services/signalRprogressService';
 
 const progressItems = ref([]);
+let inactivityTimer = null;
+
+const clearAllItems = () => {
+  console.log('[infoProgress] Clearing all progress items due to inactivity');
+  progressItems.value = [];
+};
+
+const resetInactivityTimer = () => {
+  // Clear existing timer
+  if (inactivityTimer) {
+    clearTimeout(inactivityTimer);
+  }
+
+  // Set new timer for 30 seconds
+  inactivityTimer = setTimeout(() => {
+    clearAllItems();
+  }, 30000);
+};
 
 const handleProgress = (progressObj) => {
+  // Reset inactivity timer on every message
+  resetInactivityTimer();
+
   const existingIndex = progressItems.value.findIndex((p) => p.source === progressObj.source);
 
+  // Entferne Item wenn status null ist
   if (
     progressObj.status === null ||
     progressObj.status === undefined ||
@@ -68,6 +90,7 @@ const handleProgress = (progressObj) => {
     return;
   }
 
+  // Aktualisiere oder füge Item hinzu wenn status nicht null ist
   if (existingIndex >= 0) {
     progressItems.value[existingIndex] = progressObj;
   } else {
@@ -75,8 +98,15 @@ const handleProgress = (progressObj) => {
   }
 };
 
+const handleReconnect = () => {
+  console.log('[infoProgress] Clearing progress items on reconnect');
+  progressItems.value = [];
+  resetInactivityTimer();
+};
+
 onMounted(() => {
   signalRProgressService.setProgressCallback(handleProgress);
+  signalRProgressService.setReconnectCallback(handleReconnect);
 
   if (!signalRProgressService.isSignalRConnected()) {
     signalRProgressService.connect().catch((err) => {
@@ -87,5 +117,12 @@ onMounted(() => {
 
 onUnmounted(() => {
   signalRProgressService.setProgressCallback(null);
+  signalRProgressService.setReconnectCallback(null);
+
+  // Clear inactivity timer on unmount
+  if (inactivityTimer) {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = null;
+  }
 });
 </script>

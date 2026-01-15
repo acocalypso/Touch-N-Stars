@@ -41,7 +41,7 @@
       </div>
       <p v-show="cameraStore.exposureCountdown">{{ cameraStore.exposureCountdown }} s</p>
       <p class="hidden xs:block">Gain: {{ Number(store.cameraInfo.Gain).toFixed(0) }}</p>
-      <p v-if="store.cameraInfo.CoolerOn" class="flex items-center">
+      <p v-if="store.cameraInfo.CoolerOn" class="hidden xs:flex items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -212,6 +212,29 @@
       </svg>
       <span class="text-sm">{{ store.weatherInfo.Temperature.toFixed(1) }}°C</span>
     </button>
+    <!--Progress -->
+    <button
+      v-if="store.isPINS"
+      class="flex flex-row bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800 gap-1"
+      :class="{
+        'glow-green': showProgress,
+      }"
+      @click.stop.prevent="handleProgressClick"
+    >
+      <svg
+        class="w-5 h-5"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M3 12h4l3 8l4 -16l3 8h4" />
+      </svg>
+    </button>
     <!--Log -->
     <div>
       <button
@@ -295,6 +318,16 @@
     >
       <InfoFilterwheel class="p-5" />
     </div>
+
+    <div
+      v-if="store.isPINS"
+      class="bg-gray-800/95 border-t border-cyan-700"
+      :class="guiderGraphClasses"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 36px)"
+      v-show="showProgress"
+    >
+      <infoProgress class="" />
+    </div>
   </div>
 </template>
 
@@ -315,10 +348,12 @@ import { useOrientation } from '@/composables/useOrientation';
 import infoCamera from '../camera/infoCamera.vue';
 import infoMount from '../mount/infoMount.vue';
 import InfoFilterwheel from '../filterwheel/InfoFilterwheel.vue';
+import infoProgress from './infoProgress.vue';
 
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
+const showProgress = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
@@ -390,6 +425,7 @@ function handleCameraClick() {
     guiderStore.showGuiderGraph = false;
     mountStore.showMountInfo = false;
     filterStore.showFilterwheelInfo = false;
+    showProgress.value = false;
   }
 }
 
@@ -399,6 +435,7 @@ function handleGuiderClick() {
     cameraStore.showCameraInfo = false;
     mountStore.showMountInfo = false;
     filterStore.showFilterwheelInfo = false;
+    showProgress.value = false;
   }
 }
 
@@ -408,6 +445,7 @@ function handleMountClick() {
     cameraStore.showCameraInfo = false;
     guiderStore.showGuiderGraph = false;
     filterStore.showFilterwheelInfo = false;
+    showProgress.value = false;
   }
 }
 
@@ -417,6 +455,17 @@ function handleFilterClick() {
     cameraStore.showCameraInfo = false;
     guiderStore.showGuiderGraph = false;
     mountStore.showMountInfo = false;
+    showProgress.value = false;
+  }
+}
+
+function handleProgressClick() {
+  showProgress.value = !showProgress.value;
+  if (showProgress.value) {
+    cameraStore.showCameraInfo = false;
+    guiderStore.showGuiderGraph = false;
+    mountStore.showMountInfo = false;
+    filterStore.showFilterwheelInfo = false;
   }
 }
 </script>

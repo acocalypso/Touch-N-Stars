@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Max objects",
         "NumberOfAttempts": "Number of attempts",
-        "ReattemptDelay": "Reattempt delay (s)",
+        "ReattemptDelay": "Reattempt delay (min)",
         "RotationTolerance": "Rotation tolerance (°)",
         "SearchRadius": "Search radius (°)",
         "Threshold": "Threshold",
@@ -324,6 +324,7 @@
       "noRunningItems": "序列已停止",
       "status": "序列状态",
       "instructions": "操作提示",
+      "noItemsInContainer": "此容器中没有项目",
       "HFRStDev": "HFR 标准差",
       "Max": "最大",
       "Min": "最小",
@@ -356,6 +357,8 @@
         "trackingMode": "跟踪模式",
         "manuellControl": "手动控制",
         "slewRate": "转动速率 °/秒",
+        "slewRateINDI": "运动速度",
+        "reverse_axis": "轴向方向",
         "siderial": "恒星时",
         "sync_coordinates_to_mount": "与赤道仪同步坐标",
         "errors": {
@@ -394,7 +397,9 @@
           "post_flip_actions": "Post-flip actions"
         },
         "telescope_settle_time": "Settle time after slew (s)",
-        "meridian_flip_settings": "Meridian-Settings"
+        "meridian_flip_settings": "Meridian-Settings",
+        "reverse_primary_axis": "反转主轴",
+        "reverse_secondary_axis": "反转副轴"
       }
     },
     "guider": {
@@ -708,7 +713,16 @@
       "connected": "已连接",
       "disconnected": "未连接",
       "stationary": "静止",
-      "stepSize": "步进大小"
+      "stepSize": "步进大小",
+      "settings": {
+        "title": "旋转器设置",
+        "basic": "基本设置",
+        "FULL": "完整 (360°)",
+        "HALF": "一半 (180°)",
+        "QUARTER": "四分之一 (90°)",
+        "RangeStartMechanicalPosition": "机械起始位置 (°)",
+        "RangeType": "范围类型"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",

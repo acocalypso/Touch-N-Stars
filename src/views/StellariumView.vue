@@ -113,6 +113,8 @@ import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 import stellariumClock from '@/components/stellarium/stellariumClock.vue';
 import StellariumViewDirection from '@/components/stellarium/StellariumViewDirection.vue';
 import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
+import { timeSync } from '@/utils/timeSync';
+import { utcToMJD } from '@/utils/utils';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -256,7 +258,7 @@ onMounted(async () => {
         wasmFile: wasmPath,
 
         canvas: stelCanvas.value,
-        onReady(stel) {
+        async onReady(stel) {
           console.log('Stellarium is ready!');
           stellariumStore.stel = stel;
 
@@ -264,6 +266,13 @@ onMounted(async () => {
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
+
+          // Ensure timeSync is synced, then set server time
+          await timeSync.ensureSync();
+          const serverTime = new Date(timeSync.getServerTime());
+          const mjd = utcToMJD(serverTime);
+          stel.core.observer.utc = mjd;
+          console.log('Stellarium initialized with server time:', serverTime.toISOString());
 
           // Zeitgeschwindigkeit auf 1 setzen
           stel.core.time_speed = 1;

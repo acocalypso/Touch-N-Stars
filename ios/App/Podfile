@@ -1,7 +1,5 @@
 require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 
-source 'https://cdn.cocoapods.org/'
-
 platform :ios, '15.0'
 use_frameworks!
 

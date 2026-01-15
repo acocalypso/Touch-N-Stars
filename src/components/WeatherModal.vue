@@ -22,8 +22,8 @@
           >
             {{
               settingsStore.useImperialUnits
-                ? $t('components.weatherModal.metric')
-                : $t('components.weatherModal.imperial')
+                ? $t('components.weatherModal.imperial')
+                : $t('components.weatherModal.metric')
             }}
           </button>
         </div>
@@ -316,8 +316,8 @@ const temperature = computed(() => {
     return 'N/A';
   }
   return settingsStore.useImperialUnits
-    ? ((props.weatherInfo.Temperature * 9) / 5 + 32).toFixed(1)
-    : props.weatherInfo.Temperature.toFixed(1);
+    ? ((props.weatherInfo.Temperature * 9) / 5 + 32).toFixed(2)
+    : props.weatherInfo.Temperature.toFixed(2);
 });
 
 const temperatureUnit = computed(() => {
@@ -329,8 +329,8 @@ const windSpeed = computed(() => {
     return 'N/A';
   }
   return settingsStore.useImperialUnits
-    ? (props.weatherInfo.WindSpeed * 2.23694).toFixed(1)
-    : props.weatherInfo.WindSpeed.toFixed(1);
+    ? (props.weatherInfo.WindSpeed * 2.23694).toFixed(2)
+    : props.weatherInfo.WindSpeed.toFixed(2);
 });
 
 const windDirection = computed(() => {
@@ -360,19 +360,25 @@ const windDirection = computed(() => {
 });
 
 const windSpeedUnit = computed(() => {
-  return settingsStore.useImperialUnits ? 'm/s' : 'm/s';
+  return settingsStore.useImperialUnits ? 'mph' : 'm/s';
 });
 
 const cloudCover = computed(() => {
-  return isNaN(props.weatherInfo.CloudCover) ? 'N/A' : `${props.weatherInfo.CloudCover}%`;
+  return isNaN(props.weatherInfo.CloudCover)
+    ? 'N/A'
+    : `${Number(props.weatherInfo.CloudCover).toFixed(2)}%`;
 });
 
 const humidity = computed(() => {
-  return isNaN(props.weatherInfo.Humidity) ? 'N/A' : `${props.weatherInfo.Humidity}%`;
+  return isNaN(props.weatherInfo.Humidity)
+    ? 'N/A'
+    : `${Number(props.weatherInfo.Humidity).toFixed(2)}%`;
 });
 
 const pressure = computed(() => {
-  return isNaN(props.weatherInfo.Pressure) ? 'N/A' : `${props.weatherInfo.Pressure} hPa`;
+  return isNaN(props.weatherInfo.Pressure)
+    ? 'N/A'
+    : `${Number(props.weatherInfo.Pressure).toFixed(2)} hPa`;
 });
 
 const dewPoint = computed(() => {
@@ -380,8 +386,8 @@ const dewPoint = computed(() => {
     return 'N/A';
   }
   return settingsStore.useImperialUnits
-    ? ((props.weatherInfo.DewPoint * 9) / 5 + 32).toFixed(1)
-    : props.weatherInfo.DewPoint.toFixed(1);
+    ? ((props.weatherInfo.DewPoint * 9) / 5 + 32).toFixed(2)
+    : props.weatherInfo.DewPoint.toFixed(2);
 });
 
 const dewPointUnit = computed(() => {
@@ -390,12 +396,12 @@ const dewPointUnit = computed(() => {
 
 const rainRate = computed(() => {
   const rate = Number(props.weatherInfo.RainRate);
-  return isNaN(rate) ? 'N/A' : `${rate} mm/h`;
+  return isNaN(rate) ? 'N/A' : `${rate.toFixed(2)} mm/h`;
 });
 
 const skyQuality = computed(() => {
   const quality = Number(props.weatherInfo.SkyQuality);
-  return isNaN(quality) ? 'N/A' : `${quality} mag/arcsec²`;
+  return isNaN(quality) ? 'N/A' : `${quality.toFixed(2)} mag/arcsec²`;
 });
 
 const skyTemperature = computed(() => {
@@ -403,7 +409,7 @@ const skyTemperature = computed(() => {
   if (isNaN(temp)) {
     return 'N/A';
   }
-  return settingsStore.useImperialUnits ? ((temp * 9) / 5 + 32).toFixed(1) : temp.toFixed(1);
+  return settingsStore.useImperialUnits ? ((temp * 9) / 5 + 32).toFixed(2) : temp.toFixed(2);
 });
 
 const skyTemperatureUnit = computed(() => {

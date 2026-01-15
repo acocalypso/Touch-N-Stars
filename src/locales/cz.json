@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Max objects",
         "NumberOfAttempts": "Number of attempts",
-        "ReattemptDelay": "Reattempt delay (s)",
+        "ReattemptDelay": "Reattempt delay (min)",
         "RotationTolerance": "Rotation tolerance (°)",
         "SearchRadius": "Search radius (°)",
         "Threshold": "Threshold",
@@ -326,6 +326,7 @@
       "noRunningItems": "Sekvence zastavena",
       "status": "Stav sekvence",
       "instructions": "Pokyny",
+      "noItemsInContainer": "Žádné položky v tomto kontejneru",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",
@@ -343,6 +344,8 @@
         "home": "Home",
         "trackingMode": "Režim Sledování",
         "siderial": "Hvězdný",
+        "slewRateINDI": "Rychlost pohybu",
+        "reverse_axis": "Směr os",
         "errors": {
           "unpark": "Chyba při odparkování montáže",
           "tracking": "Chyba při nastavování režimu sledován"
@@ -396,7 +399,9 @@
           "post_flip_actions": "Post-flip actions"
         },
         "telescope_settle_time": "Settle time after slew (s)",
-        "meridian_flip_settings": "Meridian-Settings"
+        "meridian_flip_settings": "Meridian-Settings",
+        "reverse_primary_axis": "Obrátit primární osu",
+        "reverse_secondary_axis": "Obrátit sekundární osu"
       }
     },
     "guider": {
@@ -712,7 +717,16 @@
       "disconnected": "Odpojeno",
       "stationary": "Stacionární",
       "stepSize": "Velikost Kroku",
-      "please_connect_rotator": "Připojte rotátor"
+      "please_connect_rotator": "Připojte rotátor",
+      "settings": {
+        "title": "Nastavení Rotátoru",
+        "basic": "Základní nastavení",
+        "FULL": "Plný (360°)",
+        "HALF": "Polovina (180°)",
+        "QUARTER": "Čtvrtina (90°)",
+        "RangeStartMechanicalPosition": "Mechanická počáteční pozice (°)",
+        "RangeType": "Typ rozsahu"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",

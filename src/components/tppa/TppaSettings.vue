@@ -12,10 +12,7 @@
         />
       </div>
     </div>
-    <div
-      v-show="tppaStore.settings.StartFromCurrentPosition"
-      class="flex flex-row items-center justify-between w-full"
-    >
+    <div class="flex flex-row items-center justify-between w-full">
       <label for="toggle_Pos" class="text-gray-300">
         {{ $t('components.tppa.settings.DirectionEast') }}
       </label>
@@ -42,6 +39,7 @@
         />
       </div>
     </div>
+    <setSlewRatePins v-if="store.isPINS" />
 
     <!-- Camera Settings -->
     <div class="border-t border-gray-600 pt-2 mt-2">
@@ -89,6 +87,7 @@ import { useTppaStore } from '@/store/tppaStore';
 import { apiStore } from '@/store/store';
 import toggleButton from '../helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import setSlewRatePins from '../mount/settings/setSlewRatePins.vue';
 
 const tppaStore = useTppaStore();
 const store = apiStore();

@@ -190,7 +190,7 @@
         "RotationTolerance": "Rotation tolerance (°)",
         "MaxObjects": "Max objects",
         "NumberOfAttempts": "Number of attempts",
-        "ReattemptDelay": "Reattempt delay (s)",
+        "ReattemptDelay": "Reattempt delay (min)",
         "BlindFailoverEnabled": "Blind failover enabled",
         "ASTAPLocation": "ASTAP Location"
       },
@@ -323,6 +323,7 @@
       "noRunningItems": "Sequence stopped",
       "status": "Sequence status",
       "instructions": "Instructions",
+      "noItemsInContainer": "No items in this container",
       "Min": "Min",
       "Max": "Max",
       "HFRStDev": "HFR St. Dev",
@@ -361,7 +362,9 @@
           "unpark": "Error unparking mount",
           "tracking": "Error setting tracking mode"
         },
-        "setLocationSyncToMount": "Set \"Sync to telescope\""
+        "setLocationSyncToMount": "Set \"Sync to telescope\"",
+        "slewRateINDI": "Slewspeed",
+        "reverse_axis": "Axis direction"
       },
       "info": {
         "notConnected": "Please connect mount",
@@ -393,7 +396,9 @@
           "UseSideOfPier": "Use side of pier",
           "AutoFocusAfterFlip": "Auto focus after flip",
           "RotateImageAfterFlip": "Rotate image after flip"
-        }
+        },
+        "reverse_primary_axis": "Primary reversed",
+        "reverse_secondary_axis": "Secondary reverse"
       }
     },
     "guider": {
@@ -707,7 +712,16 @@
       "currentPosition": "Current Position",
       "moving": "Moving",
       "stationary": "Stationary",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Settings",
+        "basic": "Basic Settings",
+        "QUARTER": "90°",
+        "HALF": "180°",
+        "FULL": "360°",
+        "RangeType": "Mechanical Range",
+        "RangeStartMechanicalPosition": "Mechanical Range Start"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Please connect the flat device",

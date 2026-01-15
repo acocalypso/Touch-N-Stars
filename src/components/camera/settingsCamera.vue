@@ -122,6 +122,7 @@ const initializeGain = () => {
   settingsStore.camera.gain = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
   if (settingsStore.camera.gain === -1) {
     settingsStore.camera.gain = store.profileInfo?.CameraSettings?.Gain;
+    console.log('[SettingsCamera] Gain from CameraSettings used:', settingsStore.camera.gain);
   }
 };
 

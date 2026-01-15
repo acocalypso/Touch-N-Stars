@@ -267,6 +267,7 @@ import {
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
 import { useImagetStore } from '@/store/imageStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
@@ -279,6 +280,7 @@ import ImageModal from '@/components/helpers/imageModal.vue';
 import MountButton from '@/components/helpers/quickAccessButtons/MountButton.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { timeSync } from '@/utils/timeSync';
 
 const tppaStore = useTppaStore();
 const store = apiStore();
@@ -288,6 +290,7 @@ const isConnected = ref(false);
 const showSettings = ref(false);
 const showImageModal = ref(false);
 const showMount = ref(false);
+const settingsStore = useSettingsStore();
 let lastMessageTimeout = null;
 
 function toggleMount() {
@@ -353,7 +356,7 @@ function convertDMSToDecimal(dms) {
 }
 
 function getCurrentTime() {
-  const now = new Date();
+  const now = new Date(timeSync.getServerTime());
   return now.toLocaleTimeString();
 }
 
@@ -413,11 +416,13 @@ async function startAlignment() {
     Action: 'start-alignment',
   };
 
+  //Defines if the direction for the second and third point should be done by moving the mount in east or west direction along the RA axis
+  message.EastDirection = tppaStore.settings.EastDirection;
+
   if (!tppaStore.settings.StartFromCurrentPosition) {
     message.StartFromCurrentPosition = 'false';
   } else {
     message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
-    message.EastDirection = tppaStore.settings.EastDirection;
   }
 
   if (
@@ -438,6 +443,12 @@ async function startAlignment() {
 
   if (tppaStore.settings.Gain !== null) {
     message.Gain = tppaStore.settings.Gain;
+  }
+
+  // if PINS, add MoveRate for INDI
+  if (store.isPINS) {
+    message.MoveRate = settingsStore.mount.slewRate;
+    console.log('[TPPA Page] Setting MoveRate to:', settingsStore.mount.slewRate);
   }
 
   console.log('Sending TPPA start message:', message);

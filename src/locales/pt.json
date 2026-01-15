@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Máximo de objetos",
         "NumberOfAttempts": "Número de tentativas",
-        "ReattemptDelay": "Atraso(s) de nova tentativa",
+        "ReattemptDelay": "Atraso (min) de nova tentativa",
         "RotationTolerance": "Tolerância de rotação (°)",
         "SearchRadius": "Raio de pesquisa (°)",
         "Threshold": "Limite",
@@ -323,6 +323,7 @@
       "noRunningItems": "Sequence stopped",
       "status": "Status da sequência",
       "instructions": "Instruções",
+      "noItemsInContainer": "Nenhum item neste contêiner",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",
@@ -355,6 +356,8 @@
         "trackingMode": "Modo de rastreamento",
         "manuellControl": "Controle manual",
         "slewRate": "Taxa de movimento °/s",
+        "slewRateINDI": "Velocidade de movimento",
+        "reverse_axis": "Direção dos eixos",
         "siderial": "Sideral",
         "sync_coordinates_to_mount": "Sincronizar coordenadas com montagem",
         "errors": {
@@ -393,7 +396,9 @@
           "post_flip_actions": "Ações pós-inversão"
         },
         "telescope_settle_time": "Tempo de liquidação após a(s) rotação(ões)",
-        "meridian_flip_settings": "Configurações do Meridiano"
+        "meridian_flip_settings": "Configurações do Meridiano",
+        "reverse_primary_axis": "Inverter eixo primário",
+        "reverse_secondary_axis": "Inverter eixo secundário"
       }
     },
     "guider": {
@@ -707,7 +712,16 @@
       "connected": "Conectado",
       "disconnected": "Desconectado",
       "stationary": "Estacionário",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Configurações do Rotador",
+        "basic": "Configurações básicas",
+        "FULL": "Completo (360°)",
+        "HALF": "Metade (180°)",
+        "QUARTER": "Quarto (90°)",
+        "RangeStartMechanicalPosition": "Posição inicial mecânica (°)",
+        "RangeType": "Tipo de intervalo"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Conecte o dispositivo flat",

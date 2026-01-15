@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Maksymalna liczba obiektów",
         "NumberOfAttempts": "Liczba prób",
-        "ReattemptDelay": "Opóźnienie ponownej próby",
+        "ReattemptDelay": "Opóźnienie (min) ponownej próby",
         "RotationTolerance": "Tolerancja obrotu (°)",
         "SearchRadius": "Promień wyszukiwania (°)",
         "Threshold": "Próg",
@@ -323,6 +323,7 @@
       "noRunningItems": "Sekwencja zatrzymana",
       "status": "Status sekwencji",
       "instructions": "Instrukcje",
+      "noItemsInContainer": "Brak elementów w tym kontenerze",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",
@@ -355,6 +356,8 @@
         "trackingMode": "Tryb śledzenia",
         "manuellControl": "Sterowanie ręczne",
         "slewRate": "Prędkość obrotu °/s",
+        "slewRateINDI": "Prędkość ruchu",
+        "reverse_axis": "Kierunek osi",
         "siderial": "Gwiezdny",
         "sync_coordinates_to_mount": "Synchronizuj współrzędne z montażem",
         "errors": {
@@ -393,7 +396,9 @@
           "post_flip_actions": "Działania po przewróceniu"
         },
         "telescope_settle_time": "Czas ustalenia po zaostrzeniu (s)",
-        "meridian_flip_settings": "Ustawienia południka"
+        "meridian_flip_settings": "Ustawienia południka",
+        "reverse_primary_axis": "Odwróć oś główną",
+        "reverse_secondary_axis": "Odwróć oś drugorzędną"
       }
     },
     "guider": {
@@ -707,7 +712,16 @@
       "currentPosition": "Aktualna pozycja",
       "moving": "W ruchu",
       "stationary": "Stacjonarny",
-      "stepSize": "Rozmiar kroku"
+      "stepSize": "Rozmiar kroku",
+      "settings": {
+        "title": "Ustawienia Rotatora",
+        "basic": "Ustawienia podstawowe",
+        "FULL": "Pełny (360°)",
+        "HALF": "Połowa (180°)",
+        "QUARTER": "Ćwierć (90°)",
+        "RangeStartMechanicalPosition": "Mechaniczna pozycja startowa (°)",
+        "RangeType": "Typ zakresu"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Proszę podłączyć urządzenie flat",

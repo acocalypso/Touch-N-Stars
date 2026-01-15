@@ -28,9 +28,9 @@ export async function getCurrentLocation() {
       maximumAge: 0,
     });
     console.log(pos);
-    latitude.value = pos.coords.latitude.toFixed(6);
-    longitude.value = pos.coords.longitude.toFixed(6);
-    altitude.value = pos.coords.altitude;
+    latitude.value = pos.coords.latitude.toFixed(3);
+    longitude.value = pos.coords.longitude.toFixed(3);
+    altitude.value = pos.coords.altitude.toFixed(1);
     gpsError.value = null;
   } catch (error) {
     gpsError.value = error.message || 'Failed to get GPS location';

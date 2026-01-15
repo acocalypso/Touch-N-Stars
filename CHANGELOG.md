@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [App4.4.0] - 2025-xx-xx
+## [App4.4.0] - 2025-01-15
+### Breaking Changes
+- IOS min version 15.0
+
 ### Added
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
@@ -23,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Time Synchronization: All astronomical calculations (Sidereal Time, object altitude, Stellarium) now use server time for consistency
 - TPPA: Time display now uses server time
 - LiveStack: "Last Updated" timestamp now uses server time
+- Packages Update
 
 ### Fixed
 - Flat Wizard: Slew to zenith

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Setup: Loading spinner while GPS data and astrometry settings are being loaded
 
 ### Changed
+- WeatherModal: All values now limited to max 2 decimal places
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
 - Image History: Layout adjustments
 - Stellarium: View now syncs to mount position on load when mount is connected

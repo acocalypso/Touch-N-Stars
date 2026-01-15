@@ -169,23 +169,23 @@ watch(
   }
 );
 onMounted(() => {
-  const ra = store.mountInfo.Coordinates.RADegrees;
-  const dec = store.mountInfo.Coordinates.Dec;
-
-  // Update displayed coordinates
-  mountRa.value = degreesToHMS(ra);
-  mountDec.value = degreesToDMS(dec);
-
-  if (!stellariumStore.stel) return;
-  mountLayer.value = stellariumStore.stel.createLayer({ id: 'mountLayer', z: 7, visible: true });
-  mountCircle.value = stellariumStore.stel.createObj('circle', {
-    id: 'mountCircle',
-    model_data: {},
-  });
-
-  mountCircle.value.update();
-  mountLayer.value.add(mountCircle.value);
-  handleMountUpdate(ra, dec);
+  if (store.mountInfo.Connected) {
+    const ra = store.mountInfo.Coordinates.RADegrees;
+    const dec = store.mountInfo.Coordinates.Dec;
+    // Update displayed coordinates
+    mountRa.value = degreesToHMS(ra);
+    mountDec.value = degreesToDMS(dec);
+    if (!stellariumStore.stel) return;
+    mountLayer.value = stellariumStore.stel.createLayer({ id: 'mountLayer', z: 7, visible: true });
+    mountCircle.value = stellariumStore.stel.createObj('circle', {
+      id: 'mountCircle',
+      model_data: {},
+    });
+    mountCircle.value.update();
+    mountLayer.value.add(mountCircle.value);
+    handleMountUpdate(ra, dec);
+    syncViewToMount();
+  }
 });
 
 onBeforeUnmount(() => {

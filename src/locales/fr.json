@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Nombre maximum d'objets",
         "NumberOfAttempts": "Nombre de tentatives",
-        "ReattemptDelay": "Délai(s) de nouvelle tentative",
+        "ReattemptDelay": "Délai (min) de nouvelle tentative",
         "RotationTolerance": "Tolérance de rotation (°)",
         "SearchRadius": "Rayon de recherche (°)",
         "Threshold": "Seuil",
@@ -323,6 +323,7 @@
       "noRunningItems": "Sequence stopped",
       "status": "Statut de séquence",
       "instructions": "Instructions",
+      "noItemsInContainer": "Aucun élément dans ce conteneur",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",
@@ -355,6 +356,8 @@
         "trackingMode": "Mode de suivi",
         "manuellControl": "Contrôle manuel",
         "slewRate": "Vitesse de déplacement °/s",
+        "slewRateINDI": "Vitesse de balayage",
+        "reverse_axis": "Direction des axes",
         "siderial": "Sidéral",
         "sync_coordinates_to_mount": "Synchroniser les coordonnées avec la monture",
         "errors": {
@@ -393,7 +396,9 @@
           "post_flip_actions": "Actions post-retournement"
         },
         "telescope_settle_time": "Temps de stabilisation après le(s) balayage(s)",
-        "meridian_flip_settings": "Paramètres méridiens"
+        "meridian_flip_settings": "Paramètres méridiens",
+        "reverse_primary_axis": "Inverser l'axe primaire",
+        "reverse_secondary_axis": "Inverser l'axe secondaire"
       }
     },
     "guider": {
@@ -707,7 +712,16 @@
       "connected": "Connecté",
       "disconnected": "Déconnecté",
       "stationary": "Stationnaire",
-      "stepSize": "Step Size"
+      "stepSize": "Step Size",
+      "settings": {
+        "title": "Paramètres du Rotateur",
+        "basic": "Paramètres de base",
+        "FULL": "Complet (360°)",
+        "HALF": "Moitié (180°)",
+        "QUARTER": "Quart (90°)",
+        "RangeStartMechanicalPosition": "Position de départ mécanique (°)",
+        "RangeType": "Type de plage"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Veuillez connecter le dispositif de flat",

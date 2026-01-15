@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg">
-      <div class="flex gap-2 items-end">
+    <div class="flex flex-col gap-2 border border-gray-500 p-1 pb-2 rounded-lg">
+      <div class="flex flex-col gap-2 items-end">
         <NumberInputPicker
           v-model="store.rotatorMechanicalPosition"
           :label="$t('components.rotator.label')"
@@ -42,6 +42,7 @@
           </svg>
         </button>
       </div>
+      <rotatorReverse />
     </div>
   </div>
 </template>

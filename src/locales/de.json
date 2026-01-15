@@ -200,7 +200,7 @@
         "Gain": "Gain",
         "MaxObjects": "Max. Objekte",
         "NumberOfAttempts": "Anzahl der Versuche",
-        "ReattemptDelay": "Verzögerung (s) bei erneutem Versuch",
+        "ReattemptDelay": "Verzögerung (min) bei erneutem Versuch",
         "RotationTolerance": "Drehungstoleranz (°)",
         "SearchRadius": "Suchradius (°)",
         "Threshold": "Schwelle",
@@ -323,6 +323,7 @@
       "noRunningItems": "Sequenz gestoppt",
       "status": "Sequenzstatus",
       "instructions": "Anweisungen",
+      "noItemsInContainer": "Keine Items in diesem Container",
       "HFRStDev": "HFR St. Dev",
       "Max": "Max",
       "Min": "Min",
@@ -341,6 +342,8 @@
         "trackingMode": "Nachführungsmodus",
         "manuellControl": "Manuelle Bedienung",
         "slewRate": "Bewegungsrate °/s",
+        "slewRateINDI": "Schwenkgeschwindigkeit",
+        "reverse_axis": "Achsenrichtung",
         "siderial": "Siderisch",
         "errors": {
           "unpark": "Fehler beim Ausparken der Montierung",
@@ -393,7 +396,9 @@
           "post_flip_actions": "Aktionen nach dem Flip"
         },
         "meridian_flip_settings": "Meridian-Einstellungen",
-        "telescope_settle_time": "Einschwingzeit nach Schwenken (s)"
+        "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
+        "reverse_primary_axis": "Primärachse umkehren",
+        "reverse_secondary_axis": "Sekundärachse umkehren"
       }
     },
     "guider": {
@@ -707,7 +712,16 @@
       "connected": "Verbunden",
       "disconnected": "Getrennt",
       "stationary": "Stationär",
-      "stepSize": "Schrittgröße"
+      "stepSize": "Schrittgröße",
+      "settings": {
+        "title": "Rotator-Einstellungen",
+        "basic": "Grundeinstellungen",
+        "FULL": "Voll (360°)",
+        "HALF": "Halb (180°)",
+        "QUARTER": "Viertel (90°)",
+        "RangeStartMechanicalPosition": "Mechanische Startposition (°)",
+        "RangeType": "Bereichstyp"
+      }
     },
     "flat": {
       "please_connect_flatDevice": "Bitte Flatpanel verbinden",

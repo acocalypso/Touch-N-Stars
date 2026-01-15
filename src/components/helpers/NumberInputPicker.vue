@@ -18,9 +18,7 @@
     </label>
     <input
       :id="inputId"
-      :value="
-        isDefaultValue && defaultValue !== null ? defaultValue : isDefaultValue ? '' : modelValue
-      "
+      :value="formattedValue"
       type="number"
       :class="[
         labelPosition === 'top' ? 'default-input w-full py-2' : 'default-input h-10',
@@ -114,6 +112,16 @@ const statusClass = ref('');
 
 const isDefaultValue = computed(() => {
   return props.modelValue === -1 || props.modelValue === null || props.modelValue === undefined;
+});
+
+const formattedValue = computed(() => {
+  if (isDefaultValue.value) {
+    return props.defaultValue !== null ? props.defaultValue : '';
+  }
+  if (props.decimalPlaces !== null) {
+    return Number(props.modelValue).toFixed(props.decimalPlaces);
+  }
+  return props.modelValue;
 });
 
 function openPicker() {

@@ -20,7 +20,15 @@ export function usePspConfig(storageKey = 'platesolveplus:config:v1') {
   const wsUrl = computed(() => {
     const host = cfg.host?.trim() || '127.0.0.1';
     const port = Number(cfg.port) || 1899;
-    return `ws://${host}:${port}/ws/platesolveplus`;
+
+    let url = `ws://${host}:${port}/ws/platesolveplus`;
+
+    if (cfg.useToken && cfg.token?.trim()) {
+      const token = encodeURIComponent(cfg.token.trim());
+      url += `?token=${token}`;
+    }
+
+    return url;
   });
 
   function authHeaders() {

@@ -134,6 +134,7 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import LivestackControlBar from '../components/LivestackControlBar.vue';
 import { storeToRefs } from 'pinia';
+import { timeSync } from '@/utils/timeSync';
 
 const { t } = useI18n();
 const livestackStore = useLivestackStore();
@@ -204,7 +205,7 @@ const loadImage = async (target, filter, forceReload = false) => {
 
     // Only update the image URL after successful load
     livestackStore.setCurrentImageUrl(newImageUrl, targetLabel, filterLabel);
-    lastUpdated.value = new Date().toLocaleTimeString();
+    lastUpdated.value = new Date(timeSync.getServerTime()).toLocaleTimeString();
 
     // Calculate histogram for the new image
     await histogramStore.calculateHistogramForImage(newImageUrl);

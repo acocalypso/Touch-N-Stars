@@ -156,6 +156,7 @@ import SkyChart from '@/components/framing/SkyChart.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
+import { timeSync } from '@/utils/timeSync';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
@@ -326,7 +327,7 @@ function getDirection(az) {
 }
 
 function updateSiderealTime() {
-  const now = new Date();
+  const now = new Date(timeSync.getServerTime());
   const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
   const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
   currentSiderealTime.value = (GMST % 24) * 15 + settingsStore.coordinates.longitude / 15;

@@ -3,7 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [App4.4.0] - 2025-xx-xx
+## [App4.4.0] - 2025-01-15
+### Breaking Changes
+- IOS min version 15.0
+
 ### Added
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
@@ -12,12 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Setup: Loading spinner while GPS data and astrometry settings are being loaded
 
 ### Changed
+- WeatherModal: All values now limited to max 2 decimal places
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
 - Image History: Layout adjustments
 - Stellarium: View now syncs to mount position on load when mount is connected
+- Stellarium: Now uses server time instead of client time for accurate time display
 - Setup: Confirm button disabled during data loading to prevent premature confirmation
 - Camera: Remove minimum cooling time
 - Camera: Remove minimum warming time
+- Time Synchronization: All astronomical calculations (Sidereal Time, object altitude, Stellarium) now use server time for consistency
+- TPPA: Time display now uses server time
+- LiveStack: "Last Updated" timestamp now uses server time
+- Packages Update
 
 ### Fixed
 - Flat Wizard: Slew to zenith
@@ -26,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - WeatherModal: Wind speed unit now correctly displays mph for imperial units
 - GPS Coordinates: Fixed decimal places
 - Mount Control: Fixed issue where multiple movement intervals could run in parallel, causing unintended slewing and tracking mode changes when changing slew rate
+- Guider: Dec Arcsec error 
 
 
 ## [App4.3.0] - 2025-12-13

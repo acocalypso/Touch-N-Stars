@@ -5,7 +5,7 @@
         <div>
           <h2 class="text-2xl font-bold text-white">PlateSolvePlus</h2>
           <p class="text-gray-400 text-sm mt-1">
-            Remote PlatesolvePlus Console for your alternative Platesolve Camera V2
+              {{ t('plugins.platesolveplus.subtitle') }}
           </p>
         </div>
 
@@ -113,7 +113,9 @@
                         >
                       </div>
                       <div v-if="status.correctedSolveText">
-                        <div class="text-gray-500 text-[11px]">Corrected coordinates (with offset)</div>
+                        <div class="text-gray-500 text-[11px]">
+                          Corrected coordinates (with offset)
+                        </div>
                         <pre
                           class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
                           >{{ status.correctedSolveText }}</pre
@@ -135,7 +137,7 @@
               <!-- Preview -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
                 <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">Preview</h3>
+                    <h3 class="text-white font-semibold">{{ t('plugins.platesolveplus.preview.preview_title') }}</h3>
                   <div class="flex items-center gap-2">
                     <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
                       <input type="checkbox" v-model="autoPreview" class="rounded" />
@@ -238,9 +240,18 @@
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
-                  <div><span class="text-gray-500">Capture:</span> platesolve only (validation), no sync/slew.</div>
-                  <div><span class="text-gray-500">Solve + Sync:</span> platesolve and sync the mount (requires mount connected).</div>
-                  <div><span class="text-gray-500">Center + Solve:</span> platesolve and center the target (requires mount connected + a calibrated offset).</div>
+                  <div>
+                    <span class="text-gray-500">Capture:</span> platesolve only (validation), no
+                    sync/slew.
+                  </div>
+                  <div>
+                    <span class="text-gray-500">Solve + Sync:</span> platesolve and sync the mount
+                    (requires mount connected).
+                  </div>
+                  <div>
+                    <span class="text-gray-500">Center + Solve:</span> platesolve and center the
+                    target (requires mount connected + a calibrated offset).
+                  </div>
                 </div>
 
                 <!-- Progress (synthetic) -->
@@ -260,11 +271,7 @@
                     </div>
 
                     <div v-if="progress.action" class="mt-2 flex flex-wrap gap-2">
-                      <span
-                        v-for="p in progressPills"
-                        :key="p.key"
-                        :class="pillClass(p.stage)"
-                      >
+                      <span v-for="p in progressPills" :key="p.key" :class="pillClass(p.stage)">
                         {{ p.label }}
                       </span>
                     </div>
@@ -332,10 +339,8 @@
                     >
                       Setup…
                     </button>
-
                   </div>
                 </div>
-
 
                 <!-- Selection moved to Setup dialog: show current camera here -->
                 <div class="mt-3">
@@ -350,20 +355,24 @@
                         class="w-2 h-2 rounded-full"
                         :class="secondary.connected ? 'bg-green-500' : 'bg-gray-600'"
                       ></span>
-	                      <span class="text-gray-100">
-	                        {{
-	                          secondary.selection?.name ||
-	                          secondary.activeProgId ||
-	                          secondary.selectedProgId ||
-	                          '—'
-	                        }}
-	                      </span>
-	                      <span
-	                        v-if="secondary.selection?.progId && secondary.selection?.name && secondary.selection.name !== secondary.selection.progId"
-	                        class="text-gray-500 font-mono"
-	                      >
-	                        ({{ secondary.selection.progId }})
-	                      </span>
+                      <span class="text-gray-100">
+                        {{
+                          secondary.selection?.name ||
+                          secondary.activeProgId ||
+                          secondary.selectedProgId ||
+                          '—'
+                        }}
+                      </span>
+                      <span
+                        v-if="
+                          secondary.selection?.progId &&
+                          secondary.selection?.name &&
+                          secondary.selection.name !== secondary.selection.progId
+                        "
+                        class="text-gray-500 font-mono"
+                      >
+                        ({{ secondary.selection.progId }})
+                      </span>
                     </span>
 
                     <span class="text-xs text-gray-500" v-if="!secondary.connected">
@@ -426,18 +435,26 @@
                       <div>
                         <span class="text-gray-500">Exposure:</span>
                         <span class="text-gray-200 font-mono">{{
-                          cameraSettings.exposureSeconds != null ? `${cameraSettings.exposureSeconds}s` : '—'
+                          cameraSettings.exposureSeconds != null
+                            ? `${cameraSettings.exposureSeconds}s`
+                            : '—'
                         }}</span>
                       </div>
                       <div>
                         <span class="text-gray-500">Gain:</span>
                         <span class="text-gray-200 font-mono">{{
-                          cameraSettings.gain == null ? '—' : (Number(cameraSettings.gain) < 0 ? 'auto' : cameraSettings.gain)
+                          cameraSettings.gain == null
+                            ? '—'
+                            : Number(cameraSettings.gain) < 0
+                              ? 'auto'
+                              : cameraSettings.gain
                         }}</span>
                       </div>
                       <div>
                         <span class="text-gray-500">Binning:</span>
-                        <span class="text-gray-200 font-mono">{{ cameraSettings.binning ?? '—' }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          cameraSettings.binning ?? '—'
+                        }}</span>
                       </div>
                     </div>
                   </div>
@@ -449,13 +466,17 @@
                       <div>
                         <span class="text-gray-500">Focal Length:</span>
                         <span class="text-gray-200 font-mono">{{
-                          scopeFocalLength != null ? `${Number(scopeFocalLength).toFixed(0)} mm` : '—'
+                          scopeFocalLength != null
+                            ? `${Number(scopeFocalLength).toFixed(0)} mm`
+                            : '—'
                         }}</span>
                       </div>
                       <div>
                         <span class="text-gray-500">Focal Scale:</span>
                         <span class="text-gray-200 font-mono">{{
-                          scopeFocalScale != null ? `${Number(scopeFocalScale).toFixed(2)} ″/px` : '—'
+                          scopeFocalScale != null
+                            ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
+                            : '—'
                         }}</span>
                       </div>
                       <div>
@@ -526,7 +547,7 @@
         </div>
 
         <!-- CONFIG TAB -->
-		<div v-show="activeTab === 'config'" class="p-5 space-y-5">	
+        <div v-show="activeTab === 'config'" class="p-5 space-y-5">
           <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
             <h3 class="text-white font-semibold">Connection</h3>
 
@@ -699,11 +720,21 @@
     :on-open-native-setup="openSecondarySetupDialog"
     @close="showSecondarySetup = false"
   />
-
 </template>
 
 <script setup>
-import { ref, reactive, onBeforeUnmount, computed, watch, onMounted, onUnmounted, onActivated, onDeactivated } from 'vue';
+import {
+  ref,
+  reactive,
+  onBeforeUnmount,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
+} from 'vue';
+import { useI18n } from 'vue-i18n';
 import StatusIcon from '../components/StatusIcon.vue';
 import SecondarySetupDialog from '../components/platesolveplus/SecondarySetupDialog.vue';
 import { usePspConfig } from '../components/platesolveplus/usePspConfig';
@@ -716,6 +747,7 @@ const disposed = ref(false);
 // =========================
 // State
 // =========================
+const { t } = useI18n();
 const status = reactive({
   busy: false,
   importsReady: false,
@@ -773,13 +805,24 @@ function pickNumber(obj, keys) {
 const scopeFocalLength = computed(() => {
   const fromCamera = pickNumber(cameraSettings.value, ['focalLengthMm', 'focalLength']);
   if (fromCamera != null) return fromCamera;
-  return pickNumber(scopeSettings.value, ['focalLengthMm', 'focalLength', 'focal_length', 'focalLengthMM']);
+  return pickNumber(scopeSettings.value, [
+    'focalLengthMm',
+    'focalLength',
+    'focal_length',
+    'focalLengthMM',
+  ]);
 });
 
 const scopePixelSize = computed(() => {
   const fromCamera = pickNumber(cameraSettings.value, ['pixelSizeUm', 'pixelSize']);
   if (fromCamera != null) return fromCamera;
-  return pickNumber(scopeSettings.value, ['pixelSizeUm', 'pixelSize', 'pixelSizeMicrons', 'pixelSizeMicron', 'pixelSizeUM']);
+  return pickNumber(scopeSettings.value, [
+    'pixelSizeUm',
+    'pixelSize',
+    'pixelSizeMicrons',
+    'pixelSizeMicron',
+    'pixelSizeUM',
+  ]);
 });
 
 // Prefer backend-provided scale, otherwise compute: 206.265 * (pixelSizeUm / focalLengthMm)
@@ -800,18 +843,18 @@ const scopeFocalScale = computed(() => {
   return Number.isFinite(scale) ? scale : null;
 });
 
-const psDownsample = computed(() => pickFirst(platesolveSettings.value, [
-  'downsample',
-  'downsampleFactor',
-  'downsamplePx',
-]));
+const psDownsample = computed(() =>
+  pickFirst(platesolveSettings.value, ['downsample', 'downsampleFactor', 'downsamplePx'])
+);
 
-const psTimeoutSec = computed(() => pickFirst(platesolveSettings.value, [
-  'timeoutSec',
-  'timeoutSeconds',
-  'timeout',
-  'solveTimeoutSec',
-]));
+const psTimeoutSec = computed(() =>
+  pickFirst(platesolveSettings.value, [
+    'timeoutSec',
+    'timeoutSeconds',
+    'timeout',
+    'solveTimeoutSec',
+  ])
+);
 
 const psThreshold = computed(() => {
   const ps = platesolveSettings.value;
@@ -821,17 +864,23 @@ const psThreshold = computed(() => {
   return raw == null ? null : String(raw);
 });
 
-const psMaxAttempts = computed(() => pickFirst(platesolveSettings.value, [
-  'maxAttempts',
-  'centeringMaxAttempts',
-  'maxSolveAttempts',
-  'attempts',
-]));
+const psMaxAttempts = computed(() =>
+  pickFirst(platesolveSettings.value, [
+    'maxAttempts',
+    'centeringMaxAttempts',
+    'maxSolveAttempts',
+    'attempts',
+  ])
+);
 
 // returns formatted string with unit if we can infer one
 const psSearchRadius = computed(() => {
   const ps = platesolveSettings.value;
-  const arcmin = pickNumber(ps, ['searchRadiusArcmin', 'searchRadiusArcMin', 'searchRadiusMinutes']);
+  const arcmin = pickNumber(ps, [
+    'searchRadiusArcmin',
+    'searchRadiusArcMin',
+    'searchRadiusMinutes',
+  ]);
   if (arcmin != null) return `${arcmin} arcmin`;
 
   const deg = pickNumber(ps, ['searchRadiusDeg', 'searchRadiusDegrees']);
@@ -857,7 +906,7 @@ const showSecondarySetup = ref(false);
 
 let statusInterval = null;
 let previewInterval = null; // nur wenn du wirklich eins hast
-let ws = null;              // falls du ws-variable außerhalb hast
+let ws = null; // falls du ws-variable außerhalb hast
 
 let log = ref([]);
 const testResult = ref(null);
@@ -865,7 +914,7 @@ const testResult = ref(null);
 const secondary = reactive({
   drivers: [],
   selectedProgId: '',
-  activeProgId: '',  
+  activeProgId: '',
   selection: null,
   connected: false,
   loading: false,
@@ -877,9 +926,9 @@ secondary.selectedProgId = localStorage.getItem(LS_SELECTED) ?? '';
 // =========================
 // UI Gates
 // =========================
-  const EPS = 1e-6;
+const EPS = 1e-6;
 
-  const hasOffsetSet = computed(() => {
+const hasOffsetSet = computed(() => {
   const ra = Number(status.offsetRaArcsec ?? 0);
   const dec = Number(status.offsetDecArcsec ?? 0);
   const hasDelta = Math.abs(ra) > EPS || Math.abs(dec) > EPS;
@@ -889,26 +938,36 @@ secondary.selectedProgId = localStorage.getItem(LS_SELECTED) ?? '';
   const qx = Number(r?.qx ?? 0);
   const qy = Number(r?.qy ?? 0);
   const qz = Number(r?.qz ?? 0);
-  const hasRot = Math.abs(qw - 1) > EPS || Math.abs(qx) > EPS || Math.abs(qy) > EPS || Math.abs(qz) > EPS;
+  const hasRot =
+    Math.abs(qw - 1) > EPS || Math.abs(qx) > EPS || Math.abs(qy) > EPS || Math.abs(qz) > EPS;
 
   return hasDelta || hasRot;
 });
 
-const canCapture = computed(() => !!status.importsReady && !!secondary.connected && status.busy === false);
+const canCapture = computed(
+  () => !!status.importsReady && !!secondary.connected && status.busy === false
+);
 const canSolveSync = computed(() => canCapture.value && !!status.mountConnected);
 const canCenterSolve = computed(() => canSolveSync.value && hasOffsetSet.value);
 
 // Calibrate only makes sense if no offset is set yet
- const canCalibrateOffset = computed(
-  () => !!status.importsReady && !!secondary.connected && !!status.mountConnected && status.busy === false && !hasOffsetSet.value,
+const canCalibrateOffset = computed(
+  () =>
+    !!status.importsReady &&
+    !!secondary.connected &&
+    !!status.mountConnected &&
+    status.busy === false &&
+    !hasOffsetSet.value
 );
 
 // Reset should be disabled when there is nothing to reset
-const canResetOffsets = computed(() => !!status.importsReady && status.busy === false && hasOffsetSet.value);
+const canResetOffsets = computed(
+  () => !!status.importsReady && status.busy === false && hasOffsetSet.value
+);
 
 async function initSecondaryOnce() {
   // 1) Fast path: show cached driver list immediately (persists across tab changes / reloads)
-  const usedCache = (!secondary.drivers?.length) ? loadDriversFromCache() : false;
+  const usedCache = !secondary.drivers?.length ? loadDriversFromCache() : false;
 
   // 2) Then refresh from backend (force if we used cache, to stay up-to-date)
   await refreshSecondaryDrivers(usedCache);
@@ -917,11 +976,14 @@ async function initSecondaryOnce() {
   await syncSecondaryState(false);
 }
 
-onMounted(() => { initSecondaryOnce(); });
+onMounted(() => {
+  initSecondaryOnce();
+});
 
 // falls der Host KeepAlive nutzt (manche tun das):
-onActivated(() => { initSecondaryOnce(); });
-
+onActivated(() => {
+  initSecondaryOnce();
+});
 
 function btnSolidClass(enabled) {
   return [
@@ -1035,7 +1097,7 @@ function stopFakeProgress() {
 
 // small helpers (avoid Math.* noise)
 const clampMin = (a, b) => (a < b ? a : b);
-const toInt = (v) => (v | 0);
+const toInt = (v) => v | 0;
 
 function startFakeActionProgress(action) {
   stopFakeProgress();
@@ -1081,7 +1143,8 @@ function startFakeActionProgress(action) {
     } else {
       if (progress.percent < 25) progress.stage = 'capturing';
       else if (progress.percent < 65) progress.stage = 'platesolving';
-      else if (progress.percent < 85) progress.stage = a === 'center' ? 'centering' : (a === 'sync' ? 'syncing' : 'finishing');
+      else if (progress.percent < 85)
+        progress.stage = a === 'center' ? 'centering' : a === 'sync' ? 'syncing' : 'finishing';
       else progress.stage = 'finishing';
     }
   }, 450);
@@ -1096,13 +1159,27 @@ const progressPills = computed(() => {
     return [mk('capturing', 'Capturing'), mk('validating', 'Validating')];
   }
   if (a === 'sync') {
-    return [mk('capturing', 'Capturing'), mk('platesolving', 'Platesolving'), mk('syncing', 'Syncing'), mk('finishing', 'Finishing')];
+    return [
+      mk('capturing', 'Capturing'),
+      mk('platesolving', 'Platesolving'),
+      mk('syncing', 'Syncing'),
+      mk('finishing', 'Finishing'),
+    ];
   }
   if (a === 'center') {
-    return [mk('capturing', 'Capturing'), mk('platesolving', 'Platesolving'), mk('centering', 'Centering'), mk('finishing', 'Finishing')];
+    return [
+      mk('capturing', 'Capturing'),
+      mk('platesolving', 'Platesolving'),
+      mk('centering', 'Centering'),
+      mk('finishing', 'Finishing'),
+    ];
   }
   if (a === 'solve') {
-    return [mk('capturing', 'Capturing'), mk('platesolving', 'Platesolving'), mk('finishing', 'Finishing')];
+    return [
+      mk('capturing', 'Capturing'),
+      mk('platesolving', 'Platesolving'),
+      mk('finishing', 'Finishing'),
+    ];
   }
   if (a === 'calibrate' || a === 'offset') {
     return [mk('offset', 'Calibrating'), mk('finishing', 'Finishing')];
@@ -1116,9 +1193,7 @@ function pillClass(stage) {
   const active = String(progress.stage || '').toLowerCase() === String(stage || '').toLowerCase();
   return [
     'px-2 py-1 rounded-full text-[11px] border select-none',
-    active
-      ? 'bg-white/10 border-white/40 text-white'
-      : 'bg-black/20 border-gray-700 text-gray-400',
+    active ? 'bg-white/10 border-white/40 text-white' : 'bg-black/20 border-gray-700 text-gray-400',
   ].join(' ');
 }
 
@@ -1146,9 +1221,7 @@ function loadDriversFromCache() {
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return false;
 
-    const normalized = parsed
-      .map(normalizeDriver)
-      .filter(x => !!x.progId);
+    const normalized = parsed.map(normalizeDriver).filter((x) => !!x.progId);
 
     if (normalized.length) {
       secondary.drivers = normalized;
@@ -1164,7 +1237,7 @@ function saveDriversToCache(drivers) {
   try {
     if (!Array.isArray(drivers) || !drivers.length) return;
     // keep it small and stable
-    const payload = drivers.map(d => ({ progId: d.progId, name: d.name }));
+    const payload = drivers.map((d) => ({ progId: d.progId, name: d.name }));
     localStorage.setItem(driversCacheKey(), JSON.stringify(payload));
   } catch {
     // ignore write errors (private mode/quota)
@@ -1193,9 +1266,7 @@ async function refreshSecondaryDrivers(force = false) {
     const list = await api.getSecondaryDrivers();
 
     // Normalize: API may return objects OR plain strings.
-    const normalized = (list ?? [])
-      .map(normalizeDriver)
-      .filter(x => !!x.progId);
+    const normalized = (list ?? []).map(normalizeDriver).filter((x) => !!x.progId);
 
     // Important: never wipe a previously loaded list with an empty response.
     // (prevents the dropdown from "resetting" to only "— select —" on transient API hiccups)
@@ -1213,15 +1284,14 @@ async function refreshSecondaryDrivers(force = false) {
   }
 }
 
-
 async function refreshSecondarySelection(force = false) {
   // Always refresh selection; it is independent from the drivers list.
   // (force kept for API compatibility / callers)
   void force;
-  secondary.error = "";
+  secondary.error = '';
   try {
     const sel = await api.getSecondarySelection();
-    const progId = sel?.progId ?? "";
+    const progId = sel?.progId ?? '';
     const connected = !!sel?.connected;
 
     if (progId) secondary.activeProgId = progId;
@@ -1232,7 +1302,6 @@ async function refreshSecondarySelection(force = false) {
     secondary.error = e?.message ?? String(e);
   }
 }
-
 
 async function applySecondarySelection() {
   secondary.error = '';
@@ -1321,17 +1390,20 @@ async function syncSecondaryState(verbose = false) {
 
     secondary.activeProgId = progId;
     secondary.connected = connected;
-	    secondary.selection = progId ? normalizeDriver(sel) : null;
+    secondary.selection = progId ? normalizeDriver(sel) : null;
 
     // selectedProgId nur "reparieren", nicht dauernd überschreiben
     const drivers = secondary.drivers ?? [];
     const progIdLc = String(progId || '').toLowerCase();
     const selectedLc = String(secondary.selectedProgId || '').toLowerCase();
-    const activeExists = !!progIdLc && drivers.some(d => String(d.progId || '').toLowerCase() === progIdLc);
-    const selectedExists = !!selectedLc && drivers.some(d => String(d.progId || '').toLowerCase() === selectedLc);
+    const activeExists =
+      !!progIdLc && drivers.some((d) => String(d.progId || '').toLowerCase() === progIdLc);
+    const selectedExists =
+      !!selectedLc && drivers.some((d) => String(d.progId || '').toLowerCase() === selectedLc);
 
     if (!secondary.selectedProgId && activeExists) secondary.selectedProgId = progId;
-    if (secondary.selectedProgId && !selectedExists && activeExists) secondary.selectedProgId = progId;
+    if (secondary.selectedProgId && !selectedExists && activeExists)
+      secondary.selectedProgId = progId;
 
     // loggen nur wenn manuell oder echte Änderung (aber nicht beim ersten silent call)
     const sig = `${progId}|${connected ? '1' : '0'}`;
@@ -1351,7 +1423,6 @@ async function syncSecondaryState(verbose = false) {
     secondary.loading = false;
   }
 }
-
 
 async function refreshStatus() {
   if (disposed.value) return;
@@ -1449,11 +1520,19 @@ async function testConnection() {
 
 function stopAllBackgroundWork() {
   // stop polling interval(s)
-if (statusInterval) { clearInterval(statusInterval); statusInterval = null; }
-if (previewInterval) { clearInterval(previewInterval); previewInterval = null; }
+  if (statusInterval) {
+    clearInterval(statusInterval);
+    statusInterval = null;
+  }
+  if (previewInterval) {
+    clearInterval(previewInterval);
+    previewInterval = null;
+  }
 
   // stop WS
-  try { ws?.close?.(); } catch {}
+  try {
+    ws?.close?.();
+  } catch {}
   ws = null;
 }
 
@@ -1474,7 +1553,6 @@ onMounted(() => {
 onActivated(() => {
   disposed.value = false;
 });
-
 
 // =========================
 // WebSocket composable
@@ -1668,5 +1746,4 @@ watch(activeTab, async (tab) => {
     await refreshStatus();
   }
 });
-
 </script>

@@ -4,11 +4,15 @@
     <div class="absolute inset-0 bg-black/60"></div>
 
     <!-- Dialog -->
-    <div class="relative w-full max-w-3xl rounded-xl border border-gray-700 bg-black/80 backdrop-blur shadow-xl">
+    <div
+      class="relative w-full max-w-3xl rounded-xl border border-gray-700 bg-black/80 backdrop-blur shadow-xl"
+    >
       <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700">
         <div>
           <div class="text-white font-semibold">Secondary Camera Setup</div>
-          <div class="text-xs text-gray-400 mt-0.5">Driver selection, connection and native ASCOM setup dialog</div>
+          <div class="text-xs text-gray-400 mt-0.5">
+            Driver selection, connection and native ASCOM setup dialog
+          </div>
         </div>
 
         <button
@@ -26,13 +30,21 @@
         <div class="flex flex-wrap gap-2 text-xs">
           <span
             class="px-2 py-1 rounded-full border"
-            :class="secondary?.connected ? 'border-green-500/40 text-green-200 bg-green-500/10' : 'border-gray-600 text-gray-300 bg-black/20'"
+            :class="
+              secondary?.connected
+                ? 'border-green-500/40 text-green-200 bg-green-500/10'
+                : 'border-gray-600 text-gray-300 bg-black/20'
+            "
           >
             {{ secondary?.connected ? 'Connected' : 'Disconnected' }}
           </span>
           <span
             class="px-2 py-1 rounded-full border"
-            :class="status?.busy ? 'border-yellow-500/40 text-yellow-200 bg-yellow-500/10' : 'border-gray-600 text-gray-300 bg-black/20'"
+            :class="
+              status?.busy
+                ? 'border-yellow-500/40 text-yellow-200 bg-yellow-500/10'
+                : 'border-gray-600 text-gray-300 bg-black/20'
+            "
           >
             {{ status?.busy ? 'Busy' : 'Idle' }}
           </span>
@@ -46,7 +58,9 @@
           <div class="flex items-start justify-between gap-3">
             <div>
               <div class="text-white font-semibold">Driver</div>
-              <div class="mt-1 text-xs text-gray-400">Choose the ASCOM driver to use as secondary camera.</div>
+              <div class="mt-1 text-xs text-gray-400">
+                Choose the ASCOM driver to use as secondary camera.
+              </div>
             </div>
 
             <div class="flex flex-wrap gap-2 justify-end">
@@ -78,7 +92,7 @@
             >
               <option value="" disabled>— select —</option>
               <option
-                v-for="d in (secondary?.drivers || [])"
+                v-for="d in secondary?.drivers || []"
                 :key="d.progId || d.ProgId || d.id || d.name || d.Name"
                 :value="d.progId || d.ProgId"
               >
@@ -136,7 +150,8 @@
         </div>
 
         <div class="text-xs text-gray-500">
-          Tip: If you changed settings in the driver setup dialog, click <span class="text-gray-300">Sync</span> afterwards.
+          Tip: If you changed settings in the driver setup dialog, click
+          <span class="text-gray-300">Sync</span> afterwards.
         </div>
       </div>
     </div>

@@ -1333,6 +1333,219 @@
         "enableMeridianFlip": "Enable Meridianflip"
       }
     },
+
+    "platesolveplus": {
+      "title": "PlateSolvePlus",
+      "subtitle": "Remote PlateSolvePlus Console for your alternative Platesolve Camera V2",
+
+      "ws": {
+        "label": "WS",
+        "connected": "connected",
+        "disconnected": "disconnected"
+      },
+
+      "tabs": {
+        "control": "Control",
+        "config": "Config"
+      },
+
+      "sections": {
+        "status": "Status",
+        "preview": "Preview",
+        "actions": "Actions",
+        "secondary_camera": "Secondary Camera (ASCOM)",
+        "offset": "Offset",
+        "current_settings": "Current Settings",
+        "event_log": "Event Log",
+        "connection": "Connection",
+        "websocket": "WebSocket",
+        "offsets": "Offsets"
+      },
+
+      "buttons": {
+        "refresh": "Refresh",
+        "refreshing": "Refreshing…",
+        "capture": "Capture",
+        "solve_sync": "Solve + Sync",
+        "center_solve": "Center + Solve",
+        "clear": "Clear",
+
+        "sync": "Sync",
+        "setup": "Setup…",
+
+        "save_config": "Save Config",
+        "reload_from_storage": "Reload from Storage",
+        "test_connection": "Test Connection",
+
+        "reconnect_ws": "Reconnect WS",
+        "disconnect_ws": "Disconnect WS",
+
+        "reset_offsets": "Reset Offsets",
+        "calibrate_offsets": "Calibrate Offsets"
+      },
+
+      "status_labels": {
+        "busy": "Busy",
+        "service_ready": "Service Ready",
+        "mount_connected": "Mount connected",
+        "camera_connected": "Camera connected",
+        "last_update": "Last update",
+        "task_status": "Task Status",
+        "used_parameters": "used Parameters",
+        "validation": "Validation",
+        "raw_solve": "Raw solve (guider camera)",
+        "corrected_coordinates": "Corrected coordinates (with offset)",
+        "last_solve_summary": "lastSolveSummary"
+      },
+
+      "preview": {
+        "preview_title": "Preview",
+        "auto_refresh": "Auto refresh",
+        "alt_latest_preview": "Latest preview",
+        "unavailable_title": "Preview unavailable",
+        "load_error": "Load error — please refresh.",
+        "no_preview_loaded": "No preview loaded yet.",
+        "cache_hint": "Cache-busting enabled (?t=). Server also sends Cache-Control: no-store.",
+        "no_preview_yet": "No preview available (yet)."
+      },
+
+      "actions_help": {
+        "capture": "platesolve only (validation), no sync/slew.",
+        "solve_sync": "platesolve and sync the mount (requires mount connected).",
+        "center_solve": "platesolve and center the target (requires mount connected + a calibrated offset)."
+      },
+
+      "progress": {
+        "title": "Solve Progress",
+        "job": "Job",
+        "action": "Action",
+        "stage": "Stage",
+        "message": "Message",
+        "process_progress": "Process progress.",
+
+        "pill": {
+          "capturing": "Capturing",
+          "validating": "Validating",
+          "platesolving": "Platesolving",
+          "syncing": "Syncing",
+          "centering": "Centering",
+          "finishing": "Finishing",
+          "calibrating": "Calibrating",
+          "running": "Running"
+        },
+
+        "messages": {
+          "working": "Working…",
+          "capturing_validating": "Capturing + validating…",
+          "solving_syncing": "Solving + syncing…",
+          "solving_centering": "Solving + centering…",
+          "solving": "Solving…",
+
+          "capture_accepted": "Capture accepted (waiting for events)",
+          "capture_started": "Capture started",
+          "capture_finished": "Capture finished",
+
+          "solve_started": "Solve started",
+          "solve_finished": "Solve finished",
+
+          "solve_sync_accepted": "Solve+Sync accepted (waiting for events)",
+          "solve_sync_started": "Solve+Sync started",
+          "solve_sync_finished": "Solve+Sync finished",
+
+          "center_solve_accepted": "Center+Solve accepted (waiting for events)",
+          "center_solve_started": "Center+Solve started",
+          "center_solve_finished": "Center+Solve finished",
+
+          "offset_calibrate_started": "Offset calibrate started",
+          "offset_calibrate_finished": "Offset calibrate finished"
+        }
+      },
+
+      "secondary": {
+        "status": "Status",
+        "connected": "Connected",
+        "disconnected": "Disconnected",
+        "current_camera": "Current camera",
+        "not_connected": "Not connected",
+        "no_drivers_returned": "No drivers returned.",
+
+        "log": {
+          "state_synced": "Secondary camera state synced",
+          "sync_failed": "Secondary camera sync failed",
+          "selection_applied": "Secondary selection applied",
+          "selection_failed": "Secondary selection failed",
+          "connect": "Secondary connect",
+          "connect_failed": "Secondary connect failed",
+          "disconnect": "Secondary disconnect",
+          "disconnect_failed": "Secondary disconnect failed",
+          "setup_dialog": "Secondary setup dialog",
+          "setup_dialog_failed": "Secondary setup dialog failed"
+        }
+      },
+
+      "offset_fields": {
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "dra_arcsec": "ΔRA (arcsec):",
+        "ddec_arcsec": "ΔDec (arcsec):",
+        "rotation_quat": "rotation (quat):"
+      },
+
+      "settings": {
+        "camera": "Camera",
+        "scope": "Scope",
+        "platesolve": "Platesolve",
+
+        "exposure": "Exposure:",
+        "gain": "Gain:",
+        "binning": "Binning:",
+
+        "focal_length": "Focal Length:",
+        "focal_scale": "Focal Scale:",
+        "pixel_size": "Pixel Size:",
+
+        "search_radius": "Search Radius:",
+        "downsample": "Downsample:",
+        "timeout_sec": "Timeout (sec):",
+        "threshold": "Threshold:",
+        "max_attempts": "Max attempts:",
+
+        "auto_gain": "auto",
+        "values_from_backend": "These values come from the backend settings endpoint."
+      },
+
+      "event_log": {
+        "empty": "—"
+      },
+
+      "config": {
+        "host": "Host",
+        "port": "Port",
+        "base_path": "Base Path",
+        "base_path_default": "Default: /api/platesolveplus",
+
+        "use_token_optional": "Use token (optional)",
+        "token": "Token",
+        "token_placeholder": "token…",
+        "token_hint": "Sent as header X-PSP-Token (matches the PlateSolvePlus API host).",
+
+        "active_url": "Active URL:"
+      },
+
+      "websocket": {
+        "endpoint": "Endpoint:",
+        "auto_reconnect": "Auto-reconnect enabled (backoff)."
+      },
+
+      "offsets_help": {
+        "text": "Calibrate creates/updates the guider-to-main offset model. Reset clears all offsets."
+      },
+
+      "footer": {
+        "rest": "REST:"
+      }
+    },
+
     "livestack": {
       "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "beta_note": "This plugin is still under development and may contain some errors!",

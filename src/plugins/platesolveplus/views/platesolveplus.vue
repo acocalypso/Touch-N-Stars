@@ -113,9 +113,7 @@
                         >
                       </div>
                       <div v-if="status.correctedSolveText">
-                        <div class="text-gray-500 text-[11px]">
-                          Corrected coordinates (with offset)
-                        </div>
+                        <div class="text-gray-500 text-[11px]">Corrected coordinates (with offset)</div>
                         <pre
                           class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
                           >{{ status.correctedSolveText }}</pre
@@ -240,18 +238,9 @@
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
-                  <div>
-                    <span class="text-gray-500">Capture:</span> platesolve only (validation), no
-                    sync/slew.
-                  </div>
-                  <div>
-                    <span class="text-gray-500">Solve + Sync:</span> platesolve and sync the mount
-                    (requires mount connected).
-                  </div>
-                  <div>
-                    <span class="text-gray-500">Center + Solve:</span> platesolve and center the
-                    target (requires mount connected + a calibrated offset).
-                  </div>
+                  <div><span class="text-gray-500">Capture:</span> platesolve only (validation), no sync/slew.</div>
+                  <div><span class="text-gray-500">Solve + Sync:</span> platesolve and sync the mount (requires mount connected).</div>
+                  <div><span class="text-gray-500">Center + Solve:</span> platesolve and center the target (requires mount connected + a calibrated offset).</div>
                 </div>
 
                 <!-- Progress (synthetic) -->
@@ -271,7 +260,11 @@
                     </div>
 
                     <div v-if="progress.action" class="mt-2 flex flex-wrap gap-2">
-                      <span v-for="p in progressPills" :key="p.key" :class="pillClass(p.stage)">
+                      <span
+                        v-for="p in progressPills"
+                        :key="p.key"
+                        :class="pillClass(p.stage)"
+                      >
                         {{ p.label }}
                       </span>
                     </div>
@@ -331,69 +324,55 @@
                     >
                       Sync
                     </button>
-                  </div>
-                </div>
-
-                <!-- Auswahlliste (in der Mitte) -->
-                <div class="mt-3">
-                  <label class="text-xs text-gray-400">Driver</label>
-                  <select
-                    v-model="secondary.selectedProgId"
-                    class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
-                    :disabled="secondary.connected || secondary.loading"
-                    title="PUT /secondary/selection"
-                  >
-                    <option value="" disabled>— select —</option>
-                    <option
-                      v-for="d in secondary.drivers"
-                      :key="d.progId || d.ProgId || d.id || d.name || d.Name"
-                      :value="d.progId || d.ProgId"
+                    <button
+                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
+                      @click="showSecondarySetup = true"
+                      :disabled="secondary.loading"
+                      title="Open Secondary Setup"
                     >
-                      {{ d.name || d.Name || 'Driver' }} ({{ d.progId || d.ProgId }})
-                    </option>
-                  </select>
+                      Setup…
+                    </button>
 
-                  <div class="mt-2 text-xs text-gray-500">
-                    Selected:
-                    <span class="text-gray-200 font-mono">{{
-                      secondary.selectedProgId || '—'
-                    }}</span>
                   </div>
                 </div>
 
-                <!-- Buttons unten -->
-                <div class="mt-3 flex flex-wrap gap-2">
-                  <button
-                    class="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 disabled:opacity-40"
-                    @click="applySecondarySelection"
-                    :disabled="
-                      secondary.connected || !secondary.selectedProgId || secondary.loading
-                    "
-                    title="PUT /secondary/selection"
-                  >
-                    Apply
-                  </button>
 
-                  <button
-                    class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40"
-                    @click="connectSecondary"
-                    :disabled="
-                      secondary.connected || !secondary.selectedProgId || secondary.loading
-                    "
-                    title="POST /secondary/connect"
-                  >
-                    Connect
-                  </button>
+                <!-- Selection moved to Setup dialog: show current camera here -->
+                <div class="mt-3">
+                  <div class="text-xs text-gray-400">Current camera</div>
 
-                  <button
-                    class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40"
-                    @click="disconnectSecondary"
-                    :disabled="!secondary.connected || secondary.loading"
-                    title="POST /secondary/disconnect"
-                  >
-                    Disconnect
-                  </button>
+                  <div class="mt-2 flex items-center gap-2 flex-wrap">
+                    <span
+                      class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-700 bg-black/30"
+                      title="Current secondary camera selection"
+                    >
+                      <span
+                        class="w-2 h-2 rounded-full"
+                        :class="secondary.connected ? 'bg-green-500' : 'bg-gray-600'"
+                      ></span>
+	                      <span class="text-gray-100">
+	                        {{
+	                          secondary.selection?.name ||
+	                          secondary.activeProgId ||
+	                          secondary.selectedProgId ||
+	                          '—'
+	                        }}
+	                      </span>
+	                      <span
+	                        v-if="secondary.selection?.progId && secondary.selection?.name && secondary.selection.name !== secondary.selection.progId"
+	                        class="text-gray-500 font-mono"
+	                      >
+	                        ({{ secondary.selection.progId }})
+	                      </span>
+                    </span>
+
+                    <span class="text-xs text-gray-500" v-if="!secondary.connected">
+                      Not connected
+                    </span>
+                  </div>
                 </div>
+
+                <!-- Bottom buttons removed: moved into Setup dialog -->
 
                 <div v-if="secondary.error" class="mt-3 text-xs text-red-300 whitespace-pre-wrap">
                   {{ secondary.error }}
@@ -445,40 +424,20 @@
                     <div class="text-xs text-gray-400 font-semibold">Camera</div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">Driver:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          secondary.selectedProgId || '—'
-                        }}</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">Connected:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          secondary.connected ? 'true' : 'false'
-                        }}</span>
-                      </div>
-                      <div>
                         <span class="text-gray-500">Exposure:</span>
                         <span class="text-gray-200 font-mono">{{
-                          cameraSettings.exposureSeconds != null
-                            ? `${cameraSettings.exposureSeconds}s`
-                            : '—'
-                        }}</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">Binning:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.binning ?? '—'
+                          cameraSettings.exposureSeconds != null ? `${cameraSettings.exposureSeconds}s` : '—'
                         }}</span>
                       </div>
                       <div>
                         <span class="text-gray-500">Gain:</span>
                         <span class="text-gray-200 font-mono">{{
-                          cameraSettings.gain == null
-                            ? '—'
-                            : Number(cameraSettings.gain) < 0
-                              ? 'auto'
-                              : cameraSettings.gain
+                          cameraSettings.gain == null ? '—' : (Number(cameraSettings.gain) < 0 ? 'auto' : cameraSettings.gain)
                         }}</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-500">Binning:</span>
+                        <span class="text-gray-200 font-mono">{{ cameraSettings.binning ?? '—' }}</span>
                       </div>
                     </div>
                   </div>
@@ -488,24 +447,22 @@
                     <div class="text-xs text-gray-400 font-semibold">Scope</div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">Mount connected:</span>
+                        <span class="text-gray-500">Focal Length:</span>
                         <span class="text-gray-200 font-mono">{{
-                          status.mountConnected ? 'true' : 'false'
+                          scopeFocalLength != null ? `${Number(scopeFocalLength).toFixed(0)} mm` : '—'
                         }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Mount state:</span>
-                        <span class="text-gray-200 font-mono">{{ status.mountState ?? '—' }}</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">Offset set:</span>
+                        <span class="text-gray-500">Focal Scale:</span>
                         <span class="text-gray-200 font-mono">{{
-                          (scopeSettings.offsetSet ?? hasOffsetSet) ? 'true' : 'false'
+                          scopeFocalScale != null ? `${Number(scopeFocalScale).toFixed(2)} ″/px` : '—'
                         }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Offset mode:</span>
-                        <span class="text-gray-200 font-mono">{{ status.offsetMode ?? '—' }}</span>
+                        <span class="text-gray-500">Pixel Size:</span>
+                        <span class="text-gray-200 font-mono">{{
+                          scopePixelSize != null ? `${Number(scopePixelSize).toFixed(2)} µm` : '—'
+                        }}</span>
                       </div>
                     </div>
                   </div>
@@ -515,24 +472,26 @@
                     <div class="text-xs text-gray-400 font-semibold">Platesolve</div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">Center threshold:</span>
+                        <span class="text-gray-500">Search Radius:</span>
                         <span class="text-gray-200 font-mono">{{
-                          platesolveSettings.centeringThresholdArcmin != null
-                            ? `${platesolveSettings.centeringThresholdArcmin} arcmin`
-                            : '—'
+                          psSearchRadius != null ? `${psSearchRadius}` : '—'
                         }}</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-500">Downsample:</span>
+                        <span class="text-gray-200 font-mono">{{ psDownsample ?? '—' }}</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-500">Timeout (sec):</span>
+                        <span class="text-gray-200 font-mono">{{ psTimeoutSec ?? '—' }}</span>
+                      </div>
+                      <div>
+                        <span class="text-gray-500">Threshold:</span>
+                        <span class="text-gray-200 font-mono">{{ psThreshold ?? '—' }}</span>
                       </div>
                       <div>
                         <span class="text-gray-500">Max attempts:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          platesolveSettings.centeringMaxAttempts ?? '—'
-                        }}</span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">Solver:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          platesolveSettings.solverHint ?? '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">{{ psMaxAttempts ?? '—' }}</span>
                       </div>
                     </div>
                   </div>
@@ -567,7 +526,7 @@
         </div>
 
         <!-- CONFIG TAB -->
-        <div v-show="activeTab === 'config'" class="p-5 space-y-5">
+		<div v-show="activeTab === 'config'" class="p-5 space-y-5">	
           <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
             <h3 class="text-white font-semibold">Connection</h3>
 
@@ -728,21 +687,25 @@
       </div>
     </div>
   </div>
+  <SecondarySetupDialog
+    v-if="showSecondarySetup"
+    :secondary="secondary"
+    :status="status"
+    :on-refresh-drivers="() => refreshSecondaryDrivers(true)"
+    :on-sync-state="() => syncSecondaryState(true)"
+    :on-apply-selection="applySecondarySelection"
+    :on-connect="connectSecondary"
+    :on-disconnect="disconnectSecondary"
+    :on-open-native-setup="openSecondarySetupDialog"
+    @close="showSecondarySetup = false"
+  />
+
 </template>
 
 <script setup>
-import {
-  ref,
-  reactive,
-  onBeforeUnmount,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted,
-  onActivated,
-  onDeactivated,
-} from 'vue';
+import { ref, reactive, onBeforeUnmount, computed, watch, onMounted, onUnmounted, onActivated, onDeactivated } from 'vue';
 import StatusIcon from '../components/StatusIcon.vue';
+import SecondarySetupDialog from '../components/platesolveplus/SecondarySetupDialog.vue';
 import { usePspConfig } from '../components/platesolveplus/usePspConfig';
 import { usePspApi } from '../components/platesolveplus/usePspApi';
 import { usePspWebSocket } from '../components/platesolveplus/usePspWebSocket';
@@ -787,6 +750,99 @@ const cameraSettings = computed(() => settings.camera || {});
 const scopeSettings = computed(() => settings.scope || {});
 const platesolveSettings = computed(() => settings.platesolve || {});
 
+// -------------------------
+// Settings helpers (robust against backend key changes)
+// -------------------------
+function pickFirst(obj, keys) {
+  if (!obj) return undefined;
+  for (const k of keys) {
+    if (Object.prototype.hasOwnProperty.call(obj, k) && obj[k] != null) return obj[k];
+  }
+  return undefined;
+}
+
+function pickNumber(obj, keys) {
+  const v = pickFirst(obj, keys);
+  if (v == null) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
+// NOTE: In the current backend payload, focal length + pixel size live under `camera`.
+// We still keep fallbacks to `scope` for forward compatibility.
+const scopeFocalLength = computed(() => {
+  const fromCamera = pickNumber(cameraSettings.value, ['focalLengthMm', 'focalLength']);
+  if (fromCamera != null) return fromCamera;
+  return pickNumber(scopeSettings.value, ['focalLengthMm', 'focalLength', 'focal_length', 'focalLengthMM']);
+});
+
+const scopePixelSize = computed(() => {
+  const fromCamera = pickNumber(cameraSettings.value, ['pixelSizeUm', 'pixelSize']);
+  if (fromCamera != null) return fromCamera;
+  return pickNumber(scopeSettings.value, ['pixelSizeUm', 'pixelSize', 'pixelSizeMicrons', 'pixelSizeMicron', 'pixelSizeUM']);
+});
+
+// Prefer backend-provided scale, otherwise compute: 206.265 * (pixelSizeUm / focalLengthMm)
+const scopeFocalScale = computed(() => {
+  const provided = pickNumber(scopeSettings.value, [
+    'focalScale',
+    'pixelScale',
+    'arcsecPerPixel',
+    'focalScaleArcsecPerPixel',
+    'focalScaleArcsecPerPx',
+  ]);
+  if (provided != null) return provided;
+
+  const fl = scopeFocalLength.value;
+  const px = scopePixelSize.value;
+  if (!fl || !px) return null;
+  const scale = (206.265 * px) / fl;
+  return Number.isFinite(scale) ? scale : null;
+});
+
+const psDownsample = computed(() => pickFirst(platesolveSettings.value, [
+  'downsample',
+  'downsampleFactor',
+  'downsamplePx',
+]));
+
+const psTimeoutSec = computed(() => pickFirst(platesolveSettings.value, [
+  'timeoutSec',
+  'timeoutSeconds',
+  'timeout',
+  'solveTimeoutSec',
+]));
+
+const psThreshold = computed(() => {
+  const ps = platesolveSettings.value;
+  const arcmin = pickNumber(ps, ['centeringThresholdArcmin', 'thresholdArcmin', 'thresholdArcMin']);
+  if (arcmin != null) return `${arcmin} arcmin`;
+  const raw = pickFirst(ps, ['threshold', 'starThreshold', 'solveThreshold']);
+  return raw == null ? null : String(raw);
+});
+
+const psMaxAttempts = computed(() => pickFirst(platesolveSettings.value, [
+  'maxAttempts',
+  'centeringMaxAttempts',
+  'maxSolveAttempts',
+  'attempts',
+]));
+
+// returns formatted string with unit if we can infer one
+const psSearchRadius = computed(() => {
+  const ps = platesolveSettings.value;
+  const arcmin = pickNumber(ps, ['searchRadiusArcmin', 'searchRadiusArcMin', 'searchRadiusMinutes']);
+  if (arcmin != null) return `${arcmin} arcmin`;
+
+  const deg = pickNumber(ps, ['searchRadiusDeg', 'searchRadiusDegrees']);
+  if (deg != null) return `${deg}°`;
+
+  const raw = pickFirst(ps, ['searchRadius', 'radius', 'solveSearchRadius']);
+  if (raw == null) return null;
+  // don't guess unit too hard; just show the value
+  return String(raw);
+});
+
 const loadingStatus = ref(false);
 const lastStatusTs = ref(null);
 
@@ -797,16 +853,20 @@ const previewUrl = ref('');
 const previewError = ref('');
 const autoPreview = ref(true);
 const lastSecondarySig = ref('');
+const showSecondarySetup = ref(false);
 
-let statusTimer = null;
-let previewTimer = null; // nur wenn du wirklich eins hast
+let statusInterval = null;
+let previewInterval = null; // nur wenn du wirklich eins hast
+let ws = null;              // falls du ws-variable außerhalb hast
+
 let log = ref([]);
 const testResult = ref(null);
 
 const secondary = reactive({
   drivers: [],
   selectedProgId: '',
-  activeProgId: '',
+  activeProgId: '',  
+  selection: null,
   connected: false,
   loading: false,
   error: '',
@@ -817,9 +877,9 @@ secondary.selectedProgId = localStorage.getItem(LS_SELECTED) ?? '';
 // =========================
 // UI Gates
 // =========================
-const EPS = 1e-6;
+  const EPS = 1e-6;
 
-const hasOffsetSet = computed(() => {
+  const hasOffsetSet = computed(() => {
   const ra = Number(status.offsetRaArcsec ?? 0);
   const dec = Number(status.offsetDecArcsec ?? 0);
   const hasDelta = Math.abs(ra) > EPS || Math.abs(dec) > EPS;
@@ -829,49 +889,39 @@ const hasOffsetSet = computed(() => {
   const qx = Number(r?.qx ?? 0);
   const qy = Number(r?.qy ?? 0);
   const qz = Number(r?.qz ?? 0);
-  const hasRot =
-    Math.abs(qw - 1) > EPS || Math.abs(qx) > EPS || Math.abs(qy) > EPS || Math.abs(qz) > EPS;
+  const hasRot = Math.abs(qw - 1) > EPS || Math.abs(qx) > EPS || Math.abs(qy) > EPS || Math.abs(qz) > EPS;
 
   return hasDelta || hasRot;
 });
 
-const canCapture = computed(
-  () => !!status.importsReady && !!secondary.connected && status.busy === false
-);
+const canCapture = computed(() => !!status.importsReady && !!secondary.connected && status.busy === false);
 const canSolveSync = computed(() => canCapture.value && !!status.mountConnected);
 const canCenterSolve = computed(() => canSolveSync.value && hasOffsetSet.value);
 
 // Calibrate only makes sense if no offset is set yet
-const canCalibrateOffset = computed(
-  () =>
-    !!status.importsReady &&
-    !!secondary.connected &&
-    !!status.mountConnected &&
-    status.busy === false &&
-    !hasOffsetSet.value
+ const canCalibrateOffset = computed(
+  () => !!status.importsReady && !!secondary.connected && !!status.mountConnected && status.busy === false && !hasOffsetSet.value,
 );
 
 // Reset should be disabled when there is nothing to reset
-const canResetOffsets = computed(
-  () => !!status.importsReady && status.busy === false && hasOffsetSet.value
-);
+const canResetOffsets = computed(() => !!status.importsReady && status.busy === false && hasOffsetSet.value);
 
 async function initSecondaryOnce() {
-  // 1) Drivers laden (damit Dropdown gefüllt ist)
-  await refreshSecondaryDrivers(false);
+  // 1) Fast path: show cached driver list immediately (persists across tab changes / reloads)
+  const usedCache = (!secondary.drivers?.length) ? loadDriversFromCache() : false;
 
-  // 2) Auswahl/Connected-State vom Backend holen (silent)
+  // 2) Then refresh from backend (force if we used cache, to stay up-to-date)
+  await refreshSecondaryDrivers(usedCache);
+
+  // 3) Auswahl/Connected-State vom Backend holen (silent)
   await syncSecondaryState(false);
 }
 
-onMounted(() => {
-  initSecondaryOnce();
-});
+onMounted(() => { initSecondaryOnce(); });
 
 // falls der Host KeepAlive nutzt (manche tun das):
-onActivated(() => {
-  initSecondaryOnce();
-});
+onActivated(() => { initSecondaryOnce(); });
+
 
 function btnSolidClass(enabled) {
   return [
@@ -985,7 +1035,7 @@ function stopFakeProgress() {
 
 // small helpers (avoid Math.* noise)
 const clampMin = (a, b) => (a < b ? a : b);
-const toInt = (v) => v | 0;
+const toInt = (v) => (v | 0);
 
 function startFakeActionProgress(action) {
   stopFakeProgress();
@@ -1031,8 +1081,7 @@ function startFakeActionProgress(action) {
     } else {
       if (progress.percent < 25) progress.stage = 'capturing';
       else if (progress.percent < 65) progress.stage = 'platesolving';
-      else if (progress.percent < 85)
-        progress.stage = a === 'center' ? 'centering' : a === 'sync' ? 'syncing' : 'finishing';
+      else if (progress.percent < 85) progress.stage = a === 'center' ? 'centering' : (a === 'sync' ? 'syncing' : 'finishing');
       else progress.stage = 'finishing';
     }
   }, 450);
@@ -1047,27 +1096,13 @@ const progressPills = computed(() => {
     return [mk('capturing', 'Capturing'), mk('validating', 'Validating')];
   }
   if (a === 'sync') {
-    return [
-      mk('capturing', 'Capturing'),
-      mk('platesolving', 'Platesolving'),
-      mk('syncing', 'Syncing'),
-      mk('finishing', 'Finishing'),
-    ];
+    return [mk('capturing', 'Capturing'), mk('platesolving', 'Platesolving'), mk('syncing', 'Syncing'), mk('finishing', 'Finishing')];
   }
   if (a === 'center') {
-    return [
-      mk('capturing', 'Capturing'),
-      mk('platesolving', 'Platesolving'),
-      mk('centering', 'Centering'),
-      mk('finishing', 'Finishing'),
-    ];
+    return [mk('capturing', 'Capturing'), mk('platesolving', 'Platesolving'), mk('centering', 'Centering'), mk('finishing', 'Finishing')];
   }
   if (a === 'solve') {
-    return [
-      mk('capturing', 'Capturing'),
-      mk('platesolving', 'Platesolving'),
-      mk('finishing', 'Finishing'),
-    ];
+    return [mk('capturing', 'Capturing'), mk('platesolving', 'Platesolving'), mk('finishing', 'Finishing')];
   }
   if (a === 'calibrate' || a === 'offset') {
     return [mk('offset', 'Calibrating'), mk('finishing', 'Finishing')];
@@ -1081,18 +1116,60 @@ function pillClass(stage) {
   const active = String(progress.stage || '').toLowerCase() === String(stage || '').toLowerCase();
   return [
     'px-2 py-1 rounded-full text-[11px] border select-none',
-    active ? 'bg-white/10 border-white/40 text-white' : 'bg-black/20 border-gray-700 text-gray-400',
+    active
+      ? 'bg-white/10 border-white/40 text-white'
+      : 'bg-black/20 border-gray-700 text-gray-400',
   ].join(' ');
 }
 
 // small helpers (avoid Math.* noise in template)
-const min = (a, b) => (a < b ? a : b);
-const int = (v) => v | 0;
 // =========================
 // REST API composable
 // =========================
 
 const api = usePspApi({ baseUrl, authHeaders, pushLog });
+
+// =========================
+// Secondary driver list cache (localStorage)
+// =========================
+const DRIVERS_CACHE_PREFIX = 'psp.secondaryDrivers.v1';
+
+function driversCacheKey() {
+  // include baseUrl so localhost vs remote hosts don't collide
+  return `${DRIVERS_CACHE_PREFIX}:${String(baseUrl.value || '').trim()}`;
+}
+
+function loadDriversFromCache() {
+  try {
+    const raw = localStorage.getItem(driversCacheKey());
+    if (!raw) return false;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return false;
+
+    const normalized = parsed
+      .map(normalizeDriver)
+      .filter(x => !!x.progId);
+
+    if (normalized.length) {
+      secondary.drivers = normalized;
+      return true;
+    }
+  } catch {
+    // ignore cache errors
+  }
+  return false;
+}
+
+function saveDriversToCache(drivers) {
+  try {
+    if (!Array.isArray(drivers) || !drivers.length) return;
+    // keep it small and stable
+    const payload = drivers.map(d => ({ progId: d.progId, name: d.name }));
+    localStorage.setItem(driversCacheKey(), JSON.stringify(payload));
+  } catch {
+    // ignore write errors (private mode/quota)
+  }
+}
 
 function normalizeDriver(d) {
   // API may return { Name, ProgId } (C#) or { name, progId } (JS). Handle both.
@@ -1110,10 +1187,25 @@ async function refreshSecondaryDrivers(force = false) {
   secondary.error = '';
   secondary.loading = true;
   try {
+    // Don't spam the endpoint if we already have a list.
     if (!force && secondary.drivers?.length) return;
 
     const list = await api.getSecondaryDrivers();
-    secondary.drivers = (list ?? []).map(normalizeDriver).filter((x) => !!x.progId);
+
+    // Normalize: API may return objects OR plain strings.
+    const normalized = (list ?? [])
+      .map(normalizeDriver)
+      .filter(x => !!x.progId);
+
+    // Important: never wipe a previously loaded list with an empty response.
+    // (prevents the dropdown from "resetting" to only "— select —" on transient API hiccups)
+    if (normalized.length > 0) {
+      secondary.drivers = normalized;
+      saveDriversToCache(normalized);
+    } else if (!secondary.drivers?.length) {
+      // if we have nothing at all, keep the empty state but surface a hint
+      secondary.error = secondary.error || 'No drivers returned.';
+    }
   } catch (e) {
     secondary.error = e?.message ?? String(e);
   } finally {
@@ -1121,20 +1213,26 @@ async function refreshSecondaryDrivers(force = false) {
   }
 }
 
-async function refreshSecondarySelection(force = false) {
-  // Don't spam the endpoint, but also don't block selection refresh just because drivers are loaded
-  if (!force && (secondary.selectedProgId || secondary.connected)) return;
 
-  secondary.error = '';
+async function refreshSecondarySelection(force = false) {
+  // Always refresh selection; it is independent from the drivers list.
+  // (force kept for API compatibility / callers)
+  void force;
+  secondary.error = "";
   try {
-    const resp = await api.apiFetch('/secondary/selection', { method: 'GET' });
-    const data = await resp.json().catch(() => ({}));
-    secondary.selectedProgId = data?.progId ?? secondary.selectedProgId;
-    secondary.connected = !!data?.connected;
+    const sel = await api.getSecondarySelection();
+    const progId = sel?.progId ?? "";
+    const connected = !!sel?.connected;
+
+    if (progId) secondary.activeProgId = progId;
+    // Only overwrite selection if the API returns a non-empty progId.
+    if (progId) secondary.selectedProgId = progId;
+    secondary.connected = connected;
   } catch (e) {
     secondary.error = e?.message ?? String(e);
   }
 }
+
 
 async function applySecondarySelection() {
   secondary.error = '';
@@ -1223,16 +1321,17 @@ async function syncSecondaryState(verbose = false) {
 
     secondary.activeProgId = progId;
     secondary.connected = connected;
+	    secondary.selection = progId ? normalizeDriver(sel) : null;
 
     // selectedProgId nur "reparieren", nicht dauernd überschreiben
     const drivers = secondary.drivers ?? [];
-    const activeExists = !!progId && drivers.some((d) => d.progId === progId);
-    const selectedExists =
-      !!secondary.selectedProgId && drivers.some((d) => d.progId === secondary.selectedProgId);
+    const progIdLc = String(progId || '').toLowerCase();
+    const selectedLc = String(secondary.selectedProgId || '').toLowerCase();
+    const activeExists = !!progIdLc && drivers.some(d => String(d.progId || '').toLowerCase() === progIdLc);
+    const selectedExists = !!selectedLc && drivers.some(d => String(d.progId || '').toLowerCase() === selectedLc);
 
     if (!secondary.selectedProgId && activeExists) secondary.selectedProgId = progId;
-    if (secondary.selectedProgId && !selectedExists && activeExists)
-      secondary.selectedProgId = progId;
+    if (secondary.selectedProgId && !selectedExists && activeExists) secondary.selectedProgId = progId;
 
     // loggen nur wenn manuell oder echte Änderung (aber nicht beim ersten silent call)
     const sig = `${progId}|${connected ? '1' : '0'}`;
@@ -1252,6 +1351,7 @@ async function syncSecondaryState(verbose = false) {
     secondary.loading = false;
   }
 }
+
 
 async function refreshStatus() {
   if (disposed.value) return;
@@ -1348,23 +1448,13 @@ async function testConnection() {
 }
 
 function stopAllBackgroundWork() {
-  // stop polling timers
-  if (statusTimer) {
-    clearInterval(statusTimer);
-    statusTimer = null;
-  }
-  if (previewTimer) {
-    clearInterval(previewTimer);
-    previewTimer = null;
-  }
+  // stop polling interval(s)
+if (statusInterval) { clearInterval(statusInterval); statusInterval = null; }
+if (previewInterval) { clearInterval(previewInterval); previewInterval = null; }
 
-  // stop websocket
-  try {
-    disconnectWs?.();
-  } catch {}
-  try {
-    wsCleanup?.();
-  } catch {}
+  // stop WS
+  try { ws?.close?.(); } catch {}
+  ws = null;
 }
 
 onUnmounted(() => {
@@ -1384,6 +1474,7 @@ onMounted(() => {
 onActivated(() => {
   disposed.value = false;
 });
+
 
 // =========================
 // WebSocket composable
@@ -1541,6 +1632,9 @@ function loadConfig() {
 // =========================
 // Mount/Unmount timers
 // =========================
+let statusTimer = null;
+let previewTimer = null;
+
 onMounted(async () => {
   loadConfig();
 
@@ -1574,4 +1668,5 @@ watch(activeTab, async (tab) => {
     await refreshStatus();
   }
 });
+
 </script>

@@ -1,5 +1,6 @@
 import * as signalR from '@microsoft/signalr';
 import { useSettingsStore } from '../store/settingsStore';
+import { useProgressStore } from '../store/progressStore';
 
 const backendProtokol = 'http';
 const backendPort = 4782; // NINA server port
@@ -49,9 +50,10 @@ class SignalRProgressService {
 
         // Event Handler für Progress Updates
         this.connection.on('ReceiveProgress', (progressMessage) => {
-          //console.log('Received progress:', progressMessage);
+          console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
+            state: progressMessage.state,
             status: progressMessage.status,
             status2: progressMessage.status2,
             status3: progressMessage.status3,
@@ -66,6 +68,10 @@ class SignalRProgressService {
             progressType3: progressMessage.progressType3,
             timestamp: new Date(progressMessage.timestamp),
           };
+
+          // Progress im Store speichern
+          const progressStore = useProgressStore();
+          progressStore.handleProgressMessage(progressObj);
 
           // Callback für Progress aufrufen (wenn gesetzt)
           if (this.progressCallback) {

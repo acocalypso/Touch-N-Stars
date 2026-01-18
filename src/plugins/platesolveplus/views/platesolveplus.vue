@@ -5,7 +5,7 @@
         <div>
           <h2 class="text-2xl font-bold text-white">PlateSolvePlus</h2>
           <p class="text-gray-400 text-sm mt-1">
-              {{ t('plugins.platesolveplus.subtitle') }}
+            {{ t('plugins.platesolveplus.subtitle') }}
           </p>
         </div>
 
@@ -84,9 +84,9 @@
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
                   <div>
                     Last update:
-                    <span class="text-gray-200">{{
-                      lastStatusTs ? new Date(lastStatusTs).toLocaleString() : '—'
-                    }}</span>
+                    <span class="text-gray-200">
+                      {{ lastStatusTs ? new Date(lastStatusTs).toLocaleString() : '—' }}
+                    </span>
                   </div>
 
                   <div>
@@ -137,7 +137,9 @@
               <!-- Preview -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-white font-semibold">{{ t('plugins.platesolveplus.preview.preview_title') }}</h3>
+                  <h3 class="text-white font-semibold">
+                    {{ t('plugins.platesolveplus.preview.preview_title') }}
+                  </h3>
                   <div class="flex items-center gap-2">
                     <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
                       <input type="checkbox" v-model="autoPreview" class="rounded" />
@@ -164,7 +166,6 @@
                   <!-- Preview container with overlay -->
                   <div class="mt-2 border border-gray-700 rounded-md overflow-hidden bg-black/30">
                     <div class="relative w-full">
-                      <!-- Image -->
                       <!-- Image -->
                       <img
                         v-if="previewUrl && !previewError"
@@ -395,9 +396,9 @@
                 <div class="mt-3 text-sm text-gray-300 space-y-1">
                   <div>
                     <span class="text-gray-400">offsetEnabled:</span>
-                    <span class="text-gray-100 font-mono">{{
-                      status.offsetEnabled ? 'true' : 'false'
-                    }}</span>
+                    <span class="text-gray-100 font-mono">
+                      {{ status.offsetEnabled ? 'true' : 'false' }}
+                    </span>
                   </div>
 
                   <div>
@@ -417,9 +418,9 @@
 
                   <div>
                     <span class="text-gray-400">rotation (quat):</span>
-                    <span class="text-gray-100 font-mono">{{
-                      status.rotation ? pretty(status.rotation) : '—'
-                    }}</span>
+                    <span class="text-gray-100 font-mono">
+                      {{ status.rotation ? pretty(status.rotation) : '—' }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -434,27 +435,31 @@
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
                         <span class="text-gray-500">Exposure:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.exposureSeconds != null
-                            ? `${cameraSettings.exposureSeconds}s`
-                            : '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            cameraSettings.exposureSeconds != null
+                              ? `${cameraSettings.exposureSeconds}s`
+                              : '—'
+                          }}
+                        </span>
                       </div>
                       <div>
                         <span class="text-gray-500">Gain:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.gain == null
-                            ? '—'
-                            : Number(cameraSettings.gain) < 0
-                              ? 'auto'
-                              : cameraSettings.gain
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            cameraSettings.gain == null
+                              ? '—'
+                              : Number(cameraSettings.gain) < 0
+                                ? 'auto'
+                                : cameraSettings.gain
+                          }}
+                        </span>
                       </div>
                       <div>
                         <span class="text-gray-500">Binning:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.binning ?? '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{ cameraSettings.binning ?? '—' }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -465,25 +470,31 @@
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
                         <span class="text-gray-500">Focal Length:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          scopeFocalLength != null
-                            ? `${Number(scopeFocalLength).toFixed(0)} mm`
-                            : '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            scopeFocalLength != null
+                              ? `${Number(scopeFocalLength).toFixed(0)} mm`
+                              : '—'
+                          }}
+                        </span>
                       </div>
                       <div>
                         <span class="text-gray-500">Focal Scale:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          scopeFocalScale != null
-                            ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
-                            : '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            scopeFocalScale != null
+                              ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
+                              : '—'
+                          }}
+                        </span>
                       </div>
                       <div>
                         <span class="text-gray-500">Pixel Size:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          scopePixelSize != null ? `${Number(scopePixelSize).toFixed(2)} µm` : '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            scopePixelSize != null ? `${Number(scopePixelSize).toFixed(2)} µm` : '—'
+                          }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -494,9 +505,9 @@
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
                         <span class="text-gray-500">Search Radius:</span>
-                        <span class="text-gray-200 font-mono">{{
-                          psSearchRadius != null ? `${psSearchRadius}` : '—'
-                        }}</span>
+                        <span class="text-gray-200 font-mono">
+                          {{ psSearchRadius != null ? `${psSearchRadius}` : '—' }}
+                        </span>
                       </div>
                       <div>
                         <span class="text-gray-500">Downsample:</span>
@@ -740,9 +751,11 @@ import SecondarySetupDialog from '../components/platesolveplus/SecondarySetupDia
 import { usePspConfig } from '../components/platesolveplus/usePspConfig';
 import { usePspApi } from '../components/platesolveplus/usePspApi';
 import { usePspWebSocket } from '../components/platesolveplus/usePspWebSocket';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const activeTab = ref('control');
 const disposed = ref(false);
+const settingsStore = useSettingsStore();
 
 // =========================
 // State
@@ -1038,9 +1051,9 @@ const {
   baseUrl,
   wsUrl,
   authHeaders,
-  saveConfig: saveCfg,
   loadConfig: loadCfg,
-} = usePspConfig();
+  saveConfig: saveCfg,
+} = usePspConfig(settingsStore);
 
 // =========================
 // Preview

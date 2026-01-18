@@ -1,8 +1,12 @@
 import { computed, reactive } from 'vue';
 
-export function usePspConfig(storageKey = 'platesolveplus:config:v1') {
+function resolveDefaultHost(settingsStore) {
+  return settingsStore?.connection?.ip?.trim() || window.location.hostname || '127.0.0.1';
+}
+
+export function usePspConfig(settingsStore, storageKey = 'platesolveplus:config:v1') {
   const cfg = reactive({
-    host: '127.0.0.1',
+    host: resolveDefaultHost(settingsStore),
     port: 1899,
     basePath: '/api/platesolveplus',
     useToken: false,
@@ -10,32 +14,23 @@ export function usePspConfig(storageKey = 'platesolveplus:config:v1') {
   });
 
   const baseUrl = computed(() => {
-    const host = cfg.host?.trim() || '127.0.0.1';
+    const host = cfg.host?.trim() || resolveDefaultHost(settingsStore);
     const port = Number(cfg.port) || 1899;
-    const path = cfg.basePath?.trim() || '/api/platesolveplus';
-    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-    return `http://${host}:${port}${normalizedPath}`;
+    const path = (cfg.basePath?.trim() || '/api/platesolveplus').replace(/^\/*/, '/');
+    return `http://${host}:${port}${path}`;
   });
 
   const wsUrl = computed(() => {
-    const host = cfg.host?.trim() || '127.0.0.1';
+    const host = cfg.host?.trim() || resolveDefaultHost(settingsStore);
     const port = Number(cfg.port) || 1899;
 
     let url = `ws://${host}:${port}/ws/platesolveplus`;
-
-    if (cfg.useToken && cfg.token?.trim()) {
-      const token = encodeURIComponent(cfg.token.trim());
-      url += `?token=${token}`;
-    }
-
+    if (cfg.useToken && cfg.token?.trim()) url += `?token=${encodeURIComponent(cfg.token.trim())}`;
     return url;
   });
 
   function authHeaders() {
-    // Dein API Host erwartet X-PSP-Token (optional)
-    if (cfg.useToken && cfg.token?.trim()) {
-      return { 'X-PSP-Token': cfg.token.trim() };
-    }
+    if (cfg.useToken && cfg.token?.trim()) return { 'X-PSP-Token': cfg.token.trim() };
     return {};
   }
 
@@ -56,7 +51,10 @@ export function usePspConfig(storageKey = 'platesolveplus:config:v1') {
     if (!raw) return;
 
     const data = JSON.parse(raw);
-    cfg.host = data.host ?? cfg.host;
+
+    // gespeicherter Host gewinnt, sonst Auto-Host
+    cfg.host = data.host?.trim() || resolveDefaultHost(settingsStore);
+
     cfg.port = data.port ?? cfg.port;
     cfg.basePath = data.basePath ?? cfg.basePath;
     cfg.useToken = !!data.useToken;

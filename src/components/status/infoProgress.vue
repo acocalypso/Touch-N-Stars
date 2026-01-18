@@ -1,5 +1,5 @@
 <template>
-  <div class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
+  <div class="gap-2 grid grid-cols-1 sm:grid-cols-2 landscape:grid-cols-3">
     <div
       v-for="item in displayItems"
       :key="item.id"

@@ -176,20 +176,21 @@
               <!-- Preview -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-white font-semibold">
-                        {{ t('plugins.platesolveplus.preview.preview_title') }}
-                    </h3>
+                  <h3 class="text-white font-semibold">
+                    {{ t('plugins.platesolveplus.preview.preview_title') }}
+                  </h3>
                   <div class="flex items-center gap-2">
                     <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
                       <input type="checkbox" v-model="autoPreview" class="rounded" />
-                      {{ t('plugins.platesolveplus.preview.auto_refresh')
-                        }}
-                        </label>
-                        <button class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                                @click="refreshPreview(true)">
-                            {{ t('plugins.platesolveplus.buttons.refresh') }}
-                        </button>
-</div>
+                      {{ t('plugins.platesolveplus.preview.auto_refresh') }}
+                    </label>
+                    <button
+                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                      @click="refreshPreview(true)"
+                    >
+                      {{ t('plugins.platesolveplus.buttons.refresh') }}
+                    </button>
+                  </div>
                 </div>
 
                 <div class="mt-3">
@@ -911,7 +912,7 @@ const settingsStore = useSettingsStore();
 // =========================
 // State
 // ========================
-const { t } = useI18n({ useScope: "global" });
+const { t } = useI18n({ useScope: 'global' });
 
 const status = reactive({
   statusText: null,
@@ -1198,8 +1199,8 @@ const {
   baseUrl,
   wsUrl,
   authHeaders,
- loadConfig: loadCfg,
- saveConfig: saveCfg,
+  loadConfig: loadCfg,
+  saveConfig: saveCfg,
 } = usePspConfig(settingsStore);
 
 // =========================
@@ -1211,13 +1212,13 @@ function refreshPreview(force = false) {
   previewError.value = '';
   previewLoaded.value = false; //Overlay zeigen bis load kommt
 
-  const now = Date.now();
+  const tstamp = Date.now();
   if (!(force || autoPreview.value)) return;
 
   // robust: funktioniert auch wenn baseUrl absolut ist
   const url = new URL(`${baseUrl.value}/preview/latest.jpg`);
 
-  url.searchParams.set('now', String(t));
+  url.searchParams.set('tstamp', String(tstamp));
 
   // img kann keine Header senden -> token per query
   if (cfg?.useToken && cfg?.token?.trim()) {

@@ -9,7 +9,9 @@
     >
       <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700">
         <div>
-          <div class="text-white font-semibold">{{ t('plugins.platesolveplus.secondary_setup.title') }}</div>
+          <div class="text-white font-semibold">
+            {{ t('plugins.platesolveplus.secondary_setup.title') }}
+          </div>
           <div class="text-xs text-gray-400 mt-0.5">
             {{ t('plugins.platesolveplus.secondary_setup.subtitle') }}
           </div>
@@ -36,7 +38,11 @@
                 : 'border-gray-600 text-gray-300 bg-black/20'
             "
           >
-            {{ secondary?.connected ? t('plugins.platesolveplus.secondary_setup.pills.connected') : t('plugins.platesolveplus.secondary_setup.pills.disconnected') }}
+            {{
+              secondary?.connected
+                ? t('plugins.platesolveplus.secondary_setup.pills.connected')
+                : t('plugins.platesolveplus.secondary_setup.pills.disconnected')
+            }}
           </span>
           <span
             class="px-2 py-1 rounded-full border"
@@ -46,10 +52,17 @@
                 : 'border-gray-600 text-gray-300 bg-black/20'
             "
           >
-            {{ status?.busy ? t('plugins.platesolveplus.secondary_setup.pills.busy') : t('plugins.platesolveplus.secondary_setup.pills.idle') }}
+            {{
+              status?.busy
+                ? t('plugins.platesolveplus.secondary_setup.pills.busy')
+                : t('plugins.platesolveplus.secondary_setup.pills.idle')
+            }}
           </span>
           <span class="px-2 py-1 rounded-full border border-gray-600 text-gray-300 bg-black/20">
-            {{ t('plugins.platesolveplus.secondary_setup.pills.active') }}: <span class="font-mono">{{ secondary?.activeProgId || t('plugins.platesolveplus.common.empty') }}</span>
+            {{ t('plugins.platesolveplus.secondary_setup.pills.active') }}:
+            <span class="font-mono">{{
+              secondary?.activeProgId || t('plugins.platesolveplus.common.empty')
+            }}</span>
           </span>
         </div>
 
@@ -57,7 +70,9 @@
         <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
           <div class="flex items-start justify-between gap-3">
             <div>
-              <div class="text-white font-semibold">{{ t('plugins.platesolveplus.secondary_setup.driver.title') }}</div>
+              <div class="text-white font-semibold">
+                {{ t('plugins.platesolveplus.secondary_setup.driver.title') }}
+              </div>
               <div class="mt-1 text-xs text-gray-400">
                 Choose the ASCOM driver to use as secondary camera.
               </div>
@@ -84,25 +99,36 @@
           </div>
 
           <div class="mt-3">
-            <label class="text-xs text-gray-400">{{ t('plugins.platesolveplus.secondary_setup.driver.title') }}</label>
+            <label class="text-xs text-gray-400">{{
+              t('plugins.platesolveplus.secondary_setup.driver.title')
+            }}</label>
             <select
               v-model="localSelectedProgId"
               class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
               :disabled="secondary?.connected || secondary?.loading"
             >
-              <option value="" disabled>{{ t('plugins.platesolveplus.secondary_setup.driver.select_placeholder') }}</option>
+              <option value="" disabled>
+                {{ t('plugins.platesolveplus.secondary_setup.driver.select_placeholder') }}
+              </option>
               <option
                 v-for="d in secondary?.drivers || []"
                 :key="d.progId || d.ProgId || d.id || d.name || d.Name"
                 :value="d.progId || d.ProgId"
               >
-                {{ d.name || d.Name || t('plugins.platesolveplus.secondary_setup.driver.fallback_name') }} ({{ d.progId || d.ProgId }})
+                {{
+                  d.name ||
+                  d.Name ||
+                  t('plugins.platesolveplus.secondary_setup.driver.fallback_name')
+                }}
+                ({{ d.progId || d.ProgId }})
               </option>
             </select>
 
             <div class="mt-2 text-xs text-gray-500">
               {{ t('plugins.platesolveplus.secondary_setup.driver.selected') }}:
-              <span class="text-gray-200 font-mono">{{ localSelectedProgId || t('plugins.platesolveplus.common.empty') }}</span>
+              <span class="text-gray-200 font-mono">{{
+                localSelectedProgId || t('plugins.platesolveplus.common.empty')
+              }}</span>
             </div>
 
             <div class="mt-3 flex flex-wrap gap-2">
@@ -151,7 +177,9 @@
 
         <div class="text-xs text-gray-500">
           {{ t('plugins.platesolveplus.secondary_setup.tip.prefix') }}
-          <span class="text-gray-300">{{ t('plugins.platesolveplus.secondary_setup.buttons.sync') }}</span>
+          <span class="text-gray-300">{{
+            t('plugins.platesolveplus.secondary_setup.buttons.sync')
+          }}</span>
           {{ t('plugins.platesolveplus.secondary_setup.tip.suffix') }}
         </div>
       </div>

@@ -3,7 +3,7 @@
     <div class="max-w-5xl mx-auto">
       <div class="flex items-center justify-between mb-6">
         <div>
-          <h2 class="text-2xl font-bold text-white">PlateSolvePlus</h2>
+          <h2 class="text-2xl font-bold text-white">{{ t('plugins.platesolveplus.title') }}</h2>
           <p class="text-gray-400 text-sm mt-1">
             {{ t('plugins.platesolveplus.subtitle') }}
           </p>
@@ -16,7 +16,12 @@
                 class="w-2 h-2 rounded-full"
                 :class="wsConnected ? 'bg-green-500' : 'bg-gray-600'"
               ></span>
-              WS {{ wsConnected ? 'connected' : 'disconnected' }}
+              {{ t('plugins.platesolveplus.ws.label') }}
+              {{
+                wsConnected
+                  ? t('plugins.platesolveplus.ws.connected')
+                  : t('plugins.platesolveplus.ws.disconnected')
+              }}
             </span>
             <span class="text-gray-600">|</span>
             <span class="font-mono">{{ baseUrl }}</span>
@@ -38,7 +43,7 @@
             "
             @click="activeTab = 'control'"
           >
-            Control
+            {{ t('plugins.platesolveplus.tabs.control') }}
           </button>
 
           <button
@@ -50,7 +55,7 @@
             "
             @click="activeTab = 'config'"
           >
-            Config
+            {{ t('plugins.platesolveplus.tabs.config') }}
           </button>
         </div>
 
@@ -63,50 +68,82 @@
               <!-- Status -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
                 <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">Status</h3>
+                  <h3 class="text-white font-semibold">
+                    {{ t('plugins.platesolveplus.sections.status') }}
+                  </h3>
                   <button
                     class="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-200 hover:bg-white/10"
                     @click="refreshStatus"
                     :disabled="loadingStatus"
                   >
-                    {{ loadingStatus ? 'Refreshing…' : 'Refresh' }}
+                    {{
+                      loadingStatus
+                        ? t('plugins.platesolveplus.buttons.refreshing')
+                        : t('plugins.platesolveplus.buttons.refresh')
+                    }}
                   </button>
                 </div>
 
                 <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
                   <!-- green=true / red=false (Busy is inverted) -->
-                  <StatusIcon label="Busy" :value="status.busy === false" />
-                  <StatusIcon label="Service Ready" :value="!!status.importsReady" />
-                  <StatusIcon label="Mount connected" :value="!!status.mountConnected" />
-                  <StatusIcon label="Camera connected" :value="!!secondary.connected" />
+                  <StatusIcon
+                    :label="t('plugins.platesolveplus.status_labels.busy')"
+                    :value="status.busy === false"
+                  />
+                  <StatusIcon
+                    :label="t('plugins.platesolveplus.status_labels.service_ready')"
+                    :value="!!status.importsReady"
+                  />
+                  <StatusIcon
+                    :label="t('plugins.platesolveplus.status_labels.mount_connected')"
+                    :value="!!status.mountConnected"
+                  />
+                  <StatusIcon
+                    :label="t('plugins.platesolveplus.status_labels.camera_connected')"
+                    :value="!!secondary.connected"
+                  />
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
                   <div>
-                    Last update:
-                    <span class="text-gray-200">
-                      {{ lastStatusTs ? new Date(lastStatusTs).toLocaleString() : '—' }}
+                    {{ t('plugins.platesolveplus.status_labels.last_update') }}:
+                    <span class="text-gray-200">{{
+                      lastStatusTs
+                        ? new Date(lastStatusTs).toLocaleString()
+                        : t('plugins.platesolveplus.common.empty')
+                    }}</span>
+                  </div>
+
+                  <div>
+                    <span class="text-gray-400"
+                      >{{ t('plugins.platesolveplus.status_labels.task_status') }}:
                     </span>
+                    <span class="text-gray-200">{{
+                      status.statusText ?? t('plugins.platesolveplus.common.empty')
+                    }}</span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">Task Status: </span>
-                    <span class="text-gray-200">{{ status.statusText ?? '—' }}</span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400">used Parameters: </span>
-                    <span class="text-gray-300">{{ status.detailsText ?? '—' }}</span>
+                    <span class="text-gray-400"
+                      >{{ t('plugins.platesolveplus.status_labels.used_parameters') }}:
+                    </span>
+                    <span class="text-gray-300">{{
+                      status.detailsText ?? t('plugins.platesolveplus.common.empty')
+                    }}</span>
                   </div>
 
                   <div
                     v-if="status.lastGuiderSolveText || status.correctedSolveText"
                     class="pt-2 border-t border-gray-700"
                   >
-                    <div class="text-gray-400">Validation:</div>
+                    <div class="text-gray-400">
+                      {{ t('plugins.platesolveplus.status_labels.validation') }}:
+                    </div>
                     <div class="mt-1 space-y-2">
                       <div v-if="status.lastGuiderSolveText">
-                        <div class="text-gray-500 text-[11px]">Raw solve (guider camera)</div>
+                        <div class="text-gray-500 text-[11px]">
+                          {{ t('plugins.platesolveplus.status_labels.raw_solve') }}
+                        </div>
                         <pre
                           class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
                           >{{ status.lastGuiderSolveText }}</pre
@@ -114,7 +151,7 @@
                       </div>
                       <div v-if="status.correctedSolveText">
                         <div class="text-gray-500 text-[11px]">
-                          Corrected coordinates (with offset)
+                          {{ t('plugins.platesolveplus.status_labels.corrected_coordinates') }}
                         </div>
                         <pre
                           class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
@@ -125,7 +162,9 @@
                   </div>
 
                   <div v-if="status.lastSolveSummary" class="pt-2 border-t border-gray-700">
-                    <div class="text-gray-400">lastSolveSummary:</div>
+                    <div class="text-gray-400">
+                      {{ t('plugins.platesolveplus.status_labels.last_solve_summary') }}:
+                    </div>
                     <pre
                       class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-40"
                       >{{ status.lastSolveSummary }}</pre
@@ -137,21 +176,20 @@
               <!-- Preview -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
                 <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">
-                    {{ t('plugins.platesolveplus.preview.preview_title') }}
-                  </h3>
+                    <h3 class="text-white font-semibold">
+                        {{ t('plugins.platesolveplus.preview.preview_title') }}
+                    </h3>
                   <div class="flex items-center gap-2">
                     <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
                       <input type="checkbox" v-model="autoPreview" class="rounded" />
-                      Auto refresh
-                    </label>
-                    <button
-                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                      @click="refreshPreview(true)"
-                    >
-                      Refresh
-                    </button>
-                  </div>
+                      {{ t('plugins.platesolveplus.preview.auto_refresh')
+                        }}
+                        </label>
+                        <button class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                                @click="refreshPreview(true)">
+                            {{ t('plugins.platesolveplus.buttons.refresh') }}
+                        </button>
+</div>
                 </div>
 
                 <div class="mt-3">
@@ -167,10 +205,11 @@
                   <div class="mt-2 border border-gray-700 rounded-md overflow-hidden bg-black/30">
                     <div class="relative w-full">
                       <!-- Image -->
+                      <!-- Image -->
                       <img
                         v-if="previewUrl && !previewError"
                         :src="previewUrl"
-                        alt="Latest preview"
+                        :alt="t('plugins.platesolveplus.preview.alt_latest_preview')"
                         class="w-full object-contain"
                         @error="onPreviewError"
                         @load="onPreviewLoad"
@@ -184,12 +223,14 @@
                         <div
                           class="px-4 py-3 rounded-lg border border-gray-600 bg-black/50 text-gray-200 text-sm"
                         >
-                          <div class="font-semibold">Preview unavailable</div>
+                          <div class="font-semibold">
+                            {{ t('plugins.platesolveplus.preview.unavailable_title') }}
+                          </div>
                           <div class="text-xs text-gray-400 mt-1">
                             {{
                               previewError
-                                ? 'Load error — please refresh.'
-                                : 'No preview loaded yet.'
+                                ? t('plugins.platesolveplus.preview.load_error')
+                                : t('plugins.platesolveplus.preview.no_preview_loaded')
                             }}
                           </div>
                         </div>
@@ -198,8 +239,7 @@
                   </div>
 
                   <div class="mt-2 text-xs text-gray-500">
-                    Cache-busting enabled (<code>?t=</code>). Server also sends
-                    <code>Cache-Control: no-store</code>.
+                    {{ t('plugins.platesolveplus.preview.cache_hint') }}
                   </div>
                 </div>
               </div>
@@ -209,7 +249,9 @@
             <div class="space-y-4">
               <!-- Actions -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <h3 class="text-white font-semibold">Actions</h3>
+                <h3 class="text-white font-semibold">
+                  {{ t('plugins.platesolveplus.sections.actions') }}
+                </h3>
 
                 <div class="mt-3 flex flex-wrap gap-2">
                   <button
@@ -218,7 +260,7 @@
                     :disabled="!canCapture"
                     title="POST /capture"
                   >
-                    Capture
+                    {{ t('plugins.platesolveplus.buttons.capture') }}
                   </button>
 
                   <button
@@ -227,7 +269,7 @@
                     :disabled="!canSolveSync"
                     title="POST /sync"
                   >
-                    Solve + Sync
+                    {{ t('plugins.platesolveplus.buttons.solve_sync') }}
                   </button>
 
                   <button
@@ -236,39 +278,54 @@
                     :disabled="!canCenterSolve"
                     title="POST /center"
                   >
-                    Center + Solve
+                    {{ t('plugins.platesolveplus.buttons.center_solve') }}
                   </button>
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
                   <div>
-                    <span class="text-gray-500">Capture:</span> platesolve only (validation), no
-                    sync/slew.
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.capture_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.capture_text') }}
                   </div>
                   <div>
-                    <span class="text-gray-500">Solve + Sync:</span> platesolve and sync the mount
-                    (requires mount connected).
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.solve_sync_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.solve_sync_text') }}
                   </div>
                   <div>
-                    <span class="text-gray-500">Center + Solve:</span> platesolve and center the
-                    target (requires mount connected + a calibrated offset).
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.center_solve_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
                   </div>
                 </div>
 
                 <!-- Progress (synthetic) -->
                 <div class="mt-4 border border-gray-700 rounded-lg p-3 bg-black/20">
                   <div class="flex items-center justify-between">
-                    <div class="text-white text-sm font-semibold">Solve Progress</div>
+                    <div class="text-white text-sm font-semibold">
+                      {{ t('plugins.platesolveplus.progress.title') }}
+                    </div>
                     <div class="text-xs text-gray-400">
-                      Job: <span class="text-gray-200">{{ activeJobId ?? '—' }}</span>
+                      {{ t('plugins.platesolveplus.progress.job') }}:
+                      <span class="text-gray-200">{{
+                        activeJobId ?? t('plugins.platesolveplus.common.empty')
+                      }}</span>
                     </div>
                   </div>
 
                   <!-- Phase pills (more readable than raw stage text) -->
                   <div class="mt-2">
                     <div class="flex items-center gap-2 text-xs text-gray-300">
-                      <span class="text-gray-400">Action:</span>
-                      <span class="font-semibold text-gray-100">{{ progress.action ?? '—' }}</span>
+                      <span class="text-gray-400"
+                        >{{ t('plugins.platesolveplus.progress.action') }}:</span
+                      >
+                      <span class="font-semibold text-gray-100">{{
+                        progress.action ?? t('plugins.platesolveplus.common.empty')
+                      }}</span>
                     </div>
 
                     <div v-if="progress.action" class="mt-2 flex flex-wrap gap-2">
@@ -279,9 +336,17 @@
                   </div>
 
                   <div class="mt-2 text-xs text-gray-300">
-                    <div><span class="text-gray-400">Stage:</span> {{ progress.stage ?? '—' }}</div>
+                    <div>
+                      <span class="text-gray-400"
+                        >{{ t('plugins.platesolveplus.progress.stage') }}:</span
+                      >
+                      {{ progress.stage ?? t('plugins.platesolveplus.common.empty') }}
+                    </div>
                     <div class="mt-1">
-                      <span class="text-gray-400">Message:</span> {{ progress.message ?? '—' }}
+                      <span class="text-gray-400"
+                        >{{ t('plugins.platesolveplus.progress.message') }}:</span
+                      >
+                      {{ progress.message ?? t('plugins.platesolveplus.common.empty') }}
                     </div>
                   </div>
 
@@ -293,7 +358,9 @@
                   </div>
                   <div class="mt-1 text-xs text-gray-400">{{ progress.percent }}%</div>
 
-                  <div class="mt-2 text-[11px] text-gray-500">Process progress.</div>
+                  <div class="mt-2 text-[11px] text-gray-500">
+                    {{ t('plugins.platesolveplus.progress.process_progress') }}
+                  </div>
                 </div>
               </div>
 
@@ -301,14 +368,20 @@
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
                 <div class="flex items-start justify-between gap-3">
                   <div>
-                    <h3 class="text-white font-semibold">Secondary Camera (ASCOM)</h3>
+                    <h3 class="text-white font-semibold">
+                      {{ t('plugins.platesolveplus.sections.secondary_camera') }}
+                    </h3>
                     <div class="mt-1 text-xs text-gray-400">
-                      Status:
+                      {{ t('plugins.platesolveplus.secondary.status') }}:
                       <span
                         class="font-semibold"
                         :class="secondary.connected ? 'text-green-300' : 'text-gray-300'"
                       >
-                        {{ secondary.connected ? 'Connected' : 'Disconnected' }}
+                        {{
+                          secondary.connected
+                            ? t('plugins.platesolveplus.secondary.connected')
+                            : t('plugins.platesolveplus.secondary.disconnected')
+                        }}
                       </span>
                     </div>
                   </div>
@@ -321,7 +394,7 @@
                       :disabled="secondary.loading"
                       title="GET /secondary/drivers"
                     >
-                      Refresh
+                      {{ t('plugins.platesolveplus.buttons.refresh') }}
                     </button>
 
                     <button
@@ -330,7 +403,7 @@
                       :disabled="secondary.loading"
                       title="GET /secondary/selection"
                     >
-                      Sync
+                      {{ t('plugins.platesolveplus.buttons.sync') }}
                     </button>
                     <button
                       class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
@@ -338,14 +411,16 @@
                       :disabled="secondary.loading"
                       title="Open Secondary Setup"
                     >
-                      Setup…
+                      {{ t('plugins.platesolveplus.buttons.setup') }}
                     </button>
                   </div>
                 </div>
 
                 <!-- Selection moved to Setup dialog: show current camera here -->
                 <div class="mt-3">
-                  <div class="text-xs text-gray-400">Current camera</div>
+                  <div class="text-xs text-gray-400">
+                    {{ t('plugins.platesolveplus.secondary.current_camera') }}
+                  </div>
 
                   <div class="mt-2 flex items-center gap-2 flex-wrap">
                     <span
@@ -361,7 +436,7 @@
                           secondary.selection?.name ||
                           secondary.activeProgId ||
                           secondary.selectedProgId ||
-                          '—'
+                          t('plugins.platesolveplus.common.empty')
                         }}
                       </span>
                       <span
@@ -377,7 +452,7 @@
                     </span>
 
                     <span class="text-xs text-gray-500" v-if="!secondary.connected">
-                      Not connected
+                      {{ t('plugins.platesolveplus.secondary.not_connected') }}
                     </span>
                   </div>
                 </div>
@@ -391,146 +466,200 @@
 
               <!-- Offset -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <h3 class="text-white font-semibold">Offset</h3>
+                <h3 class="text-white font-semibold">
+                  {{ t('plugins.platesolveplus.sections.offset') }}
+                </h3>
 
                 <div class="mt-3 text-sm text-gray-300 space-y-1">
                   <div>
-                    <span class="text-gray-400">offsetEnabled:</span>
-                    <span class="text-gray-100 font-mono">
-                      {{ status.offsetEnabled ? 'true' : 'false' }}
-                    </span>
+                    <span class="text-gray-400"
+                      >{{ t('plugins.platesolveplus.offset_fields.offset_enabled') }}:</span
+                    >
+                    <span class="text-gray-100 font-mono">{{
+                      status.offsetEnabled
+                        ? t('plugins.platesolveplus.common.true')
+                        : t('plugins.platesolveplus.common.false')
+                    }}</span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">offsetMode:</span>
-                    <span class="text-gray-100 font-mono">{{ status.offsetMode ?? '—' }}</span>
+                    <span class="text-gray-400"
+                      >{{ t('plugins.platesolveplus.offset_fields.offset_mode') }}:</span
+                    >
+                    <span class="text-gray-100 font-mono">{{
+                      status.offsetMode ?? t('plugins.platesolveplus.common.empty')
+                    }}</span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">ΔRA (arcsec):</span>
-                    <span class="text-gray-100 font-mono">{{ status.offsetRaArcsec ?? '—' }}</span>
+                    <span class="text-gray-400">{{
+                      t('plugins.platesolveplus.offset_fields.dra_arcsec')
+                    }}</span>
+                    <span class="text-gray-100 font-mono">{{
+                      status.offsetRaArcsec ?? t('plugins.platesolveplus.common.empty')
+                    }}</span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">ΔDec (arcsec):</span>
-                    <span class="text-gray-100 font-mono">{{ status.offsetDecArcsec ?? '—' }}</span>
+                    <span class="text-gray-400">{{
+                      t('plugins.platesolveplus.offset_fields.ddec_arcsec')
+                    }}</span>
+                    <span class="text-gray-100 font-mono">{{
+                      status.offsetDecArcsec ?? t('plugins.platesolveplus.common.empty')
+                    }}</span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">rotation (quat):</span>
-                    <span class="text-gray-100 font-mono">
-                      {{ status.rotation ? pretty(status.rotation) : '—' }}
-                    </span>
+                    <span class="text-gray-400">{{
+                      t('plugins.platesolveplus.offset_fields.rotation_quat')
+                    }}</span>
+                    <span class="text-gray-100 font-mono">{{
+                      status.rotation
+                        ? pretty(status.rotation)
+                        : t('plugins.platesolveplus.common.empty')
+                    }}</span>
                   </div>
                 </div>
               </div>
 
               <!-- Settings (replaces Last result / status payload) -->
               <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <div class="text-white font-semibold">Current Settings</div>
+                <div class="text-white font-semibold">
+                  {{ t('plugins.platesolveplus.sections.current_settings') }}
+                </div>
                 <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <!-- Camera settings -->
                   <div class="border border-gray-700 rounded-md p-3 bg-black/20">
-                    <div class="text-xs text-gray-400 font-semibold">Camera</div>
+                    <div class="text-xs text-gray-400 font-semibold">
+                      {{ t('plugins.platesolveplus.settings.camera') }}
+                    </div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">Exposure:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            cameraSettings.exposureSeconds != null
-                              ? `${cameraSettings.exposureSeconds}s`
-                              : '—'
-                          }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.exposure')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          cameraSettings.exposureSeconds != null
+                            ? `${cameraSettings.exposureSeconds}s`
+                            : t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Gain:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            cameraSettings.gain == null
-                              ? '—'
-                              : Number(cameraSettings.gain) < 0
-                                ? 'auto'
-                                : cameraSettings.gain
-                          }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.gain')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          cameraSettings.gain == null
+                            ? t('plugins.platesolveplus.common.empty')
+                            : Number(cameraSettings.gain) < 0
+                              ? t('plugins.platesolveplus.settings.auto_gain')
+                              : cameraSettings.gain
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Binning:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{ cameraSettings.binning ?? '—' }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.binning')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          cameraSettings.binning ?? t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                     </div>
                   </div>
 
                   <!-- Scope / mount settings -->
                   <div class="border border-gray-700 rounded-md p-3 bg-black/20">
-                    <div class="text-xs text-gray-400 font-semibold">Scope</div>
+                    <div class="text-xs text-gray-400 font-semibold">
+                      {{ t('plugins.platesolveplus.settings.scope') }}
+                    </div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">Focal Length:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            scopeFocalLength != null
-                              ? `${Number(scopeFocalLength).toFixed(0)} mm`
-                              : '—'
-                          }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.focal_length')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          scopeFocalLength != null
+                            ? `${Number(scopeFocalLength).toFixed(0)} mm`
+                            : t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Focal Scale:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            scopeFocalScale != null
-                              ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
-                              : '—'
-                          }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.focal_scale')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          scopeFocalScale != null
+                            ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
+                            : t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Pixel Size:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            scopePixelSize != null ? `${Number(scopePixelSize).toFixed(2)} µm` : '—'
-                          }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.pixel_size')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          scopePixelSize != null
+                            ? `${Number(scopePixelSize).toFixed(2)} µm`
+                            : t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                     </div>
                   </div>
 
                   <!-- Platesolve settings -->
                   <div class="border border-gray-700 rounded-md p-3 bg-black/20">
-                    <div class="text-xs text-gray-400 font-semibold">Platesolve</div>
+                    <div class="text-xs text-gray-400 font-semibold">
+                      {{ t('plugins.platesolveplus.settings.platesolve') }}
+                    </div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">Search Radius:</span>
-                        <span class="text-gray-200 font-mono">
-                          {{ psSearchRadius != null ? `${psSearchRadius}` : '—' }}
-                        </span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.search_radius')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          psSearchRadius != null
+                            ? `${psSearchRadius}`
+                            : t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Downsample:</span>
-                        <span class="text-gray-200 font-mono">{{ psDownsample ?? '—' }}</span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.downsample')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          psDownsample ?? t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Timeout (sec):</span>
-                        <span class="text-gray-200 font-mono">{{ psTimeoutSec ?? '—' }}</span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.timeout_sec')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          psTimeoutSec ?? t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Threshold:</span>
-                        <span class="text-gray-200 font-mono">{{ psThreshold ?? '—' }}</span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.threshold')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          psThreshold ?? t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                       <div>
-                        <span class="text-gray-500">Max attempts:</span>
-                        <span class="text-gray-200 font-mono">{{ psMaxAttempts ?? '—' }}</span>
+                        <span class="text-gray-500">{{
+                          t('plugins.platesolveplus.settings.max_attempts')
+                        }}</span>
+                        <span class="text-gray-200 font-mono">{{
+                          psMaxAttempts ?? t('plugins.platesolveplus.common.empty')
+                        }}</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div class="mt-3 text-[11px] text-gray-500">
-                  These values come from the backend settings endpoint.
+                  {{ t('plugins.platesolveplus.settings.values_from_backend') }}
                 </div>
               </div>
             </div>
@@ -539,17 +668,21 @@
           <!-- Event log (full width) -->
           <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
             <div class="flex items-center justify-between">
-              <h3 class="text-white font-semibold">Event Log</h3>
+              <h3 class="text-white font-semibold">
+                {{ t('plugins.platesolveplus.sections.event_log') }}
+              </h3>
               <button
                 class="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-200 hover:bg-white/10"
                 @click="log = []"
               >
-                Clear
+                {{ t('plugins.platesolveplus.buttons.clear') }}
               </button>
             </div>
 
             <div class="mt-3 text-xs font-mono text-gray-200 space-y-1 max-h-56 overflow-auto">
-              <div v-if="log.length === 0" class="text-gray-500">—</div>
+              <div v-if="log.length === 0" class="text-gray-500">
+                {{ t('plugins.platesolveplus.common.empty') }}
+              </div>
               <div v-for="(line, idx) in log" :key="idx" class="whitespace-pre-wrap">
                 {{ line }}
               </div>
@@ -560,11 +693,15 @@
         <!-- CONFIG TAB -->
         <div v-show="activeTab === 'config'" class="p-5 space-y-5">
           <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <h3 class="text-white font-semibold">Connection</h3>
+            <h3 class="text-white font-semibold">
+              {{ t('plugins.platesolveplus.sections.connection') }}
+            </h3>
 
             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="text-xs text-gray-400">Host</label>
+                <label class="text-xs text-gray-400">{{
+                  t('plugins.platesolveplus.config.host')
+                }}</label>
                 <input
                   v-model.trim="cfg.host"
                   class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
@@ -573,7 +710,9 @@
               </div>
 
               <div>
-                <label class="text-xs text-gray-400">Port</label>
+                <label class="text-xs text-gray-400">{{
+                  t('plugins.platesolveplus.config.port')
+                }}</label>
                 <input
                   v-model.number="cfg.port"
                   type="number"
@@ -585,14 +724,16 @@
               </div>
 
               <div class="md:col-span-2">
-                <label class="text-xs text-gray-400">Base Path</label>
+                <label class="text-xs text-gray-400">{{
+                  t('plugins.platesolveplus.config.base_path')
+                }}</label>
                 <input
                   v-model.trim="cfg.basePath"
                   class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
                   placeholder="/api/platesolveplus"
                 />
                 <div class="mt-1 text-xs text-gray-500">
-                  Default: <code>/api/platesolveplus</code>
+                  {{ t('plugins.platesolveplus.config.base_path_default') }}
                 </div>
               </div>
             </div>
@@ -600,19 +741,21 @@
             <div class="mt-4 border-t border-gray-700 pt-4">
               <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
                 <input type="checkbox" v-model="cfg.useToken" class="rounded" />
-                Use token (optional)
+                {{ t('plugins.platesolveplus.config.use_token_optional') }}
               </label>
 
               <div class="mt-3">
-                <label class="text-xs text-gray-400">Token</label>
+                <label class="text-xs text-gray-400">{{
+                  t('plugins.platesolveplus.config.token')
+                }}</label>
                 <input
                   v-model="cfg.token"
                   :disabled="!cfg.useToken"
                   class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100 disabled:opacity-40"
-                  placeholder="token…"
+                  :placeholder="t('plugins.platesolveplus.config.token_placeholder')"
                 />
                 <div class="mt-1 text-xs text-gray-500">
-                  Sent as header <code>X-PSP-Token</code> (matches the PlateSolvePlus API host).
+                  {{ t('plugins.platesolveplus.config.token_hint') }}
                 </div>
               </div>
             </div>
@@ -622,19 +765,19 @@
                 class="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200"
                 @click="saveConfig"
               >
-                Save Config
+                {{ t('plugins.platesolveplus.buttons.save_config') }}
               </button>
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
                 @click="loadConfig"
               >
-                Reload from Storage
+                {{ t('plugins.platesolveplus.buttons.reload_from_storage') }}
               </button>
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
                 @click="testConnection"
               >
-                Test Connection
+                {{ t('plugins.platesolveplus.buttons.test_connection') }}
               </button>
             </div>
 
@@ -651,37 +794,45 @@
             </div>
 
             <div class="mt-3 text-xs text-gray-500">
-              Active URL: <span class="text-gray-200 font-mono">{{ baseUrl }}</span>
+              {{ t('plugins.platesolveplus.config.active_url') }}
+              <span class="text-gray-200 font-mono">{{ baseUrl }}</span>
             </div>
           </div>
 
           <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <h3 class="text-white font-semibold">WebSocket</h3>
+            <h3 class="text-white font-semibold">
+              {{ t('plugins.platesolveplus.sections.websocket') }}
+            </h3>
             <div class="mt-2 text-xs text-gray-400">
-              Endpoint: <span class="text-gray-200 font-mono">{{ wsUrl }}</span>
+              {{ t('plugins.platesolveplus.websocket.endpoint') }}
+              <span class="text-gray-200 font-mono">{{ wsUrl }}</span>
             </div>
             <div class="mt-3 flex flex-wrap gap-2">
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
                 @click="connectWs(true)"
               >
-                Reconnect WS
+                {{ t('plugins.platesolveplus.buttons.reconnect_ws') }}
               </button>
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
                 @click="disconnectWs"
               >
-                Disconnect WS
+                {{ t('plugins.platesolveplus.buttons.disconnect_ws') }}
               </button>
             </div>
-            <div class="mt-3 text-xs text-gray-500">Auto-reconnect enabled (backoff).</div>
+            <div class="mt-3 text-xs text-gray-500">
+              {{ t('plugins.platesolveplus.websocket.auto_reconnect') }}
+            </div>
           </div>
 
           <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <h3 class="text-white font-semibold">Offsets</h3>
+            <h3 class="text-white font-semibold">
+              {{ t('plugins.platesolveplus.sections.offsets') }}
+            </h3>
 
             <div class="mt-2 text-xs text-gray-400">
-              Calibrate creates/updates the guider-to-main offset model. Reset clears all offsets.
+              {{ t('plugins.platesolveplus.offsets_help.text') }}
             </div>
 
             <div class="mt-4 flex flex-wrap gap-2">
@@ -691,7 +842,7 @@
                 :disabled="!canResetOffsets"
                 title="POST /offset/reset"
               >
-                Reset Offsets
+                {{ t('plugins.platesolveplus.buttons.reset_offsets') }}
               </button>
 
               <button
@@ -700,7 +851,7 @@
                 :disabled="!canCalibrateOffset"
                 title="POST /offset/calibrate"
               >
-                Calibrate Offsets
+                {{ t('plugins.platesolveplus.buttons.calibrate_offsets') }}
               </button>
             </div>
           </div>
@@ -708,7 +859,7 @@
       </div>
 
       <div class="mt-4 text-xs text-gray-600">
-        REST:
+        {{ t('plugins.platesolveplus.footer.rest') }}
         <span class="text-gray-300 font-mono">GET /status</span>,
         <span class="text-gray-300 font-mono">POST /capture</span>,
         <span class="text-gray-300 font-mono">POST /sync</span>,
@@ -759,21 +910,17 @@ const settingsStore = useSettingsStore();
 
 // =========================
 // State
-// =========================
-const { t } = useI18n();
-const status = reactive({
-  busy: false,
-  importsReady: false,
-  mountConnected: false,
-  mountState: null,
-  secondaryConnected: false,
+// ========================
+const { t } = useI18n({ useScope: "global" });
 
+const status = reactive({
   statusText: null,
   detailsText: null,
   lastSolveSummary: null,
   lastGuiderSolveText: null,
   correctedSolveText: null,
 
+  // Offset state (technical keys!)
   offsetEnabled: false,
   offsetMode: null,
   offsetRaArcsec: null,
@@ -1028,7 +1175,7 @@ function safeJson(obj) {
 }
 
 function pretty(obj) {
-  if (!obj) return '—';
+  if (!obj) return t('plugins.platesolveplus.common.empty');
   try {
     return JSON.stringify(obj, null, 2);
   } catch {
@@ -1051,8 +1198,8 @@ const {
   baseUrl,
   wsUrl,
   authHeaders,
-  loadConfig: loadCfg,
-  saveConfig: saveCfg,
+ loadConfig: loadCfg,
+ saveConfig: saveCfg,
 } = usePspConfig(settingsStore);
 
 // =========================
@@ -1064,13 +1211,13 @@ function refreshPreview(force = false) {
   previewError.value = '';
   previewLoaded.value = false; //Overlay zeigen bis load kommt
 
-  const t = Date.now();
+  const now = Date.now();
   if (!(force || autoPreview.value)) return;
 
   // robust: funktioniert auch wenn baseUrl absolut ist
   const url = new URL(`${baseUrl.value}/preview/latest.jpg`);
 
-  url.searchParams.set('t', String(t));
+  url.searchParams.set('now', String(t));
 
   // img kann keine Header senden -> token per query
   if (cfg?.useToken && cfg?.token?.trim()) {
@@ -1078,7 +1225,7 @@ function refreshPreview(force = false) {
   }
 
   previewUrl.value = url.toString();
-  if (force) pushLog('Preview refreshed');
+  if (force) pushLog(t('plugins.platesolveplus.log.preview_refreshed'));
 }
 
 function onPreviewLoad() {
@@ -1088,7 +1235,7 @@ function onPreviewLoad() {
 
 function onPreviewError() {
   previewLoaded.value = false;
-  previewError.value = 'No preview available (yet).';
+  previewError.value = t('plugins.platesolveplus.preview.no_preview_yet');
 }
 
 // =========================
@@ -1122,20 +1269,20 @@ function startFakeActionProgress(action) {
 
   // default targets (so we never hit 100% before the real finish event)
   let target = 90;
-  let initialMsg = 'Working…';
+  let initialMsg = t('plugins.platesolveplus.progress.messages.working');
 
   if (a === 'capture') {
     target = 95;
-    initialMsg = 'Capturing + validating…';
+    initialMsg = t('plugins.platesolveplus.progress.messages.capturing_validating');
   } else if (a === 'sync') {
     target = 92;
-    initialMsg = 'Solving + syncing…';
+    initialMsg = t('plugins.platesolveplus.progress.messages.solving_syncing');
   } else if (a === 'center') {
     target = 92;
-    initialMsg = 'Solving + centering…';
+    initialMsg = t('plugins.platesolveplus.progress.messages.solving_centering');
   } else if (a === 'solve') {
     target = 90;
-    initialMsg = 'Solving…';
+    initialMsg = t('plugins.platesolveplus.progress.messages.solving');
   }
 
   progress.stage = 'running';
@@ -1169,37 +1316,43 @@ const progressPills = computed(() => {
   const mk = (stage, label) => ({ key: `${a}:${stage}`, stage, label });
 
   if (a === 'capture') {
-    return [mk('capturing', 'Capturing'), mk('validating', 'Validating')];
+    return [
+      mk('capturing', t('plugins.platesolveplus.progress.pill.capturing')),
+      mk('validating', t('plugins.platesolveplus.progress.pill.validating')),
+    ];
   }
   if (a === 'sync') {
     return [
-      mk('capturing', 'Capturing'),
-      mk('platesolving', 'Platesolving'),
-      mk('syncing', 'Syncing'),
-      mk('finishing', 'Finishing'),
+      mk('capturing', t('plugins.platesolveplus.progress.pill.capturing')),
+      mk('platesolving', t('plugins.platesolveplus.progress.pill.platesolving')),
+      mk('syncing', t('plugins.platesolveplus.progress.pill.syncing')),
+      mk('finishing', t('plugins.platesolveplus.progress.pill.finishing')),
     ];
   }
   if (a === 'center') {
     return [
-      mk('capturing', 'Capturing'),
-      mk('platesolving', 'Platesolving'),
-      mk('centering', 'Centering'),
-      mk('finishing', 'Finishing'),
+      mk('capturing', t('plugins.platesolveplus.progress.pill.capturing')),
+      mk('platesolving', t('plugins.platesolveplus.progress.pill.platesolving')),
+      mk('centering', t('plugins.platesolveplus.progress.pill.centering')),
+      mk('finishing', t('plugins.platesolveplus.progress.pill.finishing')),
     ];
   }
   if (a === 'solve') {
     return [
-      mk('capturing', 'Capturing'),
-      mk('platesolving', 'Platesolving'),
-      mk('finishing', 'Finishing'),
+      mk('capturing', t('plugins.platesolveplus.progress.pill.capturing')),
+      mk('platesolving', t('plugins.platesolveplus.progress.pill.platesolving')),
+      mk('finishing', t('plugins.platesolveplus.progress.pill.finishing')),
     ];
   }
   if (a === 'calibrate' || a === 'offset') {
-    return [mk('offset', 'Calibrating'), mk('finishing', 'Finishing')];
+    return [
+      mk('offset', t('plugins.platesolveplus.progress.pill.calibrating')),
+      mk('finishing', t('plugins.platesolveplus.progress.pill.finishing')),
+    ];
   }
 
   // fallback (show something if action is unknown)
-  return [mk('running', 'Running')];
+  return [mk('running', t('plugins.platesolveplus.progress.pill.running'))];
 });
 
 function pillClass(stage) {
@@ -1288,7 +1441,8 @@ async function refreshSecondaryDrivers(force = false) {
       saveDriversToCache(normalized);
     } else if (!secondary.drivers?.length) {
       // if we have nothing at all, keep the empty state but surface a hint
-      secondary.error = secondary.error || 'No drivers returned.';
+      secondary.error =
+        secondary.error || t('plugins.platesolveplus.secondary.no_drivers_returned');
     }
   } catch (e) {
     secondary.error = e?.message ?? String(e);
@@ -1326,14 +1480,18 @@ async function applySecondarySelection() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ progId: secondary.selectedProgId }),
     });
-    pushLog?.('Secondary selection applied', { progId: secondary.selectedProgId });
+    pushLog?.(t('plugins.platesolveplus.secondary.log.selection_applied'), {
+      progId: secondary.selectedProgId,
+    });
     await refreshSecondarySelection();
     await refreshStatus();
     await refreshSecondaryDrivers();
     await refreshSecondarySelection();
   } catch (e) {
     secondary.error = e?.message ?? String(e);
-    pushLog?.('Secondary selection failed', { error: secondary.error });
+    pushLog?.(t('plugins.platesolveplus.secondary.log.selection_failed'), {
+      error: secondary.error,
+    });
   } finally {
     secondary.loading = false;
   }
@@ -1346,11 +1504,11 @@ async function connectSecondary() {
     const resp = await api.apiFetch('/secondary/connect', { method: 'POST' });
     const data = await resp.json().catch(() => ({}));
     secondary.connected = !!data?.connected;
-    pushLog?.('Secondary connect', data);
+    pushLog?.(t('plugins.platesolveplus.secondary.log.connect'), data);
     await refreshStatus();
   } catch (e) {
     secondary.error = e?.message ?? String(e);
-    pushLog?.('Secondary connect failed', { error: secondary.error });
+    pushLog?.(t('plugins.platesolveplus.secondary.log.connect_failed'), { error: secondary.error });
   } finally {
     secondary.loading = false;
   }
@@ -1363,11 +1521,13 @@ async function disconnectSecondary() {
     const resp = await api.apiFetch('/secondary/disconnect', { method: 'POST' });
     const data = await resp.json().catch(() => ({}));
     secondary.connected = !!data?.connected;
-    pushLog?.('Secondary disconnect', data);
+    pushLog?.(t('plugins.platesolveplus.secondary.log.disconnect'), data);
     await refreshStatus();
   } catch (e) {
     secondary.error = e?.message ?? String(e);
-    pushLog?.('Secondary disconnect failed', { error: secondary.error });
+    pushLog?.(t('plugins.platesolveplus.secondary.log.disconnect_failed'), {
+      error: secondary.error,
+    });
   } finally {
     secondary.loading = false;
   }
@@ -1379,10 +1539,12 @@ async function openSecondarySetupDialog() {
   try {
     const resp = await api.apiFetch('/secondary/setup-dialog', { method: 'POST' });
     const data = await resp.json().catch(() => ({}));
-    pushLog?.('Secondary setup dialog', data);
+    pushLog?.(t('plugins.platesolveplus.secondary.log.setup_dialog'), data);
   } catch (e) {
     secondary.error = e?.message ?? String(e);
-    pushLog?.('Secondary setup dialog failed', { error: secondary.error });
+    pushLog?.(t('plugins.platesolveplus.secondary.log.setup_dialog_failed'), {
+      error: secondary.error,
+    });
   } finally {
     secondary.loading = false;
   }
@@ -1423,15 +1585,15 @@ async function syncSecondaryState(verbose = false) {
     const hadSigBefore = lastSecondarySig.value !== '';
 
     if (verbose) {
-      pushLog('Secondary camera state synced', sel);
+      pushLog(t('plugins.platesolveplus.secondary.log.state_synced'), sel);
     } else if (hadSigBefore && sig !== lastSecondarySig.value) {
-      pushLog('Secondary camera state synced', sel);
+      pushLog(t('plugins.platesolveplus.secondary.log.state_synced'), sel);
     }
 
     lastSecondarySig.value = sig;
   } catch (e) {
     secondary.error = e?.message ?? String(e);
-    pushLog('Secondary camera sync failed', { error: secondary.error });
+    pushLog(t('plugins.platesolveplus.secondary.log.sync_failed'), { error: secondary.error });
   } finally {
     secondary.loading = false;
   }
@@ -1449,7 +1611,7 @@ async function refreshStatus() {
 async function triggerCapture() {
   // Fake progress should run even if WS is disconnected.
   progress.stage = 'queued';
-  progress.message = 'Capture accepted (waiting for events)';
+  progress.message = t('plugins.platesolveplus.progress.messages.capture_accepted');
   progress.percent = 1;
   startFakeActionProgress('capture');
 
@@ -1463,7 +1625,7 @@ async function triggerCapture() {
     // no WS events => finish locally after REST response
     stopFakeProgress();
     progress.stage = 'finished';
-    progress.message = 'Capture finished';
+    progress.message = t('plugins.platesolveplus.progress.messages.capture_finished');
     progress.percent = 100;
     refreshPreview(true);
     setTimeout(() => refreshStatus(), 250);
@@ -1473,7 +1635,7 @@ async function triggerCapture() {
 
 async function triggerSync() {
   progress.stage = 'queued';
-  progress.message = 'Solve+Sync accepted (waiting for events)';
+  progress.message = t('plugins.platesolveplus.progress.messages.solve_sync_accepted');
   progress.percent = 1;
   startFakeActionProgress('sync');
 
@@ -1486,7 +1648,7 @@ async function triggerSync() {
   if (!wsConnected.value) {
     stopFakeProgress();
     progress.stage = 'finished';
-    progress.message = 'Solve+Sync finished';
+    progress.message = t('plugins.platesolveplus.progress.messages.solve_sync_finished');
     progress.percent = 100;
     refreshPreview(true);
     setTimeout(() => refreshStatus(), 250);
@@ -1496,7 +1658,7 @@ async function triggerSync() {
 
 async function triggerCenter() {
   progress.stage = 'queued';
-  progress.message = 'Center+Solve accepted (waiting for events)';
+  progress.message = t('plugins.platesolveplus.progress.messages.center_solve_accepted');
   progress.percent = 1;
   startFakeActionProgress('center');
 
@@ -1509,7 +1671,7 @@ async function triggerCenter() {
   if (!wsConnected.value) {
     stopFakeProgress();
     progress.stage = 'finished';
-    progress.message = 'Center+Solve finished';
+    progress.message = t('plugins.platesolveplus.progress.messages.center_solve_finished');
     progress.percent = 100;
     refreshPreview(true);
     setTimeout(() => refreshStatus(), 250);
@@ -1578,7 +1740,7 @@ function handleWsEvent(type, payload) {
     case 'CaptureStarted':
       status.busy = true;
       progress.stage = 'capture';
-      progress.message = 'Capture started';
+      progress.message = t('plugins.platesolveplus.progress.messages.capture_started');
       progress.percent = 5;
       startFakeActionProgress('capture');
       activeJobId.value = payload.jobId ?? activeJobId.value;
@@ -1588,7 +1750,7 @@ function handleWsEvent(type, payload) {
       status.busy = false;
       stopFakeProgress();
       progress.stage = 'capture';
-      progress.message = 'Capture finished';
+      progress.message = t('plugins.platesolveplus.progress.messages.capture_finished');
       progress.percent = 100;
       activeJobId.value = payload.jobId ?? activeJobId.value;
       refreshPreview(true);
@@ -1601,7 +1763,7 @@ function handleWsEvent(type, payload) {
       activeJobId.value = payload.jobId ?? activeJobId.value;
       status.busy = true;
       progress.stage = 'started';
-      progress.message = 'Solve started';
+      progress.message = t('plugins.platesolveplus.progress.messages.solve_started');
       progress.percent = 5;
       startFakeActionProgress('solve');
       break;
@@ -1611,7 +1773,7 @@ function handleWsEvent(type, payload) {
       status.busy = false;
       stopFakeProgress();
       progress.stage = 'finished';
-      progress.message = 'Solve finished';
+      progress.message = t('plugins.platesolveplus.progress.messages.solve_finished');
       progress.percent = 100;
 
       if (payload?.status) Object.assign(status, payload.status);
@@ -1625,7 +1787,7 @@ function handleWsEvent(type, payload) {
       activeJobId.value = payload.jobId ?? activeJobId.value;
       status.busy = true;
       progress.stage = 'started';
-      progress.message = 'Solve+Sync started';
+      progress.message = t('plugins.platesolveplus.progress.messages.solve_sync_started');
       progress.percent = 5;
       startFakeActionProgress('sync');
       break;
@@ -1634,7 +1796,7 @@ function handleWsEvent(type, payload) {
       status.busy = false;
       stopFakeProgress();
       progress.stage = 'finished';
-      progress.message = 'Solve+Sync finished';
+      progress.message = t('plugins.platesolveplus.progress.messages.solve_sync_finished');
       progress.percent = 100;
       if (payload?.status) Object.assign(status, payload.status);
       refreshPreview(true);
@@ -1646,7 +1808,7 @@ function handleWsEvent(type, payload) {
       activeJobId.value = payload.jobId ?? activeJobId.value;
       status.busy = true;
       progress.stage = 'started';
-      progress.message = 'Center+Solve started';
+      progress.message = t('plugins.platesolveplus.progress.messages.center_solve_started');
       progress.percent = 5;
       startFakeActionProgress('center');
       break;
@@ -1655,7 +1817,7 @@ function handleWsEvent(type, payload) {
       status.busy = false;
       stopFakeProgress();
       progress.stage = 'finished';
-      progress.message = 'Center+Solve finished';
+      progress.message = t('plugins.platesolveplus.progress.messages.center_solve_finished');
       progress.percent = 100;
       if (payload?.status) Object.assign(status, payload.status);
       refreshPreview(true);
@@ -1666,7 +1828,7 @@ function handleWsEvent(type, payload) {
     case 'OffsetCalibrateStarted':
       status.busy = true;
       progress.stage = 'offset';
-      progress.message = 'Offset calibrate started';
+      progress.message = t('plugins.platesolveplus.progress.messages.offset_calibrate_started');
       progress.percent = 10;
       activeJobId.value = payload.jobId ?? activeJobId.value;
       break;
@@ -1674,7 +1836,7 @@ function handleWsEvent(type, payload) {
     case 'OffsetCalibrateFinished':
       status.busy = false;
       progress.stage = 'offset';
-      progress.message = 'Offset calibrate finished';
+      progress.message = t('plugins.platesolveplus.progress.messages.offset_calibrate_finished');
       progress.percent = 100;
       if (payload?.status) Object.assign(status, payload.status);
       setTimeout(() => refreshStatus(), 250);
@@ -1716,7 +1878,7 @@ function loadConfig() {
     refreshStatus();
     refreshPreview(true);
   } catch (e) {
-    pushLog('Config load failed', { error: e?.message ?? String(e) });
+    pushLog(t('plugins.platesolveplus.log.config_load_failed'), { error: e?.message ?? String(e) });
   }
 }
 

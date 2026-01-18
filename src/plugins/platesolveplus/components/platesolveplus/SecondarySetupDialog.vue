@@ -9,19 +9,19 @@
     >
       <div class="flex items-center justify-between px-4 py-3 border-b border-gray-700">
         <div>
-          <div class="text-white font-semibold">Secondary Camera Setup</div>
+          <div class="text-white font-semibold">{{ t('plugins.platesolveplus.secondary_setup.title') }}</div>
           <div class="text-xs text-gray-400 mt-0.5">
-            Driver selection, connection and native ASCOM setup dialog
+            {{ t('plugins.platesolveplus.secondary_setup.subtitle') }}
           </div>
         </div>
 
         <button
           class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
           @click="$emit('close')"
-          aria-label="Close"
-          title="Close"
+          :aria-label="t('plugins.platesolveplus.secondary_setup.buttons.close')"
+          :title="t('plugins.platesolveplus.secondary_setup.buttons.close')"
         >
-          Close
+          {{ t('plugins.platesolveplus.secondary_setup.buttons.close') }}
         </button>
       </div>
 
@@ -36,7 +36,7 @@
                 : 'border-gray-600 text-gray-300 bg-black/20'
             "
           >
-            {{ secondary?.connected ? 'Connected' : 'Disconnected' }}
+            {{ secondary?.connected ? t('plugins.platesolveplus.secondary_setup.pills.connected') : t('plugins.platesolveplus.secondary_setup.pills.disconnected') }}
           </span>
           <span
             class="px-2 py-1 rounded-full border"
@@ -46,10 +46,10 @@
                 : 'border-gray-600 text-gray-300 bg-black/20'
             "
           >
-            {{ status?.busy ? 'Busy' : 'Idle' }}
+            {{ status?.busy ? t('plugins.platesolveplus.secondary_setup.pills.busy') : t('plugins.platesolveplus.secondary_setup.pills.idle') }}
           </span>
           <span class="px-2 py-1 rounded-full border border-gray-600 text-gray-300 bg-black/20">
-            Active: <span class="font-mono">{{ secondary?.activeProgId || '—' }}</span>
+            {{ t('plugins.platesolveplus.secondary_setup.pills.active') }}: <span class="font-mono">{{ secondary?.activeProgId || t('plugins.platesolveplus.common.empty') }}</span>
           </span>
         </div>
 
@@ -57,7 +57,7 @@
         <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
           <div class="flex items-start justify-between gap-3">
             <div>
-              <div class="text-white font-semibold">Driver</div>
+              <div class="text-white font-semibold">{{ t('plugins.platesolveplus.secondary_setup.driver.title') }}</div>
               <div class="mt-1 text-xs text-gray-400">
                 Choose the ASCOM driver to use as secondary camera.
               </div>
@@ -68,41 +68,41 @@
                 class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
                 @click="onRefreshDrivers?.()"
                 :disabled="secondary?.loading || status?.busy"
-                title="Refresh driver list"
+                :title="t('plugins.platesolveplus.secondary_setup.buttons.refresh_title')"
               >
-                Refresh
+                {{ t('plugins.platesolveplus.secondary_setup.buttons.refresh') }}
               </button>
               <button
                 class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
                 @click="onSyncState?.()"
                 :disabled="secondary?.loading"
-                title="Sync current selection/connection"
+                :title="t('plugins.platesolveplus.secondary_setup.buttons.sync_title')"
               >
-                Sync
+                {{ t('plugins.platesolveplus.secondary_setup.buttons.sync') }}
               </button>
             </div>
           </div>
 
           <div class="mt-3">
-            <label class="text-xs text-gray-400">Driver</label>
+            <label class="text-xs text-gray-400">{{ t('plugins.platesolveplus.secondary_setup.driver.title') }}</label>
             <select
               v-model="localSelectedProgId"
               class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
               :disabled="secondary?.connected || secondary?.loading"
             >
-              <option value="" disabled>— select —</option>
+              <option value="" disabled>{{ t('plugins.platesolveplus.secondary_setup.driver.select_placeholder') }}</option>
               <option
                 v-for="d in secondary?.drivers || []"
                 :key="d.progId || d.ProgId || d.id || d.name || d.Name"
                 :value="d.progId || d.ProgId"
               >
-                {{ d.name || d.Name || 'Driver' }} ({{ d.progId || d.ProgId }})
+                {{ d.name || d.Name || t('plugins.platesolveplus.secondary_setup.driver.fallback_name') }} ({{ d.progId || d.ProgId }})
               </option>
             </select>
 
             <div class="mt-2 text-xs text-gray-500">
-              Selected:
-              <span class="text-gray-200 font-mono">{{ localSelectedProgId || '—' }}</span>
+              {{ t('plugins.platesolveplus.secondary_setup.driver.selected') }}:
+              <span class="text-gray-200 font-mono">{{ localSelectedProgId || t('plugins.platesolveplus.common.empty') }}</span>
             </div>
 
             <div class="mt-3 flex flex-wrap gap-2">
@@ -110,36 +110,36 @@
                 class="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200 disabled:opacity-40"
                 @click="applySelection"
                 :disabled="secondary?.connected || !localSelectedProgId || secondary?.loading"
-                title="Apply selection"
+                :title="t('plugins.platesolveplus.secondary_setup.buttons.apply_title')"
               >
-                Apply
+                {{ t('plugins.platesolveplus.secondary_setup.buttons.apply') }}
               </button>
 
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40"
                 @click="connect"
                 :disabled="secondary?.connected || !localSelectedProgId || secondary?.loading"
-                title="Connect"
+                :title="t('plugins.platesolveplus.secondary_setup.buttons.connect')"
               >
-                Connect
+                {{ t('plugins.platesolveplus.secondary_setup.buttons.connect') }}
               </button>
 
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40"
                 @click="disconnect"
                 :disabled="!secondary?.connected || secondary?.loading"
-                title="Disconnect"
+                :title="t('plugins.platesolveplus.secondary_setup.buttons.disconnect')"
               >
-                Disconnect
+                {{ t('plugins.platesolveplus.secondary_setup.buttons.disconnect') }}
               </button>
 
               <button
                 class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40"
                 @click="onOpenNativeSetup?.()"
                 :disabled="secondary?.loading || !secondary?.selectedProgId"
-                title="Open native ASCOM setup dialog on host"
+                :title="t('plugins.platesolveplus.secondary_setup.buttons.driver_setup_title')"
               >
-                Driver Setup...
+                {{ t('plugins.platesolveplus.secondary_setup.buttons.driver_setup') }}
               </button>
             </div>
 
@@ -150,8 +150,9 @@
         </div>
 
         <div class="text-xs text-gray-500">
-          Tip: If you changed settings in the driver setup dialog, click
-          <span class="text-gray-300">Sync</span> afterwards.
+          {{ t('plugins.platesolveplus.secondary_setup.tip.prefix') }}
+          <span class="text-gray-300">{{ t('plugins.platesolveplus.secondary_setup.buttons.sync') }}</span>
+          {{ t('plugins.platesolveplus.secondary_setup.tip.suffix') }}
         </div>
       </div>
     </div>
@@ -160,6 +161,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   secondary: { type: Object, required: true },
@@ -173,6 +175,8 @@ const props = defineProps({
 });
 
 defineEmits(['close']);
+
+const { t } = useI18n({ useScope: 'global' });
 
 const localSelectedProgId = ref(props.secondary?.selectedProgId || '');
 

@@ -95,7 +95,7 @@ const y = ref(0);
 const containerRef = ref(null);
 const targetRef = ref(null);
 const moveableRef = ref(null);
-const rotationAngleVisu =ref(0)
+const rotationAngleVisu = ref(0);
 
 onMounted(async () => {
   await fetchFramingInfo();
@@ -104,7 +104,7 @@ onMounted(async () => {
   calculateRealCameraFov();
 
   // Init rotationAngleVisu
-  rotationAngleVisu.value = 360-framingStore.rotationAngle;
+  rotationAngleVisu.value = 360 - framingStore.rotationAngle;
 
   // Container-Größe berechnen (maximal nutzen)
   const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);

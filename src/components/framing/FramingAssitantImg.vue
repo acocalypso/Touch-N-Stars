@@ -24,7 +24,7 @@
         :style="{
           width: `${framingStore.camWidth}px`,
           height: `${framingStore.camHeight}px`,
-          transform: `translate(${x}px, ${y}px) rotate(${framingStore.rotationAngle}deg)`,
+          transform: `translate(${x}px, ${y}px) rotate(${rotationAngleVisu}deg)`,
           zIndex: 2,
         }"
       ></div>
@@ -95,12 +95,16 @@ const y = ref(0);
 const containerRef = ref(null);
 const targetRef = ref(null);
 const moveableRef = ref(null);
+const rotationAngleVisu =ref(0)
 
 onMounted(async () => {
   await fetchFramingInfo();
 
   // Einmalig echten Kamera-FOV berechnen (basierend auf Hardware)
   calculateRealCameraFov();
+
+  // Init rotationAngleVisu
+  rotationAngleVisu.value = 360-framingStore.rotationAngle;
 
   // Container-Größe berechnen (maximal nutzen)
   const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
@@ -192,7 +196,8 @@ watch(
 // Rotation-Watcher: Moveable-Rahmen aktualisieren wenn Winkel sich ändert
 watch(
   () => framingStore.rotationAngle,
-  () => {
+  (newAngle) => {
+    rotationAngleVisu.value = 360 - newAngle;
     updateMoveable();
   }
 );
@@ -318,9 +323,15 @@ function onDrag(e) {
   }, 300);
 }
 
-// Rotate-Event von Moveable mit Debounce
+// Rotate event from Moveable with debounce
 function onRotate(e) {
-  framingStore.rotationAngle = e.rotate;
+  // Normalize angle to 0-360 range
+  // Clockwise: 0 → 360
+  // Counter-clockwise: 360 → 0
+  const normalizedAngle = ((e.rotate % 360) + 360) % 360;
+  framingStore.rotationAngle = (360 - normalizedAngle) % 360;
+  rotationAngleVisu.value = normalizedAngle;
+  //console.log( 'framingStore.rotationAngle',  framingStore.rotationAngle)
 
   // Debounced Berechnung
   clearTimeout(rotateDebounceTimeout);

@@ -36,3 +36,4 @@ resources/android/**/*
 src/plugins/pluginRegistry.js
 public/whats-new.json
 nul
+/.vs/Touch-N-Stars.slnx

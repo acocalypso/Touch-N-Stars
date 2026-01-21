@@ -339,11 +339,11 @@ onMounted(async () => {
   checkKeepAwakeSupport();
   // Load coordinates if backend is reachable
   if (store.isBackendReachable) {
-    const storedCoords = settingsStore.coordinates;
+    const storedCoords = store.profileInfo.AstrometrySettings;
     if (storedCoords) {
-      latitude.value = storedCoords.latitude;
-      longitude.value = storedCoords.longitude;
-      altitude.value = storedCoords.altitude || 0;
+      latitude.value = storedCoords.Latitude;
+      longitude.value = storedCoords.Longitude;
+      altitude.value = storedCoords.Elevation || 0;
     }
   }
 });

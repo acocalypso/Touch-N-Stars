@@ -107,29 +107,31 @@
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
                   <div>
                     {{ t('plugins.platesolveplus.status_labels.last_update') }}:
-                    <span class="text-gray-200">{{
-                      lastStatusTs
-                        ? new Date(lastStatusTs).toLocaleString()
-                        : t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-200">
+                      {{
+                        lastStatusTs
+                          ? new Date(lastStatusTs).toLocaleString()
+                          : t('plugins.platesolveplus.common.empty')
+                      }}
+                    </span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400"
-                      >{{ t('plugins.platesolveplus.status_labels.task_status') }}:
+                    <span class="text-gray-400">
+                      {{ t('plugins.platesolveplus.status_labels.task_status') }}:
                     </span>
-                    <span class="text-gray-200">{{
-                      status.statusText ?? t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-200">
+                      {{ status.statusText ?? t('plugins.platesolveplus.common.empty') }}
+                    </span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400"
-                      >{{ t('plugins.platesolveplus.status_labels.used_parameters') }}:
+                    <span class="text-gray-400">
+                      {{ t('plugins.platesolveplus.status_labels.used_parameters') }}:
                     </span>
-                    <span class="text-gray-300">{{
-                      status.detailsText ?? t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-300">
+                      {{ status.detailsText ?? t('plugins.platesolveplus.common.empty') }}
+                    </span>
                   </div>
 
                   <div
@@ -312,9 +314,9 @@
                     </div>
                     <div class="text-xs text-gray-400">
                       {{ t('plugins.platesolveplus.progress.job') }}:
-                      <span class="text-gray-200">{{
-                        activeJobId ?? t('plugins.platesolveplus.common.empty')
-                      }}</span>
+                      <span class="text-gray-200">
+                        {{ activeJobId ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
                     </div>
                   </div>
 
@@ -324,9 +326,9 @@
                       <span class="text-gray-400"
                         >{{ t('plugins.platesolveplus.progress.action') }}:</span
                       >
-                      <span class="font-semibold text-gray-100">{{
-                        progress.action ?? t('plugins.platesolveplus.common.empty')
-                      }}</span>
+                      <span class="font-semibold text-gray-100">
+                        {{ progress.action ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
                     </div>
 
                     <div v-if="progress.action" class="mt-2 flex flex-wrap gap-2">
@@ -476,49 +478,53 @@
                     <span class="text-gray-400"
                       >{{ t('plugins.platesolveplus.offset_fields.offset_enabled') }}:</span
                     >
-                    <span class="text-gray-100 font-mono">{{
-                      status.offsetEnabled
-                        ? t('plugins.platesolveplus.common.true')
-                        : t('plugins.platesolveplus.common.false')
-                    }}</span>
+                    <span class="text-gray-100 font-mono">
+                      {{
+                        status.offsetEnabled
+                          ? t('plugins.platesolveplus.common.true')
+                          : t('plugins.platesolveplus.common.false')
+                      }}
+                    </span>
                   </div>
 
                   <div>
                     <span class="text-gray-400"
                       >{{ t('plugins.platesolveplus.offset_fields.offset_mode') }}:</span
                     >
-                    <span class="text-gray-100 font-mono">{{
-                      status.offsetMode ?? t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-100 font-mono">
+                      {{ status.offsetMode ?? t('plugins.platesolveplus.common.empty') }}
+                    </span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">{{
-                      t('plugins.platesolveplus.offset_fields.dra_arcsec')
-                    }}</span>
-                    <span class="text-gray-100 font-mono">{{
-                      status.offsetRaArcsec ?? t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-400">
+                      {{ t('plugins.platesolveplus.offset_fields.dra_arcsec') }}
+                    </span>
+                    <span class="text-gray-100 font-mono">
+                      {{ status.offsetRaArcsec ?? t('plugins.platesolveplus.common.empty') }}
+                    </span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">{{
-                      t('plugins.platesolveplus.offset_fields.ddec_arcsec')
-                    }}</span>
-                    <span class="text-gray-100 font-mono">{{
-                      status.offsetDecArcsec ?? t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-400">
+                      {{ t('plugins.platesolveplus.offset_fields.ddec_arcsec') }}
+                    </span>
+                    <span class="text-gray-100 font-mono">
+                      {{ status.offsetDecArcsec ?? t('plugins.platesolveplus.common.empty') }}
+                    </span>
                   </div>
 
                   <div>
-                    <span class="text-gray-400">{{
-                      t('plugins.platesolveplus.offset_fields.rotation_quat')
-                    }}</span>
-                    <span class="text-gray-100 font-mono">{{
-                      status.rotation
-                        ? pretty(status.rotation)
-                        : t('plugins.platesolveplus.common.empty')
-                    }}</span>
+                    <span class="text-gray-400">
+                      {{ t('plugins.platesolveplus.offset_fields.rotation_quat') }}
+                    </span>
+                    <span class="text-gray-100 font-mono">
+                      {{
+                        status.rotation
+                          ? pretty(status.rotation)
+                          : t('plugins.platesolveplus.common.empty')
+                      }}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -536,34 +542,38 @@
                     </div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.exposure')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.exposureSeconds != null
-                            ? `${cameraSettings.exposureSeconds}s`
-                            : t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.exposure') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            cameraSettings.exposureSeconds != null
+                              ? `${cameraSettings.exposureSeconds}s`
+                              : t('plugins.platesolveplus.common.empty')
+                          }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.gain')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.gain == null
-                            ? t('plugins.platesolveplus.common.empty')
-                            : Number(cameraSettings.gain) < 0
-                              ? t('plugins.platesolveplus.settings.auto_gain')
-                              : cameraSettings.gain
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.gain') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            cameraSettings.gain == null
+                              ? t('plugins.platesolveplus.common.empty')
+                              : Number(cameraSettings.gain) < 0
+                                ? t('plugins.platesolveplus.settings.auto_gain')
+                                : cameraSettings.gain
+                          }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.binning')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          cameraSettings.binning ?? t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.binning') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{ cameraSettings.binning ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -575,34 +585,40 @@
                     </div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.focal_length')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          scopeFocalLength != null
-                            ? `${Number(scopeFocalLength).toFixed(0)} mm`
-                            : t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.focal_length') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            scopeFocalLength != null
+                              ? `${Number(scopeFocalLength).toFixed(0)} mm`
+                              : t('plugins.platesolveplus.common.empty')
+                          }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.focal_scale')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          scopeFocalScale != null
-                            ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
-                            : t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.focal_scale') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            scopeFocalScale != null
+                              ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
+                              : t('plugins.platesolveplus.common.empty')
+                          }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.pixel_size')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          scopePixelSize != null
-                            ? `${Number(scopePixelSize).toFixed(2)} µm`
-                            : t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.pixel_size') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            scopePixelSize != null
+                              ? `${Number(scopePixelSize).toFixed(2)} µm`
+                              : t('plugins.platesolveplus.common.empty')
+                          }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -614,46 +630,48 @@
                     </div>
                     <div class="mt-2 text-xs text-gray-300 space-y-1">
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.search_radius')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          psSearchRadius != null
-                            ? `${psSearchRadius}`
-                            : t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.search_radius') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{
+                            psSearchRadius != null
+                              ? `${psSearchRadius}`
+                              : t('plugins.platesolveplus.common.empty')
+                          }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.downsample')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          psDownsample ?? t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.downsample') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{ psDownsample ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.timeout_sec')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          psTimeoutSec ?? t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.timeout_sec') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{ psTimeoutSec ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.threshold')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          psThreshold ?? t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.threshold') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{ psThreshold ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
                       </div>
                       <div>
-                        <span class="text-gray-500">{{
-                          t('plugins.platesolveplus.settings.max_attempts')
-                        }}</span>
-                        <span class="text-gray-200 font-mono">{{
-                          psMaxAttempts ?? t('plugins.platesolveplus.common.empty')
-                        }}</span>
+                        <span class="text-gray-500">
+                          {{ t('plugins.platesolveplus.settings.max_attempts') }}
+                        </span>
+                        <span class="text-gray-200 font-mono">
+                          {{ psMaxAttempts ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -700,9 +718,9 @@
 
             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="text-xs text-gray-400">{{
-                  t('plugins.platesolveplus.config.host')
-                }}</label>
+                <label class="text-xs text-gray-400">
+                  {{ t('plugins.platesolveplus.config.host') }}
+                </label>
                 <input
                   v-model.trim="cfg.host"
                   class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
@@ -711,9 +729,9 @@
               </div>
 
               <div>
-                <label class="text-xs text-gray-400">{{
-                  t('plugins.platesolveplus.config.port')
-                }}</label>
+                <label class="text-xs text-gray-400">
+                  {{ t('plugins.platesolveplus.config.port') }}
+                </label>
                 <input
                   v-model.number="cfg.port"
                   type="number"
@@ -725,9 +743,9 @@
               </div>
 
               <div class="md:col-span-2">
-                <label class="text-xs text-gray-400">{{
-                  t('plugins.platesolveplus.config.base_path')
-                }}</label>
+                <label class="text-xs text-gray-400">
+                  {{ t('plugins.platesolveplus.config.base_path') }}
+                </label>
                 <input
                   v-model.trim="cfg.basePath"
                   class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
@@ -746,9 +764,9 @@
               </label>
 
               <div class="mt-3">
-                <label class="text-xs text-gray-400">{{
-                  t('plugins.platesolveplus.config.token')
-                }}</label>
+                <label class="text-xs text-gray-400">
+                  {{ t('plugins.platesolveplus.config.token') }}
+                </label>
                 <input
                   v-model="cfg.token"
                   :disabled="!cfg.useToken"
@@ -880,7 +898,7 @@
     :on-apply-selection="applySecondarySelection"
     :on-connect="connectSecondary"
     :on-disconnect="disconnectSecondary"
-    :on-open-native-setup="openSecondarySetupDialog"
+    :setAutoRefreshEnabled="setSetupDialogAutoRefreshEnabled"
     @close="showSecondarySetup = false"
   />
 </template>
@@ -942,6 +960,14 @@ const lastSettingsTs = ref(null);
 const cameraSettings = computed(() => settings.camera || {});
 const scopeSettings = computed(() => settings.scope || {});
 const platesolveSettings = computed(() => settings.platesolve || {});
+
+// When the secondary setup dialog is open we pause all background refresh/polling.
+// Manual refresh buttons still call the functions with `force=true`.
+const _autoRefreshPaused = ref(false);
+
+function setSetupDialogAutoRefreshEnabled(enabled) {
+  _autoRefreshPaused.value = !enabled;
+}
 
 // -------------------------
 // Settings helpers (robust against backend key changes)
@@ -1534,23 +1560,6 @@ async function disconnectSecondary() {
   }
 }
 
-async function openSecondarySetupDialog() {
-  secondary.error = '';
-  secondary.loading = true;
-  try {
-    const resp = await api.apiFetch('/secondary/setup-dialog', { method: 'POST' });
-    const data = await resp.json().catch(() => ({}));
-    pushLog?.(t('plugins.platesolveplus.secondary.log.setup_dialog'), data);
-  } catch (e) {
-    secondary.error = e?.message ?? String(e);
-    pushLog?.(t('plugins.platesolveplus.secondary.log.setup_dialog_failed'), {
-      error: secondary.error,
-    });
-  } finally {
-    secondary.loading = false;
-  }
-}
-
 // -------------------------
 // Secondary Camera sync
 // -------------------------
@@ -1897,9 +1906,13 @@ onMounted(async () => {
 
   connectWs(false);
 
-  statusTimer = setInterval(() => refreshStatus(), 4000);
+  statusTimer = setInterval(() => {
+    if (_autoRefreshPaused.value) return;
+    refreshStatus();
+  }, 4000);
 
   previewTimer = setInterval(() => {
+    if (_autoRefreshPaused.value) return;
     if (autoPreview.value && !status.busy) refreshPreview(false);
   }, 5000);
 });

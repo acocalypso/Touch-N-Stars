@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Framingassistant: Rotation angle was displayed incorrectly
+- PlatesolvePlus: Fix: load on Image Preview
+- Settings: Fixed loading of coordinates
 
 ## [App4.4.0] - 2026-01-15
 ### Breaking Changes

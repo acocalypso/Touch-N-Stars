@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="$emit('close')">
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4" @click.self="close">
     <!-- Backdrop -->
     <div class="absolute inset-0 bg-black/60"></div>
 
@@ -19,7 +19,7 @@
 
         <button
           class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-          @click="$emit('close')"
+          @click="close"
           :aria-label="t('plugins.platesolveplus.secondary_setup.buttons.close')"
           :title="t('plugins.platesolveplus.secondary_setup.buttons.close')"
         >
@@ -60,9 +60,16 @@
           </span>
           <span class="px-2 py-1 rounded-full border border-gray-600 text-gray-300 bg-black/20">
             {{ t('plugins.platesolveplus.secondary_setup.pills.active') }}:
-            <span class="font-mono">{{
-              secondary?.activeProgId || t('plugins.platesolveplus.common.empty')
-            }}</span>
+            <span class="font-mono">
+              {{ secondary?.activeProgId || t('plugins.platesolveplus.common.empty') }}
+            </span>
+          </span>
+
+          <span
+            class="px-2 py-1 rounded-full border border-purple-500/40 text-purple-200 bg-purple-500/10"
+            title="Auto refresh paused while this dialog is open"
+          >
+            auto refresh paused
           </span>
         </div>
 
@@ -99,9 +106,11 @@
           </div>
 
           <div class="mt-3">
-            <label class="text-xs text-gray-400">{{
-              t('plugins.platesolveplus.secondary_setup.driver.title')
-            }}</label>
+            <label class="text-xs text-gray-400">
+              {{ t('plugins.platesolveplus.secondary_setup.driver.title') }}
+            </label>
+
+            <!-- Dein Workflow bleibt: disconnect -> select -> apply/connect -->
             <select
               v-model="localSelectedProgId"
               class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
@@ -126,9 +135,9 @@
 
             <div class="mt-2 text-xs text-gray-500">
               {{ t('plugins.platesolveplus.secondary_setup.driver.selected') }}:
-              <span class="text-gray-200 font-mono">{{
-                localSelectedProgId || t('plugins.platesolveplus.common.empty')
-              }}</span>
+              <span class="text-gray-200 font-mono">
+                {{ localSelectedProgId || t('plugins.platesolveplus.common.empty') }}
+              </span>
             </div>
 
             <div class="mt-3 flex flex-wrap gap-2">
@@ -158,15 +167,6 @@
               >
                 {{ t('plugins.platesolveplus.secondary_setup.buttons.disconnect') }}
               </button>
-
-              <button
-                class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40"
-                @click="onOpenNativeSetup?.()"
-                :disabled="secondary?.loading || !secondary?.selectedProgId"
-                :title="t('plugins.platesolveplus.secondary_setup.buttons.driver_setup_title')"
-              >
-                {{ t('plugins.platesolveplus.secondary_setup.buttons.driver_setup') }}
-              </button>
             </div>
 
             <div v-if="secondary?.error" class="mt-3 text-xs text-red-300 whitespace-pre-wrap">
@@ -177,9 +177,9 @@
 
         <div class="text-xs text-gray-500">
           {{ t('plugins.platesolveplus.secondary_setup.tip.prefix') }}
-          <span class="text-gray-300">{{
-            t('plugins.platesolveplus.secondary_setup.buttons.sync')
-          }}</span>
+          <span class="text-gray-300">
+            {{ t('plugins.platesolveplus.secondary_setup.buttons.sync') }}
+          </span>
           {{ t('plugins.platesolveplus.secondary_setup.tip.suffix') }}
         </div>
       </div>
@@ -188,7 +188,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -199,39 +199,78 @@ const props = defineProps({
   onApplySelection: { type: Function, default: null },
   onConnect: { type: Function, default: null },
   onDisconnect: { type: Function, default: null },
-  onOpenNativeSetup: { type: Function, default: null },
+
+  // Parent can pause background polling while this dialog is open.
+  // signature: (enabled: boolean) => void | Promise<void>
+  setAutoRefreshEnabled: { type: Function, default: null },
 });
 
-defineEmits(['close']);
+const emit = defineEmits(['close']);
 
 const { t } = useI18n({ useScope: 'global' });
+
+async function setAutoRefresh(enabled) {
+  await props.setAutoRefreshEnabled?.(enabled);
+}
+
+function close() {
+  // Failsafe: re-enable polling immediately when user closes.
+  // (onBeforeUnmount also re-enables, but this avoids edge cases.)
+  setAutoRefresh(true);
+  emit('close');
+}
+
+onMounted(() => {
+  // Disable background polling while dialog is open.
+  setAutoRefresh(false);
+});
+
+onBeforeUnmount(() => {
+  // Restore background polling when leaving dialog.
+  setAutoRefresh(true);
+});
 
 const localSelectedProgId = ref(props.secondary?.selectedProgId || '');
 
 watch(
   () => props.secondary?.selectedProgId,
   (v) => {
-    // Keep in sync, but don't overwrite user's selection while they are choosing.
+    // Keep in sync, but since autorefresh is paused, this is mostly initial sync.
     if (!localSelectedProgId.value) localSelectedProgId.value = v || '';
   },
   { immediate: true }
 );
 
 async function applySelection() {
+  const progId = (localSelectedProgId.value || '').toString().trim();
+
+  if (!progId) return;
+
+  // Best-effort compatibility: some parents still read this nested prop.
+  try {
+    props.secondary.selectedProgId = progId;
+  } catch {}
+
   if (!props.onApplySelection) return;
-  // Write the current selection back to the shared secondary state.
-  props.secondary.selectedProgId = localSelectedProgId.value;
-  await props.onApplySelection();
+
+  // Critical: pass progId to parent when supported so it can't "apply" an old value.
+  if (props.onApplySelection.length >= 1) await props.onApplySelection(progId);
+  else await props.onApplySelection();
 }
 
 async function connect() {
-  if (!props.onConnect) return;
-  // Ensure selection is applied before connect.
-  if (localSelectedProgId.value && props.secondary.selectedProgId !== localSelectedProgId.value) {
-    props.secondary.selectedProgId = localSelectedProgId.value;
-    if (props.onApplySelection) await props.onApplySelection();
+  const progId = (localSelectedProgId.value || '').toString().trim();
+  if (!progId || !props.onConnect) return;
+
+  // Always apply before connect
+  await applySelection();
+
+  // If parent supports connect(progId), pass it
+  if (props.onConnect.length >= 1) {
+    await props.onConnect(progId);
+  } else {
+    await props.onConnect();
   }
-  await props.onConnect();
 }
 
 async function disconnect() {

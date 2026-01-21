@@ -963,7 +963,6 @@ const platesolveSettings = computed(() => settings.platesolve || {});
 
 // When the secondary setup dialog is open we pause all background refresh/polling.
 // Manual refresh buttons still call the functions with `force=true`.
-const autoRefreshEnabled = ref(true);
 const _autoRefreshPaused = ref(false);
 
 function setSetupDialogAutoRefreshEnabled(enabled) {

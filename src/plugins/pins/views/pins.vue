@@ -204,7 +204,13 @@ function getLogClass(log) {
 }
 
 function formatLog(log) {
-  // Simple formatter (can be expanded)
+  if (typeof log === 'object') {
+    try {
+      return JSON.stringify(log, null, 2);
+    } catch (e) {
+      return String(log);
+    }
+  }
   return log;
 }
 
@@ -238,21 +244,26 @@ async function startUpgrade() {
           'Content-Type': 'application/json',
         },
         timeout: 5000,
+        // Ensure we catch 405 and other errors properly by validating status ourselves if needed,
+        // though default axios throws on non-2xx.
+        // If we suspect global config overrides this, we can set it explicitly:
+        validateStatus: function (status) {
+          return status >= 200 && status < 300; // default
+        },
       }
     );
 
-    // Flexible handling of job ID
     const data = response.data;
-    const returnedJobId = typeof data === 'object' && data.jobId ? data.jobId : data;
+    let returnedJobId;
 
-    // In case the response is just a simple "OK" but we don't get a job ID, we need to handle it.
-    // The spec says "Take the returned jobId".
+    if (data && typeof data === 'object' && data.jobId) {
+      returnedJobId = data.jobId;
+    } else if (typeof data === 'string' || typeof data === 'number') {
+      returnedJobId = data;
+    }
 
     if (!returnedJobId) {
-      // Fallback or error
-      // If the server doesn't return a job ID, maybe it streams log immediately?
-      // But spec says "Take the returned jobId and immediately connect"
-      throw new Error('No Job ID returned from server response: ' + JSON.stringify(data));
+      throw new Error('No valid Job ID returned. server response: ' + JSON.stringify(data));
     }
 
     jobId.value = returnedJobId;
@@ -263,11 +274,23 @@ async function startUpgrade() {
     console.error(error);
     status.value = 'Failed';
     appendLog(`Make sure the PINS daemon is running on ${ip}:${PORT}`);
-    appendLog(`Error starting upgrade: ${error.message}`);
+
+    // Detailed error logging
     if (error.response) {
-      appendLog(`Server Output: ${JSON.stringify(error.response.data)}`);
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      appendLog(`Server Error (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+      if (error.response.status === 405) {
+        appendLog(
+          'Hint: The server rejected the request method. Check CORS configuration on the server.'
+        );
+      }
     } else if (error.request) {
-      appendLog(`No response from server.`);
+      // The request was made but no response was received
+      appendLog(`Network Error: No response received from server.`);
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      appendLog(`Error: ${error.message}`);
     }
   }
 }

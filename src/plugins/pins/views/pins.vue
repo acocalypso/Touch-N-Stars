@@ -4,20 +4,11 @@
       <h5
         class="text-2xl text-center font-bold text-white mb-6 flex items-center justify-center gap-3"
       >
-        <span>PINS Updater</span>
+        <span>{{ $t('plugins.pins.title') }}</span>
       </h5>
 
-      <!-- Check for PINS environment -->
-      <div
-        v-if="!apiStoreInstance.isPINS"
-        class="p-6 bg-red-900/50 rounded-lg border border-red-700 text-center shadow-lg"
-      >
-        <h3 class="text-xl font-semibold text-red-200 mb-2">Unavailable</h3>
-        <p class="text-gray-300">This plugin requires the PINS environment enabled in settings.</p>
-      </div>
-
-      <div v-else class="flex flex-col space-y-6 animate-fade-in-up">
-        <!-- Control Panel -->
+      <!-- Control Panel -->
+      <div class="flex flex-col space-y-6 animate-fade-in-up">
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden"
         >
@@ -42,9 +33,9 @@
                   class="w-5 h-5 rounded bg-gray-700 border-gray-500 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900 cursor-pointer disabled:opacity-50"
                   :disabled="status === 'Running'"
                 />
-                <span class="text-gray-200 font-medium group-hover:text-white transition-colors"
-                  >Dry Run Mode</span
-                >
+                <span class="text-gray-200 font-medium group-hover:text-white transition-colors">{{
+                  $t('plugins.pins.dryRun')
+                }}</span>
               </label>
 
               <!-- Status Badge -->
@@ -62,7 +53,7 @@
                   v-if="status === 'Running'"
                   class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 animate-ping"
                 ></span>
-                {{ status }}
+                {{ $t('plugins.pins.status.' + status.toLowerCase()) }}
               </div>
             </div>
 
@@ -93,7 +84,11 @@
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              <span>{{ status === 'Running' ? 'Upgrading...' : 'Start Upgrade' }}</span>
+              <span>{{
+                status === 'Running'
+                  ? $t('plugins.pins.upgrading')
+                  : $t('plugins.pins.startUpgrade')
+              }}</span>
             </button>
           </div>
         </div>
@@ -119,15 +114,15 @@
                   d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                 ></path>
               </svg>
-              <span class="text-xs text-gray-400 font-mono font-semibold tracking-wide"
-                >TERMINAL OUTPUT</span
-              >
+              <span class="text-xs text-gray-400 font-mono font-semibold tracking-wide">{{
+                $t('plugins.pins.terminalOutput')
+              }}</span>
             </div>
             <button
               @click="clearLogs"
               class="text-xs text-blue-400 hover:text-white transition-colors hover:underline px-2 py-1 rounded"
             >
-              Clear Output
+              {{ $t('plugins.pins.clearOutput') }}
             </button>
           </div>
           <div
@@ -135,7 +130,7 @@
             class="flex-1 overflow-y-auto p-4 font-mono text-xs sm:text-sm space-y-1 scroll-smooth bg-black"
           >
             <div v-if="logs.length === 0" class="text-gray-600 italic select-none opacity-50">
-              Assuming control... Waiting for command...
+              {{ $t('plugins.pins.waiting') }}
             </div>
             <div
               v-for="(log, index) in logs"
@@ -158,11 +153,11 @@
 
 <script setup>
 import { ref, nextTick, onUnmounted } from 'vue';
-import { apiStore } from '@/store/store';
+import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
 import axios from 'axios';
 
-const apiStoreInstance = apiStore();
+const { t } = useI18n();
 const settingsStore = useSettingsStore();
 
 const dryRun = ref(false);
@@ -224,18 +219,20 @@ async function startUpgrade() {
 
   const ip = getIp();
   if (!ip) {
-    appendLog('Error: No IP address found in settings. Please connect to an instance first.');
+    appendLog(t('plugins.pins.logs.noIp'));
     status.value = 'Failed';
     return;
   }
 
   status.value = 'Running';
   logs.value = [];
-  appendLog(`Initializing upgrade sequence on host: ${ip}`);
-  appendLog(`Configuration: Dry Run = ${dryRun.value}`);
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  appendLog(t('plugins.pins.logs.config', { dryRun: dryRun.value }));
 
   try {
-    const response = await axios.post(
+    const directAxios = axios.create();
+
+    const response = await directAxios.post(
       `http://${ip}:${PORT}/upgrade`,
       { dryRun: dryRun.value },
       {
@@ -244,15 +241,10 @@ async function startUpgrade() {
           'Content-Type': 'application/json',
         },
         timeout: 5000,
-        // Ensure we catch 405 and other errors properly by validating status ourselves if needed,
-        // though default axios throws on non-2xx.
-        // If we suspect global config overrides this, we can set it explicitly:
-        validateStatus: function (status) {
-          return status >= 200 && status < 300; // default
-        },
       }
     );
 
+    // Flexible handling of job ID
     const data = response.data;
     let returnedJobId;
 
@@ -267,30 +259,35 @@ async function startUpgrade() {
     }
 
     jobId.value = returnedJobId;
-    appendLog(`Job successfully created. ID: ${returnedJobId}`);
+    appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
 
     connectWebSocket(ip, returnedJobId);
   } catch (error) {
     console.error(error);
     status.value = 'Failed';
-    appendLog(`Make sure the PINS daemon is running on ${ip}:${PORT}`);
+    appendLog(t('plugins.pins.logs.daemonCheck', { ip, port: PORT }));
 
     // Detailed error logging
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
-      appendLog(`Server Error (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
       if (error.response.status === 405) {
-        appendLog(
-          'Hint: The server rejected the request method. Check CORS configuration on the server.'
-        );
+        appendLog(t('plugins.pins.logs.corsHint'));
       }
+    } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+      appendLog(t('plugins.pins.logs.networkError'));
     } else if (error.request) {
       // The request was made but no response was received
-      appendLog(`Network Error: No response received from server.`);
+      appendLog(t('plugins.pins.logs.noResponse'));
     } else {
       // Something happened in setting up the request that triggered an Error
-      appendLog(`Error: ${error.message}`);
+      appendLog(t('plugins.pins.logs.error', { message: error.message }));
     }
   }
 }
@@ -301,13 +298,13 @@ function connectWebSocket(ip, id) {
   }
 
   const wsUrl = `ws://${ip}:${PORT}/logs/${id}?token=${TOKEN}`;
-  appendLog(`Negotiating WebSocket connection to ${wsUrl}...`);
+  appendLog(t('plugins.pins.logs.wsConnecting', { wsUrl }));
 
   try {
     ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
-      appendLog('Connection established. Streaming logs...');
+      appendLog(t('plugins.pins.logs.wsConnected'));
     };
 
     ws.onmessage = (event) => {
@@ -318,13 +315,11 @@ function connectWebSocket(ip, id) {
 
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
-      appendLog('WebSocket encountered an error.');
+      appendLog(t('plugins.pins.logs.wsError'));
     };
 
     ws.onclose = (event) => {
-      appendLog(
-        `Connection closed (Code: ${event.code}${event.reason ? ', Reason: ' + event.reason : ''})`
-      );
+      appendLog(t('plugins.pins.logs.wsClosed', { code: event.code }));
       ws = null;
 
       // When WS closes, we check the final status
@@ -339,7 +334,8 @@ function connectWebSocket(ip, id) {
 async function checkFinalStatus(ip, id) {
   appendLog('Verifying final job status...');
   try {
-    const response = await axios.get(`http://${ip}:${PORT}/jobs/${id}`, {
+    const directAxios = axios.create();
+    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
       headers: {
         Authorization: `Bearer ${TOKEN}`,
       },
@@ -363,7 +359,7 @@ async function checkFinalStatus(ip, id) {
         appendLog('Upgrade process finished successfully.');
       } else {
         status.value = 'Failed';
-        appendLog('Upgrade process reported failure.');
+        appendLog(`Upgrade process reported failure. (Exit Code: ${result.exitCode ?? 'Unknown'})`);
       }
     } else {
       appendLog(`Job Status: ${result}`);

@@ -1456,6 +1456,265 @@
         "requiredPositive": "Voer een positieve waarde in.",
         "title": "Validatiefout"
       }
+    },
+    "pins": {
+      "clearOutput": "Uitvoer wissen",
+      "dryRun": "Droogloopmodus",
+      "logs": {
+        "config": "Configuratie: Droogdraaien = {dryRun}",
+        "corsHint": "Tip: De server heeft de verzoekmethode afgewezen. \nControleer de CORS-configuratie op de server.",
+        "daemonCheck": "Zorg ervoor dat de PINS-daemon draait op {ip}:{port}",
+        "error": "Fout: {bericht}",
+        "init": "Upgradereeks op host initialiseren: {ip}",
+        "jobCreated": "Taak succesvol aangemaakt. \nID: {jobId}",
+        "networkError": "Netwerkfout: het verzoek is mislukt.",
+        "noIp": "Fout: geen IP-adres gevonden in instellingen. \nMaak eerst verbinding met een instantie.",
+        "noResponse": "Netwerkfout: geen reactie ontvangen van de server.",
+        "serverError": "Serverfout ({status}): {data}",
+        "wsClosed": "Verbinding gesloten. \n(Code: {code})",
+        "wsConnected": "Verbinding tot stand gebracht. \nLogboeken streamen...",
+        "wsConnecting": "Onderhandelen over een WebSocket-verbinding met {wsUrl}...",
+        "wsError": "Er is een WebSocket-fout opgetreden."
+      },
+      "startUpgrade": "Upgrade starten",
+      "status": {
+        "failed": "Mislukt",
+        "idle": "Inactief",
+        "running": "Rennen",
+        "success": "Succes"
+      },
+      "terminalOutput": "KLEM UITGANG",
+      "title": "PINS-updater",
+      "upgrading": "Upgraden...",
+      "waiting": "Controle aannemen... Wachten op commando..."
+    },
+    "platesolveplus": {
+      "actions_help": {
+        "capture": "alleen platesolve (validatie), geen synchronisatie/slew.",
+        "capture_label": "Vastlegging",
+        "capture_text": "alleen platesolve (validatie), geen synchronisatie/slew.",
+        "center_solve": "platesolve en centreer het doel (vereist een montage die is aangesloten op een gekalibreerde offset).",
+        "center_solve_label": "Centrum oplossen",
+        "center_solve_text": "platesolve en centreer het doel (vereist een montage die is aangesloten op een gekalibreerde offset).",
+        "solve_sync": "platesolve en synchroniseer de houder (vereist dat de houder is aangesloten).",
+        "solve_sync_label": "Synchronisatie oplossen",
+        "solve_sync_text": "platesolve en synchroniseer de houder (vereist dat de houder is aangesloten)."
+      },
+      "buttons": {
+        "calibrate_offsets": "Kalibreer offsets",
+        "capture": "Vastlegging",
+        "center_solve": "Centrum oplossen",
+        "clear": "Duidelijk",
+        "disconnect_ws": "Ontkoppel WS",
+        "reconnect_ws": "Sluit WS opnieuw aan",
+        "refresh": "Vernieuwen",
+        "refreshing": "Verfrissend…",
+        "reload_from_storage": "Herladen vanuit opslag",
+        "reset_offsets": "Offsets opnieuw instellen",
+        "save_config": "Configuratie opslaan",
+        "setup": "Installatie…",
+        "solve_sync": "Synchronisatie oplossen",
+        "sync": "Synchroniseren",
+        "test_connection": "Verbinding testen"
+      },
+      "common": {
+        "empty": "—",
+        "false": "vals",
+        "true": "WAAR"
+      },
+      "config": {
+        "active_url": "Actieve URL:",
+        "base_path": "Basispad",
+        "base_path_default": "Standaard: /api/platesolveplus",
+        "host": "Gastheer",
+        "port": "Haven",
+        "token": "Token",
+        "token_hint": "Verzonden als header X-PSP-Token (komt overeen met de PlateSolvePlus API-host).",
+        "token_placeholder": "teken…",
+        "use_token_optional": "Gebruik token (optioneel)"
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "footer": {
+        "rest": "REST:"
+      },
+      "log": {
+        "config_load_failed": "Het laden van de configuratie is mislukt",
+        "preview_refreshed": "Voorbeeld vernieuwd"
+      },
+      "offset_fields": {
+        "ddec_arcsec": "ΔDec (boogsec):",
+        "dra_arcsec": "ΔRA (boogsec):",
+        "offset_enabled": "offsetIngeschakeld",
+        "offset_mode": "offsetModus",
+        "rotation_quat": "rotatie (quat):"
+      },
+      "offsets_help": {
+        "text": "Met Kalibreren wordt het offsetmodel van guider naar hoofd gemaakt/bijgewerkt. \nReset wist alle offsets."
+      },
+      "preview": {
+        "alt_latest_preview": "Laatste voorbeeld",
+        "auto_refresh": "Automatisch vernieuwen",
+        "cache_hint": "Cachebusting ingeschakeld (?t=). \nServer verzendt ook Cache-Control: no-store.",
+        "load_error": "Fout bij laden. Vernieuw alstublieft.",
+        "no_preview_loaded": "Er is nog geen voorbeeld geladen.",
+        "no_preview_yet": "Er is (nog) geen voorbeeld beschikbaar.",
+        "preview_title": "Voorbeeldafbeelding",
+        "unavailable_title": "Voorbeeld niet beschikbaar"
+      },
+      "progress": {
+        "action": "Actie",
+        "job": "Functie",
+        "message": "Bericht",
+        "messages": {
+          "capture_accepted": "Vastleggen geaccepteerd (wachten op gebeurtenissen)",
+          "capture_finished": "Opname voltooid",
+          "capture_started": "Opname gestart",
+          "capturing_validating": "Vastleggen van valideren…",
+          "center_solve_accepted": "Center Solve geaccepteerd (wacht op evenementen)",
+          "center_solve_finished": "Centrumoplossing voltooid",
+          "center_solve_started": "Center Solve is gestart",
+          "offset_calibrate_finished": "Offsetkalibratie voltooid",
+          "offset_calibrate_started": "Offsetkalibratie gestart",
+          "solve_finished": "Oplossen klaar",
+          "solve_started": "Oplossen is begonnen",
+          "solve_sync_accepted": "Oplossen Sync geaccepteerd (wachten op gebeurtenissen)",
+          "solve_sync_finished": "Oplossen Synchronisatie voltooid",
+          "solve_sync_started": "Oplossen Synchronisatie gestart",
+          "solving": "Oplossen…",
+          "solving_centering": "Centreren oplossen…",
+          "solving_syncing": "Synchronisatie oplossen…",
+          "working": "Werken…"
+        },
+        "pill": {
+          "calibrating": "Kalibreren",
+          "capturing": "Vastleggen",
+          "centering": "Centreren",
+          "finishing": "Afwerking",
+          "platesolving": "Plaatoplossen",
+          "running": "Rennen",
+          "syncing": "Synchroniseren",
+          "validating": "Valideren"
+        },
+        "process_progress": "Procesvoortgang.",
+        "stage": "Fase",
+        "title": "Los de vooruitgang op"
+      },
+      "secondary": {
+        "connected": "Aangesloten",
+        "current_camera": "Huidige camera",
+        "disconnected": "Verbinding verbroken",
+        "log": {
+          "connect": "Secundaire verbinding",
+          "connect_failed": "Secundaire verbinding mislukt",
+          "disconnect": "Secundaire ontkoppeling",
+          "disconnect_failed": "Secundaire ontkoppeling mislukt",
+          "selection_applied": "Secundaire selectie toegepast",
+          "selection_failed": "Secundaire selectie mislukt",
+          "setup_dialog": "Secundair installatiedialoogvenster",
+          "setup_dialog_failed": "Secundair installatiedialoogvenster mislukt",
+          "state_synced": "Secundaire camerastatus gesynchroniseerd",
+          "sync_failed": "Synchronisatie van de secundaire camera is mislukt"
+        },
+        "no_drivers_returned": "Er zijn geen chauffeurs teruggekeerd.",
+        "not_connected": "Niet verbonden",
+        "status": "Status"
+      },
+      "secondary_setup": {
+        "buttons": {
+          "apply": "Toepassen",
+          "apply_title": "Selectie toepassen",
+          "close": "Dichtbij",
+          "connect": "Verbinden",
+          "disconnect": "Verbreek de verbinding",
+          "driver_setup": "Stuurprogramma instellen...",
+          "driver_setup_title": "Open het native ASCOM-installatiedialoogvenster op de host",
+          "refresh": "Vernieuwen",
+          "refresh_title": "Vernieuw de chauffeurslijst",
+          "sync": "Synchroniseren",
+          "sync_title": "Synchroniseer huidige selectie/verbinding"
+        },
+        "driver": {
+          "description": "Kies het ASCOM-stuurprogramma dat u als secundaire camera wilt gebruiken.",
+          "fallback_name": "Bestuurder",
+          "label": "Bestuurder",
+          "select_placeholder": "— selecteren —",
+          "selected": "Gekozen",
+          "title": "Bestuurder"
+        },
+        "pills": {
+          "active": "Actief",
+          "busy": "Druk bezig",
+          "connected": "Aangesloten",
+          "disconnected": "Verbinding verbroken",
+          "idle": "Inactief"
+        },
+        "subtitle": "Driverselectie, verbinding en native ASCOM-installatiedialoog",
+        "tip": {
+          "prefix": "Tip: Als u de instellingen in het dialoogvenster voor het instellen van het stuurprogramma hebt gewijzigd, klikt u op",
+          "suffix": "daarna."
+        },
+        "title": "Secundaire camera-instelling"
+      },
+      "sections": {
+        "actions": "Acties",
+        "connection": "Verbinding",
+        "current_settings": "Huidige instellingen",
+        "event_log": "Gebeurtenislogboek",
+        "offset": "Offset",
+        "offsets": "Compensaties",
+        "preview": "Voorbeeld",
+        "secondary_camera": "Secundaire camera (ASCOM)",
+        "status": "Status",
+        "websocket": "WebSocket"
+      },
+      "settings": {
+        "auto_gain": "auto",
+        "binning": "Binden:",
+        "camera": "Camera",
+        "downsample": "Downsample:",
+        "exposure": "Blootstelling:",
+        "focal_length": "Brandpuntsafstand:",
+        "focal_scale": "Brandpuntsschaal:",
+        "gain": "Verdienen:",
+        "max_attempts": "Maximale pogingen:",
+        "pixel_size": "Pixelgrootte:",
+        "platesolve": "Plaatoplossen",
+        "scope": "Domein",
+        "search_radius": "Zoekradius:",
+        "threshold": "Drempelwaarde:",
+        "timeout_sec": "Time-out (sec):",
+        "values_from_backend": "Deze waarden zijn afkomstig van het eindpunt van de backend-instellingen."
+      },
+      "status_labels": {
+        "busy": "Druk bezig",
+        "camera_connected": "Camera aangesloten",
+        "corrected_coordinates": "Gecorrigeerde coördinaten (met offset)",
+        "last_solve_summary": "lastSolveSamenvatting",
+        "last_update": "Laatste update",
+        "mount_connected": "Monteer aangesloten",
+        "raw_solve": "Ruw oplossen (geleidingscamera)",
+        "service_ready": "Service gereed",
+        "task_status": "Taakstatus",
+        "used_parameters": "gebruikte parameters",
+        "validation": "Geldigmaking"
+      },
+      "subtitle": "Externe PlateSolvePlus-console voor uw alternatieve Platesolve Camera V2",
+      "tabs": {
+        "config": "Configuratie",
+        "control": "Controle"
+      },
+      "title": "PlateSolvePlus",
+      "websocket": {
+        "auto_reconnect": "Automatisch opnieuw verbinden ingeschakeld (back-off).",
+        "endpoint": "Eindpunt:"
+      },
+      "ws": {
+        "connected": "aangesloten",
+        "disconnected": "losgekoppeld",
+        "label": "W.S"
+      }
     }
   },
   "dialogs": {

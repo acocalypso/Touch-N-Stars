@@ -506,7 +506,6 @@
           "title": "PHD2 Error",
           "star-lost-message": "Star lost"
         },
-        "shared_prarmeters": "Shared parameters",
         "profileManagement": {
           "title": "Manage Profiles",
           "createNew": "Create New Profile",
@@ -903,6 +902,37 @@
         "message": "The TouchNStars Plugin in NINA is outdated and needs to be updated.",
         "required": "Required Version",
         "current": "Current Version"
+      }
+    },
+    "pins": {
+      "title": "PINS Updater",
+      "dryRun": "Dry Run Mode",
+      "startUpgrade": "Start Upgrade",
+      "upgrading": "Upgrading...",
+      "terminalOutput": "TERMINAL OUTPUT",
+      "clearOutput": "Clear Output",
+      "waiting": "Assuming control... Waiting for command...",
+      "status": {
+        "idle": "Idle",
+        "running": "Running",
+        "success": "Success",
+        "failed": "Failed"
+      },
+      "logs": {
+        "noIp": "Error: No IP address found in settings. Please connect to an instance first.",
+        "init": "Initializing upgrade sequence on host: {ip}",
+        "config": "Configuration: Dry Run = {dryRun}",
+        "jobCreated": "Job successfully created. ID: {jobId}",
+        "daemonCheck": "Make sure the PINS daemon is running on {ip}:{port}",
+        "serverError": "Server Error ({status}): {data}",
+        "corsHint": "Hint: The server rejected the request method. Check CORS configuration on the server.",
+        "networkError": "Network Error: The request failed.",
+        "noResponse": "Network Error: No response received from server.",
+        "error": "Error: {message}",
+        "wsConnecting": "Negotiating WebSocket connection to {wsUrl}...",
+        "wsConnected": "Connection established. Streaming logs...",
+        "wsClosed": "Connection closed. (Code: {code})",
+        "wsError": "WebSocket error occurred."
       }
     },
     "bahtifocus": {

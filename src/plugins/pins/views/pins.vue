@@ -168,7 +168,7 @@ const jobId = ref(null);
 let ws = null;
 
 const PORT = 8000;
-const TOKEN = 'change-me-please';
+const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 function clearLogs() {
   logs.value = [];
@@ -227,8 +227,6 @@ async function startUpgrade() {
   status.value = 'Running';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
-  // Debug log to verify token
-  appendLog(`Debug: Using Token '${TOKEN}'`);
   appendLog(t('plugins.pins.logs.config', { dryRun: dryRun.value }));
 
   try {

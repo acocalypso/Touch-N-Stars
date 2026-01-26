@@ -227,10 +227,15 @@ async function startUpgrade() {
   status.value = 'Running';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
+  // Debug log to verify token
+  appendLog(`Debug: Using Token '${TOKEN}'`);
   appendLog(t('plugins.pins.logs.config', { dryRun: dryRun.value }));
 
   try {
-    const directAxios = axios.create();
+    // Create a clean axios instance to avoid global interceptors
+    const directAxios = axios.create({
+      headers: {}, // Start with empty headers
+    });
 
     const response = await directAxios.post(
       `http://${ip}:${PORT}/upgrade`,

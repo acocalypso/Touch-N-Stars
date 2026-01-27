@@ -491,6 +491,9 @@
         "guideAlgorithm": "导星算法",
         "guideAlgorithmDEC": "赤纬导星算法",
         "guideAlgorithmRA": "赤经导星算法",
+        "guiderScale": "导星比例",
+        "historySize": "历史大小",
+        "maxY": "最大Y",
         "optical": "光学设置",
         "profileManagement": {
           "cancel": "取消",
@@ -1503,6 +1506,8 @@
         "center_solve": "platesolve and center the target (requires mount connected   a calibrated offset).",
         "center_solve_label": "Center   Solve",
         "center_solve_text": "platesolve and center the target (requires mount connected   a calibrated offset).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
         "solve_sync": "platesolve and sync the mount (requires mount connected).",
         "solve_sync_label": "Solve   Sync",
         "solve_sync_text": "platesolve and sync the mount (requires mount connected)."
@@ -1511,6 +1516,7 @@
         "calibrate_offsets": "Calibrate Offsets",
         "capture": "Capture",
         "center_solve": "Center   Solve",
+        "target_solve": "Target + Solve",
         "clear": "Clear",
         "disconnect_ws": "Disconnect WS",
         "reconnect_ws": "Reconnect WS",
@@ -1601,6 +1607,7 @@
           "finishing": "Finishing",
           "platesolving": "Platesolving",
           "running": "Running",
+          "slewing_to_target": "Slewing to Target",
           "syncing": "Syncing",
           "validating": "Validating"
         },

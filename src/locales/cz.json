@@ -465,6 +465,9 @@
         "guideAlgorithm": "Algoritmus vedení",
         "guideAlgorithmDEC": "DEC algoritmus vedení",
         "guideAlgorithmRA": "RA algoritmus vedení",
+        "guiderScale": "Měřítko guideru",
+        "historySize": "Velikost historie",
+        "maxY": "Max Y",
         "optical": "Optická nastavení",
         "profileManagement": {
           "cancel": "Zrušit",
@@ -1508,6 +1511,8 @@
         "center_solve": "platesolve and center the target (requires mount connected   a calibrated offset).",
         "center_solve_label": "Center   Solve",
         "center_solve_text": "platesolve and center the target (requires mount connected   a calibrated offset).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
         "solve_sync": "platesolve and sync the mount (requires mount connected).",
         "solve_sync_label": "Solve   Sync",
         "solve_sync_text": "platesolve and sync the mount (requires mount connected)."
@@ -1516,6 +1521,7 @@
         "calibrate_offsets": "Calibrate Offsets",
         "capture": "Capture",
         "center_solve": "Center   Solve",
+        "target_solve": "Target + Solve",
         "clear": "Clear",
         "disconnect_ws": "Disconnect WS",
         "reconnect_ws": "Reconnect WS",
@@ -1606,6 +1612,7 @@
           "finishing": "Finishing",
           "platesolving": "Platesolving",
           "running": "Running",
+          "slewing_to_target": "Slewing to Target",
           "syncing": "Syncing",
           "validating": "Validating"
         },

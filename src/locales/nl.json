@@ -490,6 +490,9 @@
         "guideAlgorithm": "Gidsalgoritme",
         "guideAlgorithmDEC": "DEC-gidsalgoritme",
         "guideAlgorithmRA": "RA-gidsalgoritme",
+        "guiderScale": "Gidsschaal",
+        "historySize": "Geschiedenisgrootte",
+        "maxY": "Max Y",
         "optical": "Optische instellingen",
         "profileManagement": {
           "cancel": "Annuleren",
@@ -1502,6 +1505,8 @@
         "center_solve": "platesolve en centreer het doel (vereist een montage die is aangesloten op een gekalibreerde offset).",
         "center_solve_label": "Centrum oplossen",
         "center_solve_text": "platesolve en centreer het doel (vereist een montage die is aangesloten op een gekalibreerde offset).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
         "solve_sync": "platesolve en synchroniseer de houder (vereist dat de houder is aangesloten).",
         "solve_sync_label": "Synchronisatie oplossen",
         "solve_sync_text": "platesolve en synchroniseer de houder (vereist dat de houder is aangesloten)."
@@ -1510,6 +1515,7 @@
         "calibrate_offsets": "Kalibreer offsets",
         "capture": "Vastlegging",
         "center_solve": "Centrum oplossen",
+        "target_solve": "Target + Solve",
         "clear": "Duidelijk",
         "disconnect_ws": "Ontkoppel WS",
         "reconnect_ws": "Sluit WS opnieuw aan",
@@ -1600,6 +1606,7 @@
           "finishing": "Afwerking",
           "platesolving": "Plaatoplossen",
           "running": "Rennen",
+          "slewing_to_target": "Slewing to Target",
           "syncing": "Synchroniseren",
           "validating": "Valideren"
         },

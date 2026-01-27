@@ -1491,7 +1491,8 @@
       "upgrading": "Atualizando...",
       "waiting": "Assumindo o controle... Esperando pelo comando...",
       "sambaDescription": "Habilite ou desabilite o compartilhamento de arquivos em rede",
-      "sambaTitle": "Compartilhar Samba"
+      "sambaTitle": "Compartilhar Samba",
+      "notAvailable": "Ambiente PINS não detectado. \nEste plugin está desabilitado."
     },
     "platesolveplus": {
       "actions_help": {

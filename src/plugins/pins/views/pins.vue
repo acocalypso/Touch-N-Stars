@@ -8,7 +8,7 @@
       </h5>
 
       <!-- Control Panel -->
-      <div class="flex flex-col space-y-6 animate-fade-in-up">
+      <div v-if="store.isPINS" class="flex flex-col space-y-6 animate-fade-in-up">
         <!-- Samba Share Card -->
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
@@ -174,6 +174,28 @@
           </div>
         </div>
       </div>
+
+      <!-- Unavailable State -->
+      <div
+        v-else
+        class="border border-red-900/50 bg-red-900/20 rounded-lg p-8 text-center animate-fade-in-up"
+      >
+        <svg
+          class="w-16 h-16 text-red-500 mx-auto mb-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          />
+        </svg>
+        <h3 class="text-xl font-bold text-red-400 mb-2">{{ $t('plugins.pins.title') }}</h3>
+        <p class="text-gray-400">{{ $t('plugins.pins.notAvailable') }}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -182,11 +204,13 @@
 import { ref, nextTick, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import axios from 'axios';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
+const store = apiStore();
 
 const dryRun = ref(false);
 const sambaEnabled = ref(false);

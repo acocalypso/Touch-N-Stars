@@ -1491,7 +1491,8 @@
       "upgrading": "Mise à niveau...",
       "waiting": "Prendre le contrôle... Attendre l'ordre...",
       "sambaDescription": "Activer ou désactiver le partage de fichiers réseau",
-      "sambaTitle": "Partager Samba"
+      "sambaTitle": "Partager Samba",
+      "notAvailable": "Environnement PINS non détecté. \nCe plugin est désactivé."
     },
     "platesolveplus": {
       "actions_help": {

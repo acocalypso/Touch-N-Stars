@@ -1491,7 +1491,8 @@
       "upgrading": "Upgraden...",
       "waiting": "Controle aannemen... Wachten op commando...",
       "sambaDescription": "Schakel het delen van netwerkbestanden in of uit",
-      "sambaTitle": "Samba-aandeel"
+      "sambaTitle": "Samba-aandeel",
+      "notAvailable": "PINS-omgeving niet gedetecteerd. \nDeze plug-in is uitgeschakeld."
     },
     "platesolveplus": {
       "actions_help": {

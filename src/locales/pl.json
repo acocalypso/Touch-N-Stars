@@ -1491,7 +1491,8 @@
       "upgrading": "Aktualizowanie...",
       "waiting": "Przejęcie kontroli... Oczekiwanie na polecenie...",
       "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
-      "sambaTitle": "Podziel się Sambą"
+      "sambaTitle": "Podziel się Sambą",
+      "notAvailable": "Nie wykryto środowiska PINS. \nTa wtyczka jest wyłączona."
     },
     "platesolveplus": {
       "actions_help": {

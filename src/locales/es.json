@@ -1491,7 +1491,8 @@
       "upgrading": "Actualizando...",
       "waiting": "Asumiendo el control... Esperando comando...",
       "sambaDescription": "Activar o desactivar el uso compartido de archivos en red",
-      "sambaTitle": "compartir samba"
+      "sambaTitle": "compartir samba",
+      "notAvailable": "Entorno PINS no detectado. \nEste complemento está deshabilitado."
     },
     "platesolveplus": {
       "actions_help": {

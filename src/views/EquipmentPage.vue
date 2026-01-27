@@ -22,10 +22,10 @@
           <profilSelect />
         </div>
         <div
+          v-if="store.isPINS"
           class="flex items-center justify-center mb-4 w-full space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
         >
           <button
-            v-if="store.isPINS"
             @click="showIndiModal = true"
             class="default-button-gray w-full flex items-center justify-center gap-2"
           >
@@ -48,7 +48,7 @@
       <h2 class="text-xl font-bold">{{ $t('pages.equipment.indiSetup') }}</h2>
     </template>
     <template #body>
-      <selectIndi />
+      <selectIndi v-if="store.isPINS" />
     </template>
   </Modal>
 </template>

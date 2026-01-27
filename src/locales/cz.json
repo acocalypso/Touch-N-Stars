@@ -1466,7 +1466,7 @@
       },
       "update": "Aktualizace"
     },
-  "platesolveplus": {
+    "platesolveplus": {
       "title": "PlateSolvePlus",
       "subtitle": "Vzdálená konzole PlateSolvePlus pro alternativní Platesolve Camera V2",
       "ws": {
@@ -1697,8 +1697,43 @@
           "suffix": "."
         }
       }
-    
-
+    },
+    "pins": {
+      "clearOutput": "Vymazat výstup",
+      "dryRun": "Simulační režim",
+      "logs": {
+        "config": "Konfigurace: Simulace = {dryRun}",
+        "corsHint": "Tip: Server odmítl metodu požadavku. Zkontrolujte konfiguraci CORS na serveru.",
+        "daemonCheck": "Ujistěte se, že démon PINS běží na {ip}:{port}",
+        "error": "Chyba: {message}",
+        "init": "Inicializace sekvence aktualizace na hostiteli: {ip}",
+        "jobCreated": "Úloha úspěšně vytvořena. ID: {jobId}",
+        "networkError": "Chyba sítě: Požadavek selhal.",
+        "noIp": "Chyba: V nastavení nebyla nalezena IP adresa. Nejprve se připojte k instanci.",
+        "noResponse": "Chyba sítě: Od serveru nebyla přijata žádná odpověď.",
+        "sambaAction": "Akce: {action} Sdílení Samba",
+        "sambaDisable": "Zakázat",
+        "sambaEnable": "Povolit",
+        "serverError": "Chyba serveru ({status}): {data}",
+        "wsClosed": "Připojení uzavřeno. (Kód: {code})",
+        "wsConnected": "Připojení navázáno. Streamování logů...",
+        "wsConnecting": "Vyjednávání WebSocket připojení k {wsUrl}...",
+        "wsError": "Došlo k chybě WebSocket."
+      },
+      "notAvailable": "Prostředí PINS nebylo detekováno. Tento plugin je zakázán.",
+      "sambaDescription": "Povolit nebo zakázat sdílení souborů v síti",
+      "sambaTitle": "Sdílení Samba",
+      "startUpgrade": "Spustit aktualizaci",
+      "status": {
+        "failed": "Selhání",
+        "idle": "Nečinný",
+        "running": "Běží",
+        "success": "Úspěch"
+      },
+      "terminalOutput": "VÝSTUP TERMINÁLU",
+      "title": "Aktualizace PINS",
+      "upgrading": "Aktualizace probíhá...",
+      "waiting": "Přebírám kontrolu... Čekám na příkaz..."
     }
   },
   "dialogs": {

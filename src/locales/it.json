@@ -1691,6 +1691,43 @@
           "suffix": "successivamente."
         }
       }
+    },
+    "pins": {
+      "clearOutput": "Cancella output",
+      "dryRun": "Modalità simulazione",
+      "logs": {
+        "config": "Configurazione: Simulazione = {dryRun}",
+        "corsHint": "Suggerimento: Il server ha rifiutato il metodo della richiesta. Controlla la configurazione CORS sul server.",
+        "daemonCheck": "Assicurati che il daemon PINS sia in esecuzione su {ip}:{port}",
+        "error": "Errore: {message}",
+        "init": "Inizializzazione sequenza di aggiornamento sull'host: {ip}",
+        "jobCreated": "Attività creata con successo. ID: {jobId}",
+        "networkError": "Errore di rete: La richiesta è fallita.",
+        "noIp": "Errore: Nessun indirizzo IP trovato nelle impostazioni. Connettiti prima a un'istanza.",
+        "noResponse": "Errore di rete: Nessuna risposta ricevuta dal server.",
+        "sambaAction": "Azione: {action} Condivisione Samba",
+        "sambaDisable": "Disabilita",
+        "sambaEnable": "Abilita",
+        "serverError": "Errore del server ({status}): {data}",
+        "wsClosed": "Connessione chiusa. (Codice: {code})",
+        "wsConnected": "Connessione stabilita. Streaming dei log...",
+        "wsConnecting": "Negoziazione connessione WebSocket con {wsUrl}...",
+        "wsError": "Si è verificato un errore WebSocket."
+      },
+      "notAvailable": "Ambiente PINS non rilevato. Questo plugin è disabilitato.",
+      "sambaDescription": "Abilita o disabilita la condivisione file di rete",
+      "sambaTitle": "Condivisione Samba",
+      "startUpgrade": "Avvia aggiornamento",
+      "status": {
+        "failed": "Fallito",
+        "idle": "Inattivo",
+        "running": "In esecuzione",
+        "success": "Successo"
+      },
+      "terminalOutput": "OUTPUT TERMINALE",
+      "title": "Aggiornamento PINS",
+      "upgrading": "Aggiornamento in corso...",
+      "waiting": "Assumendo il controllo... In attesa di comando..."
     }
   },
   "dialogs": {

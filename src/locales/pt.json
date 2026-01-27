@@ -1691,6 +1691,43 @@
           "suffix": "."
         }
       }
+    },
+    "pins": {
+      "clearOutput": "Limpar saída",
+      "dryRun": "Modo de simulação",
+      "logs": {
+        "config": "Configuração: Simulação = {dryRun}",
+        "corsHint": "Dica: O servidor rejeitou o método da solicitação. Verifique a configuração CORS no servidor.",
+        "daemonCheck": "Certifique-se de que o daemon PINS está em execução em {ip}:{port}",
+        "error": "Erro: {message}",
+        "init": "Iniciando sequência de atualização no host: {ip}",
+        "jobCreated": "Tarefa criada com sucesso. ID: {jobId}",
+        "networkError": "Erro de rede: A solicitação falhou.",
+        "noIp": "Erro: Nenhum endereço IP encontrado nas configurações. Conecte-se a uma instância primeiro.",
+        "noResponse": "Erro de rede: Nenhuma resposta recebida do servidor.",
+        "sambaAction": "Ação: {action} Compartilhamento Samba",
+        "sambaDisable": "Desativar",
+        "sambaEnable": "Ativar",
+        "serverError": "Erro do servidor ({status}): {data}",
+        "wsClosed": "Conexão fechada. (Código: {code})",
+        "wsConnected": "Conexão estabelecida. Transmitindo logs...",
+        "wsConnecting": "Negociando conexão WebSocket com {wsUrl}...",
+        "wsError": "Ocorreu um erro no WebSocket."
+      },
+      "notAvailable": "Ambiente PINS não detectado. Este plugin está desativado.",
+      "sambaDescription": "Ativar ou desativar compartilhamento de arquivos de rede",
+      "sambaTitle": "Compartilhamento Samba",
+      "startUpgrade": "Iniciar atualização",
+      "status": {
+        "failed": "Falhou",
+        "idle": "Inativo",
+        "running": "Executando",
+        "success": "Sucesso"
+      },
+      "terminalOutput": "SAÍDA DO TERMINAL",
+      "title": "Atualizador PINS",
+      "upgrading": "Atualizando...",
+      "waiting": "Assumindo controle... Aguardando comando..."
     }
   },
   "dialogs": {

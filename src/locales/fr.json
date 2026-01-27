@@ -1691,6 +1691,43 @@
         "disconnected": "déconnecté",
         "label": "WS"
       }
+    },
+    "pins": {
+      "clearOutput": "Effacer la sortie",
+      "dryRun": "Mode simulation",
+      "logs": {
+        "config": "Configuration : Simulation = {dryRun}",
+        "corsHint": "Astuce : Le serveur a rejeté la méthode de requête. Vérifiez la configuration CORS sur le serveur.",
+        "daemonCheck": "Assurez-vous que le démon PINS fonctionne sur {ip}:{port}",
+        "error": "Erreur : {message}",
+        "init": "Initialisation de la séquence de mise à jour sur l'hôte : {ip}",
+        "jobCreated": "Tâche créée avec succès. ID : {jobId}",
+        "networkError": "Erreur réseau : La requête a échoué.",
+        "noIp": "Erreur : Aucune adresse IP trouvée dans les paramètres. Veuillez d'abord vous connecter à une instance.",
+        "noResponse": "Erreur réseau : Aucune réponse reçue du serveur.",
+        "sambaAction": "Action : {action} Partage Samba",
+        "sambaDisable": "Désactiver",
+        "sambaEnable": "Activer",
+        "serverError": "Erreur serveur ({status}) : {data}",
+        "wsClosed": "Connexion fermée. (Code : {code})",
+        "wsConnected": "Connexion établie. Diffusion des logs...",
+        "wsConnecting": "Négociation de la connexion WebSocket vers {wsUrl}...",
+        "wsError": "Une erreur WebSocket s'est produite."
+      },
+      "notAvailable": "Environnement PINS non détecté. Ce plugin est désactivé.",
+      "sambaDescription": "Activer ou désactiver le partage de fichiers réseau",
+      "sambaTitle": "Partage Samba",
+      "startUpgrade": "Démarrer la mise à jour",
+      "status": {
+        "failed": "Échec",
+        "idle": "Inactif",
+        "running": "En cours",
+        "success": "Succès"
+      },
+      "terminalOutput": "SORTIE TERMINAL",
+      "title": "Mise à jour PINS",
+      "upgrading": "Mise à jour en cours...",
+      "waiting": "Prise de contrôle... En attente de commande..."
     }
   },
   "dialogs": {

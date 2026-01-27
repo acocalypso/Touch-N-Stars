@@ -1691,6 +1691,43 @@
           "suffix": "."
         }
       }
+    },
+    "pins": {
+      "clearOutput": "Wyczyść wyjście",
+      "dryRun": "Tryb symulacji",
+      "logs": {
+        "config": "Konfiguracja: Symulacja = {dryRun}",
+        "corsHint": "Wskazówka: Serwer odrzucił metodę żądania. Sprawdź konfigurację CORS na serwerze.",
+        "daemonCheck": "Upewnij się, że demon PINS działa na {ip}:{port}",
+        "error": "Błąd: {message}",
+        "init": "Inicjowanie sekwencji aktualizacji na hoście: {ip}",
+        "jobCreated": "Zadanie utworzone pomyślnie. ID: {jobId}",
+        "networkError": "Błąd sieci: Żądanie nie powiodło się.",
+        "noIp": "Błąd: Nie znaleziono adresu IP w ustawieniach. Najpierw połącz się z instancją.",
+        "noResponse": "Błąd sieci: Brak odpowiedzi od serwera.",
+        "sambaAction": "Akcja: {action} Udział Samba",
+        "sambaDisable": "Wyłącz",
+        "sambaEnable": "Włącz",
+        "serverError": "Błąd serwera ({status}): {data}",
+        "wsClosed": "Połączenie zamknięte. (Kod: {code})",
+        "wsConnected": "Połączenie nawiązane. Przesyłanie logów...",
+        "wsConnecting": "Negocjowanie połączenia WebSocket z {wsUrl}...",
+        "wsError": "Wystąpił błąd WebSocket."
+      },
+      "notAvailable": "Środowisko PINS nie zostało wykryte. Ta wtyczka jest wyłączona.",
+      "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
+      "sambaTitle": "Udział Samba",
+      "startUpgrade": "Rozpocznij aktualizację",
+      "status": {
+        "failed": "Niepowodzenie",
+        "idle": "Bezczynny",
+        "running": "Uruchomiony",
+        "success": "Sukces"
+      },
+      "terminalOutput": "WYJŚCIE TERMINALA",
+      "title": "Aktualizator PINS",
+      "upgrading": "Aktualizowanie...",
+      "waiting": "Przejmowanie kontroli... Oczekiwanie na polecenie..."
     }
   },
   "dialogs": {

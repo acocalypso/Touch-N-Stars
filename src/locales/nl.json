@@ -1691,6 +1691,43 @@
           "suffix": "."
         }
       }
+    },
+    "pins": {
+      "clearOutput": "Uitvoer wissen",
+      "dryRun": "Simulatiemodus",
+      "logs": {
+        "config": "Configuratie: Simulatie = {dryRun}",
+        "corsHint": "Hint: De server heeft de verzoekmethode geweigerd. Controleer de CORS-configuratie op de server.",
+        "daemonCheck": "Zorg ervoor dat de PINS-daemon draait op {ip}:{port}",
+        "error": "Fout: {message}",
+        "init": "Upgrade-sequentie initialiseren op host: {ip}",
+        "jobCreated": "Taak succesvol aangemaakt. ID: {jobId}",
+        "networkError": "Netwerkfout: Het verzoek is mislukt.",
+        "noIp": "Fout: Geen IP-adres gevonden in instellingen. Maak eerst verbinding met een instantie.",
+        "noResponse": "Netwerkfout: Geen antwoord ontvangen van server.",
+        "sambaAction": "Actie: {action} Samba-share",
+        "sambaDisable": "Uitschakelen",
+        "sambaEnable": "Inschakelen",
+        "serverError": "Serverfout ({status}): {data}",
+        "wsClosed": "Verbinding gesloten. (Code: {code})",
+        "wsConnected": "Verbinding tot stand gebracht. Logs worden gestreamd...",
+        "wsConnecting": "WebSocket-verbinding onderhandelen met {wsUrl}...",
+        "wsError": "Er is een WebSocket-fout opgetreden."
+      },
+      "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
+      "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
+      "sambaTitle": "Samba-share",
+      "startUpgrade": "Upgrade starten",
+      "status": {
+        "failed": "Mislukt",
+        "idle": "Inactief",
+        "running": "Actief",
+        "success": "Geslaagd"
+      },
+      "terminalOutput": "TERMINALUITVOER",
+      "title": "PINS Updater",
+      "upgrading": "Upgraden...",
+      "waiting": "Controle overnemen... Wachten op opdracht..."
     }
   },
   "dialogs": {

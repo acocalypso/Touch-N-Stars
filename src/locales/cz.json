@@ -1480,7 +1480,10 @@
         "wsClosed": "Connection closed. (Code: {code})",
         "wsConnected": "Connection established. Streaming logs...",
         "wsConnecting": "Negotiating WebSocket connection to {wsUrl}...",
-        "wsError": "WebSocket error occurred."
+        "wsError": "WebSocket error occurred.",
+        "sambaAction": "Action: {action} Samba Share",
+        "sambaDisable": "Disable",
+        "sambaEnable": "Enable"
       },
       "startUpgrade": "Start Upgrade",
       "status": {
@@ -1492,7 +1495,9 @@
       "terminalOutput": "TERMINAL OUTPUT",
       "title": "PINS Updater",
       "upgrading": "Upgrading...",
-      "waiting": "Assuming control... Waiting for command..."
+      "waiting": "Assuming control... Waiting for command...",
+      "sambaDescription": "Enable or disable network file sharing",
+      "sambaTitle": "Samba Share"
     },
     "platesolveplus": {
       "actions_help": {

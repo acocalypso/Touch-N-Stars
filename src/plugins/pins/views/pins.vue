@@ -9,6 +9,33 @@
 
       <!-- Control Panel -->
       <div class="flex flex-col space-y-6 animate-fade-in-up">
+        <!-- Samba Share Card -->
+        <div
+          class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
+        >
+          <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+            <svg class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+              />
+            </svg>
+          </div>
+          <div class="relative z-10">
+            <h3 class="text-xl font-bold text-white mb-1">{{ $t('plugins.pins.sambaTitle') }}</h3>
+            <p class="text-gray-400 text-sm">{{ $t('plugins.pins.sambaDescription') }}</p>
+          </div>
+          <div class="relative z-10">
+            <toggleButton
+              :status-value="sambaEnabled"
+              @update:status-value="handleSambaToggle"
+              :disabled="status === 'Running'"
+            />
+          </div>
+        </div>
+
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden"
         >
@@ -156,11 +183,13 @@ import { ref, nextTick, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
 import axios from 'axios';
+import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
 
 const dryRun = ref(false);
+const sambaEnabled = ref(false);
 const status = ref('Idle');
 const logs = ref([]);
 const terminalRef = ref(null);
@@ -212,6 +241,78 @@ function formatLog(log) {
 // Function to get the current connection IP
 function getIp() {
   return settingsStore.connection.ip;
+}
+
+async function handleSambaToggle(newValue) {
+  if (status.value === 'Running') return;
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  sambaEnabled.value = newValue;
+  status.value = 'Running';
+  logs.value = [];
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  
+  const actionKey = newValue ? 'plugins.pins.logs.sambaEnable' : 'plugins.pins.logs.sambaDisable';
+  appendLog(t('plugins.pins.logs.sambaAction', { action: t(actionKey) }));
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    
+    const response = await directAxios.post(
+      `http://${ip}:${PORT}/samba`,
+      { enable: newValue },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 5000,
+      }
+    );
+
+    const data = response.data;
+    let returnedJobId;
+
+    if (data && typeof data === 'object' && data.jobId) {
+      returnedJobId = data.jobId;
+    } else if (typeof data === 'string' || typeof data === 'number') {
+      returnedJobId = data;
+    }
+
+    if (!returnedJobId) {
+      throw new Error('No valid Job ID returned. server response: ' + JSON.stringify(data));
+    }
+
+    jobId.value = returnedJobId;
+    appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+
+    connectWebSocket(ip, returnedJobId);
+  } catch (error) {
+    console.error(error);
+    status.value = 'Failed';
+    sambaEnabled.value = !newValue; // Revert on failure
+    appendLog(t('plugins.pins.logs.daemonCheck', { ip, port: PORT }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    } else if (error.code === 'ERR_NETWORK' || error.message === 'Network Error') {
+      appendLog(t('plugins.pins.logs.networkError'));
+    } else if (error.request) {
+      appendLog(t('plugins.pins.logs.noResponse'));
+    } else {
+      appendLog(t('plugins.pins.logs.error', { message: error.message }));
+    }
+  }
 }
 
 async function startUpgrade() {

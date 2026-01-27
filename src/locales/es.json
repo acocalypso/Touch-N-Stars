@@ -1474,7 +1474,10 @@
         "wsClosed": "Conexión cerrada. \n(Código: {código})",
         "wsConnected": "Conexión establecida. \nRegistros de transmisión...",
         "wsConnecting": "Negociando conexión WebSocket a {wsUrl}....",
-        "wsError": "Se produjo un error en WebSocket."
+        "wsError": "Se produjo un error en WebSocket.",
+        "sambaAction": "Acción: {acción} Samba Compartir",
+        "sambaDisable": "Desactivar",
+        "sambaEnable": "Permitir"
       },
       "startUpgrade": "Iniciar actualización",
       "status": {
@@ -1486,7 +1489,9 @@
       "terminalOutput": "SALIDA TERMINAL",
       "title": "Actualizador de PINS",
       "upgrading": "Actualizando...",
-      "waiting": "Asumiendo el control... Esperando comando..."
+      "waiting": "Asumiendo el control... Esperando comando...",
+      "sambaDescription": "Activar o desactivar el uso compartido de archivos en red",
+      "sambaTitle": "compartir samba"
     },
     "platesolveplus": {
       "actions_help": {

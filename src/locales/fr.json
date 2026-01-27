@@ -1474,7 +1474,10 @@
         "wsClosed": "Connexion fermée. \n(Code : {code})",
         "wsConnected": "Connexion établie. \nJournaux en streaming...",
         "wsConnecting": "Négociation de la connexion WebSocket à {wsUrl}...",
-        "wsError": "Une erreur WebSocket s'est produite."
+        "wsError": "Une erreur WebSocket s'est produite.",
+        "sambaAction": "Action : {action} Partage Samba",
+        "sambaDisable": "Désactiver",
+        "sambaEnable": "Activer"
       },
       "startUpgrade": "Commencer la mise à niveau",
       "status": {
@@ -1486,7 +1489,9 @@
       "terminalOutput": "SORTIE BORNE",
       "title": "Programme de mise à jour des codes PIN",
       "upgrading": "Mise à niveau...",
-      "waiting": "Prendre le contrôle... Attendre l'ordre..."
+      "waiting": "Prendre le contrôle... Attendre l'ordre...",
+      "sambaDescription": "Activer ou désactiver le partage de fichiers réseau",
+      "sambaTitle": "Partager Samba"
     },
     "platesolveplus": {
       "actions_help": {

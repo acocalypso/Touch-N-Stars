@@ -1474,7 +1474,10 @@
         "wsClosed": "Połączenie zamknięte. \n(Kod: {kod})",
         "wsConnected": "Połączenie nawiązane. \nDzienniki przesyłania strumieniowego...",
         "wsConnecting": "Negocjowanie połączenia WebSocket z {wsUrl}...",
-        "wsError": "Wystąpił błąd protokołu WebSocket."
+        "wsError": "Wystąpił błąd protokołu WebSocket.",
+        "sambaAction": "Akcja: {akcja} Udostępnij Sambę",
+        "sambaDisable": "Wyłączyć",
+        "sambaEnable": "Włączać"
       },
       "startUpgrade": "Rozpocznij aktualizację",
       "status": {
@@ -1486,7 +1489,9 @@
       "terminalOutput": "WYJŚCIE TERMINALOWE",
       "title": "Aktualizator PINS",
       "upgrading": "Aktualizowanie...",
-      "waiting": "Przejęcie kontroli... Oczekiwanie na polecenie..."
+      "waiting": "Przejęcie kontroli... Oczekiwanie na polecenie...",
+      "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
+      "sambaTitle": "Podziel się Sambą"
     },
     "platesolveplus": {
       "actions_help": {

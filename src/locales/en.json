@@ -907,6 +907,8 @@
     "pins": {
       "title": "PINS Updater",
       "dryRun": "Dry Run Mode",
+      "sambaTitle": "Samba Share",
+      "sambaDescription": "Enable or disable network file sharing",
       "startUpgrade": "Start Upgrade",
       "upgrading": "Upgrading...",
       "terminalOutput": "TERMINAL OUTPUT",
@@ -922,6 +924,9 @@
         "noIp": "Error: No IP address found in settings. Please connect to an instance first.",
         "init": "Initializing upgrade sequence on host: {ip}",
         "config": "Configuration: Dry Run = {dryRun}",
+        "sambaAction": "Action: {action} Samba Share",
+        "sambaEnable": "Enable",
+        "sambaDisable": "Disable",
         "jobCreated": "Job successfully created. ID: {jobId}",
         "daemonCheck": "Make sure the PINS daemon is running on {ip}:{port}",
         "serverError": "Server Error ({status}): {data}",

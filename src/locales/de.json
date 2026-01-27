@@ -1445,6 +1445,7 @@
         "capture": "Aufnehmen",
         "solve_sync": "Solve + Sync",
         "center_solve": "Zentrieren + Solve",
+        "target_solve": "Target + Solve",
         "clear": "Leeren",
         "sync": "Sync",
         "setup": "Setup…",
@@ -1488,7 +1489,9 @@
         "solve_sync_label": "Solve + Sync",
         "solve_sync_text": "Platesolve und Mount syncen (Mount muss verbunden sein).",
         "center_solve_label": "Center + Solve",
-        "center_solve_text": "Platesolve und Ziel zentrieren (Mount verbunden + kalibriertes Offset)."
+        "center_solve_text": "Platesolve und Ziel zentrieren (Mount verbunden + kalibriertes Offset).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "fahre Ziel an und zentriere (Mount verbunden + Ziel über Stellarium in Framing Assistant ausgewählt)."
       },
       "progress": {
         "title": "Solve-Fortschritt",
@@ -1505,7 +1508,8 @@
           "centering": "Zentrieren",
           "finishing": "Abschluss",
           "calibrating": "Kalibrieren",
-          "running": "Läuft"
+          "running": "Läuft",
+          "slewing_to_target": "Zum Ziel schwenken"
         },
         "messages": {
           "working": "Arbeite…",

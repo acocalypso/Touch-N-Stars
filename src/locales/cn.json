@@ -1461,276 +1461,239 @@
         "deleted": "快捷方式删除成功"
       }
     },
-    "pins": {
-      "clearOutput": "Clear Output",
-      "dryRun": "Dry Run Mode",
-      "logs": {
-        "config": "Configuration: Dry Run = {dryRun}",
-        "corsHint": "Hint: The server rejected the request method. Check CORS configuration on the server.",
-        "daemonCheck": "Make sure the PINS daemon is running on {ip}:{port}",
-        "error": "Error: {message}",
-        "init": "Initializing upgrade sequence on host: {ip}",
-        "jobCreated": "Job successfully created. ID: {jobId}",
-        "networkError": "Network Error: The request failed.",
-        "noIp": "Error: No IP address found in settings. Please connect to an instance first.",
-        "noResponse": "Network Error: No response received from server.",
-        "serverError": "Server Error ({status}): {data}",
-        "wsClosed": "Connection closed. (Code: {code})",
-        "wsConnected": "Connection established. Streaming logs...",
-        "wsConnecting": "Negotiating WebSocket connection to {wsUrl}...",
-        "wsError": "WebSocket error occurred.",
-        "sambaAction": "Action: {action} Samba Share",
-        "sambaDisable": "Disable",
-        "sambaEnable": "Enable"
-      },
-      "startUpgrade": "Start Upgrade",
-      "status": {
-        "failed": "Failed",
-        "idle": "Idle",
-        "running": "Running",
-        "success": "Success"
-      },
-      "terminalOutput": "TERMINAL OUTPUT",
-      "title": "PINS Updater",
-      "upgrading": "Upgrading...",
-      "waiting": "Assuming control... Waiting for command...",
-      "sambaDescription": "Enable or disable network file sharing",
-      "sambaTitle": "Samba Share",
-      "notAvailable": "PINS environment not detected. This plugin is disabled."
-    },
     "platesolveplus": {
-      "actions_help": {
-        "capture": "platesolve only (validation), no sync/slew.",
-        "capture_label": "Capture",
-        "capture_text": "platesolve only (validation), no sync/slew.",
-        "center_solve": "platesolve and center the target (requires mount connected   a calibrated offset).",
-        "center_solve_label": "Center   Solve",
-        "center_solve_text": "platesolve and center the target (requires mount connected   a calibrated offset).",
-        "target_solve_label": "Target + Solve",
-        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
-        "solve_sync": "platesolve and sync the mount (requires mount connected).",
-        "solve_sync_label": "Solve   Sync",
-        "solve_sync_text": "platesolve and sync the mount (requires mount connected)."
+    "title": "PlateSolvePlus",
+    "subtitle": "用于替代 Platesolve Camera V2 的远程 PlateSolvePlus 控制台",
+    "ws": {
+      "label": "WS",
+      "connected": "已连接",
+      "disconnected": "未连接"
+    },
+    "tabs": {
+      "control": "控制",
+      "config": "配置"
+    },
+    "sections": {
+      "status": "状态",
+      "preview": "预览",
+      "actions": "操作",
+      "secondary_camera": "辅助相机（ASCOM）",
+      "offset": "偏移",
+      "current_settings": "当前设置",
+      "event_log": "事件日志",
+      "connection": "连接",
+      "websocket": "WebSocket",
+      "offsets": "偏移量"
+    },
+    "buttons": {
+      "refresh": "刷新",
+      "refreshing": "正在刷新…",
+      "capture": "拍摄",
+      "solve_sync": "解析 + 同步",
+      "center_solve": "居中 + 解析",
+      "target_solve": "目标 + 解析",
+      "clear": "清除",
+      "sync": "同步",
+      "setup": "设置…",
+      "save_config": "保存配置",
+      "reload_from_storage": "从存储重新加载",
+      "test_connection": "测试连接",
+      "reconnect_ws": "重新连接 WS",
+      "disconnect_ws": "断开 WS",
+      "reset_offsets": "重置偏移",
+      "calibrate_offsets": "校准偏移"
+    },
+    "status_labels": {
+      "busy": "忙碌",
+      "service_ready": "服务就绪",
+      "mount_connected": "赤道仪已连接",
+      "camera_connected": "相机已连接",
+      "last_update": "最后更新",
+      "task_status": "任务状态",
+      "used_parameters": "使用的参数",
+      "validation": "验证",
+      "raw_solve": "原始解析（导星相机）",
+      "corrected_coordinates": "修正后的坐标（含偏移）",
+      "last_solve_summary": "lastSolveSummary"
+    },
+    "preview": {
+      "preview_title": "预览图像",
+      "auto_refresh": "自动刷新",
+      "alt_latest_preview": "最新预览",
+      "unavailable_title": "预览不可用",
+      "load_error": "加载错误 — 请刷新。",
+      "no_preview_loaded": "尚未加载预览。",
+      "cache_hint": "已启用缓存破坏（?t=）。服务器同时发送 Cache-Control: no-store。",
+      "no_preview_yet": "暂无可用预览。"
+    },
+    "actions_help": {
+      "capture": "仅进行天文定位解析（验证），不进行同步/转动。",
+      "solve_sync": "进行天文定位解析并同步赤道仪（需要赤道仪已连接）。",
+      "center_solve": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
+      "capture_label": "拍摄",
+      "capture_text": "仅进行天文定位解析（验证），不进行同步/转动。",
+      "solve_sync_label": "解析 + 同步",
+      "solve_sync_text": "进行天文定位解析并同步赤道仪（需要赤道仪已连接）。",
+      "center_solve_label": "居中 + 解析",
+      "center_solve_text": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
+      "target_solve_label": "目标 + 解析",
+      "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Stellarium 的取景助手中设置目标）。"
+    },
+    "progress": {
+      "title": "解析进度",
+      "job": "任务",
+      "action": "操作",
+      "stage": "阶段",
+      "message": "消息",
+      "process_progress": "处理进度。",
+      "pill": {
+        "capturing": "正在拍摄",
+        "validating": "正在验证",
+        "platesolving": "正在解析",
+        "syncing": "正在同步",
+        "centering": "正在居中",
+        "finishing": "正在完成",
+        "calibrating": "正在校准",
+        "running": "运行中",
+        "slewing_to_target": "正在转向目标"
+      },
+      "messages": {
+        "working": "处理中…",
+        "capturing_validating": "拍摄 + 验证中…",
+        "solving_syncing": "解析 + 同步中…",
+        "solving_centering": "解析 + 居中中…",
+        "solving": "解析中…",
+        "capture_accepted": "已接受拍摄（等待事件）",
+        "capture_started": "拍摄开始",
+        "capture_finished": "拍摄完成",
+        "solve_started": "解析开始",
+        "solve_finished": "解析完成",
+        "solve_sync_accepted": "已接受解析+同步（等待事件）",
+        "solve_sync_started": "解析+同步开始",
+        "solve_sync_finished": "解析+同步完成",
+        "center_solve_accepted": "已接受居中+解析（等待事件）",
+        "center_solve_started": "居中+解析开始",
+        "center_solve_finished": "居中+解析完成",
+        "offset_calibrate_started": "偏移校准开始",
+        "offset_calibrate_finished": "偏移校准完成"
+      }
+    },
+    "secondary": {
+      "status": "状态",
+      "connected": "已连接",
+      "disconnected": "未连接",
+      "current_camera": "当前相机",
+      "not_connected": "未连接",
+      "no_drivers_returned": "未返回任何驱动。",
+      "log": {
+        "state_synced": "辅助相机状态已同步",
+        "sync_failed": "辅助相机同步失败",
+        "selection_applied": "辅助相机选择已应用",
+        "selection_failed": "辅助相机选择失败",
+        "connect": "辅助相机连接",
+        "connect_failed": "辅助相机连接失败",
+        "disconnect": "辅助相机断开连接",
+        "disconnect_failed": "辅助相机断开失败",
+        "setup_dialog": "辅助相机设置对话框",
+        "setup_dialog_failed": "辅助相机设置对话框失败"
+      }
+    },
+    "offset_fields": {
+      "offset_enabled": "offsetEnabled",
+      "offset_mode": "offsetMode",
+      "dra_arcsec": "ΔRA（角秒）：",
+      "ddec_arcsec": "ΔDec（角秒）：",
+      "rotation_quat": "旋转（四元数）："
+    },
+    "settings": {
+      "camera": "相机",
+      "scope": "望远镜",
+      "platesolve": "天文定位解析",
+      "exposure": "曝光：",
+      "gain": "增益：",
+      "binning": "合并：",
+      "focal_length": "焦距：",
+      "focal_scale": "焦距比例：",
+      "pixel_size": "像素尺寸：",
+      "search_radius": "搜索半径：",
+      "downsample": "降采样：",
+      "timeout_sec": "超时（秒）：",
+      "threshold": "阈值：",
+      "max_attempts": "最大尝试次数：",
+      "auto_gain": "自动",
+      "values_from_backend": "这些值来自后端设置接口。"
+    },
+    "event_log": {
+      "empty": "—"
+    },
+    "config": {
+      "host": "主机",
+      "port": "端口",
+      "base_path": "基础路径",
+      "base_path_default": "默认：/api/platesolveplus",
+      "use_token_optional": "使用令牌（可选）",
+      "token": "令牌",
+      "token_placeholder": "令牌…",
+      "token_hint": "通过请求头 X-PSP-Token 发送（需与 PlateSolvePlus API 主机匹配）。",
+      "active_url": "当前 URL："
+    },
+    "websocket": {
+      "endpoint": "端点：",
+      "auto_reconnect": "已启用自动重连（退避）。"
+    },
+    "offsets_help": {
+      "text": "校准将创建或更新导星相机到主相机的偏移模型。重置将清除所有偏移。"
+    },
+    "footer": {
+      "rest": "REST："
+    },
+    "common": {
+      "empty": "—",
+      "true": "true",
+      "false": "false"
+    },
+    "log": {
+      "preview_refreshed": "预览已刷新",
+      "config_load_failed": "配置加载失败"
+    },
+    "secondary_setup": {
+      "title": "辅助相机设置",
+      "subtitle": "驱动选择、连接以及原生 ASCOM 设置对话框",
+      "pills": {
+        "connected": "已连接",
+        "disconnected": "未连接",
+        "busy": "忙碌",
+        "idle": "空闲",
+        "active": "活动"
+      },
+      "driver": {
+        "title": "驱动",
+        "description": "选择用作辅助相机的 ASCOM 驱动。",
+        "label": "驱动",
+        "select_placeholder": "— 请选择 —",
+        "fallback_name": "驱动",
+        "selected": "已选择"
       },
       "buttons": {
-        "calibrate_offsets": "Calibrate Offsets",
-        "capture": "Capture",
-        "center_solve": "Center   Solve",
-        "target_solve": "Target + Solve",
-        "clear": "Clear",
-        "disconnect_ws": "Disconnect WS",
-        "reconnect_ws": "Reconnect WS",
-        "refresh": "Refresh",
-        "refreshing": "Refreshing…",
-        "reload_from_storage": "Reload from Storage",
-        "reset_offsets": "Reset Offsets",
-        "save_config": "Save Config",
-        "setup": "Setup…",
-        "solve_sync": "Solve   Sync",
-        "sync": "Sync",
-        "test_connection": "Test Connection"
+        "close": "关闭",
+        "refresh": "刷新",
+        "refresh_title": "刷新驱动列表",
+        "sync": "同步",
+        "sync_title": "同步当前选择/连接",
+        "apply": "应用",
+        "apply_title": "应用选择",
+        "connect": "连接",
+        "disconnect": "断开连接",
+        "driver_setup": "驱动设置…",
+        "driver_setup_title": "在主机上打开原生 ASCOM 设置对话框"
       },
-      "common": {
-        "empty": "—",
-        "false": "false",
-        "true": "true"
-      },
-      "config": {
-        "active_url": "Active URL:",
-        "base_path": "Base Path",
-        "base_path_default": "Default: /api/platesolveplus",
-        "host": "Host",
-        "port": "Port",
-        "token": "Token",
-        "token_hint": "Sent as header X-PSP-Token (matches the PlateSolvePlus API host).",
-        "token_placeholder": "token…",
-        "use_token_optional": "Use token (optional)"
-      },
-      "event_log": {
-        "empty": "—"
-      },
-      "footer": {
-        "rest": "REST:"
-      },
-      "log": {
-        "config_load_failed": "Config load failed",
-        "preview_refreshed": "Preview refreshed"
-      },
-      "offset_fields": {
-        "ddec_arcsec": "ΔDec (arcsec):",
-        "dra_arcsec": "ΔRA (arcsec):",
-        "offset_enabled": "offsetEnabled",
-        "offset_mode": "offsetMode",
-        "rotation_quat": "rotation (quat):"
-      },
-      "offsets_help": {
-        "text": "Calibrate creates/updates the guider-to-main offset model. Reset clears all offsets."
-      },
-      "preview": {
-        "alt_latest_preview": "Latest preview",
-        "auto_refresh": "Auto refresh",
-        "cache_hint": "Cache-busting enabled (?t=). Server also sends Cache-Control: no-store.",
-        "load_error": "Load error — please refresh.",
-        "no_preview_loaded": "No preview loaded yet.",
-        "no_preview_yet": "No preview available (yet).",
-        "preview_title": "Preview Image",
-        "unavailable_title": "Preview unavailable"
-      },
-      "progress": {
-        "action": "Action",
-        "job": "Job",
-        "message": "Message",
-        "messages": {
-          "capture_accepted": "Capture accepted (waiting for events)",
-          "capture_finished": "Capture finished",
-          "capture_started": "Capture started",
-          "capturing_validating": "Capturing   validating…",
-          "center_solve_accepted": "Center Solve accepted (waiting for events)",
-          "center_solve_finished": "Center Solve finished",
-          "center_solve_started": "Center Solve started",
-          "offset_calibrate_finished": "Offset calibrate finished",
-          "offset_calibrate_started": "Offset calibrate started",
-          "solve_finished": "Solve finished",
-          "solve_started": "Solve started",
-          "solve_sync_accepted": "Solve Sync accepted (waiting for events)",
-          "solve_sync_finished": "Solve Sync finished",
-          "solve_sync_started": "Solve Sync started",
-          "solving": "Solving…",
-          "solving_centering": "Solving   centering…",
-          "solving_syncing": "Solving   syncing…",
-          "working": "Working…"
-        },
-        "pill": {
-          "calibrating": "Calibrating",
-          "capturing": "Capturing",
-          "centering": "Centering",
-          "finishing": "Finishing",
-          "platesolving": "Platesolving",
-          "running": "Running",
-          "slewing_to_target": "Slewing to Target",
-          "syncing": "Syncing",
-          "validating": "Validating"
-        },
-        "process_progress": "Process progress.",
-        "stage": "Stage",
-        "title": "Solve Progress"
-      },
-      "secondary": {
-        "connected": "Connected",
-        "current_camera": "Current camera",
-        "disconnected": "Disconnected",
-        "log": {
-          "connect": "Secondary connect",
-          "connect_failed": "Secondary connect failed",
-          "disconnect": "Secondary disconnect",
-          "disconnect_failed": "Secondary disconnect failed",
-          "selection_applied": "Secondary selection applied",
-          "selection_failed": "Secondary selection failed",
-          "setup_dialog": "Secondary setup dialog",
-          "setup_dialog_failed": "Secondary setup dialog failed",
-          "state_synced": "Secondary camera state synced",
-          "sync_failed": "Secondary camera sync failed"
-        },
-        "no_drivers_returned": "No drivers returned.",
-        "not_connected": "Not connected",
-        "status": "Status"
-      },
-      "secondary_setup": {
-        "buttons": {
-          "apply": "Apply",
-          "apply_title": "Apply selection",
-          "close": "Close",
-          "connect": "Connect",
-          "disconnect": "Disconnect",
-          "driver_setup": "Driver Setup...",
-          "driver_setup_title": "Open native ASCOM setup dialog on host",
-          "refresh": "Refresh",
-          "refresh_title": "Refresh driver list",
-          "sync": "Sync",
-          "sync_title": "Sync current selection/connection"
-        },
-        "driver": {
-          "description": "Choose the ASCOM driver to use as secondary camera.",
-          "fallback_name": "Driver",
-          "label": "Driver",
-          "select_placeholder": "— select —",
-          "selected": "Selected",
-          "title": "Driver"
-        },
-        "pills": {
-          "active": "Active",
-          "busy": "Busy",
-          "connected": "Connected",
-          "disconnected": "Disconnected",
-          "idle": "Idle"
-        },
-        "subtitle": "Driver selection, connection and native ASCOM setup dialog",
-        "tip": {
-          "prefix": "Tip: If you changed settings in the driver setup dialog, click",
-          "suffix": "afterwards."
-        },
-        "title": "Secondary Camera Setup"
-      },
-      "sections": {
-        "actions": "Actions",
-        "connection": "Connection",
-        "current_settings": "Current Settings",
-        "event_log": "Event Log",
-        "offset": "Offset",
-        "offsets": "Offsets",
-        "preview": "Preview",
-        "secondary_camera": "Secondary Camera (ASCOM)",
-        "status": "Status",
-        "websocket": "WebSocket"
-      },
-      "settings": {
-        "auto_gain": "auto",
-        "binning": "Binning:",
-        "camera": "Camera",
-        "downsample": "Downsample:",
-        "exposure": "Exposure:",
-        "focal_length": "Focal Length:",
-        "focal_scale": "Focal Scale:",
-        "gain": "Gain:",
-        "max_attempts": "Max attempts:",
-        "pixel_size": "Pixel Size:",
-        "platesolve": "Platesolve",
-        "scope": "Scope",
-        "search_radius": "Search Radius:",
-        "threshold": "Threshold:",
-        "timeout_sec": "Timeout (sec):",
-        "values_from_backend": "These values come from the backend settings endpoint."
-      },
-      "status_labels": {
-        "busy": "Busy",
-        "camera_connected": "Camera connected",
-        "corrected_coordinates": "Corrected coordinates (with offset)",
-        "last_solve_summary": "lastSolveSummary",
-        "last_update": "Last update",
-        "mount_connected": "Mount connected",
-        "raw_solve": "Raw solve (guider camera)",
-        "service_ready": "Service Ready",
-        "task_status": "Task Status",
-        "used_parameters": "used Parameters",
-        "validation": "Validation"
-      },
-      "subtitle": "Remote PlateSolvePlus Console for your alternative Platesolve Camera V2",
-      "tabs": {
-        "config": "Config",
-        "control": "Control"
-      },
-      "title": "PlateSolvePlus",
-      "websocket": {
-        "auto_reconnect": "Auto-reconnect enabled (backoff).",
-        "endpoint": "Endpoint:"
-      },
-      "ws": {
-        "connected": "connected",
-        "disconnected": "disconnected",
-        "label": "WS"
+      "tip": {
+        "prefix": "提示：如果您在驱动设置对话框中更改了设置，请随后点击",
+        "suffix": "。"
       }
     }
-  },
+      }
+    },
   "dialogs": {
     "plateSolving": {
       "time": "时间",

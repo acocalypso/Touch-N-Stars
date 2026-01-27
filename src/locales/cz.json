@@ -1497,7 +1497,8 @@
       "upgrading": "Upgrading...",
       "waiting": "Assuming control... Waiting for command...",
       "sambaDescription": "Enable or disable network file sharing",
-      "sambaTitle": "Samba Share"
+      "sambaTitle": "Samba Share",
+      "notAvailable": "PINS environment not detected. This plugin is disabled."
     },
     "platesolveplus": {
       "actions_help": {

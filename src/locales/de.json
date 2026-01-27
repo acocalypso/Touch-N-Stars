@@ -906,6 +906,7 @@
     },
     "pins": {
       "title": "PINS Updater",
+      "notAvailable": "PINS-Umgebung nicht erkannt. Dieses Plugin ist deaktiviert.",
       "dryRun": "Testlauf-Modus",
       "sambaTitle": "Samba Freigabe",
       "sambaDescription": "Netzwerkfreigabe aktivieren oder deaktivieren",

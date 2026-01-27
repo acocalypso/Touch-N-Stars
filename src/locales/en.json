@@ -906,6 +906,7 @@
     },
     "pins": {
       "title": "PINS Updater",
+      "notAvailable": "PINS environment not detected. This plugin is disabled.",
       "dryRun": "Dry Run Mode",
       "sambaTitle": "Samba Share",
       "sambaDescription": "Enable or disable network file sharing",

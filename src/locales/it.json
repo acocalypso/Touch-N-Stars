@@ -1491,7 +1491,8 @@
       "upgrading": "Aggiornamento...",
       "waiting": "Assumere il controllo... In attesa del comando...",
       "sambaDescription": "Abilita o disabilita la condivisione di file in rete",
-      "sambaTitle": "Condivisione di Samba"
+      "sambaTitle": "Condivisione di Samba",
+      "notAvailable": "Ambiente PIN non rilevato. \nQuesto plugin è disabilitato."
     },
     "platesolveplus": {
       "actions_help": {

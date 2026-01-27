@@ -132,8 +132,10 @@ import { onMounted, ref } from 'vue';
 import apiPinsService from '@/services/apiPinsService';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { useEquipmentStore } from '@/store/equipmentStore';
 
 const store = apiStore();
+const equipmentStore = useEquipmentStore();
 const focuser = ref([]);
 const filterwheel = ref([]);
 const rotator = ref([]);
@@ -154,6 +156,7 @@ const onFocuserChange = async () => {
   try {
     await apiService.profileChangeValue('FocuserSettings-IndiDriver', selectedFocuser.value);
     await apiService.focusAction('list-devices');
+    equipmentStore.triggerRescan('focus');
     console.log('[SelectIndi] Focuser selected:', selectedFocuser.value);
   } catch (error) {
     console.error('[SelectIndi] Error Focuser selection:', error);
@@ -167,6 +170,7 @@ const onFilterwheelChange = async () => {
       selectedFilterwheel.value
     );
     await apiService.filterAction('list-devices');
+    equipmentStore.triggerRescan('filter');
     console.log('[SelectIndi] Filterwheel selected:', selectedFilterwheel.value);
   } catch (error) {
     console.error('[SelectIndi] Error Filterwheel selection:', error);
@@ -177,6 +181,7 @@ const onRotatorChange = async () => {
   try {
     await apiService.profileChangeValue('RotatorSettings-IndiDriver', selectedRotator.value);
     await apiService.rotatorAction('list-devices');
+    equipmentStore.triggerRescan('rotator');
     console.log('[SelectIndi] Rotator selected:', selectedRotator.value);
   } catch (error) {
     console.error('[SelectIndi] Error Rotator selection:', error);
@@ -187,6 +192,7 @@ const onTelescopeChange = async () => {
   try {
     await apiService.profileChangeValue('TelescopeSettings-IndiDriver', selectedTelescope.value);
     await apiService.mountAction('list-devices');
+    equipmentStore.triggerRescan('mount');
     console.log('[SelectIndi] Telescope selected:', selectedTelescope.value);
   } catch (error) {
     console.error('[SelectIndi] Error Telescope selection:', error);
@@ -197,6 +203,7 @@ const onWeatherChange = async () => {
   try {
     await apiService.profileChangeValue('WeatherSettings-IndiDriver', selectedWeather.value);
     await apiService.weatherAction('list-devices');
+    equipmentStore.triggerRescan('weather');
     console.log('[SelectIndi] Weather selected:', selectedWeather.value);
   } catch (error) {
     console.error('[SelectIndi] Error Weather selection:', error);
@@ -207,6 +214,7 @@ const onSwitchesChange = async () => {
   try {
     await apiService.profileChangeValue('SwitchSettings-IndiDriver', selectedSwitches.value);
     await apiService.switchAction('list-devices');
+    equipmentStore.triggerRescan('switch');
     console.log('[SelectIndi] Switches selected:', selectedSwitches.value);
   } catch (error) {
     console.error('[SelectIndi] Error Switches selection:', error);
@@ -217,6 +225,7 @@ const onFlatpanelChange = async () => {
   try {
     await apiService.profileChangeValue('FlatPanelSettings-IndiDriver', selectedFlatpanel.value);
     await apiService.flatdeviceAction('list-devices');
+    equipmentStore.triggerRescan('flatdevice');
     console.log('[SelectIndi] Flatpanel selected:', selectedFlatpanel.value);
   } catch (error) {
     console.error('[SelectIndi] Error Flatpanel selection:', error);

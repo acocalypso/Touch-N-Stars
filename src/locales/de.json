@@ -907,6 +907,8 @@
     "pins": {
       "title": "PINS Updater",
       "dryRun": "Testlauf-Modus",
+      "sambaTitle": "Samba Freigabe",
+      "sambaDescription": "Netzwerkfreigabe aktivieren oder deaktivieren",
       "startUpgrade": "Upgrade starten",
       "upgrading": "Aktualisiere...",
       "terminalOutput": "TERMINAL AUSGABE",
@@ -922,6 +924,9 @@
         "noIp": "Fehler: Keine IP-Adresse in den Einstellungen gefunden. Bitte verbinden Sie sich zuerst mit einer Instanz.",
         "init": "Initialisiere Upgrade-Sequenz auf Host: {ip}",
         "config": "Konfiguration: Testlauf = {dryRun}",
+        "sambaAction": "Aktion: Samba Freigabe {action}",
+        "sambaEnable": "aktivieren",
+        "sambaDisable": "deaktivieren",
         "jobCreated": "Job erfolgreich erstellt. ID: {jobId}",
         "daemonCheck": "Stellen Sie sicher, dass der PINS-Daemon auf {ip}:{port} läuft",
         "serverError": "Serverfehler ({status}): {data}",

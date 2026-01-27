@@ -1474,7 +1474,10 @@
         "wsClosed": "Verbinding gesloten. \n(Code: {code})",
         "wsConnected": "Verbinding tot stand gebracht. \nLogboeken streamen...",
         "wsConnecting": "Onderhandelen over een WebSocket-verbinding met {wsUrl}...",
-        "wsError": "Er is een WebSocket-fout opgetreden."
+        "wsError": "Er is een WebSocket-fout opgetreden.",
+        "sambaAction": "Actie: {action} Samba delen",
+        "sambaDisable": "Uitzetten",
+        "sambaEnable": "Inschakelen"
       },
       "startUpgrade": "Upgrade starten",
       "status": {
@@ -1486,7 +1489,9 @@
       "terminalOutput": "KLEM UITGANG",
       "title": "PINS-updater",
       "upgrading": "Upgraden...",
-      "waiting": "Controle aannemen... Wachten op commando..."
+      "waiting": "Controle aannemen... Wachten op commando...",
+      "sambaDescription": "Schakel het delen van netwerkbestanden in of uit",
+      "sambaTitle": "Samba-aandeel"
     },
     "platesolveplus": {
       "actions_help": {

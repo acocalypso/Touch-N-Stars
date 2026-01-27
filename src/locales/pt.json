@@ -1456,6 +1456,271 @@
         "updated": "Atalho atualizado com sucesso"
       },
       "update": "Atualizar"
+    },
+    "pins": {
+      "clearOutput": "Limpar saída",
+      "dryRun": "Modo de funcionamento a seco",
+      "logs": {
+        "config": "Configuração: Teste = {dryRun}",
+        "corsHint": "Dica: O servidor rejeitou o método de solicitação. \nVerifique a configuração do CORS no servidor.",
+        "daemonCheck": "Certifique-se de que o daemon PINS esteja rodando em {ip}:{port}",
+        "error": "Erro: {mensagem}",
+        "init": "Inicializando sequência de atualização no host: {ip}",
+        "jobCreated": "Trabalho criado com sucesso. \nCódigo: {jobId}",
+        "networkError": "Erro de rede: a solicitação falhou.",
+        "noIp": "Erro: Nenhum endereço IP encontrado nas configurações. \nConecte-se primeiro a uma instância.",
+        "noResponse": "Erro de rede: Nenhuma resposta recebida do servidor.",
+        "serverError": "Erro do servidor ({status}): {data}",
+        "wsClosed": "Conexão fechada. \n(Código: {código})",
+        "wsConnected": "Conexão estabelecida. \nRegistros de streaming...",
+        "wsConnecting": "Negociando conexão WebSocket com {wsUrl}...",
+        "wsError": "Ocorreu um erro de WebSocket.",
+        "sambaAction": "Ação: {action} Samba Share",
+        "sambaDisable": "Desativar",
+        "sambaEnable": "Habilitar"
+      },
+      "startUpgrade": "Iniciar atualização",
+      "status": {
+        "failed": "Fracassado",
+        "idle": "Parado",
+        "running": "Correndo",
+        "success": "Sucesso"
+      },
+      "terminalOutput": "SAÍDA DO TERMINAL",
+      "title": "Atualizador de PINS",
+      "upgrading": "Atualizando...",
+      "waiting": "Assumindo o controle... Esperando pelo comando...",
+      "sambaDescription": "Habilite ou desabilite o compartilhamento de arquivos em rede",
+      "sambaTitle": "Compartilhar Samba",
+      "notAvailable": "Ambiente PINS não detectado. \nEste plugin está desabilitado."
+    },
+    "platesolveplus": {
+      "actions_help": {
+        "capture": "somente platesolve (validação), sem sincronização/slew.",
+        "capture_label": "Capturar",
+        "capture_text": "somente platesolve (validação), sem sincronização/slew.",
+        "center_solve": "platesolve e centralize o alvo (requer montagem conectada a um deslocamento calibrado).",
+        "center_solve_label": "Centralizar resolução",
+        "center_solve_text": "platesolve e centralize o alvo (requer montagem conectada a um deslocamento calibrado).",
+        "solve_sync": "platesolve e sincronize a montagem (requer montagem conectada).",
+        "solve_sync_label": "Resolver sincronização",
+        "solve_sync_text": "platesolve e sincronize a montagem (requer montagem conectada)."
+      },
+      "buttons": {
+        "calibrate_offsets": "Calibrar deslocamentos",
+        "capture": "Capturar",
+        "center_solve": "Centralizar resolução",
+        "clear": "Claro",
+        "disconnect_ws": "Desconectar WS",
+        "reconnect_ws": "Reconectar o WS",
+        "refresh": "Atualizar",
+        "refreshing": "Refrescante…",
+        "reload_from_storage": "Recarregar do armazenamento",
+        "reset_offsets": "Redefinir deslocamentos",
+        "save_config": "Salvar configuração",
+        "setup": "Configurar…",
+        "solve_sync": "Resolver sincronização",
+        "sync": "Sincronizar",
+        "test_connection": "Conexão de teste"
+      },
+      "common": {
+        "empty": "-",
+        "false": "falso",
+        "true": "verdadeiro"
+      },
+      "config": {
+        "active_url": "URL ativo:",
+        "base_path": "Caminho Básico",
+        "base_path_default": "Padrão: /api/platesolveplus",
+        "host": "Hospedar",
+        "port": "Porta",
+        "token": "Símbolo",
+        "token_hint": "Enviado como cabeçalho X-PSP-Token (corresponde ao host da API PlateSolvePlus).",
+        "token_placeholder": "ficha…",
+        "use_token_optional": "Usar token (opcional)"
+      },
+      "event_log": {
+        "empty": "-"
+      },
+      "footer": {
+        "rest": "DESCANSAR:"
+      },
+      "log": {
+        "config_load_failed": "Falha no carregamento da configuração",
+        "preview_refreshed": "Visualização atualizada"
+      },
+      "offset_fields": {
+        "ddec_arcsec": "ΔDec (arcosec):",
+        "dra_arcsec": "ΔRA (arcosec):",
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "modo de deslocamento",
+        "rotation_quat": "rotação (quat):"
+      },
+      "offsets_help": {
+        "text": "Calibrar cria/atualiza o modelo de deslocamento da guia para o principal. \nRedefinir limpa todos os deslocamentos."
+      },
+      "preview": {
+        "alt_latest_preview": "Visualização mais recente",
+        "auto_refresh": "Atualização automática",
+        "cache_hint": "Bloqueio de cache ativado (?t=). \nO servidor também envia Cache-Control: no-store.",
+        "load_error": "Erro de carregamento – atualize.",
+        "no_preview_loaded": "Nenhuma visualização carregada ainda.",
+        "no_preview_yet": "Nenhuma visualização disponível (ainda).",
+        "preview_title": "Visualizar imagem",
+        "unavailable_title": "Visualização indisponível"
+      },
+      "progress": {
+        "action": "Ação",
+        "job": "Trabalho",
+        "message": "Mensagem",
+        "messages": {
+          "capture_accepted": "Captura aceita (aguardando eventos)",
+          "capture_finished": "Captura concluída",
+          "capture_started": "Captura iniciada",
+          "capturing_validating": "Capturando validação…",
+          "center_solve_accepted": "Center Solve aceito (aguardando eventos)",
+          "center_solve_finished": "Centralizar resolução concluída",
+          "center_solve_started": "Central Solve iniciada",
+          "offset_calibrate_finished": "Calibração de offset concluída",
+          "offset_calibrate_started": "Calibração de deslocamento iniciada",
+          "solve_finished": "Resolver concluído",
+          "solve_started": "Resolver começou",
+          "solve_sync_accepted": "Resolver Sincronização aceita (aguardando eventos)",
+          "solve_sync_finished": "Resolver sincronização concluída",
+          "solve_sync_started": "Resolver sincronização iniciada",
+          "solving": "Resolvendo…",
+          "solving_centering": "Resolvendo centralização…",
+          "solving_syncing": "Resolvendo a sincronização…",
+          "working": "Trabalhando…"
+        },
+        "pill": {
+          "calibrating": "Calibrando",
+          "capturing": "Capturando",
+          "centering": "Centralização",
+          "finishing": "Acabamento",
+          "platesolving": "Resolução de placas",
+          "running": "Correndo",
+          "syncing": "Sincronizando",
+          "validating": "Validando"
+        },
+        "process_progress": "Progresso do processo.",
+        "stage": "Estágio",
+        "title": "Resolver o progresso"
+      },
+      "secondary": {
+        "connected": "Conectado",
+        "current_camera": "Câmera atual",
+        "disconnected": "Desconectado",
+        "log": {
+          "connect": "Conexão secundária",
+          "connect_failed": "Falha na conexão secundária",
+          "disconnect": "Desconexão secundária",
+          "disconnect_failed": "Falha na desconexão secundária",
+          "selection_applied": "Seleção secundária aplicada",
+          "selection_failed": "Falha na seleção secundária",
+          "setup_dialog": "Caixa de diálogo de configuração secundária",
+          "setup_dialog_failed": "Falha na caixa de diálogo de configuração secundária",
+          "state_synced": "Estado da câmera secundária sincronizado",
+          "sync_failed": "Falha na sincronização da câmera secundária"
+        },
+        "no_drivers_returned": "Nenhum motorista retornou.",
+        "not_connected": "Não conectado",
+        "status": "Status"
+      },
+      "secondary_setup": {
+        "buttons": {
+          "apply": "Aplicar",
+          "apply_title": "Aplicar seleção",
+          "close": "Fechar",
+          "connect": "Conectar",
+          "disconnect": "Desconectar",
+          "driver_setup": "Configuração do driver...",
+          "driver_setup_title": "Abra a caixa de diálogo de configuração nativa do ASCOM no host",
+          "refresh": "Atualizar",
+          "refresh_title": "Atualizar lista de drivers",
+          "sync": "Sincronizar",
+          "sync_title": "Sincronizar seleção/conexão atual"
+        },
+        "driver": {
+          "description": "Escolha o driver ASCOM para usar como câmera secundária.",
+          "fallback_name": "Motorista",
+          "label": "Motorista",
+          "select_placeholder": "— selecione —",
+          "selected": "Selecionado",
+          "title": "Motorista"
+        },
+        "pills": {
+          "active": "Ativo",
+          "busy": "Ocupado",
+          "connected": "Conectado",
+          "disconnected": "Desconectado",
+          "idle": "Parado"
+        },
+        "subtitle": "Seleção de driver, conexão e caixa de diálogo de configuração ASCOM nativa",
+        "tip": {
+          "prefix": "Dica: Se você alterou as configurações na caixa de diálogo de configuração do driver, clique em",
+          "suffix": "após."
+        },
+        "title": "Configuração da câmera secundária"
+      },
+      "sections": {
+        "actions": "Ações",
+        "connection": "Conexão",
+        "current_settings": "Configurações atuais",
+        "event_log": "Registro de eventos",
+        "offset": "Desvio",
+        "offsets": "Deslocamentos",
+        "preview": "Visualização",
+        "secondary_camera": "Câmera Secundária (ASCOM)",
+        "status": "Status",
+        "websocket": "WebSocket"
+      },
+      "settings": {
+        "auto_gain": "auto",
+        "binning": "Armazenamento:",
+        "camera": "Câmera",
+        "downsample": "Reduzir a resolução:",
+        "exposure": "Exposição:",
+        "focal_length": "Distância focal:",
+        "focal_scale": "Escala Focal:",
+        "gain": "Ganho:",
+        "max_attempts": "Máximo de tentativas:",
+        "pixel_size": "Tamanho dos pixels:",
+        "platesolve": "Solução de placas",
+        "scope": "Escopo",
+        "search_radius": "Raio de pesquisa:",
+        "threshold": "Limite:",
+        "timeout_sec": "Tempo limite (seg):",
+        "values_from_backend": "Esses valores vêm do endpoint de configurações de back-end."
+      },
+      "status_labels": {
+        "busy": "Ocupado",
+        "camera_connected": "Câmera conectada",
+        "corrected_coordinates": "Coordenadas corrigidas (com deslocamento)",
+        "last_solve_summary": "últimoResumo",
+        "last_update": "Última atualização",
+        "mount_connected": "Montagem conectada",
+        "raw_solve": "Resolução bruta (câmera guia)",
+        "service_ready": "Pronto para serviço",
+        "task_status": "Status da tarefa",
+        "used_parameters": "Parâmetros usados",
+        "validation": "Validação"
+      },
+      "subtitle": "Console PlateSolvePlus remoto para sua câmera Platesolve V2 alternativa",
+      "tabs": {
+        "config": "Configuração",
+        "control": "Controlar"
+      },
+      "title": "PlacaSolvePlus",
+      "websocket": {
+        "auto_reconnect": "Reconexão automática habilitada (backoff).",
+        "endpoint": "Ponto final:"
+      },
+      "ws": {
+        "connected": "conectado",
+        "disconnected": "desconectado",
+        "label": "WS"
+      }
     }
   },
   "dialogs": {

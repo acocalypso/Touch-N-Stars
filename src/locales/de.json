@@ -904,6 +904,43 @@
         "current": "Aktuelle Version"
       }
     },
+    "pins": {
+      "title": "PINS Updater",
+      "notAvailable": "PINS-Umgebung nicht erkannt. Dieses Plugin ist deaktiviert.",
+      "dryRun": "Testlauf-Modus",
+      "sambaTitle": "Samba Freigabe",
+      "sambaDescription": "Netzwerkfreigabe aktivieren oder deaktivieren",
+      "startUpgrade": "Upgrade starten",
+      "upgrading": "Aktualisiere...",
+      "terminalOutput": "TERMINAL AUSGABE",
+      "clearOutput": "Ausgabe löschen",
+      "waiting": "Übernehme Kontrolle... Warte auf Befehl...",
+      "status": {
+        "idle": "Bereit",
+        "running": "Läuft",
+        "success": "Erfolg",
+        "failed": "Fehlgeschlagen"
+      },
+      "logs": {
+        "noIp": "Fehler: Keine IP-Adresse in den Einstellungen gefunden. Bitte verbinden Sie sich zuerst mit einer Instanz.",
+        "init": "Initialisiere Upgrade-Sequenz auf Host: {ip}",
+        "config": "Konfiguration: Testlauf = {dryRun}",
+        "sambaAction": "Aktion: Samba Freigabe {action}",
+        "sambaEnable": "aktivieren",
+        "sambaDisable": "deaktivieren",
+        "jobCreated": "Job erfolgreich erstellt. ID: {jobId}",
+        "daemonCheck": "Stellen Sie sicher, dass der PINS-Daemon auf {ip}:{port} läuft",
+        "serverError": "Serverfehler ({status}): {data}",
+        "corsHint": "Hinweis: Der Server hat die Anfragemethode abgelehnt. Überprüfen Sie die CORS-Konfiguration auf dem Server.",
+        "networkError": "Netzwerkfehler: Die Anfrage ist fehlgeschlagen.",
+        "noResponse": "Netzwerkfehler: Keine Antwort vom Server erhalten.",
+        "error": "Fehler: {message}",
+        "wsConnecting": "Verbindung zu {wsUrl} wird aufgebaut...",
+        "wsConnected": "Verbindung hergestellt. Streame Protokolle...",
+        "wsClosed": "Verbindung geschlossen. (Code: {code})",
+        "wsError": "Ein WebSocket-Fehler ist aufgetreten."
+      }
+    },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",
       "subtitle": "Capture or load an image to measure focus quality with your Bahtinov mask.",

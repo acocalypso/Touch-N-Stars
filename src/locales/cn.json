@@ -1457,6 +1457,271 @@
         "updated": "快捷方式更新成功",
         "deleted": "快捷方式删除成功"
       }
+    },
+    "pins": {
+      "clearOutput": "Clear Output",
+      "dryRun": "Dry Run Mode",
+      "logs": {
+        "config": "Configuration: Dry Run = {dryRun}",
+        "corsHint": "Hint: The server rejected the request method. Check CORS configuration on the server.",
+        "daemonCheck": "Make sure the PINS daemon is running on {ip}:{port}",
+        "error": "Error: {message}",
+        "init": "Initializing upgrade sequence on host: {ip}",
+        "jobCreated": "Job successfully created. ID: {jobId}",
+        "networkError": "Network Error: The request failed.",
+        "noIp": "Error: No IP address found in settings. Please connect to an instance first.",
+        "noResponse": "Network Error: No response received from server.",
+        "serverError": "Server Error ({status}): {data}",
+        "wsClosed": "Connection closed. (Code: {code})",
+        "wsConnected": "Connection established. Streaming logs...",
+        "wsConnecting": "Negotiating WebSocket connection to {wsUrl}...",
+        "wsError": "WebSocket error occurred.",
+        "sambaAction": "Action: {action} Samba Share",
+        "sambaDisable": "Disable",
+        "sambaEnable": "Enable"
+      },
+      "startUpgrade": "Start Upgrade",
+      "status": {
+        "failed": "Failed",
+        "idle": "Idle",
+        "running": "Running",
+        "success": "Success"
+      },
+      "terminalOutput": "TERMINAL OUTPUT",
+      "title": "PINS Updater",
+      "upgrading": "Upgrading...",
+      "waiting": "Assuming control... Waiting for command...",
+      "sambaDescription": "Enable or disable network file sharing",
+      "sambaTitle": "Samba Share",
+      "notAvailable": "PINS environment not detected. This plugin is disabled."
+    },
+    "platesolveplus": {
+      "actions_help": {
+        "capture": "platesolve only (validation), no sync/slew.",
+        "capture_label": "Capture",
+        "capture_text": "platesolve only (validation), no sync/slew.",
+        "center_solve": "platesolve and center the target (requires mount connected   a calibrated offset).",
+        "center_solve_label": "Center   Solve",
+        "center_solve_text": "platesolve and center the target (requires mount connected   a calibrated offset).",
+        "solve_sync": "platesolve and sync the mount (requires mount connected).",
+        "solve_sync_label": "Solve   Sync",
+        "solve_sync_text": "platesolve and sync the mount (requires mount connected)."
+      },
+      "buttons": {
+        "calibrate_offsets": "Calibrate Offsets",
+        "capture": "Capture",
+        "center_solve": "Center   Solve",
+        "clear": "Clear",
+        "disconnect_ws": "Disconnect WS",
+        "reconnect_ws": "Reconnect WS",
+        "refresh": "Refresh",
+        "refreshing": "Refreshing…",
+        "reload_from_storage": "Reload from Storage",
+        "reset_offsets": "Reset Offsets",
+        "save_config": "Save Config",
+        "setup": "Setup…",
+        "solve_sync": "Solve   Sync",
+        "sync": "Sync",
+        "test_connection": "Test Connection"
+      },
+      "common": {
+        "empty": "—",
+        "false": "false",
+        "true": "true"
+      },
+      "config": {
+        "active_url": "Active URL:",
+        "base_path": "Base Path",
+        "base_path_default": "Default: /api/platesolveplus",
+        "host": "Host",
+        "port": "Port",
+        "token": "Token",
+        "token_hint": "Sent as header X-PSP-Token (matches the PlateSolvePlus API host).",
+        "token_placeholder": "token…",
+        "use_token_optional": "Use token (optional)"
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "footer": {
+        "rest": "REST:"
+      },
+      "log": {
+        "config_load_failed": "Config load failed",
+        "preview_refreshed": "Preview refreshed"
+      },
+      "offset_fields": {
+        "ddec_arcsec": "ΔDec (arcsec):",
+        "dra_arcsec": "ΔRA (arcsec):",
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "rotation_quat": "rotation (quat):"
+      },
+      "offsets_help": {
+        "text": "Calibrate creates/updates the guider-to-main offset model. Reset clears all offsets."
+      },
+      "preview": {
+        "alt_latest_preview": "Latest preview",
+        "auto_refresh": "Auto refresh",
+        "cache_hint": "Cache-busting enabled (?t=). Server also sends Cache-Control: no-store.",
+        "load_error": "Load error — please refresh.",
+        "no_preview_loaded": "No preview loaded yet.",
+        "no_preview_yet": "No preview available (yet).",
+        "preview_title": "Preview Image",
+        "unavailable_title": "Preview unavailable"
+      },
+      "progress": {
+        "action": "Action",
+        "job": "Job",
+        "message": "Message",
+        "messages": {
+          "capture_accepted": "Capture accepted (waiting for events)",
+          "capture_finished": "Capture finished",
+          "capture_started": "Capture started",
+          "capturing_validating": "Capturing   validating…",
+          "center_solve_accepted": "Center Solve accepted (waiting for events)",
+          "center_solve_finished": "Center Solve finished",
+          "center_solve_started": "Center Solve started",
+          "offset_calibrate_finished": "Offset calibrate finished",
+          "offset_calibrate_started": "Offset calibrate started",
+          "solve_finished": "Solve finished",
+          "solve_started": "Solve started",
+          "solve_sync_accepted": "Solve Sync accepted (waiting for events)",
+          "solve_sync_finished": "Solve Sync finished",
+          "solve_sync_started": "Solve Sync started",
+          "solving": "Solving…",
+          "solving_centering": "Solving   centering…",
+          "solving_syncing": "Solving   syncing…",
+          "working": "Working…"
+        },
+        "pill": {
+          "calibrating": "Calibrating",
+          "capturing": "Capturing",
+          "centering": "Centering",
+          "finishing": "Finishing",
+          "platesolving": "Platesolving",
+          "running": "Running",
+          "syncing": "Syncing",
+          "validating": "Validating"
+        },
+        "process_progress": "Process progress.",
+        "stage": "Stage",
+        "title": "Solve Progress"
+      },
+      "secondary": {
+        "connected": "Connected",
+        "current_camera": "Current camera",
+        "disconnected": "Disconnected",
+        "log": {
+          "connect": "Secondary connect",
+          "connect_failed": "Secondary connect failed",
+          "disconnect": "Secondary disconnect",
+          "disconnect_failed": "Secondary disconnect failed",
+          "selection_applied": "Secondary selection applied",
+          "selection_failed": "Secondary selection failed",
+          "setup_dialog": "Secondary setup dialog",
+          "setup_dialog_failed": "Secondary setup dialog failed",
+          "state_synced": "Secondary camera state synced",
+          "sync_failed": "Secondary camera sync failed"
+        },
+        "no_drivers_returned": "No drivers returned.",
+        "not_connected": "Not connected",
+        "status": "Status"
+      },
+      "secondary_setup": {
+        "buttons": {
+          "apply": "Apply",
+          "apply_title": "Apply selection",
+          "close": "Close",
+          "connect": "Connect",
+          "disconnect": "Disconnect",
+          "driver_setup": "Driver Setup...",
+          "driver_setup_title": "Open native ASCOM setup dialog on host",
+          "refresh": "Refresh",
+          "refresh_title": "Refresh driver list",
+          "sync": "Sync",
+          "sync_title": "Sync current selection/connection"
+        },
+        "driver": {
+          "description": "Choose the ASCOM driver to use as secondary camera.",
+          "fallback_name": "Driver",
+          "label": "Driver",
+          "select_placeholder": "— select —",
+          "selected": "Selected",
+          "title": "Driver"
+        },
+        "pills": {
+          "active": "Active",
+          "busy": "Busy",
+          "connected": "Connected",
+          "disconnected": "Disconnected",
+          "idle": "Idle"
+        },
+        "subtitle": "Driver selection, connection and native ASCOM setup dialog",
+        "tip": {
+          "prefix": "Tip: If you changed settings in the driver setup dialog, click",
+          "suffix": "afterwards."
+        },
+        "title": "Secondary Camera Setup"
+      },
+      "sections": {
+        "actions": "Actions",
+        "connection": "Connection",
+        "current_settings": "Current Settings",
+        "event_log": "Event Log",
+        "offset": "Offset",
+        "offsets": "Offsets",
+        "preview": "Preview",
+        "secondary_camera": "Secondary Camera (ASCOM)",
+        "status": "Status",
+        "websocket": "WebSocket"
+      },
+      "settings": {
+        "auto_gain": "auto",
+        "binning": "Binning:",
+        "camera": "Camera",
+        "downsample": "Downsample:",
+        "exposure": "Exposure:",
+        "focal_length": "Focal Length:",
+        "focal_scale": "Focal Scale:",
+        "gain": "Gain:",
+        "max_attempts": "Max attempts:",
+        "pixel_size": "Pixel Size:",
+        "platesolve": "Platesolve",
+        "scope": "Scope",
+        "search_radius": "Search Radius:",
+        "threshold": "Threshold:",
+        "timeout_sec": "Timeout (sec):",
+        "values_from_backend": "These values come from the backend settings endpoint."
+      },
+      "status_labels": {
+        "busy": "Busy",
+        "camera_connected": "Camera connected",
+        "corrected_coordinates": "Corrected coordinates (with offset)",
+        "last_solve_summary": "lastSolveSummary",
+        "last_update": "Last update",
+        "mount_connected": "Mount connected",
+        "raw_solve": "Raw solve (guider camera)",
+        "service_ready": "Service Ready",
+        "task_status": "Task Status",
+        "used_parameters": "used Parameters",
+        "validation": "Validation"
+      },
+      "subtitle": "Remote PlateSolvePlus Console for your alternative Platesolve Camera V2",
+      "tabs": {
+        "config": "Config",
+        "control": "Control"
+      },
+      "title": "PlateSolvePlus",
+      "websocket": {
+        "auto_reconnect": "Auto-reconnect enabled (backoff).",
+        "endpoint": "Endpoint:"
+      },
+      "ws": {
+        "connected": "connected",
+        "disconnected": "disconnected",
+        "label": "WS"
+      }
     }
   },
   "dialogs": {

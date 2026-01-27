@@ -1411,6 +1411,238 @@
         "updated": "Skrót został pomyślnie zaktualizowany"
       },
       "update": "Aktualizacja"
+    },
+    "platesolveplus": {
+      "title": "PlateSolvePlus",
+      "subtitle": "Zdalna konsola PlateSolvePlus dla alternatywnej kamery Platesolve Camera V2",
+      "ws": {
+        "label": "WS",
+        "connected": "połączono",
+        "disconnected": "rozłączono"
+      },
+      "tabs": {
+        "control": "Sterowanie",
+        "config": "Konfiguracja"
+      },
+      "sections": {
+        "status": "Status",
+        "preview": "Podgląd",
+        "actions": "Akcje",
+        "secondary_camera": "Kamera pomocnicza (ASCOM)",
+        "offset": "Offset",
+        "current_settings": "Bieżące ustawienia",
+        "event_log": "Dziennik zdarzeń",
+        "connection": "Połączenie",
+        "websocket": "WebSocket",
+        "offsets": "Offsety"
+      },
+      "buttons": {
+        "refresh": "Odśwież",
+        "refreshing": "Odświeżanie…",
+        "capture": "Zrób zdjęcie",
+        "solve_sync": "Rozwiąż + synchronizuj",
+        "center_solve": "Wycentruj + rozwiąż",
+        "target_solve": "Cel + rozwiąż",
+        "clear": "Wyczyść",
+        "sync": "Synchronizuj",
+        "setup": "Ustawienia…",
+        "save_config": "Zapisz konfigurację",
+        "reload_from_storage": "Wczytaj ponownie z pamięci",
+        "test_connection": "Test połączenia",
+        "reconnect_ws": "Połącz ponownie WS",
+        "disconnect_ws": "Rozłącz WS",
+        "reset_offsets": "Resetuj offsety",
+        "calibrate_offsets": "Kalibruj offsety"
+      },
+      "status_labels": {
+        "busy": "Zajęty",
+        "service_ready": "Usługa gotowa",
+        "mount_connected": "Montaż podłączony",
+        "camera_connected": "Kamera podłączona",
+        "last_update": "Ostatnia aktualizacja",
+        "task_status": "Status zadania",
+        "used_parameters": "Użyte parametry",
+        "validation": "Walidacja",
+        "raw_solve": "Surowe rozwiązanie (kamera guidingowa)",
+        "corrected_coordinates": "Skorygowane współrzędne (z offsetem)",
+        "last_solve_summary": "lastSolveSummary"
+      },
+      "preview": {
+        "preview_title": "Obraz podglądu",
+        "auto_refresh": "Automatyczne odświeżanie",
+        "alt_latest_preview": "Najnowszy podgląd",
+        "unavailable_title": "Podgląd niedostępny",
+        "load_error": "Błąd ładowania — odśwież.",
+        "no_preview_loaded": "Podgląd nie został jeszcze załadowany.",
+        "cache_hint": "Omijanie cache włączone (?t=). Serwer wysyła także Cache-Control: no-store.",
+        "no_preview_yet": "Podgląd nie jest jeszcze dostępny."
+      },
+      "actions_help": {
+        "capture": "Tylko platesolve (walidacja), bez synchronizacji lub ruchu.",
+        "solve_sync": "Platesolve i synchronizacja montażu (wymaga podłączonego montażu).",
+        "center_solve": "Platesolve i centrowanie celu (wymaga podłączonego montażu i skalibrowanego offsetu).",
+        "capture_label": "Zrób zdjęcie",
+        "capture_text": "Tylko platesolve (walidacja), bez synchronizacji lub ruchu.",
+        "solve_sync_label": "Rozwiąż + synchronizuj",
+        "solve_sync_text": "Platesolve i synchronizacja montażu (wymaga podłączonego montażu).",
+        "center_solve_label": "Wycentruj + rozwiąż",
+        "center_solve_text": "Platesolve i centrowanie celu (wymaga podłączonego montażu i skalibrowanego offsetu).",
+        "target_solve_label": "Cel + rozwiąż",
+        "target_solve_text": "Najedź na cel i wycentruj (wymaga podłączonego montażu oraz ustawionego celu w Stellarium – Framing Assistant)."
+      },
+      "progress": {
+        "title": "Postęp rozwiązywania",
+        "job": "Zadanie",
+        "action": "Akcja",
+        "stage": "Etap",
+        "message": "Komunikat",
+        "process_progress": "Postęp procesu.",
+        "pill": {
+          "capturing": "Rejestrowanie",
+          "validating": "Walidacja",
+          "platesolving": "Platesolve",
+          "syncing": "Synchronizacja",
+          "centering": "Centrowanie",
+          "finishing": "Zakończenie",
+          "calibrating": "Kalibracja",
+          "running": "W toku",
+          "slewing_to_target": "Najazd na cel"
+        },
+        "messages": {
+          "working": "Przetwarzanie…",
+          "capturing_validating": "Rejestrowanie + walidacja…",
+          "solving_syncing": "Rozwiązywanie + synchronizacja…",
+          "solving_centering": "Rozwiązywanie + centrowanie…",
+          "solving": "Rozwiązywanie…",
+          "capture_accepted": "Rejestracja zaakceptowana (oczekiwanie na zdarzenia)",
+          "capture_started": "Rejestracja rozpoczęta",
+          "capture_finished": "Rejestracja zakończona",
+          "solve_started": "Rozwiązywanie rozpoczęte",
+          "solve_finished": "Rozwiązywanie zakończone",
+          "solve_sync_accepted": "Rozwiąż+sync zaakceptowane (oczekiwanie na zdarzenia)",
+          "solve_sync_started": "Rozwiąż+sync rozpoczęte",
+          "solve_sync_finished": "Rozwiąż+sync zakończone",
+          "center_solve_accepted": "Wycentruj+rozwiąż zaakceptowane (oczekiwanie na zdarzenia)",
+          "center_solve_started": "Wycentruj+rozwiąż rozpoczęte",
+          "center_solve_finished": "Wycentruj+rozwiąż zakończone",
+          "offset_calibrate_started": "Kalibracja offsetu rozpoczęta",
+          "offset_calibrate_finished": "Kalibracja offsetu zakończona"
+        }
+      },
+      "secondary": {
+        "status": "Status",
+        "connected": "Połączono",
+        "disconnected": "Rozłączono",
+        "current_camera": "Bieżąca kamera",
+        "not_connected": "Niepołączona",
+        "no_drivers_returned": "Nie zwrócono żadnych sterowników.",
+        "log": {
+          "state_synced": "Stan kamery pomocniczej zsynchronizowany",
+          "sync_failed": "Synchronizacja kamery pomocniczej nie powiodła się",
+          "selection_applied": "Wybór kamery pomocniczej zastosowany",
+          "selection_failed": "Wybór kamery pomocniczej nie powiódł się",
+          "connect": "Połączenie kamery pomocniczej",
+          "connect_failed": "Połączenie kamery pomocniczej nie powiodło się",
+          "disconnect": "Rozłączenie kamery pomocniczej",
+          "disconnect_failed": "Rozłączenie kamery pomocniczej nie powiodło się",
+          "setup_dialog": "Okno ustawień kamery pomocniczej",
+          "setup_dialog_failed": "Okno ustawień kamery pomocniczej nie powiodło się"
+        }
+      },
+      "offset_fields": {
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "dra_arcsec": "ΔRA (arcsec):",
+        "ddec_arcsec": "ΔDec (arcsec):",
+        "rotation_quat": "rotacja (kwaternion):"
+      },
+      "settings": {
+        "camera": "Kamera",
+        "scope": "Teleskop",
+        "platesolve": "Platesolve",
+        "exposure": "Ekspozycja:",
+        "gain": "Wzmocnienie:",
+        "binning": "Binning:",
+        "focal_length": "Ogniskowa:",
+        "focal_scale": "Skala ogniskowej:",
+        "pixel_size": "Rozmiar piksela:",
+        "search_radius": "Promień wyszukiwania:",
+        "downsample": "Downsample:",
+        "timeout_sec": "Limit czasu (s):",
+        "threshold": "Próg:",
+        "max_attempts": "Maks. liczba prób:",
+        "auto_gain": "auto",
+        "values_from_backend": "Te wartości pochodzą z endpointu ustawień backendu."
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "config": {
+        "host": "Host",
+        "port": "Port",
+        "base_path": "Ścieżka bazowa",
+        "base_path_default": "Domyślna: /api/platesolveplus",
+        "use_token_optional": "Użyj tokena (opcjonalne)",
+        "token": "Token",
+        "token_placeholder": "token…",
+        "token_hint": "Wysyłany w nagłówku X-PSP-Token (musi odpowiadać hostowi API PlateSolvePlus).",
+        "active_url": "Aktywny URL:"
+      },
+      "websocket": {
+        "endpoint": "Endpoint:",
+        "auto_reconnect": "Automatyczne ponowne łączenie włączone (backoff)."
+      },
+      "offsets_help": {
+        "text": "Kalibracja tworzy lub aktualizuje model offsetu pomiędzy kamerą guidingową a kamerą główną. Reset usuwa wszystkie offsety."
+      },
+      "footer": {
+        "rest": "REST:"
+      },
+      "common": {
+        "empty": "—",
+        "true": "true",
+        "false": "false"
+      },
+      "log": {
+        "preview_refreshed": "Podgląd odświeżony",
+        "config_load_failed": "Nie udało się wczytać konfiguracji"
+      },
+      "secondary_setup": {
+        "title": "Ustawienia kamery pomocniczej",
+        "subtitle": "Wybór sterownika, połączenie oraz natywne okno ustawień ASCOM",
+        "pills": {
+          "connected": "Połączono",
+          "disconnected": "Rozłączono",
+          "busy": "Zajęty",
+          "idle": "Bezczynny",
+          "active": "Aktywny"
+        },
+        "driver": {
+          "title": "Sterownik",
+          "description": "Wybierz sterownik ASCOM do użycia jako kamera pomocnicza.",
+          "label": "Sterownik",
+          "select_placeholder": "— wybierz —",
+          "fallback_name": "Sterownik",
+          "selected": "Wybrano"
+        },
+        "buttons": {
+          "close": "Zamknij",
+          "refresh": "Odśwież",
+          "refresh_title": "Odśwież listę sterowników",
+          "sync": "Synchronizuj",
+          "sync_title": "Synchronizuj bieżący wybór/połączenie",
+          "apply": "Zastosuj",
+          "apply_title": "Zastosuj wybór",
+          "connect": "Połącz",
+          "disconnect": "Rozłącz",
+          "driver_setup": "Ustawienia sterownika…",
+          "driver_setup_title": "Otwórz natywne okno ustawień ASCOM na hoście"
+        },
+        "tip": {
+          "prefix": "Wskazówka: jeśli zmieniłeś ustawienia w oknie sterownika, kliknij później",
+          "suffix": "."
+        }
+      }
     }
   },
   "dialogs": {

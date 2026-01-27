@@ -284,31 +284,41 @@
                     {{ t('plugins.platesolveplus.buttons.center_solve') }}
                   </button>
 
-                  <button :class="btnSolidClass(canSlewTargetCenter)"
-                          @click="triggerSlewTargetAndCenter()"
-                          :disabled="!canSlewTargetCenter"
-                          title="Slew to Stellarium target, then center">
-                   {{ t('plugins.platesolveplus.buttons.target_solve') }}
+                  <button
+                    :class="btnSolidClass(canSlewTargetCenter)"
+                    @click="triggerSlewTargetAndCenter()"
+                    :disabled="!canSlewTargetCenter"
+                    title="Slew to Stellarium target, then center"
+                  >
+                    {{ t('plugins.platesolveplus.buttons.target_solve') }}
                   </button>
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
-                    <div>
-                        <span class="text-gray-500">{{ t('plugins.platesolveplus.actions_help.capture_label') }}:</span>
-                        {{ t('plugins.platesolveplus.actions_help.capture_text') }}
-                    </div>
-                    <div>
-                        <span class="text-gray-500">{{ t('plugins.platesolveplus.actions_help.solve_sync_label') }}:</span>
-                        {{ t('plugins.platesolveplus.actions_help.solve_sync_text') }}
-                    </div>
-                    <div>
-                        <span class="text-gray-500">{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span>
-                        {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
-                    </div>
-                    <div>
-                        <span class="text-gray-500">{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span>
-                        {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
-                    </div>
+                  <div>
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.capture_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.capture_text') }}
+                  </div>
+                  <div>
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.solve_sync_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.solve_sync_text') }}
+                  </div>
+                  <div>
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
+                  </div>
+                  <div>
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
+                  </div>
                 </div>
 
                 <!-- Target from Stellarium -->

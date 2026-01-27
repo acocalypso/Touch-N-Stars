@@ -199,6 +199,10 @@ watch(
     chart.options.scales.y1.suggestedMin = -maxAbs;
     chart.options.scales.y1.suggestedMax = maxAbs;
 
+    // Y-Achse (RA/Dec) aus Store aktualisieren
+    chart.options.scales.y.min = guiderStore.chartInfo.MinY;
+    chart.options.scales.y.max = guiderStore.chartInfo.MaxY;
+
     chart.data.datasets[0].data = raDist;
     chart.data.datasets[1].data = decDist;
     chart.data.datasets[2].data = raDur;

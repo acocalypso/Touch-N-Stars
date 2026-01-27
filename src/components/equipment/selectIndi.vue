@@ -11,7 +11,7 @@
         @change="onFocuserChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in focuser" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -29,7 +29,7 @@
         @change="onFilterwheelChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in filterwheel" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -47,7 +47,7 @@
         @change="onRotatorChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in rotator" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -65,7 +65,7 @@
         @change="onTelescopeChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in telescope" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -83,7 +83,7 @@
         @change="onWeatherChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in weather" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -101,7 +101,7 @@
         @change="onSwitchesChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in switches" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -119,7 +119,7 @@
         @change="onFlatpanelChange"
         class="default-select min-w-40 ml-auto"
       >
-        <option value="" disabled>{{ $t('common.select') }}</option>
+        <option value="">None</option>
         <option v-for="item in flatpanel" :key="item.Name" :value="item.Name">
           {{ item.Label }}
         </option>
@@ -236,13 +236,15 @@ onMounted(async () => {
       apiPinsService.getINDIDeviceList('flatpanel'),
     ]);
 
-    focuser.value = focuserResponse.Response;
-    filterwheel.value = filterwheelResponse.Response;
-    rotator.value = rotatorResponse.Response;
-    telescope.value = telescopeResponse.Response;
-    weather.value = weatherResponse.Response;
-    switches.value = switchesResponse.Response;
-    flatpanel.value = flatpanelResponse.Response;
+    const sortByLabel = (arr) => [...arr].sort((a, b) => a.Label.localeCompare(b.Label));
+
+    focuser.value = sortByLabel(focuserResponse.Response);
+    filterwheel.value = sortByLabel(filterwheelResponse.Response);
+    rotator.value = sortByLabel(rotatorResponse.Response);
+    telescope.value = sortByLabel(telescopeResponse.Response);
+    weather.value = sortByLabel(weatherResponse.Response);
+    switches.value = sortByLabel(switchesResponse.Response);
+    flatpanel.value = sortByLabel(flatpanelResponse.Response);
 
     // Set saved values from store as defaults
     selectedFocuser.value = store.profileInfo?.FocuserSettings?.IndiDriver || '';

@@ -25,15 +25,17 @@
           class="mb-24 space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
         >
           <connectEquipment />
+          <selectIndi />
         </div>
       </div>
+      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
 import profilSelect from '@/components/profil/profilSelect.vue';
 import connectEquipment from '@/components/equipment/connectEquipment.vue';
+import selectIndi from '@/components/equipment/selectIndi.vue';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();

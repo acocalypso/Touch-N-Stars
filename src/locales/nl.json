@@ -1411,6 +1411,238 @@
         "requiredPositive": "Voer een positieve waarde in.",
         "title": "Validatiefout"
       }
+    },
+    "platesolveplus": {
+      "title": "PlateSolvePlus",
+      "subtitle": "Externe PlateSolvePlus-console voor je alternatieve Platesolve Camera V2",
+      "ws": {
+        "label": "WS",
+        "connected": "verbonden",
+        "disconnected": "verbroken"
+      },
+      "tabs": {
+        "control": "Bediening",
+        "config": "Configuratie"
+      },
+      "sections": {
+        "status": "Status",
+        "preview": "Voorbeeld",
+        "actions": "Acties",
+        "secondary_camera": "Secundaire camera (ASCOM)",
+        "offset": "Offset",
+        "current_settings": "Huidige instellingen",
+        "event_log": "Gebeurtenislog",
+        "connection": "Verbinding",
+        "websocket": "WebSocket",
+        "offsets": "Offsets"
+      },
+      "buttons": {
+        "refresh": "Vernieuwen",
+        "refreshing": "Bezig met vernieuwen…",
+        "capture": "Opname",
+        "solve_sync": "Oplossen + synchroniseren",
+        "center_solve": "Centreren + oplossen",
+        "target_solve": "Doel + oplossen",
+        "clear": "Wissen",
+        "sync": "Synchroniseren",
+        "setup": "Instellen…",
+        "save_config": "Configuratie opslaan",
+        "reload_from_storage": "Opnieuw laden uit opslag",
+        "test_connection": "Verbinding testen",
+        "reconnect_ws": "WS opnieuw verbinden",
+        "disconnect_ws": "WS verbreken",
+        "reset_offsets": "Offsets resetten",
+        "calibrate_offsets": "Offsets kalibreren"
+      },
+      "status_labels": {
+        "busy": "Bezig",
+        "service_ready": "Service gereed",
+        "mount_connected": "Montering verbonden",
+        "camera_connected": "Camera verbonden",
+        "last_update": "Laatste update",
+        "task_status": "Taakstatus",
+        "used_parameters": "Gebruikte parameters",
+        "validation": "Validatie",
+        "raw_solve": "Ruwe oplossing (guidecamera)",
+        "corrected_coordinates": "Gecorrigeerde coördinaten (met offset)",
+        "last_solve_summary": "lastSolveSummary"
+      },
+      "preview": {
+        "preview_title": "Voorbeeldafbeelding",
+        "auto_refresh": "Automatisch vernieuwen",
+        "alt_latest_preview": "Laatste voorbeeld",
+        "unavailable_title": "Voorbeeld niet beschikbaar",
+        "load_error": "Laadfout — ververs a.u.b.",
+        "no_preview_loaded": "Nog geen voorbeeld geladen.",
+        "cache_hint": "Cache-bypass actief (?t=). Server verzendt ook Cache-Control: no-store.",
+        "no_preview_yet": "Nog geen voorbeeld beschikbaar."
+      },
+      "actions_help": {
+        "capture": "Alleen platesolve (validatie), geen synchronisatie of beweging.",
+        "solve_sync": "Platesolve en montering synchroniseren (montering moet verbonden zijn).",
+        "center_solve": "Platesolve en doel centreren (montering verbonden en offset gekalibreerd vereist).",
+        "capture_label": "Opname",
+        "capture_text": "Alleen platesolve (validatie), geen synchronisatie of beweging.",
+        "solve_sync_label": "Oplossen + synchroniseren",
+        "solve_sync_text": "Platesolve en montering synchroniseren (montering moet verbonden zijn).",
+        "center_solve_label": "Centreren + oplossen",
+        "center_solve_text": "Platesolve en doel centreren (montering verbonden en offset gekalibreerd vereist).",
+        "target_solve_label": "Doel + oplossen",
+        "target_solve_text": "Naar doel slewen en centreren (montering verbonden en doel ingesteld in Stellarium – Framing Assistant vereist)."
+      },
+      "progress": {
+        "title": "Oplosvoortgang",
+        "job": "Taak",
+        "action": "Actie",
+        "stage": "Fase",
+        "message": "Bericht",
+        "process_progress": "Procesvoortgang.",
+        "pill": {
+          "capturing": "Opnemen",
+          "validating": "Valideren",
+          "platesolving": "Platesolving",
+          "syncing": "Synchroniseren",
+          "centering": "Centreren",
+          "finishing": "Afronden",
+          "calibrating": "Kalibreren",
+          "running": "Actief",
+          "slewing_to_target": "Naar doel slewen"
+        },
+        "messages": {
+          "working": "Bezig…",
+          "capturing_validating": "Opnemen + valideren…",
+          "solving_syncing": "Oplossen + synchroniseren…",
+          "solving_centering": "Oplossen + centreren…",
+          "solving": "Oplossen…",
+          "capture_accepted": "Opname geaccepteerd (wachten op gebeurtenissen)",
+          "capture_started": "Opname gestart",
+          "capture_finished": "Opname voltooid",
+          "solve_started": "Oplossen gestart",
+          "solve_finished": "Oplossen voltooid",
+          "solve_sync_accepted": "Oplossen+sync geaccepteerd (wachten op gebeurtenissen)",
+          "solve_sync_started": "Oplossen+sync gestart",
+          "solve_sync_finished": "Oplossen+sync voltooid",
+          "center_solve_accepted": "Centreren+oplossen geaccepteerd (wachten op gebeurtenissen)",
+          "center_solve_started": "Centreren+oplossen gestart",
+          "center_solve_finished": "Centreren+oplossen voltooid",
+          "offset_calibrate_started": "Offsetkalibratie gestart",
+          "offset_calibrate_finished": "Offsetkalibratie voltooid"
+        }
+      },
+      "secondary": {
+        "status": "Status",
+        "connected": "Verbonden",
+        "disconnected": "Verbroken",
+        "current_camera": "Huidige camera",
+        "not_connected": "Niet verbonden",
+        "no_drivers_returned": "Geen drivers ontvangen.",
+        "log": {
+          "state_synced": "Status secundaire camera gesynchroniseerd",
+          "sync_failed": "Synchronisatie secundaire camera mislukt",
+          "selection_applied": "Selectie secundaire camera toegepast",
+          "selection_failed": "Selectie secundaire camera mislukt",
+          "connect": "Verbinden secundaire camera",
+          "connect_failed": "Verbinden secundaire camera mislukt",
+          "disconnect": "Verbreken secundaire camera",
+          "disconnect_failed": "Verbreken secundaire camera mislukt",
+          "setup_dialog": "Instelvenster secundaire camera",
+          "setup_dialog_failed": "Instelvenster secundaire camera mislukt"
+        }
+      },
+      "offset_fields": {
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "dra_arcsec": "ΔRA (arcsec):",
+        "ddec_arcsec": "ΔDec (arcsec):",
+        "rotation_quat": "rotatie (quaternion):"
+      },
+      "settings": {
+        "camera": "Camera",
+        "scope": "Telescoop",
+        "platesolve": "Platesolve",
+        "exposure": "Belichting:",
+        "gain": "Versterking:",
+        "binning": "Binning:",
+        "focal_length": "Brandpuntsafstand:",
+        "focal_scale": "Brandpuntschaal:",
+        "pixel_size": "Pixelgrootte:",
+        "search_radius": "Zoekstraal:",
+        "downsample": "Downsample:",
+        "timeout_sec": "Timeout (sec):",
+        "threshold": "Drempel:",
+        "max_attempts": "Max. pogingen:",
+        "auto_gain": "auto",
+        "values_from_backend": "Deze waarden komen van het backend-instellingen-endpoint."
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "config": {
+        "host": "Host",
+        "port": "Poort",
+        "base_path": "Basispad",
+        "base_path_default": "Standaard: /api/platesolveplus",
+        "use_token_optional": "Token gebruiken (optioneel)",
+        "token": "Token",
+        "token_placeholder": "token…",
+        "token_hint": "Verzonden als header X-PSP-Token (moet overeenkomen met de PlateSolvePlus API-host).",
+        "active_url": "Actieve URL:"
+      },
+      "websocket": {
+        "endpoint": "Endpoint:",
+        "auto_reconnect": "Automatisch opnieuw verbinden ingeschakeld (backoff)."
+      },
+      "offsets_help": {
+        "text": "Kalibratie maakt of werkt het offsetmodel van guidecamera naar hoofdcamera bij. Reset wist alle offsets."
+      },
+      "footer": {
+        "rest": "REST:"
+      },
+      "common": {
+        "empty": "—",
+        "true": "true",
+        "false": "false"
+      },
+      "log": {
+        "preview_refreshed": "Voorbeeld vernieuwd",
+        "config_load_failed": "Configuratie laden mislukt"
+      },
+      "secondary_setup": {
+        "title": "Instelling secundaire camera",
+        "subtitle": "Driverselectie, verbinding en native ASCOM-instelvenster",
+        "pills": {
+          "connected": "Verbonden",
+          "disconnected": "Verbroken",
+          "busy": "Bezig",
+          "idle": "Inactief",
+          "active": "Actief"
+        },
+        "driver": {
+          "title": "Driver",
+          "description": "Selecteer de ASCOM-driver om als secundaire camera te gebruiken.",
+          "label": "Driver",
+          "select_placeholder": "— selecteer —",
+          "fallback_name": "Driver",
+          "selected": "Geselecteerd"
+        },
+        "buttons": {
+          "close": "Sluiten",
+          "refresh": "Vernieuwen",
+          "refresh_title": "Driverlijst vernieuwen",
+          "sync": "Synchroniseren",
+          "sync_title": "Huidige selectie/verbinding synchroniseren",
+          "apply": "Toepassen",
+          "apply_title": "Selectie toepassen",
+          "connect": "Verbinden",
+          "disconnect": "Verbreken",
+          "driver_setup": "Driverinstelling…",
+          "driver_setup_title": "Native ASCOM-instelvenster openen op host"
+        },
+        "tip": {
+          "prefix": "Tip: Als je instellingen hebt gewijzigd in het driverinstelvenster, klik daarna op",
+          "suffix": "."
+        }
+      }
     }
   },
   "dialogs": {

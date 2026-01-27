@@ -1417,6 +1417,240 @@
         "updated": "Zkratka byla úspěšně aktualizována"
       },
       "update": "Aktualizace"
+    },
+  "platesolveplus": {
+      "title": "PlateSolvePlus",
+      "subtitle": "Vzdálená konzole PlateSolvePlus pro alternativní Platesolve Camera V2",
+      "ws": {
+        "label": "WS",
+        "connected": "připojeno",
+        "disconnected": "odpojeno"
+      },
+      "tabs": {
+        "control": "Ovládání",
+        "config": "Konfigurace"
+      },
+      "sections": {
+        "status": "Stav",
+        "preview": "Náhled",
+        "actions": "Akce",
+        "secondary_camera": "Sekundární kamera (ASCOM)",
+        "offset": "Posun",
+        "current_settings": "Aktuální nastavení",
+        "event_log": "Protokol událostí",
+        "connection": "Připojení",
+        "websocket": "WebSocket",
+        "offsets": "Posuny"
+      },
+      "buttons": {
+        "refresh": "Obnovit",
+        "refreshing": "Obnovování…",
+        "capture": "Snímek",
+        "solve_sync": "Vyřešit + synchronizovat",
+        "center_solve": "Vycentrovat + vyřešit",
+        "target_solve": "Cíl + vyřešit",
+        "clear": "Vymazat",
+        "sync": "Synchronizovat",
+        "setup": "Nastavení…",
+        "save_config": "Uložit konfiguraci",
+        "reload_from_storage": "Znovu načíst z úložiště",
+        "test_connection": "Test připojení",
+        "reconnect_ws": "Znovu připojit WS",
+        "disconnect_ws": "Odpojit WS",
+        "reset_offsets": "Resetovat posuny",
+        "calibrate_offsets": "Kalibrovat posuny"
+      },
+      "status_labels": {
+        "busy": "Zaneprázdněno",
+        "service_ready": "Služba připravena",
+        "mount_connected": "Montáž připojena",
+        "camera_connected": "Kamera připojena",
+        "last_update": "Poslední aktualizace",
+        "task_status": "Stav úlohy",
+        "used_parameters": "Použité parametry",
+        "validation": "Validace",
+        "raw_solve": "Hrubé řešení (vodicí kamera)",
+        "corrected_coordinates": "Opravené souřadnice (s posunem)",
+        "last_solve_summary": "lastSolveSummary"
+      },
+      "preview": {
+        "preview_title": "Náhledový snímek",
+        "auto_refresh": "Automatické obnovení",
+        "alt_latest_preview": "Nejnovější náhled",
+        "unavailable_title": "Náhled nedostupný",
+        "load_error": "Chyba načtení — obnovte prosím.",
+        "no_preview_loaded": "Zatím nebyl načten žádný náhled.",
+        "cache_hint": "Obcházení cache je aktivní (?t=). Server také odesílá Cache-Control: no-store.",
+        "no_preview_yet": "Náhled zatím není k dispozici."
+      },
+      "actions_help": {
+        "capture": "Pouze platesolve (validace), bez synchronizace nebo pohybu.",
+        "solve_sync": "Platesolve a synchronizace montáže (vyžaduje připojenou montáž).",
+        "center_solve": "Platesolve a vycentrování cíle (vyžaduje připojenou montáž a kalibrovaný posun).",
+        "capture_label": "Snímek",
+        "capture_text": "Pouze platesolve (validace), bez synchronizace nebo pohybu.",
+        "solve_sync_label": "Vyřešit + synchronizovat",
+        "solve_sync_text": "Platesolve a synchronizace montáže (vyžaduje připojenou montáž).",
+        "center_solve_label": "Vycentrovat + vyřešit",
+        "center_solve_text": "Platesolve a vycentrování cíle (vyžaduje připojenou montáž a kalibrovaný posun).",
+        "target_solve_label": "Cíl + vyřešit",
+        "target_solve_text": "Najet na cíl a vycentrovat (vyžaduje připojenou montáž a nastavený cíl ve Stellariu – Framing Assistant)."
+      },
+      "progress": {
+        "title": "Průběh řešení",
+        "job": "Úloha",
+        "action": "Akce",
+        "stage": "Fáze",
+        "message": "Zpráva",
+        "process_progress": "Průběh procesu.",
+        "pill": {
+          "capturing": "Snímání",
+          "validating": "Validace",
+          "platesolving": "Platesolve",
+          "syncing": "Synchronizace",
+          "centering": "Centrovaní",
+          "finishing": "Dokončování",
+          "calibrating": "Kalibrace",
+          "running": "Probíhá",
+          "slewing_to_target": "Najetí na cíl"
+        },
+        "messages": {
+          "working": "Pracuji…",
+          "capturing_validating": "Snímání + validace…",
+          "solving_syncing": "Řešení + synchronizace…",
+          "solving_centering": "Řešení + centrování…",
+          "solving": "Řešení…",
+          "capture_accepted": "Snímek přijat (čekání na události)",
+          "capture_started": "Snímání zahájeno",
+          "capture_finished": "Snímání dokončeno",
+          "solve_started": "Řešení zahájeno",
+          "solve_finished": "Řešení dokončeno",
+          "solve_sync_accepted": "Řešení+sync přijato (čekání na události)",
+          "solve_sync_started": "Řešení+sync zahájeno",
+          "solve_sync_finished": "Řešení+sync dokončeno",
+          "center_solve_accepted": "Centrovat+řešit přijato (čekání na události)",
+          "center_solve_started": "Centrovat+řešit zahájeno",
+          "center_solve_finished": "Centrovat+řešit dokončeno",
+          "offset_calibrate_started": "Kalibrace posunu zahájena",
+          "offset_calibrate_finished": "Kalibrace posunu dokončena"
+        }
+      },
+      "secondary": {
+        "status": "Stav",
+        "connected": "Připojeno",
+        "disconnected": "Odpojeno",
+        "current_camera": "Aktuální kamera",
+        "not_connected": "Nepřipojeno",
+        "no_drivers_returned": "Nebyl vrácen žádný ovladač.",
+        "log": {
+          "state_synced": "Stav sekundární kamery synchronizován",
+          "sync_failed": "Synchronizace sekundární kamery selhala",
+          "selection_applied": "Výběr sekundární kamery použit",
+          "selection_failed": "Výběr sekundární kamery selhal",
+          "connect": "Připojení sekundární kamery",
+          "connect_failed": "Připojení sekundární kamery selhalo",
+          "disconnect": "Odpojení sekundární kamery",
+          "disconnect_failed": "Odpojení sekundární kamery selhalo",
+          "setup_dialog": "Dialog nastavení sekundární kamery",
+          "setup_dialog_failed": "Dialog nastavení sekundární kamery selhal"
+        }
+      },
+      "offset_fields": {
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "dra_arcsec": "ΔRA (arcsec):",
+        "ddec_arcsec": "ΔDec (arcsec):",
+        "rotation_quat": "rotace (kvaternion):"
+      },
+      "settings": {
+        "camera": "Kamera",
+        "scope": "Dalekohled",
+        "platesolve": "Platesolve",
+        "exposure": "Expozice:",
+        "gain": "Zisk:",
+        "binning": "Binování:",
+        "focal_length": "Ohnisková délka:",
+        "focal_scale": "Ohniskové měřítko:",
+        "pixel_size": "Velikost pixelu:",
+        "search_radius": "Poloměr hledání:",
+        "downsample": "Podvzorkování:",
+        "timeout_sec": "Časový limit (s):",
+        "threshold": "Práh:",
+        "max_attempts": "Max. počet pokusů:",
+        "auto_gain": "auto",
+        "values_from_backend": "Tyto hodnoty pocházejí z backendového endpointu nastavení."
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "config": {
+        "host": "Hostitel",
+        "port": "Port",
+        "base_path": "Základní cesta",
+        "base_path_default": "Výchozí: /api/platesolveplus",
+        "use_token_optional": "Použít token (volitelné)",
+        "token": "Token",
+        "token_placeholder": "token…",
+        "token_hint": "Odesílá se v hlavičce X-PSP-Token (musí odpovídat hostiteli PlateSolvePlus API).",
+        "active_url": "Aktivní URL:"
+      },
+      "websocket": {
+        "endpoint": "Endpoint:",
+        "auto_reconnect": "Automatické znovupřipojení povoleno (backoff)."
+      },
+      "offsets_help": {
+        "text": "Kalibrace vytvoří nebo aktualizuje model posunu mezi vodicí a hlavní kamerou. Reset odstraní všechny posuny."
+      },
+      "footer": {
+        "rest": "REST:"
+      },
+      "common": {
+        "empty": "—",
+        "true": "true",
+        "false": "false"
+      },
+      "log": {
+        "preview_refreshed": "Náhled obnoven",
+        "config_load_failed": "Načtení konfigurace selhalo"
+      },
+      "secondary_setup": {
+        "title": "Nastavení sekundární kamery",
+        "subtitle": "Výběr ovladače, připojení a nativní dialog nastavení ASCOM",
+        "pills": {
+          "connected": "Připojeno",
+          "disconnected": "Odpojeno",
+          "busy": "Zaneprázdněno",
+          "idle": "Nečinný",
+          "active": "Aktivní"
+        },
+        "driver": {
+          "title": "Ovladač",
+          "description": "Vyberte ASCOM ovladač pro použití jako sekundární kamera.",
+          "label": "Ovladač",
+          "select_placeholder": "— vyberte —",
+          "fallback_name": "Ovladač",
+          "selected": "Vybráno"
+        },
+        "buttons": {
+          "close": "Zavřít",
+          "refresh": "Obnovit",
+          "refresh_title": "Obnovit seznam ovladačů",
+          "sync": "Synchronizovat",
+          "sync_title": "Synchronizovat aktuální výběr/připojení",
+          "apply": "Použít",
+          "apply_title": "Použít výběr",
+          "connect": "Připojit",
+          "disconnect": "Odpojit",
+          "driver_setup": "Nastavení ovladače…",
+          "driver_setup_title": "Otevřít nativní dialog nastavení ASCOM na hostiteli"
+        },
+        "tip": {
+          "prefix": "Tip: Pokud jste změnili nastavení v dialogu ovladače, poté klikněte na",
+          "suffix": "."
+        }
+      }
+    
+
     }
   },
   "dialogs": {

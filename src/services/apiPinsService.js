@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
+import { get } from 'lodash';
 
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();
@@ -33,6 +34,14 @@ const getUrls = () => {
 };
 
 export default {
+  //-------------------INDI------------------------
+  //query the list of available INDI devices for a given type
+  //(focuser, filterwheel, rotator, telescope, weather switches, flatpanel.)
+  getINDIDeviceList(device) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}indi/${device}`);
+  },
+
   //-------------------PHD2------------------------
 
   getPHD2CameraList() {

@@ -83,7 +83,10 @@ onMounted(() => {
 
 const onGuiderScaleChange = async () => {
   try {
-    const response = await apiService.profileChangeValue('GuiderSettings-PHD2GuiderScale', guiderScale.value);
+    const response = await apiService.profileChangeValue(
+      'GuiderSettings-PHD2GuiderScale',
+      guiderScale.value
+    );
     if (response.Success) {
       guiderScaleStatusClass.value = 'glow-green';
       setTimeout(() => {
@@ -111,7 +114,10 @@ const onMaxYChange = async () => {
 
 const onHistorySizeChange = async () => {
   try {
-    const response = await apiService.profileChangeValue('GuiderSettings-PHD2HistorySize', historySize.value);
+    const response = await apiService.profileChangeValue(
+      'GuiderSettings-PHD2HistorySize',
+      historySize.value
+    );
     if (response.Success) {
       historySizeStatusClass.value = 'glow-green';
       setTimeout(() => {

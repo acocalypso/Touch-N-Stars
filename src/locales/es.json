@@ -462,6 +462,9 @@
         "guideAlgorithm": "Algoritmo de guiado",
         "guideAlgorithmDEC": "Algoritmo de guiado DEC",
         "guideAlgorithmRA": "Algoritmo de guiado RA",
+        "guiderScale": "Escala del guiador",
+        "historySize": "Tamaño del historial",
+        "maxY": "Max Y",
         "optical": "Configuración óptica",
         "profileManagement": {
           "cancel": "Cancelar",
@@ -1502,6 +1505,8 @@
         "center_solve": "platesolve y centre el objetivo (requiere una montura conectada a un desplazamiento calibrado).",
         "center_solve_label": "Centro de resolución",
         "center_solve_text": "platesolve y centre el objetivo (requiere una montura conectada a un desplazamiento calibrado).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
         "solve_sync": "platesolve y sincronizar el soporte (requiere soporte conectado).",
         "solve_sync_label": "Resolver sincronización",
         "solve_sync_text": "platesolve y sincronizar el soporte (requiere soporte conectado)."
@@ -1510,6 +1515,7 @@
         "calibrate_offsets": "Calibrar compensaciones",
         "capture": "Captura",
         "center_solve": "Centro de resolución",
+        "target_solve": "Target + Solve",
         "clear": "Claro",
         "disconnect_ws": "Desconectar WS",
         "reconnect_ws": "Reconectar WS",
@@ -1600,6 +1606,7 @@
           "finishing": "Refinamiento",
           "platesolving": "Resolución de placas",
           "running": "Correr",
+          "slewing_to_target": "Slewing to Target",
           "syncing": "Sincronización",
           "validating": "Validando"
         },

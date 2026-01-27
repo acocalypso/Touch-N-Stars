@@ -482,6 +482,9 @@
         "guideAlgorithm": "Guide Algorithm",
         "guideAlgorithmRA": "RA Guide Algorithm",
         "guideAlgorithmDEC": "DEC Guide Algorithm",
+        "guiderScale": "Guider Scale",
+        "maxY": "Max Y",
+        "historySize": "History Size",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",

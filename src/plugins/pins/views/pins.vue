@@ -280,13 +280,13 @@ async function handleSambaToggle(newValue) {
   status.value = 'Running';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
-  
+
   const actionKey = newValue ? 'plugins.pins.logs.sambaEnable' : 'plugins.pins.logs.sambaDisable';
   appendLog(t('plugins.pins.logs.sambaAction', { action: t(actionKey) }));
 
   try {
     const directAxios = axios.create({ headers: {} });
-    
+
     const response = await directAxios.post(
       `http://${ip}:${PORT}/samba`,
       { enable: newValue },

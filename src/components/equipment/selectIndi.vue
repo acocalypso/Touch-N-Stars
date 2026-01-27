@@ -131,7 +131,9 @@
 import { onMounted, ref } from 'vue';
 import apiPinsService from '@/services/apiPinsService';
 import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const focuser = ref([]);
 const filterwheel = ref([]);
 const rotator = ref([]);
@@ -223,7 +225,7 @@ onMounted(async () => {
       telescopeResponse,
       weatherResponse,
       switchesResponse,
-      flatpanelResponse
+      flatpanelResponse,
     ] = await Promise.all([
       apiPinsService.getINDIDeviceList('focuser'),
       apiPinsService.getINDIDeviceList('filterwheel'),
@@ -231,7 +233,7 @@ onMounted(async () => {
       apiPinsService.getINDIDeviceList('telescope'),
       apiPinsService.getINDIDeviceList('weather'),
       apiPinsService.getINDIDeviceList('switches'),
-      apiPinsService.getINDIDeviceList('flatpanel')
+      apiPinsService.getINDIDeviceList('flatpanel'),
     ]);
 
     focuser.value = focuserResponse.Response;
@@ -241,6 +243,15 @@ onMounted(async () => {
     weather.value = weatherResponse.Response;
     switches.value = switchesResponse.Response;
     flatpanel.value = flatpanelResponse.Response;
+
+    // Set saved values from store as defaults
+    selectedFocuser.value = store.profileInfo?.FocuserSettings?.IndiDriver || '';
+    selectedFilterwheel.value = store.profileInfo?.FilterWheelSettings?.IndiDriver || '';
+    selectedRotator.value = store.profileInfo?.RotatorSettings?.IndiDriver || '';
+    selectedTelescope.value = store.profileInfo?.TelescopeSettings?.IndiDriver || '';
+    selectedWeather.value = store.profileInfo?.WeatherDataSettings?.IndiDriver || '';
+    selectedSwitches.value = store.profileInfo?.SwitchSettings?.IndiDriver || '';
+    selectedFlatpanel.value = store.profileInfo?.FlatDeviceSettings?.IndiDriver || '';
 
     console.log('[SelectIndi] All INDI devices loaded');
   } catch (error) {

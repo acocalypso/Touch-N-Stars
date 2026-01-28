@@ -201,7 +201,7 @@ const onTelescopeChange = async () => {
 
 const onWeatherChange = async () => {
   try {
-    await apiService.profileChangeValue('WeatherSettings-IndiDriver', selectedWeather.value);
+    await apiService.profileChangeValue('WeatherDataSettings-IndiDriver', selectedWeather.value);
     await apiService.weatherAction('list-devices');
     equipmentStore.triggerRescan('weather');
     console.log('[SelectIndi] Weather selected:', selectedWeather.value);
@@ -223,7 +223,7 @@ const onSwitchesChange = async () => {
 
 const onFlatpanelChange = async () => {
   try {
-    await apiService.profileChangeValue('FlatPanelSettings-IndiDriver', selectedFlatpanel.value);
+    await apiService.profileChangeValue('FlatDeviceSettings-IndiDriver', selectedFlatpanel.value);
     await apiService.flatdeviceAction('list-devices');
     equipmentStore.triggerRescan('flatdevice');
     console.log('[SelectIndi] Flatpanel selected:', selectedFlatpanel.value);

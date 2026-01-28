@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Gerätesteuerung"
+      "title": "Gerätesteuerung",
+      "indiSetup": "INDI-Setup"
     }
   },
   "app": {

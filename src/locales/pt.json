@@ -490,6 +490,9 @@
         "guideAlgorithm": "Algoritmo de guiamento",
         "guideAlgorithmDEC": "Algoritmo de guiamento DEC",
         "guideAlgorithmRA": "Algoritmo de guiamento RA",
+        "guiderScale": "Escala do guia",
+        "historySize": "Tamanho do histórico",
+        "maxY": "Max Y",
         "optical": "Configurações ópticas",
         "profileManagement": {
           "cancel": "Cancelar",
@@ -1502,6 +1505,8 @@
         "center_solve": "platesolve e centralize o alvo (requer montagem conectada a um deslocamento calibrado).",
         "center_solve_label": "Centralizar resolução",
         "center_solve_text": "platesolve e centralize o alvo (requer montagem conectada a um deslocamento calibrado).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
         "solve_sync": "platesolve e sincronize a montagem (requer montagem conectada).",
         "solve_sync_label": "Resolver sincronização",
         "solve_sync_text": "platesolve e sincronize a montagem (requer montagem conectada)."
@@ -1510,6 +1515,7 @@
         "calibrate_offsets": "Calibrar deslocamentos",
         "capture": "Capturar",
         "center_solve": "Centralizar resolução",
+        "target_solve": "Target + Solve",
         "clear": "Claro",
         "disconnect_ws": "Desconectar WS",
         "reconnect_ws": "Reconectar o WS",
@@ -1600,6 +1606,7 @@
           "finishing": "Acabamento",
           "platesolving": "Resolução de placas",
           "running": "Correndo",
+          "slewing_to_target": "Slewing to Target",
           "syncing": "Sincronizando",
           "validating": "Validando"
         },

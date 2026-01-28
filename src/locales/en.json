@@ -482,6 +482,9 @@
         "guideAlgorithm": "Guide Algorithm",
         "guideAlgorithmRA": "RA Guide Algorithm",
         "guideAlgorithmDEC": "DEC Guide Algorithm",
+        "guiderScale": "Guider Scale",
+        "maxY": "Max Y",
+        "historySize": "History Size",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",
@@ -1445,6 +1448,7 @@
         "capture": "Capture",
         "solve_sync": "Solve + Sync",
         "center_solve": "Center + Solve",
+        "target_solve": "Target + Solve",
         "clear": "Clear",
         "sync": "Sync",
         "setup": "Setup…",
@@ -1488,7 +1492,9 @@
         "solve_sync_label": "Solve + Sync",
         "solve_sync_text": "platesolve and sync the mount (requires mount connected).",
         "center_solve_label": "Center + Solve",
-        "center_solve_text": "platesolve and center the target (requires mount connected + a calibrated offset)."
+        "center_solve_text": "platesolve and center the target (requires mount connected + a calibrated offset).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (reqauires mount connected + Target set in Stellarium in Framing Assistant)."
       },
       "progress": {
         "title": "Solve Progress",
@@ -1505,7 +1511,8 @@
           "centering": "Centering",
           "finishing": "Finishing",
           "calibrating": "Calibrating",
-          "running": "Running"
+          "running": "Running",
+          "slewing_to_target": "Slewing to Target"
         },
         "messages": {
           "working": "Working…",

@@ -490,6 +490,9 @@
         "guideAlgorithm": "Algorytm prowadzenia",
         "guideAlgorithmDEC": "Algorytm prowadzenia DEC",
         "guideAlgorithmRA": "Algorytm prowadzenia RA",
+        "guiderScale": "Skala guidera",
+        "historySize": "Rozmiar historii",
+        "maxY": "Max Y",
         "optical": "Ustawienia optyczne",
         "profileManagement": {
           "cancel": "Anuluj",
@@ -1502,6 +1505,8 @@
         "center_solve": "rozwiąż płytkę i wyśrodkuj cel (wymaga podłączenia uchwytu ze skalibrowanym przesunięciem).",
         "center_solve_label": "Rozwiązanie centralne",
         "center_solve_text": "rozwiąż płytkę i wyśrodkuj cel (wymaga podłączenia uchwytu ze skalibrowanym przesunięciem).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (requires mount connected + Target set in Stellarium in Framing Assistant).",
         "solve_sync": "rozwiąż płytkę i zsynchronizuj uchwyt (wymaga podłączenia uchwytu).",
         "solve_sync_label": "Rozwiąż synchronizację",
         "solve_sync_text": "rozwiąż płytkę i zsynchronizuj uchwyt (wymaga podłączenia uchwytu)."
@@ -1510,6 +1515,7 @@
         "calibrate_offsets": "Kalibracja przesunięć",
         "capture": "Schwytać",
         "center_solve": "Rozwiązanie centralne",
+        "target_solve": "Target + Solve",
         "clear": "Jasne",
         "disconnect_ws": "Odłącz WS",
         "reconnect_ws": "Podłącz ponownie WS",
@@ -1600,6 +1606,7 @@
           "finishing": "Wykończeniowy",
           "platesolving": "Rozwiązywanie płyt",
           "running": "Działanie",
+          "slewing_to_target": "Slewing to Target",
           "syncing": "Synchronizowanie",
           "validating": "Walidacja"
         },

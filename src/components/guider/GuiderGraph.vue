@@ -5,8 +5,18 @@
         class="w-12 h-12 border-4 border-blue-500 border-t-transparent border-solid rounded-full animate-spin"
       ></span>
     </div>
-    <div v-show="!isLoading" class="w-full h-[25vh] min-h-40">
+    <div v-show="!isLoading" class="w-full h-[25vh] min-h-40 relative">
       <canvas ref="rmsGraph"></canvas>
+      <button
+        v-if="store.isPINS"
+        @click="showSettings = !showSettings"
+        class="absolute top-0 right-0 p-1 text-gray-400 hover:text-white"
+      >
+        <Cog6ToothIcon class="w-5 h-5" />
+      </button>
+    </div>
+    <div v-if="store.isPINS" v-show="showSettings" class="mt-2 p-3 bg-gray-800 rounded-lg">
+      <Phd2GraphSettings />
     </div>
   </div>
 </template>
@@ -17,12 +27,17 @@ import Chart from 'chart.js/auto';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useI18n } from 'vue-i18n';
 import { useToastStore } from '@/store/toastStore';
+import { apiStore } from '@/store/store';
+import Phd2GraphSettings from './PHD2/pins/Phd2GraphSettings.vue';
+import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const guiderStore = useGuiderStore();
 const toastStore = useToastStore();
+const store = apiStore();
 const isLoading = ref(true);
 const rmsGraph = ref(null);
+const showSettings = ref(false);
 let chart = null;
 
 const initGraph = () => {

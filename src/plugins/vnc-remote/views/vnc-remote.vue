@@ -151,35 +151,33 @@
     <!-- Connection Overlay -->
     <div
       v-if="!isConnected"
-      class="absolute inset-0 z-50 flex items-center justify-center bg-gray-900/95 backdrop-blur-sm p-4"
+      class="absolute inset-0 z-50 flex items-center justify-center bg-gray-900/95 backdrop-blur-sm p-2 overflow-hidden"
     >
       <div
-        class="w-full max-w-md space-y-6 rounded-xl border border-gray-700 bg-gray-800 p-8 shadow-2xl"
+        class="w-full max-w-sm rounded-lg border border-gray-700 bg-gray-800 p-4 shadow-2xl transition-all"
       >
-        <div class="text-center space-y-2">
-          <h2 class="text-3xl font-bold text-white">VNC Connect</h2>
-          <p class="text-gray-400">Remote Desktop Access</p>
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-base font-bold text-white uppercase tracking-wider">VNC Connect</h2>
+          <div v-if="statusMessage" class="text-xs text-gray-400">{{ statusMessage }}</div>
         </div>
 
-        <div class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-300">Host</label>
+        <div class="flex gap-2 mb-3">
+          <div class="flex-grow relative">
             <input
               v-model.trim="host"
               type="text"
-              class="mt-1 w-full rounded-md border border-gray-600 bg-gray-900/50 px-4 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-              placeholder="hostname or IP"
+              class="w-full rounded bg-gray-900/50 px-3 py-2 text-sm text-white placeholder-gray-600 border border-gray-600 focus:border-indigo-500 focus:outline-none"
+              placeholder="Host / IP"
               :disabled="isConnecting"
             />
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-300">Port</label>
+          <div class="w-20 flex-shrink-0">
             <input
               v-model.trim="port"
               type="number"
-              class="mt-1 w-full rounded-md border border-gray-600 bg-gray-900/50 px-4 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-              placeholder="6080"
+              class="w-full rounded bg-gray-900/50 px-3 py-2 text-sm text-white placeholder-gray-600 border border-gray-600 focus:border-indigo-500 focus:outline-none"
+              placeholder="Port"
               :disabled="isConnecting"
             />
           </div>
@@ -187,42 +185,18 @@
 
         <div
           v-if="errorMessage"
-          class="rounded bg-red-900/30 p-3 text-sm text-red-200 border border-red-800/50"
+          class="mb-3 rounded bg-red-900/20 p-2 text-xs text-red-200 border border-red-900/30 truncate"
         >
           {{ errorMessage }}
         </div>
 
-        <div class="pt-2">
-          <button
-            class="w-full rounded-md bg-indigo-600 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
-            :disabled="isConnecting || !canConnect"
-            @click="connect"
-          >
-            <span v-if="isConnecting" class="flex items-center justify-center gap-2">
-              <svg class="h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              Connecting...
-            </span>
-            <span v-else>Connect</span>
-          </button>
-        </div>
-
-        <div class="text-center text-xs text-gray-500">
-          {{ statusMessage }}
-        </div>
+        <button
+          class="w-full rounded bg-indigo-600 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 disabled:opacity-50"
+          :disabled="isConnecting || !canConnect"
+          @click="connect"
+        >
+          {{ isConnecting ? 'Connecting...' : 'Connect' }}
+        </button>
       </div>
     </div>
   </div>

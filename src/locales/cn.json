@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "设备控制"
+      "title": "设备控制",
+      "indiSetup": "INDI Setup"
     }
   },
   "app": {

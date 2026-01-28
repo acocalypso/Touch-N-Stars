@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Kontrola Zařízení"
+      "title": "Kontrola Zařízení",
+      "indiSetup": "INDI Setup"
     }
   },
   "app": {

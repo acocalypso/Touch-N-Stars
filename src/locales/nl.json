@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Apparaatuur Beheer"
+      "title": "Apparaatuur Beheer",
+      "indiSetup": "INDI-opstelling"
     }
   },
   "app": {

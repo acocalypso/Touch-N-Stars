@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Control de equipo"
+      "title": "Control de equipo",
+      "indiSetup": "Configuración INDI"
     }
   },
   "app": {

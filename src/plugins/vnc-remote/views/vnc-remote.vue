@@ -1,87 +1,227 @@
 <template>
-  <div class="container py-6">
-    <div class="container max-w-7xl space-y-4">
-      <h5 class="text-2xl text-center font-bold text-white">VNC Remote</h5>
-
-      <div class="grid gap-4 lg:grid-cols-3">
+  <div
+    class="flex h-[85vh] w-full flex-col overflow-hidden bg-gray-900 border border-gray-700 rounded-lg relative shadow-xl"
+  >
+    <!-- Viewer Container (Always rendered, overlays others when connected) -->
+    <div ref="viewerRef" class="relative h-full w-full bg-black cursor-crosshair">
+      <!-- NoVNC Style Toolbar -->
+      <transition
+        enter-active-class="transition ease-out duration-300"
+        enter-from-class="-translate-x-full"
+        enter-to-class="translate-x-0"
+        leave-active-class="transition ease-in duration-200"
+        leave-from-class="translate-x-0"
+        leave-to-class="-translate-x-full"
+      >
         <div
-          class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5 space-y-4"
+          v-if="isConnected && isToolbarOpen"
+          class="absolute left-0 top-0 z-30 flex h-full w-14 flex-col items-center gap-4 border-r border-gray-700 bg-gray-900/95 py-4 backdrop-blur-sm shadow-2xl"
         >
-          <div class="flex items-center justify-between">
-            <h6 class="text-lg font-semibold text-white">Connection</h6>
-            <span class="text-sm text-gray-400">{{ statusMessage }}</span>
+          <!-- Close Toolbar -->
+          <button
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            title="Close Menu"
+            @click="isToolbarOpen = false"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </button>
+
+          <div class="h-px w-8 bg-gray-700"></div>
+
+          <!-- Fullscreen -->
+          <button
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            :class="{ 'text-indigo-400': isFullscreen }"
+            :title="isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'"
+            @click="toggleFullscreen"
+          >
+            <svg
+              v-if="!isFullscreen"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+              />
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <!-- Ctrl-Alt-Del -->
+          <button
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            title="Send Ctrl+Alt+Del"
+            @click="sendCtrlAltDel"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              />
+            </svg>
+          </button>
+
+          <div class="mt-auto flex flex-col gap-4">
+            <div class="h-px w-8 bg-gray-700"></div>
+            <!-- Disconnect -->
+            <button
+              class="rounded p-2 text-red-400 hover:bg-gray-800 hover:text-red-300"
+              title="Disconnect"
+              @click="disconnect"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </transition>
+
+      <!-- Toolbar Toggle Handle -->
+      <button
+        v-if="isConnected && !isToolbarOpen"
+        class="absolute left-0 top-1/2 z-20 -translate-y-1/2 rounded-r-lg bg-gray-800/80 p-2 text-white shadow-lg backdrop-blur-sm transition-all hover:bg-indigo-600/90 hover:pr-3"
+        title="Open Menu"
+        @click="isToolbarOpen = true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Connection Overlay -->
+    <div
+      v-if="!isConnected"
+      class="absolute inset-0 z-50 flex items-center justify-center bg-gray-900/95 backdrop-blur-sm p-4"
+    >
+      <div
+        class="w-full max-w-md space-y-6 rounded-xl border border-gray-700 bg-gray-800 p-8 shadow-2xl"
+      >
+        <div class="text-center space-y-2">
+          <h2 class="text-3xl font-bold text-white">VNC Connect</h2>
+          <p class="text-gray-400">Remote Desktop Access</p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-300">Host</label>
+            <input
+              v-model.trim="host"
+              type="text"
+              class="mt-1 w-full rounded-md border border-gray-600 bg-gray-900/50 px-4 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              placeholder="hostname or IP"
+              :disabled="isConnecting"
+            />
           </div>
 
-          <div class="grid gap-3">
-            <label class="text-sm text-gray-300">
-              Host
-              <input
-                v-model.trim="host"
-                type="text"
-                class="mt-1 w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-white focus:border-indigo-400 focus:outline-none"
-                placeholder="raspberrypi.local"
-                autocomplete="off"
-              />
-            </label>
-
-            <label class="text-sm text-gray-300">
-              Port
-              <input
-                v-model.trim="port"
-                type="number"
-                min="1"
-                max="65535"
-                class="mt-1 w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-white focus:border-indigo-400 focus:outline-none"
-                placeholder="6080"
-              />
-            </label>
-
-            <div class="flex items-center gap-3 pt-2">
-              <button
-                class="flex-1 rounded bg-indigo-600 px-4 py-2 font-semibold text-white shadow hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
-                :disabled="isConnecting || isConnected || !canConnect"
-                @click="connect"
-              >
-                {{ isConnecting ? 'Connecting...' : 'Connect' }}
-              </button>
-              <button
-                class="flex-1 rounded bg-gray-700 px-4 py-2 font-semibold text-white shadow hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-60"
-                :disabled="!rfbInstance && !isConnected"
-                @click="disconnect"
-              >
-                Disconnect
-              </button>
-            </div>
-
-            <div class="space-y-1 text-sm">
-              <div class="text-gray-300">
-                URL: <span class="text-gray-100">{{ connectionUrl }}</span>
-              </div>
-              <div v-if="errorMessage" class="text-red-400">{{ errorMessage }}</div>
-            </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-300">Port</label>
+            <input
+              v-model.trim="port"
+              type="number"
+              class="mt-1 w-full rounded-md border border-gray-600 bg-gray-900/50 px-4 py-2 text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              placeholder="6080"
+              :disabled="isConnecting"
+            />
           </div>
         </div>
 
         <div
-          class="lg:col-span-2 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5 space-y-4"
+          v-if="errorMessage"
+          class="rounded bg-red-900/30 p-3 text-sm text-red-200 border border-red-800/50"
         >
-          <div class="flex items-center justify-between">
-            <h6 class="text-lg font-semibold text-white">Remote Display</h6>
-            <span class="text-sm text-gray-400">{{ isConnected ? 'Live' : 'Idle' }}</span>
-          </div>
+          {{ errorMessage }}
+        </div>
 
-          <div
-            ref="viewerRef"
-            class="relative h-[70vh] w-full overflow-hidden rounded border border-gray-800 bg-black/60"
+        <div class="pt-2">
+          <button
+            class="w-full rounded-md bg-indigo-600 px-4 py-3 font-semibold text-white shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/40 disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="isConnecting || !canConnect"
+            @click="connect"
           >
-            <div
-              v-if="!isConnected"
-              class="absolute inset-0 flex flex-col items-center justify-center space-y-2"
-            >
-              <div class="text-gray-200 font-semibold">Not connected</div>
-              <div class="text-sm text-gray-400">Press Connect to open your VNC session</div>
-            </div>
-          </div>
+            <span v-if="isConnecting" class="flex items-center justify-center gap-2">
+              <svg class="h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Connecting...
+            </span>
+            <span v-else>Connect</span>
+          </button>
+        </div>
+
+        <div class="text-center text-xs text-gray-500">
+          {{ statusMessage }}
         </div>
       </div>
     </div>
@@ -104,6 +244,18 @@ const errorMessage = ref('');
 
 const viewerRef = ref(null);
 const rfbInstance = ref(null);
+const isFullscreen = ref(false);
+const isToolbarOpen = ref(false);
+
+const updateFullscreenState = () => {
+  isFullscreen.value = !!document.fullscreenElement;
+};
+
+const sendCtrlAltDel = () => {
+  if (rfbInstance.value) {
+    rfbInstance.value.sendCtrlAltDel();
+  }
+};
 
 const applyAutoHost = () => {
   const candidateHost = settingsStore?.connection?.ip || window?.location?.hostname || 'localhost';
@@ -117,6 +269,7 @@ const applyAutoHost = () => {
 
 onMounted(() => {
   applyAutoHost();
+  document.addEventListener('fullscreenchange', updateFullscreenState);
 });
 
 watch(
@@ -137,6 +290,18 @@ const connectionUrl = computed(() => {
 });
 
 const canConnect = computed(() => Boolean(host.value.trim()) && Boolean(port.value));
+
+const toggleFullscreen = () => {
+  if (!viewerRef.value) return;
+
+  if (!document.fullscreenElement) {
+    viewerRef.value.requestFullscreen().catch((err) => {
+      console.warn(`Error attempting to enable fullscreen: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+};
 
 const detachRfb = () => {
   if (!rfbInstance.value) return;
@@ -228,5 +393,8 @@ const disconnect = () => {
   statusMessage.value = 'Disconnected';
 };
 
-onBeforeUnmount(detachRfb);
+onBeforeUnmount(() => {
+  detachRfb();
+  document.removeEventListener('fullscreenchange', updateFullscreenState);
+});
 </script>

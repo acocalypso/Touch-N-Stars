@@ -1,25 +1,26 @@
 <template>
   <div
     :class="borderClass"
-    class="flex max-w-md border p-2 rounded-lg h-full gap-2 items-center justify-between transition-all duration-300"
+    class="flex flex-col sm:flex-row border p-2 rounded-lg h-full gap-2 sm:items-center transition-all duration-300"
   >
-    <label class="w-36" for="deviceSelect">{{ deviceName }}:</label>
-    <select
-      id="deviceSelect"
-      class="w-full default-select"
-      v-model="selectedDevice"
-      :disabled="isConnected"
-    >
-      <option disabled>{{ selectedDevice }}</option>
-      <option
-        v-for="device in devices"
-        :key="device.DisplayName"
-        :value="String(device.DisplayName)"
+    <label class="text-sm sm:w-36 shrink-0" for="deviceSelect">{{ deviceName }}:</label>
+    <div class="flex gap-2 items-center w-full">
+      <select
+        id="deviceSelect"
+        class="w-full default-select min-w-0"
+        v-model="selectedDevice"
+        :disabled="isConnected"
       >
-        {{ device.DisplayName }}
-      </option>
-    </select>
-    <div class="flex w-30 gap-1">
+        <option disabled>{{ selectedDevice }}</option>
+        <option
+          v-for="device in devices"
+          :key="device.DisplayName"
+          :value="String(device.DisplayName)"
+        >
+          {{ device.DisplayName }}
+        </option>
+      </select>
+      <div class="flex shrink-0 gap-1">
       <button
         v-if="store.isPINS"
         @click="configDevice"
@@ -54,6 +55,7 @@
         <LinkIcon v-if="!isConnected" class="w-6 h-6" />
         <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
       </button>
+      </div>
     </div>
 
     <!-- Modal entfernt - verwendet jetzt toastModal -->

@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col items-center">
-    <div class="flex flex-col max-w-lg items-center justify-center">
+  <div class="flex flex-col items-center w-full px-4">
+    <div class="flex flex-col w-full max-w-lg items-center justify-center">
       <h5 class="text-xl font-bold text-white mb-4">{{ $t('pages.equipment.title') }}</h5>
-      <div class="flex flex-col items-center justify-center">
+      <div class="flex flex-col w-full items-center justify-center">
         <div
           v-if="
             !store.mountInfo.Connected &&
@@ -17,12 +17,12 @@
             !store.domeInfo.Connected &&
             !store.switchInfo.Connected
           "
-          class="flex items-center justify-center mb-4 w-full space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
+          class="flex items-center justify-center mb-4 w-full space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-4 shadow-lg"
         >
           <profilSelect />
         </div>
         <div
-          class="mb-24 space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
+          class="w-full pb-20 space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-4 shadow-lg"
         >
           <connectEquipment />
         </div>

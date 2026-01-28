@@ -802,6 +802,8 @@ export const apiStore = defineStore('store', {
       if (pinsVersion && pinsVersion.Response) {
         this.isPINS = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      } else {
+        this.isPINS = false;
       }
     },
 

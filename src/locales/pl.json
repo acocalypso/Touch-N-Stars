@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Sterowanie Sprzętem"
+      "title": "Sterowanie Sprzętem",
+      "indiSetup": "Konfiguracja INDI"
     }
   },
   "app": {

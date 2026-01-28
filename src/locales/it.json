@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Controllo Attrezzatura"
+      "title": "Controllo Attrezzatura",
+      "indiSetup": "Configurazione INDI"
     }
   },
   "app": {

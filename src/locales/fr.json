@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Contrôle des Équipements"
+      "title": "Contrôle des Équipements",
+      "indiSetup": "Configuration INDI"
     }
   },
   "app": {

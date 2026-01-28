@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Equipment Control"
+      "title": "Equipment Control",
+      "indiSetup": "INDI Setup"
     }
   },
   "app": {

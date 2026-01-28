@@ -283,6 +283,15 @@ watch(
   }
 );
 
+watch(
+  () => equipmentStore.rescanTrigger[props.apiAction.replace('Action', '')],
+  (newValue, oldValue) => {
+    if (newValue > 0 && newValue !== oldValue) {
+      rescanDevices();
+    }
+  }
+);
+
 onMounted(async () => {
   await getDevices();
   selectedDevice.value = props.defaultDeviceId;

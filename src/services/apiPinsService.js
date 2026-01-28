@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
-import { get } from 'lodash';
 
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();

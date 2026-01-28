@@ -1014,7 +1014,12 @@ watch(
   left: 0;
   bottom: 0;
   width: 60px;
-  background: linear-gradient(to right, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.8) 40%, rgba(15, 23, 42, 0) 100%);
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
 }
 
 .scroll-fade-right {
@@ -1022,7 +1027,12 @@ watch(
   right: 0;
   bottom: 0;
   width: 60px;
-  background: linear-gradient(to left, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.8) 40%, rgba(15, 23, 42, 0) 100%);
+  background: linear-gradient(
+    to left,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
 }
 
 /* Landscape Mode - Vertical Fades (Top/Bottom) */
@@ -1031,7 +1041,12 @@ watch(
   left: 0;
   right: 0;
   height: 60px;
-  background: linear-gradient(to bottom, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.8) 40%, rgba(15, 23, 42, 0) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
 }
 
 .scroll-fade-bottom {
@@ -1039,7 +1054,12 @@ watch(
   left: 0;
   right: 0;
   height: 60px;
-  background: linear-gradient(to top, rgba(15, 23, 42, 1) 0%, rgba(15, 23, 42, 0.8) 40%, rgba(15, 23, 42, 0) 100%);
+  background: linear-gradient(
+    to top,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
 }
 
 /* Scroll Arrow Indicators */

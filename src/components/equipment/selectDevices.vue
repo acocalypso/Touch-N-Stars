@@ -21,40 +21,42 @@
         </option>
       </select>
       <div class="flex shrink-0 gap-1">
-      <button
-        v-if="store.isPINS"
-        @click="configDevice"
-        :disabled="
-          isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
-        "
-        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-      >
-        <Cog6ToothIcon
-          class="w-6 h-6"
-          :class="{
-            'text-gray-400':
-              isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
-          }"
-        />
-      </button>
-      <button
-        @click="rescanDevices"
-        :disabled="isScanning || isConnected"
-        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-      >
-        <ArrowPathIcon
-          class="w-6 h-6"
-          :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
-        />
-      </button>
-      <button
-        @click="toggleConnection"
-        :disabled="isToggleCon"
-        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
-      >
-        <LinkIcon v-if="!isConnected" class="w-6 h-6" />
-        <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
-      </button>
+        <button
+          v-if="store.isPINS"
+          @click="configDevice"
+          :disabled="
+            isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
+          "
+          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+        >
+          <Cog6ToothIcon
+            class="w-6 h-6"
+            :class="{
+              'text-gray-400':
+                isScanning ||
+                isConnected ||
+                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
+            }"
+          />
+        </button>
+        <button
+          @click="rescanDevices"
+          :disabled="isScanning || isConnected"
+          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+        >
+          <ArrowPathIcon
+            class="w-6 h-6"
+            :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
+          />
+        </button>
+        <button
+          @click="toggleConnection"
+          :disabled="isToggleCon"
+          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
+        >
+          <LinkIcon v-if="!isConnected" class="w-6 h-6" />
+          <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
+        </button>
       </div>
     </div>
 

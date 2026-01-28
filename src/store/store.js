@@ -317,6 +317,9 @@ export const apiStore = defineStore('store', {
               }
               console.log('API Version:', this.currentApiVersion);
               this.isApiVersionNewerOrEqual = true;
+
+              //Check if ist PINS
+              await this.checkForPINS();
             }
           }
         }

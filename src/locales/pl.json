@@ -1728,7 +1728,15 @@
       "terminalOutput": "WYJŚCIE TERMINALA",
       "title": "Aktualizator PINS",
       "upgrading": "Aktualizowanie...",
-      "waiting": "Przejmowanie kontroli... Oczekiwanie na polecenie..."
+      "waiting": "Przejmowanie kontroli... Oczekiwanie na polecenie...",
+      "noNetworks": "Nie znaleziono sieci",
+      "scanning": "Łów...",
+      "stationaryDescription": "Włącz skanowanie i łączenie się z lokalnymi sieciami Wi-Fi",
+      "stationaryMode": "Tryb stacjonarny",
+      "wifiConnect": "Łączyć",
+      "wifiPassword": "Hasło",
+      "wifiSelect": "Wybierz opcję Sieć",
+      "wifiTitle": "Konfiguracja Wi-Fi"
     }
   },
   "dialogs": {

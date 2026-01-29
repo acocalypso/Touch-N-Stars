@@ -1729,7 +1729,15 @@
       "terminalOutput": "终端输出",
       "title": "PINS 更新程序",
       "upgrading": "正在升级...",
-      "waiting": "正在接管控制... 等待命令..."
+      "waiting": "正在接管控制... 等待命令...",
+      "noNetworks": "No networks found",
+      "scanning": "Scanning...",
+      "stationaryDescription": "Enable to scan and connect to local WiFi networks",
+      "stationaryMode": "Stationary Mode",
+      "wifiConnect": "Connect",
+      "wifiPassword": "Password",
+      "wifiSelect": "Select Network",
+      "wifiTitle": "WiFi Configuration"
     }
   },
   "dialogs": {

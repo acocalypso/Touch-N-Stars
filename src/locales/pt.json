@@ -15,7 +15,8 @@
   },
   "pages": {
     "equipment": {
-      "title": "Controle de Equipamentos"
+      "title": "Controle de Equipamentos",
+      "indiSetup": "Configuração INDI"
     }
   },
   "app": {
@@ -1727,7 +1728,15 @@
       "terminalOutput": "SAÍDA DO TERMINAL",
       "title": "Atualizador PINS",
       "upgrading": "Atualizando...",
-      "waiting": "Assumindo controle... Aguardando comando..."
+      "waiting": "Assumindo controle... Aguardando comando...",
+      "noNetworks": "Nenhuma rede encontrada",
+      "scanning": "Digitalizando...",
+      "stationaryDescription": "Ative para digitalizar e conectar-se a redes WiFi locais",
+      "stationaryMode": "Modo Estacionário",
+      "wifiConnect": "Conectar",
+      "wifiPassword": "Senha",
+      "wifiSelect": "Selecione Rede",
+      "wifiTitle": "Configuração Wi-Fi"
     }
   },
   "dialogs": {

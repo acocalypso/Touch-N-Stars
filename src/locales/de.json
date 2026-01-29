@@ -943,7 +943,15 @@
         "wsConnected": "Verbindung hergestellt. Streame Protokolle...",
         "wsClosed": "Verbindung geschlossen. (Code: {code})",
         "wsError": "Ein WebSocket-Fehler ist aufgetreten."
-      }
+      },
+      "noNetworks": "Keine Netzwerke gefunden",
+      "scanning": "Scannen...",
+      "stationaryDescription": "Aktivieren Sie diese Option, um lokale WLAN-Netzwerke zu scannen und eine Verbindung zu ihnen herzustellen",
+      "stationaryMode": "Stationärer Modus",
+      "wifiConnect": "Verbinden",
+      "wifiPassword": "Passwort",
+      "wifiSelect": "Wählen Sie Netzwerk",
+      "wifiTitle": "WLAN-Konfiguration"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

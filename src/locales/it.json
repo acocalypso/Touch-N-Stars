@@ -1728,7 +1728,15 @@
       "terminalOutput": "OUTPUT TERMINALE",
       "title": "Aggiornamento PINS",
       "upgrading": "Aggiornamento in corso...",
-      "waiting": "Assumendo il controllo... In attesa di comando..."
+      "waiting": "Assumendo il controllo... In attesa di comando...",
+      "noNetworks": "Nessuna rete trovata",
+      "scanning": "Scansione...",
+      "stationaryDescription": "Abilita la scansione e la connessione alle reti WiFi locali",
+      "stationaryMode": "Modalità stazionaria",
+      "wifiConnect": "Collegare",
+      "wifiPassword": "Password",
+      "wifiSelect": "Seleziona Rete",
+      "wifiTitle": "Configurazione Wi-Fi"
     }
   },
   "dialogs": {

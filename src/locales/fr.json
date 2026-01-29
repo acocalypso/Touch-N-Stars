@@ -1728,7 +1728,15 @@
       "terminalOutput": "SORTIE TERMINAL",
       "title": "Mise à jour PINS",
       "upgrading": "Mise à jour en cours...",
-      "waiting": "Prise de contrôle... En attente de commande..."
+      "waiting": "Prise de contrôle... En attente de commande...",
+      "noNetworks": "Aucun réseau trouvé",
+      "scanning": "Balayage...",
+      "stationaryDescription": "Activer la numérisation et la connexion aux réseaux WiFi locaux",
+      "stationaryMode": "Mode stationnaire",
+      "wifiConnect": "Connecter",
+      "wifiPassword": "Mot de passe",
+      "wifiSelect": "Sélectionnez le réseau",
+      "wifiTitle": "Configuration Wi-Fi"
     }
   },
   "dialogs": {

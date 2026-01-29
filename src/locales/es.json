@@ -1728,7 +1728,15 @@
       "terminalOutput": "SALIDA DE TERMINAL",
       "title": "Actualizador PINS",
       "upgrading": "Actualizando...",
-      "waiting": "Asumiendo el control... Esperando comando..."
+      "waiting": "Asumiendo el control... Esperando comando...",
+      "noNetworks": "No se encontraron redes",
+      "scanning": "Exploración...",
+      "stationaryDescription": "Habilitar para escanear y conectarse a redes WiFi locales",
+      "stationaryMode": "Modo estacionario",
+      "wifiConnect": "Conectar",
+      "wifiPassword": "Contraseña",
+      "wifiSelect": "Seleccionar red",
+      "wifiTitle": "Configuración Wi-Fi"
     }
   },
   "dialogs": {

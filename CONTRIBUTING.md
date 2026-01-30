@@ -8,7 +8,9 @@ Thank you for your interest in contributing to Touch'N'Stars! This document prov
 
 - Node.js 18 or higher
 - npm
-- A running NINA installation with the Advanced API plugin (for testing)
+- A running NINA installation with the following plugins (for testing):
+  - Advanced API plugin
+  - Touch'N'Stars plugin
 
 ### Setup
 

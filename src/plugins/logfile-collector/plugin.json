@@ -9,5 +9,6 @@
   "config": {
     "uploadUrl": "https://touch-n-stars.eu/ingest/logs",
     "authToken": "f4c9a7d2e18b3f607911ad5e82bc9487"
-  }
+  },
+  "isPins": false
 }

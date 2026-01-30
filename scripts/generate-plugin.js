@@ -61,7 +61,8 @@ rl.question('Plugin name: ', (name) => {
         version: '1.0.0',
         author,
         defaultEnabled: false, //initial value for the first load
-        enabled: true //Plugin is completely hidden
+        enabled: true, //Plugin is completely hidden
+        isPins: false //Whether the plugin is a PINS plugin
       };
       
       createFile(

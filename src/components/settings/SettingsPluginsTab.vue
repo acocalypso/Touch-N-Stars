@@ -31,8 +31,9 @@
 
       <!-- Plugin List -->
       <div v-else class="space-y-3">
+        <!-- General Plugins -->
         <div
-          v-for="plugin in pluginStore.plugins"
+          v-for="plugin in generalPlugins"
           :key="plugin.id"
           class="flex items-center justify-between p-3 bg-gray-700 rounded-lg border border-gray-600"
         >
@@ -51,19 +52,66 @@
             />
           </div>
         </div>
+
+        <!-- PINS Plugins Divider & List -->
+        <div v-if="pinsPlugins.length > 0" class="pt-4">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="h-px bg-gray-600 flex-1"></div>
+            <span class="text-xs font-bold text-cyan-500 uppercase tracking-wider"
+              >PINS Plugins</span
+            >
+            <div class="h-px bg-gray-600 flex-1"></div>
+          </div>
+
+          <div class="space-y-3">
+            <div
+              v-for="plugin in pinsPlugins"
+              :key="plugin.id"
+              class="flex items-center justify-between p-3 bg-gray-700 rounded-lg border border-gray-600"
+            >
+              <div class="flex-1 min-w-0">
+                <h4 class="text-white font-medium">{{ plugin.name }}</h4>
+                <p class="text-sm text-gray-400">{{ plugin.description }}</p>
+                <p v-if="plugin.author" class="text-xs text-gray-500 mt-1">
+                  {{ $t('components.settings.plugins.author') }}: {{ plugin.author }}
+                </p>
+              </div>
+              <div class="flex items-center gap-3 ml-4">
+                <span class="text-xs text-gray-500">v{{ plugin.version }}</span>
+                <ToggleButton
+                  :statusValue="plugin.enabled"
+                  @update:statusValue="(value) => togglePlugin(plugin.id, value)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { usePluginStore } from '@/store/pluginStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const pluginStore = usePluginStore();
+const settingsStore = useSettingsStore();
+
+const generalPlugins = computed(() => {
+  return pluginStore.plugins.filter((p) => !p.isPins);
+});
+
+const pinsPlugins = computed(() => {
+  if (store.isPINS || settingsStore.isPINS) {
+    return pluginStore.plugins.filter((p) => p.isPins);
+  }
+  return [];
+});
 
 onMounted(async () => {
   // Ensure plugins are loaded (force reload to catch metadata changes)

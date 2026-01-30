@@ -103,7 +103,7 @@ class SignalRMessageboxesService {
           }
 
           // Manual reconnect if shouldReconnect is true
-          if (this.shouldReconnect && !error) {
+          if (this.shouldReconnect) {
             console.log(
               `[SignalRMessageboxesService] Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
@@ -115,8 +115,17 @@ class SignalRMessageboxesService {
                   .then(() => {
                     console.log('[SignalRMessageboxesService] Successfully reconnected');
                   })
-                  .catch((error) => {
-                    console.warn('[SignalRMessageboxesService] Reconnect failed:', error.message);
+                  .catch((err) => {
+                    console.warn('[SignalRMessageboxesService] Reconnect failed:', err.message);
+                    // Retry again after delay
+                    if (this.shouldReconnect) {
+                      this.reconnectTimeoutId = setTimeout(() => {
+                        this.reconnectTimeoutId = null;
+                        if (this.shouldReconnect) {
+                          this.connect().catch(() => {});
+                        }
+                      }, this.reconnectDelay);
+                    }
                   });
               }
             }, this.reconnectDelay);
@@ -140,7 +149,22 @@ class SignalRMessageboxesService {
             if (this.statusCallback) {
               this.statusCallback('Failed');
             }
-            reject(error);
+            // Retry initial connection after delay
+            if (this.shouldReconnect) {
+              console.log(
+                `[SignalRMessageboxesService] Retrying initial connection in ${this.reconnectDelay / 1000} seconds...`
+              );
+              this.reconnectTimeoutId = setTimeout(() => {
+                this.reconnectTimeoutId = null;
+                if (this.shouldReconnect) {
+                  this.connect()
+                    .then(resolve)
+                    .catch(() => {});
+                }
+              }, this.reconnectDelay);
+            } else {
+              reject(error);
+            }
           });
       } catch (error) {
         console.error('[SignalRMessageboxesService] Error during connection setup:', error);

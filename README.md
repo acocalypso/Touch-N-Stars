@@ -20,7 +20,8 @@ Thank you for your support! 💜
 ---
 
 ### 🚀 **Current Status: Stable Version**  
-This web application is in **development phase** and is aimed at astronomy enthusiasts who want to conveniently set up their equipment using the **NINA** (Nighttime Imaging 'N' Astronomy) software via touch devices.  
+Touch’N’Stars is a stable and fully usable application designed for astronomy enthusiasts who want to conveniently control their equipment using NINA (Nighttime Imaging ‘N’ Astronomy) via touch-enabled devices.
+The app is actively maintained and continuously improved, but it is no longer in a development or experimental phase. It is ready for regular use in real imaging sessions.
 
 ### 🏁 **Purpose of the WebApp**  
 The application aims to make controlling and adjusting already configured profiles easier - directly through a tablet or smartphone. This makes handling more mobile and convenient, especially when setting up equipment and starting imaging sessions.  
@@ -56,4 +57,17 @@ A special thank you to **Christian**, the developer of the **Advanced API**, for
 - Visit our website: https://touch-n-stars.eu
 - You can find more details about the application and how to use it in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki).
 - Our [YouTube channel](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) has video instructions and further tips on how to use Touch'N'Stars
-- You want to say thank you? We are happy about a beer 🍻 😀 [paypal.me/TouchNStars](http://paypal.me/TouchNStars)
+
+## 🤝 Contributing
+Contributions are **very welcome**.
+Whether you are a developer, tester, designer, translator, or simply an astronomy enthusiast with ideas or feedback — everyone is invited to participate and help improve Touch’N’Stars.
+
+You can contribute by:
+- Reporting bugs or issues
+- Suggesting new features or improvements
+- Improving documentation or translations
+- Submitting pull requests
+
+Please feel free to open an issue or start a discussion before working on larger changes.  
+All contributions are appreciated and help make the project better for the entire community.
+

@@ -8,26 +8,26 @@
 
 ```mermaid
 graph TD
-    User[User (Mobile Device)] -->|Touch UI| App[Touch-N-Stars App\n(Vue 3 + Capacitor)]
+    User["User (Mobile Device)"] -->|Touch UI| App["Touch-N-Stars App\n(Vue 3 + Capacitor)"]
     
     subgraph "Mobile App (Client)"
-        App --> Router[Vue Router]
-        App --> Store[Pinia Store\n(State Management)]
-        App --> Services[Services Layer]
-        App --> Components[Components Library]
-        App --> Stellarium[Stellarium JS Engine\n(Embedded Planetarium)]
+        App --> Router["Vue Router"]
+        App --> Store["Pinia Store\n(State Management)"]
+        App --> Services["Services Layer"]
+        App --> Components["Components Library"]
+        App --> Stellarium["Stellarium JS Engine\n(Embedded Planetarium)"]
     end
 
     subgraph "Communication Layer"
-        Services -->|REST API (Axios)| NINA_API[NINA HTTP API]
-        Services -->|WebSocket / SignalR| NINA_WS[NINA WebSockets/SignalR]
-        Services -->|Mock Mode| MockAPI[Mock API Service]
+        Services -->|"REST API (Axios)"| NINA_API["NINA HTTP API"]
+        Services -->|"WebSocket / SignalR"| NINA_WS["NINA WebSockets/SignalR"]
+        Services -->|"Mock Mode"| MockAPI["Mock API Service"]
     end
 
     subgraph "Backend (Desktop PC)"
-        NINA_API --> NINA_Core[NINA Core Software]
+        NINA_API --> NINA_Core["NINA Core Software"]
         NINA_WS --> NINA_Core
-        NINA_Core -->|Controls| Hardware[Telescope / Camera / Mount]
+        NINA_Core -->|Controls| Hardware["Telescope / Camera / Mount"]
     end
 ```
 

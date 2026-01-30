@@ -1734,7 +1734,15 @@
       "terminalOutput": "VÝSTUP TERMINÁLU",
       "title": "Aktualizace PINS",
       "upgrading": "Aktualizace probíhá...",
-      "waiting": "Přebírám kontrolu... Čekám na příkaz..."
+      "waiting": "Přebírám kontrolu... Čekám na příkaz...",
+      "noNetworks": "No networks found",
+      "scanning": "Scanning...",
+      "stationaryDescription": "Enable to scan and connect to local WiFi networks",
+      "stationaryMode": "Stationary Mode",
+      "wifiConnect": "Connect",
+      "wifiPassword": "Password",
+      "wifiSelect": "Select Network",
+      "wifiTitle": "WiFi Configuration"
     }
   },
   "dialogs": {

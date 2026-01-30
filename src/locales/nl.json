@@ -1728,7 +1728,15 @@
       "terminalOutput": "TERMINALUITVOER",
       "title": "PINS Updater",
       "upgrading": "Upgraden...",
-      "waiting": "Controle overnemen... Wachten op opdracht..."
+      "waiting": "Controle overnemen... Wachten op opdracht...",
+      "noNetworks": "Geen netwerken gevonden",
+      "scanning": "Scannen...",
+      "stationaryDescription": "Schakel in om te scannen en verbinding te maken met lokale WiFi-netwerken",
+      "stationaryMode": "Stationaire modus",
+      "wifiConnect": "Verbinden",
+      "wifiPassword": "Wachtwoord",
+      "wifiSelect": "Selecteer Netwerk",
+      "wifiTitle": "WiFi-configuratie"
     }
   },
   "dialogs": {

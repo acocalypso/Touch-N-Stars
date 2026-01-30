@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Touch'N'Stars! This document prov
 
 ### Prerequisites
 
-- Node.js (LTS version recommended)
+- Node.js 18 or higher
 - npm
 - A running NINA installation with the Advanced API plugin (for testing)
 
@@ -68,12 +68,21 @@ src/
 
 ## Commits
 
-Write clear commit messages that describe what the change does.
+Use conventional commit style:
+- `feat:` New features
+- `fix:` Bug fixes
+- `docs:` Documentation changes
+- `refactor:` Code refactoring
+- `chore:` Maintenance tasks
+
+Example: `feat: add dark mode toggle to settings`
 
 ## Pull Requests
 
 1. Create a new branch from `develop`:
    ```bash
+   git checkout develop
+   git pull origin develop
    git checkout -b feat/your-feature-name
    ```
 
@@ -88,6 +97,19 @@ Write clear commit messages that describe what the change does.
    - What the PR does
    - Why the change is needed
    - How it was tested
+
+## Testing
+
+Currently, no automated tests are set up. Please test your changes manually:
+- Verify on both mobile and desktop browsers
+- Test with a real NINA connection if possible
+- Check that existing functionality still works
+
+## Changelog
+
+For notable changes, update `CHANGELOG.md` under `## [Unreleased]`:
+- Follow [Keep a Changelog](https://keepachangelog.com/) format
+- Use: Added, Changed, Fixed, Removed
 
 ## Translations (i18n)
 

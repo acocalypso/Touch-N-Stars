@@ -38,7 +38,6 @@ npm run lint:fix
 
 - Use ES6+ syntax
 - Use `const` by default, `let` when reassignment is needed, avoid `var`
-- No `console.log` in production code (warnings in production builds)
 - Use meaningful variable and function names
 - Keep functions small and focused
 - **No hardcoded strings** - Use i18n for all user-facing text (at least English required)

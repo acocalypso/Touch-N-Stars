@@ -34,7 +34,7 @@ graph TD
 ## 2. Technology Stack
 
 *   **Frontend Framework**: [Vue.js 3](https://vuejs.org/) (Composition API)
-*   **Mobile Runtime**: [Capacitor 5](https://capacitorjs.com/) (Android & iOS)
+*   **Mobile Runtime**: [Capacitor 8](https://capacitorjs.com/) (Android & iOS)
 *   **State Management**: [Pinia](https://pinia.vuejs.org/) (with persistence)
 *   **UI/Styling**: [Tailwind CSS](https://tailwindcss.com/)
 *   **Routing**: Vue Router

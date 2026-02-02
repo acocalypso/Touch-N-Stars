@@ -108,7 +108,7 @@ class SignalRProgressService {
           }
 
           // Manual reconnect wenn shouldReconnect true ist
-          if (this.shouldReconnect && !error) {
+          if (this.shouldReconnect) {
             console.log(
               `[SignalRProgressService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
@@ -120,11 +120,20 @@ class SignalRProgressService {
                   .then(() => {
                     console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
-                  .catch((error) => {
+                  .catch((err) => {
                     console.warn(
                       '[SignalRProgressService] SignalR reconnect failed:',
-                      error.message
+                      err.message
                     );
+                    // Retry again after delay
+                    if (this.shouldReconnect) {
+                      this.reconnectTimeoutId = setTimeout(() => {
+                        this.reconnectTimeoutId = null;
+                        if (this.shouldReconnect) {
+                          this.connect().catch(() => {});
+                        }
+                      }, this.reconnectDelay);
+                    }
                   });
               }
             }, this.reconnectDelay);
@@ -148,7 +157,22 @@ class SignalRProgressService {
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
             }
-            reject(err);
+            // Retry initial connection after delay
+            if (this.shouldReconnect) {
+              console.log(
+                `[SignalRProgressService] Retrying initial connection in ${this.reconnectDelay / 1000} seconds...`
+              );
+              this.reconnectTimeoutId = setTimeout(() => {
+                this.reconnectTimeoutId = null;
+                if (this.shouldReconnect) {
+                  this.connect()
+                    .then(resolve)
+                    .catch(() => {});
+                }
+              }, this.reconnectDelay);
+            } else {
+              reject(err);
+            }
           });
       } catch (err) {
         console.error('[SignalRProgressService] SignalR setup error:', err);

@@ -131,7 +131,7 @@ pluginStore.addPluginNavigationItem(metadata.id, {
 ```
 
 ## Example
-See the example weather station plugin in `plugins/bathinov-analyzer/` for a complete implementation.
+See the example plugin in `plugins/bahtifocus/` for a complete implementation.
 
 ## Guidelines
 - Each plugin should be self-contained

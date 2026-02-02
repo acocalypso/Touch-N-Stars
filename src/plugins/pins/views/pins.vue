@@ -331,9 +331,10 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onUnmounted } from 'vue';
+import { ref, nextTick, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
+import { usePinsStore } from '../store/pinsStore';
 import { apiStore } from '@/store/store';
 import axios from 'axios';
 import toggleButton from '@/components/helpers/toggleButton.vue';
@@ -341,6 +342,7 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
 const store = apiStore();
+const pinsStore = usePinsStore();
 
 const dryRun = ref(false);
 const sambaEnabled = ref(false);
@@ -357,6 +359,17 @@ let ws = null;
 
 const PORT = 8000;
 const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+
+watch(selectedSsid, (newSsid) => {
+  if (newSsid) {
+    const savedPassword = pinsStore.getPassword(newSsid);
+    if (savedPassword) {
+      wifiPassword.value = savedPassword;
+    } else {
+      wifiPassword.value = '';
+    }
+  }
+});
 
 function clearLogs() {
   logs.value = [];
@@ -465,6 +478,11 @@ async function connectWifi() {
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
   appendLog(`Connecting to WiFi: ${selectedSsid.value}`);
+
+  // Save password to store
+  if (selectedSsid.value && wifiPassword.value) {
+    pinsStore.savePassword(selectedSsid.value, wifiPassword.value);
+  }
 
   try {
     const directAxios = axios.create({ headers: {} });

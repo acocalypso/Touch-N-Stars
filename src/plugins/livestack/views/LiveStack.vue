@@ -335,7 +335,10 @@ onMounted(async () => {
   console.log('Plugins response:', response);
 
   // Check if Livestack plugin is available
-  if (!response.Success || !response.Response?.includes('Livestack')) {
+  if (
+    !response.Success ||
+    !response.Response?.some((plugin) => plugin.toLowerCase() === 'livestack')
+  ) {
     console.error('Livestack plugin is not available or not installed');
     pageIsLoading.value = false;
     return;

@@ -130,7 +130,7 @@ class SignalRNotificationService {
           }
 
           // Manual reconnect wenn shouldReconnect true ist
-          if (this.shouldReconnect && !error) {
+          if (this.shouldReconnect) {
             console.log(
               `[SignalRNotificationService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
@@ -142,11 +142,20 @@ class SignalRNotificationService {
                   .then(() => {
                     console.log('[SignalRNotificationService] SignalR successfully reconnected');
                   })
-                  .catch((error) => {
+                  .catch((err) => {
                     console.warn(
                       '[SignalRNotificationService] SignalR reconnect failed:',
-                      error.message
+                      err.message
                     );
+                    // Retry again after delay
+                    if (this.shouldReconnect) {
+                      this.reconnectTimeoutId = setTimeout(() => {
+                        this.reconnectTimeoutId = null;
+                        if (this.shouldReconnect) {
+                          this.connect().catch(() => {});
+                        }
+                      }, this.reconnectDelay);
+                    }
                   });
               }
             }, this.reconnectDelay);
@@ -170,7 +179,22 @@ class SignalRNotificationService {
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
             }
-            reject(err);
+            // Retry initial connection after delay
+            if (this.shouldReconnect) {
+              console.log(
+                `[SignalRNotificationService] Retrying initial connection in ${this.reconnectDelay / 1000} seconds...`
+              );
+              this.reconnectTimeoutId = setTimeout(() => {
+                this.reconnectTimeoutId = null;
+                if (this.shouldReconnect) {
+                  this.connect()
+                    .then(resolve)
+                    .catch(() => {});
+                }
+              }, this.reconnectDelay);
+            } else {
+              reject(err);
+            }
           });
       } catch (err) {
         console.error('[SignalRNotificationService] SignalR setup error:', err);

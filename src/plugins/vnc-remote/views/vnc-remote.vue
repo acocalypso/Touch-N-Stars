@@ -277,7 +277,7 @@ const enablePanzoom = () => {
   if (rfbInstance.value) {
     rfbInstance.value.viewOnly = true;
   }
-  
+
   if (!panzoomInstance.value && viewerRef.value) {
     const canvas = viewerRef.value.querySelector('canvas');
     if (canvas) {
@@ -285,11 +285,11 @@ const enablePanzoom = () => {
         maxScale: 10,
         minScale: 1,
         contain: 'outside',
-        startScale: 1
+        startScale: 1,
       });
     }
   }
-  
+
   if (panzoomInstance.value) {
     panzoomInstance.value.bind();
     if (viewerRef.value) viewerRef.value.style.cursor = 'grab';
@@ -300,10 +300,9 @@ const disablePanzoom = () => {
   if (rfbInstance.value) {
     rfbInstance.value.viewOnly = false;
   }
-  
+
   if (panzoomInstance.value) {
     panzoomInstance.value.unbind();
-    panzoomInstance.value.reset();
   }
   if (viewerRef.value) viewerRef.value.style.cursor = 'crosshair';
 };

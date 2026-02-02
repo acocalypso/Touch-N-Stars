@@ -121,10 +121,7 @@ class SignalRProgressService {
                     console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
                   .catch((err) => {
-                    console.warn(
-                      '[SignalRProgressService] SignalR reconnect failed:',
-                      err.message
-                    );
+                    console.warn('[SignalRProgressService] SignalR reconnect failed:', err.message);
                     // Retry again after delay
                     if (this.shouldReconnect) {
                       this.reconnectTimeoutId = setTimeout(() => {

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Navigation: Scroll indicators with fade effect and arrow hint when more icons are available
 
+### Fixed
+- Fix set settletime
+
 ## [App4.5.0] - 2026-10-20
 ### Added
 - PlateSolvePlus Plugin thanks to Flashy_DE (Alex)

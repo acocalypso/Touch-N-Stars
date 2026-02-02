@@ -13,7 +13,7 @@
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
         >
-          <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+          <div class="absolute top-0 right-20 p-4 opacity-10 pointer-events-none">
             <svg class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
@@ -40,7 +40,7 @@
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-col gap-4"
         >
-          <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+          <div class="absolute top-0 right-20 p-4 opacity-10 pointer-events-none">
             <svg class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path
                 stroke-linecap="round"
@@ -169,15 +169,6 @@
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden"
         >
-          <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
-            <!-- Decorative background element -->
-            <svg class="w-24 h-24 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"
-              />
-            </svg>
-          </div>
-
           <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
             <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
               <!-- Dry Run Checkbox -->
@@ -412,7 +403,7 @@ function formatLog(log) {
 
 // Function to get the current connection IP
 function getIp() {
-  return settingsStore.connection.ip;
+  return settingsStore.connection.ip || window.location.hostname;
 }
 
 async function handleStationaryToggle(newValue) {

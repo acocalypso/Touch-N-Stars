@@ -14,17 +14,17 @@ export const usePinsStore = defineStore('pins', {
       return this.savedWifiPasswords[ssid] || '';
     },
     removePassword(ssid) {
-        if (!ssid) return;
-        delete this.savedWifiPasswords[ssid];
-    }
+      if (!ssid) return;
+      delete this.savedWifiPasswords[ssid];
+    },
   },
   persist: {
     enabled: true,
     strategies: [
-        {
+      {
         key: 'pins-plugin-store',
         storage: localStorage,
-        },
+      },
     ],
-  }
+  },
 });

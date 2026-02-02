@@ -80,6 +80,45 @@
             </svg>
           </button>
 
+          <!-- Pan/Zoom Toggle -->
+          <button
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            :class="{ 'text-indigo-400': isNavMode }"
+            :title="isNavMode ? 'Switch to Interact Mode' : 'Switch to Pan/Zoom Mode'"
+            @click="toggleNavMode"
+          >
+            <svg
+              v-if="!isNavMode"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11"
+              />
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+              />
+            </svg>
+          </button>
+
           <!-- Ctrl-Alt-Del -->
           <button
             class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
@@ -205,6 +244,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useSettingsStore } from '@/store/settingsStore';
+import Panzoom from '@panzoom/panzoom';
 
 const settingsStore = useSettingsStore();
 
@@ -220,6 +260,8 @@ const viewerRef = ref(null);
 const rfbInstance = ref(null);
 const isFullscreen = ref(false);
 const isToolbarOpen = ref(false);
+const isNavMode = ref(false);
+const panzoomInstance = ref(null);
 
 const updateFullscreenState = () => {
   isFullscreen.value = !!document.fullscreenElement;
@@ -228,6 +270,49 @@ const updateFullscreenState = () => {
 const sendCtrlAltDel = () => {
   if (rfbInstance.value) {
     rfbInstance.value.sendCtrlAltDel();
+  }
+};
+
+const enablePanzoom = () => {
+  if (rfbInstance.value) {
+    rfbInstance.value.viewOnly = true;
+  }
+
+  if (!panzoomInstance.value && viewerRef.value) {
+    const canvas = viewerRef.value.querySelector('canvas');
+    if (canvas) {
+      panzoomInstance.value = Panzoom(canvas, {
+        maxScale: 10,
+        minScale: 1,
+        contain: 'outside',
+        startScale: 1,
+      });
+    }
+  }
+
+  if (panzoomInstance.value) {
+    panzoomInstance.value.bind();
+    if (viewerRef.value) viewerRef.value.style.cursor = 'grab';
+  }
+};
+
+const disablePanzoom = () => {
+  if (rfbInstance.value) {
+    rfbInstance.value.viewOnly = false;
+  }
+
+  if (panzoomInstance.value) {
+    panzoomInstance.value.unbind();
+  }
+  if (viewerRef.value) viewerRef.value.style.cursor = 'crosshair';
+};
+
+const toggleNavMode = () => {
+  isNavMode.value = !isNavMode.value;
+  if (isNavMode.value) {
+    enablePanzoom();
+  } else {
+    disablePanzoom();
   }
 };
 
@@ -278,6 +363,12 @@ const toggleFullscreen = () => {
 };
 
 const detachRfb = () => {
+  if (panzoomInstance.value) {
+    panzoomInstance.value.destroy();
+    panzoomInstance.value = null;
+  }
+  isNavMode.value = false;
+
   if (!rfbInstance.value) return;
 
   rfbInstance.value.removeEventListener('connect', handleConnect);

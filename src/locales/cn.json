@@ -665,7 +665,9 @@
       "cooler_status_warming": "活跃 - 加热至",
       "set_save_snapshot": "保存快照",
       "snapshotTargetName": "目标名称",
-      "set_use_solve_sync_to_mount": "与赤道仪同步"
+      "set_use_solve_sync_to_mount": "与赤道仪同步",
+      "readout_mode_image": "读出模式 序列",
+      "readout_mode_snap": "读出模式 快照"
     },
     "tppa": {
       "title": "三点极轴对准",

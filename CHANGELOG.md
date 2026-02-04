@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix set settletime
+- App: UI no longer reloads when returning from background
+- Camera: Spinner not updating after capture in Safari
 
 ## [App4.5.0] - 2026-10-20
 ### Added

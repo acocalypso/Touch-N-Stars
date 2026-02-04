@@ -104,15 +104,19 @@
         </div>
       </div>
     </div>
-    <div v-if="store.cameraInfo.HasDewHeater">
-      <div
-        class="flex flex-col min-w-36 border border-slate-600/40 p-3 pb-3 rounded-lg bg-slate-800/40 backdrop-blur-sm"
-      >
-        <label for="DewHeater" class="text-xs mb-2 text-gray-200 font-medium"
-          >{{ $t('components.camera.dew_heater') }}
-        </label>
-        <div class="flex space-x-2 justify-center">
-          <toggleButton @click="toggleDewHeater" :status-value="store.cameraInfo.DewHeaterOn" />
+    <div v-if="store.cameraInfo.HasDewHeater" class="w-full">
+      <div class="flex flex-col border border-slate-600/40 p-3 rounded-lg">
+        <div
+          class="flex items-center justify-between border border-gray-500 p-1 md:p-2 rounded-lg"
+        >
+          <label for="DewHeater" class="text-xs md:text-sm text-gray-200 font-medium">
+            {{ $t('components.camera.dew_heater') }}
+          </label>
+          <toggleButton
+            @click="toggleDewHeater"
+            :status-value="store.cameraInfo.DewHeaterOn"
+            class="h-7 md:h-8"
+          />
         </div>
       </div>
     </div>

@@ -406,7 +406,9 @@
         "connectionMode": "Connection Mode",
         "devicePort": "Device Port",
         "ipAddress": "IP Address",
-        "baudRate": "Baud Rate"
+        "baudRate": "Baud Rate",
+        "tcpPort": "TCP Port",
+        "autoDetect": "Auto Detect"
       }
     },
     "guider": {

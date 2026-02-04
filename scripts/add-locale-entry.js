@@ -1,4 +1,4 @@
-const { getLocaleFileContent, getLocaleFilePath, writeLocaleFile } = require('./helpers/locale');
+import { getLocaleFileContent, getLocaleFilePath, writeLocaleFile } from './helpers/locale.js';
 
 function main() {
     const params = process.argv;

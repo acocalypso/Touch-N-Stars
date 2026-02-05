@@ -46,7 +46,7 @@ export const useStellariumStore = defineStore('stellariumStore', {
       try {
         console.log('Fetching comet data...');
         const url =
-          'https://github.com/Touch-N-Stars/Touch-N-Stars/releases/download/comets-list/comet.json';
+          'https://github.com/acocalypso/Touch-N-Stars/releases/download/comets-list/comet.json';
 
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);

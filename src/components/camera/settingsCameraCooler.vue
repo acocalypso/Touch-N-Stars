@@ -106,9 +106,7 @@
     </div>
     <div v-if="store.cameraInfo.HasDewHeater" class="w-full">
       <div class="flex flex-col border border-slate-600/40 p-3 rounded-lg">
-        <div
-          class="flex items-center justify-between border border-gray-500 p-1 md:p-2 rounded-lg"
-        >
+        <div class="flex items-center justify-between border border-gray-500 p-1 md:p-2 rounded-lg">
           <label for="DewHeater" class="text-xs md:text-sm text-gray-200 font-medium">
             {{ $t('components.camera.dew_heater') }}
           </label>

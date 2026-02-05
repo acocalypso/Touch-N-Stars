@@ -532,7 +532,8 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Ustawienia podstawowe",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Odwróć"
       },
       "focus": "Focus"
     },

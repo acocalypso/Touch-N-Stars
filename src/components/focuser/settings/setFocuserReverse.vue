@@ -8,7 +8,7 @@
 </template>
 <script setup>
 //#################################
-//This ist PINS only
+//This is PINS only
 //#################################
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';

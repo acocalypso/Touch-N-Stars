@@ -1,0 +1,33 @@
+name: Update Comet Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-comets:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Generate comet.json
+        run: |
+          curl -s "https://cobs.si/api/elements.api?format=ephem&is-active=true" | \
+          awk -F, 'NR>0{name=$1;ra=$3+0;dec=$4+0;m=$NF+0;k=$(NF-1)+0;if(name&&ra>0&&ra<360&&dec>-90&&dec<90)printf"{\"name\":\"%s\",\"ra_deg\":%.4f,\"dec_deg\":%.4f,\"abs_mag\":%.1f,\"k1\":%.1f}\n",name,ra,dec,m,k}' | \
+          jq -s . > comet.json
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: comets-list
+          name: Daily Comet List
+          body: "Daily updated comet list from COBS."
+          files: comet.json
+          fail_on_unmatched_files: true
+          replace_artifacts: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

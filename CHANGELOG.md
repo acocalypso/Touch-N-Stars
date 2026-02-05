@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.6.0] - xxxx-xx-xx
 ### Added
 - Navigation: Scroll indicators with fade effect and arrow hint when more icons are available
+- Camera: Separate Readout Mode settings for Image and Snap (API >= 2.2.14.3) - thanks to Chris
+
+### Changed
+- Camera: Unified UI design for settings components
+
+### Fixed
+- Fix set settletime
+- App: UI no longer reloads when returning from background
+- Camera: Spinner not updating after capture in Safari
 
 ## [App4.5.0] - 2026-10-20
 ### Added

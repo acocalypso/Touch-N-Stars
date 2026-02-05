@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useImagetStore } from './imageStore';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import { timeSync } from '@/utils/timeSync';
 import { useSettingsStore } from './settingsStore';
 import { useMountStore } from './mountStore';
@@ -128,6 +128,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
+      await nextTick(); // Force DOM update for Safari
 
       // Continuous loop?
       if (isLooping.value && !isAbort.value) {
@@ -148,6 +149,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
       isAbort.value = true;
       isLoadingImage.value = false;
+      await nextTick(); // Force DOM update for Safari
       isLooping.value = false;
 
       // Clear timeout if running
@@ -193,6 +195,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     } finally {
       loading.value = false;
       isLoadingImage.value = false;
+      await nextTick(); // Force DOM update for Safari
     }
   }
 

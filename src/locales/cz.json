@@ -667,7 +667,9 @@
       "cooler_status_warming": "Aktivní - Ohřev na",
       "set_save_snapshot": "Uložit snímky",
       "snapshotTargetName": "Název cíle",
-      "set_use_solve_sync_to_mount": "Sync to mount"
+      "set_use_solve_sync_to_mount": "Sync to mount",
+      "readout_mode_image": "Režim čtení Sekvence",
+      "readout_mode_snap": "Režim čtení Snímek"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

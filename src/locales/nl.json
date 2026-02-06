@@ -534,7 +534,8 @@
         "basic": "Basisinstellingen",
         "crop_and_stars": "Crop",
         "Reverse": "Omkeren",
-        "title": "Autofocus Instellingen"
+        "title": "Autofocus Instellingen",
+        "UseFilterWheelOffsets": "Filterwiel offsets gebruiken"
       }
     },
     "dome": {

@@ -533,7 +533,8 @@
         "backlash": "Backlash",
         "basic": "Configurações básicas",
         "crop_and_stars": "Crop",
-        "Reverse": "Inverter"
+        "Reverse": "Inverter",
+        "UseFilterWheelOffsets": "Usar offsets da roda de filtros"
       },
       "focus": "Focus"
     },

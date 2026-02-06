@@ -536,7 +536,8 @@
         "backlash": "Backlash",
         "basic": "Basic Settings",
         "crop_and_stars": "Crop",
-        "Reverse": "Obrátit"
+        "Reverse": "Obrátit",
+        "UseFilterWheelOffsets": "Použít offsety filtrovacího kola"
       },
       "focus": "Focus"
     },

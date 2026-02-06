@@ -582,7 +582,9 @@
         "backlash": "Backlash",
         "basic": "Basisinstellingen",
         "crop_and_stars": "Crop",
-        "title": "Autofocus Instellingen"
+        "Reverse": "Omkeren",
+        "title": "Autofocus Instellingen",
+        "UseFilterWheelOffsets": "Filterwiel offsets gebruiken"
       }
     },
     "dome": {

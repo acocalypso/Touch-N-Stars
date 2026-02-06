@@ -581,7 +581,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Paramètres de base",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Inverser",
+        "UseFilterWheelOffsets": "Utiliser les décalages de roue à filtres"
       },
       "focus": "Focus"
     },

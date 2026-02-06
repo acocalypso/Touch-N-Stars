@@ -582,7 +582,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Basic Settings",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "反向",
+        "UseFilterWheelOffsets": "使用滤镜轮偏移"
       },
       "focus": "Focus"
     },

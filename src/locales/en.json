@@ -584,7 +584,9 @@
         "basic": "Basic Settings",
         "crop_and_stars": "Crop & Stars",
         "backlash": "Backlash",
-        "advanced": "Advanced"
+        "advanced": "Advanced",
+        "Reverse": "Reverse",
+        "UseFilterWheelOffsets": "Use filterwheel offsets"
       }
     },
     "dome": {

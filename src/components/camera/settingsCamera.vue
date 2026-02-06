@@ -83,7 +83,7 @@
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
-    <setCameraUsbLimit v-if="!store.cameraInfo.CanSetUSBLimit" />
+    <setCameraUsbLimit v-if="store.cameraInfo.CanSetUSBLimit" />
     <setSolve />
     <setSaveSnapshot />
   </div>

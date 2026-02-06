@@ -598,6 +598,7 @@
       "cooling_time": "Tiempo enfriamiento (min)",
       "binning_mode": "Binning",
       "readout_mode": "Modo de lectura",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Usar platesolve",
       "chip_settings": {
         "focal_length": "Longitud focal (mm)",

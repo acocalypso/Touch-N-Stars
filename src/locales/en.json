@@ -598,6 +598,7 @@
       "cooling_time": "Cooling time (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
         "title": "Camera chip settings",

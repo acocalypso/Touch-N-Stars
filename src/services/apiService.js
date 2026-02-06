@@ -986,7 +986,7 @@ const apiService = {
     }
   },
 
-//eg v2/api/equipment/camera/usb-limit?=7
+  //eg v2/api/equipment/camera/usb-limit?=7
   async setCamerUsbLimit(limit) {
     try {
       const { BASE_URL } = getUrls();

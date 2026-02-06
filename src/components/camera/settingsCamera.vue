@@ -83,6 +83,7 @@
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
+    <setCameraUsbLimit v-if="!store.cameraInfo.CanSetUSBLimit" />
     <setSolve />
     <setSaveSnapshot />
   </div>
@@ -98,6 +99,7 @@ import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
 import setSolve from '@/components/camera/setSolve.vue';
 import setSaveSnapshot from './setSaveSnapshot.vue';
+import setCameraUsbLimit from './setCameraUsbLimit.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

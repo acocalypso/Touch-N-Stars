@@ -7,6 +7,7 @@
       <h3 class="font-bold text-base text-cyan-400">
         {{ $t('components.focuser.settings.basic') }}
       </h3>
+      <setFocuserUseFilterOffset />
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusInitialOffsetSteps"
         settingKey="FocuserSettings-AutoFocusInitialOffsetSteps"
@@ -142,6 +143,7 @@ import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SettingSelect from '@/components/helpers/settings/SettingProfilSelect.vue';
 import setAutoFocusDisableGuiding from './settings/setAutoFocusDisableGuiding.vue';
+import setFocuserUseFilterOffset from './settings/setFocuserUseFilterOffset.vue';
 
 const store = apiStore();
 </script>

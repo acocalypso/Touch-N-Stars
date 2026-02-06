@@ -532,7 +532,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Configurações básicas",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Inverter",
+        "UseFilterWheelOffsets": "Usar offsets da roda de filtros"
       },
       "focus": "Focus"
     },
@@ -615,7 +617,9 @@
       "cooler_status_warming": "Ativo - Aquecendo para",
       "set_save_snapshot": "Salvar snapshots",
       "snapshotTargetName": "Nome do alvo",
-      "set_use_solve_sync_to_mount": "Sincronizar para montar"
+      "set_use_solve_sync_to_mount": "Sincronizar para montar",
+      "readout_mode_image": "Modo de leitura Sequência",
+      "readout_mode_snap": "Modo de leitura Instantâneo"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",

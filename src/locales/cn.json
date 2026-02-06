@@ -533,7 +533,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Basic Settings",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "反向",
+        "UseFilterWheelOffsets": "使用滤镜轮偏移"
       },
       "focus": "Focus"
     },
@@ -616,7 +618,9 @@
       "cooler_status_warming": "活跃 - 加热至",
       "set_save_snapshot": "保存快照",
       "snapshotTargetName": "目标名称",
-      "set_use_solve_sync_to_mount": "与赤道仪同步"
+      "set_use_solve_sync_to_mount": "与赤道仪同步",
+      "readout_mode_image": "读出模式 序列",
+      "readout_mode_snap": "读出模式 快照"
     },
     "tppa": {
       "title": "三点极轴对准",
@@ -1414,238 +1418,238 @@
       }
     },
     "platesolveplus": {
-    "title": "PlateSolvePlus",
-    "subtitle": "用于替代 Platesolve Camera V2 的远程 PlateSolvePlus 控制台",
-    "ws": {
-      "label": "WS",
-      "connected": "已连接",
-      "disconnected": "未连接"
-    },
-    "tabs": {
-      "control": "控制",
-      "config": "配置"
-    },
-    "sections": {
-      "status": "状态",
-      "preview": "预览",
-      "actions": "操作",
-      "secondary_camera": "辅助相机（ASCOM）",
-      "offset": "偏移",
-      "current_settings": "当前设置",
-      "event_log": "事件日志",
-      "connection": "连接",
-      "websocket": "WebSocket",
-      "offsets": "偏移量"
-    },
-    "buttons": {
-      "refresh": "刷新",
-      "refreshing": "正在刷新…",
-      "capture": "拍摄",
-      "solve_sync": "解析 + 同步",
-      "center_solve": "居中 + 解析",
-      "target_solve": "目标 + 解析",
-      "clear": "清除",
-      "sync": "同步",
-      "setup": "设置…",
-      "save_config": "保存配置",
-      "reload_from_storage": "从存储重新加载",
-      "test_connection": "测试连接",
-      "reconnect_ws": "重新连接 WS",
-      "disconnect_ws": "断开 WS",
-      "reset_offsets": "重置偏移",
-      "calibrate_offsets": "校准偏移"
-    },
-    "status_labels": {
-      "busy": "忙碌",
-      "service_ready": "服务就绪",
-      "mount_connected": "赤道仪已连接",
-      "camera_connected": "相机已连接",
-      "last_update": "最后更新",
-      "task_status": "任务状态",
-      "used_parameters": "使用的参数",
-      "validation": "验证",
-      "raw_solve": "原始解析（导星相机）",
-      "corrected_coordinates": "修正后的坐标（含偏移）",
-      "last_solve_summary": "lastSolveSummary"
-    },
-    "preview": {
-      "preview_title": "预览图像",
-      "auto_refresh": "自动刷新",
-      "alt_latest_preview": "最新预览",
-      "unavailable_title": "预览不可用",
-      "load_error": "加载错误 — 请刷新。",
-      "no_preview_loaded": "尚未加载预览。",
-      "cache_hint": "已启用缓存破坏（?t=）。服务器同时发送 Cache-Control: no-store。",
-      "no_preview_yet": "暂无可用预览。"
-    },
-    "actions_help": {
-      "capture": "仅进行天文定位解析（验证），不进行同步/转动。",
-      "solve_sync": "进行天文定位解析并同步赤道仪（需要赤道仪已连接）。",
-      "center_solve": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
-      "capture_label": "拍摄",
-      "capture_text": "仅进行天文定位解析（验证），不进行同步/转动。",
-      "solve_sync_label": "解析 + 同步",
-      "solve_sync_text": "进行天文定位解析并同步赤道仪（需要赤道仪已连接）。",
-      "center_solve_label": "居中 + 解析",
-      "center_solve_text": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
-      "target_solve_label": "目标 + 解析",
-      "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Stellarium 的取景助手中设置目标）。"
-    },
-    "progress": {
-      "title": "解析进度",
-      "job": "任务",
-      "action": "操作",
-      "stage": "阶段",
-      "message": "消息",
-      "process_progress": "处理进度。",
-      "pill": {
-        "capturing": "正在拍摄",
-        "validating": "正在验证",
-        "platesolving": "正在解析",
-        "syncing": "正在同步",
-        "centering": "正在居中",
-        "finishing": "正在完成",
-        "calibrating": "正在校准",
-        "running": "运行中",
-        "slewing_to_target": "正在转向目标"
-      },
-      "messages": {
-        "working": "处理中…",
-        "capturing_validating": "拍摄 + 验证中…",
-        "solving_syncing": "解析 + 同步中…",
-        "solving_centering": "解析 + 居中中…",
-        "solving": "解析中…",
-        "capture_accepted": "已接受拍摄（等待事件）",
-        "capture_started": "拍摄开始",
-        "capture_finished": "拍摄完成",
-        "solve_started": "解析开始",
-        "solve_finished": "解析完成",
-        "solve_sync_accepted": "已接受解析+同步（等待事件）",
-        "solve_sync_started": "解析+同步开始",
-        "solve_sync_finished": "解析+同步完成",
-        "center_solve_accepted": "已接受居中+解析（等待事件）",
-        "center_solve_started": "居中+解析开始",
-        "center_solve_finished": "居中+解析完成",
-        "offset_calibrate_started": "偏移校准开始",
-        "offset_calibrate_finished": "偏移校准完成"
-      }
-    },
-    "secondary": {
-      "status": "状态",
-      "connected": "已连接",
-      "disconnected": "未连接",
-      "current_camera": "当前相机",
-      "not_connected": "未连接",
-      "no_drivers_returned": "未返回任何驱动。",
-      "log": {
-        "state_synced": "辅助相机状态已同步",
-        "sync_failed": "辅助相机同步失败",
-        "selection_applied": "辅助相机选择已应用",
-        "selection_failed": "辅助相机选择失败",
-        "connect": "辅助相机连接",
-        "connect_failed": "辅助相机连接失败",
-        "disconnect": "辅助相机断开连接",
-        "disconnect_failed": "辅助相机断开失败",
-        "setup_dialog": "辅助相机设置对话框",
-        "setup_dialog_failed": "辅助相机设置对话框失败"
-      }
-    },
-    "offset_fields": {
-      "offset_enabled": "offsetEnabled",
-      "offset_mode": "offsetMode",
-      "dra_arcsec": "ΔRA（角秒）：",
-      "ddec_arcsec": "ΔDec（角秒）：",
-      "rotation_quat": "旋转（四元数）："
-    },
-    "settings": {
-      "camera": "相机",
-      "scope": "望远镜",
-      "platesolve": "天文定位解析",
-      "exposure": "曝光：",
-      "gain": "增益：",
-      "binning": "合并：",
-      "focal_length": "焦距：",
-      "focal_scale": "焦距比例：",
-      "pixel_size": "像素尺寸：",
-      "search_radius": "搜索半径：",
-      "downsample": "降采样：",
-      "timeout_sec": "超时（秒）：",
-      "threshold": "阈值：",
-      "max_attempts": "最大尝试次数：",
-      "auto_gain": "自动",
-      "values_from_backend": "这些值来自后端设置接口。"
-    },
-    "event_log": {
-      "empty": "—"
-    },
-    "config": {
-      "host": "主机",
-      "port": "端口",
-      "base_path": "基础路径",
-      "base_path_default": "默认：/api/platesolveplus",
-      "use_token_optional": "使用令牌（可选）",
-      "token": "令牌",
-      "token_placeholder": "令牌…",
-      "token_hint": "通过请求头 X-PSP-Token 发送（需与 PlateSolvePlus API 主机匹配）。",
-      "active_url": "当前 URL："
-    },
-    "websocket": {
-      "endpoint": "端点：",
-      "auto_reconnect": "已启用自动重连（退避）。"
-    },
-    "offsets_help": {
-      "text": "校准将创建或更新导星相机到主相机的偏移模型。重置将清除所有偏移。"
-    },
-    "footer": {
-      "rest": "REST："
-    },
-    "common": {
-      "empty": "—",
-      "true": "true",
-      "false": "false"
-    },
-    "log": {
-      "preview_refreshed": "预览已刷新",
-      "config_load_failed": "配置加载失败"
-    },
-    "secondary_setup": {
-      "title": "辅助相机设置",
-      "subtitle": "驱动选择、连接以及原生 ASCOM 设置对话框",
-      "pills": {
+      "title": "PlateSolvePlus",
+      "subtitle": "用于替代 Platesolve Camera V2 的远程 PlateSolvePlus 控制台",
+      "ws": {
+        "label": "WS",
         "connected": "已连接",
-        "disconnected": "未连接",
-        "busy": "忙碌",
-        "idle": "空闲",
-        "active": "活动"
+        "disconnected": "未连接"
       },
-      "driver": {
-        "title": "驱动",
-        "description": "选择用作辅助相机的 ASCOM 驱动。",
-        "label": "驱动",
-        "select_placeholder": "— 请选择 —",
-        "fallback_name": "驱动",
-        "selected": "已选择"
+      "tabs": {
+        "control": "控制",
+        "config": "配置"
+      },
+      "sections": {
+        "status": "状态",
+        "preview": "预览",
+        "actions": "操作",
+        "secondary_camera": "辅助相机（ASCOM）",
+        "offset": "偏移",
+        "current_settings": "当前设置",
+        "event_log": "事件日志",
+        "connection": "连接",
+        "websocket": "WebSocket",
+        "offsets": "偏移量"
       },
       "buttons": {
-        "close": "关闭",
         "refresh": "刷新",
-        "refresh_title": "刷新驱动列表",
+        "refreshing": "正在刷新…",
+        "capture": "拍摄",
+        "solve_sync": "解析 + 同步",
+        "center_solve": "居中 + 解析",
+        "target_solve": "目标 + 解析",
+        "clear": "清除",
         "sync": "同步",
-        "sync_title": "同步当前选择/连接",
-        "apply": "应用",
-        "apply_title": "应用选择",
-        "connect": "连接",
-        "disconnect": "断开连接",
-        "driver_setup": "驱动设置…",
-        "driver_setup_title": "在主机上打开原生 ASCOM 设置对话框"
+        "setup": "设置…",
+        "save_config": "保存配置",
+        "reload_from_storage": "从存储重新加载",
+        "test_connection": "测试连接",
+        "reconnect_ws": "重新连接 WS",
+        "disconnect_ws": "断开 WS",
+        "reset_offsets": "重置偏移",
+        "calibrate_offsets": "校准偏移"
       },
-      "tip": {
-        "prefix": "提示：如果您在驱动设置对话框中更改了设置，请随后点击",
-        "suffix": "。"
+      "status_labels": {
+        "busy": "忙碌",
+        "service_ready": "服务就绪",
+        "mount_connected": "赤道仪已连接",
+        "camera_connected": "相机已连接",
+        "last_update": "最后更新",
+        "task_status": "任务状态",
+        "used_parameters": "使用的参数",
+        "validation": "验证",
+        "raw_solve": "原始解析（导星相机）",
+        "corrected_coordinates": "修正后的坐标（含偏移）",
+        "last_solve_summary": "lastSolveSummary"
+      },
+      "preview": {
+        "preview_title": "预览图像",
+        "auto_refresh": "自动刷新",
+        "alt_latest_preview": "最新预览",
+        "unavailable_title": "预览不可用",
+        "load_error": "加载错误 — 请刷新。",
+        "no_preview_loaded": "尚未加载预览。",
+        "cache_hint": "已启用缓存破坏（?t=）。服务器同时发送 Cache-Control: no-store。",
+        "no_preview_yet": "暂无可用预览。"
+      },
+      "actions_help": {
+        "capture": "仅进行天文定位解析（验证），不进行同步/转动。",
+        "solve_sync": "进行天文定位解析并同步赤道仪（需要赤道仪已连接）。",
+        "center_solve": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
+        "capture_label": "拍摄",
+        "capture_text": "仅进行天文定位解析（验证），不进行同步/转动。",
+        "solve_sync_label": "解析 + 同步",
+        "solve_sync_text": "进行天文定位解析并同步赤道仪（需要赤道仪已连接）。",
+        "center_solve_label": "居中 + 解析",
+        "center_solve_text": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
+        "target_solve_label": "目标 + 解析",
+        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Stellarium 的取景助手中设置目标）。"
+      },
+      "progress": {
+        "title": "解析进度",
+        "job": "任务",
+        "action": "操作",
+        "stage": "阶段",
+        "message": "消息",
+        "process_progress": "处理进度。",
+        "pill": {
+          "capturing": "正在拍摄",
+          "validating": "正在验证",
+          "platesolving": "正在解析",
+          "syncing": "正在同步",
+          "centering": "正在居中",
+          "finishing": "正在完成",
+          "calibrating": "正在校准",
+          "running": "运行中",
+          "slewing_to_target": "正在转向目标"
+        },
+        "messages": {
+          "working": "处理中…",
+          "capturing_validating": "拍摄 + 验证中…",
+          "solving_syncing": "解析 + 同步中…",
+          "solving_centering": "解析 + 居中中…",
+          "solving": "解析中…",
+          "capture_accepted": "已接受拍摄（等待事件）",
+          "capture_started": "拍摄开始",
+          "capture_finished": "拍摄完成",
+          "solve_started": "解析开始",
+          "solve_finished": "解析完成",
+          "solve_sync_accepted": "已接受解析+同步（等待事件）",
+          "solve_sync_started": "解析+同步开始",
+          "solve_sync_finished": "解析+同步完成",
+          "center_solve_accepted": "已接受居中+解析（等待事件）",
+          "center_solve_started": "居中+解析开始",
+          "center_solve_finished": "居中+解析完成",
+          "offset_calibrate_started": "偏移校准开始",
+          "offset_calibrate_finished": "偏移校准完成"
+        }
+      },
+      "secondary": {
+        "status": "状态",
+        "connected": "已连接",
+        "disconnected": "未连接",
+        "current_camera": "当前相机",
+        "not_connected": "未连接",
+        "no_drivers_returned": "未返回任何驱动。",
+        "log": {
+          "state_synced": "辅助相机状态已同步",
+          "sync_failed": "辅助相机同步失败",
+          "selection_applied": "辅助相机选择已应用",
+          "selection_failed": "辅助相机选择失败",
+          "connect": "辅助相机连接",
+          "connect_failed": "辅助相机连接失败",
+          "disconnect": "辅助相机断开连接",
+          "disconnect_failed": "辅助相机断开失败",
+          "setup_dialog": "辅助相机设置对话框",
+          "setup_dialog_failed": "辅助相机设置对话框失败"
+        }
+      },
+      "offset_fields": {
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "dra_arcsec": "ΔRA（角秒）：",
+        "ddec_arcsec": "ΔDec（角秒）：",
+        "rotation_quat": "旋转（四元数）："
+      },
+      "settings": {
+        "camera": "相机",
+        "scope": "望远镜",
+        "platesolve": "天文定位解析",
+        "exposure": "曝光：",
+        "gain": "增益：",
+        "binning": "合并：",
+        "focal_length": "焦距：",
+        "focal_scale": "焦距比例：",
+        "pixel_size": "像素尺寸：",
+        "search_radius": "搜索半径：",
+        "downsample": "降采样：",
+        "timeout_sec": "超时（秒）：",
+        "threshold": "阈值：",
+        "max_attempts": "最大尝试次数：",
+        "auto_gain": "自动",
+        "values_from_backend": "这些值来自后端设置接口。"
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "config": {
+        "host": "主机",
+        "port": "端口",
+        "base_path": "基础路径",
+        "base_path_default": "默认：/api/platesolveplus",
+        "use_token_optional": "使用令牌（可选）",
+        "token": "令牌",
+        "token_placeholder": "令牌…",
+        "token_hint": "通过请求头 X-PSP-Token 发送（需与 PlateSolvePlus API 主机匹配）。",
+        "active_url": "当前 URL："
+      },
+      "websocket": {
+        "endpoint": "端点：",
+        "auto_reconnect": "已启用自动重连（退避）。"
+      },
+      "offsets_help": {
+        "text": "校准将创建或更新导星相机到主相机的偏移模型。重置将清除所有偏移。"
+      },
+      "footer": {
+        "rest": "REST："
+      },
+      "common": {
+        "empty": "—",
+        "true": "true",
+        "false": "false"
+      },
+      "log": {
+        "preview_refreshed": "预览已刷新",
+        "config_load_failed": "配置加载失败"
+      },
+      "secondary_setup": {
+        "title": "辅助相机设置",
+        "subtitle": "驱动选择、连接以及原生 ASCOM 设置对话框",
+        "pills": {
+          "connected": "已连接",
+          "disconnected": "未连接",
+          "busy": "忙碌",
+          "idle": "空闲",
+          "active": "活动"
+        },
+        "driver": {
+          "title": "驱动",
+          "description": "选择用作辅助相机的 ASCOM 驱动。",
+          "label": "驱动",
+          "select_placeholder": "— 请选择 —",
+          "fallback_name": "驱动",
+          "selected": "已选择"
+        },
+        "buttons": {
+          "close": "关闭",
+          "refresh": "刷新",
+          "refresh_title": "刷新驱动列表",
+          "sync": "同步",
+          "sync_title": "同步当前选择/连接",
+          "apply": "应用",
+          "apply_title": "应用选择",
+          "connect": "连接",
+          "disconnect": "断开连接",
+          "driver_setup": "驱动设置…",
+          "driver_setup_title": "在主机上打开原生 ASCOM 设置对话框"
+        },
+        "tip": {
+          "prefix": "提示：如果您在驱动设置对话框中更改了设置，请随后点击",
+          "suffix": "。"
+        }
       }
     }
-      }
-    },
+  },
   "dialogs": {
     "plateSolving": {
       "time": "时间",

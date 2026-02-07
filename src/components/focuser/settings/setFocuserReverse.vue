@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="!store.focuserInfo.CanReverse"
+    v-if="store.focuserInfo.CanReverse"
     class="flex items-center justify-between border border-gray-500 p-2 rounded-lg"
   >
     <span class="text-sm font-medium text-gray-300">

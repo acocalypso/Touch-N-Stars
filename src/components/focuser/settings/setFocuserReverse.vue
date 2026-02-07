@@ -6,14 +6,14 @@
     <span class="text-sm font-medium text-gray-300">
       {{ $t('components.focuser.settings.Reverse') }}
     </span>
-    <toggleButton @click="updateSetting" :status-value="isEnabled" />
+    <toggleButton @click="updateSetting" :disabled="store.focuserInfo.IsMoving" :status-value="isEnabled" />
   </div>
 </template>
 <script setup>
 //#################################
 //This is PINS only
 //#################################
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import apiPinsService from '@/services/apiPinsService';
 import apiService from '@/services/apiService';
@@ -42,4 +42,13 @@ async function updateSetting() {
 onMounted(() => {
   isEnabled.value = store.profileInfo?.FocuserSettings?.Reverse ?? false;
 });
+
+watch(
+  () => store.profileInfo?.FocuserSettings?.Reverse,
+  (newValue) => {
+    if (newValue !== undefined) {
+      isEnabled.value = newValue;
+    }
+  }
+);
 </script>

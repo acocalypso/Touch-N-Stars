@@ -1752,5 +1752,118 @@
       "rotation": "Rotazione"
     }
   },
-  "loading": "caricamento"
+  "loading": "caricamento",
+  "observationPlaner": {
+    "title": "Pianificatore di osservazione",
+    "subtitle": "Preferiti con anteprima + mappa altitudine per stanotte (basato sulla posizione)",
+    "sections": {
+      "tonightPicks": "Selezione di stasera",
+      "topForWindow": "Migliori obiettivi per la finestra temporale selezionata",
+      "preview": "Anteprima",
+      "framing": "Inquadratura"
+    },
+    "filters": {
+      "title": "Filtri",
+      "search": "Cerca",
+      "search_placeholder": "M42, Andromeda, NGC…",
+      "timeWindow": "Finestra temporale",
+      "startLocal": "Inizio (locale)",
+      "endLocal": "Fine (locale)",
+      "moon": "Luna",
+      "objectType": "Tipo di oggetto",
+      "azSector": "Direzione del cielo (settore azimutale)",
+      "onlyAboveHorizon": "Solo >0° altitudine",
+      "limit": "Limite"
+    },
+    "sort": {
+      "title": "Ordinamento",
+      "nameAZ": "Nome A→Z",
+      "maxAltDesc": "Alt. max. ↓",
+      "bestTimeAsc": "Orario migliore ↑",
+      "bestTime": "Orario migliore",
+      "maxAltWindow": "Alt. max. (finestra)",
+      "visible": "Visibile?"
+    },
+    "location": {
+      "title": "Posizione",
+      "get": "Ottieni posizione",
+      "notAvailable": "Posizione non disponibile",
+      "hintNoLocation": "Nota: Senza posizione, i filtri altitudine/direzione e i grafici non possono essere calcolati."
+    },
+    "performance": {
+      "title": "Visualizzazione / Prestazioni",
+      "lazyPreviews": "Caricamento differito anteprime",
+      "redraw": "Ridisegna"
+    },
+    "buttons": {
+      "refresh": "Aggiorna",
+      "reload": "Ricarica",
+      "slew": "Slew",
+      "center": "Centra",
+      "slewNoCenter": "Slew (senza centratura)",
+      "slewCenter": "Slew + Centra",
+      "slewCenterPlatesolve": "Slew + Centra (platesolve)",
+      "sendToSequencer": "Invia al sequenziatore",
+      "openFraming": "Apri assistente inquadratura",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Nessuna immagine caricata",
+      "unavailable": "Anteprima non disponibile",
+      "info": "Info anteprima",
+      "reload": "Ricarica anteprima"
+    },
+    "cache": {
+      "useNinaCache": "Usa cache NINA per immagine obiettivo",
+      "hint": "Carica immagine DSS/obiettivo tramite TNS WebAPI. L'interruttore cache controlla useCache.",
+      "hintShort": "Passa useCache a targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Altitudine vs. Tempo",
+      "sampleMin": "Campione (min)",
+      "directionAz": "Direzione (Az)",
+      "separation": "Separazione —"
+    },
+    "sectors": {
+      "N_NE": "Nord → Nord-Est (315°–45°)",
+      "NE_E": "Nord-Est → Est (45°–90°)",
+      "E_SE": "Est → Sud-Est (90°–135°)",
+      "SE_S": "Sud-Est → Sud (135°–180°)",
+      "S_SW": "Sud → Sud-Ovest (180°–225°)",
+      "SW_W": "Sud-Ovest → Ovest (225°–270°)",
+      "W_NW": "Ovest → Nord-Ovest (270°–315°)",
+      "NW_N": "Nord-Ovest → Nord (315°–360°)",
+      "all": "Tutti"
+    },
+    "common": {
+      "yes": "Sì",
+      "no": "No",
+      "loading": "Caricamento…",
+      "all": "Tutti"
+    },
+    "tooltips": {
+      "favorite": "Preferito",
+      "refreshFavorites": "Ricarica preferiti e ricalcola",
+      "filterNoBelowHorizon": "Filtra obiettivi con alt. max. <= 0°",
+      "filterAzSector": "Filtra per bestAzDeg (azimut all'altitudine massima nella finestra)",
+      "gpsUpdate": "Aggiorna posizione GPS",
+      "openFramingFmt": "Apri inquadratura · {ra} / {dec} · Alt. max. {maxAlt}°",
+      "tonightScoreFmt": "Punteggio stasera: {score} · Alt. max. {maxAlt}° · {hours}h",
+      "redrawChart": "Ridisegna grafico",
+      "lazyVisibleOnly": "Carica solo schede visibili",
+      "useCacheHint": "Passa useCache a targetpic",
+      "previewReload": "Ricarica anteprima"
+    },
+    "empty": {
+      "noFavorites": "Nessun preferito trovato."
+    },
+    "status": {
+      "sendingToSequencer": "Invio obiettivo al sequenziatore…",
+      "sequencerTargetSet": "Obiettivo del sequenziatore impostato"
+    },
+    "errors": {
+      "noSequenceAvailable": "Nessuna sequenza disponibile, caricare prima una sequenza",
+      "sequencerFailed": "Sequenziatore fallito"
+    }
+  }
 }

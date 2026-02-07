@@ -1753,5 +1753,118 @@
       "rotation": "旋转"
     }
   },
-  "loading": "加载中"
+  "loading": "加载中",
+  "observationPlaner": {
+    "title": "观测计划器",
+    "subtitle": "收藏夹预览 + 今晚高度图（基于位置）",
+    "sections": {
+      "tonightPicks": "今晚推荐",
+      "topForWindow": "所选时间窗口的最佳目标",
+      "preview": "预览",
+      "framing": "构图"
+    },
+    "filters": {
+      "title": "筛选",
+      "search": "搜索",
+      "search_placeholder": "M42, 仙女座, NGC…",
+      "timeWindow": "时间窗口",
+      "startLocal": "开始（本地）",
+      "endLocal": "结束（本地）",
+      "moon": "月亮",
+      "objectType": "目标类型",
+      "azSector": "天空方向（方位角扇区）",
+      "onlyAboveHorizon": "仅 >0° 高度",
+      "limit": "限制"
+    },
+    "sort": {
+      "title": "排序",
+      "nameAZ": "名称 A→Z",
+      "maxAltDesc": "最大高度 ↓",
+      "bestTimeAsc": "最佳时间 ↑",
+      "bestTime": "最佳时间",
+      "maxAltWindow": "最大高度（窗口）",
+      "visible": "可见？"
+    },
+    "location": {
+      "title": "位置",
+      "get": "获取位置",
+      "notAvailable": "无可用位置",
+      "hintNoLocation": "提示：没有位置信息，无法计算高度/方向筛选和图表。"
+    },
+    "performance": {
+      "title": "显示 / 性能",
+      "lazyPreviews": "延迟加载预览",
+      "redraw": "重绘"
+    },
+    "buttons": {
+      "refresh": "刷新",
+      "reload": "重新加载",
+      "slew": "指向",
+      "center": "居中",
+      "slewNoCenter": "指向（不居中）",
+      "slewCenter": "指向 + 居中",
+      "slewCenterPlatesolve": "指向 + 居中（解析）",
+      "sendToSequencer": "发送到序列器",
+      "openFraming": "打开构图助手",
+      "seqShort": "序列"
+    },
+    "preview": {
+      "noImage": "未加载图像",
+      "unavailable": "预览不可用",
+      "info": "预览信息",
+      "reload": "重新加载预览"
+    },
+    "cache": {
+      "useNinaCache": "使用 NINA 缓存获取目标图像",
+      "hint": "通过 TNS WebAPI 加载 DSS/目标图片。缓存开关控制 useCache。",
+      "hintShort": "将 useCache 传递给 targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "高度 vs. 时间",
+      "sampleMin": "采样（分钟）",
+      "directionAz": "方向（方位角）",
+      "separation": "间距 —"
+    },
+    "sectors": {
+      "N_NE": "北 → 东北 (315°–45°)",
+      "NE_E": "东北 → 东 (45°–90°)",
+      "E_SE": "东 → 东南 (90°–135°)",
+      "SE_S": "东南 → 南 (135°–180°)",
+      "S_SW": "南 → 西南 (180°–225°)",
+      "SW_W": "西南 → 西 (225°–270°)",
+      "W_NW": "西 → 西北 (270°–315°)",
+      "NW_N": "西北 → 北 (315°–360°)",
+      "all": "全部"
+    },
+    "common": {
+      "yes": "是",
+      "no": "否",
+      "loading": "加载中…",
+      "all": "全部"
+    },
+    "tooltips": {
+      "favorite": "收藏",
+      "refreshFavorites": "重新加载收藏并重新计算",
+      "filterNoBelowHorizon": "筛选最大高度 <= 0° 的目标",
+      "filterAzSector": "按 bestAzDeg（窗口内最高高度时的方位角）筛选",
+      "gpsUpdate": "更新 GPS 位置",
+      "openFramingFmt": "打开构图 · {ra} / {dec} · 最大高度 {maxAlt}°",
+      "tonightScoreFmt": "今晚评分: {score} · 最大高度 {maxAlt}° · {hours}h",
+      "redrawChart": "重绘图表",
+      "lazyVisibleOnly": "仅加载可见卡片",
+      "useCacheHint": "将 useCache 传递给 targetpic",
+      "previewReload": "重新加载预览"
+    },
+    "empty": {
+      "noFavorites": "未找到收藏。"
+    },
+    "status": {
+      "sendingToSequencer": "正在将目标发送到序列器…",
+      "sequencerTargetSet": "序列器目标已设置"
+    },
+    "errors": {
+      "noSequenceAvailable": "无可用序列，请先加载序列",
+      "sequencerFailed": "序列器失败"
+    }
+  }
 }

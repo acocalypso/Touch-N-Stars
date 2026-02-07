@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="flex items-start justify-between gap-4">
       <div>
-        <h2 class="text-xl font-semibold text-gray-100">Observation Planner</h2>
+        <h2 class="text-xl font-semibold text-gray-100">{{ tp('title') }}</h2>
         <p class="text-sm text-gray-400">
-          Favoriten mit Vorschau + Altitude-Map für heute Abend/Nacht (Standort-basiert)
+          {{ tp('subtitle') }}
         </p>
       </div>
 
@@ -14,7 +14,7 @@
           class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
           @click="refreshAll"
           :disabled="busy"
-          title="Favoriten neu laden & neu berechnen"
+          :title="tp('tooltips.refreshAll')"
         >
           Refresh
         </button>
@@ -23,7 +23,7 @@
           class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
           @click="ensureLocation"
           :disabled="busyLocation"
-          title="GPS Standort aktualisieren"
+          :title="tp('tooltips.updateGps')"
         >
           Standort holen
         </button>
@@ -33,14 +33,14 @@
     <!-- Location + global settings -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
       <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-1">Standort</div>
+        <div class="text-xs text-gray-400 mb-1">{{ tp('location.title') }}</div>
 
         <div v-if="hasSite" class="text-sm text-gray-100">
           {{ fmtCoord(siteLat) }}, {{ fmtCoord(siteLon) }}
           <span v-if="siteAlt != null" class="text-gray-400">· {{ fmtAlt(siteAlt) }} m</span>
         </div>
 
-        <div v-else class="text-sm text-gray-400">Kein Standort verfügbar</div>
+        <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
 
         <div v-if="gpsError" class="mt-2 text-xs text-red-400 break-words">
           {{ gpsError }}
@@ -48,7 +48,7 @@
       </div>
 
       <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-2">Zeitfenster</div>
+        <div class="text-xs text-gray-400 mb-2">{{ tp('filters.timeWindow') }}</div>
 
         <div class="grid grid-cols-2 gap-2">
           <label class="text-xs text-gray-300">
@@ -87,7 +87,7 @@
       </div>
 
       <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-2">Anzeige / Performance</div>
+        <div class="text-xs text-gray-400 mb-2">{{ tp('performance.title') }}</div>
 
         <div class="flex items-center justify-between gap-2">
           <label class="text-xs text-gray-300">
@@ -103,7 +103,7 @@
           </label>
 
           <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>NINA-Cache für Zielbild</span>
+            <span>{{ tp('cache.useNinaCache') }}</span>
             <button
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
               :class="useNinaCache ? 'bg-emerald-600' : 'bg-gray-700'"
@@ -120,12 +120,13 @@
 
         <div class="mt-3 flex items-center justify-between gap-2">
           <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>Previews lazy laden</span>
+            <span>{{ tp('preview.lazyLoad') }}</span
+            >>
             <button
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
               :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"
               @click="lazyPreviews = !lazyPreviews"
-              title="Nur für sichtbare Karten laden"
+              :title="tp('tooltips.lazyVisibleOnly')"
             >
               <span
                 class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
@@ -135,7 +136,7 @@
           </label>
 
           <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>Nur >0° Alt</span>
+            <span>{{ tp('filters.onlyAboveHorizon') }}</span>
             <button
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
               :class="onlyAboveHorizon ? 'bg-emerald-600' : 'bg-gray-700'"
@@ -151,7 +152,7 @@
         </div>
 
         <div class="mt-3 pt-3 border-t border-gray-800">
-          <div class="text-xs text-gray-400 mb-1">Mond</div>
+          <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
           <div class="text-sm text-gray-100">
             <span v-if="moonIllumPct != null">{{ moonIllumPct }}% beleuchtet</span>
             <span v-else class="text-gray-500">—</span>
@@ -159,7 +160,7 @@
             <span v-if="currentMoonData?.separationDeg != null"
               >Separation {{ fmtNum(currentMoonData.separationDeg, 0) }}°</span
             >
-            <span v-else class="text-gray-500">Separation —</span>
+            <span v-else class="text-gray-500">{{ tp('chart.separation') }}</span>
           </div>
         </div>
       </div>
@@ -168,7 +169,7 @@
     <!-- Filters -->
     <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
       <div class="flex items-center justify-between">
-        <div class="text-sm font-medium text-gray-100">Filter</div>
+        <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
         <div class="text-xs text-gray-400">
           {{ filteredTargets.length }} / {{ targets.length }} Ziele · Anzeige:
           {{ displayedTargets.length }}
@@ -191,7 +192,7 @@
             class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
             v-model="typeFilter"
           >
-            <option value="">Alle</option>
+            <option value="">{{ tp('common.all') }}</option>
             <option v-for="t in typeOptions" :key="t" :value="t">{{ t }}</option>
           </select>
         </label>
@@ -203,7 +204,7 @@
             v-model="sectorFilter"
             title="Filtert nach bestAzDeg (Azimut beim höchsten Altitude im Fenster)"
           >
-            <option value="">Alle</option>
+            <option value="">{{ tp('common.all') }}</option>
             <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
               {{ s.label }}
             </option>
@@ -216,9 +217,9 @@
             class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
             v-model="sortMode"
           >
-            <option value="maxAltDesc">Max Alt ↓</option>
-            <option value="bestTimeAsc">Beste Zeit ↑</option>
-            <option value="nameAsc">Name A→Z</option>
+            <option value="maxAltDesc">{{ tp('sort.maxAltDesc') }}</option>
+            <option value="bestTimeAsc">{{ tp('sort.bestTimeAsc') }}</option>
+            <option value="nameAsc">{{ tp('sort.nameAZ') }}</option>
           </select>
         </label>
       </div>
@@ -228,12 +229,12 @@
       </div>
     </div>
 
-    <!-- Tonight Picks (top 10 by Tonight-Score) -->
+    <!-- {{ tp('sections.tonightPicks') }} (top 10 by Tonight-Score) -->
     <div v-if="tonightPicks.length" class="rounded-xl border border-gray-700 bg-black/30 p-3">
       <div class="flex items-center justify-between gap-3">
         <div>
-          <div class="text-xs text-gray-400">Tonight Picks</div>
-          <div class="text-sm text-gray-100">Top-Ziele für das gewählte Zeitfenster</div>
+          <div class="text-xs text-gray-400">{{ tp('sections.tonightPicks') }}</div>
+          <div class="text-sm text-gray-100">{{ tp('sections.topForWindow') }}</div>
         </div>
         <div class="text-xs text-gray-500">Top {{ tonightPicks.length }}</div>
       </div>
@@ -311,7 +312,7 @@
 
             <div class="grid grid-cols-2 gap-2">
               <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">Max Alt (Fenster)</div>
+                <div class="text-[11px] text-gray-400">{{ tp('sort.maxAltWindow') }}</div>
                 <div class="text-sm text-gray-100">
                   <span v-if="t.maxAltDeg != null">{{ fmtNum(t.maxAltDeg, 1) }}°</span>
                   <span v-else class="text-gray-500">—</span>
@@ -319,7 +320,7 @@
               </div>
 
               <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">Beste Zeit</div>
+                <div class="text-[11px] text-gray-400">{{ tp('sort.bestTime') }}</div>
                 <div class="text-sm text-gray-100">
                   <span v-if="t.bestTime">{{ fmtTime(t.bestTime) }}</span>
                   <span v-else class="text-gray-500">—</span>
@@ -327,7 +328,7 @@
               </div>
 
               <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">Richtung (Az)</div>
+                <div class="text-[11px] text-gray-400">{{ tp('chart.directionAz') }}</div>
                 <div class="text-sm text-gray-100">
                   <span v-if="t.bestAzDeg != null"
                     >{{ fmtNum(t.bestAzDeg, 0) }}° ({{ azToCardinal(t.bestAzDeg) }})</span
@@ -337,11 +338,13 @@
               </div>
 
               <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">Sichtbar?</div>
+                <div class="text-[11px] text-gray-400">{{ tp('sort.visible') }}</div>
                 <div class="text-sm text-gray-100">
                   <span v-if="t.maxAltDeg != null">
-                    <span v-if="t.maxAltDeg > 0" class="text-emerald-300">Ja</span>
-                    <span v-else class="text-red-300">Nein</span>
+                    <span v-if="t.maxAltDeg > 0" class="text-emerald-300">{{
+                      tp('common.yes')
+                    }}</span>
+                    <span v-else class="text-red-300">{{ tp('common.no') }}</span>
                   </span>
                   <span v-else class="text-gray-500">—</span>
                 </div>
@@ -372,10 +375,10 @@
                 class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
               >
                 <div class="text-center px-4">
-                  <div class="font-medium">Preview unavailable</div>
+                  <div class="font-medium">{{ tp('preview.unavailable') }}</div>
                   <div class="text-gray-500 mt-1">
                     <span v-if="t.previewError">{{ t.previewError }}</span>
-                    <span v-else>Kein Bild geladen</span>
+                    <span v-else>{{ tp('preview.noImage') }}</span>
                   </div>
                 </div>
               </div>
@@ -404,7 +407,7 @@
           <!-- Right: Altitude chart + actions -->
           <div class="space-y-2">
             <div class="flex items-center justify-between">
-              <div class="text-xs text-gray-400">Altitude vs. Time</div>
+              <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
 
               <div class="flex gap-2">
                 <button
@@ -432,7 +435,7 @@
                 aria-label="Slew (ohne Center)"
               >
                 <ArrowUpRightIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">Slew</span>
+                <span class="hidden md:inline text-xs font-semibold">{{ tp('buttons.slew') }}</span>
               </button>
 
               <!-- Slew + Center -->
@@ -444,7 +447,9 @@
                 aria-label="Slew + Center"
               >
                 <ViewfinderCircleIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">Center</span>
+                <span class="hidden md:inline text-xs font-semibold">{{
+                  tp('buttons.center')
+                }}</span>
               </button>
 
               <!-- Framing -->
@@ -456,7 +461,9 @@
                 aria-label="Framing Assistant öffnen"
               >
                 <RectangleGroupIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">Framing</span>
+                <span class="hidden md:inline text-xs font-semibold">{{
+                  tp('sections.framing')
+                }}</span>
               </button>
 
               <!-- Sequencer -->
@@ -468,7 +475,9 @@
                 aria-label="An Sequencer übergeben"
               >
                 <QueueListIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">Seq</span>
+                <span class="hidden md:inline text-xs font-semibold">{{
+                  tp('buttons.seqShort')
+                }}</span>
               </button>
             </div>
 
@@ -486,7 +495,7 @@
         Keine Favoriten gefunden.
       </div>
 
-      <div v-if="busy" class="text-sm text-gray-400">Laden…</div>
+      <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
     </div>
   </div>
   <!-- Framing Modal (hosted in this view) -->
@@ -507,21 +516,34 @@
 
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
 import { useFramingStore } from '@/store/framingStore';
+import { useSequenceStore } from '@/store/sequenceStore';
 import {
   ArrowUpRightIcon,
   ViewfinderCircleIcon,
   RectangleGroupIcon,
   QueueListIcon,
 } from '@heroicons/vue/24/outline';
+import {
+  latitude,
+  longitude,
+  altitude,
+  gpsError,
+  getCurrentLocation,
+  useLocationStore,
+} from '../../../utils/location';
 
 // --------------------------
 // Basic helpers
 // --------------------------
+
+const { t: tr } = useI18n();
+const tp = (key, params) => tr(`observationPlaner.${key}`, params);
 
 function parseRaToDeg(v) {
   // Accepts: number (deg or hours), "HH:MM:SS", "HH MM SS", "HHhMMmSSs"
@@ -588,22 +610,13 @@ function parseDecToDeg(v) {
   return sign * (dd + mm / 60 + ss / 3600);
 }
 
-// Standort util
-import {
-  latitude,
-  longitude,
-  altitude,
-  gpsError,
-  getCurrentLocation,
-  useLocationStore,
-} from '../../../utils/location';
-
 // --------------------------
 // State
 // --------------------------
-const router = useRouter();
+
 const framingStore = useFramingStore();
 const locationStore = useLocationStore?.() ?? null;
+const sequenceStore = useSequenceStore();
 
 const busy = ref(false);
 const busyLocation = ref(false);
@@ -1031,33 +1044,34 @@ async function openInFramingAssistant(t) {
 // --------------------------
 // Sequencer integration
 // --------------------------
+function hasLoadedSequence(info) {
+  return Array.isArray(info) && info.length > 0;
+}
+
 async function sendToSequencer(t) {
   mountErr[t._id] = '';
-  mountMsg[t._id] = 'Übergebe Ziel an Sequencer…';
+  mountMsg[t._id] = tp('status.sendingToSequencer');
 
   try {
+    await sequenceStore.getSequenceInfo();
+
+    if (!hasLoadedSequence(sequenceStore.sequenceInfo)) {
+      mountMsg[t._id] = '';
+      mountErr[t._id] = tp('errors.noSequenceAvailable'); // "No sequence available"
+      return;
+    }
+
     const rotation = t.rotation ?? 0;
 
-    const r = await apiService.sequnceTargetSet(
-      t.name || 'Target',
-      t.raDeg,
-      t.decDeg,
-      rotation,
-      0 // <- aktuell fix, kann out-of-range sein
-    );
+    const r = await apiService.sequnceTargetSet(t.name || 'Target', t.raDeg, t.decDeg, rotation, 0);
 
-    return; // nicht tab-switchen
+    if (r?.apiSuccess === false) throw new Error(r.message || 'Sequencer failed');
 
-    // Tab switch nur best-effort (optional)
-    try {
-      const sw = await apiService.applicatioTabSwitch('Sequencer');
-      if (!sw?.apiSuccess) console.warn('Tab switch failed (ignored):', sw?.message);
-    } catch {}
-
-    mountMsg[t._id] = 'Sequencer Target gesetzt';
+    mountErr[t._id] = '';
+    mountMsg[t._id] = tp('status.sequencerTargetSet');
   } catch (e) {
     mountMsg[t._id] = '';
-    mountErr[t._id] = extractErr(e, 'Sequencer failed');
+    mountErr[t._id] = extractErr(e, tp('errors.sequencerFailed'));
   }
 }
 

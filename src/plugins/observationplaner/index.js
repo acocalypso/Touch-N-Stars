@@ -1,7 +1,7 @@
 // Import your icon component here
 // import YourPluginIcon from './components/YourPluginIcon.vue';
 import { h, markRaw } from 'vue';
-import DefaultPluginView from './views/ObservationPlanner.vue';
+import DefaultPluginView from './views/ObservationPlaner.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import metadata from './plugin.json';
 

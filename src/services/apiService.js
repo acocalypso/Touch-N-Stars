@@ -986,6 +986,20 @@ const apiService = {
     }
   },
 
+  //eg v2/api/equipment/camera/usb-limit?=7
+  async setCamerUsbLimit(limit) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/set-readout/`, {
+        params: { limit: limit },
+      });
+      return response.data;
+    } catch (error) {
+      // console.error('Error retrieving result:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Filterwheel ---------------------------------------
   filterAction(action) {
     const { BASE_URL } = getUrls();

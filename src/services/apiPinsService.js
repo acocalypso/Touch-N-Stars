@@ -6,7 +6,7 @@ const getBaseUrl = () => {
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 80;
-  const apiPort = settingsStore.apiPort;
+  const apiPort = store.apiPort;
 
   // devport auf 5000 umleiten
   const isDev = process.env.NODE_ENV === 'development';
@@ -39,6 +39,12 @@ export default {
   getINDIDeviceList(device) {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}indi/${device}`);
+  },
+
+  //-------------------Focuser------------------------
+  focuserAction(action) {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/equipment/focuser/${action}`);
   },
 
   //-------------------PHD2------------------------

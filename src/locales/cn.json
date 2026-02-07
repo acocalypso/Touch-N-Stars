@@ -648,6 +648,7 @@
       "cooling_time": "冷却时间 (min)",
       "binning_mode": "像素合并",
       "readout_mode": "读出模式",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "使用板解析",
       "chip_settings": {
         "title": "Camera chip settings",

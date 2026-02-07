@@ -647,6 +647,7 @@
       "cooling_time": "Koeling tijd (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Gebruik Platesolve",
       "chip_settings": {
         "title": "Sensor instellingen",

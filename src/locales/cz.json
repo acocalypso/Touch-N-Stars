@@ -650,6 +650,7 @@
       "cooling_time": "Doba chlazení (min)",
       "binning_mode": "Binning",
       "readout_mode": "Režim Čtení",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Použít Řešení",
       "chip_settings": {
         "focal_length": "Ohnisková vzdálenost (mm)",

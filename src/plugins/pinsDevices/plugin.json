@@ -1,0 +1,10 @@
+{
+  "id": "pinsDevices",
+  "name": "PINS-Devices",
+  "description": "PI'N'Stars device control",
+  "version": "1.0.0",
+  "author": "Nico",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

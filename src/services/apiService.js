@@ -1652,6 +1652,464 @@ const apiService = {
     return profile?.AstrometrySettings ?? null;
   },
 
+  //-------------------------------------  PINS Devices ---------------------------------
+  async getPinsDevices() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/devices`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching PINS devices:', error);
+      throw error;
+    }
+  },
+
+  async getPinsDevicePowerbox() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching powerbox info:', error);
+      throw error;
+    }
+  },
+
+  async getPinsDevicePowerboxStatus() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching powerbox status:', error);
+      throw error;
+    }
+  },
+
+  async getPinsDevicePowerPorts() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/powerports/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching power ports:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDevicePowerPortState(portIndex, enabled) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/powerports/${portIndex}/set-enabled`,
+        null,
+        {
+          params: { enabled },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting power port state:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDevicePowerPortName(portIndex, name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/powerports/${portIndex}/set-name`,
+        null,
+        {
+          params: { name },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting power port name:', error);
+      throw error;
+    }
+  },
+
+  async getPinsDeviceUsbPorts() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/usbports/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching USB ports:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceUsbPortState(portIndex, enabled) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/usbports/${portIndex}/set-enabled`,
+        null,
+        {
+          params: { enabled },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting USB port state:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceUsbPortName(portIndex, name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/usbports/${portIndex}/set-name`,
+        null,
+        {
+          params: { name },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting USB port name:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDevicePowerPortBootState(portIndex, bootState) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/powerports/${portIndex}/set-bootstate`,
+        null,
+        {
+          params: { bootState },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting power port boot state:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceUsbPortBootState(portIndex, bootState) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/usbports/${portIndex}/set-bootstate`,
+        null,
+        {
+          params: { bootState },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting USB port boot state:', error);
+      throw error;
+    }
+  },
+
+  async getPinsDeviceDewPorts() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/dewports/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching dew ports:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceDewPortState(portIndex, enabled) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/dewports/${portIndex}/set-enabled`,
+        null,
+        {
+          params: { enabled },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting dew port state:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceDewPortName(portIndex, name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/dewports/${portIndex}/set-name`,
+        null,
+        {
+          params: { name },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting dew port name:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceDewPortAutoMode(portIndex, automode) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/dewports/${portIndex}/set-automode`,
+        null,
+        {
+          params: { automode },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting dew port auto mode:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceDewPortAutoThreshold(portIndex, autothreshold) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/dewports/${portIndex}/set-autothreshold`,
+        null,
+        {
+          params: { autothreshold },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting dew port auto threshold:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceDewPortPowerLevel(portIndex, powerlevel) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/powerbox/dewports/${portIndex}/set-powerlevel`,
+        null,
+        {
+          params: { powerlevel },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting dew port power level:', error);
+      throw error;
+    }
+  },
+
+  // --------------------------------- Buck Converter Ports ---------------------------------
+  async getPinsDeviceBuckPorts() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/buck/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting buck ports:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceBuckPortState(enabled) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/buck/set-enabled`, null, {
+        params: { enabled },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting buck port enabled:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceBuckPortName(name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/buck/set-name`, null, {
+        params: { name },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting buck port name:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceBuckPortBootState(bootstate) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/buck/set-bootstate`, null, {
+        params: { bootstate },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting buck port boot state:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceBuckPortVoltage(voltage) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/buck/set-voltage`, null, {
+        params: { voltage },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting buck port voltage:', error);
+      throw error;
+    }
+  },
+
+  // --------------------------------- PWM Ports ---------------------------------
+  async getPinsDevicePwmPorts() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/pwm/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting PWM ports:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDevicePwmPortState(enabled) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/pwm/set-enabled`, null, {
+        params: { enabled },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting PWM port enabled:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDevicePwmPortName(name) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/pwm/set-name`, null, {
+        params: { name },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting PWM port name:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDevicePwmPortPower(power) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/pwm/set-power`, null, {
+        params: { power },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting PWM port power:', error);
+      throw error;
+    }
+  },
+
+  // --------------------------------- PowerBox Configuration ---------------------------------
+  async setPinsDeviceTemperatureOffset(offset) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/set-temperature-offset`, null, {
+        params: { offset },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting temperature offset:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceHumidityOffset(offset) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/set-humidity-offset`, null, {
+        params: { offset },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting humidity offset:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceEnvUpdateRate(updateRate) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/set-env-update-rate`, null, {
+        params: { updateRate },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting environment update rate:', error);
+      throw error;
+    }
+  },
+
+  async setPinsDeviceUpdateRate(updateRate) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/powerbox/set-update-rate`, null, {
+        params: { updateRate },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error setting update rate:', error);
+      throw error;
+    }
+  },
+
+  async factoryResetPinsDevice() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/powerbox/factory-reset`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error performing factory reset:', error);
+      throw error;
+    }
+  },
+
+  // --------------------------------- PowerBox WiFi ---------------------------------
+  async getPinsDeviceWiFi() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/powerbox/wifi`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching WiFi info:', error);
+      throw error;
+    }
+  },
+
+  async connectPinsDeviceWiFiAP(ssid, password) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/powerbox/wifi/connect-ap`, null, {
+        params: { ssid, password },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error creating WiFi AP:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();
@@ -1682,6 +2140,263 @@ const apiService = {
         // console.error(`Error in GET request to ${url} with params:`, error);
         throw error;
       });
+  },
+
+  // --------------------------------- MeteoStation Weather ---------------------------------
+  async getMeteoStationInfo() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/meteostation`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching meteostation info:', error);
+      throw error;
+    }
+  },
+
+  async getMeteoStationStatus() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/meteostation/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching meteostation status:', error);
+      throw error;
+    }
+  },
+
+  async setMeteoStationTemperatureOffset(offset) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/meteostation/set-temperature-offset`,
+        {},
+        {
+          params: { offset },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting meteostation temperature offset:', error);
+      throw error;
+    }
+  },
+
+  async setMeteoStationHumidityOffset(offset) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/meteostation/set-humidity-offset`,
+        {},
+        {
+          params: { offset },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting meteostation humidity offset:', error);
+      throw error;
+    }
+  },
+
+  async setMeteoStationUpdateRate(updateRate) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/meteostation/set-update-rate`,
+        {},
+        {
+          params: { updateRate },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting meteostation update rate:', error);
+      throw error;
+    }
+  },
+
+  async factoryResetMeteoStation() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/meteostation/factory-reset`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error performing meteostation factory reset:', error);
+      throw error;
+    }
+  },
+
+  // --------------------------------- HocusFocus Plugin ---------------------------------
+  hocusfocus: {
+    async listAutoFocusSessions() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/autofocus-sessions`);
+        return response.data;
+      } catch (error) {
+        console.error('Error listing AutoFocus sessions:', error);
+        throw error;
+      }
+    },
+
+    async loadAutoFocusSession(sessionData) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(
+          `${API_URL}hocusfocus/load-autofocus-session`,
+          sessionData
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Error loading AutoFocus session:', error);
+        throw error;
+      }
+    },
+
+    async runDetailedAutoFocus() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/run-detailed-af`);
+        return response.data;
+      } catch (error) {
+        console.error('Error running detailed AutoFocus:', error);
+        throw error;
+      }
+    },
+
+    async cancelDetailedAutoFocus() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/cancel-detailed-af`);
+        return response.data;
+      } catch (error) {
+        console.error('Error cancelling AutoFocus:', error);
+        throw error;
+      }
+    },
+
+    async getRegionFocusPoints() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/region-focus-points`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting region focus points:', error);
+        throw error;
+      }
+    },
+
+    async getTiltCornerMeasurements() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilt-corner-measurements`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting tilt corner measurements:', error);
+        throw error;
+      }
+    },
+
+    async getTiltMeasurementHistory() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilt-measurement-history`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting tilt measurement history:', error);
+        throw error;
+      }
+    },
+
+    async getFinalFocusData() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/final-focus-data`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting final focus data:', error);
+        throw error;
+      }
+    },
+
+    async getStatus() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/status`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting status:', error);
+        throw error;
+      }
+    },
+
+    // Star Annotator Options endpoints
+    async getStarAnnotatorOptions() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/star-annotator/options`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting Star Annotator options:', error);
+        throw error;
+      }
+    },
+
+    async setStarAnnotatorOptions(options) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/star-annotator/options`, options);
+        return response.data;
+      } catch (error) {
+        console.error('Error setting Star Annotator options:', error);
+        throw error;
+      }
+    },
+
+    async resetStarAnnotatorDefaults() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/star-annotator/reset-defaults`);
+        return response.data;
+      } catch (error) {
+        console.error('Error resetting Star Annotator to defaults:', error);
+        throw error;
+      }
+    },
+
+    async getStarDetectionOptions() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/star-detection/options`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting Star Detection options:', error);
+        throw error;
+      }
+    },
+
+    async setStarDetectionOptions(options) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/star-detection/options`, options);
+        return response.data;
+      } catch (error) {
+        console.error('Error setting Star Detection options:', error);
+        throw error;
+      }
+    },
+
+    async resetStarDetectionDefaults() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/star-detection/reset-defaults`);
+        return response.data;
+      } catch (error) {
+        console.error('Error resetting Star Detection to defaults:', error);
+        throw error;
+      }
+    },
   },
 };
 

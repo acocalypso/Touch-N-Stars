@@ -517,7 +517,6 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';

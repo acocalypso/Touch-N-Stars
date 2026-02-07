@@ -647,6 +647,7 @@
       "cooling_time": "Temps de refroidissement (min)",
       "binning_mode": "Binning",
       "readout_mode": "Mode de lecture",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Utiliser Platesolve",
       "chip_settings": {
         "title": "Paramètres de la puce de la caméra",

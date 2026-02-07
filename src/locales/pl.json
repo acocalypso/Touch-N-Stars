@@ -647,6 +647,7 @@
       "cooling_time": "Czas chłodzenia (min)",
       "binning_mode": "Binning",
       "readout_mode": "Tryb odczytu",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Użyj Platesolve",
       "chip_settings": {
         "title": "Ustawienia układu aparatu",

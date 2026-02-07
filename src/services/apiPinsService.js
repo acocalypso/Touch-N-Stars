@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();
+  const store = apiStore();
   const protocol = settingsStore.backendProtocol || 'http';
   const host = settingsStore.connection.ip || window.location.hostname;
   let port = settingsStore.connection.port || window.location.port || 80;

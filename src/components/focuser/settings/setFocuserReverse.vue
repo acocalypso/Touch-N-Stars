@@ -16,6 +16,7 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiPinsService from '@/services/apiPinsService';
+import apiService from '@/services/apiService';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
@@ -32,7 +33,7 @@ async function updateSetting() {
       isEnabled.value = !isEnabled.value;
     }
   } catch (error) {
-    console.log('Error save setting');
+    console.log('Error save setting', error);
     // Revert on error
     isEnabled.value = !isEnabled.value;
   }

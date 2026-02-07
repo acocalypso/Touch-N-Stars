@@ -533,7 +533,9 @@
         "backlash": "Backlash",
         "basic": "Basisinstellingen",
         "crop_and_stars": "Crop",
-        "title": "Autofocus Instellingen"
+        "Reverse": "Omkeren",
+        "title": "Autofocus Instellingen",
+        "UseFilterWheelOffsets": "Filterwiel offsets gebruiken"
       }
     },
     "dome": {
@@ -615,7 +617,9 @@
       "cooler_status_warming": "Actief - Opwarmen",
       "set_save_snapshot": "Bewaar snapshots",
       "snapshotTargetName": "Doel naam",
-      "set_use_solve_sync_to_mount": "Sync naar Montering"
+      "set_use_solve_sync_to_mount": "Sync naar Montering",
+      "readout_mode_image": "Uitleesmodus Sequentie",
+      "readout_mode_snap": "Uitleesmodus Momentopname"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

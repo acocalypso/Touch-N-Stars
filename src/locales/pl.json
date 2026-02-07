@@ -532,7 +532,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Ustawienia podstawowe",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Odwróć",
+        "UseFilterWheelOffsets": "Użyj offsetów koła filtrów"
       },
       "focus": "Focus"
     },
@@ -615,7 +617,9 @@
       "cooler_status_warming": "Aktywne - Nagrzewanie do",
       "set_save_snapshot": "Zapisz snapshoty",
       "snapshotTargetName": "Nazwa celu",
-      "set_use_solve_sync_to_mount": "Zsynchronizuj, aby zamontować"
+      "set_use_solve_sync_to_mount": "Zsynchronizuj, aby zamontować",
+      "readout_mode_image": "Tryb odczytu Sekwencja",
+      "readout_mode_snap": "Tryb odczytu Migawka"
     },
     "tppa": {
       "title": "Wyrównanie biegunowe trzypunktowe",

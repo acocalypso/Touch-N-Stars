@@ -532,7 +532,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Grundeinstellungen",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Umkehren",
+        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden"
       },
       "focus": "Fokus"
     },
@@ -615,7 +617,9 @@
       "cooler_status_warming": "Aktiv - Wärmt auf",
       "set_save_snapshot": "Snapshots speichern",
       "snapshotTargetName": "Zielname",
-      "set_use_solve_sync_to_mount": "Mit Montierung synchronisieren"
+      "set_use_solve_sync_to_mount": "Mit Montierung synchronisieren",
+      "readout_mode_image": "Auslesemodus Sequenz",
+      "readout_mode_snap": "Auslesemodus Schnappschuss"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

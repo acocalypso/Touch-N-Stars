@@ -1658,5 +1658,118 @@
       "rotation": "Rotatie"
     }
   },
-  "loading": "laden"
+  "loading": "laden",
+  "observationPlaner": {
+    "title": "Waarnemingsplanner",
+    "subtitle": "Favorieten met voorbeeld + hoogtekaart voor vanavond (locatiegebaseerd)",
+    "sections": {
+      "tonightPicks": "Selectie van vanavond",
+      "topForWindow": "Beste doelen voor het geselecteerde tijdvenster",
+      "preview": "Voorbeeld",
+      "framing": "Kadrering"
+    },
+    "filters": {
+      "title": "Filters",
+      "search": "Zoeken",
+      "search_placeholder": "M42, Andromeda, NGC…",
+      "timeWindow": "Tijdvenster",
+      "startLocal": "Start (lokaal)",
+      "endLocal": "Einde (lokaal)",
+      "moon": "Maan",
+      "objectType": "Objecttype",
+      "azSector": "Hemelrichting (azimut-sector)",
+      "onlyAboveHorizon": "Alleen >0° hoogte",
+      "limit": "Limiet"
+    },
+    "sort": {
+      "title": "Sortering",
+      "nameAZ": "Naam A→Z",
+      "maxAltDesc": "Max. hoogte ↓",
+      "bestTimeAsc": "Beste tijd ↑",
+      "bestTime": "Beste tijd",
+      "maxAltWindow": "Max. hoogte (venster)",
+      "visible": "Zichtbaar?"
+    },
+    "location": {
+      "title": "Locatie",
+      "get": "Locatie ophalen",
+      "notAvailable": "Geen locatie beschikbaar",
+      "hintNoLocation": "Opmerking: Zonder locatie kunnen hoogte-/richtingsfilters en grafieken niet worden berekend."
+    },
+    "performance": {
+      "title": "Weergave / Prestaties",
+      "lazyPreviews": "Voorbeelden lui laden",
+      "redraw": "Hertekenen"
+    },
+    "buttons": {
+      "refresh": "Vernieuwen",
+      "reload": "Herladen",
+      "slew": "Slew",
+      "center": "Centreren",
+      "slewNoCenter": "Slew (zonder centrering)",
+      "slewCenter": "Slew + Centreren",
+      "slewCenterPlatesolve": "Slew + Centreren (platesolve)",
+      "sendToSequencer": "Naar sequencer sturen",
+      "openFraming": "Kadreringsassistent openen",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Geen afbeelding geladen",
+      "unavailable": "Voorbeeld niet beschikbaar",
+      "info": "Voorbeeld-info",
+      "reload": "Voorbeeld herladen"
+    },
+    "cache": {
+      "useNinaCache": "NINA-cache voor doelobject gebruiken",
+      "hint": "Laadt DSS/doelobject via TNS WebAPI. De cache-schakelaar bestuurt useCache.",
+      "hintShort": "Geeft useCache door aan targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Hoogte vs. Tijd",
+      "sampleMin": "Sample (min)",
+      "directionAz": "Richting (Az)",
+      "separation": "Separatie —"
+    },
+    "sectors": {
+      "N_NE": "Noord → Noordoost (315°–45°)",
+      "NE_E": "Noordoost → Oost (45°–90°)",
+      "E_SE": "Oost → Zuidoost (90°–135°)",
+      "SE_S": "Zuidoost → Zuid (135°–180°)",
+      "S_SW": "Zuid → Zuidwest (180°–225°)",
+      "SW_W": "Zuidwest → West (225°–270°)",
+      "W_NW": "West → Noordwest (270°–315°)",
+      "NW_N": "Noordwest → Noord (315°–360°)",
+      "all": "Alle"
+    },
+    "common": {
+      "yes": "Ja",
+      "no": "Nee",
+      "loading": "Laden…",
+      "all": "Alle"
+    },
+    "tooltips": {
+      "favorite": "Favoriet",
+      "refreshFavorites": "Favorieten herladen en herberekenen",
+      "filterNoBelowHorizon": "Filtert doelen met maxAlt <= 0°",
+      "filterAzSector": "Filteren op bestAzDeg (azimut bij hoogste hoogte in venster)",
+      "gpsUpdate": "GPS-locatie bijwerken",
+      "openFramingFmt": "Kadrering openen · {ra} / {dec} · MaxAlt {maxAlt}°",
+      "tonightScoreFmt": "Vanavond-score: {score} · MaxAlt {maxAlt}° · {hours}h",
+      "redrawChart": "Grafiek hertekenen",
+      "lazyVisibleOnly": "Alleen voor zichtbare kaarten laden",
+      "useCacheHint": "Geeft useCache door aan targetpic",
+      "previewReload": "Voorbeeld herladen"
+    },
+    "empty": {
+      "noFavorites": "Geen favorieten gevonden."
+    },
+    "status": {
+      "sendingToSequencer": "Doel wordt naar sequencer gestuurd…",
+      "sequencerTargetSet": "Sequencer-doel ingesteld"
+    },
+    "errors": {
+      "noSequenceAvailable": "Geen sequentie beschikbaar, laad eerst een sequentie",
+      "sequencerFailed": "Sequencer mislukt"
+    }
+  }
 }

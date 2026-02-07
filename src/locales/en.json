@@ -533,7 +533,9 @@
         "basic": "Basic Settings",
         "crop_and_stars": "Crop & Stars",
         "backlash": "Backlash",
-        "advanced": "Advanced"
+        "advanced": "Advanced",
+        "Reverse": "Reverse",
+        "UseFilterWheelOffsets": "Use filterwheel offsets"
       }
     },
     "dome": {
@@ -615,7 +617,9 @@
       "cooler_status_warming": "Active - Warming to",
       "set_save_snapshot": "Save snapshots",
       "snapshotTargetName": "Targe name",
-      "set_use_solve_sync_to_mount": "Sync to mount"
+      "set_use_solve_sync_to_mount": "Sync to mount",
+      "readout_mode_image": "Readout Mode Sequence",
+      "readout_mode_snap": "Readout Mode Snapshot"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

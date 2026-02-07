@@ -3,7 +3,44 @@
     class="navigation-container shadow-md overflow-hidden"
     :class="[activeInstanceColor, orientationClasses]"
   >
-    <div class="nav-content items-center scrollbar-hide" :class="contentClasses">
+    <!-- Scroll Fade Indicators -->
+    <div
+      v-if="canScrollStart"
+      class="scroll-fade scroll-fade-start"
+      :class="isLandscape ? 'scroll-fade-top' : 'scroll-fade-left'"
+    >
+      <div class="scroll-arrow" :class="isLandscape ? 'arrow-up' : 'arrow-left'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            :d="isLandscape ? 'M18 15l-6-6-6 6' : 'M15 18l-6-6 6-6'"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      v-if="canScrollEnd"
+      class="scroll-fade scroll-fade-end"
+      :class="isLandscape ? 'scroll-fade-bottom' : 'scroll-fade-right'"
+    >
+      <div class="scroll-arrow" :class="isLandscape ? 'arrow-down' : 'arrow-right'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path
+            :d="isLandscape ? 'M6 9l6 6 6-6' : 'M9 18l6-6-6-6'"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <div
+      ref="navContentRef"
+      class="nav-content items-center scrollbar-hide"
+      :class="contentClasses"
+      @scroll="updateScrollIndicators"
+    >
       <div class="nav-items-wrapper" :class="wrapperClasses">
         <div v-if="store.isBackendReachable">
           <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
@@ -390,6 +427,11 @@ const showAboutModal = ref(false);
 // Orientierung tracking
 const { isLandscape } = useOrientation();
 
+// Scroll indicator states
+const navContentRef = ref(null);
+const canScrollStart = ref(false);
+const canScrollEnd = ref(false);
+
 // Touch feedback states
 const touchedButton = ref(null);
 
@@ -449,7 +491,35 @@ function handleOrientationChange() {
   setTimeout(() => {
     // Force icon visibility after orientation change
     forceIconVisibility();
+    // Update scroll indicators after orientation change
+    updateScrollIndicators();
   }, 100);
+}
+
+// Update scroll fade indicators based on scroll position
+function updateScrollIndicators() {
+  const el = navContentRef.value;
+  if (!el) return;
+
+  if (isLandscape.value) {
+    // Vertical scrolling in landscape
+    const scrollTop = el.scrollTop;
+    const scrollHeight = el.scrollHeight;
+    const clientHeight = el.clientHeight;
+    const threshold = 5;
+
+    canScrollStart.value = scrollTop > threshold;
+    canScrollEnd.value = scrollTop + clientHeight < scrollHeight - threshold;
+  } else {
+    // Horizontal scrolling in portrait
+    const scrollLeft = el.scrollLeft;
+    const scrollWidth = el.scrollWidth;
+    const clientWidth = el.clientWidth;
+    const threshold = 5;
+
+    canScrollStart.value = scrollLeft > threshold;
+    canScrollEnd.value = scrollLeft + clientWidth < scrollWidth - threshold;
+  }
 }
 
 // Lifecycle
@@ -463,6 +533,8 @@ onMounted(() => {
   // Additional force after a short delay for Android
   setTimeout(() => {
     forceIconVisibility();
+    // Initial scroll indicator check
+    updateScrollIndicators();
   }, 500);
 });
 
@@ -485,7 +557,7 @@ watch(
   { immediate: true }
 );
 
-// Watch for store changes that might affect icon visibility
+// Watch for store changes that might affect icon visibility and scroll indicators
 watch(
   [
     () => store.isBackendReachable,
@@ -497,10 +569,13 @@ watch(
     () => store.switchInfo.Connected,
     () => store.guiderInfo.Connected,
     () => sequenceStore.sequenceIsLoaded,
+    () => isLandscape.value,
   ],
   () => {
     nextTick(() => {
       forceIconVisibility();
+      // Update scroll indicators when nav items change
+      setTimeout(() => updateScrollIndicators(), 100);
     });
   },
   { deep: true }
@@ -921,5 +996,111 @@ watch(
   to {
     opacity: 1;
   }
+}
+
+/* Scroll Fade Indicators */
+.scroll-fade {
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Portrait Mode - Horizontal Fades (Left/Right) */
+.scroll-fade-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 60px;
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
+}
+
+.scroll-fade-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 60px;
+  background: linear-gradient(
+    to left,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
+}
+
+/* Landscape Mode - Vertical Fades (Top/Bottom) */
+.scroll-fade-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
+}
+
+.scroll-fade-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(
+    to top,
+    rgba(15, 23, 42, 1) 0%,
+    rgba(15, 23, 42, 0.8) 40%,
+    rgba(15, 23, 42, 0) 100%
+  );
+}
+
+/* Scroll Arrow Indicators */
+.scroll-arrow {
+  width: 20px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.scroll-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Arrow positioning - at the edge */
+.arrow-left {
+  position: absolute;
+  left: 4px;
+}
+
+.arrow-right {
+  position: absolute;
+  right: 4px;
+}
+
+.arrow-up {
+  position: absolute;
+  top: 4px;
+}
+
+.arrow-down {
+  position: absolute;
+  bottom: 4px;
+}
+
+/* Adjust for safe area in landscape */
+.nav-landscape .scroll-fade-top {
+  left: 3rem;
+}
+
+.nav-landscape .scroll-fade-bottom {
+  left: 3rem;
 }
 </style>

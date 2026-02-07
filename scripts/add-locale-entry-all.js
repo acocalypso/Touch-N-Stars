@@ -4,7 +4,7 @@ function main() {
     const params = process.argv;
 
     if (params.length !== 4) {
-        console.log('Invalid parameters. Usage: npm run locale:entry -- [key] [value]\nExample: npm run locale:entry -- en components.sequence.imageHistory "Image History"');
+        console.log('Invalid parameters. Usage: npm run locale:entry:all -- [key] [value]\nExample: npm run locale:entry:all -- components.sequence.imageHistory "Image History"');
         process.exit(1);
     }
 

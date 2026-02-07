@@ -1639,6 +1639,19 @@ const apiService = {
     }
   },
 
+  // --- Observation Planner helpers ---
+  async getActiveProfile() {
+    // profileAction('show?active=true') exists already
+    const res = await this.profileAction('show?active=true');
+    return res?.Response ?? res;
+  },
+
+  async getAstrometrySettings() {
+    const profile = await this.getActiveProfile();
+    // expected path (matches mock structure)
+    return profile?.AstrometrySettings ?? null;
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

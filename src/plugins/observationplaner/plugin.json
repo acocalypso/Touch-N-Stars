@@ -1,0 +1,9 @@
+{
+  "id": "observationplaner",
+  "name": "ObservationPlaner",
+  "description": "Find the best targets for tonight based on altitude, visibility window, and moon conditions.",
+  "version": "1.0.0",
+  "author": "Flashy_DE (Alex)",
+  "defaultEnabled": false,
+  "enabled": true
+}

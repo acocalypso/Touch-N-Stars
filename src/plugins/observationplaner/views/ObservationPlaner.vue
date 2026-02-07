@@ -120,8 +120,7 @@
 
         <div class="mt-3 flex items-center justify-between gap-2">
           <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('preview.lazyLoad') }}</span
-            >>
+              <span>{{ tp('performance.lazyPreviews') }}</span>>
             <button
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
               :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"

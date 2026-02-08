@@ -120,7 +120,8 @@
 
         <div class="mt-3 flex items-center justify-between gap-2">
           <label class="text-xs text-gray-300 flex items-center gap-2">
-              <span>{{ tp('performance.lazyPreviews') }}</span>>
+            <span>{{ tp('performance.lazyPreviews') }}</span
+            >>
             <button
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
               :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"
@@ -429,7 +430,7 @@
               <button
                 class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
                 @click="slewOnly(t)"
-                :disabled="!canSlew(t) || isSelected(t)"
+                :disabled="!canSlewWithMountSync(t) || isSelected(t)"
                 title="Slew (ohne Center)"
                 aria-label="Slew (ohne Center)"
               >
@@ -441,7 +442,7 @@
               <button
                 class="action-icon-btn bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
                 @click="slewAndCenter(t)"
-                :disabled="!canSlew(t) || isSelected(t)"
+                :disabled="!canSlewWithMountSync(t) || isSelected(t)"
                 title="Slew + Center (Platesolve)"
                 aria-label="Slew + Center"
               >
@@ -469,7 +470,12 @@
               <button
                 class="action-icon-btn bg-indigo-700 hover:bg-indigo-600 border-indigo-500 text-white"
                 @click="sendToSequencer(t)"
-                :disabled="!canSlew(t)"
+                :disabled="
+                  !(
+                    Array.isArray(sequenceStore.sequenceInfo) &&
+                    sequenceStore.sequenceInfo.length > 0
+                  )
+                "
                 title="An Sequencer übergeben"
                 aria-label="An Sequencer übergeben"
               >
@@ -521,6 +527,7 @@ import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { apiStore } from '@/store/store';
 import {
   ArrowUpRightIcon,
   ViewfinderCircleIcon,
@@ -615,7 +622,7 @@ function parseDecToDeg(v) {
 const framingStore = useFramingStore();
 const locationStore = useLocationStore?.() ?? null;
 const sequenceStore = useSequenceStore();
-
+const store = apiStore();
 const busy = ref(false);
 const busyLocation = ref(false);
 
@@ -968,11 +975,23 @@ async function recomputeAll() {
   drawAllVisibleCharts();
 }
 
+// Check if mount is connected before allowing slew/center actions
+
 function canSlew(t) {
   return t?.raDeg != null && t?.decDeg != null;
 }
+
+function isMountConnectedSync() {
+  return store.mountInfo?.Connected === true;
+}
+
 function canOpenFraming(t) {
   return canSlew(t);
+}
+
+function canSlewWithMountSync(t) {
+  if (!canSlew(t)) return false;
+  return isMountConnectedSync();
 }
 
 async function slewOnly(t) {

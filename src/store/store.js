@@ -64,6 +64,9 @@ export const apiStore = defineStore('store', {
         Gain: 0,
         ExposureTime: 0,
       },
+      ImageFileSettings: {
+        FilePattern: '',
+      },
       SnapShotControlSettings: {
         Save: false,
         Gain: 0,

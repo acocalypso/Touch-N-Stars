@@ -142,6 +142,36 @@
         "DebayeredHFR": "Débayé HFR",
         "UnlinkedStretch": "Étirement non lié"
       },
+      "imageFile": {
+        "title": "Modèle de nom de fichier",
+        "pattern": "Modèle",
+        "preview": "Aperçu",
+        "folder": "Dossier",
+        "separator": "Séparateur",
+        "empty": "Appuyez sur les jetons ci-dessous pour construire le modèle",
+        "freeText": "Texte",
+        "editTokens": "Modifier les jetons",
+        "help": {
+          "title": "Modèle de nom de fichier",
+          "intro": "Construisez le modèle de nom de fichier pour vos images capturées. Chaque jeton sera remplacé par NINA avec la valeur réelle lors de l'enregistrement.",
+          "tokensTitle": "Jetons",
+          "tokensDesc": "Appuyez sur un bouton de jeton pour l'ajouter au modèle. Les jetons comme Filter, Date ou ExposureTime sont remplacés par NINA avec les valeurs réelles.",
+          "separatorsTitle": "Séparateurs",
+          "separatorsDesc": "Utilisez \\ pour créer des structures de dossiers. Utilisez _ ou - pour séparer les valeurs dans le nom du fichier. Utilisez « Texte » pour ajouter du texte personnalisé comme « s » pour secondes.",
+          "cursorTitle": "Position d'insertion",
+          "cursorDesc": "Appuyez entre les jetons existants pour déplacer le curseur clignotant. Les nouveaux jetons sont insérés à la position du curseur.",
+          "exampleTitle": "Exemple",
+          "exampleResult": "Résultat :"
+        },
+        "groups": {
+          "dateTime": "Date / Heure",
+          "image": "Image",
+          "camera": "Caméra",
+          "guiding": "Guidage",
+          "equipment": "Équipement",
+          "other": "Autre"
+        }
+      },
       "debug": {
         "title": "Débogage",
         "activate": "Activer le mode débogage",

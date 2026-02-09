@@ -142,6 +142,36 @@
         "DebayeredHFR": "HFR debayered",
         "UnlinkedStretch": "Estiramento não vinculado"
       },
+      "imageFile": {
+        "title": "Padrão de nome de ficheiro",
+        "pattern": "Padrão",
+        "preview": "Pré-visualização",
+        "folder": "Pasta",
+        "separator": "Separador",
+        "empty": "Toque nos tokens abaixo para construir o padrão",
+        "freeText": "Texto",
+        "editTokens": "Editar tokens",
+        "help": {
+          "title": "Padrão de nome de ficheiro",
+          "intro": "Construa o padrão de nome de ficheiro para as suas imagens capturadas. Cada token será substituído pelo NINA com o valor real ao guardar.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Toque num botão de token para o adicionar ao padrão. Tokens como Filter, Date ou ExposureTime são substituídos pelo NINA com os valores reais.",
+          "separatorsTitle": "Separadores",
+          "separatorsDesc": "Use \\ para criar estruturas de pastas. Use _ ou - para separar valores no nome do ficheiro. Use \"Texto\" para adicionar texto personalizado como \"s\" para segundos.",
+          "cursorTitle": "Posição de inserção",
+          "cursorDesc": "Toque entre os tokens existentes para mover o cursor intermitente. Novos tokens são inseridos na posição do cursor.",
+          "exampleTitle": "Exemplo",
+          "exampleResult": "Resultado:"
+        },
+        "groups": {
+          "dateTime": "Data / Hora",
+          "image": "Imagem",
+          "camera": "Câmara",
+          "guiding": "Guiagem",
+          "equipment": "Equipamento",
+          "other": "Outro"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Ativar modo debug",

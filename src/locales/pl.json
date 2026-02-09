@@ -141,6 +141,36 @@
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Niepołączone rozciągnięcie"
       },
+      "imageFile": {
+        "title": "Wzorzec nazwy pliku",
+        "pattern": "Wzorzec",
+        "preview": "Podgląd",
+        "folder": "Folder",
+        "separator": "Separator",
+        "empty": "Dotknij tokenów poniżej, aby zbudować wzorzec",
+        "freeText": "Tekst",
+        "editTokens": "Edytuj tokeny",
+        "help": {
+          "title": "Wzorzec nazwy pliku",
+          "intro": "Zbuduj wzorzec nazwy pliku dla przechwyconych obrazów. Każdy token zostanie zastąpiony przez NINA rzeczywistą wartością podczas zapisywania.",
+          "tokensTitle": "Tokeny",
+          "tokensDesc": "Dotknij przycisku tokenu, aby dodać go do wzorca. Tokeny takie jak Filter, Date lub ExposureTime są zastępowane przez NINA rzeczywistymi wartościami.",
+          "separatorsTitle": "Separatory",
+          "separatorsDesc": "Użyj \\ aby tworzyć struktury folderów. Użyj _ lub - aby oddzielić wartości w nazwie pliku. Użyj \"Tekst\" aby dodać własny tekst, np. \"s\" dla sekund.",
+          "cursorTitle": "Pozycja wstawiania",
+          "cursorDesc": "Dotknij między istniejącymi tokenami, aby przesunąć migający kursor. Nowe tokeny są wstawiane w pozycji kursora.",
+          "exampleTitle": "Przykład",
+          "exampleResult": "Wynik:"
+        },
+        "groups": {
+          "dateTime": "Data / Czas",
+          "image": "Obraz",
+          "camera": "Kamera",
+          "guiding": "Prowadzenie",
+          "equipment": "Sprzęt",
+          "other": "Inne"
+        }
+      },
       "debug": {
         "title": "Debugowanie",
         "activate": "Aktywuj tryb debugowania",

@@ -4,16 +4,6 @@
     <template v-if="!showTokens">
       <div class="flex flex-col gap-1">
         <label class="text-xs text-gray-400">{{
-          $t('components.settings.imageFile.pattern')
-        }}</label>
-        <div
-          class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-gray-300 break-all"
-        >
-          {{ patternString || '—' }}
-        </div>
-      </div>
-      <div class="flex flex-col gap-1">
-        <label class="text-xs text-gray-400">{{
           $t('components.settings.imageFile.preview')
         }}</label>
         <div
@@ -156,12 +146,6 @@
           class="px-3 py-1 text-xs rounded bg-amber-900/60 hover:bg-amber-800/60 text-amber-200 border border-amber-700/50 transition-colors font-mono"
         >
           - {{ $t('components.settings.imageFile.separator') }}
-        </button>
-        <button
-          @click="addCustomText"
-          class="px-3 py-1 text-xs rounded bg-amber-900/60 hover:bg-amber-800/60 text-amber-200 border border-amber-700/50 transition-colors font-mono"
-        >
-          abc {{ $t('components.settings.imageFile.freeText') }}
         </button>
       </div>
 
@@ -525,12 +509,6 @@ function addSegment(segment) {
   }
 }
 
-function addCustomText() {
-  const text = prompt('Text:');
-  if (text) {
-    addSegment(text);
-  }
-}
 
 function removeSegment(index) {
   patternSegments.value.splice(index, 1);

@@ -141,6 +141,36 @@
         "DebayeredHFR": "HFR debayered",
         "UnlinkedStretch": "Stiramento non collegato"
       },
+      "imageFile": {
+        "title": "Modello nome file",
+        "pattern": "Modello",
+        "preview": "Anteprima",
+        "folder": "Cartella",
+        "separator": "Separatore",
+        "empty": "Tocca i token qui sotto per costruire il modello",
+        "freeText": "Testo",
+        "editTokens": "Modifica token",
+        "help": {
+          "title": "Modello nome file",
+          "intro": "Costruisci il modello del nome file per le tue immagini catturate. Ogni token verrà sostituito da NINA con il valore reale al salvataggio.",
+          "tokensTitle": "Token",
+          "tokensDesc": "Tocca un pulsante token per aggiungerlo al modello. Token come Filter, Date o ExposureTime vengono sostituiti da NINA con i valori reali.",
+          "separatorsTitle": "Separatori",
+          "separatorsDesc": "Usa \\ per creare strutture di cartelle. Usa _ o - per separare i valori nel nome del file. Usa \"Testo\" per aggiungere testo personalizzato come \"s\" per secondi.",
+          "cursorTitle": "Posizione di inserimento",
+          "cursorDesc": "Tocca tra i token esistenti per spostare il cursore lampeggiante. I nuovi token vengono inseriti nella posizione del cursore.",
+          "exampleTitle": "Esempio",
+          "exampleResult": "Risultato:"
+        },
+        "groups": {
+          "dateTime": "Data / Ora",
+          "image": "Immagine",
+          "camera": "Fotocamera",
+          "guiding": "Guida",
+          "equipment": "Attrezzatura",
+          "other": "Altro"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Attiva modalità debug",

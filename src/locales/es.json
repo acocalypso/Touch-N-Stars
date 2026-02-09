@@ -140,6 +140,36 @@
         "UnlinkedStretch": "Strech sin enlace",
         "debayern": "Imagen de Debayer"
       },
+      "imageFile": {
+        "title": "Patrón de nombre de archivo",
+        "pattern": "Patrón",
+        "preview": "Vista previa",
+        "folder": "Carpeta",
+        "separator": "Separador",
+        "empty": "Toca los tokens de abajo para construir el patrón",
+        "freeText": "Texto",
+        "editTokens": "Editar tokens",
+        "help": {
+          "title": "Patrón de nombre de archivo",
+          "intro": "Construye el patrón de nombre de archivo para tus imágenes capturadas. Cada token será reemplazado por NINA con el valor real al guardar.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Toca un botón de token para añadirlo al patrón. Tokens como Filter, Date o ExposureTime son reemplazados por NINA con los valores reales.",
+          "separatorsTitle": "Separadores",
+          "separatorsDesc": "Usa \\ para crear estructuras de carpetas. Usa _ o - para separar valores en el nombre del archivo. Usa \"Texto\" para añadir texto personalizado como \"s\" para segundos.",
+          "cursorTitle": "Posición de inserción",
+          "cursorDesc": "Toca entre tokens existentes para mover el cursor parpadeante. Los nuevos tokens se insertan en la posición del cursor.",
+          "exampleTitle": "Ejemplo",
+          "exampleResult": "Resultado:"
+        },
+        "groups": {
+          "dateTime": "Fecha / Hora",
+          "image": "Imagen",
+          "camera": "Cámara",
+          "guiding": "Guiado",
+          "equipment": "Equipo",
+          "other": "Otros"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activar modo debug",

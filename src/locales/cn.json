@@ -141,6 +141,36 @@
         "DebayeredHFR": "去拜耳 HFR",
         "UnlinkedStretch": "非关联拉伸"
       },
+      "imageFile": {
+        "title": "文件名模式",
+        "pattern": "模式",
+        "preview": "预览",
+        "folder": "文件夹",
+        "separator": "分隔符",
+        "empty": "点击下方标记构建模式",
+        "freeText": "文本",
+        "editTokens": "编辑标记",
+        "help": {
+          "title": "文件名模式",
+          "intro": "为拍摄的图像构建文件名模式。保存时，每个标记将被 NINA 替换为实际值。",
+          "tokensTitle": "标记",
+          "tokensDesc": "点击标记按钮将其添加到模式中。Filter、Date 或 ExposureTime 等标记将被 NINA 替换为实际值。",
+          "separatorsTitle": "分隔符",
+          "separatorsDesc": "使用 \\ 创建文件夹结构。使用 _ 或 - 分隔文件名中的值。使用「文本」添加自定义文本，如「s」表示秒。",
+          "cursorTitle": "插入位置",
+          "cursorDesc": "点击现有标记之间移动闪烁光标。新标记将插入到光标位置。",
+          "exampleTitle": "示例",
+          "exampleResult": "结果为："
+        },
+        "groups": {
+          "dateTime": "日期 / 时间",
+          "image": "图像",
+          "camera": "相机",
+          "guiding": "导星",
+          "equipment": "设备",
+          "other": "其他"
+        }
+      },
       "debug": {
         "title": "调试",
         "activate": "激活调试模式",

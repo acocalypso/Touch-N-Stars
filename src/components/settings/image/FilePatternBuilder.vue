@@ -4,36 +4,56 @@
     <div class="flex flex-col gap-1">
       <label class="text-xs text-gray-400">{{ $t('components.settings.imageFile.pattern') }}</label>
       <div
-        class="flex flex-wrap items-center gap-1 bg-gray-900/50 border border-gray-700/50 rounded-lg px-2 py-2 min-h-[40px]"
+        class="flex flex-wrap items-center bg-gray-900/50 border border-gray-700/50 rounded-lg px-1 py-2 min-h-[40px]"
       >
-        <div
-          v-for="(segment, index) in patternSegments"
-          :key="index"
-          class="flex items-center rounded text-xs font-mono"
-          :class="segmentClass(segment)"
-        >
-          <span class="px-1.5 py-0.5">{{ segmentLabel(segment) }}</span>
+        <template v-if="patternSegments.length === 0">
+          <!-- Empty state: single cursor -->
           <button
-            @click="removeSegment(index)"
-            class="px-1 py-0.5 hover:text-red-400 transition-colors opacity-60 hover:opacity-100"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-3 w-3"
-              viewBox="0 0 20 20"
-              fill="currentColor"
+            @click="setInsertPos(0)"
+            class="cursor-insert"
+            :class="{ 'cursor-active': insertPos === 0 }"
+          />
+        </template>
+        <template v-else>
+          <template v-for="(segment, index) in patternSegments" :key="index">
+            <!-- Insertion cursor before each chip -->
+            <button
+              @click="setInsertPos(index)"
+              class="cursor-insert"
+              :class="{ 'cursor-active': insertPos === index }"
+            />
+            <!-- Chip -->
+            <div
+              class="flex items-center rounded text-xs font-mono"
+              :class="segmentClass(segment)"
             >
-              <path
-                fill-rule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              />
-            </svg>
-          </button>
-        </div>
-        <span v-if="patternSegments.length === 0" class="text-gray-600 text-xs">
-          {{ $t('components.settings.imageFile.empty') }}
-        </span>
+              <span class="px-1.5 py-0.5">{{ segmentLabel(segment) }}</span>
+              <button
+                @click="removeSegment(index)"
+                class="px-1 py-0.5 hover:text-red-400 transition-colors opacity-60 hover:opacity-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-3 w-3"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+          </template>
+          <!-- Insertion cursor after last chip -->
+          <button
+            @click="setInsertPos(patternSegments.length)"
+            class="cursor-insert"
+            :class="{ 'cursor-active': insertPos === patternSegments.length }"
+          />
+        </template>
       </div>
     </div>
 
@@ -112,6 +132,7 @@ import apiService from '@/services/apiService';
 const store = apiStore();
 const saving = ref(false);
 const saveSuccess = ref(false);
+const insertPos = ref(null); // null = append at end
 
 const defaultPattern =
   '$$DATEMINUS12$$\\$$IMAGETYPE$$\\$$DATETIME$$_$$FILTER$$_$$SENSORTEMP$$_$$EXPOSURETIME$$s_$$FRAMENR$$';
@@ -374,19 +395,33 @@ function segmentClass(segment) {
   return 'bg-gray-700/60 text-gray-300 border border-gray-600/50';
 }
 
+function setInsertPos(index) {
+  insertPos.value = index;
+}
+
 function addSegment(segment) {
-  patternSegments.value.push(segment);
+  if (insertPos.value !== null && insertPos.value <= patternSegments.value.length) {
+    patternSegments.value.splice(insertPos.value, 0, segment);
+    insertPos.value = insertPos.value + 1;
+  } else {
+    patternSegments.value.push(segment);
+    insertPos.value = patternSegments.value.length;
+  }
 }
 
 function addCustomText() {
   const text = prompt('Text:');
   if (text) {
-    patternSegments.value.push(text);
+    addSegment(text);
   }
 }
 
 function removeSegment(index) {
   patternSegments.value.splice(index, 1);
+  // Adjust cursor if needed
+  if (insertPos.value !== null && insertPos.value > index) {
+    insertPos.value = insertPos.value - 1;
+  }
 }
 
 const patternString = computed(() => buildPattern());
@@ -421,5 +456,47 @@ onMounted(() => {
   const currentPattern = store.profileInfo.ImageFileSettings.FilePattern;
   const source = currentPattern || defaultPattern;
   patternSegments.value = parsePattern(source);
+  insertPos.value = patternSegments.value.length;
 });
 </script>
+
+<style scoped>
+.cursor-insert {
+  width: 12px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.cursor-insert::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  border-radius: 1px;
+  background: transparent;
+  transform: translateX(-50%);
+  transition: background 0.15s;
+}
+
+.cursor-insert:hover::after {
+  background: rgba(107, 114, 128, 0.5);
+}
+
+.cursor-active::after {
+  background: #06b6d4 !important;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+</style>

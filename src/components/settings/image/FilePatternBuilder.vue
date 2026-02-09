@@ -2,7 +2,14 @@
   <div class="flex flex-col gap-3">
     <!-- Pattern Chips -->
     <div class="flex flex-col gap-1">
-      <label class="text-xs text-gray-400">{{ $t('components.settings.imageFile.pattern') }}</label>
+      <div class="flex items-center gap-1">
+        <label class="text-xs text-gray-400">{{
+          $t('components.settings.imageFile.pattern')
+        }}</label>
+        <button @click="showHelp = true" class="text-blue-500 hover:text-gray-300 p-1">
+          <InformationCircleIcon class="w-5 h-5" />
+        </button>
+      </div>
       <div
         class="flex flex-wrap items-center bg-gray-900/50 border border-gray-700/50 rounded-lg px-1 py-2 min-h-[40px]"
       >
@@ -121,6 +128,65 @@
         {{ $t('components.settings.save') }}
       </button>
     </div>
+
+    <!-- Help Modal -->
+    <div
+      v-if="showHelp"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+    >
+      <div
+        class="bg-gray-800 text-white p-4 m-4 rounded-lg max-w-xl max-h-[80vh] overflow-y-auto"
+      >
+        <div class="flex justify-between items-center mb-3">
+          <h2 class="text-lg font-bold">
+            {{ $t('components.settings.imageFile.help.title') }}
+          </h2>
+          <button @click="showHelp = false" class="text-white hover:text-gray-300">
+            <XMarkIcon class="w-6 h-6" />
+          </button>
+        </div>
+
+        <div class="space-y-3 text-sm text-gray-300">
+          <p>{{ $t('components.settings.imageFile.help.intro') }}</p>
+
+          <div>
+            <h3 class="text-cyan-400 font-semibold mb-1">
+              {{ $t('components.settings.imageFile.help.tokensTitle') }}
+            </h3>
+            <p>{{ $t('components.settings.imageFile.help.tokensDesc') }}</p>
+          </div>
+
+          <div>
+            <h3 class="text-amber-400 font-semibold mb-1">
+              {{ $t('components.settings.imageFile.help.separatorsTitle') }}
+            </h3>
+            <p>{{ $t('components.settings.imageFile.help.separatorsDesc') }}</p>
+          </div>
+
+          <div>
+            <h3 class="text-cyan-400 font-semibold mb-1">
+              {{ $t('components.settings.imageFile.help.cursorTitle') }}
+            </h3>
+            <p>{{ $t('components.settings.imageFile.help.cursorDesc') }}</p>
+          </div>
+
+          <div>
+            <h3 class="text-cyan-400 font-semibold mb-1">
+              {{ $t('components.settings.imageFile.help.exampleTitle') }}
+            </h3>
+            <code class="block bg-gray-900 rounded px-3 py-2 text-xs text-cyan-300 break-all">
+              $$DATEMINUS12$$\$$IMAGETYPE$$\$$DATETIME$$_$$FILTER$$_$$EXPOSURETIME$$s
+            </code>
+            <p class="mt-1 text-xs text-gray-400">
+              {{ $t('components.settings.imageFile.help.exampleResult') }}
+            </p>
+            <code class="block bg-gray-900 rounded px-3 py-1 text-xs text-green-300 break-all">
+              2024-01-15\LIGHT\2024-01-15_21-30-00_Ha_300s
+            </code>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -128,11 +194,13 @@
 import { ref, computed, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import { InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const saving = ref(false);
 const saveSuccess = ref(false);
 const insertPos = ref(null); // null = append at end
+const showHelp = ref(false);
 
 const defaultPattern =
   '$$DATEMINUS12$$\\$$IMAGETYPE$$\\$$DATETIME$$_$$FILTER$$_$$SENSORTEMP$$_$$EXPOSURETIME$$s_$$FRAMENR$$';
@@ -183,19 +251,19 @@ const allTokenKeys = [
 const tokenDisplayNames = {
   '$$FILTER$$': 'Filter',
   '$$DATE$$': 'Date',
-  '$$DATEUTC$$': 'DateUtc',
-  '$$DATEMINUS12$$': 'DateMinus12',
-  '$$DATETIME$$': 'DateTime',
+  '$$DATEUTC$$': 'Date UTC',
+  '$$DATEMINUS12$$': 'Session Date',
+  '$$DATETIME$$': 'Date+Time',
   '$$TIME$$': 'Time',
-  '$$TIMEUTC$$': 'TimeUtc',
+  '$$TIMEUTC$$': 'Time UTC',
   '$$MJD$$': 'MJD',
-  '$$FRAMENR$$': 'FrameNr',
-  '$$IMAGETYPE$$': 'ImageType',
-  '$$BINNING$$': 'Binning',
-  '$$SENSORTEMP$$': 'SensorTemp',
-  '$$TEMPERATURESETPOINT$$': 'TempSetPoint',
-  '$$EXPOSURETIME$$': 'ExposureTime',
-  '$$TARGETNAME$$': 'TargetName',
+  '$$FRAMENR$$': 'Frame #',
+  '$$IMAGETYPE$$': 'Type',
+  '$$BINNING$$': 'Bin',
+  '$$SENSORTEMP$$': 'Temp',
+  '$$TEMPERATURESETPOINT$$': 'Temp Set',
+  '$$EXPOSURETIME$$': 'Exposure',
+  '$$TARGETNAME$$': 'Target',
   '$$GAIN$$': 'Gain',
   '$$OFFSET$$': 'Offset',
   '$$RMS$$': 'RMS',
@@ -204,18 +272,18 @@ const tokenDisplayNames = {
   '$$PEAKRAARCSEC$$': 'PeakRA"',
   '$$PEAKDEC$$': 'PeakDec',
   '$$PEAKDECARCSEC$$': 'PeakDec"',
-  '$$FOCUSERPOSITION$$': 'FocuserPos',
-  '$$FOCUSERTEMP$$': 'FocuserTemp',
-  '$$APPLICATIONSTARTDATE$$': 'AppStartDate',
+  '$$FOCUSERPOSITION$$': 'Focuser Pos',
+  '$$FOCUSERTEMP$$': 'Focuser Temp',
+  '$$APPLICATIONSTARTDATE$$': 'App Start',
   '$$HFR$$': 'HFR',
   '$$SQM$$': 'SQM',
-  '$$READOUTMODE$$': 'ReadoutMode',
-  '$$USBLIMIT$$': 'USBLimit',
+  '$$READOUTMODE$$': 'Readout',
+  '$$USBLIMIT$$': 'USB Limit',
   '$$CAMERA$$': 'Camera',
   '$$TELESCOPE$$': 'Telescope',
-  '$$ROTATORANGLE$$': 'RotatorAngle',
-  '$$STARCOUNT$$': 'StarCount',
-  '$$SEQUENCETITLE$$': 'SeqTitle',
+  '$$ROTATORANGLE$$': 'Rotator',
+  '$$STARCOUNT$$': 'Stars',
+  '$$SEQUENCETITLE$$': 'Sequence',
 };
 
 const tokenGroups = [
@@ -223,33 +291,33 @@ const tokenGroups = [
     label: 'components.settings.imageFile.groups.dateTime',
     tokens: [
       { key: '$$DATE$$', display: 'Date' },
-      { key: '$$DATEUTC$$', display: 'DateUtc' },
-      { key: '$$DATEMINUS12$$', display: 'DateMinus12' },
-      { key: '$$DATETIME$$', display: 'DateTime' },
+      { key: '$$DATEUTC$$', display: 'Date UTC' },
+      { key: '$$DATEMINUS12$$', display: 'Session Date' },
+      { key: '$$DATETIME$$', display: 'Date+Time' },
       { key: '$$TIME$$', display: 'Time' },
-      { key: '$$TIMEUTC$$', display: 'TimeUtc' },
+      { key: '$$TIMEUTC$$', display: 'Time UTC' },
       { key: '$$MJD$$', display: 'MJD' },
     ],
   },
   {
     label: 'components.settings.imageFile.groups.image',
     tokens: [
-      { key: '$$IMAGETYPE$$', display: 'ImageType' },
+      { key: '$$IMAGETYPE$$', display: 'Type' },
       { key: '$$FILTER$$', display: 'Filter' },
-      { key: '$$FRAMENR$$', display: 'FrameNr' },
-      { key: '$$EXPOSURETIME$$', display: 'ExposureTime' },
-      { key: '$$BINNING$$', display: 'Binning' },
+      { key: '$$FRAMENR$$', display: 'Frame #' },
+      { key: '$$EXPOSURETIME$$', display: 'Exposure' },
+      { key: '$$BINNING$$', display: 'Bin' },
     ],
   },
   {
     label: 'components.settings.imageFile.groups.camera',
     tokens: [
-      { key: '$$SENSORTEMP$$', display: 'SensorTemp' },
-      { key: '$$TEMPERATURESETPOINT$$', display: 'TempSetPoint' },
+      { key: '$$SENSORTEMP$$', display: 'Temp' },
+      { key: '$$TEMPERATURESETPOINT$$', display: 'Temp Set' },
       { key: '$$GAIN$$', display: 'Gain' },
       { key: '$$OFFSET$$', display: 'Offset' },
-      { key: '$$READOUTMODE$$', display: 'ReadoutMode' },
-      { key: '$$USBLIMIT$$', display: 'USBLimit' },
+      { key: '$$READOUTMODE$$', display: 'Readout' },
+      { key: '$$USBLIMIT$$', display: 'USB Limit' },
       { key: '$$CAMERA$$', display: 'Camera' },
     ],
   },
@@ -267,21 +335,21 @@ const tokenGroups = [
   {
     label: 'components.settings.imageFile.groups.equipment',
     tokens: [
-      { key: '$$FOCUSERPOSITION$$', display: 'FocuserPos' },
-      { key: '$$FOCUSERTEMP$$', display: 'FocuserTemp' },
+      { key: '$$FOCUSERPOSITION$$', display: 'Focuser Pos' },
+      { key: '$$FOCUSERTEMP$$', display: 'Focuser Temp' },
       { key: '$$TELESCOPE$$', display: 'Telescope' },
-      { key: '$$ROTATORANGLE$$', display: 'RotatorAngle' },
+      { key: '$$ROTATORANGLE$$', display: 'Rotator' },
     ],
   },
   {
     label: 'components.settings.imageFile.groups.other',
     tokens: [
-      { key: '$$TARGETNAME$$', display: 'TargetName' },
-      { key: '$$SEQUENCETITLE$$', display: 'SeqTitle' },
-      { key: '$$APPLICATIONSTARTDATE$$', display: 'AppStartDate' },
+      { key: '$$TARGETNAME$$', display: 'Target' },
+      { key: '$$SEQUENCETITLE$$', display: 'Sequence' },
+      { key: '$$APPLICATIONSTARTDATE$$', display: 'App Start' },
       { key: '$$HFR$$', display: 'HFR' },
       { key: '$$SQM$$', display: 'SQM' },
-      { key: '$$STARCOUNT$$', display: 'StarCount' },
+      { key: '$$STARCOUNT$$', display: 'Stars' },
     ],
   },
 ];

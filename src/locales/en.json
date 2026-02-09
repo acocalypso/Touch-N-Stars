@@ -148,6 +148,8 @@
         "preview": "Preview",
         "folder": "Folder",
         "separator": "Separator",
+        "empty": "Tap tokens below to build pattern",
+        "freeText": "Text",
         "groups": {
           "dateTime": "Date / Time",
           "image": "Image",

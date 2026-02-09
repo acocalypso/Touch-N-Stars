@@ -140,6 +140,21 @@
         "UnlinkedStretch": "Unverlinkter Stretch",
         "debayern": "Debayer Bild"
       },
+      "imageFile": {
+        "title": "Dateinamenmuster",
+        "pattern": "Muster",
+        "preview": "Vorschau",
+        "folder": "Ordner",
+        "separator": "Trenner",
+        "groups": {
+          "dateTime": "Datum / Zeit",
+          "image": "Bild",
+          "camera": "Kamera",
+          "guiding": "Guiding",
+          "equipment": "Ausrüstung",
+          "other": "Sonstiges"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Debug-Modus aktivieren",

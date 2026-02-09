@@ -142,6 +142,21 @@
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unlinked Strech"
       },
+      "imageFile": {
+        "title": "File Name Pattern",
+        "pattern": "Pattern",
+        "preview": "Preview",
+        "folder": "Folder",
+        "separator": "Separator",
+        "groups": {
+          "dateTime": "Date / Time",
+          "image": "Image",
+          "camera": "Camera",
+          "guiding": "Guiding",
+          "equipment": "Equipment",
+          "other": "Other"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activate Debug Mode",

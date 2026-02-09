@@ -141,6 +141,36 @@
         "UnlinkedStretch": "Nepropojený Stretch",
         "debayern": "Debayer Snímek"
       },
+      "imageFile": {
+        "title": "Vzor názvu souboru",
+        "pattern": "Vzor",
+        "preview": "Náhled",
+        "folder": "Složka",
+        "separator": "Oddělovač",
+        "empty": "Klepněte na tokeny níže pro sestavení vzoru",
+        "freeText": "Text",
+        "editTokens": "Upravit tokeny",
+        "help": {
+          "title": "Vzor názvu souboru",
+          "intro": "Sestavte vzor názvu souboru pro vaše pořízené snímky. Každý token bude při ukládání nahrazen skutečnou hodnotou z NINA.",
+          "tokensTitle": "Tokeny",
+          "tokensDesc": "Klepněte na tlačítko tokenu pro přidání do vzoru. Tokeny jako Filter, Date nebo ExposureTime jsou nahrazeny skutečnými hodnotami z NINA.",
+          "separatorsTitle": "Oddělovače",
+          "separatorsDesc": "Použijte \\ pro vytvoření struktury složek. Použijte _ nebo - pro oddělení hodnot v názvu souboru. Použijte \"Text\" pro přidání vlastního textu, např. \"s\" pro sekundy.",
+          "cursorTitle": "Pozice vložení",
+          "cursorDesc": "Klepněte mezi existující tokeny pro přesun blikajícího kurzoru. Nové tokeny se vloží na pozici kurzoru.",
+          "exampleTitle": "Příklad",
+          "exampleResult": "Výsledek:"
+        },
+        "groups": {
+          "dateTime": "Datum / Čas",
+          "image": "Snímek",
+          "camera": "Kamera",
+          "guiding": "Guiding",
+          "equipment": "Vybavení",
+          "other": "Ostatní"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Aktivovat debug režim",

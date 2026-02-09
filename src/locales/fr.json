@@ -141,6 +141,36 @@
         "DebayeredHFR": "Débayé HFR",
         "UnlinkedStretch": "Étirement non lié"
       },
+      "imageFile": {
+        "title": "Modèle de nom de fichier",
+        "pattern": "Modèle",
+        "preview": "Aperçu",
+        "folder": "Dossier",
+        "separator": "Séparateur",
+        "empty": "Appuyez sur les jetons ci-dessous pour construire le modèle",
+        "freeText": "Texte",
+        "editTokens": "Modifier les jetons",
+        "help": {
+          "title": "Modèle de nom de fichier",
+          "intro": "Construisez le modèle de nom de fichier pour vos images capturées. Chaque jeton sera remplacé par NINA avec la valeur réelle lors de l'enregistrement.",
+          "tokensTitle": "Jetons",
+          "tokensDesc": "Appuyez sur un bouton de jeton pour l'ajouter au modèle. Les jetons comme Filter, Date ou ExposureTime sont remplacés par NINA avec les valeurs réelles.",
+          "separatorsTitle": "Séparateurs",
+          "separatorsDesc": "Utilisez \\ pour créer des structures de dossiers. Utilisez _ ou - pour séparer les valeurs dans le nom du fichier. Utilisez « Texte » pour ajouter du texte personnalisé comme « s » pour secondes.",
+          "cursorTitle": "Position d'insertion",
+          "cursorDesc": "Appuyez entre les jetons existants pour déplacer le curseur clignotant. Les nouveaux jetons sont insérés à la position du curseur.",
+          "exampleTitle": "Exemple",
+          "exampleResult": "Résultat :"
+        },
+        "groups": {
+          "dateTime": "Date / Heure",
+          "image": "Image",
+          "camera": "Caméra",
+          "guiding": "Guidage",
+          "equipment": "Équipement",
+          "other": "Autre"
+        }
+      },
       "debug": {
         "title": "Débogage",
         "activate": "Activer le mode débogage",
@@ -598,6 +628,7 @@
       "cooling_time": "Temps de refroidissement (min)",
       "binning_mode": "Binning",
       "readout_mode": "Mode de lecture",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Utiliser Platesolve",
       "chip_settings": {
         "title": "Paramètres de la puce de la caméra",
@@ -1657,5 +1688,118 @@
       "rotation": "Rotation"
     }
   },
-  "loading": "chargement"
+  "loading": "chargement",
+  "observationPlaner": {
+    "title": "Planificateur d'observation",
+    "subtitle": "Favoris avec aperçu + carte d'altitude pour ce soir (basé sur la localisation)",
+    "sections": {
+      "tonightPicks": "Sélection de ce soir",
+      "topForWindow": "Meilleures cibles pour la fenêtre horaire sélectionnée",
+      "preview": "Aperçu",
+      "framing": "Cadrage"
+    },
+    "filters": {
+      "title": "Filtres",
+      "search": "Recherche",
+      "search_placeholder": "M42, Andromède, NGC…",
+      "timeWindow": "Fenêtre horaire",
+      "startLocal": "Début (local)",
+      "endLocal": "Fin (local)",
+      "moon": "Lune",
+      "objectType": "Type d'objet",
+      "azSector": "Direction du ciel (secteur azimutal)",
+      "onlyAboveHorizon": "Uniquement >0° d'altitude",
+      "limit": "Limite"
+    },
+    "sort": {
+      "title": "Tri",
+      "nameAZ": "Nom A→Z",
+      "maxAltDesc": "Alt. max. ↓",
+      "bestTimeAsc": "Meilleur moment ↑",
+      "bestTime": "Meilleur moment",
+      "maxAltWindow": "Alt. max. (fenêtre)",
+      "visible": "Visible ?"
+    },
+    "location": {
+      "title": "Localisation",
+      "get": "Obtenir la localisation",
+      "notAvailable": "Aucune localisation disponible",
+      "hintNoLocation": "Remarque : Sans localisation, les filtres d'altitude/direction et les graphiques ne peuvent pas être calculés."
+    },
+    "performance": {
+      "title": "Affichage / Performance",
+      "lazyPreviews": "Chargement différé des aperçus",
+      "redraw": "Redessiner"
+    },
+    "buttons": {
+      "refresh": "Rafraîchir",
+      "reload": "Recharger",
+      "slew": "Slew",
+      "center": "Centrer",
+      "slewNoCenter": "Slew (sans centrage)",
+      "slewCenter": "Slew + Centrer",
+      "slewCenterPlatesolve": "Slew + Centrer (platesolve)",
+      "sendToSequencer": "Envoyer au séquenceur",
+      "openFraming": "Ouvrir l'assistant de cadrage",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Aucune image chargée",
+      "unavailable": "Aperçu non disponible",
+      "info": "Info aperçu",
+      "reload": "Recharger l'aperçu"
+    },
+    "cache": {
+      "useNinaCache": "Utiliser le cache NINA pour l'image cible",
+      "hint": "Charge l'image DSS/cible via TNS WebAPI. Le bouton cache contrôle useCache.",
+      "hintShort": "Transmet useCache à targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Altitude vs. Temps",
+      "sampleMin": "Échantillon (min)",
+      "directionAz": "Direction (Az)",
+      "separation": "Séparation —"
+    },
+    "sectors": {
+      "N_NE": "Nord → Nord-Est (315°–45°)",
+      "NE_E": "Nord-Est → Est (45°–90°)",
+      "E_SE": "Est → Sud-Est (90°–135°)",
+      "SE_S": "Sud-Est → Sud (135°–180°)",
+      "S_SW": "Sud → Sud-Ouest (180°–225°)",
+      "SW_W": "Sud-Ouest → Ouest (225°–270°)",
+      "W_NW": "Ouest → Nord-Ouest (270°–315°)",
+      "NW_N": "Nord-Ouest → Nord (315°–360°)",
+      "all": "Tous"
+    },
+    "common": {
+      "yes": "Oui",
+      "no": "Non",
+      "loading": "Chargement…",
+      "all": "Tous"
+    },
+    "tooltips": {
+      "favorite": "Favori",
+      "refreshFavorites": "Recharger les favoris et recalculer",
+      "filterNoBelowHorizon": "Filtre les cibles avec alt. max. <= 0°",
+      "filterAzSector": "Filtrer par bestAzDeg (azimut à l'altitude maximale dans la fenêtre)",
+      "gpsUpdate": "Mettre à jour la localisation GPS",
+      "openFramingFmt": "Ouvrir le cadrage · {ra} / {dec} · Alt. max. {maxAlt}°",
+      "tonightScoreFmt": "Score ce soir : {score} · Alt. max. {maxAlt}° · {hours}h",
+      "redrawChart": "Redessiner le graphique",
+      "lazyVisibleOnly": "Charger uniquement les cartes visibles",
+      "useCacheHint": "Transmet useCache à targetpic",
+      "previewReload": "Recharger l'aperçu"
+    },
+    "empty": {
+      "noFavorites": "Aucun favori trouvé."
+    },
+    "status": {
+      "sendingToSequencer": "Envoi de la cible au séquenceur…",
+      "sequencerTargetSet": "Cible du séquenceur définie"
+    },
+    "errors": {
+      "noSequenceAvailable": "Aucune séquence disponible, chargez d'abord une séquence",
+      "sequencerFailed": "Le séquenceur a échoué"
+    }
+  }
 }

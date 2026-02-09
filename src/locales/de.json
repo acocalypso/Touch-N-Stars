@@ -140,6 +140,36 @@
         "UnlinkedStretch": "Unverlinkter Stretch",
         "debayern": "Debayer Bild"
       },
+      "imageFile": {
+        "title": "Dateinamenmuster",
+        "pattern": "Muster",
+        "preview": "Vorschau",
+        "folder": "Ordner",
+        "separator": "Trenner",
+        "empty": "Tippe auf die Tokens um das Muster zu erstellen",
+        "freeText": "Text",
+        "editTokens": "Tokens bearbeiten",
+        "help": {
+          "title": "Dateinamenmuster",
+          "intro": "Erstelle das Dateinamenmuster für deine aufgenommenen Bilder. Jedes Token wird von NINA beim Speichern durch den tatsächlichen Wert ersetzt.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Tippe auf einen Token-Button um ihn zum Muster hinzuzufügen. Tokens wie Filter, Date oder ExposureTime werden von NINA durch die echten Werte ersetzt.",
+          "separatorsTitle": "Trennzeichen",
+          "separatorsDesc": "Verwende \\ um Ordnerstrukturen zu erstellen. Verwende _ oder - um Werte im Dateinamen zu trennen. Verwende \"Text\" um eigenen Text wie \"s\" für Sekunden hinzuzufügen.",
+          "cursorTitle": "Einfügeposition",
+          "cursorDesc": "Tippe zwischen bestehende Tokens um den blinkenden Cursor zu verschieben. Neue Tokens werden an der Cursor-Position eingefügt.",
+          "exampleTitle": "Beispiel",
+          "exampleResult": "Ergibt:"
+        },
+        "groups": {
+          "dateTime": "Datum / Zeit",
+          "image": "Bild",
+          "camera": "Kamera",
+          "guiding": "Guiding",
+          "equipment": "Ausrüstung",
+          "other": "Sonstiges"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Debug-Modus aktivieren",
@@ -598,6 +628,7 @@
       "cooling_time": "Kühlzeit (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
         "focal_length": "Brennweite (mm)",

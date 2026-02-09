@@ -140,6 +140,36 @@
         "UnlinkedStretch": "Nepropojený Stretch",
         "debayern": "Debayer Snímek"
       },
+      "imageFile": {
+        "title": "Vzor názvu souboru",
+        "pattern": "Vzor",
+        "preview": "Náhled",
+        "folder": "Složka",
+        "separator": "Oddělovač",
+        "empty": "Klepněte na tokeny níže pro sestavení vzoru",
+        "freeText": "Text",
+        "editTokens": "Upravit tokeny",
+        "help": {
+          "title": "Vzor názvu souboru",
+          "intro": "Sestavte vzor názvu souboru pro vaše pořízené snímky. Každý token bude při ukládání nahrazen skutečnou hodnotou z NINA.",
+          "tokensTitle": "Tokeny",
+          "tokensDesc": "Klepněte na tlačítko tokenu pro přidání do vzoru. Tokeny jako Filter, Date nebo ExposureTime jsou nahrazeny skutečnými hodnotami z NINA.",
+          "separatorsTitle": "Oddělovače",
+          "separatorsDesc": "Použijte \\ pro vytvoření struktury složek. Použijte _ nebo - pro oddělení hodnot v názvu souboru. Použijte \"Text\" pro přidání vlastního textu, např. \"s\" pro sekundy.",
+          "cursorTitle": "Pozice vložení",
+          "cursorDesc": "Klepněte mezi existující tokeny pro přesun blikajícího kurzoru. Nové tokeny se vloží na pozici kurzoru.",
+          "exampleTitle": "Příklad",
+          "exampleResult": "Výsledek:"
+        },
+        "groups": {
+          "dateTime": "Datum / Čas",
+          "image": "Snímek",
+          "camera": "Kamera",
+          "guiding": "Guiding",
+          "equipment": "Vybavení",
+          "other": "Ostatní"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Aktivovat debug režim",
@@ -601,6 +631,7 @@
       "cooling_time": "Doba chlazení (min)",
       "binning_mode": "Binning",
       "readout_mode": "Režim Čtení",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Použít Řešení",
       "chip_settings": {
         "focal_length": "Ohnisková vzdálenost (mm)",
@@ -1663,5 +1694,118 @@
       "rotation": "Rotace"
     }
   },
-  "loading": "načítání"
+  "loading": "načítání",
+  "observationPlaner": {
+    "title": "Plánovač pozorování",
+    "subtitle": "Oblíbené s náhledem + výšková mapa pro dnešní noc (na základě polohy)",
+    "sections": {
+      "tonightPicks": "Výběr na dnešek",
+      "topForWindow": "Nejlepší cíle pro zvolené časové okno",
+      "preview": "Náhled",
+      "framing": "Zarámování"
+    },
+    "filters": {
+      "title": "Filtry",
+      "search": "Hledání",
+      "search_placeholder": "M42, Andromeda, NGC…",
+      "timeWindow": "Časové okno",
+      "startLocal": "Začátek (místní)",
+      "endLocal": "Konec (místní)",
+      "moon": "Měsíc",
+      "objectType": "Typ objektu",
+      "azSector": "Směr oblohy (azimutální sektor)",
+      "onlyAboveHorizon": "Pouze >0° výška",
+      "limit": "Limit"
+    },
+    "sort": {
+      "title": "Řazení",
+      "nameAZ": "Název A→Z",
+      "maxAltDesc": "Max. výška ↓",
+      "bestTimeAsc": "Nejlepší čas ↑",
+      "bestTime": "Nejlepší čas",
+      "maxAltWindow": "Max. výška (okno)",
+      "visible": "Viditelný?"
+    },
+    "location": {
+      "title": "Poloha",
+      "get": "Získat polohu",
+      "notAvailable": "Poloha není k dispozici",
+      "hintNoLocation": "Poznámka: Bez polohy nelze vypočítat filtry výšky/směru a grafy."
+    },
+    "performance": {
+      "title": "Zobrazení / Výkon",
+      "lazyPreviews": "Líné načítání náhledů",
+      "redraw": "Překreslit"
+    },
+    "buttons": {
+      "refresh": "Obnovit",
+      "reload": "Znovu načíst",
+      "slew": "Přesunout",
+      "center": "Vycentrovat",
+      "slewNoCenter": "Přesunout (bez centrování)",
+      "slewCenter": "Přesunout + Vycentrovat",
+      "slewCenterPlatesolve": "Přesunout + Vycentrovat (platesolve)",
+      "sendToSequencer": "Odeslat do sekvenceru",
+      "openFraming": "Otevřít asistenta zarámování",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Žádný obrázek nenačten",
+      "unavailable": "Náhled není k dispozici",
+      "info": "Informace o náhledu",
+      "reload": "Znovu načíst náhled"
+    },
+    "cache": {
+      "useNinaCache": "Použít NINA cache pro obrázek cíle",
+      "hint": "Načítá DSS/obrázek cíle přes TNS WebAPI. Přepínač cache ovládá useCache.",
+      "hintShort": "Předává useCache do targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Výška vs. čas",
+      "sampleMin": "Vzorek (min)",
+      "directionAz": "Směr (Az)",
+      "separation": "Separace —"
+    },
+    "sectors": {
+      "N_NE": "Sever → Severovýchod (315°–45°)",
+      "NE_E": "Severovýchod → Východ (45°–90°)",
+      "E_SE": "Východ → Jihovýchod (90°–135°)",
+      "SE_S": "Jihovýchod → Jih (135°–180°)",
+      "S_SW": "Jih → Jihozápad (180°–225°)",
+      "SW_W": "Jihozápad → Západ (225°–270°)",
+      "W_NW": "Západ → Severozápad (270°–315°)",
+      "NW_N": "Severozápad → Sever (315°–360°)",
+      "all": "Vše"
+    },
+    "common": {
+      "yes": "Ano",
+      "no": "Ne",
+      "loading": "Načítání…",
+      "all": "Vše"
+    },
+    "tooltips": {
+      "favorite": "Oblíbené",
+      "refreshFavorites": "Znovu načíst oblíbené a přepočítat",
+      "filterNoBelowHorizon": "Filtruje cíle s maxAlt <= 0°",
+      "filterAzSector": "Filtrovat podle bestAzDeg (azimut při nejvyšší výšce v okně)",
+      "gpsUpdate": "Aktualizovat GPS polohu",
+      "openFramingFmt": "Otevřít zarámování · {ra} / {dec} · MaxAlt {maxAlt}°",
+      "tonightScoreFmt": "Skóre na dnešek: {score} · MaxAlt {maxAlt}° · {hours}h",
+      "redrawChart": "Překreslit graf",
+      "lazyVisibleOnly": "Načíst pouze pro viditelné karty",
+      "useCacheHint": "Předává useCache do targetpic",
+      "previewReload": "Znovu načíst náhled"
+    },
+    "empty": {
+      "noFavorites": "Žádné oblíbené nenalezeny."
+    },
+    "status": {
+      "sendingToSequencer": "Odesílání cíle do sekvenceru…",
+      "sequencerTargetSet": "Cíl sekvenceru nastaven"
+    },
+    "errors": {
+      "noSequenceAvailable": "Žádná sekvence není k dispozici, nejprve načtěte sekvenci",
+      "sequencerFailed": "Sekvencer selhal"
+    }
+  }
 }

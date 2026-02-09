@@ -148,6 +148,7 @@
         "separator": "Trenner",
         "empty": "Tippe auf die Tokens um das Muster zu erstellen",
         "freeText": "Text",
+        "editTokens": "Tokens bearbeiten",
         "help": {
           "title": "Dateinamenmuster",
           "intro": "Erstelle das Dateinamenmuster für deine aufgenommenen Bilder. Jedes Token wird von NINA beim Speichern durch den tatsächlichen Wert ersetzt.",

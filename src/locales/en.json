@@ -150,6 +150,7 @@
         "separator": "Separator",
         "empty": "Tap tokens below to build pattern",
         "freeText": "Text",
+        "editTokens": "Edit tokens",
         "help": {
           "title": "File Name Pattern",
           "intro": "Build the file name pattern for your captured images. Each token will be replaced by NINA with the actual value when saving.",

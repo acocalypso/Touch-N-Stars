@@ -1,81 +1,128 @@
 <template>
   <div class="flex flex-col gap-3">
-    <!-- Pattern Chips -->
-    <div class="flex flex-col gap-1">
-      <div class="flex items-center gap-1">
+    <!-- Collapsed: Pattern string + Preview -->
+    <template v-if="!showTokens">
+      <div class="flex flex-col gap-1">
         <label class="text-xs text-gray-400">{{
           $t('components.settings.imageFile.pattern')
         }}</label>
-        <button @click="showHelp = true" class="text-blue-500 hover:text-gray-300 p-1">
-          <InformationCircleIcon class="w-5 h-5" />
-        </button>
+        <div
+          class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-gray-300 break-all"
+        >
+          {{ patternString || '—' }}
+        </div>
       </div>
-      <div
-        class="flex flex-wrap items-center bg-gray-900/50 border border-gray-700/50 rounded-lg px-1 py-2 min-h-[40px]"
-      >
-        <template v-if="patternSegments.length === 0">
-          <!-- Empty state: single cursor -->
-          <button
-            @click="setInsertPos(0)"
-            class="cursor-insert"
-            :class="{ 'cursor-active': insertPos === 0 }"
-          />
-        </template>
-        <template v-else>
-          <template v-for="(segment, index) in patternSegments" :key="index">
-            <!-- Insertion cursor before each chip -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-gray-400">{{
+          $t('components.settings.imageFile.preview')
+        }}</label>
+        <div
+          class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300 break-all"
+        >
+          {{ previewResult || '—' }}
+        </div>
+      </div>
+    </template>
+
+    <!-- Expanded: Chips + Token buttons -->
+    <template v-else>
+      <!-- Pattern Chips -->
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center gap-1">
+          <label class="text-xs text-gray-400">{{
+            $t('components.settings.imageFile.pattern')
+          }}</label>
+          <button @click="showHelp = true" class="text-blue-500 hover:text-gray-300 p-1">
+            <InformationCircleIcon class="w-5 h-5" />
+          </button>
+        </div>
+        <div
+          class="flex flex-wrap items-center bg-gray-900/50 border border-gray-700/50 rounded-lg px-1 py-2 min-h-[40px]"
+        >
+          <template v-if="patternSegments.length === 0">
             <button
-              @click="setInsertPos(index)"
+              @click="setInsertPos(0)"
               class="cursor-insert"
-              :class="{ 'cursor-active': insertPos === index }"
+              :class="{ 'cursor-active': insertPos === 0 }"
             />
-            <!-- Chip -->
-            <div
-              class="flex items-center rounded text-xs font-mono"
-              :class="segmentClass(segment)"
-            >
-              <span class="px-1.5 py-0.5">{{ segmentLabel(segment) }}</span>
-              <button
-                @click="removeSegment(index)"
-                class="px-1 py-0.5 hover:text-red-400 transition-colors opacity-60 hover:opacity-100"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-3 w-3"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
           </template>
-          <!-- Insertion cursor after last chip -->
-          <button
-            @click="setInsertPos(patternSegments.length)"
-            class="cursor-insert"
-            :class="{ 'cursor-active': insertPos === patternSegments.length }"
-          />
-        </template>
+          <template v-else>
+            <template v-for="(segment, index) in patternSegments" :key="index">
+              <button
+                @click="setInsertPos(index)"
+                class="cursor-insert"
+                :class="{ 'cursor-active': insertPos === index }"
+              />
+              <div
+                class="flex items-center rounded text-xs font-mono"
+                :class="segmentClass(segment)"
+              >
+                <span class="px-1.5 py-0.5">{{ segmentLabel(segment) }}</span>
+                <button
+                  @click="removeSegment(index)"
+                  class="px-1 py-0.5 hover:text-red-400 transition-colors opacity-60 hover:opacity-100"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-3 w-3"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </template>
+            <button
+              @click="setInsertPos(patternSegments.length)"
+              class="cursor-insert"
+              :class="{ 'cursor-active': insertPos === patternSegments.length }"
+            />
+          </template>
+        </div>
       </div>
-    </div>
 
-    <!-- Preview -->
-    <div class="flex flex-col gap-1">
-      <label class="text-xs text-gray-400">{{ $t('components.settings.imageFile.preview') }}</label>
-      <div
-        class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300 break-all"
+      <!-- Preview -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs text-gray-400">{{
+          $t('components.settings.imageFile.preview')
+        }}</label>
+        <div
+          class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300 break-all"
+        >
+          {{ previewResult || '—' }}
+        </div>
+      </div>
+    </template>
+
+    <!-- Toggle edit -->
+    <button
+      @click="showTokens = !showTokens"
+      class="flex items-center justify-between w-full text-xs text-gray-400 hover:text-gray-200 transition-colors"
+    >
+      <span>{{ $t('components.settings.imageFile.editTokens') }}</span>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4 transition-transform"
+        :class="{ 'rotate-180': showTokens }"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
       >
-        {{ previewResult || '—' }}
-      </div>
-    </div>
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M19 9l-7 7-7-7"
+        />
+      </svg>
+    </button>
 
-    <!-- Token Groups -->
-    <div class="flex flex-col gap-2">
+    <div v-if="showTokens" class="flex flex-col gap-2">
       <div v-for="group in tokenGroups" :key="group.label" class="flex flex-col gap-1">
         <label class="text-xs text-gray-500">{{ $t(group.label) }}</label>
         <div class="flex flex-wrap gap-1">
@@ -201,6 +248,7 @@ const saving = ref(false);
 const saveSuccess = ref(false);
 const insertPos = ref(null); // null = append at end
 const showHelp = ref(false);
+const showTokens = ref(false);
 
 const defaultPattern =
   '$$DATEMINUS12$$\\$$IMAGETYPE$$\\$$DATETIME$$_$$FILTER$$_$$SENSORTEMP$$_$$EXPOSURETIME$$s_$$FRAMENR$$';

@@ -12,22 +12,21 @@ export const useHocusFocusStore = defineStore('hocusfocus', {
     // Detailed AutoFocus analysis state
     isCancelling: false,
 
-    // Star Annotator Options state
-    starAnnotatorOptions: null,
-    isLoadingOptions: false,
-    optionsError: null,
-
     // Star Detection Options state
     starDetectionOptions: null,
     isLoadingDetectionOptions: false,
     detectionOptionsError: null,
 
+    // AutoFocus Options state
+    autoFocusOptions: null,
+    isLoadingAutoFocusOptions: false,
+    autoFocusOptionsError: null,
+
     // Plugin Info
     pluginInfo: {
       name: 'HocusFocus',
       version: '',
-      description:
-        'Improved Star Detection, Star Annotation, Auto Focus, and Tilt Correction for NINA',
+      description: 'Improved Star Detection, Auto Focus, and Tilt Correction for NINA',
       installed: false,
     },
   }),
@@ -68,69 +67,6 @@ export const useHocusFocusStore = defineStore('hocusfocus', {
         console.warn('Failed to fetch focuser status:', err);
         this.focuserConnected = false;
       }
-    },
-
-    // Load Star Annotator Options
-    async loadStarAnnotatorOptions() {
-      try {
-        this.isLoadingOptions = true;
-        this.optionsError = null;
-        const options = await apiService.hocusfocus.getStarAnnotatorOptions();
-        this.starAnnotatorOptions = options;
-        return options;
-      } catch (err) {
-        this.optionsError = err.message || 'Failed to load Star Annotator options';
-        console.error('Error loading Star Annotator options:', err);
-        throw err;
-      } finally {
-        this.isLoadingOptions = false;
-      }
-    },
-
-    // Save Star Annotator Options
-    async saveStarAnnotatorOptions(options) {
-      try {
-        this.isLoadingOptions = true;
-        this.optionsError = null;
-        const response = await apiService.hocusfocus.setStarAnnotatorOptions(options);
-        // Reload options to sync with backend
-        await this.loadStarAnnotatorOptions();
-        return response;
-      } catch (err) {
-        this.optionsError = err.message || 'Failed to save Star Annotator options';
-        console.error('Error saving Star Annotator options:', err);
-        throw err;
-      } finally {
-        this.isLoadingOptions = false;
-      }
-    },
-
-    // Reset Star Annotator Options to defaults
-    async resetStarAnnotatorDefaults() {
-      try {
-        this.isLoadingOptions = true;
-        this.optionsError = null;
-        const response = await apiService.hocusfocus.resetStarAnnotatorDefaults();
-        // Reload options to sync with backend
-        await this.loadStarAnnotatorOptions();
-        return response;
-      } catch (err) {
-        this.optionsError = err.message || 'Failed to reset Star Annotator options';
-        console.error('Error resetting Star Annotator options:', err);
-        throw err;
-      } finally {
-        this.isLoadingOptions = false;
-      }
-    },
-
-    // Clear error message
-    clearError() {
-      this.error = null;
-    },
-
-    // Clear options error message
-    clearOptionsError() {
-      this.optionsError = null;
     },
 
     // Load Star Detection Options
@@ -189,6 +125,46 @@ export const useHocusFocusStore = defineStore('hocusfocus', {
     // Clear detection options error message
     clearDetectionOptionsError() {
       this.detectionOptionsError = null;
+    },
+
+    // Load AutoFocus Options
+    async loadAutoFocusOptions() {
+      try {
+        this.isLoadingAutoFocusOptions = true;
+        this.autoFocusOptionsError = null;
+        const options = await apiService.hocusfocus.getAutoFocusOptions();
+        this.autoFocusOptions = options;
+        return options;
+      } catch (err) {
+        this.autoFocusOptionsError = err.message || 'Failed to load AutoFocus options';
+        console.error('Error loading AutoFocus options:', err);
+        throw err;
+      } finally {
+        this.isLoadingAutoFocusOptions = false;
+      }
+    },
+
+    // Save AutoFocus Options
+    async saveAutoFocusOptions(options) {
+      try {
+        this.isLoadingAutoFocusOptions = true;
+        this.autoFocusOptionsError = null;
+        const response = await apiService.hocusfocus.setAutoFocusOptions(options);
+        // Reload options to sync with backend
+        await this.loadAutoFocusOptions();
+        return response;
+      } catch (err) {
+        this.autoFocusOptionsError = err.message || 'Failed to save AutoFocus options';
+        console.error('Error saving AutoFocus options:', err);
+        throw err;
+      } finally {
+        this.isLoadingAutoFocusOptions = false;
+      }
+    },
+
+    // Clear autofocus options error message
+    clearAutoFocusOptionsError() {
+      this.autoFocusOptionsError = null;
     },
   },
 });

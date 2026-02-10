@@ -28,7 +28,8 @@ const store = apiStore();
 const usbLimit = ref(9);
 
 onMounted(() => {
-  usbLimit.value = Number(store.profileInfo.CameraSettings.USBLimit);
+  usbLimit.value = store.cameraInfo.USBLimit;
+  console.log('USB',  usbLimit.value);
 });
 
 async function setUsbLimit() {

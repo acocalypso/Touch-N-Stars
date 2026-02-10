@@ -142,6 +142,36 @@
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unlinked Strech"
       },
+      "imageFile": {
+        "title": "Bestandsnaampatroon",
+        "pattern": "Patroon",
+        "preview": "Voorbeeld",
+        "folder": "Map",
+        "separator": "Scheidingsteken",
+        "empty": "Tik op de tokens hieronder om het patroon samen te stellen",
+        "freeText": "Tekst",
+        "editTokens": "Tokens bewerken",
+        "help": {
+          "title": "Bestandsnaampatroon",
+          "intro": "Stel het bestandsnaampatroon samen voor je opgenomen afbeeldingen. Elk token wordt door NINA vervangen door de werkelijke waarde bij het opslaan.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Tik op een tokenknop om het aan het patroon toe te voegen. Tokens zoals Filter, Date of ExposureTime worden door NINA vervangen door de werkelijke waarden.",
+          "separatorsTitle": "Scheidingstekens",
+          "separatorsDesc": "Gebruik \\ om mapstructuren te maken. Gebruik _ of - om waarden in de bestandsnaam te scheiden. Gebruik \"Tekst\" om aangepaste tekst toe te voegen zoals \"s\" voor seconden.",
+          "cursorTitle": "Invoegpositie",
+          "cursorDesc": "Tik tussen bestaande tokens om de knipperende cursor te verplaatsen. Nieuwe tokens worden ingevoegd op de cursorpositie.",
+          "exampleTitle": "Voorbeeld",
+          "exampleResult": "Resultaat:"
+        },
+        "groups": {
+          "dateTime": "Datum / Tijd",
+          "image": "Afbeelding",
+          "camera": "Camera",
+          "guiding": "Guiding",
+          "equipment": "Apparatuur",
+          "other": "Overig"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activateer Debug Mode",

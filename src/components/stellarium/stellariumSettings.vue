@@ -143,20 +143,6 @@
             />
           </div>
         </div>
-
-        <div
-          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
-        >
-          <label class="text-gray-400"> Update Comets </label>
-          <div>
-            <button
-              class="bg-cyan-600 rounded px-2 py-1 text-white text-xs font-bold"
-              @click="stellariumStore.loadComets()"
-            >
-              Update
-            </button>
-          </div>
-        </div>
       </div>
     </template>
   </Modal>

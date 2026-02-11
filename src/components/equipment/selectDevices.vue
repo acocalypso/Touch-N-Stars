@@ -54,7 +54,10 @@
           :disabled="isToggleCon"
           class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
         >
-          <InformationCircleIcon v-if="disableConnect && disableConnectMessage" class="w-6 h-6 text-yellow-500" />
+          <InformationCircleIcon
+            v-if="disableConnect && disableConnectMessage"
+            class="w-6 h-6 text-yellow-500"
+          />
           <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
           <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
         </button>
@@ -83,7 +86,14 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
-import { ArrowPathIcon, LinkIcon, LinkSlashIcon, Cog6ToothIcon, InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowPathIcon,
+  LinkIcon,
+  LinkSlashIcon,
+  Cog6ToothIcon,
+  InformationCircleIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';

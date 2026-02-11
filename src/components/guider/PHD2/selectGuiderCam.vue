@@ -40,7 +40,7 @@ import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 
-const props = defineProps({
+defineProps({
   deviceName: { type: String, default: 'Guide Camera' },
 });
 

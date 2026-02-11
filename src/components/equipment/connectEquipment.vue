@@ -195,14 +195,20 @@ const showMountSettings = ref(false);
 const selectedMountDevice = ref('');
 
 const isGuiderConnectDisabled = computed(() => {
-  return selectedGuiderDevice.value === 'PHD2' && store.isPINS && (!store.mountInfo.Connected || !guiderStore.guidecamOk);
+  return (
+    selectedGuiderDevice.value === 'PHD2' &&
+    store.isPINS &&
+    (!store.mountInfo.Connected || !guiderStore.guidecamOk)
+  );
 });
 
 const guiderDisabledMessage = computed(() => {
   if (selectedGuiderDevice.value !== 'PHD2' || !store.isPINS) return '';
   const messages = [];
-  if (!store.mountInfo.Connected) messages.push(t('components.connectEquipment.guider.mountRequired'));
-  if (!guiderStore.guidecamOk) messages.push(t('components.connectEquipment.guider.guideCamRequired'));
+  if (!store.mountInfo.Connected)
+    messages.push(t('components.connectEquipment.guider.mountRequired'));
+  if (!guiderStore.guidecamOk)
+    messages.push(t('components.connectEquipment.guider.guideCamRequired'));
   return messages.join(' ');
 });
 

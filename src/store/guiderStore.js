@@ -5,7 +5,7 @@ import { apiStore } from '@/store/store';
 
 export const useGuiderStore = defineStore('guiderStore', {
   state: () => ({
-    guidecamOk : false,
+    guidecamOk: false,
     intervalId: null,
     RADistanceRaw: [],
     DECDistanceRaw: [],

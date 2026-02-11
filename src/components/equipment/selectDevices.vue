@@ -59,8 +59,6 @@
         </button>
       </div>
     </div>
-
-    <!-- Modal entfernt - verwendet jetzt toastModal -->
   </div>
 </template>
 

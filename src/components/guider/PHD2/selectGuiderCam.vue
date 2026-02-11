@@ -53,8 +53,8 @@ const borderClass = ref('border-gray-500');
 async function loadCameras() {
   isLoading.value = true;
   try {
+    await apiService.connectPHD2();
     const response = await apiPinsService.getGuideCam();
-    console.log('Cams------------------------------:', response);
     if (response.Success && response.Response) {
       cameras.value = Object.entries(response.Response).map(([name, ids]) => ({
         name,
@@ -87,7 +87,11 @@ async function setGuiderCam() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  //only if is PINS and Guider ist PHD2
+  if (store.profileInfo?.GuiderSettings?.GuiderName !== 'PHD2_Single' || !store.isPINS){
+    return
+  } 
   if (store.profileInfo?.GuiderSettings?.PHD2Camera) {
     selectedCam.value = store.profileInfo.GuiderSettings.PHD2Camera;
   }

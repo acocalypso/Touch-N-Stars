@@ -36,6 +36,35 @@
           </div>
         </div>
 
+        <!-- PHD2 Autostart Card -->
+        <div
+          class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
+        >
+          <div class="absolute top-0 right-20 p-4 opacity-10 pointer-events-none">
+            <svg class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"
+              />
+            </svg>
+          </div>
+          <div class="relative z-10">
+            <h3 class="text-xl font-bold text-white mb-1">PHD2 Autostart</h3>
+            <p class="text-gray-400 text-sm">
+              {{ phd2Running ? 'Service is currently running' : 'Service is currently stopped' }}
+            </p>
+          </div>
+          <div class="relative z-10">
+            <toggleButton
+              :status-value="phd2Enabled"
+              @update:status-value="handlePhd2Toggle"
+              :disabled="status === 'Running'"
+            />
+          </div>
+        </div>
+
         <!-- WiFi Configuration Card -->
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-col gap-4"
@@ -322,7 +351,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onUnmounted, watch } from 'vue';
+import { ref, nextTick, onUnmounted, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '../store/pinsStore';
@@ -337,6 +366,8 @@ const pinsStore = usePinsStore();
 
 const dryRun = ref(false);
 const sambaEnabled = ref(false);
+const phd2Enabled = ref(false);
+const phd2Running = ref(false);
 const stationaryMode = ref(false);
 const wifiList = ref([]);
 const selectedSsid = ref('');
@@ -399,6 +430,99 @@ function formatLog(log) {
     }
   }
   return log;
+}
+
+watch(
+  () => store.isPINS,
+  (newValue) => {
+    if (newValue) {
+      checkSambaStatus();
+      checkPhd2Status();
+    }
+  },
+  { immediate: true }
+);
+
+async function checkSambaStatus() {
+  const ip = getIp();
+  if (!ip) return;
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/samba`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 5000,
+    });
+
+    if (response.data && typeof response.data.enabled !== 'undefined') {
+      sambaEnabled.value = response.data.enabled;
+    }
+  } catch (error) {
+    console.error('Failed to check Samba status:', error);
+  }
+}
+
+async function checkPhd2Status() {
+  const ip = getIp();
+  if (!ip) return;
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/phd2`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 5000,
+    });
+
+    if (response.data) {
+      if (typeof response.data.enabled !== 'undefined') {
+        phd2Enabled.value = response.data.enabled;
+      }
+      if (typeof response.data.running !== 'undefined') {
+        phd2Running.value = response.data.running;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to check PHD2 status:', error);
+  }
+}
+
+async function handlePhd2Toggle(newValue) {
+  if (status.value === 'Running') return;
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  phd2Enabled.value = newValue;
+  appendLog(`PHD2 Service ${newValue ? 'Enabling' : 'Disabling'}...`);
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    await directAxios.post(
+      `http://${ip}:${PORT}/phd2`,
+      { enable: newValue },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 5000,
+      }
+    );
+    appendLog(`PHD2 Service update successful.`);
+    // Refresh status to confirm
+    setTimeout(checkPhd2Status, 1000);
+  } catch (error) {
+    phd2Enabled.value = !newValue; // Revert
+    console.error(error);
+    appendLog(`PHD2 Service update failed: ${error.message}`);
+  }
 }
 
 // Function to get the current connection IP

@@ -262,7 +262,12 @@
         "name": "Rotátor"
       },
       "guider": {
-        "name": "Navádění"
+        "name": "Navádění",
+        "mountRequired": "Montáž musí být připojena před připojením guideru.",
+        "guideCamRequired": "Musí být vybrána platná guide kamera."
+      },
+      "guiderCam": {
+        "name": "Guide Camera"
       },
       "safety": {
         "name": "Bez. monitor"

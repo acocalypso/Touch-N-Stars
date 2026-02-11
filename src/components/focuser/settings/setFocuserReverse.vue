@@ -6,7 +6,11 @@
     <span class="text-sm font-medium text-gray-300">
       {{ $t('components.focuser.settings.Reverse') }}
     </span>
-    <toggleButton @click="updateSetting" :disabled="store.focuserInfo.IsMoving" :status-value="isEnabled" />
+    <toggleButton
+      @click="updateSetting"
+      :disabled="store.focuserInfo.IsMoving"
+      :status-value="isEnabled"
+    />
   </div>
 </template>
 <script setup>

@@ -103,12 +103,7 @@
         viewBox="0 0 24 24"
         stroke="currentColor"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M19 9l-7 7-7-7"
-        />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
       </svg>
     </button>
 
@@ -165,9 +160,7 @@
       v-if="showHelp"
       class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
     >
-      <div
-        class="bg-gray-800 text-white p-4 m-4 rounded-lg max-w-xl max-h-[80vh] overflow-y-auto"
-      >
+      <div class="bg-gray-800 text-white p-4 m-4 rounded-lg max-w-xl max-h-[80vh] overflow-y-auto">
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-lg font-bold">
             {{ $t('components.settings.imageFile.help.title') }}
@@ -281,41 +274,41 @@ const allTokenKeys = [
 
 // Display names for tokens
 const tokenDisplayNames = {
-  '$$FILTER$$': 'Filter',
-  '$$DATE$$': 'Date',
-  '$$DATEUTC$$': 'Date UTC',
-  '$$DATEMINUS12$$': 'Session Date',
-  '$$DATETIME$$': 'Date+Time',
-  '$$TIME$$': 'Time',
-  '$$TIMEUTC$$': 'Time UTC',
-  '$$MJD$$': 'MJD',
-  '$$FRAMENR$$': 'Frame #',
-  '$$IMAGETYPE$$': 'Type',
-  '$$BINNING$$': 'Bin',
-  '$$SENSORTEMP$$': 'Temp',
-  '$$TEMPERATURESETPOINT$$': 'Temp Set',
-  '$$EXPOSURETIME$$': 'Exposure',
-  '$$TARGETNAME$$': 'Target',
-  '$$GAIN$$': 'Gain',
-  '$$OFFSET$$': 'Offset',
-  '$$RMS$$': 'RMS',
-  '$$RMSARCSEC$$': 'RMS"',
-  '$$PEAKRA$$': 'PeakRA',
-  '$$PEAKRAARCSEC$$': 'PeakRA"',
-  '$$PEAKDEC$$': 'PeakDec',
-  '$$PEAKDECARCSEC$$': 'PeakDec"',
-  '$$FOCUSERPOSITION$$': 'Focuser Pos',
-  '$$FOCUSERTEMP$$': 'Focuser Temp',
-  '$$APPLICATIONSTARTDATE$$': 'App Start',
-  '$$HFR$$': 'HFR',
-  '$$SQM$$': 'SQM',
-  '$$READOUTMODE$$': 'Readout',
-  '$$USBLIMIT$$': 'USB Limit',
-  '$$CAMERA$$': 'Camera',
-  '$$TELESCOPE$$': 'Telescope',
-  '$$ROTATORANGLE$$': 'Rotator',
-  '$$STARCOUNT$$': 'Stars',
-  '$$SEQUENCETITLE$$': 'Sequence',
+  $$FILTER$$: 'Filter',
+  $$DATE$$: 'Date',
+  $$DATEUTC$$: 'Date UTC',
+  $$DATEMINUS12$$: 'Session Date',
+  $$DATETIME$$: 'Date+Time',
+  $$TIME$$: 'Time',
+  $$TIMEUTC$$: 'Time UTC',
+  $$MJD$$: 'MJD',
+  $$FRAMENR$$: 'Frame #',
+  $$IMAGETYPE$$: 'Type',
+  $$BINNING$$: 'Bin',
+  $$SENSORTEMP$$: 'Temp',
+  $$TEMPERATURESETPOINT$$: 'Temp Set',
+  $$EXPOSURETIME$$: 'Exposure',
+  $$TARGETNAME$$: 'Target',
+  $$GAIN$$: 'Gain',
+  $$OFFSET$$: 'Offset',
+  $$RMS$$: 'RMS',
+  $$RMSARCSEC$$: 'RMS"',
+  $$PEAKRA$$: 'PeakRA',
+  $$PEAKRAARCSEC$$: 'PeakRA"',
+  $$PEAKDEC$$: 'PeakDec',
+  $$PEAKDECARCSEC$$: 'PeakDec"',
+  $$FOCUSERPOSITION$$: 'Focuser Pos',
+  $$FOCUSERTEMP$$: 'Focuser Temp',
+  $$APPLICATIONSTARTDATE$$: 'App Start',
+  $$HFR$$: 'HFR',
+  $$SQM$$: 'SQM',
+  $$READOUTMODE$$: 'Readout',
+  $$USBLIMIT$$: 'USB Limit',
+  $$CAMERA$$: 'Camera',
+  $$TELESCOPE$$: 'Telescope',
+  $$ROTATORANGLE$$: 'Rotator',
+  $$STARCOUNT$$: 'Stars',
+  $$SEQUENCETITLE$$: 'Sequence',
 };
 
 const tokenGroups = [
@@ -508,7 +501,6 @@ function addSegment(segment) {
     insertPos.value = patternSegments.value.length;
   }
 }
-
 
 function removeSegment(index) {
   patternSegments.value.splice(index, 1);

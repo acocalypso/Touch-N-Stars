@@ -262,7 +262,12 @@
         "name": "Rotateur"
       },
       "guider": {
-        "name": "Guideur"
+        "name": "Guideur",
+        "mountRequired": "La monture doit être connectée avant de pouvoir connecter le guideur.",
+        "guideCamRequired": "Une caméra de guidage valide doit être sélectionnée."
+      },
+      "guiderCam": {
+        "name": "Guide Camera"
       },
       "safety": {
         "name": "Moniteur de sécurité"

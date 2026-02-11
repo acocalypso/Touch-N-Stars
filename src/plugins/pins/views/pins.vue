@@ -51,9 +51,9 @@
             </svg>
           </div>
           <div class="relative z-10">
-            <h3 class="text-xl font-bold text-white mb-1">PHD2 Autostart</h3>
+            <h3 class="text-xl font-bold text-white mb-1">{{ $t('plugins.pins.phd2Title') }}</h3>
             <p class="text-gray-400 text-sm">
-              {{ phd2Running ? 'Service is currently running' : 'Service is currently stopped' }}
+              {{ phd2Running ? $t('plugins.pins.phd2Running') : $t('plugins.pins.phd2Stopped') }}
             </p>
           </div>
           <div class="relative z-10">
@@ -500,12 +500,23 @@ async function handlePhd2Toggle(newValue) {
     return;
   }
 
-  phd2Enabled.value = newValue;
-  appendLog(`PHD2 Service ${newValue ? 'enable' : 'disable'}...`);
+  // Update logic: Set specific operation
+  status.value = 'Running';
+  activeOperation.value = 'phd2';
+  logs.value = [];
+
+  phd2Enabled.value = newValue; // Optimistic update
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  const actionKey = newValue ? 'plugins.pins.logs.phd2Enabling' : 'plugins.pins.logs.phd2Disabling';
+  appendLog(
+    t('plugins.pins.logs.phd2Action', {
+      action: t(actionKey),
+    })
+  );
 
   try {
     const directAxios = axios.create({ headers: {} });
-    await directAxios.post(
+    const response = await directAxios.post(
       `http://${ip}:${PORT}/phd2`,
       { enable: newValue },
       {
@@ -513,16 +524,52 @@ async function handlePhd2Toggle(newValue) {
           Authorization: `Bearer ${TOKEN}`,
           'Content-Type': 'application/json',
         },
-        timeout: 5000,
+        timeout: 10000, // Increased timeout for systemctl
       }
     );
-    appendLog(`PHD2 Service update successful.`);
-    // Refresh status to confirm
-    setTimeout(checkPhd2Status, 1000);
+
+    // Check for Job ID pattern just in case
+    const data = response.data;
+    let returnedJobId;
+
+    if (data && typeof data === 'object' && data.jobId) {
+      returnedJobId = data.jobId;
+    } else if (typeof data === 'string' || typeof data === 'number') {
+      returnedJobId = data;
+    }
+
+    if (returnedJobId) {
+      jobId.value = returnedJobId;
+      appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+      connectWebSocket(ip, returnedJobId);
+    } else {
+      appendLog(t('plugins.pins.logs.phd2Success'));
+      status.value = 'Success';
+
+      // Update running state immediately if successful
+      if (newValue) {
+        phd2Running.value = true;
+      } else {
+        phd2Running.value = false;
+      }
+
+      // Double check status after delay
+      setTimeout(checkPhd2Status, 2000);
+    }
   } catch (error) {
+    status.value = 'Failed';
     phd2Enabled.value = !newValue; // Revert
     console.error(error);
-    appendLog(`PHD2 Service update failed: ${error.message}`);
+    appendLog(t('plugins.pins.logs.phd2Failed', { message: error.message }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
   }
 }
 

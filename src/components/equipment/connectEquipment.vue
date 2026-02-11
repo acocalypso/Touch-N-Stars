@@ -95,9 +95,11 @@
       :default-device-id="store.profileInfo?.GuiderSettings?.GuiderName"
       :isConnected="store.guiderInfo.Connected"
       :disableConnect="
-        store.profileInfo?.GuiderSettings?.GuiderName === 'PHD2_Single' &&
+        selectedGuiderDevice === 'PHD2' &&
         !store.mountInfo.Connected && store.isPINS
       "
+      :disableConnectMessage="$t('components.connectEquipment.guider.mountRequired')"
+      @device-selected="selectedGuiderDevice = $event"
       @open-config="openGuiderSettings"
     />
 

@@ -50,13 +50,31 @@
           />
         </button>
         <button
-          @click="toggleConnection"
-          :disabled="isToggleCon || disableConnect"
+          @click="disableConnect && disableConnectMessage ? openDisableInfo() : toggleConnection()"
+          :disabled="isToggleCon"
           class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
         >
-          <LinkIcon v-if="!isConnected" class="w-6 h-6" />
+          <InformationCircleIcon v-if="disableConnect && disableConnectMessage" class="w-6 h-6 text-yellow-500" />
+          <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
           <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
         </button>
+      </div>
+    </div>
+
+    <!-- Disable Info Modal -->
+    <div
+      v-if="showDisableModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      @click.self="showDisableModal = false"
+    >
+      <div class="bg-gray-800 text-white p-4 m-8 rounded-lg max-w-xl">
+        <div class="flex justify-end">
+          <button @click="showDisableModal = false" class="text-white hover:text-gray-300">
+            <XMarkIcon class="w-6 h-6" />
+          </button>
+        </div>
+        <h2 class="text-xl font-bold mb-4">Info</h2>
+        <p>{{ disableConnectMessage }}</p>
       </div>
     </div>
   </div>
@@ -65,7 +83,7 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
-import { ArrowPathIcon, LinkIcon, LinkSlashIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { ArrowPathIcon, LinkIcon, LinkSlashIcon, Cog6ToothIcon, InformationCircleIcon, XMarkIcon } from '@heroicons/vue/24/outline';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
@@ -81,6 +99,7 @@ const props = defineProps({
   deviceName: { type: String, default: 'Gerät' },
   isConnected: { type: Boolean, required: true },
   disableConnect: { type: Boolean, default: false },
+  disableConnectMessage: { type: String, default: '' },
 });
 
 const devices = ref([]);
@@ -89,6 +108,11 @@ const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
 const borderClass = ref('border-gray-500');
+const showDisableModal = ref(false);
+
+function openDisableInfo() {
+  showDisableModal.value = true;
+}
 
 const selectedDeviceObj = computed(() =>
   devices.value.find((d) => d.DisplayName === selectedDevice.value)
@@ -157,7 +181,7 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   }
 }
 
-const emit = defineEmits(['openConfig']);
+const emit = defineEmits(['openConfig', 'deviceSelected']);
 
 async function configDevice() {
   emit('openConfig', {
@@ -285,6 +309,9 @@ watch(
     updateBorderClass();
   }
 );
+watch(selectedDevice, (newValue) => {
+  emit('deviceSelected', newValue);
+});
 
 watch(
   () => equipmentStore.rescanTrigger[props.apiAction.replace('Action', '')],

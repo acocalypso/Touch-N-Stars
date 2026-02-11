@@ -89,9 +89,9 @@ async function setGuiderCam() {
 
 onMounted(async () => {
   //only if is PINS and Guider ist PHD2
-  if (store.profileInfo?.GuiderSettings?.GuiderName !== 'PHD2_Single' || !store.isPINS){
-    return
-  } 
+  if (store.profileInfo?.GuiderSettings?.GuiderName !== 'PHD2_Single' || !store.isPINS) {
+    return;
+  }
   if (store.profileInfo?.GuiderSettings?.PHD2Camera) {
     selectedCam.value = store.profileInfo.GuiderSettings.PHD2Camera;
   }

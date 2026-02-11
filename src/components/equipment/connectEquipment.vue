@@ -84,17 +84,21 @@
       :isConnected="store.focuserInfo.Connected"
     />
 
+    <selectGuiderCam
+      v-if="store.isPINS"
+      :deviceName="$t('components.connectEquipment.guiderCam.name')"
+    />
+
     <selectDevices
       apiAction="guiderAction"
       :deviceName="$t('components.connectEquipment.guider.name')"
       :default-device-id="store.profileInfo?.GuiderSettings?.GuiderName"
       :isConnected="store.guiderInfo.Connected"
+      :disableConnect="
+        store.profileInfo?.GuiderSettings?.GuiderName === 'PHD2_Single' &&
+        !store.mountInfo.Connected && store.isPINS
+      "
       @open-config="openGuiderSettings"
-    />
-
-    <selectGuiderCam
-      v-if="store.isPINS"
-      :deviceName="$t('components.connectEquipment.guiderCam.name')"
     />
 
     <selectDevices

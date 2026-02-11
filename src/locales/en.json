@@ -269,7 +269,12 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Guider"
+        "name": "Guider",
+        "mountRequired": "The mount must be connected before the guider can be connected.",
+        "guideCamRequired": "A valid guide camera must be selected."
+      },
+      "guiderCam": {
+        "name": "Guide Camera"
       },
       "safety": {
         "name": "Safety monitor"

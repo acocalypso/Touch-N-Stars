@@ -500,7 +500,7 @@ async function handlePhd2Toggle(newValue) {
   }
 
   phd2Enabled.value = newValue;
-  appendLog(`PHD2 Service ${newValue ? 'Enabling' : 'Disabling'}...`);
+  appendLog(`PHD2 Service ${newValue ? 'enable' : 'disable'}...`);
 
   try {
     const directAxios = axios.create({ headers: {} });

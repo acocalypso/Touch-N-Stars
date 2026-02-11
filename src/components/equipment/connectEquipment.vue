@@ -92,6 +92,11 @@
       @open-config="openGuiderSettings"
     />
 
+    <selectGuiderCam
+      v-if="store.isPINS"
+      :deviceName="$t('components.connectEquipment.guiderCam.name')"
+    />
+
     <selectDevices
       apiAction="filterAction"
       :deviceName="$t('components.connectEquipment.filter.name')"
@@ -169,6 +174,7 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import selectDevices from '@/components/equipment/selectDevices.vue';
+import selectGuiderCam from '@/components/guider/PHD2/selectGuiderCam.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
 import settingsMount from '@/components/mount/settingsMount.vue';

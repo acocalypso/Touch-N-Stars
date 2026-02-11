@@ -153,7 +153,7 @@ export default {
 
   getGuideCam() {
     const { API_URL } = getUrls();
-    return this._simplePostRequest(`${API_URL}phd2/camera/ids` );
+    return this._simpleGetRequest(`${API_URL}phd2/camera/ids`);
   },
 
   // Private method for simple GET requests

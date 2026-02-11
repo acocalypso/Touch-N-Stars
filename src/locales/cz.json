@@ -264,6 +264,9 @@
       "guider": {
         "name": "Navádění"
       },
+      "guiderCam": {
+        "name": "Guide Camera"
+      },
       "safety": {
         "name": "Bez. monitor"
       },

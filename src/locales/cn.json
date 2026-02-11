@@ -264,6 +264,9 @@
       "guider": {
         "name": "导星器"
       },
+      "guiderCam": {
+        "name": "Guide Camera"
+      },
       "safety": {
         "name": "安全监控器"
       },

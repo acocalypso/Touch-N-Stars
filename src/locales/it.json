@@ -264,6 +264,9 @@
       "guider": {
         "name": "Guida"
       },
+      "guiderCam": {
+        "name": "Guide Camera"
+      },
       "safety": {
         "name": "Monitor di sicurezza"
       },

@@ -35,6 +35,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
+import { useGuiderStore } from '@/store/guiderStore';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
@@ -44,6 +45,7 @@ const props = defineProps({
 });
 
 const store = apiStore();
+const guiderStore = useGuiderStore();
 
 const cameras = ref([]);
 const selectedCam = ref('');
@@ -60,12 +62,23 @@ async function loadCameras() {
         name,
         id: ids[0] || '',
       }));
+      validateSelection();
     }
   } catch (error) {
     console.error('Error loading guide cameras:', error);
     borderClass.value = 'border-red-500 error-glow';
   } finally {
     isLoading.value = false;
+  }
+}
+
+function validateSelection() {
+  if (!selectedCam.value || !cameras.value.some((c) => c.name === selectedCam.value)) {
+    borderClass.value = 'border-red-500 error-glow';
+    guiderStore.guidecamOk = false;
+  } else {
+    borderClass.value = 'border-green-500 connected-glow';
+    guiderStore.guidecamOk = true;
   }
 }
 
@@ -77,13 +90,10 @@ async function setGuiderCam() {
     await apiService.profileChangeValue('GuiderSettings-PHD2Camera', cam.name);
     await apiService.profileChangeValue('GuiderSettings-PHD2CameraId', cam.id);
     borderClass.value = 'border-green-500 connected-glow';
+    setTimeout(() => validateSelection(), 2000);
   } catch (error) {
     console.error('Error setting guide camera:', error);
     borderClass.value = 'border-red-500 error-glow';
-  } finally {
-    setTimeout(() => {
-      borderClass.value = 'border-gray-500';
-    }, 2000);
   }
 }
 

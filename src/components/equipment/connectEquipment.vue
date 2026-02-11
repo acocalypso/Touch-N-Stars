@@ -95,7 +95,7 @@
       :default-device-id="store.profileInfo?.GuiderSettings?.GuiderName"
       :isConnected="store.guiderInfo.Connected"
       :disableConnect="isGuiderConnectDisabled"
-      :disableConnectMessage="$t('components.connectEquipment.guider.mountRequired')"
+      :disableConnectMessage="guiderDisabledMessage"
       @device-selected="selectedGuiderDevice = $event"
       @open-config="openGuiderSettings"
     />
@@ -175,6 +175,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
+import { useGuiderStore } from '@/store/guiderStore';
 import apiService from '@/services/apiService';
 import selectDevices from '@/components/equipment/selectDevices.vue';
 import selectGuiderCam from '@/components/guider/PHD2/selectGuiderCam.vue';
@@ -185,6 +186,7 @@ import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
 const store = apiStore();
+const guiderStore = useGuiderStore();
 const isConnecting = ref(false);
 const isDisconnecting = ref(false);
 const showGuiderSettings = ref(false);
@@ -193,7 +195,15 @@ const showMountSettings = ref(false);
 const selectedMountDevice = ref('');
 
 const isGuiderConnectDisabled = computed(() => {
-  return selectedGuiderDevice.value === 'PHD2' && !store.mountInfo.Connected && store.isPINS;
+  return selectedGuiderDevice.value === 'PHD2' && store.isPINS && (!store.mountInfo.Connected || !guiderStore.guidecamOk);
+});
+
+const guiderDisabledMessage = computed(() => {
+  if (selectedGuiderDevice.value !== 'PHD2' || !store.isPINS) return '';
+  const messages = [];
+  if (!store.mountInfo.Connected) messages.push(t('components.connectEquipment.guider.mountRequired'));
+  if (!guiderStore.guidecamOk) messages.push(t('components.connectEquipment.guider.guideCamRequired'));
+  return messages.join(' ');
 });
 
 const openGuiderSettings = (payload) => {

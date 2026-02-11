@@ -94,10 +94,7 @@
       :deviceName="$t('components.connectEquipment.guider.name')"
       :default-device-id="store.profileInfo?.GuiderSettings?.GuiderName"
       :isConnected="store.guiderInfo.Connected"
-      :disableConnect="
-        selectedGuiderDevice === 'PHD2' &&
-        !store.mountInfo.Connected && store.isPINS
-      "
+      :disableConnect="isGuiderConnectDisabled"
       :disableConnectMessage="$t('components.connectEquipment.guider.mountRequired')"
       @device-selected="selectedGuiderDevice = $event"
       @open-config="openGuiderSettings"
@@ -194,6 +191,10 @@ const showGuiderSettings = ref(false);
 const selectedGuiderDevice = ref('');
 const showMountSettings = ref(false);
 const selectedMountDevice = ref('');
+
+const isGuiderConnectDisabled = computed(() => {
+  return selectedGuiderDevice.value === 'PHD2' && !store.mountInfo.Connected && store.isPINS;
+});
 
 const openGuiderSettings = (payload) => {
   selectedGuiderDevice.value = payload?.selectedDeviceDisplayName || '';

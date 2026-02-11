@@ -151,6 +151,11 @@ export default {
     return this._simplePostRequest(`${API_URL}phd2/profile/create`, { name });
   },
 
+  getGuideCam() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/camera/ids` );
+  },
+
   // Private method for simple GET requests
   _simpleGetRequest(url) {
     return axios

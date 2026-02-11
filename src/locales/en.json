@@ -5,7 +5,14 @@
     "close": "Close",
     "select": "Select",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "disable": "Disable",
+    "loading": "Loading…",
+    "scanning": "Scanning…",
+    "connecting": "Connecting…"
   },
   "general": {
     "cancel": "Cancel",
@@ -143,6 +150,36 @@
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unlinked Strech"
       },
+      "imageFile": {
+        "title": "File Name Pattern",
+        "pattern": "Pattern",
+        "preview": "Preview",
+        "folder": "Folder",
+        "separator": "Separator",
+        "empty": "Tap tokens below to build pattern",
+        "freeText": "Text",
+        "editTokens": "Edit tokens",
+        "help": {
+          "title": "File Name Pattern",
+          "intro": "Build the file name pattern for your captured images. Each token will be replaced by NINA with the actual value when saving.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Tap a token button to add it to the pattern. Tokens like Filter, Date or ExposureTime are replaced by NINA with the real values.",
+          "separatorsTitle": "Separators",
+          "separatorsDesc": "Use \\ to create folder structures. Use _ or - to separate values in the file name. Use \"Text\" to add custom text like \"s\" for seconds.",
+          "cursorTitle": "Insertion Position",
+          "cursorDesc": "Tap between existing tokens to move the blinking cursor. New tokens are inserted at the cursor position.",
+          "exampleTitle": "Example",
+          "exampleResult": "Results in:"
+        },
+        "groups": {
+          "dateTime": "Date / Time",
+          "image": "Image",
+          "camera": "Camera",
+          "guiding": "Guiding",
+          "equipment": "Equipment",
+          "other": "Other"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activate Debug Mode",
@@ -232,7 +269,12 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Guider"
+        "name": "Guider",
+        "mountRequired": "The mount must be connected before the guider can be connected.",
+        "guideCamRequired": "A valid guide camera must be selected."
+      },
+      "guiderCam": {
+        "name": "Guide Camera"
       },
       "safety": {
         "name": "Safety monitor"
@@ -584,7 +626,9 @@
         "basic": "Basic Settings",
         "crop_and_stars": "Crop & Stars",
         "backlash": "Backlash",
-        "advanced": "Advanced"
+        "advanced": "Advanced",
+        "Reverse": "Reverse",
+        "UseFilterWheelOffsets": "Use filterwheel offsets"
       }
     },
     "dome": {
@@ -647,6 +691,7 @@
       "cooling_time": "Cooling time (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
         "title": "Camera chip settings",
@@ -1690,6 +1735,130 @@
         "api_version_required": "API version {version} or higher required"
       }
     },
+    "pinsDevices": {
+      "title": "PI'N'Stars Device",
+      "settings": {
+        "general": "General",
+        "generalDescription": "General device settings and information",
+        "powerPorts": "Power Ports",
+        "powerPortsDescription": "Configure and manage power port outputs",
+        "usbPorts": "USB Ports",
+        "usbPortsDescription": "Configure and manage USB port connections",
+        "dewPorts": "Dew Ports",
+        "dewPortsDescription": "Configure and manage dew heater ports",
+        "adjustablePower": "Adjustable Power Ports",
+        "adjustablePowerDescription": "Configure and manage adjustable power ports",
+        "configuration": "Configuration",
+        "configurationDescription": "Configure device settings and sensor calibration",
+        "ports": "PowerBox",
+        "wifi": "WiFi",
+        "weather": "MeteoStation"
+      },
+      "config": {
+        "title": "Configuration",
+        "temperatureOffset": "Temperature Offset",
+        "temperatureOffsetDesc": "Calibration offset for temperature sensor",
+        "humidityOffset": "Humidity Offset",
+        "humidityOffsetDesc": "Calibration offset for humidity sensor",
+        "envUpdateRate": "Environment Update Rate",
+        "envUpdateRateDesc": "Refresh interval for temperature and humidity readings",
+        "updateRate": "Device Update Rate",
+        "updateRateDesc": "Refresh interval for device status updates",
+        "factoryReset": "Factory Reset",
+        "factoryResetDesc": "Reset the PINS device to factory default settings",
+        "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values."
+      },
+      "info": {
+        "deviceId": "Device ID",
+        "firmware": "Firmware",
+        "driverVersion": "Driver Version",
+        "ports": "Available Ports",
+        "powerPorts": "Power Ports",
+        "usbPorts": "USB Ports",
+        "dewPorts": "Dew Ports",
+        "adjPorts": "Adjustable Power Ports",
+        "powerStatus": "Power Status",
+        "meteoStation": "Meteo Station"
+      },
+      "status": {
+        "notConnected": "Not connected"
+      },
+      "ports": {
+        "status": "Status",
+        "current": "Current",
+        "maxCurrent": "Max Current",
+        "overcurrent": "Overcurrent",
+        "readOnly": "Read-only (cannot be controlled)",
+        "noPorts": "No ports available",
+        "bootState": "Power-on State",
+        "bootStateEnabled": "Enabled on startup",
+        "bootStateDisabled": "Disabled on startup"
+      },
+      "wifi": {
+        "currentStatus": "Current WiFi Status",
+        "notConnected": "Not currently connected to any network",
+        "availableNetworks": "Available Networks",
+        "scanNetworks": "Scan for Networks",
+        "scanning": "Scanning for WiFi networks...",
+        "noNetworksFound": "No WiFi networks found",
+        "channel": "Channel",
+        "connect": "Connect",
+        "connectTo": "Connect to",
+        "connectToNetwork": "Connect to WiFi Network",
+        "ssid": "Network SSID",
+        "password": "Password",
+        "enterPassword": "Enter WiFi password",
+        "min8chars": "minimum 8 characters",
+        "passwordTooShort": "Password must be at least 8 characters",
+        "connectAsClient": "Connect as Client",
+        "createHotspot": "Create Hotspot",
+        "hotspotName": "Hotspot Name",
+        "hotspotPassword": "Hotspot Password",
+        "hotspotDesc": "Create a WiFi access point that other devices can connect to"
+      },
+      "weather": {
+        "deviceInfo": "Device Information",
+        "name": "Name",
+        "id": "Device ID",
+        "firmware": "Firmware",
+        "uptime": "Uptime",
+        "disconnected": "MeteoStation is not currently connected",
+        "currentWeather": "Current Weather Conditions",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "dewPoint": "Dew Point",
+        "cloudCover": "Cloud Cover",
+        "skyQuality": "Sky Quality",
+        "skyBrightness": "Sky Brightness",
+        "skyTemp": "Sky Temperature",
+        "noData": "No weather data available",
+        "conditions": "Weather Assessment",
+        "cloudAssessment": "Cloud Coverage",
+        "temperatureStatus": "Temperature Status",
+        "dewSpread": "Dew Spread (T-Td)"
+      },
+      "weather": {
+        "deviceInfo": "Device Information",
+        "name": "Name",
+        "id": "Device ID",
+        "firmware": "Firmware",
+        "uptime": "Uptime",
+        "disconnected": "MeteoStation is not currently connected",
+        "currentWeather": "Current Weather Conditions",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "dewPoint": "Dew Point",
+        "cloudCover": "Cloud Cover",
+        "skyQuality": "Sky Quality",
+        "skyBrightness": "Sky Brightness",
+        "skyTemp": "Sky Temperature",
+        "noData": "No weather data available",
+        "conditions": "Weather Assessment",
+        "cloudAssessment": "Cloud Coverage",
+        "temperatureStatus": "Temperature Status",
+        "dewSpread": "Dew Spread (T-Td)"
+      }
+    },
     "shortcuts": {
       "title": "Sequence-Shortcuts",
       "description": "Quick access to load and start N.I.N.A sequences",
@@ -1751,5 +1920,118 @@
       "rotation": "Rotation"
     }
   },
-  "loading": "loading"
+  "loading": "loading",
+  "observationPlaner": {
+    "title": "Observation Planner",
+    "subtitle": "Favorites with preview + altitude map for tonight (location-based)",
+    "sections": {
+      "tonightPicks": "Tonight Picks",
+      "topForWindow": "Top targets for selected time window",
+      "preview": "Preview",
+      "framing": "Framing"
+    },
+    "filters": {
+      "title": "Filters",
+      "search": "Search",
+      "search_placeholder": "M42, Andromeda, NGC...",
+      "timeWindow": "Time window",
+      "startLocal": "Start (local)",
+      "endLocal": "End (local)",
+      "moon": "Moon",
+      "objectType": "Object type",
+      "azSector": "Sky direction (azimuth sector)",
+      "onlyAboveHorizon": "Only >0° alt",
+      "limit": "Limit"
+    },
+    "sort": {
+      "title": "Sorting",
+      "nameAZ": "Name A→Z",
+      "maxAltDesc": "Max Alt ↓",
+      "bestTimeAsc": "Best time ↑",
+      "bestTime": "Best time",
+      "maxAltWindow": "Max Alt (window)",
+      "visible": "Visible?"
+    },
+    "location": {
+      "title": "Location",
+      "get": "Get location",
+      "notAvailable": "No location available",
+      "hintNoLocation": "Note: Without a location, altitude/direction filters & charts cannot be computed."
+    },
+    "performance": {
+      "title": "Display / Performance",
+      "lazyPreviews": "Lazy-load previews",
+      "redraw": "Redraw"
+    },
+    "buttons": {
+      "refresh": "Refresh",
+      "reload": "Reload",
+      "slew": "Slew",
+      "center": "Center",
+      "slewNoCenter": "Slew (no centering)",
+      "slewCenter": "Slew + Center",
+      "slewCenterPlatesolve": "Slew + Center (platesolve)",
+      "sendToSequencer": "Send to Sequencer",
+      "openFraming": "Open Framing Assistant",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "No image loaded",
+      "unavailable": "Preview unavailable",
+      "info": "Preview info",
+      "reload": "Reload preview"
+    },
+    "cache": {
+      "useNinaCache": "Use NINA cache for target image",
+      "hint": "Loads DSS/target picture via TNS WebAPI. Cache toggle controls useCache.",
+      "hintShort": "Passes useCache to targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Altitude vs. Time",
+      "sampleMin": "Sample (min)",
+      "directionAz": "Direction (Az)",
+      "separation": "Separation —"
+    },
+    "sectors": {
+      "N_NE": "North → North-East (315°–45°)",
+      "NE_E": "North-East → East (45°–90°)",
+      "E_SE": "East → South-East (90°–135°)",
+      "SE_S": "South-East → South (135°–180°)",
+      "S_SW": "South → South-West (180°–225°)",
+      "SW_W": "South-West → West (225°–270°)",
+      "W_NW": "West → North-West (270°–315°)",
+      "NW_N": "North-West → North (315°–360°)",
+      "all": "All"
+    },
+    "common": {
+      "yes": "Yes",
+      "no": "No",
+      "loading": "Loading…",
+      "all": "All"
+    },
+    "tooltips": {
+      "favorite": "Favorite",
+      "refreshFavorites": "Reload favorites & recompute",
+      "filterNoBelowHorizon": "Filters targets with maxAlt <= 0°",
+      "filterAzSector": "Filter by bestAzDeg (azimuth at highest altitude within window)",
+      "gpsUpdate": "Update GPS location",
+      "openFramingFmt": "Open framing · {ra} / {dec} · MaxAlt {maxAlt}°",
+      "tonightScoreFmt": "Tonight score: {score} · MaxAlt {maxAlt}° · {hours}h",
+      "redrawChart": "Redraw chart",
+      "lazyVisibleOnly": "Load only for visible cards",
+      "useCacheHint": "Passes useCache to targetpic",
+      "previewReload": "Reload preview"
+    },
+    "empty": {
+      "noFavorites": "No favorites found."
+    },
+    "status": {
+      "sendingToSequencer": "Sending target to sequencer…",
+      "sequencerTargetSet": "Sequencer target set"
+    },
+    "errors": {
+      "noSequenceAvailable": "No sequence available, load Sequence first",
+      "sequencerFailed": "Sequencer failed"
+    }
+  }
 }

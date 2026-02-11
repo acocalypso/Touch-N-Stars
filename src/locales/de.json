@@ -141,6 +141,36 @@
         "UnlinkedStretch": "Unverlinkter Stretch",
         "debayern": "Debayer Bild"
       },
+      "imageFile": {
+        "title": "Dateinamenmuster",
+        "pattern": "Muster",
+        "preview": "Vorschau",
+        "folder": "Ordner",
+        "separator": "Trenner",
+        "empty": "Tippe auf die Tokens um das Muster zu erstellen",
+        "freeText": "Text",
+        "editTokens": "Tokens bearbeiten",
+        "help": {
+          "title": "Dateinamenmuster",
+          "intro": "Erstelle das Dateinamenmuster für deine aufgenommenen Bilder. Jedes Token wird von NINA beim Speichern durch den tatsächlichen Wert ersetzt.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Tippe auf einen Token-Button um ihn zum Muster hinzuzufügen. Tokens wie Filter, Date oder ExposureTime werden von NINA durch die echten Werte ersetzt.",
+          "separatorsTitle": "Trennzeichen",
+          "separatorsDesc": "Verwende \\ um Ordnerstrukturen zu erstellen. Verwende _ oder - um Werte im Dateinamen zu trennen. Verwende \"Text\" um eigenen Text wie \"s\" für Sekunden hinzuzufügen.",
+          "cursorTitle": "Einfügeposition",
+          "cursorDesc": "Tippe zwischen bestehende Tokens um den blinkenden Cursor zu verschieben. Neue Tokens werden an der Cursor-Position eingefügt.",
+          "exampleTitle": "Beispiel",
+          "exampleResult": "Ergibt:"
+        },
+        "groups": {
+          "dateTime": "Datum / Zeit",
+          "image": "Bild",
+          "camera": "Kamera",
+          "guiding": "Guiding",
+          "equipment": "Ausrüstung",
+          "other": "Sonstiges"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Debug-Modus aktivieren",
@@ -232,7 +262,12 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Guider"
+        "name": "Guider",
+        "mountRequired": "Die Montierung muss verbunden sein, bevor der Guider verbunden werden kann.",
+        "guideCamRequired": "Eine gültige Guide-Kamera muss ausgewählt werden."
+      },
+      "guiderCam": {
+        "name": "Guide-Kamera"
       },
       "safety": {
         "name": "Sicherheitsmonitor"
@@ -581,7 +616,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Grundeinstellungen",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Umkehren",
+        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden"
       },
       "focus": "Fokus"
     },
@@ -645,6 +682,7 @@
       "cooling_time": "Kühlzeit (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
         "focal_length": "Brennweite (mm)",
@@ -1749,5 +1787,118 @@
       "rotation": "Rotation"
     }
   },
-  "loading": "Laden"
+  "loading": "Laden",
+  "observationPlaner": {
+    "title": "Beobachtungsplaner",
+    "subtitle": "Favoriten mit Vorschau + Höhenkarte für heute Nacht (standortbasiert)",
+    "sections": {
+      "tonightPicks": "Tonight Picks",
+      "topForWindow": "Top-Ziele für das gewählte Zeitfenster",
+      "preview": "Vorschau",
+      "framing": "Framing"
+    },
+    "filters": {
+      "title": "Filter",
+      "search": "Suche",
+      "search_placeholder": "M42, Andromeda, NGC…",
+      "timeWindow": "Zeitfenster",
+      "startLocal": "Start (lokal)",
+      "endLocal": "Ende (lokal)",
+      "moon": "Mond",
+      "objectType": "Objekttyp",
+      "azSector": "Himmelsrichtung (Azimut-Sektor)",
+      "onlyAboveHorizon": "Nur >0° Höhe",
+      "limit": "Limit"
+    },
+    "sort": {
+      "title": "Sortierung",
+      "nameAZ": "Name A→Z",
+      "maxAltDesc": "Max. Höhe ↓",
+      "bestTimeAsc": "Beste Zeit ↑",
+      "bestTime": "Beste Zeit",
+      "maxAltWindow": "Max. Höhe (Fenster)",
+      "visible": "Sichtbar?"
+    },
+    "location": {
+      "title": "Standort",
+      "get": "Standort holen",
+      "notAvailable": "Kein Standort verfügbar",
+      "hintNoLocation": "Hinweis: Ohne Standort können Höhen-/Richtungsfilter und Diagramme nicht berechnet werden."
+    },
+    "performance": {
+      "title": "Anzeige / Performance",
+      "lazyPreviews": "Previews lazy laden",
+      "redraw": "Neu zeichnen"
+    },
+    "buttons": {
+      "refresh": "Aktualisieren",
+      "reload": "Neu laden",
+      "slew": "Slew",
+      "center": "Zentrieren",
+      "slewNoCenter": "Slew (ohne Zentrierung)",
+      "slewCenter": "Slew + Zentrieren",
+      "slewCenterPlatesolve": "Slew + Zentrieren (Platesolve)",
+      "sendToSequencer": "An Sequencer senden",
+      "openFraming": "Framing Assistant öffnen",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Kein Bild geladen",
+      "unavailable": "Vorschau nicht verfügbar",
+      "info": "Vorschau-Info",
+      "reload": "Vorschau neu laden"
+    },
+    "cache": {
+      "useNinaCache": "NINA-Cache für Zielbild verwenden",
+      "hint": "Lädt DSS/Zielbild via TNS WebAPI. Der Cache-Schalter steuert useCache.",
+      "hintShort": "Übergibt useCache an targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Höhe über Zeit",
+      "sampleMin": "Sample (min)",
+      "directionAz": "Richtung (Az)",
+      "separation": "Separation —"
+    },
+    "sectors": {
+      "N_NE": "Nord → Nordost (315°–45°)",
+      "NE_E": "Nordost → Ost (45°–90°)",
+      "E_SE": "Ost → Südost (90°–135°)",
+      "SE_S": "Südost → Süd (135°–180°)",
+      "S_SW": "Süd → Südwest (180°–225°)",
+      "SW_W": "Südwest → West (225°–270°)",
+      "W_NW": "West → Nordwest (270°–315°)",
+      "NW_N": "Nordwest → Nord (315°–360°)",
+      "all": "Alle"
+    },
+    "common": {
+      "yes": "Ja",
+      "no": "Nein",
+      "loading": "Laden…",
+      "all": "Alle"
+    },
+    "tooltips": {
+      "favorite": "Favorit",
+      "refreshFavorites": "Favoriten neu laden & neu berechnen",
+      "filterNoBelowHorizon": "Filtert Ziele mit maxAlt <= 0°",
+      "filterAzSector": "Filter nach bestAzDeg (Azimut bei max. Höhe im Zeitfenster)",
+      "gpsUpdate": "GPS-Standort aktualisieren",
+      "openFramingFmt": "Framing öffnen · {ra} / {dec} · MaxAlt {maxAlt}°",
+      "tonightScoreFmt": "Tonight-Score: {score} · MaxAlt {maxAlt}° · {hours}h",
+      "redrawChart": "Diagramm neu zeichnen",
+      "lazyVisibleOnly": "Nur sichtbare Karten laden",
+      "useCacheHint": "Übergibt useCache an targetpic",
+      "previewReload": "Vorschau neu laden"
+    },
+    "empty": {
+      "noFavorites": "Keine Favoriten gefunden."
+    },
+    "status": {
+      "sendingToSequencer": "Übergebe Ziel an Sequencer…",
+      "sequencerTargetSet": "Sequencer-Ziel gesetzt"
+    },
+    "errors": {
+      "noSequenceAvailable": "Keine Sequenz verfügbar, für Übergabe notwendig",
+      "sequencerFailed": "Sequencer fehlgeschlagen"
+    }
+  }
 }

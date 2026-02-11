@@ -64,6 +64,9 @@ export const apiStore = defineStore('store', {
         Gain: 0,
         ExposureTime: 0,
       },
+      ImageFileSettings: {
+        FilePattern: '',
+      },
       SnapShotControlSettings: {
         Save: false,
         Gain: 0,
@@ -87,7 +90,7 @@ export const apiStore = defineStore('store', {
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { Connected: false, TrackingMode: null },
     filterInfo: { Connected: false },
-    focuserInfo: { Connected: false },
+    focuserInfo: { Connected: false, CanReverse: false },
     rotatorInfo: { Connected: false },
     focuserAfInfo: { Connected: false },
     guiderInfo: { Connected: false },

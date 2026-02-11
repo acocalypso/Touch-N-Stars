@@ -142,6 +142,36 @@
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unlinked Strech"
       },
+      "imageFile": {
+        "title": "Bestandsnaampatroon",
+        "pattern": "Patroon",
+        "preview": "Voorbeeld",
+        "folder": "Map",
+        "separator": "Scheidingsteken",
+        "empty": "Tik op de tokens hieronder om het patroon samen te stellen",
+        "freeText": "Tekst",
+        "editTokens": "Tokens bewerken",
+        "help": {
+          "title": "Bestandsnaampatroon",
+          "intro": "Stel het bestandsnaampatroon samen voor je opgenomen afbeeldingen. Elk token wordt door NINA vervangen door de werkelijke waarde bij het opslaan.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Tik op een tokenknop om het aan het patroon toe te voegen. Tokens zoals Filter, Date of ExposureTime worden door NINA vervangen door de werkelijke waarden.",
+          "separatorsTitle": "Scheidingstekens",
+          "separatorsDesc": "Gebruik \\ om mapstructuren te maken. Gebruik _ of - om waarden in de bestandsnaam te scheiden. Gebruik \"Tekst\" om aangepaste tekst toe te voegen zoals \"s\" voor seconden.",
+          "cursorTitle": "Invoegpositie",
+          "cursorDesc": "Tik tussen bestaande tokens om de knipperende cursor te verplaatsen. Nieuwe tokens worden ingevoegd op de cursorpositie.",
+          "exampleTitle": "Voorbeeld",
+          "exampleResult": "Resultaat:"
+        },
+        "groups": {
+          "dateTime": "Datum / Tijd",
+          "image": "Afbeelding",
+          "camera": "Camera",
+          "guiding": "Guiding",
+          "equipment": "Apparatuur",
+          "other": "Overig"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activateer Debug Mode",
@@ -232,7 +262,12 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Guider"
+        "name": "Guider",
+        "mountRequired": "De montage moet verbonden zijn voordat de guider verbonden kan worden.",
+        "guideCamRequired": "Er moet een geldige guidecamera geselecteerd zijn."
+      },
+      "guiderCam": {
+        "name": "Guide Camera"
       },
       "safety": {
         "name": "Safety monitor"
@@ -582,7 +617,9 @@
         "backlash": "Backlash",
         "basic": "Basisinstellingen",
         "crop_and_stars": "Crop",
-        "title": "Autofocus Instellingen"
+        "Reverse": "Omkeren",
+        "title": "Autofocus Instellingen",
+        "UseFilterWheelOffsets": "Filterwiel offsets gebruiken"
       }
     },
     "dome": {
@@ -645,6 +682,7 @@
       "cooling_time": "Koeling tijd (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Gebruik Platesolve",
       "chip_settings": {
         "title": "Sensor instellingen",
@@ -1749,5 +1787,118 @@
       "rotation": "Rotatie"
     }
   },
-  "loading": "laden"
+  "loading": "laden",
+  "observationPlaner": {
+    "title": "Waarnemingsplanner",
+    "subtitle": "Favorieten met voorbeeld + hoogtekaart voor vanavond (locatiegebaseerd)",
+    "sections": {
+      "tonightPicks": "Selectie van vanavond",
+      "topForWindow": "Beste doelen voor het geselecteerde tijdvenster",
+      "preview": "Voorbeeld",
+      "framing": "Kadrering"
+    },
+    "filters": {
+      "title": "Filters",
+      "search": "Zoeken",
+      "search_placeholder": "M42, Andromeda, NGC…",
+      "timeWindow": "Tijdvenster",
+      "startLocal": "Start (lokaal)",
+      "endLocal": "Einde (lokaal)",
+      "moon": "Maan",
+      "objectType": "Objecttype",
+      "azSector": "Hemelrichting (azimut-sector)",
+      "onlyAboveHorizon": "Alleen >0° hoogte",
+      "limit": "Limiet"
+    },
+    "sort": {
+      "title": "Sortering",
+      "nameAZ": "Naam A→Z",
+      "maxAltDesc": "Max. hoogte ↓",
+      "bestTimeAsc": "Beste tijd ↑",
+      "bestTime": "Beste tijd",
+      "maxAltWindow": "Max. hoogte (venster)",
+      "visible": "Zichtbaar?"
+    },
+    "location": {
+      "title": "Locatie",
+      "get": "Locatie ophalen",
+      "notAvailable": "Geen locatie beschikbaar",
+      "hintNoLocation": "Opmerking: Zonder locatie kunnen hoogte-/richtingsfilters en grafieken niet worden berekend."
+    },
+    "performance": {
+      "title": "Weergave / Prestaties",
+      "lazyPreviews": "Voorbeelden lui laden",
+      "redraw": "Hertekenen"
+    },
+    "buttons": {
+      "refresh": "Vernieuwen",
+      "reload": "Herladen",
+      "slew": "Slew",
+      "center": "Centreren",
+      "slewNoCenter": "Slew (zonder centrering)",
+      "slewCenter": "Slew + Centreren",
+      "slewCenterPlatesolve": "Slew + Centreren (platesolve)",
+      "sendToSequencer": "Naar sequencer sturen",
+      "openFraming": "Kadreringsassistent openen",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Geen afbeelding geladen",
+      "unavailable": "Voorbeeld niet beschikbaar",
+      "info": "Voorbeeld-info",
+      "reload": "Voorbeeld herladen"
+    },
+    "cache": {
+      "useNinaCache": "NINA-cache voor doelobject gebruiken",
+      "hint": "Laadt DSS/doelobject via TNS WebAPI. De cache-schakelaar bestuurt useCache.",
+      "hintShort": "Geeft useCache door aan targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Hoogte vs. Tijd",
+      "sampleMin": "Sample (min)",
+      "directionAz": "Richting (Az)",
+      "separation": "Separatie —"
+    },
+    "sectors": {
+      "N_NE": "Noord → Noordoost (315°–45°)",
+      "NE_E": "Noordoost → Oost (45°–90°)",
+      "E_SE": "Oost → Zuidoost (90°–135°)",
+      "SE_S": "Zuidoost → Zuid (135°–180°)",
+      "S_SW": "Zuid → Zuidwest (180°–225°)",
+      "SW_W": "Zuidwest → West (225°–270°)",
+      "W_NW": "West → Noordwest (270°–315°)",
+      "NW_N": "Noordwest → Noord (315°–360°)",
+      "all": "Alle"
+    },
+    "common": {
+      "yes": "Ja",
+      "no": "Nee",
+      "loading": "Laden…",
+      "all": "Alle"
+    },
+    "tooltips": {
+      "favorite": "Favoriet",
+      "refreshFavorites": "Favorieten herladen en herberekenen",
+      "filterNoBelowHorizon": "Filtert doelen met maxAlt <= 0°",
+      "filterAzSector": "Filteren op bestAzDeg (azimut bij hoogste hoogte in venster)",
+      "gpsUpdate": "GPS-locatie bijwerken",
+      "openFramingFmt": "Kadrering openen · {ra} / {dec} · MaxAlt {maxAlt}°",
+      "tonightScoreFmt": "Vanavond-score: {score} · MaxAlt {maxAlt}° · {hours}h",
+      "redrawChart": "Grafiek hertekenen",
+      "lazyVisibleOnly": "Alleen voor zichtbare kaarten laden",
+      "useCacheHint": "Geeft useCache door aan targetpic",
+      "previewReload": "Voorbeeld herladen"
+    },
+    "empty": {
+      "noFavorites": "Geen favorieten gevonden."
+    },
+    "status": {
+      "sendingToSequencer": "Doel wordt naar sequencer gestuurd…",
+      "sequencerTargetSet": "Sequencer-doel ingesteld"
+    },
+    "errors": {
+      "noSequenceAvailable": "Geen sequentie beschikbaar, laad eerst een sequentie",
+      "sequencerFailed": "Sequencer mislukt"
+    }
+  }
 }

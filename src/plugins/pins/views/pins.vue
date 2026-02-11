@@ -262,7 +262,7 @@
                 ></path>
               </svg>
               <span>{{
-                status === 'Running'
+                status === 'Running' && activeOperation === 'upgrade'
                   ? $t('plugins.pins.upgrading')
                   : $t('plugins.pins.startUpgrade')
               }}</span>
@@ -368,6 +368,7 @@ const dryRun = ref(false);
 const sambaEnabled = ref(false);
 const phd2Enabled = ref(false);
 const phd2Running = ref(false);
+const activeOperation = ref(null);
 const stationaryMode = ref(false);
 const wifiList = ref([]);
 const selectedSsid = ref('');
@@ -590,6 +591,7 @@ async function connectWifi() {
   }
 
   status.value = 'Running';
+  activeOperation.value = 'wifi';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
   appendLog(`Connecting to WiFi: ${selectedSsid.value}`);
@@ -662,6 +664,7 @@ async function handleSambaToggle(newValue) {
 
   sambaEnabled.value = newValue;
   status.value = 'Running';
+  activeOperation.value = 'samba';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
 
@@ -734,6 +737,7 @@ async function startUpgrade() {
   }
 
   status.value = 'Running';
+  activeOperation.value = 'upgrade';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
   appendLog(t('plugins.pins.logs.config', { dryRun: dryRun.value }));

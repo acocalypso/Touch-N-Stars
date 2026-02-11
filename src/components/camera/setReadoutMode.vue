@@ -80,8 +80,8 @@ const initializeReadoutMode = () => {
   const readoutMode = store.cameraInfo.ReadoutMode ?? 0; // Falls undefined -> Standardwert 0
   cameraStore.readoutMode = readoutMode;
 
-  readoutModeImage.value = store.profileInfo.CameraSettings.ReadoutModeForNormalImages;
-  readoutModeSnap.value = store.profileInfo.CameraSettings.ReadoutModeForSnapImages;
+  readoutModeImage.value = store.cameraInfo.ReadoutModeForNormalImages;
+  readoutModeSnap.value = store.cameraInfo.ReadoutModeForSnapImages;
 };
 
 async function setReadoutMode() {

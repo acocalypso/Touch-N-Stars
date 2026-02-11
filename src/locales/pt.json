@@ -142,6 +142,36 @@
         "DebayeredHFR": "HFR debayered",
         "UnlinkedStretch": "Estiramento não vinculado"
       },
+      "imageFile": {
+        "title": "Padrão de nome de ficheiro",
+        "pattern": "Padrão",
+        "preview": "Pré-visualização",
+        "folder": "Pasta",
+        "separator": "Separador",
+        "empty": "Toque nos tokens abaixo para construir o padrão",
+        "freeText": "Texto",
+        "editTokens": "Editar tokens",
+        "help": {
+          "title": "Padrão de nome de ficheiro",
+          "intro": "Construa o padrão de nome de ficheiro para as suas imagens capturadas. Cada token será substituído pelo NINA com o valor real ao guardar.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Toque num botão de token para o adicionar ao padrão. Tokens como Filter, Date ou ExposureTime são substituídos pelo NINA com os valores reais.",
+          "separatorsTitle": "Separadores",
+          "separatorsDesc": "Use \\ para criar estruturas de pastas. Use _ ou - para separar valores no nome do ficheiro. Use \"Texto\" para adicionar texto personalizado como \"s\" para segundos.",
+          "cursorTitle": "Posição de inserção",
+          "cursorDesc": "Toque entre os tokens existentes para mover o cursor intermitente. Novos tokens são inseridos na posição do cursor.",
+          "exampleTitle": "Exemplo",
+          "exampleResult": "Resultado:"
+        },
+        "groups": {
+          "dateTime": "Data / Hora",
+          "image": "Imagem",
+          "camera": "Câmara",
+          "guiding": "Guiagem",
+          "equipment": "Equipamento",
+          "other": "Outro"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Ativar modo debug",
@@ -232,7 +262,12 @@
         "name": "Rotacionador"
       },
       "guider": {
-        "name": "Guiador"
+        "name": "Guiador",
+        "mountRequired": "A montagem deve estar conectada antes de conectar o guiador.",
+        "guideCamRequired": "Uma câmera guia válida deve ser selecionada."
+      },
+      "guiderCam": {
+        "name": "Guide Camera"
       },
       "safety": {
         "name": "Monitor de segurança"
@@ -581,7 +616,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Configurações básicas",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Inverter",
+        "UseFilterWheelOffsets": "Usar offsets da roda de filtros"
       },
       "focus": "Focus"
     },
@@ -645,6 +682,7 @@
       "cooling_time": "Tempo de resfriamento (min)",
       "binning_mode": "Binning",
       "readout_mode": "Modo de leitura",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Usar Platesolve",
       "chip_settings": {
         "title": "Configurações do chip da câmera",
@@ -1749,5 +1787,118 @@
       "rotation": "Rotação"
     }
   },
-  "loading": "carregando"
+  "loading": "carregando",
+  "observationPlaner": {
+    "title": "Planejador de observação",
+    "subtitle": "Favoritos com pré-visualização + mapa de altitude para esta noite (baseado na localização)",
+    "sections": {
+      "tonightPicks": "Seleção desta noite",
+      "topForWindow": "Melhores alvos para a janela de tempo selecionada",
+      "preview": "Pré-visualização",
+      "framing": "Enquadramento"
+    },
+    "filters": {
+      "title": "Filtros",
+      "search": "Pesquisar",
+      "search_placeholder": "M42, Andrômeda, NGC…",
+      "timeWindow": "Janela de tempo",
+      "startLocal": "Início (local)",
+      "endLocal": "Fim (local)",
+      "moon": "Lua",
+      "objectType": "Tipo de objeto",
+      "azSector": "Direção do céu (setor azimutal)",
+      "onlyAboveHorizon": "Apenas >0° altitude",
+      "limit": "Limite"
+    },
+    "sort": {
+      "title": "Ordenação",
+      "nameAZ": "Nome A→Z",
+      "maxAltDesc": "Alt. máx. ↓",
+      "bestTimeAsc": "Melhor horário ↑",
+      "bestTime": "Melhor horário",
+      "maxAltWindow": "Alt. máx. (janela)",
+      "visible": "Visível?"
+    },
+    "location": {
+      "title": "Localização",
+      "get": "Obter localização",
+      "notAvailable": "Nenhuma localização disponível",
+      "hintNoLocation": "Nota: Sem localização, os filtros de altitude/direção e gráficos não podem ser calculados."
+    },
+    "performance": {
+      "title": "Exibição / Desempenho",
+      "lazyPreviews": "Carregamento preguiçoso de pré-visualizações",
+      "redraw": "Redesenhar"
+    },
+    "buttons": {
+      "refresh": "Atualizar",
+      "reload": "Recarregar",
+      "slew": "Slew",
+      "center": "Centralizar",
+      "slewNoCenter": "Slew (sem centralização)",
+      "slewCenter": "Slew + Centralizar",
+      "slewCenterPlatesolve": "Slew + Centralizar (platesolve)",
+      "sendToSequencer": "Enviar ao sequenciador",
+      "openFraming": "Abrir assistente de enquadramento",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "Nenhuma imagem carregada",
+      "unavailable": "Pré-visualização indisponível",
+      "info": "Info da pré-visualização",
+      "reload": "Recarregar pré-visualização"
+    },
+    "cache": {
+      "useNinaCache": "Usar cache do NINA para imagem do alvo",
+      "hint": "Carrega imagem DSS/alvo via TNS WebAPI. O botão de cache controla useCache.",
+      "hintShort": "Passa useCache para targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Altitude vs. Tempo",
+      "sampleMin": "Amostra (min)",
+      "directionAz": "Direção (Az)",
+      "separation": "Separação —"
+    },
+    "sectors": {
+      "N_NE": "Norte → Nordeste (315°–45°)",
+      "NE_E": "Nordeste → Leste (45°–90°)",
+      "E_SE": "Leste → Sudeste (90°–135°)",
+      "SE_S": "Sudeste → Sul (135°–180°)",
+      "S_SW": "Sul → Sudoeste (180°–225°)",
+      "SW_W": "Sudoeste → Oeste (225°–270°)",
+      "W_NW": "Oeste → Noroeste (270°–315°)",
+      "NW_N": "Noroeste → Norte (315°–360°)",
+      "all": "Todos"
+    },
+    "common": {
+      "yes": "Sim",
+      "no": "Não",
+      "loading": "Carregando…",
+      "all": "Todos"
+    },
+    "tooltips": {
+      "favorite": "Favorito",
+      "refreshFavorites": "Recarregar favoritos e recalcular",
+      "filterNoBelowHorizon": "Filtra alvos com alt. máx. <= 0°",
+      "filterAzSector": "Filtrar por bestAzDeg (azimute na altitude máxima dentro da janela)",
+      "gpsUpdate": "Atualizar localização GPS",
+      "openFramingFmt": "Abrir enquadramento · {ra} / {dec} · Alt. máx. {maxAlt}°",
+      "tonightScoreFmt": "Pontuação desta noite: {score} · Alt. máx. {maxAlt}° · {hours}h",
+      "redrawChart": "Redesenhar gráfico",
+      "lazyVisibleOnly": "Carregar apenas cartões visíveis",
+      "useCacheHint": "Passa useCache para targetpic",
+      "previewReload": "Recarregar pré-visualização"
+    },
+    "empty": {
+      "noFavorites": "Nenhum favorito encontrado."
+    },
+    "status": {
+      "sendingToSequencer": "Enviando alvo ao sequenciador…",
+      "sequencerTargetSet": "Alvo do sequenciador definido"
+    },
+    "errors": {
+      "noSequenceAvailable": "Nenhuma sequência disponível, carregue uma sequência primeiro",
+      "sequencerFailed": "Sequenciador falhou"
+    }
+  }
 }

@@ -262,7 +262,9 @@
         "name": "旋转器"
       },
       "guider": {
-        "name": "导星器"
+        "name": "导星器",
+        "mountRequired": "在连接导星器之前，必须先连接赤道仪。",
+        "guideCamRequired": "必须选择一个有效的导星相机。"
       },
       "guiderCam": {
         "name": "Guide Camera"

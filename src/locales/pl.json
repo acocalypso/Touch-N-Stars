@@ -262,7 +262,9 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Guider"
+        "name": "Guider",
+        "mountRequired": "Montaż musi być podłączony przed podłączeniem guidera.",
+        "guideCamRequired": "Należy wybrać prawidłową kamerę guidera."
       },
       "guiderCam": {
         "name": "Guide Camera"

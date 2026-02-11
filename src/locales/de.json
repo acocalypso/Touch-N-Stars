@@ -262,7 +262,9 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Guider"
+        "name": "Guider",
+        "mountRequired": "Die Montierung muss verbunden sein, bevor der Guider verbunden werden kann.",
+        "guideCamRequired": "Eine gültige Guide-Kamera muss ausgewählt werden."
       },
       "guiderCam": {
         "name": "Guide-Kamera"

@@ -13,7 +13,7 @@
       >
         <option value="" disabled>{{ selectedCam || $t('common.select') }}</option>
         <option v-for="cam in cameras" :key="cam.name" :value="cam.name">
-          {{ cam.name }}
+          {{ cam.name }} ({{ cam.id }})
         </option>
       </select>
       <div class="flex shrink-0 gap-1">

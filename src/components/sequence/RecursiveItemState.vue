@@ -1175,13 +1175,13 @@ function getDisplayFields(item) {
   return Object.entries(item).filter(([key, value]) => {
     // For GlobalTriggers, exclude 'Inherited' field if it exists
     if (isGlobalTrigger && key === 'Inherited') return false;
-    return !excludedKeys.has(key) && value !== undefined && value !== null;
+    return !excludedKeys.has(key) && !key.endsWith('Definition') && !key.endsWith('Expression') && value !== undefined && value !== null;
   });
 }
 
 function getDisplayFieldsConditions(item) {
   return Object.entries(item).filter(
-    ([key]) => !excludedKeysConditions.has(key) && item[key] !== undefined && item[key] !== null
+    ([key]) => !excludedKeysConditions.has(key) && !key.endsWith('Definition') && !key.endsWith('Expression') && item[key] !== undefined && item[key] !== null
   );
 }
 

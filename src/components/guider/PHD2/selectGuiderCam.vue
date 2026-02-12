@@ -12,8 +12,12 @@
         @change="setGuiderCam"
       >
         <option value="" disabled>{{ selectedCam || $t('common.select') }}</option>
-        <option v-for="cam in cameras" :key="cam.name" :value="cam.name">
-          {{ cam.name }} ({{ cam.id }})
+        <option
+          v-for="cam in cameras"
+          :key="cam.driver + ':' + cam.id"
+          :value="cam.driver + ':' + cam.id"
+        >
+          {{ cam.driver }} - {{ cam.name }}
         </option>
       </select>
       <div class="flex shrink-0 gap-1">
@@ -58,10 +62,13 @@ async function loadCameras() {
     await apiService.connectPHD2();
     const response = await apiPinsService.getGuideCam();
     if (response.Success && response.Response) {
-      cameras.value = Object.entries(response.Response).map(([name, ids]) => ({
-        name,
-        id: ids[0] || '',
-      }));
+      cameras.value = Object.entries(response.Response).flatMap(([driver, cams]) =>
+        cams.map((cam) => ({
+          driver,
+          id: cam.Id,
+          name: cam.Name,
+        }))
+      );
       validateSelection();
     }
   } catch (error) {
@@ -73,7 +80,10 @@ async function loadCameras() {
 }
 
 function validateSelection() {
-  if (!selectedCam.value || !cameras.value.some((c) => c.name === selectedCam.value)) {
+  if (
+    !selectedCam.value ||
+    !cameras.value.some((c) => c.driver + ':' + c.id === selectedCam.value)
+  ) {
     borderClass.value = 'border-red-500 error-glow';
     guiderStore.guidecamOk = false;
   } else {
@@ -83,11 +93,11 @@ function validateSelection() {
 }
 
 async function setGuiderCam() {
-  const cam = cameras.value.find((c) => c.name === selectedCam.value);
+  const cam = cameras.value.find((c) => c.driver + ':' + c.id === selectedCam.value);
   if (!cam) return;
 
   try {
-    await apiService.profileChangeValue('GuiderSettings-PHD2Camera', cam.name);
+    await apiService.profileChangeValue('GuiderSettings-PHD2Camera', cam.driver);
     await apiService.profileChangeValue('GuiderSettings-PHD2CameraId', cam.id);
     borderClass.value = 'border-green-500 connected-glow';
     setTimeout(() => validateSelection(), 2000);
@@ -102,8 +112,14 @@ onMounted(async () => {
   if (store.profileInfo?.GuiderSettings?.GuiderName !== 'PHD2_Single' || !store.isPINS) {
     return;
   }
-  if (store.profileInfo?.GuiderSettings?.PHD2Camera) {
-    selectedCam.value = store.profileInfo.GuiderSettings.PHD2Camera;
+  if (
+    store.profileInfo?.GuiderSettings?.PHD2Camera &&
+    store.profileInfo?.GuiderSettings?.PHD2CameraId
+  ) {
+    selectedCam.value =
+      store.profileInfo.GuiderSettings.PHD2Camera +
+      ':' +
+      store.profileInfo.GuiderSettings.PHD2CameraId;
   }
   loadCameras();
 });

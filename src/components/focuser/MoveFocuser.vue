@@ -13,8 +13,16 @@
         inputId="focuser-position"
         wrapperClass="flex-1"
       />
-      <button class="default-button-cyan max-w-52 h-10 whitespace-nowrap" @click="moveFocuser">
-        {{ $t('components.focuser.move') }}
+      <button
+        :class="
+          store.focuserInfo.IsMoving
+            ? 'default-button-red max-w-52 h-10 whitespace-nowrap'
+            : 'default-button-cyan max-w-52 h-10 whitespace-nowrap'
+        "
+        @click="store.focuserInfo.IsMoving ? stopFocuser() : moveFocuser()"
+      >
+        <StopIcon v-if="store.focuserInfo.IsMoving" class="h-5 w-5 text-white" />
+        <span v-else>{{ $t('components.focuser.move') }}</span>
       </button>
     </div>
   </div>
@@ -22,6 +30,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
+import { StopIcon } from '@heroicons/vue/24/outline';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
@@ -38,6 +47,15 @@ async function moveFocuser() {
     console.error('Error moving focuser:', error);
   } finally {
     loading.value = false;
+  }
+}
+
+async function stopFocuser() {
+  try {
+    await apiService.focusAction('stop-move');
+    console.log('Focuser stopped');
+  } catch (error) {
+    console.error('Error stopping focuser:', error);
   }
 }
 

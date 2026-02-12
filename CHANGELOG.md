@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Camera: Separate Readout Mode settings for Image and Snap (API >= 2.2.14.3) - thanks to Chris
 - Camera: Add USB limit setting component for camera (API >= 2.2.14.3) - thanks to Chris
 - Focuser: Add use filter offsets setting
+- Focuser: Add stop button to cancel move while focuser is moving
+- Rotator: Add stop button to cancel move while rotator is moving
 - Plugin: ObservationPlaner - thanks to Flashy_DE (Alex)
 
 ### Changed

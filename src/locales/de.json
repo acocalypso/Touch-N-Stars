@@ -5,7 +5,14 @@
     "close": "Schließen",
     "select": "Wählen",
     "edit": "Bearbeiten",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "connecting": "Verbinden…",
+    "disable": "Deaktivieren",
+    "disabled": "Deaktiviert",
+    "enable": "Aktivieren",
+    "enabled": "Aktiviert",
+    "loading": "Laden…",
+    "scanning": "Scannen…"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -441,7 +448,9 @@
         "connectionMode": "Verbindungsmodus",
         "devicePort": "Geräteport",
         "ipAddress": "IP-Adresse",
-        "settings": "Montierungseinstellungen"
+        "settings": "Montierungseinstellungen",
+        "autoDetect": "Automatische Erkennung",
+        "tcpPort": "TCP-Port"
       }
     },
     "guider": {
@@ -954,6 +963,9 @@
       "dryRun": "Testlauf-Modus",
       "sambaTitle": "Samba Freigabe",
       "sambaDescription": "Netzwerkfreigabe aktivieren oder deaktivieren",
+      "phd2Title": "PHD2 Autostart",
+      "phd2Running": "Dienst läuft derzeit",
+      "phd2Stopped": "Dienst ist derzeit gestoppt",
       "startUpgrade": "Upgrade starten",
       "upgrading": "Aktualisiere...",
       "terminalOutput": "TERMINAL AUSGABE",
@@ -972,6 +984,11 @@
         "sambaAction": "Aktion: Samba Freigabe {action}",
         "sambaEnable": "aktivieren",
         "sambaDisable": "deaktivieren",
+        "phd2Action": "Aktion: PHD2-Dienst {action}...",
+        "phd2Enabling": "aktivieren",
+        "phd2Disabling": "deaktivieren",
+        "phd2Success": "PHD2-Dienst Aktualisierung erfolgreich.",
+        "phd2Failed": "PHD2-Dienst Aktualisierung fehlgeschlagen: {message}",
         "jobCreated": "Job erfolgreich erstellt. ID: {jobId}",
         "daemonCheck": "Stellen Sie sicher, dass der PINS-Daemon auf {ip}:{port} läuft",
         "serverError": "Serverfehler ({status}): {data}",
@@ -1777,6 +1794,109 @@
         "updated": "Shortcut erfolgreich aktualisiert"
       },
       "update": "Update"
+    },
+    "pinsDevices": {
+      "config": {
+        "envUpdateRate": "Umgebungsaktualisierungsrate",
+        "envUpdateRateDesc": "Aktualisierungsintervall für Temperatur- und Luftfeuchtigkeitsmesswerte",
+        "factoryReset": "Werksreset",
+        "factoryResetConfirm": "Sind Sie sicher, dass Sie einen Werksreset durchführen möchten? \nDadurch werden alle Einstellungen auf ihre Standardwerte zurückgesetzt.",
+        "factoryResetDesc": "Setzen Sie das PINS-Gerät auf die Werkseinstellungen zurück",
+        "humidityOffset": "Feuchtigkeitsausgleich",
+        "humidityOffsetDesc": "Kalibrierungsoffset für Feuchtigkeitssensor",
+        "temperatureOffset": "Temperaturoffset",
+        "temperatureOffsetDesc": "Kalibrierungsoffset für Temperatursensor",
+        "title": "Konfiguration",
+        "updateRate": "Geräteaktualisierungsrate",
+        "updateRateDesc": "Aktualisierungsintervall für Gerätestatusaktualisierungen"
+      },
+      "info": {
+        "adjPorts": "Einstellbare Stromanschlüsse",
+        "deviceId": "Geräte-ID",
+        "dewPorts": "Tauanschlüsse",
+        "driverVersion": "Treiberversion",
+        "firmware": "Firmware",
+        "meteoStation": "Meteostation",
+        "ports": "Verfügbare Ports",
+        "powerPorts": "Stromanschlüsse",
+        "powerStatus": "Energiestatus",
+        "usbPorts": "USB-Anschlüsse"
+      },
+      "ports": {
+        "bootState": "Einschaltzustand",
+        "bootStateDisabled": "Beim Start deaktiviert",
+        "bootStateEnabled": "Beim Start aktiviert",
+        "current": "Aktuell",
+        "maxCurrent": "Maximaler Strom",
+        "noPorts": "Keine Ports verfügbar",
+        "overcurrent": "Überstrom",
+        "readOnly": "Schreibgeschützt (kann nicht gesteuert werden)",
+        "status": "Status"
+      },
+      "settings": {
+        "adjustablePower": "Einstellbare Stromanschlüsse",
+        "adjustablePowerDescription": "Konfigurieren und verwalten Sie anpassbare Stromanschlüsse",
+        "configuration": "Konfiguration",
+        "configurationDescription": "Konfigurieren Sie Geräteeinstellungen und Sensorkalibrierung",
+        "dewPorts": "Tauanschlüsse",
+        "dewPortsDescription": "Konfigurieren und verwalten Sie Tauheizungsanschlüsse",
+        "general": "Allgemein",
+        "generalDescription": "Allgemeine Geräteeinstellungen und Informationen",
+        "ports": "PowerBox",
+        "powerPorts": "Stromanschlüsse",
+        "powerPortsDescription": "Konfigurieren und verwalten Sie die Ausgänge der Stromanschlüsse",
+        "usbPorts": "USB-Anschlüsse",
+        "usbPortsDescription": "Konfigurieren und verwalten Sie USB-Port-Verbindungen",
+        "weather": "MeteoStation",
+        "wifi": "W-lan"
+      },
+      "status": {
+        "notConnected": "Nicht verbunden"
+      },
+      "title": "PI'N'Stars-Gerät",
+      "weather": {
+        "cloudAssessment": "Wolkenabdeckung",
+        "cloudCover": "Wolkendecke",
+        "conditions": "Wetterbewertung",
+        "currentWeather": "Aktuelle Wetterbedingungen",
+        "deviceInfo": "Geräteinformationen",
+        "dewPoint": "Taupunkt",
+        "dewSpread": "Tauausbreitung (T-Td)",
+        "disconnected": "MeteoStation ist derzeit nicht verbunden",
+        "firmware": "Firmware",
+        "humidity": "Luftfeuchtigkeit",
+        "id": "Geräte-ID",
+        "name": "Name",
+        "noData": "Keine Wetterdaten verfügbar",
+        "skyBrightness": "Himmelshelligkeit",
+        "skyQuality": "Himmelsqualität",
+        "skyTemp": "Himmelstemperatur",
+        "temperature": "Temperatur",
+        "temperatureStatus": "Temperaturstatus",
+        "uptime": "Betriebszeit"
+      },
+      "wifi": {
+        "availableNetworks": "Verfügbare Netzwerke",
+        "channel": "Kanal",
+        "connect": "Verbinden",
+        "connectAsClient": "Als Client verbinden",
+        "connectTo": "Verbinden mit",
+        "connectToNetwork": "Stellen Sie eine Verbindung zum WLAN-Netzwerk her",
+        "createHotspot": "Hotspot erstellen",
+        "currentStatus": "Aktueller WLAN-Status",
+        "enterPassword": "Geben Sie das WLAN-Passwort ein",
+        "hotspotDesc": "Erstellen Sie einen WLAN-Zugangspunkt, mit dem sich andere Geräte verbinden können",
+        "hotspotName": "Hotspot-Name",
+        "hotspotPassword": "Hotspot-Passwort",
+        "min8chars": "mindestens 8 Zeichen",
+        "noNetworksFound": "Keine WLAN-Netzwerke gefunden",
+        "notConnected": "Derzeit mit keinem Netzwerk verbunden",
+        "password": "Passwort",
+        "passwordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein",
+        "scanNetworks": "Nach Netzwerken suchen",
+        "scanning": "Suche nach WLAN-Netzwerken...",
+        "ssid": "Netzwerk-SSID"
+      }
     }
   },
   "dialogs": {

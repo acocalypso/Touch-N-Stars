@@ -5,7 +5,14 @@
     "close": "Fermer",
     "select": "Select",
     "delete": "Supprimer",
-    "edit": "Modifier"
+    "edit": "Modifier",
+    "connecting": "De liaison…",
+    "disable": "Désactiver",
+    "disabled": "Désactivé",
+    "enable": "Activer",
+    "enabled": "Activé",
+    "loading": "Chargement…",
+    "scanning": "Balayage…"
   },
   "general": {
     "cancel": "Annuler",
@@ -441,7 +448,9 @@
         "connectionMode": "Mode de connexion",
         "devicePort": "Port de l'appareil",
         "ipAddress": "Adresse IP",
-        "settings": "Paramètres de la monture"
+        "settings": "Paramètres de la monture",
+        "autoDetect": "Détection automatique",
+        "tcpPort": "Port TCP"
       }
     },
     "guider": {
@@ -1753,7 +1762,12 @@
         "wsClosed": "Connexion fermée. (Code : {code})",
         "wsConnected": "Connexion établie. Diffusion des logs...",
         "wsConnecting": "Négociation de la connexion WebSocket vers {wsUrl}...",
-        "wsError": "Une erreur WebSocket s'est produite."
+        "wsError": "Une erreur WebSocket s'est produite.",
+        "phd2Action": "Service PHD2 {action}...",
+        "phd2Disabling": "désactiver",
+        "phd2Enabling": "permettre",
+        "phd2Failed": "Échec de la mise à jour du service PHD2 : {message}",
+        "phd2Success": "Mise à jour du service PHD2 réussie."
       },
       "notAvailable": "Environnement PINS non détecté. Ce plugin est désactivé.",
       "sambaDescription": "Activer ou désactiver le partage de fichiers réseau",
@@ -1776,7 +1790,113 @@
       "wifiConnect": "Connecter",
       "wifiPassword": "Mot de passe",
       "wifiSelect": "Sélectionnez le réseau",
-      "wifiTitle": "Configuration Wi-Fi"
+      "wifiTitle": "Configuration Wi-Fi",
+      "phd2Running": "Le service est actuellement en cours d'exécution",
+      "phd2Stopped": "Le service est actuellement arrêté",
+      "phd2Title": "Démarrage automatique PHD2"
+    },
+    "pinsDevices": {
+      "config": {
+        "envUpdateRate": "Taux de mise à jour de l'environnement",
+        "envUpdateRateDesc": "Intervalle de rafraîchissement pour les relevés de température et d'humidité",
+        "factoryReset": "Réinitialisation d'usine",
+        "factoryResetConfirm": "Êtes-vous sûr de vouloir effectuer une réinitialisation d'usine ? \nCela réinitialisera tous les paramètres à leurs valeurs par défaut.",
+        "factoryResetDesc": "Réinitialiser l'appareil PINS aux paramètres d'usine par défaut",
+        "humidityOffset": "Compensation d'humidité",
+        "humidityOffsetDesc": "Décalage d'étalonnage pour le capteur d'humidité",
+        "temperatureOffset": "Décalage de température",
+        "temperatureOffsetDesc": "Décalage d'étalonnage pour le capteur de température",
+        "title": "Configuration",
+        "updateRate": "Taux de mise à jour de l'appareil",
+        "updateRateDesc": "Intervalle d'actualisation pour les mises à jour de l'état de l'appareil"
+      },
+      "info": {
+        "adjPorts": "Ports d'alimentation réglables",
+        "deviceId": "ID de l'appareil",
+        "dewPorts": "Ports de rosée",
+        "driverVersion": "Version du pilote",
+        "firmware": "Micrologiciel",
+        "meteoStation": "Station météo",
+        "ports": "Ports disponibles",
+        "powerPorts": "Ports d'alimentation",
+        "powerStatus": "État de l'alimentation",
+        "usbPorts": "Ports USB"
+      },
+      "ports": {
+        "bootState": "État de mise sous tension",
+        "bootStateDisabled": "Désactivé au démarrage",
+        "bootStateEnabled": "Activé au démarrage",
+        "current": "Actuel",
+        "maxCurrent": "Courant maximum",
+        "noPorts": "Aucun port disponible",
+        "overcurrent": "Surintensité",
+        "readOnly": "Lecture seule (ne peut pas être contrôlé)",
+        "status": "Statut"
+      },
+      "settings": {
+        "adjustablePower": "Ports d'alimentation réglables",
+        "adjustablePowerDescription": "Configurer et gérer les ports d'alimentation réglables",
+        "configuration": "Configuration",
+        "configurationDescription": "Configurer les paramètres de l'appareil et l'étalonnage du capteur",
+        "dewPorts": "Ports de rosée",
+        "dewPortsDescription": "Configurer et gérer les ports du réchauffeur de rosée",
+        "general": "Général",
+        "generalDescription": "Paramètres et informations générales sur l'appareil",
+        "ports": "Boîte de puissance",
+        "powerPorts": "Ports d'alimentation",
+        "powerPortsDescription": "Configurer et gérer les sorties du port d'alimentation",
+        "usbPorts": "Ports USB",
+        "usbPortsDescription": "Configurer et gérer les connexions des ports USB",
+        "weather": "MétéoStation",
+        "wifi": "Wi-Fi"
+      },
+      "status": {
+        "notConnected": "Non connecté"
+      },
+      "title": "Appareil PI'N'Stars",
+      "weather": {
+        "cloudAssessment": "Couverture nuageuse",
+        "cloudCover": "Couverture nuageuse",
+        "conditions": "Évaluation météorologique",
+        "currentWeather": "Conditions météorologiques actuelles",
+        "deviceInfo": "Informations sur l'appareil",
+        "dewPoint": "Point de rosée",
+        "dewSpread": "Propagation de la rosée (T-Td)",
+        "disconnected": "MétéoStation n'est pas actuellement connectée",
+        "firmware": "Micrologiciel",
+        "humidity": "Humidité",
+        "id": "ID de l'appareil",
+        "name": "Nom",
+        "noData": "Aucune donnée météo disponible",
+        "skyBrightness": "Luminosité du ciel",
+        "skyQuality": "Qualité du ciel",
+        "skyTemp": "Température du ciel",
+        "temperature": "Température",
+        "temperatureStatus": "État de la température",
+        "uptime": "Temps de disponibilité"
+      },
+      "wifi": {
+        "availableNetworks": "Réseaux disponibles",
+        "channel": "Canal",
+        "connect": "Connecter",
+        "connectAsClient": "Connectez-vous en tant que client",
+        "connectTo": "Connectez-vous à",
+        "connectToNetwork": "Connectez-vous au réseau WiFi",
+        "createHotspot": "Créer un point d'accès",
+        "currentStatus": "État Wi-Fi actuel",
+        "enterPassword": "Entrez le mot de passe Wi-Fi",
+        "hotspotDesc": "Créez un point d'accès WiFi auquel d'autres appareils peuvent se connecter",
+        "hotspotName": "Nom du point d'accès",
+        "hotspotPassword": "Mot de passe du point d'accès",
+        "min8chars": "minimum 8 caractères",
+        "noNetworksFound": "Aucun réseau WiFi trouvé",
+        "notConnected": "Pas actuellement connecté à un réseau",
+        "password": "Mot de passe",
+        "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+        "scanNetworks": "Rechercher des réseaux",
+        "scanning": "Recherche de réseaux WiFi...",
+        "ssid": "SSID du réseau"
+      }
     }
   },
   "dialogs": {

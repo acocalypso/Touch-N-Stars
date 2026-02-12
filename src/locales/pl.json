@@ -5,7 +5,14 @@
     "close": "Zamknij",
     "select": "Select",
     "delete": "Usuń",
-    "edit": "Edytuj"
+    "edit": "Edytuj",
+    "connecting": "Złączony…",
+    "disable": "Wyłączyć",
+    "disabled": "Wyłączony",
+    "enable": "Włączać",
+    "enabled": "Włączony",
+    "loading": "Załadunek…",
+    "scanning": "Łów…"
   },
   "general": {
     "cancel": "Anuluj",
@@ -441,7 +448,9 @@
         "connectionMode": "Tryb połączenia",
         "devicePort": "Port urządzenia",
         "ipAddress": "Adres IP",
-        "settings": "Ustawienia montażu"
+        "settings": "Ustawienia montażu",
+        "autoDetect": "Automatyczne wykrywanie",
+        "tcpPort": "Port TCP"
       }
     },
     "guider": {
@@ -1753,7 +1762,12 @@
         "wsClosed": "Połączenie zamknięte. (Kod: {code})",
         "wsConnected": "Połączenie nawiązane. Przesyłanie logów...",
         "wsConnecting": "Negocjowanie połączenia WebSocket z {wsUrl}...",
-        "wsError": "Wystąpił błąd WebSocket."
+        "wsError": "Wystąpił błąd WebSocket.",
+        "phd2Action": "Usługa PHD2 {akcja}...",
+        "phd2Disabling": "wyłączanie",
+        "phd2Enabling": "umożliwienie",
+        "phd2Failed": "Aktualizacja usługi PHD2 nie powiodła się: {wiadomość}",
+        "phd2Success": "Aktualizacja usługi PHD2 powiodła się."
       },
       "notAvailable": "Środowisko PINS nie zostało wykryte. Ta wtyczka jest wyłączona.",
       "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
@@ -1776,7 +1790,113 @@
       "wifiConnect": "Łączyć",
       "wifiPassword": "Hasło",
       "wifiSelect": "Wybierz opcję Sieć",
-      "wifiTitle": "Konfiguracja Wi-Fi"
+      "wifiTitle": "Konfiguracja Wi-Fi",
+      "phd2Running": "Usługa jest aktualnie uruchomiona",
+      "phd2Stopped": "Usługa jest obecnie zatrzymana",
+      "phd2Title": "Autostart PHD2"
+    },
+    "pinsDevices": {
+      "config": {
+        "envUpdateRate": "Szybkość aktualizacji środowiska",
+        "envUpdateRateDesc": "Interwał odświeżania odczytów temperatury i wilgotności",
+        "factoryReset": "Reset do ustawień fabrycznych",
+        "factoryResetConfirm": "Czy na pewno chcesz przywrócić ustawienia fabryczne? \nSpowoduje to zresetowanie wszystkich ustawień do wartości domyślnych.",
+        "factoryResetDesc": "Zresetuj urządzenie PINS do domyślnych ustawień fabrycznych",
+        "humidityOffset": "Przesunięcie wilgotności",
+        "humidityOffsetDesc": "Przesunięcie kalibracji czujnika wilgotności",
+        "temperatureOffset": "Przesunięcie temperatury",
+        "temperatureOffsetDesc": "Przesunięcie kalibracji czujnika temperatury",
+        "title": "Konfiguracja",
+        "updateRate": "Szybkość aktualizacji urządzenia",
+        "updateRateDesc": "Interwał odświeżania aktualizacji stanu urządzenia"
+      },
+      "info": {
+        "adjPorts": "Regulowane porty zasilania",
+        "deviceId": "Identyfikator urządzenia",
+        "dewPorts": "Porty Rosy",
+        "driverVersion": "Wersja sterownika",
+        "firmware": "Oprogramowanie sprzętowe",
+        "meteoStation": "Stacja Meteo",
+        "ports": "Dostępne porty",
+        "powerPorts": "Porty zasilania",
+        "powerStatus": "Stan zasilania",
+        "usbPorts": "Porty USB"
+      },
+      "ports": {
+        "bootState": "Stan włączenia",
+        "bootStateDisabled": "Wyłączone przy uruchomieniu",
+        "bootStateEnabled": "Włączone przy uruchomieniu",
+        "current": "Aktualny",
+        "maxCurrent": "Maksymalny prąd",
+        "noPorts": "Brak dostępnych portów",
+        "overcurrent": "Nadprądowe",
+        "readOnly": "Tylko do odczytu (nie można kontrolować)",
+        "status": "Status"
+      },
+      "settings": {
+        "adjustablePower": "Regulowane porty zasilania",
+        "adjustablePowerDescription": "Konfiguruj i zarządzaj regulowanymi portami zasilania",
+        "configuration": "Konfiguracja",
+        "configurationDescription": "Skonfiguruj ustawienia urządzenia i kalibrację czujnika",
+        "dewPorts": "Porty Rosy",
+        "dewPortsDescription": "Konfiguruj i zarządzaj portami podgrzewacza rosy",
+        "general": "Ogólny",
+        "generalDescription": "Ogólne ustawienia i informacje o urządzeniu",
+        "ports": "PowerBox",
+        "powerPorts": "Porty zasilania",
+        "powerPortsDescription": "Konfiguruj i zarządzaj wyjściami portów zasilania",
+        "usbPorts": "Porty USB",
+        "usbPortsDescription": "Konfiguruj i zarządzaj połączeniami portów USB",
+        "weather": "Stacja Meteo",
+        "wifi": "WiFi"
+      },
+      "status": {
+        "notConnected": "Nie podłączony"
+      },
+      "title": "Urządzenie PI'N'Stars",
+      "weather": {
+        "cloudAssessment": "Zasięg chmury",
+        "cloudCover": "Pokrywa chmur",
+        "conditions": "Ocena pogody",
+        "currentWeather": "Aktualne warunki pogodowe",
+        "deviceInfo": "Informacje o urządzeniu",
+        "dewPoint": "Punkt rosy",
+        "dewSpread": "Rozprzestrzenianie się rosy (T-Td)",
+        "disconnected": "Stacja MeteoStation nie jest aktualnie podłączona",
+        "firmware": "Oprogramowanie sprzętowe",
+        "humidity": "Wilgotność",
+        "id": "Identyfikator urządzenia",
+        "name": "Nazwa",
+        "noData": "Brak danych pogodowych",
+        "skyBrightness": "Jasność nieba",
+        "skyQuality": "Jakość nieba",
+        "skyTemp": "Temperatura nieba",
+        "temperature": "Temperatura",
+        "temperatureStatus": "Stan temperatury",
+        "uptime": "Czas pracy"
+      },
+      "wifi": {
+        "availableNetworks": "Dostępne sieci",
+        "channel": "Kanał",
+        "connect": "Łączyć",
+        "connectAsClient": "Połącz się jako Klient",
+        "connectTo": "Połącz się z",
+        "connectToNetwork": "Połącz się z siecią Wi-Fi",
+        "createHotspot": "Utwórz Hotspot",
+        "currentStatus": "Aktualny stan Wi-Fi",
+        "enterPassword": "Wprowadź hasło Wi-Fi",
+        "hotspotDesc": "Utwórz punkt dostępu Wi-Fi, z którym będą mogły łączyć się inne urządzenia",
+        "hotspotName": "Nazwa hotspotu",
+        "hotspotPassword": "Hasło hotspotu",
+        "min8chars": "minimum 8 znaków",
+        "noNetworksFound": "Nie znaleziono sieci Wi-Fi",
+        "notConnected": "Obecnie nie jest podłączony do żadnej sieci",
+        "password": "Hasło",
+        "passwordTooShort": "Hasło musi mieć co najmniej 8 znaków",
+        "scanNetworks": "Wyszukaj sieci",
+        "scanning": "Skanowanie w poszukiwaniu sieci Wi-Fi...",
+        "ssid": "Identyfikator SSID sieci"
+      }
     }
   },
   "dialogs": {

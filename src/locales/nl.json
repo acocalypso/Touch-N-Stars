@@ -5,7 +5,14 @@
     "close": "Sluiten",
     "select": "Selecteer",
     "delete": "Verwijderen",
-    "edit": "Bewerken"
+    "edit": "Bewerken",
+    "connecting": "Verbinden…",
+    "disable": "Uitzetten",
+    "disabled": "Gehandicapt",
+    "enable": "Inschakelen",
+    "enabled": "Ingeschakeld",
+    "loading": "Laden...",
+    "scanning": "Scannen…"
   },
   "general": {
     "cancel": "Annuleer",
@@ -441,7 +448,9 @@
         "connectionMode": "Verbindingsmodus",
         "devicePort": "Apparaatpoort",
         "ipAddress": "IP-adres",
-        "settings": "Montage-instellingen"
+        "settings": "Montage-instellingen",
+        "autoDetect": "Automatische detectie",
+        "tcpPort": "TCP-poort"
       }
     },
     "guider": {
@@ -1753,7 +1762,12 @@
         "wsClosed": "Verbinding gesloten. (Code: {code})",
         "wsConnected": "Verbinding tot stand gebracht. Logs worden gestreamd...",
         "wsConnecting": "WebSocket-verbinding onderhandelen met {wsUrl}...",
-        "wsError": "Er is een WebSocket-fout opgetreden."
+        "wsError": "Er is een WebSocket-fout opgetreden.",
+        "phd2Action": "PHD2-service {actie}...",
+        "phd2Disabling": "uitschakelen",
+        "phd2Enabling": "inschakelen",
+        "phd2Failed": "PHD2 Service-update mislukt: {message}",
+        "phd2Success": "PHD2 Service-update succesvol."
       },
       "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
       "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
@@ -1776,7 +1790,113 @@
       "wifiConnect": "Verbinden",
       "wifiPassword": "Wachtwoord",
       "wifiSelect": "Selecteer Netwerk",
-      "wifiTitle": "WiFi-configuratie"
+      "wifiTitle": "WiFi-configuratie",
+      "phd2Running": "De service is momenteel actief",
+      "phd2Stopped": "De service is momenteel gestopt",
+      "phd2Title": "PHD2 automatisch starten"
+    },
+    "pinsDevices": {
+      "config": {
+        "envUpdateRate": "Updatesnelheid van omgeving",
+        "envUpdateRateDesc": "Vernieuwingsinterval voor temperatuur- en vochtigheidsmetingen",
+        "factoryReset": "Fabrieksreset",
+        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? \nHierdoor worden alle instellingen teruggezet naar hun standaardwaarden.",
+        "factoryResetDesc": "Reset het PINS-apparaat naar de fabrieksinstellingen",
+        "humidityOffset": "Vochtigheidscompensatie",
+        "humidityOffsetDesc": "Kalibratie-offset voor vochtigheidssensor",
+        "temperatureOffset": "Temperatuurcompensatie",
+        "temperatureOffsetDesc": "Kalibratie-offset voor temperatuursensor",
+        "title": "Configuratie",
+        "updateRate": "Updatesnelheid van apparaat",
+        "updateRateDesc": "Vernieuwingsinterval voor updates van de apparaatstatus"
+      },
+      "info": {
+        "adjPorts": "Verstelbare stroompoorten",
+        "deviceId": "Apparaat-ID",
+        "dewPorts": "Dauw poorten",
+        "driverVersion": "Stuurprogrammaversie",
+        "firmware": "Firmware",
+        "meteoStation": "Meteostation",
+        "ports": "Beschikbare poorten",
+        "powerPorts": "Stroompoorten",
+        "powerStatus": "Stroomstatus",
+        "usbPorts": "USB-poorten"
+      },
+      "ports": {
+        "bootState": "Ingeschakelde status",
+        "bootStateDisabled": "Uitgeschakeld bij opstarten",
+        "bootStateEnabled": "Ingeschakeld bij opstarten",
+        "current": "Huidig",
+        "maxCurrent": "Maximale stroom",
+        "noPorts": "Geen poorten beschikbaar",
+        "overcurrent": "Overstroom",
+        "readOnly": "Alleen-lezen (kan niet worden beheerd)",
+        "status": "Status"
+      },
+      "settings": {
+        "adjustablePower": "Verstelbare stroompoorten",
+        "adjustablePowerDescription": "Configureer en beheer verstelbare stroompoorten",
+        "configuration": "Configuratie",
+        "configurationDescription": "Configureer apparaatinstellingen en sensorkalibratie",
+        "dewPorts": "Dauw poorten",
+        "dewPortsDescription": "Configureer en beheer dauwverwarmerpoorten",
+        "general": "Algemeen",
+        "generalDescription": "Algemene apparaatinstellingen en informatie",
+        "ports": "PowerBox",
+        "powerPorts": "Stroompoorten",
+        "powerPortsDescription": "Configureer en beheer de stroompoortuitgangen",
+        "usbPorts": "USB-poorten",
+        "usbPortsDescription": "Configureer en beheer USB-poortverbindingen",
+        "weather": "Meteostation",
+        "wifi": "WiFi"
+      },
+      "status": {
+        "notConnected": "Niet verbonden"
+      },
+      "title": "PI'N'Stars-apparaat",
+      "weather": {
+        "cloudAssessment": "Wolkendekking",
+        "cloudCover": "Bewolking",
+        "conditions": "Weerbeoordeling",
+        "currentWeather": "Huidige weersomstandigheden",
+        "deviceInfo": "Apparaatinformatie",
+        "dewPoint": "Dauw punt",
+        "dewSpread": "Dauwspreiding (T-Td)",
+        "disconnected": "MeteoStation is momenteel niet verbonden",
+        "firmware": "Firmware",
+        "humidity": "Vochtigheid",
+        "id": "Apparaat-ID",
+        "name": "Naam",
+        "noData": "Geen weergegevens beschikbaar",
+        "skyBrightness": "Helderheid van de hemel",
+        "skyQuality": "Hemelkwaliteit",
+        "skyTemp": "Luchttemperatuur",
+        "temperature": "Temperatuur",
+        "temperatureStatus": "Temperatuurstatus",
+        "uptime": "Uptime"
+      },
+      "wifi": {
+        "availableNetworks": "Beschikbare netwerken",
+        "channel": "Kanaal",
+        "connect": "Verbinden",
+        "connectAsClient": "Sluit aan als klant",
+        "connectTo": "Maak verbinding met",
+        "connectToNetwork": "Maak verbinding met het WiFi-netwerk",
+        "createHotspot": "Maak een hotspot",
+        "currentStatus": "Huidige WiFi-status",
+        "enterPassword": "Voer het WiFi-wachtwoord in",
+        "hotspotDesc": "Creëer een WiFi-toegangspunt waarmee andere apparaten verbinding kunnen maken",
+        "hotspotName": "Hotspot-naam",
+        "hotspotPassword": "Hotspot-wachtwoord",
+        "min8chars": "minimaal 8 tekens",
+        "noNetworksFound": "Geen WiFi-netwerken gevonden",
+        "notConnected": "Momenteel niet verbonden met een netwerk",
+        "password": "Wachtwoord",
+        "passwordTooShort": "Wachtwoord moet minimaal 8 tekens lang zijn",
+        "scanNetworks": "Scannen naar netwerken",
+        "scanning": "Zoeken naar WiFi-netwerken...",
+        "ssid": "Netwerk-SSID"
+      }
     }
   },
   "dialogs": {

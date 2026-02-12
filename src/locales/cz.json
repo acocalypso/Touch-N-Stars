@@ -5,7 +5,14 @@
     "close": "Zavřít",
     "select": "Select",
     "delete": "Odstranit",
-    "edit": "Upravit"
+    "edit": "Upravit",
+    "connecting": "Connecting…",
+    "disable": "Disable",
+    "disabled": "Disabled",
+    "enable": "Enable",
+    "enabled": "Enabled",
+    "loading": "Loading…",
+    "scanning": "Scanning…"
   },
   "general": {
     "cancel": "Zrušit",
@@ -444,7 +451,9 @@
         "connectionMode": "Režim připojení",
         "devicePort": "Port zařízení",
         "ipAddress": "IP adresa",
-        "settings": "Nastavení montáže"
+        "settings": "Nastavení montáže",
+        "autoDetect": "Auto Detect",
+        "tcpPort": "TCP Port"
       }
     },
     "guider": {
@@ -1759,7 +1768,12 @@
         "wsClosed": "Připojení uzavřeno. (Kód: {code})",
         "wsConnected": "Připojení navázáno. Streamování logů...",
         "wsConnecting": "Vyjednávání WebSocket připojení k {wsUrl}...",
-        "wsError": "Došlo k chybě WebSocket."
+        "wsError": "Došlo k chybě WebSocket.",
+        "phd2Action": "PHD2 Service {action}...",
+        "phd2Disabling": "disabling",
+        "phd2Enabling": "enabling",
+        "phd2Failed": "PHD2 Service update failed: {message}",
+        "phd2Success": "PHD2 Service update successful."
       },
       "notAvailable": "Prostředí PINS nebylo detekováno. Tento plugin je zakázán.",
       "sambaDescription": "Povolit nebo zakázat sdílení souborů v síti",
@@ -1782,7 +1796,113 @@
       "wifiConnect": "Connect",
       "wifiPassword": "Password",
       "wifiSelect": "Select Network",
-      "wifiTitle": "WiFi Configuration"
+      "wifiTitle": "WiFi Configuration",
+      "phd2Running": "Service is currently running",
+      "phd2Stopped": "Service is currently stopped",
+      "phd2Title": "PHD2 Autostart"
+    },
+    "pinsDevices": {
+      "config": {
+        "envUpdateRate": "Environment Update Rate",
+        "envUpdateRateDesc": "Refresh interval for temperature and humidity readings",
+        "factoryReset": "Factory Reset",
+        "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values.",
+        "factoryResetDesc": "Reset the PINS device to factory default settings",
+        "humidityOffset": "Humidity Offset",
+        "humidityOffsetDesc": "Calibration offset for humidity sensor",
+        "temperatureOffset": "Temperature Offset",
+        "temperatureOffsetDesc": "Calibration offset for temperature sensor",
+        "title": "Configuration",
+        "updateRate": "Device Update Rate",
+        "updateRateDesc": "Refresh interval for device status updates"
+      },
+      "info": {
+        "adjPorts": "Adjustable Power Ports",
+        "deviceId": "Device ID",
+        "dewPorts": "Dew Ports",
+        "driverVersion": "Driver Version",
+        "firmware": "Firmware",
+        "meteoStation": "Meteo Station",
+        "ports": "Available Ports",
+        "powerPorts": "Power Ports",
+        "powerStatus": "Power Status",
+        "usbPorts": "USB Ports"
+      },
+      "ports": {
+        "bootState": "Power-on State",
+        "bootStateDisabled": "Disabled on startup",
+        "bootStateEnabled": "Enabled on startup",
+        "current": "Current",
+        "maxCurrent": "Max Current",
+        "noPorts": "No ports available",
+        "overcurrent": "Overcurrent",
+        "readOnly": "Read-only (cannot be controlled)",
+        "status": "Status"
+      },
+      "settings": {
+        "adjustablePower": "Adjustable Power Ports",
+        "adjustablePowerDescription": "Configure and manage adjustable power ports",
+        "configuration": "Configuration",
+        "configurationDescription": "Configure device settings and sensor calibration",
+        "dewPorts": "Dew Ports",
+        "dewPortsDescription": "Configure and manage dew heater ports",
+        "general": "General",
+        "generalDescription": "General device settings and information",
+        "ports": "PowerBox",
+        "powerPorts": "Power Ports",
+        "powerPortsDescription": "Configure and manage power port outputs",
+        "usbPorts": "USB Ports",
+        "usbPortsDescription": "Configure and manage USB port connections",
+        "weather": "MeteoStation",
+        "wifi": "WiFi"
+      },
+      "status": {
+        "notConnected": "Not connected"
+      },
+      "title": "PI'N'Stars Device",
+      "weather": {
+        "cloudAssessment": "Cloud Coverage",
+        "cloudCover": "Cloud Cover",
+        "conditions": "Weather Assessment",
+        "currentWeather": "Current Weather Conditions",
+        "deviceInfo": "Device Information",
+        "dewPoint": "Dew Point",
+        "dewSpread": "Dew Spread (T-Td)",
+        "disconnected": "MeteoStation is not currently connected",
+        "firmware": "Firmware",
+        "humidity": "Humidity",
+        "id": "Device ID",
+        "name": "Name",
+        "noData": "No weather data available",
+        "skyBrightness": "Sky Brightness",
+        "skyQuality": "Sky Quality",
+        "skyTemp": "Sky Temperature",
+        "temperature": "Temperature",
+        "temperatureStatus": "Temperature Status",
+        "uptime": "Uptime"
+      },
+      "wifi": {
+        "availableNetworks": "Available Networks",
+        "channel": "Channel",
+        "connect": "Connect",
+        "connectAsClient": "Connect as Client",
+        "connectTo": "Connect to",
+        "connectToNetwork": "Connect to WiFi Network",
+        "createHotspot": "Create Hotspot",
+        "currentStatus": "Current WiFi Status",
+        "enterPassword": "Enter WiFi password",
+        "hotspotDesc": "Create a WiFi access point that other devices can connect to",
+        "hotspotName": "Hotspot Name",
+        "hotspotPassword": "Hotspot Password",
+        "min8chars": "minimum 8 characters",
+        "noNetworksFound": "No WiFi networks found",
+        "notConnected": "Not currently connected to any network",
+        "password": "Password",
+        "passwordTooShort": "Password must be at least 8 characters",
+        "scanNetworks": "Scan for Networks",
+        "scanning": "Scanning for WiFi networks...",
+        "ssid": "Network SSID"
+      }
     }
   },
   "dialogs": {

@@ -2,7 +2,7 @@
   "id": "platesolveplus",
   "name": "PlateSolvePlus",
   "description": "Enables plate solving and centering via a second camera (e.g., guiding camera)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Flashy_DE (Alex)",
   "defaultEnabled": false,
   "enabled": true

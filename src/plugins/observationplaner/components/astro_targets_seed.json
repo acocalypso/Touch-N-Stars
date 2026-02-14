@@ -1,0 +1,395 @@
+{
+  "version": "1.0",
+  "description": "Popular astrophotography targets (DSO & widefield). RA/Dec in HMS/DMS.",
+  "targets": [
+    {
+      "name": "Andromeda Galaxy",
+      "catalog": "M31",
+      "type": "galaxy",
+      "ra": "00:42:44",
+      "dec": "+41:16:09"
+    },
+    {
+      "name": "Triangulum Galaxy",
+      "catalog": "M33",
+      "type": "galaxy",
+      "ra": "01:33:50",
+      "dec": "+30:39:37"
+    },
+    {
+      "name": "Whirlpool Galaxy",
+      "catalog": "M51",
+      "type": "galaxy",
+      "ra": "13:29:53",
+      "dec": "+47:11:43"
+    },
+    {
+      "name": "Pinwheel Galaxy",
+      "catalog": "M101",
+      "type": "galaxy",
+      "ra": "14:03:13",
+      "dec": "+54:20:57"
+    },
+    {
+      "name": "Bode's Galaxy",
+      "catalog": "M81",
+      "type": "galaxy",
+      "ra": "09:55:33",
+      "dec": "+69:03:55"
+    },
+    {
+      "name": "Cigar Galaxy",
+      "catalog": "M82",
+      "type": "galaxy",
+      "ra": "09:55:52",
+      "dec": "+69:40:47"
+    },
+    {
+      "name": "Black Eye Galaxy",
+      "catalog": "M64",
+      "type": "galaxy",
+      "ra": "12:56:44",
+      "dec": "+21:41:00"
+    },
+    {
+      "name": "Sunflower Galaxy",
+      "catalog": "M63",
+      "type": "galaxy",
+      "ra": "13:15:49",
+      "dec": "+42:01:45"
+    },
+    {
+      "name": "Sombrero Galaxy",
+      "catalog": "M104",
+      "type": "galaxy",
+      "ra": "12:39:59",
+      "dec": "-11:37:23"
+    },
+    {
+      "name": "Sculptor Galaxy",
+      "catalog": "NGC 253",
+      "type": "galaxy",
+      "ra": "00:47:33",
+      "dec": "-25:17:18"
+    },
+    {
+      "name": "Centaurus A",
+      "catalog": "NGC 5128",
+      "type": "galaxy",
+      "ra": "13:25:28",
+      "dec": "-43:01:09"
+    },
+    {
+      "name": "Leo Triplet (M65)",
+      "catalog": "M65",
+      "type": "galaxy",
+      "ra": "11:18:56",
+      "dec": "+13:05:32"
+    },
+    {
+      "name": "Leo Triplet (M66)",
+      "catalog": "M66",
+      "type": "galaxy",
+      "ra": "11:20:15",
+      "dec": "+12:59:30"
+    },
+    {
+      "name": "Leo Triplet (NGC 3628)",
+      "catalog": "NGC 3628",
+      "type": "galaxy",
+      "ra": "11:20:17",
+      "dec": "+13:35:23"
+    },
+    {
+      "name": "Markarian's Chain (M84)",
+      "catalog": "M84",
+      "type": "galaxy",
+      "ra": "12:25:03",
+      "dec": "+12:53:13"
+    },
+    {
+      "name": "Markarian's Chain (M86)",
+      "catalog": "M86",
+      "type": "galaxy",
+      "ra": "12:26:12",
+      "dec": "+12:56:46"
+    },
+
+    {
+      "name": "Orion Nebula",
+      "catalog": "M42",
+      "type": "nebula",
+      "ra": "05:35:17",
+      "dec": "-05:23:28"
+    },
+    {
+      "name": "Horsehead Nebula",
+      "catalog": "Barnard 33",
+      "type": "nebula",
+      "ra": "05:40:59",
+      "dec": "-02:27:30"
+    },
+    {
+      "name": "Flame Nebula",
+      "catalog": "NGC 2024",
+      "type": "nebula",
+      "ra": "05:41:42",
+      "dec": "-01:51:00"
+    },
+    {
+      "name": "Rosette Nebula",
+      "catalog": "NGC 2237",
+      "type": "nebula",
+      "ra": "06:33:45",
+      "dec": "+04:59:54"
+    },
+    {
+      "name": "California Nebula",
+      "catalog": "NGC 1499",
+      "type": "nebula",
+      "ra": "04:03:18",
+      "dec": "+36:25:00"
+    },
+    {
+      "name": "Lagoon Nebula",
+      "catalog": "M8",
+      "type": "nebula",
+      "ra": "18:03:37",
+      "dec": "-24:23:12"
+    },
+    {
+      "name": "Trifid Nebula",
+      "catalog": "M20",
+      "type": "nebula",
+      "ra": "18:02:23",
+      "dec": "-23:01:48"
+    },
+    {
+      "name": "Eagle Nebula",
+      "catalog": "M16",
+      "type": "nebula",
+      "ra": "18:18:48",
+      "dec": "-13:49:00"
+    },
+    {
+      "name": "Omega Nebula",
+      "catalog": "M17",
+      "type": "nebula",
+      "ra": "18:20:47",
+      "dec": "-16:10:18"
+    },
+    {
+      "name": "North America Nebula",
+      "catalog": "NGC 7000",
+      "type": "nebula",
+      "ra": "20:58:54",
+      "dec": "+44:19:00"
+    },
+    {
+      "name": "Pelican Nebula",
+      "catalog": "IC 5070",
+      "type": "nebula",
+      "ra": "20:50:48",
+      "dec": "+44:21:00"
+    },
+    {
+      "name": "Veil Nebula (Western)",
+      "catalog": "NGC 6960",
+      "type": "nebula",
+      "ra": "20:45:38",
+      "dec": "+30:43:00"
+    },
+    {
+      "name": "Veil Nebula (Eastern)",
+      "catalog": "NGC 6992",
+      "type": "nebula",
+      "ra": "20:56:24",
+      "dec": "+31:43:00"
+    },
+    {
+      "name": "Crescent Nebula",
+      "catalog": "NGC 6888",
+      "type": "nebula",
+      "ra": "20:12:07",
+      "dec": "+38:21:18"
+    },
+    {
+      "name": "Iris Nebula",
+      "catalog": "NGC 7023",
+      "type": "nebula",
+      "ra": "21:01:36",
+      "dec": "+68:10:10"
+    },
+    {
+      "name": "Heart Nebula",
+      "catalog": "IC 1805",
+      "type": "nebula",
+      "ra": "02:32:42",
+      "dec": "+61:27:00"
+    },
+    {
+      "name": "Soul Nebula",
+      "catalog": "IC 1848",
+      "type": "nebula",
+      "ra": "02:51:00",
+      "dec": "+60:26:00"
+    },
+    {
+      "name": "Wizard Nebula",
+      "catalog": "NGC 7380",
+      "type": "nebula",
+      "ra": "22:47:21",
+      "dec": "+58:06:00"
+    },
+    {
+      "name": "Bubble Nebula",
+      "catalog": "NGC 7635",
+      "type": "nebula",
+      "ra": "23:20:48",
+      "dec": "+61:12:06"
+    },
+    {
+      "name": "Sadr Region",
+      "catalog": "IC 1318",
+      "type": "nebula",
+      "ra": "20:22:13",
+      "dec": "+40:15:00"
+    },
+
+    {
+      "name": "Ring Nebula",
+      "catalog": "M57",
+      "type": "planetary_nebula",
+      "ra": "18:53:35",
+      "dec": "+33:01:45"
+    },
+    {
+      "name": "Dumbbell Nebula",
+      "catalog": "M27",
+      "type": "planetary_nebula",
+      "ra": "19:59:36",
+      "dec": "+22:43:16"
+    },
+    {
+      "name": "Helix Nebula",
+      "catalog": "NGC 7293",
+      "type": "planetary_nebula",
+      "ra": "22:29:39",
+      "dec": "-20:50:14"
+    },
+    {
+      "name": "Eskimo Nebula",
+      "catalog": "NGC 2392",
+      "type": "planetary_nebula",
+      "ra": "07:29:11",
+      "dec": "+20:54:42"
+    },
+    {
+      "name": "Cat's Eye Nebula",
+      "catalog": "NGC 6543",
+      "type": "planetary_nebula",
+      "ra": "17:58:34",
+      "dec": "+66:37:59"
+    },
+    {
+      "name": "Blue Snowball",
+      "catalog": "NGC 7662",
+      "type": "planetary_nebula",
+      "ra": "23:25:54",
+      "dec": "+42:32:06"
+    },
+
+    {
+      "name": "Pleiades",
+      "catalog": "M45",
+      "type": "cluster",
+      "ra": "03:47:24",
+      "dec": "+24:07:00"
+    },
+    {
+      "name": "Beehive Cluster",
+      "catalog": "M44",
+      "type": "cluster",
+      "ra": "08:40:24",
+      "dec": "+19:40:00"
+    },
+    {
+      "name": "Double Cluster",
+      "catalog": "NGC 869/884",
+      "type": "cluster",
+      "ra": "02:20:00",
+      "dec": "+57:07:42"
+    },
+    {
+      "name": "Wild Duck Cluster",
+      "catalog": "M11",
+      "type": "cluster",
+      "ra": "18:51:05",
+      "dec": "-06:16:12"
+    },
+    {
+      "name": "Hercules Cluster",
+      "catalog": "M13",
+      "type": "cluster",
+      "ra": "16:41:41",
+      "dec": "+36:27:36"
+    },
+    {
+      "name": "Globular Cluster (M3)",
+      "catalog": "M3",
+      "type": "cluster",
+      "ra": "13:42:11",
+      "dec": "+28:22:38"
+    },
+    {
+      "name": "Globular Cluster (M5)",
+      "catalog": "M5",
+      "type": "cluster",
+      "ra": "15:18:33",
+      "dec": "+02:04:58"
+    },
+    {
+      "name": "Globular Cluster (M92)",
+      "catalog": "M92",
+      "type": "cluster",
+      "ra": "17:17:07",
+      "dec": "+43:08:12"
+    },
+
+    {
+      "name": "Rho Ophiuchi Cloud Complex",
+      "catalog": "Widefield",
+      "type": "widefield",
+      "ra": "16:25:35",
+      "dec": "-23:26:50"
+    },
+    {
+      "name": "Taurus Molecular Cloud",
+      "catalog": "Widefield",
+      "type": "widefield",
+      "ra": "04:30:00",
+      "dec": "+25:00:00"
+    },
+    {
+      "name": "Orion's Belt Region",
+      "catalog": "Widefield",
+      "type": "widefield",
+      "ra": "05:36:12",
+      "dec": "-01:12:00"
+    },
+    {
+      "name": "Cygnus Star Cloud",
+      "catalog": "Widefield",
+      "type": "widefield",
+      "ra": "20:30:00",
+      "dec": "+40:00:00"
+    },
+    {
+      "name": "Polaris IFN Region",
+      "catalog": "Widefield",
+      "type": "widefield",
+      "ra": "02:31:49",
+      "dec": "+89:15:51"
+    }
+  ]
+}

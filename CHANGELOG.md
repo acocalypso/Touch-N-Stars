@@ -4,7 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.5.0] - 2026-01-21
+## [App4.6.0] - 2026-02-14
+### Added
+- Navigation: Scroll indicators with fade effect and arrow hint when more icons are available
+- Camera: Separate Readout Mode settings for Image and Snap (API >= 2.2.14.3) - thanks to Chris
+- Camera: Add USB limit setting component for camera (API >= 2.2.14.3) - thanks to Chris
+- Focuser: Add use filter offsets setting
+- Focuser: Add stop button to cancel move while focuser is moving
+- Rotator: Add stop button to cancel move while rotator is moving
+- Plugin: ObservationPlaner - thanks to Flashy_DE (Alex)
+
+### Changed
+- Camera: Unified UI design for settings components
+- Sequence Monitor: Limit image height to viewport in landscape mode to prevent scrolling
+
+### Fixed
+- Fix set settletime
+
+## [App4.5.0] - 2026-10-20
 ### Added
 - PlateSolvePlus Plugin thanks to Flashy_DE (Alex)
 

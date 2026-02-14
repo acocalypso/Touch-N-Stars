@@ -818,7 +818,11 @@
         "HALF": "180°",
         "FULL": "360°",
         "RangeType": "Mechanical Range",
-        "RangeStartMechanicalPosition": "Mechanical Range Start"
+        "RangeStartMechanicalPosition": "Mechanical Range Start",
+        "Overshoot": "Overshoot",
+        "OvershootDirection": "Overshoot Direction",
+        "OvershootAngle": "Overshoot Angle",
+        "ResetPosition": "Reset zero position"
       }
     },
     "flat": {

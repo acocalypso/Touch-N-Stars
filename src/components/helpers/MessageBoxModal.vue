@@ -12,13 +12,15 @@
           {{ currentMessageBox?.text }}
         </div>
 
-        <!-- Button -->
+        <!-- Buttons -->
         <div class="flex flex-col sm:flex-row gap-2 mt-6">
           <button
-            @click="handleButtonClick"
+            v-for="btn in messageBoxButtons"
+            :key="btn.label"
+            @click="handleButtonClick(btn.result)"
             class="default-button-cyan flex-1 px-4 py-3 rounded-lg font-medium transition-all"
           >
-            {{ currentMessageBox?.button || 'OK' }}
+            {{ btn.label }}
           </button>
         </div>
       </div>
@@ -44,15 +46,35 @@ const currentMessageBox = computed(() => {
   return messageboxStore.messageboxes[messageboxStore.messageboxes.length - 1];
 });
 
-async function handleButtonClick() {
+const buttonConfigs = {
+  0: [{ label: 'OK', result: 'OK' }],
+  1: [
+    { label: 'OK', result: 'OK' },
+    { label: 'Cancel', result: 'Cancel' },
+  ],
+  3: [
+    { label: 'Yes', result: 'Yes' },
+    { label: 'No', result: 'No' },
+    { label: 'Cancel', result: 'Cancel' },
+  ],
+  4: [
+    { label: 'Yes', result: 'Yes' },
+    { label: 'No', result: 'No' },
+  ],
+};
+
+const messageBoxButtons = computed(() => {
+  const buttonType = currentMessageBox.value?.button;
+  return buttonConfigs[buttonType] || buttonConfigs[0];
+});
+
+async function handleButtonClick(result) {
   const messageBoxId = currentMessageBox.value?.id;
-  const result = currentMessageBox.value?.defaultResult || 'OK';
 
   console.log('[MessageBoxModal] Clicking button:', result, 'MessageBox ID:', messageBoxId);
 
   if (messageBoxId) {
     await messageboxStore.respondToMessageBox(messageBoxId, result);
-    // Remove from local array after responding
     await messageboxStore.closeMessagebox(messageBoxId);
   }
 }

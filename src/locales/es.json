@@ -140,6 +140,36 @@
         "UnlinkedStretch": "Strech sin enlace",
         "debayern": "Imagen de Debayer"
       },
+      "imageFile": {
+        "title": "Patrón de nombre de archivo",
+        "pattern": "Patrón",
+        "preview": "Vista previa",
+        "folder": "Carpeta",
+        "separator": "Separador",
+        "empty": "Toca los tokens de abajo para construir el patrón",
+        "freeText": "Texto",
+        "editTokens": "Editar tokens",
+        "help": {
+          "title": "Patrón de nombre de archivo",
+          "intro": "Construye el patrón de nombre de archivo para tus imágenes capturadas. Cada token será reemplazado por NINA con el valor real al guardar.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Toca un botón de token para añadirlo al patrón. Tokens como Filter, Date o ExposureTime son reemplazados por NINA con los valores reales.",
+          "separatorsTitle": "Separadores",
+          "separatorsDesc": "Usa \\ para crear estructuras de carpetas. Usa _ o - para separar valores en el nombre del archivo. Usa \"Texto\" para añadir texto personalizado como \"s\" para segundos.",
+          "cursorTitle": "Posición de inserción",
+          "cursorDesc": "Toca entre tokens existentes para mover el cursor parpadeante. Los nuevos tokens se insertan en la posición del cursor.",
+          "exampleTitle": "Ejemplo",
+          "exampleResult": "Resultado:"
+        },
+        "groups": {
+          "dateTime": "Fecha / Hora",
+          "image": "Imagen",
+          "camera": "Cámara",
+          "guiding": "Guiado",
+          "equipment": "Equipo",
+          "other": "Otros"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activar modo debug",
@@ -532,7 +562,9 @@
         "advanced": "Advanced",
         "backlash": "Backlash",
         "basic": "Configuraciones básicas",
-        "crop_and_stars": "Crop"
+        "crop_and_stars": "Crop",
+        "Reverse": "Invertir",
+        "UseFilterWheelOffsets": "Usar offsets de rueda de filtros"
       },
       "focus": "Focus"
     },
@@ -596,6 +628,7 @@
       "cooling_time": "Tiempo enfriamiento (min)",
       "binning_mode": "Binning",
       "readout_mode": "Modo de lectura",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Usar platesolve",
       "chip_settings": {
         "focal_length": "Longitud focal (mm)",
@@ -615,7 +648,9 @@
       "cooler_status_warming": "Activo - Calentando a",
       "set_save_snapshot": "Guardar snapshots",
       "snapshotTargetName": "Nombre de destino",
-      "set_use_solve_sync_to_mount": "Sincronizar para montar"
+      "set_use_solve_sync_to_mount": "Sincronizar para montar",
+      "readout_mode_image": "Modo de lectura Secuencia",
+      "readout_mode_snap": "Modo de lectura Instantánea"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",
@@ -1411,6 +1446,238 @@
         "deleted": "Acceso directo eliminado correctamente",
         "updated": "Acceso directo actualizado correctamente"
       }
+    },
+    "platesolveplus": {
+      "actions_help": {
+        "capture": "Solo platesolve (validación), sin sync/slew.",
+        "capture_label": "Capturar",
+        "capture_text": "Solo platesolve (validación), sin sync/slew.",
+        "center_solve": "Platesolve y centrar objetivo (requiere montura conectada + offset calibrado).",
+        "center_solve_label": "Centrar + Solve",
+        "center_solve_text": "Platesolve y centrar objetivo (requiere montura conectada + offset calibrado).",
+        "solve_sync": "Platesolve y sincronizar montura (requiere montura conectada).",
+        "solve_sync_label": "Solve + Sync",
+        "solve_sync_text": "Platesolve y sincronizar montura (requiere montura conectada).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Ir al objetivo + Centrar (requiere montura conectada + objetivo definido en Stellarium)."
+      },
+      "buttons": {
+        "calibrate_offsets": "Calibrar offsets",
+        "capture": "Capturar",
+        "center_solve": "Centrar + Solve",
+        "clear": "Limpiar",
+        "disconnect_ws": "Desconectar WS",
+        "reconnect_ws": "Reconectar WS",
+        "refresh": "Actualizar",
+        "refreshing": "Actualizando…",
+        "reload_from_storage": "Recargar desde almacenamiento",
+        "reset_offsets": "Reiniciar offsets",
+        "save_config": "Guardar config",
+        "setup": "Configuración…",
+        "solve_sync": "Solve + Sync",
+        "sync": "Sync",
+        "target_solve": "Target + Solve",
+        "test_connection": "Probar conexión"
+      },
+      "common": {
+        "empty": "—",
+        "false": "falso",
+        "true": "verdadero"
+      },
+      "config": {
+        "active_url": "URL activa:",
+        "base_path": "Ruta base",
+        "base_path_default": "Por defecto: /api/platesolveplus",
+        "host": "Host",
+        "port": "Puerto",
+        "token": "Token",
+        "token_hint": "Enviado como encabezado X-PSP-Token.",
+        "token_placeholder": "token…",
+        "use_token_optional": "Usar token (opcional)"
+      },
+      "event_log": {
+        "empty": "—"
+      },
+      "footer": {
+        "rest": "REST:"
+      },
+      "log": {
+        "config_load_failed": "Error al cargar config",
+        "preview_refreshed": "Vista previa actualizada"
+      },
+      "offset_fields": {
+        "ddec_arcsec": "ΔDec (arcsec):",
+        "dra_arcsec": "ΔRA (arcsec):",
+        "offset_enabled": "offsetEnabled",
+        "offset_mode": "offsetMode",
+        "rotation_quat": "rotación (quat):"
+      },
+      "offsets_help": {
+        "text": "Calibrar crea/actualiza el modelo de offset guía-principal. Reiniciar borra todos los offsets."
+      },
+      "preview": {
+        "alt_latest_preview": "Última vista previa",
+        "auto_refresh": "Actualización automática",
+        "cache_hint": "Cache-busting habilitado (?t=). El servidor también envía Cache-Control: no-store.",
+        "load_error": "Error de carga — por favor actualice.",
+        "no_preview_loaded": "Sin vista previa cargada.",
+        "no_preview_yet": "Vista previa no disponible (aún).",
+        "preview_title": "Imagen de vista previa",
+        "unavailable_title": "Vista previa no disponible"
+      },
+      "progress": {
+        "action": "Acción",
+        "job": "Tarea",
+        "message": "Mensaje",
+        "messages": {
+          "capture_accepted": "Captura aceptada (esperando eventos)",
+          "capture_finished": "Captura finalizada",
+          "capture_started": "Captura iniciada",
+          "capturing_validating": "Capturando + validando…",
+          "center_solve_accepted": "Center+Solve aceptado (esperando eventos)",
+          "center_solve_finished": "Center+Solve finalizado",
+          "center_solve_started": "Center+Solve iniciado",
+          "offset_calibrate_finished": "Calibración offset finalizada",
+          "offset_calibrate_started": "Calibración offset iniciada",
+          "solve_finished": "Solve finalizado",
+          "solve_started": "Solve iniciado",
+          "solve_sync_accepted": "Solve+Sync aceptado (esperando eventos)",
+          "solve_sync_finished": "Solve+Sync finalizado",
+          "solve_sync_started": "Solve+Sync iniciado",
+          "solving": "Resolviendo…",
+          "solving_centering": "Resolviendo + centrando…",
+          "solving_syncing": "Resolviendo + sincronizando…",
+          "working": "Trabajando…"
+        },
+        "pill": {
+          "calibrating": "Calibrando",
+          "capturing": "Capturando",
+          "centering": "Centrando",
+          "finishing": "Finalizando",
+          "platesolving": "Platesolving",
+          "running": "Ejecutando",
+          "slewing_to_target": "Moviendo al objetivo",
+          "syncing": "Sincronizando",
+          "validating": "Validando"
+        },
+        "process_progress": "Progreso del proceso.",
+        "stage": "Etapa",
+        "title": "Progreso Solve"
+      },
+      "secondary": {
+        "connected": "Conectado",
+        "current_camera": "Cámara actual",
+        "disconnected": "Desconectado",
+        "log": {
+          "connect": "Conexión secundaria",
+          "connect_failed": "Error conexión secundaria",
+          "disconnect": "Desconexión secundaria",
+          "disconnect_failed": "Error desconexión secundaria",
+          "selection_applied": "Selección secundaria aplicada",
+          "selection_failed": "Error selección secundaria",
+          "setup_dialog": "Diálogo config secundaria",
+          "setup_dialog_failed": "Error diálogo config secundaria",
+          "state_synced": "Estado cámara secundaria sincronizado",
+          "sync_failed": "Error sync cámara secundaria"
+        },
+        "no_drivers_returned": "No se devolvieron controladores.",
+        "not_connected": "No conectado",
+        "status": "Estado"
+      },
+      "secondary_setup": {
+        "buttons": {
+          "apply": "Aplicar",
+          "apply_title": "Aplicar selección",
+          "close": "Cerrar",
+          "connect": "Conectar",
+          "disconnect": "Desconectar",
+          "driver_setup": "Config controlador…",
+          "driver_setup_title": "Abrir diálogo config ASCOM nativo en host",
+          "refresh": "Actualizar",
+          "refresh_title": "Actualizar lista controladores",
+          "sync": "Sync",
+          "sync_title": "Sincronizar selección/conexión actual"
+        },
+        "driver": {
+          "description": "Elegir controlador ASCOM para cámara secundaria.",
+          "fallback_name": "Controlador",
+          "label": "Controlador",
+          "select_placeholder": "— seleccionar —",
+          "selected": "Seleccionado",
+          "title": "Controlador"
+        },
+        "pills": {
+          "active": "Activo",
+          "busy": "Ocupado",
+          "connected": "Conectado",
+          "disconnected": "Desconectado",
+          "idle": "Inactivo"
+        },
+        "subtitle": "Selección controlador, conexión y diálogo config ASCOM nativo",
+        "tip": {
+          "prefix": "Consejo: Si cambió configuración en el diálogo, haga clic en",
+          "suffix": "después."
+        },
+        "title": "Configuración cámara secundaria"
+      },
+      "sections": {
+        "actions": "Acciones",
+        "connection": "Conexión",
+        "current_settings": "Configuración actual",
+        "event_log": "Registro de eventos",
+        "offset": "Offset",
+        "offsets": "Offsets",
+        "preview": "Vista previa",
+        "secondary_camera": "Cámara secundaria (ASCOM)",
+        "status": "Estado",
+        "websocket": "WebSocket"
+      },
+      "settings": {
+        "auto_gain": "auto",
+        "binning": "Binning:",
+        "camera": "Cámara",
+        "downsample": "Submuestreo:",
+        "exposure": "Exposición:",
+        "focal_length": "Focal:",
+        "focal_scale": "Escala focal:",
+        "gain": "Ganancia:",
+        "max_attempts": "Intentos máx:",
+        "pixel_size": "Tamaño píxel:",
+        "platesolve": "Platesolve",
+        "scope": "Telescopio",
+        "search_radius": "Radio búsqueda:",
+        "threshold": "Umbral:",
+        "timeout_sec": "Timeout (seg):",
+        "values_from_backend": "Estos valores provienen de la configuración del backend."
+      },
+      "status_labels": {
+        "busy": "Ocupado",
+        "camera_connected": "Cámara conectada",
+        "corrected_coordinates": "Coordenadas corregidas (con offset)",
+        "last_solve_summary": "Resumen último solve",
+        "last_update": "Última actualización",
+        "mount_connected": "Montura conectada",
+        "raw_solve": "Solve sin procesar (cámara guía)",
+        "service_ready": "Servicio listo",
+        "task_status": "Estado tarea",
+        "used_parameters": "Parámetros usados",
+        "validation": "Validación"
+      },
+      "subtitle": "Consola PlateSolvePlus remota para su cámara Platesolve alternativa V2",
+      "tabs": {
+        "config": "Config",
+        "control": "Control"
+      },
+      "title": "PlateSolvePlus",
+      "websocket": {
+        "auto_reconnect": "Reconexión automática habilitada (backoff).",
+        "endpoint": "Endpoint:"
+      },
+      "ws": {
+        "connected": "conectado",
+        "disconnected": "desconectado",
+        "label": "WS"
+      }
     }
   },
   "dialogs": {
@@ -1421,5 +1688,118 @@
       "rotation": "Rotación"
     }
   },
-  "loading": "cargando"
+  "loading": "cargando",
+  "observationPlaner": {
+    "title": "Planificador de observación",
+    "subtitle": "Favoritos con vista previa + mapa de altitud para esta noche (basado en ubicación)",
+    "sections": {
+      "tonightPicks": "Selección de esta noche",
+      "topForWindow": "Mejores objetivos para la ventana de tiempo seleccionada",
+      "preview": "Vista previa",
+      "framing": "Encuadre"
+    },
+    "filters": {
+      "title": "Filtros",
+      "search": "Buscar",
+      "search_placeholder": "M42, Andrómeda, NGC…",
+      "timeWindow": "Ventana de tiempo",
+      "startLocal": "Inicio (local)",
+      "endLocal": "Fin (local)",
+      "moon": "Luna",
+      "objectType": "Tipo de objeto",
+      "azSector": "Dirección del cielo (sector azimutal)",
+      "onlyAboveHorizon": "Solo >0° altitud",
+      "limit": "Límite"
+    },
+    "sort": {
+      "title": "Ordenar",
+      "nameAZ": "Nombre A→Z",
+      "maxAltDesc": "Alt. máx. ↓",
+      "bestTimeAsc": "Mejor hora ↑",
+      "bestTime": "Mejor hora",
+      "maxAltWindow": "Alt. máx. (ventana)",
+      "visible": "¿Visible?"
+    },
+    "location": {
+      "title": "Ubicación",
+      "get": "Obtener ubicación",
+      "notAvailable": "Ubicación no disponible",
+      "hintNoLocation": "Nota: Sin ubicación, no se pueden calcular los filtros de altitud/dirección ni los gráficos."
+    },
+    "performance": {
+      "title": "Visualización / Rendimiento",
+      "lazyPreviews": "Carga diferida de vistas previas",
+      "redraw": "Redibujar"
+    },
+    "buttons": {
+      "refresh": "Actualizar",
+      "reload": "Recargar",
+      "slew": "Slew",
+      "center": "Centrar",
+      "slewNoCenter": "Slew (sin centrado)",
+      "slewCenter": "Slew + Centrar",
+      "slewCenterPlatesolve": "Slew + Centrar (platesolve)",
+      "sendToSequencer": "Enviar al secuenciador",
+      "openFraming": "Abrir asistente de encuadre",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "No hay imagen cargada",
+      "unavailable": "Vista previa no disponible",
+      "info": "Info de vista previa",
+      "reload": "Recargar vista previa"
+    },
+    "cache": {
+      "useNinaCache": "Usar caché de NINA para imagen del objetivo",
+      "hint": "Carga imagen DSS/objetivo a través de TNS WebAPI. El interruptor de caché controla useCache.",
+      "hintShort": "Pasa useCache a targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Altitud vs. Tiempo",
+      "sampleMin": "Muestra (min)",
+      "directionAz": "Dirección (Az)",
+      "separation": "Separación —"
+    },
+    "sectors": {
+      "N_NE": "Norte → Noreste (315°–45°)",
+      "NE_E": "Noreste → Este (45°–90°)",
+      "E_SE": "Este → Sureste (90°–135°)",
+      "SE_S": "Sureste → Sur (135°–180°)",
+      "S_SW": "Sur → Suroeste (180°–225°)",
+      "SW_W": "Suroeste → Oeste (225°–270°)",
+      "W_NW": "Oeste → Noroeste (270°–315°)",
+      "NW_N": "Noroeste → Norte (315°–360°)",
+      "all": "Todos"
+    },
+    "common": {
+      "yes": "Sí",
+      "no": "No",
+      "loading": "Cargando…",
+      "all": "Todos"
+    },
+    "tooltips": {
+      "favorite": "Favorito",
+      "refreshFavorites": "Recargar favoritos y recalcular",
+      "filterNoBelowHorizon": "Filtra objetivos con altitud máx. <= 0°",
+      "filterAzSector": "Filtrar por bestAzDeg (azimut en la altitud máxima dentro de la ventana)",
+      "gpsUpdate": "Actualizar ubicación GPS",
+      "openFramingFmt": "Abrir encuadre · {ra} / {dec} · Alt. máx. {maxAlt}°",
+      "tonightScoreFmt": "Puntuación nocturna: {score} · Alt. máx. {maxAlt}° · {hours}h",
+      "redrawChart": "Redibujar gráfico",
+      "lazyVisibleOnly": "Cargar solo tarjetas visibles",
+      "useCacheHint": "Pasa useCache a targetpic",
+      "previewReload": "Recargar vista previa"
+    },
+    "empty": {
+      "noFavorites": "No se encontraron favoritos."
+    },
+    "status": {
+      "sendingToSequencer": "Enviando objetivo al secuenciador…",
+      "sequencerTargetSet": "Objetivo del secuenciador establecido"
+    },
+    "errors": {
+      "noSequenceAvailable": "No hay secuencia disponible, cargue una secuencia primero",
+      "sequencerFailed": "El secuenciador falló"
+    }
+  }
 }

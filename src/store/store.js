@@ -64,6 +64,9 @@ export const apiStore = defineStore('store', {
         Gain: 0,
         ExposureTime: 0,
       },
+      ImageFileSettings: {
+        FilePattern: '',
+      },
       SnapShotControlSettings: {
         Save: false,
         Gain: 0,
@@ -87,7 +90,7 @@ export const apiStore = defineStore('store', {
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { Connected: false, TrackingMode: null },
     filterInfo: { Connected: false },
-    focuserInfo: { Connected: false },
+    focuserInfo: { Connected: false, CanReverse: false },
     rotatorInfo: { Connected: false },
     focuserAfInfo: { Connected: false },
     guiderInfo: { Connected: false },
@@ -317,6 +320,9 @@ export const apiStore = defineStore('store', {
               }
               console.log('API Version:', this.currentApiVersion);
               this.isApiVersionNewerOrEqual = true;
+
+              //Check if ist PINS
+              await this.checkForPINS();
             }
           }
         }
@@ -802,6 +808,8 @@ export const apiStore = defineStore('store', {
       if (pinsVersion && pinsVersion.Response) {
         this.isPINS = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      } else {
+        this.isPINS = false;
       }
     },
 

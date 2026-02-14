@@ -283,6 +283,15 @@
                   >
                     {{ t('plugins.platesolveplus.buttons.center_solve') }}
                   </button>
+
+                  <button
+                    :class="btnSolidClass(canSlewTargetCenter)"
+                    @click="triggerSlewTargetAndCenter()"
+                    :disabled="!canSlewTargetCenter"
+                    title="Slew to Stellarium target, then center"
+                  >
+                    {{ t('plugins.platesolveplus.buttons.target_solve') }}
+                  </button>
                 </div>
 
                 <div class="mt-3 text-xs text-gray-400 space-y-1">
@@ -300,9 +309,47 @@
                   </div>
                   <div>
                     <span class="text-gray-500"
-                      >{{ t('plugins.platesolveplus.actions_help.center_solve_label') }}:</span
+                      >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
                     >
                     {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
+                  </div>
+                  <div>
+                    <span class="text-gray-500"
+                      >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
+                    >
+                    {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
+                  </div>
+                </div>
+
+                <!-- Target from Stellarium -->
+                <div class="mt-3 text-xs text-gray-400 border-t border-gray-700 pt-3">
+                  <div class="flex items-center justify-between gap-2">
+                    <div class="text-gray-500">
+                      {{
+                        tOr(
+                          'plugins.platesolveplus.actions_help.target_label',
+                          'Target (Stellarium)'
+                        )
+                      }}:
+                    </div>
+                    <div class="text-gray-200 font-mono text-right">
+                      <span v-if="hasValidTarget">
+                        {{
+                          stellariumTarget?.Name ||
+                          tOr('plugins.platesolveplus.common.unnamed', 'Unnamed')
+                        }}
+                        · RA {{ Number(targetRaDeg).toFixed(6) }}° · Dec
+                        {{ Number(targetDecDeg).toFixed(6) }}°
+                      </span>
+                      <span v-else>
+                        {{
+                          tOr(
+                            'plugins.platesolveplus.actions_help.target_empty',
+                            'No target selected'
+                          )
+                        }}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -922,15 +969,25 @@ import { usePspConfig } from '../components/platesolveplus/usePspConfig';
 import { usePspApi } from '../components/platesolveplus/usePspApi';
 import { usePspWebSocket } from '../components/platesolveplus/usePspWebSocket';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
+import { useFramingStore } from '@/store/framingStore';
 
 const activeTab = ref('control');
 const disposed = ref(false);
 const settingsStore = useSettingsStore();
+const store = apiStore();
+const framingStore = useFramingStore();
 
 // =========================
 // State
 // ========================
 const { t } = useI18n({ useScope: 'global' });
+
+// i18n helper: fall back to a readable label if a key is missing
+function tOr(key, fallback) {
+  const v = t(key);
+  return v === key ? fallback : v;
+}
 
 const status = reactive({
   statusText: null,
@@ -1136,6 +1193,32 @@ const canCapture = computed(
 );
 const canSolveSync = computed(() => canCapture.value && !!status.mountConnected);
 const canCenterSolve = computed(() => canSolveSync.value && hasOffsetSet.value);
+// -------------------------
+// Stellarium target (from Touch-N-Stars StellariumView -> framingStore)
+// -------------------------
+const stellariumTarget = computed(() => framingStore?.selectedItem || null);
+const targetRaDeg = computed(() => {
+  const v = stellariumTarget.value?.RA ?? stellariumTarget.value?.ra ?? framingStore?.RAangle;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+});
+const targetDecDeg = computed(() => {
+  const v = stellariumTarget.value?.Dec ?? stellariumTarget.value?.dec ?? framingStore?.DECangle;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+});
+const hasValidTarget = computed(() => targetRaDeg.value != null && targetDecDeg.value != null);
+
+// Button: Slew to Stellarium target, then run PlateSolvePlus centering
+const canSlewTargetCenter = computed(
+  () =>
+    hasValidTarget.value &&
+    !!status.importsReady &&
+    !!secondary.connected &&
+    !!status.mountConnected &&
+    status.busy === false &&
+    !!store?.mountInfo?.Connected
+);
 
 // Calibrate only makes sense if no offset is set yet
 const canCalibrateOffset = computed(
@@ -1686,6 +1769,43 @@ async function triggerCenter() {
     refreshPreview(true);
     setTimeout(() => refreshStatus(), 250);
     setTimeout(() => resetProgress(), 1800);
+  }
+}
+
+async function triggerSlewTargetAndCenter() {
+  if (!canSlewTargetCenter.value) return;
+
+  const ra = targetRaDeg.value;
+  const dec = targetDecDeg.value;
+  if (ra == null || dec == null) {
+    pushLog(tOr('plugins.platesolveplus.log.no_target', 'No Stellarium target selected'));
+    return;
+  }
+
+  try {
+    // Step 1: Slew mount to target (no centering/rotation in the framing workflow)
+    progress.action = 'slew';
+    progress.stage = 'running';
+    progress.message = tOr(
+      'plugins.platesolveplus.progress.messages.slewing_to_target',
+      'Slewing to target…'
+    );
+    progress.percent = Math.max(progress.percent, 5);
+
+    // framingStore uses degrees for RA/Dec in Touch-N-Stars
+    await framingStore.slewAndCenterRotate(ra, dec, false, false);
+
+    // Step 2: Center via PlateSolvePlus (secondary camera / offset workflow)
+    await triggerCenter();
+  } catch (e) {
+    const msg = e?.message ?? String(e);
+    pushLog(tOr('plugins.platesolveplus.log.slew_target_failed', 'Slew to target failed'), {
+      error: msg,
+    });
+    // keep progress sane
+    stopFakeProgress();
+    progress.stage = 'failed';
+    progress.message = msg;
   }
 }
 

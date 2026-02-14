@@ -9,6 +9,7 @@
       </h3>
       <rotatorReverse />
       <mechanicalRange />
+      <setRotatorOvershoot />
     </div>
   </div>
 </template>
@@ -16,4 +17,5 @@
 <script setup>
 import rotatorReverse from './rotatorReverse.vue';
 import mechanicalRange from './settings/mechanicalRange.vue';
+import setRotatorOvershoot from './settings/setRotatorOvershoot.vue';
 </script>

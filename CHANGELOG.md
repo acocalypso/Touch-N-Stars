@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Camera: Unified UI design for settings components
+- Sequence Monitor: Limit image height to viewport in landscape mode to prevent scrolling
 
 ### Fixed
 - Fix set settletime

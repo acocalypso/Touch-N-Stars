@@ -11,8 +11,6 @@
         @change="changeFilter"
         class="default-select h-10"
       >
-        <!-- Option für 'Unbekannt' hinzufügen -->
-        <option :value="null" disabled>{{ $t('components.filterwheel.unknown') }}</option>
         <!-- Name anzeigen und ID speichern -->
         <template v-if="store.filterInfo?.AvailableFilters">
           <option

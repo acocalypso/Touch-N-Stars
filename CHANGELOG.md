@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.6.0] - xxxx-xx-xx
+## [App4.6.0] - 2026-02-14
 ### Added
 - Navigation: Scroll indicators with fade effect and arrow hint when more icons are available
 - Camera: Separate Readout Mode settings for Image and Snap (API >= 2.2.14.3) - thanks to Chris

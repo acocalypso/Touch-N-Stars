@@ -47,17 +47,17 @@ const currentMessageBox = computed(() => {
 });
 
 const buttonConfigs = {
-  0: [{ label: 'OK', result: 'OK' }],
-  1: [
+  OK: [{ label: 'OK', result: 'OK' }],
+  OKCancel: [
     { label: 'OK', result: 'OK' },
     { label: 'Cancel', result: 'Cancel' },
   ],
-  3: [
+  YesNoCancel: [
     { label: 'Yes', result: 'Yes' },
     { label: 'No', result: 'No' },
     { label: 'Cancel', result: 'Cancel' },
   ],
-  4: [
+  YesNo: [
     { label: 'Yes', result: 'Yes' },
     { label: 'No', result: 'No' },
   ],
@@ -65,7 +65,7 @@ const buttonConfigs = {
 
 const messageBoxButtons = computed(() => {
   const buttonType = currentMessageBox.value?.button;
-  return buttonConfigs[buttonType] || buttonConfigs[0];
+  return buttonConfigs[buttonType] || buttonConfigs['OK'];
 });
 
 async function handleButtonClick(result) {

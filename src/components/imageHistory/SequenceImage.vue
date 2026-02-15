@@ -4,7 +4,12 @@
     ref="imageContainer"
     class="image-container relative overflow-hidden touch-auto bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700 cursor-pointer"
   >
-    <img ref="image" :src="image" alt="Sequence Image" class="block w-full h-auto" />
+    <img
+      ref="image"
+      :src="image"
+      alt="Sequence Image"
+      class="block w-full max-h-[80vh] object-contain"
+    />
     <div
       v-if="showStats"
       :class="[

@@ -16,16 +16,16 @@
 
     <div
       v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
-      class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
     >
-      <label for="gain" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
+      <label for="gain" class="text-xs md:text-sm text-gray-200 font-medium">
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
         id="gain"
         v-model.number="settingsStore.camera.gain"
         @change="setGain"
-        class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
+        class="default-select h-7 md:h-8 w-20 md:w-28"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
           {{ value }}
@@ -47,19 +47,19 @@
       @change="setGain"
     />
 
-    <div v-if="store.cameraInfo.CanSetOffset">
+    <div v-if="store.cameraInfo.CanSetOffset" class="w-full">
       <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
-        class="flex flex-row sm:flex-col w-full sm:w-auto items-center min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
+        class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
       >
-        <label for="offset" class="text-xs md:text-sm mr-3 mb-1 text-gray-200">
+        <label for="offset" class="text-xs md:text-sm text-gray-200 font-medium">
           {{ $t('components.camera.offset') }}
         </label>
         <select
           id="offset"
           v-model.number="settingsStore.camera.offset"
           @change="setOffset"
-          class="default-select ml-auto h-7 md:h-8 w-20 md:w-28"
+          class="default-select h-7 md:h-8 w-20 md:w-28"
         >
           <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
             {{ value }}
@@ -83,6 +83,7 @@
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
+    <setCameraUsbLimit v-if="store.cameraInfo.CanSetUSBLimit" />
     <setSolve />
     <setSaveSnapshot />
   </div>
@@ -98,6 +99,7 @@ import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
 import setSolve from '@/components/camera/setSolve.vue';
 import setSaveSnapshot from './setSaveSnapshot.vue';
+import setCameraUsbLimit from './setCameraUsbLimit.vue';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();

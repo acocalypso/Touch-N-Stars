@@ -142,6 +142,36 @@
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unlinked Strech"
       },
+      "imageFile": {
+        "title": "File Name Pattern",
+        "pattern": "Pattern",
+        "preview": "Preview",
+        "folder": "Folder",
+        "separator": "Separator",
+        "empty": "Tap tokens below to build pattern",
+        "freeText": "Text",
+        "editTokens": "Edit tokens",
+        "help": {
+          "title": "File Name Pattern",
+          "intro": "Build the file name pattern for your captured images. Each token will be replaced by NINA with the actual value when saving.",
+          "tokensTitle": "Tokens",
+          "tokensDesc": "Tap a token button to add it to the pattern. Tokens like Filter, Date or ExposureTime are replaced by NINA with the real values.",
+          "separatorsTitle": "Separators",
+          "separatorsDesc": "Use \\ to create folder structures. Use _ or - to separate values in the file name. Use \"Text\" to add custom text like \"s\" for seconds.",
+          "cursorTitle": "Insertion Position",
+          "cursorDesc": "Tap between existing tokens to move the blinking cursor. New tokens are inserted at the cursor position.",
+          "exampleTitle": "Example",
+          "exampleResult": "Results in:"
+        },
+        "groups": {
+          "dateTime": "Date / Time",
+          "image": "Image",
+          "camera": "Camera",
+          "guiding": "Guiding",
+          "equipment": "Equipment",
+          "other": "Other"
+        }
+      },
       "debug": {
         "title": "Debug",
         "activate": "Activate Debug Mode",
@@ -533,7 +563,9 @@
         "basic": "Basic Settings",
         "crop_and_stars": "Crop & Stars",
         "backlash": "Backlash",
-        "advanced": "Advanced"
+        "advanced": "Advanced",
+        "Reverse": "Reverse",
+        "UseFilterWheelOffsets": "Use filterwheel offsets"
       }
     },
     "dome": {
@@ -596,6 +628,7 @@
       "cooling_time": "Cooling time (min)",
       "binning_mode": "Binning",
       "readout_mode": "Readout Mode",
+      "usb_limit": "USB Limit",
       "set_use_platesolve": "Use Platesolve",
       "chip_settings": {
         "title": "Camera chip settings",
@@ -615,7 +648,9 @@
       "cooler_status_warming": "Active - Warming to",
       "set_save_snapshot": "Save snapshots",
       "snapshotTargetName": "Targe name",
-      "set_use_solve_sync_to_mount": "Sync to mount"
+      "set_use_solve_sync_to_mount": "Sync to mount",
+      "readout_mode_image": "Readout Mode Sequence",
+      "readout_mode_snap": "Readout Mode Snapshot"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",
@@ -1363,6 +1398,7 @@
         "capture": "Capture",
         "solve_sync": "Solve + Sync",
         "center_solve": "Center + Solve",
+        "target_solve": "Target + Solve",
         "clear": "Clear",
         "sync": "Sync",
         "setup": "Setup…",
@@ -1406,7 +1442,9 @@
         "solve_sync_label": "Solve + Sync",
         "solve_sync_text": "platesolve and sync the mount (requires mount connected).",
         "center_solve_label": "Center + Solve",
-        "center_solve_text": "platesolve and center the target (requires mount connected + a calibrated offset)."
+        "center_solve_text": "platesolve and center the target (requires mount connected + a calibrated offset).",
+        "target_solve_label": "Target + Solve",
+        "target_solve_text": "Slew to Target + Center (reqauires mount connected + Target set in Stellarium in Framing Assistant)."
       },
       "progress": {
         "title": "Solve Progress",
@@ -1423,7 +1461,8 @@
           "centering": "Centering",
           "finishing": "Finishing",
           "calibrating": "Calibrating",
-          "running": "Running"
+          "running": "Running",
+          "slewing_to_target": "Slewing to Target"
         },
         "messages": {
           "working": "Working…",
@@ -1649,5 +1688,118 @@
       "rotation": "Rotation"
     }
   },
-  "loading": "loading"
+  "loading": "loading",
+  "observationPlaner": {
+    "title": "Observation Planner",
+    "subtitle": "Favorites with preview + altitude map for tonight (location-based)",
+    "sections": {
+      "tonightPicks": "Tonight Picks",
+      "topForWindow": "Top targets for selected time window",
+      "preview": "Preview",
+      "framing": "Framing"
+    },
+    "filters": {
+      "title": "Filters",
+      "search": "Search",
+      "search_placeholder": "M42, Andromeda, NGC...",
+      "timeWindow": "Time window",
+      "startLocal": "Start (local)",
+      "endLocal": "End (local)",
+      "moon": "Moon",
+      "objectType": "Object type",
+      "azSector": "Sky direction (azimuth sector)",
+      "onlyAboveHorizon": "Only >0° alt",
+      "limit": "Limit"
+    },
+    "sort": {
+      "title": "Sorting",
+      "nameAZ": "Name A→Z",
+      "maxAltDesc": "Max Alt ↓",
+      "bestTimeAsc": "Best time ↑",
+      "bestTime": "Best time",
+      "maxAltWindow": "Max Alt (window)",
+      "visible": "Visible?"
+    },
+    "location": {
+      "title": "Location",
+      "get": "Get location",
+      "notAvailable": "No location available",
+      "hintNoLocation": "Note: Without a location, altitude/direction filters & charts cannot be computed."
+    },
+    "performance": {
+      "title": "Display / Performance",
+      "lazyPreviews": "Lazy-load previews",
+      "redraw": "Redraw"
+    },
+    "buttons": {
+      "refresh": "Refresh",
+      "reload": "Reload",
+      "slew": "Slew",
+      "center": "Center",
+      "slewNoCenter": "Slew (no centering)",
+      "slewCenter": "Slew + Center",
+      "slewCenterPlatesolve": "Slew + Center (platesolve)",
+      "sendToSequencer": "Send to Sequencer",
+      "openFraming": "Open Framing Assistant",
+      "seqShort": "Seq"
+    },
+    "preview": {
+      "noImage": "No image loaded",
+      "unavailable": "Preview unavailable",
+      "info": "Preview info",
+      "reload": "Reload preview"
+    },
+    "cache": {
+      "useNinaCache": "Use NINA cache for target image",
+      "hint": "Loads DSS/target picture via TNS WebAPI. Cache toggle controls useCache.",
+      "hintShort": "Passes useCache to targetpic"
+    },
+    "chart": {
+      "altitudeVsTime": "Altitude vs. Time",
+      "sampleMin": "Sample (min)",
+      "directionAz": "Direction (Az)",
+      "separation": "Separation —"
+    },
+    "sectors": {
+      "N_NE": "North → North-East (315°–45°)",
+      "NE_E": "North-East → East (45°–90°)",
+      "E_SE": "East → South-East (90°–135°)",
+      "SE_S": "South-East → South (135°–180°)",
+      "S_SW": "South → South-West (180°–225°)",
+      "SW_W": "South-West → West (225°–270°)",
+      "W_NW": "West → North-West (270°–315°)",
+      "NW_N": "North-West → North (315°–360°)",
+      "all": "All"
+    },
+    "common": {
+      "yes": "Yes",
+      "no": "No",
+      "loading": "Loading…",
+      "all": "All"
+    },
+    "tooltips": {
+      "favorite": "Favorite",
+      "refreshFavorites": "Reload favorites & recompute",
+      "filterNoBelowHorizon": "Filters targets with maxAlt <= 0°",
+      "filterAzSector": "Filter by bestAzDeg (azimuth at highest altitude within window)",
+      "gpsUpdate": "Update GPS location",
+      "openFramingFmt": "Open framing · {ra} / {dec} · MaxAlt {maxAlt}°",
+      "tonightScoreFmt": "Tonight score: {score} · MaxAlt {maxAlt}° · {hours}h",
+      "redrawChart": "Redraw chart",
+      "lazyVisibleOnly": "Load only for visible cards",
+      "useCacheHint": "Passes useCache to targetpic",
+      "previewReload": "Reload preview"
+    },
+    "empty": {
+      "noFavorites": "No favorites found."
+    },
+    "status": {
+      "sendingToSequencer": "Sending target to sequencer…",
+      "sequencerTargetSet": "Sequencer target set"
+    },
+    "errors": {
+      "noSequenceAvailable": "No sequence available, load Sequence first",
+      "sequencerFailed": "Sequencer failed"
+    }
+  }
 }

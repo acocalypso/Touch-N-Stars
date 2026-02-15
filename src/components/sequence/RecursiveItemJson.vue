@@ -364,7 +364,12 @@ function formatDec(coords) {
 function getDisplayFields(item) {
   return Object.entries(item).filter(
     ([key]) =>
-      !excludedKeys.has(key) && item[key] !== undefined && item[key] !== null && item[key] !== ''
+      !excludedKeys.has(key) &&
+      !key.endsWith('Definition') &&
+      !key.endsWith('Expression') &&
+      item[key] !== undefined &&
+      item[key] !== null &&
+      item[key] !== ''
   );
 }
 

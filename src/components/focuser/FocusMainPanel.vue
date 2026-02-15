@@ -5,6 +5,9 @@
       <div class="pt-1 sm:pt-2">
         <ButtonsFastChangePositon />
       </div>
+      <div v-if="store.isPINS" class="pt-2">
+        <setFocuserReverse />
+      </div>
     </div>
     <div class="mt-2 sm:mt-4 flex gap-1 sm:gap-2 items-center">
       <button
@@ -102,6 +105,7 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { PhotoIcon } from '@heroicons/vue/24/outline';
+import setFocuserReverse from './settings/setFocuserReverse.vue';
 
 const store = apiStore();
 const imageStore = useImagetStore();

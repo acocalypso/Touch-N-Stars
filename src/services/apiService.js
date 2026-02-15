@@ -972,6 +972,34 @@ const apiService = {
     }
   },
 
+  //eg v2/api/equipment/camera/set-readout/snapshot?mode=1 or /image?mode=0
+  async setReadoutModeType(type, mode) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/set-readout/${type}`, {
+        params: { mode: mode },
+      });
+      return response.data;
+    } catch (error) {
+      // console.error('Error retrieving result:', error);
+      throw error;
+    }
+  },
+
+  //eg v2/api/equipment/camera/usb-limit?=7
+  async setCamerUsbLimit(limit) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/set-readout/`, {
+        params: { limit: limit },
+      });
+      return response.data;
+    } catch (error) {
+      // console.error('Error retrieving result:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  Filterwheel ---------------------------------------
   filterAction(action) {
     const { BASE_URL } = getUrls();
@@ -1610,6 +1638,19 @@ const apiService = {
       }
       throw error;
     }
+  },
+
+  // --- Observation Planner helpers ---
+  async getActiveProfile() {
+    // profileAction('show?active=true') exists already
+    const res = await this.profileAction('show?active=true');
+    return res?.Response ?? res;
+  },
+
+  async getAstrometrySettings() {
+    const profile = await this.getActiveProfile();
+    // expected path (matches mock structure)
+    return profile?.AstrometrySettings ?? null;
   },
 
   //-------------------------------------  System Controls ------------------------------

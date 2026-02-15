@@ -1,59 +1,63 @@
 <template>
   <div
     :class="borderClass"
-    class="flex max-w-md border p-2 rounded-lg h-full gap-2 items-center justify-between transition-all duration-300"
+    class="flex flex-col sm:flex-row border p-2 rounded-lg h-full gap-2 sm:items-center transition-all duration-300"
   >
-    <label class="w-36" for="deviceSelect">{{ deviceName }}:</label>
-    <select
-      id="deviceSelect"
-      class="w-full default-select"
-      v-model="selectedDevice"
-      :disabled="isConnected"
-    >
-      <option disabled>{{ selectedDevice }}</option>
-      <option
-        v-for="device in devices"
-        :key="device.DisplayName"
-        :value="String(device.DisplayName)"
+    <label class="text-sm sm:w-36 shrink-0" for="deviceSelect">{{ deviceName }}:</label>
+    <div class="flex gap-2 items-center w-full">
+      <select
+        id="deviceSelect"
+        class="w-full default-select min-w-0"
+        v-model="selectedDevice"
+        :disabled="isConnected"
       >
-        {{ device.DisplayName }}
-      </option>
-    </select>
-    <div class="flex w-30 gap-1">
-      <button
-        v-if="store.isPINS"
-        @click="configDevice"
-        :disabled="
-          isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
-        "
-        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-      >
-        <Cog6ToothIcon
-          class="w-6 h-6"
-          :class="{
-            'text-gray-400':
-              isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
-          }"
-        />
-      </button>
-      <button
-        @click="rescanDevices"
-        :disabled="isScanning || isConnected"
-        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-      >
-        <ArrowPathIcon
-          class="w-6 h-6"
-          :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
-        />
-      </button>
-      <button
-        @click="toggleConnection"
-        :disabled="isToggleCon"
-        class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
-      >
-        <LinkIcon v-if="!isConnected" class="w-6 h-6" />
-        <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
-      </button>
+        <option disabled>{{ selectedDevice }}</option>
+        <option
+          v-for="device in devices"
+          :key="device.DisplayName"
+          :value="String(device.DisplayName)"
+        >
+          {{ device.DisplayName }}
+        </option>
+      </select>
+      <div class="flex shrink-0 gap-1">
+        <button
+          v-if="store.isPINS"
+          @click="configDevice"
+          :disabled="
+            isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
+          "
+          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+        >
+          <Cog6ToothIcon
+            class="w-6 h-6"
+            :class="{
+              'text-gray-400':
+                isScanning ||
+                isConnected ||
+                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
+            }"
+          />
+        </button>
+        <button
+          @click="rescanDevices"
+          :disabled="isScanning || isConnected"
+          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+        >
+          <ArrowPathIcon
+            class="w-6 h-6"
+            :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
+          />
+        </button>
+        <button
+          @click="toggleConnection"
+          :disabled="isToggleCon"
+          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
+        >
+          <LinkIcon v-if="!isConnected" class="w-6 h-6" />
+          <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
+        </button>
+      </div>
     </div>
 
     <!-- Modal entfernt - verwendet jetzt toastModal -->

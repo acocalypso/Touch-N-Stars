@@ -6,10 +6,10 @@
           v-model="rotatorPosition"
           :label="$t('components.rotator.label')"
           labelKey="components.rotator.label"
-          :min="0"
+          :min="-360"
           :max="360"
-          :step="1"
-          :decimalPlaces="0"
+          :step="0.1"
+          :decimalPlaces="1"
           placeholder="1"
           inputId="position"
         />

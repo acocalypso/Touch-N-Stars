@@ -76,29 +76,33 @@
               {{ n }}
             </button>
             <button
-              v-if="pickerStore.decimalPlaces > 0"
               @click="pickerStore.appendDecimal()"
-              :disabled="pickerStore.hasDecimalPoint"
+              :disabled="pickerStore.hasDecimalPoint || pickerStore.decimalPlaces === 0"
               class="numpad-btn"
             >
               .
             </button>
-            <div v-else></div>
 
             <!-- Bottom row -->
             <button
               @click="pickerStore.setNegative()"
               :disabled="!pickerStore.isNegativeAllowed"
-              :class="['numpad-btn numpad-action', pickerStore.inputString.startsWith('-') ? 'numpad-active' : '']"
+              :class="[
+                'numpad-btn numpad-action',
+                pickerStore.inputString.startsWith('-') ? 'numpad-active' : '',
+              ]"
             >
               −
             </button>
-            <button @click="pickerStore.appendDigit(0)" class="numpad-btn">
-              0
-            </button>
+            <button @click="pickerStore.appendDigit(0)" class="numpad-btn">0</button>
             <button
               @click="pickerStore.setPositive()"
-              :class="['numpad-btn numpad-action', !pickerStore.inputString.startsWith('-') && pickerStore.inputString !== '' ? 'numpad-active' : '']"
+              :class="[
+                'numpad-btn numpad-action',
+                !pickerStore.inputString.startsWith('-') && pickerStore.inputString !== ''
+                  ? 'numpad-active'
+                  : '',
+              ]"
             >
               +
             </button>

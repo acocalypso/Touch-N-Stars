@@ -20,10 +20,10 @@
             <label class="block text-sm font-medium">{{ $t(`${pickerStore.label}`) }}</label>
             <button
               @click="pickerStore.close()"
-              :disabled="hasExceededMax"
+              :disabled="isOutOfRange"
               :class="[
                 'p-2 rounded-full transition-colors',
-                hasExceededMax
+                isOutOfRange
                   ? 'text-gray-500 cursor-not-allowed'
                   : 'text-green-500 hover:bg-gray-700/50 hover:text-green-400',
               ]"
@@ -37,7 +37,7 @@
               type="number"
               :class="[
                 'max-w-40 px-3 py-2 bg-gray-800 border rounded text-white placeholder-gray-500 focus:outline-none text-center',
-                hasExceededMax
+                isOutOfRange
                   ? 'border-red-500 focus:border-red-500'
                   : 'border-gray-600 focus:border-cyan-500',
               ]"
@@ -86,8 +86,8 @@ const displayValue = computed(() => {
   return pickerStore.getValueFromDigits();
 });
 
-const hasExceededMax = computed(() => {
-  return displayValue.value > pickerStore.maxValue;
+const isOutOfRange = computed(() => {
+  return displayValue.value > pickerStore.maxValue || displayValue.value < pickerStore.minValue;
 });
 </script>
 

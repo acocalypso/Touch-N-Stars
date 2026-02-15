@@ -166,7 +166,8 @@ function onDirectInput(event) {
   } else {
     const numValue = parseFloat(value);
     if (!isNaN(numValue)) {
-      emitWithGlow(numValue);
+      const clamped = Math.min(Math.max(numValue, props.min), props.max);
+      emitWithGlow(clamped);
     }
   }
 }

@@ -76,14 +76,12 @@
               {{ n }}
             </button>
             <button
-              v-if="pickerStore.decimalPlaces > 0"
               @click="pickerStore.appendDecimal()"
-              :disabled="pickerStore.hasDecimalPoint"
+              :disabled="pickerStore.hasDecimalPoint || pickerStore.decimalPlaces === 0"
               class="numpad-btn"
             >
               .
             </button>
-            <div v-else></div>
 
             <!-- Bottom row -->
             <button

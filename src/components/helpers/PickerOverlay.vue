@@ -87,16 +87,22 @@
             <button
               @click="pickerStore.setNegative()"
               :disabled="!pickerStore.isNegativeAllowed"
-              :class="['numpad-btn numpad-action', pickerStore.inputString.startsWith('-') ? 'numpad-active' : '']"
+              :class="[
+                'numpad-btn numpad-action',
+                pickerStore.inputString.startsWith('-') ? 'numpad-active' : '',
+              ]"
             >
               −
             </button>
-            <button @click="pickerStore.appendDigit(0)" class="numpad-btn">
-              0
-            </button>
+            <button @click="pickerStore.appendDigit(0)" class="numpad-btn">0</button>
             <button
               @click="pickerStore.setPositive()"
-              :class="['numpad-btn numpad-action', !pickerStore.inputString.startsWith('-') && pickerStore.inputString !== '' ? 'numpad-active' : '']"
+              :class="[
+                'numpad-btn numpad-action',
+                !pickerStore.inputString.startsWith('-') && pickerStore.inputString !== ''
+                  ? 'numpad-active'
+                  : '',
+              ]"
             >
               +
             </button>

@@ -110,6 +110,15 @@ const { openPicker: openNumberPicker } = useNumberPicker();
 const settingsStore = useSettingsStore();
 const statusClass = ref('');
 
+function emitWithGlow(value) {
+  emit('update:modelValue', value);
+  emit('change', value);
+  statusClass.value = 'glow-green';
+  setTimeout(() => {
+    statusClass.value = '';
+  }, 1000);
+}
+
 const isDefaultValue = computed(() => {
   return props.modelValue === -1 || props.modelValue === null || props.modelValue === undefined;
 });
@@ -144,12 +153,7 @@ function openPicker() {
     props.step,
     valueToPass,
     (newValue) => {
-      emit('update:modelValue', newValue);
-      statusClass.value = 'glow-green';
-      emit('change', newValue);
-      setTimeout(() => {
-        statusClass.value = '';
-      }, 1000);
+      emitWithGlow(newValue);
     },
     props.decimalPlaces
   );
@@ -162,12 +166,7 @@ function onDirectInput(event) {
   } else {
     const numValue = parseFloat(value);
     if (!isNaN(numValue)) {
-      emit('update:modelValue', numValue);
-      statusClass.value = 'glow-green';
-      emit('change', numValue);
-      setTimeout(() => {
-        statusClass.value = '';
-      }, 1000);
+      emitWithGlow(numValue);
     }
   }
 }

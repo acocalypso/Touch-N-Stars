@@ -22,25 +22,13 @@ export const usePickerStore = defineStore('pickerStore', {
   },
 
   actions: {
-    open(label, options, value, callback, decimalPlaces = 0) {
+    open(label, min, max, value, callback, decimalPlaces = 0) {
       this.label = label;
       this.value = value;
       this.callback = callback;
       this.decimalPlaces = decimalPlaces;
-
-      // Bestimme min/max aus options
-      if (
-        options &&
-        options.length > 0 &&
-        typeof options[0] === 'object' &&
-        'value' in options[0]
-      ) {
-        this.minValue = options[0].value;
-        this.maxValue = options[options.length - 1].value;
-      } else {
-        this.minValue = 0;
-        this.maxValue = 100;
-      }
+      this.minValue = min;
+      this.maxValue = max;
 
       this.digits = this.createDigitPickers(this.minValue, this.maxValue, value, decimalPlaces);
       this.isOpen = true;

@@ -1,5 +1,10 @@
 <template>
-  <Modal :show="showMessageBox" :zIndex="'z-[90]'" @close="handleClose">
+  <Modal
+    :show="showMessageBox"
+    :zIndex="'z-[90]'"
+    :disableClose="true"
+    :closeOnBackdropClick="false"
+  >
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentMessageBox?.title || 'MessageBox' }}
@@ -75,17 +80,6 @@ async function handleButtonClick(result) {
 
   if (messageBoxId) {
     await messageboxStore.respondToMessageBox(messageBoxId, result);
-    await messageboxStore.closeMessagebox(messageBoxId);
-  }
-}
-
-async function handleClose() {
-  const messageBoxId = currentMessageBox.value?.id;
-
-  console.log('[MessageBoxModal] Closing MessageBox without response:', messageBoxId);
-
-  if (messageBoxId) {
-    // Just close without sending a response
     await messageboxStore.closeMessagebox(messageBoxId);
   }
 }

@@ -74,17 +74,6 @@
     </template>
 
     <template v-else-if="store.isPINS">
-      <!-- Equipment Settings -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.equipment') }}
-        </h3>
-        <Phd2SelectCamera />
-        <Phd2SelectMount />
-      </div>
-
       <!-- Optical Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"

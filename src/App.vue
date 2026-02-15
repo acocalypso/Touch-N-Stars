@@ -331,8 +331,8 @@ function handleOrientationChange() {
 // Global picker functions - delegated to PickerStore
 const pickerStore = usePickerStore();
 
-window.openPickerOverlay = (label, options, value, callback, decimalPlaces = 0) => {
-  pickerStore.open(label, options, value, callback, decimalPlaces);
+window.openPickerOverlay = (label, min, max, value, callback, decimalPlaces = 0) => {
+  pickerStore.open(label, min, max, value, callback, decimalPlaces);
 };
 
 window.getPickerValue = () => {

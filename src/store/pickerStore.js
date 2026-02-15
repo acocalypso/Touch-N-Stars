@@ -90,11 +90,15 @@ export const usePickerStore = defineStore('pickerStore', {
       this.inputString = this.inputString.slice(0, -1);
     },
 
-    toggleSign() {
-      if (!this.isNegativeAllowed) return;
+    setPositive() {
       if (this.inputString.startsWith('-')) {
         this.inputString = this.inputString.slice(1);
-      } else {
+      }
+    },
+
+    setNegative() {
+      if (!this.isNegativeAllowed) return;
+      if (!this.inputString.startsWith('-')) {
         this.inputString = '-' + this.inputString;
       }
     },

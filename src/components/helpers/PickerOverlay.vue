@@ -5,25 +5,13 @@
       class="fixed inset-0 z-50 flex flex-col items-center justify-end bg-black/40 backdrop-blur-sm"
       @click="pickerStore.cancel()"
     >
-      <!-- Floating value display above the bottom sheet -->
-      <div class="mb-4 flex flex-col items-center pointer-events-none" @click.stop>
-        <label class="text-xs text-gray-400 mb-1">{{ $t(`${pickerStore.label}`) }}</label>
-        <span
-          :class="[
-            'text-4xl font-bold tabular-nums drop-shadow-lg',
-            pickerStore.isOutOfRange ? 'text-red-400' : 'text-white',
-          ]"
-        >
-          {{ pickerStore.displayValue }}
-        </span>
-      </div>
       <!-- Bottom sheet -->
       <div
         class="bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50 w-full p-4 rounded-t-lg"
         @click.stop
       >
         <div class="max-w-sm mx-auto">
-          <!-- Cancel / Confirm bar -->
+          <!-- Header: Cancel / Value / Confirm -->
           <div class="flex items-center justify-between mb-3">
             <button
               @click="pickerStore.cancel()"
@@ -31,6 +19,17 @@
             >
               <XMarkIcon class="h-6 w-6" />
             </button>
+            <div class="flex flex-col items-center">
+              <label class="text-xs text-gray-400">{{ $t(`${pickerStore.label}`) }}</label>
+              <span
+                :class="[
+                  'text-2xl font-bold tabular-nums',
+                  pickerStore.isOutOfRange ? 'text-red-400' : 'text-white',
+                ]"
+              >
+                {{ pickerStore.displayValue }}
+              </span>
+            </div>
             <button
               @click="pickerStore.close()"
               :disabled="isConfirmDisabled"
@@ -77,16 +76,6 @@
               {{ n }}
             </button>
             <button
-              v-if="pickerStore.isNegativeAllowed"
-              @click="pickerStore.toggleSign()"
-              class="numpad-btn numpad-action"
-            >
-              +/-
-            </button>
-            <div v-else></div>
-
-            <!-- Bottom row -->
-            <button
               v-if="pickerStore.decimalPlaces > 0"
               @click="pickerStore.appendDecimal()"
               :disabled="pickerStore.hasDecimalPoint"
@@ -94,11 +83,24 @@
             >
               .
             </button>
+            <div v-else></div>
+
+            <!-- Bottom row -->
             <button
-              @click="pickerStore.appendDigit(0)"
-              :class="['numpad-btn', pickerStore.decimalPlaces === 0 ? 'col-span-2' : '']"
+              @click="pickerStore.setNegative()"
+              :disabled="!pickerStore.isNegativeAllowed"
+              :class="['numpad-btn numpad-action', pickerStore.inputString.startsWith('-') ? 'numpad-active' : '']"
             >
+              −
+            </button>
+            <button @click="pickerStore.appendDigit(0)" class="numpad-btn">
               0
+            </button>
+            <button
+              @click="pickerStore.setPositive()"
+              :class="['numpad-btn numpad-action', !pickerStore.inputString.startsWith('-') && pickerStore.inputString !== '' ? 'numpad-active' : '']"
+            >
+              +
             </button>
           </div>
         </div>
@@ -124,15 +126,34 @@ const isConfirmDisabled = computed(() => {
 <style scoped>
 .numpad-btn {
   @apply h-14 rounded-lg text-xl font-semibold
-    bg-gray-800 text-gray-200
-    active:bg-gray-600
-    transition-colors
+    text-gray-300
+    transition-all
     flex items-center justify-center
     select-none;
+  background: linear-gradient(to bottom, #1f2937, #111827);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.numpad-btn:active {
+  background: linear-gradient(to bottom, #111827, #0a0f1a);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+  transform: translateY(1px);
 }
 
 .numpad-action {
-  @apply bg-gray-700 text-gray-300;
+  background: linear-gradient(to bottom, #1f2937, #151c28);
+  @apply text-gray-400;
+}
+
+.numpad-action:active {
+  background: linear-gradient(to bottom, #151c28, #0a0f1a);
+}
+
+.numpad-active {
+  background: linear-gradient(to bottom, #164e63, #0e3a4a);
+  @apply text-cyan-300;
 }
 
 .numpad-btn:disabled {

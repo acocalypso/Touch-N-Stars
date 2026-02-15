@@ -1,5 +1,10 @@
 <template>
-  <Modal :show="showMessageBox" :zIndex="'z-[90]'" @close="handleClose">
+  <Modal
+    :show="showMessageBox"
+    :zIndex="'z-[90]'"
+    :disableClose="true"
+    :closeOnBackdropClick="false"
+  >
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentMessageBox?.title || 'MessageBox' }}
@@ -47,17 +52,17 @@ const currentMessageBox = computed(() => {
 });
 
 const buttonConfigs = {
-  0: [{ label: 'OK', result: 'OK' }],
-  1: [
+  OK: [{ label: 'OK', result: 'OK' }],
+  OKCancel: [
     { label: 'OK', result: 'OK' },
     { label: 'Cancel', result: 'Cancel' },
   ],
-  3: [
+  YesNoCancel: [
     { label: 'Yes', result: 'Yes' },
     { label: 'No', result: 'No' },
     { label: 'Cancel', result: 'Cancel' },
   ],
-  4: [
+  YesNo: [
     { label: 'Yes', result: 'Yes' },
     { label: 'No', result: 'No' },
   ],
@@ -65,7 +70,7 @@ const buttonConfigs = {
 
 const messageBoxButtons = computed(() => {
   const buttonType = currentMessageBox.value?.button;
-  return buttonConfigs[buttonType] || buttonConfigs[0];
+  return buttonConfigs[buttonType] || buttonConfigs['OK'];
 });
 
 async function handleButtonClick(result) {
@@ -75,17 +80,6 @@ async function handleButtonClick(result) {
 
   if (messageBoxId) {
     await messageboxStore.respondToMessageBox(messageBoxId, result);
-    await messageboxStore.closeMessagebox(messageBoxId);
-  }
-}
-
-async function handleClose() {
-  const messageBoxId = currentMessageBox.value?.id;
-
-  console.log('[MessageBoxModal] Closing MessageBox without response:', messageBoxId);
-
-  if (messageBoxId) {
-    // Just close without sending a response
     await messageboxStore.closeMessagebox(messageBoxId);
   }
 }

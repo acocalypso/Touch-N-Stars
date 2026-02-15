@@ -3,6 +3,7 @@
     <div
       v-if="pickerStore.isOpen"
       class="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-sm"
+      @click="pickerStore.cancel()"
     >
       <div
         class="bg-gray-900/95 backdrop-blur-sm border-t border-gray-700/50 w-full max-h-72 p-4 rounded-t-lg"
@@ -10,6 +11,12 @@
       >
         <div class="max-w-md mx-auto">
           <div class="flex items-center justify-between mb-3">
+            <button
+              @click="pickerStore.cancel()"
+              class="p-2 rounded-full transition-colors text-red-500 hover:bg-gray-700/50 hover:text-red-400"
+            >
+              <XMarkIcon class="h-6 w-6" />
+            </button>
             <label class="block text-sm font-medium">{{ $t(`${pickerStore.label}`) }}</label>
             <button
               @click="pickerStore.close()"
@@ -69,7 +76,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { CheckIcon } from '@heroicons/vue/24/solid';
+import { CheckIcon, XMarkIcon } from '@heroicons/vue/24/solid';
 import { usePickerStore } from '@/store/pickerStore';
 import ScrollPicker from '@/components/helpers/picker/ScrollPicker.vue';
 

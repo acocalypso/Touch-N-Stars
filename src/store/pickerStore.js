@@ -43,7 +43,16 @@ export const usePickerStore = defineStore('pickerStore', {
         this.callback = null;
       }
 
-      // Reset state
+      this._reset();
+    },
+
+    cancel() {
+      this.isOpen = false;
+      this.callback = null;
+      this._reset();
+    },
+
+    _reset() {
       this.digits = [];
       this.value = 0;
       this.label = 'Select Value';

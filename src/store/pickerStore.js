@@ -4,50 +4,42 @@ export const usePickerStore = defineStore('pickerStore', {
   state: () => ({
     isOpen: false,
     label: 'Select Value',
-    value: 0,
+    inputString: '',
     minValue: 0,
     maxValue: 100,
-    digits: [],
     callback: null,
     decimalPlaces: 0,
   }),
 
   getters: {
     currentValue: (state) => {
-      return state.value;
+      const val = parseFloat(state.inputString);
+      return isNaN(val) ? 0 : val;
     },
-    isValueExceedingMax: (state) => {
-      return state.value > state.maxValue;
+    displayValue: (state) => {
+      return state.inputString || '0';
+    },
+    isNegativeAllowed: (state) => state.minValue < 0,
+    hasDecimalPoint: (state) => state.inputString.includes('.'),
+    isOutOfRange() {
+      return this.currentValue < this.minValue || this.currentValue > this.maxValue;
     },
   },
 
   actions: {
-    open(label, options, value, callback, decimalPlaces = 0) {
+    open(label, min, max, value, callback, decimalPlaces = 0) {
       this.label = label;
-      this.value = value;
+      this.minValue = min;
+      this.maxValue = max;
       this.callback = callback;
       this.decimalPlaces = decimalPlaces;
-
-      // Bestimme min/max aus options
-      if (
-        options &&
-        options.length > 0 &&
-        typeof options[0] === 'object' &&
-        'value' in options[0]
-      ) {
-        this.minValue = options[0].value;
-        this.maxValue = options[options.length - 1].value;
-      } else {
-        this.minValue = 0;
-        this.maxValue = 100;
-      }
-
-      this.digits = this.createDigitPickers(this.minValue, this.maxValue, value, decimalPlaces);
+      this.inputString = String(value);
       this.isOpen = true;
     },
 
     close() {
-      const finalValue = this.getValueFromDigits();
+      if (this.isOutOfRange) return;
+      const finalValue = this.currentValue;
       this.isOpen = false;
 
       if (this.callback) {
@@ -55,145 +47,69 @@ export const usePickerStore = defineStore('pickerStore', {
         this.callback = null;
       }
 
-      // Reset state
-      this.digits = [];
-      this.value = 0;
+      this._reset();
+    },
+
+    cancel() {
+      this.isOpen = false;
+      this.callback = null;
+      this._reset();
+    },
+
+    _reset() {
+      this.inputString = '';
       this.label = 'Select Value';
     },
 
-    updateFromInput(inputValue) {
-      // Erlauben Sie die Eingabe ohne zu clampen
-      this.digits = this.createDigitPickers(
-        this.minValue,
-        this.maxValue,
-        inputValue,
-        this.decimalPlaces
-      );
-      this.value = inputValue;
+    appendDigit(digit) {
+      if (this.inputString.includes('.')) {
+        const decPart = this.inputString.split('.')[1];
+        if (decPart.length >= this.decimalPlaces) return;
+      }
+      const raw = this.inputString.replace(/^-/, '');
+      if (raw === '0' && digit === 0) return;
+      if (raw === '0' && digit !== 0) {
+        this.inputString = this.inputString.replace(/0$/, '') + String(digit);
+        return;
+      }
+      this.inputString += String(digit);
     },
 
+    appendDecimal() {
+      if (this.decimalPlaces === 0) return;
+      if (this.inputString.includes('.')) return;
+      if (this.inputString === '' || this.inputString === '-') {
+        this.inputString += '0.';
+      } else {
+        this.inputString += '.';
+      }
+    },
+
+    backspace() {
+      if (this.inputString.length <= 0) return;
+      this.inputString = this.inputString.slice(0, -1);
+    },
+
+    setPositive() {
+      if (this.inputString.startsWith('-')) {
+        this.inputString = this.inputString.slice(1);
+      }
+    },
+
+    setNegative() {
+      if (!this.isNegativeAllowed) return;
+      if (!this.inputString.startsWith('-')) {
+        this.inputString = '-' + this.inputString;
+      }
+    },
+
+    clearInput() {
+      this.inputString = '';
+    },
+
+    // Backward compatibility shim for App.vue window.getPickerValue
     getValueFromDigits() {
-      let intPart = '';
-      let decPart = '';
-      let isDecimal = false;
-      let sign = '+';
-
-      for (const digit of this.digits) {
-        if (digit.isSign) {
-          sign = digit.value;
-        } else if (digit.isDecimalSeparator) {
-          isDecimal = true;
-        } else if (isDecimal) {
-          decPart += digit.value;
-        } else {
-          intPart += digit.value;
-        }
-      }
-
-      intPart = intPart.replace(/^0+/, '') || '0';
-
-      let result;
-      if (decPart) {
-        decPart = decPart.replace(/0+$/, '');
-        result = parseFloat(intPart + '.' + decPart);
-      } else {
-        result = parseInt(intPart);
-      }
-
-      return sign === '-' ? -result : result;
-    },
-
-    createDigitPickers(min, max, currentValue, requestedDecimalPlaces = 0) {
-      // Prüfe ob negative Werte möglich sind
-      const hasNegativeRange = min < 0;
-      const isCurrentValueNegative = currentValue < 0;
-
-      // Konvertiere zu String und teile auf bei Dezimalpunkt
-      const minStr = Math.abs(min).toString();
-      const maxStr = Math.abs(max).toString();
-      const valueStr = Math.abs(currentValue).toString();
-
-      // Prüfe ob Dezimalzahlen enthalten sind
-      const hasDecimal = minStr.includes('.') || maxStr.includes('.') || valueStr.includes('.');
-
-      // Parse min/max/value in Integer und Dezimal Teil
-      const minParts = minStr.split('.');
-      const maxParts = maxStr.split('.');
-      const valueParts = valueStr.split('.');
-
-      const maxIntStr = maxParts[0] || '0';
-      const valueIntStr = valueParts[0] || '0';
-
-      const minDecStr = minParts[1] || '';
-      const maxDecStr = maxParts[1] || '';
-      const valueDecStr = valueParts[1] || '';
-
-      const digits = [];
-
-      // Füge Vorzeichen-Picker am Anfang hinzu, wenn negativ möglich ist
-      if (hasNegativeRange) {
-        digits.push({
-          isSign: true,
-          options: ['+', '-'],
-          value: isCurrentValueNegative ? '-' : '+',
-        });
-      }
-
-      if (hasDecimal || requestedDecimalPlaces > 0) {
-        // Dezimalzahlen-Logik
-        // Verwende angeforderte DecimalPlaces oder berechne aus min/max
-        let decimalPlaces = Math.max(minDecStr.length, maxDecStr.length, valueDecStr.length);
-        if (requestedDecimalPlaces > 0) {
-          decimalPlaces = requestedDecimalPlaces;
-        }
-
-        const paddedValueInt = valueIntStr.padStart(maxIntStr.length, '0');
-        const paddedValueDec = valueDecStr.padEnd(decimalPlaces, '0');
-
-        // Integer part
-        for (let i = 0; i < paddedValueInt.length; i++) {
-          const digitOptions = Array.from({ length: 10 }, (_, j) => j);
-          digits.push({
-            options: digitOptions,
-            value: parseInt(paddedValueInt[i]),
-            position: i,
-            isDecimal: false,
-          });
-        }
-
-        // Decimal separator
-        digits.push({
-          isDecimalSeparator: true,
-        });
-
-        // Decimal part
-        for (let i = 0; i < decimalPlaces; i++) {
-          const digitOptions = Array.from({ length: 10 }, (_, j) => j);
-          digits.push({
-            options: digitOptions,
-            value: parseInt(paddedValueDec[i] || '0'),
-            position: i,
-            isDecimal: true,
-          });
-        }
-
-        return digits;
-      } else {
-        // Integer-Logik
-        const paddedValueInt = valueIntStr.padStart(maxIntStr.length, '0');
-
-        for (let i = 0; i < paddedValueInt.length; i++) {
-          const digitOptions = Array.from({ length: 10 }, (_, j) => j);
-          digits.push({
-            options: digitOptions,
-            value: parseInt(paddedValueInt[i]),
-            position: i,
-            isDecimal: false,
-          });
-        }
-
-        return digits;
-      }
+      return this.currentValue;
     },
   },
 });

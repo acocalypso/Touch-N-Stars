@@ -310,6 +310,14 @@ async function connectAll() {
           await apiService.rotatorAction('connect');
           break;
         case 'guider':
+          if (store.isPINS) {
+            if (!store.mountInfo.Connected || !guiderStore.guidecamOk) {
+              console.warn(
+                '[Connect Equipment] Mount must be connected or guide camera must be match before connecting guider in PINS mode'
+              );
+              continue;
+            }
+          }
           await apiService.guiderAction('connect');
           break;
         case 'safety':

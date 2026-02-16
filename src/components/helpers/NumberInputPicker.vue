@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      labelPosition === 'top' ? '' : 'flex flex-row w-full items-center min-w-28',
+      labelPosition === 'top' ? '' : 'flex flex-row w-full items-center min-w-0',
       wrapperClass,
     ]"
   >
@@ -16,27 +16,43 @@
     >
       {{ label }}
     </label>
-    <input
-      :id="inputId"
-      :value="formattedValue"
-      type="number"
+    <div
       :class="[
-        labelPosition === 'top' ? 'default-input w-full py-2' : 'default-input h-10',
-        labelPosition === 'top'
-          ? ''
-          : wrapperClass === 'w-full'
-            ? 'w-full'
-            : 'w-24 md:w-28 ml-auto',
-        statusClass,
+        'flex items-center overflow-hidden',
+        labelPosition === 'top' || wrapperClass === 'w-full' ? 'w-full' : 'ml-auto w-36 md:w-40',
       ]"
-      :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
-      :step="step"
-      :min="min"
-      :max="max"
-      :readonly="settingsStore.touchOptimized"
-      @focus="openPicker"
-      @input="onDirectInput"
-    />
+    >
+      <button
+        type="button"
+        class="flex items-center justify-center shrink-0 w-6 h-10 rounded-l-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm font-bold border border-gray-600 select-none"
+        @click="stepDown"
+      >
+        &minus;
+      </button>
+      <input
+        :id="inputId"
+        :value="formattedValue"
+        type="number"
+        :class="[
+          'default-input h-10 rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
+          statusClass,
+        ]"
+        :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
+        :step="step"
+        :min="min"
+        :max="max"
+        :readonly="settingsStore.touchOptimized"
+        @focus="openPicker"
+        @input="onDirectInput"
+      />
+      <button
+        type="button"
+        class="flex items-center justify-center shrink-0 w-6 h-10 rounded-r-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm font-bold border border-gray-600 select-none"
+        @click="stepUp"
+      >
+        +
+      </button>
+    </div>
   </div>
 </template>
 
@@ -157,6 +173,23 @@ function openPicker() {
     },
     props.decimalPlaces
   );
+}
+
+function currentValue() {
+  if (isDefaultValue.value) {
+    return props.defaultValue !== null ? props.defaultValue : props.min;
+  }
+  return props.modelValue;
+}
+
+function stepDown() {
+  const newValue = Math.max(currentValue() - props.step, props.min);
+  emitWithGlow(parseFloat(newValue.toFixed(10)));
+}
+
+function stepUp() {
+  const newValue = Math.min(currentValue() + props.step, props.max);
+  emitWithGlow(parseFloat(newValue.toFixed(10)));
 }
 
 function onDirectInput(event) {

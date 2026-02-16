@@ -4,12 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.7.0] - 2026-02-14
-### Changed
-- NumberPicker: Replaced scroll wheel picker with touch-friendly numpad input
-- NumberPicker: Added cancel button and backdrop dismiss
-- NumberPicker: Added min/max validation for direct input and picker overlay
-- NumberPicker: Simplified picker store by passing min/max directly instead of options array
+## [App4.7.0] - xxxx-xx-xx
+### Added
+- NumberInputPicker: Add step up/down buttons to increment and decrement values
 
 ## [App4.6.0] - 2026-02-14
 ### Added
@@ -20,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Focuser: Add stop button to cancel move while focuser is moving
 - Rotator: Add stop button to cancel move while rotator is moving
 - Plugin: ObservationPlaner - thanks to Flashy_DE (Alex)
+- NumberPicker: Replaced scroll wheel picker with touch-friendly numpad input
+- NumberPicker: Added cancel button and backdrop dismiss
+- NumberPicker: Added min/max validation for direct input and picker overlay
+- NumberPicker: Simplified picker store by passing min/max directly instead of options array
 
 ### Changed
 - Camera: Unified UI design for settings components

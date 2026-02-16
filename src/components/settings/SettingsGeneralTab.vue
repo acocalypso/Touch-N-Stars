@@ -9,7 +9,7 @@
         {{ $t('components.settings.coordinates') }}
       </h3>
       <div class="grid grid-cols-2 md:flex md:gap-4 md:items-end gap-2">
-        <div class="flex flex-col">
+        <div class="flex flex-col min-w-0 md:flex-1">
           <label class="text-xs md:text-sm text-gray-300 mb-1">Latitude</label>
           <NumberInputPicker
             v-model="latitude"
@@ -24,7 +24,7 @@
             wrapperClass="w-full"
           />
         </div>
-        <div class="flex flex-col">
+        <div class="flex flex-col min-w-0 md:flex-1">
           <label class="text-xs md:text-sm text-gray-300 mb-1">Longitude</label>
           <NumberInputPicker
             v-model="longitude"
@@ -39,7 +39,7 @@
             wrapperClass="w-full"
           />
         </div>
-        <div class="flex flex-col md:flex-1">
+        <div class="flex flex-col min-w-0 md:flex-1">
           <label class="text-xs md:text-sm text-gray-300 mb-1">Altitude</label>
           <NumberInputPicker
             v-model="altitude"

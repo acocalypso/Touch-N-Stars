@@ -16,27 +16,39 @@
     >
       {{ label }}
     </label>
-    <input
-      :id="inputId"
-      :value="formattedValue"
-      type="number"
-      :class="[
-        labelPosition === 'top' ? 'default-input w-full py-2' : 'default-input h-10',
-        labelPosition === 'top'
-          ? ''
-          : wrapperClass === 'w-full'
-            ? 'w-full'
-            : 'w-24 md:w-28 ml-auto',
-        statusClass,
-      ]"
-      :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
-      :step="step"
-      :min="min"
-      :max="max"
-      :readonly="settingsStore.touchOptimized"
-      @focus="openPicker"
-      @input="onDirectInput"
-    />
+    <div :class="['flex items-center', labelPosition === 'top' ? 'w-full' : 'ml-auto']">
+      <button
+        type="button"
+        class="flex items-center justify-center w-10 h-10 rounded-l-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-lg font-bold border border-gray-600 select-none"
+        @click="stepDown"
+      >
+        &minus;
+      </button>
+      <input
+        :id="inputId"
+        :value="formattedValue"
+        type="number"
+        :class="[
+          'default-input h-10 rounded-none border-x-0 text-center',
+          labelPosition === 'top' ? 'w-full' : 'w-16 md:w-20',
+          statusClass,
+        ]"
+        :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
+        :step="step"
+        :min="min"
+        :max="max"
+        :readonly="settingsStore.touchOptimized"
+        @focus="openPicker"
+        @input="onDirectInput"
+      />
+      <button
+        type="button"
+        class="flex items-center justify-center w-10 h-10 rounded-r-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-lg font-bold border border-gray-600 select-none"
+        @click="stepUp"
+      >
+        +
+      </button>
+    </div>
   </div>
 </template>
 
@@ -157,6 +169,23 @@ function openPicker() {
     },
     props.decimalPlaces
   );
+}
+
+function currentValue() {
+  if (isDefaultValue.value) {
+    return props.defaultValue !== null ? props.defaultValue : props.min;
+  }
+  return props.modelValue;
+}
+
+function stepDown() {
+  const newValue = Math.max(currentValue() - props.step, props.min);
+  emitWithGlow(parseFloat(newValue.toFixed(10)));
+}
+
+function stepUp() {
+  const newValue = Math.min(currentValue() + props.step, props.max);
+  emitWithGlow(parseFloat(newValue.toFixed(10)));
 }
 
 function onDirectInput(event) {

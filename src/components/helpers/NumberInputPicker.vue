@@ -33,7 +33,10 @@
         :id="inputId"
         :value="formattedValue"
         type="number"
-        :class="['default-input h-10 rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1', statusClass]"
+        :class="[
+          'default-input h-10 rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
+          statusClass,
+        ]"
         :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
         :step="step"
         :min="min"

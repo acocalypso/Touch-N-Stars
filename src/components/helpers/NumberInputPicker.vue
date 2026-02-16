@@ -16,10 +16,16 @@
     >
       {{ label }}
     </label>
-    <div :class="['flex items-center', labelPosition === 'top' ? 'w-full' : 'ml-auto']">
+    <div
+      :class="[
+        'flex items-center',
+        labelPosition === 'top' ? 'w-full' : 'ml-auto',
+        labelPosition === 'top' ? '' : wrapperClass === 'w-full' ? 'w-full' : 'w-24 md:w-28',
+      ]"
+    >
       <button
         type="button"
-        class="flex items-center justify-center w-10 h-10 rounded-l-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-lg font-bold border border-gray-600 select-none"
+        class="flex items-center justify-center shrink-0 w-8 h-10 rounded-l-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-lg font-bold border border-gray-600 select-none"
         @click="stepDown"
       >
         &minus;
@@ -28,11 +34,7 @@
         :id="inputId"
         :value="formattedValue"
         type="number"
-        :class="[
-          'default-input h-10 rounded-none border-x-0 text-center',
-          labelPosition === 'top' ? 'w-full' : 'w-16 md:w-20',
-          statusClass,
-        ]"
+        :class="['default-input h-10 rounded-none border-x-0 text-center min-w-0 flex-1', statusClass]"
         :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
         :step="step"
         :min="min"
@@ -43,7 +45,7 @@
       />
       <button
         type="button"
-        class="flex items-center justify-center w-10 h-10 rounded-r-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-lg font-bold border border-gray-600 select-none"
+        class="flex items-center justify-center shrink-0 w-8 h-10 rounded-r-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-lg font-bold border border-gray-600 select-none"
         @click="stepUp"
       >
         +

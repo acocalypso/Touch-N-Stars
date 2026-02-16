@@ -74,7 +74,7 @@ import SettingsPluginsTab from '@/components/settings/SettingsPluginsTab.vue';
 import SettingsPlateSolverTab from '@/components/settings/SettingsPlateSolverTab.vue';
 import SettingsEquipmentTab from '@/components/settings/SettingsEquipmentTab.vue';
 import { usePluginStore } from '@/store/pluginStore';
-import wait from '@/utils/utils';
+import { wait } from '@/utils/utils';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();

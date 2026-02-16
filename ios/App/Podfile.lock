@@ -1,20 +1,20 @@
 PODS:
   - Alamofire (5.10.2)
   - BigInt (5.2.0)
-  - Capacitor (8.0.1):
+  - Capacitor (8.1.0):
     - CapacitorCordova
-  - CapacitorApp (8.0.0):
+  - CapacitorApp (8.0.1):
     - Capacitor
   - CapacitorCommunityKeepAwake (8.0.0):
     - Capacitor
-  - CapacitorCommunityMedia (9.0.0):
+  - CapacitorCommunityMedia (9.0.1):
     - Capacitor
     - SDWebImage
-  - CapacitorCordova (8.0.1)
-  - CapacitorFilesystem (8.0.0):
+  - CapacitorCordova (8.1.0)
+  - CapacitorFilesystem (8.1.2):
     - Capacitor
-    - IONFilesystemLib (~> 1.0.1)
-  - CapacitorGeolocation (8.0.0):
+    - IONFilesystemLib (~> 1.1.1)
+  - CapacitorGeolocation (8.1.0):
     - Capacitor
     - IONGeolocationLib (= 2.0.0)
   - CapacitorGetlocalip (0.0.2):
@@ -23,11 +23,11 @@ PODS:
     - Capacitor
   - CapacitorKeyboard (8.0.0):
     - Capacitor
-  - CapacitorStatusBar (8.0.0):
+  - CapacitorStatusBar (8.0.1):
     - Capacitor
-  - CapawesomeCapacitorFilePicker (8.0.0):
+  - CapawesomeCapacitorFilePicker (8.0.1):
     - Capacitor
-  - CapgoCapacitorUpdater (8.41.12):
+  - CapgoCapacitorUpdater (8.43.3):
     - Alamofire (= 5.10.2)
     - BigInt (= 5.2.0)
     - Capacitor
@@ -35,11 +35,11 @@ PODS:
     - ZIPFoundation (~> 0.9)
   - DevioartsCapacitorMdns (0.0.2):
     - Capacitor
-  - IONFilesystemLib (1.0.1)
+  - IONFilesystemLib (1.1.1)
   - IONGeolocationLib (2.0.0)
-  - SDWebImage (5.21.5):
-    - SDWebImage/Core (= 5.21.5)
-  - SDWebImage/Core (5.21.5)
+  - SDWebImage (5.21.6):
+    - SDWebImage/Core (= 5.21.6)
+  - SDWebImage/Core (5.21.6)
   - Version (0.8.0)
   - ZIPFoundation (0.9.20)
 
@@ -102,26 +102,26 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
   BigInt: f668a80089607f521586bbe29513d708491ef2f7
-  Capacitor: ff35b0f66370b84aa238251b35b91886a3207c16
-  CapacitorApp: 3963a84197280757b84f126afd1520a85ae3b092
+  Capacitor: 47b825120c6b8b6d6f9f053e9350a8960d436710
+  CapacitorApp: 942306cd1acf7774a00e89a3986af3a67c8cad7a
   CapacitorCommunityKeepAwake: 332bf035bbdf0b1c244fd492b35a8a06c8802111
-  CapacitorCommunityMedia: de0b02527717081ab4753cd513a0f24f06d95656
-  CapacitorCordova: 0d65b9bb74e995dcecb9463f34f1af2aba6f955c
-  CapacitorFilesystem: 2cb7c29536024668f333266a2177f8c10bbd9c98
-  CapacitorGeolocation: 8a405e707de9aff6ac9eca7f408966a370f7ca33
+  CapacitorCommunityMedia: 8055639f4d2c6314b77e2a6e2515a16cd47100d7
+  CapacitorCordova: e8b76fd95fc1e157775abc484c59cc0de464095d
+  CapacitorFilesystem: 2db285a1ac6e475cc27cae2e1bea999000f9e2be
+  CapacitorGeolocation: 7132de914f9d853ec4642dc1d36e4e2018a4e8a8
   CapacitorGetlocalip: d0f07ecbff88e31d28e5cc76dd246fc4c134b36d
   CapacitorHaptics: 2079d9fa04c5a71e18663b4722323c304c58245c
   CapacitorKeyboard: d7868c079a4d5277a3deca27a10a488fcbbb8b69
-  CapacitorStatusBar: 312e2e67928dfe9514c4a8916a1fd610552f5f35
-  CapawesomeCapacitorFilePicker: 43c2f2e86e9722b2ea22d69abc8c09fe158bfc86
-  CapgoCapacitorUpdater: 02465b7612dc67e7bb945cb0f99fd4056e6395d4
+  CapacitorStatusBar: 32206abd53b14f339763da26f71286deaa891e16
+  CapawesomeCapacitorFilePicker: cbd96b593d2bfdceb353ed161f9462ce4a9d67a9
+  CapgoCapacitorUpdater: dcad6bfc5399f250ef850b2d2ff44f91f92bad12
   DevioartsCapacitorMdns: bb7da3676d53672efa752ebf6de6162345a1e54d
-  IONFilesystemLib: 89258b8e3e85465da93127d25d7ce37f977e8a6f
+  IONFilesystemLib: dfa8706539ac9ab77ccfd6e5b3830ce9b5e57f6c
   IONGeolocationLib: a5e40b54edc2ee9902036eda5aaa41ddf07bb68d
-  SDWebImage: e9c98383c7572d713c1a0d7dd2783b10599b9838
+  SDWebImage: 1bb6a1b84b6fe87b972a102bdc77dd589df33477
   Version: de5907f2c5d0f3cf21708db7801d1d5401139486
   ZIPFoundation: dfd3d681c4053ff7e2f7350bc4e53b5dba3f5351
 
-PODFILE CHECKSUM: c4da29929cff2ad15070f971946a020dc3ba566a
+PODFILE CHECKSUM: 11250936f27a50839ea93d1a809b47d81cc38a29
 
 COCOAPODS: 1.16.2

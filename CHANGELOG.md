@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - NumberInputPicker: Add step up/down buttons to increment and decrement values
 
+### Changed
+- Focuser: Replace focuser input with position display in quick access modal
+
 ## [App4.6.0] - 2026-02-14
 ### Added
 - Navigation: Scroll indicators with fade effect and arrow hint when more icons are available

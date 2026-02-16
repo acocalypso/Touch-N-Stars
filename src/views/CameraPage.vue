@@ -195,7 +195,9 @@
       </template>
       <template #body>
         <div>
-          <MoveFocuser class="w-full" />
+          <div class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-center text-sm text-gray-300 mb-2">
+            {{ $t('components.focuser.title') }}: <span class="font-semibold text-white">{{ store.focuserInfo.Position }}</span>
+          </div>
           <ButtonsFastChangePositon class="pt-2" />
         </div>
       </template>
@@ -277,7 +279,6 @@ import CaptureButton from '@/components/camera/CaptureButton.vue';
 import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
 import ModalTransparent from '@/components/helpers/ModalTransparent.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
-import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';

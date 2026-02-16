@@ -26,15 +26,7 @@ export function useNumberPicker() {
       calculatedDecimalPlaces = stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
     }
 
-    // Create a simple options array with only min and max
-    // The pickerStore will generate digit pickers from this
-    const pickerOptions = [
-      { name: min.toString(), value: min },
-      { name: max.toString(), value: max },
-    ];
-
-    // Open the picker with digit-based generation
-    pickerStore.open(labelKey, pickerOptions, currentValue, callback, calculatedDecimalPlaces);
+    pickerStore.open(labelKey, min, max, currentValue, callback, calculatedDecimalPlaces);
   }
 
   return {

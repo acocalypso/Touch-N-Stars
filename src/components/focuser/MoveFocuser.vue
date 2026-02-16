@@ -7,7 +7,7 @@
         labelKey="components.focuser.new_position"
         :min="0"
         :max="999999"
-        :step="50"
+        :step="1"
         :decimalPlaces="0"
         placeholder="1"
         inputId="focuser-position"

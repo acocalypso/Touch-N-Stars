@@ -74,7 +74,15 @@ const toggleBuckEnabled = async () => {
 };
 
 const togglePwmEnabled = async () => {
-  await store.setPwmPortState(!pwmPort.value.Enabled);
+  const currentPower = pwmPort.value.Power;
+  const success = await store.setPwmPortState(!pwmPort.value.Enabled);
+  if (!success) {
+    console.error('Failed to toggle port');
+  } else {
+    // After toggling, update power: 0 when disabling, current power when enabling
+    const newPower = pwmPort.value.Enabled ? currentPower : 0;
+    await store.setPwmPortPower(newPower);
+  }
 };
 
 const toggleBuckBootState = async () => {

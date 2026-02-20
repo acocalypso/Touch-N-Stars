@@ -2,6 +2,9 @@ import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 
+const PINS_PORT = 8000;
+const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();
   const store = apiStore();
@@ -21,6 +24,7 @@ const getBaseUrl = () => {
     api: `${protocol}://${host}:${port}/api/`,
     targetpic: `${protocol}://${host}:${port}/api/targetpic`,
     pluginServer: `${protocol}://${host}:${port}`,
+    pinsSystem: `${protocol}://${host}:${PINS_PORT}`,
   };
 };
 
@@ -31,10 +35,49 @@ const getUrls = () => {
     API_URL: urls.api,
     TARGETPIC_URL: urls.targetpic,
     PLUGINSERVER_URL: urls.pluginServer,
+    PINS_SYSTEM_URL: urls.pinsSystem,
   };
 };
 
 export default {
+  //-------------------System Time Sync------------------------
+  async fetchSystemTime() {
+    const { PINS_SYSTEM_URL } = getUrls();
+    try {
+      const response = await axios.get(`${PINS_SYSTEM_URL}/system/time`, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+        },
+        timeout: 5000,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch system time:', error);
+      return null;
+    }
+  },
+
+  async setSystemTime(timestamp) {
+    const { PINS_SYSTEM_URL } = getUrls();
+    try {
+      await axios.post(
+        `${PINS_SYSTEM_URL}/system/time`,
+        { timestamp },
+        {
+          headers: {
+            Authorization: `Bearer ${PINS_TOKEN}`,
+            'Content-Type': 'application/json',
+          },
+          timeout: 5000,
+        }
+      );
+      return true;
+    } catch (error) {
+      console.error('Failed to set system time:', error);
+      return false;
+    }
+  },
+
   //-------------------INDI------------------------
   //query the list of available INDI devices for a given type
   //(focuser, filterwheel, rotator, telescope, weather switches, flatpanel.)

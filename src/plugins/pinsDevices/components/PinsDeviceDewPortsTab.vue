@@ -147,7 +147,7 @@
 
           <div class="flex justify-between">
             <span class="text-gray-400">Current Power</span>
-            <span class="text-gray-200">{{ calculatePowerPercentage(port) }}%</span>
+            <span class="text-gray-200">{{ calculateCurrentPowerPercentage(port) }}%</span>
           </div>
         </div>
 
@@ -344,9 +344,9 @@ const handleAutoThresholdChange = async (portIndex, value) => {
   }
 };
 
-const calculatePowerPercentage = (port) => {
+const calculateCurrentPowerPercentage = (port) => {
   if (!port.Resolution || port.Resolution === 0) return 0;
-  return Math.round((port.SetPower / port.Resolution) * 100);
+  return Math.round((port.PowerLevel / port.Resolution) * 100);
 };
 
 const getSliderDisplayValue = (portIndex, port) => {

@@ -138,7 +138,6 @@
           </div>
           <button
             @click="openVoltagePicker()"
-            :disabled="!port.Enabled"
             class="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {{ port.SetVoltage ? port.SetVoltage.toFixed(2) : '0.00' }}V

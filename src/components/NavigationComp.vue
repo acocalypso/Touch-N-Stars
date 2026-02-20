@@ -1,7 +1,7 @@
 <template>
   <div
     class="navigation-container shadow-md overflow-hidden"
-    :class="[activeInstanceColor, orientationClasses]"
+    :class="[activeInstanceColor, orientationClasses, { 'nav-labels-visible': navTouched }]"
   >
     <!-- Scroll Fade Indicators -->
     <div
@@ -41,14 +41,20 @@
       :class="contentClasses"
       @scroll="updateScrollIndicators"
     >
-      <div class="nav-items-wrapper" :class="wrapperClasses">
-        <div v-if="store.isBackendReachable">
+      <div
+        class="nav-items-wrapper"
+        :class="wrapperClasses"
+        @touchstart.passive="handleNavTouchStart"
+        @touchend.passive="handleNavTouchEnd"
+        @touchcancel.passive="handleNavTouchEnd"
+      >
+        <div v-if="store.isBackendReachable" data-label="Equipment">
           <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
             <LinkIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.cameraInfo.Connected">
+        <div v-if="store.cameraInfo.Connected" data-label="Camera">
           <router-link
             to="/camera"
             class="nav-button camera-button"
@@ -84,13 +90,13 @@
           </router-link>
         </div>
 
-        <div v-if="store.focuserInfo.Connected">
+        <div v-if="store.focuserInfo.Connected" data-label="Autofocus">
           <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div>
+        <div data-label="Mount">
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <div class="relative">
               <svg
@@ -131,7 +137,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.domeInfo.Connected">
+        <div v-if="store.domeInfo.Connected" data-label="Dome">
           <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
@@ -181,7 +187,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.flatdeviceInfo.Connected">
+        <div v-if="store.flatdeviceInfo.Connected" data-label="Flat Device">
           <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
             <LightBulbIcon
               class="icon force-visible"
@@ -196,13 +202,13 @@
           </router-link>
         </div>
 
-        <div v-if="store.switchInfo.Connected">
+        <div v-if="store.switchInfo.Connected" data-label="Switch">
           <router-link to="/switch" class="nav-button" active-class="active-nav-button">
             <AdjustmentsVerticalIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.filterInfo.Connected">
+        <div v-if="store.filterInfo.Connected" data-label="Filter Wheel">
           <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
             <svg
               baseProfile="full"
@@ -222,7 +228,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.rotatorInfo.Connected">
+        <div v-if="store.rotatorInfo.Connected" data-label="Rotator">
           <router-link to="/rotator" class="nav-button" active-class="active-nav-button">
             <svg
               viewBox="0 0 16 16"
@@ -237,7 +243,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.guiderInfo.Connected">
+        <div v-if="store.guiderInfo.Connected" data-label="Guider">
           <router-link to="/guider" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -266,7 +272,7 @@
         </div>
 
         <!-- Fixed Sequence Button -->
-        <div>
+        <div data-label="Sequence">
           <router-link
             to="/sequence"
             class="nav-button touch-target"
@@ -286,6 +292,7 @@
             sequenceStore.sequenceRunning ||
             (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
           "
+          data-label="Monitoring"
         >
           <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
             <svg
@@ -312,7 +319,7 @@
         </div>
 
         <!-- Fixed Flats Button -->
-        <div v-if="store.cameraInfo.Connected">
+        <div v-if="store.cameraInfo.Connected" data-label="Flat Wizard">
           <router-link
             to="/flats"
             class="nav-button touch-target"
@@ -335,7 +342,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.isBackendReachable">
+        <div v-if="store.isBackendReachable" data-label="Sky View">
           <router-link
             to="/"
             class="nav-button"
@@ -346,7 +353,11 @@
           </router-link>
         </div>
         <!-- Plugin navigation items first -->
-        <div v-for="item in pluginStore.navigationItems" :key="item.pluginId">
+        <div
+          v-for="item in pluginStore.navigationItems"
+          :key="item.pluginId"
+          :data-label="item.title"
+        >
           <router-link
             :to="item.path"
             class="nav-button"
@@ -358,7 +369,7 @@
         </div>
 
         <!--  Settings Link -->
-        <div>
+        <div data-label="Settings">
           <router-link
             to="/settings"
             class="nav-button touch-target"
@@ -371,15 +382,17 @@
         </div>
 
         <!--  About Button -->
-        <button
-          @click="showAboutModal = true"
-          @touchstart.passive="handleTouchStart"
-          @touchend.passive="handleTouchEnd"
-          class="nav-button touch-target"
-          :class="{ 'active-nav-button': showAboutModal }"
-        >
-          <InformationCircleIcon class="icon force-visible" />
-        </button>
+        <div data-label="About">
+          <button
+            @click="showAboutModal = true"
+            @touchstart.passive="handleTouchStart"
+            @touchend.passive="handleTouchEnd"
+            class="nav-button touch-target"
+            :class="{ 'active-nav-button': showAboutModal }"
+          >
+            <InformationCircleIcon class="icon force-visible" />
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -387,6 +400,7 @@
   <exposureCountdown />
   <!-- About modal -->
   <AboutModal v-if="showAboutModal" :version="appVersion" @close="showAboutModal = false" />
+
 </template>
 
 <script setup>
@@ -435,6 +449,9 @@ const canScrollEnd = ref(false);
 // Touch feedback states
 const touchedButton = ref(null);
 
+// Nav label state
+const navTouched = ref(false);
+
 // Force icons visibility after mount
 const iconsLoaded = ref(false);
 
@@ -458,6 +475,19 @@ const wrapperClasses = computed(() => ({
   'flex space-x-2 px-2': !isLandscape.value,
   'flex flex-col space-y-2 px-2 py-4': isLandscape.value,
 }));
+
+// Nav label touch handlers
+let navLabelTimer = null;
+function handleNavTouchStart() {
+  if (navLabelTimer) clearTimeout(navLabelTimer);
+  navTouched.value = true;
+}
+
+function handleNavTouchEnd() {
+  navLabelTimer = setTimeout(() => {
+    navTouched.value = false;
+  }, 400);
+}
 
 // Touch event handlers for better compatibility
 function handleTouchStart(event) {
@@ -1102,5 +1132,39 @@ watch(
 
 .nav-landscape .scroll-fade-bottom {
   left: 3rem;
+}
+
+/* Nav item labels */
+.nav-items-wrapper > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.nav-items-wrapper > div::after {
+  content: attr(data-label);
+  display: block;
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.65);
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    opacity 0.2s ease,
+    max-height 0.2s ease;
+  white-space: nowrap;
+  pointer-events: none;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+.nav-labels-visible .nav-items-wrapper > div::after {
+  opacity: 1;
+  max-height: 14px;
+}
+
+/* Portrait: expand nav height when labels are visible */
+.nav-portrait.nav-labels-visible {
+  height: 96px !important;
 }
 </style>

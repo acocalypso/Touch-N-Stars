@@ -47,6 +47,8 @@ import profilSelect from '@/components/profil/profilSelect.vue';
 import connectEquipment from '@/components/equipment/connectEquipment.vue';
 import selectIndi from '@/components/equipment/selectIndi.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import { apiStore } from '@/store/store';
+const store = apiStore();
 const showIndiModal = ref(false);
 </script>
 

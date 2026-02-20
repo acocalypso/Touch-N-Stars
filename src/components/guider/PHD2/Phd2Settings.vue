@@ -116,8 +116,6 @@ import SetRaAlgoPara from '@/components/guider/PHD2/SetRaAlgoPara.vue';
 import SetDecAlgoPara from '@/components/guider/PHD2/SetDecAlgoPara.vue';
 import PHD2Profil from '@/components/guider/PHD2/PHD2Profil.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import Phd2SelectCamera from '@/components/guider/PHD2/pins/Phd2SelectCamera.vue';
-import Phd2SelectMount from '@/components/guider/PHD2/pins/Phd2SelectMount.vue';
 import Phd2FocalLength from '@/components/guider/PHD2/pins/Phd2FocalLength.vue';
 import Phd2CalibrationStep from '@/components/guider/PHD2/pins/Phd2CalibrationStep.vue';
 import Phd2ReverseDecAfterFlip from '@/components/guider/PHD2/pins/Phd2ReverseDecAfterFlip.vue';

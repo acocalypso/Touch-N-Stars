@@ -65,6 +65,13 @@
           class="inline-block w-2 h-2 rounded-full"
           :class="port.Enabled ? 'bg-green-500' : 'bg-gray-500'"
         ></span>
+        <!-- Overcurrent Indicator -->
+        <span
+          v-if="port.Overcurrent"
+          class="text-xs px-2 py-1 rounded bg-red-500/20 text-red-400 font-semibold"
+        >
+          {{ $t('plugins.pinsDevices.ports.overcurrent') }}
+        </span>
       </div>
     </div>
 
@@ -152,28 +159,25 @@
               :class="port.Enabled ? 'text-blue-400' : 'text-gray-500'"
               class="text-sm font-semibold"
             >
-              {{ sliderDisplayValue() }}%
+              {{ sliderDisplayWithPercentage() }}
             </span>
           </div>
           <input
             type="range"
             min="0"
-            max="100"
+            :max="port.Resolution"
             :value="sliderDisplayValue()"
             :disabled="!port.Enabled"
             @input="
               localSliderValue = $event.target.value;
               isDraggingSlider = true;
             "
-            @change="
-              handlePowerSliderChange($event, port.Resolution);
-              isDraggingSlider = false;
-            "
+            @change="handlePowerSliderChange($event, port.Resolution)"
             class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           />
           <div class="flex justify-between text-xs text-gray-500">
-            <span>0%</span>
-            <span>100%</span>
+            <span>0</span>
+            <span>{{ port.Resolution }}</span>
           </div>
         </div>
       </template>
@@ -202,7 +206,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useNumberPicker } from '@/composables/useNumberPicker.js';
 
 const props = defineProps({
@@ -228,11 +232,25 @@ const isToggling = ref(false);
 const isDraggingSlider = ref(false);
 const localSliderValue = ref(0);
 
+// Clear dragging state when the actual power changes (API response)
+watch(
+  () => props.port?.SetPower,
+  () => {
+    isDraggingSlider.value = false;
+  }
+);
+
 const sliderDisplayValue = () => {
   if (isDraggingSlider.value) {
     return localSliderValue.value;
   }
-  return calculatePowerPercentage(props.port.SetPower, props.port.Resolution);
+  return props.port.SetPower;
+};
+
+const sliderDisplayWithPercentage = () => {
+  const value = sliderDisplayValue();
+  const percentage = calculatePowerPercentage(value, props.port.Resolution);
+  return `${value} (${percentage}%)`;
 };
 
 const startEditing = () => {
@@ -285,12 +303,9 @@ const handleVoltageChange = async (voltage) => {
 };
 
 const handlePowerSliderChange = async (event, resolution) => {
-  const percentage = parseInt(event.target.value, 10);
-  if (isNaN(percentage) || !resolution) return;
+  const absoluteValue = parseInt(event.target.value, 10);
+  if (isNaN(absoluteValue) || !resolution) return;
 
-  // Convert percentage to absolute value: 0% = 0, 100% = resolution
-  const power = Math.round((percentage / 100) * resolution);
-
-  emit('set-power', power);
+  emit('set-power', absoluteValue);
 };
 </script>

@@ -1781,6 +1781,7 @@
         "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values."
       },
       "info": {
+        "coreTemp": "CPU Temperature",
         "deviceId": "Device ID",
         "firmware": "Firmware",
         "driverVersion": "Driver Version",

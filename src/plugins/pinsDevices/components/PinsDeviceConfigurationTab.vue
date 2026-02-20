@@ -36,14 +36,18 @@
           MeteoStation
         </button>
         <button
-          :disabled="!store.isPowerboxConnected"
+          :disabled="!store.isPowerboxConnected || !store.powerboxStatus.HasWifi"
           class="px-4 py-2 text-sm font-semibold transition-all"
           :class="{
             'text-white border-b-2 border-cyan-400': activeSubTab === 'wifi',
-            'text-gray-400 hover:text-white': activeSubTab !== 'wifi' && store.isPowerboxConnected,
-            'text-gray-600 cursor-not-allowed': !store.isPowerboxConnected,
+            'text-gray-400 hover:text-white':
+              activeSubTab !== 'wifi' && store.isPowerboxConnected && store.powerboxStatus.HasWifi,
+            'text-gray-600 cursor-not-allowed':
+              !store.isPowerboxConnected || !store.powerboxStatus.HasWifi,
           }"
-          @click="store.isPowerboxConnected && setActiveSubTab('wifi')"
+          @click="
+            store.isPowerboxConnected && store.powerboxStatus.HasWifi && setActiveSubTab('wifi')
+          "
         >
           WiFi
         </button>

@@ -20,11 +20,13 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
       PWMPorts: 0,
     },
     powerboxStatus: {
+      CoreTemp: 0,
       Temperature: 0,
       Humidity: 0,
       DewPoint: 0,
       UpTime: '',
       ExtSensor: false,
+      HasWifi: false,
       UpdateRate: 1,
       EnvUpdateRate: 1,
       TemperatureOffset: 0,

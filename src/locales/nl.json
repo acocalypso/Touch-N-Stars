@@ -2020,5 +2020,23 @@
       "noSequenceAvailable": "Geen sequentie beschikbaar, laad eerst een sequentie",
       "sequencerFailed": "Sequencer mislukt"
     }
+  },
+  "nav": {
+    "equipment": "Equip.",
+    "camera": "Camera",
+    "autofocus": "Focus",
+    "mount": "Statief",
+    "dome": "Koepel",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filter",
+    "rotator": "Rotat.",
+    "guider": "Guider",
+    "sequence": "Seq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Instell.",
+    "about": "Info"
   }
 }

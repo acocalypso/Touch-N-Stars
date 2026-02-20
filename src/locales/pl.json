@@ -2020,5 +2020,23 @@
       "noSequenceAvailable": "Brak dostępnej sekwencji, najpierw załaduj sekwencję",
       "sequencerFailed": "Sekwencer nie powiódł się"
     }
+  },
+  "nav": {
+    "equipment": "Sprzęt",
+    "camera": "Aparat",
+    "autofocus": "Fokus",
+    "mount": "Mount",
+    "dome": "Kopuła",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtr",
+    "rotator": "Rotat.",
+    "guider": "Guider",
+    "sequence": "Sekw.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Ustaw.",
+    "about": "Info"
   }
 }

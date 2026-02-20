@@ -21,7 +21,6 @@
 <script setup>
 import profilSelect from '@/components/profil/profilSelect.vue';
 import connectEquipment from '@/components/equipment/connectEquipment.vue';
-
 </script>
 
 <style scoped></style>

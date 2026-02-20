@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import apiPinsService from '@/services/apiPinsService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -12,6 +13,7 @@ export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
+    isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
@@ -565,6 +567,8 @@ export const apiStore = defineStore('store', {
       this.apiPort = null;
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
+      this.isPINS = false;
+      this.isTimeSynced = false;
 
       // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
@@ -808,9 +812,42 @@ export const apiStore = defineStore('store', {
       if (pinsVersion && pinsVersion.Response) {
         this.isPINS = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+        await this.syncSystemTime();
       } else {
         this.isPINS = false;
       }
+    },
+
+    async syncSystemTime() {
+      if (this.isTimeSynced) return;
+
+      const serverTime = await apiPinsService.fetchSystemTime();
+      if (!serverTime) return;
+
+      const clientTime = new Date();
+      const clientTimestamp = clientTime.getTime() / 1000; // Seconds
+      const serverTimestamp = serverTime.timestamp;
+      const serverIso = serverTime.iso;
+
+      console.log(`[Time Sync] Client: ${clientTime.toISOString()} (${clientTimestamp})`);
+      console.log(`[Time Sync] Server: ${serverIso} (${serverTimestamp})`);
+
+      const diff = Math.abs(clientTimestamp - serverTimestamp);
+      console.log(`[Time Sync] Difference: ${diff.toFixed(3)}s`);
+
+      // If difference is more than 5 seconds, sync it
+      if (diff > 5) {
+        console.log('[Time Sync] Difference too large, updating server time...');
+        const success = await apiPinsService.setSystemTime(clientTimestamp);
+        if (success) {
+          console.log('[Time Sync] Server time updated successfully.');
+        } else {
+          console.error('[Time Sync] Failed to update server time.');
+        }
+      } else {
+        console.log('[Time Sync] Time is synchronized.');
+      }
+      this.isTimeSynced = true;
     },
 
     setPageReturnedFromBackground() {

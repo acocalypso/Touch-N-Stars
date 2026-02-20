@@ -195,8 +195,11 @@
       </template>
       <template #body>
         <div>
-          <div class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-center text-sm text-gray-300 mb-2">
-            {{ $t('components.focuser.title') }}: <span class="font-semibold text-white">{{ store.focuserInfo.Position }}</span>
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-center text-sm text-gray-300 mb-2"
+          >
+            {{ $t('components.focuser.title') }}:
+            <span class="font-semibold text-white">{{ store.focuserInfo.Position }}</span>
           </div>
           <ButtonsFastChangePositon class="pt-2" />
         </div>

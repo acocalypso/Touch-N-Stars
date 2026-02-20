@@ -2020,5 +2020,23 @@
       "noSequenceAvailable": "Nenhuma sequência disponível, carregue uma sequência primeiro",
       "sequencerFailed": "Sequenciador falhou"
     }
+  },
+  "nav": {
+    "equipment": "Equip.",
+    "camera": "Câmera",
+    "autofocus": "Foco",
+    "mount": "Montag.",
+    "dome": "Domo",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtro",
+    "rotator": "Rotat.",
+    "guider": "Guia",
+    "sequence": "Seq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Config.",
+    "about": "Info"
   }
 }

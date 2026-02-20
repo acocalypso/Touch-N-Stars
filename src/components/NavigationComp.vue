@@ -1167,8 +1167,13 @@ watch(
   z-index: 20;
 }
 
-.nav-labels-visible .nav-items-wrapper > div::after,
-.navigation-container:hover .nav-items-wrapper > div::after {
+.nav-labels-visible .nav-items-wrapper > div::after {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .navigation-container:hover .nav-items-wrapper > div::after {
+    opacity: 1;
+  }
 }
 </style>

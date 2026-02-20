@@ -1158,13 +1158,15 @@ watch(
   margin-top: 2px;
 }
 
-.nav-labels-visible .nav-items-wrapper > div::after {
+.nav-labels-visible .nav-items-wrapper > div::after,
+.navigation-container:hover .nav-items-wrapper > div::after {
   opacity: 1;
   max-height: 14px;
 }
 
 /* Portrait: expand nav height when labels are visible */
-.nav-portrait.nav-labels-visible {
+.nav-portrait.nav-labels-visible,
+.nav-portrait.navigation-container:hover {
   height: 96px !important;
 }
 </style>

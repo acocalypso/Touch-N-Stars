@@ -1134,39 +1134,40 @@ watch(
   left: 3rem;
 }
 
-/* Nav item labels */
+/* Nav item labels – overlay inside the icon circle */
 .nav-items-wrapper > div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
 }
 
 .nav-items-wrapper > div::after {
   content: attr(data-label);
-  display: block;
-  font-size: 9px;
-  color: rgba(255, 255, 255, 0.65);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(100, 116, 139, 0.5);
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 7.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.25;
+  word-break: break-word;
+  padding: 4px;
   opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    opacity 0.2s ease,
-    max-height 0.2s ease;
-  white-space: nowrap;
+  transition: opacity 0.4s ease;
   pointer-events: none;
-  line-height: 1.4;
-  margin-top: 2px;
+  z-index: 20;
 }
 
 .nav-labels-visible .nav-items-wrapper > div::after,
 .navigation-container:hover .nav-items-wrapper > div::after {
   opacity: 1;
-  max-height: 14px;
-}
-
-/* Portrait: expand nav height when labels are visible */
-.nav-portrait.nav-labels-visible,
-.nav-portrait.navigation-container:hover {
-  height: 96px !important;
 }
 </style>

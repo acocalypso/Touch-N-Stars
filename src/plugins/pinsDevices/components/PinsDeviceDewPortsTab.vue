@@ -17,6 +17,7 @@
             : port.Enabled
               ? 'border-green-500/50 bg-green-500/10'
               : 'border-gray-600 bg-gray-800/30',
+          port.Overcurrent ? 'border-red-500/50 bg-red-500/10' : '',
         ]"
       >
         <!-- Port Header with Editable Name -->
@@ -88,6 +89,13 @@
                 port.AutoMode ? 'bg-purple-500' : port.Enabled ? 'bg-green-500' : 'bg-gray-500'
               "
             ></span>
+            <!-- Overcurrent Indicator -->
+            <span
+              v-if="port.Overcurrent"
+              class="text-xs px-2 py-1 rounded bg-red-500/20 text-red-400 font-semibold"
+            >
+              {{ $t('plugins.pinsDevices.ports.overcurrent') }}
+            </span>
           </div>
         </div>
 
@@ -136,6 +144,11 @@
             <span class="text-gray-400">Max Current</span>
             <span class="text-gray-200">{{ port.MaxCurrent.toFixed(2) }}A</span>
           </div>
+
+          <div class="flex justify-between">
+            <span class="text-gray-400">Current Power</span>
+            <span class="text-gray-200">{{ calculatePowerPercentage(port) }}%</span>
+          </div>
         </div>
 
         <!-- Controls -->
@@ -182,18 +195,26 @@
               <span
                 :class="port.AutoMode || !port.Enabled ? 'text-gray-500' : 'text-blue-400'"
                 class="text-sm font-semibold"
-                >{{ calculatePowerPercentage(port) }}%</span
+                >{{ getSliderDisplayWithPercentage(port.Index, port) }}</span
               >
             </div>
             <input
               type="range"
               min="0"
-              max="100"
-              :value="calculatePowerPercentage(port)"
+              :max="port.Resolution"
+              :value="getSliderDisplayValue(port.Index, port)"
               :disabled="port.AutoMode || !port.Enabled"
+              @input="
+                localSliderValues[port.Index] = $event.target.value;
+                isDraggingSlider = port.Index;
+              "
               @change="handlePowerLevelChange(port.Index, $event, port.Resolution)"
               class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             />
+            <div class="flex justify-between text-xs text-gray-500">
+              <span>0</span>
+              <span>{{ port.Resolution }}</span>
+            </div>
           </div>
 
           <!-- Manual Control Button (disabled if AutoMode is on) -->
@@ -227,7 +248,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { usePinsDeviceStore } from '../store/pinsDevicesStore.js';
 import { useNumberPicker } from '@/composables/useNumberPicker.js';
 
@@ -239,6 +260,16 @@ const isTogglingAutoMode = ref(false);
 const isRenamingPort = ref(false);
 const editingPortIndex = ref(null);
 const editingPortName = ref('');
+const isDraggingSlider = ref(null); // Track which port is being dragged
+const localSliderValues = ref({}); // Track local values for each port
+
+// Watch for power level changes and clear dragging state when API responds
+watch(
+  () => store.dewPorts.Ports.map((p) => p.SetPower),
+  () => {
+    isDraggingSlider.value = null;
+  }
+);
 
 const startEditingName = (portIndex) => {
   const port = store.dewPorts.Ports.find((p) => p.Index === portIndex);
@@ -270,9 +301,14 @@ const savePortName = async (portIndex) => {
 
 const togglePort = async (port) => {
   isToggling.value = true;
+  const currentPowerLevel = port.PowerLevel;
   const success = await store.setDewPortState(port.Index, !port.Enabled);
   if (!success) {
     console.error('Failed to toggle port');
+  } else {
+    // After toggling, update power level: 0 when disabling, current power when enabling
+    const newPowerLevel = port.Enabled ? 0 : currentPowerLevel;
+    await store.setDewPortPowerLevel(port.Index, newPowerLevel);
   }
   isToggling.value = false;
 };
@@ -310,15 +346,26 @@ const handleAutoThresholdChange = async (portIndex, value) => {
 
 const calculatePowerPercentage = (port) => {
   if (!port.Resolution || port.Resolution === 0) return 0;
-  return Math.round((port.PowerLevel / port.Resolution) * 100);
+  return Math.round((port.SetPower / port.Resolution) * 100);
+};
+
+const getSliderDisplayValue = (portIndex, port) => {
+  if (isDraggingSlider.value === portIndex && localSliderValues.value[portIndex] !== undefined) {
+    return localSliderValues.value[portIndex];
+  }
+  return port.SetPower;
+};
+
+const getSliderDisplayWithPercentage = (portIndex, port) => {
+  const value = getSliderDisplayValue(portIndex, port);
+  if (!port.Resolution || port.Resolution === 0) return `${value} (0%)`;
+  const percentage = Math.round((value / port.Resolution) * 100);
+  return `${value} (${percentage}%)`;
 };
 
 const handlePowerLevelChange = async (portIndex, event, resolution) => {
-  const percentage = parseInt(event.target.value, 10);
-  if (isNaN(percentage) || !resolution) return;
-
-  // Convert percentage to absolute value: 0% = 0, 100% = resolution
-  const absoluteValue = Math.round((percentage / 100) * resolution);
+  const absoluteValue = parseInt(event.target.value, 10);
+  if (isNaN(absoluteValue) || !resolution) return;
 
   const success = await store.setDewPortPowerLevel(portIndex, absoluteValue);
   if (!success) {

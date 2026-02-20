@@ -43,6 +43,12 @@
               <span class="text-gray-400">{{ $t('plugins.pinsDevices.weather.uptime') }}</span>
               <span class="text-gray-200 font-mono">{{ store.powerboxStatus.UpTime }}</span>
             </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.coreTemp') }}</span>
+              <span class="text-gray-200 font-mono"
+                >{{ Number(store.powerboxStatus.CoreTemp).toFixed(1) }}°C</span
+              >
+            </div>
 
             <!-- Port Information -->
             <div class="border-t border-gray-700 pt-3 mt-3">
@@ -111,7 +117,9 @@
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-400">Average Amps</span>
-                  <span class="text-gray-200">{{ store.powerboxStatus.AverageAmps }}</span>
+                  <span class="text-gray-200"
+                    >{{ store.powerboxStatus.AverageAmps.toFixed(2) }}A</span
+                  >
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-400">Amps/Hour</span>

@@ -400,7 +400,6 @@
   <exposureCountdown />
   <!-- About modal -->
   <AboutModal v-if="showAboutModal" :version="appVersion" @close="showAboutModal = false" />
-
 </template>
 
 <script setup>

@@ -48,13 +48,13 @@
         @touchend.passive="handleNavTouchEnd"
         @touchcancel.passive="handleNavTouchEnd"
       >
-        <div v-if="store.isBackendReachable" data-label="Equipment">
+        <div v-if="store.isBackendReachable" :data-label="t('nav.equipment')">
           <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
             <LinkIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.cameraInfo.Connected" data-label="Camera">
+        <div v-if="store.cameraInfo.Connected" :data-label="t('nav.camera')">
           <router-link
             to="/camera"
             class="nav-button camera-button"
@@ -90,13 +90,13 @@
           </router-link>
         </div>
 
-        <div v-if="store.focuserInfo.Connected" data-label="Autofocus">
+        <div v-if="store.focuserInfo.Connected" :data-label="t('nav.autofocus')">
           <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div data-label="Mount">
+        <div :data-label="t('nav.mount')">
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <div class="relative">
               <svg
@@ -137,7 +137,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.domeInfo.Connected" data-label="Dome">
+        <div v-if="store.domeInfo.Connected" :data-label="t('nav.dome')">
           <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
@@ -187,7 +187,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.flatdeviceInfo.Connected" data-label="Flat Device">
+        <div v-if="store.flatdeviceInfo.Connected" :data-label="t('nav.flatDevice')">
           <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
             <LightBulbIcon
               class="icon force-visible"
@@ -202,13 +202,13 @@
           </router-link>
         </div>
 
-        <div v-if="store.switchInfo.Connected" data-label="Switch">
+        <div v-if="store.switchInfo.Connected" :data-label="t('nav.switch')">
           <router-link to="/switch" class="nav-button" active-class="active-nav-button">
             <AdjustmentsVerticalIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.filterInfo.Connected" data-label="Filter Wheel">
+        <div v-if="store.filterInfo.Connected" :data-label="t('nav.filterWheel')">
           <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
             <svg
               baseProfile="full"
@@ -228,7 +228,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.rotatorInfo.Connected" data-label="Rotator">
+        <div v-if="store.rotatorInfo.Connected" :data-label="t('nav.rotator')">
           <router-link to="/rotator" class="nav-button" active-class="active-nav-button">
             <svg
               viewBox="0 0 16 16"
@@ -243,7 +243,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.guiderInfo.Connected" data-label="Guider">
+        <div v-if="store.guiderInfo.Connected" :data-label="t('nav.guider')">
           <router-link to="/guider" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +272,7 @@
         </div>
 
         <!-- Fixed Sequence Button -->
-        <div data-label="Sequence">
+        <div :data-label="t('nav.sequence')">
           <router-link
             to="/sequence"
             class="nav-button touch-target"
@@ -292,7 +292,7 @@
             sequenceStore.sequenceRunning ||
             (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
           "
-          data-label="Monitoring"
+          :data-label="t('nav.monitoring')"
         >
           <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
             <svg
@@ -319,7 +319,7 @@
         </div>
 
         <!-- Fixed Flats Button -->
-        <div v-if="store.cameraInfo.Connected" data-label="Flat Wizard">
+        <div v-if="store.cameraInfo.Connected" :data-label="t('nav.flatWizard')">
           <router-link
             to="/flats"
             class="nav-button touch-target"
@@ -342,7 +342,7 @@
           </router-link>
         </div>
 
-        <div v-if="store.isBackendReachable" data-label="Sky View">
+        <div v-if="store.isBackendReachable" :data-label="t('nav.skyView')">
           <router-link
             to="/"
             class="nav-button"
@@ -369,7 +369,7 @@
         </div>
 
         <!--  Settings Link -->
-        <div data-label="Settings">
+        <div :data-label="t('nav.settings')">
           <router-link
             to="/settings"
             class="nav-button touch-target"
@@ -382,7 +382,7 @@
         </div>
 
         <!--  About Button -->
-        <div data-label="About">
+        <div :data-label="t('nav.about')">
           <button
             @click="showAboutModal = true"
             @touchstart.passive="handleTouchStart"
@@ -417,6 +417,7 @@ import {
   LinkSlashIcon,
 } from '@heroicons/vue/24/outline';
 import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -428,6 +429,7 @@ import AboutModal from './status/AboutModal.vue';
 import version from '@/version';
 import { useOrientation } from '@/composables/useOrientation';
 
+const { t } = useI18n();
 const store = apiStore();
 const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();

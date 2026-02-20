@@ -1801,5 +1801,23 @@
       "noSequenceAvailable": "Aucune séquence disponible, chargez d'abord une séquence",
       "sequencerFailed": "Le séquenceur a échoué"
     }
+  },
+  "nav": {
+    "equipment": "Équip.",
+    "camera": "Caméra",
+    "autofocus": "Focus",
+    "mount": "Monture",
+    "dome": "Dôme",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtre",
+    "rotator": "Rotat.",
+    "guider": "Guidage",
+    "sequence": "Séq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Réglages",
+    "about": "Info"
   }
 }

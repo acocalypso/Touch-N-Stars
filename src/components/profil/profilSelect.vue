@@ -21,7 +21,7 @@
       class="default-select w-full ml-auto"
       v-model="selectedProfileId"
       @change="updateProfile"
-      :disabled="isLoading"
+      :disabled="isLoading || anyDeviceConnected"
     >
       <option v-for="profile in profiles" :key="profile.Id" :value="profile.Id">
         {{ profile.Name }}
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
@@ -39,6 +39,21 @@ const store = apiStore(); // Access the store
 const profiles = ref([]); // Profiles array
 const selectedProfileId = ref(null); // Currently selected profile ID
 const isLoading = ref(false); // Loading state
+
+const anyDeviceConnected = computed(
+  () =>
+    store.mountInfo.Connected ||
+    store.cameraInfo.Connected ||
+    store.filterInfo.Connected ||
+    store.focuserInfo.Connected ||
+    store.rotatorInfo.Connected ||
+    store.guiderInfo.Connected ||
+    store.weatherInfo.Connected ||
+    store.safetyInfo.Connected ||
+    store.flatdeviceInfo.Connected ||
+    store.domeInfo.Connected ||
+    store.switchInfo.Connected
+);
 
 async function fetchProfiles() {
   try {

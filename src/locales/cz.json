@@ -1807,5 +1807,23 @@
       "noSequenceAvailable": "Žádná sekvence není k dispozici, nejprve načtěte sekvenci",
       "sequencerFailed": "Sekvencer selhal"
     }
+  },
+  "nav": {
+    "equipment": "Vybav.",
+    "camera": "Kamera",
+    "autofocus": "Zaostř.",
+    "mount": "Montáž",
+    "dome": "Kopule",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtr",
+    "rotator": "Rotat.",
+    "guider": "Guider",
+    "sequence": "Sekv.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Nastav.",
+    "about": "Info"
   }
 }

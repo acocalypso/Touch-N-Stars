@@ -7,10 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.7.0] - xxxx-xx-xx
 ### Added
 - NumberInputPicker: Add step up/down buttons to increment and decrement values
+- Sequence Creator: Named sequence library – save, load and delete sequences with custom names
+- Sequence Creator: Set any saved sequence as default directly from the library
+- Sequence Creator: Saved sequences appear as a selectable group in the Load Sequence dropdown
 
 ### Changed
 - Focuser: Replace focuser input with position display in quick access modal
 - Profile: Disable profile selection when any device is connected
+- Sequence Creator: Replaced "Save as Default" toolbar button with library-based default management
+- Sequence Creator: Removed "Load Basic Sequence" toolbar button
 
 ## [App4.6.0] - 2026-02-14
 ### Added

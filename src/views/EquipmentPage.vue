@@ -21,9 +21,6 @@
 <script setup>
 import profilSelect from '@/components/profil/profilSelect.vue';
 import connectEquipment from '@/components/equipment/connectEquipment.vue';
-import { apiStore } from '@/store/store';
-
-const store = apiStore();
 </script>
 
 <style scoped></style>

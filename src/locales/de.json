@@ -11,7 +11,9 @@
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "close": "Schließen",
+    "delete": "Löschen"
   },
   "pages": {
     "equipment": {
@@ -360,7 +362,8 @@
       "totalExposureTime": {
         "Pictures": "Bilder",
         "title": "Gesamtbelichtungszeit"
-      }
+      },
+      "saved_sequences": "TNS Sequence-Creator"
     },
     "mount": {
       "title": "Montierung",
@@ -1169,7 +1172,12 @@
         "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
         "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
         "validSequence": "Sequenz ist gültig und kann übernommen werden",
-        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
+        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen",
+        "loadNamed": "Laden",
+        "loadNamedSuccess": "Sequenz geladen!",
+        "openLibrary": "Sequenzbibliothek",
+        "saveNamed": "Sequenz speichern unter...",
+        "saveNamedSuccess": "Sequenz gespeichert!"
       },
       "confirmations": {
         "title": "Bestätigung",
@@ -1177,7 +1185,11 @@
         "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
         "loadBasicSequence": "Sind Sie sicher, dass Sie die Basis-Sequenz laden möchten? Dies überschreibt die aktuelle Sequenz.",
         "removeAction": "Aktion \"{actionName}\" entfernen?",
-        "navigateToSequence": "Möchten Sie jetzt zur Sequenz-Seite wechseln?"
+        "navigateToSequence": "Möchten Sie jetzt zur Sequenz-Seite wechseln?",
+        "libraryEmpty": "Keine gespeicherten Sequenzen gefunden.",
+        "libraryTitle": "Gespeicherte Sequenzen",
+        "saveNamed": "Geben Sie einen Namen für die Sequenz ein:",
+        "saveNamedPlaceholder": "Sequenzname..."
       },
       "containers": {
         "startSequence": {
@@ -1341,6 +1353,11 @@
       "settings": {
         "title": "Meridianflip",
         "enableMeridianFlip": "Meridianflip aktivieren"
+      },
+      "library": {
+        "isDefault": "Default",
+        "setAsDefault": "Als Default festlegen",
+        "setAsDefaultSuccess": "Als Standardsequenz festlegen!"
       }
     },
     "webcam": {
@@ -1803,21 +1820,21 @@
     }
   },
   "nav": {
-    "equipment": "Geräte",
-    "camera": "Kamera",
+    "about": "Info",
     "autofocus": "Fokus",
-    "mount": "Montierung",
+    "camera": "Kamera",
     "dome": "Dome",
-    "flatDevice": "Flatpanel",
-    "switch": "Powerbox",
+    "equipment": "Equip.",
     "filterWheel": "Filter",
-    "rotator": "Rotator",
-    "guider": "Guider",
-    "sequence": "Seq.",
-    "monitoring": "Monitor",
+    "flatDevice": "Flat",
     "flatWizard": "Flats",
+    "guider": "Guider",
+    "monitoring": "Monitor",
+    "mount": "Mount",
+    "rotator": "Rotator",
+    "sequence": "Seq.",
+    "settings": "Settings",
     "skyView": "Stellarium",
-    "settings": "Einstell.",
-    "about": "Info"
+    "switch": "Switch"
   }
 }

@@ -11,7 +11,9 @@
     "cancel": "Annulla",
     "confirm": "Conferma",
     "yes": "Sì",
-    "no": "No"
+    "no": "No",
+    "delete": "Elimina",
+    "close": "Chiudi"
   },
   "pages": {
     "equipment": {
@@ -300,6 +302,7 @@
       "resetConfirmationMessage": "Sei sicuro di voler reimpostare la sequenza? Questa azione non può essere annullata.",
       "load_sequence": "Carica sequenza dalla directory",
       "choose_sequence": "Scegli una sequenza",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Nessuna sequenza trovata",
       "error_loading_sequences": "Errore nel caricamento delle sequenze",
       "error_loading_sequence": "Errore nel caricamento della sequenza",
@@ -1179,7 +1182,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Creatore sequenze N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Crea sequenze astrofotografiche professionali",
       "toolbar": {
         "undo": "Annulla",
@@ -1194,7 +1197,17 @@
         "sendErrorTitle": "Errore invio a N.I.N.A",
         "sendSuccessMessage": "Sequenza inviata con successo a N.I.N.A!",
         "validSequence": "La sequenza è valida e può essere adottata",
-        "invalidSequence": "Aggiungi Impostazioni Target ed Esposizione Intelligente per creare una sequenza valida"
+        "invalidSequence": "Aggiungi Impostazioni Target ed Esposizione Intelligente per creare una sequenza valida",
+        "saveNamed": "Salva sequenza come...",
+        "saveNamedSuccess": "Sequenza salvata!",
+        "openLibrary": "Libreria sequenze",
+        "loadNamed": "Carica",
+        "loadNamedSuccess": "Sequenza caricata!"
+      },
+      "library": {
+        "isDefault": "Predefinita",
+        "setAsDefault": "Imposta come predefinita",
+        "setAsDefaultSuccess": "Impostata come sequenza predefinita!"
       },
       "confirmations": {
         "title": "Conferma",
@@ -1202,7 +1215,11 @@
         "saveAsDefault": "Sei sicuro di voler salvare la sequenza attuale come predefinita? Questo sovrascriverà la sequenza predefinita precedente.",
         "loadBasicSequence": "Sei sicuro di voler caricare la sequenza base? Questo sovrascriverà la sequenza attuale.",
         "removeAction": "Rimuovere l'azione \"{actionName}\"?",
-        "navigateToSequence": "Vuoi passare alla pagina Sequenza ora?"
+        "navigateToSequence": "Vuoi passare alla pagina Sequenza ora?",
+        "saveNamed": "Inserisci un nome per la sequenza:",
+        "saveNamedPlaceholder": "Nome sequenza...",
+        "libraryTitle": "Sequenze salvate",
+        "libraryEmpty": "Nessuna sequenza salvata."
       },
       "containers": {
         "startSequence": {
@@ -1812,7 +1829,7 @@
     "switch": "Switch",
     "filterWheel": "Filtro",
     "rotator": "Rotat.",
-    "guider": "Guida",
+    "guider": "Guider",
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",

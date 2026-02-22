@@ -11,7 +11,9 @@
     "cancel": "Annuler",
     "confirm": "Confirmer",
     "yes": "Oui",
-    "no": "Non"
+    "no": "Non",
+    "delete": "Supprimer",
+    "close": "Fermer"
   },
   "pages": {
     "equipment": {
@@ -300,6 +302,7 @@
       "resetConfirmationMessage": "Êtes-vous sûr de vouloir remettre à zéro la séquence? Cette action ne peut être annulée.",
       "load_sequence": "Charger la séquence depuis le répertoire",
       "choose_sequence": "Choisir une séquence",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Aucune séquence trouvée",
       "error_loading_sequences": "Erreur lors du chargement des séquences",
       "error_loading_sequence": "Erreur lors du chargement de la séquence",
@@ -1179,7 +1182,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Créateur de séquence N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Créer des séquences d'astrophotographie professionnelles",
       "toolbar": {
         "undo": "Annuler",
@@ -1194,7 +1197,17 @@
         "sendErrorTitle": "Erreur d'envoi à N.I.N.A",
         "sendSuccessMessage": "Séquence envoyée avec succès à N.I.N.A!",
         "validSequence": "La séquence est valide et peut être adoptée",
-        "invalidSequence": "Ajoutez les paramètres de cible et l'exposition intelligente pour créer une séquence valide"
+        "invalidSequence": "Ajoutez les paramètres de cible et l'exposition intelligente pour créer une séquence valide",
+        "saveNamed": "Enregistrer la séquence sous...",
+        "saveNamedSuccess": "Séquence enregistrée!",
+        "openLibrary": "Bibliothèque de séquences",
+        "loadNamed": "Charger",
+        "loadNamedSuccess": "Séquence chargée!"
+      },
+      "library": {
+        "isDefault": "Par défaut",
+        "setAsDefault": "Définir par défaut",
+        "setAsDefaultSuccess": "Définie comme séquence par défaut!"
       },
       "confirmations": {
         "title": "Confirmation",
@@ -1202,7 +1215,11 @@
         "saveAsDefault": "Êtes-vous sûr de vouloir sauvegarder la séquence actuelle comme défaut? Cela écrasera la séquence par défaut précédente.",
         "loadBasicSequence": "Êtes-vous sûr de vouloir charger la séquence de base? Cela écrasera la séquence actuelle.",
         "removeAction": "Supprimer l'action \"{actionName}\"?",
-        "navigateToSequence": "Voulez-vous passer à la page Séquence maintenant?"
+        "navigateToSequence": "Voulez-vous passer à la page Séquence maintenant?",
+        "saveNamed": "Entrez un nom pour la séquence:",
+        "saveNamedPlaceholder": "Nom de la séquence...",
+        "libraryTitle": "Séquences enregistrées",
+        "libraryEmpty": "Aucune séquence enregistrée."
       },
       "containers": {
         "startSequence": {
@@ -1812,7 +1829,7 @@
     "switch": "Switch",
     "filterWheel": "Filtre",
     "rotator": "Rotat.",
-    "guider": "Guidage",
+    "guider": "Guider",
     "sequence": "Séq.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",

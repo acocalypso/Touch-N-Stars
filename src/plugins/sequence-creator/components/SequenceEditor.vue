@@ -100,7 +100,15 @@
               :title="t('plugins.sequenceCreator.toolbar.saveNamed')"
             >
               <!-- Floppy disk icon -->
-              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                class="w-5 h-5 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                stroke-width="1.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <!-- outer body with notched top-left corner -->
                 <path d="M6 3H19a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8l3-5z" />
                 <!-- label area (recessed rectangle, top-right) -->
@@ -121,7 +129,12 @@
               class="default-button-purple p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.openLibrary')"
             >
-              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg
+                class="w-5 h-5 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -426,12 +439,25 @@
         <div>
           <div v-if="isLoadingLibrary" class="flex justify-center py-8">
             <svg class="w-8 h-8 animate-spin text-blue-500" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
             </svg>
           </div>
           <div v-else-if="store.savedSequencesList.length === 0" class="text-center py-8">
-            <p class="text-gray-400">{{ t('plugins.sequenceCreator.confirmations.libraryEmpty') }}</p>
+            <p class="text-gray-400">
+              {{ t('plugins.sequenceCreator.confirmations.libraryEmpty') }}
+            </p>
           </div>
           <ul v-else class="space-y-2 max-h-80 overflow-y-auto mb-4">
             <li

@@ -1849,6 +1849,7 @@ export const useSequenceStore = defineStore('sequence', () => {
   // ── Named Sequence Library ──────────────────────────────────────────────────
 
   const savedSequencesList = ref([]);
+  const defaultSequenceKey = ref(null);
 
   function sanitizeName(name) {
     return name
@@ -1873,10 +1874,37 @@ export const useSequenceStore = defineStore('sequence', () => {
           }
         })
         .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+
+      // Determine which named sequence is currently the default
+      const defaultRaw = all['sequence_creator_default'];
+      if (defaultRaw) {
+        try {
+          const parsed = JSON.parse(defaultRaw);
+          defaultSequenceKey.value = parsed.sourceKey || null;
+        } catch {
+          defaultSequenceKey.value = null;
+        }
+      } else {
+        defaultSequenceKey.value = null;
+      }
     } catch (error) {
       console.error('Error loading saved sequences list:', error);
       throw error;
     }
+  }
+
+  async function setNamedSequenceAsDefault(key) {
+    const response = await apiService.getSetting(key);
+    if (!response?.Response?.Value) throw new Error('Sequence not found');
+    const data = JSON.parse(response.Response.Value);
+    const defaultPayload = {
+      start: data.start || [],
+      target: data.target || [],
+      end: data.end || [],
+      sourceKey: key,
+    };
+    await apiService.saveDefaultSequence(defaultPayload);
+    defaultSequenceKey.value = key;
   }
 
   async function saveNamedSequence(name) {
@@ -1897,6 +1925,10 @@ export const useSequenceStore = defineStore('sequence', () => {
         throw err;
       }
     }
+    // If no default is set yet, make this the first default automatically
+    if (!defaultSequenceKey.value) {
+      await setNamedSequenceAsDefault(key);
+    }
   }
 
   async function loadNamedSequence(key) {
@@ -1914,6 +1946,17 @@ export const useSequenceStore = defineStore('sequence', () => {
   async function deleteNamedSequence(key) {
     await apiService.deleteSetting(key);
     savedSequencesList.value = savedSequencesList.value.filter((s) => s.key !== key);
+
+    // If the deleted sequence was the default, assign a new one
+    if (defaultSequenceKey.value === key) {
+      defaultSequenceKey.value = null;
+      if (savedSequencesList.value.length > 0) {
+        await setNamedSequenceAsDefault(savedSequencesList.value[0].key);
+      } else {
+        // No named sequences left – fall back to saving the current editor state as default
+        await saveAsDefaultSequence();
+      }
+    }
   }
 
   return {
@@ -1951,9 +1994,11 @@ export const useSequenceStore = defineStore('sequence', () => {
     exportSequenceData,
     initializeLocalizedTemplates,
     savedSequencesList,
+    defaultSequenceKey,
     loadSavedSequencesList,
     saveNamedSequence,
     loadNamedSequence,
     deleteNamedSequence,
+    setNamedSequenceAsDefault,
   };
 });

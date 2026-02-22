@@ -1203,6 +1203,11 @@
         "loadNamed": "Load",
         "loadNamedSuccess": "Sequence loaded!"
       },
+      "library": {
+        "isDefault": "Default",
+        "setAsDefault": "Set as Default",
+        "setAsDefaultSuccess": "Set as default sequence!"
+      },
       "confirmations": {
         "title": "Confirmation",
         "clearSequence": "Are you sure you want to clear the entire sequence? This action cannot be undone.",

@@ -2044,21 +2044,21 @@
     }
   },
   "nav": {
-    "equipment": "Equip.",
-    "camera": "Câmera",
+    "about": "Sobre",
     "autofocus": "Foco",
-    "mount": "Montag.",
-    "dome": "Domo",
-    "flatDevice": "Flat",
-    "switch": "Switch",
+    "camera": "Câmera",
+    "dome": "Cúpula",
+    "equipment": "Equipar.",
     "filterWheel": "Filtro",
-    "rotator": "Rotat.",
+    "flatDevice": "Plano",
+    "flatWizard": "Apartamentos",
     "guider": "Guia",
-    "sequence": "Seq.",
     "monitoring": "Monitor",
-    "flatWizard": "Flats",
+    "mount": "Montar",
+    "rotator": "Rotador",
+    "sequence": "Seq.",
+    "settings": "Configurações",
     "skyView": "Stellarium",
-    "settings": "Config.",
-    "about": "Info"
+    "switch": "Trocar"
   }
 }

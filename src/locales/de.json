@@ -302,6 +302,7 @@
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "load_sequence": "Sequenz laden",
       "choose_sequence": "Sequenz wählen...",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Keine Sequenzen gefunden",
       "error_loading_sequences": "Fehler beim Laden der Sequenzen",
       "error_loading_sequence": "Fehler beim Laden der Sequenz",

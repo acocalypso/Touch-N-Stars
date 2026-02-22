@@ -302,6 +302,7 @@
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "load_sequence": "Load sequence from directory",
       "choose_sequence": "Choose a sequence",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "No sequence found",
       "error_loading_sequences": "Error loading sequences",
       "error_loading_sequence": "Error loading sequence",

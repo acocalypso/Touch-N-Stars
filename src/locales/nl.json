@@ -18,7 +18,9 @@
     "cancel": "Annuleer",
     "confirm": "Bevestig",
     "yes": "Ja",
-    "no": "Nee"
+    "no": "Nee",
+    "delete": "Verwijder",
+    "close": "Sluiten"
   },
   "pages": {
     "equipment": {
@@ -313,6 +315,7 @@
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "load_sequence": "Laad sequentie vanuit directory",
       "choose_sequence": "Kies een sequentie",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Geen sequentie gevonden",
       "error_loading_sequences": "Fout tijdens laden sequenties",
       "error_loading_sequence": "Fout tijdens laden sequentie",
@@ -818,7 +821,11 @@
         "HALF": "Half (180°)",
         "QUARTER": "Kwart (90°)",
         "RangeStartMechanicalPosition": "Mechanische startpositie (°)",
-        "RangeType": "Bereiktype"
+        "RangeType": "Bereiktype",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Overschrijdingshoek",
+        "OvershootDirection": "Overschrijdingsrichting",
+        "ResetPosition": "Nulpositie opnieuw instellen"
       }
     },
     "flat": {
@@ -1116,7 +1123,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "N.I.N.A Sequence Creator",
+      "title": "Sequence Creator",
       "subtitle": "Maak professionele astrophotografie sequenties",
       "toolbar": {
         "undo": "Annuleer",
@@ -1131,7 +1138,17 @@
         "sendErrorTitle": "Fout bij sturen naar N.I.N.A",
         "sendSuccessMessage": "Sequentie successvol verzonden naar N.I.N.A!",
         "validSequence": "Sequentie is valide en kan gebruikt worden",
-        "invalidSequence": "Voeg object toe aan Doelinstellingen en Slimme opnames om een valide sequentie aan te maken"
+        "invalidSequence": "Voeg object toe aan Doelinstellingen en Slimme opnames om een valide sequentie aan te maken",
+        "saveNamed": "Sequentie opslaan als...",
+        "saveNamedSuccess": "Sequentie opgeslagen!",
+        "openLibrary": "Sequentie bibliotheek",
+        "loadNamed": "Laden",
+        "loadNamedSuccess": "Sequentie geladen!"
+      },
+      "library": {
+        "isDefault": "Standaard",
+        "setAsDefault": "Stel in als standaard",
+        "setAsDefaultSuccess": "Ingesteld als standaard sequentie!"
       },
       "confirmations": {
         "title": "Bevestiging",
@@ -1139,7 +1156,11 @@
         "saveAsDefault": "Weet u zeker dat u de huidige sequentie wilt bewaren als Standaard sequentie? Deze actie overschrijft de vorige Standaard sequentie.",
         "loadBasicSequence": "Weet u zeker dat u de Basis sequentie wilt laden? Deze actie overschrijft de huidige sequentie.",
         "removeAction": "Verwijder \"{actionName}\" actie?",
-        "navigateToSequence": "Wilt u nu schakelen naar de Sequentie pagina?"
+        "navigateToSequence": "Wilt u nu schakelen naar de Sequentie pagina?",
+        "saveNamed": "Voer een naam in voor de sequentie:",
+        "saveNamedPlaceholder": "Naam sequentie...",
+        "libraryTitle": "Opgeslagen sequenties",
+        "libraryEmpty": "Geen opgeslagen sequenties."
       },
       "containers": {
         "startSequence": {
@@ -1820,7 +1841,8 @@
         "ports": "Beschikbare poorten",
         "powerPorts": "Stroompoorten",
         "powerStatus": "Stroomstatus",
-        "usbPorts": "USB-poorten"
+        "usbPorts": "USB-poorten",
+        "coreTemp": "CPU-temperatuur"
       },
       "ports": {
         "bootState": "Ingeschakelde status",

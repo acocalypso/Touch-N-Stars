@@ -8,7 +8,7 @@
 
       <div class="flex flex-col gap-4">
         <!-- Sequence selection dropdown with refresh button -->
-        <div v-if="availableSequences.length > 0" class="space-y-2">
+        <div v-if="availableSequences.length > 0 || savedSequences.length > 0" class="space-y-2">
           <div class="flex gap-2">
             <select
               id="sequence-select"
@@ -18,9 +18,23 @@
               :class="['default-select w-full', { 'glow-green': showSuccessGlow }]"
             >
               <option value="">{{ $t('components.sequence.choose_sequence') }}</option>
-              <option v-for="sequence in availableSequences" :key="sequence" :value="sequence">
-                {{ sequence }}
-              </option>
+              <optgroup v-if="availableSequences.length > 0" label="N.I.N.A">
+                <option v-for="sequence in availableSequences" :key="sequence" :value="sequence">
+                  {{ sequence }}
+                </option>
+              </optgroup>
+              <optgroup
+                v-if="savedSequences.length > 0"
+                :label="$t('components.sequence.saved_sequences')"
+              >
+                <option
+                  v-for="seq in savedSequences"
+                  :key="seq.key"
+                  :value="'__saved__:' + seq.key"
+                >
+                  {{ seq.name }}
+                </option>
+              </optgroup>
             </select>
             <!-- Refresh button -->
             <button
@@ -59,13 +73,16 @@
 import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSequenceStore as useSequenceCreatorStore } from '@/plugins/sequence-creator/stores/sequenceStore';
 import apiService from '@/services/apiService';
 import { ArrowDownTrayIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
+const sequenceCreatorStore = useSequenceCreatorStore();
 
 const availableSequences = ref([]);
+const savedSequences = ref([]);
 const selectedSequence = ref('');
 const isLoading = ref(false);
 const isLoadingSequence = ref(false);
@@ -89,6 +106,15 @@ const showStatus = (message, type = 'info', duration = 3000) => {
   setTimeout(() => {
     statusMessage.value = '';
   }, duration);
+};
+
+const fetchSavedSequences = async () => {
+  try {
+    await sequenceCreatorStore.loadSavedSequencesList();
+    savedSequences.value = sequenceCreatorStore.savedSequencesList;
+  } catch {
+    savedSequences.value = [];
+  }
 };
 
 const fetchSequences = async (showGlow = true) => {
@@ -122,8 +148,29 @@ const fetchSequences = async (showGlow = true) => {
   }
 };
 
-const onSequenceSelected = () => {
-  if (selectedSequence.value) {
+const onSequenceSelected = async () => {
+  if (!selectedSequence.value) return;
+
+  if (selectedSequence.value.startsWith('__saved__:')) {
+    const key = selectedSequence.value.slice('__saved__:'.length);
+    isLoadingSequence.value = true;
+    try {
+      await sequenceCreatorStore.loadNamedSequence(key);
+      const response = await apiService.sequenceLoadJson(sequenceCreatorStore.ninaSequenceJSON);
+      if (response?.Success) {
+        await sequenceStore.getSequenceInfo();
+        showSuccessGlow.value = true;
+        setTimeout(() => {
+          showSuccessGlow.value = false;
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Error loading saved sequence:', error);
+    } finally {
+      isLoadingSequence.value = false;
+      selectedSequence.value = '';
+    }
+  } else {
     loadSequence();
   }
 };
@@ -155,6 +202,7 @@ const loadSequence = async () => {
 
 onMounted(() => {
   fetchSequences(false);
+  fetchSavedSequences();
 });
 </script>
 

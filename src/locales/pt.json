@@ -18,7 +18,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "yes": "Sim",
-    "no": "Não"
+    "no": "Não",
+    "delete": "Excluir",
+    "close": "Fechar"
   },
   "pages": {
     "equipment": {
@@ -313,6 +315,7 @@
       "resetConfirmationMessage": "Tem certeza de que deseja reiniciar a sequência? Esta ação não pode ser desfeita.",
       "load_sequence": "Carregar sequência do diretório",
       "choose_sequence": "Escolher uma sequência",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Nenhuma sequência encontrada",
       "error_loading_sequences": "Erro ao carregar sequências",
       "error_loading_sequence": "Erro ao carregar sequência",
@@ -818,7 +821,11 @@
         "HALF": "Metade (180°)",
         "QUARTER": "Quarto (90°)",
         "RangeStartMechanicalPosition": "Posição inicial mecânica (°)",
-        "RangeType": "Tipo de intervalo"
+        "RangeType": "Tipo de intervalo",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Ângulo de ultrapassagem",
+        "OvershootDirection": "Direção de ultrapassagem",
+        "ResetPosition": "Redefinir posição zero"
       }
     },
     "flat": {
@@ -1242,7 +1249,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Criador de Sequências N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Crie sequências astrofotográficas profissionais",
       "toolbar": {
         "undo": "Desfazer",
@@ -1257,7 +1264,17 @@
         "sendErrorTitle": "Erro ao enviar para N.I.N.A",
         "sendSuccessMessage": "Sequência enviada com sucesso para N.I.N.A!",
         "validSequence": "A sequência é válida e pode ser adotada",
-        "invalidSequence": "Adicione Configurações de Alvo e Exposição Inteligente para criar uma sequência válida"
+        "invalidSequence": "Adicione Configurações de Alvo e Exposição Inteligente para criar uma sequência válida",
+        "saveNamed": "Salvar sequência como...",
+        "saveNamedSuccess": "Sequência salva!",
+        "openLibrary": "Biblioteca de sequências",
+        "loadNamed": "Carregar",
+        "loadNamedSuccess": "Sequência carregada!"
+      },
+      "library": {
+        "isDefault": "Padrão",
+        "setAsDefault": "Definir como padrão",
+        "setAsDefaultSuccess": "Definida como sequência padrão!"
       },
       "confirmations": {
         "title": "Confirmação",
@@ -1265,7 +1282,11 @@
         "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? Isso substituirá a sequência padrão anterior.",
         "loadBasicSequence": "Tem certeza de que deseja carregar a sequência básica? Isso substituirá a sequência atual.",
         "removeAction": "Remover ação \"{actionName}\"?",
-        "navigateToSequence": "Deseja mudar para a página de Sequência agora?"
+        "navigateToSequence": "Deseja mudar para a página de Sequência agora?",
+        "saveNamed": "Digite um nome para a sequência:",
+        "saveNamedPlaceholder": "Nome da sequência...",
+        "libraryTitle": "Sequências salvas",
+        "libraryEmpty": "Nenhuma sequência salva."
       },
       "containers": {
         "startSequence": {
@@ -1820,7 +1841,8 @@
         "ports": "Portas disponíveis",
         "powerPorts": "Portas de energia",
         "powerStatus": "Status de energia",
-        "usbPorts": "Portas USB"
+        "usbPorts": "Portas USB",
+        "coreTemp": "Temperatura da CPU"
       },
       "ports": {
         "bootState": "Estado ligado",
@@ -2022,21 +2044,21 @@
     }
   },
   "nav": {
-    "equipment": "Equip.",
-    "camera": "Câmera",
+    "about": "Sobre",
     "autofocus": "Foco",
-    "mount": "Montag.",
-    "dome": "Domo",
-    "flatDevice": "Flat",
-    "switch": "Switch",
+    "camera": "Câmera",
+    "dome": "Cúpula",
+    "equipment": "Equipar.",
     "filterWheel": "Filtro",
-    "rotator": "Rotat.",
+    "flatDevice": "Plano",
+    "flatWizard": "Apartamentos",
     "guider": "Guia",
-    "sequence": "Seq.",
     "monitoring": "Monitor",
-    "flatWizard": "Flats",
+    "mount": "Montar",
+    "rotator": "Rotador",
+    "sequence": "Seq.",
+    "settings": "Configurações",
     "skyView": "Stellarium",
-    "settings": "Config.",
-    "about": "Info"
+    "switch": "Trocar"
   }
 }

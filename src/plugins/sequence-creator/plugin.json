@@ -2,8 +2,8 @@
   "id": "sequence-creator",
   "name": "Sequence Creator",
   "description": "Modern sequence editor for astrophotography automation, inspired by N.I.N.A sequences",
-  "version": "1.3.1",
-  "author": "Christian Wöhrle",
+  "version": "1.4.0",
+  "author": "Christian Wöhrle, Johannes Maier",
   "defaultEnabled": false,
   "enabled": true,
   "isPins": false

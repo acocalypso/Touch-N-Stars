@@ -18,7 +18,9 @@
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "delete": "Löschen",
+    "close": "Schließen"
   },
   "pages": {
     "equipment": {
@@ -373,7 +375,8 @@
       "totalExposureTime": {
         "Pictures": "Bilder",
         "title": "Gesamtbelichtungszeit"
-      }
+      },
+      "saved_sequences": "TNS Sequence-Creator"
     },
     "mount": {
       "title": "Montierung",
@@ -818,7 +821,11 @@
         "HALF": "Halb (180°)",
         "QUARTER": "Viertel (90°)",
         "RangeStartMechanicalPosition": "Mechanische Startposition (°)",
-        "RangeType": "Bereichstyp"
+        "RangeType": "Bereichstyp",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Overshoot Winkel",
+        "OvershootDirection": "Overshoot Richung",
+        "ResetPosition": "Nullposition zurücksetzen"
       }
     },
     "flat": {
@@ -1270,7 +1277,7 @@
       }
     },
     "sequenceCreator": {
-      "title": "N.I.N.A Sequenz-Editor",
+      "title": "Sequenz-Editor",
       "subtitle": "Erstelle professionelle Astrofotografie-Sequenzen",
       "toolbar": {
         "undo": "Rückgängig",
@@ -1285,7 +1292,12 @@
         "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
         "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
         "validSequence": "Sequenz ist gültig und kann übernommen werden",
-        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
+        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen",
+        "loadNamed": "Laden",
+        "loadNamedSuccess": "Sequenz geladen!",
+        "openLibrary": "Sequenzbibliothek",
+        "saveNamed": "Sequenz speichern unter...",
+        "saveNamedSuccess": "Sequenz gespeichert!"
       },
       "confirmations": {
         "title": "Bestätigung",
@@ -1293,7 +1305,11 @@
         "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
         "loadBasicSequence": "Sind Sie sicher, dass Sie die Basis-Sequenz laden möchten? Dies überschreibt die aktuelle Sequenz.",
         "removeAction": "Aktion \"{actionName}\" entfernen?",
-        "navigateToSequence": "Möchten Sie jetzt zur Sequenz-Seite wechseln?"
+        "navigateToSequence": "Möchten Sie jetzt zur Sequenz-Seite wechseln?",
+        "libraryEmpty": "Keine Sequenzen gefunden",
+        "libraryTitle": "Gespeicherte Sequenzen",
+        "saveNamed": "Geben Sie einen Namen für die Sequenz ein:",
+        "saveNamedPlaceholder": "Sequenzname..."
       },
       "containers": {
         "startSequence": {
@@ -1457,6 +1473,11 @@
       "settings": {
         "title": "Meridianflip",
         "enableMeridianFlip": "Meridianflip aktivieren"
+      },
+      "library": {
+        "isDefault": "Default",
+        "setAsDefault": "Als Default festlegen",
+        "setAsDefaultSuccess": "Als Standardsequenz festlegen!"
       }
     },
     "webcam": {
@@ -1820,7 +1841,8 @@
         "ports": "Verfügbare Ports",
         "powerPorts": "Stromanschlüsse",
         "powerStatus": "Energiestatus",
-        "usbPorts": "USB-Anschlüsse"
+        "usbPorts": "USB-Anschlüsse",
+        "coreTemp": "CPU-Temperatur"
       },
       "ports": {
         "bootState": "Einschaltzustand",

@@ -18,7 +18,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "delete": "Eliminar",
+    "close": "Cerrar"
   },
   "pages": {
     "equipment": {
@@ -313,6 +315,7 @@
       "resetConfirmationMessage": "¿Estás seguro de reiniciar la sequencia? Ésta acción no se puede deshacer.",
       "load_sequence": "Cargar Secuencia",
       "choose_sequence": "Elegir secuencia...",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "No se encontraron secuencias",
       "error_loading_sequences": "Error al cargar las secuencias",
       "error_loading_sequence": "Error al cargar la secuencia: {error}",
@@ -818,7 +821,11 @@
         "HALF": "Mitad (180°)",
         "QUARTER": "Cuarto (90°)",
         "RangeStartMechanicalPosition": "Posición inicial mecánica (°)",
-        "RangeType": "Tipo de rango"
+        "RangeType": "Tipo de rango",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Overshoot Angle",
+        "OvershootDirection": "Overshoot Direction",
+        "ResetPosition": "Reset zero position"
       }
     },
     "flat": {
@@ -1294,13 +1301,22 @@
           "name": "Encontrar Home"
         }
       },
+      "library": {
+        "isDefault": "Predeterminado",
+        "setAsDefault": "Establecer como predeterminado",
+        "setAsDefaultSuccess": "¡Establecida como secuencia predeterminada!"
+      },
       "confirmations": {
         "clearSequence": "¿Estás seguro de que quieres borrar toda la secuencia? \nEsta acción no se puede deshacer.",
         "removeAction": "¿Eliminar la acción \"{ActionName}\"?",
         "title": "Confirmación",
         "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior.",
         "loadBasicSequence": "¿Estás seguro de que quieres cargar la secuencia básica? Esto sobrescribirá la secuencia actual.",
-        "navigateToSequence": "¿Desea cambiar a la página de Secuencia ahora?"
+        "navigateToSequence": "¿Desea cambiar a la página de Secuencia ahora?",
+        "saveNamed": "Ingresa un nombre para la secuencia:",
+        "saveNamedPlaceholder": "Nombre de secuencia...",
+        "libraryTitle": "Secuencias guardadas",
+        "libraryEmpty": "No hay secuencias guardadas."
       },
       "containers": {
         "addAction": "Agregar acción",
@@ -1349,6 +1365,11 @@
         "validSequence": "La secuencia es válida y puede ser adoptada",
         "clearSequence": "Secuencia clara",
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
+        "saveNamed": "Guardar secuencia como...",
+        "saveNamedSuccess": "¡Secuencia guardada!",
+        "openLibrary": "Biblioteca de secuencias",
+        "loadNamed": "Cargar",
+        "loadNamedSuccess": "¡Secuencia cargada!",
         "loadBasicSequence": "Cargar secuencia básica",
         "saveAsDefault": "Guardar como predeterminado",
         "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!",
@@ -1358,7 +1379,7 @@
         "sending": "Envío...",
         "sent": "¡Enviado!"
       },
-      "title": "N.I.N.A CREATOR DE SECUENCIA",
+      "title": "Sequence Creator",
       "settings": {
         "title": "Meridianflip",
         "enableMeridianFlip": "Habilitar meridianflip"
@@ -1820,7 +1841,8 @@
         "ports": "Puertos disponibles",
         "powerPorts": "Puertos de alimentación",
         "powerStatus": "Estado de energía",
-        "usbPorts": "Puertos USB"
+        "usbPorts": "Puertos USB",
+        "coreTemp": "Temperatura de la CPU"
       },
       "ports": {
         "bootState": "Estado de encendido",
@@ -2031,7 +2053,7 @@
     "switch": "Switch",
     "filterWheel": "Filtro",
     "rotator": "Rotat.",
-    "guider": "Guía",
+    "guider": "Guider",
     "sequence": "Sec.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",

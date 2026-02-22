@@ -1818,5 +1818,23 @@
       "noSequenceAvailable": "Nessuna sequenza disponibile, caricare prima una sequenza",
       "sequencerFailed": "Sequenziatore fallito"
     }
+  },
+  "nav": {
+    "equipment": "Equip.",
+    "camera": "Camera",
+    "autofocus": "Fuoco",
+    "mount": "Montag.",
+    "dome": "Cupola",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtro",
+    "rotator": "Rotat.",
+    "guider": "Guida",
+    "sequence": "Seq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Impost.",
+    "about": "Info"
   }
 }

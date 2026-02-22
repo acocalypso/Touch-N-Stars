@@ -3,5 +3,23 @@
     "sequenceCreator": {
       "title": "Sequence Creator"
     }
+  },
+  "nav": {
+    "equipment": "Geräte",
+    "camera": "Kamera",
+    "autofocus": "Fokus",
+    "mount": "Montierung",
+    "dome": "Dome",
+    "flatDevice": "Flatpanel",
+    "switch": "Powerbox",
+    "filterWheel": "Filter",
+    "rotator": "Rotator",
+    "guider": "Guider",
+    "sequence": "Seq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Einstell.",
+    "about": "Info"
   }
 }

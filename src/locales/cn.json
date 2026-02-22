@@ -1819,5 +1819,23 @@
       "noSequenceAvailable": "无可用序列，请先加载序列",
       "sequencerFailed": "序列器失败"
     }
+  },
+  "nav": {
+    "equipment": "设备",
+    "camera": "相机",
+    "autofocus": "对焦",
+    "mount": "赤道仪",
+    "dome": "圆顶",
+    "flatDevice": "平场板",
+    "switch": "开关",
+    "filterWheel": "滤镜轮",
+    "rotator": "旋转仪",
+    "guider": "导星",
+    "sequence": "序列",
+    "monitoring": "监控",
+    "flatWizard": "平场向导",
+    "skyView": "Stellarium",
+    "settings": "设置",
+    "about": "关于"
   }
 }

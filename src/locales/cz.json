@@ -826,7 +826,11 @@
         "HALF": "Polovina (180°)",
         "QUARTER": "Čtvrtina (90°)",
         "RangeStartMechanicalPosition": "Mechanická počáteční pozice (°)",
-        "RangeType": "Typ rozsahu"
+        "RangeType": "Typ rozsahu",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Overshoot Angle",
+        "OvershootDirection": "Overshoot Direction",
+        "ResetPosition": "Reset zero position"
       }
     },
     "flat": {
@@ -1843,7 +1847,8 @@
         "ports": "Available Ports",
         "powerPorts": "Power Ports",
         "powerStatus": "Power Status",
-        "usbPorts": "USB Ports"
+        "usbPorts": "USB Ports",
+        "coreTemp": "CPU Temperature"
       },
       "ports": {
         "bootState": "Power-on State",

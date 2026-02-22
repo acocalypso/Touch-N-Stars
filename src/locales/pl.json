@@ -821,7 +821,11 @@
         "HALF": "Połowa (180°)",
         "QUARTER": "Ćwierć (90°)",
         "RangeStartMechanicalPosition": "Mechaniczna pozycja startowa (°)",
-        "RangeType": "Typ zakresu"
+        "RangeType": "Typ zakresu",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Kąt przekroczenia",
+        "OvershootDirection": "Kierunek przekroczenia",
+        "ResetPosition": "Zresetuj pozycję zerową"
       }
     },
     "flat": {
@@ -1837,7 +1841,8 @@
         "ports": "Dostępne porty",
         "powerPorts": "Porty zasilania",
         "powerStatus": "Stan zasilania",
-        "usbPorts": "Porty USB"
+        "usbPorts": "Porty USB",
+        "coreTemp": "Temperatura procesora"
       },
       "ports": {
         "bootState": "Stan włączenia",

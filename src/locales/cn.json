@@ -822,7 +822,11 @@
         "HALF": "一半 (180°)",
         "QUARTER": "四分之一 (90°)",
         "RangeStartMechanicalPosition": "机械起始位置 (°)",
-        "RangeType": "范围类型"
+        "RangeType": "范围类型",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Overshoot Angle",
+        "OvershootDirection": "Overshoot Direction",
+        "ResetPosition": "Reset zero position"
       }
     },
     "flat": {
@@ -1838,7 +1842,8 @@
         "ports": "Available Ports",
         "powerPorts": "Power Ports",
         "powerStatus": "Power Status",
-        "usbPorts": "USB Ports"
+        "usbPorts": "USB Ports",
+        "coreTemp": "CPU Temperature"
       },
       "ports": {
         "bootState": "Power-on State",

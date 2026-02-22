@@ -821,7 +821,11 @@
         "HALF": "Half (180°)",
         "QUARTER": "Kwart (90°)",
         "RangeStartMechanicalPosition": "Mechanische startpositie (°)",
-        "RangeType": "Bereiktype"
+        "RangeType": "Bereiktype",
+        "Overshoot": "Overshoot",
+        "OvershootAngle": "Overschrijdingshoek",
+        "OvershootDirection": "Overschrijdingsrichting",
+        "ResetPosition": "Nulpositie opnieuw instellen"
       }
     },
     "flat": {
@@ -1837,7 +1841,8 @@
         "ports": "Beschikbare poorten",
         "powerPorts": "Stroompoorten",
         "powerStatus": "Stroomstatus",
-        "usbPorts": "USB-poorten"
+        "usbPorts": "USB-poorten",
+        "coreTemp": "CPU-temperatuur"
       },
       "ports": {
         "bootState": "Ingeschakelde status",

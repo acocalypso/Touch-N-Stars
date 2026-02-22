@@ -1182,7 +1182,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Creatore sequenze N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Crea sequenze astrofotografiche professionali",
       "toolbar": {
         "undo": "Annulla",

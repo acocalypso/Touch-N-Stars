@@ -1182,7 +1182,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Kreator sekwencji N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Twórz profesjonalne sekwencje astrofotograficzne",
       "toolbar": {
         "undo": "Cofnij",

@@ -1183,7 +1183,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "N.I.N.A 序列创建器",
+      "title": "序列创建器",
       "subtitle": "创建专业的天体摄影序列",
       "toolbar": {
         "undo": "撤销",

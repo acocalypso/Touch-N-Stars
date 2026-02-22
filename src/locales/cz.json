@@ -11,7 +11,9 @@
     "cancel": "Zrušit",
     "confirm": "Potvrdit",
     "yes": "Ano",
-    "no": "Ne"
+    "no": "Ne",
+    "delete": "Smazat",
+    "close": "Zavřít"
   },
   "pages": {
     "equipment": {
@@ -303,6 +305,7 @@
       "resetConfirmationMessage": "Jste si jisti, že chcete resetovat sekvenci? Tuto akci nelze vrátit zpět.",
       "load_sequence": "Načíst Sekvenci",
       "choose_sequence": "Vyberte sekvenci...",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Žádné sekvence nenalezeny",
       "error_loading_sequences": "Chyba při načítání sekvencí",
       "error_loading_sequence": "Chyba při načítání sekvence: {error}",
@@ -1134,13 +1137,22 @@
           "name": "Najít Home"
         }
       },
+      "library": {
+        "isDefault": "Výchozí",
+        "setAsDefault": "Nastavit jako výchozí",
+        "setAsDefaultSuccess": "Nastaveno jako výchozí sekvence!"
+      },
       "confirmations": {
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
         "removeAction": "Odstranit akci „{actionName}",
         "navigateToSequence": "Chcete nyní přejít na stránku Sekvence?",
         "title": "Potvrzení",
         "saveAsDefault": "Opravdu chcete uložit aktuální sekvenci jako výchozí? Tím se přepíše předchozí výchozí sekvence.",
-        "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence."
+        "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence.",
+        "saveNamed": "Zadejte název sekvence:",
+        "saveNamedPlaceholder": "Název sekvence...",
+        "libraryTitle": "Uložené sekvence",
+        "libraryEmpty": "Žádné uložené sekvence."
       },
       "containers": {
         "addAction": "Přidat Akci",
@@ -1187,6 +1199,11 @@
       "toolbar": {
         "clearSequence": "Vymazat Sekvenci",
         "invalidSequence": "Přidejte nastavení cíle a inteligentní expozici, abyste vytvořili platnou sekvenci.",
+        "saveNamed": "Uložit sekvenci jako...",
+        "saveNamedSuccess": "Sekvence uložena!",
+        "openLibrary": "Knihovna sekvencí",
+        "loadNamed": "Načíst",
+        "loadNamedSuccess": "Sekvence načtena!",
         "loadBasicSequence": "Načíst Základní Sekvenci",
         "redo": "Znovu",
         "undo": "Zpět",

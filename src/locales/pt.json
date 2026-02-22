@@ -18,7 +18,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "yes": "Sim",
-    "no": "Não"
+    "no": "Não",
+    "delete": "Excluir",
+    "close": "Fechar"
   },
   "pages": {
     "equipment": {
@@ -313,6 +315,7 @@
       "resetConfirmationMessage": "Tem certeza de que deseja reiniciar a sequência? Esta ação não pode ser desfeita.",
       "load_sequence": "Carregar sequência do diretório",
       "choose_sequence": "Escolher uma sequência",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Nenhuma sequência encontrada",
       "error_loading_sequences": "Erro ao carregar sequências",
       "error_loading_sequence": "Erro ao carregar sequência",
@@ -1242,7 +1245,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Criador de Sequências N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Crie sequências astrofotográficas profissionais",
       "toolbar": {
         "undo": "Desfazer",
@@ -1257,7 +1260,17 @@
         "sendErrorTitle": "Erro ao enviar para N.I.N.A",
         "sendSuccessMessage": "Sequência enviada com sucesso para N.I.N.A!",
         "validSequence": "A sequência é válida e pode ser adotada",
-        "invalidSequence": "Adicione Configurações de Alvo e Exposição Inteligente para criar uma sequência válida"
+        "invalidSequence": "Adicione Configurações de Alvo e Exposição Inteligente para criar uma sequência válida",
+        "saveNamed": "Salvar sequência como...",
+        "saveNamedSuccess": "Sequência salva!",
+        "openLibrary": "Biblioteca de sequências",
+        "loadNamed": "Carregar",
+        "loadNamedSuccess": "Sequência carregada!"
+      },
+      "library": {
+        "isDefault": "Padrão",
+        "setAsDefault": "Definir como padrão",
+        "setAsDefaultSuccess": "Definida como sequência padrão!"
       },
       "confirmations": {
         "title": "Confirmação",
@@ -1265,7 +1278,11 @@
         "saveAsDefault": "Tem certeza de que deseja salvar a sequência atual como padrão? Isso substituirá a sequência padrão anterior.",
         "loadBasicSequence": "Tem certeza de que deseja carregar a sequência básica? Isso substituirá a sequência atual.",
         "removeAction": "Remover ação \"{actionName}\"?",
-        "navigateToSequence": "Deseja mudar para a página de Sequência agora?"
+        "navigateToSequence": "Deseja mudar para a página de Sequência agora?",
+        "saveNamed": "Digite um nome para a sequência:",
+        "saveNamedPlaceholder": "Nome da sequência...",
+        "libraryTitle": "Sequências salvas",
+        "libraryEmpty": "Nenhuma sequência salva."
       },
       "containers": {
         "startSequence": {

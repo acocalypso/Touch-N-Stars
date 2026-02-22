@@ -18,7 +18,9 @@
     "cancel": "取消",
     "confirm": "确认",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "delete": "删除",
+    "close": "关闭"
   },
   "pages": {
     "equipment": {
@@ -314,6 +316,7 @@
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
       "load_sequence": "从目录加载序列",
       "choose_sequence": "选择序列",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "未找到序列",
       "error_loading_sequences": "加载序列时出错",
       "error_loading_sequence": "加载序列时出错",
@@ -1243,7 +1246,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "N.I.N.A 序列创建器",
+      "title": "序列创建器",
       "subtitle": "创建专业的天体摄影序列",
       "toolbar": {
         "undo": "撤销",
@@ -1258,7 +1261,17 @@
         "sendErrorTitle": "发送到 N.I.N.A 时出错",
         "sendSuccessMessage": "序列已成功发送到 N.I.N.A！",
         "validSequence": "序列有效，可以采用",
-        "invalidSequence": "添加目标设置和智能曝光以创建有效序列"
+        "invalidSequence": "添加目标设置和智能曝光以创建有效序列",
+        "saveNamed": "序列另存为...",
+        "saveNamedSuccess": "序列已保存！",
+        "openLibrary": "序列库",
+        "loadNamed": "加载",
+        "loadNamedSuccess": "序列已加载！"
+      },
+      "library": {
+        "isDefault": "默认",
+        "setAsDefault": "设为默认",
+        "setAsDefaultSuccess": "已设为默认序列！"
       },
       "confirmations": {
         "title": "确认",
@@ -1266,7 +1279,11 @@
         "saveAsDefault": "您确定要将当前序列保存为默认值吗？这将覆盖之前的默认序列。",
         "loadBasicSequence": "您确定要加载基本序列吗？这将覆盖当前序列。",
         "removeAction": "移除 \"{actionName}\" 操作？",
-        "navigateToSequence": "您现在想切换到序列页面吗？"
+        "navigateToSequence": "您现在想切换到序列页面吗？",
+        "saveNamed": "输入序列名称：",
+        "saveNamedPlaceholder": "序列名称...",
+        "libraryTitle": "已保存的序列",
+        "libraryEmpty": "没有已保存的序列。"
       },
       "containers": {
         "startSequence": {

@@ -18,7 +18,9 @@
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
     "yes": "Tak",
-    "no": "Nie"
+    "no": "Nie",
+    "delete": "Usuń",
+    "close": "Zamknij"
   },
   "pages": {
     "equipment": {
@@ -313,6 +315,7 @@
       "resetConfirmationMessage": "Czy na pewno chcesz zresetować sekwencję? Tej czynności nie można cofnąć.",
       "load_sequence": "Załaduj sekwencję z katalogu",
       "choose_sequence": "Wybierz sekwencję",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Nie znaleziono sekwencji",
       "error_loading_sequences": "Błąd ładowania sekwencji",
       "error_loading_sequence": "Błąd ładowania sekwencji",
@@ -1242,7 +1245,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Kreator sekwencji N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Twórz profesjonalne sekwencje astrofotograficzne",
       "toolbar": {
         "undo": "Cofnij",
@@ -1257,7 +1260,17 @@
         "sendErrorTitle": "Błąd wysyłania do N.I.N.A",
         "sendSuccessMessage": "Sekwencja pomyślnie wysłana do N.I.N.A!",
         "validSequence": "Sekwencja jest prawidłowa i może być zastosowana",
-        "invalidSequence": "Dodaj ustawienia celu i Smart Exposure, aby utworzyć prawidłową sekwencję"
+        "invalidSequence": "Dodaj ustawienia celu i Smart Exposure, aby utworzyć prawidłową sekwencję",
+        "saveNamed": "Zapisz sekwencję jako...",
+        "saveNamedSuccess": "Sekwencja zapisana!",
+        "openLibrary": "Biblioteka sekwencji",
+        "loadNamed": "Załaduj",
+        "loadNamedSuccess": "Sekwencja załadowana!"
+      },
+      "library": {
+        "isDefault": "Domyślna",
+        "setAsDefault": "Ustaw jako domyślną",
+        "setAsDefaultSuccess": "Ustawiona jako domyślna sekwencja!"
       },
       "confirmations": {
         "title": "Potwierdzenie",
@@ -1265,7 +1278,11 @@
         "saveAsDefault": "Czy na pewno chcesz zapisać bieżącą sekwencję jako domyślną? Spowoduje to nadpisanie poprzedniej sekwencji domyślnej.",
         "loadBasicSequence": "Czy na pewno chcesz załadować sekwencję podstawową? Spowoduje to nadpisanie bieżącej sekwencji.",
         "removeAction": "Usunąć akcję \"{actionName}\"?",
-        "navigateToSequence": "Czy chcesz teraz przełączyć się na stronę sekwencji?"
+        "navigateToSequence": "Czy chcesz teraz przełączyć się na stronę sekwencji?",
+        "saveNamed": "Podaj nazwę sekwencji:",
+        "saveNamedPlaceholder": "Nazwa sekwencji...",
+        "libraryTitle": "Zapisane sekwencje",
+        "libraryEmpty": "Brak zapisanych sekwencji."
       },
       "containers": {
         "startSequence": {

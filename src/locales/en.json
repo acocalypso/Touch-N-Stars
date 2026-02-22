@@ -18,7 +18,9 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "delete": "Delete",
+    "close": "Close"
   },
   "pages": {
     "equipment": {
@@ -313,6 +315,7 @@
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "load_sequence": "Load sequence from directory",
       "choose_sequence": "Choose a sequence",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "No sequence found",
       "error_loading_sequences": "Error loading sequences",
       "error_loading_sequence": "Error loading sequence",
@@ -1299,7 +1302,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "N.I.N.A Sequence Creator",
+      "title": "Sequence Creator",
       "subtitle": "Create professional astrophotography sequences",
       "toolbar": {
         "undo": "Undo",
@@ -1314,7 +1317,17 @@
         "sendErrorTitle": "Error sending to N.I.N.A",
         "sendSuccessMessage": "Sequence successfully sent to N.I.N.A!",
         "validSequence": "Sequence is valid and can be adopted",
-        "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence"
+        "invalidSequence": "Add Target Settings and Smart Exposure to create a valid sequence",
+        "saveNamed": "Save Sequence As...",
+        "saveNamedSuccess": "Sequence saved!",
+        "openLibrary": "Sequence Library",
+        "loadNamed": "Load",
+        "loadNamedSuccess": "Sequence loaded!"
+      },
+      "library": {
+        "isDefault": "Default",
+        "setAsDefault": "Set as Default",
+        "setAsDefaultSuccess": "Set as default sequence!"
       },
       "confirmations": {
         "title": "Confirmation",
@@ -1322,7 +1335,11 @@
         "saveAsDefault": "Are you sure you want to save the current sequence as default? This will overwrite the previous default sequence.",
         "loadBasicSequence": "Are you sure you want to load the basic sequence? This will overwrite the current sequence.",
         "removeAction": "Remove \"{actionName}\" action?",
-        "navigateToSequence": "Do you want to switch to the Sequence page now?"
+        "navigateToSequence": "Do you want to switch to the Sequence page now?",
+        "saveNamed": "Enter a name for the sequence:",
+        "saveNamedPlaceholder": "Sequence name...",
+        "libraryTitle": "Saved Sequences",
+        "libraryEmpty": "No saved sequences found."
       },
       "containers": {
         "startSequence": {

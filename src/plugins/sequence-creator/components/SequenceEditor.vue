@@ -126,7 +126,7 @@
             <!-- Open Library -->
             <button
               @click="handleOpenLibrary"
-              class="default-button-purple p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="default-button-blue p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.openLibrary')"
             >
               <svg

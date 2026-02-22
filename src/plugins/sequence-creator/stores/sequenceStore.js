@@ -1846,6 +1846,76 @@ export const useSequenceStore = defineStore('sequence', () => {
     addToHistory();
   }
 
+  // ── Named Sequence Library ──────────────────────────────────────────────────
+
+  const savedSequencesList = ref([]);
+
+  function sanitizeName(name) {
+    return name
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_-]/g, '');
+  }
+
+  async function loadSavedSequencesList() {
+    try {
+      const all = await apiService.getAllSettings();
+      const prefix = 'sequence_creator_saved_';
+      savedSequencesList.value = Object.entries(all)
+        .filter(([key]) => key.startsWith(prefix))
+        .map(([key, value]) => {
+          try {
+            const parsed = JSON.parse(value);
+            return { key, name: parsed.name, createdAt: parsed.createdAt };
+          } catch {
+            return { key, name: key.replace(prefix, ''), createdAt: null };
+          }
+        })
+        .sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+    } catch (error) {
+      console.error('Error loading saved sequences list:', error);
+      throw error;
+    }
+  }
+
+  async function saveNamedSequence(name) {
+    const key = 'sequence_creator_saved_' + sanitizeName(name);
+    const data = {
+      name,
+      createdAt: new Date().toISOString(),
+      start: JSON.parse(JSON.stringify(startSequence.value)),
+      target: JSON.parse(JSON.stringify(targetSequence.value)),
+      end: JSON.parse(JSON.stringify(endSequence.value)),
+    };
+    try {
+      await apiService.createSetting({ Key: key, Value: JSON.stringify(data) });
+    } catch (err) {
+      if (err.response?.status === 409) {
+        await apiService.updateSetting(key, JSON.stringify(data));
+      } else {
+        throw err;
+      }
+    }
+  }
+
+  async function loadNamedSequence(key) {
+    const response = await apiService.getSetting(key);
+    if (response?.Response?.Value) {
+      const data = JSON.parse(response.Response.Value);
+      startSequence.value = data.start || [];
+      targetSequence.value = data.target || [];
+      endSequence.value = data.end || [];
+      isModified.value = false;
+      addToHistory();
+    }
+  }
+
+  async function deleteNamedSequence(key) {
+    await apiService.deleteSetting(key);
+    savedSequencesList.value = savedSequencesList.value.filter((s) => s.key !== key);
+  }
+
   return {
     // State
     startSequence,
@@ -1880,5 +1950,10 @@ export const useSequenceStore = defineStore('sequence', () => {
     exportSequenceJSON,
     exportSequenceData,
     initializeLocalizedTemplates,
+    savedSequencesList,
+    loadSavedSequencesList,
+    saveNamedSequence,
+    loadNamedSequence,
+    deleteNamedSequence,
   };
 });

@@ -134,6 +134,44 @@
               }}</span>
             </button>
 
+            <!-- Save Named -->
+            <button
+              @click="handleSaveNamed"
+              class="default-button-green p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              :title="t('plugins.sequenceCreator.toolbar.saveNamed')"
+            >
+              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
+                t('plugins.sequenceCreator.toolbar.saveNamed')
+              }}</span>
+            </button>
+
+            <!-- Open Library -->
+            <button
+              @click="handleOpenLibrary"
+              class="default-button-purple p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              :title="t('plugins.sequenceCreator.toolbar.openLibrary')"
+            >
+              <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"
+                />
+              </svg>
+              <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
+                t('plugins.sequenceCreator.toolbar.openLibrary')
+              }}</span>
+            </button>
+
             <!-- Clear All -->
             <button
               @click="handleClearSequence"
@@ -427,6 +465,110 @@
         </div>
       </template>
     </Modal>
+
+    <!-- Save Named Sequence Modal -->
+    <Modal :show="showSaveNamedModal" @close="cancelSaveNamed">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.toolbar.saveNamed') }}
+        </h2>
+      </template>
+      <template #body>
+        <div>
+          <p class="text-gray-300 mb-3">
+            {{ t('plugins.sequenceCreator.confirmations.saveNamed') }}
+          </p>
+          <input
+            v-model="saveNamedInput"
+            type="text"
+            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500 mb-6"
+            :placeholder="t('plugins.sequenceCreator.confirmations.saveNamedPlaceholder')"
+            @keyup.enter="saveNamedInput.trim() && confirmSaveNamed()"
+          />
+          <div class="flex justify-center gap-4">
+            <button @click="cancelSaveNamed" class="default-button-gray text-sm">
+              {{ t('general.cancel') }}
+            </button>
+            <button
+              @click="confirmSaveNamed"
+              :disabled="!saveNamedInput.trim() || isSavingNamed"
+              class="default-button-green text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {{ t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Sequence Library Modal -->
+    <Modal :show="showLibraryModal" @close="closeLibrary">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ t('plugins.sequenceCreator.confirmations.libraryTitle') }}
+        </h2>
+      </template>
+      <template #body>
+        <div>
+          <div v-if="isLoadingLibrary" class="flex justify-center py-8">
+            <svg class="w-8 h-8 animate-spin text-blue-500" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          </div>
+          <div v-else-if="store.savedSequencesList.length === 0" class="text-center py-8">
+            <p class="text-gray-400">{{ t('plugins.sequenceCreator.confirmations.libraryEmpty') }}</p>
+          </div>
+          <ul v-else class="space-y-2 max-h-80 overflow-y-auto mb-4">
+            <li
+              v-for="seq in store.savedSequencesList"
+              :key="seq.key"
+              class="flex items-center justify-between gap-3 p-3 bg-gray-700 rounded-lg"
+            >
+              <div class="flex-1 min-w-0">
+                <p class="text-white font-medium truncate">{{ seq.name }}</p>
+                <p v-if="seq.createdAt" class="text-xs text-gray-400">
+                  {{ new Date(seq.createdAt).toLocaleString() }}
+                </p>
+              </div>
+              <div v-if="libraryDeleteConfirmKey === seq.key" class="flex gap-2 flex-shrink-0">
+                <button
+                  @click="libraryDeleteConfirmKey = null"
+                  class="default-button-gray text-xs px-2 py-1"
+                >
+                  {{ t('general.cancel') }}
+                </button>
+                <button
+                  @click="confirmDeleteNamed(seq.key)"
+                  class="default-button-red text-xs px-2 py-1"
+                >
+                  {{ t('general.confirm') }}
+                </button>
+              </div>
+              <div v-else class="flex gap-2 flex-shrink-0">
+                <button
+                  @click="handleLoadNamedSequence(seq.key)"
+                  class="default-button-blue text-xs px-2 py-1"
+                >
+                  {{ t('plugins.sequenceCreator.toolbar.loadNamed') }}
+                </button>
+                <button
+                  @click="libraryDeleteConfirmKey = seq.key"
+                  class="default-button-red text-xs px-2 py-1"
+                >
+                  {{ t('general.delete') }}
+                </button>
+              </div>
+            </li>
+          </ul>
+          <div class="flex justify-end">
+            <button @click="closeLibrary" class="default-button-gray text-sm">
+              {{ t('general.close') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -451,6 +593,12 @@ const showClearModal = ref(false);
 const showSaveAsDefaultModal = ref(false);
 const showLoadBasicModal = ref(false);
 const showNavigateModal = ref(false);
+const showSaveNamedModal = ref(false);
+const saveNamedInput = ref('');
+const isSavingNamed = ref(false);
+const showLibraryModal = ref(false);
+const isLoadingLibrary = ref(false);
+const libraryDeleteConfirmKey = ref(null);
 
 // Version checking states
 const isInitializing = ref(true);
@@ -541,6 +689,103 @@ function confirmNavigate() {
 
 function cancelNavigate() {
   showNavigateModal.value = false;
+}
+
+function handleSaveNamed() {
+  saveNamedInput.value = '';
+  showSaveNamedModal.value = true;
+}
+
+async function confirmSaveNamed() {
+  const name = saveNamedInput.value.trim();
+  if (!name) return;
+  isSavingNamed.value = true;
+  try {
+    await store.saveNamedSequence(name);
+    showSaveNamedModal.value = false;
+    toastStore.showToast({
+      type: 'success',
+      title: t('plugins.sequenceCreator.toolbar.saveNamed'),
+      message: t('plugins.sequenceCreator.toolbar.saveNamedSuccess'),
+      autoClose: true,
+      autoCloseDelay: 3000,
+    });
+  } catch (error) {
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.sequenceCreator.toolbar.saveNamed'),
+      message: error.message || 'Error saving sequence',
+      autoClose: true,
+      autoCloseDelay: 5000,
+    });
+  } finally {
+    isSavingNamed.value = false;
+  }
+}
+
+function cancelSaveNamed() {
+  showSaveNamedModal.value = false;
+}
+
+async function handleOpenLibrary() {
+  showLibraryModal.value = true;
+  libraryDeleteConfirmKey.value = null;
+  isLoadingLibrary.value = true;
+  try {
+    await store.loadSavedSequencesList();
+  } catch (error) {
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.sequenceCreator.confirmations.libraryTitle'),
+      message: error.message || 'Error loading library',
+      autoClose: true,
+      autoCloseDelay: 5000,
+    });
+  } finally {
+    isLoadingLibrary.value = false;
+  }
+}
+
+function closeLibrary() {
+  showLibraryModal.value = false;
+  libraryDeleteConfirmKey.value = null;
+}
+
+async function handleLoadNamedSequence(key) {
+  try {
+    await store.loadNamedSequence(key);
+    closeLibrary();
+    toastStore.showToast({
+      type: 'success',
+      title: t('plugins.sequenceCreator.toolbar.openLibrary'),
+      message: t('plugins.sequenceCreator.toolbar.loadNamedSuccess'),
+      autoClose: true,
+      autoCloseDelay: 3000,
+    });
+  } catch (error) {
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.sequenceCreator.toolbar.openLibrary'),
+      message: error.message || 'Error loading sequence',
+      autoClose: true,
+      autoCloseDelay: 5000,
+    });
+  }
+}
+
+async function confirmDeleteNamed(key) {
+  try {
+    await store.deleteNamedSequence(key);
+    libraryDeleteConfirmKey.value = null;
+  } catch (error) {
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.sequenceCreator.confirmations.libraryTitle'),
+      message: error.message || 'Error deleting sequence',
+      autoClose: true,
+      autoCloseDelay: 5000,
+    });
+  }
 }
 
 async function sendToNina() {

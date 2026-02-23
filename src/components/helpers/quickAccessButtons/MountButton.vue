@@ -1,4 +1,5 @@
-leigt <template>
+leigt
+<template>
   <QuickAccessButton :isActive="isActive" @click="emit('click')" title="Mount Controls">
     <svg
       xmlns="http://www.w3.org/2000/svg"

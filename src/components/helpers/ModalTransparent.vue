@@ -17,7 +17,10 @@
           <slot name="header">
             <h2 class="text-lg sm:text-xl font-bold truncate">Standard Titel</h2>
           </slot>
-          <button @click="emit('close')" class="w-8 h-8 flex-shrink-0 text-gray-400 hover:text-gray-600">
+          <button
+            @click="emit('close')"
+            class="w-8 h-8 flex-shrink-0 text-gray-400 hover:text-gray-600"
+          >
             <XMarkIcon />
           </button>
         </div>

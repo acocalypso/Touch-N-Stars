@@ -179,6 +179,14 @@
                 />
               </div>
 
+              <!-- Auto Connect Checkbox -->
+              <div v-if="selectedSsid" class="flex flex-row items-center gap-2 mt-2">
+                 <input type="checkbox" v-model="autoConnect" id="autoConnect" class="w-4 h-4 text-blue-600 bg-gray-900 border-gray-600 rounded focus:ring-blue-500 focus:ring-2">
+                 <label for="autoConnect" class="text-white text-sm cursor-pointer select-none">
+                   Autoconnect to selected wifi after boot
+                 </label>
+              </div>
+
               <!-- Connect Button (Placeholder connection) -->
               <button
                 v-if="selectedSsid"
@@ -373,6 +381,7 @@ const stationaryMode = ref(false);
 const wifiList = ref([]);
 const selectedSsid = ref('');
 const wifiPassword = ref('');
+const autoConnect = ref(false);
 const isScanning = ref(false);
 const status = ref('Idle');
 const logs = ref([]);
@@ -655,6 +664,7 @@ async function connectWifi() {
       {
         ssid: selectedSsid.value,
         password: wifiPassword.value,
+        auto_connect: autoConnect.value
       },
       {
         headers: {

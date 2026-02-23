@@ -128,7 +128,7 @@
           @click="addSegment('\\')"
           class="px-3 py-1 text-xs rounded bg-amber-900/60 hover:bg-amber-800/60 text-amber-200 border border-amber-700/50 transition-colors font-mono"
         >
-          \ {{ $t('components.settings.imageFile.folder') }}
+          / {{ $t('components.settings.imageFile.folder') }}
         </button>
         <button
           @click="addSegment('_')"

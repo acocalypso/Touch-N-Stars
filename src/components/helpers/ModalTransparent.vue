@@ -3,27 +3,27 @@
     <div v-if="show" class="fixed inset-0 z-50 text-gray-200 p-2 pointer-events-none">
       <div
         ref="modalElement"
-        class="p-6 bg-gradient-to-br rounded-lg shadow-lg w-80 sm:w-96 relative pointer-events-auto touch-none"
-        :class="getOpacityClass()"
+        class="bg-gradient-to-br rounded-lg shadow-lg relative pointer-events-auto touch-none"
+        :class="[getOpacityClass(), 'p-4 sm:p-6 w-full max-w-xs sm:max-w-sm mx-2']"
         :style="{ position: 'absolute', ...position }"
         @click.stop
       >
         <!-- Header = Drag-Handle -->
         <div
-          class="mb-4 border-b pb-2 flex justify-between items-center cursor-move select-none touch-none"
+          class="mb-4 border-b pb-2 flex justify-between items-center cursor-move select-none touch-none gap-2"
           @mousedown="startDrag"
           @touchstart="startDrag"
         >
           <slot name="header">
-            <h2 class="text-xl font-bold">Standard Titel</h2>
+            <h2 class="text-lg sm:text-xl font-bold truncate">Standard Titel</h2>
           </slot>
-          <button @click="emit('close')" class="w-8 h-8 text-gray-400 hover:text-gray-600">
+          <button @click="emit('close')" class="w-8 h-8 flex-shrink-0 text-gray-400 hover:text-gray-600">
             <XMarkIcon />
           </button>
         </div>
         <!-- Body -->
         <div
-          class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin modal-content"
+          class="flex flex-col w-full mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin modal-content"
         >
           <slot name="body">
             <p>Standard-Inhalt</p>
@@ -223,7 +223,7 @@ function getOpacityClass() {
 /* Modal Content Höhe im Landscape-Modus */
 @media screen and (orientation: landscape) {
   .modal-content {
-    max-height: 90vh;
+    max-height: 50vh;
   }
 }
 

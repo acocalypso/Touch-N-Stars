@@ -1,32 +1,32 @@
 <template>
-  <div class="flex gap-1">
+  <div class="flex gap-1 focuser-buttons">
     <button class="default-button-cyan" @click="changeBigMinus" :disabled="isMoving">
       <div
         v-if="loadingButton === 'changeBigMinus'"
-        class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        class="ml-2 w-5 h-5 sm:w-6 sm:h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
-      <label v-else><ChevronDoubleLeftIcon class="w-7 h-7" /></label>
+      <label v-else><ChevronDoubleLeftIcon class="w-5 h-5 sm:w-7 sm:h-7 landscape:w-4 landscape:h-4" /></label>
     </button>
     <button class="default-button-cyan" @click="changeSmallMinus" :disabled="isMoving">
       <div
         v-if="loadingButton === 'changeSmallMinus'"
-        class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        class="ml-2 w-5 h-5 sm:w-6 sm:h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
-      <label v-else><ChevronLeftIcon class="w-7 h-7" /></label>
+      <label v-else><ChevronLeftIcon class="w-5 h-5 sm:w-7 sm:h-7 landscape:w-4 landscape:h-4" /></label>
     </button>
     <button class="default-button-cyan" @click="changeSmallPlus" :disabled="isMoving">
       <div
         v-if="loadingButton === 'changeSmallPlus'"
-        class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        class="ml-2 w-5 h-5 sm:w-6 sm:h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
-      <label v-else><ChevronRightIcon class="w-7 h-7" /></label>
+      <label v-else><ChevronRightIcon class="w-5 h-5 sm:w-7 sm:h-7 landscape:w-4 landscape:h-4" /></label>
     </button>
     <button class="default-button-cyan" @click="changeBigPlus" :disabled="isMoving">
       <div
         v-if="loadingButton === 'changeBigPlus'"
-        class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+        class="ml-2 w-5 h-5 sm:w-6 sm:h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
       ></div>
-      <label v-else><ChevronDoubleRightIcon class="w-7 h-7" /></label>
+      <label v-else><ChevronDoubleRightIcon class="w-5 h-5 sm:w-7 sm:h-7 landscape:w-4 landscape:h-4" /></label>
     </button>
   </div>
 </template>
@@ -104,3 +104,18 @@ watch(
   }
 );
 </script>
+
+<style scoped>
+/* Landscape Anpassungen */
+@media screen and (orientation: landscape) {
+  .focuser-buttons {
+    gap: 0.25rem;
+  }
+
+  .focuser-buttons button {
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0.25rem;
+  }
+}
+</style>

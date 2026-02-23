@@ -37,6 +37,7 @@
 <script setup>
 import { ref, watch, nextTick } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
   show: Boolean,
@@ -48,10 +49,15 @@ const props = defineProps({
     type: String,
     default: 'z-50',
   },
+  modalId: {
+    type: String,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['close']);
 
+const settingsStore = useSettingsStore();
 const modalElement = ref(null);
 const position = ref({ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' });
 const isDragging = ref(false);
@@ -120,6 +126,14 @@ function stopDrag() {
   window.removeEventListener('mouseup', stopDrag);
   window.removeEventListener('touchmove', onDrag);
   window.removeEventListener('touchend', stopDrag);
+
+  // Speichere die Position im Store
+  if (props.modalId) {
+    settingsStore.setModalPosition(props.modalId, {
+      top: position.value.top,
+      left: position.value.left,
+    });
+  }
 }
 
 // Zentriere das Modal beim Öffnen
@@ -131,13 +145,19 @@ function centerModal() {
   };
 }
 
-// Überwache das Öffnen des Modals - nur beim ersten Mal zentrieren
+// Überwache das Öffnen des Modals - lade gespeicherte Position oder zentriere
 watch(
   () => props.show,
   (newValue) => {
-    if (newValue && !hasBeenMoved.value) {
+    if (newValue) {
       nextTick(() => {
-        centerModal();
+        const saved = props.modalId && settingsStore.modalPositions[props.modalId];
+        if (saved) {
+          position.value = { top: saved.top, left: saved.left, transform: 'none' };
+          hasBeenMoved.value = true;
+        } else if (!hasBeenMoved.value) {
+          centerModal();
+        }
       });
     }
   }

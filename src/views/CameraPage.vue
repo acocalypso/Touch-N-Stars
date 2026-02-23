@@ -142,7 +142,7 @@
       @open-modal="openModal"
     />
 
-    <ModalTransparent :show="showMount" @close="showMount = false">
+    <ModalTransparent :show="showMount" @close="showMount = false" modal-id="camera-mount">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
@@ -170,7 +170,7 @@
       </template>
     </ModalTransparent>
 
-    <ModalTransparent :show="showFocuser" @close="showFocuser = false">
+    <ModalTransparent :show="showFocuser" @close="showFocuser = false" modal-id="camera-focuser">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
@@ -206,7 +206,7 @@
       </template>
     </ModalTransparent>
 
-    <ModalTransparent :show="showFilter" @close="showFilter = false">
+    <ModalTransparent :show="showFilter" @close="showFilter = false" modal-id="camera-filter">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
@@ -236,7 +236,7 @@
       </template>
     </ModalTransparent>
 
-    <ModalTransparent :show="showRotator" @close="showRotator = false">
+    <ModalTransparent :show="showRotator" @close="showRotator = false" modal-id="camera-rotator">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.rotator.title') }}</h2>

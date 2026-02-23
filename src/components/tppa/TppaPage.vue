@@ -222,7 +222,7 @@
   />
 
   <!-- Mount Modal -->
-  <ModalTransparent :show="showMount" @close="showMount = false">
+  <ModalTransparent :show="showMount" @close="showMount = false" modal-id="tppa-mount">
     <template #header>
       <div class="flex items-center justify-between w-full">
         <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>

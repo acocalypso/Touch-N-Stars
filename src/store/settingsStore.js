@@ -117,6 +117,8 @@ export const useSettingsStore = defineStore('settings', {
     ],
     // Device/screen behavior
     keepAwakeEnabled: false,
+    // Modal Positionen
+    modalPositions: {},
   }),
   actions: {
     _getApiStore() {
@@ -301,6 +303,10 @@ export const useSettingsStore = defineStore('settings', {
     setGraphDataSource2(dataSource) {
       this.monitorViewSetting.graphDataSource2 = dataSource;
     },
+
+    setModalPosition(modalId, position) {
+      this.modalPositions[modalId] = { top: position.top, left: position.left };
+    },
   },
   persist: {
     enabled: true,
@@ -331,6 +337,7 @@ export const useSettingsStore = defineStore('settings', {
           'tutorial.histogramVisited',
           'tutorial.selectTargetVisited',
           'tutorial.statusBarButtonsVisited',
+          'modalPositions',
         ],
       },
     ],

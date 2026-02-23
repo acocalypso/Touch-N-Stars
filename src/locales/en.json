@@ -978,6 +978,8 @@
       "stationaryDescription": "Enable to scan and connect to local WiFi networks",
       "noNetworks": "No networks found",
       "wifiSelect": "Select Network",
+      "wifiBand": "WiFi Band",
+      "bandAuto": "Auto",
       "wifiPassword": "Password",
       "autoConnect": "Autoconnect to selected wifi after boot",
       "wifiConnect": "Connect",

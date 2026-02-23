@@ -1815,7 +1815,9 @@
       "phd2Running": "Le service est actuellement en cours d'exécution",
       "phd2Stopped": "Le service est actuellement arrêté",
       "phd2Title": "Démarrage automatique PHD2",
-      "autoConnect": "Connexion automatique au wifi sélectionné après le démarrage"
+      "autoConnect": "Connexion automatique au wifi sélectionné après le démarrage",
+      "bandAuto": "Auto",
+      "wifiBand": "Bande Wi-Fi"
     },
     "pinsDevices": {
       "config": {

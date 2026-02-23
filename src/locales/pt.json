@@ -1815,7 +1815,9 @@
       "phd2Running": "O serviço está em execução no momento",
       "phd2Stopped": "O serviço está interrompido no momento",
       "phd2Title": "Inicialização automática do PHD2",
-      "autoConnect": "Conecte-se automaticamente ao wifi selecionado após a inicialização"
+      "autoConnect": "Conecte-se automaticamente ao wifi selecionado após a inicialização",
+      "bandAuto": "Auto",
+      "wifiBand": "Banda Wi-Fi"
     },
     "pinsDevices": {
       "config": {

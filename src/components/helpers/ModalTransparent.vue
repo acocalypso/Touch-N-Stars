@@ -69,6 +69,24 @@ function getOrientation() {
   return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
 }
 
+// Validiere, ob die Position noch auf dem Bildschirm passt
+function validatePosition(pos) {
+  if (!modalElement.value) return pos;
+
+  const modalRect = modalElement.value.getBoundingClientRect();
+  const top = parseInt(pos.top);
+  const left = parseInt(pos.left);
+
+  const maxLeft = window.innerWidth - modalRect.width;
+  const maxTop = window.innerHeight - modalRect.height;
+
+  return {
+    top: `${Math.max(0, Math.min(top, maxTop))}px`,
+    left: `${Math.max(0, Math.min(left, maxLeft))}px`,
+    transform: 'none',
+  };
+}
+
 function getEventCoordinates(e) {
   if (e.touches) {
     return {
@@ -160,7 +178,8 @@ watch(
         const orientation = getOrientation();
         const saved = props.modalId && settingsStore.modalPositions[props.modalId]?.[orientation];
         if (saved) {
-          position.value = { top: saved.top, left: saved.left, transform: 'none' };
+          // Validiere die Position, bevor sie gesetzt wird
+          position.value = validatePosition(saved);
           hasBeenMoved.value = true;
         } else if (!hasBeenMoved.value) {
           centerModal();

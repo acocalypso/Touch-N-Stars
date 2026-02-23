@@ -64,6 +64,11 @@ const isDragging = ref(false);
 const hasBeenMoved = ref(false); // Track ob das Modal schon mal bewegt wurde
 let offset = { x: 0, y: 0 };
 
+// Erkenne die aktuelle Ausrichtung (landscape oder portrait)
+function getOrientation() {
+  return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+}
+
 function getEventCoordinates(e) {
   if (e.touches) {
     return {
@@ -127,9 +132,10 @@ function stopDrag() {
   window.removeEventListener('touchmove', onDrag);
   window.removeEventListener('touchend', stopDrag);
 
-  // Speichere die Position im Store
+  // Speichere die Position im Store (abhängig von Ausrichtung)
   if (props.modalId) {
-    settingsStore.setModalPosition(props.modalId, {
+    const orientation = getOrientation();
+    settingsStore.setModalPosition(props.modalId, orientation, {
       top: position.value.top,
       left: position.value.left,
     });
@@ -145,13 +151,14 @@ function centerModal() {
   };
 }
 
-// Überwache das Öffnen des Modals - lade gespeicherte Position oder zentriere
+// Überwache das Öffnen des Modals - lade gespeicherte Position abhängig von Ausrichtung
 watch(
   () => props.show,
   (newValue) => {
     if (newValue) {
       nextTick(() => {
-        const saved = props.modalId && settingsStore.modalPositions[props.modalId];
+        const orientation = getOrientation();
+        const saved = props.modalId && settingsStore.modalPositions[props.modalId]?.[orientation];
         if (saved) {
           position.value = { top: saved.top, left: saved.left, transform: 'none' };
           hasBeenMoved.value = true;

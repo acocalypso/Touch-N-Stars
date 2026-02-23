@@ -304,8 +304,11 @@ export const useSettingsStore = defineStore('settings', {
       this.monitorViewSetting.graphDataSource2 = dataSource;
     },
 
-    setModalPosition(modalId, position) {
-      this.modalPositions[modalId] = { top: position.top, left: position.left };
+    setModalPosition(modalId, orientation, position) {
+      if (!this.modalPositions[modalId]) {
+        this.modalPositions[modalId] = {};
+      }
+      this.modalPositions[modalId][orientation] = { top: position.top, left: position.left };
     },
   },
   persist: {

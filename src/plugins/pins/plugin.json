@@ -4,7 +4,7 @@
   "description": "Update & Control Plugin for pins",
   "version": "1.0.0",
   "author": "Christian Wöhrle",
-  "defaultEnabled": false,
+  "defaultEnabled": true,
   "enabled": true,
   "isPins": true
 }

@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence Creator: Set any saved sequence as default directly from the library
 - Sequence Creator: Saved sequences appear as a selectable group in the Load Sequence dropdown
 - Navigation: Show translated icon labels as overlay on touch or hover
+- Modal position persistence in settings store
+- Orientation-aware position storage (landscape/portrait)
+- Responsive modal design for small screens
 
 ### Changed
 - Focuser: Replace focuser input with position display in quick access modal

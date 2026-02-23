@@ -343,8 +343,8 @@ onBeforeUnmount(() => {
   }
 }
 
-/* Landscape-Modus Anpassungen für kleine Bildschirme */
-@media screen and (orientation: landscape) and (max-height: 600px) {
+/* Landscape-Modus Anpassungen */
+@media screen and (orientation: landscape) {
   .move-axis-grid {
     width: 12rem; /* w-48 */
     gap: 0.5rem;
@@ -352,12 +352,14 @@ onBeforeUnmount(() => {
   }
 
   .move-axis-icon {
-    width: 2.25rem; /* w-9 */
-    height: 2.25rem; /* h-9 */
+    width: 2rem; /* w-8 */
+    height: 2rem; /* h-8 */
   }
 
   .btn {
     padding: 0.375rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
   }
 }
 .glow-green {

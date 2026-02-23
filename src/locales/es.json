@@ -1814,7 +1814,8 @@
       "wifiTitle": "Configuración Wi-Fi",
       "phd2Running": "El servicio está actualmente funcionando.",
       "phd2Stopped": "El servicio está actualmente detenido.",
-      "phd2Title": "Inicio automático de PHD2"
+      "phd2Title": "Inicio automático de PHD2",
+      "autoConnect": "Conexión automática al wifi seleccionado después del arranque"
     },
     "pinsDevices": {
       "config": {

@@ -1814,7 +1814,8 @@
       "wifiTitle": "WiFi-configuratie",
       "phd2Running": "De service is momenteel actief",
       "phd2Stopped": "De service is momenteel gestopt",
-      "phd2Title": "PHD2 automatisch starten"
+      "phd2Title": "PHD2 automatisch starten",
+      "autoConnect": "Maak automatisch verbinding met geselecteerde wifi na het opstarten"
     },
     "pinsDevices": {
       "config": {

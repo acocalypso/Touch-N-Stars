@@ -979,6 +979,7 @@
       "noNetworks": "No networks found",
       "wifiSelect": "Select Network",
       "wifiPassword": "Password",
+      "autoConnect": "Autoconnect to selected wifi after boot",
       "wifiConnect": "Connect",
       "scanning": "Scanning...",
       "startUpgrade": "Start Upgrade",

@@ -1815,7 +1815,8 @@
       "wifiTitle": "WiFi Configuration",
       "phd2Running": "Service is currently running",
       "phd2Stopped": "Service is currently stopped",
-      "phd2Title": "PHD2 Autostart"
+      "phd2Title": "PHD2 Autostart",
+      "autoConnect": "Autoconnect to selected wifi after boot"
     },
     "pinsDevices": {
       "config": {

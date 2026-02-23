@@ -183,7 +183,7 @@
               <div v-if="selectedSsid" class="flex flex-row items-center gap-2 mt-2">
                  <input type="checkbox" v-model="autoConnect" id="autoConnect" class="w-4 h-4 text-blue-600 bg-gray-900 border-gray-600 rounded focus:ring-blue-500 focus:ring-2">
                  <label for="autoConnect" class="text-white text-sm cursor-pointer select-none">
-                   Autoconnect to selected wifi after boot
+                   {{ $t('plugins.pins.autoConnect') }}
                  </label>
               </div>
 

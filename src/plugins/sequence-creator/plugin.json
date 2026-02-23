@@ -4,7 +4,7 @@
   "description": "Modern sequence editor for astrophotography automation, inspired by N.I.N.A sequences",
   "version": "1.4.0",
   "author": "Christian Wöhrle, Johannes Maier",
-  "defaultEnabled": false,
+  "defaultEnabled": true,
   "enabled": true,
   "isPins": false
 }

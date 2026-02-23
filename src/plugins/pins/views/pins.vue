@@ -166,6 +166,42 @@
                 </select>
               </div>
 
+              <!-- Band Selection -->
+              <div class="flex flex-col gap-2" v-if="selectedSsid">
+                <label class="text-gray-400 text-xs uppercase font-bold">{{
+                  $t('plugins.pins.wifiBand')
+                }}</label>
+                <div class="flex gap-4">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      value="auto"
+                      v-model="selectedBand"
+                      class="text-blue-500 bg-gray-900 border-gray-600 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span class="text-white text-sm">{{ $t('plugins.pins.bandAuto') }}</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      value="2.4GHz"
+                      v-model="selectedBand"
+                      class="text-blue-500 bg-gray-900 border-gray-600 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span class="text-white text-sm">2.4 GHz</span>
+                  </label>
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      value="5GHz"
+                      v-model="selectedBand"
+                      class="text-blue-500 bg-gray-900 border-gray-600 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span class="text-white text-sm">5 GHz</span>
+                  </label>
+                </div>
+              </div>
+
               <!-- Password Input -->
               <div class="flex flex-col gap-2" v-if="selectedSsid">
                 <label class="text-gray-400 text-xs uppercase font-bold">{{
@@ -181,10 +217,15 @@
 
               <!-- Auto Connect Checkbox -->
               <div v-if="selectedSsid" class="flex flex-row items-center gap-2 mt-2">
-                 <input type="checkbox" v-model="autoConnect" id="autoConnect" class="w-4 h-4 text-blue-600 bg-gray-900 border-gray-600 rounded focus:ring-blue-500 focus:ring-2">
-                 <label for="autoConnect" class="text-white text-sm cursor-pointer select-none">
-                   {{ $t('plugins.pins.autoConnect') }}
-                 </label>
+                <input
+                  type="checkbox"
+                  v-model="autoConnect"
+                  id="autoConnect"
+                  class="w-4 h-4 text-blue-600 bg-gray-900 border-gray-600 rounded focus:ring-blue-500 focus:ring-2"
+                />
+                <label for="autoConnect" class="text-white text-sm cursor-pointer select-none">
+                  {{ $t('plugins.pins.autoConnect') }}
+                </label>
               </div>
 
               <!-- Connect Button (Placeholder connection) -->
@@ -381,6 +422,7 @@ const stationaryMode = ref(false);
 const wifiList = ref([]);
 const selectedSsid = ref('');
 const wifiPassword = ref('');
+const selectedBand = ref('auto');
 const autoConnect = ref(false);
 const isScanning = ref(false);
 const status = ref('Idle');
@@ -394,6 +436,7 @@ const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d'
 
 watch(selectedSsid, (newSsid) => {
   if (newSsid) {
+    selectedBand.value = 'auto';
     const savedPassword = pinsStore.getPassword(newSsid);
     if (savedPassword) {
       wifiPassword.value = savedPassword;
@@ -664,7 +707,8 @@ async function connectWifi() {
       {
         ssid: selectedSsid.value,
         password: wifiPassword.value,
-        auto_connect: autoConnect.value
+        auto_connect: autoConnect.value,
+        band: selectedBand.value === 'auto' ? null : selectedBand.value,
       },
       {
         headers: {

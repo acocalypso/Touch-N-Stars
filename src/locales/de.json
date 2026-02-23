@@ -978,6 +978,8 @@
       "stationaryDescription": "Aktivieren um WLAN Netzwerke zu suchen und zu verbinden",
       "noNetworks": "Keine Netzwerke gefunden",
       "wifiSelect": "Netzwerk auswählen",
+      "wifiBand": "WLAN-Frequenzband",
+      "bandAuto": "Automatisch",
       "wifiPassword": "Passwort",
       "autoConnect": "Nach dem Start automatisch mit ausgewähltem WLAN verbinden",
       "wifiConnect": "Verbinden",

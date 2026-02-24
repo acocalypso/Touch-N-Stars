@@ -3,19 +3,20 @@
     <!-- Loading State -->
     <div v-if="store.isLoadingDetectionOptions" class="flex items-center justify-center py-12">
       <div class="spinner"></div>
-      <p class="text-gray-400 ml-4">Loading Star Detection options...</p>
+      <p class="text-gray-400 ml-4">{{ $t('plugins.hocusfocus.starDetection.loading') }}</p>
     </div>
 
     <!-- Error State -->
     <div v-if="store.detectionOptionsError" class="bg-red-900 border border-red-700 rounded-lg p-4">
       <p class="text-red-200">
-        <span class="font-semibold">Error:</span> {{ store.detectionOptionsError }}
+        <span class="font-semibold">{{ $t('plugins.hocusfocus.starDetection.error') }}</span>
+        {{ store.detectionOptionsError }}
       </p>
       <button
         @click="loadStarDetectionOptions()"
         class="mt-2 px-4 py-2 bg-red-700 hover:bg-red-600 text-white rounded transition"
       >
-        Retry
+        {{ $t('plugins.hocusfocus.starDetection.retry') }}
       </button>
     </div>
 
@@ -23,7 +24,9 @@
     <div v-if="store.starDetectionOptions && !store.isLoadingDetectionOptions" class="space-y-6">
       <!-- General Settings Card -->
       <div class="border border-gray-700 rounded-lg p-4">
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">General Settings</h3>
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">
+          {{ $t('plugins.hocusfocus.starDetection.generalSettings') }}
+        </h3>
         <div class="space-y-3">
           <label class="flex items-center text-white">
             <input
@@ -37,7 +40,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Advanced Mode</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.advancedMode') }}</span>
           </label>
           <label class="flex items-center text-white">
             <input
@@ -51,7 +54,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Use Hotpixel Thresholding</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.useHotpixelThresholding') }}</span>
           </label>
           <label class="flex items-center text-white">
             <input
@@ -65,7 +68,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Use AutoFocus Crop</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.useAutoFocusCrop') }}</span>
           </label>
           <label class="flex items-center text-white">
             <input
@@ -79,7 +82,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Fit PSF</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.fitPSF') }}</span>
           </label>
           <label class="flex items-center text-white">
             <input
@@ -93,7 +96,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Hotpixel Filtering</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.hotpixelFiltering') }}</span>
           </label>
           <label class="flex items-center text-white">
             <input
@@ -108,7 +111,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Noise Reduced Star Measurement</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.noiseReducedStarMeasurement') }}</span>
           </label>
           <label class="flex items-center text-white">
             <input
@@ -122,7 +125,7 @@
               type="checkbox"
               class="mr-3"
             />
-            <span>Debug Mode</span>
+            <span>{{ $t('plugins.hocusfocus.starDetection.debugMode') }}</span>
           </label>
         </div>
       </div>
@@ -132,10 +135,14 @@
         v-if="!store.starDetectionOptions.UseAdvanced"
         class="border border-gray-700 rounded-lg p-4"
       >
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Simple Mode Settings</h3>
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">
+          {{ $t('plugins.hocusfocus.starDetection.simpleModeSettings') }}
+        </h3>
         <div class="space-y-3">
           <div>
-            <label class="text-white mb-2 block">Noise Level</label>
+            <label class="text-white mb-2 block">{{
+              $t('plugins.hocusfocus.starDetection.noiseLevel')
+            }}</label>
             <select
               :value="store.starDetectionOptions.Simple_NoiseLevel"
               @change="

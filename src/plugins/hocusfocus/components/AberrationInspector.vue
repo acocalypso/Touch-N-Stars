@@ -2,7 +2,9 @@
   <div class="space-y-6">
     <!-- AutoFocus Action Buttons -->
     <div>
-      <h2 class="text-xl font-semibold text-white mb-4">AutoFocus Actions</h2>
+      <h2 class="text-xl font-semibold text-white mb-4">
+        {{ $t('plugins.hocusfocus.aberrationInspector.title') }}
+      </h2>
       <div class="flex flex-wrap gap-3 mb-6">
         <button
           @click="canRunAutoFocus ? $emit('run') : $emit('stop')"
@@ -16,8 +18,8 @@
         >
           {{
             !canRunAutoFocus && cameraConnected && focuserConnected
-              ? 'Cancel AutoFocus'
-              : 'Run Detailed AutoFocus'
+              ? $t('plugins.hocusfocus.aberrationInspector.cancelButton')
+              : $t('plugins.hocusfocus.aberrationInspector.runButton')
           }}
         </button>
         <button
@@ -25,21 +27,23 @@
           :disabled="!backendCanRun"
           class="px-6 py-2 rounded bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium transition"
         >
-          Load Saved AF
+          {{ $t('plugins.hocusfocus.aberrationInspector.loadSaved') }}
         </button>
         <button
           @click="$emit('clear')"
           :disabled="!backendCanRun"
           class="px-6 py-2 rounded bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium transition"
         >
-          Clear Analyses
+          {{ $t('plugins.hocusfocus.aberrationInspector.clearAnalyses') }}
         </button>
       </div>
     </div>
 
     <!-- Chart -->
     <div v-if="autoFocusChartActive">
-      <h2 class="text-xl font-semibold text-white mb-4">Focus Curve Analysis</h2>
+      <h2 class="text-xl font-semibold text-white mb-4">
+        {{ $t('plugins.hocusfocus.aberrationInspector.focusCurveAnalysis') }}
+      </h2>
       <div class="border border-gray-700 rounded-lg bg-gray-900 p-6">
         <canvas ref="focusCurveChart" class="w-full h-96"></canvas>
       </div>
@@ -52,35 +56,47 @@
     >
       <div>
         <p class="text-white">
-          <span class="text-gray-400">Backfocus Error: </span>
+          <span class="text-gray-400"
+            >{{ $t('plugins.hocusfocus.aberrationInspector.backfocusError') }}
+          </span>
           <span class="font-semibold">
             {{
               finalFocusData?.BackfocusMicronDelta !== null &&
               finalFocusData?.BackfocusMicronDelta !== undefined &&
               finalFocusData?.BackfocusMicronDelta !== 'NaN' &&
               !isNaN(finalFocusData?.BackfocusMicronDelta)
-                ? `${Math.abs(parseFloat(finalFocusData.BackfocusMicronDelta)).toFixed(2)} µm`
-                : `${Math.abs(Math.round(parseFloat(finalFocusData?.BackfocusFocuserPositionDelta))).toString()} steps`
+                ? `${Math.abs(parseFloat(finalFocusData.BackfocusMicronDelta)).toFixed(2)} ${$t('plugins.hocusfocus.aberrationInspector.unitMicrons')}`
+                : `${Math.abs(Math.round(parseFloat(finalFocusData?.BackfocusFocuserPositionDelta))).toString()} ${$t('plugins.hocusfocus.aberrationInspector.unitSteps')}`
             }}
           </span>
-          <span class="text-gray-400 ml-2">(Move sensor</span>
+          <span class="text-gray-400 ml-2">{{
+            $t('plugins.hocusfocus.aberrationInspector.moveSensor')
+          }}</span>
           <span class="font-semibold ml-1">{{ finalFocusData?.BackfocusDirection || '--' }}</span>
-          <span class="text-gray-400"> flattener)</span>
+          <span class="text-gray-400">
+            {{ $t('plugins.hocusfocus.aberrationInspector.flattener') }})</span
+          >
         </p>
       </div>
 
       <div>
         <p class="text-white">
-          <span class="text-gray-400">HFR difference: </span>
+          <span class="text-gray-400"
+            >{{ $t('plugins.hocusfocus.aberrationInspector.hfrDifference') }}
+          </span>
           <span class="font-semibold">{{ formatValue(finalFocusData?.BackfocusHFR) }}</span>
         </p>
       </div>
 
       <div>
         <p class="text-white">
-          <span class="text-gray-400">Inner HFR: </span>
+          <span class="text-gray-400"
+            >{{ $t('plugins.hocusfocus.aberrationInspector.innerHFR') }}
+          </span>
           <span class="font-semibold">{{ formatValue(finalFocusData?.InnerHFR) }}</span>
-          <span class="text-gray-400 ml-4">Outer HFR: </span>
+          <span class="text-gray-400 ml-4"
+            >{{ $t('plugins.hocusfocus.aberrationInspector.outerHFR') }}
+          </span>
           <span class="font-semibold">{{ formatValue(finalFocusData?.OuterHFR) }}</span>
         </p>
       </div>
@@ -88,16 +104,28 @@
 
     <!-- Tilt Corner Measurements Table -->
     <div v-if="autoFocusCompleted">
-      <h2 class="text-xl font-semibold text-white mb-4">Tilt Corner Measurements</h2>
+      <h2 class="text-xl font-semibold text-white mb-4">
+        {{ $t('plugins.hocusfocus.aberrationInspector.tiltCornerMeasurements') }}
+      </h2>
       <div class="border border-gray-700 rounded-lg bg-gray-900 p-6 overflow-x-auto">
         <table class="w-full text-sm text-gray-300">
           <thead>
             <tr class="border-b border-gray-700">
-              <th class="px-4 py-3 text-left font-semibold text-white">Sensor Side</th>
-              <th class="px-4 py-3 text-left font-semibold text-white">Focuser Position</th>
-              <th class="px-4 py-3 text-left font-semibold text-white">Adjustment Steps</th>
-              <th class="px-4 py-3 text-left font-semibold text-white">Adjustment Microns</th>
-              <th class="px-4 py-3 text-left font-semibold text-white">R²</th>
+              <th class="px-4 py-3 text-left font-semibold text-white">
+                {{ $t('plugins.hocusfocus.aberrationInspector.sensorSide') }}
+              </th>
+              <th class="px-4 py-3 text-left font-semibold text-white">
+                {{ $t('plugins.hocusfocus.aberrationInspector.focuserPosition') }}
+              </th>
+              <th class="px-4 py-3 text-left font-semibold text-white">
+                {{ $t('plugins.hocusfocus.aberrationInspector.adjustmentSteps') }}
+              </th>
+              <th class="px-4 py-3 text-left font-semibold text-white">
+                {{ $t('plugins.hocusfocus.aberrationInspector.adjustmentMicrons') }}
+              </th>
+              <th class="px-4 py-3 text-left font-semibold text-white">
+                {{ $t('plugins.hocusfocus.aberrationInspector.rSquared') }}
+              </th>
             </tr>
           </thead>
           <tbody>

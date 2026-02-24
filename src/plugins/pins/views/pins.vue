@@ -92,7 +92,7 @@
                 @click="scanWifi"
                 class="text-blue-400 hover:text-white transition-colors p-2"
                 :disabled="isScanning"
-                title="Rescan"
+                :title="$t('plugins.pins.rescan')"
               >
                 <svg
                   class="w-5 h-5"
@@ -188,7 +188,7 @@
                       v-model="selectedBand"
                       class="text-blue-500 bg-gray-900 border-gray-600 focus:ring-blue-500 focus:ring-2"
                     />
-                    <span class="text-white text-sm">2.4 GHz</span>
+                    <span class="text-white text-sm">{{ $t('plugins.pins.band24') }}</span>
                   </label>
                   <label class="flex items-center gap-2 cursor-pointer">
                     <input
@@ -197,7 +197,7 @@
                       v-model="selectedBand"
                       class="text-blue-500 bg-gray-900 border-gray-600 focus:ring-blue-500 focus:ring-2"
                     />
-                    <span class="text-white text-sm">5 GHz</span>
+                    <span class="text-white text-sm">{{ $t('plugins.pins.band5') }}</span>
                   </label>
                 </div>
               </div>
@@ -693,7 +693,7 @@ async function connectWifi() {
   activeOperation.value = 'wifi';
   logs.value = [];
   appendLog(t('plugins.pins.logs.init', { ip }));
-  appendLog(`Connecting to WiFi: ${selectedSsid.value}`);
+  appendLog(t('plugins.pins.logs.connectingToWifi', { ssid: selectedSsid.value }));
 
   // Save password to store
   if (selectedSsid.value && wifiPassword.value) {
@@ -733,7 +733,7 @@ async function connectWifi() {
       appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
       connectWebSocket(ip, returnedJobId);
     } else {
-      appendLog(`Response: ${JSON.stringify(data)}`);
+      appendLog(t('plugins.pins.logs.wifiResponse', { response: JSON.stringify(data) }));
       status.value = 'Success';
     }
   } catch (error) {
@@ -943,13 +943,13 @@ function connectWebSocket(ip, id) {
       checkFinalStatus(ip, id);
     };
   } catch (e) {
-    appendLog(`Failed to create WebSocket: ${e.message}`);
+    appendLog(t('plugins.pins.logs.wsCreationFailed', { message: e.message }));
     status.value = 'Failed';
   }
 }
 
 async function checkFinalStatus(ip, id) {
-  appendLog('Verifying final job status...');
+  appendLog(t('plugins.pins.logs.verifyingStatus'));
   try {
     const directAxios = axios.create();
     const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
@@ -961,7 +961,7 @@ async function checkFinalStatus(ip, id) {
 
     const result = response.data;
     if (typeof result === 'object') {
-      appendLog(`Job Report: ${JSON.stringify(result, null, 2)}`);
+      appendLog(t('plugins.pins.logs.jobReport', { report: JSON.stringify(result, null, 2) }));
 
       // Check for success indicators
       const isSuccess =
@@ -973,17 +973,17 @@ async function checkFinalStatus(ip, id) {
 
       if (isSuccess) {
         status.value = 'Success';
-        appendLog('Upgrade process finished successfully.');
+        appendLog(t('plugins.pins.logs.upgradeSuccess'));
       } else {
         status.value = 'Failed';
-        appendLog(`Upgrade process reported failure. (Exit Code: ${result.exitCode ?? 'Unknown'})`);
+        appendLog(t('plugins.pins.logs.upgradeFailed', { exitCode: result.exitCode ?? 'Unknown' }));
       }
     } else {
-      appendLog(`Job Status: ${result}`);
+      appendLog(t('plugins.pins.logs.jobStatus', { status: result }));
       status.value = 'Idle'; // Ambiguous
     }
   } catch (e) {
-    appendLog(`Could not fetch final status: ${e.message}`);
+    appendLog(t('plugins.pins.logs.statusFetchFailed', { message: e.message }));
     // If we can't verify, we leave it as Idle or keep last state?
     // Let's set to finish but unknown
     if (status.value === 'Running') status.value = 'Idle';

@@ -3,19 +3,20 @@
     <!-- Loading State -->
     <div v-if="store.isLoadingAutoFocusOptions" class="flex items-center justify-center py-12">
       <div class="spinner"></div>
-      <p class="text-gray-400 ml-4">Loading AutoFocus options...</p>
+      <p class="text-gray-400 ml-4">{{ $t('plugins.hocusfocus.autoFocusOptions.loading') }}</p>
     </div>
 
     <!-- Error State -->
     <div v-if="store.autoFocusOptionsError" class="bg-red-900 border border-red-700 rounded-lg p-4">
       <p class="text-red-200">
-        <span class="font-semibold">Error:</span> {{ store.autoFocusOptionsError }}
+        <span class="font-semibold">{{ $t('plugins.hocusfocus.autoFocusOptions.error') }}</span>
+        {{ store.autoFocusOptionsError }}
       </p>
       <button
         @click="loadAutoFocusOptions()"
         class="mt-2 px-4 py-2 bg-red-700 hover:bg-red-600 text-white rounded transition"
       >
-        Retry
+        {{ $t('plugins.hocusfocus.autoFocusOptions.retry') }}
       </button>
     </div>
 
@@ -23,7 +24,9 @@
     <div v-if="store.autoFocusOptions && !store.isLoadingAutoFocusOptions" class="space-y-6">
       <!-- Basic Settings Section -->
       <div class="border border-gray-700 rounded-lg p-4">
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Basic Settings</h3>
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">
+          {{ $t('plugins.hocusfocus.autoFocusOptions.basicSettings') }}
+        </h3>
         <div class="space-y-3">
           <div v-for="key in getSectionOptions('Basic Settings')" :key="key">
             <template v-if="isNumeric(key)">
@@ -97,7 +100,9 @@
         v-if="getSectionOptions('HFR Validation').length > 0"
         class="border border-gray-700 rounded-lg p-4"
       >
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">HFR Validation</h3>
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">
+          {{ $t('plugins.hocusfocus.autoFocusOptions.hfrValidation') }}
+        </h3>
         <div class="space-y-3">
           <div v-for="key in getSectionOptions('HFR Validation')" :key="key">
             <template v-if="isNumeric(key) && store.autoFocusOptions.ValidateHfrImprovement">

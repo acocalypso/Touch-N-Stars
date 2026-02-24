@@ -179,7 +179,7 @@ function currentValue() {
   if (isDefaultValue.value) {
     return props.defaultValue !== null ? props.defaultValue : props.min;
   }
-  return props.modelValue;
+  return Number(props.modelValue);
 }
 
 function stepDown() {

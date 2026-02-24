@@ -173,9 +173,7 @@ export const usePluginStore = defineStore('pluginStore', {
                   return result;
                 };
               }
-              return typeof target[prop] === 'function'
-                ? target[prop].bind(target)
-                : target[prop];
+              return typeof target[prop] === 'function' ? target[prop].bind(target) : target[prop];
             },
           });
           pluginModule.install(this._app, { router: routerProxy });

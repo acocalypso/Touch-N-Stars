@@ -1063,6 +1063,30 @@ const apiService = {
     }
   },
 
+  async getRotatorBacklash() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/rotator/get-backlash`);
+      return response.data;
+    } catch (error) {
+      // console.error('Error getting rotator backlash:', error);
+      throw error;
+    }
+  },
+
+  async setRotatorBacklash(angle) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/rotator/set-backlash`, {
+        params: { angle: angle },
+      });
+      return response.data;
+    } catch (error) {
+      // console.error('Error setting rotator backlash:', error);
+      throw error;
+    }
+  },
+
   //-------------------------------------  flatdevice ---------------------------------------
 
   flatdeviceAction(action) {
@@ -1105,6 +1129,82 @@ const apiService = {
       return response.data;
     } catch (error) {
       // console.error('Error set brightness:', error);
+      throw error;
+    }
+  },
+
+  async flatdeviceSetHeater(power) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/set-heater`, {
+        params: { power: power },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async flatdeviceGetHeater() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/get-heater`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async flatdeviceSetOpenPosition(angle) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/set-openposition`, {
+        params: { angle: angle },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async flatdeviceGetOpenPosition() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/get-openposition`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async flatdeviceSetClosedPosition(angle) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/set-closedposition`, {
+        params: { angle: angle },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async flatdeviceGetClosedPosition() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/get-closedposition`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async flatdeviceGetCurrentPosition() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/flatdevice/get-currentposition`);
+      return response.data;
+    } catch (error) {
       throw error;
     }
   },

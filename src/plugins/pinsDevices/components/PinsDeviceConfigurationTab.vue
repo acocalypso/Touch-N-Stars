@@ -20,7 +20,7 @@
           }"
           @click="store.isPowerboxConnected && setActiveSubTab('powerbox')"
         >
-          PowerBox
+          {{ t('plugins.pinsDevices.powerBox') }}
         </button>
         <button
           :disabled="!store.isMeteostationConnected"
@@ -33,7 +33,7 @@
           }"
           @click="store.isMeteostationConnected && setActiveSubTab('meteostation')"
         >
-          MeteoStation
+          {{ t('plugins.pinsDevices.meteoStation') }}
         </button>
         <button
           :disabled="!store.isPowerboxConnected || !store.powerboxStatus.HasWifi"
@@ -49,7 +49,7 @@
             store.isPowerboxConnected && store.powerboxStatus.HasWifi && setActiveSubTab('wifi')
           "
         >
-          WiFi
+          {{ t('plugins.pinsDevices.wifiTab') }}
         </button>
       </div>
 
@@ -286,7 +286,7 @@
                 <input
                   v-model="hotspotSSID"
                   type="text"
-                  placeholder="My PowerBox Network"
+                  :placeholder="t('plugins.pinsDevices.settings.placeholders.networkName')"
                   class="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
                 />
               </div>
@@ -295,20 +295,20 @@
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">
                   {{ $t('plugins.pinsDevices.wifi.hotspotPassword') }}
-                  <span class="text-xs text-gray-500">(min 8 chars)</span>
+                  <span class="text-xs text-gray-500">{{ t('plugins.pinsDevices.settings.placeholders.passwordHint') }}</span>
                 </label>
                 <input
                   v-model="hotspotPassword"
                   type="password"
                   minlength="8"
-                  placeholder="Secure password (8+ characters)"
+                  :placeholder="t('plugins.pinsDevices.settings.placeholders.password')"
                   class="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500"
                 />
                 <p
                   v-if="hotspotPassword && hotspotPassword.length < 8"
                   class="text-xs text-red-400 mt-1"
                 >
-                  Password must be at least 8 characters
+                  {{ t('plugins.pinsDevices.settings.validation.passwordRequired') }}
                 </p>
               </div>
 

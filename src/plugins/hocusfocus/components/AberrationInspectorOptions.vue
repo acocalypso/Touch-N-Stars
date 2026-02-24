@@ -3,34 +3,47 @@
     <!-- Loading State -->
     <div v-if="isLoading" class="flex items-center justify-center py-12">
       <div class="spinner"></div>
-      <p class="text-gray-400 ml-4">Loading Aberration Inspector options...</p>
+      <p class="text-gray-400 ml-4">
+        {{ $t('plugins.hocusfocus.aberrationInspectorOptions.loading') }}
+      </p>
     </div>
 
     <!-- Error State -->
     <div v-if="error" class="bg-red-900 border border-red-700 rounded-lg p-4">
-      <p class="text-red-200"><span class="font-semibold">Error:</span> {{ error }}</p>
+      <p class="text-red-200">
+        <span class="font-semibold">{{
+          $t('plugins.hocusfocus.aberrationInspectorOptions.error')
+        }}</span>
+        {{ error }}
+      </p>
       <button
         @click="loadOptions()"
         class="mt-2 px-4 py-2 bg-red-700 hover:bg-red-600 text-white rounded transition"
       >
-        Retry
+        {{ $t('plugins.hocusfocus.aberrationInspectorOptions.retry') }}
       </button>
     </div>
 
     <!-- No Options Available -->
     <div v-if="!isLoading && !error && Object.keys(options).length === 0" class="text-center py-12">
-      <p class="text-gray-400">No Aberration Inspector options available yet.</p>
+      <p class="text-gray-400">
+        {{ $t('plugins.hocusfocus.aberrationInspectorOptions.noOptions') }}
+      </p>
     </div>
 
     <!-- Aberration Inspector Options Form -->
     <div v-if="!isLoading && !error && Object.keys(options).length > 0" class="space-y-6">
       <!-- Settings Card -->
       <div class="border border-gray-700 rounded-lg p-4">
-        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Inspector Settings</h3>
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">
+          {{ $t('plugins.hocusfocus.aberrationInspectorOptions.inspectorSettings') }}
+        </h3>
         <div class="space-y-3">
           <!-- Microns Per Focuser Step -->
           <div>
-            <label class="text-white mb-2 block">Microns Per Focuser Step</label>
+            <label class="text-white mb-2 block">{{
+              $t('plugins.hocusfocus.aberrationInspectorOptions.micronsPerFocuserStep')
+            }}</label>
             <input
               :value="options.MicronsPerFocuserStep === -1 ? '' : options.MicronsPerFocuserStep"
               @change="
@@ -58,7 +71,11 @@
           :disabled="isResetting"
           class="px-6 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white rounded font-semibold transition"
         >
-          {{ isResetting ? 'Resetting...' : 'Reset to Defaults' }}
+          {{
+            isResetting
+              ? $t('plugins.hocusfocus.aberrationInspectorOptions.resetting')
+              : $t('plugins.hocusfocus.aberrationInspectorOptions.resetToDefaults')
+          }}
         </button>
       </div>
     </div>

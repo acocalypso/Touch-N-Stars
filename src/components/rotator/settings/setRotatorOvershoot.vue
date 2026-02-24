@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isWandererRotator" class="p-2 flex flex-col gap-3">
+  <div v-if="isWandererRotator" class="flex flex-col gap-2">
     <div class="flex items-center justify-between border border-gray-500 p-2 rounded-lg">
       <div class="text-sm font-medium text-gray-300">
         {{ $t('components.rotator.settings.Overshoot') }}
@@ -7,36 +7,35 @@
       <toggleButton :status-value="overshootEnabled" @click="toggleOvershoot" />
     </div>
 
-    <div v-if="overshootEnabled" class="space-y-2">
-      <div class="flex items-center justify-between border border-gray-500 p-2 rounded-lg">
-        <div class="text-sm font-medium text-gray-300">
-          {{ $t('components.rotator.settings.OvershootDirection') }}
-        </div>
-        <toggleButton :status-value="overshootDirection" @click="toggleOvershootDirection" />
+    <div
+      v-if="overshootEnabled"
+      class="flex items-center justify-between border border-gray-500 p-2 rounded-lg"
+    >
+      <div class="text-sm font-medium text-gray-300">
+        {{ $t('components.rotator.settings.OvershootDirection') }}
       </div>
-
-      <div class="border border-gray-500 p-2 rounded-lg bg-gray-800/40">
-        <SettingInput
-          labelKey="components.rotator.settings.OvershootAngle"
-          settingKey="RotatorSettings-OvershootAngle"
-          :modelValue="angleFromProfile"
-          :min="0"
-          :max="360"
-          step="0.1"
-          placeholder="0"
-        />
-      </div>
+      <toggleButton :status-value="overshootDirection" @click="toggleOvershootDirection" />
     </div>
 
-    <div class="flex items-center justify-between">
-      <button
-        v-if="store.rotatorInfo?.Connected"
-        class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm text-white"
-        @click="resetZero"
-      >
-        {{ $t('components.rotator.settings.ResetPosition') }}
-      </button>
+    <div v-if="overshootEnabled" class="border border-gray-500 p-2 rounded-lg bg-gray-800/40">
+      <SettingInput
+        labelKey="components.rotator.settings.OvershootAngle"
+        settingKey="RotatorSettings-OvershootAngle"
+        :modelValue="angleFromProfile"
+        :min="0"
+        :max="360"
+        step="0.1"
+        placeholder="0"
+      />
     </div>
+
+    <button
+      v-if="store.rotatorInfo?.Connected"
+      class="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm text-white"
+      @click="resetZero"
+    >
+      {{ $t('components.rotator.settings.ResetPosition') }}
+    </button>
   </div>
 </template>
 

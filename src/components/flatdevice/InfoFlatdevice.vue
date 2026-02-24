@@ -25,12 +25,52 @@
       :Name="$t('components.flat.brightness')"
       :Value="store.flatdeviceInfo.Brightness"
     />
+    <StatusString
+      v-if="isWandererCover"
+      :isEnabled="currentPosition !== undefined && !isNaN(currentPosition)"
+      :Name="$t('components.flat.settings.currentPosition')"
+      :Value="`${currentPosition.toFixed(1)}°`"
+    />
   </div>
 </template>
 
 <script setup>
+import { ref, computed, onMounted, watch } from 'vue';
 import StatusString from '@/components/helpers/StatusString.vue';
+import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
+const currentPosition = ref(undefined);
+
+const isWandererCover = computed(() => {
+  return store.flatdeviceInfo.Name && store.flatdeviceInfo.Name.includes('Wanderer');
+});
+
+async function loadCurrentPosition() {
+  try {
+    const response = await apiService.flatdeviceGetCurrentPosition();
+    if (response.Success) {
+      currentPosition.value = response.Response;
+    }
+  } catch (error) {
+    console.error('Error loading current position:', error);
+  }
+}
+
+onMounted(() => {
+  if (isWandererCover.value) {
+    loadCurrentPosition();
+  }
+});
+
+// Watch for cover state changes and reload current position
+watch(
+  () => store.flatdeviceInfo.CoverState,
+  () => {
+    if (isWandererCover.value) {
+      loadCurrentPosition();
+    }
+  }
+);
 </script>

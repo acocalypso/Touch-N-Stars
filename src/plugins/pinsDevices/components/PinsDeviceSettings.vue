@@ -7,7 +7,7 @@
           <h2 class="text-2xl font-bold text-white">{{ t('plugins.pinsDevices.title') }}</h2>
           <div class="flex justify-between w-full gap-4 mt-1">
             <span class="text-gray-400 text-sm">
-              Temperature:
+              {{ t('plugins.pinsDevices.settings.temperature') }}
               {{
                 store.isPowerboxConnected &&
                 typeof store.powerboxStatus.Temperature === 'number' &&
@@ -23,7 +23,7 @@
               }}°C
             </span>
             <span class="text-gray-400 text-sm">
-              Humidity:
+              {{ t('plugins.pinsDevices.settings.humidity') }}
               {{
                 store.isPowerboxConnected &&
                 typeof store.powerboxStatus.Humidity === 'number' &&
@@ -39,7 +39,7 @@
               }}%
             </span>
             <span class="text-gray-400 text-sm">
-              DewPoint:
+              {{ t('plugins.pinsDevices.settings.dewPoint') }}
               {{
                 store.isPowerboxConnected &&
                 typeof store.powerboxStatus.DewPoint === 'number' &&

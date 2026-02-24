@@ -4,7 +4,7 @@
       <div class="max-w-7xl mx-auto">
         <!-- Header -->
         <div class="mb-8">
-          <h1 class="text-4xl font-bold text-white mb-2">HocusFocus</h1>
+          <h1 class="text-4xl font-bold text-white mb-2">{{ $t('plugins.hocusfocus.title') }}</h1>
           <p class="text-gray-400 text-sm">{{ store.pluginInfo.description }}</p>
         </div>
 
@@ -20,7 +20,7 @@
               "
               class="px-6 py-3 font-semibold transition"
             >
-              Aberration Inspector
+              {{ $t('plugins.hocusfocus.tabs.aberration') }}
             </button>
             <button
               @click="activeTab = 'aberration-options'"
@@ -31,7 +31,7 @@
               "
               class="px-6 py-3 font-semibold transition"
             >
-              Aberration Inspector Options
+              {{ $t('plugins.hocusfocus.tabs.aberrationOptions') }}
             </button>
             <button
               @click="activeTab = 'configuration'"
@@ -42,7 +42,7 @@
               "
               class="px-6 py-3 font-semibold transition"
             >
-              AutoFocus Options
+              {{ $t('plugins.hocusfocus.tabs.autoFocusOptions') }}
             </button>
 
             <button
@@ -54,7 +54,7 @@
               "
               class="px-6 py-3 font-semibold transition"
             >
-              Star Detection
+              {{ $t('plugins.hocusfocus.tabs.starDetection') }}
             </button>
           </div>
 
@@ -65,12 +65,12 @@
           >
             <div class="bg-gray-800 rounded-lg p-6 w-96 border border-gray-700">
               <h3 class="text-xl font-semibold text-white mb-4">
-                Select AutoFocus Directory to Rerun
+                {{ $t('plugins.hocusfocus.modal.selectDirectory') }}
               </h3>
 
               <div v-if="loadingAFDirectories" class="text-gray-400 text-center py-4">
                 <div class="spinner inline-block"></div>
-                <p class="mt-2">Loading AutoFocus directories...</p>
+                <p class="mt-2">{{ $t('plugins.hocusfocus.modal.loading') }}</p>
               </div>
 
               <div v-else>
@@ -78,7 +78,9 @@
                   v-model="selectedAFDirectory"
                   class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white mb-4"
                 >
-                  <option value="" disabled selected>Choose an AutoFocus directory...</option>
+                  <option value="" disabled selected>
+                    {{ $t('plugins.hocusfocus.modal.placeholder') }}
+                  </option>
                   <option v-for="dir in afDirectories" :key="dir" :value="dir">
                     {{ dir }}
                   </option>
@@ -90,13 +92,13 @@
                     :disabled="!selectedAFDirectory"
                     class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white rounded font-semibold transition"
                   >
-                    Proceed
+                    {{ $t('plugins.hocusfocus.modal.proceed') }}
                   </button>
                   <button
                     @click="showAFDirectoryModal = false"
                     class="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded font-semibold transition"
                   >
-                    Cancel
+                    {{ $t('plugins.hocusfocus.modal.cancel') }}
                   </button>
                 </div>
               </div>

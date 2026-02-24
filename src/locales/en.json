@@ -825,6 +825,7 @@
         "Overshoot": "Overshoot",
         "OvershootDirection": "Overshoot Direction",
         "OvershootAngle": "Overshoot Angle",
+        "Backlash": "Backlash",
         "ResetPosition": "Reset zero position"
       }
     },
@@ -839,7 +840,15 @@
         "close": "close cover",
         "open": "open cover"
       },
-      "title": "Flatpanel"
+      "title": "Flatpanel",
+      "settings": {
+        "title": "Settings",
+        "heater": "Heater Power (0-3)",
+        "openPosition": "Open Position (°)",
+        "closedPosition": "Closed Position (°)",
+        "currentPosition": "Current Position",
+        "noSettingsForDevice": "No settings available for this device"
+      }
     },
     "flatassistant": {
       "title": "Flat assistant",
@@ -1869,27 +1878,6 @@
         "cloudAssessment": "Cloud Coverage",
         "temperatureStatus": "Temperature Status",
         "dewSpread": "Dew Spread (T-Td)"
-      },
-      "weather": {
-        "deviceInfo": "Device Information",
-        "name": "Name",
-        "id": "Device ID",
-        "firmware": "Firmware",
-        "uptime": "Uptime",
-        "disconnected": "MeteoStation is not currently connected",
-        "currentWeather": "Current Weather Conditions",
-        "temperature": "Temperature",
-        "humidity": "Humidity",
-        "dewPoint": "Dew Point",
-        "cloudCover": "Cloud Cover",
-        "skyQuality": "Sky Quality",
-        "skyBrightness": "Sky Brightness",
-        "skyTemp": "Sky Temperature",
-        "noData": "No weather data available",
-        "conditions": "Weather Assessment",
-        "cloudAssessment": "Cloud Coverage",
-        "temperatureStatus": "Temperature Status",
-        "dewSpread": "Dew Spread (T-Td)"
       }
     },
     "shortcuts": {
@@ -1943,6 +1931,155 @@
         "updated": "Shortcut updated successfully",
         "deleted": "Shortcut deleted successfully"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Aberration Inspector",
+        "aberrationOptions": "Aberration Inspector Options",
+        "autoFocusOptions": "AutoFocus Options",
+        "starDetection": "Star Detection"
+      },
+      "modal": {
+        "selectDirectory": "Select AutoFocus Directory to Rerun",
+        "loading": "Loading AutoFocus directories...",
+        "placeholder": "Choose an AutoFocus directory...",
+        "proceed": "Proceed",
+        "cancel": "Cancel"
+      },
+      "aberrationInspector": {
+        "title": "AutoFocus Actions",
+        "runButton": "Run Detailed AutoFocus",
+        "cancelButton": "Cancel AutoFocus",
+        "loadSaved": "Load Saved AF",
+        "clearAnalyses": "Clear Analyses",
+        "focusCurveAnalysis": "Focus Curve Analysis",
+        "finalFocusDataSummary": "Final Focus Data Summary",
+        "backfocusError": "Backfocus Error:",
+        "hfrDifference": "HFR difference:",
+        "innerHFR": "Inner HFR:",
+        "outerHFR": "Outer HFR:",
+        "moveSensor": "(Move sensor",
+        "flattener": "flattener)",
+        "tiltCornerMeasurements": "Tilt Corner Measurements",
+        "sensorSide": "Sensor Side",
+        "focuserPosition": "Focuser Position",
+        "adjustmentSteps": "Adjustment Steps",
+        "adjustmentMicrons": "Adjustment Microns",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "steps"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Loading Aberration Inspector options...",
+        "noOptions": "No Aberration Inspector options available yet.",
+        "error": "Error:",
+        "inspectorSettings": "Inspector Settings",
+        "micronsPerFocuserStep": "Microns Per Focuser Step",
+        "retry": "Retry",
+        "resetToDefaults": "Reset to Defaults",
+        "resetting": "Resetting..."
+      },
+      "autoFocusOptions": {
+        "loading": "Loading AutoFocus options...",
+        "error": "Error:",
+        "retry": "Retry",
+        "basicSettings": "Basic Settings",
+        "hfrValidation": "HFR Validation"
+      },
+      "starDetection": {
+        "loading": "Loading Star Detection options...",
+        "error": "Error:",
+        "retry": "Retry",
+        "generalSettings": "General Settings",
+        "advancedMode": "Advanced Mode",
+        "useHotpixelThresholding": "Use Hotpixel Thresholding",
+        "useAutoFocusCrop": "Use AutoFocus Crop",
+        "fitPSF": "Fit PSF",
+        "hotpixelFiltering": "Hotpixel Filtering",
+        "noiseReducedStarMeasurement": "Noise Reduced Star Measurement",
+        "debugMode": "Debug Mode",
+        "simpleModeSettings": "Simple Mode Settings",
+        "noiseLevel": "Noise Level"
+      },
+      "common": {
+        "error": "Error:",
+        "loading": "Loading..."
+      }
+    }
+  },
+  "pinsDevices": {
+    "title": "PINS Devices",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configuration",
+    "generalTab": "General",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Power Ports",
+    "dewPortsTab": "Dew Ports",
+    "adjustablePowerTab": "Adjustable Power",
+    "weatherTab": "Weather",
+    "usbPortsTab": "USB Ports",
+    "settings": {
+      "title": "Settings",
+      "temperature": "Temperature:",
+      "humidity": "Humidity:",
+      "dewPoint": "DewPoint:",
+      "placeholders": {
+        "networkName": "My PowerBox Network",
+        "password": "Secure password (8+ characters)",
+        "passwordHint": "(min 8 chars)"
+      },
+      "validation": {
+        "passwordRequired": "Password must be at least 8 characters"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Disable on startup",
+      "enableOnStartup": "Enable on startup",
+      "alwaysEnabled": "Always enabled on startup (read-only)",
+      "status": "Status",
+      "current": "Current",
+      "currentVoltage": "Current Voltage",
+      "currentPower": "Current Power",
+      "outputVoltage": "Output Voltage",
+      "powerLevel": "Power Level",
+      "defaultVoltage": "0.00V"
+    },
+    "dew": {
+      "status": "Status",
+      "autoMode": "Auto Mode",
+      "disableAutoMode": "Disable Auto Mode",
+      "enableAutoMode": "Enable Auto Mode",
+      "probeTemperature": "Probe Temperature",
+      "current": "Current",
+      "maxCurrent": "Max Current",
+      "currentPower": "Current Power",
+      "autoThreshold": "Auto Threshold (ΔT)",
+      "autoThresholdDisplay": "Auto Threshold",
+      "autoThresholdDescription": "Temperature above dew point to maintain",
+      "powerLevel": "Power Level"
+    },
+    "power": {
+      "buckConverter": "Buck Converter",
+      "pwmOutput": "PWM Output"
+    },
+    "general": {
+      "rail12v": "12V Rail",
+      "rail5v": "5V Rail",
+      "averageAmps": "Average Amps",
+      "ampsPerHour": "Amps/Hour",
+      "wattsPerHour": "Watts/Hour"
+    },
+    "weather": {
+      "luxUnit": " lux"
+    },
+    "errors": {
+      "failedRenamePort": "Failed to rename port",
+      "failedTogglePort": "Failed to toggle port",
+      "failedToggleBootState": "Failed to toggle boot state",
+      "failedToggleAutoMode": "Failed to toggle auto mode",
+      "failedSetPowerLevel": "Failed to set power level"
     }
   },
   "dialogs": {

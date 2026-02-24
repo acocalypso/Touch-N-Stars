@@ -48,8 +48,7 @@
           props.disabled
         "
         :class="[
-          'text-gray-300 hover:text-white transition-colors duration-200 px-3 w-10 h-10 rounded-none border-l',
-          showPulse ? 'feature-highlight' : 'bg-gray-700 hover:bg-gray-600 border-gray-500',
+          'text-gray-300 hover:text-white transition-colors duration-200 px-3 w-10 h-10 rounded-none border-l bg-gray-700 hover:bg-gray-600 border-gray-500',
         ]"
         title="Settings"
       >
@@ -123,7 +122,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
@@ -140,15 +139,9 @@ const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
 const showSettingsModal = ref(false);
-const showPulse = ref(false);
-
-onMounted(() => {
-  showPulse.value = !settingsStore.mount.settingsVisited;
-});
 
 function openSettings() {
   showSettingsModal.value = true;
-  showPulse.value = false;
   settingsStore.mount.settingsVisited = true;
 }
 

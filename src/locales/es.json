@@ -825,7 +825,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Overshoot Angle",
         "OvershootDirection": "Overshoot Direction",
-        "ResetPosition": "Reset zero position"
+        "ResetPosition": "Reset zero position",
+        "Backlash": "Histéresis"
       }
     },
     "flat": {
@@ -839,7 +840,15 @@
         "close": "cerrar tapa",
         "open": "abrir tapa"
       },
-      "title": "Panel de Flat"
+      "title": "Panel de Flat",
+      "settings": {
+        "title": "Configuración",
+        "heater": "Potencia del Calentador (0-3)",
+        "openPosition": "Posición Abierta (°)",
+        "closedPosition": "Posición Cerrada (°)",
+        "currentPosition": "Posición Actual",
+        "noSettingsForDevice": "No hay configuración disponible para este dispositivo"
+      }
     },
     "switch": {
       "gauges": "Medidores",
@@ -1922,6 +1931,85 @@
         "scanning": "Buscando redes WiFi...",
         "ssid": "SSID de red"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Inspección de Aberraciones",
+        "aberrationOptions": "Opciones de Inspección de Aberraciones",
+        "autoFocusOptions": "Opciones de Enfoque Automático",
+        "starDetection": "Detección de Estrellas"
+      },
+      "modal": {
+        "selectDirectory": "Seleccionar Directorio de Enfoque Automático para Reejecutar",
+        "loading": "Cargando directorios de Enfoque Automático...",
+        "placeholder": "Elige un directorio de Enfoque Automático...",
+        "proceed": "Continuar",
+        "cancel": "Cancelar"
+      },
+      "aberrationInspector": {
+        "title": "Acciones de Enfoque Automático",
+        "runButton": "Ejecutar Enfoque Automático Detallado",
+        "cancelButton": "Cancelar Enfoque Automático",
+        "loadSaved": "Cargar AF Guardado",
+        "clearAnalyses": "Borrar Análisis",
+        "focusCurveAnalysis": "Análisis de Curva de Enfoque",
+        "finalFocusDataSummary": "Resumen de Datos de Enfoque Final",
+        "backfocusError": "Error de Enfoque Posterior:",
+        "hfrDifference": "Diferencia de HFR:",
+        "innerHFR": "HFR Interior:",
+        "outerHFR": "HFR Exterior:",
+        "moveSensor": "(Mover sensor",
+        "flattener": "achatador)",
+        "tiltCornerMeasurements": "Mediciones de Esquina de Inclinación",
+        "sensorSide": "Lado del Sensor",
+        "focuserPosition": "Posición del Enfocador",
+        "adjustmentSteps": "Pasos de Ajuste",
+        "adjustmentMicrons": "Micrones de Ajuste",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "pasos"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Cargando opciones del Inspección de Aberraciones...",
+        "noOptions": "Aún no hay opciones disponibles de Inspección de Aberraciones.",
+        "error": "Error:",
+        "inspectorSettings": "Configuración del Inspección",
+        "micronsPerFocuserStep": "Micrones por Paso del Enfocador",
+        "retry": "Reintentar",
+        "resetToDefaults": "Restablecer Valores Predeterminados",
+        "resetting": "Restableciendo..."
+      },
+      "autoFocusOptions": {
+        "loading": "Cargando opciones de Enfoque Automático...",
+        "error": "Error:",
+        "retry": "Reintentar",
+        "basicSettings": "Configuración Básica",
+        "hfrValidation": "Validación de HFR"
+      },
+      "directoryBrowser": {
+        "browse": "Examinar...",
+        "error": "Error al abrir el selector de directorios"
+      },
+      "starDetection": {
+        "loading": "Cargando opciones de Detección de Estrellas...",
+        "error": "Error:",
+        "retry": "Reintentar",
+        "generalSettings": "Configuración General",
+        "advancedMode": "Modo Avanzado",
+        "useHotpixelThresholding": "Usar Umbralización de Píxeles Calientes",
+        "useAutoFocusCrop": "Usar Recorte de Enfoque Automático",
+        "fitPSF": "Ajustar PSF",
+        "hotpixelFiltering": "Filtrado de Píxeles Calientes",
+        "noiseReducedStarMeasurement": "Medición de Estrellas con Ruido Reducido",
+        "debugMode": "Modo de Depuración",
+        "simpleModeSettings": "Configuración del Modo Simple",
+        "noiseLevel": "Nivel de Ruido"
+      },
+      "common": {
+        "error": "Error:",
+        "loading": "Cargando..."
+      }
     }
   },
   "dialogs": {
@@ -2063,5 +2151,79 @@
     "skyView": "Stellarium",
     "settings": "Ajustes",
     "about": "Info"
+  },
+  "pinsDevices": {
+    "title": "Dispositivos PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configuración",
+    "generalTab": "General",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Puertos de Energía",
+    "dewPortsTab": "Puertos de Rocío",
+    "adjustablePowerTab": "Potencia Ajustable",
+    "weatherTab": "Clima",
+    "usbPortsTab": "Puertos USB",
+    "settings": {
+      "title": "Configuración",
+      "temperature": "Temperatura",
+      "humidity": "Humedad",
+      "dewPoint": "Punto de Rocío",
+      "placeholders": {
+        "networkName": "Nombre de la Red",
+        "password": "Contraseña",
+        "passwordHint": "Pista de Contraseña"
+      },
+      "validation": {
+        "passwordRequired": "La contraseña es requerida"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Desabilitar al Iniciar",
+      "enableOnStartup": "Habilitar al Iniciar",
+      "alwaysEnabled": "Siempre Habilitado",
+      "status": "Estado",
+      "current": "Corriente",
+      "currentVoltage": "Voltaje Actual",
+      "currentPower": "Potencia Actual",
+      "outputVoltage": "Voltaje de Salida",
+      "powerLevel": "Nivel de Potencia",
+      "defaultVoltage": "Voltaje Predeterminado"
+    },
+    "dew": {
+      "status": "Estado",
+      "autoMode": "Modo Automático",
+      "disableAutoMode": "Desabilitar Modo Automático",
+      "enableAutoMode": "Habilitar Modo Automático",
+      "probeTemperature": "Temperatura de la Sonda",
+      "current": "Corriente",
+      "maxCurrent": "Corriente Máxima",
+      "currentPower": "Potencia Actual",
+      "autoThreshold": "Umbral Automático",
+      "autoThresholdDisplay": "Umbral Automático",
+      "autoThresholdDescription": "Calentar automáticamente el calentador de rocío cuando la temperatura está cerca del punto de rocío",
+      "powerLevel": "Nivel de Potencia"
+    },
+    "power": {
+      "buckConverter": "Convertidor Buck",
+      "pwmOutput": "Salida PWM"
+    },
+    "general": {
+      "rail12v": "Carril de 12V",
+      "rail5v": "Carril de 5V",
+      "averageAmps": "Amperios Promedio",
+      "ampsPerHour": "Amperios por Hora",
+      "wattsPerHour": "Vatios por Hora"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Error al renombrar puerto",
+      "failedTogglePort": "Error al alternar puerto",
+      "failedToggleBootState": "Error al alternar estado de inicio",
+      "failedToggleAutoMode": "Error al alternar modo automático",
+      "failedSetPowerLevel": "Error al establecer nivel de potencia"
+    }
   }
 }

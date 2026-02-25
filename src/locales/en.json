@@ -2026,29 +2026,29 @@
     "usbPortsTab": "USB Ports",
     "settings": {
       "title": "Settings",
-      "temperature": "Temperature:",
-      "humidity": "Humidity:",
-      "dewPoint": "DewPoint:",
+      "temperature": "Temperature",
+      "humidity": "Humidity",
+      "dewPoint": "Dew Point",
       "placeholders": {
-        "networkName": "My PowerBox Network",
-        "password": "Secure password (8+ characters)",
-        "passwordHint": "(min 8 chars)"
+        "networkName": "Network Name",
+        "password": "Password",
+        "passwordHint": "Password Hint"
       },
       "validation": {
-        "passwordRequired": "Password must be at least 8 characters"
+        "passwordRequired": "Password is required"
       }
     },
     "ports": {
-      "disableOnStartup": "Disable on startup",
-      "enableOnStartup": "Enable on startup",
-      "alwaysEnabled": "Always enabled on startup (read-only)",
+      "disableOnStartup": "Disable on Startup",
+      "enableOnStartup": "Enable on Startup",
+      "alwaysEnabled": "Always Enabled",
       "status": "Status",
       "current": "Current",
       "currentVoltage": "Current Voltage",
       "currentPower": "Current Power",
       "outputVoltage": "Output Voltage",
       "powerLevel": "Power Level",
-      "defaultVoltage": "0.00V"
+      "defaultVoltage": "Default Voltage"
     },
     "dew": {
       "status": "Status",
@@ -2059,9 +2059,9 @@
       "current": "Current",
       "maxCurrent": "Max Current",
       "currentPower": "Current Power",
-      "autoThreshold": "Auto Threshold (ΔT)",
+      "autoThreshold": "Auto Threshold",
       "autoThresholdDisplay": "Auto Threshold",
-      "autoThresholdDescription": "Temperature above dew point to maintain",
+      "autoThresholdDescription": "Automatically heat the dew heater when the temperature is close to the dew point",
       "powerLevel": "Power Level"
     },
     "power": {
@@ -2072,11 +2072,11 @@
       "rail12v": "12V Rail",
       "rail5v": "5V Rail",
       "averageAmps": "Average Amps",
-      "ampsPerHour": "Amps/Hour",
-      "wattsPerHour": "Watts/Hour"
+      "ampsPerHour": "Amps Per Hour",
+      "wattsPerHour": "Watts Per Hour"
     },
     "weather": {
-      "luxUnit": " lux"
+      "luxUnit": "Lux"
     },
     "errors": {
       "failedRenamePort": "Failed to rename port",

@@ -825,7 +825,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Kąt przekroczenia",
         "OvershootDirection": "Kierunek przekroczenia",
-        "ResetPosition": "Zresetuj pozycję zerową"
+        "ResetPosition": "Zresetuj pozycję zerową",
+        "Backlash": "Luz zwrotny"
       }
     },
     "flat": {
@@ -839,7 +840,15 @@
         "close": "zamknij pokrywę",
         "open": "otwórz pokrywę"
       },
-      "title": "Panel flat"
+      "title": "Panel flat",
+      "settings": {
+        "title": "Ustawienia",
+        "heater": "Moc grzejnika (0-3)",
+        "openPosition": "Pozycja otwarcia (°)",
+        "closedPosition": "Pozycja zamknięcia (°)",
+        "currentPosition": "Bieżąca pozycja",
+        "noSettingsForDevice": "Brak dostępnych ustawień dla tego urządzenia"
+      }
     },
     "flatassistant": {
       "title": "Asystent flat",
@@ -1922,6 +1931,85 @@
         "scanning": "Skanowanie w poszukiwaniu sieci Wi-Fi...",
         "ssid": "Identyfikator SSID sieci"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Inspektor aberracji",
+        "aberrationOptions": "Opcje inspektora aberracji",
+        "autoFocusOptions": "Opcje autofokusu",
+        "starDetection": "Wykrywanie gwiazd"
+      },
+      "modal": {
+        "selectDirectory": "Wybierz katalog autofokusu do ponownego uruchomienia",
+        "loading": "Ładowanie katalogów autofokusu...",
+        "placeholder": "Wybierz katalog autofokusu...",
+        "proceed": "Przejdź dalej",
+        "cancel": "Anuluj"
+      },
+      "aberrationInspector": {
+        "title": "Akcje autofokusu",
+        "runButton": "Uruchom szczegółowy autofokus",
+        "cancelButton": "Anuluj autofokus",
+        "loadSaved": "Załaduj zapisane AF",
+        "clearAnalyses": "Wyczyść analizy",
+        "focusCurveAnalysis": "Analiza krzywej ogniskowania",
+        "finalFocusDataSummary": "Podsumowanie ostatecznych danych ostrości",
+        "backfocusError": "Błąd ostrości wstecznej:",
+        "hfrDifference": "Różnica HFR:",
+        "innerHFR": "Wewnętrzne HFR:",
+        "outerHFR": "Zewnętrzne HFR:",
+        "moveSensor": "(Przesuń czujnik",
+        "flattener": "spłaszczacz)",
+        "tiltCornerMeasurements": "Pomiary kątów nachylenia",
+        "sensorSide": "Strona czujnika",
+        "focuserPosition": "Pozycja fokusera",
+        "adjustmentSteps": "Kroki dostosowania",
+        "adjustmentMicrons": "Mikrony dostosowania",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "kroki"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Ładowanie opcji inspektora aberracji...",
+        "noOptions": "Brak dostępnych opcji inspektora aberracji.",
+        "error": "Błąd:",
+        "inspectorSettings": "Ustawienia inspektora",
+        "micronsPerFocuserStep": "Mikrony na krok fokusera",
+        "retry": "Ponów",
+        "resetToDefaults": "Przywróć ustawienia domyślne",
+        "resetting": "Przywracanie..."
+      },
+      "autoFocusOptions": {
+        "loading": "Ładowanie opcji autofokusu...",
+        "error": "Błąd:",
+        "retry": "Ponów",
+        "basicSettings": "Ustawienia podstawowe",
+        "hfrValidation": "Weryfikacja HFR"
+      },
+      "directoryBrowser": {
+        "browse": "Przeglądaj...",
+        "error": "Nie udało się otworzyć selektora katalogów"
+      },
+      "starDetection": {
+        "loading": "Ładowanie opcji wykrywania gwiazd...",
+        "error": "Błąd:",
+        "retry": "Ponów",
+        "generalSettings": "Ustawienia ogólne",
+        "advancedMode": "Tryb zaawansowany",
+        "useHotpixelThresholding": "Użyj progowania gorących pikseli",
+        "useAutoFocusCrop": "Użyj obcięcia autofokusu",
+        "fitPSF": "Dopasuj PSF",
+        "hotpixelFiltering": "Filtrowanie gorących pikseli",
+        "noiseReducedStarMeasurement": "Pomiar gwiazd ze zmniejszonym szumem",
+        "debugMode": "Tryb debugowania",
+        "simpleModeSettings": "Ustawienia trybu prostego",
+        "noiseLevel": "Poziom szumu"
+      },
+      "common": {
+        "error": "Błąd:",
+        "loading": "Ładowanie..."
+      }
     }
   },
   "dialogs": {
@@ -2063,5 +2151,79 @@
     "skyView": "Stellarium",
     "settings": "Ustaw.",
     "about": "Info"
+  },
+  "pinsDevices": {
+    "title": "Urządzenia PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Konfiguracja",
+    "generalTab": "Ogólne",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Porty zasilania",
+    "dewPortsTab": "Porty rosy",
+    "adjustablePowerTab": "Moc regulowana",
+    "weatherTab": "Pogoda",
+    "usbPortsTab": "Porty USB",
+    "settings": {
+      "title": "Ustawienia",
+      "temperature": "Temperatura",
+      "humidity": "Wilgotność",
+      "dewPoint": "Punkt rosy",
+      "placeholders": {
+        "networkName": "Nazwa sieci",
+        "password": "Hasło",
+        "passwordHint": "Wskazówka hasła"
+      },
+      "validation": {
+        "passwordRequired": "Hasło jest wymagane"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Wyłącz przy starcie",
+      "enableOnStartup": "Włącz przy starcie",
+      "alwaysEnabled": "Zawsze włączony",
+      "status": "Stan",
+      "current": "Prąd",
+      "currentVoltage": "Bieżące napięcie",
+      "currentPower": "Bieżąca moc",
+      "outputVoltage": "Napięcie wyjściowe",
+      "powerLevel": "Poziom mocy",
+      "defaultVoltage": "Domyślne napięcie"
+    },
+    "dew": {
+      "status": "Stan",
+      "autoMode": "Tryb automatyczny",
+      "disableAutoMode": "Wyłącz tryb automatyczny",
+      "enableAutoMode": "Włącz tryb automatyczny",
+      "probeTemperature": "Temperatura sondy",
+      "current": "Prąd",
+      "maxCurrent": "Maksymalny prąd",
+      "currentPower": "Bieżąca moc",
+      "autoThreshold": "Automatyczny próg",
+      "autoThresholdDisplay": "Automatyczny próg",
+      "autoThresholdDescription": "Automatycznie grzej grzejnik rosy, gdy temperatura jest bliska punktowi rosy",
+      "powerLevel": "Poziom mocy"
+    },
+    "power": {
+      "buckConverter": "Konwerter Buck",
+      "pwmOutput": "Wyjście PWM"
+    },
+    "general": {
+      "rail12v": "Szyna 12V",
+      "rail5v": "Szyna 5V",
+      "averageAmps": "Średnie ampery",
+      "ampsPerHour": "Ampery na godzinę",
+      "wattsPerHour": "Waty na godzinę"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Nie udało się zmienić nazwy portu",
+      "failedTogglePort": "Nie udało się przełączyć portu",
+      "failedToggleBootState": "Nie udało się przełączyć stanu rozruchu",
+      "failedToggleAutoMode": "Nie udało się przełączyć trybu automatycznego",
+      "failedSetPowerLevel": "Nie udało się ustawić poziomu mocy"
+    }
   }
 }

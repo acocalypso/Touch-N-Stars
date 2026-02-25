@@ -826,7 +826,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Overshoot Angle",
         "OvershootDirection": "Overshoot Direction",
-        "ResetPosition": "Reset zero position"
+        "ResetPosition": "Reset zero position",
+        "Backlash": "反向间隙"
       }
     },
     "flat": {
@@ -840,7 +841,15 @@
         "close": "关闭盖子",
         "open": "打开盖子"
       },
-      "title": "平场面板"
+      "title": "平场面板",
+      "settings": {
+        "title": "设置",
+        "heater": "加热器功率 (0-3)",
+        "openPosition": "打开位置 (°)",
+        "closedPosition": "关闭位置 (°)",
+        "currentPosition": "当前位置",
+        "noSettingsForDevice": "此设备没有可用的设置"
+      }
     },
     "flatassistant": {
       "title": "平场助手",
@@ -1923,6 +1932,85 @@
         "scanning": "Scanning for WiFi networks...",
         "ssid": "Network SSID"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "像差检查器",
+        "aberrationOptions": "像差检查器选项",
+        "autoFocusOptions": "自动对焦选项",
+        "starDetection": "星星检测"
+      },
+      "modal": {
+        "selectDirectory": "选择自动对焦目录以重新运行",
+        "loading": "正在加载自动对焦目录...",
+        "placeholder": "选择一个自动对焦目录...",
+        "proceed": "继续",
+        "cancel": "取消"
+      },
+      "aberrationInspector": {
+        "title": "自动对焦操作",
+        "runButton": "运行详细的自动对焦",
+        "cancelButton": "取消自动对焦",
+        "loadSaved": "加载已保存的AF",
+        "clearAnalyses": "清除分析",
+        "focusCurveAnalysis": "焦点曲线分析",
+        "finalFocusDataSummary": "最终焦点数据摘要",
+        "backfocusError": "后焦点误差:",
+        "hfrDifference": "HFR 差异:",
+        "innerHFR": "内部HFR:",
+        "outerHFR": "外部HFR:",
+        "moveSensor": "(移动传感器",
+        "flattener": "扁平器)",
+        "tiltCornerMeasurements": "倾斜角测量",
+        "sensorSide": "传感器侧",
+        "focuserPosition": "对焦器位置",
+        "adjustmentSteps": "调整步数",
+        "adjustmentMicrons": "调整微米",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "步数"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "正在加载像差检查器选项...",
+        "noOptions": "还没有可用的像差检查器选项。",
+        "error": "错误:",
+        "inspectorSettings": "检查器设置",
+        "micronsPerFocuserStep": "每个对焦器步骤的微米数",
+        "retry": "重试",
+        "resetToDefaults": "重置为默认值",
+        "resetting": "正在重置..."
+      },
+      "autoFocusOptions": {
+        "loading": "正在加载自动对焦选项...",
+        "error": "错误:",
+        "retry": "重试",
+        "basicSettings": "基本设置",
+        "hfrValidation": "HFR验证"
+      },
+      "directoryBrowser": {
+        "browse": "浏览...",
+        "error": "无法打开目录选择器"
+      },
+      "starDetection": {
+        "loading": "正在加载星星检测选项...",
+        "error": "错误:",
+        "retry": "重试",
+        "generalSettings": "常规设置",
+        "advancedMode": "高级模式",
+        "useHotpixelThresholding": "使用热像素阈值处理",
+        "useAutoFocusCrop": "使用自动对焦裁剪",
+        "fitPSF": "拟合PSF",
+        "hotpixelFiltering": "热像素滤波",
+        "noiseReducedStarMeasurement": "降噪星测量",
+        "debugMode": "调试模式",
+        "simpleModeSettings": "简单模式设置",
+        "noiseLevel": "噪声级别"
+      },
+      "common": {
+        "error": "错误:",
+        "loading": "正在加载..."
+      }
     }
   },
   "dialogs": {
@@ -2064,5 +2152,79 @@
     "skyView": "Stellarium",
     "settings": "设置",
     "about": "关于"
+  },
+  "pinsDevices": {
+    "title": "PINS设备",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "配置",
+    "generalTab": "常规",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "电源端口",
+    "dewPortsTab": "露水端口",
+    "adjustablePowerTab": "可调节的功率",
+    "weatherTab": "天气",
+    "usbPortsTab": "USB端口",
+    "settings": {
+      "title": "设置",
+      "temperature": "温度",
+      "humidity": "湿度",
+      "dewPoint": "露点",
+      "placeholders": {
+        "networkName": "网络名称",
+        "password": "密码",
+        "passwordHint": "密码提示"
+      },
+      "validation": {
+        "passwordRequired": "密码是必需的"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "启动时禁用",
+      "enableOnStartup": "启动时启用",
+      "alwaysEnabled": "始终启用",
+      "status": "状态",
+      "current": "电流",
+      "currentVoltage": "当前电压",
+      "currentPower": "当前电源",
+      "outputVoltage": "输出电压",
+      "powerLevel": "功率等级",
+      "defaultVoltage": "默认电压"
+    },
+    "dew": {
+      "status": "状态",
+      "autoMode": "自动模式",
+      "disableAutoMode": "禁用自动模式",
+      "enableAutoMode": "启用自动模式",
+      "probeTemperature": "探针温度",
+      "current": "电流",
+      "maxCurrent": "最大电流",
+      "currentPower": "当前电源",
+      "autoThreshold": "自动阈值",
+      "autoThresholdDisplay": "自动阈值",
+      "autoThresholdDescription": "当温度接近露点时自动加热露水加热器",
+      "powerLevel": "功率等级"
+    },
+    "power": {
+      "buckConverter": "降压变压器",
+      "pwmOutput": "PWM输出"
+    },
+    "general": {
+      "rail12v": "12V导轨",
+      "rail5v": "5V导轨",
+      "averageAmps": "平均安培数",
+      "ampsPerHour": "安培每小时",
+      "wattsPerHour": "瓦特每小时"
+    },
+    "weather": {
+      "luxUnit": "勒克斯"
+    },
+    "errors": {
+      "failedRenamePort": "无法重命名端口",
+      "failedTogglePort": "无法切换端口",
+      "failedToggleBootState": "无法切换启动状态",
+      "failedToggleAutoMode": "无法切换自动模式",
+      "failedSetPowerLevel": "无法设置功率级别"
+    }
   }
 }

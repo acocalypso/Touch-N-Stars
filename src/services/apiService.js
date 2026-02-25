@@ -2586,6 +2586,30 @@ const apiService = {
         throw error;
       }
     },
+
+    async browseDirectories(path = null) {
+      try {
+        const { API_URL } = getUrls();
+        let url = `${API_URL}hocusfocus/browse-directories`;
+        if (path) {
+          url += `?path=${encodeURIComponent(path)}`;
+        }
+        console.log('[API] Browsing directories with URL:', url);
+        const response = await axios.get(url);
+        console.log('[API] Browse response:', response);
+        return response.data;
+      } catch (error) {
+        console.error('[API] Error browsing directories:', error);
+        console.error('[API] Error details:', {
+          message: error.message,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+          config: error.config,
+        });
+        throw error;
+      }
+    },
   },
 };
 

@@ -1987,6 +1987,10 @@
         "basicSettings": "Basic Settings",
         "hfrValidation": "HFR Validation"
       },
+      "directoryBrowser": {
+        "browse": "Browse...",
+        "error": "Failed to open directory picker"
+      },
       "starDetection": {
         "loading": "Loading Star Detection options...",
         "error": "Error:",

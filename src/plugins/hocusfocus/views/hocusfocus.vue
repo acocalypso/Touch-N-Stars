@@ -10,7 +10,7 @@
 
         <!-- Tabs Navigation -->
         <div class="border border-gray-700 rounded-lg bg-gray-800">
-          <div class="flex border-b border-gray-700">
+          <div class="flex border-b border-gray-700 overflow-x-auto snap-x snap-mandatory">
             <button
               @click="activeTab = 'aberration'"
               :class="
@@ -18,7 +18,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.aberration') }}
             </button>
@@ -29,7 +29,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.aberrationOptions') }}
             </button>
@@ -40,7 +40,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.autoFocusOptions') }}
             </button>
@@ -52,7 +52,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.starDetection') }}
             </button>

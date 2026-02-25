@@ -624,13 +624,15 @@
         "TRENDHYPERBOLIC": "Tendance hyperbolique",
         "TRENDLINES": "Lignes de tendance",
         "TRENDPARABOLIC": "Tendance Parabolique",
-        "title": "Autofocus-Settings",
+        "title": "Settings",
+        "general": "General Settings",
+        "autofocus": "Autofocus Settings",
         "advanced": "Advanced",
         "backlash": "Backlash",
-        "basic": "Paramètres de base",
         "crop_and_stars": "Crop",
         "Reverse": "Inverser",
-        "UseFilterWheelOffsets": "Utiliser les décalages de roue à filtres"
+        "UseFilterWheelOffsets": "Utiliser les décalages de roue à filtres",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },
@@ -825,7 +827,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Angle de dépassement",
         "OvershootDirection": "Direction du dépassement",
-        "ResetPosition": "Réinitialiser la position zéro"
+        "ResetPosition": "Réinitialiser la position zéro",
+        "Backlash": "Jeu"
       }
     },
     "flat": {
@@ -839,7 +842,15 @@
         "close": "fermer le couvercle",
         "open": "ouvrir le couvercle"
       },
-      "title": "Panneau de flat"
+      "title": "Panneau de flat",
+      "settings": {
+        "title": "Paramètres",
+        "heater": "Puissance du Chauffage (0-3)",
+        "openPosition": "Position Ouverte (°)",
+        "closedPosition": "Position Fermée (°)",
+        "currentPosition": "Position Actuelle",
+        "noSettingsForDevice": "Aucun paramètre disponible pour ce dispositif"
+      }
     },
     "flatassistant": {
       "title": "Assistant de flat",
@@ -1922,6 +1933,85 @@
         "scanning": "Recherche de réseaux WiFi...",
         "ssid": "SSID du réseau"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Inspecteur d'Aberration",
+        "aberrationOptions": "Options de l'Inspecteur d'Aberration",
+        "autoFocusOptions": "Options d'Autofocus",
+        "starDetection": "Détection d'Étoiles"
+      },
+      "modal": {
+        "selectDirectory": "Sélectionnez le Répertoire Autofocus à Relancer",
+        "loading": "Chargement des répertoires Autofocus...",
+        "placeholder": "Choisissez un répertoire Autofocus...",
+        "proceed": "Continuer",
+        "cancel": "Annuler"
+      },
+      "aberrationInspector": {
+        "title": "Actions d'Autofocus",
+        "runButton": "Exécuter Autofocus Détaillé",
+        "cancelButton": "Annuler Autofocus",
+        "loadSaved": "Charger AF Enregistré",
+        "clearAnalyses": "Effacer les Analyses",
+        "focusCurveAnalysis": "Analyse de la Courbe de Mise au Point",
+        "finalFocusDataSummary": "Résumé des Données de Mise au Point Finale",
+        "backfocusError": "Erreur de Mise au Point Arrière:",
+        "hfrDifference": "Différence HFR:",
+        "innerHFR": "HFR Intérieur:",
+        "outerHFR": "HFR Extérieur:",
+        "moveSensor": "(Déplacer le capteur",
+        "flattener": "aplatisseur)",
+        "tiltCornerMeasurements": "Mesures de Coins d'Inclinaison",
+        "sensorSide": "Côté Capteur",
+        "focuserPosition": "Position du Focaliseur",
+        "adjustmentSteps": "Étapes d'Ajustement",
+        "adjustmentMicrons": "Microns d'Ajustement",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "étapes"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Chargement des options de l'Inspecteur d'Aberration...",
+        "noOptions": "Aucune option de l'Inspecteur d'Aberration disponible pour le moment.",
+        "error": "Erreur:",
+        "inspectorSettings": "Paramètres de l'Inspecteur",
+        "micronsPerFocuserStep": "Microns par Étape du Focaliseur",
+        "retry": "Réessayer",
+        "resetToDefaults": "Réinitialiser aux Valeurs par Défaut",
+        "resetting": "Réinitialisation..."
+      },
+      "autoFocusOptions": {
+        "loading": "Chargement des options d'Autofocus...",
+        "error": "Erreur:",
+        "retry": "Réessayer",
+        "basicSettings": "Paramètres de Base",
+        "hfrValidation": "Validation HFR"
+      },
+      "directoryBrowser": {
+        "browse": "Parcourir...",
+        "error": "Échec de l'ouverture du sélecteur de répertoires"
+      },
+      "starDetection": {
+        "loading": "Chargement des options de Détection d'Étoiles...",
+        "error": "Erreur:",
+        "retry": "Réessayer",
+        "generalSettings": "Paramètres Généraux",
+        "advancedMode": "Mode Avancé",
+        "useHotpixelThresholding": "Utiliser le Seuil de Pixels Chauds",
+        "useAutoFocusCrop": "Utiliser le Recadrage Autofocus",
+        "fitPSF": "Adapter PSF",
+        "hotpixelFiltering": "Filtrage des Pixels Chauds",
+        "noiseReducedStarMeasurement": "Mesure d'Étoiles à Bruit Réduit",
+        "debugMode": "Mode Débogage",
+        "simpleModeSettings": "Paramètres du Mode Simple",
+        "noiseLevel": "Niveau de Bruit"
+      },
+      "common": {
+        "error": "Erreur:",
+        "loading": "Chargement..."
+      }
     }
   },
   "dialogs": {
@@ -2063,5 +2153,79 @@
     "skyView": "Stellarium",
     "settings": "Réglages",
     "about": "Info"
+  },
+  "pinsDevices": {
+    "title": "Appareils PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configuration",
+    "generalTab": "Général",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Ports d'Alimentation",
+    "dewPortsTab": "Ports de Rosée",
+    "adjustablePowerTab": "Puissance Réglable",
+    "weatherTab": "Météo",
+    "usbPortsTab": "Ports USB",
+    "settings": {
+      "title": "Paramètres",
+      "temperature": "Température",
+      "humidity": "Humidité",
+      "dewPoint": "Point de Rosée",
+      "placeholders": {
+        "networkName": "Nom du Réseau",
+        "password": "Mot de Passe",
+        "passwordHint": "Indice de Mot de Passe"
+      },
+      "validation": {
+        "passwordRequired": "Le mot de passe est requis"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Désactiver au Démarrage",
+      "enableOnStartup": "Activer au Démarrage",
+      "alwaysEnabled": "Toujours Activé",
+      "status": "Statut",
+      "current": "Courant",
+      "currentVoltage": "Tension Actuelle",
+      "currentPower": "Puissance Actuelle",
+      "outputVoltage": "Tension de Sortie",
+      "powerLevel": "Niveau de Puissance",
+      "defaultVoltage": "Tension par Défaut"
+    },
+    "dew": {
+      "status": "Statut",
+      "autoMode": "Mode Automatique",
+      "disableAutoMode": "Désactiver Mode Automatique",
+      "enableAutoMode": "Activer Mode Automatique",
+      "probeTemperature": "Température de la Sonde",
+      "current": "Courant",
+      "maxCurrent": "Courant Maximum",
+      "currentPower": "Puissance Actuelle",
+      "autoThreshold": "Seuil Automatique",
+      "autoThresholdDisplay": "Seuil Automatique",
+      "autoThresholdDescription": "Chauffer automatiquement le chauffage de rosée lorsque la température est proche du point de rosée",
+      "powerLevel": "Niveau de Puissance"
+    },
+    "power": {
+      "buckConverter": "Convertisseur Buck",
+      "pwmOutput": "Sortie PWM"
+    },
+    "general": {
+      "rail12v": "Rail 12V",
+      "rail5v": "Rail 5V",
+      "averageAmps": "Ampères Moyens",
+      "ampsPerHour": "Ampères par Heure",
+      "wattsPerHour": "Watts par Heure"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Échec du renommage du port",
+      "failedTogglePort": "Échec du basculement du port",
+      "failedToggleBootState": "Échec du basculement de l'état de démarrage",
+      "failedToggleAutoMode": "Échec du basculement du mode automatique",
+      "failedSetPowerLevel": "Échec de la définition du niveau de puissance"
+    }
   }
 }

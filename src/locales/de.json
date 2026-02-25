@@ -624,13 +624,15 @@
         "TRENDHYPERBOLIC": "Hyperbolischer Trend",
         "TRENDLINES": "Trendlinien",
         "TRENDPARABOLIC": "Parabolischer Trend",
-        "title": "Autofokus-Einstellungen",
+        "title": "Einstellungen",
+        "general": "Allgemeine Einstellungen",
+        "autofocus": "Autofokus-Einstellungen",
         "advanced": "Advanced",
         "backlash": "Backlash",
-        "basic": "Grundeinstellungen",
         "crop_and_stars": "Crop",
         "Reverse": "Umkehren",
-        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden"
+        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
+        "MaxStep": "Max Steps"
       },
       "focus": "Fokus"
     },
@@ -825,7 +827,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Overshoot Winkel",
         "OvershootDirection": "Overshoot Richung",
-        "ResetPosition": "Nullposition zurücksetzen"
+        "ResetPosition": "Nullposition zurücksetzen",
+        "Backlash": "Spiel"
       }
     },
     "flat": {
@@ -839,7 +842,15 @@
         "close": "Deckel schließen",
         "open": "Deckel öffnen"
       },
-      "title": "Flatpanel"
+      "title": "Flatpanel",
+      "settings": {
+        "title": "Einstellungen",
+        "heater": "Heizleistung (0-3)",
+        "openPosition": "Öffnungsposition (°)",
+        "closedPosition": "Geschlossene Position (°)",
+        "currentPosition": "Aktuelle Position",
+        "noSettingsForDevice": "Keine Einstellungen für dieses Gerät verfügbar"
+      }
     },
     "flatassistant": {
       "title": "Flat Assistant",
@@ -973,17 +984,17 @@
       "phd2Title": "PHD2 Autostart",
       "phd2Running": "Dienst läuft derzeit",
       "phd2Stopped": "Dienst ist derzeit gestoppt",
-      "wifiTitle": "WLAN Einstellungen",
+      "wifiTitle": "WLAN-Konfiguration",
       "stationaryMode": "Stationärer Modus",
-      "stationaryDescription": "Aktivieren um WLAN Netzwerke zu suchen und zu verbinden",
+      "stationaryDescription": "Aktivieren Sie diese Option, um lokale WLAN-Netzwerke zu scannen und eine Verbindung zu ihnen herzustellen",
       "noNetworks": "Keine Netzwerke gefunden",
-      "wifiSelect": "Netzwerk auswählen",
+      "wifiSelect": "Wählen Sie Netzwerk",
       "wifiBand": "WLAN-Frequenzband",
       "bandAuto": "Automatisch",
       "wifiPassword": "Passwort",
       "autoConnect": "Nach dem Start automatisch mit ausgewähltem WLAN verbinden",
       "wifiConnect": "Verbinden",
-      "scanning": "Suche...",
+      "scanning": "Scannen...",
       "startUpgrade": "Upgrade starten",
       "upgrading": "Aktualisiere...",
       "terminalOutput": "TERMINAL AUSGABE",
@@ -1018,15 +1029,7 @@
         "wsConnected": "Verbindung hergestellt. Streame Protokolle...",
         "wsClosed": "Verbindung geschlossen. (Code: {code})",
         "wsError": "Ein WebSocket-Fehler ist aufgetreten."
-      },
-      "noNetworks": "Keine Netzwerke gefunden",
-      "scanning": "Scannen...",
-      "stationaryDescription": "Aktivieren Sie diese Option, um lokale WLAN-Netzwerke zu scannen und eine Verbindung zu ihnen herzustellen",
-      "stationaryMode": "Stationärer Modus",
-      "wifiConnect": "Verbinden",
-      "wifiPassword": "Passwort",
-      "wifiSelect": "Wählen Sie Netzwerk",
-      "wifiTitle": "WLAN-Konfiguration"
+      }
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",
@@ -1930,6 +1933,85 @@
         "scanning": "Suche nach WLAN-Netzwerken...",
         "ssid": "Netzwerk-SSID"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Aberrationsprüfer",
+        "aberrationOptions": "Optionen des Aberrationsprüfers",
+        "autoFocusOptions": "Autofokus-Optionen",
+        "starDetection": "Sternerkennung"
+      },
+      "modal": {
+        "selectDirectory": "Wählen Sie das Autofokus-Verzeichnis zum Neustart",
+        "loading": "Lade Autofokus-Verzeichnisse...",
+        "placeholder": "Wählen Sie ein Autofokus-Verzeichnis...",
+        "proceed": "Fortfahren",
+        "cancel": "Abbrechen"
+      },
+      "aberrationInspector": {
+        "title": "Autofokus-Aktionen",
+        "runButton": "Führen Sie detailliertes Autofokus aus",
+        "cancelButton": "Autofokus abbrechen",
+        "loadSaved": "Gespeichertes AF laden",
+        "clearAnalyses": "Analysen löschen",
+        "focusCurveAnalysis": "Fokus-Kurvenanalyse",
+        "finalFocusDataSummary": "Zusammenfassung der endgültigen Fokussdaten",
+        "backfocusError": "Rückfokus-Fehler:",
+        "hfrDifference": "HFR-Unterschied:",
+        "innerHFR": "Inneres HFR:",
+        "outerHFR": "Äußeres HFR:",
+        "moveSensor": "(Sensor verschieben",
+        "flattener": "Flächner)",
+        "tiltCornerMeasurements": "Neigung-Eckenmessungen",
+        "sensorSide": "Sensor-Seite",
+        "focuserPosition": "Fokussierer-Position",
+        "adjustmentSteps": "Einstellungsschritte",
+        "adjustmentMicrons": "Einstellungsmikronen",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "Schritte"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Lade Optionen des Aberrationsprüfers...",
+        "noOptions": "Noch keine Optionen des Aberrationsprüfers verfügbar.",
+        "error": "Fehler:",
+        "inspectorSettings": "Prüfer-Einstellungen",
+        "micronsPerFocuserStep": "Mikronen pro Fokussierschritt",
+        "retry": "Wiederholen",
+        "resetToDefaults": "Auf Standardwerte zurücksetzen",
+        "resetting": "Wird zurückgesetzt..."
+      },
+      "autoFocusOptions": {
+        "loading": "Lade Autofokus-Optionen...",
+        "error": "Fehler:",
+        "retry": "Wiederholen",
+        "basicSettings": "Grundeinstellungen",
+        "hfrValidation": "HFR-Validierung"
+      },
+      "directoryBrowser": {
+        "browse": "Durchsuchen...",
+        "error": "Fehler beim Öffnen der Verzeichnisauswahl"
+      },
+      "starDetection": {
+        "loading": "Lade Star Detection-Optionen...",
+        "error": "Fehler:",
+        "retry": "Wiederholen",
+        "generalSettings": "Allgemeine Einstellungen",
+        "advancedMode": "Erweiterter Modus",
+        "useHotpixelThresholding": "Hotpixel-Schwellenwertbildung verwenden",
+        "useAutoFocusCrop": "AutoFocus-Zuschnitt verwenden",
+        "fitPSF": "PSF-Anpassung",
+        "hotpixelFiltering": "Hotpixel-Filterung",
+        "noiseReducedStarMeasurement": "Rausch-reduzierte Sternmessung",
+        "debugMode": "Debug-Modus",
+        "simpleModeSettings": "Einfacher Modus-Einstellungen",
+        "noiseLevel": "Rauschpegel"
+      },
+      "common": {
+        "error": "Fehler:",
+        "loading": "Wird geladen..."
+      }
     }
   },
   "dialogs": {
@@ -2071,5 +2153,79 @@
     "skyView": "Stellarium",
     "settings": "Einstell.",
     "about": "Info"
+  },
+  "pinsDevices": {
+    "title": "PINS-Geräte",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Konfiguration",
+    "generalTab": "Allgemein",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Stromanschlüsse",
+    "dewPortsTab": "Tau-Anschlüsse",
+    "adjustablePowerTab": "Einstellbare Stromversorgung",
+    "weatherTab": "Wetter",
+    "usbPortsTab": "USB-Anschlüsse",
+    "settings": {
+      "title": "Einstellungen",
+      "temperature": "Temperatur",
+      "humidity": "Luftfeuchtigkeit",
+      "dewPoint": "Taupunkt",
+      "placeholders": {
+        "networkName": "Netzwerkname",
+        "password": "Passwort",
+        "passwordHint": "Passwort-Hinweis"
+      },
+      "validation": {
+        "passwordRequired": "Passwort ist erforderlich"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Beim Start deaktivieren",
+      "enableOnStartup": "Beim Start aktivieren",
+      "alwaysEnabled": "Immer aktiviert",
+      "status": "Status",
+      "current": "Stromstärke",
+      "currentVoltage": "Aktuelle Spannung",
+      "currentPower": "Aktuelle Leistung",
+      "outputVoltage": "Ausgangsspannung",
+      "powerLevel": "Energiestufe",
+      "defaultVoltage": "Standardspannung"
+    },
+    "dew": {
+      "status": "Status",
+      "autoMode": "Automatischer Modus",
+      "disableAutoMode": "Automatischer Modus deaktivieren",
+      "enableAutoMode": "Automatischer Modus aktivieren",
+      "probeTemperature": "Sondentemperatur",
+      "current": "Stromstärke",
+      "maxCurrent": "Maximale Stromstärke",
+      "currentPower": "Aktuelle Leistung",
+      "autoThreshold": "Automatischer Schwellenwert",
+      "autoThresholdDisplay": "Automatischer Schwellenwert",
+      "autoThresholdDescription": "Heizen Sie die Tauheizung automatisch auf, wenn die Temperatur nahe am Taupunkt liegt",
+      "powerLevel": "Energiestufe"
+    },
+    "power": {
+      "buckConverter": "Buck-Wandler",
+      "pwmOutput": "PWM-Ausgang"
+    },
+    "general": {
+      "rail12v": "12V-Schiene",
+      "rail5v": "5V-Schiene",
+      "averageAmps": "Durchschnittliche Ampere",
+      "ampsPerHour": "Ampere pro Stunde",
+      "wattsPerHour": "Watt pro Stunde"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Fehler beim Umbenennen des Anschlusses",
+      "failedTogglePort": "Fehler beim Umschalten des Anschlusses",
+      "failedToggleBootState": "Fehler beim Umschalten des Boot-Status",
+      "failedToggleAutoMode": "Fehler beim Umschalten des Automatisch-Modus",
+      "failedSetPowerLevel": "Fehler beim Einstellen der Energiestufe"
+    }
   }
 }

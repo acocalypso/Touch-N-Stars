@@ -1,11 +1,22 @@
 <template>
   <div class="flex flex-col gap-2 sm:gap-4">
-    <!-- Basic Settings Container -->
+    <!-- General Settings Container -->
+    <div
+      v-if="store.isPINS"
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.general') }}
+      </h3>
+      <setFocuserMaxStep />
+    </div>
+
+    <!-- AutoFocus Settings Container -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.basic') }}
+        {{ $t('components.focuser.settings.autofocus') }}
       </h3>
       <setFocuserUseFilterOffset />
       <SettingInput
@@ -144,6 +155,7 @@ import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue'
 import SettingSelect from '@/components/helpers/settings/SettingProfilSelect.vue';
 import setAutoFocusDisableGuiding from './settings/setAutoFocusDisableGuiding.vue';
 import setFocuserUseFilterOffset from './settings/setFocuserUseFilterOffset.vue';
+import setFocuserMaxStep from './settings/setFocuserMaxStep.vue';
 
 const store = apiStore();
 </script>

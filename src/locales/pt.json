@@ -624,13 +624,15 @@
         "TRENDHYPERBOLIC": "Tendência Hiperbólica",
         "TRENDLINES": "Linhas de tendência",
         "TRENDPARABOLIC": "Tendência Parabólica",
-        "title": "Autofocus-Settings",
+        "title": "Settings",
+        "general": "General Settings",
+        "autofocus": "Autofocus Settings",
         "advanced": "Advanced",
         "backlash": "Backlash",
-        "basic": "Configurações básicas",
         "crop_and_stars": "Crop",
         "Reverse": "Inverter",
-        "UseFilterWheelOffsets": "Usar offsets da roda de filtros"
+        "UseFilterWheelOffsets": "Usar offsets da roda de filtros",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },
@@ -825,7 +827,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Ângulo de ultrapassagem",
         "OvershootDirection": "Direção de ultrapassagem",
-        "ResetPosition": "Redefinir posição zero"
+        "ResetPosition": "Redefinir posição zero",
+        "Backlash": "Histerese"
       }
     },
     "flat": {
@@ -839,7 +842,15 @@
         "close": "fechar tampa",
         "open": "abrir tampa"
       },
-      "title": "Painel flat"
+      "title": "Painel flat",
+      "settings": {
+        "title": "Configurações",
+        "heater": "Potência do Aquecedor (0-3)",
+        "openPosition": "Posição Aberta (°)",
+        "closedPosition": "Posição Fechada (°)",
+        "currentPosition": "Posição Atual",
+        "noSettingsForDevice": "Nenhuma configuração disponível para este dispositivo"
+      }
     },
     "flatassistant": {
       "title": "Assistente flat",
@@ -1922,6 +1933,85 @@
         "scanning": "Procurando redes WiFi...",
         "ssid": "SSID da rede"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Inspetor de Aberrações",
+        "aberrationOptions": "Opções do Inspetor de Aberrações",
+        "autoFocusOptions": "Opções de Autofoco",
+        "starDetection": "Detecção de Estrelas"
+      },
+      "modal": {
+        "selectDirectory": "Selecione Diretório de Autofoco para Reexecutar",
+        "loading": "Carregando diretórios de Autofoco...",
+        "placeholder": "Escolha um diretório de Autofoco...",
+        "proceed": "Prosseguir",
+        "cancel": "Cancelar"
+      },
+      "aberrationInspector": {
+        "title": "Ações de Autofoco",
+        "runButton": "Executar Autofoco Detalhado",
+        "cancelButton": "Cancelar Autofoco",
+        "loadSaved": "Carregar AF Salvo",
+        "clearAnalyses": "Limpar Análises",
+        "focusCurveAnalysis": "Análise da Curva de Foco",
+        "finalFocusDataSummary": "Resumo dos Dados de Foco Final",
+        "backfocusError": "Erro de Foco Posterior:",
+        "hfrDifference": "Diferença HFR:",
+        "innerHFR": "HFR Interior:",
+        "outerHFR": "HFR Exterior:",
+        "moveSensor": "(Mover sensor",
+        "flattener": "achatador)",
+        "tiltCornerMeasurements": "Medições de Canto de Inclinação",
+        "sensorSide": "Lado do Sensor",
+        "focuserPosition": "Posição do Focalizador",
+        "adjustmentSteps": "Etapas de Ajuste",
+        "adjustmentMicrons": "Microns de Ajuste",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "etapas"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Carregando opções do Inspetor de Aberrações...",
+        "noOptions": "Nenhuma opção do Inspetor de Aberrações disponível ainda.",
+        "error": "Erro:",
+        "inspectorSettings": "Configurações do Inspetor",
+        "micronsPerFocuserStep": "Microns por Etapa do Focalizador",
+        "retry": "Tentar novamente",
+        "resetToDefaults": "Redefinir para Padrões",
+        "resetting": "Redefinindo..."
+      },
+      "autoFocusOptions": {
+        "loading": "Carregando opções de Autofoco...",
+        "error": "Erro:",
+        "retry": "Tentar novamente",
+        "basicSettings": "Configurações Básicas",
+        "hfrValidation": "Validação HFR"
+      },
+      "directoryBrowser": {
+        "browse": "Procurar...",
+        "error": "Falha ao abrir seletor de diretório"
+      },
+      "starDetection": {
+        "loading": "Carregando opções de Detecção de Estrelas...",
+        "error": "Erro:",
+        "retry": "Tentar novamente",
+        "generalSettings": "Configurações Gerais",
+        "advancedMode": "Modo Avançado",
+        "useHotpixelThresholding": "Usar Limiarização de Pixels Quentes",
+        "useAutoFocusCrop": "Usar Recorte de Autofoco",
+        "fitPSF": "Ajustar PSF",
+        "hotpixelFiltering": "Filtragem de Pixels Quentes",
+        "noiseReducedStarMeasurement": "Medição de Estrelas com Ruído Reduzido",
+        "debugMode": "Modo de Depuração",
+        "simpleModeSettings": "Configurações do Modo Simples",
+        "noiseLevel": "Nível de Ruído"
+      },
+      "common": {
+        "error": "Erro:",
+        "loading": "Carregando..."
+      }
     }
   },
   "dialogs": {
@@ -2063,5 +2153,79 @@
     "settings": "Configurações",
     "skyView": "Stellarium",
     "switch": "Trocar"
+  },
+  "pinsDevices": {
+    "title": "Dispositivos PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configuração",
+    "generalTab": "Geral",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Portas de Energia",
+    "dewPortsTab": "Portas de Orvalho",
+    "adjustablePowerTab": "Potência Ajustável",
+    "weatherTab": "Tempo",
+    "usbPortsTab": "Portas USB",
+    "settings": {
+      "title": "Configurações",
+      "temperature": "Temperatura",
+      "humidity": "Umidade",
+      "dewPoint": "Ponto de Orvalho",
+      "placeholders": {
+        "networkName": "Nome da Rede",
+        "password": "Senha",
+        "passwordHint": "Dica de Senha"
+      },
+      "validation": {
+        "passwordRequired": "Senha é obrigatória"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Desabilitar na Inicialização",
+      "enableOnStartup": "Habilitar na Inicialização",
+      "alwaysEnabled": "Sempre Habilitado",
+      "status": "Status",
+      "current": "Corrente",
+      "currentVoltage": "Tensão Atual",
+      "currentPower": "Potência Atual",
+      "outputVoltage": "Tensão de Saída",
+      "powerLevel": "Nível de Potência",
+      "defaultVoltage": "Tensão Padrão"
+    },
+    "dew": {
+      "status": "Status",
+      "autoMode": "Modo Automático",
+      "disableAutoMode": "Desabilitar Modo Automático",
+      "enableAutoMode": "Habilitar Modo Automático",
+      "probeTemperature": "Temperatura da Sonda",
+      "current": "Corrente",
+      "maxCurrent": "Corrente Máxima",
+      "currentPower": "Potência Atual",
+      "autoThreshold": "Limite Automático",
+      "autoThresholdDisplay": "Limite Automático",
+      "autoThresholdDescription": "Aqueça automaticamente o aquecedor de orvalho quando a temperatura estiver perto do ponto de orvalho",
+      "powerLevel": "Nível de Potência"
+    },
+    "power": {
+      "buckConverter": "Conversor Buck",
+      "pwmOutput": "Saída PWM"
+    },
+    "general": {
+      "rail12v": "Trilho 12V",
+      "rail5v": "Trilho 5V",
+      "averageAmps": "Amperes Médios",
+      "ampsPerHour": "Amperes por Hora",
+      "wattsPerHour": "Watts por Hora"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Falha ao renomear porta",
+      "failedTogglePort": "Falha ao alternar porta",
+      "failedToggleBootState": "Falha ao alternar estado de inicialização",
+      "failedToggleAutoMode": "Falha ao alternar modo automático",
+      "failedSetPowerLevel": "Falha ao definir nível de potência"
+    }
   }
 }

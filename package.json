@@ -17,6 +17,7 @@
     "ionic:serve": "npm run serve",
     "locale:entry": "node scripts/add-locale-entry.js",
     "locale:entry:all": "node scripts/add-locale-entry-all.js",
+    "locale:find-missing-keys": "node scripts/find-missing-keys.js",
     "generate-plugins": "node scripts/generate-plugin-registry.js",
     "generate-whats-new": "node scripts/generate-whats-new.js",
     "create-plugin": "node scripts/generate-plugin.js"

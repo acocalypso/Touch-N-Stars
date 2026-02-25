@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="store.focuserInfo.CanSetMaxStep"
-    class="flex flex-row items-center justify-start"
-  >
+  <div v-if="store.focuserInfo.CanSetMaxStep" class="flex flex-row items-center justify-start">
     <NumberInputPicker
       v-model="maxStep"
       :label="$t('components.focuser.settings.MaxStep')"

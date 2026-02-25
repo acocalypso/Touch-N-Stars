@@ -633,7 +633,8 @@
         "basic": "Basic Settings",
         "crop_and_stars": "Crop",
         "Reverse": "Obrátit",
-        "UseFilterWheelOffsets": "Použít offsety filtrovacího kola"
+        "UseFilterWheelOffsets": "Použít offsety filtrovacího kola",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },

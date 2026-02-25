@@ -631,7 +631,8 @@
         "backlash": "Backlash",
         "advanced": "Advanced",
         "Reverse": "Reverse",
-        "UseFilterWheelOffsets": "Use filterwheel offsets"
+        "UseFilterWheelOffsets": "Use filterwheel offsets",
+        "MaxStep": "Max Steps"
       }
     },
     "dome": {

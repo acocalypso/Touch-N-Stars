@@ -630,7 +630,8 @@
         "basic": "Paramètres de base",
         "crop_and_stars": "Crop",
         "Reverse": "Inverser",
-        "UseFilterWheelOffsets": "Utiliser les décalages de roue à filtres"
+        "UseFilterWheelOffsets": "Utiliser les décalages de roue à filtres",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },

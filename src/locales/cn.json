@@ -631,7 +631,8 @@
         "basic": "Basic Settings",
         "crop_and_stars": "Crop",
         "Reverse": "反向",
-        "UseFilterWheelOffsets": "使用滤镜轮偏移"
+        "UseFilterWheelOffsets": "使用滤镜轮偏移",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },

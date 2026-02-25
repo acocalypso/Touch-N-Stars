@@ -630,7 +630,8 @@
         "basic": "Configurações básicas",
         "crop_and_stars": "Crop",
         "Reverse": "Inverter",
-        "UseFilterWheelOffsets": "Usar offsets da roda de filtros"
+        "UseFilterWheelOffsets": "Usar offsets da roda de filtros",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },

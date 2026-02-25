@@ -630,7 +630,8 @@
         "basic": "Ustawienia podstawowe",
         "crop_and_stars": "Crop",
         "Reverse": "Odwróć",
-        "UseFilterWheelOffsets": "Użyj offsetów koła filtrów"
+        "UseFilterWheelOffsets": "Użyj offsetów koła filtrów",
+        "MaxStep": "Max Steps"
       },
       "focus": "Focus"
     },

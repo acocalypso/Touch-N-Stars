@@ -8,7 +8,6 @@
         {{ $t('components.focuser.settings.basic') }}
       </h3>
       <setFocuserUseFilterOffset />
-      <setFocuserMaxStep />
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusInitialOffsetSteps"
         settingKey="FocuserSettings-AutoFocusInitialOffsetSteps"
@@ -21,6 +20,7 @@
         :modelValue="store.profileInfo.FocuserSettings.AutoFocusStepSize"
         :max="1000"
       />
+      <setFocuserMaxStep />
       <SettingInput
         labelKey="components.focuser.settings.FocuserSettleTime"
         settingKey="FocuserSettings-FocuserSettleTime"

@@ -625,12 +625,13 @@
         "TRENDHYPERBOLIC": "Hyperbolische trend",
         "TRENDLINES": "Trendlijnen",
         "TRENDPARABOLIC": "Parabolische trend",
+        "title": "Settings",
+        "general": "General Settings",
+        "autofocus": "Autofocus Settings",
         "advanced": "Geavanceerd",
         "backlash": "Backlash",
-        "basic": "Basisinstellingen",
         "crop_and_stars": "Crop",
         "Reverse": "Omkeren",
-        "title": "Autofocus Instellingen",
         "UseFilterWheelOffsets": "Filterwiel offsets gebruiken",
         "MaxStep": "Max Steps"
       }

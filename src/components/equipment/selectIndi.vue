@@ -36,7 +36,7 @@
           @change="onFocuserChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in focuser" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -54,7 +54,7 @@
           @change="onFilterwheelChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in filterwheel" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -72,7 +72,7 @@
           @change="onRotatorChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in rotator" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -90,7 +90,7 @@
           @change="onTelescopeChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in telescope" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -108,7 +108,7 @@
           @change="onWeatherChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in weather" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -126,7 +126,7 @@
           @change="onSwitchesChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in switches" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -144,7 +144,7 @@
           @change="onFlatpanelChange"
           class="default-select w-40 ml-auto"
         >
-          <option value="">None</option>
+          <option value="None">None</option>
           <option v-for="item in flatpanel" :key="item.Name" :value="item.Name">
             {{ item.Label }}
           </option>
@@ -171,13 +171,13 @@ const weather = ref([]);
 const switches = ref([]);
 const flatpanel = ref([]);
 
-const selectedFocuser = ref('');
-const selectedFilterwheel = ref('');
-const selectedRotator = ref('');
-const selectedTelescope = ref('');
-const selectedWeather = ref('');
-const selectedSwitches = ref('');
-const selectedFlatpanel = ref('');
+const selectedFocuser = ref('None');
+const selectedFilterwheel = ref('None');
+const selectedRotator = ref('None');
+const selectedTelescope = ref('None');
+const selectedWeather = ref('None');
+const selectedSwitches = ref('None');
+const selectedFlatpanel = ref('None');
 
 const onFocuserChange = async () => {
   try {
@@ -290,13 +290,13 @@ onMounted(async () => {
     flatpanel.value = sortByLabel(flatpanelResponse.Response);
 
     // Set saved values from store as defaults
-    selectedFocuser.value = store.profileInfo?.FocuserSettings?.IndiDriver || '';
-    selectedFilterwheel.value = store.profileInfo?.FilterWheelSettings?.IndiDriver || '';
-    selectedRotator.value = store.profileInfo?.RotatorSettings?.IndiDriver || '';
-    selectedTelescope.value = store.profileInfo?.TelescopeSettings?.IndiDriver || '';
-    selectedWeather.value = store.profileInfo?.WeatherDataSettings?.IndiDriver || '';
-    selectedSwitches.value = store.profileInfo?.SwitchSettings?.IndiDriver || '';
-    selectedFlatpanel.value = store.profileInfo?.FlatDeviceSettings?.IndiDriver || '';
+    selectedFocuser.value = store.profileInfo?.FocuserSettings?.IndiDriver || 'None';
+    selectedFilterwheel.value = store.profileInfo?.FilterWheelSettings?.IndiDriver || 'None';
+    selectedRotator.value = store.profileInfo?.RotatorSettings?.IndiDriver || 'None';
+    selectedTelescope.value = store.profileInfo?.TelescopeSettings?.IndiDriver || 'None';
+    selectedWeather.value = store.profileInfo?.WeatherDataSettings?.IndiDriver || 'None';
+    selectedSwitches.value = store.profileInfo?.SwitchSettings?.IndiDriver || 'None';
+    selectedFlatpanel.value = store.profileInfo?.FlatDeviceSettings?.IndiDriver || 'None';
 
     console.log('[SelectIndi] All INDI devices loaded');
   } catch (error) {

@@ -49,7 +49,10 @@
         </div>
 
         <!-- Message and refresh button when no sequences are available -->
-        <div v-if="availableSequences.length === 0" class="flex gap-2 items-center">
+        <div
+          v-if="availableSequences.length === 0 && savedSequences.length === 0"
+          class="flex gap-2 items-center"
+        >
           <div
             class="flex-1 p-3 rounded-md text-sm bg-blue-600/20 text-blue-300 border border-blue-600/30"
           >

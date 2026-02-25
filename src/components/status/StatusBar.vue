@@ -144,7 +144,7 @@
             'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
             'glow-red': guiderStore.phd2StarLost,
           },
-          ]"
+        ]"
         @click="handleGuiderClickWithVisit"
       >
         <svg

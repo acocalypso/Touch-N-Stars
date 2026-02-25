@@ -295,7 +295,9 @@
               <div>
                 <label class="block text-sm font-medium text-gray-300 mb-2">
                   {{ $t('plugins.pinsDevices.wifi.hotspotPassword') }}
-                  <span class="text-xs text-gray-500">{{ t('plugins.pinsDevices.settings.placeholders.passwordHint') }}</span>
+                  <span class="text-xs text-gray-500">{{
+                    t('plugins.pinsDevices.settings.placeholders.passwordHint')
+                  }}</span>
                 </label>
                 <input
                   v-model="hotspotPassword"

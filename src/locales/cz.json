@@ -830,7 +830,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Overshoot Angle",
         "OvershootDirection": "Overshoot Direction",
-        "ResetPosition": "Reset zero position"
+        "ResetPosition": "Reset zero position",
+        "Backlash": "Hystereze"
       }
     },
     "flat": {
@@ -844,7 +845,15 @@
         "close": "kryt zavřen",
         "open": "kryt otevřen"
       },
-      "title": "Flat box"
+      "title": "Flat box",
+      "settings": {
+        "title": "Nastavení",
+        "heater": "Výkon topidla (0-3)",
+        "openPosition": "Poloha otevření (°)",
+        "closedPosition": "Poloha zavření (°)",
+        "currentPosition": "Aktuální poloha",
+        "noSettingsForDevice": "Pro toto zařízení nejsou k dispozici žádná nastavení"
+      }
     },
     "weatherModal": {
       "weatherInformation": "Informace o Počasí",
@@ -1928,6 +1937,85 @@
         "scanning": "Scanning for WiFi networks...",
         "ssid": "Network SSID"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Inspektor aberací",
+        "aberrationOptions": "Možnosti inspektoru aberací",
+        "autoFocusOptions": "Možnosti automatického zaostření",
+        "starDetection": "Detekce hvězd"
+      },
+      "modal": {
+        "selectDirectory": "Vyberte adresář automatického zaostření k opakování",
+        "loading": "Načítání adresářů automatického zaostření...",
+        "placeholder": "Zvolte adresář automatického zaostření...",
+        "proceed": "Pokračovat",
+        "cancel": "Zrušit"
+      },
+      "aberrationInspector": {
+        "title": "Akce automatického zaostření",
+        "runButton": "Spustit podrobné automatické zaostření",
+        "cancelButton": "Zrušit automatické zaostření",
+        "loadSaved": "Načíst uložené AF",
+        "clearAnalyses": "Vymazat analýzy",
+        "focusCurveAnalysis": "Analýza křivky zaostření",
+        "finalFocusDataSummary": "Shrnutí údajů o konečném zaostření",
+        "backfocusError": "Chyba zpětného zaostření:",
+        "hfrDifference": "Rozdíl HFR:",
+        "innerHFR": "Vnitřní HFR:",
+        "outerHFR": "Vnější HFR:",
+        "moveSensor": "(Posunout senzor",
+        "flattener": "plochý)",
+        "tiltCornerMeasurements": "Měření koutů sklonu",
+        "sensorSide": "Strana senzoru",
+        "focuserPosition": "Poloha fokusáru",
+        "adjustmentSteps": "Kroky nastavení",
+        "adjustmentMicrons": "Mikrony nastavení",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "kroky"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Načítání možností inspektoru aberací...",
+        "noOptions": "Zatím nejsou k dispozici žádné možnosti inspektoru aberací.",
+        "error": "Chyba:",
+        "inspectorSettings": "Nastavení inspektoru",
+        "micronsPerFocuserStep": "Mikrony na krok fokusáru",
+        "retry": "Zkusit znovu",
+        "resetToDefaults": "Obnovit výchozí hodnoty",
+        "resetting": "Obnovování..."
+      },
+      "autoFocusOptions": {
+        "loading": "Načítání možností automatického zaostření...",
+        "error": "Chyba:",
+        "retry": "Zkusit znovu",
+        "basicSettings": "Základní nastavení",
+        "hfrValidation": "Ověření HFR"
+      },
+      "directoryBrowser": {
+        "browse": "Procházet...",
+        "error": "Nepodařilo se otevřít výběr adresáře"
+      },
+      "starDetection": {
+        "loading": "Načítání možností detekce hvězd...",
+        "error": "Chyba:",
+        "retry": "Zkusit znovu",
+        "generalSettings": "Obecná nastavení",
+        "advancedMode": "Pokročilý režim",
+        "useHotpixelThresholding": "Použít prahování horké pixely",
+        "useAutoFocusCrop": "Použít oříznutí automatického zaostření",
+        "fitPSF": "Přizpůsobit PSF",
+        "hotpixelFiltering": "Filtrování horkých pixelů",
+        "noiseReducedStarMeasurement": "Měření hvězd se sníženým šumem",
+        "debugMode": "Režim ladění",
+        "simpleModeSettings": "Nastavení jednoduchého režimu",
+        "noiseLevel": "Úroveň hluku"
+      },
+      "common": {
+        "error": "Chyba:",
+        "loading": "Načítání..."
+      }
     }
   },
   "dialogs": {
@@ -2069,5 +2157,79 @@
     "skyView": "Stellarium",
     "settings": "Nastav.",
     "about": "Info"
+  },
+  "pinsDevices": {
+    "title": "Zařízení PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Konfigurace",
+    "generalTab": "Obecné",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Výkonové porty",
+    "dewPortsTab": "Porty rosy",
+    "adjustablePowerTab": "Nastavitelný výkon",
+    "weatherTab": "Počasí",
+    "usbPortsTab": "USB porty",
+    "settings": {
+      "title": "Nastavení",
+      "temperature": "Teplota",
+      "humidity": "Vlhkost",
+      "dewPoint": "Rosný bod",
+      "placeholders": {
+        "networkName": "Název sítě",
+        "password": "Heslo",
+        "passwordHint": "Nápověda k heslu"
+      },
+      "validation": {
+        "passwordRequired": "Heslo je povinné"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Zakázat při spuštění",
+      "enableOnStartup": "Povolit při spuštění",
+      "alwaysEnabled": "Vždy povoleno",
+      "status": "Stav",
+      "current": "Proud",
+      "currentVoltage": "Aktuální napětí",
+      "currentPower": "Aktuální výkon",
+      "outputVoltage": "Výstupní napětí",
+      "powerLevel": "Úroveň výkonu",
+      "defaultVoltage": "Výchozí napětí"
+    },
+    "dew": {
+      "status": "Stav",
+      "autoMode": "Automatický režim",
+      "disableAutoMode": "Zakázat automatický režim",
+      "enableAutoMode": "Povolit automatický režim",
+      "probeTemperature": "Teplota sondy",
+      "current": "Proud",
+      "maxCurrent": "Maximální proud",
+      "currentPower": "Aktuální výkon",
+      "autoThreshold": "Automatický práh",
+      "autoThresholdDisplay": "Automatický práh",
+      "autoThresholdDescription": "Automaticky ohřejte rosný ohřívač, když je teplota blízko rosného bodu",
+      "powerLevel": "Úroveň výkonu"
+    },
+    "power": {
+      "buckConverter": "Buck Converter",
+      "pwmOutput": "PWM výstup"
+    },
+    "general": {
+      "rail12v": "12V lišta",
+      "rail5v": "5V lišta",
+      "averageAmps": "Průměrné ampéry",
+      "ampsPerHour": "Ampéry za hodinu",
+      "wattsPerHour": "Watty za hodinu"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Nepodařilo se přejmenovat port",
+      "failedTogglePort": "Nepodařilo se přepnout port",
+      "failedToggleBootState": "Nepodařilo se přepnout stav startu",
+      "failedToggleAutoMode": "Nepodařilo se přepnout automatický režim",
+      "failedSetPowerLevel": "Nepodařilo se nastavit úroveň výkonu"
+    }
   }
 }

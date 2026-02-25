@@ -825,7 +825,8 @@
         "Overshoot": "Overshoot",
         "OvershootAngle": "Overschrijdingshoek",
         "OvershootDirection": "Overschrijdingsrichting",
-        "ResetPosition": "Nulpositie opnieuw instellen"
+        "ResetPosition": "Nulpositie opnieuw instellen",
+        "Backlash": "Hysterese"
       }
     },
     "flat": {
@@ -839,7 +840,15 @@
         "close": "sluit cover",
         "open": "open cover"
       },
-      "title": "Flatpanel"
+      "title": "Flatpanel",
+      "settings": {
+        "title": "Instellingen",
+        "heater": "Verwarmingsvermogen (0-3)",
+        "openPosition": "Openingspositie (°)",
+        "closedPosition": "Gesloten positie (°)",
+        "currentPosition": "Huidige positie",
+        "noSettingsForDevice": "Geen instellingen beschikbaar voor dit apparaat"
+      }
     },
     "flatassistant": {
       "title": "Flat assistent",
@@ -1922,6 +1931,85 @@
         "scanning": "Zoeken naar WiFi-netwerken...",
         "ssid": "Netwerk-SSID"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Aberratie-inspecteur",
+        "aberrationOptions": "Opties Aberratie-inspecteur",
+        "autoFocusOptions": "Autofocus-opties",
+        "starDetection": "Sterre detectie"
+      },
+      "modal": {
+        "selectDirectory": "Selecteer Autofocus-map om opnieuw uit te voeren",
+        "loading": "Autofocus-mappen laden...",
+        "placeholder": "Kies een Autofocus-map...",
+        "proceed": "Doorgaan",
+        "cancel": "Annuleren"
+      },
+      "aberrationInspector": {
+        "title": "Autofocus-acties",
+        "runButton": "Voer gedetailleerde Autofocus uit",
+        "cancelButton": "Autofocus annuleren",
+        "loadSaved": "Opgeslagen AF laden",
+        "clearAnalyses": "Analyses wissen",
+        "focusCurveAnalysis": "Focuskurveanalyse",
+        "finalFocusDataSummary": "Samenvatting Eindige Focusgegevens",
+        "backfocusError": "Achterfocusfout:",
+        "hfrDifference": "HFR-verschil:",
+        "innerHFR": "Binnenste HFR:",
+        "outerHFR": "Buitenste HFR:",
+        "moveSensor": "(Beweeg sensor",
+        "flattener": "vlakmaker)",
+        "tiltCornerMeasurements": "Kantelhoek-metingen",
+        "sensorSide": "Sensorzijde",
+        "focuserPosition": "Focusserpositie",
+        "adjustmentSteps": "Aanpassingsstappen",
+        "adjustmentMicrons": "Aanpassingsmicronen",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "stappen"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Opties Aberratie-inspecteur laden...",
+        "noOptions": "Nog geen opties voor Aberratie-inspecteur beschikbaar.",
+        "error": "Fout:",
+        "inspectorSettings": "Inspecteurinstellingen",
+        "micronsPerFocuserStep": "Micronen per Focusserstap",
+        "retry": "Opnieuw proberen",
+        "resetToDefaults": "Standaardwaarden herstellen",
+        "resetting": "Resetten..."
+      },
+      "autoFocusOptions": {
+        "loading": "Autofocus-opties laden...",
+        "error": "Fout:",
+        "retry": "Opnieuw proberen",
+        "basicSettings": "Basisinstellingen",
+        "hfrValidation": "HFR-validatie"
+      },
+      "directoryBrowser": {
+        "browse": "Bladeren...",
+        "error": "Fout bij het openen van directoryelector"
+      },
+      "starDetection": {
+        "loading": "Opties voor Sterre detectie laden...",
+        "error": "Fout:",
+        "retry": "Opnieuw proberen",
+        "generalSettings": "Algemene instellingen",
+        "advancedMode": "Geavanceerde modus",
+        "useHotpixelThresholding": "Drempel Hotpixel gebruiken",
+        "useAutoFocusCrop": "Autofocus-uitsnede gebruiken",
+        "fitPSF": "PSF aanpassen",
+        "hotpixelFiltering": "Hotpixel-filtering",
+        "noiseReducedStarMeasurement": "Ster-meting met ruisvermindering",
+        "debugMode": "Foutopsporingmodus",
+        "simpleModeSettings": "Eenvoudige modusinstellingen",
+        "noiseLevel": "Geluidsniveau"
+      },
+      "common": {
+        "error": "Fout:",
+        "loading": "Laden..."
+      }
     }
   },
   "dialogs": {
@@ -2063,5 +2151,79 @@
     "skyView": "Stellarium",
     "settings": "Instell.",
     "about": "Info"
+  },
+  "pinsDevices": {
+    "title": "PINS-apparaten",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configuratie",
+    "generalTab": "Algemeen",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Stroompoorten",
+    "dewPortsTab": "Dauwpoorten",
+    "adjustablePowerTab": "Regelbaar vermogen",
+    "weatherTab": "Weer",
+    "usbPortsTab": "USB-poorten",
+    "settings": {
+      "title": "Instellingen",
+      "temperature": "Temperatuur",
+      "humidity": "Vochtigheid",
+      "dewPoint": "Dauwpunt",
+      "placeholders": {
+        "networkName": "Netwerknaam",
+        "password": "Wachtwoord",
+        "passwordHint": "Wachtwoord-hint"
+      },
+      "validation": {
+        "passwordRequired": "Wachtwoord is verplicht"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Uitschakelen bij Startup",
+      "enableOnStartup": "Inschakelen bij Startup",
+      "alwaysEnabled": "Altijd ingeschakeld",
+      "status": "Status",
+      "current": "Stroom",
+      "currentVoltage": "Huidige Spanning",
+      "currentPower": "Huidge Vermogen",
+      "outputVoltage": "Uitgangsspanning",
+      "powerLevel": "Vermogensniveau",
+      "defaultVoltage": "Standaard Spanning"
+    },
+    "dew": {
+      "status": "Status",
+      "autoMode": "Automatische modus",
+      "disableAutoMode": "Automatische modus uitschakelen",
+      "enableAutoMode": "Automatische modus inschakelen",
+      "probeTemperature": "Sondetemperatuur",
+      "current": "Stroom",
+      "maxCurrent": "Maximale Stroom",
+      "currentPower": "Huidge Vermogen",
+      "autoThreshold": "Automatische drempel",
+      "autoThresholdDisplay": "Automatische drempel",
+      "autoThresholdDescription": "Verwarm automatisch de dauwverwarmer wanneer de temperatuur dicht bij het dauwpunt ligt",
+      "powerLevel": "Vermogensniveau"
+    },
+    "power": {
+      "buckConverter": "Buck-omzetter",
+      "pwmOutput": "PWM-uitgang"
+    },
+    "general": {
+      "rail12v": "12V-rail",
+      "rail5v": "5V-rail",
+      "averageAmps": "Gemiddelde Ampère",
+      "ampsPerHour": "Ampère per uur",
+      "wattsPerHour": "Watt per uur"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Fout bij het hernoemen van poort",
+      "failedTogglePort": "Fout bij het schakelen van poort",
+      "failedToggleBootState": "Fout bij het schakelen van opstartstatus",
+      "failedToggleAutoMode": "Fout bij het schakelen van automatische modus",
+      "failedSetPowerLevel": "Fout bij het instellen van vermogensniveau"
+    }
   }
 }

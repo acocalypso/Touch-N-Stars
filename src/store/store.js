@@ -92,7 +92,7 @@ export const apiStore = defineStore('store', {
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { Connected: false, TrackingMode: null },
     filterInfo: { Connected: false },
-    focuserInfo: { Connected: false, CanReverse: false },
+    focuserInfo: { Connected: false, CanReverse: false, CanSetMaxStep: false },
     rotatorInfo: { Connected: false },
     focuserAfInfo: { Connected: false },
     guiderInfo: { Connected: false },

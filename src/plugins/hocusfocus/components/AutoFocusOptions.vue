@@ -371,6 +371,22 @@
                 {{ optionErrors[key] }}
               </div>
             </template>
+            <template v-else-if="key === 'SavePath'">
+              <DirectoryBrowser
+                :model-value="store.autoFocusOptions[key]"
+                @update:model-value="
+                  (path) => {
+                    store.autoFocusOptions[key] = path;
+                    saveAutoFocusOption(key, path);
+                  }
+                "
+                :label="formatOptionName(key)"
+                :disabled="savingOptions.has(key)"
+              />
+              <div v-if="optionErrors[key]" class="text-red-400 text-xs mt-1">
+                {{ optionErrors[key] }}
+              </div>
+            </template>
             <template v-else>
               <label class="text-white mb-2 block">{{ formatOptionName(key) }}</label>
               <input
@@ -411,6 +427,7 @@
 import { ref, onMounted } from 'vue';
 import { useHocusFocusStore } from '../store/hocusfocusStore';
 import apiService from '@/services/apiService';
+import DirectoryBrowser from './DirectoryBrowser.vue';
 
 const store = useHocusFocusStore();
 

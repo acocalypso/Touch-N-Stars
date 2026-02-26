@@ -66,7 +66,7 @@
             @click="handleButtonClick(button.text)"
             class="default-button-cyan flex-1 px-4 py-3 rounded-lg font-medium transition-all"
           >
-            {{ button.text }}
+            {{ button.displayText }}
           </button>
         </div>
       </div>
@@ -175,10 +175,19 @@ const isSignalRMeridianFlipDialog = computed(() => {
 const visibleCommands = computed(() => {
   if (!currentDialog.value?.AvailableCommands) return [];
 
-  return currentDialog.value.AvailableCommands.map((cmd, index) => ({
-    text: cmd,
-    originalIndex: index,
-  })).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
+  return currentDialog.value.AvailableCommands.map((cmd, index) => {
+    // Map display text: show "ok" for "cancel" on SignalR Plate Solving dialogs
+    let displayText = cmd;
+    if (isSignalRPlateSolvingDialog.value && cmd.toLowerCase() === 'cancel') {
+      displayText = 'ok';
+    }
+
+    return {
+      text: cmd,
+      displayText: displayText,
+      originalIndex: index,
+    };
+  }).filter((cmd) => !cmd.text.startsWith('PART_') && cmd.text !== 'UnnamedButton');
 });
 
 // Dialog ID for minimize state tracking

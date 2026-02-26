@@ -4,7 +4,6 @@
     :zIndex="'z-[80]'"
     @close="handleClose"
     :closeOnBackdropClick="false"
-    :disableClose="store.isPINS"
     :isMinimized="isMinimized"
   >
     <template #header>

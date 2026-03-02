@@ -963,7 +963,9 @@
       "orientation": "Oriëntatie",
       "flipped": "Gespiegeld",
       "ra": "RA",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Pixelschaal",
+      "focal_length": "Brandpuntsafstand"
     }
   },
   "plugins": {

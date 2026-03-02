@@ -157,6 +157,10 @@ const container = ref(null);
 const image = ref(null);
 let panzoomInstance = null;
 
+// Double-tap detection
+let lastTapTime = 0;
+const DOUBLE_TAP_DELAY = 300;
+
 // State
 const zoomLevel = ref(1);
 const imageLoadError = ref(false);
@@ -213,12 +217,18 @@ const initPanzoom = () => {
 
     // Add mousewheel support
     container.value.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+
+    // Add double-tap support
+    image.value.addEventListener('touchstart', handleTouchStart, { passive: false });
   } catch (error) {
     console.error('Error initializing Panzoom:', error);
   }
 };
 
 const destroyPanzoom = () => {
+  if (image.value) {
+    image.value.removeEventListener('touchstart', handleTouchStart);
+  }
   if (panzoomInstance) {
     try {
       panzoomInstance.destroy();
@@ -244,6 +254,39 @@ const handleHistogramToggle = () => {
 
 const handleImageClick = () => {
   emits('click', { imageData: props.imageData, zoomLevel: zoomLevel.value });
+};
+
+const doubleTapZoom = (touch) => {
+  if (!panzoomInstance || !image.value || !container.value) return;
+  const currentScale = panzoomInstance.getScale();
+
+  if (Math.abs(currentScale - 1) < 0.1) {
+    // At fit view → zoom to 1:1 pixels centered on tap point
+    const containerRect = container.value.getBoundingClientRect();
+    const fitScale = Math.min(
+      containerRect.width / image.value.naturalWidth,
+      containerRect.height / image.value.naturalHeight
+    );
+    const targetScale = 1 / fitScale;
+    panzoomInstance.zoomToPoint(targetScale, { clientX: touch.clientX, clientY: touch.clientY });
+  } else {
+    // Not at fit view → reset to fit
+    panzoomInstance.reset();
+  }
+};
+
+const handleTouchStart = (event) => {
+  if (event.touches.length !== 1) return;
+  const now = Date.now();
+  const diff = now - lastTapTime;
+  if (diff < DOUBLE_TAP_DELAY && diff > 0) {
+    event.preventDefault();
+    event.stopPropagation();
+    doubleTapZoom(event.touches[0]);
+    lastTapTime = 0;
+  } else {
+    lastTapTime = now;
+  }
 };
 
 // Watch for image changes

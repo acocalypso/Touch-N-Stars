@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Responsive modal design for small screens
 - File Pattern Builder: Add free text input to customize file naming patterns with custom text segments
 - Plate Solve: Show calculated focal length based on pixel scale and camera sensor size
+- Image Viewer: Double-tap to toggle between 100% zoom (centered on tap point) and fit view
 
 ### Changed
 - Focuser: Replace focuser input with position display in quick access modal

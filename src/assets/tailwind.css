@@ -407,24 +407,5 @@
   .btn-danger {
     @apply px-4 py-2 rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors;
   }
-
-  .feature-highlight {
-    animation: feature-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-}
-
-@keyframes feature-pulse {
-  0% {
-    background-color: rgba(59, 130, 246, 0.2);
-    box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.3);
-  }
-  50% {
-    background-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.15), inset 0 0 20px rgba(59, 130, 246, 0.5);
-  }
-  100% {
-    background-color: rgba(59, 130, 246, 0.2);
-    box-shadow: 0 0 0 0px rgba(59, 130, 246, 0.5), inset 0 0 10px rgba(59, 130, 246, 0.3);
-  }
 }
 

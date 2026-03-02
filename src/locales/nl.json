@@ -151,6 +151,7 @@
         "separator": "Scheidingsteken",
         "empty": "Tik op de tokens hieronder om het patroon samen te stellen",
         "freeText": "Tekst",
+        "addText": "Toevoegen",
         "editTokens": "Tokens bewerken",
         "help": {
           "title": "Bestandsnaampatroon",
@@ -884,7 +885,9 @@
       "orientation": "Oriëntatie",
       "flipped": "Gespiegeld",
       "ra": "RA",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Pixelschaal",
+      "focal_length": "Brandpuntsafstand"
     }
   },
   "plugins": {

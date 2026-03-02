@@ -151,6 +151,7 @@
         "separator": "Separator",
         "empty": "Dotknij tokenów poniżej, aby zbudować wzorzec",
         "freeText": "Tekst",
+        "addText": "Dodaj",
         "editTokens": "Edytuj tokeny",
         "help": {
           "title": "Wzorzec nazwy pliku",
@@ -884,7 +885,9 @@
       "orientation": "Orientacja",
       "flipped": "Odwrócony",
       "ra": "RA",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Skala pikseli",
+      "focal_length": "Ogniskowa"
     }
   },
   "plugins": {

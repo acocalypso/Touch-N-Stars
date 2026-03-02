@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Orientation-aware position storage (landscape/portrait)
 - Responsive modal design for small screens
 - File Pattern Builder: Add free text input to customize file naming patterns with custom text segments
+- Plate Solve: Show calculated focal length based on pixel scale and camera sensor size
 
 ### Changed
 - Focuser: Replace focuser input with position display in quick access modal

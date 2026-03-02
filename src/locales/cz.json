@@ -891,7 +891,9 @@
       "orientation": "Orientace",
       "flipped": "Převráceno",
       "ra": "RA",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Měřítko pixelů",
+      "focal_length": "Ohnisková vzdálenost"
     }
   },
   "plugins": {

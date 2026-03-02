@@ -885,7 +885,9 @@
       "orientation": "Ausrichtung",
       "flipped": "Gespiegelt",
       "ra": "RA",
-      "dec": "Dek"
+      "dec": "Dek",
+      "pixel_scale": "Pixelskala",
+      "focal_length": "Brennweite"
     }
   },
   "plugins": {

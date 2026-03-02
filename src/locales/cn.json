@@ -886,7 +886,9 @@
       "orientation": "方向",
       "flipped": "翻转",
       "ra": "赤经",
-      "dec": "赤纬"
+      "dec": "赤纬",
+      "pixel_scale": "像素尺度",
+      "focal_length": "焦距"
     }
   },
   "plugins": {

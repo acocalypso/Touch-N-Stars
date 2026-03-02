@@ -885,7 +885,9 @@
       "orientation": "Orientación",
       "flipped": "Invertido",
       "ra": "AR",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Escala de píxeles",
+      "focal_length": "Distancia focal"
     }
   },
   "plugins": {

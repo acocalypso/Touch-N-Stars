@@ -121,9 +121,7 @@ import { usePickerStore } from '@/store/pickerStore';
 const pickerStore = usePickerStore();
 
 const isConfirmDisabled = computed(() => {
-  return (
-    pickerStore.isOutOfRange || pickerStore.inputString === '-'
-  );
+  return pickerStore.isOutOfRange || pickerStore.inputString === '-';
 });
 </script>
 

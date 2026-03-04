@@ -70,9 +70,11 @@
             <div class="w-2 h-2 rounded-full" :class="containerDot(idx)" />
             <span class="font-medium text-gray-100 cursor-pointer" @click="toggleSection(container.Id ?? idx)">{{ container.Name }}</span>
           </div>
-          <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusColor(container.Status)">
-            {{ container.Status }}
-          </span>
+          <AddTypeButton
+            :targetId="container.Items?.at(-1)?.Id ?? container.Id"
+            mode="item"
+            :insertAfter="(container.Items?.length ?? 0) > 0"
+          />
         </div>
 
         <!-- Container body with draggable items -->
@@ -94,7 +96,7 @@
               </template>
             </draggable>
           </template>
-          <div v-else class="text-center py-6 text-slate-500 text-sm">Keine Elemente</div>
+          <div v-else class="text-center py-4 text-slate-600 text-xs">{{ $t('components.sequence.emptyContainer') }}</div>
         </div>
       </div>
       </template>
@@ -109,6 +111,7 @@ import draggable from 'vuedraggable';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import SequenceItem from './SequenceItem.vue';
+import AddTypeButton from './AddTypeButton.vue';
 
 const store = useSequenceV2Store();
 const collapsed = reactive({});
@@ -117,15 +120,6 @@ function toggleSection(key) {
   collapsed[key] = !collapsed[key];
 }
 
-function statusColor(status) {
-  switch (status) {
-    case 'FINISHED': return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50';
-    case 'RUNNING':  return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50';
-    case 'CREATED':  return 'bg-amber-500/30 text-amber-200 border border-amber-400/50';
-    case 'SKIPPED':  return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
-    default:         return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
-  }
-}
 
 const DOT_COLORS = ['bg-blue-400', 'bg-green-400', 'bg-orange-400', 'bg-purple-400'];
 function containerDot(idx) {

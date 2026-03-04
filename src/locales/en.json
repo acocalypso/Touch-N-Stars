@@ -415,7 +415,8 @@
         "warmCamera": {
           "duration": "Duration (s)"
         }
-      }
+      },
+      "emptyContainer": "Empty — click + to add items"
     },
     "mount": {
       "title": "Mount",

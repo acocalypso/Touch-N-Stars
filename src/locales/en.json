@@ -240,7 +240,8 @@
         "emptyFields": "Empty fields"
       },
       "telescope": {
-        "titel": "Telescope settings"
+        "titel": "Telescope settings",
+        "name": "Telescope name"
       }
     },
     "connectEquipment": {

@@ -198,7 +198,8 @@
         "description": "Gestisci le impostazioni dell'attrezzatura"
       },
       "telescope": {
-        "titel": "Impostazioni del telescopio"
+        "titel": "Impostazioni del telescopio",
+        "name": "Nome del telescopio"
       },
       "beta": {
         "title": "Canale di aggiornamento beta"

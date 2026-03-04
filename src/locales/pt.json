@@ -198,7 +198,8 @@
         "description": "Gerenciar suas configurações de equipamento"
       },
       "telescope": {
-        "titel": "Configurações do telescópio"
+        "titel": "Configurações do telescópio",
+        "name": "Nome do telescópio"
       },
       "beta": {
         "title": "Canal de atualização beta"

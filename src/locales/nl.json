@@ -240,7 +240,8 @@
         "touchOptimized": "Touch-geoptimaliseerde kiezer"
       },
       "telescope": {
-        "titel": "Telescoop instellingen"
+        "titel": "Telescoop instellingen",
+        "name": "Telescoopnaam"
       }
     },
     "connectEquipment": {

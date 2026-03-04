@@ -198,7 +198,8 @@
         "description": "管理您的设备设置"
       },
       "telescope": {
-        "titel": "望远镜设置"
+        "titel": "望远镜设置",
+        "name": "望远镜名称"
       },
       "beta": {
         "title": "测试版更新通道"

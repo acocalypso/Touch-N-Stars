@@ -5,6 +5,18 @@
     <h3 class="font-bold text-base text-cyan-400">
       {{ $t('components.settings.telescope.titel') }}
     </h3>
+    <div class="flex flex-row items-center justify-between w-full">
+      <label class="text-sm text-gray-200 whitespace-nowrap">
+        {{ $t('components.settings.telescope.name') }}
+      </label>
+      <input
+        v-model="telescopeName"
+        type="text"
+        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        :class="nameStatusClass"
+        @change="updateTelescopeName"
+      />
+    </div>
     <NumberInputPicker
       v-model="focalLength"
       :label="$t('components.camera.chip_settings.focal_length')"
@@ -28,6 +40,22 @@ import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 const store = apiStore();
 
 const focalLength = ref(0);
+const telescopeName = ref('');
+const nameStatusClass = ref('');
+
+async function updateTelescopeName() {
+  try {
+    await apiService.profileChangeValue('TelescopeSettings-Name', telescopeName.value);
+    nameStatusClass.value = 'glow-green';
+  } catch (error) {
+    console.error('Error updating telescope name:', error);
+    nameStatusClass.value = 'glow-red';
+  } finally {
+    setTimeout(() => {
+      nameStatusClass.value = '';
+    }, 2000);
+  }
+}
 
 async function updateFocalLength() {
   try {
@@ -40,5 +68,6 @@ async function updateFocalLength() {
 onMounted(() => {
   const profile = store.profileInfo;
   focalLength.value = profile?.TelescopeSettings?.FocalLength || 500;
+  telescopeName.value = profile?.TelescopeSettings?.Name ?? '';
 });
 </script>

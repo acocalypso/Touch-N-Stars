@@ -198,7 +198,8 @@
         "description": "Zarządzaj ustawieniami sprzętu"
       },
       "telescope": {
-        "titel": "Ustawienia teleskopu"
+        "titel": "Ustawienia teleskopu",
+        "name": "Nazwa teleskopu"
       },
       "beta": {
         "title": "Kanał aktualizacji beta"

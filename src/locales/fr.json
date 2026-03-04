@@ -198,7 +198,8 @@
         "description": "Gérer vos paramètres d'équipement"
       },
       "telescope": {
-        "titel": "Paramètres du télescope"
+        "titel": "Paramètres du télescope",
+        "name": "Nom du télescope"
       },
       "beta": {
         "title": "Canal de mise à jour bêta"

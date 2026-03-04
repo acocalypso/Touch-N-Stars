@@ -197,7 +197,8 @@
         "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       },
       "telescope": {
-        "titel": "Teleskopeinstellungen"
+        "titel": "Teleskopeinstellungen",
+        "name": "Teleskopname"
       },
       "beta": {
         "title": "Beta-Update-Kanal"

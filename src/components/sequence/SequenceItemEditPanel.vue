@@ -128,6 +128,18 @@ function buildLabel(key) {
   return key.replace(/([A-Z])/g, ' $1').trim();
 }
 
+// Returns a select field for SelectedFilter using the item's FilterNames, or null
+function buildFilterField(key, rawValue) {
+  if (key !== 'SelectedFilter') return null;
+  const names = props.item.FilterNames;
+  if (!Array.isArray(names) || names.length === 0) return null;
+  const options = [
+    { value: 0, label: props.item.ComboBoxText ?? '(Current)' },
+    ...names.map((name, i) => ({ value: i + 1, label: name })),
+  ];
+  return { name: key, label: 'Filter', type: 'select', options };
+}
+
 onMounted(async () => {
   // Seed fieldValues from current item data
   for (const [k, v] of Object.entries(props.item)) {
@@ -146,6 +158,13 @@ onMounted(async () => {
     for (const [key, propMeta] of entries) {
       const rawValue = props.item[key];
       if (rawValue === null || rawValue === undefined || typeof rawValue === 'object') continue;
+
+      const filterField = buildFilterField(key, rawValue);
+      if (filterField) {
+        fields.value.push(filterField);
+        if (!(key in fieldValues)) fieldValues[key] = rawValue;
+        continue;
+      }
 
       const type = inferType(key, propMeta, rawValue);
       const fieldDef = { name: key, label: buildLabel(key), type };
@@ -170,6 +189,8 @@ onMounted(async () => {
         if (excludedKeys.has(k)) continue;
         if (k.endsWith('Expression') || k.endsWith('Definition')) continue;
         if (v === null || v === undefined || typeof v === 'object') continue;
+        const filterField = buildFilterField(k, v);
+        if (filterField) { fields.value.push(filterField); continue; }
         const type = inferType(k, null, v);
         fields.value.push({ name: k, label: buildLabel(k), type, step: type === 'number' && String(v).includes('.') ? 0.1 : 1 });
       }
@@ -181,6 +202,8 @@ onMounted(async () => {
       if (excludedKeys.has(k)) continue;
       if (k.endsWith('Expression') || k.endsWith('Definition')) continue;
       if (v === null || v === undefined || typeof v === 'object') continue;
+      const filterField = buildFilterField(k, v);
+      if (filterField) { fields.value.push(filterField); continue; }
       const type = inferType(k, null, v);
       fields.value.push({ name: k, label: buildLabel(k), type, step: type === 'number' && String(v).includes('.') ? 0.1 : 1 });
     }

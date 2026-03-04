@@ -40,8 +40,12 @@
         {{ item.Issues.length }}
       </span>
 
-      <!-- Status badge -->
-      <span class="flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-medium" :class="statusColor(item.Status)">
+      <!-- Status badge – hide for CREATED -->
+      <span
+        v-if="item.Status !== 'CREATED'"
+        class="flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
+        :class="statusColor(item.Status)"
+      >
         {{ item.Status }}
       </span>
 

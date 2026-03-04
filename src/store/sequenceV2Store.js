@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from './store';
+import { useToastStore } from './toastStore';
 
 export const useSequenceV2Store = defineStore('sequenceV2Store', {
   state: () => ({
     data: [],
     loaded: false,
     intervalId: null,
+    availableItems: [],
+    availableTriggers: [],
+    availableConditions: [],
   }),
   getters: {
     globalTriggers: (s) => s.data[0]?.GlobalTriggers ?? [],
@@ -91,6 +95,70 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
         await apiService.sequenceResetStatus(id);
       } catch (e) {
         console.error('sequenceResetStatus:', e);
+      }
+      await this.fetch();
+    },
+
+    async fetchAvailableItems() {
+      if (this.availableItems.length) return;
+      try {
+        const res = await apiService.sequenceFetchItemTypes();
+        this.availableItems = Array.isArray(res) ? res : (res?.Items ?? res?.Response ?? []);
+      } catch (e) {
+        console.error('sequenceFetchItemTypes:', e);
+      }
+    },
+
+    async fetchAvailableTriggers() {
+      if (this.availableTriggers.length) return;
+      try {
+        const res = await apiService.sequenceFetchTriggerTypes();
+        this.availableTriggers = Array.isArray(res) ? res : (res?.Items ?? res?.Response ?? []);
+      } catch (e) {
+        console.error('sequenceFetchTriggerTypes:', e);
+      }
+    },
+
+    async fetchAvailableConditions() {
+      if (this.availableConditions.length) return;
+      try {
+        const res = await apiService.sequenceFetchConditionTypes();
+        this.availableConditions = Array.isArray(res) ? res : (res?.Items ?? res?.Response ?? []);
+      } catch (e) {
+        console.error('sequenceFetchConditionTypes:', e);
+      }
+    },
+
+    _showError(message) {
+      useToastStore().showToast({ type: 'error', title: 'Fehler', message, autoClose: true });
+    },
+
+    async addItem(targetId, itemType, insertAfter = true) {
+      try {
+        const res = await apiService.sequenceAddItem(targetId, itemType, insertAfter);
+        if (res?.Success === false) { this._showError(res.Error); return; }
+      } catch (e) {
+        console.error('sequenceAddItem:', e);
+      }
+      await this.fetch();
+    },
+
+    async addTrigger(itemId, triggerType) {
+      try {
+        const res = await apiService.sequenceAddTrigger(itemId, triggerType);
+        if (res?.Success === false) { this._showError(res.Error); return; }
+      } catch (e) {
+        console.error('sequenceAddTrigger:', e);
+      }
+      await this.fetch();
+    },
+
+    async addCondition(itemId, conditionType) {
+      try {
+        const res = await apiService.sequenceAddCondition(itemId, conditionType);
+        if (res?.Success === false) { this._showError(res.Error); return; }
+      } catch (e) {
+        console.error('sequenceAddCondition:', e);
       }
       await this.fetch();
     },

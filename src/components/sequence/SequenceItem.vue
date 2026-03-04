@@ -73,8 +73,11 @@
       />
 
       <!-- Triggers -->
-      <div v-if="item.Triggers && item.Triggers.length" class="mb-1.5 space-y-1">
-        <div class="text-xs text-purple-400/70 px-1">Triggers</div>
+      <div v-if="item.Triggers !== undefined" class="mb-1.5 space-y-1">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-xs text-purple-400/70">Triggers</span>
+          <AddTypeButton :targetId="item.Id" mode="trigger" />
+        </div>
         <SequenceItem
           v-for="trigger in item.Triggers"
           :key="trigger.Id"
@@ -85,8 +88,11 @@
       </div>
 
       <!-- Conditions -->
-      <div v-if="item.Conditions && item.Conditions.length" class="mb-1.5 space-y-1">
-        <div class="text-xs text-amber-400/70 px-1">Conditions</div>
+      <div v-if="item.Conditions !== undefined" class="mb-1.5 space-y-1">
+        <div class="flex items-center justify-between px-1">
+          <span class="text-xs text-amber-400/70">Conditions</span>
+          <AddTypeButton :targetId="item.Id" mode="condition" />
+        </div>
         <SequenceItem
           v-for="cond in item.Conditions"
           :key="cond.Id"
@@ -108,6 +114,9 @@
           <SequenceItem :item="element" :siblings="item.Items" />
         </template>
       </draggable>
+      <div v-if="item.Items !== undefined" class="mt-1.5 flex justify-end">
+        <AddTypeButton :targetId="item.Items?.at(-1)?.Id ?? item.Id" mode="item" :insertAfter="true" />
+      </div>
     </div>
   </div>
 </template>
@@ -115,6 +124,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import SkyChart from '@/components/framing/SkyChart.vue';
+import AddTypeButton from './AddTypeButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import draggable from 'vuedraggable';
 import {

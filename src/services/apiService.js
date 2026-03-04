@@ -612,6 +612,51 @@ const apiService = {
     return response.data;
   },
 
+  async sequenceFetchItemTypes() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/items`);
+    return response.data;
+  },
+
+  async sequenceFetchTriggerTypes() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/triggers`);
+    return response.data;
+  },
+
+  async sequenceFetchConditionTypes() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/conditions`);
+    return response.data;
+  },
+
+  async sequenceAddItem(targetId, itemType, insertAfter = true) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/add?targetId=${targetId}&type=${encodeURIComponent(itemType)}&insertAfter=${insertAfter}`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceAddTrigger(itemId, triggerType) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(triggerType)}&insertAfter=true`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceAddCondition(itemId, conditionType) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(conditionType)}&insertAfter=true`,
+      {}
+    );
+    return response.data;
+  },
+
   async sequenceLoadJson(sequenceName) {
     try {
       const { BASE_URL } = getUrls();

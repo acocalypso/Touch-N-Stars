@@ -37,23 +37,38 @@
       </div>
 
       <!-- Start / Targets / End containers -->
+      <draggable
+        :list="store.containers"
+        item-key="Id"
+        handle=".container-drag-handle"
+        ghost-class="opacity-30"
+        class="space-y-3"
+        @end="onContainerDragEnd"
+      >
+      <template #item="{ element: container, index: idx }">
       <div
-        v-for="(container, idx) in store.containers"
-        :key="container.Id ?? idx"
         class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg shadow-lg"
       >
         <!-- Container header -->
         <div
-          class="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-700/30 rounded-t-lg select-none"
-          @click="toggleSection(container.Id ?? idx)"
+          class="flex items-center justify-between p-3 hover:bg-slate-700/30 rounded-t-lg select-none"
         >
           <div class="flex items-center gap-2">
+            <span
+              class="container-drag-handle cursor-grab active:cursor-grabbing p-1 text-slate-600 hover:text-slate-400 transition-colors touch-none"
+              title="Verschieben"
+            >
+              <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M7 2a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4z"/>
+              </svg>
+            </span>
             <ChevronRightIcon
-              class="w-4 h-4 text-slate-400 transition-transform duration-200"
+              class="w-4 h-4 text-slate-400 transition-transform duration-200 cursor-pointer"
               :class="{ 'rotate-90': !collapsed[container.Id ?? idx] }"
+              @click="toggleSection(container.Id ?? idx)"
             />
             <div class="w-2 h-2 rounded-full" :class="containerDot(idx)" />
-            <span class="font-medium text-gray-100">{{ container.Name }}</span>
+            <span class="font-medium text-gray-100 cursor-pointer" @click="toggleSection(container.Id ?? idx)">{{ container.Name }}</span>
           </div>
           <span class="rounded-full px-2 py-0.5 text-xs font-medium" :class="statusColor(container.Status)">
             {{ container.Status }}
@@ -82,6 +97,8 @@
           <div v-else class="text-center py-6 text-slate-500 text-sm">Keine Elemente</div>
         </div>
       </div>
+      </template>
+      </draggable>
     </template>
   </div>
 </template>
@@ -90,10 +107,10 @@
 import { reactive, onMounted, onUnmounted } from 'vue';
 import draggable from 'vuedraggable';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
-import { useSequenceNewStore } from '@/store/sequenceNewStore';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import SequenceItem from './SequenceItem.vue';
 
-const store = useSequenceNewStore();
+const store = useSequenceV2Store();
 const collapsed = reactive({});
 
 function toggleSection(key) {
@@ -113,6 +130,18 @@ function statusColor(status) {
 const DOT_COLORS = ['bg-blue-400', 'bg-green-400', 'bg-orange-400', 'bg-purple-400'];
 function containerDot(idx) {
   return DOT_COLORS[idx] ?? 'bg-slate-400';
+}
+
+function onContainerDragEnd(evt) {
+  if (evt.oldIndex === evt.newIndex) return;
+  const siblings = store.containers;
+  const movedId  = siblings[evt.newIndex].Id;
+  const newIdx   = evt.newIndex;
+  if (newIdx === 0) {
+    store.move(movedId, siblings[1]?.Id, false);
+  } else {
+    store.move(movedId, siblings[newIdx - 1]?.Id, true);
+  }
 }
 
 function onDragEnd(evt, siblings) {

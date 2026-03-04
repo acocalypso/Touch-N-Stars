@@ -27,37 +27,8 @@
       </button>
       <span v-else class="w-4 flex-shrink-0" />
 
-      <!-- Name -->
-      <span class="text-sm font-medium text-gray-200 truncate flex-1 min-w-0">{{ item.Name }}</span>
-
-      <!-- Issues badge -->
-      <span
-        v-if="item.Issues && item.Issues.length"
-        class="flex-shrink-0 flex items-center gap-1 bg-red-500/20 text-red-300 border border-red-500/30 rounded-full px-1.5 py-0.5 text-xs"
-        :title="item.Issues.join('\n')"
-      >
-        <ExclamationTriangleIcon class="w-3 h-3" />
-        {{ item.Issues.length }}
-      </span>
-
-      <!-- Status badge – hide for CREATED -->
-      <span
-        v-if="item.Status !== 'CREATED'"
-        class="flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
-        :class="statusColor(item.Status)"
-      >
-        {{ item.Status }}
-      </span>
-
-      <!-- Edit button -->
-      <button
-        class="flex-shrink-0 p-1 rounded hover:bg-slate-600/40 transition-colors"
-        :class="editing ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'"
-        title="Bearbeiten"
-        @click.stop="editing = !editing"
-      >
-        <PencilSquareIcon class="w-4 h-4" />
-      </button>
+      <!-- Type component (display + edit) -->
+      <component :is="typeComponent" :item="item" class="flex-1 min-w-0" />
 
       <!-- More menu -->
       <div class="relative flex-shrink-0" ref="moreRef">
@@ -90,14 +61,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Inline edit panel -->
-    <SequenceItemEditPanel
-      v-if="editing"
-      :item="item"
-      class="border-t border-slate-700/50 mx-2 mb-2"
-    />
-
 
     <!-- Children with nested draggable -->
     <div v-if="!collapsed && hasChildren" class="px-2 pb-2">
@@ -158,41 +121,28 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import draggable from 'vuedraggable';
 import {
   ChevronRightIcon,
-  PencilSquareIcon,
   EllipsisVerticalIcon,
   DocumentDuplicateIcon,
   TrashIcon,
   ArrowPathIcon,
   PlayCircleIcon,
   PauseCircleIcon,
-  ExclamationTriangleIcon,
 } from '@heroicons/vue/24/outline';
-import { useSequenceNewStore } from '@/store/sequenceNewStore';
-import SequenceItemEditPanel from './SequenceItemEditPanel.vue';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
 const props = defineProps({
-  item:     { type: Object,  required: true },
-  siblings: { type: Array,   default: () => [] },
+  item:     { type: Object, required: true },
+  siblings: { type: Array,  default: () => [] },
 });
 
-const store   = useSequenceNewStore();
+const store     = useSequenceV2Store();
 const collapsed = ref(false);
-const editing   = ref(false);
 const moreOpen  = ref(false);
 const moreRef   = ref(null);
 
-const hasChildren = computed(() => props.item.Items && props.item.Items.length > 0);
-
-function statusColor(status) {
-  switch (status) {
-    case 'FINISHED': return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50';
-    case 'RUNNING':  return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50';
-    case 'CREATED':  return 'bg-amber-500/30 text-amber-200 border border-amber-400/50';
-    case 'SKIPPED':  return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
-    case 'DISABLED': return 'bg-gray-700/50 text-gray-500 border border-gray-600/50';
-    default:         return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
-  }
-}
+const hasChildren  = computed(() => props.item.Items && props.item.Items.length > 0);
+const typeComponent = computed(() => ITEM_COMPONENTS[props.item.FullTypeName] ?? GenericItem);
 
 const borderClass = computed(() => {
   const s = props.item.Status;
@@ -224,7 +174,6 @@ function onChildDragEnd(evt) {
   }
 }
 
-// Close more-menu when clicking outside
 function onOutsideClick(e) {
   if (moreRef.value && !moreRef.value.contains(e.target)) {
     moreOpen.value = false;

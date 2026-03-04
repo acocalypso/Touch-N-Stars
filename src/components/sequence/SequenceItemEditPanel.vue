@@ -1,6 +1,12 @@
 <template>
   <div class="pt-2 pb-1 space-y-3">
 
+    <!-- Dedicated editor if available -->
+    <component :is="dedicatedEditor" v-if="dedicatedEditor" :item="item" />
+
+    <!-- Fallback: dynamic editor -->
+    <template v-if="!dedicatedEditor">
+
     <!-- Issues -->
     <div v-if="item.Issues && item.Issues.length" class="bg-red-900/20 border border-red-700/40 rounded-lg p-2 space-y-0.5">
       <p v-for="(iss, i) in item.Issues" :key="i" class="text-red-300 text-xs flex items-start gap-1">
@@ -88,21 +94,29 @@
       Speichern…
     </div>
 
+    </template><!-- end fallback -->
+
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 import apiService from '@/services/apiService';
 import { useSequenceNewStore } from '@/store/sequenceNewStore';
 import { excludedKeys } from '@/utils/sequenceConfig';
+import TakeExposureEditor from './editors/TakeExposureEditor.vue';
+
+const EDITORS = {
+  'NINA.Sequencer.SequenceItem.Imaging.TakeExposure': TakeExposureEditor,
+};
 
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
 const store       = useSequenceNewStore();
+const dedicatedEditor = computed(() => EDITORS[props.item.FullTypeName] ?? null);
 const loadingMeta = ref(true);
 const saving      = ref(false);
 const fields      = ref([]);

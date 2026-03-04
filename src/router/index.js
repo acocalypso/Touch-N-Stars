@@ -14,6 +14,7 @@ import FilterwheelPage from '@/views/FilterwheelPage.vue';
 import RotatorPage from '@/views/RotatorPage.vue';
 import Flatassistant from '@/views/FlatassistantPage.vue';
 import FocusPage from '@/views/FocusPage.vue';
+import SequenceNewPage from '@/views/SequenceNewPage.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const routes = [
@@ -41,6 +42,7 @@ const routes = [
   { path: '/filterwheel', component: FilterwheelPage, meta: { requiresSetup: true } },
   { path: '/rotator', component: RotatorPage, meta: { requiresSetup: true } },
   { path: '/flats', component: Flatassistant, meta: { requiresSetup: true } },
+  { path: '/sequence-v2', component: SequenceNewPage, meta: { requiresSetup: true } },
 ];
 
 const router = createRouter({

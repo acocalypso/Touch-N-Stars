@@ -558,6 +558,11 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/sequence/${action}`);
   },
 
+  async fetchSequenceCurrent() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}sequence/current`);
+  },
+
   async sequenceLoadJson(sequenceName) {
     try {
       const { BASE_URL } = getUrls();

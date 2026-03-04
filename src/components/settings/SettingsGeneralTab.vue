@@ -128,38 +128,6 @@
       </select>
     </div>
 
-    <!-- Image settings -->
-    <div
-      v-if="store.isBackendReachable"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.settings.image.title') }}
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <setImgQuality />
-        <setImgMaxDimension />
-        <setImgStrechFactor />
-        <setImgBlackClipping />
-      </div>
-      <div class="flex flex-col mt-4 gap-2">
-        <setImgDebayern />
-        <setImgDebayernHfr />
-        <setImgUnlinkedStrech />
-      </div>
-    </div>
-
-    <!-- File Name Pattern -->
-    <div
-      v-if="store.isBackendReachable"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.settings.imageFile.title') }}
-      </h3>
-      <FilePatternBuilder />
-    </div>
-
     <!-- Keep Screen Awake (mobile only) -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -311,19 +279,11 @@ import {
 } from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { KeepAwake } from '@capacitor-community/keep-awake';
-import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
-import setImgQuality from '@/components/settings/setImgQuality.vue';
-import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
-import setImgDebayern from './setImgDebayern.vue';
-import setImgDebayernHfr from './setImgDebayernHfr.vue';
-import setImgUnlinkedStrech from './setImgUnlinkedStrech.vue';
 import SetInstance from '@/components/settings/setInstance.vue';
 import SetDebug from '@/components/settings/setDebug.vue';
 import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
-import FilePatternBuilder from '@/components/settings/image/FilePatternBuilder.vue';
-import setImgMaxDimension from './setImgMaxDimension.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { useI18n } from 'vue-i18n';
 

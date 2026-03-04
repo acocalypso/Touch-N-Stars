@@ -563,6 +563,55 @@ const apiService = {
     return this._simpleGetRequest(`${API_URL}sequence/current`);
   },
 
+  async fetchSequenceInfo(id) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}sequence/info?id=${id}`);
+  },
+
+  async fetchSequenceMetadata(id) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}sequence/metadata?id=${id}`);
+  },
+
+  async sequenceMove(id, targetId, insertAfter = true) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/move?id=${id}&targetId=${targetId}&insertAfter=${insertAfter}`, {});
+    return response.data;
+  },
+
+  async sequenceRemove(id) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/remove?id=${id}`, {});
+    return response.data;
+  },
+
+  async sequenceDuplicate(id) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/duplicate?id=${id}`, {});
+    return response.data;
+  },
+
+  async sequenceSetProperty(id, propertyName, value) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/set?id=${id}&propertyName=${encodeURIComponent(propertyName)}&value=${encodeURIComponent(value)}`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceEnable(id, enabled) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/enable?id=${id}&enabled=${enabled}`, {});
+    return response.data;
+  },
+
+  async sequenceResetStatus(id) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/reset-status?id=${id}`, {});
+    return response.data;
+  },
+
   async sequenceLoadJson(sequenceName) {
     try {
       const { BASE_URL } = getUrls();

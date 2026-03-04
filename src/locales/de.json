@@ -400,6 +400,12 @@
         "loopCondition": {
           "iterations": "Iterationen"
         },
+        "moonAltitude": {
+          "comparator": "Vergleich",
+          "below": "Unter",
+          "above": "Über",
+          "altitude": "Mondhöhe (°)"
+        },
         "dither": {
           "afterExposures": "Nach Aufnahmen"
         },

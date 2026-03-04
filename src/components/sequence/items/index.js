@@ -8,6 +8,7 @@ import SequentialContainerItem from './SequentialContainerItem.vue';
 import CenterItem from './CenterItem.vue';
 import DeepSkyObjectContainerItem from './DeepSkyObjectContainerItem.vue';
 import WarmCameraItem from './WarmCameraItem.vue';
+import MoonAltitudeConditionItem from './MoonAltitudeConditionItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -25,6 +26,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Platesolving.Center': CenterItem,
   'NINA.Sequencer.Container.DeepSkyObjectContainer': DeepSkyObjectContainerItem,
   'NINA.Sequencer.SequenceItem.Camera.WarmCamera': WarmCameraItem,
+  'NINA.Sequencer.Conditions.MoonAltitudeCondition': MoonAltitudeConditionItem,
 };
 
 export { GenericItem };

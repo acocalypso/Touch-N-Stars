@@ -128,6 +128,21 @@ function buildLabel(key) {
   return key.replace(/([A-Z])/g, ' $1').trim();
 }
 
+const BINNING_OPTIONS = [
+  { value: '{"X":1,"Y":1}', label: '1x1' },
+  { value: '{"X":2,"Y":2}', label: '2x2' },
+  { value: '{"X":3,"Y":3}', label: '3x3' },
+  { value: '{"X":4,"Y":4}', label: '4x4' },
+];
+
+function buildBinningField(key, rawValue) {
+  if (key !== 'Binning') return null;
+  const current = (rawValue && typeof rawValue === 'object')
+    ? JSON.stringify({ X: rawValue.X, Y: rawValue.Y })
+    : '{"X":1,"Y":1}';
+  return { name: key, label: 'Binning', type: 'select', options: BINNING_OPTIONS, _initValue: current };
+}
+
 // Returns a select field for SelectedFilter using the item's FilterNames, or null
 function buildFilterField(key, rawValue) {
   if (key !== 'SelectedFilter') return null;
@@ -143,7 +158,10 @@ function buildFilterField(key, rawValue) {
 onMounted(async () => {
   // Seed fieldValues from current item data
   for (const [k, v] of Object.entries(props.item)) {
-    if (!excludedKeys.has(k) && v !== null && v !== undefined && typeof v !== 'object') {
+    if (excludedKeys.has(k)) continue;
+    if (k === 'Binning' && v && typeof v === 'object') {
+      fieldValues[k] = JSON.stringify({ X: v.X, Y: v.Y });
+    } else if (v !== null && v !== undefined && typeof v !== 'object') {
       fieldValues[k] = v;
     }
   }
@@ -157,6 +175,14 @@ onMounted(async () => {
 
     for (const [key, propMeta] of entries) {
       const rawValue = props.item[key];
+
+      const binningField = buildBinningField(key, rawValue);
+      if (binningField) {
+        fields.value.push(binningField);
+        if (!(key in fieldValues)) fieldValues[key] = binningField._initValue;
+        continue;
+      }
+
       if (rawValue === null || rawValue === undefined || typeof rawValue === 'object') continue;
 
       const filterField = buildFilterField(key, rawValue);
@@ -188,6 +214,8 @@ onMounted(async () => {
       for (const [k, v] of Object.entries(props.item)) {
         if (excludedKeys.has(k)) continue;
         if (k.endsWith('Expression') || k.endsWith('Definition')) continue;
+        const bf = buildBinningField(k, v);
+        if (bf) { fields.value.push(bf); if (!(k in fieldValues)) fieldValues[k] = bf._initValue; continue; }
         if (v === null || v === undefined || typeof v === 'object') continue;
         const filterField = buildFilterField(k, v);
         if (filterField) { fields.value.push(filterField); continue; }
@@ -201,6 +229,8 @@ onMounted(async () => {
     for (const [k, v] of Object.entries(props.item)) {
       if (excludedKeys.has(k)) continue;
       if (k.endsWith('Expression') || k.endsWith('Definition')) continue;
+      const bf = buildBinningField(k, v);
+      if (bf) { fields.value.push(bf); if (!(k in fieldValues)) fieldValues[k] = bf._initValue; continue; }
       if (v === null || v === undefined || typeof v === 'object') continue;
       const filterField = buildFilterField(k, v);
       if (filterField) { fields.value.push(filterField); continue; }

@@ -6,7 +6,7 @@
       <!-- Left: name + summary stacked -->
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5 min-w-0">
-          <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ item.Name }}</span>
+          <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
           <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
         </div>
         <div v-if="$slots.summary" class="flex items-center gap-2 mt-0.5">
@@ -90,6 +90,12 @@ const editing = ref(false);
 const saving  = ref(false);
 
 const hasEditor = computed(() => !!slots.editor);
+
+const displayName = computed(() => {
+  if (props.item.Name) return props.item.Name;
+  const short = props.item.FullTypeName?.split('.')?.at(-1) ?? '';
+  return short.replace(/([A-Z])/g, ' $1').trim();
+});
 
 async function save(key, value) {
   saving.value = true;

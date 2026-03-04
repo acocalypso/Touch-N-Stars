@@ -76,7 +76,7 @@
       <div v-if="item.Triggers !== undefined" class="mb-1.5 space-y-1">
         <div class="flex items-center justify-between px-1">
           <span class="text-xs text-purple-400/70">Triggers</span>
-          <AddTypeButton :targetId="item.Id" mode="trigger" />
+          <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="trigger" />
         </div>
         <SequenceItem
           v-for="trigger in item.Triggers"
@@ -91,7 +91,7 @@
       <div v-if="item.Conditions !== undefined" class="mb-1.5 space-y-1">
         <div class="flex items-center justify-between px-1">
           <span class="text-xs text-amber-400/70">Conditions</span>
-          <AddTypeButton :targetId="item.Id" mode="condition" />
+          <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="condition" />
         </div>
         <SequenceItem
           v-for="cond in item.Conditions"
@@ -114,7 +114,7 @@
           <SequenceItem :item="element" :siblings="item.Items" />
         </template>
       </draggable>
-      <div v-if="item.Items !== undefined" class="mt-1.5 flex justify-end">
+      <div v-if="item.Items !== undefined && canAdd" class="mt-1.5 flex justify-end">
         <AddTypeButton :targetId="item.Items?.at(-1)?.Id ?? item.Id" mode="item" :insertAfter="true" />
       </div>
     </div>
@@ -139,10 +139,16 @@ import {
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
+const NO_ADD_TYPES = new Set([
+  'NINA.Sequencer.SequenceItem.Imaging.SmartExposure',
+]);
+
 const props = defineProps({
   item:     { type: Object, required: true },
   siblings: { type: Array,  default: () => [] },
 });
+
+const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
 
 const store         = useSequenceV2Store();
 const settingsStore = useSettingsStore();
@@ -150,7 +156,11 @@ const collapsed = ref(false);
 const moreOpen  = ref(false);
 const moreRef   = ref(null);
 
-const hasChildren  = computed(() => props.item.Items && props.item.Items.length > 0);
+const hasChildren  = computed(() =>
+  (props.item.Items?.length > 0) ||
+  props.item.Triggers !== undefined ||
+  props.item.Conditions !== undefined
+);
 
 const dsoTarget = computed(() => {
   const co = props.item.Target?.InputCoordinates;

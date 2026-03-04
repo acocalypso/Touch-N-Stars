@@ -1,12 +1,21 @@
 <template>
   <div class="flex-1 min-w-0">
-    <!-- Header row: name + badges + edit -->
+    <!-- Header: left=name+summary, right=badges+edit (vertically centered) -->
     <div class="flex items-center gap-1.5">
-      <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ item.Name }}</span>
-      <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
 
-      <!-- Right-aligned badges + edit -->
-      <div class="ml-auto flex-shrink-0 flex items-center gap-1.5">
+      <!-- Left: name + summary stacked -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ item.Name }}</span>
+          <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
+        </div>
+        <div v-if="$slots.summary" class="flex items-center gap-2 mt-0.5">
+          <slot name="summary" />
+        </div>
+      </div>
+
+      <!-- Right: badges + edit, centered relative to full height -->
+      <div class="flex-shrink-0 flex items-center gap-1.5">
         <!-- Issues badge -->
         <span
           v-if="item.Issues && item.Issues.length"
@@ -37,11 +46,6 @@
           <PencilSquareIcon class="w-4 h-4" />
         </button>
       </div>
-    </div>
-
-    <!-- Summary values below name -->
-    <div v-if="$slots.summary" class="flex items-center gap-2 mt-0.5 pl-0.5">
-      <slot name="summary" />
     </div>
 
     <!-- Edit panel -->

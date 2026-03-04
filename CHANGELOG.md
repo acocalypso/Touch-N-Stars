@@ -17,8 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - File Pattern Builder: Add free text input to customize file naming patterns with custom text segments
 - Plate Solve: Show calculated focal length based on pixel scale and camera sensor size
 - Image Viewer: Double-tap to toggle between 100% zoom (centered on tap point) and fit view
+- Add settings for Focal Ratio and Telescopname
+- Settings: Add dedicated Image tab (image processing settings and file pattern builder)
+- Settings: Add dedicated Meridian Flip tab
+- Settings: SubNav scrolls horizontally with fade and arrow indicators when tabs overflow
+- Settings: Add image file type selector (TIFF, FITS, XISF)
 
 ### Changed
+- Settings: Moved image and meridian flip settings out of General tab into own tabs
 - Focuser: Replace focuser input with position display in quick access modal
 - Profile: Disable profile selection when any device is connected
 - Sequence Creator: Replaced "Save as Default" toolbar button with library-based default management

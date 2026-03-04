@@ -141,7 +141,8 @@
         "black_clipping": "Ritaglio nero",
         "debayern": "Immagine debayer",
         "DebayeredHFR": "HFR debayered",
-        "UnlinkedStretch": "Stiramento non collegato"
+        "UnlinkedStretch": "Stiramento non collegato",
+        "fileType": "Tipo di file"
       },
       "imageFile": {
         "title": "Modello nome file",

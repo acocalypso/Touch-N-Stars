@@ -142,7 +142,8 @@
         "black_clipping": "Black Clipping",
         "debayern": "Debayer Image",
         "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Unlinked Strech"
+        "UnlinkedStretch": "Unlinked Strech",
+        "fileType": "File Type"
       },
       "imageFile": {
         "title": "File Name Pattern",

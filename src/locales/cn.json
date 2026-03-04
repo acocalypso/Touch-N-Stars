@@ -141,7 +141,8 @@
         "black_clipping": "黑点剪切",
         "debayern": "去拜耳图像",
         "DebayeredHFR": "去拜耳 HFR",
-        "UnlinkedStretch": "非关联拉伸"
+        "UnlinkedStretch": "非关联拉伸",
+        "fileType": "文件类型"
       },
       "imageFile": {
         "title": "文件名模式",

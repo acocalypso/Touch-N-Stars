@@ -140,6 +140,7 @@
         "black_clipping": "Černé ořezávání",
         "DebayeredHFR": "Debayer HFR",
         "UnlinkedStretch": "Nepropojený Stretch",
+        "fileType": "Typ souboru",
         "debayern": "Debayer Snímek"
       },
       "imageFile": {

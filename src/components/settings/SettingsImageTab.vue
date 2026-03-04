@@ -30,6 +30,7 @@
         {{ $t('components.settings.imageFile.title') }}
       </h3>
       <FilePatternBuilder />
+      <setImgFileType class="mt-2" />
     </div>
   </div>
 </template>
@@ -43,6 +44,7 @@ import setImgDebayern from '@/components/settings/setImgDebayern.vue';
 import setImgDebayernHfr from '@/components/settings/setImgDebayernHfr.vue';
 import setImgUnlinkedStrech from '@/components/settings/setImgUnlinkedStrech.vue';
 import setImgMaxDimension from '@/components/settings/setImgMaxDimension.vue';
+import setImgFileType from '@/components/settings/setImgFileType.vue';
 import FilePatternBuilder from '@/components/settings/image/FilePatternBuilder.vue';
 
 const store = apiStore();

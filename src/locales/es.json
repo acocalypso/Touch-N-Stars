@@ -140,6 +140,7 @@
         "black_clipping": "Recorte negro",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Strech sin enlace",
+        "fileType": "Tipo de archivo",
         "debayern": "Imagen de Debayer"
       },
       "imageFile": {

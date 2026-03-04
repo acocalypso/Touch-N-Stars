@@ -141,7 +141,8 @@
         "black_clipping": "Zwart Clipping",
         "debayern": "Debayer beeld",
         "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Unlinked Strech"
+        "UnlinkedStretch": "Unlinked Strech",
+        "fileType": "Bestandstype"
       },
       "imageFile": {
         "title": "Bestandsnaampatroon",

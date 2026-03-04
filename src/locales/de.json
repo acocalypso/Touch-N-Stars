@@ -140,6 +140,7 @@
         "black_clipping": "Schwarzpunktfaktor",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unverlinkter Stretch",
+        "fileType": "Dateityp",
         "debayern": "Debayer Bild"
       },
       "imageFile": {

@@ -141,7 +141,8 @@
         "black_clipping": "Przycinanie czerni",
         "debayern": "Debayer obrazu",
         "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Niepołączone rozciągnięcie"
+        "UnlinkedStretch": "Niepołączone rozciągnięcie",
+        "fileType": "Typ pliku"
       },
       "imageFile": {
         "title": "Wzorzec nazwy pliku",

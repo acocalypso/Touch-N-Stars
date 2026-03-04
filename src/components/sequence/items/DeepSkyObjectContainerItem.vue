@@ -4,7 +4,10 @@
       <span class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
     </template>
 
-    <template #editor="{ save }">
+    <template #editor>
+      <!-- Object search -->
+      <TargetSearch @target-selected="handleTargetSelected" />
+
       <!-- Target Name -->
       <div class="flex items-center gap-3">
         <label class="text-xs text-slate-400 flex-shrink-0">{{ $t('components.sequence.items.dso.targetName') }}</label>
@@ -12,7 +15,7 @@
           type="text"
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="item.Target?.TargetName"
-          @blur="save('TargetName', $event.target.value)"
+          @blur="saveTargetName($event.target.value)"
           @keydown.enter="$event.target.blur()"
         />
       </div>
@@ -23,7 +26,7 @@
         :label="$t('components.sequence.items.dso.positionAngle')"
         labelKey="dso-positionAngle"
         :min="0" :max="360" :step="1" :decimalPlaces="1"
-        @change="save('PositionAngle', $event)"
+        @change="savePositionAngle($event)"
       />
 
       <!-- RA -->
@@ -49,6 +52,7 @@
 import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import TargetSearch from '@/plugins/sequence-creator/components/TargetSearch.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
 const props = defineProps({
@@ -56,7 +60,6 @@ const props = defineProps({
 });
 
 const store = useSequenceV2Store();
-
 const coords = computed(() => props.item.Target?.InputCoordinates ?? {});
 
 const raStr = computed(() => {
@@ -74,14 +77,52 @@ const decStr = computed(() => {
 
 const decDeg = computed(() => coords.value.NegativeDec ? -coords.value.DecDegrees : coords.value.DecDegrees);
 
+const currentRaDeg = computed(() => {
+  const c = coords.value;
+  return ((c.RAHours ?? 0) + (c.RAMinutes ?? 0) / 60 + (c.RASeconds ?? 0) / 3600) * 15;
+});
+const currentDecDeg = computed(() => {
+  const c = coords.value;
+  const abs = (c.DecDegrees ?? 0) + (c.DecMinutes ?? 0) / 60 + (c.DecSeconds ?? 0) / 3600;
+  return c.NegativeDec ? -abs : abs;
+});
+
+function callSetTarget(raDeg, decDeg, name, rotation) {
+  store.setDsoTarget(
+    props.item.Id,
+    name  ?? props.item.Target?.TargetName ?? '',
+    raDeg ?? currentRaDeg.value,
+    decDeg ?? currentDecDeg.value,
+    rotation ?? props.item.Target?.PositionAngle ?? 0
+  );
+}
+
 function saveRa(h, m, s) {
-  const decimal = Number(h) + Number(m) / 60 + Number(s) / 3600;
-  store.setProperty(props.item.Id, 'Ra', decimal);
+  callSetTarget((Number(h) + Number(m) / 60 + Number(s) / 3600) * 15, null, null, null);
 }
 
 function saveDec(d, m, s) {
   const sign = Number(d) < 0 ? -1 : 1;
-  const decimal = sign * (Math.abs(Number(d)) + Number(m) / 60 + Number(s) / 3600);
-  store.setProperty(props.item.Id, 'Dec', decimal);
+  callSetTarget(null, sign * (Math.abs(Number(d)) + Number(m) / 60 + Number(s) / 3600), null, null);
+}
+
+function saveTargetName(name) {
+  callSetTarget(null, null, name, null);
+}
+
+function savePositionAngle(rotation) {
+  callSetTarget(null, null, null, rotation);
+}
+
+async function handleTargetSelected(targetData) {
+  const ra  = targetData.originalData?.RA;
+  const dec = targetData.originalData?.Dec;
+  await store.setDsoTarget(
+    props.item.Id,
+    targetData.name || props.item.Target?.TargetName || '',
+    ra  ?? currentRaDeg.value,
+    dec ?? currentDecDeg.value,
+    props.item.Target?.PositionAngle ?? 0
+  );
 }
 </script>

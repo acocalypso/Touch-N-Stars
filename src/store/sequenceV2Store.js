@@ -162,5 +162,19 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       }
       await this.fetch();
     },
+
+    async setDsoTarget(id, name, raDeg, decDeg, rotation) {
+      let index = 0;
+      for (const container of this.containers) {
+        const idx = container.Items?.findIndex(i => i.Id === id) ?? -1;
+        if (idx >= 0) { index = idx; break; }
+      }
+      try {
+        await apiService.sequnceTargetSet(name ?? '', raDeg, decDeg, rotation ?? 0, index);
+      } catch (e) {
+        console.error('setDsoTarget:', e);
+      }
+      await this.fetch();
+    },
   },
 });

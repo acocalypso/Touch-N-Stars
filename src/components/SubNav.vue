@@ -1,5 +1,8 @@
 <template>
-  <div class="subnav shadow-md fixed z-10 overflow-hidden" :class="[subnavClasses, backgroundClasses]">
+  <div
+    class="subnav shadow-md fixed z-10 overflow-hidden"
+    :class="[subnavClasses, backgroundClasses]"
+  >
     <!-- Scroll fade left -->
     <div v-if="canScrollStart" class="scroll-fade scroll-fade-left pointer-events-none">
       <div class="scroll-arrow arrow-left">

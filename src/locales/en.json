@@ -411,6 +411,9 @@
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"
+        },
+        "warmCamera": {
+          "duration": "Duration (s)"
         }
       }
     },

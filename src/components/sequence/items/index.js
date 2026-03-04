@@ -7,6 +7,7 @@ import RunAutofocusItem from './RunAutofocusItem.vue';
 import SequentialContainerItem from './SequentialContainerItem.vue';
 import CenterItem from './CenterItem.vue';
 import DeepSkyObjectContainerItem from './DeepSkyObjectContainerItem.vue';
+import WarmCameraItem from './WarmCameraItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -16,9 +17,14 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Telescope.UnparkScope': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Telescope.ParkScope': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Telescope.FindHome': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Guider.StartGuiding': RunAutofocusItem,
   'NINA.Sequencer.Container.SequentialContainer': SequentialContainerItem,
   'NINA.Sequencer.SequenceItem.Platesolving.Center': CenterItem,
   'NINA.Sequencer.Container.DeepSkyObjectContainer': DeepSkyObjectContainerItem,
+  'NINA.Sequencer.SequenceItem.Camera.WarmCamera': WarmCameraItem,
 };
 
 export { GenericItem };

@@ -1,41 +1,47 @@
 <template>
   <div class="flex-1 min-w-0">
-    <!-- Summary row -->
+    <!-- Header row: name + badges + edit -->
     <div class="flex items-center gap-1.5">
       <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ item.Name }}</span>
+      <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
 
-      <!-- Type-specific inline info -->
+      <!-- Right-aligned badges + edit -->
+      <div class="ml-auto flex-shrink-0 flex items-center gap-1.5">
+        <!-- Issues badge -->
+        <span
+          v-if="item.Issues && item.Issues.length"
+          class="flex items-center gap-1 bg-red-500/20 text-red-300 border border-red-500/30 rounded-full px-1.5 py-0.5 text-xs"
+          :title="item.Issues.join('\n')"
+        >
+          <ExclamationTriangleIcon class="w-3 h-3" />
+          {{ item.Issues.length }}
+        </span>
+
+        <!-- Status badge -->
+        <span
+          v-if="item.Status && item.Status !== 'CREATED'"
+          class="rounded-full px-2 py-0.5 text-xs font-medium"
+          :class="statusColor(item.Status)"
+        >
+          {{ item.Status }}
+        </span>
+
+        <!-- Edit toggle -->
+        <button
+          v-if="hasEditor"
+          class="p-1 rounded hover:bg-slate-600/40 transition-colors"
+          :class="editing ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'"
+          title="Bearbeiten"
+          @click.stop="editing = !editing"
+        >
+          <PencilSquareIcon class="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+
+    <!-- Summary values below name -->
+    <div v-if="$slots.summary" class="flex items-center gap-2 mt-0.5 pl-0.5">
       <slot name="summary" />
-
-      <!-- Issues badge -->
-      <span
-        v-if="item.Issues && item.Issues.length"
-        class="flex-shrink-0 flex items-center gap-1 bg-red-500/20 text-red-300 border border-red-500/30 rounded-full px-1.5 py-0.5 text-xs"
-        :title="item.Issues.join('\n')"
-      >
-        <ExclamationTriangleIcon class="w-3 h-3" />
-        {{ item.Issues.length }}
-      </span>
-
-      <!-- Status badge -->
-      <span
-        v-if="item.Status && item.Status !== 'CREATED'"
-        class="flex-shrink-0 rounded-full px-2 py-0.5 text-xs font-medium"
-        :class="statusColor(item.Status)"
-      >
-        {{ item.Status }}
-      </span>
-
-      <!-- Edit toggle (only if editor slot is provided) -->
-      <button
-        v-if="hasEditor"
-        class="flex-shrink-0 ml-auto p-1 rounded hover:bg-slate-600/40 transition-colors"
-        :class="editing ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'"
-        title="Bearbeiten"
-        @click.stop="editing = !editing"
-      >
-        <PencilSquareIcon class="w-4 h-4" />
-      </button>
     </div>
 
     <!-- Edit panel -->
@@ -70,7 +76,8 @@ import { ExclamationTriangleIcon, PencilSquareIcon } from '@heroicons/vue/24/out
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
 const props = defineProps({
-  item: { type: Object, required: true },
+  item:  { type: Object, required: true },
+  label: { type: String, default: '' },
 });
 
 const slots   = useSlots();

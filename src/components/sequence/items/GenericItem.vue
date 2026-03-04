@@ -1,5 +1,5 @@
 <template>
-  <ItemShell :item="item">
+  <ItemShell :item="item" label="Generic">
     <template v-if="editableFields.length" #editor="{ save }">
       <template v-for="f in editableFields" :key="f.key">
 

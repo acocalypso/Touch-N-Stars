@@ -12,40 +12,43 @@
       <PlusIcon v-else class="w-4 h-4" />
     </button>
 
-    <div
-      v-if="open"
-      class="absolute right-0 top-full mt-1 z-40 bg-gray-800 border border-slate-600 rounded-lg shadow-xl w-64"
-      @click.stop
-    >
-      <!-- Search -->
-      <div class="p-2 border-b border-slate-700">
-        <input
-          v-model="search"
-          type="text"
-          placeholder="Suchen…"
-          class="w-full bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 placeholder-slate-500 outline-none focus:border-cyan-500/50"
-          @click.stop
-        />
-      </div>
+    <Teleport to="body">
+      <div
+        v-if="open"
+        class="fixed z-[9999] bg-gray-800 border border-slate-600 rounded-lg shadow-xl w-64"
+        :style="dropdownStyle"
+        @click.stop
+      >
+        <!-- Search -->
+        <div class="p-2 border-b border-slate-700">
+          <input
+            v-model="search"
+            type="text"
+            placeholder="Suchen…"
+            class="w-full bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 placeholder-slate-500 outline-none focus:border-cyan-500/50"
+            @click.stop
+          />
+        </div>
 
-      <!-- Type list -->
-      <div class="max-h-64 overflow-y-auto py-1">
-        <template v-if="filteredTypes.length">
-          <template v-for="(group, cat) in grouped" :key="cat">
-            <div class="px-3 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">{{ cat }}</div>
-            <button
-              v-for="t in group"
-              :key="t.FullTypeName"
-              class="flex items-center w-full px-4 py-1.5 text-xs text-slate-300 hover:bg-slate-700/60 transition-colors text-left"
-              @click="select(t)"
-            >
-              {{ t.Name }}
-            </button>
+        <!-- Type list -->
+        <div class="max-h-64 overflow-y-auto py-1">
+          <template v-if="filteredTypes.length">
+            <template v-for="(group, cat) in grouped" :key="cat">
+              <div class="px-3 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">{{ cat }}</div>
+              <button
+                v-for="t in group"
+                :key="t.FullTypeName"
+                class="flex items-center w-full px-4 py-1.5 text-xs text-slate-300 hover:bg-slate-700/60 transition-colors text-left"
+                @click="select(t)"
+              >
+                {{ t.Name }}
+              </button>
+            </template>
           </template>
-        </template>
-        <div v-else class="px-3 py-3 text-xs text-slate-500 text-center">Keine Ergebnisse</div>
+          <div v-else class="px-3 py-3 text-xs text-slate-500 text-center">Keine Ergebnisse</div>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -65,6 +68,7 @@ const open    = ref(false);
 const loading = ref(false);
 const search  = ref('');
 const rootRef = ref(null);
+const dropdownStyle = ref({});
 
 const label = computed(() => ({
   item:      'Item hinzufügen',
@@ -94,6 +98,18 @@ const grouped = computed(() => {
   return groups;
 });
 
+function updateDropdownPosition() {
+  if (!rootRef.value) return;
+  const rect = rootRef.value.getBoundingClientRect();
+  const dropdownWidth = 256; // w-64
+  let left = rect.right - dropdownWidth;
+  if (left < 4) left = 4;
+  dropdownStyle.value = {
+    top:  `${rect.bottom + 4}px`,
+    left: `${left}px`,
+  };
+}
+
 async function toggle() {
   if (open.value) { open.value = false; return; }
   loading.value = true;
@@ -102,6 +118,7 @@ async function toggle() {
   if (props.mode === 'condition') await store.fetchAvailableConditions();
   loading.value = false;
   search.value = '';
+  updateDropdownPosition();
   open.value = true;
 }
 

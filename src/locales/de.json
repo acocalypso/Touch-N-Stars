@@ -133,13 +133,14 @@
       "connection": "Verbindungseinstellungen",
       "language": "Sprache",
       "image": {
-        "title": "Bildeinstellungen",
+        "title": "Bild",
         "quality": "Bildqualität",
         "maxDimension": "Max. Bildgröße",
         "strech_factor": "Autostrech Faktor",
         "black_clipping": "Schwarzpunktfaktor",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unverlinkter Stretch",
+        "fileType": "Dateityp",
         "debayern": "Debayer Bild"
       },
       "imageFile": {
@@ -197,7 +198,9 @@
         "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       },
       "telescope": {
-        "titel": "Teleskopeinstellungen"
+        "titel": "Teleskopeinstellungen",
+        "name": "Teleskopname",
+"focal_ratio": "Öffnungsverhältnis"
       },
       "beta": {
         "title": "Beta-Update-Kanal"
@@ -240,7 +243,7 @@
         "basic": "Grundeinstellungen",
         "retry": "Wiederholungseinstellungen",
         "search": "Sucheinstellungen",
-        "title": "Einstellungen für den Plate solver"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -429,7 +432,7 @@
           "behavior": "Verhalten",
           "post_flip_actions": "Aktionen nach dem Flip"
         },
-        "meridian_flip_settings": "Meridian-Einstellungen",
+        "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
         "reverse_primary_axis": "Primärachse umkehren",
         "reverse_secondary_axis": "Sekundärachse umkehren"

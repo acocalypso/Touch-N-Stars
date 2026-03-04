@@ -134,14 +134,15 @@
       "connection": "Paramètres de connexion",
       "language": "Langue",
       "image": {
-        "title": "Paramètres d'image",
+        "title": "Image",
         "quality": "Qualité d'image",
         "maxDimension": "Taille max. de l'image",
         "strech_factor": "Facteur d'étirement",
         "black_clipping": "Écrêtage noir",
         "debayern": "Image de débayeur",
         "DebayeredHFR": "Débayé HFR",
-        "UnlinkedStretch": "Étirement non lié"
+        "UnlinkedStretch": "Étirement non lié",
+        "fileType": "Type de fichier"
       },
       "imageFile": {
         "title": "Modèle de nom de fichier",
@@ -198,7 +199,9 @@
         "description": "Gérer vos paramètres d'équipement"
       },
       "telescope": {
-        "titel": "Paramètres du télescope"
+        "titel": "Paramètres du télescope",
+        "name": "Nom du télescope",
+"focal_ratio": "Rapport focal"
       },
       "beta": {
         "title": "Canal de mise à jour bêta"
@@ -240,7 +243,7 @@
         "basic": "Paramètres de base",
         "retry": "Réessayer les paramètres",
         "search": "Paramètres de recherche",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -430,7 +433,7 @@
           "post_flip_actions": "Actions post-retournement"
         },
         "telescope_settle_time": "Temps de stabilisation après le(s) balayage(s)",
-        "meridian_flip_settings": "Paramètres méridiens",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Inverser l'axe primaire",
         "reverse_secondary_axis": "Inverser l'axe secondaire"
       }

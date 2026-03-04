@@ -558,6 +558,9 @@ async function savePattern() {
   saveSuccess.value = false;
   try {
     await apiService.profileChangeValue('ImageFileSettings-FilePattern', patternString.value);
+    await apiService.profileChangeValue('ImageFileSettings-FilePatternDARK', patternString.value);
+    await apiService.profileChangeValue('ImageFileSettings-FilePatternBIAS', patternString.value);
+    await apiService.profileChangeValue('ImageFileSettings-FilePatternFLAT', patternString.value);
     saveSuccess.value = true;
     setTimeout(() => {
       saveSuccess.value = false;

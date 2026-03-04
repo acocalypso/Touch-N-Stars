@@ -134,14 +134,15 @@
       "connection": "连接设置",
       "language": "语言",
       "image": {
-        "title": "图像设置",
+        "title": "图像",
         "quality": "图像质量",
         "maxDimension": "最大图像尺寸",
         "strech_factor": "拉伸因子",
         "black_clipping": "黑点剪切",
         "debayern": "去拜耳图像",
         "DebayeredHFR": "去拜耳 HFR",
-        "UnlinkedStretch": "非关联拉伸"
+        "UnlinkedStretch": "非关联拉伸",
+        "fileType": "文件类型"
       },
       "imageFile": {
         "title": "文件名模式",
@@ -198,7 +199,9 @@
         "description": "管理您的设备设置"
       },
       "telescope": {
-        "titel": "望远镜设置"
+        "titel": "望远镜设置",
+        "name": "望远镜名称",
+"focal_ratio": "焦比"
       },
       "beta": {
         "title": "测试版更新通道"
@@ -240,7 +243,7 @@
         "basic": "Basic settings",
         "retry": "Retry settings",
         "search": "Search settings",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -431,7 +434,7 @@
           "post_flip_actions": "Post-flip actions"
         },
         "telescope_settle_time": "Settle time after slew (s)",
-        "meridian_flip_settings": "Meridian-Settings",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "反转主轴",
         "reverse_secondary_axis": "反转副轴"
       }

@@ -134,14 +134,15 @@
       "connection": "Ustawienia połączenia",
       "language": "Język",
       "image": {
-        "title": "Ustawienia obrazu",
+        "title": "Obraz",
         "quality": "Jakość obrazu",
         "maxDimension": "Maks. rozmiar obrazu",
         "strech_factor": "Współczynnik rozciągnięcia",
         "black_clipping": "Przycinanie czerni",
         "debayern": "Debayer obrazu",
         "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Niepołączone rozciągnięcie"
+        "UnlinkedStretch": "Niepołączone rozciągnięcie",
+        "fileType": "Typ pliku"
       },
       "imageFile": {
         "title": "Wzorzec nazwy pliku",
@@ -198,7 +199,9 @@
         "description": "Zarządzaj ustawieniami sprzętu"
       },
       "telescope": {
-        "titel": "Ustawienia teleskopu"
+        "titel": "Ustawienia teleskopu",
+        "name": "Nazwa teleskopu",
+"focal_ratio": "Jasność optyczna"
       },
       "beta": {
         "title": "Kanał aktualizacji beta"
@@ -240,7 +243,7 @@
         "basic": "Podstawowe ustawienia",
         "retry": "Spróbuj ponownie ustawień",
         "search": "Ustawienia wyszukiwania",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -430,7 +433,7 @@
           "post_flip_actions": "Działania po przewróceniu"
         },
         "telescope_settle_time": "Czas ustalenia po zaostrzeniu (s)",
-        "meridian_flip_settings": "Ustawienia południka",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Odwróć oś główną",
         "reverse_secondary_axis": "Odwróć oś drugorzędną"
       }

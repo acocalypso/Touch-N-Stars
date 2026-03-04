@@ -1,6 +1,30 @@
 <template>
-  <div class="subnav shadow-md fixed z-10" :class="[subnavClasses, backgroundClasses]">
-    <div class="flex mx-auto h-12 items-center justify-center px-2 space-x-1">
+  <div
+    class="subnav shadow-md fixed z-10 overflow-hidden"
+    :class="[subnavClasses, backgroundClasses]"
+  >
+    <!-- Scroll fade left -->
+    <div v-if="canScrollStart" class="scroll-fade scroll-fade-left pointer-events-none">
+      <div class="scroll-arrow arrow-left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+    <!-- Scroll fade right -->
+    <div v-if="canScrollEnd" class="scroll-fade scroll-fade-right pointer-events-none">
+      <div class="scroll-arrow arrow-right">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
+
+    <div
+      ref="navContentRef"
+      class="flex mx-auto h-12 items-center justify-start px-2 space-x-1 overflow-x-auto scrollbar-hide"
+      @scroll="updateScrollIndicators"
+    >
       <button
         v-for="item in items"
         :key="item.name"
@@ -15,9 +39,9 @@
   </div>
 </template>
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, watch, nextTick } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
-defineProps({
+const props = defineProps({
   items: {
     type: Array,
     required: true,
@@ -41,13 +65,36 @@ const subnavClasses = computed(() => ({
 }));
 // Background classes for consistent styling
 const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
+
+// Scroll indicators
+const navContentRef = ref(null);
+const canScrollStart = ref(false);
+const canScrollEnd = ref(false);
+
+function updateScrollIndicators() {
+  const el = navContentRef.value;
+  if (!el) return;
+  const threshold = 5;
+  canScrollStart.value = el.scrollLeft > threshold;
+  canScrollEnd.value = el.scrollLeft + el.clientWidth < el.scrollWidth - threshold;
+}
+
+onMounted(() => {
+  nextTick(() => updateScrollIndicators());
+});
+
+watch(
+  () => props.items,
+  () => nextTick(() => updateScrollIndicators()),
+  { deep: true }
+);
 </script>
 <style scoped>
 .subnav {
   @apply border-cyan-500/30 transition-all duration-300 ease-in-out;
 }
 .subnav-button {
-  @apply w-auto h-auto
+  @apply flex-shrink-0 h-auto
     bg-transparent
     text-gray-400
     rounded-md
@@ -59,7 +106,6 @@ const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
     focus:outline-none
     px-2 py-1.5 sm:px-4 sm:py-2
     text-xs sm:text-sm
-    flex-1
     max-w-52
     flex
     items-center
@@ -118,5 +164,53 @@ const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
   .subnav {
     @apply bg-gray-900/95;
   }
+}
+
+/* Scroll Fade Indicators */
+.scroll-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.scroll-fade-left {
+  left: 0;
+  width: 40px;
+  background: linear-gradient(
+    to right,
+    rgba(17, 24, 39, 1) 0%,
+    rgba(17, 24, 39, 0.8) 50%,
+    rgba(17, 24, 39, 0) 100%
+  );
+}
+.scroll-fade-right {
+  right: 0;
+  width: 40px;
+  background: linear-gradient(
+    to left,
+    rgba(17, 24, 39, 1) 0%,
+    rgba(17, 24, 39, 0.8) 50%,
+    rgba(17, 24, 39, 0) 100%
+  );
+}
+.scroll-arrow {
+  width: 16px;
+  height: 16px;
+  color: rgba(255, 255, 255, 0.4);
+}
+.scroll-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+.arrow-left {
+  position: absolute;
+  left: 4px;
+}
+.arrow-right {
+  position: absolute;
+  right: 4px;
 }
 </style>

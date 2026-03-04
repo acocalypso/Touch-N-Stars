@@ -133,7 +133,7 @@
       "connection": "Configuración de conexión",
       "language": "Idioma",
       "image": {
-        "title": "Configuración de imagen",
+        "title": "Imagen",
         "quality": "Calidad de imagen",
         "maxDimension": "Tamaño máx. de imagen",
         "strech_factor": "Factor de estiramiento",
@@ -242,7 +242,7 @@
         "basic": "Configuraciones básicas",
         "retry": "Reintentar configuración",
         "search": "Configuración de búsqueda",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -432,7 +432,7 @@
           "post_flip_actions": "Acciones posteriores al giro"
         },
         "telescope_settle_time": "Tiempo de liquidación después de la(s) serie(s)",
-        "meridian_flip_settings": "Configuración de meridianos",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Invertir eje primario",
         "reverse_secondary_axis": "Invertir eje secundario"
       }

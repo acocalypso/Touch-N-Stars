@@ -133,7 +133,7 @@
       "connection": "Verbindungseinstellungen",
       "language": "Sprache",
       "image": {
-        "title": "Bildeinstellungen",
+        "title": "Bild",
         "quality": "Bildqualität",
         "maxDimension": "Max. Bildgröße",
         "strech_factor": "Autostrech Faktor",
@@ -242,7 +242,7 @@
         "basic": "Grundeinstellungen",
         "retry": "Wiederholungseinstellungen",
         "search": "Sucheinstellungen",
-        "title": "Einstellungen für den Plate solver"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -431,7 +431,7 @@
           "behavior": "Verhalten",
           "post_flip_actions": "Aktionen nach dem Flip"
         },
-        "meridian_flip_settings": "Meridian-Einstellungen",
+        "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
         "reverse_primary_axis": "Primärachse umkehren",
         "reverse_secondary_axis": "Sekundärachse umkehren"

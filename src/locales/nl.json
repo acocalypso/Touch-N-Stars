@@ -134,7 +134,7 @@
       "connection": "Connectie instellingen",
       "language": "Taal",
       "image": {
-        "title": "Beeld Instellingen",
+        "title": "Beeld",
         "quality": "Beeld kwaliteit",
         "maxDimension": "Max. Beeldformaat",
         "strech_factor": "Stretch Factor",
@@ -229,7 +229,7 @@
         "basic": "Basisinstellingen",
         "retry": "Probeer de instellingen opnieuw",
         "search": "Zoekinstellingen",
-        "title": "Instellingen plaatoplosser"
+        "title": "Plate Solver"
       },
       "equipment": {
         "description": "Beheer uw apparatuurinstellingen",
@@ -431,7 +431,7 @@
           "behavior": "Gedrag",
           "post_flip_actions": "Acties na de flip"
         },
-        "meridian_flip_settings": "Meridiaan-instellingen",
+        "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Settle tijd na slew(s)",
         "reverse_primary_axis": "Primaire as omkeren",
         "reverse_secondary_axis": "Secundaire as omkeren"

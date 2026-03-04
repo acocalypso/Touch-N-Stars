@@ -134,7 +134,7 @@
       "connection": "Impostazioni di connessione",
       "language": "Lingua",
       "image": {
-        "title": "Impostazioni immagine",
+        "title": "Immagine",
         "quality": "Qualità immagine",
         "maxDimension": "Dimensione max. immagine",
         "strech_factor": "Fattore di stiramento",
@@ -242,7 +242,7 @@
         "basic": "Impostazioni di base",
         "retry": "Riprova le impostazioni",
         "search": "Impostazioni di ricerca",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -432,7 +432,7 @@
           "post_flip_actions": "Azioni post-giro"
         },
         "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
-        "meridian_flip_settings": "Impostazioni dei meridiani",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Inverti asse primario",
         "reverse_secondary_axis": "Inverti asse secondario"
       }

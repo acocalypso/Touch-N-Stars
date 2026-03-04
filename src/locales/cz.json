@@ -133,7 +133,7 @@
       "connection": "Nastavení připojení",
       "language": "Jazyk",
       "image": {
-        "title": "Nastavení obrázku",
+        "title": "Obrázek",
         "quality": "Kvalita obrázku",
         "maxDimension": "Maks. velikost obrázku",
         "strech_factor": "Faktor roztažení",
@@ -242,7 +242,7 @@
         "basic": "Basic settings",
         "retry": "Retry settings",
         "search": "Search settings",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -435,7 +435,7 @@
           "post_flip_actions": "Post-flip actions"
         },
         "telescope_settle_time": "Settle time after slew (s)",
-        "meridian_flip_settings": "Meridian-Settings",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Obrátit primární osu",
         "reverse_secondary_axis": "Obrátit sekundární osu"
       }

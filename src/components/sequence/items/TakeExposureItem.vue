@@ -53,40 +53,31 @@
       </div>
 
       <!-- Exposure Time -->
-      <div class="flex items-center justify-between gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0 w-32">Belichtungszeit (s)</label>
-        <input
-          type="number" step="0.1" min="0"
-          class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 min-w-0 font-mono"
-          :value="item.ExposureTime"
-          @blur="save('ExposureTime', $event.target.value)"
-          @keydown.enter="$event.target.blur()"
-        />
-      </div>
+      <NumberInputPicker
+        :modelValue="item.ExposureTime"
+        label="Belichtungszeit (s)"
+        labelKey="takeExposure-exposureTime"
+        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        @change="save('ExposureTime', $event)"
+      />
 
       <!-- Gain -->
-      <div class="flex items-center justify-between gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0 w-32">Gain</label>
-        <input
-          type="number" step="1"
-          class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 min-w-0 font-mono"
-          :value="item.Gain"
-          @blur="save('Gain', $event.target.value)"
-          @keydown.enter="$event.target.blur()"
-        />
-      </div>
+      <NumberInputPicker
+        :modelValue="item.Gain"
+        label="Gain"
+        labelKey="takeExposure-gain"
+        :min="0" :max="1000" :step="1"
+        @change="save('Gain', $event)"
+      />
 
       <!-- Offset -->
-      <div class="flex items-center justify-between gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0 w-32">Offset</label>
-        <input
-          type="number" step="1"
-          class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 min-w-0 font-mono"
-          :value="item.Offset"
-          @blur="save('Offset', $event.target.value)"
-          @keydown.enter="$event.target.blur()"
-        />
-      </div>
+      <NumberInputPicker
+        :modelValue="item.Offset"
+        label="Offset"
+        labelKey="takeExposure-offset"
+        :min="-1" :max="1000" :step="1"
+        @change="save('Offset', $event)"
+      />
 
       <!-- Binning -->
       <div class="flex items-center justify-between gap-3">
@@ -134,6 +125,7 @@
 import { ref, computed } from 'vue';
 import { ExclamationTriangleIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const props = defineProps({
   item: { type: Object, required: true },

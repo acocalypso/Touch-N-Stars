@@ -98,36 +98,6 @@
       class="border-t border-slate-700/50 mx-2 mb-2"
     />
 
-    <!-- Conditions row -->
-    <div
-      v-if="!collapsed && item.Conditions && item.Conditions.length"
-      class="px-3 pb-1 flex flex-wrap gap-1"
-    >
-      <span
-        v-for="cond in item.Conditions"
-        :key="cond.Id"
-        class="bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full px-1.5 py-0.5 text-xs"
-      >
-        {{ cond.Name }}
-        <template v-if="cond.Iterations !== undefined">
-          {{ cond.CompletedIterations ?? 0 }}/{{ cond.Iterations }}
-        </template>
-      </span>
-    </div>
-
-    <!-- Triggers row -->
-    <div
-      v-if="!collapsed && item.Triggers && item.Triggers.length"
-      class="px-3 pb-1 flex flex-wrap gap-1"
-    >
-      <span
-        v-for="trigger in item.Triggers"
-        :key="trigger.Id"
-        class="bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full px-1.5 py-0.5 text-xs"
-      >
-        {{ trigger.Name }}
-      </span>
-    </div>
 
     <!-- Children with nested draggable -->
     <div v-if="!collapsed && hasChildren" class="px-2 pb-2">
@@ -141,6 +111,30 @@
           <circle cx="10" cy="10" r="2" fill="currentColor" stroke="none"/>
         </svg>
         {{ item.Target.TargetName }}
+      </div>
+
+      <!-- Triggers -->
+      <div v-if="item.Triggers && item.Triggers.length" class="mb-1.5 space-y-1">
+        <div class="text-xs text-purple-400/70 px-1">Triggers</div>
+        <SequenceItem
+          v-for="trigger in item.Triggers"
+          :key="trigger.Id"
+          :item="trigger"
+          :siblings="item.Triggers"
+          class="border-purple-600/30"
+        />
+      </div>
+
+      <!-- Conditions -->
+      <div v-if="item.Conditions && item.Conditions.length" class="mb-1.5 space-y-1">
+        <div class="text-xs text-amber-400/70 px-1">Conditions</div>
+        <SequenceItem
+          v-for="cond in item.Conditions"
+          :key="cond.Id"
+          :item="cond"
+          :siblings="item.Conditions"
+          class="border-amber-600/30"
+        />
       </div>
 
       <draggable

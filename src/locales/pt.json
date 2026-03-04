@@ -199,7 +199,8 @@
       },
       "telescope": {
         "titel": "Configurações do telescópio",
-        "name": "Nome do telescópio"
+        "name": "Nome do telescópio",
+"focal_ratio": "Razão focal"
       },
       "beta": {
         "title": "Canal de atualização beta"

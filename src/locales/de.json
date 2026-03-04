@@ -198,7 +198,8 @@
       },
       "telescope": {
         "titel": "Teleskopeinstellungen",
-        "name": "Teleskopname"
+        "name": "Teleskopname",
+"focal_ratio": "Öffnungsverhältnis"
       },
       "beta": {
         "title": "Beta-Update-Kanal"

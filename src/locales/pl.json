@@ -199,7 +199,8 @@
       },
       "telescope": {
         "titel": "Ustawienia teleskopu",
-        "name": "Nazwa teleskopu"
+        "name": "Nazwa teleskopu",
+"focal_ratio": "Jasność optyczna"
       },
       "beta": {
         "title": "Kanał aktualizacji beta"

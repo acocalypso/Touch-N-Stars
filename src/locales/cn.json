@@ -199,7 +199,8 @@
       },
       "telescope": {
         "titel": "望远镜设置",
-        "name": "望远镜名称"
+        "name": "望远镜名称",
+"focal_ratio": "焦比"
       },
       "beta": {
         "title": "测试版更新通道"

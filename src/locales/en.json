@@ -241,7 +241,8 @@
       },
       "telescope": {
         "titel": "Telescope settings",
-        "name": "Telescope name"
+        "name": "Telescope name",
+"focal_ratio": "Focal ratio"
       }
     },
     "connectEquipment": {

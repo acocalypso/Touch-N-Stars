@@ -241,7 +241,8 @@
       },
       "telescope": {
         "titel": "Telescoop instellingen",
-        "name": "Telescoopnaam"
+        "name": "Telescoopnaam",
+"focal_ratio": "Brandpuntsverhouding"
       }
     },
     "connectEquipment": {

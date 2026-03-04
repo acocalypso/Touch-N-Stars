@@ -194,7 +194,8 @@
       },
       "telescope": {
         "titel": "Nastavení dalekohledu",
-        "name": "Název dalekohledu"
+        "name": "Název dalekohledu",
+"focal_ratio": "Světelnost"
       },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {

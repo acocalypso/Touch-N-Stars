@@ -28,6 +28,17 @@
       inputId="focal-length"
       @change="updateFocalLength"
     />
+    <NumberInputPicker
+      v-model="focalRatio"
+      :label="$t('components.settings.telescope.focal_ratio')"
+      labelKey="components.settings.telescope.focal_ratio"
+      :min="1"
+      :max="50"
+      :step="0.1"
+      :decimalPlaces="1"
+      inputId="focal-ratio"
+      @change="updateFocalRatio"
+    />
   </div>
 </template>
 
@@ -40,6 +51,7 @@ import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 const store = apiStore();
 
 const focalLength = ref(0);
+const focalRatio = ref(5.0);
 const telescopeName = ref('');
 const nameStatusClass = ref('');
 
@@ -65,9 +77,18 @@ async function updateFocalLength() {
   }
 }
 
+async function updateFocalRatio() {
+  try {
+    await apiService.profileChangeValue('TelescopeSettings-FocalRatio', focalRatio.value);
+  } catch (error) {
+    console.error('Error updating FocalRatio:', error);
+  }
+}
+
 onMounted(() => {
   const profile = store.profileInfo;
   focalLength.value = profile?.TelescopeSettings?.FocalLength || 500;
+  focalRatio.value = profile?.TelescopeSettings?.FocalRatio || 5.0;
   telescopeName.value = profile?.TelescopeSettings?.Name ?? '';
 });
 </script>

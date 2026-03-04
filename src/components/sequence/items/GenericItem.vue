@@ -1,5 +1,5 @@
 <template>
-  <ItemShell :item="item" label="Generic">
+  <ItemShell :item="item" :label="$t('components.sequence.items.generic')">
     <template v-if="editableFields.length" #editor="{ save }">
       <template v-for="f in editableFields" :key="f.key">
 
@@ -25,7 +25,7 @@
               : 'bg-slate-700/60 text-slate-400 border-slate-600 hover:bg-slate-700'"
             @click="save(f.key, !f.value)"
           >
-            {{ f.value ? 'Ein' : 'Aus' }}
+            {{ f.value ? $t('components.sequence.items.on') : $t('components.sequence.items.off') }}
           </button>
         </div>
 

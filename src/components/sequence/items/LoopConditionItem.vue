@@ -7,7 +7,7 @@
     <template #editor="{ save }">
       <NumberInputPicker
         :modelValue="item.Iterations"
-        label="Iterationen"
+        :label="$t('components.sequence.items.loopCondition.iterations')"
         labelKey="loopCondition-iterations"
         :min="1" :max="99999" :step="1"
         @change="save('Iterations', $event)"

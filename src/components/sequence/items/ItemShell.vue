@@ -40,7 +40,7 @@
           v-if="hasEditor"
           class="p-1 rounded hover:bg-slate-600/40 transition-colors"
           :class="editing ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'"
-          title="Bearbeiten"
+          :title="$t('common.edit')"
           @click.stop="editing = !editing"
         >
           <PencilSquareIcon class="w-4 h-4" />
@@ -68,7 +68,7 @@
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
         </svg>
-        Speichern…
+        {{ $t('components.sequence.items.saving') }}
       </div>
     </div>
   </div>

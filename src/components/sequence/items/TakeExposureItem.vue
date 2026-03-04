@@ -9,21 +9,21 @@
     <template #editor="{ save }">
       <NumberInputPicker
         :modelValue="item.ExposureTime"
-        label="Belichtungszeit (s)"
+        :label="$t('components.sequence.items.takeExposure.exposureTime')"
         labelKey="takeExposure-exposureTime"
         :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
         @change="save('ExposureTime', $event)"
       />
       <NumberInputPicker
         :modelValue="item.Gain"
-        label="Gain"
+        :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="takeExposure-gain"
         :min="0" :max="1000" :step="1"
         @change="save('Gain', $event)"
       />
       <NumberInputPicker
         :modelValue="item.Offset"
-        label="Offset"
+        :label="$t('components.sequence.items.takeExposure.offset')"
         labelKey="takeExposure-offset"
         :min="-1" :max="1000" :step="1"
         @change="save('Offset', $event)"
@@ -31,7 +31,7 @@
 
       <!-- Binning -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">Binning</label>
+        <label class="text-xs text-slate-400 flex-shrink-0">{{ $t('components.sequence.items.takeExposure.binning') }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="binningValue"
@@ -46,7 +46,7 @@
 
       <!-- Image Type -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">Bildtyp</label>
+        <label class="text-xs text-slate-400 flex-shrink-0">{{ $t('components.sequence.items.takeExposure.imageType') }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="item.ImageType"

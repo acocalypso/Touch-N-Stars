@@ -381,6 +381,33 @@
       "totalExposureTime": {
         "title": "Total exposure time",
         "Pictures": "Pictures"
+      },
+      "items": {
+        "saving": "Saving…",
+        "generic": "Generic",
+        "on": "On",
+        "off": "Off",
+        "takeExposure": {
+          "exposureTime": "Exposure Time (s)",
+          "gain": "Gain",
+          "offset": "Offset",
+          "binning": "Binning",
+          "imageType": "Image Type"
+        },
+        "switchFilter": {
+          "filter": "Filter"
+        },
+        "loopCondition": {
+          "iterations": "Iterations"
+        },
+        "dither": {
+          "afterExposures": "After Exposures"
+        },
+        "center": {
+          "ra": "RA",
+          "dec": "Dec",
+          "inherited": "Coordinates inherited from target"
+        }
       }
     },
     "mount": {

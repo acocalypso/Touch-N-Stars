@@ -381,7 +381,34 @@
         "Pictures": "Bilder",
         "title": "Gesamtbelichtungszeit"
       },
-      "saved_sequences": "TNS Sequence-Creator"
+      "saved_sequences": "TNS Sequence-Creator",
+      "items": {
+        "saving": "Speichern…",
+        "generic": "Generic",
+        "on": "Ein",
+        "off": "Aus",
+        "takeExposure": {
+          "exposureTime": "Belichtungszeit (s)",
+          "gain": "Gain",
+          "offset": "Offset",
+          "binning": "Binning",
+          "imageType": "Bildtyp"
+        },
+        "switchFilter": {
+          "filter": "Filter"
+        },
+        "loopCondition": {
+          "iterations": "Iterationen"
+        },
+        "dither": {
+          "afterExposures": "Nach Aufnahmen"
+        },
+        "center": {
+          "ra": "RA",
+          "dec": "Dek",
+          "inherited": "Koordinaten werden vom Ziel geerbt"
+        }
+      }
     },
     "mount": {
       "title": "Montierung",

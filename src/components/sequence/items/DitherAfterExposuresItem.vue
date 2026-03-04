@@ -7,7 +7,7 @@
     <template #editor="{ save }">
       <NumberInputPicker
         :modelValue="item.AfterExposures"
-        label="Nach Aufnahmen"
+        :label="$t('components.sequence.items.dither.afterExposures')"
         labelKey="dither-afterExposures"
         :min="0" :max="999" :step="1"
         @change="save('AfterExposures', $event)"

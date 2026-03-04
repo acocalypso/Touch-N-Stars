@@ -6,6 +6,7 @@ import SmartExposureItem from './SmartExposureItem.vue';
 import RunAutofocusItem from './RunAutofocusItem.vue';
 import SequentialContainerItem from './SequentialContainerItem.vue';
 import CenterItem from './CenterItem.vue';
+import DeepSkyObjectContainerItem from './DeepSkyObjectContainerItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -17,6 +18,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,
   'NINA.Sequencer.Container.SequentialContainer': SequentialContainerItem,
   'NINA.Sequencer.SequenceItem.Platesolving.Center': CenterItem,
+  'NINA.Sequencer.Container.DeepSkyObjectContainer': DeepSkyObjectContainerItem,
 };
 
 export { GenericItem };

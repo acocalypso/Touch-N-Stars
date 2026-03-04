@@ -64,17 +64,13 @@
 
     <!-- Children with nested draggable -->
     <div v-if="!collapsed && hasChildren" class="px-2 pb-2">
-      <!-- Target info for DSO container -->
-      <div
-        v-if="item.Target && item.Target.TargetName"
-        class="mb-1.5 px-2 py-1 bg-slate-700/40 rounded text-xs text-slate-300 flex items-center gap-1"
-      >
-        <svg class="w-3 h-3 text-blue-400 flex-shrink-0" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
-          <circle cx="10" cy="10" r="7"/>
-          <circle cx="10" cy="10" r="2" fill="currentColor" stroke="none"/>
-        </svg>
-        {{ item.Target.TargetName }}
-      </div>
+      <!-- Sky chart for DSO container -->
+      <SkyChart
+        v-if="dsoTarget && settingsStore.coordinates.latitude !== null"
+        :target="dsoTarget"
+        :coordinates="settingsStore.coordinates"
+        class="mb-1.5"
+      />
 
       <!-- Triggers -->
       <div v-if="item.Triggers && item.Triggers.length" class="mb-1.5 space-y-1">
@@ -118,6 +114,8 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import SkyChart from '@/components/framing/SkyChart.vue';
+import { useSettingsStore } from '@/store/settingsStore';
 import draggable from 'vuedraggable';
 import {
   ChevronRightIcon,
@@ -136,12 +134,21 @@ const props = defineProps({
   siblings: { type: Array,  default: () => [] },
 });
 
-const store     = useSequenceV2Store();
+const store         = useSequenceV2Store();
+const settingsStore = useSettingsStore();
 const collapsed = ref(false);
 const moreOpen  = ref(false);
 const moreRef   = ref(null);
 
 const hasChildren  = computed(() => props.item.Items && props.item.Items.length > 0);
+
+const dsoTarget = computed(() => {
+  const co = props.item.Target?.InputCoordinates;
+  if (!co) return null;
+  const raH = (co.RAHours ?? 0) + (co.RAMinutes ?? 0) / 60 + (co.RASeconds ?? 0) / 3600;
+  const decAbs = (co.DecDegrees ?? 0) + (co.DecMinutes ?? 0) / 60 + (co.DecSeconds ?? 0) / 3600;
+  return { RA: raH * 15, Dec: co.NegativeDec ? -decAbs : decAbs };
+});
 const typeComponent = computed(() => ITEM_COMPONENTS[props.item.FullTypeName] ?? GenericItem);
 
 const borderClass = computed(() => {

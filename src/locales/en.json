@@ -407,6 +407,10 @@
           "ra": "RA",
           "dec": "Dec",
           "inherited": "Coordinates inherited from target"
+        },
+        "dso": {
+          "targetName": "Target Name",
+          "positionAngle": "Position Angle (°)"
         }
       }
     },

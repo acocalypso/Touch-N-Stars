@@ -407,6 +407,10 @@
           "ra": "RA",
           "dec": "Dek",
           "inherited": "Koordinaten werden vom Ziel geerbt"
+        },
+        "dso": {
+          "targetName": "Zielname",
+          "positionAngle": "Positionswinkel (°)"
         }
       }
     },

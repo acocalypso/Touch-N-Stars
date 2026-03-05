@@ -471,6 +471,17 @@
         "setUSBLimit": {
           "limit": "USB Limit"
         },
+        "setBrightness": {
+          "brightness": "Helligkeit"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Min. Helligkeit",
+          "maxBrightness": "Max. Helligkeit",
+          "histogramTarget": "Histogramm Ziel (%)",
+          "histogramTolerance": "Histogramm Toleranz (%)",
+          "iterations": "Anzahl",
+          "keepPanelClosed": "Panel geschlossen lassen"
+        },
         "dso": {
           "targetName": "Zielname",
           "positionAngle": "Positionswinkel (°)"

@@ -160,7 +160,10 @@ import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
 const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure']);
-const NO_EXPAND_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures']);
+const NO_EXPAND_TYPES = new Set([
+  'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures',
+  'NINA.Sequencer.SequenceItem.FlatDevice.AutoBrightnessFlat',
+]);
 
 const props = defineProps({
   item: { type: Object, required: true },

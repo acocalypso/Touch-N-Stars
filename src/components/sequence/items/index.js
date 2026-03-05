@@ -3,6 +3,9 @@ import TakeManyExposuresItem from './TakeManyExposuresItem.vue';
 import TakeSubframeExposureItem from './TakeSubframeExposureItem.vue';
 import SwitchFilterItem from './SwitchFilterItem.vue';
 import SwitchProfileItem from './SwitchProfileItem.vue';
+import ToggleLightItem from './ToggleLightItem.vue';
+import SetBrightnessItem from './SetBrightnessItem.vue';
+import AutoBrightnessFlatItem from './AutoBrightnessFlatItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -81,6 +84,11 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Camera.CoolCamera': CoolCameraItem,
   'NINA.Sequencer.SequenceItem.Camera.DewHeater': DewHeaterItem,
   'NINA.Sequencer.SequenceItem.Camera.SetUSBLimit': SetUSBLimitItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.CloseCover': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.OpenCover': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.ToggleLight': ToggleLightItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.SetBrightness': SetBrightnessItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.AutoBrightnessFlat': AutoBrightnessFlatItem,
 };
 
 export { GenericItem };

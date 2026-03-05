@@ -46,6 +46,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTemperatureChangeTrigger': AutofocusAfterTemperatureChangeItem,
   'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTimeTrigger': AutofocusAfterTimeItem,
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
+  'NINA.Sequencer.Trigger.Guider.RestoreGuiding': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.UnparkScope': RunAutofocusItem,

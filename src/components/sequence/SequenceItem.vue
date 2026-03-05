@@ -85,9 +85,9 @@
       />
 
       <!-- Triggers -->
-      <div v-if="item.Triggers !== undefined" class="mb-1.5 space-y-1">
+      <div v-if="item.Triggers !== undefined && !isDsoContainer" class="mb-1.5 space-y-1">
         <div class="flex items-center justify-between px-1">
-          <span class="text-xs text-purple-400/70">Triggers</span>
+          <span class="text-xs text-cyan-400/70">Triggers</span>
           <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="trigger" />
         </div>
         <SequenceItem
@@ -96,12 +96,12 @@
           :item="trigger"
           :siblings="item.Triggers"
           :depth="depth + 1"
-          class="border-purple-600/30"
+          class="border-cyan-600/30"
         />
       </div>
 
       <!-- Conditions -->
-      <div v-if="item.Conditions !== undefined" class="mb-1.5 space-y-1">
+      <div v-if="item.Conditions !== undefined && !isDsoContainer" class="mb-1.5 space-y-1">
         <div class="flex items-center justify-between px-1">
           <span class="text-xs text-amber-400/70">Conditions</span>
           <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="condition" />
@@ -168,6 +168,7 @@ const props = defineProps({
 });
 
 const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
+const isDsoContainer = computed(() => props.item.FullTypeName === 'NINA.Sequencer.Container.DeepSkyObjectContainer');
 
 const store = useSequenceV2Store();
 const settingsStore = useSettingsStore();

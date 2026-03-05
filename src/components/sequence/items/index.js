@@ -6,6 +6,8 @@ import SwitchProfileItem from './SwitchProfileItem.vue';
 import ToggleLightItem from './ToggleLightItem.vue';
 import SetBrightnessItem from './SetBrightnessItem.vue';
 import AutoBrightnessFlatItem from './AutoBrightnessFlatItem.vue';
+import AutoExposureFlatItem from './AutoExposureFlatItem.vue';
+import SkyFlatItem from './SkyFlatItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -89,6 +91,8 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.FlatDevice.ToggleLight': ToggleLightItem,
   'NINA.Sequencer.SequenceItem.FlatDevice.SetBrightness': SetBrightnessItem,
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoBrightnessFlat': AutoBrightnessFlatItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.AutoExposureFlat': AutoExposureFlatItem,
+  'NINA.Sequencer.SequenceItem.FlatDevice.SkyFlat': SkyFlatItem,
 };
 
 export { GenericItem };

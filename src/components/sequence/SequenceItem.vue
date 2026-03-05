@@ -163,6 +163,8 @@ const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure
 const NO_EXPAND_TYPES = new Set([
   'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures',
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoBrightnessFlat',
+  'NINA.Sequencer.SequenceItem.FlatDevice.AutoExposureFlat',
+  'NINA.Sequencer.SequenceItem.FlatDevice.SkyFlat',
 ]);
 
 const props = defineProps({

@@ -1,36 +1,36 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono">{{ item.MinBrightness }}–{{ item.MaxBrightness }}</span>
+      <span class="text-xs text-slate-400 font-mono">{{ item.MinExposure }}–{{ item.MaxExposure }}s</span>
       <span class="text-xs text-slate-500">{{ (item.HistogramTargetPercentage * 100).toFixed(0) }}%</span>
     </template>
 
     <template #editor="{ save }">
       <NumberInputPicker
-        :modelValue="item.MinBrightness"
-        :label="$t('components.sequence.items.autoBrightnessFlat.minBrightness')"
-        labelKey="abf-minBrightness"
-        :min="0" :max="255" :step="1" :decimalPlaces="0"
-        @change="save('MinBrightness', $event)"
+        :modelValue="item.MinExposure"
+        :label="$t('components.sequence.items.autoExposureFlat.minExposure')"
+        labelKey="aef-minExposure"
+        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        @change="save('MinExposure', $event)"
       />
       <NumberInputPicker
-        :modelValue="item.MaxBrightness"
-        :label="$t('components.sequence.items.autoBrightnessFlat.maxBrightness')"
-        labelKey="abf-maxBrightness"
-        :min="0" :max="255" :step="1" :decimalPlaces="0"
-        @change="save('MaxBrightness', $event)"
+        :modelValue="item.MaxExposure"
+        :label="$t('components.sequence.items.autoExposureFlat.maxExposure')"
+        labelKey="aef-maxExposure"
+        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        @change="save('MaxExposure', $event)"
       />
       <NumberInputPicker
         :modelValue="histogramTargetPct"
         :label="$t('components.sequence.items.autoBrightnessFlat.histogramTarget')"
-        labelKey="abf-histTarget"
+        labelKey="aef-histTarget"
         :min="0" :max="100" :step="1" :decimalPlaces="0"
         @change="store.setProperty(item.Id, 'HistogramTargetPercentage', $event / 100)"
       />
       <NumberInputPicker
         :modelValue="histogramTolerancePct"
         :label="$t('components.sequence.items.autoBrightnessFlat.histogramTolerance')"
-        labelKey="abf-histTolerance"
+        labelKey="aef-histTolerance"
         :min="0" :max="100" :step="1" :decimalPlaces="0"
         @change="store.setProperty(item.Id, 'HistogramTolerancePercentage', $event / 100)"
       />
@@ -40,7 +40,7 @@
         v-if="loopCondition"
         :modelValue="loopCondition.Iterations"
         :label="$t('components.sequence.items.autoBrightnessFlat.iterations')"
-        labelKey="abf-iterations"
+        labelKey="aef-iterations"
         :min="1" :max="9999" :step="1" :decimalPlaces="0"
         @change="store.setProperty(loopCondition.Id, 'Iterations', $event)"
       />
@@ -81,7 +81,7 @@
         v-if="exposure"
         :modelValue="exposure.Gain"
         :label="$t('components.sequence.items.takeExposure.gain')"
-        labelKey="abf-gain"
+        labelKey="aef-gain"
         :min="-1" :max="1000" :step="1" :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Gain', $event)"
       />
@@ -91,7 +91,7 @@
         v-if="exposure"
         :modelValue="exposure.Offset"
         :label="$t('components.sequence.items.takeExposure.offset')"
-        labelKey="abf-offset"
+        labelKey="aef-offset"
         :min="-1" :max="1000" :step="1" :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Offset', $event)"
       />

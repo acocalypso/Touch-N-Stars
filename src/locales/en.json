@@ -474,6 +474,10 @@
         "setBrightness": {
           "brightness": "Brightness"
         },
+        "autoExposureFlat": {
+          "minExposure": "Min. Exposure (s)",
+          "maxExposure": "Max. Exposure (s)"
+        },
         "autoBrightnessFlat": {
           "minBrightness": "Min. Brightness",
           "maxBrightness": "Max. Brightness",
@@ -481,6 +485,11 @@
           "histogramTolerance": "Histogram Tolerance (%)",
           "iterations": "Count",
           "keepPanelClosed": "Keep Panel Closed"
+        },
+        "skyFlat": {
+          "shouldDither": "Dither",
+          "ditherPixels": "Dither Pixels",
+          "ditherSettleTime": "Dither Settle Time (s)"
         },
         "dso": {
           "targetName": "Target Name",

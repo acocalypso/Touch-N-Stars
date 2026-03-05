@@ -1,36 +1,36 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono">{{ item.MinBrightness }}–{{ item.MaxBrightness }}</span>
+      <span class="text-xs text-slate-400 font-mono">{{ item.MinExposure }}–{{ item.MaxExposure }}s</span>
       <span class="text-xs text-slate-500">{{ (item.HistogramTargetPercentage * 100).toFixed(0) }}%</span>
     </template>
 
     <template #editor="{ save }">
       <NumberInputPicker
-        :modelValue="item.MinBrightness"
-        :label="$t('components.sequence.items.autoBrightnessFlat.minBrightness')"
-        labelKey="abf-minBrightness"
-        :min="0" :max="255" :step="1" :decimalPlaces="0"
-        @change="save('MinBrightness', $event)"
+        :modelValue="item.MinExposure"
+        :label="$t('components.sequence.items.autoExposureFlat.minExposure')"
+        labelKey="sf-minExposure"
+        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        @change="save('MinExposure', $event)"
       />
       <NumberInputPicker
-        :modelValue="item.MaxBrightness"
-        :label="$t('components.sequence.items.autoBrightnessFlat.maxBrightness')"
-        labelKey="abf-maxBrightness"
-        :min="0" :max="255" :step="1" :decimalPlaces="0"
-        @change="save('MaxBrightness', $event)"
+        :modelValue="item.MaxExposure"
+        :label="$t('components.sequence.items.autoExposureFlat.maxExposure')"
+        labelKey="sf-maxExposure"
+        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        @change="save('MaxExposure', $event)"
       />
       <NumberInputPicker
         :modelValue="histogramTargetPct"
         :label="$t('components.sequence.items.autoBrightnessFlat.histogramTarget')"
-        labelKey="abf-histTarget"
+        labelKey="sf-histTarget"
         :min="0" :max="100" :step="1" :decimalPlaces="0"
         @change="store.setProperty(item.Id, 'HistogramTargetPercentage', $event / 100)"
       />
       <NumberInputPicker
         :modelValue="histogramTolerancePct"
         :label="$t('components.sequence.items.autoBrightnessFlat.histogramTolerance')"
-        labelKey="abf-histTolerance"
+        labelKey="sf-histTolerance"
         :min="0" :max="100" :step="1" :decimalPlaces="0"
         @change="store.setProperty(item.Id, 'HistogramTolerancePercentage', $event / 100)"
       />
@@ -40,7 +40,7 @@
         v-if="loopCondition"
         :modelValue="loopCondition.Iterations"
         :label="$t('components.sequence.items.autoBrightnessFlat.iterations')"
-        labelKey="abf-iterations"
+        labelKey="sf-iterations"
         :min="1" :max="9999" :step="1" :decimalPlaces="0"
         @change="store.setProperty(loopCondition.Id, 'Iterations', $event)"
       />
@@ -81,7 +81,7 @@
         v-if="exposure"
         :modelValue="exposure.Gain"
         :label="$t('components.sequence.items.takeExposure.gain')"
-        labelKey="abf-gain"
+        labelKey="sf-gain"
         :min="-1" :max="1000" :step="1" :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Gain', $event)"
       />
@@ -91,19 +91,37 @@
         v-if="exposure"
         :modelValue="exposure.Offset"
         :label="$t('components.sequence.items.takeExposure.offset')"
-        labelKey="abf-offset"
+        labelKey="sf-offset"
         :min="-1" :max="1000" :step="1" :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Offset', $event)"
       />
 
       <div class="flex items-center gap-3">
         <label class="text-xs text-slate-400 flex-shrink-0">{{
-          $t('components.sequence.items.autoBrightnessFlat.keepPanelClosed')
+          $t('components.sequence.items.skyFlat.shouldDither')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.KeepPanelClosed" @update:statusValue="save('KeepPanelClosed', $event)" />
+          <ToggleButton :statusValue="item.ShouldDither" @update:statusValue="save('ShouldDither', $event)" />
         </div>
       </div>
+
+      <NumberInputPicker
+        v-if="item.ShouldDither"
+        :modelValue="item.DitherPixels"
+        :label="$t('components.sequence.items.skyFlat.ditherPixels')"
+        labelKey="sf-ditherPixels"
+        :min="1" :max="100" :step="1" :decimalPlaces="0"
+        @change="save('DitherPixels', $event)"
+      />
+
+      <NumberInputPicker
+        v-if="item.ShouldDither"
+        :modelValue="item.DitherSettleTime"
+        :label="$t('components.sequence.items.skyFlat.ditherSettleTime')"
+        labelKey="sf-ditherSettleTime"
+        :min="0" :max="300" :step="1" :decimalPlaces="0"
+        @change="save('DitherSettleTime', $event)"
+      />
     </template>
   </ItemShell>
 </template>

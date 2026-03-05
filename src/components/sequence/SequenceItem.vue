@@ -1,5 +1,8 @@
 <template>
-  <div class="rounded-lg border transition-colors duration-200" :class="borderClass">
+  <div
+    class="rounded-lg border transition-colors duration-200"
+    :class="[borderClass, hasChildren && depth > 0 ? depthLeftBorder : '']"
+  >
     <!-- Item header row -->
     <div class="flex items-center gap-1.5 px-2 py-2">
       <!-- Drag handle -->
@@ -92,6 +95,7 @@
           :key="trigger.Id"
           :item="trigger"
           :siblings="item.Triggers"
+          :depth="depth + 1"
           class="border-purple-600/30"
         />
       </div>
@@ -107,6 +111,7 @@
           :key="cond.Id"
           :item="cond"
           :siblings="item.Conditions"
+          :depth="depth + 1"
           class="border-amber-600/30"
         />
       </div>
@@ -120,7 +125,7 @@
         @end="(evt) => onChildDragEnd(evt)"
       >
         <template #item="{ element }">
-          <SequenceItem :item="element" :siblings="item.Items" />
+          <SequenceItem :item="element" :siblings="item.Items" :depth="depth + 1" />
         </template>
       </draggable>
 
@@ -159,6 +164,7 @@ const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure
 const props = defineProps({
   item: { type: Object, required: true },
   siblings: { type: Array, default: () => [] },
+  depth: { type: Number, default: 0 },
 });
 
 const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
@@ -200,6 +206,15 @@ const dsoTarget = computed(() => {
   return { RA: raH * 15, Dec: co.NegativeDec ? -decAbs : decAbs };
 });
 const typeComponent = computed(() => ITEM_COMPONENTS[props.item.FullTypeName] ?? GenericItem);
+
+const DEPTH_BORDERS = [
+  'border-l-2 border-l-blue-500/60',
+  'border-l-2 border-l-violet-500/60',
+  'border-l-2 border-l-fuchsia-500/60',
+  'border-l-2 border-l-rose-500/60',
+];
+
+const depthLeftBorder = computed(() => DEPTH_BORDERS[(props.depth - 1) % DEPTH_BORDERS.length]);
 
 const borderClass = computed(() => {
   const s = props.item.Status;

@@ -1,5 +1,9 @@
 <template>
   <div class="space-y-3">
+    <Teleport to="body">
+      <ControlSequence />
+    </Teleport>
+
     <!-- Loading -->
     <div v-if="!store.loaded" class="flex items-center justify-center py-12 text-slate-400">
       <svg class="w-6 h-6 animate-spin mr-2" viewBox="0 0 24 24" fill="none">
@@ -108,6 +112,7 @@ import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import SequenceItem from './SequenceItem.vue';
 import AddTypeButton from './AddTypeButton.vue';
+import ControlSequence from './controlSequence.vue';
 
 const store = useSequenceV2Store();
 const collapsed = reactive({});

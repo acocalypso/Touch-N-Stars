@@ -24,6 +24,8 @@ import AutofocusAfterExposuresItem from './AutofocusAfterExposuresItem.vue';
 import AutofocusAfterHFRIncreaseItem from './AutofocusAfterHFRIncreaseItem.vue';
 import AutofocusAfterTemperatureChangeItem from './AutofocusAfterTemperatureChangeItem.vue';
 import AutofocusAfterTimeItem from './AutofocusAfterTimeItem.vue';
+import CenterAfterDriftTriggerItem from './CenterAfterDriftTriggerItem.vue';
+import MeridianFlipTriggerItem from './MeridianFlipTriggerItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -47,6 +49,8 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTimeTrigger': AutofocusAfterTimeItem,
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
   'NINA.Sequencer.Trigger.Guider.RestoreGuiding': RunAutofocusItem,
+  'NINA.Sequencer.Trigger.Platesolving.CenterAfterDriftTrigger': CenterAfterDriftTriggerItem,
+  'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger': MeridianFlipTriggerItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.UnparkScope': RunAutofocusItem,

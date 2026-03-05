@@ -417,6 +417,15 @@
           "deltaT": "Temperature Change (°)",
           "minutes": "Minutes"
         },
+        "centerAfterDrift": {
+          "distance": "Distance (arcminutes)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Minutes After Meridian",
+          "maxMinutesAfter": "Max Minutes After Meridian",
+          "pauseBefore": "Pause Before Meridian (min)",
+          "useSideOfPier": "Use Side of Pier"
+        },
         "altitudeCondition": {
           "altitude": "Altitude (°)"
         },

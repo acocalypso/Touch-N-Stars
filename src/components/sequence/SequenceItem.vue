@@ -160,6 +160,7 @@ import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
 const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure']);
+const NO_EXPAND_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures']);
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -168,6 +169,7 @@ const props = defineProps({
 });
 
 const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
+const isNoExpand = computed(() => NO_EXPAND_TYPES.has(props.item.FullTypeName));
 const isDsoContainer = computed(() => props.item.FullTypeName === 'NINA.Sequencer.Container.DeepSkyObjectContainer');
 
 const store = useSequenceV2Store();
@@ -194,9 +196,10 @@ function toggleMore() {
 
 const hasChildren = computed(
   () =>
-    props.item.Items?.length > 0 ||
-    props.item.Triggers !== undefined ||
-    props.item.Conditions !== undefined
+    !isNoExpand.value &&
+    (props.item.Items?.length > 0 ||
+      props.item.Triggers !== undefined ||
+      props.item.Conditions !== undefined)
 );
 
 const dsoTarget = computed(() => {

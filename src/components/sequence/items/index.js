@@ -1,4 +1,5 @@
 import TakeExposureItem from './TakeExposureItem.vue';
+import TakeManyExposuresItem from './TakeManyExposuresItem.vue';
 import SwitchFilterItem from './SwitchFilterItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
@@ -54,6 +55,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Trigger.Guider.RestoreGuiding': RunAutofocusItem,
   'NINA.Sequencer.Trigger.Platesolving.CenterAfterDriftTrigger': CenterAfterDriftTriggerItem,
   'NINA.Sequencer.Trigger.MeridianFlip.MeridianFlipTrigger': MeridianFlipTriggerItem,
+  'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures': TakeManyExposuresItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.UnparkScope': RunAutofocusItem,

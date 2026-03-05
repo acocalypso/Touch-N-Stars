@@ -394,6 +394,9 @@
           "binning": "Binning",
           "imageType": "Image Type"
         },
+        "takeManyExposures": {
+          "iterations": "Number of Exposures"
+        },
         "switchFilter": {
           "filter": "Filter"
         },

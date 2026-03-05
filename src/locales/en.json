@@ -397,6 +397,9 @@
         "takeManyExposures": {
           "iterations": "Number of Exposures"
         },
+        "takeSubframeExposure": {
+          "roiPct": "ROI (%)"
+        },
         "switchFilter": {
           "filter": "Filter"
         },

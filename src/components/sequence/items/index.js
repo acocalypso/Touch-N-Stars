@@ -1,5 +1,6 @@
 import TakeExposureItem from './TakeExposureItem.vue';
 import TakeManyExposuresItem from './TakeManyExposuresItem.vue';
+import TakeSubframeExposureItem from './TakeSubframeExposureItem.vue';
 import SwitchFilterItem from './SwitchFilterItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
@@ -34,6 +35,7 @@ import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Imaging.TakeExposure': TakeExposureItem,
+  'NINA.Sequencer.SequenceItem.Imaging.TakeSubframeExposure': TakeSubframeExposureItem,
   'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter': SwitchFilterItem,
   'NINA.Sequencer.Conditions.LoopCondition': LoopConditionItem,
   'NINA.Sequencer.Conditions.TimeSpanCondition': LoopForTimeSpanItem,

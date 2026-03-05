@@ -3,6 +3,7 @@
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">{{ item.MinBrightness }}–{{ item.MaxBrightness }}</span>
       <span class="text-xs text-slate-500">{{ (item.HistogramTargetPercentage * 100).toFixed(0) }}%</span>
+      <span v-if="loopCondition" class="text-xs text-slate-500">{{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}</span>
     </template>
 
     <template #editor="{ save }">

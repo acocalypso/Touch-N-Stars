@@ -2,6 +2,8 @@ import TakeExposureItem from './TakeExposureItem.vue';
 import SwitchFilterItem from './SwitchFilterItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
+import LoopWhileItem from './LoopWhileItem.vue';
+import TimeConditionItem from './TimeConditionItem.vue';
 import DitherAfterExposuresItem from './DitherAfterExposuresItem.vue';
 import SmartExposureItem from './SmartExposureItem.vue';
 import RunAutofocusItem from './RunAutofocusItem.vue';
@@ -12,6 +14,8 @@ import WarmCameraItem from './WarmCameraItem.vue';
 import MoonAltitudeConditionItem from './MoonAltitudeConditionItem.vue';
 import AltitudeConditionItem from './AltitudeConditionItem.vue';
 import SunAltitudeConditionItem from './SunAltitudeConditionItem.vue';
+import AboveHorizonConditionItem from './AboveHorizonConditionItem.vue';
+import SafetyMonitorConditionItem from './SafetyMonitorConditionItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -19,8 +23,12 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter': SwitchFilterItem,
   'NINA.Sequencer.Conditions.LoopCondition': LoopConditionItem,
   'NINA.Sequencer.Conditions.TimeSpanCondition': LoopForTimeSpanItem,
+  'NINA.Sequencer.Conditions.TimeCondition': TimeConditionItem,
+  'NINA.Sequencer.Conditions.LoopWhile': LoopWhileItem,
   'NINA.Sequencer.Conditions.AltitudeCondition': AltitudeConditionItem,
   'NINA.Sequencer.Conditions.SunAltitudeCondition': SunAltitudeConditionItem,
+  'NINA.Sequencer.Conditions.AboveHorizonCondition': AboveHorizonConditionItem,
+  'NINA.Sequencer.Conditions.SafetyMonitorCondition': SafetyMonitorConditionItem,
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,

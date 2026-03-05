@@ -9,7 +9,9 @@
         :modelValue="item.Duration"
         :label="$t('components.sequence.items.warmCamera.duration')"
         labelKey="warmCamera-duration"
-        :min="0" :max="3600" :step="1"
+        :min="0"
+        :max="3600"
+        :step="1"
         @change="save('Duration', $event)"
       />
     </template>

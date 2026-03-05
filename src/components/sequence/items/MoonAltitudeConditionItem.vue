@@ -9,7 +9,9 @@
     <template #editor="{ save }">
       <!-- Comparator -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{ $t('components.sequence.items.moonAltitude.comparator') }}</label>
+        <label class="text-xs text-slate-400 flex-shrink-0">{{
+          $t('components.sequence.items.moonAltitude.comparator')
+        }}</label>
         <select
           class="ml-auto bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="item.Comparator"
@@ -25,7 +27,10 @@
         :modelValue="item.UserMoonAltitude"
         :label="$t('components.sequence.items.moonAltitude.altitude')"
         labelKey="moonAlt-altitude"
-        :min="-90" :max="90" :step="1" :decimalPlaces="1"
+        :min="-90"
+        :max="90"
+        :step="1"
+        :decimalPlaces="1"
         @change="save('UserMoonAltitude', $event)"
       />
     </template>

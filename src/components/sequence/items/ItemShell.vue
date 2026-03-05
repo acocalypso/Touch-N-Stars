@@ -2,12 +2,13 @@
   <div class="flex-1 min-w-0">
     <!-- Header: left=name+summary, right=badges+edit (vertically centered) -->
     <div class="flex items-center gap-1.5">
-
       <!-- Left: name + summary stacked -->
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5 min-w-0">
           <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
-          <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
+          <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{
+            label
+          }}</span>
         </div>
         <div v-if="$slots.summary" class="flex items-center gap-2 mt-0.5">
           <slot name="summary" />
@@ -50,10 +51,16 @@
 
     <!-- Edit panel -->
     <div v-if="editing && hasEditor" class="border-t border-slate-700/50 mt-1 pt-2 space-y-2">
-
       <!-- Issues list -->
-      <div v-if="item.Issues && item.Issues.length" class="bg-red-900/20 border border-red-700/40 rounded-lg p-2 space-y-0.5">
-        <p v-for="(iss, i) in item.Issues" :key="i" class="text-red-300 text-xs flex items-start gap-1">
+      <div
+        v-if="item.Issues && item.Issues.length"
+        class="bg-red-900/20 border border-red-700/40 rounded-lg p-2 space-y-0.5"
+      >
+        <p
+          v-for="(iss, i) in item.Issues"
+          :key="i"
+          class="text-red-300 text-xs flex items-start gap-1"
+        >
           <ExclamationTriangleIcon class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
           {{ iss }}
         </p>
@@ -65,8 +72,15 @@
       <!-- Saving indicator -->
       <div v-if="saving" class="text-xs text-cyan-400 flex items-center gap-1">
         <svg class="w-3 h-3 animate-spin" viewBox="0 0 24 24" fill="none">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
         </svg>
         {{ $t('components.sequence.items.saving') }}
       </div>
@@ -80,14 +94,14 @@ import { ExclamationTriangleIcon, PencilSquareIcon } from '@heroicons/vue/24/out
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
 const props = defineProps({
-  item:  { type: Object, required: true },
+  item: { type: Object, required: true },
   label: { type: String, default: '' },
 });
 
-const slots   = useSlots();
-const store   = useSequenceV2Store();
+const slots = useSlots();
+const store = useSequenceV2Store();
 const editing = ref(false);
-const saving  = ref(false);
+const saving = ref(false);
 
 const hasEditor = computed(() => !!slots.editor);
 
@@ -105,11 +119,16 @@ async function save(key, value) {
 
 function statusColor(status) {
   switch (status) {
-    case 'FINISHED': return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50';
-    case 'RUNNING':  return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50';
-    case 'SKIPPED':  return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
-    case 'DISABLED': return 'bg-gray-700/50 text-gray-500 border border-gray-600/50';
-    default:         return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
+    case 'FINISHED':
+      return 'bg-emerald-500/30 text-emerald-200 border border-emerald-400/50';
+    case 'RUNNING':
+      return 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/50';
+    case 'SKIPPED':
+      return 'bg-gray-500/30 text-gray-300 border border-gray-400/50';
+    case 'DISABLED':
+      return 'bg-gray-700/50 text-gray-500 border border-gray-600/50';
+    default:
+      return 'bg-gray-600/30 text-gray-300 border border-gray-500/50';
   }
 }
 </script>

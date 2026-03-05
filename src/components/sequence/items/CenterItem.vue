@@ -7,22 +7,90 @@
     <template #editor="{ save }">
       <template v-if="!item.Inherited">
         <!-- RA -->
-        <div class="text-xs text-slate-400 font-medium">{{ $t('components.sequence.items.center.ra') }}</div>
+        <div class="text-xs text-slate-400 font-medium">
+          {{ $t('components.sequence.items.center.ra') }}
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
-          <NumberInputPicker :modelValue="c.RAHours"   label="h" labelKey="center-ra-h" :min="0" :max="23" :step="1"                       labelPosition="top" wrapperClass="w-full" @change="saveRa($event,    c.RAMinutes, c.RASeconds)" />
-          <NumberInputPicker :modelValue="c.RAMinutes" label="m" labelKey="center-ra-m" :min="0" :max="59" :step="1"                       labelPosition="top" wrapperClass="w-full" @change="saveRa(c.RAHours, $event,       c.RASeconds)" />
-          <NumberInputPicker :modelValue="c.RASeconds" label="s" labelKey="center-ra-s" :min="0" :max="59" :step="0.1" :decimalPlaces="1" labelPosition="top" wrapperClass="w-full" @change="saveRa(c.RAHours, c.RAMinutes,  $event)" />
+          <NumberInputPicker
+            :modelValue="c.RAHours"
+            label="h"
+            labelKey="center-ra-h"
+            :min="0"
+            :max="23"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
+            @change="saveRa($event, c.RAMinutes, c.RASeconds)"
+          />
+          <NumberInputPicker
+            :modelValue="c.RAMinutes"
+            label="m"
+            labelKey="center-ra-m"
+            :min="0"
+            :max="59"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
+            @change="saveRa(c.RAHours, $event, c.RASeconds)"
+          />
+          <NumberInputPicker
+            :modelValue="c.RASeconds"
+            label="s"
+            labelKey="center-ra-s"
+            :min="0"
+            :max="59"
+            :step="0.1"
+            :decimalPlaces="1"
+            labelPosition="top"
+            wrapperClass="w-full"
+            @change="saveRa(c.RAHours, c.RAMinutes, $event)"
+          />
         </div>
 
         <!-- Dec -->
-        <div class="text-xs text-slate-400 font-medium pt-1">{{ $t('components.sequence.items.center.dec') }}</div>
+        <div class="text-xs text-slate-400 font-medium pt-1">
+          {{ $t('components.sequence.items.center.dec') }}
+        </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
-          <NumberInputPicker :modelValue="decDeg"      label="°" labelKey="center-dec-d" :min="-90" :max="90" :step="1"   labelPosition="top" wrapperClass="w-full" @change="saveDec($event,  c.DecMinutes, c.DecSeconds)" />
-          <NumberInputPicker :modelValue="c.DecMinutes" label="m" labelKey="center-dec-m" :min="0"   :max="59" :step="1"   labelPosition="top" wrapperClass="w-full" @change="saveDec(decDeg, $event,        c.DecSeconds)" />
-          <NumberInputPicker :modelValue="c.DecSeconds" label="s" labelKey="center-dec-s" :min="0"   :max="59" :step="0.1" :decimalPlaces="1" labelPosition="top" wrapperClass="w-full" @change="saveDec(decDeg, c.DecMinutes, $event)" />
+          <NumberInputPicker
+            :modelValue="decDeg"
+            label="°"
+            labelKey="center-dec-d"
+            :min="-90"
+            :max="90"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
+            @change="saveDec($event, c.DecMinutes, c.DecSeconds)"
+          />
+          <NumberInputPicker
+            :modelValue="c.DecMinutes"
+            label="m"
+            labelKey="center-dec-m"
+            :min="0"
+            :max="59"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
+            @change="saveDec(decDeg, $event, c.DecSeconds)"
+          />
+          <NumberInputPicker
+            :modelValue="c.DecSeconds"
+            label="s"
+            labelKey="center-dec-s"
+            :min="0"
+            :max="59"
+            :step="0.1"
+            :decimalPlaces="1"
+            labelPosition="top"
+            wrapperClass="w-full"
+            @change="saveDec(decDeg, c.DecMinutes, $event)"
+          />
         </div>
       </template>
-      <div v-else class="text-xs text-blue-400/80">{{ $t('components.sequence.items.center.inherited') }}</div>
+      <div v-else class="text-xs text-blue-400/80">
+        {{ $t('components.sequence.items.center.inherited') }}
+      </div>
     </template>
   </ItemShell>
 </template>
@@ -44,17 +112,17 @@ const c = computed(() => props.item.Coordinates ?? {});
 const raStr = computed(() => {
   const co = c.value;
   if (!co.RAHours && co.RAHours !== 0) return '';
-  return `${String(co.RAHours).padStart(2,'0')}:${String(co.RAMinutes).padStart(2,'0')}:${String(Math.round(co.RASeconds)).padStart(2,'0')}`;
+  return `${String(co.RAHours).padStart(2, '0')}:${String(co.RAMinutes).padStart(2, '0')}:${String(Math.round(co.RASeconds)).padStart(2, '0')}`;
 });
 
 const decStr = computed(() => {
   const co = c.value;
   if (!co.DecDegrees && co.DecDegrees !== 0) return '';
   const sign = co.NegativeDec ? '-' : '+';
-  return `${sign}${String(co.DecDegrees).padStart(2,'0')}°${String(co.DecMinutes).padStart(2,'0')}'${String(Math.round(co.DecSeconds)).padStart(2,'0')}"`;
+  return `${sign}${String(co.DecDegrees).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
 });
 
-const decDeg = computed(() => c.value.NegativeDec ? -c.value.DecDegrees : c.value.DecDegrees);
+const decDeg = computed(() => (c.value.NegativeDec ? -c.value.DecDegrees : c.value.DecDegrees));
 
 function saveRa(h, m, s) {
   const decimal = Number(h) + Number(m) / 60 + Number(s) / 3600;

@@ -1,7 +1,9 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono">{{ item.CompletedIterations }} / {{ item.Iterations }}</span>
+      <span class="text-xs text-slate-400 font-mono"
+        >{{ item.CompletedIterations }} / {{ item.Iterations }}</span
+      >
     </template>
 
     <template #editor="{ save }">
@@ -9,7 +11,9 @@
         :modelValue="item.Iterations"
         :label="$t('components.sequence.items.loopCondition.iterations')"
         labelKey="loopCondition-iterations"
-        :min="1" :max="99999" :step="1"
+        :min="1"
+        :max="99999"
+        :step="1"
         @change="save('Iterations', $event)"
       />
     </template>

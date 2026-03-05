@@ -1,16 +1,16 @@
 <template>
   <div class="rounded-lg border transition-colors duration-200" :class="borderClass">
-
     <!-- Item header row -->
     <div class="flex items-center gap-1.5 px-2 py-2">
-
       <!-- Drag handle -->
       <span
         class="drag-handle flex-shrink-0 cursor-grab active:cursor-grabbing p-1 text-slate-600 hover:text-slate-400 transition-colors touch-none"
         title="Verschieben"
       >
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M7 2a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4z"/>
+          <path
+            d="M7 2a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4z"
+          />
         </svg>
       </span>
 
@@ -57,14 +57,20 @@
             <DocumentDuplicateIcon class="w-4 h-4" /> Duplizieren
           </button>
           <button class="menu-item" @click="doAction('toggle-enable')">
-            <component :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon" class="w-4 h-4" />
+            <component
+              :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
+              class="w-4 h-4"
+            />
             {{ item.Status === 'DISABLED' ? 'Aktivieren' : 'Deaktivieren' }}
           </button>
           <button class="menu-item" @click="doAction('reset')">
             <ArrowPathIcon class="w-4 h-4" /> Status zurücksetzen
           </button>
           <div class="border-t border-slate-700 my-1" />
-          <button class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20" @click="doAction('remove')">
+          <button
+            class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
+            @click="doAction('remove')"
+          >
             <TrashIcon class="w-4 h-4" /> Löschen
           </button>
         </div>
@@ -145,27 +151,26 @@ import {
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
-const NO_ADD_TYPES = new Set([
-  'NINA.Sequencer.SequenceItem.Imaging.SmartExposure',
-]);
+const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure']);
 
 const props = defineProps({
-  item:     { type: Object, required: true },
-  siblings: { type: Array,  default: () => [] },
+  item: { type: Object, required: true },
+  siblings: { type: Array, default: () => [] },
 });
 
 const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
 
-const store         = useSequenceV2Store();
+const store = useSequenceV2Store();
 const settingsStore = useSettingsStore();
 const collapsed = ref(false);
-const moreOpen  = ref(false);
-const moreRef   = ref(null);
+const moreOpen = ref(false);
+const moreRef = ref(null);
 
-const hasChildren  = computed(() =>
-  (props.item.Items?.length > 0) ||
-  props.item.Triggers !== undefined ||
-  props.item.Conditions !== undefined
+const hasChildren = computed(
+  () =>
+    props.item.Items?.length > 0 ||
+    props.item.Triggers !== undefined ||
+    props.item.Conditions !== undefined
 );
 
 const dsoTarget = computed(() => {
@@ -179,7 +184,7 @@ const typeComponent = computed(() => ITEM_COMPONENTS[props.item.FullTypeName] ??
 
 const borderClass = computed(() => {
   const s = props.item.Status;
-  if (s === 'RUNNING')  return 'border-cyan-600/40 bg-cyan-950/20';
+  if (s === 'RUNNING') return 'border-cyan-600/40 bg-cyan-950/20';
   if (s === 'FINISHED') return 'border-emerald-600/30 bg-emerald-950/10';
   if (s === 'DISABLED') return 'border-slate-700/30 bg-slate-900/20 opacity-60';
   return 'border-slate-600/30 bg-slate-800/30';
@@ -189,17 +194,17 @@ async function doAction(action) {
   moreOpen.value = false;
   const id = props.item.Id;
   if (!id) return;
-  if (action === 'duplicate')     await store.duplicate(id);
+  if (action === 'duplicate') await store.duplicate(id);
   if (action === 'toggle-enable') await store.enable(id, props.item.Status === 'DISABLED');
-  if (action === 'reset')         await store.resetStatus(id);
-  if (action === 'remove')        await store.remove(id);
+  if (action === 'reset') await store.resetStatus(id);
+  if (action === 'remove') await store.remove(id);
 }
 
 function onChildDragEnd(evt) {
   if (evt.oldIndex === evt.newIndex) return;
   const siblings = props.item.Items;
-  const movedId  = siblings[evt.newIndex].Id;
-  const newIdx   = evt.newIndex;
+  const movedId = siblings[evt.newIndex].Id;
+  const newIdx = evt.newIndex;
   if (newIdx === 0) {
     store.move(movedId, siblings[1]?.Id, false);
   } else {

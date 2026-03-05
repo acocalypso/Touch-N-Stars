@@ -136,7 +136,10 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     async addItem(targetId, itemType, insertAfter = true) {
       try {
         const res = await apiService.sequenceAddItem(targetId, itemType, insertAfter);
-        if (res?.Success === false) { this._showError(res.Error); return; }
+        if (res?.Success === false) {
+          this._showError(res.Error);
+          return;
+        }
       } catch (e) {
         console.error('sequenceAddItem:', e);
       }
@@ -146,7 +149,10 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     async addTrigger(itemId, triggerType) {
       try {
         const res = await apiService.sequenceAddTrigger(itemId, triggerType);
-        if (res?.Success === false) { this._showError(res.Error); return; }
+        if (res?.Success === false) {
+          this._showError(res.Error);
+          return;
+        }
       } catch (e) {
         console.error('sequenceAddTrigger:', e);
       }
@@ -156,7 +162,10 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     async addCondition(itemId, conditionType) {
       try {
         const res = await apiService.sequenceAddCondition(itemId, conditionType);
-        if (res?.Success === false) { this._showError(res.Error); return; }
+        if (res?.Success === false) {
+          this._showError(res.Error);
+          return;
+        }
       } catch (e) {
         console.error('sequenceAddCondition:', e);
       }
@@ -166,8 +175,11 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
       let index = 0;
       for (const container of this.containers) {
-        const idx = container.Items?.findIndex(i => i.Id === id) ?? -1;
-        if (idx >= 0) { index = idx; break; }
+        const idx = container.Items?.findIndex((i) => i.Id === id) ?? -1;
+        if (idx >= 0) {
+          index = idx;
+          break;
+        }
       }
       try {
         await apiService.sequnceTargetSet(name ?? '', raDeg, decDeg, rotation ?? 0, index);

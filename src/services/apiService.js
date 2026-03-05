@@ -575,7 +575,10 @@ const apiService = {
 
   async sequenceMove(id, targetId, insertAfter = true) {
     const { API_URL } = getUrls();
-    const response = await axios.post(`${API_URL}sequence/move?id=${id}&targetId=${targetId}&insertAfter=${insertAfter}`, {});
+    const response = await axios.post(
+      `${API_URL}sequence/move?id=${id}&targetId=${targetId}&insertAfter=${insertAfter}`,
+      {}
+    );
     return response.data;
   },
 

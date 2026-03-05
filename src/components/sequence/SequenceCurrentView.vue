@@ -20,11 +20,17 @@
           @click="toggleSection('globalTriggers')"
         >
           <div class="flex items-center gap-2">
-            <ChevronRightIcon class="w-4 h-4 text-slate-400 transition-transform duration-200" :class="{ 'rotate-90': !collapsed.globalTriggers }" />
+            <ChevronRightIcon
+              class="w-4 h-4 text-slate-400 transition-transform duration-200"
+              :class="{ 'rotate-90': !collapsed.globalTriggers }"
+            />
             <div class="w-2 h-2 bg-purple-400 rounded-full shadow-sm shadow-purple-400/50" />
             <span class="font-medium text-purple-200">Global Trigger</span>
           </div>
-          <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full px-2 py-0.5 text-xs">GLOBAL</span>
+          <span
+            class="bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full px-2 py-0.5 text-xs"
+            >GLOBAL</span
+          >
         </div>
         <div v-if="!collapsed.globalTriggers" class="p-3 pt-0 space-y-1.5">
           <SequenceItem
@@ -38,53 +44,56 @@
 
       <!-- Start / Targets / End containers -->
       <div class="space-y-3">
-      <div
-        v-for="(container, idx) in store.containers"
-        :key="container.Id ?? idx"
-        class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg shadow-lg"
-      >
-        <!-- Container header -->
         <div
-          class="flex items-center justify-between p-3 hover:bg-slate-700/30 rounded-t-lg select-none"
+          v-for="(container, idx) in store.containers"
+          :key="container.Id ?? idx"
+          class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg shadow-lg"
         >
-          <div class="flex items-center gap-2">
-            <ChevronRightIcon
-              class="w-4 h-4 text-slate-400 transition-transform duration-200 cursor-pointer"
-              :class="{ 'rotate-90': !collapsed[container.Id ?? idx] }"
-              @click="toggleSection(container.Id ?? idx)"
+          <!-- Container header -->
+          <div
+            class="flex items-center justify-between p-3 hover:bg-slate-700/30 rounded-t-lg select-none"
+          >
+            <div class="flex items-center gap-2">
+              <ChevronRightIcon
+                class="w-4 h-4 text-slate-400 transition-transform duration-200 cursor-pointer"
+                :class="{ 'rotate-90': !collapsed[container.Id ?? idx] }"
+                @click="toggleSection(container.Id ?? idx)"
+              />
+              <div class="w-2 h-2 rounded-full" :class="containerDot(idx)" />
+              <span
+                class="font-medium text-gray-100 cursor-pointer"
+                @click="toggleSection(container.Id ?? idx)"
+                >{{ container.Name }}</span
+              >
+            </div>
+            <AddTypeButton
+              :targetId="container.Items?.at(-1)?.Id ?? container.Id"
+              mode="item"
+              :insertAfter="(container.Items?.length ?? 0) > 0"
             />
-            <div class="w-2 h-2 rounded-full" :class="containerDot(idx)" />
-            <span class="font-medium text-gray-100 cursor-pointer" @click="toggleSection(container.Id ?? idx)">{{ container.Name }}</span>
           </div>
-          <AddTypeButton
-            :targetId="container.Items?.at(-1)?.Id ?? container.Id"
-            mode="item"
-            :insertAfter="(container.Items?.length ?? 0) > 0"
-          />
-        </div>
 
-        <!-- Container body with draggable items -->
-        <div v-if="!collapsed[container.Id ?? idx]" class="p-3 pt-0">
-          <template v-if="container.Items && container.Items.length">
-            <draggable
-              :list="container.Items"
-              item-key="Id"
-              handle=".drag-handle"
-              ghost-class="opacity-30"
-              class="space-y-1.5"
-              @end="(evt) => onDragEnd(evt, container.Items)"
-            >
-              <template #item="{ element }">
-                <SequenceItem
-                  :item="element"
-                  :siblings="container.Items"
-                />
-              </template>
-            </draggable>
-          </template>
-          <div v-else class="text-center py-4 text-slate-600 text-xs">{{ $t('components.sequence.emptyContainer') }}</div>
+          <!-- Container body with draggable items -->
+          <div v-if="!collapsed[container.Id ?? idx]" class="p-3 pt-0">
+            <template v-if="container.Items && container.Items.length">
+              <draggable
+                :list="container.Items"
+                item-key="Id"
+                handle=".drag-handle"
+                ghost-class="opacity-30"
+                class="space-y-1.5"
+                @end="(evt) => onDragEnd(evt, container.Items)"
+              >
+                <template #item="{ element }">
+                  <SequenceItem :item="element" :siblings="container.Items" />
+                </template>
+              </draggable>
+            </template>
+            <div v-else class="text-center py-4 text-slate-600 text-xs">
+              {{ $t('components.sequence.emptyContainer') }}
+            </div>
+          </div>
         </div>
-      </div>
       </div>
     </template>
   </div>
@@ -104,7 +113,6 @@ const collapsed = reactive({});
 function toggleSection(key) {
   collapsed[key] = !collapsed[key];
 }
-
 
 const DOT_COLORS = ['bg-blue-400', 'bg-green-400', 'bg-orange-400', 'bg-purple-400'];
 function containerDot(idx) {

@@ -2,14 +2,14 @@
   <ItemShell :item="item" :label="$t('components.sequence.items.generic')">
     <template v-if="editableFields.length" #editor="{ save }">
       <template v-for="f in editableFields" :key="f.key">
-
         <!-- Number -->
         <NumberInputPicker
           v-if="f.type === 'number'"
           :modelValue="f.value"
           :label="f.key"
           :labelKey="`generic-${item.Id}-${f.key}`"
-          :min="-99999" :max="99999"
+          :min="-99999"
+          :max="99999"
           :step="f.isFloat ? 0.1 : 1"
           :decimalPlaces="f.isFloat ? 1 : undefined"
           @change="save(f.key, $event)"
@@ -20,9 +20,11 @@
           <label class="text-xs text-slate-400">{{ f.key }}</label>
           <button
             class="ml-auto px-3 py-1 rounded text-xs font-medium border transition-colors"
-            :class="f.value
-              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/30'
-              : 'bg-slate-700/60 text-slate-400 border-slate-600 hover:bg-slate-700'"
+            :class="
+              f.value
+                ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 hover:bg-cyan-500/30'
+                : 'bg-slate-700/60 text-slate-400 border-slate-600 hover:bg-slate-700'
+            "
             @click="save(f.key, !f.value)"
           >
             {{ f.value ? $t('components.sequence.items.on') : $t('components.sequence.items.off') }}
@@ -40,7 +42,6 @@
             @keydown.enter="$event.target.blur()"
           />
         </div>
-
       </template>
     </template>
   </ItemShell>

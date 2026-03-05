@@ -6,8 +6,8 @@
       @click.stop="toggle"
     >
       <svg v-if="loading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
       </svg>
       <PlusIcon v-else class="w-4 h-4" />
     </button>
@@ -34,7 +34,9 @@
         <div class="max-h-64 overflow-y-auto py-1">
           <template v-if="filteredTypes.length">
             <template v-for="(group, cat) in grouped" :key="cat">
-              <div class="px-3 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">{{ cat }}</div>
+              <div class="px-3 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">
+                {{ cat }}
+              </div>
               <button
                 v-for="t in group"
                 :key="t.FullTypeName"
@@ -58,34 +60,40 @@ import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
 const props = defineProps({
-  targetId:    { type: String,  required: true },
-  mode:        { type: String,  required: true }, // 'item' | 'trigger' | 'condition'
+  targetId: { type: String, required: true },
+  mode: { type: String, required: true }, // 'item' | 'trigger' | 'condition'
   insertAfter: { type: Boolean, default: true },
 });
 
-const store   = useSequenceV2Store();
-const open    = ref(false);
+const store = useSequenceV2Store();
+const open = ref(false);
 const loading = ref(false);
-const search  = ref('');
+const search = ref('');
 const rootRef = ref(null);
 const dropdownStyle = ref({});
 
-const label = computed(() => ({
-  item:      'Item hinzufügen',
-  trigger:   'Trigger hinzufügen',
-  condition: 'Condition hinzufügen',
-}[props.mode] ?? 'Hinzufügen'));
+const label = computed(
+  () =>
+    ({
+      item: 'Item hinzufügen',
+      trigger: 'Trigger hinzufügen',
+      condition: 'Condition hinzufügen',
+    })[props.mode] ?? 'Hinzufügen'
+);
 
-const types = computed(() => ({
-  item:      store.availableItems,
-  trigger:   store.availableTriggers,
-  condition: store.availableConditions,
-}[props.mode] ?? []));
+const types = computed(
+  () =>
+    ({
+      item: store.availableItems,
+      trigger: store.availableTriggers,
+      condition: store.availableConditions,
+    })[props.mode] ?? []
+);
 
 const filteredTypes = computed(() => {
   const q = search.value.trim().toLowerCase();
   if (!q) return types.value;
-  return types.value.filter(t => t.Name?.toLowerCase().includes(q));
+  return types.value.filter((t) => t.Name?.toLowerCase().includes(q));
 });
 
 const grouped = computed(() => {
@@ -105,16 +113,19 @@ function updateDropdownPosition() {
   let left = rect.right - dropdownWidth;
   if (left < 4) left = 4;
   dropdownStyle.value = {
-    top:  `${rect.bottom + 4}px`,
+    top: `${rect.bottom + 4}px`,
     left: `${left}px`,
   };
 }
 
 async function toggle() {
-  if (open.value) { open.value = false; return; }
+  if (open.value) {
+    open.value = false;
+    return;
+  }
   loading.value = true;
-  if (props.mode === 'item')      await store.fetchAvailableItems();
-  if (props.mode === 'trigger')   await store.fetchAvailableTriggers();
+  if (props.mode === 'item') await store.fetchAvailableItems();
+  if (props.mode === 'trigger') await store.fetchAvailableTriggers();
   if (props.mode === 'condition') await store.fetchAvailableConditions();
   loading.value = false;
   search.value = '';
@@ -124,8 +135,8 @@ async function toggle() {
 
 async function select(t) {
   open.value = false;
-  if (props.mode === 'item')      await store.addItem(props.targetId, t.FullTypeName, props.insertAfter);
-  if (props.mode === 'trigger')   await store.addTrigger(props.targetId, t.FullTypeName);
+  if (props.mode === 'item') await store.addItem(props.targetId, t.FullTypeName, props.insertAfter);
+  if (props.mode === 'trigger') await store.addTrigger(props.targetId, t.FullTypeName);
   if (props.mode === 'condition') await store.addCondition(props.targetId, t.FullTypeName);
 }
 

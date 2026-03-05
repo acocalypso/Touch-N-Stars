@@ -9,7 +9,9 @@
         :modelValue="item.AfterExposures"
         :label="$t('components.sequence.items.dither.afterExposures')"
         labelKey="dither-afterExposures"
-        :min="0" :max="999" :step="1"
+        :min="0"
+        :max="999"
+        :step="1"
         @change="save('AfterExposures', $event)"
       />
     </template>

@@ -451,6 +451,13 @@
           "dec": "Dec",
           "inherited": "Coordinates inherited from target"
         },
+        "coolCamera": {
+          "temperature": "Temperature (°C)",
+          "duration": "Duration (min)"
+        },
+        "dewHeater": {
+          "onOff": "Dew Heater"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

@@ -451,6 +451,13 @@
           "dec": "Dek",
           "inherited": "Koordinaten werden vom Ziel geerbt"
         },
+        "coolCamera": {
+          "temperature": "Temperatur (°C)",
+          "duration": "Dauer (min)"
+        },
+        "dewHeater": {
+          "onOff": "Tauheizer"
+        },
         "dso": {
           "targetName": "Zielname",
           "positionAngle": "Positionswinkel (°)"

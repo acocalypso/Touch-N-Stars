@@ -458,6 +458,9 @@
         "dewHeater": {
           "onOff": "Dew Heater"
         },
+        "setUSBLimit": {
+          "limit": "USB Limit"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

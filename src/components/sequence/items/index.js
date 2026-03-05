@@ -28,6 +28,7 @@ import CenterAfterDriftTriggerItem from './CenterAfterDriftTriggerItem.vue';
 import MeridianFlipTriggerItem from './MeridianFlipTriggerItem.vue';
 import CoolCameraItem from './CoolCameraItem.vue';
 import DewHeaterItem from './DewHeaterItem.vue';
+import SetUSBLimitItem from './SetUSBLimitItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -69,6 +70,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Camera.WarmCamera': WarmCameraItem,
   'NINA.Sequencer.SequenceItem.Camera.CoolCamera': CoolCameraItem,
   'NINA.Sequencer.SequenceItem.Camera.DewHeater': DewHeaterItem,
+  'NINA.Sequencer.SequenceItem.Camera.SetUSBLimit': SetUSBLimitItem,
 };
 
 export { GenericItem };

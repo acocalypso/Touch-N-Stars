@@ -400,6 +400,11 @@
         "loopCondition": {
           "iterations": "Iterations"
         },
+        "timeSpan": {
+          "hours": "Hours",
+          "minutes": "Minutes",
+          "seconds": "Seconds"
+        },
         "moonAltitude": {
           "comparator": "Comparator",
           "below": "Below",

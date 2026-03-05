@@ -400,6 +400,12 @@
         "loopCondition": {
           "iterations": "Iterations"
         },
+        "altitudeCondition": {
+          "altitude": "Altitude (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Sun Altitude (°)"
+        },
         "timeSpan": {
           "hours": "Hours",
           "minutes": "Minutes",

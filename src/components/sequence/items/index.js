@@ -10,6 +10,8 @@ import CenterItem from './CenterItem.vue';
 import DeepSkyObjectContainerItem from './DeepSkyObjectContainerItem.vue';
 import WarmCameraItem from './WarmCameraItem.vue';
 import MoonAltitudeConditionItem from './MoonAltitudeConditionItem.vue';
+import AltitudeConditionItem from './AltitudeConditionItem.vue';
+import SunAltitudeConditionItem from './SunAltitudeConditionItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -17,6 +19,8 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.FilterWheel.SwitchFilter': SwitchFilterItem,
   'NINA.Sequencer.Conditions.LoopCondition': LoopConditionItem,
   'NINA.Sequencer.Conditions.TimeSpanCondition': LoopForTimeSpanItem,
+  'NINA.Sequencer.Conditions.AltitudeCondition': AltitudeConditionItem,
+  'NINA.Sequencer.Conditions.SunAltitudeCondition': SunAltitudeConditionItem,
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,

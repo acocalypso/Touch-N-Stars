@@ -400,6 +400,9 @@
         "loopCondition": {
           "iterations": "Iterations"
         },
+        "moonIllumination": {
+          "illumination": "Illumination (%)"
+        },
         "altitudeCondition": {
           "altitude": "Altitude (°)"
         },

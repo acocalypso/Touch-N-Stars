@@ -403,6 +403,9 @@
         "moonIllumination": {
           "illumination": "Illumination (%)"
         },
+        "reconnect": {
+          "device": "Device"
+        },
         "altitudeCondition": {
           "altitude": "Altitude (°)"
         },

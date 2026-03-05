@@ -18,6 +18,8 @@ import AltitudeConditionItem from './AltitudeConditionItem.vue';
 import SunAltitudeConditionItem from './SunAltitudeConditionItem.vue';
 import AboveHorizonConditionItem from './AboveHorizonConditionItem.vue';
 import SafetyMonitorConditionItem from './SafetyMonitorConditionItem.vue';
+import SynchronizeDomeTriggerItem from './SynchronizeDomeTriggerItem.vue';
+import ReconnectTriggerItem from './ReconnectTriggerItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -41,6 +43,10 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Telescope.ParkScope': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.FindHome': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Guider.StartGuiding': RunAutofocusItem,
+  'ninaAPI.SequenceItems.SendErrorTrigger': RunAutofocusItem,
+  'NINA.Sequencer.Trigger.Connect.ReconnectOnDownloadFailure': ReconnectTriggerItem,
+  'NINA.Sequencer.Trigger.Connect.ReconnectTrigger': ReconnectTriggerItem,
+  'NINA.Sequencer.Trigger.Dome.SynchronizeDomeTrigger': SynchronizeDomeTriggerItem,
   'NINA.Sequencer.Container.SequentialContainer': SequentialContainerItem,
   'NINA.Sequencer.SequenceItem.Platesolving.Center': CenterItem,
   'NINA.Sequencer.Container.DeepSkyObjectContainer': DeepSkyObjectContainerItem,

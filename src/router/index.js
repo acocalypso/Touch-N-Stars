@@ -33,7 +33,9 @@ const routes = [
   { path: '/mount', component: MountPage, meta: { requiresSetup: true } },
   { path: '/autofocus', component: FocusPage, meta: { requiresSetup: true } },
   { path: '/guider', component: GuidingPage, meta: { requiresSetup: true } },
-  { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
+  //{ path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
+ 
+
   { path: '/dome', component: DomePage, meta: { requiresSetup: true } },
   { path: '/settings', component: SettingsPage, meta: { requiresSetup: true } },
   { path: '/flat', component: FlatdevicePage, meta: { requiresSetup: true } },
@@ -42,7 +44,7 @@ const routes = [
   { path: '/filterwheel', component: FilterwheelPage, meta: { requiresSetup: true } },
   { path: '/rotator', component: RotatorPage, meta: { requiresSetup: true } },
   { path: '/flats', component: Flatassistant, meta: { requiresSetup: true } },
-  { path: '/sequence-v2', component: SequenceNewPage, meta: { requiresSetup: true } },
+  { path: '/sequence', component: SequenceNewPage, meta: { requiresSetup: true } },
 ];
 
 const router = createRouter({

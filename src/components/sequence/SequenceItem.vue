@@ -40,40 +40,43 @@
       />
 
       <!-- More menu -->
-      <div class="relative flex-shrink-0" ref="moreRef">
+      <div class="flex-shrink-0" ref="moreRef">
         <button
           class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors"
           title="Mehr"
-          @click.stop="moreOpen = !moreOpen"
+          @click.stop="toggleMore"
         >
           <EllipsisVerticalIcon class="w-4 h-4" />
         </button>
-        <div
-          v-if="moreOpen"
-          class="absolute right-0 top-full mt-1 z-30 bg-gray-800 border border-slate-600 rounded-lg shadow-xl py-1 min-w-max"
-          @click.stop
-        >
-          <button class="menu-item" @click="doAction('duplicate')">
-            <DocumentDuplicateIcon class="w-4 h-4" /> Duplizieren
-          </button>
-          <button class="menu-item" @click="doAction('toggle-enable')">
-            <component
-              :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
-              class="w-4 h-4"
-            />
-            {{ item.Status === 'DISABLED' ? 'Aktivieren' : 'Deaktivieren' }}
-          </button>
-          <button class="menu-item" @click="doAction('reset')">
-            <ArrowPathIcon class="w-4 h-4" /> Status zurücksetzen
-          </button>
-          <div class="border-t border-slate-700 my-1" />
-          <button
-            class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
-            @click="doAction('remove')"
+        <Teleport to="body">
+          <div
+            v-if="moreOpen"
+            class="fixed z-[9999] bg-gray-800 border border-slate-600 rounded-lg shadow-xl py-1 min-w-max"
+            :style="moreStyle"
+            @click.stop
           >
-            <TrashIcon class="w-4 h-4" /> Löschen
-          </button>
-        </div>
+            <button class="menu-item" @click="doAction('duplicate')">
+              <DocumentDuplicateIcon class="w-4 h-4" /> Duplizieren
+            </button>
+            <button class="menu-item" @click="doAction('toggle-enable')">
+              <component
+                :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
+                class="w-4 h-4"
+              />
+              {{ item.Status === 'DISABLED' ? 'Aktivieren' : 'Deaktivieren' }}
+            </button>
+            <button class="menu-item" @click="doAction('reset')">
+              <ArrowPathIcon class="w-4 h-4" /> Status zurücksetzen
+            </button>
+            <div class="border-t border-slate-700 my-1" />
+            <button
+              class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
+              @click="doAction('remove')"
+            >
+              <TrashIcon class="w-4 h-4" /> Löschen
+            </button>
+          </div>
+        </Teleport>
       </div>
     </div>
 
@@ -165,6 +168,22 @@ const settingsStore = useSettingsStore();
 const collapsed = ref(false);
 const moreOpen = ref(false);
 const moreRef = ref(null);
+const moreStyle = ref({});
+
+function toggleMore() {
+  if (moreOpen.value) {
+    moreOpen.value = false;
+    return;
+  }
+  if (moreRef.value) {
+    const rect = moreRef.value.getBoundingClientRect();
+    const menuWidth = 160;
+    let left = rect.right - menuWidth;
+    if (left < 4) left = 4;
+    moreStyle.value = { top: `${rect.bottom + 4}px`, left: `${left}px` };
+  }
+  moreOpen.value = true;
+}
 
 const hasChildren = computed(
   () =>

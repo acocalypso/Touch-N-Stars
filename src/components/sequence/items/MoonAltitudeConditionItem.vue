@@ -2,7 +2,10 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">
-        {{ comparatorLabel }} {{ item.UserMoonAltitude }}°
+        {{ comparatorLabel }} {{ item.Offset }}°
+      </span>
+      <span v-if="item.ExpectedTime" class="text-xs text-amber-400/80 font-mono ml-2">
+        ⏱ {{ item.ExpectedTime }}
       </span>
     </template>
 
@@ -13,25 +16,29 @@
           $t('components.sequence.items.moonAltitude.comparator')
         }}</label>
         <select
+          :key="item.Data?.Comparator"
           class="ml-auto bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          :value="item.Comparator"
-          @change="save('Comparator', Number($event.target.value))"
+          @change="save('Data.Comparator', Number($event.target.value))"
         >
-          <option :value="0">{{ $t('components.sequence.items.moonAltitude.below') }}</option>
-          <option :value="1">{{ $t('components.sequence.items.moonAltitude.above') }}</option>
+          <option value="1" :selected="item.Data?.Comparator === 1">
+            {{ $t('components.sequence.items.moonAltitude.below') }}
+          </option>
+          <option value="3" :selected="item.Data?.Comparator === 3">
+            {{ $t('components.sequence.items.moonAltitude.above') }}
+          </option>
         </select>
       </div>
 
-      <!-- Moon Altitude -->
+      <!-- Altitude Offset -->
       <NumberInputPicker
-        :modelValue="item.UserMoonAltitude"
+        :modelValue="item.Offset"
         :label="$t('components.sequence.items.moonAltitude.altitude')"
         labelKey="moonAlt-altitude"
         :min="-90"
         :max="90"
         :step="1"
         :decimalPlaces="1"
-        @change="save('UserMoonAltitude', $event)"
+        @change="save('Offset', $event)"
       />
     </template>
   </ItemShell>
@@ -50,7 +57,7 @@ const props = defineProps({
 });
 
 const comparatorLabel = computed(() =>
-  props.item.Comparator === 0
+  props.item.Data?.Comparator === 1
     ? t('components.sequence.items.moonAltitude.below')
     : t('components.sequence.items.moonAltitude.above')
 );

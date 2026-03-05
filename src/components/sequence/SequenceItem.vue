@@ -30,15 +30,6 @@
       <!-- Type component (display + edit) -->
       <component :is="typeComponent" :item="item" class="flex-1 min-w-0" />
 
-      <!-- Add item button (always visible for containers) -->
-      <AddTypeButton
-        v-if="item.Items !== undefined && canAdd"
-        :targetId="item.Items?.at(-1)?.Id ?? item.Id"
-        mode="item"
-        :insertAfter="(item.Items?.length ?? 0) > 0"
-        class="flex-shrink-0"
-      />
-
       <!-- More menu -->
       <div class="flex-shrink-0" ref="moreRef">
         <button
@@ -132,6 +123,15 @@
           <SequenceItem :item="element" :siblings="item.Items" />
         </template>
       </draggable>
+
+      <!-- Add item button at bottom, centered -->
+      <div v-if="item.Items !== undefined && canAdd" class="flex justify-center mt-2">
+        <AddTypeButton
+          :targetId="item.Items?.at(-1)?.Id ?? item.Id"
+          mode="item"
+          :insertAfter="(item.Items?.length ?? 0) > 0"
+        />
+      </div>
     </div>
   </div>
 </template>

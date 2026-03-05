@@ -66,11 +66,6 @@
                 >{{ container.Name }}</span
               >
             </div>
-            <AddTypeButton
-              :targetId="container.Items?.at(-1)?.Id ?? container.Id"
-              mode="item"
-              :insertAfter="(container.Items?.length ?? 0) > 0"
-            />
           </div>
 
           <!-- Container body with draggable items -->
@@ -91,6 +86,13 @@
             </template>
             <div v-else class="text-center py-4 text-slate-600 text-xs">
               {{ $t('components.sequence.emptyContainer') }}
+            </div>
+            <div class="flex justify-center mt-2">
+              <AddTypeButton
+                :targetId="container.Items?.at(-1)?.Id ?? container.Id"
+                mode="item"
+                :insertAfter="(container.Items?.length ?? 0) > 0"
+              />
             </div>
           </div>
         </div>

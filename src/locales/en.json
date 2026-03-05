@@ -403,6 +403,10 @@
         "switchFilter": {
           "filter": "Filter"
         },
+        "switchProfile": {
+          "profile": "Profile",
+          "reconnect": "Reconnect"
+        },
         "loopCondition": {
           "iterations": "Iterations"
         },

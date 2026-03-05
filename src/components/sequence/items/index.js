@@ -2,6 +2,7 @@ import TakeExposureItem from './TakeExposureItem.vue';
 import TakeManyExposuresItem from './TakeManyExposuresItem.vue';
 import TakeSubframeExposureItem from './TakeSubframeExposureItem.vue';
 import SwitchFilterItem from './SwitchFilterItem.vue';
+import SwitchProfileItem from './SwitchProfileItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -65,6 +66,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Telescope.FindHome': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Guider.StartGuiding': RunAutofocusItem,
   'ninaAPI.SequenceItems.SendErrorTrigger': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Connect.SwitchProfile': SwitchProfileItem,
   'NINA.Sequencer.SequenceItem.Connect.ConnectAllEquipment': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Connect.DisconnectAllEquipment': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Connect.ConnectEquipment': ReconnectTriggerItem,

@@ -166,6 +166,7 @@ const NO_EXPAND_TYPES = new Set([
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoExposureFlat',
   'NINA.Sequencer.SequenceItem.FlatDevice.SkyFlat',
   'NINA.Sequencer.SequenceItem.FlatDevice.TrainedDarkFlatExposure',
+  'NINA.Sequencer.SequenceItem.FlatDevice.TrainedFlatExposure',
 ]);
 
 const props = defineProps({

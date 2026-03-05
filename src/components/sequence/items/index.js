@@ -20,6 +20,10 @@ import AboveHorizonConditionItem from './AboveHorizonConditionItem.vue';
 import SafetyMonitorConditionItem from './SafetyMonitorConditionItem.vue';
 import SynchronizeDomeTriggerItem from './SynchronizeDomeTriggerItem.vue';
 import ReconnectTriggerItem from './ReconnectTriggerItem.vue';
+import AutofocusAfterExposuresItem from './AutofocusAfterExposuresItem.vue';
+import AutofocusAfterHFRIncreaseItem from './AutofocusAfterHFRIncreaseItem.vue';
+import AutofocusAfterTemperatureChangeItem from './AutofocusAfterTemperatureChangeItem.vue';
+import AutofocusAfterTimeItem from './AutofocusAfterTimeItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -36,6 +40,11 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Conditions.SafetyMonitorCondition': SafetyMonitorConditionItem,
   'NINA.Sequencer.Conditions.MoonAltitudeCondition': MoonAltitudeConditionItem,
   'NINA.Sequencer.Conditions.MoonIlluminationCondition': MoonIlluminationConditionItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterExposures': AutofocusAfterExposuresItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterFilterChange': RunAutofocusItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterHFRIncreaseTrigger': AutofocusAfterHFRIncreaseItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTemperatureChangeTrigger': AutofocusAfterTemperatureChangeItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTimeTrigger': AutofocusAfterTimeItem,
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,

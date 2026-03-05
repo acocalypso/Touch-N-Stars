@@ -406,6 +406,17 @@
         "reconnect": {
           "device": "Device"
         },
+        "autofocus": {
+          "afterExposures": "After Exposures",
+          "afterExposuresCount": "Exposures",
+          "everyN": "Every {n}",
+          "hfrIncrease": "HFR Increase (%)",
+          "sampleSize": "Sample Size",
+          "samples": "{n} Samples",
+          "trendPerFilter": "Trend per Filter",
+          "deltaT": "Temperature Change (°)",
+          "minutes": "Minutes"
+        },
         "altitudeCondition": {
           "altitude": "Altitude (°)"
         },

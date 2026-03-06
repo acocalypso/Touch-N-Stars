@@ -513,6 +513,15 @@
         "setTracking": {
           "trackingMode": "Tracking Mode"
         },
+        "expressionVariable": {
+          "identifier": "Name",
+          "expression": "Value",
+          "value": "Value",
+          "initially": "Initially",
+          "newValue": "New Value",
+          "time": "Time",
+          "minutesOffset": "Offset (min)"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

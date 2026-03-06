@@ -18,6 +18,10 @@ import SetSwitchValueItem from './SetSwitchValueItem.vue';
 import SetTrackingItem from './SetTrackingItem.vue';
 import SlewScopeToAltAzItem from './SlewScopeToAltAzItem.vue';
 import CenterAndRotateItem from './CenterAndRotateItem.vue';
+import ExpressionVariableItem from './ExpressionVariableItem.vue';
+import ScopedVariableItem from './ScopedVariableItem.vue';
+import ResetVariableItem from './ResetVariableItem.vue';
+import ResetVariableToDateItem from './ResetVariableToDateItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -117,6 +121,11 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec': CenterItem,
   'NINA.Sequencer.SequenceItem.Platesolving.CenterAndRotate': CenterAndRotateItem,
   'NINA.Sequencer.SequenceItem.Platesolving.SolveAndSync': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Expressions.GlobalConstant': ExpressionVariableItem,
+  'NINA.Sequencer.SequenceItem.Expressions.Variable': ScopedVariableItem,
+  'NINA.Sequencer.SequenceItem.Expressions.GlobalVariable': ScopedVariableItem,
+  'NINA.Sequencer.SequenceItem.Expressions.ResetVariable': ResetVariableItem,
+  'NINA.Sequencer.SequenceItem.Expressions.ResetVariableToDate': ResetVariableToDateItem,
 };
 
 export { GenericItem };

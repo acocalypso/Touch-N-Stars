@@ -22,6 +22,7 @@ import ExpressionVariableItem from './ExpressionVariableItem.vue';
 import ScopedVariableItem from './ScopedVariableItem.vue';
 import ResetVariableItem from './ResetVariableItem.vue';
 import ResetVariableToDateItem from './ResetVariableToDateItem.vue';
+import AnnotationItem from './AnnotationItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -126,6 +127,8 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Expressions.GlobalVariable': ScopedVariableItem,
   'NINA.Sequencer.SequenceItem.Expressions.ResetVariable': ResetVariableItem,
   'NINA.Sequencer.SequenceItem.Expressions.ResetVariableToDate': ResetVariableToDateItem,
+  'NINA.Sequencer.SequenceItem.Utility.Annotation': AnnotationItem,
+  'NINA.Sequencer.SequenceItem.Utility.MessageBox': AnnotationItem,
 };
 
 export { GenericItem };

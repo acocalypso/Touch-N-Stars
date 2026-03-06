@@ -522,6 +522,9 @@
           "time": "Time",
           "minutesOffset": "Offset (min)"
         },
+        "annotation": {
+          "text": "Text"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

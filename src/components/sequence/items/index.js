@@ -72,6 +72,8 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Telescope.ParkScope': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.FindHome': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Guider.StartGuiding': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Guider.Dither': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Guider.StopGuiding': RunAutofocusItem,
   'ninaAPI.SequenceItems.SendErrorTrigger': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Connect.SwitchProfile': SwitchProfileItem,
   'NINA.Sequencer.SequenceItem.Connect.ConnectAllEquipment': RunAutofocusItem,

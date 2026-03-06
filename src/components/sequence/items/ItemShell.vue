@@ -18,14 +18,32 @@
       <!-- Right: badges + edit, centered relative to full height -->
       <div class="flex-shrink-0 flex items-center gap-1.5">
         <!-- Issues badge -->
-        <span
+        <button
           v-if="item.Issues && item.Issues.length"
-          class="flex items-center gap-1 bg-red-500/20 text-red-300 border border-red-500/30 rounded-full px-1.5 py-0.5 text-xs"
-          :title="item.Issues.join('\n')"
+          ref="issuesRef"
+          class="flex items-center gap-1 bg-red-500/20 text-red-300 border border-red-500/30 rounded-full px-1.5 py-0.5 text-xs hover:bg-red-500/30 transition-colors"
+          @click.stop="toggleIssues"
         >
           <ExclamationTriangleIcon class="w-3 h-3" />
           {{ item.Issues.length }}
-        </span>
+        </button>
+        <Teleport to="body">
+          <div
+            v-if="issuesOpen"
+            class="fixed z-[9999] bg-gray-800 border border-red-700/40 rounded-lg shadow-xl py-2 px-3 min-w-max max-w-xs"
+            :style="issuesStyle"
+            @click.stop
+          >
+            <p
+              v-for="(iss, i) in item.Issues"
+              :key="i"
+              class="text-red-300 text-xs flex items-start gap-1.5 py-0.5"
+            >
+              <ExclamationTriangleIcon class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+              {{ iss }}
+            </p>
+          </div>
+        </Teleport>
 
         <!-- Status badge -->
         <span
@@ -89,7 +107,7 @@
 </template>
 
 <script setup>
-import { ref, computed, useSlots } from 'vue';
+import { ref, computed, useSlots, onMounted, onUnmounted } from 'vue';
 import { ExclamationTriangleIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
@@ -102,6 +120,30 @@ const slots = useSlots();
 const store = useSequenceV2Store();
 const editing = ref(false);
 const saving = ref(false);
+const issuesOpen = ref(false);
+const issuesRef = ref(null);
+const issuesStyle = ref({});
+
+function toggleIssues() {
+  if (issuesOpen.value) {
+    issuesOpen.value = false;
+    return;
+  }
+  if (issuesRef.value) {
+    const rect = issuesRef.value.getBoundingClientRect();
+    const left = Math.max(4, rect.right - 240);
+    issuesStyle.value = { top: `${rect.bottom + 4}px`, left: `${left}px` };
+  }
+  issuesOpen.value = true;
+}
+
+function onOutsideClick(e) {
+  if (issuesRef.value && !issuesRef.value.contains(e.target)) {
+    issuesOpen.value = false;
+  }
+}
+onMounted(() => document.addEventListener('click', onOutsideClick));
+onUnmounted(() => document.removeEventListener('click', onOutsideClick));
 
 const hasEditor = computed(() => !!slots.editor);
 

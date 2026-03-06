@@ -13,6 +13,7 @@ import TrainedFlatExposureItem from './TrainedFlatExposureItem.vue';
 import PolarAlignmentItem from './PolarAlignmentItem.vue';
 import MoveRotatorMechanicalItem from './MoveRotatorMechanicalItem.vue';
 import SolveAndRotateItem from './SolveAndRotateItem.vue';
+import WaitUntilSafeItem from './WaitUntilSafeItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -105,6 +106,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Plugins.PolarAlignment.Instructions.PolarAlignment': PolarAlignmentItem,
   'NINA.Sequencer.SequenceItem.Rotator.MoveRotatorMechanical': MoveRotatorMechanicalItem,
   'NINA.Sequencer.SequenceItem.Platesolving.SolveAndRotate': SolveAndRotateItem,
+  'NINA.Sequencer.SequenceItem.SafetyMonitor.WaitUntilSafe': WaitUntilSafeItem,
 };
 
 export { GenericItem };

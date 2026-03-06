@@ -528,6 +528,9 @@
         "waitUntil": {
           "predicate": "Condition"
         },
+        "waitForTimeSpan": {
+          "time": "Duration (s)"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

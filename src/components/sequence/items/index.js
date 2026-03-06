@@ -28,6 +28,7 @@ import WaitForTimeItem from './WaitForTimeItem.vue';
 import WaitForBodyAltitudeItem from './WaitForBodyAltitudeItem.vue';
 import WaitUntilItem from './WaitUntilItem.vue';
 import WaitUntilAboveHorizonItem from './WaitUntilAboveHorizonItem.vue';
+import WaitForTimeSpanItem from './WaitForTimeSpanItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -140,6 +141,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Utility.WaitForMoonAltitude': WaitForBodyAltitudeItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitForSunAltitude': WaitForBodyAltitudeItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitUntil': WaitUntilItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitForTimeSpan': WaitForTimeSpanItem,
 };
 
 export { GenericItem };

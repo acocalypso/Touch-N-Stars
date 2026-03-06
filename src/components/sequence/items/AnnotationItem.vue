@@ -9,11 +9,11 @@
         <label class="text-xs text-slate-400 flex-shrink-0 mt-1">{{
           $t('components.sequence.items.annotation.text')
         }}</label>
-        <textarea
-          class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 resize-none"
-          rows="3"
-          :value="item.Text ?? ''"
-          @change="save('Text', $event.target.value)"
+        <TextAreaInput
+          :modelValue="item.Text ?? ''"
+          inputClass="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 resize-none"
+          :rows="3"
+          @change="save('Text', $event)"
         />
       </div>
     </template>
@@ -22,6 +22,7 @@
 
 <script setup>
 import ItemShell from './ItemShell.vue';
+import TextAreaInput from '@/components/helpers/TextAreaInput.vue';
 
 defineProps({
   item: { type: Object, required: true },

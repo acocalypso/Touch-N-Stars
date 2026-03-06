@@ -34,12 +34,10 @@
         <!-- String -->
         <div v-else class="flex items-center gap-3">
           <label class="text-xs text-slate-400 flex-shrink-0">{{ f.key }}</label>
-          <input
-            type="text"
-            class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-            :value="f.value"
-            @blur="save(f.key, $event.target.value)"
-            @keydown.enter="$event.target.blur()"
+          <TextInput
+            :modelValue="f.value"
+            inputClass="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+            @change="save(f.key, $event)"
           />
         </div>
       </template>
@@ -51,6 +49,7 @@
 import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import TextInput from '@/components/helpers/TextInput.vue';
 import { excludedKeys } from '@/utils/sequenceConfig';
 
 const props = defineProps({

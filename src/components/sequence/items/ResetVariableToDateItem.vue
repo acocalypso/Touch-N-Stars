@@ -11,11 +11,10 @@
         <label class="text-xs text-slate-400 flex-shrink-0">{{
           $t('components.sequence.items.expressionVariable.identifier')
         }}</label>
-        <input
-          type="text"
-          class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          :value="item.Variable"
-          @change="save('Variable', $event.target.value)"
+        <TextInput
+          :modelValue="item.Variable"
+          inputClass="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+          @change="save('Variable', $event)"
         />
       </div>
 
@@ -56,6 +55,7 @@
 <script setup>
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import TextInput from '@/components/helpers/TextInput.vue';
 
 defineProps({
   item: { type: Object, required: true },

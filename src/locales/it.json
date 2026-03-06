@@ -1823,7 +1823,7 @@
         "success": "Successo"
       },
       "terminalOutput": "OUTPUT TERMINALE",
-      "title": "Aggiornamento PINS",
+      "title": "PINS Management",
       "upgrading": "Aggiornamento in corso...",
       "waiting": "Assumendo il controllo... In attesa di comando...",
       "noNetworks": "Nessuna rete trovata",

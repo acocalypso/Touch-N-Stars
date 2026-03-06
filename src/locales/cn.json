@@ -1824,7 +1824,7 @@
         "success": "成功"
       },
       "terminalOutput": "终端输出",
-      "title": "PINS 更新程序",
+      "title": "PINS Management",
       "upgrading": "正在升级...",
       "waiting": "正在接管控制... 等待命令...",
       "noNetworks": "No networks found",

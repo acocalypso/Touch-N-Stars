@@ -1829,7 +1829,7 @@
         "success": "Úspěch"
       },
       "terminalOutput": "VÝSTUP TERMINÁLU",
-      "title": "Aktualizace PINS",
+      "title": "PINS Management",
       "upgrading": "Aktualizace probíhá...",
       "waiting": "Přebírám kontrolu... Čekám na příkaz...",
       "noNetworks": "No networks found",

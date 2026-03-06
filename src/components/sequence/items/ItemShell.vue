@@ -5,6 +5,7 @@
       <!-- Left: name + summary stacked -->
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5 min-w-0">
+          <component :is="itemIcon" v-if="itemIcon" class="w-3.5 h-3.5 flex-shrink-0" :class="itemIconColor" />
           <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
           <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{
             label
@@ -108,7 +109,35 @@
 
 <script setup>
 import { ref, computed, useSlots, onMounted, onUnmounted } from 'vue';
-import { ExclamationTriangleIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import {
+  ExclamationTriangleIcon,
+  PencilSquareIcon,
+  CameraIcon,
+  AdjustmentsHorizontalIcon,
+  FunnelIcon,
+  ViewfinderCircleIcon,
+  GlobeAltIcon,
+  ArrowsPointingInIcon,
+  SunIcon,
+  ShieldCheckIcon,
+  BoltIcon,
+  ArrowPathIcon,
+  HomeIcon,
+  LinkIcon,
+  ClockIcon,
+  ChatBubbleLeftIcon,
+  CodeBracketIcon,
+  ArrowPathRoundedSquareIcon,
+  ChartBarIcon,
+  MoonIcon,
+  RectangleGroupIcon,
+  StarIcon,
+  SparklesIcon,
+  PhotoIcon,
+  MapPinIcon,
+  ArrowsPointingOutIcon,
+  AdjustmentsVerticalIcon,
+} from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
 const props = defineProps({
@@ -146,6 +175,88 @@ onMounted(() => document.addEventListener('click', onOutsideClick));
 onUnmounted(() => document.removeEventListener('click', onOutsideClick));
 
 const hasEditor = computed(() => !!slots.editor);
+
+const ICON_MAP = [
+  // Containers
+  ['NINA.Sequencer.Container.DeepSkyObjectContainer', StarIcon, 'text-violet-400'],
+  ['NINA.Sequencer.Container', RectangleGroupIcon, 'text-blue-400'],
+  // Imaging
+  ['SequenceItem.Imaging', CameraIcon, 'text-cyan-400'],
+  // Autofocus
+  ['SequenceItem.Autofocus', AdjustmentsHorizontalIcon, 'text-green-400'],
+  ['Trigger.Autofocus', AdjustmentsHorizontalIcon, 'text-green-400'],
+  // FilterWheel
+  ['FilterWheel', FunnelIcon, 'text-purple-400'],
+  // Platesolving
+  ['Platesolving', ViewfinderCircleIcon, 'text-cyan-300'],
+  // Telescope
+  ['SequenceItem.Telescope', GlobeAltIcon, 'text-blue-300'],
+  // Guider
+  ['SequenceItem.Guider', ArrowsPointingInIcon, 'text-teal-400'],
+  ['Trigger.Guider', ArrowsPointingInIcon, 'text-teal-400'],
+  // FlatDevice
+  ['FlatDevice', SunIcon, 'text-yellow-400'],
+  // Camera equipment
+  ['SequenceItem.Camera', BoltIcon, 'text-sky-400'],
+  // Safety Monitor
+  ['SafetyMonitor', ShieldCheckIcon, 'text-emerald-400'],
+  ['Conditions.SafetyMonitor', ShieldCheckIcon, 'text-emerald-400'],
+  // Switch
+  ['SequenceItem.Switch', AdjustmentsVerticalIcon, 'text-orange-400'],
+  // Rotator
+  ['Rotator', ArrowPathIcon, 'text-indigo-400'],
+  // Dome
+  ['Dome', HomeIcon, 'text-slate-300'],
+  // Connect / Profile
+  ['Connect', LinkIcon, 'text-slate-400'],
+  ['SwitchProfile', LinkIcon, 'text-slate-400'],
+  // Utility – Wait items
+  ['Utility.Wait', ClockIcon, 'text-amber-400'],
+  ['Utility.WaitFor', ClockIcon, 'text-amber-400'],
+  // Utility – Annotation / MessageBox
+  ['Utility.Annotation', ChatBubbleLeftIcon, 'text-slate-400'],
+  ['Utility.MessageBox', ChatBubbleLeftIcon, 'text-slate-400'],
+  // Expressions / Variables
+  ['Expressions', CodeBracketIcon, 'text-pink-400'],
+  // Conditions
+  ['Conditions.Moon', MoonIcon, 'text-slate-300'],
+  ['Conditions.Sun', SunIcon, 'text-yellow-300'],
+  ['Conditions.Altitude', ChartBarIcon, 'text-amber-300'],
+  ['Conditions.AboveHorizon', ChartBarIcon, 'text-amber-300'],
+  ['Conditions.Time', ClockIcon, 'text-amber-400'],
+  ['Conditions.Loop', ArrowPathRoundedSquareIcon, 'text-amber-400'],
+  ['Conditions', ArrowPathRoundedSquareIcon, 'text-amber-400'],
+  // Triggers
+  ['Trigger.Platesolving', ViewfinderCircleIcon, 'text-cyan-300'],
+  ['Trigger.MeridianFlip', ArrowPathIcon, 'text-orange-300'],
+  ['Trigger.Connect', LinkIcon, 'text-slate-400'],
+  ['Trigger.Dome', HomeIcon, 'text-slate-300'],
+  ['ninaAPI', BoltIcon, 'text-red-400'],
+  // Polar Alignment
+  ['PolarAlignment', ArrowsPointingOutIcon, 'text-blue-300'],
+  // PHD2
+  ['phd2', SparklesIcon, 'text-cyan-400'],
+  ['Phd2', SparklesIcon, 'text-cyan-400'],
+  ['RMS', SparklesIcon, 'text-cyan-400'],
+  // Livestack
+  ['Livestack', PhotoIcon, 'text-violet-300'],
+];
+
+const itemIcon = computed(() => {
+  const t = props.item.FullTypeName ?? '';
+  for (const [pattern, icon] of ICON_MAP) {
+    if (t.includes(pattern)) return icon;
+  }
+  return null;
+});
+
+const itemIconColor = computed(() => {
+  const t = props.item.FullTypeName ?? '';
+  for (const [pattern, , color] of ICON_MAP) {
+    if (t.includes(pattern)) return color;
+  }
+  return 'text-slate-400';
+});
 
 const displayName = computed(() => {
   if (props.item.Name) return props.item.Name;

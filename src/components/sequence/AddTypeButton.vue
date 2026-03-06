@@ -115,10 +115,15 @@ function updateDropdownPosition() {
   if (!rootRef.value) return;
   const rect = rootRef.value.getBoundingClientRect();
   const dropdownWidth = 256; // w-64
+  const dropdownHeight = 320; // approx max-h-64 + search bar
   let left = rect.right - dropdownWidth;
   if (left < 4) left = 4;
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const top = spaceBelow >= dropdownHeight
+    ? rect.bottom + 4
+    : Math.max(4, rect.top - dropdownHeight - 4);
   dropdownStyle.value = {
-    top: `${rect.bottom + 4}px`,
+    top: `${top}px`,
     left: `${left}px`,
   };
 }

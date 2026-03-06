@@ -85,10 +85,9 @@
       />
 
       <!-- Triggers -->
-      <div v-if="item.Triggers !== undefined" class="mb-1.5 space-y-1">
-        <div class="flex items-center justify-between px-1">
+      <div v-if="item.Triggers !== undefined" class="mb-1.5 border border-cyan-600/30 rounded-lg bg-cyan-950/10 p-1.5 space-y-1">
+        <div class="px-1">
           <span class="text-xs text-cyan-400/70">Triggers</span>
-          <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="trigger" />
         </div>
         <SequenceItem
           v-for="trigger in item.Triggers"
@@ -98,13 +97,15 @@
           :depth="depth + 1"
           class="border-cyan-600/30"
         />
+        <div v-if="canAdd" class="flex justify-center mt-1">
+          <AddTypeButton :targetId="item.Triggers?.at(-1)?.Id ?? item.Id" mode="trigger" :insertAfter="(item.Triggers?.length ?? 0) > 0" />
+        </div>
       </div>
 
       <!-- Conditions -->
-      <div v-if="item.Conditions !== undefined" class="mb-1.5 space-y-1">
-        <div class="flex items-center justify-between px-1">
+      <div v-if="item.Conditions !== undefined" class="mb-1.5 border border-amber-600/30 rounded-lg bg-amber-950/10 p-1.5 space-y-1">
+        <div class="px-1">
           <span class="text-xs text-amber-400/70">Conditions</span>
-          <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="condition" />
         </div>
         <SequenceItem
           v-for="cond in item.Conditions"
@@ -114,6 +115,9 @@
           :depth="depth + 1"
           class="border-amber-600/30"
         />
+        <div v-if="canAdd" class="flex justify-center mt-1">
+          <AddTypeButton :targetId="item.Conditions?.at(-1)?.Id ?? item.Id" mode="condition" :insertAfter="(item.Conditions?.length ?? 0) > 0" />
+        </div>
       </div>
 
       <draggable

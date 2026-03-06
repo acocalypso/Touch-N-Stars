@@ -16,7 +16,6 @@
     <template v-else>
       <!-- Global Triggers -->
       <div
-        v-if="store.globalTriggers.length"
         class="bg-slate-800/60 backdrop-blur-sm border border-purple-600/30 rounded-lg shadow-lg"
       >
         <div
@@ -43,6 +42,13 @@
             :item="trigger"
             :siblings="store.globalTriggers"
           />
+          <div class="flex justify-center mt-1">
+            <AddTypeButton
+              :targetId="store.globalTriggers.at(-1)?.Id ?? store.data[0]?.Id ?? ''"
+              mode="trigger"
+              :insertAfter="store.globalTriggers.length > 0"
+            />
+          </div>
         </div>
       </div>
 

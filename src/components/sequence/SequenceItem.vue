@@ -89,14 +89,18 @@
         <div class="px-1">
           <span class="text-xs text-cyan-400/70">Triggers</span>
         </div>
-        <SequenceItem
-          v-for="trigger in item.Triggers"
-          :key="trigger.Id"
-          :item="trigger"
-          :siblings="item.Triggers"
-          :depth="depth + 1"
-          class="border-cyan-600/30"
-        />
+        <draggable
+          :list="item.Triggers"
+          item-key="Id"
+          handle=".drag-handle"
+          ghost-class="opacity-30"
+          class="space-y-1"
+          @end="(evt) => onSiblingDragEnd(evt, item.Triggers)"
+        >
+          <template #item="{ element }">
+            <SequenceItem :item="element" :siblings="item.Triggers" :depth="depth + 1" class="border-cyan-600/30" />
+          </template>
+        </draggable>
         <div v-if="canAdd" class="flex justify-center mt-1">
           <AddTypeButton :targetId="item.Triggers?.at(-1)?.Id ?? item.Id" mode="trigger" :insertAfter="(item.Triggers?.length ?? 0) > 0" />
         </div>
@@ -107,14 +111,18 @@
         <div class="px-1">
           <span class="text-xs text-amber-400/70">Conditions</span>
         </div>
-        <SequenceItem
-          v-for="cond in item.Conditions"
-          :key="cond.Id"
-          :item="cond"
-          :siblings="item.Conditions"
-          :depth="depth + 1"
-          class="border-amber-600/30"
-        />
+        <draggable
+          :list="item.Conditions"
+          item-key="Id"
+          handle=".drag-handle"
+          ghost-class="opacity-30"
+          class="space-y-1"
+          @end="(evt) => onSiblingDragEnd(evt, item.Conditions)"
+        >
+          <template #item="{ element }">
+            <SequenceItem :item="element" :siblings="item.Conditions" :depth="depth + 1" class="border-amber-600/30" />
+          </template>
+        </draggable>
         <div v-if="canAdd" class="flex justify-center mt-1">
           <AddTypeButton :targetId="item.Conditions?.at(-1)?.Id ?? item.Id" mode="condition" :insertAfter="(item.Conditions?.length ?? 0) > 0" />
         </div>
@@ -252,6 +260,17 @@ async function doAction(action) {
 function onChildDragEnd(evt) {
   if (evt.oldIndex === evt.newIndex) return;
   const siblings = props.item.Items;
+  const movedId = siblings[evt.newIndex].Id;
+  const newIdx = evt.newIndex;
+  if (newIdx === 0) {
+    store.move(movedId, siblings[1]?.Id, false);
+  } else {
+    store.move(movedId, siblings[newIdx - 1]?.Id, true);
+  }
+}
+
+function onSiblingDragEnd(evt, siblings) {
+  if (evt.oldIndex === evt.newIndex) return;
   const movedId = siblings[evt.newIndex].Id;
   const newIdx = evt.newIndex;
   if (newIdx === 0) {

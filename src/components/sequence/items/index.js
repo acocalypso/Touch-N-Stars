@@ -62,6 +62,9 @@ import MeridianFlipTriggerItem from './MeridianFlipTriggerItem.vue';
 import CoolCameraItem from './CoolCameraItem.vue';
 import DewHeaterItem from './DewHeaterItem.vue';
 import SetUSBLimitItem from './SetUSBLimitItem.vue';
+import OrbuculumNextTargetAltitudeItem from './OrbuculumNextTargetAltitudeItem.vue';
+import OrbuculumHourAngleItem from './OrbuculumHourAngleItem.vue';
+import OrbuculumNextTargetHourAngleItem from './OrbuculumNextTargetHourAngleItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -164,6 +167,10 @@ export const ITEM_COMPONENTS = {
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.InterruptWhenRMSAbove': InterruptWhenRMSAboveItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.RestartWhenSaturated': RunAutofocusItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.Phd2SettleTrigger': RunAutofocusItem,
+  'Orbuculum.Instructions.LoopWhileNextTargetBelowAltitude': OrbuculumNextTargetAltitudeItem,
+  'Orbuculum.Instructions.LoopWhileNextTargetBelowHorizon': OrbuculumNextTargetAltitudeItem,
+  'Orbuculum.Instructions.LoopWhileHourAngle': OrbuculumHourAngleItem,
+  'Orbuculum.Instructions.LoopWhileNextTargetHourAngle': OrbuculumNextTargetHourAngleItem,
 };
 
 export { GenericItem };

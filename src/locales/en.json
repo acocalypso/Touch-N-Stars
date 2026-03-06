@@ -525,6 +525,9 @@
         "annotation": {
           "text": "Text"
         },
+        "waitUntil": {
+          "predicate": "Condition"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

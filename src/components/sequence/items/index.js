@@ -23,6 +23,11 @@ import ScopedVariableItem from './ScopedVariableItem.vue';
 import ResetVariableItem from './ResetVariableItem.vue';
 import ResetVariableToDateItem from './ResetVariableToDateItem.vue';
 import AnnotationItem from './AnnotationItem.vue';
+import WaitForAltitudeItem from './WaitForAltitudeItem.vue';
+import WaitForTimeItem from './WaitForTimeItem.vue';
+import WaitForBodyAltitudeItem from './WaitForBodyAltitudeItem.vue';
+import WaitUntilItem from './WaitUntilItem.vue';
+import WaitUntilAboveHorizonItem from './WaitUntilAboveHorizonItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -129,6 +134,12 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Expressions.ResetVariableToDate': ResetVariableToDateItem,
   'NINA.Sequencer.SequenceItem.Utility.Annotation': AnnotationItem,
   'NINA.Sequencer.SequenceItem.Utility.MessageBox': AnnotationItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitForAltitude': WaitForAltitudeItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitUntilAboveHorizon': WaitUntilAboveHorizonItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitForTime': WaitForTimeItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitForMoonAltitude': WaitForBodyAltitudeItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitForSunAltitude': WaitForBodyAltitudeItem,
+  'NINA.Sequencer.SequenceItem.Utility.WaitUntil': WaitUntilItem,
 };
 
 export { GenericItem };

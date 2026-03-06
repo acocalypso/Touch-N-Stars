@@ -517,13 +517,16 @@
           "identifier": "Name",
           "expression": "Wert",
           "value": "Wert",
-          "initially": "Anfangswert",feat: add Annotation, MessageBox and variable expression sequence item components
+          "initially": "Anfangswert",
           "newValue": "Neuer Wert",
           "time": "Zeit",
           "minutesOffset": "Offset (min)"
         },
         "annotation": {
           "text": "Text"
+        },
+        "waitUntil": {
+          "predicate": "Bedingung"
         },
         "dso": {
           "targetName": "Zielname",

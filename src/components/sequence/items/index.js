@@ -15,6 +15,9 @@ import MoveRotatorMechanicalItem from './MoveRotatorMechanicalItem.vue';
 import SolveAndRotateItem from './SolveAndRotateItem.vue';
 import WaitUntilSafeItem from './WaitUntilSafeItem.vue';
 import SetSwitchValueItem from './SetSwitchValueItem.vue';
+import SetTrackingItem from './SetTrackingItem.vue';
+import SlewScopeToAltAzItem from './SlewScopeToAltAzItem.vue';
+import CenterAndRotateItem from './CenterAndRotateItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -109,6 +112,11 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Platesolving.SolveAndRotate': SolveAndRotateItem,
   'NINA.Sequencer.SequenceItem.SafetyMonitor.WaitUntilSafe': WaitUntilSafeItem,
   'NINA.Sequencer.SequenceItem.Switch.SetSwitchValue': SetSwitchValueItem,
+  'NINA.Sequencer.SequenceItem.Telescope.SetTracking': SetTrackingItem,
+  'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToAltAz': SlewScopeToAltAzItem,
+  'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec': CenterItem,
+  'NINA.Sequencer.SequenceItem.Platesolving.CenterAndRotate': CenterAndRotateItem,
+  'NINA.Sequencer.SequenceItem.Platesolving.SolveAndSync': RunAutofocusItem,
 };
 
 export { GenericItem };

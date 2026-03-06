@@ -510,6 +510,9 @@
           "switch": "Switch",
           "value": "Wert"
         },
+        "setTracking": {
+          "trackingMode": "Tracking-Modus"
+        },
         "dso": {
           "targetName": "Zielname",
           "positionAngle": "Positionswinkel (°)"

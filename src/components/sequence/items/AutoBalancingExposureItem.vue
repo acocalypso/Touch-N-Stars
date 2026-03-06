@@ -65,13 +65,18 @@
               </td>
               <!-- Filter -->
               <td class="py-1 pr-2">
-                <input
-                  type="text"
+                <select
                   :value="row.Filter ?? ''"
-                  class="w-16 bg-slate-700/60 border border-slate-600 rounded px-1 py-0.5 text-gray-200 outline-none focus:border-cyan-500/50"
-                  placeholder="–"
-                  @blur="row.Filter = $event.target.value || null; markDirty()"
-                />
+                  class="bg-slate-700/60 border border-slate-600 rounded px-1 py-0.5 text-gray-200"
+                  @change="row.Filter = $event.target.value || null; markDirty()"
+                >
+                  <option value="">–</option>
+                  <option
+                    v-for="filter in store.filterInfo?.AvailableFilters"
+                    :key="filter.Id"
+                    :value="filter.Name"
+                  >{{ filter.Name }}</option>
+                </select>
               </td>
               <!-- Binning -->
               <td class="py-1 pr-2">
@@ -146,12 +151,15 @@
 import { ref, watch } from 'vue';
 import { TrashIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import ItemShell from './ItemShell.vue';
+import { apiStore } from '@/store/store';
+
+const store = apiStore();
 
 const props = defineProps({ item: { type: Object, required: true } });
 
 function cloneItems() {
   return (props.item.ExposureItems ?? []).map((r) => ({
-    Filter: r.Filter ?? null,
+    Filter: r.Filter?._name ?? r.Filter ?? null,
     Binning: { X: r.Binning?.X ?? 1, Y: r.Binning?.Y ?? 1 },
     ExposureTime: r.ExposureTime ?? 0,
     Gain: r.Gain ?? -1,

@@ -500,6 +500,12 @@
           "ditherPixels": "Dither Pixels",
           "ditherSettleTime": "Dither Settle Time (s)"
         },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Mechanical Position (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Position Angle (°)"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

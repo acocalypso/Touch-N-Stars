@@ -14,6 +14,27 @@
         @change="save('ExposureTime', $event)"
       />
 
+      <!-- Filter -->
+      <div class="flex items-center gap-3">
+        <label class="text-xs text-slate-400 flex-shrink-0">{{
+          $t('components.sequence.items.takeExposure.filter')
+        }}</label>
+        <select
+          class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+          :value="item.Filter?._name ?? ''"
+          @change="save('Filter', $event.target.value || null)"
+        >
+          <option value="">(kein Filter)</option>
+          <option
+            v-for="filter in store.filterInfo?.AvailableFilters"
+            :key="filter.Id"
+            :value="filter.Name"
+          >
+            {{ filter.Name }}
+          </option>
+        </select>
+      </div>
+
       <NumberInputPicker
         :modelValue="item.Gain"
         :label="$t('components.sequence.items.takeExposure.gain')"
@@ -113,6 +134,9 @@ import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
+import { apiStore } from '@/store/store';
+
+const store = apiStore();
 
 const props = defineProps({
   item: { type: Object, required: true },

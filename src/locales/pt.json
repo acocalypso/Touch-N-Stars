@@ -142,14 +142,15 @@
       "connection": "Configurações de conexão",
       "language": "Idioma",
       "image": {
-        "title": "Configurações de imagem",
+        "title": "Imagem",
         "quality": "Qualidade da imagem",
         "maxDimension": "Tamanho máx. da imagem",
         "strech_factor": "Fator de estiramento",
         "black_clipping": "Recorte preto",
         "debayern": "Imagem debayer",
         "DebayeredHFR": "HFR debayered",
-        "UnlinkedStretch": "Estiramento não vinculado"
+        "UnlinkedStretch": "Estiramento não vinculado",
+        "fileType": "Tipo de arquivo"
       },
       "imageFile": {
         "title": "Padrão de nome de ficheiro",
@@ -206,7 +207,10 @@
         "description": "Gerenciar suas configurações de equipamento"
       },
       "telescope": {
-        "titel": "Configurações do telescópio"
+        "titel": "Configurações do telescópio",
+        "name": "Nome do telescópio"
+,
+"focal_ratio": "Razão focal"
       },
       "beta": {
         "title": "Canal de atualização beta"
@@ -248,7 +252,7 @@
         "basic": "Configurações básicas",
         "retry": "Tentar novamente as configurações",
         "search": "Configurações de pesquisa",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -443,7 +447,7 @@
           "post_flip_actions": "Ações pós-inversão"
         },
         "telescope_settle_time": "Tempo de liquidação após a(s) rotação(ões)",
-        "meridian_flip_settings": "Configurações do Meridiano",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Inverter eixo primário",
         "reverse_secondary_axis": "Inverter eixo secundário"
       },

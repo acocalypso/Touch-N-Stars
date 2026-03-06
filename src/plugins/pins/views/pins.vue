@@ -261,7 +261,8 @@
           <div class="relative z-10">
             <h3 class="text-xl font-bold text-white mb-1">{{ $t('plugins.pins.systemTime') }}</h3>
             <p class="text-gray-400 text-sm" v-if="deviceTime">
-              {{ $t('plugins.pins.deviceTime') }}: {{ new Date(deviceTime * 1000).toLocaleString() }}
+              {{ $t('plugins.pins.deviceTime') }}:
+              {{ new Date(deviceTime * 1000).toLocaleString() }}
             </p>
             <p class="text-gray-400 text-sm" v-else>
               {{ $t('plugins.pins.loadingTime') }}

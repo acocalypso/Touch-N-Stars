@@ -143,14 +143,15 @@
       "connection": "Connection Settings",
       "language": "Language",
       "image": {
-        "title": "Image Settings",
+        "title": "Image",
         "quality": "Image Quality",
         "maxDimension": "Max. Image Size",
         "strech_factor": "Stretch Factor",
         "black_clipping": "Black Clipping",
         "debayern": "Debayer Image",
         "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Unlinked Strech"
+        "UnlinkedStretch": "Unlinked Strech",
+        "fileType": "File Type"
       },
       "imageFile": {
         "title": "File Name Pattern",
@@ -220,7 +221,7 @@
         "confirmRestart": "Are you sure you want to restart the system?"
       },
       "plate_solver": {
-        "title": "Plate solver settings",
+        "title": "Plate Solver",
         "basic": "Basic settings",
         "search": "Search settings",
         "retry": "Retry settings",
@@ -248,7 +249,10 @@
         "emptyFields": "Empty fields"
       },
       "telescope": {
-        "titel": "Telescope settings"
+        "titel": "Telescope settings",
+        "name": "Telescope name"
+,
+"focal_ratio": "Focal ratio"
       }
     },
     "connectEquipment": {
@@ -429,7 +433,7 @@
         "SideOfPier": "Side of pier"
       },
       "settings": {
-        "meridian_flip_settings": "Meridian-Settings",
+        "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Settle time after slew (s)",
         "meridian_flip": {
           "basic": "Basic settings",

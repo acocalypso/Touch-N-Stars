@@ -1,5 +1,9 @@
 <template>
   <ItemShell :item="item">
+    <template #summary>
+      <span class="text-xs text-slate-400 font-mono">{{ item.QueueEntries }}</span>
+    </template>
+
     <template #editor="{ save }">
       <div class="flex items-center gap-3">
         <label class="text-xs text-slate-400 flex-shrink-0">{{

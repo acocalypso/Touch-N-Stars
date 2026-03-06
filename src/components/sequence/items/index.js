@@ -103,6 +103,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Trigger.Connect.ReconnectTrigger': ReconnectTriggerItem,
   'NINA.Sequencer.Trigger.Dome.SynchronizeDomeTrigger': SynchronizeDomeTriggerItem,
   'NINA.Sequencer.Container.SequentialContainer': SequentialContainerItem,
+  'NINA.Sequencer.Container.ParallelContainer': SequentialContainerItem,
   'NINA.Sequencer.SequenceItem.Platesolving.Center': CenterItem,
   'NINA.Sequencer.Container.DeepSkyObjectContainer': DeepSkyObjectContainerItem,
   'NINA.Sequencer.SequenceItem.Camera.WarmCamera': WarmCameraItem,

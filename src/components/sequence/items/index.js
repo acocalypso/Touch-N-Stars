@@ -29,6 +29,7 @@ import WaitForBodyAltitudeItem from './WaitForBodyAltitudeItem.vue';
 import WaitUntilItem from './WaitUntilItem.vue';
 import WaitUntilAboveHorizonItem from './WaitUntilAboveHorizonItem.vue';
 import WaitForTimeSpanItem from './WaitForTimeSpanItem.vue';
+import SlewDomeAzimuthItem from './SlewDomeAzimuthItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -143,6 +144,14 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Utility.WaitForSunAltitude': WaitForBodyAltitudeItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitUntil': WaitUntilItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitForTimeSpan': WaitForTimeSpanItem,
+  'NINA.Sequencer.SequenceItem.Dome.CloseDomeShutter': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.DisableDomeSynchronization': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.EnableDomeSynchronization': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.FindHomeDome': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.OpenDomeShutter': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.ParkDome': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.SynchronizeDome': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Dome.SlewDomeAzimuth': SlewDomeAzimuthItem,
 };
 
 export { GenericItem };

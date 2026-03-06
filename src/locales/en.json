@@ -531,6 +531,9 @@
         "waitForTimeSpan": {
           "time": "Duration (s)"
         },
+        "slewDomeAzimuth": {
+          "azimuth": "Azimuth (°)"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

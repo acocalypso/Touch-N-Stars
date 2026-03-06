@@ -58,6 +58,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { ITEM_COMPONENTS } from './items/index.js';
 
 const props = defineProps({
   targetId: { type: String, required: true },
@@ -92,8 +93,12 @@ const types = computed(
 
 const filteredTypes = computed(() => {
   const q = search.value.trim().toLowerCase();
-  if (!q) return types.value;
-  return types.value.filter((t) => t.Name?.toLowerCase().includes(q));
+  let list = types.value;
+  if (props.mode === 'item') {
+    list = list.filter((t) => ITEM_COMPONENTS[t.FullTypeName] !== undefined);
+  }
+  if (!q) return list;
+  return list.filter((t) => t.Name?.toLowerCase().includes(q));
 });
 
 const grouped = computed(() => {

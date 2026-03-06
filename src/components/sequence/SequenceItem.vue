@@ -85,7 +85,7 @@
       />
 
       <!-- Triggers -->
-      <div v-if="item.Triggers !== undefined && !isDsoContainer" class="mb-1.5 space-y-1">
+      <div v-if="item.Triggers !== undefined" class="mb-1.5 space-y-1">
         <div class="flex items-center justify-between px-1">
           <span class="text-xs text-cyan-400/70">Triggers</span>
           <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="trigger" />
@@ -101,7 +101,7 @@
       </div>
 
       <!-- Conditions -->
-      <div v-if="item.Conditions !== undefined && !isDsoContainer" class="mb-1.5 space-y-1">
+      <div v-if="item.Conditions !== undefined" class="mb-1.5 space-y-1">
         <div class="flex items-center justify-between px-1">
           <span class="text-xs text-amber-400/70">Conditions</span>
           <AddTypeButton v-if="canAdd" :targetId="item.Id" mode="condition" />

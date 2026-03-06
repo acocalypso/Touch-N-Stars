@@ -30,6 +30,7 @@ import WaitUntilItem from './WaitUntilItem.vue';
 import WaitUntilAboveHorizonItem from './WaitUntilAboveHorizonItem.vue';
 import WaitForTimeSpanItem from './WaitForTimeSpanItem.vue';
 import SlewDomeAzimuthItem from './SlewDomeAzimuthItem.vue';
+import StackFlatsItem from './StackFlatsItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -152,6 +153,9 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Dome.ParkDome': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Dome.SynchronizeDome': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Dome.SlewDomeAzimuth': SlewDomeAzimuthItem,
+  'NINA.Plugin.Livestack.Instructions.StackFlats': StackFlatsItem,
+  'NINA.Plugin.Livestack.Instructions.StartLivestacking': RunAutofocusItem,
+  'NINA.Plugin.Livestack.Instructions.StopLivestacking': RunAutofocusItem,
 };
 
 export { GenericItem };

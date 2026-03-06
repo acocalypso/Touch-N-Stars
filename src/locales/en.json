@@ -534,6 +534,9 @@
         "slewDomeAzimuth": {
           "azimuth": "Azimuth (°)"
         },
+        "stackFlats": {
+          "waitForStack": "Wait for Stack"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

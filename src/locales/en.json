@@ -486,6 +486,15 @@
           "iterations": "Count",
           "keepPanelClosed": "Keep Panel Closed"
         },
+        "polarAlignment": {
+          "searchRadius": "Search Radius (°)",
+          "alignmentTolerance": "Alignment Tolerance (arcsec)",
+          "moveRate": "Move Rate (°/s)",
+          "targetDistance": "Target Distance (°)",
+          "eastDirection": "East Direction",
+          "manualMode": "Manual Mode",
+          "startFromCurrentPosition": "Start From Current Position"
+},
         "skyFlat": {
           "shouldDither": "Dither",
           "ditherPixels": "Dither Pixels",

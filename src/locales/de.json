@@ -537,6 +537,13 @@
         "stackFlats": {
           "waitForStack": "Auf Stack warten"
         },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "RMS-Schwellenwert (\")",
+          "mode": "Modus",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Mindestpunkte"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Belichtungszeit (s)",

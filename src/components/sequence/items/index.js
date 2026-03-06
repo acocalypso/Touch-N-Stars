@@ -170,6 +170,7 @@ export const ITEM_COMPONENTS = {
   'Orbuculum.Instructions.LoopWhileNextTargetBelowAltitude': OrbuculumNextTargetAltitudeItem,
   'Orbuculum.Instructions.LoopWhileNextTargetBelowHorizon': OrbuculumNextTargetAltitudeItem,
   'Orbuculum.Instructions.LoopWhileHourAngle': OrbuculumHourAngleItem,
+  'Orbuculum.Instructions.WaitForHourAngle': OrbuculumHourAngleItem,
   'Orbuculum.Instructions.LoopWhileNextTargetHourAngle': OrbuculumNextTargetHourAngleItem,
 };
 

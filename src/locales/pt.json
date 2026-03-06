@@ -1823,7 +1823,7 @@
         "success": "Sucesso"
       },
       "terminalOutput": "SAÍDA DO TERMINAL",
-      "title": "Atualizador PINS",
+      "title": "PINS Management",
       "upgrading": "Atualizando...",
       "waiting": "Assumindo controle... Aguardando comando...",
       "noNetworks": "Nenhuma rede encontrada",

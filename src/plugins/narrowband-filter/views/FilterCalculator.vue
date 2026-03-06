@@ -377,28 +377,6 @@ const defaultParams = {
   obstructionDiameter: 0, // Central obstruction diameter in mm
 };
 
-// Presets for common narrowband filters
-const presets = {
-  hAlpha: {
-    bandpassCenter: 656.3,
-    fwhm: 3.0,
-    flatTop: 2.0,
-    targetWavelength: 656.3,
-  },
-  oiii: {
-    bandpassCenter: 500.7,
-    fwhm: 2.8,
-    flatTop: 2.0,
-    targetWavelength: 500.7,
-  },
-  sii: {
-    bandpassCenter: 672.4,
-    fwhm: 3.4,
-    flatTop: 2.2,
-    targetWavelength: 672.4,
-  },
-};
-
 // Manufacturer filter specifications
 const manufacturerFilters = {
   'chroma-ha': {

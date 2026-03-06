@@ -1823,7 +1823,7 @@
         "success": "Geslaagd"
       },
       "terminalOutput": "TERMINALUITVOER",
-      "title": "PINS Updater",
+      "title": "PINS Management",
       "upgrading": "Upgraden...",
       "waiting": "Controle overnemen... Wachten op opdracht...",
       "noNetworks": "Geen netwerken gevonden",

@@ -149,9 +149,6 @@ function initChart() {
 
   const { labels, transmissionData } = generateCurveData();
 
-  // Use the calculated transmission passed from parent component
-  const effectiveTransmission = Math.max(0, Math.min(1, props.calculatedTransmission));
-
   const ctx = chartCanvas.value.getContext('2d');
 
   if (chart) {

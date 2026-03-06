@@ -983,7 +983,7 @@
       }
     },
     "pins": {
-      "title": "PINS Updater",
+      "title": "PINS Verwaltung",
       "notAvailable": "PINS-Umgebung nicht erkannt. Dieses Plugin ist deaktiviert.",
       "dryRun": "Testlauf-Modus",
       "sambaTitle": "Samba Freigabe",

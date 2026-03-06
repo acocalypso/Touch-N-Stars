@@ -506,6 +506,10 @@
         "solveAndRotate": {
           "positionAngle": "Position Angle (°)"
         },
+        "setSwitchValue": {
+          "switch": "Switch",
+          "value": "Value"
+        },
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)"

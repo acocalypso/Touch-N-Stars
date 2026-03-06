@@ -250,9 +250,8 @@
       },
       "telescope": {
         "titel": "Telescoop instellingen",
-        "name": "Telescoopnaam"
-,
-"focal_ratio": "Brandpuntsverhouding"
+        "name": "Telescoopnaam",
+        "focal_ratio": "Brandpuntsverhouding"
       }
     },
     "connectEquipment": {
@@ -1810,7 +1809,16 @@
         "forcingSync": "Tijd handmatig synchroniseren...",
         "syncingTime": "Tijdsverschil gedetecteerd: {diff}s. \nTijd synchroniseren...",
         "timeInSync": "De tijd loopt synchroon (diff: {diff}s).",
-        "timeSynced": "Systeemtijd succesvol gesynchroniseerd."
+        "timeSynced": "Systeemtijd succesvol gesynchroniseerd.",
+        "connectingToWifi": "Verbinding maken met WiFi-netwerk: {ssid}",
+        "jobReport": "Taakrapport: {rapport}",
+        "jobStatus": "Taakstatus: {status}",
+        "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}",
+        "upgradeFailed": "Upgrade mislukt. \nExitcode: {exitCode}",
+        "upgradeSuccess": "Upgrade succesvol voltooid.",
+        "verifyingStatus": "De definitieve taakstatus verifiëren...",
+        "wifiResponse": "WiFi-reactie: {reactie}",
+        "wsCreationFailed": "Kan WebSocket niet maken: {message}"
       },
       "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
       "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
@@ -1844,7 +1852,10 @@
       "deviceTime": "Apparaattijd",
       "loadingTime": "Laadtijd...",
       "syncNow": "Synchroniseer nu",
-      "systemTime": "Systeem tijd"
+      "systemTime": "Systeem tijd",
+      "band24": "2,4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Wifi-netwerken opnieuw scannen"
     },
     "pinsDevices": {
       "config": {

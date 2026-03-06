@@ -208,9 +208,8 @@
       },
       "telescope": {
         "titel": "Impostazioni del telescopio",
-        "name": "Nome del telescopio"
-,
-"focal_ratio": "Rapporto focale"
+        "name": "Nome del telescopio",
+        "focal_ratio": "Rapporto focale"
       },
       "beta": {
         "title": "Canale di aggiornamento beta"
@@ -1810,7 +1809,16 @@
         "forcingSync": "Sincronizzazione manuale dell'ora...",
         "syncingTime": "Differenza oraria rilevata: {diff}s. \nSincronizzazione dell'ora...",
         "timeInSync": "L'ora è sincronizzata (diff: {diff}s).",
-        "timeSynced": "L'ora del sistema è stata sincronizzata correttamente."
+        "timeSynced": "L'ora del sistema è stata sincronizzata correttamente.",
+        "connectingToWifi": "Connessione alla rete Wi-Fi: {ssid}",
+        "jobReport": "Rapporto di lavoro: {rapporto}",
+        "jobStatus": "Stato del lavoro: {status}",
+        "statusFetchFailed": "Impossibile recuperare lo stato finale: {messaggio}",
+        "upgradeFailed": "Aggiornamento non riuscito. \nCodice di uscita: {exitCode}",
+        "upgradeSuccess": "Aggiornamento completato con successo.",
+        "verifyingStatus": "Verifica dello stato finale del lavoro...",
+        "wifiResponse": "Risposta Wi-Fi: {risposta}",
+        "wsCreationFailed": "Impossibile creare WebSocket: {messaggio}"
       },
       "notAvailable": "Ambiente PINS non rilevato. Questo plugin è disabilitato.",
       "sambaDescription": "Abilita o disabilita la condivisione file di rete",
@@ -1844,7 +1852,10 @@
       "deviceTime": "Ora del dispositivo",
       "loadingTime": "Tempo di caricamento...",
       "syncNow": "Sincronizza ora",
-      "systemTime": "Ora del sistema"
+      "systemTime": "Ora del sistema",
+      "band24": "2,4GHz",
+      "band5": "5GHz",
+      "rescan": "Nuova scansione delle reti WiFi"
     },
     "pinsDevices": {
       "config": {

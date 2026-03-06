@@ -208,9 +208,8 @@
       },
       "telescope": {
         "titel": "Ustawienia teleskopu",
-        "name": "Nazwa teleskopu"
-,
-"focal_ratio": "Jasność optyczna"
+        "name": "Nazwa teleskopu",
+        "focal_ratio": "Jasność optyczna"
       },
       "beta": {
         "title": "Kanał aktualizacji beta"
@@ -1810,7 +1809,16 @@
         "forcingSync": "Ręczna synchronizacja czasu...",
         "syncingTime": "Wykryto różnicę czasu: {diff} s. \nCzas synchronizacji...",
         "timeInSync": "Czas jest zsynchronizowany (różnica: {diff} s).",
-        "timeSynced": "Czas systemowy został pomyślnie zsynchronizowany."
+        "timeSynced": "Czas systemowy został pomyślnie zsynchronizowany.",
+        "connectingToWifi": "Łączenie z siecią Wi-Fi: {ssid}",
+        "jobReport": "Raport o pracy: {raport}",
+        "jobStatus": "Stan pracy: {status}",
+        "statusFetchFailed": "Nie udało się pobrać statusu końcowego: {wiadomość}",
+        "upgradeFailed": "Aktualizacja nie powiodła się. \nKod wyjścia: {exitCode}",
+        "upgradeSuccess": "Aktualizacja zakończona pomyślnie.",
+        "verifyingStatus": "Weryfikacja ostatecznego statusu zadania...",
+        "wifiResponse": "Odpowiedź Wi-Fi: {odpowiedź}",
+        "wsCreationFailed": "Nie udało się utworzyć protokołu WebSocket: {wiadomość}"
       },
       "notAvailable": "Środowisko PINS nie zostało wykryte. Ta wtyczka jest wyłączona.",
       "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
@@ -1844,7 +1852,10 @@
       "deviceTime": "Czas urządzenia",
       "loadingTime": "Czas ładowania...",
       "syncNow": "Synchronizuj teraz",
-      "systemTime": "Czas systemowy"
+      "systemTime": "Czas systemowy",
+      "band24": "2,4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Przeskanuj ponownie sieci Wi-Fi"
     },
     "pinsDevices": {
       "config": {

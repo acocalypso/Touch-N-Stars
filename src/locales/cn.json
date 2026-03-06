@@ -208,9 +208,8 @@
       },
       "telescope": {
         "titel": "望远镜设置",
-        "name": "望远镜名称"
-,
-"focal_ratio": "焦比"
+        "name": "望远镜名称",
+        "focal_ratio": "焦比"
       },
       "beta": {
         "title": "测试版更新通道"
@@ -1811,7 +1810,16 @@
         "forcingSync": "Manually syncing time...",
         "syncingTime": "Time difference detected: {diff}s. Syncing time...",
         "timeInSync": "Time is in sync (diff: {diff}s).",
-        "timeSynced": "System time synchronized successfully."
+        "timeSynced": "System time synchronized successfully.",
+        "connectingToWifi": "Connecting to WiFi network: {ssid}",
+        "jobReport": "Job report: {report}",
+        "jobStatus": "Job status: {status}",
+        "statusFetchFailed": "Failed to fetch final status: {message}",
+        "upgradeFailed": "Upgrade failed. Exit code: {exitCode}",
+        "upgradeSuccess": "Upgrade completed successfully.",
+        "verifyingStatus": "Verifying final job status...",
+        "wifiResponse": "WiFi response: {response}",
+        "wsCreationFailed": "Failed to create WebSocket: {message}"
       },
       "notAvailable": "未检测到 PINS 环境。此插件已禁用。",
       "sambaDescription": "启用或禁用网络文件共享",
@@ -1845,7 +1853,10 @@
       "deviceTime": "Device Time",
       "loadingTime": "Loading time...",
       "syncNow": "Sync Now",
-      "systemTime": "System Time"
+      "systemTime": "System Time",
+      "band24": "2.4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Rescan WiFi networks"
     },
     "pinsDevices": {
       "config": {

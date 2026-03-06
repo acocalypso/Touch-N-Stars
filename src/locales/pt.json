@@ -208,9 +208,8 @@
       },
       "telescope": {
         "titel": "Configurações do telescópio",
-        "name": "Nome do telescópio"
-,
-"focal_ratio": "Razão focal"
+        "name": "Nome do telescópio",
+        "focal_ratio": "Razão focal"
       },
       "beta": {
         "title": "Canal de atualização beta"
@@ -1810,7 +1809,16 @@
         "forcingSync": "Sincronizando a hora manualmente...",
         "syncingTime": "Diferença horária detectada: {diff}s. \nSincronizando hora...",
         "timeInSync": "O tempo está sincronizado (diff: {diff}s).",
-        "timeSynced": "Hora do sistema sincronizada com sucesso."
+        "timeSynced": "Hora do sistema sincronizada com sucesso.",
+        "connectingToWifi": "Conectando-se à rede WiFi: {ssid}",
+        "jobReport": "Relatório de trabalho: {relatório}",
+        "jobStatus": "Status do trabalho: {status}",
+        "statusFetchFailed": "Falha ao buscar o status final: {message}",
+        "upgradeFailed": "Falha na atualização. \nCódigo de saída: {exitCode}",
+        "upgradeSuccess": "Atualização concluída com sucesso.",
+        "verifyingStatus": "Verificando o status final do trabalho...",
+        "wifiResponse": "Resposta WiFi: {resposta}",
+        "wsCreationFailed": "Falha ao criar WebSocket: {message}"
       },
       "notAvailable": "Ambiente PINS não detectado. Este plugin está desativado.",
       "sambaDescription": "Ativar ou desativar compartilhamento de arquivos de rede",
@@ -1844,7 +1852,10 @@
       "deviceTime": "Hora do dispositivo",
       "loadingTime": "Tempo de carregamento...",
       "syncNow": "Sincronizar agora",
-      "systemTime": "Hora do sistema"
+      "systemTime": "Hora do sistema",
+      "band24": "2,4GHz",
+      "band5": "5GHz",
+      "rescan": "Verifique novamente as redes WiFi"
     },
     "pinsDevices": {
       "config": {

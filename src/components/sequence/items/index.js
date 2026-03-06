@@ -31,6 +31,7 @@ import WaitUntilAboveHorizonItem from './WaitUntilAboveHorizonItem.vue';
 import WaitForTimeSpanItem from './WaitForTimeSpanItem.vue';
 import SlewDomeAzimuthItem from './SlewDomeAzimuthItem.vue';
 import StackFlatsItem from './StackFlatsItem.vue';
+import ChangePHD2ParametersItem from './ChangePHD2ParametersItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -156,6 +157,9 @@ export const ITEM_COMPONENTS = {
   'NINA.Plugin.Livestack.Instructions.StackFlats': StackFlatsItem,
   'NINA.Plugin.Livestack.Instructions.StartLivestacking': RunAutofocusItem,
   'NINA.Plugin.Livestack.Instructions.StopLivestacking': RunAutofocusItem,
+  'nina.plugin.phd2tools.Phd2ToolsSequenceItems.ShutdownPhd2Instruction': RunAutofocusItem,
+  'nina.plugin.phd2tools.Phd2ToolsSequenceItems.Phd2SettleInstruction': RunAutofocusItem,
+  'nina.plugin.phd2tools.Phd2ToolsSequenceItems.ChangePHD2Parameters': ChangePHD2ParametersItem,
 };
 
 export { GenericItem };

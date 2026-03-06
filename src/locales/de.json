@@ -537,6 +537,16 @@
         "stackFlats": {
           "waitForStack": "Auf Stack warten"
         },
+        "changePHD2Parameters": {
+          "parameter": "Parameter",
+          "exposureTime": "Belichtungszeit (s)",
+          "ditherPixels": "Dithern (px)",
+          "ditherRAOnly": "Nur RA dithern",
+          "settlePixels": "Einpendeln (px)",
+          "settleTime": "Einpendelzeit (s)",
+          "settleTimeout": "Einpendel-Timeout (s)",
+          "roiPct": "ROI (%)"
+        },
         "dso": {
           "targetName": "Zielname",
           "positionAngle": "Positionswinkel (°)"

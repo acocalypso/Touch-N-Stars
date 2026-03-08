@@ -98,6 +98,7 @@
           handle=".drag-handle"
           ghost-class="opacity-30"
           class="space-y-1"
+          :fallbackOnBody="true"
           @end="(evt) => onSiblingDragEnd(evt, item.Triggers)"
         >
           <template #item="{ element }">
@@ -132,6 +133,7 @@
           handle=".drag-handle"
           ghost-class="opacity-30"
           class="space-y-1"
+          :fallbackOnBody="true"
           @end="(evt) => onSiblingDragEnd(evt, item.Conditions)"
         >
           <template #item="{ element }">
@@ -158,6 +160,7 @@
         handle=".drag-handle"
         ghost-class="opacity-30"
         class="space-y-1.5"
+        :fallbackOnBody="true"
         @end="(evt) => onChildDragEnd(evt)"
       >
         <template #item="{ element }">

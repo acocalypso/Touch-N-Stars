@@ -87,6 +87,7 @@
                 handle=".drag-handle"
                 ghost-class="opacity-30"
                 class="space-y-1.5"
+                :fallbackOnBody="true"
                 @end="(evt) => onDragEnd(evt, container.Items)"
               >
                 <template #item="{ element }">

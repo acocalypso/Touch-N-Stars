@@ -316,6 +316,8 @@
       "startSequence": "Sequenz starten",
       "stopSequence": "Sequenz stoppen",
       "resetSequence": "Sequenz zurücksetzen",
+      "skipToEnd": "Zum Ende springen",
+      "skipCurrentItem": "Aktuelles Element überspringen",
       "manageSequences": "Sequenzen laden / speichern",
       "saveSequenceAs": "Aktuelle Sequenz speichern als",
       "sequenceFileName": "Dateiname",

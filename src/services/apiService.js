@@ -696,6 +696,18 @@ const apiService = {
     return response.data;
   },
 
+  async sequenceSkipToEnd() {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/skip-to-end`);
+    return response.data;
+  },
+
+  async sequenceSkipCurrentItem() {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/skip-current-item`);
+    return response.data;
+  },
+
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0
   async sequnceTargetSet(name, ra, dec, rotation, index) {
     try {

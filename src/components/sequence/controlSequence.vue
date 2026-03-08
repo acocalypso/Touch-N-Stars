@@ -5,22 +5,17 @@
   >
     <button
       :class="[
-        'default-button-blue h-14 w-14',
+        'default-button-green h-16 w-14 flex-col gap-0.5',
         { 'opacity-75 cursor-not-allowed': sequenceStore.sequenceRunning },
       ]"
       @click="startSequence"
       :disabled="sequenceStore.sequenceRunning"
-      v-tooltip="
-        sequenceStore.sequenceRunning
-          ? $t('components.sequence.running')
-          : $t('components.sequence.startSequence')
-      "
     >
       <span v-if="sequenceStore.sequenceRunning" class="animate-spin text-lg">&#9696;</span>
       <svg
         v-else
         xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
+        class="h-7 w-7"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -30,36 +25,41 @@
           clip-rule="evenodd"
         />
       </svg>
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.startSequence') }}</span>
     </button>
 
     <button
-      class="default-button-red h-14 w-14"
+      class="default-button-cyan h-16 w-14 flex-col gap-0.5"
       @click="stopSequence"
-      v-tooltip="$t('components.sequence.stopSequence')"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z"
-          clip-rule="evenodd"
-        />
-      </svg>
+      <PauseIcon class="h-7 w-7" />
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.stopSequence') }}</span>
     </button>
 
     <button
-      class="default-button-orange h-14 w-14"
+      class="default-button-blue h-16 w-14 flex-col gap-0.5"
+      @click="skipCurrentItem"
+    >
+      <ForwardIcon class="h-6 w-6" />
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.skipCurrentItem') }}</span>
+    </button>
+
+    <button
+      class="default-button-red h-16 w-14 flex-col gap-0.5"
+      @click="skipToEnd"
+    >
+      <FlagIcon class="h-6 w-6" />
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.skipToEnd') }}</span>
+    </button>
+
+    <button
+      class="default-button-orange h-16 w-14 flex-col gap-0.5"
       @click="showResetConfirmation = true"
       :disabled="sequenceStore.sequenceRunning"
-      v-tooltip="$t('components.sequence.resetSequence')"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-8 w-8"
+        class="h-7 w-7"
         viewBox="0 0 20 20"
         fill="currentColor"
       >
@@ -69,100 +69,84 @@
           clip-rule="evenodd"
         />
       </svg>
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.resetSequence') }}</span>
     </button>
 
     <button
-      class="default-button-gray h-14 w-14"
+      class="default-button-gray h-16 w-14 flex-col gap-0.5"
       @click="openFileManager"
-      v-tooltip="$t('components.sequence.manageSequences')"
     >
-      <FolderOpenIcon class="h-7 w-7" />
+      <FolderOpenIcon class="h-6 w-6" />
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.manageSequences') }}</span>
     </button>
 
     <!-- File Manager Modal -->
-    <transition name="fade">
-      <div
-        v-if="showFileManager"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50"
-        @click.self="showFileManager = false"
-        @keydown.esc="showFileManager = false"
-      >
-        <transition name="scale">
-          <div v-if="showFileManager" class="bg-gray-800 rounded-lg p-6 max-w-lg w-full mt-4 flex flex-col gap-4">
-            <h3 class="text-xl font-semibold text-cyan-400">{{ $t('components.sequence.manageSequences') }}</h3>
-
-            <!-- File list -->
-            <div class="flex flex-col gap-1 max-h-64 overflow-y-auto">
-              <div v-if="filesLoading" class="text-slate-400 text-sm text-center py-4">{{ $t('components.sequence.sequenceLoading') }}</div>
-              <div v-else-if="sequenceFiles.length === 0" class="text-slate-500 text-sm text-center py-4">
-                {{ $t('components.sequence.sequenceNoFiles') }}
-              </div>
-              <div
-                v-for="file in sequenceFiles"
-                :key="file.FilePath"
-                class="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-slate-700/40"
-              >
-                <span class="text-sm text-gray-200 truncate">{{ file.FileName }}</span>
-                <button
-                  class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
-                  @click="loadFile(file.FilePath)"
-                >{{ $t('components.sequence.sequenceLoad') }}</button>
-              </div>
+    <Modal :show="showFileManager" max-width="max-w-lg" @close="showFileManager = false">
+      <template #header>
+        <h2 class="text-xl font-bold text-cyan-400">{{ $t('components.sequence.manageSequences') }}</h2>
+      </template>
+      <template #body>
+        <div class="w-full flex flex-col gap-4">
+          <!-- File list -->
+          <div class="flex flex-col gap-1 max-h-64 overflow-y-auto">
+            <div v-if="filesLoading" class="text-slate-400 text-sm text-center py-4">{{ $t('components.sequence.sequenceLoading') }}</div>
+            <div v-else-if="sequenceFiles.length === 0" class="text-slate-500 text-sm text-center py-4">
+              {{ $t('components.sequence.sequenceNoFiles') }}
             </div>
-
-            <!-- Save section -->
-            <div class="border-t border-slate-700 pt-3 flex flex-col gap-2">
-              <label class="text-xs text-slate-400">{{ $t('components.sequence.saveSequenceAs') }}</label>
-              <div class="flex gap-2">
-                <input
-                  v-model="saveFileName"
-                  type="text"
-                  :placeholder="$t('components.sequence.sequenceFileName')"
-                  class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1.5 text-sm text-gray-200 outline-none focus:border-cyan-500/50"
-                  @keydown.enter="saveFile"
-                />
-                <button
-                  class="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded border border-cyan-500/40 hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
-                  :disabled="!saveFileName.trim() || saveLoading"
-                  @click="saveFile"
-                >{{ saveLoading ? '...' : $t('components.sequence.sequenceSave') }}</button>
-              </div>
-            </div>
-
-            <div class="flex justify-end">
-              <button class="btn-secondary" @click="showFileManager = false">{{ $t('components.sequence.sequenceClose') }}</button>
+            <div
+              v-for="file in sequenceFiles"
+              :key="file.FilePath"
+              class="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-slate-700/40"
+            >
+              <span class="text-sm text-gray-200 truncate">{{ file.FileName }}</span>
+              <button
+                class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
+                @click="loadFile(file.FilePath)"
+              >{{ $t('components.sequence.sequenceLoad') }}</button>
             </div>
           </div>
-        </transition>
-      </div>
-    </transition>
+
+          <!-- Save section -->
+          <div class="border-t border-slate-700 pt-3 flex flex-col gap-2">
+            <label class="text-xs text-slate-400">{{ $t('components.sequence.saveSequenceAs') }}</label>
+            <div class="flex gap-2">
+              <input
+                v-model="saveFileName"
+                type="text"
+                :placeholder="$t('components.sequence.sequenceFileName')"
+                class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1.5 text-sm text-gray-200 outline-none focus:border-cyan-500/50"
+                @keydown.enter="saveFile"
+              />
+              <button
+                class="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded border border-cyan-500/40 hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
+                :disabled="!saveFileName.trim() || saveLoading"
+                @click="saveFile"
+              >{{ saveLoading ? '...' : $t('components.sequence.sequenceSave') }}</button>
+            </div>
+          </div>
+        </div>
+      </template>
+    </Modal>
 
     <!-- Reset Confirmation Dialog -->
-    <transition name="fade">
-      <div
-        v-if="showResetConfirmation"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50"
-        @click.self="showResetConfirmation = false"
-        @keydown.esc="showResetConfirmation = false"
-      >
-        <transition name="scale">
-          <div v-if="showResetConfirmation" class="bg-gray-800 rounded-lg p-6 max-w-md w-full mt-4">
-            <h3 class="text-xl font-semibold mb-4">
-              {{ $t('components.sequence.resetConfirmationTitle') }}
-            </h3>
-            <p class="mb-6">{{ $t('components.sequence.resetConfirmationMessage') }}</p>
-            <div class="flex justify-end space-x-4">
-              <button class="btn-secondary" @click="showResetConfirmation = false">
-                {{ $t('general.cancel') }}
-              </button>
-              <button class="btn-danger" @click="confirmReset">
-                {{ $t('general.confirm') }}
-              </button>
-            </div>
+    <Modal :show="showResetConfirmation" max-width="max-w-md" @close="showResetConfirmation = false">
+      <template #header>
+        <h2 class="text-xl font-bold">{{ $t('components.sequence.resetConfirmationTitle') }}</h2>
+      </template>
+      <template #body>
+        <div class="w-full flex flex-col gap-6">
+          <p>{{ $t('components.sequence.resetConfirmationMessage') }}</p>
+          <div class="flex justify-end space-x-4">
+            <button class="btn-secondary" @click="showResetConfirmation = false">
+              {{ $t('general.cancel') }}
+            </button>
+            <button class="btn-danger" @click="confirmReset">
+              {{ $t('general.confirm') }}
+            </button>
           </div>
-        </transition>
-      </div>
-    </transition>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -172,7 +156,8 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
-import { FolderOpenIcon } from '@heroicons/vue/24/outline';
+import { FolderOpenIcon, FlagIcon, ForwardIcon, PauseIcon } from '@heroicons/vue/24/outline';
+import Modal from '@/components/helpers/Modal.vue';
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
@@ -187,8 +172,20 @@ const filesLoading = ref(false);
 const saveFileName = ref('');
 const saveLoading = ref(false);
 
-function fileBasename(path) {
-  return path.replace(/\\/g, '/').split('/').pop();
+async function skipToEnd() {
+  try {
+    await apiService.sequenceSkipToEnd();
+  } catch (e) {
+    console.error('Error skipping to end:', e);
+  }
+}
+
+async function skipCurrentItem() {
+  try {
+    await apiService.sequenceSkipCurrentItem();
+  } catch (e) {
+    console.error('Error skipping current item:', e);
+  }
 }
 
 async function openFileManager() {
@@ -272,45 +269,18 @@ async function confirmReset() {
   isLoading.value = true;
   showResetConfirmation.value = false;
   try {
-    // Use the store's resetSequence method which handles notifications
     const success = await sequenceStore.resetSequence();
 
     if (success) {
-      // Reset successful
       await sequenceStore.getSequenceInfo();
       isLoading.value = false;
     } else {
       console.error('Failed to reset sequence');
-      // Allow retry on error
       isLoading.value = false;
     }
   } catch (error) {
     console.log('Error:', error);
-    // Allow retry on error
     isLoading.value = false;
   }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.scale-enter-active,
-.scale-leave-active {
-  transition: all 0.2s ease;
-}
-
-.scale-enter-from,
-.scale-leave-to {
-  transform: scale(0.95);
-  opacity: 0;
-}
-</style>

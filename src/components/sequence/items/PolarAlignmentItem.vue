@@ -10,7 +10,10 @@
         :modelValue="item.ExposureTime"
         :label="$t('components.sequence.items.takeExposure.exposureTime')"
         labelKey="pa-expTime"
-        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="3600"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('ExposureTime', $event)"
       />
 
@@ -39,7 +42,10 @@
         :modelValue="item.Gain"
         :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="pa-gain"
-        :min="-1" :max="1000" :step="1" :decimalPlaces="0"
+        :min="-1"
+        :max="1000"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('Gain', $event)"
       />
 
@@ -47,7 +53,10 @@
         :modelValue="item.Offset"
         :label="$t('components.sequence.items.takeExposure.offset')"
         labelKey="pa-offset"
-        :min="-1" :max="1000" :step="1" :decimalPlaces="0"
+        :min="-1"
+        :max="1000"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('Offset', $event)"
       />
 
@@ -71,7 +80,10 @@
         :modelValue="item.SearchRadius"
         :label="$t('components.sequence.items.polarAlignment.searchRadius')"
         labelKey="pa-searchRadius"
-        :min="1" :max="90" :step="1" :decimalPlaces="0"
+        :min="1"
+        :max="90"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('SearchRadius', $event)"
       />
 
@@ -79,7 +91,10 @@
         :modelValue="item.AlignmentTolerance"
         :label="$t('components.sequence.items.polarAlignment.alignmentTolerance')"
         labelKey="pa-alignTolerance"
-        :min="0" :max="60" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="60"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('AlignmentTolerance', $event)"
       />
 
@@ -87,7 +102,10 @@
         :modelValue="item.MoveRate"
         :label="$t('components.sequence.items.polarAlignment.moveRate')"
         labelKey="pa-moveRate"
-        :min="0.1" :max="10" :step="0.1" :decimalPlaces="1"
+        :min="0.1"
+        :max="10"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('MoveRate', $event)"
       />
 
@@ -95,7 +113,10 @@
         :modelValue="item.TargetDistance"
         :label="$t('components.sequence.items.polarAlignment.targetDistance')"
         labelKey="pa-targetDistance"
-        :min="1" :max="180" :step="1" :decimalPlaces="0"
+        :min="1"
+        :max="180"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('TargetDistance', $event)"
       />
 
@@ -104,7 +125,10 @@
           $t('components.sequence.items.polarAlignment.eastDirection')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.EastDirection" @update:statusValue="save('EastDirection', $event)" />
+          <ToggleButton
+            :statusValue="item.EastDirection"
+            @update:statusValue="save('EastDirection', $event)"
+          />
         </div>
       </div>
 
@@ -113,7 +137,10 @@
           $t('components.sequence.items.polarAlignment.manualMode')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.ManualMode" @update:statusValue="save('ManualMode', $event)" />
+          <ToggleButton
+            :statusValue="item.ManualMode"
+            @update:statusValue="save('ManualMode', $event)"
+          />
         </div>
       </div>
 
@@ -122,7 +149,10 @@
           $t('components.sequence.items.polarAlignment.startFromCurrentPosition')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.StartFromCurrentPosition" @update:statusValue="save('StartFromCurrentPosition', $event)" />
+          <ToggleButton
+            :statusValue="item.StartFromCurrentPosition"
+            @update:statusValue="save('StartFromCurrentPosition', $event)"
+          />
         </div>
       </div>
     </template>

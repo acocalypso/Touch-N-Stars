@@ -85,8 +85,10 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.Conditions.MoonIlluminationCondition': MoonIlluminationConditionItem,
   'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterExposures': AutofocusAfterExposuresItem,
   'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterFilterChange': RunAutofocusItem,
-  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterHFRIncreaseTrigger': AutofocusAfterHFRIncreaseItem,
-  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTemperatureChangeTrigger': AutofocusAfterTemperatureChangeItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterHFRIncreaseTrigger':
+    AutofocusAfterHFRIncreaseItem,
+  'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTemperatureChangeTrigger':
+    AutofocusAfterTemperatureChangeItem,
   'NINA.Sequencer.Trigger.Autofocus.AutofocusAfterTimeTrigger': AutofocusAfterTimeItem,
   'NINA.Sequencer.Trigger.Guider.DitherAfterExposures': DitherAfterExposuresItem,
   'NINA.Sequencer.Trigger.Guider.RestoreGuiding': RunAutofocusItem,

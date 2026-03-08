@@ -1,7 +1,9 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400">{{ item.OnOff ? $t('components.sequence.items.on') : $t('components.sequence.items.off') }}</span>
+      <span class="text-xs text-slate-400">{{
+        item.OnOff ? $t('components.sequence.items.on') : $t('components.sequence.items.off')
+      }}</span>
     </template>
 
     <template #editor="{ save }">

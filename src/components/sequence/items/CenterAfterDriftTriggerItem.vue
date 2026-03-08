@@ -2,7 +2,7 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">
-        {{ item.DistanceArcMinutes }}'  / {{ item.AfterExposures }} exp
+        {{ item.DistanceArcMinutes }}' / {{ item.AfterExposures }} exp
       </span>
     </template>
 

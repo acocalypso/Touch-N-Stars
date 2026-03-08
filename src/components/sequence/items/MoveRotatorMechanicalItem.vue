@@ -9,7 +9,10 @@
         :modelValue="item.MechanicalPosition"
         :label="$t('components.sequence.items.moveRotatorMechanical.mechanicalPosition')"
         labelKey="rotator-mech-pos"
-        :min="0" :max="360" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="360"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('MechanicalPosition', $event)"
       />
     </template>

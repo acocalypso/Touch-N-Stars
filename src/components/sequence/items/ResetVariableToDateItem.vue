@@ -19,23 +19,41 @@
       </div>
 
       <!-- Time -->
-      <div class="text-xs text-slate-400 font-medium">{{
-        $t('components.sequence.items.expressionVariable.time')
-      }}</div>
+      <div class="text-xs text-slate-400 font-medium">
+        {{ $t('components.sequence.items.expressionVariable.time') }}
+      </div>
       <div class="grid grid-cols-3 gap-1">
         <NumberInputPicker
-          :modelValue="item.Hours" label="h" labelKey="resetdate-h"
-          :min="0" :max="23" :step="1" labelPosition="top" wrapperClass="w-full"
+          :modelValue="item.Hours"
+          label="h"
+          labelKey="resetdate-h"
+          :min="0"
+          :max="23"
+          :step="1"
+          labelPosition="top"
+          wrapperClass="w-full"
           @change="save('Hours', $event)"
         />
         <NumberInputPicker
-          :modelValue="item.Minutes" label="m" labelKey="resetdate-m"
-          :min="0" :max="59" :step="1" labelPosition="top" wrapperClass="w-full"
+          :modelValue="item.Minutes"
+          label="m"
+          labelKey="resetdate-m"
+          :min="0"
+          :max="59"
+          :step="1"
+          labelPosition="top"
+          wrapperClass="w-full"
           @change="save('Minutes', $event)"
         />
         <NumberInputPicker
-          :modelValue="item.Seconds" label="s" labelKey="resetdate-s"
-          :min="0" :max="59" :step="1" labelPosition="top" wrapperClass="w-full"
+          :modelValue="item.Seconds"
+          label="s"
+          labelKey="resetdate-s"
+          :min="0"
+          :max="59"
+          :step="1"
+          labelPosition="top"
+          wrapperClass="w-full"
           @change="save('Seconds', $event)"
         />
       </div>
@@ -45,7 +63,10 @@
         :modelValue="item.MinutesOffset"
         :label="$t('components.sequence.items.expressionVariable.minutesOffset')"
         labelKey="resetdate-offset"
-        :min="-1440" :max="1440" :step="1" :decimalPlaces="0"
+        :min="-1440"
+        :max="1440"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('MinutesOffset', $event)"
       />
     </template>

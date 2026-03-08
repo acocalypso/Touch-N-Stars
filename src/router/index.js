@@ -3,7 +3,6 @@ import EquipmentPage from '@/views/EquipmentPage.vue';
 import CameraPage from '@/views/CameraPage.vue';
 import MountPage from '@/views/MountPage.vue';
 import GuidingPage from '@/views/GuidingPage.vue';
-import SequencePage from '@/views/SequencePage.vue';
 import DomePage from '@/views/DomePage.vue';
 import SettingsPage from '@/views/SettingsPage.vue';
 import FlatdevicePage from '@/views/FlatdevicePage.vue';
@@ -34,7 +33,6 @@ const routes = [
   { path: '/autofocus', component: FocusPage, meta: { requiresSetup: true } },
   { path: '/guider', component: GuidingPage, meta: { requiresSetup: true } },
   //{ path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
- 
 
   { path: '/dome', component: DomePage, meta: { requiresSetup: true } },
   { path: '/settings', component: SettingsPage, meta: { requiresSetup: true } },

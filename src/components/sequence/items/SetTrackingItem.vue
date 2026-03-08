@@ -36,5 +36,7 @@ const props = defineProps({
 
 const TRACKING_MODES = ['Sidereal', 'Lunar', 'Solar', 'King', 'Custom', 'Stopped'];
 
-const trackingLabel = computed(() => TRACKING_MODES[props.item.TrackingMode] ?? props.item.TrackingMode);
+const trackingLabel = computed(
+  () => TRACKING_MODES[props.item.TrackingMode] ?? props.item.TrackingMode
+);
 </script>

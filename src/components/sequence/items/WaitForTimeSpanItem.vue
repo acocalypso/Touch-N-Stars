@@ -9,7 +9,10 @@
         :modelValue="item.Time"
         :label="$t('components.sequence.items.waitForTimeSpan.time')"
         labelKey="wait-timespan"
-        :min="0" :max="86400" :step="1" :decimalPlaces="0"
+        :min="0"
+        :max="86400"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('Time', $event)"
       />
     </template>

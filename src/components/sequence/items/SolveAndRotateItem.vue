@@ -10,7 +10,10 @@
           :modelValue="item.PositionAngle"
           :label="$t('components.sequence.items.solveAndRotate.positionAngle')"
           labelKey="solve-rotate-angle"
-          :min="0" :max="360" :step="0.1" :decimalPlaces="1"
+          :min="0"
+          :max="360"
+          :step="0.1"
+          :decimalPlaces="1"
           @change="save('PositionAngle', $event)"
         />
       </template>

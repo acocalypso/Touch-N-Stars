@@ -4,7 +4,9 @@
       <span class="text-xs text-slate-400 flex-shrink-0 font-mono">{{ item.ExposureTime }}s</span>
       <span class="text-xs text-slate-500 flex-shrink-0">G{{ item.Gain }}</span>
       <span class="text-xs text-slate-500 flex-shrink-0">{{ item.ImageType }}</span>
-      <span v-if="item.IsROI" class="text-xs text-slate-500 flex-shrink-0">ROI {{ item.ROIPct }}%</span>
+      <span v-if="item.IsROI" class="text-xs text-slate-500 flex-shrink-0"
+        >ROI {{ item.ROIPct }}%</span
+      >
     </template>
 
     <template #editor="{ save }">

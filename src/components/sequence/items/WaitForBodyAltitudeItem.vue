@@ -2,7 +2,9 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">{{ comparatorLabel }} {{ item.Offset }}°</span>
-      <span v-if="item.Altitude !== undefined" class="text-xs text-slate-500 font-mono">({{ item.Altitude?.toFixed(1) }}°)</span>
+      <span v-if="item.Altitude !== undefined" class="text-xs text-slate-500 font-mono"
+        >({{ item.Altitude?.toFixed(1) }}°)</span
+      >
     </template>
 
     <template #editor="{ save }">
@@ -16,8 +18,12 @@
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           @change="save('Data.Comparator', Number($event.target.value))"
         >
-          <option value="3" :selected="item.Data?.Comparator === 3">{{ $t('components.sequence.items.moonAltitude.above') }}</option>
-          <option value="1" :selected="item.Data?.Comparator === 1">{{ $t('components.sequence.items.moonAltitude.below') }}</option>
+          <option value="3" :selected="item.Data?.Comparator === 3">
+            {{ $t('components.sequence.items.moonAltitude.above') }}
+          </option>
+          <option value="1" :selected="item.Data?.Comparator === 1">
+            {{ $t('components.sequence.items.moonAltitude.below') }}
+          </option>
         </select>
       </div>
 
@@ -26,7 +32,10 @@
         :modelValue="item.Offset"
         :label="$t('components.sequence.items.altitudeCondition.altitude')"
         labelKey="waitbody-alt"
-        :min="-90" :max="90" :step="1" :decimalPlaces="1"
+        :min="-90"
+        :max="90"
+        :step="1"
+        :decimalPlaces="1"
         @change="save('Offset', $event)"
       />
     </template>

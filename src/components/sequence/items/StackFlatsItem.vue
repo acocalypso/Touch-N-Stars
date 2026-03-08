@@ -10,7 +10,10 @@
           $t('components.sequence.items.stackFlats.waitForStack')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.WaitForStack" @update:statusValue="save('WaitForStack', $event)" />
+          <ToggleButton
+            :statusValue="item.WaitForStack"
+            @update:statusValue="save('WaitForStack', $event)"
+          />
         </div>
       </div>
     </template>

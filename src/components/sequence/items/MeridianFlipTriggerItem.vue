@@ -4,9 +4,7 @@
       <span class="text-xs text-slate-400 font-mono">
         +{{ item.MinutesAfterMeridian }}min / max {{ item.MaxMinutesAfterMeridian }}min
       </span>
-      <span class="text-xs text-amber-400/80 font-mono">
-        ⏱ {{ timeToFlip }}
-      </span>
+      <span class="text-xs text-amber-400/80 font-mono"> ⏱ {{ timeToFlip }} </span>
     </template>
   </ItemShell>
 </template>

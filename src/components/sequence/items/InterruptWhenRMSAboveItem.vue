@@ -9,7 +9,10 @@
         :modelValue="item.RmsThreshold"
         :label="$t('components.sequence.items.interruptWhenRMSAbove.rmsThreshold')"
         labelKey="rms-threshold"
-        :min="0" :max="100" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="100"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('RmsThreshold', $event)"
       />
 
@@ -22,8 +25,12 @@
           class="ml-auto bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           @change="save('Mode', Number($event.target.value))"
         >
-          <option :value="0">{{ $t('components.sequence.items.interruptWhenRMSAbove.modeRMS') }}</option>
-          <option :value="1">{{ $t('components.sequence.items.interruptWhenRMSAbove.modePeak') }}</option>
+          <option :value="0">
+            {{ $t('components.sequence.items.interruptWhenRMSAbove.modeRMS') }}
+          </option>
+          <option :value="1">
+            {{ $t('components.sequence.items.interruptWhenRMSAbove.modePeak') }}
+          </option>
         </select>
       </div>
 
@@ -32,7 +39,9 @@
         :modelValue="item.MinimumPoints"
         :label="$t('components.sequence.items.interruptWhenRMSAbove.minimumPoints')"
         labelKey="rms-minpoints"
-        :min="1" :max="100" :step="1"
+        :min="1"
+        :max="100"
+        :step="1"
         @change="save('MinimumPoints', $event)"
       />
     </template>

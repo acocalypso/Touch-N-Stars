@@ -2,7 +2,9 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono truncate">{{ item.Identifier }}</span>
-      <span v-if="item.Expr?.Definition" class="text-xs text-slate-500 font-mono truncate">= {{ item.Expr.Definition }}</span>
+      <span v-if="item.Expr?.Definition" class="text-xs text-slate-500 font-mono truncate"
+        >= {{ item.Expr.Definition }}</span
+      >
     </template>
 
     <template #editor="{ save }">
@@ -23,7 +25,10 @@
         :modelValue="Number(item.Expr?.Definition)"
         :label="$t('components.sequence.items.expressionVariable.value')"
         labelKey="exprvar-value"
-        :min="-999999" :max="999999" :step="1" :decimalPlaces="2"
+        :min="-999999"
+        :max="999999"
+        :step="1"
+        :decimalPlaces="2"
         @change="save('Expr', { Definition: String($event) })"
       />
     </template>

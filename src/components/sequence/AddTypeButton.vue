@@ -119,9 +119,8 @@ function updateDropdownPosition() {
   let left = rect.right - dropdownWidth;
   if (left < 4) left = 4;
   const spaceBelow = window.innerHeight - rect.bottom;
-  const top = spaceBelow >= dropdownHeight
-    ? rect.bottom + 4
-    : Math.max(4, rect.top - dropdownHeight - 4);
+  const top =
+    spaceBelow >= dropdownHeight ? rect.bottom + 4 : Math.max(4, rect.top - dropdownHeight - 4);
   dropdownStyle.value = {
     top: `${top}px`,
     left: `${left}px`,

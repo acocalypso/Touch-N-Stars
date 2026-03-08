@@ -25,7 +25,10 @@
         :modelValue="item.DitherPixels"
         :label="$t('components.sequence.items.changePHD2Parameters.ditherPixels')"
         labelKey="phd2-ditherpx"
-        :min="0" :max="100" :step="0.5" :decimalPlaces="1"
+        :min="0"
+        :max="100"
+        :step="0.5"
+        :decimalPlaces="1"
         @change="save('DitherPixels', $event)"
       />
 
@@ -35,7 +38,10 @@
           $t('components.sequence.items.changePHD2Parameters.ditherRAOnly')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.DitherRAOnly" @update:statusValue="save('DitherRAOnly', $event)" />
+          <ToggleButton
+            :statusValue="item.DitherRAOnly"
+            @update:statusValue="save('DitherRAOnly', $event)"
+          />
         </div>
       </div>
 
@@ -45,7 +51,10 @@
         :modelValue="item.SettlePixels"
         :label="$t('components.sequence.items.changePHD2Parameters.settlePixels')"
         labelKey="phd2-settlepx"
-        :min="0" :max="100" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="100"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('SettlePixels', $event)"
       />
 
@@ -55,7 +64,9 @@
         :modelValue="item.SettleTime"
         :label="$t('components.sequence.items.changePHD2Parameters.settleTime')"
         labelKey="phd2-settletime"
-        :min="0" :max="300" :step="1"
+        :min="0"
+        :max="300"
+        :step="1"
         @change="save('SettleTime', $event)"
       />
 
@@ -65,7 +76,9 @@
         :modelValue="item.SettleTimeout"
         :label="$t('components.sequence.items.changePHD2Parameters.settleTimeout')"
         labelKey="phd2-settletimeout"
-        :min="0" :max="600" :step="1"
+        :min="0"
+        :max="600"
+        :step="1"
         @change="save('SettleTimeout', $event)"
       />
 
@@ -75,7 +88,9 @@
         :modelValue="item.RoiPct"
         :label="$t('components.sequence.items.changePHD2Parameters.roiPct')"
         labelKey="phd2-roi"
-        :min="0" :max="100" :step="1"
+        :min="0"
+        :max="100"
+        :step="1"
         @change="save('RoiPct', $event)"
       />
 
@@ -85,7 +100,10 @@
         :modelValue="item.ExposureTime"
         :label="$t('components.sequence.items.changePHD2Parameters.exposureTime')"
         labelKey="phd2-exposure"
-        :min="0" :max="60" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="60"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('ExposureTime', $event)"
       />
     </template>
@@ -115,5 +133,7 @@ const parameters = [
   { value: 6, label: t('components.sequence.items.changePHD2Parameters.exposureTime') },
 ];
 
-const paramLabel = computed(() => parameters.find((p) => p.value === props.item.Phd2Parameter)?.label ?? '');
+const paramLabel = computed(
+  () => parameters.find((p) => p.value === props.item.Phd2Parameter)?.label ?? ''
+);
 </script>

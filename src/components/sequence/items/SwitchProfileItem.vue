@@ -23,7 +23,10 @@
           $t('components.sequence.items.switchProfile.reconnect')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.Reconnect" @update:statusValue="save('Reconnect', $event)" />
+          <ToggleButton
+            :statusValue="item.Reconnect"
+            @update:statusValue="save('Reconnect', $event)"
+          />
         </div>
       </div>
     </template>

@@ -5,7 +5,12 @@
       <!-- Left: name + summary stacked -->
       <div class="flex-1 min-w-0">
         <div class="flex items-center gap-1.5 min-w-0">
-          <component :is="itemIcon" v-if="itemIcon" class="w-3.5 h-3.5 flex-shrink-0" :class="itemIconColor" />
+          <component
+            :is="itemIcon"
+            v-if="itemIcon"
+            class="w-3.5 h-3.5 flex-shrink-0"
+            :class="itemIconColor"
+          />
           <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
           <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{
             label
@@ -134,7 +139,6 @@ import {
   StarIcon,
   SparklesIcon,
   PhotoIcon,
-  MapPinIcon,
   ArrowsPointingOutIcon,
   AdjustmentsVerticalIcon,
 } from '@heroicons/vue/24/outline';

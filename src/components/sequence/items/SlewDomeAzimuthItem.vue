@@ -9,7 +9,10 @@
         :modelValue="item.AzimuthDegrees"
         :label="$t('components.sequence.items.slewDomeAzimuth.azimuth')"
         labelKey="dome-azimuth"
-        :min="0" :max="360" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="360"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('AzimuthDegrees', $event)"
       />
     </template>

@@ -1,7 +1,9 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono truncate">{{ item.PredicateDefinition || item.Predicate }}</span>
+      <span class="text-xs text-slate-400 font-mono truncate">{{
+        item.PredicateDefinition || item.Predicate
+      }}</span>
     </template>
 
     <template #editor="{ save }">

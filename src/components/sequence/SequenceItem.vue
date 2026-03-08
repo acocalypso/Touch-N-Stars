@@ -85,7 +85,10 @@
       />
 
       <!-- Triggers -->
-      <div v-if="item.Triggers !== undefined" class="mb-1.5 border border-cyan-600/30 rounded-lg bg-cyan-950/10 p-1.5 space-y-1">
+      <div
+        v-if="item.Triggers !== undefined"
+        class="mb-1.5 border border-cyan-600/30 rounded-lg bg-cyan-950/10 p-1.5 space-y-1"
+      >
         <div class="px-1">
           <span class="text-xs text-cyan-400/70">Triggers</span>
         </div>
@@ -98,16 +101,28 @@
           @end="(evt) => onSiblingDragEnd(evt, item.Triggers)"
         >
           <template #item="{ element }">
-            <SequenceItem :item="element" :siblings="item.Triggers" :depth="depth + 1" class="border-cyan-600/30" />
+            <SequenceItem
+              :item="element"
+              :siblings="item.Triggers"
+              :depth="depth + 1"
+              class="border-cyan-600/30"
+            />
           </template>
         </draggable>
         <div v-if="canAdd" class="flex justify-center mt-1">
-          <AddTypeButton :targetId="item.Triggers?.at(-1)?.Id ?? item.Id" mode="trigger" :insertAfter="(item.Triggers?.length ?? 0) > 0" />
+          <AddTypeButton
+            :targetId="item.Triggers?.at(-1)?.Id ?? item.Id"
+            mode="trigger"
+            :insertAfter="(item.Triggers?.length ?? 0) > 0"
+          />
         </div>
       </div>
 
       <!-- Conditions -->
-      <div v-if="item.Conditions !== undefined" class="mb-1.5 border border-amber-600/30 rounded-lg bg-amber-950/10 p-1.5 space-y-1">
+      <div
+        v-if="item.Conditions !== undefined"
+        class="mb-1.5 border border-amber-600/30 rounded-lg bg-amber-950/10 p-1.5 space-y-1"
+      >
         <div class="px-1">
           <span class="text-xs text-amber-400/70">Conditions</span>
         </div>
@@ -120,11 +135,20 @@
           @end="(evt) => onSiblingDragEnd(evt, item.Conditions)"
         >
           <template #item="{ element }">
-            <SequenceItem :item="element" :siblings="item.Conditions" :depth="depth + 1" class="border-amber-600/30" />
+            <SequenceItem
+              :item="element"
+              :siblings="item.Conditions"
+              :depth="depth + 1"
+              class="border-amber-600/30"
+            />
           </template>
         </draggable>
         <div v-if="canAdd" class="flex justify-center mt-1">
-          <AddTypeButton :targetId="item.Conditions?.at(-1)?.Id ?? item.Id" mode="condition" :insertAfter="(item.Conditions?.length ?? 0) > 0" />
+          <AddTypeButton
+            :targetId="item.Conditions?.at(-1)?.Id ?? item.Id"
+            mode="condition"
+            :insertAfter="(item.Conditions?.length ?? 0) > 0"
+          />
         </div>
       </div>
 
@@ -189,7 +213,6 @@ const props = defineProps({
 
 const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
 const isNoExpand = computed(() => NO_EXPAND_TYPES.has(props.item.FullTypeName));
-const isDsoContainer = computed(() => props.item.FullTypeName === 'NINA.Sequencer.Container.DeepSkyObjectContainer');
 
 const store = useSequenceV2Store();
 const settingsStore = useSettingsStore();

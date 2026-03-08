@@ -13,18 +13,37 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
           <NumberInputPicker
-            :modelValue="c.RAHours" label="h" labelKey="cr-ra-h"
-            :min="0" :max="23" :step="1" labelPosition="top" wrapperClass="w-full"
+            :modelValue="c.RAHours"
+            label="h"
+            labelKey="cr-ra-h"
+            :min="0"
+            :max="23"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
             @change="saveRa($event, c.RAMinutes, c.RASeconds)"
           />
           <NumberInputPicker
-            :modelValue="c.RAMinutes" label="m" labelKey="cr-ra-m"
-            :min="0" :max="59" :step="1" labelPosition="top" wrapperClass="w-full"
+            :modelValue="c.RAMinutes"
+            label="m"
+            labelKey="cr-ra-m"
+            :min="0"
+            :max="59"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
             @change="saveRa(c.RAHours, $event, c.RASeconds)"
           />
           <NumberInputPicker
-            :modelValue="c.RASeconds" label="s" labelKey="cr-ra-s"
-            :min="0" :max="59" :step="0.1" :decimalPlaces="1" labelPosition="top" wrapperClass="w-full"
+            :modelValue="c.RASeconds"
+            label="s"
+            labelKey="cr-ra-s"
+            :min="0"
+            :max="59"
+            :step="0.1"
+            :decimalPlaces="1"
+            labelPosition="top"
+            wrapperClass="w-full"
             @change="saveRa(c.RAHours, c.RAMinutes, $event)"
           />
         </div>
@@ -35,18 +54,37 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
           <NumberInputPicker
-            :modelValue="decDeg" label="°" labelKey="cr-dec-d"
-            :min="-90" :max="90" :step="1" labelPosition="top" wrapperClass="w-full"
+            :modelValue="decDeg"
+            label="°"
+            labelKey="cr-dec-d"
+            :min="-90"
+            :max="90"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
             @change="saveDec($event, c.DecMinutes, c.DecSeconds)"
           />
           <NumberInputPicker
-            :modelValue="c.DecMinutes" label="m" labelKey="cr-dec-m"
-            :min="0" :max="59" :step="1" labelPosition="top" wrapperClass="w-full"
+            :modelValue="c.DecMinutes"
+            label="m"
+            labelKey="cr-dec-m"
+            :min="0"
+            :max="59"
+            :step="1"
+            labelPosition="top"
+            wrapperClass="w-full"
             @change="saveDec(decDeg, $event, c.DecSeconds)"
           />
           <NumberInputPicker
-            :modelValue="c.DecSeconds" label="s" labelKey="cr-dec-s"
-            :min="0" :max="59" :step="0.1" :decimalPlaces="1" labelPosition="top" wrapperClass="w-full"
+            :modelValue="c.DecSeconds"
+            label="s"
+            labelKey="cr-dec-s"
+            :min="0"
+            :max="59"
+            :step="0.1"
+            :decimalPlaces="1"
+            labelPosition="top"
+            wrapperClass="w-full"
             @change="saveDec(decDeg, c.DecMinutes, $event)"
           />
         </div>
@@ -56,7 +94,10 @@
           :modelValue="item.PositionAngle"
           :label="$t('components.sequence.items.solveAndRotate.positionAngle')"
           labelKey="cr-pos-angle"
-          :min="0" :max="360" :step="0.1" :decimalPlaces="1"
+          :min="0"
+          :max="360"
+          :step="0.1"
+          :decimalPlaces="1"
           @change="save('PositionAngle', $event)"
         />
       </template>

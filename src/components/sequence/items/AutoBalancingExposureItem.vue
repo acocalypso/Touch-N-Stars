@@ -22,23 +22,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(row, i) in localItems"
-              :key="i"
-              class="border-b border-slate-700/40"
-            >
+            <tr v-for="(row, i) in localItems" :key="i" class="border-b border-slate-700/40">
               <!-- Progress with -/+ buttons -->
               <td class="py-1 pr-2">
                 <div class="flex items-center gap-0.5">
                   <button
                     class="px-1 py-0.5 bg-slate-700/60 border border-slate-600 rounded text-slate-300 hover:bg-slate-600 transition-colors"
-                    @click="row.Progress = Math.max(0, row.Progress - 1); markDirty()"
-                  >−</button>
+                    @click="
+                      row.Progress = Math.max(0, row.Progress - 1);
+                      markDirty();
+                    "
+                  >
+                    −
+                  </button>
                   <span class="w-7 text-center text-gray-200">{{ row.Progress }}</span>
                   <button
                     class="px-1 py-0.5 bg-slate-700/60 border border-slate-600 rounded text-slate-300 hover:bg-slate-600 transition-colors"
-                    @click="row.Progress++; markDirty()"
-                  >+</button>
+                    @click="
+                      row.Progress++;
+                      markDirty();
+                    "
+                  >
+                    +
+                  </button>
                 </div>
               </td>
               <!-- Ratio -->
@@ -68,14 +74,19 @@
                 <select
                   :value="row.Filter ?? ''"
                   class="bg-slate-700/60 border border-slate-600 rounded px-1 py-0.5 text-gray-200"
-                  @change="row.Filter = $event.target.value || null; markDirty()"
+                  @change="
+                    row.Filter = $event.target.value || null;
+                    markDirty();
+                  "
                 >
                   <option value="">–</option>
                   <option
                     v-for="filter in store.filterInfo?.AvailableFilters"
                     :key="filter.Id"
                     :value="filter.Name"
-                  >{{ filter.Name }}</option>
+                  >
+                    {{ filter.Name }}
+                  </option>
                 </select>
               </td>
               <!-- Binning -->
@@ -83,7 +94,13 @@
                 <select
                   :value="row.Binning?.X ?? 1"
                   class="bg-slate-700/60 border border-slate-600 rounded px-1 py-0.5 text-gray-200"
-                  @change="row.Binning = { X: Number($event.target.value), Y: Number($event.target.value) }; markDirty()"
+                  @change="
+                    row.Binning = {
+                      X: Number($event.target.value),
+                      Y: Number($event.target.value),
+                    };
+                    markDirty();
+                  "
                 >
                   <option value="1">1×1</option>
                   <option value="2">2×2</option>

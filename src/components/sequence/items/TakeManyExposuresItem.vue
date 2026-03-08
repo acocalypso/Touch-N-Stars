@@ -6,7 +6,9 @@
         <span class="text-xs text-slate-500">G{{ exposure.Gain }}</span>
         <span class="text-xs text-slate-500">{{ exposure.ImageType }}</span>
       </template>
-      <span v-if="loopIterations" class="text-xs text-slate-400 font-mono">× {{ loopIterations }}</span>
+      <span v-if="loopIterations" class="text-xs text-slate-400 font-mono"
+        >× {{ loopIterations }}</span
+      >
     </template>
 
     <template v-if="exposure && loopCondition" #editor>

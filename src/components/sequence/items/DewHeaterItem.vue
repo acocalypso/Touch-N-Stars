@@ -1,22 +1,18 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span
-        class="text-xs font-mono"
-        :class="item.OnOff ? 'text-emerald-400' : 'text-slate-400'"
-      >
+      <span class="text-xs font-mono" :class="item.OnOff ? 'text-emerald-400' : 'text-slate-400'">
         {{ item.OnOff ? $t('components.sequence.items.on') : $t('components.sequence.items.off') }}
       </span>
     </template>
 
     <template #editor="{ save }">
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400">{{ $t('components.sequence.items.dewHeater.onOff') }}</label>
+        <label class="text-xs text-slate-400">{{
+          $t('components.sequence.items.dewHeater.onOff')
+        }}</label>
         <div class="ml-auto">
-          <ToggleButton
-            :statusValue="item.OnOff"
-            @update:statusValue="save('OnOff', $event)"
-          />
+          <ToggleButton :statusValue="item.OnOff" @update:statusValue="save('OnOff', $event)" />
         </div>
       </div>
     </template>

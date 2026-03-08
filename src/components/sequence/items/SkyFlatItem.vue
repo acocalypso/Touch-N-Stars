@@ -1,9 +1,15 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono">{{ item.MinExposure }}–{{ item.MaxExposure }}s</span>
-      <span class="text-xs text-slate-500">{{ (item.HistogramTargetPercentage * 100).toFixed(0) }}%</span>
-      <span v-if="loopCondition" class="text-xs text-slate-500">{{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}</span>
+      <span class="text-xs text-slate-400 font-mono"
+        >{{ item.MinExposure }}–{{ item.MaxExposure }}s</span
+      >
+      <span class="text-xs text-slate-500"
+        >{{ (item.HistogramTargetPercentage * 100).toFixed(0) }}%</span
+      >
+      <span v-if="loopCondition" class="text-xs text-slate-500"
+        >{{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}</span
+      >
     </template>
 
     <template #editor="{ save }">
@@ -11,28 +17,40 @@
         :modelValue="item.MinExposure"
         :label="$t('components.sequence.items.autoExposureFlat.minExposure')"
         labelKey="sf-minExposure"
-        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="3600"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('MinExposure', $event)"
       />
       <NumberInputPicker
         :modelValue="item.MaxExposure"
         :label="$t('components.sequence.items.autoExposureFlat.maxExposure')"
         labelKey="sf-maxExposure"
-        :min="0" :max="3600" :step="0.1" :decimalPlaces="1"
+        :min="0"
+        :max="3600"
+        :step="0.1"
+        :decimalPlaces="1"
         @change="save('MaxExposure', $event)"
       />
       <NumberInputPicker
         :modelValue="histogramTargetPct"
         :label="$t('components.sequence.items.autoBrightnessFlat.histogramTarget')"
         labelKey="sf-histTarget"
-        :min="0" :max="100" :step="1" :decimalPlaces="0"
+        :min="0"
+        :max="100"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(item.Id, 'HistogramTargetPercentage', $event / 100)"
       />
       <NumberInputPicker
         :modelValue="histogramTolerancePct"
         :label="$t('components.sequence.items.autoBrightnessFlat.histogramTolerance')"
         labelKey="sf-histTolerance"
-        :min="0" :max="100" :step="1" :decimalPlaces="0"
+        :min="0"
+        :max="100"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(item.Id, 'HistogramTolerancePercentage', $event / 100)"
       />
 
@@ -42,7 +60,10 @@
         :modelValue="loopCondition.Iterations"
         :label="$t('components.sequence.items.autoBrightnessFlat.iterations')"
         labelKey="sf-iterations"
-        :min="1" :max="9999" :step="1" :decimalPlaces="0"
+        :min="1"
+        :max="9999"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(loopCondition.Id, 'Iterations', $event)"
       />
 
@@ -54,9 +75,13 @@
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="switchFilter.SelectedFilter"
-          @change="store.setProperty(switchFilter.Id, 'SelectedFilter', Number($event.target.value))"
+          @change="
+            store.setProperty(switchFilter.Id, 'SelectedFilter', Number($event.target.value))
+          "
         >
-          <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">{{ name }}</option>
+          <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">
+            {{ name }}
+          </option>
         </select>
       </div>
 
@@ -83,7 +108,10 @@
         :modelValue="exposure.Gain"
         :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="sf-gain"
-        :min="-1" :max="1000" :step="1" :decimalPlaces="0"
+        :min="-1"
+        :max="1000"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Gain', $event)"
       />
 
@@ -93,7 +121,10 @@
         :modelValue="exposure.Offset"
         :label="$t('components.sequence.items.takeExposure.offset')"
         labelKey="sf-offset"
-        :min="-1" :max="1000" :step="1" :decimalPlaces="0"
+        :min="-1"
+        :max="1000"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Offset', $event)"
       />
 
@@ -102,7 +133,10 @@
           $t('components.sequence.items.skyFlat.shouldDither')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.ShouldDither" @update:statusValue="save('ShouldDither', $event)" />
+          <ToggleButton
+            :statusValue="item.ShouldDither"
+            @update:statusValue="save('ShouldDither', $event)"
+          />
         </div>
       </div>
 
@@ -111,7 +145,10 @@
         :modelValue="item.DitherPixels"
         :label="$t('components.sequence.items.skyFlat.ditherPixels')"
         labelKey="sf-ditherPixels"
-        :min="1" :max="100" :step="1" :decimalPlaces="0"
+        :min="1"
+        :max="100"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('DitherPixels', $event)"
       />
 
@@ -120,7 +157,10 @@
         :modelValue="item.DitherSettleTime"
         :label="$t('components.sequence.items.skyFlat.ditherSettleTime')"
         labelKey="sf-ditherSettleTime"
-        :min="0" :max="300" :step="1" :decimalPlaces="0"
+        :min="0"
+        :max="300"
+        :step="1"
+        :decimalPlaces="0"
         @change="save('DitherSettleTime', $event)"
       />
     </template>
@@ -140,15 +180,19 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
-const histogramTargetPct = computed(() => Math.round((props.item.HistogramTargetPercentage ?? 0) * 100));
-const histogramTolerancePct = computed(() => Math.round((props.item.HistogramTolerancePercentage ?? 0) * 100));
-
-const switchFilter = computed(() =>
-  props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null
+const histogramTargetPct = computed(() =>
+  Math.round((props.item.HistogramTargetPercentage ?? 0) * 100)
+);
+const histogramTolerancePct = computed(() =>
+  Math.round((props.item.HistogramTolerancePercentage ?? 0) * 100)
 );
 
-const innerContainer = computed(() =>
-  props.item.Items?.find((i) => i.FullTypeName?.endsWith('SequentialContainer')) ?? null
+const switchFilter = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null
+);
+
+const innerContainer = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SequentialContainer')) ?? null
 );
 
 const loopCondition = computed(() => innerContainer.value?.Conditions?.[0] ?? null);

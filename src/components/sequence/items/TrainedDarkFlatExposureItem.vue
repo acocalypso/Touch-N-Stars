@@ -2,7 +2,9 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400">DARK</span>
-      <span v-if="loopCondition" class="text-xs text-slate-500">{{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}</span>
+      <span v-if="loopCondition" class="text-xs text-slate-500"
+        >{{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}</span
+      >
     </template>
 
     <template #editor="{ save }">
@@ -12,7 +14,10 @@
         :modelValue="loopCondition.Iterations"
         :label="$t('components.sequence.items.autoBrightnessFlat.iterations')"
         labelKey="tdfe-iterations"
-        :min="1" :max="9999" :step="1" :decimalPlaces="0"
+        :min="1"
+        :max="9999"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(loopCondition.Id, 'Iterations', $event)"
       />
 
@@ -24,9 +29,13 @@
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="switchFilter.SelectedFilter"
-          @change="store.setProperty(switchFilter.Id, 'SelectedFilter', Number($event.target.value))"
+          @change="
+            store.setProperty(switchFilter.Id, 'SelectedFilter', Number($event.target.value))
+          "
         >
-          <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">{{ name }}</option>
+          <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">
+            {{ name }}
+          </option>
         </select>
       </div>
 
@@ -53,7 +62,10 @@
         :modelValue="exposure.Gain"
         :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="tdfe-gain"
-        :min="-1" :max="1000" :step="1" :decimalPlaces="0"
+        :min="-1"
+        :max="1000"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Gain', $event)"
       />
 
@@ -63,7 +75,10 @@
         :modelValue="exposure.Offset"
         :label="$t('components.sequence.items.takeExposure.offset')"
         labelKey="tdfe-offset"
-        :min="-1" :max="1000" :step="1" :decimalPlaces="0"
+        :min="-1"
+        :max="1000"
+        :step="1"
+        :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Offset', $event)"
       />
 
@@ -72,7 +87,10 @@
           $t('components.sequence.items.autoBrightnessFlat.keepPanelClosed')
         }}</label>
         <div class="ml-auto">
-          <ToggleButton :statusValue="item.KeepPanelClosed" @update:statusValue="save('KeepPanelClosed', $event)" />
+          <ToggleButton
+            :statusValue="item.KeepPanelClosed"
+            @update:statusValue="save('KeepPanelClosed', $event)"
+          />
         </div>
       </div>
     </template>
@@ -92,12 +110,12 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
-const switchFilter = computed(() =>
-  props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null
+const switchFilter = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null
 );
 
-const innerContainer = computed(() =>
-  props.item.Items?.find((i) => i.FullTypeName?.endsWith('SequentialContainer')) ?? null
+const innerContainer = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SequentialContainer')) ?? null
 );
 
 const loopCondition = computed(() => innerContainer.value?.Conditions?.[0] ?? null);

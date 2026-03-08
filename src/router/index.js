@@ -13,10 +13,8 @@ import FilterwheelPage from '@/views/FilterwheelPage.vue';
 import RotatorPage from '@/views/RotatorPage.vue';
 import Flatassistant from '@/views/FlatassistantPage.vue';
 import FocusPage from '@/views/FocusPage.vue';
-import SequenceV2Page from '@/views/SequenceV2Page.vue';
 import SequencePage from '@/views/SequencePage.vue';
 import { useSettingsStore } from '@/store/settingsStore';
-import { apiStore } from '@/store/store';
 
 const routes = [
   {
@@ -42,11 +40,7 @@ const routes = [
   { path: '/filterwheel', component: FilterwheelPage, meta: { requiresSetup: true } },
   { path: '/rotator', component: RotatorPage, meta: { requiresSetup: true } },
   { path: '/flats', component: Flatassistant, meta: { requiresSetup: true } },
-  {
-    path: '/sequence',
-    component: () => (apiStore().isPINS ? SequenceV2Page : SequencePage),
-    meta: { requiresSetup: true },
-  },
+  { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
 ];
 
 const router = createRouter({

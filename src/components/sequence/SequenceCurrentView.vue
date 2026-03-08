@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-3">
+  <div class="space-y-3 pb-36">
     <Teleport to="body">
       <ControlSequence />
     </Teleport>

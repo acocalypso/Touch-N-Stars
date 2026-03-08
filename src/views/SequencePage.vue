@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
+  <SequenceV2Page v-if="store.isPINS" />
+
+  <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
     <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">
       <button
         @click="toggleEdit"
@@ -43,7 +45,10 @@ import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import LoadSequence from '@/components/sequence/LoadSequence.vue';
+import SequenceV2Page from '@/views/SequenceV2Page.vue';
+import { apiStore } from '@/store/store';
 
+const store = apiStore();
 const currentTab = ref('showSequenz'); // Standardwert
 const sequenceStore = useSequenceStore();
 

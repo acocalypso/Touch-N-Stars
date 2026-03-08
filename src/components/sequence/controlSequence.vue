@@ -33,7 +33,7 @@
       @click="stopSequence"
     >
       <PauseIcon class="h-7 w-7" />
-      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.stopSequence') }}</span>
+      <span class="text-[9px] leading-none font-medium">{{ $t('components.sequence.pauseSequence') }}</span>
     </button>
 
     <button

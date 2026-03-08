@@ -316,6 +316,7 @@
       "noSequenceData": "尚无数据",
       "startSequence": "开始序列",
       "stopSequence": "停止序列",
+      "pauseSequence": "暂停",
       "resetSequence": "重置序列",
       "manageSequences": "加载/保存序列",
       "saveSequenceAs": "将当前序列另存为",

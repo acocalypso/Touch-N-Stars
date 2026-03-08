@@ -315,6 +315,7 @@
       "noSequenceData": "Aucune donnée disponible",
       "startSequence": "Lancer la séquence",
       "stopSequence": "Arrêter la séquence",
+      "pauseSequence": "Pause",
       "resetSequence": "Remettre à zéro la séquence",
       "manageSequences": "Charger / enregistrer des séquences",
       "saveSequenceAs": "Enregistrer la séquence actuelle sous",

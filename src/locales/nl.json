@@ -315,6 +315,7 @@
       "noSequenceData": "Nog geen Data aanwezig",
       "startSequence": "Start sequentie",
       "stopSequence": "Stop sequentie",
+      "pauseSequence": "Pauze",
       "resetSequence": "Reset sequentie",
       "manageSequences": "Sequenties laden / opslaan",
       "saveSequenceAs": "Huidige sequentie opslaan als",

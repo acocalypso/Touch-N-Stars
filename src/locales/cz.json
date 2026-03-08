@@ -318,6 +318,7 @@
       "noSequenceData": "zatím nejsou k dispozici žádná data",
       "startSequence": "Spustit sekvenci",
       "stopSequence": "Zastavit sekvenci",
+      "pauseSequence": "Pauza",
       "resetSequence": "Resetovat sekvenci",
       "manageSequences": "Načíst / uložit sekvence",
       "saveSequenceAs": "Uložit aktuální sekvenci jako",

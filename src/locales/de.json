@@ -315,6 +315,7 @@
       "noSequenceData": "noch keine Daten verfügbar",
       "startSequence": "Sequenz starten",
       "stopSequence": "Sequenz stoppen",
+      "pauseSequence": "Pause",
       "resetSequence": "Sequenz zurücksetzen",
       "skipToEnd": "Zum Ende springen",
       "skipCurrentItem": "Aktuelles Element überspringen",

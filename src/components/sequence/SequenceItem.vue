@@ -97,6 +97,7 @@
           item-key="Id"
           handle=".drag-handle"
           ghost-class="opacity-30"
+          :force-fallback="true"
           class="space-y-1"
           @end="(evt) => onSiblingDragEnd(evt, item.Triggers)"
         >
@@ -131,6 +132,7 @@
           item-key="Id"
           handle=".drag-handle"
           ghost-class="opacity-30"
+          :force-fallback="true"
           class="space-y-1"
           @end="(evt) => onSiblingDragEnd(evt, item.Conditions)"
         >
@@ -157,6 +159,7 @@
         item-key="Id"
         handle=".drag-handle"
         ghost-class="opacity-30"
+        :force-fallback="true"
         class="space-y-1.5"
         @end="(evt) => onChildDragEnd(evt)"
       >

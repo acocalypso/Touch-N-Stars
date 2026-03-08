@@ -24,9 +24,11 @@
           <input
             v-model="search"
             type="text"
+            inputmode="search"
             placeholder="Suchen…"
             class="w-full bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 placeholder-slate-500 outline-none focus:border-cyan-500/50"
             @click.stop
+            @focus="updateDropdownPosition"
           />
         </div>
 
@@ -114,11 +116,13 @@ const grouped = computed(() => {
 function updateDropdownPosition() {
   if (!rootRef.value) return;
   const rect = rootRef.value.getBoundingClientRect();
+  const vvp = window.visualViewport;
+  const viewportHeight = vvp ? vvp.height : window.innerHeight;
   const dropdownWidth = 256; // w-64
   const dropdownHeight = 320; // approx max-h-64 + search bar
   let left = rect.right - dropdownWidth;
   if (left < 4) left = 4;
-  const spaceBelow = window.innerHeight - rect.bottom;
+  const spaceBelow = viewportHeight - rect.bottom;
   const top =
     spaceBelow >= dropdownHeight ? rect.bottom + 4 : Math.max(4, rect.top - dropdownHeight - 4);
   dropdownStyle.value = {
@@ -152,6 +156,12 @@ async function select(t) {
 function onOutsideClick(e) {
   if (rootRef.value && !rootRef.value.contains(e.target)) open.value = false;
 }
-onMounted(() => document.addEventListener('click', onOutsideClick));
-onUnmounted(() => document.removeEventListener('click', onOutsideClick));
+onMounted(() => {
+  document.addEventListener('click', onOutsideClick);
+  window.visualViewport?.addEventListener('resize', updateDropdownPosition);
+});
+onUnmounted(() => {
+  document.removeEventListener('click', onOutsideClick);
+  window.visualViewport?.removeEventListener('resize', updateDropdownPosition);
+});
 </script>

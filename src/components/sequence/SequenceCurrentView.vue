@@ -86,6 +86,7 @@
                 item-key="Id"
                 handle=".drag-handle"
                 ghost-class="opacity-30"
+                :force-fallback="true"
                 class="space-y-1.5"
                 :fallbackOnBody="true"
                 @end="(evt) => onDragEnd(evt, container.Items)"

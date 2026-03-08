@@ -71,6 +71,72 @@
       </svg>
     </button>
 
+    <button
+      class="default-button-gray h-14 w-14"
+      @click="openFileManager"
+      v-tooltip="$t('components.sequence.manageSequences')"
+    >
+      <FolderOpenIcon class="h-7 w-7" />
+    </button>
+
+    <!-- File Manager Modal -->
+    <transition name="fade">
+      <div
+        v-if="showFileManager"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50"
+        @click.self="showFileManager = false"
+        @keydown.esc="showFileManager = false"
+      >
+        <transition name="scale">
+          <div v-if="showFileManager" class="bg-gray-800 rounded-lg p-6 max-w-lg w-full mt-4 flex flex-col gap-4">
+            <h3 class="text-xl font-semibold text-cyan-400">{{ $t('components.sequence.manageSequences') }}</h3>
+
+            <!-- File list -->
+            <div class="flex flex-col gap-1 max-h-64 overflow-y-auto">
+              <div v-if="filesLoading" class="text-slate-400 text-sm text-center py-4">{{ $t('components.sequence.sequenceLoading') }}</div>
+              <div v-else-if="sequenceFiles.length === 0" class="text-slate-500 text-sm text-center py-4">
+                {{ $t('components.sequence.sequenceNoFiles') }}
+              </div>
+              <div
+                v-for="file in sequenceFiles"
+                :key="file.FilePath"
+                class="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-slate-700/40"
+              >
+                <span class="text-sm text-gray-200 truncate">{{ file.FileName }}</span>
+                <button
+                  class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
+                  @click="loadFile(file.FilePath)"
+                >{{ $t('components.sequence.sequenceLoad') }}</button>
+              </div>
+            </div>
+
+            <!-- Save section -->
+            <div class="border-t border-slate-700 pt-3 flex flex-col gap-2">
+              <label class="text-xs text-slate-400">{{ $t('components.sequence.saveSequenceAs') }}</label>
+              <div class="flex gap-2">
+                <input
+                  v-model="saveFileName"
+                  type="text"
+                  :placeholder="$t('components.sequence.sequenceFileName')"
+                  class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1.5 text-sm text-gray-200 outline-none focus:border-cyan-500/50"
+                  @keydown.enter="saveFile"
+                />
+                <button
+                  class="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded border border-cyan-500/40 hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
+                  :disabled="!saveFileName.trim() || saveLoading"
+                  @click="saveFile"
+                >{{ saveLoading ? '...' : $t('components.sequence.sequenceSave') }}</button>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button class="btn-secondary" @click="showFileManager = false">{{ $t('components.sequence.sequenceClose') }}</button>
+            </div>
+          </div>
+        </transition>
+      </div>
+    </transition>
+
     <!-- Reset Confirmation Dialog -->
     <transition name="fade">
       <div
@@ -105,11 +171,71 @@ import { ref, computed } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useOrientation } from '@/composables/useOrientation';
+import { apiStore } from '@/store/store';
+import { FolderOpenIcon } from '@heroicons/vue/24/outline';
 
 const sequenceStore = useSequenceStore();
+const store = apiStore();
 const showResetConfirmation = ref(false);
 const isLoading = computed(() => sequenceStore.sequenceRunning);
 const { isLandscape } = useOrientation();
+
+// File manager state
+const showFileManager = ref(false);
+const sequenceFiles = ref([]);
+const filesLoading = ref(false);
+const saveFileName = ref('');
+const saveLoading = ref(false);
+
+function fileBasename(path) {
+  return path.replace(/\\/g, '/').split('/').pop();
+}
+
+async function openFileManager() {
+  showFileManager.value = true;
+  filesLoading.value = true;
+  try {
+    const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder;
+    const result = await apiService.sequenceFetchFiles(defaultFolder);
+    sequenceFiles.value = result?.Sequences ?? [];
+  } catch (e) {
+    sequenceFiles.value = [];
+  } finally {
+    filesLoading.value = false;
+  }
+}
+
+async function loadFile(filePath) {
+  try {
+    await apiService.sequenceLoadFile(filePath);
+    await sequenceStore.getSequenceInfo();
+    showFileManager.value = false;
+  } catch (e) {
+    console.error('Error loading sequence file:', e);
+  }
+}
+
+async function saveFile() {
+  if (!saveFileName.value.trim()) return;
+  saveLoading.value = true;
+  try {
+    const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder ?? '';
+    const sep = defaultFolder.endsWith('\\') || defaultFolder.endsWith('/') ? '' : '\\';
+    const name = saveFileName.value.trim().endsWith('.json')
+      ? saveFileName.value.trim()
+      : saveFileName.value.trim() + '.json';
+    const filePath = defaultFolder ? defaultFolder + sep + name : name;
+    await apiService.sequenceSaveFile(filePath);
+    saveFileName.value = '';
+    // Refresh file list
+    const result = await apiService.sequenceFetchFiles(defaultFolder || undefined);
+    sequenceFiles.value = result?.Sequences ?? [];
+  } catch (e) {
+    console.error('Error saving sequence file:', e);
+  } finally {
+    saveLoading.value = false;
+  }
+}
 
 async function startSequence() {
   console.log('Starting sequence');

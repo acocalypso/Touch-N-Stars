@@ -672,6 +672,30 @@ const apiService = {
     }
   },
 
+  async sequenceFetchFiles(folderPath) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/files`, {
+      params: folderPath ? { folderPath } : {},
+    });
+    return response.data;
+  },
+
+  async sequenceLoadFile(filePath) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/load`, {
+      params: { filePath },
+    });
+    return response.data;
+  },
+
+  async sequenceSaveFile(filePath) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/save`, null, {
+      params: { filePath },
+    });
+    return response.data;
+  },
+
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0
   async sequnceTargetSet(name, ra, dec, rotation, index) {
     try {

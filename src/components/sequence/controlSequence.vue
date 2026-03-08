@@ -1,6 +1,9 @@
 <template>
   <div
-    :class="['fixed flex gap-2 z-10', isLandscape ? 'left-36' : 'left-3']"
+    :class="[
+      'fixed flex flex-wrap gap-2 z-10',
+      isLandscape ? 'left-36 max-w-[calc(100vw-9rem)]' : 'left-3 max-w-[calc(100vw-0.75rem)]',
+    ]"
     style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
   >
     <button
@@ -234,7 +237,12 @@ async function saveFile() {
   saveLoading.value = true;
   try {
     const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder ?? '';
-    const sep = defaultFolder.endsWith('\\') || defaultFolder.endsWith('/') ? '' : '\\';
+    const sep =
+      defaultFolder.endsWith('\\') || defaultFolder.endsWith('/')
+        ? ''
+        : defaultFolder.includes('/')
+          ? '/'
+          : '\\';
     const name = saveFileName.value.trim().endsWith('.json')
       ? saveFileName.value.trim()
       : saveFileName.value.trim() + '.json';

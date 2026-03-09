@@ -203,9 +203,8 @@
       },
       "telescope": {
         "titel": "Nastavení dalekohledu",
-        "name": "Název dalekohledu"
-,
-"focal_ratio": "Světelnost"
+        "name": "Název dalekohledu",
+        "focal_ratio": "Světelnost"
       },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
@@ -309,9 +308,6 @@
       "message": "Zpráva",
       "download": "Stáhnout"
     },
-    "navigation": {},
-    "language": {},
-    "equipment": {},
     "sequence": {
       "stats": "Statistiky",
       "noSequenceLoaded": "Žádná načtená sekvence",
@@ -340,7 +336,6 @@
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",
       "collapseAll": "Sbalit vše",
-      "details": {},
       "hfr": "HFR",
       "mean": "Průměr",
       "median": "Střední",
@@ -376,7 +371,6 @@
         "header": "Info",
         "message": "Vaši sekvenci bohužel nelze upravit. V současné době nejsou podporovány všechny zásuvné moduly sekvencí. Pokud nám chcete pomoci, dejte nám na GitHub vědět, které pluginy používáte."
       },
-      "info_general": {},
       "sort": {
         "newest": "nejnovější první",
         "oldest": "nejstarší první",
@@ -393,7 +387,193 @@
       "totalExposureTime": {
         "Pictures": "Pictures",
         "title": "Total exposure time"
-      }
+      },
+      "skipToEnd": "Skok na konec",
+      "skipCurrentItem": "Přeskočit aktuální položku",
+      "deleteConfirmationTitle": "Smazat soubor",
+      "deleteConfirmationMessage": "Jste si jistý, že chcete smazat log?",
+      "items": {
+        "saving": "Ukládání...",
+        "generic": "Obecné",
+        "on": "Zapnuto",
+        "off": "Vypnuto",
+        "takeExposure": {
+          "exposureTime": "Doba nasvícení(s):",
+          "gain": "Reflektivita",
+          "offset": "Odchylka",
+          "binning": "Binning",
+          "imageType": "Obraz Typ"
+        },
+        "takeManyExposures": {
+          "iterations": "Počet expozic"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "Návratnost investic (v %)"
+        },
+        "switchFilter": {
+          "filter": "Filtr"
+        },
+        "switchProfile": {
+          "profile": "Profil",
+          "reconnect": "Znovu připojit"
+        },
+        "loopCondition": {
+          "iterations": "Iterace"
+        },
+        "moonIllumination": {
+          "illumination": "Osvětlení"
+        },
+        "reconnect": {
+          "device": "Zařízení"
+        },
+        "autofocus": {
+          "afterExposures": "Po expozicích",
+          "afterExposuresCount": "s historickými údaji).",
+          "everyN": "Každých {n}",
+          "hfrIncrease": "Zvýšení HFR (%)",
+          "sampleSize": "Velikost vzorku",
+          "samples": "{n} Vzorky",
+          "trendPerFilter": "Trend na filtr",
+          "deltaT": "teploty",
+          "minutes": "Minuty"
+        },
+        "centerAfterDrift": {
+          "distance": "Vzdálenost (obloukové minuty)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Minuty po poledníku",
+          "maxMinutesAfter": "Max. minut po poledníku",
+          "pauseBefore": "Pauza před poledníkem (min)",
+          "useSideOfPier": "Strana dal"
+        },
+        "altitudeCondition": {
+          "altitude": "Nadmořská výška ",
+          "horizonOffset": "Posun horizontu (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Nadmořská výška Slunce"
+        },
+        "timeSpan": {
+          "hours": "Hodiny",
+          "minutes": "Minuty",
+          "seconds": "Sekundy"
+        },
+        "moonAltitude": {
+          "comparator": "Komparátor",
+          "below": "Pod ",
+          "above": "Nad",
+          "altitude": "Nadmořská výška Měsíce"
+        },
+        "dither": {
+          "afterExposures": "Po expozicích"
+        },
+        "center": {
+          "ra": "Atrofická artritida",
+          "dec": "Pro",
+          "inherited": "Souřadnice zděděné od cíle"
+        },
+        "coolCamera": {
+          "temperature": "Teplota (°C)",
+          "duration": "Doba trvání (min)"
+        },
+        "dewHeater": {
+          "onOff": "Ohřívač rosy"
+        },
+        "setUSBLimit": {
+          "limit": "Limit USB"
+        },
+        "setBrightness": {
+          "brightness": "Jas "
+        },
+        "autoExposureFlat": {
+          "minExposure": "Min. expozice",
+          "maxExposure": "Max. expozice"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Reputace: 0",
+          "maxBrightness": "Max. jas",
+          "histogramTarget": "Střední Histogram Cíle",
+          "histogramTolerance": "Tolerance histogramu (%)",
+          "iterations": "Počet",
+          "keepPanelClosed": "Ponechat panel zavřený"
+        },
+        "polarAlignment": {
+          "searchRadius": "Radius vyhledávání",
+          "alignmentTolerance": "Tolerance zarovnání (oblouková sekunda)",
+          "moveRate": "Rychlost pohybu (°/s)",
+          "targetDistance": "Vzdálenost cíle",
+          "eastDirection": "Východní směr",
+          "manualMode": "Manuální mód",
+          "startFromCurrentPosition": "Začít od aktuální pozice"
+        },
+        "skyFlat": {
+          "shouldDither": "Dither",
+          "ditherPixels": "Rozptylovací pixely",
+          "ditherSettleTime": "Vyrovnávací čas rozptylu (s)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Mechanická Poloha"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Poziční úhel"
+        },
+        "setSwitchValue": {
+          "switch": "Přepínač",
+          "value": "Hodnota"
+        },
+        "setTracking": {
+          "trackingMode": "Režim sledování"
+        },
+        "expressionVariable": {
+          "identifier": "Jméno",
+          "expression": "Hodnota",
+          "value": "Hodnota",
+          "initially": "Zpočátku",
+          "newValue": "Nová hodnota",
+          "time": "Čas",
+          "minutesOffset": "Posun (min)"
+        },
+        "annotation": {
+          "text": "Text"
+        },
+        "waitUntil": {
+          "predicate": "Stav"
+        },
+        "waitForTimeSpan": {
+          "time": "Trvání ( s)"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "Azimut"
+        },
+        "stackFlats": {
+          "waitForStack": "Počkejte na zásobník"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "Práh RMS (\")",
+          "mode": "Režim",
+          "modeRMS": "Členský stát zpravodaj",
+          "modePeak": "Max.",
+          "minimumPoints": "Minimální počet bodů"
+        },
+        "changePHD2Parameters": {
+          "parameter": "Parametr",
+          "exposureTime": "Doba nasvícení(s):",
+          "ditherPixels": "Rozptyl (px)",
+          "ditherRAOnly": "Pouze Dither RA",
+          "settlePixels": "Vyrovnání (px)",
+          "settleTime": "Vypořádat čas (y)",
+          "settleTimeout": "Vyrovnat časový limit (y)",
+          "roiPct": "Návratnost investic (v %)"
+        },
+        "dso": {
+          "targetName": "Cílové jméno",
+          "positionAngle": "Poziční úhel"
+        },
+        "warmCamera": {
+          "duration": "Trvání ( s)"
+        }
+      },
+      "emptyContainer": "Prázdné — kliknutím na + přidáte položky"
     },
     "mount": {
       "title": "Montáž",
@@ -771,11 +951,8 @@
         "title": "Nastavení TPPAs",
         "ManualMode": "Manual mode"
       },
-      "error_modal": {},
       "tppa": "TPPA"
     },
-    "logs": {},
-    "test": {},
     "slewAndCenter": {
       "title": "Přejet a Vycentrovat",
       "LastSelectedImageSource_wrong": "Vyberte offline mapu oblohy jako zdroj obrázku v NINA / Snímkování",
@@ -918,7 +1095,6 @@
         "time": "Čas",
         "title": "Název"
       },
-      "mount_position": {},
       "selected_object": {
         "button_framing": "přejít na snímkování",
         "dec": "DEC",
@@ -942,7 +1118,6 @@
     },
     "fav_target": {
       "enter_name": "Zadejte jméno",
-      "modal_save": {},
       "modal_sequence": {
         "titel": "Sekvence"
       },
@@ -1272,8 +1447,6 @@
         }
       },
       "exportModal": {
-        "buttons": {},
-        "howToUse": {},
         "jsonPreview": {
           "categories": "Kategorie",
           "copied": "Kopírováno!",
@@ -1285,8 +1458,7 @@
           "previewDescription": "Náhled a stažení sekvence jako souboru JSON",
           "sequenceJsonExport": "Export sekvence JSON",
           "totalActions": "Celkem Akcí"
-        },
-        "messages": {}
+        }
       },
       "subtitle": "Vytvářejte profesionální astrofotografické sekvence",
       "title": "Sequence Creator",
@@ -1349,8 +1521,7 @@
       "status": "Stav",
       "stopAuto": "Auto Stop",
       "title": "Nastavení Webkamery",
-      "autoRefresh": "Auto Obnovení Refresh",
-      "errors": {}
+      "autoRefresh": "Auto Obnovení Refresh"
     },
     "logfileCollector": {
       "actions": {

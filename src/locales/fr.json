@@ -208,9 +208,8 @@
       },
       "telescope": {
         "titel": "Paramètres du télescope",
-        "name": "Nom du télescope"
-,
-"focal_ratio": "Rapport focal"
+        "name": "Nom du télescope",
+        "focal_ratio": "Rapport focal"
       },
       "beta": {
         "title": "Canal de mise à jour bêta"
@@ -337,7 +336,6 @@
       "triggers": "Déclencheurs",
       "expandAll": "Tout développer",
       "collapseAll": "Tout réduire",
-      "details": {},
       "hfr": "HFR",
       "mean": "Moyenne",
       "median": "Médiane",
@@ -373,7 +371,6 @@
         "header": "Informations",
         "message": "Malheureusement, votre séquence ne peut pas être modifiée. \nTous les plugins de séquence ne sont pas actuellement pris en charge. \nSi vous voulez nous aider, faites-nous savoir sur GitHub quels plugins vous utilisez."
       },
-      "info_general": {},
       "sort": {
         "sort": "Trier",
         "oldest": "le plus ancien en premier",
@@ -390,7 +387,193 @@
       "totalExposureTime": {
         "Pictures": "Pictures",
         "title": "Total exposure time"
-      }
+      },
+      "skipToEnd": "Passer à la fin",
+      "skipCurrentItem": "Article courant",
+      "deleteConfirmationTitle": "Supprimer le fichier",
+      "deleteConfirmationMessage": "Êtes-vous sûr de vouloir supprimer le fichier ?",
+      "items": {
+        "saving": "Enregistrement…",
+        "generic": "Générique",
+        "on": "Marche",
+        "off": "Arrêt",
+        "takeExposure": {
+          "exposureTime": "Temps exposition(s):",
+          "gain": "Gain",
+          "offset": "Compenser",
+          "binning": "Binning",
+          "imageType": "Type d&apos;image"
+        },
+        "takeManyExposures": {
+          "iterations": "Nombre d’expositions"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "Rendement des investissements (en %)"
+        },
+        "switchFilter": {
+          "filter": "Filtre"
+        },
+        "switchProfile": {
+          "profile": "Profil",
+          "reconnect": "Reconnecter"
+        },
+        "loopCondition": {
+          "iterations": "Itérations"
+        },
+        "moonIllumination": {
+          "illumination": "Éclairage"
+        },
+        "reconnect": {
+          "device": "Dispositif"
+        },
+        "autofocus": {
+          "afterExposures": "Après les expositions",
+          "afterExposuresCount": "Expositions",
+          "everyN": "Tous les {n}",
+          "hfrIncrease": "Hausse du HFR (%)",
+          "sampleSize": "Taille de l'échantillon",
+          "samples": "{n} échantillons",
+          "trendPerFilter": "Tendance par filtre",
+          "deltaT": "variation de la température",
+          "minutes": "Minutes"
+        },
+        "centerAfterDrift": {
+          "distance": "Distance (minutes d'arc)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Minutes après le méridien",
+          "maxMinutesAfter": "Minutes max. après le méridien",
+          "pauseBefore": "Pause avant le méridien (min)",
+          "useSideOfPier": "Utiliser le côté de la jetée"
+        },
+        "altitudeCondition": {
+          "altitude": "Altitude ",
+          "horizonOffset": "Décalage de l'horizon (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Altitude du soleil (°)"
+        },
+        "timeSpan": {
+          "hours": "Heures",
+          "minutes": "Minutes",
+          "seconds": "Secondes"
+        },
+        "moonAltitude": {
+          "comparator": "Comparateur",
+          "below": "Dessous",
+          "above": "Au-dessus",
+          "altitude": "Altitude de la Lune (°)"
+        },
+        "dither": {
+          "afterExposures": "Après les expositions"
+        },
+        "center": {
+          "ra": "RR ;",
+          "dec": "Déc",
+          "inherited": "Coordonnées héritées de la cible"
+        },
+        "coolCamera": {
+          "temperature": "Température (°C)",
+          "duration": "Durée (min.)"
+        },
+        "dewHeater": {
+          "onOff": "Réchauffeur de rosée"
+        },
+        "setUSBLimit": {
+          "limit": "Limite USB"
+        },
+        "setBrightness": {
+          "brightness": "Luminosité"
+        },
+        "autoExposureFlat": {
+          "minExposure": "Exposition (s) min.",
+          "maxExposure": "Exposition (s) maximale (s)"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Luminosité min.",
+          "maxBrightness": "Luminosité max.",
+          "histogramTarget": "Cible de l'histogramme (%)",
+          "histogramTolerance": "Tolérance à l'histogramme (%)",
+          "iterations": "Compter",
+          "keepPanelClosed": "Garder le panneau fermé"
+        },
+        "polarAlignment": {
+          "searchRadius": "Rayon de Recherche",
+          "alignmentTolerance": "Tolérance d'alignement (arcsec)",
+          "moveRate": "Vitesse de déplacement (°/s)",
+          "targetDistance": "distance-but",
+          "eastDirection": "Direction Est",
+          "manualMode": "Mode manuel",
+          "startFromCurrentPosition": "Commencer à partir de la position actuelle"
+        },
+        "skyFlat": {
+          "shouldDither": "Dither",
+          "ditherPixels": "Dither Pixels",
+          "ditherSettleTime": "Dither Settle Time (s)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Position mécanique (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Angle de position"
+        },
+        "setSwitchValue": {
+          "switch": "Interrupteur",
+          "value": "Valeur"
+        },
+        "setTracking": {
+          "trackingMode": "Mode de suivi"
+        },
+        "expressionVariable": {
+          "identifier": "nom",
+          "expression": "Valeur",
+          "value": "Valeur",
+          "initially": "Dans un premier temps",
+          "newValue": "Nouvelle valeur",
+          "time": "Heure",
+          "minutesOffset": "Décalage (min)"
+        },
+        "annotation": {
+          "text": "Texte"
+        },
+        "waitUntil": {
+          "predicate": "Condition"
+        },
+        "waitForTimeSpan": {
+          "time": "Durée (s)"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "Azimut (°)"
+        },
+        "stackFlats": {
+          "waitForStack": "Attendre la pile"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "Seuil RMS (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Crête",
+          "minimumPoints": "Minimum de points"
+        },
+        "changePHD2Parameters": {
+          "parameter": "Paramètre",
+          "exposureTime": "Temps exposition(s):",
+          "ditherPixels": "Dither (px)",
+          "ditherRAOnly": "Dither RA uniquement",
+          "settlePixels": "Régler (px)",
+          "settleTime": "Heure (s) de règlement",
+          "settleTimeout": "Délai (s) de règlement",
+          "roiPct": "Rendement des investissements (en %)"
+        },
+        "dso": {
+          "targetName": "Nom de la cible",
+          "positionAngle": "Angle de position"
+        },
+        "warmCamera": {
+          "duration": "Durée (s)"
+        }
+      },
+      "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments"
     },
     "mount": {
       "title": "Monture",
@@ -768,7 +951,6 @@
         "nina_default": "Défaut NINA",
         "ManualMode": "Manual mode"
       },
-      "error_modal": {},
       "tppa": "TPPA"
     },
     "slewAndCenter": {
@@ -919,7 +1101,6 @@
         "now": "Maintenant",
         "speed": "Vitesse"
       },
-      "mount_position": {},
       "settings": {
         "constellations_lines_visible": "Afficher les constellations",
         "azimuthal_lines_visible": "Afficher les lignes azimutales",
@@ -1272,8 +1453,7 @@
       "liveView": "Vue en direct",
       "noImageAvailable": "Aucune image disponible",
       "configureUrl": "Configurer l'URL d'instantané et récupérer l'image",
-      "loadingImage": "Chargement de l'image...",
-      "errors": {}
+      "loadingImage": "Chargement de l'image..."
     },
     "sequenceCreator": {
       "title": "Sequence Creator",
@@ -1446,8 +1626,6 @@
         "endActions": "🏁 Actions de fin"
       },
       "exportModal": {
-        "buttons": {},
-        "messages": {},
         "jsonPreview": {
           "sequenceJsonExport": "Export JSON de séquence",
           "previewDescription": "Prévisualiser et télécharger votre séquence en tant que fichier JSON",
@@ -1459,8 +1637,7 @@
           "copyJson": "Copier JSON",
           "copied": "Copié!",
           "downloadJson": "Télécharger JSON"
-        },
-        "howToUse": {}
+        }
       },
       "targetSearch": {
         "searchLabel": "Rechercher une cible",

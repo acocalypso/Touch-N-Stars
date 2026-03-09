@@ -448,7 +448,8 @@
           "useSideOfPier": "Seite des Piers"
         },
         "altitudeCondition": {
-          "altitude": "Höhe (°)"
+          "altitude": "Höhe (°)",
+          "horizonOffset": "Horizont-Offset (°)"
         },
         "sunAltitudeCondition": {
           "altitude": "Sonnenhöhe (°)"

@@ -64,6 +64,7 @@ import DewHeaterItem from './DewHeaterItem.vue';
 import SetUSBLimitItem from './SetUSBLimitItem.vue';
 import AutoBalancingExposureItem from './AutoBalancingExposureItem.vue';
 import OrbuculumNextTargetAltitudeItem from './OrbuculumNextTargetAltitudeItem.vue';
+import OrbuculumNextTargetHorizonItem from './OrbuculumNextTargetHorizonItem.vue';
 import OrbuculumHourAngleItem from './OrbuculumHourAngleItem.vue';
 import OrbuculumNextTargetHourAngleItem from './OrbuculumNextTargetHourAngleItem.vue';
 import GenericItem from './GenericItem.vue';
@@ -172,7 +173,7 @@ export const ITEM_COMPONENTS = {
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.Phd2SettleTrigger': RunAutofocusItem,
   'Orbuculum.Instructions.AutoBalancingExposure': AutoBalancingExposureItem,
   'Orbuculum.Instructions.LoopWhileNextTargetBelowAltitude': OrbuculumNextTargetAltitudeItem,
-  'Orbuculum.Instructions.LoopWhileNextTargetBelowHorizon': OrbuculumNextTargetAltitudeItem,
+  'Orbuculum.Instructions.LoopWhileNextTargetBelowHorizon': OrbuculumNextTargetHorizonItem,
   'Orbuculum.Instructions.LoopWhileHourAngle': OrbuculumHourAngleItem,
   'Orbuculum.Instructions.WaitForHourAngle': OrbuculumHourAngleItem,
   'Orbuculum.Instructions.LoopWhileNextTargetHourAngle': OrbuculumNextTargetHourAngleItem,

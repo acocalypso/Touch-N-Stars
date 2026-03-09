@@ -448,7 +448,8 @@
           "useSideOfPier": "Use Side of Pier"
         },
         "altitudeCondition": {
-          "altitude": "Altitude (°)"
+          "altitude": "Altitude (°)",
+          "horizonOffset": "Horizon Offset (°)"
         },
         "sunAltitudeCondition": {
           "altitude": "Sun Altitude (°)"

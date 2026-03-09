@@ -74,14 +74,11 @@
                 <select
                   :value="row.Filter?._name ?? ''"
                   class="bg-slate-700/60 border border-slate-600 rounded px-1 py-0.5 text-gray-200"
-                  @change="
-                    row.Filter = $event.target.value ? { _name: $event.target.value, _focusOffset: 0 } : null;
-                    markDirty();
-                  "
+                  @change="onFilterChange(row, $event.target.value)"
                 >
                   <option value="">–</option>
                   <option
-                    v-for="filter in store.filterInfo?.AvailableFilters"
+                    v-for="filter in filterList"
                     :key="filter.Name"
                     :value="filter.Name"
                   >
@@ -165,12 +162,26 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { TrashIcon, PlusIcon } from '@heroicons/vue/24/outline';
 import ItemShell from './ItemShell.vue';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
+
+const filterList = computed(
+  () => store.profileInfo?.FilterWheelSettings?.FilterWheelFilters ?? []
+);
+
+function onFilterChange(row, name) {
+  if (!name) {
+    row.Filter = null;
+  } else {
+    const f = filterList.value.find((f) => f.Name === name);
+    row.Filter = { _name: name, _focusOffset: f?.FocusOffset ?? 0 };
+  }
+  markDirty();
+}
 
 const props = defineProps({ item: { type: Object, required: true } });
 

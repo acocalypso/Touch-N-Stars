@@ -72,17 +72,17 @@
               <!-- Filter -->
               <td class="py-1 pr-2">
                 <select
-                  :value="row.Filter ?? ''"
+                  :value="row.Filter?._name ?? ''"
                   class="bg-slate-700/60 border border-slate-600 rounded px-1 py-0.5 text-gray-200"
                   @change="
-                    row.Filter = $event.target.value || null;
+                    row.Filter = $event.target.value ? { _name: $event.target.value, _focusOffset: 0 } : null;
                     markDirty();
                   "
                 >
                   <option value="">–</option>
                   <option
                     v-for="filter in store.filterInfo?.AvailableFilters"
-                    :key="filter.Id"
+                    :key="filter.Name"
                     :value="filter.Name"
                   >
                     {{ filter.Name }}
@@ -176,7 +176,7 @@ const props = defineProps({ item: { type: Object, required: true } });
 
 function cloneItems() {
   return (props.item.ExposureItems ?? []).map((r) => ({
-    Filter: r.Filter?._name ?? r.Filter ?? null,
+    Filter: r.Filter ? { _name: r.Filter._name ?? r.Filter, _focusOffset: r.Filter._focusOffset ?? 0 } : null,
     Binning: { X: r.Binning?.X ?? 1, Y: r.Binning?.Y ?? 1 },
     ExposureTime: r.ExposureTime ?? 0,
     Gain: r.Gain ?? -1,

@@ -163,7 +163,11 @@
       </template>
       <template #body>
         <div class="w-full flex flex-col gap-6">
-          <p>{{ $t('components.sequence.deleteConfirmationMessage') }} <span class="text-gray-200 font-medium">{{ fileToDelete?.name }}</span>?</p>
+          <p>
+            {{ $t('components.sequence.deleteConfirmationMessage') }}
+            <span class="text-gray-200 font-medium">{{ fileToDelete?.name }}</span
+            >?
+          </p>
           <div class="flex justify-end space-x-4">
             <button class="btn-secondary" @click="showDeleteConfirmation = false">
               {{ $t('general.cancel') }}
@@ -208,7 +212,13 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
-import { FolderOpenIcon, FlagIcon, ForwardIcon, PauseIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import {
+  FolderOpenIcon,
+  FlagIcon,
+  ForwardIcon,
+  PauseIcon,
+  TrashIcon,
+} from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 
 const sequenceStore = useSequenceStore();

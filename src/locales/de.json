@@ -327,6 +327,8 @@
       "sequenceNoFiles": "Keine Dateien gefunden",
       "sequenceLoading": "Lade...",
       "sequenceClose": "Schließen",
+      "deleteConfirmationTitle": "Datei löschen",
+      "deleteConfirmationMessage": "Möchten Sie die Datei wirklich löschen?",
       "resetConfirmationTitle": "Zurücksetzen bestätigen",
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "load_sequence": "Sequenz laden",

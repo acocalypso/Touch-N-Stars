@@ -696,6 +696,14 @@ const apiService = {
     return response.data;
   },
 
+  async sequenceDeleteFile(filePath) {
+    const { API_URL } = getUrls();
+    const response = await axios.delete(`${API_URL}sequence/delete`, {
+      params: { filePath },
+    });
+    return response.data;
+  },
+
   async sequenceSkipToEnd() {
     const { API_URL } = getUrls();
     const response = await axios.post(`${API_URL}sequence/skip-to-end`);

@@ -109,12 +109,20 @@
               class="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-slate-700/40"
             >
               <span class="text-sm text-gray-200 truncate">{{ file.FileName }}</span>
-              <button
-                class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
-                @click="loadFile(file.FilePath)"
-              >
-                {{ $t('components.sequence.sequenceLoad') }}
-              </button>
+              <div class="flex gap-1 flex-shrink-0">
+                <button
+                  class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 transition-colors"
+                  @click="loadFile(file.FilePath)"
+                >
+                  {{ $t('components.sequence.sequenceLoad') }}
+                </button>
+                <button
+                  class="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-900/20 transition-colors"
+                  @click="deleteFile(file.FilePath, file.FileName)"
+                >
+                  <TrashIcon class="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -139,6 +147,30 @@
                 {{ saveLoading ? '...' : $t('components.sequence.sequenceSave') }}
               </button>
             </div>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Delete Confirmation Dialog -->
+    <Modal
+      :show="showDeleteConfirmation"
+      max-width="max-w-md"
+      @close="showDeleteConfirmation = false"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold">{{ $t('components.sequence.deleteConfirmationTitle') }}</h2>
+      </template>
+      <template #body>
+        <div class="w-full flex flex-col gap-6">
+          <p>{{ $t('components.sequence.deleteConfirmationMessage') }} <span class="text-gray-200 font-medium">{{ fileToDelete?.name }}</span>?</p>
+          <div class="flex justify-end space-x-4">
+            <button class="btn-secondary" @click="showDeleteConfirmation = false">
+              {{ $t('general.cancel') }}
+            </button>
+            <button class="btn-danger" @click="confirmDeleteFile">
+              {{ $t('general.confirm') }}
+            </button>
           </div>
         </div>
       </template>
@@ -176,7 +208,7 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
-import { FolderOpenIcon, FlagIcon, ForwardIcon, PauseIcon } from '@heroicons/vue/24/outline';
+import { FolderOpenIcon, FlagIcon, ForwardIcon, PauseIcon, TrashIcon } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 
 const sequenceStore = useSequenceStore();
@@ -191,6 +223,8 @@ const sequenceFiles = ref([]);
 const filesLoading = ref(false);
 const saveFileName = ref('');
 const saveLoading = ref(false);
+const showDeleteConfirmation = ref(false);
+const fileToDelete = ref(null);
 
 async function skipToEnd() {
   try {
@@ -219,6 +253,26 @@ async function openFileManager() {
     sequenceFiles.value = [];
   } finally {
     filesLoading.value = false;
+  }
+}
+
+function deleteFile(filePath, fileName) {
+  fileToDelete.value = { path: filePath, name: fileName };
+  showDeleteConfirmation.value = true;
+}
+
+async function confirmDeleteFile() {
+  if (!fileToDelete.value) return;
+  showDeleteConfirmation.value = false;
+  try {
+    await apiService.sequenceDeleteFile(fileToDelete.value.path);
+    const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder;
+    const result = await apiService.sequenceFetchFiles(defaultFolder);
+    sequenceFiles.value = result?.Sequences ?? [];
+  } catch (e) {
+    console.error('Error deleting sequence file:', e);
+  } finally {
+    fileToDelete.value = null;
   }
 }
 

@@ -77,11 +77,7 @@
                   @change="onFilterChange(row, $event.target.value)"
                 >
                   <option value="">–</option>
-                  <option
-                    v-for="filter in filterList"
-                    :key="filter.Name"
-                    :value="filter.Name"
-                  >
+                  <option v-for="filter in filterList" :key="filter.Name" :value="filter.Name">
                     {{ filter.Name }}
                   </option>
                 </select>
@@ -169,9 +165,7 @@ import { apiStore } from '@/store/store';
 
 const store = apiStore();
 
-const filterList = computed(
-  () => store.profileInfo?.FilterWheelSettings?.FilterWheelFilters ?? []
-);
+const filterList = computed(() => store.profileInfo?.FilterWheelSettings?.FilterWheelFilters ?? []);
 
 function onFilterChange(row, name) {
   if (!name) {
@@ -187,7 +181,9 @@ const props = defineProps({ item: { type: Object, required: true } });
 
 function cloneItems() {
   return (props.item.ExposureItems ?? []).map((r) => ({
-    Filter: r.Filter ? { _name: r.Filter._name ?? r.Filter, _focusOffset: r.Filter._focusOffset ?? 0 } : null,
+    Filter: r.Filter
+      ? { _name: r.Filter._name ?? r.Filter, _focusOffset: r.Filter._focusOffset ?? 0 }
+      : null,
     Binning: { X: r.Binning?.X ?? 1, Y: r.Binning?.Y ?? 1 },
     ExposureTime: r.ExposureTime ?? 0,
     Gain: r.Gain ?? -1,

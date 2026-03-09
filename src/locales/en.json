@@ -327,6 +327,8 @@
       "sequenceNoFiles": "No files found",
       "sequenceLoading": "Loading...",
       "sequenceClose": "Close",
+      "deleteConfirmationTitle": "Delete File",
+      "deleteConfirmationMessage": "Are you sure you want to delete the file?",
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "load_sequence": "Load sequence from directory",

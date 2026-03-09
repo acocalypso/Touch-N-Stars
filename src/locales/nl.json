@@ -250,9 +250,8 @@
       },
       "telescope": {
         "titel": "Telescoop instellingen",
-        "name": "Telescoopnaam"
-,
-"focal_ratio": "Brandpuntsverhouding"
+        "name": "Telescoopnaam",
+        "focal_ratio": "Brandpuntsverhouding"
       }
     },
     "connectEquipment": {
@@ -315,7 +314,16 @@
       "noSequenceData": "Nog geen Data aanwezig",
       "startSequence": "Start sequentie",
       "stopSequence": "Stop sequentie",
+      "pauseSequence": "Pauze",
       "resetSequence": "Reset sequentie",
+      "manageSequences": "Sequenties laden / opslaan",
+      "saveSequenceAs": "Huidige sequentie opslaan als",
+      "sequenceFileName": "Bestandsnaam",
+      "sequenceSave": "Opslaan",
+      "sequenceLoad": "Laden",
+      "sequenceNoFiles": "Geen bestanden gevonden",
+      "sequenceLoading": "Laden...",
+      "sequenceClose": "Sluiten",
       "resetConfirmationTitle": "Bevestig Reset",
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "load_sequence": "Laad sequentie vanuit directory",
@@ -328,7 +336,6 @@
       "triggers": "Triggers",
       "expandAll": "Alles uitvouwen",
       "collapseAll": "Alles inklappen",
-      "details": {},
       "hfr": "HFR",
       "mean": "Mean",
       "median": "Median",
@@ -364,7 +371,6 @@
         "header": "Info",
         "message": "Helaas, uw sequentie kan niet aangepast worden. Niet alle sequentie plugins worden momenteel ondersteund. Als u ons wilt helpen, laat ons via GitHub weten welke plugins u gebruikt."
       },
-      "info_general": {},
       "sort": {
         "sort": "Sorteer",
         "oldest": "oudste eerst",
@@ -381,7 +387,193 @@
       "totalExposureTime": {
         "title": "Totale belichtingstijd",
         "Pictures": "Afbeeldingen"
-      }
+      },
+      "skipToEnd": "Doorgaan naar einde",
+      "skipCurrentItem": "Huidige item",
+      "deleteConfirmationTitle": "Bestand verwijderen",
+      "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",
+      "items": {
+        "saving": "Opslaan…",
+        "generic": "Generieke",
+        "on": "Aan",
+        "off": "Off",
+        "takeExposure": {
+          "exposureTime": "Belichtingstijd(en)",
+          "gain": "Versterking",
+          "offset": "Offset",
+          "binning": "opslaan in flessenrekken",
+          "imageType": "Afbeeldingstype"
+        },
+        "takeManyExposures": {
+          "iterations": "Aantal belichtingen"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "Rendement van investeringen (%)"
+        },
+        "switchFilter": {
+          "filter": "Filter"
+        },
+        "switchProfile": {
+          "profile": "Profiel",
+          "reconnect": "Opnieuw verbinden"
+        },
+        "loopCondition": {
+          "iterations": "Iteraties"
+        },
+        "moonIllumination": {
+          "illumination": "Verlichting"
+        },
+        "reconnect": {
+          "device": "Toestel"
+        },
+        "autofocus": {
+          "afterExposures": "Na blootstelling",
+          "afterExposuresCount": "risico's",
+          "everyN": "Elke {n}",
+          "hfrIncrease": "HFR-verhoging (%)",
+          "sampleSize": "Monsteromvang",
+          "samples": "{n} Monsters",
+          "trendPerFilter": "Trend per filter",
+          "deltaT": "Temperatuur wijzigen.",
+          "minutes": "Minuten"
+        },
+        "centerAfterDrift": {
+          "distance": "Afstand (boogminuten)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Minuten na meridiaan",
+          "maxMinutesAfter": "Max minuten na meridiaan",
+          "pauseBefore": "Pauzeren voor meridiaan (min)",
+          "useSideOfPier": "Gebruikskant van de pier"
+        },
+        "altitudeCondition": {
+          "altitude": "Hoogte",
+          "horizonOffset": "Horizon Offset (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Zonhoogte (°)"
+        },
+        "timeSpan": {
+          "hours": "Uren",
+          "minutes": "Minuten",
+          "seconds": "Seconden"
+        },
+        "moonAltitude": {
+          "comparator": "Vergelijker",
+          "below": "Onder",
+          "above": "Boven",
+          "altitude": "Maanhoogte (°)"
+        },
+        "dither": {
+          "afterExposures": "Na blootstelling"
+        },
+        "center": {
+          "ra": "RA\"",
+          "dec": "Dec",
+          "inherited": "Coördinaten geërfd van target"
+        },
+        "coolCamera": {
+          "temperature": "Temperatuur (°C)",
+          "duration": "Duur (min.)"
+        },
+        "dewHeater": {
+          "onOff": "Dauwverwarmer"
+        },
+        "setUSBLimit": {
+          "limit": "USB-limiet"
+        },
+        "setBrightness": {
+          "brightness": "Helderheid"
+        },
+        "autoExposureFlat": {
+          "minExposure": "Min. blootstelling (en)",
+          "maxExposure": "Max. Blootstelling (en)"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Min. helderheid",
+          "maxBrightness": "Max Helderheid",
+          "histogramTarget": "Histogramdoel (%)",
+          "histogramTolerance": "Histogramtolerantie (%)",
+          "iterations": "Rekenen",
+          "keepPanelClosed": "Paneel gesloten houden"
+        },
+        "polarAlignment": {
+          "searchRadius": "Zoekradius",
+          "alignmentTolerance": "Uitlijntolerantie (arcsec)",
+          "moveRate": "Verplaatsingssnelheid (°/s)",
+          "targetDistance": "Afstand doel",
+          "eastDirection": "Rijrichting OOST:",
+          "manualMode": "Manual Mode",
+          "startFromCurrentPosition": "Start vanaf huidige positie"
+        },
+        "skyFlat": {
+          "shouldDither": "Dither",
+          "ditherPixels": "Dither Pixels",
+          "ditherSettleTime": "Dither Settle Time (s)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Mechanische positie (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Positiehoek"
+        },
+        "setSwitchValue": {
+          "switch": "Schakelaar",
+          "value": "Value"
+        },
+        "setTracking": {
+          "trackingMode": "Tracking-modus"
+        },
+        "expressionVariable": {
+          "identifier": "Naam",
+          "expression": "Value",
+          "value": "Value",
+          "initially": "Aanvankelijk",
+          "newValue": "Nieuwe waarde",
+          "time": "Tijdstip",
+          "minutesOffset": "Verschuiving (min)"
+        },
+        "annotation": {
+          "text": "Text"
+        },
+        "waitUntil": {
+          "predicate": "Voorwaarde"
+        },
+        "waitForTimeSpan": {
+          "time": "Tijd [s]"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "Azimuth"
+        },
+        "stackFlats": {
+          "waitForStack": "Wacht op Stack"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "RMS-drempel (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Minimum te"
+        },
+        "changePHD2Parameters": {
+          "parameter": "Parameter",
+          "exposureTime": "Belichtingstijd(en)",
+          "ditherPixels": "Dither (px)",
+          "ditherRAOnly": "Alleen Dither RA",
+          "settlePixels": "Afrekenen (px)",
+          "settleTime": "Afwikkeltijd (s)",
+          "settleTimeout": "Time-out (s) afrekenen",
+          "roiPct": "Rendement van investeringen (%)"
+        },
+        "dso": {
+          "targetName": "Projectnaam:",
+          "positionAngle": "Positiehoek"
+        },
+        "warmCamera": {
+          "duration": "Tijd [s]"
+        }
+      },
+      "emptyContainer": "Leeg — klik op + om items toe te voegen"
     },
     "mount": {
       "title": "Montering",
@@ -759,7 +951,6 @@
         "nina_default": "NINA standaard",
         "ManualMode": "Manuele mode"
       },
-      "error_modal": {},
       "tppa": "TPPA"
     },
     "slewAndCenter": {
@@ -910,7 +1101,6 @@
         "now": "Nu",
         "speed": "Snelheid"
       },
-      "mount_position": {},
       "settings": {
         "constellations_lines_visible": "Toon sterrenbeelden",
         "azimuthal_lines_visible": "Toon azimuth lijnen",
@@ -1137,8 +1327,7 @@
       "liveView": "Live beeld",
       "noImageAvailable": "Geen beeld beschikbaar",
       "configureUrl": "Configureer snapshot URL haal beeld op",
-      "loadingImage": "Beeld laden...",
-      "errors": {}
+      "loadingImage": "Beeld laden..."
     },
     "sequenceCreator": {
       "title": "Sequence Creator",
@@ -1311,8 +1500,6 @@
         "endActions": "🏁 Einde Acties"
       },
       "exportModal": {
-        "buttons": {},
-        "messages": {},
         "jsonPreview": {
           "sequenceJsonExport": "Export sequentie naar JSON",
           "previewDescription": "Toon en download sequentie naar JSON bestand",
@@ -1324,8 +1511,7 @@
           "copyJson": "Kopieer JSON",
           "copied": "Gekopieerd!",
           "downloadJson": "Download JSON"
-        },
-        "howToUse": {}
+        }
       },
       "targetSearch": {
         "searchLabel": "Zoek Doelobject",

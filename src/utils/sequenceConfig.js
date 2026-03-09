@@ -64,6 +64,9 @@ export const excludedKeys = new Set([
   'SoundTypes',
   'RemoveConditionCommand',
   'SoundTypesItems',
+  'FullTypeName',
+  'ComboBoxText',
+  'Xfilter',
 ]);
 
 export const excludedKeysConditions = new Set([
@@ -126,6 +129,7 @@ export const excludedKeysConditions = new Set([
   'PriorityTypes',
   'SelectedPropertyForCondition',
   'ValueForCondition',
+  'FullTypeName',
 ]);
 
 export const updateKeys = [

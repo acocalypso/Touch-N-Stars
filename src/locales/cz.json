@@ -570,7 +570,7 @@
           "positionAngle": "Poziční úhel"
         },
         "warmCamera": {
-          "duration": "Trvání ( s)"
+          "duration": "Duration (min)"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky"

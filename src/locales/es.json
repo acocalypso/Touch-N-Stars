@@ -570,7 +570,7 @@
           "positionAngle": "Ángulo de posición"
         },
         "warmCamera": {
-          "duration": "Duración (s)"
+          "duration": "Duración (min)"
         }
       },
       "emptyContainer": "Vacío — haga clic en + para añadir elementos"

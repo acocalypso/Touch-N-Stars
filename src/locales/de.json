@@ -207,9 +207,8 @@
       },
       "telescope": {
         "titel": "Teleskopeinstellungen",
-        "name": "Teleskopname"
-,
-"focal_ratio": "Öffnungsverhältnis"
+        "name": "Teleskopname",
+        "focal_ratio": "Öffnungsverhältnis"
       },
       "beta": {
         "title": "Beta-Update-Kanal"
@@ -508,7 +507,7 @@
           "eastDirection": "Ost-Richtung",
           "manualMode": "Manueller Modus",
           "startFromCurrentPosition": "Von aktueller Position starten"
-},
+        },
         "skyFlat": {
           "shouldDither": "Dithern",
           "ditherPixels": "Dither Pixel",
@@ -573,7 +572,7 @@
           "positionAngle": "Positionswinkel (°)"
         },
         "warmCamera": {
-          "duration": "Dauer (s)"
+          "duration": "Dauer (min)"
         }
       },
       "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen"

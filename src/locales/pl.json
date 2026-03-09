@@ -570,7 +570,7 @@
           "positionAngle": "Kąt pozycyjny"
         },
         "warmCamera": {
-          "duration": "Czas trwania (s)"
+          "duration": "Czas trwania (min)"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje"

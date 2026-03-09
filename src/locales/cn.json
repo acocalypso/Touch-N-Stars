@@ -570,7 +570,7 @@
           "positionAngle": "位置"
         },
         "warmCamera": {
-          "duration": "持续时间"
+          "duration": "Duration (min)"
         }
       },
       "emptyContainer": "空—单击+以添加项目"

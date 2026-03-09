@@ -250,9 +250,8 @@
       },
       "telescope": {
         "titel": "Telescope settings",
-        "name": "Telescope name"
-,
-"focal_ratio": "Focal ratio"
+        "name": "Telescope name",
+        "focal_ratio": "Focal ratio"
       }
     },
     "connectEquipment": {
@@ -508,7 +507,7 @@
           "eastDirection": "East Direction",
           "manualMode": "Manual Mode",
           "startFromCurrentPosition": "Start From Current Position"
-},
+        },
         "skyFlat": {
           "shouldDither": "Dither",
           "ditherPixels": "Dither Pixels",
@@ -573,7 +572,7 @@
           "positionAngle": "Position Angle (°)"
         },
         "warmCamera": {
-          "duration": "Duration (s)"
+          "duration": "Duration (min)"
         }
       },
       "emptyContainer": "Empty — click + to add items"

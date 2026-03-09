@@ -570,7 +570,7 @@
           "positionAngle": "Positiehoek"
         },
         "warmCamera": {
-          "duration": "Tijd [s]"
+          "duration": "Duur (min)"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen"

@@ -11,7 +11,7 @@
           d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
         />
       </svg>
-      Bandpass Curve
+      {{ $t('plugins.narrowband.sections.chart') }}
     </h2>
 
     <div class="relative h-80 w-full">
@@ -22,8 +22,11 @@
 
 <script setup>
 import { ref, watch, onMounted, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Chart from 'chart.js/auto';
 import { normalPdf } from '../utils/filterCalculations.js';
+
+const { t } = useI18n();
 
 const props = defineProps({
   bandpassCenter: Number,
@@ -161,7 +164,7 @@ function initChart() {
       labels,
       datasets: [
         {
-          label: 'Filter Transmission',
+          label: t('plugins.narrowband.filterTransmission'),
           data: transmissionData,
           borderColor: '#06b6d4',
           backgroundColor: 'rgba(6, 182, 212, 0.1)',
@@ -196,7 +199,9 @@ function initChart() {
             label: function (context) {
               const value = context.parsed.y;
               if (value !== null && value !== undefined) {
-                return `Transmission: ${(value * 100).toFixed(2)}%`;
+                return t('plugins.narrowband.transmissionPercent', {
+                  percent: (value * 100).toFixed(2),
+                });
               }
               return '';
             },
@@ -207,7 +212,7 @@ function initChart() {
         x: {
           title: {
             display: true,
-            text: 'Wavelength (nm)',
+            text: t('plugins.narrowband.wavelengthLabel'),
             color: '#9ca3af',
             font: {
               size: 12,
@@ -226,7 +231,7 @@ function initChart() {
         y: {
           title: {
             display: true,
-            text: 'Transmission',
+            text: t('plugins.narrowband.transmissionLabel'),
             color: '#9ca3af',
             font: {
               size: 12,

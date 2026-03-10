@@ -558,6 +558,108 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/sequence/${action}`);
   },
 
+  async fetchSequenceCurrent() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}sequence/current`);
+  },
+
+  async fetchSequenceInfo(id) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}sequence/info?id=${id}`);
+  },
+
+  async fetchSequenceMetadata(id) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}sequence/metadata?id=${id}`);
+  },
+
+  async sequenceMove(id, targetId, insertAfter = true) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/move?id=${id}&targetId=${targetId}&insertAfter=${insertAfter}`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceRemove(id) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/remove?id=${id}`, {});
+    return response.data;
+  },
+
+  async sequenceDuplicate(id) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/duplicate?id=${id}`, {});
+    return response.data;
+  },
+
+  async sequenceSetProperty(id, propertyName, value) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/set?id=${id}&propertyName=${encodeURIComponent(propertyName)}&value=${encodeURIComponent(value)}`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceEnable(id, enabled) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/enable?id=${id}&enabled=${enabled}`, {});
+    return response.data;
+  },
+
+  async sequenceResetStatus(id) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/reset-status?id=${id}`, {});
+    return response.data;
+  },
+
+  async sequenceFetchItemTypes() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/items`);
+    return response.data;
+  },
+
+  async sequenceFetchTriggerTypes() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/triggers`);
+    return response.data;
+  },
+
+  async sequenceFetchConditionTypes() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/conditions`);
+    return response.data;
+  },
+
+  async sequenceAddItem(targetId, itemType, insertAfter = true) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/add?targetId=${targetId}&type=${encodeURIComponent(itemType)}&insertAfter=${insertAfter}`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceAddTrigger(itemId, triggerType) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(triggerType)}&insertAfter=true`,
+      {}
+    );
+    return response.data;
+  },
+
+  async sequenceAddCondition(itemId, conditionType) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(conditionType)}&insertAfter=true`,
+      {}
+    );
+    return response.data;
+  },
+
   async sequenceLoadJson(sequenceName) {
     try {
       const { BASE_URL } = getUrls();
@@ -568,6 +670,50 @@ const apiService = {
       // console.error('Error seqence json load:', error);
       throw error;
     }
+  },
+
+  async sequenceFetchFiles(folderPath) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/files`, {
+      params: folderPath ? { folderPath } : {},
+    });
+    return response.data;
+  },
+
+  async sequenceLoadFile(filePath) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/load`, {
+      params: { filePath },
+    });
+    return response.data;
+  },
+
+  async sequenceSaveFile(filePath) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/save`, null, {
+      params: { filePath },
+    });
+    return response.data;
+  },
+
+  async sequenceDeleteFile(filePath) {
+    const { API_URL } = getUrls();
+    const response = await axios.delete(`${API_URL}sequence/delete`, {
+      params: { filePath },
+    });
+    return response.data;
+  },
+
+  async sequenceSkipToEnd() {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/skip-to-end`);
+    return response.data;
+  },
+
+  async sequenceSkipCurrentItem() {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/skip-current-item`);
+    return response.data;
   },
 
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0

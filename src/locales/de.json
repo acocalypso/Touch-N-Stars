@@ -314,7 +314,20 @@
       "noSequenceData": "noch keine Daten verfügbar",
       "startSequence": "Sequenz starten",
       "stopSequence": "Sequenz stoppen",
+      "pauseSequence": "Pause",
       "resetSequence": "Sequenz zurücksetzen",
+      "skipToEnd": "Zum Ende springen",
+      "skipCurrentItem": "Aktuelles Element überspringen",
+      "manageSequences": "Sequenzen laden / speichern",
+      "saveSequenceAs": "Aktuelle Sequenz speichern als",
+      "sequenceFileName": "Dateiname",
+      "sequenceSave": "Speichern",
+      "sequenceLoad": "Laden",
+      "sequenceNoFiles": "Keine Dateien gefunden",
+      "sequenceLoading": "Lade...",
+      "sequenceClose": "Schließen",
+      "deleteConfirmationTitle": "Datei löschen",
+      "deleteConfirmationMessage": "Möchten Sie die Datei wirklich löschen?",
       "resetConfirmationTitle": "Zurücksetzen bestätigen",
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "load_sequence": "Sequenz laden",
@@ -380,7 +393,189 @@
         "Pictures": "Bilder",
         "title": "Gesamtbelichtungszeit"
       },
-      "saved_sequences": "TNS Sequence-Creator"
+      "saved_sequences": "TNS Sequence-Creator",
+      "items": {
+        "saving": "Speichern…",
+        "generic": "Generic",
+        "on": "Ein",
+        "off": "Aus",
+        "takeExposure": {
+          "exposureTime": "Belichtungszeit (s)",
+          "gain": "Gain",
+          "offset": "Offset",
+          "binning": "Binning",
+          "imageType": "Bildtyp"
+        },
+        "takeManyExposures": {
+          "iterations": "Anzahl Aufnahmen"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "ROI (%)"
+        },
+        "switchFilter": {
+          "filter": "Filter"
+        },
+        "switchProfile": {
+          "profile": "Profil",
+          "reconnect": "Reconnect"
+        },
+        "loopCondition": {
+          "iterations": "Iterationen"
+        },
+        "moonIllumination": {
+          "illumination": "Beleuchtung (%)"
+        },
+        "reconnect": {
+          "device": "Gerät"
+        },
+        "autofocus": {
+          "afterExposures": "Nach Aufnahmen",
+          "afterExposuresCount": "Aufnahmen",
+          "everyN": "Alle {n}",
+          "hfrIncrease": "HFR Anstieg (%)",
+          "sampleSize": "Stichprobengröße",
+          "samples": "{n} Proben",
+          "trendPerFilter": "Trend pro Filter",
+          "deltaT": "Temperaturänderung (°)",
+          "minutes": "Minuten"
+        },
+        "centerAfterDrift": {
+          "distance": "Abstand (Bogenminuten)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Minuten nach Meridian",
+          "maxMinutesAfter": "Max. Minuten nach Meridian",
+          "pauseBefore": "Pause vor Meridian (min)",
+          "useSideOfPier": "Seite des Piers"
+        },
+        "altitudeCondition": {
+          "altitude": "Höhe (°)",
+          "horizonOffset": "Horizont-Offset (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Sonnenhöhe (°)"
+        },
+        "timeSpan": {
+          "hours": "Stunden",
+          "minutes": "Minuten",
+          "seconds": "Sekunden"
+        },
+        "moonAltitude": {
+          "comparator": "Vergleich",
+          "below": "Unter",
+          "above": "Über",
+          "altitude": "Mondhöhe (°)"
+        },
+        "dither": {
+          "afterExposures": "Nach Aufnahmen"
+        },
+        "center": {
+          "ra": "RA",
+          "dec": "Dek",
+          "inherited": "Koordinaten werden vom Ziel geerbt"
+        },
+        "coolCamera": {
+          "temperature": "Temperatur (°C)",
+          "duration": "Dauer (min)"
+        },
+        "dewHeater": {
+          "onOff": "Tauheizer"
+        },
+        "setUSBLimit": {
+          "limit": "USB Limit"
+        },
+        "setBrightness": {
+          "brightness": "Helligkeit"
+        },
+        "autoExposureFlat": {
+          "minExposure": "Min. Belichtung (s)",
+          "maxExposure": "Max. Belichtung (s)"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Min. Helligkeit",
+          "maxBrightness": "Max. Helligkeit",
+          "histogramTarget": "Histogramm Ziel (%)",
+          "histogramTolerance": "Histogramm Toleranz (%)",
+          "iterations": "Anzahl",
+          "keepPanelClosed": "Panel geschlossen lassen"
+        },
+        "polarAlignment": {
+          "searchRadius": "Suchradius (°)",
+          "alignmentTolerance": "Ausrichttolerant (Bogensek)",
+          "moveRate": "Bewegungsrate (°/s)",
+          "targetDistance": "Zielabstand (°)",
+          "eastDirection": "Ost-Richtung",
+          "manualMode": "Manueller Modus",
+          "startFromCurrentPosition": "Von aktueller Position starten"
+},
+        "skyFlat": {
+          "shouldDither": "Dithern",
+          "ditherPixels": "Dither Pixel",
+          "ditherSettleTime": "Dither Wartezeit (s)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Mechanische Position (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Positionswinkel (°)"
+        },
+        "setSwitchValue": {
+          "switch": "Switch",
+          "value": "Wert"
+        },
+        "setTracking": {
+          "trackingMode": "Tracking-Modus"
+        },
+        "expressionVariable": {
+          "identifier": "Name",
+          "expression": "Wert",
+          "value": "Wert",
+          "initially": "Anfangswert",
+          "newValue": "Neuer Wert",
+          "time": "Zeit",
+          "minutesOffset": "Offset (min)"
+        },
+        "annotation": {
+          "text": "Text"
+        },
+        "waitUntil": {
+          "predicate": "Bedingung"
+        },
+        "waitForTimeSpan": {
+          "time": "Dauer (s)"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "Azimut (°)"
+        },
+        "stackFlats": {
+          "waitForStack": "Auf Stack warten"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "RMS-Schwellenwert (\")",
+          "mode": "Modus",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Mindestpunkte"
+        },
+        "changePHD2Parameters": {
+          "parameter": "Parameter",
+          "exposureTime": "Belichtungszeit (s)",
+          "ditherPixels": "Dithern (px)",
+          "ditherRAOnly": "Nur RA dithern",
+          "settlePixels": "Einpendeln (px)",
+          "settleTime": "Einpendelzeit (s)",
+          "settleTimeout": "Einpendel-Timeout (s)",
+          "roiPct": "ROI (%)"
+        },
+        "dso": {
+          "targetName": "Zielname",
+          "positionAngle": "Positionswinkel (°)"
+        },
+        "warmCamera": {
+          "duration": "Dauer (s)"
+        }
+      },
+      "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen"
     },
     "mount": {
       "title": "Montierung",

@@ -308,14 +308,22 @@
       "message": "消息",
       "download": "下载"
     },
-    "navigation": {},
     "sequence": {
       "stats": "统计",
       "noSequenceLoaded": "未加载序列",
       "noSequenceData": "尚无数据",
       "startSequence": "开始序列",
       "stopSequence": "停止序列",
+      "pauseSequence": "暂停",
       "resetSequence": "重置序列",
+      "manageSequences": "加载/保存序列",
+      "saveSequenceAs": "将当前序列另存为",
+      "sequenceFileName": "文件名",
+      "sequenceSave": "保存",
+      "sequenceLoad": "加载",
+      "sequenceNoFiles": "未找到文件",
+      "sequenceLoading": "加载中...",
+      "sequenceClose": "关闭",
       "resetConfirmationTitle": "确认重置",
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
       "load_sequence": "从目录加载序列",
@@ -328,7 +336,6 @@
       "triggers": "触发器",
       "expandAll": "展开全部",
       "collapseAll": "折叠全部",
-      "details": {},
       "hfr": "HFR",
       "mean": "平均值",
       "median": "中位数",
@@ -364,7 +371,6 @@
         "header": "信息",
         "message": "很遗憾，您的序列无法编辑。目前不支持所有序列插件。如果您希望帮助我们，请在GitHub上告知您使用的插件。"
       },
-      "info_general": {},
       "sort": {
         "sort": "排序",
         "oldest": "最早优先",
@@ -381,7 +387,193 @@
       "totalExposureTime": {
         "Pictures": "张数",
         "title": "总曝光时间"
-      }
+      },
+      "skipToEnd": "跳到结尾",
+      "skipCurrentItem": "当前文章",
+      "deleteConfirmationTitle": "删除文件",
+      "deleteConfirmationMessage": "您确定要删除日志文件？",
+      "items": {
+        "saving": "正在保存…",
+        "generic": "常规",
+        "on": "开",
+        "off": "关闭",
+        "takeExposure": {
+          "exposureTime": "曝光时间(秒):",
+          "gain": "增益",
+          "offset": "偏移",
+          "binning": "装箱",
+          "imageType": "圖片類型"
+        },
+        "takeManyExposures": {
+          "iterations": "曝光次数"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "投资回报率(%)"
+        },
+        "switchFilter": {
+          "filter": "籂選"
+        },
+        "switchProfile": {
+          "profile": "個人檔案",
+          "reconnect": "重新连接"
+        },
+        "loopCondition": {
+          "iterations": "复述"
+        },
+        "moonIllumination": {
+          "illumination": "光之心"
+        },
+        "reconnect": {
+          "device": "设备"
+        },
+        "autofocus": {
+          "afterExposures": "曝光后",
+          "afterExposuresCount": "曝光",
+          "everyN": "每{n}",
+          "hfrIncrease": "HFR增加(%)",
+          "sampleSize": "样本量",
+          "samples": "{n}个样本",
+          "trendPerFilter": "每个过滤器的趋势",
+          "deltaT": "温变",
+          "minutes": "分钟"
+        },
+        "centerAfterDrift": {
+          "distance": "距离（弧分）"
+        },
+        "meridianFlip": {
+          "minutesAfter": "子午线后几分钟",
+          "maxMinutesAfter": "子午线后最大分钟数",
+          "pauseBefore": "经络前暂停（分钟）",
+          "useSideOfPier": "使用码头一侧"
+        },
+        "altitudeCondition": {
+          "altitude": "海拔高度",
+          "horizonOffset": "水平线偏移(°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "太阳海拔(°)"
+        },
+        "timeSpan": {
+          "hours": "小時",
+          "minutes": "分钟",
+          "seconds": "秒"
+        },
+        "moonAltitude": {
+          "comparator": "比较器",
+          "below": "下方",
+          "above": "上方",
+          "altitude": "月球高度(°)"
+        },
+        "dither": {
+          "afterExposures": "曝光后"
+        },
+        "center": {
+          "ra": "RA",
+          "dec": "十二月",
+          "inherited": "从目标继承的坐标"
+        },
+        "coolCamera": {
+          "temperature": "溫度 （°C）",
+          "duration": "持续时间（分钟）"
+        },
+        "dewHeater": {
+          "onOff": "露水加热器"
+        },
+        "setUSBLimit": {
+          "limit": "USB限制"
+        },
+        "setBrightness": {
+          "brightness": "亮度"
+        },
+        "autoExposureFlat": {
+          "minExposure": "最小曝光量",
+          "maxExposure": "最大曝光量"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "最小亮度",
+          "maxBrightness": "最大亮度",
+          "histogramTarget": "直方图目标(%)",
+          "histogramTolerance": "直方图公差(%)",
+          "iterations": "计数",
+          "keepPanelClosed": "保持面板关闭"
+        },
+        "polarAlignment": {
+          "searchRadius": "搜索半径",
+          "alignmentTolerance": "对中公差(arcsec)",
+          "moveRate": "移动速率(°/s)",
+          "targetDistance": "目标行程",
+          "eastDirection": "East Direction",
+          "manualMode": "手动模式",
+          "startFromCurrentPosition": "从当前位置开始"
+        },
+        "skyFlat": {
+          "shouldDither": "抖动",
+          "ditherPixels": "抖动像素",
+          "ditherSettleTime": "抖动结算时间"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "机械位置(°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "位置"
+        },
+        "setSwitchValue": {
+          "switch": "开关",
+          "value": "内容"
+        },
+        "setTracking": {
+          "trackingMode": "跟踪模式"
+        },
+        "expressionVariable": {
+          "identifier": "姓名",
+          "expression": "内容",
+          "value": "内容",
+          "initially": "起初，本来",
+          "newValue": "新值",
+          "time": "时间",
+          "minutesOffset": "偏移（最小值）"
+        },
+        "annotation": {
+          "text": "文本"
+        },
+        "waitUntil": {
+          "predicate": "状况"
+        },
+        "waitForTimeSpan": {
+          "time": "持续时间"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "方位角 (°)"
+        },
+        "stackFlats": {
+          "waitForStack": "等待堆栈"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "RMS阈值(\")",
+          "mode": "Mode",
+          "modeRMS": "均平方根",
+          "modePeak": "峰",
+          "minimumPoints": "最小积分"
+        },
+        "changePHD2Parameters": {
+          "parameter": "参数项",
+          "exposureTime": "曝光时间(秒):",
+          "ditherPixels": "抖动（像素）",
+          "ditherRAOnly": "仅抖动RA",
+          "settlePixels": "结算（像素）",
+          "settleTime": "结算时间",
+          "settleTimeout": "结算超时",
+          "roiPct": "投资回报率(%)"
+        },
+        "dso": {
+          "targetName": "target name\n\n目标姓名",
+          "positionAngle": "位置"
+        },
+        "warmCamera": {
+          "duration": "持续时间"
+        }
+      },
+      "emptyContainer": "空—单击+以添加项目"
     },
     "mount": {
       "title": "赤道仪",
@@ -759,7 +951,6 @@
         "nina_default": "NINA 默认值",
         "ManualMode": "手动模式"
       },
-      "error_modal": {},
       "tppa": "极轴对准 (TPPA)"
     },
     "slewAndCenter": {
@@ -910,7 +1101,6 @@
         "now": "现在",
         "speed": "速度"
       },
-      "mount_position": {},
       "settings": {
         "constellations_lines_visible": "显示星座",
         "azimuthal_lines_visible": "显示方位线",
@@ -1263,8 +1453,7 @@
       "liveView": "实时查看",
       "noImageAvailable": "无可用图像",
       "configureUrl": "配置快照 URL 并获取图像",
-      "loadingImage": "加载图像中...",
-      "errors": {}
+      "loadingImage": "加载图像中..."
     },
     "sequenceCreator": {
       "title": "序列创建器",
@@ -1437,8 +1626,6 @@
         "endActions": "🏁 结束操作"
       },
       "exportModal": {
-        "buttons": {},
-        "messages": {},
         "jsonPreview": {
           "sequenceJsonExport": "序列 JSON 导出",
           "previewDescription": "预览并将您的序列下载为 JSON 文件",
@@ -1450,8 +1637,7 @@
           "copyJson": "复制 JSON",
           "copied": "已复制！",
           "downloadJson": "下载 JSON"
-        },
-        "howToUse": {}
+        }
       },
       "targetSearch": {
         "searchLabel": "搜索目标",

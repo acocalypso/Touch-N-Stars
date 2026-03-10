@@ -315,7 +315,20 @@
       "noSequenceData": "No data available yet",
       "startSequence": "Start sequence",
       "stopSequence": "Stop sequence",
+      "pauseSequence": "Pause",
       "resetSequence": "Reset sequence",
+      "skipToEnd": "Skip to end",
+      "skipCurrentItem": "Skip current item",
+      "manageSequences": "Load / save sequences",
+      "saveSequenceAs": "Save current sequence as",
+      "sequenceFileName": "Filename",
+      "sequenceSave": "Save",
+      "sequenceLoad": "Load",
+      "sequenceNoFiles": "No files found",
+      "sequenceLoading": "Loading...",
+      "sequenceClose": "Close",
+      "deleteConfirmationTitle": "Delete File",
+      "deleteConfirmationMessage": "Are you sure you want to delete the file?",
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "load_sequence": "Load sequence from directory",
@@ -381,7 +394,189 @@
       "totalExposureTime": {
         "title": "Total exposure time",
         "Pictures": "Pictures"
-      }
+      },
+      "items": {
+        "saving": "Saving…",
+        "generic": "Generic",
+        "on": "On",
+        "off": "Off",
+        "takeExposure": {
+          "exposureTime": "Exposure Time (s)",
+          "gain": "Gain",
+          "offset": "Offset",
+          "binning": "Binning",
+          "imageType": "Image Type"
+        },
+        "takeManyExposures": {
+          "iterations": "Number of Exposures"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "ROI (%)"
+        },
+        "switchFilter": {
+          "filter": "Filter"
+        },
+        "switchProfile": {
+          "profile": "Profile",
+          "reconnect": "Reconnect"
+        },
+        "loopCondition": {
+          "iterations": "Iterations"
+        },
+        "moonIllumination": {
+          "illumination": "Illumination (%)"
+        },
+        "reconnect": {
+          "device": "Device"
+        },
+        "autofocus": {
+          "afterExposures": "After Exposures",
+          "afterExposuresCount": "Exposures",
+          "everyN": "Every {n}",
+          "hfrIncrease": "HFR Increase (%)",
+          "sampleSize": "Sample Size",
+          "samples": "{n} Samples",
+          "trendPerFilter": "Trend per Filter",
+          "deltaT": "Temperature Change (°)",
+          "minutes": "Minutes"
+        },
+        "centerAfterDrift": {
+          "distance": "Distance (arcminutes)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Minutes After Meridian",
+          "maxMinutesAfter": "Max Minutes After Meridian",
+          "pauseBefore": "Pause Before Meridian (min)",
+          "useSideOfPier": "Use Side of Pier"
+        },
+        "altitudeCondition": {
+          "altitude": "Altitude (°)",
+          "horizonOffset": "Horizon Offset (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Sun Altitude (°)"
+        },
+        "timeSpan": {
+          "hours": "Hours",
+          "minutes": "Minutes",
+          "seconds": "Seconds"
+        },
+        "moonAltitude": {
+          "comparator": "Comparator",
+          "below": "Below",
+          "above": "Above",
+          "altitude": "Moon Altitude (°)"
+        },
+        "dither": {
+          "afterExposures": "After Exposures"
+        },
+        "center": {
+          "ra": "RA",
+          "dec": "Dec",
+          "inherited": "Coordinates inherited from target"
+        },
+        "coolCamera": {
+          "temperature": "Temperature (°C)",
+          "duration": "Duration (min)"
+        },
+        "dewHeater": {
+          "onOff": "Dew Heater"
+        },
+        "setUSBLimit": {
+          "limit": "USB Limit"
+        },
+        "setBrightness": {
+          "brightness": "Brightness"
+        },
+        "autoExposureFlat": {
+          "minExposure": "Min. Exposure (s)",
+          "maxExposure": "Max. Exposure (s)"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Min. Brightness",
+          "maxBrightness": "Max. Brightness",
+          "histogramTarget": "Histogram Target (%)",
+          "histogramTolerance": "Histogram Tolerance (%)",
+          "iterations": "Count",
+          "keepPanelClosed": "Keep Panel Closed"
+        },
+        "polarAlignment": {
+          "searchRadius": "Search Radius (°)",
+          "alignmentTolerance": "Alignment Tolerance (arcsec)",
+          "moveRate": "Move Rate (°/s)",
+          "targetDistance": "Target Distance (°)",
+          "eastDirection": "East Direction",
+          "manualMode": "Manual Mode",
+          "startFromCurrentPosition": "Start From Current Position"
+},
+        "skyFlat": {
+          "shouldDither": "Dither",
+          "ditherPixels": "Dither Pixels",
+          "ditherSettleTime": "Dither Settle Time (s)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Mechanical Position (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Position Angle (°)"
+        },
+        "setSwitchValue": {
+          "switch": "Switch",
+          "value": "Value"
+        },
+        "setTracking": {
+          "trackingMode": "Tracking Mode"
+        },
+        "expressionVariable": {
+          "identifier": "Name",
+          "expression": "Value",
+          "value": "Value",
+          "initially": "Initially",
+          "newValue": "New Value",
+          "time": "Time",
+          "minutesOffset": "Offset (min)"
+        },
+        "annotation": {
+          "text": "Text"
+        },
+        "waitUntil": {
+          "predicate": "Condition"
+        },
+        "waitForTimeSpan": {
+          "time": "Duration (s)"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "Azimuth (°)"
+        },
+        "stackFlats": {
+          "waitForStack": "Wait for Stack"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "RMS Threshold (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Minimum Points"
+        },
+        "changePHD2Parameters": {
+          "parameter": "Parameter",
+          "exposureTime": "Exposure Time (s)",
+          "ditherPixels": "Dither (px)",
+          "ditherRAOnly": "Dither RA Only",
+          "settlePixels": "Settle (px)",
+          "settleTime": "Settle Time (s)",
+          "settleTimeout": "Settle Timeout (s)",
+          "roiPct": "ROI (%)"
+        },
+        "dso": {
+          "targetName": "Target Name",
+          "positionAngle": "Position Angle (°)"
+        },
+        "warmCamera": {
+          "duration": "Duration (s)"
+        }
+      },
+      "emptyContainer": "Empty — click + to add items"
     },
     "mount": {
       "title": "Mount",
@@ -1806,6 +2001,45 @@
         "api_version_required": "API version {version} or higher required"
       }
     },
+    "narrowband": {
+      "title": "Filter Calculator",
+      "subtitle": "Calculate narrowband filter transmission characteristics",
+      "sections": {
+        "optical": "Optical Parameters",
+        "bandpass": "Bandpass Characteristics",
+        "chart": "Bandpass Curve",
+        "results": "Transmission Results"
+      },
+      "aperture": "Aperture (mm)",
+      "focalLength": "Focal Length (mm)",
+      "peakTransmittance": "Peak Transmittance",
+      "refractiveIndex": "Refractive Index",
+      "obstructionDiameter": "Central Obstruction (mm)",
+      "bandpassCenter": "Bandpass Center (nm)",
+      "fwhm": "FWHM (nm)",
+      "flatTop": "Flat Top (nm)",
+      "populerFilters": "Popular Filters",
+      "selectManufacturer": "Select Manufacturer...",
+      "clearSelection": "Clear Selection",
+      "customCurve": "Custom Bandpass Curve (CSV)",
+      "clearCurve": "Clear Curve",
+      "loaded": "Loaded:",
+      "dataPoints": "data points",
+      "targetWavelength": "Target Wavelength (nm)",
+      "filterTransmission": "Filter Transmission",
+      "wavelengthLabel": "Wavelength (nm)",
+      "transmissionLabel": "Transmission",
+      "transmissionPercent": "Transmission: {percent}%",
+      "wavelengthRange": "Wavelength Range",
+      "flatTopRange": "Flat Top Range",
+      "fieldOfView": "Field of View",
+      "resetDefaults": "Reset to Defaults",
+      "status": {
+        "success": "✓ Transmission calculated successfully",
+        "invalidCsv": "No valid wavelength/transmission data found in CSV",
+        "csvError": "Error parsing CSV: {error}"
+      }
+    },
     "pinsDevices": {
       "title": "PI'N'Stars Device",
       "settings": {
@@ -1823,7 +2057,10 @@
         "configurationDescription": "Configure device settings and sensor calibration",
         "ports": "PowerBox",
         "wifi": "WiFi",
-        "weather": "MeteoStation"
+        "weather": "MeteoStation",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "dewPoint": "Dew Point"
       },
       "config": {
         "title": "Configuration",

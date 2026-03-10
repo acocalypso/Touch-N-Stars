@@ -507,7 +507,7 @@
           "eastDirection": "Ost-Richtung",
           "manualMode": "Manueller Modus",
           "startFromCurrentPosition": "Von aktueller Position starten"
-},
+        },
         "skyFlat": {
           "shouldDither": "Dithern",
           "ditherPixels": "Dither Pixel",
@@ -2106,7 +2106,10 @@
         "usbPorts": "USB-Anschlüsse",
         "usbPortsDescription": "Konfigurieren und verwalten Sie USB-Port-Verbindungen",
         "weather": "MeteoStation",
-        "wifi": "W-lan"
+        "wifi": "W-lan",
+        "dewPoint": "Taupunkt",
+        "humidity": "Luftfeuchtigkeit",
+        "temperature": "Temperatur"
       },
       "status": {
         "notConnected": "Nicht verbunden"
@@ -2234,6 +2237,45 @@
         "error": "Fehler:",
         "loading": "Wird geladen..."
       }
+    },
+    "narrowband": {
+      "aperture": "Blende (mm)",
+      "bandpassCenter": "Bandpass-Center (nm)",
+      "clearCurve": "Klare Kurve",
+      "clearSelection": "Auswahl löschen",
+      "customCurve": "Benutzerdefinierte Bandpasskurve (CSV)",
+      "dataPoints": "Datenpunkte",
+      "fieldOfView": "Sichtfeld",
+      "filterTransmission": "Filterübertragung",
+      "flatTop": "Flache Oberseite (nm)",
+      "flatTopRange": "Flat-Top-Reihe",
+      "focalLength": "Brennweite (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Geladen:",
+      "obstructionDiameter": "Zentrales Hindernis (mm)",
+      "peakTransmittance": "Spitzentransmission",
+      "populerFilters": "Beliebte Filter",
+      "refractiveIndex": "Brechungsindex",
+      "resetDefaults": "Auf Standardeinstellungen zurücksetzen",
+      "sections": {
+        "bandpass": "Bandpass-Eigenschaften",
+        "chart": "Bandpasskurve",
+        "optical": "Optische Parameter",
+        "results": "Übertragungsergebnisse"
+      },
+      "selectManufacturer": "Hersteller auswählen...",
+      "status": {
+        "csvError": "Fehler beim Parsen der CSV-Datei: {error}",
+        "invalidCsv": "Im CSV wurden keine gültigen Wellenlängen-/Übertragungsdaten gefunden",
+        "success": "✓ Übertragung erfolgreich berechnet"
+      },
+      "subtitle": "Berechnen Sie die Übertragungseigenschaften von Schmalbandfiltern",
+      "targetWavelength": "Zielwellenlänge (nm)",
+      "title": "Filterrechner",
+      "transmissionLabel": "Übertragung",
+      "transmissionPercent": "Übertragung: {Prozent} %",
+      "wavelengthLabel": "Wellenlänge (nm)",
+      "wavelengthRange": "Wellenlängenbereich"
     }
   },
   "dialogs": {

@@ -2098,7 +2098,10 @@
         "usbPorts": "Ports USB",
         "usbPortsDescription": "Configurer et gérer les connexions des ports USB",
         "weather": "MétéoStation",
-        "wifi": "Wi-Fi"
+        "wifi": "Wi-Fi",
+        "dewPoint": "Point de rosée",
+        "humidity": "Humidité",
+        "temperature": "Température"
       },
       "status": {
         "notConnected": "Non connecté"
@@ -2226,6 +2229,45 @@
         "error": "Erreur:",
         "loading": "Chargement..."
       }
+    },
+    "narrowband": {
+      "aperture": "Ouverture (mm)",
+      "bandpassCenter": "Centre passe-bande (nm)",
+      "clearCurve": "Effacer la courbe",
+      "clearSelection": "Effacer la sélection",
+      "customCurve": "Courbe passe-bande personnalisée (CSV)",
+      "dataPoints": "points de données",
+      "fieldOfView": "Champ de vision",
+      "filterTransmission": "Filtre de transmission",
+      "flatTop": "Dessus plat (nm)",
+      "flatTopRange": "Gamme à dessus plat",
+      "focalLength": "Distance focale (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Chargé:",
+      "obstructionDiameter": "Obstruction centrale (mm)",
+      "peakTransmittance": "Transmission maximale",
+      "populerFilters": "Filtres populaires",
+      "refractiveIndex": "Indice de réfraction",
+      "resetDefaults": "Réinitialiser aux valeurs par défaut",
+      "sections": {
+        "bandpass": "Caractéristiques passe-bande",
+        "chart": "Courbe passe-bande",
+        "optical": "Paramètres optiques",
+        "results": "Résultats de transmission"
+      },
+      "selectManufacturer": "Sélectionnez le fabricant...",
+      "status": {
+        "csvError": "Erreur lors de l'analyse du fichier CSV : {erreur}",
+        "invalidCsv": "Aucune donnée de longueur d'onde/transmission valide trouvée dans le CSV",
+        "success": "✓ Transmission calculée avec succès"
+      },
+      "subtitle": "Calculer les caractéristiques de transmission du filtre à bande étroite",
+      "targetWavelength": "Longueur d'onde cible (nm)",
+      "title": "Calculateur de filtres",
+      "transmissionLabel": "Transmission",
+      "transmissionPercent": "Transmission : {pourcentage} %",
+      "wavelengthLabel": "Longueur d'onde (nm)",
+      "wavelengthRange": "Plage de longueurs d'onde"
     }
   },
   "dialogs": {

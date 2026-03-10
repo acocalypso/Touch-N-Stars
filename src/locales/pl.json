@@ -2098,7 +2098,10 @@
         "usbPorts": "Porty USB",
         "usbPortsDescription": "Konfiguruj i zarządzaj połączeniami portów USB",
         "weather": "Stacja Meteo",
-        "wifi": "WiFi"
+        "wifi": "WiFi",
+        "dewPoint": "Punkt rosy",
+        "humidity": "Wilgotność",
+        "temperature": "Temperatura"
       },
       "status": {
         "notConnected": "Nie podłączony"
@@ -2226,6 +2229,45 @@
         "error": "Błąd:",
         "loading": "Ładowanie..."
       }
+    },
+    "narrowband": {
+      "aperture": "Otwór (mm)",
+      "bandpassCenter": "Centrum pasmowo-przepustowe (nm)",
+      "clearCurve": "Wyczyść krzywą",
+      "clearSelection": "Wyczyść wybór",
+      "customCurve": "Niestandardowa krzywa pasmowo-przepustowa (CSV)",
+      "dataPoints": "punkty danych",
+      "fieldOfView": "Pole widzenia",
+      "filterTransmission": "Filtruj transmisję",
+      "flatTop": "Płaski wierzchołek (nm)",
+      "flatTopRange": "Seria Flat Top",
+      "focalLength": "Ogniskowa (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Załadowany:",
+      "obstructionDiameter": "Przeszkoda centralna (mm)",
+      "peakTransmittance": "Szczytowa transmisja",
+      "populerFilters": "Popularne filtry",
+      "refractiveIndex": "Współczynnik załamania światła",
+      "resetDefaults": "Przywróć ustawienia domyślne",
+      "sections": {
+        "bandpass": "Charakterystyka pasmowo-przepustowa",
+        "chart": "Krzywa pasmowoprzepustowa",
+        "optical": "Parametry optyczne",
+        "results": "Wyniki transmisji"
+      },
+      "selectManufacturer": "Wybierz producenta...",
+      "status": {
+        "csvError": "Błąd podczas analizowania pliku CSV: {error}",
+        "invalidCsv": "W pliku CSV nie znaleziono prawidłowych danych dotyczących długości fali/transmisji",
+        "success": "✓ Transmisja została obliczona pomyślnie"
+      },
+      "subtitle": "Oblicz charakterystykę transmisji filtra wąskopasmowego",
+      "targetWavelength": "Docelowa długość fali (nm)",
+      "title": "Kalkulator filtrów",
+      "transmissionLabel": "Przenoszenie",
+      "transmissionPercent": "Transmisja: {percent}%",
+      "wavelengthLabel": "Długość fali (nm)",
+      "wavelengthRange": "Zakres długości fali"
     }
   },
   "dialogs": {

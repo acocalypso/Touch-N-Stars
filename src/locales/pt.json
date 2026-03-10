@@ -2098,7 +2098,10 @@
         "usbPorts": "Portas USB",
         "usbPortsDescription": "Configurar e gerenciar conexões de porta USB",
         "weather": "Estação Meteo",
-        "wifi": "Wi-fi"
+        "wifi": "Wi-fi",
+        "dewPoint": "Ponto de orvalho",
+        "humidity": "Umidade",
+        "temperature": "Temperatura"
       },
       "status": {
         "notConnected": "Não conectado"
@@ -2226,6 +2229,45 @@
         "error": "Erro:",
         "loading": "Carregando..."
       }
+    },
+    "narrowband": {
+      "aperture": "Abertura (mm)",
+      "bandpassCenter": "Centro de passagem de banda (nm)",
+      "clearCurve": "Limpar Curva",
+      "clearSelection": "Limpar seleção",
+      "customCurve": "Curva passa-banda personalizada (CSV)",
+      "dataPoints": "pontos de dados",
+      "fieldOfView": "Campo de visão",
+      "filterTransmission": "Transmissão de filtro",
+      "flatTop": "Topo plano (nm)",
+      "flatTopRange": "Faixa superior plana",
+      "focalLength": "Distância focal (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Carregado:",
+      "obstructionDiameter": "Obstrução Central (mm)",
+      "peakTransmittance": "Transmitância de Pico",
+      "populerFilters": "Filtros Populares",
+      "refractiveIndex": "Índice de refração",
+      "resetDefaults": "Redefinir para os padrões",
+      "sections": {
+        "bandpass": "Características de passagem de banda",
+        "chart": "Curva passa-banda",
+        "optical": "Parâmetros ópticos",
+        "results": "Resultados de transmissão"
+      },
+      "selectManufacturer": "Selecione o fabricante...",
+      "status": {
+        "csvError": "Erro ao analisar CSV: {error}",
+        "invalidCsv": "Nenhum dado válido de comprimento de onda/transmissão encontrado em CSV",
+        "success": "✓ Transmissão calculada com sucesso"
+      },
+      "subtitle": "Calcule as características de transmissão do filtro de banda estreita",
+      "targetWavelength": "Comprimento de onda alvo (nm)",
+      "title": "Calculadora de filtros",
+      "transmissionLabel": "Transmissão",
+      "transmissionPercent": "Transmissão: {percent}%",
+      "wavelengthLabel": "Comprimento de onda (nm)",
+      "wavelengthRange": "Faixa de comprimento de onda"
     }
   },
   "dialogs": {

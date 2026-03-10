@@ -2098,7 +2098,10 @@
         "usbPorts": "USB Ports",
         "usbPortsDescription": "Configure and manage USB port connections",
         "weather": "MeteoStation",
-        "wifi": "WiFi"
+        "wifi": "WiFi",
+        "dewPoint": "Dew Point",
+        "humidity": "Humidity",
+        "temperature": "Temperature"
       },
       "status": {
         "notConnected": "Not connected"
@@ -2226,6 +2229,45 @@
         "error": "Chyba:",
         "loading": "Načítání..."
       }
+    },
+    "narrowband": {
+      "aperture": "Aperture (mm)",
+      "bandpassCenter": "Bandpass Center (nm)",
+      "clearCurve": "Clear Curve",
+      "clearSelection": "Clear Selection",
+      "customCurve": "Custom Bandpass Curve (CSV)",
+      "dataPoints": "data points",
+      "fieldOfView": "Field of View",
+      "filterTransmission": "Filter Transmission",
+      "flatTop": "Flat Top (nm)",
+      "flatTopRange": "Flat Top Range",
+      "focalLength": "Focal Length (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Loaded:",
+      "obstructionDiameter": "Central Obstruction (mm)",
+      "peakTransmittance": "Peak Transmittance",
+      "populerFilters": "Popular Filters",
+      "refractiveIndex": "Refractive Index",
+      "resetDefaults": "Reset to Defaults",
+      "sections": {
+        "bandpass": "Bandpass Characteristics",
+        "chart": "Bandpass Curve",
+        "optical": "Optical Parameters",
+        "results": "Transmission Results"
+      },
+      "selectManufacturer": "Select Manufacturer...",
+      "status": {
+        "csvError": "Error parsing CSV: {error}",
+        "invalidCsv": "No valid wavelength/transmission data found in CSV",
+        "success": "✓ Transmission calculated successfully"
+      },
+      "subtitle": "Calculate narrowband filter transmission characteristics",
+      "targetWavelength": "Target Wavelength (nm)",
+      "title": "Filter Calculator",
+      "transmissionLabel": "Transmission",
+      "transmissionPercent": "Transmission: {percent}%",
+      "wavelengthLabel": "Wavelength (nm)",
+      "wavelengthRange": "Wavelength Range"
     }
   },
   "dialogs": {

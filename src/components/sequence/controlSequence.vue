@@ -33,21 +33,33 @@
       }}</span>
     </button>
 
-    <button class="default-button-cyan h-16 w-14 flex-col gap-0.5" @click="stopSequence">
+    <button
+      v-if="sequenceStore.sequenceRunning"
+      class="default-button-cyan h-16 w-14 flex-col gap-0.5"
+      @click="stopSequence"
+    >
       <PauseIcon class="h-7 w-7" />
       <span class="text-[9px] leading-none font-medium">{{
         $t('components.sequence.pauseSequence')
       }}</span>
     </button>
 
-    <button class="default-button-blue h-16 w-14 flex-col gap-0.5" @click="skipCurrentItem">
+    <button
+      v-if="sequenceStore.sequenceRunning"
+      class="default-button-blue h-16 w-14 flex-col gap-0.5"
+      @click="skipCurrentItem"
+    >
       <ForwardIcon class="h-6 w-6" />
       <span class="text-[9px] leading-none font-medium">{{
         $t('components.sequence.skipCurrentItem')
       }}</span>
     </button>
 
-    <button class="default-button-red h-16 w-14 flex-col gap-0.5" @click="skipToEnd">
+    <button
+      v-if="sequenceStore.sequenceRunning"
+      class="default-button-red h-16 w-14 flex-col gap-0.5"
+      @click="skipToEnd"
+    >
       <FlagIcon class="h-6 w-6" />
       <span class="text-[9px] leading-none font-medium">{{
         $t('components.sequence.skipToEnd')
@@ -55,9 +67,9 @@
     </button>
 
     <button
+      v-if="!sequenceStore.sequenceRunning"
       class="default-button-orange h-16 w-14 flex-col gap-0.5"
       @click="showResetConfirmation = true"
-      :disabled="sequenceStore.sequenceRunning"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -73,6 +85,17 @@
       </svg>
       <span class="text-[9px] leading-none font-medium">{{
         $t('components.sequence.resetSequence')
+      }}</span>
+    </button>
+
+    <button
+      v-if="!sequenceStore.sequenceRunning"
+      class="default-button-red h-16 w-14 flex-col gap-0.5"
+      @click="clearSequence"
+    >
+      <TrashIcon class="h-7 w-7" />
+      <span class="text-[9px] leading-none font-medium">{{
+        $t('components.sequence.clearSequence')
       }}</span>
     </button>
 
@@ -111,6 +134,7 @@
               <span class="text-sm text-gray-200 truncate">{{ file.FileName }}</span>
               <div class="flex gap-1 flex-shrink-0">
                 <button
+                  v-if="!sequenceStore.sequenceRunning"
                   class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 transition-colors"
                   @click="loadFile(file.FilePath)"
                 >
@@ -370,6 +394,19 @@ async function confirmReset() {
   } catch (error) {
     console.log('Error:', error);
     isLoading.value = false;
+  }
+}
+
+async function clearSequence() {
+  try {
+    const response = await apiService.sequenceClear();
+    if (response) {
+      await sequenceStore.getSequenceInfo();
+    } else {
+      console.error('Failed to clear sequence');
+    }
+  } catch (error) {
+    console.error('Error clearing sequence:', error);
   }
 }
 </script>

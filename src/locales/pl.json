@@ -326,6 +326,9 @@
       "sequenceClose": "Zamknij",
       "resetConfirmationTitle": "Potwierdź reset",
       "resetConfirmationMessage": "Czy na pewno chcesz zresetować sekwencję? Tej czynności nie można cofnąć.",
+      "clearSequence": "Wyczyść wszystko",
+      "clearConfirmationTitle": "Potwierdź wyczyszczenie",
+      "clearConfirmationMessage": "Czy na pewno chcesz wyczyścić całą sekwencję? Tej czynności nie można cofnąć.",
       "load_sequence": "Załaduj sekwencję z katalogu",
       "choose_sequence": "Wybierz sekwencję",
       "saved_sequences": "TNS Sequence-Creator",
@@ -570,7 +573,7 @@
           "positionAngle": "Kąt pozycyjny"
         },
         "warmCamera": {
-          "duration": "Czas trwania (s)"
+          "duration": "Czas trwania (min)"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje"

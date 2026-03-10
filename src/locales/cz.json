@@ -326,6 +326,9 @@
       "sequenceClose": "Zavřít",
       "resetConfirmationTitle": "Potvrzení resetu",
       "resetConfirmationMessage": "Jste si jisti, že chcete resetovat sekvenci? Tuto akci nelze vrátit zpět.",
+      "clearSequence": "Smazat vše",
+      "clearConfirmationTitle": "Potvrzení smazání",
+      "clearConfirmationMessage": "Jste si jisti, že chcete smazat celou sekvenci? Tuto akci nelze vrátit zpět.",
       "load_sequence": "Načíst Sekvenci",
       "choose_sequence": "Vyberte sekvenci...",
       "saved_sequences": "TNS Sequence-Creator",
@@ -570,7 +573,7 @@
           "positionAngle": "Poziční úhel"
         },
         "warmCamera": {
-          "duration": "Trvání ( s)"
+          "duration": "Duration (min)"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky"

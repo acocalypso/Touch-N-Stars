@@ -716,6 +716,12 @@ const apiService = {
     return response.data;
   },
 
+  async sequenceClear() {
+    const { API_URL } = getUrls();
+    const response = await axios.post(`${API_URL}sequence/clear`);
+    return response.data;
+  },
+
   //sequence/set-target?name=Orion Nebula&ra=83.822083&dec=-5.391111&rotation=5&index=0
   async sequnceTargetSet(name, ra, dec, rotation, index) {
     try {

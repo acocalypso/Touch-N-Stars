@@ -326,6 +326,9 @@
       "sequenceClose": "Fechar",
       "resetConfirmationTitle": "Confirmar reinicialização",
       "resetConfirmationMessage": "Tem certeza de que deseja reiniciar a sequência? Esta ação não pode ser desfeita.",
+      "clearSequence": "Limpar tudo",
+      "clearConfirmationTitle": "Confirmar limpeza",
+      "clearConfirmationMessage": "Tem certeza de que deseja limpar toda a sequência? Esta ação não pode ser desfeita.",
       "load_sequence": "Carregar sequência do diretório",
       "choose_sequence": "Escolher uma sequência",
       "saved_sequences": "TNS Sequence-Creator",
@@ -570,7 +573,7 @@
           "positionAngle": "Ângulo da Posição"
         },
         "warmCamera": {
-          "duration": "Duração(ões)"
+          "duration": "Duração (min)"
         }
       },
       "emptyContainer": "Vazio — clique em + para adicionar itens"

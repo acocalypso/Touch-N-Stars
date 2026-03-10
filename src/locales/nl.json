@@ -326,6 +326,9 @@
       "sequenceClose": "Sluiten",
       "resetConfirmationTitle": "Bevestig Reset",
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
+      "clearSequence": "Alles wissen",
+      "clearConfirmationTitle": "Bevestig Wissen",
+      "clearConfirmationMessage": "Weet u zeker dat u de hele sequentie wilt wissen? Deze actie kan niet ongedaan worden gemaakt.",
       "load_sequence": "Laad sequentie vanuit directory",
       "choose_sequence": "Kies een sequentie",
       "saved_sequences": "TNS Sequence-Creator",
@@ -570,7 +573,7 @@
           "positionAngle": "Positiehoek"
         },
         "warmCamera": {
-          "duration": "Tijd [s]"
+          "duration": "Duur (min)"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen"

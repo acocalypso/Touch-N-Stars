@@ -1996,7 +1996,16 @@
         "forcingSync": "Tijd handmatig synchroniseren...",
         "syncingTime": "Tijdsverschil gedetecteerd: {diff}s. \nTijd synchroniseren...",
         "timeInSync": "De tijd loopt synchroon (diff: {diff}s).",
-        "timeSynced": "Systeemtijd succesvol gesynchroniseerd."
+        "timeSynced": "Systeemtijd succesvol gesynchroniseerd.",
+        "connectingToWifi": "Verbinding maken met WiFi-netwerk: {ssid}",
+        "jobReport": "Taakrapport: {rapport}",
+        "jobStatus": "Taakstatus: {status}",
+        "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}",
+        "upgradeFailed": "Upgrade mislukt. \nExitcode: {exitCode}",
+        "upgradeSuccess": "Upgrade succesvol voltooid.",
+        "verifyingStatus": "De definitieve taakstatus verifiëren...",
+        "wifiResponse": "WiFi-reactie: {reactie}",
+        "wsCreationFailed": "Kan WebSocket niet maken: {message}"
       },
       "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
       "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
@@ -2030,7 +2039,10 @@
       "deviceTime": "Apparaattijd",
       "loadingTime": "Laadtijd...",
       "syncNow": "Synchroniseer nu",
-      "systemTime": "Systeem tijd"
+      "systemTime": "Systeem tijd",
+      "band24": "2,4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Wifi-netwerken opnieuw scannen"
     },
     "pinsDevices": {
       "config": {
@@ -2086,7 +2098,10 @@
         "usbPorts": "USB-poorten",
         "usbPortsDescription": "Configureer en beheer USB-poortverbindingen",
         "weather": "Meteostation",
-        "wifi": "WiFi"
+        "wifi": "WiFi",
+        "dewPoint": "Dauw punt",
+        "humidity": "Vochtigheid",
+        "temperature": "Temperatuur"
       },
       "status": {
         "notConnected": "Niet verbonden"
@@ -2214,6 +2229,45 @@
         "error": "Fout:",
         "loading": "Laden..."
       }
+    },
+    "narrowband": {
+      "aperture": "Opening (mm)",
+      "bandpassCenter": "Banddoorlaatcentrum (nm)",
+      "clearCurve": "Duidelijke curve",
+      "clearSelection": "Selectie wissen",
+      "customCurve": "Aangepaste banddoorlaatcurve (CSV)",
+      "dataPoints": "gegevenspunten",
+      "fieldOfView": "Gezichtsveld",
+      "filterTransmission": "Filtertransmissie",
+      "flatTop": "Platte bovenkant (nm)",
+      "flatTopRange": "Flat Top-bereik",
+      "focalLength": "Brandpuntsafstand (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Geladen:",
+      "obstructionDiameter": "Centrale obstructie (mm)",
+      "peakTransmittance": "Piektransmissie",
+      "populerFilters": "Populaire filters",
+      "refractiveIndex": "Brekingsindex",
+      "resetDefaults": "Terugzetten naar standaardwaarden",
+      "sections": {
+        "bandpass": "Bandpass-kenmerken",
+        "chart": "Banddoorlaatcurve",
+        "optical": "Optische parameters",
+        "results": "Transmissieresultaten"
+      },
+      "selectManufacturer": "Fabrikant selecteren...",
+      "status": {
+        "csvError": "Fout bij het parseren van CSV: {error}",
+        "invalidCsv": "Geen geldige golflengte-/transmissiegegevens gevonden in CSV",
+        "success": "✓ Transmissie succesvol berekend"
+      },
+      "subtitle": "Bereken de transmissiekarakteristieken van het smalbandfilter",
+      "targetWavelength": "Doelgolflengte (nm)",
+      "title": "Filtercalculator",
+      "transmissionLabel": "Overdragen",
+      "transmissionPercent": "Transmissie: {procent}%",
+      "wavelengthLabel": "Golflengte (nm)",
+      "wavelengthRange": "Golflengtebereik"
     }
   },
   "dialogs": {

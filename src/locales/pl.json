@@ -1996,7 +1996,16 @@
         "forcingSync": "Ręczna synchronizacja czasu...",
         "syncingTime": "Wykryto różnicę czasu: {diff} s. \nCzas synchronizacji...",
         "timeInSync": "Czas jest zsynchronizowany (różnica: {diff} s).",
-        "timeSynced": "Czas systemowy został pomyślnie zsynchronizowany."
+        "timeSynced": "Czas systemowy został pomyślnie zsynchronizowany.",
+        "connectingToWifi": "Łączenie z siecią Wi-Fi: {ssid}",
+        "jobReport": "Raport o pracy: {raport}",
+        "jobStatus": "Stan pracy: {status}",
+        "statusFetchFailed": "Nie udało się pobrać statusu końcowego: {wiadomość}",
+        "upgradeFailed": "Aktualizacja nie powiodła się. \nKod wyjścia: {exitCode}",
+        "upgradeSuccess": "Aktualizacja zakończona pomyślnie.",
+        "verifyingStatus": "Weryfikacja ostatecznego statusu zadania...",
+        "wifiResponse": "Odpowiedź Wi-Fi: {odpowiedź}",
+        "wsCreationFailed": "Nie udało się utworzyć protokołu WebSocket: {wiadomość}"
       },
       "notAvailable": "Środowisko PINS nie zostało wykryte. Ta wtyczka jest wyłączona.",
       "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
@@ -2030,7 +2039,10 @@
       "deviceTime": "Czas urządzenia",
       "loadingTime": "Czas ładowania...",
       "syncNow": "Synchronizuj teraz",
-      "systemTime": "Czas systemowy"
+      "systemTime": "Czas systemowy",
+      "band24": "2,4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Przeskanuj ponownie sieci Wi-Fi"
     },
     "pinsDevices": {
       "config": {
@@ -2086,7 +2098,10 @@
         "usbPorts": "Porty USB",
         "usbPortsDescription": "Konfiguruj i zarządzaj połączeniami portów USB",
         "weather": "Stacja Meteo",
-        "wifi": "WiFi"
+        "wifi": "WiFi",
+        "dewPoint": "Punkt rosy",
+        "humidity": "Wilgotność",
+        "temperature": "Temperatura"
       },
       "status": {
         "notConnected": "Nie podłączony"
@@ -2214,6 +2229,45 @@
         "error": "Błąd:",
         "loading": "Ładowanie..."
       }
+    },
+    "narrowband": {
+      "aperture": "Otwór (mm)",
+      "bandpassCenter": "Centrum pasmowo-przepustowe (nm)",
+      "clearCurve": "Wyczyść krzywą",
+      "clearSelection": "Wyczyść wybór",
+      "customCurve": "Niestandardowa krzywa pasmowo-przepustowa (CSV)",
+      "dataPoints": "punkty danych",
+      "fieldOfView": "Pole widzenia",
+      "filterTransmission": "Filtruj transmisję",
+      "flatTop": "Płaski wierzchołek (nm)",
+      "flatTopRange": "Seria Flat Top",
+      "focalLength": "Ogniskowa (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Załadowany:",
+      "obstructionDiameter": "Przeszkoda centralna (mm)",
+      "peakTransmittance": "Szczytowa transmisja",
+      "populerFilters": "Popularne filtry",
+      "refractiveIndex": "Współczynnik załamania światła",
+      "resetDefaults": "Przywróć ustawienia domyślne",
+      "sections": {
+        "bandpass": "Charakterystyka pasmowo-przepustowa",
+        "chart": "Krzywa pasmowoprzepustowa",
+        "optical": "Parametry optyczne",
+        "results": "Wyniki transmisji"
+      },
+      "selectManufacturer": "Wybierz producenta...",
+      "status": {
+        "csvError": "Błąd podczas analizowania pliku CSV: {error}",
+        "invalidCsv": "W pliku CSV nie znaleziono prawidłowych danych dotyczących długości fali/transmisji",
+        "success": "✓ Transmisja została obliczona pomyślnie"
+      },
+      "subtitle": "Oblicz charakterystykę transmisji filtra wąskopasmowego",
+      "targetWavelength": "Docelowa długość fali (nm)",
+      "title": "Kalkulator filtrów",
+      "transmissionLabel": "Przenoszenie",
+      "transmissionPercent": "Transmisja: {percent}%",
+      "wavelengthLabel": "Długość fali (nm)",
+      "wavelengthRange": "Zakres długości fali"
     }
   },
   "dialogs": {

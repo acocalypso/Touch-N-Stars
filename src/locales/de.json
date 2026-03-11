@@ -571,7 +571,9 @@
         "basic": "Grundeinstellungen",
         "crop_and_stars": "Crop",
         "Reverse": "Umkehren",
-        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden"
+        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
+        "AutoFocusFilter": "Autofokus-Filter",
+        "AutoFocusFilterNone": "Kein"
       },
       "focus": "Fokus"
     },

@@ -31,10 +31,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence Creator: Removed "Load Basic Sequence" toolbar button
 
 ### Fixed
-Pins plugin: support WIFI connection
-Pins Plugin: Band selection 2.4 Ghz / 5 Ghz
-Pins Plugin: Autoconnect to wifi after reboot
-Setup: Restart setup after GPS permission has been granted
+- Dialog: Filter out NINA NotificationHostWindow (NINA V3.3) to prevent empty dialog popup when not connected
+- Pins plugin: support WIFI connection
+- Pins Plugin: Band selection 2.4 Ghz / 5 Ghz
+- Pins Plugin: Autoconnect to wifi after reboot
+- Setup: Restart setup after GPS permission has been granted
 
 ## [App4.6.0] - 2026-02-14
 ### Added

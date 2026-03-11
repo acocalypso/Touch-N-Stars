@@ -834,7 +834,9 @@
         "MaxStep": "Max Steps"
       },
       "indi": {
-        "settings": "Focuser Settings"
+        "settings": "Focuser Settings",
+        "AutoFocusFilter": "Autofocus filter",
+        "AutoFocusFilterNone": "None"
       }
     },
     "dome": {

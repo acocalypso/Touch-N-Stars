@@ -4,7 +4,7 @@
     :class="{ 'opacity-50 pointer-events-none': disabled }"
   >
     <label class="text-sm font-medium text-gray-300 whitespace-nowrap">
-      {{ label }}
+      {{ $t(labelKey) }}
     </label>
     <input
       :value="formattedValue"
@@ -22,16 +22,17 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useNumberPicker } from '@/composables/useNumberPicker';
 import { useSettingsStore } from '@/store/settingsStore';
+
+const { t } = useI18n();
+const settingsStore = useSettingsStore();
+const { openPicker: openNumberPicker } = useNumberPicker();
 
 const props = defineProps({
   modelValue: {
     type: Number,
-    required: true,
-  },
-  label: {
-    type: String,
     required: true,
   },
   labelKey: {
@@ -63,8 +64,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
-const settingsStore = useSettingsStore();
-const { openPicker: openNumberPicker } = useNumberPicker();
 
 const formattedValue = computed(() => {
   let decimal = props.decimalPlaces;

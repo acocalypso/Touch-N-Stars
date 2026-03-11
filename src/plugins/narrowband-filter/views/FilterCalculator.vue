@@ -7,9 +7,9 @@
       >
         <div class="flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-end">
           <div>
-            <h1 class="text-3xl font-bold text-white">Filter Calculator</h1>
+            <h1 class="text-3xl font-bold text-white">{{ $t('plugins.narrowband.title') }}</h1>
             <p class="mt-2 text-sm text-gray-300">
-              Calculate narrowband filter transmission characteristics
+              {{ $t('plugins.narrowband.subtitle') }}
             </p>
           </div>
         </div>
@@ -37,14 +37,13 @@
                   d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              Optical Parameters
+              {{ $t('plugins.narrowband.sections.optical') }}
             </h2>
 
             <div class="mt-6 space-y-5">
               <!-- Aperture -->
               <FilterNumberInput
                 v-model="params.aperture"
-                label="Aperture (mm)"
                 labelKey="plugins.narrowband.aperture"
                 :min="10"
                 :max="300"
@@ -54,7 +53,6 @@
               <!-- Focal Length -->
               <FilterNumberInput
                 v-model="params.focalLength"
-                label="Focal Length (mm)"
                 labelKey="plugins.narrowband.focalLength"
                 :min="100"
                 :max="2000"
@@ -64,7 +62,6 @@
               <!-- Peak Transmittance -->
               <FilterNumberInput
                 v-model="params.peakTransmittance"
-                label="Peak Transmittance"
                 labelKey="plugins.narrowband.peakTransmittance"
                 :min="0"
                 :max="1"
@@ -76,7 +73,6 @@
               <!-- Effective Refractive Index -->
               <FilterNumberInput
                 v-model="params.effectiveRefractiveIndex"
-                label="Refractive Index"
                 labelKey="plugins.narrowband.refractiveIndex"
                 :min="1.1"
                 :max="2.5"
@@ -87,7 +83,6 @@
               <!-- Central Obstruction Diameter -->
               <FilterNumberInput
                 v-model="params.obstructionDiameter"
-                label="Central Obstruction (mm)"
                 labelKey="plugins.narrowband.obstructionDiameter"
                 :min="0"
                 :max="params.aperture * 0.9"
@@ -115,12 +110,14 @@
                   d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                 />
               </svg>
-              Bandpass Characteristics
+              {{ $t('plugins.narrowband.sections.bandpass') }}
             </h2>
 
             <!-- Filter Manufacturer Preset -->
             <div class="mt-6 mb-6 pb-6 border-b border-gray-700/50">
-              <label class="block text-sm font-medium text-gray-300 mb-3"> Popular Filters </label>
+              <label class="block text-sm font-medium text-gray-300 mb-3">
+                {{ $t('plugins.narrowband.populerFilters') }}
+              </label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <select
                   @change="loadManufacturerPreset"
@@ -128,7 +125,7 @@
                   :disabled="!!loadedCurveData"
                   class="rounded-lg border border-gray-600 bg-gray-700/50 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <option value="">Select Manufacturer...</option>
+                  <option value="">{{ $t('plugins.narrowband.selectManufacturer') }}</option>
                   <option value="chroma-ha">Chroma 3nm [Ha]</option>
                   <option value="chroma-oiii">Chroma 3nm [OIII]</option>
                   <option value="chroma-sii">Chroma 3nm [SII]</option>
@@ -139,7 +136,7 @@
                   @click="clearManufacturerSelection"
                   class="rounded-lg bg-gray-700/50 px-3 py-2 text-sm font-medium text-gray-300 border border-gray-600 transition hover:bg-gray-600"
                 >
-                  Clear Selection
+                  {{ $t('plugins.narrowband.clearSelection') }}
                 </button>
               </div>
             </div>
@@ -147,7 +144,7 @@
             <!-- CSV Bandpass Curve Upload -->
             <div class="mt-6 mb-6 pb-6 border-b border-gray-700/50">
               <label class="block text-sm font-medium text-gray-300 mb-3">
-                Custom Bandpass Curve (CSV)
+                {{ $t('plugins.narrowband.customCurve') }}
               </label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="flex items-center">
@@ -164,14 +161,15 @@
                   @click="clearLoadedCurve"
                   class="rounded-lg bg-gray-700/50 px-3 py-2 text-sm font-medium text-gray-300 border border-gray-600 transition hover:bg-gray-600"
                 >
-                  Clear Curve
+                  {{ $t('plugins.narrowband.clearCurve') }}
                 </button>
               </div>
               <p v-if="loadedCurveData" class="mt-2 text-xs text-emerald-300">
-                ✓ Loaded: <span class="font-semibold">{{ loadedFileName }}</span> ({{
+                ✓ {{ $t('plugins.narrowband.loaded') }}
+                <span class="font-semibold">{{ loadedFileName }}</span> ({{
                   loadedCurveData.length
                 }}
-                data points)
+                {{ $t('plugins.narrowband.dataPoints') }})
               </p>
             </div>
 
@@ -179,7 +177,6 @@
               <!-- Bandpass Center -->
               <FilterNumberInput
                 v-model="params.bandpassCenter"
-                label="Bandpass Center (nm)"
                 labelKey="plugins.narrowband.bandpassCenter"
                 :min="400"
                 :max="900"
@@ -191,7 +188,6 @@
               <!-- FWHM -->
               <FilterNumberInput
                 v-model="params.fwhm"
-                label="FWHM (nm)"
                 labelKey="plugins.narrowband.fwhm"
                 :min="0.5"
                 :max="20"
@@ -203,7 +199,6 @@
               <!-- Flat Top -->
               <FilterNumberInput
                 v-model="params.flatTop"
-                label="Flat Top (nm)"
                 labelKey="plugins.narrowband.flatTop"
                 :min="0"
                 :max="params.fwhm"
@@ -215,7 +210,7 @@
               <!-- Target Wavelength with Presets -->
               <div class="flex items-center justify-between w-full gap-4">
                 <label class="text-sm font-medium text-gray-300 whitespace-nowrap flex-shrink-0">
-                  Target Wavelength (nm)
+                  {{ $t('plugins.narrowband.targetWavelength') }}
                 </label>
                 <div class="flex gap-2 justify-center flex-1">
                   <button
@@ -313,28 +308,28 @@
                   </div>
                 </div>
                 <p v-else class="text-sm font-medium text-emerald-200">
-                  ✓ Transmission calculated successfully
+                  ✓ {{ $t('plugins.narrowband.status.success') }}
                 </p>
               </div>
 
               <!-- Details -->
               <div class="space-y-2 border-t border-gray-700/50 pt-4">
                 <div class="flex justify-between text-xs text-gray-400">
-                  <span>Wavelength Range</span>
+                  <span>{{ $t('plugins.narrowband.wavelengthRange') }}</span>
                   <span class="text-emerald-300">
                     {{ (params.bandpassCenter - params.fwhm / 2).toFixed(1) }} -
                     {{ (params.bandpassCenter + params.fwhm / 2).toFixed(1) }} nm
                   </span>
                 </div>
                 <div class="flex justify-between text-xs text-gray-400">
-                  <span>Flat Top Range</span>
+                  <span>{{ $t('plugins.narrowband.flatTopRange') }}</span>
                   <span class="text-emerald-300">
                     {{ (params.bandpassCenter - params.flatTop / 2).toFixed(1) }} -
                     {{ (params.bandpassCenter + params.flatTop / 2).toFixed(1) }} nm
                   </span>
                 </div>
                 <div class="flex justify-between text-xs text-gray-400">
-                  <span>Field of View</span>
+                  <span>{{ $t('plugins.narrowband.fieldOfView') }}</span>
                   <span class="text-emerald-300">{{ fov.toFixed(2) }}°</span>
                 </div>
               </div>
@@ -347,7 +342,7 @@
             @click="resetToDefaults"
             class="w-full rounded-lg border border-gray-600 bg-gray-800/50 px-4 py-2 text-sm font-medium text-gray-300 transition hover:bg-gray-800 hover:text-white"
           >
-            Reset to Defaults
+            {{ $t('plugins.narrowband.resetDefaults') }}
           </button>
         </aside>
       </div>
@@ -357,12 +352,16 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   calculateTransmissionContinuous,
   validateParameters,
 } from '../utils/filterCalculations.js';
 import BandpassChart from '../components/BandpassChart.vue';
 import FilterNumberInput from '../components/FilterNumberInput.vue';
+
+// i18n
+const { t } = useI18n();
 
 // Default parameters based on your filter.py
 const defaultParams = {

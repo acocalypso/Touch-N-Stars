@@ -1228,6 +1228,9 @@
       "wifiSelect": "Select Network",
       "wifiBand": "WiFi Band",
       "bandAuto": "Auto",
+      "band24": "2.4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Rescan WiFi networks",
       "wifiPassword": "Password",
       "autoConnect": "Autoconnect to selected wifi after boot",
       "wifiConnect": "Connect",
@@ -1264,6 +1267,8 @@
         "phd2Disabling": "disabling",
         "phd2Success": "PHD2 Service update successful.",
         "phd2Failed": "PHD2 Service update failed: {message}",
+        "connectingToWifi": "Connecting to WiFi network: {ssid}",
+        "wifiResponse": "WiFi response: {response}",
         "jobCreated": "Job successfully created. ID: {jobId}",
         "daemonCheck": "Make sure the PINS daemon is running on {ip}:{port}",
         "serverError": "Server Error ({status}): {data}",
@@ -1273,8 +1278,15 @@
         "error": "Error: {message}",
         "wsConnecting": "Negotiating WebSocket connection to {wsUrl}...",
         "wsConnected": "Connection established. Streaming logs...",
+        "wsCreationFailed": "Failed to create WebSocket: {message}",
         "wsClosed": "Connection closed. (Code: {code})",
-        "wsError": "WebSocket error occurred."
+        "wsError": "WebSocket error occurred.",
+        "verifyingStatus": "Verifying final job status...",
+        "jobReport": "Job report: {report}",
+        "upgradeSuccess": "Upgrade completed successfully.",
+        "upgradeFailed": "Upgrade failed. Exit code: {exitCode}",
+        "jobStatus": "Job status: {status}",
+        "statusFetchFailed": "Failed to fetch final status: {message}"
       }
     },
     "bahtifocus": {
@@ -2024,6 +2036,45 @@
         "api_version_required": "API version {version} or higher required"
       }
     },
+    "narrowband": {
+      "title": "Filter Calculator",
+      "subtitle": "Calculate narrowband filter transmission characteristics",
+      "sections": {
+        "optical": "Optical Parameters",
+        "bandpass": "Bandpass Characteristics",
+        "chart": "Bandpass Curve",
+        "results": "Transmission Results"
+      },
+      "aperture": "Aperture (mm)",
+      "focalLength": "Focal Length (mm)",
+      "peakTransmittance": "Peak Transmittance",
+      "refractiveIndex": "Refractive Index",
+      "obstructionDiameter": "Central Obstruction (mm)",
+      "bandpassCenter": "Bandpass Center (nm)",
+      "fwhm": "FWHM (nm)",
+      "flatTop": "Flat Top (nm)",
+      "populerFilters": "Popular Filters",
+      "selectManufacturer": "Select Manufacturer...",
+      "clearSelection": "Clear Selection",
+      "customCurve": "Custom Bandpass Curve (CSV)",
+      "clearCurve": "Clear Curve",
+      "loaded": "Loaded:",
+      "dataPoints": "data points",
+      "targetWavelength": "Target Wavelength (nm)",
+      "filterTransmission": "Filter Transmission",
+      "wavelengthLabel": "Wavelength (nm)",
+      "transmissionLabel": "Transmission",
+      "transmissionPercent": "Transmission: {percent}%",
+      "wavelengthRange": "Wavelength Range",
+      "flatTopRange": "Flat Top Range",
+      "fieldOfView": "Field of View",
+      "resetDefaults": "Reset to Defaults",
+      "status": {
+        "success": "✓ Transmission calculated successfully",
+        "invalidCsv": "No valid wavelength/transmission data found in CSV",
+        "csvError": "Error parsing CSV: {error}"
+      }
+    },
     "pinsDevices": {
       "title": "PI'N'Stars Device",
       "settings": {
@@ -2041,7 +2092,10 @@
         "configurationDescription": "Configure device settings and sensor calibration",
         "ports": "PowerBox",
         "wifi": "WiFi",
-        "weather": "MeteoStation"
+        "weather": "MeteoStation",
+        "temperature": "Temperature",
+        "humidity": "Humidity",
+        "dewPoint": "Dew Point"
       },
       "config": {
         "title": "Configuration",

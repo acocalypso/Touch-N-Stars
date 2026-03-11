@@ -119,6 +119,47 @@
             </svg>
           </button>
 
+          <!-- Touch/Mouse Input Mode Toggle -->
+          <button
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            :class="{ 'text-indigo-400': isTouchInputMode }"
+            :title="
+              isTouchInputMode ? 'Switch to Mouse Pointer Mode' : 'Switch to Touch Input Mode'
+            "
+            @click="toggleInputMode"
+          >
+            <svg
+              v-if="isTouchInputMode"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 2a2 2 0 012 2v8h1.5a2.5 2.5 0 012.5 2.5V16a6 6 0 01-12 0v-3a2 2 0 114 0v1"
+              />
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 3l14 8-6 2-2 6-6-16z"
+              />
+            </svg>
+          </button>
+
           <!-- Ctrl-Alt-Del -->
           <button
             class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
@@ -137,6 +178,54 @@
                 stroke-linejoin="round"
                 stroke-width="2"
                 d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              />
+            </svg>
+          </button>
+
+          <!-- On-Screen Keyboard -->
+          <button
+            v-if="!isMobileClient"
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            :class="{ 'text-indigo-400': isKeyboardOpen }"
+            :title="isKeyboardOpen ? 'Hide Keyboard' : 'Show Keyboard'"
+            @click="isKeyboardOpen = !isKeyboardOpen"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 7h18a1 1 0 011 1v8a1 1 0 01-1 1H3a1 1 0 01-1-1V8a1 1 0 011-1zm2 3h1m2 0h1m2 0h1m2 0h1m2 0h1M5 14h6m2 0h6"
+              />
+            </svg>
+          </button>
+
+          <!-- Native Keyboard (mobile only) -->
+          <button
+            v-if="isMobileClient"
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            :class="{ 'text-indigo-400': isNativeKeyboardOpen }"
+            :title="isNativeKeyboardOpen ? 'Hide Native Keyboard' : 'Open Native Keyboard'"
+            @click="isNativeKeyboardOpen ? (isNativeKeyboardOpen = false) : openNativeKeyboard()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 3h8a2 2 0 012 2v14a2 2 0 01-2 2H8a2 2 0 01-2-2V5a2 2 0 012-2zm1 4h6M9 17h6"
               />
             </svg>
           </button>
@@ -185,6 +274,49 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </button>
+
+      <OnScreenKeyboard
+        v-if="isConnected && isKeyboardOpen"
+        :native-keyboard-open="isNativeKeyboardOpen"
+        @send-keysym="sendKeysym"
+        @send-printable="sendPrintableCharacter"
+      />
+
+      <!-- Native Mobile Keyboard Dock -->
+      <div
+        v-if="isConnected && isNativeKeyboardOpen"
+        class="absolute bottom-2 left-2 right-2 z-50 rounded-lg border border-gray-700 bg-gray-900/95 p-2 shadow-2xl backdrop-blur-sm"
+      >
+        <div class="flex items-center gap-2">
+          <input
+            ref="nativeKeyboardInputRef"
+            v-model="nativeKeyboardValue"
+            type="text"
+            inputmode="text"
+            autocapitalize="none"
+            autocomplete="off"
+            autocorrect="off"
+            spellcheck="false"
+            enterkeyhint="enter"
+            class="w-full rounded border border-gray-600 bg-gray-800 px-2 py-1.5 text-sm text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
+            placeholder="Native keyboard input"
+            @keydown="handleNativeKeyboardKeydown"
+            @input="handleNativeKeyboardInput"
+          />
+          <button
+            class="rounded bg-gray-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-600"
+            @click="focusNativeKeyboard"
+          >
+            Focus
+          </button>
+          <button
+            class="rounded bg-gray-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-gray-600"
+            @click="isNativeKeyboardOpen = false"
+          >
+            Hide
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Connection Overlay -->
@@ -242,9 +374,11 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { Capacitor } from '@capacitor/core';
 import { useSettingsStore } from '@/store/settingsStore';
 import Panzoom from '@panzoom/panzoom';
+import OnScreenKeyboard from '../components/OnScreenKeyboard.vue';
 
 const settingsStore = useSettingsStore();
 
@@ -262,15 +396,121 @@ const isFullscreen = ref(false);
 const isToolbarOpen = ref(false);
 const isNavMode = ref(false);
 const panzoomInstance = ref(null);
+const isTouchInputMode = ref(false);
+const isKeyboardOpen = ref(false);
+const isNativeKeyboardOpen = ref(false);
+const nativeKeyboardInputRef = ref(null);
+const nativeKeyboardValue = ref('');
+const isMobileClient = ref(false);
 
 const updateFullscreenState = () => {
   isFullscreen.value = !!document.fullscreenElement;
+};
+
+const detectMobileClient = () => {
+  const platform = Capacitor.getPlatform();
+  if (platform === 'ios' || platform === 'android') {
+    isMobileClient.value = true;
+    isTouchInputMode.value = true;
+    return;
+  }
+
+  const hasCoarsePointer =
+    typeof window !== 'undefined' && window.matchMedia
+      ? window.matchMedia('(pointer: coarse)').matches
+      : false;
+  const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
+  const mobileUa = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+  isMobileClient.value = hasCoarsePointer || mobileUa;
+  isTouchInputMode.value = isMobileClient.value;
+};
+
+const updateViewerCursor = () => {
+  if (!viewerRef.value) return;
+  if (isNavMode.value) {
+    viewerRef.value.style.cursor = 'grab';
+    return;
+  }
+  viewerRef.value.style.cursor = isTouchInputMode.value ? 'auto' : 'crosshair';
+};
+
+const applyInputMode = () => {
+  if (!rfbInstance.value) {
+    updateViewerCursor();
+    return;
+  }
+
+  // In touch mode, dragging pans the viewport and taps become clicks.
+  rfbInstance.value.dragViewport = isTouchInputMode.value;
+  rfbInstance.value.showDotCursor = !isTouchInputMode.value;
+  updateViewerCursor();
 };
 
 const sendCtrlAltDel = () => {
   if (rfbInstance.value) {
     rfbInstance.value.sendCtrlAltDel();
   }
+};
+
+const sendKeysym = (keysym) => {
+  if (!rfbInstance.value || !Number.isInteger(keysym)) return;
+  rfbInstance.value.sendKey(keysym);
+};
+
+const sendPrintableCharacter = (character) => {
+  if (!rfbInstance.value || !character) return;
+  const keysym = character.codePointAt(0);
+  if (!Number.isInteger(keysym)) return;
+  rfbInstance.value.sendKey(keysym);
+};
+
+const focusNativeKeyboard = async () => {
+  await nextTick();
+  nativeKeyboardInputRef.value?.focus();
+};
+
+const toggleInputMode = () => {
+  isTouchInputMode.value = !isTouchInputMode.value;
+  applyInputMode();
+};
+
+const openNativeKeyboard = async () => {
+  isNativeKeyboardOpen.value = true;
+  await focusNativeKeyboard();
+};
+
+const handleNativeKeyboardKeydown = (event) => {
+  if (!rfbInstance.value) return;
+
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    sendKeysym(0xff0d);
+    nativeKeyboardValue.value = '';
+    return;
+  }
+
+  if (event.key === 'Backspace') {
+    event.preventDefault();
+    sendKeysym(0xff08);
+    nativeKeyboardValue.value = '';
+    return;
+  }
+
+  if (event.key === 'Tab') {
+    event.preventDefault();
+    sendKeysym(0xff09);
+  }
+};
+
+const handleNativeKeyboardInput = (event) => {
+  const value = event?.target?.value || '';
+  if (!value) return;
+
+  for (const character of value) {
+    sendPrintableCharacter(character);
+  }
+
+  nativeKeyboardValue.value = '';
 };
 
 const enablePanzoom = () => {
@@ -292,7 +532,7 @@ const enablePanzoom = () => {
 
   if (panzoomInstance.value) {
     panzoomInstance.value.bind();
-    if (viewerRef.value) viewerRef.value.style.cursor = 'grab';
+    updateViewerCursor();
   }
 };
 
@@ -304,7 +544,7 @@ const disablePanzoom = () => {
   if (panzoomInstance.value) {
     panzoomInstance.value.unbind();
   }
-  if (viewerRef.value) viewerRef.value.style.cursor = 'crosshair';
+  updateViewerCursor();
 };
 
 const toggleNavMode = () => {
@@ -327,6 +567,7 @@ const applyAutoHost = () => {
 };
 
 onMounted(() => {
+  detectMobileClient();
   applyAutoHost();
   document.addEventListener('fullscreenchange', updateFullscreenState);
 });
@@ -425,7 +666,14 @@ const connect = async () => {
 
     detachRfb();
 
-    const { default: RFB } = await import('@novnc/novnc/lib/rfb.js');
+    let rfbModule;
+    try {
+      // Some bundlers resolve the extensionless path more reliably.
+      rfbModule = await import('@novnc/novnc/lib/rfb');
+    } catch {
+      rfbModule = await import('@novnc/novnc/lib/rfb.js');
+    }
+    const { default: RFB } = rfbModule;
 
     const rfb = new RFB(viewerRef.value, connectionUrl.value, {
       shared: true,
@@ -443,6 +691,7 @@ const connect = async () => {
     rfb.addEventListener('securityfailure', handleSecurityFailure);
 
     rfbInstance.value = rfb;
+    applyInputMode();
   } catch (error) {
     statusMessage.value = 'Failed to connect';
     errorMessage.value = error?.message || String(error);
@@ -456,6 +705,9 @@ const disconnect = () => {
   detachRfb();
   isConnected.value = false;
   statusMessage.value = 'Disconnected';
+  isKeyboardOpen.value = false;
+  isNativeKeyboardOpen.value = false;
+  nativeKeyboardValue.value = '';
 };
 
 onBeforeUnmount(() => {

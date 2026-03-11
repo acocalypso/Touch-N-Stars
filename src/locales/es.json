@@ -1999,7 +1999,16 @@
         "forcingSync": "Sincronizando la hora manualmente...",
         "syncingTime": "Diferencia horaria detectada: {diff}s. \nSincronizando el tiempo...",
         "timeInSync": "El tiempo está sincronizado (diff: {diff}s).",
-        "timeSynced": "La hora del sistema se sincronizó correctamente."
+        "timeSynced": "La hora del sistema se sincronizó correctamente.",
+        "connectingToWifi": "Conexión a la red WiFi: {ssid}",
+        "jobReport": "Informe de trabajo: {informe}",
+        "jobStatus": "Estado del trabajo: {status}",
+        "statusFetchFailed": "No se pudo recuperar el estado final: {mensaje}",
+        "upgradeFailed": "La actualización falló. \nCódigo de salida: {código de salida}",
+        "upgradeSuccess": "Actualización completada exitosamente.",
+        "verifyingStatus": "Verificando el estado final del trabajo...",
+        "wifiResponse": "Respuesta WiFi: {respuesta}",
+        "wsCreationFailed": "No se pudo crear WebSocket: {mensaje}"
       },
       "notAvailable": "Entorno PINS no detectado. Este plugin está deshabilitado.",
       "sambaDescription": "Habilitar o deshabilitar el uso compartido de archivos en red",
@@ -2033,7 +2042,10 @@
       "deviceTime": "Hora del dispositivo",
       "loadingTime": "Tiempo de carga...",
       "syncNow": "Sincronizar ahora",
-      "systemTime": "Hora del sistema"
+      "systemTime": "Hora del sistema",
+      "band24": "2,4 GHz",
+      "band5": "5GHz",
+      "rescan": "Volver a escanear redes WiFi"
     },
     "pinsDevices": {
       "config": {
@@ -2089,7 +2101,10 @@
         "usbPorts": "Puertos USB",
         "usbPortsDescription": "Configurar y administrar conexiones de puertos USB",
         "weather": "Estación Meteorológica",
-        "wifi": "Wi-Fi"
+        "wifi": "Wi-Fi",
+        "dewPoint": "Punto de rocío",
+        "humidity": "Humedad",
+        "temperature": "Temperatura"
       },
       "status": {
         "notConnected": "No conectado"
@@ -2217,6 +2232,45 @@
         "error": "Error:",
         "loading": "Cargando..."
       }
+    },
+    "narrowband": {
+      "aperture": "Apertura (mm)",
+      "bandpassCenter": "Centro de paso de banda (nm)",
+      "clearCurve": "Borrar curva",
+      "clearSelection": "Borrar selección",
+      "customCurve": "Curva de paso de banda personalizada (CSV)",
+      "dataPoints": "puntos de datos",
+      "fieldOfView": "Campo de visión",
+      "filterTransmission": "Transmisión del filtro",
+      "flatTop": "Parte superior plana (nm)",
+      "flatTopRange": "Cocina superior plana",
+      "focalLength": "Longitud focal (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Cargado:",
+      "obstructionDiameter": "Obstrucción central (mm)",
+      "peakTransmittance": "Transmitancia máxima",
+      "populerFilters": "Filtros populares",
+      "refractiveIndex": "Índice de refracción",
+      "resetDefaults": "Restablecer los valores predeterminados",
+      "sections": {
+        "bandpass": "Características de paso de banda",
+        "chart": "Curva de paso de banda",
+        "optical": "Parámetros ópticos",
+        "results": "Resultados de transmisión"
+      },
+      "selectManufacturer": "Seleccione Fabricante...",
+      "status": {
+        "csvError": "Error al analizar CSV: {error}",
+        "invalidCsv": "No se encontraron datos válidos de longitud de onda/transmisión en CSV",
+        "success": "✓ Transmisión calculada exitosamente"
+      },
+      "subtitle": "Calcular las características de transmisión del filtro de banda estrecha.",
+      "targetWavelength": "Longitud de onda objetivo (nm)",
+      "title": "Calculadora de filtro",
+      "transmissionLabel": "Transmisión",
+      "transmissionPercent": "Transmisión: {porcentaje}%",
+      "wavelengthLabel": "Longitud de onda (nm)",
+      "wavelengthRange": "Rango de longitud de onda"
     }
   },
   "dialogs": {

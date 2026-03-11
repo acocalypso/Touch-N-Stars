@@ -1999,7 +1999,16 @@
         "forcingSync": "Manually syncing time...",
         "syncingTime": "Time difference detected: {diff}s. Syncing time...",
         "timeInSync": "Time is in sync (diff: {diff}s).",
-        "timeSynced": "System time synchronized successfully."
+        "timeSynced": "System time synchronized successfully.",
+        "connectingToWifi": "Connecting to WiFi network: {ssid}",
+        "jobReport": "Job report: {report}",
+        "jobStatus": "Job status: {status}",
+        "statusFetchFailed": "Failed to fetch final status: {message}",
+        "upgradeFailed": "Upgrade failed. Exit code: {exitCode}",
+        "upgradeSuccess": "Upgrade completed successfully.",
+        "verifyingStatus": "Verifying final job status...",
+        "wifiResponse": "WiFi response: {response}",
+        "wsCreationFailed": "Failed to create WebSocket: {message}"
       },
       "notAvailable": "未检测到 PINS 环境。此插件已禁用。",
       "sambaDescription": "启用或禁用网络文件共享",
@@ -2033,7 +2042,10 @@
       "deviceTime": "Device Time",
       "loadingTime": "Loading time...",
       "syncNow": "Sync Now",
-      "systemTime": "System Time"
+      "systemTime": "System Time",
+      "band24": "2.4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Rescan WiFi networks"
     },
     "pinsDevices": {
       "config": {
@@ -2089,7 +2101,10 @@
         "usbPorts": "USB Ports",
         "usbPortsDescription": "Configure and manage USB port connections",
         "weather": "MeteoStation",
-        "wifi": "WiFi"
+        "wifi": "WiFi",
+        "dewPoint": "Dew Point",
+        "humidity": "Humidity",
+        "temperature": "Temperature"
       },
       "status": {
         "notConnected": "Not connected"
@@ -2217,6 +2232,45 @@
         "error": "错误:",
         "loading": "正在加载..."
       }
+    },
+    "narrowband": {
+      "aperture": "Aperture (mm)",
+      "bandpassCenter": "Bandpass Center (nm)",
+      "clearCurve": "Clear Curve",
+      "clearSelection": "Clear Selection",
+      "customCurve": "Custom Bandpass Curve (CSV)",
+      "dataPoints": "data points",
+      "fieldOfView": "Field of View",
+      "filterTransmission": "Filter Transmission",
+      "flatTop": "Flat Top (nm)",
+      "flatTopRange": "Flat Top Range",
+      "focalLength": "Focal Length (mm)",
+      "fwhm": "FWHM (nm)",
+      "loaded": "Loaded:",
+      "obstructionDiameter": "Central Obstruction (mm)",
+      "peakTransmittance": "Peak Transmittance",
+      "populerFilters": "Popular Filters",
+      "refractiveIndex": "Refractive Index",
+      "resetDefaults": "Reset to Defaults",
+      "sections": {
+        "bandpass": "Bandpass Characteristics",
+        "chart": "Bandpass Curve",
+        "optical": "Optical Parameters",
+        "results": "Transmission Results"
+      },
+      "selectManufacturer": "Select Manufacturer...",
+      "status": {
+        "csvError": "Error parsing CSV: {error}",
+        "invalidCsv": "No valid wavelength/transmission data found in CSV",
+        "success": "✓ Transmission calculated successfully"
+      },
+      "subtitle": "Calculate narrowband filter transmission characteristics",
+      "targetWavelength": "Target Wavelength (nm)",
+      "title": "Filter Calculator",
+      "transmissionLabel": "Transmission",
+      "transmissionPercent": "Transmission: {percent}%",
+      "wavelengthLabel": "Wavelength (nm)",
+      "wavelengthRange": "Wavelength Range"
     }
   },
   "dialogs": {

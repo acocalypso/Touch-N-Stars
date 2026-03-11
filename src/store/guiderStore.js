@@ -18,6 +18,7 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2Status: [],
     phd2StarLostInfo: [],
     phd2StarLost: false,
+    isFetchingPhd2Infos: false,
     phd2EquipmentProfiles: [],
     phd2CurrentEquipment: [],
     phd2IsConnected: false,
@@ -75,6 +76,11 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async fetchPhd2Infos() {
+      if (this.isFetchingPhd2Infos) {
+        return;
+      }
+
+      this.isFetchingPhd2Infos = true;
       try {
         const response1 = await apiService.getPhd2AllInfos();
 
@@ -91,13 +97,16 @@ export const useGuiderStore = defineStore('guiderStore', {
 
         this.phd2StarLostInfo = response1.Response.StarLostInfo;
 
-        this.phd2StarLost = this.checkStarLostByFrame(this.phd2StarLostInfo);
+        const mainStore = apiStore();
+        this.phd2StarLost = this.checkStarLostByState(
+          response1.Response.Status,
+          mainStore.guiderInfo?.State
+        );
         if (this.phd2StarLost) {
           console.log('Star lost');
           console.log(this.phd2StarLostInfo);
 
           // Prüfe, ob die Seite kürzlich aus dem Hintergrund zurückgekehrt ist
-          const mainStore = apiStore();
           if (!mainStore.isPageRecentlyReturnedFromBackground()) {
             console.log('Show star lost toast');
           } else {
@@ -115,61 +124,19 @@ export const useGuiderStore = defineStore('guiderStore', {
           this.phd2CurrentEquipment.camera?.connected || this.phd2CurrentEquipment.mount?.connected;
       } catch (error) {
         console.error('Error fetching the information:', error);
+      } finally {
+        this.isFetchingPhd2Infos = false;
       }
     },
 
-    data() {
-      return {
-        previousStarLostFrame: null,
-        phd2StarLost: false,
-        isStarLostInitialized: false, // <- new flag
-      };
-    },
+    checkStarLostByState(phd2Status, guiderState) {
+      const normalizedPhd2Status = String(phd2Status || '').toLowerCase();
+      const normalizedGuiderState = String(guiderState || '').toLowerCase();
 
-    checkStarLostByFrame(starLostInfo) {
-      if (!starLostInfo || typeof starLostInfo.Frame !== 'number') {
-        this.previousStarLostFrame = null;
-        this.isStarLostInitialized = false;
-        this.lastStarLostCheck = null;
-        return false;
-      }
-
-      const currentFrame = starLostInfo.Frame;
-      const now = Date.now();
-
-      // Check if we're recently returned from background
-      const mainStore = apiStore();
-      if (mainStore.isPageRecentlyReturnedFromBackground()) {
-        // Reset initialization to avoid false positives
-        this.previousStarLostFrame = currentFrame;
-        this.isStarLostInitialized = true;
-        this.lastStarLostCheck = now;
-        //console.log('Page recently returned, resetting star lost tracking');
-        return false;
-      }
-
-      if (!this.isStarLostInitialized) {
-        // First call: store the frame but don't trigger star lost
-        this.previousStarLostFrame = currentFrame;
-        this.isStarLostInitialized = true;
-        this.lastStarLostCheck = now;
-        console.log('Star lost initialized with frame:', currentFrame);
-        return false;
-      }
-
-      // Don't check too frequently after initialization
-      if (this.lastStarLostCheck && now - this.lastStarLostCheck < 5000) {
-        return false;
-      }
-
-      if (currentFrame !== this.previousStarLostFrame) {
-        console.log('Star lost frame changed:', this.previousStarLostFrame, '->', currentFrame);
-        this.previousStarLostFrame = currentFrame;
-        this.lastStarLostCheck = now;
-        return true;
-      }
-
-      return false;
+      return (
+        normalizedPhd2Status.includes('lostlock') ||
+        normalizedGuiderState.includes('lostlock')
+      );
     },
 
     startFetching() {

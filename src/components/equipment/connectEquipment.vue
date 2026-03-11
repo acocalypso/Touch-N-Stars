@@ -82,6 +82,7 @@
       :deviceName="$t('components.connectEquipment.focuser.name')"
       :default-device-id="store.profileInfo?.FocuserSettings?.Id"
       :isConnected="store.focuserInfo.Connected"
+      @open-config="openFocuserSettings"
     />
 
     <selectGuiderCam
@@ -105,6 +106,7 @@
       :deviceName="$t('components.connectEquipment.filter.name')"
       :default-device-id="store.profileInfo?.FilterWheelSettings?.Id"
       :isConnected="store.filterInfo.Connected"
+      @open-config="openFilterSettings"
     />
 
     <selectDevices
@@ -112,6 +114,7 @@
       :deviceName="$t('components.connectEquipment.rotator.name')"
       :default-device-id="store.profileInfo?.RotatorSettings?.Id"
       :isConnected="store.rotatorInfo.Connected"
+      @open-config="openRotatorSettings"
     />
 
     <selectDevices
@@ -119,6 +122,7 @@
       :deviceName="$t('components.connectEquipment.weather.name')"
       :default-device-id="store.profileInfo?.WeatherDataSettings?.Id"
       :isConnected="store.weatherInfo.Connected"
+      @open-config="openWeatherSettings"
     />
 
     <selectDevices
@@ -133,6 +137,7 @@
       :deviceName="$t('components.connectEquipment.flat.name')"
       :default-device-id="store.profileInfo?.FlatDeviceSettings?.Id"
       :isConnected="store.flatdeviceInfo.Connected"
+      @open-config="openFlatDeviceSettings"
     />
 
     <selectDevices
@@ -163,10 +168,66 @@
   <!-- Mount Settings Modal -->
   <Modal :show="showMountSettings" @close="showMountSettings = false">
     <template #header>
-      <h2 class="text-2xl font-semibold">{{ $t('components.mount.config.settings') }}</h2>
+      <h2 class="text-2xl font-semibold">{{ $t('components.mount.indi.settings') }}</h2>
     </template>
     <template #body>
-      <settingsMount :selectedMountDevice="selectedMountDevice" />
+      <SettingsSerialConnection equipmentType="mount" :selectedDevice="selectedMountDevice" />
+    </template>
+  </Modal>
+
+  <!-- Focuser Settings Modal -->
+  <Modal :show="showFocuserSettings" @close="showFocuserSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.focuser.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection equipmentType="focuser" :selectedDevice="selectedFocuserDevice" />
+    </template>
+  </Modal>
+
+  <!-- Rotator Settings Modal -->
+  <Modal :show="showRotatorSettings" @close="showRotatorSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.rotator.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection equipmentType="rotator" :selectedDevice="selectedRotatorDevice" />
+    </template>
+  </Modal>
+
+  <!-- FlatDevice Settings Modal -->
+  <Modal :show="showFlatDeviceSettings" @close="showFlatDeviceSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.flat.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection
+        equipmentType="flatdevice"
+        :selectedDevice="selectedFlatDeviceDevice"
+      />
+    </template>
+  </Modal>
+
+  <!-- Filter Settings Modal -->
+  <Modal :show="showFilterSettings" @close="showFilterSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.filterwheel.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection
+        equipmentType="filterwheel"
+        :selectedDevice="selectedFilterDevice"
+      />
+    </template>
+  </Modal>
+
+  <!-- Weather Settings Modal -->
+  <Modal :show="showWeatherSettings" @close="showWeatherSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.weatherModal.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection equipmentType="weather" :selectedDevice="selectedWeatherDevice" />
     </template>
   </Modal>
 </template>
@@ -181,7 +242,7 @@ import selectDevices from '@/components/equipment/selectDevices.vue';
 import selectGuiderCam from '@/components/guider/PHD2/selectGuiderCam.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
-import settingsMount from '@/components/mount/settingsMount.vue';
+import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
@@ -193,6 +254,16 @@ const showGuiderSettings = ref(false);
 const selectedGuiderDevice = ref('');
 const showMountSettings = ref(false);
 const selectedMountDevice = ref('');
+const showFocuserSettings = ref(false);
+const selectedFocuserDevice = ref('');
+const showRotatorSettings = ref(false);
+const selectedRotatorDevice = ref('');
+const showFlatDeviceSettings = ref(false);
+const selectedFlatDeviceDevice = ref('');
+const showFilterSettings = ref(false);
+const selectedFilterDevice = ref('');
+const showWeatherSettings = ref(false);
+const selectedWeatherDevice = ref('');
 
 const isGuiderConnectDisabled = computed(() => {
   return (
@@ -220,6 +291,31 @@ const openGuiderSettings = (payload) => {
 const openMountSettings = (payload) => {
   selectedMountDevice.value = payload?.selectedDeviceDisplayName || '';
   showMountSettings.value = true;
+};
+
+const openFocuserSettings = (payload) => {
+  selectedFocuserDevice.value = payload?.selectedDeviceDisplayName || '';
+  showFocuserSettings.value = true;
+};
+
+const openRotatorSettings = (payload) => {
+  selectedRotatorDevice.value = payload?.selectedDeviceDisplayName || '';
+  showRotatorSettings.value = true;
+};
+
+const openFlatDeviceSettings = (payload) => {
+  selectedFlatDeviceDevice.value = payload?.selectedDeviceDisplayName || '';
+  showFlatDeviceSettings.value = true;
+};
+
+const openFilterSettings = (payload) => {
+  selectedFilterDevice.value = payload?.selectedDeviceDisplayName || '';
+  showFilterSettings.value = true;
+};
+
+const openWeatherSettings = (payload) => {
+  selectedWeatherDevice.value = payload?.selectedDeviceDisplayName || '';
+  showWeatherSettings.value = true;
 };
 
 const allConnected = computed(() => {

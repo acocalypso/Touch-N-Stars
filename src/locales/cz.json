@@ -20,7 +20,8 @@
     "yes": "Ano",
     "no": "Ne",
     "delete": "Smazat",
-    "close": "Zavřít"
+    "close": "Zavřít",
+    "edit": "Edit"
   },
   "pages": {
     "equipment": {
@@ -646,14 +647,8 @@
         "reverse_primary_axis": "Obrátit primární osu",
         "reverse_secondary_axis": "Obrátit sekundární osu"
       },
-      "config": {
-        "baudRate": "Přenosová rychlost",
-        "connectionMode": "Režim připojení",
-        "devicePort": "Port zařízení",
-        "ipAddress": "IP adresa",
-        "settings": "Nastavení montáže",
-        "autoDetect": "Auto Detect",
-        "tcpPort": "TCP Port"
+      "indi": {
+        "settings": "Nastavení montáže"
       }
     },
     "guider": {
@@ -834,7 +829,10 @@
         "UseFilterWheelOffsets": "Použít offsety filtrovacího kola",
         "MaxStep": "Max Steps"
       },
-      "focus": "Focus"
+      "focus": "Focus",
+      "indi": {
+        "settings": "Focuser Settings"
+      }
     },
     "dome": {
       "title": "Kopule",
@@ -952,40 +950,40 @@
         "gain": "Gain",
         "nina_default": "NINA Výchozí",
         "title": "Nastavení TPPAs",
-        "ManualMode": "Manual mode",
-        "pins_settings": {
-          "title": "PINS TPPA Settings",
-          "movement": "Pohyb",
-          "offsets": "Posuny",
-          "behavior": "Chování",
-          "default_move_rate": "Maximální rychlost pohybu (°/s)",
-          "default_east_direction": "Výchozí východní směr",
-          "move_timeout_factor": "Faktor časového limitu pohybu",
-          "default_target_distance": "Výchozí vzdálenost cíle (°)",
-          "default_search_radius": "Výchozí poloměr hledání (°)",
-          "default_azimuth_offset": "Posun azimutu (°)",
-          "default_altitude_offset": "Posun výšky (°)",
-          "alignment_tolerance": "Tolerance polárního nastavení",
-          "refraction_adjustment": "Korekce atmosférické refrakce",
-          "stop_tracking_when_done": "Po dokončení zastavit sledování",
-          "settle_time": "Doba ustálení (s)",
-          "auto_pause": "Automatická pauza",
-          "log_error": "Zaznamenat chybu",
-          "reset": "Obnovit výchozí hodnoty",
-          "help_default_move_rate": "Maximální rychlost otáčení montáže ve stupních za sekundu. TPPA tuto hodnotu používá k výpočtu rychlosti pohybu mezi měřicími body. Je důležité, aby odpovídala skutečné maximální rychlosti vaší montáže. Někteří výrobci montáží implementují rychlost pohybu odlišně – pokud se montáž nepohybuje na očekávanou vzdálenost, upravte faktor časového limitu pohybu.",
-          "help_default_east_direction": "Určuje, zda se druhý a třetí měřicí bod dosahuje pohybem na východ nebo západ podél osy RA. Některé ovladače montáže mohou vyžadovat obrácení tohoto nastavení v záložce dalekohledu.",
-          "help_move_timeout_factor": "Po uplynutí (vzdálenost cíle / rychlost pohybu × faktor časového limitu) sekund se montáž zastaví jako bezpečnostní opatření. Zvyšte pouze tehdy, pokud se zobrazují varování, že požadovaná vzdálenost nebyla dosažena.",
-          "help_default_target_distance": "Vzdálenost ve stupních mezi měřicími body během procedury polárního nastavení.",
-          "help_default_search_radius": "Poloměr hledání ve stupních pro váš systém řešení destiček v průběhu TPPA. Měl by být větší než vaše počáteční chyba polárního nastavení, ale ne příliš velký, aby bylo zajištěno rychlé řešení.",
-          "help_default_azimuth_offset": "Posun azimutu ve stupních od polohy pólu pro první měřicí bod.",
-          "help_default_altitude_offset": "Posun výšky ve stupních od polohy pólu pro první měřicí bod.",
-          "help_alignment_tolerance": "Je-li nastavena nenulová hodnota, postup polárního nastavení se automaticky dokončí, pokud chyba klesne pod tuto toleranci (v obloukových minutách).",
-          "help_refraction_adjustment": "Při zapnutí aplikace zohlední atmosférickou refrakci na základě vaší polohy, nadmořské výšky a aktuálních meteorologických podmínek. Pokud není připojen žádný zdroj počasí, použijí se standardní atmosférické parametry.",
-          "help_stop_tracking_when_done": "Při zapnutí montáž zastaví sledování po dokončení polárního nastavení. Vypněte, pokud chcete, aby montáž pokračovala ve sledování.",
-          "help_settle_time": "Při použití automatických úprav určuje dobu čekání v sekundách po každém pohybu.",
-          "help_auto_pause": "Nastavení automatické pauzy pro proceduru polárního nastavení.",
-          "help_log_error": "Při zapnutí bude vytvořen soubor protokolu s úpravami chyby polárního nastavení a průběžnými chybami po každé úpravě."
-        }
+        "ManualMode": "Manual mode"
+      },
+      "pins_settings": {
+        "title": "PINS TPPA Settings",
+        "movement": "Pohyb",
+        "offsets": "Posuny",
+        "behavior": "Chování",
+        "default_move_rate": "Maximální rychlost pohybu (°/s)",
+        "default_east_direction": "Výchozí východní směr",
+        "move_timeout_factor": "Faktor časového limitu pohybu",
+        "default_target_distance": "Výchozí vzdálenost cíle (°)",
+        "default_search_radius": "Výchozí poloměr hledání (°)",
+        "default_azimuth_offset": "Posun azimutu (°)",
+        "default_altitude_offset": "Posun výšky (°)",
+        "alignment_tolerance": "Tolerance polárního nastavení",
+        "refraction_adjustment": "Korekce atmosférické refrakce",
+        "stop_tracking_when_done": "Po dokončení zastavit sledování",
+        "settle_time": "Doba ustálení (s)",
+        "auto_pause": "Automatická pauza",
+        "log_error": "Zaznamenat chybu",
+        "reset": "Obnovit výchozí hodnoty",
+        "help_default_move_rate": "Maximální rychlost otáčení montáže ve stupních za sekundu. TPPA tuto hodnotu používá k výpočtu rychlosti pohybu mezi měřicími body. Je důležité, aby odpovídala skutečné maximální rychlosti vaší montáže. Někteří výrobci montáží implementují rychlost pohybu odlišně – pokud se montáž nepohybuje na očekávanou vzdálenost, upravte faktor časového limitu pohybu.",
+        "help_default_east_direction": "Určuje, zda se druhý a třetí měřicí bod dosahuje pohybem na východ nebo západ podél osy RA. Některé ovladače montáže mohou vyžadovat obrácení tohoto nastavení v záložce dalekohledu.",
+        "help_move_timeout_factor": "Po uplynutí (vzdálenost cíle / rychlost pohybu × faktor časového limitu) sekund se montáž zastaví jako bezpečnostní opatření. Zvyšte pouze tehdy, pokud se zobrazují varování, že požadovaná vzdálenost nebyla dosažena.",
+        "help_default_target_distance": "Vzdálenost ve stupních mezi měřicími body během procedury polárního nastavení.",
+        "help_default_search_radius": "Poloměr hledání ve stupních pro váš systém řešení destiček v průběhu TPPA. Měl by být větší než vaše počáteční chyba polárního nastavení, ale ne příliš velký, aby bylo zajištěno rychlé řešení.",
+        "help_default_azimuth_offset": "Posun azimutu ve stupních od polohy pólu pro první měřicí bod.",
+        "help_default_altitude_offset": "Posun výšky ve stupních od polohy pólu pro první měřicí bod.",
+        "help_alignment_tolerance": "Je-li nastavena nenulová hodnota, postup polárního nastavení se automaticky dokončí, pokud chyba klesne pod tuto toleranci (v obloukových minutách).",
+        "help_refraction_adjustment": "Při zapnutí aplikace zohlední atmosférickou refrakci na základě vaší polohy, nadmořské výšky a aktuálních meteorologických podmínek. Pokud není připojen žádný zdroj počasí, použijí se standardní atmosférické parametry.",
+        "help_stop_tracking_when_done": "Při zapnutí montáž zastaví sledování po dokončení polárního nastavení. Vypněte, pokud chcete, aby montáž pokračovala ve sledování.",
+        "help_settle_time": "Při použití automatických úprav určuje dobu čekání v sekundách po každém pohybu.",
+        "help_auto_pause": "Nastavení automatické pauzy pro proceduru polárního nastavení.",
+        "help_log_error": "Při zapnutí bude vytvořen soubor protokolu s úpravami chyby polárního nastavení a průběžnými chybami po každé úpravě."
       },
       "tppa": "TPPA"
     },
@@ -1030,6 +1028,9 @@
           "AutoFocusExposureTime": "Čas expozice automatického zaostření",
           "Name": "Název"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1061,6 +1062,9 @@
         "OvershootDirection": "Overshoot Direction",
         "ResetPosition": "Reset zero position",
         "Backlash": "Hystereze"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1082,6 +1086,9 @@
         "closedPosition": "Poloha zavření (°)",
         "currentPosition": "Aktuální poloha",
         "noSettingsForDevice": "Pro toto zařízení nejsou k dispozici žádná nastavení"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "weatherModal": {
@@ -1096,7 +1103,10 @@
       "dewPoint": "Rosný bod",
       "rainRate": "Intenzita deště",
       "skyQuality": "Kvalita oblohy",
-      "skyTemperature": "Teplota oblohy"
+      "skyTemperature": "Teplota oblohy",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Měřící přístroje",
@@ -1196,6 +1206,19 @@
       "dec": "Dec",
       "pixel_scale": "Měřítko pixelů",
       "focal_length": "Ohnisková vzdálenost"
+    }
+  },
+  "indi": {
+    "config": {
+      "baudRate": "Přenosová rychlost",
+      "connectionMode": "Režim připojení",
+      "devicePort": "Port zařízení",
+      "ipAddress": "IP adresa",
+      "autoDetect": "Auto Detect",
+      "tcpPort": "TCP Port",
+      "serial": "Serial",
+      "network": "Network",
+      "selectPort": "-- Select a port --"
     }
   },
   "plugins": {
@@ -2193,7 +2216,8 @@
         "aberration": "Inspektor aberací",
         "aberrationOptions": "Možnosti inspektoru aberací",
         "autoFocusOptions": "Možnosti automatického zaostření",
-        "starDetection": "Detekce hvězd"
+        "starDetection": "Detekce hvězd",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "Vyberte adresář automatického zaostření k opakování",
@@ -2264,6 +2288,25 @@
       "common": {
         "error": "Chyba:",
         "loading": "Načítání..."
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       }
     },
     "narrowband": {

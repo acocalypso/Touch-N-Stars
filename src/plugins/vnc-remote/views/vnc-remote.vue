@@ -119,6 +119,47 @@
             </svg>
           </button>
 
+          <!-- Touch/Mouse Input Mode Toggle -->
+          <button
+            class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
+            :class="{ 'text-indigo-400': isTouchInputMode }"
+            :title="
+              isTouchInputMode ? 'Switch to Mouse Pointer Mode' : 'Switch to Touch Input Mode'
+            "
+            @click="toggleInputMode"
+          >
+            <svg
+              v-if="isTouchInputMode"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 2a2 2 0 012 2v8h1.5a2.5 2.5 0 012.5 2.5V16a6 6 0 01-12 0v-3a2 2 0 114 0v1"
+              />
+            </svg>
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 3l14 8-6 2-2 6-6-16z"
+              />
+            </svg>
+          </button>
+
           <!-- Ctrl-Alt-Del -->
           <button
             class="rounded p-2 text-gray-400 hover:bg-gray-800 hover:text-white"
@@ -355,6 +396,7 @@ const isFullscreen = ref(false);
 const isToolbarOpen = ref(false);
 const isNavMode = ref(false);
 const panzoomInstance = ref(null);
+const isTouchInputMode = ref(false);
 const isKeyboardOpen = ref(false);
 const isNativeKeyboardOpen = ref(false);
 const nativeKeyboardInputRef = ref(null);
@@ -369,6 +411,7 @@ const detectMobileClient = () => {
   const platform = Capacitor.getPlatform();
   if (platform === 'ios' || platform === 'android') {
     isMobileClient.value = true;
+    isTouchInputMode.value = true;
     return;
   }
 
@@ -379,6 +422,28 @@ const detectMobileClient = () => {
   const ua = typeof navigator !== 'undefined' ? navigator.userAgent || '' : '';
   const mobileUa = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
   isMobileClient.value = hasCoarsePointer || mobileUa;
+  isTouchInputMode.value = isMobileClient.value;
+};
+
+const updateViewerCursor = () => {
+  if (!viewerRef.value) return;
+  if (isNavMode.value) {
+    viewerRef.value.style.cursor = 'grab';
+    return;
+  }
+  viewerRef.value.style.cursor = isTouchInputMode.value ? 'auto' : 'crosshair';
+};
+
+const applyInputMode = () => {
+  if (!rfbInstance.value) {
+    updateViewerCursor();
+    return;
+  }
+
+  // In touch mode, dragging pans the viewport and taps become clicks.
+  rfbInstance.value.dragViewport = isTouchInputMode.value;
+  rfbInstance.value.showDotCursor = !isTouchInputMode.value;
+  updateViewerCursor();
 };
 
 const sendCtrlAltDel = () => {
@@ -402,6 +467,11 @@ const sendPrintableCharacter = (character) => {
 const focusNativeKeyboard = async () => {
   await nextTick();
   nativeKeyboardInputRef.value?.focus();
+};
+
+const toggleInputMode = () => {
+  isTouchInputMode.value = !isTouchInputMode.value;
+  applyInputMode();
 };
 
 const openNativeKeyboard = async () => {
@@ -462,7 +532,7 @@ const enablePanzoom = () => {
 
   if (panzoomInstance.value) {
     panzoomInstance.value.bind();
-    if (viewerRef.value) viewerRef.value.style.cursor = 'grab';
+    updateViewerCursor();
   }
 };
 
@@ -474,7 +544,7 @@ const disablePanzoom = () => {
   if (panzoomInstance.value) {
     panzoomInstance.value.unbind();
   }
-  if (viewerRef.value) viewerRef.value.style.cursor = 'crosshair';
+  updateViewerCursor();
 };
 
 const toggleNavMode = () => {
@@ -621,6 +691,7 @@ const connect = async () => {
     rfb.addEventListener('securityfailure', handleSecurityFailure);
 
     rfbInstance.value = rfb;
+    applyInputMode();
   } catch (error) {
     statusMessage.value = 'Failed to connect';
     errorMessage.value = error?.message || String(error);

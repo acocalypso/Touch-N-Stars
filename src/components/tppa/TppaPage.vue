@@ -268,7 +268,6 @@ import {
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
 import { useImagetStore } from '@/store/imageStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import apiService from '@/services/apiService';
 import TppaLastStatus from '@/components/tppa/TppaLastStatus.vue';
 import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
@@ -292,7 +291,6 @@ const isConnected = ref(false);
 const showSettings = ref(false);
 const showImageModal = ref(false);
 const showMount = ref(false);
-const settingsStore = useSettingsStore();
 let lastMessageTimeout = null;
 
 function toggleMount() {
@@ -418,39 +416,48 @@ async function startAlignment() {
     Action: 'start-alignment',
   };
 
-  //Defines if the direction for the second and third point should be done by moving the mount in east or west direction along the RA axis
-  message.EastDirection = tppaStore.settings.EastDirection;
-
-  if (!tppaStore.settings.StartFromCurrentPosition) {
-    message.StartFromCurrentPosition = 'false';
-  } else {
-    message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
-  }
-
-  if (
-    !store.mountInfo.Connected &&
-    store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')
-  ) {
-    // if mount is not connected, force manual mode
-    message.ManualMode = true;
-    console.log('Mount not connected, forcing ManualMode to true');
-  } else {
-    message.ManualMode = tppaStore.settings.ManualMode;
-    console.log('Mount connected, using ManualMode from settings:', tppaStore.settings.ManualMode);
-  }
-
-  if (tppaStore.settings.ExposureTime !== null) {
-    message.ExposureTime = tppaStore.settings.ExposureTime;
-  }
-
-  if (tppaStore.settings.Gain !== null) {
-    message.Gain = tppaStore.settings.Gain;
-  }
-
-  // if PINS, add MoveRate for INDI
   if (store.isPINS) {
-    message.MoveRate = settingsStore.mount.slewRate;
-    console.log('[TPPA Page] Setting MoveRate to:', settingsStore.mount.slewRate);
+    // PINS manages its own alignment settings via the PINS API – only send ManualMode and StartFromCurrentPosition
+    message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition || false;
+
+    if (
+      !store.mountInfo.Connected &&
+      store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')
+    ) {
+      message.ManualMode = true;
+      console.log('Mount not connected, forcing ManualMode to true');
+    } else {
+      message.ManualMode = tppaStore.settings.ManualMode;
+    }
+  } else {
+    //Defines if the direction for the second and third point should be done by moving the mount in east or west direction along the RA axis
+    message.EastDirection = tppaStore.settings.EastDirection;
+
+    if (!tppaStore.settings.StartFromCurrentPosition) {
+      message.StartFromCurrentPosition = 'false';
+    } else {
+      message.StartFromCurrentPosition = tppaStore.settings.StartFromCurrentPosition;
+    }
+
+    if (
+      !store.mountInfo.Connected &&
+      store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')
+    ) {
+      // if mount is not connected, force manual mode
+      message.ManualMode = true;
+      console.log('Mount not connected, forcing ManualMode to true');
+    } else {
+      message.ManualMode = tppaStore.settings.ManualMode;
+      console.log('Mount connected, using ManualMode from settings:', tppaStore.settings.ManualMode);
+    }
+
+    if (tppaStore.settings.ExposureTime !== null) {
+      message.ExposureTime = tppaStore.settings.ExposureTime;
+    }
+
+    if (tppaStore.settings.Gain !== null) {
+      message.Gain = tppaStore.settings.Gain;
+    }
   }
 
   console.log('Sending TPPA start message:', message);

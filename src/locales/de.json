@@ -460,7 +460,8 @@
         "timeSpan": {
           "hours": "Stunden",
           "minutes": "Minuten",
-          "seconds": "Sekunden"
+          "seconds": "Sekunden",
+          "minutesOffset": "Minuten Offset"
         },
         "moonAltitude": {
           "comparator": "Vergleich",

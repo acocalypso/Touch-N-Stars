@@ -572,7 +572,9 @@
         "backlash": "Backlash",
         "advanced": "Advanced",
         "Reverse": "Reverse",
-        "UseFilterWheelOffsets": "Use filterwheel offsets"
+        "UseFilterWheelOffsets": "Use filterwheel offsets",
+        "AutoFocusFilter": "Autofocus filter",
+        "AutoFocusFilterNone": "None"
       }
     },
     "dome": {

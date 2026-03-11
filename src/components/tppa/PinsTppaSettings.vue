@@ -9,6 +9,20 @@
   </div>
 
   <div v-else class="flex flex-col gap-2 w-full">
+    <!-- NINA TPPA Settings -->
+    <div class="border border-gray-500 p-2 rounded-lg">
+      <div class="space-y-2">
+        <div class="flex flex-row items-center justify-between w-full">
+          <label class="text-gray-300 text-sm">{{ $t('components.tppa.settings.StartFromCurrentPosition') }}</label>
+          <toggleButton :status-value="tppaStore.settings.StartFromCurrentPosition" @click="tppaStore.settings.StartFromCurrentPosition = !tppaStore.settings.StartFromCurrentPosition" class="pr-3 pl-3" />
+        </div>
+        <div v-if="store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.10.0')" class="flex flex-row items-center justify-between w-full">
+          <label class="text-gray-300 text-sm">{{ $t('components.tppa.settings.ManualMode') }}</label>
+          <toggleButton :status-value="tppaStore.settings.ManualMode" @click="tppaStore.settings.ManualMode = !tppaStore.settings.ManualMode" class="pr-3 pl-3" />
+        </div>
+      </div>
+    </div>
+
     <!-- Movement Section -->
     <div class="border border-gray-500 p-2 rounded-lg">
       <h4 class="text-gray-200 text-sm font-semibold mb-2">
@@ -146,9 +160,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
+import { useTppaStore } from '@/store/tppaStore';
+import { apiStore } from '@/store/store';
 import toggleButton from '../helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import InfoModal from '@/components/helpers/infoModal.vue';
+
+const tppaStore = useTppaStore();
+const store = apiStore();
 
 const loading = ref(true);
 const options = ref({

@@ -15,8 +15,8 @@
         class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
         :class="statusClassConnectionMode"
       >
-        <option value="CONNECTION_SERIAL">Serial</option>
-        <option value="CONNECTION_TCP">Network</option>
+        <option value="CONNECTION_SERIAL">{{ $t('indi.config.serial') }}</option>
+        <option value="CONNECTION_TCP">{{ $t('indi.config.network') }}</option>
       </select>
     </div>
 
@@ -52,7 +52,7 @@
           ]"
           :disabled="autoDetect"
         >
-          <option value="" disabled>-- Select a port --</option>
+          <option value="" disabled>{{ $t('indi.config.selectPort') }}</option>
           <option v-for="port in availablePorts" :key="port" :value="port">
             {{ port }}
           </option>

@@ -20,7 +20,8 @@
     "yes": "Ja",
     "no": "Nee",
     "delete": "Verwijder",
-    "close": "Sluiten"
+    "close": "Sluiten",
+    "edit": "Edit"
   },
   "pages": {
     "equipment": {
@@ -646,14 +647,8 @@
         "reverse_primary_axis": "Primaire as omkeren",
         "reverse_secondary_axis": "Secundaire as omkeren"
       },
-      "config": {
-        "baudRate": "Baudrate",
-        "connectionMode": "Verbindingsmodus",
-        "devicePort": "Apparaatpoort",
-        "ipAddress": "IP-adres",
-        "settings": "Montage-instellingen",
-        "autoDetect": "Automatische detectie",
-        "tcpPort": "TCP-poort"
+      "indi": {
+        "settings": "Montage-instellingen"
       }
     },
     "guider": {
@@ -834,6 +829,9 @@
         "Reverse": "Omkeren",
         "UseFilterWheelOffsets": "Filterwiel offsets gebruiken",
         "MaxStep": "Max Steps"
+      },
+      "indi": {
+        "settings": "Focuser Settings"
       }
     },
     "dome": {
@@ -952,40 +950,40 @@
         "exposure_time": "Belichtingstijd (s)",
         "gain": "Gain",
         "nina_default": "NINA standaard",
-        "ManualMode": "Manuele mode",
-        "pins_settings": {
-          "title": "PINS TPPA Settings",
-          "movement": "Beweging",
-          "offsets": "Offsets",
-          "behavior": "Gedrag",
-          "default_move_rate": "Maximale bewegingssnelheid (°/s)",
-          "default_east_direction": "Standaard oostelijke richting",
-          "move_timeout_factor": "Bewegingstijdlimietfactor",
-          "default_target_distance": "Standaard doelafstand (°)",
-          "default_search_radius": "Standaard zoekradius (°)",
-          "default_azimuth_offset": "Azimutoffset (°)",
-          "default_altitude_offset": "Hoogte-offset (°)",
-          "alignment_tolerance": "Uitlijntolerantie",
-          "refraction_adjustment": "Atmosferische refractiecorrectie",
-          "stop_tracking_when_done": "Tracking stoppen na voltooiing",
-          "settle_time": "Stabilisatietijd (s)",
-          "auto_pause": "Automatische pauze",
-          "log_error": "Fout registreren",
-          "reset": "Standaardwaarden herstellen",
-          "help_default_move_rate": "De maximale slewsnelheid van de montuur in graden per seconde. TPPA gebruikt deze waarde om te berekenen hoe snel er tussen meetpunten moet worden bewogen. Het is belangrijk dat dit overeenkomt met de werkelijke maximumsnelheid van uw montuur. Sommige fabrikanten implementeren de bewegingssnelheid anders; als uw montuur de verwachte afstand niet aflegt, pas dan de bewegingstijdlimietfactor aan.",
-          "help_default_east_direction": "Bepaalt of de richting voor het tweede en derde meetpunt wordt bereikt door oostwaarts of westwaarts langs de RA-as te bewegen. Sommige montuurdrivers vereisen mogelijk dat dit wordt omgekeerd in de instellingen van het telescooptabblad.",
-          "help_move_timeout_factor": "Na (doelafstand / bewegingssnelheid × tijdlimietfactor) seconden stopt de montuur als beveiliging met bewegen. Verhoog dit alleen als u waarschuwingen krijgt dat de doelafstand niet is bereikt.",
-          "help_default_target_distance": "De afstand in graden tussen meetpunten tijdens de polaire uitlijnprocedure.",
-          "help_default_search_radius": "De zoekradius in graden voor uw plateauoplosser tijdens TPPA. Moet groter zijn dan uw initiële polaire uitlijnfout, maar niet te groot om snelle oplossingen te garanderen.",
-          "help_default_azimuth_offset": "De azimutoffset in graden ten opzichte van de poolpositie voor het eerste meetpunt.",
-          "help_default_altitude_offset": "De hoogte-offset in graden ten opzichte van de poolpositie voor het eerste meetpunt.",
-          "help_alignment_tolerance": "Wanneer ingesteld op een waarde die niet nul is, wordt de polaire uitlijnprocedure automatisch voltooid wanneer de fout onder deze tolerantie (in boogminuten) valt.",
-          "help_refraction_adjustment": "Wanneer ingeschakeld houdt de applicatie rekening met atmosferische refractie op basis van uw locatie, hoogte en huidige weersomstandigheden. Gebruikt standaard atmosferische parameters als er geen weerbron is verbonden.",
-          "help_stop_tracking_when_done": "Wanneer ingeschakeld stopt de montuur met volgen na voltooiing van de polaire uitlijning. Schakel uit als u wilt dat uw montuur blijft volgen.",
-          "help_settle_time": "Bij gebruik van geautomatiseerde aanpassingen geeft dit aan hoeveel seconden er na elke beweging moet worden gewacht.",
-          "help_auto_pause": "Automatische pauze-instelling voor de polaire uitlijnprocedure.",
-          "help_log_error": "Wanneer ingeschakeld wordt er een logbestand aangemaakt met de correcties van de polaire uitlijnfout en de doorlopende fouten na elke aanpassing."
-        }
+        "ManualMode": "Manuele mode"
+      },
+      "pins_settings": {
+        "title": "PINS TPPA Settings",
+        "movement": "Beweging",
+        "offsets": "Offsets",
+        "behavior": "Gedrag",
+        "default_move_rate": "Maximale bewegingssnelheid (°/s)",
+        "default_east_direction": "Standaard oostelijke richting",
+        "move_timeout_factor": "Bewegingstijdlimietfactor",
+        "default_target_distance": "Standaard doelafstand (°)",
+        "default_search_radius": "Standaard zoekradius (°)",
+        "default_azimuth_offset": "Azimutoffset (°)",
+        "default_altitude_offset": "Hoogte-offset (°)",
+        "alignment_tolerance": "Uitlijntolerantie",
+        "refraction_adjustment": "Atmosferische refractiecorrectie",
+        "stop_tracking_when_done": "Tracking stoppen na voltooiing",
+        "settle_time": "Stabilisatietijd (s)",
+        "auto_pause": "Automatische pauze",
+        "log_error": "Fout registreren",
+        "reset": "Standaardwaarden herstellen",
+        "help_default_move_rate": "De maximale slewsnelheid van de montuur in graden per seconde. TPPA gebruikt deze waarde om te berekenen hoe snel er tussen meetpunten moet worden bewogen. Het is belangrijk dat dit overeenkomt met de werkelijke maximumsnelheid van uw montuur. Sommige fabrikanten implementeren de bewegingssnelheid anders; als uw montuur de verwachte afstand niet aflegt, pas dan de bewegingstijdlimietfactor aan.",
+        "help_default_east_direction": "Bepaalt of de richting voor het tweede en derde meetpunt wordt bereikt door oostwaarts of westwaarts langs de RA-as te bewegen. Sommige montuurdrivers vereisen mogelijk dat dit wordt omgekeerd in de instellingen van het telescooptabblad.",
+        "help_move_timeout_factor": "Na (doelafstand / bewegingssnelheid × tijdlimietfactor) seconden stopt de montuur als beveiliging met bewegen. Verhoog dit alleen als u waarschuwingen krijgt dat de doelafstand niet is bereikt.",
+        "help_default_target_distance": "De afstand in graden tussen meetpunten tijdens de polaire uitlijnprocedure.",
+        "help_default_search_radius": "De zoekradius in graden voor uw plateauoplosser tijdens TPPA. Moet groter zijn dan uw initiële polaire uitlijnfout, maar niet te groot om snelle oplossingen te garanderen.",
+        "help_default_azimuth_offset": "De azimutoffset in graden ten opzichte van de poolpositie voor het eerste meetpunt.",
+        "help_default_altitude_offset": "De hoogte-offset in graden ten opzichte van de poolpositie voor het eerste meetpunt.",
+        "help_alignment_tolerance": "Wanneer ingesteld op een waarde die niet nul is, wordt de polaire uitlijnprocedure automatisch voltooid wanneer de fout onder deze tolerantie (in boogminuten) valt.",
+        "help_refraction_adjustment": "Wanneer ingeschakeld houdt de applicatie rekening met atmosferische refractie op basis van uw locatie, hoogte en huidige weersomstandigheden. Gebruikt standaard atmosferische parameters als er geen weerbron is verbonden.",
+        "help_stop_tracking_when_done": "Wanneer ingeschakeld stopt de montuur met volgen na voltooiing van de polaire uitlijning. Schakel uit als u wilt dat uw montuur blijft volgen.",
+        "help_settle_time": "Bij gebruik van geautomatiseerde aanpassingen geeft dit aan hoeveel seconden er na elke beweging moet worden gewacht.",
+        "help_auto_pause": "Automatische pauze-instelling voor de polaire uitlijnprocedure.",
+        "help_log_error": "Wanneer ingeschakeld wordt er een logbestand aangemaakt met de correcties van de polaire uitlijnfout en de doorlopende fouten na elke aanpassing."
       },
       "tppa": "TPPA"
     },
@@ -1030,6 +1028,9 @@
           "AutoFocusExposureTime": "Belichtingstijd autofocus",
           "Name": "Naam"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1061,6 +1062,9 @@
         "OvershootDirection": "Overschrijdingsrichting",
         "ResetPosition": "Nulpositie opnieuw instellen",
         "Backlash": "Hysterese"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1082,6 +1086,9 @@
         "closedPosition": "Gesloten positie (°)",
         "currentPosition": "Huidige positie",
         "noSettingsForDevice": "Geen instellingen beschikbaar voor dit apparaat"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1117,7 +1124,10 @@
       "skyTemperature": "Luchttemperatuur",
       "skyQuality": "Luchtkwaliteit",
       "rainRate": "Neerslag",
-      "dewPoint": "Dauwpunt"
+      "dewPoint": "Dauwpunt",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Gauges",
@@ -1196,6 +1206,19 @@
       "dec": "Dec",
       "pixel_scale": "Pixelschaal",
       "focal_length": "Brandpuntsafstand"
+    }
+  },
+  "indi": {
+    "config": {
+      "baudRate": "Baudrate",
+      "connectionMode": "Verbindingsmodus",
+      "devicePort": "Apparaatpoort",
+      "ipAddress": "IP-adres",
+      "autoDetect": "Automatische detectie",
+      "tcpPort": "TCP-poort",
+      "serial": "Serial",
+      "network": "Network",
+      "selectPort": "-- Select a port --"
     }
   },
   "plugins": {
@@ -2193,7 +2216,8 @@
         "aberration": "Aberratie-inspecteur",
         "aberrationOptions": "Opties Aberratie-inspecteur",
         "autoFocusOptions": "Autofocus-opties",
-        "starDetection": "Sterre detectie"
+        "starDetection": "Sterre detectie",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "Selecteer Autofocus-map om opnieuw uit te voeren",
@@ -2264,6 +2288,25 @@
       "common": {
         "error": "Fout:",
         "loading": "Laden..."
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       }
     },
     "narrowband": {

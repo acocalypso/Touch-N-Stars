@@ -20,7 +20,8 @@
     "yes": "Tak",
     "no": "Nie",
     "delete": "Usuń",
-    "close": "Zamknij"
+    "close": "Zamknij",
+    "edit": "Edit"
   },
   "pages": {
     "equipment": {
@@ -646,14 +647,8 @@
         "reverse_primary_axis": "Odwróć oś główną",
         "reverse_secondary_axis": "Odwróć oś drugorzędną"
       },
-      "config": {
-        "baudRate": "Szybkość transmisji",
-        "connectionMode": "Tryb połączenia",
-        "devicePort": "Port urządzenia",
-        "ipAddress": "Adres IP",
-        "settings": "Ustawienia montażu",
-        "autoDetect": "Automatyczne wykrywanie",
-        "tcpPort": "Port TCP"
+      "indi": {
+        "settings": "Ustawienia montażu"
       }
     },
     "guider": {
@@ -834,7 +829,10 @@
         "UseFilterWheelOffsets": "Użyj offsetów koła filtrów",
         "MaxStep": "Max Steps"
       },
-      "focus": "Focus"
+      "focus": "Focus",
+      "indi": {
+        "settings": "Focuser Settings"
+      }
     },
     "dome": {
       "title": "Kopuła",
@@ -952,40 +950,40 @@
         "exposure_time": "Czas naświetlania (s)",
         "gain": "Wzmocnienie",
         "nina_default": "Domyślne NINA",
-        "ManualMode": "Tryb ręczny",
-        "pins_settings": {
-          "title": "PINS TPPA Settings",
-          "movement": "Ruch",
-          "offsets": "Przesunięcia",
-          "behavior": "Zachowanie",
-          "default_move_rate": "Maksymalna prędkość ruchu (°/s)",
-          "default_east_direction": "Domyślny kierunek wschodni",
-          "move_timeout_factor": "Współczynnik limitu czasu ruchu",
-          "default_target_distance": "Domyślna odległość celu (°)",
-          "default_search_radius": "Domyślny promień wyszukiwania (°)",
-          "default_azimuth_offset": "Przesunięcie azymutu (°)",
-          "default_altitude_offset": "Przesunięcie wysokości (°)",
-          "alignment_tolerance": "Tolerancja wyrównania",
-          "refraction_adjustment": "Korekcja refrakcji atmosferycznej",
-          "stop_tracking_when_done": "Zatrzymaj śledzenie po zakończeniu",
-          "settle_time": "Czas stabilizacji (s)",
-          "auto_pause": "Automatyczna pauza",
-          "log_error": "Rejestruj błąd",
-          "reset": "Przywróć wartości domyślne",
-          "help_default_move_rate": "Maksymalna prędkość slew montażu w stopniach na sekundę. TPPA używa tej wartości do obliczenia prędkości ruchu między punktami pomiarowymi. Ważne, aby odpowiadała rzeczywistej maksymalnej prędkości montażu. Niektórzy producenci montaży implementują prędkość ruchu inaczej – jeśli montaż nie przesuwa się na oczekiwaną odległość, dostosuj współczynnik limitu czasu ruchu.",
-          "help_default_east_direction": "Określa, czy kierunek do drugiego i trzeciego punktu pomiarowego powinien być realizowany przez ruch na wschód czy zachód wzdłuż osi RA. Niektóre sterowniki montażu mogą wymagać odwrócenia tego ustawienia w zakładce teleskopu.",
-          "help_move_timeout_factor": "Po upływie (odległość celu / prędkość ruchu × współczynnik limitu czasu) sekund montaż zatrzyma ruch jako zabezpieczenie. Zwiększaj tylko wtedy, gdy pojawiają się ostrzeżenia, że odległość celu nie została osiągnięta.",
-          "help_default_target_distance": "Odległość w stopniach między punktami pomiarowymi podczas procedury wyrównania polarnego.",
-          "help_default_search_radius": "Promień wyszukiwania w stopniach dla solvera płyt podczas TPPA. Powinien być większy niż początkowy błąd wyrównania polarnego, ale nie za duży, aby zapewnić szybkie rozwiązania.",
-          "help_default_azimuth_offset": "Przesunięcie azymutu w stopniach od pozycji bieguna dla pierwszego punktu pomiarowego.",
-          "help_default_altitude_offset": "Przesunięcie wysokości w stopniach od pozycji bieguna dla pierwszego punktu pomiarowego.",
-          "help_alignment_tolerance": "Gdy ustawiona jest wartość niezerowa, procedura wyrównania polarnego kończy się automatycznie, gdy błąd jest poniżej tej tolerancji (w minutach łuku).",
-          "help_refraction_adjustment": "Po włączeniu aplikacja uwzględnia refrakcję atmosferyczną na podstawie Twojej lokalizacji, wysokości i aktualnych warunków pogodowych. Używa standardowych parametrów atmosferycznych, jeśli nie jest podłączone żadne źródło pogody.",
-          "help_stop_tracking_when_done": "Po włączeniu montaż zatrzyma śledzenie po zakończeniu wyrównania polarnego. Wyłącz, jeśli chcesz, aby montaż kontynuował śledzenie.",
-          "help_settle_time": "Przy korzystaniu z automatycznych korekt określa czas w sekundach oczekiwania po każdym ruchu.",
-          "help_auto_pause": "Ustawienie automatycznej pauzy dla procedury wyrównania polarnego.",
-          "help_log_error": "Po włączeniu zostanie utworzony plik dziennika z korektami błędu wyrównania polarnego i ciągłymi błędami po każdej korekcie."
-        }
+        "ManualMode": "Tryb ręczny"
+      },
+      "pins_settings": {
+        "title": "PINS TPPA Settings",
+        "movement": "Ruch",
+        "offsets": "Przesunięcia",
+        "behavior": "Zachowanie",
+        "default_move_rate": "Maksymalna prędkość ruchu (°/s)",
+        "default_east_direction": "Domyślny kierunek wschodni",
+        "move_timeout_factor": "Współczynnik limitu czasu ruchu",
+        "default_target_distance": "Domyślna odległość celu (°)",
+        "default_search_radius": "Domyślny promień wyszukiwania (°)",
+        "default_azimuth_offset": "Przesunięcie azymutu (°)",
+        "default_altitude_offset": "Przesunięcie wysokości (°)",
+        "alignment_tolerance": "Tolerancja wyrównania",
+        "refraction_adjustment": "Korekcja refrakcji atmosferycznej",
+        "stop_tracking_when_done": "Zatrzymaj śledzenie po zakończeniu",
+        "settle_time": "Czas stabilizacji (s)",
+        "auto_pause": "Automatyczna pauza",
+        "log_error": "Rejestruj błąd",
+        "reset": "Przywróć wartości domyślne",
+        "help_default_move_rate": "Maksymalna prędkość slew montażu w stopniach na sekundę. TPPA używa tej wartości do obliczenia prędkości ruchu między punktami pomiarowymi. Ważne, aby odpowiadała rzeczywistej maksymalnej prędkości montażu. Niektórzy producenci montaży implementują prędkość ruchu inaczej – jeśli montaż nie przesuwa się na oczekiwaną odległość, dostosuj współczynnik limitu czasu ruchu.",
+        "help_default_east_direction": "Określa, czy kierunek do drugiego i trzeciego punktu pomiarowego powinien być realizowany przez ruch na wschód czy zachód wzdłuż osi RA. Niektóre sterowniki montażu mogą wymagać odwrócenia tego ustawienia w zakładce teleskopu.",
+        "help_move_timeout_factor": "Po upływie (odległość celu / prędkość ruchu × współczynnik limitu czasu) sekund montaż zatrzyma ruch jako zabezpieczenie. Zwiększaj tylko wtedy, gdy pojawiają się ostrzeżenia, że odległość celu nie została osiągnięta.",
+        "help_default_target_distance": "Odległość w stopniach między punktami pomiarowymi podczas procedury wyrównania polarnego.",
+        "help_default_search_radius": "Promień wyszukiwania w stopniach dla solvera płyt podczas TPPA. Powinien być większy niż początkowy błąd wyrównania polarnego, ale nie za duży, aby zapewnić szybkie rozwiązania.",
+        "help_default_azimuth_offset": "Przesunięcie azymutu w stopniach od pozycji bieguna dla pierwszego punktu pomiarowego.",
+        "help_default_altitude_offset": "Przesunięcie wysokości w stopniach od pozycji bieguna dla pierwszego punktu pomiarowego.",
+        "help_alignment_tolerance": "Gdy ustawiona jest wartość niezerowa, procedura wyrównania polarnego kończy się automatycznie, gdy błąd jest poniżej tej tolerancji (w minutach łuku).",
+        "help_refraction_adjustment": "Po włączeniu aplikacja uwzględnia refrakcję atmosferyczną na podstawie Twojej lokalizacji, wysokości i aktualnych warunków pogodowych. Używa standardowych parametrów atmosferycznych, jeśli nie jest podłączone żadne źródło pogody.",
+        "help_stop_tracking_when_done": "Po włączeniu montaż zatrzyma śledzenie po zakończeniu wyrównania polarnego. Wyłącz, jeśli chcesz, aby montaż kontynuował śledzenie.",
+        "help_settle_time": "Przy korzystaniu z automatycznych korekt określa czas w sekundach oczekiwania po każdym ruchu.",
+        "help_auto_pause": "Ustawienie automatycznej pauzy dla procedury wyrównania polarnego.",
+        "help_log_error": "Po włączeniu zostanie utworzony plik dziennika z korektami błędu wyrównania polarnego i ciągłymi błędami po każdej korekcie."
       },
       "tppa": "TPPA"
     },
@@ -1030,6 +1028,9 @@
           "AutoFocusExposureTime": "Czas ekspozycji autofokusu",
           "Name": "Nazwa"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1061,6 +1062,9 @@
         "OvershootDirection": "Kierunek przekroczenia",
         "ResetPosition": "Zresetuj pozycję zerową",
         "Backlash": "Luz zwrotny"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1082,6 +1086,9 @@
         "closedPosition": "Pozycja zamknięcia (°)",
         "currentPosition": "Bieżąca pozycja",
         "noSettingsForDevice": "Brak dostępnych ustawień dla tego urządzenia"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1117,7 +1124,10 @@
       "skyTemperature": "Temperatura nieba",
       "skyQuality": "Jakość nieba",
       "rainRate": "Intensywność deszczu",
-      "dewPoint": "Punkt rosy"
+      "dewPoint": "Punkt rosy",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Wskaźniki",
@@ -1196,6 +1206,19 @@
       "dec": "Dec",
       "pixel_scale": "Skala pikseli",
       "focal_length": "Ogniskowa"
+    }
+  },
+  "indi": {
+    "config": {
+      "baudRate": "Szybkość transmisji",
+      "connectionMode": "Tryb połączenia",
+      "devicePort": "Port urządzenia",
+      "ipAddress": "Adres IP",
+      "autoDetect": "Automatyczne wykrywanie",
+      "tcpPort": "Port TCP",
+      "serial": "Serial",
+      "network": "Network",
+      "selectPort": "-- Select a port --"
     }
   },
   "plugins": {
@@ -2193,7 +2216,8 @@
         "aberration": "Inspektor aberracji",
         "aberrationOptions": "Opcje inspektora aberracji",
         "autoFocusOptions": "Opcje autofokusu",
-        "starDetection": "Wykrywanie gwiazd"
+        "starDetection": "Wykrywanie gwiazd",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "Wybierz katalog autofokusu do ponownego uruchomienia",
@@ -2264,6 +2288,25 @@
       "common": {
         "error": "Błąd:",
         "loading": "Ładowanie..."
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       }
     },
     "narrowband": {

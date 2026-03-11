@@ -134,8 +134,7 @@ export const useGuiderStore = defineStore('guiderStore', {
       const normalizedGuiderState = String(guiderState || '').toLowerCase();
 
       return (
-        normalizedPhd2Status.includes('lostlock') ||
-        normalizedGuiderState.includes('lostlock')
+        normalizedPhd2Status.includes('lostlock') || normalizedGuiderState.includes('lostlock')
       );
     },
 

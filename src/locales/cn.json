@@ -20,7 +20,8 @@
     "yes": "是",
     "no": "否",
     "delete": "删除",
-    "close": "关闭"
+    "close": "关闭",
+    "edit": "Edit"
   },
   "pages": {
     "equipment": {
@@ -646,14 +647,8 @@
         "reverse_primary_axis": "反转主轴",
         "reverse_secondary_axis": "反转副轴"
       },
-      "config": {
-        "baudRate": "波特率",
-        "connectionMode": "连接模式",
-        "devicePort": "设备端口",
-        "ipAddress": "IP 地址",
-        "settings": "赤道仪设置",
-        "autoDetect": "Auto Detect",
-        "tcpPort": "TCP Port"
+      "indi": {
+        "settings": "赤道仪设置"
       }
     },
     "guider": {
@@ -834,7 +829,10 @@
         "UseFilterWheelOffsets": "使用滤镜轮偏移",
         "MaxStep": "Max Steps"
       },
-      "focus": "Focus"
+      "focus": "Focus",
+      "indi": {
+        "settings": "Focuser Settings"
+      }
     },
     "dome": {
       "title": "穹顶",
@@ -952,40 +950,40 @@
         "exposure_time": "曝光时间 (秒)",
         "gain": "增益",
         "nina_default": "NINA 默认值",
-        "ManualMode": "手动模式",
-        "pins_settings": {
-          "title": "PINS TPPA Settings",
-          "movement": "移动",
-          "offsets": "偏移量",
-          "behavior": "行为",
-          "default_move_rate": "最大移动速率 (°/s)",
-          "default_east_direction": "默认东方向",
-          "move_timeout_factor": "移动超时因子",
-          "default_target_distance": "默认目标距离 (°)",
-          "default_search_radius": "默认搜索半径 (°)",
-          "default_azimuth_offset": "方位角偏移量 (°)",
-          "default_altitude_offset": "高度角偏移量 (°)",
-          "alignment_tolerance": "对准容差",
-          "refraction_adjustment": "大气折射修正",
-          "stop_tracking_when_done": "完成后停止追踪",
-          "settle_time": "稳定时间 (s)",
-          "auto_pause": "自动暂停",
-          "log_error": "记录误差",
-          "reset": "重置为默认值",
-          "help_default_move_rate": "赤道仪的最大转动速度（度/秒）。TPPA 使用此值计算测量点之间的移动速度。请确保此值与赤道仪的实际最大速度一致。部分赤道仪厂商对移动速率的实现方式有所不同——如果赤道仪未移动至预期距离，请调整移动超时因子。",
-          "help_default_east_direction": "定义第二和第三测量点的方向是沿赤经轴向东还是向西移动。部分赤道仪驱动程序可能需要在望远镜选项卡设置中反转此方向。",
-          "help_move_timeout_factor": "经过（目标距离 / 移动速率 × 超时因子）秒后，赤道仪将作为故障保护停止移动。仅当出现目标距离未达到的警告时才增大此值。",
-          "help_default_target_distance": "极轴对准过程中各测量点之间的距离（度）。",
-          "help_default_search_radius": "TPPA 期间板块解析的搜索半径（度）。应大于初始极轴对准误差，但不宜过大，以确保快速解析。",
-          "help_default_azimuth_offset": "第一测量点相对于极点位置的方位角偏移量（度）。",
-          "help_default_altitude_offset": "第一测量点相对于极点位置的高度角偏移量（度）。",
-          "help_alignment_tolerance": "设置为非零值时，当误差低于此容差（弧分）时，极轴对准程序将自动完成。",
-          "help_refraction_adjustment": "启用后，应用程序将根据您的位置、海拔和当前气象条件计算大气折射修正。若未连接气象数据源，则使用标准大气参数。",
-          "help_stop_tracking_when_done": "启用后，极轴对准完成后赤道仪将停止追踪。若希望赤道仪继续追踪，请禁用此选项。",
-          "help_settle_time": "使用自动调整时，指定每次移动后等待的时间（秒）。",
-          "help_auto_pause": "极轴对准过程的自动暂停设置。",
-          "help_log_error": "启用后，将创建一个日志文件，记录极轴对准误差调整及每次调整后的连续误差。"
-        }
+        "ManualMode": "手动模式"
+      },
+      "pins_settings": {
+        "title": "PINS TPPA Settings",
+        "movement": "移动",
+        "offsets": "偏移量",
+        "behavior": "行为",
+        "default_move_rate": "最大移动速率 (°/s)",
+        "default_east_direction": "默认东方向",
+        "move_timeout_factor": "移动超时因子",
+        "default_target_distance": "默认目标距离 (°)",
+        "default_search_radius": "默认搜索半径 (°)",
+        "default_azimuth_offset": "方位角偏移量 (°)",
+        "default_altitude_offset": "高度角偏移量 (°)",
+        "alignment_tolerance": "对准容差",
+        "refraction_adjustment": "大气折射修正",
+        "stop_tracking_when_done": "完成后停止追踪",
+        "settle_time": "稳定时间 (s)",
+        "auto_pause": "自动暂停",
+        "log_error": "记录误差",
+        "reset": "重置为默认值",
+        "help_default_move_rate": "赤道仪的最大转动速度（度/秒）。TPPA 使用此值计算测量点之间的移动速度。请确保此值与赤道仪的实际最大速度一致。部分赤道仪厂商对移动速率的实现方式有所不同——如果赤道仪未移动至预期距离，请调整移动超时因子。",
+        "help_default_east_direction": "定义第二和第三测量点的方向是沿赤经轴向东还是向西移动。部分赤道仪驱动程序可能需要在望远镜选项卡设置中反转此方向。",
+        "help_move_timeout_factor": "经过（目标距离 / 移动速率 × 超时因子）秒后，赤道仪将作为故障保护停止移动。仅当出现目标距离未达到的警告时才增大此值。",
+        "help_default_target_distance": "极轴对准过程中各测量点之间的距离（度）。",
+        "help_default_search_radius": "TPPA 期间板块解析的搜索半径（度）。应大于初始极轴对准误差，但不宜过大，以确保快速解析。",
+        "help_default_azimuth_offset": "第一测量点相对于极点位置的方位角偏移量（度）。",
+        "help_default_altitude_offset": "第一测量点相对于极点位置的高度角偏移量（度）。",
+        "help_alignment_tolerance": "设置为非零值时，当误差低于此容差（弧分）时，极轴对准程序将自动完成。",
+        "help_refraction_adjustment": "启用后，应用程序将根据您的位置、海拔和当前气象条件计算大气折射修正。若未连接气象数据源，则使用标准大气参数。",
+        "help_stop_tracking_when_done": "启用后，极轴对准完成后赤道仪将停止追踪。若希望赤道仪继续追踪，请禁用此选项。",
+        "help_settle_time": "使用自动调整时，指定每次移动后等待的时间（秒）。",
+        "help_auto_pause": "极轴对准过程的自动暂停设置。",
+        "help_log_error": "启用后，将创建一个日志文件，记录极轴对准误差调整及每次调整后的连续误差。"
       },
       "tppa": "极轴对准 (TPPA)"
     },
@@ -1030,6 +1028,9 @@
           "AutoFocusExposureTime": "自动对焦曝光时间",
           "Name": "名称"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1061,6 +1062,9 @@
         "OvershootDirection": "Overshoot Direction",
         "ResetPosition": "Reset zero position",
         "Backlash": "反向间隙"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1082,6 +1086,9 @@
         "closedPosition": "关闭位置 (°)",
         "currentPosition": "当前位置",
         "noSettingsForDevice": "此设备没有可用的设置"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1117,7 +1124,10 @@
       "skyTemperature": "天空温度",
       "skyQuality": "天空质量",
       "rainRate": "降雨率",
-      "dewPoint": "露点"
+      "dewPoint": "露点",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "仪表",
@@ -1196,6 +1206,19 @@
       "dec": "赤纬",
       "pixel_scale": "像素尺度",
       "focal_length": "焦距"
+    }
+  },
+  "indi": {
+    "config": {
+      "baudRate": "波特率",
+      "connectionMode": "连接模式",
+      "devicePort": "设备端口",
+      "ipAddress": "IP 地址",
+      "autoDetect": "Auto Detect",
+      "tcpPort": "TCP Port",
+      "serial": "Serial",
+      "network": "Network",
+      "selectPort": "-- Select a port --"
     }
   },
   "plugins": {
@@ -2193,7 +2216,8 @@
         "aberration": "像差检查器",
         "aberrationOptions": "像差检查器选项",
         "autoFocusOptions": "自动对焦选项",
-        "starDetection": "星星检测"
+        "starDetection": "星星检测",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "选择自动对焦目录以重新运行",
@@ -2264,6 +2288,25 @@
       "common": {
         "error": "错误:",
         "loading": "正在加载..."
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       }
     },
     "narrowband": {

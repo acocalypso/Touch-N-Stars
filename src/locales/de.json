@@ -20,7 +20,8 @@
     "yes": "Ja",
     "no": "Nein",
     "delete": "Löschen",
-    "close": "Schließen"
+    "close": "Schließen",
+    "edit": "Edit"
   },
   "pages": {
     "equipment": {
@@ -340,7 +341,6 @@
       "error_loading_sequence": "Fehler beim Laden der Sequenz",
       "filter": "Filter",
       "triggers": "Trigger",
-      "details": {},
       "hfr": "HFR",
       "mean": "Mittelwert",
       "median": "Median",
@@ -378,7 +378,6 @@
         "header": "Info",
         "message": "Leider kann deine Sequenz nicht bearbeitet werden. Aktuell werden noch nicht alle Sequenz Plugins unterstützt. Wenn du uns helfen möchtest, die Unterstützung für weitere Plugins zu verbessern, kannst du uns gerne auf GitHub melden."
       },
-      "info_general": {},
       "sort": {
         "sort": "Sortiere",
         "oldest": "älteste zuerst",
@@ -648,14 +647,8 @@
         "reverse_primary_axis": "Primärachse umkehren",
         "reverse_secondary_axis": "Sekundärachse umkehren"
       },
-      "config": {
-        "baudRate": "Baudrate",
-        "connectionMode": "Verbindungsmodus",
-        "devicePort": "Geräteport",
-        "ipAddress": "IP-Adresse",
-        "settings": "Montierungseinstellungen",
-        "autoDetect": "Automatische Erkennung",
-        "tcpPort": "TCP-Port"
+      "indi": {
+        "settings": "Montierungseinstellungen"
       }
     },
     "guider": {
@@ -836,7 +829,10 @@
         "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
         "MaxStep": "Max Steps"
       },
-      "focus": "Fokus"
+      "focus": "Fokus",
+      "indi": {
+        "settings": "Focuser Settings"
+      }
     },
     "dome": {
       "title": "Kuppel",
@@ -989,7 +985,6 @@
         "help_auto_pause": "Einstellung für automatische Pause während des Polarausrichtungsvorgangs.",
         "help_log_error": "Bei Aktivierung wird eine Protokolldatei mit den Polarausrichtungsfehlern und den kontinuierlichen Fehlern nach jeder Anpassung erstellt."
       },
-      "error_modal": {},
       "tppa": "TPPA"
     },
     "slewAndCenter": {
@@ -1033,6 +1028,9 @@
           "AutoFocusExposureTime": "Autofokus-Belichtungszeit",
           "Name": "Name"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1064,6 +1062,9 @@
         "OvershootDirection": "Overshoot Richung",
         "ResetPosition": "Nullposition zurücksetzen",
         "Backlash": "Spiel"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1085,6 +1086,9 @@
         "closedPosition": "Geschlossene Position (°)",
         "currentPosition": "Aktuelle Position",
         "noSettingsForDevice": "Keine Einstellungen für dieses Gerät verfügbar"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1120,7 +1124,10 @@
       "dewPoint": "Taupunkt",
       "rainRate": "Regenrate",
       "skyQuality": "Himmelqualität",
-      "skyTemperature": "Himmelstemperatur"
+      "skyTemperature": "Himmelstemperatur",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Messwerte",
@@ -1140,7 +1147,6 @@
         "time": "Zeit",
         "title": "Datum"
       },
-      "mount_position": {},
       "settings": {
         "atmosphere_visible": "Atmosphäre zeigen",
         "azimuthal_lines_visible": "Azimuthal Gitter ",
@@ -1200,6 +1206,19 @@
       "dec": "Dek",
       "pixel_scale": "Pixelskala",
       "focal_length": "Brennweite"
+    }
+  },
+  "indi": {
+    "config": {
+      "baudRate": "Baudrate",
+      "connectionMode": "Verbindungsmodus",
+      "devicePort": "Geräteport",
+      "ipAddress": "IP-Adresse",
+      "autoDetect": "Automatische Erkennung",
+      "tcpPort": "TCP-Port",
+      "serial": "Serial",
+      "network": "Network",
+      "selectPort": "-- Select a port --"
     }
   },
   "plugins": {
@@ -1714,8 +1733,6 @@
         "endActions": "🏁 End-Aktionen"
       },
       "exportModal": {
-        "buttons": {},
-        "messages": {},
         "jsonPreview": {
           "sequenceJsonExport": "Sequenz JSON Export",
           "previewDescription": "Vorschau und Download Ihrer Sequenz als JSON-Datei",
@@ -1727,8 +1744,7 @@
           "copyJson": "JSON Kopieren",
           "copied": "Kopiert!",
           "downloadJson": "JSON Herunterladen"
-        },
-        "howToUse": {}
+        }
       },
       "targetSearch": {
         "searchLabel": "Ziel Suchen",
@@ -1774,8 +1790,7 @@
       "status": "Status",
       "stopAuto": "Auto stoppen",
       "title": "Webcam-Einstellungen",
-      "autoRefresh": "Automatische Aktualisierung",
-      "errors": {}
+      "autoRefresh": "Automatische Aktualisierung"
     },
     "platesolveplus": {
       "title": "PlateSolvePlus",
@@ -2201,7 +2216,8 @@
         "aberration": "Aberrationsprüfer",
         "aberrationOptions": "Optionen des Aberrationsprüfers",
         "autoFocusOptions": "Autofokus-Optionen",
-        "starDetection": "Sternerkennung"
+        "starDetection": "Sternerkennung",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "Wählen Sie das Autofokus-Verzeichnis zum Neustart",
@@ -2272,6 +2288,25 @@
       "common": {
         "error": "Fehler:",
         "loading": "Wird geladen..."
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       }
     },
     "narrowband": {

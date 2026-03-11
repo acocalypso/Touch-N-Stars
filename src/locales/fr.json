@@ -20,7 +20,8 @@
     "yes": "Oui",
     "no": "Non",
     "delete": "Supprimer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "edit": "Edit"
   },
   "pages": {
     "equipment": {
@@ -646,14 +647,8 @@
         "reverse_primary_axis": "Inverser l'axe primaire",
         "reverse_secondary_axis": "Inverser l'axe secondaire"
       },
-      "config": {
-        "baudRate": "Débit en bauds",
-        "connectionMode": "Mode de connexion",
-        "devicePort": "Port de l'appareil",
-        "ipAddress": "Adresse IP",
-        "settings": "Paramètres de la monture",
-        "autoDetect": "Détection automatique",
-        "tcpPort": "Port TCP"
+      "indi": {
+        "settings": "Paramètres de la monture"
       }
     },
     "guider": {
@@ -834,7 +829,10 @@
         "UseFilterWheelOffsets": "Utiliser les décalages de roue à filtres",
         "MaxStep": "Max Steps"
       },
-      "focus": "Focus"
+      "focus": "Focus",
+      "indi": {
+        "settings": "Focuser Settings"
+      }
     },
     "dome": {
       "title": "Dôme",
@@ -952,40 +950,40 @@
         "exposure_time": "Temps d'exposition (s)",
         "gain": "Gain",
         "nina_default": "Défaut NINA",
-        "ManualMode": "Manual mode",
-        "pins_settings": {
-          "title": "PINS TPPA Settings",
-          "movement": "Mouvement",
-          "offsets": "Décalages",
-          "behavior": "Comportement",
-          "default_move_rate": "Vitesse de déplacement maximale (°/s)",
-          "default_east_direction": "Direction est par défaut",
-          "move_timeout_factor": "Facteur de délai d'expiration de déplacement",
-          "default_target_distance": "Distance cible par défaut (°)",
-          "default_search_radius": "Rayon de recherche par défaut (°)",
-          "default_azimuth_offset": "Décalage en azimut (°)",
-          "default_altitude_offset": "Décalage en altitude (°)",
-          "alignment_tolerance": "Tolérance d'alignement",
-          "refraction_adjustment": "Correction de la réfraction atmosphérique",
-          "stop_tracking_when_done": "Arrêter le suivi une fois terminé",
-          "settle_time": "Temps de stabilisation (s)",
-          "auto_pause": "Pause automatique",
-          "log_error": "Enregistrer l'erreur",
-          "reset": "Rétablir les valeurs par défaut",
-          "help_default_move_rate": "La vitesse de déplacement maximale de la monture en degrés par seconde. TPPA utilise cette valeur pour calculer la vitesse de déplacement entre les points de mesure. Il est important que cette valeur corresponde à la vitesse maximale réelle de votre monture. Certains fabricants implémentent la vitesse de déplacement différemment ; si votre monture ne parcourt pas la distance prévue, ajustez le facteur de délai d'expiration de déplacement.",
-          "help_default_east_direction": "Définit si la direction pour les deuxième et troisième points de mesure doit être effectuée en se déplaçant vers l'est ou l'ouest le long de l'axe AR. Certains pilotes de monture peuvent nécessiter l'inversion de ce paramètre dans les réglages de l'onglet télescope.",
-          "help_move_timeout_factor": "Après (distance cible / vitesse de déplacement × facteur de délai) secondes, la monture s'arrêtera de se déplacer en tant que dispositif de sécurité. N'augmentez cette valeur que si vous obtenez des avertissements indiquant que la distance cible n'a pas été atteinte.",
-          "help_default_target_distance": "La distance en degrés entre les points de mesure lors de la procédure d'alignement polaire.",
-          "help_default_search_radius": "Le rayon de recherche en degrés pour votre résolveur de plaques pendant TPPA. Doit être supérieur à votre erreur d'alignement polaire initiale, mais pas trop grand pour garantir des résolutions rapides.",
-          "help_default_azimuth_offset": "Le décalage en azimut en degrés par rapport à la position du pôle pour le premier point de mesure.",
-          "help_default_altitude_offset": "Le décalage en altitude en degrés par rapport à la position du pôle pour le premier point de mesure.",
-          "help_alignment_tolerance": "Lorsqu'une valeur non nulle est définie, la procédure d'alignement polaire se termine automatiquement lorsque l'erreur est inférieure à cette tolérance (en minutes d'arc).",
-          "help_refraction_adjustment": "Lorsqu'il est activé, l'application tient compte de la réfraction atmosphérique en fonction de votre position, altitude et conditions météorologiques actuelles. Utilise des paramètres atmosphériques standard si aucune source météo n'est connectée.",
-          "help_stop_tracking_when_done": "Lorsqu'il est activé, la monture arrêtera le suivi une fois l'alignement polaire terminé. Désactivez si vous souhaitez que votre monture continue le suivi.",
-          "help_settle_time": "Lors de l'utilisation des ajustements automatisés, spécifie le temps en secondes à attendre après chaque déplacement.",
-          "help_auto_pause": "Paramètre de pause automatique pour la procédure d'alignement polaire.",
-          "help_log_error": "Lorsqu'il est activé, un fichier journal sera créé avec les ajustements de l'erreur d'alignement polaire et les erreurs continues après chaque ajustement."
-        }
+        "ManualMode": "Manual mode"
+      },
+      "pins_settings": {
+        "title": "PINS TPPA Settings",
+        "movement": "Mouvement",
+        "offsets": "Décalages",
+        "behavior": "Comportement",
+        "default_move_rate": "Vitesse de déplacement maximale (°/s)",
+        "default_east_direction": "Direction est par défaut",
+        "move_timeout_factor": "Facteur de délai d'expiration de déplacement",
+        "default_target_distance": "Distance cible par défaut (°)",
+        "default_search_radius": "Rayon de recherche par défaut (°)",
+        "default_azimuth_offset": "Décalage en azimut (°)",
+        "default_altitude_offset": "Décalage en altitude (°)",
+        "alignment_tolerance": "Tolérance d'alignement",
+        "refraction_adjustment": "Correction de la réfraction atmosphérique",
+        "stop_tracking_when_done": "Arrêter le suivi une fois terminé",
+        "settle_time": "Temps de stabilisation (s)",
+        "auto_pause": "Pause automatique",
+        "log_error": "Enregistrer l'erreur",
+        "reset": "Rétablir les valeurs par défaut",
+        "help_default_move_rate": "La vitesse de déplacement maximale de la monture en degrés par seconde. TPPA utilise cette valeur pour calculer la vitesse de déplacement entre les points de mesure. Il est important que cette valeur corresponde à la vitesse maximale réelle de votre monture. Certains fabricants implémentent la vitesse de déplacement différemment ; si votre monture ne parcourt pas la distance prévue, ajustez le facteur de délai d'expiration de déplacement.",
+        "help_default_east_direction": "Définit si la direction pour les deuxième et troisième points de mesure doit être effectuée en se déplaçant vers l'est ou l'ouest le long de l'axe AR. Certains pilotes de monture peuvent nécessiter l'inversion de ce paramètre dans les réglages de l'onglet télescope.",
+        "help_move_timeout_factor": "Après (distance cible / vitesse de déplacement × facteur de délai) secondes, la monture s'arrêtera de se déplacer en tant que dispositif de sécurité. N'augmentez cette valeur que si vous obtenez des avertissements indiquant que la distance cible n'a pas été atteinte.",
+        "help_default_target_distance": "La distance en degrés entre les points de mesure lors de la procédure d'alignement polaire.",
+        "help_default_search_radius": "Le rayon de recherche en degrés pour votre résolveur de plaques pendant TPPA. Doit être supérieur à votre erreur d'alignement polaire initiale, mais pas trop grand pour garantir des résolutions rapides.",
+        "help_default_azimuth_offset": "Le décalage en azimut en degrés par rapport à la position du pôle pour le premier point de mesure.",
+        "help_default_altitude_offset": "Le décalage en altitude en degrés par rapport à la position du pôle pour le premier point de mesure.",
+        "help_alignment_tolerance": "Lorsqu'une valeur non nulle est définie, la procédure d'alignement polaire se termine automatiquement lorsque l'erreur est inférieure à cette tolérance (en minutes d'arc).",
+        "help_refraction_adjustment": "Lorsqu'il est activé, l'application tient compte de la réfraction atmosphérique en fonction de votre position, altitude et conditions météorologiques actuelles. Utilise des paramètres atmosphériques standard si aucune source météo n'est connectée.",
+        "help_stop_tracking_when_done": "Lorsqu'il est activé, la monture arrêtera le suivi une fois l'alignement polaire terminé. Désactivez si vous souhaitez que votre monture continue le suivi.",
+        "help_settle_time": "Lors de l'utilisation des ajustements automatisés, spécifie le temps en secondes à attendre après chaque déplacement.",
+        "help_auto_pause": "Paramètre de pause automatique pour la procédure d'alignement polaire.",
+        "help_log_error": "Lorsqu'il est activé, un fichier journal sera créé avec les ajustements de l'erreur d'alignement polaire et les erreurs continues après chaque ajustement."
       },
       "tppa": "TPPA"
     },
@@ -1030,6 +1028,9 @@
           "AutoFocusExposureTime": "Temps d'exposition de la mise au point automatique",
           "Name": "Nom"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1061,6 +1062,9 @@
         "OvershootDirection": "Direction du dépassement",
         "ResetPosition": "Réinitialiser la position zéro",
         "Backlash": "Jeu"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1082,6 +1086,9 @@
         "closedPosition": "Position Fermée (°)",
         "currentPosition": "Position Actuelle",
         "noSettingsForDevice": "Aucun paramètre disponible pour ce dispositif"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1117,7 +1124,10 @@
       "skyTemperature": "Température du ciel",
       "skyQuality": "Qualité du ciel",
       "rainRate": "Taux de pluie",
-      "dewPoint": "Point de rosée"
+      "dewPoint": "Point de rosée",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Jauges",
@@ -1196,6 +1206,19 @@
       "dec": "Déc",
       "pixel_scale": "Échelle de pixels",
       "focal_length": "Longueur focale"
+    }
+  },
+  "indi": {
+    "config": {
+      "baudRate": "Débit en bauds",
+      "connectionMode": "Mode de connexion",
+      "devicePort": "Port de l'appareil",
+      "ipAddress": "Adresse IP",
+      "autoDetect": "Détection automatique",
+      "tcpPort": "Port TCP",
+      "serial": "Serial",
+      "network": "Network",
+      "selectPort": "-- Select a port --"
     }
   },
   "plugins": {
@@ -2193,7 +2216,8 @@
         "aberration": "Inspecteur d'Aberration",
         "aberrationOptions": "Options de l'Inspecteur d'Aberration",
         "autoFocusOptions": "Options d'Autofocus",
-        "starDetection": "Détection d'Étoiles"
+        "starDetection": "Détection d'Étoiles",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "Sélectionnez le Répertoire Autofocus à Relancer",
@@ -2264,6 +2288,25 @@
       "common": {
         "error": "Erreur:",
         "loading": "Chargement..."
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       }
     },
     "narrowband": {

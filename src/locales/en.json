@@ -20,6 +20,7 @@
     "yes": "Yes",
     "no": "No",
     "delete": "Delete",
+    "edit": "Edit",
     "close": "Close"
   },
   "pages": {
@@ -648,14 +649,8 @@
         "reverse_primary_axis": "Primary reversed",
         "reverse_secondary_axis": "Secondary reverse"
       },
-      "config": {
-        "settings": "Mount Settings",
-        "connectionMode": "Connection Mode",
-        "devicePort": "Device Port",
-        "ipAddress": "IP Address",
-        "baudRate": "Baud Rate",
-        "tcpPort": "TCP Port",
-        "autoDetect": "Auto Detect"
+      "indi": {
+        "settings": "Mount Settings"
       }
     },
     "guider": {
@@ -836,6 +831,9 @@
         "Reverse": "Reverse",
         "UseFilterWheelOffsets": "Use filterwheel offsets",
         "MaxStep": "Max Steps"
+      },
+      "indi": {
+        "settings": "Focuser Settings"
       }
     },
     "dome": {
@@ -1033,6 +1031,9 @@
           "AutoFocusExposureTime": "AutoFocus Exposure Time",
           "Name": "Name"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1064,6 +1065,9 @@
         "OvershootAngle": "Overshoot Angle",
         "Backlash": "Backlash",
         "ResetPosition": "Reset zero position"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1085,6 +1089,9 @@
         "closedPosition": "Closed Position (°)",
         "currentPosition": "Current Position",
         "noSettingsForDevice": "No settings available for this device"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1120,7 +1127,10 @@
       "skyTemperature": "Sky temperature",
       "skyQuality": "Sky quality",
       "rainRate": "Rain rate",
-      "dewPoint": "Dewpoint"
+      "dewPoint": "Dewpoint",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Gauges",
@@ -2240,7 +2250,8 @@
         "aberration": "Aberration Inspector",
         "aberrationOptions": "Aberration Inspector Options",
         "autoFocusOptions": "AutoFocus Options",
-        "starDetection": "Star Detection"
+        "starDetection": "Star Detection",
+        "tilter": "Tilter"
       },
       "modal": {
         "selectDirectory": "Select AutoFocus Directory to Rerun",
@@ -2307,6 +2318,25 @@
         "debugMode": "Debug Mode",
         "simpleModeSettings": "Simple Mode Settings",
         "noiseLevel": "Noise Level"
+      },
+      "tilter": {
+        "device": "Device",
+        "selectDevice": "Select a device",
+        "scanTooltip": "Scan for devices",
+        "connect": "Connect",
+        "disconnect": "Disconnect",
+        "deviceInfo": "Device Information",
+        "status": "Status",
+        "connected": "Connected",
+        "moving": "Moving",
+        "idle": "Idle",
+        "currentPositions": "Current Positions",
+        "noDeviceSelected": "Please select a device first",
+        "deviceNotConnected": "Connect to a device to view controls",
+        "sensorConfiguration": "Sensor Configuration",
+        "sensorWidth": "Sensor Width",
+        "sensorHeight": "Sensor Height",
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
       },
       "common": {
         "error": "Error:",
@@ -2508,6 +2538,19 @@
     "errors": {
       "noSequenceAvailable": "No sequence available, load Sequence first",
       "sequencerFailed": "Sequencer failed"
+    }
+  },
+  "indi": {
+    "config": {
+      "connectionMode": "Connection Mode",
+      "serial": "Serial",
+      "network": "Network",
+      "devicePort": "Device Port",
+      "baudRate": "Baud Rate",
+      "autoDetect": "Auto Search",
+      "ipAddress": "IP Address",
+      "tcpPort": "TCP Port",
+      "selectPort": "-- Select a port --"
     }
   },
   "nav": {

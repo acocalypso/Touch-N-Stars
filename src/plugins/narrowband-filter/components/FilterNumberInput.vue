@@ -22,11 +22,9 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useNumberPicker } from '@/composables/useNumberPicker';
 import { useSettingsStore } from '@/store/settingsStore';
 
-const { t } = useI18n();
 const settingsStore = useSettingsStore();
 const { openPicker: openNumberPicker } = useNumberPicker();
 

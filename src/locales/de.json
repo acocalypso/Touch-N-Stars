@@ -828,7 +828,9 @@
         "crop_and_stars": "Crop",
         "Reverse": "Umkehren",
         "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
-        "MaxStep": "Max Steps"
+        "MaxStep": "Max Steps",
+        "AutoFocusFilter": "Autofokus-Filter",
+        "AutoFocusFilterNone": "Kein"
       },
       "focus": "Fokus",
       "indi": {

@@ -831,7 +831,9 @@
         "advanced": "Advanced",
         "Reverse": "Reverse",
         "UseFilterWheelOffsets": "Use filterwheel offsets",
-        "MaxStep": "Max Steps"
+        "MaxStep": "Max Steps",
+        "AutoFocusFilter": "Autofocus filter",
+        "AutoFocusFilterNone": "None"
       },
       "indi": {
         "settings": "Focuser Settings"

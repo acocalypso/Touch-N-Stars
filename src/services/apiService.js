@@ -2778,8 +2778,8 @@ const apiService = {
 
   async postTppaOptions(options, timeout = DEFAULT_TIMEOUT) {
     try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.post(`${PLUGINSERVER_URL}/tppa/options`, options, { timeout });
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}tppa/options`, options, { timeout });
       return response.data;
     } catch (error) {
       console.error('Error posting TPPA options:', error);
@@ -2789,8 +2789,8 @@ const apiService = {
 
   async postTppaReset(timeout = DEFAULT_TIMEOUT) {
     try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.post(`${PLUGINSERVER_URL}/tppa/reset`, {}, { timeout });
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}tppa/reset`, {}, { timeout });
       return response.data;
     } catch (error) {
       console.error('Error resetting TPPA options:', error);

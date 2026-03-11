@@ -209,7 +209,8 @@
       <h2 class="text-xl font-bold">{{ $t('components.tppa.settings.title') }}</h2>
     </template>
     <template #body>
-      <TppaSettings />
+      <PinsTppaSettings v-if="store.isPINS" />
+      <TppaSettings v-else />
     </template>
   </Modal>
 
@@ -274,6 +275,7 @@ import ActuellErrorModal from '@/components/tppa/ActuellErrorModal.vue';
 import ButtonPause from '@/components/tppa/ButtonPause.vue';
 import ErrorCircle from '@/components/tppa//ErrorCircle.vue';
 import TppaSettings from './TppaSettings.vue';
+import PinsTppaSettings from './PinsTppaSettings.vue';
 import Modal from '../helpers/Modal.vue';
 import ModalTransparent from '@/components/helpers/ModalTransparent.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';

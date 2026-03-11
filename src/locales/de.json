@@ -956,6 +956,26 @@
         "nina_default": "NINA Standard",
         "ManualMode": "Manuell"
       },
+      "pins_settings": {
+        "title": "PINS TPPA Einstellungen",
+        "movement": "Bewegung",
+        "offsets": "Versätze",
+        "behavior": "Verhalten",
+        "default_move_rate": "Standard-Bewegungsrate",
+        "default_east_direction": "Standard Richtung Osten",
+        "move_timeout_factor": "Bewegungs-Timeout-Faktor",
+        "default_target_distance": "Standard Zielentfernung (°)",
+        "default_search_radius": "Standard Suchradius (°)",
+        "default_azimuth_offset": "Azimut-Versatz (°)",
+        "default_altitude_offset": "Höhen-Versatz (°)",
+        "alignment_tolerance": "Ausrichtungstoleranz",
+        "refraction_adjustment": "Refraktionsanpassung",
+        "stop_tracking_when_done": "Verfolgung beenden wenn fertig",
+        "settle_time": "Abklingzeit (s)",
+        "auto_pause": "Automatische Pause",
+        "log_error": "Fehler protokollieren",
+        "reset": "Auf Standard zurücksetzen"
+      },
       "error_modal": {},
       "tppa": "TPPA"
     },

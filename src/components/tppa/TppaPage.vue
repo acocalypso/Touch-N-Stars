@@ -448,7 +448,10 @@ async function startAlignment() {
       console.log('Mount not connected, forcing ManualMode to true');
     } else {
       message.ManualMode = tppaStore.settings.ManualMode;
-      console.log('Mount connected, using ManualMode from settings:', tppaStore.settings.ManualMode);
+      console.log(
+        'Mount connected, using ManualMode from settings:',
+        tppaStore.settings.ManualMode
+      );
     }
 
     if (tppaStore.settings.ExposureTime !== null) {

@@ -20,6 +20,7 @@
     "yes": "Yes",
     "no": "No",
     "delete": "Delete",
+    "edit": "Edit",
     "close": "Close"
   },
   "pages": {
@@ -648,14 +649,8 @@
         "reverse_primary_axis": "Primary reversed",
         "reverse_secondary_axis": "Secondary reverse"
       },
-      "config": {
-        "settings": "Mount Settings",
-        "connectionMode": "Connection Mode",
-        "devicePort": "Device Port",
-        "ipAddress": "IP Address",
-        "baudRate": "Baud Rate",
-        "tcpPort": "TCP Port",
-        "autoDetect": "Auto Detect"
+      "indi": {
+        "settings": "Mount Settings"
       }
     },
     "guider": {
@@ -836,6 +831,9 @@
         "Reverse": "Reverse",
         "UseFilterWheelOffsets": "Use filterwheel offsets",
         "MaxStep": "Max Steps"
+      },
+      "indi": {
+        "settings": "Focuser Settings"
       }
     },
     "dome": {
@@ -1000,6 +998,9 @@
           "AutoFocusExposureTime": "AutoFocus Exposure Time",
           "Name": "Name"
         }
+      },
+      "indi": {
+        "settings": "Filter Wheel Settings"
       }
     },
     "RemoveFilter": {
@@ -1031,6 +1032,9 @@
         "OvershootAngle": "Overshoot Angle",
         "Backlash": "Backlash",
         "ResetPosition": "Reset zero position"
+      },
+      "indi": {
+        "settings": "Rotator Settings"
       }
     },
     "flat": {
@@ -1052,6 +1056,9 @@
         "closedPosition": "Closed Position (°)",
         "currentPosition": "Current Position",
         "noSettingsForDevice": "No settings available for this device"
+      },
+      "indi": {
+        "settings": "Flat Device Settings"
       }
     },
     "flatassistant": {
@@ -1087,7 +1094,10 @@
       "skyTemperature": "Sky temperature",
       "skyQuality": "Sky quality",
       "rainRate": "Rain rate",
-      "dewPoint": "Dewpoint"
+      "dewPoint": "Dewpoint",
+      "indi": {
+        "settings": "Weather Settings"
+      }
     },
     "switch": {
       "gauges": "Gauges",
@@ -2475,6 +2485,16 @@
     "errors": {
       "noSequenceAvailable": "No sequence available, load Sequence first",
       "sequencerFailed": "Sequencer failed"
+    }
+  },
+  "indi": {
+    "config": {
+      "connectionMode": "Connection Mode",
+      "devicePort": "Device Port",
+      "baudRate": "Baud Rate",
+      "autoDetect": "Auto Search",
+      "ipAddress": "IP Address",
+      "tcpPort": "TCP Port"
     }
   },
   "nav": {

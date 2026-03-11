@@ -885,6 +885,18 @@ const apiService = {
     }
   },
 
+  // Available Serial Ports
+  async availableSerialPorts() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}indi/serialports`);
+      return response.data.Response || [];
+    } catch (error) {
+      console.error('Error fetching available serial ports:', error);
+      return [];
+    }
+  },
+
   // Profil Switch
   async profileSwitch(profileid) {
     try {

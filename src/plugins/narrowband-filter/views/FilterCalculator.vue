@@ -352,16 +352,12 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
 import {
   calculateTransmissionContinuous,
   validateParameters,
 } from '../utils/filterCalculations.js';
 import BandpassChart from '../components/BandpassChart.vue';
 import FilterNumberInput from '../components/FilterNumberInput.vue';
-
-// i18n
-const { t } = useI18n();
 
 // Default parameters based on your filter.py
 const defaultParams = {

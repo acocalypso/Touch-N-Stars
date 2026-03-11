@@ -37,6 +37,15 @@
         :step="1"
         @change="save('Seconds', $event)"
       />
+      <NumberInputPicker
+        :modelValue="item.MinutesOffset"
+        :label="$t('components.sequence.items.timeSpan.minutesOffset')"
+        labelKey="timeCond-minutesOffset"
+        :min="-59"
+        :max="59"
+        :step="1"
+        @change="save('MinutesOffset', $event)"
+      />
     </template>
   </ItemShell>
 </template>

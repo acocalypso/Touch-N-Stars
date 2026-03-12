@@ -235,21 +235,31 @@ const initializeSettings = () => {
   if (prefix.connection) {
     connectionMode.value = settings[prefix.connection] ?? 'CONNECTION_SERIAL';
   }
-  if (prefix.port) {
-    devicePort.value = settings[prefix.port] ?? '/dev/ttyUSB0';
+  if (prefix.address) {
+    ipAddress.value = settings[prefix.address] ?? 'localhost';
   }
   if (prefix.baud) {
     baudRate.value = settings[prefix.baud] ?? 9600;
-  }
-  if (prefix.address) {
-    ipAddress.value = settings[prefix.address] ?? 'localhost';
   }
   if (prefix.autoDetect) {
     autoDetect.value = settings[prefix.autoDetect] ?? false;
   }
 
-  // Fetch available ports if in serial mode or no network support
-  if (connectionMode.value === 'CONNECTION_SERIAL' || !props.supportsNetworkMode) {
+  // IndiPort is shared between serial and TCP, so load it into the appropriate field based on connection mode
+  if (prefix.port) {
+    const portValue = settings[prefix.port] ?? '3492';
+    // If we're in TCP mode, load into tcpPort; otherwise, load into devicePort
+    if (connectionMode.value === 'CONNECTION_TCP') {
+      tcpPort.value = portValue;
+      devicePort.value = '/dev/ttyUSB0'; // Set default for serial
+    } else {
+      devicePort.value = portValue;
+      tcpPort.value = '3492'; // Keep default for TCP
+    }
+  }
+
+  // Fetch available ports if in serial mode
+  if (connectionMode.value === 'CONNECTION_SERIAL') {
     fetchAvailablePorts();
   }
 };
@@ -271,6 +281,22 @@ async function setConnectionMode() {
       `${settingsKeyMap[props.equipmentType]}-${prefix.connection}`,
       connectionMode.value
     );
+    
+    // When switching modes, update the port setting to the appropriate value
+    if (connectionMode.value === 'CONNECTION_TCP') {
+      // Switching to TCP: save the TCP port
+      await apiService.profileChangeValue(
+        `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
+        tcpPort.value
+      );
+    } else {
+      // Switching to Serial: save the device port
+      await apiService.profileChangeValue(
+        `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
+        devicePort.value
+      );
+    }
+    
     statusClassConnectionMode.value = 'glow-green';
 
     if (connectionMode.value === 'CONNECTION_SERIAL') {
@@ -342,6 +368,11 @@ async function setIPAddress() {
 
 async function setTCPPort() {
   try {
+    // Only save TCP port if we're actually in TCP mode
+    if (connectionMode.value !== 'CONNECTION_TCP') {
+      console.warn('Cannot set TCP port when not in TCP connection mode');
+      return;
+    }
     const prefix = settingsPrefixMap[props.equipmentType];
     await apiService.profileChangeValue(
       `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,

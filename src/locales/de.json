@@ -1166,6 +1166,8 @@
       "label": "Profil:",
       "manage": "Profile verwalten",
       "add": "Profil hinzufügen",
+      "switchTo": "Zu diesem Profil wechseln",
+      "rename": "Umbenennen",
       "clone": "Klonen",
       "cloneOf": "Kopie",
       "remove": "Entfernen",

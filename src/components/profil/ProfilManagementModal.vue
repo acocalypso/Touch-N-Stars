@@ -8,39 +8,8 @@
 
     <template #body>
       <div class="w-full flex flex-col gap-4">
-        <!-- Add New Profile Section (PINS only) -->
-        <div class="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
-          <h3 class="text-sm font-semibold text-gray-300 mb-3">
-            {{ $t('components.profile.add') }}
-          </h3>
-          <div class="flex gap-2">
-            <input
-              v-model="newProfileName"
-              type="text"
-              :placeholder="$t('components.profile.namePlaceholder')"
-              class="default-input flex-1"
-              :disabled="operationInProgress"
-              @keyup.enter="handleAdd"
-            />
-            <button
-              @click="handleAdd"
-              class="default-button-cyan px-4 max-w-28"
-              :disabled="!canAdd || operationInProgress"
-            >
-              {{ $t('components.profile.add') }}
-            </button>
-          </div>
-          <p v-if="nameExistsError" class="text-xs text-red-400 mt-2">
-            {{ $t('components.profile.nameExists') }}
-          </p>
-        </div>
-
         <!-- Profiles List -->
         <div class="p-4 bg-gray-900/50 rounded-lg border border-gray-700">
-          <h3 class="text-sm font-semibold text-gray-300 mb-3">
-            {{ $t('components.profile.label') }}
-          </h3>
-
           <!-- Loading Spinner -->
           <div v-if="operationInProgress" class="flex justify-center py-8">
             <svg
@@ -81,34 +50,40 @@
                 ✓
               </span>
 
-              <!-- Clone input or profile name -->
-              <template v-if="cloningProfile && cloningProfile.Id === profile.Id">
+              <!-- Rename input or profile name -->
+              <template v-if="renamingProfile && renamingProfile.Id === profile.Id">
                 <input
-                  v-model="cloneNewName"
+                  v-model="renameValue"
                   type="text"
                   class="default-input flex-1"
                   :disabled="operationInProgress"
-                  @keyup.enter="handleCloneConfirm"
-                  @keyup.escape="cancelClone"
-                  ref="cloneInput"
+                  @keyup.enter="handleRenameConfirm"
+                  @keyup.escape="cancelRename"
+                  ref="renameInput"
                 />
               </template>
-              <span v-else class="flex-1 text-gray-200 truncate">{{ profile.Name }}</span>
+              <span
+                v-else
+                class="flex-1 text-gray-200 truncate"
+                :class="!profile.IsActive && !operationInProgress ? 'cursor-pointer hover:text-cyan-400 transition-colors' : ''"
+                @click="!profile.IsActive && !operationInProgress ? handleSwitch(profile) : undefined"
+                :title="!profile.IsActive ? $t('components.profile.switchTo') : ''"
+              >{{ profile.Name }}</span>
 
               <!-- Action buttons -->
               <div class="flex gap-1 shrink-0">
-                <!-- Clone confirm / cancel -->
-                <template v-if="cloningProfile && cloningProfile.Id === profile.Id">
+                <!-- Rename confirm / cancel -->
+                <template v-if="renamingProfile && renamingProfile.Id === profile.Id">
                   <button
-                    @click="handleCloneConfirm"
+                    @click="handleRenameConfirm"
                     class="default-button-cyan w-10 h-10 flex items-center justify-center"
-                    :disabled="!canClone"
+                    :disabled="!canRename"
                     :title="$t('common.confirm')"
                   >
                     <CheckIcon class="w-5 h-5" />
                   </button>
                   <button
-                    @click="cancelClone"
+                    @click="cancelRename"
                     class="default-button-gray w-10 h-10 flex items-center justify-center"
                     :title="$t('common.cancel')"
                   >
@@ -116,41 +91,52 @@
                   </button>
                 </template>
 
-                <!-- Clone button -->
-                <button
-                  v-else
-                  @click="startClone(profile)"
-                  class="default-button-cyan w-10 h-10 flex items-center justify-center"
-                  :disabled="operationInProgress"
-                  :title="$t('components.profile.clone')"
-                >
-                  <DocumentDuplicateIcon class="w-5 h-5" />
-                </button>
+                <!-- Rename + Clone + Remove buttons (normal state) -->
+                <template v-else>
+                  <!-- Rename button -->
+                  <button
+                    @click="startRename(profile)"
+                    class="default-button-cyan w-10 h-10 flex items-center justify-center"
+                    :disabled="operationInProgress"
+                    :title="$t('components.profile.rename')"
+                  >
+                    <PencilIcon class="w-5 h-5" />
+                  </button>
 
-                <!-- Remove button (not shown while cloning this profile) -->
-                <button
-                  v-if="!cloningProfile || cloningProfile.Id !== profile.Id"
-                  @click="handleRemoveClick(profile)"
-                  :disabled="profile.IsActive || profiles.length <= 1 || operationInProgress"
-                  :class="[
-                    'w-10 h-10 flex items-center justify-center transition-colors',
-                    removeConfirmFor === profile.Id
-                      ? 'bg-red-700 hover:bg-red-800 rounded'
-                      : profile.IsActive || profiles.length <= 1
-                        ? 'default-button-gray opacity-50 cursor-not-allowed'
-                        : 'default-button-red',
-                  ]"
-                  :title="
-                    profile.IsActive
-                      ? $t('components.profile.cannotRemoveActive')
-                      : profiles.length <= 1
-                        ? $t('components.profile.cannotRemoveLast')
-                        : $t('components.profile.remove')
-                  "
-                >
-                  <TrashIcon v-if="removeConfirmFor !== profile.Id" class="w-5 h-5" />
-                  <CheckIcon v-else class="w-5 h-5" />
-                </button>
+                  <!-- Clone button -->
+                  <button
+                    @click="handleClone(profile)"
+                    class="default-button-cyan w-10 h-10 flex items-center justify-center"
+                    :disabled="operationInProgress"
+                    :title="$t('components.profile.clone')"
+                  >
+                    <DocumentDuplicateIcon class="w-5 h-5" />
+                  </button>
+
+                  <!-- Remove button -->
+                  <button
+                    @click="handleRemoveClick(profile)"
+                    :disabled="profile.IsActive || profiles.length <= 1 || operationInProgress"
+                    :class="[
+                      'w-10 h-10 flex items-center justify-center transition-colors',
+                      removeConfirmFor === profile.Id
+                        ? 'bg-red-700 hover:bg-red-800 rounded'
+                        : profile.IsActive || profiles.length <= 1
+                          ? 'default-button-gray opacity-50 cursor-not-allowed'
+                          : 'default-button-red',
+                    ]"
+                    :title="
+                      profile.IsActive
+                        ? $t('components.profile.cannotRemoveActive')
+                        : profiles.length <= 1
+                          ? $t('components.profile.cannotRemoveLast')
+                          : $t('components.profile.remove')
+                    "
+                  >
+                    <TrashIcon v-if="removeConfirmFor !== profile.Id" class="w-5 h-5" />
+                    <CheckIcon v-else class="w-5 h-5" />
+                  </button>
+                </template>
               </div>
             </div>
 
@@ -159,6 +145,16 @@
             </div>
           </div>
         </div>
+
+        <!-- Add new profile button -->
+        <button
+          @click="handleAdd"
+          class="default-button-cyan w-full py-2 flex items-center justify-center gap-2"
+          :disabled="operationInProgress"
+        >
+          <PlusIcon class="w-5 h-5" />
+          {{ $t('components.profile.add') }}
+        </button>
       </div>
     </template>
   </Modal>
@@ -168,8 +164,14 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
-import { apiStore } from '@/store/store';
-import { CheckIcon, XMarkIcon, TrashIcon, DocumentDuplicateIcon } from '@heroicons/vue/24/outline';
+import {
+  CheckIcon,
+  XMarkIcon,
+  TrashIcon,
+  DocumentDuplicateIcon,
+  PencilIcon,
+  PlusIcon,
+} from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   show: {
@@ -180,29 +182,18 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'profile-changed']);
 
-const store = apiStore();
-
 const profiles = ref([]);
-const newProfileName = ref('');
-const cloningProfile = ref(null);
-const cloneNewName = ref('');
+const renamingProfile = ref(null);
+const renameValue = ref('');
 const removeConfirmFor = ref(null);
 const operationInProgress = ref(false);
-const cloneInput = ref(null);
+const renameInput = ref(null);
 
-const nameExistsError = computed(() => {
-  if (!newProfileName.value) return false;
-  return profiles.value.some(
-    (p) => p.Name.toLowerCase() === newProfileName.value.trim().toLowerCase()
-  );
-});
-
-const canAdd = computed(() => newProfileName.value.trim() !== '' && !nameExistsError.value);
-
-const canClone = computed(() => {
-  if (!cloneNewName.value.trim()) return false;
+const canRename = computed(() => {
+  if (!renameValue.value.trim()) return false;
+  if (renamingProfile.value && renameValue.value.trim() === renamingProfile.value.Name) return false;
   return !profiles.value.some(
-    (p) => p.Name.toLowerCase() === cloneNewName.value.trim().toLowerCase()
+    (p) => p.Name.toLowerCase() === renameValue.value.trim().toLowerCase()
   );
 });
 
@@ -217,12 +208,25 @@ async function fetchProfiles() {
   }
 }
 
-async function handleAdd() {
-  if (!canAdd.value || operationInProgress.value) return;
+async function handleSwitch(profile) {
+  if (operationInProgress.value) return;
   operationInProgress.value = true;
   try {
-    await apiService.profileAdd(newProfileName.value.trim());
-    newProfileName.value = '';
+    await apiService.profileSwitch(profile.Id);
+    await fetchProfiles();
+    emit('profile-changed');
+  } catch (error) {
+    console.error('Error switching profile:', error);
+  } finally {
+    operationInProgress.value = false;
+  }
+}
+
+async function handleAdd() {
+  if (operationInProgress.value) return;
+  operationInProgress.value = true;
+  try {
+    await apiService.profileAdd();
     await fetchProfiles();
     emit('profile-changed');
   } catch (error) {
@@ -232,33 +236,52 @@ async function handleAdd() {
   }
 }
 
-function startClone(profile) {
-  cloningProfile.value = profile;
-  cloneNewName.value = `${profile.Name} (${store.$i18n?.t('components.profile.cloneOf') ?? 'Copy'})`;
-  removeConfirmFor.value = null;
-  nextTick(() => {
-    if (cloneInput.value && cloneInput.value.length > 0) {
-      cloneInput.value[0]?.focus();
-      cloneInput.value[0]?.select();
-    }
-  });
-}
-
-function cancelClone() {
-  cloningProfile.value = null;
-  cloneNewName.value = '';
-}
-
-async function handleCloneConfirm() {
-  if (!canClone.value || operationInProgress.value || !cloningProfile.value) return;
+async function handleClone(profile) {
+  if (operationInProgress.value) return;
   operationInProgress.value = true;
   try {
-    await apiService.profileClone(cloneNewName.value.trim(), cloningProfile.value.Id);
-    cancelClone();
+    await apiService.profileClone(profile.Id);
     await fetchProfiles();
     emit('profile-changed');
   } catch (error) {
     console.error('Error cloning profile:', error);
+  } finally {
+    operationInProgress.value = false;
+  }
+}
+
+function startRename(profile) {
+  renamingProfile.value = profile;
+  renameValue.value = profile.Name;
+  removeConfirmFor.value = null;
+  nextTick(() => {
+    if (renameInput.value && renameInput.value.length > 0) {
+      renameInput.value[0]?.focus();
+      renameInput.value[0]?.select();
+    }
+  });
+}
+
+function cancelRename() {
+  renamingProfile.value = null;
+  renameValue.value = '';
+}
+
+async function handleRenameConfirm() {
+  if (!canRename.value || operationInProgress.value || !renamingProfile.value) return;
+  operationInProgress.value = true;
+  const profile = renamingProfile.value;
+  const name = renameValue.value.trim();
+  try {
+    if (!profile.IsActive) {
+      await apiService.profileSwitch(profile.Id);
+    }
+    await apiService.profileChangeValue('Name', name);
+    cancelRename();
+    await fetchProfiles();
+    emit('profile-changed');
+  } catch (error) {
+    console.error('Error renaming profile:', error);
   } finally {
     operationInProgress.value = false;
   }
@@ -299,9 +322,8 @@ watch(
     if (val) {
       fetchProfiles();
     } else {
-      newProfileName.value = '';
-      cloningProfile.value = null;
-      cloneNewName.value = '';
+      renamingProfile.value = null;
+      renameValue.value = '';
       removeConfirmFor.value = null;
     }
   }

@@ -1170,6 +1170,8 @@
       "label": "Profile:",
       "manage": "Manage Profiles",
       "add": "Add Profile",
+      "switchTo": "Switch to this profile",
+      "rename": "Rename",
       "clone": "Clone",
       "cloneOf": "Copy",
       "remove": "Remove",

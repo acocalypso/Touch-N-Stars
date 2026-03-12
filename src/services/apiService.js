@@ -911,25 +911,23 @@ const apiService = {
     }
   },
 
-  // Profile Add (PINS only)
-  async profileAdd(name) {
+  // Profile Add (PINS only) - creates blank profile, name must be set separately via profileChangeValue
+  async profileAdd() {
     try {
       const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/profile/add`, {
-        params: { name },
-      });
+      const response = await axios.get(`${BASE_URL}/profile/add`);
       return response.data;
     } catch (error) {
       throw error;
     }
   },
 
-  // Profile Clone (PINS only)
-  async profileClone(name, id) {
+  // Profile Clone (PINS only) - clones profile by id, name must be set separately via profileChangeValue
+  async profileClone(id) {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/profile/clone`, {
-        params: { name, id },
+        params: { id },
       });
       return response.data;
     } catch (error) {

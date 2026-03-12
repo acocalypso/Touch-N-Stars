@@ -169,12 +169,7 @@ import { ref, computed, watch, nextTick } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import {
-  CheckIcon,
-  XMarkIcon,
-  TrashIcon,
-  DocumentDuplicateIcon,
-} from '@heroicons/vue/24/outline';
+import { CheckIcon, XMarkIcon, TrashIcon, DocumentDuplicateIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   show: {

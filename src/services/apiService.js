@@ -911,6 +911,43 @@ const apiService = {
     }
   },
 
+  // Profile Add (PINS only) - creates blank profile, name must be set separately via profileChangeValue
+  async profileAdd() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/profile/add`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Profile Clone (PINS only) - clones profile by id, name must be set separately via profileChangeValue
+  async profileClone(id) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/profile/clone`, {
+        params: { profileid: id },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Profile Remove (PINS only)
+  async profileRemove(id) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/profile/remove`, {
+        params: { profileid: id },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  application ---------------------------------------
   async applicatioTabSwitch(tab) {
     try {

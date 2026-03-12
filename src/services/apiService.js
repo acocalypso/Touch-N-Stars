@@ -927,7 +927,7 @@ const apiService = {
     try {
       const { BASE_URL } = getUrls();
       const response = await axios.get(`${BASE_URL}/profile/clone`, {
-        params: { id },
+        params: { profileid: id },
       });
       return response.data;
     } catch (error) {

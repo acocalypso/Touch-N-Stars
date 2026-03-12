@@ -1163,7 +1163,17 @@
       }
     },
     "profile": {
-      "label": "Profil:"
+      "label": "Profil:",
+      "manage": "Profile verwalten",
+      "add": "Profil hinzufügen",
+      "clone": "Klonen",
+      "cloneOf": "Kopie",
+      "remove": "Entfernen",
+      "namePlaceholder": "Profilname",
+      "nameExists": "Name bereits vorhanden",
+      "cannotRemoveActive": "Aktives Profil kann nicht entfernt werden",
+      "cannotRemoveLast": "Letztes Profil kann nicht entfernt werden",
+      "noProfiles": "Keine Profile vorhanden"
     },
     "fav_target": {
       "enter_name": "Namen eingeben",

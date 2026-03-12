@@ -911,6 +911,45 @@ const apiService = {
     }
   },
 
+  // Profile Add (PINS only)
+  async profileAdd(name) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/profile/add`, {
+        params: { name },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Profile Clone (PINS only)
+  async profileClone(name, id) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/profile/clone`, {
+        params: { name, id },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  // Profile Remove (PINS only)
+  async profileRemove(id) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/profile/remove`, {
+        params: { profileid: id },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  application ---------------------------------------
   async applicatioTabSwitch(tab) {
     try {

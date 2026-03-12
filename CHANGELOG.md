@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pins Plugin: Band selection 2.4 Ghz / 5 Ghz
 - Pins Plugin: Autoconnect to wifi after reboot
 - Setup: Restart setup after GPS permission has been granted
+- Flatwizzard: max brightness
 
 ## [App4.6.0] - 2026-02-14
 ### Added

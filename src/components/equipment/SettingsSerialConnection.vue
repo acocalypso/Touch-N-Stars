@@ -281,7 +281,7 @@ async function setConnectionMode() {
       `${settingsKeyMap[props.equipmentType]}-${prefix.connection}`,
       connectionMode.value
     );
-    
+
     // When switching modes, update the port setting to the appropriate value
     if (connectionMode.value === 'CONNECTION_TCP') {
       // Switching to TCP: save the TCP port
@@ -296,7 +296,7 @@ async function setConnectionMode() {
         devicePort.value
       );
     }
-    
+
     statusClassConnectionMode.value = 'glow-green';
 
     if (connectionMode.value === 'CONNECTION_SERIAL') {

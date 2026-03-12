@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex items-center">
+  <div class="w-full flex items-center gap-2">
     <!-- Loading Spinner Overlay -->
     <teleport to="body">
       <div
@@ -15,10 +15,10 @@
       </div>
     </teleport>
 
-    <label class="mr-2" for="profileDropdown">{{ $t('components.profile.label') }} </label>
+    <label class="mr-2 shrink-0" for="profileDropdown">{{ $t('components.profile.label') }} </label>
     <select
       id="profileDropdown"
-      class="default-select w-full ml-auto"
+      class="default-select w-full"
       v-model="selectedProfileId"
       @change="updateProfile"
       :disabled="isLoading || anyDeviceConnected"
@@ -27,6 +27,23 @@
         {{ profile.Name }}
       </option>
     </select>
+
+    <!-- Manage button (PINS only) -->
+    <button
+      v-if="store.isPINS"
+      @click="showManagementModal = true"
+      class="default-button-cyan w-10 h-10 flex items-center justify-center shrink-0"
+      :title="$t('components.profile.manage')"
+    >
+      <AdjustmentsHorizontalIcon class="w-5 h-5" />
+    </button>
+
+    <ProfilManagementModal
+      v-if="store.isPINS"
+      :show="showManagementModal"
+      @close="showManagementModal = false"
+      @profile-changed="fetchProfiles"
+    />
   </div>
 </template>
 
@@ -34,11 +51,14 @@
 import { ref, computed, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline';
+import ProfilManagementModal from '@/components/profil/ProfilManagementModal.vue';
 
-const store = apiStore(); // Access the store
-const profiles = ref([]); // Profiles array
-const selectedProfileId = ref(null); // Currently selected profile ID
-const isLoading = ref(false); // Loading state
+const store = apiStore();
+const profiles = ref([]);
+const selectedProfileId = ref(null);
+const isLoading = ref(false);
+const showManagementModal = ref(false);
 
 const anyDeviceConnected = computed(
   () =>
@@ -57,18 +77,15 @@ const anyDeviceConnected = computed(
 
 async function fetchProfiles() {
   try {
-    // Fetch the profiles from the API
     const response = await apiService.profileAction('show');
     if (response && response.Response) {
       profiles.value = response.Response;
 
-      // Find the active profile and set it as selected
       const activeProfile = profiles.value.find((profile) => profile.IsActive);
       if (activeProfile) {
         selectedProfileId.value = activeProfile.Id;
       }
 
-      // Update the store with active profil
       store.fetchProfilInfos();
       store.setDefaultCameraSettings();
       store.setDefaultRotatorSettings();
@@ -82,11 +99,10 @@ async function fetchProfiles() {
 async function updateProfile() {
   isLoading.value = true;
   try {
-    // Switch to the selected profile
     const response = await apiService.profileSwitch(selectedProfileId.value);
     if (response && response.Success) {
       console.log('Profile successfully updated');
-      await fetchProfiles(); // Refresh profiles after update
+      await fetchProfiles();
     } else {
       alert('Error updating profile');
     }
@@ -98,7 +114,6 @@ async function updateProfile() {
   }
 }
 
-// Fetch profiles when the component is mounted
 onMounted(() => {
   fetchProfiles();
 });

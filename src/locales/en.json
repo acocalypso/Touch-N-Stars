@@ -242,7 +242,8 @@
       },
       "telescope": {
         "titel": "Telescope settings",
-        "name": "Telescope name",
+        "name": "Telescope name"
+,
 "focal_ratio": "Focal ratio"
       }
     },
@@ -574,7 +575,8 @@
         "Reverse": "Reverse",
         "UseFilterWheelOffsets": "Use filterwheel offsets",
         "AutoFocusFilter": "Autofocus filter",
-        "AutoFocusFilterNone": "None"
+        "AutoFocusFilterNone": "None",
+        "AutoFocusExposureTime": "Default Exposure Time"
       }
     },
     "dome": {

@@ -16,7 +16,7 @@
       <div class="mt-2">
         <settingsTelescope />
       </div>
-      <div class="mt-2">
+      <div v-if="store.isPINS" class="mt-2">
         <settingsMount />
       </div>
     </div>
@@ -27,4 +27,7 @@
 import settingsSensor from '@/components/settings/camera/settingsSensor.vue';
 import settingsTelescope from '@/components/settings/telescope/settingsTelescope.vue';
 import settingsMount from '@/components/settings/mount/settingsMount.vue';
+import { apiStore } from '@/store/store';
+
+const store = apiStore();
 </script>

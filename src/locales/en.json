@@ -1,5 +1,6 @@
 {
   "common": {
+    "name": "Name",
     "cancel": "Cancel",
     "confirm": "Confirm",
     "close": "Close",

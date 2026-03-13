@@ -462,6 +462,9 @@
         "sunAltitudeCondition": {
           "altitude": "Sonnenhöhe (°)"
         },
+        "timeCondition": {
+          "provider": "Anbieter"
+        },
         "timeSpan": {
           "hours": "Stunden",
           "minutes": "Minuten",

@@ -594,6 +594,12 @@ const apiService = {
     return response.data;
   },
 
+  async getDateTimeProviders() {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}sequence/date-time-providers`);
+    return response.data;
+  },
+
   async sequenceSetProperty(id, propertyName, value) {
     const { API_URL } = getUrls();
     const response = await axios.post(

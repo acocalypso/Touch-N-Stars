@@ -464,6 +464,9 @@
         "sunAltitudeCondition": {
           "altitude": "Sun Altitude (°)"
         },
+        "timeCondition": {
+          "provider": "Provider"
+        },
         "timeSpan": {
           "hours": "Hours",
           "minutes": "Minutes",

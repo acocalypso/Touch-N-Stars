@@ -5,6 +5,16 @@
     </template>
 
     <template #editor>
+      <!-- Container Name -->
+      <div class="flex items-center gap-3">
+        <label class="text-xs text-slate-400 flex-shrink-0">{{ $t('common.name') }}</label>
+        <TextInput
+          :modelValue="item.Name ?? ''"
+          inputClass="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+          @change="store.setProperty(item.Id, 'Name', $event)"
+        />
+      </div>
+
       <!-- Object search -->
       <TargetSearch @target-selected="handleTargetSelected" />
 
@@ -123,6 +133,7 @@
 import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import TextInput from '@/components/helpers/TextInput.vue';
 import TargetSearch from '@/plugins/sequence-creator/components/TargetSearch.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 

@@ -672,6 +672,7 @@ const apiService = {
     }
   },
 
+  //PINS only
   async sequenceFetchFiles(folderPath) {
     const { API_URL } = getUrls();
     const response = await axios.get(`${API_URL}sequence/files`, {
@@ -680,6 +681,7 @@ const apiService = {
     return response.data;
   },
 
+  //PINS only
   async sequenceLoadFile(filePath) {
     const { API_URL } = getUrls();
     const response = await axios.get(`${API_URL}sequence/load`, {
@@ -688,6 +690,7 @@ const apiService = {
     return response.data;
   },
 
+  //PINS only
   async sequenceSaveFile(filePath) {
     const { API_URL } = getUrls();
     const response = await axios.post(`${API_URL}sequence/save`, null, {
@@ -696,6 +699,7 @@ const apiService = {
     return response.data;
   },
 
+  //PINS only
   async sequenceDeleteFile(filePath) {
     const { API_URL } = getUrls();
     const response = await axios.delete(`${API_URL}sequence/delete`, {
@@ -705,17 +709,18 @@ const apiService = {
   },
 
   async sequenceSkipToEnd() {
-    const { API_URL } = getUrls();
-    const response = await axios.post(`${API_URL}sequence/skip-to-end`);
+    const { BASE_URL } = getUrls();
+    const response = await axios.get(`${BASE_URL}/sequence/skip?type=ToEnd`);
     return response.data;
   },
 
   async sequenceSkipCurrentItem() {
-    const { API_URL } = getUrls();
-    const response = await axios.post(`${API_URL}sequence/skip-current-item`);
+    const { BASE_URL } = getUrls();
+    const response = await axios.get(`${BASE_URL}/sequence/skip?type=CurrentItems`);
     return response.data;
   },
 
+  //PINS only
   async sequenceClear() {
     const { API_URL } = getUrls();
     const response = await axios.post(`${API_URL}sequence/clear`);

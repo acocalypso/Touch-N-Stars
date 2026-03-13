@@ -89,7 +89,7 @@
     </button>
 
     <button
-      v-if="!sequenceStore.sequenceRunning"
+      v-if="!sequenceStore.sequenceRunning && store.isPINS"
       class="default-button-red h-16 w-14 flex-col gap-0.5"
       @click="clearSequence"
     >
@@ -99,7 +99,11 @@
       }}</span>
     </button>
 
-    <button class="default-button-gray h-16 w-14 flex-col gap-0.5" @click="openFileManager">
+    <button
+      v-if="!sequenceStore.sequenceRunning && store.isPINS"
+      class="default-button-gray h-16 w-14 flex-col gap-0.5"
+      @click="openFileManager"
+    >
       <FolderOpenIcon class="h-6 w-6" />
       <span class="text-[9px] leading-none font-medium">{{
         $t('components.sequence.manageSequences')

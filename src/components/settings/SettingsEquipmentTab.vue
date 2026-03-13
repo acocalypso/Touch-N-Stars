@@ -16,6 +16,9 @@
       <div class="mt-2">
         <settingsTelescope />
       </div>
+      <div class="mt-2">
+        <settingsMount />
+      </div>
     </div>
   </div>
 </template>
@@ -23,4 +26,5 @@
 <script setup>
 import settingsSensor from '@/components/settings/camera/settingsSensor.vue';
 import settingsTelescope from '@/components/settings/telescope/settingsTelescope.vue';
+import settingsMount from '@/components/settings/mount/settingsMount.vue';
 </script>

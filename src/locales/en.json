@@ -254,6 +254,10 @@
         "titel": "Telescope settings",
         "name": "Telescope name",
         "focal_ratio": "Focal ratio"
+      },
+      "mount": {
+        "titel": "Mount settings",
+        "max_slew_rate": "Max slew rate (°/s)"
       }
     },
     "connectEquipment": {

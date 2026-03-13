@@ -841,7 +841,8 @@
         "UseFilterWheelOffsets": "Use filterwheel offsets",
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
-        "AutoFocusFilterNone": "None"
+        "AutoFocusFilterNone": "None",
+        "AutoFocusExposureTime": "Default Exposure Time"
       },
       "indi": {
         "settings": "Focuser Settings"

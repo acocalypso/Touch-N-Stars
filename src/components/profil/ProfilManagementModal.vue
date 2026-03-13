@@ -65,10 +65,17 @@
               <span
                 v-else
                 class="flex-1 text-gray-200 truncate"
-                :class="!profile.IsActive && !operationInProgress ? 'cursor-pointer hover:text-cyan-400 transition-colors' : ''"
-                @click="!profile.IsActive && !operationInProgress ? handleSwitch(profile) : undefined"
+                :class="
+                  !profile.IsActive && !operationInProgress
+                    ? 'cursor-pointer hover:text-cyan-400 transition-colors'
+                    : ''
+                "
+                @click="
+                  !profile.IsActive && !operationInProgress ? handleSwitch(profile) : undefined
+                "
                 :title="!profile.IsActive ? $t('components.profile.switchTo') : ''"
-              >{{ profile.Name }}</span>
+                >{{ profile.Name }}</span
+              >
 
               <!-- Action buttons -->
               <div class="flex gap-1 shrink-0">
@@ -191,7 +198,8 @@ const renameInput = ref(null);
 
 const canRename = computed(() => {
   if (!renameValue.value.trim()) return false;
-  if (renamingProfile.value && renameValue.value.trim() === renamingProfile.value.Name) return false;
+  if (renamingProfile.value && renameValue.value.trim() === renamingProfile.value.Name)
+    return false;
   return !profiles.value.some(
     (p) => p.Name.toLowerCase() === renameValue.value.trim().toLowerCase()
   );

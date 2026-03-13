@@ -212,6 +212,10 @@
         "name": "Teleskopname",
         "focal_ratio": "Öffnungsverhältnis"
       },
+      "mount": {
+        "titel": "Montierungseinstellungen",
+        "max_slew_rate": "Max. Schwenkgeschwindigkeit (°/s)"
+      },
       "beta": {
         "title": "Beta-Update-Kanal"
       },

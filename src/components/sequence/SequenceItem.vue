@@ -251,7 +251,19 @@ const hasChildren = computed(
 );
 
 const dsoTarget = computed(() => {
-  const co = props.item.Target?.InputCoordinates;
+  const t = props.item.Target;
+  if (!t) return null;
+  // string format: "RA: 00:42:44; Dec: 41° 16' 07\"; Epoch: J2000; Position Angle: 0"
+  if (typeof t === 'string') {
+    const raMatch = t.match(/RA:\s*(\d+):(\d+):([\d.]+)/);
+    const decMatch = t.match(/Dec:\s*(-?)(\d+)°\s*(\d+)'\s*([\d.]+)"/);
+    if (!raMatch || !decMatch) return null;
+    const raH = parseInt(raMatch[1]) + parseInt(raMatch[2]) / 60 + parseFloat(raMatch[3]) / 3600;
+    const decAbs = parseInt(decMatch[2]) + parseInt(decMatch[3]) / 60 + parseFloat(decMatch[4]) / 3600;
+    return { RA: raH * 15, Dec: decMatch[1] === '-' ? -decAbs : decAbs };
+  }
+  // object format (legacy)
+  const co = t.InputCoordinates;
   if (!co) return null;
   const raH = (co.RAHours ?? 0) + (co.RAMinutes ?? 0) / 60 + (co.RASeconds ?? 0) / 3600;
   const decAbs = (co.DecDegrees ?? 0) + (co.DecMinutes ?? 0) / 60 + (co.DecSeconds ?? 0) / 3600;

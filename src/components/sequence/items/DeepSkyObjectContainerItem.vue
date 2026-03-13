@@ -26,7 +26,7 @@
         <input
           type="text"
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          :value="item.Target?.TargetName"
+          :value="parsedTarget?.TargetName ?? item.Target?.TargetName"
           @blur="saveTargetName($event.target.value)"
           @keydown.enter="$event.target.blur()"
         />
@@ -34,7 +34,7 @@
 
       <!-- Position Angle -->
       <NumberInputPicker
-        :modelValue="item.Target?.PositionAngle ?? 0"
+        :modelValue="parsedTarget?.PositionAngle ?? item.Target?.PositionAngle ?? 0"
         :label="$t('components.sequence.items.dso.positionAngle')"
         labelKey="dso-positionAngle"
         :min="0"
@@ -142,7 +142,35 @@ const props = defineProps({
 });
 
 const store = useSequenceV2Store();
-const coords = computed(() => props.item.Target?.InputCoordinates ?? {});
+
+// API returns Target as a string: "RA: 00:42:44; Dec: 41° 16' 07\"; Epoch: J2000; Position Angle: 0"
+const parsedTarget = computed(() => {
+  const t = props.item.Target;
+  if (!t || typeof t !== 'string') return t ?? null; // already an object (future-proof)
+  const raMatch = t.match(/RA:\s*(\d+):(\d+):([\d.]+)/);
+  const decMatch = t.match(/Dec:\s*(-?)(\d+)°\s*(\d+)'\s*([\d.]+)"/);
+  const paMatch = t.match(/Position Angle:\s*([\d.-]+)/);
+  if (!raMatch || !decMatch) return null;
+  return {
+    RAHours: parseInt(raMatch[1]),
+    RAMinutes: parseInt(raMatch[2]),
+    RASeconds: parseFloat(raMatch[3]),
+    NegativeDec: decMatch[1] === '-',
+    DecDegrees: parseInt(decMatch[2]),
+    DecMinutes: parseInt(decMatch[3]),
+    DecSeconds: parseFloat(decMatch[4]),
+    PositionAngle: paMatch ? parseFloat(paMatch[1]) : 0,
+    TargetName: props.item.Name ?? '',
+  };
+});
+
+const coords = computed(() => {
+  const t = props.item.Target;
+  // object form (has InputCoordinates)
+  if (t && typeof t === 'object') return t.InputCoordinates ?? {};
+  // string form — use parsed values directly
+  return parsedTarget.value ?? {};
+});
 
 const raStr = computed(() => {
   const co = coords.value;
@@ -174,10 +202,10 @@ const currentDecDeg = computed(() => {
 function callSetTarget(raDeg, decDeg, name, rotation) {
   store.setDsoTarget(
     props.item.Id,
-    name ?? props.item.Target?.TargetName ?? '',
+    name ?? parsedTarget.value?.TargetName ?? props.item.Name ?? '',
     raDeg ?? currentRaDeg.value,
     decDeg ?? currentDecDeg.value,
-    rotation ?? props.item.Target?.PositionAngle ?? 0
+    rotation ?? parsedTarget.value?.PositionAngle ?? 0
   );
 }
 
@@ -203,10 +231,10 @@ async function handleTargetSelected(targetData) {
   const dec = targetData.originalData?.Dec;
   await store.setDsoTarget(
     props.item.Id,
-    targetData.name || props.item.Target?.TargetName || '',
+    targetData.name || parsedTarget.value?.TargetName || props.item.Name || '',
     ra ?? currentRaDeg.value,
     dec ?? currentDecDeg.value,
-    props.item.Target?.PositionAngle ?? 0
+    parsedTarget.value?.PositionAngle ?? 0
   );
 }
 </script>

@@ -45,7 +45,7 @@
     </button>
 
     <button
-      v-if="sequenceStore.sequenceRunning && store.isPINS"
+      v-if="sequenceStore.sequenceRunning"
       class="default-button-blue h-16 w-14 flex-col gap-0.5"
       @click="skipCurrentItem"
     >
@@ -56,7 +56,7 @@
     </button>
 
     <button
-      v-if="sequenceStore.sequenceRunning && store.isPINS"
+      v-if="sequenceStore.sequenceRunning"
       class="default-button-red h-16 w-14 flex-col gap-0.5"
       @click="skipToEnd"
     >

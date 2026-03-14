@@ -54,11 +54,16 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
-            :statistics="histogramStore.getCaptureStats()"
-            :stretchParams="{
-              blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
-              autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
-            }"
+            :statistics="isSaveEnabled ? histogramStore.getCaptureStats() : null"
+            :stretchParams="
+              isSaveEnabled
+                ? {
+                    blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
+                    autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
+                  }
+                : null
+            "
+            :saveEnabled="isSaveEnabled"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
           />
@@ -300,6 +305,10 @@ const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
 const histogramStore = useHistogramStore();
+
+const isSaveEnabled = computed(
+  () => store.profileInfo?.SnapShotControlSettings?.Save !== false
+);
 
 // State
 const showModal = ref(false);

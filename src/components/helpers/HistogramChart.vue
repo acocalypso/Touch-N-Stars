@@ -124,9 +124,14 @@
       </button>
     </div>
 
+    <!-- No-save hint -->
+    <div v-if="!saveEnabled" class="mt-2 text-xs text-gray-500 italic text-center">
+      {{ t('components.helpers.histogram.noSaveHint') }}
+    </div>
+
     <!-- Real statistics from NINA API -->
     <div
-      v-if="statistics"
+      v-if="statistics && saveEnabled"
       class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono"
     >
       <div class="flex gap-2">
@@ -205,6 +210,10 @@ const props = defineProps({
     default: null,
     // Expected: { blackClipping: Number, autoStretchFactor: Number }
     // NINA profile: ImageSettings.BlackClipping + ImageSettings.AutoStretchFactor
+  },
+  saveEnabled: {
+    type: Boolean,
+    default: true,
   },
 });
 

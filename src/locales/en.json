@@ -1232,7 +1232,8 @@
         "min": "Min",
         "max": "Max",
         "stars": "Stars",
-        "reset": "Reset"
+        "reset": "Reset",
+        "noSaveHint": "Statistics are only calculated for saved images"
       }
     },
     "platesolve": {

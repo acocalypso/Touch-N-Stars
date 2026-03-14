@@ -54,8 +54,19 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
+            :statistics="isSaveEnabled ? captureStats : null"
+            :stretchParams="
+              isSaveEnabled
+                ? {
+                    blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
+                    autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
+                  }
+                : null
+            "
+            :saveEnabled="isSaveEnabled"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
+            @toggle-save="onToggleSave"
           />
         </div>
 
@@ -286,6 +297,7 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import apiService from '@/services/apiService';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -295,6 +307,8 @@ const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
 const histogramStore = useHistogramStore();
 
+const isSaveEnabled = computed(() => store.profileInfo?.SnapShotControlSettings?.Save !== false);
+
 // State
 const showModal = ref(false);
 const showMount = ref(false);
@@ -302,6 +316,13 @@ const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
+
+const captureStats = computed(() => {
+  const arr = store.imageHistoryInfo;
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  const last = arr[arr.length - 1];
+  return last?.ImageType === 'SNAPSHOT' ? last : null;
+});
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
@@ -408,6 +429,10 @@ const onLevelsChanged = async (event) => {
 const onLevelsReset = async () => {
   if (!imageStore.imageData) return;
   histogramStore.resetStretch(imageStore.imageData);
+};
+
+const onToggleSave = async () => {
+  await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
 };
 
 // Load image on mount if imageData is empty

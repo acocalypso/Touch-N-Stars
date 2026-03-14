@@ -27,9 +27,10 @@
         }"
       >
         <div
-          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex flex-col items-center justify-between -translate-x-2 py-1"
         >
-          <div class="w-1 h-full border-l-2 border-red-500"></div>
+          <div class="w-1 flex-1 border-l-2 border-red-500"></div>
+          <span class="text-red-400 text-[9px] font-bold leading-none mt-0.5 select-none">S</span>
         </div>
       </div>
 
@@ -42,24 +43,24 @@
         }"
       >
         <div
-          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex flex-col items-center justify-between -translate-x-2 py-1"
         >
-          <div class="w-1 h-full border-l-2 border-gray-200"></div>
+          <div class="w-1 flex-1 border-l-2 border-gray-200"></div>
+          <span class="text-gray-200 text-[9px] font-bold leading-none mt-0.5 select-none">W</span>
         </div>
       </div>
 
-      <!-- Mid Point Thumb (visual only) -->
+      <!-- Mid Point Thumb (nur sichtbar wenn Gamma aktiv) -->
       <div
+        v-if="showGamma"
         class="absolute top-0 h-full w-0.5 bg-transparent pointer-events-none"
-        :style="{
-          left: `${(localMidPoint / 255) * 100}%`,
-          zIndex: 6,
-        }"
+        :style="{ left: `${(localMidPoint / 255) * 100}%`, zIndex: 6 }"
       >
         <div
-          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex flex-col items-center justify-between -translate-x-2 py-1"
         >
-          <div class="w-1 h-full border-l-2 border-green-400"></div>
+          <div class="w-1 flex-1 border-l-2 border-green-400"></div>
+          <span class="text-green-400 text-[9px] font-bold leading-none mt-0.5 select-none">G</span>
         </div>
       </div>
 
@@ -87,6 +88,7 @@
       ></div>
 
       <div
+        v-if="showGamma"
         class="absolute top-0 h-full pointer-events-auto cursor-grab active:cursor-grabbing"
         :style="{
           left: `calc(${(localMidPoint / 255) * 100}% - 12px)`,
@@ -97,12 +99,86 @@
         @touchstart="onMidPointTouchStart"
       ></div>
     </div>
+
+    <!-- Slider legend + Gamma toggle -->
+    <div class="mt-1 flex items-center gap-4 text-[10px] font-mono text-gray-400 select-none">
+      <span>
+        <span class="text-red-400 font-bold">S</span>
+        {{ t('components.helpers.histogram.blackPoint') }}</span
+      >
+      <span>
+        <span class="text-gray-200 font-bold">W</span>
+        {{ t('components.helpers.histogram.whitePoint') }}</span
+      >
+      <button
+        type="button"
+        class="ml-auto text-[10px] px-2 py-0.5 rounded border transition-colors"
+        :class="
+          showGamma
+            ? 'border-green-500 text-green-400 bg-green-900/20'
+            : 'border-gray-600 text-gray-500 bg-transparent hover:border-gray-400'
+        "
+        @click="showGamma = !showGamma"
+      >
+        G {{ t('components.helpers.histogram.gamma') }}
+      </button>
+    </div>
+
+    <!-- No-save hint -->
+    <div v-if="!saveEnabled" class="mt-2 flex items-center justify-between gap-2">
+      <span class="text-xs text-gray-500 italic">
+        {{ t('components.helpers.histogram.noSaveHint') }}
+      </span>
+      <button
+        type="button"
+        class="shrink-0 text-xs px-2 py-0.5 rounded border border-gray-600 text-gray-400 bg-transparent hover:border-gray-400 transition-colors"
+        @click="emit('toggle-save')"
+      >
+        {{ t('components.helpers.histogram.enableSave') }}
+      </button>
+    </div>
+
+    <!-- Real statistics from NINA API -->
+    <div
+      v-if="statistics && saveEnabled"
+      class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono"
+    >
+      <div class="flex gap-2">
+        <span class="text-gray-500">{{ t('components.helpers.histogram.mean') }}</span>
+        <span class="text-yellow-400">{{ Math.round(statistics.Mean) }}</span>
+        <span class="text-gray-500 ml-1">{{ t('components.helpers.histogram.median') }}</span>
+        <span class="text-cyan-400">{{ Math.round(statistics.Median) }}</span>
+      </div>
+      <div class="flex gap-2">
+        <span class="text-gray-500">{{ t('components.helpers.histogram.stdDev') }}</span>
+        <span class="text-gray-300">{{ Math.round(statistics.StDev) }}</span>
+        <span v-if="statistics.Stars" class="text-gray-500 ml-1">{{
+          t('components.helpers.histogram.stars')
+        }}</span>
+        <span v-if="statistics.Stars" class="text-gray-300">{{ statistics.Stars }}</span>
+        <span v-if="statistics.HFR" class="text-gray-500 ml-1">{{
+          t('components.helpers.histogram.hfr')
+        }}</span>
+        <span v-if="statistics.HFR" class="text-gray-300">{{ statistics.HFR.toFixed(2) }}</span>
+      </div>
+      <div class="flex gap-2">
+        <span class="text-gray-500">{{ t('components.helpers.histogram.min') }}</span>
+        <span class="text-gray-300">{{ Math.round(statistics.Min) }}</span>
+      </div>
+      <div class="flex gap-2">
+        <span class="text-gray-500">{{ t('components.helpers.histogram.max') }}</span>
+        <span class="text-gray-300">{{ Math.round(statistics.Max) }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { getHistogramStats } from '@/utils/histogramUtils';
+
+const { t } = useI18n();
 
 const props = defineProps({
   data: {
@@ -137,9 +213,28 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  statistics: {
+    type: Object,
+    default: null,
+    // Expected: { Mean, Median, Min, Max, StDev, MedianAbsoluteDeviation, Stars, HFR }
+  },
+  stretchParams: {
+    type: Object,
+    default: null,
+    // Expected: { blackClipping: Number, autoStretchFactor: Number }
+    // NINA profile: ImageSettings.BlackClipping + ImageSettings.AutoStretchFactor
+  },
+  saveEnabled: {
+    type: Boolean,
+    default: true,
+  },
+  useJpegHistogram: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['levels-changed', 'levels-reset']);
+const emit = defineEmits(['levels-changed', 'levels-reset', 'toggle-save']);
 
 const canvasElement = ref(null);
 const wrapperElement = ref(null);
@@ -148,10 +243,12 @@ const localBlackPoint = ref(props.blackPoint);
 const localWhitePoint = ref(props.whitePoint);
 const localMidPoint = ref(props.midPoint);
 
+// Gamma toggle
+const showGamma = ref(false);
+
 // Dragging state
 const isDraggingBlack = ref(false);
 const isDraggingWhite = ref(false);
-const isDraggingMid = ref(false);
 
 // Throttle updates to reduce performance impact
 let lastEmitTime = 0;
@@ -164,17 +261,86 @@ const throttledEmit = () => {
   }
 };
 
-const drawHistogram = () => {
-  if (!canvasElement.value || !props.data || props.data.length === 0) {
-    return;
+/**
+ * Approximate histogram from API statistics using a Gaussian distribution.
+ * Bins span Min…Max in 16-bit ADU space.
+ */
+const generateSyntheticHistogram = (mean, stdDev, min, max, bins = 256) => {
+  const histogram = new Array(bins).fill(0);
+  if (stdDev <= 0 || min >= max) return histogram;
+  for (let i = 0; i < bins; i++) {
+    const val = min + (i / (bins - 1)) * (max - min);
+    histogram[i] = Math.exp(-0.5 * ((val - mean) / stdDev) ** 2);
   }
+  return histogram;
+};
+
+/**
+ * Invert NINA's auto-stretch MTF for a JPEG bucket index → 16-bit ADU value.
+ *
+ * NINA stretch:
+ *   shadowsClip = (Median + BlackClipping * MAD) / 65535
+ *   MTF midtone m is chosen so that MTF(Median/65535 - shadowsClip, m) = AutoStretchFactor
+ *   Each pixel p_norm → MTF(max(0, p_norm - shadowsClip), m) → JPEG value
+ *
+ * Inverse: JPEG j → ADU via InvMTF + un-shift
+ */
+const ninaJpegBucketToAdu = (jpegBucket, median, mad, blackClipping, autoStretchFactor) => {
+  const shadowsClip = Math.max(0, (median + blackClipping * mad) / 65535);
+  const x_bg = median / 65535 - shadowsClip;
+
+  // Solve MTF(x_bg, m) = autoStretchFactor for m
+  // MTF(x, m) = (m-1)*x / ((2m-1)*x - m)
+  // => m = x*(t-1) / (x*(2t-1) - t)  where t = autoStretchFactor
+  const t = autoStretchFactor;
+  const m = (x_bg * (t - 1)) / (x_bg * (2 * t - 1) - t);
+
+  // Inverse MTF: InvMTF(y, m) = m*y / ((2m-1)*y - (m-1))
+  const j_norm = jpegBucket / 255;
+  if (j_norm <= 0) return shadowsClip * 65535;
+  const denom = (2 * m - 1) * j_norm - (m - 1);
+  if (Math.abs(denom) < 1e-9) return shadowsClip * 65535;
+  const v_shifted = (m * j_norm) / denom;
+
+  return Math.max(0, (v_shifted + shadowsClip) * 65535);
+};
+
+const drawHistogram = () => {
+  if (!canvasElement.value) return;
+
+  const s = props.statistics;
+  const sp = props.stretchParams;
+  const hasStats = !!(s?.Mean != null);
+
+  // Decide rendering mode:
+  // "stretch" = JPEG shape + inverse-stretch X mapping (best accuracy)
+  // "synth"   = Gaussian from API stats (no stretch params available)
+  // "jpeg"    = raw JPEG histogram with 0-255 axis (fallback)
+  // MAD may be missing from image-history; approximate from StDev (Gaussian: MAD ≈ 0.6745 * σ)
+  const mad = s?.MedianAbsoluteDeviation ?? (s?.StDev != null ? s.StDev * 0.6745 : null);
+
+  const canInvertStretch =
+    hasStats &&
+    mad != null &&
+    sp?.blackClipping != null &&
+    sp?.autoStretchFactor != null &&
+    props.data?.length > 0;
+  const mode = props.useJpegHistogram
+    ? 'jpeg'
+    : canInvertStretch
+      ? 'stretch'
+      : hasStats
+        ? 'synth'
+        : 'jpeg';
+
+  const histData =
+    mode === 'synth' ? generateSyntheticHistogram(s.Mean, s.StDev, s.Min, s.Max) : props.data;
+
+  if (!histData || histData.length === 0) return;
 
   const canvas = canvasElement.value;
   const ctx = canvas.getContext('2d');
-
-  if (!ctx) {
-    return;
-  }
+  if (!ctx) return;
 
   // Set canvas size
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -188,7 +354,7 @@ const drawHistogram = () => {
   const graphHeight = height - padding * 2;
 
   // Find max value for scaling
-  const maxValue = Math.max(...props.data);
+  const maxValue = Math.max(...histData);
 
   // Clear canvas
   ctx.fillStyle = '#1a1a1a';
@@ -207,22 +373,34 @@ const drawHistogram = () => {
   }
 
   // Draw histogram bars
-  const barWidth = graphWidth / props.data.length;
-  const hue = 200; // Cyan/blue color
+  const hue = 200;
 
-  props.data.forEach((value, index) => {
-    const barHeight = (value / maxValue) * graphHeight;
-    const x = padding + index * barWidth;
-    const y = padding + graphHeight - barHeight;
-
-    // Create gradient for bars
-    const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
-    gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
-    gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
-
-    ctx.fillStyle = gradient;
-    ctx.fillRect(x, y, barWidth - 0.5, barHeight);
-  });
+  if (mode === 'stretch') {
+    // Map each JPEG bucket to its true ADU position via inverse NINA stretch
+    histData.forEach((value, index) => {
+      const adu = ninaJpegBucketToAdu(index, s.Median, mad, sp.blackClipping, sp.autoStretchFactor);
+      const barHeight = (value / maxValue) * graphHeight;
+      const xPos = padding + ((adu - s.Min) / (s.Max - s.Min)) * graphWidth;
+      const y = padding + graphHeight - barHeight;
+      const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
+      gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
+      gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(xPos, y, 1.5, barHeight);
+    });
+  } else {
+    const barWidth = graphWidth / histData.length;
+    histData.forEach((value, index) => {
+      const barHeight = (value / maxValue) * graphHeight;
+      const xPos = padding + index * barWidth;
+      const y = padding + graphHeight - barHeight;
+      const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
+      gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
+      gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(xPos, y, barWidth - 0.5, barHeight);
+    });
+  }
 
   // Draw axes
   ctx.strokeStyle = '#666666';
@@ -238,20 +416,78 @@ const drawHistogram = () => {
   ctx.font = '10px monospace';
   ctx.textAlign = 'center';
 
-  // X-axis labels (brightness levels)
   const xLabelCount = 5;
-  for (let i = 0; i <= xLabelCount; i++) {
-    const x = padding + (graphWidth / xLabelCount) * i;
-    const label = Math.round((i / xLabelCount) * 255);
-    ctx.fillText(label, x, height - 2);
+  if (hasStats) {
+    // X-axis spans Min…Max in 16-bit ADU
+    const range = s.Max - s.Min;
+    for (let i = 0; i <= xLabelCount; i++) {
+      const xPos = padding + (graphWidth / xLabelCount) * i;
+      const label = Math.round(s.Min + (i / xLabelCount) * range);
+      ctx.fillText(label, xPos, height - 2);
+    }
+  } else {
+    // X-axis 0–255 for JPEG-based histogram
+    for (let i = 0; i <= xLabelCount; i++) {
+      const xPos = padding + (graphWidth / xLabelCount) * i;
+      ctx.fillText(Math.round((i / xLabelCount) * 255), xPos, height - 2);
+    }
   }
 
   // Y-axis label
   ctx.textAlign = 'right';
   ctx.fillText('%', padding - 5, padding + 5);
 
-  // Calculate and update stats
-  stats.value = getHistogramStats(props.data);
+  // Draw marker lines aligned with the ADU axis
+  if (hasStats) {
+    const range = s.Max - s.Min;
+    const toX = (val) => padding + ((val - s.Min) / range) * graphWidth;
+
+    // Min / Max lines (dashed gray)
+    for (const val of [s.Min, s.Max]) {
+      if (val != null) {
+        ctx.save();
+        ctx.strokeStyle = '#555555';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 4]);
+        ctx.beginPath();
+        ctx.moveTo(toX(val), padding);
+        ctx.lineTo(toX(val), padding + graphHeight);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    // Median line (cyan)
+    if (s.Median != null) {
+      ctx.save();
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(toX(s.Median), padding);
+      ctx.lineTo(toX(s.Median), padding + graphHeight);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Mean line (yellow)
+    if (s.Mean != null) {
+      ctx.save();
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      ctx.moveTo(toX(s.Mean), padding);
+      ctx.lineTo(toX(s.Mean), padding + graphHeight);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  // Calculate local stats only for JPEG-based histogram (no API stats)
+  if (!hasStats) {
+    stats.value = getHistogramStats(histData);
+  }
 };
 
 const emitLevelsChanged = () => {
@@ -391,7 +627,6 @@ const onWhitePointTouchStart = (event) => {
 // Mid point drag handlers
 const onMidPointMouseDown = (event) => {
   event.preventDefault();
-  isDraggingMid.value = true;
 
   const handleMouseMove = (moveEvent) => {
     const newValue = calculateValueFromPosition(moveEvent.clientX);
@@ -403,7 +638,6 @@ const onMidPointMouseDown = (event) => {
   };
 
   const handleMouseUp = () => {
-    isDraggingMid.value = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
     emitLevelsChanged();
@@ -419,11 +653,8 @@ const onMidPointTouchStart = (event) => {
 
   if (event.touches.length > 1) return;
 
-  isDraggingMid.value = true;
-
   const handleTouchMove = (moveEvent) => {
     if (moveEvent.touches.length > 1) return;
-
     moveEvent.preventDefault();
     const touch = moveEvent.touches[0];
     const newValue = calculateValueFromPosition(touch.clientX);
@@ -435,7 +666,6 @@ const onMidPointTouchStart = (event) => {
   };
 
   const handleTouchEnd = () => {
-    isDraggingMid.value = false;
     document.removeEventListener('touchmove', handleTouchMove);
     document.removeEventListener('touchend', handleTouchEnd);
     emitLevelsChanged();
@@ -478,6 +708,14 @@ watch(
   (newVal) => {
     localMidPoint.value = newVal;
   }
+);
+
+watch(
+  () => props.statistics,
+  () => {
+    drawHistogram();
+  },
+  { deep: true }
 );
 
 onMounted(() => {

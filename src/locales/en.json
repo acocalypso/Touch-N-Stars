@@ -1221,6 +1221,21 @@
     "helpers": {
       "imageModal": {
         "no_image": "No image data available"
+      },
+      "histogram": {
+        "blackPoint": "Black point",
+        "whitePoint": "White point",
+        "gamma": "Gamma",
+        "mean": "Mean",
+        "median": "Median",
+        "stdDev": "Std Dev",
+        "min": "Min",
+        "max": "Max",
+        "stars": "Stars",
+        "hfr": "HFR",
+        "reset": "Reset",
+        "noSaveHint": "Statistics are only calculated for saved images",
+        "enableSave": "Enable saving"
       }
     },
     "platesolve": {

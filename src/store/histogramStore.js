@@ -315,6 +315,5 @@ export const useHistogramStore = defineStore('histogramStore', {
     isProcessing(imageUrl) {
       return this.processingImages.has(imageUrl);
     },
-
   },
 });

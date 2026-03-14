@@ -280,7 +280,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
@@ -307,9 +307,7 @@ const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
 const histogramStore = useHistogramStore();
 
-const isSaveEnabled = computed(
-  () => store.profileInfo?.SnapShotControlSettings?.Save !== false
-);
+const isSaveEnabled = computed(() => store.profileInfo?.SnapShotControlSettings?.Save !== false);
 
 // State
 const showModal = ref(false);

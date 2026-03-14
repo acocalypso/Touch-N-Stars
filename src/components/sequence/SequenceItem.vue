@@ -259,7 +259,8 @@ const dsoTarget = computed(() => {
     const decMatch = t.match(/Dec:\s*(-?)(\d+)°\s*(\d+)'\s*([\d.]+)"/);
     if (!raMatch || !decMatch) return null;
     const raH = parseInt(raMatch[1]) + parseInt(raMatch[2]) / 60 + parseFloat(raMatch[3]) / 3600;
-    const decAbs = parseInt(decMatch[2]) + parseInt(decMatch[3]) / 60 + parseFloat(decMatch[4]) / 3600;
+    const decAbs =
+      parseInt(decMatch[2]) + parseInt(decMatch[3]) / 60 + parseFloat(decMatch[4]) / 3600;
     return { RA: raH * 15, Dec: decMatch[1] === '-' ? -decAbs : decAbs };
   }
   // object format (legacy)

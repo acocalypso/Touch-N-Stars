@@ -860,6 +860,16 @@ const apiService = {
     }
   },
 
+  async getCaptureStatistics() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/equipment/camera/capture/statistics`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async startCameraCooling(temp, minutes) {
     try {
       const { BASE_URL } = getUrls();

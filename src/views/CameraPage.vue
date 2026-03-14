@@ -54,6 +54,7 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
+            :statistics="histogramStore.getCaptureStats()"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
           />

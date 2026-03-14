@@ -137,6 +137,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  statistics: {
+    type: Object,
+    default: null,
+    // Expected: { Mean, Median, Min, Max, StDev, MedianAbsoluteDeviation, Stars, HFR }
+  },
 });
 
 const emit = defineEmits(['levels-changed', 'levels-reset']);
@@ -249,6 +254,98 @@ const drawHistogram = () => {
   // Y-axis label
   ctx.textAlign = 'right';
   ctx.fillText('%', padding - 5, padding + 5);
+
+  // Draw real 16-bit statistics from API if available
+  if (props.statistics) {
+    const s = props.statistics;
+    const toX = (val16) => padding + (val16 / 65535) * graphWidth;
+
+    // Min line (dashed, dark gray)
+    if (s.Min != null) {
+      ctx.save();
+      ctx.strokeStyle = '#555555';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      const xMin = toX(s.Min);
+      ctx.beginPath();
+      ctx.moveTo(xMin, padding);
+      ctx.lineTo(xMin, padding + graphHeight);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Max line (dashed, dark gray)
+    if (s.Max != null) {
+      ctx.save();
+      ctx.strokeStyle = '#555555';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
+      const xMax = toX(s.Max);
+      ctx.beginPath();
+      ctx.moveTo(xMax, padding);
+      ctx.lineTo(xMax, padding + graphHeight);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Median line (cyan)
+    if (s.Median != null) {
+      ctx.save();
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      const xMed = toX(s.Median);
+      ctx.beginPath();
+      ctx.moveTo(xMed, padding);
+      ctx.lineTo(xMed, padding + graphHeight);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Mean line (yellow)
+    if (s.Mean != null) {
+      ctx.save();
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([]);
+      const xMean = toX(s.Mean);
+      ctx.beginPath();
+      ctx.moveTo(xMean, padding);
+      ctx.lineTo(xMean, padding + graphHeight);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Stats text overlay (bottom of chart)
+    ctx.save();
+    ctx.font = '9px monospace';
+    ctx.textAlign = 'left';
+    const line1 = `Ø ${Math.round(s.Mean ?? 0)}  Med ${Math.round(s.Median ?? 0)}  σ ${Math.round(s.StDev ?? 0)}`;
+    const line2 = `Min ${Math.round(s.Min ?? 0)}  Max ${Math.round(s.Max ?? 0)}${s.Stars ? `  ★ ${s.Stars}` : ''}`;
+    const textY1 = padding + graphHeight - 14;
+    const textY2 = padding + graphHeight - 3;
+    // Background for readability
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(padding + 2, textY1 - 9, 220, 22);
+    ctx.fillStyle = '#facc15';
+    ctx.fillText('Ø', padding + 4, textY1);
+    ctx.fillStyle = '#aaaaaa';
+    ctx.fillText(line1.slice(1), padding + 12, textY1);
+    ctx.fillStyle = '#aaaaaa';
+    ctx.fillText(line2, padding + 4, textY2);
+    ctx.restore();
+
+    // X-axis: show 16-bit labels when statistics are present
+    ctx.fillStyle = '#999999';
+    ctx.font = '10px monospace';
+    ctx.textAlign = 'center';
+    const labels16 = [0, 16384, 32768, 49152, 65535];
+    labels16.forEach((val) => {
+      const x = padding + (val / 65535) * graphWidth;
+      const label = val === 65535 ? '65k' : val === 0 ? '0' : `${Math.round(val / 1000)}k`;
+      ctx.fillText(label, x, height - 2);
+    });
+  }
 
   // Calculate and update stats
   stats.value = getHistogramStats(props.data);

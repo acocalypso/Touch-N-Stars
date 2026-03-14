@@ -307,7 +307,13 @@ export const useHistogramStore = defineStore('histogramStore', {
      * @param {Object} apiResponse - Full API response object
      */
     setCaptureStats(apiResponse) {
-      this.captureStats = apiResponse?.Response ?? null;
+      const r = apiResponse?.Response;
+      // image-history returns an array — take the most recent entry
+      if (Array.isArray(r)) {
+        this.captureStats = r.length > 0 ? r[r.length - 1] : null;
+      } else {
+        this.captureStats = r ?? null;
+      }
     },
 
     /**

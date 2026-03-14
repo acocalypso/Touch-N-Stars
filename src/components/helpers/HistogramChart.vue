@@ -300,11 +300,13 @@ const drawHistogram = () => {
   ctx.font = '10px monospace';
   ctx.textAlign = 'center';
 
-  // X-axis labels (brightness levels)
+  // X-axis labels: always in 16-bit scale (0–65535) so stats markers align
   const xLabelCount = 5;
   for (let i = 0; i <= xLabelCount; i++) {
     const x = padding + (graphWidth / xLabelCount) * i;
-    const label = Math.round((i / xLabelCount) * 255);
+    const label = props.statistics
+      ? Math.round((i / xLabelCount) * 65535)
+      : Math.round((i / xLabelCount) * 255);
     ctx.fillText(label, x, height - 2);
   }
 
@@ -312,37 +314,24 @@ const drawHistogram = () => {
   ctx.textAlign = 'right';
   ctx.fillText('%', padding - 5, padding + 5);
 
-  // Draw real 16-bit statistics from API if available
+  // Draw real 16-bit statistics as markers — aligned with 16-bit X-axis
   if (props.statistics) {
     const s = props.statistics;
     const toX = (val16) => padding + (val16 / 65535) * graphWidth;
 
-    // Min line (dashed, dark gray)
-    if (s.Min != null) {
-      ctx.save();
-      ctx.strokeStyle = '#555555';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([3, 4]);
-      const xMin = toX(s.Min);
-      ctx.beginPath();
-      ctx.moveTo(xMin, padding);
-      ctx.lineTo(xMin, padding + graphHeight);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // Max line (dashed, dark gray)
-    if (s.Max != null) {
-      ctx.save();
-      ctx.strokeStyle = '#555555';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([3, 4]);
-      const xMax = toX(s.Max);
-      ctx.beginPath();
-      ctx.moveTo(xMax, padding);
-      ctx.lineTo(xMax, padding + graphHeight);
-      ctx.stroke();
-      ctx.restore();
+    // Min / Max lines (dashed, dark gray)
+    for (const val of [s.Min, s.Max]) {
+      if (val != null) {
+        ctx.save();
+        ctx.strokeStyle = '#555555';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 4]);
+        ctx.beginPath();
+        ctx.moveTo(toX(val), padding);
+        ctx.lineTo(toX(val), padding + graphHeight);
+        ctx.stroke();
+        ctx.restore();
+      }
     }
 
     // Median line (cyan)
@@ -351,10 +340,9 @@ const drawHistogram = () => {
       ctx.strokeStyle = '#22d3ee';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([]);
-      const xMed = toX(s.Median);
       ctx.beginPath();
-      ctx.moveTo(xMed, padding);
-      ctx.lineTo(xMed, padding + graphHeight);
+      ctx.moveTo(toX(s.Median), padding);
+      ctx.lineTo(toX(s.Median), padding + graphHeight);
       ctx.stroke();
       ctx.restore();
     }
@@ -365,24 +353,12 @@ const drawHistogram = () => {
       ctx.strokeStyle = '#facc15';
       ctx.lineWidth = 1.5;
       ctx.setLineDash([]);
-      const xMean = toX(s.Mean);
       ctx.beginPath();
-      ctx.moveTo(xMean, padding);
-      ctx.lineTo(xMean, padding + graphHeight);
+      ctx.moveTo(toX(s.Mean), padding);
+      ctx.lineTo(toX(s.Mean), padding + graphHeight);
       ctx.stroke();
       ctx.restore();
     }
-
-    // X-axis: show 16-bit labels when statistics are present
-    ctx.fillStyle = '#999999';
-    ctx.font = '10px monospace';
-    ctx.textAlign = 'center';
-    const labels16 = [0, 16384, 32768, 49152, 65535];
-    labels16.forEach((val) => {
-      const x = padding + (val / 65535) * graphWidth;
-      const label = val === 65535 ? '65k' : val === 0 ? '0' : `${Math.round(val / 1000)}k`;
-      ctx.fillText(label, x, height - 2);
-    });
   }
 
   // Calculate and update stats
@@ -607,6 +583,14 @@ watch(
   (newVal) => {
     localMidPoint.value = newVal;
   }
+);
+
+watch(
+  () => props.statistics,
+  () => {
+    drawHistogram();
+  },
+  { deep: true }
 );
 
 onMounted(() => {

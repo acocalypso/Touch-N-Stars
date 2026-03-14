@@ -1232,6 +1232,7 @@
         "min": "Min",
         "max": "Max",
         "stars": "Stars",
+        "hfr": "HFR",
         "reset": "Reset",
         "noSaveHint": "Statistics are only calculated for saved images"
       }

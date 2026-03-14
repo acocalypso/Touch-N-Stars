@@ -1228,6 +1228,7 @@
         "min": "Min",
         "max": "Max",
         "stars": "Sterne",
+        "hfr": "HFR",
         "reset": "Zurücksetzen",
         "noSaveHint": "Statistiken werden nur für gespeicherte Bilder berechnet"
       }

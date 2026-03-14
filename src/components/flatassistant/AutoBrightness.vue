@@ -65,7 +65,7 @@ async function startAutoExposure() {
       flatsStore.binning,
       flatsStore.gain,
       flatsStore.offset,
-      store.filterInfo?.SelectedFilter,
+      store.filterInfo?.SelectedFilter?.Id,
       settingsStore.flats.exposureTime
     );
     console.log(data);

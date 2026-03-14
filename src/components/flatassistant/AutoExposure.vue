@@ -65,10 +65,11 @@ async function startAutoExposure() {
       flatsStore.binning,
       flatsStore.gain,
       flatsStore.offset,
-      store.filterInfo?.SelectedFilter,
+      store.filterInfo?.SelectedFilter?.Id,
       settingsStore.flats.brightness
     );
     console.log(data);
+    console.log('Flats Filter: ', store.filterInfo?.SelectedFilter?.Id);
   } catch (error) {
     console.log('Error startAutoExposure');
   }

@@ -838,7 +838,8 @@
         "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofokus-Filter",
-        "AutoFocusFilterNone": "Kein"
+        "AutoFocusFilterNone": "Kein",
+        "basic": "Grundeinstellungen"
       },
       "focus": "Fokus",
       "indi": {
@@ -1216,6 +1217,18 @@
     "helpers": {
       "imageModal": {
         "no_image": "Keine Bilddaten verfügbar"
+      },
+      "histogram": {
+        "blackPoint": "Schwarzpunkt",
+        "whitePoint": "Weißpunkt",
+        "gamma": "Gamma",
+        "mean": "Mittelwert",
+        "median": "Median",
+        "stdDev": "Std Abw",
+        "min": "Min",
+        "max": "Max",
+        "stars": "Sterne",
+        "reset": "Zurücksetzen"
       }
     },
     "platesolve": {

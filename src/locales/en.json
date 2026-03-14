@@ -1221,6 +1221,18 @@
     "helpers": {
       "imageModal": {
         "no_image": "No image data available"
+      },
+      "histogram": {
+        "blackPoint": "Black point",
+        "whitePoint": "White point",
+        "gamma": "Gamma",
+        "mean": "Mean",
+        "median": "Median",
+        "stdDev": "Std Dev",
+        "min": "Min",
+        "max": "Max",
+        "stars": "Stars",
+        "reset": "Reset"
       }
     },
     "platesolve": {

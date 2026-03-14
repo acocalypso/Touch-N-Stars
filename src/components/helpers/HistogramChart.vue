@@ -97,6 +97,30 @@
         @touchstart="onMidPointTouchStart"
       ></div>
     </div>
+
+    <!-- Real statistics from NINA API -->
+    <div v-if="statistics" class="mt-2 grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono">
+      <div class="flex gap-2">
+        <span class="text-yellow-400">Ø</span>
+        <span class="text-gray-300">{{ Math.round(statistics.Mean) }}</span>
+        <span class="text-gray-500 ml-1">Med</span>
+        <span class="text-cyan-400">{{ Math.round(statistics.Median) }}</span>
+      </div>
+      <div class="flex gap-2">
+        <span class="text-gray-500">σ</span>
+        <span class="text-gray-300">{{ Math.round(statistics.StDev) }}</span>
+        <span v-if="statistics.Stars" class="text-gray-500 ml-1">★</span>
+        <span v-if="statistics.Stars" class="text-gray-300">{{ statistics.Stars }}</span>
+      </div>
+      <div class="flex gap-2">
+        <span class="text-gray-500">Min</span>
+        <span class="text-gray-300">{{ Math.round(statistics.Min) }}</span>
+      </div>
+      <div class="flex gap-2">
+        <span class="text-gray-500">Max</span>
+        <span class="text-gray-300">{{ Math.round(statistics.Max) }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -315,25 +339,6 @@ const drawHistogram = () => {
       ctx.stroke();
       ctx.restore();
     }
-
-    // Stats text overlay (bottom of chart)
-    ctx.save();
-    ctx.font = '9px monospace';
-    ctx.textAlign = 'left';
-    const line1 = `Ø ${Math.round(s.Mean ?? 0)}  Med ${Math.round(s.Median ?? 0)}  σ ${Math.round(s.StDev ?? 0)}`;
-    const line2 = `Min ${Math.round(s.Min ?? 0)}  Max ${Math.round(s.Max ?? 0)}${s.Stars ? `  ★ ${s.Stars}` : ''}`;
-    const textY1 = padding + graphHeight - 14;
-    const textY2 = padding + graphHeight - 3;
-    // Background for readability
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
-    ctx.fillRect(padding + 2, textY1 - 9, 220, 22);
-    ctx.fillStyle = '#facc15';
-    ctx.fillText('Ø', padding + 4, textY1);
-    ctx.fillStyle = '#aaaaaa';
-    ctx.fillText(line1.slice(1), padding + 12, textY1);
-    ctx.fillStyle = '#aaaaaa';
-    ctx.fillText(line2, padding + 4, textY2);
-    ctx.restore();
 
     // X-axis: show 16-bit labels when statistics are present
     ctx.fillStyle = '#999999';

@@ -54,7 +54,7 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
-            :statistics="isSaveEnabled ? histogramStore.getCaptureStats() : null"
+            :statistics="isSaveEnabled ? captureStats : null"
             :stretchParams="
               isSaveEnabled
                 ? {
@@ -296,7 +296,6 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
-import apiService from '@/services/apiService';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -318,17 +317,9 @@ const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
 
-// Reload capture statistics every time the histogram panel opens
-watch(showHistogram, async (isOpen) => {
-  if (!isOpen) return;
-  try {
-    const statsResult = await apiService.getCaptureStatistics();
-    if (statsResult?.Success) {
-      histogramStore.setCaptureStats(statsResult);
-    }
-  } catch {
-    // Statistics are optional — ignore errors
-  }
+const captureStats = computed(() => {
+  const arr = store.imageHistoryInfo;
+  return Array.isArray(arr) && arr.length > 0 ? arr[arr.length - 1] : null;
 });
 
 // Check if in landscape mode

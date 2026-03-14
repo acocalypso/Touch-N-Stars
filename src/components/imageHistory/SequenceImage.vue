@@ -96,6 +96,7 @@
     :imageDate="stats.Date"
     :isLoading="isLoadingModal"
     :index="index"
+    :statistics="stats"
     @close="closeModal"
   />
 </template>

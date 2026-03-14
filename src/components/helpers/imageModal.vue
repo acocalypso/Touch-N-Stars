@@ -111,6 +111,7 @@
           :blackPoint="getStretchSettings().blackPoint"
           :midPoint="getStretchSettings().midPoint"
           :whitePoint="getStretchSettings().whitePoint"
+          :statistics="statistics"
           @levels-changed="onLevelsChanged"
           @levels-reset="onLevelsReset"
         />
@@ -152,6 +153,10 @@ const props = defineProps({
   index: {
     type: Number,
     default: 0,
+  },
+  statistics: {
+    type: Object,
+    default: null,
   },
 });
 

@@ -112,6 +112,10 @@
           :midPoint="getStretchSettings().midPoint"
           :whitePoint="getStretchSettings().whitePoint"
           :statistics="statistics"
+          :stretchParams="{
+            blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
+            autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
+          }"
           @levels-changed="onLevelsChanged"
           @levels-reset="onLevelsReset"
         />
@@ -129,9 +133,11 @@ import BadButton from './BadButton.vue';
 import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHistogramStore } from '@/store/histogramStore';
+import { apiStore } from '@/store/store';
 
 const settingsStore = useSettingsStore();
 const histogramStore = useHistogramStore();
+const store = apiStore();
 
 const props = defineProps({
   showModal: {

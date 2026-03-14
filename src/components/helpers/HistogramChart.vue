@@ -219,6 +219,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  useJpegHistogram: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['levels-changed', 'levels-reset']);
@@ -312,7 +316,13 @@ const drawHistogram = () => {
     sp?.blackClipping != null &&
     sp?.autoStretchFactor != null &&
     props.data?.length > 0;
-  const mode = canInvertStretch ? 'stretch' : hasStats ? 'synth' : 'jpeg';
+  const mode = props.useJpegHistogram
+    ? 'jpeg'
+    : canInvertStretch
+      ? 'stretch'
+      : hasStats
+        ? 'synth'
+        : 'jpeg';
 
   const histData =
     mode === 'synth' ? generateSyntheticHistogram(s.Mean, s.StDev, s.Min, s.Max) : props.data;

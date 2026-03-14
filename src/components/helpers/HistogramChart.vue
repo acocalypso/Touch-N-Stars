@@ -27,9 +27,10 @@
         }"
       >
         <div
-          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex flex-col items-center justify-between -translate-x-2 py-1"
         >
-          <div class="w-1 h-full border-l-2 border-red-500"></div>
+          <div class="w-1 flex-1 border-l-2 border-red-500"></div>
+          <span class="text-red-400 text-[9px] font-bold leading-none mt-0.5 select-none">S</span>
         </div>
       </div>
 
@@ -42,24 +43,24 @@
         }"
       >
         <div
-          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex flex-col items-center justify-between -translate-x-2 py-1"
         >
-          <div class="w-1 h-full border-l-2 border-gray-200"></div>
+          <div class="w-1 flex-1 border-l-2 border-gray-200"></div>
+          <span class="text-gray-200 text-[9px] font-bold leading-none mt-0.5 select-none">W</span>
         </div>
       </div>
 
-      <!-- Mid Point Thumb (visual only) -->
+      <!-- Mid Point Thumb (nur sichtbar wenn Gamma aktiv) -->
       <div
+        v-if="showGamma"
         class="absolute top-0 h-full w-0.5 bg-transparent pointer-events-none"
-        :style="{
-          left: `${(localMidPoint / 255) * 100}%`,
-          zIndex: 6,
-        }"
+        :style="{ left: `${(localMidPoint / 255) * 100}%`, zIndex: 6 }"
       >
         <div
-          class="absolute top-0 left-0 w-4 h-full bg-transparent flex items-center justify-center -translate-x-2"
+          class="absolute top-0 left-0 w-4 h-full bg-transparent flex flex-col items-center justify-between -translate-x-2 py-1"
         >
-          <div class="w-1 h-full border-l-2 border-green-400"></div>
+          <div class="w-1 flex-1 border-l-2 border-green-400"></div>
+          <span class="text-green-400 text-[9px] font-bold leading-none mt-0.5 select-none">G</span>
         </div>
       </div>
 
@@ -87,6 +88,7 @@
       ></div>
 
       <div
+        v-if="showGamma"
         class="absolute top-0 h-full pointer-events-auto cursor-grab active:cursor-grabbing"
         :style="{
           left: `calc(${(localMidPoint / 255) * 100}% - 12px)`,
@@ -98,26 +100,52 @@
       ></div>
     </div>
 
+    <!-- Slider legend + Gamma toggle -->
+    <div class="mt-1 flex items-center gap-4 text-[10px] font-mono text-gray-400 select-none">
+      <span>
+        <span class="text-red-400 font-bold">S</span>
+        {{ t('components.helpers.histogram.blackPoint') }}</span
+      >
+      <span>
+        <span class="text-gray-200 font-bold">W</span>
+        {{ t('components.helpers.histogram.whitePoint') }}</span
+      >
+      <button
+        type="button"
+        class="ml-auto text-[10px] px-2 py-0.5 rounded border transition-colors"
+        :class="
+          showGamma
+            ? 'border-green-500 text-green-400 bg-green-900/20'
+            : 'border-gray-600 text-gray-500 bg-transparent hover:border-gray-400'
+        "
+        @click="showGamma = !showGamma"
+      >
+        G {{ t('components.helpers.histogram.gamma') }}
+      </button>
+    </div>
+
     <!-- Real statistics from NINA API -->
     <div v-if="statistics" class="mt-2 grid grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono">
       <div class="flex gap-2">
-        <span class="text-yellow-400">Ø</span>
-        <span class="text-gray-300">{{ Math.round(statistics.Mean) }}</span>
-        <span class="text-gray-500 ml-1">Med</span>
+        <span class="text-gray-500">{{ t('components.helpers.histogram.mean') }}</span>
+        <span class="text-yellow-400">{{ Math.round(statistics.Mean) }}</span>
+        <span class="text-gray-500 ml-1">{{ t('components.helpers.histogram.median') }}</span>
         <span class="text-cyan-400">{{ Math.round(statistics.Median) }}</span>
       </div>
       <div class="flex gap-2">
-        <span class="text-gray-500">σ</span>
+        <span class="text-gray-500">{{ t('components.helpers.histogram.stdDev') }}</span>
         <span class="text-gray-300">{{ Math.round(statistics.StDev) }}</span>
-        <span v-if="statistics.Stars" class="text-gray-500 ml-1">★</span>
+        <span v-if="statistics.Stars" class="text-gray-500 ml-1">{{
+          t('components.helpers.histogram.stars')
+        }}</span>
         <span v-if="statistics.Stars" class="text-gray-300">{{ statistics.Stars }}</span>
       </div>
       <div class="flex gap-2">
-        <span class="text-gray-500">Min</span>
+        <span class="text-gray-500">{{ t('components.helpers.histogram.min') }}</span>
         <span class="text-gray-300">{{ Math.round(statistics.Min) }}</span>
       </div>
       <div class="flex gap-2">
-        <span class="text-gray-500">Max</span>
+        <span class="text-gray-500">{{ t('components.helpers.histogram.max') }}</span>
         <span class="text-gray-300">{{ Math.round(statistics.Max) }}</span>
       </div>
     </div>
@@ -126,7 +154,10 @@
 
 <script setup>
 import { ref, watch, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { getHistogramStats } from '@/utils/histogramUtils';
+
+const { t } = useI18n();
 
 const props = defineProps({
   data: {
@@ -177,10 +208,12 @@ const localBlackPoint = ref(props.blackPoint);
 const localWhitePoint = ref(props.whitePoint);
 const localMidPoint = ref(props.midPoint);
 
+// Gamma toggle
+const showGamma = ref(false);
+
 // Dragging state
 const isDraggingBlack = ref(false);
 const isDraggingWhite = ref(false);
-const isDraggingMid = ref(false);
 
 // Throttle updates to reduce performance impact
 let lastEmitTime = 0;
@@ -493,7 +526,6 @@ const onWhitePointTouchStart = (event) => {
 // Mid point drag handlers
 const onMidPointMouseDown = (event) => {
   event.preventDefault();
-  isDraggingMid.value = true;
 
   const handleMouseMove = (moveEvent) => {
     const newValue = calculateValueFromPosition(moveEvent.clientX);
@@ -505,7 +537,6 @@ const onMidPointMouseDown = (event) => {
   };
 
   const handleMouseUp = () => {
-    isDraggingMid.value = false;
     document.removeEventListener('mousemove', handleMouseMove);
     document.removeEventListener('mouseup', handleMouseUp);
     emitLevelsChanged();
@@ -521,11 +552,8 @@ const onMidPointTouchStart = (event) => {
 
   if (event.touches.length > 1) return;
 
-  isDraggingMid.value = true;
-
   const handleTouchMove = (moveEvent) => {
     if (moveEvent.touches.length > 1) return;
-
     moveEvent.preventDefault();
     const touch = moveEvent.touches[0];
     const newValue = calculateValueFromPosition(touch.clientX);
@@ -537,7 +565,6 @@ const onMidPointTouchStart = (event) => {
   };
 
   const handleTouchEnd = () => {
-    isDraggingMid.value = false;
     document.removeEventListener('touchmove', handleTouchMove);
     document.removeEventListener('touchend', handleTouchEnd);
     emitLevelsChanged();

@@ -55,6 +55,10 @@
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             :statistics="histogramStore.getCaptureStats()"
+            :stretchParams="{
+              blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
+              autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
+            }"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
           />

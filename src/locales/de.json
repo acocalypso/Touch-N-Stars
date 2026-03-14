@@ -1230,7 +1230,8 @@
         "stars": "Sterne",
         "hfr": "HFR",
         "reset": "Zurücksetzen",
-        "noSaveHint": "Statistiken werden nur für gespeicherte Bilder berechnet"
+        "noSaveHint": "Statistiken werden nur für gespeicherte Bilder berechnet",
+        "enableSave": "Speichern aktivieren"
       }
     },
     "platesolve": {

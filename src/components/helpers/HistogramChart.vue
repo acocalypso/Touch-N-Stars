@@ -125,8 +125,17 @@
     </div>
 
     <!-- No-save hint -->
-    <div v-if="!saveEnabled" class="mt-2 text-xs text-gray-500 italic text-center">
-      {{ t('components.helpers.histogram.noSaveHint') }}
+    <div v-if="!saveEnabled" class="mt-2 flex items-center justify-between gap-2">
+      <span class="text-xs text-gray-500 italic">
+        {{ t('components.helpers.histogram.noSaveHint') }}
+      </span>
+      <button
+        type="button"
+        class="shrink-0 text-xs px-2 py-0.5 rounded border border-gray-600 text-gray-400 bg-transparent hover:border-gray-400 transition-colors"
+        @click="emit('toggle-save')"
+      >
+        {{ t('components.helpers.histogram.enableSave') }}
+      </button>
     </div>
 
     <!-- Real statistics from NINA API -->
@@ -225,7 +234,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['levels-changed', 'levels-reset']);
+const emit = defineEmits(['levels-changed', 'levels-reset', 'toggle-save']);
 
 const canvasElement = ref(null);
 const wrapperElement = ref(null);

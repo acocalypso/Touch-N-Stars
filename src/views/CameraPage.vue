@@ -66,6 +66,7 @@
             :saveEnabled="isSaveEnabled"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
+            @toggle-save="onToggleSave"
           />
         </div>
 
@@ -296,6 +297,7 @@ import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePosi
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import apiService from '@/services/apiService';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -319,7 +321,9 @@ const showHistogram = ref(false);
 
 const captureStats = computed(() => {
   const arr = store.imageHistoryInfo;
-  return Array.isArray(arr) && arr.length > 0 ? arr[arr.length - 1] : null;
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  const last = arr[arr.length - 1];
+  return last?.ImageType === 'SNAPSHOT' ? last : null;
 });
 
 // Check if in landscape mode
@@ -427,6 +431,10 @@ const onLevelsChanged = async (event) => {
 const onLevelsReset = async () => {
   if (!imageStore.imageData) return;
   histogramStore.resetStretch(imageStore.imageData);
+};
+
+const onToggleSave = async () => {
+  await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
 };
 
 // Load image on mount if imageData is empty

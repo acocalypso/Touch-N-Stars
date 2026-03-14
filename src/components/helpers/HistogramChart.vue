@@ -226,17 +226,40 @@ const throttledEmit = () => {
   }
 };
 
-const drawHistogram = () => {
-  if (!canvasElement.value || !props.data || props.data.length === 0) {
-    return;
+/**
+ * Generate a synthetic Gaussian histogram from real API statistics.
+ * All bins are evenly distributed over the [min, max] range.
+ */
+const generateSyntheticHistogram = (mean, stdDev, min, max, bins = 256) => {
+  const histogram = new Array(bins).fill(0);
+  if (stdDev <= 0 || min >= max) return histogram;
+  for (let i = 0; i < bins; i++) {
+    const val = min + (i / (bins - 1)) * (max - min);
+    const exponent = -0.5 * ((val - mean) / stdDev) ** 2;
+    histogram[i] = Math.exp(exponent);
   }
+  return histogram;
+};
+
+const drawHistogram = () => {
+  if (!canvasElement.value) return;
+
+  // Determine data source: synthetic (API stats) or JPEG-based
+  const useSynth = !!(props.statistics && props.statistics.Mean != null);
+  const histData = useSynth
+    ? generateSyntheticHistogram(
+        props.statistics.Mean,
+        props.statistics.StDev,
+        props.statistics.Min,
+        props.statistics.Max
+      )
+    : props.data;
+
+  if (!histData || histData.length === 0) return;
 
   const canvas = canvasElement.value;
   const ctx = canvas.getContext('2d');
-
-  if (!ctx) {
-    return;
-  }
+  if (!ctx) return;
 
   // Set canvas size
   const rect = canvas.parentElement.getBoundingClientRect();
@@ -250,7 +273,7 @@ const drawHistogram = () => {
   const graphHeight = height - padding * 2;
 
   // Find max value for scaling
-  const maxValue = Math.max(...props.data);
+  const maxValue = Math.max(...histData);
 
   // Clear canvas
   ctx.fillStyle = '#1a1a1a';
@@ -269,19 +292,17 @@ const drawHistogram = () => {
   }
 
   // Draw histogram bars
-  const barWidth = graphWidth / props.data.length;
-  const hue = 200; // Cyan/blue color
+  const barWidth = graphWidth / histData.length;
+  const hue = 200;
 
-  props.data.forEach((value, index) => {
+  histData.forEach((value, index) => {
     const barHeight = (value / maxValue) * graphHeight;
     const x = padding + index * barWidth;
     const y = padding + graphHeight - barHeight;
 
-    // Create gradient for bars
     const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
     gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
     gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
-
     ctx.fillStyle = gradient;
     ctx.fillRect(x, y, barWidth - 0.5, barHeight);
   });
@@ -300,26 +321,35 @@ const drawHistogram = () => {
   ctx.font = '10px monospace';
   ctx.textAlign = 'center';
 
-  // X-axis labels: always in 16-bit scale (0–65535) so stats markers align
   const xLabelCount = 5;
-  for (let i = 0; i <= xLabelCount; i++) {
-    const x = padding + (graphWidth / xLabelCount) * i;
-    const label = props.statistics
-      ? Math.round((i / xLabelCount) * 65535)
-      : Math.round((i / xLabelCount) * 255);
-    ctx.fillText(label, x, height - 2);
+  if (useSynth) {
+    // X-axis spans Min…Max in 16-bit ADU
+    const s = props.statistics;
+    const range = s.Max - s.Min;
+    for (let i = 0; i <= xLabelCount; i++) {
+      const x = padding + (graphWidth / xLabelCount) * i;
+      const label = Math.round(s.Min + (i / xLabelCount) * range);
+      ctx.fillText(label, x, height - 2);
+    }
+  } else {
+    // X-axis 0–255 for JPEG-based histogram
+    for (let i = 0; i <= xLabelCount; i++) {
+      const x = padding + (graphWidth / xLabelCount) * i;
+      ctx.fillText(Math.round((i / xLabelCount) * 255), x, height - 2);
+    }
   }
 
   // Y-axis label
   ctx.textAlign = 'right';
   ctx.fillText('%', padding - 5, padding + 5);
 
-  // Draw real 16-bit statistics as markers — aligned with 16-bit X-axis
-  if (props.statistics) {
+  // Draw marker lines for real 16-bit values (only with synthetic histogram)
+  if (useSynth) {
     const s = props.statistics;
-    const toX = (val16) => padding + (val16 / 65535) * graphWidth;
+    const range = s.Max - s.Min;
+    const toX = (val) => padding + ((val - s.Min) / range) * graphWidth;
 
-    // Min / Max lines (dashed, dark gray)
+    // Min / Max lines (dashed gray)
     for (const val of [s.Min, s.Max]) {
       if (val != null) {
         ctx.save();
@@ -361,8 +391,10 @@ const drawHistogram = () => {
     }
   }
 
-  // Calculate and update stats
-  stats.value = getHistogramStats(props.data);
+  // Calculate and update stats from JPEG data (for local stats display)
+  if (!useSynth) {
+    stats.value = getHistogramStats(histData);
+  }
 };
 
 const emitLevelsChanged = () => {

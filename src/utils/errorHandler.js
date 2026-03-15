@@ -80,11 +80,14 @@ export function setupErrorHandler() {
 
         // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
         // Skip toasts for HTTP 200 + StatusCode 200 (successful responses) and all 404s
+        const suppressedUrls = ['/capture/statistics/full'];
+        const isSuppressedUrl = suppressedUrls.some((u) => url.includes(u));
         if (
           (response.status >= 400 || statusCode >= 400) &&
           statusCode !== 404 &&
           statusCode !== 409 &&
-          statusCode !== 500
+          statusCode !== 500 &&
+          !isSuppressedUrl
         ) {
           showToast({
             type: isRealError ? 'error' : 'info',

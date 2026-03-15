@@ -728,7 +728,7 @@ export const apiStore = defineStore('store', {
       if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
       try {
         const lastImageStats = await apiService.getCaptureStatisticsFull();
-        console.log('Last image stats response:', lastImageStats);
+        //console.log('Last image stats response:', lastImageStats);
         if (lastImageStats.Response) {
           this.lastImageStats = lastImageStats.Response;
         } else {

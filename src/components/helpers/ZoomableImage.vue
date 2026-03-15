@@ -49,6 +49,9 @@
 
       <!-- Plate Solve Button -->
       <SolvePreparedImage v-if="showSolve" />
+
+      <!-- Extra Buttons Slot -->
+      <slot name="extra-buttons" />
     </div>
 
     <!-- Main Image -->

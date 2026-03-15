@@ -20,7 +20,7 @@
           :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
           :showDownload="true"
-          :showFullscreen="true"
+          :showFullscreen="false"
           :showHistogram="true"
           :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
@@ -28,7 +28,6 @@
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
-          @fullscreen="openImageModal"
           @histogram-toggle="showHistogram = !showHistogram"
           class="bg-gray-900"
         >
@@ -42,6 +41,22 @@
               />
               <p class="text-lg">One touch to the stars</p>
             </div>
+          </template>
+
+          <!-- PINS: Stats Toggle Button in button row -->
+          <template v-if="store.isPINS" #extra-buttons>
+            <button
+              @click.stop="showCaptureStats = !showCaptureStats"
+              :class="[
+                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
+                showCaptureStats
+                  ? 'bg-cyan-600 hover:bg-cyan-500 text-white'
+                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+              ]"
+              title="Image Statistics"
+            >
+              <ChartBarIcon class="w-5 h-5" />
+            </button>
           </template>
         </ZoomableImage>
 
@@ -103,26 +118,6 @@
           </div>
         </div>
 
-        <!-- PINS: Stats Toggle Button -->
-        <div
-          v-if="store.isPINS && imageStore.imageData"
-          class="absolute right-2 z-20"
-          :style="captureStatsToggleStyle"
-        >
-          <button
-            @click="showCaptureStats = !showCaptureStats"
-            :class="[
-              'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm',
-              showCaptureStats
-                ? 'bg-cyan-600 text-white'
-                : 'bg-gray-800/90 hover:bg-gray-700 text-white',
-            ]"
-            title="Image Statistics"
-          >
-            <ChartBarIcon class="w-6 h-6" />
-          </button>
-        </div>
-
         <!-- PINS: Capture Stats Overlay -->
         <div
           v-if="store.isPINS && showCaptureStats && captureStatsData && imageStore.imageData"
@@ -179,14 +174,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Fullscreen Image Modal -->
-      <ImageModal
-        :showModal="showModal"
-        :imageData="imageStore.imageData"
-        :isLoading="false"
-        @close="closeImageModal"
-      />
 
       <!-- Slew Modal -->
       <div
@@ -361,7 +348,6 @@ import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
-import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
@@ -387,7 +373,6 @@ const histogramStore = useHistogramStore();
 const isSaveEnabled = computed(() => store.profileInfo?.SnapShotControlSettings?.Save !== false);
 
 // State
-const showModal = ref(false);
 const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
@@ -425,13 +410,6 @@ function isValidStat(v) {
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
-
-const captureStatsToggleStyle = computed(() => {
-  if (!isLandscape.value) {
-    return { bottom: 'calc(2.75rem + env(safe-area-inset-bottom, 0px) + 3.5rem)' };
-  }
-  return { bottom: '1rem' };
-});
 
 // Container positioning classes
 const histogramClasses = computed(() => ({
@@ -499,14 +477,6 @@ const handleDownload = async (data) => {
     folderPrefix: 'TNS-Images',
     filePrefix: 'TNS',
   });
-};
-
-const openImageModal = () => {
-  showModal.value = true;
-};
-
-const closeImageModal = () => {
-  showModal.value = false;
 };
 
 const getHistogram = () => {

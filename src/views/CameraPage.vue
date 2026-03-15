@@ -62,6 +62,27 @@
 
         <!-- Histogram Overlay -->
         <div v-if="showHistogram && imageStore.imageData" class="z-50" :class="[histogramClasses]">
+          <div
+            v-if="statsLoading && store.isPINS"
+            class="absolute inset-0 z-10 flex items-center justify-center bg-black/40 rounded"
+          >
+            <svg
+              class="w-5 h-5 animate-spin text-cyan-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+          </div>
           <HistogramChart
             :data="getHistogram()"
             height="120px"
@@ -124,6 +145,25 @@
           class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
           :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
         >
+          <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
+            <svg
+              class="w-3 h-3 animate-spin text-cyan-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            <span class="text-cyan-400 text-xs">updating…</span>
+          </div>
           <div
             :class="isLandscape ? 'grid grid-cols-2 pt-14' : 'grid grid-cols-3 pt-36'"
             class="gap-x-2 gap-y-0.5"
@@ -411,6 +451,7 @@ const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
 const showCaptureStats = ref(false);
+const statsLoading = ref(false);
 
 const captureStats = computed(() => {
   if (store.isPINS && store.lastImageStats) {
@@ -539,8 +580,23 @@ const onToggleSave = async () => {
 };
 
 watch(
+  () => imageStore.imageData,
+  (newVal, oldVal) => {
+    if (newVal && newVal !== oldVal && store.isPINS) {
+      statsLoading.value = true;
+    }
+  }
+);
+
+watch(
   () => store.lastImageStats,
-  async () => {
+  async (newVal, oldVal) => {
+    const hasChanged =
+      newVal?.Mean !== oldVal?.Mean ||
+      newVal?.Median !== oldVal?.Median ||
+      newVal?.Stars !== oldVal?.Stars;
+    if (!hasChanged) return;
+    statsLoading.value = false;
     if (imageStore.imageData) {
       await histogramStore.calculateHistogramForImage(imageStore.imageData);
     }

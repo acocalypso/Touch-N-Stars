@@ -990,6 +990,11 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
+  async getCaptureStatisticsFull() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/equipment/camera/capture/statistics/full`);
+  },
+
   async startCapture(
     duration,
     gain,

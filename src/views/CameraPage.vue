@@ -102,6 +102,82 @@
             <CaptureButton />
           </div>
         </div>
+
+        <!-- PINS: Stats Toggle Button -->
+        <div
+          v-if="store.isPINS && imageStore.imageData"
+          class="absolute right-2 z-20"
+          :style="captureStatsToggleStyle"
+        >
+          <button
+            @click="showCaptureStats = !showCaptureStats"
+            :class="[
+              'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm',
+              showCaptureStats
+                ? 'bg-cyan-600 text-white'
+                : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+            ]"
+            title="Image Statistics"
+          >
+            <ChartBarIcon class="w-6 h-6" />
+          </button>
+        </div>
+
+        <!-- PINS: Capture Stats Overlay -->
+        <div
+          v-if="store.isPINS && showCaptureStats && captureStatsData && imageStore.imageData"
+          class="absolute top-0 right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
+          :class="isLandscape ? 'left-32' : 'left-0'"
+        >
+          <div class="grid grid-cols-2 gap-x-1 gap-y-0.5">
+            <div v-if="captureStatsData.Stars !== undefined" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.helpers.histogram.stars') }}:</span
+              >
+              <span class="truncate">{{ captureStatsData.Stars }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.HFR)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.hfr') }}:</span>
+              <span class="truncate">{{ captureStatsData.HFR.toFixed(2) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.HFRStDev)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.HFRStDev') }}:</span
+              >
+              <span class="truncate">{{ captureStatsData.HFRStDev.toFixed(2) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.Mean)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
+              <span class="truncate">{{ captureStatsData.Mean.toFixed(1) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.Median)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.median') }}:</span
+              >
+              <span class="truncate">{{ captureStatsData.Median.toFixed(0) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.StDev)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.stDev') }}:</span
+              >
+              <span class="truncate">{{ captureStatsData.StDev.toFixed(1) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.Min)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Min') }}:</span>
+              <span class="truncate">{{ captureStatsData.Min.toFixed(0) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.Max)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Max') }}:</span>
+              <span class="truncate">{{ captureStatsData.Max.toFixed(0) }}</span>
+            </div>
+            <div v-if="isValidStat(captureStatsData.Gain)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.items.takeExposure.gain') }}:</span
+              >
+              <span class="truncate">{{ captureStatsData.Gain }}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Fullscreen Image Modal -->
@@ -280,7 +356,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
@@ -298,6 +374,7 @@ import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import apiService from '@/services/apiService';
+import { ChartBarIcon } from '@heroicons/vue/24/outline';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -316,6 +393,8 @@ const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
+const showCaptureStats = ref(false);
+const captureStatsData = ref(null);
 
 const captureStats = computed(() => {
   const arr = store.imageHistoryInfo;
@@ -324,8 +403,35 @@ const captureStats = computed(() => {
   return last?.ImageType === 'SNAPSHOT' ? last : null;
 });
 
+watch(
+  () => imageStore.imageData,
+  async (newData) => {
+    if (newData && store.isPINS) {
+      try {
+        const res = await apiService.getCaptureStatisticsFull();
+        if (res?.Success && res?.Response) {
+          captureStatsData.value = res.Response;
+        }
+      } catch {
+        // silent fail
+      }
+    }
+  }
+);
+
+function isValidStat(v) {
+  return typeof v === 'number' && !isNaN(v);
+}
+
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
+
+const captureStatsToggleStyle = computed(() => {
+  if (!isLandscape.value) {
+    return { bottom: 'calc(2.75rem + env(safe-area-inset-bottom, 0px) + 3.5rem)' };
+  }
+  return { bottom: '1rem' };
+});
 
 // Container positioning classes
 const histogramClasses = computed(() => ({

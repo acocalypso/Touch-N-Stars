@@ -7,6 +7,7 @@ import { useHistogramStore } from './histogramStore';
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
+    captureStatsFull: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
     lastImage: {
@@ -30,6 +31,17 @@ export const useImagetStore = defineStore('imageStore', {
         `[ImageStore] Calculated scale: ${scale}% for camera size ${cameraWidth}x${cameraHeight}`
       );
       return scale;
+    },
+
+    async fetchCaptureStatsFull() {
+      try {
+        const res = await apiService.getCaptureStatisticsFull();
+        if (res?.Success && res?.Response) {
+          this.captureStatsFull = res.Response;
+        }
+      } catch {
+        // silent fail
+      }
     },
 
     async getImage() {

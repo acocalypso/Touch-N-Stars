@@ -11,7 +11,6 @@
       :decimalPlaces="3"
       placeholder="sek"
       inputId="exposure"
-      @change="setExposureTime"
     />
 
     <div
@@ -158,17 +157,6 @@ async function setGain() {
     console.log(data);
   } catch (error) {
     console.log('Error while setting gain');
-  }
-}
-
-async function setExposureTime() {
-  try {
-    await apiService.profileChangeValue(
-      'CameraSettings-ExposureTime',
-      settingsStore.camera.exposureTime
-    );
-  } catch (error) {
-    console.log('Error while setting exposure time');
   }
 }
 

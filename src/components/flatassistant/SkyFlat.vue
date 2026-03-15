@@ -9,7 +9,7 @@
     <setMaxExposureTime />
     <setHistogramMeanTarget />
     <setHistogramTolerance />
-    <changeFilter v-if="store.filterInfo.Connected" />
+    <selectFilter v-if="store.filterInfo.Connected" v-model="selectedFilterId" />
     <setBinning v-if="(store.cameraInfo?.BinningModes?.length || 0) > 1" />
     <div v-show="flatsStore.status.State != 'Running'">
       <button @click="startAutoExposure" class="default-button-cyan">
@@ -24,7 +24,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
@@ -37,16 +37,19 @@ import setMinExposureTime from '@/components/flatassistant/setMinExposureTime.vu
 import setMaxExposureTime from '@/components/flatassistant/setMaxExposureTime.vue';
 import setHistogramMeanTarget from '@/components/flatassistant/setHistogramMeanTarget.vue';
 import setHistogramTolerance from '@/components/flatassistant/setHistogramTolerance.vue';
-import changeFilter from '@/components/filterwheel/changeFilter.vue';
+import selectFilter from '@/components/flatassistant/selectFilter.vue';
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
 const cameraStore = useCameraStore();
 
+const selectedFilterId = ref(null);
+
 onMounted(() => {
   flatsStore.binning = cameraStore.binningMode;
   flatsStore.gain = cameraStore.gain;
   flatsStore.offset = cameraStore.offset;
+  selectedFilterId.value = store.filterInfo?.SelectedFilter?.Id ?? null;
 });
 
 async function startAutoExposure() {
@@ -61,7 +64,7 @@ async function startAutoExposure() {
       flatsStore.binning,
       flatsStore.gain,
       flatsStore.offset,
-      store.filterInfo?.SelectedFilter?.Id
+      selectedFilterId.value
     );
     console.log(data);
   } catch (error) {

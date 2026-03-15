@@ -50,7 +50,7 @@ class SignalRProgressService {
 
         // Event Handler für Progress Updates
         this.connection.on('ReceiveProgress', (progressMessage) => {
-          console.log('Received progress:', progressMessage);
+          //console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
             state: progressMessage.state,

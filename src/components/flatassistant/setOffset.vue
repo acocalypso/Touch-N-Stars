@@ -1,6 +1,6 @@
 <template>
   <NumberInputPicker
-    v-model="settingsStore.camera.offset"
+    v-model="flatsStore.offset"
     :label="$t('components.camera.offset')"
     labelKey="components.camera.offset"
     :min="0"
@@ -11,8 +11,15 @@
   />
 </template>
 <script setup>
-import { useSettingsStore } from '@/store/settingsStore';
+import { onMounted } from 'vue';
+import { useFlatassistantStore } from '@/store/flatassistantStore';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { apiStore } from '@/store/store';
 
-const settingsStore = useSettingsStore();
+const flatsStore = useFlatassistantStore();
+const store = apiStore();
+
+onMounted(() => {
+  flatsStore.offset = store.profileInfo?.CameraSettings?.Offset;
+});
 </script>

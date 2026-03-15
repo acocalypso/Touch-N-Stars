@@ -1452,7 +1452,7 @@ const apiService = {
     binning,
     gain,
     offset,
-    filter,
+    filterId,
     brightness
   ) {
     try {
@@ -1467,7 +1467,7 @@ const apiService = {
           binning,
           gain,
           offset,
-          filter,
+          filterId,
           brightness,
         },
       });

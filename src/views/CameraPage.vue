@@ -195,6 +195,12 @@
               >
               <span class="truncate">{{ imageStore.captureStatsFull.Gain }}</span>
             </div>
+            <div v-if="effectiveOffset !== null" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.items.takeExposure.offset') }}:</span
+              >
+              <span class="truncate">{{ effectiveOffset }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -414,6 +420,15 @@ const captureStats = computed(() => {
 function isValidStat(v) {
   return typeof v === 'number' && !isNaN(v);
 }
+
+const effectiveOffset = computed(() => {
+  const raw = imageStore.captureStatsFull?.Offset;
+  if (raw === -1 || !isValidStat(raw)) {
+    const profileOffset = store.profileInfo?.CameraSettings?.Offset;
+    return isValidStat(profileOffset) ? profileOffset : null;
+  }
+  return raw;
+});
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();

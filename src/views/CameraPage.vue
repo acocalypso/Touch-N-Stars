@@ -69,16 +69,16 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
-            :statistics="isSaveEnabled ? captureStats : null"
+            :statistics="isSaveEnabled || store.isPINS ? captureStats : null"
             :stretchParams="
-              isSaveEnabled
+              isSaveEnabled || store.isPINS
                 ? {
                     blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
                     autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
                   }
                 : null
             "
-            :saveEnabled="isSaveEnabled"
+            :saveEnabled="isSaveEnabled || store.isPINS"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
             @toggle-save="onToggleSave"
@@ -411,6 +411,9 @@ const showHistogram = ref(false);
 const showCaptureStats = ref(false);
 
 const captureStats = computed(() => {
+  if (store.isPINS && imageStore.captureStatsFull) {
+    return imageStore.captureStatsFull;
+  }
   const arr = store.imageHistoryInfo;
   if (!Array.isArray(arr) || arr.length === 0) return null;
   const last = arr[arr.length - 1];

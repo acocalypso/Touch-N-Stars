@@ -184,7 +184,12 @@
           "guiding": "Guiding",
           "equipment": "Equipment",
           "other": "Other"
-        }
+        },
+        "advancedSettings": "Advanced Settings",
+        "darks": "Darks",
+        "flats": "Flats",
+        "bias": "Bias",
+        "useLightPattern": "Same as Lights"
       },
       "debug": {
         "title": "Debug",

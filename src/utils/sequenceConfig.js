@@ -67,6 +67,7 @@ export const excludedKeys = new Set([
   'FullTypeName',
   'ComboBoxText',
   'Xfilter',
+  'TPAPAVM',
 ]);
 
 export const excludedKeysConditions = new Set([
@@ -130,6 +131,7 @@ export const excludedKeysConditions = new Set([
   'SelectedPropertyForCondition',
   'ValueForCondition',
   'FullTypeName',
+  'TPAPAVM',
 ]);
 
 export const updateKeys = [

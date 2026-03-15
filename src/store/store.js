@@ -893,6 +893,9 @@ export const apiStore = defineStore('store', {
           return;
         }
         await imageStore.getImage();
+        if (this.isPINS) {
+          imageStore.fetchCaptureStatsFull();
+        }
       }
 
       // If a device connection event arrives via WebSocket, fetch event history immediately

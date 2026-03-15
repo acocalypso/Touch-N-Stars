@@ -20,7 +20,7 @@
           :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
           :showDownload="true"
-          :showFullscreen="true"
+          :showFullscreen="false"
           :showHistogram="true"
           :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
@@ -28,7 +28,6 @@
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
-          @fullscreen="openImageModal"
           @histogram-toggle="showHistogram = !showHistogram"
           class="bg-gray-900"
         >
@@ -43,6 +42,22 @@
               <p class="text-lg">One touch to the stars</p>
             </div>
           </template>
+
+          <!-- PINS: Stats Toggle Button in button row -->
+          <template v-if="store.isPINS" #extra-buttons>
+            <button
+              @click.stop="showCaptureStats = !showCaptureStats"
+              :class="[
+                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
+                showCaptureStats
+                  ? 'bg-cyan-600 hover:bg-cyan-500 text-white'
+                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+              ]"
+              title="Image Statistics"
+            >
+              <ChartBarIcon class="w-5 h-5" />
+            </button>
+          </template>
         </ZoomableImage>
 
         <!-- Histogram Overlay -->
@@ -54,16 +69,16 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
-            :statistics="isSaveEnabled ? captureStats : null"
+            :statistics="isSaveEnabled || store.isPINS ? captureStats : null"
             :stretchParams="
-              isSaveEnabled
+              isSaveEnabled || store.isPINS
                 ? {
                     blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
                     autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
                   }
                 : null
             "
-            :saveEnabled="isSaveEnabled"
+            :saveEnabled="isSaveEnabled || store.isPINS"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
             @toggle-save="onToggleSave"
@@ -102,15 +117,93 @@
             <CaptureButton />
           </div>
         </div>
-      </div>
 
-      <!-- Fullscreen Image Modal -->
-      <ImageModal
-        :showModal="showModal"
-        :imageData="imageStore.imageData"
-        :isLoading="false"
-        @close="closeImageModal"
-      />
+        <!-- PINS: Capture Stats Overlay -->
+        <div
+          v-if="
+            store.isPINS && showCaptureStats && imageStore.captureStatsFull && imageStore.imageData
+          "
+          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
+          :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
+        >
+          <div
+            :class="isLandscape ? 'grid grid-cols-2 pt-14' : 'grid grid-cols-3 pt-36'"
+            class="gap-x-2 gap-y-0.5"
+          >
+            <div v-if="imageStore.captureStatsFull.Stars !== undefined" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.helpers.histogram.stars') }}:</span
+              >
+              <span class="truncate">{{ imageStore.captureStatsFull.Stars }}</span>
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.HFR)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.hfr') }}:</span>
+              <span class="truncate">{{ imageStore.captureStatsFull.HFR.toFixed(2) }}</span>
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.HFRStDev)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.HFRStDev') }}:</span
+              >
+              <span class="truncate">{{ imageStore.captureStatsFull.HFRStDev.toFixed(2) }}</span>
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.Mean)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
+              <span class="truncate">{{ imageStore.captureStatsFull.Mean.toFixed(1) }}</span>
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.Median)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.median') }}:</span
+              >
+              <span class="truncate">{{ imageStore.captureStatsFull.Median.toFixed(0) }}</span>
+            </div>
+            <div
+              v-if="isValidStat(imageStore.captureStatsFull.MedianAbsoluteDeviation)"
+              class="flex gap-1 min-w-0"
+            >
+              <span class="font-bold whitespace-nowrap">MAD:</span>
+              <span class="truncate">{{
+                imageStore.captureStatsFull.MedianAbsoluteDeviation.toFixed(1)
+              }}</span>
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.StDev)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.stDev') }}:</span
+              >
+              <span class="truncate">{{ imageStore.captureStatsFull.StDev.toFixed(1) }}</span>
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.Min)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Min') }}:</span>
+              <span class="truncate"
+                >{{ imageStore.captureStatsFull.Min.toFixed(0)
+                }}<span v-if="isValidStat(imageStore.captureStatsFull.MinOccurrences)" class="text-gray-400">
+                  ({{ imageStore.captureStatsFull.MinOccurrences }}x)</span
+                ></span
+              >
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.Max)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Max') }}:</span>
+              <span class="truncate"
+                >{{ imageStore.captureStatsFull.Max.toFixed(0)
+                }}<span v-if="isValidStat(imageStore.captureStatsFull.MaxOccurrences)" class="text-gray-400">
+                  ({{ imageStore.captureStatsFull.MaxOccurrences }}x)</span
+                ></span
+              >
+            </div>
+            <div v-if="isValidStat(imageStore.captureStatsFull.Gain)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.items.takeExposure.gain') }}:</span
+              >
+              <span class="truncate">{{ imageStore.captureStatsFull.Gain }}</span>
+            </div>
+            <div v-if="effectiveOffset !== null" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.items.takeExposure.offset') }}:</span
+              >
+              <span class="truncate">{{ effectiveOffset }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Slew Modal -->
       <div
@@ -285,7 +378,6 @@ import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
-import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
@@ -298,6 +390,7 @@ import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import apiService from '@/services/apiService';
+import { ChartBarIcon } from '@heroicons/vue/24/outline';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -310,18 +403,34 @@ const histogramStore = useHistogramStore();
 const isSaveEnabled = computed(() => store.profileInfo?.SnapShotControlSettings?.Save !== false);
 
 // State
-const showModal = ref(false);
 const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
+const showCaptureStats = ref(false);
 
 const captureStats = computed(() => {
+  if (store.isPINS && imageStore.captureStatsFull) {
+    return imageStore.captureStatsFull;
+  }
   const arr = store.imageHistoryInfo;
   if (!Array.isArray(arr) || arr.length === 0) return null;
   const last = arr[arr.length - 1];
   return last?.ImageType === 'SNAPSHOT' ? last : null;
+});
+
+function isValidStat(v) {
+  return typeof v === 'number' && !isNaN(v);
+}
+
+const effectiveOffset = computed(() => {
+  const raw = imageStore.captureStatsFull?.Offset;
+  if (raw === -1 || !isValidStat(raw)) {
+    const profileOffset = store.profileInfo?.CameraSettings?.Offset;
+    return isValidStat(profileOffset) ? profileOffset : null;
+  }
+  return raw;
 });
 
 // Check if in landscape mode
@@ -393,14 +502,6 @@ const handleDownload = async (data) => {
     folderPrefix: 'TNS-Images',
     filePrefix: 'TNS',
   });
-};
-
-const openImageModal = () => {
-  showModal.value = true;
-};
-
-const closeImageModal = () => {
-  showModal.value = false;
 };
 
 const getHistogram = () => {

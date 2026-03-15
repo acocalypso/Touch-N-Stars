@@ -5,7 +5,7 @@
     :style="{ height: height }"
   >
     <!-- Action Buttons -->
-    <div v-if="imageData" class="absolute top-2 right-2 z-10 flex gap-2 portrait:top-24">
+    <div v-if="imageData" class="absolute top-2 right-2 z-30 flex gap-2 portrait:top-24">
       <!-- Download Button -->
       <button
         v-if="showDownload"

@@ -121,10 +121,13 @@
         <!-- PINS: Capture Stats Overlay -->
         <div
           v-if="store.isPINS && showCaptureStats && captureStatsData && imageStore.imageData"
-          class="absolute top-0 right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
-          :class="isLandscape ? 'left-32' : 'left-0'"
+          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
+          :class="isLandscape ? 'left-32 top-0' : 'left-0 top-20'"
         >
-          <div class="grid grid-cols-2 gap-x-1 gap-y-0.5">
+          <div
+            :class="isLandscape ? 'grid grid-cols-2' : 'grid grid-cols-3'"
+            class="gap-x-2 gap-y-0.5"
+          >
             <div v-if="captureStatsData.Stars !== undefined" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.helpers.histogram.stars') }}:</span
@@ -401,7 +404,8 @@ watch(
         // silent fail
       }
     }
-  }
+  },
+  { immediate: true }
 );
 
 function isValidStat(v) {

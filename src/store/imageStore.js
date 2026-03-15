@@ -33,17 +33,6 @@ export const useImagetStore = defineStore('imageStore', {
       return scale;
     },
 
-    async fetchCaptureStatsFull() {
-      try {
-        const res = await apiService.getCaptureStatisticsFull();
-        if (res?.Success && res?.Response) {
-          this.captureStatsFull = res.Response;
-        }
-      } catch {
-        // silent fail
-      }
-    },
-
     async getImage() {
       const settingsStore = useSettingsStore();
       const quality = settingsStore.camera.imageQuality;

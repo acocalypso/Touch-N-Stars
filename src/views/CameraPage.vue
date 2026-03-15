@@ -62,6 +62,27 @@
 
         <!-- Histogram Overlay -->
         <div v-if="showHistogram && imageStore.imageData" class="z-50" :class="[histogramClasses]">
+          <div
+            v-if="statsLoading && store.isPINS"
+            class="absolute inset-0 z-10 flex items-center justify-center bg-black/40 rounded"
+          >
+            <svg
+              class="w-5 h-5 animate-spin text-cyan-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+          </div>
           <HistogramChart
             :data="getHistogram()"
             height="120px"
@@ -120,80 +141,101 @@
 
         <!-- PINS: Capture Stats Overlay -->
         <div
-          v-if="
-            store.isPINS && showCaptureStats && imageStore.captureStatsFull && imageStore.imageData
-          "
+          v-if="store.isPINS && showCaptureStats && store.lastImageStats && imageStore.imageData"
           class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
           :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
         >
+          <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
+            <svg
+              class="w-3 h-3 animate-spin text-cyan-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            <span class="text-cyan-400 text-xs">updating…</span>
+          </div>
           <div
             :class="isLandscape ? 'grid grid-cols-2 pt-14' : 'grid grid-cols-3 pt-36'"
             class="gap-x-2 gap-y-0.5"
           >
-            <div v-if="imageStore.captureStatsFull.Stars !== undefined" class="flex gap-1 min-w-0">
+            <div v-if="store.lastImageStats.Stars !== undefined" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.helpers.histogram.stars') }}:</span
               >
-              <span class="truncate">{{ imageStore.captureStatsFull.Stars }}</span>
+              <span class="truncate">{{ store.lastImageStats.Stars }}</span>
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.HFR)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.HFR)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.hfr') }}:</span>
-              <span class="truncate">{{ imageStore.captureStatsFull.HFR.toFixed(2) }}</span>
+              <span class="truncate">{{ store.lastImageStats.HFR.toFixed(2) }}</span>
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.HFRStDev)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.HFRStDev)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.sequence.HFRStDev') }}:</span
               >
-              <span class="truncate">{{ imageStore.captureStatsFull.HFRStDev.toFixed(2) }}</span>
+              <span class="truncate">{{ store.lastImageStats.HFRStDev.toFixed(2) }}</span>
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.Mean)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.Mean)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
-              <span class="truncate">{{ imageStore.captureStatsFull.Mean.toFixed(1) }}</span>
+              <span class="truncate">{{ store.lastImageStats.Mean.toFixed(1) }}</span>
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.Median)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.Median)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.sequence.median') }}:</span
               >
-              <span class="truncate">{{ imageStore.captureStatsFull.Median.toFixed(0) }}</span>
+              <span class="truncate">{{ store.lastImageStats.Median.toFixed(0) }}</span>
             </div>
             <div
-              v-if="isValidStat(imageStore.captureStatsFull.MedianAbsoluteDeviation)"
+              v-if="isValidStat(store.lastImageStats.MedianAbsoluteDeviation)"
               class="flex gap-1 min-w-0"
             >
               <span class="font-bold whitespace-nowrap">MAD:</span>
               <span class="truncate">{{
-                imageStore.captureStatsFull.MedianAbsoluteDeviation.toFixed(1)
+                store.lastImageStats.MedianAbsoluteDeviation.toFixed(1)
               }}</span>
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.StDev)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.StDev)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.sequence.stDev') }}:</span
               >
-              <span class="truncate">{{ imageStore.captureStatsFull.StDev.toFixed(1) }}</span>
+              <span class="truncate">{{ store.lastImageStats.StDev.toFixed(1) }}</span>
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.Min)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.Min)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Min') }}:</span>
               <span class="truncate"
-                >{{ imageStore.captureStatsFull.Min.toFixed(0)
-                }}<span v-if="isValidStat(imageStore.captureStatsFull.MinOccurrences)" class="text-gray-400">
-                  ({{ imageStore.captureStatsFull.MinOccurrences }}x)</span
+                >{{ store.lastImageStats.Min.toFixed(0)
+                }}<span
+                  v-if="isValidStat(store.lastImageStats.MinOccurrences)"
+                  class="text-gray-400"
+                  >({{ store.lastImageStats.MinOccurrences }}x)</span
                 ></span
               >
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.Max)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.Max)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Max') }}:</span>
               <span class="truncate"
-                >{{ imageStore.captureStatsFull.Max.toFixed(0)
-                }}<span v-if="isValidStat(imageStore.captureStatsFull.MaxOccurrences)" class="text-gray-400">
-                  ({{ imageStore.captureStatsFull.MaxOccurrences }}x)</span
+                >{{ store.lastImageStats.Max.toFixed(0)
+                }}<span
+                  v-if="isValidStat(store.lastImageStats.MaxOccurrences)"
+                  class="text-gray-400"
+                  >({{ store.lastImageStats.MaxOccurrences }}x)</span
                 ></span
               >
             </div>
-            <div v-if="isValidStat(imageStore.captureStatsFull.Gain)" class="flex gap-1 min-w-0">
+            <div v-if="isValidStat(store.lastImageStats.Gain)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.sequence.items.takeExposure.gain') }}:</span
               >
-              <span class="truncate">{{ imageStore.captureStatsFull.Gain }}</span>
+              <span class="truncate">{{ store.lastImageStats.Gain }}</span>
             </div>
             <div v-if="effectiveOffset !== null" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
@@ -373,7 +415,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
@@ -409,10 +451,11 @@ const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
 const showCaptureStats = ref(false);
+const statsLoading = ref(false);
 
 const captureStats = computed(() => {
-  if (store.isPINS && imageStore.captureStatsFull) {
-    return imageStore.captureStatsFull;
+  if (store.isPINS && store.lastImageStats) {
+    return store.lastImageStats;
   }
   const arr = store.imageHistoryInfo;
   if (!Array.isArray(arr) || arr.length === 0) return null;
@@ -425,7 +468,7 @@ function isValidStat(v) {
 }
 
 const effectiveOffset = computed(() => {
-  const raw = imageStore.captureStatsFull?.Offset;
+  const raw = store.lastImageStats?.Offset;
   if (raw === -1 || !isValidStat(raw)) {
     const profileOffset = store.profileInfo?.CameraSettings?.Offset;
     return isValidStat(profileOffset) ? profileOffset : null;
@@ -535,6 +578,30 @@ const onLevelsReset = async () => {
 const onToggleSave = async () => {
   await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
 };
+
+watch(
+  () => imageStore.imageData,
+  (newVal, oldVal) => {
+    if (newVal && newVal !== oldVal && store.isPINS) {
+      statsLoading.value = true;
+    }
+  }
+);
+
+watch(
+  () => store.lastImageStats,
+  async (newVal, oldVal) => {
+    const hasChanged =
+      newVal?.Mean !== oldVal?.Mean ||
+      newVal?.Median !== oldVal?.Median ||
+      newVal?.Stars !== oldVal?.Stars;
+    if (!hasChanged) return;
+    statsLoading.value = false;
+    if (imageStore.imageData) {
+      await histogramStore.calculateHistogramForImage(imageStore.imageData);
+    }
+  }
+);
 
 // Load image on mount if imageData is empty
 onMounted(async () => {

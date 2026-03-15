@@ -159,6 +159,7 @@ export const apiStore = defineStore('store', {
     isSwitchConnected: false,
     isWeatherConnected: false,
     isSafetyConnected: false,
+    lastImageStats: null,
   }),
 
   actions: {
@@ -549,6 +550,7 @@ export const apiStore = defineStore('store', {
         console.error('Error fetching information:', error);
       }
       await this.fetchProfilInfos();
+      await this.fetchLastImageStats();
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -719,6 +721,21 @@ export const apiStore = defineStore('store', {
         }
       } catch (error) {
         console.error('Error fetching profile information:', error);
+      }
+    },
+
+    async fetchLastImageStats() {
+      if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
+      try {
+        const lastImageStats = await apiService.getCaptureStatisticsFull();
+        //console.log('Last image stats response:', lastImageStats);
+        if (lastImageStats.Response) {
+          this.lastImageStats = lastImageStats.Response;
+        } else {
+          console.error('Error in last image stats API response:', lastImageStats?.Error);
+        }
+      } catch (error) {
+        console.error('Error fetching last image stats:', error);
       }
     },
 
@@ -893,9 +910,6 @@ export const apiStore = defineStore('store', {
           return;
         }
         await imageStore.getImage();
-        if (this.isPINS) {
-          imageStore.fetchCaptureStatsFull();
-        }
       }
 
       // If a device connection event arrives via WebSocket, fetch event history immediately

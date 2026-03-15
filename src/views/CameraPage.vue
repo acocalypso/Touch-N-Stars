@@ -156,6 +156,15 @@
               >
               <span class="truncate">{{ imageStore.captureStatsFull.Median.toFixed(0) }}</span>
             </div>
+            <div
+              v-if="isValidStat(imageStore.captureStatsFull.MedianAbsoluteDeviation)"
+              class="flex gap-1 min-w-0"
+            >
+              <span class="font-bold whitespace-nowrap">MAD:</span>
+              <span class="truncate">{{
+                imageStore.captureStatsFull.MedianAbsoluteDeviation.toFixed(1)
+              }}</span>
+            </div>
             <div v-if="isValidStat(imageStore.captureStatsFull.StDev)" class="flex gap-1 min-w-0">
               <span class="font-bold whitespace-nowrap"
                 >{{ $t('components.sequence.stDev') }}:</span

@@ -6,11 +6,7 @@
     <label for="gain" class="text-sm mr-3 mb-1 text-gray-400">
       {{ $t('components.camera.gain_iso') }}
     </label>
-    <select
-      id="gain"
-      v-model.number="settingsStore.camera.gain"
-      class="default-select ml-auto h-8 w-28"
-    >
+    <select id="gain" v-model.number="flatsStore.gain" class="default-select ml-auto h-8 w-28">
       <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
         {{ value }}
       </option>
@@ -18,7 +14,7 @@
   </div>
   <NumberInputPicker
     v-else
-    v-model="settingsStore.camera.gain"
+    v-model="flatsStore.gain"
     :label="$t('components.camera.gain_iso')"
     labelKey="components.camera.gain_iso"
     :min="0"
@@ -30,10 +26,15 @@
   />
 </template>
 <script setup>
-import { useSettingsStore } from '@/store/settingsStore';
+import { onMounted } from 'vue';
+import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { apiStore } from '@/store/store';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
-const settingsStore = useSettingsStore();
+const flatsStore = useFlatassistantStore();
 const store = apiStore();
+
+onMounted(() => {
+  flatsStore.gain = store.profileInfo?.CameraSettings?.Gain;
+});
 </script>

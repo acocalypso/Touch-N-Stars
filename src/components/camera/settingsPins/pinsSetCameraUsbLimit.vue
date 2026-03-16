@@ -12,7 +12,7 @@
       v-model="usbLimit"
       class="default-select h-7 md:h-8 w-20 md:w-28"
     >
-      <option v-for="n in 11" :key="n" :value="n - 1">
+      <option v-for="n in store.cameraInfo.USBLimitMax" :key="n" :value="n - 1">
         {{ n - 1 }}
       </option>
     </select>

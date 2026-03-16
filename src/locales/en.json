@@ -22,7 +22,8 @@
     "no": "No",
     "delete": "Delete",
     "edit": "Edit",
-    "close": "Close"
+    "close": "Close",
+    "save": "Save"
   },
   "pages": {
     "equipment": {
@@ -2295,7 +2296,7 @@
         "aberrationOptions": "Aberration Inspector Options",
         "autoFocusOptions": "AutoFocus Options",
         "starDetection": "Star Detection",
-        "tilter": "Tilter"
+        "tilter": "Tilter (beta)"
       },
       "modal": {
         "selectDirectory": "Select AutoFocus Directory to Rerun",
@@ -2369,7 +2370,7 @@
         "scanTooltip": "Scan for devices",
         "connect": "Connect",
         "disconnect": "Disconnect",
-        "deviceInfo": "Device Information",
+        "deviceInfo": "Device Information (beta - use with care)",
         "status": "Status",
         "connected": "Connected",
         "moving": "Moving",
@@ -2377,10 +2378,23 @@
         "currentPositions": "Current Positions",
         "noDeviceSelected": "Please select a device first",
         "deviceNotConnected": "Connect to a device to view controls",
-        "sensorConfiguration": "Sensor Configuration",
+        "configuration": "Configuration",
         "sensorWidth": "Sensor Width",
         "sensorHeight": "Sensor Height",
-        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
+        "sensorRotation": "Sensor Rotation",
+        "sensorRotationDescription": "Clockwise when facing the back of the camera",
+        "manualTilterConfiguration": "Manual 3-Point Tilter Configuration (beta - use with care)",
+        "tilterOuterRadius": "Tilter Outer Radius",
+        "tilterThreadPitch": "Tilter Thread Pitch",
+        "applyTiltPlane": "Apply Tilt Plane",
+        "fetchFromAberrationInspector": "Fetch from Aberration Inspector",
+        "calculateActuatorPositions": "Calculate Actuator Positions",
+        "calculatedPositions": "Calculated Positions",
+        "applyThesePositionsToDevice": "Apply These Positions to Device",
+        "actuatorVisualizationLabel": "Actuators at {radius} mm radius • Sensor rotation {rotation}° • Top view",
+        "calculatingPositions": "Calculating...",
+        "applyingPositions": "Applying...",
+        "savingConfiguration": "Saving..."
       },
       "common": {
         "error": "Error:",

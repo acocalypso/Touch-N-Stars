@@ -56,6 +56,17 @@
             >
               {{ $t('plugins.hocusfocus.tabs.starDetection') }}
             </button>
+            <button
+              @click="activeTab = 'tilter'"
+              :class="
+                activeTab === 'tilter'
+                  ? 'border-b-2 border-cyan-400 text-white'
+                  : 'text-gray-400 hover:text-white'
+              "
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+            >
+              {{ $t('plugins.hocusfocus.tabs.tilter') }}
+            </button>
           </div>
 
           <!-- AutoFocus Directory Selection Modal -->
@@ -118,6 +129,7 @@
               :focuser-connected="store.focuserConnected"
               :is-cancelling="store.isCancelling"
               :backend-can-run="backendCanRun"
+              :backend-can-rerun="backendCanRerun"
               :is-tab-active="activeTab === 'aberration'"
               :on-update-status="updateStatus"
               :on-update-final-focus-data="updateFinalFocusData"
@@ -145,6 +157,11 @@
           <div v-if="activeTab === 'star-detection'" class="p-6">
             <StarDetection :isTabActive="activeTab === 'star-detection'" />
           </div>
+
+          <!-- Tilter Tab -->
+          <div v-if="activeTab === 'tilter'" class="p-6">
+            <HocusFocusTilterPanel />
+          </div>
         </div>
       </div>
     </div>
@@ -159,6 +176,7 @@ import AberrationInspector from '../components/AberrationInspector.vue';
 import AberrationInspectorOptions from '../components/AberrationInspectorOptions.vue';
 import AutoFocusOptions from '../components/AutoFocusOptions.vue';
 import StarDetection from '../components/StarDetection.vue';
+import HocusFocusTilterPanel from '../components/HocusFocusTilterPanel.vue';
 
 const store = useHocusFocusStore();
 const activeTab = ref('aberration');
@@ -177,6 +195,7 @@ const loadingAFDirectories = ref(false);
 
 // Compute canRunAutoFocus from backend status - source of truth
 const backendCanRun = ref(true);
+const backendCanRerun = ref(true);
 const canRunAutoFocus = computed(() => {
   return (
     store.cameraConnected && store.focuserConnected && backendCanRun.value && !store.isCancelling
@@ -258,6 +277,7 @@ const updateStatus = async () => {
     if (data && data.Success) {
       const wasNotCompleted = !autoFocusCompleted.value;
       backendCanRun.value = data.CanRunAutoFocusAnalysis ?? false;
+      backendCanRerun.value = data.CanRerunSavedAutoFocusAnalysis ?? false;
       autoFocusCompleted.value = data.AutoFocusCompleted ?? false;
       autoFocusChartActive.value = data.AutoFocusChartActive ?? false;
       autoFocusChartActivatedOnce.value = data.AutoFocusChartActivatedOnce ?? false;
@@ -276,6 +296,7 @@ const updateStatus = async () => {
   } catch (err) {
     console.error('Error fetching status:', err);
     backendCanRun.value = false;
+    backendCanRerun.value = false;
     autoFocusCompleted.value = false;
     autoFocusChartActive.value = false;
     autoFocusChartActivatedOnce.value = false;
@@ -330,7 +351,7 @@ const stopDetailedAutoFocus = async () => {
 };
 
 const rerunDetailedAutoFocus = async () => {
-  if (!canRunAutoFocus.value) {
+  if (!backendCanRerun.value) {
     return;
   }
 
@@ -399,7 +420,7 @@ const proceedWithAFRerun = async () => {
 };
 
 const clearDetailedAutoFocus = async () => {
-  if (!canRunAutoFocus.value) {
+  if (!backendCanRerun.value) {
     return;
   }
 

@@ -65,6 +65,11 @@ export function setupErrorHandler() {
         const isRealError = response.status >= 400;
         const logLevel = isRealError ? 'ERROR' : 'INFO';
 
+        // Skip logging and toasts for known informational endpoints
+        const suppressedUrls = ['/capture/statistics/full'];
+        const isSuppressedUrl = suppressedUrls.some((u) => url.includes(u));
+        if (isSuppressedUrl) return response;
+
         createStructuredLog(logLevel, 'API', {
           method,
           url,
@@ -80,8 +85,6 @@ export function setupErrorHandler() {
 
         // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
         // Skip toasts for HTTP 200 + StatusCode 200 (successful responses) and all 404s
-        const suppressedUrls = ['/capture/statistics/full'];
-        const isSuppressedUrl = suppressedUrls.some((u) => url.includes(u));
         if (
           (response.status >= 400 || statusCode >= 400) &&
           statusCode !== 404 &&

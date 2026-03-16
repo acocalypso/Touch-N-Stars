@@ -40,11 +40,19 @@ export const useCameraStore = defineStore('cameraStore', () => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  //Read Camera settings
+  //Read Camera settings (only PINS)
+  async function readSettings() {
+    if (!store.isPINS) return;
+    if (!store.cameraInfo.Connected) return;
+    try {
+      response = await apiService.cameraAction('get-settings');
+      cameraSettings.value = response.Response
+      console.log('[Camerastore] Camera settings: ', response.Response);
+      } catch (error) {
+         console.error(' [cameraStore]Error fetching camera settings:', error.message);
+      }
+  }
 
-async function readSettings() {
-  response = await apiService.cameraAction('get-settings');
-}
   // Start capture + image fetch
   async function capturePhoto(apiService, exposureTime, gain, solve = false) {
     if (exposureTime <= 0) {
@@ -346,5 +354,6 @@ async function readSettings() {
     abortExposure,
     updateCountdown,
     stopCountdown,
+    readSettings,
   };
 });

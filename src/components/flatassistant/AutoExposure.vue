@@ -12,6 +12,13 @@
     <setHistogramTolerance />
     <selectFilter v-if="store.filterInfo.Connected" v-model="selectedFilterId" />
     <setBinning v-if="(store.cameraInfo?.BinningModes?.length || 0) > 1" />
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-gray-300">{{ $t('components.flatassistant.keep_closed') }}</span>
+      <toggleButton
+        :statusValue="settingsStore.flats.keepClosed"
+        @update:statusValue="settingsStore.flats.keepClosed = $event"
+      />
+    </div>
     <div v-show="flatsStore.status.State != 'Running'">
       <button @click="startAutoExposure" class="default-button-cyan">
         {{ $t('components.flatassistant.start_auto_exposure') }}
@@ -41,6 +48,7 @@ import setHistogramTolerance from '@/components/flatassistant/setHistogramTolera
 import selectFilter from '@/components/flatassistant/selectFilter.vue';
 import setBrightness from '@/components/flatassistant/setBrightness.vue';
 import { useSettingsStore } from '@/store/settingsStore';
+import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
@@ -69,7 +77,8 @@ async function startAutoExposure() {
       flatsStore.gain,
       flatsStore.offset,
       selectedFilterId.value,
-      settingsStore.flats.brightness
+      settingsStore.flats.brightness,
+      settingsStore.flats.keepClosed
     );
     console.log(data);
     console.log('Flats Filter: ', store.filterInfo?.SelectedFilter?.Id);

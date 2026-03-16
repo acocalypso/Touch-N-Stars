@@ -305,7 +305,7 @@
         <div
           class="border border-gray-600/30 rounded p-4 bg-gray-700/20 flex justify-center items-center"
         >
-          <div class="relative w-full" style="aspect-ratio: 1; min-height: 400px">
+          <div class="relative" style="width: 340px; height: 340px">
             <svg
               width="100%"
               height="100%"

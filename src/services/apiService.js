@@ -1436,6 +1436,50 @@ const apiService = {
     }
   },
 
+  async getTrainedFlatSettings() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/flats/trained-settings`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async addTrainedFlatSetting() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/flats/add-trained-setting`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async updateTrainedFlatSetting(index, filterId, binning, gain, offset, brightness, time) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/flats/update-trained-setting`, {
+        params: { index, filterId, binning, gain, offset, brightness, time },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async removeTrainedFlatSetting(index) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/flats/remove-trained-setting`, {
+        params: { index },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  Flatassistant ---------------------------------------
   flatassistantAction(action) {
     const { BASE_URL } = getUrls();
@@ -1453,7 +1497,8 @@ const apiService = {
     gain,
     offset,
     filterId,
-    brightness
+    brightness,
+    keepClosed
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1469,6 +1514,7 @@ const apiService = {
           offset,
           filterId,
           brightness,
+          keepClosed,
         },
       });
       return response.data;
@@ -1489,7 +1535,8 @@ const apiService = {
     gain,
     offset,
     filterId,
-    exposureTime
+    exposureTime,
+    keepClosed
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1505,6 +1552,7 @@ const apiService = {
           offset,
           filterId,
           exposureTime,
+          keepClosed,
         },
       });
       return response.data;
@@ -1524,7 +1572,8 @@ const apiService = {
     binning,
     gain,
     offset,
-    filterId
+    filterId,
+    keepClosed
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1539,6 +1588,7 @@ const apiService = {
           gain,
           offset,
           filterId,
+          keepClosed,
         },
       });
       return response.data;

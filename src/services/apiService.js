@@ -1488,7 +1488,7 @@ const apiService = {
     binning,
     gain,
     offset,
-    filter,
+    filterId,
     exposureTime
   ) {
     try {
@@ -1503,7 +1503,7 @@ const apiService = {
           binning,
           gain,
           offset,
-          filter,
+          filterId,
           exposureTime,
         },
       });
@@ -1524,7 +1524,7 @@ const apiService = {
     binning,
     gain,
     offset,
-    filter
+    filterId
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1538,7 +1538,7 @@ const apiService = {
           binning,
           gain,
           offset,
-          filter,
+          filterId,
         },
       });
       return response.data;

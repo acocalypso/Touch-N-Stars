@@ -46,7 +46,7 @@
             <AddTypeButton
               :targetId="store.globalTriggers.at(-1)?.Id ?? store.data[0]?.Id ?? ''"
               mode="trigger"
-              :insertAfter="store.globalTriggers.length > 0"
+              :insertAfter="store.globalTriggers.length > 0 ? true : null"
             />
           </div>
         </div>
@@ -103,7 +103,7 @@
               <AddTypeButton
                 :targetId="container.Items?.at(-1)?.Id ?? container.Id"
                 mode="item"
-                :insertAfter="(container.Items?.length ?? 0) > 0"
+                :insertAfter="(container.Items?.length ?? 0) > 0 ? true : null"
               />
             </div>
           </div>

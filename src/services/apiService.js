@@ -641,26 +641,29 @@ const apiService = {
 
   async sequenceAddItem(targetId, itemType, insertAfter = true) {
     const { API_URL } = getUrls();
+    const ia = insertAfter === null ? '' : `&insertAfter=${insertAfter}`;
     const response = await axios.post(
-      `${API_URL}sequence/add?targetId=${targetId}&type=${encodeURIComponent(itemType)}&insertAfter=${insertAfter}`,
+      `${API_URL}sequence/add?targetId=${targetId}&type=${encodeURIComponent(itemType)}${ia}`,
       {}
     );
     return response.data;
   },
 
-  async sequenceAddTrigger(itemId, triggerType) {
+  async sequenceAddTrigger(itemId, triggerType, insertAfter = true) {
     const { API_URL } = getUrls();
+    const ia = insertAfter === null ? '' : `&insertAfter=${insertAfter}`;
     const response = await axios.post(
-      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(triggerType)}&insertAfter=true`,
+      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(triggerType)}${ia}`,
       {}
     );
     return response.data;
   },
 
-  async sequenceAddCondition(itemId, conditionType) {
+  async sequenceAddCondition(itemId, conditionType, insertAfter = true) {
     const { API_URL } = getUrls();
+    const ia = insertAfter === null ? '' : `&insertAfter=${insertAfter}`;
     const response = await axios.post(
-      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(conditionType)}&insertAfter=true`,
+      `${API_URL}sequence/add?targetId=${itemId}&type=${encodeURIComponent(conditionType)}${ia}`,
       {}
     );
     return response.data;

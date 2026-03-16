@@ -115,7 +115,7 @@
           <AddTypeButton
             :targetId="item.Triggers?.at(-1)?.Id ?? item.Id"
             mode="trigger"
-            :insertAfter="(item.Triggers?.length ?? 0) > 0"
+            :insertAfter="(item.Triggers?.length ?? 0) > 0 ? true : null"
           />
         </div>
       </div>
@@ -151,7 +151,7 @@
           <AddTypeButton
             :targetId="item.Conditions?.at(-1)?.Id ?? item.Id"
             mode="condition"
-            :insertAfter="(item.Conditions?.length ?? 0) > 0"
+            :insertAfter="(item.Conditions?.length ?? 0) > 0 ? true : null"
           />
         </div>
       </div>
@@ -176,7 +176,7 @@
         <AddTypeButton
           :targetId="item.Items?.at(-1)?.Id ?? item.Id"
           mode="item"
-          :insertAfter="(item.Items?.length ?? 0) > 0"
+          :insertAfter="(item.Items?.length ?? 0) > 0 ? true : null"
         />
       </div>
     </div>
@@ -203,6 +203,7 @@ import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
 const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure']);
 const NO_EXPAND_TYPES = new Set([
+  'NINA.Sequencer.SequenceItem.Imaging.SmartExposure',
   'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures',
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoBrightnessFlat',
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoExposureFlat',

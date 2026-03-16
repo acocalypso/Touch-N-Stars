@@ -421,6 +421,9 @@
         "takeManyExposures": {
           "iterations": "Anzahl Aufnahmen"
         },
+        "smartExposure": {
+          "ditherAfter": "Dithern nach (Aufnahmen)"
+        },
         "takeSubframeExposure": {
           "roiPct": "ROI (%)"
         },

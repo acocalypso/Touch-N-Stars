@@ -65,7 +65,7 @@ import { ITEM_COMPONENTS } from './items/index.js';
 const props = defineProps({
   targetId: { type: String, required: true },
   mode: { type: String, required: true }, // 'item' | 'trigger' | 'condition'
-  insertAfter: { type: Boolean, default: true },
+  insertAfter: { default: true },
 });
 
 const store = useSequenceV2Store();
@@ -149,8 +149,10 @@ async function toggle() {
 async function select(t) {
   open.value = false;
   if (props.mode === 'item') await store.addItem(props.targetId, t.FullTypeName, props.insertAfter);
-  if (props.mode === 'trigger') await store.addTrigger(props.targetId, t.FullTypeName);
-  if (props.mode === 'condition') await store.addCondition(props.targetId, t.FullTypeName);
+  if (props.mode === 'trigger')
+    await store.addTrigger(props.targetId, t.FullTypeName, props.insertAfter);
+  if (props.mode === 'condition')
+    await store.addCondition(props.targetId, t.FullTypeName, props.insertAfter);
 }
 
 function onOutsideClick(e) {

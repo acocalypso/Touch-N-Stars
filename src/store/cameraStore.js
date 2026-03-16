@@ -32,12 +32,19 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const slewModal = ref(false);
   const showCameraInfo = ref(false); // eslint-disable-line no-unused-vars
   let countdownSessionId = 0; // Unique ID for each countdown session
+  const cameraSettings = ref();
+
 
   // Helper function to wait briefly
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
+  //Read Camera settings
+
+async function readSettings() {
+  response = await apiService.cameraAction('get-settings');
+}
   // Start capture + image fetch
   async function capturePhoto(apiService, exposureTime, gain, solve = false) {
     if (exposureTime <= 0) {

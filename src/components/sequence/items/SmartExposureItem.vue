@@ -26,6 +26,7 @@
           :value="switchFilter.SelectedFilter"
           @change="saveFilter('SelectedFilter', Number($event.target.value))"
         >
+          <option :value="0">(current)</option>
           <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">
             {{ name }}
           </option>

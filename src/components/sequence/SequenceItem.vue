@@ -203,6 +203,7 @@ import { ITEM_COMPONENTS, GenericItem } from './items/index.js';
 
 const NO_ADD_TYPES = new Set(['NINA.Sequencer.SequenceItem.Imaging.SmartExposure']);
 const NO_EXPAND_TYPES = new Set([
+  'NINA.Sequencer.SequenceItem.Imaging.SmartExposure',
   'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures',
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoBrightnessFlat',
   'NINA.Sequencer.SequenceItem.FlatDevice.AutoExposureFlat',

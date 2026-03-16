@@ -6,6 +6,7 @@ import { ref, nextTick } from 'vue';
 import { timeSync } from '@/utils/timeSync';
 import { useSettingsStore } from './settingsStore';
 import { useMountStore } from './mountStore';
+import apiService from '@/services/apiService';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -42,10 +43,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
   //Read Camera settings (only PINS)
   async function readSettings() {
+    
     if (!store.isPINS) return;
     if (!store.cameraInfo.Connected) return;
     try {
-      response = await apiService.cameraAction('get-settings');
+      const response = await apiService.cameraAction('get-settings');
       cameraSettings.value = response.Response
       console.log('[Camerastore] Camera settings: ', response.Response);
       } catch (error) {

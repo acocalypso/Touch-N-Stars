@@ -30,10 +30,6 @@
             <div class="w-2 h-2 bg-purple-400 rounded-full shadow-sm shadow-purple-400/50" />
             <span class="font-medium text-purple-200">Global Trigger</span>
           </div>
-          <span
-            class="bg-purple-500/20 text-purple-300 border border-purple-500/30 rounded-full px-2 py-0.5 text-xs"
-            >GLOBAL</span
-          >
         </div>
         <div v-if="!collapsed.globalTriggers" class="p-3 pt-0 space-y-1.5">
           <SequenceItem

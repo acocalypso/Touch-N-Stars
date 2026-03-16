@@ -735,6 +735,7 @@ export const apiStore = defineStore('store', {
         if (lastImageStats.Response) {
           this.lastImageStats = lastImageStats.Response;
         } else {
+          if (lastImageStats?.Error === 'No capture processed') return;
           console.error('Error in last image stats API response:', lastImageStats?.Error);
         }
       } catch (error) {

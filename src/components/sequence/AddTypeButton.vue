@@ -149,8 +149,10 @@ async function toggle() {
 async function select(t) {
   open.value = false;
   if (props.mode === 'item') await store.addItem(props.targetId, t.FullTypeName, props.insertAfter);
-  if (props.mode === 'trigger') await store.addTrigger(props.targetId, t.FullTypeName, props.insertAfter);
-  if (props.mode === 'condition') await store.addCondition(props.targetId, t.FullTypeName, props.insertAfter);
+  if (props.mode === 'trigger')
+    await store.addTrigger(props.targetId, t.FullTypeName, props.insertAfter);
+  if (props.mode === 'condition')
+    await store.addCondition(props.targetId, t.FullTypeName, props.insertAfter);
 }
 
 function onOutsideClick(e) {

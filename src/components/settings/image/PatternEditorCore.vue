@@ -363,12 +363,15 @@ watch(patternString, (val) => {
   emit('update:modelValue', val);
 });
 
-watch(() => props.modelValue, (val) => {
-  if (val && val !== patternString.value) {
-    patternSegments.value = parsePattern(val);
-    insertPos.value = patternSegments.value.length;
+watch(
+  () => props.modelValue,
+  (val) => {
+    if (val && val !== patternString.value) {
+      patternSegments.value = parsePattern(val);
+      insertPos.value = patternSegments.value.length;
+    }
   }
-});
+);
 
 onMounted(() => {
   const source = props.modelValue || defaultPattern;

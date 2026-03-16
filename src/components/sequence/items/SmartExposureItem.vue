@@ -5,7 +5,9 @@
         switchFilter.ComboBoxText
       }}</span>
       <template v-if="exposure">
-        <span class="text-xs text-slate-400 font-mono flex-shrink-0">{{ exposure.ExposureTime }}s</span>
+        <span class="text-xs text-slate-400 font-mono flex-shrink-0"
+          >{{ exposure.ExposureTime }}s</span
+        >
         <span class="text-xs text-slate-500 flex-shrink-0">G{{ exposure.Gain }}</span>
       </template>
       <span v-if="loopCondition" class="text-xs text-slate-400 font-mono flex-shrink-0">
@@ -138,10 +140,18 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
-const switchFilter = computed(() => props.item.Items?.find(i => i.FullTypeName?.includes('SwitchFilter')) ?? null);
-const exposure = computed(() => props.item.Items?.find(i => i.FullTypeName?.includes('TakeExposure')) ?? null);
-const loopCondition = computed(() => props.item.Conditions?.find(c => c.FullTypeName?.includes('LoopCondition')) ?? null);
-const ditherTrigger = computed(() => props.item.Triggers?.find(t => t.FullTypeName?.includes('DitherAfterExposures')) ?? null);
+const switchFilter = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.includes('SwitchFilter')) ?? null
+);
+const exposure = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.includes('TakeExposure')) ?? null
+);
+const loopCondition = computed(
+  () => props.item.Conditions?.find((c) => c.FullTypeName?.includes('LoopCondition')) ?? null
+);
+const ditherTrigger = computed(
+  () => props.item.Triggers?.find((t) => t.FullTypeName?.includes('DitherAfterExposures')) ?? null
+);
 
 const loopIterations = computed(() => loopCondition.value?.Iterations ?? null);
 

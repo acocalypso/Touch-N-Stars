@@ -146,9 +146,9 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       await this.fetch();
     },
 
-    async addTrigger(itemId, triggerType) {
+    async addTrigger(itemId, triggerType, insertAfter = true) {
       try {
-        const res = await apiService.sequenceAddTrigger(itemId, triggerType);
+        const res = await apiService.sequenceAddTrigger(itemId, triggerType, insertAfter);
         if (res?.Success === false) {
           this._showError(res.Error);
           return;
@@ -159,9 +159,9 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       await this.fetch();
     },
 
-    async addCondition(itemId, conditionType) {
+    async addCondition(itemId, conditionType, insertAfter = true) {
       try {
-        const res = await apiService.sequenceAddCondition(itemId, conditionType);
+        const res = await apiService.sequenceAddCondition(itemId, conditionType, insertAfter);
         if (res?.Success === false) {
           this._showError(res.Error);
           return;

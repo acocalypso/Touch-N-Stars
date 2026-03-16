@@ -2837,6 +2837,159 @@ const apiService = {
         throw error;
       }
     },
+
+    // Tilter API Methods
+    async getTilterDevices() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilter/devices`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting tilter devices:', error);
+        throw error;
+      }
+    },
+
+    async scanTilterDevices() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilter/scan-devices`);
+        return response.data;
+      } catch (error) {
+        console.error('Error scanning tilter devices:', error);
+        throw error;
+      }
+    },
+
+    async connectTilterDevice(deviceId) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/tilter/connect`, {
+          deviceId: deviceId,
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Error connecting tilter device:', error);
+        throw error;
+      }
+    },
+
+    async disconnectTilterDevice(deviceId) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/tilter/disconnect`, {
+          deviceId: deviceId,
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Error disconnecting tilter device:', error);
+        throw error;
+      }
+    },
+
+    async getTilterStatus(deviceId) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilter/status/${deviceId}`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting tilter status:', error);
+        throw error;
+      }
+    },
+
+    async isTilterDeviceConnected(deviceId) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilter/is-connected/${deviceId}`);
+        return response.data;
+      } catch (error) {
+        console.error('Error checking tilter connection status:', error);
+        throw error;
+      }
+    },
+
+    async getSensorConfiguration() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/tilter/sensor-config`);
+        return response.data;
+      } catch (error) {
+        console.error('Error getting sensor configuration:', error);
+        throw error;
+      }
+    },
+
+    async setSensorConfiguration(config) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/tilter/sensor-config`, config);
+        return response.data;
+      } catch (error) {
+        console.error('Error setting sensor configuration:', error);
+        throw error;
+      }
+    },
+
+    async setTilterPositions(deviceId, positions) {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.post(`${API_URL}hocusfocus/tilter/set-positions`, {
+          deviceId: deviceId,
+          positions: positions,
+        });
+        return response.data;
+      } catch (error) {
+        console.error('Error setting tilter positions:', error);
+        throw error;
+      }
+    },
+
+    async applyTiltPlane(
+      deviceId,
+      topLeftZ,
+      topRightZ,
+      bottomLeftZ,
+      bottomRightZ,
+      outerRadius,
+      dontOffsetToZero
+    ) {
+      try {
+        const { API_URL } = getUrls();
+        const requestBody = {
+          deviceId: deviceId,
+          imagePlaneTopLeftZ: topLeftZ,
+          imagePlaneTopRightZ: topRightZ,
+          imagePlaneBottomLeftZ: bottomLeftZ,
+          imagePlaneBottomRightZ: bottomRightZ,
+        };
+
+        // Only include outerRadius if provided (for manual tilters)
+        if (outerRadius !== undefined && outerRadius !== null) {
+          requestBody.outerRadius = outerRadius;
+        }
+
+        // Include dontOffsetToZero flag if provided (for manual tilters)
+        if (dontOffsetToZero !== undefined && dontOffsetToZero !== null) {
+          requestBody.dontOffsetToZero = dontOffsetToZero;
+        }
+
+        const response = await axios.post(
+          `${API_URL}hocusfocus/tilter/apply-tilt-plane`,
+          requestBody
+        );
+        return response.data;
+      } catch (error) {
+        console.error('Error applying tilt plane:', error);
+        // Extract error message from response if available
+        if (error.response && error.response.data) {
+          throw new Error(
+            error.response.data.Error || error.response.data.message || error.message
+          );
+        }
+        throw error;
+      }
+    },
   },
 
   //------------------------------------------- TPPA (PINS) ------------------------------------------

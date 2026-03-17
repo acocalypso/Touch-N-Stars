@@ -460,6 +460,7 @@
 
 <script setup>
 import { ref, nextTick, onUnmounted, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '../store/pinsStore';
@@ -477,7 +478,6 @@ const deviceTime = ref(null);
 const sambaEnabled = ref(false);
 const phd2Enabled = ref(false);
 const phd2Running = ref(false);
-const activeOperation = ref(null);
 const stationaryMode = ref(false);
 const wifiList = ref([]);
 const selectedSsid = ref('');
@@ -485,10 +485,13 @@ const wifiPassword = ref('');
 const selectedBand = ref('auto');
 const autoConnect = ref(false);
 const isScanning = ref(false);
-const status = ref('Idle');
-const logs = ref([]);
 const terminalRef = ref(null);
-const jobId = ref(null);
+const {
+  terminalLogs: logs,
+  terminalStatus: status,
+  activeOperation,
+  currentJobId: jobId,
+} = storeToRefs(pinsStore);
 let ws = null;
 
 const PORT = 8000;
@@ -507,11 +510,11 @@ watch(selectedSsid, (newSsid) => {
 });
 
 function clearLogs() {
-  logs.value = [];
+  pinsStore.clearTerminalLogs();
 }
 
 function appendLog(message) {
-  logs.value.push(message);
+  pinsStore.appendTerminalLog(message);
   scrollToBottom();
 }
 
@@ -711,8 +714,8 @@ async function handlePhd2Toggle(newValue) {
 
   // Update logic: Set specific operation
   status.value = 'Running';
-  activeOperation.value = 'phd2';
-  logs.value = [];
+  pinsStore.setActiveOperation('phd2');
+  pinsStore.clearTerminalLogs();
 
   phd2Enabled.value = newValue; // Optimistic update
   appendLog(t('plugins.pins.logs.init', { ip }));
@@ -847,8 +850,8 @@ async function connectWifi() {
   }
 
   status.value = 'Running';
-  activeOperation.value = 'wifi';
-  logs.value = [];
+  pinsStore.setActiveOperation('wifi');
+  pinsStore.clearTerminalLogs();
   appendLog(t('plugins.pins.logs.init', { ip }));
   appendLog(t('plugins.pins.logs.connectingToWifi', { ssid: selectedSsid.value }));
 
@@ -922,8 +925,8 @@ async function handleSambaToggle(newValue) {
 
   sambaEnabled.value = newValue;
   status.value = 'Running';
-  activeOperation.value = 'samba';
-  logs.value = [];
+  pinsStore.setActiveOperation('samba');
+  pinsStore.clearTerminalLogs();
   appendLog(t('plugins.pins.logs.init', { ip }));
 
   const actionKey = newValue ? 'plugins.pins.logs.sambaEnable' : 'plugins.pins.logs.sambaDisable';
@@ -995,8 +998,8 @@ async function startUpgrade() {
   }
 
   status.value = 'Running';
-  activeOperation.value = 'upgrade';
-  logs.value = [];
+  pinsStore.setActiveOperation('upgrade');
+  pinsStore.clearTerminalLogs();
   appendLog(t('plugins.pins.logs.init', { ip }));
   appendLog(t('plugins.pins.logs.config', { dryRun: dryRun.value }));
 
@@ -1148,7 +1151,7 @@ async function checkFinalStatus(ip, id) {
 }
 
 onUnmounted(() => {
-  if (ws) {
+  if (ws && status.value !== 'Running') {
     ws.close();
   }
 });

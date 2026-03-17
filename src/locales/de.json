@@ -945,7 +945,11 @@
       "HighFullwellMode": "High Fullwell Mode",
       "BinAverageEnabled": "Binning averages pixels",
       "LEDLights": "LED",
-      "FanSpeed": "Lüfter Geschwindigkeit"
+      "FanSpeed": "Lüfter Geschwindigkeit",
+      "tab_camera": "Kamera",
+      "tab_cooler": "Kühlung",
+      "tab_filter": "Filter",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

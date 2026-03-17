@@ -945,7 +945,11 @@
       "HighFullwellMode": "",
       "LEDLights": "",
       "LowNoiseMode": "",
-      "dewHeaterStrength": ""
+      "dewHeaterStrength": "",
+      "tab_camera": "Camera",
+      "tab_cooler": "Koeling",
+      "tab_filter": "Filter",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

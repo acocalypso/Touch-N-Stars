@@ -89,8 +89,6 @@
       <pinsSetCameraUsbLimit v-else />
     </div>
     <pinsSetFanSpeed v-if="store.isPINS && cameraStore.cameraSettings.MaxFanSpeed > 0" />
-    <setSolve />
-    <setSaveSnapshot />
   </div>
 </template>
 
@@ -102,8 +100,6 @@ import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
-import setSolve from '@/components/camera/setSolve.vue';
-import setSaveSnapshot from './setSaveSnapshot.vue';
 import setCameraUsbLimit from './setCameraUsbLimit.vue';
 import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
 import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';

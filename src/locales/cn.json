@@ -945,7 +945,11 @@
       "HighFullwellMode": "High Fullwell Mode",
       "LEDLights": "LED",
       "LowNoiseMode": "Ultra Mode",
-      "dewHeaterStrength": "Dew Heater Strength"
+      "dewHeaterStrength": "Dew Heater Strength",
+      "tab_camera": "相机",
+      "tab_cooler": "冷却",
+      "tab_filter": "滤镜",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "三点极轴对准",

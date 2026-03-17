@@ -945,7 +945,11 @@
       "HighFullwellMode": "High Fullwell Mode",
       "LEDLights": "LED",
       "LowNoiseMode": "Ultra Mode",
-      "dewHeaterStrength": "Dew Heater Strength"
+      "dewHeaterStrength": "Dew Heater Strength",
+      "tab_camera": "Kamera",
+      "tab_cooler": "Chlazení",
+      "tab_filter": "Filtr",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

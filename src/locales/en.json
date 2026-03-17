@@ -945,7 +945,11 @@
       "HighFullwellMode": "High Fullwell Mode",
       "BinAverageEnabled": "Binning averages pixels",
       "LEDLights": "LED",
-      "FanSpeed": "Fan Speed"
+      "FanSpeed": "Fan Speed",
+      "tab_camera": "Camera",
+      "tab_cooler": "Cooler",
+      "tab_filter": "Filter",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

@@ -945,7 +945,11 @@
       "HighFullwellMode": "",
       "LEDLights": "",
       "LowNoiseMode": "",
-      "dewHeaterStrength": ""
+      "dewHeaterStrength": "",
+      "tab_camera": "Kamera",
+      "tab_cooler": "Chłodzenie",
+      "tab_filter": "Filtr",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Wyrównanie biegunowe trzypunktowe",

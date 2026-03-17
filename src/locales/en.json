@@ -940,7 +940,8 @@
       "snapshotTargetName": "Targe name",
       "set_use_solve_sync_to_mount": "Sync to mount",
       "readout_mode_image": "Readout Mode Sequence",
-      "readout_mode_snap": "Readout Mode Snapshot"
+      "readout_mode_snap": "Readout Mode Snapshot",
+      "LowNoiseMode": "Ultra Mode"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

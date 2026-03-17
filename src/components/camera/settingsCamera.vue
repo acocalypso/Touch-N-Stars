@@ -12,7 +12,6 @@
       placeholder="sek"
       inputId="exposure"
     />
-
     <div
       v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
       class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
@@ -45,7 +44,6 @@
       inputId="gain"
       @change="setGain"
     />
-
     <div v-if="store.cameraInfo.CanSetOffset" class="w-full">
       <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
@@ -82,6 +80,8 @@
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
+    <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
+
     <div v-if="store.cameraInfo.CanSetUSBLimit">
       <setCameraUsbLimit v-if="!store.isPINS" />
       <pinsSetCameraUsbLimit v-else />
@@ -103,9 +103,12 @@ import setSolve from '@/components/camera/setSolve.vue';
 import setSaveSnapshot from './setSaveSnapshot.vue';
 import setCameraUsbLimit from './setCameraUsbLimit.vue';
 import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
+import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';
+import { useCameraStore } from '@/store/cameraStore';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const cameraStore = useCameraStore();
 
 // Setzt den initialen Offset
 const initializeOffset = () => {

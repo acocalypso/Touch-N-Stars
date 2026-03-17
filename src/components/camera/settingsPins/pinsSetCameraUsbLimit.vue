@@ -35,7 +35,9 @@ onMounted(() => {
 async function setUsbLimit() {
   try {
     //equipment/filterwheel/set-setting?settingName=Unidirectional&newValue=false
-    const response = await apiService.cameraAction(`set-setting?settingName=USBLimit&newValue=${usbLimit.value}`);
+    const response = await apiService.cameraAction(
+      `set-setting?settingName=USBLimit&newValue=${usbLimit.value}`
+    );
     console.log('[setUsbLimit] ', response);
   } catch (error) {
     console.log('Error while setting USB limit');

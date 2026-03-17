@@ -613,7 +613,6 @@ onMounted(async () => {
     await histogramStore.calculateHistogramForImage(imageStore.imageData);
   }
   await cameraStore.readSettings();
-  
 });
 </script>
 

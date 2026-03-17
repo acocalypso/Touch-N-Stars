@@ -35,7 +35,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   let countdownSessionId = 0; // Unique ID for each countdown session
   const cameraSettings = ref();
 
-
   // Helper function to wait briefly
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -43,16 +42,15 @@ export const useCameraStore = defineStore('cameraStore', () => {
 
   //Read Camera settings (only PINS)
   async function readSettings() {
-    
     if (!store.isPINS) return;
     if (!store.cameraInfo.Connected) return;
     try {
       const response = await apiService.cameraAction('get-settings');
-      cameraSettings.value = response.Response
+      cameraSettings.value = response.Response;
       console.log('[Camerastore] Camera settings: ', response.Response);
-      } catch (error) {
-         console.error(' [cameraStore]Error fetching camera settings:', error.message);
-      }
+    } catch (error) {
+      console.error(' [cameraStore]Error fetching camera settings:', error.message);
+    }
   }
 
   // Start capture + image fetch

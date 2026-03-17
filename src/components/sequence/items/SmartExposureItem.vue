@@ -22,7 +22,7 @@
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select
-          class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+          class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
           :value="switchFilter.SelectedFilter"
           @change="saveFilter('SelectedFilter', Number($event.target.value))"
         >
@@ -85,7 +85,7 @@
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
         <select
-          class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+          class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
           :value="binningValue"
           @change="saveExposure('Binning', $event.target.value)"
         >
@@ -102,7 +102,7 @@
           $t('components.sequence.items.takeExposure.imageType')
         }}</label>
         <select
-          class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
+          class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
           :value="exposure.ImageType"
           @change="saveExposure('ImageType', $event.target.value)"
         >

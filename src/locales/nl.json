@@ -1,18 +1,19 @@
 {
   "common": {
+    "name": "Name",
     "cancel": "Annuleer",
     "confirm": "Bevestig",
     "close": "Sluiten",
     "select": "Selecteer",
-    "delete": "Verwijderen",
     "edit": "Bewerken",
-    "connecting": "Verbinden…",
-    "disable": "Uitzetten",
+    "delete": "Verwijderen",
+    "enabled": "Ingeschakeld",
     "disabled": "Gehandicapt",
     "enable": "Inschakelen",
-    "enabled": "Ingeschakeld",
+    "disable": "Uitzetten",
     "loading": "Laden...",
-    "scanning": "Scannen…"
+    "scanning": "Scannen…",
+    "connecting": "Verbinden…"
   },
   "general": {
     "cancel": "Annuleer",
@@ -20,8 +21,9 @@
     "yes": "Ja",
     "no": "Nee",
     "delete": "Verwijder",
+    "edit": "Edit",
     "close": "Sluiten",
-    "edit": "Edit"
+    "save": "Save"
   },
   "pages": {
     "equipment": {
@@ -136,6 +138,7 @@
     },
     "settings": {
       "title": "Instellingen",
+      "general": "Algemeen",
       "add": "toevoegen",
       "coordinates": "GPS Coordinaten",
       "save": "Opslaan",
@@ -182,7 +185,12 @@
           "guiding": "Guiding",
           "equipment": "Apparatuur",
           "other": "Overig"
-        }
+        },
+        "advancedSettings": "Advanced Settings",
+        "darks": "Darks",
+        "flats": "Flats",
+        "bias": "Bias",
+        "useLightPattern": "Same as Lights"
       },
       "debug": {
         "title": "Debug",
@@ -198,6 +206,10 @@
       "keepAwake": {
         "title": "Scherm actief",
         "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
+      },
+      "input": {
+        "title": "Invoeroptimalisatie",
+        "touchOptimized": "Touch-geoptimaliseerde kiezer"
       },
       "beta": {
         "title": "Beta Update Kanaal"
@@ -216,6 +228,26 @@
         "confirmShutdown": "Weet u zeker dat u het systeem wilt afsluiten?",
         "confirmRestart": "Weet u zeker dat u het systeem wilt herstarten?"
       },
+      "plate_solver": {
+        "title": "Plate Solver",
+        "basic": "Basisinstellingen",
+        "search": "Zoekinstellingen",
+        "retry": "Probeer de instellingen opnieuw",
+        "ExposureTime": "Belichtingstijd(en)",
+        "Gain": "Verdienen",
+        "SearchRadius": "Zoekradius (°)",
+        "Threshold": "Drempelwaarde",
+        "RotationTolerance": "Rotatietolerantie (°)",
+        "MaxObjects": "Maximaal aantal objecten",
+        "NumberOfAttempts": "Aantal pogingen",
+        "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
+        "BlindFailoverEnabled": "Blinde failover ingeschakeld",
+        "ASTAPLocation": "ASTAP-locatie"
+      },
+      "equipment": {
+        "title": "Apparatuur",
+        "description": "Beheer uw apparatuurinstellingen"
+      },
       "update": "Update",
       "errors": {
         "instanceNameRequired": "Instantie naam is vereist",
@@ -224,35 +256,14 @@
         "invalidInstance": "Ongeldige instantie",
         "emptyFields": "Lege velden"
       },
-      "general": "Algemeen",
-      "plate_solver": {
-        "ASTAPLocation": "ASTAP-locatie",
-        "BlindFailoverEnabled": "Blinde failover ingeschakeld",
-        "ExposureTime": "Belichtingstijd(en)",
-        "Gain": "Verdienen",
-        "MaxObjects": "Maximaal aantal objecten",
-        "NumberOfAttempts": "Aantal pogingen",
-        "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
-        "RotationTolerance": "Rotatietolerantie (°)",
-        "SearchRadius": "Zoekradius (°)",
-        "Threshold": "Drempelwaarde",
-        "basic": "Basisinstellingen",
-        "retry": "Probeer de instellingen opnieuw",
-        "search": "Zoekinstellingen",
-        "title": "Plate Solver"
-      },
-      "equipment": {
-        "description": "Beheer uw apparatuurinstellingen",
-        "title": "Apparatuur"
-      },
-      "input": {
-        "title": "Invoeroptimalisatie",
-        "touchOptimized": "Touch-geoptimaliseerde kiezer"
-      },
       "telescope": {
         "titel": "Telescoop instellingen",
         "name": "Telescoopnaam",
         "focal_ratio": "Brandpuntsverhouding"
+      },
+      "mount": {
+        "titel": "Mount settings",
+        "max_slew_rate": "Max slew rate (°/s)"
       }
     },
     "connectEquipment": {
@@ -317,6 +328,8 @@
       "stopSequence": "Stop sequentie",
       "pauseSequence": "Pauze",
       "resetSequence": "Reset sequentie",
+      "skipToEnd": "Doorgaan naar einde",
+      "skipCurrentItem": "Huidige item",
       "manageSequences": "Sequenties laden / opslaan",
       "saveSequenceAs": "Huidige sequentie opslaan als",
       "sequenceFileName": "Bestandsnaam",
@@ -325,6 +338,8 @@
       "sequenceNoFiles": "Geen bestanden gevonden",
       "sequenceLoading": "Laden...",
       "sequenceClose": "Sluiten",
+      "deleteConfirmationTitle": "Bestand verwijderen",
+      "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",
       "resetConfirmationTitle": "Bevestig Reset",
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "clearSequence": "Alles wissen",
@@ -340,6 +355,7 @@
       "triggers": "Triggers",
       "expandAll": "Alles uitvouwen",
       "collapseAll": "Alles inklappen",
+      "details": {},
       "hfr": "HFR",
       "mean": "Mean",
       "median": "Median",
@@ -375,6 +391,7 @@
         "header": "Info",
         "message": "Helaas, uw sequentie kan niet aangepast worden. Niet alle sequentie plugins worden momenteel ondersteund. Als u ons wilt helpen, laat ons via GitHub weten welke plugins u gebruikt."
       },
+      "info_general": {},
       "sort": {
         "sort": "Sorteer",
         "oldest": "oudste eerst",
@@ -392,10 +409,6 @@
         "title": "Totale belichtingstijd",
         "Pictures": "Afbeeldingen"
       },
-      "skipToEnd": "Doorgaan naar einde",
-      "skipCurrentItem": "Huidige item",
-      "deleteConfirmationTitle": "Bestand verwijderen",
-      "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",
       "items": {
         "saving": "Opslaan…",
         "generic": "Generieke",
@@ -410,6 +423,9 @@
         },
         "takeManyExposures": {
           "iterations": "Aantal belichtingen"
+        },
+        "smartExposure": {
+          "ditherAfter": "Dither after (exposures)"
         },
         "takeSubframeExposure": {
           "roiPct": "Rendement van investeringen (%)"
@@ -457,10 +473,14 @@
         "sunAltitudeCondition": {
           "altitude": "Zonhoogte (°)"
         },
+        "timeCondition": {
+          "provider": "Provider"
+        },
         "timeSpan": {
           "hours": "Uren",
           "minutes": "Minuten",
-          "seconds": "Seconden"
+          "seconds": "Seconden",
+          "minutesOffset": "Minutes Offset"
         },
         "moonAltitude": {
           "comparator": "Vergelijker",
@@ -603,15 +623,15 @@
         "trackingMode": "Tracking Mode",
         "manuellControl": "Manuele controle",
         "slewRate": "Slew snelheid °/s",
-        "slewRateINDI": "Bewegingssnelheid",
-        "reverse_axis": "Asrichting",
         "siderial": "Sidereal",
         "sync_coordinates_to_mount": "Sync coordinaten met montering",
         "errors": {
           "unpark": "Fout unpark montering",
           "tracking": "Fout bij instellen tracking mode"
         },
-        "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\""
+        "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\"",
+        "slewRateINDI": "Bewegingssnelheid",
+        "reverse_axis": "Asrichting"
       },
       "info": {
         "notConnected": "Verbind montering",
@@ -629,21 +649,21 @@
         "SideOfPier": "Kant van de pier"
       },
       "settings": {
-        "meridian_flip": {
-          "AutoFocusAfterFlip": "Autofocus na omdraaien",
-          "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
-          "MinutesAfterMeridian": "Minuten na de meridiaan",
-          "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
-          "Recenter": "Recenter",
-          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien",
-          "SettleTime": "Afrekeningstijd(en)",
-          "UseSideOfPier": "Gebruik de kant van de pier",
-          "basic": "Basisinstellingen",
-          "behavior": "Gedrag",
-          "post_flip_actions": "Acties na de flip"
-        },
         "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Settle tijd na slew(s)",
+        "meridian_flip": {
+          "basic": "Basisinstellingen",
+          "behavior": "Gedrag",
+          "post_flip_actions": "Acties na de flip",
+          "MinutesAfterMeridian": "Minuten na de meridiaan",
+          "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
+          "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
+          "SettleTime": "Afrekeningstijd(en)",
+          "Recenter": "Recenter",
+          "UseSideOfPier": "Gebruik de kant van de pier",
+          "AutoFocusAfterFlip": "Autofocus na omdraaien",
+          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien"
+        },
         "reverse_primary_axis": "Primaire as omkeren",
         "reverse_secondary_axis": "Secundaire as omkeren"
       },
@@ -660,6 +680,18 @@
       "title": "Guider",
       "running": "IN WERKING",
       "statusLabel": "Status",
+      "settings": "Guider Instellingen",
+      "phd2Path": "PHD2 pad",
+      "phd2ServerHost": "PHD2 server hostnaam",
+      "phd2ServerPort": "PHD2 server poort",
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dither alleen in RA",
+      "settlePixels": "Settle pixel tolerantie (px)",
+      "settleTime": "Minimale settle tijd (s)",
+      "settleTimeout": "Settle timeout (s)",
+      "guidingStartRetry": "Guiding start pogingen",
+      "guidingStartTimeout": "Guiding start timeout (s)",
+      "roiPercentage": "ROI percentage voor zoeken Guide Ster (%)",
       "status": {
         "looping": "Looping",
         "lostLock": "Fix verloren",
@@ -698,6 +730,24 @@
       },
       "phd2": {
         "Exposuretime": "Belichtingstijd",
+        "profile": "Profiel",
+        "forceCalibration": "Forceer Calibratie",
+        "calibration": "Kalibratie",
+        "exposure": "Belichtingstijd",
+        "raAlgorithm": "RA-algoritme",
+        "decAlgorithm": "DEC-algoritme",
+        "equipment": "Apparatuur",
+        "optical": "Optische instellingen",
+        "focalLength": "Brandpuntsafstand",
+        "calibrationStep": "Kalibratiestap",
+        "reverseDecAfterFlip": "DEC omkeren na flip",
+        "shared_prarmeters": "Gedeelde parameters",
+        "guideAlgorithm": "Gidsalgoritme",
+        "guideAlgorithmRA": "RA-gidsalgoritme",
+        "guideAlgorithmDEC": "DEC-gidsalgoritme",
+        "guiderScale": "Gidsschaal",
+        "maxY": "Max Y",
+        "historySize": "Geschiedenisgrootte",
         "ra": {
           "aggression": "RA: Aggression",
           "hysteresis": "RA: Hysteresis",
@@ -718,69 +768,40 @@
           "slope_weight": "DEC: Slope weight",
           "exp_factor": "DEC: Exposure factor"
         },
-        "profile": "Profiel",
-        "forceCalibration": "Forceer Calibratie",
         "error": {
           "title": "PHD2 fout",
           "star-lost-message": "Ster verdwenen"
         },
-        "calibration": "Kalibratie",
-        "calibrationStep": "Kalibratiestap",
-        "decAlgorithm": "DEC-algoritme",
-        "equipment": "Apparatuur",
-        "exposure": "Belichtingstijd",
-        "focalLength": "Brandpuntsafstand",
-        "guideAlgorithm": "Gidsalgoritme",
-        "guideAlgorithmDEC": "DEC-gidsalgoritme",
-        "guideAlgorithmRA": "RA-gidsalgoritme",
-        "guiderScale": "Gidsschaal",
-        "historySize": "Geschiedenisgrootte",
-        "maxY": "Max Y",
-        "optical": "Optische instellingen",
         "profileManagement": {
-          "cancel": "Annuleren",
-          "confirmDelete": "Verwijdering bevestigen?",
-          "create": "Aanmaken",
+          "title": "Profielen beheren",
           "createNew": "Nieuw profiel aanmaken",
-          "delete": "Verwijderen",
-          "errors": {
-            "createFailed": "Profiel aanmaken mislukt",
-            "deleteFailed": "Profiel verwijderen mislukt",
-            "duplicateName": "Profielnaam bestaat al",
-            "emptyName": "Profielnaam mag niet leeg zijn",
-            "renameFailed": "Profiel hernoemen mislukt"
-          },
-          "lastProfileWarning": "Kan laatste profiel niet verwijderen",
           "profileName": "Profielnaam",
           "profileNamePlaceholder": "Voer profielnaam in",
           "profilesList": "Profielen",
+          "create": "Aanmaken",
           "rename": "Hernoemen",
+          "delete": "Verwijderen",
+          "cancel": "Annuleren",
+          "confirmDelete": "Verwijdering bevestigen?",
+          "lastProfileWarning": "Kan laatste profiel niet verwijderen",
           "success": {
             "created": "Profiel succesvol aangemaakt",
-            "deleted": "Profiel succesvol verwijderd",
-            "renamed": "Profiel succesvol hernoemd"
+            "renamed": "Profiel succesvol hernoemd",
+            "deleted": "Profiel succesvol verwijderd"
           },
-          "title": "Profielen beheren"
-        },
-        "raAlgorithm": "RA-algoritme",
-        "reverseDecAfterFlip": "DEC omkeren na flip",
-        "shared_prarmeters": "Gedeelde parameters"
-      },
-      "ditherPixels": "Dither Pixels (px)",
-      "ditherRAOnly": "Dither alleen in RA",
-      "guidingStartRetry": "Guiding start pogingen",
-      "guidingStartTimeout": "Guiding start timeout (s)",
-      "phd2Path": "PHD2 pad",
-      "phd2ServerHost": "PHD2 server hostnaam",
-      "phd2ServerPort": "PHD2 server poort",
-      "roiPercentage": "ROI percentage voor zoeken Guide Ster (%)",
-      "settings": "Guider Instellingen",
-      "settlePixels": "Settle pixel tolerantie (px)",
-      "settleTime": "Minimale settle tijd (s)",
-      "settleTimeout": "Settle timeout (s)"
+          "errors": {
+            "emptyName": "Profielnaam mag niet leeg zijn",
+            "duplicateName": "Profielnaam bestaat al",
+            "createFailed": "Profiel aanmaken mislukt",
+            "renameFailed": "Profiel hernoemen mislukt",
+            "deleteFailed": "Profiel verwijderen mislukt"
+          }
+        }
+      }
     },
     "focuser": {
       "title": "Focuser",
+      "focus": "Focus",
       "new_position": "Nieuwe positie:",
       "move": "Beweeg",
       "start_autofocus": "Start autofocus",
@@ -795,40 +816,42 @@
       "autofocus_active": "Autofocus actief",
       "autofocus": "Autofocus",
       "last_autofocus": "Laatste autofocus",
-      "focus": "Focus",
       "settings": {
-        "ABSOLUTE": "Absoluut",
-        "AutoFocusBinning": "Autofocus Binning",
-        "AutoFocusDisableGuiding": "Guiding uitschakelen tijdens Autofocus",
-        "AutoFocusFitFunction": "Curve fitting strategie",
         "AutoFocusInitialOffsetSteps": "Initiële offset stappen",
-        "AutoFocusInnerCropRatio": "Binnenste crop ratio",
-        "AutoFocusNumberOfFramesPerPoint": "Aantal frames per punt",
-        "AutoFocusOuterCropRatio": "Buitenste crop ratio",
         "AutoFocusStepSize": "Stapgrootte",
-        "AutoFocusTimeoutSeconds": "Autofocus timeout (seconden)",
+        "FocuserSettleTime": "Focuser settle tijd",
         "AutoFocusTotalNumberOfAttempts": "Totaal aantal pogingen",
+        "AutoFocusNumberOfFramesPerPoint": "Aantal frames per punt",
+        "AutoFocusInnerCropRatio": "Binnenste crop ratio",
+        "AutoFocusOuterCropRatio": "Buitenste crop ratio",
         "AutoFocusUseBrightestStars": "Gebruik helderste sterren",
-        "BacklashCompensationModel": "Backlash compensatie model",
         "BacklashIn": "Backlash In",
         "BacklashOut": "Backlash Out",
-        "FocuserSettleTime": "Focuser settle tijd",
-        "HYPERBOLIC": "Hyperbolisch",
-        "OVERSHOOT": "Overshoot",
-        "PARABOLIC": "Parabolisch",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusTimeoutSeconds": "Autofocus timeout (seconden)",
         "RSquaredThreshold": "R-Squared drempelwaarde",
-        "TRENDHYPERBOLIC": "Hyperbolische trend",
+        "AutoFocusFitFunction": "Curve fitting strategie",
+        "AutoFocusDisableGuiding": "Guiding uitschakelen tijdens Autofocus",
         "TRENDLINES": "Trendlijnen",
+        "PARABOLIC": "Parabolisch",
         "TRENDPARABOLIC": "Parabolische trend",
+        "HYPERBOLIC": "Hyperbolisch",
+        "TRENDHYPERBOLIC": "Hyperbolische trend",
+        "BacklashCompensationModel": "Backlash compensatie model",
+        "OVERSHOOT": "Overshoot",
+        "ABSOLUTE": "Absoluut",
         "title": "Settings",
         "general": "General Settings",
         "autofocus": "Autofocus Settings",
-        "advanced": "Geavanceerd",
-        "backlash": "Backlash",
         "crop_and_stars": "Crop",
+        "backlash": "Backlash",
+        "advanced": "Geavanceerd",
         "Reverse": "Omkeren",
         "UseFilterWheelOffsets": "Filterwiel offsets gebruiken",
-        "MaxStep": "Max Steps"
+        "MaxStep": "Max Steps",
+        "AutoFocusFilter": "Autofocus filter",
+        "AutoFocusFilterNone": "None",
+        "AutoFocusExposureTime": "Default Exposure Time"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -985,6 +1008,7 @@
         "help_auto_pause": "Automatische pauze-instelling voor de polaire uitlijnprocedure.",
         "help_log_error": "Wanneer ingeschakeld wordt er een logbestand aangemaakt met de correcties van de polaire uitlijnfout en de doorlopende fouten na elke aanpassing."
       },
+      "error_modal": {},
       "tppa": "TPPA"
     },
     "slewAndCenter": {
@@ -1052,16 +1076,16 @@
       "settings": {
         "title": "Rotator Instellingen",
         "basic": "Basis instellingen",
-        "FULL": "Volledig (360°)",
-        "HALF": "Half (180°)",
         "QUARTER": "Kwart (90°)",
-        "RangeStartMechanicalPosition": "Mechanische startpositie (°)",
+        "HALF": "Half (180°)",
+        "FULL": "Volledig (360°)",
         "RangeType": "Bereiktype",
+        "RangeStartMechanicalPosition": "Mechanische startpositie (°)",
         "Overshoot": "Overshoot",
-        "OvershootAngle": "Overschrijdingshoek",
         "OvershootDirection": "Overschrijdingsrichting",
-        "ResetPosition": "Nulpositie opnieuw instellen",
-        "Backlash": "Hysterese"
+        "OvershootAngle": "Overschrijdingshoek",
+        "Backlash": "Hysterese",
+        "ResetPosition": "Nulpositie opnieuw instellen"
       },
       "indi": {
         "settings": "Rotator Settings"
@@ -1085,7 +1109,18 @@
         "openPosition": "Openingspositie (°)",
         "closedPosition": "Gesloten positie (°)",
         "currentPosition": "Huidige positie",
-        "noSettingsForDevice": "Geen instellingen beschikbaar voor dit apparaat"
+        "trainedSettings": {
+          "title": "Trained Flat Exposure Settings",
+          "filter": "Filter",
+          "noFilter": "No Filter",
+          "binning": "Binning",
+          "gain": "Gain",
+          "offset": "Offset",
+          "brightness": "Brightness",
+          "time": "Time (s)",
+          "confirmTitle": "Remove Setting",
+          "confirmMessage": "Are you sure you want to remove this trained flat exposure setting?"
+        }
       },
       "indi": {
         "settings": "Flat Device Settings"
@@ -1110,7 +1145,8 @@
       "auto_exposure": "Auto belichting",
       "auto_brightness": "Auto helderheid",
       "skyflat": "Skyflat",
-      "button_slew_to_zenith": "Slew naar zenith"
+      "button_slew_to_zenith": "Slew naar zenith",
+      "keep_closed": "Keep flat panel closed"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -1147,6 +1183,7 @@
         "now": "Nu",
         "speed": "Snelheid"
       },
+      "mount_position": {},
       "settings": {
         "constellations_lines_visible": "Toon sterrenbeelden",
         "azimuthal_lines_visible": "Toon azimuth lijnen",
@@ -1160,7 +1197,19 @@
       }
     },
     "profile": {
-      "label": "Profiel:"
+      "label": "Profiel:",
+      "manage": "Manage Profiles",
+      "add": "Add Profile",
+      "switchTo": "Switch to this profile",
+      "rename": "Rename",
+      "clone": "Clone",
+      "cloneOf": "Copy",
+      "remove": "Remove",
+      "namePlaceholder": "Profile name",
+      "nameExists": "Name already exists",
+      "cannotRemoveActive": "Cannot remove the active profile",
+      "cannotRemoveLast": "Cannot remove the last profile",
+      "noProfiles": "No profiles available"
     },
     "notifications": {
       "modal": {
@@ -1193,6 +1242,21 @@
     "helpers": {
       "imageModal": {
         "no_image": "Geen beeld data beschikbaar"
+      },
+      "histogram": {
+        "blackPoint": "Black point",
+        "whitePoint": "White point",
+        "gamma": "Gamma",
+        "mean": "Mean",
+        "median": "Median",
+        "stdDev": "Std Dev",
+        "min": "Min",
+        "max": "Max",
+        "stars": "Stars",
+        "hfr": "HFR",
+        "reset": "Reset",
+        "noSaveHint": "Statistics are only calculated for saved images",
+        "enableSave": "Enable saving"
       }
     },
     "platesolve": {
@@ -1208,19 +1272,6 @@
       "focal_length": "Brandpuntsafstand"
     }
   },
-  "indi": {
-    "config": {
-      "baudRate": "Baudrate",
-      "connectionMode": "Verbindingsmodus",
-      "devicePort": "Apparaatpoort",
-      "ipAddress": "IP-adres",
-      "autoDetect": "Automatische detectie",
-      "tcpPort": "TCP-poort",
-      "serial": "Serial",
-      "network": "Network",
-      "selectPort": "-- Select a port --"
-    }
-  },
   "plugins": {
     "common": {
       "initializing": "Initialiseren...",
@@ -1229,6 +1280,209 @@
         "message": "De TouchNStars Plugin in NINA is verouderd en moet worden vernieuwd.",
         "required": "Benodigde Versie",
         "current": "Huidige Versie"
+      }
+    },
+    "pins": {
+      "title": "PINS Management",
+      "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
+      "dryRun": "Simulatiemodus",
+      "sambaTitle": "Samba-share",
+      "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
+      "phd2Title": "PHD2 automatisch starten",
+      "phd2Running": "De service is momenteel actief",
+      "phd2Stopped": "De service is momenteel gestopt",
+      "wifiTitle": "WiFi-configuratie",
+      "stationaryMode": "Stationaire modus",
+      "stationaryDescription": "Schakel in om te scannen en verbinding te maken met lokale WiFi-netwerken",
+      "noNetworks": "Geen netwerken gevonden",
+      "wifiSelect": "Selecteer Netwerk",
+      "wifiBand": "WiFi-band",
+      "bandAuto": "Auto",
+      "band24": "2,4 GHz",
+      "band5": "5 GHz",
+      "rescan": "Wifi-netwerken opnieuw scannen",
+      "wifiPassword": "Wachtwoord",
+      "autoConnect": "Maak automatisch verbinding met geselecteerde wifi na het opstarten",
+      "wifiConnect": "Verbinden",
+      "scanning": "Scannen...",
+      "systemTime": "Systeem tijd",
+      "deviceTime": "Apparaattijd",
+      "loadingTime": "Laadtijd...",
+      "autoSync": "Automatische synchronisatie",
+      "syncNow": "Synchroniseer nu",
+      "startUpgrade": "Upgrade starten",
+      "upgrading": "Upgraden...",
+      "terminalOutput": "TERMINALUITVOER",
+      "clearOutput": "Uitvoer wissen",
+      "waiting": "Controle overnemen... Wachten op opdracht...",
+      "status": {
+        "idle": "Inactief",
+        "running": "Actief",
+        "success": "Geslaagd",
+        "failed": "Mislukt"
+      },
+      "logs": {
+        "syncingTime": "Tijdsverschil gedetecteerd: {diff}s. \nTijd synchroniseren...",
+        "forcingSync": "Tijd handmatig synchroniseren...",
+        "timeInSync": "De tijd loopt synchroon (diff: {diff}s).",
+        "timeSynced": "Systeemtijd succesvol gesynchroniseerd.",
+        "noIp": "Fout: Geen IP-adres gevonden in instellingen. Maak eerst verbinding met een instantie.",
+        "init": "Upgrade-sequentie initialiseren op host: {ip}",
+        "config": "Configuratie: Simulatie = {dryRun}",
+        "sambaAction": "Actie: {action} Samba-share",
+        "sambaEnable": "Inschakelen",
+        "sambaDisable": "Uitschakelen",
+        "phd2Action": "PHD2-service {actie}...",
+        "phd2Enabling": "inschakelen",
+        "phd2Disabling": "uitschakelen",
+        "phd2Success": "PHD2 Service-update succesvol.",
+        "phd2Failed": "PHD2 Service-update mislukt: {message}",
+        "connectingToWifi": "Verbinding maken met WiFi-netwerk: {ssid}",
+        "wifiResponse": "WiFi-reactie: {reactie}",
+        "jobCreated": "Taak succesvol aangemaakt. ID: {jobId}",
+        "daemonCheck": "Zorg ervoor dat de PINS-daemon draait op {ip}:{port}",
+        "serverError": "Serverfout ({status}): {data}",
+        "corsHint": "Hint: De server heeft de verzoekmethode geweigerd. Controleer de CORS-configuratie op de server.",
+        "networkError": "Netwerkfout: Het verzoek is mislukt.",
+        "noResponse": "Netwerkfout: Geen antwoord ontvangen van server.",
+        "error": "Fout: {message}",
+        "wsConnecting": "WebSocket-verbinding onderhandelen met {wsUrl}...",
+        "wsConnected": "Verbinding tot stand gebracht. Logs worden gestreamd...",
+        "wsCreationFailed": "Kan WebSocket niet maken: {message}",
+        "wsClosed": "Verbinding gesloten. (Code: {code})",
+        "wsError": "Er is een WebSocket-fout opgetreden.",
+        "verifyingStatus": "De definitieve taakstatus verifiëren...",
+        "jobReport": "Taakrapport: {rapport}",
+        "upgradeSuccess": "Upgrade succesvol voltooid.",
+        "upgradeFailed": "Upgrade mislukt. \nExitcode: {exitCode}",
+        "jobStatus": "Taakstatus: {status}",
+        "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}"
+      }
+    },
+    "bahtifocus": {
+      "title": "Bahtinov Masker Analyse",
+      "subtitle": "Maak een opname of laad een beeld om de focuskwaliteit te meten met uw Bahtinov-masker.",
+      "sections": {
+        "imageSource": "Beeldbron",
+        "imageSourceHint": "Maak een nieuwe opname, upload een bestand of kies een voorbeeldbeeld om te beginnen.",
+        "parameters": "Optische parameters",
+        "parametersHint": "Voer de optische en cameragegevens in die voor deze belichting zijn gebruikt om nauwkeurige metrieken te krijgen."
+      },
+      "image": {
+        "selectFile": "Selecteer beeld",
+        "loadingCapture": "Opname laden...",
+        "useLatestCapture": "Gebruik laatste opname",
+        "examplePlaceholder": "Laad voorbeeldbeeld...",
+        "clearSelection": "Selectie wissen",
+        "source": "Bron",
+        "size": "Bestandsgrootte",
+        "originalSize": "origineel {size}",
+        "mime": "Formaat",
+        "transport": "Upload-modus",
+        "transportBinary": "Binaire stream",
+        "transportLegacy": "Legacy JSON fallback",
+        "previewUnavailable": "Voorbeeld niet beschikbaar. De analyse ondersteunt dit formaat nog wel.",
+        "capturedName": "Laatste opname",
+        "sourceCaptured": "Huidige opname",
+        "sourceExample": "Voorbeeldbeeld",
+        "sourceUpload": "Geüpload beeld",
+        "resizedTitle": "Beeld geoptimaliseerd",
+        "resizedMessage": "Aangepast naar {width}×{height} (ongeveer {size}). Originele grootte was {originalSize}."
+      },
+      "inputs": {
+        "focalLength": "Brandpuntsafstand (mm)",
+        "pixelSize": "Pixelgrootte (µm)",
+        "focalRatio": "Brandpuntsverhouding (f/)",
+        "apertureDiameter": "Openingsdiameter (mm)",
+        "resizeFactor": "Resize factor"
+      },
+      "crop": {
+        "enable": "Verwerkt gebied bijsnijden",
+        "x": "Crop X",
+        "y": "Crop Y",
+        "width": "Crop breedte",
+        "height": "Crop hoogte"
+      },
+      "previousAngles": {
+        "label": "Vorige hoeken",
+        "savedLabel": "Laatst opgeslagen hoeken",
+        "reset": "Herstel laatste hoeken",
+        "input": "Hoek {index} (°)"
+      },
+      "analysis": {
+        "lastDuration": "Laatste run: {seconds}s"
+      },
+      "actions": {
+        "resetForm": "Formulier resetten",
+        "submitting": "Analyseren...",
+        "runAnalysis": "Analyse uitvoeren",
+        "toggleParametersShow": "Optische parameters tonen",
+        "toggleParametersHide": "Optische parameters verbergen"
+      },
+      "camera": {
+        "capture": "Opname starten",
+        "capturing": "Opname loopt...",
+        "captureFailed": "Kon nieuwe opname niet starten.",
+        "abort": "Opname afbreken",
+        "abortFailed": "Kon actieve opname niet afbreken.",
+        "exposureLabel": "Belichtingstijd",
+        "exposureUnit": "Seconden",
+        "statusDisconnected": "Verbind een camera om beelden op te nemen.",
+        "statusExposing": "Belichting loopt...",
+        "statusExposingCountdown": "Belichting loopt – nog {seconds}s.",
+        "statusLoading": "Beeldgegevens laden...",
+        "statusLooping": "Seriebeeldopname actief. De opname wordt continu herhaald."
+      },
+      "overlay": {
+        "title": "Overlay-voorbeeld",
+        "processedSize": "Verwerkte grootte: {width} x {height} px",
+        "noImage": "Selecteer of neem een beeld op om de overlay te bekijken."
+      },
+      "results": {
+        "title": "Analyseresultaten",
+        "focusErrorPixels": "Focusfout (px)",
+        "absoluteFocusError": "Focusfout (mm)",
+        "criticalFocusThreshold": "Kritische focusdrempel (mm)",
+        "isWithinCriticalFocus": "Kritische focusstatus",
+        "focusOk": "Binnen kritische focus",
+        "focusNotOk": "Buiten kritische focus",
+        "maskAngle": "Maskerhoek (°)",
+        "effectiveResizeFactor": "Effectieve resize factor",
+        "lineAngles": "Maskerlijnen hoeken",
+        "updatedAngles": "Bijgewerkte hoeken",
+        "cropApplied": "Verwerkte crop",
+        "noCrop": "Geen crop toegepast",
+        "failure": "Analyse mislukt. Controleer de backend-respons voor details.",
+        "placeholder": "Voer de analyse uit om hier focusmetrieken te zien.",
+        "successTitle": "Analyse voltooid",
+        "successMessage": "Bahtinov-metrieken succesvol bijgewerkt."
+      },
+      "tips": {
+        "title": "Tips",
+        "tip1": "Gebruik een heldere ster nabij het doel om een duidelijk diffractiepatroon te genereren.",
+        "tip2": "Zorg ervoor dat het Bahtinov-masker is uitgelijnd voordat u het beeld opneemt.",
+        "tip3": "Hergebruik de voorgestelde hoeken om volgende metingen te stabiliseren."
+      },
+      "errors": {
+        "title": "Bahtinov-analyse",
+        "readFile": "Kan het geselecteerde bestand niet lezen.",
+        "captureLoad": "Kon de laatste opname niet laden van N.I.N.A.",
+        "exampleLoad": "Kon het voorbeeldbeeld niet laden.",
+        "analysisFailed": "Analyseverzoek mislukt.",
+        "badRequest": "De server heeft het verzoek afgewezen. Controleer de parameters.",
+        "mockMode": "Bahtinov-analyse is niet beschikbaar terwijl de mock-API is ingeschakeld.",
+        "missingServer": "Kan het backend-adres niet bepalen. Controleer de verbindingsinstellingen."
+      },
+      "validation": {
+        "title": "Validatiefout",
+        "fixErrors": "Herstel de gemarkeerde fouten voordat u de analyse uitvoert.",
+        "requiredPositive": "Voer een positieve waarde in.",
+        "invalidPositive": "Waarde moet positief zijn.",
+        "ratioOrAperture": "Geef ofwel de brandpuntsverhouding ofwel de openingsdiameter op.",
+        "invalidNonNegative": "Voer een niet-negatieve waarde in.",
+        "allAnglesRequired": "Geef alle drie de hoeken op of wis de velden.",
+        "invalidNumber": "Voer een geldig getal in.",
+        "imageRequired": "Selecteer een beeld voordat u de analyse uitvoert."
       }
     },
     "logfileCollector": {
@@ -1386,7 +1640,8 @@
       "liveView": "Live beeld",
       "noImageAvailable": "Geen beeld beschikbaar",
       "configureUrl": "Configureer snapshot URL haal beeld op",
-      "loadingImage": "Beeld laden..."
+      "loadingImage": "Beeld laden...",
+      "errors": {}
     },
     "sequenceCreator": {
       "title": "Sequence Creator",
@@ -1559,6 +1814,8 @@
         "endActions": "🏁 Einde Acties"
       },
       "exportModal": {
+        "buttons": {},
+        "messages": {},
         "jsonPreview": {
           "sequenceJsonExport": "Export sequentie naar JSON",
           "previewDescription": "Toon en download sequentie naar JSON bestand",
@@ -1570,7 +1827,8 @@
           "copyJson": "Kopieer JSON",
           "copied": "Gekopieerd!",
           "downloadJson": "Download JSON"
-        }
+        },
+        "howToUse": {}
       },
       "targetSearch": {
         "searchLabel": "Zoek Doelobject",
@@ -1587,211 +1845,6 @@
       "settings": {
         "title": "Meridianflip",
         "enableMeridianFlip": "Meridianflip AAN"
-      }
-    },
-    "livestack": {
-      "not_available": "Livestack is niet gevonden. Installeer de Livestack plugin eerst in NINA.",
-      "beta_note": "Deze plugin is nog in ontwikkeling en kan fouten geven!",
-      "target": "Doelobject",
-      "available_filters": "Beschikbare Filters",
-      "no_image_available": "Geen beeld aanwezig",
-      "start_and_select_filter": "Start livestack en selecteer filter om beeld te zien",
-      "no_filter": "Geen filter",
-      "no_filters_available": "Geen filters aanwezig voor dit doel",
-      "no_target": "Geen doelobject",
-      "configuration_title": "Livestack Instellingen",
-      "drag_hint": "Sleep",
-      "show_rgb_only": "Toon alleen RGB compositie",
-      "track_stack_updates": "Altijd de laatste stack tonen",
-      "empty_option": "Leeg",
-      "image_alt": "Livestack beeld - {filter}",
-      "loading_image": "Laden livestack beeld...",
-      "errors": {
-        "start_failed": "livestack start niet",
-        "start_exception": "Fout bij starten starting livestack: {message}",
-        "stop_failed": "Fout bij stoppen livestack",
-        "stop_exception": "Fout bij stoppen livestack: {message}",
-        "loading_image": "Fout bij laden beeld: {message}",
-        "failed_to_load": "Livestack fout bij beeld laden",
-        "api_version_required": "API versie {version} of hoger vereist"
-      }
-    },
-    "shortcuts": {
-      "title": "Sequentie-Shortcuts",
-      "description": "Snelle toegang om N.I.N.A sequenties te laden",
-      "addNew": "Nieuwe Shortcut",
-      "newShortcut": "Nieuwe Shortcut",
-      "createFirst": "Creer Eerste Shortcut",
-      "menu": "Menu",
-      "edit": "Bewerken",
-      "editShortcut": "Bewerk Shortcut",
-      "deleteShortcut": "Verwijder Shortcut",
-      "noShortcuts": "Nog geen shortcuts gemaakt",
-      "noShortcutsDescription": "Maak shortcuts om snel favoriete sequenties te laden",
-      "phrase": "Shortcut Naam",
-      "phrasePlaceholder": "vb., M31 Sessie",
-      "shortcutName": "Shortcut Naam",
-      "shortcutNamePlaceholder": "vb., M31 Sessie",
-      "sequenceFile": "Sequentie Bestand",
-      "selectSequence": "Selecter een sequentie...",
-      "autoStart": "Auto-start sequentie",
-      "autoStartDescription": "Automatisch starten van sequentie nadat deze ingeladen is",
-      "autoStartEnabled": "Auto-start AAN",
-      "manualExecution": "Manueel Uitvoeren",
-      "icon": "Ikoon",
-      "selectIcon": "Selecteer een ikoon",
-      "color": "Kleur",
-      "selectColor": "Selecter een kleur",
-      "create": "Aanmaken",
-      "update": "Wijzigen",
-      "cancel": "Annuleer",
-      "delete": "Verwijder",
-      "execute": "Uitvoeren",
-      "refreshSequences": "Ververs lijst",
-      "loadingSequences": "Sequenties laden...",
-      "noSequencesAvailable": "Geen sequenties beschikbaar",
-      "confirmDelete": "Verwijder Shortcut?",
-      "confirmDeleteMessage": "Weet u zeker dat u \"{phrase}\" wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
-      "confirmDeleteTitle": "Verwijder Shortcut",
-      "errors": {
-        "nameRequired": "Shortcut naam is vereist",
-        "sequenceRequired": "Selecteer een sequentie",
-        "loadFailed": "Fout bij laden shortcuts",
-        "saveFailed": "Fout bij opslaan shortcut",
-        "deleteFailed": "Fout bij verwijderen shortcut",
-        "executeFailed": "Fout bij uitvoeren shortcut",
-        "sequenceLoadFailed": "Fout bij laden sequenties"
-      },
-      "success": {
-        "created": "Shortcut maken gelukt",
-        "updated": "Shortcut wijzigen gelukt",
-        "deleted": "Shortcut verwijderen gelukt"
-      }
-    },
-    "bahtifocus": {
-      "actions": {
-        "resetForm": "Formulier resetten",
-        "runAnalysis": "Analyse uitvoeren",
-        "submitting": "Analyseren...",
-        "toggleParametersHide": "Optische parameters verbergen",
-        "toggleParametersShow": "Optische parameters tonen"
-      },
-      "analysis": {
-        "lastDuration": "Laatste run: {seconds}s"
-      },
-      "camera": {
-        "abort": "Opname afbreken",
-        "abortFailed": "Kon actieve opname niet afbreken.",
-        "capture": "Opname starten",
-        "captureFailed": "Kon nieuwe opname niet starten.",
-        "capturing": "Opname loopt...",
-        "exposureLabel": "Belichtingstijd",
-        "exposureUnit": "Seconden",
-        "statusDisconnected": "Verbind een camera om beelden op te nemen.",
-        "statusExposing": "Belichting loopt...",
-        "statusExposingCountdown": "Belichting loopt – nog {seconds}s.",
-        "statusLoading": "Beeldgegevens laden...",
-        "statusLooping": "Seriebeeldopname actief. De opname wordt continu herhaald."
-      },
-      "crop": {
-        "enable": "Verwerkt gebied bijsnijden",
-        "height": "Crop hoogte",
-        "width": "Crop breedte",
-        "x": "Crop X",
-        "y": "Crop Y"
-      },
-      "errors": {
-        "analysisFailed": "Analyseverzoek mislukt.",
-        "badRequest": "De server heeft het verzoek afgewezen. Controleer de parameters.",
-        "captureLoad": "Kon de laatste opname niet laden van N.I.N.A.",
-        "exampleLoad": "Kon het voorbeeldbeeld niet laden.",
-        "missingServer": "Kan het backend-adres niet bepalen. Controleer de verbindingsinstellingen.",
-        "mockMode": "Bahtinov-analyse is niet beschikbaar terwijl de mock-API is ingeschakeld.",
-        "readFile": "Kan het geselecteerde bestand niet lezen.",
-        "title": "Bahtinov-analyse"
-      },
-      "image": {
-        "capturedName": "Laatste opname",
-        "clearSelection": "Selectie wissen",
-        "examplePlaceholder": "Laad voorbeeldbeeld...",
-        "loadingCapture": "Opname laden...",
-        "mime": "Formaat",
-        "originalSize": "origineel {size}",
-        "previewUnavailable": "Voorbeeld niet beschikbaar. De analyse ondersteunt dit formaat nog wel.",
-        "resizedMessage": "Aangepast naar {width}×{height} (ongeveer {size}). Originele grootte was {originalSize}.",
-        "resizedTitle": "Beeld geoptimaliseerd",
-        "selectFile": "Selecteer beeld",
-        "size": "Bestandsgrootte",
-        "source": "Bron",
-        "sourceCaptured": "Huidige opname",
-        "sourceExample": "Voorbeeldbeeld",
-        "sourceUpload": "Geüpload beeld",
-        "transport": "Upload-modus",
-        "transportBinary": "Binaire stream",
-        "transportLegacy": "Legacy JSON fallback",
-        "useLatestCapture": "Gebruik laatste opname"
-      },
-      "inputs": {
-        "apertureDiameter": "Openingsdiameter (mm)",
-        "focalLength": "Brandpuntsafstand (mm)",
-        "focalRatio": "Brandpuntsverhouding (f/)",
-        "pixelSize": "Pixelgrootte (µm)",
-        "resizeFactor": "Resize factor"
-      },
-      "overlay": {
-        "noImage": "Selecteer of neem een beeld op om de overlay te bekijken.",
-        "processedSize": "Verwerkte grootte: {width} x {height} px",
-        "title": "Overlay-voorbeeld"
-      },
-      "previousAngles": {
-        "input": "Hoek {index} (°)",
-        "label": "Vorige hoeken",
-        "reset": "Herstel laatste hoeken",
-        "savedLabel": "Laatst opgeslagen hoeken"
-      },
-      "results": {
-        "absoluteFocusError": "Focusfout (mm)",
-        "criticalFocusThreshold": "Kritische focusdrempel (mm)",
-        "cropApplied": "Verwerkte crop",
-        "effectiveResizeFactor": "Effectieve resize factor",
-        "failure": "Analyse mislukt. Controleer de backend-respons voor details.",
-        "focusErrorPixels": "Focusfout (px)",
-        "focusNotOk": "Buiten kritische focus",
-        "focusOk": "Binnen kritische focus",
-        "isWithinCriticalFocus": "Kritische focusstatus",
-        "lineAngles": "Maskerlijnen hoeken",
-        "maskAngle": "Maskerhoek (°)",
-        "noCrop": "Geen crop toegepast",
-        "placeholder": "Voer de analyse uit om hier focusmetrieken te zien.",
-        "successMessage": "Bahtinov-metrieken succesvol bijgewerkt.",
-        "successTitle": "Analyse voltooid",
-        "title": "Analyseresultaten",
-        "updatedAngles": "Bijgewerkte hoeken"
-      },
-      "sections": {
-        "imageSource": "Beeldbron",
-        "imageSourceHint": "Maak een nieuwe opname, upload een bestand of kies een voorbeeldbeeld om te beginnen.",
-        "parameters": "Optische parameters",
-        "parametersHint": "Voer de optische en cameragegevens in die voor deze belichting zijn gebruikt om nauwkeurige metrieken te krijgen."
-      },
-      "subtitle": "Maak een opname of laad een beeld om de focuskwaliteit te meten met uw Bahtinov-masker.",
-      "tips": {
-        "tip1": "Gebruik een heldere ster nabij het doel om een duidelijk diffractiepatroon te genereren.",
-        "tip2": "Zorg ervoor dat het Bahtinov-masker is uitgelijnd voordat u het beeld opneemt.",
-        "tip3": "Hergebruik de voorgestelde hoeken om volgende metingen te stabiliseren.",
-        "title": "Tips"
-      },
-      "title": "Bahtinov Masker Analyse",
-      "validation": {
-        "allAnglesRequired": "Geef alle drie de hoeken op of wis de velden.",
-        "fixErrors": "Herstel de gemarkeerde fouten voordat u de analyse uitvoert.",
-        "imageRequired": "Selecteer een beeld voordat u de analyse uitvoert.",
-        "invalidNonNegative": "Voer een niet-negatieve waarde in.",
-        "invalidNumber": "Voer een geldig getal in.",
-        "invalidPositive": "Waarde moet positief zijn.",
-        "ratioOrAperture": "Geef ofwel de brandpuntsverhouding ofwel de openingsdiameter op.",
-        "requiredPositive": "Voer een positieve waarde in.",
-        "title": "Validatiefout"
       }
     },
     "platesolveplus": {
@@ -2026,188 +2079,235 @@
         }
       }
     },
-    "pins": {
-      "clearOutput": "Uitvoer wissen",
-      "dryRun": "Simulatiemodus",
-      "logs": {
-        "config": "Configuratie: Simulatie = {dryRun}",
-        "corsHint": "Hint: De server heeft de verzoekmethode geweigerd. Controleer de CORS-configuratie op de server.",
-        "daemonCheck": "Zorg ervoor dat de PINS-daemon draait op {ip}:{port}",
-        "error": "Fout: {message}",
-        "init": "Upgrade-sequentie initialiseren op host: {ip}",
-        "jobCreated": "Taak succesvol aangemaakt. ID: {jobId}",
-        "networkError": "Netwerkfout: Het verzoek is mislukt.",
-        "noIp": "Fout: Geen IP-adres gevonden in instellingen. Maak eerst verbinding met een instantie.",
-        "noResponse": "Netwerkfout: Geen antwoord ontvangen van server.",
-        "sambaAction": "Actie: {action} Samba-share",
-        "sambaDisable": "Uitschakelen",
-        "sambaEnable": "Inschakelen",
-        "serverError": "Serverfout ({status}): {data}",
-        "wsClosed": "Verbinding gesloten. (Code: {code})",
-        "wsConnected": "Verbinding tot stand gebracht. Logs worden gestreamd...",
-        "wsConnecting": "WebSocket-verbinding onderhandelen met {wsUrl}...",
-        "wsError": "Er is een WebSocket-fout opgetreden.",
-        "phd2Action": "PHD2-service {actie}...",
-        "phd2Disabling": "uitschakelen",
-        "phd2Enabling": "inschakelen",
-        "phd2Failed": "PHD2 Service-update mislukt: {message}",
-        "phd2Success": "PHD2 Service-update succesvol.",
-        "forcingSync": "Tijd handmatig synchroniseren...",
-        "syncingTime": "Tijdsverschil gedetecteerd: {diff}s. \nTijd synchroniseren...",
-        "timeInSync": "De tijd loopt synchroon (diff: {diff}s).",
-        "timeSynced": "Systeemtijd succesvol gesynchroniseerd.",
-        "connectingToWifi": "Verbinding maken met WiFi-netwerk: {ssid}",
-        "jobReport": "Taakrapport: {rapport}",
-        "jobStatus": "Taakstatus: {status}",
-        "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}",
-        "upgradeFailed": "Upgrade mislukt. \nExitcode: {exitCode}",
-        "upgradeSuccess": "Upgrade succesvol voltooid.",
-        "verifyingStatus": "De definitieve taakstatus verifiëren...",
-        "wifiResponse": "WiFi-reactie: {reactie}",
-        "wsCreationFailed": "Kan WebSocket niet maken: {message}"
+    "livestack": {
+      "not_available": "Livestack is niet gevonden. Installeer de Livestack plugin eerst in NINA.",
+      "beta_note": "Deze plugin is nog in ontwikkeling en kan fouten geven!",
+      "target": "Doelobject",
+      "available_filters": "Beschikbare Filters",
+      "no_image_available": "Geen beeld aanwezig",
+      "start_and_select_filter": "Start livestack en selecteer filter om beeld te zien",
+      "no_filter": "Geen filter",
+      "no_filters_available": "Geen filters aanwezig voor dit doel",
+      "no_target": "Geen doelobject",
+      "configuration_title": "Livestack Instellingen",
+      "drag_hint": "Sleep",
+      "show_rgb_only": "Toon alleen RGB compositie",
+      "track_stack_updates": "Altijd de laatste stack tonen",
+      "empty_option": "Leeg",
+      "image_alt": "Livestack beeld - {filter}",
+      "loading_image": "Laden livestack beeld...",
+      "errors": {
+        "start_failed": "livestack start niet",
+        "start_exception": "Fout bij starten starting livestack: {message}",
+        "stop_failed": "Fout bij stoppen livestack",
+        "stop_exception": "Fout bij stoppen livestack: {message}",
+        "loading_image": "Fout bij laden beeld: {message}",
+        "failed_to_load": "Livestack fout bij beeld laden",
+        "api_version_required": "API versie {version} of hoger vereist"
+      }
+    },
+    "narrowband": {
+      "title": "Filtercalculator",
+      "subtitle": "Bereken de transmissiekarakteristieken van het smalbandfilter",
+      "sections": {
+        "optical": "Optische parameters",
+        "bandpass": "Bandpass-kenmerken",
+        "chart": "Banddoorlaatcurve",
+        "results": "Transmissieresultaten"
       },
-      "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
-      "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
-      "sambaTitle": "Samba-share",
-      "startUpgrade": "Upgrade starten",
+      "aperture": "Opening (mm)",
+      "focalLength": "Brandpuntsafstand (mm)",
+      "peakTransmittance": "Piektransmissie",
+      "refractiveIndex": "Brekingsindex",
+      "obstructionDiameter": "Centrale obstructie (mm)",
+      "bandpassCenter": "Banddoorlaatcentrum (nm)",
+      "fwhm": "FWHM (nm)",
+      "flatTop": "Platte bovenkant (nm)",
+      "populerFilters": "Populaire filters",
+      "selectManufacturer": "Fabrikant selecteren...",
+      "clearSelection": "Selectie wissen",
+      "customCurve": "Aangepaste banddoorlaatcurve (CSV)",
+      "csvInfo": {
+        "title": "Expected File Format",
+        "description": "Plain text file with two whitespace-separated columns per line: wavelength (nm) and transmission (%). Lines that cannot be parsed as two numbers are silently skipped (use them for comments or headers).",
+        "example": "# wavelength  transmission\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
+        "note": "Transmission values must be in the range 0 – 100 (percent). Comma-separated files are not supported."
+      },
+      "clearCurve": "Duidelijke curve",
+      "loaded": "Geladen:",
+      "dataPoints": "gegevenspunten",
+      "targetWavelength": "Doelgolflengte (nm)",
+      "filterTransmission": "Filtertransmissie",
+      "wavelengthLabel": "Golflengte (nm)",
+      "transmissionLabel": "Overdragen",
+      "transmissionPercent": "Transmissie: {procent}%",
+      "wavelengthRange": "Golflengtebereik",
+      "flatTopRange": "Flat Top-bereik",
+      "fRatio": "f/Ratio",
+      "resetDefaults": "Terugzetten naar standaardwaarden",
       "status": {
-        "failed": "Mislukt",
-        "idle": "Inactief",
-        "running": "Actief",
-        "success": "Geslaagd"
-      },
-      "terminalOutput": "TERMINALUITVOER",
-      "title": "PINS Management",
-      "upgrading": "Upgraden...",
-      "waiting": "Controle overnemen... Wachten op opdracht...",
-      "noNetworks": "Geen netwerken gevonden",
-      "scanning": "Scannen...",
-      "stationaryDescription": "Schakel in om te scannen en verbinding te maken met lokale WiFi-netwerken",
-      "stationaryMode": "Stationaire modus",
-      "wifiConnect": "Verbinden",
-      "wifiPassword": "Wachtwoord",
-      "wifiSelect": "Selecteer Netwerk",
-      "wifiTitle": "WiFi-configuratie",
-      "phd2Running": "De service is momenteel actief",
-      "phd2Stopped": "De service is momenteel gestopt",
-      "phd2Title": "PHD2 automatisch starten",
-      "autoConnect": "Maak automatisch verbinding met geselecteerde wifi na het opstarten",
-      "bandAuto": "Auto",
-      "wifiBand": "WiFi-band",
-      "autoSync": "Automatische synchronisatie",
-      "deviceTime": "Apparaattijd",
-      "loadingTime": "Laadtijd...",
-      "syncNow": "Synchroniseer nu",
-      "systemTime": "Systeem tijd",
-      "band24": "2,4 GHz",
-      "band5": "5 GHz",
-      "rescan": "Wifi-netwerken opnieuw scannen"
+        "success": "✓ Transmissie succesvol berekend",
+        "invalidCsv": "Geen geldige golflengte-/transmissiegegevens gevonden in CSV",
+        "csvError": "Fout bij het parseren van CSV: {error}"
+      }
     },
     "pinsDevices": {
-      "config": {
-        "envUpdateRate": "Updatesnelheid van omgeving",
-        "envUpdateRateDesc": "Vernieuwingsinterval voor temperatuur- en vochtigheidsmetingen",
-        "factoryReset": "Fabrieksreset",
-        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? \nHierdoor worden alle instellingen teruggezet naar hun standaardwaarden.",
-        "factoryResetDesc": "Reset het PINS-apparaat naar de fabrieksinstellingen",
-        "humidityOffset": "Vochtigheidscompensatie",
-        "humidityOffsetDesc": "Kalibratie-offset voor vochtigheidssensor",
-        "temperatureOffset": "Temperatuurcompensatie",
-        "temperatureOffsetDesc": "Kalibratie-offset voor temperatuursensor",
-        "title": "Configuratie",
-        "updateRate": "Updatesnelheid van apparaat",
-        "updateRateDesc": "Vernieuwingsinterval voor updates van de apparaatstatus"
-      },
-      "info": {
-        "adjPorts": "Verstelbare stroompoorten",
-        "deviceId": "Apparaat-ID",
-        "dewPorts": "Dauw poorten",
-        "driverVersion": "Stuurprogrammaversie",
-        "firmware": "Firmware",
-        "meteoStation": "Meteostation",
-        "ports": "Beschikbare poorten",
-        "powerPorts": "Stroompoorten",
-        "powerStatus": "Stroomstatus",
-        "usbPorts": "USB-poorten",
-        "coreTemp": "CPU-temperatuur"
-      },
-      "ports": {
-        "bootState": "Ingeschakelde status",
-        "bootStateDisabled": "Uitgeschakeld bij opstarten",
-        "bootStateEnabled": "Ingeschakeld bij opstarten",
-        "current": "Huidig",
-        "maxCurrent": "Maximale stroom",
-        "noPorts": "Geen poorten beschikbaar",
-        "overcurrent": "Overstroom",
-        "readOnly": "Alleen-lezen (kan niet worden beheerd)",
-        "status": "Status"
-      },
+      "title": "PI'N'Stars-apparaat",
       "settings": {
-        "adjustablePower": "Verstelbare stroompoorten",
-        "adjustablePowerDescription": "Configureer en beheer verstelbare stroompoorten",
-        "configuration": "Configuratie",
-        "configurationDescription": "Configureer apparaatinstellingen en sensorkalibratie",
-        "dewPorts": "Dauw poorten",
-        "dewPortsDescription": "Configureer en beheer dauwverwarmerpoorten",
         "general": "Algemeen",
         "generalDescription": "Algemene apparaatinstellingen en informatie",
-        "ports": "PowerBox",
         "powerPorts": "Stroompoorten",
         "powerPortsDescription": "Configureer en beheer de stroompoortuitgangen",
         "usbPorts": "USB-poorten",
         "usbPortsDescription": "Configureer en beheer USB-poortverbindingen",
-        "weather": "Meteostation",
+        "dewPorts": "Dauw poorten",
+        "dewPortsDescription": "Configureer en beheer dauwverwarmerpoorten",
+        "adjustablePower": "Verstelbare stroompoorten",
+        "adjustablePowerDescription": "Configureer en beheer verstelbare stroompoorten",
+        "configuration": "Configuratie",
+        "configurationDescription": "Configureer apparaatinstellingen en sensorkalibratie",
+        "ports": "PowerBox",
         "wifi": "WiFi",
-        "dewPoint": "Dauw punt",
+        "weather": "Meteostation",
+        "temperature": "Temperatuur",
         "humidity": "Vochtigheid",
-        "temperature": "Temperatuur"
+        "dewPoint": "Dauw punt"
+      },
+      "config": {
+        "title": "Configuratie",
+        "temperatureOffset": "Temperatuurcompensatie",
+        "temperatureOffsetDesc": "Kalibratie-offset voor temperatuursensor",
+        "humidityOffset": "Vochtigheidscompensatie",
+        "humidityOffsetDesc": "Kalibratie-offset voor vochtigheidssensor",
+        "envUpdateRate": "Updatesnelheid van omgeving",
+        "envUpdateRateDesc": "Vernieuwingsinterval voor temperatuur- en vochtigheidsmetingen",
+        "updateRate": "Updatesnelheid van apparaat",
+        "updateRateDesc": "Vernieuwingsinterval voor updates van de apparaatstatus",
+        "factoryReset": "Fabrieksreset",
+        "factoryResetDesc": "Reset het PINS-apparaat naar de fabrieksinstellingen",
+        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? \nHierdoor worden alle instellingen teruggezet naar hun standaardwaarden."
+      },
+      "info": {
+        "coreTemp": "CPU-temperatuur",
+        "deviceId": "Apparaat-ID",
+        "firmware": "Firmware",
+        "driverVersion": "Stuurprogrammaversie",
+        "ports": "Beschikbare poorten",
+        "powerPorts": "Stroompoorten",
+        "usbPorts": "USB-poorten",
+        "dewPorts": "Dauw poorten",
+        "adjPorts": "Verstelbare stroompoorten",
+        "powerStatus": "Stroomstatus",
+        "meteoStation": "Meteostation"
       },
       "status": {
         "notConnected": "Niet verbonden"
       },
-      "title": "PI'N'Stars-apparaat",
-      "weather": {
-        "cloudAssessment": "Wolkendekking",
-        "cloudCover": "Bewolking",
-        "conditions": "Weerbeoordeling",
-        "currentWeather": "Huidige weersomstandigheden",
-        "deviceInfo": "Apparaatinformatie",
-        "dewPoint": "Dauw punt",
-        "dewSpread": "Dauwspreiding (T-Td)",
-        "disconnected": "MeteoStation is momenteel niet verbonden",
-        "firmware": "Firmware",
-        "humidity": "Vochtigheid",
-        "id": "Apparaat-ID",
-        "name": "Naam",
-        "noData": "Geen weergegevens beschikbaar",
-        "skyBrightness": "Helderheid van de hemel",
-        "skyQuality": "Hemelkwaliteit",
-        "skyTemp": "Luchttemperatuur",
-        "temperature": "Temperatuur",
-        "temperatureStatus": "Temperatuurstatus",
-        "uptime": "Uptime"
+      "ports": {
+        "status": "Status",
+        "current": "Huidig",
+        "maxCurrent": "Maximale stroom",
+        "overcurrent": "Overstroom",
+        "readOnly": "Alleen-lezen (kan niet worden beheerd)",
+        "noPorts": "Geen poorten beschikbaar",
+        "bootState": "Ingeschakelde status",
+        "bootStateEnabled": "Ingeschakeld bij opstarten",
+        "bootStateDisabled": "Uitgeschakeld bij opstarten"
       },
       "wifi": {
-        "availableNetworks": "Beschikbare netwerken",
-        "channel": "Kanaal",
-        "connect": "Verbinden",
-        "connectAsClient": "Sluit aan als klant",
-        "connectTo": "Maak verbinding met",
-        "connectToNetwork": "Maak verbinding met het WiFi-netwerk",
-        "createHotspot": "Maak een hotspot",
         "currentStatus": "Huidige WiFi-status",
-        "enterPassword": "Voer het WiFi-wachtwoord in",
-        "hotspotDesc": "Creëer een WiFi-toegangspunt waarmee andere apparaten verbinding kunnen maken",
-        "hotspotName": "Hotspot-naam",
-        "hotspotPassword": "Hotspot-wachtwoord",
-        "min8chars": "minimaal 8 tekens",
-        "noNetworksFound": "Geen WiFi-netwerken gevonden",
         "notConnected": "Momenteel niet verbonden met een netwerk",
-        "password": "Wachtwoord",
-        "passwordTooShort": "Wachtwoord moet minimaal 8 tekens lang zijn",
+        "availableNetworks": "Beschikbare netwerken",
         "scanNetworks": "Scannen naar netwerken",
         "scanning": "Zoeken naar WiFi-netwerken...",
-        "ssid": "Netwerk-SSID"
+        "noNetworksFound": "Geen WiFi-netwerken gevonden",
+        "channel": "Kanaal",
+        "connect": "Verbinden",
+        "connectTo": "Maak verbinding met",
+        "connectToNetwork": "Maak verbinding met het WiFi-netwerk",
+        "ssid": "Netwerk-SSID",
+        "password": "Wachtwoord",
+        "enterPassword": "Voer het WiFi-wachtwoord in",
+        "min8chars": "minimaal 8 tekens",
+        "passwordTooShort": "Wachtwoord moet minimaal 8 tekens lang zijn",
+        "connectAsClient": "Sluit aan als klant",
+        "createHotspot": "Maak een hotspot",
+        "hotspotName": "Hotspot-naam",
+        "hotspotPassword": "Hotspot-wachtwoord",
+        "hotspotDesc": "Creëer een WiFi-toegangspunt waarmee andere apparaten verbinding kunnen maken"
+      },
+      "weather": {
+        "deviceInfo": "Apparaatinformatie",
+        "name": "Naam",
+        "id": "Apparaat-ID",
+        "firmware": "Firmware",
+        "uptime": "Uptime",
+        "disconnected": "MeteoStation is momenteel niet verbonden",
+        "currentWeather": "Huidige weersomstandigheden",
+        "temperature": "Temperatuur",
+        "humidity": "Vochtigheid",
+        "dewPoint": "Dauw punt",
+        "cloudCover": "Bewolking",
+        "skyQuality": "Hemelkwaliteit",
+        "skyBrightness": "Helderheid van de hemel",
+        "skyTemp": "Luchttemperatuur",
+        "noData": "Geen weergegevens beschikbaar",
+        "conditions": "Weerbeoordeling",
+        "cloudAssessment": "Wolkendekking",
+        "temperatureStatus": "Temperatuurstatus",
+        "dewSpread": "Dauwspreiding (T-Td)"
+      }
+    },
+    "shortcuts": {
+      "title": "Sequentie-Shortcuts",
+      "description": "Snelle toegang om N.I.N.A sequenties te laden",
+      "addNew": "Nieuwe Shortcut",
+      "newShortcut": "Nieuwe Shortcut",
+      "createFirst": "Creer Eerste Shortcut",
+      "menu": "Menu",
+      "edit": "Bewerken",
+      "editShortcut": "Bewerk Shortcut",
+      "deleteShortcut": "Verwijder Shortcut",
+      "noShortcuts": "Nog geen shortcuts gemaakt",
+      "noShortcutsDescription": "Maak shortcuts om snel favoriete sequenties te laden",
+      "phrase": "Shortcut Naam",
+      "phrasePlaceholder": "vb., M31 Sessie",
+      "shortcutName": "Shortcut Naam",
+      "shortcutNamePlaceholder": "vb., M31 Sessie",
+      "sequenceFile": "Sequentie Bestand",
+      "selectSequence": "Selecter een sequentie...",
+      "autoStart": "Auto-start sequentie",
+      "autoStartDescription": "Automatisch starten van sequentie nadat deze ingeladen is",
+      "autoStartEnabled": "Auto-start AAN",
+      "manualExecution": "Manueel Uitvoeren",
+      "icon": "Ikoon",
+      "selectIcon": "Selecteer een ikoon",
+      "color": "Kleur",
+      "selectColor": "Selecter een kleur",
+      "create": "Aanmaken",
+      "update": "Wijzigen",
+      "cancel": "Annuleer",
+      "delete": "Verwijder",
+      "execute": "Uitvoeren",
+      "refreshSequences": "Ververs lijst",
+      "loadingSequences": "Sequenties laden...",
+      "noSequencesAvailable": "Geen sequenties beschikbaar",
+      "confirmDelete": "Verwijder Shortcut?",
+      "confirmDeleteMessage": "Weet u zeker dat u \"{phrase}\" wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "confirmDeleteTitle": "Verwijder Shortcut",
+      "errors": {
+        "nameRequired": "Shortcut naam is vereist",
+        "sequenceRequired": "Selecteer een sequentie",
+        "loadFailed": "Fout bij laden shortcuts",
+        "saveFailed": "Fout bij opslaan shortcut",
+        "deleteFailed": "Fout bij verwijderen shortcut",
+        "executeFailed": "Fout bij uitvoeren shortcut",
+        "sequenceLoadFailed": "Fout bij laden sequenties"
+      },
+      "success": {
+        "created": "Shortcut maken gelukt",
+        "updated": "Shortcut wijzigen gelukt",
+        "deleted": "Shortcut verwijderen gelukt"
       }
     },
     "hocusfocus": {
@@ -2285,10 +2385,6 @@
         "simpleModeSettings": "Eenvoudige modusinstellingen",
         "noiseLevel": "Geluidsniveau"
       },
-      "common": {
-        "error": "Fout:",
-        "loading": "Laden..."
-      },
       "tilter": {
         "device": "Device",
         "selectDevice": "Select a device",
@@ -2303,50 +2399,102 @@
         "currentPositions": "Current Positions",
         "noDeviceSelected": "Please select a device first",
         "deviceNotConnected": "Connect to a device to view controls",
-        "sensorConfiguration": "Sensor Configuration",
+        "configuration": "Configuration",
         "sensorWidth": "Sensor Width",
         "sensorHeight": "Sensor Height",
-        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)",
+        "sensorRotationDescription": "Clockwise when facing the back of the camera",
+        "manualTilterConfiguration": "Manual 3-Point Tilter Configuration (beta - use with care)",
+        "tilterOuterRadius": "Tilter Outer Radius",
+        "tilterThreadPitch": "Tilter Thread Pitch",
+        "applyTiltPlane": "Apply Tilt Plane",
+        "fetchFromAberrationInspector": "Fetch from Aberration Inspector",
+        "calculateActuatorPositions": "Calculate Actuator Positions",
+        "calculatedPositions": "Calculated Positions",
+        "applyThesePositionsToDevice": "Apply These Positions to Device",
+        "actuatorVisualizationLabel": "Actuators at {radius} mm radius • Sensor rotation {rotation}° • Top view",
+        "calculatingPositions": "Calculating...",
+        "applyingPositions": "Applying...",
+        "savingConfiguration": "Saving..."
+      },
+      "common": {
+        "error": "Fout:",
+        "loading": "Laden..."
+      }
+    }
+  },
+  "pinsDevices": {
+    "title": "PINS-apparaten",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configuratie",
+    "generalTab": "Algemeen",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Stroompoorten",
+    "dewPortsTab": "Dauwpoorten",
+    "adjustablePowerTab": "Regelbaar vermogen",
+    "weatherTab": "Weer",
+    "usbPortsTab": "USB-poorten",
+    "settings": {
+      "title": "Instellingen",
+      "temperature": "Temperatuur",
+      "humidity": "Vochtigheid",
+      "dewPoint": "Dauwpunt",
+      "placeholders": {
+        "networkName": "Netwerknaam",
+        "password": "Wachtwoord",
+        "passwordHint": "Wachtwoord-hint"
+      },
+      "validation": {
+        "passwordRequired": "Wachtwoord is verplicht"
       }
     },
-    "narrowband": {
-      "aperture": "Opening (mm)",
-      "bandpassCenter": "Banddoorlaatcentrum (nm)",
-      "clearCurve": "Duidelijke curve",
-      "clearSelection": "Selectie wissen",
-      "customCurve": "Aangepaste banddoorlaatcurve (CSV)",
-      "dataPoints": "gegevenspunten",
-      "fieldOfView": "Gezichtsveld",
-      "filterTransmission": "Filtertransmissie",
-      "flatTop": "Platte bovenkant (nm)",
-      "flatTopRange": "Flat Top-bereik",
-      "focalLength": "Brandpuntsafstand (mm)",
-      "fwhm": "FWHM (nm)",
-      "loaded": "Geladen:",
-      "obstructionDiameter": "Centrale obstructie (mm)",
-      "peakTransmittance": "Piektransmissie",
-      "populerFilters": "Populaire filters",
-      "refractiveIndex": "Brekingsindex",
-      "resetDefaults": "Terugzetten naar standaardwaarden",
-      "sections": {
-        "bandpass": "Bandpass-kenmerken",
-        "chart": "Banddoorlaatcurve",
-        "optical": "Optische parameters",
-        "results": "Transmissieresultaten"
-      },
-      "selectManufacturer": "Fabrikant selecteren...",
-      "status": {
-        "csvError": "Fout bij het parseren van CSV: {error}",
-        "invalidCsv": "Geen geldige golflengte-/transmissiegegevens gevonden in CSV",
-        "success": "✓ Transmissie succesvol berekend"
-      },
-      "subtitle": "Bereken de transmissiekarakteristieken van het smalbandfilter",
-      "targetWavelength": "Doelgolflengte (nm)",
-      "title": "Filtercalculator",
-      "transmissionLabel": "Overdragen",
-      "transmissionPercent": "Transmissie: {procent}%",
-      "wavelengthLabel": "Golflengte (nm)",
-      "wavelengthRange": "Golflengtebereik"
+    "ports": {
+      "disableOnStartup": "Uitschakelen bij Startup",
+      "enableOnStartup": "Inschakelen bij Startup",
+      "alwaysEnabled": "Altijd ingeschakeld",
+      "status": "Status",
+      "current": "Stroom",
+      "currentVoltage": "Huidige Spanning",
+      "currentPower": "Huidge Vermogen",
+      "outputVoltage": "Uitgangsspanning",
+      "powerLevel": "Vermogensniveau",
+      "defaultVoltage": "Standaard Spanning"
+    },
+    "dew": {
+      "status": "Status",
+      "autoMode": "Automatische modus",
+      "disableAutoMode": "Automatische modus uitschakelen",
+      "enableAutoMode": "Automatische modus inschakelen",
+      "probeTemperature": "Sondetemperatuur",
+      "current": "Stroom",
+      "maxCurrent": "Maximale Stroom",
+      "currentPower": "Huidge Vermogen",
+      "autoThreshold": "Automatische drempel",
+      "autoThresholdDisplay": "Automatische drempel",
+      "autoThresholdDescription": "Verwarm automatisch de dauwverwarmer wanneer de temperatuur dicht bij het dauwpunt ligt",
+      "powerLevel": "Vermogensniveau"
+    },
+    "power": {
+      "buckConverter": "Buck-omzetter",
+      "pwmOutput": "PWM-uitgang"
+    },
+    "general": {
+      "rail12v": "12V-rail",
+      "rail5v": "5V-rail",
+      "averageAmps": "Gemiddelde Ampère",
+      "ampsPerHour": "Ampère per uur",
+      "wattsPerHour": "Watt per uur"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Fout bij het hernoemen van poort",
+      "failedTogglePort": "Fout bij het schakelen van poort",
+      "failedToggleBootState": "Fout bij het schakelen van opstartstatus",
+      "failedToggleAutoMode": "Fout bij het schakelen van automatische modus",
+      "failedSetPowerLevel": "Fout bij het instellen van vermogensniveau"
     }
   },
   "dialogs": {
@@ -2471,6 +2619,19 @@
       "sequencerFailed": "Sequencer mislukt"
     }
   },
+  "indi": {
+    "config": {
+      "connectionMode": "Verbindingsmodus",
+      "serial": "Serial",
+      "network": "Network",
+      "devicePort": "Apparaatpoort",
+      "baudRate": "Baudrate",
+      "autoDetect": "Automatische detectie",
+      "ipAddress": "IP-adres",
+      "tcpPort": "TCP-poort",
+      "selectPort": "-- Select a port --"
+    }
+  },
   "nav": {
     "equipment": "Equip.",
     "camera": "Camera",
@@ -2488,79 +2649,5 @@
     "skyView": "Stellarium",
     "settings": "Instell.",
     "about": "Info"
-  },
-  "pinsDevices": {
-    "title": "PINS-apparaten",
-    "powerBox": "PINS.PowerBox",
-    "meteoStation": "PINS.MeteoStation",
-    "configurationTab": "Configuratie",
-    "generalTab": "Algemeen",
-    "wifiTab": "WiFi",
-    "powerPortsTab": "Stroompoorten",
-    "dewPortsTab": "Dauwpoorten",
-    "adjustablePowerTab": "Regelbaar vermogen",
-    "weatherTab": "Weer",
-    "usbPortsTab": "USB-poorten",
-    "settings": {
-      "title": "Instellingen",
-      "temperature": "Temperatuur",
-      "humidity": "Vochtigheid",
-      "dewPoint": "Dauwpunt",
-      "placeholders": {
-        "networkName": "Netwerknaam",
-        "password": "Wachtwoord",
-        "passwordHint": "Wachtwoord-hint"
-      },
-      "validation": {
-        "passwordRequired": "Wachtwoord is verplicht"
-      }
-    },
-    "ports": {
-      "disableOnStartup": "Uitschakelen bij Startup",
-      "enableOnStartup": "Inschakelen bij Startup",
-      "alwaysEnabled": "Altijd ingeschakeld",
-      "status": "Status",
-      "current": "Stroom",
-      "currentVoltage": "Huidige Spanning",
-      "currentPower": "Huidge Vermogen",
-      "outputVoltage": "Uitgangsspanning",
-      "powerLevel": "Vermogensniveau",
-      "defaultVoltage": "Standaard Spanning"
-    },
-    "dew": {
-      "status": "Status",
-      "autoMode": "Automatische modus",
-      "disableAutoMode": "Automatische modus uitschakelen",
-      "enableAutoMode": "Automatische modus inschakelen",
-      "probeTemperature": "Sondetemperatuur",
-      "current": "Stroom",
-      "maxCurrent": "Maximale Stroom",
-      "currentPower": "Huidge Vermogen",
-      "autoThreshold": "Automatische drempel",
-      "autoThresholdDisplay": "Automatische drempel",
-      "autoThresholdDescription": "Verwarm automatisch de dauwverwarmer wanneer de temperatuur dicht bij het dauwpunt ligt",
-      "powerLevel": "Vermogensniveau"
-    },
-    "power": {
-      "buckConverter": "Buck-omzetter",
-      "pwmOutput": "PWM-uitgang"
-    },
-    "general": {
-      "rail12v": "12V-rail",
-      "rail5v": "5V-rail",
-      "averageAmps": "Gemiddelde Ampère",
-      "ampsPerHour": "Ampère per uur",
-      "wattsPerHour": "Watt per uur"
-    },
-    "weather": {
-      "luxUnit": "Lux"
-    },
-    "errors": {
-      "failedRenamePort": "Fout bij het hernoemen van poort",
-      "failedTogglePort": "Fout bij het schakelen van poort",
-      "failedToggleBootState": "Fout bij het schakelen van opstartstatus",
-      "failedToggleAutoMode": "Fout bij het schakelen van automatische modus",
-      "failedSetPowerLevel": "Fout bij het instellen van vermogensniveau"
-    }
   }
 }

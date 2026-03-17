@@ -939,7 +939,13 @@
       "snapshotTargetName": "Nome del target",
       "set_use_solve_sync_to_mount": "Sincronizza per montare",
       "readout_mode_image": "Modalità lettura Sequenza",
-      "readout_mode_snap": "Modalità lettura Istantanea"
+      "readout_mode_snap": "Modalità lettura Istantanea",
+      "BinAverageEnabled": "",
+      "FanSpeed": "",
+      "HighFullwellMode": "",
+      "LEDLights": "",
+      "LowNoiseMode": "",
+      "dewHeaterStrength": ""
     },
     "tppa": {
       "title": "Allineamento polare a tre punti",

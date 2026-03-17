@@ -939,7 +939,13 @@
       "snapshotTargetName": "Doel naam",
       "set_use_solve_sync_to_mount": "Sync naar Montering",
       "readout_mode_image": "Uitleesmodus Sequentie",
-      "readout_mode_snap": "Uitleesmodus Momentopname"
+      "readout_mode_snap": "Uitleesmodus Momentopname",
+      "BinAverageEnabled": "",
+      "FanSpeed": "",
+      "HighFullwellMode": "",
+      "LEDLights": "",
+      "LowNoiseMode": "",
+      "dewHeaterStrength": ""
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

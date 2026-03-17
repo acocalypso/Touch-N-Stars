@@ -939,7 +939,13 @@
       "snapshotTargetName": "Název cíle",
       "set_use_solve_sync_to_mount": "Sync to mount",
       "readout_mode_image": "Režim čtení Sekvence",
-      "readout_mode_snap": "Režim čtení Snímek"
+      "readout_mode_snap": "Režim čtení Snímek",
+      "BinAverageEnabled": "Binning averages pixels",
+      "FanSpeed": "Fan Speed",
+      "HighFullwellMode": "High Fullwell Mode",
+      "LEDLights": "LED",
+      "LowNoiseMode": "Ultra Mode",
+      "dewHeaterStrength": "Dew Heater Strength"
     },
     "tppa": {
       "title": "Tříbodové Polární Zarovnání",

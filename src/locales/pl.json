@@ -939,7 +939,13 @@
       "snapshotTargetName": "Nazwa celu",
       "set_use_solve_sync_to_mount": "Zsynchronizuj, aby zamontować",
       "readout_mode_image": "Tryb odczytu Sekwencja",
-      "readout_mode_snap": "Tryb odczytu Migawka"
+      "readout_mode_snap": "Tryb odczytu Migawka",
+      "BinAverageEnabled": "",
+      "FanSpeed": "",
+      "HighFullwellMode": "",
+      "LEDLights": "",
+      "LowNoiseMode": "",
+      "dewHeaterStrength": ""
     },
     "tppa": {
       "title": "Wyrównanie biegunowe trzypunktowe",

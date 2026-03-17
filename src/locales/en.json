@@ -2126,7 +2126,13 @@
       "populerFilters": "Popular Filters",
       "selectManufacturer": "Select Manufacturer...",
       "clearSelection": "Clear Selection",
-      "customCurve": "Custom Bandpass Curve (CSV)",
+      "customCurve": "Custom Bandpass Curve",
+      "csvInfo": {
+        "title": "Expected File Format",
+        "description": "Plain text file with two whitespace-separated columns per line: wavelength (nm) and transmission (%). Lines that cannot be parsed as two numbers are silently skipped (use them for comments or headers).",
+        "example": "# wavelength  transmission\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
+        "note": "Transmission values must be in the range 0 – 100 (percent). Comma-separated files are not supported."
+      },
       "clearCurve": "Clear Curve",
       "loaded": "Loaded:",
       "dataPoints": "data points",
@@ -2137,10 +2143,10 @@
       "transmissionPercent": "Transmission: {percent}%",
       "wavelengthRange": "Wavelength Range",
       "flatTopRange": "Flat Top Range",
-      "fieldOfView": "Field of View",
+      "fRatio": "f/Ratio",
       "resetDefaults": "Reset to Defaults",
       "status": {
-        "success": "✓ Transmission calculated successfully",
+        "success": "Transmission calculated successfully",
         "invalidCsv": "No valid wavelength/transmission data found in CSV",
         "csvError": "Error parsing CSV: {error}"
       }

@@ -1,18 +1,19 @@
 {
   "common": {
+    "name": "Name",
     "cancel": "Annulla",
     "confirm": "Conferma",
     "close": "Chiudi",
     "select": "Select",
-    "delete": "Elimina",
     "edit": "Modifica",
-    "connecting": "Connessione…",
-    "disable": "Disabilita",
+    "delete": "Elimina",
+    "enabled": "Abilitato",
     "disabled": "Disabilitato",
     "enable": "Abilitare",
-    "enabled": "Abilitato",
+    "disable": "Disabilita",
     "loading": "Caricamento…",
-    "scanning": "Scansione…"
+    "scanning": "Scansione…",
+    "connecting": "Connessione…"
   },
   "general": {
     "cancel": "Annulla",
@@ -20,8 +21,9 @@
     "yes": "Sì",
     "no": "No",
     "delete": "Elimina",
+    "edit": "Edit",
     "close": "Chiudi",
-    "edit": "Edit"
+    "save": "Save"
   },
   "pages": {
     "equipment": {
@@ -46,6 +48,8 @@
   "updates": {
     "title": "Aggiornamento disponibile",
     "description": "È disponibile una nuova versione dell'app ({version}). Installarla ora?",
+    "downgradeTitle": "Passa alla versione stabile",
+    "downgradeDescription": "Torna alla versione stabile ({version}). \nQuesto sostituirà la tua attuale versione beta.",
     "releaseNotes": "Note di rilascio",
     "whatsNew": "Novità",
     "downloading": "Download dell'aggiornamento… {progress}%",
@@ -53,9 +57,7 @@
     "error": "Aggiornamento non riuscito. Riprova più tardi.",
     "later": "Più tardi",
     "updateNow": "Aggiorna ora",
-    "working": "In corso…",
-    "downgradeDescription": "Torna alla versione stabile ({version}). \nQuesto sostituirà la tua attuale versione beta.",
-    "downgradeTitle": "Passa alla versione stabile"
+    "working": "In corso…"
   },
   "setup": {
     "welcome": "Benvenuto in Touch'N'Stars",
@@ -136,6 +138,7 @@
     },
     "settings": {
       "title": "Impostazioni",
+      "general": "Generale",
       "add": "aggiungi",
       "coordinates": "Coordinate GPS",
       "save": "Salva",
@@ -182,7 +185,12 @@
           "guiding": "Guida",
           "equipment": "Attrezzatura",
           "other": "Altro"
-        }
+        },
+        "advancedSettings": "Advanced Settings",
+        "darks": "Darks",
+        "flats": "Flats",
+        "bias": "Bias",
+        "useLightPattern": "Same as Lights"
       },
       "debug": {
         "title": "Debug",
@@ -203,15 +211,6 @@
         "title": "Ottimizzazione input",
         "touchOptimized": "Selettore ottimizzato per touch"
       },
-      "equipment": {
-        "title": "Attrezzatura",
-        "description": "Gestisci le impostazioni dell'attrezzatura"
-      },
-      "telescope": {
-        "titel": "Impostazioni del telescopio",
-        "name": "Nome del telescopio",
-        "focal_ratio": "Rapporto focale"
-      },
       "beta": {
         "title": "Canale di aggiornamento beta"
       },
@@ -229,6 +228,26 @@
         "confirmShutdown": "Sei sicuro di voler spegnere il sistema?",
         "confirmRestart": "Sei sicuro di voler riavviare il sistema?"
       },
+      "plate_solver": {
+        "title": "Plate Solver",
+        "basic": "Impostazioni di base",
+        "search": "Impostazioni di ricerca",
+        "retry": "Riprova le impostazioni",
+        "ExposureTime": "Tempo di esposizione (s)",
+        "Gain": "Gain",
+        "SearchRadius": "Raggio di ricerca (°)",
+        "Threshold": "Soglia",
+        "RotationTolerance": "Tolleranza di rotazione (°)",
+        "MaxObjects": "Oggetti massimi",
+        "NumberOfAttempts": "Numero di tentativi",
+        "ReattemptDelay": "Ritardo (min) per il nuovo tentativo",
+        "BlindFailoverEnabled": "Blind failover enabled",
+        "ASTAPLocation": "ASTAP Location"
+      },
+      "equipment": {
+        "title": "Attrezzatura",
+        "description": "Gestisci le impostazioni dell'attrezzatura"
+      },
       "update": "Aggiorna",
       "errors": {
         "instanceNameRequired": "Il nome dell'istanza è richiesto",
@@ -237,22 +256,14 @@
         "invalidInstance": "Istanza non valida",
         "emptyFields": "Campi vuoti"
       },
-      "general": "Generale",
-      "plate_solver": {
-        "ASTAPLocation": "ASTAP Location",
-        "BlindFailoverEnabled": "Blind failover enabled",
-        "ExposureTime": "Tempo di esposizione (s)",
-        "Gain": "Gain",
-        "MaxObjects": "Oggetti massimi",
-        "NumberOfAttempts": "Numero di tentativi",
-        "ReattemptDelay": "Ritardo (min) per il nuovo tentativo",
-        "RotationTolerance": "Tolleranza di rotazione (°)",
-        "SearchRadius": "Raggio di ricerca (°)",
-        "Threshold": "Soglia",
-        "basic": "Impostazioni di base",
-        "retry": "Riprova le impostazioni",
-        "search": "Impostazioni di ricerca",
-        "title": "Plate Solver"
+      "telescope": {
+        "titel": "Impostazioni del telescopio",
+        "name": "Nome del telescopio",
+        "focal_ratio": "Rapporto focale"
+      },
+      "mount": {
+        "titel": "Mount settings",
+        "max_slew_rate": "Max slew rate (°/s)"
       }
     },
     "connectEquipment": {
@@ -317,6 +328,8 @@
       "stopSequence": "Ferma sequenza",
       "pauseSequence": "Pausa",
       "resetSequence": "Reimposta sequenza",
+      "skipToEnd": "Passa alla fine",
+      "skipCurrentItem": "Voce corrente",
       "manageSequences": "Carica / salva sequenze",
       "saveSequenceAs": "Salva sequenza corrente come",
       "sequenceFileName": "Nome file",
@@ -325,6 +338,8 @@
       "sequenceNoFiles": "Nessun file trovato",
       "sequenceLoading": "Caricamento...",
       "sequenceClose": "Chiudi",
+      "deleteConfirmationTitle": "Eliminare file",
+      "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",
       "resetConfirmationTitle": "Conferma reimpostazione",
       "resetConfirmationMessage": "Sei sicuro di voler reimpostare la sequenza? Questa azione non può essere annullata.",
       "clearSequence": "Cancella tutto",
@@ -340,6 +355,7 @@
       "triggers": "Trigger",
       "expandAll": "Espandi tutto",
       "collapseAll": "Comprimi tutto",
+      "details": {},
       "hfr": "HFR",
       "mean": "Media",
       "median": "Mediana",
@@ -375,6 +391,7 @@
         "header": "Informazioni",
         "message": "Purtroppo la tua sequenza non può essere modificata. Non tutti i plugin di sequenza sono attualmente supportati. Se vuoi aiutarci, facci sapere su GitHub quali plugin usi."
       },
+      "info_general": {},
       "sort": {
         "sort": "Ordina",
         "oldest": "più vecchio prima",
@@ -385,17 +402,13 @@
       "status": "Stato di sequenza",
       "instructions": "Istruzioni",
       "noItemsInContainer": "Nessun elemento in questo contenitore",
-      "HFRStDev": "HFR St.Dev",
-      "Max": "Max",
       "Min": "Min",
+      "Max": "Max",
+      "HFRStDev": "HFR St.Dev",
       "totalExposureTime": {
-        "Pictures": "Pictures",
-        "title": "Total exposure time"
+        "title": "Total exposure time",
+        "Pictures": "Pictures"
       },
-      "skipToEnd": "Passa alla fine",
-      "skipCurrentItem": "Voce corrente",
-      "deleteConfirmationTitle": "Eliminare file",
-      "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",
       "items": {
         "saving": "Salvataggio…",
         "generic": "Generico",
@@ -410,6 +423,9 @@
         },
         "takeManyExposures": {
           "iterations": "o il tempo di esposizione."
+        },
+        "smartExposure": {
+          "ditherAfter": "Dither after (exposures)"
         },
         "takeSubframeExposure": {
           "roiPct": "ROI (%)"
@@ -457,10 +473,14 @@
         "sunAltitudeCondition": {
           "altitude": "Altitudine del sole (°)"
         },
+        "timeCondition": {
+          "provider": "Provider"
+        },
         "timeSpan": {
           "hours": "Orari",
           "minutes": "Minuti",
-          "seconds": "Secondi"
+          "seconds": "Secondi",
+          "minutesOffset": "Minutes Offset"
         },
         "moonAltitude": {
           "comparator": "Comparatore",
@@ -583,17 +603,17 @@
       "title": "Montatura",
       "slew": "Spostamento",
       "location_sync": {
-        "noSync": {
-          "label": "Nessuna sincronizzazione"
+        "title": "Impostazioni di sincronizzazione della posizione",
+        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
+        "toTelescope": {
+          "label": "Sincronizzazione al telescopio"
         },
         "toApplication": {
           "label": "Sincronizzazione all'applicazione"
         },
-        "toTelescope": {
-          "label": "Sincronizzazione al telescopio"
-        },
-        "confirmationMessage": "Se la \"sincronizzazione della posizione\" in Nina è impostata su \"prompt\", può apparire una finestra di conferma prima che le coordinate vengano inviate al telescopio. \nPer evitare questo e consentire a TNS di impostare automaticamente le coordinate, ti consigliamo di modificare l'impostazione in \"Sincronizzazione in Telescope\"",
-        "title": "Impostazioni di sincronizzazione della posizione"
+        "noSync": {
+          "label": "Nessuna sincronizzazione"
+        }
       },
       "control": {
         "park": "Parcheggia",
@@ -603,15 +623,15 @@
         "trackingMode": "Modalità inseguimento",
         "manuellControl": "Controllo manuale",
         "slewRate": "Velocità spostamento °/s",
-        "slewRateINDI": "Velocità di movimento",
-        "reverse_axis": "Direzione assi",
         "siderial": "Siderale",
         "sync_coordinates_to_mount": "Sincronizza coordinate con montatura",
         "errors": {
           "unpark": "Errore rimozione parcheggio montatura",
           "tracking": "Errore impostazione modalità inseguimento"
         },
-        "setLocationSyncToMount": "Imposta \"Sincronizza con telescopio\""
+        "setLocationSyncToMount": "Imposta \"Sincronizza con telescopio\"",
+        "slewRateINDI": "Velocità di movimento",
+        "reverse_axis": "Direzione assi"
       },
       "info": {
         "notConnected": "Connetti la montatura",
@@ -621,29 +641,29 @@
         "trackingDisabled": "Inseguimento disattivato",
         "slewing": "Montatura in movimento",
         "notSlewing": "Montatura ferma",
+        "timeToMeridianFlip": "Tempo per il lancio del meridiano",
         "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
-        "SideOfPier": "Lato del muro",
-        "timeToMeridianFlip": "Tempo per il lancio del meridiano"
+        "SideOfPier": "Lato del muro"
       },
       "settings": {
-        "meridian_flip": {
-          "AutoFocusAfterFlip": "Auto focus after flip",
-          "MaxMinutesAfterMeridian": "Max minuti dopo il meridiano",
-          "MinutesAfterMeridian": "Minuti dopo il meridiano",
-          "PauseTimeBeforeMeridian": "Tempo di pausa prima del meridiano",
-          "Recenter": "Recente",
-          "RotateImageAfterFlip": "Ruota immagine dopo il giro",
-          "SettleTime": "Tempo/i di liquidazione",
-          "basic": "Impostazioni di base",
-          "UseSideOfPier": "Usa lato del muro",
-          "behavior": "Comportamento",
-          "post_flip_actions": "Azioni post-giro"
-        },
-        "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
         "meridian_flip_settings": "Meridian Flip",
+        "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
+        "meridian_flip": {
+          "basic": "Impostazioni di base",
+          "behavior": "Comportamento",
+          "post_flip_actions": "Azioni post-giro",
+          "MinutesAfterMeridian": "Minuti dopo il meridiano",
+          "MaxMinutesAfterMeridian": "Max minuti dopo il meridiano",
+          "PauseTimeBeforeMeridian": "Tempo di pausa prima del meridiano",
+          "SettleTime": "Tempo/i di liquidazione",
+          "Recenter": "Recente",
+          "UseSideOfPier": "Usa lato del muro",
+          "AutoFocusAfterFlip": "Auto focus after flip",
+          "RotateImageAfterFlip": "Ruota immagine dopo il giro"
+        },
         "reverse_primary_axis": "Inverti asse primario",
         "reverse_secondary_axis": "Inverti asse secondario"
       },
@@ -660,6 +680,18 @@
       "title": "Guida",
       "running": "IN ESECUZIONE",
       "statusLabel": "Stato",
+      "settings": "Impostazioni della guida",
+      "phd2Path": "Percorso PHD2",
+      "phd2ServerHost": "Nome host del server PHD2",
+      "phd2ServerPort": "Porta del server PHD2",
+      "ditherPixels": "Dither Pixels (px)",
+      "ditherRAOnly": "Dithering solo in RA",
+      "settlePixels": "Regola la tolleranza dei pixel (px)",
+      "settleTime": "Tempo minimo di regolamento (s)",
+      "settleTimeout": "Stabilisci Timeout(s)",
+      "guidingStartRetry": "Guiding Start Retry",
+      "guidingStartTimeout": "Timeout inizio guida (s)",
+      "roiPercentage": "Percentuale ROI per trovare la stella guida (%)",
       "status": {
         "looping": "In loop",
         "lostLock": "Stella persa",
@@ -698,6 +730,24 @@
       },
       "phd2": {
         "Exposuretime": "Tempo esposizione",
+        "profile": "Profilo",
+        "forceCalibration": "Forza calibrazione",
+        "calibration": "Calibrazione",
+        "exposure": "Esposizione",
+        "raAlgorithm": "Algoritmo RA",
+        "decAlgorithm": "Algoritmo DEC",
+        "equipment": "Attrezzatura",
+        "optical": "Impostazioni ottiche",
+        "focalLength": "Lunghezza focale",
+        "calibrationStep": "Passo di calibrazione",
+        "reverseDecAfterFlip": "Inverti DEC dopo il flip",
+        "shared_prarmeters": "Parametri condivisi",
+        "guideAlgorithm": "Algoritmo di guida",
+        "guideAlgorithmRA": "Algoritmo di guida RA",
+        "guideAlgorithmDEC": "Algoritmo di guida DEC",
+        "guiderScale": "Scala del guidatore",
+        "maxY": "Max Y",
+        "historySize": "Dimensione cronologia",
         "ra": {
           "aggression": "RA: Aggressività",
           "hysteresis": "RA: Isteresi",
@@ -718,69 +768,40 @@
           "slope_weight": "DEC: Peso pendenza",
           "exp_factor": "DEC: Fattore esposizione"
         },
-        "profile": "Profilo",
-        "forceCalibration": "Forza calibrazione",
         "error": {
           "title": "Errore PHD2",
           "star-lost-message": "Stella persa"
         },
-        "calibration": "Calibrazione",
-        "calibrationStep": "Passo di calibrazione",
-        "decAlgorithm": "Algoritmo DEC",
-        "equipment": "Attrezzatura",
-        "exposure": "Esposizione",
-        "focalLength": "Lunghezza focale",
-        "guideAlgorithm": "Algoritmo di guida",
-        "guideAlgorithmDEC": "Algoritmo di guida DEC",
-        "guideAlgorithmRA": "Algoritmo di guida RA",
-        "guiderScale": "Scala del guidatore",
-        "historySize": "Dimensione cronologia",
-        "maxY": "Max Y",
-        "optical": "Impostazioni ottiche",
         "profileManagement": {
-          "cancel": "Annulla",
-          "confirmDelete": "Confermare l'eliminazione?",
-          "create": "Crea",
+          "title": "Gestisci profili",
           "createNew": "Crea nuovo profilo",
-          "delete": "Elimina",
-          "errors": {
-            "createFailed": "Impossibile creare il profilo",
-            "deleteFailed": "Impossibile eliminare il profilo",
-            "duplicateName": "Il nome del profilo esiste già",
-            "emptyName": "Il nome del profilo non può essere vuoto",
-            "renameFailed": "Impossibile rinominare il profilo"
-          },
-          "lastProfileWarning": "Impossibile eliminare l'ultimo profilo",
           "profileName": "Nome profilo",
           "profileNamePlaceholder": "Inserisci il nome del profilo",
           "profilesList": "Profili",
+          "create": "Crea",
           "rename": "Rinomina",
+          "delete": "Elimina",
+          "cancel": "Annulla",
+          "confirmDelete": "Confermare l'eliminazione?",
+          "lastProfileWarning": "Impossibile eliminare l'ultimo profilo",
           "success": {
             "created": "Profilo creato con successo",
-            "deleted": "Profilo eliminato con successo",
-            "renamed": "Profilo rinominato con successo"
+            "renamed": "Profilo rinominato con successo",
+            "deleted": "Profilo eliminato con successo"
           },
-          "title": "Gestisci profili"
-        },
-        "raAlgorithm": "Algoritmo RA",
-        "reverseDecAfterFlip": "Inverti DEC dopo il flip",
-        "shared_prarmeters": "Parametri condivisi"
-      },
-      "ditherPixels": "Dither Pixels (px)",
-      "ditherRAOnly": "Dithering solo in RA",
-      "guidingStartRetry": "Guiding Start Retry",
-      "guidingStartTimeout": "Timeout inizio guida (s)",
-      "phd2Path": "Percorso PHD2",
-      "phd2ServerHost": "Nome host del server PHD2",
-      "phd2ServerPort": "Porta del server PHD2",
-      "roiPercentage": "Percentuale ROI per trovare la stella guida (%)",
-      "settings": "Impostazioni della guida",
-      "settlePixels": "Regola la tolleranza dei pixel (px)",
-      "settleTime": "Tempo minimo di regolamento (s)",
-      "settleTimeout": "Stabilisci Timeout(s)"
+          "errors": {
+            "emptyName": "Il nome del profilo non può essere vuoto",
+            "duplicateName": "Il nome del profilo esiste già",
+            "createFailed": "Impossibile creare il profilo",
+            "renameFailed": "Impossibile rinominare il profilo",
+            "deleteFailed": "Impossibile eliminare il profilo"
+          }
+        }
+      }
     },
     "focuser": {
       "title": "Focheggiatore",
+      "focus": "Focus",
       "new_position": "Nuova posizione:",
       "move": "Sposta",
       "start_autofocus": "Avvia autofocus",
@@ -796,40 +817,42 @@
       "autofocus": "Autofocus",
       "last_autofocus": "Ultimo autofocus",
       "settings": {
-        "ABSOLUTE": "Assoluto",
-        "AutoFocusBinning": "Autofocus Binning",
-        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
-        "AutoFocusFitFunction": "Strategia di adattamento della curva",
         "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
-        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
-        "AutoFocusNumberOfFramesPerPoint": "Numero di fotogrammi per punto",
-        "AutoFocusOuterCropRatio": "Rapporto del raccolto esterno",
         "AutoFocusStepSize": "Dimensione del passo",
-        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
+        "FocuserSettleTime": "Tempo di regolazione del focheggiatore",
         "AutoFocusTotalNumberOfAttempts": "Numero totale di tentativi",
+        "AutoFocusNumberOfFramesPerPoint": "Numero di fotogrammi per punto",
+        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusOuterCropRatio": "Rapporto del raccolto esterno",
         "AutoFocusUseBrightestStars": "Usa le stelle più luminose",
-        "BacklashCompensationModel": "Modello di compensazione del gioco",
         "BacklashIn": "Contraccolpo",
         "BacklashOut": "Backlash Out",
-        "FocuserSettleTime": "Tempo di regolazione del focheggiatore",
-        "HYPERBOLIC": "Iperbolico",
-        "OVERSHOOT": "Overshoot",
-        "PARABOLIC": "Parabolico",
+        "AutoFocusBinning": "Autofocus Binning",
+        "AutoFocusTimeoutSeconds": "Autofocus Timeout (seconds)",
         "RSquaredThreshold": "R-Squared Threshold",
-        "TRENDHYPERBOLIC": "Tendenza iperbolica",
+        "AutoFocusFitFunction": "Strategia di adattamento della curva",
+        "AutoFocusDisableGuiding": "Disable Guiding During Autofocus",
         "TRENDLINES": "Linee di tendenza",
+        "PARABOLIC": "Parabolico",
         "TRENDPARABOLIC": "Tendenza parabolica",
+        "HYPERBOLIC": "Iperbolico",
+        "TRENDHYPERBOLIC": "Tendenza iperbolica",
+        "BacklashCompensationModel": "Modello di compensazione del gioco",
+        "OVERSHOOT": "Overshoot",
+        "ABSOLUTE": "Assoluto",
         "title": "Settings",
         "general": "General Settings",
         "autofocus": "Autofocus Settings",
-        "advanced": "Advanced",
-        "backlash": "Backlash",
         "crop_and_stars": "Crop",
+        "backlash": "Backlash",
+        "advanced": "Advanced",
         "Reverse": "Inverti",
         "UseFilterWheelOffsets": "Usa offset ruota filtri",
-        "MaxStep": "Max Steps"
+        "MaxStep": "Max Steps",
+        "AutoFocusFilter": "Autofocus filter",
+        "AutoFocusFilterNone": "None",
+        "AutoFocusExposureTime": "Default Exposure Time"
       },
-      "focus": "Focus",
       "indi": {
         "settings": "Focuser Settings"
       }
@@ -904,8 +927,8 @@
         "focal_length": "Lunghezza focale (mm)"
       },
       "at_target_temp": "A temperatura target",
-      "cooler_power": "Potenza più fredda (%)",
       "temperature_setpoint": "Temp setpoint (°C)",
+      "cooler_power": "Potenza più fredda (%)",
       "camera_warming": "Riscaldamento della fotocamera",
       "cooler_status": "Stato raffreddamento",
       "cooler_status_off": "SPENTO",
@@ -985,6 +1008,7 @@
         "help_auto_pause": "Impostazione della pausa automatica per la procedura di allineamento polare.",
         "help_log_error": "Se attivato, verrà creato un file di log con le correzioni dell'errore di allineamento polare e gli errori continui dopo ogni regolazione."
       },
+      "error_modal": {},
       "tppa": "TPPA"
     },
     "slewAndCenter": {
@@ -1043,25 +1067,25 @@
       "move": "Muovi",
       "control": "Controllo",
       "please_connect_rotator": "Collega il rotatore",
-      "currentPosition": "Posizione Attuale",
-      "moving": "In Movimento",
       "connected": "Collegato",
       "disconnected": "Disconnesso",
+      "currentPosition": "Posizione Attuale",
+      "moving": "In Movimento",
       "stationary": "Stazionario",
       "stepSize": "Step Size",
       "settings": {
         "title": "Impostazioni Rotatore",
         "basic": "Impostazioni di base",
-        "FULL": "Completo (360°)",
-        "HALF": "Metà (180°)",
         "QUARTER": "Quarto (90°)",
-        "RangeStartMechanicalPosition": "Posizione di partenza meccanica (°)",
+        "HALF": "Metà (180°)",
+        "FULL": "Completo (360°)",
         "RangeType": "Tipo di intervallo",
+        "RangeStartMechanicalPosition": "Posizione di partenza meccanica (°)",
         "Overshoot": "Overshoot",
-        "OvershootAngle": "Angolo di superamento",
         "OvershootDirection": "Direzione del superamento",
-        "ResetPosition": "Ripristina la posizione zero",
-        "Backlash": "Isteresi"
+        "OvershootAngle": "Angolo di superamento",
+        "Backlash": "Isteresi",
+        "ResetPosition": "Ripristina la posizione zero"
       },
       "indi": {
         "settings": "Rotator Settings"
@@ -1085,7 +1109,18 @@
         "openPosition": "Posizione Aperta (°)",
         "closedPosition": "Posizione Chiusa (°)",
         "currentPosition": "Posizione Attuale",
-        "noSettingsForDevice": "Nessuna impostazione disponibile per questo dispositivo"
+        "trainedSettings": {
+          "title": "Trained Flat Exposure Settings",
+          "filter": "Filter",
+          "noFilter": "No Filter",
+          "binning": "Binning",
+          "gain": "Gain",
+          "offset": "Offset",
+          "brightness": "Brightness",
+          "time": "Time (s)",
+          "confirmTitle": "Remove Setting",
+          "confirmMessage": "Are you sure you want to remove this trained flat exposure setting?"
+        }
       },
       "indi": {
         "settings": "Flat Device Settings"
@@ -1110,7 +1145,8 @@
       "auto_exposure": "Auto-esposizione",
       "auto_brightness": "Luminosità automatica",
       "skyflat": "Flat cielo",
-      "button_slew_to_zenith": "Sposta allo zenit"
+      "button_slew_to_zenith": "Sposta allo zenit",
+      "keep_closed": "Keep flat panel closed"
     },
     "weatherModal": {
       "weatherInformation": "Informazioni meteo",
@@ -1147,6 +1183,7 @@
         "now": "Ora",
         "speed": "Velocità"
       },
+      "mount_position": {},
       "settings": {
         "constellations_lines_visible": "Mostra costellazioni",
         "azimuthal_lines_visible": "Mostra linee azimutali",
@@ -1160,7 +1197,19 @@
       }
     },
     "profile": {
-      "label": "Profilo:"
+      "label": "Profilo:",
+      "manage": "Manage Profiles",
+      "add": "Add Profile",
+      "switchTo": "Switch to this profile",
+      "rename": "Rename",
+      "clone": "Clone",
+      "cloneOf": "Copy",
+      "remove": "Remove",
+      "namePlaceholder": "Profile name",
+      "nameExists": "Name already exists",
+      "cannotRemoveActive": "Cannot remove the active profile",
+      "cannotRemoveLast": "Cannot remove the last profile",
+      "noProfiles": "No profiles available"
     },
     "notifications": {
       "modal": {
@@ -1177,7 +1226,6 @@
         "remove": "Rimuovi",
         "rotation": "Rotazione"
       },
-      "no_fav": "Nessun preferito salvato",
       "modal_sequence": {
         "titel": "Sequenza"
       },
@@ -1188,11 +1236,27 @@
         "message": "Nessuna sequenza caricata"
       },
       "enter_name": "Inserisci nome",
+      "no_fav": "Nessun preferito salvato",
       "titel": "Preferiti"
     },
     "helpers": {
       "imageModal": {
         "no_image": "Nessun dati sull'immagine disponibile"
+      },
+      "histogram": {
+        "blackPoint": "Black point",
+        "whitePoint": "White point",
+        "gamma": "Gamma",
+        "mean": "Mean",
+        "median": "Median",
+        "stdDev": "Std Dev",
+        "min": "Min",
+        "max": "Max",
+        "stars": "Stars",
+        "hfr": "HFR",
+        "reset": "Reset",
+        "noSaveHint": "Statistics are only calculated for saved images",
+        "enableSave": "Enable saving"
       }
     },
     "platesolve": {
@@ -1208,19 +1272,6 @@
       "focal_length": "Lunghezza focale"
     }
   },
-  "indi": {
-    "config": {
-      "baudRate": "Baud Rate",
-      "connectionMode": "Modalità di connessione",
-      "devicePort": "Porta dispositivo",
-      "ipAddress": "Indirizzo IP",
-      "autoDetect": "Rilevamento automatico",
-      "tcpPort": "Porta TCP",
-      "serial": "Serial",
-      "network": "Network",
-      "selectPort": "-- Select a port --"
-    }
-  },
   "plugins": {
     "common": {
       "initializing": "Inizializzazione...",
@@ -1229,6 +1280,83 @@
         "message": "Il plugin TouchNStars in NINA è obsoleto e deve essere aggiornato.",
         "required": "Versione richiesta",
         "current": "Versione attuale"
+      }
+    },
+    "pins": {
+      "title": "PINS Management",
+      "notAvailable": "Ambiente PINS non rilevato. Questo plugin è disabilitato.",
+      "dryRun": "Modalità simulazione",
+      "sambaTitle": "Condivisione Samba",
+      "sambaDescription": "Abilita o disabilita la condivisione file di rete",
+      "phd2Title": "Avvio automatico PHD2",
+      "phd2Running": "Il servizio è attualmente in esecuzione",
+      "phd2Stopped": "Il servizio è attualmente interrotto",
+      "wifiTitle": "Configurazione Wi-Fi",
+      "stationaryMode": "Modalità stazionaria",
+      "stationaryDescription": "Abilita la scansione e la connessione alle reti WiFi locali",
+      "noNetworks": "Nessuna rete trovata",
+      "wifiSelect": "Seleziona Rete",
+      "wifiBand": "Banda Wi-Fi",
+      "bandAuto": "Auto",
+      "band24": "2,4GHz",
+      "band5": "5GHz",
+      "rescan": "Nuova scansione delle reti WiFi",
+      "wifiPassword": "Password",
+      "autoConnect": "Connessione automatica al Wi-Fi selezionato dopo l'avvio",
+      "wifiConnect": "Collegare",
+      "scanning": "Scansione...",
+      "systemTime": "Ora del sistema",
+      "deviceTime": "Ora del dispositivo",
+      "loadingTime": "Tempo di caricamento...",
+      "autoSync": "Sincronizzazione automatica",
+      "syncNow": "Sincronizza ora",
+      "startUpgrade": "Avvia aggiornamento",
+      "upgrading": "Aggiornamento in corso...",
+      "terminalOutput": "OUTPUT TERMINALE",
+      "clearOutput": "Cancella output",
+      "waiting": "Assumendo il controllo... In attesa di comando...",
+      "status": {
+        "idle": "Inattivo",
+        "running": "In esecuzione",
+        "success": "Successo",
+        "failed": "Fallito"
+      },
+      "logs": {
+        "syncingTime": "Differenza oraria rilevata: {diff}s. \nSincronizzazione dell'ora...",
+        "forcingSync": "Sincronizzazione manuale dell'ora...",
+        "timeInSync": "L'ora è sincronizzata (diff: {diff}s).",
+        "timeSynced": "L'ora del sistema è stata sincronizzata correttamente.",
+        "noIp": "Errore: Nessun indirizzo IP trovato nelle impostazioni. Connettiti prima a un'istanza.",
+        "init": "Inizializzazione sequenza di aggiornamento sull'host: {ip}",
+        "config": "Configurazione: Simulazione = {dryRun}",
+        "sambaAction": "Azione: {action} Condivisione Samba",
+        "sambaEnable": "Abilita",
+        "sambaDisable": "Disabilita",
+        "phd2Action": "Servizio PHD2 {azione}...",
+        "phd2Enabling": "abilitante",
+        "phd2Disabling": "disabilitante",
+        "phd2Success": "Aggiornamento del servizio PHD2 riuscito.",
+        "phd2Failed": "Aggiornamento del servizio PHD2 non riuscito: {messaggio}",
+        "connectingToWifi": "Connessione alla rete Wi-Fi: {ssid}",
+        "wifiResponse": "Risposta Wi-Fi: {risposta}",
+        "jobCreated": "Attività creata con successo. ID: {jobId}",
+        "daemonCheck": "Assicurati che il daemon PINS sia in esecuzione su {ip}:{port}",
+        "serverError": "Errore del server ({status}): {data}",
+        "corsHint": "Suggerimento: Il server ha rifiutato il metodo della richiesta. Controlla la configurazione CORS sul server.",
+        "networkError": "Errore di rete: La richiesta è fallita.",
+        "noResponse": "Errore di rete: Nessuna risposta ricevuta dal server.",
+        "error": "Errore: {message}",
+        "wsConnecting": "Negoziazione connessione WebSocket con {wsUrl}...",
+        "wsConnected": "Connessione stabilita. Streaming dei log...",
+        "wsCreationFailed": "Impossibile creare WebSocket: {messaggio}",
+        "wsClosed": "Connessione chiusa. (Codice: {code})",
+        "wsError": "Si è verificato un errore WebSocket.",
+        "verifyingStatus": "Verifica dello stato finale del lavoro...",
+        "jobReport": "Rapporto di lavoro: {rapporto}",
+        "upgradeSuccess": "Aggiornamento completato con successo.",
+        "upgradeFailed": "Aggiornamento non riuscito. \nCodice di uscita: {exitCode}",
+        "jobStatus": "Stato del lavoro: {status}",
+        "statusFetchFailed": "Impossibile recuperare lo stato finale: {messaggio}"
       }
     },
     "bahtifocus": {
@@ -1512,7 +1640,8 @@
       "liveView": "Vista live",
       "noImageAvailable": "Nessuna immagine disponibile",
       "configureUrl": "Configura URL snapshot e recupera immagine",
-      "loadingImage": "Caricamento immagine..."
+      "loadingImage": "Caricamento immagine...",
+      "errors": {}
     },
     "sequenceCreator": {
       "title": "Sequence Creator",
@@ -1685,6 +1814,8 @@
         "endActions": "🏁 Azioni fine"
       },
       "exportModal": {
+        "buttons": {},
+        "messages": {},
         "jsonPreview": {
           "sequenceJsonExport": "Export JSON sequenza",
           "previewDescription": "Visualizza in anteprima e scarica la tua sequenza come file JSON",
@@ -1696,7 +1827,8 @@
           "copyJson": "Copia JSON",
           "copied": "Copiato!",
           "downloadJson": "Scarica JSON"
-        }
+        },
+        "howToUse": {}
       },
       "targetSearch": {
         "searchLabel": "Cerca target",
@@ -1714,85 +1846,6 @@
         "title": "Ribaltamento meridiano",
         "enableMeridianFlip": "Abilita ribaltamento meridiano"
       }
-    },
-    "livestack": {
-      "available_filters": "Filtri disponibili",
-      "beta_note": "Questo plugin è ancora in fase di sviluppo e può contenere alcuni errori!",
-      "no_image_available": "Nessuna immagine disponibile",
-      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
-      "start_and_select_filter": "Start livestack and select a filter to see images",
-      "target": "Target",
-      "no_filter": "Nessun filtro",
-      "no_filters_available": "Nessun filtro disponibile per questo target",
-      "no_target": "No target",
-      "configuration_title": "Livestack Settings",
-      "drag_hint": "Drag",
-      "show_rgb_only": "Show RGB composition only",
-      "track_stack_updates": "Always show the latest stack",
-      "empty_option": "Empty",
-      "image_alt": "Livestack image - {filter}",
-      "loading_image": "Loading livestack image...",
-      "errors": {
-        "start_failed": "Failed to start livestack",
-        "start_exception": "Error starting livestack: {message}",
-        "stop_failed": "Failed to stop livestack",
-        "stop_exception": "Error stopping livestack: {message}",
-        "loading_image": "Error loading image: {message}",
-        "failed_to_load": "Failed to load livestack image",
-        "api_version_required": "API version {version} or higher required"
-      }
-    },
-    "shortcuts": {
-      "title": "Sequence-Shortcuts",
-      "addNew": "New Shortcut",
-      "autoStart": "Sequenza di avvio automatico",
-      "autoStartDescription": "Avvia automaticamente la sequenza dopo il caricamento",
-      "autoStartEnabled": "Avvio automatico abilitato",
-      "cancel": "Cancel",
-      "color": "Colore",
-      "confirmDelete": "Delete Shortcut?",
-      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
-      "confirmDeleteTitle": "Elimina collegamento",
-      "create": "Creare",
-      "delete": "Eliminare",
-      "createFirst": "Crea il primo collegamento",
-      "deleteShortcut": "Elimina collegamento",
-      "description": "Accesso rapido per caricare e avviare sequenze N.I.N.A",
-      "edit": "Modificare",
-      "editShortcut": "Modifica collegamento",
-      "errors": {
-        "deleteFailed": "Impossibile eliminare il collegamento",
-        "executeFailed": "Impossibile eseguire la scorciatoia",
-        "loadFailed": "Impossibile caricare i collegamenti",
-        "nameRequired": "Il nome della scorciatoia è obbligatorio",
-        "saveFailed": "Impossibile salvare il collegamento",
-        "sequenceLoadFailed": "Impossibile caricare le sequenze",
-        "sequenceRequired": "Seleziona una sequenza"
-      },
-      "execute": "Eseguire",
-      "icon": "Icona",
-      "loadingSequences": "Caricamento sequenze...",
-      "manualExecution": "Esecuzione manuale",
-      "menu": "Menu",
-      "newShortcut": "Nuova scorciatoia",
-      "noSequencesAvailable": "Nessuna sequenza disponibile",
-      "noShortcuts": "Nessuna scorciatoia ancora creata",
-      "noShortcutsDescription": "Crea scorciatoie per caricare rapidamente le tue sequenze preferite",
-      "phrase": "Nome della scorciatoia",
-      "phrasePlaceholder": "ad esempio, sessione M31",
-      "refreshSequences": "Aggiorna elenco",
-      "selectColor": "Seleziona un colore",
-      "selectIcon": "Seleziona un'icona",
-      "selectSequence": "Seleziona una sequenza...",
-      "sequenceFile": "File di sequenza",
-      "shortcutName": "Nome della scorciatoia",
-      "shortcutNamePlaceholder": "ad esempio, sessione M31",
-      "success": {
-        "created": "Collegamento creato correttamente",
-        "deleted": "Collegamento eliminato correttamente",
-        "updated": "Collegamento aggiornato correttamente"
-      },
-      "update": "Aggiornamento"
     },
     "platesolveplus": {
       "title": "PlateSolvePlus",
@@ -2026,188 +2079,235 @@
         }
       }
     },
-    "pins": {
-      "clearOutput": "Cancella output",
-      "dryRun": "Modalità simulazione",
-      "logs": {
-        "config": "Configurazione: Simulazione = {dryRun}",
-        "corsHint": "Suggerimento: Il server ha rifiutato il metodo della richiesta. Controlla la configurazione CORS sul server.",
-        "daemonCheck": "Assicurati che il daemon PINS sia in esecuzione su {ip}:{port}",
-        "error": "Errore: {message}",
-        "init": "Inizializzazione sequenza di aggiornamento sull'host: {ip}",
-        "jobCreated": "Attività creata con successo. ID: {jobId}",
-        "networkError": "Errore di rete: La richiesta è fallita.",
-        "noIp": "Errore: Nessun indirizzo IP trovato nelle impostazioni. Connettiti prima a un'istanza.",
-        "noResponse": "Errore di rete: Nessuna risposta ricevuta dal server.",
-        "sambaAction": "Azione: {action} Condivisione Samba",
-        "sambaDisable": "Disabilita",
-        "sambaEnable": "Abilita",
-        "serverError": "Errore del server ({status}): {data}",
-        "wsClosed": "Connessione chiusa. (Codice: {code})",
-        "wsConnected": "Connessione stabilita. Streaming dei log...",
-        "wsConnecting": "Negoziazione connessione WebSocket con {wsUrl}...",
-        "wsError": "Si è verificato un errore WebSocket.",
-        "phd2Action": "Servizio PHD2 {azione}...",
-        "phd2Disabling": "disabilitante",
-        "phd2Enabling": "abilitante",
-        "phd2Failed": "Aggiornamento del servizio PHD2 non riuscito: {messaggio}",
-        "phd2Success": "Aggiornamento del servizio PHD2 riuscito.",
-        "forcingSync": "Sincronizzazione manuale dell'ora...",
-        "syncingTime": "Differenza oraria rilevata: {diff}s. \nSincronizzazione dell'ora...",
-        "timeInSync": "L'ora è sincronizzata (diff: {diff}s).",
-        "timeSynced": "L'ora del sistema è stata sincronizzata correttamente.",
-        "connectingToWifi": "Connessione alla rete Wi-Fi: {ssid}",
-        "jobReport": "Rapporto di lavoro: {rapporto}",
-        "jobStatus": "Stato del lavoro: {status}",
-        "statusFetchFailed": "Impossibile recuperare lo stato finale: {messaggio}",
-        "upgradeFailed": "Aggiornamento non riuscito. \nCodice di uscita: {exitCode}",
-        "upgradeSuccess": "Aggiornamento completato con successo.",
-        "verifyingStatus": "Verifica dello stato finale del lavoro...",
-        "wifiResponse": "Risposta Wi-Fi: {risposta}",
-        "wsCreationFailed": "Impossibile creare WebSocket: {messaggio}"
+    "livestack": {
+      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
+      "beta_note": "Questo plugin è ancora in fase di sviluppo e può contenere alcuni errori!",
+      "target": "Target",
+      "available_filters": "Filtri disponibili",
+      "no_image_available": "Nessuna immagine disponibile",
+      "start_and_select_filter": "Start livestack and select a filter to see images",
+      "no_filter": "Nessun filtro",
+      "no_filters_available": "Nessun filtro disponibile per questo target",
+      "no_target": "No target",
+      "configuration_title": "Livestack Settings",
+      "drag_hint": "Drag",
+      "show_rgb_only": "Show RGB composition only",
+      "track_stack_updates": "Always show the latest stack",
+      "empty_option": "Empty",
+      "image_alt": "Livestack image - {filter}",
+      "loading_image": "Loading livestack image...",
+      "errors": {
+        "start_failed": "Failed to start livestack",
+        "start_exception": "Error starting livestack: {message}",
+        "stop_failed": "Failed to stop livestack",
+        "stop_exception": "Error stopping livestack: {message}",
+        "loading_image": "Error loading image: {message}",
+        "failed_to_load": "Failed to load livestack image",
+        "api_version_required": "API version {version} or higher required"
+      }
+    },
+    "narrowband": {
+      "title": "Calcolatore del filtro",
+      "subtitle": "Calcolare le caratteristiche di trasmissione del filtro a banda stretta",
+      "sections": {
+        "optical": "Parametri ottici",
+        "bandpass": "Caratteristiche passa-banda",
+        "chart": "Curva passa-banda",
+        "results": "Risultati della trasmissione"
       },
-      "notAvailable": "Ambiente PINS non rilevato. Questo plugin è disabilitato.",
-      "sambaDescription": "Abilita o disabilita la condivisione file di rete",
-      "sambaTitle": "Condivisione Samba",
-      "startUpgrade": "Avvia aggiornamento",
+      "aperture": "Apertura (mm)",
+      "focalLength": "Lunghezza focale (mm)",
+      "peakTransmittance": "Trasmissione di picco",
+      "refractiveIndex": "Indice di rifrazione",
+      "obstructionDiameter": "Ostruzione centrale (mm)",
+      "bandpassCenter": "Centro passa banda (nm)",
+      "fwhm": "FWHM (nm)",
+      "flatTop": "Parte superiore piatta (nm)",
+      "populerFilters": "Filtri popolari",
+      "selectManufacturer": "Seleziona produttore...",
+      "clearSelection": "Cancella selezione",
+      "customCurve": "Curva passa banda personalizzata (CSV)",
+      "csvInfo": {
+        "title": "Expected File Format",
+        "description": "Plain text file with two whitespace-separated columns per line: wavelength (nm) and transmission (%). Lines that cannot be parsed as two numbers are silently skipped (use them for comments or headers).",
+        "example": "# wavelength  transmission\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
+        "note": "Transmission values must be in the range 0 – 100 (percent). Comma-separated files are not supported."
+      },
+      "clearCurve": "Curva chiara",
+      "loaded": "Caricato:",
+      "dataPoints": "punti dati",
+      "targetWavelength": "Lunghezza d'onda target (nm)",
+      "filterTransmission": "Trasmissione del filtro",
+      "wavelengthLabel": "Lunghezza d'onda (nm)",
+      "transmissionLabel": "Trasmissione",
+      "transmissionPercent": "Trasmissione: {percent}%",
+      "wavelengthRange": "Gamma di lunghezze d'onda",
+      "flatTopRange": "Gamma Flat-Top",
+      "fRatio": "f/Ratio",
+      "resetDefaults": "Ripristina le impostazioni predefinite",
       "status": {
-        "failed": "Fallito",
-        "idle": "Inattivo",
-        "running": "In esecuzione",
-        "success": "Successo"
-      },
-      "terminalOutput": "OUTPUT TERMINALE",
-      "title": "PINS Management",
-      "upgrading": "Aggiornamento in corso...",
-      "waiting": "Assumendo il controllo... In attesa di comando...",
-      "noNetworks": "Nessuna rete trovata",
-      "scanning": "Scansione...",
-      "stationaryDescription": "Abilita la scansione e la connessione alle reti WiFi locali",
-      "stationaryMode": "Modalità stazionaria",
-      "wifiConnect": "Collegare",
-      "wifiPassword": "Password",
-      "wifiSelect": "Seleziona Rete",
-      "wifiTitle": "Configurazione Wi-Fi",
-      "phd2Running": "Il servizio è attualmente in esecuzione",
-      "phd2Stopped": "Il servizio è attualmente interrotto",
-      "phd2Title": "Avvio automatico PHD2",
-      "autoConnect": "Connessione automatica al Wi-Fi selezionato dopo l'avvio",
-      "bandAuto": "Auto",
-      "wifiBand": "Banda Wi-Fi",
-      "autoSync": "Sincronizzazione automatica",
-      "deviceTime": "Ora del dispositivo",
-      "loadingTime": "Tempo di caricamento...",
-      "syncNow": "Sincronizza ora",
-      "systemTime": "Ora del sistema",
-      "band24": "2,4GHz",
-      "band5": "5GHz",
-      "rescan": "Nuova scansione delle reti WiFi"
+        "success": "✓ Trasmissione calcolata correttamente",
+        "invalidCsv": "Nessun dato valido sulla lunghezza d'onda/trasmissione trovato nel CSV",
+        "csvError": "Errore durante l'analisi del CSV: {errore}"
+      }
     },
     "pinsDevices": {
-      "config": {
-        "envUpdateRate": "Frequenza di aggiornamento dell'ambiente",
-        "envUpdateRateDesc": "Intervallo di aggiornamento per le letture di temperatura e umidità",
-        "factoryReset": "Ripristino delle impostazioni di fabbrica",
-        "factoryResetConfirm": "Sei sicuro di voler eseguire un ripristino delle impostazioni di fabbrica? \nCiò ripristinerà tutte le impostazioni ai valori predefiniti.",
-        "factoryResetDesc": "Ripristinare il dispositivo PINS alle impostazioni predefinite di fabbrica",
-        "humidityOffset": "Compensazione dell'umidità",
-        "humidityOffsetDesc": "Offset di calibrazione per il sensore di umidità",
-        "temperatureOffset": "Compensazione della temperatura",
-        "temperatureOffsetDesc": "Offset di calibrazione per il sensore di temperatura",
-        "title": "Configurazione",
-        "updateRate": "Frequenza di aggiornamento del dispositivo",
-        "updateRateDesc": "Intervallo di aggiornamento per gli aggiornamenti dello stato del dispositivo"
-      },
-      "info": {
-        "adjPorts": "Porte di alimentazione regolabili",
-        "deviceId": "ID del dispositivo",
-        "dewPorts": "Porti di rugiada",
-        "driverVersion": "Versione del driver",
-        "firmware": "Firmware",
-        "meteoStation": "Stazione Meteo",
-        "ports": "Porte disponibili",
-        "powerPorts": "Porte di alimentazione",
-        "powerStatus": "Stato dell'alimentazione",
-        "usbPorts": "Porte USB",
-        "coreTemp": "Temperatura della CPU"
-      },
-      "ports": {
-        "bootState": "Stato di accensione",
-        "bootStateDisabled": "Disabilitato all'avvio",
-        "bootStateEnabled": "Abilitato all'avvio",
-        "current": "Attuale",
-        "maxCurrent": "Corrente massima",
-        "noPorts": "Nessuna porta disponibile",
-        "overcurrent": "Sovracorrente",
-        "readOnly": "Sola lettura (non può essere controllato)",
-        "status": "Stato"
-      },
+      "title": "Dispositivo PI'N'Stars",
       "settings": {
-        "adjustablePower": "Porte di alimentazione regolabili",
-        "adjustablePowerDescription": "Configura e gestisci le porte di alimentazione regolabili",
-        "configuration": "Configurazione",
-        "configurationDescription": "Configurare le impostazioni del dispositivo e la calibrazione del sensore",
-        "dewPorts": "Porti di rugiada",
-        "dewPortsDescription": "Configura e gestisci le porte del riscaldatore di condensa",
         "general": "Generale",
         "generalDescription": "Impostazioni e informazioni generali del dispositivo",
-        "ports": "PowerBox",
         "powerPorts": "Porte di alimentazione",
         "powerPortsDescription": "Configurare e gestire le uscite della porta di alimentazione",
         "usbPorts": "Porte USB",
         "usbPortsDescription": "Configurare e gestire le connessioni delle porte USB",
-        "weather": "MeteoStazione",
+        "dewPorts": "Porti di rugiada",
+        "dewPortsDescription": "Configura e gestisci le porte del riscaldatore di condensa",
+        "adjustablePower": "Porte di alimentazione regolabili",
+        "adjustablePowerDescription": "Configura e gestisci le porte di alimentazione regolabili",
+        "configuration": "Configurazione",
+        "configurationDescription": "Configurare le impostazioni del dispositivo e la calibrazione del sensore",
+        "ports": "PowerBox",
         "wifi": "Wifi",
-        "dewPoint": "Punto di rugiada",
+        "weather": "MeteoStazione",
+        "temperature": "Temperatura",
         "humidity": "Umidità",
-        "temperature": "Temperatura"
+        "dewPoint": "Punto di rugiada"
+      },
+      "config": {
+        "title": "Configurazione",
+        "temperatureOffset": "Compensazione della temperatura",
+        "temperatureOffsetDesc": "Offset di calibrazione per il sensore di temperatura",
+        "humidityOffset": "Compensazione dell'umidità",
+        "humidityOffsetDesc": "Offset di calibrazione per il sensore di umidità",
+        "envUpdateRate": "Frequenza di aggiornamento dell'ambiente",
+        "envUpdateRateDesc": "Intervallo di aggiornamento per le letture di temperatura e umidità",
+        "updateRate": "Frequenza di aggiornamento del dispositivo",
+        "updateRateDesc": "Intervallo di aggiornamento per gli aggiornamenti dello stato del dispositivo",
+        "factoryReset": "Ripristino delle impostazioni di fabbrica",
+        "factoryResetDesc": "Ripristinare il dispositivo PINS alle impostazioni predefinite di fabbrica",
+        "factoryResetConfirm": "Sei sicuro di voler eseguire un ripristino delle impostazioni di fabbrica? \nCiò ripristinerà tutte le impostazioni ai valori predefiniti."
+      },
+      "info": {
+        "coreTemp": "Temperatura della CPU",
+        "deviceId": "ID del dispositivo",
+        "firmware": "Firmware",
+        "driverVersion": "Versione del driver",
+        "ports": "Porte disponibili",
+        "powerPorts": "Porte di alimentazione",
+        "usbPorts": "Porte USB",
+        "dewPorts": "Porti di rugiada",
+        "adjPorts": "Porte di alimentazione regolabili",
+        "powerStatus": "Stato dell'alimentazione",
+        "meteoStation": "Stazione Meteo"
       },
       "status": {
         "notConnected": "Non connesso"
       },
-      "title": "Dispositivo PI'N'Stars",
-      "weather": {
-        "cloudAssessment": "Copertura nuvolosa",
-        "cloudCover": "Copertura nuvolosa",
-        "conditions": "Valutazione meteorologica",
-        "currentWeather": "Condizioni meteorologiche attuali",
-        "deviceInfo": "Informazioni sul dispositivo",
-        "dewPoint": "Punto di rugiada",
-        "dewSpread": "Diffusione della rugiada (T-Td)",
-        "disconnected": "MeteoStation non è attualmente connessa",
-        "firmware": "Firmware",
-        "humidity": "Umidità",
-        "id": "ID del dispositivo",
-        "name": "Nome",
-        "noData": "Nessun dato meteorologico disponibile",
-        "skyBrightness": "Luminosità del cielo",
-        "skyQuality": "Qualità del cielo",
-        "skyTemp": "Temperatura del cielo",
-        "temperature": "Temperatura",
-        "temperatureStatus": "Stato della temperatura",
-        "uptime": "Tempo di attività"
+      "ports": {
+        "status": "Stato",
+        "current": "Attuale",
+        "maxCurrent": "Corrente massima",
+        "overcurrent": "Sovracorrente",
+        "readOnly": "Sola lettura (non può essere controllato)",
+        "noPorts": "Nessuna porta disponibile",
+        "bootState": "Stato di accensione",
+        "bootStateEnabled": "Abilitato all'avvio",
+        "bootStateDisabled": "Disabilitato all'avvio"
       },
       "wifi": {
-        "availableNetworks": "Reti disponibili",
-        "channel": "Canale",
-        "connect": "Collegare",
-        "connectAsClient": "Connettiti come cliente",
-        "connectTo": "Connettiti a",
-        "connectToNetwork": "Connettiti alla rete Wi-Fi",
-        "createHotspot": "Crea hotspot",
         "currentStatus": "Stato Wi-Fi attuale",
-        "enterPassword": "Inserisci la password Wi-Fi",
-        "hotspotDesc": "Crea un punto di accesso WiFi a cui altri dispositivi possono connettersi",
-        "hotspotName": "Nome dell'hotspot",
-        "hotspotPassword": "Password dell'hotspot",
-        "min8chars": "minimo 8 caratteri",
-        "noNetworksFound": "Nessuna rete WiFi trovata",
         "notConnected": "Attualmente non connesso a nessuna rete",
-        "password": "Password",
-        "passwordTooShort": "La password deve contenere almeno 8 caratteri",
+        "availableNetworks": "Reti disponibili",
         "scanNetworks": "Cerca reti",
         "scanning": "Ricerca reti WiFi in corso...",
-        "ssid": "SSID di rete"
+        "noNetworksFound": "Nessuna rete WiFi trovata",
+        "channel": "Canale",
+        "connect": "Collegare",
+        "connectTo": "Connettiti a",
+        "connectToNetwork": "Connettiti alla rete Wi-Fi",
+        "ssid": "SSID di rete",
+        "password": "Password",
+        "enterPassword": "Inserisci la password Wi-Fi",
+        "min8chars": "minimo 8 caratteri",
+        "passwordTooShort": "La password deve contenere almeno 8 caratteri",
+        "connectAsClient": "Connettiti come cliente",
+        "createHotspot": "Crea hotspot",
+        "hotspotName": "Nome dell'hotspot",
+        "hotspotPassword": "Password dell'hotspot",
+        "hotspotDesc": "Crea un punto di accesso WiFi a cui altri dispositivi possono connettersi"
+      },
+      "weather": {
+        "deviceInfo": "Informazioni sul dispositivo",
+        "name": "Nome",
+        "id": "ID del dispositivo",
+        "firmware": "Firmware",
+        "uptime": "Tempo di attività",
+        "disconnected": "MeteoStation non è attualmente connessa",
+        "currentWeather": "Condizioni meteorologiche attuali",
+        "temperature": "Temperatura",
+        "humidity": "Umidità",
+        "dewPoint": "Punto di rugiada",
+        "cloudCover": "Copertura nuvolosa",
+        "skyQuality": "Qualità del cielo",
+        "skyBrightness": "Luminosità del cielo",
+        "skyTemp": "Temperatura del cielo",
+        "noData": "Nessun dato meteorologico disponibile",
+        "conditions": "Valutazione meteorologica",
+        "cloudAssessment": "Copertura nuvolosa",
+        "temperatureStatus": "Stato della temperatura",
+        "dewSpread": "Diffusione della rugiada (T-Td)"
+      }
+    },
+    "shortcuts": {
+      "title": "Sequence-Shortcuts",
+      "description": "Accesso rapido per caricare e avviare sequenze N.I.N.A",
+      "addNew": "New Shortcut",
+      "newShortcut": "Nuova scorciatoia",
+      "createFirst": "Crea il primo collegamento",
+      "menu": "Menu",
+      "edit": "Modificare",
+      "editShortcut": "Modifica collegamento",
+      "deleteShortcut": "Elimina collegamento",
+      "noShortcuts": "Nessuna scorciatoia ancora creata",
+      "noShortcutsDescription": "Crea scorciatoie per caricare rapidamente le tue sequenze preferite",
+      "phrase": "Nome della scorciatoia",
+      "phrasePlaceholder": "ad esempio, sessione M31",
+      "shortcutName": "Nome della scorciatoia",
+      "shortcutNamePlaceholder": "ad esempio, sessione M31",
+      "sequenceFile": "File di sequenza",
+      "selectSequence": "Seleziona una sequenza...",
+      "autoStart": "Sequenza di avvio automatico",
+      "autoStartDescription": "Avvia automaticamente la sequenza dopo il caricamento",
+      "autoStartEnabled": "Avvio automatico abilitato",
+      "manualExecution": "Esecuzione manuale",
+      "icon": "Icona",
+      "selectIcon": "Seleziona un'icona",
+      "color": "Colore",
+      "selectColor": "Seleziona un colore",
+      "create": "Creare",
+      "update": "Aggiornamento",
+      "cancel": "Cancel",
+      "delete": "Eliminare",
+      "execute": "Eseguire",
+      "refreshSequences": "Aggiorna elenco",
+      "loadingSequences": "Caricamento sequenze...",
+      "noSequencesAvailable": "Nessuna sequenza disponibile",
+      "confirmDelete": "Delete Shortcut?",
+      "confirmDeleteMessage": "Are you sure you want to delete \"{phrase}\"? This action cannot be undone.",
+      "confirmDeleteTitle": "Elimina collegamento",
+      "errors": {
+        "nameRequired": "Il nome della scorciatoia è obbligatorio",
+        "sequenceRequired": "Seleziona una sequenza",
+        "loadFailed": "Impossibile caricare i collegamenti",
+        "saveFailed": "Impossibile salvare il collegamento",
+        "deleteFailed": "Impossibile eliminare il collegamento",
+        "executeFailed": "Impossibile eseguire la scorciatoia",
+        "sequenceLoadFailed": "Impossibile caricare le sequenze"
+      },
+      "success": {
+        "created": "Collegamento creato correttamente",
+        "updated": "Collegamento aggiornato correttamente",
+        "deleted": "Collegamento eliminato correttamente"
       }
     },
     "hocusfocus": {
@@ -2285,10 +2385,6 @@
         "simpleModeSettings": "Impostazioni Modalità Semplice",
         "noiseLevel": "Livello di Rumore"
       },
-      "common": {
-        "error": "Errore:",
-        "loading": "Caricamento..."
-      },
       "tilter": {
         "device": "Device",
         "selectDevice": "Select a device",
@@ -2303,50 +2399,102 @@
         "currentPositions": "Current Positions",
         "noDeviceSelected": "Please select a device first",
         "deviceNotConnected": "Connect to a device to view controls",
-        "sensorConfiguration": "Sensor Configuration",
+        "configuration": "Configuration",
         "sensorWidth": "Sensor Width",
         "sensorHeight": "Sensor Height",
-        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
+        "sensorRotation": "Sensor Rotation (CW facing back of camera)",
+        "sensorRotationDescription": "Clockwise when facing the back of the camera",
+        "manualTilterConfiguration": "Manual 3-Point Tilter Configuration (beta - use with care)",
+        "tilterOuterRadius": "Tilter Outer Radius",
+        "tilterThreadPitch": "Tilter Thread Pitch",
+        "applyTiltPlane": "Apply Tilt Plane",
+        "fetchFromAberrationInspector": "Fetch from Aberration Inspector",
+        "calculateActuatorPositions": "Calculate Actuator Positions",
+        "calculatedPositions": "Calculated Positions",
+        "applyThesePositionsToDevice": "Apply These Positions to Device",
+        "actuatorVisualizationLabel": "Actuators at {radius} mm radius • Sensor rotation {rotation}° • Top view",
+        "calculatingPositions": "Calculating...",
+        "applyingPositions": "Applying...",
+        "savingConfiguration": "Saving..."
+      },
+      "common": {
+        "error": "Errore:",
+        "loading": "Caricamento..."
+      }
+    }
+  },
+  "pinsDevices": {
+    "title": "Dispositivi PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Configurazione",
+    "generalTab": "Generale",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Porte di Alimentazione",
+    "dewPortsTab": "Porte Rugiada",
+    "adjustablePowerTab": "Potenza Regolabile",
+    "weatherTab": "Meteo",
+    "usbPortsTab": "Porte USB",
+    "settings": {
+      "title": "Impostazioni",
+      "temperature": "Temperatura",
+      "humidity": "Umidità",
+      "dewPoint": "Punto di Rugiada",
+      "placeholders": {
+        "networkName": "Nome della Rete",
+        "password": "Password",
+        "passwordHint": "Suggerimento Password"
+      },
+      "validation": {
+        "passwordRequired": "La password è richiesta"
       }
     },
-    "narrowband": {
-      "aperture": "Apertura (mm)",
-      "bandpassCenter": "Centro passa banda (nm)",
-      "clearCurve": "Curva chiara",
-      "clearSelection": "Cancella selezione",
-      "customCurve": "Curva passa banda personalizzata (CSV)",
-      "dataPoints": "punti dati",
-      "fieldOfView": "Campo visivo",
-      "filterTransmission": "Trasmissione del filtro",
-      "flatTop": "Parte superiore piatta (nm)",
-      "flatTopRange": "Gamma Flat-Top",
-      "focalLength": "Lunghezza focale (mm)",
-      "fwhm": "FWHM (nm)",
-      "loaded": "Caricato:",
-      "obstructionDiameter": "Ostruzione centrale (mm)",
-      "peakTransmittance": "Trasmissione di picco",
-      "populerFilters": "Filtri popolari",
-      "refractiveIndex": "Indice di rifrazione",
-      "resetDefaults": "Ripristina le impostazioni predefinite",
-      "sections": {
-        "bandpass": "Caratteristiche passa-banda",
-        "chart": "Curva passa-banda",
-        "optical": "Parametri ottici",
-        "results": "Risultati della trasmissione"
-      },
-      "selectManufacturer": "Seleziona produttore...",
-      "status": {
-        "csvError": "Errore durante l'analisi del CSV: {errore}",
-        "invalidCsv": "Nessun dato valido sulla lunghezza d'onda/trasmissione trovato nel CSV",
-        "success": "✓ Trasmissione calcolata correttamente"
-      },
-      "subtitle": "Calcolare le caratteristiche di trasmissione del filtro a banda stretta",
-      "targetWavelength": "Lunghezza d'onda target (nm)",
-      "title": "Calcolatore del filtro",
-      "transmissionLabel": "Trasmissione",
-      "transmissionPercent": "Trasmissione: {percent}%",
-      "wavelengthLabel": "Lunghezza d'onda (nm)",
-      "wavelengthRange": "Gamma di lunghezze d'onda"
+    "ports": {
+      "disableOnStartup": "Disabilita all'Avvio",
+      "enableOnStartup": "Abilita all'Avvio",
+      "alwaysEnabled": "Sempre Abilitato",
+      "status": "Stato",
+      "current": "Corrente",
+      "currentVoltage": "Tensione Attuale",
+      "currentPower": "Potenza Attuale",
+      "outputVoltage": "Tensione di Uscita",
+      "powerLevel": "Livello di Potenza",
+      "defaultVoltage": "Tensione Predefinita"
+    },
+    "dew": {
+      "status": "Stato",
+      "autoMode": "Modalità Automatica",
+      "disableAutoMode": "Disabilita Modalità Automatica",
+      "enableAutoMode": "Abilita Modalità Automatica",
+      "probeTemperature": "Temperatura della Sonda",
+      "current": "Corrente",
+      "maxCurrent": "Corrente Massima",
+      "currentPower": "Potenza Attuale",
+      "autoThreshold": "Soglia Automatica",
+      "autoThresholdDisplay": "Soglia Automatica",
+      "autoThresholdDescription": "Riscalda automaticamente il riscaldatore di rugiada quando la temperatura è vicina al punto di rugiada",
+      "powerLevel": "Livello di Potenza"
+    },
+    "power": {
+      "buckConverter": "Convertitore Buck",
+      "pwmOutput": "Uscita PWM"
+    },
+    "general": {
+      "rail12v": "Binario 12V",
+      "rail5v": "Binario 5V",
+      "averageAmps": "Ampere Medi",
+      "ampsPerHour": "Ampere all'Ora",
+      "wattsPerHour": "Watt all'Ora"
+    },
+    "weather": {
+      "luxUnit": "Lux"
+    },
+    "errors": {
+      "failedRenamePort": "Impossibile rinominare la porta",
+      "failedTogglePort": "Impossibile alternare la porta",
+      "failedToggleBootState": "Impossibile alternare lo stato di avvio",
+      "failedToggleAutoMode": "Impossibile alternare la modalità automatica",
+      "failedSetPowerLevel": "Impossibile impostare il livello di potenza"
     }
   },
   "dialogs": {
@@ -2471,6 +2619,19 @@
       "sequencerFailed": "Sequenziatore fallito"
     }
   },
+  "indi": {
+    "config": {
+      "connectionMode": "Modalità di connessione",
+      "serial": "Serial",
+      "network": "Network",
+      "devicePort": "Porta dispositivo",
+      "baudRate": "Baud Rate",
+      "autoDetect": "Rilevamento automatico",
+      "ipAddress": "Indirizzo IP",
+      "tcpPort": "Porta TCP",
+      "selectPort": "-- Select a port --"
+    }
+  },
   "nav": {
     "equipment": "Equip.",
     "camera": "Camera",
@@ -2488,79 +2649,5 @@
     "skyView": "Stellarium",
     "settings": "Impost.",
     "about": "Info"
-  },
-  "pinsDevices": {
-    "title": "Dispositivi PINS",
-    "powerBox": "PINS.PowerBox",
-    "meteoStation": "PINS.MeteoStation",
-    "configurationTab": "Configurazione",
-    "generalTab": "Generale",
-    "wifiTab": "WiFi",
-    "powerPortsTab": "Porte di Alimentazione",
-    "dewPortsTab": "Porte Rugiada",
-    "adjustablePowerTab": "Potenza Regolabile",
-    "weatherTab": "Meteo",
-    "usbPortsTab": "Porte USB",
-    "settings": {
-      "title": "Impostazioni",
-      "temperature": "Temperatura",
-      "humidity": "Umidità",
-      "dewPoint": "Punto di Rugiada",
-      "placeholders": {
-        "networkName": "Nome della Rete",
-        "password": "Password",
-        "passwordHint": "Suggerimento Password"
-      },
-      "validation": {
-        "passwordRequired": "La password è richiesta"
-      }
-    },
-    "ports": {
-      "disableOnStartup": "Disabilita all'Avvio",
-      "enableOnStartup": "Abilita all'Avvio",
-      "alwaysEnabled": "Sempre Abilitato",
-      "status": "Stato",
-      "current": "Corrente",
-      "currentVoltage": "Tensione Attuale",
-      "currentPower": "Potenza Attuale",
-      "outputVoltage": "Tensione di Uscita",
-      "powerLevel": "Livello di Potenza",
-      "defaultVoltage": "Tensione Predefinita"
-    },
-    "dew": {
-      "status": "Stato",
-      "autoMode": "Modalità Automatica",
-      "disableAutoMode": "Disabilita Modalità Automatica",
-      "enableAutoMode": "Abilita Modalità Automatica",
-      "probeTemperature": "Temperatura della Sonda",
-      "current": "Corrente",
-      "maxCurrent": "Corrente Massima",
-      "currentPower": "Potenza Attuale",
-      "autoThreshold": "Soglia Automatica",
-      "autoThresholdDisplay": "Soglia Automatica",
-      "autoThresholdDescription": "Riscalda automaticamente il riscaldatore di rugiada quando la temperatura è vicina al punto di rugiada",
-      "powerLevel": "Livello di Potenza"
-    },
-    "power": {
-      "buckConverter": "Convertitore Buck",
-      "pwmOutput": "Uscita PWM"
-    },
-    "general": {
-      "rail12v": "Binario 12V",
-      "rail5v": "Binario 5V",
-      "averageAmps": "Ampere Medi",
-      "ampsPerHour": "Ampere all'Ora",
-      "wattsPerHour": "Watt all'Ora"
-    },
-    "weather": {
-      "luxUnit": "Lux"
-    },
-    "errors": {
-      "failedRenamePort": "Impossibile rinominare la porta",
-      "failedTogglePort": "Impossibile alternare la porta",
-      "failedToggleBootState": "Impossibile alternare lo stato di avvio",
-      "failedToggleAutoMode": "Impossibile alternare la modalità automatica",
-      "failedSetPowerLevel": "Impossibile impostare il livello di potenza"
-    }
   }
 }

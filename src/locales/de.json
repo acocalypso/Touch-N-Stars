@@ -908,6 +908,7 @@
       "dew_heater": "Taupunktregler",
       "dew_heater_on": "Taupunktregler ein",
       "dew_heater_off": "Taupunktregler aus",
+      "dewHeaterStrength": "Tauheizer-Stärke",
       "camera_cooling": "Kamerakühlung",
       "target_temperature": "Zieltemperatur (°C)",
       "warm_up_time": "Aufwärmzeit (min)",

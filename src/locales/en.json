@@ -911,6 +911,7 @@
       "dew_heater": "Dewheater",
       "dew_heater_on": "Dewheater On",
       "dew_heater_off": "Dewheater Off",
+      "dewHeaterStrength": "Dew Heater Strength",
       "camera_cooling": "Camera cool down",
       "target_temperature": "Target temperature (°C)",
       "warm_up_time": "Warm-up time (min)",

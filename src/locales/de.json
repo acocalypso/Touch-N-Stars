@@ -938,7 +938,9 @@
       "set_use_solve_sync_to_mount": "Mit Montierung synchronisieren",
       "readout_mode_image": "Auslesemodus Sequenz",
       "readout_mode_snap": "Auslesemodus Schnappschuss",
-      "LowNoiseMode": "Ultra Mode"
+      "LowNoiseMode": "Ultra Mode",
+      "HighFullwellMode": "High Fullwell Mode",
+      "BinAverageEnabled": "Binning averages pixels"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

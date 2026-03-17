@@ -79,8 +79,10 @@
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
+    <pinsSetBinAverageEnabled v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')" />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
     <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
+    <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />
 
     <div v-if="store.cameraInfo.CanSetUSBLimit">
       <setCameraUsbLimit v-if="!store.isPINS" />
@@ -104,6 +106,8 @@ import setSaveSnapshot from './setSaveSnapshot.vue';
 import setCameraUsbLimit from './setCameraUsbLimit.vue';
 import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
 import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';
+import pinsSetHighFullwellMode from './settingsPins/pinsSetHighFullwellMode.vue';
+import pinsSetBinAverageEnabled from './settingsPins/pinsSetBinAverageEnabled.vue';
 import { useCameraStore } from '@/store/cameraStore';
 
 const store = apiStore();

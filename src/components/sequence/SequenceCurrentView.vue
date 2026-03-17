@@ -43,6 +43,7 @@
               :targetId="store.globalTriggers.at(-1)?.Id ?? store.data[0]?.Id ?? ''"
               mode="trigger"
               :insertAfter="store.globalTriggers.length > 0 ? true : null"
+              containerName="Global"
             />
           </div>
         </div>
@@ -100,6 +101,7 @@
                 :targetId="container.Items?.at(-1)?.Id ?? container.Id"
                 mode="item"
                 :insertAfter="(container.Items?.length ?? 0) > 0 ? true : null"
+                :containerName="container.Name"
               />
             </div>
           </div>

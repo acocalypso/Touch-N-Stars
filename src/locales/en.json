@@ -22,7 +22,8 @@
     "no": "No",
     "delete": "Delete",
     "edit": "Edit",
-    "close": "Close"
+    "close": "Close",
+    "save": "Save"
   },
   "pages": {
     "equipment": {
@@ -1108,7 +1109,18 @@
         "openPosition": "Open Position (°)",
         "closedPosition": "Closed Position (°)",
         "currentPosition": "Current Position",
-        "noSettingsForDevice": "No settings available for this device"
+        "trainedSettings": {
+          "title": "Trained Flat Exposure Settings",
+          "filter": "Filter",
+          "noFilter": "No Filter",
+          "binning": "Binning",
+          "gain": "Gain",
+          "offset": "Offset",
+          "brightness": "Brightness",
+          "time": "Time (s)",
+          "confirmTitle": "Remove Setting",
+          "confirmMessage": "Are you sure you want to remove this trained flat exposure setting?"
+        }
       },
       "indi": {
         "settings": "Flat Device Settings"
@@ -1133,7 +1145,8 @@
       "auto_exposure": "Auto exposure",
       "auto_brightness": "Auto brightness",
       "skyflat": "Skyflat",
-      "button_slew_to_zenith": "Slew to zenith"
+      "button_slew_to_zenith": "Slew to zenith",
+      "keep_closed": "Keep flat panel closed"
     },
     "weatherModal": {
       "weatherInformation": "Weather Information",
@@ -2113,7 +2126,13 @@
       "populerFilters": "Popular Filters",
       "selectManufacturer": "Select Manufacturer...",
       "clearSelection": "Clear Selection",
-      "customCurve": "Custom Bandpass Curve (CSV)",
+      "customCurve": "Custom Bandpass Curve",
+      "csvInfo": {
+        "title": "Expected File Format",
+        "description": "Plain text file with two whitespace-separated columns per line: wavelength (nm) and transmission (%). Lines that cannot be parsed as two numbers are silently skipped (use them for comments or headers).",
+        "example": "# wavelength  transmission\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
+        "note": "Transmission values must be in the range 0 – 100 (percent). Comma-separated files are not supported."
+      },
       "clearCurve": "Clear Curve",
       "loaded": "Loaded:",
       "dataPoints": "data points",
@@ -2124,10 +2143,10 @@
       "transmissionPercent": "Transmission: {percent}%",
       "wavelengthRange": "Wavelength Range",
       "flatTopRange": "Flat Top Range",
-      "fieldOfView": "Field of View",
+      "fRatio": "f/Ratio",
       "resetDefaults": "Reset to Defaults",
       "status": {
-        "success": "✓ Transmission calculated successfully",
+        "success": "Transmission calculated successfully",
         "invalidCsv": "No valid wavelength/transmission data found in CSV",
         "csvError": "Error parsing CSV: {error}"
       }
@@ -2298,7 +2317,7 @@
         "aberrationOptions": "Aberration Inspector Options",
         "autoFocusOptions": "AutoFocus Options",
         "starDetection": "Star Detection",
-        "tilter": "Tilter"
+        "tilter": "Tilter (beta)"
       },
       "modal": {
         "selectDirectory": "Select AutoFocus Directory to Rerun",
@@ -2372,7 +2391,7 @@
         "scanTooltip": "Scan for devices",
         "connect": "Connect",
         "disconnect": "Disconnect",
-        "deviceInfo": "Device Information",
+        "deviceInfo": "Device Information (beta - use with care)",
         "status": "Status",
         "connected": "Connected",
         "moving": "Moving",
@@ -2380,10 +2399,23 @@
         "currentPositions": "Current Positions",
         "noDeviceSelected": "Please select a device first",
         "deviceNotConnected": "Connect to a device to view controls",
-        "sensorConfiguration": "Sensor Configuration",
+        "configuration": "Configuration",
         "sensorWidth": "Sensor Width",
         "sensorHeight": "Sensor Height",
-        "sensorRotation": "Sensor Rotation (CW facing back of camera)"
+        "sensorRotation": "Sensor Rotation",
+        "sensorRotationDescription": "Clockwise when facing the back of the camera",
+        "manualTilterConfiguration": "Manual 3-Point Tilter Configuration (beta - use with care)",
+        "tilterOuterRadius": "Tilter Outer Radius",
+        "tilterThreadPitch": "Tilter Thread Pitch",
+        "applyTiltPlane": "Apply Tilt Plane",
+        "fetchFromAberrationInspector": "Fetch from Aberration Inspector",
+        "calculateActuatorPositions": "Calculate Actuator Positions",
+        "calculatedPositions": "Calculated Positions",
+        "applyThesePositionsToDevice": "Apply These Positions to Device",
+        "actuatorVisualizationLabel": "Actuators at {radius} mm radius • Sensor rotation {rotation}° • Top view",
+        "calculatingPositions": "Calculating...",
+        "applyingPositions": "Applying...",
+        "savingConfiguration": "Saving..."
       },
       "common": {
         "error": "Error:",

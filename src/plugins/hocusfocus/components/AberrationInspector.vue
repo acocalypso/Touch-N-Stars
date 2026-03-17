@@ -24,14 +24,14 @@
         </button>
         <button
           @click="$emit('rerun')"
-          :disabled="!backendCanRun"
+          :disabled="!backendCanRerun"
           class="px-6 py-2 rounded bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium transition"
         >
           {{ $t('plugins.hocusfocus.aberrationInspector.loadSaved') }}
         </button>
         <button
           @click="$emit('clear')"
-          :disabled="!backendCanRun"
+          :disabled="!backendCanRerun"
           class="px-6 py-2 rounded bg-orange-600 hover:bg-orange-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium transition"
         >
           {{ $t('plugins.hocusfocus.aberrationInspector.clearAnalyses') }}
@@ -215,6 +215,7 @@ const props = defineProps({
   focuserConnected: Boolean,
   isCancelling: Boolean,
   backendCanRun: Boolean,
+  backendCanRerun: Boolean,
   isTabActive: Boolean,
   // Callbacks for data updates
   onUpdateStatus: Function,

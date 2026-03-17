@@ -1,15 +1,18 @@
 <template>
   <div class="relative" ref="rootRef">
     <button
-      class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors"
+      class="flex items-center gap-1 px-2 py-1 rounded transition-colors"
+      :class="colorClass"
       :title="label"
       @click.stop="toggle"
     >
-      <svg v-if="loading" class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+      <svg v-if="loading" class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
       </svg>
-      <PlusIcon v-else class="w-4 h-4" />
+      <PlusIcon v-else class="w-3.5 h-3.5" />
+      <span v-if="containerName" class="text-xs opacity-50">{{ containerName }}</span>
+      <span class="text-xs">{{ shortLabel }}</span>
     </button>
 
     <Teleport to="body">
@@ -66,6 +69,7 @@ const props = defineProps({
   targetId: { type: String, required: true },
   mode: { type: String, required: true }, // 'item' | 'trigger' | 'condition'
   insertAfter: { default: true },
+  containerName: { type: String, default: '' },
 });
 
 const store = useSequenceV2Store();
@@ -82,6 +86,19 @@ const label = computed(
       trigger: 'Trigger hinzufügen',
       condition: 'Condition hinzufügen',
     })[props.mode] ?? 'Hinzufügen'
+);
+
+const shortLabel = computed(
+  () => ({ item: 'Item', trigger: 'Trigger', condition: 'Condition' })[props.mode] ?? 'Hinzufügen'
+);
+
+const colorClass = computed(
+  () =>
+    ({
+      item: 'text-slate-400 hover:text-slate-200 hover:bg-slate-600/40',
+      trigger: 'text-cyan-500/70 hover:text-cyan-400 hover:bg-cyan-900/30',
+      condition: 'text-amber-500/70 hover:text-amber-400 hover:bg-amber-900/30',
+    })[props.mode] ?? 'text-slate-400 hover:text-slate-200 hover:bg-slate-600/40'
 );
 
 const types = computed(

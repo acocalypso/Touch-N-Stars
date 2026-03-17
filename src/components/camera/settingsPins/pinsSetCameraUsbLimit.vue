@@ -1,10 +1,9 @@
 <template>
   <div
-    v-if="store.checkVersionNewerOrEqual(store.currentApiVersion, '2.2.14.3')"
     class="flex items-center w-full justify-between border border-gray-500 p-1 md:p-2 rounded-lg"
   >
     <label for="setUsbLimit" class="text-xs md:text-sm text-gray-200 font-medium">
-      {{ $t('components.camera.usb_limit') }} PINS
+      {{ $t('components.camera.usb_limit') }}
     </label>
     <select
       @change="setUsbLimit"

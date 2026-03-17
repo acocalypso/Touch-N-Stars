@@ -116,6 +116,7 @@
             :targetId="item.Triggers?.at(-1)?.Id ?? item.Id"
             mode="trigger"
             :insertAfter="(item.Triggers?.length ?? 0) > 0 ? true : null"
+            :containerName="item.Name"
           />
         </div>
       </div>
@@ -152,6 +153,7 @@
             :targetId="item.Conditions?.at(-1)?.Id ?? item.Id"
             mode="condition"
             :insertAfter="(item.Conditions?.length ?? 0) > 0 ? true : null"
+            :containerName="item.Name"
           />
         </div>
       </div>
@@ -177,6 +179,7 @@
           :targetId="item.Items?.at(-1)?.Id ?? item.Id"
           mode="item"
           :insertAfter="(item.Items?.length ?? 0) > 0 ? true : null"
+          :containerName="item.Name"
         />
       </div>
     </div>

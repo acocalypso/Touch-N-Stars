@@ -141,16 +141,47 @@
               </div>
             </div>
 
-            <!-- CSV Bandpass Curve Upload -->
+            <!-- Bandpass Curve Upload -->
             <div class="mt-6 mb-6 pb-6 border-b border-gray-700/50">
-              <label class="block text-sm font-medium text-gray-300 mb-3">
-                {{ $t('plugins.narrowband.customCurve') }}
-              </label>
+              <div class="flex items-center gap-2 mb-3">
+                <label class="text-sm font-medium text-gray-300">
+                  {{ $t('plugins.narrowband.customCurve') }}
+                </label>
+                <button
+                  type="button"
+                  @click="showCsvInfo = !showCsvInfo"
+                  class="text-gray-400 hover:text-blue-400 transition-colors flex-shrink-0"
+                  :title="$t('plugins.narrowband.csvInfo.title')"
+                >
+                  <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <!-- CSV format info panel -->
+              <div
+                v-if="showCsvInfo"
+                class="mb-3 rounded-lg border border-blue-700/50 bg-blue-900/20 p-3 text-xs text-blue-200 space-y-1"
+              >
+                <p class="font-semibold text-blue-300">
+                  {{ $t('plugins.narrowband.csvInfo.title') }}
+                </p>
+                <p>{{ $t('plugins.narrowband.csvInfo.description') }}</p>
+                <pre class="mt-1 rounded bg-gray-800/60 px-2 py-1 font-mono text-gray-300">{{
+                  $t('plugins.narrowband.csvInfo.example')
+                }}</pre>
+                <p class="text-gray-400">{{ $t('plugins.narrowband.csvInfo.note') }}</p>
+              </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="flex items-center">
                   <input
                     type="file"
-                    accept=".csv"
+                    accept=".csv,.txt,.dat"
                     @change="loadCurveFromCSV"
                     class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-gray-700/50 file:text-gray-300 hover:file:bg-gray-600"
                   />
@@ -208,41 +239,43 @@
               />
 
               <!-- Target Wavelength with Presets -->
-              <div class="flex items-center justify-between w-full gap-4">
-                <label class="text-sm font-medium text-gray-300 whitespace-nowrap flex-shrink-0">
-                  {{ $t('plugins.narrowband.targetWavelength') }}
-                </label>
-                <div class="flex gap-2 justify-center flex-1">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between w-full">
+                  <label class="text-sm font-medium text-gray-300">
+                    {{ $t('plugins.narrowband.targetWavelength') }}
+                  </label>
+                  <input
+                    v-model.number="params.targetWavelength"
+                    type="number"
+                    min="400"
+                    max="900"
+                    step="0.1"
+                    class="h-8 w-24 rounded-lg border border-gray-600 bg-gray-700/50 px-2 text-sm text-white text-center focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="flex gap-2">
                   <button
                     type="button"
                     @click="setTargetWavelength(656.3)"
-                    class="w-16 rounded-lg bg-red-500/20 py-1.5 text-xs font-medium text-red-200 transition hover:bg-red-500/30"
+                    class="flex-1 rounded-lg bg-red-500/20 py-1.5 text-xs font-medium text-red-200 transition hover:bg-red-500/30"
                   >
                     [Ha]
                   </button>
                   <button
                     type="button"
                     @click="setTargetWavelength(500.7)"
-                    class="w-16 rounded-lg bg-cyan-500/20 py-1.5 text-xs font-medium text-cyan-200 transition hover:bg-cyan-500/30"
+                    class="flex-1 rounded-lg bg-cyan-500/20 py-1.5 text-xs font-medium text-cyan-200 transition hover:bg-cyan-500/30"
                   >
                     [OIII]
                   </button>
                   <button
                     type="button"
                     @click="setTargetWavelength(672.4)"
-                    class="w-16 rounded-lg bg-yellow-500/20 py-1.5 text-xs font-medium text-yellow-200 transition hover:bg-yellow-500/30"
+                    class="flex-1 rounded-lg bg-yellow-500/20 py-1.5 text-xs font-medium text-yellow-200 transition hover:bg-yellow-500/30"
                   >
                     [SII]
                   </button>
                 </div>
-                <input
-                  v-model.number="params.targetWavelength"
-                  type="number"
-                  min="400"
-                  max="900"
-                  step="0.1"
-                  class="h-8 w-24 rounded-lg border border-gray-600 bg-gray-700/50 px-2 text-sm text-white text-center focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 flex-shrink-0"
-                />
               </div>
             </div>
           </section>
@@ -263,10 +296,10 @@
         </div>
 
         <!-- Results Section -->
-        <aside class="space-y-6">
+        <aside class="space-y-6 order-first lg:order-last">
           <!-- Transmission Display -->
           <section
-            class="rounded-2xl border border-emerald-700/70 bg-gradient-to-br from-emerald-900/40 to-green-900/40 p-8 shadow-lg backdrop-blur sticky top-6"
+            class="rounded-2xl border border-emerald-700/70 bg-gradient-to-br from-emerald-900/40 to-green-900/40 p-8 shadow-lg backdrop-blur lg:sticky lg:top-6"
           >
             <div class="space-y-6">
               <!-- Transmission Gauge -->
@@ -329,8 +362,8 @@
                   </span>
                 </div>
                 <div class="flex justify-between text-xs text-gray-400">
-                  <span>{{ $t('plugins.narrowband.fieldOfView') }}</span>
-                  <span class="text-emerald-300">{{ fov.toFixed(2) }}°</span>
+                  <span>{{ $t('plugins.narrowband.fRatio') }}</span>
+                  <span class="text-emerald-300">f/{{ fRatio.toFixed(1) }}</span>
                 </div>
               </div>
             </div>
@@ -409,6 +442,7 @@ const errors = ref([]);
 const selectedManufacturer = ref('');
 const loadedCurveData = ref(null);
 const loadedFileName = ref('');
+const showCsvInfo = ref(false);
 
 // Calculate transmission and validate
 function updateTransmission() {
@@ -440,9 +474,8 @@ function updateTransmission() {
 }
 
 // Computed property for field of view
-const fov = computed(() => {
-  const angleRad = Math.atan(params.value.aperture / 2 / params.value.focalLength);
-  return (angleRad * 2 * 180) / Math.PI;
+const fRatio = computed(() => {
+  return params.value.focalLength / params.value.aperture;
 });
 
 // Get color based on transmission

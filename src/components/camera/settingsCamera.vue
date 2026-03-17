@@ -83,7 +83,7 @@
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
     <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
     <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />
-
+    <pinsSetLEDLights v-if="store.isPINS && cameraStore.cameraSettings.CanSetLEDLights" />
     <div v-if="store.cameraInfo.CanSetUSBLimit">
       <setCameraUsbLimit v-if="!store.isPINS" />
       <pinsSetCameraUsbLimit v-else />
@@ -108,6 +108,7 @@ import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
 import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';
 import pinsSetHighFullwellMode from './settingsPins/pinsSetHighFullwellMode.vue';
 import pinsSetBinAverageEnabled from './settingsPins/pinsSetBinAverageEnabled.vue';
+import pinsSetLEDLights from './settingsPins/pinsSetLEDLights.vue';
 import { useCameraStore } from '@/store/cameraStore';
 
 const store = apiStore();

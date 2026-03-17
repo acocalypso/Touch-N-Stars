@@ -943,7 +943,8 @@
       "readout_mode_snap": "Readout Mode Snapshot",
       "LowNoiseMode": "Ultra Mode",
       "HighFullwellMode": "High Fullwell Mode",
-      "BinAverageEnabled": "Binning averages pixels"
+      "BinAverageEnabled": "Binning averages pixels",
+      "LEDLights": "LED"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

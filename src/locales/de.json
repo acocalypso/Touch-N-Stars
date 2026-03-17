@@ -940,7 +940,8 @@
       "readout_mode_snap": "Auslesemodus Schnappschuss",
       "LowNoiseMode": "Ultra Mode",
       "HighFullwellMode": "High Fullwell Mode",
-      "BinAverageEnabled": "Binning averages pixels"
+      "BinAverageEnabled": "Binning averages pixels",
+      "LEDLights": "LED"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

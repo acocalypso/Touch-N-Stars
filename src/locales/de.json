@@ -941,7 +941,8 @@
       "LowNoiseMode": "Ultra Mode",
       "HighFullwellMode": "High Fullwell Mode",
       "BinAverageEnabled": "Binning averages pixels",
-      "LEDLights": "LED"
+      "LEDLights": "LED",
+      "FanSpeed": "Lüfter Geschwindigkeit"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

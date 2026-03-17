@@ -911,6 +911,7 @@
       "dew_heater": "Dewheater",
       "dew_heater_on": "Dewheater On",
       "dew_heater_off": "Dewheater Off",
+      "dewHeaterStrength": "Dew Heater Strength",
       "camera_cooling": "Camera cool down",
       "target_temperature": "Target temperature (°C)",
       "warm_up_time": "Warm-up time (min)",
@@ -939,7 +940,16 @@
       "snapshotTargetName": "Targe name",
       "set_use_solve_sync_to_mount": "Sync to mount",
       "readout_mode_image": "Readout Mode Sequence",
-      "readout_mode_snap": "Readout Mode Snapshot"
+      "readout_mode_snap": "Readout Mode Snapshot",
+      "LowNoiseMode": "Ultra Mode",
+      "HighFullwellMode": "High Fullwell Mode",
+      "BinAverageEnabled": "Binning averages pixels",
+      "LEDLights": "LED",
+      "FanSpeed": "Fan Speed",
+      "tab_camera": "Camera",
+      "tab_cooler": "Cooler",
+      "tab_filter": "Filter",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

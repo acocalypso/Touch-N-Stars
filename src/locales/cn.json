@@ -939,7 +939,17 @@
       "snapshotTargetName": "目标名称",
       "set_use_solve_sync_to_mount": "与赤道仪同步",
       "readout_mode_image": "读出模式 序列",
-      "readout_mode_snap": "读出模式 快照"
+      "readout_mode_snap": "读出模式 快照",
+      "BinAverageEnabled": "Binning averages pixels",
+      "FanSpeed": "Fan Speed",
+      "HighFullwellMode": "High Fullwell Mode",
+      "LEDLights": "LED",
+      "LowNoiseMode": "Ultra Mode",
+      "dewHeaterStrength": "Dew Heater Strength",
+      "tab_camera": "相机",
+      "tab_cooler": "冷却",
+      "tab_filter": "滤镜",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "三点极轴对准",

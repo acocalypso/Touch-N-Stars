@@ -939,7 +939,17 @@
       "snapshotTargetName": "Nome do alvo",
       "set_use_solve_sync_to_mount": "Sincronizar para montar",
       "readout_mode_image": "Modo de leitura Sequência",
-      "readout_mode_snap": "Modo de leitura Instantâneo"
+      "readout_mode_snap": "Modo de leitura Instantâneo",
+      "BinAverageEnabled": "",
+      "FanSpeed": "",
+      "HighFullwellMode": "",
+      "LEDLights": "",
+      "LowNoiseMode": "",
+      "dewHeaterStrength": "",
+      "tab_camera": "Câmera",
+      "tab_cooler": "Resfriamento",
+      "tab_filter": "Filtro",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Alinhamento polar de três pontos",

@@ -911,6 +911,7 @@
       "dew_heater": "Taupunktregler",
       "dew_heater_on": "Taupunktregler ein",
       "dew_heater_off": "Taupunktregler aus",
+      "dewHeaterStrength": "Tauheizer-Stärke",
       "camera_cooling": "Kamerakühlung",
       "target_temperature": "Zieltemperatur (°C)",
       "warm_up_time": "Aufwärmzeit (min)",
@@ -939,7 +940,16 @@
       "snapshotTargetName": "Zielname",
       "set_use_solve_sync_to_mount": "Mit Montierung synchronisieren",
       "readout_mode_image": "Auslesemodus Sequenz",
-      "readout_mode_snap": "Auslesemodus Schnappschuss"
+      "readout_mode_snap": "Auslesemodus Schnappschuss",
+      "LowNoiseMode": "Ultra Mode",
+      "HighFullwellMode": "High Fullwell Mode",
+      "BinAverageEnabled": "Binning averages pixels",
+      "LEDLights": "LED",
+      "FanSpeed": "Lüfter Geschwindigkeit",
+      "tab_camera": "Kamera",
+      "tab_cooler": "Kühlung",
+      "tab_filter": "Filter",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",

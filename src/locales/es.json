@@ -939,7 +939,17 @@
       "snapshotTargetName": "Nombre de destino",
       "set_use_solve_sync_to_mount": "Sincronizar para montar",
       "readout_mode_image": "Modo de lectura Secuencia",
-      "readout_mode_snap": "Modo de lectura Instantánea"
+      "readout_mode_snap": "Modo de lectura Instantánea",
+      "BinAverageEnabled": "Agrupación de píxeles promedio",
+      "FanSpeed": "Velocidad del ventilador",
+      "HighFullwellMode": "Modo de pozo completo alto",
+      "LEDLights": "CONDUJO",
+      "LowNoiseMode": "Modo ultra",
+      "dewHeaterStrength": "Fuerza del calentador de rocío",
+      "tab_camera": "Cámara",
+      "tab_cooler": "Enfriamiento",
+      "tab_filter": "Filtro",
+      "tab_snapshot": "Save & Solve"
     },
     "tppa": {
       "title": "Three Point Polar Alignment",

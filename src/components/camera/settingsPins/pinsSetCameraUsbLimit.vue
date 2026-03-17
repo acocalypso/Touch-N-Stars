@@ -4,7 +4,7 @@
     class="flex items-center w-full justify-between border border-gray-500 p-1 md:p-2 rounded-lg"
   >
     <label for="setUsbLimit" class="text-xs md:text-sm text-gray-200 font-medium">
-      {{ $t('components.camera.usb_limit') }}
+      {{ $t('components.camera.usb_limit') }} PINS
     </label>
     <select
       @change="setUsbLimit"
@@ -12,8 +12,8 @@
       v-model="usbLimit"
       class="default-select h-7 md:h-8 w-20 md:w-28"
     >
-      <option v-for="n in store.cameraInfo.USBLimitMax" :key="n" :value="n - 1">
-        {{ n - 1 }}
+      <option v-for="n in store.cameraInfo.USBLimitMax" :key="n" :value="n">
+        {{ n }}
       </option>
     </select>
   </div>
@@ -30,7 +30,7 @@ const cameraStore = useCameraStore();
 const usbLimit = ref(9);
 
 onMounted(() => {
-  usbLimit.value = store.cameraInfo.USBLimit;
+  usbLimit.value = cameraStore.cameraSettings.USBLimit;
 });
 
 async function setUsbLimit() {

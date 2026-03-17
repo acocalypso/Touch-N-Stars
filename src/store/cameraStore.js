@@ -349,6 +349,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     readoutMode,
     containerSize,
     slewModal,
+    cameraSettings,
 
     // Actions
     capturePhoto,

@@ -202,6 +202,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useHead } from '@vueuse/head';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
+import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import NavigationComp from '@/components/NavigationComp.vue';
 import StellariumView from './views/StellariumView.vue';
@@ -422,8 +423,25 @@ async function checkForAppUpdate(options = {}) {
 
   checkingUpdate.value = true;
   try {
-    // checkForManualUpdate uses appVersion by default, no need to pass it
-    const result = await checkForManualUpdate(undefined, { allowDowngrade });
+    let currentBundleVersion;
+    try {
+      const current = await CapacitorUpdater.current();
+      const versionFromBundle = current?.bundle?.version;
+      currentBundleVersion =
+        versionFromBundle && versionFromBundle !== 'builtin'
+          ? versionFromBundle
+          : current?.native || undefined;
+    } catch (currentVersionError) {
+      console.warn('Failed to resolve current bundle version in App.vue:', currentVersionError);
+      currentBundleVersion = undefined;
+    }
+
+    const result = await checkForManualUpdate(currentBundleVersion, { allowDowngrade });
+
+    if (result?.available && currentBundleVersion && result.version === currentBundleVersion) {
+      return;
+    }
+
     if (result?.available && result.version !== dismissedUpdateVersion.value) {
       let whatsNewDetails = null;
       try {

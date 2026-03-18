@@ -1,5 +1,6 @@
 import * as signalR from '@microsoft/signalr';
 import { useSettingsStore } from '../store/settingsStore';
+import { useProgressStore } from '../store/progressStore';
 
 const backendProtokol = 'http';
 const backendPort = 4782; // NINA server port
@@ -52,6 +53,7 @@ class SignalRProgressService {
           //console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
+            state: progressMessage.state,
             status: progressMessage.status,
             status2: progressMessage.status2,
             status3: progressMessage.status3,
@@ -66,6 +68,10 @@ class SignalRProgressService {
             progressType3: progressMessage.progressType3,
             timestamp: new Date(progressMessage.timestamp),
           };
+
+          // Progress im Store speichern
+          const progressStore = useProgressStore();
+          progressStore.handleProgressMessage(progressObj);
 
           // Callback für Progress aufrufen (wenn gesetzt)
           if (this.progressCallback) {
@@ -102,7 +108,7 @@ class SignalRProgressService {
           }
 
           // Manual reconnect wenn shouldReconnect true ist
-          if (this.shouldReconnect && !error) {
+          if (this.shouldReconnect) {
             console.log(
               `[SignalRProgressService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
@@ -114,11 +120,17 @@ class SignalRProgressService {
                   .then(() => {
                     console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
-                  .catch((error) => {
-                    console.warn(
-                      '[SignalRProgressService] SignalR reconnect failed:',
-                      error.message
-                    );
+                  .catch((err) => {
+                    console.warn('[SignalRProgressService] SignalR reconnect failed:', err.message);
+                    // Retry again after delay
+                    if (this.shouldReconnect) {
+                      this.reconnectTimeoutId = setTimeout(() => {
+                        this.reconnectTimeoutId = null;
+                        if (this.shouldReconnect) {
+                          this.connect().catch(() => {});
+                        }
+                      }, this.reconnectDelay);
+                    }
                   });
               }
             }, this.reconnectDelay);
@@ -142,7 +154,22 @@ class SignalRProgressService {
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
             }
-            reject(err);
+            // Retry initial connection after delay
+            if (this.shouldReconnect) {
+              console.log(
+                `[SignalRProgressService] Retrying initial connection in ${this.reconnectDelay / 1000} seconds...`
+              );
+              this.reconnectTimeoutId = setTimeout(() => {
+                this.reconnectTimeoutId = null;
+                if (this.shouldReconnect) {
+                  this.connect()
+                    .then(resolve)
+                    .catch(() => {});
+                }
+              }, this.reconnectDelay);
+            } else {
+              reject(err);
+            }
           });
       } catch (err) {
         console.error('[SignalRProgressService] SignalR setup error:', err);

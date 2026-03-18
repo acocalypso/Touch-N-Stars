@@ -21,9 +21,6 @@ export const useHistogramStore = defineStore('histogramStore', {
     // Throttle timers
     stretchTimeouts: new Map(), // imageUrl → timeoutId
     pendingStretchValues: new Map(), // imageUrl → { blackPoint, whitePoint, midPoint }
-
-    // Real 16-bit statistics from NINA API
-    captureStats: null,
   }),
 
   actions: {
@@ -317,28 +314,6 @@ export const useHistogramStore = defineStore('histogramStore', {
      */
     isProcessing(imageUrl) {
       return this.processingImages.has(imageUrl);
-    },
-
-    /**
-     * Store real 16-bit capture statistics from NINA API
-     * @param {Object} apiResponse - Full API response object
-     */
-    setCaptureStats(apiResponse) {
-      const r = apiResponse?.Response;
-      // image-history returns an array — take the most recent entry
-      if (Array.isArray(r)) {
-        this.captureStats = r.length > 0 ? r[r.length - 1] : null;
-      } else {
-        this.captureStats = r ?? null;
-      }
-    },
-
-    /**
-     * Get real 16-bit capture statistics
-     * @returns {Object|null} { Mean, Median, Min, Max, StDev, MedianAbsoluteDeviation, Stars, HFR }
-     */
-    getCaptureStats() {
-      return this.captureStats;
     },
   },
 });

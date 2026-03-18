@@ -350,8 +350,7 @@ function pauseApp() {
   sequenceStore.stopFetching();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
-  // Alle Flags zurücksetzen für sauberen Neustart beim Resume
-  store.clearAllStates();
+  // Keine States zurücksetzen - UI bleibt erhalten
 }
 
 async function resumeApp() {
@@ -360,9 +359,6 @@ async function resumeApp() {
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
   store.checkForPINS(); // Re-check for PINS support
-
-  // Force UI refresh on resume
-  routerViewKey.value = Date.now();
 
   // Important: Re-enable WebSocket Channel Service shouldReconnect flag
   const wsChannelService = (await import('@/services/websocketChannelSocket')).default;

@@ -353,11 +353,7 @@
           </router-link>
         </div>
         <!-- Plugin navigation items first -->
-        <div
-          v-for="item in pluginStore.navigationItems"
-          :key="item.pluginId"
-          :data-label="item.title"
-        >
+        <div v-for="item in filteredNavigationItems" :key="item.pluginId" :data-label="item.title">
           <router-link
             :to="item.path"
             class="nav-button"
@@ -476,6 +472,16 @@ const wrapperClasses = computed(() => ({
   'flex space-x-2 px-2': !isLandscape.value,
   'flex flex-col space-y-2 px-2 py-4': isLandscape.value,
 }));
+
+const filteredNavigationItems = computed(() => {
+  return pluginStore.navigationItems.filter((item) => {
+    const plugin = pluginStore.plugins.find((p) => p.id === item.pluginId);
+    if (plugin && plugin.isPins) {
+      return store.isPINS;
+    }
+    return true;
+  });
+});
 
 // Nav label touch handlers
 let navLabelTimer = null;

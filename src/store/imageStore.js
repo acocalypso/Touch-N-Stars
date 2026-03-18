@@ -7,6 +7,7 @@ import { useHistogramStore } from './histogramStore';
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
+    captureStatsFull: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
     lastImage: {
@@ -75,14 +76,6 @@ export const useImagetStore = defineStore('imageStore', {
           if (isValid) {
             const histogramStore = useHistogramStore();
             await histogramStore.calculateHistogramForImage(this.imageData);
-            try {
-              const statsResult = await apiService.getCaptureStatistics();
-              if (statsResult?.Success) {
-                histogramStore.setCaptureStats(statsResult);
-              }
-            } catch {
-              // Statistics are optional — ignore errors
-            }
           }
         }
       } catch (error) {

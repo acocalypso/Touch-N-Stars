@@ -10,8 +10,15 @@
     <setMaxBrightness />
     <setHistogramMeanTarget />
     <setHistogramTolerance />
-    <changeFilter v-if="store.filterInfo.Connected" />
+    <selectFilter v-if="store.filterInfo.Connected" v-model="selectedFilterId" />
     <setBinning v-if="(store.cameraInfo?.BinningModes?.length || 0) > 1" />
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-gray-300">{{ $t('components.flatassistant.keep_closed') }}</span>
+      <toggleButton
+        :statusValue="settingsStore.flats.keepClosed"
+        @update:statusValue="settingsStore.flats.keepClosed = $event"
+      />
+    </div>
     <div v-show="flatsStore.status.State != 'Running'">
       <button @click="startAutoExposure" class="default-button-cyan">
         {{ $t('components.flatassistant.start_auto_brightness') }}
@@ -25,7 +32,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
@@ -39,18 +46,22 @@ import setMinBrightness from '@/components/flatassistant/setMinBrightness.vue';
 import setMaxBrightness from '@/components/flatassistant/setMaxBrightness.vue';
 import setHistogramMeanTarget from '@/components/flatassistant/setHistogramMeanTarget.vue';
 import setHistogramTolerance from '@/components/flatassistant/setHistogramTolerance.vue';
-import changeFilter from '@/components/filterwheel/changeFilter.vue';
+import selectFilter from '@/components/flatassistant/selectFilter.vue';
 import setExposureTime from '@/components/flatassistant/setExposureTime.vue';
+import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 
+const selectedFilterId = ref(null);
+
 onMounted(() => {
   flatsStore.binning = cameraStore.binningMode;
   flatsStore.gain = cameraStore.gain;
   flatsStore.offset = cameraStore.offset;
+  selectedFilterId.value = store.filterInfo?.SelectedFilter?.Id ?? null;
 });
 
 async function startAutoExposure() {
@@ -65,8 +76,9 @@ async function startAutoExposure() {
       flatsStore.binning,
       flatsStore.gain,
       flatsStore.offset,
-      store.filterInfo?.SelectedFilter,
-      settingsStore.flats.exposureTime
+      selectedFilterId.value,
+      settingsStore.flats.exposureTime,
+      settingsStore.flats.keepClosed
     );
     console.log(data);
   } catch (error) {

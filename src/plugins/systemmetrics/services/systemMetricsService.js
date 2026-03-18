@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
+import apiPinsService from '@/services/apiPinsService';
 
 let settingsStore;
 let store;
@@ -69,6 +70,18 @@ const systemMetricsService = {
     try {
       const apiUrl = getApiUrl();
       const { data } = await axios.get(`${apiUrl}metrics`, { timeout });
+
+      if (store?.isPINS) {
+        const pinsTemperature = await apiPinsService.fetchSystemTemperature();
+        if (pinsTemperature) {
+          data.SystemTemperature = {
+            celsius: Number(pinsTemperature.celsius),
+            fahrenheit: Number(pinsTemperature.fahrenheit),
+            source: pinsTemperature.source || '',
+          };
+        }
+      }
+
       return data;
     } catch (error) {
       throw new Error(normalizeErrorMessage(error));

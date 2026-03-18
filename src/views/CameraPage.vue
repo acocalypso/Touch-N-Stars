@@ -20,7 +20,7 @@
           :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
           :showDownload="true"
-          :showFullscreen="true"
+          :showFullscreen="false"
           :showHistogram="true"
           :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
@@ -28,7 +28,6 @@
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
-          @fullscreen="openImageModal"
           @histogram-toggle="showHistogram = !showHistogram"
           class="bg-gray-900"
         >
@@ -43,10 +42,47 @@
               <p class="text-lg">One touch to the stars</p>
             </div>
           </template>
+
+          <!-- PINS: Stats Toggle Button in button row -->
+          <template v-if="store.isPINS" #extra-buttons>
+            <button
+              @click.stop="showCaptureStats = !showCaptureStats"
+              :class="[
+                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
+                showCaptureStats
+                  ? 'bg-cyan-600 hover:bg-cyan-500 text-white'
+                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+              ]"
+              title="Image Statistics"
+            >
+              <ChartBarIcon class="w-5 h-5" />
+            </button>
+          </template>
         </ZoomableImage>
 
         <!-- Histogram Overlay -->
         <div v-if="showHistogram && imageStore.imageData" class="z-50" :class="[histogramClasses]">
+          <div
+            v-if="statsLoading && store.isPINS"
+            class="absolute inset-0 z-10 flex items-center justify-center bg-black/40 rounded"
+          >
+            <svg
+              class="w-5 h-5 animate-spin text-cyan-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+          </div>
           <HistogramChart
             :data="getHistogram()"
             height="120px"
@@ -54,13 +90,19 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
-            :statistics="histogramStore.getCaptureStats()"
-            :stretchParams="{
-              blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
-              autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
-            }"
+            :statistics="isSaveEnabled || store.isPINS ? captureStats : null"
+            :stretchParams="
+              isSaveEnabled || store.isPINS
+                ? {
+                    blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
+                    autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
+                  }
+                : null
+            "
+            :saveEnabled="isSaveEnabled || store.isPINS"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
+            @toggle-save="onToggleSave"
           />
         </div>
 
@@ -96,15 +138,114 @@
             <CaptureButton />
           </div>
         </div>
-      </div>
 
-      <!-- Fullscreen Image Modal -->
-      <ImageModal
-        :showModal="showModal"
-        :imageData="imageStore.imageData"
-        :isLoading="false"
-        @close="closeImageModal"
-      />
+        <!-- PINS: Capture Stats Overlay -->
+        <div
+          v-if="store.isPINS && showCaptureStats && store.lastImageStats && imageStore.imageData"
+          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
+          :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
+        >
+          <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
+            <svg
+              class="w-3 h-3 animate-spin text-cyan-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            <span class="text-cyan-400 text-xs">updating…</span>
+          </div>
+          <div
+            :class="isLandscape ? 'grid grid-cols-2 pt-14' : 'grid grid-cols-3 pt-36'"
+            class="gap-x-2 gap-y-0.5"
+          >
+            <div v-if="store.lastImageStats.Stars !== undefined" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.helpers.histogram.stars') }}:</span
+              >
+              <span class="truncate">{{ store.lastImageStats.Stars }}</span>
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.HFR)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.hfr') }}:</span>
+              <span class="truncate">{{ store.lastImageStats.HFR.toFixed(2) }}</span>
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.HFRStDev)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.HFRStDev') }}:</span
+              >
+              <span class="truncate">{{ store.lastImageStats.HFRStDev.toFixed(2) }}</span>
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.Mean)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.mean') }}:</span>
+              <span class="truncate">{{ store.lastImageStats.Mean.toFixed(1) }}</span>
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.Median)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.median') }}:</span
+              >
+              <span class="truncate">{{ store.lastImageStats.Median.toFixed(0) }}</span>
+            </div>
+            <div
+              v-if="isValidStat(store.lastImageStats.MedianAbsoluteDeviation)"
+              class="flex gap-1 min-w-0"
+            >
+              <span class="font-bold whitespace-nowrap">MAD:</span>
+              <span class="truncate">{{
+                store.lastImageStats.MedianAbsoluteDeviation.toFixed(1)
+              }}</span>
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.StDev)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.stDev') }}:</span
+              >
+              <span class="truncate">{{ store.lastImageStats.StDev.toFixed(1) }}</span>
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.Min)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Min') }}:</span>
+              <span class="truncate"
+                >{{ store.lastImageStats.Min.toFixed(0)
+                }}<span
+                  v-if="isValidStat(store.lastImageStats.MinOccurrences)"
+                  class="text-gray-400"
+                  >({{ store.lastImageStats.MinOccurrences }}x)</span
+                ></span
+              >
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.Max)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.Max') }}:</span>
+              <span class="truncate"
+                >{{ store.lastImageStats.Max.toFixed(0)
+                }}<span
+                  v-if="isValidStat(store.lastImageStats.MaxOccurrences)"
+                  class="text-gray-400"
+                  >({{ store.lastImageStats.MaxOccurrences }}x)</span
+                ></span
+              >
+            </div>
+            <div v-if="isValidStat(store.lastImageStats.Gain)" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.items.takeExposure.gain') }}:</span
+              >
+              <span class="truncate">{{ store.lastImageStats.Gain }}</span>
+            </div>
+            <div v-if="effectiveOffset !== null" class="flex gap-1 min-w-0">
+              <span class="font-bold whitespace-nowrap"
+                >{{ $t('components.sequence.items.takeExposure.offset') }}:</span
+              >
+              <span class="truncate">{{ effectiveOffset }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Slew Modal -->
       <div
@@ -279,7 +420,6 @@ import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
-import ImageModal from '@/components/helpers/imageModal.vue';
 import ZoomableImage from '@/components/helpers/ZoomableImage.vue';
 import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import CenterHere from '@/components/camera/CenterHere.vue';
@@ -292,6 +432,7 @@ import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import apiService from '@/services/apiService';
+import { ChartBarIcon } from '@heroicons/vue/24/outline';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -301,25 +442,38 @@ const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
 const histogramStore = useHistogramStore();
 
+const isSaveEnabled = computed(() => store.profileInfo?.SnapShotControlSettings?.Save !== false);
+
 // State
-const showModal = ref(false);
 const showMount = ref(false);
 const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
+const showCaptureStats = ref(false);
+const statsLoading = ref(false);
 
-// Reload capture statistics every time the histogram panel opens
-watch(showHistogram, async (isOpen) => {
-  if (!isOpen) return;
-  try {
-    const statsResult = await apiService.getCaptureStatistics();
-    if (statsResult?.Success) {
-      histogramStore.setCaptureStats(statsResult);
-    }
-  } catch {
-    // Statistics are optional — ignore errors
+const captureStats = computed(() => {
+  if (store.isPINS && store.lastImageStats) {
+    return store.lastImageStats;
   }
+  const arr = store.imageHistoryInfo;
+  if (!Array.isArray(arr) || arr.length === 0) return null;
+  const last = arr[arr.length - 1];
+  return last?.ImageType === 'SNAPSHOT' ? last : null;
+});
+
+function isValidStat(v) {
+  return typeof v === 'number' && !isNaN(v);
+}
+
+const effectiveOffset = computed(() => {
+  const raw = store.lastImageStats?.Offset;
+  if (raw === -1 || !isValidStat(raw)) {
+    const profileOffset = store.profileInfo?.CameraSettings?.Offset;
+    return isValidStat(profileOffset) ? profileOffset : null;
+  }
+  return raw;
 });
 
 // Check if in landscape mode
@@ -393,14 +547,6 @@ const handleDownload = async (data) => {
   });
 };
 
-const openImageModal = () => {
-  showModal.value = true;
-};
-
-const closeImageModal = () => {
-  showModal.value = false;
-};
-
 const getHistogram = () => {
   if (!imageStore.imageData) return null;
   return histogramStore.getHistogram(imageStore.imageData);
@@ -429,6 +575,34 @@ const onLevelsReset = async () => {
   histogramStore.resetStretch(imageStore.imageData);
 };
 
+const onToggleSave = async () => {
+  await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
+};
+
+watch(
+  () => imageStore.imageData,
+  (newVal, oldVal) => {
+    if (newVal && newVal !== oldVal && store.isPINS) {
+      statsLoading.value = true;
+    }
+  }
+);
+
+watch(
+  () => store.lastImageStats,
+  async (newVal, oldVal) => {
+    const hasChanged =
+      newVal?.Mean !== oldVal?.Mean ||
+      newVal?.Median !== oldVal?.Median ||
+      newVal?.Stars !== oldVal?.Stars;
+    if (!hasChanged) return;
+    statsLoading.value = false;
+    if (imageStore.imageData) {
+      await histogramStore.calculateHistogramForImage(imageStore.imageData);
+    }
+  }
+);
+
 // Load image on mount if imageData is empty
 onMounted(async () => {
   if (!imageStore.imageData) {
@@ -438,6 +612,7 @@ onMounted(async () => {
   if (imageStore.imageData) {
     await histogramStore.calculateHistogramForImage(imageStore.imageData);
   }
+  await cameraStore.readSettings();
 });
 </script>
 

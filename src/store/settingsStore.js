@@ -78,6 +78,7 @@ export const useSettingsStore = defineStore('settings', {
       maxBrightness: 100,
       brightness: 50,
       exposureTime: 2,
+      keepClosed: false,
     },
     stellarium: {
       constellationsLinesVisible: true,

@@ -124,9 +124,23 @@
       </button>
     </div>
 
+    <!-- No-save hint -->
+    <div v-if="!saveEnabled" class="mt-2 flex items-center justify-between gap-2">
+      <span class="text-xs text-gray-500 italic">
+        {{ t('components.helpers.histogram.noSaveHint') }}
+      </span>
+      <button
+        type="button"
+        class="shrink-0 text-xs px-2 py-0.5 rounded border border-gray-600 text-gray-400 bg-transparent hover:border-gray-400 transition-colors"
+        @click="emit('toggle-save')"
+      >
+        {{ t('components.helpers.histogram.enableSave') }}
+      </button>
+    </div>
+
     <!-- Real statistics from NINA API -->
     <div
-      v-if="statistics"
+      v-if="statistics && saveEnabled"
       class="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-0.5 text-xs font-mono"
     >
       <div class="flex gap-2">
@@ -142,6 +156,10 @@
           t('components.helpers.histogram.stars')
         }}</span>
         <span v-if="statistics.Stars" class="text-gray-300">{{ statistics.Stars }}</span>
+        <span v-if="statistics.HFR" class="text-gray-500 ml-1">{{
+          t('components.helpers.histogram.hfr')
+        }}</span>
+        <span v-if="statistics.HFR" class="text-gray-300">{{ statistics.HFR.toFixed(2) }}</span>
       </div>
       <div class="flex gap-2">
         <span class="text-gray-500">{{ t('components.helpers.histogram.min') }}</span>
@@ -206,9 +224,17 @@ const props = defineProps({
     // Expected: { blackClipping: Number, autoStretchFactor: Number }
     // NINA profile: ImageSettings.BlackClipping + ImageSettings.AutoStretchFactor
   },
+  saveEnabled: {
+    type: Boolean,
+    default: true,
+  },
+  useJpegHistogram: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['levels-changed', 'levels-reset']);
+const emit = defineEmits(['levels-changed', 'levels-reset', 'toggle-save']);
 
 const canvasElement = ref(null);
 const wrapperElement = ref(null);
@@ -299,7 +325,13 @@ const drawHistogram = () => {
     sp?.blackClipping != null &&
     sp?.autoStretchFactor != null &&
     props.data?.length > 0;
-  const mode = canInvertStretch ? 'stretch' : hasStats ? 'synth' : 'jpeg';
+  const mode = props.useJpegHistogram
+    ? 'jpeg'
+    : canInvertStretch
+      ? 'stretch'
+      : hasStats
+        ? 'synth'
+        : 'jpeg';
 
   const histData =
     mode === 'synth' ? generateSyntheticHistogram(s.Mean, s.StDev, s.Min, s.Max) : props.data;

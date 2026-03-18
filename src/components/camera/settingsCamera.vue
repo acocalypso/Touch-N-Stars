@@ -11,9 +11,7 @@
       :decimalPlaces="3"
       placeholder="sek"
       inputId="exposure"
-      @change="setExposureTime"
     />
-
     <div
       v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
       class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
@@ -46,7 +44,6 @@
       inputId="gain"
       @change="setGain"
     />
-
     <div v-if="store.cameraInfo.CanSetOffset" class="w-full">
       <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
@@ -82,10 +79,21 @@
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
-    <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
-    <setCameraUsbLimit v-if="store.cameraInfo.CanSetUSBLimit" />
-    <setSolve />
-    <setSaveSnapshot />
+    <pinsSetBinAverageEnabled
+      v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')"
+    />
+    <div v-if="store.cameraInfo.ReadoutModes.length > 1" class="w-full">
+      <setReadoutMode v-if="!store.isPINS" />
+      <pinsSetReadoutMode v-else />
+    </div>
+    <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
+    <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />
+    <pinsSetLEDLights v-if="store.isPINS && cameraStore.cameraSettings.CanSetLEDLights" />
+    <div v-if="store.cameraInfo.CanSetUSBLimit" class="w-full">
+      <setCameraUsbLimit v-if="!store.isPINS" />
+      <pinsSetCameraUsbLimit v-else />
+    </div>
+    <pinsSetFanSpeed v-if="store.isPINS && cameraStore.cameraSettings.MaxFanSpeed > 0" />
   </div>
 </template>
 
@@ -97,12 +105,19 @@ import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
-import setSolve from '@/components/camera/setSolve.vue';
-import setSaveSnapshot from './setSaveSnapshot.vue';
 import setCameraUsbLimit from './setCameraUsbLimit.vue';
+import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
+import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';
+import pinsSetHighFullwellMode from './settingsPins/pinsSetHighFullwellMode.vue';
+import pinsSetBinAverageEnabled from './settingsPins/pinsSetBinAverageEnabled.vue';
+import pinsSetLEDLights from './settingsPins/pinsSetLEDLights.vue';
+import pinsSetFanSpeed from './settingsPins/pinsSetFanSpeed.vue';
+import pinsSetReadoutMode from './settingsPins/pinsSetReadoutMode.vue';
+import { useCameraStore } from '@/store/cameraStore';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const cameraStore = useCameraStore();
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
@@ -158,17 +173,6 @@ async function setGain() {
     console.log(data);
   } catch (error) {
     console.log('Error while setting gain');
-  }
-}
-
-async function setExposureTime() {
-  try {
-    await apiService.profileChangeValue(
-      'CameraSettings-ExposureTime',
-      settingsStore.camera.exposureTime
-    );
-  } catch (error) {
-    console.log('Error while setting exposure time');
   }
 }
 

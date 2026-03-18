@@ -61,9 +61,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Camera: Unified UI design for settings components
 - Sequence Monitor: Limit image height to viewport in landscape mode to prevent scrolling
+- NumberPicker: Replaced scroll wheel picker with touch-friendly numpad input
+- NumberPicker: Added cancel button and backdrop dismiss
+- NumberPicker: Added min/max validation for direct input and picker overlay
+- NumberPicker: Simplified picker store by passing min/max directly instead of options array
 
 ### Fixed
 - Fix set settletime
+- App: UI no longer reloads when returning from background
+- Camera: Spinner not updating after capture in Safari
 
 ## [App4.5.0] - 2026-10-20
 ### Added

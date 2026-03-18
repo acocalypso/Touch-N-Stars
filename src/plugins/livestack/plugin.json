@@ -5,5 +5,6 @@
   "version": "0.6.2",
   "author": "Johannes Maier, Rafa Barberá",
   "defaultEnabled": false,
-  "enabled": true
+  "enabled": true,
+  "isPins": false
 }

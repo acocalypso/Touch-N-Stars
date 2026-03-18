@@ -7,16 +7,17 @@ let SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
 let UPDATE_ASSET_NAME = 'dist.zip';
 
 function getGithubApiBase() {
+  return 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
+}
+
+function isBetaUpdateChannelEnabled() {
   try {
     const settingsStore = useSettingsStore();
-    if (settingsStore?.useBetaFeatures) {
-      console.log('[Updater] Beta features enabled: using beta update channels');
-      return 'https://api.github.com/repos/JohannesWorks/Touch-N-Stars';
-    }
+    return Boolean(settingsStore?.useBetaFeatures);
   } catch (error) {
-    // Store not initialized yet, use default
+    // Store not initialized yet, use stable channel by default
+    return false;
   }
-  return 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
 }
 
 const defaultHeaders = {
@@ -80,6 +81,18 @@ function parseVersion(version) {
   };
 }
 
+function normalizePrereleaseParts(parts = []) {
+  return parts.filter((part) => part && part.toLowerCase() !== 'stable');
+}
+
+function normalizeVersionForComparison(version) {
+  const parsed = parseVersion(version);
+  const normalizedPrerelease = normalizePrereleaseParts(parsed.prerelease);
+  return `${parsed.major}.${parsed.minor}.${parsed.patch}${
+    normalizedPrerelease.length > 0 ? `-${normalizedPrerelease.join('.')}` : ''
+  }`;
+}
+
 function compareVersions(remote, local) {
   const remoteVersion = parseVersion(remote);
   const localVersion = parseVersion(local);
@@ -133,47 +146,99 @@ async function fetchJson(url) {
   return response.json();
 }
 
+function mapReleaseToUpdateMetadata(release) {
+  const assets = Array.isArray(release.assets) ? release.assets : [];
+
+  console.info('[Updater] Release assets found:', assets.map((a) => a?.name).filter(Boolean));
+
+  const updateAsset = assets.find((a) => a?.name === UPDATE_ASSET_NAME) || null;
+  if (!updateAsset || !updateAsset.browser_download_url) {
+    throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
+  }
+
+  const changelogAsset = assets.find((a) => a?.name === 'CHANGELOG.md') || null;
+
+  const versionString = release.tag_name || release.name;
+  const normalizedVersion = normalizeVersionForComparison(versionString);
+
+  if (!normalizedVersion || normalizedVersion === '0.0.0') {
+    throw new Error(`Release ${release.tag_name} has an unparseable version`);
+  }
+
+  return {
+    tagName: release.tag_name,
+    version: normalizedVersion,
+    name: release.name || release.tag_name,
+    notes: release.body || '',
+    assetUrl: updateAsset.browser_download_url,
+    changelogUrl: changelogAsset ? changelogAsset.browser_download_url : null,
+    publishedAt: release.published_at,
+    isPrerelease: release.prerelease,
+  };
+}
+
 async function fetchLatestRelease() {
+  const useBetaChannel = isBetaUpdateChannelEnabled();
+  const channel = useBetaChannel ? 'beta' : 'stable';
+
   try {
-    const release = await fetchJson(`${getGithubApiBase()}/releases/latest`);
-    if (!release || release.draft) return null;
+    const releases = await fetchJson(`${getGithubApiBase()}/releases?per_page=30`);
+    const channelReleases = (Array.isArray(releases) ? releases : []).filter((release) => {
+      if (!release || release.draft) return false;
 
-    const assets = Array.isArray(release.assets) ? release.assets : [];
+      const tagName = String(release.tag_name || '').toLowerCase();
+      if (useBetaChannel) {
+        return Boolean(release.prerelease) && tagName.endsWith('-beta');
+      }
 
-    console.info('[Updater] Release assets found:', assets.map((a) => a?.name).filter(Boolean));
+      return !release.prerelease && tagName.endsWith('-stable');
+    });
 
-    const updateAsset = assets.find((a) => a?.name === UPDATE_ASSET_NAME) || null;
-    if (!updateAsset || !updateAsset.browser_download_url) {
-      throw new Error(`Release ${release.tag_name} does not expose ${UPDATE_ASSET_NAME}`);
-    }
-
-    const changelogAsset = assets.find((a) => a?.name === 'CHANGELOG.md') || null;
-
-    const versionString = release.tag_name || release.name;
-    const parsedVersion = parseVersion(versionString);
-    const normalizedVersion = `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}${
-      parsedVersion.prerelease.length > 0 ? `-${parsedVersion.prerelease.join('.')}` : ''
-    }`;
-
-    if (!normalizedVersion || normalizedVersion === '0.0.0') {
-      console.warn('[Updater] Skipping release with unparseable version:', release.tag_name);
+    if (channelReleases.length === 0) {
+      console.warn(`[Updater] No ${channel} releases found`);
       return null;
     }
 
-    return {
-      tagName: release.tag_name,
-      version: normalizedVersion,
-      name: release.name || release.tag_name,
-      notes: release.body || '',
-      assetUrl: updateAsset.browser_download_url,
-      changelogUrl: changelogAsset ? changelogAsset.browser_download_url : null,
-      publishedAt: release.published_at,
-      isPrerelease: release.prerelease,
-    };
+    for (const release of channelReleases) {
+      try {
+        const mapped = mapReleaseToUpdateMetadata(release);
+        console.info(`[Updater] Using ${channel} release:`, mapped.tagName);
+        return mapped;
+      } catch (error) {
+        console.warn('[Updater] Skipping release candidate:', release?.tag_name, error?.message);
+      }
+    }
+
+    return null;
   } catch (error) {
     console.warn('[Updater] Failed to resolve latest release:', error);
     return null;
   }
+}
+
+async function resolveCurrentVersion(fallbackVersion = appVersion) {
+  if (!isNativePlatform()) {
+    return fallbackVersion;
+  }
+
+  try {
+    const current = await CapacitorUpdater.current();
+    const currentBundleVersion = current?.bundle?.version;
+    const nativeVersion = current?.native;
+
+    // "builtin" means no OTA bundle is active yet, so use native/app version.
+    if (currentBundleVersion && currentBundleVersion !== 'builtin') {
+      return currentBundleVersion;
+    }
+
+    if (nativeVersion) {
+      return nativeVersion;
+    }
+  } catch (error) {
+    console.warn('[Updater] Failed to resolve current bundle version:', error);
+  }
+
+  return fallbackVersion;
 }
 
 export async function checkForManualUpdate(currentVersion = appVersion, options = {}) {
@@ -190,7 +255,13 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
     return { available: false, reason: 'no-release' };
   }
 
-  const versionComparison = compareVersions(latestRelease.version, currentVersion);
+  const effectiveCurrentVersion = await resolveCurrentVersion(currentVersion);
+  console.log('[Updater] Effective current version:', effectiveCurrentVersion);
+
+  const normalizedCurrentVersion = normalizeVersionForComparison(effectiveCurrentVersion);
+  console.log('[Updater] Normalized current version:', normalizedCurrentVersion);
+
+  const versionComparison = compareVersions(latestRelease.version, normalizedCurrentVersion);
   console.log('[Updater] Version comparison:', versionComparison);
 
   if (!allowDowngrade && versionComparison <= 0) {
@@ -200,6 +271,7 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
   return {
     available: true,
     ...latestRelease,
+    currentVersion: normalizedCurrentVersion,
     isDowngrade: versionComparison < 0,
   };
 }

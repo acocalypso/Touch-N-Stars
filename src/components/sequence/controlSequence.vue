@@ -89,7 +89,10 @@
     </button>
 
     <button
-      v-if="!sequenceStore.sequenceRunning && store.isPINS"
+      v-if="
+        !sequenceStore.sequenceRunning &&
+        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
+      "
       class="default-button-red h-16 w-14 flex-col gap-0.5"
       @click="clearSequence"
     >
@@ -100,7 +103,10 @@
     </button>
 
     <button
-      v-if="!sequenceStore.sequenceRunning && store.isPINS"
+      v-if="
+        !sequenceStore.sequenceRunning &&
+        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
+      "
       class="default-button-gray h-16 w-14 flex-col gap-0.5"
       @click="openFileManager"
     >

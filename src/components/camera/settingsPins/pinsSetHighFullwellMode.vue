@@ -22,17 +22,13 @@ const cameraStore = useCameraStore();
 async function toggleMode() {
   if (cameraStore.cameraSettings.HighFullwellMode) {
     try {
-      const data = await apiService.cameraAction(
-        `set-setting?settingName=HighFullwellMode&newValue=false`
-      );
+      await apiService.cameraAction(`set-setting?settingName=HighFullwellMode&newValue=false`);
     } catch (error) {
       console.log('Error:', error);
     }
   } else {
     try {
-      const data = await apiService.cameraAction(
-        `set-setting?settingName=HighFullwellMode&newValue=true`
-      );
+      await apiService.cameraAction(`set-setting?settingName=HighFullwellMode&newValue=true`);
     } catch (error) {
       console.log('Error:', error);
     }

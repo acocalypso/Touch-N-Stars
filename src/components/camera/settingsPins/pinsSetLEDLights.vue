@@ -22,17 +22,13 @@ const cameraStore = useCameraStore();
 async function toggleMode() {
   if (cameraStore.cameraSettings.LEDLights) {
     try {
-      const data = await apiService.cameraAction(
-        `set-setting?settingName=LEDLights&newValue=false`
-      );
+      await apiService.cameraAction(`set-setting?settingName=LEDLights&newValue=false`);
     } catch (error) {
       console.log('Error:', error);
     }
   } else {
     try {
-      const data = await apiService.cameraAction(
-        `set-setting?settingName=LowNoiseMode&newValue=true`
-      );
+      await apiService.cameraAction(`set-setting?settingName=LowNoiseMode&newValue=true`);
     } catch (error) {
       console.log('Error:', error);
     }

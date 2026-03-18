@@ -11,7 +11,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "delete": "Eliminar",
+    "close": "Cerrar"
   },
   "pages": {
     "equipment": {
@@ -131,13 +133,14 @@
       "connection": "Configuración de conexión",
       "language": "Idioma",
       "image": {
-        "title": "Configuración de imagen",
+        "title": "Imagen",
         "quality": "Calidad de imagen",
         "maxDimension": "Tamaño máx. de imagen",
         "strech_factor": "Factor de estiramiento",
         "black_clipping": "Recorte negro",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Strech sin enlace",
+        "fileType": "Tipo de archivo",
         "debayern": "Imagen de Debayer"
       },
       "imageFile": {
@@ -148,6 +151,7 @@
         "separator": "Separador",
         "empty": "Toca los tokens de abajo para construir el patrón",
         "freeText": "Texto",
+        "addText": "Añadir",
         "editTokens": "Editar tokens",
         "help": {
           "title": "Patrón de nombre de archivo",
@@ -190,7 +194,9 @@
         "description": "Gestionar la configuración de su equipo"
       },
       "telescope": {
-        "titel": "Configuración del telescopio"
+        "titel": "Configuración del telescopio",
+        "name": "Nombre del telescopio",
+"focal_ratio": "Relación focal"
       },
       "beta": {
         "title": "Canal de actualización beta"
@@ -237,7 +243,7 @@
         "basic": "Configuraciones básicas",
         "retry": "Reintentar configuración",
         "search": "Configuración de búsqueda",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -300,6 +306,7 @@
       "resetConfirmationMessage": "¿Estás seguro de reiniciar la sequencia? Ésta acción no se puede deshacer.",
       "load_sequence": "Cargar Secuencia",
       "choose_sequence": "Elegir secuencia...",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "No se encontraron secuencias",
       "error_loading_sequences": "Error al cargar las secuencias",
       "error_loading_sequence": "Error al cargar la secuencia: {error}",
@@ -426,7 +433,7 @@
           "post_flip_actions": "Acciones posteriores al giro"
         },
         "telescope_settle_time": "Tiempo de liquidación después de la(s) serie(s)",
-        "meridian_flip_settings": "Configuración de meridianos",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Invertir eje primario",
         "reverse_secondary_axis": "Invertir eje secundario"
       }
@@ -881,7 +888,9 @@
       "orientation": "Orientación",
       "flipped": "Invertido",
       "ra": "AR",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Escala de píxeles",
+      "focal_length": "Distancia focal"
     }
   },
   "plugins": {
@@ -1231,13 +1240,22 @@
           "name": "Encontrar Home"
         }
       },
+      "library": {
+        "isDefault": "Predeterminado",
+        "setAsDefault": "Establecer como predeterminado",
+        "setAsDefaultSuccess": "¡Establecida como secuencia predeterminada!"
+      },
       "confirmations": {
         "clearSequence": "¿Estás seguro de que quieres borrar toda la secuencia? \nEsta acción no se puede deshacer.",
         "removeAction": "¿Eliminar la acción \"{ActionName}\"?",
         "title": "Confirmación",
         "saveAsDefault": "¿Estás seguro de que quieres guardar la secuencia actual como predeterminado? \nEsto sobrescribirá la secuencia predeterminada anterior.",
         "loadBasicSequence": "¿Estás seguro de que quieres cargar la secuencia básica? Esto sobrescribirá la secuencia actual.",
-        "navigateToSequence": "¿Desea cambiar a la página de Secuencia ahora?"
+        "navigateToSequence": "¿Desea cambiar a la página de Secuencia ahora?",
+        "saveNamed": "Ingresa un nombre para la secuencia:",
+        "saveNamedPlaceholder": "Nombre de secuencia...",
+        "libraryTitle": "Secuencias guardadas",
+        "libraryEmpty": "No hay secuencias guardadas."
       },
       "containers": {
         "addAction": "Agregar acción",
@@ -1286,6 +1304,11 @@
         "validSequence": "La secuencia es válida y puede ser adoptada",
         "clearSequence": "Secuencia clara",
         "invalidSequence": "Agregue la configuración de destino y la exposición inteligente para crear una secuencia válida",
+        "saveNamed": "Guardar secuencia como...",
+        "saveNamedSuccess": "¡Secuencia guardada!",
+        "openLibrary": "Biblioteca de secuencias",
+        "loadNamed": "Cargar",
+        "loadNamedSuccess": "¡Secuencia cargada!",
         "loadBasicSequence": "Cargar secuencia básica",
         "saveAsDefault": "Guardar como predeterminado",
         "saveAsDefaultSuccess": "¡Guardado como secuencia predeterminada!",
@@ -1295,7 +1318,7 @@
         "sending": "Envío...",
         "sent": "¡Enviado!"
       },
-      "title": "N.I.N.A CREATOR DE SECUENCIA",
+      "title": "Sequence Creator",
       "settings": {
         "title": "Meridianflip",
         "enableMeridianFlip": "Habilitar meridianflip"
@@ -1801,5 +1824,23 @@
       "noSequenceAvailable": "No hay secuencia disponible, cargue una secuencia primero",
       "sequencerFailed": "El secuenciador falló"
     }
+  },
+  "nav": {
+    "equipment": "Equipo",
+    "camera": "Cámara",
+    "autofocus": "Enfoque",
+    "mount": "Montura",
+    "dome": "Domo",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtro",
+    "rotator": "Rotat.",
+    "guider": "Guider",
+    "sequence": "Sec.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Ajustes",
+    "about": "Info"
   }
 }

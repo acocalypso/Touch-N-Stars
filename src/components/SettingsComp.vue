@@ -4,9 +4,11 @@
       v-if="store.isBackendReachable"
       :items="[
         { name: t('components.settings.general'), value: 'general' },
+        { name: t('components.settings.image.title'), value: 'image' },
         { name: t('components.settings.equipment.title'), value: 'equipment' },
         { name: t('components.settings.plugins.title'), value: 'plugins' },
         { name: t('components.settings.plate_solver.title'), value: 'plateSolver' },
+        { name: t('components.mount.settings.meridian_flip_settings'), value: 'meridianFlip' },
       ]"
       v-model:activeItem="activeTab"
     />
@@ -27,6 +29,12 @@
 
       <!-- Plate Solver Tab -->
       <SettingsPlateSolverTab v-if="activeTab === 'plateSolver'" />
+
+      <!-- Image Tab -->
+      <SettingsImageTab v-if="activeTab === 'image'" />
+
+      <!-- Meridian Flip Tab -->
+      <SettingsMeridianFlipTab v-if="activeTab === 'meridianFlip'" />
     </div>
   </div>
 
@@ -73,6 +81,8 @@ import SettingsGeneralTab from '@/components/settings/SettingsGeneralTab.vue';
 import SettingsPluginsTab from '@/components/settings/SettingsPluginsTab.vue';
 import SettingsPlateSolverTab from '@/components/settings/SettingsPlateSolverTab.vue';
 import SettingsEquipmentTab from '@/components/settings/SettingsEquipmentTab.vue';
+import SettingsImageTab from '@/components/settings/SettingsImageTab.vue';
+import SettingsMeridianFlipTab from '@/components/settings/SettingsMeridianFlipTab.vue';
 import { usePluginStore } from '@/store/pluginStore';
 import { wait } from '@/utils/utils';
 

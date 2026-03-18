@@ -11,7 +11,9 @@
     "cancel": "Annulla",
     "confirm": "Conferma",
     "yes": "Sì",
-    "no": "No"
+    "no": "No",
+    "delete": "Elimina",
+    "close": "Chiudi"
   },
   "pages": {
     "equipment": {
@@ -132,14 +134,15 @@
       "connection": "Impostazioni di connessione",
       "language": "Lingua",
       "image": {
-        "title": "Impostazioni immagine",
+        "title": "Immagine",
         "quality": "Qualità immagine",
         "maxDimension": "Dimensione max. immagine",
         "strech_factor": "Fattore di stiramento",
         "black_clipping": "Ritaglio nero",
         "debayern": "Immagine debayer",
         "DebayeredHFR": "HFR debayered",
-        "UnlinkedStretch": "Stiramento non collegato"
+        "UnlinkedStretch": "Stiramento non collegato",
+        "fileType": "Tipo di file"
       },
       "imageFile": {
         "title": "Modello nome file",
@@ -149,6 +152,7 @@
         "separator": "Separatore",
         "empty": "Tocca i token qui sotto per costruire il modello",
         "freeText": "Testo",
+        "addText": "Aggiungi",
         "editTokens": "Modifica token",
         "help": {
           "title": "Modello nome file",
@@ -195,7 +199,9 @@
         "description": "Gestisci le impostazioni dell'attrezzatura"
       },
       "telescope": {
-        "titel": "Impostazioni del telescopio"
+        "titel": "Impostazioni del telescopio",
+        "name": "Nome del telescopio",
+"focal_ratio": "Rapporto focale"
       },
       "beta": {
         "title": "Canale di aggiornamento beta"
@@ -237,7 +243,7 @@
         "basic": "Impostazioni di base",
         "retry": "Riprova le impostazioni",
         "search": "Impostazioni di ricerca",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -300,6 +306,7 @@
       "resetConfirmationMessage": "Sei sicuro di voler reimpostare la sequenza? Questa azione non può essere annullata.",
       "load_sequence": "Carica sequenza dalla directory",
       "choose_sequence": "Scegli una sequenza",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Nessuna sequenza trovata",
       "error_loading_sequences": "Errore nel caricamento delle sequenze",
       "error_loading_sequence": "Errore nel caricamento della sequenza",
@@ -426,7 +433,7 @@
           "post_flip_actions": "Azioni post-giro"
         },
         "telescope_settle_time": "Tempo di liquidazione dopo la rotazione (s)",
-        "meridian_flip_settings": "Impostazioni dei meridiani",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "Inverti asse primario",
         "reverse_secondary_axis": "Inverti asse secondario"
       }
@@ -881,7 +888,9 @@
       "orientation": "Orientamento",
       "flipped": "Invertito",
       "ra": "AR",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Scala dei pixel",
+      "focal_length": "Lunghezza focale"
     }
   },
   "plugins": {
@@ -1179,7 +1188,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "Creatore sequenze N.I.N.A",
+      "title": "Sequence Creator",
       "subtitle": "Crea sequenze astrofotografiche professionali",
       "toolbar": {
         "undo": "Annulla",
@@ -1194,7 +1203,17 @@
         "sendErrorTitle": "Errore invio a N.I.N.A",
         "sendSuccessMessage": "Sequenza inviata con successo a N.I.N.A!",
         "validSequence": "La sequenza è valida e può essere adottata",
-        "invalidSequence": "Aggiungi Impostazioni Target ed Esposizione Intelligente per creare una sequenza valida"
+        "invalidSequence": "Aggiungi Impostazioni Target ed Esposizione Intelligente per creare una sequenza valida",
+        "saveNamed": "Salva sequenza come...",
+        "saveNamedSuccess": "Sequenza salvata!",
+        "openLibrary": "Libreria sequenze",
+        "loadNamed": "Carica",
+        "loadNamedSuccess": "Sequenza caricata!"
+      },
+      "library": {
+        "isDefault": "Predefinita",
+        "setAsDefault": "Imposta come predefinita",
+        "setAsDefaultSuccess": "Impostata come sequenza predefinita!"
       },
       "confirmations": {
         "title": "Conferma",
@@ -1202,7 +1221,11 @@
         "saveAsDefault": "Sei sicuro di voler salvare la sequenza attuale come predefinita? Questo sovrascriverà la sequenza predefinita precedente.",
         "loadBasicSequence": "Sei sicuro di voler caricare la sequenza base? Questo sovrascriverà la sequenza attuale.",
         "removeAction": "Rimuovere l'azione \"{actionName}\"?",
-        "navigateToSequence": "Vuoi passare alla pagina Sequenza ora?"
+        "navigateToSequence": "Vuoi passare alla pagina Sequenza ora?",
+        "saveNamed": "Inserisci un nome per la sequenza:",
+        "saveNamedPlaceholder": "Nome sequenza...",
+        "libraryTitle": "Sequenze salvate",
+        "libraryEmpty": "Nessuna sequenza salvata."
       },
       "containers": {
         "startSequence": {
@@ -1801,5 +1824,23 @@
       "noSequenceAvailable": "Nessuna sequenza disponibile, caricare prima una sequenza",
       "sequencerFailed": "Sequenziatore fallito"
     }
+  },
+  "nav": {
+    "equipment": "Equip.",
+    "camera": "Camera",
+    "autofocus": "Fuoco",
+    "mount": "Montag.",
+    "dome": "Cupola",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filtro",
+    "rotator": "Rotat.",
+    "guider": "Guider",
+    "sequence": "Seq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Impost.",
+    "about": "Info"
   }
 }

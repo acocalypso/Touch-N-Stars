@@ -54,6 +54,11 @@
             :blackPoint="getStretchSettings().blackPoint"
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
+            :statistics="histogramStore.getCaptureStats()"
+            :stretchParams="{
+              blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
+              autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
+            }"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
           />
@@ -142,7 +147,7 @@
       @open-modal="openModal"
     />
 
-    <ModalTransparent :show="showMount" @close="showMount = false">
+    <ModalTransparent :show="showMount" @close="showMount = false" modal-id="camera-mount">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.mount.title') }}</h2>
@@ -170,7 +175,7 @@
       </template>
     </ModalTransparent>
 
-    <ModalTransparent :show="showFocuser" @close="showFocuser = false">
+    <ModalTransparent :show="showFocuser" @close="showFocuser = false" modal-id="camera-focuser">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.focuser.title') }}</h2>
@@ -195,13 +200,18 @@
       </template>
       <template #body>
         <div>
-          <MoveFocuser class="w-full" />
+          <div
+            class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-center text-sm text-gray-300 mb-2"
+          >
+            {{ $t('components.focuser.title') }}:
+            <span class="font-semibold text-white">{{ store.focuserInfo.Position }}</span>
+          </div>
           <ButtonsFastChangePositon class="pt-2" />
         </div>
       </template>
     </ModalTransparent>
 
-    <ModalTransparent :show="showFilter" @close="showFilter = false">
+    <ModalTransparent :show="showFilter" @close="showFilter = false" modal-id="camera-filter">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.filterwheel.filter') }}</h2>
@@ -231,7 +241,7 @@
       </template>
     </ModalTransparent>
 
-    <ModalTransparent :show="showRotator" @close="showRotator = false">
+    <ModalTransparent :show="showRotator" @close="showRotator = false" modal-id="camera-rotator">
       <template #header>
         <div class="flex items-center justify-between w-full">
           <h2 class="text-1xl font-semibold">{{ $t('components.rotator.title') }}</h2>
@@ -264,7 +274,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
@@ -277,11 +287,11 @@ import CaptureButton from '@/components/camera/CaptureButton.vue';
 import QuickAccessButtons from '@/components/camera/QuickAccessButtons.vue';
 import ModalTransparent from '@/components/helpers/ModalTransparent.vue';
 import moveAxis from '@/components/mount/moveAxis.vue';
-import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ButtonsFastChangePositon from '@/components/focuser/ButtonsFastChangePositon.vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import controlRotator from '@/components/rotator/controlRotator.vue';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
+import apiService from '@/services/apiService';
 
 // Stores
 import { useHistogramStore } from '@/store/histogramStore';
@@ -298,6 +308,19 @@ const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
+
+// Reload capture statistics every time the histogram panel opens
+watch(showHistogram, async (isOpen) => {
+  if (!isOpen) return;
+  try {
+    const statsResult = await apiService.getCaptureStatistics();
+    if (statsResult?.Success) {
+      histogramStore.setCaptureStats(statsResult);
+    }
+  } catch {
+    // Statistics are optional — ignore errors
+  }
+});
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();

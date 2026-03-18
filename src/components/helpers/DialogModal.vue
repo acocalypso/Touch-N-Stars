@@ -100,7 +100,8 @@ const showDialog = computed(() => {
   return dialogStore.dialogs.some((dialog) => {
     return (
       !dialog.ContentType?.includes('AvalonDock') &&
-      !dialog.ContentType?.includes('FloatingWindowContentHost')
+      !dialog.ContentType?.includes('FloatingWindowContentHost') &&
+      dialog.WindowType !== 'NINA.Core.Utility.Notification.NotificationHostWindow'
     );
   });
 });
@@ -113,7 +114,8 @@ const currentDialog = computed(() => {
     const dialog = dialogStore.dialogs[i];
     if (
       !dialog.ContentType?.includes('AvalonDock') &&
-      !dialog.ContentType?.includes('FloatingWindowContentHost')
+      !dialog.ContentType?.includes('FloatingWindowContentHost') &&
+      dialog.WindowType !== 'NINA.Core.Utility.Notification.NotificationHostWindow'
     ) {
       return dialog;
     }

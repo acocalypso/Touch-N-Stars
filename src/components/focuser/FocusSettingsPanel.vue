@@ -9,6 +9,12 @@
       </h3>
       <setFocuserUseFilterOffset />
       <SettingInput
+        labelKey="components.focuser.settings.AutoFocusExposureTime"
+        settingKey="FocuserSettings-AutoFocusExposureTime"
+        :modelValue="store.profileInfo.FocuserSettings.AutoFocusExposureTime"
+        :max="9999"
+      />
+      <SettingInput
         labelKey="components.focuser.settings.AutoFocusInitialOffsetSteps"
         settingKey="FocuserSettings-AutoFocusInitialOffsetSteps"
         :modelValue="store.profileInfo.FocuserSettings.AutoFocusInitialOffsetSteps"

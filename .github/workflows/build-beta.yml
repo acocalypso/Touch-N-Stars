@@ -41,7 +41,7 @@ jobs:
       - name: Build beta tag
         id: beta
         run: |
-          TAG="v${{ steps.pkg.outputs.version }}-beta.${{ github.run_number }}.${{ github.run_attempt }}"
+          TAG="${{ steps.pkg.outputs.version }}-beta"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Ensure tag does not already exist

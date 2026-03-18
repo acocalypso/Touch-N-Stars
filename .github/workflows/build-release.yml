@@ -38,10 +38,16 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
+      - name: Build stable tag
+        id: stable
+        run: |
+          TAG="${{ steps.pkg.outputs.version }}-stable"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
       - name: Ensure tag does not already exist
         run: |
-          if git rev-parse "v${{ steps.pkg.outputs.version }}" >/dev/null 2>&1; then
-            echo "Tag v${{ steps.pkg.outputs.version }} already exists."
+          if git rev-parse "${{ steps.stable.outputs.tag }}" >/dev/null 2>&1; then
+            echo "Tag ${{ steps.stable.outputs.tag }} already exists."
             exit 1
           fi
 
@@ -49,8 +55,8 @@ jobs:
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git tag -a "v${{ steps.pkg.outputs.version }}" -m "Release v${{ steps.pkg.outputs.version }}"
-          git push origin "v${{ steps.pkg.outputs.version }}"
+          git tag -a "${{ steps.stable.outputs.tag }}" -m "Release ${{ steps.stable.outputs.tag }}"
+          git push origin "${{ steps.stable.outputs.tag }}"
 
       - name: Upload dist.zip artifact
         uses: actions/upload-artifact@v4
@@ -61,8 +67,8 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.pkg.outputs.version }}
-          name: v${{ steps.pkg.outputs.version }}
+          tag_name: ${{ steps.stable.outputs.tag }}
+          name: ${{ steps.stable.outputs.tag }}
           prerelease: false
           make_latest: true
           files: |

@@ -1,5 +1,7 @@
 <template>
-  <SequenceV2Page v-if="store.isPINS" />
+  <SequenceV2Page
+    v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')"
+  />
 
   <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
     <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">

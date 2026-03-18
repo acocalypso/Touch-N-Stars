@@ -79,7 +79,9 @@
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
-    <pinsSetBinAverageEnabled v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')" />
+    <pinsSetBinAverageEnabled
+      v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')"
+    />
     <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
     <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
     <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />

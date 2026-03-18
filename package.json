@@ -1,6 +1,6 @@
 {
   "name": "touch-n-stars",
-  "version": "4.6.0",
+  "version": "4.7.0-beta20",
   "private": true,
   "type": "module",
   "scripts": {
@@ -25,13 +25,13 @@
   "dependencies": {
     "@capacitor-community/keep-awake": "8.0.0",
     "@capacitor-community/media": "9.0.2",
-    "@capacitor/android": "8.1.0",
+    "@capacitor/android": "8.2.0",
     "@capacitor/app": "8.0.1",
-    "@capacitor/core": "8.1.0",
+    "@capacitor/core": "8.2.0",
     "@capacitor/filesystem": "8.1.2",
     "@capacitor/geolocation": "8.1.0",
     "@capacitor/haptics": "8.0.1",
-    "@capacitor/ios": "8.1.0",
+    "@capacitor/ios": "8.2.0",
     "@capacitor/keyboard": "8.0.1",
     "@capacitor/status-bar": "8.0.1",
     "@capawesome/capacitor-android-edge-to-edge-support": "8.0.6",
@@ -40,6 +40,7 @@
     "@devioarts/capacitor-mdns": "^0.0.2",
     "@heroicons/vue": "^2.2.0",
     "@microsoft/signalr": "^10.0.0",
+    "@novnc/novnc": "1.5.0",
     "@panzoom/panzoom": "^4.6.1",
     "@pinkcao/vue-drag-resize-rotate": "^2.0.0",
     "@vueuse/core": "14.2.1",
@@ -69,7 +70,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.29.0",
-    "@capacitor/cli": "8.1.0",
+    "@capacitor/cli": "8.2.0",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
     "@vue/cli-service": "^5.0.8",

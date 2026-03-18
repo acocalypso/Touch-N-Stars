@@ -183,6 +183,23 @@ export const useHistogramStore = defineStore('histogramStore', {
           }
         } finally {
           this.processingImages.delete(imageUrl);
+
+          // If new values arrived while we were processing, apply them now
+          const pendingAfter = this.pendingStretchValues.get(imageUrl);
+          if (
+            pendingAfter &&
+            !this.stretchTimeouts.has(imageUrl) &&
+            (pendingAfter.blackPoint !== latestBlackPoint ||
+              pendingAfter.whitePoint !== latestWhitePoint ||
+              pendingAfter.midPoint !== latestMidPoint)
+          ) {
+            this.applyStretch(
+              imageUrl,
+              pendingAfter.blackPoint,
+              pendingAfter.whitePoint,
+              pendingAfter.midPoint
+            );
+          }
         }
       }, 300);
 

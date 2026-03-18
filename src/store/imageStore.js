@@ -7,6 +7,7 @@ import { useHistogramStore } from './histogramStore';
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
+    captureStatsFull: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
     lastImage: {

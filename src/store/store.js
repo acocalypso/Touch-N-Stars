@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import apiPinsService from '@/services/apiPinsService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
 import { useImagetStore } from './imageStore';
 import { useAutofocusStore } from '@/store/autofocusStore';
@@ -12,6 +14,7 @@ export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
+    isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
@@ -66,6 +69,9 @@ export const apiStore = defineStore('store', {
       },
       ImageFileSettings: {
         FilePattern: '',
+        FilePatternDARK: '',
+        FilePatternBIAS: '',
+        FilePatternFLAT: '',
         FileType: 'TIFF',
       },
       SnapShotControlSettings: {
@@ -91,7 +97,7 @@ export const apiStore = defineStore('store', {
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { Connected: false, TrackingMode: null },
     filterInfo: { Connected: false },
-    focuserInfo: { Connected: false, CanReverse: false },
+    focuserInfo: { Connected: false, CanReverse: false, CanSetMaxStep: false },
     rotatorInfo: { Connected: false },
     focuserAfInfo: { Connected: false },
     guiderInfo: { Connected: false },
@@ -156,6 +162,7 @@ export const apiStore = defineStore('store', {
     isSwitchConnected: false,
     isWeatherConnected: false,
     isSafetyConnected: false,
+    lastImageStats: null,
   }),
 
   actions: {
@@ -546,6 +553,7 @@ export const apiStore = defineStore('store', {
         console.error('Error fetching information:', error);
       }
       await this.fetchProfilInfos();
+      await this.fetchLastImageStats();
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -566,6 +574,8 @@ export const apiStore = defineStore('store', {
       this.apiPort = null;
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
+      this.isPINS = false;
+      this.isTimeSynced = false;
 
       // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
@@ -717,6 +727,22 @@ export const apiStore = defineStore('store', {
       }
     },
 
+    async fetchLastImageStats() {
+      if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
+      try {
+        const lastImageStats = await apiService.getCaptureStatisticsFull();
+        //console.log('Last image stats response:', lastImageStats);
+        if (lastImageStats.Response) {
+          this.lastImageStats = lastImageStats.Response;
+        } else {
+          if (lastImageStats?.Error === 'No capture processed') return;
+          console.error('Error in last image stats API response:', lastImageStats?.Error);
+        }
+      } catch (error) {
+        console.error('Error fetching last image stats:', error);
+      }
+    },
+
     getExistingEquipment(activeProfile) {
       this.existingEquipmentList = [];
       const apiMapping = {
@@ -809,9 +835,49 @@ export const apiStore = defineStore('store', {
       if (pinsVersion && pinsVersion.Response) {
         this.isPINS = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+        await this.syncSystemTime();
       } else {
         this.isPINS = false;
       }
+    },
+
+    async syncSystemTime() {
+      const pinsStore = usePinsStore();
+
+      if (!pinsStore.timeSyncEnabled) {
+        console.log('[Time Sync] Time sync is disabled in settings.');
+        return;
+      }
+
+      if (this.isTimeSynced) return;
+
+      const serverTime = await apiPinsService.fetchSystemTime();
+      if (!serverTime) return;
+
+      const clientTime = new Date();
+      const clientTimestamp = clientTime.getTime() / 1000; // Seconds
+      const serverTimestamp = serverTime.timestamp;
+      const serverIso = serverTime.iso;
+
+      console.log(`[Time Sync] Client: ${clientTime.toISOString()} (${clientTimestamp})`);
+      console.log(`[Time Sync] Server: ${serverIso} (${serverTimestamp})`);
+
+      const diff = Math.abs(clientTimestamp - serverTimestamp);
+      console.log(`[Time Sync] Difference: ${diff.toFixed(3)}s`);
+
+      // If difference is more than 5 seconds, sync it
+      if (diff > 5) {
+        console.log('[Time Sync] Difference too large, updating server time...');
+        const success = await apiPinsService.setSystemTime(clientTimestamp);
+        if (success) {
+          console.log('[Time Sync] Server time updated successfully.');
+        } else {
+          console.error('[Time Sync] Failed to update server time.');
+        }
+      } else {
+        console.log('[Time Sync] Time is synchronized.');
+      }
+      this.isTimeSynced = true;
     },
 
     setPageReturnedFromBackground() {

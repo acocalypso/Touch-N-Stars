@@ -116,6 +116,7 @@
             class="h-7 md:h-8"
           />
         </div>
+        <pinsSetDewHeaterStrength v-if="store.isPINS" class="mt-2" />
       </div>
     </div>
   </div>
@@ -129,6 +130,7 @@ import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import pinsSetDewHeaterStrength from './settingsPins/pinsSetDewHeaterStrength.vue';
 
 const store = apiStore();
 const cameraStore = useCameraStore();

@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
 
 export const useGuiderStore = defineStore('guiderStore', {
   state: () => ({
+    guidecamOk: false,
     intervalId: null,
     RADistanceRaw: [],
     DECDistanceRaw: [],
@@ -16,10 +18,43 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2Status: [],
     phd2StarLostInfo: [],
     phd2StarLost: false,
+    isFetchingPhd2Infos: false,
     phd2EquipmentProfiles: [],
     phd2CurrentEquipment: [],
     phd2IsConnected: false,
     phd2StarInfo: null,
+
+    // PHD2 Camera State (PINS)
+    phd2Cameras: [],
+    phd2SelectedCameraIndex: null,
+    phd2SelectedCameraName: null,
+    phd2CamerasLoading: false,
+
+    // PHD2 Mount State (PINS)
+    phd2Mounts: [],
+    phd2SelectedMountIndex: null,
+    phd2SelectedMountName: null,
+    phd2MountsLoading: false,
+
+    // PHD2 Focal Length State (PINS)
+    phd2FocalLength: null,
+    phd2FocalLengthLoading: false,
+
+    // PHD2 Calibration Step State (PINS)
+    phd2CalibrationStep: null,
+    phd2CalibrationStepLoading: false,
+
+    // PHD2 Reverse DEC After Flip State (PINS)
+    phd2ReverseDecAfterFlip: false,
+    phd2ReverseDecAfterFlipLoading: false,
+
+    // PHD2 Guide Algorithm RA State (PINS)
+    phd2GuideAlgorithmRA: null,
+    phd2GuideAlgorithmRALoading: false,
+
+    // PHD2 Guide Algorithm DEC State (PINS)
+    phd2GuideAlgorithmDEC: null,
+    phd2GuideAlgorithmDECLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -41,6 +76,11 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async fetchPhd2Infos() {
+      if (this.isFetchingPhd2Infos) {
+        return;
+      }
+
+      this.isFetchingPhd2Infos = true;
       try {
         const response1 = await apiService.getPhd2AllInfos();
 
@@ -57,13 +97,16 @@ export const useGuiderStore = defineStore('guiderStore', {
 
         this.phd2StarLostInfo = response1.Response.StarLostInfo;
 
-        this.phd2StarLost = this.checkStarLostByFrame(this.phd2StarLostInfo);
+        const mainStore = apiStore();
+        this.phd2StarLost = this.checkStarLostByState(
+          response1.Response.Status,
+          mainStore.guiderInfo?.State
+        );
         if (this.phd2StarLost) {
           console.log('Star lost');
           console.log(this.phd2StarLostInfo);
 
           // Prüfe, ob die Seite kürzlich aus dem Hintergrund zurückgekehrt ist
-          const mainStore = apiStore();
           if (!mainStore.isPageRecentlyReturnedFromBackground()) {
             console.log('Show star lost toast');
           } else {
@@ -81,61 +124,18 @@ export const useGuiderStore = defineStore('guiderStore', {
           this.phd2CurrentEquipment.camera?.connected || this.phd2CurrentEquipment.mount?.connected;
       } catch (error) {
         console.error('Error fetching the information:', error);
+      } finally {
+        this.isFetchingPhd2Infos = false;
       }
     },
 
-    data() {
-      return {
-        previousStarLostFrame: null,
-        phd2StarLost: false,
-        isStarLostInitialized: false, // <- new flag
-      };
-    },
+    checkStarLostByState(phd2Status, guiderState) {
+      const normalizedPhd2Status = String(phd2Status || '').toLowerCase();
+      const normalizedGuiderState = String(guiderState || '').toLowerCase();
 
-    checkStarLostByFrame(starLostInfo) {
-      if (!starLostInfo || typeof starLostInfo.Frame !== 'number') {
-        this.previousStarLostFrame = null;
-        this.isStarLostInitialized = false;
-        this.lastStarLostCheck = null;
-        return false;
-      }
-
-      const currentFrame = starLostInfo.Frame;
-      const now = Date.now();
-
-      // Check if we're recently returned from background
-      const mainStore = apiStore();
-      if (mainStore.isPageRecentlyReturnedFromBackground()) {
-        // Reset initialization to avoid false positives
-        this.previousStarLostFrame = currentFrame;
-        this.isStarLostInitialized = true;
-        this.lastStarLostCheck = now;
-        //console.log('Page recently returned, resetting star lost tracking');
-        return false;
-      }
-
-      if (!this.isStarLostInitialized) {
-        // First call: store the frame but don't trigger star lost
-        this.previousStarLostFrame = currentFrame;
-        this.isStarLostInitialized = true;
-        this.lastStarLostCheck = now;
-        console.log('Star lost initialized with frame:', currentFrame);
-        return false;
-      }
-
-      // Don't check too frequently after initialization
-      if (this.lastStarLostCheck && now - this.lastStarLostCheck < 5000) {
-        return false;
-      }
-
-      if (currentFrame !== this.previousStarLostFrame) {
-        console.log('Star lost frame changed:', this.previousStarLostFrame, '->', currentFrame);
-        this.previousStarLostFrame = currentFrame;
-        this.lastStarLostCheck = now;
-        return true;
-      }
-
-      return false;
+      return (
+        normalizedPhd2Status.includes('lostlock') || normalizedGuiderState.includes('lostlock')
+      );
     },
 
     startFetching() {
@@ -150,6 +150,342 @@ export const useGuiderStore = defineStore('guiderStore', {
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.intervalId = null;
+      }
+    },
+
+    async setPHD2Profil(id) {
+      try {
+        const response = await apiPinsService.setPHD2SelectedProfile(id);
+        if (response.Success && response.Response) {
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 profile:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Camera Actions (PINS)
+    async fetchPHD2Cameras() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2CamerasLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2CameraList();
+        if (response.Success && response.Response) {
+          this.phd2Cameras = response.Response.Cameras;
+          this.phd2SelectedCameraIndex = response.Response.SelectedIndex;
+          this.phd2SelectedCameraName = response.Response.Cameras[response.Response.SelectedIndex];
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 cameras:', error);
+      } finally {
+        this.phd2CamerasLoading = false;
+      }
+    },
+
+    async setPHD2Camera(index) {
+      try {
+        const response = await apiPinsService.setPHD2SelectedCamera(index);
+        if (response.Success && response.Response) {
+          this.phd2SelectedCameraIndex = response.Response.Index;
+          this.phd2SelectedCameraName = response.Response.Name;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 camera:', error);
+        throw error;
+      }
+    },
+
+    async refreshPHD2SelectedCamera() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      try {
+        const response = await apiPinsService.getPHD2SelectedCamera();
+        if (response.Success && response.Response) {
+          this.phd2SelectedCameraIndex = response.Response.Index;
+          this.phd2SelectedCameraName = response.Response.Name;
+        }
+      } catch (error) {
+        console.error('Error refreshing PHD2 selected camera:', error);
+      }
+    },
+
+    // PHD2 Mount Actions (PINS)
+    async fetchPHD2Mounts() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2MountsLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2MountList();
+        if (response.Success && response.Response) {
+          this.phd2Mounts = response.Response.Mounts;
+          this.phd2SelectedMountIndex = response.Response.SelectedIndex;
+          this.phd2SelectedMountName = response.Response.Mounts[response.Response.SelectedIndex];
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 mounts:', error);
+      } finally {
+        this.phd2MountsLoading = false;
+      }
+    },
+
+    async setPHD2Mount(index) {
+      try {
+        const response = await apiPinsService.setPHD2SelectedMount(index);
+        if (response.Success && response.Response) {
+          this.phd2SelectedMountIndex = response.Response.Index;
+          this.phd2SelectedMountName = response.Response.Name;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 mount:', error);
+        throw error;
+      }
+    },
+
+    async refreshPHD2SelectedMount() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      try {
+        const response = await apiPinsService.getPHD2SelectedMount();
+        if (response.Success && response.Response) {
+          this.phd2SelectedMountIndex = response.Response.Index;
+          this.phd2SelectedMountName = response.Response.Name;
+        }
+      } catch (error) {
+        console.error('Error refreshing PHD2 selected mount:', error);
+      }
+    },
+
+    // PHD2 Focal Length Actions (PINS)
+    async fetchPHD2FocalLength() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2FocalLengthLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2Focallength();
+        if (response.Success && response.Response) {
+          this.phd2FocalLength = response.Response.FocalLength;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 focal length:', error);
+      } finally {
+        this.phd2FocalLengthLoading = false;
+      }
+    },
+
+    async setPHD2FocalLength(focalLength) {
+      try {
+        const response = await apiPinsService.setPHD2Focallength(focalLength);
+        if (response.Success && response.Response) {
+          this.phd2FocalLength = response.Response.FocalLength;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 focal length:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Calibration Step Actions (PINS)
+    async fetchPHD2CalibrationStep() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2CalibrationStepLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2CalibrationStep();
+        if (response.Success && response.Response) {
+          this.phd2CalibrationStep = response.Response.CalibrationStep;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 calibration step:', error);
+      } finally {
+        this.phd2CalibrationStepLoading = false;
+      }
+    },
+
+    async setPHD2CalibrationStep(calibrationStep) {
+      try {
+        const response = await apiPinsService.setPHD2CalibrationStep(calibrationStep);
+        if (response.Success && response.Response) {
+          this.phd2CalibrationStep = response.Response.CalibrationStep;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 calibration step:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Reverse DEC After Flip Actions (PINS)
+    async fetchPHD2ReverseDecAfterFlip() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2ReverseDecAfterFlipLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2ReverseDecAfterFlip();
+        if (response.Success && response.Response) {
+          this.phd2ReverseDecAfterFlip = response.Response.ReverseDecAfterFlip;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 reverse DEC after flip:', error);
+      } finally {
+        this.phd2ReverseDecAfterFlipLoading = false;
+      }
+    },
+
+    async setPHD2ReverseDecAfterFlip(enabled) {
+      try {
+        const response = await apiPinsService.setPHD2ReverseDecAfterFlip(enabled);
+        if (response.Success && response.Response) {
+          this.phd2ReverseDecAfterFlip = response.Response.ReverseDecAfterFlip;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 reverse DEC after flip:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Guide Algorithm RA Actions (PINS)
+    async fetchPHD2GuideAlgorithmRA() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2GuideAlgorithmRALoading = true;
+      try {
+        const response = await apiPinsService.getPHD2GuideAlgorithmRA();
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmRA = response.Response.GuideAlgorithmRA;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 guide algorithm RA:', error);
+      } finally {
+        this.phd2GuideAlgorithmRALoading = false;
+      }
+    },
+
+    async setPHD2GuideAlgorithmRA(algorithm) {
+      try {
+        const response = await apiPinsService.setPHD2GuideAlgorithmRA(algorithm);
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmRA = response.Response.GuideAlgorithmRA;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 guide algorithm RA:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Guide Algorithm DEC Actions (PINS)
+    async fetchPHD2GuideAlgorithmDEC() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2GuideAlgorithmDECLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2GuideAlgorithmDEC();
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmDEC = response.Response.GuideAlgorithmDEC;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 guide algorithm DEC:', error);
+      } finally {
+        this.phd2GuideAlgorithmDECLoading = false;
+      }
+    },
+
+    async setPHD2GuideAlgorithmDEC(algorithm) {
+      try {
+        const response = await apiPinsService.setPHD2GuideAlgorithmDEC(algorithm);
+        if (response.Success && response.Response) {
+          this.phd2GuideAlgorithmDEC = response.Response.GuideAlgorithmDEC;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 guide algorithm DEC:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Profile Management Actions
+    async createPHD2Profile(profileName) {
+      try {
+        const response = await apiPinsService.createPHD2Profile(profileName);
+        if (response.Success && response.Response) {
+          // Reload profiles list after creation
+          const profilesResponse = await apiService.getPhd2Profile();
+          if (profilesResponse.Response && profilesResponse.Response.EquipmentProfiles) {
+            this.phd2EquipmentProfiles = profilesResponse.Response.EquipmentProfiles;
+          }
+          return response;
+        }
+      } catch (error) {
+        console.error('Error creating PHD2 profile:', error);
+        throw error;
+      }
+    },
+
+    async renamePHD2Profile(newName, profileId) {
+      try {
+        console.log('Renaming profile ID', profileId, 'to', newName);
+        await this.setPHD2Profil(profileId);
+        const response = await apiPinsService.renamePHD2Profile(newName);
+        if (response.Success) {
+          // Reload profiles list after rename
+          const profilesResponse = await apiService.getPhd2Profile();
+          if (profilesResponse.Response && profilesResponse.Response.EquipmentProfiles) {
+            this.phd2EquipmentProfiles = profilesResponse.Response.EquipmentProfiles;
+          }
+          return response;
+        }
+      } catch (error) {
+        console.error('Error renaming PHD2 profile:', error);
+        throw error;
+      }
+    },
+
+    async deletePHD2Profile(profileName) {
+      try {
+        // Validate that at least 2 profiles exist before deletion
+        if (this.phd2EquipmentProfiles.length <= 1) {
+          throw new Error('Cannot delete the last profile');
+        }
+
+        // Get current profile before deletion
+        const currentProfileResponse = await apiService.getPhd2CurrentProfile();
+        const currentProfileName = currentProfileResponse.Response?.Profile?.name;
+        const isCurrentProfileDeleted = currentProfileName === profileName;
+
+        // Delete the profile
+        const response = await apiPinsService.deletePHD2Profile(profileName);
+        if (response.Success) {
+          // Reload profiles list after deletion
+          const profilesResponse = await apiService.getPhd2Profile();
+          if (profilesResponse.Response && profilesResponse.Response.EquipmentProfiles) {
+            this.phd2EquipmentProfiles = profilesResponse.Response.EquipmentProfiles;
+
+            // If current profile was deleted, switch to first available profile
+            if (isCurrentProfileDeleted && this.phd2EquipmentProfiles.length > 0) {
+              const newProfileId = 1; // First profile ID is 1
+              await this.setPHD2Profil(newProfileId);
+
+              // Reload all PHD2 settings
+              await this.fetchPHD2Cameras();
+              await this.refreshPHD2SelectedMount();
+              await this.fetchPHD2FocalLength();
+              await this.fetchPHD2CalibrationStep();
+              await this.fetchPHD2ReverseDecAfterFlip();
+              await this.fetchPHD2GuideAlgorithmRA();
+              await this.fetchPHD2GuideAlgorithmDEC();
+            }
+          }
+          return response;
+        }
+      } catch (error) {
+        console.error('Error deleting PHD2 profile:', error);
+        throw error;
       }
     },
   },

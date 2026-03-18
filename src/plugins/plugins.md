@@ -22,7 +22,8 @@ plugins/
   "description": "Plugin description",
   "version": "1.0.0",
   "author": "Author Name",
-  "enabled": false
+  "enabled": false,
+  "isPins": false
 }
 ```
 

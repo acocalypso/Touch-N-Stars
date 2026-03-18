@@ -31,6 +31,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence Creator: Removed "Load Basic Sequence" toolbar button
 
 ### Fixed
+- Histogram: Show real 16-bit statistics (Mean, Median, Min, Max, StDev) from NINA image-history API
+- Histogram: Compute histogram bars using inverse NINA auto-stretch (MTF) to align with 16-bit ADU axis
+- Histogram: Reload statistics from API each time the histogram panel is opened
+- Histogram: X-axis shows real ADU range (Min–Max) when statistics are available
+- Histogram: Mean (yellow) and Median (cyan) marker lines aligned with histogram bars
+- Histogram: Gamma slider hidden by default, accessible via toggle button
 - Dialog: Filter out NINA NotificationHostWindow (NINA V3.3) to prevent empty dialog popup when not connected
 - Pins plugin: support WIFI connection
 - Pins Plugin: Band selection 2.4 Ghz / 5 Ghz
@@ -55,9 +61,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Camera: Unified UI design for settings components
 - Sequence Monitor: Limit image height to viewport in landscape mode to prevent scrolling
+- NumberPicker: Replaced scroll wheel picker with touch-friendly numpad input
+- NumberPicker: Added cancel button and backdrop dismiss
+- NumberPicker: Added min/max validation for direct input and picker overlay
+- NumberPicker: Simplified picker store by passing min/max directly instead of options array
 
 ### Fixed
 - Fix set settletime
+- App: UI no longer reloads when returning from background
+- Camera: Spinner not updating after capture in Safari
 
 ## [App4.5.0] - 2026-10-20
 ### Added

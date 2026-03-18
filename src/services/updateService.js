@@ -81,6 +81,18 @@ function parseVersion(version) {
   };
 }
 
+function normalizePrereleaseParts(parts = []) {
+  return parts.filter((part) => part && part.toLowerCase() !== 'stable');
+}
+
+function normalizeVersionForComparison(version) {
+  const parsed = parseVersion(version);
+  const normalizedPrerelease = normalizePrereleaseParts(parsed.prerelease);
+  return `${parsed.major}.${parsed.minor}.${parsed.patch}${
+    normalizedPrerelease.length > 0 ? `-${normalizedPrerelease.join('.')}` : ''
+  }`;
+}
+
 function compareVersions(remote, local) {
   const remoteVersion = parseVersion(remote);
   const localVersion = parseVersion(local);
@@ -147,10 +159,7 @@ function mapReleaseToUpdateMetadata(release) {
   const changelogAsset = assets.find((a) => a?.name === 'CHANGELOG.md') || null;
 
   const versionString = release.tag_name || release.name;
-  const parsedVersion = parseVersion(versionString);
-  const normalizedVersion = `${parsedVersion.major}.${parsedVersion.minor}.${parsedVersion.patch}${
-    parsedVersion.prerelease.length > 0 ? `-${parsedVersion.prerelease.join('.')}` : ''
-  }`;
+  const normalizedVersion = normalizeVersionForComparison(versionString);
 
   if (!normalizedVersion || normalizedVersion === '0.0.0') {
     throw new Error(`Release ${release.tag_name} has an unparseable version`);
@@ -176,7 +185,13 @@ async function fetchLatestRelease() {
     const releases = await fetchJson(`${getGithubApiBase()}/releases?per_page=30`);
     const channelReleases = (Array.isArray(releases) ? releases : []).filter((release) => {
       if (!release || release.draft) return false;
-      return useBetaChannel ? Boolean(release.prerelease) : !release.prerelease;
+
+      const tagName = String(release.tag_name || '').toLowerCase();
+      if (useBetaChannel) {
+        return Boolean(release.prerelease) && tagName.endsWith('-beta');
+      }
+
+      return !release.prerelease && tagName.endsWith('-stable');
     });
 
     if (channelReleases.length === 0) {
@@ -201,6 +216,30 @@ async function fetchLatestRelease() {
   }
 }
 
+async function resolveCurrentVersion(fallbackVersion = appVersion) {
+  if (!isNativePlatform()) {
+    return fallbackVersion;
+  }
+
+  try {
+    const current = await CapacitorUpdater.current();
+    const currentBundleVersion = current?.bundle?.version;
+    const nativeVersion = current?.native;
+
+    if (currentBundleVersion && currentBundleVersion !== 'builtin') {
+      return currentBundleVersion;
+    }
+
+    if (nativeVersion) {
+      return nativeVersion;
+    }
+  } catch (error) {
+    console.warn('[Updater] Failed to resolve current bundle version:', error);
+  }
+
+  return fallbackVersion;
+}
+
 export async function checkForManualUpdate(currentVersion = appVersion, options = {}) {
   const { allowDowngrade = false } = options;
 
@@ -215,7 +254,13 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
     return { available: false, reason: 'no-release' };
   }
 
-  const versionComparison = compareVersions(latestRelease.version, currentVersion);
+  const effectiveCurrentVersion = await resolveCurrentVersion(currentVersion);
+  console.log('[Updater] Effective current version:', effectiveCurrentVersion);
+
+  const normalizedCurrentVersion = normalizeVersionForComparison(effectiveCurrentVersion);
+  console.log('[Updater] Normalized current version:', normalizedCurrentVersion);
+
+  const versionComparison = compareVersions(latestRelease.version, normalizedCurrentVersion);
   console.log('[Updater] Version comparison:', versionComparison);
 
   if (!allowDowngrade && versionComparison <= 0) {
@@ -225,6 +270,7 @@ export async function checkForManualUpdate(currentVersion = appVersion, options 
   return {
     available: true,
     ...latestRelease,
+    currentVersion: normalizedCurrentVersion,
     isDowngrade: versionComparison < 0,
   };
 }

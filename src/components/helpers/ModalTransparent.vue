@@ -3,27 +3,30 @@
     <div v-if="show" class="fixed inset-0 z-50 text-gray-200 p-2 pointer-events-none">
       <div
         ref="modalElement"
-        class="p-6 bg-gradient-to-br rounded-lg shadow-lg w-80 sm:w-96 relative pointer-events-auto touch-none"
-        :class="getOpacityClass()"
+        class="bg-gradient-to-br rounded-lg shadow-lg relative pointer-events-auto touch-none"
+        :class="[getOpacityClass(), 'p-4 sm:p-6 w-full max-w-xs sm:max-w-sm mx-2']"
         :style="{ position: 'absolute', ...position }"
         @click.stop
       >
         <!-- Header = Drag-Handle -->
         <div
-          class="mb-4 border-b pb-2 flex justify-between items-center cursor-move select-none touch-none"
+          class="mb-4 border-b pb-2 flex justify-between items-center cursor-move select-none touch-none gap-2"
           @mousedown="startDrag"
           @touchstart="startDrag"
         >
           <slot name="header">
-            <h2 class="text-xl font-bold">Standard Titel</h2>
+            <h2 class="text-lg sm:text-xl font-bold truncate">Standard Titel</h2>
           </slot>
-          <button @click="emit('close')" class="w-8 h-8 text-gray-400 hover:text-gray-600">
+          <button
+            @click="emit('close')"
+            class="w-8 h-8 flex-shrink-0 text-gray-400 hover:text-gray-600"
+          >
             <XMarkIcon />
           </button>
         </div>
         <!-- Body -->
         <div
-          class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin modal-content"
+          class="flex flex-col w-full mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin modal-content"
         >
           <slot name="body">
             <p>Standard-Inhalt</p>
@@ -37,6 +40,7 @@
 <script setup>
 import { ref, watch, nextTick } from 'vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
   show: Boolean,
@@ -48,15 +52,43 @@ const props = defineProps({
     type: String,
     default: 'z-50',
   },
+  modalId: {
+    type: String,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['close']);
 
+const settingsStore = useSettingsStore();
 const modalElement = ref(null);
 const position = ref({ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' });
 const isDragging = ref(false);
 const hasBeenMoved = ref(false); // Track ob das Modal schon mal bewegt wurde
 let offset = { x: 0, y: 0 };
+
+// Erkenne die aktuelle Ausrichtung (landscape oder portrait)
+function getOrientation() {
+  return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+}
+
+// Validiere, ob die Position noch auf dem Bildschirm passt
+function validatePosition(pos) {
+  if (!modalElement.value) return pos;
+
+  const modalRect = modalElement.value.getBoundingClientRect();
+  const top = parseInt(pos.top);
+  const left = parseInt(pos.left);
+
+  const maxLeft = window.innerWidth - modalRect.width;
+  const maxTop = window.innerHeight - modalRect.height;
+
+  return {
+    top: `${Math.max(0, Math.min(top, maxTop))}px`,
+    left: `${Math.max(0, Math.min(left, maxLeft))}px`,
+    transform: 'none',
+  };
+}
 
 function getEventCoordinates(e) {
   if (e.touches) {
@@ -120,6 +152,15 @@ function stopDrag() {
   window.removeEventListener('mouseup', stopDrag);
   window.removeEventListener('touchmove', onDrag);
   window.removeEventListener('touchend', stopDrag);
+
+  // Speichere die Position im Store (abhängig von Ausrichtung)
+  if (props.modalId) {
+    const orientation = getOrientation();
+    settingsStore.setModalPosition(props.modalId, orientation, {
+      top: position.value.top,
+      left: position.value.left,
+    });
+  }
 }
 
 // Zentriere das Modal beim Öffnen
@@ -131,13 +172,21 @@ function centerModal() {
   };
 }
 
-// Überwache das Öffnen des Modals - nur beim ersten Mal zentrieren
+// Überwache das Öffnen des Modals - lade gespeicherte Position abhängig von Ausrichtung
 watch(
   () => props.show,
   (newValue) => {
-    if (newValue && !hasBeenMoved.value) {
+    if (newValue) {
       nextTick(() => {
-        centerModal();
+        const orientation = getOrientation();
+        const saved = props.modalId && settingsStore.modalPositions[props.modalId]?.[orientation];
+        if (saved) {
+          // Validiere die Position, bevor sie gesetzt wird
+          position.value = validatePosition(saved);
+          hasBeenMoved.value = true;
+        } else if (!hasBeenMoved.value) {
+          centerModal();
+        }
       });
     }
   }
@@ -177,7 +226,7 @@ function getOpacityClass() {
 /* Modal Content Höhe im Landscape-Modus */
 @media screen and (orientation: landscape) {
   .modal-content {
-    max-height: 90vh;
+    max-height: 50vh;
   }
 }
 

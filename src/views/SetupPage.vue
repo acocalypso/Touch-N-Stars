@@ -227,7 +227,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getAvailableLanguages } from '@/i18n';
 import { useRouter } from 'vue-router';
@@ -251,37 +251,62 @@ const { locale, t } = useI18n();
 const router = useRouter();
 const settingsStore = useSettingsStore();
 const store = apiStore();
-const currentStep = ref(1);
+const MIN_SETUP_STEP = 1;
+const MAX_SETUP_STEP = 6;
+const SETUP_STEP_STORAGE_KEY = 'setupCurrentStep';
+
+function getInitialSetupStep() {
+  const savedStep = localStorage.getItem(SETUP_STEP_STORAGE_KEY);
+  if (!savedStep) {
+    return MIN_SETUP_STEP;
+  }
+
+  const parsedStep = Number.parseInt(savedStep, 10);
+  if (!Number.isFinite(parsedStep)) {
+    return MIN_SETUP_STEP;
+  }
+
+  return Math.min(Math.max(parsedStep, MIN_SETUP_STEP), MAX_SETUP_STEP);
+}
+
+function persistCurrentStep(step) {
+  localStorage.setItem(SETUP_STEP_STORAGE_KEY, step.toString());
+}
+
+function getInitialInstanceData() {
+  const selectedInstance = settingsStore.selectedInstanceId
+    ? settingsStore.getInstance(settingsStore.selectedInstanceId)
+    : null;
+
+  if (selectedInstance?.ip && selectedInstance?.port) {
+    return {
+      name: selectedInstance.name || '',
+      ip: selectedInstance.ip,
+      port: selectedInstance.port,
+    };
+  }
+
+  return {
+    name: '',
+    ip: settingsStore.connection.ip || '',
+    port: settingsStore.connection.port || 5000,
+  };
+}
+
+const currentStep = ref(getInitialSetupStep());
 const totalSteps = ref(5);
 const isVisible = ref(true);
 const selectedLanguage = ref(locale.value);
 const locationStore = useLocationStore();
-const instanceData = ref({
-  name: '',
-  ip: '',
-  port: 5000,
-});
+const instanceData = ref(getInitialInstanceData());
 const availableLanguages = getAvailableLanguages();
 const checkConnection = ref(false);
-const stepInitialized = ref(false); // Tracks if step 5 logic has run
+const stepInitialized = ref(currentStep.value === 5); // Tracks if step 5 logic has run
 const loadingGPSData = ref(false); // Tracks if GPS data is being loaded
-
-// Setup-Schritt im localStorage speichern, damit er nach Berechtigungsabfragen wiederhergestellt werden kann
-onMounted(() => {
-  const savedStep = localStorage.getItem('setupCurrentStep');
-  if (savedStep) {
-    const step = parseInt(savedStep);
-    currentStep.value = step;
-    // If we're resuming at step 5, mark it as already initialized
-    if (step === 5) {
-      stepInitialized.value = true;
-    }
-  }
-});
 
 // Schritt bei jeder Änderung speichern
 watch(currentStep, (newStep) => {
-  localStorage.setItem('setupCurrentStep', newStep.toString());
+  persistCurrentStep(newStep);
 });
 
 function beforeEnter() {
@@ -294,10 +319,12 @@ function afterEnter() {
 
 async function nextStep() {
   currentStep.value++;
+  persistCurrentStep(currentStep.value);
 
   // Skip instance configuration on web
   if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value++;
+    persistCurrentStep(currentStep.value);
   }
 
   // Fetch GPS info after instance setup on mobile
@@ -329,9 +356,11 @@ function previousStep() {
   }
 
   currentStep.value--;
+  persistCurrentStep(currentStep.value);
   // Skip instance configuration when going back on web
   if (currentStep.value === 4 && !['android', 'ios'].includes(Capacitor.getPlatform())) {
     currentStep.value--;
+    persistCurrentStep(currentStep.value);
   }
 }
 
@@ -399,7 +428,7 @@ function completeSetup() {
   settingsStore.completeSetup();
   localStorage.setItem('setupCompleted', 'true');
   // Setup-Schritt aus localStorage entfernen
-  localStorage.removeItem('setupCurrentStep');
+  localStorage.removeItem(SETUP_STEP_STORAGE_KEY);
   router.push('/');
 }
 </script>

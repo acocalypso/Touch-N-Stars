@@ -11,7 +11,9 @@
     "cancel": "取消",
     "confirm": "确认",
     "yes": "是",
-    "no": "否"
+    "no": "否",
+    "delete": "删除",
+    "close": "关闭"
   },
   "pages": {
     "equipment": {
@@ -132,14 +134,15 @@
       "connection": "连接设置",
       "language": "语言",
       "image": {
-        "title": "图像设置",
+        "title": "图像",
         "quality": "图像质量",
         "maxDimension": "最大图像尺寸",
         "strech_factor": "拉伸因子",
         "black_clipping": "黑点剪切",
         "debayern": "去拜耳图像",
         "DebayeredHFR": "去拜耳 HFR",
-        "UnlinkedStretch": "非关联拉伸"
+        "UnlinkedStretch": "非关联拉伸",
+        "fileType": "文件类型"
       },
       "imageFile": {
         "title": "文件名模式",
@@ -149,6 +152,7 @@
         "separator": "分隔符",
         "empty": "点击下方标记构建模式",
         "freeText": "文本",
+        "addText": "添加",
         "editTokens": "编辑标记",
         "help": {
           "title": "文件名模式",
@@ -195,7 +199,9 @@
         "description": "管理您的设备设置"
       },
       "telescope": {
-        "titel": "望远镜设置"
+        "titel": "望远镜设置",
+        "name": "望远镜名称",
+"focal_ratio": "焦比"
       },
       "beta": {
         "title": "测试版更新通道"
@@ -237,7 +243,7 @@
         "basic": "Basic settings",
         "retry": "Retry settings",
         "search": "Search settings",
-        "title": "Plate solver settings"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -301,6 +307,7 @@
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
       "load_sequence": "从目录加载序列",
       "choose_sequence": "选择序列",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "未找到序列",
       "error_loading_sequences": "加载序列时出错",
       "error_loading_sequence": "加载序列时出错",
@@ -427,7 +434,7 @@
           "post_flip_actions": "Post-flip actions"
         },
         "telescope_settle_time": "Settle time after slew (s)",
-        "meridian_flip_settings": "Meridian-Settings",
+        "meridian_flip_settings": "Meridian Flip",
         "reverse_primary_axis": "反转主轴",
         "reverse_secondary_axis": "反转副轴"
       }
@@ -882,7 +889,9 @@
       "orientation": "方向",
       "flipped": "翻转",
       "ra": "赤经",
-      "dec": "赤纬"
+      "dec": "赤纬",
+      "pixel_scale": "像素尺度",
+      "focal_length": "焦距"
     }
   },
   "plugins": {
@@ -1180,7 +1189,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "N.I.N.A 序列创建器",
+      "title": "序列创建器",
       "subtitle": "创建专业的天体摄影序列",
       "toolbar": {
         "undo": "撤销",
@@ -1195,7 +1204,17 @@
         "sendErrorTitle": "发送到 N.I.N.A 时出错",
         "sendSuccessMessage": "序列已成功发送到 N.I.N.A！",
         "validSequence": "序列有效，可以采用",
-        "invalidSequence": "添加目标设置和智能曝光以创建有效序列"
+        "invalidSequence": "添加目标设置和智能曝光以创建有效序列",
+        "saveNamed": "序列另存为...",
+        "saveNamedSuccess": "序列已保存！",
+        "openLibrary": "序列库",
+        "loadNamed": "加载",
+        "loadNamedSuccess": "序列已加载！"
+      },
+      "library": {
+        "isDefault": "默认",
+        "setAsDefault": "设为默认",
+        "setAsDefaultSuccess": "已设为默认序列！"
       },
       "confirmations": {
         "title": "确认",
@@ -1203,7 +1222,11 @@
         "saveAsDefault": "您确定要将当前序列保存为默认值吗？这将覆盖之前的默认序列。",
         "loadBasicSequence": "您确定要加载基本序列吗？这将覆盖当前序列。",
         "removeAction": "移除 \"{actionName}\" 操作？",
-        "navigateToSequence": "您现在想切换到序列页面吗？"
+        "navigateToSequence": "您现在想切换到序列页面吗？",
+        "saveNamed": "输入序列名称：",
+        "saveNamedPlaceholder": "序列名称...",
+        "libraryTitle": "已保存的序列",
+        "libraryEmpty": "没有已保存的序列。"
       },
       "containers": {
         "startSequence": {
@@ -1802,5 +1825,23 @@
       "noSequenceAvailable": "无可用序列，请先加载序列",
       "sequencerFailed": "序列器失败"
     }
+  },
+  "nav": {
+    "equipment": "设备",
+    "camera": "相机",
+    "autofocus": "对焦",
+    "mount": "赤道仪",
+    "dome": "圆顶",
+    "flatDevice": "平场板",
+    "switch": "开关",
+    "filterWheel": "滤镜轮",
+    "rotator": "旋转仪",
+    "guider": "Guider",
+    "sequence": "序列",
+    "monitoring": "监控",
+    "flatWizard": "平场向导",
+    "skyView": "Stellarium",
+    "settings": "设置",
+    "about": "关于"
   }
 }

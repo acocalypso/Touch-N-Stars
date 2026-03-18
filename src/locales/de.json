@@ -11,7 +11,9 @@
     "cancel": "Abbrechen",
     "confirm": "Bestätigen",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "close": "Schließen",
+    "delete": "Löschen"
   },
   "pages": {
     "equipment": {
@@ -131,13 +133,14 @@
       "connection": "Verbindungseinstellungen",
       "language": "Sprache",
       "image": {
-        "title": "Bildeinstellungen",
+        "title": "Bild",
         "quality": "Bildqualität",
         "maxDimension": "Max. Bildgröße",
         "strech_factor": "Autostrech Faktor",
         "black_clipping": "Schwarzpunktfaktor",
         "DebayeredHFR": "Debayered HFR",
         "UnlinkedStretch": "Unverlinkter Stretch",
+        "fileType": "Dateityp",
         "debayern": "Debayer Bild"
       },
       "imageFile": {
@@ -148,6 +151,7 @@
         "separator": "Trenner",
         "empty": "Tippe auf die Tokens um das Muster zu erstellen",
         "freeText": "Text",
+        "addText": "Hinzufügen",
         "editTokens": "Tokens bearbeiten",
         "help": {
           "title": "Dateinamenmuster",
@@ -194,7 +198,9 @@
         "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       },
       "telescope": {
-        "titel": "Teleskopeinstellungen"
+        "titel": "Teleskopeinstellungen",
+        "name": "Teleskopname",
+        "focal_ratio": "Öffnungsverhältnis"
       },
       "beta": {
         "title": "Beta-Update-Kanal"
@@ -237,7 +243,7 @@
         "basic": "Grundeinstellungen",
         "retry": "Wiederholungseinstellungen",
         "search": "Sucheinstellungen",
-        "title": "Einstellungen für den Plate solver"
+        "title": "Plate Solver"
       }
     },
     "connectEquipment": {
@@ -360,7 +366,8 @@
       "totalExposureTime": {
         "Pictures": "Bilder",
         "title": "Gesamtbelichtungszeit"
-      }
+      },
+      "saved_sequences": "TNS Sequence-Creator"
     },
     "mount": {
       "title": "Montierung",
@@ -425,7 +432,7 @@
           "behavior": "Verhalten",
           "post_flip_actions": "Aktionen nach dem Flip"
         },
-        "meridian_flip_settings": "Meridian-Einstellungen",
+        "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
         "reverse_primary_axis": "Primärachse umkehren",
         "reverse_secondary_axis": "Sekundärachse umkehren"
@@ -564,7 +571,9 @@
         "basic": "Grundeinstellungen",
         "crop_and_stars": "Crop",
         "Reverse": "Umkehren",
-        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden"
+        "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
+        "AutoFocusFilter": "Autofokus-Filter",
+        "AutoFocusFilterNone": "Kein"
       },
       "focus": "Fokus"
     },
@@ -871,6 +880,18 @@
     "helpers": {
       "imageModal": {
         "no_image": "Keine Bilddaten verfügbar"
+      },
+      "histogram": {
+        "blackPoint": "Schwarzpunkt",
+        "whitePoint": "Weißpunkt",
+        "gamma": "Gamma",
+        "mean": "Mittelwert",
+        "median": "Median",
+        "stdDev": "Std Abw",
+        "min": "Min",
+        "max": "Max",
+        "stars": "Sterne",
+        "reset": "Zurücksetzen"
       }
     },
     "platesolve": {
@@ -881,7 +902,9 @@
       "orientation": "Ausrichtung",
       "flipped": "Gespiegelt",
       "ra": "RA",
-      "dec": "Dek"
+      "dec": "Dek",
+      "pixel_scale": "Pixelskala",
+      "focal_length": "Brennweite"
     }
   },
   "plugins": {
@@ -1169,7 +1192,12 @@
         "sendErrorTitle": "Fehler beim Senden an N.I.N.A",
         "sendSuccessMessage": "Sequenz erfolgreich an N.I.N.A gesendet!",
         "validSequence": "Sequenz ist gültig und kann übernommen werden",
-        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen"
+        "invalidSequence": "Zieleinstellungen und Smart Exposure hinzufügen, um eine gültige Sequenz zu erstellen",
+        "loadNamed": "Laden",
+        "loadNamedSuccess": "Sequenz geladen!",
+        "openLibrary": "Sequenzbibliothek",
+        "saveNamed": "Sequenz speichern unter...",
+        "saveNamedSuccess": "Sequenz gespeichert!"
       },
       "confirmations": {
         "title": "Bestätigung",
@@ -1177,7 +1205,11 @@
         "saveAsDefault": "Sind Sie sicher, dass Sie die aktuelle Sequenz als Standard speichern möchten? Dies überschreibt die vorherige Standardsequenz.",
         "loadBasicSequence": "Sind Sie sicher, dass Sie die Basis-Sequenz laden möchten? Dies überschreibt die aktuelle Sequenz.",
         "removeAction": "Aktion \"{actionName}\" entfernen?",
-        "navigateToSequence": "Möchten Sie jetzt zur Sequenz-Seite wechseln?"
+        "navigateToSequence": "Möchten Sie jetzt zur Sequenz-Seite wechseln?",
+        "libraryEmpty": "Keine gespeicherten Sequenzen gefunden.",
+        "libraryTitle": "Gespeicherte Sequenzen",
+        "saveNamed": "Geben Sie einen Namen für die Sequenz ein:",
+        "saveNamedPlaceholder": "Sequenzname..."
       },
       "containers": {
         "startSequence": {
@@ -1341,6 +1373,11 @@
       "settings": {
         "title": "Meridianflip",
         "enableMeridianFlip": "Meridianflip aktivieren"
+      },
+      "library": {
+        "isDefault": "Default",
+        "setAsDefault": "Als Default festlegen",
+        "setAsDefaultSuccess": "Als Standardsequenz festlegen!"
       }
     },
     "webcam": {
@@ -1801,5 +1838,23 @@
       "noSequenceAvailable": "Keine Sequenz verfügbar, für Übergabe notwendig",
       "sequencerFailed": "Sequencer fehlgeschlagen"
     }
+  },
+  "nav": {
+    "about": "Info",
+    "autofocus": "Fokus",
+    "camera": "Kamera",
+    "dome": "Dome",
+    "equipment": "Equip.",
+    "filterWheel": "Filter",
+    "flatDevice": "Flat",
+    "flatWizard": "Flats",
+    "guider": "Guider",
+    "monitoring": "Monitor",
+    "mount": "Mount",
+    "rotator": "Rotator",
+    "sequence": "Seq.",
+    "settings": "Settings",
+    "skyView": "Stellarium",
+    "switch": "Switch"
   }
 }

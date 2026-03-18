@@ -74,6 +74,7 @@ export const usePluginStore = defineStore('pluginStore', {
     initializeAppAndRouter(app, router) {
       this._app = app;
       this._router = router;
+      this._pluginRouteNames = {}; // tracks registered route name per pluginId (not persisted)
     },
 
     async loadAndRegisterPlugins(forceReload = false) {
@@ -153,8 +154,29 @@ export const usePluginStore = defineStore('pluginStore', {
 
         const pluginModule = await importPlugin(plugin.id);
         if (pluginModule && typeof pluginModule.install === 'function') {
-          // Install the plugin
-          pluginModule.install(this._app, { router: this._router });
+          // Proxy the router to intercept addRoute calls:
+          // - removes the old route for this plugin (prevents duplicate routes)
+          // - assigns a stable unique name so removeRoute works later
+          const routeName = `plugin-${pluginId}`;
+          const self = this;
+          const routerProxy = new Proxy(this._router, {
+            get(target, prop) {
+              if (prop === 'addRoute') {
+                return (route) => {
+                  if (self._pluginRouteNames?.[pluginId]) {
+                    target.removeRoute(self._pluginRouteNames[pluginId]);
+                  }
+                  const namedRoute = { ...route, name: routeName };
+                  const result = target.addRoute(namedRoute);
+                  if (!self._pluginRouteNames) self._pluginRouteNames = {};
+                  self._pluginRouteNames[pluginId] = routeName;
+                  return result;
+                };
+              }
+              return typeof target[prop] === 'function' ? target[prop].bind(target) : target[prop];
+            },
+          });
+          pluginModule.install(this._app, { router: routerProxy });
         }
       } catch (error) {
         console.error(`Error initializing plugin ${pluginId}:`, error);

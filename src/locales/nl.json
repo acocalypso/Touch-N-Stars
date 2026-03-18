@@ -11,7 +11,9 @@
     "cancel": "Annuleer",
     "confirm": "Bevestig",
     "yes": "Ja",
-    "no": "Nee"
+    "no": "Nee",
+    "delete": "Verwijder",
+    "close": "Sluiten"
   },
   "pages": {
     "equipment": {
@@ -132,14 +134,15 @@
       "connection": "Connectie instellingen",
       "language": "Taal",
       "image": {
-        "title": "Beeld Instellingen",
+        "title": "Beeld",
         "quality": "Beeld kwaliteit",
         "maxDimension": "Max. Beeldformaat",
         "strech_factor": "Stretch Factor",
         "black_clipping": "Zwart Clipping",
         "debayern": "Debayer beeld",
         "DebayeredHFR": "Debayered HFR",
-        "UnlinkedStretch": "Unlinked Strech"
+        "UnlinkedStretch": "Unlinked Strech",
+        "fileType": "Bestandstype"
       },
       "imageFile": {
         "title": "Bestandsnaampatroon",
@@ -149,6 +152,7 @@
         "separator": "Scheidingsteken",
         "empty": "Tik op de tokens hieronder om het patroon samen te stellen",
         "freeText": "Tekst",
+        "addText": "Toevoegen",
         "editTokens": "Tokens bewerken",
         "help": {
           "title": "Bestandsnaampatroon",
@@ -226,7 +230,7 @@
         "basic": "Basisinstellingen",
         "retry": "Probeer de instellingen opnieuw",
         "search": "Zoekinstellingen",
-        "title": "Instellingen plaatoplosser"
+        "title": "Plate Solver"
       },
       "equipment": {
         "description": "Beheer uw apparatuurinstellingen",
@@ -237,7 +241,9 @@
         "touchOptimized": "Touch-geoptimaliseerde kiezer"
       },
       "telescope": {
-        "titel": "Telescoop instellingen"
+        "titel": "Telescoop instellingen",
+        "name": "Telescoopnaam",
+"focal_ratio": "Brandpuntsverhouding"
       }
     },
     "connectEquipment": {
@@ -300,6 +306,7 @@
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "load_sequence": "Laad sequentie vanuit directory",
       "choose_sequence": "Kies een sequentie",
+      "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Geen sequentie gevonden",
       "error_loading_sequences": "Fout tijdens laden sequenties",
       "error_loading_sequence": "Fout tijdens laden sequentie",
@@ -425,7 +432,7 @@
           "behavior": "Gedrag",
           "post_flip_actions": "Acties na de flip"
         },
-        "meridian_flip_settings": "Meridiaan-instellingen",
+        "meridian_flip_settings": "Meridian Flip",
         "telescope_settle_time": "Settle tijd na slew(s)",
         "reverse_primary_axis": "Primaire as omkeren",
         "reverse_secondary_axis": "Secundaire as omkeren"
@@ -881,7 +888,9 @@
       "orientation": "Oriëntatie",
       "flipped": "Gespiegeld",
       "ra": "RA",
-      "dec": "Dec"
+      "dec": "Dec",
+      "pixel_scale": "Pixelschaal",
+      "focal_length": "Brandpuntsafstand"
     }
   },
   "plugins": {
@@ -1053,7 +1062,7 @@
       "errors": {}
     },
     "sequenceCreator": {
-      "title": "N.I.N.A Sequence Creator",
+      "title": "Sequence Creator",
       "subtitle": "Maak professionele astrophotografie sequenties",
       "toolbar": {
         "undo": "Annuleer",
@@ -1068,7 +1077,17 @@
         "sendErrorTitle": "Fout bij sturen naar N.I.N.A",
         "sendSuccessMessage": "Sequentie successvol verzonden naar N.I.N.A!",
         "validSequence": "Sequentie is valide en kan gebruikt worden",
-        "invalidSequence": "Voeg object toe aan Doelinstellingen en Slimme opnames om een valide sequentie aan te maken"
+        "invalidSequence": "Voeg object toe aan Doelinstellingen en Slimme opnames om een valide sequentie aan te maken",
+        "saveNamed": "Sequentie opslaan als...",
+        "saveNamedSuccess": "Sequentie opgeslagen!",
+        "openLibrary": "Sequentie bibliotheek",
+        "loadNamed": "Laden",
+        "loadNamedSuccess": "Sequentie geladen!"
+      },
+      "library": {
+        "isDefault": "Standaard",
+        "setAsDefault": "Stel in als standaard",
+        "setAsDefaultSuccess": "Ingesteld als standaard sequentie!"
       },
       "confirmations": {
         "title": "Bevestiging",
@@ -1076,7 +1095,11 @@
         "saveAsDefault": "Weet u zeker dat u de huidige sequentie wilt bewaren als Standaard sequentie? Deze actie overschrijft de vorige Standaard sequentie.",
         "loadBasicSequence": "Weet u zeker dat u de Basis sequentie wilt laden? Deze actie overschrijft de huidige sequentie.",
         "removeAction": "Verwijder \"{actionName}\" actie?",
-        "navigateToSequence": "Wilt u nu schakelen naar de Sequentie pagina?"
+        "navigateToSequence": "Wilt u nu schakelen naar de Sequentie pagina?",
+        "saveNamed": "Voer een naam in voor de sequentie:",
+        "saveNamedPlaceholder": "Naam sequentie...",
+        "libraryTitle": "Opgeslagen sequenties",
+        "libraryEmpty": "Geen opgeslagen sequenties."
       },
       "containers": {
         "startSequence": {
@@ -1801,5 +1824,23 @@
       "noSequenceAvailable": "Geen sequentie beschikbaar, laad eerst een sequentie",
       "sequencerFailed": "Sequencer mislukt"
     }
+  },
+  "nav": {
+    "equipment": "Equip.",
+    "camera": "Camera",
+    "autofocus": "Focus",
+    "mount": "Statief",
+    "dome": "Koepel",
+    "flatDevice": "Flat",
+    "switch": "Switch",
+    "filterWheel": "Filter",
+    "rotator": "Rotat.",
+    "guider": "Guider",
+    "sequence": "Seq.",
+    "monitoring": "Monitor",
+    "flatWizard": "Flats",
+    "skyView": "Stellarium",
+    "settings": "Instell.",
+    "about": "Info"
   }
 }

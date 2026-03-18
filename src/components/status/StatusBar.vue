@@ -32,7 +32,6 @@
         {
           'glow-green': cameraStore.showCameraInfo,
         },
-        showStatusBarPulse && 'feature-highlight',
       ]"
       @click="handleCameraClickWithVisit"
     >
@@ -71,7 +70,6 @@
         {
           'glow-green': filterStore.showFilterwheelInfo,
         },
-        showStatusBarPulse && 'feature-highlight',
       ]"
       @click="handleFilterClickWithVisit"
     >
@@ -104,7 +102,6 @@
         {
           'glow-green': mountStore.showMountInfo,
         },
-        showStatusBarPulse && 'feature-highlight',
       ]"
       @click="handleMountClickWithVisit"
     >
@@ -147,7 +144,6 @@
             'glow-green': guiderStore.showGuiderGraph && !guiderStore.phd2StarLost,
             'glow-red': guiderStore.phd2StarLost,
           },
-          showStatusBarPulse && 'feature-highlight',
         ]"
         @click="handleGuiderClickWithVisit"
       >

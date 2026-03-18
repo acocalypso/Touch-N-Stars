@@ -55,12 +55,6 @@
 
         <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700">
           <div class="space-y-3">
-            <div v-if="solveResult.Response?.SolveTime" class="flex justify-between items-center">
-              <span class="text-gray-400">{{ $t('components.platesolve.solve_time') }}</span>
-              <span class="text-cyan-400 font-semibold text-sm">{{
-                formatDateTime(solveResult.Response.SolveTime)
-              }}</span>
-            </div>
             <div
               v-if="solveResult.Response?.Orientation !== undefined"
               class="flex justify-between items-center"
@@ -86,6 +80,21 @@
               <span class="text-gray-400">{{ $t('components.platesolve.dec') }}</span>
               <span class="text-cyan-400 font-semibold"
                 >{{ formatValue(solveResult.Response.Coordinates.DecString) }}"</span
+              >
+            </div>
+            <div
+              v-if="solveResult.Response?.Pixscale !== undefined"
+              class="flex justify-between items-center"
+            >
+              <span class="text-gray-400">{{ $t('components.platesolve.pixel_scale') }}</span>
+              <span class="text-cyan-400 font-semibold"
+                >{{ formatValue(solveResult.Response.Pixscale) }}"</span
+              >
+            </div>
+            <div v-if="calculatedFocalLength !== null" class="flex justify-between items-center">
+              <span class="text-gray-400">{{ $t('components.platesolve.focal_length') }}</span>
+              <span class="text-cyan-400 font-semibold"
+                >{{ calculatedFocalLength.toFixed(1) }} mm</span
               >
             </div>
             <div class="flex justify-between items-center pt-2 border-t border-gray-600">
@@ -114,17 +123,31 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
+import { apiStore } from '@/store/store';
 import Modal from '@/components/helpers/Modal.vue';
 import ButtomSyncCoordinatesToMount from '../mount/ButtomSyncCoordinatesToMount.vue';
 
 const cameraStore = useCameraStore();
+const store = apiStore();
 const isSolving = ref(false);
 const showModal = ref(false);
 const solveResult = ref(null);
 const solveError = ref(null);
+
+const pixelSize = computed(() => {
+  return store.profileInfo?.CameraSettings?.PixelSize || 5.0;
+});
+
+const calculatedFocalLength = computed(() => {
+  if (!solveResult.value?.Response?.Pixscale || solveResult.value.Response.Pixscale === 0) {
+    return null;
+  }
+  // Formel: Brennweite (mm) = 206.265 * Pixelgröße (µm) / Pixscale (arcsec/pixel)
+  return (206.265 * pixelSize.value) / solveResult.value.Response.Pixscale;
+});
 
 function openSolveModal() {
   showModal.value = true;
@@ -157,19 +180,6 @@ function formatValue(value) {
     return value.toFixed(4);
   }
   return value;
-}
-
-function formatDateTime(dateString) {
-  try {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString('de-DE', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-  } catch {
-    return dateString;
-  }
 }
 </script>
 

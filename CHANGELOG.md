@@ -4,7 +4,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.6.0] - 2026-02-16
+## [App4.7.0] - xxxx-xx-xx
+### Added
+- NumberInputPicker: Add step up/down buttons to increment and decrement values
+- Sequence Creator: Named sequence library – save, load and delete sequences with custom names
+- Sequence Creator: Set any saved sequence as default directly from the library
+- Sequence Creator: Saved sequences appear as a selectable group in the Load Sequence dropdown
+- Navigation: Show translated icon labels as overlay on touch or hover
+- Modal position persistence in settings store
+- Orientation-aware position storage (landscape/portrait)
+- Responsive modal design for small screens
+- File Pattern Builder: Add free text input to customize file naming patterns with custom text segments
+- Plate Solve: Show calculated focal length based on pixel scale and camera sensor size
+- Image Viewer: Double-tap to toggle between 100% zoom (centered on tap point) and fit view
+- Add settings for Focal Ratio and Telescopname
+- Settings: Add dedicated Image tab (image processing settings and file pattern builder)
+- Settings: Add dedicated Meridian Flip tab
+- Settings: SubNav scrolls horizontally with fade and arrow indicators when tabs overflow
+- Settings: Add image file type selector (TIFF, FITS, XISF)
+
+### Changed
+- Settings: Moved image and meridian flip settings out of General tab into own tabs
+- Focuser: Replace focuser input with position display in quick access modal
+- Profile: Disable profile selection when any device is connected
+- Sequence Creator: Replaced "Save as Default" toolbar button with library-based default management
+- Sequence Creator: Removed "Load Basic Sequence" toolbar button
+
+### Fixed
+- Histogram: Show real 16-bit statistics (Mean, Median, Min, Max, StDev) from NINA image-history API
+- Histogram: Compute histogram bars using inverse NINA auto-stretch (MTF) to align with 16-bit ADU axis
+- Histogram: Reload statistics from API each time the histogram panel is opened
+- Histogram: X-axis shows real ADU range (Min–Max) when statistics are available
+- Histogram: Mean (yellow) and Median (cyan) marker lines aligned with histogram bars
+- Histogram: Gamma slider hidden by default, accessible via toggle button
+- Dialog: Filter out NINA NotificationHostWindow (NINA V3.3) to prevent empty dialog popup when not connected
+- Pins plugin: support WIFI connection
+- Pins Plugin: Band selection 2.4 Ghz / 5 Ghz
+- Pins Plugin: Autoconnect to wifi after reboot
+- Setup: Restart setup after GPS permission has been granted
+- Flatwizzard: max brightness
+
+## [App4.6.0] - 2026-02-14
 ### Added
 - Navigation: Scroll indicators with fade effect and arrow hint when more icons are available
 - Camera: Separate Readout Mode settings for Image and Snap (API >= 2.2.14.3) - thanks to Chris
@@ -13,6 +53,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Focuser: Add stop button to cancel move while focuser is moving
 - Rotator: Add stop button to cancel move while rotator is moving
 - Plugin: ObservationPlaner - thanks to Flashy_DE (Alex)
+- NumberPicker: Replaced scroll wheel picker with touch-friendly numpad input
+- NumberPicker: Added cancel button and backdrop dismiss
+- NumberPicker: Added min/max validation for direct input and picker overlay
+- NumberPicker: Simplified picker store by passing min/max directly instead of options array
 
 ### Changed
 - Camera: Unified UI design for settings components

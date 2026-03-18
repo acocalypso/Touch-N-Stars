@@ -82,7 +82,10 @@
     <pinsSetBinAverageEnabled
       v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')"
     />
-    <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
+    <div v-if="store.cameraInfo.ReadoutModes.length > 1" class="w-full">
+      <setReadoutMode v-if="!store.isPINS" />
+      <pinsSetReadoutMode v-else />
+    </div>
     <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
     <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />
     <pinsSetLEDLights v-if="store.isPINS && cameraStore.cameraSettings.CanSetLEDLights" />
@@ -109,6 +112,7 @@ import pinsSetHighFullwellMode from './settingsPins/pinsSetHighFullwellMode.vue'
 import pinsSetBinAverageEnabled from './settingsPins/pinsSetBinAverageEnabled.vue';
 import pinsSetLEDLights from './settingsPins/pinsSetLEDLights.vue';
 import pinsSetFanSpeed from './settingsPins/pinsSetFanSpeed.vue';
+import pinsSetReadoutMode from './settingsPins/pinsSetReadoutMode.vue';
 import { useCameraStore } from '@/store/cameraStore';
 
 const store = apiStore();

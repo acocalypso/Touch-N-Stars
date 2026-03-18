@@ -385,6 +385,9 @@
                 class="px-4 py-3 text-sm font-semibold text-gray-300 cursor-pointer select-none flex items-center gap-2"
               >
                 {{ $t('plugins.tenmicron.builder.pointFilters') }}
+                <ChevronRightIcon
+                  class="summary-chevron ml-auto w-4 h-4 text-gray-400 transition-transform duration-200"
+                />
               </summary>
               <div class="px-4 pb-4 pt-2 space-y-1">
                 <!-- Altitude range -->
@@ -566,6 +569,9 @@
                 class="px-4 py-3 text-sm font-semibold text-gray-300 cursor-pointer select-none flex items-center gap-2"
               >
                 {{ $t('plugins.tenmicron.builder.buildOptions') }}
+                <ChevronRightIcon
+                  class="summary-chevron ml-auto w-4 h-4 text-gray-400 transition-transform duration-200"
+                />
               </summary>
               <div class="px-4 pb-4 pt-2 space-y-1">
                 <!-- Max Concurrency -->
@@ -1516,6 +1522,7 @@ import { useTenMicronStore } from '../store/tenMicronStore';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const tmStore = useTenMicronStore();
@@ -2208,6 +2215,11 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/* Rotate chevron when a details element is open */
+details[open] > summary .summary-chevron {
+  transform: rotate(90deg);
+}
+
 /* Scale NumberInputPicker controls down to h-8 / text-xs to match surrounding text */
 :deep(.tns-picker button) {
   height: 2rem;

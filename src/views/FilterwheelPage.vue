@@ -35,6 +35,7 @@
             >
               <strong>{{ $t('components.filterwheel.filter') }}</strong>
               <changeFilter />
+              <pinsSetUnidirectional class="mt-2" />
             </div>
           </div>
         </Transition>
@@ -57,17 +58,24 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import InfoFilterwheel from '@/components/filterwheel/InfoFilterwheel.vue';
 import FilterSettings from '@/components/filterwheel/settings/FilterSettings.vue';
+import pinsSetUnidirectional from '@/components/filterwheel/settings/pinsSetUnidirectional.vue';
 import SubNav from '@/components/SubNav.vue';
 import { apiStore } from '@/store/store';
+import { useFilterStore } from '@/store/filterStore';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 const store = apiStore();
+const filterStore = useFilterStore();
 const currentTab = ref('showFilterwheel');
+
+onMounted(async () => {
+  await filterStore.readSettings();
+});
 </script>
 
 <style scoped>

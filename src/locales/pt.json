@@ -1065,7 +1065,8 @@
       },
       "indi": {
         "settings": "Filter Wheel Settings"
-      }
+      },
+      "Unidirectional": ""
     },
     "RemoveFilter": {
       "confirmTitle": "Remover Filtro",

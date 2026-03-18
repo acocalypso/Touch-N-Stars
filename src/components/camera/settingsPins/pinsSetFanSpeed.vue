@@ -36,6 +36,7 @@ async function setFanSpeed() {
     const response = await apiService.cameraAction(
       `set-setting?settingName=FanSpeed&newValue=${fanSpeed.value}`
     );
+    await cameraStore.readSettings();
     console.log('[FanSpeed] ', response);
   } catch (error) {
     console.log('Error while setting FanSpeed');

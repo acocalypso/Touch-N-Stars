@@ -1,7 +1,10 @@
 <template>
   <div>
     <!-- Tab-Leiste: nur anzeigen wenn mehr als ein Tab verfügbar -->
-    <div v-if="visibleTabs.length > 1" class="sticky top-0 z-10 flex border-b border-gray-700 mb-2 bg-gray-900">
+    <div
+      v-if="visibleTabs.length > 1"
+      class="sticky top-0 z-10 flex border-b border-gray-700 mb-2 bg-gray-900"
+    >
       <button
         v-for="tab in visibleTabs"
         :key="tab.value"
@@ -29,7 +32,10 @@
     <div v-if="store.filterInfo.Connected" v-show="activeTab === 'filter'">
       <changeFilter class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50" />
     </div>
-    <div v-show="activeTab === 'snapshot'" class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50 flex flex-col gap-2">
+    <div
+      v-show="activeTab === 'snapshot'"
+      class="p-4 bg-gray-800/50 rounded-lg border border-gray-700/50 flex flex-col gap-2"
+    >
       <setSolve />
       <setSaveSnapshot />
     </div>

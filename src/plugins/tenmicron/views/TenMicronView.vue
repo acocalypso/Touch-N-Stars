@@ -375,7 +375,10 @@
           </div>
 
           <!-- Point Filters & Build Options (disabled while a build is running) -->
-          <div :class="{ 'opacity-50 pointer-events-none': tmStore.buildInProgress }">
+          <div
+            :class="{ 'opacity-50 pointer-events-none': tmStore.buildInProgress }"
+            class="space-y-5"
+          >
             <!-- Point Filters -->
             <details class="rounded-xl border border-gray-700 bg-gray-800/60">
               <summary

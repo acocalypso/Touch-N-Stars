@@ -8,7 +8,6 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     data: [],
     loaded: false,
     intervalId: null,
-    runningItemInfo: null,
     availableItems: [],
     availableTriggers: [],
     availableConditions: [],
@@ -40,14 +39,15 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
         const res = await apiService.sequenceAction('json');
         const jsonItems = res?.Response;
         if (Array.isArray(jsonItems)) {
-          this.applyStatusUpdates(this.data, jsonItems);
-          const runningId = this.findFirstRunningId(this.data);
-          if (runningId) {
-            const info = await apiService.fetchSequenceInfo(runningId);
-            this.runningItemInfo = info ?? null;
-          } else {
-            this.runningItemInfo = null;
-          }
+          const changed = this.applyStatusUpdates(this.data, jsonItems);
+          if (changed) await this.loadCurrent();
+          const runningIds = this.collectAllRunningIds(this.data);
+          await Promise.all(
+            runningIds.map(async (id) => {
+              const info = await apiService.fetchSequenceInfo(id);
+              if (info) this.updateItemById(this.data, id, info);
+            })
+          );
         }
       } catch (e) {
         console.error('fetchStatusUpdate:', e);
@@ -55,33 +55,48 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     applyStatusUpdates(currentItems, jsonItems) {
-      if (!Array.isArray(currentItems) || !Array.isArray(jsonItems)) return;
+      let changed = false;
+      if (!Array.isArray(currentItems) || !Array.isArray(jsonItems)) return changed;
+      if (currentItems.length !== jsonItems.length) return true;
       jsonItems.forEach((jsonItem, i) => {
         if (!currentItems[i]) return;
-        if (jsonItem.Status !== undefined) currentItems[i].Status = jsonItem.Status;
+        if (jsonItem.Status !== undefined && currentItems[i].Status !== jsonItem.Status) {
+          currentItems[i].Status = jsonItem.Status;
+          changed = true;
+        }
         if (jsonItem.Items && currentItems[i].Items) {
-          this.applyStatusUpdates(currentItems[i].Items, jsonItem.Items);
+          if (this.applyStatusUpdates(currentItems[i].Items, jsonItem.Items)) changed = true;
         }
       });
+      return changed;
     },
 
-    findFirstRunningId(items) {
-      if (!Array.isArray(items)) return null;
+    collectAllRunningIds(items, result = []) {
+      if (!Array.isArray(items)) return result;
       for (const item of items) {
-        if (item.Status === 'RUNNING' && item.Id) return item.Id;
-        if (item.Items) {
-          const found = this.findFirstRunningId(item.Items);
-          if (found) return found;
-        }
+        if (item.Status === 'RUNNING' && item.Id) result.push(item.Id);
+        if (item.Items) this.collectAllRunningIds(item.Items, result);
       }
-      return null;
+      return result;
+    },
+
+    updateItemById(items, id, newData) {
+      if (!Array.isArray(items)) return false;
+      for (const item of items) {
+        if (item.Id === id) {
+          Object.assign(item, newData);
+          return true;
+        }
+        if (item.Items && this.updateItemById(item.Items, id, newData)) return true;
+      }
+      return false;
     },
 
     async startPolling() {
       this.stopPolling();
       await this.loadCurrent();
       this.fetchStatusUpdate();
-      this.intervalId = setInterval(this.fetchStatusUpdate, 5000);
+      this.intervalId = setInterval(this.fetchStatusUpdate, 2000);
     },
 
     stopPolling() {
@@ -195,7 +210,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceAddItem:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async addTrigger(itemId, triggerType, insertAfter = true) {
@@ -208,7 +224,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceAddTrigger:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async addCondition(itemId, conditionType, insertAfter = true) {
@@ -221,7 +238,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceAddCondition:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
@@ -238,7 +256,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('setDsoTarget:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
   },
 });

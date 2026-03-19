@@ -185,7 +185,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         !store.isPINS &&
         !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
       ) {
-        console.log('Abfrage state');
+        //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
 
@@ -197,7 +197,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
           response = await this.getSequenceInfoJson();
         }
       } else {
-        console.log('Abfrage json');
+        //console.log('Abfrage json');
         response = await this.getSequenceInfoJson();
       }
 

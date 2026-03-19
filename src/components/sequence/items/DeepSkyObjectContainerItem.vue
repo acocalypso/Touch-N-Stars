@@ -72,7 +72,7 @@
           @change="saveRa(coords.RAHours, $event, coords.RASeconds)"
         />
         <NumberInputPicker
-          :modelValue="coords.RASeconds"
+          :modelValue="localRASeconds ?? coords.RASeconds"
           label="s"
           labelKey="dso-ra-s"
           :min="0"
@@ -81,7 +81,7 @@
           :decimalPlaces="1"
           labelPosition="top"
           wrapperClass="w-full"
-          @change="saveRa(coords.RAHours, coords.RAMinutes, $event)"
+          @change="localRASeconds = $event; saveRa(coords.RAHours, coords.RAMinutes, $event)"
         />
       </div>
 
@@ -113,7 +113,7 @@
           @change="saveDec(decDeg, $event, coords.DecSeconds)"
         />
         <NumberInputPicker
-          :modelValue="coords.DecSeconds"
+          :modelValue="localDecSeconds ?? coords.DecSeconds"
           label="s"
           labelKey="dso-dec-s"
           :min="0"
@@ -122,7 +122,7 @@
           :decimalPlaces="1"
           labelPosition="top"
           wrapperClass="w-full"
-          @change="saveDec(decDeg, coords.DecMinutes, $event)"
+          @change="localDecSeconds = $event; saveDec(decDeg, coords.DecMinutes, $event)"
         />
       </div>
     </template>
@@ -130,7 +130,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import TextInput from '@/components/helpers/TextInput.vue';
@@ -142,6 +142,14 @@ const props = defineProps({
 });
 
 const store = useSequenceV2Store();
+
+const localRASeconds = ref(null);
+const localDecSeconds = ref(null);
+
+watch(() => props.item.Id, () => {
+  localRASeconds.value = null;
+  localDecSeconds.value = null;
+});
 
 // API returns Target as a string: "RA: 00:42:44; Dec: 41° 16' 07\"; Epoch: J2000; Position Angle: 0"
 const parsedTarget = computed(() => {

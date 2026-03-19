@@ -1066,7 +1066,7 @@
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": ""
+      "Unidirectional": "Unidirectioneel filterwiel"
     },
     "RemoveFilter": {
       "confirmTitle": "Filter verwijderen",
@@ -1367,8 +1367,20 @@
         "upgradeSuccess": "Upgrade succesvol voltooid.",
         "upgradeFailed": "Upgrade mislukt. \nExitcode: {exitCode}",
         "jobStatus": "Taakstatus: {status}",
-        "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}"
-      }
+        "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}",
+        "hotspotFetched": "Status van hotspot-wachtwoord geladen (geconfigureerd={geconfigureerd}, bron={bron}).",
+        "hotspotPasswordTooShort": "Hotspotwachtwoord moet minimaal 8 tekens lang zijn.",
+        "hotspotSaved": "Hotspot-wachtwoord succesvol bijgewerkt: {message}",
+        "hotspotSaving": "Hotspotwachtwoord bijwerken..."
+      },
+      "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
+      "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
+      "hotspotNotConfigured": "Het standaard hotspotwachtwoord is momenteel in gebruik.",
+      "hotspotPasswordHint": "Minimaal 8 tekens.",
+      "hotspotPasswordTitle": "Hotspot-wachtwoord",
+      "hotspotRefresh": "Vernieuw de status van het hotspot-wachtwoord",
+      "hotspotSave": "Hotspot-wachtwoord opslaan",
+      "hotspotSaving": "Hotspotwachtwoord opslaan..."
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

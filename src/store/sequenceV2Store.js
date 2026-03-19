@@ -8,6 +8,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     data: [],
     loaded: false,
     intervalId: null,
+    runningItemInfo: null,
     availableItems: [],
     availableTriggers: [],
     availableConditions: [],
@@ -17,7 +18,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     containers: (s) => s.data.slice(1),
   },
   actions: {
-    async fetch() {
+    async loadCurrent() {
       const store = apiStore();
       if (!store.isBackendReachable) return;
       try {
@@ -32,10 +33,55 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       }
     },
 
-    startPolling() {
+    async fetchStatusUpdate() {
+      const store = apiStore();
+      if (!store.isBackendReachable) return;
+      try {
+        const res = await apiService.sequenceAction('json');
+        const jsonItems = res?.Response;
+        if (Array.isArray(jsonItems)) {
+          this.applyStatusUpdates(this.data, jsonItems);
+          const runningId = this.findFirstRunningId(this.data);
+          if (runningId) {
+            const info = await apiService.fetchSequenceInfo(runningId);
+            this.runningItemInfo = info ?? null;
+          } else {
+            this.runningItemInfo = null;
+          }
+        }
+      } catch (e) {
+        console.error('fetchStatusUpdate:', e);
+      }
+    },
+
+    applyStatusUpdates(currentItems, jsonItems) {
+      if (!Array.isArray(currentItems) || !Array.isArray(jsonItems)) return;
+      jsonItems.forEach((jsonItem, i) => {
+        if (!currentItems[i]) return;
+        if (jsonItem.Status !== undefined) currentItems[i].Status = jsonItem.Status;
+        if (jsonItem.Items && currentItems[i].Items) {
+          this.applyStatusUpdates(currentItems[i].Items, jsonItem.Items);
+        }
+      });
+    },
+
+    findFirstRunningId(items) {
+      if (!Array.isArray(items)) return null;
+      for (const item of items) {
+        if (item.Status === 'RUNNING' && item.Id) return item.Id;
+        if (item.Items) {
+          const found = this.findFirstRunningId(item.Items);
+          if (found) return found;
+        }
+      }
+      return null;
+    },
+
+    async startPolling() {
       this.stopPolling();
-      this.fetch();
-      this.intervalId = setInterval(this.fetch, 5000);
+      await this.loadCurrent();
+      this.fetchStatusUpdate();
+      this.intervalId = setInterval(this.fetchStatusUpdate, 5000);
     },
 
     stopPolling() {
@@ -51,7 +97,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceMove:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async remove(id) {
@@ -60,7 +107,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceRemove:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async duplicate(id) {
@@ -69,7 +117,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceDuplicate:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async setProperty(id, propertyName, value) {
@@ -78,7 +127,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceSetProperty:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async enable(id, enabled) {
@@ -87,7 +137,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceEnable:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async resetStatus(id) {
@@ -96,7 +147,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceResetStatus:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async fetchAvailableItems() {

@@ -1066,7 +1066,7 @@
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": ""
+      "Unidirectional": "Rueda de filtro unidireccional"
     },
     "RemoveFilter": {
       "confirmTitle": "Eliminar Filtro",
@@ -1367,8 +1367,20 @@
         "upgradeSuccess": "Actualización completada exitosamente.",
         "upgradeFailed": "La actualización falló. \nCódigo de salida: {código de salida}",
         "jobStatus": "Estado del trabajo: {status}",
-        "statusFetchFailed": "No se pudo recuperar el estado final: {mensaje}"
-      }
+        "statusFetchFailed": "No se pudo recuperar el estado final: {mensaje}",
+        "hotspotFetched": "Estado de la contraseña del punto de acceso cargado (configurado={configurado}, fuente={fuente}).",
+        "hotspotPasswordTooShort": "La contraseña del punto de acceso debe tener al menos 8 caracteres.",
+        "hotspotSaved": "Contraseña del punto de acceso actualizada correctamente: {mensaje}",
+        "hotspotSaving": "Actualizando la contraseña del punto de acceso..."
+      },
+      "hotspotConfigured": "La contraseña del punto de acceso personalizado está configurada.",
+      "hotspotNewPassword": "Nueva contraseña de punto de acceso",
+      "hotspotNotConfigured": "La contraseña predeterminada del punto de acceso está actualmente en uso.",
+      "hotspotPasswordHint": "Mínimo 8 caracteres.",
+      "hotspotPasswordTitle": "Contraseña del punto de acceso",
+      "hotspotRefresh": "Actualizar el estado de la contraseña del punto de acceso",
+      "hotspotSave": "Guardar contraseña del punto de acceso",
+      "hotspotSaving": "Guardando la contraseña del punto de acceso..."
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

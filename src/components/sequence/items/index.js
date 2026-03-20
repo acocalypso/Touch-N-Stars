@@ -62,6 +62,7 @@ import MeridianFlipTriggerItem from './MeridianFlipTriggerItem.vue';
 import CoolCameraItem from './CoolCameraItem.vue';
 import DewHeaterItem from './DewHeaterItem.vue';
 import SetUSBLimitItem from './SetUSBLimitItem.vue';
+import SetReadoutModeItem from './SetReadoutModeItem.vue';
 import AutoBalancingExposureItem from './AutoBalancingExposureItem.vue';
 import OrbuculumNextTargetAltitudeItem from './OrbuculumNextTargetAltitudeItem.vue';
 import OrbuculumNextTargetHorizonItem from './OrbuculumNextTargetHorizonItem.vue';
@@ -121,6 +122,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Camera.CoolCamera': CoolCameraItem,
   'NINA.Sequencer.SequenceItem.Camera.DewHeater': DewHeaterItem,
   'NINA.Sequencer.SequenceItem.Camera.SetUSBLimit': SetUSBLimitItem,
+  'NINA.Sequencer.SequenceItem.Camera.SetReadoutMode': SetReadoutModeItem,
   'NINA.Sequencer.SequenceItem.FlatDevice.CloseCover': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.FlatDevice.OpenCover': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.FlatDevice.ToggleLight': ToggleLightItem,

@@ -56,7 +56,7 @@ const exposureTimeByTarget = computed(() => {
 
   const targetMap = {};
 
-  store.imageHistoryInfo.forEach((image) => {
+  store.imageHistoryInfo.filter((image) => image.ImageType === 'LIGHT').forEach((image) => {
     const targetName = image.TargetName || '?';
 
     if (!targetMap[targetName]) {

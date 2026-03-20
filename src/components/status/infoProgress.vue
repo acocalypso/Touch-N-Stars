@@ -26,12 +26,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useProgressStore } from '@/store/progressStore';
+import { apiStore } from '@/store/store';
 import signalRProgressService from '@/services/signalRprogressService';
 
 const progressStore = useProgressStore();
+const store = apiStore();
 const { progresses } = storeToRefs(progressStore);
 
 const displayItems = computed(() => {
@@ -107,6 +109,20 @@ onMounted(() => {
     });
   }
 });
+
+// When the backend becomes reachable again (e.g. after an instance switch that
+// disconnected all SignalR services), reconnect the progress service to the new IP.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable && !signalRProgressService.isSignalRConnected()) {
+      console.log('[infoProgress] Backend reachable – reconnecting progress service');
+      signalRProgressService.connect().catch((err) => {
+        console.error('[infoProgress] Failed to reconnect progress service:', err);
+      });
+    }
+  }
+);
 
 onUnmounted(() => {
   signalRProgressService.setReconnectCallback(null);

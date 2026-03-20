@@ -1066,7 +1066,7 @@
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": ""
+      "Unidirectional": "Filterwheel unidirectional"
     },
     "RemoveFilter": {
       "confirmTitle": "删除过滤器",
@@ -1367,8 +1367,20 @@
         "upgradeSuccess": "Upgrade completed successfully.",
         "upgradeFailed": "Upgrade failed. Exit code: {exitCode}",
         "jobStatus": "Job status: {status}",
-        "statusFetchFailed": "Failed to fetch final status: {message}"
-      }
+        "statusFetchFailed": "Failed to fetch final status: {message}",
+        "hotspotFetched": "Hotspot password status loaded (configured={configured}, source={source}).",
+        "hotspotPasswordTooShort": "Hotspot password must be at least 8 characters.",
+        "hotspotSaved": "Hotspot password updated successfully: {message}",
+        "hotspotSaving": "Updating hotspot password..."
+      },
+      "hotspotConfigured": "Custom hotspot password is configured.",
+      "hotspotNewPassword": "New hotspot password",
+      "hotspotNotConfigured": "Default hotspot password is currently in use.",
+      "hotspotPasswordHint": "Minimum 8 characters.",
+      "hotspotPasswordTitle": "Hotspot Password",
+      "hotspotRefresh": "Refresh hotspot password status",
+      "hotspotSave": "Save Hotspot Password",
+      "hotspotSaving": "Saving hotspot password..."
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

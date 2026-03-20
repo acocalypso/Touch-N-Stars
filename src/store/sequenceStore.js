@@ -180,7 +180,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.firstLoad = false;
       }
 
-      if (this.sequenceIsEditable) {
+      if (
+        this.sequenceIsEditable &&
+        !store.isPINS &&
+        !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+      ) {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
@@ -253,33 +257,22 @@ export const useSequenceStore = defineStore('sequenceStore', {
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
 
-        // Collect all running items with their names - always use JSON data for this
-        const newRunningItems = [];
-        const newRunningConditions = [];
-        const jsonResponse = await this.getSequenceInfoJson();
-        if (jsonResponse?.Success) {
-          // Temporarily store in local variables
-          const oldRunningItems = this.runningItems;
-          const oldRunningConditions = this.runningConditions;
+        // Collect all running items with their names from already-fetched response
+        const oldRunningItems = this.runningItems;
+        const oldRunningConditions = this.runningConditions;
 
-          this.runningItems = newRunningItems;
-          this.runningConditions = newRunningConditions;
+        this.runningItems = [];
+        this.runningConditions = [];
 
-          this.collectRunningItems(jsonResponse.Response);
-          this.collectRunningConditions(jsonResponse.Response);
+        this.collectRunningItems(response.Response);
+        this.collectRunningConditions(response.Response);
 
-          // Only update if arrays actually changed
-          if (JSON.stringify(oldRunningItems) !== JSON.stringify(this.runningItems)) {
-            // runningItems changed, keep new values
-          } else {
-            this.runningItems = oldRunningItems;
-          }
-
-          if (JSON.stringify(oldRunningConditions) !== JSON.stringify(this.runningConditions)) {
-            // runningConditions changed, keep new values
-          } else {
-            this.runningConditions = oldRunningConditions;
-          }
+        // Only update if arrays actually changed
+        if (JSON.stringify(oldRunningItems) === JSON.stringify(this.runningItems)) {
+          this.runningItems = oldRunningItems;
+        }
+        if (JSON.stringify(oldRunningConditions) === JSON.stringify(this.runningConditions)) {
+          this.runningConditions = oldRunningConditions;
         }
 
         // Update sequence running state (this will trigger notification if state changed)

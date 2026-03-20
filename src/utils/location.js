@@ -3,6 +3,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
+import { useGuiderStore } from '@/store/guiderStore';
 
 export const latitude = ref(0);
 export const longitude = ref(0);
@@ -84,8 +85,35 @@ export function useLocationStore() {
             store.mountInfo.Connected &&
             store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
           ) {
+            const guiderStore = useGuiderStore();
+            const isPhd2 = store.guiderInfo?.DeviceId === 'PHD2_Single';
+            const isPhd2EquipmentConnected = isPhd2 && guiderStore.phd2IsConnected;
+
+            let phd2ProfileName = null;
+            if (isPhd2EquipmentConnected) {
+              try {
+                const profileResponse = await apiService.getPhd2CurrentProfile();
+                phd2ProfileName = profileResponse?.Response?.Profile?.name ?? null;
+                if (phd2ProfileName) {
+                  await apiService.disconnectPHD2Equipment();
+                }
+              } catch (e) {
+                console.warn('Could not disconnect PHD2 equipment before mount reconnect:', e);
+                phd2ProfileName = null;
+              }
+            }
+
             await apiService.mountAction('disconnect');
             await apiService.mountAction('connect');
+
+            if (phd2ProfileName) {
+              await new Promise((resolve) => setTimeout(resolve, 2000));
+              try {
+                await apiService.connectPHD2Equipment(phd2ProfileName);
+              } catch (e) {
+                console.warn('Could not reconnect PHD2 equipment after mount reconnect:', e);
+              }
+            }
           }
           console.log('Coordinates saved');
         }

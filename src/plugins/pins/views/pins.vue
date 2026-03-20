@@ -30,6 +30,10 @@
           :wifi-password="wifiPassword"
           :selected-band="selectedBand"
           :auto-connect="autoConnect"
+          :hotspot-configured="hotspotConfigured"
+          :hotspot-password="hotspotPassword"
+          :hotspot-loading="isHotspotLoading"
+          :hotspot-saving="isHotspotSaving"
           :disabled="status === 'Running'"
           @toggle-stationary="handleStationaryToggle"
           @scan-wifi="scanWifi"
@@ -38,6 +42,9 @@
           @update:wifi-password="wifiPassword = $event"
           @update:selected-band="selectedBand = $event"
           @update:auto-connect="autoConnect = $event"
+          @update:hotspot-password="hotspotPassword = $event"
+          @load-hotspot="loadHotspotPasswordConfig"
+          @save-hotspot="saveHotspotPassword"
         />
 
         <!-- System Time Card -->
@@ -164,6 +171,10 @@ const wifiPassword = ref('');
 const selectedBand = ref('auto');
 const autoConnect = ref(false);
 const isScanning = ref(false);
+const hotspotPassword = ref('');
+const hotspotConfigured = ref(false);
+const isHotspotLoading = ref(false);
+const isHotspotSaving = ref(false);
 const {
   terminalLogs: logs,
   terminalStatus: status,
@@ -198,10 +209,112 @@ watch(
       checkSambaStatus();
       checkPhd2Status();
       checkSystemTime();
+      loadHotspotPasswordConfig();
     }
   },
   { immediate: true }
 );
+
+async function loadHotspotPasswordConfig() {
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  isHotspotLoading.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/hotspot/password`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 5000,
+    });
+
+    const data = response.data || {};
+    hotspotConfigured.value = Boolean(data.configured);
+    if (!hotspotConfigured.value) {
+      hotspotPassword.value = '';
+    }
+
+    appendLog(
+      t('plugins.pins.logs.hotspotFetched', {
+        configured: hotspotConfigured.value ? 'true' : 'false',
+        source: data.source || 'unknown',
+      })
+    );
+  } catch (error) {
+    console.error(error);
+    appendLog(
+      t('plugins.pins.logs.error', { message: 'Hotspot password fetch failed: ' + error.message })
+    );
+  } finally {
+    isHotspotLoading.value = false;
+  }
+}
+
+async function saveHotspotPassword() {
+  if (status.value === 'Running' || isHotspotSaving.value) return;
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  if (!hotspotPassword.value || hotspotPassword.value.length < 8) {
+    appendLog(t('plugins.pins.logs.hotspotPasswordTooShort'));
+    return;
+  }
+
+  isHotspotSaving.value = true;
+  appendLog(t('plugins.pins.logs.hotspotSaving'));
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.post(
+      `http://${ip}:${PORT}/wifi/hotspot/password`,
+      {
+        password: hotspotPassword.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000,
+      }
+    );
+
+    const data = response.data || {};
+    hotspotConfigured.value = Boolean(data.configured);
+    appendLog(
+      t('plugins.pins.logs.hotspotSaved', {
+        message: data.message || 'OK',
+      })
+    );
+
+    // Refresh status/source after update.
+    await loadHotspotPasswordConfig();
+  } catch (error) {
+    console.error(error);
+    appendLog(
+      t('plugins.pins.logs.error', { message: 'Hotspot password save failed: ' + error.message })
+    );
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
+  } finally {
+    isHotspotSaving.value = false;
+  }
+}
 
 async function checkSystemTime() {
   const ip = getIp();

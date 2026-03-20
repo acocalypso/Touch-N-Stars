@@ -17,7 +17,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     containers: (s) => s.data.slice(1),
   },
   actions: {
-    async fetch() {
+    async loadCurrent() {
       const store = apiStore();
       if (!store.isBackendReachable) return;
       try {
@@ -32,10 +32,71 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       }
     },
 
-    startPolling() {
+    async fetchStatusUpdate() {
+      const store = apiStore();
+      if (!store.isBackendReachable) return;
+      try {
+        const res = await apiService.sequenceAction('json');
+        const jsonItems = res?.Response;
+        if (Array.isArray(jsonItems)) {
+          const changed = this.applyStatusUpdates(this.data, jsonItems);
+          if (changed) await this.loadCurrent();
+          const runningIds = this.collectAllRunningIds(this.data);
+          await Promise.all(
+            runningIds.map(async (id) => {
+              const info = await apiService.fetchSequenceInfo(id);
+              if (info) this.updateItemById(this.data, id, info);
+            })
+          );
+        }
+      } catch (e) {
+        console.error('fetchStatusUpdate:', e);
+      }
+    },
+
+    applyStatusUpdates(currentItems, jsonItems) {
+      let changed = false;
+      if (!Array.isArray(currentItems) || !Array.isArray(jsonItems)) return changed;
+      if (currentItems.length !== jsonItems.length) return true;
+      jsonItems.forEach((jsonItem, i) => {
+        if (!currentItems[i]) return;
+        if (jsonItem.Status !== undefined && currentItems[i].Status !== jsonItem.Status) {
+          currentItems[i].Status = jsonItem.Status;
+          changed = true;
+        }
+        if (jsonItem.Items && currentItems[i].Items) {
+          if (this.applyStatusUpdates(currentItems[i].Items, jsonItem.Items)) changed = true;
+        }
+      });
+      return changed;
+    },
+
+    collectAllRunningIds(items, result = []) {
+      if (!Array.isArray(items)) return result;
+      for (const item of items) {
+        if (item.Status === 'RUNNING' && item.Id) result.push(item.Id);
+        if (item.Items) this.collectAllRunningIds(item.Items, result);
+      }
+      return result;
+    },
+
+    updateItemById(items, id, newData) {
+      if (!Array.isArray(items)) return false;
+      for (const item of items) {
+        if (item.Id === id) {
+          Object.assign(item, newData);
+          return true;
+        }
+        if (item.Items && this.updateItemById(item.Items, id, newData)) return true;
+      }
+      return false;
+    },
+
+    async startPolling() {
       this.stopPolling();
-      this.fetch();
-      this.intervalId = setInterval(this.fetch, 5000);
+      await this.loadCurrent();
+      this.fetchStatusUpdate();
+      this.intervalId = setInterval(this.fetchStatusUpdate, 2000);
     },
 
     stopPolling() {
@@ -51,7 +112,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceMove:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async remove(id) {
@@ -60,7 +122,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceRemove:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async duplicate(id) {
@@ -69,7 +132,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceDuplicate:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async setProperty(id, propertyName, value) {
@@ -78,7 +142,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceSetProperty:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async enable(id, enabled) {
@@ -87,7 +152,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceEnable:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async resetStatus(id) {
@@ -96,7 +162,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceResetStatus:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async fetchAvailableItems() {
@@ -143,7 +210,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceAddItem:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async addTrigger(itemId, triggerType, insertAfter = true) {
@@ -156,7 +224,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceAddTrigger:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async addCondition(itemId, conditionType, insertAfter = true) {
@@ -169,7 +238,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('sequenceAddCondition:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
 
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
@@ -186,7 +256,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       } catch (e) {
         console.error('setDsoTarget:', e);
       }
-      await this.fetch();
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
     },
   },
 });

@@ -1066,7 +1066,7 @@
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": ""
+      "Unidirectional": "Ruota portafiltri unidirezionale"
     },
     "RemoveFilter": {
       "confirmTitle": "Rimuovi Filtro",
@@ -1367,8 +1367,20 @@
         "upgradeSuccess": "Aggiornamento completato con successo.",
         "upgradeFailed": "Aggiornamento non riuscito. \nCodice di uscita: {exitCode}",
         "jobStatus": "Stato del lavoro: {status}",
-        "statusFetchFailed": "Impossibile recuperare lo stato finale: {messaggio}"
-      }
+        "statusFetchFailed": "Impossibile recuperare lo stato finale: {messaggio}",
+        "hotspotFetched": "Stato della password dell'hotspot caricato (configurato={configurato}, origine={origine}).",
+        "hotspotPasswordTooShort": "La password dell'hotspot deve contenere almeno 8 caratteri.",
+        "hotspotSaved": "Password dell'hotspot aggiornata correttamente: {messaggio}",
+        "hotspotSaving": "Aggiornamento della password dell'hotspot..."
+      },
+      "hotspotConfigured": "La password dell'hotspot personalizzata è configurata.",
+      "hotspotNewPassword": "Nuova password dell'hotspot",
+      "hotspotNotConfigured": "La password dell'hotspot predefinita è attualmente in uso.",
+      "hotspotPasswordHint": "Minimo 8 caratteri.",
+      "hotspotPasswordTitle": "Password dell'hotspot",
+      "hotspotRefresh": "Aggiorna lo stato della password dell'hotspot",
+      "hotspotSave": "Salva la password dell'hotspot",
+      "hotspotSaving": "Salvataggio della password dell'hotspot..."
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

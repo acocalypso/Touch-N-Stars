@@ -1066,7 +1066,7 @@
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": ""
+      "Unidirectional": "Koło filtrowe jednokierunkowe"
     },
     "RemoveFilter": {
       "confirmTitle": "Usuń Filtr",
@@ -1367,8 +1367,20 @@
         "upgradeSuccess": "Aktualizacja zakończona pomyślnie.",
         "upgradeFailed": "Aktualizacja nie powiodła się. \nKod wyjścia: {exitCode}",
         "jobStatus": "Stan pracy: {status}",
-        "statusFetchFailed": "Nie udało się pobrać statusu końcowego: {wiadomość}"
-      }
+        "statusFetchFailed": "Nie udało się pobrać statusu końcowego: {wiadomość}",
+        "hotspotFetched": "Załadowano stan hasła hotspotu (configured={configured}, source={source}).",
+        "hotspotPasswordTooShort": "Hasło hotspotu musi składać się z co najmniej 8 znaków.",
+        "hotspotSaved": "Hasło do hotspotu zostało pomyślnie zaktualizowane: {wiadomość}",
+        "hotspotSaving": "Aktualizuję hasło hotspotu..."
+      },
+      "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
+      "hotspotNewPassword": "Nowe hasło do hotspotu",
+      "hotspotNotConfigured": "Domyślne hasło hotspotu jest obecnie używane.",
+      "hotspotPasswordHint": "Minimum 8 znaków.",
+      "hotspotPasswordTitle": "Hasło hotspotu",
+      "hotspotRefresh": "Odśwież stan hasła hotspotu",
+      "hotspotSave": "Zapisz hasło do hotspotu",
+      "hotspotSaving": "Zapisuję hasło do hotspotu..."
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

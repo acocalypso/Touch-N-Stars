@@ -1066,7 +1066,7 @@
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": ""
+      "Unidirectional": "Roue à filtres unidirectionnelle"
     },
     "RemoveFilter": {
       "confirmTitle": "Supprimer le Filtre",
@@ -1367,8 +1367,20 @@
         "upgradeSuccess": "Mise à niveau terminée avec succès.",
         "upgradeFailed": "La mise à niveau a échoué. \nCode de sortie : {exitCode}",
         "jobStatus": "Statut du travail : {statut}",
-        "statusFetchFailed": "Échec de la récupération du statut final : {message}"
-      }
+        "statusFetchFailed": "Échec de la récupération du statut final : {message}",
+        "hotspotFetched": "Statut du mot de passe du point d'accès chargé (configuré={configuré}, source={source}).",
+        "hotspotPasswordTooShort": "Le mot de passe du hotspot doit comporter au moins 8 caractères.",
+        "hotspotSaved": "Mot de passe du point d'accès mis à jour avec succès : {message}",
+        "hotspotSaving": "Mise à jour du mot de passe du point d'accès..."
+      },
+      "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
+      "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
+      "hotspotNotConfigured": "Le mot de passe du point d'accès par défaut est actuellement utilisé.",
+      "hotspotPasswordHint": "Minimum 8 caractères.",
+      "hotspotPasswordTitle": "Mot de passe du point d'accès",
+      "hotspotRefresh": "Actualiser l'état du mot de passe du point d'accès",
+      "hotspotSave": "Enregistrer le mot de passe du point d'accès",
+      "hotspotSaving": "Enregistrement du mot de passe du point d'accès..."
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

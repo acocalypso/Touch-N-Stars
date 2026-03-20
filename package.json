@@ -22,7 +22,7 @@
     "create-plugin": "node scripts/generate-plugin.js"
   },
   "dependencies": {
-    "@acovanconis/capacitor-mdns": "^0.0.3",
+    "@acovanconis/capacitor-mdns": "0.0.4",
     "@capacitor-community/keep-awake": "8.0.0",
     "@capacitor-community/media": "9.0.2",
     "@capacitor/android": "8.1.0",

@@ -1,5 +1,5 @@
 PODS:
-  - AcovanconisCapacitorMdns (0.0.3):
+  - AcovanconisCapacitorMdns (0.0.4):
     - Capacitor
   - Alamofire (5.10.2)
   - BigInt (5.2.0)
@@ -100,7 +100,7 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capgo/capacitor-updater"
 
 SPEC CHECKSUMS:
-  AcovanconisCapacitorMdns: d5db05e4f475662dbce0720abefaf2f81115d102
+  AcovanconisCapacitorMdns: 2d10ca945112dcdbbe9d1c2a465c50476910c6e8
   Alamofire: 7193b3b92c74a07f85569e1a6c4f4237291e7496
   BigInt: f668a80089607f521586bbe29513d708491ef2f7
   Capacitor: 47b825120c6b8b6d6f9f053e9350a8960d436710

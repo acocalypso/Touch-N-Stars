@@ -647,11 +647,18 @@ onMounted(async () => {
 // Watch for backend connection and add delay before hiding splash screen
 watch(
   () => store.isBackendReachable,
-  (isReachable) => {
+  async (isReachable) => {
     if (isReachable && showSplashScreen.value) {
       setTimeout(() => {
         showSplashScreen.value = false;
       }, 200); // delay
+    }
+
+    // Re-initialize dialog and messagebox SignalR after an instance switch
+    // (clearAllStates disconnects them; they don't auto-reconnect on their own)
+    if (isReachable && store.isPINS) {
+      await dialogStore.initializeDialogSignalR();
+      await messageboxStore.initializeMessageboxSignalR();
     }
   }
 );

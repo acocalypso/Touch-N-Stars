@@ -9,6 +9,11 @@ import { useImagetStore } from './imageStore';
 import { useAutofocusStore } from '@/store/autofocusStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 import signalRNotificationService from '@/services/signalRNotificationService';
+import signalRProgressService from '@/services/signalRprogressService';
+import signalRDialogService from '@/services/signalRDialogService';
+import signalRMessageboxesService from '@/services/signalRMessageboxesService';
+import { useProgressStore } from '@/store/progressStore';
+import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -586,6 +591,40 @@ export const apiStore = defineStore('store', {
       if (signalRNotificationService.isSignalRConnected()) {
         signalRNotificationService.disconnect();
       }
+
+      // Disconnect progress SignalR so it reconnects to the new instance's backend
+      if (signalRProgressService.isSignalRConnected()) {
+        signalRProgressService.disconnect();
+      }
+
+      // Disconnect dialog SignalR so it reconnects to the new instance's backend
+      if (signalRDialogService.isSignalRConnected()) {
+        signalRDialogService.disconnect();
+      }
+
+      // Disconnect messagebox SignalR so it reconnects to the new instance's backend
+      if (signalRMessageboxesService.isSignalRConnected()) {
+        signalRMessageboxesService.disconnect();
+      }
+
+      // Clear progress data from the previous instance
+      const progressStore = useProgressStore();
+      progressStore.clearAll();
+
+      // Clear livestack state from the previous instance
+      const livestackStore = useLivestackStore();
+      livestackStore.$patch({
+        availableImages: [],
+        availableTargets: [],
+        availableFilters: [],
+        selectedFilter: null,
+        selectedTarget: null,
+        currentImageTarget: null,
+        currentImageFilter: null,
+        currentImageUrl: null,
+        lastImageUpdate: null,
+        status: 'stopped',
+      });
     },
 
     handleApiResponses({

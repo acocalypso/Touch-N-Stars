@@ -863,7 +863,9 @@ const apiService = {
   async getCaptureStatistics() {
     try {
       const { BASE_URL } = getUrls();
-      const response = await axios.get(`${BASE_URL}/image-history`);
+      const response = await axios.get(`${BASE_URL}/image-history`, {
+        params: { all: true },
+      });
       return response.data;
     } catch (error) {
       throw error;

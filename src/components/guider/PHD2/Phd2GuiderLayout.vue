@@ -103,6 +103,31 @@
             </svg>
           </button>
 
+          <!-- Auto-select Star Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo.State === 'Looping'"
+            @click="autoSelectStar"
+            :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
+            :disabled="isAutoSelectingStar"
+            class="flex items-center justify-center px-3 py-3"
+            title="Auto-select guide star"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="4" />
+              <line x1="12" y1="3" x2="12" y2="6" stroke-linecap="round" />
+              <line x1="12" y1="18" x2="12" y2="21" stroke-linecap="round" />
+              <line x1="3" y1="12" x2="6" y2="12" stroke-linecap="round" />
+              <line x1="18" y1="12" x2="21" y2="12" stroke-linecap="round" />
+            </svg>
+          </button>
+
           <!-- Calibration Assistant Button -->
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
@@ -198,6 +223,31 @@
                 v-else
                 d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"
               />
+            </svg>
+          </button>
+
+          <!-- Auto-select Star Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo.State === 'Looping'"
+            @click="autoSelectStar"
+            :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
+            :disabled="isAutoSelectingStar"
+            class="flex items-center justify-center px-3 py-3"
+            title="Auto-select guide star"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="4" />
+              <line x1="12" y1="3" x2="12" y2="6" stroke-linecap="round" />
+              <line x1="12" y1="18" x2="12" y2="21" stroke-linecap="round" />
+              <line x1="3" y1="12" x2="6" y2="12" stroke-linecap="round" />
+              <line x1="18" y1="12" x2="21" y2="12" stroke-linecap="round" />
             </svg>
           </button>
 
@@ -317,7 +367,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -341,6 +391,7 @@ const openSettings = ref(false);
 const openCalibrationAssistant = ref(false);
 const isProcessing = ref(false);
 const showStarImage = ref(false);
+const isAutoSelectingStar = ref(false);
 
 const containerStyle = computed(() => {
   if (isLandscape.value) {
@@ -503,6 +554,18 @@ async function stopGuiding() {
     console.error('Error during guiding toggle:', error.response?.data || error);
   } finally {
     isProcessing.value = false;
+  }
+}
+
+async function autoSelectStar() {
+  isAutoSelectingStar.value = true;
+  try {
+    await apiService.findPhd2Star();
+    console.log('[PHD2] Auto-selected guide star');
+  } catch (error) {
+    console.error('[PHD2] Error auto-selecting star:', error);
+  } finally {
+    isAutoSelectingStar.value = false;
   }
 }
 </script>

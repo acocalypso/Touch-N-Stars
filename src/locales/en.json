@@ -796,6 +796,29 @@
             "renameFailed": "Failed to rename profile",
             "deleteFailed": "Failed to delete profile"
           }
+        },
+        "starComponents": {
+          "show": "Show Star Components",
+          "hide": "Hide Star Components"
+        },
+        "autoSelectStar": "Auto-select guide star",
+        "reviewCalibration": "Review Calibration",
+        "calibrationData": {
+          "title": "Review Calibration",
+          "notCalibrated": "Not calibrated",
+          "lastMountCalibration": "Last Mount Calibration",
+          "cameraAngle": "Camera angle:",
+          "orthogonalityError": "Orthogonality error:",
+          "raRate": "RA rate:",
+          "decRate": "Dec rate:",
+          "raParity": "RA parity:",
+          "decParity": "Dec parity:",
+          "declination": "Declination:",
+          "estimated": "(est)",
+          "clearing": "Clearing...",
+          "clearCalibration": "Clear Calibration",
+          "rightAscension": "Right Ascension",
+          "declinationAxis": "Declination"
         }
       }
     },

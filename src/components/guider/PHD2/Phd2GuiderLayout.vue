@@ -89,7 +89,11 @@
             @click="showStarImage = !showStarImage"
             :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
             class="flex items-center justify-center px-3 py-3"
-            :title="showStarImage ? 'Hide Star Components' : 'Show Star Components'"
+            :title="
+              showStarImage
+                ? $t('components.guider.phd2.starComponents.hide')
+                : $t('components.guider.phd2.starComponents.show')
+            "
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -103,6 +107,31 @@
             </svg>
           </button>
 
+          <!-- Auto-select Star Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo.State === 'Looping'"
+            @click="autoSelectStar"
+            :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
+            :disabled="isAutoSelectingStar"
+            class="flex items-center justify-center px-3 py-3"
+            :title="$t('components.guider.phd2.autoSelectStar')"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="4" />
+              <line x1="12" y1="3" x2="12" y2="6" stroke-linecap="round" />
+              <line x1="12" y1="18" x2="12" y2="21" stroke-linecap="round" />
+              <line x1="3" y1="12" x2="6" y2="12" stroke-linecap="round" />
+              <line x1="18" y1="12" x2="21" y2="12" stroke-linecap="round" />
+            </svg>
+          </button>
+
           <!-- Calibration Assistant Button -->
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
@@ -111,6 +140,27 @@
             :title="$t('components.guider.calibrationAssistant.title')"
           >
             CAL
+          </button>
+
+          <!-- Calibration Data Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected"
+            @click="openCalibrationData = true"
+            class="default-button-gray flex items-center justify-center px-3 py-3"
+            :title="$t('components.guider.phd2.reviewCalibration')"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <line x1="3" y1="21" x2="3" y2="3" />
+              <line x1="3" y1="21" x2="21" y2="21" />
+              <line x1="3" y1="21" x2="10" y2="10" stroke="#4499ff" stroke-width="2" />
+              <line x1="3" y1="21" x2="16" y2="6" stroke="#ff4444" stroke-width="2" />
+            </svg>
           </button>
 
           <!-- Settings Button -->
@@ -187,7 +237,11 @@
             @click="showStarImage = !showStarImage"
             :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
             class="flex items-center justify-center px-3 py-3"
-            :title="showStarImage ? 'Hide Star Components' : 'Show Star Components'"
+            :title="
+              showStarImage
+                ? $t('components.guider.phd2.starComponents.hide')
+                : $t('components.guider.phd2.starComponents.show')
+            "
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -201,6 +255,31 @@
             </svg>
           </button>
 
+          <!-- Auto-select Star Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo.State === 'Looping'"
+            @click="autoSelectStar"
+            :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
+            :disabled="isAutoSelectingStar"
+            class="flex items-center justify-center px-3 py-3"
+            :title="$t('components.guider.phd2.autoSelectStar')"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <circle cx="12" cy="12" r="4" />
+              <line x1="12" y1="3" x2="12" y2="6" stroke-linecap="round" />
+              <line x1="12" y1="18" x2="12" y2="21" stroke-linecap="round" />
+              <line x1="3" y1="12" x2="6" y2="12" stroke-linecap="round" />
+              <line x1="18" y1="12" x2="21" y2="12" stroke-linecap="round" />
+            </svg>
+          </button>
+
           <!-- Calibration Assistant Button -->
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
@@ -209,6 +288,27 @@
             :title="$t('components.guider.calibrationAssistant.title')"
           >
             CAL
+          </button>
+
+          <!-- Calibration Data Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected"
+            @click="openCalibrationData = true"
+            class="default-button-gray flex items-center justify-center px-3 py-3"
+            :title="$t('components.guider.phd2.reviewCalibration')"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <line x1="3" y1="21" x2="3" y2="3" />
+              <line x1="3" y1="21" x2="21" y2="21" />
+              <line x1="3" y1="21" x2="10" y2="10" stroke="#4499ff" stroke-width="2" />
+              <line x1="3" y1="21" x2="16" y2="6" stroke="#ff4444" stroke-width="2" />
+            </svg>
           </button>
 
           <!-- Settings Button -->
@@ -243,6 +343,16 @@
     >
       <!-- PHD2 Hintergrundbild immer sichtbar -->
       <Phd2Image :show="true" class="opacity-70" />
+
+      <!-- Calibration step message overlay -->
+      <div
+        v-if="guiderStore.phd2CalibrationMessage"
+        class="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 bg-black/70 rounded-lg border border-yellow-500/50 backdrop-blur-sm pointer-events-none"
+      >
+        <span class="text-yellow-300 text-xs font-medium tracking-wide">{{
+          guiderStore.phd2CalibrationMessage
+        }}</span>
+      </div>
 
       <!-- Star Components overlay (über Button ein-/ausblendbar) -->
       <div v-if="showStarImage" class="absolute inset-0">
@@ -313,11 +423,14 @@
       :show="openCalibrationAssistant"
       @close="openCalibrationAssistant = false"
     />
+
+    <!-- Calibration Data Modal -->
+    <CalibrationDataModal :show="openCalibrationData" @close="openCalibrationData = false" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -328,6 +441,7 @@ import Phd2Guidstar from '@/components/guider/PHD2/Phd2Guidstar.vue';
 import Phd2StarProfile from '@/components/guider/PHD2/Phd2StarProfile.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import CalibrationAssistantModal from '@/components/guider/PHD2/CalibrationAssistantModal.vue';
+import CalibrationDataModal from '@/components/guider/PHD2/CalibrationDataModal.vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
@@ -339,8 +453,10 @@ const { isLandscape } = useOrientation();
 const { t: $t } = useI18n();
 const openSettings = ref(false);
 const openCalibrationAssistant = ref(false);
+const openCalibrationData = ref(false);
 const isProcessing = ref(false);
 const showStarImage = ref(false);
+const isAutoSelectingStar = ref(false);
 
 const containerStyle = computed(() => {
   if (isLandscape.value) {
@@ -503,6 +619,18 @@ async function stopGuiding() {
     console.error('Error during guiding toggle:', error.response?.data || error);
   } finally {
     isProcessing.value = false;
+  }
+}
+
+async function autoSelectStar() {
+  isAutoSelectingStar.value = true;
+  try {
+    await apiService.findPhd2Star();
+    console.log('[PHD2] Auto-selected guide star');
+  } catch (error) {
+    console.error('[PHD2] Error auto-selecting star:', error);
+  } finally {
+    isAutoSelectingStar.value = false;
   }
 }
 </script>

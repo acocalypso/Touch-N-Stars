@@ -360,6 +360,17 @@ const apiService = {
     }
   },
 
+  async findPhd2Star(roi = null) {
+    try {
+      const { API_URL } = getUrls();
+      const body = roi ? { roi } : {};
+      const response = await axios.post(`${API_URL}phd2/find-star`, body);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   async getPhd2LockPosition() {
     try {
       const { API_URL } = getUrls();
@@ -377,7 +388,36 @@ const apiService = {
     }
   },
 
-  //------------------------------------- Plugins ------------------------------------------
+  async getPhd2StarPositions() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/star-positions`);
+      return response.data;
+    } catch {
+      return { Success: false, Response: null };
+    }
+  },
+
+  async getPhd2CalibrationData() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}phd2/calibration-data`);
+      return response.data;
+    } catch {
+      return { Success: false, Response: null };
+    }
+  },
+
+  async clearPhd2Calibration() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}phd2/clear-calibration`);
+      return response.data;
+    } catch {
+      return { Success: false, Response: null };
+    }
+  },
+
   async getPlugins() {
     const { BASE_URL } = getUrls();
     return this._simpleGetRequest(`${BASE_URL}/application/plugins`);

@@ -157,12 +157,14 @@ import Modal from '@/components/helpers/Modal.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
+import { useGuiderStore } from '@/store/guiderStore';
 import { degreesToHMS, degreesToDMS, getLST } from '@/utils/utils';
 import apiService from '@/services/apiService';
 
 const { t } = useI18n();
 const store = apiStore();
 const framingStore = useFramingStore();
+const guiderStore = useGuiderStore();
 
 defineProps({
   show: Boolean,
@@ -208,7 +210,10 @@ const displayStatus = computed(() => {
   // Show guider state-based status
   switch (guiderState) {
     case 'Calibrating':
-      return t('components.guider.calibrationAssistant.calibrating');
+      return (
+        guiderStore.phd2CalibrationMessage ||
+        t('components.guider.calibrationAssistant.calibrating')
+      );
     case 'Guiding':
       return t('components.guider.calibrationAssistant.calibrationComplete');
     case 'Stopped':

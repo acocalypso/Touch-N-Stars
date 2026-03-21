@@ -796,6 +796,29 @@
             "renameFailed": "Profil konnte nicht umbenannt werden",
             "deleteFailed": "Profil konnte nicht gelöscht werden"
           }
+        },
+        "autoSelectStar": "Leitstern automatisch auswählen",
+        "calibrationData": {
+          "cameraAngle": "Kamerawinkel:",
+          "clearCalibration": "Klare Kalibrierung",
+          "clearing": "Clearing...",
+          "decParity": "Dez.-Parität:",
+          "decRate": "Dez.-Rate:",
+          "declination": "Deklination:",
+          "declinationAxis": "Deklination",
+          "estimated": "(est)",
+          "lastMountCalibration": "Letzte Montierungskalibrierung",
+          "notCalibrated": "Nicht kalibriert",
+          "orthogonalityError": "Orthogonalitätsfehler:",
+          "raParity": "RA-Parität:",
+          "raRate": "RA-Rate:",
+          "rightAscension": "Rektaszension",
+          "title": "Überprüfen Sie die Kalibrierung"
+        },
+        "reviewCalibration": "Überprüfen Sie die Kalibrierung",
+        "starComponents": {
+          "hide": "Sternkomponenten ausblenden",
+          "show": "Sternkomponenten anzeigen"
         }
       }
     },

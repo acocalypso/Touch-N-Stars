@@ -2,7 +2,9 @@
   <Modal :show="show" @close="$emit('close')" maxWidth="max-w-2xl">
     <template #header>
       <div class="flex items-center gap-3">
-        <h2 class="text-base font-semibold">Review Calibration</h2>
+        <h2 class="text-base font-semibold">
+          {{ $t('components.guider.phd2.calibrationData.title') }}
+        </h2>
         <div class="flex border-b border-gray-600 text-xs">
           <span class="px-3 py-1 border-b-2 border-blue-400 text-blue-300">Mount</span>
         </div>
@@ -17,7 +19,7 @@
 
       <div v-else-if="data">
         <div v-if="!data.Calibrated" class="text-yellow-400 text-sm text-center py-8">
-          Not calibrated
+          {{ $t('components.guider.phd2.calibrationData.notCalibrated') }}
         </div>
 
         <div v-else class="flex gap-4 items-start">
@@ -87,10 +89,12 @@
             </svg>
             <div class="flex gap-4 text-xs mt-1">
               <span class="text-blue-400 flex items-center gap-1">
-                <span class="inline-block w-4 h-0.5 bg-blue-400"></span> Right Ascension
+                <span class="inline-block w-4 h-0.5 bg-blue-400"></span>
+                {{ $t('components.guider.phd2.calibrationData.rightAscension') }}
               </span>
               <span class="text-red-400 flex items-center gap-1">
-                <span class="inline-block w-4 h-0.5 bg-red-400"></span> Declination
+                <span class="inline-block w-4 h-0.5 bg-red-400"></span>
+                {{ $t('components.guider.phd2.calibrationData.declinationAxis') }}
               </span>
             </div>
           </div>
@@ -100,37 +104,51 @@
             <!-- Last Mount Calibration box -->
             <div class="border border-gray-500 rounded p-2">
               <div class="text-gray-300 font-semibold mb-2 text-xs uppercase tracking-wide">
-                Last Mount Calibration
+                {{ $t('components.guider.phd2.calibrationData.lastMountCalibration') }}
               </div>
               <table class="w-full border-collapse">
                 <tbody>
                   <tr>
-                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">Camera angle:</td>
+                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
+                      {{ $t('components.guider.phd2.calibrationData.cameraAngle') }}
+                    </td>
                     <td class="text-white pr-4">{{ data.XAngle?.toFixed(1) }}</td>
                     <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
-                      Orthogonality error:
+                      {{ $t('components.guider.phd2.calibrationData.orthogonalityError') }}
                     </td>
                     <td class="text-white">{{ orthogError }}</td>
                   </tr>
                   <tr>
-                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">RA rate:</td>
+                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
+                      {{ $t('components.guider.phd2.calibrationData.raRate') }}
+                    </td>
                     <td class="text-white pr-4">{{ data.XRate?.toFixed(3) }} px/sec</td>
-                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">Dec rate:</td>
+                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
+                      {{ $t('components.guider.phd2.calibrationData.decRate') }}
+                    </td>
                     <td class="text-white">{{ data.YRate?.toFixed(3) }} px/sec</td>
                   </tr>
                   <tr>
-                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">RA parity:</td>
+                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
+                      {{ $t('components.guider.phd2.calibrationData.raParity') }}
+                    </td>
                     <td class="text-white pr-4">
                       {{ data.XParity && data.XParity !== '?' ? data.XParity : '-' }}
                     </td>
-                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">Dec parity:</td>
+                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
+                      {{ $t('components.guider.phd2.calibrationData.decParity') }}
+                    </td>
                     <td class="text-white">
                       {{ data.YParity && data.YParity !== '?' ? data.YParity : '-' }}
                     </td>
                   </tr>
                   <tr>
-                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">Declination:</td>
-                    <td class="text-white pr-4" colspan="3">{{ decDisplay }} (est)</td>
+                    <td class="text-gray-400 pr-2 py-0.5 whitespace-nowrap">
+                      {{ $t('components.guider.phd2.calibrationData.declination') }}
+                    </td>
+                    <td class="text-white pr-4" colspan="3">
+                      {{ decDisplay }} {{ $t('components.guider.phd2.calibrationData.estimated') }}
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -142,8 +160,12 @@
               :disabled="isClearing"
               class="default-button-red px-4 py-2 text-sm disabled:opacity-40 self-start"
             >
-              <span v-if="isClearing">Clearing...</span>
-              <span v-else>Clear Calibration</span>
+              <span v-if="isClearing">{{
+                $t('components.guider.phd2.calibrationData.clearing')
+              }}</span>
+              <span v-else>{{
+                $t('components.guider.phd2.calibrationData.clearCalibration')
+              }}</span>
             </button>
           </div>
         </div>
@@ -154,8 +176,11 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
+
+const { t: $t } = useI18n();
 
 const props = defineProps({ show: Boolean });
 defineEmits(['close']);

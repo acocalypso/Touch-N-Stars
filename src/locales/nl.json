@@ -796,6 +796,29 @@
             "renameFailed": "Profiel hernoemen mislukt",
             "deleteFailed": "Profiel verwijderen mislukt"
           }
+        },
+        "autoSelectStar": "Gidsster automatisch selecteren",
+        "calibrationData": {
+          "cameraAngle": "Camerahoek:",
+          "clearCalibration": "Kalibratie wissen",
+          "clearing": "Wissen...",
+          "decParity": "Pariteit december:",
+          "decRate": "December tarief:",
+          "declination": "Declinatie:",
+          "declinationAxis": "Declinatie",
+          "estimated": "(est)",
+          "lastMountCalibration": "Laatste montagekalibratie",
+          "notCalibrated": "Niet gekalibreerd",
+          "orthogonalityError": "Orthogonaliteitsfout:",
+          "raParity": "RA-pariteit:",
+          "raRate": "RA-tarief:",
+          "rightAscension": "Rechte Hemelvaart",
+          "title": "Controleer kalibratie"
+        },
+        "reviewCalibration": "Controleer kalibratie",
+        "starComponents": {
+          "hide": "Stercomponenten verbergen",
+          "show": "Toon stercomponenten"
         }
       }
     },

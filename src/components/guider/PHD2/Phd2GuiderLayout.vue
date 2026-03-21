@@ -89,7 +89,11 @@
             @click="showStarImage = !showStarImage"
             :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
             class="flex items-center justify-center px-3 py-3"
-            :title="showStarImage ? 'Hide Star Components' : 'Show Star Components'"
+            :title="
+              showStarImage
+                ? $t('components.guider.phd2.starComponents.hide')
+                : $t('components.guider.phd2.starComponents.show')
+            "
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -110,7 +114,7 @@
             :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
             :disabled="isAutoSelectingStar"
             class="flex items-center justify-center px-3 py-3"
-            title="Auto-select guide star"
+            :title="$t('components.guider.phd2.autoSelectStar')"
           >
             <svg
               class="w-5 h-5"
@@ -143,7 +147,7 @@
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openCalibrationData = true"
             class="default-button-gray flex items-center justify-center px-3 py-3"
-            title="Review Calibration"
+            :title="$t('components.guider.phd2.reviewCalibration')"
           >
             <svg
               class="w-5 h-5"
@@ -233,7 +237,11 @@
             @click="showStarImage = !showStarImage"
             :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
             class="flex items-center justify-center px-3 py-3"
-            :title="showStarImage ? 'Hide Star Components' : 'Show Star Components'"
+            :title="
+              showStarImage
+                ? $t('components.guider.phd2.starComponents.hide')
+                : $t('components.guider.phd2.starComponents.show')
+            "
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
@@ -254,7 +262,7 @@
             :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
             :disabled="isAutoSelectingStar"
             class="flex items-center justify-center px-3 py-3"
-            title="Auto-select guide star"
+            :title="$t('components.guider.phd2.autoSelectStar')"
           >
             <svg
               class="w-5 h-5"
@@ -287,7 +295,7 @@
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openCalibrationData = true"
             class="default-button-gray flex items-center justify-center px-3 py-3"
-            title="Review Calibration"
+            :title="$t('components.guider.phd2.reviewCalibration')"
           >
             <svg
               class="w-5 h-5"

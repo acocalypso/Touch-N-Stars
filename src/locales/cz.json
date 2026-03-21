@@ -796,6 +796,29 @@
             "renameFailed": "Přejmenování profilu se nezdařilo",
             "deleteFailed": "Smazání profilu se nezdařilo"
           }
+        },
+        "autoSelectStar": "Auto-select guide star",
+        "calibrationData": {
+          "cameraAngle": "Camera angle:",
+          "clearCalibration": "Clear Calibration",
+          "clearing": "Clearing...",
+          "decParity": "Dec parity:",
+          "decRate": "Dec rate:",
+          "declination": "Declination:",
+          "declinationAxis": "Declination",
+          "estimated": "(est)",
+          "lastMountCalibration": "Last Mount Calibration",
+          "notCalibrated": "Not calibrated",
+          "orthogonalityError": "Orthogonality error:",
+          "raParity": "RA parity:",
+          "raRate": "RA rate:",
+          "rightAscension": "Right Ascension",
+          "title": "Review Calibration"
+        },
+        "reviewCalibration": "Review Calibration",
+        "starComponents": {
+          "hide": "Hide Star Components",
+          "show": "Show Star Components"
         }
       }
     },

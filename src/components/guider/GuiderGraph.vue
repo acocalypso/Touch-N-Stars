@@ -222,11 +222,17 @@ watch(
     if (oldValue === undefined) return; // skip first run
 
     if (newValue === true && oldValue === false) {
-      toastStore.showToast({
-        type: 'error',
-        title: t('components.guider.phd2.error.title'),
-        message: t('components.guider.phd2.error.star-lost-message'),
-      });
+      // Debounce: wait 1.5s before showing toast to avoid false positives when
+      // PHD2 briefly emits StarLost immediately before GuidingStopped on a normal stop.
+      setTimeout(() => {
+        if (guiderStore.phd2StarLost) {
+          toastStore.showToast({
+            type: 'error',
+            title: t('components.guider.phd2.error.title'),
+            message: t('components.guider.phd2.error.star-lost-message'),
+          });
+        }
+      }, 1500);
     }
   }
 );

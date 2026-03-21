@@ -99,10 +99,13 @@ export const useGuiderStore = defineStore('guiderStore', {
         this.phd2StarLostInfo = response1.Response.StarLostInfo;
 
         const mainStore = apiStore();
-        this.phd2StarLost = this.checkStarLostByState(
-          response1.Response.Status,
-          mainStore.guiderInfo?.State
-        );
+        const phd2AppState = response1.Response.Status?.AppState;
+
+        // Only flag star lost if PHD2 itself says LostLock — not during a normal stop
+        // (PHD2 briefly emits StarLost before GuidingStopped when stopping intentionally)
+        this.phd2StarLost =
+          phd2AppState === 'LostLock' &&
+          this.checkStarLostByState(phd2AppState, mainStore.guiderInfo?.State);
         if (this.phd2StarLost) {
           console.log('Star lost');
           console.log(this.phd2StarLostInfo);
@@ -141,8 +144,8 @@ export const useGuiderStore = defineStore('guiderStore', {
       }
     },
 
-    checkStarLostByState(phd2Status, guiderState) {
-      const normalizedPhd2Status = String(phd2Status || '').toLowerCase();
+    checkStarLostByState(phd2AppState, guiderState) {
+      const normalizedPhd2Status = String(phd2AppState || '').toLowerCase();
       const normalizedGuiderState = String(guiderState || '').toLowerCase();
 
       return (

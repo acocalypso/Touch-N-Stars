@@ -116,8 +116,15 @@ export const useGuiderStore = defineStore('guiderStore', {
 
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
 
-        // StarInfo aus all-info Response extrahieren
-        this.phd2StarInfo = response1.Response.StarImage?.StarInfo || null;
+        // Show star profile only when get_star_image succeeded (StarImage.Available = true),
+        // which means PHD2 actually has a star selected/tracked right now.
+        // Use top-level StarInfo (direct from CurrentStar events) as it's more up-to-date;
+        // fall back to StarImage.StarInfo. Only show when Available=true (star actively tracked).
+        const starImageInfo = response1.Response.StarImage;
+        const topLevelStarInfo = response1.Response.StarInfo;
+        this.phd2StarInfo = starImageInfo?.Available
+          ? topLevelStarInfo || starImageInfo?.StarInfo || null
+          : null;
 
         this.phd2CurrentEquipment = response2.Response.CurrentEquipment;
         this.phd2IsConnected =

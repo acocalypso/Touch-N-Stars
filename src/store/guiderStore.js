@@ -23,6 +23,7 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2CurrentEquipment: [],
     phd2IsConnected: false,
     phd2StarInfo: null,
+    phd2CalibrationMessage: null,
 
     // PHD2 Camera State (PINS)
     phd2Cameras: [],
@@ -115,6 +116,10 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
 
         this.phd2EquipmentProfiles = response1.Response.EquipmentProfiles;
+
+        // Calibration step message from PHD2 Calibrating events
+        const calStep = response1.Response.Status?.CalibrationStep;
+        this.phd2CalibrationMessage = calStep?.Message || null;
 
         // Show star profile only when get_star_image succeeded (StarImage.Available = true),
         // which means PHD2 actually has a star selected/tracked right now.

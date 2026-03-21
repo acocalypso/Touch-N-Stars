@@ -294,6 +294,16 @@
       <!-- PHD2 Hintergrundbild immer sichtbar -->
       <Phd2Image :show="true" class="opacity-70" />
 
+      <!-- Calibration step message overlay -->
+      <div
+        v-if="guiderStore.phd2CalibrationMessage"
+        class="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-4 py-2 bg-black/70 rounded-lg border border-yellow-500/50 backdrop-blur-sm pointer-events-none"
+      >
+        <span class="text-yellow-300 text-xs font-medium tracking-wide">{{
+          guiderStore.phd2CalibrationMessage
+        }}</span>
+      </div>
+
       <!-- Star Components overlay (über Button ein-/ausblendbar) -->
       <div v-if="showStarImage" class="absolute inset-0">
         <div v-if="isLandscape" class="absolute inset-0">

@@ -138,6 +138,27 @@
             CAL
           </button>
 
+          <!-- Calibration Data Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected"
+            @click="openCalibrationData = true"
+            class="default-button-gray flex items-center justify-center px-3 py-3"
+            title="Review Calibration"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <line x1="3" y1="21" x2="3" y2="3" />
+              <line x1="3" y1="21" x2="21" y2="21" />
+              <line x1="3" y1="21" x2="10" y2="10" stroke="#4499ff" stroke-width="2" />
+              <line x1="3" y1="21" x2="16" y2="6" stroke="#ff4444" stroke-width="2" />
+            </svg>
+          </button>
+
           <!-- Settings Button -->
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
@@ -261,6 +282,27 @@
             CAL
           </button>
 
+          <!-- Calibration Data Button -->
+          <button
+            v-if="guiderStore.phd2Connection?.IsConnected"
+            @click="openCalibrationData = true"
+            class="default-button-gray flex items-center justify-center px-3 py-3"
+            title="Review Calibration"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+            >
+              <line x1="3" y1="21" x2="3" y2="3" />
+              <line x1="3" y1="21" x2="21" y2="21" />
+              <line x1="3" y1="21" x2="10" y2="10" stroke="#4499ff" stroke-width="2" />
+              <line x1="3" y1="21" x2="16" y2="6" stroke="#ff4444" stroke-width="2" />
+            </svg>
+          </button>
+
           <!-- Settings Button -->
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
@@ -373,6 +415,9 @@
       :show="openCalibrationAssistant"
       @close="openCalibrationAssistant = false"
     />
+
+    <!-- Calibration Data Modal -->
+    <CalibrationDataModal :show="openCalibrationData" @close="openCalibrationData = false" />
   </div>
 </template>
 
@@ -388,6 +433,7 @@ import Phd2Guidstar from '@/components/guider/PHD2/Phd2Guidstar.vue';
 import Phd2StarProfile from '@/components/guider/PHD2/Phd2StarProfile.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import CalibrationAssistantModal from '@/components/guider/PHD2/CalibrationAssistantModal.vue';
+import CalibrationDataModal from '@/components/guider/PHD2/CalibrationDataModal.vue';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
@@ -399,6 +445,7 @@ const { isLandscape } = useOrientation();
 const { t: $t } = useI18n();
 const openSettings = ref(false);
 const openCalibrationAssistant = ref(false);
+const openCalibrationData = ref(false);
 const isProcessing = ref(false);
 const showStarImage = ref(false);
 const isAutoSelectingStar = ref(false);

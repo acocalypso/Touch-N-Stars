@@ -796,6 +796,29 @@
             "renameFailed": "Falha ao renomear perfil",
             "deleteFailed": "Falha ao excluir perfil"
           }
+        },
+        "autoSelectStar": "Seleção automática de estrela guia",
+        "calibrationData": {
+          "cameraAngle": "Ângulo da câmera:",
+          "clearCalibration": "Limpar calibração",
+          "clearing": "Limpando...",
+          "decParity": "Paridade de dezembro:",
+          "decRate": "Taxa de dezembro:",
+          "declination": "Declinação:",
+          "declinationAxis": "Declinação",
+          "estimated": "(Husa)",
+          "lastMountCalibration": "Última calibração de montagem",
+          "notCalibrated": "Não calibrado",
+          "orthogonalityError": "Erro de ortogonalidade:",
+          "raParity": "Paridade RA:",
+          "raRate": "Taxa de AR:",
+          "rightAscension": "Ascensão Reta",
+          "title": "Revise a calibração"
+        },
+        "reviewCalibration": "Revise a calibração",
+        "starComponents": {
+          "hide": "Ocultar componentes estrela",
+          "show": "Mostrar componentes estrela"
         }
       }
     },

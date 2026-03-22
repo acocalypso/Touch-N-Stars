@@ -56,20 +56,22 @@ const exposureTimeByTarget = computed(() => {
 
   const targetMap = {};
 
-  store.imageHistoryInfo.forEach((image) => {
-    const targetName = image.TargetName || '?';
+  store.imageHistoryInfo
+    .filter((image) => image.ImageType === 'LIGHT')
+    .forEach((image) => {
+      const targetName = image.TargetName || '?';
 
-    if (!targetMap[targetName]) {
-      targetMap[targetName] = {
-        targetName,
-        totalTime: 0,
-        imageCount: 0,
-      };
-    }
+      if (!targetMap[targetName]) {
+        targetMap[targetName] = {
+          targetName,
+          totalTime: 0,
+          imageCount: 0,
+        };
+      }
 
-    targetMap[targetName].totalTime += image.ExposureTime || 0;
-    targetMap[targetName].imageCount += 1;
-  });
+      targetMap[targetName].totalTime += image.ExposureTime || 0;
+      targetMap[targetName].imageCount += 1;
+    });
 
   return Object.values(targetMap).sort((a, b) => a.targetName.localeCompare(b.targetName));
 });

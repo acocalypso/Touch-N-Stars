@@ -54,6 +54,43 @@
             class="pr-3 pl-3"
           />
         </div>
+        <div class="border-t border-gray-600 pt-2 mt-2">
+          <h4 class="text-gray-200 text-sm mb-1">
+            {{ $t('components.tppa.settings.camera_settings') }}
+          </h4>
+          <p class="text-gray-400 text-xs mb-3">
+            {{ $t('components.tppa.settings.camera_settings_hint') }}
+          </p>
+
+          <!-- Exposure Time -->
+          <div class="mb-2">
+            <NumberInputPicker
+              v-model="tppaStore.settings.ExposureTime"
+              :label="$t('components.tppa.settings.exposure_time')"
+              labelKey="components.tppa.settings.exposure_time"
+              :min="0"
+              :max="999"
+              :step="0.1"
+              :decimalPlaces="1"
+              inputId="tppa-exposure-time"
+            />
+          </div>
+
+          <!-- Gain -->
+          <div>
+            <NumberInputPicker
+              v-model="tppaStore.settings.Gain"
+              :label="$t('components.tppa.settings.gain')"
+              labelKey="components.tppa.settings.gain"
+              :min="0"
+              :max="9999"
+              :step="1"
+              :decimalPlaces="0"
+              :defaultValue="store.profileInfo.CameraSettings.Gain"
+              inputId="tppa-gain"
+            />
+          </div>
+        </div>
       </div>
     </div>
 

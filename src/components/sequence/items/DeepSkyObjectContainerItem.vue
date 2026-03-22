@@ -81,7 +81,10 @@
           :decimalPlaces="1"
           labelPosition="top"
           wrapperClass="w-full"
-          @change="localRASeconds = $event; saveRa(coords.RAHours, coords.RAMinutes, $event)"
+          @change="
+            localRASeconds = $event;
+            saveRa(coords.RAHours, coords.RAMinutes, $event);
+          "
         />
       </div>
 
@@ -122,7 +125,10 @@
           :decimalPlaces="1"
           labelPosition="top"
           wrapperClass="w-full"
-          @change="localDecSeconds = $event; saveDec(decDeg, coords.DecMinutes, $event)"
+          @change="
+            localDecSeconds = $event;
+            saveDec(decDeg, coords.DecMinutes, $event);
+          "
         />
       </div>
     </template>
@@ -146,10 +152,13 @@ const store = useSequenceV2Store();
 const localRASeconds = ref(null);
 const localDecSeconds = ref(null);
 
-watch(() => props.item.Id, () => {
-  localRASeconds.value = null;
-  localDecSeconds.value = null;
-});
+watch(
+  () => props.item.Id,
+  () => {
+    localRASeconds.value = null;
+    localDecSeconds.value = null;
+  }
+);
 
 // API returns Target as a string: "RA: 00:42:44; Dec: 41° 16' 07\"; Epoch: J2000; Position Angle: 0"
 const parsedTarget = computed(() => {

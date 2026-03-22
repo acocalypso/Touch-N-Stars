@@ -175,7 +175,9 @@
     <div class="w-full relative z-10 border-t border-gray-700 pt-4 mt-1 flex flex-col gap-3">
       <div class="flex items-start justify-between gap-4">
         <div>
-          <h4 class="text-base font-bold text-white">{{ $t('plugins.pins.hotspotPasswordTitle') }}</h4>
+          <h4 class="text-base font-bold text-white">
+            {{ $t('plugins.pins.hotspotPasswordTitle') }}
+          </h4>
           <p class="text-gray-400 text-xs">
             {{
               hotspotConfigured
@@ -225,7 +227,11 @@
       <button
         class="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-lg shadow-blue-900/20 transition-all disabled:opacity-50"
         :disabled="
-          hotspotSaving || hotspotLoading || disabled || !hotspotPassword || hotspotPassword.length < 8
+          hotspotSaving ||
+          hotspotLoading ||
+          disabled ||
+          !hotspotPassword ||
+          hotspotPassword.length < 8
         "
         @click="$emit('save-hotspot')"
       >

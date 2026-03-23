@@ -2,10 +2,19 @@
   <div class="container py-8 sm:py-16 flex items-center justify-center px-4">
     <div class="container max-w-4xl p-0 sm:p-4 w-full">
       <h5
-        class="text-2xl text-center font-bold text-white mb-6 flex items-center justify-center gap-3"
+        class="text-2xl text-center font-bold text-white mb-2 flex items-center justify-center gap-3"
       >
         <span>{{ $t('plugins.pins.title') }}</span>
       </h5>
+
+      <div v-if="availableUpdatePackages.length > 0" class="text-center mb-4">
+        <button
+          @click="showUpdatesModal = true"
+          class="text-amber-300 hover:text-amber-200 underline underline-offset-4 transition-colors"
+        >
+          {{ $t('plugins.pins.updatesAvailable', { count: availableUpdatePackages.length }) }}
+        </button>
+      </div>
 
       <!-- Control Panel -->
       <div v-if="store.isPINS" class="flex flex-col space-y-6 animate-fade-in-up">
@@ -142,6 +151,74 @@
             </div>
           </template>
         </Modal>
+
+        <Modal :show="showUpdatesModal" @close="showUpdatesModal = false" maxWidth="max-w-2xl">
+          <template #header>
+            <h2 class="text-xl font-bold text-white">{{ $t('plugins.pins.updatesModalTitle') }}</h2>
+          </template>
+
+          <template #body>
+            <div class="w-full flex flex-col gap-4">
+              <div class="flex items-center justify-between gap-2 text-sm text-gray-400">
+                <span>
+                  {{ $t('plugins.pins.updatesCheckedAt') }}:
+                  {{
+                    updatesCheckResult?.checkedAt
+                      ? new Date(updatesCheckResult.checkedAt).toLocaleString()
+                      : '-'
+                  }}
+                </span>
+                <button
+                  @click="checkUpdates()"
+                  class="text-blue-400 hover:text-white transition-colors disabled:opacity-50"
+                  :disabled="isCheckingUpdates"
+                >
+                  {{
+                    isCheckingUpdates
+                      ? $t('plugins.pins.checkingUpdates')
+                      : $t('plugins.pins.checkUpdates')
+                  }}
+                </button>
+              </div>
+
+              <div
+                v-if="availableUpdatePackages.length === 0"
+                class="text-gray-300 text-sm py-6 text-center"
+              >
+                {{ $t('plugins.pins.noUpdatesAvailable') }}
+              </div>
+
+              <div v-else class="max-h-80 overflow-y-auto border border-gray-700 rounded-lg">
+                <table class="w-full text-left text-sm">
+                  <thead class="bg-gray-900 text-gray-300 sticky top-0">
+                    <tr>
+                      <th class="px-4 py-3">{{ $t('plugins.pins.updatesPackage') }}</th>
+                      <th class="px-4 py-3">{{ $t('plugins.pins.updatesInstalled') }}</th>
+                      <th class="px-4 py-3">{{ $t('plugins.pins.updatesLatest') }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="pkg in availableUpdatePackages"
+                      :key="pkg.name"
+                      class="border-t border-gray-700 text-gray-200"
+                    >
+                      <td class="px-4 py-3 font-medium">{{ pkg.name }}</td>
+                      <td class="px-4 py-3">{{ pkg.installedVersion || '-' }}</td>
+                      <td class="px-4 py-3">{{ pkg.latestVersion || '-' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="flex justify-end">
+                <button @click="showUpdatesModal = false" class="default-button-gray">
+                  {{ $t('common.cancel') }}
+                </button>
+              </div>
+            </div>
+          </template>
+        </Modal>
       </div>
 
       <!-- Unavailable State -->
@@ -170,7 +247,7 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, watch } from 'vue';
+import { computed, ref, onUnmounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -199,6 +276,9 @@ const hotspotConfigured = ref(false);
 const isHotspotLoading = ref(false);
 const isHotspotSaving = ref(false);
 const showDisconnectWifiModal = ref(false);
+const showUpdatesModal = ref(false);
+const isCheckingUpdates = ref(false);
+const updatesCheckResult = ref(null);
 const {
   stationaryMode,
   wifiList,
@@ -217,6 +297,11 @@ let ws = null;
 
 const PORT = 8000;
 const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+
+const availableUpdatePackages = computed(() => {
+  const packages = updatesCheckResult.value?.packages || [];
+  return packages.filter((pkg) => pkg.updateAvailable);
+});
 
 watch(selectedSsid, (newSsid) => {
   if (newSsid) {
@@ -242,10 +327,34 @@ watch(
       checkPhd2Status();
       checkSystemTime();
       loadHotspotPasswordConfig();
+      checkUpdates();
     }
   },
   { immediate: true }
 );
+
+async function checkUpdates() {
+  const ip = getIp();
+  if (!ip || isCheckingUpdates.value) return;
+
+  isCheckingUpdates.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/updates/check`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 10000,
+    });
+
+    updatesCheckResult.value = response.data || null;
+  } catch (error) {
+    console.error(error);
+    appendLog(t('plugins.pins.logs.updateCheckFailed', { message: error.message }));
+  } finally {
+    isCheckingUpdates.value = false;
+  }
+}
 
 async function loadHotspotPasswordConfig() {
   const ip = getIp();

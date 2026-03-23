@@ -10,8 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type
+- Stellarium time fix
+
+### Added
+- PINS Plugin: Option to disconnect wifi and start hotspot
 - PINS: TPPA set exposuretime and gain
 - PINS: switch between two instances
+
 
 ## [App4.7.0] - 2026-03-17
 ### Added

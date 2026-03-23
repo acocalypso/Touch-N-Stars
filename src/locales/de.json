@@ -1396,7 +1396,8 @@
         "hotspotSaved": "Hotspot-Passwort erfolgreich aktualisiert: {message}",
         "hotspotSaving": "Hotspot-Passwort wird aktualisiert...",
         "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
-        "wifiDisabled": "WiFi disconnected and hotspot enabled."
+        "wifiDisabled": "WiFi disconnected and hotspot enabled.",
+        "updateCheckFailed": "Failed to check updates: {message}"
       },
       "hotspotConfigured": "Das benutzerdefinierte Hotspot-Passwort ist konfiguriert.",
       "hotspotNewPassword": "Neues Hotspot-Passwort",
@@ -1408,7 +1409,16 @@
       "hotspotSaving": "Hotspot-Passwort wird gespeichert...",
       "wifiDisconnect": "Disconnect WiFi",
       "disconnectConfirmTitle": "Disconnect WiFi?",
-      "disconnectConfirmMessage": "This will disconnect the current WiFi connection and re-enable the hotspot. Do you want to continue?"
+      "disconnectConfirmMessage": "This will disconnect the current WiFi connection and re-enable the hotspot. Do you want to continue?",
+      "updatesAvailable": "Updates available ({count})",
+      "updatesModalTitle": "Available updates",
+      "updatesCheckedAt": "Checked at",
+      "checkUpdates": "Check again",
+      "checkingUpdates": "Checking...",
+      "noUpdatesAvailable": "No updates available",
+      "updatesPackage": "Package",
+      "updatesInstalled": "Installed",
+      "updatesLatest": "Latest"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

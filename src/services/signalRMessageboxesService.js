@@ -18,6 +18,7 @@ class SignalRMessageboxesService {
     this.isConnected = false;
     this.reconnectTimeoutId = null;
     this.url = null;
+    this._connectionId = 0;
   }
 
   setStatusCallback(callback) {
@@ -49,6 +50,15 @@ class SignalRMessageboxesService {
       // Set shouldReconnect to true on each connect attempt
       this.shouldReconnect = true;
 
+      // Invalidate any previous connection's handlers and stop the stale connection
+      this._connectionId++;
+      const connectionId = this._connectionId;
+      if (this.connection) {
+        const stale = this.connection;
+        this.connection = null;
+        stale.stop().catch(() => {});
+      }
+
       const settingsStore = useSettingsStore();
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
@@ -63,11 +73,13 @@ class SignalRMessageboxesService {
 
         // Generic event logger - logs ALL messages from server
         this.connection.onclose((error) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRMessageboxesService] 🔴 Connection closed:', error);
         });
 
         // Event Handler for ReceiveMessageBox
         this.connection.on('ReceiveMessageBox', (messageBoxData) => {
+          if (connectionId !== this._connectionId) return;
           //console.log('[SignalRMessageboxesService] Received MessageBox:', messageBoxData);
           if (this.dialogCallback) {
             this.dialogCallback(messageBoxData);
@@ -79,6 +91,7 @@ class SignalRMessageboxesService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRMessageboxesService] Reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
@@ -87,6 +100,7 @@ class SignalRMessageboxesService {
         });
 
         this.connection.onreconnecting(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRMessageboxesService] Reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
@@ -95,6 +109,7 @@ class SignalRMessageboxesService {
         });
 
         this.connection.onclose((error) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRMessageboxesService] Connection closed', error);
           this.isConnected = false;
 

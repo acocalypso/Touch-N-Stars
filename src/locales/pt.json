@@ -1394,7 +1394,9 @@
         "hotspotFetched": "Status da senha do ponto de acesso carregado (configurado={configurado}, fonte={fonte}).",
         "hotspotPasswordTooShort": "A senha do ponto de acesso deve ter pelo menos 8 caracteres.",
         "hotspotSaved": "Senha do ponto de acesso atualizada com sucesso: {message}",
-        "hotspotSaving": "Atualizando senha do ponto de acesso..."
+        "hotspotSaving": "Atualizando senha do ponto de acesso...",
+        "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
+        "wifiDisabled": "WiFi disconnected and hotspot enabled."
       },
       "hotspotConfigured": "A senha do ponto de acesso personalizado está configurada.",
       "hotspotNewPassword": "Nova senha do ponto de acesso",
@@ -1403,7 +1405,10 @@
       "hotspotPasswordTitle": "Senha do ponto de acesso",
       "hotspotRefresh": "Atualizar status da senha do ponto de acesso",
       "hotspotSave": "Salvar senha do ponto de acesso",
-      "hotspotSaving": "Salvando a senha do ponto de acesso..."
+      "hotspotSaving": "Salvando a senha do ponto de acesso...",
+      "wifiDisconnect": "Disconnect WiFi",
+      "disconnectConfirmTitle": "Disconnect WiFi?",
+      "disconnectConfirmMessage": "This will disconnect the current WiFi connection and re-enable the hotspot. Do you want to continue?"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

@@ -1402,8 +1402,13 @@
         "upgradeSuccess": "Upgrade completed successfully.",
         "upgradeFailed": "Upgrade failed. Exit code: {exitCode}",
         "jobStatus": "Job status: {status}",
-        "statusFetchFailed": "Failed to fetch final status: {message}"
-      }
+        "statusFetchFailed": "Failed to fetch final status: {message}",
+        "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
+        "wifiDisabled": "WiFi disconnected and hotspot enabled."
+      },
+      "wifiDisconnect": "Disconnect WiFi",
+      "disconnectConfirmTitle": "Disconnect WiFi?",
+      "disconnectConfirmMessage": "This will disconnect the current WiFi connection and re-enable the hotspot. Do you want to continue?"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

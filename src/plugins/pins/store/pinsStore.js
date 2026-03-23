@@ -4,6 +4,14 @@ export const usePinsStore = defineStore('pins', {
   state: () => ({
     savedWifiPasswords: {}, // Object map: SSID -> Password
     timeSyncEnabled: false,
+    stationaryMode: false,
+    wifiList: [],
+    selectedSsid: '',
+    wifiPassword: '',
+    selectedBand: 'auto',
+    autoConnect: false,
+    isScanning: false,
+    wifiConnected: false,
     terminalLogs: [],
     terminalStatus: 'Idle',
     activeOperation: null,

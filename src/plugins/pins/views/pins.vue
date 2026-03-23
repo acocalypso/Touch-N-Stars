@@ -38,6 +38,7 @@
           @toggle-stationary="handleStationaryToggle"
           @scan-wifi="scanWifi"
           @connect-wifi="connectWifi"
+          @disconnect-wifi="requestDisableWifi"
           @update:selected-ssid="selectedSsid = $event"
           @update:wifi-password="wifiPassword = $event"
           @update:selected-band="selectedBand = $event"
@@ -113,6 +114,34 @@
         />
 
         <PinsTerminalOutput :logs="logs" @clear="pinsStore.clearTerminalLogs()" />
+
+        <Modal
+          :show="showDisconnectWifiModal"
+          @close="showDisconnectWifiModal = false"
+          maxWidth="max-w-md"
+        >
+          <template #header>
+            <h2 class="text-xl font-bold text-white">
+              {{ $t('plugins.pins.disconnectConfirmTitle') }}
+            </h2>
+          </template>
+
+          <template #body>
+            <div class="w-full">
+              <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                {{ $t('plugins.pins.disconnectConfirmMessage') }}
+              </p>
+              <div class="flex justify-end gap-3">
+                <button @click="showDisconnectWifiModal = false" class="default-button-gray">
+                  {{ $t('common.cancel') }}
+                </button>
+                <button @click="confirmDisableWifi" class="default-button-red">
+                  {{ $t('common.confirm') }}
+                </button>
+              </div>
+            </div>
+          </template>
+        </Modal>
       </div>
 
       <!-- Unavailable State -->
@@ -149,6 +178,7 @@ import { usePinsStore } from '../store/pinsStore';
 import { apiStore } from '@/store/store';
 import axios from 'axios';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import Modal from '@/components/helpers/Modal.vue';
 import PinsUpgradeCard from '../components/PinsUpgradeCard.vue';
 import PinsTerminalOutput from '../components/PinsTerminalOutput.vue';
 import PinsSambaCard from '../components/PinsSambaCard.vue';
@@ -164,18 +194,20 @@ const deviceTime = ref(null);
 const sambaEnabled = ref(false);
 const phd2Enabled = ref(false);
 const phd2Running = ref(false);
-const stationaryMode = ref(false);
-const wifiList = ref([]);
-const selectedSsid = ref('');
-const wifiPassword = ref('');
-const selectedBand = ref('auto');
-const autoConnect = ref(false);
-const isScanning = ref(false);
 const hotspotPassword = ref('');
 const hotspotConfigured = ref(false);
 const isHotspotLoading = ref(false);
 const isHotspotSaving = ref(false);
+const showDisconnectWifiModal = ref(false);
 const {
+  stationaryMode,
+  wifiList,
+  selectedSsid,
+  wifiPassword,
+  selectedBand,
+  autoConnect,
+  isScanning,
+  wifiConnected,
   terminalLogs: logs,
   terminalStatus: status,
   activeOperation,
@@ -646,10 +678,12 @@ async function connectWifi() {
 
     if (returnedJobId) {
       jobId.value = returnedJobId;
+      wifiConnected.value = true;
       appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
       connectWebSocket(ip, returnedJobId);
     } else {
       appendLog(t('plugins.pins.logs.wifiResponse', { response: JSON.stringify(data) }));
+      wifiConnected.value = true;
       status.value = 'Success';
     }
   } catch (error) {
@@ -657,6 +691,77 @@ async function connectWifi() {
     status.value = 'Failed';
     appendLog(
       t('plugins.pins.logs.error', { message: 'Wifi Connection Failed: ' + error.message })
+    );
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
+  }
+}
+
+function requestDisableWifi() {
+  if (status.value === 'Running') return;
+  showDisconnectWifiModal.value = true;
+}
+
+function confirmDisableWifi() {
+  showDisconnectWifiModal.value = false;
+  disableWifi();
+}
+
+async function disableWifi() {
+  if (status.value === 'Running') return;
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  status.value = 'Running';
+  pinsStore.setActiveOperation('wifi');
+  pinsStore.clearTerminalLogs();
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  appendLog(t('plugins.pins.logs.wifiDisabling'));
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.post(`http://${ip}:${PORT}/wifi/disable`, null, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 30000,
+    });
+
+    const data = response.data;
+    let returnedJobId;
+
+    if (data && typeof data === 'object' && data.jobId) {
+      returnedJobId = data.jobId;
+    } else if (typeof data === 'string' || typeof data === 'number') {
+      returnedJobId = data;
+    }
+
+    if (returnedJobId) {
+      jobId.value = returnedJobId;
+      wifiConnected.value = false;
+      appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+      connectWebSocket(ip, returnedJobId);
+    } else {
+      appendLog(t('plugins.pins.logs.wifiDisabled'));
+      wifiConnected.value = false;
+      status.value = 'Success';
+    }
+  } catch (error) {
+    console.error(error);
+    status.value = 'Failed';
+    appendLog(
+      t('plugins.pins.logs.error', { message: 'Wifi Disconnect Failed: ' + error.message })
     );
 
     if (error.response) {

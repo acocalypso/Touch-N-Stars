@@ -14,6 +14,13 @@ import signalRDialogService from '@/services/signalRDialogService';
 import signalRMessageboxesService from '@/services/signalRMessageboxesService';
 import { useProgressStore } from '@/store/progressStore';
 import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
+import { useGuiderStore } from '@/store/guiderStore';
+import { useSequenceStore } from '@/store/sequenceStore';
+import { useDialogStore } from '@/store/dialogStore';
+import { useLogStore } from '@/store/logStore';
+import { useEquipmentStore } from '@/store/equipmentStore';
+import websocketMountControlService from '@/services/websocketMountControl';
+import websocketTppaService from '@/services/websocketTppa';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -581,11 +588,55 @@ export const apiStore = defineStore('store', {
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
       this.isTimeSynced = false;
+      this.imageHistoryInfo = null;
+      this.lastImageStats = null;
+
+      // Clear equipment connection flags
+      this.isMountConnected = false;
+      this.isCameraConnected = false;
+      this.isFilterConnected = false;
+      this.isRotatorConnected = false;
+      this.isFocuserConnected = false;
+      this.isGuiderConnected = false;
+      this.isFlatdeviceConnected = false;
+      this.isDomeConnected = false;
+      this.isSwitchConnected = false;
+      this.isWeatherConnected = false;
+      this.isSafetyConnected = false;
+
+      // Clear equipment info from previous instance
+      this.cameraInfo = { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] };
+      this.mountInfo = { Connected: false, TrackingMode: null };
+      this.filterInfo = { Connected: false };
+      this.focuserInfo = { Connected: false, CanReverse: false, CanSetMaxStep: false };
+      this.rotatorInfo = { Connected: false };
+      this.focuserAfInfo = { Connected: false };
+      this.guiderInfo = { Connected: false };
+      this.flatdeviceInfo = { Connected: false };
+      this.domeInfo = { Connected: false };
+      this.safetyInfo = { Connected: false, IsSafe: false };
+      this.switchInfo = { Connected: false };
+      this.weatherInfo = { Connected: false };
+
+      // Clear other instance-specific state
+      this.filterName = 'unbekannt';
+      this.filterNr = null;
+      this.rotatorMechanicalPosition = 0;
+      this.existingEquipmentList = [];
+      this.imageData = null;
+      this.afCurveData = [];
+      this.afTimestampLastStart = null;
+      this.currentApiVersion = null;
+      this.currentTnsPluginVersion = null;
 
       // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
         websocketChannelService.disconnect();
       }
+
+      // Disconnect mount and TPPA WebSockets
+      websocketMountControlService.disconnect();
+      websocketTppaService.disconnect();
 
       // Disconnect SignalR when backend is not reachable
       if (signalRNotificationService.isSignalRConnected()) {
@@ -610,6 +661,85 @@ export const apiStore = defineStore('store', {
       // Clear progress data from the previous instance
       const progressStore = useProgressStore();
       progressStore.clearAll();
+
+      // Clear autofocus data from the previous instance
+      const autofocusStore = useAutofocusStore();
+      autofocusStore.clearAutofocusData();
+
+      // Clear guider graph data and stop polling
+      const guiderStore = useGuiderStore();
+      guiderStore.stopFetching();
+      guiderStore.$patch({
+        RADistanceRaw: [],
+        DECDistanceRaw: [],
+        raDuration: [],
+        decDuration: [],
+        chartInfo: [],
+        phd2Connection: [],
+        phd2Status: [],
+        phd2StarLostInfo: [],
+        phd2StarLost: false,
+        phd2IsConnected: false,
+        phd2StarInfo: null,
+        phd2CalibrationMessage: null,
+        phd2EquipmentProfiles: [],
+        phd2CurrentEquipment: [],
+        phd2Cameras: [],
+        phd2SelectedCameraIndex: null,
+        phd2SelectedCameraName: null,
+        phd2Mounts: [],
+        phd2SelectedMountIndex: null,
+        phd2SelectedMountName: null,
+      });
+
+      // Clear equipment device lists so dropdowns fetch fresh data from the new backend
+      const equipmentStore = useEquipmentStore();
+      equipmentStore.$patch({
+        availableDevices: {
+          camera: [],
+          mount: [],
+          filter: [],
+          focuser: [],
+          rotator: [],
+          guider: [],
+          safety: [],
+          flatdevice: [],
+          dome: [],
+          weather: [],
+          switch: [],
+        },
+      });
+
+      // Clear sequence data from the previous instance
+      const sequenceStore = useSequenceStore();
+      sequenceStore.$patch({
+        sequenceInfo: [],
+        sequenceIsLoaded: false,
+        sequenceRunning: false,
+        targetName: '',
+        lastTargetName: '',
+        imageTargetNames: {},
+        runningItems: [],
+        runningConditions: [],
+        firstLoad: true,
+      });
+
+      // Clear dialog data from the previous instance
+      const dialogStore = useDialogStore();
+      dialogStore.$patch({
+        dialogs: [],
+        dialogCount: 0,
+        meridianFlipData: null,
+        slewAndCenterData: null,
+      });
+
+      // Clear log data from the previous instance
+      const logStore = useLogStore();
+      logStore.$patch({
+        LogsInfo: { logs: [] },
+        focuserData: [],
+        foundPos: 0,
+      });
 
       // Clear livestack state from the previous instance
       const livestackStore = useLivestackStore();

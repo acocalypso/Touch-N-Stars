@@ -429,7 +429,13 @@ async function startAlignment() {
     } else {
       message.ManualMode = tppaStore.settings.ManualMode;
     }
-  } else {
+    if (tppaStore.settings.ExposureTime !== null) {
+      message.ExposureTime = tppaStore.settings.ExposureTime;
+    }
+    if (tppaStore.settings.Gain !== null) {
+      message.Gain = tppaStore.settings.Gain;
+    }
+  } else { // NINA
     //Defines if the direction for the second and third point should be done by moving the mount in east or west direction along the RA axis
     message.EastDirection = tppaStore.settings.EastDirection;
 

@@ -254,7 +254,10 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
         }
       };
       collectDso(this.data);
-      const index = Math.max(0, dsoContainers.findIndex((c) => c.Id === id));
+      const index = Math.max(
+        0,
+        dsoContainers.findIndex((c) => c.Id === id)
+      );
       try {
         await apiService.sequnceTargetSet(name ?? '', raDeg, decDeg, rotation ?? 0, index);
       } catch (e) {

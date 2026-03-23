@@ -23,19 +23,19 @@
         <select
           :value="item.Mode"
           class="ml-auto bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          @change="save('Mode', Number($event.target.value))"
+          @change="save('Mode', $event.target.value)"
         >
-          <option :value="0">
+          <option value="RMS">
             {{ $t('components.sequence.items.interruptWhenRMSAbove.modeRMS') }}
           </option>
-          <option :value="1">
+          <option value="Peak">
             {{ $t('components.sequence.items.interruptWhenRMSAbove.modePeak') }}
           </option>
         </select>
       </div>
 
       <NumberInputPicker
-        v-if="item.Mode === 0"
+        v-if="item.Mode === 'RMS'"
         :modelValue="item.MinimumPoints"
         :label="$t('components.sequence.items.interruptWhenRMSAbove.minimumPoints')"
         labelKey="rms-minpoints"

@@ -243,14 +243,21 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
-      let index = 0;
-      for (const container of this.containers) {
-        const idx = container.Items?.findIndex((i) => i.Id === id) ?? -1;
-        if (idx >= 0) {
-          index = idx;
-          break;
+      const dsoContainers = [];
+      const collectDso = (items) => {
+        for (const item of items ?? []) {
+          if (item.FullTypeName === 'NINA.Sequencer.Container.DeepSkyObjectContainer') {
+            dsoContainers.push(item);
+          } else {
+            collectDso(item.Items);
+          }
         }
-      }
+      };
+      collectDso(this.data);
+      const index = Math.max(
+        0,
+        dsoContainers.findIndex((c) => c.Id === id)
+      );
       try {
         await apiService.sequnceTargetSet(name ?? '', raDeg, decDeg, rotation ?? 0, index);
       } catch (e) {

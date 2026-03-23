@@ -1394,7 +1394,9 @@
         "hotspotFetched": "Załadowano stan hasła hotspotu (configured={configured}, source={source}).",
         "hotspotPasswordTooShort": "Hasło hotspotu musi składać się z co najmniej 8 znaków.",
         "hotspotSaved": "Hasło do hotspotu zostało pomyślnie zaktualizowane: {wiadomość}",
-        "hotspotSaving": "Aktualizuję hasło hotspotu..."
+        "hotspotSaving": "Aktualizuję hasło hotspotu...",
+        "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
+        "wifiDisabled": "WiFi disconnected and hotspot enabled."
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",
@@ -1403,7 +1405,10 @@
       "hotspotPasswordTitle": "Hasło hotspotu",
       "hotspotRefresh": "Odśwież stan hasła hotspotu",
       "hotspotSave": "Zapisz hasło do hotspotu",
-      "hotspotSaving": "Zapisuję hasło do hotspotu..."
+      "hotspotSaving": "Zapisuję hasło do hotspotu...",
+      "wifiDisconnect": "Disconnect WiFi",
+      "disconnectConfirmTitle": "Disconnect WiFi?",
+      "disconnectConfirmMessage": "This will disconnect the current WiFi connection and re-enable the hotspot. Do you want to continue?"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

@@ -161,9 +161,18 @@
         <button
           v-if="selectedSsid"
           class="mt-2 w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-lg shadow-blue-900/20 transition-all disabled:opacity-50"
+          :disabled="disabled"
           @click="$emit('connect-wifi')"
         >
           {{ $t('plugins.pins.wifiConnect') }}
+        </button>
+
+        <button
+          class="w-full py-3 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 text-white font-bold rounded-lg shadow-lg shadow-red-900/20 transition-all disabled:opacity-50"
+          :disabled="disabled"
+          @click="$emit('disconnect-wifi')"
+        >
+          {{ $t('plugins.pins.wifiDisconnect') }}
         </button>
       </div>
 
@@ -299,6 +308,7 @@ defineEmits([
   'toggle-stationary',
   'scan-wifi',
   'connect-wifi',
+  'disconnect-wifi',
   'update:selectedSsid',
   'update:wifiPassword',
   'update:selectedBand',

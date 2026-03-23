@@ -1394,7 +1394,9 @@
         "hotspotFetched": "Status van hotspot-wachtwoord geladen (geconfigureerd={geconfigureerd}, bron={bron}).",
         "hotspotPasswordTooShort": "Hotspotwachtwoord moet minimaal 8 tekens lang zijn.",
         "hotspotSaved": "Hotspot-wachtwoord succesvol bijgewerkt: {message}",
-        "hotspotSaving": "Hotspotwachtwoord bijwerken..."
+        "hotspotSaving": "Hotspotwachtwoord bijwerken...",
+        "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
+        "wifiDisabled": "WiFi disconnected and hotspot enabled."
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -1403,7 +1405,10 @@
       "hotspotPasswordTitle": "Hotspot-wachtwoord",
       "hotspotRefresh": "Vernieuw de status van het hotspot-wachtwoord",
       "hotspotSave": "Hotspot-wachtwoord opslaan",
-      "hotspotSaving": "Hotspotwachtwoord opslaan..."
+      "hotspotSaving": "Hotspotwachtwoord opslaan...",
+      "wifiDisconnect": "Disconnect WiFi",
+      "disconnectConfirmTitle": "Disconnect WiFi?",
+      "disconnectConfirmMessage": "This will disconnect the current WiFi connection and re-enable the hotspot. Do you want to continue?"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

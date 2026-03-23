@@ -262,16 +262,25 @@ async function resetToCurrentTime() {
   const apiTimeString = response.Response;
   console.log('NINA Time fetched:', apiTimeString);
 
-  const match = apiTimeString.match(/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})/);
-  if (!match) return;
+  // Parse full timestamp to preserve timezone (e.g. trailing Z or offset).
+  // If the backend returns no timezone, treat it as UTC to avoid local-time drift.
+  let parsedDate = new Date(apiTimeString);
+  if (Number.isNaN(parsedDate.getTime())) {
+    const match = apiTimeString.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?/);
+    if (!match) return;
 
-  const datePart = match[1];
-  const timePart = match[2];
+    const year = Number(match[1]);
+    const month = Number(match[2]);
+    const day = Number(match[3]);
+    const hours = Number(match[4]);
+    const minutes = Number(match[5]);
+    const seconds = Number(match[6] || 0);
 
-  dateValue.value = datePart; // "2025-11-01"
-  timeValue.value = timePart; // "07:07:04"
+    parsedDate = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds, 0));
+  }
 
-  applyDateTime();
+  dateValue.value = formatDateForInput(parsedDate);
+  timeValue.value = formatTimeForInput(parsedDate);
 
   console.log('Reset to current time:', dateValue.value, timeValue.value);
 

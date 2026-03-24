@@ -26,6 +26,7 @@ export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
+    isPinsCheckDone: false,
     isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
@@ -587,6 +588,7 @@ export const apiStore = defineStore('store', {
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
+      this.isPinsCheckDone = false;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
       this.lastImageStats = null;
@@ -1008,6 +1010,7 @@ export const apiStore = defineStore('store', {
       } else {
         this.isPINS = false;
       }
+      this.isPinsCheckDone = true;
     },
 
     async syncSystemTime() {

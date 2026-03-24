@@ -3,6 +3,13 @@
     v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')"
   />
 
+  <div
+    v-else-if="store.isTnsPluginConnected && !store.isPinsCheckDone"
+    class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center"
+  >
+    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-cyan-400"></div>
+  </div>
+
   <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
     <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">
       <button

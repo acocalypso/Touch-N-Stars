@@ -1397,7 +1397,11 @@
         "hotspotSaving": "Atualizando senha do ponto de acesso...",
         "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
         "wifiDisabled": "WiFi disconnected and hotspot enabled.",
-        "updateCheckFailed": "Failed to check updates: {message}"
+        "updateCheckFailed": "Failed to check updates: {message}",
+        "indi3rdpartyLoadFailed": "Failed to load INDI 3rdparty packages: {message}",
+        "indi3rdpartyInstallStart": "Installing INDI package: {assetName}",
+        "indi3rdpartyInstallSuccess": "INDI package installation finished: {message}",
+        "indi3rdpartyInstallFailed": "INDI package installation failed: {message}"
       },
       "hotspotConfigured": "A senha do ponto de acesso personalizado está configurada.",
       "hotspotNewPassword": "Nova senha do ponto de acesso",
@@ -1418,7 +1422,16 @@
       "noUpdatesAvailable": "No updates available",
       "updatesPackage": "Package",
       "updatesInstalled": "Installed",
-      "updatesLatest": "Latest"
+      "updatesLatest": "Latest",
+      "indi3rdpartyTitle": "INDI 3rdparty Drivers",
+      "indi3rdpartyDescription": "Install additional INDI drivers that are not currently installed.",
+      "indi3rdpartySearch": "Search",
+      "indi3rdpartySearchPlaceholder": "Search drivers (e.g. asi)",
+      "indi3rdpartyRefresh": "Refresh list",
+      "indi3rdpartySelect": "Select driver package",
+      "indi3rdpartyInstall": "Install driver",
+      "indi3rdpartyInstalling": "Installing...",
+      "indi3rdpartyNoDrivers": "No not-installed drivers found."
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

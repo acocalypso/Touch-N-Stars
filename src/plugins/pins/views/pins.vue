@@ -57,6 +57,20 @@
           @save-hotspot="saveHotspotPassword"
         />
 
+        <PinsIndi3rdpartyCard
+          :drivers="indi3rdpartyDrivers"
+          :loading="isIndi3rdpartyLoading"
+          :installing="isIndi3rdpartyInstalling"
+          :search-query="indi3rdpartyQuery"
+          :selected-asset="selectedIndi3rdpartyAsset"
+          :disabled="status === 'Running'"
+          @refresh="loadIndi3rdpartyDrivers"
+          @search="loadIndi3rdpartyDrivers"
+          @install="installIndi3rdpartyDriver"
+          @update:search-query="indi3rdpartyQuery = $event"
+          @update:selected-asset="selectedIndi3rdpartyAsset = $event"
+        />
+
         <!-- System Time Card -->
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
@@ -261,6 +275,7 @@ import PinsTerminalOutput from '../components/PinsTerminalOutput.vue';
 import PinsSambaCard from '../components/PinsSambaCard.vue';
 import PinsPhd2Card from '../components/PinsPhd2Card.vue';
 import PinsWifiCard from '../components/PinsWifiCard.vue';
+import PinsIndi3rdpartyCard from '../components/PinsIndi3rdpartyCard.vue';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -279,6 +294,11 @@ const showDisconnectWifiModal = ref(false);
 const showUpdatesModal = ref(false);
 const isCheckingUpdates = ref(false);
 const updatesCheckResult = ref(null);
+const indi3rdpartyDrivers = ref([]);
+const isIndi3rdpartyLoading = ref(false);
+const isIndi3rdpartyInstalling = ref(false);
+const indi3rdpartyQuery = ref('');
+const selectedIndi3rdpartyAsset = ref('');
 const {
   stationaryMode,
   wifiList,
@@ -328,10 +348,126 @@ watch(
       checkSystemTime();
       loadHotspotPasswordConfig();
       checkUpdates();
+      loadIndi3rdpartyDrivers();
     }
   },
   { immediate: true }
 );
+
+async function loadIndi3rdpartyDrivers() {
+  const ip = getIp();
+  if (!ip || isIndi3rdpartyLoading.value) return;
+
+  isIndi3rdpartyLoading.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/packages/indi3rdparty`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      params: {
+        onlyNotInstalled: true,
+        ...(indi3rdpartyQuery.value?.trim() ? { q: indi3rdpartyQuery.value.trim() } : {}),
+      },
+      timeout: 15000,
+    });
+
+    const packages = response.data?.packages || [];
+    indi3rdpartyDrivers.value = packages;
+
+    if (!packages.some((pkg) => pkg.assetName === selectedIndi3rdpartyAsset.value)) {
+      selectedIndi3rdpartyAsset.value = packages[0]?.assetName || '';
+    }
+  } catch (error) {
+    console.error(error);
+    appendLog(t('plugins.pins.logs.indi3rdpartyLoadFailed', { message: error.message }));
+  } finally {
+    isIndi3rdpartyLoading.value = false;
+  }
+}
+
+async function installIndi3rdpartyDriver() {
+  if (
+    status.value === 'Running' ||
+    isIndi3rdpartyInstalling.value ||
+    !selectedIndi3rdpartyAsset.value
+  ) {
+    return;
+  }
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  status.value = 'Running';
+  pinsStore.setActiveOperation('indi3rdparty');
+  pinsStore.clearTerminalLogs();
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  appendLog(
+    t('plugins.pins.logs.indi3rdpartyInstallStart', {
+      assetName: selectedIndi3rdpartyAsset.value,
+    })
+  );
+
+  isIndi3rdpartyInstalling.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.post(
+      `http://${ip}:${PORT}/packages/indi3rdparty/install`,
+      {
+        assetName: selectedIndi3rdpartyAsset.value,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 30000,
+      }
+    );
+
+    const data = response.data;
+    let returnedJobId;
+
+    if (data && typeof data === 'object' && data.jobId) {
+      returnedJobId = data.jobId;
+    } else if (typeof data === 'string' || typeof data === 'number') {
+      returnedJobId = data;
+    }
+
+    if (returnedJobId) {
+      jobId.value = returnedJobId;
+      appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+      connectWebSocket(ip, returnedJobId);
+    } else {
+      appendLog(
+        t('plugins.pins.logs.indi3rdpartyInstallSuccess', {
+          message: data?.message || JSON.stringify(data),
+        })
+      );
+      status.value = 'Success';
+    }
+
+    await loadIndi3rdpartyDrivers();
+  } catch (error) {
+    console.error(error);
+    status.value = 'Failed';
+    appendLog(t('plugins.pins.logs.indi3rdpartyInstallFailed', { message: error.message }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
+  } finally {
+    isIndi3rdpartyInstalling.value = false;
+  }
+}
 
 async function checkUpdates() {
   const ip = getIp();

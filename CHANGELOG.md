@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App4.8.0] - xxxx-xx-xx
 ### Added
 - Sequence: Set multi targets
+- PINS: GPS Sync option
+- PINS: Time Snyc option
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type
 - Stellarium time fix
+- PINS: Manual Rotator dialog button
 
 ### Added
 - PINS Plugin: Option to disconnect wifi and start hotspot

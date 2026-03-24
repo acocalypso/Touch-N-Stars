@@ -26,6 +26,7 @@ export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
+    isPinsCheckDone: false,
     isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
@@ -587,6 +588,7 @@ export const apiStore = defineStore('store', {
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
+      this.isPinsCheckDone = false;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
       this.lastImageStats = null;
@@ -1000,13 +1002,19 @@ export const apiStore = defineStore('store', {
       return true;
     },
     async checkForPINS() {
-      const pinsVersion = await apiService.fetchPinsVersion();
-      if (pinsVersion && pinsVersion.Response) {
-        this.isPINS = true;
-        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      try {
+        const pinsVersion = await apiService.fetchPinsVersion();
+        if (pinsVersion && pinsVersion.Response) {
+          this.isPINS = true;
+          console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+        } else {
+          this.isPINS = false;
+        }
+      } finally {
+        this.isPinsCheckDone = true;
+      }
+      if (this.isPINS) {
         await this.syncSystemTime();
-      } else {
-        this.isPINS = false;
       }
     },
 

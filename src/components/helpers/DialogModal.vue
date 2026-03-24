@@ -180,7 +180,7 @@ const visibleCommands = computed(() => {
   return currentDialog.value.AvailableCommands.map((cmd, index) => {
     // Map display text: show "ok" for "cancel" on SignalR Plate Solving dialogs
     let displayText = cmd;
-    if (isSignalRPlateSolvingDialog.value && cmd.toLowerCase() === 'cancel') {
+    if (isSignalRRotatorDialog.value && cmd.toLowerCase() === 'cancel') {
       displayText = 'ok';
     }
 

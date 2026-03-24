@@ -13,6 +13,15 @@ const props = defineProps({
 });
 
 const message = computed(() => {
-  return props.dialog?.Content?.Message || '';
+  const d = props.dialog;
+  return (
+    d?.Content?.Message ||
+    d?.Parameters?.Message ||
+    d?.parameters?.Message ||
+    d?.parameters?.message ||
+    d?.Status ||
+    d?.status ||
+    ''
+  );
 });
 </script>

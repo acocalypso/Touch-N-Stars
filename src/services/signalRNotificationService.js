@@ -16,6 +16,7 @@ class SignalRNotificationService {
     this.isConnected = false;
     this.reconnectTimeoutId = null;
     this.url = null;
+    this._connectionId = 0;
   }
 
   setStatusCallback(callback) {
@@ -62,6 +63,15 @@ class SignalRNotificationService {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
 
+      // Invalidate any previous connection's handlers and stop the stale connection
+      this._connectionId++;
+      const connectionId = this._connectionId;
+      if (this.connection) {
+        const stale = this.connection;
+        this.connection = null;
+        stale.stop().catch(() => {});
+      }
+
       const settingsStore = useSettingsStore();
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
@@ -76,6 +86,7 @@ class SignalRNotificationService {
 
         // Event Handler für Notifications
         this.connection.on('ReceiveNotification', (notification) => {
+          if (connectionId !== this._connectionId) return;
           //console.log('[SignalRNotificationService] Received notification:', notification);
 
           const notifObj = {
@@ -106,6 +117,7 @@ class SignalRNotificationService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRNotificationService] SignalR reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
@@ -114,6 +126,7 @@ class SignalRNotificationService {
         });
 
         this.connection.onreconnecting(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRNotificationService] SignalR reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
@@ -122,6 +135,7 @@ class SignalRNotificationService {
         });
 
         this.connection.onclose((error) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRNotificationService] SignalR connection closed', error);
           this.isConnected = false;
 

@@ -18,6 +18,7 @@ class SignalRDialogService {
     this.isConnected = false;
     this.reconnectTimeoutId = null;
     this.url = null;
+    this._connectionId = 0;
   }
 
   setStatusCallback(callback) {
@@ -49,6 +50,15 @@ class SignalRDialogService {
       // Set shouldReconnect to true on each connect attempt
       this.shouldReconnect = true;
 
+      // Invalidate any previous connection's handlers and stop the stale connection
+      this._connectionId++;
+      const connectionId = this._connectionId;
+      if (this.connection) {
+        const stale = this.connection;
+        this.connection = null;
+        stale.stop().catch(() => {});
+      }
+
       const settingsStore = useSettingsStore();
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
@@ -63,6 +73,7 @@ class SignalRDialogService {
 
         // Event Handler for ReceiveDialog
         this.connection.on('ReceiveDialog', (dialogData) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Received dialog:', dialogData);
           if (this.dialogCallback) {
             this.dialogCallback(dialogData);
@@ -71,6 +82,7 @@ class SignalRDialogService {
 
         // Event Handler for ReceiveMeasurement
         this.connection.on('ReceiveMeasurement', (measurement) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Received measurement:', measurement);
           if (this.measurementCallback) {
             this.measurementCallback(measurement);
@@ -79,6 +91,7 @@ class SignalRDialogService {
 
         // Event Handler for ReceiveDialogStatus
         this.connection.on('ReceiveDialogStatus', (status) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Received dialog status:', status);
           if (this.dialogStatusCallback) {
             this.dialogStatusCallback(status);
@@ -87,6 +100,7 @@ class SignalRDialogService {
 
         // Event Handler for ClearDialog
         this.connection.on('ClearDialog', (contentType) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Clear dialog:', contentType);
           if (this.clearDialogCallback) {
             this.clearDialogCallback(contentType);
@@ -95,6 +109,7 @@ class SignalRDialogService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
@@ -103,6 +118,7 @@ class SignalRDialogService {
         });
 
         this.connection.onreconnecting(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
@@ -111,6 +127,7 @@ class SignalRDialogService {
         });
 
         this.connection.onclose((error) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRDialogService] Connection closed', error);
           this.isConnected = false;
 

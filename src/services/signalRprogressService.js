@@ -17,6 +17,7 @@ class SignalRProgressService {
     this.isConnected = false;
     this.reconnectTimeoutId = null;
     this.url = null;
+    this._connectionId = 0;
   }
 
   setStatusCallback(callback) {
@@ -36,6 +37,15 @@ class SignalRProgressService {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
 
+      // Invalidate any previous connection's handlers and stop the stale connection
+      this._connectionId++;
+      const connectionId = this._connectionId;
+      if (this.connection) {
+        const stale = this.connection;
+        this.connection = null;
+        stale.stop().catch(() => {});
+      }
+
       const settingsStore = useSettingsStore();
       const backendHost = settingsStore.connection.ip || window.location.hostname;
 
@@ -50,6 +60,7 @@ class SignalRProgressService {
 
         // Event Handler für Progress Updates
         this.connection.on('ReceiveProgress', (progressMessage) => {
+          if (connectionId !== this._connectionId) return;
           //console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
@@ -81,6 +92,7 @@ class SignalRProgressService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRProgressService] SignalR reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
@@ -92,6 +104,7 @@ class SignalRProgressService {
         });
 
         this.connection.onreconnecting(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRProgressService] SignalR reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
@@ -100,6 +113,7 @@ class SignalRProgressService {
         });
 
         this.connection.onclose((error) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRProgressService] SignalR connection closed', error);
           this.isConnected = false;
 

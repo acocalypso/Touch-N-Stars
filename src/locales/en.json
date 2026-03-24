@@ -13,7 +13,8 @@
     "disable": "Disable",
     "loading": "Loading…",
     "scanning": "Scanning…",
-    "connecting": "Connecting…"
+    "connecting": "Connecting…",
+    "refresh": "Refresh"
   },
   "general": {
     "cancel": "Cancel",
@@ -64,6 +65,19 @@
     "description": "Let's get started with a quick setup",
     "selectLanguage": "Select your language",
     "gpsConfiguration": "GPS Configuration",
+    "currentNinaCoords": "Profile Location",
+    "currentMountCoords": "Mount Location",
+    "syncDirection": "Location Sync Direction",
+    "syncDirectionNosync": "No Sync",
+    "syncDirectionToApplication": "Sync from Mount to Profile",
+    "syncDirectionToTelescope": "Sync from Profile to Mount",
+    "mountNotConnected": "Mount not connected",
+    "coordsNotSupported": "Not supported by driver",
+    "loadingCoords": "Loading…",
+    "coordLat": "Lat",
+    "coordLon": "Long",
+    "coordAlt": "Alt",
+    "coordUnit": "m",
     "completeSetup": "Complete Setup",
     "instanceConfiguration": "N.I.N.A connection details",
     "InfoAppsTitel": "Wiki",
@@ -143,6 +157,15 @@
       "coordinates": "GPS Coordinates",
       "save": "Save",
       "infoSetLocationSync": "Please set location sync to mount first",
+      "coordsMismatchWarning": "Profile and mount coordinates differ.",
+      "timeSync": {
+        "title": "Time Synchronisation",
+        "backendTime": "Backend UTC",
+        "mountTime": "Mount UTC",
+        "syncLabel": "Sync time to mount",
+        "mountNotConnected": "Mount not connected",
+        "notSupported": "Not supported by driver"
+      },
       "connection": "Connection Settings",
       "language": "Language",
       "image": {

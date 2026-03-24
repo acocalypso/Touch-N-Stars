@@ -2532,6 +2532,17 @@ const apiService = {
     }
   },
 
+  //-------------------------------------  Location ---------------------------------------
+  async getTnsLocation() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}location`);
+  },
+
+  async getTnsTime() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}location/time`);
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

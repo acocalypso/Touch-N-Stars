@@ -1002,15 +1002,20 @@ export const apiStore = defineStore('store', {
       return true;
     },
     async checkForPINS() {
-      const pinsVersion = await apiService.fetchPinsVersion();
-      if (pinsVersion && pinsVersion.Response) {
-        this.isPINS = true;
-        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-        await this.syncSystemTime();
-      } else {
-        this.isPINS = false;
+      try {
+        const pinsVersion = await apiService.fetchPinsVersion();
+        if (pinsVersion && pinsVersion.Response) {
+          this.isPINS = true;
+          console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+        } else {
+          this.isPINS = false;
+        }
+      } finally {
+        this.isPinsCheckDone = true;
       }
-      this.isPinsCheckDone = true;
+      if (this.isPINS) {
+        await this.syncSystemTime();
+      }
     },
 
     async syncSystemTime() {

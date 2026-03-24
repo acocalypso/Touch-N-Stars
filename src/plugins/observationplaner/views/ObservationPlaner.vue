@@ -25,7 +25,7 @@
           :disabled="busyLocation"
           :title="tp('tooltips.updateGps')"
         >
-          Standort holen
+          get location
         </button>
       </div>
     </div>
@@ -52,7 +52,7 @@
 
         <div class="grid grid-cols-2 gap-2">
           <label class="text-xs text-gray-300">
-            Start (lokal)
+            Start (local)
             <input
               class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
               type="datetime-local"
@@ -60,7 +60,7 @@
             />
           </label>
           <label class="text-xs text-gray-300">
-            Ende (lokal)
+            End (local)
             <input
               class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
               type="datetime-local"
@@ -82,7 +82,7 @@
             />
           </label>
 
-          <div class="text-xs text-gray-500">{{ sampleCount }} Punkte</div>
+          <div class="text-xs text-gray-500">{{ sampleCount }} points</div>
         </div>
       </div>
 
@@ -141,7 +141,7 @@
               class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
               :class="onlyAboveHorizon ? 'bg-emerald-600' : 'bg-gray-700'"
               @click="onlyAboveHorizon = !onlyAboveHorizon"
-              title="Filtert Ziele mit maxAlt <= 0° raus"
+              title="filter targets with maxAlt <= 0° raus"
             >
               <span
                 class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
@@ -154,7 +154,7 @@
         <div class="mt-3 pt-3 border-t border-gray-800">
           <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
           <div class="text-sm text-gray-100">
-            <span v-if="moonIllumPct != null">{{ moonIllumPct }}% beleuchtet</span>
+              <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
             <span v-else class="text-gray-500">—</span>
             <span class="text-gray-400"> · </span>
             <span v-if="currentMoonData?.separationDeg != null"
@@ -171,20 +171,18 @@
       <div class="flex items-center justify-between">
         <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
         <div class="text-xs text-gray-400">
-          {{ filteredTargets.length }} / {{ targets.length }} Ziele · Anzeige:
+          {{ filteredTargets.length }} / {{ targets.length }} targets · display:
           {{ displayedTargets.length }}
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <label class="text-xs text-gray-300">
-          Suche
-          <input
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="q"
-            placeholder="M42, Andromeda, NGC..."
-          />
-        </label>
+          <label class="text-xs text-gray-300">
+              Search by name
+              <input class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                     v-model="q"
+                     placeholder="M42, Andromeda, NGC..." />
+          </label>
 
         <label class="text-xs text-gray-300">
           Objekt-Typ
@@ -198,11 +196,11 @@
         </label>
 
         <label class="text-xs text-gray-300">
-          Himmelrichtung (Azimut-Sektor)
+          direction (Azimut-Sector)
           <select
             class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
             v-model="sectorFilter"
-            title="Filtert nach bestAzDeg (Azimut beim höchsten Altitude im Fenster)"
+            title="Filters by bestAzDeg (azimuth at the highest altitude in the window)"
           >
             <option value="">{{ tp('common.all') }}</option>
             <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
@@ -212,7 +210,7 @@
         </label>
 
         <label class="text-xs text-gray-300">
-          Sortierung
+          Sort order
           <select
             class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
             v-model="sortMode"
@@ -225,7 +223,7 @@
       </div>
 
       <div v-if="!hasSite" class="text-xs text-amber-300">
-        Hinweis: Ohne Standort können Altitude/Direction Filter & Charts nicht berechnet werden.
+          Note: Altitude/Direction filters and charts cannot be calculated without a location.
       </div>
     </div>
 
@@ -245,14 +243,14 @@
           :key="p._id"
           class="text-left px-3 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-900 border border-gray-700 text-gray-100"
           @click="openInFramingAssistant(p)"
-          :title="`Framing öffnen · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
+          :title="`open Framing · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
         >
           <div class="flex items-center justify-between gap-2">
             <div class="truncate font-semibold">{{ p.name }}</div>
             <div class="text-[11px] text-gray-300">{{ tonightLabel(p.tonightScore) }}</div>
           </div>
           <div class="mt-1 text-[11px] text-gray-400">
-            MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h sichtbar
+            MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h vidible
           </div>
         </button>
       </div>
@@ -304,7 +302,7 @@
                 class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
                 @click="reloadPreview(t)"
                 :disabled="busyPreview[t._id]"
-                title="Preview neu laden"
+                title="reload Preview"
               >
                 Reload
               </button>
@@ -395,7 +393,7 @@
                 v-if="t._showHint"
                 class="absolute left-3 right-3 bottom-3 translate-y-12 lg:translate-y-0 lg:bottom-14 rounded-lg bg-black/80 border border-gray-700 p-2 text-[11px] text-gray-200"
               >
-                Lädt DSS/TargetPic über TNS WebAPI. Cache Toggle steuert useCache.
+                Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
               </div>
             </div>
 
@@ -414,7 +412,7 @@
                   class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
                   @click="drawOneChart(t)"
                   :disabled="!t.track || !hasSite"
-                  title="Chart neu zeichnen"
+                  title="redraw Chart"
                 >
                   Redraw
                 </button>
@@ -431,8 +429,8 @@
                 class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
                 @click="slewOnly(t)"
                 :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                title="Slew (ohne Center)"
-                aria-label="Slew (ohne Center)"
+                title="Slew only"
+                aria-label="Slew only"
               >
                 <ArrowUpRightIcon class="w-5 h-5" />
                 <span class="hidden md:inline text-xs font-semibold">{{ tp('buttons.slew') }}</span>
@@ -458,7 +456,7 @@
                 @click="openInFramingAssistant(t)"
                 :disabled="!canOpenFraming(t)"
                 title="Framing Assistant öffnen"
-                aria-label="Framing Assistant öffnen"
+                aria-label="open Framing Assistant"
               >
                 <RectangleGroupIcon class="w-5 h-5" />
                 <span class="hidden md:inline text-xs font-semibold">{{
@@ -476,8 +474,8 @@
                     sequenceStore.sequenceInfo.length > 0
                   )
                 "
-                title="An Sequencer übergeben"
-                aria-label="An Sequencer übergeben"
+                title="to Sequencer"
+                aria-label="send to Sequencer"
               >
                 <QueueListIcon class="w-5 h-5" />
                 <span class="hidden md:inline text-xs font-semibold">{{
@@ -497,7 +495,7 @@
       </div>
 
       <div v-if="!targets.length && !busy" class="text-sm text-gray-400">
-        Keine Favoriten gefunden.
+        no favorites found.
       </div>
 
       <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
@@ -643,14 +641,24 @@ const lazyPreviews = ref(true);
 // Window defaults: today evening -> tomorrow morning
 const windowStart = ref(defaultStart());
 const windowEnd = ref(defaultEnd());
-const currentMoonData = {
-  illumination: 0.35,
-  separationDeg: 95,
-};
+
+// Global moon data for the current planning window.
+// - illumination: evaluated at the window midpoint
+// - separationDeg: shown for the selected target when available,
+//   otherwise for the best "tonight pick", otherwise null
+const currentMoonData = computed(() => {
+  const midpoint = new Date((windowStart.value.getTime() + windowEnd.value.getTime()) / 2);
+  const moonNow = getMoonDataForTarget(
+    selectedMoonTarget.value?.raDeg ?? null,
+    selectedMoonTarget.value?.decDeg ?? null,
+    midpoint
+  );
+  return moonNow;
+});
 
 // Derived moon values (used in template to avoid unused-var warnings)
 const moonIllumPct = computed(() => {
-  const v = Number(currentMoonData?.illumination);
+  const v = Number(currentMoonData.value?.illumination);
   return Number.isFinite(v) ? Math.round(v * 100) : null;
 });
 
@@ -733,14 +741,14 @@ const typeOptions = computed(() => {
 });
 
 const sectorOptions = [
-  { value: 'N-NE', label: 'Nord → Nordost (315°–45°)' },
-  { value: 'NE-E', label: 'Nordost → Ost (45°–90°)' },
-  { value: 'E-SE', label: 'Ost → Südost (90°–135°)' },
-  { value: 'SE-S', label: 'Südost → Süd (135°–180°)' },
-  { value: 'S-SW', label: 'Süd → Südwest (180°–225°)' },
-  { value: 'SW-W', label: 'Südwest → West (225°–270°)' },
-  { value: 'W-NW', label: 'West → Nordwest (270°–315°)' },
-  { value: 'NW-N', label: 'Nordwest → Nord (315°–360°)' },
+  { value: 'N-NE', label: 'North → Northeast (315°–45°)' },
+  { value: 'NE-E', label: 'Northeast → East (45°–90°)' },
+  { value: 'E-SE', label: 'East → Southeast (90°–135°)' },
+  { value: 'SE-S', label: 'Southeast → South (135°–180°)' },
+  { value: 'S-SW', label: 'South → Southwest (180°–225°)' },
+  { value: 'SW-W', label: 'Southwest → West (225°–270°)' },
+  { value: 'W-NW', label: 'West → Northwest (270°–315°)' },
+  { value: 'NW-N', label: 'Northwest → North (315°–360°)' },
 ];
 
 const sampleCount = computed(() => {
@@ -794,6 +802,17 @@ const filteredTargets = computed(() => {
 const displayedTargets = computed(() => {
   const lim = Math.max(1, limit.value || 20);
   return (filteredTargets.value || []).filter(Boolean).slice(0, lim);
+});
+
+const selectedMoonTarget = computed(() => {
+  const selected = targets.value.find((t) => isSelected(t));
+  if (selected?.raDeg != null && selected?.decDeg != null) return selected;
+
+  const bestPick = tonightPicks.value?.[0];
+  if (bestPick?.raDeg != null && bestPick?.decDeg != null) return bestPick;
+
+  const firstDisplayed = displayedTargets.value?.find((t) => t?.raDeg != null && t?.decDeg != null);
+  return firstDisplayed ?? null;
 });
 
 // --------------------------
@@ -961,9 +980,14 @@ async function recomputeAll() {
         const visibleSamples = samples.filter((s) => (s?.altDeg ?? -999) >= MIN_ALT).length;
         nt.visibleHours = (visibleSamples * sm) / 60;
 
-        nt.tonightScore = calculateTonightScore(nt, null);
+        nt.moonData = getMoonDataForTarget(
+          nt.raDeg,
+          nt.decDeg,
+          tr.best?.time ?? windowStart.value
+        );
+        nt.tonightScore = calculateTonightScore(nt, nt.moonData);
       } catch (e) {
-        nt._error = 'Track-Berechnung fehlgeschlagen';
+        nt._error = 'Track-calculation failed';
         console.warn('buildTrack failed:', e);
       }
       return nt;
@@ -1028,7 +1052,7 @@ async function openInFramingAssistant(t) {
   // Guard: valid coordinates required
   if (!t || !Number.isFinite(t.raDeg) || !Number.isFinite(t.decDeg)) {
     mountMsg[t?._id] = '';
-    mountErr[t?._id] = 'Ungültige Koordinaten (RA/DEC fehlen)';
+    mountErr[t?._id] = 'invalid Coordinates (RA/DEC missing)';
     return;
   }
 
@@ -1051,7 +1075,7 @@ async function openInFramingAssistant(t) {
     // 2) open View
     framingStore.showFramingModal = true;
 
-    mountMsg[t._id] = 'Framing Assistant geöffnet';
+    mountMsg[t._id] = 'Framing Assistant is open';
   } catch (e) {
     mountMsg[t._id] = '';
     mountErr[t._id] = extractErr(e, 'Open framing failed');
@@ -1099,7 +1123,7 @@ async function ensurePreview(t) {
   if (!t || t.previewUrl || t.previewError) return;
   // if no coordinates -> no preview
   if (t.raDeg == null || t.decDeg == null) {
-    t.previewError = 'Keine Koordinaten';
+    t.previewError = 'no Coordinates';
     return;
   }
   await loadPreview(t);
@@ -1148,7 +1172,7 @@ async function loadPreview(t) {
 }
 
 function onPreviewError(t) {
-  t.previewError = 'Bild konnte nicht geladen werden';
+  t.previewError = 'could not load Image';
   // optional: if blob url broken, release
   if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
     try {
@@ -1172,6 +1196,15 @@ function drawAllVisibleCharts() {
 
 function drawOneChart(t) {
   if (!t?.track || !hasSite.value) return;
+
+  const samples = Array.isArray(t.track.samples)
+    ? t.track.samples
+    : Array.isArray(t.track.points)
+      ? t.track.points
+      : [];
+
+  if (!samples.length) return;
+
   const canvas = canvasRefs[t._id];
   if (!canvas) {
     // canvas might not be mounted yet; schedule once
@@ -1179,7 +1212,8 @@ function drawOneChart(t) {
     drawTimers[t._id] = setTimeout(() => drawOneChart(t), 60);
     return;
   }
-  drawAltitudeChart(canvas, t.track.points, windowStart.value, windowEnd.value, t.track.best);
+
+  drawAltitudeChart(canvas, samples, windowStart.value, windowEnd.value, t.track.best);
 }
 // --------------------------
 // Data normalization
@@ -1266,6 +1300,7 @@ function normalizeFavorites(list) {
       bestAzDeg: null,
       visibleHours: null,
       tonightScore: 0,
+      moonData: null,
 
       _error: '',
     };
@@ -1288,6 +1323,139 @@ function hashString(str) {
     h |= 0;
   }
   return Math.abs(h);
+}
+
+// --------------------------
+// Sun/Moon helpers
+// --------------------------
+function normalizeDeg360(deg) {
+  return ((deg % 360) + 360) % 360;
+}
+
+function daysSinceJ2000(date) {
+  return toJulianDate(date) - 2451545.0;
+}
+
+function eclipticToEquatorial(lambdaDeg, betaDeg, date) {
+  const epsDeg = 23.439291 - 0.00000036 * daysSinceJ2000(date);
+
+  const lambda = toRad(lambdaDeg);
+  const beta = toRad(betaDeg);
+  const eps = toRad(epsDeg);
+
+  const sinDec =
+    Math.sin(beta) * Math.cos(eps) + Math.cos(beta) * Math.sin(eps) * Math.sin(lambda);
+  const dec = Math.asin(clamp(sinDec, -1, 1));
+
+  const y = Math.sin(lambda) * Math.cos(eps) - Math.tan(beta) * Math.sin(eps);
+  const x = Math.cos(lambda);
+  const ra = Math.atan2(y, x);
+
+  return {
+    raDeg: normalizeDeg360(toDeg(ra)),
+    decDeg: toDeg(dec),
+  };
+}
+
+function getSunEquatorial(date) {
+  const d = daysSinceJ2000(date);
+  const M = normalizeDeg360(357.52911 + 0.98560028 * d);
+  const L0 = normalizeDeg360(280.46646 + 0.98564736 * d);
+
+  const C =
+    1.914602 * Math.sin(toRad(M)) +
+    0.019993 * Math.sin(toRad(2 * M)) +
+    0.000289 * Math.sin(toRad(3 * M));
+
+  const lambda = normalizeDeg360(L0 + C);
+  return eclipticToEquatorial(lambda, 0, date);
+}
+
+function getMoonEquatorial(date) {
+  const d = daysSinceJ2000(date);
+
+  const L0 = normalizeDeg360(218.316 + 13.176396 * d);
+  const M_moon = normalizeDeg360(134.963 + 13.064993 * d);
+  const M_sun = normalizeDeg360(357.529 + 0.98560028 * d);
+  const D = normalizeDeg360(297.850 + 12.190749 * d);
+  const F = normalizeDeg360(93.272 + 13.22935 * d);
+
+  const lon =
+    L0 +
+    6.289 * Math.sin(toRad(M_moon)) +
+    1.274 * Math.sin(toRad(2 * D - M_moon)) +
+    0.658 * Math.sin(toRad(2 * D)) +
+    0.214 * Math.sin(toRad(2 * M_moon)) -
+    0.186 * Math.sin(toRad(M_sun)) -
+    0.059 * Math.sin(toRad(2 * D - 2 * M_moon)) -
+    0.057 * Math.sin(toRad(2 * D - M_sun - M_moon)) +
+    0.053 * Math.sin(toRad(2 * D + M_moon)) +
+    0.046 * Math.sin(toRad(2 * D - M_sun)) +
+    0.041 * Math.sin(toRad(M_sun - M_moon)) -
+    0.035 * Math.sin(toRad(D)) -
+    0.031 * Math.sin(toRad(M_sun + M_moon)) -
+    0.015 * Math.sin(toRad(2 * F - 2 * D)) +
+    0.011 * Math.sin(toRad(M_moon - 4 * D));
+
+  const lat =
+    5.128 * Math.sin(toRad(F)) +
+    0.28 * Math.sin(toRad(M_moon + F)) +
+    0.277 * Math.sin(toRad(M_moon - F)) +
+    0.173 * Math.sin(toRad(2 * D - F)) +
+    0.055 * Math.sin(toRad(2 * D + F - M_moon)) +
+    0.046 * Math.sin(toRad(2 * D - F - M_moon)) +
+    0.033 * Math.sin(toRad(2 * D + F)) +
+    0.017 * Math.sin(toRad(2 * M_moon + F));
+
+  return eclipticToEquatorial(normalizeDeg360(lon), lat, date);
+}
+
+function angularSeparationDeg(ra1Deg, dec1Deg, ra2Deg, dec2Deg) {
+  if (![ra1Deg, dec1Deg, ra2Deg, dec2Deg].every(Number.isFinite)) return null;
+
+  const ra1 = toRad(ra1Deg);
+  const dec1 = toRad(dec1Deg);
+  const ra2 = toRad(ra2Deg);
+  const dec2 = toRad(dec2Deg);
+
+  const cosSep =
+    Math.sin(dec1) * Math.sin(dec2) +
+    Math.cos(dec1) * Math.cos(dec2) * Math.cos(ra1 - ra2);
+
+  return toDeg(Math.acos(clamp(cosSep, -1, 1)));
+}
+
+function getMoonIllumination(date) {
+  const sun = getSunEquatorial(date);
+  const moon = getMoonEquatorial(date);
+  const elongationDeg = angularSeparationDeg(sun.raDeg, sun.decDeg, moon.raDeg, moon.decDeg);
+
+  // Fraction illuminated: 0=new moon, 1=full moon
+  const illumination =
+    elongationDeg == null ? null : (1 - Math.cos(toRad(elongationDeg))) / 2;
+
+  return {
+    illumination,
+    sun,
+    moon,
+    elongationDeg,
+  };
+}
+
+function getMoonDataForTarget(targetRaDeg, targetDecDeg, date) {
+  const { illumination, moon } = getMoonIllumination(date);
+  const separationDeg =
+    Number.isFinite(targetRaDeg) && Number.isFinite(targetDecDeg)
+      ? angularSeparationDeg(targetRaDeg, targetDecDeg, moon.raDeg, moon.decDeg)
+      : null;
+
+  return {
+    illumination,
+    separationDeg,
+    moonRaDeg: moon.raDeg,
+    moonDecDeg: moon.decDeg,
+    at: date instanceof Date ? date.toISOString() : null,
+  };
 }
 
 // --------------------------
@@ -1542,6 +1710,7 @@ const seedTargetsNormalized = computed(() => {
       bestAzDeg: null,
       visibleHours: null,
       tonightScore: 0,
+      moonData: null,
       _error: '',
     };
   });

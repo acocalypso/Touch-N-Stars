@@ -3,10 +3,10 @@
     "",
     "\\src",
     "\\src\\plugins",
-    "\\src\\plugins\\platesolveplus",
-    "\\src\\plugins\\platesolveplus\\components",
-    "\\src\\plugins\\platesolveplus\\components\\platesolveplus",
-    "\\src\\plugins\\platesolveplus\\views"
+    "\\src\\plugins\\observationplaner",
+    "\\src\\plugins\\observationplaner\\views",
+    "\\src\\router"
   ],
+  "SelectedNode": "\\src\\plugins\\observationplaner\\plugin.json",
   "PreviewInSolutionExplorer": false
 }

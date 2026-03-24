@@ -6,7 +6,7 @@
     :min="0"
     :max="9999"
     :step="0.1"
-    :decimalPlaces="0"
+    :decimalPlaces="1"
     inputId="max-exposure-time"
   />
 </template>

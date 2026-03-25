@@ -273,7 +273,8 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import { getAvailableLanguages } from '@/i18n';
+import { getAvailableLanguages, getBackendLanguageCode } from '@/i18n';
+import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import {
@@ -333,9 +334,14 @@ watchEffect(() => {
 });
 
 // Watch language changes
-const changeLanguage = (newLanguage) => {
+const changeLanguage = async (newLanguage) => {
   locale.value = newLanguage;
   settingsStore.setLanguage(newLanguage);
+
+  const backendCode = getBackendLanguageCode(newLanguage);
+  if (backendCode && store.isBackendReachable) {
+    await apiService.setLanguage(backendCode);
+  }
 };
 
 const onToggleKeepAwake = async (value) => {

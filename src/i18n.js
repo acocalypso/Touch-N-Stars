@@ -10,6 +10,23 @@ import es from './locales/es.json';
 import pl from './locales/pl.json';
 import nl from './locales/nl.json';
 
+const languageToBackendCode = {
+  en: 'en-GB',
+  de: 'de-DE',
+  fr: 'fr-FR',
+  it: 'it-IT',
+  cz: 'cs-CZ',
+  cn: 'zh-CN',
+  pt: 'pt-PT',
+  es: 'es-ES',
+  pl: 'pl-PL',
+  nl: 'nl-NL',
+};
+
+export function getBackendLanguageCode(frontendCode) {
+  return languageToBackendCode[frontendCode] ?? null;
+}
+
 // Available languages with their display names
 const availableLanguages = [
   { code: 'en', name: 'English' },

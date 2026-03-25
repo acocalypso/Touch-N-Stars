@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
     <!-- GPS Coordinates -->
-    <template v-if="store.isPINS">
+    <template v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')">
       <LocationSettingsPins />
     </template>
     <template v-else>

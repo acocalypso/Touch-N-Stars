@@ -13,7 +13,8 @@
     "disable": "Desativar",
     "loading": "Carregando…",
     "scanning": "Digitalizando…",
-    "connecting": "Conectando…"
+    "connecting": "Conectando…",
+    "refresh": "Atualizar"
   },
   "general": {
     "cancel": "Cancelar",
@@ -67,7 +68,20 @@
     "completeSetup": "Configuração Completa",
     "instanceConfiguration": "Detalhes da conexão N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Você pode encontrar instruções detalhadas em nosso wiki"
+    "check_wki": "Você pode encontrar instruções detalhadas em nosso wiki",
+    "coordAlt": "Alt.",
+    "coordLat": "Lat.",
+    "coordLon": "Longo",
+    "coordUnit": "eu",
+    "coordsNotSupported": "Não suportado pelo driver",
+    "currentMountCoords": "Localização da montagem",
+    "currentNinaCoords": "Localização do perfil",
+    "loadingCoords": "Carregando…",
+    "mountNotConnected": "Montagem não conectada",
+    "syncDirection": "Direção de sincronização de localização",
+    "syncDirectionNosync": "Sem sincronização",
+    "syncDirectionToApplication": "Sincronizar da montagem para o perfil",
+    "syncDirectionToTelescope": "Sincronizar do perfil para a montagem"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "As coordenadas de perfil e montagem são diferentes.",
+      "timeSync": {
+        "backendTime": "Back-end UTC",
+        "mountNotConnected": "Montagem não conectada",
+        "mountTime": "Montar UTC",
+        "notSupported": "Não suportado pelo driver",
+        "syncLabel": "Sincronize o tempo para montar",
+        "title": "Sincronização de horário"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Duração",
+      "estimated": "Husa.",
+      "filter": "Filtro",
+      "focuser_position": "Posição",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Domo",

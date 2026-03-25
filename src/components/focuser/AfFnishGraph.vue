@@ -3,9 +3,31 @@
     <div>
       <canvas ref="chartCanvas" class="w-full h-72 md:h-96 xl:h-[600px]"></canvas>
     </div>
-    <div v-show="timestamp.length > 0" class="text-center mt-4">
+    <div v-show="timestamp.length > 0" class="text-center mt-4 space-y-1">
       <p>{{ timestamp }}</p>
       <p v-show="temperature != null">{{ temperature }}°C</p>
+      <template v-if="afRunData">
+        <p v-show="afRunData.filter">
+          {{ $t('components.focuser.filter') }}: {{ afRunData.filter }}
+        </p>
+        <p>
+          {{ $t('components.focuser.hfr') }}: {{ afRunData.initialHFR }} &rarr;
+          {{ afRunData.finalHFR
+          }}<span v-show="afRunData.estimatedFinalHFR">
+            ({{ $t('components.focuser.estimated') }}: {{ afRunData.estimatedFinalHFR }})</span
+          >
+        </p>
+        <p>
+          {{ $t('components.focuser.focuser_position') }}: {{ afRunData.initialPos }} &rarr;
+          {{ afRunData.finalPos }}
+        </p>
+        <p v-show="afRunData.duration != null">
+          {{ $t('components.focuser.duration_seconds') }}: {{ afRunData.duration }}s
+        </p>
+        <template v-if="afRunData.rSquares && afRunData.rSquaredValue != null">
+          <p>R&sup2;: {{ afRunData.rSquaredValue }}</p>
+        </template>
+      </template>
     </div>
   </div>
 </template>
@@ -22,6 +44,7 @@ Chart.register(...registerables);
 const chartCanvas = ref(null);
 const timestamp = ref(''); // Timestamp für die Anzeige
 const temperature = ref();
+const afRunData = ref(null); // extra HocusFocus AF stats (null when unavailable)
 const store = apiStore();
 let chartInstance = null;
 let fetchInterval = null;
@@ -162,6 +185,44 @@ async function fetchLastAf() {
           : [];
 
       chartInstance.update();
+    }
+    // Try to enrich with HocusFocus last-run data (silently degrades if unavailable)
+    try {
+      const hfData = await apiService.hocusfocus.getLastAutoFocusRun();
+      if (hfData?.Success) {
+        afRunData.value = {
+          initialHFR: hfData.InitialHFR != null ? parseFloat(hfData.InitialHFR).toFixed(2) : null,
+          finalHFR: hfData.FinalHFR != null ? parseFloat(hfData.FinalHFR).toFixed(2) : null,
+          estimatedFinalHFR:
+            hfData.EstimatedFinalHFR != null && !isNaN(parseFloat(hfData.EstimatedFinalHFR))
+              ? parseFloat(hfData.EstimatedFinalHFR).toFixed(2)
+              : null,
+          initialPos: hfData.InitialFocuserPosition,
+          finalPos: hfData.FinalFocuserPosition,
+          duration:
+            hfData.DurationSeconds != null ? parseFloat(hfData.DurationSeconds).toFixed(1) : null,
+          filter: hfData.Filter || null,
+          fitting: hfData.Fitting || null,
+          rSquares: hfData.RSquares || null,
+          rSquaredValue: (() => {
+            const rs = hfData.RSquares;
+            if (!rs) return null;
+            const f = (hfData.Fitting || '').toUpperCase();
+            let raw;
+            if (f.includes('HYPERBOLIC')) raw = rs.Hyperbolic;
+            else if (f.includes('PARABOLIC') || f.includes('QUADRATIC')) raw = rs.Quadratic;
+            else if (f.includes('TREND'))
+              raw = Math.max(parseFloat(rs.LeftTrend) || 0, parseFloat(rs.RightTrend) || 0);
+            else raw = rs.Hyperbolic ?? rs.Quadratic ?? rs.LeftTrend;
+            const n = parseFloat(raw);
+            return !isNaN(n) && n > 0 ? n.toFixed(4) : null;
+          })(),
+        };
+      } else {
+        afRunData.value = null;
+      }
+    } catch {
+      afRunData.value = null;
     }
   } catch (error) {
     console.error('Error fetching data:', error);

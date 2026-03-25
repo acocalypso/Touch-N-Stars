@@ -862,6 +862,11 @@
       "autofocus_active": "Autofocus active",
       "autofocus": "Autofocus",
       "last_autofocus": "Last autofocus",
+      "hfr": "HFR",
+      "focuser_position": "Position",
+      "duration_seconds": "Duration",
+      "filter": "Filter",
+      "estimated": "est.",
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
         "AutoFocusStepSize": "Step Size",

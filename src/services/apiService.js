@@ -2920,6 +2920,17 @@ const apiService = {
       }
     },
 
+    async getLastAutoFocusRun() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}hocusfocus/autofocus/last-run`);
+        return response.data;
+      } catch (error) {
+        // Not available without HocusFocus plugin — silently return null
+        return null;
+      }
+    },
+
     async browseDirectories(path = null) {
       try {
         const { API_URL } = getUrls();

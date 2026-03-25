@@ -13,7 +13,8 @@
     "disable": "Désactiver",
     "loading": "Chargement…",
     "scanning": "Balayage…",
-    "connecting": "De liaison…"
+    "connecting": "De liaison…",
+    "refresh": "Rafraîchir"
   },
   "general": {
     "cancel": "Annuler",
@@ -67,7 +68,20 @@
     "completeSetup": "Paramétrage terminé",
     "instanceConfiguration": "détails de connexion N.I.N.A.",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Vous pouvez trouver des instructions détaillées dans notre wiki"
+    "check_wki": "Vous pouvez trouver des instructions détaillées dans notre wiki",
+    "coordAlt": "Alt",
+    "coordLat": "latitude",
+    "coordLon": "Long",
+    "coordUnit": "m",
+    "coordsNotSupported": "Non pris en charge par le pilote",
+    "currentMountCoords": "Emplacement du montage",
+    "currentNinaCoords": "Emplacement du profil",
+    "loadingCoords": "Chargement…",
+    "mountNotConnected": "Support non connecté",
+    "syncDirection": "Direction de synchronisation de localisation",
+    "syncDirectionNosync": "Pas de synchronisation",
+    "syncDirectionToApplication": "Synchroniser du support au profil",
+    "syncDirectionToTelescope": "Synchroniser du profil vers la monture"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "Les coordonnées du profil et de la monture diffèrent.",
+      "timeSync": {
+        "backendTime": "UTC du back-end",
+        "mountNotConnected": "Support non connecté",
+        "mountTime": "Mont UTC",
+        "notSupported": "Non pris en charge par le pilote",
+        "syncLabel": "Temps de synchronisation pour monter",
+        "title": "Synchronisation du temps"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Durée",
+      "estimated": "HNE.",
+      "filter": "Filtre",
+      "focuser_position": "Position",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Dôme",

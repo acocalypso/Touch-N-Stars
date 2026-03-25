@@ -13,7 +13,8 @@
     "disable": "Desactivar",
     "loading": "Cargando…",
     "scanning": "Exploración…",
-    "connecting": "Conectando…"
+    "connecting": "Conectando…",
+    "refresh": "Refrescar"
   },
   "general": {
     "cancel": "Cancelar",
@@ -67,7 +68,20 @@
     "completeSetup": "Configuración Completada",
     "instanceConfiguration": "Detalles de conexión N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Puedes encontrar instrucciones detalladas en nuestra wiki"
+    "check_wki": "Puedes encontrar instrucciones detalladas en nuestra wiki",
+    "coordAlt": "Alt.",
+    "coordLat": "Latitud",
+    "coordLon": "Largo",
+    "coordUnit": "metro",
+    "coordsNotSupported": "No soportado por el conductor",
+    "currentMountCoords": "Ubicación del montaje",
+    "currentNinaCoords": "Ubicación del perfil",
+    "loadingCoords": "Cargando…",
+    "mountNotConnected": "Montaje no conectado",
+    "syncDirection": "Dirección de sincronización de ubicación",
+    "syncDirectionNosync": "Sin sincronización",
+    "syncDirectionToApplication": "Sincronización desde el soporte al perfil",
+    "syncDirectionToTelescope": "Sincronizar desde el perfil al montaje"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "Las coordenadas de perfil y montaje difieren.",
+      "timeSync": {
+        "backendTime": "UTC de fondo",
+        "mountNotConnected": "Montaje no conectado",
+        "mountTime": "Monte UTC",
+        "notSupported": "No soportado por el conductor",
+        "syncLabel": "Sincronizar la hora para montar",
+        "title": "Sincronización horaria"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Duración",
+      "estimated": "est.",
+      "filter": "Filtrar",
+      "focuser_position": "Posición",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Cúpula",

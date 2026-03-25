@@ -13,7 +13,8 @@
     "disable": "Disabilita",
     "loading": "Caricamento…",
     "scanning": "Scansione…",
-    "connecting": "Connessione…"
+    "connecting": "Connessione…",
+    "refresh": "Aggiorna"
   },
   "general": {
     "cancel": "Annulla",
@@ -67,7 +68,20 @@
     "completeSetup": "Completa Configurazione",
     "instanceConfiguration": "Dettagli connessione N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Puoi trovare istruzioni dettagliate nel nostro wiki"
+    "check_wki": "Puoi trovare istruzioni dettagliate nel nostro wiki",
+    "coordAlt": "Alt",
+    "coordLat": "lat",
+    "coordLon": "Lungo",
+    "coordUnit": "M",
+    "coordsNotSupported": "Non supportato dal driver",
+    "currentMountCoords": "Posizione del monte",
+    "currentNinaCoords": "Posizione del profilo",
+    "loadingCoords": "Caricamento…",
+    "mountNotConnected": "Montatura non connessa",
+    "syncDirection": "Direzione della sincronizzazione della posizione",
+    "syncDirectionNosync": "Nessuna sincronizzazione",
+    "syncDirectionToApplication": "Sincronizza dal supporto al profilo",
+    "syncDirectionToTelescope": "Sincronizza dal profilo al supporto"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "Le coordinate del profilo e della montatura differiscono.",
+      "timeSync": {
+        "backendTime": "Back-end UTC",
+        "mountNotConnected": "Montatura non connessa",
+        "mountTime": "Monte UTC",
+        "notSupported": "Non supportato dal driver",
+        "syncLabel": "Sincronizza il tempo per montare",
+        "title": "Sincronizzazione dell'ora"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Durata",
+      "estimated": "est.",
+      "filter": "Filtro",
+      "focuser_position": "Posizione",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Cupola",

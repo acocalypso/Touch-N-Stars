@@ -13,7 +13,8 @@
     "disable": "Deaktivieren",
     "loading": "Laden…",
     "scanning": "Scannen…",
-    "connecting": "Verbinden…"
+    "connecting": "Verbinden…",
+    "refresh": "Aktualisieren"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -67,7 +68,20 @@
     "completeSetup": "Einrichtung abschließen",
     "instanceConfiguration": "N.I.N.A Verbindungsdetails",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitungen"
+    "check_wki": "In unserem Wiki finden Sie detaillierte Anleitungen",
+    "coordAlt": "Alt",
+    "coordLat": "Lat",
+    "coordLon": "Lang",
+    "coordUnit": "M",
+    "coordsNotSupported": "Wird vom Treiber nicht unterstützt",
+    "currentMountCoords": "Montageort",
+    "currentNinaCoords": "Profilstandort",
+    "loadingCoords": "Laden…",
+    "mountNotConnected": "Halterung nicht angeschlossen",
+    "syncDirection": "Richtung der Standortsynchronisierung",
+    "syncDirectionNosync": "Keine Synchronisierung",
+    "syncDirectionToApplication": "Vom Mount zum Profil synchronisieren",
+    "syncDirectionToTelescope": "Vom Profil zum Mount synchronisieren"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Montierungseinstellungen",
         "max_slew_rate": "Max. Schwenkgeschwindigkeit (°/s)"
+      },
+      "coordsMismatchWarning": "Profil- und Montagekoordinaten unterscheiden sich.",
+      "timeSync": {
+        "backendTime": "Backend UTC",
+        "mountNotConnected": "Halterung nicht angeschlossen",
+        "mountTime": "Mounten Sie UTC",
+        "notSupported": "Wird vom Treiber nicht unterstützt",
+        "syncLabel": "Synchronisierungszeit zum Mounten",
+        "title": "Zeitsynchronisation"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Dauer",
+      "estimated": "est.",
+      "filter": "Filter",
+      "focuser_position": "Position",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Kuppel",

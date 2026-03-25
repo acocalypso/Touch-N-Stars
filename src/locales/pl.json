@@ -13,7 +13,8 @@
     "disable": "Wyłączyć",
     "loading": "Załadunek…",
     "scanning": "Łów…",
-    "connecting": "Złączony…"
+    "connecting": "Złączony…",
+    "refresh": "Odświeżać"
   },
   "general": {
     "cancel": "Anuluj",
@@ -67,7 +68,20 @@
     "completeSetup": "Zakończ konfigurację",
     "instanceConfiguration": "Szczegóły połączenia N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Szczegółowe instrukcje znajdziesz w naszej wiki"
+    "check_wki": "Szczegółowe instrukcje znajdziesz w naszej wiki",
+    "coordAlt": "Alt",
+    "coordLat": "łac",
+    "coordLon": "Długi",
+    "coordUnit": "M",
+    "coordsNotSupported": "Nieobsługiwane przez sterownik",
+    "currentMountCoords": "Lokalizacja góry",
+    "currentNinaCoords": "Lokalizacja profilu",
+    "loadingCoords": "Załadunek…",
+    "mountNotConnected": "Uchwyt nie jest podłączony",
+    "syncDirection": "Kierunek synchronizacji lokalizacji",
+    "syncDirectionNosync": "Brak synchronizacji",
+    "syncDirectionToApplication": "Synchronizuj z Mount do Profile",
+    "syncDirectionToTelescope": "Synchronizuj profil z uchwytem"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "Współrzędne profilu i mocowania różnią się.",
+      "timeSync": {
+        "backendTime": "Zaplecze UTC",
+        "mountNotConnected": "Uchwyt nie jest podłączony",
+        "mountTime": "Zamontuj UTC",
+        "notSupported": "Nieobsługiwane przez sterownik",
+        "syncLabel": "Czas synchronizacji podczas montażu",
+        "title": "Synchronizacja czasu"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Czas trwania",
+      "estimated": "zał.",
+      "filter": "Filtr",
+      "focuser_position": "Pozycja",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Kopuła",

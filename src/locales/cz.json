@@ -13,7 +13,8 @@
     "disable": "Disable",
     "loading": "Loading…",
     "scanning": "Scanning…",
-    "connecting": "Connecting…"
+    "connecting": "Connecting…",
+    "refresh": "Refresh"
   },
   "general": {
     "cancel": "Zrušit",
@@ -67,7 +68,20 @@
     "completeSetup": "Kompletní Nastavení",
     "instanceConfiguration": "Podrobnosti o připojení N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Podrobné pokyny najdete na naší wiki"
+    "check_wki": "Podrobné pokyny najdete na naší wiki",
+    "coordAlt": "Alt",
+    "coordLat": "Lat",
+    "coordLon": "Long",
+    "coordUnit": "m",
+    "coordsNotSupported": "Not supported by driver",
+    "currentMountCoords": "Mount Location",
+    "currentNinaCoords": "Profile Location",
+    "loadingCoords": "Loading…",
+    "mountNotConnected": "Mount not connected",
+    "syncDirection": "Location Sync Direction",
+    "syncDirectionNosync": "No Sync",
+    "syncDirectionToApplication": "Sync from Mount to Profile",
+    "syncDirectionToTelescope": "Sync from Profile to Mount"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "Profile and mount coordinates differ.",
+      "timeSync": {
+        "backendTime": "Backend UTC",
+        "mountNotConnected": "Mount not connected",
+        "mountTime": "Mount UTC",
+        "notSupported": "Not supported by driver",
+        "syncLabel": "Sync time to mount",
+        "title": "Time Synchronisation"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Duration",
+      "estimated": "est.",
+      "filter": "Filter",
+      "focuser_position": "Position",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Kopule",

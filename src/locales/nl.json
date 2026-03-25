@@ -13,7 +13,8 @@
     "disable": "Uitzetten",
     "loading": "Laden...",
     "scanning": "Scannen…",
-    "connecting": "Verbinden…"
+    "connecting": "Verbinden…",
+    "refresh": "Vernieuwen"
   },
   "general": {
     "cancel": "Annuleer",
@@ -67,7 +68,20 @@
     "completeSetup": "Afronden Setup",
     "instanceConfiguration": "N.I.N.A connectie details",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Gedetailleerde instructies vind je in de wiki"
+    "check_wki": "Gedetailleerde instructies vind je in de wiki",
+    "coordAlt": "Alt",
+    "coordLat": "Lat",
+    "coordLon": "Lang",
+    "coordUnit": "M",
+    "coordsNotSupported": "Niet ondersteund door stuurprogramma",
+    "currentMountCoords": "Locatie monteren",
+    "currentNinaCoords": "Profiel Locatie",
+    "loadingCoords": "Laden…",
+    "mountNotConnected": "Mount niet aangesloten",
+    "syncDirection": "Locatiesynchronisatierichting",
+    "syncDirectionNosync": "Geen synchronisatie",
+    "syncDirectionToApplication": "Synchroniseer van koppeling naar profiel",
+    "syncDirectionToTelescope": "Synchroniseer van profiel naar koppeling"
   },
   "components": {
     "instanceDetection": {
@@ -264,6 +278,15 @@
       "mount": {
         "titel": "Mount settings",
         "max_slew_rate": "Max slew rate (°/s)"
+      },
+      "coordsMismatchWarning": "Profiel- en montagecoördinaten verschillen.",
+      "timeSync": {
+        "backendTime": "Back-end UTC",
+        "mountNotConnected": "Mount niet aangesloten",
+        "mountTime": "Monteer UTC",
+        "notSupported": "Niet ondersteund door stuurprogramma",
+        "syncLabel": "Synchroniseer de tijd om te mounten",
+        "title": "Tijdsynchronisatie"
       }
     },
     "connectEquipment": {
@@ -878,7 +901,12 @@
       },
       "indi": {
         "settings": "Focuser Settings"
-      }
+      },
+      "duration_seconds": "Duur",
+      "estimated": "est.",
+      "filter": "Filter",
+      "focuser_position": "Positie",
+      "hfr": "HFR"
     },
     "dome": {
       "title": "Dome",

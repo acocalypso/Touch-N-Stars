@@ -148,8 +148,8 @@
         <div v-else-if="currentStep === 5" key="gps" class="bg-gray-800 p-6 rounded-lg shadow-lg">
           <h2 class="text-2xl font-bold text-white mb-4">{{ t('setup.gpsConfiguration') }}</h2>
 
-          <!-- Current stored coordinates (read-only, PINS only) -->
-          <div v-if="store.isPINS" class="grid grid-cols-2 gap-3 mb-4">
+          <!-- Current stored coordinates (read-only) -->
+          <div v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')" class="grid grid-cols-2 gap-3 mb-4">
             <div class="bg-gray-700 rounded-md p-3">
               <div class="flex items-center justify-between mb-2">
                 <p class="text-xs font-medium text-gray-400">{{ t('setup.currentNinaCoords') }}</p>

@@ -338,9 +338,11 @@ const changeLanguage = async (newLanguage) => {
   locale.value = newLanguage;
   settingsStore.setLanguage(newLanguage);
 
-  const backendCode = getBackendLanguageCode(newLanguage);
-  if (backendCode && store.isBackendReachable) {
-    await apiService.setLanguage(backendCode);
+  if(store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')){
+    const backendCode = getBackendLanguageCode(newLanguage);
+    if (backendCode && store.isBackendReachable) {
+      await apiService.setLanguage(backendCode);
+    }
   }
 };
 

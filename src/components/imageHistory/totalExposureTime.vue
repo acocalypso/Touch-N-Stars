@@ -14,12 +14,10 @@
             </option>
           </select>
           <select id="filterSelect" v-model="selectedFilter" class="default-select">
-            <option value="__all__">{{ $t('components.sequence.totalExposureTime.AllFilters') }}</option>
-            <option
-              v-for="filter in availableFilters"
-              :key="filter"
-              :value="filter"
-            >
+            <option value="__all__">
+              {{ $t('components.sequence.totalExposureTime.AllFilters') }}
+            </option>
+            <option v-for="filter in availableFilters" :key="filter" :value="filter">
               {{ filter }}
             </option>
           </select>

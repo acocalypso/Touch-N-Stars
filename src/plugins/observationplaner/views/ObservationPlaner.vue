@@ -154,7 +154,7 @@
         <div class="mt-3 pt-3 border-t border-gray-800">
           <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
           <div class="text-sm text-gray-100">
-              <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
+            <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
             <span v-else class="text-gray-500">—</span>
             <span class="text-gray-400"> · </span>
             <span v-if="currentMoonData?.separationDeg != null"
@@ -177,12 +177,14 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <label class="text-xs text-gray-300">
-              Search by name
-              <input class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-                     v-model="q"
-                     placeholder="M42, Andromeda, NGC..." />
-          </label>
+        <label class="text-xs text-gray-300">
+          Search by name
+          <input
+            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+            v-model="q"
+            placeholder="M42, Andromeda, NGC..."
+          />
+        </label>
 
         <label class="text-xs text-gray-300">
           Objekt-Typ
@@ -223,7 +225,7 @@
       </div>
 
       <div v-if="!hasSite" class="text-xs text-amber-300">
-          Note: Altitude/Direction filters and charts cannot be calculated without a location.
+        Note: Altitude/Direction filters and charts cannot be calculated without a location.
       </div>
     </div>
 
@@ -494,9 +496,7 @@
         </div>
       </div>
 
-      <div v-if="!targets.length && !busy" class="text-sm text-gray-400">
-        no favorites found.
-      </div>
+      <div v-if="!targets.length && !busy" class="text-sm text-gray-400">no favorites found.</div>
 
       <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
     </div>
@@ -980,11 +980,7 @@ async function recomputeAll() {
         const visibleSamples = samples.filter((s) => (s?.altDeg ?? -999) >= MIN_ALT).length;
         nt.visibleHours = (visibleSamples * sm) / 60;
 
-        nt.moonData = getMoonDataForTarget(
-          nt.raDeg,
-          nt.decDeg,
-          tr.best?.time ?? windowStart.value
-        );
+        nt.moonData = getMoonDataForTarget(nt.raDeg, nt.decDeg, tr.best?.time ?? windowStart.value);
         nt.tonightScore = calculateTonightScore(nt, nt.moonData);
       } catch (e) {
         nt._error = 'Track-calculation failed';
@@ -1343,8 +1339,7 @@ function eclipticToEquatorial(lambdaDeg, betaDeg, date) {
   const beta = toRad(betaDeg);
   const eps = toRad(epsDeg);
 
-  const sinDec =
-    Math.sin(beta) * Math.cos(eps) + Math.cos(beta) * Math.sin(eps) * Math.sin(lambda);
+  const sinDec = Math.sin(beta) * Math.cos(eps) + Math.cos(beta) * Math.sin(eps) * Math.sin(lambda);
   const dec = Math.asin(clamp(sinDec, -1, 1));
 
   const y = Math.sin(lambda) * Math.cos(eps) - Math.tan(beta) * Math.sin(eps);
@@ -1377,7 +1372,7 @@ function getMoonEquatorial(date) {
   const L0 = normalizeDeg360(218.316 + 13.176396 * d);
   const M_moon = normalizeDeg360(134.963 + 13.064993 * d);
   const M_sun = normalizeDeg360(357.529 + 0.98560028 * d);
-  const D = normalizeDeg360(297.850 + 12.190749 * d);
+  const D = normalizeDeg360(297.85 + 12.190749 * d);
   const F = normalizeDeg360(93.272 + 13.22935 * d);
 
   const lon =
@@ -1419,8 +1414,7 @@ function angularSeparationDeg(ra1Deg, dec1Deg, ra2Deg, dec2Deg) {
   const dec2 = toRad(dec2Deg);
 
   const cosSep =
-    Math.sin(dec1) * Math.sin(dec2) +
-    Math.cos(dec1) * Math.cos(dec2) * Math.cos(ra1 - ra2);
+    Math.sin(dec1) * Math.sin(dec2) + Math.cos(dec1) * Math.cos(dec2) * Math.cos(ra1 - ra2);
 
   return toDeg(Math.acos(clamp(cosSep, -1, 1)));
 }
@@ -1431,8 +1425,7 @@ function getMoonIllumination(date) {
   const elongationDeg = angularSeparationDeg(sun.raDeg, sun.decDeg, moon.raDeg, moon.decDeg);
 
   // Fraction illuminated: 0=new moon, 1=full moon
-  const illumination =
-    elongationDeg == null ? null : (1 - Math.cos(toRad(elongationDeg))) / 2;
+  const illumination = elongationDeg == null ? null : (1 - Math.cos(toRad(elongationDeg))) / 2;
 
   return {
     illumination,

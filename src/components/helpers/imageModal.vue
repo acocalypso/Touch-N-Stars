@@ -95,6 +95,7 @@
             @load="onImageLoad"
             class="w-full h-full object-contain cursor-move"
             alt="Vergrößertes Bild"
+            :style="{ transform: 'rotate(' + settingsStore.currentImageRotation + 'deg)' }"
           />
         </div>
       </div>

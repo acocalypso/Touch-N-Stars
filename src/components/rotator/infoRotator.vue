@@ -31,7 +31,7 @@
       :Name="$t('components.rotator.stepSize')"
       :Value="
         store.rotatorInfo.StepSize !== undefined && store.rotatorInfo.StepSize !== null
-          ? store.rotatorInfo.StepSize.toFixed(2)
+          ? store.rotatorInfo.StepSize.toFixed(4) + '°'
           : ''
       "
     />

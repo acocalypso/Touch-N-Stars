@@ -978,6 +978,7 @@ export const apiStore = defineStore('store', {
       cStore.coordinates.altitude = this.profileInfo.AstrometrySettings.Elevation;
     },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
+      if (!currentVersion || !minimumVersion) return true;
       const parseVersion = (version) => version.split('.').map(Number);
 
       //console.log('current', currentVersion, 'minimum', minimumVersion);

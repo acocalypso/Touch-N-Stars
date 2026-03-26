@@ -1129,12 +1129,22 @@
           "Position": "Pozice",
           "AutoFocusExposureTime": "Čas expozice automatického zaostření",
           "Name": "Název"
-        }
+        },
+        "Autorun": "Autorun",
+        "Calibrate": "Calibrate",
+        "FilterWheelAlias": "Filter Wheel Alias",
+        "Speed": "Speed",
+        "TurboMode": "Turbo Mode",
+        "commandFailed": "Command not supported by this device",
+        "deviceSpecific": "Device Settings"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Filterwheel unidirectional"
+      "Unidirectional": "Filterwheel unidirectional",
+      "BoardTemperature": "Board Temperature",
+      "Counter": "Counter",
+      "State": "State"
     },
     "RemoveFilter": {
       "confirmTitle": "Odstranit Filtr",

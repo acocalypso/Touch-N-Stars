@@ -1129,12 +1129,22 @@
           "Position": "位置",
           "AutoFocusExposureTime": "自动对焦曝光时间",
           "Name": "名称"
-        }
+        },
+        "Autorun": "Autorun",
+        "Calibrate": "Calibrate",
+        "FilterWheelAlias": "Filter Wheel Alias",
+        "Speed": "Speed",
+        "TurboMode": "Turbo Mode",
+        "commandFailed": "Command not supported by this device",
+        "deviceSpecific": "Device Settings"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Filterwheel unidirectional"
+      "Unidirectional": "Filterwheel unidirectional",
+      "BoardTemperature": "Board Temperature",
+      "Counter": "Counter",
+      "State": "State"
     },
     "RemoveFilter": {
       "confirmTitle": "删除过滤器",

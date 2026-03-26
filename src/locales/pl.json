@@ -1129,12 +1129,22 @@
           "Position": "Pozycja",
           "AutoFocusExposureTime": "Czas ekspozycji autofokusu",
           "Name": "Nazwa"
-        }
+        },
+        "Autorun": "Autorun",
+        "Calibrate": "Kalibrować",
+        "FilterWheelAlias": "Alias ​​koła filtrującego",
+        "Speed": "Prędkość",
+        "TurboMode": "Tryb Turbo",
+        "commandFailed": "Polecenie nie jest obsługiwane przez to urządzenie",
+        "deviceSpecific": "Ustawienia urządzenia"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Koło filtrowe jednokierunkowe"
+      "Unidirectional": "Koło filtrowe jednokierunkowe",
+      "BoardTemperature": "Temperatura płyty",
+      "Counter": "Lada",
+      "State": "Państwo"
     },
     "RemoveFilter": {
       "confirmTitle": "Usuń Filtr",

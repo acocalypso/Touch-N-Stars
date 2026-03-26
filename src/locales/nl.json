@@ -1129,12 +1129,22 @@
           "Position": "Positie",
           "AutoFocusExposureTime": "Belichtingstijd autofocus",
           "Name": "Naam"
-        }
+        },
+        "Autorun": "Automatisch uitvoeren",
+        "Calibrate": "Kalibreren",
+        "FilterWheelAlias": "Filterwielalias",
+        "Speed": "Snelheid",
+        "TurboMode": "Turbo-modus",
+        "commandFailed": "Commando wordt niet ondersteund door dit apparaat",
+        "deviceSpecific": "Apparaatinstellingen"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Unidirectioneel filterwiel"
+      "Unidirectional": "Unidirectioneel filterwiel",
+      "BoardTemperature": "Bordtemperatuur",
+      "Counter": "Balie",
+      "State": "Staat"
     },
     "RemoveFilter": {
       "confirmTitle": "Filter verwijderen",

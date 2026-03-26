@@ -154,6 +154,7 @@
     </div>
     <!-- Device specific settings container -->
     <div
+      v-if="store.isPINS && hasDeviceSettings"
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">
@@ -193,7 +194,10 @@ import pinsSetFocuserAlias from './settingsPins/pinsSetFocuserAlias.vue';
 import pinsClearStall from './settingsPins/pinsClearStall.vue';
 import pinsResetPosition from './settingsPins/pinsResetPosition.vue';
 import { useFocuserStore } from '@/store/focuserStore';
+import { computed } from 'vue';
 
 const store = apiStore();
 const focuserStore = useFocuserStore();
+
+const hasDeviceSettings = computed(() => focuserStore.focuserSettings != null);
 </script>

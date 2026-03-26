@@ -65,7 +65,11 @@ const apiService = {
   async setLanguage(languageCode, timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.put(`${API_URL}language`, { language: languageCode }, { timeout });
+      const response = await axios.put(
+        `${API_URL}language`,
+        { language: languageCode },
+        { timeout }
+      );
       return response.data;
     } catch (error) {
       console.warn('Failed to set backend language:', error.message);

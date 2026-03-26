@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Bipe em movimento",
+        "BeepOnStartup": "Bipe na inicialização",
+        "ClearStall": "Limpar barraca",
+        "FocuserAlias": "Alias ​​do focalizador",
+        "Heating": "Aquecimento",
+        "HeatingTemperature": "Temperatura de aquecimento",
+        "MotorSpeedControl": "Controle de velocidade do motor",
+        "ResetPosition": "Definir posição como zero",
+        "StallDetection": "Detecção de estol",
+        "USBCapacity": "Capacidade USB",
+        "commandFailed": "Comando não suportado por este dispositivo",
+        "deviceSpecific": "Configurações do dispositivo"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "Husa.",
       "filter": "Filtro",
       "focuser_position": "Posição",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Temperatura da placa:",
+      "DcPower": "Alimentação CC",
+      "HeatingPower": "Potência de aquecimento:",
+      "IsStalled": "Parado"
     },
     "dome": {
       "title": "Domo",

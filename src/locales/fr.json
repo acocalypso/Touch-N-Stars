@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Bip en mouvement",
+        "BeepOnStartup": "Bip au démarrage",
+        "ClearStall": "Effacer le décrochage",
+        "FocuserAlias": "Alias ​​du focuseur",
+        "Heating": "Chauffage",
+        "HeatingTemperature": "Température de chauffage",
+        "MotorSpeedControl": "Contrôle de la vitesse du moteur",
+        "ResetPosition": "Mettre la position à zéro",
+        "StallDetection": "Détection de décrochage",
+        "USBCapacity": "Capacité USB",
+        "commandFailed": "Commande non prise en charge par cet appareil",
+        "deviceSpecific": "Paramètres de l'appareil"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "HNE.",
       "filter": "Filtre",
       "focuser_position": "Position",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Température de la carte :",
+      "DcPower": "Alimentation CC",
+      "HeatingPower": "Puissance de chauffage :",
+      "IsStalled": "Bloqué"
     },
     "dome": {
       "title": "Dôme",

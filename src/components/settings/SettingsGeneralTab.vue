@@ -1,7 +1,11 @@
 <template>
   <div class="space-y-6">
     <!-- GPS Coordinates -->
-    <template v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')">
+    <template
+      v-if="
+        store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+      "
+    >
       <LocationSettingsPins />
     </template>
     <template v-else>
@@ -338,7 +342,7 @@ const changeLanguage = async (newLanguage) => {
   locale.value = newLanguage;
   settingsStore.setLanguage(newLanguage);
 
-  if(store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')){
+  if (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')) {
     const backendCode = getBackendLanguageCode(newLanguage);
     if (backendCode && store.isBackendReachable) {
       await apiService.setLanguage(backendCode);

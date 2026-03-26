@@ -391,6 +391,7 @@
           "showImageStats": "Statistiken des letzten Bildes anzeigen",
           "showImgStatsGraph": "HFR-Diagramm anzeigen",
           "showGuiderAfGraph": "Autofokus-Diagramm anzeigen",
+          "imageRotation": "Bilddrehung",
           "display_status_under_image": "Status unter Bild anzeigen",
           "sequenceCurrentState": "Sequenzstatus anzeigen"
         }

@@ -392,7 +392,8 @@
           "showImgStatsGraph": "Zobrazit HFR-Graf",
           "showGuiderAfGraph": "Zobrazit graf-ostření",
           "display_status_under_image": "Zobrazit stav pod obrázkem",
-          "sequenceCurrentState": "Zobrazit stav sekvence"
+          "sequenceCurrentState": "Zobrazit stav sekvence",
+          "imageRotation": "Image Rotation"
         }
       },
       "graphControls": {

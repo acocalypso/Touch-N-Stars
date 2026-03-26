@@ -9,6 +9,7 @@
       :src="image"
       alt="Sequence Image"
       class="block w-full max-h-[80vh] object-contain"
+      :style="{ transform: 'rotate(' + settingsStore.currentImageRotation + 'deg)' }"
     />
     <div
       v-if="showStats"
@@ -106,9 +107,11 @@ import { ref, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const sequenceStore = useSequenceStore();
 const imageStore = useImagetStore();
+const settingsStore = useSettingsStore();
 
 const props = defineProps({
   index: {

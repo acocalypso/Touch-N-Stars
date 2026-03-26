@@ -121,7 +121,21 @@ export const useSettingsStore = defineStore('settings', {
     // Modal Positionen
     modalPositions: {},
   }),
+  getters: {
+    currentImageRotation(state) {
+      const instance = state.connection.instances.find((i) => i.id === state.selectedInstanceId);
+      return instance?.imageRotation ?? 0;
+    },
+  },
   actions: {
+    setImageRotation(degrees) {
+      if (!this.selectedInstanceId) return;
+      const instance = this.connection.instances.find((i) => i.id === this.selectedInstanceId);
+      if (instance) {
+        instance.imageRotation = degrees;
+      }
+    },
+
     _getApiStore() {
       return apiStore();
     },

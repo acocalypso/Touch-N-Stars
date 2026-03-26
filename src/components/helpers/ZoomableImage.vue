@@ -55,16 +55,21 @@
     </div>
 
     <!-- Main Image -->
-    <img
+    <div
       v-if="imageData && !imageLoadError"
-      ref="image"
-      :src="imageData"
-      :alt="altText"
-      class="w-full h-full object-contain absolute inset-0"
-      @load="onImageLoad"
-      @error="onImageError"
-      @click="handleImageClick"
-    />
+      class="w-full h-full absolute inset-0 flex items-center justify-center"
+      :style="{ transform: 'rotate(' + imageRotation + 'deg)', transformOrigin: 'center' }"
+    >
+      <img
+        ref="image"
+        :src="imageData"
+        :alt="altText"
+        class="w-full h-full object-contain"
+        @load="onImageLoad"
+        @error="onImageError"
+        @click="handleImageClick"
+      />
+    </div>
 
     <!-- Loading Spinner -->
     <div
@@ -93,10 +98,11 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount, computed } from 'vue';
 import Panzoom from '@panzoom/panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
 import SolvePreparedImage from '@/components/platesolve/solvePreparedImage.vue';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
   imageData: {
@@ -154,6 +160,9 @@ const emits = defineEmits([
   'image-error',
   'click',
 ]);
+
+const settingsStore = useSettingsStore();
+const imageRotation = computed(() => settingsStore.currentImageRotation);
 
 // Refs
 const container = ref(null);

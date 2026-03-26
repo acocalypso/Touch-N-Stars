@@ -869,6 +869,7 @@
       "HeatingPower": "Heating Power:",
       "BoardTemperature": "Board Temperature:",
       "DcPower": "DC Power",
+      "StepSize": "Step Size",
       "duration_seconds": "Duration",
       "filter": "Filter",
       "estimated": "est.",

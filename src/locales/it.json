@@ -923,7 +923,8 @@
       "BoardTemperature": "Temperatura della scheda:",
       "DcPower": "Alimentazione CC",
       "HeatingPower": "Potenza di riscaldamento:",
-      "IsStalled": "In stallo"
+      "IsStalled": "In stallo",
+      "StepSize": "Dimensione del passo"
     },
     "dome": {
       "title": "Cupola",

@@ -923,7 +923,8 @@
       "BoardTemperature": "Raadstemperatuur:",
       "DcPower": "Gelijkstroomvoeding",
       "HeatingPower": "Verwarmingsvermogen:",
-      "IsStalled": "Vastgelopen"
+      "IsStalled": "Vastgelopen",
+      "StepSize": "Stapgrootte"
     },
     "dome": {
       "title": "Dome",

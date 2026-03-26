@@ -923,7 +923,8 @@
       "BoardTemperature": "Board Temperature:",
       "DcPower": "DC Power",
       "HeatingPower": "Heating Power:",
-      "IsStalled": "Stalled"
+      "IsStalled": "Stalled",
+      "StepSize": "Step Size"
     },
     "dome": {
       "title": "穹顶",

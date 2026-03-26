@@ -923,7 +923,8 @@
       "BoardTemperature": "Température de la carte :",
       "DcPower": "Alimentation CC",
       "HeatingPower": "Puissance de chauffage :",
-      "IsStalled": "Bloqué"
+      "IsStalled": "Bloqué",
+      "StepSize": "Taille du pas"
     },
     "dome": {
       "title": "Dôme",

@@ -3,15 +3,27 @@
     <!-- Selected Target Display -->
     <div v-if="selectedTargetData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
       <div class="flex justify-between items-center">
-        <select id="targetSelect" v-model="selectedTarget" class="default-select">
-          <option
-            v-for="target in exposureTimeByTarget"
-            :key="target.targetName"
-            :value="target.targetName"
-          >
-            {{ target.targetName }}
-          </option>
-        </select>
+        <div class="flex flex-col gap-2">
+          <select id="targetSelect" v-model="selectedTarget" class="default-select">
+            <option
+              v-for="target in exposureTimeByTarget"
+              :key="target.targetName"
+              :value="target.targetName"
+            >
+              {{ target.targetName }}
+            </option>
+          </select>
+          <select id="filterSelect" v-model="selectedFilter" class="default-select">
+            <option value="__all__">{{ $t('components.sequence.totalExposureTime.AllFilters') }}</option>
+            <option
+              v-for="filter in availableFilters"
+              :key="filter"
+              :value="filter"
+            >
+              {{ filter }}
+            </option>
+          </select>
+        </div>
         <span class="text-right">
           <div class="text-sm text-gray-600 dark:text-gray-400">
             {{ selectedTargetData.imageCount }}
@@ -32,6 +44,7 @@ import { apiStore } from '@/store/store';
 
 const store = apiStore();
 const selectedTarget = ref(null);
+const selectedFilter = ref('__all__');
 let previousLength = 0;
 
 watch(
@@ -49,6 +62,23 @@ watch(
   { immediate: true }
 );
 
+const availableFilters = computed(() => {
+  if (!store.imageHistoryInfo || !Array.isArray(store.imageHistoryInfo)) {
+    return [];
+  }
+  const filters = new Set(
+    store.imageHistoryInfo
+      .filter(
+        (image) =>
+          (image.ImageType === 'LIGHT' || image.ImageType === 'SNAPSHOT') &&
+          image.TargetName === selectedTarget.value &&
+          image.Filter
+      )
+      .map((image) => image.Filter)
+  );
+  return [...filters].sort();
+});
+
 const exposureTimeByTarget = computed(() => {
   if (!store.imageHistoryInfo || !Array.isArray(store.imageHistoryInfo)) {
     return [];
@@ -57,7 +87,11 @@ const exposureTimeByTarget = computed(() => {
   const targetMap = {};
 
   store.imageHistoryInfo
-    .filter((image) => image.ImageType === 'LIGHT')
+    .filter(
+      (image) =>
+        (image.ImageType === 'LIGHT' || image.ImageType === 'SNAPSHOT') &&
+        (selectedFilter.value === '__all__' || image.Filter === selectedFilter.value)
+    )
     .forEach((image) => {
       const targetName = image.TargetName || '?';
 

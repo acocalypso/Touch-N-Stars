@@ -430,7 +430,8 @@
       "HFRStDev": "HFR St. Dev",
       "totalExposureTime": {
         "title": "Total exposure time",
-        "Pictures": "Pictures"
+        "Pictures": "Pictures",
+        "AllFilters": "Todos los filtros"
       },
       "items": {
         "saving": "Guardando…",

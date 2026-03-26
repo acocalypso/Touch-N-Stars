@@ -923,7 +923,8 @@
       "BoardTemperature": "Temperatura da placa:",
       "DcPower": "Alimentação CC",
       "HeatingPower": "Potência de aquecimento:",
-      "IsStalled": "Parado"
+      "IsStalled": "Parado",
+      "StepSize": "Tamanho do passo"
     },
     "dome": {
       "title": "Domo",

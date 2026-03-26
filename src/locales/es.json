@@ -923,7 +923,8 @@
       "BoardTemperature": "Temperatura del tablero:",
       "DcPower": "Alimentación CC",
       "HeatingPower": "Potencia de calefacción:",
-      "IsStalled": "estancado"
+      "IsStalled": "estancado",
+      "StepSize": "Tamaño del paso"
     },
     "dome": {
       "title": "Cúpula",

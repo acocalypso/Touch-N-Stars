@@ -46,6 +46,15 @@
         :enabledText="$t('components.focuser.DcPower')"
         :disabledText="$t('components.focuser.DcPower')"
       />
+      <StatusString
+        v-if="
+          focuserStore.focuserSettings.StepSize !== undefined &&
+          focuserStore.focuserSettings.StepSize !== -1
+        "
+        :isEnabled="true"
+        :Name="$t('components.focuser.StepSize')"
+        :Value="focuserStore.focuserSettings.StepSize.toFixed(4) + ' µm'"
+      />
     </template>
   </div>
 </template>

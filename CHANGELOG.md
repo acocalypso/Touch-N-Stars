@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence: Set multi targets
 - GPS Sync option
 - Time Snyc option
+- Total Exposure Time: Filter by filter name or show all filters
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type

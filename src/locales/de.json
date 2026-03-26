@@ -430,7 +430,8 @@
       "HFRStDev": "HFR St. Dev",
       "totalExposureTime": {
         "title": "Gesamtbelichtungszeit",
-        "Pictures": "Bilder"
+        "Pictures": "Bilder",
+        "AllFilters": "Alle Filter"
       },
       "items": {
         "saving": "Speichern…",

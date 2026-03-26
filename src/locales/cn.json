@@ -430,7 +430,8 @@
       "HFRStDev": "HFR 标准差",
       "totalExposureTime": {
         "title": "总曝光时间",
-        "Pictures": "张数"
+        "Pictures": "张数",
+        "AllFilters": "所有滤镜"
       },
       "items": {
         "saving": "正在保存…",

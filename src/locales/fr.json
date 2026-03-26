@@ -1130,12 +1130,22 @@
           "Position": "Position",
           "AutoFocusExposureTime": "Temps d'exposition de la mise au point automatique",
           "Name": "Nom"
-        }
+        },
+        "Autorun": "Exécution automatique",
+        "Calibrate": "Étalonner",
+        "FilterWheelAlias": "Alias ​​de la roue à filtres",
+        "Speed": "Vitesse",
+        "TurboMode": "Mode Turbo",
+        "commandFailed": "Commande non prise en charge par cet appareil",
+        "deviceSpecific": "Paramètres de l'appareil"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Roue à filtres unidirectionnelle"
+      "Unidirectional": "Roue à filtres unidirectionnelle",
+      "BoardTemperature": "Température de la carte",
+      "Counter": "Comptoir",
+      "State": "État"
     },
     "RemoveFilter": {
       "confirmTitle": "Supprimer le Filtre",

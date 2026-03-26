@@ -1130,12 +1130,22 @@
           "Position": "Position",
           "AutoFocusExposureTime": "AutoFocus Exposure Time",
           "Name": "Name"
-        }
+        },
+        "deviceSpecific": "Device Settings",
+        "FilterWheelAlias": "Filter Wheel Alias",
+        "Speed": "Speed",
+        "TurboMode": "Turbo Mode",
+        "Autorun": "Autorun",
+        "Calibrate": "Calibrate",
+        "commandFailed": "Command not supported by this device"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Filterwheel unidirectional"
+      "Unidirectional": "Filterwheel unidirectional",
+      "BoardTemperature": "Board Temperature",
+      "State": "State",
+      "Counter": "Counter"
     },
     "RemoveFilter": {
       "confirmTitle": "Remove Filter",

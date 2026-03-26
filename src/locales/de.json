@@ -1130,12 +1130,22 @@
           "Position": "Position",
           "AutoFocusExposureTime": "Autofokus-Belichtungszeit",
           "Name": "Name"
-        }
+        },
+        "Autorun": "Autorun",
+        "Calibrate": "Kalibrieren",
+        "FilterWheelAlias": "Filterrad-Alias",
+        "Speed": "Geschwindigkeit",
+        "TurboMode": "Turbo-Modus",
+        "commandFailed": "Befehl wird von diesem Gerät nicht unterstützt",
+        "deviceSpecific": "Geräteeinstellungen"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
       },
-      "Unidirectional": "Filterrad: eine Richtung"
+      "Unidirectional": "Filterrad: eine Richtung",
+      "BoardTemperature": "Platinentemperatur",
+      "Counter": "Schalter",
+      "State": "Zustand"
     },
     "RemoveFilter": {
       "confirmTitle": "Filter entfernen",

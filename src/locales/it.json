@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Bip in movimento",
+        "BeepOnStartup": "Segnale acustico all'avvio",
+        "ClearStall": "Cancella stallo",
+        "FocuserAlias": "Alias ​​del focheggiatore",
+        "Heating": "Riscaldamento",
+        "HeatingTemperature": "Temperatura di riscaldamento",
+        "MotorSpeedControl": "Controllo della velocità del motore",
+        "ResetPosition": "Imposta la posizione su zero",
+        "StallDetection": "Rilevamento dello stallo",
+        "USBCapacity": "Capacità USB",
+        "commandFailed": "Comando non supportato da questo dispositivo",
+        "deviceSpecific": "Impostazioni del dispositivo"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "est.",
       "filter": "Filtro",
       "focuser_position": "Posizione",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Temperatura della scheda:",
+      "DcPower": "Alimentazione CC",
+      "HeatingPower": "Potenza di riscaldamento:",
+      "IsStalled": "In stallo"
     },
     "dome": {
       "title": "Cupola",

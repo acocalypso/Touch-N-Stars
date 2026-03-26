@@ -917,6 +917,7 @@
         "USBCapacity": "USB Capacity",
         "ClearStall": "Clear Stall",
         "ResetPosition": "Set Position to Zero",
+        "commandFailed": "Command not supported by this device",
         "FocuserAlias": "Focuser Alias",
         "deviceSpecific": "Device Settings"
       },

@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofokus-Filter",
         "AutoFocusFilterNone": "Kein",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Signalton bei Bewegung",
+        "BeepOnStartup": "Piepton beim Start",
+        "ClearStall": "Klarer Stall",
+        "FocuserAlias": "Fokussierer-Alias",
+        "Heating": "Heizung",
+        "HeatingTemperature": "Heiztemperatur",
+        "MotorSpeedControl": "Motorgeschwindigkeitsregelung",
+        "ResetPosition": "Position auf Null setzen",
+        "StallDetection": "Stall-Erkennung",
+        "USBCapacity": "USB-Kapazität",
+        "commandFailed": "Befehl wird von diesem Gerät nicht unterstützt",
+        "deviceSpecific": "Geräteeinstellungen"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "est.",
       "filter": "Filter",
       "focuser_position": "Position",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Platinentemperatur:",
+      "DcPower": "Gleichstrom",
+      "HeatingPower": "Heizleistung:",
+      "IsStalled": "Ins Stocken geraten"
     },
     "dome": {
       "title": "Kuppel",

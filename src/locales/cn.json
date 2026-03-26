@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Beep On Move",
+        "BeepOnStartup": "Beep On Startup",
+        "ClearStall": "Clear Stall",
+        "FocuserAlias": "Focuser Alias",
+        "Heating": "Heating",
+        "HeatingTemperature": "Heating Temperature",
+        "MotorSpeedControl": "Motor Speed Control",
+        "ResetPosition": "Set Position to Zero",
+        "StallDetection": "Stall Detection",
+        "USBCapacity": "USB Capacity",
+        "commandFailed": "Command not supported by this device",
+        "deviceSpecific": "Device Settings"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "est.",
       "filter": "Filter",
       "focuser_position": "Position",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Board Temperature:",
+      "DcPower": "DC Power",
+      "HeatingPower": "Heating Power:",
+      "IsStalled": "Stalled"
     },
     "dome": {
       "title": "穹顶",

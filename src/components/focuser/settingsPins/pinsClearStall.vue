@@ -12,10 +12,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import apiService from '@/services/apiService';
 import { useFocuserStore } from '@/store/focuserStore';
+import { useToastStore } from '@/store/toastStore';
 
+const { t } = useI18n();
 const focuserStore = useFocuserStore();
+const toastStore = useToastStore();
 const loading = ref(false);
 const isAvailable = ref(false);
 
@@ -26,10 +30,18 @@ onMounted(() => {
 async function execute() {
   loading.value = true;
   try {
-    await apiService.focusAction('send-command?command=ClearStall');
-    await focuserStore.readSettings();
+    const response = await apiService.focusAction('send-command?command=ClearStall');
+    if (!response?.Success) {
+      toastStore.showToast({
+        type: 'error',
+        title: t('components.focuser.settings.ClearStall'),
+        message: response?.Error ?? t('components.focuser.settings.commandFailed'),
+      });
+    } else {
+      await focuserStore.readSettings();
+    }
   } catch (error) {
-    console.log('[pinsClearStall] Error:', error);
+    toastStore.showToast({ type: 'error', title: t('components.focuser.settings.ClearStall'), message: error.message });
   } finally {
     loading.value = false;
   }

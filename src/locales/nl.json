@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Piep bij beweging",
+        "BeepOnStartup": "Pieptoon bij opstarten",
+        "ClearStall": "Duidelijke stal",
+        "FocuserAlias": "Focuseralias",
+        "Heating": "Verwarming",
+        "HeatingTemperature": "Verwarmingstemperatuur",
+        "MotorSpeedControl": "Motorsnelheidsregeling",
+        "ResetPosition": "Stel Positie in op nul",
+        "StallDetection": "Detectie van stilstand",
+        "USBCapacity": "USB-capaciteit",
+        "commandFailed": "Commando wordt niet ondersteund door dit apparaat",
+        "deviceSpecific": "Apparaatinstellingen"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "est.",
       "filter": "Filter",
       "focuser_position": "Positie",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Raadstemperatuur:",
+      "DcPower": "Gelijkstroomvoeding",
+      "HeatingPower": "Verwarmingsvermogen:",
+      "IsStalled": "Vastgelopen"
     },
     "dome": {
       "title": "Dome",

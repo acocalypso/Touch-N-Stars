@@ -898,7 +898,19 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "BeepOnMove": "Sygnał dźwiękowy w ruchu",
+        "BeepOnStartup": "Sygnał dźwiękowy podczas uruchamiania",
+        "ClearStall": "Wyczyść stoisko",
+        "FocuserAlias": "Alias ​​Focusera",
+        "Heating": "Ogrzewanie",
+        "HeatingTemperature": "Temperatura ogrzewania",
+        "MotorSpeedControl": "Kontrola prędkości silnika",
+        "ResetPosition": "Ustaw pozycję na zero",
+        "StallDetection": "Wykrywanie przeciągnięcia",
+        "USBCapacity": "Pojemność USB",
+        "commandFailed": "Polecenie nie jest obsługiwane przez to urządzenie",
+        "deviceSpecific": "Ustawienia urządzenia"
       },
       "indi": {
         "settings": "Focuser Settings"
@@ -907,7 +919,11 @@
       "estimated": "zał.",
       "filter": "Filtr",
       "focuser_position": "Pozycja",
-      "hfr": "HFR"
+      "hfr": "HFR",
+      "BoardTemperature": "Temperatura płyty:",
+      "DcPower": "Zasilanie prądem stałym",
+      "HeatingPower": "Moc grzewcza:",
+      "IsStalled": "Zatrzymany"
     },
     "dome": {
       "title": "Kopuła",

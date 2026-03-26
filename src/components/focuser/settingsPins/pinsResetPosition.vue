@@ -37,11 +37,13 @@ async function execute() {
         title: t('components.focuser.settings.ResetPosition'),
         message: response?.Error ?? t('components.focuser.settings.commandFailed'),
       });
-    } else {
-      await focuserStore.readSettings();
     }
   } catch (error) {
-    toastStore.showToast({ type: 'error', title: t('components.focuser.settings.ResetPosition'), message: error.message });
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.focuser.settings.ResetPosition'),
+      message: error.message,
+    });
   } finally {
     loading.value = false;
   }

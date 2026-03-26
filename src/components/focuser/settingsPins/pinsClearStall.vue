@@ -37,11 +37,13 @@ async function execute() {
         title: t('components.focuser.settings.ClearStall'),
         message: response?.Error ?? t('components.focuser.settings.commandFailed'),
       });
-    } else {
-      await focuserStore.readSettings();
     }
   } catch (error) {
-    toastStore.showToast({ type: 'error', title: t('components.focuser.settings.ClearStall'), message: error.message });
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.focuser.settings.ClearStall'),
+      message: error.message,
+    });
   } finally {
     loading.value = false;
   }

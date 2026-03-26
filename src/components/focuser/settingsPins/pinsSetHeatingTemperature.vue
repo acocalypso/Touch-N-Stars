@@ -42,7 +42,6 @@ watch(
 async function setTemperature(val) {
   try {
     await apiService.focusAction(`set-setting?settingName=HeatingTemperature&newValue=${val}`);
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetHeatingTemperature] Error:', error);
   }

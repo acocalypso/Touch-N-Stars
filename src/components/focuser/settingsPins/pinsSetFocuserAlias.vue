@@ -41,7 +41,6 @@ async function setAlias() {
     await apiService.focusAction(
       `set-setting?settingName=FocuserAlias&newValue=${encodeURIComponent(alias.value)}`
     );
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetFocuserAlias] Error:', error);
   }

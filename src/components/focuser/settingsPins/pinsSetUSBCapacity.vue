@@ -47,7 +47,6 @@ async function setUSBCapacity() {
     await apiService.focusAction(
       `set-setting?settingName=USBCapacity&newValue=${usbCapacity.value}`
     );
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetUSBCapacity] Error:', error);
   }

@@ -44,7 +44,6 @@ watch(
 async function setMotorSpeed() {
   try {
     await apiService.focusAction(`set-setting?settingName=MotorSpeed&newValue=${motorSpeed.value}`);
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetMotorSpeedControl] Error:', error);
   }

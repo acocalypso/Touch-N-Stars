@@ -23,7 +23,6 @@ async function toggleMode() {
   const newValue = !focuserStore.focuserSettings.BeepOnMove;
   try {
     await apiService.focusAction(`set-setting?settingName=BeepOnMove&newValue=${newValue}`);
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetBeepOnMove] Error:', error);
   }

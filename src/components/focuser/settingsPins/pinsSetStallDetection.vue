@@ -23,7 +23,6 @@ async function toggleMode() {
   const newValue = !focuserStore.focuserSettings.StallDetection;
   try {
     await apiService.focusAction(`set-setting?settingName=StallDetection&newValue=${newValue}`);
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetStallDetection] Error:', error);
   }

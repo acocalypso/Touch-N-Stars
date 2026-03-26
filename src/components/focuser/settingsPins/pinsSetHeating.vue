@@ -23,7 +23,6 @@ async function toggleMode() {
   const newValue = !focuserStore.focuserSettings.Heating;
   try {
     await apiService.focusAction(`set-setting?settingName=Heating&newValue=${newValue}`);
-    await focuserStore.readSettings();
   } catch (error) {
     console.log('[pinsSetHeating] Error:', error);
   }

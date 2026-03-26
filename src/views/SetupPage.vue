@@ -149,7 +149,13 @@
           <h2 class="text-2xl font-bold text-white mb-4">{{ t('setup.gpsConfiguration') }}</h2>
 
           <!-- Current stored coordinates (read-only) -->
-          <div v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')" class="grid grid-cols-2 gap-3 mb-4">
+          <div
+            v-if="
+              store.isPINS ||
+              store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+            "
+            class="grid grid-cols-2 gap-3 mb-4"
+          >
             <div class="bg-gray-700 rounded-md p-3">
               <div class="flex items-center justify-between mb-2">
                 <p class="text-xs font-medium text-gray-400">{{ t('setup.currentNinaCoords') }}</p>

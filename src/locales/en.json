@@ -865,6 +865,10 @@
       "last_autofocus": "Last autofocus",
       "hfr": "HFR",
       "focuser_position": "Position",
+      "IsStalled": "Stalled",
+      "HeatingPower": "Heating Power:",
+      "BoardTemperature": "Board Temperature:",
+      "DcPower": "DC Power",
       "duration_seconds": "Duration",
       "filter": "Filter",
       "estimated": "est.",
@@ -903,7 +907,18 @@
         "MaxStep": "Max Steps",
         "AutoFocusFilter": "Autofocus filter",
         "AutoFocusFilterNone": "None",
-        "AutoFocusExposureTime": "Default Exposure Time"
+        "AutoFocusExposureTime": "Default Exposure Time",
+        "MotorSpeedControl": "Motor Speed Control",
+        "BeepOnMove": "Beep On Move",
+        "BeepOnStartup": "Beep On Startup",
+        "StallDetection": "Stall Detection",
+        "Heating": "Heating",
+        "HeatingTemperature": "Heating Temperature",
+        "USBCapacity": "USB Capacity",
+        "ClearStall": "Clear Stall",
+        "ResetPosition": "Set Position to Zero",
+        "FocuserAlias": "Focuser Alias",
+        "deviceSpecific": "Device Settings"
       },
       "indi": {
         "settings": "Focuser Settings"

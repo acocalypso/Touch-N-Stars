@@ -392,7 +392,8 @@
           "showImgStatsGraph": "Mostra grafico HFR",
           "showGuiderAfGraph": "Mostra grafico autofocus",
           "display_status_under_image": "Mostra stato sotto l'immagine",
-          "sequenceCurrentState": "Show Sequence state"
+          "sequenceCurrentState": "Show Sequence state",
+          "imageRotation": "Rotazione dell'immagine"
         }
       },
       "graphControls": {

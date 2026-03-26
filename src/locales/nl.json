@@ -392,7 +392,8 @@
           "showImgStatsGraph": "Toon HFR-grafiek",
           "showGuiderAfGraph": "Toon autofocus-grafiek",
           "display_status_under_image": "Toon status onder beeld",
-          "sequenceCurrentState": "Toon Sequentie status"
+          "sequenceCurrentState": "Toon Sequentie status",
+          "imageRotation": "Beeldrotatie"
         }
       },
       "graphControls": {

@@ -392,7 +392,8 @@
           "showImgStatsGraph": "显示 HFR 图表",
           "showGuiderAfGraph": "显示自动对焦图表",
           "display_status_under_image": "在图片下方显示状态",
-          "sequenceCurrentState": "显示序列状态"
+          "sequenceCurrentState": "显示序列状态",
+          "imageRotation": "Image Rotation"
         }
       },
       "graphControls": {

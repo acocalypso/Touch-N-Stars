@@ -3170,6 +3170,17 @@ const apiService = {
     }
   },
 
+  async tenMicronGetMountTime(timeout = DEFAULT_TIMEOUT) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}tenmicron/time`, { timeout });
+      return response.data;
+    } catch (error) {
+      console.error('Error getting TenMicron mount time:', error);
+      throw error;
+    }
+  },
+
   async tenMicronGetBuilderStatus(timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();

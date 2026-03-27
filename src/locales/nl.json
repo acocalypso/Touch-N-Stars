@@ -2668,7 +2668,10 @@
         "slewSettle": "Dood Settle",
         "statusTitle": "Mount-status",
         "trackingRate": "Trackingsnelheid",
-        "unattendedFlip": "Onbeheerde flip"
+        "unattendedFlip": "Onbeheerde flip",
+        "localDate": "Lokale datum",
+        "localTime": "Lokale tijd",
+        "siderealTime": "Sterrentijd"
       },
       "mountNotConnected": "De houder is niet aangesloten.",
       "mountStatus": "Mount-status",

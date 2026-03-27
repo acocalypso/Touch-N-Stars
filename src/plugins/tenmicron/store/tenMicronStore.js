@@ -33,6 +33,9 @@ export const useTenMicronStore = defineStore('tenMicronStore', {
     connectionType: '',
     deltaTValid: false,
     deltaTExpiration: null,
+    mountLocalTime: null,
+    mountLocalDate: null,
+    mountSiderealTime: null,
 
     // Builder
     goldenSpiralStarCount: 30,
@@ -200,6 +203,12 @@ export const useTenMicronStore = defineStore('tenMicronStore', {
         this.builderOptions.disableRefractionCorrection = data.DisableRefractionCorrection;
       if (data.DecJitter !== undefined) this.builderOptions.decJitter = data.DecJitter;
       if (data.DisableDAT !== undefined) this.builderOptions.disableDAT = data.DisableDAT;
+    },
+
+    setMountTime(data) {
+      if (data.LocalTime !== undefined) this.mountLocalTime = data.LocalTime ?? null;
+      if (data.LocalDate !== undefined) this.mountLocalDate = data.LocalDate ?? null;
+      if (data.SiderealTime !== undefined) this.mountSiderealTime = data.SiderealTime ?? null;
     },
 
     clearError() {

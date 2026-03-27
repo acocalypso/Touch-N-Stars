@@ -2668,7 +2668,10 @@
         "slewSettle": "Slew Settle",
         "statusTitle": "Mount Status",
         "trackingRate": "Tracking Rate",
-        "unattendedFlip": "Unattended Flip"
+        "unattendedFlip": "Unattended Flip",
+        "localDate": "Local Date",
+        "localTime": "Local Time",
+        "siderealTime": "Sidereal Time"
       },
       "mountNotConnected": "Mount is not connected.",
       "mountStatus": "Mount Status",

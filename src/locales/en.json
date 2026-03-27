@@ -2680,7 +2680,10 @@
         "horizonHigh": "Horizon High Limit",
         "horizonLow": "Horizon Low Limit",
         "connectionType": "Connection Type",
-        "deltaTExpiration": "DeltaT Expiration"
+        "deltaTExpiration": "DeltaT Expiration",
+        "localTime": "Local Time",
+        "localDate": "Local Date",
+        "siderealTime": "Sidereal Time"
       }
     }
   },

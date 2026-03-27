@@ -14,7 +14,8 @@
     "loading": "Laden...",
     "scanning": "Scannen…",
     "connecting": "Verbinden…",
-    "refresh": "Vernieuwen"
+    "refresh": "Vernieuwen",
+    "creating": "Creëren…"
   },
   "general": {
     "cancel": "Annuleer",
@@ -2302,7 +2303,15 @@
         "weather": "Meteostation",
         "temperature": "Temperatuur",
         "humidity": "Vochtigheid",
-        "dewPoint": "Dauw punt"
+        "dewPoint": "Dauw punt",
+        "placeholders": {
+          "networkName": "Netwerknaam",
+          "password": "Wachtwoord",
+          "passwordHint": "min. \n8 karakters"
+        },
+        "validation": {
+          "passwordRequired": "Wachtwoord moet minimaal 8 tekens lang zijn"
+        }
       },
       "config": {
         "title": "Configuratie",
@@ -2387,7 +2396,10 @@
         "cloudAssessment": "Wolkendekking",
         "temperatureStatus": "Temperatuurstatus",
         "dewSpread": "Dauwspreiding (T-Td)"
-      }
+      },
+      "meteoStation": "PINS.MeteoStation",
+      "powerBox": "PINS.PowerBox",
+      "wifiTab": "WiFi"
     },
     "shortcuts": {
       "title": "Sequentie-Shortcuts",

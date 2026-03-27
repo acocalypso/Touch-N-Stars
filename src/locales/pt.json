@@ -14,7 +14,8 @@
     "loading": "Carregando…",
     "scanning": "Digitalizando…",
     "connecting": "Conectando…",
-    "refresh": "Atualizar"
+    "refresh": "Atualizar",
+    "creating": "Criando…"
   },
   "general": {
     "cancel": "Cancelar",
@@ -2302,7 +2303,15 @@
         "weather": "Estação Meteo",
         "temperature": "Temperatura",
         "humidity": "Umidade",
-        "dewPoint": "Ponto de orvalho"
+        "dewPoint": "Ponto de orvalho",
+        "placeholders": {
+          "networkName": "Nome da rede",
+          "password": "Senha",
+          "passwordHint": "min. \n8 caracteres"
+        },
+        "validation": {
+          "passwordRequired": "A senha deve ter pelo menos 8 caracteres"
+        }
       },
       "config": {
         "title": "Configuração",
@@ -2387,7 +2396,10 @@
         "cloudAssessment": "Cobertura de nuvem",
         "temperatureStatus": "Status da temperatura",
         "dewSpread": "Propagação de orvalho (T-Td)"
-      }
+      },
+      "meteoStation": "PINS.MeteoStation",
+      "powerBox": "PINS.PowerBox",
+      "wifiTab": "Wi-fi"
     },
     "shortcuts": {
       "title": "Sequence-Shortcuts",

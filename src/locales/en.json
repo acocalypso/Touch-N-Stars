@@ -12,6 +12,7 @@
     "enable": "Enable",
     "disable": "Disable",
     "loading": "Loading…",
+    "creating": "Creating…",
     "scanning": "Scanning…",
     "connecting": "Connecting…",
     "refresh": "Refresh"
@@ -2284,6 +2285,9 @@
     },
     "pinsDevices": {
       "title": "PI'N'Stars Device",
+      "powerBox": "PINS.PowerBox",
+      "meteoStation": "PINS.MeteoStation",
+      "wifiTab": "WiFi",
       "settings": {
         "general": "General",
         "generalDescription": "General device settings and information",
@@ -2302,7 +2306,15 @@
         "weather": "MeteoStation",
         "temperature": "Temperature",
         "humidity": "Humidity",
-        "dewPoint": "Dew Point"
+        "dewPoint": "Dew Point",
+        "placeholders": {
+          "networkName": "Network Name",
+          "password": "Password",
+          "passwordHint": "min. 8 characters"
+        },
+        "validation": {
+          "passwordRequired": "Password must be at least 8 characters"
+        }
       },
       "config": {
         "title": "Configuration",

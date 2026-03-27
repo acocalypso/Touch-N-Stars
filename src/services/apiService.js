@@ -3222,7 +3222,7 @@ const apiService = {
     }
   },
 
-  async tenMicronGetAlignmentModel(timeout = DEFAULT_TIMEOUT) {
+  async tenMicronGetAlignmentModel(timeout = 60000) {
     try {
       const { API_URL } = getUrls();
       const response = await axios.get(`${API_URL}tenmicron/alignment-model`, { timeout });

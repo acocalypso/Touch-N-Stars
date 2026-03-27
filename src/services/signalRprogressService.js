@@ -18,6 +18,7 @@ class SignalRProgressService {
     this.reconnectTimeoutId = null;
     this.url = null;
     this._connectionId = 0;
+    this._connectingPromise = null;
   }
 
   setStatusCallback(callback) {
@@ -33,7 +34,12 @@ class SignalRProgressService {
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
+    // Deduplicate concurrent connect() calls — return the in-flight promise if one exists
+    if (this._connectingPromise) {
+      return this._connectingPromise;
+    }
+
+    this._connectingPromise = new Promise((resolve, reject) => {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
 
@@ -155,6 +161,7 @@ class SignalRProgressService {
         this.connection
           .start()
           .then(() => {
+            this._connectingPromise = null;
             console.log('[SignalRProgressService] SignalR connected for progress updates');
             this.isConnected = true;
             if (this.statusCallback) {
@@ -163,6 +170,7 @@ class SignalRProgressService {
             resolve();
           })
           .catch((err) => {
+            this._connectingPromise = null;
             console.error('[SignalRProgressService] SignalR connection error:', err);
             this.isConnected = false;
             if (this.statusCallback) {
@@ -186,10 +194,13 @@ class SignalRProgressService {
             }
           });
       } catch (err) {
+        this._connectingPromise = null;
         console.error('[SignalRProgressService] SignalR setup error:', err);
         reject(err);
       }
     });
+
+    return this._connectingPromise;
   }
 
   disconnect() {

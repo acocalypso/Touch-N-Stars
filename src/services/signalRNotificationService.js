@@ -17,6 +17,7 @@ class SignalRNotificationService {
     this.reconnectTimeoutId = null;
     this.url = null;
     this._connectionId = 0;
+    this._connectingPromise = null;
   }
 
   setStatusCallback(callback) {
@@ -59,7 +60,12 @@ class SignalRNotificationService {
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
+    // Deduplicate concurrent connect() calls — return the in-flight promise if one exists
+    if (this._connectingPromise) {
+      return this._connectingPromise;
+    }
+
+    this._connectingPromise = new Promise((resolve, reject) => {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
 
@@ -180,6 +186,7 @@ class SignalRNotificationService {
         this.connection
           .start()
           .then(() => {
+            this._connectingPromise = null;
             console.log('[SignalRNotificationService] SignalR connected for notifications');
             this.isConnected = true;
             if (this.statusCallback) {
@@ -188,6 +195,7 @@ class SignalRNotificationService {
             resolve();
           })
           .catch((err) => {
+            this._connectingPromise = null;
             console.error('[SignalRNotificationService] SignalR connection error:', err);
             this.isConnected = false;
             if (this.statusCallback) {
@@ -211,10 +219,13 @@ class SignalRNotificationService {
             }
           });
       } catch (err) {
+        this._connectingPromise = null;
         console.error('[SignalRNotificationService] SignalR setup error:', err);
         reject(err);
       }
     });
+
+    return this._connectingPromise;
   }
 
   disconnect() {

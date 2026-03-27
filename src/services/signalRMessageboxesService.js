@@ -19,6 +19,7 @@ class SignalRMessageboxesService {
     this.reconnectTimeoutId = null;
     this.url = null;
     this._connectionId = 0;
+    this._connectingPromise = null;
   }
 
   setStatusCallback(callback) {
@@ -46,7 +47,12 @@ class SignalRMessageboxesService {
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
+    // Deduplicate concurrent connect() calls — return the in-flight promise if one exists
+    if (this._connectingPromise) {
+      return this._connectingPromise;
+    }
+
+    this._connectingPromise = new Promise((resolve, reject) => {
       // Set shouldReconnect to true on each connect attempt
       this.shouldReconnect = true;
 
@@ -70,12 +76,6 @@ class SignalRMessageboxesService {
           .withUrl(this.url, { withCredentials: false })
           .withAutomaticReconnect([1000, 3000, 5000, 10000, 30000])
           .build();
-
-        // Generic event logger - logs ALL messages from server
-        this.connection.onclose((error) => {
-          if (connectionId !== this._connectionId) return;
-          console.log('[SignalRMessageboxesService] 🔴 Connection closed:', error);
-        });
 
         // Event Handler for ReceiveMessageBox
         this.connection.on('ReceiveMessageBox', (messageBoxData) => {
@@ -151,6 +151,7 @@ class SignalRMessageboxesService {
         this.connection
           .start()
           .then(() => {
+            this._connectingPromise = null;
             console.log('[SignalRMessageboxesService] Connected successfully');
             this.isConnected = true;
             if (this.statusCallback) {
@@ -159,6 +160,7 @@ class SignalRMessageboxesService {
             resolve(this.connection);
           })
           .catch((error) => {
+            this._connectingPromise = null;
             console.error('[SignalRMessageboxesService] Connection failed:', error);
             this.isConnected = false;
             if (this.statusCallback) {
@@ -182,10 +184,13 @@ class SignalRMessageboxesService {
             }
           });
       } catch (error) {
+        this._connectingPromise = null;
         console.error('[SignalRMessageboxesService] Error during connection setup:', error);
         reject(error);
       }
     });
+
+    return this._connectingPromise;
   }
 
   disconnect() {

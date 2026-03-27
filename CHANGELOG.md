@@ -10,16 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GPS Sync option
 - Time Snyc option
 - Total Exposure Time: Filter by filter name or show all filters
+- Camera Page: Image rotation button (0°/90°/180°/270°) – rotation is saved per instance, enabling correct orientation for dual-camera setups
+- PINS Plugin: Option to disconnect wifi and start hotspot
+- PINS: TPPA set exposuretime and gain
+- PINS: switch between two instances
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type
 - Stellarium time fix
 - PINS: Manual Rotator dialog button
-
-### Added
-- PINS Plugin: Option to disconnect wifi and start hotspot
-- PINS: TPPA set exposuretime and gain
-- PINS: switch between two instances
+- Fix crash when NINA plugin version is not yet loaded (checkVersionNewerOrEqual)
 
 
 ## [App4.7.0] - 2026-03-17

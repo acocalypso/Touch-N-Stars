@@ -97,6 +97,27 @@
         />
       </div>
     </div>
+
+    <div class="flex flex-col gap-1 border border-gray-500 p-2 rounded-lg">
+      <label class="text-gray-400">{{
+        $t('components.sequence.monitor.settings.imageRotation')
+      }}</label>
+      <div class="flex gap-2">
+        <button
+          v-for="deg in [0, 90, 180, 270]"
+          :key="deg"
+          @click="settingsStore.setImageRotation(deg)"
+          :class="[
+            'flex-1 py-1 rounded text-sm font-medium border',
+            settingsStore.currentImageRotation === deg
+              ? 'bg-cyan-700 border-cyan-500 text-white'
+              : 'bg-gray-700 border-gray-500 text-gray-300',
+          ]"
+        >
+          {{ deg }}°
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>

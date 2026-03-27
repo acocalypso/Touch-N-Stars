@@ -19,6 +19,7 @@ class SignalRDialogService {
     this.reconnectTimeoutId = null;
     this.url = null;
     this._connectionId = 0;
+    this._connectingPromise = null;
   }
 
   setStatusCallback(callback) {
@@ -46,7 +47,12 @@ class SignalRDialogService {
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
+    // Deduplicate concurrent connect() calls — return the in-flight promise if one exists
+    if (this._connectingPromise) {
+      return this._connectingPromise;
+    }
+
+    this._connectingPromise = new Promise((resolve, reject) => {
       // Set shouldReconnect to true on each connect attempt
       this.shouldReconnect = true;
 
@@ -169,6 +175,7 @@ class SignalRDialogService {
         this.connection
           .start()
           .then(() => {
+            this._connectingPromise = null;
             console.log('[SignalRDialogService] Connected successfully');
             this.isConnected = true;
             if (this.statusCallback) {
@@ -177,6 +184,7 @@ class SignalRDialogService {
             resolve(this.connection);
           })
           .catch((error) => {
+            this._connectingPromise = null;
             console.error('[SignalRDialogService] Connection failed:', error);
             this.isConnected = false;
             if (this.statusCallback) {
@@ -200,10 +208,13 @@ class SignalRDialogService {
             }
           });
       } catch (error) {
+        this._connectingPromise = null;
         console.error('[SignalRDialogService] Error during connection setup:', error);
         reject(error);
       }
     });
+
+    return this._connectingPromise;
   }
 
   disconnect() {

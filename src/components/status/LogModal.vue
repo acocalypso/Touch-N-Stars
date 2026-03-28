@@ -41,6 +41,22 @@
           <XMarkIcon class="w-7 h-7" />
         </button>
       </div>
+      <!-- Level Filter -->
+      <div class="flex flex-wrap gap-1 pb-3">
+        <button
+          v-for="lvl in ['ALL', 'DEBUG', 'INFO', 'WARNING', 'ERROR']"
+          :key="lvl"
+          @click="selectedLevel = lvl"
+          class="px-2 py-0.5 rounded text-xs font-medium transition-colors"
+          :class="
+            selectedLevel === lvl
+              ? activeLevelClass(lvl)
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          "
+        >
+          {{ lvl }}
+        </button>
+      </div>
       <!-- Tabelle anzeigen, wenn Daten verfügbar sind -->
       <div class="w-full max-h-[50vh] overflow-y-auto overflow-x-auto relative scrollbar-thin">
         <table
@@ -97,6 +113,18 @@ const logStore = useLogStore();
 const emit = defineEmits(['close']);
 const isMounted = ref(false);
 const showSuccess = ref(false);
+const selectedLevel = ref('ALL');
+
+function activeLevelClass(lvl) {
+  const map = {
+    ALL: 'bg-gray-400 text-gray-900',
+    DEBUG: 'bg-gray-500 text-white',
+    INFO: 'bg-green-600 text-white',
+    WARNING: 'bg-yellow-600 text-white',
+    ERROR: 'bg-red-600 text-white',
+  };
+  return map[lvl] ?? 'bg-gray-500 text-white';
+}
 
 // Funktion zum Formatieren des Timestamps (optional)
 function formatTimestamp(timestamp) {
@@ -105,7 +133,11 @@ function formatTimestamp(timestamp) {
 }
 
 const filteredLogs = computed(() =>
-  logStore.LogsInfo.logs.filter((entry) => !entry.message.includes('EDS_ERR_INVALID_PARAMETER'))
+  logStore.LogsInfo.logs.filter(
+    (entry) =>
+      !entry.message.includes('EDS_ERR_INVALID_PARAMETER') &&
+      (selectedLevel.value === 'ALL' || entry.level === selectedLevel.value)
+  )
 );
 
 function handleOutsideClick(event) {

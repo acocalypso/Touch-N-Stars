@@ -210,7 +210,8 @@
       "debug": {
         "title": "Débogage",
         "activate": "Activer le mode débogage",
-        "titel": "Debug"
+        "titel": "Debug",
+        "logLevel": "Niveau de log"
       },
       "notifications": {
         "title": "Notifications",

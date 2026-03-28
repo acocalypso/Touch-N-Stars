@@ -624,7 +624,14 @@
           "duration": "Durata (min)"
         }
       },
-      "emptyContainer": "Vuoto — fai clic su + per aggiungere elementi"
+      "emptyContainer": "Vuoto — fai clic su + per aggiungere elementi",
+      "imageFilter": {
+        "allFilters": "Tutti i filtri",
+        "allImageTypes": "Tutti i tipi",
+        "allNights": "Tutte le notti",
+        "allTargets": "Tutti gli obiettivi",
+        "reset": "Reimposta filtro"
+      }
     },
     "mount": {
       "title": "Montatura",

@@ -624,7 +624,14 @@
           "duration": "Duur (min)"
         }
       },
-      "emptyContainer": "Leeg — klik op + om items toe te voegen"
+      "emptyContainer": "Leeg — klik op + om items toe te voegen",
+      "imageFilter": {
+        "allFilters": "Alle filters",
+        "allImageTypes": "Alle soorten",
+        "allNights": "Alle nachten",
+        "allTargets": "Alle doelen",
+        "reset": "Filter opnieuw instellen"
+      }
     },
     "mount": {
       "title": "Montering",

@@ -436,6 +436,13 @@
         "Pictures": "Pictures",
         "AllFilters": "All Filters"
       },
+      "imageFilter": {
+        "allTargets": "All Targets",
+        "allFilters": "All Filters",
+        "allNights": "All Nights",
+        "allImageTypes": "All Types",
+        "reset": "Reset Filter"
+      },
       "items": {
         "saving": "Saving…",
         "generic": "Generic",

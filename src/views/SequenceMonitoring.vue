@@ -49,7 +49,11 @@
       v-model:activeItem="currentTab"
     />
 
-    <div class="flex items-center justify-center mb-6 mt-16 mx-2">
+    <div v-if="store.imageHistoryInfo && store.imageHistoryInfo.length > 0" class="mt-14 mx-2 mb-2">
+      <ImageFilterControls />
+    </div>
+
+    <div class="flex items-center justify-center mb-6 mx-2">
       <div v-if="currentTab == 'showStats'">
         <button
           type="button"
@@ -141,6 +145,7 @@ import { useSequenceStore } from '@/store/sequenceStore';
 import SequenceRunningItem from '@/components/sequence/SequenceRunningItem.vue';
 import SequenceRunningConditions from '@/components/sequence/SequenceRunningConditions.vue';
 import totalExposureTime from '@/components/imageHistory/totalExposureTime.vue';
+import ImageFilterControls from '@/components/imageHistory/ImageFilterControls.vue';
 
 const currentTab = ref('showStats');
 

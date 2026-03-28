@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence: Set multi targets
 - GPS Sync option
 - Time Snyc option
+- Sequence Monitor: Global image filter by target, astronomy filter, observation night and image type – applies to image grid, graph and exposure time summary
 - Total Exposure Time: Filter by filter name or show all filters
 - Camera Page: Image rotation button (0°/90°/180°/270°) – rotation is saved per instance, enabling correct orientation for dual-camera setups
 - PINS Plugin: Option to disconnect wifi and start hotspot

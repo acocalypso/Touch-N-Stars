@@ -624,7 +624,14 @@
           "duration": "Durée (min)"
         }
       },
-      "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments"
+      "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments",
+      "imageFilter": {
+        "allFilters": "Tous les filtres",
+        "allImageTypes": "Tous types",
+        "allNights": "Toutes les nuits",
+        "allTargets": "Toutes les cibles",
+        "reset": "Réinitialiser le filtre"
+      }
     },
     "mount": {
       "title": "Monture",

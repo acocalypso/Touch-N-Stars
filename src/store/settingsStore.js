@@ -41,6 +41,12 @@ export const useSettingsStore = defineStore('settings', {
       },
       graphDataSource1: 'HFR', // Erste Datenquelle für Graph
       graphDataSource2: 'Stars', // Zweite Datenquelle für Graph
+      imageFilter: {
+        selectedTarget: null,
+        selectedFilter: null,
+        selectedNight: null,
+        selectedImageType: null,
+      },
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -317,6 +323,27 @@ export const useSettingsStore = defineStore('settings', {
 
     setGraphDataSource2(dataSource) {
       this.monitorViewSetting.graphDataSource2 = dataSource;
+    },
+
+    setImageFilterTarget(target) {
+      this.monitorViewSetting.imageFilter.selectedTarget = target;
+      this.monitorViewSetting.imageFilter.selectedFilter = null;
+      this.monitorViewSetting.imageFilter.selectedNight = null;
+    },
+    setImageFilterFilter(filter) {
+      this.monitorViewSetting.imageFilter.selectedFilter = filter;
+    },
+    setImageFilterNight(night) {
+      this.monitorViewSetting.imageFilter.selectedNight = night;
+    },
+    setImageFilterImageType(imageType) {
+      this.monitorViewSetting.imageFilter.selectedImageType = imageType;
+    },
+    resetImageFilter() {
+      this.monitorViewSetting.imageFilter.selectedTarget = null;
+      this.monitorViewSetting.imageFilter.selectedFilter = null;
+      this.monitorViewSetting.imageFilter.selectedNight = null;
+      this.monitorViewSetting.imageFilter.selectedImageType = null;
     },
 
     setModalPosition(modalId, orientation, position) {

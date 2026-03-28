@@ -205,6 +205,10 @@
         {{ $t('components.settings.debug.title') }}
       </h3>
       <SetDebug />
+      <div v-if="store.isPINS"  class="flex items-center justify-between">
+        <p class="text-gray-300 text-sm mr-4">{{ $t('components.settings.debug.logLevel') }}</p>
+        <SetLogLevel />
+      </div>
     </div>
 
     <!-- System Controls -->
@@ -296,6 +300,7 @@ import SetDebug from '@/components/settings/setDebug.vue';
 import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/setBeta.vue';
+import SetLogLevel from '@/components/settings/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import LocationSettingsPins from '@/components/settings/LocationSettingsPins.vue';
 import { useI18n } from 'vue-i18n';

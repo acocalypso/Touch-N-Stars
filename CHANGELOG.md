@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS Plugin: Option to disconnect wifi and start hotspot
 - PINS: TPPA set exposuretime and gain
 - PINS: switch between two instances
+- PINS: Log level selector in debug settings (requires PINS plugin support)
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type

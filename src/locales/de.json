@@ -386,6 +386,8 @@
       "median": "Median",
       "stDev": "St. Abw.",
       "rmsText": "RMS",
+      "gain": "Gain",
+      "offset": "Offset",
       "monitor": {
         "settings": {
           "title": "Ansichtseinstellungen",
@@ -435,6 +437,13 @@
         "title": "Gesamtbelichtungszeit",
         "Pictures": "Bilder",
         "AllFilters": "Alle Filter"
+      },
+      "imageFilter": {
+        "allTargets": "Alle Ziele",
+        "allFilters": "Alle Filter",
+        "allNights": "Alle Nächte",
+        "allImageTypes": "Alle Typen",
+        "reset": "Filter zurücksetzen"
       },
       "items": {
         "saving": "Speichern…",

@@ -386,6 +386,8 @@
       "median": "Median",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
+      "gain": "Gain",
+      "offset": "Offset",
       "monitor": {
         "settings": {
           "title": "View settings",
@@ -435,6 +437,13 @@
         "title": "Total exposure time",
         "Pictures": "Pictures",
         "AllFilters": "All Filters"
+      },
+      "imageFilter": {
+        "allTargets": "All Targets",
+        "allFilters": "All Filters",
+        "allNights": "All Nights",
+        "allImageTypes": "All Types",
+        "reset": "Reset Filter"
       },
       "items": {
         "saving": "Saving…",

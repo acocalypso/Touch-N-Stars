@@ -624,7 +624,16 @@
           "duration": "Duración (min)"
         }
       },
-      "emptyContainer": "Vacío — haga clic en + para añadir elementos"
+      "emptyContainer": "Vacío — haga clic en + para añadir elementos",
+      "imageFilter": {
+        "allFilters": "Todos los filtros",
+        "allImageTypes": "Todos los tipos",
+        "allNights": "Todas las noches",
+        "allTargets": "Todos los objetivos",
+        "reset": "Restablecer filtro"
+      },
+      "gain": "Gain",
+      "offset": "Offset"
     },
     "mount": {
       "title": "Montura",

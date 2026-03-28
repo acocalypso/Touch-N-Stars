@@ -1,34 +1,15 @@
 <template>
   <div class="flex flex-col gap-3">
-    <!-- Selected Target Display -->
-    <div v-if="selectedTargetData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
+    <div v-if="displayData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
       <div class="flex justify-between items-center">
-        <div class="flex flex-col gap-2">
-          <select id="targetSelect" v-model="selectedTarget" class="default-select">
-            <option
-              v-for="target in exposureTimeByTarget"
-              :key="target.targetName"
-              :value="target.targetName"
-            >
-              {{ target.targetName }}
-            </option>
-          </select>
-          <select id="filterSelect" v-model="selectedFilter" class="default-select">
-            <option value="__all__">
-              {{ $t('components.sequence.totalExposureTime.AllFilters') }}
-            </option>
-            <option v-for="filter in availableFilters" :key="filter" :value="filter">
-              {{ filter }}
-            </option>
-          </select>
-        </div>
+        <span class="text-sm text-gray-400">{{ displayLabel }}</span>
         <span class="text-right">
           <div class="text-sm text-gray-600 dark:text-gray-400">
-            {{ selectedTargetData.imageCount }}
+            {{ displayData.imageCount }}
             {{ $t('components.sequence.totalExposureTime.Pictures') }}
           </div>
           <div class="font-mono text-lg text-gray-300 font-bold">
-            {{ formatExposureTime(selectedTargetData.totalTime) }}
+            {{ formatExposureTime(displayData.totalTime) }}
           </div>
         </span>
       </div>
@@ -37,79 +18,33 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
-import { apiStore } from '@/store/store';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useImageFilter } from '@/composables/useImageFilter';
 
-const store = apiStore();
-const selectedTarget = ref(null);
-const selectedFilter = ref('__all__');
-let previousLength = 0;
+const { t } = useI18n();
+const { filter, filteredImages } = useImageFilter();
 
-watch(
-  () => store.imageHistoryInfo,
-  (newVal) => {
-    if (newVal && newVal.length > 0) {
-      // Only auto-select the latest target if new images have been added
-      if (newVal.length > previousLength) {
-        const latestTarget = newVal[newVal.length - 1].TargetName;
-        selectedTarget.value = latestTarget;
-      }
-      previousLength = newVal.length;
-    }
-  },
-  { immediate: true }
+const lightFilteredImages = computed(() =>
+  filteredImages.value.filter(
+    (img) => img.ImageType === 'LIGHT' || img.ImageType === 'SNAPSHOT'
+  )
 );
 
-const availableFilters = computed(() => {
-  if (!store.imageHistoryInfo || !Array.isArray(store.imageHistoryInfo)) {
-    return [];
-  }
-  const filters = new Set(
-    store.imageHistoryInfo
-      .filter(
-        (image) =>
-          (image.ImageType === 'LIGHT' || image.ImageType === 'SNAPSHOT') &&
-          image.TargetName === selectedTarget.value &&
-          image.Filter
-      )
-      .map((image) => image.Filter)
-  );
-  return [...filters].sort();
+const displayData = computed(() => {
+  const images = lightFilteredImages.value;
+  if (!images || images.length === 0) return null;
+  return {
+    imageCount: images.length,
+    totalTime: images.reduce((sum, img) => sum + (img.ExposureTime || 0), 0),
+  };
 });
 
-const exposureTimeByTarget = computed(() => {
-  if (!store.imageHistoryInfo || !Array.isArray(store.imageHistoryInfo)) {
-    return [];
-  }
-
-  const targetMap = {};
-
-  store.imageHistoryInfo
-    .filter(
-      (image) =>
-        (image.ImageType === 'LIGHT' || image.ImageType === 'SNAPSHOT') &&
-        (selectedFilter.value === '__all__' || image.Filter === selectedFilter.value)
-    )
-    .forEach((image) => {
-      const targetName = image.TargetName || '?';
-
-      if (!targetMap[targetName]) {
-        targetMap[targetName] = {
-          targetName,
-          totalTime: 0,
-          imageCount: 0,
-        };
-      }
-
-      targetMap[targetName].totalTime += image.ExposureTime || 0;
-      targetMap[targetName].imageCount += 1;
-    });
-
-  return Object.values(targetMap).sort((a, b) => a.targetName.localeCompare(b.targetName));
-});
-
-const selectedTargetData = computed(() => {
-  return exposureTimeByTarget.value.find((target) => target.targetName === selectedTarget.value);
+const displayLabel = computed(() => {
+  const parts = [];
+  if (filter.value.selectedTarget) parts.push(filter.value.selectedTarget);
+  if (filter.value.selectedFilter) parts.push(filter.value.selectedFilter);
+  return parts.length > 0 ? parts.join(' / ') : t('components.sequence.imageFilter.allTargets');
 });
 
 const formatExposureTime = (seconds) => {

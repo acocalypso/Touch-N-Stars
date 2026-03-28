@@ -74,6 +74,7 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
+import { useImageFilter, getNightKey } from '@/composables/useImageFilter';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
@@ -82,6 +83,7 @@ const imageHistory = ref([]);
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const isLoadingImages = ref(false);
+const { filter } = useImageFilter();
 
 const sortAscending = ref(false);
 
@@ -90,8 +92,26 @@ function toggleShowHistoryStats() {
     !settingsStore.monitorViewSetting.showHistoryImageStats;
 }
 
+const filteredImageHistory = computed(() =>
+  imageHistory.value.filter((item) => {
+    const img = item.stats || {};
+    if (filter.value.selectedTarget !== null && img.TargetName !== filter.value.selectedTarget)
+      return false;
+    if (filter.value.selectedFilter !== null && img.Filter !== filter.value.selectedFilter)
+      return false;
+    if (
+      filter.value.selectedNight !== null &&
+      getNightKey(img.Date) !== filter.value.selectedNight
+    )
+      return false;
+    if (filter.value.selectedImageType !== null && img.ImageType !== filter.value.selectedImageType)
+      return false;
+    return true;
+  })
+);
+
 const sortedImageHistory = computed(() => {
-  return [...imageHistory.value].sort((a, b) => {
+  return [...filteredImageHistory.value].sort((a, b) => {
     const comparison = a.index - b.index;
     return sortAscending.value ? comparison : -comparison;
   });

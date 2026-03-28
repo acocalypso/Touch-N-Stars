@@ -624,7 +624,16 @@
           "duration": "Duration (min)"
         }
       },
-      "emptyContainer": "Prázdné — kliknutím na + přidáte položky"
+      "emptyContainer": "Prázdné — kliknutím na + přidáte položky",
+      "imageFilter": {
+        "allFilters": "All Filters",
+        "allImageTypes": "All Types",
+        "allNights": "All Nights",
+        "allTargets": "All Targets",
+        "reset": "Reset Filter"
+      },
+      "gain": "Gain",
+      "offset": "Offset"
     },
     "mount": {
       "title": "Montáž",

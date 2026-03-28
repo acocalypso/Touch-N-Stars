@@ -83,6 +83,16 @@
           <span class="truncate">{{ stats.Temperature.toFixed(1) }}°C</span>
         </div>
 
+        <div v-if="isValidNumber(stats.Gain)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.gain') }}:</span>
+          <span class="truncate">{{ stats.Gain }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.Offset)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.offset') }}:</span>
+          <span class="truncate">{{ stats.Offset }}</span>
+        </div>
+
         <div v-if="stats.Filter" class="flex gap-1 col-span-2 min-w-0">
           <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.filter') }}:</span>
           <span class="truncate">{{ stats.Filter }}</span>

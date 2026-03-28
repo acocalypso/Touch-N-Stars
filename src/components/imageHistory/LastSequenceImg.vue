@@ -21,6 +21,8 @@
           Temperature,
           Stars,
           Filter,
+          Gain,
+          Offset,
           TargetName,
         }"
       />
@@ -78,6 +80,8 @@ const TargetName = ref(null);
 const Min = ref(null);
 const Max = ref(null);
 const HFRStDev = ref(null);
+const Gain = ref(null);
+const Offset = ref(null);
 
 async function loadImage(index) {
   try {
@@ -115,6 +119,8 @@ function setSelectedDataset(datasetIndex) {
     Min.value = selectedData.Min;
     Max.value = selectedData.Max;
     HFRStDev.value = selectedData.HFRStDev;
+    Gain.value = selectedData.Gain;
+    Offset.value = selectedData.Offset;
   }
 }
 

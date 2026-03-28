@@ -93,59 +93,6 @@
             </p>
           </div>
 
-          <!-- Environment Update Rate -->
-          <div class="space-y-3">
-            <label class="block text-sm font-medium text-gray-300">
-              {{ $t('plugins.pinsDevices.config.envUpdateRate') }}
-            </label>
-            <div class="flex items-center gap-2">
-              <button
-                @click="openEnvUpdateRatePicker()"
-                class="flex-1 py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all"
-              >
-                {{ envUpdateRate }}s
-              </button>
-            </div>
-            <p class="text-xs text-gray-500">
-              {{ $t('plugins.pinsDevices.config.envUpdateRateDesc') }}
-            </p>
-          </div>
-
-          <!-- Update Rate -->
-          <div class="space-y-3 pb-6 border-b border-gray-700">
-            <label class="block text-sm font-medium text-gray-300">
-              {{ $t('plugins.pinsDevices.config.updateRate') }}
-            </label>
-            <div class="flex items-center gap-2">
-              <button
-                @click="openUpdateRatePicker()"
-                class="flex-1 py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-all"
-              >
-                {{ updateRate }}s
-              </button>
-            </div>
-            <p class="text-xs text-gray-500">
-              {{ $t('plugins.pinsDevices.config.updateRateDesc') }}
-            </p>
-          </div>
-
-          <!-- Factory Reset Section -->
-          <div class="border border-red-700/50 rounded-lg p-4 bg-red-900/10">
-            <h3 class="text-lg font-semibold text-red-400 mb-4">
-              {{ $t('plugins.pinsDevices.config.factoryReset') }}
-            </h3>
-
-            <p class="text-sm text-gray-300 mb-4">
-              {{ $t('plugins.pinsDevices.config.factoryResetDesc') }}
-            </p>
-
-            <button
-              @click="confirmFactoryReset"
-              class="w-full py-2 px-3 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-all"
-            >
-              {{ $t('plugins.pinsDevices.config.factoryReset') }}
-            </button>
-          </div>
         </div>
 
         <!-- MeteoStation Configuration -->
@@ -336,38 +283,6 @@
       </div>
     </div>
 
-    <!-- Confirmation Dialog -->
-    <div
-      v-if="showConfirmation"
-      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-    >
-      <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-sm mx-4">
-        <h3 class="text-lg font-semibold text-white mb-4">
-          {{ $t('plugins.pinsDevices.config.factoryReset') }}
-        </h3>
-
-        <p class="text-sm text-gray-300 mb-6">
-          {{ $t('plugins.pinsDevices.config.factoryResetConfirm') }}
-        </p>
-
-        <div class="flex gap-3">
-          <button
-            @click="cancelFactoryReset"
-            class="flex-1 py-2 px-3 rounded-lg bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold transition-all"
-          >
-            {{ $t('common.cancel') }}
-          </button>
-          <button
-            @click="executeFactoryReset"
-            :disabled="isResettingFactory"
-            class="flex-1 py-2 px-3 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {{ isResettingFactory ? $t('common.loading') : $t('common.confirm') }}
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- MeteoStation Confirmation Dialog -->
     <div
       v-if="showMeteoConfirmation"
@@ -404,8 +319,11 @@
 
 <script setup>
 import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { usePinsDeviceStore } from '../store/pinsDevicesStore.js';
 import { useNumberPicker } from '@/composables/useNumberPicker.js';
+
+const { t } = useI18n();
 
 const store = usePinsDeviceStore();
 const { openPicker } = useNumberPicker();
@@ -413,16 +331,12 @@ const { openPicker } = useNumberPicker();
 const activeSubTab = ref('powerbox');
 const temperatureOffset = ref(0);
 const humidityOffset = ref(0);
-const envUpdateRate = ref(3);
-const updateRate = ref(1);
 const meteoTemperatureOffset = ref(0);
 const meteoHumidityOffset = ref(0);
 const meteoUpdateRate = ref(3);
 const hotspotSSID = ref('');
 const hotspotPassword = ref('');
-const showConfirmation = ref(false);
 const showMeteoConfirmation = ref(false);
-const isResettingFactory = ref(false);
 const isResettingMeteoFactory = ref(false);
 
 let unwatchStatus;
@@ -462,12 +376,6 @@ onMounted(async () => {
   if (store.powerboxStatus.HumidityOffset !== undefined) {
     humidityOffset.value = store.powerboxStatus.HumidityOffset;
   }
-  if (store.powerboxStatus.EnvUpdateRate !== undefined) {
-    envUpdateRate.value = store.powerboxStatus.EnvUpdateRate;
-  }
-  if (store.powerboxStatus.UpdateRate !== undefined) {
-    updateRate.value = store.powerboxStatus.UpdateRate;
-  }
 
   // Initialize MeteoStation values from store
   if (store.meteoStationStatus.TemperatureOffset !== undefined) {
@@ -494,12 +402,6 @@ onMounted(async () => {
       }
       if (newStatus.HumidityOffset !== undefined) {
         humidityOffset.value = newStatus.HumidityOffset;
-      }
-      if (newStatus.EnvUpdateRate !== undefined) {
-        envUpdateRate.value = newStatus.EnvUpdateRate;
-      }
-      if (newStatus.UpdateRate !== undefined) {
-        updateRate.value = newStatus.UpdateRate;
       }
     },
     { deep: true }
@@ -553,30 +455,6 @@ const openHumidityOffsetPicker = () => {
   );
 };
 
-const openEnvUpdateRatePicker = () => {
-  openPicker(
-    'plugins.pinsDevices.config.envUpdateRate',
-    1,
-    60,
-    1,
-    envUpdateRate.value,
-    (newValue) => handleEnvUpdateRateChange(newValue),
-    0
-  );
-};
-
-const openUpdateRatePicker = () => {
-  openPicker(
-    'plugins.pinsDevices.config.updateRate',
-    1,
-    60,
-    1,
-    updateRate.value,
-    (newValue) => handleUpdateRateChange(newValue),
-    0
-  );
-};
-
 const handleTemperatureOffsetChange = async (offset) => {
   const numValue = parseFloat(offset);
   if (isNaN(numValue)) return;
@@ -594,54 +472,6 @@ const handleHumidityOffsetChange = async (offset) => {
   const success = await store.setHumidityOffset(numValue);
   if (success) {
     humidityOffset.value = numValue;
-  }
-};
-
-const handleEnvUpdateRateChange = async (rate) => {
-  const numValue = parseInt(rate, 10);
-  if (isNaN(numValue)) return;
-
-  // Clamp to valid range 1-60
-  const clampedValue = Math.max(1, Math.min(60, numValue));
-  const success = await store.setEnvUpdateRate(clampedValue);
-  if (success) {
-    envUpdateRate.value = clampedValue;
-  }
-};
-
-const handleUpdateRateChange = async (rate) => {
-  const numValue = parseInt(rate, 10);
-  if (isNaN(numValue)) return;
-
-  // Clamp to valid range 1-60
-  const clampedValue = Math.max(1, Math.min(60, numValue));
-  const success = await store.setUpdateRate(clampedValue);
-  if (success) {
-    updateRate.value = clampedValue;
-  }
-};
-
-const confirmFactoryReset = () => {
-  showConfirmation.value = true;
-};
-
-const cancelFactoryReset = () => {
-  showConfirmation.value = false;
-};
-
-const executeFactoryReset = async () => {
-  isResettingFactory.value = true;
-  try {
-    const success = await store.factoryReset();
-    if (success) {
-      showConfirmation.value = false;
-      // Optionally reload or refresh after reset
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    }
-  } finally {
-    isResettingFactory.value = false;
   }
 };
 

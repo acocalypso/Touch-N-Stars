@@ -14,7 +14,8 @@
     "loading": "Caricamento…",
     "scanning": "Scansione…",
     "connecting": "Connessione…",
-    "refresh": "Aggiorna"
+    "refresh": "Aggiorna",
+    "creating": "Creazione…"
   },
   "general": {
     "cancel": "Annulla",
@@ -2302,7 +2303,15 @@
         "weather": "MeteoStazione",
         "temperature": "Temperatura",
         "humidity": "Umidità",
-        "dewPoint": "Punto di rugiada"
+        "dewPoint": "Punto di rugiada",
+        "placeholders": {
+          "networkName": "Nome della rete",
+          "password": "Password",
+          "passwordHint": "min. \n8 caratteri"
+        },
+        "validation": {
+          "passwordRequired": "La password deve contenere almeno 8 caratteri"
+        }
       },
       "config": {
         "title": "Configurazione",
@@ -2387,7 +2396,10 @@
         "cloudAssessment": "Copertura nuvolosa",
         "temperatureStatus": "Stato della temperatura",
         "dewSpread": "Diffusione della rugiada (T-Td)"
-      }
+      },
+      "meteoStation": "PINS.MeteoStation",
+      "powerBox": "PINS.PowerBox",
+      "wifiTab": "Wifi"
     },
     "shortcuts": {
       "title": "Sequence-Shortcuts",

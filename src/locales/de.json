@@ -14,7 +14,8 @@
     "loading": "Laden…",
     "scanning": "Scannen…",
     "connecting": "Verbinden…",
-    "refresh": "Aktualisieren"
+    "refresh": "Aktualisieren",
+    "creating": "Erstellen…"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -2302,7 +2303,15 @@
         "weather": "MeteoStation",
         "temperature": "Temperatur",
         "humidity": "Luftfeuchtigkeit",
-        "dewPoint": "Taupunkt"
+        "dewPoint": "Taupunkt",
+        "placeholders": {
+          "networkName": "Netzwerkname",
+          "password": "Passwort",
+          "passwordHint": "min. \n8 Zeichen"
+        },
+        "validation": {
+          "passwordRequired": "Das Passwort muss mindestens 8 Zeichen lang sein"
+        }
       },
       "config": {
         "title": "Konfiguration",
@@ -2387,7 +2396,10 @@
         "cloudAssessment": "Wolkenabdeckung",
         "temperatureStatus": "Temperaturstatus",
         "dewSpread": "Tauausbreitung (T-Td)"
-      }
+      },
+      "meteoStation": "PINS.MeteoStation",
+      "powerBox": "PINS.PowerBox",
+      "wifiTab": "W-lan"
     },
     "shortcuts": {
       "title": "Sequence-Shortcuts",

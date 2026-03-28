@@ -14,7 +14,8 @@
     "loading": "Loading…",
     "scanning": "Scanning…",
     "connecting": "Connecting…",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "creating": "Creating…"
   },
   "general": {
     "cancel": "取消",
@@ -2302,7 +2303,15 @@
         "weather": "MeteoStation",
         "temperature": "Temperature",
         "humidity": "Humidity",
-        "dewPoint": "Dew Point"
+        "dewPoint": "Dew Point",
+        "placeholders": {
+          "networkName": "Network Name",
+          "password": "Password",
+          "passwordHint": "min. 8 characters"
+        },
+        "validation": {
+          "passwordRequired": "Password must be at least 8 characters"
+        }
       },
       "config": {
         "title": "Configuration",
@@ -2387,7 +2396,10 @@
         "cloudAssessment": "Cloud Coverage",
         "temperatureStatus": "Temperature Status",
         "dewSpread": "Dew Spread (T-Td)"
-      }
+      },
+      "meteoStation": "PINS.MeteoStation",
+      "powerBox": "PINS.PowerBox",
+      "wifiTab": "WiFi"
     },
     "shortcuts": {
       "title": "序列快捷方式",

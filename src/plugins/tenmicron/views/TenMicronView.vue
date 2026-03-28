@@ -2098,6 +2098,8 @@ async function deleteWorstStar() {
     await loadAlignmentModel();
   } catch (e) {
     tmStore.lastError = e?.message;
+  } finally {
+    tmStore.isRefreshing = false;
   }
 }
 
@@ -2113,6 +2115,8 @@ async function clearAlignment() {
     await loadAlignmentModel();
   } catch (e) {
     tmStore.lastError = e?.message;
+  } finally {
+    tmStore.isRefreshing = false;
   }
 }
 

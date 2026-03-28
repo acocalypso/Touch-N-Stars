@@ -14,7 +14,8 @@
     "loading": "Załadunek…",
     "scanning": "Łów…",
     "connecting": "Złączony…",
-    "refresh": "Odświeżać"
+    "refresh": "Odświeżać",
+    "creating": "Tworzenie…"
   },
   "general": {
     "cancel": "Anuluj",
@@ -2302,7 +2303,15 @@
         "weather": "Stacja Meteo",
         "temperature": "Temperatura",
         "humidity": "Wilgotność",
-        "dewPoint": "Punkt rosy"
+        "dewPoint": "Punkt rosy",
+        "placeholders": {
+          "networkName": "Nazwa sieci",
+          "password": "Hasło",
+          "passwordHint": "min. \n8 znaków"
+        },
+        "validation": {
+          "passwordRequired": "Hasło musi mieć co najmniej 8 znaków"
+        }
       },
       "config": {
         "title": "Konfiguracja",
@@ -2387,7 +2396,10 @@
         "cloudAssessment": "Zasięg chmury",
         "temperatureStatus": "Stan temperatury",
         "dewSpread": "Rozprzestrzenianie się rosy (T-Td)"
-      }
+      },
+      "meteoStation": "Stacja PINS.Meteo",
+      "powerBox": "PINY.PowerBox",
+      "wifiTab": "WiFi"
     },
     "shortcuts": {
       "title": "Sequence-Shortcuts",

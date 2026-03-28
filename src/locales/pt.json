@@ -2668,7 +2668,10 @@
         "slewSettle": "Acordo de matança",
         "statusTitle": "Status da montaria",
         "trackingRate": "Taxa de rastreamento",
-        "unattendedFlip": "Inversão autônoma"
+        "unattendedFlip": "Inversão autônoma",
+        "localDate": "Data local",
+        "localTime": "Hora local",
+        "siderealTime": "Tempo Sideral"
       },
       "mountNotConnected": "A montagem não está conectada.",
       "mountStatus": "Status da montaria",

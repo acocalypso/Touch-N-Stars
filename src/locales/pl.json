@@ -2668,7 +2668,10 @@
         "slewSettle": "Zabij się",
         "statusTitle": "Stan mocowania",
         "trackingRate": "Szybkość śledzenia",
-        "unattendedFlip": "Nienadzorowany flip"
+        "unattendedFlip": "Nienadzorowany flip",
+        "localDate": "Data lokalna",
+        "localTime": "Czas lokalny",
+        "siderealTime": "Czas gwiazdowy"
       },
       "mountNotConnected": "Uchwyt nie jest podłączony.",
       "mountStatus": "Stan mocowania",

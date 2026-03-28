@@ -2668,7 +2668,10 @@
         "slewSettle": "Setz dich nieder",
         "statusTitle": "Mount-Status",
         "trackingRate": "Tracking-Rate",
-        "unattendedFlip": "Unbeaufsichtigter Flip"
+        "unattendedFlip": "Unbeaufsichtigter Flip",
+        "localDate": "Lokales Datum",
+        "localTime": "Ortszeit",
+        "siderealTime": "Sternzeit"
       },
       "mountNotConnected": "Halterung ist nicht angeschlossen.",
       "mountStatus": "Mount-Status",

@@ -2668,7 +2668,10 @@
         "slewSettle": "Asentamiento",
         "statusTitle": "Estado de montaje",
         "trackingRate": "Tasa de seguimiento",
-        "unattendedFlip": "Voltear desatendido"
+        "unattendedFlip": "Voltear desatendido",
+        "localDate": "Fecha local",
+        "localTime": "Hora local",
+        "siderealTime": "Tiempo sideral"
       },
       "mountNotConnected": "El soporte no está conectado.",
       "mountStatus": "Estado de montaje",

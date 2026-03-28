@@ -2668,7 +2668,10 @@
         "slewSettle": "Régler le problème",
         "statusTitle": "Statut de montage",
         "trackingRate": "Taux de suivi",
-        "unattendedFlip": "Retournement sans surveillance"
+        "unattendedFlip": "Retournement sans surveillance",
+        "localDate": "Date locale",
+        "localTime": "Heure locale",
+        "siderealTime": "Temps sidéral"
       },
       "mountNotConnected": "Le support n'est pas connecté.",
       "mountStatus": "Statut de montage",

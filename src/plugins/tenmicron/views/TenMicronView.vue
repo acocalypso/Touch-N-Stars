@@ -1394,6 +1394,18 @@
                 {{ tmStore.deltaTExpiration || '—' }}
               </span>
 
+              <!-- Mount Local Time -->
+              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.localTime') }}</span>
+              <span class="text-white font-mono">{{ tmStore.mountLocalTime || '—' }}</span>
+
+              <!-- Mount Local Date -->
+              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.localDate') }}</span>
+              <span class="text-white font-mono">{{ tmStore.mountLocalDate || '—' }}</span>
+
+              <!-- Sidereal Time -->
+              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.siderealTime') }}</span>
+              <span class="text-white font-mono">{{ tmStore.mountSiderealTime || '—' }}</span>
+
               <!-- Connection Type -->
               <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.connectionType') }}</span>
               <span
@@ -1834,6 +1846,15 @@ async function fetchStatus() {
   }
 }
 
+async function fetchMountTime() {
+  try {
+    const data = await apiService.tenMicronGetMountTime();
+    if (data?.Success) tmStore.setMountTime(data);
+  } catch {
+    /* ignore polling errors silently */
+  }
+}
+
 async function loadBuilderStatus() {
   try {
     const data = await apiService.tenMicronGetBuilderStatus();
@@ -2204,6 +2225,9 @@ onMounted(() => {
     await fetchStatus();
     if (tmStore.buildInProgress) {
       await loadBuilderStatus();
+    }
+    if (tmStore.activeTab === 'mount' && tmStore.connected) {
+      await fetchMountTime();
     }
   }, 3000);
 });

@@ -2668,7 +2668,10 @@
         "slewSettle": "Slew Settle",
         "statusTitle": "Stato del montaggio",
         "trackingRate": "Tasso di monitoraggio",
-        "unattendedFlip": "Capovolgimento incustodito"
+        "unattendedFlip": "Capovolgimento incustodito",
+        "localDate": "Data locale",
+        "localTime": "Ora locale",
+        "siderealTime": "Tempo siderale"
       },
       "mountNotConnected": "La montatura non è connessa.",
       "mountStatus": "Stato del montaggio",

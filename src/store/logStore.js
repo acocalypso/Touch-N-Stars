@@ -57,8 +57,8 @@ export const useLogStore = defineStore('LogStore', {
           return;
         }
 
-        // Logs vom Backend holen (z.B. die letzten 50)
-        const logs = await apiService.getLastLogs('50');
+        // Logs vom Backend holen (z.B. die letzten 500)
+        const logs = await apiService.getLastLogs('500');
         this.LogsInfo.logs = logs;
 
         // Prüfe auf neue ERROR/WARNING Meldungen

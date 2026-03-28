@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS: TPPA set exposuretime and gain
 - PINS: switch between two instances
 - PINS: Log level selector in debug settings (requires PINS plugin support)
+- Log Modal: Multi-select level filter (ALL, DEBUG, INFO, WARNING, ERROR)
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type

@@ -46,10 +46,10 @@
         <button
           v-for="lvl in ['ALL', 'DEBUG', 'INFO', 'WARNING', 'ERROR']"
           :key="lvl"
-          @click="selectedLevel = lvl"
+          @click="toggleLevel(lvl)"
           class="px-2 py-0.5 rounded text-xs font-medium transition-colors"
           :class="
-            selectedLevel === lvl
+            isLevelActive(lvl)
               ? activeLevelClass(lvl)
               : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
           "
@@ -113,7 +113,27 @@ const logStore = useLogStore();
 const emit = defineEmits(['close']);
 const isMounted = ref(false);
 const showSuccess = ref(false);
-const selectedLevel = ref('ALL');
+const selectedLevels = ref(new Set(['ALL']));
+
+function toggleLevel(lvl) {
+  if (lvl === 'ALL') {
+    selectedLevels.value = new Set(['ALL']);
+    return;
+  }
+  const s = new Set(selectedLevels.value);
+  s.delete('ALL');
+  if (s.has(lvl)) {
+    s.delete(lvl);
+    if (s.size === 0) s.add('ALL');
+  } else {
+    s.add(lvl);
+  }
+  selectedLevels.value = s;
+}
+
+function isLevelActive(lvl) {
+  return selectedLevels.value.has(lvl);
+}
 
 function activeLevelClass(lvl) {
   const map = {
@@ -136,7 +156,7 @@ const filteredLogs = computed(() =>
   logStore.LogsInfo.logs.filter(
     (entry) =>
       !entry.message.includes('EDS_ERR_INVALID_PARAMETER') &&
-      (selectedLevel.value === 'ALL' || entry.level === selectedLevel.value)
+      (selectedLevels.value.has('ALL') || selectedLevels.value.has(entry.level))
   )
 );
 

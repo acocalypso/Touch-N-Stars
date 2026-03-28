@@ -205,7 +205,7 @@
         {{ $t('components.settings.debug.title') }}
       </h3>
       <SetDebug />
-      <div v-if="store.isPINS"  class="flex items-center justify-between">
+      <div v-if="store.isPINS" class="flex items-center justify-between">
         <p class="text-gray-300 text-sm mr-4">{{ $t('components.settings.debug.logLevel') }}</p>
         <SetLogLevel />
       </div>

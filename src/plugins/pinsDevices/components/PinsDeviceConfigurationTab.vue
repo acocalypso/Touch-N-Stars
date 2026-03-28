@@ -92,7 +92,6 @@
               {{ $t('plugins.pinsDevices.config.humidityOffsetDesc') }}
             </p>
           </div>
-
         </div>
 
         <!-- MeteoStation Configuration -->

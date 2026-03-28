@@ -631,7 +631,9 @@
         "allNights": "Alle nachten",
         "allTargets": "Alle doelen",
         "reset": "Filter opnieuw instellen"
-      }
+      },
+      "gain": "Gain",
+      "offset": "Offset"
     },
     "mount": {
       "title": "Montering",

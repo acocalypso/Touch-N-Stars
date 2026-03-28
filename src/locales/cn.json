@@ -631,7 +631,9 @@
         "allNights": "All Nights",
         "allTargets": "All Targets",
         "reset": "Reset Filter"
-      }
+      },
+      "gain": "Gain",
+      "offset": "Offset"
     },
     "mount": {
       "title": "赤道仪",

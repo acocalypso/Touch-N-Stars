@@ -631,7 +631,9 @@
         "allNights": "Todas las noches",
         "allTargets": "Todos los objetivos",
         "reset": "Restablecer filtro"
-      }
+      },
+      "gain": "Gain",
+      "offset": "Offset"
     },
     "mount": {
       "title": "Montura",

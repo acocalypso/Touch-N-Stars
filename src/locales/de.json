@@ -386,6 +386,8 @@
       "median": "Median",
       "stDev": "St. Abw.",
       "rmsText": "RMS",
+      "gain": "Gain",
+      "offset": "Offset",
       "monitor": {
         "settings": {
           "title": "Ansichtseinstellungen",

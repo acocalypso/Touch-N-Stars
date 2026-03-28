@@ -631,7 +631,9 @@
         "allNights": "Tutte le notti",
         "allTargets": "Tutti gli obiettivi",
         "reset": "Reimposta filtro"
-      }
+      },
+      "gain": "Gain",
+      "offset": "Offset"
     },
     "mount": {
       "title": "Montatura",

@@ -210,7 +210,8 @@
       "debug": {
         "title": "Debug",
         "activate": "Aktivovat debug režim",
-        "titel": "Debug"
+        "titel": "Debug",
+        "logLevel": "Úroveň logu"
       },
       "notifications": {
         "title": "Oznámení",

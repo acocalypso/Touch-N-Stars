@@ -1894,6 +1894,26 @@ const apiService = {
     }
   },
 
+  async getLogLevel() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}loglevel`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async setLogLevel(level) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}loglevel`, { logLevel: level });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  Settings ---------------------------------------
   async getAllSettings() {
     try {

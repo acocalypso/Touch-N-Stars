@@ -210,7 +210,8 @@
       "debug": {
         "title": "调试",
         "activate": "激活调试模式",
-        "titel": "调试"
+        "titel": "调试",
+        "logLevel": "日志级别"
       },
       "notifications": {
         "title": "通知",

@@ -210,7 +210,8 @@
       "debug": {
         "title": "Debugowanie",
         "activate": "Aktywuj tryb debugowania",
-        "titel": "Debugowanie"
+        "titel": "Debugowanie",
+        "logLevel": "Poziom logowania"
       },
       "notifications": {
         "title": "Powiadomienia",

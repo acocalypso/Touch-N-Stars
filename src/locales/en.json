@@ -219,7 +219,8 @@
       "debug": {
         "title": "Debug",
         "activate": "Activate Debug Mode",
-        "titel": "Debug"
+        "titel": "Debug",
+        "logLevel": "Log Level"
       },
       "notifications": {
         "title": "Notifications",

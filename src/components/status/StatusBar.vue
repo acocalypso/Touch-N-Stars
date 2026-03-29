@@ -256,15 +256,23 @@
         </svg>
       </button>
     </div>
-    <!--WS Status -->
-    <div class="flex w-5 h-5">
+    <!--WS Status + Instance Switcher -->
+    <button
+      class="flex items-center gap-1 bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800"
+      @click.stop.prevent="showInstanceSwitcher = true"
+    >
       <LinkIcon
+        class="w-5 h-5"
         :class="{
           'text-green-500': store.isWebSocketConnected,
           'text-red-500': !store.isWebSocketConnected,
         }"
       />
-    </div>
+      <span class="text-xs hidden xs:block pr-1">{{ activeInstanceName.length > 5 ? activeInstanceName.slice(0, 5) + '…' : activeInstanceName }}</span>
+    </button>
+
+    <!-- Instance Switcher Modal -->
+    <InstanceSwitcherModal v-if="showInstanceSwitcher" @close="showInstanceSwitcher = false" />
 
     <!-- Weather modal -->
     <WeatherModal
@@ -333,6 +341,7 @@ import { ref, computed } from 'vue';
 import { CameraIcon, LinkIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
+import InstanceSwitcherModal from './InstanceSwitcherModal.vue';
 import GuiderGraph from '../guider/GuiderGraph.vue';
 import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
@@ -349,6 +358,7 @@ import infoProgress from './infoProgress.vue';
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
+const showInstanceSwitcher = ref(false);
 const showProgress = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
@@ -391,6 +401,10 @@ const handleGuiderClickWithVisit = () => {
 const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
   return color;
+});
+
+const activeInstanceName = computed(() => {
+  return settingsStore.getInstance(selectedInstanceId.value)?.name ?? '';
 });
 
 // Initialize feature highlight on mount

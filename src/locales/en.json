@@ -85,6 +85,12 @@
     "check_wki": "You can find detailed instructions in our wiki"
   },
   "components": {
+    "instanceSwitcher": {
+      "title": "Switch Instance",
+      "active": "Active",
+      "noInstances": "No instances configured",
+      "manageInstances": "Manage Instances"
+    },
     "instanceDetection": {
       "autoDetectionTitle": "Auto-Detection",
       "scanButton": "Scan",

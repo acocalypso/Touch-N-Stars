@@ -1358,7 +1358,7 @@ export const useSequenceStore = defineStore('sequence', () => {
     // Handle target-settings - convert to SlewScopeToRaDec
     if (action.type === 'target-settings') {
       ninaType = 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer';
-      additionalProperties.Inherited = true;
+      additionalProperties.Inherited = false;
       additionalProperties.Coordinates = {
         $id: generateId(),
         $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
@@ -1392,7 +1392,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       switch (slewMode) {
         case 'Slew Only':
           ninaType = 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer';
-          additionalProperties.Inherited = true;
+          additionalProperties.Inherited = false;
           additionalProperties.Coordinates = {
             $id: generateId(),
             $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',

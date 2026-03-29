@@ -26,9 +26,7 @@ const { t } = useI18n();
 const { filter, filteredImages } = useImageFilter();
 
 const lightFilteredImages = computed(() =>
-  filteredImages.value.filter(
-    (img) => img.ImageType === 'LIGHT' || img.ImageType === 'SNAPSHOT'
-  )
+  filteredImages.value.filter((img) => img.ImageType === 'LIGHT' || img.ImageType === 'SNAPSHOT')
 );
 
 const displayData = computed(() => {

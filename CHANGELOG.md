@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Plugin: PINS AllSky frontend for Pi HQ camera capture, timelapse, keogram, and startrails control with the companion backend plugin
+- StatusBar: Instance switcher button showing active instance name and WebSocket status – tap to open a modal listing all online instances for quick switching
 
 ## [App4.8.0] - xxxx-xx-xx
 ### Added

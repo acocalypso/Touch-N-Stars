@@ -12,7 +12,10 @@ export function getNightKey(dateString) {
   return `${y}-${m}-${d}`;
 }
 
-export function applyImageFilter(images, { selectedTarget, selectedFilter, selectedNight, selectedImageType }) {
+export function applyImageFilter(
+  images,
+  { selectedTarget, selectedFilter, selectedNight, selectedImageType }
+) {
   if (!images) return [];
   return images.filter((img) => {
     if (selectedTarget !== null && img.TargetName !== selectedTarget) return false;

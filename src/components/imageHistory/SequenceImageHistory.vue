@@ -99,10 +99,7 @@ const filteredImageHistory = computed(() =>
       return false;
     if (filter.value.selectedFilter !== null && img.Filter !== filter.value.selectedFilter)
       return false;
-    if (
-      filter.value.selectedNight !== null &&
-      getNightKey(img.Date) !== filter.value.selectedNight
-    )
+    if (filter.value.selectedNight !== null && getNightKey(img.Date) !== filter.value.selectedNight)
       return false;
     if (filter.value.selectedImageType !== null && img.ImageType !== filter.value.selectedImageType)
       return false;

@@ -1,8 +1,12 @@
 <template>
-  <div class="flex flex-wrap items-center gap-2 px-2 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
+  <div
+    class="flex flex-wrap items-center gap-2 px-2 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
+  >
     <select
       :value="filter.selectedTarget"
-      @change="settingsStore.setImageFilterTarget($event.target.value === '' ? null : $event.target.value)"
+      @change="
+        settingsStore.setImageFilterTarget($event.target.value === '' ? null : $event.target.value)
+      "
       class="default-select flex-1 min-w-[110px]"
     >
       <option value="">{{ $t('components.sequence.imageFilter.allTargets') }}</option>
@@ -11,7 +15,9 @@
 
     <select
       :value="filter.selectedFilter"
-      @change="settingsStore.setImageFilterFilter($event.target.value === '' ? null : $event.target.value)"
+      @change="
+        settingsStore.setImageFilterFilter($event.target.value === '' ? null : $event.target.value)
+      "
       class="default-select flex-1 min-w-[110px]"
     >
       <option value="">{{ $t('components.sequence.imageFilter.allFilters') }}</option>
@@ -20,7 +26,9 @@
 
     <select
       :value="filter.selectedNight"
-      @change="settingsStore.setImageFilterNight($event.target.value === '' ? null : $event.target.value)"
+      @change="
+        settingsStore.setImageFilterNight($event.target.value === '' ? null : $event.target.value)
+      "
       class="default-select flex-1 min-w-[120px]"
     >
       <option value="">{{ $t('components.sequence.imageFilter.allNights') }}</option>
@@ -29,7 +37,11 @@
 
     <select
       :value="filter.selectedImageType"
-      @change="settingsStore.setImageFilterImageType($event.target.value === '' ? null : $event.target.value)"
+      @change="
+        settingsStore.setImageFilterImageType(
+          $event.target.value === '' ? null : $event.target.value
+        )
+      "
       class="default-select flex-1 min-w-[100px]"
     >
       <option value="">{{ $t('components.sequence.imageFilter.allImageTypes') }}</option>
@@ -52,7 +64,8 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useImageFilter } from '@/composables/useImageFilter';
 
 const settingsStore = useSettingsStore();
-const { filter, availableTargets, availableFilters, availableNights, availableImageTypes } = useImageFilter();
+const { filter, availableTargets, availableFilters, availableNights, availableImageTypes } =
+  useImageFilter();
 
 const isAnyFilterActive = computed(
   () =>

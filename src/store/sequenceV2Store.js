@@ -146,6 +146,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       await this.fetchStatusUpdate();
     },
 
+
     async enable(id, enabled) {
       try {
         await apiService.sequenceEnable(id, enabled);

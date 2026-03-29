@@ -22,14 +22,23 @@
         </button>
       </div>
 
+      <!-- Loading -->
+      <div v-if="checking" class="flex items-center justify-center py-8 gap-3 text-gray-400 text-sm">
+        <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+        </svg>
+        {{ $t('components.instanceSwitcher.checking') }}
+      </div>
+
       <!-- Instance List -->
-      <div class="space-y-2 max-h-72 overflow-y-auto">
-        <div v-if="instances.length === 0" class="text-center py-6 text-gray-400 text-sm">
-          {{ $t('components.instanceSwitcher.noInstances') }}
+      <div v-else class="space-y-2 max-h-72 overflow-y-auto">
+        <div v-if="visibleInstances.length === 0" class="text-center py-6 text-gray-400 text-sm">
+          {{ $t('components.instanceSwitcher.noneOnline') }}
         </div>
 
         <button
-          v-for="(instance, index) in instances"
+          v-for="(instance, index) in visibleInstances"
           :key="instance.id"
           @click="selectInstance(instance.id)"
           class="w-full text-left p-3 rounded-lg border transition-all duration-150 flex items-center gap-3"
@@ -40,7 +49,7 @@
           "
         >
           <!-- Color dot -->
-          <span class="w-3 h-3 rounded-full flex-shrink-0" :class="getDotColor(settingsStore.getInstanceColorByIndex(index))" />
+          <span class="w-3 h-3 rounded-full flex-shrink-0" :class="getDotColor(settingsStore.getInstanceColorByIndex(getOriginalIndex(instance)))" />
 
           <!-- Name + address -->
           <div class="flex-1 min-w-0">
@@ -76,15 +85,26 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const emit = defineEmits(['close']);
 
 const settingsStore = useSettingsStore();
 const isMounted = ref(false);
+const checking = ref(true);
+const onlineIds = ref([]);
 
 const instances = computed(() => settingsStore.connection.instances);
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
+
+const visibleInstances = computed(() =>
+  instances.value.filter((i) => onlineIds.value.includes(i.id))
+);
+
+function getOriginalIndex(instance) {
+  return instances.value.findIndex((i) => i.id === instance.id);
+}
 
 function getDotColor(bgClass) {
   return bgClass.replace(/-\d{3}(\/\d+)?$/, '-400');
@@ -95,7 +115,26 @@ function selectInstance(id) {
   emit('close');
 }
 
-onMounted(() => {
+async function isInstanceOnline(instance) {
+  const response = await axios.get(`http://${instance.ip}:${instance.port}/api/get-api-port`, {
+    timeout: 250,
+  });
+  // Global interceptor swallows network errors and returns { data: { Success: false } }
+  // A real response from the TNS plugin returns a port number
+  if (response?.data?.Success === false) return false;
+  if (response?.status >= 400) return false;
+  return typeof response?.data === 'number' && response.data !== -1;
+}
+
+onMounted(async () => {
   isMounted.value = true;
+  const results = await Promise.all(
+    instances.value.map(async (instance) => {
+      const online = await isInstanceOnline(instance);
+      return online ? instance.id : null;
+    })
+  );
+  onlineIds.value = results.filter((id) => id !== null);
+  checking.value = false;
 });
 </script>

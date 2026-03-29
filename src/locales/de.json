@@ -89,7 +89,9 @@
       "title": "Instanz wechseln",
       "active": "Aktiv",
       "noInstances": "Keine Instanzen konfiguriert",
-      "manageInstances": "Instanzen verwalten"
+      "manageInstances": "Instanzen verwalten",
+      "checking": "Instanzen werden geprüft…",
+      "noneOnline": "Keine Instanz online"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Automatische Erkennung",

@@ -89,7 +89,9 @@
       "title": "Switch Instance",
       "active": "Active",
       "noInstances": "No instances configured",
-      "manageInstances": "Manage Instances"
+      "manageInstances": "Manage Instances",
+      "checking": "Checking instances…",
+      "noneOnline": "No instances online"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Auto-Detection",

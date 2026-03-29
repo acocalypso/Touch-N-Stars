@@ -406,8 +406,13 @@
             <SparklesIcon class="icon force-visible" />
           </router-link>
         </div>
-        <!-- Plugin navigation items first -->
-        <div v-for="item in filteredNavigationItems" :key="item.pluginId" :data-label="item.title">
+        <!-- Plugin navigation items -->
+        <template v-for="item in filteredNavigationItems" :key="item.pluginId">
+        <div
+          v-if="!isNavItemHidden('plugin-' + item.pluginId)"
+          :style="{ order: getNavOrder('plugin-' + item.pluginId) }"
+          :data-label="item.title"
+        >
           <router-link
             :to="item.path"
             class="nav-button"
@@ -417,6 +422,7 @@
             <component :is="item.icon" class="icon force-visible" />
           </router-link>
         </div>
+        </template>
 
         <!--  Settings Link -->
         <div :style="{ order: getNavOrder('settings') }" :data-label="t('nav.settings')">
@@ -545,9 +551,8 @@ function isNavItemHidden(id) {
 const filteredNavigationItems = computed(() => {
   return pluginStore.navigationItems.filter((item) => {
     const plugin = pluginStore.plugins.find((p) => p.id === item.pluginId);
-    if (plugin && plugin.isPins) {
-      return store.isPINS;
-    }
+    if (!plugin || !plugin.enabled) return false;
+    if (plugin.isPins) return store.isPINS;
     return true;
   });
 });

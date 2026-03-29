@@ -39,7 +39,9 @@
           </div>
 
           <!-- Label -->
-          <span class="flex-1 text-sm text-white">{{ $t(element.labelKey) }}</span>
+          <span class="flex-1 text-sm text-white">
+            {{ element.labelKey ? $t(element.labelKey) : element.label }}
+          </span>
 
           <!-- Always visible badge -->
           <span v-if="element.alwaysVisible" class="text-xs text-gray-500 italic">
@@ -47,23 +49,17 @@
           </span>
 
           <!-- Toggle -->
-          <button
+          <toggleButton
             v-else
-            @click="toggleItem(element.id)"
+            :statusValue="!isHidden(element.id)"
             :disabled="isLastVisible(element.id)"
             :title="
               isLastVisible(element.id)
                 ? $t('components.settings.navbarCustomization.minOneRequired')
                 : ''
             "
-            class="flex-shrink-0 w-10 h-6 rounded-full transition-colors duration-200 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
-            :class="isHidden(element.id) ? 'bg-gray-600' : 'bg-cyan-500'"
-          >
-            <span
-              class="block w-4 h-4 rounded-full bg-white mx-1 transition-transform duration-200"
-              :class="isHidden(element.id) ? 'translate-x-0' : 'translate-x-4'"
-            />
-          </button>
+            @update:statusValue="toggleItem(element.id)"
+          />
         </div>
       </template>
     </draggable>
@@ -71,13 +67,18 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
 import draggable from 'vuedraggable';
 import { useSettingsStore } from '@/store/settingsStore';
+import { usePluginStore } from '@/store/pluginStore';
+import { apiStore } from '@/store/store';
+import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const settingsStore = useSettingsStore();
+const pluginStore = usePluginStore();
+const store = apiStore();
 
-const ALL_NAV_ITEMS = [
+const STATIC_NAV_ITEMS = [
   { id: 'equipment', labelKey: 'nav.equipment' },
   { id: 'camera', labelKey: 'nav.camera' },
   { id: 'autofocus', labelKey: 'nav.autofocus' },
@@ -96,24 +97,40 @@ const ALL_NAV_ITEMS = [
   { id: 'about', labelKey: 'nav.about' },
 ];
 
+const allNavItems = computed(() => {
+  const pluginItems = pluginStore.navigationItems
+    .filter((item) => {
+      const plugin = pluginStore.plugins.find((p) => p.id === item.pluginId);
+      if (!plugin?.enabled) return false;
+      if (plugin.isPins) return store.isPINS;
+      return true;
+    })
+    .map((item) => ({
+      id: 'plugin-' + item.pluginId,
+      label: item.title,
+    }));
+  return [...STATIC_NAV_ITEMS, ...pluginItems];
+});
+
 function buildOrderedList() {
-  const order = settingsStore.navbar?.itemOrder ?? ALL_NAV_ITEMS.map((i) => i.id);
-  const sorted = [...ALL_NAV_ITEMS].sort((a, b) => {
-    const ai = order.indexOf(a.id);
-    const bi = order.indexOf(b.id);
-    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-  });
-  return sorted;
+  const order = settingsStore.navbar?.itemOrder ?? STATIC_NAV_ITEMS.map((i) => i.id);
+  const items = allNavItems.value;
+  const inOrder = order
+    .map((id) => items.find((i) => i.id === id))
+    .filter(Boolean);
+  // Append any items not yet in the stored order (e.g. newly loaded plugins)
+  const remaining = items.filter((i) => !order.includes(i.id));
+  return [...inOrder, ...remaining];
 }
 
 const orderedItems = ref(buildOrderedList());
 
 watch(
-  () => settingsStore.navbar?.itemOrder,
+  [() => settingsStore.navbar?.itemOrder, allNavItems],
   () => {
     orderedItems.value = buildOrderedList();
   },
-  { deep: true }
+  { deep: true },
 );
 
 function onReorder() {
@@ -125,7 +142,7 @@ function isHidden(id) {
 }
 
 function visibleNonSettingsCount() {
-  return ALL_NAV_ITEMS.filter((item) => !item.alwaysVisible && !isHidden(item.id)).length;
+  return allNavItems.value.filter((item) => !item.alwaysVisible && !isHidden(item.id)).length;
 }
 
 function isLastVisible(id) {

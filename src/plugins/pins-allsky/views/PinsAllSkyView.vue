@@ -102,7 +102,23 @@
       </div>
 
       <div
-        v-if="error"
+        v-if="showBackendSetupBanner"
+        class="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-4 text-sm text-cyan-100"
+      >
+        <div class="font-semibold text-white">{{ tr('banners.backendUnavailableTitle') }}</div>
+        <p class="mt-1">
+          {{ tr('banners.backendUnavailableBody') }}
+        </p>
+        <div class="mt-3 text-xs font-semibold uppercase tracking-wide text-cyan-200/80">
+          {{ tr('banners.backendUnavailableInstallLabel') }}
+        </div>
+        <pre
+          class="mt-2 overflow-x-auto rounded-xl border border-cyan-500/20 bg-gray-950/70 px-4 py-3 text-xs text-cyan-50"
+        ><code>{{ backendInstallCommands }}</code></pre>
+      </div>
+
+      <div
+        v-else-if="error"
         class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-100"
       >
         {{ error }}
@@ -1634,6 +1650,13 @@ const estimateBaseline = computed(() => status.value?.estimateBaseline || null);
 const estimateBaselineAverageFrameBytes = computed(
   () => estimateBaseline.value?.averageFrameBytes || 0
 );
+const showBackendSetupBanner = computed(
+  () => !loading.value && !status.value && Boolean(error.value)
+);
+const backendInstallCommands = `cd /home/pi
+git clone https://github.com/sharon92/pins-allsky-plugin.git
+cd pins-allsky-plugin
+./scripts/install-backend-plugin.sh --restart-pins`;
 
 const dependencyRows = computed(() => [
   {

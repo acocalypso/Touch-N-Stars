@@ -126,6 +126,28 @@ export const useSettingsStore = defineStore('settings', {
     keepAwakeEnabled: false,
     // Modal Positionen
     modalPositions: {},
+    // Navbar customization
+    navbar: {
+      itemOrder: [
+        'equipment',
+        'camera',
+        'autofocus',
+        'mount',
+        'dome',
+        'flat',
+        'switch',
+        'filter',
+        'rotator',
+        'guider',
+        'sequence',
+        'monitoring',
+        'flats',
+        'skyview',
+        'settings',
+        'about',
+      ],
+      hiddenItems: [],
+    },
   }),
   getters: {
     currentImageRotation(state) {
@@ -352,6 +374,19 @@ export const useSettingsStore = defineStore('settings', {
       }
       this.modalPositions[modalId][orientation] = { top: position.top, left: position.left };
     },
+
+    setNavbarOrder(order) {
+      this.navbar.itemOrder = order;
+    },
+
+    toggleNavbarItem(id) {
+      const idx = this.navbar.hiddenItems.indexOf(id);
+      if (idx === -1) {
+        this.navbar.hiddenItems.push(id);
+      } else {
+        this.navbar.hiddenItems.splice(idx, 1);
+      }
+    },
   },
   persist: {
     enabled: true,
@@ -383,6 +418,7 @@ export const useSettingsStore = defineStore('settings', {
           'tutorial.selectTargetVisited',
           'tutorial.statusBarButtonsVisited',
           'modalPositions',
+          'navbar',
         ],
       },
     ],

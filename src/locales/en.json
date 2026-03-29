@@ -281,6 +281,12 @@
         "title": "Equipment",
         "description": "Manage your equipment settings"
       },
+      "navbarCustomization": {
+        "title": "Navbar Customization",
+        "hint": "Drag to reorder. At least one page besides Settings must remain visible.",
+        "alwaysVisible": "Always visible",
+        "minOneRequired": "At least one page must remain visible"
+      },
       "update": "Update",
       "errors": {
         "instanceNameRequired": "Instance name is required",

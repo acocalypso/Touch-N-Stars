@@ -276,12 +276,15 @@
         </button>
       </div>
     </div>
+
+    <NavbarCustomizationSettings />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
 import { getAvailableLanguages, getBackendLanguageCode } from '@/i18n';
+import NavbarCustomizationSettings from '@/components/settings/NavbarCustomizationSettings.vue';
 import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';

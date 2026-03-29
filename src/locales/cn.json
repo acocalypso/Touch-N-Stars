@@ -289,6 +289,12 @@
         "notSupported": "Not supported by driver",
         "syncLabel": "Sync time to mount",
         "title": "Time Synchronisation"
+      },
+      "navbarCustomization": {
+        "alwaysVisible": "",
+        "hint": "",
+        "minOneRequired": "",
+        "title": ""
       }
     },
     "connectEquipment": {
@@ -1372,6 +1378,14 @@
       "dec": "赤纬",
       "pixel_scale": "像素尺度",
       "focal_length": "焦距"
+    },
+    "instanceSwitcher": {
+      "active": "",
+      "checking": "",
+      "manageInstances": "",
+      "noInstances": "",
+      "noneOnline": "",
+      "title": ""
     }
   },
   "plugins": {

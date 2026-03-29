@@ -48,6 +48,34 @@ const router = createRouter({
   routes,
 });
 
+const NAV_ITEM_ROUTES = {
+  equipment: '/equipment',
+  camera: '/camera',
+  autofocus: '/autofocus',
+  mount: '/mount',
+  dome: '/dome',
+  flat: '/flat',
+  switch: '/switch',
+  filter: '/filterwheel',
+  rotator: '/rotator',
+  guider: '/guider',
+  sequence: '/sequence',
+  monitoring: '/seq-mon',
+  flats: '/flats',
+  settings: '/settings',
+};
+
+function getFirstVisibleRoute(settingsStore) {
+  const order = settingsStore.navbar?.itemOrder ?? Object.keys(NAV_ITEM_ROUTES);
+  const hidden = settingsStore.navbar?.hiddenItems ?? [];
+  for (const id of order) {
+    if (!hidden.includes(id) && NAV_ITEM_ROUTES[id]) {
+      return NAV_ITEM_ROUTES[id];
+    }
+  }
+  return '/settings';
+}
+
 router.beforeEach((to, from, next) => {
   const settingsStore = useSettingsStore();
 
@@ -55,6 +83,11 @@ router.beforeEach((to, from, next) => {
     next('/setup');
   } else if (to.path === '/setup' && settingsStore.isSetupComplete()) {
     next('/');
+  } else if (
+    (to.path === '/' || to.path === '/equipment') &&
+    settingsStore.navbar?.hiddenItems?.includes('equipment')
+  ) {
+    next(getFirstVisibleRoute(settingsStore));
   } else {
     next();
   }

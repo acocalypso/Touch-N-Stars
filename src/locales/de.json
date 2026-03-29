@@ -272,6 +272,12 @@
         "title": "Ausrüstung",
         "description": "Verwalten Sie Ihre Ausrüstungseinstellungen"
       },
+      "navbarCustomization": {
+        "title": "Navigationsleiste anpassen",
+        "hint": "Ziehen zum Sortieren. Mindestens eine Seite außer Einstellungen muss sichtbar bleiben.",
+        "alwaysVisible": "Immer sichtbar",
+        "minOneRequired": "Mindestens eine Seite muss sichtbar bleiben"
+      },
       "update": "Aktualisieren",
       "errors": {
         "instanceNameRequired": "Instanzname ist erforderlich",

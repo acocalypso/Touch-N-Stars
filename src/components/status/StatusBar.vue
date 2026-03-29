@@ -268,7 +268,9 @@
           'text-red-500': !store.isWebSocketConnected,
         }"
       />
-      <span class="text-xs hidden xs:block pr-1">{{ activeInstanceName.length > 5 ? activeInstanceName.slice(0, 5) + '…' : activeInstanceName }}</span>
+      <span class="text-xs hidden xs:block pr-1">{{
+        activeInstanceName.length > 5 ? activeInstanceName.slice(0, 5) + '…' : activeInstanceName
+      }}</span>
     </button>
 
     <!-- Instance Switcher Modal -->

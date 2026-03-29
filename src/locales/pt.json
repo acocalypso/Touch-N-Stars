@@ -289,6 +289,12 @@
         "notSupported": "Não suportado pelo driver",
         "syncLabel": "Sincronize o tempo para montar",
         "title": "Sincronização de horário"
+      },
+      "navbarCustomization": {
+        "alwaysVisible": "",
+        "hint": "",
+        "minOneRequired": "",
+        "title": ""
       }
     },
     "connectEquipment": {
@@ -1372,6 +1378,14 @@
       "dec": "Dec",
       "pixel_scale": "Escala de pixel",
       "focal_length": "Distância focal"
+    },
+    "instanceSwitcher": {
+      "active": "",
+      "checking": "",
+      "manageInstances": "",
+      "noInstances": "",
+      "noneOnline": "",
+      "title": ""
     }
   },
   "plugins": {

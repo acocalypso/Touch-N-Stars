@@ -289,6 +289,12 @@
         "notSupported": "Not supported by driver",
         "syncLabel": "Sync time to mount",
         "title": "Time Synchronisation"
+      },
+      "navbarCustomization": {
+        "alwaysVisible": "",
+        "hint": "",
+        "minOneRequired": "",
+        "title": ""
       }
     },
     "connectEquipment": {
@@ -1372,6 +1378,14 @@
       "dec": "Dec",
       "pixel_scale": "Měřítko pixelů",
       "focal_length": "Ohnisková vzdálenost"
+    },
+    "instanceSwitcher": {
+      "active": "",
+      "checking": "",
+      "manageInstances": "",
+      "noInstances": "",
+      "noneOnline": "",
+      "title": ""
     }
   },
   "plugins": {

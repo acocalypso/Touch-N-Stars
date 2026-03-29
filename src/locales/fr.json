@@ -289,6 +289,12 @@
         "notSupported": "Non pris en charge par le pilote",
         "syncLabel": "Temps de synchronisation pour monter",
         "title": "Synchronisation du temps"
+      },
+      "navbarCustomization": {
+        "alwaysVisible": "",
+        "hint": "",
+        "minOneRequired": "",
+        "title": ""
       }
     },
     "connectEquipment": {
@@ -1372,6 +1378,14 @@
       "dec": "Déc",
       "pixel_scale": "Échelle de pixels",
       "focal_length": "Longueur focale"
+    },
+    "instanceSwitcher": {
+      "active": "",
+      "checking": "",
+      "manageInstances": "",
+      "noInstances": "",
+      "noneOnline": "",
+      "title": ""
     }
   },
   "plugins": {

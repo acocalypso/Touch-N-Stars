@@ -289,6 +289,12 @@
         "notSupported": "No soportado por el conductor",
         "syncLabel": "Sincronizar la hora para montar",
         "title": "Sincronización horaria"
+      },
+      "navbarCustomization": {
+        "alwaysVisible": "",
+        "hint": "",
+        "minOneRequired": "",
+        "title": ""
       }
     },
     "connectEquipment": {
@@ -1372,6 +1378,14 @@
       "dec": "Dec",
       "pixel_scale": "Escala de píxeles",
       "focal_length": "Distancia focal"
+    },
+    "instanceSwitcher": {
+      "active": "",
+      "checking": "",
+      "manageInstances": "",
+      "noInstances": "",
+      "noneOnline": "",
+      "title": ""
     }
   },
   "plugins": {

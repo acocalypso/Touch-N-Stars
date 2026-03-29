@@ -176,6 +176,8 @@
       </div>
     </div>
 
+    <NavbarCustomizationSettings />
+
     <!-- set beta -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -277,7 +279,6 @@
       </div>
     </div>
 
-    <NavbarCustomizationSettings />
   </div>
 </template>
 

@@ -1,11 +1,28 @@
 <template>
-  <div class="p-2 sm:p-4 flex flex-col gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50">
-    <h3 class="font-bold text-base text-cyan-400">
-      {{ $t('components.settings.navbarCustomization.title') }}
-    </h3>
-    <p class="text-xs text-gray-400">
-      {{ $t('components.settings.navbarCustomization.hint') }}
-    </p>
+  <div class="bg-gray-800/50 rounded-lg border border-gray-700/50">
+    <button
+      @click="expanded = !expanded"
+      class="w-full flex items-center justify-between p-2 sm:p-4 text-left"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.settings.navbarCustomization.title') }}
+      </h3>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-5 h-5 text-gray-400 transition-transform duration-200"
+        :class="{ 'rotate-180': expanded }"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+
+    <div v-if="expanded" class="px-2 pb-2 sm:px-4 sm:pb-4 flex flex-col gap-3">
+      <p class="text-xs text-gray-400">
+        {{ $t('components.settings.navbarCustomization.hint') }}
+      </p>
 
     <draggable
       v-model="orderedItems"
@@ -63,6 +80,7 @@
         </div>
       </template>
     </draggable>
+    </div>
   </div>
 </template>
 
@@ -77,6 +95,8 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
 const store = apiStore();
+
+const expanded = ref(false);
 
 const STATIC_NAV_ITEMS = [
   { id: 'equipment', labelKey: 'nav.equipment' },

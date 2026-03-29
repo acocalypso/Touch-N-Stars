@@ -332,11 +332,7 @@
         </div>
 
         <div
-          v-if="
-            !isNavItemHidden('monitoring') &&
-            (sequenceStore.sequenceRunning ||
-              (store.imageHistoryInfo && store.imageHistoryInfo.length > 0))
-          "
+          v-if="!isNavItemHidden('monitoring')"
           :style="{ order: getNavOrder('monitoring') }"
           :data-label="t('nav.monitoring')"
         >

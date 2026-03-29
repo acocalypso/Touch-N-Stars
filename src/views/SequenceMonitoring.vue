@@ -118,7 +118,7 @@
           </div>
           <div class="p-5"></div>
         </div>
-        <div v-else class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+        <div v-else class="p-4 mt-20 bg-red-500/10 border border-red-500/30 rounded-lg">
           <p class="text-red-400 font-medium">{{ $t('components.sequence.noSequenceData') }}</p>
         </div>
       </div>

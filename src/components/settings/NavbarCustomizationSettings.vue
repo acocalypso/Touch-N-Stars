@@ -2,14 +2,41 @@
   <div class="bg-gray-800/50 rounded-lg border border-gray-700/50">
     <button
       @click="expanded = !expanded"
-      class="w-full flex items-center justify-between p-2 sm:p-4 text-left"
+      class="w-full flex items-center justify-between p-2 sm:p-4 text-left gap-3"
     >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.settings.navbarCustomization.title') }}
-      </h3>
+      <div class="flex flex-col gap-1 min-w-0 flex-1">
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.settings.navbarCustomization.title') }}
+        </h3>
+        <!-- Preview: items fading out when collapsed -->
+        <div v-if="!expanded" class="relative overflow-hidden h-20">
+          <div class="flex flex-col">
+            <div
+              v-for="item in orderedItems.slice(0, 4)"
+              :key="item.id"
+              class="flex items-center gap-3 py-2 px-3 rounded-md bg-gray-700/60 mb-2 select-none"
+              :class="{ 'opacity-50': isHidden(item.id) }"
+            >
+              <div class="text-gray-400 flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                </svg>
+              </div>
+              <span class="flex-1 text-sm text-white">
+                {{ item.labelKey ? $t(item.labelKey) : item.label }}
+              </span>
+              <span v-if="item.alwaysVisible" class="text-xs text-gray-500 italic">
+                {{ $t('components.settings.navbarCustomization.alwaysVisible') }}
+              </span>
+              <toggleButton v-else :statusValue="!isHidden(item.id)" :disabled="true" />
+            </div>
+          </div>
+          <div class="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-gray-800/90 to-transparent pointer-events-none" />
+        </div>
+      </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5 text-gray-400 transition-transform duration-200"
+        class="w-5 h-5 text-gray-400 transition-transform duration-200 flex-shrink-0"
         :class="{ 'rotate-180': expanded }"
         fill="none"
         viewBox="0 0 24 24"

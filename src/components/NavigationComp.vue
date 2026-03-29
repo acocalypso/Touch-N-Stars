@@ -404,20 +404,20 @@
         </div>
         <!-- Plugin navigation items -->
         <template v-for="item in filteredNavigationItems" :key="item.pluginId">
-        <div
-          v-if="!isNavItemHidden('plugin-' + item.pluginId)"
-          :style="{ order: getNavOrder('plugin-' + item.pluginId) }"
-          :data-label="item.title"
-        >
-          <router-link
-            :to="item.path"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="item.title"
+          <div
+            v-if="!isNavItemHidden('plugin-' + item.pluginId)"
+            :style="{ order: getNavOrder('plugin-' + item.pluginId) }"
+            :data-label="item.title"
           >
-            <component :is="item.icon" class="icon force-visible" />
-          </router-link>
-        </div>
+            <router-link
+              :to="item.path"
+              class="nav-button"
+              active-class="active-nav-button"
+              :title="item.title"
+            >
+              <component :is="item.icon" class="icon force-visible" />
+            </router-link>
+          </div>
         </template>
 
         <!--  Settings Link -->

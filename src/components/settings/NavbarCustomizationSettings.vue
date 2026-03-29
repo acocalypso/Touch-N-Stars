@@ -18,8 +18,19 @@
               :class="{ 'opacity-50': isHidden(item.id) }"
             >
               <div class="text-gray-400 flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 8h16M4 16h16"
+                  />
                 </svg>
               </div>
               <span class="flex-1 text-sm text-white">
@@ -31,7 +42,9 @@
               <toggleButton v-else :statusValue="!isHidden(item.id)" :disabled="true" />
             </div>
           </div>
-          <div class="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-gray-800/90 to-transparent pointer-events-none" />
+          <div
+            class="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-gray-800/90 to-transparent pointer-events-none"
+          />
         </div>
       </div>
       <svg
@@ -51,62 +64,62 @@
         {{ $t('components.settings.navbarCustomization.hint') }}
       </p>
 
-    <draggable
-      v-model="orderedItems"
-      item-key="id"
-      handle=".drag-handle"
-      :fallbackOnBody="true"
-      ghost-class="opacity-40"
-      @end="onReorder"
-    >
-      <template #item="{ element }">
-        <div
-          class="flex items-center gap-3 py-2 px-3 rounded-md bg-gray-700/60 mb-2 select-none"
-          :class="{ 'opacity-50': isHidden(element.id) }"
-        >
-          <!-- Drag handle -->
-          <div class="drag-handle cursor-grab active:cursor-grabbing text-gray-400 flex-shrink-0">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 8h16M4 16h16"
-              />
-            </svg>
+      <draggable
+        v-model="orderedItems"
+        item-key="id"
+        handle=".drag-handle"
+        :fallbackOnBody="true"
+        ghost-class="opacity-40"
+        @end="onReorder"
+      >
+        <template #item="{ element }">
+          <div
+            class="flex items-center gap-3 py-2 px-3 rounded-md bg-gray-700/60 mb-2 select-none"
+            :class="{ 'opacity-50': isHidden(element.id) }"
+          >
+            <!-- Drag handle -->
+            <div class="drag-handle cursor-grab active:cursor-grabbing text-gray-400 flex-shrink-0">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 8h16M4 16h16"
+                />
+              </svg>
+            </div>
+
+            <!-- Label -->
+            <span class="flex-1 text-sm text-white">
+              {{ element.labelKey ? $t(element.labelKey) : element.label }}
+            </span>
+
+            <!-- Always visible badge -->
+            <span v-if="element.alwaysVisible" class="text-xs text-gray-500 italic">
+              {{ $t('components.settings.navbarCustomization.alwaysVisible') }}
+            </span>
+
+            <!-- Toggle -->
+            <toggleButton
+              v-else
+              :statusValue="!isHidden(element.id)"
+              :disabled="isLastVisible(element.id)"
+              :title="
+                isLastVisible(element.id)
+                  ? $t('components.settings.navbarCustomization.minOneRequired')
+                  : ''
+              "
+              @update:statusValue="toggleItem(element.id)"
+            />
           </div>
-
-          <!-- Label -->
-          <span class="flex-1 text-sm text-white">
-            {{ element.labelKey ? $t(element.labelKey) : element.label }}
-          </span>
-
-          <!-- Always visible badge -->
-          <span v-if="element.alwaysVisible" class="text-xs text-gray-500 italic">
-            {{ $t('components.settings.navbarCustomization.alwaysVisible') }}
-          </span>
-
-          <!-- Toggle -->
-          <toggleButton
-            v-else
-            :statusValue="!isHidden(element.id)"
-            :disabled="isLastVisible(element.id)"
-            :title="
-              isLastVisible(element.id)
-                ? $t('components.settings.navbarCustomization.minOneRequired')
-                : ''
-            "
-            @update:statusValue="toggleItem(element.id)"
-          />
-        </div>
-      </template>
-    </draggable>
+        </template>
+      </draggable>
     </div>
   </div>
 </template>
@@ -162,9 +175,7 @@ const allNavItems = computed(() => {
 function buildOrderedList() {
   const order = settingsStore.navbar?.itemOrder ?? STATIC_NAV_ITEMS.map((i) => i.id);
   const items = allNavItems.value;
-  const inOrder = order
-    .map((id) => items.find((i) => i.id === id))
-    .filter(Boolean);
+  const inOrder = order.map((id) => items.find((i) => i.id === id)).filter(Boolean);
   // Append any items not yet in the stored order (e.g. newly loaded plugins)
   const remaining = items.filter((i) => !order.includes(i.id));
   return [...inOrder, ...remaining];
@@ -177,7 +188,7 @@ watch(
   () => {
     orderedItems.value = buildOrderedList();
   },
-  { deep: true },
+  { deep: true }
 );
 
 function onReorder() {

@@ -1271,6 +1271,12 @@
       "dewPoint": "Ponto de orvalho",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "Chave de API",
+        "apiKeyPlaceholder": "Insira a chave API",
+        "stationId": "ID da estação",
+        "stationIdPlaceholder": "Insira o ID da estação"
       }
     },
     "switch": {

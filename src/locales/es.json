@@ -1271,6 +1271,12 @@
       "dewPoint": "Punto de rocío",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "Clave API",
+        "apiKeyPlaceholder": "Ingrese la clave API",
+        "stationId": "ID de estación",
+        "stationIdPlaceholder": "Ingrese la identificación de la estación"
       }
     },
     "switch": {

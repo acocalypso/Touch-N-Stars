@@ -122,6 +122,8 @@
       :deviceName="$t('components.connectEquipment.weather.name')"
       :default-device-id="store.profileInfo?.WeatherDataSettings?.Id"
       :isConnected="store.weatherInfo.Connected"
+      :alwaysEnableConfig="weatherHasApiKeySettings"
+      @device-selected="selectedWeatherDeviceName = $event"
       @open-config="openWeatherSettings"
     />
 
@@ -227,7 +229,7 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.weatherModal.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="weather" :selectedDevice="selectedWeatherDevice" />
+      <SettingsWeather :selectedDevice="selectedWeatherDevice" />
     </template>
   </Modal>
 </template>
@@ -243,6 +245,7 @@ import selectGuiderCam from '@/components/guider/PHD2/selectGuiderCam.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
 import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
+import SettingsWeather from '@/components/equipment/SettingsWeather.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
@@ -264,6 +267,12 @@ const showFilterSettings = ref(false);
 const selectedFilterDevice = ref('');
 const showWeatherSettings = ref(false);
 const selectedWeatherDevice = ref('');
+const selectedWeatherDeviceName = ref(store.profileInfo?.WeatherDataSettings?.Id || '');
+
+const WEATHER_API_KEY_DEVICES = ['OpenWeatherMap', 'TheWeatherCompany', 'Weather Underground'];
+const weatherHasApiKeySettings = computed(() =>
+  WEATHER_API_KEY_DEVICES.includes(selectedWeatherDeviceName.value)
+);
 
 const isGuiderConnectDisabled = computed(() => {
   return (

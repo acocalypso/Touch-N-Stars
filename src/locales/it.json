@@ -1271,6 +1271,12 @@
       "dewPoint": "Punto rugiada",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "Chiave API",
+        "apiKeyPlaceholder": "Inserisci la chiave API",
+        "stationId": "Identificativo della stazione",
+        "stationIdPlaceholder": "Immettere l'ID della stazione"
       }
     },
     "switch": {

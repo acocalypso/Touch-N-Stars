@@ -1271,6 +1271,12 @@
       "dewPoint": "Rosný bod",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "API Key",
+        "apiKeyPlaceholder": "Enter API key",
+        "stationId": "Station ID",
+        "stationIdPlaceholder": "Enter station ID"
       }
     },
     "switch": {

@@ -1279,6 +1279,12 @@
       "dewPoint": "Taupunkt",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "API-Schlüssel",
+        "apiKeyPlaceholder": "Geben Sie den API-Schlüssel ein",
+        "stationId": "Stations-ID",
+        "stationIdPlaceholder": "Geben Sie die Stations-ID ein"
       }
     },
     "switch": {

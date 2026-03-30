@@ -1271,6 +1271,12 @@
       "dewPoint": "Dauwpunt",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "API-sleutel",
+        "apiKeyPlaceholder": "Voer de API-sleutel in",
+        "stationId": "Stations-ID",
+        "stationIdPlaceholder": "Voer station-ID in"
       }
     },
     "switch": {

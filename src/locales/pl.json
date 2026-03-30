@@ -1271,6 +1271,12 @@
       "dewPoint": "Punkt rosy",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "Klucz API",
+        "apiKeyPlaceholder": "Wprowadź klucz API",
+        "stationId": "Identyfikator stacji",
+        "stationIdPlaceholder": "Wprowadź identyfikator stacji"
       }
     },
     "switch": {

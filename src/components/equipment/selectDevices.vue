@@ -25,7 +25,9 @@
           v-if="store.isPINS"
           @click="configDevice"
           :disabled="
-            isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
+            isScanning ||
+            isConnected ||
+            (!props.alwaysEnableConfig && !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
           "
           class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
         >
@@ -35,7 +37,8 @@
               'text-gray-400':
                 isScanning ||
                 isConnected ||
-                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
+                (!props.alwaysEnableConfig &&
+                  !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
             }"
           />
         </button>
@@ -110,6 +113,7 @@ const props = defineProps({
   isConnected: { type: Boolean, required: true },
   disableConnect: { type: Boolean, default: false },
   disableConnectMessage: { type: String, default: '' },
+  alwaysEnableConfig: { type: Boolean, default: false },
 });
 
 const devices = ref([]);

@@ -1271,6 +1271,12 @@
       "dewPoint": "Point de rosée",
       "indi": {
         "settings": "Weather Settings"
+      },
+      "settings": {
+        "apiKey": "Clé API",
+        "apiKeyPlaceholder": "Saisissez la clé API",
+        "stationId": "Identifiant de la station",
+        "stationIdPlaceholder": "Entrez l'ID de la station"
       }
     },
     "switch": {

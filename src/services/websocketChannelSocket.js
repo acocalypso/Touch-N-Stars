@@ -14,6 +14,7 @@ class WebSocketChannelService {
     this.shouldReconnect = true;
     this.isConnected = false;
     this.reconnectTimeoutId = null; // Track reconnect timeout
+    this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
   }
 
   setStatusCallback(callback) {
@@ -28,6 +29,15 @@ class WebSocketChannelService {
     return new Promise((resolve, reject) => {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
+
+      // Invalidate any previous socket's event handlers by incrementing the id
+      this._socketId++;
+      const socketId = this._socketId;
+
+      // Close any existing socket to avoid orphaned connections
+      if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+        this.socket.close();
+      }
 
       const settingsStore = useSettingsStore();
       const store = apiStore();
@@ -57,6 +67,7 @@ class WebSocketChannelService {
       }, timeout);
 
       this.socket.onopen = () => {
+        if (socketId !== this._socketId) return; // stale socket, ignore
         //console.log('Channel WebSocket verbunden.');
         clearTimeout(timeoutId);
         this.isConnected = true;
@@ -67,6 +78,7 @@ class WebSocketChannelService {
       };
 
       this.socket.onmessage = (event) => {
+        if (socketId !== this._socketId) return; // stale socket, ignore
         //console.log('Channel Nachricht empfangen:', event.data);
         try {
           let message;
@@ -91,6 +103,7 @@ class WebSocketChannelService {
       };
 
       this.socket.onerror = (error) => {
+        if (socketId !== this._socketId) return; // stale socket, ignore
         console.error('Channel WebSocket error:', error);
         clearTimeout(timeoutId);
         this.isConnected = false;
@@ -102,6 +115,7 @@ class WebSocketChannelService {
       };
 
       this.socket.onclose = (event) => {
+        if (socketId !== this._socketId) return; // stale socket, ignore
         console.log('Channel WebSocket closed.', event.code, event.reason);
         this.isConnected = false;
 

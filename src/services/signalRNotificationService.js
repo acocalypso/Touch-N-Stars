@@ -239,15 +239,15 @@ class SignalRNotificationService {
     }
 
     if (this.connection) {
-      return this.connection
+      const conn = this.connection;
+      this.connection = null; // Clear immediately so concurrent connect() won't be overwritten
+      return conn
         .stop()
         .then(() => {
           console.log('[SignalRNotificationService] SignalR disconnected');
-          this.connection = null;
         })
         .catch((err) => {
           console.error('[SignalRNotificationService] Error disconnecting SignalR:', err);
-          this.connection = null;
         });
     }
     return Promise.resolve();

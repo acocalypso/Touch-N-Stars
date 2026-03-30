@@ -214,15 +214,15 @@ class SignalRProgressService {
     }
 
     if (this.connection) {
-      return this.connection
+      const conn = this.connection;
+      this.connection = null; // Clear immediately so concurrent connect() won't be overwritten
+      return conn
         .stop()
         .then(() => {
           console.log('[SignalRProgressService] SignalR disconnected');
-          this.connection = null;
         })
         .catch((err) => {
           console.error('[SignalRProgressService] Error disconnecting SignalR:', err);
-          this.connection = null;
         });
     }
     return Promise.resolve();

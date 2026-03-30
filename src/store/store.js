@@ -414,14 +414,9 @@ export const apiStore = defineStore('store', {
             });
           });
 
-          // Try to connect SignalR
-          try {
-            await signalRNotificationService.connect();
-            console.log('[API Store] SignalR Notification Service connected');
-          } catch (error) {
-            console.warn('[API Store] SignalR connection failed:', error.message);
-            // SignalR will automatically attempt to reconnect via reconnect logic
-          }
+          // Fire-and-forget: SignalR has its own retry loop; awaiting would block fetchAllInfos()
+          // indefinitely because connect() never rejects while shouldReconnect is true.
+          signalRNotificationService.connect().catch(() => {});
         }
 
         // If all conditions are met, mark backend as reachable

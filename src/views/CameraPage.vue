@@ -609,8 +609,9 @@ const onToggleSave = async () => {
 watch(
   () => imageStore.imageData,
   (newVal, oldVal) => {
-    if (newVal && newVal !== oldVal && store.isPINS) {
+    if (newVal && oldVal && newVal !== oldVal && store.isPINS) {
       statsLoading.value = true;
+      //console.log("[lastImageStats] statsLoading true")
     }
   }
 );
@@ -618,12 +619,11 @@ watch(
 watch(
   () => store.lastImageStats,
   async (newVal, oldVal) => {
-    const hasChanged =
-      newVal?.Mean !== oldVal?.Mean ||
-      newVal?.Median !== oldVal?.Median ||
-      newVal?.Stars !== oldVal?.Stars;
+    const hasChanged = newVal?.Timestamp !== oldVal?.Timestamp;
     if (!hasChanged) return;
+    //console.log("[lastImageStats] has change")
     statsLoading.value = false;
+    //console.log("[lastImageStats] statsLoading false")
     if (imageStore.imageData) {
       await histogramStore.calculateHistogramForImage(imageStore.imageData);
     }

@@ -172,17 +172,17 @@ if (!window.__consoleViewerPatched) {
 
   // Patch WebSocket to catch connection errors
   const OriginalWebSocket = window.WebSocket;
-  window.WebSocket = function (url, protocols) {
-    const ws = new OriginalWebSocket(url, protocols);
-
-    ws.addEventListener('error', () => {
-      logs.value.push({
-        type: 'error',
-        message: `WebSocket error: ${url} - Connection failed`,
+  class PatchedWebSocket extends OriginalWebSocket {
+    constructor(url, protocols) {
+      super(url, protocols);
+      this.addEventListener('error', () => {
+        logs.value.push({
+          type: 'error',
+          message: `WebSocket error: ${url} - Connection failed`,
+        });
       });
-    });
-
-    return ws;
-  };
+    }
+  }
+  window.WebSocket = PatchedWebSocket;
 }
 </script>

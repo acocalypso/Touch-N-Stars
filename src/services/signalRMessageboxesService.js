@@ -205,12 +205,13 @@ class SignalRMessageboxesService {
       }
 
       if (this.connection) {
-        this.connection
+        const conn = this.connection;
+        this.connection = null; // Clear immediately so concurrent connect() won't be overwritten
+        conn
           .stop()
           .then(() => {
             console.log('[SignalRMessageboxesService] Disconnected');
             this.isConnected = false;
-            this.connection = null;
             resolve();
           })
           .catch((error) => {

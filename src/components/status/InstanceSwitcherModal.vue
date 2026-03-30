@@ -157,7 +157,7 @@ function selectInstance(id) {
 
 async function isInstanceOnline(instance) {
   const response = await axios.get(`http://${instance.ip}:${instance.port}/api/get-api-port`, {
-    timeout: 250,
+    timeout: 500,
   });
   // Global interceptor swallows network errors and returns { data: { Success: false } }
   // A real response from the TNS plugin returns a port number

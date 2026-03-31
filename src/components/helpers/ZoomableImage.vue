@@ -47,6 +47,14 @@
         </svg>
       </button>
 
+      <!-- Crosshair Button -->
+      <ImageCrosshairButton
+        v-if="showCrosshair"
+        :active="showCrosshairActive"
+        :label="$t('components.helpers.zoomableImage.toggleCrosshair')"
+        @toggle="handleCrosshairToggle"
+      />
+
       <!-- Plate Solve Button -->
       <SolvePreparedImage v-if="showSolve" />
 
@@ -70,6 +78,12 @@
         @click="handleImageClick"
       />
     </div>
+
+    <ImageCrosshairOverlay
+      v-if="showCrosshair && showCrosshairActive && crosshairBounds"
+      :bounds="crosshairBounds"
+      class="z-20"
+    />
 
     <!-- Loading Spinner -->
     <div
@@ -98,10 +112,13 @@
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onBeforeUnmount, computed } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount, computed, toRef } from 'vue';
 import Panzoom from '@panzoom/panzoom';
 import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicons/vue/24/outline';
 import SolvePreparedImage from '@/components/platesolve/solvePreparedImage.vue';
+import ImageCrosshairButton from '@/components/helpers/ImageCrosshairButton.vue';
+import ImageCrosshairOverlay from '@/components/helpers/ImageCrosshairOverlay.vue';
+import { useImageCrosshair } from '@/composables/useImageCrosshair';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
@@ -132,6 +149,10 @@ const props = defineProps({
   showHistogram: {
     type: Boolean,
     default: false,
+  },
+  showCrosshair: {
+    type: Boolean,
+    default: true,
   },
   showSolve: {
     type: Boolean,
@@ -181,6 +202,18 @@ const showHistogramActive = ref(false);
 // Store zoom and pan state
 const savedZoom = ref(null);
 const savedPan = ref(null);
+const {
+  isCrosshairVisible: showCrosshairActive,
+  crosshairBounds,
+  clearCrosshairBounds,
+  scheduleCrosshairUpdate,
+  toggleCrosshair,
+} = useImageCrosshair({
+  containerRef: container,
+  imageRef: image,
+  imageRotationRef: imageRotation,
+  imageDataRef: toRef(props, 'imageData'),
+});
 
 // Initialize Panzoom when image loads
 const onImageLoad = () => {
@@ -193,7 +226,21 @@ const onImageLoad = () => {
 
 const onImageError = (event) => {
   imageLoadError.value = true;
+  clearCrosshairBounds();
   emits('image-error', event);
+};
+
+const handlePanzoomChange = () => {
+  if (!panzoomInstance) return;
+
+  zoomLevel.value = panzoomInstance.getScale();
+  scheduleCrosshairUpdate();
+  emits('zoom-change', zoomLevel.value);
+};
+
+const handleWheel = (event) => {
+  if (!panzoomInstance) return;
+  panzoomInstance.zoomWithWheel(event);
 };
 
 const initPanzoom = () => {
@@ -201,7 +248,7 @@ const initPanzoom = () => {
   if (panzoomInstance) {
     savedZoom.value = panzoomInstance.getScale();
     savedPan.value = panzoomInstance.getPan();
-    panzoomInstance.destroy();
+    destroyPanzoom();
   }
 
   if (!image.value || !container.value) return;
@@ -220,18 +267,14 @@ const initPanzoom = () => {
     });
 
     // Listen to zoom changes
-    image.value.addEventListener('panzoomchange', () => {
-      if (panzoomInstance) {
-        zoomLevel.value = panzoomInstance.getScale();
-        emits('zoom-change', zoomLevel.value);
-      }
-    });
+    image.value.addEventListener('panzoomchange', handlePanzoomChange);
 
     // Add mousewheel support
-    container.value.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+    container.value.addEventListener('wheel', handleWheel);
 
     // Add double-tap support
     image.value.addEventListener('touchstart', handleTouchStart, { passive: false });
+    scheduleCrosshairUpdate();
   } catch (error) {
     console.error('Error initializing Panzoom:', error);
   }
@@ -239,7 +282,11 @@ const initPanzoom = () => {
 
 const destroyPanzoom = () => {
   if (image.value) {
+    image.value.removeEventListener('panzoomchange', handlePanzoomChange);
     image.value.removeEventListener('touchstart', handleTouchStart);
+  }
+  if (container.value) {
+    container.value.removeEventListener('wheel', handleWheel);
   }
   if (panzoomInstance) {
     try {
@@ -262,6 +309,10 @@ const handleFullscreen = () => {
 const handleHistogramToggle = () => {
   showHistogramActive.value = !showHistogramActive.value;
   emits('histogram-toggle');
+};
+
+const handleCrosshairToggle = () => {
+  toggleCrosshair();
 };
 
 const handleImageClick = () => {
@@ -307,6 +358,7 @@ watch(
   (newVal, oldVal) => {
     if (!newVal && oldVal) {
       destroyPanzoom();
+      clearCrosshairBounds();
       zoomLevel.value = 1;
     }
   }

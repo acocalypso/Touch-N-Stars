@@ -1371,6 +1371,9 @@
         "reset": "Reset",
         "noSaveHint": "Statistics are only calculated for saved images",
         "enableSave": "Enable saving"
+      },
+      "zoomableImage": {
+        "toggleCrosshair": "Alternar mira"
       }
     },
     "platesolve": {

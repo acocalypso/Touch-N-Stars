@@ -21,6 +21,11 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       TotalIterations: 0,
       CompletedIterations: -1,
     },
+    // Summary of the most recently completed run; null when no run has finished yet.
+    // { completed: number, total: number, success: boolean, lastADU: number|null }
+    lastRun: null,
+    // ADU (Mean) of the most recently captured image during the current run
+    currentADU: null,
     intervalId: null,
   }),
   actions: {
@@ -32,9 +37,36 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
           console.warn('Backend is not reachable flats');
           return;
         }
+
+        const prevState = this.status.State;
+        const prevCompleted = this.status.CompletedIterations;
+        const prevTotal = this.status.TotalIterations;
+
         const status = await apiService.flatassistantAction('status');
-        this.status = status.Response;
-        //console.log('Flats Status:', this.status);
+        const next = status.Response;
+
+        // A new run is starting — clear the previous result
+        if (prevState !== 'Running' && next.State === 'Running') {
+          this.lastRun = null;
+          this.currentADU = null;
+        }
+
+        // ADU comes directly from the flat status response (both Running and Finished states)
+        if (next.CurrentADU !== null && next.CurrentADU !== undefined) {
+          this.currentADU = Math.round(next.CurrentADU);
+        }
+
+        // A run just finished — save a summary so the UI can show the outcome
+        if (prevState === 'Running' && next.State === 'Finished') {
+          this.lastRun = {
+            completed: prevCompleted,
+            total: prevTotal,
+            success: prevTotal > 0 && prevCompleted >= prevTotal,
+            lastADU: this.currentADU,
+          };
+        }
+
+        this.status = next;
       } catch (error) {
         console.error('Error fetching information:', error);
       }

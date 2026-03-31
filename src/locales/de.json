@@ -1379,6 +1379,9 @@
         "reset": "Zurücksetzen",
         "noSaveHint": "Statistiken werden nur für gespeicherte Bilder berechnet",
         "enableSave": "Speichern aktivieren"
+      },
+      "zoomableImage": {
+        "toggleCrosshair": "Fadenkreuz umschalten"
       }
     },
     "platesolve": {

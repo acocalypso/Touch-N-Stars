@@ -1259,10 +1259,7 @@
       "status_failed": "No se capturaron pisos: no se pudo determinar una exposición válida",
       "status_running": "En ejecución: {completado} / {total} pisos",
       "status_stopped": "Detenido antes de tiempo: {completado} de {total} departamentos capturados",
-      "status_success": "Listo: {count} pisos capturados",
-      "filter_queue_progress": "Filtrar {actual} / {total}: ​​{nombre}",
-      "no_filter": "Sin filtro",
-      "no_filters_available": "No hay filtros disponibles"
+      "status_success": "Listo: {count} pisos capturados"
     },
     "weatherModal": {
       "weatherInformation": "Información meteorológica",

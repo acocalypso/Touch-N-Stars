@@ -1259,10 +1259,7 @@
       "status_failed": "Nie schwytano żadnych mieszkań – nie udało się ustalić prawidłowego narażenia",
       "status_running": "Bieganie: {ukończone} / {total} mieszkań",
       "status_stopped": "Zatrzymano wcześniej — {ukończono} z {total} zdobytych mieszkań",
-      "status_success": "Gotowe — zajęto {count} mieszkań",
-      "filter_queue_progress": "Filtruj {bieżący} / {łącznie}: {nazwa}",
-      "no_filter": "Brak filtra",
-      "no_filters_available": "Brak dostępnych filtrów"
+      "status_success": "Gotowe — zajęto {count} mieszkań"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",

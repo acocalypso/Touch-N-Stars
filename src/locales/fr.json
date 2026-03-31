@@ -1259,10 +1259,7 @@
       "status_failed": "Aucun appartement capturé – impossible de déterminer une exposition valide",
       "status_running": "En cours : {terminé} / {total} appartements",
       "status_stopped": "Arrêté prématurément – {terminé} sur {total} appartements capturés",
-      "status_success": "Terminé — {count} appartements capturés",
-      "filter_queue_progress": "Filtrer {actuel}/{total} : {name}",
-      "no_filter": "Pas de filtre",
-      "no_filters_available": "Aucun filtre disponible"
+      "status_success": "Terminé — {count} appartements capturés"
     },
     "weatherModal": {
       "weatherInformation": "Informations météorologiques",

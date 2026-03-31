@@ -1259,10 +1259,7 @@
       "status_failed": "Nessun appartamento catturato: impossibile determinare un'esposizione valida",
       "status_running": "In esecuzione: {completato} / {totale} appartamenti",
       "status_stopped": "Interrotto in anticipo: {completato} di {totale} appartamenti catturati",
-      "status_success": "Fatto: {count} appartamenti catturati",
-      "filter_queue_progress": "Filtra {corrente} / {totale}: {nome}",
-      "no_filter": "Nessun filtro",
-      "no_filters_available": "Nessun filtro disponibile"
+      "status_success": "Fatto: {count} appartamenti catturati"
     },
     "weatherModal": {
       "weatherInformation": "Informazioni meteo",

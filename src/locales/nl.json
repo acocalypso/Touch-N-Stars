@@ -1259,7 +1259,10 @@
       "status_failed": "Geen flats vastgelegd - kon geen geldige blootstelling bepalen",
       "status_running": "Hardlopen: {voltooid} / {totaal} flats",
       "status_stopped": "Vroeg gestopt — {voltooid} van {totaal} flats veroverd",
-      "status_success": "Klaar — {count} flats veroverd"
+      "status_success": "Klaar — {count} flats veroverd",
+      "filter_queue_progress": "Filter {huidig} / {totaal}: {naam}",
+      "no_filter": "Geen filter",
+      "no_filters_available": "Geen filters beschikbaar"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",

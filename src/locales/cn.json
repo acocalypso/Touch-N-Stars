@@ -1259,7 +1259,10 @@
       "status_failed": "No flats captured — could not determine valid exposure",
       "status_running": "Running: {completed} / {total} flats",
       "status_stopped": "Stopped early — {completed} of {total} flats captured",
-      "status_success": "Done — {count} flats captured"
+      "status_success": "Done — {count} flats captured",
+      "filter_queue_progress": "Filter {current} / {total}: {name}",
+      "no_filter": "No filter",
+      "no_filters_available": "No filters available"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",

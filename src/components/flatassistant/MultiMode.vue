@@ -6,10 +6,14 @@
     >
       <!-- Mode selector -->
       <div class="flex flex-row w-full items-center">
-        <label class="text-sm text-gray-300 mr-3 shrink-0">{{ $t('components.flatassistant.mode') }}</label>
+        <label class="text-sm text-gray-300 mr-3 shrink-0">{{
+          $t('components.flatassistant.mode')
+        }}</label>
         <select v-model="state.selectedMode" class="default-select h-10 ml-auto w-48">
           <option value="AutoExposure">{{ $t('components.flatassistant.auto_exposure') }}</option>
-          <option value="AutoBrightness">{{ $t('components.flatassistant.auto_brightness') }}</option>
+          <option value="AutoBrightness">
+            {{ $t('components.flatassistant.auto_brightness') }}
+          </option>
           <option value="SkyFlat">{{ $t('components.flatassistant.skyflat') }}</option>
         </select>
       </div>
@@ -61,8 +65,11 @@
           />
         </div>
 
-        <!-- Settings (only when active AND expanded) -->
-        <div v-if="isActive(filter.Id) && isExpanded(filter.Id)" class="space-y-2 pt-2 border-t border-gray-700">
+        <!-- Settings (only when active AND expanded AND config ready) -->
+        <div
+          v-if="isActive(filter.Id) && isExpanded(filter.Id) && state.filterConfigs[filter.Id]"
+          class="space-y-2 pt-2 border-t border-gray-700"
+        >
           <!-- Count -->
           <NumberInputPicker
             v-model="state.filterConfigs[filter.Id].count"
@@ -101,6 +108,7 @@
             :max="9999"
             :step="1"
             :decimalPlaces="0"
+            :defaultValue="-1"
             :inputId="`gain-${filter.Id}`"
           />
 
@@ -113,6 +121,7 @@
             :max="9999"
             :step="1"
             :decimalPlaces="0"
+            :defaultValue="-1"
             :inputId="`offset-${filter.Id}`"
           />
 
@@ -282,21 +291,19 @@
 </template>
 
 <script setup>
-import { reactive, watch, onMounted } from 'vue';
+import { reactive, watch, nextTick } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
-import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
-const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 
-// Restore saved state or use defaults
+// Restore session state (mode, active/expanded filter selections)
 const saved = settingsStore.flats.multiMode ?? {};
 
 const state = reactive({
@@ -304,15 +311,48 @@ const state = reactive({
   keepClosed: saved.keepClosed ?? false,
   activeFilterIds: saved.activeFilterIds ? [...saved.activeFilterIds] : [],
   expandedFilterIds: saved.expandedFilterIds ? [...saved.expandedFilterIds] : [],
-  filterConfigs: saved.filterConfigs ? { ...saved.filterConfigs } : {},
+  filterConfigs: {},
 });
 
-function defaultConfig() {
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function debounce(fn, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), delay);
+  };
+}
+
+function defaultConfig(filterId) {
+  const pf =
+    store.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.[filterId]
+      ?.FlatWizardFilterSettings;
+
+  if (pf) {
+    const cameraGain = store.profileInfo?.CameraSettings?.Gain ?? 0;
+    const cameraOffset = store.profileInfo?.CameraSettings?.Offset ?? 0;
+    return {
+      count: 20, // local only
+      gain: pf.Gain === -1 ? cameraGain : pf.Gain,
+      offset: pf.Offset === -1 ? cameraOffset : pf.Offset,
+      binning: pf.Binning?.Name ?? '1x1',
+      histogramMean: Math.round(pf.HistogramMeanTarget * 100),
+      meanTolerance: Math.round(pf.HistogramTolerance * 100),
+      minExposure: pf.MinFlatExposureTime,
+      maxExposure: pf.MaxFlatExposureTime,
+      brightness: 50, // local only (% panel brightness)
+      exposureTime: 2, // local only
+      minBrightness: pf.MinAbsoluteFlatDeviceBrightness,
+      maxBrightness: pf.MaxAbsoluteFlatDeviceBrightness,
+    };
+  }
+  // Fallback when profile is not yet loaded
   return {
     count: 20,
-    gain: store.profileInfo?.CameraSettings?.Gain ?? 100,
-    offset: store.profileInfo?.CameraSettings?.Offset ?? 0,
-    binning: cameraStore.binningMode ?? '1x1',
+    gain: -1,
+    offset: -1,
+    binning: '1x1',
     histogramMean: 50,
     meanTolerance: 10,
     minExposure: 0.01,
@@ -326,9 +366,11 @@ function defaultConfig() {
 
 function ensureFilterConfig(filterId) {
   if (!state.filterConfigs[filterId]) {
-    state.filterConfigs[filterId] = defaultConfig();
+    state.filterConfigs[filterId] = defaultConfig(filterId);
   }
 }
+
+// ── Filter activation / expand ────────────────────────────────────────────────
 
 function isActive(filterId) {
   return state.activeFilterIds.includes(filterId);
@@ -352,7 +394,6 @@ function toggleFilter(filterId, value) {
     if (!state.activeFilterIds.includes(filterId)) {
       state.activeFilterIds.push(filterId);
     }
-    // Auto-expand when activating
     if (!state.expandedFilterIds.includes(filterId)) {
       state.expandedFilterIds.push(filterId);
     }
@@ -362,20 +403,68 @@ function toggleFilter(filterId, value) {
   }
 }
 
-// Sync to settingsStore for session persistence
+// ── Session persistence (mode + filter selections, NOT configs) ───────────────
+
 watch(
-  state,
-  () => {
-    settingsStore.flats.multiMode = {
-      selectedMode: state.selectedMode,
-      keepClosed: state.keepClosed,
-      activeFilterIds: [...state.activeFilterIds],
-      expandedFilterIds: [...state.expandedFilterIds],
-      filterConfigs: { ...state.filterConfigs },
-    };
+  () => ({
+    selectedMode: state.selectedMode,
+    keepClosed: state.keepClosed,
+    activeFilterIds: [...state.activeFilterIds],
+    expandedFilterIds: [...state.expandedFilterIds],
+  }),
+  (val) => {
+    settingsStore.flats.multiMode = { ...settingsStore.flats.multiMode, ...val };
   },
   { deep: true }
 );
+
+// ── Profile save ──────────────────────────────────────────────────────────────
+
+async function saveToProfile(filterId, cfg) {
+  const base = `FilterWheelSettings-FilterWheelFilters-${filterId}-FlatWizardFilterSettings`;
+  const cameraGain = store.profileInfo?.CameraSettings?.Gain ?? 0;
+  const cameraOffset = store.profileInfo?.CameraSettings?.Offset ?? 0;
+  const calls = [
+    [base + '-Gain', String(cfg.gain === cameraGain ? -1 : cfg.gain)],
+    [base + '-Offset', String(cfg.offset === cameraOffset ? -1 : cfg.offset)],
+    [base + '-MinFlatExposureTime', String(cfg.minExposure)],
+    [base + '-MaxFlatExposureTime', String(cfg.maxExposure)],
+    [base + '-HistogramMeanTarget', String(cfg.histogramMean / 100)],
+    [base + '-HistogramTolerance', String(cfg.meanTolerance / 100)],
+    [base + '-MaxAbsoluteFlatDeviceBrightness', String(cfg.maxBrightness)],
+    [base + '-MinAbsoluteFlatDeviceBrightness', String(cfg.minBrightness)],
+    [base + '-Binning-Name', cfg.binning],
+    [base + '-Binning-X', String(cfg.binning.split('x')[0])],
+    [base + '-Binning-Y', String(cfg.binning.split('x')[1])],
+  ];
+  for (const [path, value] of calls) {
+    await apiService.profileChangeValue(path, value);
+  }
+}
+
+const debouncedSaves = {};
+
+function getDebouncedSave(filterId) {
+  if (!debouncedSaves[filterId]) {
+    debouncedSaves[filterId] = debounce((cfg) => saveToProfile(filterId, cfg), 800);
+  }
+  return debouncedSaves[filterId];
+}
+
+let initialized = false;
+
+watch(
+  () => state.filterConfigs,
+  (configs) => {
+    if (!initialized) return;
+    for (const [filterId, cfg] of Object.entries(configs)) {
+      getDebouncedSave(Number(filterId))(cfg);
+    }
+  },
+  { deep: true }
+);
+
+// ── Start / Stop ──────────────────────────────────────────────────────────────
 
 async function startMultiMode() {
   const filters = state.activeFilterIds.map((filterId) => {
@@ -404,20 +493,11 @@ async function startMultiMode() {
         maxBrightness: cfg.maxBrightness,
       };
     } else {
-      // SkyFlat
-      return {
-        ...base,
-        minExposure: cfg.minExposure,
-        maxExposure: cfg.maxExposure,
-      };
+      return { ...base, minExposure: cfg.minExposure, maxExposure: cfg.maxExposure };
     }
   });
 
-  const payload = {
-    mode: state.selectedMode,
-    keepClosed: state.keepClosed,
-    filters,
-  };
+  const payload = { mode: state.selectedMode, keepClosed: state.keepClosed, filters };
 
   try {
     await apiService.flatMultiMode(payload);
@@ -434,8 +514,24 @@ async function stopFlats() {
   }
 }
 
-onMounted(() => {
-  // Ensure saved active filters still have configs (in case of partial save)
-  state.activeFilterIds.forEach((id) => ensureFilterConfig(id));
-});
+// ── Init configs from profile (only once on first load) ───────────────────────
+
+let configsInitialized = false;
+
+watch(
+  () => store.profileInfo?.FilterWheelSettings?.FilterWheelFilters,
+  (profileFilters) => {
+    if (!profileFilters?.length || configsInitialized) return;
+    profileFilters.forEach((_, idx) => {
+      state.filterConfigs[idx] = defaultConfig(idx);
+    });
+    // Ensure saved active filters have a config even if not in profile list
+    state.activeFilterIds.forEach((id) => ensureFilterConfig(id));
+    configsInitialized = true;
+    nextTick(() => {
+      initialized = true;
+    });
+  },
+  { immediate: true }
+);
 </script>

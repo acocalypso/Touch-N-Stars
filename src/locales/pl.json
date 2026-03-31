@@ -1254,7 +1254,12 @@
       "auto_brightness": "Auto jasność",
       "skyflat": "Skyflat",
       "button_slew_to_zenith": "Obróć do zenitu",
-      "keep_closed": "Keep flat panel closed"
+      "keep_closed": "Keep flat panel closed",
+      "status_adu_live": "Ostatni zmierzony ADU: {adu}",
+      "status_failed": "Nie schwytano żadnych mieszkań – nie udało się ustalić prawidłowego narażenia",
+      "status_running": "Bieganie: {ukończone} / {total} mieszkań",
+      "status_stopped": "Zatrzymano wcześniej — {ukończono} z {total} zdobytych mieszkań",
+      "status_success": "Gotowe — zajęto {count} mieszkań"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",
@@ -1522,7 +1527,16 @@
       "indi3rdpartySelect": "Select driver package",
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
-      "indi3rdpartyNoDrivers": "No not-installed drivers found."
+      "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "dhcpClientsDescription": "Urządzenia z aktywną dzierżawą DHCP w hotspocie.",
+      "dhcpClientsEmpty": "Nie znaleziono aktywnych klientów DHCP.",
+      "dhcpClientsExpires": "Wygasa leasing",
+      "dhcpClientsHostname": "Nazwa hosta",
+      "dhcpClientsIp": "Adres IP",
+      "dhcpClientsLoading": "Ładowanie klientów...",
+      "dhcpClientsMac": "Adres MAC",
+      "dhcpClientsRefresh": "Odśwież listę klientów",
+      "dhcpClientsTitle": "Połączeni klienci"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

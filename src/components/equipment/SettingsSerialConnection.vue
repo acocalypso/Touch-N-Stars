@@ -406,7 +406,11 @@ async function setAutoDetect() {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
+  // Always fetch the latest profile before populating the form. The global
+  // store.profileInfo is only refreshed by the periodic polling loop, so it
+  // may be stale right after the user changes the INDI driver selection.
+  await store.fetchProfilInfos();
   initializeSettings();
 });
 </script>

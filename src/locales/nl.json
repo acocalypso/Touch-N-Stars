@@ -1254,7 +1254,15 @@
       "auto_brightness": "Auto helderheid",
       "skyflat": "Skyflat",
       "button_slew_to_zenith": "Slew naar zenith",
-      "keep_closed": "Keep flat panel closed"
+      "keep_closed": "Keep flat panel closed",
+      "status_adu_live": "Laatst gemeten ADU: {adu}",
+      "status_failed": "Geen flats vastgelegd - kon geen geldige blootstelling bepalen",
+      "status_running": "Hardlopen: {voltooid} / {totaal} flats",
+      "status_stopped": "Vroeg gestopt — {voltooid} van {totaal} flats veroverd",
+      "status_success": "Klaar — {count} flats veroverd",
+      "filter_queue_progress": "Filter {huidig} / {totaal}: {naam}",
+      "no_filter": "Geen filter",
+      "no_filters_available": "Geen filters beschikbaar"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -1522,7 +1530,16 @@
       "indi3rdpartySelect": "Select driver package",
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
-      "indi3rdpartyNoDrivers": "No not-installed drivers found."
+      "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "dhcpClientsDescription": "Apparaten met een actieve DHCP-lease op de hotspot.",
+      "dhcpClientsEmpty": "Geen actieve DHCP-clients gevonden.",
+      "dhcpClientsExpires": "Huurovereenkomst loopt af",
+      "dhcpClientsHostname": "Hostnaam",
+      "dhcpClientsIp": "IP-adres",
+      "dhcpClientsLoading": "Klanten laden...",
+      "dhcpClientsMac": "MAC-adres",
+      "dhcpClientsRefresh": "Vernieuw de klantenlijst",
+      "dhcpClientsTitle": "Verbonden klanten"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

@@ -1254,7 +1254,15 @@
       "auto_brightness": "自动亮度",
       "skyflat": "天空平场",
       "button_slew_to_zenith": "转向天顶",
-      "keep_closed": "Keep flat panel closed"
+      "keep_closed": "Keep flat panel closed",
+      "status_adu_live": "Last measured ADU: {adu}",
+      "status_failed": "No flats captured — could not determine valid exposure",
+      "status_running": "Running: {completed} / {total} flats",
+      "status_stopped": "Stopped early — {completed} of {total} flats captured",
+      "status_success": "Done — {count} flats captured",
+      "filter_queue_progress": "Filter {current} / {total}: {name}",
+      "no_filter": "No filter",
+      "no_filters_available": "No filters available"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",
@@ -1522,7 +1530,16 @@
       "indi3rdpartySelect": "Select driver package",
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
-      "indi3rdpartyNoDrivers": "No not-installed drivers found."
+      "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "dhcpClientsDescription": "Devices with an active DHCP lease on the hotspot.",
+      "dhcpClientsEmpty": "No active DHCP clients found.",
+      "dhcpClientsExpires": "Lease Expires",
+      "dhcpClientsHostname": "Hostname",
+      "dhcpClientsIp": "IP Address",
+      "dhcpClientsLoading": "Loading clients...",
+      "dhcpClientsMac": "MAC Address",
+      "dhcpClientsRefresh": "Refresh client list",
+      "dhcpClientsTitle": "Connected Clients"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

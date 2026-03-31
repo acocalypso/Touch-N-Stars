@@ -10,7 +10,7 @@
     <setMaxBrightness />
     <setHistogramMeanTarget />
     <setHistogramTolerance />
-    <selectFilter v-if="store.filterInfo.Connected" v-model="selectedFilterId" />
+    <selectFilters v-if="store.filterInfo.Connected" v-model="selectedFilters" />
     <setBinning v-if="(store.cameraInfo?.BinningModes?.length || 0) > 1" />
     <div class="flex items-center justify-between">
       <span class="text-sm text-gray-300">{{ $t('components.flatassistant.keep_closed') }}</span>
@@ -46,7 +46,7 @@ import setMinBrightness from '@/components/flatassistant/setMinBrightness.vue';
 import setMaxBrightness from '@/components/flatassistant/setMaxBrightness.vue';
 import setHistogramMeanTarget from '@/components/flatassistant/setHistogramMeanTarget.vue';
 import setHistogramTolerance from '@/components/flatassistant/setHistogramTolerance.vue';
-import selectFilter from '@/components/flatassistant/selectFilter.vue';
+import selectFilters from '@/components/flatassistant/selectFilters.vue';
 import setExposureTime from '@/components/flatassistant/setExposureTime.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
@@ -55,44 +55,48 @@ const flatsStore = useFlatassistantStore();
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 
-const selectedFilterId = ref(null);
+const selectedFilters = ref([]);
 
 onMounted(() => {
   flatsStore.binning = cameraStore.binningMode;
   flatsStore.gain = cameraStore.gain;
   flatsStore.offset = cameraStore.offset;
-  selectedFilterId.value = store.filterInfo?.SelectedFilter?.Id ?? null;
+  const current = store.filterInfo?.SelectedFilter;
+  if (current) selectedFilters.value = [{ id: current.Id, name: current.Name }];
 });
 
 async function startAutoExposure() {
-  console.log('Flats startAutoExposure: ');
+  const filters =
+    store.filterInfo.Connected && selectedFilters.value.length > 0
+      ? selectedFilters.value
+      : [{ id: null, name: null }];
   try {
-    const data = await apiService.flatAutoBrightness(
-      flatsStore.count,
-      settingsStore.flats.minBrightness,
-      settingsStore.flats.maxBrightness,
-      flatsStore.histogramMean,
-      flatsStore.meanTolerance,
-      flatsStore.binning,
-      flatsStore.gain,
-      flatsStore.offset,
-      selectedFilterId.value,
-      settingsStore.flats.exposureTime,
-      settingsStore.flats.keepClosed
-    );
-    console.log(data);
+    await flatsStore.startFilterQueue(filters, async (filterId) => {
+      await apiService.flatAutoBrightness(
+        flatsStore.count,
+        settingsStore.flats.minBrightness,
+        settingsStore.flats.maxBrightness,
+        flatsStore.histogramMean,
+        flatsStore.meanTolerance,
+        flatsStore.binning,
+        flatsStore.gain,
+        flatsStore.offset,
+        filterId,
+        settingsStore.flats.exposureTime,
+        settingsStore.flats.keepClosed
+      );
+    });
   } catch (error) {
-    console.log('Error flatAutoBrightness');
+    console.error('Error starting auto brightness flats:', error);
   }
 }
 
 async function stopFlats() {
-  console.log('Flats stop: ');
+  flatsStore.cancelFilterQueue();
   try {
-    const data = await apiService.flatassistantAction('stop');
-    console.log(data);
+    await apiService.flatassistantAction('stop');
   } catch (error) {
-    console.log('Error stopAutoExposure');
+    console.error('Error stopping flats:', error);
   }
 }
 </script>

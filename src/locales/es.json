@@ -1254,7 +1254,15 @@
       "auto_brightness": "Brillo automático",
       "skyflat": "Skyflat",
       "button_slew_to_zenith": "Desplazar al Zenith",
-      "keep_closed": "Keep flat panel closed"
+      "keep_closed": "Keep flat panel closed",
+      "status_adu_live": "Última ADU medida: {adu}",
+      "status_failed": "No se capturaron pisos: no se pudo determinar una exposición válida",
+      "status_running": "En ejecución: {completado} / {total} pisos",
+      "status_stopped": "Detenido antes de tiempo: {completado} de {total} departamentos capturados",
+      "status_success": "Listo: {count} pisos capturados",
+      "filter_queue_progress": "Filtrar {actual} / {total}: ​​{nombre}",
+      "no_filter": "Sin filtro",
+      "no_filters_available": "No hay filtros disponibles"
     },
     "weatherModal": {
       "weatherInformation": "Información meteorológica",
@@ -1522,7 +1530,16 @@
       "indi3rdpartySelect": "Select driver package",
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
-      "indi3rdpartyNoDrivers": "No not-installed drivers found."
+      "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "dhcpClientsDescription": "Dispositivos con una concesión DHCP activa en el punto de acceso.",
+      "dhcpClientsEmpty": "No se encontraron clientes DHCP activos.",
+      "dhcpClientsExpires": "El contrato de arrendamiento vence",
+      "dhcpClientsHostname": "Nombre de host",
+      "dhcpClientsIp": "Dirección IP",
+      "dhcpClientsLoading": "Cargando clientes...",
+      "dhcpClientsMac": "Dirección MAC",
+      "dhcpClientsRefresh": "Actualizar lista de clientes",
+      "dhcpClientsTitle": "Clientes conectados"
     },
     "bahtifocus": {
       "title": "Bahtinov Mask Analyzer",

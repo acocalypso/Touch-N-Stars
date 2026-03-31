@@ -71,6 +71,13 @@
           @update:selected-asset="selectedIndi3rdpartyAsset = $event"
         />
 
+        <PinsDhcpClientsCard
+          v-if="!stationaryMode"
+          :clients="dhcpClients"
+          :loading="isDhcpClientsLoading"
+          @refresh="loadDhcpClients"
+        />
+
         <!-- System Time Card -->
         <div
           class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
@@ -275,6 +282,7 @@ import PinsTerminalOutput from '../components/PinsTerminalOutput.vue';
 import PinsSambaCard from '../components/PinsSambaCard.vue';
 import PinsPhd2Card from '../components/PinsPhd2Card.vue';
 import PinsWifiCard from '../components/PinsWifiCard.vue';
+import PinsDhcpClientsCard from '../components/PinsDhcpClientsCard.vue';
 import PinsIndi3rdpartyCard from '../components/PinsIndi3rdpartyCard.vue';
 
 const { t } = useI18n();
@@ -298,6 +306,8 @@ const indi3rdpartyDrivers = ref([]);
 const isIndi3rdpartyLoading = ref(false);
 const isIndi3rdpartyInstalling = ref(false);
 const indi3rdpartyQuery = ref('');
+const dhcpClients = ref([]);
+const isDhcpClientsLoading = ref(false);
 const selectedIndi3rdpartyAsset = ref('');
 const {
   stationaryMode,
@@ -349,6 +359,7 @@ watch(
       loadHotspotPasswordConfig();
       checkUpdates();
       loadIndi3rdpartyDrivers();
+      loadDhcpClients();
     }
   },
   { immediate: true }
@@ -733,6 +744,28 @@ async function checkPhd2Status() {
     }
   } catch (error) {
     console.error('Failed to check PHD2 status:', error);
+  }
+}
+
+async function loadDhcpClients() {
+  const ip = getIp();
+  if (!ip) return;
+
+  isDhcpClientsLoading.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/clients`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 5000,
+    });
+    dhcpClients.value = response.data?.clients || [];
+  } catch (error) {
+    console.error('Failed to load DHCP clients:', error);
+    dhcpClients.value = [];
+  } finally {
+    isDhcpClientsLoading.value = false;
   }
 }
 

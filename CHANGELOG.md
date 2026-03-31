@@ -4,13 +4,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-### Added
-- Image Viewer: Optional centered crosshair overlay toggle for the shared camera and livestack viewer
-
-### Changed
-- Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
-
 ## [App4.8.0] - xxxx-xx-xx
 ### Added
 - Sequence: Set multi targets
@@ -24,11 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS: switch between two instances
 - PINS: Log level selector in debug settings (requires PINS plugin support)
 - Log Modal: Multi-select level filter (ALL, DEBUG, INFO, WARNING, ERROR)
-- Plugin: PINS AllSky frontend for Pi HQ camera capture, timelapse, keogram, and startrails control with the companion backend plugin
+- Plugin: PINS AllSky frontend for Pi HQ camera capture, timelapse, keogram, and startrails control with the companion backend plugin - thanks to sharon92
 - StatusBar: Instance switcher button showing active instance name and WebSocket status – tap to open a modal listing all online instances for quick switching
 - Navbar: Customizable navigation bar – reorder icons via drag & drop and hide individual items; at least one page besides Settings must remain visible; collapsible settings section with faded item preview when collapsed
 - Navbar: Plugin nav items included in customization, respecting enabled state and PINS availability
 - Navbar: App redirects to first visible page on startup if the default page (Equipment) is hidden
+- Image Viewer: Optional centered crosshair overlay toggle for the shared camera and livestack viewer - thanks to sharon92
+
+
+### Changed
+- Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type

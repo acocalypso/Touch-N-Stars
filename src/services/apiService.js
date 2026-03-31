@@ -1658,6 +1658,17 @@ const apiService = {
     }
   },
 
+  //multimode
+  async flatMultiMode(payload) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.post(`${BASE_URL}/flats/multimode`, payload);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  dome ---------------------------------------
   domeAction(action) {
     const { BASE_URL } = getUrls();

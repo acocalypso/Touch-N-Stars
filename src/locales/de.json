@@ -1267,7 +1267,12 @@
       "auto_brightness": "Dynamische Helligkeit",
       "skyflat": "Skyflat",
       "button_slew_to_zenith": "Zum Zenit schwenken",
-      "keep_closed": "Keep flat panel closed"
+      "keep_closed": "Keep flat panel closed",
+      "mode": "Modus",
+      "single_mode": "Einzel Modus",
+      "multi_mode": "Multi Modus",
+      "start_multi_mode": "Multi Modus starten",
+      "multi_mode_no_filters": "Kein Filterrad verbunden"
     },
     "weatherModal": {
       "weatherInformation": "Wetterinformationen",

@@ -1267,7 +1267,12 @@
       "auto_brightness": "Auto brightness",
       "skyflat": "Skyflat",
       "button_slew_to_zenith": "Slew to zenith",
-      "keep_closed": "Keep flat panel closed"
+      "keep_closed": "Keep flat panel closed",
+      "mode": "Mode",
+      "single_mode": "Single Mode",
+      "multi_mode": "Multi Mode",
+      "start_multi_mode": "Start Multi Mode",
+      "multi_mode_no_filters": "No filter wheel connected"
     },
     "weatherModal": {
       "weatherInformation": "Weather Information",

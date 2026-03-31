@@ -25,6 +25,7 @@ const getBaseUrl = () => {
     targetpic: `${protocol}://${host}:${port}/api/targetpic`,
     pluginServer: `${protocol}://${host}:${port}`,
     pinsSystem: `${protocol}://${host}:${PINS_PORT}`,
+    pinsDaemon: `${protocol}://${host}:8000`,
   };
 };
 
@@ -36,6 +37,7 @@ const getUrls = () => {
     TARGETPIC_URL: urls.targetpic,
     PLUGINSERVER_URL: urls.pluginServer,
     PINS_SYSTEM_URL: urls.pinsSystem,
+    PINSDAEMON_URL: urls.pinsDaemon,
   };
 };
 

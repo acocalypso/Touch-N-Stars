@@ -48,6 +48,7 @@ const getBaseUrl = () => {
     api: `${protocol}://${host}:${port}/api/`,
     targetpic: `${protocol}://${host}:${port}/api/targetpic`,
     pluginServer: `${protocol}://${host}:${port}`,
+    pinsDaemon: `${protocol}://${host}:8000`,
   };
 };
 
@@ -58,6 +59,7 @@ const getUrls = () => {
     API_URL: urls.api,
     TARGETPIC_URL: urls.targetpic,
     PLUGINSERVER_URL: urls.pluginServer,
+    PINSDAEMON_URL: urls.pinsDaemon,
   };
 };
 
@@ -957,8 +959,8 @@ const apiService = {
   // api to get filesystem paths for image save path selection in settings
   async getFileDevices(timeout = DEFAULT_TIMEOUT) {
     try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(`${PLUGINSERVER_URL}/files/devices`, { timeout });
+      const { PINSDAEMON_URL } = getUrls();
+      const response = await axios.get(`${PINSDAEMON_URL}/files/devices`, { timeout });
       return response.data;
     } catch (error) {
       console.error('getFileDevices error:', error);
@@ -968,8 +970,8 @@ const apiService = {
 
   async listFileDirectories(path, timeout = DEFAULT_TIMEOUT) {
     try {
-      const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(`${PLUGINSERVER_URL}/files/list`, {
+      const { PINSDAEMON_URL } = getUrls();
+      const response = await axios.get(`${PINSDAEMON_URL}/files/list`, {
         params: { path },
         timeout,
       });
@@ -982,9 +984,9 @@ const apiService = {
 
   async createFileDirectory(path, name, timeout = DEFAULT_TIMEOUT) {
     try {
-      const { PLUGINSERVER_URL } = getUrls();
+      const { PINSDAEMON_URL } = getUrls();
       const response = await axios.post(
-        `${PLUGINSERVER_URL}/files/create-dir`,
+        `${PINSDAEMON_URL}/files/create-dir`,
         { path, name },
         { timeout }
       );

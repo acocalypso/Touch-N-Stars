@@ -6,6 +6,7 @@
     </div>
 
     <SubNav
+      v-if="store.isPINS"
       :items="[
         { name: t('components.flatassistant.single_mode'), value: 'single' },
         { name: t('components.flatassistant.multi_mode'), value: 'multi' },
@@ -60,7 +61,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
@@ -109,5 +110,11 @@ const computedDec = computed(() => {
     store.profileInfo.AstrometrySettings.Longitude
   );
   return dec;
+});
+
+onMounted(() => {
+  if (store.isPINS) {
+    settingsStore.flats.activeMode = 'single';
+  }
 });
 </script>

@@ -958,7 +958,7 @@ const apiService = {
   async getFileDevices(timeout = DEFAULT_TIMEOUT) {
     try {
       const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(`${PLUGINSERVER_URL}/api/files/devices`, { timeout });
+      const response = await axios.get(`${PLUGINSERVER_URL}/files/devices`, { timeout });
       return response.data;
     } catch (error) {
       console.error('getFileDevices error:', error);
@@ -969,7 +969,7 @@ const apiService = {
   async listFileDirectories(path, timeout = DEFAULT_TIMEOUT) {
     try {
       const { PLUGINSERVER_URL } = getUrls();
-      const response = await axios.get(`${PLUGINSERVER_URL}/api/files/list`, {
+      const response = await axios.get(`${PLUGINSERVER_URL}/files/list`, {
         params: { path },
         timeout,
       });
@@ -984,7 +984,7 @@ const apiService = {
     try {
       const { PLUGINSERVER_URL } = getUrls();
       const response = await axios.post(
-        `${PLUGINSERVER_URL}/api/files/create-dir`,
+        `${PLUGINSERVER_URL}/files/create-dir`,
         { path, name },
         { timeout }
       );

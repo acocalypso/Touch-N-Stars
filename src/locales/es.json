@@ -295,6 +295,28 @@
         "hint": "",
         "minOneRequired": "",
         "title": ""
+      },
+      "imageSavePath": {
+        "create": "Crear",
+        "dblClickHint": "Haga doble clic para abrir",
+        "dirLoadError": "No se pudo cargar el directorio.",
+        "dirtyHint": "La ruta cambió: presione Guardar para aplicar el cambio.",
+        "errorMsg": "Error al guardar la ruta.",
+        "folderPlaceholder": "Nombre de la carpeta...",
+        "loading": "Cargando...",
+        "loadingDirs": "Cargando directorios...",
+        "newFolder": "Nueva carpeta",
+        "noSubfolders": "No hay subcarpetas disponibles",
+        "placeholder": "Ninguna ruta seleccionada",
+        "save": "Ahorrar",
+        "savedMsg": "Ruta guardada:",
+        "saving": "...",
+        "selectTitle": "Seleccione la ubicación de almacenamiento",
+        "selectedPath": "Ruta seleccionada:",
+        "title": "Ruta para guardar imagen",
+        "toastErrorMsg": "No se pudo guardar la ruta.",
+        "toastErrorTitle": "Error",
+        "toastTitle": "Ruta guardada"
       }
     },
     "connectEquipment": {
@@ -1263,7 +1285,8 @@
       "status_failed": "No se capturaron pisos: no se pudo determinar una exposición válida",
       "status_running": "En ejecución: {completado} / {total} pisos",
       "status_stopped": "Detenido antes de tiempo: {completado} de {total} departamentos capturados",
-      "status_success": "Listo: {count} pisos capturados"
+      "status_success": "Listo: {count} pisos capturados",
+      "single_mode": "Modo único"
     },
     "weatherModal": {
       "weatherInformation": "Información meteorológica",
@@ -2376,7 +2399,25 @@
         "updateRateDesc": "Intervalo de actualización para actualizaciones de estado del dispositivo",
         "factoryReset": "Restablecimiento de fábrica",
         "factoryResetDesc": "Restablezca el dispositivo PINS a la configuración predeterminada de fábrica",
-        "factoryResetConfirm": "¿Estás seguro de que deseas realizar un restablecimiento de fábrica? \nEsto restablecerá todas las configuraciones a sus valores predeterminados."
+        "factoryResetConfirm": "¿Estás seguro de que deseas realizar un restablecimiento de fábrica? \nEsto restablecerá todas las configuraciones a sus valores predeterminados.",
+        "notifications": {
+          "beepLength": "Duración del pitido",
+          "beepLengthDesc": "Duración de cada pitido en milisegundos (100–10000)",
+          "beepOnError": "Pitido en caso de error",
+          "beepOnErrorDesc": "Haga sonar el PowerBox cuando se recibe un error de NINA",
+          "beepOnWarning": "Pitido de advertencia",
+          "beepOnWarningDesc": "Haga sonar el PowerBox cuando se recibe una advertencia de NINA",
+          "beepRepeatDuration": "Duración de la repetición",
+          "beepRepeatDurationDesc": "Tiempo total para seguir repitiendo el patrón de pitidos (1 a 60 segundos)",
+          "beepVolume": "Volumen del pitido",
+          "powerboxRequired": "PowerBox debe estar conectado para que funcionen las notificaciones sonoras",
+          "testBeep": "Pitido de prueba",
+          "testBeepRunning": "Pitido...",
+          "title": "Notificaciones",
+          "volumeLoud": "Alto",
+          "volumeLow": "Bajo",
+          "volumeMedium": "Medio"
+        }
       },
       "info": {
         "coreTemp": "Temperatura de la CPU",

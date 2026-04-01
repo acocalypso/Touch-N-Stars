@@ -291,10 +291,32 @@
         "title": "Synchronisation du temps"
       },
       "navbarCustomization": {
-        "alwaysVisible": "",
-        "hint": "",
-        "minOneRequired": "",
-        "title": ""
+        "alwaysVisible": "Toujours visible",
+        "hint": "Faites glisser pour réorganiser. \nAu moins une page en plus des Paramètres doit rester visible.",
+        "minOneRequired": "Au moins une page doit rester visible",
+        "title": "Personnalisation de la barre de navigation"
+      },
+      "imageSavePath": {
+        "create": "Créer",
+        "dblClickHint": "Double-cliquez pour ouvrir",
+        "dirLoadError": "Impossible de charger le répertoire.",
+        "dirtyHint": "Chemin modifié - veuillez appuyer sur Enregistrer pour appliquer la modification.",
+        "errorMsg": "Erreur lors de l'enregistrement du chemin.",
+        "folderPlaceholder": "Nom du dossier...",
+        "loading": "Chargement...",
+        "loadingDirs": "Chargement des répertoires...",
+        "newFolder": "Nouveau dossier",
+        "noSubfolders": "Aucun sous-dossier disponible",
+        "placeholder": "Aucun chemin sélectionné",
+        "save": "Sauvegarder",
+        "savedMsg": "Chemin enregistré :",
+        "saving": "...",
+        "selectTitle": "Sélectionnez l'emplacement de stockage",
+        "selectedPath": "Chemin sélectionné :",
+        "title": "Chemin d'enregistrement de l'image",
+        "toastErrorMsg": "Le chemin n'a pas pu être enregistré.",
+        "toastErrorTitle": "Erreur",
+        "toastTitle": "Chemin enregistré"
       }
     },
     "connectEquipment": {
@@ -1259,7 +1281,12 @@
       "status_failed": "Aucun appartement capturé – impossible de déterminer une exposition valide",
       "status_running": "En cours : {terminé} / {total} appartements",
       "status_stopped": "Arrêté prématurément – {terminé} sur {total} appartements capturés",
-      "status_success": "Terminé — {count} appartements capturés"
+      "status_success": "Terminé — {count} appartements capturés",
+      "mode": "Mode",
+      "multi_mode": "Modes multiples",
+      "multi_mode_no_filters": "Aucune roue à filtres connectée",
+      "single_mode": "Mode unique",
+      "start_multi_mode": "Démarrer le mode multiple"
     },
     "weatherModal": {
       "weatherInformation": "Informations météorologiques",
@@ -1394,12 +1421,12 @@
       "focal_length": "Longueur focale"
     },
     "instanceSwitcher": {
-      "active": "",
-      "checking": "",
-      "manageInstances": "",
-      "noInstances": "",
-      "noneOnline": "",
-      "title": ""
+      "active": "Actif",
+      "checking": "Vérification des instances…",
+      "manageInstances": "Gérer les instances",
+      "noInstances": "Aucune instance configurée",
+      "noneOnline": "Aucune instance en ligne",
+      "title": "Changer d'instance"
     }
   },
   "plugins": {
@@ -2372,7 +2399,25 @@
         "updateRateDesc": "Intervalle d'actualisation pour les mises à jour de l'état de l'appareil",
         "factoryReset": "Réinitialisation d'usine",
         "factoryResetDesc": "Réinitialiser l'appareil PINS aux paramètres d'usine par défaut",
-        "factoryResetConfirm": "Êtes-vous sûr de vouloir effectuer une réinitialisation d'usine ? \nCela réinitialisera tous les paramètres à leurs valeurs par défaut."
+        "factoryResetConfirm": "Êtes-vous sûr de vouloir effectuer une réinitialisation d'usine ? \nCela réinitialisera tous les paramètres à leurs valeurs par défaut.",
+        "notifications": {
+          "beepLength": "Durée du bip",
+          "beepLengthDesc": "Durée de chaque bip en millisecondes (100 à 10 000)",
+          "beepOnError": "Bip en cas d'erreur",
+          "beepOnErrorDesc": "Bip de la PowerBox lorsqu'une erreur NINA est reçue",
+          "beepOnWarning": "Bip d'avertissement",
+          "beepOnWarningDesc": "Bip de la PowerBox lorsqu'un avertissement NINA est reçu",
+          "beepRepeatDuration": "Durée de répétition",
+          "beepRepeatDurationDesc": "Temps total pour continuer à répéter le modèle de bip (1 à 60 s)",
+          "beepVolume": "Volume du bip",
+          "powerboxRequired": "La PowerBox doit être connectée pour que les notifications sonores fonctionnent",
+          "testBeep": "Bip de test",
+          "testBeepRunning": "Bip...",
+          "title": "Notifications",
+          "volumeLoud": "Fort",
+          "volumeLow": "Faible",
+          "volumeMedium": "Moyen"
+        }
       },
       "info": {
         "coreTemp": "Température du processeur",

@@ -2609,6 +2609,19 @@ const apiService = {
     }
   },
 
+  async beepPinsDevice(volume = 100, lengthMs = 1000) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(
+        `${API_URL}pins/powerbox/beep?volume=${volume}&lengthMs=${lengthMs}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error beeping PowerBox:', error);
+      throw error;
+    }
+  },
+
   // --------------------------------- PowerBox WiFi ---------------------------------
   async getPinsDeviceWiFi() {
     try {

@@ -295,6 +295,28 @@
         "hint": "",
         "minOneRequired": "",
         "title": ""
+      },
+      "imageSavePath": {
+        "create": "Creare",
+        "dblClickHint": "Fare doppio clic per aprire",
+        "dirLoadError": "Impossibile caricare la directory.",
+        "dirtyHint": "Percorso modificato: premi Salva per applicare la modifica.",
+        "errorMsg": "Errore durante il salvataggio del percorso.",
+        "folderPlaceholder": "Nome della cartella...",
+        "loading": "Caricamento...",
+        "loadingDirs": "Caricamento directory...",
+        "newFolder": "Nuova cartella",
+        "noSubfolders": "Nessuna sottocartella disponibile",
+        "placeholder": "Nessun percorso selezionato",
+        "save": "Salva",
+        "savedMsg": "Percorso salvato:",
+        "saving": "...",
+        "selectTitle": "Seleziona la posizione di archiviazione",
+        "selectedPath": "Percorso selezionato:",
+        "title": "Percorso di salvataggio dell'immagine",
+        "toastErrorMsg": "Impossibile salvare il percorso.",
+        "toastErrorTitle": "Errore",
+        "toastTitle": "Percorso salvato"
       }
     },
     "connectEquipment": {
@@ -1259,7 +1281,12 @@
       "status_failed": "Nessun appartamento catturato: impossibile determinare un'esposizione valida",
       "status_running": "In esecuzione: {completato} / {totale} appartamenti",
       "status_stopped": "Interrotto in anticipo: {completato} di {totale} appartamenti catturati",
-      "status_success": "Fatto: {count} appartamenti catturati"
+      "status_success": "Fatto: {count} appartamenti catturati",
+      "mode": "Modalità",
+      "multi_mode": "Modalità multipla",
+      "multi_mode_no_filters": "Nessuna ruota portafiltri collegata",
+      "single_mode": "Modalità singola",
+      "start_multi_mode": "Avvia la modalità multipla"
     },
     "weatherModal": {
       "weatherInformation": "Informazioni meteo",
@@ -2372,7 +2399,25 @@
         "updateRateDesc": "Intervallo di aggiornamento per gli aggiornamenti dello stato del dispositivo",
         "factoryReset": "Ripristino delle impostazioni di fabbrica",
         "factoryResetDesc": "Ripristinare il dispositivo PINS alle impostazioni predefinite di fabbrica",
-        "factoryResetConfirm": "Sei sicuro di voler eseguire un ripristino delle impostazioni di fabbrica? \nCiò ripristinerà tutte le impostazioni ai valori predefiniti."
+        "factoryResetConfirm": "Sei sicuro di voler eseguire un ripristino delle impostazioni di fabbrica? \nCiò ripristinerà tutte le impostazioni ai valori predefiniti.",
+        "notifications": {
+          "beepLength": "Durata del segnale acustico",
+          "beepLengthDesc": "Durata di ciascun segnale acustico in millisecondi (100–10000)",
+          "beepOnError": "Segnale acustico in caso di errore",
+          "beepOnErrorDesc": "Il PowerBox emette un segnale acustico quando viene ricevuto un errore NINA",
+          "beepOnWarning": "Segnale acustico di avviso",
+          "beepOnWarningDesc": "Il PowerBox emette un segnale acustico quando viene ricevuto un avviso NINA",
+          "beepRepeatDuration": "Durata ripetizione",
+          "beepRepeatDurationDesc": "Tempo totale per continuare a ripetere la sequenza del segnale acustico (1–60 s)",
+          "beepVolume": "Volume del segnale acustico",
+          "powerboxRequired": "PowerBox deve essere collegato affinché le notifiche tramite segnale acustico funzionino",
+          "testBeep": "Prova segnale acustico",
+          "testBeepRunning": "Segnale acustico...",
+          "title": "Notifiche",
+          "volumeLoud": "Forte",
+          "volumeLow": "Basso",
+          "volumeMedium": "Medio"
+        }
       },
       "info": {
         "coreTemp": "Temperatura della CPU",

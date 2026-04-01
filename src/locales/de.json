@@ -2399,7 +2399,25 @@
         "updateRateDesc": "Aktualisierungsintervall für Gerätestatusaktualisierungen",
         "factoryReset": "Werksreset",
         "factoryResetDesc": "Setzen Sie das PINS-Gerät auf die Werkseinstellungen zurück",
-        "factoryResetConfirm": "Sind Sie sicher, dass Sie einen Werksreset durchführen möchten? \nDadurch werden alle Einstellungen auf ihre Standardwerte zurückgesetzt."
+        "factoryResetConfirm": "Sind Sie sicher, dass Sie einen Werksreset durchführen möchten? \nDadurch werden alle Einstellungen auf ihre Standardwerte zurückgesetzt.",
+        "notifications": {
+          "beepLength": "Dauer des Signaltons",
+          "beepLengthDesc": "Dauer jedes Piepstons in Millisekunden (100–10.000)",
+          "beepOnError": "Piepton bei Fehler",
+          "beepOnErrorDesc": "Geben Sie einen Signalton an der PowerBox aus, wenn ein NINA-Fehler empfangen wird",
+          "beepOnWarning": "Signalton bei Warnung",
+          "beepOnWarningDesc": "Geben Sie einen Signalton an der PowerBox aus, wenn eine NINA-Warnung empfangen wird",
+          "beepRepeatDuration": "Wiederholungsdauer",
+          "beepRepeatDurationDesc": "Gesamtzeit für die kontinuierliche Wiederholung des Signaltonmusters (1–60 Sek.)",
+          "beepVolume": "Signaltonlautstärke",
+          "powerboxRequired": "Damit die Signaltonbenachrichtigungen funktionieren, muss die PowerBox angeschlossen sein",
+          "testBeep": "Testton",
+          "testBeepRunning": "Piepen...",
+          "title": "Benachrichtigungen",
+          "volumeLoud": "Laut",
+          "volumeLow": "Niedrig",
+          "volumeMedium": "Medium"
+        }
       },
       "info": {
         "coreTemp": "CPU-Temperatur",

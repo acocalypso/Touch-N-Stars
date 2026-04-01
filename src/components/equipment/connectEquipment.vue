@@ -154,6 +154,7 @@
       :deviceName="$t('components.connectEquipment.switch.name')"
       :default-device-id="store.profileInfo?.SwitchSettings?.Id"
       :isConnected="store.switchInfo.Connected"
+      @open-config="openSwitchSettings"
     />
   </div>
 
@@ -207,6 +208,16 @@
         equipmentType="flatdevice"
         :selectedDevice="selectedFlatDeviceDevice"
       />
+    </template>
+  </Modal>
+
+  <!-- Switch Settings Modal -->
+  <Modal :show="showSwitchSettings" @close="showSwitchSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.switch.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection equipmentType="switch" :selectedDevice="selectedSwitchDevice" />
     </template>
   </Modal>
 
@@ -265,6 +276,8 @@ const showFlatDeviceSettings = ref(false);
 const selectedFlatDeviceDevice = ref('');
 const showFilterSettings = ref(false);
 const selectedFilterDevice = ref('');
+const showSwitchSettings = ref(false);
+const selectedSwitchDevice = ref('');
 const showWeatherSettings = ref(false);
 const selectedWeatherDevice = ref('');
 const selectedWeatherDeviceName = ref(store.profileInfo?.WeatherDataSettings?.Id || '');
@@ -320,6 +333,11 @@ const openFlatDeviceSettings = (payload) => {
 const openFilterSettings = (payload) => {
   selectedFilterDevice.value = payload?.selectedDeviceDisplayName || '';
   showFilterSettings.value = true;
+};
+
+const openSwitchSettings = (payload) => {
+  selectedSwitchDevice.value = payload?.selectedDeviceDisplayName || '';
+  showSwitchSettings.value = true;
 };
 
 const openWeatherSettings = (payload) => {

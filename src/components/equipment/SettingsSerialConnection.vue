@@ -141,6 +141,7 @@ const equipmentInfoMap = {
   flatdevice: () => store.flatdeviceInfo,
   weather: () => store.weatherInfo,
   filterwheel: () => store.filterInfo,
+  switch: () => store.switchInfo,
 };
 
 // Map equipment type to settings key in profileInfo
@@ -151,6 +152,7 @@ const settingsKeyMap = {
   flatdevice: 'FlatDeviceSettings',
   weather: 'WeatherDataSettings',
   filterwheel: 'FilterWheelSettings',
+  switch: 'SwitchSettings',
 };
 
 // Map equipment type to setting property prefixes
@@ -191,6 +193,13 @@ const settingsPrefixMap = {
     autoDetect: 'IndiAutoSearch',
   },
   filterwheel: {
+    connection: 'IndiConnectionMode',
+    port: 'IndiPort',
+    baud: 'IndiBaudRate',
+    address: 'IndiAddress',
+    autoDetect: 'IndiAutoSearch',
+  },
+  switch: {
     connection: 'IndiConnectionMode',
     port: 'IndiPort',
     baud: 'IndiBaudRate',

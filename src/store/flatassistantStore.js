@@ -42,8 +42,16 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         const prevCompleted = this.status.CompletedIterations;
         const prevTotal = this.status.TotalIterations;
 
-        const status = await apiService.flatassistantAction('status');
-        const next = status.Response;
+        // Check both TNS (multimode) and ninaAPI status in parallel.
+        // TNS takes precedence when its task is running.
+        const [tnsResult, ninaResult] = await Promise.allSettled([
+          apiService.flatMultiStatus(),
+          apiService.flatassistantAction('status'),
+        ]);
+
+        const tnsNext = tnsResult.status === 'fulfilled' ? tnsResult.value?.Response : null;
+        const ninaNext = ninaResult.status === 'fulfilled' ? ninaResult.value?.Response : null;
+        const next = tnsNext?.State === 'Running' ? tnsNext : (ninaNext ?? tnsNext ?? this.status);
 
         // A new run is starting — clear the previous result
         if (prevState !== 'Running' && next.State === 'Running') {

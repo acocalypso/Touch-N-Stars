@@ -79,12 +79,20 @@ export const useSettingsStore = defineStore('settings', {
       snapshotTargetName: 'Snapshot',
     },
     flats: {
+      activeMode: 'single',
       selectedOption: 'AutoExposure',
       minBrightness: 0,
       maxBrightness: 100,
       brightness: 50,
       exposureTime: 2,
       keepClosed: false,
+      multiMode: {
+        selectedMode: 'AutoExposure',
+        keepClosed: false,
+        activeFilterIds: [],
+        expandedFilterIds: [],
+        filterConfigs: {},
+      },
     },
     stellarium: {
       constellationsLinesVisible: true,

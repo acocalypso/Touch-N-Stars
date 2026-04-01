@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Navbar: Plugin nav items included in customization, respecting enabled state and PINS availability
 - Navbar: App redirects to first visible page on startup if the default page (Equipment) is hidden
 - Image Viewer: Optional centered crosshair overlay toggle for the shared camera and livestack viewer - thanks to sharon92
-
+- PINS Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pins Plugin: Autoconnect to wifi after reboot
 - Setup: Restart setup after GPS permission has been granted
 - Flatwizzard: max brightness
+- Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
 
 ## [App4.6.0] - 2026-02-14
 ### Added

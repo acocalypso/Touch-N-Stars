@@ -5,6 +5,15 @@
       <h1 class="text-xl text-center font-bold">{{ $t('components.flatassistant.title') }}</h1>
     </div>
 
+    <SubNav
+      v-if="store.isPINS"
+      :items="[
+        { name: t('components.flatassistant.single_mode'), value: 'single' },
+        { name: t('components.flatassistant.multi_mode'), value: 'multi' },
+      ]"
+      v-model:activeItem="settingsStore.flats.activeMode"
+    />
+
     <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
       <ButtonSlew
         class="p-4 w-full"
@@ -12,7 +21,10 @@
         :raAngle="computedRa"
         :decAngle="computedDec"
       />
+
+      <!-- Single Mode: sub-type selector -->
       <select
+        v-if="settingsStore.flats.activeMode === 'single'"
         v-model="settingsStore.flats.selectedOption"
         class="p-2 w-full border border-gray-500 rounded-lg bg-gray-800 text-white"
       >
@@ -21,7 +33,15 @@
         <option value="SkyFlat">{{ $t('components.flatassistant.skyflat') }}</option>
       </select>
 
-      <component :is="selectedComponent" class="mt-4" />
+      <!-- Single Mode content -->
+      <component
+        v-if="settingsStore.flats.activeMode === 'single'"
+        :is="selectedComponent"
+        class="mt-4"
+      />
+
+      <!-- Multi Mode content -->
+      <MultiMode v-else />
 
       <div
         v-show="flatsStore.status.State === 'Running' || flatsStore.lastRun !== null"
@@ -41,13 +61,15 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
+import MultiMode from '@/components/flatassistant/MultiMode.vue';
 import getStatus from '@/components/flatassistant/getStatus.vue';
 import LastImage from '@/components/flatassistant/LastImage.vue';
 import ButtonSlew from '@/components/mount/ButtonSlew.vue';
+import SubNav from '@/components/SubNav.vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
@@ -71,11 +93,9 @@ const selectedComponent = computed(() => {
 });
 
 const computedRa = computed(() => {
-  // Konvertiere Alt/Az zu RA/Dec für Flat Position
-  // Alt: 89° 00' 00", Az: 90° 00' 00"
   const { ra } = altAzToRaDec(
-    89, // Altitude in Grad
-    90, // Azimut in Grad
+    89,
+    90,
     store.profileInfo.AstrometrySettings.Latitude,
     store.profileInfo.AstrometrySettings.Longitude
   );
@@ -83,14 +103,18 @@ const computedRa = computed(() => {
 });
 
 const computedDec = computed(() => {
-  // Konvertiere Alt/Az zu RA/Dec für Flat Position
-  // Alt: 89° 00' 00", Az: 90° 00' 00"
   const { dec } = altAzToRaDec(
-    89, // Altitude in Grad
-    90, // Azimut in Grad
+    89,
+    90,
     store.profileInfo.AstrometrySettings.Latitude,
     store.profileInfo.AstrometrySettings.Longitude
   );
   return dec;
+});
+
+onMounted(() => {
+  if (store.isPINS) {
+    settingsStore.flats.activeMode = 'single';
+  }
 });
 </script>

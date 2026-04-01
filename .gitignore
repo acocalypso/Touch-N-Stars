@@ -13,6 +13,7 @@ package-lock.json
 # local env files
 .env.local
 .env.*.local
+.env
 
 # Log files
 npm-debug.log*
@@ -38,3 +39,4 @@ public/whats-new.json
 nul
 /.vs/Touch-N-Stars.slnx
 tailwind.config.backup
+

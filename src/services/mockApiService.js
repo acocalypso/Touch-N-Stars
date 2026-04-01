@@ -9,7 +9,7 @@ const mockState = {
   isConnected: true,
   apiVersion: '2.2.12.0',
   tnsPluginVersion: '1.2.0.0',
-  apiPort: 8000,
+  apiPort: 5000,
   equipment: {
     camera: { connected: true },
     mount: { connected: true },
@@ -889,17 +889,17 @@ const mockApiService = {
   },
 
   // mock data for file service
-   async getFileDevices() {
+  async getFileDevices() {
     await delay(100);
     return [
       { name: 'Root', path: '/' },
       { name: 'ASTRO-USB', path: '/media/ASTRO-USB' },
     ];
   },
- 
+
   async listFileDirectories(path) {
     await delay(150);
- 
+
     const fs = {
       '/': [
         { name: 'home', path: '/home' },
@@ -907,9 +907,7 @@ const mockApiService = {
         { name: 'mnt', path: '/mnt' },
         { name: 'opt', path: '/opt' },
       ],
-      '/home': [
-        { name: 'user', path: '/home/user' },
-      ],
+      '/home': [{ name: 'user', path: '/home/user' }],
       '/home/user': [
         { name: 'Documents', path: '/home/user/Documents' },
         { name: 'Pictures', path: '/home/user/Pictures' },
@@ -940,9 +938,7 @@ const mockApiService = {
         { name: 'Flat', path: '/home/user/NINA/Images/Flat' },
         { name: 'Bias', path: '/home/user/NINA/Images/Bias' },
       ],
-      '/media': [
-        { name: 'ASTRO-USB', path: '/media/ASTRO-USB' },
-      ],
+      '/media': [{ name: 'ASTRO-USB', path: '/media/ASTRO-USB' }],
       '/media/ASTRO-USB': [
         { name: 'NINA', path: '/media/ASTRO-USB/NINA' },
         { name: 'Backup', path: '/media/ASTRO-USB/Backup' },
@@ -963,32 +959,30 @@ const mockApiService = {
       '/mnt': [],
       '/opt': [],
     };
- 
+
     // Dynamisch angelegte Ordner aus mockState berücksichtigen
     const dynamic = mockState.createdDirs?.[path] || [];
     const base = fs[path] ?? [];
     return [...base, ...dynamic];
   },
- 
+
   async createFileDirectory(path, name) {
     await delay(200);
- 
+
     // Neu angelegten Ordner im mockState merken damit er beim nächsten listFileDirectories auftaucht
     if (!mockState.createdDirs) mockState.createdDirs = {};
     if (!mockState.createdDirs[path]) mockState.createdDirs[path] = [];
- 
+
     const newEntry = { name, path: `${path}/${name}` };
- 
+
     // Doppelte verhindern
     const exists = mockState.createdDirs[path].some((e) => e.name === name);
     if (exists) throw new Error('Directory already exists');
- 
+
     mockState.createdDirs[path].push(newEntry);
     return newEntry;
   },
 };
-
-
 
 // Export mock state for testing/manipulation
 export { mockState };

@@ -1669,6 +1669,11 @@ const apiService = {
     }
   },
 
+  flatMultiStatus() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}flats/status`);
+  },
+
   async flatMultiStop() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}/flats/stop`);

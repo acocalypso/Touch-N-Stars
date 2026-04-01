@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix crash when NINA plugin version is not yet loaded (checkVersionNewerOrEqual)
 - Fix app not reconnecting after backend restart: removed blocking `await` on SignalR connect in polling loop, added socket-ID guard to prevent stale WebSocket events from corrupting connection state, and fixed async race condition in `disconnect()` across all SignalR services
 - Debug console: fix SignalR "WebSocket is not in the OPEN state" error caused by WebSocket proxy losing static constants (`OPEN`, `CONNECTING`, etc.)
+- Filter Calculator Plugin: Fix Input field
 
 
 ## [App4.7.0] - 2026-03-17

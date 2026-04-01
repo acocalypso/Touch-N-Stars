@@ -5,8 +5,9 @@
       <h1 class="text-xl text-center font-bold">{{ $t('components.flatassistant.title') }}</h1>
     </div>
 
+    <!-- Temporarily hide multi-mode there is a bug in the backend -->
     <SubNav
-      v-if="store.isPINS"
+      v-if="store.isPINS && false"
       :items="[
         { name: t('components.flatassistant.single_mode'), value: 'single' },
         { name: t('components.flatassistant.multi_mode'), value: 'multi' },

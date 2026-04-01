@@ -16,7 +16,7 @@
             label
           }}</span>
         </div>
-        <div v-if="$slots.summary" class="flex items-center gap-2 mt-0.5">
+        <div v-if="$slots.summary" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
           <slot name="summary" />
         </div>
       </div>

@@ -1661,8 +1661,8 @@ const apiService = {
   //multimode
   async flatMultiMode(payload) {
     try {
-      const { BASE_URL } = getUrls();
-      const response = await axios.post(`${BASE_URL}/flats/multimode`, payload);
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}flats/multimode`, payload);
       return response.data;
     } catch (error) {
       throw error;

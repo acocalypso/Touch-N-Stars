@@ -420,37 +420,38 @@ watch(
 
 // ── Profile save ──────────────────────────────────────────────────────────────
 
-async function saveToProfile(filterId, cfg) {
+const PROFILE_FIELDS = {
+  gain:          (cfg, base, cameraGain) => [base + '-Gain',                          String(cfg.gain === cameraGain ? -1 : cfg.gain)],
+  offset:        (cfg, base, _,          cameraOffset) => [base + '-Offset',          String(cfg.offset === cameraOffset ? -1 : cfg.offset)],
+  minExposure:   (cfg, base) => [base + '-MinFlatExposureTime',                        String(cfg.minExposure)],
+  maxExposure:   (cfg, base) => [base + '-MaxFlatExposureTime',                        String(cfg.maxExposure)],
+  histogramMean: (cfg, base) => [base + '-HistogramMeanTarget',                        String(cfg.histogramMean / 100)],
+  meanTolerance: (cfg, base) => [base + '-HistogramTolerance',                         String(cfg.meanTolerance / 100)],
+  maxBrightness: (cfg, base) => [base + '-MaxAbsoluteFlatDeviceBrightness',            String(cfg.maxBrightness)],
+  minBrightness: (cfg, base) => [base + '-MinAbsoluteFlatDeviceBrightness',            String(cfg.minBrightness)],
+};
+
+async function saveFieldToProfile(filterId, cfg, field) {
   const base = `FilterWheelSettings-FilterWheelFilters-${filterId}-FlatWizardFilterSettings`;
   const cameraGain = store.profileInfo?.CameraSettings?.Gain ?? 0;
   const cameraOffset = store.profileInfo?.CameraSettings?.Offset ?? 0;
-  const calls = [
-    [base + '-Gain', String(cfg.gain === cameraGain ? -1 : cfg.gain)],
-    [base + '-Offset', String(cfg.offset === cameraOffset ? -1 : cfg.offset)],
-    [base + '-MinFlatExposureTime', String(cfg.minExposure)],
-    [base + '-MaxFlatExposureTime', String(cfg.maxExposure)],
-    [base + '-HistogramMeanTarget', String(cfg.histogramMean / 100)],
-    [base + '-HistogramTolerance', String(cfg.meanTolerance / 100)],
-    [base + '-MaxAbsoluteFlatDeviceBrightness', String(cfg.maxBrightness)],
-    [base + '-MinAbsoluteFlatDeviceBrightness', String(cfg.minBrightness)],
-    [base + '-Binning-Name', cfg.binning],
-    [base + '-Binning-X', String(cfg.binning.split('x')[0])],
-    [base + '-Binning-Y', String(cfg.binning.split('x')[1])],
-  ];
-  for (const [path, value] of calls) {
-    await apiService.profileChangeValue(path, value);
-  }
+  const builder = PROFILE_FIELDS[field];
+  if (!builder) return;
+  const [path, value] = builder(cfg, base, cameraGain, cameraOffset);
+  await apiService.profileChangeValue(path, value);
 }
 
-const debouncedSaves = {};
+const debouncedFieldSaves = {};
 
-function getDebouncedSave(filterId) {
-  if (!debouncedSaves[filterId]) {
-    debouncedSaves[filterId] = debounce((cfg) => saveToProfile(filterId, cfg), 800);
+function getDebouncedFieldSave(filterId, field) {
+  const key = `${filterId}-${field}`;
+  if (!debouncedFieldSaves[key]) {
+    debouncedFieldSaves[key] = debounce((cfg) => saveFieldToProfile(filterId, cfg, field), 800);
   }
-  return debouncedSaves[filterId];
+  return debouncedFieldSaves[key];
 }
 
+const prevFilterConfigs = {};
 let initialized = false;
 
 watch(
@@ -458,7 +459,15 @@ watch(
   (configs) => {
     if (!initialized) return;
     for (const [filterId, cfg] of Object.entries(configs)) {
-      getDebouncedSave(Number(filterId))(cfg);
+      const prev = prevFilterConfigs[filterId];
+      if (prev) {
+        for (const field of Object.keys(PROFILE_FIELDS)) {
+          if (cfg[field] !== prev[field]) {
+            getDebouncedFieldSave(Number(filterId), field)(cfg);
+          }
+        }
+      }
+      prevFilterConfigs[filterId] = { ...cfg };
     }
   },
   { deep: true }
@@ -529,6 +538,9 @@ watch(
     state.activeFilterIds.forEach((id) => ensureFilterConfig(id));
     configsInitialized = true;
     nextTick(() => {
+      for (const [id, cfg] of Object.entries(state.filterConfigs)) {
+        prevFilterConfigs[id] = { ...cfg };
+      }
       initialized = true;
     });
   },

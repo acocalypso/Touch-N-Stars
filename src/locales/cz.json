@@ -295,6 +295,28 @@
         "hint": "",
         "minOneRequired": "",
         "title": ""
+      },
+      "imageSavePath": {
+        "create": "Create",
+        "dblClickHint": "Double-click to open",
+        "dirLoadError": "Could not load directory.",
+        "dirtyHint": "Path changed - please press Save to apply the change.",
+        "errorMsg": "Error saving the path.",
+        "folderPlaceholder": "Folder name...",
+        "loading": "Loading...",
+        "loadingDirs": "Loading directories...",
+        "newFolder": "New Folder",
+        "noSubfolders": "No subfolders available",
+        "placeholder": "No path selected",
+        "save": "Save",
+        "savedMsg": "Path saved:",
+        "saving": "...",
+        "selectTitle": "Select storage location",
+        "selectedPath": "Selected path:",
+        "title": "Image Save Path",
+        "toastErrorMsg": "Path could not be saved.",
+        "toastErrorTitle": "Error",
+        "toastTitle": "Path saved"
       }
     },
     "connectEquipment": {
@@ -1259,7 +1281,12 @@
       "status_failed": "No flats captured — could not determine valid exposure",
       "status_running": "Running: {completed} / {total} flats",
       "status_stopped": "Stopped early — {completed} of {total} flats captured",
-      "status_success": "Done — {count} flats captured"
+      "status_success": "Done — {count} flats captured",
+      "mode": "Mode",
+      "multi_mode": "Multi Mode",
+      "multi_mode_no_filters": "No filter wheel connected",
+      "single_mode": "Single Mode",
+      "start_multi_mode": "Start Multi Mode"
     },
     "weatherModal": {
       "weatherInformation": "Informace o Počasí",
@@ -2372,7 +2399,25 @@
         "updateRateDesc": "Refresh interval for device status updates",
         "factoryReset": "Factory Reset",
         "factoryResetDesc": "Reset the PINS device to factory default settings",
-        "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values."
+        "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values.",
+        "notifications": {
+          "beepLength": "Beep Duration",
+          "beepLengthDesc": "Duration of each beep in milliseconds (100–10000)",
+          "beepOnError": "Beep on Error",
+          "beepOnErrorDesc": "Beep the PowerBox when a NINA error is received",
+          "beepOnWarning": "Beep on Warning",
+          "beepOnWarningDesc": "Beep the PowerBox when a NINA warning is received",
+          "beepRepeatDuration": "Repeat Duration",
+          "beepRepeatDurationDesc": "Total time to keep repeating the beep pattern (1–60s)",
+          "beepVolume": "Beep Volume",
+          "powerboxRequired": "PowerBox must be connected for beep notifications to work",
+          "testBeep": "Test Beep",
+          "testBeepRunning": "Beeping...",
+          "title": "Notifications",
+          "volumeLoud": "Loud",
+          "volumeLow": "Low",
+          "volumeMedium": "Medium"
+        }
       },
       "info": {
         "coreTemp": "CPU Temperature",

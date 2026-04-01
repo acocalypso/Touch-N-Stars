@@ -295,6 +295,28 @@
         "hint": "",
         "minOneRequired": "",
         "title": ""
+      },
+      "imageSavePath": {
+        "create": "Criar",
+        "dblClickHint": "Clique duas vezes para abrir",
+        "dirLoadError": "Não foi possível carregar o diretório.",
+        "dirtyHint": "Caminho alterado - pressione Salvar para aplicar a alteração.",
+        "errorMsg": "Erro ao salvar o caminho.",
+        "folderPlaceholder": "Nome da pasta...",
+        "loading": "Carregando...",
+        "loadingDirs": "Carregando diretórios...",
+        "newFolder": "Nova pasta",
+        "noSubfolders": "Nenhuma subpasta disponível",
+        "placeholder": "Nenhum caminho selecionado",
+        "save": "Salvar",
+        "savedMsg": "Caminho salvo:",
+        "saving": "...",
+        "selectTitle": "Selecione o local de armazenamento",
+        "selectedPath": "Caminho selecionado:",
+        "title": "Caminho para salvar imagem",
+        "toastErrorMsg": "O caminho não pôde ser salvo.",
+        "toastErrorTitle": "Erro",
+        "toastTitle": "Caminho salvo"
       }
     },
     "connectEquipment": {
@@ -1259,7 +1281,12 @@
       "status_failed": "Nenhum apartamento capturado – não foi possível determinar a exposição válida",
       "status_running": "Em execução: {concluído} / {total} apartamentos",
       "status_stopped": "Interrompido antecipadamente — {concluído} de {total} apartamentos capturados",
-      "status_success": "Concluído — {count} apartamentos capturados"
+      "status_success": "Concluído — {count} apartamentos capturados",
+      "mode": "Modo",
+      "multi_mode": "Modo múltiplo",
+      "multi_mode_no_filters": "Nenhuma roda de filtro conectada",
+      "single_mode": "Modo único",
+      "start_multi_mode": "Iniciar modo múltiplo"
     },
     "weatherModal": {
       "weatherInformation": "Informações meteorológicas",
@@ -2372,7 +2399,25 @@
         "updateRateDesc": "Intervalo de atualização para atualizações de status do dispositivo",
         "factoryReset": "Redefinição de fábrica",
         "factoryResetDesc": "Redefinir o dispositivo PINS para as configurações padrão de fábrica",
-        "factoryResetConfirm": "Tem certeza de que deseja realizar uma redefinição de fábrica? \nIsso redefinirá todas as configurações para seus valores padrão."
+        "factoryResetConfirm": "Tem certeza de que deseja realizar uma redefinição de fábrica? \nIsso redefinirá todas as configurações para seus valores padrão.",
+        "notifications": {
+          "beepLength": "Duração do bipe",
+          "beepLengthDesc": "Duração de cada bipe em milissegundos (100–10.000)",
+          "beepOnError": "Bipe em caso de erro",
+          "beepOnErrorDesc": "Bipar o PowerBox quando um erro NINA for recebido",
+          "beepOnWarning": "Bipe de aviso",
+          "beepOnWarningDesc": "Bipar o PowerBox quando um aviso NINA for recebido",
+          "beepRepeatDuration": "Duração da repetição",
+          "beepRepeatDurationDesc": "Tempo total para repetir o padrão de bipe (1–60s)",
+          "beepVolume": "Volume do bipe",
+          "powerboxRequired": "O PowerBox deve estar conectado para que as notificações de bipe funcionem",
+          "testBeep": "Bipe de teste",
+          "testBeepRunning": "Bipando...",
+          "title": "Notificações",
+          "volumeLoud": "Alto",
+          "volumeLow": "Baixo",
+          "volumeMedium": "Médio"
+        }
       },
       "info": {
         "coreTemp": "Temperatura da CPU",

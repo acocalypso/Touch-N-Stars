@@ -2402,7 +2402,25 @@
         "updateRateDesc": "Refresh interval for device status updates",
         "factoryReset": "Factory Reset",
         "factoryResetDesc": "Reset the PINS device to factory default settings",
-        "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values."
+        "factoryResetConfirm": "Are you sure you want to perform a factory reset? This will reset all settings to their default values.",
+        "notifications": {
+          "title": "Notifications",
+          "beepOnWarning": "Beep on Warning",
+          "beepOnWarningDesc": "Beep the PowerBox when a NINA warning is received",
+          "beepOnError": "Beep on Error",
+          "beepOnErrorDesc": "Beep the PowerBox when a NINA error is received",
+          "beepVolume": "Beep Volume",
+          "volumeLow": "Low",
+          "volumeMedium": "Medium",
+          "volumeLoud": "Loud",
+          "beepLength": "Beep Duration",
+          "beepLengthDesc": "Duration of each beep in milliseconds (100–10000)",
+          "beepRepeatDuration": "Repeat Duration",
+          "beepRepeatDurationDesc": "Total time to keep repeating the beep pattern (1–60s)",
+          "powerboxRequired": "PowerBox must be connected for beep notifications to work",
+          "testBeep": "Test Beep",
+          "testBeepRunning": "Beeping..."
+        }
       },
       "info": {
         "coreTemp": "CPU Temperature",

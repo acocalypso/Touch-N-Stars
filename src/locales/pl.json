@@ -295,6 +295,28 @@
         "hint": "",
         "minOneRequired": "",
         "title": ""
+      },
+      "imageSavePath": {
+        "create": "Tworzyć",
+        "dblClickHint": "Kliknij dwukrotnie, aby otworzyć",
+        "dirLoadError": "Nie można załadować katalogu.",
+        "dirtyHint": "Ścieżka została zmieniona — naciśnij przycisk Zapisz, aby zastosować zmianę.",
+        "errorMsg": "Błąd podczas zapisywania ścieżki.",
+        "folderPlaceholder": "Nazwa folderu...",
+        "loading": "Załadunek...",
+        "loadingDirs": "Ładowanie katalogów...",
+        "newFolder": "Nowy folder",
+        "noSubfolders": "Brak dostępnych podfolderów",
+        "placeholder": "Nie wybrano ścieżki",
+        "save": "Ratować",
+        "savedMsg": "Ścieżka zapisana:",
+        "saving": "...",
+        "selectTitle": "Wybierz miejsce przechowywania",
+        "selectedPath": "Wybrana ścieżka:",
+        "title": "Ścieżka zapisu obrazu",
+        "toastErrorMsg": "Nie można zapisać ścieżki.",
+        "toastErrorTitle": "Błąd",
+        "toastTitle": "Ścieżka zapisana"
       }
     },
     "connectEquipment": {
@@ -1259,7 +1281,12 @@
       "status_failed": "Nie schwytano żadnych mieszkań – nie udało się ustalić prawidłowego narażenia",
       "status_running": "Bieganie: {ukończone} / {total} mieszkań",
       "status_stopped": "Zatrzymano wcześniej — {ukończono} z {total} zdobytych mieszkań",
-      "status_success": "Gotowe — zajęto {count} mieszkań"
+      "status_success": "Gotowe — zajęto {count} mieszkań",
+      "mode": "Tryb",
+      "multi_mode": "Tryb wielu",
+      "multi_mode_no_filters": "Brak podłączonego koła filtrującego",
+      "single_mode": "Tryb pojedynczy",
+      "start_multi_mode": "Uruchom tryb Multi"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",
@@ -2372,7 +2399,25 @@
         "updateRateDesc": "Interwał odświeżania aktualizacji stanu urządzenia",
         "factoryReset": "Reset do ustawień fabrycznych",
         "factoryResetDesc": "Zresetuj urządzenie PINS do domyślnych ustawień fabrycznych",
-        "factoryResetConfirm": "Czy na pewno chcesz przywrócić ustawienia fabryczne? \nSpowoduje to zresetowanie wszystkich ustawień do wartości domyślnych."
+        "factoryResetConfirm": "Czy na pewno chcesz przywrócić ustawienia fabryczne? \nSpowoduje to zresetowanie wszystkich ustawień do wartości domyślnych.",
+        "notifications": {
+          "beepLength": "Czas trwania sygnału",
+          "beepLengthDesc": "Czas trwania każdego sygnału dźwiękowego w milisekundach (100–10000)",
+          "beepOnError": "Sygnał dźwiękowy w przypadku błędu",
+          "beepOnErrorDesc": "Sygnał dźwiękowy PowerBox po odebraniu błędu NINA",
+          "beepOnWarning": "Sygnał ostrzegawczy",
+          "beepOnWarningDesc": "Sygnał dźwiękowy PowerBox po otrzymaniu ostrzeżenia NINA",
+          "beepRepeatDuration": "Powtórz Czas trwania",
+          "beepRepeatDurationDesc": "Całkowity czas powtarzania sygnału dźwiękowego (1–60 s)",
+          "beepVolume": "Głośność sygnału",
+          "powerboxRequired": "Aby powiadomienia dźwiękowe działały, należy podłączyć PowerBox",
+          "testBeep": "Sygnał testowy",
+          "testBeepRunning": "Pikanie...",
+          "title": "Powiadomienia",
+          "volumeLoud": "Głośny",
+          "volumeLow": "Niski",
+          "volumeMedium": "Średni"
+        }
       },
       "info": {
         "coreTemp": "Temperatura procesora",

@@ -295,6 +295,28 @@
         "hint": "",
         "minOneRequired": "",
         "title": ""
+      },
+      "imageSavePath": {
+        "create": "Creëren",
+        "dblClickHint": "Dubbelklik om te openen",
+        "dirLoadError": "Kan map niet laden.",
+        "dirtyHint": "Pad gewijzigd - druk op Opslaan om de wijziging toe te passen.",
+        "errorMsg": "Fout bij het opslaan van het pad.",
+        "folderPlaceholder": "Mapnaam...",
+        "loading": "Laden...",
+        "loadingDirs": "Mappen laden...",
+        "newFolder": "Nieuwe map",
+        "noSubfolders": "Geen submappen beschikbaar",
+        "placeholder": "Geen pad geselecteerd",
+        "save": "Redden",
+        "savedMsg": "Pad opgeslagen:",
+        "saving": "...",
+        "selectTitle": "Selecteer opslaglocatie",
+        "selectedPath": "Geselecteerd pad:",
+        "title": "Pad voor afbeelding opslaan",
+        "toastErrorMsg": "Pad kon niet worden opgeslagen.",
+        "toastErrorTitle": "Fout",
+        "toastTitle": "Pad opgeslagen"
       }
     },
     "connectEquipment": {
@@ -1259,7 +1281,12 @@
       "status_failed": "Geen flats vastgelegd - kon geen geldige blootstelling bepalen",
       "status_running": "Hardlopen: {voltooid} / {totaal} flats",
       "status_stopped": "Vroeg gestopt — {voltooid} van {totaal} flats veroverd",
-      "status_success": "Klaar — {count} flats veroverd"
+      "status_success": "Klaar — {count} flats veroverd",
+      "mode": "Modus",
+      "multi_mode": "Multi-modus",
+      "multi_mode_no_filters": "Geen filterwiel aangesloten",
+      "single_mode": "Enkele modus",
+      "start_multi_mode": "Start Multi-modus"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -2372,7 +2399,25 @@
         "updateRateDesc": "Vernieuwingsinterval voor updates van de apparaatstatus",
         "factoryReset": "Fabrieksreset",
         "factoryResetDesc": "Reset het PINS-apparaat naar de fabrieksinstellingen",
-        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? \nHierdoor worden alle instellingen teruggezet naar hun standaardwaarden."
+        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? \nHierdoor worden alle instellingen teruggezet naar hun standaardwaarden.",
+        "notifications": {
+          "beepLength": "Piepduur",
+          "beepLengthDesc": "Duur van elke piep in milliseconden (100–10.000)",
+          "beepOnError": "Piep bij fout",
+          "beepOnErrorDesc": "Piept de PowerBox wanneer er een NINA-fout wordt ontvangen",
+          "beepOnWarning": "Piep bij waarschuwing",
+          "beepOnWarningDesc": "Piept de PowerBox wanneer er een NINA-waarschuwing wordt ontvangen",
+          "beepRepeatDuration": "Herhaalduur",
+          "beepRepeatDurationDesc": "Totale tijd voor het blijven herhalen van het pieppatroon (1-60s)",
+          "beepVolume": "Piepvolume",
+          "powerboxRequired": "PowerBox moet aangesloten zijn om piepmeldingen te laten werken",
+          "testBeep": "Testpieptoon",
+          "testBeepRunning": "Piepen...",
+          "title": "Meldingen",
+          "volumeLoud": "Luidruchtig",
+          "volumeLow": "Laag",
+          "volumeMedium": "Medium"
+        }
       },
       "info": {
         "coreTemp": "CPU-temperatuur",

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
+import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
 
 export const useLogStore = defineStore('LogStore', {
   state: () => ({
@@ -160,6 +161,20 @@ export const useLogStore = defineStore('LogStore', {
           autoClose: displayLog.level === 'ERROR' ? false : true,
           autoCloseDelay: 8000,
         });
+
+        // Beep on warning/error if enabled
+        try {
+          const pinsStore = usePinsDeviceStore();
+          if (pinsStore.isPowerboxConnected) {
+            if (type === 'error' && pinsStore.beepOnError) {
+              pinsStore.beepPowerBox();
+            } else if (type === 'warning' && pinsStore.beepOnWarning) {
+              pinsStore.beepPowerBox();
+            }
+          }
+        } catch (e) {
+          // Ignore beep errors
+        }
 
         // Aktualisiere den letzten Timestamp
         this.lastErrorWarningTimestamp = latestLog.timestamp;

@@ -1669,6 +1669,11 @@ const apiService = {
     }
   },
 
+  flatMultiStop() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}flats/stop`);
+  },
+
   //-------------------------------------  dome ---------------------------------------
   domeAction(action) {
     const { BASE_URL } = getUrls();

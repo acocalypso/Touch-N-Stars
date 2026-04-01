@@ -517,7 +517,7 @@ async function startMultiMode() {
 
 async function stopFlats() {
   try {
-    await apiService.flatassistantAction('stop');
+    await apiService.flatMultiStop();
   } catch (error) {
     console.error('Error stopping flats:', error);
   }

@@ -421,14 +421,26 @@ watch(
 // ── Profile save ──────────────────────────────────────────────────────────────
 
 const PROFILE_FIELDS = {
-  gain:          (cfg, base, cameraGain) => [base + '-Gain',                          String(cfg.gain === cameraGain ? -1 : cfg.gain)],
-  offset:        (cfg, base, _,          cameraOffset) => [base + '-Offset',          String(cfg.offset === cameraOffset ? -1 : cfg.offset)],
-  minExposure:   (cfg, base) => [base + '-MinFlatExposureTime',                        String(cfg.minExposure)],
-  maxExposure:   (cfg, base) => [base + '-MaxFlatExposureTime',                        String(cfg.maxExposure)],
-  histogramMean: (cfg, base) => [base + '-HistogramMeanTarget',                        String(cfg.histogramMean / 100)],
-  meanTolerance: (cfg, base) => [base + '-HistogramTolerance',                         String(cfg.meanTolerance / 100)],
-  maxBrightness: (cfg, base) => [base + '-MaxAbsoluteFlatDeviceBrightness',            String(cfg.maxBrightness)],
-  minBrightness: (cfg, base) => [base + '-MinAbsoluteFlatDeviceBrightness',            String(cfg.minBrightness)],
+  gain: (cfg, base, cameraGain) => [
+    base + '-Gain',
+    String(cfg.gain === cameraGain ? -1 : cfg.gain),
+  ],
+  offset: (cfg, base, _, cameraOffset) => [
+    base + '-Offset',
+    String(cfg.offset === cameraOffset ? -1 : cfg.offset),
+  ],
+  minExposure: (cfg, base) => [base + '-MinFlatExposureTime', String(cfg.minExposure)],
+  maxExposure: (cfg, base) => [base + '-MaxFlatExposureTime', String(cfg.maxExposure)],
+  histogramMean: (cfg, base) => [base + '-HistogramMeanTarget', String(cfg.histogramMean / 100)],
+  meanTolerance: (cfg, base) => [base + '-HistogramTolerance', String(cfg.meanTolerance / 100)],
+  maxBrightness: (cfg, base) => [
+    base + '-MaxAbsoluteFlatDeviceBrightness',
+    String(cfg.maxBrightness),
+  ],
+  minBrightness: (cfg, base) => [
+    base + '-MinAbsoluteFlatDeviceBrightness',
+    String(cfg.minBrightness),
+  ],
 };
 
 async function saveFieldToProfile(filterId, cfg, field) {

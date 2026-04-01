@@ -42,8 +42,9 @@
 
             <div class="mt-6 space-y-5">
               <!-- Aperture -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.aperture"
+                :label="$t('plugins.narrowband.aperture')"
                 labelKey="plugins.narrowband.aperture"
                 :min="10"
                 :max="300"
@@ -51,8 +52,9 @@
               />
 
               <!-- Focal Length -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.focalLength"
+                :label="$t('plugins.narrowband.focalLength')"
                 labelKey="plugins.narrowband.focalLength"
                 :min="100"
                 :max="2000"
@@ -60,19 +62,21 @@
               />
 
               <!-- Peak Transmittance -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.peakTransmittance"
+                :label="$t('plugins.narrowband.peakTransmittance')"
                 labelKey="plugins.narrowband.peakTransmittance"
                 :min="0"
                 :max="1"
                 :step="0.01"
                 :decimalPlaces="3"
-                :disabled="!!loadedCurveData"
+                :wrapperClass="loadedCurveData ? 'opacity-50 pointer-events-none' : ''"
               />
 
               <!-- Effective Refractive Index -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.effectiveRefractiveIndex"
+                :label="$t('plugins.narrowband.refractiveIndex')"
                 labelKey="plugins.narrowband.refractiveIndex"
                 :min="1.1"
                 :max="2.5"
@@ -81,8 +85,9 @@
               />
 
               <!-- Central Obstruction Diameter -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.obstructionDiameter"
+                :label="$t('plugins.narrowband.obstructionDiameter')"
                 labelKey="plugins.narrowband.obstructionDiameter"
                 :min="0"
                 :max="params.aperture * 0.9"
@@ -206,36 +211,39 @@
 
             <div class="space-y-5">
               <!-- Bandpass Center -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.bandpassCenter"
+                :label="$t('plugins.narrowband.bandpassCenter')"
                 labelKey="plugins.narrowband.bandpassCenter"
                 :min="400"
                 :max="900"
                 :step="0.5"
                 :decimalPlaces="2"
-                :disabled="!!loadedCurveData"
+                :wrapperClass="loadedCurveData ? 'opacity-50 pointer-events-none' : ''"
               />
 
               <!-- FWHM -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.fwhm"
+                :label="$t('plugins.narrowband.fwhm')"
                 labelKey="plugins.narrowband.fwhm"
                 :min="0.5"
                 :max="20"
                 :step="0.1"
                 :decimalPlaces="2"
-                :disabled="!!loadedCurveData"
+                :wrapperClass="loadedCurveData ? 'opacity-50 pointer-events-none' : ''"
               />
 
               <!-- Flat Top -->
-              <FilterNumberInput
+              <NumberInputPicker
                 v-model="params.flatTop"
+                :label="$t('plugins.narrowband.flatTop')"
                 labelKey="plugins.narrowband.flatTop"
                 :min="0"
                 :max="params.fwhm"
                 :step="0.1"
                 :decimalPlaces="2"
-                :disabled="!!loadedCurveData"
+                :wrapperClass="loadedCurveData ? 'opacity-50 pointer-events-none' : ''"
               />
 
               <!-- Target Wavelength with Presets -->
@@ -390,7 +398,7 @@ import {
   validateParameters,
 } from '../utils/filterCalculations.js';
 import BandpassChart from '../components/BandpassChart.vue';
-import FilterNumberInput from '../components/FilterNumberInput.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 // Default parameters based on your filter.py
 const defaultParams = {

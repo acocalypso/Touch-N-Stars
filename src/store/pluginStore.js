@@ -94,7 +94,7 @@ export const usePluginStore = defineStore('pluginStore', {
         this.plugins = [];
 
         // Register metadata for all discovered plugins
-        console.log('Loading plugins metadata:', pluginsMetadata);
+        //console.log('Loading plugins metadata:', pluginsMetadata);
         let pluginIndex = 1;
         pluginsMetadata.forEach((metadata) => {
           // Skip plugins that are disabled in metadata (unless user has enabled them)
@@ -112,14 +112,14 @@ export const usePluginStore = defineStore('pluginStore', {
             };
 
             this.plugins.push(newPlugin);
-            console.log('Added plugin:', newPlugin);
+            //console.log('Added plugin:', newPlugin);
             pluginIndex++;
           } else {
             console.log('Skipped disabled plugin:', metadata.id);
           }
         });
 
-        console.log('Final plugins array:', this.plugins);
+        //console.log('Final plugins array:', this.plugins);
 
         this.isInitialized = true;
       } catch (error) {

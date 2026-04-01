@@ -86,7 +86,7 @@ function getCircularReplacer() {
 async function downloadLogs() {
   // Convert console logs to the format expected by the helper
   const formattedLogs = logs.value.map((log) => ({
-    timestamp: new Date().toISOString(), // Since console logs don't have timestamps, use current time
+    timestamp: log.timestamp,
     level: log.type.toUpperCase(),
     message: log.message,
   }));
@@ -166,6 +166,7 @@ if (!window.__consoleViewerPatched) {
       logs.value.push({
         type,
         message,
+        timestamp: new Date().toISOString(),
       });
     };
   });
@@ -179,6 +180,7 @@ if (!window.__consoleViewerPatched) {
         logs.value.push({
           type: 'error',
           message: `WebSocket error: ${url} - Connection failed`,
+          timestamp: new Date().toISOString(),
         });
       });
     }

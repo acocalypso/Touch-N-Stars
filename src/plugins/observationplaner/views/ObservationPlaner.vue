@@ -898,20 +898,20 @@ async function loadFavorites() {
   try {
     const res = await apiService.getAllFavorites();
 
-    console.log('[Planner] getAllFavorites raw:', res);
+    //console.log('[Planner] getAllFavorites raw:', res);
 
     const list = Array.isArray(res)
       ? res
       : (res?.Response ?? res?.data?.Response ?? res?.data ?? []);
 
-    console.log('[Planner] extracted list:', list);
+    //console.log('[Planner] extracted list:', list);
 
     apiFavorites.value = list;
 
     // Keep targets as merged list for existing computed/template
     targets.value = mergedTargets.value;
 
-    console.log('[Planner] normalized targets:', targets.value);
+    //console.log('[Planner] normalized targets:', targets.value);
   } catch (e) {
     console.error('[Planner] getAllFavorites failed', e);
     targets.value = [];

@@ -1670,13 +1670,8 @@ const apiService = {
   },
 
   async flatMultiStop() {
-    try {
-      const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}flats/stop`);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}/flats/stop`);
   },
 
   //-------------------------------------  dome ---------------------------------------

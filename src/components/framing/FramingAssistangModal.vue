@@ -35,9 +35,11 @@
         :decAngle="framingStore.DECangle"
       />
       <div class="flex gap-2">
-        <setSequenceTarget class="flex-1" />
+        <setSequenceTarget v-if="!framingStore.isMosaicMode" class="flex-1" />
         <SaveFavTargets
           v-if="framingStore.selectedItem"
+          :class="{ 'flex-1': framingStore.isMosaicMode }"
+          :show-label="framingStore.isMosaicMode"
           :name="framingStore.selectedItem?.Name"
           :ra="framingStore.RAangle"
           :dec="framingStore.DECangle"

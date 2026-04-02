@@ -1,7 +1,8 @@
 <template>
   <div>
-    <button @click="showModal = true" class="default-button-cyan">
-      <HeartIcon class="w-7 h-7" />
+    <button @click="showModal = true" class="default-button-cyan" :class="{ 'w-full gap-2': showLabel }">
+      <HeartIcon class="w-7 h-7 shrink-0" />
+      <span v-if="showLabel">{{ t('components.fav_target.save_to_favorites') }}</span>
     </button>
 
     <!-- Modal -->
@@ -55,6 +56,7 @@ const props = defineProps({
   mosaicRows: { type: Number, default: null },
   mosaicOverlap: { type: Number, default: null },
   mosaicPreserveAlignment: { type: Boolean, default: null },
+  showLabel: { type: Boolean, default: false },
 });
 
 const showModal = ref(false);

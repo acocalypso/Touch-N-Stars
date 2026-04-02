@@ -1403,6 +1403,7 @@
         "message": "No sequence loaded"
       },
       "enter_name": "Enter name",
+      "save_to_favorites": "Save to Favorite Targets",
       "no_fav": "No favorites saved",
       "titel": "Favourites"
     },

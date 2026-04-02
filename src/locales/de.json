@@ -1403,6 +1403,7 @@
         "message": "Keine Sequenz geladen"
       },
       "enter_name": "Namen eingeben",
+      "save_to_favorites": "Als Favorit speichern",
       "no_fav": "Keine Favoriten gespeichert",
       "titel": "Favoriten"
     },

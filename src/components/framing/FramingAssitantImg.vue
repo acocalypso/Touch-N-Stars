@@ -127,16 +127,6 @@ const moveableRef = ref(null);
 const rotationAngleVisu = ref(0);
 
 // ── Mosaic helpers ──────────────────────────────────────────────────────────
-
-function calculatePositionAngle(ra1Deg, ra2Deg, dec1Deg, dec2Deg) {
-  const toRad = (d) => (d * Math.PI) / 180;
-  const num = Math.sin(toRad(ra1Deg - ra2Deg));
-  const den =
-    Math.cos(toRad(dec2Deg)) * Math.tan(toRad(dec1Deg)) -
-    Math.sin(toRad(dec2Deg)) * Math.cos(toRad(ra1Deg - ra2Deg));
-  return Math.atan2(num, den) * (180 / Math.PI);
-}
-
 function computeMosaicPanels(store) {
   const overlap = store.mosaicOverlap / 100;
   const scale = store.fov / store.containerSize;

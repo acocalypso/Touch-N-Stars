@@ -128,6 +128,16 @@
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
       "useNinaCache": "Use NINA cache for the target image",
       "setSequnceTarget": "set to sequence target",
+      "mosaic": {
+        "title": "Mosaic Mode",
+        "columns": "Columns",
+        "rows": "Rows",
+        "overlap": "Overlap %",
+        "preserveAlignment": "Preserve Alignment",
+        "panels": "panels",
+        "setMosaicTargets": "Set mosaic targets",
+        "panelsSet": "panels set in sequence"
+      },
       "search": {
         "title": "Search",
         "placeholder": "Enter a search term...",

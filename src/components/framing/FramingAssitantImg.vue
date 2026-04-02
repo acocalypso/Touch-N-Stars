@@ -19,15 +19,7 @@
       <img class="absolute inset-0" :src="targetPic" />
 
       <!-- Verschiebbares / drehbares Ziel-Element (nur für Moveable Tracking) -->
-      <div
-        ref="targetRef"
-        :style="{
-          width: `${framingStore.camWidth}px`,
-          height: `${framingStore.camHeight}px`,
-          transform: `translate(${x}px, ${y}px) rotate(${rotationAngleVisu}deg)`,
-          zIndex: 2,
-        }"
-      ></div>
+      <div ref="targetRef" :style="mosaicTargetStyle"></div>
 
       <!-- FOV und Rotation Steuerung (oben rechts) -->
       <div class="absolute top-3 right-3 z-10 flex gap-2">
@@ -61,11 +53,46 @@
         </div>
       </div>
 
+      <!-- Mosaic panel overlay -->
+      <svg
+        v-if="framingStore.isMosaicMode"
+        class="absolute inset-0 pointer-events-none"
+        :width="framingStore.containerSize"
+        :height="framingStore.containerSize"
+        style="z-index: 3"
+      >
+        <g
+          :transform="`rotate(${rotationAngleVisu}, ${framingStore.containerSize / 2}, ${framingStore.containerSize / 2})`"
+        >
+          <g v-for="panel in mosaicPanels" :key="panel.label">
+            <rect
+              :x="panel.screenX - framingStore.camWidth / 2"
+              :y="panel.screenY - framingStore.camHeight / 2"
+              :width="framingStore.camWidth"
+              :height="framingStore.camHeight"
+              fill="rgba(59,130,246,0.12)"
+              stroke="#3b82f6"
+              stroke-width="1.5"
+            />
+            <text
+              :x="panel.screenX"
+              :y="panel.screenY"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="11"
+            >
+              {{ panel.label }}
+            </text>
+          </g>
+        </g>
+      </svg>
+
       <!-- Moveable-->
       <Moveable
         ref="moveableRef"
         :target="targetRef"
-        :draggable="true"
+        :draggable="!framingStore.isMosaicMode"
         :rotatable="true"
         @drag="onDrag"
         @rotate="onRotate"
@@ -75,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -98,6 +125,88 @@ const containerRef = ref(null);
 const targetRef = ref(null);
 const moveableRef = ref(null);
 const rotationAngleVisu = ref(0);
+
+// ── Mosaic helpers ──────────────────────────────────────────────────────────
+
+function calculatePositionAngle(ra1Deg, ra2Deg, dec1Deg, dec2Deg) {
+  const toRad = (d) => (d * Math.PI) / 180;
+  const num = Math.sin(toRad(ra1Deg - ra2Deg));
+  const den =
+    Math.cos(toRad(dec2Deg)) * Math.tan(toRad(dec1Deg)) -
+    Math.sin(toRad(dec2Deg)) * Math.cos(toRad(ra1Deg - ra2Deg));
+  return Math.atan2(num, den) * (180 / Math.PI);
+}
+
+function computeMosaicPanels(store) {
+  const overlap = store.mosaicOverlap / 100;
+  const scale = store.fov / store.containerSize;
+  const fovX = store.camWidth * scale;
+  const fovY = store.camHeight * scale;
+  const stepRa = fovX * (1 - overlap);
+  const stepDec = fovY * (1 - overlap);
+  let cosDec = Math.cos((store.DECangle * Math.PI) / 180);
+  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+
+  const centerRA = store.RAangle;
+  const centerDec = store.DECangle;
+  const centerRot = store.rotationAngle;
+  const center = store.containerSize / 2;
+  const panels = [];
+
+  for (let row = 0; row < store.mosaicRows; row++) {
+    for (let col = 0; col < store.mosaicCols; col++) {
+      const dc = col - (store.mosaicCols - 1) / 2;
+      const dr = row - (store.mosaicRows - 1) / 2;
+      const panelRA = centerRA - (dc * stepRa) / cosDec;
+      const panelDec = centerDec - dr * stepDec;
+      let panelRot = centerRot;
+      if (store.mosaicPreserveAlignment && (dc !== 0 || dr !== 0)) {
+        const pa = calculatePositionAngle(centerRA, panelRA, centerDec, panelDec);
+        panelRot = (centerRot + pa + 360) % 360;
+      }
+      panels.push({
+        label: `${col + 1}-${row + 1}`,
+        screenX: center + dc * (store.camWidth * (1 - overlap)),
+        screenY: center + dr * (store.camHeight * (1 - overlap)),
+        ra: panelRA,
+        dec: panelDec,
+        rotation: panelRot,
+      });
+    }
+  }
+  return panels;
+}
+
+const mosaicPanels = computed(() =>
+  framingStore.isMosaicMode ? computeMosaicPanels(framingStore) : []
+);
+
+const mosaicTargetStyle = computed(() => {
+  if (!framingStore.isMosaicMode) {
+    return {
+      width: `${framingStore.camWidth}px`,
+      height: `${framingStore.camHeight}px`,
+      transform: `translate(${x.value}px, ${y.value}px) rotate(${rotationAngleVisu.value}deg)`,
+      zIndex: 2,
+    };
+  }
+  const ov = framingStore.mosaicOverlap / 100;
+  const totalW =
+    framingStore.camWidth + (framingStore.mosaicCols - 1) * framingStore.camWidth * (1 - ov);
+  const totalH =
+    framingStore.camHeight + (framingStore.mosaicRows - 1) * framingStore.camHeight * (1 - ov);
+  const cx = framingStore.containerSize / 2;
+  const cy = framingStore.containerSize / 2;
+  return {
+    width: `${totalW}px`,
+    height: `${totalH}px`,
+    transform: `translate(${cx - totalW / 2}px, ${cy - totalH / 2}px) rotate(${rotationAngleVisu.value}deg)`,
+    zIndex: 2,
+    opacity: 0,
+  };
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 onMounted(async () => {
   await fetchFramingInfo();
@@ -201,6 +310,20 @@ watch(
   (newAngle) => {
     rotationAngleVisu.value = 360 - newAngle;
     updateMoveable();
+  }
+);
+
+// Mosaic-Watcher: Kamera-Box zentrieren wenn Mosaik-Modus aktiviert wird
+watch(
+  () => framingStore.isMosaicMode,
+  (active) => {
+    if (active) {
+      x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+      y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+      framingStore.cameraRelativeX = 0.5;
+      framingStore.cameraRelativeY = 0.5;
+    }
+    nextTick(() => updateMoveable());
   }
 );
 

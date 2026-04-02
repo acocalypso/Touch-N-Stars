@@ -29,6 +29,12 @@
             :ra-string="framingStore.RAangleString"
             :dec-string="framingStore.DECangleString"
             :rotation="framingStore.rotationAngle"
+            :mosaic-cols="framingStore.isMosaicMode ? framingStore.mosaicCols : null"
+            :mosaic-rows="framingStore.isMosaicMode ? framingStore.mosaicRows : null"
+            :mosaic-overlap="framingStore.isMosaicMode ? framingStore.mosaicOverlap : null"
+            :mosaic-preserve-alignment="
+              framingStore.isMosaicMode ? framingStore.mosaicPreserveAlignment : null
+            "
           />
         </div>
         <!-- Search Results -->

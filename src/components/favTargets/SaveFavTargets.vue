@@ -45,6 +45,10 @@ const props = defineProps({
   raString: String,
   decString: String,
   rotation: { type: Number, default: 0 },
+  mosaicCols: { type: Number, default: null },
+  mosaicRows: { type: Number, default: null },
+  mosaicOverlap: { type: Number, default: null },
+  mosaicPreserveAlignment: { type: Boolean, default: null },
 });
 
 const showModal = ref(false);
@@ -60,6 +64,12 @@ function confirmSave() {
     RaString: props.raString,
     DecString: props.decString,
     Rotation: props.rotation,
+    ...(props.mosaicCols > 1 && {
+      MosaicCols: props.mosaicCols,
+      MosaicRows: props.mosaicRows,
+      MosaicOverlap: props.mosaicOverlap,
+      MosaicPreserveAlignment: props.mosaicPreserveAlignment,
+    }),
   };
 
   favTargetsStore.addFavorite(newTarget);

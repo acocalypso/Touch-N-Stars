@@ -23,6 +23,8 @@
     <div
       class="flex-col w-full space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
     >
+      <!-- Mosaic controls -->
+      <MosaicControls />
       <!-- getImageRotation Komponente -->
       <div class="col-span-2">
         <getImageRotation />
@@ -32,7 +34,24 @@
         :raAngle="framingStore.RAangle"
         :decAngle="framingStore.DECangle"
       />
-      <setSequenceTarget />
+      <div class="flex gap-2">
+        <setSequenceTarget class="flex-1" />
+        <SaveFavTargets
+          v-if="framingStore.selectedItem"
+          :name="framingStore.selectedItem?.Name"
+          :ra="framingStore.RAangle"
+          :dec="framingStore.DECangle"
+          :ra-string="framingStore.RAangleString"
+          :dec-string="framingStore.DECangleString"
+          :rotation="framingStore.rotationAngle"
+          :mosaic-cols="framingStore.isMosaicMode ? framingStore.mosaicCols : null"
+          :mosaic-rows="framingStore.isMosaicMode ? framingStore.mosaicRows : null"
+          :mosaic-overlap="framingStore.isMosaicMode ? framingStore.mosaicOverlap : null"
+          :mosaic-preserve-alignment="
+            framingStore.isMosaicMode ? framingStore.mosaicPreserveAlignment : null
+          "
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +62,8 @@ import { useFramingStore } from '@/store/framingStore';
 import getImageRotation from '@/components/framing/getImageRotation.vue';
 import ButtonSlewCenterRotate from '../mount/ButtonSlewCenterRotate.vue';
 import setSequenceTarget from './setSequenceTarget.vue';
+import MosaicControls from './MosaicControls.vue';
+import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 const framingStore = useFramingStore();

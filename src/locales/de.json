@@ -128,6 +128,16 @@
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
       "setSequnceTarget": "als Sequenzziel festlegen",
+      "mosaic": {
+        "title": "Mosaik-Modus",
+        "columns": "Spalten",
+        "rows": "Zeilen",
+        "overlap": "Überlappung %",
+        "preserveAlignment": "Ausrichtung beibehalten",
+        "panels": "Panels",
+        "setMosaicTargets": "Mosaik-Ziele setzen",
+        "panelsSet": "Panels in Sequenz gesetzt"
+      },
       "search": {
         "title": "Suche",
         "placeholder": "Suchbegriff eingeben...",

@@ -646,7 +646,8 @@
         },
         "dso": {
           "targetName": "Cílové jméno",
-          "positionAngle": "Poziční úhel"
+          "positionAngle": "Poziční úhel",
+          "loadFromFavorites": "Načíst z oblíbených"
         },
         "warmCamera": {
           "duration": "Duration (min)"

@@ -676,7 +676,8 @@
         },
         "dso": {
           "targetName": "Zielname",
-          "positionAngle": "Positionswinkel (°)"
+          "positionAngle": "Positionswinkel (°)",
+          "loadFromFavorites": "Aus Favoriten laden"
         },
         "warmCamera": {
           "duration": "Dauer (min)"

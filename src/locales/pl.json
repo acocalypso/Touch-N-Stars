@@ -646,7 +646,8 @@
         },
         "dso": {
           "targetName": "nazwa zasobu docelowego",
-          "positionAngle": "Kąt pozycyjny"
+          "positionAngle": "Kąt pozycyjny",
+          "loadFromFavorites": "Załaduj z ulubionych"
         },
         "warmCamera": {
           "duration": "Czas trwania (min)"

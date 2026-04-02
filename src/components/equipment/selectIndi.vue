@@ -38,7 +38,7 @@
         >
           <option value="None">None</option>
           <option v-for="item in focuser" :key="item.Name" :value="item.Name">
-            {{ item.Label }}
+            {{ item.Name === 'indi_myfocuserpro2_focus' ? 'Gemini / MyFocuserPro2' : item.Label }}
           </option>
         </select>
       </div>
@@ -287,8 +287,14 @@ onMounted(async () => {
     ]);
 
     const sortByLabel = (arr) => [...arr].sort((a, b) => a.Label.localeCompare(b.Label));
+    const getFocuserLabel = (item) =>
+      item.Name === 'indi_myfocuserpro2_focus' ? 'Gemini / MyFocuserPro2' : item.Label;
+    const sortFocuserByLabel = (arr) =>
+      [...arr].sort((a, b) => getFocuserLabel(a).localeCompare(getFocuserLabel(b)));
 
-    focuser.value = sortByLabel(focuserResponse.Response);
+    focuser.value = sortFocuserByLabel(
+      focuserResponse.Response.filter((item) => item.Name !== 'indi_gemini_focus')
+    );
     filterwheel.value = sortByLabel(filterwheelResponse.Response);
     rotator.value = sortByLabel(rotatorResponse.Response);
     telescope.value = sortByLabel(telescopeResponse.Response);

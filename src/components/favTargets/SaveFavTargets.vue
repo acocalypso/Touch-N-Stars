@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button @click="showModal = true" class="default-button-cyan" :class="{ 'w-full gap-2': showLabel }">
+    <button
+      @click="showModal = true"
+      class="default-button-cyan"
+      :class="{ 'w-full gap-2': showLabel }"
+    >
       <HeartIcon class="w-7 h-7 shrink-0" />
       <span v-if="showLabel">{{ t('components.fav_target.save_to_favorites') }}</span>
     </button>

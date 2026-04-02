@@ -226,7 +226,7 @@ function updateMoveable() {
 function calculateRealCameraFov() {
   const sensorWidthPx = framingStore.framingInfo.CameraWidth;
   const sensorHeightPx = framingStore.framingInfo.CameraHeight;
-  pixelSizeM = store.profileInfo.CameraSettings.PixelSize / 1_000_000;
+  const pixelSizeM = store.profileInfo.CameraSettings.PixelSize / 1_000_000;
   const focalLengthM = store.profileInfo.TelescopeSettings.FocalLength / 1000;
 
   // Sensor-Größe

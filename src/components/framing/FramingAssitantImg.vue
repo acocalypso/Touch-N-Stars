@@ -159,11 +159,7 @@ function computeMosaicPanels(store) {
       const dr = row - (store.mosaicRows - 1) / 2;
       const panelRA = centerRA - (dc * stepRa) / cosDec;
       const panelDec = centerDec - dr * stepDec;
-      let panelRot = centerRot;
-      if (store.mosaicPreserveAlignment && (dc !== 0 || dr !== 0)) {
-        const pa = calculatePositionAngle(centerRA, panelRA, centerDec, panelDec);
-        panelRot = (centerRot + pa + 360) % 360;
-      }
+      const panelRot = centerRot;
       panels.push({
         label: `${col + 1}-${row + 1}`,
         screenX: center + dc * (store.camWidth * (1 - overlap)),

@@ -44,15 +44,6 @@ const hasSequenceLoaded = computed(
     sequenceStore.sequenceInfo.length > 0
 );
 
-function calculatePositionAngle(ra1Deg, ra2Deg, dec1Deg, dec2Deg) {
-  const toRad = (d) => (d * Math.PI) / 180;
-  const num = Math.sin(toRad(ra1Deg - ra2Deg));
-  const den =
-    Math.cos(toRad(dec2Deg)) * Math.tan(toRad(dec1Deg)) -
-    Math.sin(toRad(dec2Deg)) * Math.cos(toRad(ra1Deg - ra2Deg));
-  return Math.atan2(num, den) * (180 / Math.PI);
-}
-
 function computeMosaicPanels() {
   const store = framingStore;
   const overlap = store.mosaicOverlap / 100;
@@ -75,11 +66,7 @@ function computeMosaicPanels() {
       const dr = row - (store.mosaicRows - 1) / 2;
       const panelRA = centerRA - (dc * stepRa) / cosDec;
       const panelDec = centerDec - dr * stepDec;
-      let panelRot = centerRot;
-      if (store.mosaicPreserveAlignment && (dc !== 0 || dr !== 0)) {
-        const pa = calculatePositionAngle(centerRA, panelRA, centerDec, panelDec);
-        panelRot = (centerRot + pa + 360) % 360;
-      }
+      const panelRot = centerRot;
       panels.push({
         label: `${col + 1}-${row + 1}`,
         ra: panelRA,

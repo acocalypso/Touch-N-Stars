@@ -646,7 +646,8 @@
         },
         "dso": {
           "targetName": "target name\n\n目标姓名",
-          "positionAngle": "位置"
+          "positionAngle": "位置",
+          "loadFromFavorites": "从收藏夹加载"
         },
         "warmCamera": {
           "duration": "Duration (min)"

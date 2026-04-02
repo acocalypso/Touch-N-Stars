@@ -18,6 +18,72 @@
       <!-- Object search -->
       <TargetSearch @target-selected="handleTargetSelected" />
 
+      <!-- Load from favorites -->
+      <div class="flex items-center gap-3">
+        <label class="text-xs text-slate-400 flex-shrink-0">{{
+          $t('components.sequence.items.dso.loadFromFavorites')
+        }}</label>
+        <button
+          class="ml-auto flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600"
+          @click="openFavPicker"
+        >
+          <HeartIcon class="w-4 h-4 text-pink-400" />
+        </button>
+      </div>
+
+      <Modal :show="showFavPicker" maxWidth="max-w-lg" @close="showFavPicker = false">
+        <template #header>
+          <span class="text-base font-semibold">{{
+            $t('components.sequence.items.dso.loadFromFavorites')
+          }}</span>
+        </template>
+        <template #body>
+          <div class="w-full">
+            <table
+              v-if="favStore.favoriteTargets.length"
+              class="w-full text-xs text-left border border-slate-600"
+            >
+              <thead class="bg-slate-700 text-slate-300">
+                <tr>
+                  <th class="px-3 py-2">{{ $t('components.fav_target.table.name') }}</th>
+                  <th class="px-3 py-2 hidden sm:table-cell">
+                    {{ $t('components.fav_target.table.ra') }}
+                  </th>
+                  <th class="px-3 py-2 hidden sm:table-cell">
+                    {{ $t('components.fav_target.table.dec') }}
+                  </th>
+                  <th class="px-3 py-2">{{ $t('components.fav_target.table.rotation') }}</th>
+                  <th class="px-3 py-2">{{ $t('components.fav_target.table.load') }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="target in favStore.favoriteTargets"
+                  :key="target.Id"
+                  class="border-t border-slate-700 hover:bg-slate-700 transition-colors"
+                >
+                  <td class="px-3 py-2">{{ target.Name }}</td>
+                  <td class="px-3 py-2 hidden sm:table-cell">{{ target.RaString }}</td>
+                  <td class="px-3 py-2 hidden sm:table-cell">{{ target.DecString }}</td>
+                  <td class="px-3 py-2">{{ target.Rotation }}</td>
+                  <td class="px-3 py-2">
+                    <button
+                      class="hover:text-green-400 text-slate-300"
+                      @click="loadFavTarget(target)"
+                    >
+                      <CheckIcon class="w-4 h-4" />
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p v-else class="text-sm text-slate-400">
+              {{ $t('components.fav_target.no_fav') }}
+            </p>
+          </div>
+        </template>
+      </Modal>
+
       <!-- Target Name -->
       <div class="flex items-center gap-3">
         <label class="text-xs text-slate-400 flex-shrink-0">{{
@@ -141,13 +207,28 @@ import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import TextInput from '@/components/helpers/TextInput.vue';
 import TargetSearch from '@/plugins/sequence-creator/components/TargetSearch.vue';
+import Modal from '@/components/helpers/Modal.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { useFavTargetStore } from '@/store/favTargetsStore';
+import { HeartIcon, CheckIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
 const store = useSequenceV2Store();
+const favStore = useFavTargetStore();
+const showFavPicker = ref(false);
+
+function openFavPicker() {
+  favStore.loadFavorites();
+  showFavPicker.value = true;
+}
+
+function loadFavTarget(target) {
+  callSetTarget(target.Ra, target.Dec, target.Name, target.Rotation ?? 0);
+  showFavPicker.value = false;
+}
 
 const localRASeconds = ref(null);
 const localDecSeconds = ref(null);

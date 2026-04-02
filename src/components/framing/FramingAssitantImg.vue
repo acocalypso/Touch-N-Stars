@@ -250,9 +250,15 @@ onMounted(async () => {
   // Bild abrufen
   await getTargetPic();
 
-  // Kamera immer in die Mitte setzen, da das Bild bereits mit den richtigen Koordinaten geladen wird
-  x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-  y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+  // Bounding Box in die Mitte setzen (Mosaik-Gitter oder einzelne Kamera)
+  if (framingStore.isMosaicMode) {
+    const { w, h } = mosaicTotalSize();
+    x.value = framingStore.containerSize / 2 - w / 2;
+    y.value = framingStore.containerSize / 2 - h / 2;
+  } else {
+    x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+    y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+  }
 
   // Position im Store speichern
   framingStore.cameraX = x.value;
@@ -297,9 +303,15 @@ watch(
       // Kamera-Box-Größe neu berechnen
       updateCameraBoxSize();
 
-      // Rechteck in der Mitte des Containers positionieren
-      x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-      y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+      // Bounding Box in der Mitte positionieren (Mosaik oder einzelne Kamera)
+      if (framingStore.isMosaicMode) {
+        const { w, h } = mosaicTotalSize();
+        x.value = framingStore.containerSize / 2 - w / 2;
+        y.value = framingStore.containerSize / 2 - h / 2;
+      } else {
+        x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
+        y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+      }
 
       // Position im Store speichern (absolut und relativ)
       framingStore.cameraX = x.value;

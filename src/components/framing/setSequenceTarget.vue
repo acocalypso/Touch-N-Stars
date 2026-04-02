@@ -1,7 +1,11 @@
 <template>
   <div>
     <button @click="setSequenceTarget" :disabled="!hasTargetSelected" class="default-button-cyan">
-      {{ $t('components.framing.setSequnceTarget') }}
+      <span v-if="framingStore.isMosaicMode">
+        {{ $t('components.framing.mosaic.setMosaicTargets') }}
+        ({{ framingStore.mosaicCols * framingStore.mosaicRows }})
+      </span>
+      <span v-else>{{ $t('components.framing.setSequnceTarget') }}</span>
     </button>
   </div>
 </template>
@@ -40,6 +44,40 @@ const hasSequenceLoaded = computed(
     sequenceStore.sequenceInfo.length > 0
 );
 
+function computeMosaicPanels() {
+  const store = framingStore;
+  const overlap = store.mosaicOverlap / 100;
+  const scale = store.fov / store.containerSize;
+  const fovX = store.camWidth * scale;
+  const fovY = store.camHeight * scale;
+  const stepRa = fovX * (1 - overlap);
+  const stepDec = fovY * (1 - overlap);
+  let cosDec = Math.cos((store.DECangle * Math.PI) / 180);
+  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+
+  const centerRA = store.RAangle;
+  const centerDec = store.DECangle;
+  const centerRot = store.rotationAngle;
+  const panels = [];
+
+  for (let row = 0; row < store.mosaicRows; row++) {
+    for (let col = 0; col < store.mosaicCols; col++) {
+      const dc = col - (store.mosaicCols - 1) / 2;
+      const dr = row - (store.mosaicRows - 1) / 2;
+      const panelRA = centerRA - (dc * stepRa) / cosDec;
+      const panelDec = centerDec - dr * stepDec;
+      const panelRot = centerRot;
+      panels.push({
+        label: `${col + 1}-${row + 1}`,
+        ra: panelRA,
+        dec: panelDec,
+        rotation: panelRot,
+      });
+    }
+  }
+  return panels;
+}
+
 async function setSequenceTarget() {
   console.log('Setting sequence target');
 
@@ -60,12 +98,18 @@ async function setSequenceTarget() {
   }
 
   const name = framingStore.selectedItem.Name;
-  const ra = framingStore.RAangle;
-  const dec = framingStore.DECangle;
   const rotation = framingStore.rotationAngle;
-  const index = 0;
 
-  console.log('Name:', name, 'RA:', ra, 'Dec:', dec, 'Rotation:', rotation);
+  console.log(
+    'Name:',
+    name,
+    'RA:',
+    framingStore.RAangle,
+    'Dec:',
+    framingStore.DECangle,
+    'Rotation:',
+    rotation
+  );
 
   if (!hasSequenceLoaded.value) {
     console.error('No sequence loaded');
@@ -77,21 +121,52 @@ async function setSequenceTarget() {
     return;
   }
 
-  try {
-    await apiService.sequnceTargetSet(name, ra, dec, rotation, index);
+  if (framingStore.isMosaicMode) {
+    const panels = computeMosaicPanels();
+    for (let i = 0; i < panels.length; i++) {
+      const p = panels[i];
+      try {
+        await apiService.sequnceTargetSet(`${name} Panel ${p.label}`, p.ra, p.dec, p.rotation, i);
+      } catch (error) {
+        console.error(`Error setting panel ${p.label}:`, error);
+        toastStore.showToast({
+          type: 'error',
+          title: t('components.fav_target.modal_sequence.titel'),
+          message:
+            error?.response?.data?.Message ||
+            t('components.fav_target.modal_sequence_error.message'),
+        });
+        return;
+      }
+    }
     toastStore.showToast({
       type: 'success',
       title: t('components.fav_target.modal_sequence.titel'),
-      message: t('components.fav_target.modal_sequence_ok.message'),
+      message: `${panels.length} ${t('components.framing.mosaic.panelsSet')}`,
     });
-  } catch (error) {
-    console.error('Error setting sequence target:', error);
-    toastStore.showToast({
-      type: 'error',
-      title: t('components.fav_target.modal_sequence.titel'),
-      message:
-        error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
-    });
+  } else {
+    try {
+      await apiService.sequnceTargetSet(
+        name,
+        framingStore.RAangle,
+        framingStore.DECangle,
+        rotation,
+        0
+      );
+      toastStore.showToast({
+        type: 'success',
+        title: t('components.fav_target.modal_sequence.titel'),
+        message: t('components.fav_target.modal_sequence_ok.message'),
+      });
+    } catch (error) {
+      console.error('Error setting sequence target:', error);
+      toastStore.showToast({
+        type: 'error',
+        title: t('components.fav_target.modal_sequence.titel'),
+        message:
+          error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
+      });
+    }
   }
 }
 </script>

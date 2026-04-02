@@ -51,7 +51,14 @@
               :key="target.name"
               class="border-t border-gray-700 hover:bg-gray-700 transition-colors"
             >
-              <td class="px-4 py-2">{{ target.Name }}</td>
+              <td class="px-4 py-2">
+                {{ target.Name }}
+                <span
+                  v-if="target.MosaicCols > 1"
+                  class="ml-1 text-xs bg-blue-700 text-white px-1 rounded"
+                  >{{ target.MosaicCols }}×{{ target.MosaicRows }}</span
+                >
+              </td>
               <td class="px-4 py-2 hidden sm:table-cell">{{ target.RaString }}</td>
               <td class="px-4 py-2 hidden sm:table-cell">{{ target.DecString }}</td>
               <td class="px-4 py-2">{{ target.Rotation }}</td>
@@ -133,6 +140,15 @@ function loadTarget(target) {
     RA: target.Ra,
     Dec: target.Dec,
   };
+  if (target.MosaicCols > 1) {
+    framingStore.isMosaicMode = true;
+    framingStore.mosaicCols = target.MosaicCols;
+    framingStore.mosaicRows = target.MosaicRows;
+    framingStore.mosaicOverlap = target.MosaicOverlap;
+    framingStore.mosaicPreserveAlignment = target.MosaicPreserveAlignment ?? true;
+  } else {
+    framingStore.isMosaicMode = false;
+  }
   selectedTargetId.value = target.Id;
 }
 

@@ -33,6 +33,11 @@ export const useFramingStore = defineStore('FramingStore', {
     width: 200,
     height: 200,
     slewIsStopt: false,
+    isMosaicMode: false,
+    mosaicCols: 2,
+    mosaicRows: 2,
+    mosaicOverlap: 10,
+    mosaicPreserveAlignment: true,
   }),
   actions: {
     async slew(RAangle, DECangle) {

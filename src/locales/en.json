@@ -128,6 +128,19 @@
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
       "useNinaCache": "Use NINA cache for the target image",
       "setSequnceTarget": "set to sequence target",
+      "mosaic": {
+        "title": "Mosaic Mode",
+        "columns": "Columns",
+        "rows": "Rows",
+        "overlap": "Overlap %",
+        "preserveAlignment": "Preserve Alignment",
+        "preserveAlignmentHelp": "Preserve Alignment",
+        "preserveAlignmentHelpText": "Corrects the rotation angle for each panel individually. Because the celestial sphere is curved, panels at the edge of a large mosaic have a slightly different sky orientation than the center panel. With this option enabled, the rotator adjusts before each panel so that all panels are identically aligned (e.g. north up). Without a rotator, disable this option — the small misalignment at panel seams is usually corrected automatically by stacking software.",
+        "panels": "panels",
+        "setMosaicTargets": "Set mosaic targets",
+        "panelsSet": "panels set in sequence",
+        "willBeSaved": "panels will be saved individually"
+      },
       "search": {
         "title": "Search",
         "placeholder": "Enter a search term...",
@@ -1390,6 +1403,7 @@
         "message": "No sequence loaded"
       },
       "enter_name": "Enter name",
+      "save_to_favorites": "Save to Favorite Targets",
       "no_fav": "No favorites saved",
       "titel": "Favourites"
     },

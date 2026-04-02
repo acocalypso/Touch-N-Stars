@@ -128,6 +128,19 @@
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
       "setSequnceTarget": "als Sequenzziel festlegen",
+      "mosaic": {
+        "title": "Mosaik-Modus",
+        "columns": "Spalten",
+        "rows": "Zeilen",
+        "overlap": "Überlappung %",
+        "preserveAlignment": "Ausrichtung beibehalten",
+        "preserveAlignmentHelp": "Ausrichtung beibehalten",
+        "preserveAlignmentHelpText": "Korrigiert den Rotationswinkel für jedes Panel individuell. Da die Himmelskugel gekrümmt ist, haben Panels am Rand eines großen Mosaiks eine leicht andere Himmelsausrichtung als das Zentrum. Mit dieser Option dreht der Rotator vor jedem Panel kurz nach, damit alle Panels identisch ausgerichtet sind (z.B. Norden oben). Ohne Rotator diese Option deaktivieren — die kleinen Ausrichtungsfehler an den Panelrändern werden von der Stackingsoftware in der Regel automatisch korrigiert.",
+        "panels": "Panels",
+        "setMosaicTargets": "Mosaik-Ziele setzen",
+        "panelsSet": "Panels in Sequenz gesetzt",
+        "willBeSaved": "Panels werden einzeln gespeichert"
+      },
       "search": {
         "title": "Suche",
         "placeholder": "Suchbegriff eingeben...",
@@ -1390,6 +1403,7 @@
         "message": "Keine Sequenz geladen"
       },
       "enter_name": "Namen eingeben",
+      "save_to_favorites": "Als Favorit speichern",
       "no_fav": "Keine Favoriten gespeichert",
       "titel": "Favoriten"
     },

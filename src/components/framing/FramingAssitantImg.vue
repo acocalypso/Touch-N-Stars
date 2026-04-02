@@ -62,7 +62,7 @@
         style="z-index: 3"
       >
         <g
-          :transform="`rotate(${rotationAngleVisu}, ${framingStore.containerSize / 2}, ${framingStore.containerSize / 2})`"
+          :transform="`translate(${mosaicSvgOffset.x}, ${mosaicSvgOffset.y}) rotate(${rotationAngleVisu}, ${framingStore.containerSize / 2}, ${framingStore.containerSize / 2})`"
         >
           <g v-for="panel in mosaicPanels" :key="panel.label">
             <rect
@@ -92,7 +92,7 @@
       <Moveable
         ref="moveableRef"
         :target="targetRef"
-        :draggable="!framingStore.isMosaicMode"
+        :draggable="true"
         :rotatable="true"
         @drag="onDrag"
         @rotate="onRotate"
@@ -181,6 +181,14 @@ const mosaicPanels = computed(() =>
   framingStore.isMosaicMode ? computeMosaicPanels(framingStore) : []
 );
 
+function mosaicTotalSize() {
+  const ov = framingStore.mosaicOverlap / 100;
+  return {
+    w: framingStore.camWidth + (framingStore.mosaicCols - 1) * framingStore.camWidth * (1 - ov),
+    h: framingStore.camHeight + (framingStore.mosaicRows - 1) * framingStore.camHeight * (1 - ov),
+  };
+}
+
 const mosaicTargetStyle = computed(() => {
   if (!framingStore.isMosaicMode) {
     return {
@@ -190,19 +198,23 @@ const mosaicTargetStyle = computed(() => {
       zIndex: 2,
     };
   }
-  const ov = framingStore.mosaicOverlap / 100;
-  const totalW =
-    framingStore.camWidth + (framingStore.mosaicCols - 1) * framingStore.camWidth * (1 - ov);
-  const totalH =
-    framingStore.camHeight + (framingStore.mosaicRows - 1) * framingStore.camHeight * (1 - ov);
-  const cx = framingStore.containerSize / 2;
-  const cy = framingStore.containerSize / 2;
+  const { w, h } = mosaicTotalSize();
   return {
-    width: `${totalW}px`,
-    height: `${totalH}px`,
-    transform: `translate(${cx - totalW / 2}px, ${cy - totalH / 2}px) rotate(${rotationAngleVisu.value}deg)`,
+    width: `${w}px`,
+    height: `${h}px`,
+    transform: `translate(${x.value}px, ${y.value}px) rotate(${rotationAngleVisu.value}deg)`,
     zIndex: 2,
     opacity: 0,
+  };
+});
+
+// Visuelle Verschiebung des SVG-Overlays während des Drags
+const mosaicSvgOffset = computed(() => {
+  if (!framingStore.isMosaicMode) return { x: 0, y: 0 };
+  const { w, h } = mosaicTotalSize();
+  return {
+    x: x.value + w / 2 - framingStore.containerSize / 2,
+    y: y.value + h / 2 - framingStore.containerSize / 2,
   };
 });
 
@@ -313,16 +325,20 @@ watch(
   }
 );
 
-// Mosaic-Watcher: Kamera-Box zentrieren wenn Mosaik-Modus aktiviert wird
+// Mosaic-Watcher: Bounding Box zentrieren wenn Mosaik-Modus (de)aktiviert wird
 watch(
   () => framingStore.isMosaicMode,
   (active) => {
     if (active) {
+      const { w, h } = mosaicTotalSize();
+      x.value = framingStore.containerSize / 2 - w / 2;
+      y.value = framingStore.containerSize / 2 - h / 2;
+    } else {
       x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
       y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
-      framingStore.cameraRelativeX = 0.5;
-      framingStore.cameraRelativeY = 0.5;
     }
+    framingStore.cameraRelativeX = 0.5;
+    framingStore.cameraRelativeY = 0.5;
     nextTick(() => updateMoveable());
   }
 );
@@ -423,21 +439,25 @@ function onDrag(e) {
   x.value += e.delta[0];
   y.value += e.delta[1];
 
+  // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
+  const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+  const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+
   // Begrenzung: nicht über Container hinausragen
   if (x.value < 0) x.value = 0;
   if (y.value < 0) y.value = 0;
-  if (x.value > framingStore.containerSize - framingStore.camWidth)
-    x.value = framingStore.containerSize - framingStore.camWidth;
-  if (y.value > framingStore.containerSize - framingStore.camHeight)
-    y.value = framingStore.containerSize - framingStore.camHeight;
+  if (x.value > framingStore.containerSize - effectiveW)
+    x.value = framingStore.containerSize - effectiveW;
+  if (y.value > framingStore.containerSize - effectiveH)
+    y.value = framingStore.containerSize - effectiveH;
 
   // Position im Store speichern für Reload-Persistenz
   framingStore.cameraX = x.value;
   framingStore.cameraY = y.value;
 
   // Relative Position berechnen und speichern (für bessere Wiederherstellung)
-  const centerX = x.value + framingStore.camWidth / 2;
-  const centerY = y.value + framingStore.camHeight / 2;
+  const centerX = x.value + effectiveW / 2;
+  const centerY = y.value + effectiveH / 2;
   framingStore.cameraRelativeX = centerX / framingStore.containerSize;
   framingStore.cameraRelativeY = centerY / framingStore.containerSize;
 
@@ -495,9 +515,13 @@ async function fetchFramingInfo() {
 }
 
 function calculateRaDec() {
-  // Center des Ziel-Rechtecks
-  const targetCenterX = x.value + framingStore.camWidth / 2;
-  const targetCenterY = y.value + framingStore.camHeight / 2;
+  // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
+  const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+  const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+
+  // Center des Ziel-Rechtecks (Mitte des Mosaik-Gitters oder der einzelnen Kamera)
+  const targetCenterX = x.value + effectiveW / 2;
+  const targetCenterY = y.value + effectiveH / 2;
 
   // Container-Mitte
   const center = framingStore.containerSize / 2;

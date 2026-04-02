@@ -79,10 +79,12 @@ import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
+const store = apiStore();
 const isLoading = ref(true);
 const targetPic = ref(null);
 const scaleDegPerPixel = ref(0.004); // Grad pro Pixel
@@ -224,8 +226,8 @@ function updateMoveable() {
 function calculateRealCameraFov() {
   const sensorWidthPx = framingStore.framingInfo.CameraWidth;
   const sensorHeightPx = framingStore.framingInfo.CameraHeight;
-  const pixelSizeM = framingStore.framingInfo.CameraPixelSize / 1_000_000;
-  const focalLengthM = framingStore.framingInfo.FocalLength / 1000;
+  const pixelSizeM = store.profileInfo.CameraSettings.PixelSize / 1_000_000;
+  const focalLengthM = store.profileInfo.TelescopeSettings.FocalLength / 1000;
 
   // Sensor-Größe
   const sensorWidthM = sensorWidthPx * pixelSizeM;

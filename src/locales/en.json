@@ -134,6 +134,8 @@
         "rows": "Rows",
         "overlap": "Overlap %",
         "preserveAlignment": "Preserve Alignment",
+        "preserveAlignmentHelp": "Preserve Alignment",
+        "preserveAlignmentHelpText": "Corrects the rotation angle for each panel individually. Because the celestial sphere is curved, panels at the edge of a large mosaic have a slightly different sky orientation than the center panel. With this option enabled, the rotator adjusts before each panel so that all panels are identically aligned (e.g. north up). Without a rotator, disable this option — the small misalignment at panel seams is usually corrected automatically by stacking software.",
         "panels": "panels",
         "setMosaicTargets": "Set mosaic targets",
         "panelsSet": "panels set in sequence"

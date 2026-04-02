@@ -41,9 +41,16 @@
       />
       <!-- Preserve Alignment toggle -->
       <div class="flex items-center justify-between">
-        <span class="text-xs text-gray-300">{{
-          $t('components.framing.mosaic.preserveAlignment')
-        }}</span>
+        <div class="flex items-center gap-1">
+          <span class="text-xs text-gray-300">{{
+            $t('components.framing.mosaic.preserveAlignment')
+          }}</span>
+          <infoModal
+            :title="$t('components.framing.mosaic.preserveAlignmentHelp')"
+            :message="$t('components.framing.mosaic.preserveAlignmentHelpText')"
+            size="w-4 h-4"
+          />
+        </div>
         <toggleButton
           :status-value="framingStore.mosaicPreserveAlignment"
           @update:statusValue="framingStore.mosaicPreserveAlignment = $event"
@@ -63,6 +70,7 @@
 import { useFramingStore } from '@/store/framingStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import infoModal from '@/components/helpers/infoModal.vue';
 
 const framingStore = useFramingStore();
 </script>

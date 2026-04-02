@@ -13,11 +13,11 @@
       >
         <option disabled>{{ selectedDevice }}</option>
         <option
-          v-for="device in devices"
+          v-for="device in displayDevices"
           :key="device.DisplayName"
           :value="String(device.DisplayName)"
         >
-          {{ device.DisplayName }}
+          {{ device.displayLabel }}
         </option>
       </select>
       <div class="flex shrink-0 gap-1">
@@ -131,6 +131,17 @@ function openDisableInfo() {
 const selectedDeviceObj = computed(() =>
   devices.value.find((d) => d.DisplayName === selectedDevice.value)
 );
+
+const displayDevices = computed(() => {
+  if (props.apiAction !== 'focusAction') {
+    return devices.value.map((d) => ({ ...d, displayLabel: d.DisplayName }));
+  }
+  return devices.value.map((d) => ({
+    ...d,
+    displayLabel:
+      d.DisplayName === 'MyFocuserPro2 (INDI)' ? 'Gemini / MyFocuserPro2' : d.DisplayName,
+  }));
+});
 
 // Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
 async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {

@@ -53,8 +53,8 @@
           :disabled="autoDetect"
         >
           <option value="" disabled>{{ $t('indi.config.selectPort') }}</option>
-          <option v-for="port in availablePorts" :key="port" :value="port">
-            {{ port }}
+          <option v-for="port in availablePorts" :key="port.Port" :value="port.Port">
+            {{ port.Description ? `${port.Port} (${port.Description})` : port.Port }}
           </option>
         </select>
       </div>

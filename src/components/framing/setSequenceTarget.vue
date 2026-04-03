@@ -1,11 +1,7 @@
 <template>
   <div>
     <button @click="setSequenceTarget" :disabled="!hasTargetSelected" class="default-button-cyan">
-      <span v-if="framingStore.isMosaicMode">
-        {{ $t('components.framing.mosaic.setMosaicTargets') }}
-        ({{ framingStore.mosaicCols * framingStore.mosaicRows }})
-      </span>
-      <span v-else>{{ $t('components.framing.setSequnceTarget') }}</span>
+      <span>{{ $t('components.framing.setSequnceTarget') }}</span>
     </button>
   </div>
 </template>
@@ -121,52 +117,27 @@ async function setSequenceTarget() {
     return;
   }
 
-  if (framingStore.isMosaicMode) {
-    const panels = computeMosaicPanels();
-    for (let i = 0; i < panels.length; i++) {
-      const p = panels[i];
-      try {
-        await apiService.sequnceTargetSet(`${name} Panel ${p.label}`, p.ra, p.dec, p.rotation, i);
-      } catch (error) {
-        console.error(`Error setting panel ${p.label}:`, error);
-        toastStore.showToast({
-          type: 'error',
-          title: t('components.fav_target.modal_sequence.titel'),
-          message:
-            error?.response?.data?.Message ||
-            t('components.fav_target.modal_sequence_error.message'),
-        });
-        return;
-      }
-    }
+  try {
+    await apiService.sequnceTargetSet(
+      name,
+      framingStore.RAangle,
+      framingStore.DECangle,
+      rotation,
+      0
+    );
     toastStore.showToast({
       type: 'success',
       title: t('components.fav_target.modal_sequence.titel'),
-      message: `${panels.length} ${t('components.framing.mosaic.panelsSet')}`,
+      message: t('components.fav_target.modal_sequence_ok.message'),
     });
-  } else {
-    try {
-      await apiService.sequnceTargetSet(
-        name,
-        framingStore.RAangle,
-        framingStore.DECangle,
-        rotation,
-        0
-      );
-      toastStore.showToast({
-        type: 'success',
-        title: t('components.fav_target.modal_sequence.titel'),
-        message: t('components.fav_target.modal_sequence_ok.message'),
-      });
-    } catch (error) {
-      console.error('Error setting sequence target:', error);
-      toastStore.showToast({
-        type: 'error',
-        title: t('components.fav_target.modal_sequence.titel'),
-        message:
-          error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
-      });
-    }
+  } catch (error) {
+    console.error('Error setting sequence target:', error);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.fav_target.modal_sequence.titel'),
+      message:
+        error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
+    });
   }
 }
 </script>

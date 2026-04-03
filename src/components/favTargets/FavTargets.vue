@@ -61,7 +61,7 @@
               </td>
               <td class="px-4 py-2 hidden sm:table-cell">{{ target.RaString }}</td>
               <td class="px-4 py-2 hidden sm:table-cell">{{ target.DecString }}</td>
-              <td class="px-4 py-2">{{ target.Rotation }}</td>
+              <td class="px-4 py-2">{{ Number(target.Rotation).toFixed(1) }}</td>
               <td class="px-4 py-2" v-if="showFramning">
                 <button @click="loadTarget(target)" class="hover:text-green-400">
                   <CheckIcon

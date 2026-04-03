@@ -1287,7 +1287,8 @@
       "multi_mode": "Tryb wielu",
       "multi_mode_no_filters": "Brak podłączonego koła filtrującego",
       "single_mode": "Tryb pojedynczy",
-      "start_multi_mode": "Uruchom tryb Multi"
+      "start_multi_mode": "Uruchom tryb Multi",
+      "status_filter_progress": "Filtr: {completed} / {total}"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",

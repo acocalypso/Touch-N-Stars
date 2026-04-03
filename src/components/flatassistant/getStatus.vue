@@ -30,6 +30,17 @@
           })
         }}</span>
       </div>
+      <div
+        v-if="flatsStore.status.TotalFilters > 0"
+        class="text-xs text-gray-400"
+      >
+        {{
+          $t('components.flatassistant.status_filter_progress', {
+            completed: flatsStore.status.CompletedFilters + 1,
+            total: flatsStore.status.TotalFilters,
+          })
+        }}
+      </div>
       <div class="w-full bg-gray-700 rounded-full h-2">
         <div
           class="bg-cyan-500 h-2 rounded-full transition-all duration-500"

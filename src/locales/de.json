@@ -1308,7 +1308,8 @@
       "single_mode": "Einzel Modus",
       "multi_mode": "Multi Modus",
       "start_multi_mode": "Multi Modus starten",
-      "multi_mode_no_filters": "Kein Filterrad verbunden"
+      "multi_mode_no_filters": "Kein Filterrad verbunden",
+      "status_filter_progress": "Filter: {completed} / {total}"
     },
     "weatherModal": {
       "weatherInformation": "Wetterinformationen",

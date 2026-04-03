@@ -1287,7 +1287,8 @@
       "multi_mode": "Multi Mode",
       "multi_mode_no_filters": "No filter wheel connected",
       "single_mode": "Single Mode",
-      "start_multi_mode": "Start Multi Mode"
+      "start_multi_mode": "Start Multi Mode",
+      "status_filter_progress": "滤镜: {completed} / {total}"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",

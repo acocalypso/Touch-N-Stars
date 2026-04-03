@@ -1002,7 +1002,22 @@ const apiService = {
     try {
       const { API_URL } = getUrls();
       const response = await axios.get(`${API_URL}indi/serialports`);
-      return response.data.Response || [];
+      const data = response.data.Response;
+      if (data && Array.isArray(data.Ports)) {
+        const byIdLinks = (data.ByIdLinks || []).map((link) => ({
+          Port: link.Path,
+          Description: '',
+        }));
+        if (byIdLinks.length > 0) {
+          return [
+            ...data.Ports,
+            { Port: '', Description: '', separator: true, label: '─── by-id ───' },
+            ...byIdLinks,
+          ];
+        }
+        return data.Ports;
+      }
+      return Array.isArray(data) ? data : [];
     } catch (error) {
       console.error('Error fetching available serial ports:', error);
       return [];

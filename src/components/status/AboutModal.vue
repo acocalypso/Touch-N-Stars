@@ -116,7 +116,7 @@
             </svg>
             <span>Copyright</span>
           </h3>
-          <p class="text-gray-300 pl-7">© 2025 Touch-N-Stars</p>
+          <p class="text-gray-300 pl-7">© {{ currentYear }} Touch-N-Stars</p>
         </div>
 
         <div
@@ -318,6 +318,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 const settingsStore = useSettingsStore();
 const emit = defineEmits(['close']);
 const count = ref(0);
+const currentYear = new Date().getFullYear();
 
 function startBad() {
   count.value++;

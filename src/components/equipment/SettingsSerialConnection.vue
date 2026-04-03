@@ -53,9 +53,12 @@
           :disabled="autoDetect"
         >
           <option value="" disabled>{{ $t('indi.config.selectPort') }}</option>
-          <option v-for="port in availablePorts" :key="port.Port" :value="port.Port">
-            {{ port.Description ? `${port.Port} (${port.Description})` : port.Port }}
-          </option>
+          <template v-for="port in availablePorts" :key="port.separator ? port.label : port.Port">
+            <option v-if="port.separator" value="" disabled>{{ port.label }}</option>
+            <option v-else :value="port.Port">
+              {{ port.Description ? `${port.Port} (${port.Description})` : port.Port }}
+            </option>
+          </template>
         </select>
       </div>
 

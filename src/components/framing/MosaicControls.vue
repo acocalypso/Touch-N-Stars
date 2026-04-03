@@ -39,7 +39,7 @@
         :max="50"
         :step="5"
       />
-      <!-- Preserve Alignment toggle -->
+      <!-- Preserve Alignment toggle
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-1">
           <span class="text-xs text-gray-300">{{
@@ -55,7 +55,7 @@
           :status-value="framingStore.mosaicPreserveAlignment"
           @update:statusValue="framingStore.mosaicPreserveAlignment = $event"
         />
-      </div>
+      </div> -->
       <!-- Summary -->
       <div class="text-xs text-gray-400 text-center pt-1">
         {{ framingStore.mosaicCols }} × {{ framingStore.mosaicRows }} =

@@ -1287,7 +1287,8 @@
       "status_running": "En ejecución: {completado} / {total} pisos",
       "status_stopped": "Detenido antes de tiempo: {completado} de {total} departamentos capturados",
       "status_success": "Listo: {count} pisos capturados",
-      "single_mode": "Modo único"
+      "single_mode": "Modo único",
+      "status_filter_progress": "Filtro: {completed} / {total}"
     },
     "weatherModal": {
       "weatherInformation": "Información meteorológica",

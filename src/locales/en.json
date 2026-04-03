@@ -1308,7 +1308,8 @@
       "single_mode": "Single Mode",
       "multi_mode": "Multi Mode",
       "start_multi_mode": "Start Multi Mode",
-      "multi_mode_no_filters": "No filter wheel connected"
+      "multi_mode_no_filters": "No filter wheel connected",
+      "status_filter_progress": "Filter: {completed} / {total}"
     },
     "weatherModal": {
       "weatherInformation": "Weather Information",

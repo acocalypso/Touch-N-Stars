@@ -20,6 +20,8 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       State: '',
       TotalIterations: 0,
       CompletedIterations: -1,
+      TotalFilters: 0,
+      CompletedFilters: -1,
     },
     // Summary of the most recently completed run; null when no run has finished yet.
     // { completed: number, total: number, success: boolean, lastADU: number|null }

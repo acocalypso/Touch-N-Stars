@@ -30,10 +30,7 @@
           })
         }}</span>
       </div>
-      <div
-        v-if="flatsStore.status.TotalFilters > 0"
-        class="text-xs text-gray-400"
-      >
+      <div v-if="flatsStore.status.TotalFilters > 0" class="text-xs text-gray-400">
         {{
           $t('components.flatassistant.status_filter_progress', {
             completed: flatsStore.status.CompletedFilters + 1,

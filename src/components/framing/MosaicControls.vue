@@ -70,7 +70,6 @@
 import { useFramingStore } from '@/store/framingStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import infoModal from '@/components/helpers/infoModal.vue';
 
 const framingStore = useFramingStore();
 </script>

@@ -7,7 +7,7 @@
 
     <!-- Temporarily hide multi-mode there is a bug in the backend -->
     <SubNav
-      v-if="store.isPINS && false"
+      v-if="store.isPINS"
       :items="[
         { name: t('components.flatassistant.single_mode'), value: 'single' },
         { name: t('components.flatassistant.multi_mode'), value: 'multi' },

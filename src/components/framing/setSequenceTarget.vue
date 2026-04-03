@@ -1,11 +1,7 @@
 <template>
   <div>
     <button @click="setSequenceTarget" :disabled="!hasTargetSelected" class="default-button-cyan">
-      <span v-if="framingStore.isMosaicMode">
-        {{ $t('components.framing.mosaic.setMosaicTargets') }}
-        ({{ framingStore.mosaicCols * framingStore.mosaicRows }})
-      </span>
-      <span v-else>{{ $t('components.framing.setSequnceTarget') }}</span>
+      <span>{{ $t('components.framing.setSequnceTarget') }}</span>
     </button>
   </div>
 </template>

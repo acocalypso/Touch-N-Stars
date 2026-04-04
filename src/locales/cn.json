@@ -144,7 +144,20 @@
       "moveRotator": "旋转相机",
       "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
       "useCenter": "居中",
-      "useRotate": "旋转"
+      "useRotate": "旋转",
+      "mosaic": {
+        "columns": "Columns",
+        "overlap": "Overlap %",
+        "panels": "panels",
+        "panelsSet": "panels set in sequence",
+        "preserveAlignment": "Preserve Alignment",
+        "preserveAlignmentHelp": "Preserve Alignment",
+        "preserveAlignmentHelpText": "Corrects the rotation angle for each panel individually. Because the celestial sphere is curved, panels at the edge of a large mosaic have a slightly different sky orientation than the center panel. With this option enabled, the rotator adjusts before each panel so that all panels are identically aligned (e.g. north up). Without a rotator, disable this option — the small misalignment at panel seams is usually corrected automatically by stacking software.",
+        "rows": "Rows",
+        "setMosaicTargets": "Set mosaic targets",
+        "title": "Mosaic Mode",
+        "willBeSaved": "panels will be saved individually"
+      }
     },
     "tutorial": {
       "previous": "上一步",
@@ -1385,7 +1398,8 @@
       },
       "enter_name": "输入名称",
       "no_fav": "没有已保存的收藏",
-      "titel": "收藏夹"
+      "titel": "收藏夹",
+      "save_to_favorites": "Save to Favorite Targets"
     },
     "helpers": {
       "imageModal": {

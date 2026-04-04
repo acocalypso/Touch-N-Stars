@@ -204,7 +204,7 @@
         "toastErrorMsg": "Path could not be saved.",
         "loading": "Loading...",
         "loadingDirs": "Loading directories...",
-        "noSubfolders": "No subfolders available",
+        "noSubfolders": "No visible folders (empty or inaccessible path)",
         "dirLoadError": "Could not load directory.",
         "selectedPath": "Selected path:",
         "dblClickHint": "Double-click to open",

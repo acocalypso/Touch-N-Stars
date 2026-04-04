@@ -248,6 +248,37 @@ const creatingFolder = ref(false);
 const newFolderName = ref('');
 const folderInput = ref(null);
 
+// Temporary debug logging for filesystem browsing (remove after USB issue is resolved)
+const FILE_BROWSER_DEBUG = false;
+
+function debugLog(...args) {
+  if (!FILE_BROWSER_DEBUG) return;
+  console.log('[ImageSavePath]', ...args);
+}
+
+function normalizeDirPath(path) {
+  if (typeof path !== 'string') return '';
+  const trimmed = path.trim();
+  if (!trimmed) return '';
+  if (trimmed === '/') return '/';
+  return trimmed.replace(/\/+$/, '');
+}
+
+function toDirectoryEntry(entry) {
+  if (!entry || typeof entry !== 'object') return null;
+  const name = typeof entry.name === 'string' ? entry.name : '';
+  const path = normalizeDirPath(entry.path);
+  if (!name.trim() || !path) return null;
+  return { name, path };
+}
+
+function getErrorMessage(error, fallbackKey) {
+  if (error && typeof error.message === 'string' && error.message.trim()) {
+    return error.message;
+  }
+  return t(fallbackKey);
+}
+
 // Breadcrumbs
 const breadcrumbs = computed(() => {
   if (!currentPath.value || !currentRoot.value) return [];
@@ -273,16 +304,21 @@ const breadcrumbs = computed(() => {
 // Watchers
 watch(isOpen, async (val) => {
   if (val) {
+    listError.value = '';
+    creatingFolder.value = false;
+    newFolderName.value = '';
+
     await loadDevices();
     if (props.initialPath) {
+      const normalizedInitialPath = normalizeDirPath(props.initialPath);
       const matchingDevice = devices.value
-        .filter((d) => props.initialPath.startsWith(d.path))
+        .filter((d) => normalizedInitialPath.startsWith(d.path))
         .sort((a, b) => b.path.length - a.path.length)[0];
 
       if (matchingDevice) {
         currentRoot.value = matchingDevice.path;
       }
-      await navigateTo(props.initialPath);
+      await navigateTo(normalizedInitialPath);
     }
   }
 });
@@ -292,44 +328,72 @@ async function loadDevices() {
   devicesLoading.value = true;
   try {
     const result = await apiService.getFileDevices();
-    devices.value = (result || []).filter(
-      (d) => d && typeof d.name === 'string' && d.name.trim() !== '' && typeof d.path === 'string'
-    );
+    debugLog('GET /files/devices raw response:', result);
+
+    const parsedDevices = (Array.isArray(result) ? result : [])
+      .map((device) => {
+        if (!device || typeof device !== 'object') return null;
+        const name = typeof device.name === 'string' ? device.name : '';
+        const path = normalizeDirPath(device.path);
+        if (!name.trim() || !path) return null;
+        return { name, path };
+      })
+      .filter(Boolean);
+
+    devices.value = parsedDevices;
+    debugLog('Parsed devices:', parsedDevices);
+
     if (devices.value.length > 0 && !props.initialPath) {
       await selectDevice(devices.value[0]);
     }
   } catch (e) {
     console.error('FileBrowser: could not load devices', e);
+    listError.value = getErrorMessage(e, 'components.settings.imageSavePath.dirLoadError');
+    devices.value = [];
   } finally {
     devicesLoading.value = false;
   }
 }
 
 async function selectDevice(device) {
-  currentRoot.value = device.path;
-  await navigateTo(device.path);
+  const rootPath = normalizeDirPath(device.path);
+  debugLog('Device selected:', device, 'normalized root path:', rootPath);
+  currentRoot.value = rootPath;
+  await navigateTo(rootPath);
 }
 
 async function navigateTo(path) {
-  currentPath.value = path;
-  selectedPath.value = path;
+  const normalizedPath = normalizeDirPath(path);
+  if (!normalizedPath) {
+    entries.value = [];
+    return;
+  }
+
+  currentPath.value = normalizedPath;
+  selectedPath.value = normalizedPath;
+  debugLog('GET /files/list path:', normalizedPath);
   listError.value = '';
   listLoading.value = true;
   entries.value = [];
+
   try {
-    const result = await apiService.listFileDirectories(path);
-    entries.value = (result || []).filter(
-      (e) => e && typeof e.name === 'string' && e.name.trim() !== '' && typeof e.path === 'string'
-    );
+    const result = await apiService.listFileDirectories(normalizedPath);
+    debugLog('GET /files/list raw response:', result);
+    // Backend contract: render returned array entries using name/path directly.
+    entries.value = (Array.isArray(result) ? result : []).map(toDirectoryEntry).filter(Boolean);
+    debugLog('Rendered folder entries:', entries.value);
   } catch (e) {
-    listError.value = t('components.settings.imageSavePath.dirLoadError');
+    // Keep browsing resilient: backend contract uses [] for missing/invalid paths.
+    debugLog('GET /files/list error:', e);
+    listError.value = getErrorMessage(e, 'components.settings.imageSavePath.dirLoadError');
+    entries.value = [];
   } finally {
     listLoading.value = false;
   }
 }
 
 function selectEntry(entry) {
-  selectedPath.value = entry.path;
+  selectedPath.value = normalizeDirPath(entry.path);
 }
 
 // New Folder
@@ -342,11 +406,19 @@ function startNewFolder() {
 async function confirmNewFolder() {
   const name = newFolderName.value.trim();
   if (!name || !currentPath.value) return;
+
+  listError.value = '';
+  debugLog('POST /files/create-dir payload:', { path: currentPath.value, name });
   try {
     const created = await apiService.createFileDirectory(currentPath.value, name);
+    debugLog('POST /files/create-dir response:', created);
     await navigateTo(currentPath.value);
-    selectedPath.value = created.path;
+    if (created?.path) {
+      selectedPath.value = normalizeDirPath(created.path);
+    }
   } catch (e) {
+    debugLog('POST /files/create-dir error:', e);
+    listError.value = getErrorMessage(e, 'components.settings.imageSavePath.dirLoadError');
     console.error('FileBrowser: could not create folder', e);
   } finally {
     creatingFolder.value = false;

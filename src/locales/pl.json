@@ -675,7 +675,14 @@
         "reset": "Zresetuj filtr"
       },
       "gain": "Osiągać",
-      "offset": "Zrównoważyć"
+      "offset": "Zrównoważyć",
+      "move": "Przesuń",
+      "more": "Więcej",
+      "duplicate": "Duplikuj",
+      "enable": "Włącz",
+      "disable": "Wyłącz",
+      "resetStatus": "Resetuj status",
+      "delete": "Usuń"
     },
     "mount": {
       "title": "Montaż",

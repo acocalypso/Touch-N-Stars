@@ -683,7 +683,14 @@
           "duration": "Dauer (min)"
         }
       },
-      "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen"
+      "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen",
+      "move": "Verschieben",
+      "more": "Mehr",
+      "duplicate": "Duplizieren",
+      "enable": "Aktivieren",
+      "disable": "Deaktivieren",
+      "resetStatus": "Status zurücksetzen",
+      "delete": "Löschen"
     },
     "mount": {
       "title": "Montierung",

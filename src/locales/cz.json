@@ -675,7 +675,14 @@
         "reset": "Resetovat filtr"
       },
       "gain": "Získat",
-      "offset": "Offset"
+      "offset": "Offset",
+      "move": "Přesunout",
+      "more": "Více",
+      "duplicate": "Duplikovat",
+      "enable": "Povolit",
+      "disable": "Zakázat",
+      "resetStatus": "Resetovat stav",
+      "delete": "Smazat"
     },
     "mount": {
       "title": "Montáž",

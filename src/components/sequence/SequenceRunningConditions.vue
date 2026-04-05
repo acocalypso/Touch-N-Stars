@@ -81,10 +81,6 @@ function getConditionDetails(condition) {
     details.push(`Reason: ${condition.InterruptReason}`);
   }
 
-  if (condition.RolloverTime) {
-    details.push(`Rollover: ${condition.RolloverTime}`);
-  }
-
   return details.join(' | ');
 }
 </script>

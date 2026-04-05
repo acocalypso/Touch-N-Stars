@@ -683,7 +683,14 @@
           "duration": "Duration (min)"
         }
       },
-      "emptyContainer": "Empty — click + to add items"
+      "emptyContainer": "Empty — click + to add items",
+      "move": "Move",
+      "more": "More",
+      "duplicate": "Duplicate",
+      "enable": "Enable",
+      "disable": "Disable",
+      "resetStatus": "Reset status",
+      "delete": "Delete"
     },
     "mount": {
       "title": "Mount",

@@ -675,7 +675,14 @@
         "reset": "Redefinir filtro"
       },
       "gain": "Ganho",
-      "offset": "Desvio"
+      "offset": "Desvio",
+      "move": "Mover",
+      "more": "Mais",
+      "duplicate": "Duplicar",
+      "enable": "Ativar",
+      "disable": "Desativar",
+      "resetStatus": "Redefinir status",
+      "delete": "Excluir"
     },
     "mount": {
       "title": "Montagem",

@@ -675,7 +675,14 @@
         "reset": "Restablecer filtro"
       },
       "gain": "Ganar",
-      "offset": "Compensar"
+      "offset": "Compensar",
+      "move": "Mover",
+      "more": "Más",
+      "duplicate": "Duplicar",
+      "enable": "Activar",
+      "disable": "Desactivar",
+      "resetStatus": "Restablecer estado",
+      "delete": "Eliminar"
     },
     "mount": {
       "title": "Montura",

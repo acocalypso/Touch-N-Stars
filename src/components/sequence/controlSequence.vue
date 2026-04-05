@@ -266,6 +266,8 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
+import { useI18n } from 'vue-i18n';
 import {
   FolderOpenIcon,
   FlagIcon,
@@ -277,6 +279,8 @@ import Modal from '@/components/helpers/Modal.vue';
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
+const toastStore = useToastStore();
+const { t } = useI18n();
 const showResetConfirmation = ref(false);
 const isLoading = computed(() => sequenceStore.sequenceRunning);
 const { isLandscape } = useOrientation();
@@ -391,8 +395,19 @@ async function saveCurrentFile() {
   saveLoading.value = true;
   try {
     await apiService.sequenceSaveFile(sequenceStore.lastSequenceFilePath);
+    const fileName = sequenceStore.lastSequenceFilePath.replace(/\\/g, '/').split('/').at(-1);
+    toastStore.showToast({
+      type: 'success',
+      title: t('components.sequence.sequenceSave'),
+      message: fileName,
+    });
   } catch (e) {
     console.error('Error saving sequence file:', e);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.sequence.sequenceSave'),
+      message: String(e),
+    });
   } finally {
     saveLoading.value = false;
   }

@@ -15,7 +15,8 @@
     "scanning": "Snímání…",
     "connecting": "Spojovací…",
     "refresh": "Obnovit",
-    "creating": "Vytváření…"
+    "creating": "Vytváření…",
+    "help": "Pomoc"
   },
   "general": {
     "cancel": "Zrušit",
@@ -330,6 +331,17 @@
         "toastErrorMsg": "Cestu se nepodařilo uložit.",
         "toastErrorTitle": "Chyba",
         "toastTitle": "Cesta uložena"
+      },
+      "horizonFilePath": {
+        "title": "Soubor horizontu",
+        "placeholder": "např. /home/pi",
+        "selectTitle": "Vybrat složku horizontu",
+        "toastTitle": "Soubor horizontu uložen",
+        "infoTitle": "Nastavení souboru horizontu",
+        "infoStep1": "The horizon file must be named exactly:",
+        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
+        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
+        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
       }
     },
     "connectEquipment": {

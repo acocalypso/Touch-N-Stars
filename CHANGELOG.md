@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Image Viewer: Optional centered crosshair overlay toggle for the shared camera and livestack viewer - thanks to sharon92
 - PINS Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
 - Framing: Add Mosaik-Mode
+- Settings: PINS set Horizon File Path
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

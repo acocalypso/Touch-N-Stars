@@ -26,7 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Settings: Add dedicated Meridian Flip tab
 - Settings: SubNav scrolls horizontally with fade and arrow indicators when tabs overflow
 - Settings: Add image file type selector (TIFF, FITS, XISF)
-- Settings: PINS set Horizon File Path
 
 ### Changed
 - Settings: Moved image and meridian flip settings out of General tab into own tabs

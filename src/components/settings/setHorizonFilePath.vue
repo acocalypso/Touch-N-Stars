@@ -1,5 +1,20 @@
 <template>
   <div class="flex flex-col gap-2">
+    <!-- Info Button Row -->
+    <div class="flex justify-end">
+      <button
+        @click="showInfo = true"
+        class="flex items-center gap-1 text-xs text-slate-400 hover:text-cyan-400 transition-colors bg-transparent border-none cursor-pointer"
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="8" stroke-width="3" stroke-linecap="round" />
+          <line x1="12" y1="12" x2="12" y2="16" stroke-linecap="round" />
+        </svg>
+        {{ $t('common.help') }}
+      </button>
+    </div>
+
     <!-- Input Row -->
     <div>
       <div class="flex items-center gap-2">
@@ -57,6 +72,28 @@
       :title="$t('components.settings.horizonFilePath.selectTitle')"
       @select="onPathSelected"
     />
+
+    <!-- Info Modal -->
+    <Modal :show="showInfo" max-width="max-w-md" @close="showInfo = false">
+      <template #header>
+        <h2 class="text-base font-semibold text-cyan-400">
+          {{ $t('components.settings.horizonFilePath.infoTitle') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="text-sm text-gray-300 space-y-3 w-full">
+          <p>{{ $t('components.settings.horizonFilePath.infoStep1') }}</p>
+          <div class="bg-gray-900 rounded px-3 py-2 font-mono text-cyan-300 text-xs">
+            horizon.hrz
+          </div>
+          <p>{{ $t('components.settings.horizonFilePath.infoStep2') }}</p>
+          <p>{{ $t('components.settings.horizonFilePath.infoStep3') }}</p>
+          <p class="text-amber-400 text-xs">
+            {{ $t('components.settings.horizonFilePath.infoNote') }}
+          </p>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -66,6 +103,7 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import FileBrowser from './fileBrowser.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -73,6 +111,7 @@ const toast = useToastStore();
 
 const path = ref('');
 const showBrowser = ref(false);
+const showInfo = ref(false);
 const saving = ref(false);
 const statusMsg = ref('');
 const statusOk = ref(true);
@@ -84,7 +123,6 @@ const HORIZON_FILENAME = 'horizon.hrz';
 
 onMounted(() => {
   const stored = store.profileInfo?.AstrometrySettings?.HorizonFilePath || '';
-  // Strip the filename to show only the folder path
   path.value = stored ? stored.replace(/\/horizon\.hrz$/i, '') : '';
   originalPath.value = path.value;
 });

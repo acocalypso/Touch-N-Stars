@@ -110,17 +110,6 @@
       </div>
     </template>
 
-    <!-- Horizon File Path -->
-    <div
-      v-if="store.isBackendReachable && store.isPINS"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.settings.horizonFilePath.title') }}
-      </h3>
-      <SetHorizonFilePath />
-    </div>
-
     <!-- Connection Settings -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -148,6 +137,17 @@
           {{ lang.name }}
         </option>
       </select>
+    </div>
+
+    <!-- Horizon File Path -->
+    <div
+      v-if="store.isBackendReachable && store.isPINS"
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.settings.horizonFilePath.title') }}
+      </h3>
+      <SetHorizonFilePath />
     </div>
 
     <!-- Keep Screen Awake (mobile only) -->

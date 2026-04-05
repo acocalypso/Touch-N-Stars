@@ -15,7 +15,8 @@
     "scanning": "扫描…",
     "connecting": "正在连接…",
     "refresh": "刷新",
-    "creating": "创造……"
+    "creating": "创造……",
+    "help": "帮助"
   },
   "general": {
     "cancel": "取消",
@@ -333,9 +334,14 @@
       },
       "horizonFilePath": {
         "title": "地平线文件",
-        "placeholder": "未选择文件",
-        "selectTitle": "选择地平线文件",
-        "toastTitle": "地平线文件已保存"
+        "placeholder": "例如 /home/pi",
+        "selectTitle": "选择地平线文件夹",
+        "toastTitle": "地平线文件已保存",
+        "infoTitle": "设置地平线文件",
+        "infoStep1": "The horizon file must be named exactly:",
+        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
+        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
+        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
       }
     },
     "connectEquipment": {

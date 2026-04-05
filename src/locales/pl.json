@@ -15,7 +15,8 @@
     "scanning": "Łów…",
     "connecting": "Złączony…",
     "refresh": "Odświeżać",
-    "creating": "Tworzenie…"
+    "creating": "Tworzenie…",
+    "help": "Pomoc"
   },
   "general": {
     "cancel": "Anuluj",
@@ -330,6 +331,17 @@
         "toastErrorMsg": "Nie można zapisać ścieżki.",
         "toastErrorTitle": "Błąd",
         "toastTitle": "Ścieżka zapisana"
+      },
+      "horizonFilePath": {
+        "title": "Plik horyzontu",
+        "placeholder": "np. /home/pi",
+        "selectTitle": "Wybierz folder horyzontu",
+        "toastTitle": "Plik horyzontu zapisany",
+        "infoTitle": "Konfiguracja pliku horyzontu",
+        "infoStep1": "The horizon file must be named exactly:",
+        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
+        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
+        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
       }
     },
     "connectEquipment": {

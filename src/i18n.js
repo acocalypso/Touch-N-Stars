@@ -9,12 +9,14 @@ import pt from './locales/pt.json';
 import es from './locales/es.json';
 import pl from './locales/pl.json';
 import nl from './locales/nl.json';
+import ja from './locales/ja.json';
 
 const languageToBackendCode = {
   en: 'en-GB',
   de: 'de-DE',
   fr: 'fr-FR',
   it: 'it-IT',
+  ja: 'ja-JP',
   cz: 'cs-CZ',
   cn: 'zh-CN',
   pt: 'pt-PT',
@@ -33,6 +35,7 @@ const availableLanguages = [
   { code: 'de', name: 'Deutsch' },
   { code: 'fr', name: 'Français' },
   { code: 'it', name: 'Italiano' },
+  { code: 'ja', name: '日本語' },
   { code: 'cz', name: 'Čeština' },
   { code: 'cn', name: '中文' },
   { code: 'pt', name: 'Português' },
@@ -52,6 +55,7 @@ const messages = {
   es,
   pl,
   nl,
+  ja,
 };
 
 // Create i18n instance

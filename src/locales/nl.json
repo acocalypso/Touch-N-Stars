@@ -675,7 +675,14 @@
         "reset": "Filter opnieuw instellen"
       },
       "gain": "Verdienen",
-      "offset": "Offset"
+      "offset": "Offset",
+      "move": "Verplaatsen",
+      "more": "Meer",
+      "duplicate": "Dupliceren",
+      "enable": "Activeren",
+      "disable": "Deactiveren",
+      "resetStatus": "Status herstellen",
+      "delete": "Verwijderen"
     },
     "mount": {
       "title": "Montering",

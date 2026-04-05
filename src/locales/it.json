@@ -675,7 +675,14 @@
         "reset": "Reimposta filtro"
       },
       "gain": "Guadagno",
-      "offset": "Offset"
+      "offset": "Offset",
+      "move": "Sposta",
+      "more": "Altro",
+      "duplicate": "Duplica",
+      "enable": "Abilita",
+      "disable": "Disabilita",
+      "resetStatus": "Reimposta stato",
+      "delete": "Elimina"
     },
     "mount": {
       "title": "Montatura",

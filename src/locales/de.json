@@ -203,6 +203,12 @@
         "folderPlaceholder": "Ordnername...",
         "create": "Erstellen"
       },
+      "horizonFilePath": {
+        "title": "Horizont-Datei",
+        "placeholder": "Keine Datei gewählt",
+        "selectTitle": "Horizont-Datei wählen",
+        "toastTitle": "Horizont-Datei gespeichert"
+      },
       "image": {
         "title": "Bild",
         "quality": "Bildqualität",

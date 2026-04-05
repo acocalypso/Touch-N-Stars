@@ -330,6 +330,12 @@
         "toastErrorMsg": "Impossibile salvare il percorso.",
         "toastErrorTitle": "Errore",
         "toastTitle": "Percorso salvato"
+      },
+      "horizonFilePath": {
+        "title": "File orizzonte",
+        "placeholder": "Nessun file selezionato",
+        "selectTitle": "Seleziona file orizzonte",
+        "toastTitle": "File orizzonte salvato"
       }
     },
     "connectEquipment": {

@@ -330,6 +330,12 @@
         "toastErrorMsg": "O caminho não pôde ser salvo.",
         "toastErrorTitle": "Erro",
         "toastTitle": "Caminho salvo"
+      },
+      "horizonFilePath": {
+        "title": "Arquivo de horizonte",
+        "placeholder": "Nenhum arquivo selecionado",
+        "selectTitle": "Selecionar arquivo de horizonte",
+        "toastTitle": "Arquivo de horizonte salvo"
       }
     },
     "connectEquipment": {

@@ -330,6 +330,12 @@
         "toastErrorMsg": "Cestu se nepodařilo uložit.",
         "toastErrorTitle": "Chyba",
         "toastTitle": "Cesta uložena"
+      },
+      "horizonFilePath": {
+        "title": "Soubor horizontu",
+        "placeholder": "Žádný soubor není vybrán",
+        "selectTitle": "Vybrat soubor horizontu",
+        "toastTitle": "Soubor horizontu uložen"
       }
     },
     "connectEquipment": {

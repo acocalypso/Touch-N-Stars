@@ -330,6 +330,12 @@
         "toastErrorMsg": "Nie można zapisać ścieżki.",
         "toastErrorTitle": "Błąd",
         "toastTitle": "Ścieżka zapisana"
+      },
+      "horizonFilePath": {
+        "title": "Plik horyzontu",
+        "placeholder": "Nie wybrano pliku",
+        "selectTitle": "Wybierz plik horyzontu",
+        "toastTitle": "Plik horyzontu zapisany"
       }
     },
     "connectEquipment": {

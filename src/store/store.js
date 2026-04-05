@@ -906,6 +906,18 @@ export const apiStore = defineStore('store', {
       }
     },
 
+    async setHorizonFilePath(path) {
+      try {
+        await apiService.profileChangeValue('AstrometrySettings-HorizonFilePath', path);
+        if (this.profileInfo?.AstrometrySettings) {
+          this.profileInfo.AstrometrySettings.HorizonFilePath = path;
+        }
+      } catch (e) {
+        console.error('Failed to set horizon file path', e);
+        throw e;
+      }
+    },
+
     async fetchLastImageStats() {
       if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
       try {

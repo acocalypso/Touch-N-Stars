@@ -330,6 +330,12 @@
         "toastErrorMsg": "无法保存路径。",
         "toastErrorTitle": "错误",
         "toastTitle": "已保存路径"
+      },
+      "horizonFilePath": {
+        "title": "地平线文件",
+        "placeholder": "未选择文件",
+        "selectTitle": "选择地平线文件",
+        "toastTitle": "地平线文件已保存"
       }
     },
     "connectEquipment": {

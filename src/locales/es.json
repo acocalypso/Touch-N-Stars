@@ -330,6 +330,12 @@
         "toastErrorMsg": "No se pudo guardar la ruta.",
         "toastErrorTitle": "Error",
         "toastTitle": "Ruta guardada"
+      },
+      "horizonFilePath": {
+        "title": "Archivo de horizonte",
+        "placeholder": "Ningún archivo seleccionado",
+        "selectTitle": "Seleccionar archivo de horizonte",
+        "toastTitle": "Archivo de horizonte guardado"
       }
     },
     "connectEquipment": {

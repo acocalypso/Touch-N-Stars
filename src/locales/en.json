@@ -212,6 +212,12 @@
         "folderPlaceholder": "Folder name...",
         "create": "Create"
       },
+      "horizonFilePath": {
+        "title": "Horizon File",
+        "placeholder": "No file selected",
+        "selectTitle": "Select horizon file",
+        "toastTitle": "Horizon file saved"
+      },
       "image": {
         "title": "Image",
         "quality": "Image Quality",

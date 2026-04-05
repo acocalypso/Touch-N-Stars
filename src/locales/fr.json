@@ -330,6 +330,12 @@
         "toastErrorMsg": "Le chemin n'a pas pu être enregistré.",
         "toastErrorTitle": "Erreur",
         "toastTitle": "Chemin enregistré"
+      },
+      "horizonFilePath": {
+        "title": "Fichier d'horizon",
+        "placeholder": "Aucun fichier sélectionné",
+        "selectTitle": "Sélectionner le fichier d'horizon",
+        "toastTitle": "Fichier d'horizon enregistré"
       }
     },
     "connectEquipment": {

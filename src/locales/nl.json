@@ -330,6 +330,12 @@
         "toastErrorMsg": "Pad kon niet worden opgeslagen.",
         "toastErrorTitle": "Fout",
         "toastTitle": "Pad opgeslagen"
+      },
+      "horizonFilePath": {
+        "title": "Horizonbestand",
+        "placeholder": "Geen bestand geselecteerd",
+        "selectTitle": "Horizonbestand selecteren",
+        "toastTitle": "Horizonbestand opgeslagen"
       }
     },
     "connectEquipment": {

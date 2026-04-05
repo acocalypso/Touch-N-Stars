@@ -13,7 +13,7 @@
           class="flex items-center justify-between px-4 py-3.5 border-b border-[#2e3650] shrink-0"
         >
           <span class="text-sm font-semibold text-slate-200 tracking-wide">{{
-            $t('components.settings.imageSavePath.selectTitle')
+            title || $t('components.settings.imageSavePath.selectTitle')
           }}</span>
           <button
             class="text-slate-500 text-sm px-2 py-1 rounded hover:text-slate-200 hover:bg-[#2e3650] transition-colors cursor-pointer bg-transparent border-none"
@@ -223,6 +223,10 @@ const props = defineProps({
     default: false,
   },
   initialPath: {
+    type: String,
+    default: '',
+  },
+  title: {
     type: String,
     default: '',
   },

@@ -80,14 +80,18 @@ const statusOk = ref(true);
 const originalPath = ref('');
 const isDirty = ref(false);
 
+const HORIZON_FILENAME = 'horizon.hrz';
+
 onMounted(() => {
-  path.value = store.profileInfo?.AstrometrySettings?.HorizonFilePath || '';
+  const stored = store.profileInfo?.AstrometrySettings?.HorizonFilePath || '';
+  // Strip the filename to show only the folder path
+  path.value = stored ? stored.replace(/\/horizon\.hrz$/i, '') : '';
   originalPath.value = path.value;
 });
 
 function onPathSelected(selectedPath) {
-  path.value = selectedPath;
-  isDirty.value = selectedPath !== originalPath.value;
+  path.value = selectedPath.replace(/\/+$/, '');
+  isDirty.value = path.value !== originalPath.value;
   statusMsg.value = '';
 }
 
@@ -95,16 +99,17 @@ async function savePath() {
   if (!path.value) return;
   saving.value = true;
   statusMsg.value = '';
+  const fullPath = path.value.replace(/\/+$/, '') + '/' + HORIZON_FILENAME;
   try {
-    await store.setHorizonFilePath(path.value);
+    await store.setHorizonFilePath(fullPath);
     originalPath.value = path.value;
     isDirty.value = false;
     statusOk.value = true;
-    statusMsg.value = `${t('components.settings.imageSavePath.savedMsg')} ${path.value}`;
+    statusMsg.value = `${t('components.settings.imageSavePath.savedMsg')} ${fullPath}`;
     toast.showToast({
       type: 'success',
       title: t('components.settings.horizonFilePath.toastTitle'),
-      message: path.value,
+      message: fullPath,
     });
   } catch (e) {
     statusOk.value = false;

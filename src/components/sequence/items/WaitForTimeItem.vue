@@ -7,9 +7,6 @@
       <span class="text-xs text-slate-400 font-mono ml-2">
         {{ pad(item.Hours) }}:{{ pad(item.Minutes) }}:{{ pad(item.Seconds) }}
       </span>
-      <span v-if="item.RolloverTime" class="text-xs text-amber-400/80 font-mono ml-2">
-        ⏱ {{ item.RolloverTime }}
-      </span>
     </template>
 
     <template #editor="{ save }">

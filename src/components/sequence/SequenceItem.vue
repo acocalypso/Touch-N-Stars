@@ -8,7 +8,7 @@
       <!-- Drag handle -->
       <span
         class="drag-handle flex-shrink-0 cursor-grab active:cursor-grabbing p-1 text-slate-600 hover:text-slate-400 transition-colors touch-none"
-        title="Verschieben"
+        :title="$t('components.sequence.move')"
       >
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
           <path
@@ -37,7 +37,7 @@
       <div class="flex-shrink-0" ref="moreRef">
         <button
           class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors"
-          title="Mehr"
+          :title="$t('components.sequence.more')"
           @click.stop="toggleMore"
         >
           <EllipsisVerticalIcon class="w-4 h-4" />
@@ -50,24 +50,28 @@
             @click.stop
           >
             <button class="menu-item" @click="doAction('duplicate')">
-              <DocumentDuplicateIcon class="w-4 h-4" /> Duplizieren
+              <DocumentDuplicateIcon class="w-4 h-4" /> {{ $t('components.sequence.duplicate') }}
             </button>
             <button class="menu-item" @click="doAction('toggle-enable')">
               <component
                 :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
                 class="w-4 h-4"
               />
-              {{ item.Status === 'DISABLED' ? 'Aktivieren' : 'Deaktivieren' }}
+              {{
+                item.Status === 'DISABLED'
+                  ? $t('components.sequence.enable')
+                  : $t('components.sequence.disable')
+              }}
             </button>
             <button class="menu-item" @click="doAction('reset')">
-              <ArrowPathIcon class="w-4 h-4" /> Status zurücksetzen
+              <ArrowPathIcon class="w-4 h-4" /> {{ $t('components.sequence.resetStatus') }}
             </button>
             <div class="border-t border-slate-700 my-1" />
             <button
               class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
               @click="doAction('remove')"
             >
-              <TrashIcon class="w-4 h-4" /> Löschen
+              <TrashIcon class="w-4 h-4" /> {{ $t('components.sequence.delete') }}
             </button>
           </div>
         </Teleport>
@@ -90,7 +94,7 @@
         class="mb-1.5 border border-cyan-600/30 rounded-lg bg-cyan-950/10 p-1.5 space-y-1"
       >
         <div class="px-1">
-          <span class="text-xs text-cyan-400/70">Triggers</span>
+          <span class="text-xs text-cyan-400/70">{{ $t('components.sequence.triggers') }}</span>
         </div>
         <draggable
           :list="item.Triggers"
@@ -127,7 +131,7 @@
         class="mb-1.5 border border-amber-600/30 rounded-lg bg-amber-950/10 p-1.5 space-y-1"
       >
         <div class="px-1">
-          <span class="text-xs text-amber-400/70">Conditions</span>
+          <span class="text-xs text-amber-400/70">{{ $t('components.sequence.conditions') }}</span>
         </div>
         <draggable
           :list="item.Conditions"

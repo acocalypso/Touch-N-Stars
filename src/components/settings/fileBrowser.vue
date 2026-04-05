@@ -13,7 +13,7 @@
           class="flex items-center justify-between px-4 py-3.5 border-b border-[#2e3650] shrink-0"
         >
           <span class="text-sm font-semibold text-slate-200 tracking-wide">{{
-            $t('components.settings.imageSavePath.selectTitle')
+            title || $t('components.settings.imageSavePath.selectTitle')
           }}</span>
           <button
             class="text-slate-500 text-sm px-2 py-1 rounded hover:text-slate-200 hover:bg-[#2e3650] transition-colors cursor-pointer bg-transparent border-none"
@@ -226,6 +226,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  title: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'select']);
@@ -377,14 +381,12 @@ async function navigateTo(path) {
   entries.value = [];
 
   try {
-    const result = await apiService.listFileDirectories(normalizedPath);
-    debugLog('GET /files/list raw response:', result);
-    // Backend contract: render returned array entries using name/path directly.
+    const result = await apiService.listDirectories(normalizedPath);
+    debugLog('listDirectories raw response:', result);
     entries.value = (Array.isArray(result) ? result : []).map(toDirectoryEntry).filter(Boolean);
     debugLog('Rendered folder entries:', entries.value);
   } catch (e) {
-    // Keep browsing resilient: backend contract uses [] for missing/invalid paths.
-    debugLog('GET /files/list error:', e);
+    debugLog('listDirectories error:', e);
     listError.value = getErrorMessage(e, 'components.settings.imageSavePath.dirLoadError');
     entries.value = [];
   } finally {

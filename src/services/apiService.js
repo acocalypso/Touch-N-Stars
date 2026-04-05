@@ -993,6 +993,36 @@ const apiService = {
     }
   },
 
+  // Directory listing via HocusFocus plugin API (more reliable than PINS daemon for local paths)
+  async listDirectories(path, timeout = DEFAULT_TIMEOUT) {
+    if (!path || typeof path !== 'string') {
+      return [];
+    }
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}hocusfocus/browse-directories`, {
+        params: { path },
+        timeout,
+      });
+      if (response.data?.Success) {
+        return response.data.directories || [];
+      }
+      const errMsg = response.data?.Error || 'Failed to load directory';
+      const err = new Error(errMsg);
+      throw err;
+    } catch (error) {
+      const status = error?.response?.status;
+      const detail =
+        error?.response?.data?.Error ||
+        error?.response?.data?.message ||
+        error?.message ||
+        'Unknown error';
+      const mappedError = new Error(detail);
+      if (status) mappedError.status = status;
+      throw mappedError;
+    }
+  },
+
   // api to get filesystem paths for image save path selection in settings
   async getFileDevices(timeout = DEFAULT_TIMEOUT) {
     try {

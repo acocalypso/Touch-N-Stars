@@ -15,7 +15,8 @@
     "scanning": "Exploración…",
     "connecting": "Conectando…",
     "refresh": "Refrescar",
-    "creating": "Creando…"
+    "creating": "Creando…",
+    "help": "Ayuda"
   },
   "general": {
     "cancel": "Cancelar",
@@ -330,6 +331,17 @@
         "toastErrorMsg": "No se pudo guardar la ruta.",
         "toastErrorTitle": "Error",
         "toastTitle": "Ruta guardada"
+      },
+      "horizonFilePath": {
+        "title": "Archivo de horizonte",
+        "placeholder": "ej. /home/pi",
+        "selectTitle": "Seleccionar carpeta de horizonte",
+        "toastTitle": "Archivo de horizonte guardado",
+        "infoTitle": "Configurar archivo de horizonte",
+        "infoStep1": "The horizon file must be named exactly:",
+        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
+        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
+        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
       }
     },
     "connectEquipment": {
@@ -675,7 +687,14 @@
         "reset": "Restablecer filtro"
       },
       "gain": "Ganar",
-      "offset": "Compensar"
+      "offset": "Compensar",
+      "move": "Mover",
+      "more": "Más",
+      "duplicate": "Duplicar",
+      "enable": "Activar",
+      "disable": "Desactivar",
+      "resetStatus": "Restablecer estado",
+      "delete": "Eliminar"
     },
     "mount": {
       "title": "Montura",

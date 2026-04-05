@@ -7,9 +7,6 @@
       <span class="text-xs text-slate-400 font-mono ml-2">
         {{ pad(item.Hours) }}:{{ pad(item.Minutes) }}:{{ pad(item.Seconds) }}
       </span>
-      <span v-if="item.RolloverTime" class="text-xs text-amber-400/80 font-mono ml-2">
-        ⏱ {{ item.RolloverTime }}
-      </span>
     </template>
 
     <template #editor="{ save }">
@@ -30,7 +27,7 @@
       <div class="text-xs text-slate-400 font-medium">
         {{ $t('components.sequence.items.expressionVariable.time') }}
       </div>
-      <div class="grid grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="item.Hours"
           label="h"
@@ -38,7 +35,6 @@
           :min="0"
           :max="23"
           :step="1"
-          labelPosition="top"
           wrapperClass="w-full"
           @change="save('Hours', $event)"
         />
@@ -49,7 +45,6 @@
           :min="0"
           :max="59"
           :step="1"
-          labelPosition="top"
           wrapperClass="w-full"
           @change="save('Minutes', $event)"
         />
@@ -60,7 +55,6 @@
           :min="0"
           :max="59"
           :step="1"
-          labelPosition="top"
           wrapperClass="w-full"
           @change="save('Seconds', $event)"
         />

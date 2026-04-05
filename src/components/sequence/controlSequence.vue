@@ -105,6 +105,26 @@
     <button
       v-if="
         !sequenceStore.sequenceRunning &&
+        sequenceStore.lastSequenceFilePath &&
+        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
+      "
+      class="default-button-cyan h-16 w-14 flex-col gap-0.5"
+      :disabled="saveLoading"
+      @click="saveCurrentFile"
+    >
+      <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+        <path
+          d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.414L16.586 3H5zm9 0v5H8V3h6zm-6 9h8v7H8v-7zm2 1v5h4v-5h-4z"
+        />
+      </svg>
+      <span class="text-[9px] leading-none font-medium">{{
+        $t('components.sequence.sequenceSave')
+      }}</span>
+    </button>
+
+    <button
+      v-if="
+        !sequenceStore.sequenceRunning &&
         (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
       "
       class="default-button-gray h-16 w-14 flex-col gap-0.5"
@@ -246,6 +266,8 @@ import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
+import { useI18n } from 'vue-i18n';
 import {
   FolderOpenIcon,
   FlagIcon,
@@ -257,6 +279,8 @@ import Modal from '@/components/helpers/Modal.vue';
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
+const toastStore = useToastStore();
+const { t } = useI18n();
 const showResetConfirmation = ref(false);
 const isLoading = computed(() => sequenceStore.sequenceRunning);
 const { isLandscape } = useOrientation();
@@ -287,6 +311,11 @@ async function skipCurrentItem() {
 }
 
 async function openFileManager() {
+  // pre-fill save name from last known file
+  if (sequenceStore.lastSequenceFilePath && !saveFileName.value) {
+    const parts = sequenceStore.lastSequenceFilePath.replace(/\\/g, '/').split('/');
+    saveFileName.value = parts.at(-1)?.replace(/\.json$/i, '') ?? '';
+  }
   showFileManager.value = true;
   filesLoading.value = true;
   try {
@@ -323,6 +352,7 @@ async function confirmDeleteFile() {
 async function loadFile(filePath) {
   try {
     await apiService.sequenceLoadFile(filePath);
+    sequenceStore.setLastSequenceFilePath(filePath);
     await sequenceStore.getSequenceInfo();
     showFileManager.value = false;
   } catch (e) {
@@ -330,28 +360,54 @@ async function loadFile(filePath) {
   }
 }
 
+function buildFilePath(name) {
+  const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder ?? '';
+  const sep =
+    defaultFolder.endsWith('\\') || defaultFolder.endsWith('/')
+      ? ''
+      : defaultFolder.includes('/')
+        ? '/'
+        : '\\';
+  const fileName = name.endsWith('.json') ? name : name + '.json';
+  return defaultFolder ? defaultFolder + sep + fileName : fileName;
+}
+
 async function saveFile() {
   if (!saveFileName.value.trim()) return;
   saveLoading.value = true;
   try {
-    const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder ?? '';
-    const sep =
-      defaultFolder.endsWith('\\') || defaultFolder.endsWith('/')
-        ? ''
-        : defaultFolder.includes('/')
-          ? '/'
-          : '\\';
-    const name = saveFileName.value.trim().endsWith('.json')
-      ? saveFileName.value.trim()
-      : saveFileName.value.trim() + '.json';
-    const filePath = defaultFolder ? defaultFolder + sep + name : name;
+    const filePath = buildFilePath(saveFileName.value.trim());
     await apiService.sequenceSaveFile(filePath);
+    sequenceStore.setLastSequenceFilePath(filePath);
     saveFileName.value = '';
-    // Refresh file list
+    const defaultFolder = store.profileInfo?.SequenceSettings?.DefaultSequenceFolder ?? '';
     const result = await apiService.sequenceFetchFiles(defaultFolder || undefined);
     sequenceFiles.value = result?.Sequences ?? [];
   } catch (e) {
     console.error('Error saving sequence file:', e);
+  } finally {
+    saveLoading.value = false;
+  }
+}
+
+async function saveCurrentFile() {
+  if (!sequenceStore.lastSequenceFilePath) return;
+  saveLoading.value = true;
+  try {
+    await apiService.sequenceSaveFile(sequenceStore.lastSequenceFilePath);
+    const fileName = sequenceStore.lastSequenceFilePath.replace(/\\/g, '/').split('/').at(-1);
+    toastStore.showToast({
+      type: 'success',
+      title: t('components.sequence.sequenceSave'),
+      message: fileName,
+    });
+  } catch (e) {
+    console.error('Error saving sequence file:', e);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.sequence.sequenceSave'),
+      message: String(e),
+    });
   } finally {
     saveLoading.value = false;
   }

@@ -40,40 +40,6 @@ const hasSequenceLoaded = computed(
     sequenceStore.sequenceInfo.length > 0
 );
 
-function computeMosaicPanels() {
-  const store = framingStore;
-  const overlap = store.mosaicOverlap / 100;
-  const scale = store.fov / store.containerSize;
-  const fovX = store.camWidth * scale;
-  const fovY = store.camHeight * scale;
-  const stepRa = fovX * (1 - overlap);
-  const stepDec = fovY * (1 - overlap);
-  let cosDec = Math.cos((store.DECangle * Math.PI) / 180);
-  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
-
-  const centerRA = store.RAangle;
-  const centerDec = store.DECangle;
-  const centerRot = store.rotationAngle;
-  const panels = [];
-
-  for (let row = 0; row < store.mosaicRows; row++) {
-    for (let col = 0; col < store.mosaicCols; col++) {
-      const dc = col - (store.mosaicCols - 1) / 2;
-      const dr = row - (store.mosaicRows - 1) / 2;
-      const panelRA = centerRA - (dc * stepRa) / cosDec;
-      const panelDec = centerDec - dr * stepDec;
-      const panelRot = centerRot;
-      panels.push({
-        label: `${col + 1}-${row + 1}`,
-        ra: panelRA,
-        dec: panelDec,
-        rotation: panelRot,
-      });
-    }
-  }
-  return panels;
-}
-
 async function setSequenceTarget() {
   console.log('Setting sequence target');
 

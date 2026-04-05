@@ -15,7 +15,8 @@
     "scanning": "Scannen…",
     "connecting": "Verbinden…",
     "refresh": "Aktualisieren",
-    "creating": "Erstellen…"
+    "creating": "Erstellen…",
+    "help": "Hilfe"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -72,13 +73,13 @@
     "check_wki": "In unserem Wiki finden Sie detaillierte Anleitungen",
     "coordAlt": "Alt",
     "coordLat": "Lat",
-    "coordLon": "Lang",
+    "coordLon": "Länge",
     "coordUnit": "M",
     "coordsNotSupported": "Wird vom Treiber nicht unterstützt",
-    "currentMountCoords": "Montageort",
+    "currentMountCoords": "Montierungsstandort",
     "currentNinaCoords": "Profilstandort",
     "loadingCoords": "Laden…",
-    "mountNotConnected": "Halterung nicht angeschlossen",
+    "mountNotConnected": "Montierung nicht verbunden",
     "syncDirection": "Richtung der Standortsynchronisierung",
     "syncDirectionNosync": "Keine Synchronisierung",
     "syncDirectionToApplication": "Vom Mount zum Profil synchronisieren",
@@ -184,7 +185,7 @@
       "imageSavePath": {
         "title": "Speicherpfad",
         "placeholder": "Kein Pfad gewählt",
-        "selectTitle": "Speicherort wöhlen",
+        "selectTitle": "Speicherort wählen",
         "save": "Speichern",
         "saving": "...",
         "dirtyHint": "Pfad geändert - bitte auf Speichern drücken um die Änderung zu Übernehmen.",
@@ -202,6 +203,17 @@
         "newFolder": "+ Neuer Ordner",
         "folderPlaceholder": "Ordnername...",
         "create": "Erstellen"
+      },
+      "horizonFilePath": {
+        "title": "Horizont-Datei",
+        "placeholder": "z.B. /home/pi",
+        "selectTitle": "Horizont-Ordner wählen",
+        "toastTitle": "Horizont-Datei gespeichert",
+        "infoTitle": "Horizont-Datei einrichten",
+        "infoStep1": "Die Horizont-Datei muss genau so heißen:",
+        "infoStep2": "Kopiere die Datei in einen Ordner auf dem Raspberry Pi (z.B. /home/pi).",
+        "infoStep3": "Wähle hier diesen Ordner und speichere. Der Pfad /horizon.hrz wird automatisch angehängt.",
+        "infoNote": "Nach dem Speichern PINS neu starten, damit der Horizont in NINA angezeigt wird."
       },
       "image": {
         "title": "Bild",
@@ -330,13 +342,13 @@
         "titel": "Montierungseinstellungen",
         "max_slew_rate": "Max. Schwenkgeschwindigkeit (°/s)"
       },
-      "coordsMismatchWarning": "Profil- und Montagekoordinaten unterscheiden sich.",
+      "coordsMismatchWarning": "Profil- und Montierungskoordinaten unterscheiden sich.",
       "timeSync": {
         "backendTime": "Backend UTC",
-        "mountNotConnected": "Halterung nicht angeschlossen",
-        "mountTime": "Mounten Sie UTC",
+        "mountNotConnected": "Montierung nicht verbunden",
+        "mountTime": "Uhrzeit der Montierung",
         "notSupported": "Wird vom Treiber nicht unterstützt",
-        "syncLabel": "Synchronisierungszeit zum Mounten",
+        "syncLabel": "Zeit mit Montierung synchronisieren",
         "title": "Zeitsynchronisation"
       }
     },
@@ -459,8 +471,8 @@
         "timeDisplay": "Zeitbereich"
       },
       "running": "WIRD AUSGEFÜHRT",
-      "imageHistory": "Image History",
-      "duration": "Duration",
+      "imageHistory": "Bildverlauf",
+      "duration": "Dauer",
       "temperatureShort": "Temp",
       "targetName": "Ziel",
       "conditions": "Bedingungen",
@@ -496,7 +508,7 @@
       },
       "items": {
         "saving": "Speichern…",
-        "generic": "Generic",
+        "generic": "Allgemein",
         "on": "Ein",
         "off": "Aus",
         "takeExposure": {
@@ -608,7 +620,7 @@
         },
         "polarAlignment": {
           "searchRadius": "Suchradius (°)",
-          "alignmentTolerance": "Ausrichttolerant (Bogensek)",
+          "alignmentTolerance": "Ausrichttoleranz (Bogensek)",
           "moveRate": "Bewegungsrate (°/s)",
           "targetDistance": "Zielabstand (°)",
           "eastDirection": "Ost-Richtung",
@@ -683,7 +695,14 @@
           "duration": "Dauer (min)"
         }
       },
-      "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen"
+      "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen",
+      "move": "Verschieben",
+      "more": "Mehr",
+      "duplicate": "Duplizieren",
+      "enable": "Aktivieren",
+      "disable": "Deaktivieren",
+      "resetStatus": "Status zurücksetzen",
+      "delete": "Löschen"
     },
     "mount": {
       "title": "Montierung",

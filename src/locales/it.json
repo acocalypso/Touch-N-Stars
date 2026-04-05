@@ -15,7 +15,8 @@
     "scanning": "Scansione…",
     "connecting": "Connessione…",
     "refresh": "Aggiorna",
-    "creating": "Creazione…"
+    "creating": "Creazione…",
+    "help": "Aiuto"
   },
   "general": {
     "cancel": "Annulla",
@@ -330,6 +331,17 @@
         "toastErrorMsg": "Impossibile salvare il percorso.",
         "toastErrorTitle": "Errore",
         "toastTitle": "Percorso salvato"
+      },
+      "horizonFilePath": {
+        "title": "File orizzonte",
+        "placeholder": "es. /home/pi",
+        "selectTitle": "Seleziona cartella orizzonte",
+        "toastTitle": "File orizzonte salvato",
+        "infoTitle": "Configurare il file orizzonte",
+        "infoStep1": "The horizon file must be named exactly:",
+        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
+        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
+        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
       }
     },
     "connectEquipment": {
@@ -675,7 +687,14 @@
         "reset": "Reimposta filtro"
       },
       "gain": "Guadagno",
-      "offset": "Offset"
+      "offset": "Offset",
+      "move": "Sposta",
+      "more": "Altro",
+      "duplicate": "Duplica",
+      "enable": "Abilita",
+      "disable": "Disabilita",
+      "resetStatus": "Reimposta stato",
+      "delete": "Elimina"
     },
     "mount": {
       "title": "Montatura",

@@ -20,6 +20,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     showTnsModal: false,
     tnsModalMessage: '',
     selectedImageIndex: null,
+    lastSequenceFilePath: '',
   }),
   actions: {
     setSelectedImageIndex(index) {
@@ -571,5 +572,20 @@ export const useSequenceStore = defineStore('sequenceStore', {
         throw error;
       }
     },
+
+    setLastSequenceFilePath(filePath) {
+      this.lastSequenceFilePath = filePath;
+    },
+  },
+
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'sequence-store',
+        storage: localStorage,
+        paths: ['lastSequenceFilePath'],
+      },
+    ],
   },
 });

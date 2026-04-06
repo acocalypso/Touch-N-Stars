@@ -1,31 +1,52 @@
 <template>
-  <div class="container py-16 flex items-center justify-center">
-    <div class="container max-w-4xl">
-      <h5 class="text-2xl text-center font-bold text-white mb-4">Webcam</h5>
-
-      <div class="flex flex-col space-y-4">
-        <!-- Webcam Snapshot Display -->
-        <div
-          class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
-        >
-          <h6 class="text-lg font-semibold text-white mb-4">{{ t('plugins.webcam.liveView') }}</h6>
-          <WebcamSnapshot />
-        </div>
-      </div>
+  <div
+    class="fixed inset-0 top-[82px] landscape:top-0 landscape:left-32 z-10 bg-black flex flex-col md:flex-row overflow-hidden"
+  >
+    <!-- Main Image Area -->
+    <div class="flex-1 relative flex items-center justify-center bg-black overflow-hidden">
+      <WebcamSnapshot />
     </div>
+
+    <!-- Controls Sidebar (Right desktop) or Bottom Bar (Mobile) -->
+    <div
+      class="h-24 pb-8 w-full md:h-full md:pb-0 md:w-20 lg:w-24 bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 flex flex-shrink-0 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] md:shadow-[-4px_0_20px_rgba(0,0,0,0.5)]"
+    >
+      <WebcamControlBar @open-settings="openSettings" />
+    </div>
+
+    <!-- Settings Modal -->
+    <WebcamSettingsModal :is-open="showSettingsModal" @close="closeSettings" />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useWebcamStore } from '../store/webcamStore.js';
 import WebcamSnapshot from '../components/WebcamSnapshot.vue';
+import WebcamControlBar from '../components/WebcamControlBar.vue';
+import WebcamSettingsModal from '../components/WebcamSettingsModal.vue';
 
-const { t } = useI18n();
 const webcamStore = useWebcamStore();
+const showSettingsModal = ref(false);
+
+const openSettings = () => {
+  showSettingsModal.value = true;
+};
+
+const closeSettings = () => {
+  showSettingsModal.value = false;
+};
 
 onMounted(() => {
   webcamStore.loadFromLocalStorage();
 });
 </script>
+
+<style scoped>
+/* iOS Safari scroll fix */
+div {
+  -webkit-user-select: none;
+  user-select: none;
+}
+</style>

@@ -1,0 +1,10 @@
+{
+  "id": "multi-image-monitor",
+  "name": "Image-Monitor",
+  "description": "Used to display multiple image streams (webcams, allsky, etc.)",
+  "version": "1.0.0",
+  "author": "Dirk Morlak",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

@@ -83,10 +83,12 @@ export const useWebcamStore = defineStore('webcamStore', {
         return;
       }
 
-      // Generate new timestamp-based URL to bypass cache
+      // Generate new timestamp-based URL to bypass cache, routed through backend proxy
       const timestamp = new Date().getTime();
       const separator = this.snapshotUrl.includes('?') ? '&' : '?';
-      const newImageUrl = `${this.snapshotUrl}${separator}t=${timestamp}`;
+      const timedUrl = `${this.snapshotUrl}${separator}t=${timestamp}`;
+      const proxyBase = `${window.location.protocol}//${window.location.host}/api/proxy`;
+      const newImageUrl = `${proxyBase}?url=${encodeURIComponent(timedUrl)}`;
 
       if (this.currentImageUrl) {
         // Preload next image for seamless transition
@@ -104,12 +106,22 @@ export const useWebcamStore = defineStore('webcamStore', {
     onCurrentImageLoad() {
       this.isLoading = false;
       this.setConnectionStatus(true);
+
+      // If we are doing the very first load and auto-refresh is on, start the cycle
+      if (this.autoRefresh) {
+        this.scheduleNextRefresh();
+      }
     },
 
     onCurrentImageError(error) {
       this.isLoading = false;
       this.setConnectionStatus(false, 'Failed to load webcam image');
       console.error('Webcam image load error:', error);
+
+      // Even on error, if auto-refresh is on, try again after the interval
+      if (this.autoRefresh) {
+        this.scheduleNextRefresh();
+      }
     },
 
     onNextImageLoad() {
@@ -122,6 +134,11 @@ export const useWebcamStore = defineStore('webcamStore', {
         this.isTransitioning = false;
         this.isLoading = false;
         this.setConnectionStatus(true);
+
+        // Smart Polling: Schedule next refresh only AFTER successful load and swap
+        if (this.autoRefresh) {
+          this.scheduleNextRefresh();
+        }
       }, 50); // Small delay for smooth transition
     },
 
@@ -133,22 +150,31 @@ export const useWebcamStore = defineStore('webcamStore', {
         this.setConnectionStatus(false, 'Failed to load next webcam image');
       }
       console.debug('Next webcam image load error (will retry on next refresh):', error);
+
+      // Smart Polling: Schedule next attempt even after error
+      if (this.autoRefresh) {
+        this.scheduleNextRefresh();
+      }
     },
 
-    startAutoRefresh() {
-      this.stopAutoRefresh(); // Clear any existing timer first
+    scheduleNextRefresh() {
+      this.stopAutoRefresh(); // Clear any pending timeout
 
       if (this.autoRefresh && this.refreshInterval > 0) {
-        this.refreshSnapshot();
-        this.autoRefreshTimer = setInterval(() => {
+        this.autoRefreshTimer = setTimeout(() => {
           this.refreshSnapshot();
         }, this.refreshInterval);
       }
     },
 
+    startAutoRefresh() {
+      this.autoRefresh = true;
+      this.refreshSnapshot(); // Trigger immediate first load/refresh
+    },
+
     stopAutoRefresh() {
       if (this.autoRefreshTimer) {
-        clearInterval(this.autoRefreshTimer);
+        clearTimeout(this.autoRefreshTimer);
         this.autoRefreshTimer = null;
       }
     },

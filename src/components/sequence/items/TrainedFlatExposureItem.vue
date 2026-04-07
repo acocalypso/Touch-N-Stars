@@ -1,7 +1,9 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400">FLAT</span>
+      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 flex-shrink-0">{{
+        switchFilter.ComboBoxText
+      }}</span>
       <span v-if="loopCondition" class="text-xs text-slate-500"
         >{{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}</span
       >
@@ -28,12 +30,22 @@
         }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          :value="switchFilter.SelectedFilter"
+          :value="switchFilter.ComboBoxText"
           @change="
-            store.setProperty(switchFilter.Id, 'SelectedFilter', Number($event.target.value))
+            store.setProperty(
+              switchFilter.Id,
+              'SelectedFilter',
+              filterNames.indexOf($event.target.value) + 1
+            )
           "
         >
-          <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">
+          <option
+            v-if="switchFilter.ComboBoxText && !filterNames.includes(switchFilter.ComboBoxText)"
+            :value="switchFilter.ComboBoxText"
+          >
+            {{ switchFilter.ComboBoxText }}
+          </option>
+          <option v-for="(name, i) in filterNames" :key="i" :value="name">
             {{ name }}
           </option>
         </select>
@@ -103,12 +115,20 @@ import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { apiStore } from '@/store/store';
 
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
 const store = useSequenceV2Store();
+const mainStore = apiStore();
+
+const filterNames = computed(() => {
+  const fw = switchFilter.value;
+  if (fw?.FilterNames?.length) return fw.FilterNames;
+  return mainStore.filterInfo?.AvailableFilters?.map((f) => f.Name) ?? [];
+});
 
 const switchFilter = computed(
   () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null

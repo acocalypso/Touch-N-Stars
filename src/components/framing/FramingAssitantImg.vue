@@ -586,7 +586,7 @@ function rad2deg(rad) {
 // FOV Anpassung mit +/- Buttons
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
-  framingStore.fov = Math.max(0.5, Math.min(30, Math.round(newValue * 10) / 10));
+  framingStore.fov = Math.max(0.5, Math.min(50, Math.round(newValue * 10) / 10));
 }
 </script>
 

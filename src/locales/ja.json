@@ -441,7 +441,7 @@
       "triggers": "トリガー",
       "expandAll": "すべて展開",
       "collapseAll": "すべて折りたたむ",
-      "details": {},      
+      "details": {},
       "hfr": "HFR",
       "mean": "平均",
       "median": "中央値",
@@ -1168,7 +1168,7 @@
         "help_auto_pause": "極軸アライメント手順の自動一時停止設定です。",
         "help_log_error": "有効にすると、各調整後の極軸誤差と連続誤差を含むログファイルが作成されます。"
       },
-      "error_modal": {}, 
+      "error_modal": {},
       "tppa": "極軸合わせ (TPPA)"
     },
     "slewAndCenter": {
@@ -1881,7 +1881,7 @@
       "liveView": "ライブビュー",
       "noImageAvailable": "利用可能な画像なし",
       "configureUrl": "スナップショットURLを設定して画像を取得",
-      "loadingImage": "画像を読み込み中..."
+      "loadingImage": "画像を読み込み中...",
       "errors": {}
     },
     "multiImageMonitor": {
@@ -1920,11 +1920,15 @@
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
         "proxyTitle": "プロキシ vs. ダイレクト",
         "proxyText": "各カメラは2通りの方法で取得できます：",
-        "proxyOptions": "[
-          \"プロキシ（デフォルト）：画像はNINAバックエンドで取得されブラウザに転送されます。認証やCORS制限のあるローカルネットワークカメラに必要です。VPN経由では若干遅くなります。\", 
-          \"ダイレクト：ブラウザが画像を直接取得します。公開インターネットカメラ（例：公開AllSkyカメラ）に最適です。Chrome/EdgeではURLの認証情報をサポートしません。\
-          ],
-        "close": "閉じる"
+        "proxyOptions": [
+          "プロキシ（デフォルト）：画像はNINAバックエンドで取得されブラウザに転送されます。認証やCORS制限のあるローカルネットワークカメラに必要です。VPN経由では若干遅くなります。",
+          "ダイレクト：ブラウザが画像を直接取得します。公開インターネットカメラ（例：公開AllSkyカメラ）に最適です。Chrome/EdgeではURLの認証情報をサポートしません。"
+        ],
+        "close": "閉じる",
+        "exampleLabels[0]": "汎用IPカメラ",
+        "exampleLabels[1]": "ONVIFカメラ",
+        "exampleLabels[2]": "軸カメラ",
+        "exampleLabels[3]": "ハイクビジョンカメラ"
       }
     },
     "sequenceCreator": {
@@ -2111,7 +2115,7 @@
           "copyJson": "JSONをコピー",
           "copied": "コピーしました！",
           "downloadJson": "JSONをダウンロード"
-        }
+        },
         "howToUse": {}
       },
       "targetSearch": {

@@ -11,10 +11,16 @@
         }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          :value="item.SelectedFilter"
-          @change="save('SelectedFilter', Number($event.target.value))"
+          :value="item.ComboBoxText"
+          @change="save('SelectedFilter', filterNames.indexOf($event.target.value) + 1)"
         >
-          <option v-for="(name, i) in item.FilterNames" :key="i" :value="i + 1">
+          <option
+            v-if="item.ComboBoxText && !filterNames.includes(item.ComboBoxText)"
+            :value="item.ComboBoxText"
+          >
+            {{ item.ComboBoxText }}
+          </option>
+          <option v-for="(name, i) in filterNames" :key="i" :value="name">
             {{ name }}
           </option>
         </select>
@@ -24,9 +30,18 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
+import { apiStore } from '@/store/store';
 
-defineProps({
+const props = defineProps({
   item: { type: Object, required: true },
+});
+
+const mainStore = apiStore();
+
+const filterNames = computed(() => {
+  if (props.item.FilterNames?.length) return props.item.FilterNames;
+  return mainStore.filterInfo?.AvailableFilters?.map((f) => f.Name) ?? [];
 });
 </script>

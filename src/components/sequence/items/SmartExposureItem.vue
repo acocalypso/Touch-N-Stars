@@ -23,11 +23,16 @@
         }}</label>
         <select
           class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
-          :value="switchFilter.SelectedFilter"
-          @change="saveFilter('SelectedFilter', Number($event.target.value))"
+          :value="switchFilter.ComboBoxText"
+          @change="saveFilter('SelectedFilter', filterNames.indexOf($event.target.value) + 1)"
         >
-          <option :value="0">(current)</option>
-          <option v-for="(name, i) in switchFilter.FilterNames" :key="i" :value="i + 1">
+          <option
+            v-if="switchFilter.ComboBoxText && !filterNames.includes(switchFilter.ComboBoxText)"
+            :value="switchFilter.ComboBoxText"
+          >
+            {{ switchFilter.ComboBoxText }}
+          </option>
+          <option v-for="(name, i) in filterNames" :key="i" :value="name">
             {{ name }}
           </option>
         </select>
@@ -134,12 +139,20 @@ import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { apiStore } from '@/store/store';
 
 const props = defineProps({
   item: { type: Object, required: true },
 });
 
 const store = useSequenceV2Store();
+const mainStore = apiStore();
+
+const filterNames = computed(() => {
+  const fw = switchFilter.value;
+  if (fw?.FilterNames?.length) return fw.FilterNames;
+  return mainStore.filterInfo?.AvailableFilters?.map((f) => f.Name) ?? [];
+});
 
 const switchFilter = computed(
   () => props.item.Items?.find((i) => i.FullTypeName?.includes('SwitchFilter')) ?? null

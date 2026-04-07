@@ -49,46 +49,12 @@
       </div>
     </template>
 
-    <!-- Finished: show outcome -->
-    <template v-else-if="flatsStore.lastRun">
-      <!-- All flats captured -->
-      <div v-if="flatsStore.lastRun.success" class="flex items-center gap-2 text-sm text-green-400">
-        <span class="text-base">✓</span>
-        <span>{{
-          $t('components.flatassistant.status_success', { count: flatsStore.lastRun.total })
-        }}</span>
-      </div>
-      <!-- Stopped part-way through (user cancel or mid-run error) -->
-      <div
-        v-else-if="flatsStore.lastRun.completed > 0"
-        class="flex items-center gap-2 text-sm text-yellow-400"
-      >
-        <span class="text-base">⚠</span>
-        <span>{{
-          $t('components.flatassistant.status_stopped', {
-            completed: flatsStore.lastRun.completed,
-            total: flatsStore.lastRun.total,
-          })
-        }}</span>
-      </div>
-      <!-- Zero flats taken — determination phase failed (e.g. too dim at max exposure) -->
-      <div v-else class="space-y-1">
-        <div class="flex items-center gap-2 text-sm text-red-400">
-          <span class="text-base">✗</span>
-          <span>{{ $t('components.flatassistant.status_failed') }}</span>
-        </div>
-        <div v-if="flatsStore.lastRun.lastADU !== null" class="text-xs text-gray-400 pl-5">
-          {{ $t('components.flatassistant.status_adu_live', { adu: flatsStore.lastRun.lastADU }) }}
-        </div>
-      </div>
-    </template>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
-import { onMounted, onBeforeUnmount } from 'vue';
 
 const flatsStore = useFlatassistantStore();
 
@@ -96,13 +62,5 @@ const progressPercent = computed(() => {
   const { TotalIterations, CompletedIterations } = flatsStore.status;
   if (TotalIterations <= 0 || CompletedIterations < 0) return 0;
   return Math.min(100, Math.round((CompletedIterations / TotalIterations) * 100));
-});
-
-onMounted(() => {
-  flatsStore.startFetchingFlats();
-});
-
-onBeforeUnmount(() => {
-  flatsStore.stopFetchingFlats();
 });
 </script>

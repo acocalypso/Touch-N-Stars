@@ -2895,7 +2895,8 @@
         "frameCount": "Aantal frames:",
         "captureInterval": "Vastleginterval:",
         "exposure": "Blootstelling:",
-        "gain": "Verdienen:"
+        "gain": "Verdienen:",
+        "mean": "Mean:"
       },
       "statusRows": {
         "backend": "Achterkant",
@@ -2986,10 +2987,10 @@
           "sharpness": "Scherpte",
           "manualExposure": "Handmatige belichting",
           "shutterMicroseconds": "Sluiter (µs)",
-          "manualExposureHelp": "Indien uitgeschakeld, regelt rpicam-still de belichting automatisch.",
+          "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
           "manualGain": "Handmatige winst",
           "analogGain": "Analoge winst",
-          "manualGainHelp": "Indien uitgeschakeld, worden de rpicam-still-besturingselementen automatisch versterkt.",
+          "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
           "horizontalFlip": "Horizontale spiegeling",
           "mirrorOnXAxis": "Spiegel op X-as",
           "verticalFlip": "Verticale draai",
@@ -3029,7 +3030,23 @@
             "cdnOff": "CDN Uit",
             "cdnFast": "CDN Snel",
             "cdnHq": "CDN-hoge kwaliteit"
-          }
+          },
+          "allSkyAutoExposure": "AllSky auto exposure / gain",
+          "allSkyAutoExposureHelp": "Adapted from AllSky's mean-based controller. When manual exposure and/or manual gain are disabled, PINS AllSky measures the previous frame and calculates the next shutter and gain instead of relying on rpicam-still auto exposure alone.",
+          "autoMeanTarget": "Target Mean",
+          "autoMeanThreshold": "Mean Threshold",
+          "autoMaxExposureMicroseconds": "Auto Max Shutter (µs)",
+          "autoMaxGain": "Auto Max Gain",
+          "autoMeanP0": "Aggression P0",
+          "autoMeanP1": "Aggression P1",
+          "autoMeanP2": "Aggression P2",
+          "autoMeanTargetTooltip": "Target normalized image mean used by the AllSky auto-exposure controller. Set to 0 to fall back to rpicam-still auto exposure.",
+          "autoMeanThresholdTooltip": "Allowed normalized distance from the target mean before the next frame's exposure level is changed.",
+          "autoMaxExposureTooltip": "Maximum shutter time the AllSky auto-exposure controller may use when manual exposure is disabled.",
+          "autoMaxGainTooltip": "Maximum analog gain the AllSky auto-exposure controller may use when manual gain is disabled.",
+          "autoMeanP0Tooltip": "AllSky controller tuning constant p0. Higher values react more aggressively to brightness changes.",
+          "autoMeanP1Tooltip": "AllSky controller tuning constant p1 used for linear response to mean error.",
+          "autoMeanP2Tooltip": "AllSky controller tuning constant p2 used for stronger quadratic response to large brightness errors."
         },
         "outputs": {
           "keepSourceFrames": "Bewaar bronframes",
@@ -3074,7 +3091,13 @@
           "lineThicknessTooltip": "Lijndikte die wordt gebruikt wanneer het keogram-gereedschap labels of markeringen tekent.",
           "extraKeogramArgumentsTooltip": "Extra opdrachtregelargumenten toegevoegd aan de AllSky keogram-tool.",
           "brightnessThresholdTooltip": "Minimale genormaliseerde helderheid die een pixel moet bereiken voordat deze bijdraagt ​​aan de Startrails-composiet.",
-          "extraStartrailsArgumentsTooltip": "Extra opdrachtregelargumenten toegevoegd aan de AllSky startrails-tool."
+          "extraStartrailsArgumentsTooltip": "Extra opdrachtregelargumenten toegevoegd aan de AllSky startrails-tool.",
+          "overlayTimestamp": "Overlay Timestamp",
+          "stampTimestamp": "Stamp capture timestamp",
+          "overlayExposureGain": "Overlay Exposure + Gain",
+          "stampExposureGain": "Stamp exposure and gain",
+          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame.",
+          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse."
         }
       },
       "recentSessions": {

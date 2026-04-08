@@ -81,6 +81,7 @@ export const useSettingsStore = defineStore('settings', {
     flats: {
       activeMode: 'single',
       selectedOption: 'AutoExposure',
+      altitudeSite: 'EAST',
       minBrightness: 0,
       maxBrightness: 100,
       brightness: 50,

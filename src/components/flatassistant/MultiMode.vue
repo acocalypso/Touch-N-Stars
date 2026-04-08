@@ -524,28 +524,21 @@ async function startMultiMode() {
   const payload = { mode: state.selectedMode, keepClosed: state.keepClosed, filters };
 
   try {
-    flatsStore.startManagedRun('flats');
-
-    const response = await apiService.flatMultiMode(payload);
-    if (response?.Success === false) {
-      flatsStore.notifyOperationIssue(response, 'warning');
-      return;
-    }
-
-    const finalStatus = await flatsStore.waitForCompletion(() => apiService.flatMultiStatus());
-
-    if (state.selectedMode !== 'SkyFlat' && flatsStore.shouldOfferDarks(finalStatus)) {
-      await flatsStore.runDarkSeries(
-        filters.map((filter) => ({
-          count: flatsStore.darkCount,
-          filterId: filter.filterId,
-          binning: filter.binning,
-          gain: filter.gain,
-          offset: filter.offset,
-        })),
-        state.keepClosed
-      );
-    }
+    await flatsStore.runFlatWorkflow({
+      request: () => apiService.flatMultiMode(payload),
+      statusLoader: () => apiService.flatMultiStatus(),
+      darkJobs:
+        state.selectedMode === 'SkyFlat'
+          ? []
+          : filters.map((filter) => ({
+              count: flatsStore.darkCount,
+              filterId: filter.filterId,
+              binning: filter.binning,
+              gain: filter.gain,
+              offset: filter.offset,
+            })),
+      keepClosed: state.keepClosed,
+    });
   } catch (error) {
     console.error('Error starting multimode flats:', error);
     flatsStore.notifyOperationIssue(error?.response?.data ?? error);

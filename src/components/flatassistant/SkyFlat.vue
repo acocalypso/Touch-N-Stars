@@ -65,26 +65,21 @@ onMounted(() => {
 async function startAutoExposure() {
   console.log('Flats startAutoExposure: ');
   try {
-    flatsStore.startManagedRun('flats');
-    const data = await apiService.flatSkyflat(
-      flatsStore.count,
-      flatsStore.minExposureTime,
-      flatsStore.maxExposureTime,
-      flatsStore.histogramMean,
-      flatsStore.meanTolerance,
-      flatsStore.binning,
-      flatsStore.gain,
-      flatsStore.offset,
-      selectedFilterId.value,
-      settingsStore.flats.keepClosed
-    );
-
-    if (data?.Success === false) {
-      flatsStore.notifyOperationIssue(data, 'warning');
-      return;
-    }
-
-    await flatsStore.waitForCompletion(() => apiService.flatassistantAction('status'));
+    await flatsStore.runFlatWorkflow({
+      request: () =>
+        apiService.flatSkyflat(
+          flatsStore.count,
+          flatsStore.minExposureTime,
+          flatsStore.maxExposureTime,
+          flatsStore.histogramMean,
+          flatsStore.meanTolerance,
+          flatsStore.binning,
+          flatsStore.gain,
+          flatsStore.offset,
+          selectedFilterId.value,
+          settingsStore.flats.keepClosed
+        ),
+    });
   } catch (error) {
     console.log('Error startAutoExposure');
     flatsStore.notifyOperationIssue(error?.response?.data ?? error);

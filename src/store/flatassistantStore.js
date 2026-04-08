@@ -165,6 +165,29 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       return this.status;
     },
 
+    async runFlatWorkflow({
+      request,
+      statusLoader = () => apiService.flatassistantAction('status'),
+      darkJobs = [],
+      keepClosed = false,
+    }) {
+      this.startManagedRun('flats');
+
+      const response = await request();
+      if (response?.Success === false) {
+        this.notifyOperationIssue(response, 'warning');
+        return null;
+      }
+
+      const finalStatus = await this.waitForCompletion(statusLoader);
+
+      if (darkJobs.length > 0 && this.shouldOfferDarks(finalStatus)) {
+        await this.runDarkSeries(darkJobs, keepClosed);
+      }
+
+      return finalStatus;
+    },
+
     async stopWorkflow() {
       this.workflowStopRequested = true;
       return Promise.allSettled([

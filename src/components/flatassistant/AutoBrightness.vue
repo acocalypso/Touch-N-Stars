@@ -69,44 +69,32 @@ onMounted(() => {
 async function startAutoExposure() {
   console.log('Flats startAutoExposure: ');
   try {
-    flatsStore.startManagedRun('flats');
-    const data = await apiService.flatAutoBrightness(
-      flatsStore.count,
-      settingsStore.flats.minBrightness,
-      settingsStore.flats.maxBrightness,
-      flatsStore.histogramMean,
-      flatsStore.meanTolerance,
-      flatsStore.binning,
-      flatsStore.gain,
-      flatsStore.offset,
-      selectedFilterId.value,
-      settingsStore.flats.exposureTime,
-      settingsStore.flats.keepClosed
-    );
-
-    if (data?.Success === false) {
-      flatsStore.notifyOperationIssue(data, 'warning');
-      return;
-    }
-
-    const finalStatus = await flatsStore.waitForCompletion(() =>
-      apiService.flatassistantAction('status')
-    );
-
-    if (flatsStore.shouldOfferDarks(finalStatus)) {
-      await flatsStore.runDarkSeries(
-        [
-          {
-            count: flatsStore.darkCount,
-            filterId: selectedFilterId.value,
-            binning: flatsStore.binning,
-            gain: flatsStore.gain,
-            offset: flatsStore.offset,
-          },
-        ],
-        settingsStore.flats.keepClosed
-      );
-    }
+    await flatsStore.runFlatWorkflow({
+      request: () =>
+        apiService.flatAutoBrightness(
+          flatsStore.count,
+          settingsStore.flats.minBrightness,
+          settingsStore.flats.maxBrightness,
+          flatsStore.histogramMean,
+          flatsStore.meanTolerance,
+          flatsStore.binning,
+          flatsStore.gain,
+          flatsStore.offset,
+          selectedFilterId.value,
+          settingsStore.flats.exposureTime,
+          settingsStore.flats.keepClosed
+        ),
+      darkJobs: [
+        {
+          count: flatsStore.darkCount,
+          filterId: selectedFilterId.value,
+          binning: flatsStore.binning,
+          gain: flatsStore.gain,
+          offset: flatsStore.offset,
+        },
+      ],
+      keepClosed: settingsStore.flats.keepClosed,
+    });
   } catch (error) {
     console.log('Error flatAutoBrightness');
     flatsStore.notifyOperationIssue(error?.response?.data ?? error);

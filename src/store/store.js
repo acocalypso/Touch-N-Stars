@@ -40,6 +40,7 @@ export const apiStore = defineStore('store', {
         HistogramTolerance: 0,
         HistogramMeanTarget: 0,
         FlatCount: 0,
+        DarkFlatCount: 0,
       },
       TelescopeSettings: {
         Id: 'Celestron AVX',

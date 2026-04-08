@@ -16,12 +16,22 @@
     />
 
     <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
-      <ButtonSlew
-        class="p-4 w-full"
-        :label="t('components.flatassistant.button_slew_to_zenith')"
-        :raAngle="computedRa"
-        :decAngle="computedDec"
-      />
+      <div class="flex w-full items-center gap-2 p-4">
+        <select
+          v-model="settingsStore.flats.altitudeSite"
+          class="w-28 border border-gray-500 rounded-lg bg-gray-800 p-2 text-white"
+        >
+          <option value="EAST">{{ $t('components.tppa.east') }}</option>
+          <option value="WEST">{{ $t('components.tppa.west') }}</option>
+        </select>
+
+        <ButtonSlew
+          class="w-full"
+          :label="t('components.flatassistant.button_slew_to_zenith')"
+          :raAngle="computedRa"
+          :decAngle="computedDec"
+        />
+      </div>
 
       <!-- Single Mode: sub-type selector -->
       <select
@@ -63,7 +73,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onBeforeUnmount } from 'vue';
+import { computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
@@ -82,6 +92,10 @@ const flatsStore = useFlatassistantStore();
 const settingsStore = useSettingsStore();
 const store = apiStore();
 const { t } = useI18n();
+const ALTITUDE_SITE = {
+  EAST: 'EAST',
+  WEST: 'WEST',
+};
 
 const selectedComponent = computed(() => {
   switch (settingsStore.flats.selectedOption) {
@@ -94,10 +108,14 @@ const selectedComponent = computed(() => {
   }
 });
 
+const zenithAzimuth = computed(() =>
+  settingsStore.flats.altitudeSite === ALTITUDE_SITE.WEST ? 90 : 270
+);
+
 const computedRa = computed(() => {
   const { ra } = altAzToRaDec(
     89,
-    90,
+    zenithAzimuth.value,
     store.profileInfo.AstrometrySettings.Latitude,
     store.profileInfo.AstrometrySettings.Longitude
   );
@@ -107,7 +125,7 @@ const computedRa = computed(() => {
 const computedDec = computed(() => {
   const { dec } = altAzToRaDec(
     89,
-    90,
+    zenithAzimuth.value,
     store.profileInfo.AstrometrySettings.Latitude,
     store.profileInfo.AstrometrySettings.Longitude
   );
@@ -115,6 +133,10 @@ const computedDec = computed(() => {
 });
 
 onMounted(() => {
+  if (!settingsStore.flats.altitudeSite) {
+    settingsStore.flats.altitudeSite = ALTITUDE_SITE.EAST;
+  }
+
   if (store.isPINS) {
     settingsStore.flats.activeMode = 'single';
   }
@@ -124,4 +146,14 @@ onMounted(() => {
 onBeforeUnmount(() => {
   flatsStore.stopFetchingFlats();
 });
+
+watch(
+  () => store.profileInfo?.FlatWizardSettings,
+  (flatSettings) => {
+    if (!flatSettings) return;
+    flatsStore.count = flatSettings.FlatCount ?? flatsStore.count;
+    flatsStore.darkCount = flatSettings.DarkFlatCount ?? 0;
+  },
+  { immediate: true }
+);
 </script>

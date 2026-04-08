@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Flat Assistant: Add dark flat count and post-flat dark workflow for supported flat modes
+
+
 ## [App4.8.0] - xxxx-xx-xx
 ### Added
 - Sequence: Set multi targets
@@ -29,11 +34,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
+- PINS AllSky: Add AllSky auto-exposure tuning controls, timelapse overlay toggles for timestamp and exposure/gain, and show the active session label plus actual auto exposure/gain/mean values in live preview
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type
 - Stellarium time fix
 - PINS: Manual Rotator dialog button
+- PINS AllSky: Live preview now shows the active session label instead of only the generated session ID
+- PINS AllSky: Show in-flight state for capture and cleanup actions, and use attachment downloads with session-based filenames for timelapse, keogram, and startrails
 - Fix crash when NINA plugin version is not yet loaded (checkVersionNewerOrEqual)
 - Fix app not reconnecting after backend restart: removed blocking `await` on SignalR connect in polling loop, added socket-ID guard to prevent stale WebSocket events from corrupting connection state, and fixed async race condition in `disconnect()` across all SignalR services
 - Debug console: fix SignalR "WebSocket is not in the OPEN state" error caused by WebSocket proxy losing static constants (`OPEN`, `CONNECTING`, etc.)

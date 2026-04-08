@@ -2942,7 +2942,8 @@
         "frameCount": "フレーム数：",
         "captureInterval": "キャプチャ間隔：",
         "exposure": "露出：",
-        "gain": "ゲイン："
+        "gain": "ゲイン：",
+        "mean": "平均："
       },
       "statusRows": {
         "backend": "バックエンド",
@@ -3033,10 +3034,10 @@
           "sharpness": "シャープネス",
           "manualExposure": "手動露出",
           "shutterMicroseconds": "シャッター（µs）",
-          "manualExposureHelp": "無効の場合、rpicam-stillが自動的に露出を制御します。",
+          "manualExposureHelp": "無効の場合、PINS AllSky は AllSky の平均値ベース制御を使用します。Target Mean が 0 のときだけ、rpicam-still の自動露出にフォールバックします。",
           "manualGain": "手動ゲイン",
           "analogGain": "アナログゲイン",
-          "manualGainHelp": "無効の場合、rpicam-stillが自動的にゲインを制御します。",
+          "manualGainHelp": "無効の場合、PINS AllSky は AllSky の平均値ベース制御を使用します。Target Mean が 0 のときだけ、rpicam-still の自動ゲインにフォールバックします。",
           "horizontalFlip": "水平反転",
           "mirrorOnXAxis": "X軸で反転",
           "verticalFlip": "垂直反転",
@@ -3076,7 +3077,23 @@
             "cdnOff": "CDN オフ",
             "cdnFast": "CDN 高速",
             "cdnHq": "CDN 高画質"
-          }
+          },
+          "allSkyAutoExposure": "AllSky 自動露出 / ゲイン",
+          "allSkyAutoExposureHelp": "AllSky の平均値ベース制御を移植したものです。手動露出または手動ゲインを無効にすると、PINS AllSky は前のフレームの平均輝度を測定して、次のシャッター時間とゲインを計算します。",
+          "autoMeanTarget": "目標平均値",
+          "autoMeanThreshold": "平均値しきい値",
+          "autoMaxExposureMicroseconds": "自動最大シャッター（µs）",
+          "autoMaxGain": "自動最大ゲイン",
+          "autoMeanP0": "補正係数 P0",
+          "autoMeanP1": "補正係数 P1",
+          "autoMeanP2": "補正係数 P2",
+          "autoMeanTargetTooltip": "AllSky 自動露出制御が目標とする正規化平均輝度です。0 にすると rpicam-still の自動露出に戻ります。",
+          "autoMeanThresholdTooltip": "平均輝度が目標値からどれだけ外れたら次フレームの露出レベルを変更するかを決める許容幅です。",
+          "autoMaxExposureTooltip": "手動露出が無効な場合に AllSky 自動露出制御が使用できる最大シャッター時間です。",
+          "autoMaxGainTooltip": "手動ゲインが無効な場合に AllSky 自動露出制御が使用できる最大アナログゲインです。",
+          "autoMeanP0Tooltip": "AllSky 制御定数 p0。値を大きくすると明るさ変化への反応が強くなります。",
+          "autoMeanP1Tooltip": "平均輝度誤差に対する線形応答に使う AllSky 制御定数 p1 です。",
+          "autoMeanP2Tooltip": "大きな輝度誤差に対する二次応答に使う AllSky 制御定数 p2 です。"
         },
         "outputs": {
           "keepSourceFrames": "ソースフレームを保持",
@@ -3121,7 +3138,13 @@
           "lineThicknessTooltip": "ケオグラムツールがラベルやマーカーを描画する際の線の太さ。",
           "extraKeogramArgumentsTooltip": "AllSkyケオグラムツールに追加されるコマンドライン引数。",
           "brightnessThresholdTooltip": "スタートレイル合成に寄与するピクセルの最小正規化輝度。",
-          "extraStartrailsArgumentsTooltip": "AllSkyスタートレイルツールに追加されるコマンドライン引数。"
+          "extraStartrailsArgumentsTooltip": "AllSkyスタートレイルツールに追加されるコマンドライン引数。",
+          "overlayTimestamp": "タイムスタンプを重ねる",
+          "stampTimestamp": "キャプチャ時刻を表示",
+          "overlayExposureGain": "露出とゲインを重ねる",
+          "stampExposureGain": "実際の露出値とゲインを表示",
+          "overlayTimestampTooltip": "各タイムラプスフレームにキャプチャ時刻を描画します。",
+          "overlayExposureGainTooltip": "各タイムラプスフレームに、そのフレームで実際に使用した露出値とゲインを描画します。"
         }
       },
       "recentSessions": {

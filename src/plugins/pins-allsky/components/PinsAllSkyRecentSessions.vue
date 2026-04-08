@@ -57,18 +57,24 @@
           </span>
         </div>
         <button
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-100 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border text-rose-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+          :class="
+            isDeleteAllBusy()
+              ? 'border-rose-300/50 bg-rose-500/30 text-white ring-2 ring-rose-300/20'
+              : 'border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20'
+          "
           :disabled="
             cleanupBusy ||
             status?.captureRunning ||
             status?.generateInProgress ||
-            recentSessions.length === 0
+            recentSessions.length === 0 ||
+            isDeleteAllBusy()
           "
           :title="t('plugins.pinsAllSky.buttons.deleteAllSessions')"
           :aria-label="t('plugins.pinsAllSky.buttons.deleteAllSessions')"
           @click.stop="$emit('delete-all')"
         >
-          <TrashIcon class="h-5 w-5" />
+          <TrashIcon class="h-5 w-5" :class="isDeleteAllBusy() ? 'animate-pulse' : ''" />
         </button>
       </div>
     </div>
@@ -91,6 +97,7 @@
         :details="sessionDetailsById?.[session.id] || null"
         :details-loading="Boolean(detailsLoadingById?.[session.id])"
         :details-open="Boolean(sessionDetailOpen?.[session.id])"
+        :is-action-busy="isActionBusy"
         :format-date="formatDate"
         :format-count="formatCount"
         :format-size="formatSize"
@@ -113,7 +120,7 @@ import { TrashIcon } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
 import PinsAllSkySessionCard from './PinsAllSkySessionCard.vue';
 
-defineProps({
+const props = defineProps({
   isOpen: {
     type: Boolean,
     default: false,
@@ -145,6 +152,10 @@ defineProps({
   detailsLoadingById: {
     type: Object,
     default: () => ({}),
+  },
+  isActionBusy: {
+    type: Function,
+    required: true,
   },
   sessionDetailOpen: {
     type: Object,
@@ -185,4 +196,5 @@ defineEmits([
 ]);
 
 const { t } = useI18n({ useScope: 'global' });
+const isDeleteAllBusy = () => props.isActionBusy('sessions:delete-all');
 </script>

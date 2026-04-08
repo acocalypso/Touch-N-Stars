@@ -16,6 +16,7 @@ export const usePinsAllSkyStore = defineStore('pinsAllSkyStore', {
     saving: false,
     cleanupBusy: false,
     backendUpdateBusy: false,
+    actionBusyByKey: {},
     manualLabel: '',
     actionMessage: null,
     sessionDetailsById: {},
@@ -65,14 +66,16 @@ export const usePinsAllSkyStore = defineStore('pinsAllSkyStore', {
     },
 
     async refreshAll() {
-      this.loading = true;
-      try {
-        await Promise.all([this.fetchStatus(), this.fetchConfig()]);
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.connectBackend');
-      } finally {
-        this.loading = false;
-      }
+      return this.withAction('status:refresh', async () => {
+        this.loading = true;
+        try {
+          await Promise.all([this.fetchStatus(), this.fetchConfig()]);
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.connectBackend');
+        } finally {
+          this.loading = false;
+        }
+      });
     },
 
     async saveConfig() {
@@ -94,125 +97,139 @@ export const usePinsAllSkyStore = defineStore('pinsAllSkyStore', {
     },
 
     async startSession() {
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/start`, {
-          label: this.manualLabel || null,
-        });
+      return this.withAction('session:start', async () => {
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/start`, {
+            label: this.manualLabel || null,
+          });
 
-        if (!data.success) {
-          throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.startSession'));
+          if (!data.success) {
+            throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.startSession'));
+          }
+
+          this.manualLabel = '';
+          await this.fetchStatus();
+          this.error = null;
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.startSession');
         }
-
-        this.manualLabel = '';
-        await this.fetchStatus();
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.startSession');
-      }
+      });
     },
 
     async stopSession(generateArtifacts = true) {
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/stop`, {
-          generateArtifacts,
-        });
+      return this.withAction('session:stop', async () => {
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/stop`, {
+            generateArtifacts,
+          });
 
-        if (!data.success) {
-          throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.stopSession'));
+          if (!data.success) {
+            throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.stopSession'));
+          }
+
+          await this.fetchStatus();
+          this.error = null;
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.stopSession');
         }
-
-        await this.fetchStatus();
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.stopSession');
-      }
+      });
     },
 
     async generateArtifacts(sessionId = null) {
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/generate`, {
-          sessionId,
-        });
+      const actionKey = `session:generate:${sessionId || this.status?.currentSession?.id || 'latest'}`;
 
-        if (!data.success) {
-          throw new Error(
-            data.error || i18n.global.t('plugins.pinsAllSky.errors.generateArtifacts')
-          );
+      return this.withAction(actionKey, async () => {
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/generate`, {
+            sessionId,
+          });
+
+          if (!data.success) {
+            throw new Error(
+              data.error || i18n.global.t('plugins.pinsAllSky.errors.generateArtifacts')
+            );
+          }
+
+          await this.fetchStatus();
+          this.error = null;
+        } catch (error) {
+          this.error =
+            error?.message || i18n.global.t('plugins.pinsAllSky.errors.generateArtifacts');
         }
-
-        await this.fetchStatus();
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.generateArtifacts');
-      }
+      });
     },
 
     async deleteSession(sessionId) {
-      this.cleanupBusy = true;
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/delete`, {
-          sessionId,
-        });
+      return this.withAction(`session:delete:${sessionId}`, async () => {
+        this.cleanupBusy = true;
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/delete`, {
+            sessionId,
+          });
 
-        if (!data.success) {
-          throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteSession'));
+          if (!data.success) {
+            throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteSession'));
+          }
+
+          const deletedSessionCount = data.data?.deletedSessionCount || 0;
+          const freedBytes = data.data?.freedBytes || 0;
+          const remainingUsed = data.data?.storage?.pluginUsedBytes ?? 0;
+          this.actionMessage =
+            deletedSessionCount === 0
+              ? i18n.global.t('plugins.pinsAllSky.messages.noSessionsDeleted')
+              : i18n.global.t('plugins.pinsAllSky.messages.deletedSessions', {
+                  count: deletedSessionCount,
+                  suffix: deletedSessionCount === 1 ? '' : 's',
+                  freed: this.formatSize(freedBytes),
+                  remaining: this.formatSize(remainingUsed),
+                });
+          delete this.sessionDetailsById[sessionId];
+          delete this.detailsLoadingById[sessionId];
+          await this.fetchStatus();
+          this.error = null;
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteSession');
+        } finally {
+          this.cleanupBusy = false;
         }
-
-        const deletedSessionCount = data.data?.deletedSessionCount || 0;
-        const freedBytes = data.data?.freedBytes || 0;
-        const remainingUsed = data.data?.storage?.pluginUsedBytes ?? 0;
-        this.actionMessage =
-          deletedSessionCount === 0
-            ? i18n.global.t('plugins.pinsAllSky.messages.noSessionsDeleted')
-            : i18n.global.t('plugins.pinsAllSky.messages.deletedSessions', {
-                count: deletedSessionCount,
-                suffix: deletedSessionCount === 1 ? '' : 's',
-                freed: this.formatSize(freedBytes),
-                remaining: this.formatSize(remainingUsed),
-              });
-        delete this.sessionDetailsById[sessionId];
-        delete this.detailsLoadingById[sessionId];
-        await this.fetchStatus();
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteSession');
-      } finally {
-        this.cleanupBusy = false;
-      }
+      });
     },
 
     async deleteAllSessions() {
-      this.cleanupBusy = true;
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/sessions/delete-all`, {});
+      return this.withAction('sessions:delete-all', async () => {
+        this.cleanupBusy = true;
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/sessions/delete-all`, {});
 
-        if (!data.success) {
-          throw new Error(
-            data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteAllSessions')
-          );
+          if (!data.success) {
+            throw new Error(
+              data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteAllSessions')
+            );
+          }
+
+          const deletedSessionCount = data.data?.deletedSessionCount || 0;
+          const freedBytes = data.data?.freedBytes || 0;
+          const remainingUsed = data.data?.storage?.pluginUsedBytes ?? 0;
+          this.actionMessage =
+            deletedSessionCount === 0
+              ? i18n.global.t('plugins.pinsAllSky.messages.noSessionsDeleted')
+              : i18n.global.t('plugins.pinsAllSky.messages.deletedSessions', {
+                  count: deletedSessionCount,
+                  suffix: deletedSessionCount === 1 ? '' : 's',
+                  freed: this.formatSize(freedBytes),
+                  remaining: this.formatSize(remainingUsed),
+                });
+          this.sessionDetailsById = {};
+          this.detailsLoadingById = {};
+          await this.fetchStatus();
+          this.error = null;
+        } catch (error) {
+          this.error =
+            error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteAllSessions');
+        } finally {
+          this.cleanupBusy = false;
         }
-
-        const deletedSessionCount = data.data?.deletedSessionCount || 0;
-        const freedBytes = data.data?.freedBytes || 0;
-        const remainingUsed = data.data?.storage?.pluginUsedBytes ?? 0;
-        this.actionMessage =
-          deletedSessionCount === 0
-            ? i18n.global.t('plugins.pinsAllSky.messages.noSessionsDeleted')
-            : i18n.global.t('plugins.pinsAllSky.messages.deletedSessions', {
-                count: deletedSessionCount,
-                suffix: deletedSessionCount === 1 ? '' : 's',
-                freed: this.formatSize(freedBytes),
-                remaining: this.formatSize(remainingUsed),
-              });
-        this.sessionDetailsById = {};
-        this.detailsLoadingById = {};
-        await this.fetchStatus();
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteAllSessions');
-      } finally {
-        this.cleanupBusy = false;
-      }
+      });
     },
 
     async fetchSessionDetails(sessionId) {
@@ -220,114 +237,164 @@ export const usePinsAllSkyStore = defineStore('pinsAllSkyStore', {
         return null;
       }
 
-      this.detailsLoadingById = {
-        ...this.detailsLoadingById,
-        [sessionId]: true,
-      };
-
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/details`, {
-          sessionId,
-        });
-
-        if (!data.success) {
-          throw new Error(
-            data.error || i18n.global.t('plugins.pinsAllSky.errors.loadSessionDetails')
-          );
-        }
-
-        this.sessionDetailsById = {
-          ...this.sessionDetailsById,
-          [sessionId]: data.data,
-        };
-        this.error = null;
-        return data.data;
-      } catch (error) {
-        this.error =
-          error?.message || i18n.global.t('plugins.pinsAllSky.errors.loadSessionDetails');
-        return null;
-      } finally {
+      return this.withAction(`session:details:${sessionId}`, async () => {
         this.detailsLoadingById = {
           ...this.detailsLoadingById,
-          [sessionId]: false,
+          [sessionId]: true,
         };
-      }
+
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/details`, {
+            sessionId,
+          });
+
+          if (!data.success) {
+            throw new Error(
+              data.error || i18n.global.t('plugins.pinsAllSky.errors.loadSessionDetails')
+            );
+          }
+
+          this.sessionDetailsById = {
+            ...this.sessionDetailsById,
+            [sessionId]: data.data,
+          };
+          this.error = null;
+          return data.data;
+        } catch (error) {
+          this.error =
+            error?.message || i18n.global.t('plugins.pinsAllSky.errors.loadSessionDetails');
+          return null;
+        } finally {
+          this.detailsLoadingById = {
+            ...this.detailsLoadingById,
+            [sessionId]: false,
+          };
+        }
+      });
     },
 
     async deleteArtifact(sessionId, relativePath) {
-      this.cleanupBusy = true;
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/artifact/delete`, {
-          sessionId,
-          relativePath,
-        });
+      const actionKey = `artifact:delete:${sessionId}:${relativePath}`;
 
-        if (!data.success) {
-          throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteArtifact'));
+      return this.withAction(actionKey, async () => {
+        this.cleanupBusy = true;
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/artifact/delete`, {
+            sessionId,
+            relativePath,
+          });
+
+          if (!data.success) {
+            throw new Error(
+              data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteArtifact')
+            );
+          }
+
+          this.actionMessage = i18n.global.t('plugins.pinsAllSky.messages.deletedArtifact', {
+            freed: this.formatSize(data.data?.freedBytes || 0),
+          });
+          await Promise.all([this.fetchStatus(), this.fetchSessionDetails(sessionId)]);
+          this.error = null;
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteArtifact');
+        } finally {
+          this.cleanupBusy = false;
         }
-
-        this.actionMessage = i18n.global.t('plugins.pinsAllSky.messages.deletedArtifact', {
-          freed: this.formatSize(data.data?.freedBytes || 0),
-        });
-        await Promise.all([this.fetchStatus(), this.fetchSessionDetails(sessionId)]);
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteArtifact');
-      } finally {
-        this.cleanupBusy = false;
-      }
+      });
     },
 
     async deleteFrame(sessionId, relativePath) {
-      this.cleanupBusy = true;
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/session/frame/delete`, {
-          sessionId,
-          relativePath,
-        });
+      const actionKey = `frame:delete:${sessionId}:${relativePath}`;
 
-        if (!data.success) {
-          throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteFrame'));
+      return this.withAction(actionKey, async () => {
+        this.cleanupBusy = true;
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/session/frame/delete`, {
+            sessionId,
+            relativePath,
+          });
+
+          if (!data.success) {
+            throw new Error(data.error || i18n.global.t('plugins.pinsAllSky.errors.deleteFrame'));
+          }
+
+          this.actionMessage = i18n.global.t('plugins.pinsAllSky.messages.deletedFrame', {
+            freed: this.formatSize(data.data?.freedBytes || 0),
+          });
+          await Promise.all([this.fetchStatus(), this.fetchSessionDetails(sessionId)]);
+          this.error = null;
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteFrame');
+        } finally {
+          this.cleanupBusy = false;
         }
-
-        this.actionMessage = i18n.global.t('plugins.pinsAllSky.messages.deletedFrame', {
-          freed: this.formatSize(data.data?.freedBytes || 0),
-        });
-        await Promise.all([this.fetchStatus(), this.fetchSessionDetails(sessionId)]);
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.deleteFrame');
-      } finally {
-        this.cleanupBusy = false;
-      }
+      });
     },
 
     async updateBackend() {
-      this.backendUpdateBusy = true;
-      try {
-        const { data } = await axios.post(`${this.backendBaseUrl}/api/backend/update`, {});
+      return this.withAction('backend:update', async () => {
+        this.backendUpdateBusy = true;
+        try {
+          const { data } = await axios.post(`${this.backendBaseUrl}/api/backend/update`, {});
 
-        if (!data.success) {
-          throw new Error(
-            data.error || i18n.global.t('plugins.pinsAllSky.errors.startBackendUpdate')
-          );
+          if (!data.success) {
+            throw new Error(
+              data.error || i18n.global.t('plugins.pinsAllSky.errors.startBackendUpdate')
+            );
+          }
+
+          this.actionMessage =
+            data.data?.message || i18n.global.t('plugins.pinsAllSky.messages.backendUpdateStarted');
+          this.error = null;
+          return data.data;
+        } catch (error) {
+          this.error =
+            error?.message || i18n.global.t('plugins.pinsAllSky.errors.startBackendUpdate');
+          return null;
+        } finally {
+          this.backendUpdateBusy = false;
         }
-
-        this.actionMessage =
-          data.data?.message || i18n.global.t('plugins.pinsAllSky.messages.backendUpdateStarted');
-        this.error = null;
-        return data.data;
-      } catch (error) {
-        this.error =
-          error?.message || i18n.global.t('plugins.pinsAllSky.errors.startBackendUpdate');
-        return null;
-      } finally {
-        this.backendUpdateBusy = false;
-      }
+      });
     },
 
     clearActionMessage() {
       this.actionMessage = null;
+    },
+
+    setActionBusy(key, busy) {
+      if (!key) {
+        return;
+      }
+
+      const nextState = { ...this.actionBusyByKey };
+      if (busy) {
+        nextState[key] = true;
+      } else {
+        delete nextState[key];
+      }
+
+      this.actionBusyByKey = nextState;
+    },
+
+    isActionBusy(key) {
+      return Boolean(key && this.actionBusyByKey[key]);
+    },
+
+    async withAction(key, callback) {
+      if (!key) {
+        return callback();
+      }
+
+      if (this.isActionBusy(key)) {
+        return null;
+      }
+
+      this.setActionBusy(key, true);
+      try {
+        return await callback();
+      } finally {
+        this.setActionBusy(key, false);
+      }
     },
 
     artifactUrl(relativePath) {
@@ -338,38 +405,72 @@ export const usePinsAllSkyStore = defineStore('pinsAllSkyStore', {
       return `${this.backendBaseUrl}/media/${relativePath}`;
     },
 
+    downloadUrl(relativePath, suggestedName = null) {
+      if (!relativePath) {
+        return null;
+      }
+
+      const params = new URLSearchParams({ path: relativePath });
+      if (suggestedName) {
+        params.set('name', suggestedName);
+      }
+
+      return `${this.backendBaseUrl}/api/download?${params.toString()}`;
+    },
+
+    isNativeDownloadEnvironment() {
+      const userAgent = navigator?.userAgent || '';
+      return Boolean(window?.Capacitor?.isNativePlatform?.()) || /; wv\)|\bwv\b/i.test(userAgent);
+    },
+
     async downloadFile(
       relativePath,
       fallbackName = i18n.global.t('plugins.pinsAllSky.common.download')
     ) {
-      const url = this.artifactUrl(relativePath);
-      if (!url) {
-        return;
-      }
+      const actionKey = `download:${relativePath}:${fallbackName || ''}`;
 
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(
-            i18n.global.t('plugins.pinsAllSky.errors.downloadFailed', { status: response.status })
-          );
+      return this.withAction(actionKey, async () => {
+        const url = this.downloadUrl(relativePath, fallbackName);
+        if (!url) {
+          return;
         }
 
-        const blob = await response.blob();
-        const objectUrl = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = objectUrl;
-        link.download = fallbackName;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        window.setTimeout(() => {
-          window.URL.revokeObjectURL(objectUrl);
-        }, 1000);
-        this.error = null;
-      } catch (error) {
-        this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.downloadFile');
-      }
+        try {
+          if (this.isNativeDownloadEnvironment()) {
+            const openedWindow = window.open(url, '_blank', 'noopener');
+            if (!openedWindow) {
+              window.location.href = url;
+            }
+
+            this.error = null;
+            return;
+          }
+
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error(
+              i18n.global.t('plugins.pinsAllSky.errors.downloadFailed', {
+                status: response.status,
+              })
+            );
+          }
+
+          const blob = await response.blob();
+          const objectUrl = window.URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = objectUrl;
+          link.download = fallbackName;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.setTimeout(() => {
+            window.URL.revokeObjectURL(objectUrl);
+          }, 1000);
+          this.error = null;
+        } catch (error) {
+          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.downloadFile');
+        }
+      });
     },
 
     formatSize(bytes) {

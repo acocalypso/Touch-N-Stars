@@ -127,6 +127,7 @@
         :format-gain="formatGain"
         :format-count="formatCount"
         :format-size="formatSize"
+        :is-action-busy="isActionBusy"
         @update:manual-label="manualLabelInput = $event"
         @update:estimate-start-local="estimateWindow.startLocal = $event"
         @update:estimate-end-local="estimateWindow.endLocal = $event"
@@ -189,6 +190,7 @@
         :session-details-by-id="sessionDetailsById"
         :details-loading-by-id="detailsLoadingById"
         :session-detail-open="sessionDetailOpen"
+        :is-action-busy="isActionBusy"
         :format-date="formatDate"
         :format-count="formatCount"
         :format-size="formatSize"
@@ -648,6 +650,8 @@ const generateArtifacts = async (sessionId = null) => {
 const updateBackend = async () => {
   await store.updateBackend();
 };
+
+const isActionBusy = (key) => store.isActionBusy(key);
 
 const formatSessionReason = (reason) => {
   if (!reason) {

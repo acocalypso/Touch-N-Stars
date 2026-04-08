@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stellarium time fix
 - PINS: Manual Rotator dialog button
 - PINS AllSky: Live preview now shows the active session label instead of only the generated session ID
+- PINS AllSky: Show in-flight state for capture and cleanup actions, and use attachment downloads with session-based filenames for timelapse, keogram, and startrails
 - Fix crash when NINA plugin version is not yet loaded (checkVersionNewerOrEqual)
 - Fix app not reconnecting after backend restart: removed blocking `await` on SignalR connect in polling loop, added socket-ID guard to prevent stale WebSocket events from corrupting connection state, and fixed async race condition in `disconnect()` across all SignalR services
 - Debug console: fix SignalR "WebSocket is not in the OPEN state" error caused by WebSocket proxy losing static constants (`OPEN`, `CONNECTING`, etc.)

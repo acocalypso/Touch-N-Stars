@@ -40,19 +40,30 @@
 
       <div class="flex flex-wrap gap-2">
         <button
-          class="rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-2 text-sm font-medium text-cyan-100 transition hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:opacity-40"
-          :disabled="cleanupBusy"
+          class="rounded-lg border px-3 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40"
+          :class="
+            isGenerateBusy()
+              ? 'border-cyan-300/50 bg-cyan-500/30 text-white ring-2 ring-cyan-300/20'
+              : 'border-cyan-500/40 bg-cyan-500/10 text-cyan-100 hover:bg-cyan-500/20'
+          "
+          :disabled="cleanupBusy || isGenerateBusy()"
           @click="$emit('generate-artifacts', session.id)"
         >
           {{ t('plugins.pinsAllSky.buttons.regenerate') }}
         </button>
         <button
-          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-100 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-lg border text-rose-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+          :class="
+            isDeleteSessionBusy()
+              ? 'border-rose-300/50 bg-rose-500/30 text-white ring-2 ring-rose-300/20'
+              : 'border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20'
+          "
           :disabled="
             cleanupBusy ||
             status?.captureRunning ||
             status?.generateInProgress ||
-            session.id === currentSessionId
+            session.id === currentSessionId ||
+            isDeleteSessionBusy()
           "
           :title="t('plugins.pinsAllSky.buttons.deleteSession')"
           :aria-label="t('plugins.pinsAllSky.buttons.deleteSession')"
@@ -61,7 +72,12 @@
           <TrashIcon class="h-5 w-5" />
         </button>
         <button
-          class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-sm text-white transition hover:border-cyan-400"
+          class="inline-flex h-10 items-center justify-center gap-2 rounded-lg border bg-gray-800 px-3 py-2 text-sm text-white transition"
+          :class="
+            isRefreshDetailsBusy()
+              ? 'border-cyan-300/50 ring-2 ring-cyan-300/20'
+              : 'border-gray-600 hover:border-cyan-400'
+          "
           :title="
             detailsOpen
               ? t('plugins.pinsAllSky.buttons.hideStoredFiles')
@@ -90,19 +106,39 @@
           <div>{{ describeArtifact(session.products?.timelapse) }}</div>
           <div v-if="session.products?.timelapse" class="flex items-center gap-2">
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/40 bg-cyan-500/10 text-cyan-100 transition hover:bg-cyan-500/20"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-cyan-100 transition"
+              :class="
+                isArtifactDownloadBusy(session.products.timelapse)
+                  ? 'border-cyan-300/50 bg-cyan-500/30 text-white ring-2 ring-cyan-300/20'
+                  : 'border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20'
+              "
               :title="t('plugins.pinsAllSky.buttons.downloadTimelapse')"
               :aria-label="t('plugins.pinsAllSky.buttons.downloadTimelapse')"
+              :disabled="isArtifactDownloadBusy(session.products.timelapse)"
               @click="
-                $emit('download-file', { relativePath: session.products.timelapse.relativePath })
+                $emit('download-file', {
+                  relativePath: session.products.timelapse.relativePath,
+                  fallbackName: artifactDownloadName('timelapse', 'mp4'),
+                })
               "
             >
-              <ArrowDownTrayIcon class="h-4 w-4" />
+              <ArrowDownTrayIcon
+                class="h-4 w-4"
+                :class="isArtifactDownloadBusy(session.products.timelapse) ? 'animate-pulse' : ''"
+              />
             </button>
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-100 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-rose-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+              :class="
+                isArtifactDeleteBusy(session.products.timelapse)
+                  ? 'border-rose-300/50 bg-rose-500/30 text-white ring-2 ring-rose-300/20'
+                  : 'border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20'
+              "
               :disabled="
-                cleanupBusy || status?.generateInProgress || session.id === currentSessionId
+                cleanupBusy ||
+                status?.generateInProgress ||
+                session.id === currentSessionId ||
+                isArtifactDeleteBusy(session.products.timelapse)
               "
               :title="t('plugins.pinsAllSky.buttons.deleteTimelapse')"
               :aria-label="t('plugins.pinsAllSky.buttons.deleteTimelapse')"
@@ -121,19 +157,39 @@
           <div>{{ describeArtifact(session.products?.keogram) }}</div>
           <div v-if="session.products?.keogram" class="flex items-center gap-2">
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/40 bg-cyan-500/10 text-cyan-100 transition hover:bg-cyan-500/20"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-cyan-100 transition"
+              :class="
+                isArtifactDownloadBusy(session.products.keogram)
+                  ? 'border-cyan-300/50 bg-cyan-500/30 text-white ring-2 ring-cyan-300/20'
+                  : 'border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20'
+              "
               :title="t('plugins.pinsAllSky.buttons.downloadKeogram')"
               :aria-label="t('plugins.pinsAllSky.buttons.downloadKeogram')"
+              :disabled="isArtifactDownloadBusy(session.products.keogram)"
               @click="
-                $emit('download-file', { relativePath: session.products.keogram.relativePath })
+                $emit('download-file', {
+                  relativePath: session.products.keogram.relativePath,
+                  fallbackName: artifactDownloadName('keogram', 'jpg'),
+                })
               "
             >
-              <ArrowDownTrayIcon class="h-4 w-4" />
+              <ArrowDownTrayIcon
+                class="h-4 w-4"
+                :class="isArtifactDownloadBusy(session.products.keogram) ? 'animate-pulse' : ''"
+              />
             </button>
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-100 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-rose-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+              :class="
+                isArtifactDeleteBusy(session.products.keogram)
+                  ? 'border-rose-300/50 bg-rose-500/30 text-white ring-2 ring-rose-300/20'
+                  : 'border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20'
+              "
               :disabled="
-                cleanupBusy || status?.generateInProgress || session.id === currentSessionId
+                cleanupBusy ||
+                status?.generateInProgress ||
+                session.id === currentSessionId ||
+                isArtifactDeleteBusy(session.products.keogram)
               "
               :title="t('plugins.pinsAllSky.buttons.deleteKeogram')"
               :aria-label="t('plugins.pinsAllSky.buttons.deleteKeogram')"
@@ -152,19 +208,39 @@
           <div>{{ describeArtifact(session.products?.startrails) }}</div>
           <div v-if="session.products?.startrails" class="flex items-center gap-2">
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/40 bg-cyan-500/10 text-cyan-100 transition hover:bg-cyan-500/20"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-cyan-100 transition"
+              :class="
+                isArtifactDownloadBusy(session.products.startrails)
+                  ? 'border-cyan-300/50 bg-cyan-500/30 text-white ring-2 ring-cyan-300/20'
+                  : 'border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20'
+              "
               :title="t('plugins.pinsAllSky.buttons.downloadStartrails')"
               :aria-label="t('plugins.pinsAllSky.buttons.downloadStartrails')"
+              :disabled="isArtifactDownloadBusy(session.products.startrails)"
               @click="
-                $emit('download-file', { relativePath: session.products.startrails.relativePath })
+                $emit('download-file', {
+                  relativePath: session.products.startrails.relativePath,
+                  fallbackName: artifactDownloadName('startrails', 'jpg'),
+                })
               "
             >
-              <ArrowDownTrayIcon class="h-4 w-4" />
+              <ArrowDownTrayIcon
+                class="h-4 w-4"
+                :class="isArtifactDownloadBusy(session.products.startrails) ? 'animate-pulse' : ''"
+              />
             </button>
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-100 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-rose-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+              :class="
+                isArtifactDeleteBusy(session.products.startrails)
+                  ? 'border-rose-300/50 bg-rose-500/30 text-white ring-2 ring-rose-300/20'
+                  : 'border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20'
+              "
               :disabled="
-                cleanupBusy || status?.generateInProgress || session.id === currentSessionId
+                cleanupBusy ||
+                status?.generateInProgress ||
+                session.id === currentSessionId ||
+                isArtifactDeleteBusy(session.products.startrails)
               "
               :title="t('plugins.pinsAllSky.buttons.deleteStartrails')"
               :aria-label="t('plugins.pinsAllSky.buttons.deleteStartrails')"
@@ -192,7 +268,13 @@
           </div>
         </div>
         <button
-          class="rounded-lg border border-gray-600 bg-gray-900/70 px-3 py-2 text-xs text-gray-200 transition hover:border-cyan-400"
+          class="rounded-lg border bg-gray-900/70 px-3 py-2 text-xs text-gray-200 transition"
+          :class="
+            isRefreshDetailsBusy()
+              ? 'border-cyan-300/50 ring-2 ring-cyan-300/20'
+              : 'border-gray-600 hover:border-cyan-400'
+          "
+          :disabled="isRefreshDetailsBusy()"
           @click="$emit('refresh-session-details', session.id)"
         >
           {{ t('plugins.pinsAllSky.buttons.refreshFiles') }}
@@ -225,9 +307,15 @@
           </div>
           <div class="flex items-center gap-2">
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-500/40 bg-cyan-500/10 text-cyan-100 transition hover:bg-cyan-500/20"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-cyan-100 transition"
+              :class="
+                isFrameDownloadBusy(frame)
+                  ? 'border-cyan-300/50 bg-cyan-500/30 text-white ring-2 ring-cyan-300/20'
+                  : 'border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20'
+              "
               :title="t('plugins.pinsAllSky.buttons.downloadItem', { name: frame.name })"
               :aria-label="t('plugins.pinsAllSky.buttons.downloadItem', { name: frame.name })"
+              :disabled="isFrameDownloadBusy(frame)"
               @click="
                 $emit('download-file', {
                   relativePath: frame.relativePath,
@@ -235,12 +323,23 @@
                 })
               "
             >
-              <ArrowDownTrayIcon class="h-4 w-4" />
+              <ArrowDownTrayIcon
+                class="h-4 w-4"
+                :class="isFrameDownloadBusy(frame) ? 'animate-pulse' : ''"
+              />
             </button>
             <button
-              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-rose-500/40 bg-rose-500/10 text-rose-100 transition hover:bg-rose-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-rose-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+              :class="
+                isFrameDeleteBusy(frame)
+                  ? 'border-rose-300/50 bg-rose-500/30 text-white ring-2 ring-rose-300/20'
+                  : 'border-rose-500/40 bg-rose-500/10 hover:bg-rose-500/20'
+              "
               :disabled="
-                cleanupBusy || status?.generateInProgress || session.id === currentSessionId
+                cleanupBusy ||
+                status?.generateInProgress ||
+                session.id === currentSessionId ||
+                isFrameDeleteBusy(frame)
               "
               :title="t('plugins.pinsAllSky.buttons.deleteItem', { name: frame.name })"
               :aria-label="t('plugins.pinsAllSky.buttons.deleteItem', { name: frame.name })"
@@ -264,7 +363,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
 
-defineProps({
+const props = defineProps({
   session: {
     type: Object,
     required: true,
@@ -292,6 +391,10 @@ defineProps({
   detailsOpen: {
     type: Boolean,
     default: false,
+  },
+  isActionBusy: {
+    type: Function,
+    required: true,
   },
   formatDate: {
     type: Function,
@@ -326,4 +429,51 @@ defineEmits([
 ]);
 
 const { t } = useI18n({ useScope: 'global' });
+
+const sessionSlug = () =>
+  sanitizeDownloadName(props.session.label || props.session.id || 'session');
+const artifactDownloadName = (prefix, extension) => `${prefix}_${sessionSlug()}.${extension}`;
+const isGenerateBusy = () => props.isActionBusy(`session:generate:${props.session.id}`);
+const isDeleteSessionBusy = () => props.isActionBusy(`session:delete:${props.session.id}`);
+const isRefreshDetailsBusy = () => props.isActionBusy(`session:details:${props.session.id}`);
+const isArtifactDeleteBusy = (artifact) =>
+  props.isActionBusy(`artifact:delete:${props.session.id}:${artifact?.relativePath || ''}`);
+const isArtifactDownloadBusy = (artifact) =>
+  props.isActionBusy(
+    `download:${artifact?.relativePath || ''}:${artifactDownloadName(
+      pathLikeName(artifact?.relativePath),
+      pathLikeExtension(artifact?.relativePath)
+    )}`
+  );
+const isFrameDeleteBusy = (frame) =>
+  props.isActionBusy(`frame:delete:${props.session.id}:${frame?.relativePath || ''}`);
+const isFrameDownloadBusy = (frame) =>
+  props.isActionBusy(`download:${frame?.relativePath || ''}:${frame?.name || ''}`);
+
+function sanitizeDownloadName(value) {
+  return (
+    String(value || 'session')
+      .trim()
+      .replace(/\s+/g, '_')
+      .replace(/[\\/:*?"<>|]+/g, '_')
+      .replace(/^[_\.]+|[_\.]+$/g, '') || 'session'
+  );
+}
+
+function pathLikeName(relativePath) {
+  const fileName =
+    String(relativePath || '')
+      .split('/')
+      .pop() || '';
+  return fileName.includes('.') ? fileName.slice(0, fileName.lastIndexOf('.')) : fileName;
+}
+
+function pathLikeExtension(relativePath) {
+  const fileName =
+    String(relativePath || '')
+      .split('/')
+      .pop() || '';
+  const extension = fileName.includes('.') ? fileName.slice(fileName.lastIndexOf('.') + 1) : '';
+  return extension || 'bin';
+}
 </script>

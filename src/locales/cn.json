@@ -3096,8 +3096,8 @@
           "stampTimestamp": "Stamp capture timestamp",
           "overlayExposureGain": "Overlay Exposure + Gain",
           "stampExposureGain": "Stamp exposure and gain",
-          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame.",
-          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse."
+          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame. This applies on the next timelapse render or when you regenerate an existing session.",
+          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse. This applies on the next timelapse render or when you regenerate an existing session."
         }
       },
       "recentSessions": {

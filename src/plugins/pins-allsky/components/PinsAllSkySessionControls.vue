@@ -19,11 +19,16 @@
             type="button"
             :title="t('plugins.pinsAllSky.buttons.startCapture')"
             :aria-label="t('plugins.pinsAllSky.buttons.startCapture')"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-600 text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-40"
-            :disabled="loading || status?.captureRunning"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl text-white transition disabled:cursor-not-allowed disabled:opacity-40"
+            :class="
+              isStartBusy()
+                ? 'bg-emerald-400/70 ring-2 ring-emerald-300/40'
+                : 'bg-emerald-600 hover:bg-emerald-500'
+            "
+            :disabled="loading || status?.captureRunning || isStartBusy()"
             @click="$emit('start-session')"
           >
-            <PlayIcon class="h-5 w-5" />
+            <PlayIcon class="h-5 w-5" :class="isStartBusy() ? 'animate-pulse' : ''" />
           </button>
           <button
             type="button"
@@ -37,29 +42,40 @@
                 ? t('plugins.pinsAllSky.buttons.renderingProgress')
                 : t('plugins.pinsAllSky.buttons.renderProgress')
             "
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 text-cyan-100 transition hover:bg-cyan-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border text-cyan-100 transition disabled:cursor-not-allowed disabled:opacity-40"
+            :class="
+              isGenerateBusy()
+                ? 'border-cyan-300/50 bg-cyan-500/30 text-white ring-2 ring-cyan-300/20'
+                : 'border-cyan-500/40 bg-cyan-500/10 hover:bg-cyan-500/20'
+            "
             :disabled="
               loading ||
               !status?.captureRunning ||
               !currentSession?.captureCount ||
-              status?.generateInProgress
+              status?.generateInProgress ||
+              isGenerateBusy()
             "
             @click="$emit('generate-artifacts')"
           >
             <ArrowDownTrayIcon
               class="h-5 w-5"
-              :class="status?.generateInProgress ? 'animate-pulse' : ''"
+              :class="status?.generateInProgress || isGenerateBusy() ? 'animate-pulse' : ''"
             />
           </button>
           <button
             type="button"
             :title="t('plugins.pinsAllSky.buttons.stopAndRender')"
             :aria-label="t('plugins.pinsAllSky.buttons.stopAndRender')"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-rose-600 text-white transition hover:bg-rose-500 disabled:cursor-not-allowed disabled:opacity-40"
-            :disabled="loading || !status?.captureRunning"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl text-white transition disabled:cursor-not-allowed disabled:opacity-40"
+            :class="
+              isStopBusy()
+                ? 'bg-rose-400/70 ring-2 ring-rose-300/40'
+                : 'bg-rose-600 hover:bg-rose-500'
+            "
+            :disabled="loading || !status?.captureRunning || isStopBusy()"
             @click="$emit('stop-session')"
           >
-            <StopIcon class="h-5 w-5" />
+            <StopIcon class="h-5 w-5" :class="isStopBusy() ? 'animate-pulse' : ''" />
           </button>
         </div>
       </div>
@@ -104,11 +120,19 @@
                   ? t('plugins.pinsAllSky.buttons.refreshingPreview')
                   : t('plugins.pinsAllSky.buttons.refreshPreview')
               "
-              class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-black/45 text-gray-200 backdrop-blur-sm transition hover:border-cyan-400 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-              :disabled="loading"
+              class="inline-flex h-10 w-10 items-center justify-center rounded-xl border bg-black/45 text-gray-200 backdrop-blur-sm transition hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              :class="
+                isRefreshBusy()
+                  ? 'border-cyan-300/50 text-white ring-2 ring-cyan-300/20'
+                  : 'border-white/10 hover:border-cyan-400'
+              "
+              :disabled="loading || isRefreshBusy()"
               @click="$emit('refresh-all')"
             >
-              <ArrowPathIcon class="h-5 w-5" :class="loading ? 'animate-spin' : ''" />
+              <ArrowPathIcon
+                class="h-5 w-5"
+                :class="loading || isRefreshBusy() ? 'animate-spin' : ''"
+              />
             </button>
           </div>
 
@@ -242,7 +266,7 @@
 import { ArrowDownTrayIcon, ArrowPathIcon, PlayIcon, StopIcon } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
 
-defineProps({
+const props = defineProps({
   manualLabel: {
     type: String,
     default: '',
@@ -254,6 +278,10 @@ defineProps({
   loading: {
     type: Boolean,
     default: false,
+  },
+  isActionBusy: {
+    type: Function,
+    required: true,
   },
   status: {
     type: Object,
@@ -336,4 +364,10 @@ defineEmits([
 ]);
 
 const { t } = useI18n({ useScope: 'global' });
+
+const isStartBusy = () => props.isActionBusy('session:start');
+const isStopBusy = () => props.isActionBusy('session:stop');
+const isRefreshBusy = () => props.isActionBusy('status:refresh');
+const isGenerateBusy = () =>
+  props.isActionBusy(`session:generate:${props.currentSession?.id || 'latest'}`);
 </script>

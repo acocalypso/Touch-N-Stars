@@ -1914,7 +1914,12 @@
         "title": "Snapshot-URL Hilfe",
         "what": "Eine Snapshot-URL ist ein direkter Link zu einem einzelnen Bild deiner IP-Kamera. Die URL muss direkt ein JPEG- oder PNG-Bild zurückliefern — keine HTML-Seite und keinen Videostream.",
         "examplesTitle": "Beispiele",
-        "exampleLabels": ["Generische IP-Kamera", "ONVIF-Kamera", "Axis-Kamera", "Hikvision-Kamera"],
+        "exampleLabels": [
+          "Generische IP-Kamera",
+          "ONVIF-Kamera",
+          "Axis-Kamera",
+          "Hikvision-Kamera"
+        ],
         "credentialsTitle": "Passwortgeschützte Kameras",
         "credentials": "Wenn deine Kamera Benutzername und Passwort benötigt, füge die Zugangsdaten direkt in die URL ein:",
         "credentialsNote": "Der Backend-Proxy übernimmt die Authentifizierung automatisch — Zugangsdaten in der URL funktionieren sowohl mit Basic- als auch Digest-Authentifizierung (z.B. Hikvision).",
@@ -2938,7 +2943,8 @@
         "frameCount": "Frame Count:",
         "captureInterval": "Capture Interval:",
         "exposure": "Exposure:",
-        "gain": "Gain:"
+        "gain": "Gain:",
+        "mean": "Mean:"
       },
       "statusRows": {
         "backend": "Backend",
@@ -3029,10 +3035,10 @@
           "sharpness": "Sharpness",
           "manualExposure": "Manual exposure",
           "shutterMicroseconds": "Shutter (µs)",
-          "manualExposureHelp": "When disabled, rpicam-still controls exposure automatically.",
+          "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
           "manualGain": "Manual gain",
           "analogGain": "Analog Gain",
-          "manualGainHelp": "When disabled, rpicam-still controls gain automatically.",
+          "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
           "horizontalFlip": "Horizontal flip",
           "mirrorOnXAxis": "Mirror on X axis",
           "verticalFlip": "Vertical flip",
@@ -3072,7 +3078,23 @@
             "cdnOff": "CDN Off",
             "cdnFast": "CDN Fast",
             "cdnHq": "CDN High Quality"
-          }
+          },
+          "allSkyAutoExposure": "AllSky auto exposure / gain",
+          "allSkyAutoExposureHelp": "Adapted from AllSky's mean-based controller. When manual exposure and/or manual gain are disabled, PINS AllSky measures the previous frame and calculates the next shutter and gain instead of relying on rpicam-still auto exposure alone.",
+          "autoMeanTarget": "Target Mean",
+          "autoMeanThreshold": "Mean Threshold",
+          "autoMaxExposureMicroseconds": "Auto Max Shutter (µs)",
+          "autoMaxGain": "Auto Max Gain",
+          "autoMeanP0": "Aggression P0",
+          "autoMeanP1": "Aggression P1",
+          "autoMeanP2": "Aggression P2",
+          "autoMeanTargetTooltip": "Target normalized image mean used by the AllSky auto-exposure controller. Set to 0 to fall back to rpicam-still auto exposure.",
+          "autoMeanThresholdTooltip": "Allowed normalized distance from the target mean before the next frame's exposure level is changed.",
+          "autoMaxExposureTooltip": "Maximum shutter time the AllSky auto-exposure controller may use when manual exposure is disabled.",
+          "autoMaxGainTooltip": "Maximum analog gain the AllSky auto-exposure controller may use when manual gain is disabled.",
+          "autoMeanP0Tooltip": "AllSky controller tuning constant p0. Higher values react more aggressively to brightness changes.",
+          "autoMeanP1Tooltip": "AllSky controller tuning constant p1 used for linear response to mean error.",
+          "autoMeanP2Tooltip": "AllSky controller tuning constant p2 used for stronger quadratic response to large brightness errors."
         },
         "outputs": {
           "keepSourceFrames": "Keep source frames",
@@ -3117,7 +3139,13 @@
           "lineThicknessTooltip": "Line thickness used when the keogram tool draws labels or markers.",
           "extraKeogramArgumentsTooltip": "Extra command-line arguments appended to the AllSky keogram tool.",
           "brightnessThresholdTooltip": "Minimum normalized brightness a pixel must reach before it contributes to the startrails composite.",
-          "extraStartrailsArgumentsTooltip": "Extra command-line arguments appended to the AllSky startrails tool."
+          "extraStartrailsArgumentsTooltip": "Extra command-line arguments appended to the AllSky startrails tool.",
+          "overlayTimestamp": "Overlay Timestamp",
+          "stampTimestamp": "Stamp capture timestamp",
+          "overlayExposureGain": "Overlay Exposure + Gain",
+          "stampExposureGain": "Stamp exposure and gain",
+          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame. This applies on the next timelapse render or when you regenerate an existing session.",
+          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse. This applies on the next timelapse render or when you regenerate an existing session."
         }
       },
       "recentSessions": {

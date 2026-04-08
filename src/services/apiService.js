@@ -1821,6 +1821,25 @@ const apiService = {
     }
   },
 
+  async flatTrainedDarkFlat(count, binning, gain, offset, filterId, keepClosed) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/flats/trained-dark-flat`, {
+        params: {
+          count,
+          binning,
+          gain,
+          offset,
+          filterId,
+          keepClosed,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //multimode
   async flatMultiMode(payload) {
     try {
@@ -1839,7 +1858,7 @@ const apiService = {
 
   async flatMultiStop() {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}/flats/stop`);
+    return this._simpleGetRequest(`${API_URL}flats/stop`);
   },
 
   //-------------------------------------  dome ---------------------------------------

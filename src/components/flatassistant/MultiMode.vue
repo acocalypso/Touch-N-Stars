@@ -26,6 +26,8 @@
           @update:statusValue="state.keepClosed = $event"
         />
       </div>
+
+      <setDarkCount v-if="state.selectedMode !== 'SkyFlat'" />
     </div>
 
     <!-- Filter list -->
@@ -296,6 +298,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import setDarkCount from '@/components/flatassistant/setDarkCount.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
@@ -521,15 +524,30 @@ async function startMultiMode() {
   const payload = { mode: state.selectedMode, keepClosed: state.keepClosed, filters };
 
   try {
-    await apiService.flatMultiMode(payload);
+    await flatsStore.runFlatWorkflow({
+      request: () => apiService.flatMultiMode(payload),
+      statusLoader: () => apiService.flatMultiStatus(),
+      darkJobs:
+        state.selectedMode === 'SkyFlat'
+          ? []
+          : filters.map((filter) => ({
+              count: flatsStore.darkCount,
+              filterId: filter.filterId,
+              binning: filter.binning,
+              gain: filter.gain,
+              offset: filter.offset,
+            })),
+      keepClosed: state.keepClosed,
+    });
   } catch (error) {
     console.error('Error starting multimode flats:', error);
+    flatsStore.notifyOperationIssue(error?.response?.data ?? error);
   }
 }
 
 async function stopFlats() {
   try {
-    await apiService.flatMultiStop();
+    await flatsStore.stopWorkflow();
   } catch (error) {
     console.error('Error stopping flats:', error);
   }

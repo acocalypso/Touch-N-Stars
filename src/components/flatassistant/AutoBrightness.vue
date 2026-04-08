@@ -3,6 +3,7 @@
     class="flex flex-col w-full max-w-md space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
   >
     <setCount />
+    <setDarkCount />
     <setGain />
     <setOffset />
     <setExposureTime />
@@ -42,6 +43,7 @@ import setBinning from '@/components/flatassistant/setBinning.vue';
 import setGain from '@/components/flatassistant/setGain.vue';
 import setOffset from './setOffset.vue';
 import setCount from '@/components/flatassistant/setCount.vue';
+import setDarkCount from '@/components/flatassistant/setDarkCount.vue';
 import setMinBrightness from '@/components/flatassistant/setMinBrightness.vue';
 import setMaxBrightness from '@/components/flatassistant/setMaxBrightness.vue';
 import setHistogramMeanTarget from '@/components/flatassistant/setHistogramMeanTarget.vue';
@@ -67,30 +69,42 @@ onMounted(() => {
 async function startAutoExposure() {
   console.log('Flats startAutoExposure: ');
   try {
-    const data = await apiService.flatAutoBrightness(
-      flatsStore.count,
-      settingsStore.flats.minBrightness,
-      settingsStore.flats.maxBrightness,
-      flatsStore.histogramMean,
-      flatsStore.meanTolerance,
-      flatsStore.binning,
-      flatsStore.gain,
-      flatsStore.offset,
-      selectedFilterId.value,
-      settingsStore.flats.exposureTime,
-      settingsStore.flats.keepClosed
-    );
-    console.log(data);
+    await flatsStore.runFlatWorkflow({
+      request: () =>
+        apiService.flatAutoBrightness(
+          flatsStore.count,
+          settingsStore.flats.minBrightness,
+          settingsStore.flats.maxBrightness,
+          flatsStore.histogramMean,
+          flatsStore.meanTolerance,
+          flatsStore.binning,
+          flatsStore.gain,
+          flatsStore.offset,
+          selectedFilterId.value,
+          settingsStore.flats.exposureTime,
+          settingsStore.flats.keepClosed
+        ),
+      darkJobs: [
+        {
+          count: flatsStore.darkCount,
+          filterId: selectedFilterId.value,
+          binning: flatsStore.binning,
+          gain: flatsStore.gain,
+          offset: flatsStore.offset,
+        },
+      ],
+      keepClosed: settingsStore.flats.keepClosed,
+    });
   } catch (error) {
     console.log('Error flatAutoBrightness');
+    flatsStore.notifyOperationIssue(error?.response?.data ?? error);
   }
 }
 
 async function stopFlats() {
   console.log('Flats stop: ');
   try {
-    const data = await apiService.flatassistantAction('stop');
-    console.log(data);
+    await flatsStore.stopWorkflow();
   } catch (error) {
     console.log('Error stopAutoExposure');
   }

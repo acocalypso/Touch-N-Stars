@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
@@ -118,4 +118,14 @@ onMounted(() => {
     settingsStore.flats.activeMode = 'single';
   }
 });
+
+watch(
+  () => store.profileInfo?.FlatWizardSettings,
+  (flatSettings) => {
+    if (!flatSettings) return;
+    flatsStore.count = flatSettings.FlatCount ?? flatsStore.count;
+    flatsStore.darkCount = flatSettings.DarkFlatCount ?? 0;
+  },
+  { immediate: true }
+);
 </script>

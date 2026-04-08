@@ -65,6 +65,7 @@ onMounted(() => {
 async function startAutoExposure() {
   console.log('Flats startAutoExposure: ');
   try {
+    flatsStore.startManagedRun('flats');
     const data = await apiService.flatSkyflat(
       flatsStore.count,
       flatsStore.minExposureTime,
@@ -77,17 +78,23 @@ async function startAutoExposure() {
       selectedFilterId.value,
       settingsStore.flats.keepClosed
     );
-    console.log(data);
+
+    if (data?.Success === false) {
+      flatsStore.notifyOperationIssue(data, 'warning');
+      return;
+    }
+
+    await flatsStore.waitForCompletion(() => apiService.flatassistantAction('status'));
   } catch (error) {
     console.log('Error startAutoExposure');
+    flatsStore.notifyOperationIssue(error?.response?.data ?? error);
   }
 }
 
 async function stopFlats() {
   console.log('Flats stop: ');
   try {
-    const data = await apiService.flatassistantAction('stop');
-    console.log(data);
+    await flatsStore.stopWorkflow();
   } catch (error) {
     console.log('Error stopAutoExposure');
   }

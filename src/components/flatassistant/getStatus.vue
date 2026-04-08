@@ -23,12 +23,7 @@
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
           />
         </svg>
-        <span>{{
-          $t('components.flatassistant.status_running', {
-            completed: flatsStore.status.CompletedIterations,
-            total: flatsStore.status.TotalIterations,
-          })
-        }}</span>
+        <span>{{ runningStatusText }}</span>
       </div>
       <div v-if="flatsStore.status.TotalFilters > 0" class="text-xs text-gray-400">
         {{
@@ -54,9 +49,7 @@
       <!-- All flats captured -->
       <div v-if="flatsStore.lastRun.success" class="flex items-center gap-2 text-sm text-green-400">
         <span class="text-base">✓</span>
-        <span>{{
-          $t('components.flatassistant.status_success', { count: flatsStore.lastRun.total })
-        }}</span>
+        <span>{{ successStatusText }}</span>
       </div>
       <!-- Stopped part-way through (user cancel or mid-run error) -->
       <div
@@ -64,18 +57,13 @@
         class="flex items-center gap-2 text-sm text-yellow-400"
       >
         <span class="text-base">⚠</span>
-        <span>{{
-          $t('components.flatassistant.status_stopped', {
-            completed: flatsStore.lastRun.completed,
-            total: flatsStore.lastRun.total,
-          })
-        }}</span>
+        <span>{{ stoppedStatusText }}</span>
       </div>
       <!-- Zero flats taken — determination phase failed (e.g. too dim at max exposure) -->
       <div v-else class="space-y-1">
         <div class="flex items-center gap-2 text-sm text-red-400">
           <span class="text-base">✗</span>
-          <span>{{ $t('components.flatassistant.status_failed') }}</span>
+          <span>{{ failedStatusText }}</span>
         </div>
         <div v-if="flatsStore.lastRun.lastADU !== null" class="text-xs text-gray-400 pl-5">
           {{ $t('components.flatassistant.status_adu_live', { adu: flatsStore.lastRun.lastADU }) }}
@@ -89,8 +77,51 @@
 import { computed } from 'vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { onMounted, onBeforeUnmount } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const flatsStore = useFlatassistantStore();
+const { t } = useI18n();
+
+const runningStatusText = computed(() =>
+  t(
+    flatsStore.currentRunType === 'darks'
+      ? 'components.flatassistant.status_running_darks'
+      : 'components.flatassistant.status_running_flats',
+    {
+      completed: flatsStore.status.CompletedIterations,
+      total: flatsStore.status.TotalIterations,
+    }
+  )
+);
+
+const successStatusText = computed(() =>
+  t(
+    flatsStore.lastRun?.type === 'darks'
+      ? 'components.flatassistant.status_success_darks'
+      : 'components.flatassistant.status_success_flats',
+    { count: flatsStore.lastRun?.total ?? 0 }
+  )
+);
+
+const stoppedStatusText = computed(() =>
+  t(
+    flatsStore.lastRun?.type === 'darks'
+      ? 'components.flatassistant.status_stopped_darks'
+      : 'components.flatassistant.status_stopped_flats',
+    {
+      completed: flatsStore.lastRun?.completed ?? 0,
+      total: flatsStore.lastRun?.total ?? 0,
+    }
+  )
+);
+
+const failedStatusText = computed(() =>
+  t(
+    flatsStore.lastRun?.type === 'darks'
+      ? 'components.flatassistant.status_failed_darks'
+      : 'components.flatassistant.status_failed_flats'
+  )
+);
 
 const progressPercent = computed(() => {
   const { TotalIterations, CompletedIterations } = flatsStore.status;

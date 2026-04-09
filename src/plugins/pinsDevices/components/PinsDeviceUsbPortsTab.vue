@@ -102,10 +102,12 @@
             </span>
           </div>
 
-          <div
-            v-if="port.Current !== 'NaN' && port.Current !== undefined"
-            class="flex justify-between"
-          >
+          <div v-if="Number.isFinite(port.Voltage)" class="flex justify-between">
+            <span class="text-gray-400">{{ $t('plugins.pinsDevices.ports.voltage') }}</span>
+            <span class="text-gray-200">{{ port.Voltage.toFixed(2) }}V</span>
+          </div>
+
+          <div v-if="Number.isFinite(port.Current)" class="flex justify-between">
             <span class="text-gray-400">{{ $t('plugins.pinsDevices.ports.current') }}</span>
             <span class="text-gray-200">{{ port.Current.toFixed(2) }}A</span>
           </div>

@@ -129,6 +129,7 @@
               <div class="border border-gray-700 rounded-lg bg-gray-800/50">
                 <div class="flex border-b border-gray-700">
                   <button
+                    v-if="hasPowerPorts"
                     class="px-4 py-2 text-sm font-semibold"
                     :class="
                       activePortsSubTab === 'power'
@@ -140,6 +141,7 @@
                     {{ t('plugins.pinsDevices.settings.powerPorts') }}
                   </button>
                   <button
+                    v-if="hasUsbPorts"
                     class="px-4 py-2 text-sm font-semibold"
                     :class="
                       activePortsSubTab === 'usb'
@@ -151,6 +153,7 @@
                     {{ t('plugins.pinsDevices.settings.usbPorts') }}
                   </button>
                   <button
+                    v-if="hasDewPorts"
                     class="px-4 py-2 text-sm font-semibold"
                     :class="
                       activePortsSubTab === 'dew'
@@ -162,6 +165,7 @@
                     {{ t('plugins.pinsDevices.settings.dewPorts') }}
                   </button>
                   <button
+                    v-if="hasAdjustablePorts"
                     class="px-4 py-2 text-sm font-semibold"
                     :class="
                       activePortsSubTab === 'adjustable'
@@ -220,7 +224,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PinsDeviceGeneralTab from './PinsDeviceGeneralTab.vue';
 import PinsDevicePowerPortsTab from './PinsDevicePowerPortsTab.vue';
@@ -236,6 +240,13 @@ const store = usePinsDeviceStore();
 const activeTab = ref('general');
 const activePortsSubTab = ref('power');
 
+const hasPowerPorts = computed(() => store.powerPorts.MaxPorts > 0);
+const hasUsbPorts = computed(() => store.usbPorts.MaxPorts > 0);
+const hasDewPorts = computed(() => store.dewPorts.MaxPorts > 0);
+const hasAdjustablePorts = computed(
+  () => store.buckPorts.MaxPorts > 0 || store.pwmPorts.MaxPorts > 0
+);
+
 const setActiveTab = (tab) => {
   activeTab.value = tab;
 };
@@ -244,7 +255,15 @@ const setActivePortsSubTab = (subTab) => {
   activePortsSubTab.value = subTab;
 };
 
+const initPortsSubTab = () => {
+  if (hasPowerPorts.value) activePortsSubTab.value = 'power';
+  else if (hasUsbPorts.value) activePortsSubTab.value = 'usb';
+  else if (hasDewPorts.value) activePortsSubTab.value = 'dew';
+  else if (hasAdjustablePorts.value) activePortsSubTab.value = 'adjustable';
+};
+
 onMounted(async () => {
   await store.loadAllData();
+  initPortsSubTab();
 });
 </script>

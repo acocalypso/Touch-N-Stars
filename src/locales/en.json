@@ -2533,6 +2533,7 @@
       "ports": {
         "status": "Status",
         "current": "Current",
+        "voltage": "Voltage",
         "maxCurrent": "Max Current",
         "overcurrent": "Overcurrent",
         "readOnly": "Read-only (cannot be controlled)",

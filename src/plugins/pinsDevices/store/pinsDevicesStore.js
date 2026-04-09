@@ -435,7 +435,7 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
         if (response.Success) {
           // Buck ports returns a single port as Response
           this.buckPorts.Ports = response.Response ? [response.Response] : [];
-          this.buckPorts.MaxPorts = 1;
+          this.buckPorts.MaxPorts = response.Response ? 1 : 0;
         }
       } catch (error) {
         // Silent fail - device may have disconnected
@@ -516,7 +516,7 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
         if (response.Success) {
           // PWM ports returns a single port as Response
           this.pwmPorts.Ports = response.Response ? [response.Response] : [];
-          this.pwmPorts.MaxPorts = 1;
+          this.pwmPorts.MaxPorts = response.Response ? 1 : 0;
         }
       } catch (error) {
         // Silent fail - device may have disconnected

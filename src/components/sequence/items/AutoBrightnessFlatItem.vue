@@ -115,6 +115,19 @@
         </select>
       </div>
 
+      <!-- ExposureTime from inner TakeExposure -->
+      <NumberInputPicker
+        v-if="exposure"
+        :modelValue="exposure.ExposureTime"
+        :label="$t('components.sequence.items.takeExposure.exposureTime')"
+        labelKey="abf-exposureTime"
+        :min="0"
+        :max="3600"
+        :step="0.1"
+        :decimalPlaces="2"
+        @change="store.setProperty(exposure.Id, 'ExposureTime', $event)"
+      />
+
       <!-- Gain from inner TakeExposure -->
       <NumberInputPicker
         v-if="exposure"

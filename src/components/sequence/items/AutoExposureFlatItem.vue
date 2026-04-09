@@ -98,6 +98,19 @@
         </select>
       </div>
 
+      <!-- Brightness from inner SetBrightness -->
+      <NumberInputPicker
+        v-if="setBrightness"
+        :modelValue="setBrightness.Brightness"
+        :label="$t('components.sequence.items.setBrightness.brightness')"
+        labelKey="aef-brightness"
+        :min="0"
+        :max="100"
+        :step="1"
+        :decimalPlaces="0"
+        @change="store.setProperty(setBrightness.Id, 'Brightness', $event)"
+      />
+
       <!-- Binning from inner TakeExposure -->
       <div v-if="exposure" class="flex items-center gap-3">
         <label class="text-xs text-slate-400 flex-shrink-0">{{
@@ -186,6 +199,10 @@ const histogramTolerancePct = computed(() =>
 
 const switchFilter = computed(
   () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null
+);
+
+const setBrightness = computed(
+  () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SetBrightness')) ?? null
 );
 
 const innerContainer = computed(

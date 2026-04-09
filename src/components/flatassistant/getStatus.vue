@@ -76,7 +76,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
-import { onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const flatsStore = useFlatassistantStore();

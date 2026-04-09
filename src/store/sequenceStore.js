@@ -577,15 +577,4 @@ export const useSequenceStore = defineStore('sequenceStore', {
       this.lastSequenceFilePath = filePath;
     },
   },
-
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'sequence-store',
-        storage: localStorage,
-        paths: ['lastSequenceFilePath'],
-      },
-    ],
-  },
 });

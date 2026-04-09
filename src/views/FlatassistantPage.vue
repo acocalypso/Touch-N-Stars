@@ -59,6 +59,7 @@
         class="flex flex-col w-full max-w-md space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
       >
         <div
+          v-show="flatsStore.status.State === 'Running'"
           class="flex justify-center items-center p-2 border border-gray-500 rounded-lg bg-gray-800"
         >
           <getStatus />
@@ -72,7 +73,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, watch } from 'vue';
+import { computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
@@ -139,6 +140,11 @@ onMounted(() => {
   if (store.isPINS) {
     settingsStore.flats.activeMode = 'single';
   }
+  flatsStore.startFetchingFlats();
+});
+
+onBeforeUnmount(() => {
+  flatsStore.stopFetchingFlats();
 });
 
 watch(

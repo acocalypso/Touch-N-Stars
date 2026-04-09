@@ -128,12 +128,4 @@ const progressPercent = computed(() => {
   if (TotalIterations <= 0 || CompletedIterations < 0) return 0;
   return Math.min(100, Math.round((CompletedIterations / TotalIterations) * 100));
 });
-
-onMounted(() => {
-  flatsStore.startFetchingFlats();
-});
-
-onBeforeUnmount(() => {
-  flatsStore.stopFetchingFlats();
-});
 </script>

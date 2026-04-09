@@ -1320,7 +1320,20 @@
       "multi_mode_no_filters": "Není připojeno žádné filtrové kolo",
       "single_mode": "Single Mode",
       "start_multi_mode": "Spusťte režim Multi",
-      "status_filter_progress": "Filtr: {completed} / {total}"
+      "status_filter_progress": "Filtr: {completed} / {total}",
+      "cover_scope_confirm": "OK",
+      "cover_scope_message": "Cover your scope now and press OK to start taking the darks.",
+      "cover_scope_title": "Cover your scope now",
+      "darks_to_take": "Darks to take",
+      "operation_failed": "Operation failed",
+      "status_failed_darks": "No darks captured - could not determine valid exposure",
+      "status_failed_flats": "No flats captured - could not determine valid exposure",
+      "status_running_darks": "Running: {completed} / {total} darks",
+      "status_running_flats": "Running: {completed} / {total} flats",
+      "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
+      "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
+      "status_success_darks": "Done - {count} darks captured",
+      "status_success_flats": "Done - {count} flats captured"
     },
     "weatherModal": {
       "weatherInformation": "Informace o Počasí",
@@ -2479,7 +2492,8 @@
         "noPorts": "Nejsou k dispozici žádné porty",
         "bootState": "Stav zapnutí",
         "bootStateEnabled": "Povoleno při spuštění",
-        "bootStateDisabled": "Zakázáno při spuštění"
+        "bootStateDisabled": "Zakázáno při spuštění",
+        "voltage": "Voltage"
       },
       "wifi": {
         "currentStatus": "Aktuální stav WiFi",
@@ -3201,6 +3215,154 @@
       "unknownCamera": "Unknown camera",
       "useProxy": "Use Proxy",
       "useProxyHint": "Route image through the NINA backend. Required for cameras with credentials or CORS restrictions. Disable for direct internet cameras."
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "Add from favorites",
+        "addScheduleToSequence": "Add schedule to sequence",
+        "addTarget": "Add target",
+        "applying": "Applying...",
+        "clearAll": "Clear all",
+        "computing": "Computing...",
+        "recomputeSchedule": "Recompute schedule"
+      },
+      "common": {
+        "add": "Add",
+        "cancel": "Cancel",
+        "close": "Close",
+        "copy": "Copy",
+        "copySuffix": "copy",
+        "dec": "DEC",
+        "deg": "deg",
+        "edit": "Edit",
+        "meters": "m",
+        "minutes": "min",
+        "ra": "RA",
+        "remove": "Remove",
+        "seconds": "s"
+      },
+      "constraints": {
+        "hideAdvanced": "Hide advanced",
+        "maxAltitude": "Max altitude",
+        "minAltitude": "Min altitude",
+        "minMoonSeparation": "Min moon separation",
+        "showAdvanced": "Show advanced",
+        "targetEnabled": "Target enabled",
+        "timeWindowEnd": "Time window end",
+        "timeWindowHint": "Leave time window blank to allow scheduling for the full session range.",
+        "timeWindowStart": "Time window start",
+        "title": "Constraints"
+      },
+      "defaults": {
+        "favoriteTargetName": "Favorite Target",
+        "newTargetName": "New Target",
+        "targetName": "Target"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "Add at least one exposure row.",
+        "addExposure": "Add exposure",
+        "binning": "Binning",
+        "count": "Count",
+        "decLabel": "DEC (deg or  /-DD:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "Duration",
+        "editTarget": "Edit target",
+        "exposurePlan": "Exposure plan",
+        "exposureRow": "Exposure {index}",
+        "filter": "Filter",
+        "gain": "Gain",
+        "imageType": "Image type",
+        "imageTypes": {
+          "bias": "BIAS",
+          "dark": "DARK",
+          "flat": "FLAT",
+          "light": "LIGHT"
+        },
+        "linkedToFavorite": "Linked to favorite",
+        "name": "Name",
+        "namePlaceholder": "M31 - Andromeda",
+        "newTarget": "New target",
+        "offset": "Offset",
+        "presets": {
+          "lrgb": "LRGB",
+          "sho": "SHO",
+          "singleL": "Single L"
+        },
+        "priority": "Priority",
+        "raLabel": "RA (deg or HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "Rotation",
+        "saveTarget": "Save target"
+      },
+      "errors": {
+        "computeFailed": "Failed to compute schedule",
+        "couldNotAddSequenceItem": "Could not add sequence item",
+        "failedToAddSequenceTarget": "Failed to add sequence target for {name}",
+        "failedToApplySchedule": "Failed to apply schedule to sequence.",
+        "failedToResolveTargetContainer": "Failed to resolve newly created target container for {name}",
+        "invalidDecFormat": "DEC format is invalid.",
+        "invalidRaFormat": "RA format is invalid.",
+        "invalidSessionRange": "Invalid session range",
+        "missingSiteCoordinates": "Missing site latitude/longitude",
+        "noActiveSequenceLoaded": "No active sequence loaded.",
+        "noImagingContainerFound": "Could not find imaging container in active sequence.",
+        "noValidTargetsForExport": "No valid targets found for export.",
+        "targetNameRequired": "Target name is required."
+      },
+      "favorites": {
+        "addAll": "Add all",
+        "available": "{count} favorites available",
+        "importTitle": "Import from favorites",
+        "noneFound": "No favorites found.",
+        "unnamed": "Unnamed favorite"
+      },
+      "labels": {
+        "maxChunkMinutes": "Max chunk (minutes)",
+        "samplingStepMinutes": "Sampling step (minutes)",
+        "scheduled": "scheduled",
+        "sessionEnd": "Session end",
+        "sessionStart": "Session start",
+        "siteAlt": "alt",
+        "siteLat": "Site lat",
+        "siteLon": "lon"
+      },
+      "subtitle": "Mobile-first planning for target visibility, constraints, and sequence insertion.",
+      "targetCard": {
+        "exposures": "{count} exposures",
+        "favoriteLinked": "favorite linked",
+        "priorityShort": "P{value}",
+        "scheduledVsRequested": "{scheduled} / {requested} min"
+      },
+      "targetList": {
+        "dragToReorder": "Drag to reorder",
+        "empty": "No targets yet. Add one manually or import from favorites.",
+        "title": "Targets",
+        "total": "{count} total"
+      },
+      "timeline": {
+        "idle": "Idle",
+        "idleSegmentTitle": "Idle: {start} - {end}",
+        "invalidSessionRange": "Set a valid session range to preview schedule.",
+        "minutesShort": "{value} min",
+        "noSegments": "No schedule segments yet. Check target constraints and site coordinates.",
+        "range": "{start} to {end}",
+        "segmentTitle": "{name}: {start} - {end}",
+        "title": "Session timeline"
+      },
+      "title": "Target Scheduler",
+      "toast": {
+        "addedTargetsToSequence": "Added {count} target(s) to the sequence.",
+        "noTargetsToApply": "No targets to apply.",
+        "title": "Target Scheduler"
+      },
+      "unscheduled": {
+        "allScheduled": "All requested exposure time fits in this session.",
+        "remaining": ": {minutes} min remaining",
+        "title": "Unscheduled remainder"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+      }
     }
   },
   "pinsDevices": {

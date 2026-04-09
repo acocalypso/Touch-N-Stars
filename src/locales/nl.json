@@ -1320,7 +1320,20 @@
       "multi_mode_no_filters": "Geen filterwiel aangesloten",
       "single_mode": "Enkele modus",
       "start_multi_mode": "Start Multi-modus",
-      "status_filter_progress": "Filteren: {completed} / {total}"
+      "status_filter_progress": "Filteren: {completed} / {total}",
+      "cover_scope_confirm": "OK",
+      "cover_scope_message": "Bedek nu uw bereik en druk op OK om te beginnen met het nemen van de duisternis.",
+      "cover_scope_title": "Bestrijk nu uw bereik",
+      "darks_to_take": "Duister om te nemen",
+      "operation_failed": "Operatie mislukt",
+      "status_failed_darks": "Geen donkere beelden vastgelegd - kon geen geldige belichting bepalen",
+      "status_failed_flats": "Geen flats vastgelegd - kon geen geldige blootstelling bepalen",
+      "status_running_darks": "Hardlopen: {voltooid} / {totaal} donker",
+      "status_running_flats": "Hardlopen: {voltooid} / {totaal} flats",
+      "status_stopped_darks": "Vroeg gestopt - {voltooid} van {totaal} duisternis vastgelegd",
+      "status_stopped_flats": "Vroeg gestopt - {voltooid} van {totaal} flats veroverd",
+      "status_success_darks": "Klaar - {count} darks vastgelegd",
+      "status_success_flats": "Klaar - {count} flats veroverd"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -2479,7 +2492,8 @@
         "noPorts": "Geen poorten beschikbaar",
         "bootState": "Ingeschakelde status",
         "bootStateEnabled": "Ingeschakeld bij opstarten",
-        "bootStateDisabled": "Uitgeschakeld bij opstarten"
+        "bootStateDisabled": "Uitgeschakeld bij opstarten",
+        "voltage": "Spanning"
       },
       "wifi": {
         "currentStatus": "Huidige WiFi-status",
@@ -3201,6 +3215,154 @@
       "unknownCamera": "Onbekende camera",
       "useProxy": "Gebruik proxy",
       "useProxyHint": "Leid de afbeelding door de NINA-backend. \nVereist voor camera's met inloggegevens of CORS-beperkingen. \nUitschakelen voor directe internetcamera's."
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "Toevoegen uit favorieten",
+        "addScheduleToSequence": "Voeg schema toe aan reeks",
+        "addTarget": "Doel toevoegen",
+        "applying": "Toepassen...",
+        "clearAll": "Alles wissen",
+        "computing": "Computergebruik...",
+        "recomputeSchedule": "Herbereken het schema"
+      },
+      "common": {
+        "add": "Toevoegen",
+        "cancel": "Annuleren",
+        "close": "Dichtbij",
+        "copy": "Kopiëren",
+        "copySuffix": "kopiëren",
+        "dec": "DEC",
+        "deg": "gr",
+        "edit": "Bewerking",
+        "meters": "M",
+        "minutes": "min",
+        "ra": "RA",
+        "remove": "Verwijderen",
+        "seconds": "S"
+      },
+      "constraints": {
+        "hideAdvanced": "Geavanceerd verbergen",
+        "maxAltitude": "Maximale hoogte",
+        "minAltitude": "Minimale hoogte",
+        "minMoonSeparation": "Minimale maanafstand",
+        "showAdvanced": "Toon geavanceerd",
+        "targetEnabled": "Doel ingeschakeld",
+        "timeWindowEnd": "Einde van het tijdvenster",
+        "timeWindowHint": "Laat het tijdvenster leeg om planning voor het volledige sessiebereik mogelijk te maken.",
+        "timeWindowStart": "Tijdvenster starten",
+        "title": "Beperkingen"
+      },
+      "defaults": {
+        "favoriteTargetName": "Favoriete doelwit",
+        "newTargetName": "Nieuw doel",
+        "targetName": "Doel"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "Voeg ten minste één belichtingsrij toe.",
+        "addExposure": "Voeg blootstelling toe",
+        "binning": "Binning",
+        "count": "Graaf",
+        "decLabel": "DEC (graden of /-DD:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "Duur",
+        "editTarget": "Doel bewerken",
+        "exposurePlan": "Blootstellingsplan",
+        "exposureRow": "Blootstelling {index}",
+        "filter": "Filter",
+        "gain": "Verdienen",
+        "imageType": "Afbeeldingstype",
+        "imageTypes": {
+          "bias": "VOOROORDEEL",
+          "dark": "DONKER",
+          "flat": "VLAK",
+          "light": "LICHT"
+        },
+        "linkedToFavorite": "Gekoppeld aan favoriet",
+        "name": "Naam",
+        "namePlaceholder": "M31 - Andromeda",
+        "newTarget": "Nieuw doel",
+        "offset": "Offset",
+        "presets": {
+          "lrgb": "LRGB",
+          "sho": "SHO",
+          "singleL": "Enkele L"
+        },
+        "priority": "Prioriteit",
+        "raLabel": "RA (graden of HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "Rotatie",
+        "saveTarget": "Doel opslaan"
+      },
+      "errors": {
+        "computeFailed": "Kan het schema niet berekenen",
+        "couldNotAddSequenceItem": "Kan reeksitem niet toevoegen",
+        "failedToAddSequenceTarget": "Kan reeksdoel niet toevoegen voor {name}",
+        "failedToApplySchedule": "Kan schema niet toepassen op reeks.",
+        "failedToResolveTargetContainer": "Kan nieuw gemaakte doelcontainer voor {name} niet omzetten",
+        "invalidDecFormat": "DEC-indeling is ongeldig.",
+        "invalidRaFormat": "RA-indeling is ongeldig.",
+        "invalidSessionRange": "Ongeldig sessiebereik",
+        "missingSiteCoordinates": "Ontbrekende breedte-/lengtegraad van de locatie",
+        "noActiveSequenceLoaded": "Geen actieve reeks geladen.",
+        "noImagingContainerFound": "Kan beeldverwerkingscontainer niet vinden in actieve volgorde.",
+        "noValidTargetsForExport": "Geen geldige doelen gevonden voor export.",
+        "targetNameRequired": "Doelnaam is vereist."
+      },
+      "favorites": {
+        "addAll": "Voeg alles toe",
+        "available": "{count} favorieten beschikbaar",
+        "importTitle": "Importeren uit favorieten",
+        "noneFound": "Geen favorieten gevonden.",
+        "unnamed": "Naamloze favoriet"
+      },
+      "labels": {
+        "maxChunkMinutes": "Max. deel (minuten)",
+        "samplingStepMinutes": "Bemonsteringsstap (minuten)",
+        "scheduled": "gepland",
+        "sessionEnd": "Einde sessie",
+        "sessionStart": "Sessie begint",
+        "siteAlt": "alt",
+        "siteLat": "Site lat",
+        "siteLon": "lang"
+      },
+      "subtitle": "Mobile-first planning voor zichtbaarheid van doelen, beperkingen en het invoegen van reeksen.",
+      "targetCard": {
+        "exposures": "{count} blootstellingen",
+        "favoriteLinked": "favoriet gekoppeld",
+        "priorityShort": "P{waarde}",
+        "scheduledVsRequested": "{gepland} / {gevraagd} min"
+      },
+      "targetList": {
+        "dragToReorder": "Sleep om de volgorde te wijzigen",
+        "empty": "Nog geen doelstellingen. \nVoeg er handmatig een toe of importeer uit favorieten.",
+        "title": "Doelstellingen",
+        "total": "{count} totaal"
+      },
+      "timeline": {
+        "idle": "Inactief",
+        "idleSegmentTitle": "Inactief: {start} - {eind}",
+        "invalidSessionRange": "Stel een geldig sessiebereik in om het schema te bekijken.",
+        "minutesShort": "{waarde} min",
+        "noSegments": "Nog geen planningssegmenten. \nControleer de doelbeperkingen en locatiecoördinaten.",
+        "range": "{begin} tot {eind}",
+        "segmentTitle": "{naam}: {start} - {eind}",
+        "title": "Sessie tijdlijn"
+      },
+      "title": "Doelplanner",
+      "toast": {
+        "addedTargetsToSequence": "{count} doel(en) toegevoegd aan de reeks.",
+        "noTargetsToApply": "Geen doelstellingen om toe te passen.",
+        "title": "Doelplanner"
+      },
+      "unscheduled": {
+        "allScheduled": "Alle gevraagde belichtingstijd past in deze sessie.",
+        "remaining": ": {minuten} min. resterend",
+        "title": "Ongeplande rest"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 (of PINS-modus) vereist."
+      }
     }
   },
   "pinsDevices": {

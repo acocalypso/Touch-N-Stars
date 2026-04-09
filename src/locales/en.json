@@ -1337,7 +1337,11 @@
       "multi_mode": "Multi Mode",
       "start_multi_mode": "Start Multi Mode",
       "multi_mode_no_filters": "No filter wheel connected",
-      "status_filter_progress": "Filter: {completed} / {total}"
+      "status_filter_progress": "Filter: {completed} / {total}",
+      "status_failed": "failed",
+      "status_running": "Running",
+      "status_stopped": "Stopped",
+      "status_success": "Success"
     },
     "weatherModal": {
       "weatherInformation": "Weather Information",
@@ -3214,6 +3218,154 @@
         "downloadFailed": "Download failed with status {status}.",
         "downloadFile": "Unable to download the selected file.",
         "refreshStatus": "Unable to refresh backend status."
+      }
+    },
+    "targetScheduler": {
+      "title": "Target Scheduler",
+      "subtitle": "Mobile-first planning for target visibility, constraints, and sequence insertion.",
+      "common": {
+        "add": "Add",
+        "edit": "Edit",
+        "copy": "Copy",
+        "copySuffix": "copy",
+        "remove": "Remove",
+        "close": "Close",
+        "cancel": "Cancel",
+        "ra": "RA",
+        "dec": "DEC",
+        "deg": "deg",
+        "seconds": "s",
+        "minutes": "min",
+        "meters": "m"
+      },
+      "actions": {
+        "addTarget": "Add target",
+        "addFromFavorites": "Add from favorites",
+        "addScheduleToSequence": "Add schedule to sequence",
+        "applying": "Applying...",
+        "computing": "Computing...",
+        "recomputeSchedule": "Recompute schedule",
+        "clearAll": "Clear all"
+      },
+      "labels": {
+        "sessionStart": "Session start",
+        "sessionEnd": "Session end",
+        "samplingStepMinutes": "Sampling step (minutes)",
+        "maxChunkMinutes": "Max chunk (minutes)",
+        "siteLat": "Site lat",
+        "siteLon": "lon",
+        "siteAlt": "alt",
+        "scheduled": "scheduled"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0+ (or PINS mode)."
+      },
+      "unscheduled": {
+        "title": "Unscheduled remainder",
+        "allScheduled": "All requested exposure time fits in this session.",
+        "remaining": ": {minutes} min remaining"
+      },
+      "favorites": {
+        "importTitle": "Import from favorites",
+        "available": "{count} favorites available",
+        "addAll": "Add all",
+        "noneFound": "No favorites found.",
+        "unnamed": "Unnamed favorite"
+      },
+      "constraints": {
+        "title": "Constraints",
+        "showAdvanced": "Show advanced",
+        "hideAdvanced": "Hide advanced",
+        "targetEnabled": "Target enabled",
+        "minAltitude": "Min altitude",
+        "maxAltitude": "Max altitude",
+        "minMoonSeparation": "Min moon separation",
+        "timeWindowStart": "Time window start",
+        "timeWindowEnd": "Time window end",
+        "timeWindowHint": "Leave time window blank to allow scheduling for the full session range."
+      },
+      "timeline": {
+        "title": "Session timeline",
+        "range": "{start} to {end}",
+        "invalidSessionRange": "Set a valid session range to preview schedule.",
+        "noSegments": "No schedule segments yet. Check target constraints and site coordinates.",
+        "minutesShort": "{value} min",
+        "segmentTitle": "{name}: {start} - {end}",
+        "idle": "Idle",
+        "idleSegmentTitle": "Idle: {start} - {end}"
+      },
+      "targetList": {
+        "title": "Targets",
+        "total": "{count} total",
+        "empty": "No targets yet. Add one manually or import from favorites.",
+        "dragToReorder": "Drag to reorder"
+      },
+      "targetCard": {
+        "priorityShort": "P{value}",
+        "exposures": "{count} exposures",
+        "favoriteLinked": "favorite linked",
+        "scheduledVsRequested": "{scheduled} / {requested} min"
+      },
+      "editor": {
+        "newTarget": "New target",
+        "editTarget": "Edit target",
+        "name": "Name",
+        "namePlaceholder": "M31 - Andromeda",
+        "priority": "Priority",
+        "raLabel": "RA (deg or HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "decLabel": "DEC (deg or +/-DD:MM:SS)",
+        "decPlaceholder": "+41:16:07",
+        "rotation": "Rotation",
+        "linkedToFavorite": "Linked to favorite",
+        "exposurePlan": "Exposure plan",
+        "addExposure": "Add exposure",
+        "addAtLeastOneExposure": "Add at least one exposure row.",
+        "exposureRow": "Exposure {index}",
+        "filter": "Filter",
+        "imageType": "Image type",
+        "duration": "Duration",
+        "gain": "Gain",
+        "count": "Count",
+        "offset": "Offset",
+        "binning": "Binning",
+        "saveTarget": "Save target",
+        "presets": {
+          "singleL": "Single L",
+          "lrgb": "LRGB",
+          "sho": "SHO"
+        },
+        "imageTypes": {
+          "light": "LIGHT",
+          "dark": "DARK",
+          "flat": "FLAT",
+          "bias": "BIAS"
+        }
+      },
+      "toast": {
+        "title": "Target Scheduler",
+        "noTargetsToApply": "No targets to apply.",
+        "addedTargetsToSequence": "Added {count} target(s) to the sequence."
+      },
+      "defaults": {
+        "newTargetName": "New Target",
+        "favoriteTargetName": "Favorite Target",
+        "targetName": "Target"
+      },
+      "errors": {
+        "invalidRaFormat": "RA format is invalid.",
+        "invalidDecFormat": "DEC format is invalid.",
+        "targetNameRequired": "Target name is required.",
+        "invalidSessionRange": "Invalid session range",
+        "missingSiteCoordinates": "Missing site latitude/longitude",
+        "computeFailed": "Failed to compute schedule",
+        "couldNotAddSequenceItem": "Could not add sequence item",
+        "failedToAddSequenceTarget": "Failed to add sequence target for {name}",
+        "failedToResolveTargetContainer": "Failed to resolve newly created target container for {name}",
+        "noActiveSequenceLoaded": "No active sequence loaded.",
+        "noImagingContainerFound": "Could not find imaging container in active sequence.",
+        "noValidTargetsForExport": "No valid targets found for export.",
+        "failedToApplySchedule": "Failed to apply schedule to sequence."
       }
     }
   },

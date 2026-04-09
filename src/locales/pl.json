@@ -1320,7 +1320,20 @@
       "multi_mode_no_filters": "Brak podłączonego koła filtrującego",
       "single_mode": "Tryb pojedynczy",
       "start_multi_mode": "Uruchom tryb Multi",
-      "status_filter_progress": "Filtr: {completed} / {total}"
+      "status_filter_progress": "Filtr: {completed} / {total}",
+      "cover_scope_confirm": "OK",
+      "cover_scope_message": "Zakryj teraz lunetę i naciśnij OK, aby rozpocząć fotografowanie ciemności.",
+      "cover_scope_title": "Zakryj teraz swój zasięg",
+      "darks_to_take": "Ciemności do wzięcia",
+      "operation_failed": "Operacja nie powiodła się",
+      "status_failed_darks": "Nie uchwycono żadnych ciemności — nie można określić prawidłowej ekspozycji",
+      "status_failed_flats": "Nie schwytano żadnych mieszkań – nie udało się określić prawidłowego narażenia",
+      "status_running_darks": "Bieganie: {ukończone} / {total} ciemności",
+      "status_running_flats": "Bieganie: {ukończone} / {total} mieszkań",
+      "status_stopped_darks": "Zatrzymano wcześniej – {ukończono} z {total} zdobytych ciemności",
+      "status_stopped_flats": "Zatrzymano wcześniej – {ukończono} z {total} zdobytych mieszkań",
+      "status_success_darks": "Gotowe — przechwycono {count} ciemności",
+      "status_success_flats": "Gotowe – zajęto {count} mieszkań"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",
@@ -2479,7 +2492,8 @@
         "noPorts": "Brak dostępnych portów",
         "bootState": "Stan włączenia",
         "bootStateEnabled": "Włączone przy uruchomieniu",
-        "bootStateDisabled": "Wyłączone przy uruchomieniu"
+        "bootStateDisabled": "Wyłączone przy uruchomieniu",
+        "voltage": "Woltaż"
       },
       "wifi": {
         "currentStatus": "Aktualny stan Wi-Fi",
@@ -3201,6 +3215,154 @@
       "unknownCamera": "Nieznany aparat",
       "useProxy": "Użyj proxy",
       "useProxyHint": "Prześlij obraz przez backend NINA. \nWymagane w przypadku kamer z poświadczeniami lub ograniczeniami CORS. \nWyłącz dla bezpośrednich kamer internetowych."
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "Dodaj z ulubionych",
+        "addScheduleToSequence": "Dodaj harmonogram do sekwencji",
+        "addTarget": "Dodaj cel",
+        "applying": "Stosowanie...",
+        "clearAll": "Wyczyść wszystko",
+        "computing": "Obliczanie...",
+        "recomputeSchedule": "Przelicz harmonogram"
+      },
+      "common": {
+        "add": "Dodać",
+        "cancel": "Anulować",
+        "close": "Zamknąć",
+        "copy": "Kopia",
+        "copySuffix": "kopia",
+        "dec": "GRUDZIEŃ",
+        "deg": "st",
+        "edit": "Redagować",
+        "meters": "M",
+        "minutes": "min",
+        "ra": "RA",
+        "remove": "Usunąć",
+        "seconds": "S"
+      },
+      "constraints": {
+        "hideAdvanced": "Ukryj zaawansowane",
+        "maxAltitude": "Maksymalna wysokość",
+        "minAltitude": "Minimalna wysokość",
+        "minMoonSeparation": "Minimalna separacja księżyca",
+        "showAdvanced": "Pokaż zaawansowane",
+        "targetEnabled": "Cel włączony",
+        "timeWindowEnd": "Koniec okna czasowego",
+        "timeWindowHint": "Pozostaw okno czasowe puste, aby umożliwić planowanie pełnego zakresu sesji.",
+        "timeWindowStart": "Rozpoczęcie okna czasowego",
+        "title": "Ograniczenia"
+      },
+      "defaults": {
+        "favoriteTargetName": "Ulubiony cel",
+        "newTargetName": "Nowy cel",
+        "targetName": "Cel"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "Dodaj co najmniej jeden wiersz ekspozycji.",
+        "addExposure": "Dodaj ekspozycję",
+        "binning": "Binowanie",
+        "count": "Liczyć",
+        "decLabel": "DEC (stopnie lub /-DD:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "Czas trwania",
+        "editTarget": "Edytuj cel",
+        "exposurePlan": "Plan ekspozycji",
+        "exposureRow": "Ekspozycja {indeks}",
+        "filter": "Filtr",
+        "gain": "Osiągać",
+        "imageType": "Typ obrazu",
+        "imageTypes": {
+          "bias": "STRONNICZOŚĆ",
+          "dark": "CIEMNY",
+          "flat": "PŁASKI",
+          "light": "ŚWIATŁO"
+        },
+        "linkedToFavorite": "Połączone z ulubionymi",
+        "name": "Nazwa",
+        "namePlaceholder": "M31 – Andromeda",
+        "newTarget": "Nowy cel",
+        "offset": "Zrównoważyć",
+        "presets": {
+          "lrgb": "LGBT",
+          "sho": "SZ",
+          "singleL": "Pojedynczy l"
+        },
+        "priority": "Priorytet",
+        "raLabel": "RA (stopnie lub GG:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "Obrót",
+        "saveTarget": "Zapisz cel"
+      },
+      "errors": {
+        "computeFailed": "Nie udało się obliczyć harmonogramu",
+        "couldNotAddSequenceItem": "Nie można dodać elementu sekwencji",
+        "failedToAddSequenceTarget": "Nie udało się dodać celu sekwencji dla {name}",
+        "failedToApplySchedule": "Nie udało się zastosować harmonogramu do sekwencji.",
+        "failedToResolveTargetContainer": "Nie udało się rozwiązać nowo utworzonego kontenera docelowego dla {name}",
+        "invalidDecFormat": "Format DEC jest nieprawidłowy.",
+        "invalidRaFormat": "Format RA jest nieprawidłowy.",
+        "invalidSessionRange": "Nieprawidłowy zakres sesji",
+        "missingSiteCoordinates": "Brak szerokości/długości geograficznej miejsca",
+        "noActiveSequenceLoaded": "Nie załadowano żadnej aktywnej sekwencji.",
+        "noImagingContainerFound": "Nie można znaleźć kontenera obrazowania w aktywnej sekwencji.",
+        "noValidTargetsForExport": "Nie znaleziono prawidłowych celów do eksportu.",
+        "targetNameRequired": "Nazwa docelowa jest wymagana."
+      },
+      "favorites": {
+        "addAll": "Dodaj wszystko",
+        "available": "Dostępnych jest {count} ulubionych",
+        "importTitle": "Importuj z ulubionych",
+        "noneFound": "Nie znaleziono ulubionych.",
+        "unnamed": "Nienazwany faworyt"
+      },
+      "labels": {
+        "maxChunkMinutes": "Maksymalna porcja (minuty)",
+        "samplingStepMinutes": "Krok próbkowania (minuty)",
+        "scheduled": "zaplanowany",
+        "sessionEnd": "Koniec sesji",
+        "sessionStart": "Początek sesji",
+        "siteAlt": "alt",
+        "siteLat": "Strona łac",
+        "siteLon": "długo"
+      },
+      "subtitle": "Planowanie zorientowane na urządzenia mobilne pod kątem widoczności celu, ograniczeń i wstawiania sekwencji.",
+      "targetCard": {
+        "exposures": "Liczba ekspozycji",
+        "favoriteLinked": "ulubione połączone",
+        "priorityShort": "P{wartość}",
+        "scheduledVsRequested": "{planowany} / {żądany} min"
+      },
+      "targetList": {
+        "dragToReorder": "Przeciągnij, aby zmienić kolejność",
+        "empty": "Nie ma jeszcze celów. \nDodaj ręcznie lub zaimportuj z ulubionych.",
+        "title": "Cele",
+        "total": "łącznie {liczba}"
+      },
+      "timeline": {
+        "idle": "Bezczynny",
+        "idleSegmentTitle": "Bezczynność: {start} - {koniec}",
+        "invalidSessionRange": "Ustaw prawidłowy zakres sesji, aby wyświetlić podgląd harmonogramu.",
+        "minutesShort": "{wartość} min",
+        "noSegments": "Nie ma jeszcze segmentów harmonogramu. \nSprawdź ograniczenia celu i współrzędne miejsca.",
+        "range": "{start} do {końca}",
+        "segmentTitle": "{nazwa}: {start} - {koniec}",
+        "title": "Harmonogram sesji"
+      },
+      "title": "Harmonogram docelowy",
+      "toast": {
+        "addedTargetsToSequence": "Dodano cele do sekwencji: {count}.",
+        "noTargetsToApply": "Brak celów do zastosowania.",
+        "title": "Harmonogram docelowy"
+      },
+      "unscheduled": {
+        "allScheduled": "Cały wymagany czas ekspozycji mieści się w tej sesji.",
+        "remaining": ": Pozostało {minuty} min",
+        "title": "Nieplanowana pozostała część"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "Wstawianie sekwencji wymaga wtyczki TNS 1.2.8.0 (lub trybu PINS)."
+      }
     }
   },
   "pinsDevices": {

@@ -1337,7 +1337,11 @@
       "multi_mode": "Multi Modus",
       "start_multi_mode": "Multi Modus starten",
       "multi_mode_no_filters": "Kein Filterrad verbunden",
-      "status_filter_progress": "Filter: {completed} / {total}"
+      "status_filter_progress": "Filter: {completed} / {total}",
+      "status_failed": "Fehlgeschlagen",
+      "status_running": "Läuft",
+      "status_stopped": "Angehalten",
+      "status_success": "Erfolgreich"
     },
     "weatherModal": {
       "weatherInformation": "Wetterinformationen",
@@ -2536,7 +2540,8 @@
         "noPorts": "Keine Ports verfügbar",
         "bootState": "Einschaltzustand",
         "bootStateEnabled": "Beim Start aktiviert",
-        "bootStateDisabled": "Beim Start deaktiviert"
+        "bootStateDisabled": "Beim Start deaktiviert",
+        "voltage": "Stromspannung"
       },
       "wifi": {
         "currentStatus": "Aktueller WLAN-Status",
@@ -3213,6 +3218,154 @@
         "downloadFailed": "Download failed with status {status}.",
         "downloadFile": "Unable to download the selected file.",
         "refreshStatus": "Unable to refresh backend status."
+      }
+    },
+    "targetScheduler": {
+      "title": "Target Scheduler",
+      "subtitle": "Sessione Planner.",
+      "common": {
+        "add": "Hinzufügen",
+        "edit": "Bearbeiten",
+        "copy": "Kopieren",
+        "copySuffix": "Kopie",
+        "remove": "Entfernen",
+        "close": "Schließen",
+        "cancel": "Abbrechen",
+        "ra": "RA",
+        "dec": "DEC",
+        "deg": "Grad",
+        "seconds": "s",
+        "minutes": "min",
+        "meters": "m"
+      },
+      "actions": {
+        "addTarget": "Ziel hinzufügen",
+        "addFromFavorites": "Aus Favoriten hinzufügen",
+        "addScheduleToSequence": "Zeitplan zur Sequenz hinzufügen",
+        "applying": "Wird angewendet...",
+        "computing": "Berechne...",
+        "recomputeSchedule": "Zeitplan neu berechnen",
+        "clearAll": "Alles löschen"
+      },
+      "labels": {
+        "sessionStart": "Sitzungsstart",
+        "sessionEnd": "Sitzungsende",
+        "samplingStepMinutes": "Abtastschritt (Minuten)",
+        "maxChunkMinutes": "Max. Block (Minuten)",
+        "siteLat": "Standort Breite",
+        "siteLon": "Länge",
+        "siteAlt": "Höhe",
+        "scheduled": "geplant"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "Für das Einfügen in die Sequenz wird TNS-Plugin 1.2.8.0+ benötigt (oder PINS-Modus)."
+      },
+      "unscheduled": {
+        "title": "Nicht geplanter Rest",
+        "allScheduled": "Die komplette angeforderte Belichtungszeit passt in diese Sitzung.",
+        "remaining": ": {minutes} min verbleibend"
+      },
+      "favorites": {
+        "importTitle": "Aus Favoriten importieren",
+        "available": "{count} Favoriten verfügbar",
+        "addAll": "Alle hinzufügen",
+        "noneFound": "Keine Favoriten gefunden.",
+        "unnamed": "Unbenannter Favorit"
+      },
+      "constraints": {
+        "title": "Bedingungen",
+        "showAdvanced": "Erweitert anzeigen",
+        "hideAdvanced": "Erweitert ausblenden",
+        "targetEnabled": "Ziel aktiviert",
+        "minAltitude": "Minimale Höhe",
+        "maxAltitude": "Maximale Höhe",
+        "minMoonSeparation": "Mindest-Mondabstand",
+        "timeWindowStart": "Zeitfenster Start",
+        "timeWindowEnd": "Zeitfenster Ende",
+        "timeWindowHint": "Zeitfenster leer lassen, um den gesamten Sitzungszeitraum zu planen."
+      },
+      "timeline": {
+        "title": "Sitzungs-Zeitachse",
+        "range": "{start} bis {end}",
+        "invalidSessionRange": "Bitte einen gültigen Sitzungszeitraum setzen, um den Zeitplan anzuzeigen.",
+        "noSegments": "Noch keine Zeitplan-Segmente. Prüfe Bedingungen und Standortkoordinaten.",
+        "minutesShort": "{value} min",
+        "segmentTitle": "{name}: {start} - {end}",
+        "idle": "Leerlauf",
+        "idleSegmentTitle": "Leerlauf: {start} - {end}"
+      },
+      "targetList": {
+        "title": "Ziele",
+        "total": "{count} gesamt",
+        "empty": "Noch keine Ziele. Füge eines manuell hinzu oder importiere aus Favoriten.",
+        "dragToReorder": "Zum Umordnen ziehen"
+      },
+      "targetCard": {
+        "priorityShort": "P{value}",
+        "exposures": "{count} Belichtungen",
+        "favoriteLinked": "mit Favorit verknüpft",
+        "scheduledVsRequested": "{scheduled} / {requested} min"
+      },
+      "editor": {
+        "newTarget": "Neues Ziel",
+        "editTarget": "Ziel bearbeiten",
+        "name": "Name",
+        "namePlaceholder": "M31 - Andromeda",
+        "priority": "Priorität",
+        "raLabel": "RA (Grad oder HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "decLabel": "DEC (Grad oder +/-DD:MM:SS)",
+        "decPlaceholder": "+41:16:07",
+        "rotation": "Rotation",
+        "linkedToFavorite": "Mit Favorit verknüpft",
+        "exposurePlan": "Belichtungsplan",
+        "addExposure": "Belichtung hinzufügen",
+        "addAtLeastOneExposure": "Füge mindestens eine Belichtungszeile hinzu.",
+        "exposureRow": "Belichtung {index}",
+        "filter": "Filter",
+        "imageType": "Bildtyp",
+        "duration": "Dauer",
+        "gain": "Gain",
+        "count": "Anzahl",
+        "offset": "Offset",
+        "binning": "Binning",
+        "saveTarget": "Ziel speichern",
+        "presets": {
+          "singleL": "Einzel L",
+          "lrgb": "LRGB",
+          "sho": "SHO"
+        },
+        "imageTypes": {
+          "light": "LIGHT",
+          "dark": "DARK",
+          "flat": "FLAT",
+          "bias": "BIAS"
+        }
+      },
+      "toast": {
+        "title": "Target Scheduler",
+        "noTargetsToApply": "Keine Ziele zum Anwenden.",
+        "addedTargetsToSequence": "{count} Ziel(e) zur Sequenz hinzugefügt."
+      },
+      "defaults": {
+        "newTargetName": "Neues Ziel",
+        "favoriteTargetName": "Favoritenziel",
+        "targetName": "Ziel"
+      },
+      "errors": {
+        "invalidRaFormat": "RA-Format ist ungültig.",
+        "invalidDecFormat": "DEC-Format ist ungültig.",
+        "targetNameRequired": "Zielname ist erforderlich.",
+        "invalidSessionRange": "Ungültiger Sitzungszeitraum",
+        "missingSiteCoordinates": "Standort-Breite/Länge fehlt",
+        "computeFailed": "Zeitplan konnte nicht berechnet werden",
+        "couldNotAddSequenceItem": "Sequenzelement konnte nicht hinzugefügt werden",
+        "failedToAddSequenceTarget": "Sequenzziel für {name} konnte nicht hinzugefügt werden",
+        "failedToResolveTargetContainer": "Neu erstellter Zielcontainer für {name} konnte nicht aufgelöst werden",
+        "noActiveSequenceLoaded": "Keine aktive Sequenz geladen.",
+        "noImagingContainerFound": "Im aktiven Ablauf konnte kein Imaging-Container gefunden werden.",
+        "noValidTargetsForExport": "Keine gültigen Ziele für den Export gefunden.",
+        "failedToApplySchedule": "Zeitplan konnte nicht auf die Sequenz angewendet werden."
       }
     }
   },

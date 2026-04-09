@@ -1,0 +1,10 @@
+{
+  "id": "target-scheduler",
+  "name": "Target scheduler",
+  "description": "Scheduler",
+  "version": "1.0.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

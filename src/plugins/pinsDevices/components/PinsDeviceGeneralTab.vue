@@ -93,24 +93,17 @@
                     {{ store.powerboxStatus.Rail12W.toFixed(2) }}W
                   </span>
                 </div>
-                <div class="flex justify-between">
+                <div
+                  v-if="Number.isFinite(store.powerboxStatus.Rail5V)"
+                  class="flex justify-between"
+                >
                   <span class="text-gray-400">5V Rail</span>
                   <span class="text-gray-200">
                     {{ store.powerboxStatus.Rail5V.toFixed(2) }}V
-                    <span
-                      v-if="
-                        store.powerboxStatus.Rail5A !== 'NaN' &&
-                        store.powerboxStatus.Rail5A !== undefined
-                      "
-                    >
+                    <span v-if="Number.isFinite(store.powerboxStatus.Rail5A)">
                       / {{ store.powerboxStatus.Rail5A.toFixed(2) }}A
                     </span>
-                    <span
-                      v-if="
-                        store.powerboxStatus.Rail5W !== 'NaN' &&
-                        store.powerboxStatus.Rail5W !== undefined
-                      "
-                    >
+                    <span v-if="Number.isFinite(store.powerboxStatus.Rail5W)">
                       / {{ store.powerboxStatus.Rail5W.toFixed(2) }}W
                     </span>
                   </span>

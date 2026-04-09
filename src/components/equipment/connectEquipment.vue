@@ -97,6 +97,7 @@
       :isConnected="store.guiderInfo.Connected"
       :disableConnect="isGuiderConnectDisabled"
       :disableConnectMessage="guiderDisabledMessage"
+      :alwaysEnableConfig="true"
       @device-selected="selectedGuiderDevice = $event"
       @open-config="openGuiderSettings"
     />

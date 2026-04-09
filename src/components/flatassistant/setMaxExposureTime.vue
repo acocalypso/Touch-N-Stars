@@ -25,7 +25,6 @@ async function updateMaxExposureTime(value) {
   await apiService.profileChangeValue('CameraSettings-MaxFlatExposureTime', value);
 }
 
-
 onMounted(() => {
   flatsStore.maxExposureTime = store.profileInfo.CameraSettings.MaxFlatExposureTime;
 });

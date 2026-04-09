@@ -8,16 +8,22 @@
     :step="0.1"
     :decimalPlaces="3"
     inputId="min-exposure-time"
+    @change="updateMinExposureTime"
   />
 </template>
 <script setup>
 import { onMounted } from 'vue';
+import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
+
+async function updateMinExposureTime(value) {
+  await apiService.profileChangeValue('CameraSettings-MinFlatExposureTime', value);
+}
 
 onMounted(() => {
   flatsStore.minExposureTime = store.profileInfo.CameraSettings.MinFlatExposureTime;

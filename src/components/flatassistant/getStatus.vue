@@ -76,7 +76,6 @@
 <script setup>
 import { computed } from 'vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
-import { onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const flatsStore = useFlatassistantStore();
@@ -127,13 +126,5 @@ const progressPercent = computed(() => {
   const { TotalIterations, CompletedIterations } = flatsStore.status;
   if (TotalIterations <= 0 || CompletedIterations < 0) return 0;
   return Math.min(100, Math.round((CompletedIterations / TotalIterations) * 100));
-});
-
-onMounted(() => {
-  flatsStore.startFetchingFlats();
-});
-
-onBeforeUnmount(() => {
-  flatsStore.stopFetchingFlats();
 });
 </script>

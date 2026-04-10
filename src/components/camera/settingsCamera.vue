@@ -139,7 +139,7 @@ const initializeGain = () => {
   settingsStore.camera.gain = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
   if (settingsStore.camera.gain === -1) {
     settingsStore.camera.gain = store.profileInfo?.CameraSettings?.Gain;
-    console.log('[SettingsCamera] Gain from CameraSettings used:', settingsStore.camera.gain);
+    //console.log('[SettingsCamera] Gain from CameraSettings used:', settingsStore.camera.gain);
   }
 };
 
@@ -154,11 +154,7 @@ async function setOffset() {
     console.log('Offset too large, max:', store.cameraInfo.OffsetMax);
   }
   try {
-    const data = await apiService.profileChangeValue(
-      'CameraSettings-Offset',
-      settingsStore.camera.offset
-    );
-    console.log(data);
+    await apiService.profileChangeValue('CameraSettings-Offset', settingsStore.camera.offset);
   } catch (error) {
     console.log('Error while setting offset');
   }
@@ -166,11 +162,8 @@ async function setOffset() {
 
 async function setGain() {
   try {
-    const data = await apiService.profileChangeValue(
-      'SnapShotControlSettings-Gain',
-      settingsStore.camera.gain
-    );
-    console.log(data);
+    await apiService.profileChangeValue('SnapShotControlSettings-Gain', settingsStore.camera.gain);
+    await apiService.profileChangeValue('CameraSettings-Gain', settingsStore.camera.gain);
   } catch (error) {
     console.log('Error while setting gain');
   }

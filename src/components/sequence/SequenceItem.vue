@@ -1,7 +1,7 @@
 <template>
   <div
-    class="rounded-lg border transition-colors duration-200"
-    :class="[borderClass, hasChildren && depth > 0 ? depthLeftBorder : '']"
+    class="rounded-lg border transition-all duration-200"
+    :class="[borderClass, hasChildren && depth > 0 ? depthLeftBorder : '', activeSectionRing]"
   >
     <!-- Item header row -->
     <div class="flex items-center gap-1.5 px-2 py-2">
@@ -91,7 +91,8 @@
       <!-- Triggers -->
       <div
         v-if="item.Triggers !== undefined"
-        class="mb-1.5 border border-cyan-600/30 rounded-lg bg-cyan-950/10 p-1.5 space-y-1"
+        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
+        :class="activeSection === 'trigger' ? 'border border-cyan-400/80 bg-cyan-950/30 shadow-lg shadow-cyan-500/30' : 'border border-cyan-600/30 bg-cyan-950/10'"
       >
         <div class="px-1">
           <span class="text-xs text-cyan-400/70">{{ $t('components.sequence.triggers') }}</span>
@@ -121,6 +122,7 @@
             mode="trigger"
             :insertAfter="(item.Triggers?.length ?? 0) > 0 ? true : null"
             :containerName="item.Name"
+            @open-change="(v) => onAddSectionActive('trigger', v)"
           />
         </div>
       </div>
@@ -128,7 +130,8 @@
       <!-- Conditions -->
       <div
         v-if="item.Conditions !== undefined"
-        class="mb-1.5 border border-amber-600/30 rounded-lg bg-amber-950/10 p-1.5 space-y-1"
+        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
+        :class="activeSection === 'condition' ? 'border border-amber-400/80 bg-amber-950/30 shadow-lg shadow-amber-500/30' : 'border border-amber-600/30 bg-amber-950/10'"
       >
         <div class="px-1">
           <span class="text-xs text-amber-400/70">{{ $t('components.sequence.conditions') }}</span>
@@ -158,33 +161,40 @@
             mode="condition"
             :insertAfter="(item.Conditions?.length ?? 0) > 0 ? true : null"
             :containerName="item.Name"
+            @open-change="(v) => onAddSectionActive('condition', v)"
           />
         </div>
       </div>
 
-      <draggable
-        :list="item.Items"
-        item-key="Id"
-        handle=".drag-handle"
-        ghost-class="opacity-30"
-        :force-fallback="true"
-        class="space-y-1.5"
-        :fallbackOnBody="true"
-        @end="(evt) => onChildDragEnd(evt)"
+      <div
+        class="rounded-lg transition-all duration-200"
+        :class="activeSection === 'item' ? 'ring-1 ring-blue-400/70 bg-blue-950/15 shadow-lg shadow-blue-500/30' : ''"
       >
-        <template #item="{ element }">
-          <SequenceItem :item="element" :siblings="item.Items" :depth="depth + 1" />
-        </template>
-      </draggable>
+        <draggable
+          :list="item.Items"
+          item-key="Id"
+          handle=".drag-handle"
+          ghost-class="opacity-30"
+          :force-fallback="true"
+          class="space-y-1.5"
+          :fallbackOnBody="true"
+          @end="(evt) => onChildDragEnd(evt)"
+        >
+          <template #item="{ element }">
+            <SequenceItem :item="element" :siblings="item.Items" :depth="depth + 1" />
+          </template>
+        </draggable>
 
-      <!-- Add item button at bottom, centered -->
-      <div v-if="item.Items !== undefined && canAdd" class="flex justify-center mt-2">
-        <AddTypeButton
-          :targetId="item.Items?.at(-1)?.Id ?? item.Id"
-          mode="item"
-          :insertAfter="(item.Items?.length ?? 0) > 0 ? true : null"
-          :containerName="item.Name"
-        />
+        <!-- Add item button at bottom, centered -->
+        <div v-if="item.Items !== undefined && canAdd" class="flex justify-center mt-2">
+          <AddTypeButton
+            :targetId="item.Items?.at(-1)?.Id ?? item.Id"
+            mode="item"
+            :insertAfter="(item.Items?.length ?? 0) > 0 ? true : null"
+            :containerName="item.Name"
+            @open-change="(v) => onAddSectionActive('item', v)"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -231,6 +241,18 @@ const isNoExpand = computed(() => NO_EXPAND_TYPES.has(props.item.FullTypeName));
 const store = useSequenceV2Store();
 const settingsStore = useSettingsStore();
 const collapsed = ref(false);
+const activeSection = ref(null);
+
+function onAddSectionActive(mode, isOpen) {
+  activeSection.value = isOpen ? mode : null;
+}
+
+const activeSectionRing = computed(() => {
+  if (activeSection.value === 'trigger') return 'ring-1 ring-cyan-400/70 shadow-lg shadow-cyan-500/40';
+  if (activeSection.value === 'condition') return 'ring-1 ring-amber-400/70 shadow-lg shadow-amber-500/40';
+  if (activeSection.value === 'item') return 'ring-1 ring-blue-400/70 shadow-lg shadow-blue-500/40';
+  return '';
+});
 const moreOpen = ref(false);
 const moreRef = ref(null);
 const moreStyle = ref({});
@@ -291,7 +313,7 @@ const depthLeftBorder = computed(() => DEPTH_BORDERS[(props.depth - 1) % DEPTH_B
 
 const borderClass = computed(() => {
   const s = props.item.Status;
-  if (s === 'RUNNING') return 'border-cyan-600/40 bg-cyan-950/20';
+  if (s === 'RUNNING') return 'border-green-500/50 shadow-lg shadow-green-500/35';
   if (s === 'FINISHED') return 'border-emerald-600/30 bg-emerald-950/10';
   if (s === 'DISABLED') return 'border-slate-700/30 bg-slate-900/20 opacity-60';
   return 'border-slate-600/30 bg-slate-800/30';

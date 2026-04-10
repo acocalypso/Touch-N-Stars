@@ -15,7 +15,8 @@
     <template v-else>
       <!-- Global Triggers -->
       <div
-        class="bg-slate-800/60 backdrop-blur-sm border border-purple-600/30 rounded-lg shadow-lg"
+        class="bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-200"
+        :class="activeGlobal ? 'border border-purple-400/70 shadow-purple-500/20' : 'border border-purple-600/30'"
       >
         <div
           class="flex items-center justify-between p-3 cursor-pointer hover:bg-slate-700/30 rounded-t-lg select-none"
@@ -43,6 +44,7 @@
               mode="trigger"
               :insertAfter="store.globalTriggers.length > 0 ? true : null"
               containerName="Global"
+              @open-change="(v) => (activeGlobal = v)"
             />
           </div>
         </div>
@@ -53,7 +55,8 @@
         <div
           v-for="(container, idx) in store.containers"
           :key="container.Id ?? idx"
-          class="bg-slate-800/60 backdrop-blur-sm border border-slate-600/50 rounded-lg shadow-lg"
+          class="bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-200"
+          :class="activeContainerMap[container.Id ?? idx] ? 'border border-blue-400/60 shadow-blue-500/20' : 'border border-slate-600/50'"
         >
           <!-- Container header -->
           <div
@@ -101,6 +104,7 @@
                 mode="item"
                 :insertAfter="(container.Items?.length ?? 0) > 0 ? true : null"
                 :containerName="container.Name"
+                @open-change="(v) => (activeContainerMap[container.Id ?? idx] = v)"
               />
             </div>
           </div>
@@ -111,7 +115,7 @@
 </template>
 
 <script setup>
-import { reactive, onMounted, onUnmounted } from 'vue';
+import { reactive, ref, onMounted, onUnmounted } from 'vue';
 import draggable from 'vuedraggable';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
@@ -121,6 +125,8 @@ import ControlSequence from './controlSequence.vue';
 
 const store = useSequenceV2Store();
 const collapsed = reactive({});
+const activeGlobal = ref(false);
+const activeContainerMap = reactive({});
 
 function toggleSection(key) {
   collapsed[key] = !collapsed[key];

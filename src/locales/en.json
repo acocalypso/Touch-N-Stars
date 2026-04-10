@@ -497,7 +497,9 @@
       "totalExposureTime": {
         "title": "Total exposure time",
         "Pictures": "Pictures",
-        "AllFilters": "All Filters"
+        "AllFilters": "All Filters",
+        "noFilter": "No Filter",
+        "total": "Total"
       },
       "imageFilter": {
         "allTargets": "All Targets",

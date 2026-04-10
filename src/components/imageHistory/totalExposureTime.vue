@@ -1,18 +1,52 @@
 <template>
-  <div class="flex flex-col gap-3">
-    <div v-if="displayData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
-      <div class="flex justify-between items-center">
-        <span class="text-sm text-gray-400">{{ displayLabel }}</span>
+  <div class="flex flex-col gap-1">
+    <!-- Per-filter breakdown when no specific filter is selected -->
+    <template v-if="!filter.selectedFilter && filterBreakdown.length > 1">
+      <div
+        v-for="entry in filterBreakdown"
+        :key="entry.filterName"
+        class="flex justify-between items-center px-3 py-1"
+      >
+        <span class="text-xs text-gray-400">{{
+          entry.filterName || $t('components.sequence.totalExposureTime.noFilter')
+        }}</span>
         <span class="text-right">
-          <div class="text-sm text-gray-600 dark:text-gray-400">
-            {{ displayData.imageCount }}
-            {{ $t('components.sequence.totalExposureTime.Pictures') }}
-          </div>
-          <div class="font-mono text-lg text-gray-300 font-bold">
-            {{ formatExposureTime(displayData.totalTime) }}
-          </div>
+          <span class="text-xs text-gray-500 mr-2"
+            >{{ entry.imageCount }} {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+          >
+          <span class="font-mono text-sm text-gray-300 font-bold">{{
+            formatExposureTime(entry.totalTime)
+          }}</span>
         </span>
       </div>
+      <!-- Total row -->
+      <div class="flex justify-between items-center px-3 py-1 border-t border-gray-700 mt-1 pt-2">
+        <span class="text-xs text-gray-400">{{
+          $t('components.sequence.totalExposureTime.total')
+        }}</span>
+        <span class="text-right">
+          <span class="text-xs text-gray-500 mr-2"
+            >{{ totalData.imageCount }}
+            {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+          >
+          <span class="font-mono text-sm text-gray-300 font-bold">{{
+            formatExposureTime(totalData.totalTime)
+          }}</span>
+        </span>
+      </div>
+    </template>
+
+    <!-- Single row when a filter is selected or only one filter exists -->
+    <div v-else-if="totalData" class="flex justify-between items-center px-3 py-1">
+      <span class="text-xs text-gray-400">{{ displayLabel }}</span>
+      <span class="text-right">
+        <span class="text-xs text-gray-500 mr-2"
+          >{{ totalData.imageCount }} {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+        >
+        <span class="font-mono text-sm text-gray-300 font-bold">{{
+          formatExposureTime(totalData.totalTime)
+        }}</span>
+      </span>
     </div>
   </div>
 </template>
@@ -29,7 +63,22 @@ const lightFilteredImages = computed(() =>
   filteredImages.value.filter((img) => img.ImageType === 'LIGHT' || img.ImageType === 'SNAPSHOT')
 );
 
-const displayData = computed(() => {
+const filterBreakdown = computed(() => {
+  const images = lightFilteredImages.value;
+  if (!images || images.length === 0) return [];
+
+  const map = new Map();
+  for (const img of images) {
+    const key = img.Filter || '';
+    if (!map.has(key)) map.set(key, { filterName: img.Filter || '', imageCount: 0, totalTime: 0 });
+    const entry = map.get(key);
+    entry.imageCount++;
+    entry.totalTime += img.ExposureTime || 0;
+  }
+  return [...map.values()].sort((a, b) => a.filterName.localeCompare(b.filterName));
+});
+
+const totalData = computed(() => {
   const images = lightFilteredImages.value;
   if (!images || images.length === 0) return null;
   return {

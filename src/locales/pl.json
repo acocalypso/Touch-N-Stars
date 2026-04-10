@@ -487,7 +487,9 @@
       "totalExposureTime": {
         "title": "Całkowity czas ekspozycji",
         "Pictures": "Kino",
-        "AllFilters": "Wszystkie filtry"
+        "AllFilters": "Wszystkie filtry",
+        "noFilter": "Bez filtra",
+        "total": "Łącznie"
       },
       "items": {
         "saving": "Zapisywanie…",

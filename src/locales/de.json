@@ -497,7 +497,9 @@
       "totalExposureTime": {
         "title": "Gesamtbelichtungszeit",
         "Pictures": "Bilder",
-        "AllFilters": "Alle Filter"
+        "AllFilters": "Alle Filter",
+        "noFilter": "Kein Filter",
+        "total": "Gesamt"
       },
       "imageFilter": {
         "allTargets": "Alle Ziele",

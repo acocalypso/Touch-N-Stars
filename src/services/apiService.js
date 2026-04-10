@@ -598,10 +598,12 @@ const apiService = {
     }
   },
 
-  async getSequenceThumbnail(index) {
+  async getSequenceThumbnail(index, imageType = null) {
     try {
       const { BASE_URL } = getUrls();
+      const params = imageType ? { imageType } : {};
       const response = await axios.get(`${BASE_URL}/image/thumbnail/${index}`, {
+        params,
         responseType: 'blob',
       });
       return response.data;

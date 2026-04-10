@@ -202,9 +202,9 @@ export const useImagetStore = defineStore('imageStore', {
       }
     },
 
-    async getThumbnailByIndex(index) {
+    async getThumbnailByIndex(index, imageType = null) {
       try {
-        const blob = await apiService.getSequenceThumbnail(index);
+        const blob = await apiService.getSequenceThumbnail(index, imageType);
         const imageUrl = URL.createObjectURL(blob);
         return imageUrl;
       } catch (error) {

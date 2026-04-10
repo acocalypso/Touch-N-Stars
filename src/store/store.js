@@ -368,6 +368,16 @@ export const apiStore = defineStore('store', {
           try {
             await websocketChannelService.connect(1000);
             this.isWebSocketConnected = true;
+            websocketChannelService.subscribe('IMAGE-SAVE');
+            // Initial image history load after WS connect
+            try {
+              const historyResponse = await apiService.imageHistoryAll();
+              if (historyResponse?.Success) {
+                this.imageHistoryInfo = historyResponse.Response;
+              }
+            } catch (e) {
+              console.warn('[API Store] Could not load initial image history:', e.message);
+            }
           } catch (error) {
             // WebSocket fehlgeschlagen oder Timeout
             console.warn('[API Store] WebSocket connection failed or timeout:', error.message);
@@ -472,9 +482,6 @@ export const apiStore = defineStore('store', {
         const requests = [];
         const requestMap = {};
 
-        requests.push(apiService.imageHistoryAll());
-        requestMap['imageHistoryResponse'] = 'imageHistoryResponse';
-
         if (this.isCameraConnected) {
           requests.push(apiService.cameraAction('info'));
           requestMap[requests.length - 1] = 'cameraResponse';
@@ -528,7 +535,7 @@ export const apiStore = defineStore('store', {
 
         // Map responses to correct keys
         const responseData = {
-          imageHistoryResponse: responses[0],
+          imageHistoryResponse: null,
           cameraResponse: null,
           mountResponse: null,
           filterResponse: null,
@@ -543,7 +550,7 @@ export const apiStore = defineStore('store', {
           switchResponse: null,
         };
 
-        let responseIndex = 1;
+        let responseIndex = 0;
         if (this.isCameraConnected) responseData.cameraResponse = responses[responseIndex++];
         if (this.isMountConnected) responseData.mountResponse = responses[responseIndex++];
         if (this.isFilterConnected) responseData.filterResponse = responses[responseIndex++];
@@ -1113,6 +1120,13 @@ export const apiStore = defineStore('store', {
           return;
         }
         await imageStore.getImage();
+      }
+
+      if (message.Response && message.Response.Event === 'IMAGE-SAVE') {
+        const stats = message.Response.ImageStatistics;
+        if (stats && Array.isArray(this.imageHistoryInfo)) {
+          this.imageHistoryInfo = [...this.imageHistoryInfo, stats];
+        }
       }
 
       // If a device connection event arrives via WebSocket, fetch event history immediately

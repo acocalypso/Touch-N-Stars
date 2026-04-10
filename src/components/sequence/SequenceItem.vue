@@ -313,7 +313,7 @@ const depthLeftBorder = computed(() => DEPTH_BORDERS[(props.depth - 1) % DEPTH_B
 
 const borderClass = computed(() => {
   const s = props.item.Status;
-  if (s === 'RUNNING') return 'border-cyan-600/40 bg-cyan-950/20';
+  if (s === 'RUNNING') return 'border-green-500/50 shadow-lg shadow-green-500/35';
   if (s === 'FINISHED') return 'border-emerald-600/30 bg-emerald-950/10';
   if (s === 'DISABLED') return 'border-slate-700/30 bg-slate-900/20 opacity-60';
   return 'border-slate-600/30 bg-slate-800/30';

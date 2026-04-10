@@ -72,6 +72,8 @@ const props = defineProps({
   containerName: { type: String, default: '' },
 });
 
+const emit = defineEmits(['open-change']);
+
 const store = useSequenceV2Store();
 const open = ref(false);
 const loading = ref(false);
@@ -151,6 +153,7 @@ function updateDropdownPosition() {
 async function toggle() {
   if (open.value) {
     open.value = false;
+    emit('open-change', false);
     return;
   }
   loading.value = true;
@@ -161,10 +164,12 @@ async function toggle() {
   search.value = '';
   updateDropdownPosition();
   open.value = true;
+  emit('open-change', true);
 }
 
 async function select(t) {
   open.value = false;
+  emit('open-change', false);
   if (props.mode === 'item') await store.addItem(props.targetId, t.FullTypeName, props.insertAfter);
   if (props.mode === 'trigger')
     await store.addTrigger(props.targetId, t.FullTypeName, props.insertAfter);
@@ -173,7 +178,10 @@ async function select(t) {
 }
 
 function onOutsideClick(e) {
-  if (rootRef.value && !rootRef.value.contains(e.target)) open.value = false;
+  if (rootRef.value && !rootRef.value.contains(e.target) && open.value) {
+    open.value = false;
+    emit('open-change', false);
+  }
 }
 onMounted(() => {
   document.addEventListener('click', onOutsideClick);

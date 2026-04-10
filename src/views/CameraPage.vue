@@ -82,6 +82,29 @@
                 />
               </svg>
             </button>
+            <!-- Center Here Button -->
+            <button
+              v-if="imageStore.imageData"
+              @click.stop="cameraStore.slewModal = true"
+              class="w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-gray-800/90 bg-gray-800/90 hover:enabled:bg-gray-700 text-white"
+              title="Center Here"
+              :disabled="!cameraStore.plateSolveResult || !cameraStore.plateSolveResult.Coordinates"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
+                />
+              </svg>
+            </button>
           </template>
         </ZoomableImage>
 
@@ -129,32 +152,6 @@
             @levels-reset="onLevelsReset"
             @toggle-save="onToggleSave"
           />
-        </div>
-
-        <div
-          v-if="imageStore.imageData && cameraStore?.plateSolveResult?.Coordinates?.RADegrees"
-          :class="iconCenterHere"
-        >
-          <button
-            @click="cameraStore.slewModal = true"
-            class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
-            title="Center Here"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25"
-              />
-            </svg>
-          </button>
         </div>
 
         <!-- Capture Button Overlay -->
@@ -559,12 +556,6 @@ const openModal = (modalType) => {
       break;
   }
 };
-
-// Responsive computed properties
-const iconCenterHere = computed(() => [
-  'absolute z-10',
-  !isLandscape.value ? 'top-24 right-52' : 'top-2 right-52', // Kept on right side as it relates to image controls
-]);
 
 // Event handlers
 const handleDownload = async (data) => {

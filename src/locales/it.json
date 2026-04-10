@@ -487,7 +487,9 @@
       "totalExposureTime": {
         "title": "Tempo di esposizione totale",
         "Pictures": "Immagini",
-        "AllFilters": "Tutti i filtri"
+        "AllFilters": "Tutti i filtri",
+        "noFilter": "Nessun filtro",
+        "total": "Totale"
       },
       "items": {
         "saving": "Salvataggio…",

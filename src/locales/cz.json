@@ -487,7 +487,9 @@
       "totalExposureTime": {
         "title": "Celková doba expozice",
         "Pictures": "obrázky",
-        "AllFilters": "Všechny filtry"
+        "AllFilters": "Všechny filtry",
+        "noFilter": "Bez filtru",
+        "total": "Celkem"
       },
       "items": {
         "saving": "Ukládání...",

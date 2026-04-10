@@ -497,7 +497,9 @@
       "totalExposureTime": {
         "title": "合計露出時間",
         "Pictures": "枚数",
-        "AllFilters": "全フィルター"
+        "AllFilters": "全フィルター",
+        "noFilter": "フィルターなし",
+        "total": "合計"
       },
       "imageFilter": {
         "allTargets": "全ターゲット",

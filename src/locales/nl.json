@@ -487,7 +487,9 @@
       "totalExposureTime": {
         "title": "Totale belichtingstijd",
         "Pictures": "Afbeeldingen",
-        "AllFilters": "Alle filters"
+        "AllFilters": "Alle filters",
+        "noFilter": "Geen filter",
+        "total": "Totaal"
       },
       "items": {
         "saving": "Opslaan…",

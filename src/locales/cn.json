@@ -487,7 +487,9 @@
       "totalExposureTime": {
         "title": "总曝光时间",
         "Pictures": "张数",
-        "AllFilters": "所有滤镜"
+        "AllFilters": "所有滤镜",
+        "noFilter": "无滤镜",
+        "total": "总计"
       },
       "items": {
         "saving": "正在保存…",

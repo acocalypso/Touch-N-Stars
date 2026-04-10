@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- Flat Assistant: Add dark flat count and post-flat dark workflow for supported flat modes
+
 
 
 ## [App4.8.0] - xxxx-xx-xx
@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
 - Framing: Add Mosaik-Mode
 - Settings: PINS set Horizon File Path
+- Flat Assistant: Add dark flat count and post-flat dark workflow for supported flat modes - thanks to sharon92
+- PINS: Show time mismatch warning modal on startup when device time differs from client time by more than 1 minute – allows syncing device time to client or suppressing the warning permanently (re-enable via system time card)
+
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

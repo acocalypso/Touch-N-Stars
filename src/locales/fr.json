@@ -1517,6 +1517,14 @@
       "loadingTime": "Temps de chargement...",
       "autoSync": "Synchronisation automatique",
       "syncNow": "Synchroniser maintenant",
+      "timeWarning": {
+        "title": "Décalage horaire détecté",
+        "message": "L'heure du dispositif ({deviceTime}) diffère de l'heure du client ({clientTime}) de plus d'1 minute. Cela peut causer des problèmes.",
+        "setTime": "Régler l'heure du dispositif sur l'heure du client",
+        "suppress": "Ne plus afficher cet avertissement",
+        "dismiss": "Fermer",
+        "reenable": "Réactiver l'avertissement de décalage horaire"
+      },
       "startUpgrade": "Démarrer la mise à jour",
       "upgrading": "Mise à jour en cours...",
       "terminalOutput": "SORTIE TERMINAL",

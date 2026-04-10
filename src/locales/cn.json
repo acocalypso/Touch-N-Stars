@@ -1517,6 +1517,14 @@
       "loadingTime": "加载时间...",
       "autoSync": "自动同步",
       "syncNow": "立即同步",
+      "timeWarning": {
+        "title": "检测到时间不一致",
+        "message": "设备时间（{deviceTime}）与客户端时间（{clientTime}）相差超过1分钟，可能导致问题。",
+        "setTime": "将设备时间同步为客户端时间",
+        "suppress": "不再显示此警告",
+        "dismiss": "关闭",
+        "reenable": "重新启用时间不一致警告"
+      },
       "startUpgrade": "开始升级",
       "upgrading": "正在升级...",
       "terminalOutput": "终端输出",

@@ -1517,6 +1517,14 @@
       "loadingTime": "Czas ładowania...",
       "autoSync": "Automatyczna synchronizacja",
       "syncNow": "Synchronizuj teraz",
+      "timeWarning": {
+        "title": "Wykryto niezgodność czasu",
+        "message": "Czas urządzenia ({deviceTime}) różni się od czasu klienta ({clientTime}) o ponad 1 minutę. Może to powodować problemy.",
+        "setTime": "Ustaw czas urządzenia na czas klienta",
+        "suppress": "Nie pokazuj tego ostrzeżenia ponownie",
+        "dismiss": "Zamknij",
+        "reenable": "Włącz ponownie ostrzeżenie o niezgodności czasu"
+      },
       "startUpgrade": "Rozpocznij aktualizację",
       "upgrading": "Aktualizowanie...",
       "terminalOutput": "WYJŚCIE TERMINALA",

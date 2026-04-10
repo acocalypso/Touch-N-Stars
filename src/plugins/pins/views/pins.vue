@@ -101,6 +101,13 @@
             <p class="text-gray-400 text-sm" v-else>
               {{ $t('plugins.pins.loadingTime') }}
             </p>
+            <button
+              v-if="pinsStore.suppressTimeWarning"
+              @click="pinsStore.setSuppressTimeWarning(false)"
+              class="text-xs text-yellow-400 hover:text-yellow-300 underline mt-1 text-left"
+            >
+              {{ $t('plugins.pins.timeWarning.reenable') }}
+            </button>
           </div>
           <div class="relative z-10 flex flex-col items-end gap-2">
             <div class="flex items-center gap-2">

@@ -1517,6 +1517,14 @@
       "loadingTime": "Tempo de carregamento...",
       "autoSync": "Sincronização automática",
       "syncNow": "Sincronizar agora",
+      "timeWarning": {
+        "title": "Discrepância de hora detectada",
+        "message": "A hora do dispositivo ({deviceTime}) difere da hora do cliente ({clientTime}) em mais de 1 minuto. Isso pode causar problemas.",
+        "setTime": "Definir hora do dispositivo para a hora do cliente",
+        "suppress": "Não mostrar este aviso novamente",
+        "dismiss": "Fechar",
+        "reenable": "Reativar aviso de discrepância de hora"
+      },
       "startUpgrade": "Iniciar atualização",
       "upgrading": "Atualizando...",
       "terminalOutput": "SAÍDA DO TERMINAL",

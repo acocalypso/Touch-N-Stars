@@ -1517,6 +1517,14 @@
       "loadingTime": "Tiempo de carga...",
       "autoSync": "Sincronización automática",
       "syncNow": "Sincronizar ahora",
+      "timeWarning": {
+        "title": "Desajuste de hora detectado",
+        "message": "La hora del dispositivo ({deviceTime}) difiere de la hora del cliente ({clientTime}) en más de 1 minuto. Esto puede causar problemas.",
+        "setTime": "Establecer hora del dispositivo a la hora del cliente",
+        "suppress": "No mostrar esta advertencia de nuevo",
+        "dismiss": "Descartar",
+        "reenable": "Volver a activar la advertencia de desajuste de hora"
+      },
       "startUpgrade": "Iniciar actualización",
       "upgrading": "Actualizando...",
       "terminalOutput": "SALIDA DE TERMINAL",

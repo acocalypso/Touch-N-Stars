@@ -1517,6 +1517,14 @@
       "loadingTime": "Ladezeit...",
       "autoSync": "Automatische Synchronisierung",
       "syncNow": "Jetzt synchronisieren",
+      "timeWarning": {
+        "title": "Zeitabweichung erkannt",
+        "message": "Die Gerätezeit ({deviceTime}) weicht von der Client-Zeit ({clientTime}) um mehr als 1 Minute ab. Dies kann zu Problemen führen.",
+        "setTime": "Gerätezeit auf Client-Zeit setzen",
+        "suppress": "Diese Warnung nicht mehr anzeigen",
+        "dismiss": "Schließen",
+        "reenable": "Zeitabweichungs-Warnung wieder aktivieren"
+      },
       "startUpgrade": "Upgrade starten",
       "upgrading": "Aktualisiere...",
       "terminalOutput": "TERMINAL AUSGABE",

@@ -341,6 +341,8 @@ let upgradePollTimer = null;
 let upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
 let isUpgradePolling = false;
 let lastUpgradeStatus = null;
+let upgradeLatestNotFoundCount = 0;
+const UPGRADE_LATEST_NOT_FOUND_MAX_RETRIES = 2;
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];
@@ -463,6 +465,7 @@ function stopUpgradePolling() {
   isUpgradePolling = false;
   clearUpgradePollTimer();
   upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+  upgradeLatestNotFoundCount = 0;
 }
 
 function scheduleUpgradePolling(ip, delayMs = UPGRADE_POLL_INTERVAL_MS) {
@@ -598,6 +601,7 @@ async function pollUpgradeStatus(ip) {
   try {
     const currentJob = await fetchUpgradeJobById(ip, trackedJobId);
     upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+    upgradeLatestNotFoundCount = 0;
     const terminal = applyUpgradeJobState(currentJob);
     if (!terminal) {
       scheduleUpgradePolling(ip);
@@ -622,14 +626,36 @@ async function pollUpgradeStatus(ip) {
         return;
       } catch (latestError) {
         if (latestError?.response?.status === 404) {
-          const retryDelay = Math.min(upgradePollBackoffMs, UPGRADE_MAX_BACKOFF_MS);
+          upgradeLatestNotFoundCount += 1;
+          if (upgradeLatestNotFoundCount <= UPGRADE_LATEST_NOT_FOUND_MAX_RETRIES) {
+            const retryDelay = Math.min(upgradePollBackoffMs, UPGRADE_MAX_BACKOFF_MS);
+            appendLog(
+              t('plugins.pins.logs.error', {
+                message: `No jobs found yet. Retrying in ${Math.round(retryDelay / 1000)}s.`,
+              })
+            );
+            upgradePollBackoffMs = Math.min(upgradePollBackoffMs * 2, UPGRADE_MAX_BACKOFF_MS);
+            scheduleUpgradePolling(ip, retryDelay);
+            return;
+          }
+
           appendLog(
             t('plugins.pins.logs.error', {
-              message: `No jobs found yet. Retrying in ${Math.round(retryDelay / 1000)}s.`,
+              message: 'No upgrade jobs available. Upgrade tracking stopped.',
             })
           );
-          upgradePollBackoffMs = Math.min(upgradePollBackoffMs * 2, UPGRADE_MAX_BACKOFF_MS);
-          scheduleUpgradePolling(ip, retryDelay);
+
+          stopUpgradePolling();
+          setUpgradeJobId(null);
+          lastUpgradeStatus = null;
+
+          // If there is no terminal result saved, return controls to idle.
+          const latestStoredResult = getStoredUpgradeFinalResult();
+          if (!latestStoredResult || !isUpgradeTerminalStatus(latestStoredResult.status)) {
+            status.value = 'Idle';
+            pinsStore.setActiveOperation(null);
+            upgradeExitCode.value = null;
+          }
           return;
         }
 
@@ -681,6 +707,7 @@ function beginUpgradeTracking(ip, nextJobId) {
 
   isUpgradePolling = true;
   upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+  upgradeLatestNotFoundCount = 0;
   setUpgradeJobId(nextJobId);
   scheduleUpgradePolling(ip, 0);
 }

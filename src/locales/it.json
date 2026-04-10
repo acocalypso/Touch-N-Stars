@@ -1320,7 +1320,20 @@
       "multi_mode_no_filters": "Nessuna ruota portafiltri collegata",
       "single_mode": "Modalità singola",
       "start_multi_mode": "Avvia la modalità multipla",
-      "status_filter_progress": "Filtro: {completed} / {total}"
+      "status_filter_progress": "Filtro: {completed} / {total}",
+      "cover_scope_confirm": "OK",
+      "cover_scope_message": "Copri ora il mirino e premi OK per iniziare a prendere le tenebre.",
+      "cover_scope_title": "Copri il tuo ambito ora",
+      "darks_to_take": "Oscuri da prendere",
+      "operation_failed": "Operazione fallita",
+      "status_failed_darks": "Nessun soggetto scuro catturato: impossibile determinare un'esposizione valida",
+      "status_failed_flats": "Nessun appartamento catturato: impossibile determinare un'esposizione valida",
+      "status_running_darks": "In esecuzione: {completato} / {totale} oscuri",
+      "status_running_flats": "In esecuzione: {completato} / {totale} appartamenti",
+      "status_stopped_darks": "Interrotto in anticipo: {completato} di {totale} oscuri catturati",
+      "status_stopped_flats": "Interrotto in anticipo: {completato} di {totale} appartamenti catturati",
+      "status_success_darks": "Fatto: {count} oscuri catturati",
+      "status_success_flats": "Fatto: {count} appartamenti catturati"
     },
     "weatherModal": {
       "weatherInformation": "Informazioni meteo",
@@ -2479,7 +2492,8 @@
         "noPorts": "Nessuna porta disponibile",
         "bootState": "Stato di accensione",
         "bootStateEnabled": "Abilitato all'avvio",
-        "bootStateDisabled": "Disabilitato all'avvio"
+        "bootStateDisabled": "Disabilitato all'avvio",
+        "voltage": "Voltaggio"
       },
       "wifi": {
         "currentStatus": "Stato Wi-Fi attuale",
@@ -3201,6 +3215,154 @@
       "unknownCamera": "Fotocamera sconosciuta",
       "useProxy": "Usa proxy",
       "useProxyHint": "Instrada l'immagine attraverso il backend NINA. \nObbligatorio per le telecamere con credenziali o restrizioni CORS. \nDisabilita per le fotocamere Internet dirette."
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "Aggiungi dai preferiti",
+        "addScheduleToSequence": "Aggiungi pianificazione alla sequenza",
+        "addTarget": "Aggiungi destinazione",
+        "applying": "Applicazione...",
+        "clearAll": "Cancella tutto",
+        "computing": "Informatica...",
+        "recomputeSchedule": "Ricalcolare il programma"
+      },
+      "common": {
+        "add": "Aggiungere",
+        "cancel": "Cancellare",
+        "close": "Vicino",
+        "copy": "Copia",
+        "copySuffix": "copia",
+        "dec": "DIC",
+        "deg": "grado",
+        "edit": "Modificare",
+        "meters": "M",
+        "minutes": "min",
+        "ra": "RA",
+        "remove": "Rimuovere",
+        "seconds": "S"
+      },
+      "constraints": {
+        "hideAdvanced": "Nascondi avanzato",
+        "maxAltitude": "Altitudine massima",
+        "minAltitude": "Altitudine minima",
+        "minMoonSeparation": "Separazione minima della luna",
+        "showAdvanced": "Mostra avanzato",
+        "targetEnabled": "Obiettivo abilitato",
+        "timeWindowEnd": "Fine della finestra temporale",
+        "timeWindowHint": "Lasciare vuota la finestra temporale per consentire la pianificazione dell'intero intervallo di sessioni.",
+        "timeWindowStart": "Inizio della finestra temporale",
+        "title": "Vincoli"
+      },
+      "defaults": {
+        "favoriteTargetName": "Bersaglio preferito",
+        "newTargetName": "Nuovo obiettivo",
+        "targetName": "Bersaglio"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "Aggiungi almeno una riga di esposizione.",
+        "addExposure": "Aggiungi esposizione",
+        "binning": "Cestinare",
+        "count": "Contare",
+        "decLabel": "DEC (gradi o /-GG:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "Durata",
+        "editTarget": "Modifica destinazione",
+        "exposurePlan": "Piano di esposizione",
+        "exposureRow": "Esposizione {indice}",
+        "filter": "Filtro",
+        "gain": "Guadagno",
+        "imageType": "Tipo di immagine",
+        "imageTypes": {
+          "bias": "PREGIUDIZIO",
+          "dark": "BUIO",
+          "flat": "PIATTO",
+          "light": "LEGGERO"
+        },
+        "linkedToFavorite": "Collegato ai preferiti",
+        "name": "Nome",
+        "namePlaceholder": "M31 – Andromeda",
+        "newTarget": "Nuovo obiettivo",
+        "offset": "Offset",
+        "presets": {
+          "lrgb": "LRGB",
+          "sho": "SHO",
+          "singleL": "Singola L"
+        },
+        "priority": "Priorità",
+        "raLabel": "RA (gradi o HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "Rotazione",
+        "saveTarget": "Salva obiettivo"
+      },
+      "errors": {
+        "computeFailed": "Impossibile calcolare la pianificazione",
+        "couldNotAddSequenceItem": "Impossibile aggiungere l'elemento della sequenza",
+        "failedToAddSequenceTarget": "Impossibile aggiungere la destinazione della sequenza per {name}",
+        "failedToApplySchedule": "Impossibile applicare la pianificazione alla sequenza.",
+        "failedToResolveTargetContainer": "Impossibile risolvere il contenitore di destinazione appena creato per {name}",
+        "invalidDecFormat": "Il formato DEC non è valido.",
+        "invalidRaFormat": "Il formato RA non è valido.",
+        "invalidSessionRange": "Intervallo di sessioni non valido",
+        "missingSiteCoordinates": "Latitudine/longitudine del sito mancante",
+        "noActiveSequenceLoaded": "Nessuna sequenza attiva caricata.",
+        "noImagingContainerFound": "Impossibile trovare il contenitore delle immagini nella sequenza attiva.",
+        "noValidTargetsForExport": "Nessun target valido trovato per l'esportazione.",
+        "targetNameRequired": "Il nome della destinazione è obbligatorio."
+      },
+      "favorites": {
+        "addAll": "Aggiungi tutto",
+        "available": "{count} preferiti disponibili",
+        "importTitle": "Importa dai preferiti",
+        "noneFound": "Nessun preferito trovato.",
+        "unnamed": "Preferito senza nome"
+      },
+      "labels": {
+        "maxChunkMinutes": "Blocco massimo (minuti)",
+        "samplingStepMinutes": "Fase di campionamento (minuti)",
+        "scheduled": "programmato",
+        "sessionEnd": "Fine della sessione",
+        "sessionStart": "Inizio della sessione",
+        "siteAlt": "alt",
+        "siteLat": "Sito lat",
+        "siteLon": "lon"
+      },
+      "subtitle": "Pianificazione mobile-first per visibilità del target, vincoli e inserimento di sequenze.",
+      "targetCard": {
+        "exposures": "{count} esposizioni",
+        "favoriteLinked": "preferito collegato",
+        "priorityShort": "P{valore}",
+        "scheduledVsRequested": "{programmato} / {richiesto} min"
+      },
+      "targetList": {
+        "dragToReorder": "Trascina per riordinare",
+        "empty": "Nessun obiettivo ancora. \nAggiungine uno manualmente o importalo dai preferiti.",
+        "title": "Obiettivi",
+        "total": "{count} totale"
+      },
+      "timeline": {
+        "idle": "Oziare",
+        "idleSegmentTitle": "Inattivo: {inizio} - {fine}",
+        "invalidSessionRange": "Imposta un intervallo di sessioni valido per visualizzare in anteprima la pianificazione.",
+        "minutesShort": "{valore} min",
+        "noSegments": "Nessun segmento di pianificazione ancora. \nControlla i vincoli di destinazione e le coordinate del sito.",
+        "range": "dal {inizio} al {fine}",
+        "segmentTitle": "{nome}: {inizio} - {fine}",
+        "title": "Cronologia della sessione"
+      },
+      "title": "Pianificatore di obiettivi",
+      "toast": {
+        "addedTargetsToSequence": "Aggiunti {count} target alla sequenza.",
+        "noTargetsToApply": "Nessun obiettivo da applicare.",
+        "title": "Pianificatore di obiettivi"
+      },
+      "unscheduled": {
+        "allScheduled": "Tutto il tempo di esposizione richiesto rientra in questa sessione.",
+        "remaining": ": {minuti} minuti rimanenti",
+        "title": "Resto non programmato"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "L'inserimento della sequenza richiede il plugin TNS 1.2.8.0 (o la modalità PINS)."
+      }
     }
   },
   "pinsDevices": {

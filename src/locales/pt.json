@@ -1320,7 +1320,20 @@
       "multi_mode_no_filters": "Nenhuma roda de filtro conectada",
       "single_mode": "Modo único",
       "start_multi_mode": "Iniciar modo múltiplo",
-      "status_filter_progress": "Filtro: {completed} / {total}"
+      "status_filter_progress": "Filtro: {completed} / {total}",
+      "cover_scope_confirm": "OK",
+      "cover_scope_message": "Cubra seu escopo agora e pressione OK para começar a tirar as sombras.",
+      "cover_scope_title": "Cubra seu escopo agora",
+      "darks_to_take": "Escuridão para levar",
+      "operation_failed": "Falha na operação",
+      "status_failed_darks": "Nenhuma escuridão capturada - não foi possível determinar a exposição válida",
+      "status_failed_flats": "Nenhum apartamento capturado - não foi possível determinar a exposição válida",
+      "status_running_darks": "Em execução: {concluído} / {total} escuridão",
+      "status_running_flats": "Em execução: {concluído} / {total} apartamentos",
+      "status_stopped_darks": "Interrompido cedo - {concluído} de {total} darks capturados",
+      "status_stopped_flats": "Interrompido antecipadamente - {concluído} de {total} apartamentos capturados",
+      "status_success_darks": "Concluído - {count} darks capturados",
+      "status_success_flats": "Concluído - {count} apartamentos capturados"
     },
     "weatherModal": {
       "weatherInformation": "Informações meteorológicas",
@@ -2479,7 +2492,8 @@
         "noPorts": "Nenhuma porta disponível",
         "bootState": "Estado ligado",
         "bootStateEnabled": "Ativado na inicialização",
-        "bootStateDisabled": "Desativado na inicialização"
+        "bootStateDisabled": "Desativado na inicialização",
+        "voltage": "Tensão"
       },
       "wifi": {
         "currentStatus": "Status atual do WiFi",
@@ -3201,6 +3215,154 @@
       "unknownCamera": "Câmera desconhecida",
       "useProxy": "Usar proxy",
       "useProxyHint": "Roteie a imagem pelo back-end do NINA. \nObrigatório para câmeras com credenciais ou restrições CORS. \nDesative para câmeras diretas de internet."
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "Adicionar dos favoritos",
+        "addScheduleToSequence": "Adicionar agendamento à sequência",
+        "addTarget": "Adicionar destino",
+        "applying": "Aplicando...",
+        "clearAll": "Limpar tudo",
+        "computing": "Computação...",
+        "recomputeSchedule": "Recalcular cronograma"
+      },
+      "common": {
+        "add": "Adicionar",
+        "cancel": "Cancelar",
+        "close": "Fechar",
+        "copy": "Cópia",
+        "copySuffix": "cópia",
+        "dec": "DEZEMBRO",
+        "deg": "graus",
+        "edit": "Editar",
+        "meters": "eu",
+        "minutes": "min",
+        "ra": "RA",
+        "remove": "Remover",
+        "seconds": "é"
+      },
+      "constraints": {
+        "hideAdvanced": "Ocultar avançado",
+        "maxAltitude": "Altitude máxima",
+        "minAltitude": "Altitude mínima",
+        "minMoonSeparation": "Separação mínima da lua",
+        "showAdvanced": "Mostrar avançado",
+        "targetEnabled": "Alvo ativado",
+        "timeWindowEnd": "Fim da janela de tempo",
+        "timeWindowHint": "Deixe a janela de tempo em branco para permitir o agendamento de todo o intervalo da sessão.",
+        "timeWindowStart": "Início da janela de tempo",
+        "title": "Restrições"
+      },
+      "defaults": {
+        "favoriteTargetName": "Alvo favorito",
+        "newTargetName": "Novo alvo",
+        "targetName": "Alvo"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "Adicione pelo menos uma linha de exposição.",
+        "addExposure": "Adicionar exposição",
+        "binning": "Armazenamento",
+        "count": "Contar",
+        "decLabel": "DEC (graus ou /-DD:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "Duração",
+        "editTarget": "Editar meta",
+        "exposurePlan": "Plano de exposição",
+        "exposureRow": "Exposição {índice}",
+        "filter": "Filtro",
+        "gain": "Ganho",
+        "imageType": "Tipo de imagem",
+        "imageTypes": {
+          "bias": "VIÉS",
+          "dark": "ESCURO",
+          "flat": "PLANO",
+          "light": "LUZ"
+        },
+        "linkedToFavorite": "Vinculado ao favorito",
+        "name": "Nome",
+        "namePlaceholder": "M31 - Andrômeda",
+        "newTarget": "Novo alvo",
+        "offset": "Desvio",
+        "presets": {
+          "lrgb": "LRGB",
+          "sho": "SHO",
+          "singleL": "Único L"
+        },
+        "priority": "Prioridade",
+        "raLabel": "RA (graus ou HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "Rotação",
+        "saveTarget": "Salvar meta"
+      },
+      "errors": {
+        "computeFailed": "Falha ao calcular a programação",
+        "couldNotAddSequenceItem": "Não foi possível adicionar item de sequência",
+        "failedToAddSequenceTarget": "Falha ao adicionar destino de sequência para {name}",
+        "failedToApplySchedule": "Falha ao aplicar agendamento à sequência.",
+        "failedToResolveTargetContainer": "Falha ao resolver o contêiner de destino recém-criado para {name}",
+        "invalidDecFormat": "O formato DEC é inválido.",
+        "invalidRaFormat": "O formato RA é inválido.",
+        "invalidSessionRange": "Intervalo de sessão inválido",
+        "missingSiteCoordinates": "Latitude/longitude do site ausente",
+        "noActiveSequenceLoaded": "Nenhuma sequência ativa carregada.",
+        "noImagingContainerFound": "Não foi possível encontrar o contêiner de imagens na sequência ativa.",
+        "noValidTargetsForExport": "Nenhum destino válido encontrado para exportação.",
+        "targetNameRequired": "O nome do destino é obrigatório."
+      },
+      "favorites": {
+        "addAll": "Adicionar tudo",
+        "available": "{count} favoritos disponíveis",
+        "importTitle": "Importar dos favoritos",
+        "noneFound": "Nenhum favorito encontrado.",
+        "unnamed": "Favorito sem nome"
+      },
+      "labels": {
+        "maxChunkMinutes": "Pedaço máximo (minutos)",
+        "samplingStepMinutes": "Etapa de amostragem (minutos)",
+        "scheduled": "agendado",
+        "sessionEnd": "Fim da sessão",
+        "sessionStart": "Início da sessão",
+        "siteAlt": "alternativo",
+        "siteLat": "Latência do site",
+        "siteLon": "muito"
+      },
+      "subtitle": "Planejamento mobile-first para visibilidade de alvo, restrições e inserção de sequência.",
+      "targetCard": {
+        "exposures": "{contar} exposições",
+        "favoriteLinked": "link favorito",
+        "priorityShort": "P{valor}",
+        "scheduledVsRequested": "{agendado} / {solicitado} min"
+      },
+      "targetList": {
+        "dragToReorder": "Arraste para reordenar",
+        "empty": "Ainda não há metas. \nAdicione um manualmente ou importe dos favoritos.",
+        "title": "Alvos",
+        "total": "{contagem} total"
+      },
+      "timeline": {
+        "idle": "Parado",
+        "idleSegmentTitle": "Inativo: {início} - {fim}",
+        "invalidSessionRange": "Defina um intervalo de sessões válido para visualizar a programação.",
+        "minutesShort": "{valor} min",
+        "noSegments": "Ainda não há segmentos de programação. \nVerifique as restrições do alvo e as coordenadas do local.",
+        "range": "{início} a {fim}",
+        "segmentTitle": "{nome}: {início} - {fim}",
+        "title": "Cronograma da sessão"
+      },
+      "title": "Agendador de destino",
+      "toast": {
+        "addedTargetsToSequence": "Adicionados {count} alvo(s) à sequência.",
+        "noTargetsToApply": "Não há metas a serem aplicadas.",
+        "title": "Agendador de destino"
+      },
+      "unscheduled": {
+        "allScheduled": "Todo o tempo de exposição solicitado cabe nesta sessão.",
+        "remaining": ": {minutos} minutos restantes",
+        "title": "Resto não programado"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "A inserção de sequência requer o plugin TNS 1.2.8.0 (ou modo PINS)."
+      }
     }
   },
   "pinsDevices": {

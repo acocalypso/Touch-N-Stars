@@ -1328,7 +1328,20 @@
       "multi_mode": "マルチモード",
       "start_multi_mode": "マルチモードを開始",
       "multi_mode_no_filters": "フィルターホイールが接続されていません",
-      "status_filter_progress": "フィルター：{completed} / {total}"
+      "status_filter_progress": "フィルター：{completed} / {total}",
+      "cover_scope_confirm": "わかりました",
+      "cover_scope_message": "今すぐスコープをカバーし、OK を押して暗闇の撮影を開始します。",
+      "cover_scope_title": "今すぐ範囲をカバーしましょう",
+      "darks_to_take": "闇を受け入れる",
+      "operation_failed": "操作が失敗しました",
+      "status_failed_darks": "暗い部分がキャプチャされていません - 有効な露出を判断できませんでした",
+      "status_failed_flats": "フラットはキャプチャされませんでした - 有効な露出を決定できませんでした",
+      "status_running_darks": "実行中: {completed} / {total} ダーク",
+      "status_running_flats": "実行中: {完了} / {合計} 軒",
+      "status_stopped_darks": "早期に停止しました - {total} 件中 {completed} 件のダークをキャプチャしました",
+      "status_stopped_flats": "早期に停止しました - {total} 件中 {completed} 件のアパートを確保しました",
+      "status_success_darks": "完了 - {count} 個のダークを捕獲しました",
+      "status_success_flats": "完了 - {count} 軒のアパートを占領しました"
     },
     "weatherModal": {
       "weatherInformation": "気象情報",
@@ -2529,7 +2542,8 @@
         "noPorts": "利用可能なポートがありません",
         "bootState": "電源投入時の状態",
         "bootStateEnabled": "起動時に有効",
-        "bootStateDisabled": "起動時に無効"
+        "bootStateDisabled": "起動時に無効",
+        "voltage": "電圧"
       },
       "wifi": {
         "currentStatus": "現在のWiFiステータス",
@@ -3203,6 +3217,154 @@
         "downloadFailed": "ダウンロードに失敗しました（ステータス：{status}）。",
         "downloadFile": "選択したファイルをダウンロードできませんでした。",
         "refreshStatus": "バックエンドステータスを更新できませんでした。"
+      }
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "お気に入りから追加",
+        "addScheduleToSequence": "スケジュールをシーケンスに追加する",
+        "addTarget": "ターゲットの追加",
+        "applying": "申請中...",
+        "clearAll": "すべてクリア",
+        "computing": "コンピューティング中...",
+        "recomputeSchedule": "再計算スケジュール"
+      },
+      "common": {
+        "add": "追加",
+        "cancel": "キャンセル",
+        "close": "近い",
+        "copy": "コピー",
+        "copySuffix": "コピー",
+        "dec": "12月",
+        "deg": "度",
+        "edit": "編集",
+        "meters": "メートル",
+        "minutes": "分",
+        "ra": "RA",
+        "remove": "取り除く",
+        "seconds": "s"
+      },
+      "constraints": {
+        "hideAdvanced": "高度な非表示",
+        "maxAltitude": "最大高度",
+        "minAltitude": "最小高度",
+        "minMoonSeparation": "最小月間隔",
+        "showAdvanced": "詳細を表示",
+        "targetEnabled": "ターゲットが有効になっています",
+        "timeWindowEnd": "タイムウィンドウの終了",
+        "timeWindowHint": "セッション範囲全体をスケジュールできるようにするには、時間枠を空白のままにします。",
+        "timeWindowStart": "タイムウィンドウの開始",
+        "title": "制約"
+      },
+      "defaults": {
+        "favoriteTargetName": "お気に入りのターゲット",
+        "newTargetName": "新たなターゲット",
+        "targetName": "ターゲット"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "少なくとも 1 つの露出行を追加します。",
+        "addExposure": "露出を追加する",
+        "binning": "ビニング",
+        "count": "カウント",
+        "decLabel": "DEC (度または /-DD:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "間隔",
+        "editTarget": "ターゲットの編集",
+        "exposurePlan": "露出計画",
+        "exposureRow": "露出 {インデックス}",
+        "filter": "フィルター",
+        "gain": "得",
+        "imageType": "画像の種類",
+        "imageTypes": {
+          "bias": "バイアス",
+          "dark": "暗い",
+          "flat": "フラット",
+          "light": "ライト"
+        },
+        "linkedToFavorite": "お気に入りにリンクされています",
+        "name": "名前",
+        "namePlaceholder": "M31 - アンドロメダ",
+        "newTarget": "新たなターゲット",
+        "offset": "オフセット",
+        "presets": {
+          "lrgb": "LRGB",
+          "sho": "ショウ",
+          "singleL": "シングルL"
+        },
+        "priority": "優先度",
+        "raLabel": "RA (度または HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "回転",
+        "saveTarget": "保存対象"
+      },
+      "errors": {
+        "computeFailed": "スケジュールの計算に失敗しました",
+        "couldNotAddSequenceItem": "シーケンス項目を追加できませんでした",
+        "failedToAddSequenceTarget": "{name} のシーケンス ターゲットを追加できませんでした",
+        "failedToApplySchedule": "スケジュールをシーケンスに適用できませんでした。",
+        "failedToResolveTargetContainer": "{name} 用に新しく作成されたターゲット コンテナを解決できませんでした",
+        "invalidDecFormat": "DEC形式が無効です。",
+        "invalidRaFormat": "RA 形式が無効です。",
+        "invalidSessionRange": "無効なセッション範囲です",
+        "missingSiteCoordinates": "サイトの緯度/経度がありません",
+        "noActiveSequenceLoaded": "アクティブなシーケンスがロードされていません。",
+        "noImagingContainerFound": "アクティブなシーケンスでイメージング コンテナが見つかりませんでした。",
+        "noValidTargetsForExport": "エクスポートに有効なターゲットが見つかりません。",
+        "targetNameRequired": "ターゲット名は必須です。"
+      },
+      "favorites": {
+        "addAll": "すべて追加",
+        "available": "{count} 個のお気に入りが利用可能です",
+        "importTitle": "お気に入りからインポート",
+        "noneFound": "お気に入りが見つかりませんでした。",
+        "unnamed": "名前のないお気に入り"
+      },
+      "labels": {
+        "maxChunkMinutes": "最大チャンク (分)",
+        "samplingStepMinutes": "サンプリングステップ (分)",
+        "scheduled": "予定されている",
+        "sessionEnd": "セッション終了",
+        "sessionStart": "セッション開始",
+        "siteAlt": "代替",
+        "siteLat": "サイトの緯度",
+        "siteLon": "ロン"
+      },
+      "subtitle": "ターゲットの可視性、制約、シーケンス挿入のためのモバイルファーストのプランニング。",
+      "targetCard": {
+        "exposures": "{count} 回の露出",
+        "favoriteLinked": "お気に入りがリンクされました",
+        "priorityShort": "P{値}",
+        "scheduledVsRequested": "{スケジュール済み} / {リクエスト済み} 分"
+      },
+      "targetList": {
+        "dragToReorder": "ドラッグして並べ替えます",
+        "empty": "まだ目標はありません。\n手動で追加するか、お気に入りからインポートします。",
+        "title": "ターゲット",
+        "total": "合計 {count}"
+      },
+      "timeline": {
+        "idle": "アイドル状態",
+        "idleSegmentTitle": "アイドル: {開始} - {終了}",
+        "invalidSessionRange": "スケジュールをプレビューする有効なセッション範囲を設定します。",
+        "minutesShort": "{値}分",
+        "noSegments": "スケジュールセグメントはまだありません。\nターゲットの制約とサイトの座標を確認します。",
+        "range": "{開始}から{終了}まで",
+        "segmentTitle": "{名前}: {開始} - {終了}",
+        "title": "セッションのタイムライン"
+      },
+      "title": "ターゲットスケジューラ",
+      "toast": {
+        "addedTargetsToSequence": "{count} 個のターゲットをシーケンスに追加しました。",
+        "noTargetsToApply": "適用する対象がありません。",
+        "title": "ターゲットスケジューラ"
+      },
+      "unscheduled": {
+        "allScheduled": "要求された露出時間はすべてこのセッションに収まります。",
+        "remaining": ": 残り {分} 分",
+        "title": "予定外の残り"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "シーケンスの挿入には、TNS プラグイン 1.2.8.0 (または PINS モード) が必要です。"
       }
     }
   },

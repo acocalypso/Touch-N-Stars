@@ -2,20 +2,25 @@
   <div class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden">
     <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
       <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
-        <div
-          class="px-5 py-2 rounded-full font-bold text-sm border shadow-sm w-full sm:w-auto text-center"
-          :class="{
-            'bg-gray-700 border-gray-600 text-gray-300': status === 'Idle',
-            'bg-blue-900/40 border-blue-500/50 text-blue-300 animate-pulse': status === 'Running',
-            'bg-green-900/40 border-green-500/50 text-green-300': status === 'Success',
-            'bg-red-900/40 border-red-500/50 text-red-300': status === 'Failed',
-          }"
-        >
-          <span
-            v-if="status === 'Running'"
-            class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 animate-ping"
-          ></span>
-          {{ $t('plugins.pins.status.' + status.toLowerCase()) }}
+        <div class="flex flex-col items-center sm:items-start gap-2 w-full sm:w-auto">
+          <div
+            class="px-5 py-2 rounded-full font-bold text-sm border shadow-sm w-full sm:w-auto text-center"
+            :class="{
+              'bg-gray-700 border-gray-600 text-gray-300': status === 'Idle',
+              'bg-blue-900/40 border-blue-500/50 text-blue-300 animate-pulse': status === 'Running',
+              'bg-green-900/40 border-green-500/50 text-green-300': status === 'Success',
+              'bg-red-900/40 border-red-500/50 text-red-300': status === 'Failed',
+            }"
+          >
+            <span
+              v-if="status === 'Running'"
+              class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 animate-ping"
+            ></span>
+            {{ $t('plugins.pins.status.' + status.toLowerCase()) }}
+          </div>
+          <p v-if="status === 'Failed' && upgradeExitCode !== null" class="text-xs text-red-300">
+            {{ $t('plugins.pins.logs.upgradeFailed', { exitCode: upgradeExitCode }) }}
+          </p>
         </div>
       </div>
 
@@ -65,6 +70,10 @@ defineProps({
   },
   activeOperation: {
     type: String,
+    default: null,
+  },
+  upgradeExitCode: {
+    type: [Number, String],
     default: null,
   },
 });

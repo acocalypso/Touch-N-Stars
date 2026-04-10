@@ -140,6 +140,7 @@
         <PinsUpgradeCard
           :status="status"
           :active-operation="activeOperation"
+          :upgrade-exit-code="upgradeExitCode"
           @start-upgrade="startUpgrade"
         />
 
@@ -324,9 +325,22 @@ const {
   currentJobId: jobId,
 } = storeToRefs(pinsStore);
 let ws = null;
+let isComponentUnmounting = false;
 
 const PORT = 8000;
 const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+const LAST_UPGRADE_JOB_ID_KEY = 'lastUpgradeJobId';
+const LAST_UPGRADE_JOB_RESULT_KEY = 'lastUpgradeJobResult';
+const UPGRADE_POLL_INTERVAL_MS = 3000;
+const UPGRADE_INITIAL_BACKOFF_MS = 2000;
+const UPGRADE_MAX_BACKOFF_MS = 30000;
+
+const upgradeExitCode = ref(null);
+let hasRestoredUpgradeState = false;
+let upgradePollTimer = null;
+let upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+let isUpgradePolling = false;
+let lastUpgradeStatus = null;
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];
@@ -349,6 +363,360 @@ function appendLog(message) {
   pinsStore.appendTerminalLog(message);
 }
 
+function getStorageItem(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function setStorageItem(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    // Ignore storage write errors.
+  }
+}
+
+function removeStorageItem(key) {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    // Ignore storage remove errors.
+  }
+}
+
+function toFiniteNumber(value) {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function normalizeUpgradeJob(rawJob) {
+  if (!rawJob || typeof rawJob !== 'object') {
+    return null;
+  }
+
+  return {
+    jobId: rawJob.jobId ?? null,
+    status: String(rawJob.status ?? '').toLowerCase(),
+    exitCode: rawJob.exitCode ?? rawJob.exit_code ?? null,
+    startedAt: toFiniteNumber(rawJob.startedAt),
+    finishedAt: toFiniteNumber(rawJob.finishedAt),
+    command: rawJob.command ?? null,
+  };
+}
+
+function isUpgradeTerminalStatus(statusValue) {
+  return statusValue === 'success' || statusValue === 'failed';
+}
+
+function isUpgradeInProgressStatus(statusValue) {
+  return statusValue === 'started' || statusValue === 'running';
+}
+
+function setUpgradeJobId(nextJobId) {
+  pinsStore.setCurrentJobId(nextJobId || null);
+  if (nextJobId) {
+    setStorageItem(LAST_UPGRADE_JOB_ID_KEY, String(nextJobId));
+  } else {
+    removeStorageItem(LAST_UPGRADE_JOB_ID_KEY);
+  }
+}
+
+function getStoredUpgradeJobId() {
+  return getStorageItem(LAST_UPGRADE_JOB_ID_KEY);
+}
+
+function saveUpgradeFinalResult(job) {
+  setStorageItem(LAST_UPGRADE_JOB_RESULT_KEY, JSON.stringify(job));
+}
+
+function clearStoredUpgradeFinalResult() {
+  removeStorageItem(LAST_UPGRADE_JOB_RESULT_KEY);
+}
+
+function getStoredUpgradeFinalResult() {
+  const raw = getStorageItem(LAST_UPGRADE_JOB_RESULT_KEY);
+  if (!raw) {
+    return null;
+  }
+
+  try {
+    return normalizeUpgradeJob(JSON.parse(raw));
+  } catch {
+    return null;
+  }
+}
+
+function clearUpgradePollTimer() {
+  if (upgradePollTimer) {
+    clearTimeout(upgradePollTimer);
+    upgradePollTimer = null;
+  }
+}
+
+function stopUpgradePolling() {
+  isUpgradePolling = false;
+  clearUpgradePollTimer();
+  upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+}
+
+function scheduleUpgradePolling(ip, delayMs = UPGRADE_POLL_INTERVAL_MS) {
+  if (!isUpgradePolling || !ip) {
+    return;
+  }
+
+  clearUpgradePollTimer();
+  upgradePollTimer = setTimeout(() => {
+    pollUpgradeStatus(ip);
+  }, delayMs);
+}
+
+function shouldRetryUpgradePolling(error) {
+  const statusCode = error?.response?.status;
+  if (!error?.response) {
+    return true;
+  }
+  if (statusCode >= 500) {
+    return true;
+  }
+  return statusCode === 408 || statusCode === 429;
+}
+
+function applyUpgradeJobState(job, { persistFinal = true } = {}) {
+  const normalized = normalizeUpgradeJob(job);
+  if (!normalized) {
+    return false;
+  }
+
+  const previousStatus = lastUpgradeStatus;
+  if (normalized.jobId) {
+    setUpgradeJobId(normalized.jobId);
+  }
+
+  if (normalized.status && normalized.status !== previousStatus) {
+    appendLog(t('plugins.pins.logs.jobStatus', { status: normalized.status }));
+  }
+
+  if (normalized.exitCode !== null && normalized.exitCode !== undefined) {
+    upgradeExitCode.value = normalized.exitCode;
+  }
+
+  lastUpgradeStatus = normalized.status || previousStatus;
+  pinsStore.setActiveOperation('upgrade');
+
+  if (persistFinal || !isUpgradeTerminalStatus(normalized.status)) {
+    saveUpgradeFinalResult(normalized);
+  }
+
+  if (normalized.status === 'success') {
+    status.value = 'Success';
+    if (previousStatus !== 'success') {
+      appendLog(t('plugins.pins.logs.upgradeSuccess'));
+    }
+    stopUpgradePolling();
+    return true;
+  }
+
+  if (normalized.status === 'failed') {
+    status.value = 'Failed';
+    if (previousStatus !== 'failed') {
+      appendLog(
+        t('plugins.pins.logs.upgradeFailed', {
+          exitCode: normalized.exitCode ?? 'Unknown',
+        })
+      );
+    }
+    stopUpgradePolling();
+    return true;
+  }
+
+  if (isUpgradeInProgressStatus(normalized.status)) {
+    status.value = 'Running';
+    return false;
+  }
+
+  status.value = 'Running';
+  return false;
+}
+
+async function fetchUpgradeJobById(ip, id) {
+  const directAxios = axios.create({ headers: {} });
+  const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    timeout: 8000,
+  });
+
+  return normalizeUpgradeJob(response.data);
+}
+
+async function fetchLatestUpgradeJob(ip) {
+  const directAxios = axios.create({ headers: {} });
+  const response = await directAxios.get(`http://${ip}:${PORT}/jobs/latest`, {
+    headers: {
+      Authorization: `Bearer ${TOKEN}`,
+    },
+    timeout: 8000,
+  });
+
+  return normalizeUpgradeJob(response.data);
+}
+
+function selectPreferredJob(storedFinalResult, latestJob) {
+  if (!storedFinalResult) {
+    return latestJob;
+  }
+  if (!latestJob) {
+    return storedFinalResult;
+  }
+  if (storedFinalResult.jobId === latestJob.jobId) {
+    return latestJob;
+  }
+
+  const storedStartedAt = storedFinalResult.startedAt ?? -Infinity;
+  const latestStartedAt = latestJob.startedAt ?? -Infinity;
+  return latestStartedAt >= storedStartedAt ? latestJob : storedFinalResult;
+}
+
+async function pollUpgradeStatus(ip) {
+  if (!isUpgradePolling) {
+    return;
+  }
+
+  const trackedJobId = jobId.value || getStoredUpgradeJobId();
+  if (!trackedJobId) {
+    stopUpgradePolling();
+    return;
+  }
+
+  try {
+    const currentJob = await fetchUpgradeJobById(ip, trackedJobId);
+    upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+    const terminal = applyUpgradeJobState(currentJob);
+    if (!terminal) {
+      scheduleUpgradePolling(ip);
+    }
+    return;
+  } catch (error) {
+    if (error?.response?.status === 404) {
+      try {
+        const latestJob = await fetchLatestUpgradeJob(ip);
+        const storedFinal = getStoredUpgradeFinalResult();
+        const selectedJob = selectPreferredJob(storedFinal, latestJob);
+
+        if (selectedJob?.jobId && selectedJob.jobId !== trackedJobId) {
+          setUpgradeJobId(selectedJob.jobId);
+        }
+
+        upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+        const terminal = applyUpgradeJobState(selectedJob);
+        if (!terminal) {
+          scheduleUpgradePolling(ip);
+        }
+        return;
+      } catch (latestError) {
+        if (latestError?.response?.status === 404) {
+          const retryDelay = Math.min(upgradePollBackoffMs, UPGRADE_MAX_BACKOFF_MS);
+          appendLog(
+            t('plugins.pins.logs.error', {
+              message: `No jobs found yet. Retrying in ${Math.round(retryDelay / 1000)}s.`,
+            })
+          );
+          upgradePollBackoffMs = Math.min(upgradePollBackoffMs * 2, UPGRADE_MAX_BACKOFF_MS);
+          scheduleUpgradePolling(ip, retryDelay);
+          return;
+        }
+
+        error = latestError;
+      }
+    }
+
+    if (error?.response?.status === 401) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+      appendLog(
+        t('plugins.pins.logs.error', {
+          message: 'Unauthorized. Please re-authenticate or refresh your token.',
+        })
+      );
+      status.value = 'Failed';
+      stopUpgradePolling();
+      return;
+    }
+
+    if (shouldRetryUpgradePolling(error)) {
+      const retryDelay = Math.min(upgradePollBackoffMs, UPGRADE_MAX_BACKOFF_MS);
+      upgradePollBackoffMs = Math.min(upgradePollBackoffMs * 2, UPGRADE_MAX_BACKOFF_MS);
+      appendLog(
+        t('plugins.pins.logs.error', {
+          message: `Status check failed (${error.message}). Retrying in ${Math.round(
+            retryDelay / 1000
+          )}s.`,
+        })
+      );
+      scheduleUpgradePolling(ip, retryDelay);
+      return;
+    }
+
+    appendLog(t('plugins.pins.logs.statusFetchFailed', { message: error.message }));
+    status.value = 'Failed';
+    stopUpgradePolling();
+  }
+}
+
+function beginUpgradeTracking(ip, nextJobId) {
+  if (!ip || !nextJobId) {
+    return;
+  }
+
+  isUpgradePolling = true;
+  upgradePollBackoffMs = UPGRADE_INITIAL_BACKOFF_MS;
+  setUpgradeJobId(nextJobId);
+  scheduleUpgradePolling(ip, 0);
+}
+
+function restoreUpgradeState() {
+  if (hasRestoredUpgradeState) {
+    return;
+  }
+  hasRestoredUpgradeState = true;
+
+  const ip = getIp();
+  if (!ip) {
+    return;
+  }
+
+  const storedFinalResult = getStoredUpgradeFinalResult();
+  if (storedFinalResult && isUpgradeTerminalStatus(storedFinalResult.status)) {
+    pinsStore.setActiveOperation('upgrade');
+    lastUpgradeStatus = storedFinalResult.status;
+    upgradeExitCode.value = storedFinalResult.exitCode;
+    status.value = storedFinalResult.status === 'success' ? 'Success' : 'Failed';
+  }
+
+  const trackedJobId = jobId.value || getStoredUpgradeJobId();
+  if (!trackedJobId) {
+    return;
+  }
+
+  setUpgradeJobId(trackedJobId);
+  if (!storedFinalResult || !isUpgradeTerminalStatus(storedFinalResult.status)) {
+    pinsStore.setActiveOperation('upgrade');
+    status.value = 'Running';
+    beginUpgradeTracking(ip, trackedJobId);
+  }
+}
+
 watch(
   () => store.isPINS,
   (newValue) => {
@@ -360,6 +728,9 @@ watch(
       checkUpdates();
       loadIndi3rdpartyDrivers();
       loadDhcpClients();
+      restoreUpgradeState();
+    } else {
+      stopUpgradePolling();
     }
   },
   { immediate: true }
@@ -1139,6 +1510,10 @@ async function startUpgrade() {
   status.value = 'Running';
   pinsStore.setActiveOperation('upgrade');
   pinsStore.clearTerminalLogs();
+  stopUpgradePolling();
+  clearStoredUpgradeFinalResult();
+  upgradeExitCode.value = null;
+  lastUpgradeStatus = null;
   appendLog(t('plugins.pins.logs.init', { ip }));
 
   try {
@@ -1173,8 +1548,18 @@ async function startUpgrade() {
       throw new Error('No valid Job ID returned. server response: ' + JSON.stringify(data));
     }
 
-    jobId.value = returnedJobId;
+    setUpgradeJobId(returnedJobId);
     appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+
+    const normalizedResponseJob = normalizeUpgradeJob(data);
+    if (normalizedResponseJob) {
+      applyUpgradeJobState(
+        { ...normalizedResponseJob, jobId: returnedJobId },
+        { persistFinal: false }
+      );
+    }
+
+    beginUpgradeTracking(ip, returnedJobId);
 
     connectWebSocket(ip, returnedJobId);
   } catch (error) {
@@ -1234,10 +1619,20 @@ function connectWebSocket(ip, id) {
     };
 
     ws.onclose = (event) => {
+      if (isComponentUnmounting) {
+        return;
+      }
+
       appendLog(t('plugins.pins.logs.wsClosed', { code: event.code }));
       ws = null;
 
-      // When WS closes, we check the final status
+      // Upgrade status resolution uses polling with /jobs/{id} and /jobs/latest fallback.
+      if (activeOperation.value === 'upgrade' && isUpgradePolling) {
+        scheduleUpgradePolling(ip, 0);
+        return;
+      }
+
+      // Non-upgrade operations still use a single final status fetch.
       checkFinalStatus(ip, id);
     };
   } catch (e) {
@@ -1289,8 +1684,11 @@ async function checkFinalStatus(ip, id) {
 }
 
 onUnmounted(() => {
-  if (ws && status.value !== 'Running') {
+  isComponentUnmounting = true;
+  stopUpgradePolling();
+  if (ws) {
     ws.close();
+    ws = null;
   }
 });
 </script>

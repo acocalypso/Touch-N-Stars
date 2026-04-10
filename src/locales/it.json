@@ -1517,6 +1517,14 @@
       "loadingTime": "Tempo di caricamento...",
       "autoSync": "Sincronizzazione automatica",
       "syncNow": "Sincronizza ora",
+      "timeWarning": {
+        "title": "Rilevata discrepanza di orario",
+        "message": "L'orario del dispositivo ({deviceTime}) differisce dall'orario del client ({clientTime}) di oltre 1 minuto. Ciò potrebbe causare problemi.",
+        "setTime": "Imposta l'orario del dispositivo sull'orario del client",
+        "suppress": "Non mostrare più questo avviso",
+        "dismiss": "Chiudi",
+        "reenable": "Riattiva avviso di discrepanza oraria"
+      },
       "startUpgrade": "Avvia aggiornamento",
       "upgrading": "Aggiornamento in corso...",
       "terminalOutput": "OUTPUT TERMINALE",

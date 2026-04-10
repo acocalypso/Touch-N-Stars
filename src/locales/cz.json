@@ -1517,6 +1517,14 @@
       "loadingTime": "Doba načítání...",
       "autoSync": "Automatická synchronizace",
       "syncNow": "Synchronizovat nyní",
+      "timeWarning": {
+        "title": "Zjištěn nesoulad času",
+        "message": "Čas zařízení ({deviceTime}) se liší od času klienta ({clientTime}) o více než 1 minutu. To může způsobit problémy.",
+        "setTime": "Nastavit čas zařízení na čas klienta",
+        "suppress": "Toto upozornění již nezobrazovat",
+        "dismiss": "Zavřít",
+        "reenable": "Znovu aktivovat upozornění na nesoulad času"
+      },
       "startUpgrade": "Spustit aktualizaci",
       "upgrading": "Aktualizace probíhá...",
       "terminalOutput": "VÝSTUP TERMINÁLU",

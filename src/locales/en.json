@@ -1525,6 +1525,14 @@
       "loadingTime": "Loading time...",
       "autoSync": "Auto Sync",
       "syncNow": "Sync Now",
+      "timeWarning": {
+        "title": "Time Mismatch Detected",
+        "message": "The device time ({deviceTime}) differs from your client time ({clientTime}) by more than 1 minute. This may cause issues.",
+        "setTime": "Set Device Time to Client Time",
+        "suppress": "Don't show this warning again",
+        "dismiss": "Dismiss",
+        "reenable": "Re-enable time mismatch warning"
+      },
       "startUpgrade": "Start Upgrade",
       "upgrading": "Upgrading...",
       "terminalOutput": "TERMINAL OUTPUT",

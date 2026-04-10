@@ -1517,6 +1517,14 @@
       "loadingTime": "Laadtijd...",
       "autoSync": "Automatische synchronisatie",
       "syncNow": "Synchroniseer nu",
+      "timeWarning": {
+        "title": "Tijdsverschil gedetecteerd",
+        "message": "De apparaattijd ({deviceTime}) wijkt meer dan 1 minuut af van de clienttijd ({clientTime}). Dit kan problemen veroorzaken.",
+        "setTime": "Apparaattijd instellen op clienttijd",
+        "suppress": "Deze waarschuwing niet meer tonen",
+        "dismiss": "Sluiten",
+        "reenable": "Tijdsverschilwaarschuwing opnieuw inschakelen"
+      },
       "startUpgrade": "Upgrade starten",
       "upgrading": "Upgraden...",
       "terminalOutput": "TERMINALUITVOER",

@@ -4,6 +4,7 @@ export const usePinsStore = defineStore('pins', {
   state: () => ({
     savedWifiPasswords: {}, // Object map: SSID -> Password
     timeSyncEnabled: false,
+    suppressTimeWarning: false,
     stationaryMode: false,
     wifiList: [],
     selectedSsid: '',
@@ -20,6 +21,9 @@ export const usePinsStore = defineStore('pins', {
   actions: {
     setTimeSync(enabled) {
       this.timeSyncEnabled = enabled;
+    },
+    setSuppressTimeWarning(value) {
+      this.suppressTimeWarning = value;
     },
     savePassword(ssid, password) {
       if (!ssid) return;
@@ -59,7 +63,7 @@ export const usePinsStore = defineStore('pins', {
       {
         key: 'pins-plugin-store',
         storage: localStorage,
-        paths: ['savedWifiPasswords', 'timeSyncEnabled'],
+        paths: ['savedWifiPasswords', 'timeSyncEnabled', 'suppressTimeWarning'],
       },
     ],
   },

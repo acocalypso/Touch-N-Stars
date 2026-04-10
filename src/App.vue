@@ -154,6 +154,51 @@
     <!-- Picker Overlay Component -->
     <PickerOverlay />
 
+    <!-- PINS Time Warning Modal -->
+    <Modal
+      :show="showTimeWarningModal"
+      @close="showTimeWarningModal = false"
+      maxWidth="max-w-md"
+      :closeOnBackdropClick="false"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold text-yellow-400">{{ $t('plugins.pins.timeWarning.title') }}</h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col gap-4 w-full text-sm">
+          <p class="text-gray-300">
+            {{
+              $t('plugins.pins.timeWarning.message', {
+                clientTime: timeWarningClientTime,
+                deviceTime: timeWarningDeviceTime,
+              })
+            }}
+          </p>
+          <button
+            @click="syncPinsTimeToClient(); showTimeWarningModal = false"
+            class="w-full py-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
+          >
+            {{ $t('plugins.pins.timeWarning.setTime') }}
+          </button>
+          <label class="flex items-center gap-2 cursor-pointer text-gray-300">
+            <input
+              type="checkbox"
+              :checked="pinsStore.suppressTimeWarning"
+              @change="pinsStore.setSuppressTimeWarning($event.target.checked)"
+              class="w-4 h-4"
+            />
+            <span>{{ $t('plugins.pins.timeWarning.suppress') }}</span>
+          </label>
+          <button
+            @click="showTimeWarningModal = false"
+            class="w-full py-2 rounded bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+          >
+            {{ $t('plugins.pins.timeWarning.dismiss') }}
+          </button>
+        </div>
+      </template>
+    </Modal>
+
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
@@ -196,6 +241,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -225,6 +271,8 @@ import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
+import Modal from '@/components/helpers/Modal.vue';
+import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
@@ -234,6 +282,68 @@ import {
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const pinsStore = usePinsStore();
+
+const showTimeWarningModal = ref(false);
+const timeWarningClientTime = ref('');
+const timeWarningDeviceTime = ref('');
+
+const PINS_PORT = 8000;
+const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+
+async function checkPinsTimeMismatch() {
+  if (pinsStore.suppressTimeWarning) return;
+  const ip = settingsStore.connection.ip || window.location.hostname;
+  if (!ip) return;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PINS_PORT}/system/time`, {
+      headers: { Authorization: `Bearer ${PINS_TOKEN}` },
+      timeout: 5000,
+    });
+    if (response.data && response.data.timestamp) {
+      const clientTimestamp = Date.now() / 1000;
+      const diff = Math.abs(response.data.timestamp - clientTimestamp);
+      if (diff > 60) {
+        timeWarningClientTime.value = new Date(clientTimestamp * 1000).toLocaleTimeString();
+        timeWarningDeviceTime.value = new Date(response.data.timestamp * 1000).toLocaleTimeString();
+        showTimeWarningModal.value = true;
+      }
+    }
+  } catch (e) {
+    console.warn('[TimeWarning] Could not fetch PINS time:', e.message);
+  }
+}
+
+async function syncPinsTimeToClient() {
+  const ip = settingsStore.connection.ip || window.location.hostname;
+  if (!ip) return;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    await directAxios.post(
+      `http://${ip}:${PINS_PORT}/system/time`,
+      { timestamp: Date.now() / 1000 },
+      {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 5000,
+      }
+    );
+  } catch (e) {
+    console.warn('[TimeWarning] Could not set PINS time:', e.message);
+  }
+}
+
+watch(
+  () => store.isPINS,
+  (isPINS) => {
+    if (isPINS) {
+      setTimeout(checkPinsTimeMismatch, 3000);
+    }
+  }
+);
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const cameraStore = useCameraStore();

@@ -75,7 +75,6 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
 import { useImageFilter, getNightKey } from '@/composables/useImageFilter';
-import apiService from '@/services/apiService';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
@@ -222,24 +221,13 @@ function getTypeInfo(absoluteIndex, historyArray) {
 
 async function loadAllThumbnails() {
   imageHistory.value = [];
-  const activeType = filter.value.selectedImageType;
 
-  if (activeType) {
-    const response = await apiService.imageHistoryAllFilterd(activeType);
-    if (response?.Success) {
-      for (const [index, stats] of Object.entries(response.Response)) {
-        const image = await imageStore.getThumbnailByIndex(Number(index), activeType);
-        addImageToHistory(Number(index), image, stats);
-      }
-    }
-  } else {
-    for (const imageIndex in store.imageHistoryInfo) {
-      const absIdx = Number(imageIndex);
-      const { idx, imageType } = getTypeInfo(absIdx, store.imageHistoryInfo);
-      const image = await imageStore.getThumbnailByIndex(idx, imageType);
-      const stats = store.imageHistoryInfo[absIdx];
-      addImageToHistory(absIdx, image, stats);
-    }
+  for (const imageIndex in store.imageHistoryInfo) {
+    const absIdx = Number(imageIndex);
+    const { idx, imageType } = getTypeInfo(absIdx, store.imageHistoryInfo);
+    const image = await imageStore.getThumbnailByIndex(idx, imageType);
+    const stats = store.imageHistoryInfo[absIdx];
+    addImageToHistory(absIdx, image, stats);
   }
 }
 
@@ -273,13 +261,6 @@ watch(
     }
   },
   { immediate: false }
-);
-
-watch(
-  () => filter.value.selectedImageType,
-  async () => {
-    await loadAllThumbnails();
-  }
 );
 
 onMounted(async () => {

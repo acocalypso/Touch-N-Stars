@@ -210,36 +210,60 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function getTypeInfo(absoluteIndex, historyArray) {
+  const imageType = historyArray[absoluteIndex]?.ImageType ?? null;
+  if (!imageType) return { idx: absoluteIndex, imageType: null };
+  const idx =
+    historyArray.slice(0, absoluteIndex + 1).filter((img) => img.ImageType === imageType).length -
+    1;
+  return { idx, imageType };
+}
+
+async function loadAllThumbnails() {
+  imageHistory.value = [];
+
+  for (const imageIndex in store.imageHistoryInfo) {
+    const absIdx = Number(imageIndex);
+    const { idx, imageType } = getTypeInfo(absIdx, store.imageHistoryInfo);
+    const image = await imageStore.getThumbnailByIndex(idx, imageType);
+    const stats = store.imageHistoryInfo[absIdx];
+    addImageToHistory(absIdx, image, stats);
+  }
+}
+
 watch(
   () => store.imageHistoryInfo,
   async (newVal, oldVal) => {
-    if (!newVal || newVal.length === 0) {
+    if (!newVal?.length || newVal.length <= (oldVal?.length ?? 0)) {
       return;
     }
 
-    if (!oldVal || newVal.length > oldVal.length) {
-      const latestIndex = newVal.length - 1;
-      const isImageLoaded = imageHistory.value.some((image) => image.index === latestIndex);
+    const latestAbsIdx = newVal.length - 1;
+    const isImageLoaded = imageHistory.value.some((image) => image.index === latestAbsIdx);
 
-      if (!isImageLoaded) {
-        await wait(3000); // Wait 3 seconds. The image may not be available yet.
-        isLoadingImages.value = true;
-        const stats = newVal[latestIndex];
+    if (!isImageLoaded) {
+      await wait(3000); // Wait 3 seconds. The image may not be available yet.
+      isLoadingImages.value = true;
+      const stats = newVal[latestAbsIdx];
+      const activeType = filter.value.selectedImageType;
 
-        const image = await imageStore.getImageByIndex(latestIndex);
-        addImageToHistory(latestIndex, image, stats);
-        isLoadingImages.value = false;
+      let image;
+      if (activeType && stats?.ImageType === activeType) {
+        const typeIdx = newVal.filter((img) => img.ImageType === activeType).length - 1;
+        image = await imageStore.getThumbnailByIndex(typeIdx, activeType);
+      } else if (!activeType) {
+        const { idx, imageType } = getTypeInfo(latestAbsIdx, newVal);
+        image = await imageStore.getThumbnailByIndex(idx, imageType);
       }
+
+      if (image !== undefined) addImageToHistory(latestAbsIdx, image, stats);
+      isLoadingImages.value = false;
     }
   },
   { immediate: false }
 );
 
 onMounted(async () => {
-  for (const imageIndex in store.imageHistoryInfo) {
-    const image = await imageStore.getThumbnailByIndex(imageIndex);
-    const stats = store.imageHistoryInfo[imageIndex];
-    addImageToHistory(Number(imageIndex), image, stats);
-  }
+  await loadAllThumbnails();
 });
 </script>

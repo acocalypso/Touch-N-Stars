@@ -107,10 +107,18 @@ function handleCanvasClick(event) {
   if (typeof dataIndex === 'number' && dataIndex >= 0 && dataIndex < chart.data.labels.length) {
     // Get the actual index in the full dataset (considering the time range)
     const { startIndex } = settingsStore.monitorViewSetting.historyTimeRange;
-    const actualIndex = startIndex + dataIndex;
+    const filteredIndex = startIndex + dataIndex;
 
-    console.log('[SequenzGraph] Clicked on data point index:', actualIndex);
-    sequenceStore.setSelectedImageIndex(actualIndex);
+    // Map filtered index back to absolute index in the full imageHistoryInfo array
+    const globallyFiltered = applyImageFilter(
+      store.imageHistoryInfo,
+      settingsStore.monitorViewSetting.imageFilter
+    );
+    const clickedItem = globallyFiltered[filteredIndex];
+    const absoluteIndex = store.imageHistoryInfo.indexOf(clickedItem);
+
+    console.log('[SequenzGraph] Clicked on data point, absolute index:', absoluteIndex);
+    sequenceStore.setSelectedImageIndex(absoluteIndex);
   }
 }
 

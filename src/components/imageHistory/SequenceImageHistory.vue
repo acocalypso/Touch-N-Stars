@@ -67,7 +67,7 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { ChevronUpIcon, ChevronDownIcon, ChartBarIcon } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/imageHistory/SequenceImage.vue';
 import { apiStore } from '@/store/store';
@@ -265,5 +265,13 @@ watch(
 
 onMounted(async () => {
   await loadAllThumbnails();
+});
+
+onUnmounted(() => {
+  imageHistory.value.forEach((item) => {
+    if (item.data) {
+      URL.revokeObjectURL(item.data);
+    }
+  });
 });
 </script>

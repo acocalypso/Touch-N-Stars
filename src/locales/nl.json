@@ -314,7 +314,6 @@
         "create": "Creëren",
         "dblClickHint": "Dubbelklik om te openen",
         "dirLoadError": "Kan map niet laden.",
-        "dirtyHint": "Pad gewijzigd - druk op Opslaan om de wijziging toe te passen.",
         "errorMsg": "Fout bij het opslaan van het pad.",
         "folderPlaceholder": "Mapnaam...",
         "loading": "Laden...",
@@ -334,14 +333,8 @@
       },
       "horizonFilePath": {
         "title": "Horizonbestand",
-        "placeholder": "bijv. /home/pi",
-        "selectTitle": "Horizonmap selecteren",
-        "toastTitle": "Horizonbestand opgeslagen",
-        "infoTitle": "Horizonbestand instellen",
-        "infoStep1": "The horizon file must be named exactly:",
-        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
-        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
-        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
+        "placeholder": "bijv. /home/pi/horizon.hrz",
+        "toastTitle": "Horizonbestand opgeslagen"
       }
     },
     "connectEquipment": {

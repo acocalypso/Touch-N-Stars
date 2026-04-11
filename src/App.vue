@@ -162,7 +162,9 @@
       :closeOnBackdropClick="false"
     >
       <template #header>
-        <h2 class="text-xl font-bold text-yellow-400">{{ $t('plugins.pins.timeWarning.title') }}</h2>
+        <h2 class="text-xl font-bold text-yellow-400">
+          {{ $t('plugins.pins.timeWarning.title') }}
+        </h2>
       </template>
       <template #body>
         <div class="flex flex-col gap-4 w-full text-sm">
@@ -175,7 +177,10 @@
             }}
           </p>
           <button
-            @click="syncPinsTimeToClient(); showTimeWarningModal = false"
+            @click="
+              syncPinsTimeToClient();
+              showTimeWarningModal = false;
+            "
             class="w-full py-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
           >
             {{ $t('plugins.pins.timeWarning.setTime') }}

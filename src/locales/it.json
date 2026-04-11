@@ -314,7 +314,6 @@
         "create": "Creare",
         "dblClickHint": "Fare doppio clic per aprire",
         "dirLoadError": "Impossibile caricare la directory.",
-        "dirtyHint": "Percorso modificato: premi Salva per applicare la modifica.",
         "errorMsg": "Errore durante il salvataggio del percorso.",
         "folderPlaceholder": "Nome della cartella...",
         "loading": "Caricamento...",
@@ -334,14 +333,8 @@
       },
       "horizonFilePath": {
         "title": "File orizzonte",
-        "placeholder": "es. /home/pi",
-        "selectTitle": "Seleziona cartella orizzonte",
-        "toastTitle": "File orizzonte salvato",
-        "infoTitle": "Configurare il file orizzonte",
-        "infoStep1": "The horizon file must be named exactly:",
-        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
-        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
-        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
+        "placeholder": "es. /home/pi/horizon.hrz",
+        "toastTitle": "File orizzonte salvato"
       }
     },
     "connectEquipment": {

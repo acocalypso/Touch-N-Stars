@@ -96,6 +96,9 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255,
       // Convert to data URL first (faster on some Android devices), then to blob
       try {
         const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+        // Free canvas memory before async fetch
+        canvas.width = 0;
+        canvas.height = 0;
         fetch(dataUrl)
           .then((res) => res.blob())
           .then((blob) => resolve(blob))
@@ -104,6 +107,8 @@ export async function applyLevelsStretchCached(blackPoint = 0, whitePoint = 255,
         // Fallback to toBlob if toDataURL fails
         canvas.toBlob(
           (blob) => {
+            canvas.width = 0;
+            canvas.height = 0;
             if (blob) {
               resolve(blob);
             } else {
@@ -143,6 +148,9 @@ export async function calculateHistogram(imageUrl, bucketCount = 256) {
         const ctx = canvas.getContext('2d');
 
         if (!ctx) {
+          img.src = '';
+          img.onload = null;
+          img.onerror = null;
           reject(new Error('Could not get canvas context'));
           return;
         }
@@ -153,8 +161,16 @@ export async function calculateHistogram(imageUrl, bucketCount = 256) {
         // Draw image on canvas
         ctx.drawImage(img, 0, 0);
 
-        // Get image data
+        // Get image data and immediately free the canvas
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        canvas.width = 0;
+        canvas.height = 0;
+
+        // Release image element resources
+        img.src = '';
+        img.onload = null;
+        img.onerror = null;
+
         const data = imageData.data;
 
         // Initialize histogram buckets
@@ -185,7 +201,7 @@ export async function calculateHistogram(imageUrl, bucketCount = 256) {
         }
 
         // Normalize histogram to percentage for easier visualization
-        const totalPixels = canvas.width * canvas.height;
+        const totalPixels = imageData.width * imageData.height;
         const normalizedHistogram = histogram.map((count) => (count / totalPixels) * 100);
 
         resolve(normalizedHistogram);
@@ -195,6 +211,8 @@ export async function calculateHistogram(imageUrl, bucketCount = 256) {
     };
 
     img.onerror = () => {
+      img.onload = null;
+      img.onerror = null;
       reject(new Error('Failed to load image'));
     };
 
@@ -270,6 +288,9 @@ export async function applyLevelsStretch(
         const ctx = canvas.getContext('2d');
 
         if (!ctx) {
+          img.src = '';
+          img.onload = null;
+          img.onerror = null;
           reject(new Error('Could not get canvas context'));
           return;
         }
@@ -277,8 +298,11 @@ export async function applyLevelsStretch(
         canvas.width = img.width;
         canvas.height = img.height;
 
-        // Draw image on canvas
+        // Draw image on canvas and release img resources
         ctx.drawImage(img, 0, 0);
+        img.src = '';
+        img.onload = null;
+        img.onerror = null;
 
         // Get image data
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -309,6 +333,8 @@ export async function applyLevelsStretch(
         // Quality 0.95 maintains good visual quality while being fast
         canvas.toBlob(
           (blob) => {
+            canvas.width = 0;
+            canvas.height = 0;
             if (blob) {
               resolve(blob);
             } else {
@@ -324,6 +350,8 @@ export async function applyLevelsStretch(
     };
 
     img.onerror = () => {
+      img.onload = null;
+      img.onerror = null;
       reject(new Error('Failed to load image'));
     };
 

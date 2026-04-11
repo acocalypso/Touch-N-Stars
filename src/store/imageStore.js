@@ -52,7 +52,10 @@ export const useImagetStore = defineStore('imageStore', {
                 resolve();
               }
             }, 100);
-            setTimeout(() => clearInterval(interval), 5000);
+            setTimeout(() => {
+              clearInterval(interval);
+              resolve();
+            }, 15000);
           });
         }
 
@@ -130,7 +133,10 @@ export const useImagetStore = defineStore('imageStore', {
                 resolve();
               }
             }, 100);
-            setTimeout(() => clearInterval(interval), 5000);
+            setTimeout(() => {
+              clearInterval(interval);
+              resolve();
+            }, 15000);
           });
         }
 

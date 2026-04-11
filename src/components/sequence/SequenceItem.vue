@@ -92,7 +92,11 @@
       <div
         v-if="item.Triggers !== undefined"
         class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
-        :class="activeSection === 'trigger' ? 'border border-cyan-400/80 bg-cyan-950/30 shadow-lg shadow-cyan-500/30' : 'border border-cyan-600/30 bg-cyan-950/10'"
+        :class="
+          activeSection === 'trigger'
+            ? 'border border-cyan-400/80 bg-cyan-950/30 shadow-lg shadow-cyan-500/30'
+            : 'border border-cyan-600/30 bg-cyan-950/10'
+        "
       >
         <div class="px-1">
           <span class="text-xs text-cyan-400/70">{{ $t('components.sequence.triggers') }}</span>
@@ -131,7 +135,11 @@
       <div
         v-if="item.Conditions !== undefined"
         class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
-        :class="activeSection === 'condition' ? 'border border-amber-400/80 bg-amber-950/30 shadow-lg shadow-amber-500/30' : 'border border-amber-600/30 bg-amber-950/10'"
+        :class="
+          activeSection === 'condition'
+            ? 'border border-amber-400/80 bg-amber-950/30 shadow-lg shadow-amber-500/30'
+            : 'border border-amber-600/30 bg-amber-950/10'
+        "
       >
         <div class="px-1">
           <span class="text-xs text-amber-400/70">{{ $t('components.sequence.conditions') }}</span>
@@ -168,7 +176,11 @@
 
       <div
         class="rounded-lg transition-all duration-200"
-        :class="activeSection === 'item' ? 'ring-1 ring-blue-400/70 bg-blue-950/15 shadow-lg shadow-blue-500/30' : ''"
+        :class="
+          activeSection === 'item'
+            ? 'ring-1 ring-blue-400/70 bg-blue-950/15 shadow-lg shadow-blue-500/30'
+            : ''
+        "
       >
         <draggable
           :list="item.Items"
@@ -248,8 +260,10 @@ function onAddSectionActive(mode, isOpen) {
 }
 
 const activeSectionRing = computed(() => {
-  if (activeSection.value === 'trigger') return 'ring-1 ring-cyan-400/70 shadow-lg shadow-cyan-500/40';
-  if (activeSection.value === 'condition') return 'ring-1 ring-amber-400/70 shadow-lg shadow-amber-500/40';
+  if (activeSection.value === 'trigger')
+    return 'ring-1 ring-cyan-400/70 shadow-lg shadow-cyan-500/40';
+  if (activeSection.value === 'condition')
+    return 'ring-1 ring-amber-400/70 shadow-lg shadow-amber-500/40';
   if (activeSection.value === 'item') return 'ring-1 ring-blue-400/70 shadow-lg shadow-blue-500/40';
   return '';
 });

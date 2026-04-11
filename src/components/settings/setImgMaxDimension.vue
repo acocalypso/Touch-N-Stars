@@ -15,7 +15,7 @@
       class="default-input w-full h-10 py-2"
     >
       <option v-for="option in resolutionOptions" :key="option.value" :value="String(option.value)">
-        {{ option.label }} ({{ option.value }}px)
+        {{ option.label }}{{ option.value < 99999 ? ` (${option.value}px)` : '' }}
       </option>
     </select>
   </div>
@@ -28,10 +28,10 @@ const settingsStore = useSettingsStore();
 const statusClass = ref('');
 
 const resolutionOptions = [
-  { label: 'Full', value: 4096 },
-  { label: 'High', value: 2048 },
-  { label: 'Medium', value: 1024 },
-  { label: 'Low', value: 512 },
+  { label: 'Full', value: 99999 },
+  { label: 'High', value: 4096 },
+  { label: 'Medium', value: 2048 },
+  { label: 'Low', value: 1024 },
 ];
 
 async function updateSetting() {

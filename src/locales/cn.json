@@ -314,7 +314,6 @@
         "create": "创造",
         "dblClickHint": "双击打开",
         "dirLoadError": "无法加载目录。",
-        "dirtyHint": "路径已更改 - 请按“保存”应用更改。",
         "errorMsg": "保存路径时出错。",
         "folderPlaceholder": "文件夹名称...",
         "loading": "加载中...",
@@ -334,14 +333,8 @@
       },
       "horizonFilePath": {
         "title": "地平线文件",
-        "placeholder": "例如 /home/pi",
-        "selectTitle": "选择地平线文件夹",
-        "toastTitle": "地平线文件已保存",
-        "infoTitle": "设置地平线文件",
-        "infoStep1": "The horizon file must be named exactly:",
-        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
-        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
-        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
+        "placeholder": "例如 /home/pi/horizon.hrz",
+        "toastTitle": "地平线文件已保存"
       }
     },
     "connectEquipment": {

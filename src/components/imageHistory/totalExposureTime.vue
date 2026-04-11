@@ -41,7 +41,8 @@
       <span class="text-xs text-gray-400">{{ displayLabel }}</span>
       <span class="text-right">
         <span class="text-xs text-gray-500 mr-2"
-          >{{ totalData.imageCount }} {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+          >{{ totalData.imageCount }}
+          {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
         >
         <span class="font-mono text-sm text-gray-300 font-bold">{{
           formatExposureTime(totalData.totalTime)

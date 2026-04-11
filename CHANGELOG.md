@@ -29,7 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flat Assistant: Add dark flat count and post-flat dark workflow for supported flat modes - thanks to sharon92
 - PINS: Show time mismatch warning modal on startup when device time differs from client time by more than 1 minute – allows syncing device time to client or suppressing the warning permanently (re-enable via system time card)
 
-
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
 - PINS AllSky: Add AllSky auto-exposure tuning controls, timelapse overlay toggles for timestamp and exposure/gain, and show the active session label plus actual auto exposure/gain/mean values in live preview
@@ -44,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix app not reconnecting after backend restart: removed blocking `await` on SignalR connect in polling loop, added socket-ID guard to prevent stale WebSocket events from corrupting connection state, and fixed async race condition in `disconnect()` across all SignalR services
 - Debug console: fix SignalR "WebSocket is not in the OPEN state" error caused by WebSocket proxy losing static constants (`OPEN`, `CONNECTING`, etc.)
 - Filter Calculator Plugin: Fix Input field
+- Image spinner deadlock and extend image size options
 
 
 ## [App4.7.0] - 2026-03-17

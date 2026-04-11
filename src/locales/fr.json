@@ -314,7 +314,6 @@
         "create": "Créer",
         "dblClickHint": "Double-cliquez pour ouvrir",
         "dirLoadError": "Impossible de charger le répertoire.",
-        "dirtyHint": "Chemin modifié - veuillez appuyer sur Enregistrer pour appliquer la modification.",
         "errorMsg": "Erreur lors de l'enregistrement du chemin.",
         "folderPlaceholder": "Nom du dossier...",
         "loading": "Chargement...",
@@ -334,14 +333,8 @@
       },
       "horizonFilePath": {
         "title": "Fichier d'horizon",
-        "placeholder": "ex. /home/pi",
-        "selectTitle": "Sélectionner le dossier horizon",
-        "toastTitle": "Fichier d'horizon enregistré",
-        "infoTitle": "Configurer le fichier d'horizon",
-        "infoStep1": "The horizon file must be named exactly:",
-        "infoStep2": "Copy the file to a folder on the Raspberry Pi (e.g. /home/pi).",
-        "infoStep3": "Select that folder here and save. The path /horizon.hrz will be appended automatically.",
-        "infoNote": "After saving, restart PINS for the horizon to appear in NINA."
+        "placeholder": "ex. /home/pi/horizon.hrz",
+        "toastTitle": "Fichier d'horizon enregistré"
       }
     },
     "connectEquipment": {

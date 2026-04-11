@@ -188,7 +188,6 @@
         "selectTitle": "Speicherort wählen",
         "save": "Speichern",
         "saving": "...",
-        "dirtyHint": "Pfad geändert - bitte auf Speichern drücken um die Änderung zu Übernehmen.",
         "savedMsg": "Pfad gespeichert:",
         "errorMsg": "Fehler beim Speichern des Pfads.",
         "toastTitle": "Pfad gespeichert",
@@ -206,14 +205,8 @@
       },
       "horizonFilePath": {
         "title": "Horizont-Datei",
-        "placeholder": "z.B. /home/pi",
-        "selectTitle": "Horizont-Ordner wählen",
-        "toastTitle": "Horizont-Datei gespeichert",
-        "infoTitle": "Horizont-Datei einrichten",
-        "infoStep1": "Die Horizont-Datei muss genau so heißen:",
-        "infoStep2": "Kopiere die Datei in einen Ordner auf dem Raspberry Pi (z.B. /home/pi).",
-        "infoStep3": "Wähle hier diesen Ordner und speichere. Der Pfad /horizon.hrz wird automatisch angehängt.",
-        "infoNote": "Nach dem Speichern PINS neu starten, damit der Horizont in NINA angezeigt wird."
+        "placeholder": "z.B. /home/pi/horizon.hrz",
+        "toastTitle": "Horizont-Datei gespeichert"
       },
       "image": {
         "title": "Bild",

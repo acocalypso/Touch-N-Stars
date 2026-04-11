@@ -197,7 +197,6 @@
         "selectTitle": "保存場所を選択",
         "save": "保存",
         "saving": "...",
-        "dirtyHint": "パスが変更されました。保存ボタンを押して変更を適用してください。",
         "savedMsg": "パスを保存しました：",
         "errorMsg": "パスの保存中にエラーが発生しました。",
         "toastTitle": "パスを保存しました",
@@ -215,14 +214,8 @@
       },
       "horizonFilePath": {
         "title": "地平線ファイル",
-        "placeholder": "例：/home/pi",
-        "selectTitle": "地平線フォルダーを選択",
-        "toastTitle": "地平線ファイルを保存しました",
-        "infoTitle": "地平線ファイルの設定方法",
-        "infoStep1": "地平線ファイルのファイル名は正確に次の名前にする必要があります：",
-        "infoStep2": "ファイルを Raspberry Pi のフォルダー（例：/home/pi）にコピーしてください。",
-        "infoStep3": "ここでそのフォルダーを選択して保存します。パス /horizon.hrz は自動的に追加されます。",
-        "infoNote": "保存後、NINA に地平線を表示するには PINS を再起動してください。"
+        "placeholder": "例：/home/pi/horizon.hrz",
+        "toastTitle": "地平線ファイルを保存しました"
       },
       "image": {
         "title": "画像",

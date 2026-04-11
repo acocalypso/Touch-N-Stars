@@ -63,8 +63,14 @@ export const useHistogramStore = defineStore('histogramStore', {
               canvas.height = img.height;
               ctx.drawImage(img, 0, 0);
               const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+              // Free canvas memory immediately after extracting pixel data
+              canvas.width = 0;
+              canvas.height = 0;
               cacheOriginalImageData(imageUrl, imageData);
             }
+            // Release image element resources
+            img.src = '';
+            img.onload = null;
           };
           img.src = imageUrl;
         } catch (cacheErr) {

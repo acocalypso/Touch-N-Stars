@@ -60,6 +60,7 @@ async function loadCameras() {
   isLoading.value = true;
   try {
     await apiService.connectPHD2();
+    await apiService.cameraAction('rescan');
     const response = await apiPinsService.getGuideCam();
     if (response.Success && response.Response) {
       cameras.value = Object.entries(response.Response).flatMap(([driver, cams]) =>

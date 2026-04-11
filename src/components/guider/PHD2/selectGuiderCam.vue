@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import apiService from '@/services/apiService';
@@ -106,6 +106,17 @@ async function setGuiderCam() {
     borderClass.value = 'border-red-500 error-glow';
   }
 }
+
+watch(
+  () => store.profileInfo?.GuiderSettings?.PHD2Camera,
+  (newCam) => {
+    const camId = store.profileInfo?.GuiderSettings?.PHD2CameraId;
+    if (newCam && camId) {
+      selectedCam.value = newCam + ':' + camId;
+      validateSelection();
+    }
+  }
+);
 
 onMounted(async () => {
   //only if is PINS and Guider ist PHD2

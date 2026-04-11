@@ -53,7 +53,7 @@ async function savePath() {
   saving.value = true;
   statusMsg.value = '';
   try {
-    await apiService.profileChangeValue('AstrometrySettings-HorizonFilePath', path.value);
+    await apiService.setHorizonFilePath(path.value);
     statusOk.value = true;
     statusMsg.value = `${t('components.settings.imageSavePath.savedMsg')} ${path.value}`;
     toast.showToast({

@@ -2801,6 +2801,16 @@ const apiService = {
     return this._simpleGetRequest(`${API_URL}location/time`);
   },
 
+  async setHorizonFilePath(filePath) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}location/horizon`, { filePath });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  System Controls ------------------------------
   shutdown() {
     const { API_URL } = getUrls();

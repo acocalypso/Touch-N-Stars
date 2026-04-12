@@ -10,16 +10,7 @@
       <PHD2Profil />
     </div>
 
-    <!-- Shared Parameters (always visible) -->
-    <div
-      v-if="store.isPINS"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.guider.phd2.shared_prarmeters') }}
-      </h3>
-      <Phd2ReverseDecAfterFlip />
-    </div>
+
 
     <template v-if="guiderStore.phd2IsConnected">
       <!-- Calibration Settings -->
@@ -74,6 +65,15 @@
     </template>
 
     <template v-if="store.isPINS">
+
+    <!-- Shared Parameters (always visible) -->
+    <div class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50" >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.guider.phd2.shared_prarmeters') }}
+      </h3>
+      <Phd2ReverseDecAfterFlip />
+      <Phd2UseMultipleStars />
+    </div>
       <!-- Optical Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -119,6 +119,7 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import Phd2FocalLength from '@/components/guider/PHD2/pins/Phd2FocalLength.vue';
 import Phd2CalibrationStep from '@/components/guider/PHD2/pins/Phd2CalibrationStep.vue';
 import Phd2ReverseDecAfterFlip from '@/components/guider/PHD2/pins/Phd2ReverseDecAfterFlip.vue';
+import Phd2UseMultipleStars from '@/components/guider/PHD2/pins/Phd2UseMultipleStars.vue';
 import Phd2GuideAlgorithmRA from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmRA.vue';
 import Phd2GuideAlgorithmDEC from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmDEC.vue';
 import { apiStore } from '@/store/store';

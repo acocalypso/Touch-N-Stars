@@ -174,12 +174,12 @@ export default {
 
   getPHD2UseMultipleStars() {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}phd2/use-multiple-stars`);
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/multistar`);
   },
 
   setPHD2UseMultipleStars(enabled) {
     const { API_URL } = getUrls();
-    return this._simplePutRequest(`${API_URL}phd2/use-multiple-stars`, { enabled });
+    return this._simplePutRequest(`${API_URL}phd2/tracking/multistar`, { enabled });
   },
 
   getPHD2GuideAlgorithmRA() {

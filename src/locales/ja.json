@@ -841,6 +841,7 @@
         "focalLength": "焦点距離",
         "calibrationStep": "キャリブレーションステップ",
         "reverseDecAfterFlip": "フリップ後にDECを反転",
+        "useMultipleStars": "複数星を使用",
         "shared_prarmeters": "共有パラメーター",
         "guideAlgorithm": "ガイドアルゴリズム",
         "guideAlgorithmRA": "RAガイドアルゴリズム",

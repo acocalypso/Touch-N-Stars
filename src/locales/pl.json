@@ -833,6 +833,7 @@
         "focalLength": "Ogniskowa",
         "calibrationStep": "Krok kalibracji",
         "reverseDecAfterFlip": "Odwróć DEC po przewróceniu",
+        "useMultipleStars": "Użyj wielu gwiazd",
         "shared_prarmeters": "Parametry współdzielone",
         "guideAlgorithm": "Algorytm prowadzenia",
         "guideAlgorithmRA": "Algorytm prowadzenia RA",

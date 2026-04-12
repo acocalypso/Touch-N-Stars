@@ -833,6 +833,7 @@
         "focalLength": "Distância focal",
         "calibrationStep": "Passo de calibração",
         "reverseDecAfterFlip": "Inverter DEC após inversão",
+        "useMultipleStars": "Usar múltiplas estrelas",
         "shared_prarmeters": "Parâmetros compartilhados",
         "guideAlgorithm": "Algoritmo de guiamento",
         "guideAlgorithmRA": "Algoritmo de guiamento RA",

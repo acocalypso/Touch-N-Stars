@@ -2,7 +2,7 @@
   <Teleport to="body">
     <div
       v-if="isOpen"
-      class="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
+      class="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-top p-4"
       @click.self="cancel"
     >
       <div
@@ -189,16 +189,13 @@
           </button>
           <template v-else>
             <button
-              class="px-3 py-1.5 rounded-md border border-[#2e3650] bg-transparent text-slate-400 text-xs cursor-pointer hover:bg-[#2e3650] hover:text-slate-200 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              class="default-button-cyan"
               :disabled="!newFolderName.trim()"
               @click="confirmNewFolder"
             >
               {{ $t('components.fileBrowser.create') }}
             </button>
-            <button
-              class="px-3 py-1.5 rounded-md border border-[#2e3650] bg-transparent text-slate-400 text-xs cursor-pointer hover:bg-[#2e3650] hover:text-slate-200 transition-all"
-              @click="cancelNewFolder"
-            >
+            <button class="default-button-gray" @click="cancelNewFolder">
               {{ $t('common.cancel') }}
             </button>
           </template>
@@ -218,17 +215,10 @@
 
         <!-- Footer -->
         <div class="flex justify-end gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0">
-          <button
-            class="px-3.5 py-1.5 rounded-md border border-[#2e3650] bg-transparent text-slate-400 text-xs cursor-pointer hover:bg-[#2e3650] hover:text-slate-200 transition-all"
-            @click="cancel"
-          >
+          <button class="default-button-gray" @click="cancel">
             {{ $t('common.cancel') }}
           </button>
-          <button
-            class="px-3.5 py-1.5 rounded-md border border-transparent bg-cyan-700 text-white font-medium text-xs cursor-pointer hover:bg-cyan-600 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-            :disabled="!selectedPath"
-            @click="confirm"
-          >
+          <button class="default-button-cyan" :disabled="!selectedPath" @click="confirm">
             {{ $t('common.confirm') }}
           </button>
         </div>

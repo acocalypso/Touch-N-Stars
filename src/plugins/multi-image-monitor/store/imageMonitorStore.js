@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import apiService from '@/services/apiService';
 
 // Intervals stored outside reactive state to avoid Pinia proxy side-effects
 const intervals = new Map();
@@ -95,6 +96,8 @@ export const useImageMonitorStore = defineStore('imageMonitorStore', {
     },
 
     setDisplayUrl(id, url) {
+      const oldUrl = this.status[id]?.displayUrl;
+      if (oldUrl?.startsWith('blob:')) URL.revokeObjectURL(oldUrl);
       this.status = {
         ...this.status,
         [id]: {
@@ -107,15 +110,10 @@ export const useImageMonitorStore = defineStore('imageMonitorStore', {
     buildUrl(camera) {
       const rawUrl = camera.url;
       const separator = rawUrl.includes('?') ? '&' : '?';
-      const timedUrl = camera.useCacheBuster ? `${rawUrl}${separator}t=${Date.now()}` : rawUrl;
-      if (camera.useProxy !== false) {
-        const proxyBase = `${window.location.protocol}//${window.location.host}/api/proxy`;
-        return `${proxyBase}?url=${encodeURIComponent(timedUrl)}`;
-      }
-      return timedUrl;
+      return camera.useCacheBuster ? `${rawUrl}${separator}t=${Date.now()}` : rawUrl;
     },
 
-    refreshCamera(id) {
+    async refreshCamera(id) {
       const camera = this.getCameraById(id);
       if (!camera || !camera.url) {
         this.status = {
@@ -128,12 +126,36 @@ export const useImageMonitorStore = defineStore('imageMonitorStore', {
         };
         return;
       }
-      const url = this.buildUrl(camera);
+
+      const timedUrl = this.buildUrl(camera);
+
+      let imageUrl;
+      try {
+        if (camera.useProxy !== false) {
+          const blob = await apiService.proxyRequest(timedUrl);
+          const oldUrl = this.status[id]?.currentImageUrl;
+          if (oldUrl?.startsWith('blob:')) URL.revokeObjectURL(oldUrl);
+          imageUrl = URL.createObjectURL(blob);
+        } else {
+          imageUrl = timedUrl;
+        }
+      } catch {
+        this.status = {
+          ...this.status,
+          [id]: {
+            ...(this.status[id] || {}),
+            isConnected: false,
+            errorMessage: 'Failed to load image',
+          },
+        };
+        return;
+      }
+
       this.status = {
         ...this.status,
         [id]: {
           ...(this.status[id] || {}),
-          currentImageUrl: url,
+          currentImageUrl: imageUrl,
           isConnected: true,
           lastUpdate: new Date().toISOString(),
           errorMessage: null,

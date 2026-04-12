@@ -62,25 +62,7 @@
           </p>
         </div>
 
-        <!-- Proxy vs Direct -->
-        <div class="border-t border-gray-700 pt-4 space-y-2">
-          <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            {{ $t('plugins.multiImageMonitor.help.proxyTitle') }}
-          </p>
-          <p class="text-gray-300 leading-relaxed">
-            {{ $t('plugins.multiImageMonitor.help.proxyText') }}
-          </p>
-          <ul class="space-y-2 mt-1">
-            <li
-              v-for="(option, i) in $tm('plugins.multiImageMonitor.help.proxyOptions')"
-              :key="i"
-              class="flex gap-2 text-xs text-gray-400 leading-relaxed bg-gray-900 rounded px-3 py-2"
-            >
-              <span class="text-indigo-400 font-bold shrink-0">{{ i === 0 ? '①' : '②' }}</span>
-              <span>{{ option }}</span>
-            </li>
-          </ul>
-        </div>
+
       </div>
 
       <!-- Footer -->

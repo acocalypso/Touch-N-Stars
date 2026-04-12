@@ -183,7 +183,10 @@ const apiService = {
   //------------------------------------------- Proxy -------------------------------------------------
   async proxyRequest(url) {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}api/proxy?url=${encodeURIComponent(url)}`);
+    const response = await axios.get(`${API_URL}proxy?url=${encodeURIComponent(url)}`, {
+      responseType: 'blob',
+    });
+    return response.data;
   },
 
   //------------------------------------- PHD2 ------------------------------------------

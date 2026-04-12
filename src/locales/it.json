@@ -833,6 +833,7 @@
         "focalLength": "Lunghezza focale",
         "calibrationStep": "Passo di calibrazione",
         "reverseDecAfterFlip": "Inverti DEC dopo il flip",
+        "useMultipleStars": "Usa più stelle",
         "shared_prarmeters": "Parametri condivisi",
         "guideAlgorithm": "Algoritmo di guida",
         "guideAlgorithmRA": "Algoritmo di guida RA",

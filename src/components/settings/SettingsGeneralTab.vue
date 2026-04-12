@@ -318,7 +318,6 @@ import SetLogLevel from '@/components/settings/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import LocationSettingsPins from '@/components/settings/LocationSettingsPins.vue';
 import SetHorizonFilePath from '@/components/settings/setHorizonFilePath.vue';
-import Modal from '@/components/helpers/Modal.vue';
 import { useI18n } from 'vue-i18n';
 
 const { locale } = useI18n();

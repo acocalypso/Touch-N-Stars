@@ -841,6 +841,7 @@
         "focalLength": "Focal Length",
         "calibrationStep": "Calibration Step",
         "reverseDecAfterFlip": "Reverse DEC after Flip",
+        "useMultipleStars": "Use Multiple Stars",
         "shared_prarmeters": "Shared Parameters",
         "guideAlgorithm": "Guide Algorithm",
         "guideAlgorithmRA": "RA Guide Algorithm",

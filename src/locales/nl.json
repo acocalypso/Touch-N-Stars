@@ -833,6 +833,7 @@
         "focalLength": "Brandpuntsafstand",
         "calibrationStep": "Kalibratiestap",
         "reverseDecAfterFlip": "DEC omkeren na flip",
+        "useMultipleStars": "Meerdere sterren gebruiken",
         "shared_prarmeters": "Gedeelde parameters",
         "guideAlgorithm": "Gidsalgoritme",
         "guideAlgorithmRA": "RA-gidsalgoritme",

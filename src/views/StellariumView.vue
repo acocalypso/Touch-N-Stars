@@ -286,7 +286,6 @@ onMounted(async () => {
 
             // Im VIEW-Frame zeigt [0, 0, -1] nach vorne (wo die Kamera hinzeigt)
             // Im VIEW-Frame zeigt [0, 0, 1] nach hinten (hinter die Kamera)
-            // Wir wollen nach vorne gucken, also [0, 0, -1]
             const viewVec = [0, 0, -1];
 
             // Konvertiere von VIEW zu CIRS
@@ -379,6 +378,9 @@ onMounted(async () => {
           const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
           stellariumStore.baseUrl = baseUrl;
           const core = stel.core;
+
+          core.dsos.hints_mag_offset = 4;
+          //core.stars.hints_mag_offset = 3;
 
           //Daten hinzufügen
           core.stars.addDataSource({ url: baseUrl + 'stars' });

@@ -833,6 +833,7 @@
         "focalLength": "Ohnisková vzdálenost",
         "calibrationStep": "Krok kalibrace",
         "reverseDecAfterFlip": "Obrátit DEC po převrácení",
+        "useMultipleStars": "Použít více hvězd",
         "shared_prarmeters": "Sdílené parametry",
         "guideAlgorithm": "Algoritmus vedení",
         "guideAlgorithmRA": "RA algoritmus vedení",

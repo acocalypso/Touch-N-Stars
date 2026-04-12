@@ -172,6 +172,16 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/reverse-dec-after-flip`, { enabled });
   },
 
+  getPHD2UseMultipleStars() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/multistar`);
+  },
+
+  setPHD2UseMultipleStars(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/multistar`, { enabled });
+  },
+
   getPHD2GuideAlgorithmRA() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/guide/algorithm-ra`);

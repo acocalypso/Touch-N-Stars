@@ -69,28 +69,6 @@
           />
         </div>
 
-        <!-- Proxy Toggle -->
-        <div class="flex items-center justify-between">
-          <div>
-            <label class="block text-sm font-medium text-gray-300">{{
-              $t('plugins.multiImageMonitor.useProxy')
-            }}</label>
-            <p class="text-[10px] text-gray-500 mt-0.5">
-              {{ $t('plugins.multiImageMonitor.useProxyHint') }}
-            </p>
-          </div>
-          <button
-            @click="editUseProxy = !editUseProxy"
-            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors shrink-0 ml-4"
-            :class="editUseProxy ? 'bg-indigo-600' : 'bg-gray-600'"
-          >
-            <span
-              class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
-              :class="editUseProxy ? 'translate-x-6' : 'translate-x-1'"
-            />
-          </button>
-        </div>
-
         <!-- Auto-Refresh Toggle -->
         <div class="flex items-center justify-between">
           <div>
@@ -197,7 +175,6 @@ const editName = ref('');
 const editUrl = ref('');
 const editIntervalSec = ref(60);
 const editAutoRefresh = ref(true);
-const editUseProxy = ref(true);
 
 watch(
   () => props.isOpen,
@@ -208,13 +185,11 @@ watch(
       editUrl.value = camera.value.url;
       editIntervalSec.value = Math.round(camera.value.interval / 1000);
       editAutoRefresh.value = camera.value.autoRefresh ?? true;
-      editUseProxy.value = camera.value.useProxy !== false;
     } else {
       editName.value = '';
       editUrl.value = '';
       editIntervalSec.value = 60;
       editAutoRefresh.value = true;
-      editUseProxy.value = true;
     }
   },
   { immediate: true }
@@ -228,7 +203,6 @@ const handleSave = () => {
       url: editUrl.value,
       interval: Math.max(1, editIntervalSec.value) * 1000,
       autoRefresh: editAutoRefresh.value,
-      useProxy: editUseProxy.value,
     });
   } else {
     const id = store.addCamera({
@@ -236,7 +210,6 @@ const handleSave = () => {
       url: editUrl.value,
       interval: Math.max(1, editIntervalSec.value) * 1000,
       autoRefresh: editAutoRefresh.value,
-      useProxy: editUseProxy.value,
     });
     emit('created', id);
   }

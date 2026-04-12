@@ -841,6 +841,7 @@
         "focalLength": "Brennweite",
         "calibrationStep": "Kalibrierungsschritt",
         "reverseDecAfterFlip": "DEC nach Flip umkehren",
+        "useMultipleStars": "Mehrere Sterne verwenden",
         "shared_prarmeters": "Gemeinsame Parameter",
         "guideAlgorithm": "Guiding-Algorithmus",
         "guideAlgorithmRA": "RA-Guiding-Algorithmus",

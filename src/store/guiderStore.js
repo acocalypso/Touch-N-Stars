@@ -49,6 +49,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2ReverseDecAfterFlip: false,
     phd2ReverseDecAfterFlipLoading: false,
 
+    // PHD2 Use Multiple Stars State (PINS)
+    phd2UseMultipleStars: false,
+    phd2UseMultipleStarsLoading: false,
+
     // PHD2 Guide Algorithm RA State (PINS)
     phd2GuideAlgorithmRA: null,
     phd2GuideAlgorithmRALoading: false,
@@ -364,6 +368,36 @@ export const useGuiderStore = defineStore('guiderStore', {
       }
     },
 
+    // PHD2 Use Multiple Stars Actions (PINS)
+    async fetchPHD2UseMultipleStars() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2UseMultipleStarsLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2UseMultipleStars();
+        if (response.Success && response.Response) {
+          this.phd2UseMultipleStars = response.Response.UseMultipleStars;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 use multiple stars:', error);
+      } finally {
+        this.phd2UseMultipleStarsLoading = false;
+      }
+    },
+
+    async setPHD2UseMultipleStars(enabled) {
+      try {
+        const response = await apiPinsService.setPHD2UseMultipleStars(enabled);
+        if (response.Success && response.Response) {
+          this.phd2UseMultipleStars = response.Response.UseMultipleStars;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 use multiple stars:', error);
+        throw error;
+      }
+    },
+
     // PHD2 Guide Algorithm RA Actions (PINS)
     async fetchPHD2GuideAlgorithmRA() {
       const store = apiStore();
@@ -492,6 +526,7 @@ export const useGuiderStore = defineStore('guiderStore', {
               await this.fetchPHD2FocalLength();
               await this.fetchPHD2CalibrationStep();
               await this.fetchPHD2ReverseDecAfterFlip();
+              await this.fetchPHD2UseMultipleStars();
               await this.fetchPHD2GuideAlgorithmRA();
               await this.fetchPHD2GuideAlgorithmDEC();
             }

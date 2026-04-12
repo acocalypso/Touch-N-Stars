@@ -833,6 +833,7 @@
         "focalLength": "焦距",
         "calibrationStep": "校准步骤",
         "reverseDecAfterFlip": "翻转后反转赤纬",
+        "useMultipleStars": "使用多星导引",
         "shared_prarmeters": "共享参数",
         "guideAlgorithm": "导星算法",
         "guideAlgorithmRA": "赤经导星算法",

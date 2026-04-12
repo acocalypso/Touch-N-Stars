@@ -180,6 +180,15 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/event-history`);
   },
 
+  //------------------------------------------- Proxy -------------------------------------------------
+  async proxyRequest(url) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}proxy?url=${encodeURIComponent(url)}`, {
+      responseType: 'blob',
+    });
+    return response.data;
+  },
+
   //------------------------------------- PHD2 ------------------------------------------
   //https://github.com/acocalypso/N.I.N.A-Plugin-for-Touch-N-Stars/blob/PHD2/PHD2_API_README.md
   async connectPHD2() {
